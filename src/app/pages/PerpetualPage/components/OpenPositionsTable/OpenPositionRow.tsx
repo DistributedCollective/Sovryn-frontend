@@ -5,7 +5,7 @@ import { OpenPositionEntry } from '../../hooks/usePerpetual_OpenPositions';
 import {
   PerpetualPairDictionary,
   PerpetualPairType,
-} from '../../../../../utils/dictionaries/perpatual-pair-dictionary';
+} from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import classNames from 'classnames';
 import { AssetValue } from '../../../../components/AssetValue';
 

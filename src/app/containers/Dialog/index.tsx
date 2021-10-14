@@ -33,7 +33,7 @@ export const Dialog: React.FC<IDialogProps> = ({
 }) => (
   <BPDialog
     isOpen={isOpen}
-    onClose={() => onClose()}
+    onClose={onClose}
     canEscapeKeyClose={canEscapeKeyClose}
     canOutsideClickClose={canOutsideClickClose}
     className={classNames(className, styles[size])}

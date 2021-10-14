@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { PerpetualPairType } from '../../../../utils/dictionaries/perpatual-pair-dictionary';
+import { PerpetualPairType } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { useBlockSync } from '../../../hooks/useAccount';
 
 export type OpenPositionEntry = {

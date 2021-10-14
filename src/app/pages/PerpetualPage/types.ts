@@ -1,6 +1,6 @@
 import { Asset } from 'types/asset';
 import { TradingPosition } from '../../../types/trading-position';
-import { PerpetualPairType } from '../../../utils/dictionaries/perpatual-pair-dictionary';
+import { PerpetualPairType } from '../../../utils/dictionaries/perpetual-pair-dictionary';
 
 export enum PerpetualTradeType {
   MARKET = 'MARKET',

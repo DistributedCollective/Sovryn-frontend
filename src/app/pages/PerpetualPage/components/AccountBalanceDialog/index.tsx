@@ -1,18 +1,11 @@
 import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { translations } from '../../../../../locales/i18n';
-import { Asset } from '../../../../../types';
 import { numberFromWei } from '../../../../../utils/blockchain/math-helpers';
-import { PerpetualPairType } from '../../../../../utils/dictionaries/perpatual-pair-dictionary';
-import {
-  formatAsNumber,
-  weiToNumberFormat,
-  weiToUSD,
-} from '../../../../../utils/display-text/format';
+import { PerpetualPairType } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
+import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { Dialog, DialogSize } from '../../../../containers/Dialog';
-import { useDollarValue } from '../../../../hooks/useDollarValue';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
 import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';

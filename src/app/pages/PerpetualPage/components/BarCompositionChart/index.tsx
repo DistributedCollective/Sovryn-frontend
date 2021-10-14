@@ -54,10 +54,7 @@ export const BarCompositionChart: React.FC<IBarCompositionChartProps> = ({
 type IBarSegmentProps = IBarCompositionChartEntry & { total: number };
 
 const BarSegment: React.FC<IBarSegmentProps> = ({
-  key,
-  label,
   value,
-  valueLabel,
   barClassName,
   color,
   colorClassName,
@@ -84,11 +81,9 @@ const BarSegment: React.FC<IBarSegmentProps> = ({
 };
 
 const BarLabel: React.FC<IBarCompositionChartEntry> = ({
-  key,
   label,
   value,
   valueLabel,
-  barClassName,
   color,
   colorClassName,
 }) => {

@@ -7,7 +7,7 @@ import {
 import { useBlockSync } from 'app/hooks/useAccount';
 import { useEffect, useState } from 'react';
 import { toWei } from '../../../../utils/blockchain/math-helpers';
-import { PerpetualPairType } from '../../../../utils/dictionaries/perpatual-pair-dictionary';
+import { PerpetualPairType } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 
 type AccountBalance = {
   total: string;
@@ -18,7 +18,12 @@ type AccountBalance = {
 
 export const usePerpetual_accountBalance = (pairType: PerpetualPairType) => {
   const blockId = useBlockSync();
-  const [data, setData] = useState<AccountBalance>();
+  const [data, setData] = useState<AccountBalance>({
+    total: '',
+    available: '',
+    inPositions: '',
+    unrealized: '',
+  });
 
   // TODO: implement perpetual account Data fetching
 
@@ -31,12 +36,5 @@ export const usePerpetual_accountBalance = (pairType: PerpetualPairType) => {
     });
   }, [blockId]);
 
-  return (
-    data || {
-      total: '',
-      available: '',
-      inPositions: '',
-      unrealized: '',
-    }
-  );
+  return data;
 };

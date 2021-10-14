@@ -18,7 +18,7 @@ import { TradingPosition } from '../../../../../types/trading-position';
 import {
   PerpetualPairDictionary,
   PerpetualPairType,
-} from '../../../../../utils/dictionaries/perpatual-pair-dictionary';
+} from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { AvailableBalance } from '../../../../components/AvailableBalance';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
@@ -54,7 +54,7 @@ interface ITradeFormProps {
   balance: string | null;
 }
 
-export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
+export const TradeForm: React.FC<ITradeFormProps> = ({ pairType, balance }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { connected, connect } = useWalletContext();

@@ -1,7 +1,6 @@
 import React, { useMemo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { translations } from '../../../../../locales/i18n';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { actions } from '../../slice';
@@ -17,11 +16,6 @@ export const AccountBalanceCard: React.FC<IAccountBalanceCard> = ({
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-
-  const formattedBalance = useMemo(
-    () => weiToNumberFormat(balance, 4) + ' BTC',
-    [balance],
-  );
 
   const hasBalance = useMemo(() => balance && balance !== '0', [balance]);
 
@@ -40,7 +34,7 @@ export const AccountBalanceCard: React.FC<IAccountBalanceCard> = ({
           {t(translations.perpetualPage.accountBalance.availableBalance)}
         </span>
         <span className="tw-block tw-flex-grow tw-text-right">
-          {formattedBalance}
+          {weiToNumberFormat(balance, 4)} BTC
         </span>
       </div>
       <button
