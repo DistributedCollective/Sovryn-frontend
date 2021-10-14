@@ -30,7 +30,7 @@ interface Props {
 
 const slippage = 0.1; // 10%
 
-export function OpenPositionRow({ item }: Props) {
+function OpenPositionRowInner({ item }: Props) {
   const { t } = useTranslation();
   const { checkMaintenances, States } = useMaintenance();
   const {
@@ -129,8 +129,6 @@ export function OpenPositionRow({ item }: Props) {
     item.principal,
     item.startRate,
   ]);
-
-  if (pair === undefined) return <></>;
 
   const collateralAssetDetails = AssetsDictionary.get(collateralAsset);
 
@@ -283,6 +281,20 @@ export function OpenPositionRow({ item }: Props) {
       </tr>
     </>
   );
+}
+
+export function OpenPositionRow({ item }: Props) {
+  try {
+    const loanAsset = assetByTokenAddress(item.loanToken);
+    const collateralAsset = assetByTokenAddress(item.collateralToken);
+    const pair = TradingPairDictionary.findPair(loanAsset, collateralAsset);
+    if (!loanAsset || !collateralAsset || !pair) return <></>;
+    return <OpenPositionRowInner item={item} />;
+  } catch (e) {
+    console.error(e);
+    console.info(item);
+    return <></>;
+  }
 }
 
 function getEntryPrice(item: ActiveLoan, position: TradingPosition) {
