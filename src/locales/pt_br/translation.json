@@ -1422,7 +1422,7 @@
   "perpetualPage": {
     "meta": {
       "title": "Operar perpétuos",
-      "description": "Trade with perpetuals"
+      "description": "Operar perpétuos"
     },
     "ammDepth": {
       "price": "Price (<0/>)",
