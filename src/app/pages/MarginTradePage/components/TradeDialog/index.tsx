@@ -240,7 +240,14 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
                 }
               />
             )}
+
+            <ErrorBadge
+              content={t(
+                translations.marginTradePage.tradeDialog.estimationErrorNote,
+              )}
+            />
           </div>
+
           <DialogButton
             confirmLabel={t(translations.common.confirm)}
             onConfirm={() => submit()}

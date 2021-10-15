@@ -134,7 +134,7 @@ export function useCancelLimitOrder(sourceToken: Asset, amount: string) {
         nonce,
       } as TransactionConfig);
     },
-    [account, amount, send, sourceToken],
+    [account, send],
   );
 
   return { cancelOrder, ...tx };

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useTranslation, Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router-dom';
 import { translations } from 'locales/i18n';
 import { AssetRenderer } from 'app/components/AssetRenderer';
@@ -23,10 +23,7 @@ import { Input } from 'app/components/Form/Input';
 import { AvailableBalance } from '../../components/AvailableBalance';
 import { Arbitrage } from '../../components/Arbitrage/Arbitrage';
 import { useAccount } from '../../hooks/useAccount';
-import {
-  // getTokenContract,
-  getTokenContractName,
-} from '../../../utils/blockchain/contract-helpers';
+import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
 import { Sovryn } from '../../../utils/sovryn';
 import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
@@ -239,15 +236,22 @@ export function SwapFormContainer() {
     );
   }, [targetToken, sourceToken, minReturn, weiAmount]);
 
-  const tx = useMemo(() => (targetToken === Asset.RBTC ? txPath : txExternal), [
-    targetToken,
-    txExternal,
-    txPath,
-  ]);
+  const tx = useMemo(
+    () =>
+      targetToken === Asset.RBTC ||
+      [targetToken, sourceToken].includes(Asset.RIF)
+        ? txPath
+        : txExternal,
+    [targetToken, sourceToken, txExternal, txPath],
+  );
 
   const send = useCallback(
-    () => (targetToken === Asset.RBTC ? sendPath() : sendExternal()),
-    [targetToken, sendPath, sendExternal],
+    () =>
+      targetToken === Asset.RBTC ||
+      [targetToken, sourceToken].includes(Asset.RIF)
+        ? sendPath()
+        : sendExternal(),
+    [targetToken, sourceToken, sendPath, sendExternal],
   );
 
   return (
