@@ -51,7 +51,7 @@ export const PairSelect: React.FC<IPairSelect> = ({
     <div ref={ref} className="tw-relative tw-w-64">
       <div
         onClick={() => setOpen(!open)}
-        className="tw-flex tw-items-center tw-py-3 tw-bg-gray-2 tw-px-8 tw-rounded-r-lg tw-cursor-pointer tw-select-none tw-transition-opacity hover:tw-bg-opacity-75"
+        className="tw-flex tw-items-center tw-py-1 tw-bg-gray-2 tw-px-8 tw-rounded-r-lg tw-cursor-pointer tw-select-none tw-transition-opacity hover:tw-bg-opacity-75"
       >
         <div className="tw-flex-1">
           <Pair pairType={pairType} />

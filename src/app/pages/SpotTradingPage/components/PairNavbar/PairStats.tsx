@@ -121,7 +121,7 @@ export const PairStats: React.FC<IPairStatsProps> = ({ pair }) => {
   ]);
 
   return (
-    <div className="tw-flex tw-items-center tw-justify-around tw-flex-1 tw-py-3 tw-text-xs">
+    <div className="tw-flex tw-items-center tw-justify-around tw-flex-1 tw-py-2 tw-text-xs">
       <div>
         {t(translations.spotTradingPage.pairNavbar.lastTradedPrice)}
         <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-primary">

@@ -90,7 +90,7 @@ export const PairNavbar: React.FC = () => {
 
   return (
     <div className="tw-bg-gray-3 tw-w-full">
-      <div className="tw-flex tw-items-center tw-container">
+      <div className="tw-flex tw-items-center tw-container twm-mr-2">
         <PairSelect
           storageKey={getStorageKey()}
           onPairChange={pair => setPair(pair)}
