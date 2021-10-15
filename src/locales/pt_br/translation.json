@@ -1480,6 +1480,14 @@
     "cancelDialog": {
       "title": "Cancelar ordem limitada",
       "cta": "CANCELAR ORDEM LIMITADA"
+  },
+  "pairNavbar": {
+      "pair": "Par",
+      "lastTradedPrice": "Último preço",
+      "dayChange": "24H oscilação",
+      "dayPercentChange": "24hr % oscilação",
+      "dayLow": "24hr baixa:",
+      "dayHigh": "24hr alta:"
     }
   },
   "form": {
