@@ -1,47 +1,61 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import { usePrevious } from '../../hooks/usePrevious';
+import React, { useCallback, useState } from 'react';
 import {
   TransitionAnimation,
   TransitionContainer,
 } from '../TransitionContainer';
 
-type TransitionStep = {
-  id: number | string;
-  component: React.ReactNode;
+type TransitionStepProps<I> = {
+  id: I;
+  changeTo: (id: I, animation?: TransitionAnimation) => void;
 };
 
-export type ITransitionStepsProps = {
-  steps: TransitionStep[];
-  active: number | string;
-  animationForwards: TransitionAnimation;
-  animationBackwards: TransitionAnimation;
+export type TransitionStep<I extends string | number> = React.FC<
+  TransitionStepProps<I>
+>;
+
+export type TransitionStepsProps<I extends string | number> = {
+  steps: {
+    [key in I]: TransitionStep<I>;
+  };
+  defaultActive: I;
+  defaultAnimation: TransitionAnimation;
+  duration?: number;
 };
 
-export const TransitionSteps: React.FC<ITransitionStepsProps> = ({
+export const TransitionSteps = <I extends string | number>({
   steps,
-  active,
-  animationForwards,
-  animationBackwards,
-}) => {
-  const previous = usePrevious(active);
-  const stepIndex = useMemo(() => steps.findIndex(step => step.id === active), [
-    active,
-    steps,
-  ]);
-  const previousIndex = useMemo(
-    () => steps.findIndex(step => step.id === previous),
-    [previous, steps],
+  defaultActive,
+  defaultAnimation,
+  duration,
+}: TransitionStepsProps<I>) => {
+  const [active, setActive] = useState(defaultActive);
+  const [animation, setAnimation] = useState(defaultAnimation);
+
+  const changeTo = useCallback<TransitionStepProps<any>['changeTo']>(
+    (id, animation) => {
+      if (!steps[id]) {
+        console.error(
+          `Could not switch to TransitionStep. "${id}" does not exist!`,
+        );
+        return;
+      }
+      setAnimation(animation || defaultAnimation);
+
+      setTimeout(() => setActive(id), 0);
+    },
+    [steps, defaultAnimation],
   );
+
+  const Step: TransitionStep<I> = steps[active];
 
   return (
     <TransitionContainer
       active={active}
       animateHeight
-      animation={
-        stepIndex < previousIndex ? animationBackwards : animationForwards
-      }
+      animation={animation}
+      duration={duration}
     >
-      {steps[stepIndex]?.component}
+      {Step && <Step id={active} changeTo={changeTo} />}
     </TransitionContainer>
   );
 };

@@ -17,19 +17,23 @@ export const useResizeObserver = <E extends HTMLElement>() => {
       observer.observe(element);
       return () => observer.disconnect();
     } else {
-      const intervalId = setInterval(() => {
+      const updateLocation = () => {
         const rect = element.getBoundingClientRect();
         console.log('interval', rect);
         setDimensions(previous => {
           if (
-            previous &&
-            (rect.width !== previous.width || rect.height !== previous.height)
+            !previous ||
+            rect.width !== previous.width ||
+            rect.height !== previous.height
           ) {
             return rect;
           }
           return previous;
         });
-      }, 500);
+      };
+
+      updateLocation();
+      const intervalId = setInterval(updateLocation, 500);
 
       return () => clearInterval(intervalId);
     }

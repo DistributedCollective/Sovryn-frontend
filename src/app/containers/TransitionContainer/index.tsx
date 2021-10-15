@@ -14,10 +14,10 @@ export enum TransitionAnimation {
 
 const classNamesForAnimation = (animation: string) => ({
   enter: styles[`${animation}Enter`],
-  enterActive: styles[`${animation}EnterActive`],
+  enterActive: classNames(styles[`${animation}EnterActive`], styles.disabled),
   enterDone: styles[`${animation}EnterDone`],
   exit: styles[`${animation}Exit`],
-  exitActive: styles[`${animation}ExitActive`],
+  exitActive: classNames(styles[`${animation}ExitActive`], styles.disabled),
   exitDone: styles[`${animation}ExitDone`],
 });
 
@@ -50,16 +50,16 @@ type ITransitionContainerProps = {
   animateHeight?: boolean;
   duration?: number;
   animation?: TransitionAnimation;
-  onAnimationStarted?: () => void;
+  onAnimationComplete?: () => void;
 };
 
 export const TransitionContainer: React.FC<ITransitionContainerProps> = ({
   active,
   children,
   animateHeight = true,
-  duration = 1000,
+  duration = 500,
   animation = TransitionAnimation.fade,
-  onAnimationStarted,
+  onAnimationComplete,
 }) => {
   const { ref, dimensions } = useResizeObserver<HTMLDivElement>();
 
@@ -67,13 +67,10 @@ export const TransitionContainer: React.FC<ITransitionContainerProps> = ({
 
   return (
     <div
-      className={classNames(
-        'tw-relative tw-w-full',
-        animateHeight && 'tw-overflow-hidden',
-      )}
+      className="tw-relative tw-w-full tw-overflow-hidden"
       style={{
-        height: animateHeight ? dimensions?.height : undefined,
-        transition: `height ease-in-out ${duration}ms`,
+        height: dimensions?.height,
+        transition: animateHeight ? `height ease-in-out ${duration}ms` : '',
       }}
     >
       <TransitionGroup>
@@ -81,20 +78,18 @@ export const TransitionContainer: React.FC<ITransitionContainerProps> = ({
           key={active}
           classNames={animationConfig.classNames}
           timeout={{ enter: duration, exit: duration }}
-          onEntering={onAnimationStarted}
+          onEntered={onAnimationComplete}
         >
           <div
-            className={classNames(
-              'tw-absolute tw-w-full',
-              animateHeight && 'tw-overflow-hidden',
-            )}
+            ref={ref}
+            className="tw-absolute tw-w-full tw-overflow-hidden"
             style={{
               transition: animationConfig.transitionProperties
                 .map(prop => `${prop} ease-in-out ${duration}ms`)
                 .join(', '),
             }}
           >
-            <div ref={ref}>{children}</div>
+            <div>{children}</div>
           </div>
         </CSSTransition>
       </TransitionGroup>
