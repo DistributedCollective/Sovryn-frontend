@@ -10,8 +10,7 @@ import ConverterRegistryABI from './abi/ConverterRegistry.json';
 import CrowdSaleAbi from './abi/CrowdSale.json';
 import CSOVTokenAbi from './abi/CSOVToken.json';
 import EscrowRewardsAbi from './abi/EscrowRewardsAbi.json';
-// import feeSharingProxyAbi from './abi/FeeSharingProxy.json';
-import feeSharingProxyShortAbi from './abi/FeeSharingProxy_short.json';
+import feeSharingProxyAbi from './abi/FeeSharingProxy.json';
 import stakingRewardsProxyAbi from './abi/StakingRewards.json';
 import FISHTokenAbi from './abi/FISH.json';
 import LiquidityMiningAbi from './abi/LiquidityMining.json';
@@ -251,7 +250,7 @@ export const contracts = {
     abi: VestingRegistryAbi,
   },
   staking: {
-    address: '0xd931AC508b303b61b499B3Bdb451b9c29873CbF5', //short staking period testnet address
+    address: '0xDCd1889C1FBAd0A757EF7216Dda0529AB6268cCc',
     abi: StakingAbi,
     blockNumber: 1218836,
   },
@@ -301,12 +300,12 @@ export const contracts = {
     abi: LockedSovAbi,
   },
   feeSharingProxy: {
-    address: '0x85B19DD6E3c6cCC54D40c1bAEC15058962B8245b', //short staking period testnet address
-    abi: feeSharingProxyShortAbi, //short staking period testnet abi
+    address: '0xedD92fb7C556E4A4faf8c4f5A90f471aDCD018f4',
+    abi: feeSharingProxyAbi,
   },
   stakingRewards: {
-    address: '0x168BF3A853eDcBb12276F96cf373a990eA8eab7B', //short staking period testnet address
-    abi: stakingRewardsProxyAbi, //short staking period testnet abi
+    address: '0x7662E1cC98c9CB50eBc286ce8b124D61C7e2247E',
+    abi: stakingRewardsProxyAbi,
   },
   FISH_token: {
     address: '0xaa7038D80521351F243168FefE0352194e3f83C3',
