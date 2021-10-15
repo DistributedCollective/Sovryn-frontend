@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -25,11 +25,16 @@ export const AdvancedSettingDialog: React.FC<AdvancedSettingDialogProps> = ({
   const dispatch = useDispatch();
   const [slippage, setSlippage] = useState(0.5);
 
+  const onClose = useCallback(
+    () => dispatch(actions.setModal(PerpetualPageModals.NONE)),
+    [dispatch],
+  );
+
   return (
     <>
       <Dialog
         isOpen={modal === PerpetualPageModals.TRADE_SETTINGS}
-        onClose={() => dispatch(actions.setModal(PerpetualPageModals.NONE))}
+        onClose={onClose}
       >
         <div className="tw-mw-340 tw-mx-auto">
           <div className="tw-mb-6 text-left">

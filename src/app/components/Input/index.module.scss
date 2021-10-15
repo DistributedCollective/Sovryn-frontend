@@ -4,8 +4,15 @@
   &[type='number'] {
     @apply tw-text-right;
     appearance: textfield;
+    
     &[step] {
       @apply tw-pr-7;
+    }
+
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
     }
   }
 }

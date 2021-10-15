@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { toWei } from 'web3-utils';
@@ -21,7 +21,6 @@ import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { Dialog } from 'app/containers/Dialog';
-import { useApproveAndTrade } from 'app/hooks/trading/useApproveAndTrade';
 import { useAccount } from 'app/hooks/useAccount';
 import { LiquidationPrice } from '../LiquidationPrice';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
@@ -106,12 +105,14 @@ export function TradeDialog() {
     value: collateral === Asset.RBTC ? amount : '0',
   };
 
+  const onCloseModal = useCallback(
+    () => dispatch(actions.setModal(PerpetualPageModals.NONE)),
+    [dispatch],
+  );
+
   return (
     <>
-      <Dialog
-        isOpen={!!position}
-        onClose={() => dispatch(actions.setModal(PerpetualPageModals.NONE))}
-      >
+      <Dialog isOpen={!!position} onClose={onCloseModal}>
         <div className="tw-mw-340 tw-mx-auto">
           <h1 className="tw-text-sov-white tw-text-center">
             {t(translations.perpetualPage.tradeDialog.title)}
@@ -243,18 +244,11 @@ export function TradeDialog() {
             onConfirm={() => submit()}
             disabled={openTradesLocked}
             cancelLabel={t(translations.common.cancel)}
-            onCancel={() =>
-              dispatch(actions.setModal(PerpetualPageModals.NONE))
-            }
+            onCancel={onCloseModal}
           />
         </div>
       </Dialog>
-      <TxDialog
-        tx={tx}
-        onUserConfirmed={() =>
-          dispatch(actions.setModal(PerpetualPageModals.NONE))
-        }
-      />
+      <TxDialog tx={tx} onUserConfirmed={onCloseModal} />
     </>
   );
 }

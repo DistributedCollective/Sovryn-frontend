@@ -1419,6 +1419,115 @@
       "enabled": "Notificações habilitadas"
     }
   },
+  "perpetualPage": {
+    "meta": {
+      "title": "Operar perpétuos",
+      "description": "Operar perpétuos"
+    },
+    "ammDepth": {
+      "price": "Price (<0/>)",
+      "size": "Size (<0/>)",
+      "total": "Total (<0/>)",
+      "indexPrice": "Index Price:",
+      "markPrice": "Mark Price:"
+    },
+    "contractDetails": {
+      "title": "Contract Details:",
+      "indexPrice": "Index Price:",
+      "volume24h": "24hr Volume:",
+      "openInterest": "Open Interest:",
+      "fundingRate": "Funding Rate: ",
+      "fundingRate4hr": "in 4hrs",
+      "contractValue": "ContractValue:",
+      "lotSize": "Lot Size:",
+      "minTradeAmount": "Min Trade Amount:"
+    },
+    "recentTrades": {
+      "price": "Price (<0/>)",
+      "size": "Size (<0/>)",
+      "time": "Time"
+    },
+    "tradeForm": {
+      "titles": {
+        "order": "Inserir nova ordem",
+        "welcome": "Operar perpétuos na Sovryn"
+      },
+      "text": {
+        "welcome1": "Esta é uma prévia do painel de perpétuos.\n Os dados de mercado ao lado são reais.",
+        "welcome2": "Para começar a operar perpétuos na Sovryn, você precisa:",
+        "welcome3": "<0>Conectar uma carteira</0> <0>Estar conectado à rede Polygon</0> <0>Adicionar fundos à sua conta depositando BTC</0>",
+        "welcome4": "Novo na Sovryn? <0>Leia nosso guia de primeiros passos</0>"
+      },
+      "labels": {
+        "pair": "Par de negociação:",
+        "asset": "Ativo:",
+        "leverage": "Alavancagem:",
+        "orderValue": "Valor da ordem:",
+        "limitPrice": "Preço máximo:",
+        "slippage": "Diferença máxima no preço:",
+        "balance": "Saldo disponível: <0/> <1/>",
+        "txFee": "Taxa de transação: <0/> {{symbol}}"
+      },
+      "buttons": {
+        "buy": "Compra",
+        "sell": "Venda",
+        "connect": "Conectar Carteira",
+        "market": "Mercado",
+        "limit": "Limitada",
+        "buyMarket": "Comprar a mercado",
+        "buyLimit": "Comprar a limite",
+        "sellMarket": "Vender a mercado",
+        "sellLimit": "Vender a limite"
+      }
+    },
+    "tradeDialog": {
+      "title": "Review Transaction",
+      "pair": "Trading Pair:",
+      "leverage": "Position Leverage:",
+      "asset": "Collateral:",
+      "direction": "Pair:",
+      "positionSize": "Position Size",
+      "maintananceMargin": "Maintenance Margin:",
+      "liquidationPrice": "Est. Liquidation price:",
+      "entryPrice": "Position Entry Price:",
+      "minEntry": "Minimum Entry Price: ",
+      "minLiq": "Minimum Liquidation Price: ",
+      "interestAPR": "Interest APY",
+      "renewalDate": "Renewal Date:",
+      "position": {
+        "long": "Long",
+        "short": "Short"
+      }
+    },
+    "openPositions": "Positions",
+    "closedPositions": "Closed Positions",
+    "orderHistory": "Order History",
+    "openPositionsTable": {
+      "pair": "Pair",
+      "positionSize": "Position Size",
+      "value": "Value",
+      "entryPrice": "Entry Price",
+      "markPrice": "Mark Price",
+      "liquidationPrice": "Liq. Price",
+      "margin": "Margin",
+      "unrealized": "Unrealized P&L (ROE %)",
+      "realized": "Realized P&L",
+      "actions": "Actions"
+    },
+    "notificationSettingsDialog": {
+      "title": "Margin Trade notification settings",
+      "notifyVia": "Notify via",
+      "telegramHandle": "Enter Telegram handle",
+      "discordHandle": "Enter Discord handle",
+      "usernamePlaceholder": "@username",
+      "receiveNotificationTitle": "You will receive a notification at",
+      "notificationEvents": {
+        "1": "25% margin",
+        "2": "Liquidation"
+      },
+      "submit": "Confirm"
+    }
+  },
   "spotTradingPage": {
     "meta": {
       "title": "Operar spot",
