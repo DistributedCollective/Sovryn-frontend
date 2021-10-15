@@ -33,6 +33,8 @@ import FISHTokenAbi from './abi/FISH.json';
 import OriginsBaseAbi from './abi/OriginsBase.json';
 import LockedFundAbi from './abi/LockedFund.json';
 import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
+import SettlementAbi from './abi/Settlement.json';
+import OrderBookAbi from './abi/OrderBook.json';
 import SwapsExternalAbi from './abi/SwapsExternalAbi.json';
 import nftAbi from './abi/nftAbi.json';
 
@@ -337,6 +339,14 @@ export const contracts = {
   babelfishAggregator: {
     address: '0x1572D7E4a78A8AD14AE722E6fE5f5600a2c7A149',
     abi: BabelfishAggregatorAbi,
+  },
+  orderBook: {
+    address: '0xb30fCeE20313AAdb88A22fF06B1067170A7c481a',
+    abi: OrderBookAbi,
+  },
+  settlement: {
+    address: '0x4AC7583319fB9a9060226c8AD7fc32CE9093cc23',
+    abi: SettlementAbi,
   },
   sovrynNFT: {
     address: '0x576ae218aecfd4cbd2dbe07250b47e26060932b1', // todo

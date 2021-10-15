@@ -496,7 +496,7 @@
     "title": "Swap",
     "meta": "Swap",
     "cta": "Swap",
-    "minimumReceived": "Minimum received:",
+    "minimumReceived": "Minimum Received:",
     "send": "Send",
     "receive": "Receive"
   },
@@ -1506,15 +1506,69 @@
       "description": "Spot trading"
     },
     "tradeForm": {
-      "buy_cta": "PLACE BUY",
-      "sell_cta": "PLACE SELL",
+      "buy_cta": "PLACE BUY ORDER",
+      "sell_cta": "PLACE SELL ORDER",
       "amountReceived": "Amount Received",
-      "buy": "BUY",
-      "sell": "SELL"
+      "buy": "Buy",
+      "sell": "Sell",
+      "market": "Market",
+      "limit": "Limit",
+      "advancedSettings": "Advanced Settings",
+      "limitPrice": "Limit Price:"
     },
     "priceHistory": {
       "turnover": "Turnover",
       "lastTradedPrice": "Last traded price"
+    },
+    "history": {
+      "marketOrder": "Market order history",
+      "openLimitOrders": "Open limit orders",
+      "limitOrderHistory": "Limit order history"
+    },
+    "tradeDialog": {
+      "marketTitle": "Review Market Trade",
+      "limitTitle": "Review Limit Order",
+      "tradingPair": "Trading Pair:",
+      "orderType": "Order Type:",
+      "tradeAmount": "Trade Amount:",
+      "limitPrice": "Limit Price:",
+      "duration": "Duration:"
+    },
+    "limitOrderSetting": {
+      "title": "Advanced Settings",
+      "duration": "Duration:",
+      "untilCancelled": "Until cancelled",
+      "day_one": "{{count}} day",
+      "day_other": "{{count}} days",
+      "partialFilled": "Allow partial filled order:"
+    },
+    "openLimitOrders": {
+      "dateTime": "Date/Time",
+      "pair": "Pair",
+      "orderType": "Order Type",
+      "tradeAmount": "Trade Amount",
+      "limitPrice": "Limit Price",
+      "amountReceive": "Amount to Receive",
+      "duration": "Duration",
+      "deadline": "Deadline",
+      "actions": "Action",
+      "noData": "No Data",
+      "cta": {
+        "edit": "Edit",
+        "close": "Close"
+      }
+    },
+    "cancelDialog": {
+      "title": "Cancel Limit Order",
+      "cta": "CANCEL LIMIT ORDER"
+    },
+    "pairNavbar": {
+      "pair": "Pair",
+      "lastTradedPrice": "Last traded price",
+      "dayChange": "24H change",
+      "dayPercentChange": "24hr % Change",
+      "dayLow": "24hr Low:",
+      "dayHigh": "24hr High:"
     }
   },
   "form": {

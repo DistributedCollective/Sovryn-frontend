@@ -8,9 +8,10 @@ import { weiToNumberFormat } from 'utils/display-text/format';
 import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
 import { LoadableValue } from '../LoadableValue';
 import { AssetRenderer } from '../AssetRenderer';
-
+import cn from 'classnames';
 interface Props {
   asset: Asset;
+  className?: string;
   dataAttribute?: string;
 }
 
@@ -19,7 +20,10 @@ export function AvailableBalance(props: Props) {
   const asset = useMemo(() => AssetsDictionary.get(props.asset), [props.asset]);
   return (
     <div
-      className="tw-truncate tw-text-xs tw-font-light tw-tracking-normal tw-flex tw-justify-between tw-mb-2"
+      className={cn(
+        'tw-truncate tw-text-xs tw-font-light tw-tracking-normal tw-flex tw-justify-between tw-mb-2',
+        props.className,
+      )}
       data-action-id={props.dataAttribute}
     >
       <Trans

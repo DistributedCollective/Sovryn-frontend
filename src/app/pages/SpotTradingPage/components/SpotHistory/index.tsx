@@ -12,16 +12,16 @@ import { AssetDetails } from 'utils/models/asset-details';
 import { backendUrl, currentChainId } from 'utils/classifiers';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { getContractNameByAddress } from 'utils/blockchain/contract-helpers';
-import { Pagination } from '../../components/Pagination';
-import { useAccount } from '../../hooks/useAccount';
-import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
-import { translations } from '../../../locales/i18n';
 import { useSelector } from 'react-redux';
 import { selectTransactionArray } from 'store/global/transactions-store/selectors';
 import { TxStatus, TxType } from 'store/global/transactions-store/types';
 import { getOrder } from 'app/pages/SpotTradingPage/types';
 import { useTradeHistoryRetry } from 'app/hooks/useTradeHistoryRetry';
 import { AssetRow } from './AssetRow';
+import { useAccount } from 'app/hooks/useAccount';
+import { translations } from 'locales/i18n';
+import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
+import { Pagination } from 'app/components/Pagination';
 
 export const SpotHistory: React.FC = () => {
   const transactions = useSelector(selectTransactionArray);
@@ -144,7 +144,7 @@ export const SpotHistory: React.FC = () => {
 
   return (
     <section>
-      <div className="sovryn-table tw-p-4 tw-mb-12">
+      <div className="tw-table tw-mb-12">
         <table className="tw-w-full">
           <thead>
             <tr>
@@ -163,7 +163,7 @@ export const SpotHistory: React.FC = () => {
             </tr>
           </thead>
           <tbody className="tw-mt-12">
-            {loading && (
+            {loading && history.length === 0 && (
               <tr key={'loading'}>
                 <td colSpan={99}>
                   <SkeletonRow

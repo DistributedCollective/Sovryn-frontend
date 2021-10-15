@@ -1,0 +1,9 @@
+.star {
+  padding: 0 2px;
+  font-size: 1.5em;
+  fill: #4e4e4e;
+}
+.star:global(.active),
+.star:hover {
+  fill: #fec004;
+}

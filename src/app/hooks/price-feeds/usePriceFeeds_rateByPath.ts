@@ -20,11 +20,13 @@ export function usePriceFeeds_rateByPath() {
     // ]);
     const rate = await contractReader.call(
       'sovrynProtocol',
-      'getSwapExpectedReturn', [
-      getTokenContract(sourceAsset).address,
-      getTokenContract(destAsset).address,
-      toWei(0.01),
-    ]);
+      'getSwapExpectedReturn',
+      [
+        getTokenContract(sourceAsset).address,
+        getTokenContract(destAsset).address,
+        toWei(0.01),
+      ],
+    );
     const price = typeof rate == 'string' ? parseInt(rate) * 100 : '0';
     return {
       precision: '1000000000000000000',

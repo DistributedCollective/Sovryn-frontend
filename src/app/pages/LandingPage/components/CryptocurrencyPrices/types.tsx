@@ -14,6 +14,7 @@ export interface IPairData {
   price_change_percent_24h_usd: number;
   price_change_week: number;
   price_change_week_usd: number;
+  day_price: number;
 }
 
 export interface IPairs {
