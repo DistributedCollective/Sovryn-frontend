@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
 
-type BarCompositionChartEntry = {
+export type BarCompositionChartEntry = {
   key: string;
   label?: React.ReactNode;
   value: number;

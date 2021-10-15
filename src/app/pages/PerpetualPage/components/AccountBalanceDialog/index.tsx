@@ -1,3 +1,4 @@
+import { bignumber } from 'mathjs';
 import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,7 +11,10 @@ import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBal
 import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
 import { PerpetualPageModals } from '../../types';
-import { BarCompositionChart } from '../BarCompositionChart';
+import {
+  BarCompositionChart,
+  BarCompositionChartEntry,
+} from '../BarCompositionChart';
 
 type AccountBalanceDialogProps = {
   pairType: PerpetualPairType;
@@ -50,7 +54,7 @@ export const AccountBalanceDialog: React.FC<AccountBalanceDialogProps> = ({
     unrealized,
   } = usePerpetual_accountBalance(pairType);
 
-  const chartEntries = useMemo(
+  const chartEntries: BarCompositionChartEntry[] = useMemo(
     () => [
       {
         key: 'available',
@@ -62,14 +66,24 @@ export const AccountBalanceDialog: React.FC<AccountBalanceDialogProps> = ({
       {
         key: 'inPositions',
         value: numberFromWei(inPositions),
-        valueLabel: `${weiToNumberFormat(inPositions, 4)} BTC`,
+        valueLabel: `${weiToNumberFormat(inPositions, 3)} BTC`,
         label: t(translations.perpetualPage.accountBalance.inPositions),
         color: '#006FFF',
       },
       {
         key: 'unrealized',
         value: numberFromWei(unrealized),
-        valueLabel: `${weiToNumberFormat(unrealized, 8)} BTC`,
+        valueLabel: (
+          <span
+            className={
+              bignumber(unrealized).isNegative()
+                ? 'tw-text-trade-short'
+                : 'tw-text-trade-long'
+            }
+          >
+            `${weiToNumberFormat(unrealized, 8)} BTC`
+          </span>
+        ),
         label: t(translations.perpetualPage.accountBalance.unrealized),
         colorClassName: 'tw-bg-sov-white',
       },
@@ -88,6 +102,8 @@ export const AccountBalanceDialog: React.FC<AccountBalanceDialogProps> = ({
     ),
     [total],
   );
+
+  // TODO: add pending transfer value to available balance
 
   return (
     <Dialog
