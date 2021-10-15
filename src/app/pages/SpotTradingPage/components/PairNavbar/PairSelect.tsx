@@ -6,55 +6,44 @@ import React, {
   useCallback,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectSpotTradingPage } from '../../selectors';
-import arrowDownIcon from 'assets/images/swap/ic_arrow_down.svg';
-import { Input } from 'app/components/Form/Input';
-import { pairs, SpotPairType } from '../../types';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 import cn from 'classnames';
-import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
-import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
+import { Input } from 'app/components/Form/Input';
+import {
+  IPairs,
+  IPairsData,
+} from 'app/pages/LandingPage/components/CryptocurrencyPrices/types';
+import { getFavoriteList, setFavoriteList } from './helpers';
+import { selectSpotTradingPage } from '../../selectors';
+import { SpotPairType, TradingPairs } from '../../types';
+import { toNumberFormat } from 'utils/display-text/format';
+import { Pair } from './Pair';
+import { PairLabels } from './PairLabels';
+import { StarButton } from '../StarButton';
 import { actions } from '../../slice';
 import useOnClickOutside from 'app/hooks/useOnClickOutside';
+import arrowDownIcon from 'assets/images/swap/ic_arrow_down.svg';
 import styles from './index.module.scss';
-import { StarButton } from '../StarButton';
-import { getFavoriteList, setFavoriteList } from './helpers';
 
 const FAVORITE = 'FAVORITE';
 
-const categories = [
-  {
-    label: 'ALL',
-    value: '',
-  },
-  {
-    label: 'SOV',
-    value: 'SOV',
-  },
-  {
-    label: 'RBTC',
-    value: 'RBTC',
-  },
-  {
-    label: 'XUSD',
-    value: 'XUSD',
-  },
-  {
-    label: 'FISH',
-    value: 'FISH',
-  },
-];
-
 interface IPairSelect {
+  onPairChange: ([TradingPairs]) => void;
   storageKey: string;
-  pairList: SpotPairType[];
+  pairsData: IPairsData;
 }
 
-export const PairSelect: React.FC<IPairSelect> = ({ storageKey, pairList }) => {
+export const PairSelect: React.FC<IPairSelect> = ({
+  storageKey,
+  onPairChange,
+  pairsData,
+}) => {
   const ref = useRef(null);
   const { pairType } = useSelector(selectSpotTradingPage);
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
-  const [category, setCategory] = useState('SOV');
+  const [category, setCategory] = useState('');
 
   useOnClickOutside(ref, () => setOpen(false));
 
@@ -99,71 +88,72 @@ export const PairSelect: React.FC<IPairSelect> = ({ storageKey, pairList }) => {
               active={category === FAVORITE}
               onClick={() => setCategory(FAVORITE)}
             />
-            {categories.map(item => (
-              <div
-                className={cn(
-                  'tw-mr-5 tw-cursor-pointer tw-font-semibold tw-transition-opacity hover:tw-text-opacity-75 hover:tw-text-primary',
-                  {
-                    'tw-text-primary': category === item.value,
-                    'tw-text-opacity-25': category !== item.value,
-                  },
-                )}
-                key={item.value}
-                onClick={() => setCategory(item.value)}
-              >
-                {item.label}
-              </div>
-            ))}
+            {pairsData && (
+              <PairLabels
+                pairs={pairsData.pairs}
+                onChangeCategory={e => setCategory(e)}
+                category={category}
+              />
+            )}
           </div>
-          <div className="tw-mt-3">
-            <PairsList
-              category={category}
-              search={search}
-              closePairList={() => setOpen(false)}
-              storageKey={storageKey}
-              pairList={pairList}
-            />
-          </div>
+          {pairsData && (
+            <div className="tw-mt-3">
+              <CryptocurrencyPairs
+                pairs={pairsData.pairs}
+                storageKey={storageKey}
+                category={category}
+                search={search}
+                closePairList={() => setOpen(false)}
+                onPairChange={onPairChange}
+              />
+            </div>
+          )}
         </div>
       )}
     </div>
   );
 };
 
-interface IPairsList {
-  category: string;
-  search: string;
+interface ICryptocurrencyPairsProps {
   closePairList: () => void;
   storageKey: string;
-  pairList: string[];
+  category: string;
+  search: string;
+  pairs: IPairs;
+  onPairChange: (value: [TradingPairs]) => void;
 }
 
-export const PairsList: React.FC<IPairsList> = ({
-  category,
-  search,
+export const CryptocurrencyPairs: React.FC<ICryptocurrencyPairsProps> = ({
   closePairList,
   storageKey,
-  pairList,
+  category,
+  search,
+  pairs,
+  onPairChange,
 }) => {
+  const { t } = useTranslation();
+  const list = useMemo(() => {
+    if (!pairs) return [];
+    return Object.keys(pairs)
+      .map(key => pairs[key])
+      .filter(pair => pair);
+  }, [pairs]);
+
   const [favList, setFavList] = useState(getFavoriteList(storageKey));
   const dispatch = useDispatch();
 
-  const list = useMemo(() => {
-    return category === FAVORITE
-      ? favList
-      : pairList.filter(
-          pair =>
-            pair.includes(category) && pair.includes(search.toUpperCase()),
-        );
-  }, [category, favList, pairList, search]);
-
-  useEffect(() => {
-    setFavoriteList(storageKey, favList);
-  }, [storageKey, favList]);
-
   const handleFavClick = useCallback(
     pair => {
-      const index = favList.findIndex(item => item === pair);
+      const index = favList.findIndex(
+        (favorite: TradingPairs) =>
+          (favorite[0].trading_pairs === pair[0].trading_pairs &&
+            favorite[1].trading_pairs === pair[1].trading_pairs &&
+            pair[2] === favorite[2]) ||
+          (favorite[0].trading_pairs === pair[0].trading_pairs &&
+            favorite[1].trading_pairs === pair[1].trading_pairs &&
+            !pair[2] &&
+            !favorite[2]),
+      );
       const list = [...favList];
       if (index > -1) {
         list.splice(index, 1);
@@ -175,13 +165,83 @@ export const PairsList: React.FC<IPairsList> = ({
     [favList],
   );
 
+  const filteredList = useMemo(() => {
+    const currencyList: [TradingPairs] = [] as any; //an Object with all possible pairs
+    //making a currencyList with all possible pairs
+    for (let i = 0; i < list.length; i++) {
+      //first here we push only RBTC pair
+      currencyList.push([list[i], list[i]]);
+      currencyList.push([list[i], list[i], 'RBTC']); //adding RBTC as key for RBTC as source
+      for (let j = 0; j < list.length; j++) {
+        if (list[i].base_symbol !== list[j].base_symbol)
+          //here we push to the currencyList all posible variants of currencies
+          currencyList.push([list[i], list[j]]);
+      }
+    }
+
+    return category === FAVORITE
+      ? favList
+      : currencyList.filter(item => {
+          if (item[0].base_symbol !== item[1].base_symbol)
+            //filtering pairs without RBTC as a source pair
+            return (
+              (item[0].base_symbol.includes(search.toUpperCase()) &&
+                item[0].base_symbol.includes(category)) ||
+              (item[1].base_symbol.includes(search.toUpperCase()) &&
+                item[0].base_symbol.includes(category))
+            );
+          else if (item[0].base_symbol === item[1].base_symbol && !item[2])
+            //filtering pairs only for RBTC as target
+            return (
+              (item[0].base_symbol.includes(search.toUpperCase()) &&
+                item[0].base_symbol.includes(category)) ||
+              (item[1].base_symbol.includes(search.toUpperCase()) &&
+                item[0].base_symbol.includes(category))
+            );
+          else if (item[0].base_symbol === item[1].base_symbol && item[2])
+            //filtering pairs only for RBTC as source
+            return (
+              item[0].quote_symbol.includes(search.toUpperCase()) &&
+              item[0].quote_symbol.includes(category)
+            );
+          return false;
+        });
+  }, [category, favList, search, list]);
+
+  useEffect(() => {
+    setFavoriteList(storageKey, favList);
+  }, [storageKey, favList]);
+
   const selectPair = useCallback(
     pair => {
-      dispatch(actions.setPairType(pair));
+      //filtering pairs without RBTC
+      if (pair[1] !== pair[0])
+        dispatch(
+          actions.setPairType(
+            SpotPairType[pair[0].base_symbol + '_' + pair[1].base_symbol],
+          ),
+        );
+      //filtering pairs for RBTC as target
+      if (pair[0].base_symbol === pair[1].base_symbol && !pair[2])
+        dispatch(
+          actions.setPairType(
+            SpotPairType[pair[0].base_symbol + '_' + pair[0].quote_symbol],
+          ),
+        );
+      //filtering pairs for RBTC as source
+      if (pair[0].base_symbol === pair[1].base_symbol && pair[2])
+        dispatch(
+          actions.setPairType(
+            SpotPairType[pair[0].quote_symbol + '_' + pair[0].base_symbol],
+          ),
+        );
+      onPairChange(pair);
       closePairList();
     },
-    [closePairList, dispatch],
+    [closePairList, dispatch, onPairChange],
   );
+
+  if (!list.length) return null;
 
   return (
     <div className="tw-max-h-96 tw-overflow-auto tw-w-full">
@@ -189,73 +249,124 @@ export const PairsList: React.FC<IPairsList> = ({
         <thead>
           <tr>
             <td className="tw-w-8"></td>
-            <td>Pair</td>
-            <td className="tw-text-right">Last traded price</td>
-            <td className="tw-text-right">24H change</td>
+            <td>{t(translations.spotTradingPage.pairNavbar.pair)}</td>
+            <td className="tw-text-right">
+              {t(translations.spotTradingPage.pairNavbar.lastTradedPrice)}
+            </td>
+            <td className="tw-text-right tw-pr-5">
+              {t(translations.spotTradingPage.pairNavbar.dayChange)}
+            </td>
           </tr>
         </thead>
         <tbody>
-          {list.map(pair => (
-            <tr
-              key={pair}
-              className="tw-text-sm tw-cursor-pointer tw-transition-opacity hover:tw-opacity-75"
-            >
-              <td>
-                <StarButton
-                  active={favList.includes(pair)}
-                  onClick={() => handleFavClick(pair)}
-                />
-              </td>
-              <td onClick={() => selectPair(pair)} className="tw-py-2">
-                <Pair pairType={pair} />
-              </td>
-              <td onClick={() => selectPair(pair)} className="tw-text-right">
-                0.0091898 / 10.00USD
-              </td>
-              <td
-                onClick={() => selectPair(pair)}
-                className="tw-text-right tw-text-trade-long"
+          {filteredList.map((pair: TradingPairs) => {
+            //generating lastPrice for all pairs
+            let lastPrice = 0;
+            //for pairs without RBTC
+            if (pair[1] !== pair[0])
+              lastPrice = pair[0].last_price / pair[1].last_price;
+            //for pairs with RBTC as source
+            if (pair[2]) lastPrice = 1 / pair[0].last_price;
+            //for pairs with RBTC as target
+            if (pair[0].base_symbol === pair[1].base_symbol && !pair[2])
+              lastPrice = pair[0].last_price;
+
+            //generating dayPrice for all pairs
+            let dayPrice = 0;
+            //for pairs without RBTC
+            if (pair[1] !== pair[0])
+              dayPrice = pair[0].day_price / pair[1].day_price;
+            //for pairs with RBTC as source
+            if (pair[2]) dayPrice = 1 / pair[0].day_price;
+            //for pairs with RBTC as target
+            if (pair[0].base_symbol === pair[1].base_symbol && !pair[2])
+              dayPrice = pair[0].day_price;
+
+            //generating dayPrice for all pairs
+            let percent = 0;
+            //for pairs without RBTC
+            if (pair[1] !== pair[0])
+              if (lastPrice > dayPrice)
+                percent = ((lastPrice - dayPrice) / dayPrice) * 100;
+              else if (lastPrice < dayPrice)
+                percent = ((lastPrice - dayPrice) / lastPrice) * 100;
+            //for pairs with RBTC as source
+            if (pair[2]) percent = -pair[0].price_change_percent_24h;
+            //for pairs with RBTC as target
+            if (pair[0].base_symbol === pair[1].base_symbol && !pair[2])
+              percent = pair[0].price_change_percent_24h;
+
+            const isFavoriteActive = favList.some(
+              (favorite: TradingPairs) =>
+                (favorite[0].trading_pairs === pair[0].trading_pairs &&
+                  favorite[1].trading_pairs === pair[1].trading_pairs &&
+                  pair[2] === favorite[2]) ||
+                (favorite[0].trading_pairs === pair[0].trading_pairs &&
+                  favorite[1].trading_pairs === pair[1].trading_pairs &&
+                  !pair[2] &&
+                  !favorite[2]),
+            );
+            return (
+              <tr
+                key={pair[0].base_id + pair[1].base_id + pair[2]}
+                className="tw-text-sm tw-cursor-pointer tw-transition-opacity hover:tw-opacity-75"
               >
-                +28.37%
-              </td>
-            </tr>
-          ))}
+                <td>
+                  <StarButton
+                    active={isFavoriteActive}
+                    onClick={() => handleFavClick(pair)}
+                  />
+                </td>
+                <td className="tw-py-2" onClick={() => selectPair(pair)}>
+                  {/* pairs without RBTC */}
+                  {pair[1] !== pair[0] && (
+                    <Pair
+                      pairType={
+                        SpotPairType[
+                          pair[0].base_symbol + '_' + pair[1].base_symbol
+                        ]
+                      }
+                    />
+                  )}
+                  {/* pairs with RBTC as target */}
+                  {pair[0].base_symbol === pair[1].base_symbol && !pair[2] && (
+                    <Pair
+                      pairType={
+                        SpotPairType[
+                          pair[0].base_symbol + '_' + pair[0].quote_symbol
+                        ]
+                      }
+                    />
+                  )}
+                  {/* pairs with RBTC as source */}
+                  {pair[2] && (
+                    <Pair
+                      pairType={
+                        SpotPairType[
+                          pair[0].quote_symbol + '_' + pair[0].base_symbol
+                        ]
+                      }
+                    />
+                  )}
+                </td>
+                <td className="tw-text-right" onClick={() => selectPair(pair)}>
+                  {toNumberFormat(lastPrice, 6)}
+                </td>
+                <td
+                  className={cn('tw-text-right tw-pr-5', {
+                    'tw-text-trade-long': percent > 0,
+                    'tw-text-trade-short': percent < 0,
+                  })}
+                  onClick={() => selectPair(pair)}
+                >
+                  {percent > 0 && <>+</>}
+                  {toNumberFormat(percent, percent !== 0 ? 6 : 0)}%
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
-    </div>
-  );
-};
-
-interface IPair {
-  pairType: SpotPairType;
-}
-
-export const Pair: React.FC<IPair> = ({ pairType }) => {
-  const pair = pairs[pairType];
-  if (!pair) return null;
-
-  return (
-    <div className={'tw-flex tw-items-center tw-select-none'}>
-      <div className="tw-rounded-full tw-z-10">
-        <img
-          className="tw-w-8 tw-h-8 tw-object-scale-down"
-          alt={AssetsDictionary.get(pair[0]).asset}
-          src={AssetsDictionary.get(pair[0]).logoSvg}
-        />
-      </div>
-      <div className="tw-rounded-full tw--ml-3">
-        <img
-          className="tw-w-8 tw-h-8 tw-object-scale-down"
-          alt={AssetsDictionary.get(pair[1]).asset}
-          src={AssetsDictionary.get(pair[1]).logoSvg}
-        />
-      </div>
-
-      <div className="tw-font-light text-white tw-ml-2.5">
-        <AssetSymbolRenderer asset={pair[0]} />
-        /
-        <AssetSymbolRenderer asset={pair[1]} />
-      </div>
     </div>
   );
 };
