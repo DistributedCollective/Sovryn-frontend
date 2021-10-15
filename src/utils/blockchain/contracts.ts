@@ -339,7 +339,7 @@ export const contracts = {
     abi: OrderBookAbi,
   },
   settlement: {
-    address: '0x4AC7583319fB9a9060226c8AD7fc32CE9093cc23',
+    address: '0x8627267135FbfFd393f8b07646388F0A219A9c0C',
     abi: SettlementAbi,
   },
   sovrynNFT: {
