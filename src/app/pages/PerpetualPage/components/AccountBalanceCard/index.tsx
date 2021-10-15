@@ -6,12 +6,12 @@ import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { actions } from '../../slice';
 import { PerpetualPageModals } from '../../types';
 
-type AccountBalanceCard = {
+type AccountBalanceCardProps = {
   /** balance in wei */
   balance: string | null;
 };
 
-export const AccountBalanceCard: React.FC<AccountBalanceCard> = ({
+export const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
   balance,
 }) => {
   const { t } = useTranslation();
