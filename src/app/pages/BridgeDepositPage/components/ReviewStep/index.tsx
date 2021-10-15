@@ -15,7 +15,10 @@ import { useBridgeLimits } from '../../hooks/useBridgeLimits';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { NetworkModel } from '../../types/network-model';
 import { translations } from 'locales/i18n';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { discordInvite } from 'utils/classifiers';
 
 export function ReviewStep() {
   const { amount, chain, targetChain, sourceAsset, tx } = useSelector(
@@ -24,6 +27,8 @@ export function ReviewStep() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const trans = translations.BridgeDepositPage.reviewStep;
+  const { checkMaintenances, States } = useMaintenance();
+  const { [States.BRIDGE]: bridgeLocked } = checkMaintenances();
 
   const handleSubmit = useCallback(() => {
     dispatch(actions.submitForm());
@@ -120,10 +125,29 @@ export function ReviewStep() {
         <Button
           className="tw-mt-20 tw-w-80"
           text={t(trans.confirmDeposit)}
-          disabled={!isValid || tx.loading}
+          disabled={bridgeLocked || !isValid || tx.loading}
           loading={tx.loading}
           onClick={handleSubmit}
         />
+        {bridgeLocked && (
+          <ErrorBadge
+            content={
+              <Trans
+                i18nKey={translations.maintenance.bridgeSteps}
+                components={[
+                  <a
+                    href={discordInvite}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                  >
+                    x
+                  </a>,
+                ]}
+              />
+            }
+          />
+        )}
       </div>
     </div>
   );

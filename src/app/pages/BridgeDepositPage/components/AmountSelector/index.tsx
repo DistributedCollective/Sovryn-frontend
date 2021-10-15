@@ -17,7 +17,10 @@ import { useBridgeTokenBalance } from '../../hooks/useBridgeTokenBalance';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { translations } from 'locales/i18n';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { discordInvite } from 'utils/classifiers';
 
 export function AmountSelector() {
   const { amount, chain, targetChain, sourceAsset, targetAsset } = useSelector(
@@ -25,6 +28,8 @@ export function AmountSelector() {
   );
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const { checkMaintenances, States } = useMaintenance();
+  const { [States.BRIDGE]: bridgeLocked } = checkMaintenances();
 
   const asset = useMemo(
     () =>
@@ -205,9 +210,28 @@ export function AmountSelector() {
         <ActionButton
           className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
           text={t(translations.common.next)}
-          disabled={!isValid}
+          disabled={bridgeLocked || !isValid}
           onClick={selectAmount}
         />
+        {bridgeLocked && (
+          <ErrorBadge
+            content={
+              <Trans
+                i18nKey={translations.maintenance.bridgeSteps}
+                components={[
+                  <a
+                    href={discordInvite}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                  >
+                    x
+                  </a>,
+                ]}
+              />
+            }
+          />
+        )}
       </div>
     </div>
   );
