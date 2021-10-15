@@ -51,8 +51,8 @@ export function RewardPage() {
       <Header />
 
       <div className={styles['background-image-wrapper']}>
-        <img src={imgSov} alt="SOV" />
-        <img src={imgBtc} alt="BTC" />
+        <img className={styles['background-image']} src={imgSov} alt="SOV" />
+        <img className={styles['background-image']} src={imgBtc} alt="BTC" />
       </div>
 
       <div className="tw-container tw-mt-9 tw-mx-auto tw-px-6 tw-relative">

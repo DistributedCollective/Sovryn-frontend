@@ -7,6 +7,10 @@
   max-height: 43rem;
 }
 
+.background-image {
+  max-width: 50%;
+}
+
 .tab-main-section {
   @apply tw-w-full tw-flex tw-flex-row tw-justify-center tw-items-center;
   background-color: #222222;
