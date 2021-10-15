@@ -9,13 +9,16 @@ import networkList from '../../../../components/NetworkRibbon/component/network.
 import { BridgeNetworkDictionary } from '../../../BridgeDepositPage/dictionaries/bridge-network-dictionary';
 import { Input } from '../../../../components/Form/Input';
 import { ActionButton } from 'app/components/Form/ActionButton';
+import { discordInvite } from 'utils/classifiers';
 
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { rskWalletAddressLength } from 'app/constants';
 import styles from './index.module.scss';
 import imgWarning from 'assets/images/warning_black_24dp.svg';
 import classNames from 'classnames';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 
 interface IReceiverSelectorProps {
   address: string;
@@ -29,6 +32,8 @@ export function ReceiverSelector({ address }: IReceiverSelectorProps) {
     selectBridgeWithdrawPage,
   );
   const dispatch = useDispatch();
+  const { checkMaintenances, States } = useMaintenance();
+  const { [States.BRIDGE]: bridgeLocked } = checkMaintenances();
 
   const network = useMemo(
     () => BridgeNetworkDictionary.get(targetChain as Chain),
@@ -94,9 +99,28 @@ export function ReceiverSelector({ address }: IReceiverSelectorProps) {
         <ActionButton
           className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
           text={t(translations.common.next)}
-          disabled={!valid}
+          disabled={bridgeLocked || !valid}
           onClick={selectReceiver}
         />
+        {bridgeLocked && (
+          <ErrorBadge
+            content={
+              <Trans
+                i18nKey={translations.maintenance.bridgeSteps}
+                components={[
+                  <a
+                    href={discordInvite}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                  >
+                    x
+                  </a>,
+                ]}
+              />
+            }
+          />
+        )}
       </div>
     </div>
   );

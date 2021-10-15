@@ -15,9 +15,12 @@ import { AssetModel } from '../../../BridgeDepositPage/types/asset-model';
 import { useTokenBalance } from '../../../BridgeDepositPage/hooks/useTokenBalance';
 import { useBridgeLimits } from '../../../BridgeDepositPage/hooks/useBridgeLimits';
 import { prettyTx } from '../../../../../utils/helpers';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Table } from '../styled';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { discordInvite } from 'utils/classifiers';
 
 export function ReviewStep() {
   const {
@@ -31,6 +34,8 @@ export function ReviewStep() {
   } = useSelector(selectBridgeWithdrawPage);
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const { checkMaintenances, States } = useMaintenance();
+  const { [States.BRIDGE]: bridgeLocked } = checkMaintenances();
 
   const handleSubmit = useCallback(() => {
     dispatch(actions.submitForm());
@@ -168,10 +173,29 @@ export function ReviewStep() {
         <Button
           className="tw-mt-20 tw-w-80 "
           text={t(translations.BridgeWithdrawPage.reviewStep.confirm)}
-          disabled={!isValid || tx.loading}
+          disabled={bridgeLocked || !isValid || tx.loading}
           loading={tx.loading}
           onClick={handleSubmit}
         />
+        {bridgeLocked && (
+          <ErrorBadge
+            content={
+              <Trans
+                i18nKey={translations.maintenance.bridgeSteps}
+                components={[
+                  <a
+                    href={discordInvite}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                  >
+                    x
+                  </a>,
+                ]}
+              />
+            }
+          />
+        )}
       </div>
     </div>
   );

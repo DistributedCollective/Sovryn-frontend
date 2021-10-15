@@ -16,8 +16,7 @@ export function BridgeLink({ asset }: Props) {
   const receiver = useAccount();
   const { t } = useTranslation();
   const { checkMaintenances, States } = useMaintenance();
-  //const { [States.BRIDGE]: bridgeLocked } = checkMaintenances();
-  const bridgeLocked = false;
+  const { [States.BRIDGE]: bridgeLocked } = checkMaintenances();
 
   return (
     <>
@@ -30,7 +29,7 @@ export function BridgeLink({ asset }: Props) {
             interactionKind="hover"
             content={<>{t(translations.maintenance.bridge)}</>}
           >
-            <div className="tw-btn-action tw-cursor-not-allowed">
+            <div className="tw-btn-action tw-cursor-not-allowed tw-opacity-25">
               {t(translations.common.deposit)}
             </div>
           </Tooltip>
@@ -41,7 +40,7 @@ export function BridgeLink({ asset }: Props) {
             interactionKind="hover"
             content={<>{t(translations.maintenance.bridge)}</>}
           >
-            <div className="tw-btn-action tw-cursor-not-allowed">
+            <div className="tw-btn-action tw-cursor-not-allowed tw-opacity-25">
               {t(translations.common.withdraw)}
             </div>
           </Tooltip>
