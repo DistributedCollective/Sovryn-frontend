@@ -5,6 +5,8 @@ import {
   calculateProfit,
   weiToNumberFormat,
   toNumberFormat,
+  numberToPercent,
+  stringToFixedPrecision,
 } from 'utils/display-text/format';
 import { DummyInput } from 'app/components/Form/Input';
 import {
@@ -14,6 +16,7 @@ import {
   weiToFixed,
 } from 'utils/blockchain/math-helpers';
 import { AmountInput } from 'app/components/Form/AmountInput';
+import { Input } from 'app/components/Form/Input';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { FormGroup } from 'app/components/Form/FormGroup';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
@@ -43,9 +46,16 @@ import { useSlippage } from './useSlippage';
 import { SlippageDialog } from './Dialogs/SlippageDialog';
 import settingIcon from 'assets/images/settings-blue.svg';
 import { ActionButton } from 'app/components/Form/ActionButton';
+import { OpenPositionEntry } from '../../hooks/usePerpetual_OpenPositions';
+import { Asset } from 'types';
+import {
+  PerpetualPairDictionary,
+  PerpetualPairType,
+} from 'utils/dictionaries/perpatual-pair-dictionary';
+import { AssetValue } from 'app/components/AssetValue';
 
 interface IClosePositionDialogProps {
-  item: ActiveLoan;
+  item: OpenPositionEntry;
   showModal: boolean;
   onCloseModal: () => void;
   positionSize?: string;
@@ -61,220 +71,110 @@ const getOptions = (item: ActiveLoan) => {
   ];
 };
 
-export function ClosePositionDialog(props: IClosePositionDialogProps) {
-  const receiver = useAccount();
-
+export function ClosePositionDialog({
+  showModal,
+  onCloseModal,
+  item,
+  positionSize,
+}: IClosePositionDialogProps) {
   const [amount, setAmount] = useState<string>('0');
-  const [collateral, setCollateral] = useState(
-    assetByTokenAddress(props.item.collateralToken),
-  );
   const [openSlippage, setOpenSlippage] = useState(false);
-
-  const sourceToken = AssetsDictionary.getByTokenContractAddress(
-    props.item?.collateralToken || '',
-  );
-  const targetToken = AssetsDictionary.getByTokenContractAddress(
-    props.item?.loanToken || '',
-  );
-
-  useEffect(() => {
-    setAmount('0');
-  }, [props.item.collateral]);
-
-  const options = useMemo(() => getOptions(props.item), [props.item]);
-  const isCollateral = useMemo(
-    () => collateral === assetByTokenAddress(props.item.collateralToken),
-    [collateral, props.item.collateralToken],
-  );
-
-  const pair = TradingPairDictionary.findPair(
-    sourceToken.asset,
-    targetToken.asset,
-  );
-
-  const weiAmount = useWeiAmount(amount);
-  const handleConfirmSwap = () => {
-    send();
-  };
 
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
   const closeTradesLocked = checkMaintenance(States.CLOSE_MARGIN_TRADES);
-  const args = [props.item.loanId, receiver, weiAmount, isCollateral, '0x'];
-  const isLong = targetToken.asset === pair.longAsset;
 
-  function getEntryPrice(item: ActiveLoan) {
-    if (isLong) return Number(weiTo18(item.startRate));
-    return 1 / Number(weiTo18(item.startRate));
-  }
-
-  const { price: currentPriceSource, loading } = useCurrentPositionPrice(
-    sourceToken.asset,
-    targetToken.asset,
-    weiAmount,
-    isLong,
-  );
-
-  const { send, ...rest } = useCloseWithSwap(
-    props.item.loanId,
-    receiver,
-    weiAmount,
-    isCollateral,
-    '0x',
-  );
-
-  const startPriceSource = getEntryPrice(props.item);
-
-  const [profit, diff] = calculateProfit(
-    isLong,
-    currentPriceSource,
-    startPriceSource,
-    weiAmount,
-  );
-
-  const valid = useIsAmountWithinLimits(weiAmount, '1', props.item.collateral);
-  const test = useTrading_testRates(
-    assetByTokenAddress(
-      isCollateral ? props.item.loanToken : props.item.collateralToken,
-    ),
-    assetByTokenAddress(
-      isCollateral ? props.item.collateralToken : props.item.loanToken,
-    ),
-    weiAmount,
-  );
-  const [slippage, setSlippage] = useState(0.5);
-  const totalAmount = Number(amount) + Number(fromWei(profit));
-  const { minReturn } = useSlippage(toWei(totalAmount), slippage);
+  const pair = PerpetualPairDictionary.get(item.pair as PerpetualPairType);
+  if (pair === undefined) return null;
 
   return (
     <>
-      <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
+      <Dialog isOpen={showModal} onClose={() => onCloseModal()}>
         <div className="tw-mw-340 tw-mx-auto">
           <h1 className="tw-text-sov-white tw-text-center">
             {t(translations.closeTradingPositionHandler.title)}
           </h1>
 
           <div className="tw-py-4 tw-px-4 tw-bg-gray-2 sm:tw--mx-11 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
-            <div className="tw-flex tw-flex-row tw-mb-1 tw-justify-start">
-              <div className="sm:tw-w-1/3 tw-w-1/2 tw-text-gray-10 sm:tw-ml-12">
-                {t(translations.perpetualPage.tradeDialog.pair)}
-              </div>
-              <div className="tw-text-sov-white tw-w-1/2 tw-ml-12">
-                {pair.chartSymbol}
-              </div>
-            </div>
-            <div className="tw-flex tw-flex-row tw-mb-1 tw-justify-start">
-              <div className="sm:tw-w-1/3 tw-w-1/2 tw-text-gray-10 sm:tw-ml-12">
-                {t(translations.closeTradingPositionHandler.marginType)}
+            <div className="tw-grid tw-grid-cols-2 tw-mb-1 tw-justify-start">
+              <div className="tw-text-gray-10">
+                {t(translations.perpetualPage.closePositionDialog.positionSize)}
+                :
               </div>
               <div
-                className={cn('tw-text-sov-white tw-w-1/2 tw-ml-12', {
-                  'tw-text-trade-short': targetToken.asset !== pair.longAsset,
-                  'tw-text-trade-long': targetToken.asset === pair.longAsset,
+                className={cn('tw-text-sov-white ', {
+                  'tw-text-trade-short': item.position < 0,
+                  'tw-text-trade-long': item.position > 0,
                 })}
               >
-                {leverageFromMargin(props.item.startMargin)}x
+                <AssetValue value={item.position} asset={pair.longAsset} />
               </div>
             </div>
-            <div className="tw-flex tw-flex-row tw-mb-1 tw-justify-start">
-              <div className="sm:tw-w-1/3 tw-w-1/2 tw-text-gray-10 sm:tw-ml-12">
-                {t(translations.closeTradingPositionHandler.positionSize)}
+            <div className="tw-grid tw-grid-cols-2 tw-mb-1 tw-justify-start">
+              <div className="tw-text-gray-10">
+                {t(translations.perpetualPage.closePositionDialog.marginSize)}:
               </div>
-              <div className="tw-text-sov-white tw-w-1/2 tw-ml-12">
-                {props.positionSize} <AssetRenderer asset={sourceToken.asset} />
+              <div className={'tw-text-sov-white '}>
+                <AssetValue value={item.margin} asset={pair.shortAsset} />
+                {` ${toNumberFormat(item.leverage, 2)}x`}
               </div>
             </div>
-            <div className="tw-flex tw-flex-row tw-justify-start">
-              <div className="sm:tw-w-1/3 tw-w-1/2 tw-text-gray-10 sm:tw-ml-12">
-                {t(translations.closeTradingPositionHandler.pl)}
+            <div className="tw-grid tw-grid-cols-2 tw-mb-1 tw-justify-start">
+              <div className="tw-text-gray-10">
+                {t(translations.perpetualPage.closePositionDialog.netPL)}:
               </div>
-              <div className="tw-text-sov-white tw-w-1/2 tw-ml-12">
-                <LoadableValue
-                  loading={loading}
-                  value={
-                    <span
-                      className={
-                        diff < 0 ? 'tw-text-trade-short' : 'tw-text-trade-long'
-                      }
-                    >
-                      <div>
-                        {diff > 0 && '+'}
-                        {weiToNumberFormat(profit, 8)}{' '}
-                        <AssetRenderer asset={sourceToken.asset} />
-                        {amount !== '0' && (
-                          <div>({toNumberFormat(diff * 100, 2)}%)</div>
-                        )}
-                      </div>
-                    </span>
-                  }
+              <div
+                className={cn('tw-text-sov-white ', {
+                  'tw-text-trade-short': item.position < 0,
+                  'tw-text-trade-long': item.position > 0,
+                })}
+              >
+                <AssetValue
+                  className="tw-block"
+                  value={item.unrealized.shortValue}
+                  asset={pair.shortAsset}
                 />
               </div>
             </div>
           </div>
-
+          {/* 
           <CollateralAssets
             label={t(translations.closeTradingPositionHandler.withdrawIn)}
             value={collateral}
             onChange={value => setCollateral(value)}
             options={options}
-          />
+          /> */}
 
           <FormGroup
-            label={t(translations.closeTradingPositionHandler.amountToClose)}
+            label={t(
+              translations.perpetualPage.closePositionDialog.closeAmount,
+            )}
             className="tw-mt-7"
           >
-            <AmountInput
-              value={amount}
+            <Input
+              value={stringToFixedPrecision(amount, 6)}
               onChange={value => setAmount(value)}
-              asset={sourceToken.asset}
-              maxAmount={props.item.collateral}
+              type="number"
+              appendElem={<AssetRenderer asset={pair.longAsset} />}
+              className="tw-rounded-lg"
             />
           </FormGroup>
 
-          <div className="tw-my-0 tw-text-secondary tw-text-xs tw-flex">
-            <ActionButton
-              text={
-                <div className="tw-flex">
-                  {t(translations.marginTradeForm.fields.advancedSettings)}
-                  <img className="tw-ml-1" src={settingIcon} alt="setting" />
-                </div>
-              }
-              onClick={() => setOpenSlippage(true)}
-              className="tw-border-none tw-ml-0 tw-p-0 tw-h-auto"
-              textClassName="tw-text-xs tw-overflow-visible tw-text-secondary"
-            />
+          <div className="tw-input-wrapper tw-text-sm tw-px-6 tw-flex tw-items-center tw-justify-between tw-h-8 readonly">
+            <div className="tw-text-xs tw-font-light">
+              {t(translations.perpetualPage.closePositionDialog.totalReceive)}:
+            </div>
+            <div
+              className={cn('tw-text-sov-white', {
+                'tw-text-trade-short': item.position < 0,
+                'tw-text-trade-long': item.position > 0,
+              })}
+            >
+              <AssetValue value={item.position} asset={pair.longAsset} />
+            </div>
           </div>
 
-          <FormGroup
-            label={t(translations.closeTradingPositionHandler.amountReceived)}
-            className="tw-mt-3"
-          >
-            <DummyInput
-              value={amount}
-              appendElem={<AssetRenderer asset={sourceToken.asset} />}
-              className="tw-h-10"
-            />
-            <div className="tw-truncate tw-text-xs tw-font-light tw-tracking-normal tw-flex tw-justify-between tw-mt-1">
-              <p>
-                {t(translations.closeTradingPositionHandler.minimumReceived)}
-              </p>
-              <div className="tw-font-semibold">
-                <LoadableValue
-                  loading={false}
-                  value={weiToFixed(minReturn, 6)}
-                  tooltip={
-                    <>
-                      {weiTo18(minReturn)}{' '}
-                      <AssetRenderer asset={sourceToken.asset} />
-                    </>
-                  }
-                />{' '}
-                <AssetRenderer asset={sourceToken.asset} />
-              </div>
-            </div>
-          </FormGroup>
-
-          <TxFeeCalculator
+          {/* <TxFeeCalculator
             args={args}
             methodName="closeWithSwap"
             contractName="sovrynProtocol"
@@ -286,11 +186,11 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
             onClose={() => setOpenSlippage(false)}
             amount={toWei(totalAmount)}
             value={slippage}
-            asset={assetByTokenAddress(props.item.collateralToken)}
+            asset={assetByTokenAddress(item.collateralToken)}
             onChange={value => setSlippage(value)}
-          />
+          /> */}
 
-          {(closeTradesLocked || test.diff > 5) && (
+          {closeTradesLocked && (
             <ErrorBadge
               content={
                 closeTradesLocked ? (
@@ -307,35 +207,20 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
                       </a>,
                     ]}
                   />
-                ) : test.diff > 5 ? (
-                  <>
-                    <p className="tw-mb-1">
-                      {t(
-                        translations.closeTradingPositionHandler.liquidity
-                          .line_1,
-                      )}
-                    </p>
-                    <p className="tw-mb-0">
-                      {t(
-                        translations.closeTradingPositionHandler.liquidity
-                          .line_2,
-                      )}
-                    </p>
-                  </>
                 ) : undefined
               }
             />
           )}
-          <DialogButton
+          {/* <DialogButton
             confirmLabel={t(translations.common.confirm)}
             onConfirm={() => handleConfirmSwap()}
             disabled={rest.loading || !valid || closeTradesLocked}
             cancelLabel={t(translations.common.cancel)}
-            onCancel={props.onCloseModal}
-          />
+            onCancel={onCloseModal}
+          /> */}
         </div>
       </Dialog>
-      <TxDialog tx={rest} onUserConfirmed={() => props.onCloseModal()} />
+      {/* <TxDialog tx={rest} onUserConfirmed={() => onCloseModal()} /> */}
     </>
   );
 }

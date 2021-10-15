@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { numberToPercent, toNumberFormat } from 'utils/display-text/format';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { OpenPositionEntry } from '../../hooks/usePerpetual_OpenPositions';
@@ -8,6 +8,10 @@ import {
 } from '../../../../../utils/dictionaries/perpatual-pair-dictionary';
 import classNames from 'classnames';
 import { AssetValue } from '../../../../components/AssetValue';
+import { ActionButton } from 'app/components/Form/ActionButton';
+import { ClosePositionDialog } from '../ClosePositionDialog';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 
 interface IOpenPositionRowProps {
   item: OpenPositionEntry;
@@ -15,6 +19,8 @@ interface IOpenPositionRowProps {
 
 export function OpenPositionRow({ item }: IOpenPositionRowProps) {
   const { checkMaintenances, States } = useMaintenance();
+  const [showClosePosition, setShowClosePosition] = useState(false);
+  const { t } = useTranslation();
   const {
     [States.CLOSE_MARGIN_TRADES]: closeTradesLocked,
     [States.ADD_TO_MARGIN_TRADES]: addToMarginLocked,
@@ -107,8 +113,29 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
       </td>
       <td>
         <div className="tw-flex tw-items-center tw-justify-end xl:tw-justify-around 2xl:tw-justify-start">
-          {/* TODO: implement OpenPosition Actions */}
+          <ActionButton
+            text={t(translations.perpetualPage.openPositionsTable.close)}
+            onClick={() => setShowClosePosition(true)}
+            className={`tw-border-none tw-ml-0 tw-pl-0 ${
+              closeTradesLocked && 'tw-cursor-not-allowed'
+            }`}
+            textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
+            disabled={closeTradesLocked}
+            title={
+              (closeTradesLocked &&
+                t(translations.maintenance.closeMarginTrades).replace(
+                  /<\/?\d+>/g,
+                  '',
+                )) ||
+              undefined
+            }
+          />
         </div>
+        <ClosePositionDialog
+          item={item}
+          onCloseModal={() => setShowClosePosition(false)}
+          showModal={showClosePosition}
+        />
       </td>
     </tr>
   );

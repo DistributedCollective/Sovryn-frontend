@@ -1590,7 +1590,15 @@
       "margin": "Margin",
       "unrealized": "Unrealized P&L (ROE %)",
       "realized": "Realized P&L",
-      "actions": "Actions"
+      "actions": "Actions",
+      "close": "Close"
+    },
+    "closePositionDialog": {
+      "positionSize": "Position Size",
+      "marginSize": "Margin Size",
+      "netPL": "Net Unrealized P/L",
+      "closeAmount": "Close Amount",
+      "totalReceive": "Total to Receive"
     },
     "notificationSettingsDialog": {
       "title": "Margin Trade notification settings",
