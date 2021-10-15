@@ -17,8 +17,7 @@ type Props = {
 
 export function Stepper({ steps, step, onClick }: Props) {
   const { checkMaintenances, States } = useMaintenance();
-  //const { [States.BRIDGE]: bridgeLocked } = checkMaintenances();
-  const bridgeLocked = false;
+  const { [States.BRIDGE]: bridgeLocked } = checkMaintenances();
   const activeIndex = steps.findIndex(item => item.value === step);
   return (
     <div>

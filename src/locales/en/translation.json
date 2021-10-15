@@ -50,6 +50,16 @@
 
     "bridge": "Sorry, cross-chain transfers are currently under maintenance, please check our discord (link in footer) for updates.",
     "bridgeSteps": "Sorry, cross-chain transfers are currently under maintenance, please check our <0>discord</0> for updates.",
+    "ethBridge": "Sorry, Ethereum network cross-chain transfers are currently under maintenance, please check our <0>discord</0> for updates.",
+    "bscBridge": "Sorry, BSC network cross-chain transfers are currently under maintenance, please check our <0>discord</0> for updates.",
+    "bridgeSovDeposit": "Sorry, SOV cross-chain deposits are currently under maintenance, please check our discord (link in footer) for updates.",
+    "bridgeSovWithdraw": "Sorry, SOV cross-chain withdrawals are currently under maintenance, please check our discord (link in footer) for updates.",
+    "bridgeEthDeposit": "Sorry, ETH cross-chain deposits are currently under maintenance, please check our discord (link in footer) for updates.",
+    "bridgeEthWithdraw": "Sorry, ETH cross-chain withdrawals are currently under maintenance, please check our discord (link in footer) for updates.",
+    "bridgeBnbDeposit": "Sorry, BNB cross-chain deposits are currently under maintenance, please check our discord (link in footer) for updates.",
+    "bridgeBnbWithdraw": "Sorry, BNB cross-chain withdrawals are currently under maintenance, please check our discord (link in footer) for updates.",
+    "bridgeXusdDeposit": "Sorry, XUSD cross-chain deposits are currently under maintenance, please check our discord (link in footer) for updates.",
+    "bridgeXusdWithdraw": "Sorry, XUSD cross-chain withdrawals are currently under maintenance, please check our discord (link in footer) for updates.",
 
     "staking": "Sorry, adding to stakes is currently under maintenance, please check our discord (link in footer) for updates.",
     "stakingModal": "Sorry, adding to stakes is currently under maintenance, please check our <0>discord</0> for updates.",
