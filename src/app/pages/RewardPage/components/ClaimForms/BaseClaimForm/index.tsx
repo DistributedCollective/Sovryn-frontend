@@ -9,7 +9,7 @@ import { ResetTxResponseInterface } from 'app/hooks/useSendContractTx';
 import classNames from 'classnames';
 import { translations } from 'locales/i18n';
 import { bignumber } from 'mathjs';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { TxStatus } from 'store/global/transactions-store/types';
 import { Asset } from 'types';
@@ -37,6 +37,16 @@ export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
   const rewardsLocked = checkMaintenance(States.CLAIM_REWARDS);
+
+  const isDisabled = useMemo(
+    () =>
+      parseFloat(amountToClaim) === 0 ||
+      !amountToClaim ||
+      rewardsLocked ||
+      tx.status === TxStatus.PENDING ||
+      tx.status === TxStatus.PENDING_FOR_USER,
+    [amountToClaim, rewardsLocked, tx.status],
+  );
 
   return (
     <div
@@ -89,13 +99,7 @@ export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
           )}
           {!rewardsLocked && (
             <Button
-              disabled={
-                parseFloat(amountToClaim) === 0 ||
-                !amountToClaim ||
-                rewardsLocked ||
-                tx.status === TxStatus.PENDING ||
-                tx.status === TxStatus.PENDING_FOR_USER
-              }
+              disabled={isDisabled}
               onClick={onSubmit}
               className="tw-w-full tw-mb-4"
               text={t(translations.rewardPage.claimForm.cta)}
