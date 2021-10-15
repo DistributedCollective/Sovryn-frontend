@@ -21,14 +21,46 @@ import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
 
 export function ReviewStep() {
-  const { amount, chain, targetChain, sourceAsset, tx } = useSelector(
-    selectBridgeDepositPage,
-  );
+  const {
+    amount,
+    chain,
+    targetChain,
+    sourceAsset,
+    targetAsset,
+    tx,
+  } = useSelector(selectBridgeDepositPage);
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const trans = translations.BridgeDepositPage.reviewStep;
   const { checkMaintenances, States } = useMaintenance();
-  const { [States.BRIDGE]: bridgeLocked } = checkMaintenances();
+  const {
+    [States.BRIDGE]: bridgeLocked,
+    [States.BRIDGE_SOV_DEPOSIT]: sovDepositLocked,
+    [States.BRIDGE_XUSD_DEPOSIT]: xusdDepositLocked,
+    [States.BRIDGE_ETH_DEPOSIT]: ethDepositLocked,
+    [States.BRIDGE_BNB_DEPOSIT]: bnbDepositLocked,
+  } = checkMaintenances();
+
+  const assetDepositLocked = useMemo(() => {
+    switch (targetAsset) {
+      case CrossBridgeAsset.SOV:
+        return sovDepositLocked;
+      case CrossBridgeAsset.XUSD:
+        return xusdDepositLocked;
+      case CrossBridgeAsset.ETH:
+        return ethDepositLocked;
+      case CrossBridgeAsset.BNB:
+        return bnbDepositLocked;
+      default:
+        return false;
+    }
+  }, [
+    targetAsset,
+    sovDepositLocked,
+    xusdDepositLocked,
+    ethDepositLocked,
+    bnbDepositLocked,
+  ]);
 
   const handleSubmit = useCallback(() => {
     dispatch(actions.submitForm());
@@ -125,11 +157,13 @@ export function ReviewStep() {
         <Button
           className="tw-mt-20 tw-w-80"
           text={t(trans.confirmDeposit)}
-          disabled={bridgeLocked || !isValid || tx.loading}
+          disabled={
+            bridgeLocked || assetDepositLocked || !isValid || tx.loading
+          }
           loading={tx.loading}
           onClick={handleSubmit}
         />
-        {bridgeLocked && (
+        {(bridgeLocked || assetDepositLocked) && (
           <ErrorBadge
             content={
               <Trans

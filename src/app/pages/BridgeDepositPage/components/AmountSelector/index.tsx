@@ -21,6 +21,7 @@ import { useTranslation, Trans } from 'react-i18next';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
+import { CrossBridgeAsset } from '../../types/cross-bridge-asset';
 
 export function AmountSelector() {
   const { amount, chain, targetChain, sourceAsset, targetAsset } = useSelector(
@@ -29,7 +30,34 @@ export function AmountSelector() {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { checkMaintenances, States } = useMaintenance();
-  const { [States.BRIDGE]: bridgeLocked } = checkMaintenances();
+  const {
+    [States.BRIDGE]: bridgeLocked,
+    [States.BRIDGE_SOV_DEPOSIT]: sovDepositLocked,
+    [States.BRIDGE_XUSD_DEPOSIT]: xusdDepositLocked,
+    [States.BRIDGE_ETH_DEPOSIT]: ethDepositLocked,
+    [States.BRIDGE_BNB_DEPOSIT]: bnbDepositLocked,
+  } = checkMaintenances();
+
+  const assetDepositLocked = useMemo(() => {
+    switch (targetAsset) {
+      case CrossBridgeAsset.SOV:
+        return sovDepositLocked;
+      case CrossBridgeAsset.XUSD:
+        return xusdDepositLocked;
+      case CrossBridgeAsset.ETH:
+        return ethDepositLocked;
+      case CrossBridgeAsset.BNB:
+        return bnbDepositLocked;
+      default:
+        return false;
+    }
+  }, [
+    targetAsset,
+    sovDepositLocked,
+    xusdDepositLocked,
+    ethDepositLocked,
+    bnbDepositLocked,
+  ]);
 
   const asset = useMemo(
     () =>
@@ -210,10 +238,10 @@ export function AmountSelector() {
         <ActionButton
           className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
           text={t(translations.common.next)}
-          disabled={bridgeLocked || !isValid}
+          disabled={bridgeLocked || assetDepositLocked || !isValid}
           onClick={selectAmount}
         />
-        {bridgeLocked && (
+        {(bridgeLocked || assetDepositLocked) && (
           <ErrorBadge
             content={
               <Trans

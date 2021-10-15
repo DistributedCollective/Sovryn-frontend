@@ -26,7 +26,34 @@ export function TokenSelector() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { checkMaintenances, States } = useMaintenance();
-  const { [States.BRIDGE]: bridgeLocked } = checkMaintenances();
+  const {
+    [States.BRIDGE]: bridgeLocked,
+    [States.BRIDGE_SOV_DEPOSIT]: sovDepositLocked,
+    [States.BRIDGE_XUSD_DEPOSIT]: xusdDepositLocked,
+    [States.BRIDGE_ETH_DEPOSIT]: ethDepositLocked,
+    [States.BRIDGE_BNB_DEPOSIT]: bnbDepositLocked,
+  } = checkMaintenances();
+
+  const assetDepositLocked = useMemo(() => {
+    switch (targetAsset) {
+      case CrossBridgeAsset.SOV:
+        return sovDepositLocked;
+      case CrossBridgeAsset.XUSD:
+        return xusdDepositLocked;
+      case CrossBridgeAsset.ETH:
+        return ethDepositLocked;
+      case CrossBridgeAsset.BNB:
+        return bnbDepositLocked;
+      default:
+        return false;
+    }
+  }, [
+    targetAsset,
+    sovDepositLocked,
+    xusdDepositLocked,
+    ethDepositLocked,
+    bnbDepositLocked,
+  ]);
 
   useEffect(() => {
     if (chain === null) {
@@ -107,7 +134,7 @@ export function TokenSelector() {
                 image={item.image}
                 symbol={item.symbol}
                 onClick={() => selectSourceAsset(item.asset)}
-                disabled={bridgeLocked}
+                disabled={bridgeLocked || assetDepositLocked}
               />
             );
           })}
@@ -120,7 +147,7 @@ export function TokenSelector() {
           })}
         </p>
       )}
-      {bridgeLocked && (
+      {(bridgeLocked || assetDepositLocked) && (
         <ErrorBadge
           content={
             <Trans
