@@ -65,7 +65,12 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
 
       <div className="tw-mb-6">
         <div className="tw-flex tw-items-center tw-mb-1.5">
-          <div className={`tw-w-3 tw-h-3 tw-mr-4 ${getDetailColor(color)}`} />
+          <div
+            className={classNames(
+              'tw-w-3 tw-h-3 tw-mr-4',
+              getDetailColor(color),
+            )}
+          />
           <div className="tw-text-xs">
             {t(translations.rewardPage.availableRewards)}
           </div>
@@ -74,8 +79,8 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
           {bignumber(availableAmount).greaterThan(0) ? (
             <Tooltip content={`${weiTo18(availableAmount)} ${asset}`}>
               <>
-                {weiToNumberFormat(availableAmount, 6)}{' '}
-                <span className="tw--ml-1 tw-mr-1">...</span> {asset}
+                {weiToNumberFormat(availableAmount, 6)}
+                <span className="tw-mr-1">...</span> {asset}
               </>
             </Tooltip>
           ) : (
@@ -83,15 +88,15 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
           )}
         </div>
       </div>
-      <div className={styles['secondary-section']}>
+      <div className="tw-ml-7 tw-text-gray-7">
         <div className={styles['secondary-title']}>
           {t(translations.rewardPage.totalRewards)}
         </div>
         {bignumber(totalEarnedAmount).greaterThan(0) ? (
           <Tooltip content={`${weiTo18(totalEarnedAmount)} ${asset}`}>
             <>
-              {weiToNumberFormat(totalEarnedAmount, 6)}{' '}
-              <span className="tw--ml-1 tw-mr-1">...</span> {asset}
+              {weiToNumberFormat(totalEarnedAmount, 6)}
+              <span className="tw-mr-1">...</span> {asset}
             </>
           </Tooltip>
         ) : (

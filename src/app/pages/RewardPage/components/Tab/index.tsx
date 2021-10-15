@@ -40,7 +40,7 @@ export const Tab: React.FC<ITabProps> = ({
         <Tooltip content={`${weiToNumberFormat(amountToClaim, 18)} ${asset}`}>
           <>
             {weiToNumberFormat(amountToClaim, 6)}
-            <span className="tw--ml-0.5 tw-mr-2">...</span>
+            <span className="tw-mr-2">...</span>
             <AssetRenderer asset={asset} assetClassName="tw-font-semibold" />
           </>
         </Tooltip>

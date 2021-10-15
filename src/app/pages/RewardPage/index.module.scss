@@ -13,24 +13,16 @@
 }
 
 .divider {
-  @apply tw-w-0 tw-border;
+  @apply tw-w-0 tw-border tw-border-sov-white;
   height: 9.375rem;
-  border-color: #e9eae9;
 }
 
 .ul {
-  position: relative;
+  @apply tw-relative;
 
   &:before {
+    @apply tw-absolute tw-inline-block tw--left-4 tw-w-1.5 tw-h-1.5 tw-mr-2 tw-bg-sov-white tw-rounded-full;
     content: '';
-    display: inline-block;
-    position: absolute;
-    left: -1rem;
     top: 0.45rem;
-    width: 6px;
-    height: 6px;
-    margin-right: 0.5rem;
-    border-radius: 50%;
-    background-color: #e9eae9;
   }
 }

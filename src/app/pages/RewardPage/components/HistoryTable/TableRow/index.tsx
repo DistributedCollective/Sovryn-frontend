@@ -34,8 +34,8 @@ export const TableRow: React.FC<ITableRowProps> = ({
       <td>
         <Tooltip content={`${weiTo18(amount)} ${asset}`}>
           <>
-            {weiToFixed(amount, 8)}{' '}
-            <span className="tw--ml-0.5 tw-mr-1">...</span>{' '}
+            {weiToFixed(amount, 8)}
+            <span className="tw-mr-1">...</span>{' '}
             <AssetSymbolRenderer asset={asset} />
           </>
         </Tooltip>

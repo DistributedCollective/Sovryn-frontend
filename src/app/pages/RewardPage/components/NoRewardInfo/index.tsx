@@ -3,7 +3,7 @@ import styles from './index.module.scss';
 
 interface INoRewardInfoProps {
   image: string;
-  text: JSX.Element;
+  text: React.ReactNode;
 }
 
 export const NoRewardInfo: React.FC<INoRewardInfoProps> = ({ image, text }) => {

@@ -7,7 +7,7 @@
   border-top-right-radius: 10px;
 
   &:hover {
-    color: var(--white);
+    @apply tw-text-white;
   }
 
   &:disabled {
@@ -19,6 +19,6 @@
 .tab-button--active {
   background-color: #222222;
   &:hover {
-    color: var(--white);
+    @apply tw-text-white;
   }
 }

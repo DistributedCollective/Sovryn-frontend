@@ -1,6 +1,4 @@
 import { useMemo } from 'react';
-// import { bignumber } from 'mathjs';
-// import { weiTo18 } from 'utils/blockchain/math-helpers';
 import { useGetAvailableLendingRewards } from '../components/RewardTab/hooks/useGetAvailableLendingRewards';
 import { useGetAvailableLiquidityRewards } from '../components/RewardTab/hooks/useGetAvailableLiquidityRewards';
 import { useGetAvailableTradingRewards } from '../components/RewardTab/hooks/useGetAvailableTradingRewards';
