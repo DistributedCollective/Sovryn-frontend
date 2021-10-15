@@ -12,11 +12,11 @@ import {
 } from '../../hooks/usePerpetual_AmmDepthChart';
 import { Tooltip } from '@blueprintjs/core';
 
-type IAmmDepthChartProps = {
+type AmmDepthChartProps = {
   pair: PerpetualPair;
 };
 
-export const AmmDepthChart: React.FC<IAmmDepthChartProps> = ({ pair }) => {
+export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
   const { t } = useTranslation();
   const data = usePerpetual_AmmDepthChart(pair);
   const { maxTotal, trendImage, trendText, trendClass } = useMemo(() => {
@@ -164,14 +164,14 @@ export const AmmDepthChart: React.FC<IAmmDepthChartProps> = ({ pair }) => {
   );
 };
 
-type IAmmDepthChartRowProps = {
+type AmmDepthChartRowProps = {
   type: 'long' | 'short';
   row: AmmDepthChartDataEntry;
   isOddRow: boolean;
   maxTotal: number;
 };
 
-const AmmDepthChartRow: React.FC<IAmmDepthChartRowProps> = ({
+const AmmDepthChartRow: React.FC<AmmDepthChartRowProps> = ({
   type,
   row,
   maxTotal,

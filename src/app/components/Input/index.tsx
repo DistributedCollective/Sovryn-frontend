@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import React, { useCallback, useRef } from 'react';
 import styles from './index.module.scss';
 
-type IInputProps = {
+type InputProps = {
   value?: HTMLInputProps['value'];
   type: HTMLInputProps['type'];
   placeholder?: HTMLInputProps['placeholder'];
@@ -17,7 +17,7 @@ type IInputProps = {
   onChange: (value: HTMLInputElement['value']) => void;
 };
 
-export const Input: React.FC<IInputProps> = ({
+export const Input: React.FC<InputProps> = ({
   className,
   type,
   step,

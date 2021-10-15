@@ -13,11 +13,11 @@ import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
 import { PerpetualPageModals } from '../../types';
 
-type IAdvancedSettingDialogProps = {
+type AdvancedSettingDialogProps = {
   isOpen?: boolean;
 };
 
-export const AdvancedSettingDialog: React.FC<IAdvancedSettingDialogProps> = ({
+export const AdvancedSettingDialog: React.FC<AdvancedSettingDialogProps> = ({
   isOpen,
 }) => {
   const { t } = useTranslation();

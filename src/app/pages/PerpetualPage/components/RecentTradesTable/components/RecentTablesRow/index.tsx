@@ -3,12 +3,12 @@ import React, { useMemo } from 'react';
 import { RecentTradesDataEntry, TradeType } from '../../types';
 import { getPriceChangeImage, getPriceColor } from './utils';
 
-type IRecentTradesTableRowProps = {
+type RecentTradesTableRowProps = {
   row: RecentTradesDataEntry;
   isOddRow: boolean;
 };
 
-export const RecentTradesTableRow: React.FC<IRecentTradesTableRowProps> = ({
+export const RecentTradesTableRow: React.FC<RecentTradesTableRowProps> = ({
   row,
   isOddRow,
 }) => {

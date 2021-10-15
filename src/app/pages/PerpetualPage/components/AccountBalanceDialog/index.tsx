@@ -12,11 +12,11 @@ import { actions } from '../../slice';
 import { PerpetualPageModals } from '../../types';
 import { BarCompositionChart } from '../BarCompositionChart';
 
-type IAccountBalanceDialogProps = {
+type AccountBalanceDialogProps = {
   pairType: PerpetualPairType;
 };
 
-export const AccountBalanceDialog: React.FC<IAccountBalanceDialogProps> = ({
+export const AccountBalanceDialog: React.FC<AccountBalanceDialogProps> = ({
   pairType,
 }) => {
   const { t } = useTranslation();

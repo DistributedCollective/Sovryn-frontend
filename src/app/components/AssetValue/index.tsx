@@ -5,7 +5,7 @@ import { numberFromWei } from '../../../utils/blockchain/math-helpers';
 import { AssetSymbolRenderer } from '../AssetSymbolRenderer';
 import { AssetDecimals, AssetValueMode } from './types';
 
-type IAssetValueProps = {
+type AssetValueProps = {
   value: number | string;
   asset?: Asset;
   useTooltip?: boolean;
@@ -16,7 +16,7 @@ type IAssetValueProps = {
   isApproximation?: boolean;
 };
 
-export const AssetValue: React.FC<IAssetValueProps> = ({
+export const AssetValue: React.FC<AssetValueProps> = ({
   value,
   asset,
   mode = AssetValueMode.defined,

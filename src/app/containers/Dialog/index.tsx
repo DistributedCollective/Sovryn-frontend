@@ -10,7 +10,7 @@ export enum DialogSize {
   lg = 'lg',
 }
 
-type IDialogProps = {
+type DialogProps = {
   isOpen: boolean;
   onClose: () => void;
   isCloseButtonShown?: boolean;
@@ -21,7 +21,7 @@ type IDialogProps = {
   size?: DialogSize;
 };
 
-export const Dialog: React.FC<IDialogProps> = ({
+export const Dialog: React.FC<DialogProps> = ({
   isOpen,
   onClose,
   isCloseButtonShown,

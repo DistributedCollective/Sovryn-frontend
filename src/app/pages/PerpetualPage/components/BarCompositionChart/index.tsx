@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
 
-type IBarCompositionChartEntry = {
+type BarCompositionChartEntry = {
   key: string;
   label?: React.ReactNode;
   value: number;
@@ -11,14 +11,14 @@ type IBarCompositionChartEntry = {
   colorClassName?: string;
 };
 
-type IBarCompositionChartProps = {
+type BarCompositionChartProps = {
   className?: string;
   totalLabel?: React.ReactNode;
   totalValueLabel?: React.ReactNode;
-  entries: IBarCompositionChartEntry[];
+  entries: BarCompositionChartEntry[];
 };
 
-export const BarCompositionChart: React.FC<IBarCompositionChartProps> = ({
+export const BarCompositionChart: React.FC<BarCompositionChartProps> = ({
   className,
   totalLabel,
   totalValueLabel,
@@ -51,9 +51,9 @@ export const BarCompositionChart: React.FC<IBarCompositionChartProps> = ({
   );
 };
 
-type IBarSegmentProps = IBarCompositionChartEntry & { total: number };
+type BarSegmentProps = BarCompositionChartEntry & { total: number };
 
-const BarSegment: React.FC<IBarSegmentProps> = ({
+const BarSegment: React.FC<BarSegmentProps> = ({
   value,
   barClassName,
   color,
@@ -80,7 +80,7 @@ const BarSegment: React.FC<IBarSegmentProps> = ({
   );
 };
 
-const BarLabel: React.FC<IBarCompositionChartEntry> = ({
+const BarLabel: React.FC<BarCompositionChartEntry> = ({
   label,
   value,
   valueLabel,
