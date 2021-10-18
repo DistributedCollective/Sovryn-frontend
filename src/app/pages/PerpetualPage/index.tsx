@@ -32,7 +32,7 @@ import { ProviderType } from '@sovryn/wallet';
 import styles from './index.module.scss';
 import { AccountBalanceCard } from './components/AccountBalanceCard';
 import { usePerpetual_accountBalance } from './hooks/usePerpetual_accountBalance';
-import { AccountBalanceDialog } from './components/AccountBalanceDialog';
+import { AccountDialog } from './components/AccountDialog';
 
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -221,7 +221,7 @@ export function PerpetualPage() {
         isOpen={showNotificationSettingsModal}
         onClose={() => setShowNotificationSettingsModal(false)}
       />
-      <AccountBalanceDialog pairType={pairType} />
+      <AccountDialog pairType={pairType} />
     </>
   );
 }

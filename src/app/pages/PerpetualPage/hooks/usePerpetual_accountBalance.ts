@@ -28,11 +28,12 @@ export const usePerpetual_accountBalance = (pairType: PerpetualPairType) => {
   // TODO: implement perpetual account Data fetching
 
   useEffect(() => {
+    const unrealized = blockId % 2 === 0 ? 37.7331 : -37.7331;
     setData({
-      total: toWei(1337.7331),
+      total: toWei(1300 + unrealized),
       available: toWei(500),
       inPositions: toWei(700),
-      unrealized: toWei(37.7331),
+      unrealized: toWei(unrealized),
     });
   }, [blockId]);
 

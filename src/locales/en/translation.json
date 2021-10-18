@@ -1503,7 +1503,8 @@
       "description": "Trade with perpetuals"
     },
     "accountBalance": {
-      "title": "Sovryn Labs Perpetual Account",
+      "titleBalance": "Perpetual Account",
+      "titleHistory": "Funding History",
       "total": "Total Balance:",
       "pending": "Pending transfer…",
       "available": "Available Balance",
