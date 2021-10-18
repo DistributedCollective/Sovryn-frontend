@@ -3,7 +3,6 @@ import { bignumber } from 'mathjs';
 import dayjs from 'dayjs';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import logoSvg from 'assets/images/tokens/sov.svg';
 import { translations } from 'locales/i18n';
@@ -17,18 +16,17 @@ import { ethGenesisAddress } from 'utils/classifiers';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { weiToNumberFormat, weiToUSD } from 'utils/display-text/format';
 import { contractReader } from 'utils/sovryn/contract-reader';
-
-import { Asset } from '../../../../types';
-import { AddressBadge } from '../../../components/AddressBadge';
-import { LoadableValue } from '../../../components/LoadableValue';
-import { Modal } from '../../../components/Modal';
-import { useStaking_balanceOf } from '../../../hooks/staking/useStaking_balanceOf';
-import { useStaking_getAccumulatedFees } from '../../../hooks/staking/useStaking_getAccumulatedFees';
-import { useStaking_getStakes } from '../../../hooks/staking/useStaking_getStakes';
-import { useCachedAssetPrice } from '../../../hooks/trading/useCachedAssetPrice';
-import { useAccount } from '../../../hooks/useAccount';
+import { Asset } from 'types';
+import { AddressBadge } from 'app/components/AddressBadge';
+import { LoadableValue } from 'app/components/LoadableValue';
+import { Modal } from 'app/components/Modal';
+import { useStaking_balanceOf } from 'app/hooks/staking/useStaking_balanceOf';
+import { useStaking_getAccumulatedFees } from 'app/hooks/staking/useStaking_getAccumulatedFees';
+import { useStaking_getStakes } from 'app/hooks/staking/useStaking_getStakes';
+import { useCachedAssetPrice } from 'app/hooks/trading/useCachedAssetPrice';
+import { useAccount } from 'app/hooks/useAccount';
 import { WithdrawVesting } from './WithdrawVesting';
-import { VestGroup } from './CurrentVests';
+import { VestGroup } from 'app/components/UserAssets/Vesting/types';
 
 interface Props {
   vestingAddress: string;

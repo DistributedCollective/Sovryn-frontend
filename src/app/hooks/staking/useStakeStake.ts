@@ -1,7 +1,7 @@
 import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
 import { TxType } from '../../../store/global/transactions-store/types';
-import { ethGenesisAddress } from '../../../utils/classifiers';
+import { ethGenesisAddress, gasLimit } from 'utils/classifiers';
 
 export function useStakeStake() {
   const account = useAccount();
@@ -10,7 +10,7 @@ export function useStakeStake() {
     stake: (weiAmount: string, timestamp: number, nonce: number) => {
       send(
         [weiAmount, timestamp, account, ethGenesisAddress],
-        { from: account, nonce: nonce, gas: 450000 },
+        { from: account, nonce: nonce, gas: gasLimit[TxType.STAKING_STAKE] },
         {
           type: TxType.STAKING_STAKE,
         },
