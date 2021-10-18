@@ -65,20 +65,20 @@ export const RewardTab: React.FC<IRewardTabProps> = ({
             <div className="tw-w-1/2">
               <div className="tw-flex tw-items-center tw-justify-evenly">
                 <PieChart
-                  firstPercentage={lendingPercentage}
-                  secondPercentage={tradingPercentage}
+                  firstPercentage={tradingPercentage}
+                  secondPercentage={lendingPercentage}
                   thirdPercentage={liquidityPercentage}
                 />
                 <div>
                   <div className="tw-text-xs mb-2 tw-flex tw-items-center tw-mb-5">
                     <div className="tw-w-3 tw-h-3 tw-mr-4 tw-bg-white"></div>
-                    {lendingPercentage.toFixed(4)} % -{' '}
-                    {t(translations.rewardPage.lendingRewards)}
+                    {tradingPercentage.toFixed(4)} % -{' '}
+                    {t(translations.rewardPage.tradingRewards)}
                   </div>
                   <div className="tw-text-xs mb-2 tw-flex tw-items-center tw-mb-5">
                     <div className="tw-w-3 tw-h-3 tw-mr-4 tw-bg-green-2"></div>
-                    {tradingPercentage.toFixed(4)} % -{' '}
-                    {t(translations.rewardPage.tradingRewards)}
+                    {lendingPercentage.toFixed(4)} % -{' '}
+                    {t(translations.rewardPage.lendingRewards)}
                   </div>
                   <div className="tw-text-xs mb-2 tw-flex tw-items-center">
                     <div className="tw-w-3 tw-h-3 tw-mr-4 tw-bg-primary"></div>
