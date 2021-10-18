@@ -31,16 +31,12 @@ export const TransitionSteps = <I extends string | number>({
   const [active, setActive] = useState(defaultActive);
   const [animation, setAnimation] = useState(defaultAnimation);
 
-  const changeTo = useCallback<TransitionStepProps<any>['changeTo']>(
-    (id, animation) => {
+  const changeTo = useCallback<TransitionStepProps<I>['changeTo']>(
+    (id, animation = defaultAnimation) => {
       if (!steps[id]) {
-        console.error(
-          `Could not switch to TransitionStep. "${id}" does not exist!`,
-        );
         return;
       }
-      setAnimation(animation || defaultAnimation);
-
+      setAnimation(animation);
       setTimeout(() => setActive(id), 0);
     },
     [steps, defaultAnimation],

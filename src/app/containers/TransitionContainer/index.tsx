@@ -44,7 +44,7 @@ const AnimationConfig: {} = {
   },
 };
 
-type ITransitionContainerProps = {
+type TransitionContainerProps = {
   active: number | string;
   children: React.ReactNode;
   animateHeight?: boolean;
@@ -53,7 +53,7 @@ type ITransitionContainerProps = {
   onAnimationComplete?: () => void;
 };
 
-export const TransitionContainer: React.FC<ITransitionContainerProps> = ({
+export const TransitionContainer: React.FC<TransitionContainerProps> = ({
   active,
   children,
   animateHeight = true,

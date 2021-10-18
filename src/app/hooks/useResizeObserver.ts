@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
+import { Nullable } from '../../types';
 
 export const useResizeObserver = <E extends HTMLElement>() => {
   const [element, setElement] = useState<E>();
-  const [dimensions, setDimensions] = useState<DOMRectReadOnly | null>(null);
+  const [dimensions, setDimensions] = useState<Nullable<DOMRectReadOnly>>(null);
   const ref = useCallback(ref => setElement(ref), [setElement]);
 
   useEffect(() => {
@@ -19,7 +20,6 @@ export const useResizeObserver = <E extends HTMLElement>() => {
     } else {
       const updateLocation = () => {
         const rect = element.getBoundingClientRect();
-        console.log('interval', rect);
         setDimensions(previous => {
           if (
             !previous ||
