@@ -21,12 +21,26 @@ export function ChainSelector() {
   const { checkMaintenances, States } = useMaintenance();
   const {
     [States.BRIDGE]: bridgeLocked,
+    [States.ETH_BRIDGE]: ethBridgeLocked,
+    [States.BSC_BRIDGE]: bscBridgeLocked,
     [States.BRIDGE_SOV_DEPOSIT]: sovDepositLocked,
     [States.BRIDGE_XUSD_DEPOSIT]: xusdDepositLocked,
     [States.BRIDGE_ETH_DEPOSIT]: ethDepositLocked,
     [States.BRIDGE_BNB_DEPOSIT]: bnbDepositLocked,
   } = checkMaintenances();
 
+  const lockedChains = useMemo(
+    () => ({
+      [Chain.ETH]: ethBridgeLocked,
+      [Chain.BSC]: bscBridgeLocked,
+    }),
+    [ethBridgeLocked, bscBridgeLocked],
+  );
+
+  const isChainLocked = useMemo(
+    () => Object.values(lockedChains).some(val => val === true),
+    [lockedChains],
+  );
   const { targetAsset } = useSelector(selectBridgeDepositPage);
 
   const selectNetwork = useCallback(
@@ -80,7 +94,9 @@ export function ChainSelector() {
           <SelectBox
             key={item.chain}
             onClick={() => selectNetwork(item.chain)}
-            disabled={bridgeLocked || assetDepositLocked}
+            disabled={
+              bridgeLocked || assetDepositLocked || lockedChains[item.chain]
+            }
           >
             <img className="tw-mb-5 tw-mt-2" src={item.logo} alt={item.chain} />
             <div>
@@ -90,7 +106,7 @@ export function ChainSelector() {
           </SelectBox>
         ))}
       </div>
-      {(bridgeLocked || assetDepositLocked) && (
+      {(bridgeLocked || assetDepositLocked || isChainLocked) && (
         <ErrorBadge
           content={
             <Trans
