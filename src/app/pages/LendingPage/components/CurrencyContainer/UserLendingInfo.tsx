@@ -23,6 +23,7 @@ import { translations } from 'locales/i18n';
 import { Asset } from 'types';
 import { getLendingContract } from 'utils/blockchain/contract-helpers';
 import { LendingPool } from 'utils/models/lending-pool';
+import { LendingPoolDictionary } from 'utils/dictionaries/lending-pool-dictionary';
 
 import { RowTable } from '../../../../components/FinanceV2Components/RowTable';
 import { TableBody } from '../../../../components/FinanceV2Components/RowTable/TableBody';
@@ -75,18 +76,31 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
     loading: tokenPriceLoading,
   } = useLending_tokenPrice(asset);
 
-  const balance = useMemo(() => {
-    return bignumber(balanceCall).minus(profitCall).toString();
-  }, [balanceCall, profitCall]);
+  const { useLM } = LendingPoolDictionary.get(asset);
 
-  const totalProfit = useMemo(() => {
-    return bignumber(tokenPrice)
-      .sub(checkpointPrice)
-      .mul(totalBalance)
-      .div(Math.pow(10, assetDecimals))
-      .add(profitCall)
-      .toFixed(0);
-  }, [profitCall, totalBalance, checkpointPrice, tokenPrice, assetDecimals]);
+  // this only gets used for LM enabled lending pools
+  const totalProfit = useMemo(
+    () =>
+      bignumber(tokenPrice)
+        .sub(checkpointPrice)
+        .mul(totalBalance)
+        .div(Math.pow(10, assetDecimals))
+        .add(profitCall)
+        .toFixed(0),
+    [profitCall, totalBalance, checkpointPrice, tokenPrice, assetDecimals],
+  );
+
+  // calculation for LM enabled lending pools uses totalProfit to get correct balance
+  const poolProfit = useMemo(() => (useLM ? totalProfit : profitCall), [
+    useLM,
+    totalProfit,
+    profitCall,
+  ]);
+
+  const balance = useMemo(
+    () => bignumber(balanceCall).minus(poolProfit).toString(),
+    [balanceCall, poolProfit],
+  );
 
   useEffect(() => {
     if (balance !== '0') {
@@ -154,12 +168,12 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
                 }
                 value={
                   <ProfitLossRenderer
-                    isProfit={bignumber(totalProfit).greaterThanOrEqualTo(0)}
-                    amount={weiToFixed(totalProfit, 8)}
+                    isProfit={bignumber(poolProfit).greaterThanOrEqualTo(0)}
+                    amount={weiToFixed(poolProfit, 8)}
                     asset={asset}
                   />
                 }
-                tooltip={<>{weiTo18(totalProfit)}</>}
+                tooltip={<>{weiTo18(poolProfit)}</>}
               />
             </TableBodyData>
             <TableBodyData>
