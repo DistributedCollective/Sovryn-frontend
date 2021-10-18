@@ -299,6 +299,10 @@ export const contracts = {
     address: '0x6B94DA2d05039173d017359553D685aCfBaa782f',
     abi: LockedSovAbi,
   },
+  feeSharingProxy_old: {
+    address: '0xedD92fb7C556E4A4faf8c4f5A90f471aDCD018f4',
+    abi: feeSharingProxyAbi,
+  },
   feeSharingProxy: {
     address: '0xedD92fb7C556E4A4faf8c4f5A90f471aDCD018f4',
     abi: feeSharingProxyAbi,
