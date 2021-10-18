@@ -223,7 +223,7 @@
   },
   "wallet": {
     "btn": "Connect Wallet",
-    "connect_btn": "Engage wallet",
+    "connect_btn": "Connect wallet",
     "disconnect": "Disconnect",
     "my_wallet": "My Wallet",
     "copy_address": "Copy Address",
@@ -304,7 +304,7 @@
       "title": "{{token}} Origins Pre-Sale",
       "engageWalletScreen": {
         "dialogTitle": "Welcome to the {{token}} Origins Pre-Sale",
-        "buttonText": "Engage Wallet",
+        "buttonText": "Connect Wallet",
         "dialogFooter1": "Engage a browser, mobile or hardware wallet connected to the <0>RSK Mainnet</0>",
         "dialogFooter2": "Don’t have a wallet? Sovryn recommends <0>Liquality wallet</0>"
       },
@@ -1813,10 +1813,10 @@
       "lastPrice": "Last Traded Price:"
     },
     "engage": {
-      "title": "Engage Wallet",
+      "title": "Connect Wallet",
       "line1": "Engage a browser, mobile or hardware wallet connected to the <0>RSK Mainnet</0>",
       "line2": "Don’t have a wallet? Sovryn recommends <0>Liquality Wallet</0>",
-      "cta": "Engage Wallet"
+      "cta": "Connect Wallet"
     },
     "topUp": {
       "title": "Top up <0>RBTC</0>",
