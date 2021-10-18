@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import type { Asset } from 'types/asset';
-import type { PerpetualPairType } from '../dictionaries/perpatual-pair-dictionary';
+import type { PerpetualPairType } from '../dictionaries/perpetual-pair-dictionary';
 import type { AssetDetails } from './asset-details';
 import { AssetsDictionary } from '../dictionaries/assets-dictionary';
 import { TradingPosition } from '../../types/trading-position';

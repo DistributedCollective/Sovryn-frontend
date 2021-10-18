@@ -1,6 +1,6 @@
 import { Asset } from 'types/asset';
 import { TradingPosition } from '../../../types/trading-position';
-import { PerpetualPairType } from '../../../utils/dictionaries/perpatual-pair-dictionary';
+import { PerpetualPairType } from '../../../utils/dictionaries/perpetual-pair-dictionary';
 
 export enum PerpetualTradeType {
   MARKET = 'MARKET',
@@ -9,6 +9,11 @@ export enum PerpetualTradeType {
 
 export enum PerpetualPageModals {
   NONE = 'NONE',
+  ACCOUNT_BALANCE = 'ACCOUNT_BALANCE',
+  ACCOUNT_HISTORY = 'ACCOUNT_HISTORY',
+  FASTBTC_DEPOSIT = 'FASTBTC_DEPOSIT',
+  FASTBTC_WITHDRAW = 'FASTBTC_WITHDRAW',
+  FASTBTC_TRANSFER = 'FASTBTC_TRANSFER',
   TRADE_SETTINGS = 'TRADE_SETTINGS',
 }
 

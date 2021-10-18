@@ -9,11 +9,11 @@ import {
   walletLanguageLocalStorageKey,
 } from '../../../locales/i18n';
 
-type ILanguageToggleProps = {
+type LanguageToggleProps = {
   innerClasses?: string;
 };
 
-export const LanguageToggle: React.FC<ILanguageToggleProps> = ({
+export const LanguageToggle: React.FC<LanguageToggleProps> = ({
   innerClasses = '',
 }) => {
   const [currentLang, setCurrentLang] = useState(

@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import React, { useCallback, useRef } from 'react';
 import styles from './index.module.scss';
 
-type IInputProps = Partial<
+type InputProps = Partial<
   Pick<
     HTMLInputProps,
     'value' | 'type' | 'placeholder' | 'min' | 'max' | 'step'
@@ -16,7 +16,7 @@ type IInputProps = Partial<
   onChange: (value: string) => void;
 };
 
-export const Input: React.FC<IInputProps> = ({
+export const Input: React.FC<InputProps> = ({
   className,
   type,
   step,

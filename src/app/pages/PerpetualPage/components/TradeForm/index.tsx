@@ -18,7 +18,7 @@ import { TradingPosition } from '../../../../../types/trading-position';
 import {
   PerpetualPairDictionary,
   PerpetualPairType,
-} from '../../../../../utils/dictionaries/perpatual-pair-dictionary';
+} from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { AvailableBalance } from '../../../../components/AvailableBalance';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
@@ -50,9 +50,11 @@ import { toWei } from 'web3-utils';
 
 interface ITradeFormProps {
   pairType: PerpetualPairType;
+  /** balance as wei string */
+  balance: string | null;
 }
 
-export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
+export const TradeForm: React.FC<ITradeFormProps> = ({ pairType, balance }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { connected, connect } = useWalletContext();
@@ -147,8 +149,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
       dispatch(actions.setCollateral(pair.collaterals[0]));
     }
   }, [pair.collaterals, collateral, dispatch]);
-
-  const { value: tokenBalance } = useAssetBalanceOf(collateral);
 
   const tradeButtonLabel = useMemo(() => {
     const i18nKey = {

@@ -1502,6 +1502,21 @@
       "title": "Perpetual Trading",
       "description": "Trade with perpetuals"
     },
+    "accountBalance": {
+      "title": "Sovryn Labs Perpetual Account",
+      "total": "Total Balance:",
+      "pending": "Pending transfer…",
+      "available": "Available Balance",
+      "inPositions": "In positions",
+      "unrealized": "Unrealized P&L",
+      "viewHistory": "View Transaction History",
+      "deposit": "Deposit",
+      "withdraw": "Withdraw",
+      "transfer": "Transfer",
+      "availableBalance": "Available Balance:",
+      "fundAccount": "Fund Account",
+      "viewAccount": "View Account"
+    },
     "ammDepth": {
       "price": "Price (<0/>)",
       "size": "Size (<0/>)",

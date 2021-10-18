@@ -10,11 +10,11 @@ import {
 } from '../../../../../utils/display-text/format';
 import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
 
-type IContractDetailsProps = {
+type ContractDetailsProps = {
   pair: PerpetualPair;
 };
 
-export const ContractDetails: React.FC<IContractDetailsProps> = ({ pair }) => {
+export const ContractDetails: React.FC<ContractDetailsProps> = ({ pair }) => {
   const { t } = useTranslation();
   const data = usePerpetual_ContractDetails(pair);
 
@@ -94,7 +94,7 @@ export const ContractDetails: React.FC<IContractDetailsProps> = ({ pair }) => {
   );
 };
 
-type IContractDetailEntryProps = {
+type ContractDetailEntryProps = {
   className?: string;
   titleClassName?: string;
   valueClassName?: string;
@@ -102,7 +102,7 @@ type IContractDetailEntryProps = {
   value: React.ReactNode;
 };
 
-const ContractDetailEntry: React.FC<IContractDetailEntryProps> = ({
+const ContractDetailEntry: React.FC<ContractDetailEntryProps> = ({
   className,
   titleClassName,
   valueClassName,

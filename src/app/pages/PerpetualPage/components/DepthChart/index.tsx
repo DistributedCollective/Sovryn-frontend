@@ -53,11 +53,11 @@ const bids = [
   [0.1608, 83.38156],
 ];
 
-type IDepthChartProps = {
+type DepthChartProps = {
   className?: string;
 };
 
-export const DepthChart: React.FC<IDepthChartProps> = ({ className }) => {
+export const DepthChart: React.FC<DepthChartProps> = ({ className }) => {
   const options = useMemo(
     () => ({
       chart: {

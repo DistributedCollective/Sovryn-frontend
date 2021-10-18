@@ -31,7 +31,7 @@ import { actions } from '../../slice';
 import { PricePrediction } from 'app/containers/MarginTradeForm/PricePrediction';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { DummyInput } from 'app/components/Form/Input';
-import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpatual-pair-dictionary';
+import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { usePerpetual_resolvePairTokens } from '../../hooks/usePerpetual_resolvePairTokens';
 import { usePlaceholderTransaction } from '../../hooks/usePlaceholderTransaction';
 import { PerpetualPageModals } from '../../types';

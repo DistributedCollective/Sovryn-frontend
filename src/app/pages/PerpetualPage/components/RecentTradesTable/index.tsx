@@ -7,11 +7,11 @@ import { usePerpetual_RecentTradesTable } from '../../hooks/usePerpetual_RecentT
 import styles from './index.module.scss';
 import { RecentTradesTableRow } from './components/RecentTablesRow/index';
 
-type IRecentTradesTableProps = {
+type RecentTradesTableProps = {
   pair: PerpetualPair;
 };
 
-export const RecentTradesTable: React.FC<IRecentTradesTableProps> = ({
+export const RecentTradesTable: React.FC<RecentTradesTableProps> = ({
   pair,
 }) => {
   const data = usePerpetual_RecentTradesTable();

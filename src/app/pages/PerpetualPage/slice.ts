@@ -7,7 +7,7 @@ import {
 } from './types';
 import { Asset } from '../../../types';
 import { TradingPosition } from '../../../types/trading-position';
-import { PerpetualPairType } from '../../../utils/dictionaries/perpatual-pair-dictionary';
+import { PerpetualPairType } from '../../../utils/dictionaries/perpetual-pair-dictionary';
 
 // The initial state of the MarginTradePage container
 export const initialState: ContainerState = {

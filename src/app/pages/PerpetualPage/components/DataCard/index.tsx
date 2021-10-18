@@ -1,14 +1,14 @@
 import classNames from 'classnames';
 import React from 'react';
 
-type IDataCardProps = {
+type DataCardProps = {
   title: string;
   hasCustomHeight?: boolean;
   className?: String;
   children: React.ReactNode;
 };
 
-export const DataCard: React.FC<IDataCardProps> = ({
+export const DataCard: React.FC<DataCardProps> = ({
   title,
   hasCustomHeight,
   className,
