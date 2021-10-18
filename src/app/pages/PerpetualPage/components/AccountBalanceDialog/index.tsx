@@ -76,12 +76,12 @@ export const AccountBalanceDialog: React.FC<AccountBalanceDialogProps> = ({
         valueLabel: (
           <span
             className={
-              bignumber(unrealized).isNegative()
+              bignumber(unrealized || '0').isNegative()
                 ? 'tw-text-trade-short'
                 : 'tw-text-trade-long'
             }
           >
-            `${weiToNumberFormat(unrealized, 8)} BTC`
+            {weiToNumberFormat(unrealized, 8)} BTC
           </span>
         ),
         label: t(translations.perpetualPage.accountBalance.unrealized),
