@@ -1316,7 +1316,7 @@
     "lockedRewards": "Bônus bloqueados:",
     "claimableRewards": "Bônus reinvidicáveis",
     "stakingReward": "Bônus de investimento SOV",
-    "referralReward": "Programa de afiliados",
+    "referralReward": "Bônus programa de afiliados",
     "comingSoon": "Em breve",
     "noRewardInfoText": {
       "rewardSovTab": {
@@ -1334,9 +1334,9 @@
       },
       "feesEarnedTab": {
         "title": "Você não possui dividendos e afins a receber",
-        "recommendationsTitle": "Ganhe dividendos e afins em <0/> das seguintes formas:",
+        "recommendationsTitle": "Ganhe dividendos/comissão em <0/> das seguintes formas:",
         "recommendation1": "Investindo seus SOV",
-        "recommendation2": "Quando os usuários indicados por você realizam transações na Sovryn"
+        "recommendation2": "Quando usuários indicados por você realizam transações na Sovryn"
       }
     },
     "meta": {
@@ -1367,11 +1367,11 @@
     "sov": {
       "reward": "SOV Recompensa",
       "liquid": "SOV Líquido",
-      "fee": "Dividendos e afins"
+      "fee": "Dividendos & Comissão"
     },
     "fee": {
       "stakingFee": "Dividendo de investimento SOV",
-      "referralFee": "Programa de afiliados",
+      "referralFee": "Comissão programa de afiliados",
       "tradingRebate": "Trading Rebate"
     },
     "historyTable": {
@@ -1389,11 +1389,11 @@
         "liquidityReward": "Bônus de liquidez",
         "tradingReward": "Bônus de negociação",
         "stakingReward": "Bônus de investimento SOV",
-        "referralReward": "Programa de afiliados",
+        "referralReward": "Bônus programa de afiliados",
         "feesReward": "Dividendo de investimento SOV",
         "vesting": "SOV reservado",
         "staking": "Investimento SOV",
-        "referral": "Programa de afiliados"
+        "referral": "Comissão programa de afiliados"
       },
       "walletHistory": "A carteira precisa estar conectada.",
       "emptyState": "Histórico vázio.",
