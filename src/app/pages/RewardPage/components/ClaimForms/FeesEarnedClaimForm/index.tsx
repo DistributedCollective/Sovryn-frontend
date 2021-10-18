@@ -10,6 +10,7 @@ import { translations } from 'locales/i18n';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { Asset } from 'types';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
+import { gasLimit } from 'utils/classifiers';
 
 export const FeesEarnedClaimForm: React.FC<IClaimFormProps> = ({
   className,
@@ -27,7 +28,7 @@ export const FeesEarnedClaimForm: React.FC<IClaimFormProps> = ({
   const onSubmit = useCallback(() => {
     send(
       [getContract('RBTC_lending').address, maxCheckpoints, address],
-      { from: address },
+      { from: address, gas: gasLimit[TxType.STAKING_REWARDS_CLAIM] },
       { type: TxType.STAKING_REWARDS_CLAIM },
     );
   }, [address, maxCheckpoints, send]);

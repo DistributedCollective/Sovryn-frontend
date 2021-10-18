@@ -6,6 +6,7 @@ import { IClaimFormProps } from '../BaseClaimForm/types';
 import { useAccount } from 'app/hooks/useAccount';
 import { Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
+import { gasLimit } from 'utils/classifiers';
 
 export const LiquidClaimForm: React.FC<IClaimFormProps> = ({
   className,
@@ -19,6 +20,7 @@ export const LiquidClaimForm: React.FC<IClaimFormProps> = ({
       [],
       {
         from: address,
+        gas: gasLimit[TxType.STAKING_REWARDS_CLAIM],
       },
       {
         type: TxType.STAKING_REWARDS_CLAIM,
