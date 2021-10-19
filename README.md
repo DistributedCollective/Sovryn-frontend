@@ -1,3 +1,5 @@
+[GitHub](https://github.com/DistributedCollective) | [Wiki](https://wiki.sovryn.app/en/home) | [Forum](https://forum.sovryn.app/) | [Blog](https://www.sovryn.app/blog/) | [LinkedIn](https://www.linkedin.com/company/sovryn/about/) | [Twitter](https://twitter.com/SovrynBTC)
+
 # Sovryn DApp
 
 ---
