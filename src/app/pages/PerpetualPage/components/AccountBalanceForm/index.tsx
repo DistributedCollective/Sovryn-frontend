@@ -2,10 +2,13 @@ import { bignumber } from 'mathjs';
 import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
+import { toWei } from 'web3-utils';
 import { translations } from '../../../../../locales/i18n';
 import { numberFromWei } from '../../../../../utils/blockchain/math-helpers';
 import { PerpetualPairType } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
+import { AssetValue } from '../../../../components/AssetValue';
+import { AssetValueMode } from '../../../../components/AssetValue/types';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
 import { actions } from '../../slice';
 import { PerpetualPageModals } from '../../types';
@@ -53,16 +56,32 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
       {
         key: 'available',
         value: numberFromWei(available),
-        valueLabel: `${weiToNumberFormat(available, 8)} BTC`,
+        valueLabel: (
+          <AssetValue
+            value={available}
+            assetString="BTC"
+            mode={AssetValueMode.auto}
+            minDecimals={8}
+            maxDecimals={8}
+          />
+        ),
         label: t(translations.perpetualPage.accountBalance.availableBalance),
-        color: '#D16F44',
+        color: '#F7931A',
       },
       {
         key: 'inPositions',
         value:
           numberFromWei(inPositions) -
           (isUnrealizedNegative ? unrealizedValue : 0),
-        valueLabel: `${weiToNumberFormat(inPositions, 3)} BTC`,
+        valueLabel: (
+          <AssetValue
+            value={inPositions}
+            assetString="BTC"
+            mode={AssetValueMode.auto}
+            minDecimals={3}
+            maxDecimals={3}
+          />
+        ),
         label: t(translations.perpetualPage.accountBalance.inPositions),
         color: '#1D7FF7',
       },
@@ -77,8 +96,16 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
                 : 'tw-text-trade-long'
             }
           >
-            {isUnrealizedNegative ? '-' : '+'}{' '}
-            {weiToNumberFormat(unrealized, 8).replace(/^[+-]/, '')} BTC
+            {isUnrealizedNegative ? '- ' : '+ '}
+            <AssetValue
+              value={bignumber(unrealized || '0')
+                .abs()
+                .toString()}
+              assetString="BTC"
+              mode={AssetValueMode.auto}
+              minDecimals={8}
+              maxDecimals={8}
+            />
           </span>
         ),
         label: t(translations.perpetualPage.accountBalance.unrealized),

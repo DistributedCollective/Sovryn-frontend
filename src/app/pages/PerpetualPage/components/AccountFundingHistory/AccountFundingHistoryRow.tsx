@@ -8,10 +8,6 @@ import iconSuccess from 'assets/images/icon-success.svg';
 import iconRejected from 'assets/images/icon-rejected.svg';
 import iconPending from 'assets/images/icon-pending.svg';
 
-import { weiToNumberFormat } from '../../../../../utils/display-text/format';
-import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
-import { AssetRenderer } from '../../../../components/AssetRenderer';
-import { Transaction, TxStatus } from 'store/global/transactions-store/types';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
@@ -21,6 +17,7 @@ import {
   FundingHistoryEntry,
   FundingHistoryStatus,
 } from '../../hooks/usePerpetual_FundingHistory';
+import { AssetValueMode } from '../../../../components/AssetValue/types';
 
 const ActionIcons = {
   [FundingHistoryAction.deposit]: <IconDeposit className="tw-h-6" />,
@@ -70,9 +67,17 @@ export const AccountFundingHistoryRow: React.FC<FundingHistoryEntry> = ({
           <span>{t(translations.perpetualPage.accountBalance[action])}</span>
         </div>
       </td>
-      <td>{dayjs.tz(time, 'UTC').tz(dayjs.tz.guess()).format('L - LTS Z')}</td>
-      <td className={'tw-text-right'}>
-        <AssetValue value={amount} />
+      <td className="tw-text-right">
+        {dayjs.tz(time, 'UTC').tz(dayjs.tz.guess()).format('L - LT Z')}
+      </td>
+      <td className="tw-text-right">
+        <AssetValue
+          value={amount}
+          assetString="BTC"
+          mode={AssetValueMode.auto}
+          minDecimals={8}
+          maxDecimals={8}
+        />
       </td>
       <td>
         <LinkToExplorer

@@ -19,7 +19,6 @@ export const AccountFundingHistory: React.FC<AccountFundingHistoryProps> = ({
   pairType,
 }) => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const { data: entries, loading } = usePerpetual_FundingHistory();
 
   const [page, setPage] = useState(0);
@@ -27,7 +26,6 @@ export const AccountFundingHistory: React.FC<AccountFundingHistoryProps> = ({
 
   const rows = useMemo(() => {
     if (entries && entries.length > 0) {
-      console.log('TEST:', entries, page, perPage);
       return entries
         .slice((page - 1) * perPage, page * perPage)
         .map(entry => <AccountFundingHistoryRow key={entry.id} {...entry} />);
@@ -52,19 +50,19 @@ export const AccountFundingHistory: React.FC<AccountFundingHistoryProps> = ({
       <table className="sovryn-table tw-table-auto">
         <thead>
           <tr>
-            <th className="tw-text-sm">
+            <th className="tw-text-xs">
               {t(translations.perpetualPage.accountBalance.action)}
             </th>
-            <th className="tw-text-sm">
+            <th className="tw-text-xs tw-text-right">
               {t(translations.perpetualPage.accountBalance.time)}
             </th>
-            <th className="tw-text-sm">
+            <th className="tw-text-xs tw-text-right">
               {t(translations.perpetualPage.accountBalance.amount)}
             </th>
-            <th className="tw-text-sm">
+            <th className="tw-text-xs">
               {t(translations.perpetualPage.accountBalance.transactionId)}
             </th>
-            <th className="tw-text-sm">
+            <th className="tw-text-xs">
               {t(translations.perpetualPage.accountBalance.status)}
             </th>
           </tr>
@@ -76,7 +74,7 @@ export const AccountFundingHistory: React.FC<AccountFundingHistoryProps> = ({
         <Pagination
           totalRecords={entries.length}
           pageLimit={perPage}
-          pageNeighbours={1}
+          pageNeighbours={2}
           onChange={onPageChange}
         />
       )}

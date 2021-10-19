@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import iconArrowForward from 'assets/images/arrow_forward.svg';
 import { translations } from '../../../../../locales/i18n';
 import { PerpetualPairType } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { Dialog, DialogSize } from '../../../../containers/Dialog';
@@ -31,8 +32,12 @@ export const AccountDialog: React.FC<AccountDialogProps> = ({ pairType }) => {
     dispatch(actions.setModal(PerpetualPageModals.NONE));
   }, [dispatch]);
 
-  const onOpenTransactionHistory = useCallback(() => {
+  const onOpenFundingHistory = useCallback(() => {
     setAccountView(AccountView.history);
+  }, []);
+
+  const onOpenBalance = useCallback(() => {
+    setAccountView(AccountView.balance);
   }, []);
 
   return (
@@ -41,7 +46,20 @@ export const AccountDialog: React.FC<AccountDialogProps> = ({ pairType }) => {
       onClose={onClose}
       size={DialogSize.lg}
     >
-      <h1>
+      <h1 className="tw-relative">
+        {accountView !== AccountView.balance && (
+          <button
+            className="tw-absolute tw-left-6 tw-top-0 tw-p-2"
+            onClick={onOpenBalance}
+          >
+            <img
+              className="tw-transform tw-rotate-180"
+              src={iconArrowForward}
+              alt="Back"
+              title="Back"
+            />
+          </button>
+        )}
         {accountView === AccountView.balance
           ? t(translations.perpetualPage.accountBalance.titleBalance)
           : t(translations.perpetualPage.accountBalance.titleHistory)}
@@ -49,7 +67,7 @@ export const AccountDialog: React.FC<AccountDialogProps> = ({ pairType }) => {
       {accountView === AccountView.balance && (
         <AccountBalanceForm
           pairType={pairType}
-          onOpenTransactionHistory={onOpenTransactionHistory}
+          onOpenTransactionHistory={onOpenFundingHistory}
         />
       )}
       {accountView === AccountView.history && (

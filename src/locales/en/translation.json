@@ -1521,7 +1521,7 @@
       "action": "Action",
       "time": "Date/Time",
       "amount": "Amount",
-      "status": "status",
+      "status": "Status",
       "transactionId": "Transaction ID"
     },
     "ammDepth": {
