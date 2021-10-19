@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import iconArrowForward from 'assets/images/arrow_forward.svg';
@@ -39,6 +39,12 @@ export const AccountDialog: React.FC<AccountDialogProps> = ({ pairType }) => {
   const onOpenBalance = useCallback(() => {
     setAccountView(AccountView.balance);
   }, []);
+
+  useEffect(() => {
+    if (modal !== PerpetualPageModals.ACCOUNT_BALANCE) {
+      setAccountView(AccountView.balance);
+    }
+  }, [modal]);
 
   return (
     <Dialog
