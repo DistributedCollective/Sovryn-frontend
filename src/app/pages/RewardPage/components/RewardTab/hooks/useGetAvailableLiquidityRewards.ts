@@ -21,11 +21,12 @@ export const useGetAvailableLiquidityRewards = (): string => {
   } = useCacheCallWithValue('lockedSov', 'getLockedBalance', '', address);
 
   useEffect(() => {
-    if (lockedBalanceLoading !== false) return;
-    setLiquidityRewards(value => ({
-      ...value,
-      lockedRewards: lockedBalance.toString() || '0',
-    }));
+    if (!lockedBalanceLoading) {
+      setLiquidityRewards(value => ({
+        ...value,
+        lockedRewards: lockedBalance.toString() || '0',
+      }));
+    }
   }, [lockedBalance, lockedBalanceLoading]);
 
   useEffect(() => {
