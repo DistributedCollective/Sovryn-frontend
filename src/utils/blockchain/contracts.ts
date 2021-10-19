@@ -251,7 +251,7 @@ export const contracts = {
     blockNumber: 1218836,
   },
   staking: {
-    address: '0x4BaBb34189a9CDa8213D24DD3984058Fb8A955D2',
+    address: '0x5684a06CaB22Db16d901fEe2A5C081b4C91eA40e',
     abi: StakingAbi,
     blockNumber: 1218836,
   },
