@@ -8,6 +8,7 @@ import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
 import { PerpetualPageModals } from '../../types';
 import { AccountBalanceForm } from '../AccountBalanceForm';
+import { AccountFundingHistory } from '../AccountFundingHistory';
 
 enum AccountView {
   balance,
@@ -51,7 +52,9 @@ export const AccountDialog: React.FC<AccountDialogProps> = ({ pairType }) => {
           onOpenTransactionHistory={onOpenTransactionHistory}
         />
       )}
-      {accountView === AccountView.history && ''}
+      {accountView === AccountView.history && (
+        <AccountFundingHistory pairType={pairType} />
+      )}
     </Dialog>
   );
 };

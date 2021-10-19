@@ -9,6 +9,7 @@
     "cancel": "Cancel",
     "fee": "Tx Fee: {{amount}} (r)BTC",
     "pending": "Pending",
+    "complete": "Complete",
     "confirmed": "Confirmed",
     "failed": "Failed",
     "deposit": "Deposit",
@@ -1516,7 +1517,12 @@
       "transfer": "Transfer",
       "availableBalance": "Available Balance:",
       "fundAccount": "Fund Account",
-      "viewAccount": "View Account"
+      "viewAccount": "View Account",
+      "action": "Action",
+      "time": "Date/Time",
+      "amount": "Amount",
+      "status": "status",
+      "transactionId": "Transaction ID"
     },
     "ammDepth": {
       "price": "Price (<0/>)",
