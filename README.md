@@ -23,61 +23,49 @@
   - To reset the older Node.JS installation so that you can upgrade to version 12:
     - `sudo dnf module reset nodejs`
 
-- Generate the GitHub Personal Access Token (PAT) and copy the token code.
-  - Using your GitHub profile Drop-down menu, navigate to **Settings -> Developer settings**.
-  - Select the **Personal access tokens** option and click the **Generate new token** button.
-  - Fill in the token information as follows:
-    - Describe the token using the **Note** field.
-    - Set expiuration to _No expiration_.
-    - Select the all _repo_ and _write:packages_ options, including the _read:packages_.
-- Click the **Generate Token** button at the bottom of the page.
-- Copy your generated token code for later.
+- Generate the GitHub Personal Access Token (PAT) and copy the token code:
+  1. Using your GitHub profile Drop-down menu, navigate to **Settings -> Developer settings**.
+  2. Select the **Personal access tokens** option and click the **Generate new token** button.
+  3. Fill in the token information as follows:
+     a) Describe the token using the **Note** field.
+     b) Set expiuration to _No expiration_.
+     c) Select the all _repo_ and _write:packages_ options, including the _read:packages_.
+  4. Click the **Generate Token** button at the bottom of the page.
+  5. Copy your generated token code for later.
 
 ### Procedure
 
 1. Create the `~/.npmrc` file in your home dirrectory. In a case you already have one, just add the line in the next step.
+
 2. Add the following content to the `~/.npmrc` file and replace the _<Your-GitHub-token-here>_ field with your PAT value copied from GitHub:
 
-+
-[source,shell]
-
----
-
-@distributedcollective:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:\_authToken=**<Your-GitHub-token-here>**
-
----
+   ```shell
+   @distributedcollective:registry=https://npm.pkg.github.com
+   //npm.pkg.github.com/:\_authToken=<Your-GitHub-token-here>
+   ```
 
 3. Save the file and restart your terminal.
 
 4. Navigate to your cloned repository and install the `yarn` tool:
 
-+
+   ```shell
+   yarn install
+   ```
 
-```shell
-yarn install
-```
-
-+
-Yarn dependecies packages will be downloaded.
+   Yarn dependecies packages will be downloaded.
 
 5. Start DApp server:
 
 - For development:
 
-+
-
-```shell
-yarn start
-```
+  ```shell
+  yarn start
+  ```
 
 - For production:
-
-+
-
-```shell
-yarn build
-```
+  ```shell
+  yarn build
+  ```
 
 NOTE: If you are using a Windows machine then you may receive errors when running this command, related to shell scripts in `/bin` not including the `.sh` file extension. To avoid this please run `yarn --ignore-scripts` instead, and execute the `gh-pack` script manually as needed.
 
