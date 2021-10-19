@@ -29,7 +29,7 @@ export const readNodes = {
 
 export const fastBtcApis = {
   30: 'https://fastbtc.sovryn.app/',
-  31: 'https://api.test.sovryn.app/fastbtc',
+  31: 'https://fastbtc.test.sovryn.app/',
 };
 
 export const databaseRpcNodes = {
@@ -70,8 +70,13 @@ export const gasLimit = {
   [TxType.SWAP_EXTERNAL]: 950000,
   [TxType.LOCKED_FUND_WAITED_CLAIM]: 3000000,
   [TxType.UNWRAP_WRBTC]: 50000,
+  [TxType.STAKING_STAKE]: 900000,
+  [TxType.STAKING_INCREASE_STAKE]: 450000,
+  [TxType.STAKING_EXTEND]: 450000,
   [TxType.STAKING_WITHDRAW]: 500000,
+  [TxType.STAKING_REWARDS_CLAIM]: 450000,
   [TxType.DEPOSIT_COLLATERAL]: 150000,
+  [TxType.CLAIM_VESTED_SOV_REWARDS]: 6000000,
 };
 
 export const discordInvite = 'https://discord.gg/kBTNx4zjRf'; //unlimited use, no-expiry invite
