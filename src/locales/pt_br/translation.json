@@ -269,7 +269,9 @@
     "origins": "Origens",
     "launchpad": "Lançamentos",
     "claim": "Reinvindicar",
-    "rewards": "Recompensas"
+    "rewards": "Recompensas",
+    "labs": "Labs",
+    "perpetual": "Operar perpétuo"
   },
   "originsLaunchpad": {
     "upcomingSales": {
