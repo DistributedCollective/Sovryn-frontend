@@ -21,7 +21,10 @@
   - To install Node.JS:
     - `sudo dnf module install nodejs:12`
   - To reset the older Node.JS installation so that you can upgrade to version 12:
+
     - `sudo dnf module reset nodejs`
+
+    NOTE: Alternatively, You can use the NVM tool that is easy to use and allows you to switch between the installed node versions. For more information, see the [NVM](https://github.com/nvm-sh/nvm) guide.
 
 - Generate the GitHub Personal Access Token (PAT) and copy the token code:
   1. Using your GitHub profile Drop-down menu, navigate to **Settings -> Developer settings**.
