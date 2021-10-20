@@ -33,6 +33,7 @@ import VestingRegistryOriginAbi from './abi/VestingRegistryOrigin.json';
 import SovrynProtocolAbi from './abi/sovrynProtocol.json';
 import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
 import nftAbi from './abi/nftAbi.json';
+import ZeroTokenAbi from './abi/ZERO.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -339,5 +340,10 @@ export const contracts = {
   sovrynNFT: {
     address: '0x576ae218aecfd4cbd2dbe07250b47e26060932b1', // todo
     abi: nftAbi,
+  },
+  ZERO_token: {
+    address: '0xf775deae5d5425893c44b1e809b51022e7eb623e',
+    abi: ZeroTokenAbi,
+    blockNumber: 2267574,
   },
 };

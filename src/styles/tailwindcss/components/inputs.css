@@ -1,7 +1,7 @@
 @layer components {
   .tw-input-wrapper {
     height: 2.5rem;
-    max-width: 340px;
+    max-width: 384px;
     @apply tw-bg-sov-white tw-flex tw-flex-row tw-justify-center tw-items-center tw-space-x-4 tw-rounded;
     @apply tw-font-semibold tw-font-body tw-text-black;
     @apply tw-w-full;
@@ -19,7 +19,7 @@
   }
   .tw-input-append {
     @apply tw-text-black;
-    @apply tw-mr-5 !important;
+    /* @apply tw-mr-5 !important; */
   }
 
   .tw-input-wrapper.readonly {

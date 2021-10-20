@@ -5,18 +5,12 @@ import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { Asset } from 'types';
 import { BuyInformationWrapper } from './styled';
 import { InfoItem } from './InfoItem';
-import { AllocationRemaining } from './AllocationRemaining';
-import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
 import { ISaleInformation } from '../../../../../../../../types';
-import { btcInSatoshis } from 'app/constants';
 
 interface IInformationSectionProps {
   saleName: string;
   info: ISaleInformation;
 }
-
-const depositRateToSatoshis = (depositRate: number) =>
-  toNumberFormat(btcInSatoshis / depositRate);
 
 export const InformationSection: React.FC<IInformationSectionProps> = ({
   saleName,
@@ -26,50 +20,26 @@ export const InformationSection: React.FC<IInformationSectionProps> = ({
 
   return (
     <BuyInformationWrapper>
-      <div className="tw-mb-8 tw-text-left">
-        <div className="tw-text-xs tw-tracking-normal tw-mb-3">
-          {t(
-            translations.originsLaunchpad.saleDay.buyStep.buyInformationLabels
-              .depositLimits,
-          )}
-          :
-        </div>
-        <div className="tw-text-xs">
-          <div>
-            • MIN:{' '}
-            {info.minAmount === '0'
-              ? '0'
-              : weiToNumberFormat(info.minAmount, 4)}{' '}
-            <AssetSymbolRenderer asset={Asset.RBTC} />
-          </div>
-          <div>
-            • MAX: {weiToNumberFormat(info.maxAmount, 4)}{' '}
-            <AssetSymbolRenderer asset={Asset.RBTC} />
-          </div>
-        </div>
-      </div>
-
       <InfoItem
         label={t(
           translations.originsLaunchpad.saleDay.buyStep.buyInformationLabels
-            .saleAllocation,
+            .totalDepositReceived,
         )}
-        value={`${weiToNumberFormat(info.totalSaleAllocation)} ${saleName}`}
+        value={
+          <>
+            19,944 <AssetSymbolRenderer asset={Asset.SOV} />
+          </>
+        }
+        className="tw-text-primary"
       />
 
       <InfoItem
         label={t(
           translations.originsLaunchpad.saleDay.buyStep.buyInformationLabels
-            .allocationRemaining,
+            .tokenPrice,
         )}
-        value={
-          <AllocationRemaining
-            totalSaleAllocation={info.totalSaleAllocation}
-            remainingTokens={info.remainingTokens}
-            saleName={saleName}
-          />
-        }
-        className="tw-text-primary"
+        // value={`${depositRateToSatoshis(info.depositRate)} Sats`}
+        value={`${100} ZERO`}
       />
 
       <InfoItem
@@ -83,19 +53,18 @@ export const InformationSection: React.FC<IInformationSectionProps> = ({
       <InfoItem
         label={t(
           translations.originsLaunchpad.saleDay.buyStep.buyInformationLabels
-            .price,
-        )}
-        value={`${depositRateToSatoshis(info.depositRate)} Sats`}
-      />
-
-      <InfoItem
-        label={t(
-          translations.originsLaunchpad.saleDay.buyStep.buyInformationLabels
             .acceptedCurrencies,
         )}
         value={
           <>
-            <AssetSymbolRenderer asset={info.depositToken} />
+            {[Asset.RBTC, Asset.SOV, Asset.XUSD, Asset.ETH, Asset.BNB].map(
+              (asset, i) => (
+                <React.Fragment key={i}>
+                  {i > 0 ? ', ' : ''}
+                  <AssetSymbolRenderer asset={asset} key={i} />
+                </React.Fragment>
+              ),
+            )}
           </>
         }
       />

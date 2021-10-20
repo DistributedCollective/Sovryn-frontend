@@ -15,8 +15,8 @@ export const InfoItem: React.FC<IInfoItemProps> = ({
   isLastItem,
 }) => (
   <div className={cn('tw-text-left', isLastItem ? '' : 'tw-mb-8', className)}>
-    <div className="tw-text-xs tw-tracking-normal">{label}:</div>
-    <div className="tw-text-base tw-font-orbitron tw-font-medium tw-tracking-normal">
+    <div className="tw-text-xs tw-tracking-normal tw-mb-1">{label}</div>
+    <div className="tw-text-base tw-font-orbitron tw-font-medium tw-tracking-normal tw-leading-8">
       {value}
     </div>
   </div>

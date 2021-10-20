@@ -3,10 +3,9 @@ import styled, { css } from 'styled-components';
 export const BuyWrapper = styled.div`
   width: 64%;
   height: 100%;
-  border-radius: 1.25rem;
   background-color: #181818;
   box-shadow: -11px 0px 25px #00000026;
-  padding: 4.75rem 2rem;
+  padding: 6rem 2rem;
 `;
 
 interface IBuyButtonProps {
@@ -16,7 +15,7 @@ interface IBuyButtonProps {
 export const BuyButton = styled.button<IBuyButtonProps>`
   height: 3.75rem;
   width: 100%;
-  margin-top: 4.3125rem;
+  margin-top: 74px;
   border: 1px solid #17c3b2;
   color: #ffffff;
   font-size: 1.5rem;

@@ -12,7 +12,7 @@ import { SalesDay } from './pages/SalesDay';
 export const OriginsLaunchpad: React.FC = () => {
   const { t } = useTranslation();
   /* undo once Fish contract has active sale tier reset to 0 */
-  const activeTierId = 0; //useGetActiveSaleTierId();
+  const activeTierId = 2; //useGetActiveSaleTierId();
 
   useEffect(() => {
     document.body.classList.add('originsLaunchpad');
@@ -33,7 +33,7 @@ export const OriginsLaunchpad: React.FC = () => {
 
       <div className="tw-container tw-pt-11 tw-font-body">
         {activeTierId > 0 ? (
-          <SalesDay tierId={activeTierId} saleName="FISH" />
+          <SalesDay tierId={activeTierId} saleName="ZERO" />
         ) : (
           <Dashboard />
         )}

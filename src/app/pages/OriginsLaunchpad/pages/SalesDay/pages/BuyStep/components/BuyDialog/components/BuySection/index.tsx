@@ -4,14 +4,13 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Asset } from 'types';
 import { BuyWrapper, BuyButton } from './styled';
 import { useTranslation } from 'react-i18next';
-import imgArrowDown from 'assets/images/arrow-down.svg';
 import { useWeiAmount } from 'app/hooks/useWeiAmount';
 import { bignumber } from 'mathjs';
 import { TxDialog } from '../TxDialog';
-import { noop } from 'app/constants';
 import { useCanInteract } from 'app/hooks/useCanInteract';
 import { useApproveAndBuyToken } from 'app/pages/OriginsLaunchpad/hooks/useApproveAndBuyToken';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { AssetRenderer } from 'app/components/AssetRenderer';
 
 interface IBuySectionProps {
   saleName: string;
@@ -65,71 +64,59 @@ export const BuySection: React.FC<IBuySectionProps> = ({
 
   return (
     <BuyWrapper>
-      <div className="tw-max-w-xs tw-mx-auto">
+      <div className="tw-max-w-sm tw-mx-auto tw-flex tw-flex-col tw-justify-between tw-h-full">
         <div>
-          <div className="tw-text-sm tw-text-left tw-font-extralight tw-mb-2 tw-text-sov-white">
-            {t(
-              translations.originsLaunchpad.saleDay.buyStep.buyDialog
-                .enterAmount,
-            )}
-            :
-          </div>
-          <AmountInput
-            value={amount}
-            onChange={value => setAmount(value)}
-            asset={Asset.RBTC}
-          />
-          {isOverMaxLimit && (
-            <ErrorBadge
-              content={
-                <span>
-                  {t(
-                    translations.originsLaunchpad.saleDay.buyStep.buyDialog
-                      .isOverMaxLimit,
-                  )}
-                </span>
-              }
+          <div>
+            <div className="tw-text-sm tw-text-left tw-font-extralight tw-mb-2 tw-text-gray-9">
+              {t(
+                translations.originsLaunchpad.saleDay.buyStep.buyDialog
+                  .enterAmount,
+              )}
+            </div>
+            <AmountInput
+              value={amount}
+              onChange={value => setAmount(value)}
+              asset={Asset.RBTC}
+              assetSelectable={true}
             />
-          )}
-        </div>
-
-        <img
-          src={imgArrowDown}
-          alt="swap"
-          className="tw-h-8 tw-mx-auto tw-mt-10 tw-mb-8"
-        />
-
-        <div>
-          <div className="tw-text-sm tw-text-left tw-font-extralight tw-mb-2 tw-text-sov-white">
-            {t(
-              translations.originsLaunchpad.saleDay.buyStep.buyDialog
-                .tokenReceived,
-              { token: saleName },
+            {isOverMaxLimit && (
+              <ErrorBadge
+                content={
+                  <span>
+                    {t(
+                      translations.originsLaunchpad.saleDay.buyStep.buyDialog
+                        .isOverMaxLimit,
+                    )}
+                  </span>
+                }
+              />
             )}
-            :
           </div>
-          <AmountInput
-            value={tokenAmount}
-            assetString={saleName}
-            readonly={true}
-            onChange={noop}
-          />
+
+          <BuyButton
+            disabled={buyTx.loading || !isValidAmount || !connected}
+            onClick={onBuyClick}
+          >
+            <span>
+              {t(
+                translations.originsLaunchpad.saleDay.buyStep.buyDialog
+                  .buyButton,
+                { token: saleName },
+              )}
+            </span>
+          </BuyButton>
         </div>
 
-        <BuyButton
-          disabled={buyTx.loading || !isValidAmount || !connected}
-          onClick={onBuyClick}
-        >
-          <span>
-            {t(
-              translations.originsLaunchpad.saleDay.buyStep.buyDialog.buyButton,
-              { token: saleName },
-            )}
-          </span>
-        </BuyButton>
-
-        <TxDialog tx={buyTx} />
+        <div className="tw-text-sm tw-text-center tw-font-extralight tw-text-gray-9 tw-mt-28">
+          {t(
+            translations.originsLaunchpad.saleDay.buyStep.buyDialog
+              .yourTotalDeposit,
+          )}{' '}
+          :<span className="tw-px-2">{'0.0000'}</span>
+          <AssetRenderer asset={Asset.SOV} />
+        </div>
       </div>
+      <TxDialog tx={buyTx} />
     </BuyWrapper>
   );
 };

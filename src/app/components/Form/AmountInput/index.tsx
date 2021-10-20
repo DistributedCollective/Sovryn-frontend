@@ -4,6 +4,7 @@ import React, { useMemo } from 'react';
 import { Asset } from '../../../../types';
 import { fromWei } from '../../../../utils/blockchain/math-helpers';
 import { AssetRenderer } from '../../AssetRenderer';
+import { AssetSelect } from 'app/components/AssetSelect';
 import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
 import { Input } from '../Input';
 import {
@@ -17,6 +18,7 @@ interface Props {
   decimalPrecision?: number;
   asset?: Asset;
   assetString?: string;
+  assetSelectable?: boolean;
   subText?: string;
   placeholder?: string;
   maxAmount?: string;
@@ -30,6 +32,7 @@ export function AmountInput({
   decimalPrecision = 6,
   asset,
   assetString,
+  assetSelectable,
   subText,
   maxAmount,
   readonly,
@@ -43,10 +46,18 @@ export function AmountInput({
         placeholder={placeholder}
         appendElem={
           asset || assetString ? (
-            <AssetRenderer asset={asset} assetString={assetString} />
+            assetSelectable ? (
+              <AssetSelect
+                selected={asset || assetString}
+                onChange={() => {}}
+              />
+            ) : (
+              <AssetRenderer asset={asset} assetString={assetString} />
+            )
           ) : null
         }
         className="tw-rounded-lg"
+        appendClassName={assetSelectable ? '' : 'tw-mr-5'}
         readOnly={readonly}
       />
       {subText && (
@@ -96,7 +107,7 @@ export function AmountSelector(props: AmountSelectorProps) {
     props.onChange(fromWei(value), isTotal);
   };
   return (
-    <div className="tw-mt-2.5 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded-md tw-divide-x tw-divide-secondary">
+    <div className="tw-mt-6 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded-md tw-divide-x tw-divide-secondary">
       {amounts.map(value => (
         <AmountSelectorButton
           key={value}
@@ -117,7 +128,7 @@ export function AmountSelectorButton(props: AmountButtonProps) {
   return (
     <button
       onClick={props.onClick}
-      className="tw-text-secondary tw-bg-secondary tw-bg-opacity-0 tw-font-medium tw-text-xs tw-leading-none tw-px-4 tw-py-1 tw-text-center tw-w-full tw-transition hover:tw-bg-opacity-25"
+      className="tw-text-secondary tw-bg-secondary tw-bg-opacity-0 tw-font-medium tw-text-xs tw-leading-none tw-px-4 tw-py-2 tw-text-center tw-w-full tw-transition hover:tw-bg-opacity-25"
     >
       {props.text}
     </button>

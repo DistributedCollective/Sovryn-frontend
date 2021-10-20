@@ -354,19 +354,22 @@
       "buyStep": {
         "buyInformationLabels": {
           "depositLimits": "Deposit limits",
-          "saleAllocation": "Pre-Sale Allocation",
+          "saleAllocation": "Sale Allocation",
           "allocationRemaining": "Allocation Remaining",
           "participatingWallets": "Participating Wallets",
           "price": "Price",
-          "acceptedCurrencies": "Accepted currencies",
-          "tokenSaleEndTime": "Token Pre-Sale End Time"
+          "acceptedCurrencies": "Accepted Currencies",
+          "tokenSaleEndTime": "Token Sale End Time",
+          "totalDepositReceived": "Total Deposit Received",
+          "tokenPrice": "Token Price"
         },
         "buyDialog": {
           "enterAmount": "Enter Amount",
           "tokenReceived": "{{token}} Received",
           "transactionFee": "Transaction Fee",
           "buyButton": "Buy {{token}}",
-          "isOverMaxLimit": "You cannot deposit more than max limit"
+          "isOverMaxLimit": "You cannot deposit more than max limit",
+          "yourTotalDeposit": "Your Total Deposit"
         },
         "instructions": {
           "title": "Instructions",
