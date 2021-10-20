@@ -68,8 +68,8 @@ export function PerpetualPage() {
     dispatch(
       walletProviderActions.setBridgeChainId(
         currentNetwork === 'mainnet'
-          ? ChainId.MATIC_MAINNET
-          : ChainId.MATIC_TESTNET,
+          ? ChainId.BSC_MAINNET
+          : ChainId.BSC_TESTNET,
       ),
     );
 

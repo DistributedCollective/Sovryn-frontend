@@ -2248,7 +2248,7 @@
     "chainId": 97,
     "shortName": "bnbt",
     "chain": "BSC",
-    "network": "Chapel",
+    "network": "testnet",
     "networkId": 97,
     "nativeCurrency": {
       "name": "Binance Chain Native Token",
