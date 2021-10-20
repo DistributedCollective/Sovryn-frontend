@@ -3,56 +3,60 @@ import { Trans, useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router-dom';
 import { translations } from 'locales/i18n';
 import { AssetRenderer } from 'app/components/AssetRenderer';
-import { fromWei, weiToFixed } from '../../../utils/blockchain/math-helpers';
-import { Asset } from '../../../types';
-import { useWeiAmount } from '../../hooks/useWeiAmount';
-import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
-import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
-import { useCanInteract } from '../../hooks/useCanInteract';
+import { fromWei, weiToFixed } from 'utils/blockchain/math-helpers';
+import { Asset } from 'types';
+import { useWeiAmount } from 'app/hooks/useWeiAmount';
+import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
+import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
+import { useCanInteract } from 'app/hooks/useCanInteract';
 import { SwapAssetSelector } from './components/SwapAssetSelector/Loadable';
 import { AmountInput } from 'app/components/Form/AmountInput';
-import swapIcon from '../../../assets/images/swap/swap_horizontal.svg';
-import settingIcon from '../../../assets/images/swap/ic_setting.svg';
 import { SlippageDialog } from 'app/pages/BuySovPage/components/BuyForm/Dialogs/SlippageDialog';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
-import { weiToNumberFormat } from 'utils/display-text/format';
 import { BuyButton } from 'app/pages/BuySovPage/components/Button/buy';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { bignumber } from 'mathjs';
 import { Input } from 'app/components/Form/Input';
-import { AvailableBalance } from '../../components/AvailableBalance';
-import { Arbitrage } from '../../components/Arbitrage/Arbitrage';
-import { useAccount } from '../../hooks/useAccount';
-import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
-import { Sovryn } from '../../../utils/sovryn';
-import { contractReader } from '../../../utils/sovryn/contract-reader';
+import { ActionButton } from 'app/components/Form/ActionButton';
+import { weiToNumberFormat } from 'utils/display-text/format';
+import { AvailableBalance } from 'app/components/AvailableBalance';
+import { Arbitrage } from 'app/components/Arbitrage/Arbitrage';
+import { useAccount } from 'app/hooks/useAccount';
+import { FormGroup } from 'app/components/Form/FormGroup';
+import swapIcon from '../../../assets/images/swap/swap_horizontal.svg';
+import settingIcon from 'assets/images/settings-blue.svg';
+import { getTokenContractName } from 'utils/blockchain/contract-helpers';
+import { Sovryn } from 'utils/sovryn';
+import { contractReader } from 'utils/sovryn/contract-reader';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
-import { useSwapsExternal_getSwapExpectedReturn } from '../../hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
-import { useSwapsExternal_approveAndSwapExternal } from '../../hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
+import { useSwapsExternal_getSwapExpectedReturn } from 'app/hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
+import { useSwapsExternal_approveAndSwapExternal } from 'app/hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
 import { IPromotionLinkState } from 'app/pages/LandingPage/components/Promotions/components/PromotionCard/types';
-
 import styles from './index.module.scss';
-import { useSwapNetwork_approveAndConvertByPath } from '../../hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
-import { useSwapNetwork_conversionPath } from '../../hooks/swap-network/useSwapNetwork_conversionPath';
-
-const s = translations.swapTradeForm;
+import { useSwapNetwork_approveAndConvertByPath } from 'app/hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
+import { useSwapNetwork_conversionPath } from 'app/hooks/swap-network/useSwapNetwork_conversionPath';
+import { ReviewDialog } from './components/ReviewDialog';
 
 interface Option {
   key: Asset;
   label: string;
 }
 
-const xusdExcludes = [Asset.USDT, Asset.DOC];
-
 export function SwapFormContainer() {
+  const s = translations.swapTradeForm;
   const { t } = useTranslation();
   const isConnected = useCanInteract();
   const { checkMaintenance, States } = useMaintenance();
   const swapLocked = checkMaintenance(States.SWAP_TRADES);
 
+  const xusdExcludes = useMemo(() => {
+    return [Asset.USDT, Asset.DOC];
+  }, []);
+
   const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [isReviewDialogOpen, setIsReviewDialogOpen] = useState<boolean>(false);
   const [amount, setAmount] = useState('');
   const [sourceToken, setSourceToken] = useState(Asset.RBTC);
   const [targetToken, setTargetToken] = useState(Asset.SOV);
@@ -163,7 +167,7 @@ export function SwapFormContainer() {
     ) {
       setTargetToken(newOptions[0].key);
     }
-  }, [tokens, sourceToken, targetToken, tokenBalance]);
+  }, [tokens, sourceToken, targetToken, tokenBalance, xusdExcludes]);
 
   const { value: rateByPath } = useSwapsExternal_getSwapExpectedReturn(
     sourceToken,
@@ -254,6 +258,11 @@ export function SwapFormContainer() {
     [targetToken, sourceToken, sendPath, sendExternal],
   );
 
+  const setSwapTokents = useCallback((source: Asset, target: Asset) => {
+    setSourceToken(source);
+    setTargetToken(target);
+  }, []);
+
   return (
     <>
       <SlippageDialog
@@ -265,7 +274,7 @@ export function SwapFormContainer() {
         onChange={value => setSlippage(value)}
       />
 
-      <Arbitrage />
+      <Arbitrage onClick={(source, target) => setSwapTokents(source, target)} />
 
       <div className={styles.swapFormContainer}>
         <div className={styles.swapForm}>
@@ -281,13 +290,16 @@ export function SwapFormContainer() {
           <div className={styles.availableBalance}>
             <AvailableBalance asset={sourceToken} />
           </div>
-          <div className={styles.amount}>
+          <FormGroup
+            label={t(translations.swap.tradeAmount)}
+            className="tw-mt-3"
+          >
             <AmountInput
               value={amount}
               onChange={value => setAmount(value)}
               asset={sourceToken}
             />
-          </div>
+          </FormGroup>
         </div>
         <div className={styles.swapRevertWrapper}>
           <div
@@ -309,27 +321,45 @@ export function SwapFormContainer() {
           <div className={styles.availableBalance}>
             <AvailableBalance asset={targetToken} />
           </div>
-          <div className={styles.amount}>
+          <FormGroup
+            label={t(translations.swap.receiveAmount)}
+            className="tw-mt-3"
+          >
             <Input
               value={weiToFixed(rateByPath, 6)}
               onChange={value => setAmount(value)}
               readOnly={true}
               appendElem={<AssetRenderer asset={targetToken} />}
             />
-          </div>
+            <div className={styles.swapBtnHelper}>
+              <div>{t(translations.swap.minimumReceived)}</div>
+              <div>
+                {weiToNumberFormat(minReturn, 6)}{' '}
+                <AssetRenderer asset={targetToken} />
+              </div>
+            </div>
+          </FormGroup>
         </div>
       </div>
 
       <div className={styles.swapBtnContainer}>
-        <div className={styles.swapBtnHelper}>
-          <span>
-            {t(translations.swap.minimumReceived)}{' '}
-            {weiToNumberFormat(minReturn, 6)}
-          </span>
-          <img
-            src={settingIcon}
-            alt="settings"
+        <div className="tw-my-0 tw-text-secondary tw-text-xs tw-flex tw-justify-center">
+          <ActionButton
+            text={
+              <div className="tw-flex">
+                {t(translations.swap.advancedSettings)}
+                <img className="tw-ml-1" src={settingIcon} alt="setting" />
+              </div>
+            }
             onClick={() => setDialogOpen(true)}
+            className="tw-border-none tw-ml-0 tw-p-0 tw-h-auto"
+            textClassName="tw-text-xs tw-overflow-visible tw-text-secondary"
+            disabled={
+              tx.loading ||
+              !isConnected ||
+              (!validate && isConnected) ||
+              swapLocked
+            }
           />
         </div>
         {swapLocked && (
@@ -358,12 +388,22 @@ export function SwapFormContainer() {
             (!validate && isConnected) ||
             swapLocked
           }
-          onClick={send}
+          onClick={() => setIsReviewDialogOpen(true)}
           text={t(translations.swap.cta)}
         />
       </div>
 
       <TxDialog tx={tx} />
+
+      <ReviewDialog
+        isOpen={isReviewDialogOpen}
+        onConfirm={() => send()}
+        onClose={() => setIsReviewDialogOpen(!isReviewDialogOpen)}
+        sourceToken={sourceToken}
+        targetToken={targetToken}
+        amount={amount}
+        amountReceived={rateByPath}
+      />
     </>
   );
 }

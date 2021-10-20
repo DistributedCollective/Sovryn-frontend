@@ -17,7 +17,9 @@ export function DisplayDate({
   });
   return (
     <span>
-      {formatDate.slice(0, 10)} - {formatDate.slice(12, 17)} {timezoneLabel}
+      {formatDate.slice(0, 10)}
+      <br />
+      {formatDate.slice(12, 17)} {timezoneLabel}
     </span>
   );
 }

@@ -1,27 +1,8 @@
 // swap btn
 .swap-btn-container {
-  max-width: 250px;
+  max-width: 320px;
   margin: auto;
-  margin-top: 23px;
-
-  .swap-btn-helper {
-    @apply tw-flex tw-items-center tw-justify-center
-      tw-text-xs tw-text-sov-white tw-text-center tw-tracking-normal;
-      
-    img {
-      @apply tw-ml-2 tw-cursor-pointer;
-    }
-  }
-
-  .swap-btn {
-    @apply tw-flex tw-items-center tw-justify-center
-      tw-p-0 tw-mx-auto tw-mt-4
-      tw-text-xl tw-font-bold
-      tw-bg-trade-long tw-rounded-lg;
-    height: 60px;
-    width: 250px;
-    padding: 0;
-  }
+  margin-top: 20px;
 }
 
 // swap form
@@ -35,31 +16,33 @@
     flex-direction: row;
   }
 
+  .swap-btn-helper {
+    @apply tw-flex tw-mt-1 tw-justify-between tw-text-sov-white tw-text-xs tw-font-body tw-w-full;
+  }
+
   .swap-form {
-    @apply tw-px-9 tw-pt-8 tw-pb-12 
-      tw-bg-black tw-border tw-border-gray-5 tw-rounded-3xl;
+    @apply tw-p-8 tw-bg-black tw-border-0 tw-rounded-lg;
+    letter-spacing: 0;
     width: 387px;
-    min-height: 388px;
+    min-height: 302px;
 
     .title {
-      @apply tw-mb-10 
-        tw-text-5xl tw-text-sov-white tw-font-body tw-uppercase tw-text-center tw-font-extrabold tw-opacity-100;
-      margin-bottom: 41px;
+      @apply tw-mb-10 tw-text-2xl tw-text-sov-white tw-font-body tw-uppercase tw-font-semibold;
+      margin-bottom: 30px;
     }
 
     .available-balance {
-      @apply tw-mt-2.5
-        tw-text-sov-white tw-text-xs tw-font-body;
+      @apply tw-flex tw-mt-1 tw-justify-between tw-text-sov-white tw-text-xs tw-font-body;
     }
 
     .amount {
-      @apply tw-pt-8;
+      @apply tw-pt-8 tw-text-secondary;
     }
   }
+
   .swap-revert-wrapper {
-    @apply tw-flex tw-items-center tw-justify-center 
-      tw-mx-16 tw-my-0;
-    width: 227px;
+    @apply tw-flex tw-items-center tw-justify-center tw-mx-3 tw-my-0;
+    width: 115px;
     transform: rotate(90deg);
 
     @screen lg {

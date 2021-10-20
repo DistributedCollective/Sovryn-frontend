@@ -5,13 +5,11 @@ export const StyledButton = styled.button.attrs(attrs => ({
     'tw-w-full tw-flex tw-flex-row tw-justify-between tw-items-center tw-p-0',
 }))`
   position: relative;
-  height: 40px;
-  background-color: #222222;
-  border: 1px solid #575757;
+  height: 2rem;
+  background-color: #2c2c2c;
   border-radius: 0.5rem;
-  color: #e8e8e8;
+  color: #e9eae9;
   font-size: 1rem;
-  font-family: 'Montserrat', sans-serif;
 `;
 
 export const CaretElement = styled.div`

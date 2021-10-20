@@ -215,11 +215,18 @@
       "switchAssets": "Switch Assets"
     },
     "arbitrage": {
-      "best_rate": "Arbitrage opportunity: swap up to",
-      "for": "for up to",
+      "best_rate": "Arbitrage opportunity",
+      "for": "for",
+      "text": "Earn <0>{{percent}}</0> above the market on swapping <1></1> for <2></2>",
       "popover_p1": "Users can help balance the Sovryn AMM (automated market maker) when arbitrage opportunities arise. Currently, up to {{fromAmount}} {{fromToken}} can be swapped for up to {{toAmount}} {{toToken}}.",
       "popover_p2": "This is {{earn}} {{toToken}} more than the market price."
-    }
+    },
+    "reviewSwap": "Review Swap",
+    "swapAsset": "Swap Asset:",
+    "amount": "Amount:",
+    "amountReceived": "Amount Received:",
+    "receiveAsset": "Receive Asset:",
+    "minimumReceived": "Minimum Received:"
   },
   "amountField": {
     "placeholder": "Enter amount",
@@ -496,9 +503,12 @@
     "title": "Swap",
     "meta": "Swap",
     "cta": "Swap",
-    "minimumReceived": "Minimum Received:",
-    "send": "Send",
-    "receive": "Receive"
+    "minimumReceived": "Minimum received:",
+    "send": "Token to swap",
+    "receive": "Token to receive",
+    "receiveAmount": "Amount to Receive",
+    "tradeAmount": "Trade Amount",
+    "advancedSettings": "Advanced Settings"
   },
   "stake": {
     "title": "Staking/Vesting",
@@ -1100,13 +1110,16 @@
     "title": "Swap History",
     "tableHeaders": {
       "time": "Date/Time",
-      "from": "From",
+      "from": "Sending Asset",
       "amountSent": "Amount Sent",
-      "to": "To",
+      "to": "Receiving Asset",
       "amountReceived": "Amount Received",
-      "status": "Status"
+      "status": "Status",
+      "transactionFee":"Transaction Fee",
+      "gasFee": "Gas Fee"
     },
-    "emptyState": "History is empty."
+    "emptyState": "History is empty.",
+    "recentSwapHistory": "Recent Swap History"
   },
   "vestedHistory": {
     "title": "Vested History",
@@ -1876,9 +1889,10 @@
       "cta": "Buy SOV"
     },
     "slippageDialog": {
-      "title": "Adjust Slippage",
+      "title": "Advanced Settings",
       "tolerance": "Slippage Tolerance:",
-      "minimumReceived": "Minimum Received"
+      "minimumReceived": "Minimum Received",
+      "minEntryPrice": "Minimum Entry Price"
     },
     "txDialog": {
       "pendingUser": {

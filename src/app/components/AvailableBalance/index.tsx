@@ -8,22 +8,19 @@ import { weiToNumberFormat } from 'utils/display-text/format';
 import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
 import { LoadableValue } from '../LoadableValue';
 import { AssetRenderer } from '../AssetRenderer';
-import cn from 'classnames';
-interface Props {
+
+interface IAvailableBalanceProps {
   asset: Asset;
   className?: string;
   dataAttribute?: string;
 }
 
-export function AvailableBalance(props: Props) {
+export function AvailableBalance(props: IAvailableBalanceProps) {
   const { value, loading } = useAssetBalanceOf(props.asset);
   const asset = useMemo(() => AssetsDictionary.get(props.asset), [props.asset]);
   return (
     <div
-      className={cn(
-        'tw-truncate tw-text-xs tw-font-light tw-tracking-normal tw-flex tw-justify-between tw-mb-2',
-        props.className,
-      )}
+      className="tw-truncate tw-text-xs tw-font-light tw-tracking-normal tw-flex tw-justify-between tw-mb-2 tw-w-full"
       data-action-id={props.dataAttribute}
     >
       <Trans
@@ -31,15 +28,16 @@ export function AvailableBalance(props: Props) {
         components={[
           <LoadableValue
             value={
-              <>
-                {weiToNumberFormat(value, 6)} {asset.asset}
-              </>
+              <div className="tw-font-semibold">
+                {weiToNumberFormat(value, 4)}{' '}
+                <AssetRenderer asset={asset.asset} />
+              </div>
             }
             loading={loading}
             tooltip={
-              <>
+              <div className="tw-font-semibold">
                 {fromWei(value)} <AssetRenderer asset={asset.asset} />
-              </>
+              </div>
             }
           />,
         ]}

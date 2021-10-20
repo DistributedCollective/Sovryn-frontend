@@ -5,7 +5,6 @@ import { Asset } from '../../../../types';
 import { fromWei } from '../../../../utils/blockchain/math-helpers';
 import { AssetRenderer } from '../../AssetRenderer';
 import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
-import { AvailableBalance } from '../../../components/AvailableBalance';
 import { Input } from '../Input';
 import {
   stringToFixedPrecision,
@@ -104,22 +103,15 @@ export function AmountSelector(props: AmountSelectorProps) {
     props.onChange(fromWei(value), isTotal);
   };
   return (
-    <>
-      {props.showBalance && (
-        <div className="tw-mt-2">
-          <AvailableBalance asset={props.asset || Asset.RBTC} />
-        </div>
-      )}
-      <div className="tw-h-5 tw-mt-1 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded-md tw-divide-x tw-divide-secondary">
-        {amounts.map(value => (
-          <AmountSelectorButton
-            key={value}
-            text={`${value}%`}
-            onClick={() => handleChange(value)}
-          />
-        ))}
-      </div>
-    </>
+    <div className="tw-h-5 tw-mt-1 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded-md tw-divide-x tw-divide-secondary">
+      {amounts.map(value => (
+        <AmountSelectorButton
+          key={value}
+          text={`${value}%`}
+          onClick={() => handleChange(value)}
+        />
+      ))}
+    </div>
   );
 }
 
