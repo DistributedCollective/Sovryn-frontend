@@ -28,7 +28,7 @@
   2. Select the **Personal access tokens** option and click the **Generate new token** button.
   3. Fill in the token information as follows:
      a) Describe the token using the **Note** field.
-     b) Set expiuration to _No expiration_.
+     b) Set expiration to _No expiration_.
      c) Select the all _repo_ and _write:packages_ options, including the _read:packages_.
   4. Click the **Generate Token** button at the bottom of the page.
   5. Copy your generated token code for later.
@@ -71,7 +71,7 @@ NOTE: If you are using a Windows machine then you may receive errors when runnin
 
 #### External Contributors
 
-Due to the terms of our licensing agreement with Trading View, we cannot grant access to the charting-library repository to external contributors. To allow running this repository locally, we have set up the `development_external` and `master_external` branches that exclude this dependency and are synched to the latest changes from `development`/`master` branches.
+Due to the terms of our licensing agreement with TradingView, we cannot grant access to the charting-library repository to external contributors. To allow running this repository locally, we have set up the `development_external` and `master_external` branches that exclude this dependency and are synced to the latest changes from `development`/`master` branches.
 
 Any new Pull Requests should target the non-external versions of these branches as outlined in the "Which Branch?" section below.
 
@@ -106,7 +106,7 @@ Informal discussion regarding bugs, new features, and implementation of existing
 
 ### Which Branch?
 
-The `development` branch acts as a testnet containing the latest changes. The `master` branch is procudction branch for the **live.sovryn.app**. Depending on your feature you are contributing with, select the proper branch as a starting point. Most of the time, it will be the `development` branch unless you provide hotfixes or features that should be released before other features - then it can be `master`. By doing so, we merge all features to `development` and then `development` to `master` to make one big release batch.
+The `development` branch acts as a testnet containing the latest changes. The `master` branch is production branch for the **live.sovryn.app**. Depending on your feature you are contributing with, select the proper branch as a starting point. Most of the time, it will be the `development` branch unless you provide hotfixes or features that should be released before other features - then it can be `master`. By doing so, we merge all features to `development` and then `development` to `master` to make one big release batch.
 
 **All** bug fixes should be sent to the latest stable `master` branch. Bug fixes should never be sent to the development branch unless they fix features that exist only in the upcoming release.
 
