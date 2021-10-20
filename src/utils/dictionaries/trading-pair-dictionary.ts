@@ -15,6 +15,19 @@ export enum TradingPairType {
   SOV_DOC = 'SOV_DOC',
 }
 
+export const pairs = {
+  [TradingPairType.BPRO_USDT]: [Asset.BPRO, Asset.USDT],
+  [TradingPairType.BPRO_DOC]: [Asset.BPRO, Asset.DOC],
+  [TradingPairType.BPRO_XUSD]: [Asset.BPRO, Asset.XUSD],
+  [TradingPairType.SOV_RBTC]: [Asset.SOV, Asset.RBTC],
+  [TradingPairType.SOV_BPRO]: [Asset.SOV, Asset.BPRO],
+  [TradingPairType.SOV_DOC]: [Asset.SOV, Asset.DOC],
+  [TradingPairType.SOV_XUSD]: [Asset.SOV, Asset.XUSD],
+  [TradingPairType.RBTC_USDT]: [Asset.RBTC, Asset.USDT],
+  [TradingPairType.RBTC_DOC]: [Asset.RBTC, Asset.DOC],
+  [TradingPairType.RBTC_XUSD]: [Asset.RBTC, Asset.XUSD],
+};
+
 export class TradingPairDictionary {
   // Note: do not remove pairs from the list, set them as deprecated (last property in TradingPair constructor)
   // if trading should be halted for them.

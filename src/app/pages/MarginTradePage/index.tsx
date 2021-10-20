@@ -23,7 +23,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
 import styles from './index.module.scss';
 import { NotificationSettingsDialog } from './components/NotificationSettingsDialog';
-import { PairNavbar } from '../SpotTradingPage/components/PairNavbar';
+import { PairNavbar } from './components/PairNavbar';
 
 export function MarginTradePage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });

@@ -7,7 +7,7 @@ import { TradingPosition } from 'types/trading-position';
 
 // The initial state of the MarginTradePage container
 export const initialState: ContainerState = {
-  pairType: TradingPairType.RBTC_XUSD,
+  pairType: TradingPairType.SOV_RBTC,
   collateral: Asset.RBTC,
   amount: '0',
   leverage: 2,
