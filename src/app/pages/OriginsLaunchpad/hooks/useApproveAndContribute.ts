@@ -23,7 +23,7 @@ export const useApproveAndContribute = () => {
     ) => {
       const tx: CheckAndApproveResult = await contractWriter.checkAndApprove(
         sourceToken,
-        getContract('ZERO_token').address,
+        '0xfA1fCaa199b02235dE2Be7Bf17fd174cc72f1D60', // presale contract
         sourceWeiAmount,
       );
 
