@@ -9,7 +9,8 @@ import { useSwapsExternal_getSwapExpectedReturn } from 'app/hooks/swap-network/u
 import { bignumber } from 'mathjs';
 import { TxDialog } from '../TxDialog';
 import { useCanInteract } from 'app/hooks/useCanInteract';
-import { useApproveAndBuyToken } from 'app/pages/OriginsLaunchpad/hooks/useApproveAndBuyToken';
+// import { useApproveAndBuyToken } from 'app/pages/OriginsLaunchpad/hooks/useApproveAndBuyToken';
+import { useApproveAndContribute } from 'app/pages/OriginsLaunchpad/hooks/useApproveAndContribute';
 // import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
@@ -34,7 +35,7 @@ export const BuySection: React.FC<IBuySectionProps> = ({
 
   const [sourceToken, setSourceToken] = useState<Asset>(Asset.SOV);
   const [amount, setAmount] = useState('');
-  const [isOverMaxLimit, setIsOverMaxLimit] = useState(false);
+  // const [isOverMaxLimit, setIsOverMaxLimit] = useState(false);
   const weiAmount = useWeiAmount(amount);
 
   const [tokenAmount, setTokenAmount] = useState(amount);
@@ -46,7 +47,7 @@ export const BuySection: React.FC<IBuySectionProps> = ({
       bignumber(weiTokenAmount).greaterThan(0)
       // && !isOverMaxLimit
     );
-  }, [isOverMaxLimit, weiAmount, weiTokenAmount]);
+  }, [weiAmount, weiTokenAmount]);
 
   const { value: totalDeposit } = useSwapsExternal_getSwapExpectedReturn(
     sourceToken,
@@ -59,16 +60,22 @@ export const BuySection: React.FC<IBuySectionProps> = ({
     depositRate,
   ]);
 
-  useEffect(
-    () => setIsOverMaxLimit(bignumber(weiAmount).greaterThan(maxAmount)),
-    [weiAmount, maxAmount],
-  );
+  // useEffect(
+  //   () => setIsOverMaxLimit(bignumber(weiAmount).greaterThan(maxAmount)),
+  //   [weiAmount, maxAmount],
+  // );
 
-  const { buy, ...buyTx } = useApproveAndBuyToken();
+  const { contribute, ...buyTx } = useApproveAndContribute();
 
   const onBuyClick = useCallback(
-    () => buy(tierId, weiTokenAmount, saleName, weiAmount, sourceToken),
-    [buy, saleName, sourceToken, tierId, weiAmount, weiTokenAmount],
+    () =>
+      contribute(
+        bignumber(weiAmount).mul(100).toString(),
+        Asset.ZERO,
+        weiAmount,
+        Asset.SOV,
+      ),
+    [contribute, weiAmount],
   );
 
   return (
