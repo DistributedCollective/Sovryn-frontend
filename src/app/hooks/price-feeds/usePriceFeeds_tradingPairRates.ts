@@ -77,7 +77,12 @@ export function usePriceFeeds_tradingPairRates() {
             value: result as any,
           });
         } catch (e) {
-          console.error(`Failed to retrieve rate of ${source} - ${target}`, e);
+          if (target !== Asset.ZERO && source !== Asset.ZERO) {
+            console.error(
+              `Failed to retrieve rate of ${source} - ${target}`,
+              e,
+            );
+          }
         }
       }
     }
