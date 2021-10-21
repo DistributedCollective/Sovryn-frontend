@@ -28,12 +28,17 @@
     NOTE: Alternatively, You can use the NVM tool that is easy to use and allows you to switch between the installed node versions. For more information, see the [NVM](https://github.com/nvm-sh/nvm) guide.
 
 - Generate the GitHub Personal Access Token (PAT) and copy the token code:
+
   1. Using your GitHub profile Drop-down menu, navigate to **Settings -> Developer settings**.
   2. Select the **Personal access tokens** option and click the **Generate new token** button.
   3. Fill in the token information as follows:
+
      a) Describe the token using the **Note** field.
+
      b) Set expiration to _No expiration_.
+
      c) Select the all _repo_ and _write:packages_ options, including the _read:packages_.
+
   4. Click the **Generate Token** button at the bottom of the page.
   5. Copy your generated token code for later.
 
