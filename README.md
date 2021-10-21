@@ -35,9 +35,9 @@
 
      a) Describe the token using the **Note** field.
 
-     b) Set expiration to _No expiration_.
+     b) Set expiration to **_No expiration_**.
 
-     c) Select the all _repo_ and _write:packages_ options, including the _read:packages_.
+     c) Select the all **_repo_** and **_write:packages_** options, including the **_read:packages_**.
 
   4. Click the **Generate Token** button at the bottom of the page.
   5. Copy your generated token code for later.
