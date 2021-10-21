@@ -71,7 +71,7 @@
   yarn start
   ```
 
-- For development mainet:
+- For development mainnet:
 
   ```shell
   yarn start:mainnet
