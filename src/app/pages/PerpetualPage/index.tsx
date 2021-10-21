@@ -29,7 +29,6 @@ import { currentNetwork } from '../../../utils/classifiers';
 import { ChainId } from '../../../types';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { ProviderType } from '@sovryn/wallet';
-import styles from './index.module.scss';
 import { AccountBalanceCard } from './components/AccountBalanceCard';
 import { usePerpetual_accountBalance } from './hooks/usePerpetual_accountBalance';
 import { AccountBalanceDialog } from './components/AccountBalanceDialog';
@@ -96,18 +95,12 @@ export function PerpetualPage() {
     [],
   );
 
-  // This can be used for testing Deposit/Withdraw and also you can mint margin tokens
+  // This can be used for testing Deposit/Withdraw
 
-  // const { send, ...txState } = useSendContractTx('PERPETUALS_token', 'mint');
-  // const onMintClick = useCallback(() => send([account, toWei(200)]), [
-  //   account,
-  //   send,
-  // ]);
-
-  // const { deposit, ...depositTx } = usePerpetual_depositMarginToken();
+  // const { deposit } = usePerpetual_depositMarginToken();
   // const onDepositClick = useCallback(() => deposit('20'), [deposit]);
 
-  // const { withdraw, ...withdrawTx } = usePerpetual_withdrawMarginToken();
+  // const { withdraw } = usePerpetual_withdrawMarginToken();
   // const onWithdrawClick = useCallback(() => withdraw('20'), [withdraw]);
 
   // const { send: sendMargin, ...rest } = useSendContractTx(
@@ -174,10 +167,8 @@ export function PerpetualPage() {
           </div>
         </div>
 
-        {/* This can be used for testing Deposit/Withdraw and also you can mint margin tokens */}
-
-        {/* <button onClick={onMintClick}>Mint 200 margin tokens</button>
-        <button className="tw-block" onClick={onDepositClick}>
+        {/* This can be used for testing Deposit/Withdraw */}
+        {/* <button className="tw-block" onClick={onDepositClick}>
           Deposit 20 margin tokens
         </button>
         <button className="tw-block" onClick={onWithdrawClick}>
