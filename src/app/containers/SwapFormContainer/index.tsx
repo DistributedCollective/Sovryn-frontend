@@ -15,6 +15,7 @@ import { SlippageDialog } from 'app/pages/BuySovPage/components/BuyForm/Dialogs/
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
 import { BuyButton } from 'app/pages/BuySovPage/components/Button/buy';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
+import { SwapStats } from './components/SwapStats';
 import { bignumber } from 'mathjs';
 import { Input } from 'app/components/Form/Input';
 import { ActionButton } from 'app/components/Form/ActionButton';
@@ -273,6 +274,8 @@ export function SwapFormContainer() {
         onClose={() => setDialogOpen(false)}
         onChange={value => setSlippage(value)}
       />
+
+      <SwapStats />
 
       <Arbitrage onClick={(source, target) => setSwapTokents(source, target)} />
 
