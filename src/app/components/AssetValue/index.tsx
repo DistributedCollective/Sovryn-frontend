@@ -21,7 +21,7 @@ export const AssetValue: React.FC<AssetValueProps> = ({
   value,
   asset,
   assetString,
-  mode = AssetValueMode.preDefined,
+  mode = AssetValueMode.predefined,
   useTooltip = false,
   minDecimals = 0,
   maxDecimals = 6,
@@ -35,7 +35,7 @@ export const AssetValue: React.FC<AssetValueProps> = ({
 
     let min = minDecimals;
     let max = maxDecimals;
-    if (mode === AssetValueMode.preDefined) {
+    if (mode === AssetValueMode.predefined) {
       min = (asset && AssetDecimals[asset]) || 2;
       max = min;
     }

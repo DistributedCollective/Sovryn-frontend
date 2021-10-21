@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { toWei } from 'web3-utils';
+import { Nullable } from '../../../../types';
 import { useBlockSync } from '../../../hooks/useAccount';
 
 export enum FundingHistoryAction {
@@ -40,7 +41,7 @@ const placeholderFetch = async (
     FundingHistoryAction.withdraw,
     FundingHistoryAction.transfer,
   ];
-  const stati = [
+  const statuses = [
     FundingHistoryStatus.pending,
     FundingHistoryStatus.complete,
     FundingHistoryStatus.confirmed,
@@ -54,7 +55,7 @@ const placeholderFetch = async (
       amount,
       time: new Date().toISOString(),
       action: actions[i % actions.length],
-      status: stati[i % stati.length],
+      status: statuses[i % statuses.length],
       transactionHash: 'NOT IMPLEMENTED',
     });
   }
@@ -64,11 +65,11 @@ const placeholderFetch = async (
 
 export const usePerpetual_FundingHistory = () => {
   const blockId = useBlockSync();
-  const [data, setData] = useState<FundingHistoryEntry[] | null>();
-  const [loading, setLoading] = useState<boolean>(false);
+  const [data, setData] = useState<Nullable<FundingHistoryEntry[]>>(null);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // TODO: implement OpenPosition data fetching
+    // TODO: implement FundingHistory data fetching
     setLoading(true);
     placeholderFetch(blockId).then(data => {
       setData(data);

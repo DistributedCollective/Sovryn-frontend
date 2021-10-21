@@ -20,6 +20,6 @@ export const AssetDecimals: { [key in Asset]: number } = {
 };
 
 export enum AssetValueMode {
-  preDefined = 'defined',
+  predefined = 'predefined',
   auto = 'auto',
 }

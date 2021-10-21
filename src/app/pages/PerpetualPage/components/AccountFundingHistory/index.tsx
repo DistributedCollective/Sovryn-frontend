@@ -1,7 +1,5 @@
-import { useEffect } from 'hoist-non-react-statics/node_modules/@types/react';
 import React, { useMemo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
 import { translations } from '../../../../../locales/i18n';
 import { PerpetualPairType } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { Pagination } from '../../../../components/Pagination';
