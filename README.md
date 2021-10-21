@@ -18,7 +18,8 @@
 
 - Make sure you use at least version 12 of Node.js.
 
-  - To install Node.JS:
+  - To install Node.JS as a Windows user, download the required installation from the [Node.js](https://nodejs.org/en/download/) website.
+  - To install Node.JS as a Linux or macOS user:
     - `sudo dnf module install nodejs:12`
   - To reset the older Node.JS installation so that you can upgrade to version 12:
 
@@ -59,13 +60,19 @@
 
 5. Start DApp server:
 
-- For development:
+- For development testnet:
 
   ```shell
   yarn start
   ```
 
-- For production:
+- For development mainet:
+
+  ```shell
+  yarn start:mainnet
+  ```
+
+- For a production build:
   ```shell
   yarn build
   ```
