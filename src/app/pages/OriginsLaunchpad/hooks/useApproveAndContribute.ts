@@ -21,7 +21,7 @@ export const useApproveAndContribute = () => {
       sourceWeiAmount: string,
       sourceToken: Asset,
     ) => {
-      let tx: CheckAndApproveResult = await contractWriter.checkAndApprove(
+      const tx: CheckAndApproveResult = await contractWriter.checkAndApprove(
         sourceToken,
         getContract('ZERO_token').address,
         sourceWeiAmount,
@@ -37,7 +37,7 @@ export const useApproveAndContribute = () => {
           from: account,
           gas: gasLimit[TxType.ORIGINS_SALE_BUY],
           nonce: tx?.nonce,
-          value: sourceWeiAmount,
+          // value: sourceWeiAmount,
         },
         {
           type: TxType.ORIGINS_SALE_BUY,
