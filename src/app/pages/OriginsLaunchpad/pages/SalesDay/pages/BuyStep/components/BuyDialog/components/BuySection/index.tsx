@@ -5,12 +5,14 @@ import { Asset } from 'types';
 import { BuyWrapper, BuyButton } from './styled';
 import { useTranslation } from 'react-i18next';
 import { useWeiAmount } from 'app/hooks/useWeiAmount';
+import { useSwapsExternal_getSwapExpectedReturn } from 'app/hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
 import { bignumber } from 'mathjs';
 import { TxDialog } from '../TxDialog';
 import { useCanInteract } from 'app/hooks/useCanInteract';
 import { useApproveAndBuyToken } from 'app/pages/OriginsLaunchpad/hooks/useApproveAndBuyToken';
-import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+// import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { AssetRenderer } from 'app/components/AssetRenderer';
+import { weiToFixed } from 'utils/blockchain/math-helpers';
 
 interface IBuySectionProps {
   saleName: string;
@@ -23,13 +25,14 @@ interface IBuySectionProps {
 export const BuySection: React.FC<IBuySectionProps> = ({
   saleName,
   depositRate,
-  sourceToken,
+  sourceToken: defaultSourceToken,
   tierId,
   maxAmount,
 }) => {
   const { t } = useTranslation();
   const connected = useCanInteract(true);
 
+  const [sourceToken, setSourceToken] = useState<Asset>(Asset.SOV);
   const [amount, setAmount] = useState('');
   const [isOverMaxLimit, setIsOverMaxLimit] = useState(false);
   const weiAmount = useWeiAmount(amount);
@@ -40,10 +43,16 @@ export const BuySection: React.FC<IBuySectionProps> = ({
   const isValidAmount = useMemo(() => {
     return (
       bignumber(weiAmount).greaterThan(0) &&
-      bignumber(weiTokenAmount).greaterThan(0) &&
-      !isOverMaxLimit
+      bignumber(weiTokenAmount).greaterThan(0)
+      // && !isOverMaxLimit
     );
   }, [isOverMaxLimit, weiAmount, weiTokenAmount]);
+
+  const { value: totalDeposit } = useSwapsExternal_getSwapExpectedReturn(
+    sourceToken,
+    Asset.SOV,
+    weiAmount,
+  );
 
   useEffect(() => setTokenAmount(`${Number(amount) * depositRate}`), [
     amount,
@@ -76,21 +85,10 @@ export const BuySection: React.FC<IBuySectionProps> = ({
             <AmountInput
               value={amount}
               onChange={value => setAmount(value)}
-              asset={Asset.RBTC}
+              asset={sourceToken}
               assetSelectable={true}
+              onSelectAsset={(asset: Asset) => setSourceToken(asset)}
             />
-            {isOverMaxLimit && (
-              <ErrorBadge
-                content={
-                  <span>
-                    {t(
-                      translations.originsLaunchpad.saleDay.buyStep.buyDialog
-                        .isOverMaxLimit,
-                    )}
-                  </span>
-                }
-              />
-            )}
           </div>
 
           <BuyButton
@@ -112,7 +110,13 @@ export const BuySection: React.FC<IBuySectionProps> = ({
             translations.originsLaunchpad.saleDay.buyStep.buyDialog
               .yourTotalDeposit,
           )}{' '}
-          :<span className="tw-px-2">{'0.0000'}</span>
+          :
+          <span className="tw-px-2">
+            {weiToFixed(
+              sourceToken === Asset.SOV ? weiAmount : totalDeposit,
+              4,
+            )}
+          </span>
           <AssetRenderer asset={Asset.SOV} />
         </div>
       </div>

@@ -19,6 +19,7 @@ interface Props {
   asset?: Asset;
   assetString?: string;
   assetSelectable?: boolean;
+  onSelectAsset?: (asset: Asset) => void;
   subText?: string;
   placeholder?: string;
   maxAmount?: string;
@@ -33,6 +34,7 @@ export function AmountInput({
   asset,
   assetString,
   assetSelectable,
+  onSelectAsset,
   subText,
   maxAmount,
   readonly,
@@ -47,10 +49,7 @@ export function AmountInput({
         appendElem={
           asset || assetString ? (
             assetSelectable ? (
-              <AssetSelect
-                selected={asset || assetString}
-                onChange={() => {}}
-              />
+              <AssetSelect selected={asset as Asset} onChange={onSelectAsset} />
             ) : (
               <AssetRenderer asset={asset} assetString={assetString} />
             )

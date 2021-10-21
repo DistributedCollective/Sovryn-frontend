@@ -39,7 +39,11 @@ export const InformationSection: React.FC<IInformationSectionProps> = ({
             .tokenPrice,
         )}
         // value={`${depositRateToSatoshis(info.depositRate)} Sats`}
-        value={`${100} ZERO`}
+        value={
+          <>
+            0.01 <AssetSymbolRenderer asset={Asset.SOV} />
+          </>
+        }
       />
 
       <InfoItem
