@@ -34,7 +34,7 @@ import SovrynProtocolAbi from './abi/sovrynProtocol.json';
 import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
 import SettlementAbi from './abi/Settlement.json';
 import OrderBookAbi from './abi/OrderBook.json';
-import SwapsExternalAbi from './abi/SwapsExternalAbi.json';
+// import SwapsExternalAbi from './abi/SwapsExternalAbi.json';
 import nftAbi from './abi/nftAbi.json';
 
 export const contracts = {
