@@ -105,10 +105,7 @@ export function PerpetualPage() {
   // const { withdraw } = usePerpetual_withdrawMarginToken();
   // const onWithdrawClick = useCallback(() => withdraw('20'), [withdraw]);
 
-  // const { send: sendMargin, ...rest } = useSendContractTx(
-  //   'perpetualManager',
-  //   'getMarginAccount',
-  // );
+  // const marginAccountBalance = usePerpetual_marginAccountBalance();
 
   return (
     <>

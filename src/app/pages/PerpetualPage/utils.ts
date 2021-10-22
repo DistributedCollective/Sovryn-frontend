@@ -40,6 +40,22 @@ export const floatToABK64x64 = (value: number) => {
   return integerPartBigNumber.add(decimalPartBigNumber).mul(sign);
 };
 
+export const ABK64x64ToFloat = (value: BigNumber) => {
+  const sign = value.lt(0) ? -1 : 1;
+  value = value.mul(sign);
+  const integerPart = value.div(ONE_64x64);
+  let decimalPart = value.sub(integerPart.mul(ONE_64x64));
+  const dec18 = BigNumber.from(10).pow(BigNumber.from(18));
+  decimalPart = decimalPart.mul(dec18).div(ONE_64x64);
+  const k = 18 - decimalPart.toString().length;
+
+  const sPad = '0'.repeat(k);
+  const numberString =
+    integerPart.toString() + '.' + sPad + decimalPart.toString();
+
+  return parseFloat(numberString) * sign;
+};
+
 export const checkAndApprove = async (
   contractName: ContractName,
   spenderAddress: string,
