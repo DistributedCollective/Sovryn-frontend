@@ -15,9 +15,9 @@ export const usePerpetual_withdrawMarginToken = () => {
         [PERPETUAL_ID, floatToABK64x64(parseFloat(amount))],
         {
           from: account,
-          gas: gasLimit[TxType.DEPOSIT_COLLATERAL],
+          gas: gasLimit[TxType.WITHDRAW_COLLATERAL],
         },
-        { type: TxType.DEPOSIT_COLLATERAL },
+        { type: TxType.WITHDRAW_COLLATERAL },
       );
     },
     ...rest,

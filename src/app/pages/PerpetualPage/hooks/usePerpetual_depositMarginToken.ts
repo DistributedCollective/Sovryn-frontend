@@ -1,12 +1,11 @@
 import { useAccount } from 'app/hooks/useAccount';
 import { useSendContractTx } from 'app/hooks/useSendContractTx';
-import { contractWriter } from 'utils/sovryn/contract-writer';
 import { Asset } from 'types';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { toWei } from 'web3-utils';
 import { gasLimit } from 'utils/classifiers';
 import { TxType } from 'store/global/transactions-store/types';
-import { PERPETUAL_ID, floatToABK64x64 } from '../utils';
+import { PERPETUAL_ID, floatToABK64x64, checkAndApprove } from '../utils';
 
 export const usePerpetual_depositMarginToken = () => {
   const account = useAccount();
@@ -15,10 +14,11 @@ export const usePerpetual_depositMarginToken = () => {
 
   return {
     deposit: async (amount: string) => {
-      const tx = await contractWriter.checkAndApprove(
-        Asset.PERPETUALS,
+      const tx = await checkAndApprove(
+        'PERPETUALS_token',
         getContract('perpetualManager').address,
         toWei(amount),
+        Asset.PERPETUALS,
       );
 
       if (tx.rejected) {
