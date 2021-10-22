@@ -26,3 +26,26 @@ export function useDollarValue(asset: Asset, weiAmount: string) {
     error: dollars.error,
   };
 }
+
+export function useDollarValue4ZERO(weiAmount: string) {
+  const asset = Asset.SOV;
+  const dollars = useCachedAssetPrice(asset, Asset.USDT);
+
+  const value = useMemo(() => {
+    const { decimals } = AssetsDictionary.get(asset);
+    if ([Asset.USDT, Asset.DOC, Asset.RDOC].includes(asset)) {
+      return weiAmount;
+    } else {
+      return bignumber(weiAmount)
+        .mul(dollars.value)
+        .div(10 ** (decimals + 2))
+        .toFixed(0);
+    }
+  }, [asset, dollars, weiAmount]);
+
+  return {
+    value,
+    loading: dollars.loading,
+    error: dollars.error,
+  };
+}

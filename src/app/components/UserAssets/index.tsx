@@ -29,7 +29,10 @@ import { discordInvite } from 'utils/classifiers';
 import { ConversionDialog } from './ConversionDialog';
 import { BridgeLink } from './BridgeLink';
 import { UnWrapDialog } from './UnWrapDialog';
-import { useDollarValue } from '../../hooks/useDollarValue';
+import {
+  useDollarValue,
+  useDollarValue4ZERO,
+} from '../../hooks/useDollarValue';
 
 export function UserAssets() {
   const { t } = useTranslation();
@@ -232,6 +235,9 @@ function AssetRow({
   }, [item.asset, account, blockSync]);
 
   const dollarValue = useDollarValue(item.asset, tokens);
+  const dollarValueOfZERO = useDollarValue4ZERO(tokens);
+  const _dollarValue =
+    item.asset === Asset.ZERO ? dollarValueOfZERO : dollarValue;
 
   if (tokens === '0' && item.hideIfZero)
     return <React.Fragment key={item.asset} />;
@@ -246,8 +252,8 @@ function AssetRow({
       </td>
       <td className="tw-text-right tw-hidden md:tw-table-cell">
         <LoadableValue
-          value={weiToUSD(dollarValue.value)}
-          loading={dollarValue.loading}
+          value={weiToUSD(_dollarValue.value)}
+          loading={_dollarValue.loading}
         />
       </td>
       <td className="tw-text-right tw-hidden md:tw-table-cell">

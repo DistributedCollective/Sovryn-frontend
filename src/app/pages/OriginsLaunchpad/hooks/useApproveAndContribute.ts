@@ -12,7 +12,7 @@ import { useAccount } from 'app/hooks/useAccount';
 export const useApproveAndContribute = () => {
   const account = useAccount();
 
-  const { send, ...rest } = useSendContractTx('ZERO_token', 'contribute');
+  const { send, ...rest } = useSendContractTx('ZERO_ctrl', 'contribute');
 
   return {
     contribute: async (
