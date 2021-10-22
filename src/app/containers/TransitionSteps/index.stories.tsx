@@ -13,7 +13,7 @@ enum Steps {
   beta = 'beta',
 }
 
-const TestStep: TransitionStep<Steps, {}> = ({ changeTo, id }) => (
+const TestStep: TransitionStep<Steps> = ({ changeTo, id }) => (
   <div className="tw-p-16">
     <h3>{id}</h3>
     <button
@@ -68,11 +68,10 @@ const TestStep: TransitionStep<Steps, {}> = ({ changeTo, id }) => (
   </div>
 );
 
-export const Basic = ({ animateHeight = true, animation, duration }) => {
+export const Basic = () => {
   return (
     <div className="tw-max-w-lg tw-w-full tw-mx-auto tw-bg-gray-3 tw-rounded-xl">
-      <TransitionSteps<Steps, {}>
-        forwardProps={{}}
+      <TransitionSteps<Steps>
         defaultActive={Steps.alpha}
         defaultAnimation={TransitionAnimation.fade}
         steps={{

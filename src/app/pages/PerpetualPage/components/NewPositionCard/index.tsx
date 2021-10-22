@@ -1,11 +1,20 @@
 import { useWalletContext } from '@sovryn/react-wallet';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  useContext,
+} from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import iconArrowForward from 'assets/images/arrow_forward.svg';
 import { translations } from '../../../../../locales/i18n';
 import { TradingPosition } from '../../../../../types/trading-position';
-import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
+import {
+  PerpetualPairDictionary,
+  PerpetualPairType,
+} from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
 import { SlippageForm } from '../SlippageForm';
@@ -21,6 +30,7 @@ import {
 } from '../../../../containers/TransitionSteps';
 import { TransitionAnimation } from '../../../../containers/TransitionContainer';
 import { TradeForm } from '../../components/TradeForm';
+import { Asset } from '../../../../../types';
 
 enum Step {
   unconnected = 'unconnected',
@@ -33,6 +43,21 @@ type StepProps = {
   onChangeTrade: (trade: PerpetualTrade) => void;
   onSubmit: () => void;
 };
+
+const NewPositionCardContext = React.createContext<StepProps>({
+  trade: {
+    pairType: PerpetualPairType.BTCUSD,
+    collateral: Asset.PERPETUALS,
+    position: TradingPosition.LONG,
+    tradeType: PerpetualTradeType.MARKET,
+    amount: '0',
+    limit: '0',
+    leverage: 1,
+    slippage: 0.005,
+  },
+  onChangeTrade: () => {},
+  onSubmit: () => {},
+});
 
 type NewPositionCardProps = {
   /** balance as wei string */
@@ -71,15 +96,6 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
     }
   }, [pair.collaterals, collateral, dispatch]);
 
-  const steps = useMemo(
-    () => ({
-      [Step.unconnected]: ConnectForm,
-      [Step.trade]: TradeFormStep,
-      [Step.slippage]: SlippageFormStep,
-    }),
-    [],
-  );
-
   const stepProps: StepProps = useMemo(
     () => ({
       trade,
@@ -92,27 +108,22 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
   return (
     <DataCard
       title={t(translations.perpetualPage.tradeForm.titles.order)}
-      className="tw-relative tw-pb-16"
+      className="tw-relative"
     >
-      <TransitionSteps<Step, StepProps>
-        duration={1000}
-        defaultActive={connected ? Step.trade : Step.unconnected}
-        defaultAnimation={TransitionAnimation.slideLeft}
-        forwardProps={stepProps}
-        steps={steps}
-      />
+      <NewPositionCardContext.Provider value={stepProps}>
+        <TransitionSteps<Step>
+          active={connected ? Step.trade : Step.unconnected}
+          defaultActive={Step.unconnected}
+          defaultAnimation={TransitionAnimation.slideLeft}
+          steps={StepComponents}
+        />
+      </NewPositionCardContext.Provider>
     </DataCard>
   );
 };
-const ConnectForm: TransitionStep<Step, StepProps> = ({ changeTo }) => {
+const ConnectForm: TransitionStep<Step> = ({ changeTo }) => {
   const { t } = useTranslation();
-  const { connect, connected } = useWalletContext();
-
-  useEffect(() => {
-    if (connected) {
-      changeTo(Step.trade, TransitionAnimation.slideLeft);
-    }
-  }, [changeTo, connected]);
+  const { connect } = useWalletContext();
 
   return (
     <div className="tw-flex-grow tw-text-xs">
@@ -152,39 +163,33 @@ const ConnectForm: TransitionStep<Step, StepProps> = ({ changeTo }) => {
   );
 };
 
-const TradeFormStep: TransitionStep<Step, StepProps> = ({
-  trade,
-  changeTo,
-  onSubmit,
-  onChangeTrade,
-}) => {
+const TradeFormStep: TransitionStep<Step> = ({ changeTo }) => {
+  const { trade, onSubmit, onChangeTrade } = useContext(NewPositionCardContext);
   const onOpenSlippage = useCallback(() => changeTo(Step.slippage), [changeTo]);
   return (
-    <div>
-      <TradeForm
-        trade={trade}
-        onOpenSlippage={onOpenSlippage}
-        onSubmit={onSubmit}
-        onChange={onChangeTrade}
-      />
-    </div>
+    <TradeForm
+      trade={trade}
+      onOpenSlippage={onOpenSlippage}
+      onSubmit={onSubmit}
+      onChange={onChangeTrade}
+    />
   );
 };
 
-const SlippageFormStep: TransitionStep<Step, StepProps> = ({
-  trade,
-  changeTo,
-  onChangeTrade,
-}) => {
+const SlippageFormStep: TransitionStep<Step> = ({ changeTo }) => {
   const { t } = useTranslation();
+
+  const { trade, onChangeTrade } = useContext(NewPositionCardContext);
+
   const onCloseSlippage = useCallback(
-    () => changeTo(Step.trade, TransitionAnimation.slideRight),
+    () => changeTo(Step.trade, TransitionAnimation.slideLeft),
     [changeTo],
   );
   const onChangeSlippage = useCallback(
     slippage => onChangeTrade({ ...trade, slippage }),
     [trade, onChangeTrade],
   );
+
   return (
     <div>
       <h3 className="tw-relative">
@@ -204,4 +209,10 @@ const SlippageFormStep: TransitionStep<Step, StepProps> = ({
       <SlippageForm slippage={trade.slippage} onChange={onChangeSlippage} />
     </div>
   );
+};
+
+const StepComponents = {
+  [Step.unconnected]: ConnectForm,
+  [Step.trade]: TradeFormStep,
+  [Step.slippage]: SlippageFormStep,
 };

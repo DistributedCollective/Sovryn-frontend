@@ -14,33 +14,28 @@ export enum TransitionAnimation {
 
 const classNamesForAnimation = (animation: string) => ({
   enter: styles[`${animation}Enter`],
-  enterActive: classNames(styles[`${animation}EnterActive`], styles.disabled),
+  enterActive: classNames(styles[`${animation}EnterActive`], styles.animating),
   enterDone: styles[`${animation}EnterDone`],
   exit: styles[`${animation}Exit`],
-  exitActive: classNames(styles[`${animation}ExitActive`], styles.disabled),
+  exitActive: classNames(styles[`${animation}ExitActive`], styles.animating),
   exitDone: styles[`${animation}ExitDone`],
 });
 
 const AnimationConfig: {} = {
   fade: {
     classNames: classNamesForAnimation('fade'),
-    transitionProperties: ['opacity'],
   },
   slideLeft: {
     classNames: classNamesForAnimation('slideLeft'),
-    transitionProperties: ['transform'],
   },
   slideRight: {
     classNames: classNamesForAnimation('slideRight'),
-    transitionProperties: ['transform'],
   },
   slideUp: {
     classNames: classNamesForAnimation('slideUp'),
-    transitionProperties: ['transform', 'bottom'],
   },
   slideDown: {
     classNames: classNamesForAnimation('slideDown'),
-    transitionProperties: ['transform', 'top'],
   },
 };
 
@@ -48,16 +43,16 @@ type TransitionContainerProps = {
   active: number | string;
   children: React.ReactNode;
   animateHeight?: boolean;
-  duration?: number;
   animation?: TransitionAnimation;
   onAnimationComplete?: () => void;
 };
+
+const ANIMATION_DURATION = 500;
 
 export const TransitionContainer: React.FC<TransitionContainerProps> = ({
   active,
   children,
   animateHeight = true,
-  duration = 500,
   animation = TransitionAnimation.fade,
   onAnimationComplete,
 }) => {
@@ -70,25 +65,19 @@ export const TransitionContainer: React.FC<TransitionContainerProps> = ({
       className="tw-relative tw-w-full tw-overflow-hidden"
       style={{
         height: dimensions?.height,
-        transition: animateHeight ? `height ease-in-out ${duration}ms` : '',
+        transition: animateHeight
+          ? `height ease-in-out ${ANIMATION_DURATION}ms`
+          : undefined,
       }}
     >
       <TransitionGroup>
         <CSSTransition
           key={active}
           classNames={animationConfig.classNames}
-          timeout={{ enter: duration, exit: duration }}
+          timeout={{ enter: ANIMATION_DURATION, exit: ANIMATION_DURATION }}
           onEntered={onAnimationComplete}
         >
-          <div
-            ref={ref}
-            className="tw-absolute tw-w-full tw-overflow-hidden"
-            style={{
-              transition: animationConfig.transitionProperties
-                .map(prop => `${prop} ease-in-out ${duration}ms`)
-                .join(', '),
-            }}
-          >
+          <div ref={ref} className="tw-absolute tw-w-full tw-overflow-hidden">
             <div>{children}</div>
           </div>
         </CSSTransition>

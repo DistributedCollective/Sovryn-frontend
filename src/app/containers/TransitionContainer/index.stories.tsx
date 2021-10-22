@@ -7,7 +7,7 @@ export default {
   component: TransitionContainer,
 };
 
-export const Basic = ({ animateHeight = true, animation, duration }) => {
+export const Basic = ({ animateHeight = true, animation }) => {
   const [active, setActive] = useState(0);
 
   return (
@@ -16,7 +16,6 @@ export const Basic = ({ animateHeight = true, animation, duration }) => {
         active={active}
         animateHeight={animateHeight}
         animation={animation}
-        duration={duration}
       >
         {active === 0 && (
           <div>
@@ -50,7 +49,7 @@ const Transitions = [
   TransitionAnimation.fade,
 ];
 
-export const AllTransitions = ({ animateHeight = true, duration }) => {
+export const AllTransitions = ({ animateHeight = true }) => {
   const [active, setActive] = useState(0);
   const [animation, setAnimation] = useState(TransitionAnimation.slideLeft);
 
@@ -64,7 +63,6 @@ export const AllTransitions = ({ animateHeight = true, duration }) => {
         active={active}
         animateHeight={animateHeight}
         animation={animation}
-        duration={duration}
         onAnimationComplete={onAnimationComplete}
       >
         {active === 0 && (
