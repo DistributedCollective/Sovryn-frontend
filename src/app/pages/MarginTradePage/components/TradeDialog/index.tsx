@@ -14,7 +14,7 @@ import {
   getLendingContractName,
   getTokenContract,
 } from 'utils/blockchain/contract-helpers';
-import { fromWei, toWei } from 'utils/blockchain/math-helpers';
+import { fromWei, toWei, weiTo18 } from 'utils/blockchain/math-helpers';
 import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
 import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
@@ -216,7 +216,11 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
                 <LoadableValue
                   loading={false}
                   value={weiToNumberFormat(minReturn, 2)}
-                  tooltip={minReturn}
+                  tooltip={
+                    <>
+                      {weiTo18(minReturn)} {pair.longDetails.symbol}
+                    </>
+                  }
                 />{' '}
                 {pair.longDetails.symbol}
               </div>
