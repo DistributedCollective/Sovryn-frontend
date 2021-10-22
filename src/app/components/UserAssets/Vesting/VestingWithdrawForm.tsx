@@ -6,7 +6,7 @@ import { useSendToContractAddressTx } from '../../../hooks/useSendToContractAddr
 import VestingAbi from '../../../../utils/blockchain/abi/Vesting.json';
 import { AbiItem } from 'web3-utils';
 import { TxType } from '../../../../store/global/transactions-store/types';
-import { FullVesting } from './useListOfUserVestings';
+import { FullVesting } from './types';
 import styles from '../../../containers/WalletPage/components/dialog.module.scss';
 import { translations } from '../../../../locales/i18n';
 import { FieldGroup } from '../../FieldGroup';

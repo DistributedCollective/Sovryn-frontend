@@ -4,15 +4,8 @@ import { ethGenesisAddress } from '../../../../utils/classifiers';
 import { bridgeNetwork } from '../../../pages/BridgeDepositPage/utils/bridge-network';
 import { getContract } from '../../../../utils/blockchain/contract-helpers';
 import { Chain } from '../../../../types';
-
 import stakingAbi from 'utils/blockchain/abi/Staking.json';
-import { FullVesting } from './useListOfUserVestings';
-// import vestingAbi from 'utils/blockchain/abi/Vesting.json';
-
-type StakesProp = {
-  dates: Date[];
-  stakes: string[];
-};
+import { FullVesting, StakesProp } from './types';
 
 const fillEmptyVesting = (vesting: FullVesting) => ({
   ...vesting,
