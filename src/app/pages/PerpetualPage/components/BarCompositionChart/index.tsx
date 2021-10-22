@@ -42,7 +42,7 @@ export const BarCompositionChart: React.FC<BarCompositionChartProps> = ({
           <BarSegment {...entry} total={total} />
         ))}
       </div>
-      <div className="tw-flex tw-flex-row tw-flex-wrap">
+      <div className="tw-flex tw-flex-row tw-justify-between tw-flex-wrap">
         {entries.map(entry => (
           <BarLabel {...entry} />
         ))}
@@ -92,7 +92,7 @@ const BarLabel: React.FC<BarCompositionChartEntry> = ({
   }
 
   return (
-    <div className="tw-flex tw-flex-row tw-w-1/3 tw-min-w-max tw-mb-2">
+    <div className="tw-flex tw-flex-row tw-min-w-max tw-mb-2">
       <div
         className={classNames(
           'tw-flex-none tw-w-3.5 tw-h-3.5 tw-mr-2',

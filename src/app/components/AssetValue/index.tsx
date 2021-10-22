@@ -8,6 +8,7 @@ import { AssetDecimals, AssetValueMode } from './types';
 type AssetValueProps = {
   value: number | string;
   asset?: Asset;
+  assetString?: string;
   useTooltip?: boolean;
   mode?: AssetValueMode;
   minDecimals?: number;
@@ -19,7 +20,8 @@ type AssetValueProps = {
 export const AssetValue: React.FC<AssetValueProps> = ({
   value,
   asset,
-  mode = AssetValueMode.defined,
+  assetString,
+  mode = AssetValueMode.predefined,
   useTooltip = false,
   minDecimals = 0,
   maxDecimals = 6,
@@ -33,7 +35,7 @@ export const AssetValue: React.FC<AssetValueProps> = ({
 
     let min = minDecimals;
     let max = maxDecimals;
-    if (mode === AssetValueMode.defined) {
+    if (mode === AssetValueMode.predefined) {
       min = (asset && AssetDecimals[asset]) || 2;
       max = min;
     }
@@ -61,10 +63,10 @@ export const AssetValue: React.FC<AssetValueProps> = ({
     <span className={className}>
       {isApproximation && '≈ '}
       {formattedValue}
-      {asset && (
+      {(asset || assetString) && (
         <>
           {' '}
-          <AssetSymbolRenderer asset={asset} />
+          <AssetSymbolRenderer asset={asset} assetString={assetString} />
         </>
       )}
     </span>
