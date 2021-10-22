@@ -4,34 +4,40 @@ import {
   TransitionContainer,
 } from '../TransitionContainer';
 
-type TransitionStepProps<I> = {
+type TransitionStepProps<I, P> = P & {
   id: I;
   changeTo: (id: I, animation?: TransitionAnimation) => void;
 };
 
-export type TransitionStep<I extends string | number> = React.FC<
-  TransitionStepProps<I>
->;
+export type TransitionStep<
+  I extends string | number,
+  P extends object
+> = React.FC<TransitionStepProps<I, P>>;
 
-export type TransitionStepsProps<I extends string | number> = {
+export type TransitionStepsProps<
+  I extends string | number,
+  P extends object
+> = {
   steps: {
-    [key in I]: TransitionStep<I>;
+    [key in I]: TransitionStep<I, P>;
   };
+  forwardProps: P;
   defaultActive: I;
   defaultAnimation: TransitionAnimation;
   duration?: number;
 };
 
-export const TransitionSteps = <I extends string | number>({
+export const TransitionSteps = <I extends string | number, P extends object>({
   steps,
+  forwardProps,
   defaultActive,
   defaultAnimation,
   duration,
-}: TransitionStepsProps<I>) => {
+}: TransitionStepsProps<I, P>) => {
   const [active, setActive] = useState(defaultActive);
   const [animation, setAnimation] = useState(defaultAnimation);
 
-  const changeTo = useCallback<TransitionStepProps<I>['changeTo']>(
+  const changeTo = useCallback<TransitionStepProps<I, any>['changeTo']>(
     (id, animation = defaultAnimation) => {
       if (!steps[id]) {
         return;
@@ -42,7 +48,7 @@ export const TransitionSteps = <I extends string | number>({
     [steps, defaultAnimation],
   );
 
-  const Step: TransitionStep<I> = steps[active];
+  const Step: TransitionStep<I, P> = steps[active];
 
   return (
     <TransitionContainer
@@ -51,7 +57,7 @@ export const TransitionSteps = <I extends string | number>({
       animation={animation}
       duration={duration}
     >
-      {Step && <Step id={active} changeTo={changeTo} />}
+      {Step && <Step id={active} changeTo={changeTo} {...forwardProps} />}
     </TransitionContainer>
   );
 };
