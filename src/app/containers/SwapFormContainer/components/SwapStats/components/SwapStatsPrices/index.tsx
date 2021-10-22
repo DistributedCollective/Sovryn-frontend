@@ -1,7 +1,5 @@
 import React, { useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
-import { translations } from 'locales/i18n';
 import {
   IPairs,
   IAssets,
@@ -17,19 +15,13 @@ import { AssetDetails } from 'utils/models/asset-details';
 
 interface ISwapStatsPricesProps {
   pairs?: IPairs;
-  isLoading: boolean;
   assetData?: IAssets;
-  assetLoading: boolean;
 }
 
 export const SwapStatsPrices: React.FC<ISwapStatsPricesProps> = ({
   pairs,
   assetData,
-  isLoading,
-  assetLoading,
 }) => {
-  const { t } = useTranslation();
-
   const list = useMemo(() => {
     if (!pairs) return [];
     return Object.keys(pairs)
@@ -39,54 +31,45 @@ export const SwapStatsPrices: React.FC<ISwapStatsPricesProps> = ({
       });
   }, [pairs]);
 
-  if (!isLoading && !list.length) return null;
+  if (!list.length) return null;
 
   return (
     <>
-      {isLoading && (
-        <div className="tw-skeleton tw-w-full" key={'loading'}>
-          {t(translations.topUpHistory.loading)}
-        </div>
-      )}
+      {list.map(pair => {
+        const assetDetails = AssetsDictionary.getByTokenContractAddress(
+          pair.base_id,
+        );
+        if (!assetDetails) {
+          return <></>;
+        }
+        let rbtcDiv;
 
-      {!isLoading &&
-        list.map(pair => {
-          const assetDetails = AssetsDictionary.getByTokenContractAddress(
-            pair.base_id,
+        if (assetDetails.asset === Asset.USDT) {
+          const rbtcDetails = AssetsDictionary.getByTokenContractAddress(
+            pair.quote_id,
           );
-          if (!assetDetails) {
-            return <></>;
-          }
-          let rbtcDiv;
-
-          if (assetDetails.asset === Asset.USDT) {
-            const rbtcDetails = AssetsDictionary.getByTokenContractAddress(
-              pair.quote_id,
-            );
-            rbtcDiv = (
-              <Div
-                assetDetails={rbtcDetails}
-                price24h={-pair.price_change_percent_24h}
-                lastPrice={1 / pair.last_price}
-                assetData={assetData && assetData[pair?.quote_id]}
-                assetLoading={assetLoading}
-              />
-            );
-          }
-
-          return (
-            <React.Fragment key={pair.base_id}>
-              {rbtcDiv}
-              <Div
-                assetDetails={assetDetails}
-                price24h={pair.price_change_percent_24h_usd}
-                lastPrice={pair.last_price_usd}
-                assetData={assetData && assetData[pair?.base_id]}
-                assetLoading={assetLoading}
-              />
-            </React.Fragment>
+          rbtcDiv = (
+            <Div
+              assetDetails={rbtcDetails}
+              price24h={-pair.price_change_percent_24h}
+              lastPrice={1 / pair.last_price}
+              assetData={assetData && assetData[pair?.quote_id]}
+            />
           );
-        })}
+        }
+
+        return (
+          <React.Fragment key={pair.base_id}>
+            {rbtcDiv}
+            <Div
+              assetDetails={assetDetails}
+              price24h={pair.price_change_percent_24h_usd}
+              lastPrice={pair.last_price_usd}
+              assetData={assetData && assetData[pair?.base_id]}
+            />
+          </React.Fragment>
+        );
+      })}
     </>
   );
 };
@@ -96,7 +79,6 @@ interface IDivProps {
   assetDetails?: AssetDetails;
   price24h: number;
   lastPrice: number;
-  assetLoading: boolean;
 }
 
 export const Div: React.FC<IDivProps> = ({

@@ -21,10 +21,11 @@
   }
 
   .swap-form {
-    @apply tw-p-8 tw-bg-black tw-border-0 tw-rounded-lg;
+    @apply tw-bg-black tw-border-0 tw-rounded-lg;
     letter-spacing: 0;
     width: 387px;
     min-height: 302px;
+    padding: 2.1rem;
 
     .title {
       @apply tw-mb-10 tw-text-2xl tw-text-sov-white tw-font-body tw-uppercase tw-font-semibold;
@@ -56,5 +57,29 @@
       background-size: 100% 100%;
       cursor: pointer;
     }
+  }
+}
+
+.statsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0.475rem;
+  font-size: 0.75rem;
+  @media (max-width: 768px) {
+      flex-wrap: wrap;
+  }
+  & > div {
+      &:nth-child(n + 6) {
+          display: none !important;
+      }
+      @media (max-width: 1200px) {
+          & > div:nth-child(2) {
+              display: none;
+          }
+      }
+      @media (max-width: 768px) {
+          margin: 2px 0;
+      }
   }
 }
