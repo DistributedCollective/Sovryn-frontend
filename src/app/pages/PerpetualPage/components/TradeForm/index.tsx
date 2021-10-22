@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
@@ -19,7 +19,9 @@ import { PerpetualTrade, PerpetualTradeType } from '../../types';
 import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
 import { Input } from '../../../../components/Input';
 import { AssetDecimals } from '../../../../components/AssetValue/types';
-import { toWei } from 'web3-utils';
+import { fromWei, toWei } from 'web3-utils';
+import { Tooltip } from '@blueprintjs/core';
+import { bignumber } from 'mathjs';
 
 interface ITradeFormProps {
   trade: PerpetualTrade;
@@ -28,6 +30,9 @@ interface ITradeFormProps {
   onSubmit: () => void;
   onOpenSlippage: () => void;
 }
+
+const STEP_SIZE = 0.002;
+const STEP_PRECISION = 3;
 
 export const TradeForm: React.FC<ITradeFormProps> = ({
   trade,
@@ -40,29 +45,36 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   const { checkMaintenance, States } = useMaintenance();
   const inMaintenance = checkMaintenance(States.PERPETUAL_TRADES);
 
-  const amount = useMemo(() => weiToNumberFormat(trade.amount, 3), [
-    trade.amount,
-  ]);
+  const [amount, setAmount] = useState(trade.amount);
   const onChangeOrderAmount = useCallback(
     (amount: string) => {
-      onChange({ ...trade, amount: toWei(amount) });
+      const roundedAmount = bignumber(amount)
+        .dividedBy(STEP_SIZE)
+        .round()
+        .mul(STEP_SIZE);
+      setAmount(amount);
+      onChange({ ...trade, amount: toWei(roundedAmount.toString()) });
     },
-    [trade, onChange],
+    [onChange, trade],
   );
+  const onBlurOrderAmount = useCallback(() => {
+    setAmount(fromWei(trade.amount));
+  }, [trade.amount]);
 
-  const limit = useMemo(() => weiToNumberFormat(trade.amount, 2), [
-    trade.amount,
-  ]);
+  const [limit, setLimit] = useState(trade.limit);
   const onChangeOrderLimit = useCallback(
-    (limit: string) => onChange({ ...trade, limit: toWei(limit) }),
-    [trade, onChange],
+    (limit: string) => {
+      setLimit(limit);
+      onChange({ ...trade, limit: toWei(limit) });
+    },
+    [onChange, trade],
   );
 
   const onChangeLeverage = useCallback(
     (leverage: number) => {
       onChange({ ...trade, leverage });
     },
-    [trade, onChange],
+    [onChange, trade],
   );
 
   const pair = useMemo(() => PerpetualPairDictionary.get(trade.pairType), [
@@ -138,31 +150,30 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         >
           {t(translations.perpetualPage.tradeForm.buttons.market)}
         </button>
-        <button
-          className={classNames(
-            'tw-h-8 tw-px-3 tw-py-1 tw-font-semibold tw-text-base tw-text-sov-white tw-bg-gray-7 tw-rounded-lg',
-            trade.tradeType !== PerpetualTradeType.LIMIT &&
-              'tw-opacity-25 hover:tw-opacity-100 tw-transition-opacity tw-duration-300',
-          )}
-          onClick={bindSelectTradeType(PerpetualTradeType.LIMIT)}
-        >
-          {t(translations.perpetualPage.tradeForm.buttons.limit)}
-        </button>
+        <Tooltip content={t(translations.common.comingSoon)}>
+          <button
+            className="tw-h-8 tw-px-3 tw-py-1 tw-font-semibold tw-text-base tw-text-sov-white tw-bg-gray-7 tw-rounded-lg tw-opacity-25 tw-cursor-not-allowed"
+            disabled
+          >
+            {t(translations.perpetualPage.tradeForm.buttons.limit)}
+          </button>
+        </Tooltip>
       </div>
       <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-sm">
         <label>
           {t(translations.perpetualPage.tradeForm.labels.orderValue)}
         </label>
-        <div className="tw-mx-4 tw-text-right">
+        <div className="tw-flex-1 tw-mx-4 tw-text-right">
           <AssetSymbolRenderer assetString={pair.shortAsset} />
         </div>
         <Input
           className="tw-w-2/5"
           type="number"
           value={amount}
-          step={0.002}
+          step={STEP_SIZE}
           min={0}
           onChange={onChangeOrderAmount}
+          onBlur={onBlurOrderAmount}
         />
       </div>
       <div
@@ -174,7 +185,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         <label>
           {t(translations.perpetualPage.tradeForm.labels.limitPrice)}
         </label>
-        <div className="tw-mx-4 tw-text-right">
+        <div className="tw-flex-1 tw-mx-4 tw-text-right">
           <AssetSymbolRenderer assetString={pair.longAsset} />
         </div>
         <Input
@@ -213,7 +224,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           />
         </button>
       </div>
-      <div className="tw-absolute tw-bottom-4 tw-left-4 tw-right-4">
+      <div className="tw-absolute tw-bottom-0 tw-left-0 tw-right-0">
         {!inMaintenance ? (
           <button
             className={classNames(
@@ -227,9 +238,9 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           >
             <span className="tw-mr-2">{tradeButtonLabel}</span>
             <span>
-              {formatAsNumber(amount, AssetDecimals[pair.shortAsset])}
+              {weiToNumberFormat(trade.amount, STEP_PRECISION)}
               {` @ ${trade.position === TradingPosition.LONG ? '≥' : '≤'} `}
-              {formatAsNumber(price, AssetDecimals[pair.longAsset])}
+              {weiToNumberFormat(price, 2)}
             </span>
           </button>
         ) : (
