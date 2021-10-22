@@ -1,16 +1,27 @@
 import { AmountInput } from 'app/components/Form/AmountInput';
 import { translations } from 'locales/i18n';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Asset } from 'types';
-import { BuyWrapper, BuyButton } from './styled';
-import { useTranslation } from 'react-i18next';
-import { useWeiAmount } from 'app/hooks/useWeiAmount';
-import { useSwapsExternal_getSwapExpectedReturn } from 'app/hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
 import { bignumber } from 'mathjs';
-import { TxDialog } from '../TxDialog';
+import { useTranslation } from 'react-i18next';
+
+import { Asset } from 'types';
+import {
+  // Transaction,
+  TxStatus,
+  // TxType,
+} from 'store/global/transactions-store/types';
+import { BuyWrapper, BuyButton } from './styled';
+import { useWeiAmount } from 'app/hooks/useWeiAmount';
 import { useCanInteract } from 'app/hooks/useCanInteract';
+import { useAccount } from 'app/hooks/useAccount';
+import { usePrevious } from 'app/hooks/usePrevious';
+import { useSwapsExternal_getSwapExpectedReturn } from 'app/hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
+import { useSwapsExternal_approveAndSwapExternal } from 'app/hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
+import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
 // import { useApproveAndBuyToken } from 'app/pages/OriginsLaunchpad/hooks/useApproveAndBuyToken';
 import { useApproveAndContribute } from 'app/pages/OriginsLaunchpad/hooks/useApproveAndContribute';
+import { TxDialog } from '../TxDialog';
+import { TxDialog as SwapTxDialog } from 'app/components/Dialogs/TxDialog';
 // import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
@@ -27,7 +38,6 @@ export const BuySection: React.FC<IBuySectionProps> = ({
   saleName,
   depositRate,
   sourceToken: defaultSourceToken,
-  tierId,
   maxAmount,
 }) => {
   const { t } = useTranslation();
@@ -35,10 +45,12 @@ export const BuySection: React.FC<IBuySectionProps> = ({
 
   const [sourceToken, setSourceToken] = useState<Asset>(Asset.SOV);
   const [amount, setAmount] = useState('');
-  // const [isOverMaxLimit, setIsOverMaxLimit] = useState(false);
-  const weiAmount = useWeiAmount(amount);
-
   const [tokenAmount, setTokenAmount] = useState(amount);
+  const [slippage] = useState(0.5);
+  // const [isOverMaxLimit, setIsOverMaxLimit] = useState(false);
+
+  const account = useAccount();
+  const weiAmount = useWeiAmount(amount);
   const weiTokenAmount = useWeiAmount(tokenAmount);
 
   const isValidAmount = useMemo(() => {
@@ -54,6 +66,18 @@ export const BuySection: React.FC<IBuySectionProps> = ({
     Asset.SOV,
     weiAmount,
   );
+  const { minReturn } = useSlippage(totalDeposit, slippage);
+  const { send: sendSwap, ...txSwap } = useSwapsExternal_approveAndSwapExternal(
+    sourceToken,
+    Asset.SOV,
+    account,
+    account,
+    weiAmount,
+    '0',
+    minReturn,
+    '0x',
+  );
+  const oldSwapStatus = usePrevious(txSwap.status);
 
   useEffect(() => setTokenAmount(`${Number(amount) * depositRate}`), [
     amount,
@@ -67,16 +91,33 @@ export const BuySection: React.FC<IBuySectionProps> = ({
 
   const { contribute, ...buyTx } = useApproveAndContribute();
 
-  const onBuyClick = useCallback(
-    () =>
+  useEffect(() => {
+    if (
+      sourceToken !== Asset.SOV &&
+      txSwap?.status === TxStatus.CONFIRMED &&
+      oldSwapStatus !== TxStatus.CONFIRMED
+    ) {
+      contribute(
+        bignumber(totalDeposit).mul(100).toString(),
+        Asset.ZERO,
+        totalDeposit,
+        Asset.SOV,
+      );
+    }
+  }, [sourceToken, txSwap, contribute, totalDeposit, oldSwapStatus]);
+
+  const onBuyClick = useCallback(() => {
+    if (sourceToken === Asset.SOV) {
       contribute(
         bignumber(weiAmount).mul(100).toString(),
         Asset.ZERO,
         weiAmount,
         Asset.SOV,
-      ),
-    [contribute, weiAmount],
-  );
+      );
+    } else {
+      sendSwap();
+    }
+  }, [sourceToken, contribute, weiAmount, sendSwap]);
 
   return (
     <BuyWrapper>
@@ -128,6 +169,9 @@ export const BuySection: React.FC<IBuySectionProps> = ({
         </div>
       </div>
       <TxDialog tx={buyTx} />
+      {txSwap && txSwap?.status !== TxStatus.CONFIRMED && (
+        <SwapTxDialog tx={txSwap} />
+      )}
     </BuyWrapper>
   );
 };

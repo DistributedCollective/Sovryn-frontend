@@ -1,4 +1,4 @@
-import { getContract } from 'utils/blockchain/contract-helpers';
+// import { getContract } from 'utils/blockchain/contract-helpers';
 import { TxType } from 'store/global/transactions-store/types';
 import { gasLimit } from 'utils/classifiers';
 import {
