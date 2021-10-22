@@ -1550,7 +1550,8 @@
     "tradeForm": {
       "titles": {
         "order": "Place New Order",
-        "welcome": "Welcome to Sovryn Perpetuals"
+        "welcome": "Welcome to Sovryn Perpetuals",
+        "slippage": "Slippage Settings"
       },
       "text": {
         "welcome1": "This is a preview of our perpetuals dashboard.\n The market data to the side is live.",

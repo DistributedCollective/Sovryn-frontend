@@ -40,22 +40,25 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
           item.position > 0 ? 'tw-text-trade-long' : 'tw-text-trade-short',
         )}
       >
-        <AssetValue value={item.position} asset={pair.longAsset} />
+        <AssetValue value={item.position} assetString={pair.longAsset} />
       </td>
       <td className="tw-text-right tw-hidden xl:tw-table-cell">
-        <AssetValue value={item.value} asset={pair.shortAsset} />
+        <AssetValue value={item.value} assetString={pair.shortAsset} />
       </td>
       <td className="tw-text-right tw-hidden md:tw-table-cell">
-        <AssetValue value={item.entryPrice} asset={pair.longAsset} />
+        <AssetValue value={item.entryPrice} assetString={pair.longAsset} />
       </td>
       <td className="tw-text-right tw-hidden xl:tw-table-cell">
-        <AssetValue value={item.markPrice} asset={pair.longAsset} />
+        <AssetValue value={item.markPrice} assetString={pair.longAsset} />
       </td>
       <td className="tw-text-right tw-hidden xl:tw-table-cell tw-text-trade-short">
-        <AssetValue value={item.liquidationPrice} asset={pair.longAsset} />
+        <AssetValue
+          value={item.liquidationPrice}
+          assetString={pair.longAsset}
+        />
       </td>
       <td className="tw-text-right">
-        <AssetValue value={item.margin} asset={pair.shortAsset} />
+        <AssetValue value={item.margin} assetString={pair.shortAsset} />
         {` (${toNumberFormat(item.leverage, 2)}x)`}
       </td>
       <td
@@ -70,12 +73,12 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
             <AssetValue
               className="tw-block"
               value={item.unrealized.shortValue}
-              asset={pair.shortAsset}
+              assetString={pair.shortAsset}
             />
             <AssetValue
               className="tw-block"
               value={item.unrealized.longValue}
-              asset={pair.longAsset}
+              assetString={pair.longAsset}
               isApproximation
             />
           </div>
@@ -96,12 +99,12 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
         <AssetValue
           className="tw-block"
           value={item.realized.shortValue}
-          asset={pair.shortAsset}
+          assetString={pair.shortAsset}
         />
         <AssetValue
           className="tw-block"
           value={item.realized.longValue}
-          asset={pair.longAsset}
+          assetString={pair.longAsset}
           isApproximation
         />
       </td>

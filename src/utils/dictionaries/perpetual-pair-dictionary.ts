@@ -1,7 +1,6 @@
 import { Asset } from 'types/asset';
 import { PerpetualPair } from '../models/perpetual-pair';
 import { TradingPosition } from 'types/trading-position';
-import { RenderTradingPairName } from '../../app/components/Helpers';
 
 export enum PerpetualPairType {
   BTCUSD = 'BTCUSD',
@@ -24,11 +23,11 @@ export class PerpetualPairDictionary {
       PerpetualPairType.BTCUSD,
       new PerpetualPair(
         PerpetualPairType.BTCUSD,
-        RenderTradingPairName(Asset.RBTC, Asset.XUSD),
-        'RBTC/USDT',
-        Asset.XUSD,
-        Asset.RBTC,
-        [Asset.RBTC, Asset.XUSD],
+        'BTC/USD',
+        'BTC/USD',
+        'USD',
+        'BTC',
+        [Asset.PERPETUALS],
         false,
       ),
     ],

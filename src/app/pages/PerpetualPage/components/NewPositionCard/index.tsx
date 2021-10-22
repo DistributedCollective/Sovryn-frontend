@@ -1,0 +1,207 @@
+import { useWalletContext } from '@sovryn/react-wallet';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import iconArrowForward from 'assets/images/arrow_forward.svg';
+import { translations } from '../../../../../locales/i18n';
+import { TradingPosition } from '../../../../../types/trading-position';
+import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
+import { selectPerpetualPage } from '../../selectors';
+import { actions } from '../../slice';
+import { SlippageForm } from '../SlippageForm';
+import { DataCard } from '../DataCard';
+import {
+  PerpetualPageModals,
+  PerpetualTrade,
+  PerpetualTradeType,
+} from '../../types';
+import {
+  TransitionStep,
+  TransitionSteps,
+} from '../../../../containers/TransitionSteps';
+import { TransitionAnimation } from '../../../../containers/TransitionContainer';
+import { TradeForm } from '../../components/TradeForm';
+
+enum Step {
+  unconnected = 'unconnected',
+  trade = 'trade',
+  slippage = 'slippage',
+}
+
+type StepProps = {
+  trade: PerpetualTrade;
+  onChangeTrade: (trade: PerpetualTrade) => void;
+  onSubmit: () => void;
+};
+
+type NewPositionCardProps = {
+  /** balance as wei string */
+  balance: string | null;
+};
+
+export const NewPositionCard: React.FC<NewPositionCardProps> = ({
+  balance,
+}) => {
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+  const { connected } = useWalletContext();
+  const { pairType, collateral } = useSelector(selectPerpetualPage);
+
+  const [trade, setTrade] = useState<PerpetualTrade>({
+    pairType,
+    collateral,
+    position: TradingPosition.LONG,
+    tradeType: PerpetualTradeType.MARKET,
+    amount: '0',
+    limit: '0',
+    leverage: 1,
+    slippage: 0.005,
+  });
+
+  const onSubmit = useCallback(
+    () => dispatch(actions.setModal(PerpetualPageModals.TRADE_REVIEW, trade)),
+    [dispatch, trade],
+  );
+
+  const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
+
+  useEffect(() => {
+    if (!pair.collaterals.includes(collateral)) {
+      dispatch(actions.setCollateral(pair.collaterals[0]));
+    }
+  }, [pair.collaterals, collateral, dispatch]);
+
+  const steps = useMemo(
+    () => ({
+      [Step.unconnected]: ConnectForm,
+      [Step.trade]: TradeFormStep,
+      [Step.slippage]: SlippageFormStep,
+    }),
+    [],
+  );
+
+  const stepProps: StepProps = useMemo(
+    () => ({
+      trade,
+      onSubmit,
+      onChangeTrade: setTrade,
+    }),
+    [trade, onSubmit],
+  );
+
+  return (
+    <DataCard
+      title={t(translations.perpetualPage.tradeForm.titles.order)}
+      className="tw-relative tw-pb-16"
+    >
+      <TransitionSteps<Step, StepProps>
+        duration={1000}
+        defaultActive={connected ? Step.trade : Step.unconnected}
+        defaultAnimation={TransitionAnimation.slideLeft}
+        forwardProps={stepProps}
+        steps={steps}
+      />
+    </DataCard>
+  );
+};
+const ConnectForm: TransitionStep<Step, StepProps> = ({ changeTo }) => {
+  const { t } = useTranslation();
+  const { connect, connected } = useWalletContext();
+
+  useEffect(() => {
+    if (connected) {
+      changeTo(Step.trade, TransitionAnimation.slideLeft);
+    }
+  }, [changeTo, connected]);
+
+  return (
+    <div className="tw-flex-grow tw-text-xs">
+      <p className="tw-mt-4">
+        {t(translations.perpetualPage.tradeForm.text.welcome1)}
+      </p>
+      <p className="tw-mb-2">
+        {t(translations.perpetualPage.tradeForm.text.welcome2)}
+      </p>
+      <ul className="tw-ml-4 tw-mb-8 tw-list-disc">
+        <Trans
+          i18nKey={translations.perpetualPage.tradeForm.text.welcome3}
+          components={[<li className="tw-mb-1" />]}
+        />
+      </ul>
+      <p className="tw-mb-11">
+        {/* TODO: add href to quickstart guide */}
+        <Trans
+          i18nKey={translations.perpetualPage.tradeForm.text.welcome4}
+          components={[
+            <a
+              className="tw-text-secondary tw-underline"
+              href="https://wiki.sovryn.app/"
+            >
+              Quickstart Guide
+            </a>,
+          ]}
+        />
+      </p>
+      <button
+        className="tw-w-full tw-min-h-10 tw-p-2 tw-text-base tw-text-primary tw-border tw-border-primary tw-bg-primary-05 tw-rounded-lg tw-transition-colors tw-duration-300 hover:tw-bg-primary-25"
+        onClick={connect}
+      >
+        {t(translations.perpetualPage.tradeForm.buttons.connect)}
+      </button>
+    </div>
+  );
+};
+
+const TradeFormStep: TransitionStep<Step, StepProps> = ({
+  trade,
+  changeTo,
+  onSubmit,
+  onChangeTrade,
+}) => {
+  const onOpenSlippage = useCallback(() => changeTo(Step.slippage), [changeTo]);
+  return (
+    <div>
+      <TradeForm
+        trade={trade}
+        onOpenSlippage={onOpenSlippage}
+        onSubmit={onSubmit}
+        onChange={onChangeTrade}
+      />
+    </div>
+  );
+};
+
+const SlippageFormStep: TransitionStep<Step, StepProps> = ({
+  trade,
+  changeTo,
+  onChangeTrade,
+}) => {
+  const { t } = useTranslation();
+  const onCloseSlippage = useCallback(
+    () => changeTo(Step.trade, TransitionAnimation.slideRight),
+    [changeTo],
+  );
+  const onChangeSlippage = useCallback(
+    slippage => onChangeTrade({ ...trade, slippage }),
+    [trade, onChangeTrade],
+  );
+  return (
+    <div>
+      <h3 className="tw-relative">
+        <button
+          className="tw-absolute tw-left-6 tw-top-0 tw-p-2"
+          onClick={onCloseSlippage}
+        >
+          <img
+            className="tw-transform tw-rotate-180"
+            src={iconArrowForward}
+            alt="Back"
+            title="Back"
+          />
+        </button>
+        {t(translations.perpetualPage.tradeForm.titles.slippage)}
+      </h3>
+      <SlippageForm slippage={trade.slippage} onChange={onChangeSlippage} />
+    </div>
+  );
+};
