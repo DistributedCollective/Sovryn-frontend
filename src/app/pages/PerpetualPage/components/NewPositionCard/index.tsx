@@ -53,7 +53,7 @@ const NewPositionCardContext = React.createContext<StepProps>({
     amount: '0',
     limit: '0',
     leverage: 1,
-    slippage: 0.005,
+    slippage: 0.5,
   },
   onChangeTrade: () => {},
   onSubmit: () => {},
@@ -80,7 +80,7 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
     amount: '0',
     limit: '0',
     leverage: 1,
-    slippage: 0.005,
+    slippage: 0.5,
   });
 
   const onSubmit = useCallback(
@@ -109,11 +109,13 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
     <DataCard
       title={t(translations.perpetualPage.tradeForm.titles.order)}
       className="tw-relative"
+      noPadding
     >
       <NewPositionCardContext.Provider value={stepProps}>
         <TransitionSteps<Step>
+          classNameOuter="tw-h-full tw-min-h-max"
+          classNameInner="tw-p-4 tw-h-full tw-min-h-max"
           active={connected ? Step.trade : Step.unconnected}
-          defaultActive={Step.unconnected}
           defaultAnimation={TransitionAnimation.slideLeft}
           steps={StepComponents}
         />
@@ -192,9 +194,9 @@ const SlippageFormStep: TransitionStep<Step> = ({ changeTo }) => {
 
   return (
     <div>
-      <h3 className="tw-relative">
+      <h3 className="tw-relative tw-mb-12 tw-text-center tw-text-base tw-font-medium tw-normal-case tw-leading-normal">
         <button
-          className="tw-absolute tw-left-6 tw-top-0 tw-p-2"
+          className="tw-absolute tw-left-0 tw-top-0"
           onClick={onCloseSlippage}
         >
           <img

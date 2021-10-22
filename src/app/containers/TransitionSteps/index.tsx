@@ -15,23 +15,25 @@ export type TransitionStep<I extends string | number> = React.FC<
 >;
 
 export type TransitionStepsProps<I extends string | number> = {
+  classNameOuter?: string;
+  classNameInner?: string;
   steps: {
     [key in I]: TransitionStep<I>;
   };
-  active?: I;
-  defaultActive: I;
+  active: I;
   defaultAnimation: TransitionAnimation;
 };
 
 export const TransitionSteps = <I extends string | number>({
+  classNameOuter,
+  classNameInner,
   steps,
   active: outsideActive,
-  defaultActive,
   defaultAnimation,
 }: TransitionStepsProps<I>) => {
-  const [active, setActive] = useState(defaultActive);
-  const [animation, setAnimation] = useState(defaultAnimation);
   const previousOutsideActive = usePrevious(outsideActive);
+  const [active, setActive] = useState(outsideActive);
+  const [animation, setAnimation] = useState(defaultAnimation);
 
   const changeTo = useCallback<TransitionStepProps<I>['changeTo']>(
     (id, animation = defaultAnimation) => {
@@ -57,7 +59,13 @@ export const TransitionSteps = <I extends string | number>({
   const Step: TransitionStep<I> = steps[active];
 
   return (
-    <TransitionContainer active={active} animateHeight animation={animation}>
+    <TransitionContainer
+      classNameOuter={classNameOuter}
+      classNameInner={classNameInner}
+      active={active}
+      animateHeight
+      animation={animation}
+    >
       {Step && <Step id={active} changeTo={changeTo} />}
     </TransitionContainer>
   );

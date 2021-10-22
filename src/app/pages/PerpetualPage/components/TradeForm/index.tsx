@@ -102,7 +102,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   }, []);
 
   return (
-    <div className="tw-relative tw-pb-16">
+    <div className="tw-relative tw-h-full tw-pb-16">
       <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-2.5 tw-mb-5">
         <button
           className={classNames(

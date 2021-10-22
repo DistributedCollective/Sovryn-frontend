@@ -24,6 +24,7 @@ export const SlippageForm: React.FC<SlippageFormProps> = ({
         label={t(translations.buySovPage.slippageDialog.tolerance)}
       >
         <Slider
+          className="tw-px-4"
           value={slippage}
           onChange={onChange}
           min={0.1}

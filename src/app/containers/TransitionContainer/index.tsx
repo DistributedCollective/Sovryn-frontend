@@ -41,6 +41,8 @@ const AnimationConfig: {} = {
 
 type TransitionContainerProps = {
   active: number | string;
+  classNameOuter?: string;
+  classNameInner?: string;
   children: React.ReactNode;
   animateHeight?: boolean;
   animation?: TransitionAnimation;
@@ -50,6 +52,8 @@ type TransitionContainerProps = {
 const ANIMATION_DURATION = 500;
 
 export const TransitionContainer: React.FC<TransitionContainerProps> = ({
+  classNameOuter,
+  classNameInner,
   active,
   children,
   animateHeight = true,
@@ -62,11 +66,14 @@ export const TransitionContainer: React.FC<TransitionContainerProps> = ({
 
   return (
     <div
-      className="tw-relative tw-w-full tw-overflow-hidden"
+      className={classNames(
+        'tw-relative tw-w-full tw-overflow-hidden',
+        classNameOuter,
+      )}
       style={{
-        height: dimensions?.height,
+        minHeight: dimensions?.height,
         transition: animateHeight
-          ? `height ease-in-out ${ANIMATION_DURATION}ms`
+          ? `min-height ease-in-out ${ANIMATION_DURATION}ms`
           : undefined,
       }}
     >
@@ -77,8 +84,14 @@ export const TransitionContainer: React.FC<TransitionContainerProps> = ({
           timeout={{ enter: ANIMATION_DURATION, exit: ANIMATION_DURATION }}
           onEntered={onAnimationComplete}
         >
-          <div ref={ref} className="tw-absolute tw-w-full tw-overflow-hidden">
-            <div>{children}</div>
+          <div
+            ref={ref}
+            className={classNames(
+              'tw-absolute tw-w-full tw-overflow-hidden',
+              classNameInner,
+            )}
+          >
+            {children}
           </div>
         </CSSTransition>
       </TransitionGroup>
