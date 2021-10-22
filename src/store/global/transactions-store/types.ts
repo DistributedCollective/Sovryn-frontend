@@ -30,6 +30,7 @@ export enum TxType {
   ADD_LIQUIDITY = 'add_liquidity',
   REMOVE_LIQUIDITY = 'remove_liquidity',
   DEPOSIT_COLLATERAL = 'deposit_collateral',
+  WITHDRAW_COLLATERAL = 'withdraw_collateral',
   CONVERT_BY_PATH = 'convert_by_path', // swap
   SWAP_EXTERNAL = 'swap_external',
   OTHER = 'other',
