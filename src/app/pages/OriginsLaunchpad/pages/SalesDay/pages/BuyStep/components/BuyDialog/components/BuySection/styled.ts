@@ -5,7 +5,7 @@ export const BuyWrapper = styled.div`
   height: 100%;
   background-color: #181818;
   box-shadow: -11px 0px 25px #00000026;
-  padding: 6rem 2rem;
+  padding: 72px 2rem;
 `;
 
 interface IBuyButtonProps {
@@ -15,7 +15,7 @@ interface IBuyButtonProps {
 export const BuyButton = styled.button<IBuyButtonProps>`
   height: 3.75rem;
   width: 100%;
-  margin-top: 74px;
+  margin-top: 32px;
   border: 1px solid #17c3b2;
   color: #ffffff;
   font-size: 1.5rem;

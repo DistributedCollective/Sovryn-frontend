@@ -5,11 +5,7 @@ import { bignumber } from 'mathjs';
 import { useTranslation } from 'react-i18next';
 
 import { Asset } from 'types';
-import {
-  // Transaction,
-  TxStatus,
-  // TxType,
-} from 'store/global/transactions-store/types';
+import { TxStatus } from 'store/global/transactions-store/types';
 import { BuyWrapper, BuyButton } from './styled';
 import { useWeiAmount } from 'app/hooks/useWeiAmount';
 import { useCanInteract } from 'app/hooks/useCanInteract';
@@ -25,6 +21,7 @@ import { TxDialog as SwapTxDialog } from 'app/components/Dialogs/TxDialog';
 // import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
+import { BalanceOfAsset } from './components/BalanceOfAsset';
 
 interface IBuySectionProps {
   saleName: string;
@@ -106,6 +103,11 @@ export const BuySection: React.FC<IBuySectionProps> = ({
     }
   }, [sourceToken, txSwap, contribute, totalDeposit, oldSwapStatus]);
 
+  const getAmountOfZERO = () => {
+    const amountOfSOV = sourceToken === Asset.SOV ? weiAmount : totalDeposit;
+    return bignumber(amountOfSOV).mul(100);
+  };
+
   const onBuyClick = useCallback(() => {
     if (sourceToken === Asset.SOV) {
       contribute(
@@ -123,7 +125,8 @@ export const BuySection: React.FC<IBuySectionProps> = ({
     <BuyWrapper>
       <div className="tw-max-w-sm tw-mx-auto tw-flex tw-flex-col tw-justify-between tw-h-full">
         <div>
-          <div>
+          <BalanceOfAsset className="" asset={sourceToken} />
+          <div className="tw-mt-12">
             <div className="tw-text-sm tw-text-left tw-font-extralight tw-mb-2 tw-text-gray-9">
               {t(
                 translations.originsLaunchpad.saleDay.buyStep.buyDialog
@@ -137,6 +140,11 @@ export const BuySection: React.FC<IBuySectionProps> = ({
               assetSelectable={true}
               onSelectAsset={(asset: Asset) => setSourceToken(asset)}
             />
+          </div>
+
+          <div className="tw-mt-7 tw-text-sm tw-border tw-rounded-lg tw-border-gray-7 tw-py-2">
+            Equivalent ZERO Token : {weiToFixed(getAmountOfZERO(), 4)}{' '}
+            <AssetRenderer asset={Asset.ZERO} />
           </div>
 
           <BuyButton
@@ -153,7 +161,7 @@ export const BuySection: React.FC<IBuySectionProps> = ({
           </BuyButton>
         </div>
 
-        <div className="tw-text-sm tw-text-center tw-font-extralight tw-text-gray-9 tw-mt-28">
+        <div className="tw-text-sm tw-text-center tw-font-extralight tw-text-gray-9 tw-mt-14">
           {t(
             translations.originsLaunchpad.saleDay.buyStep.buyDialog
               .yourTotalDeposit,
