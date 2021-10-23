@@ -6,8 +6,6 @@ import {
   InstructionsTitle,
   MainInstructionsWrapper,
 } from './styled';
-import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
-import { Asset } from 'types';
 import imgInstructions from 'assets/images/OriginsLaunchpad/FishSale/small_NFT.svg';
 
 interface IInstructionsProps {
@@ -31,7 +29,6 @@ export const Instructions: React.FC<IInstructionsProps> = ({ saleName }) => {
               translations.originsLaunchpad.saleDay.buyStep.instructions
                 .instruction1
             }
-            components={[<AssetSymbolRenderer asset={Asset.RBTC} />]}
             tOptions={{ token: saleName }}
           />
         </div>

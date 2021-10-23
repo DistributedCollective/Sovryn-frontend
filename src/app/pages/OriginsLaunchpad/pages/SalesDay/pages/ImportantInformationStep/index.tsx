@@ -7,11 +7,13 @@ import { ActionButton } from 'app/components/Form/ActionButton';
 
 interface IImportantInformationStepProps {
   tierId: number;
+  saleName: string;
   onSubmit?: () => void;
 }
 
 export const ImportantInformationStep: React.FC<IImportantInformationStepProps> = ({
   tierId,
+  saleName,
   onSubmit,
 }) => {
   const { t } = useTranslation();
@@ -32,22 +34,38 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
   return (
     <>
       <DialogWrapper>
-        <DialogTitle>{t(baseTranslations.title)}</DialogTitle>
+        <DialogTitle>
+          {t(baseTranslations.title, { token: saleName })}
+        </DialogTitle>
 
         <div className="tw-flex tw-flex-col tw-space-y-4 lg:tw-flex-row lg:tw-space-y-0 lg:tw-space-x-20">
           <div className="tw-text-left tw-max-w-1/5 tw-mr-20">
-            <ListItem>{t(baseTranslations.information[1])}</ListItem>
-            <ListItem>{t(baseTranslations.information[2])}</ListItem>
-            <ListItem>{t(baseTranslations.information[3])}</ListItem>
-            <ListItem>{t(baseTranslations.information[4])}</ListItem>
+            <ListItem>
+              {t(baseTranslations.information[1], { token: saleName })}
+            </ListItem>
+            <ListItem>
+              {t(baseTranslations.information[2], { token: saleName })}
+            </ListItem>
+            <ListItem>
+              {t(baseTranslations.information[3], { token: saleName })}
+            </ListItem>
+            <ListItem>
+              {t(baseTranslations.information[4], { token: saleName })}
+            </ListItem>
           </div>
 
           <div className="tw-text-left tw-w-full lg:tw-w-1/2">
             <ListItem>
-              <strong>{t(baseTranslations.information[6])}</strong>
+              <strong>
+                {t(baseTranslations.information[6], { token: saleName })}
+              </strong>
             </ListItem>
-            <ListItem>{t(baseTranslations.information[7])}</ListItem>
-            <ListItem>{t(baseTranslations.information[8])}</ListItem>
+            <ListItem>
+              {t(baseTranslations.information[7], { token: saleName })}
+            </ListItem>
+            <ListItem>
+              {t(baseTranslations.information[8], { token: saleName })}
+            </ListItem>
             {tierId === 2 && (
               <ListItem>{t(baseTranslations.information[9])}</ListItem>
             )}

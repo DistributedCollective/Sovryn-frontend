@@ -301,51 +301,51 @@
       }
     },
     "saleDay": {
-      "title": "{{token}} Origins Pre-Sale",
+      "title": "{{token}} Pre-Sale on Origins ",
       "engageWalletScreen": {
-        "dialogTitle": "Welcome to the {{token}} Origins Pre-Sale",
+        "dialogTitle": "Welcome to the {{token}} Pre-Sale on Origins",
         "buttonText": "Connect Wallet",
         "dialogFooter1": "Engage a browser, mobile or hardware wallet connected to the <0>RSK Mainnet</0>",
         "dialogFooter2": "Don’t have a wallet? Sovryn recommends <0>Liquality wallet</0>"
       },
       "accessCodeVerificationStep": {
-        "dialogTitle": "Welcome to the {{token}} Origins Pre-Sale",
+        "dialogTitle": "Welcome to the {{token}} Pre-Sale on Origins ",
         "verified": {
           "privateSale": "You have been given whitelist access to participate in the FISH Origins pre-sale.",
-          "publicSale": "You have been given access to participate in the FISH Origins pre-sale."
+          "publicSale": "You can now participate in the {{token}} pre-sale."
         },
-        "notVerified": "The $FISH public pre-sale will open at 14:00 UTC, get your RBTC ready!",
+        "notVerified": "The {{token}} public pre-sale will open at 14:00 UTC, get your RBTC ready!",
         "cta": "Continue",
         "notVerifiedFooter": "<0>Supposed to be whitelisted?</0>"
       },
       "importantInformationStep": {
         "privateSale": {
-          "title": "Important Information about the the FISH Private Pre-Sale Process and Terms",
+          "title": "Important Information about the {{token}} Private Pre-Sale Process and Terms",
           "information": {
-            "1": "You have been whitelisted for the Blockchain Whispers' Private FISH pre-sale! Welcome and thanks for your support!",
-            "2": "The amount of FISH available for purchase per wallet is 28,571 FISH at a maximum purchase price of 0.041 rBTC - Do not transfer more than this amount.",
-            "3": "It is highly recommended to send funds from an address directly owned by you (EOA).",
-            "4": "Amounts sent in excess of the limit will be automatically returned to the address from which they were sent. Please note that if you are sending funds from an Exchange address, you may not be able to access your purchased FISH tokens or any excess purchase amount that is automatically returned.",
-            "5": "FISH tokens purchased as part of this private pre-sale, will vest linearly for approximately 10 months from the time they are claimed.",
-            "6": "IMPORTANT - You will need to actively claim your FISH tokens on the Origins interface, from August 28 at 14:00 UTC. Your vesting period will begin only once you have claimed your tokens.",
-            "7": "A FISH AMM pool will be available on Sovryn. FISH can be used to vote in BabelFish governance as soon as it begins to vest and after BabelFish governance has been launched.",
-            "8": "For any questions, please ask the community in Discord or Telegram channels."
+            "1": "You have been whitelisted for the Blockchain Whispers' Private {{token}} pre-sale! Welcome and thanks for your support!",
+            "2": "It is highly recommended to send funds from an address directly owned by you (EOA).",
+            "3": "For any questions, please ask the community in Discord or Telegram channels",
+            "4": "The price of 100 ZERO Tokens is 1 SOV",
+            "5": "{{token}} tokens purchased as part of this private pre-sale, will vest linearly for approximately 10 months from the time they are claimed.",
+            "6": "The sale ends in 7 Days.",
+            "7": "Once you complete the purchase of the {{token}} Token it will be visible on the Portfolio Section.",
+            "8": "There will be no vesting schedule for the purchased Token. So you can transfer Tokens once the sale ends."
           },
           "checkboxText": "I have read and understand that I am responsible for my own Sovrynity",
           "submitButtonText": "I Understand"
         },
         "publicSale": {
-          "title": "Important Information about the the FISH Public Pre-Sale Process and Terms",
+          "title": "Important Information about the {{token}} Public Pre-Sale Process and Terms",
           "information": {
-            "1": "Welcome to the BabelFish FISH token pre-sale. Thank you kindly for your support!",
-            "2": "The amount of FISH available for purchase per wallet is 27,272 FISH at a maximum purchase price of 0.062 rBTC - Do not transfer more than this amount.",
-            "3": "It is highly recommended to send funds from an address directly owned by you (EOA).",
-            "4": "Amounts sent in excess of the limit will be automatically returned to the address from which they were sent. Please note that if you are sending funds from an Exchange address, you may not be able to access your purchased FISH tokens or any excess purchase amount that is automatically returned.",
-            "5": "Half the FISH purchased will vest (be liquid) upon completion of the pre-sale, the other half will vest linearly for approximately 10 consecutive months from the time they are claimed.",
-            "6": "IMPORTANT - You will need to actively claim your FISH tokens on the Origins interface, from August 28 at 14:00 UTC. Your vesting period will begin only once you have claimed your tokens.",
-            "7": "The FISH tokens that are immediately vested will be available for withdrawal from August 28, at 14:00 UTC.",
-            "8": "A FISH AMM pool will be available on Sovryn. FISH can be used to vote in BabelFish governance as soon as it begins to vest and after BabelFish governance has been launched.",
-            "9": "For any questions, please ask the community in Discord or Telegram channels."
+            "1": "Welcome to the {{token}} Token pre-sale. Thank you kindly for your support!",
+            "2": "It is highly recommended to send funds from an address directly owned by you (EOA).",
+            "3": "For any questions, please ask the community in Discord or Telegram channels",
+            "4": "The price of 100 ZERO Tokens is 1 SOV",
+            "5": "Half the {{token}} purchased will vest (be liquid) upon completion of the pre-sale, the other half will vest linearly for approximately 10 consecutive months from the time they are claimed.",
+            "6": "The sale ends in 7 Days.",
+            "7": "Once you complete the purchase of the {{token}} Token it will be visible on the Portfolio Section.",
+            "8": "A {{token}} AMM pool will be available on Sovryn. {{token}} can be used to vote in BabelFish governance as soon as it begins to vest and after BabelFish governance has been launched.",
+            "9": "There will be no vesting schedule for the purchased Token. So you can transfer Tokens once the sale ends."
           },
           "checkboxText": "I have read and understand that I am responsible for my own Sovrynity",
           "submitButtonText": "I Understand"
@@ -373,7 +373,7 @@
         },
         "instructions": {
           "title": "Instructions",
-          "instruction1": "Buy {{token}} with <0/> in your engaged wallet",
+          "instruction1": "Buy {{token}} with the accepted currencies in your engaged wallet",
           "instruction2": "Please allow up to 5 minutes for the transaction to process",
           "discordSupport": "For support please join us on <0>{{discordUrl}}</0>"
         }

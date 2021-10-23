@@ -39,10 +39,12 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
                     .accessCodeVerificationStep.verified[
                     tierId === 2 ? 'publicSale' : 'privateSale'
                   ],
+                  { token: saleName },
                 )
               : t(
                   translations.originsLaunchpad.saleDay
                     .accessCodeVerificationStep.notVerified,
+                  { token: saleName },
                 )}
           </div>
 
