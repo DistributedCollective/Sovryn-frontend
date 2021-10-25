@@ -1,4 +1,4 @@
-// import { getContract } from 'utils/blockchain/contract-helpers';
+import { getContract } from 'utils/blockchain/contract-helpers';
 import { TxType } from 'store/global/transactions-store/types';
 import { gasLimit } from 'utils/classifiers';
 import {
@@ -23,7 +23,7 @@ export const useApproveAndContribute = () => {
     ) => {
       const tx: CheckAndApproveResult = await contractWriter.checkAndApprove(
         sourceToken,
-        '0xfA1fCaa199b02235dE2Be7Bf17fd174cc72f1D60', // presale contract
+        getContract('ZEROPresale').address,
         sourceWeiAmount,
       );
 

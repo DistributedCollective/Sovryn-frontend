@@ -34,6 +34,7 @@ import SovrynProtocolAbi from './abi/sovrynProtocol.json';
 import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
 import nftAbi from './abi/nftAbi.json';
 import ZeroControllerAbi from './abi/ZEROController.json';
+import ZeroTokenAbi from './abi/ZERO_token.json';
 import ZeroPresaleAbi from './abi/ZEROPresale.json';
 
 export const contracts = {
@@ -343,13 +344,17 @@ export const contracts = {
     abi: nftAbi,
   },
   ZERO_ctrl: {
-    address: '0xf775deae5d5425893c44b1e809b51022e7eb623e',
+    address: '0x741A6E83C6E96168839e88e34729de7a244E19f7',
     abi: ZeroControllerAbi,
     blockNumber: 2267574,
   },
   ZERO_token: {
-    address: '0xb5437bca66c987ee9602243e1dcfa3f2771d0693',
-    abi: ZeroPresaleAbi,
+    address: '0xd373969479FA3c530e12f175FAff64711aF4F1A6',
+    abi: ZeroTokenAbi,
     blockNumber: 2267574,
+  },
+  ZEROPresale: {
+    address: '0x88C76c7C2096Ca197F9A3F35AACbF5540AD1123D',
+    abi: ZeroPresaleAbi,
   },
 };
