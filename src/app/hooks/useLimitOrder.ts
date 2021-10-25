@@ -109,15 +109,17 @@ export function useCancelLimitOrder(sourceToken: Asset, amount: string) {
 
   const cancelOrder = useCallback(
     async (orderHash: string) => {
+      console.log('orderHash: ', orderHash);
       const contract = getContract('settlement');
 
-      // try {
-      //   if (sourceToken === Asset.RBTC) {
-      //     await contractReader.call('settlement', 'withdraw', [amount]);
-      //   }
-      // } catch (error) {
-      //   return;
-      // }
+      try {
+        if (sourceToken === Asset.RBTC) {
+          await contractWriter.send('settlement', 'withdraw', [account]);
+        }
+      } catch (error) {
+        console.error('error', error);
+        return;
+      }
 
       const populated = await contract.populateTransaction.cancelOrder(
         orderHash,
@@ -134,7 +136,7 @@ export function useCancelLimitOrder(sourceToken: Asset, amount: string) {
         nonce,
       } as TransactionConfig);
     },
-    [account, send],
+    [account, send, sourceToken],
   );
 
   return { cancelOrder, ...tx };

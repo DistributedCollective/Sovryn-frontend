@@ -405,6 +405,8 @@ export type LimitOrder = {
   v: string;
   r: string;
   s: string;
+  canceled?: boolean;
+  filledAmount?: string;
 };
 
 export interface ITradeFormProps {

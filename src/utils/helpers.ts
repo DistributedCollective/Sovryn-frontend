@@ -208,3 +208,6 @@ export const abbreviateNumber = (
 };
 
 export const isNullOrUndefined = val => val === undefined || val === null;
+
+export const isString = value =>
+  typeof value === 'string' || value instanceof String;

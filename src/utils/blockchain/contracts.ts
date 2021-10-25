@@ -36,6 +36,7 @@ import SwapsExternalAbi from './abi/SwapsExternalAbi.json';
 import stakingRewardsProxyAbi from './abi/StakingRewards.json';
 import SettlementAbi from './abi/Settlement.json';
 import OrderBookAbi from './abi/OrderBook.json';
+import OrderBookMarginAbi from './abi/OrderBookMargin.json';
 import nftAbi from './abi/nftAbi.json';
 
 export const contracts = {
@@ -335,11 +336,15 @@ export const contracts = {
     abi: BabelfishAggregatorAbi,
   },
   orderBook: {
-    address: '0xb30fCeE20313AAdb88A22fF06B1067170A7c481a',
+    address: '0xD67df2b0fCec52bF3a024050Ef77b24657597a1F',
     abi: OrderBookAbi,
   },
+  orderBookMargin: {
+    address: '0xB1e462698Cd87F0b43d514f1fe4DD7f722eA2a60',
+    abi: OrderBookMarginAbi,
+  },
   settlement: {
-    address: '0x8627267135FbfFd393f8b07646388F0A219A9c0C',
+    address: '0xc7734943f087ebdEc50Cb83fc5F6B320F84E6229',
     abi: SettlementAbi,
   },
   sovrynNFT: {
