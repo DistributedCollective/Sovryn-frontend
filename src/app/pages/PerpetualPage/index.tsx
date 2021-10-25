@@ -97,15 +97,30 @@ export function PerpetualPage() {
     [],
   );
 
-  // This can be used for testing Deposit/Withdraw
-
-  // const { deposit } = usePerpetual_depositMarginToken();
-  // const onDepositClick = useCallback(() => deposit('20'), [deposit]);
+  // This can be used for testing Withdraw/Close position
+  //  const marginAccountBalance = usePerpetual_marginAccountBalance();
 
   // const { withdraw } = usePerpetual_withdrawMarginToken();
-  // const onWithdrawClick = useCallback(() => withdraw('20'), [withdraw]);
+  // const onWithdrawClick = useCallback(() => withdraw('11.683'), [withdraw]);
 
-  // const marginAccountBalance = usePerpetual_marginAccountBalance();
+  // const { trade } = usePerpetual_trade();
+  // const onClosePositionClick = useCallback(() => {
+  //   if (marginAccountBalance.fPositionBC === 0) {
+  //     return;
+  //   }
+
+  //   trade(
+  //     String(marginAccountBalance.fCashCC),
+  //     String(-1 * marginAccountBalance.fPositionBC),
+  //   )
+  //     .then(_ => withdraw(String(marginAccountBalance.fCashCC)))
+  //     .catch(e => console.log(e.message));
+  // }, [
+  //   marginAccountBalance.fCashCC,
+  //   marginAccountBalance.fPositionBC,
+  //   trade,
+  //   withdraw,
+  // ]);
 
   return (
     <>
@@ -163,12 +178,12 @@ export function PerpetualPage() {
           </div>
         </div>
 
-        {/* This can be used for testing Deposit/Withdraw */}
-        {/* <button className="tw-block" onClick={onDepositClick}>
-          Deposit 20 margin tokens
-        </button>
-        <button className="tw-block" onClick={onWithdrawClick}>
+        {/* This can be used for testing Withdraw/Close position */}
+        {/* <button className="tw-block" onClick={onWithdrawClick}>
           Withdraw 20 margin tokens
+        </button>
+        <button className="tw-block" onClick={onClosePositionClick}>
+          Close the position
         </button> */}
 
         {connected && (

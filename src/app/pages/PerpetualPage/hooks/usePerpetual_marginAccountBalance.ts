@@ -32,8 +32,7 @@ export const usePerpetual_marginAccountBalance = () => {
         [PERPETUAL_ID, address],
       )
       .then(result => {
-        const [fCashCC, fLockedInValueQC, fPositionBC] = result;
-        console.log(ABK64x64ToFloat(fLockedInValueQC));
+        const [fLockedInValueQC, fCashCC, fPositionBC] = result;
 
         setMarginAccountBalance({
           fCashCC: fCashCC ? ABK64x64ToFloat(fCashCC) : 0,
