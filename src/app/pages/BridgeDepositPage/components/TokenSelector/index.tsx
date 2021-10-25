@@ -28,11 +28,21 @@ export function TokenSelector() {
   const { checkMaintenances, States } = useMaintenance();
   const {
     [States.BRIDGE]: bridgeLocked,
+    [States.ETH_BRIDGE]: ethBridgeLocked,
+    [States.BSC_BRIDGE]: bscBridgeLocked,
     [States.BRIDGE_SOV_DEPOSIT]: sovDepositLocked,
     [States.BRIDGE_XUSD_DEPOSIT]: xusdDepositLocked,
     [States.BRIDGE_ETH_DEPOSIT]: ethDepositLocked,
     [States.BRIDGE_BNB_DEPOSIT]: bnbDepositLocked,
   } = checkMaintenances();
+
+  const lockedChains = useMemo(
+    () => ({
+      [Chain.ETH]: ethBridgeLocked,
+      [Chain.BSC]: bscBridgeLocked,
+    }),
+    [ethBridgeLocked, bscBridgeLocked],
+  );
 
   const assetDepositLocked = useMemo(() => {
     switch (targetAsset) {
@@ -134,7 +144,11 @@ export function TokenSelector() {
                 image={item.image}
                 symbol={item.symbol}
                 onClick={() => selectSourceAsset(item.asset)}
-                disabled={bridgeLocked || assetDepositLocked}
+                disabled={
+                  bridgeLocked ||
+                  assetDepositLocked ||
+                  (chain && lockedChains[chain])
+                }
               />
             );
           })}
@@ -147,7 +161,9 @@ export function TokenSelector() {
           })}
         </p>
       )}
-      {(bridgeLocked || assetDepositLocked) && (
+      {(bridgeLocked ||
+        assetDepositLocked ||
+        (chain && lockedChains[chain])) && (
         <ErrorBadge
           content={
             <Trans

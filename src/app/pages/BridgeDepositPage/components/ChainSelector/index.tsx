@@ -37,10 +37,6 @@ export function ChainSelector() {
     [ethBridgeLocked, bscBridgeLocked],
   );
 
-  const isChainLocked = useMemo(
-    () => Object.values(lockedChains).some(val => val === true),
-    [lockedChains],
-  );
   const { targetAsset } = useSelector(selectBridgeDepositPage);
 
   const selectNetwork = useCallback(
@@ -61,6 +57,13 @@ export function ChainSelector() {
           ),
         ),
     [targetAsset],
+  );
+
+  const lockedChainsVisible = useMemo(
+    () =>
+      networks.filter(val => val.chain && lockedChains[val.chain] === true)
+        .length > 0,
+    [lockedChains, networks],
   );
 
   const assetDepositLocked = useMemo(() => {
@@ -106,7 +109,7 @@ export function ChainSelector() {
           </SelectBox>
         ))}
       </div>
-      {(bridgeLocked || assetDepositLocked || isChainLocked) && (
+      {(bridgeLocked || assetDepositLocked || lockedChainsVisible) && (
         <ErrorBadge
           content={
             <Trans

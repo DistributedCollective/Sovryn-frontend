@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { bignumber } from 'mathjs';
 
-import type { Chain } from 'types';
+import { Chain } from 'types';
 import { Button } from 'app/components/Button';
 
 import { actions } from '../../slice';
@@ -35,7 +35,44 @@ export function ReviewStep() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { checkMaintenances, States } = useMaintenance();
-  const { [States.BRIDGE]: bridgeLocked } = checkMaintenances();
+  const {
+    [States.BRIDGE]: bridgeLocked,
+    [States.ETH_BRIDGE]: ethBridgeLocked,
+    [States.BSC_BRIDGE]: bscBridgeLocked,
+    [States.BRIDGE_SOV_WITHDRAW]: sovWithdrawLocked,
+    [States.BRIDGE_XUSD_WITHDRAW]: xusdWithdrawLocked,
+    [States.BRIDGE_ETH_WITHDRAW]: ethWithdrawLocked,
+    [States.BRIDGE_BNB_WITHDRAW]: bnbWithdrawLocked,
+  } = checkMaintenances();
+
+  const lockedChains = useMemo(
+    () => ({
+      [Chain.ETH]: ethBridgeLocked,
+      [Chain.BSC]: bscBridgeLocked,
+    }),
+    [ethBridgeLocked, bscBridgeLocked],
+  );
+
+  const assetWithdrawLocked = useMemo(() => {
+    switch (sourceAsset) {
+      case CrossBridgeAsset.SOV:
+        return sovWithdrawLocked;
+      case CrossBridgeAsset.XUSD:
+        return xusdWithdrawLocked;
+      case CrossBridgeAsset.ETH:
+        return ethWithdrawLocked;
+      case CrossBridgeAsset.BNB:
+        return bnbWithdrawLocked;
+      default:
+        return false;
+    }
+  }, [
+    sourceAsset,
+    sovWithdrawLocked,
+    xusdWithdrawLocked,
+    ethWithdrawLocked,
+    bnbWithdrawLocked,
+  ]);
 
   const handleSubmit = useCallback(() => {
     dispatch(actions.submitForm());
@@ -173,11 +210,19 @@ export function ReviewStep() {
         <Button
           className="tw-mt-20 tw-w-80 "
           text={t(translations.BridgeWithdrawPage.reviewStep.confirm)}
-          disabled={bridgeLocked || !isValid || tx.loading}
+          disabled={
+            bridgeLocked ||
+            assetWithdrawLocked ||
+            (targetChain && lockedChains[targetChain]) ||
+            !isValid ||
+            tx.loading
+          }
           loading={tx.loading}
           onClick={handleSubmit}
         />
-        {bridgeLocked && (
+        {(bridgeLocked ||
+          assetWithdrawLocked ||
+          (targetChain && lockedChains[targetChain])) && (
           <ErrorBadge
             content={
               <Trans

@@ -28,7 +28,23 @@ export function TokenSelector() {
   );
   const dispatch = useDispatch();
   const { checkMaintenances, States } = useMaintenance();
-  const { [States.BRIDGE]: bridgeLocked } = checkMaintenances();
+  const {
+    [States.BRIDGE]: bridgeLocked,
+    [States.ETH_BRIDGE]: ethBridgeLocked,
+    [States.BSC_BRIDGE]: bscBridgeLocked,
+    [States.BRIDGE_SOV_WITHDRAW]: sovWithdrawLocked,
+    [States.BRIDGE_XUSD_WITHDRAW]: xusdWithdrawLocked,
+    [States.BRIDGE_ETH_WITHDRAW]: ethWithdrawLocked,
+    [States.BRIDGE_BNB_WITHDRAW]: bnbWithdrawLocked,
+  } = checkMaintenances();
+
+  const lockedChains = useMemo(
+    () => ({
+      [Chain.ETH]: ethBridgeLocked,
+      [Chain.BSC]: bscBridgeLocked,
+    }),
+    [ethBridgeLocked, bscBridgeLocked],
+  );
 
   useEffect(() => {
     if (chain === null) {
@@ -108,6 +124,27 @@ export function TokenSelector() {
     [balances],
   );
 
+  const assetWithdrawLocked = useMemo(() => {
+    switch (sourceAsset) {
+      case CrossBridgeAsset.SOV:
+        return sovWithdrawLocked;
+      case CrossBridgeAsset.XUSD:
+        return xusdWithdrawLocked;
+      case CrossBridgeAsset.ETH:
+        return ethWithdrawLocked;
+      case CrossBridgeAsset.BNB:
+        return bnbWithdrawLocked;
+      default:
+        return false;
+    }
+  }, [
+    sourceAsset,
+    sovWithdrawLocked,
+    xusdWithdrawLocked,
+    ethWithdrawLocked,
+    bnbWithdrawLocked,
+  ]);
+
   return (
     <div>
       <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
@@ -125,7 +162,11 @@ export function TokenSelector() {
                 balance={getBalance(item.asset)}
                 loading={!balances.length}
                 onClick={() => selectTargetAsset(item.asset)}
-                disabled={bridgeLocked}
+                disabled={
+                  bridgeLocked ||
+                  assetWithdrawLocked ||
+                  (targetChain && lockedChains[targetChain])
+                }
               />
             );
           })}
@@ -138,7 +179,9 @@ export function TokenSelector() {
           })}
         </p>
       )}
-      {bridgeLocked && (
+      {(bridgeLocked ||
+        assetWithdrawLocked ||
+        (targetChain && lockedChains[targetChain])) && (
         <ErrorBadge
           content={
             <Trans

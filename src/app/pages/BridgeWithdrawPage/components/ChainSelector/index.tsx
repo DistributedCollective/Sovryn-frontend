@@ -19,7 +19,23 @@ export function ChainSelector() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { checkMaintenances, States } = useMaintenance();
-  const { [States.BRIDGE]: bridgeLocked } = checkMaintenances();
+  const {
+    [States.BRIDGE]: bridgeLocked,
+    [States.ETH_BRIDGE]: ethBridgeLocked,
+    [States.BSC_BRIDGE]: bscBridgeLocked,
+    [States.BRIDGE_SOV_WITHDRAW]: sovWithdrawLocked,
+    [States.BRIDGE_XUSD_WITHDRAW]: xusdWithdrawLocked,
+    [States.BRIDGE_ETH_WITHDRAW]: ethWithdrawLocked,
+    [States.BRIDGE_BNB_WITHDRAW]: bnbWithdrawLocked,
+  } = checkMaintenances();
+
+  const lockedChains = useMemo(
+    () => ({
+      [Chain.ETH]: ethBridgeLocked,
+      [Chain.BSC]: bscBridgeLocked,
+    }),
+    [ethBridgeLocked, bscBridgeLocked],
+  );
 
   const selectNetwork = useCallback(
     (chain: Chain) => {
@@ -41,6 +57,34 @@ export function ChainSelector() {
     [sourceAsset, chain],
   );
 
+  const lockedChainsVisible = useMemo(
+    () =>
+      networks.filter(val => val.chain && lockedChains[val.chain] === true)
+        .length > 0,
+    [lockedChains, networks],
+  );
+
+  const assetWithdrawLocked = useMemo(() => {
+    switch (sourceAsset) {
+      case CrossBridgeAsset.SOV:
+        return sovWithdrawLocked;
+      case CrossBridgeAsset.XUSD:
+        return xusdWithdrawLocked;
+      case CrossBridgeAsset.ETH:
+        return ethWithdrawLocked;
+      case CrossBridgeAsset.BNB:
+        return bnbWithdrawLocked;
+      default:
+        return false;
+    }
+  }, [
+    sourceAsset,
+    sovWithdrawLocked,
+    xusdWithdrawLocked,
+    ethWithdrawLocked,
+    bnbWithdrawLocked,
+  ]);
+
   return (
     <div>
       <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
@@ -53,7 +97,9 @@ export function ChainSelector() {
           <SelectBox
             key={item.chain}
             onClick={() => selectNetwork(item.chain)}
-            disabled={bridgeLocked}
+            disabled={
+              bridgeLocked || assetWithdrawLocked || lockedChains[item.chain]
+            }
           >
             <img className="tw-mb-5 tw-mt-2" src={item.logo} alt={item.chain} />
             <div>
@@ -63,7 +109,7 @@ export function ChainSelector() {
           </SelectBox>
         ))}
       </div>
-      {bridgeLocked && (
+      {(bridgeLocked || assetWithdrawLocked || lockedChainsVisible) && (
         <ErrorBadge
           content={
             <Trans

@@ -19,6 +19,7 @@ import { useTranslation, Trans } from 'react-i18next';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
+import { Chain } from 'types';
 
 export function ReviewStep() {
   const {
@@ -35,6 +36,8 @@ export function ReviewStep() {
   const { checkMaintenances, States } = useMaintenance();
   const {
     [States.BRIDGE]: bridgeLocked,
+    [States.ETH_BRIDGE]: ethBridgeLocked,
+    [States.BSC_BRIDGE]: bscBridgeLocked,
     [States.BRIDGE_SOV_DEPOSIT]: sovDepositLocked,
     [States.BRIDGE_XUSD_DEPOSIT]: xusdDepositLocked,
     [States.BRIDGE_ETH_DEPOSIT]: ethDepositLocked,
@@ -72,6 +75,14 @@ export function ReviewStep() {
         item => item.chain === chain,
       ) as NetworkModel,
     [chain],
+  );
+
+  const lockedChains = useMemo(
+    () => ({
+      [Chain.ETH]: ethBridgeLocked,
+      [Chain.BSC]: bscBridgeLocked,
+    }),
+    [ethBridgeLocked, bscBridgeLocked],
   );
 
   const asset = useMemo(
@@ -158,12 +169,18 @@ export function ReviewStep() {
           className="tw-mt-20 tw-w-80"
           text={t(trans.confirmDeposit)}
           disabled={
-            bridgeLocked || assetDepositLocked || !isValid || tx.loading
+            bridgeLocked ||
+            assetDepositLocked ||
+            (chain && lockedChains[chain]) ||
+            !isValid ||
+            tx.loading
           }
           loading={tx.loading}
           onClick={handleSubmit}
         />
-        {(bridgeLocked || assetDepositLocked) && (
+        {(bridgeLocked ||
+          assetDepositLocked ||
+          (chain && lockedChains[chain])) && (
           <ErrorBadge
             content={
               <Trans
