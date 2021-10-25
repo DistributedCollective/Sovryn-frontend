@@ -1566,6 +1566,11 @@
         "leverage": "Position Leverage:",
         "orderValue": "Order Value:",
         "limitPrice": "Limit Price:",
+        "orderCost": "Order Cost:",
+        "maxTradeSize": "Max Trade Size:",
+        "minEntryPrice": "Min Entry Price:",
+        "minLiquidationPrice": "Min Liquidation Price:",
+        "tradingFee": "Trading Fee:",
         "slippage": "Slippage Tolerance:",
         "balance": "Available Balance: <0/> <1/>",
         "txFee": "Tx Fee: <0/> {{symbol}}"

@@ -18,10 +18,14 @@ import classNames from 'classnames';
 import { PerpetualTrade, PerpetualTradeType } from '../../types';
 import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
 import { Input } from '../../../../components/Input';
-import { AssetDecimals } from '../../../../components/AssetValue/types';
+import {
+  AssetDecimals,
+  AssetValueMode,
+} from '../../../../components/AssetValue/types';
 import { fromWei, toWei } from 'web3-utils';
 import { Tooltip } from '@blueprintjs/core';
 import { bignumber } from 'mathjs';
+import { AssetValue } from '../../../../components/AssetValue';
 
 interface ITradeFormProps {
   trade: PerpetualTrade;
@@ -109,8 +113,23 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   }, [t, trade.position, trade.tradeType]);
 
   const price = useMemo(() => {
-    // TODO implement price calculator;
+    // TODO implement price calculation
     return 1337.1337;
+  }, []);
+
+  const orderCost = useMemo(() => {
+    // TODO implement orderCost calculation
+    return 0.1337;
+  }, []);
+
+  const tradingFee = useMemo(() => {
+    // TODO implement tradingFee
+    return 0.1337;
+  }, []);
+
+  const maxTradeSize = useMemo(() => {
+    // TODO implement maxTradeSize
+    return 1337;
   }, []);
 
   return (
@@ -138,10 +157,10 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           {t(translations.perpetualPage.tradeForm.buttons.sell)}
         </button>
       </div>
-      <div className="tw-flex tw-flex-row tw-items-start tw-mb-5">
+      <div className="tw-flex tw-flex-row tw-items-center tw-mb-4">
         <button
           className={classNames(
-            'tw-h-8 tw-px-3 tw-py-1 tw-font-semibold tw-text-base tw-text-sov-white tw-bg-gray-7 tw-rounded-lg',
+            'tw-h-8 tw-px-3 tw-py-1 tw-font-semibold tw-text-sm tw-text-sov-white tw-bg-gray-7 tw-rounded-lg',
             trade.tradeType !== PerpetualTradeType.MARKET &&
               'tw-opacity-25 hover:tw-opacity-100 tw-transition-opacity tw-duration-300',
           )}
@@ -152,12 +171,24 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         </button>
         <Tooltip content={t(translations.common.comingSoon)}>
           <button
-            className="tw-h-8 tw-px-3 tw-py-1 tw-font-semibold tw-text-base tw-text-sov-white tw-bg-gray-7 tw-rounded-lg tw-opacity-25 tw-cursor-not-allowed"
+            className="tw-h-8 tw-px-3 tw-py-1 tw-font-semibold tw-text-sm tw-text-sov-white tw-bg-gray-7 tw-rounded-lg tw-opacity-25 tw-cursor-not-allowed"
             disabled
           >
             {t(translations.perpetualPage.tradeForm.buttons.limit)}
           </button>
         </Tooltip>
+        <div className="tw-flex tw-flex-row tw-items-between tw-justify-between tw-flex-1 tw-ml-2 tw-text-xs">
+          <label className="tw-mr-1">
+            {t(translations.perpetualPage.tradeForm.labels.maxTradeSize)}
+          </label>
+          <AssetValue
+            minDecimals={0}
+            maxDecimals={6}
+            mode={AssetValueMode.auto}
+            value={maxTradeSize}
+            assetString={pair.shortAsset}
+          />
+        </div>
       </div>
       <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-sm">
         <label>
@@ -195,6 +226,38 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           step={0.1}
           min={0}
           onChange={onChangeOrderLimit}
+        />
+      </div>
+      <div
+        className={classNames(
+          'tw-flex tw-flex-row tw-items-center tw-justify-between tw-text-xs tw-font-medium',
+        )}
+      >
+        <label>
+          {t(translations.perpetualPage.tradeForm.labels.orderCost)}
+        </label>
+        <AssetValue
+          minDecimals={4}
+          maxDecimals={4}
+          mode={AssetValueMode.auto}
+          value={orderCost}
+          assetString={pair.shortAsset}
+        />
+      </div>
+      <div
+        className={classNames(
+          'tw-flex tw-flex-row tw-items-center tw-justify-between tw-text-xs tw-font-medium',
+        )}
+      >
+        <label>
+          {t(translations.perpetualPage.tradeForm.labels.tradingFee)}
+        </label>
+        <AssetValue
+          minDecimals={4}
+          maxDecimals={4}
+          mode={AssetValueMode.auto}
+          value={tradingFee}
+          assetString={pair.shortAsset}
         />
       </div>
 
