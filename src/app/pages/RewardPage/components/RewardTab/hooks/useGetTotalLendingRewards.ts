@@ -13,7 +13,9 @@ export const useGetTotalLendingRewards = (): string => {
   const totalLendingRewards = useMemo(
     () =>
       lendingRewardEvents
-        .filter(item => lendingPools.includes(item.returnValues.poolToken))
+        .filter(item =>
+          lendingPools.includes(item.returnValues.poolToken?.toLowerCase()),
+        )
         .map(item => item.returnValues.amount)
         .reduce((prevValue, curValue) => prevValue.add(curValue), bignumber(0)),
     [lendingRewardEvents],

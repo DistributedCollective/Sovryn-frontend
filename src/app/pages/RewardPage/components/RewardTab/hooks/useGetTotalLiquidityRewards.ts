@@ -13,7 +13,9 @@ export const useGetTotalLiquidityRewards = (): string => {
   const totalLiquidityRewards = useMemo(
     () =>
       liquidityRewardsEvents
-        .filter(item => liquidityPools.includes(item.returnValues.poolToken))
+        .filter(item =>
+          liquidityPools.includes(item.returnValues.poolToken?.toLowerCase()),
+        )
         .map(item => item.returnValues.amount)
         .reduce((prevValue, curValue) => prevValue.add(curValue), bignumber(0)),
     [liquidityRewardsEvents],
