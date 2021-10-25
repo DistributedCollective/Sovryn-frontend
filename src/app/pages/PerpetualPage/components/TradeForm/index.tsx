@@ -52,7 +52,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   const [amount, setAmount] = useState(trade.amount);
   const onChangeOrderAmount = useCallback(
     (amount: string) => {
-      const roundedAmount = bignumber(amount)
+      const roundedAmount = bignumber(amount || '0')
         .dividedBy(STEP_SIZE)
         .round()
         .mul(STEP_SIZE);
@@ -123,13 +123,23 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   }, []);
 
   const tradingFee = useMemo(() => {
-    // TODO implement tradingFee
+    // TODO implement tradingFee calculation
     return 0.1337;
   }, []);
 
   const maxTradeSize = useMemo(() => {
-    // TODO implement maxTradeSize
+    // TODO implement maxTradeSize calculation
     return 1337;
+  }, []);
+
+  const minLeverage = useMemo(() => {
+    // TODO implement minLeverage calculation
+    return 0.1;
+  }, []);
+
+  const maxLeverage = useMemo(() => {
+    // TODO implement maxLeverage calculation
+    return 15;
   }, []);
 
   return (
@@ -255,10 +265,12 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
 
       <FormGroup
         label={t(translations.perpetualPage.tradeForm.labels.leverage)}
-        className="tw-p-4 tw-pb-1 tw-mt-4 tw-mb-2 tw-bg-gray-4 tw-rounded-lg"
+        className="tw-p-4 tw-pb-px tw-mt-4 tw-mb-2 tw-bg-gray-4 tw-rounded-lg"
       >
         <LeverageSelector
           value={trade.leverage}
+          min={minLeverage}
+          max={maxLeverage}
           steps={[1, 2, 3, 5, 10, 15]}
           onChange={onChangeLeverage}
         />
@@ -269,14 +281,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           <Trans
             i18nKey={translations.marginTradeForm.fields.advancedSettings}
           />
-          <img
-            className="tw-ml-2"
-            alt="setting"
-            src={settingImg}
-            onClick={() => {
-              console.log('1123');
-            }}
-          />
+          <img className="tw-ml-2" alt="setting" src={settingImg} />
         </button>
       </div>
       <div className="tw-absolute tw-bottom-0 tw-left-0 tw-right-0">

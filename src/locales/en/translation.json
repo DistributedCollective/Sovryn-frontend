@@ -1584,7 +1584,8 @@
         "buyMarket": "Buy Market",
         "buyLimit": "Buy Limit",
         "sellMarket": "Sell Market",
-        "sellLimit": "Sell Limit"
+        "sellLimit": "Sell Limit",
+        "minLeverage": "MIN"
       }
     },
     "tradeDialog": {

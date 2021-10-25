@@ -12,12 +12,14 @@ type InputProps = Partial<
   disabled?: boolean;
   readOnly?: boolean;
   className?: string;
+  classNameInput?: string;
   dataActionId?: string;
   onChange: (value: string) => void;
 };
 
 export const Input: React.FC<InputProps> = ({
   className,
+  classNameInput,
   type,
   step,
   dataActionId,
@@ -49,7 +51,7 @@ export const Input: React.FC<InputProps> = ({
     <div className={classNames('tw-relative', className)}>
       <input
         ref={inputRef}
-        className={styles.input}
+        className={classNames(styles.input, classNameInput)}
         type={type}
         step={step}
         data-action-id={dataActionId}
