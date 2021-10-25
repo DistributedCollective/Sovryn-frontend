@@ -228,11 +228,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           onChange={onChangeOrderLimit}
         />
       </div>
-      <div
-        className={classNames(
-          'tw-flex tw-flex-row tw-items-center tw-justify-between tw-text-xs tw-font-medium',
-        )}
-      >
+      <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-text-xs tw-font-medium">
         <label>
           {t(translations.perpetualPage.tradeForm.labels.orderCost)}
         </label>
@@ -244,11 +240,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           assetString={pair.shortAsset}
         />
       </div>
-      <div
-        className={classNames(
-          'tw-flex tw-flex-row tw-items-center tw-justify-between tw-text-xs tw-font-medium',
-        )}
-      >
+      <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-text-xs tw-font-medium">
         <label>
           {t(translations.perpetualPage.tradeForm.labels.tradingFee)}
         </label>

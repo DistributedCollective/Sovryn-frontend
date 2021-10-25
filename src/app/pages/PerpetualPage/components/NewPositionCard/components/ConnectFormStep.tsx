@@ -1,9 +1,9 @@
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useWalletContext } from '@sovryn/react-wallet';
-import { translations } from '../../../../../locales/i18n';
-import { TransitionStep } from '../../../../containers/TransitionSteps';
-import { NewPositionCardStep } from './types';
+import { translations } from '../../../../../../locales/i18n';
+import { TransitionStep } from '../../../../../containers/TransitionSteps';
+import { NewPositionCardStep } from '../types';
 
 export const ConnectFormStep: TransitionStep<NewPositionCardStep> = ({
   changeTo,

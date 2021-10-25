@@ -1,8 +1,8 @@
 import React, { useCallback, useContext } from 'react';
-import { NewPositionCardContext } from '.';
-import { TransitionStep } from '../../../../containers/TransitionSteps';
-import { TradeForm } from '../TradeForm';
-import { NewPositionCardStep } from './types';
+import { NewPositionCardContext } from '..';
+import { TransitionStep } from '../../../../../containers/TransitionSteps';
+import { TradeForm } from '../../TradeForm';
+import { NewPositionCardStep } from '../types';
 
 export const TradeFormStep: TransitionStep<NewPositionCardStep> = ({
   changeTo,

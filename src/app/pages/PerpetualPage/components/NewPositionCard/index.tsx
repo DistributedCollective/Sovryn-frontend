@@ -20,9 +20,9 @@ import { TransitionSteps } from '../../../../containers/TransitionSteps';
 import { TransitionAnimation } from '../../../../containers/TransitionContainer';
 import { Asset } from '../../../../../types';
 import { NewPositionCardContextType, NewPositionCardStep } from './types';
-import { SlippageFormStep } from './SlippageFormStep';
-import { TradeFormStep } from './TradeFormStep';
-import { ConnectFormStep } from './ConnectFormStep';
+import { SlippageFormStep } from './components/SlippageFormStep';
+import { TradeFormStep } from './components/TradeFormStep';
+import { ConnectFormStep } from './components/ConnectFormStep';
 
 export const NewPositionCardContext = React.createContext<
   NewPositionCardContextType
