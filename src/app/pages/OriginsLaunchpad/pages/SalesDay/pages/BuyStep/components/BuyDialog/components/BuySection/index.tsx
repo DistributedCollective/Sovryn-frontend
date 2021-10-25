@@ -29,6 +29,7 @@ interface IBuySectionProps {
   sourceToken: Asset;
   tierId: number;
   maxAmount: string;
+  totalDeposit: string;
 }
 
 export const BuySection: React.FC<IBuySectionProps> = ({
@@ -36,6 +37,7 @@ export const BuySection: React.FC<IBuySectionProps> = ({
   depositRate,
   sourceToken: defaultSourceToken,
   maxAmount,
+  totalDeposit,
 }) => {
   const { t } = useTranslation();
   const connected = useCanInteract(true);
@@ -58,12 +60,12 @@ export const BuySection: React.FC<IBuySectionProps> = ({
     );
   }, [weiAmount, weiTokenAmount]);
 
-  const { value: totalDeposit } = useSwapsExternal_getSwapExpectedReturn(
+  const { value: amountInSOV } = useSwapsExternal_getSwapExpectedReturn(
     sourceToken,
     Asset.SOV,
     weiAmount,
   );
-  const { minReturn } = useSlippage(totalDeposit, slippage);
+  const { minReturn } = useSlippage(amountInSOV, slippage);
   const { send: sendSwap, ...txSwap } = useSwapsExternal_approveAndSwapExternal(
     sourceToken,
     Asset.SOV,
@@ -95,16 +97,16 @@ export const BuySection: React.FC<IBuySectionProps> = ({
       oldSwapStatus !== TxStatus.CONFIRMED
     ) {
       contribute(
-        bignumber(totalDeposit).mul(100).toString(),
+        bignumber(amountInSOV).mul(100).toString(),
         Asset.ZERO,
-        totalDeposit,
+        amountInSOV,
         Asset.SOV,
       );
     }
-  }, [sourceToken, txSwap, contribute, totalDeposit, oldSwapStatus]);
+  }, [sourceToken, txSwap, contribute, amountInSOV, oldSwapStatus]);
 
   const getAmountOfZERO = () => {
-    const amountOfSOV = sourceToken === Asset.SOV ? weiAmount : totalDeposit;
+    const amountOfSOV = sourceToken === Asset.SOV ? weiAmount : amountInSOV;
     return bignumber(amountOfSOV).mul(100);
   };
 
@@ -166,16 +168,11 @@ export const BuySection: React.FC<IBuySectionProps> = ({
             translations.originsLaunchpad.saleDay.buyStep.buyDialog
               .yourTotalDeposit,
           )}{' '}
-          :
-          <span className="tw-px-2">
-            {weiToFixed(
-              sourceToken === Asset.SOV ? weiAmount : totalDeposit,
-              4,
-            )}
-          </span>
+          :<span className="tw-px-2">{weiToFixed(totalDeposit, 4)}</span>
           <AssetRenderer asset={Asset.SOV} />
         </div>
       </div>
+
       <TxDialog tx={buyTx} />
       {txSwap && txSwap?.status !== TxStatus.CONFIRMED && (
         <SwapTxDialog tx={txSwap} />

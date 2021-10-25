@@ -21,6 +21,7 @@ export const BuyDialog: React.FC<IBuyDialogProps> = ({
       saleName={saleName}
       depositRate={saleInformation.depositRate}
       sourceToken={saleInformation.depositToken}
+      totalDeposit={saleInformation.yourTotalDeposit}
       tierId={tierId}
       maxAmount={saleInformation.maxAmount}
     />

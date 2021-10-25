@@ -20,7 +20,7 @@ export const SalesDay: React.FC<ISalesDayProps> = ({ tierId, saleName }) => {
   const connected = useIsConnected();
   const info = useGetSaleInformation(tierId);
 
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(3);
 
   const getActiveStep = (step: number) => {
     switch (step) {

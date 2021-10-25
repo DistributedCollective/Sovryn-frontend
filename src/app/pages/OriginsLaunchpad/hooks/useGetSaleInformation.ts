@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
+
+import { useAccount } from 'app/hooks/useAccount';
 import { Asset } from 'types';
 import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { DepositType, ISaleInformation, VerificationType } from '../types';
+import { selectTransactions } from 'store/global/transactions-store/selectors';
 
 const timestampToString = (timestamp: number) =>
   new Date(timestamp * 1000).toLocaleString('en-GB', {
@@ -11,18 +15,96 @@ const timestampToString = (timestamp: number) =>
   });
 
 export const useGetSaleInformation = (tierId: number) => {
+  const account = useAccount();
+  const transactions = useSelector(selectTransactions);
   const [saleInfo, setSaleInfo] = useState<ISaleInformation>({
     minAmount: '0',
     maxAmount: '0',
     remainingTokens: 0,
-    saleEnd: '',
+    saleStart: '',
+    saleEnd: '-',
+    period: '',
     depositRate: 1,
     participatingWallets: '0',
     depositToken: Asset.RBTC,
     depositType: DepositType.RBTC,
     verificationType: VerificationType.None,
     totalSaleAllocation: 0,
+    totalReceived: '0',
+    yourTotalDeposit: '0',
+    isClosed: false,
   });
+
+  const saleEndDate = () => {
+    const { isClosed, saleStart, period } = saleInfo;
+    if (isClosed) {
+      return 'Sale Closed';
+    }
+    if (saleStart && period) {
+      return timestampToString(Number(saleStart) + Number(period));
+    }
+    return '-';
+  };
+
+  useEffect(() => {
+    contractReader.call('ZEROPresale', 'totalRaised', []).then(result =>
+      setSaleInfo(preValue => ({
+        ...preValue,
+        totalReceived: result as string,
+      })),
+    );
+  }, [transactions]);
+
+  useEffect(() => {
+    if (account) {
+      contractReader
+        .call('ZEROPresale', 'contributors', [account])
+        .then(result =>
+          setSaleInfo(preValue => ({
+            ...preValue,
+            yourTotalDeposit: result as string,
+          })),
+        );
+    }
+  }, [account, transactions]);
+
+  useEffect(() => {
+    contractReader
+      .call<string>('ZEROPresale', 'contributorsCounter', [])
+      .then(result =>
+        setSaleInfo(prevValue => ({
+          ...prevValue,
+          participatingWallets: result,
+        })),
+      );
+  }, [transactions]);
+
+  useEffect(() => {
+    contractReader.call<boolean>('ZEROPresale', 'isClosed', []).then(result => {
+      setSaleInfo(preValue => ({
+        ...preValue,
+        isClosed: result,
+      }));
+    });
+  }, []);
+
+  useEffect(() => {
+    contractReader.call<string>('ZEROPresale', 'openDate', []).then(result => {
+      setSaleInfo(preValue => ({
+        ...preValue,
+        saleStart: result,
+      }));
+    });
+  }, []);
+
+  useEffect(() => {
+    contractReader.call<string>('ZEROPresale', 'period', []).then(result => {
+      setSaleInfo(preValue => ({
+        ...preValue,
+        period: result,
+      }));
+    });
+  }, []);
 
   useEffect(() => {
     contractReader
@@ -33,24 +115,9 @@ export const useGetSaleInformation = (tierId: number) => {
           minAmount: result['_minAmount'],
           maxAmount: result['_maxAmount'],
           remainingTokens: result['_remainingTokens'],
-          saleStart: result['_saleStartTS'],
-          saleEnd: timestampToString(result['_saleEnd']),
           depositRate: result['_depositRate'],
         }));
       });
-  }, [tierId]);
-
-  useEffect(() => {
-    contractReader
-      .call<string>('originsBase', 'getParticipatingWalletCountPerTier', [
-        tierId,
-      ])
-      .then(result =>
-        setSaleInfo(prevValue => ({
-          ...prevValue,
-          participatingWallets: result,
-        })),
-      );
   }, [tierId]);
 
   useEffect(() => {
@@ -80,5 +147,8 @@ export const useGetSaleInformation = (tierId: number) => {
       });
   }, [tierId]);
 
-  return saleInfo;
+  return {
+    ...saleInfo,
+    saleEnd: saleEndDate(),
+  };
 };

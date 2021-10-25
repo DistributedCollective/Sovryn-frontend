@@ -1,8 +1,10 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
+
 import { Asset } from 'types';
+import { weiToFixed } from 'utils/blockchain/math-helpers';
+import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { BuyInformationWrapper } from './styled';
 import { InfoItem } from './InfoItem';
 import { ISaleInformation } from '../../../../../../../../types';
@@ -27,7 +29,8 @@ export const InformationSection: React.FC<IInformationSectionProps> = ({
         )}
         value={
           <>
-            19,944 <AssetSymbolRenderer asset={Asset.SOV} />
+            <span className="tw-pr-1">{weiToFixed(info.totalReceived, 4)}</span>
+            <AssetSymbolRenderer asset={Asset.SOV} />
           </>
         }
         className="tw-text-primary"
