@@ -23,7 +23,7 @@ export const blockExplorers = {
 };
 
 export const readNodes = {
-  30: 'wss://mainnet.sovryn.app/ws',
+  30: 'wss://mainnet.sovryn.app/websocket',
   31: 'wss://testnet.sovryn.app/ws',
 };
 
