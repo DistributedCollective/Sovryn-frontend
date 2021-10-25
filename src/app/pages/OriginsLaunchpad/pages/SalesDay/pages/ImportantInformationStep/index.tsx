@@ -63,9 +63,6 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
             <ListItem>
               {t(baseTranslations.information[7], { token: saleName })}
             </ListItem>
-            <ListItem>
-              {t(baseTranslations.information[8], { token: saleName })}
-            </ListItem>
             {tierId === 2 && (
               <ListItem>{t(baseTranslations.information[9])}</ListItem>
             )}
