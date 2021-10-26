@@ -1607,6 +1607,9 @@
         "short": "Short"
       }
     },
+    "reviewTrade": {
+      "title": "Review Order"
+    },
     "openPositions": "Positions",
     "closedPositions": "Closed Positions",
     "orderHistory": "Order History",

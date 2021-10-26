@@ -32,6 +32,7 @@ import { AccountBalanceCard } from './components/AccountBalanceCard';
 import { usePerpetual_accountBalance } from './hooks/usePerpetual_accountBalance';
 import { AccountDialog } from './components/AccountDialog';
 import { NewPositionCard } from './components/NewPositionCard';
+import { TradeReviewDialog } from './components/TradeReviewDialog';
 
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -210,6 +211,7 @@ export function PerpetualPage() {
         onClose={() => setShowNotificationSettingsModal(false)}
       />
       <AccountDialog pairType={pairType} />
+      <TradeReviewDialog />
     </>
   );
 }

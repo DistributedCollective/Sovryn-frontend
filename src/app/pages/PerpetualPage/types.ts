@@ -29,6 +29,18 @@ export type PerpetualTrade = {
   slippage: number;
 };
 
+export const isPerpetualTrade = (x: any): x is PerpetualTrade =>
+  x &&
+  typeof x === 'object' &&
+  typeof x.pairType === 'string' &&
+  typeof x.collateral === 'string' &&
+  typeof x.tradeType === 'string' &&
+  typeof x.position === 'string' &&
+  typeof x.amount === 'string' &&
+  typeof x.limit === 'string' &&
+  typeof x.leverage === 'number' &&
+  typeof x.slippage === 'number';
+
 export type PerpetualPageState = {
   pairType: PerpetualPairType;
   collateral: Asset;
