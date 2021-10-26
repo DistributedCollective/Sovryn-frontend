@@ -1,6 +1,6 @@
 import { Classes, Overlay } from '@blueprintjs/core';
 import React from 'react';
-import { FullVesting } from './useListOfUserVestings';
+import { FullVesting } from './types';
 import { VestingWithdrawForm } from './VestingWithdrawForm';
 import type { Nullable } from 'types';
 
