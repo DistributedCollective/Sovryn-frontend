@@ -41,7 +41,11 @@ enum States {
   DELEGATE_STAKES = 'delegateStakes',
   DELEGATE_VESTS = 'delegateVests',
   WITHDRAW_VESTS = 'withdrawVests',
+
   CLAIM_REWARDS = 'claimRewards',
+  CLAIM_REWARD_SOV = 'claimRewardSov',
+  CLAIM_LIQUID_SOV = 'claimLiquidSov',
+  CLAIM_FEES_EARNED = 'claimFeesEarned',
 }
 
 type MaintenanceResult = {

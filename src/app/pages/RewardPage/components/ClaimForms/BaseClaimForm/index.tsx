@@ -24,6 +24,7 @@ interface IBaseClaimFormProps {
   footer?: JSX.Element;
   onSubmit: () => void;
   claimAsset?: Asset;
+  claimLocked?: boolean;
 }
 
 export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
@@ -32,6 +33,7 @@ export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
   tx,
   footer,
   onSubmit,
+  claimLocked,
   claimAsset = Asset.SOV,
 }) => {
   const { t } = useTranslation();
@@ -43,9 +45,10 @@ export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
       parseFloat(amountToClaim) === 0 ||
       !amountToClaim ||
       rewardsLocked ||
+      claimLocked ||
       tx.status === TxStatus.PENDING ||
       tx.status === TxStatus.PENDING_FOR_USER,
-    [amountToClaim, rewardsLocked, tx.status],
+    [amountToClaim, rewardsLocked, claimLocked, tx.status],
   );
 
   return (
@@ -78,7 +81,7 @@ export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
         )}
 
         <div className="tw-mt-16">
-          {rewardsLocked && (
+          {(rewardsLocked || claimLocked) && (
             <ErrorBadge
               content={
                 <Trans
