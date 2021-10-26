@@ -14,9 +14,11 @@ export enum PerpetualPageModals {
   FASTBTC_WITHDRAW = 'FASTBTC_WITHDRAW',
   FASTBTC_TRANSFER = 'FASTBTC_TRANSFER',
   TRADE_REVIEW = 'TRADE_REVIEW',
+  EDIT_POSITION_SIZE = 'EDIT_POSITION_SIZE',
 }
 
 export type PerpetualTrade = {
+  id?: string;
   pairType: PerpetualPairType;
   collateral: Asset;
   tradeType: PerpetualTradeType;
@@ -24,7 +26,7 @@ export type PerpetualTrade = {
   /** wei string */
   amount: string;
   /** wei string */
-  limit: string;
+  limit?: string;
   leverage: number;
   slippage: number;
 };
@@ -37,9 +39,9 @@ export const isPerpetualTrade = (x: any): x is PerpetualTrade =>
   typeof x.tradeType === 'string' &&
   typeof x.position === 'string' &&
   typeof x.amount === 'string' &&
-  typeof x.limit === 'string' &&
   typeof x.leverage === 'number' &&
-  typeof x.slippage === 'number';
+  typeof x.slippage === 'number' &&
+  (x.limit === undefined || typeof x.limit === 'string');
 
 export type PerpetualPageState = {
   pairType: PerpetualPairType;

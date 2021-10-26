@@ -57,7 +57,7 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
       <table className="sovryn-table tw-table-auto">
         <thead>
           <tr>
-            <th className="tw-min-w-40 tw-text-sm">
+            <th className="tw-text-sm">
               {t(translations.perpetualPage.openPositionsTable.pair)}
             </th>
             <th className="tw-text-right tw-text-sm">

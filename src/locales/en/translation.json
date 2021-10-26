@@ -1669,6 +1669,14 @@
     "reviewTrade": {
       "title": "Review Order"
     },
+    "editPositionSize": {
+      "title": "Edit Position Size"
+    },
+    "currentTrade": {
+      "position": "Current Position:",
+      "margin": "Current Margin:",
+      "available": "Available Balance:"
+    },
     "openPositions": "Positions",
     "closedPositions": "Closed Positions",
     "orderHistory": "Order History",
@@ -1682,7 +1690,11 @@
       "margin": "Margin",
       "unrealized": "Unrealized P&L (ROE %)",
       "realized": "Realized P&L",
-      "actions": "Actions"
+      "actions": "Actions",
+      "editSize": "Size",
+      "editLeverage": "Leverage",
+      "editMargin": "Margin",
+      "editClose": "Close"
     },
     "notificationSettingsDialog": {
       "title": "Margin Trade notification settings",
