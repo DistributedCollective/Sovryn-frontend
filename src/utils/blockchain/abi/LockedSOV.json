@@ -75,13 +75,13 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "_initiator",
+        "name": "_userAddress",
         "type": "address"
       },
       {
         "indexed": true,
         "internalType": "address",
-        "name": "_userAddress",
+        "name": "_initiator",
         "type": "address"
       },
       {
@@ -172,7 +172,7 @@
         "type": "uint256"
       }
     ],
-    "name": "TokensStaked",
+    "name": "TokenStaked",
     "type": "event"
   },
   {
@@ -201,6 +201,12 @@
         "indexed": true,
         "internalType": "address",
         "name": "_initiator",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "_userAddress",
         "type": "address"
       },
       {
@@ -241,6 +247,36 @@
   {
     "constant": true,
     "inputs": [],
+    "name": "MAX_BASIS_POINT",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "MAX_DURATION",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
     "name": "SOV",
     "outputs": [
       {
@@ -266,6 +302,27 @@
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_addr",
+        "type": "address"
+      }
+    ],
+    "name": "adminStatus",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "_status",
+        "type": "bool"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -552,6 +609,21 @@
       }
     ],
     "name": "withdrawAndStakeTokens",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_userAddress",
+        "type": "address"
+      }
+    ],
+    "name": "withdrawAndStakeTokensFrom",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",

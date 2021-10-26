@@ -3,7 +3,6 @@
  * Use getContract(contractName) helper
  * @example getContract('sovrynProtocol');
  */
-
 import bzxAbi from './abi/bzxAbi.json';
 import priceFeedsAbi from './abi/priceFeedAbi.json';
 import LiquidityPoolV2Converter from './abi/LiquidityPoolV2Converter.json';
@@ -235,7 +234,7 @@ export const contracts = {
     blockNumber: 1218836,
   },
   vestingRegistry: {
-    address: '0x80B036ae59B3e38B573837c01BB1DB95515b7E6B',
+    address: '0xe24ABdB7DcaB57F3cbe4cBDDd850D52F143eE920',
     abi: VestingRegistryAbi,
     blockNumber: 1218836,
   },
@@ -298,8 +297,12 @@ export const contracts = {
     address: '0xB4e4517cA4Edf591Dcafb702999F04f02E57D978',
     abi: LockedSovAbi,
   },
-  feeSharingProxy: {
+  feeSharingProxy_old: {
     address: '0x12B1B0C67d9A771EB5Db7726d23fdc6848fd93ef',
+    abi: feeSharingProxyAbi,
+  },
+  feeSharingProxy: {
+    address: '0x115cAF168c51eD15ec535727F64684D33B7b08D1',
     abi: feeSharingProxyAbi,
   },
   stakingRewards: {

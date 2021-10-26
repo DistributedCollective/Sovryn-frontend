@@ -303,7 +303,7 @@
       "title": "{{token}} Origins Pre-Sale",
       "engageWalletScreen": {
         "dialogTitle": "Welcome to the {{token}} Origins Pre-Sale",
-        "buttonText": "Engage Wallet",
+        "buttonText": "Connect Wallet",
         "dialogFooter1": "Engage a browser, mobile or hardware wallet connected to the <0>RSK Mainnet</0>",
         "dialogFooter2": "Don’t have a wallet? Sovryn recommends <0>Liquality wallet</0>"
       },
@@ -770,7 +770,7 @@
       }
     },
     "no_items": "Histórico vázio."
-   },
+  },
   "wrongNetworkDialog": {
     "title": "Mude para a rede {{name}}",
     "networkAlert": "Detectamos que você está conectado na rede {{name}}.",
@@ -1361,8 +1361,30 @@
     "tradingRewards": "Bônus de negociação",
     "lockedRewards": "Bônus bloqueados:",
     "claimableRewards": "Bônus reinvidicáveis",
-    "stakingReward": "Bônus de investimento",
+    "stakingReward": "Bônus de investimento SOV",
+    "referralReward": "Bônus programa de afiliados",
     "comingSoon": "Em breve",
+    "noRewardInfoText": {
+      "rewardSovTab": {
+        "title": "Você não possui SOV Recompensa",
+        "recommendationsTitle": "Ganhe SOV Recompensa das seguintes formas:",
+        "recommendation1": "Emprestando cripto que faça parte de promoção em andamento",
+        "recommendation2": "Minerando liquidez em algum pool com promoção em andamento",
+        "recommendation3": "Operando margem em qualquer par de criptos na Sovryn"
+      },
+      "liquidSovTab": {
+        "title": "Você não possui SOV Líquido",
+        "recommendationsTitle": "Ganhe SOV Líquido das seguintes formas:",
+        "recommendation1": "Investindo seus SOV",
+        "recommendation2": "Operando margem em qualquer par de criptos na Sovryn"
+      },
+      "feesEarnedTab": {
+        "title": "Você não possui dividendos/comissão a receber",
+        "recommendationsTitle": "Ganhe dividendos/comissão em <0/> das seguintes formas:",
+        "recommendation1": "Investindo seus SOV",
+        "recommendation2": "Quando usuários indicados por você realizam transações na Sovryn"
+      }
+    },
     "meta": {
       "title": "Recompensas",
       "description": "Bônus SOV"
@@ -1371,7 +1393,15 @@
       "title": "Quantidade:",
       "availble": "Total de SOV disponíveis:",
       "cta": "REIVINDICAR",
-      "note": "Ao reivindicar seus bônus, os SOV ganhos ficam bloqueados por 10 meses com a possibilidade de sacá-los gradativamente a cada mês.",
+      "note": "Ao reivindicar seus SOV Recompensa, eles ficam bloqueados por 10 meses. A cada mês é liberada uma quantidade.",
+      "learn": "Saiba mais"
+    },
+    "liquidClaimForm": {
+      "note": "Ao reivindicar seus SOV Líquido, eles automaticamente são adicionados no seu saldo SOV no portfólio.",
+      "learn": "Saiba mais"
+    },
+    "feesEarnedClaimForm": {
+      "note": "Ao reivindicar seus dividendos e afins, eles automaticamente são adicionados no seu saldo <0/> no portfólio.",
       "learn": "Saiba mais"
     },
     "stakingForm": {
@@ -1381,17 +1411,18 @@
     },
     "totalEarned": "Total ganho:",
     "sov": {
-      "reward": "SOV bônus",
-      "liquid": "SOV líquido",
-      "fee": "Dividendos"
+      "reward": "SOV Recompensa",
+      "liquid": "SOV Líquido",
+      "fee": "Dividendos & Comissão"
     },
     "fee": {
-      "stakingFee": "Dividendo investimento SOV",
-      "referralFee": "Dividendo de indicação",
+      "stakingFee": "Dividendo de investimento SOV",
+      "referralFee": "Comissão programa de afiliados",
       "tradingRebate": "Trading Rebate"
     },
     "historyTable": {
       "title": "Histórico",
+      "titleFeesEarned": "Histórico",
       "tableHeaders": {
         "time": "Data e hora",
         "type": "Tipo",
@@ -1403,9 +1434,12 @@
         "lendingReward": "Bônus de empréstimo",
         "liquidityReward": "Bônus de liquidez",
         "tradingReward": "Bônus de negociação",
+        "stakingReward": "Bônus de investimento SOV",
+        "referralReward": "Bônus programa de afiliados",
+        "feesReward": "Dividendo de investimento SOV",
         "vesting": "SOV reservado",
         "staking": "Investimento SOV",
-        "referral": "Bônus de indicação"
+        "referral": "Comissão programa de afiliados"
       },
       "walletHistory": "A carteira precisa estar conectada.",
       "emptyState": "Histórico vázio.",
@@ -2038,7 +2072,7 @@
     "isConnected": "Conecte sua carteira para começar a indicar e ganhar.",
     "refLink": "Compartilhe seu link de indicação",
     "feesEarned": "Ganho",
-    "rewardSOVEarned": "SOV líquido ganho",
+    "rewardSOVEarned": "SOV Líquido ganho",
     "numberReferrals": "Número de indicações",
     "linkCopied": "Link copiado",
     "referralHistory": "Histórico",
@@ -2049,7 +2083,7 @@
       "date": "Data e hora",
       "type": "Tipo",
       "from": "De",
-      "sovAmount": "SOV líquido ganho",
+      "sovAmount": "SOV Líquido ganho",
       "feesAmount": "Ganho",
       "hash": "ID transação",
       "status": "Status"
