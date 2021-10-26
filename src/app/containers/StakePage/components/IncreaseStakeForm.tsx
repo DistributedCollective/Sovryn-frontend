@@ -7,7 +7,8 @@ import { weiToNumberFormat } from 'utils/display-text/format';
 import { CacheCallResponse } from 'app/hooks/useCacheCall';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import { useAccount } from 'app/hooks/useAccount';
-import { ethGenesisAddress, discordInvite } from 'utils/classifiers';
+import { TxType } from 'store/global/transactions-store/types';
+import { ethGenesisAddress, discordInvite, gasLimit } from 'utils/classifiers';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { AvailableBalance } from '../../../components/AvailableBalance';
 import { Asset } from 'types/asset';
@@ -32,7 +33,7 @@ export function IncreaseStakeForm(props: Props) {
   const stakingLocked = checkMaintenance(States.STAKING);
   const [initialStep, setInitialStep] = useState(true);
   const txConf = {
-    gas: 450000,
+    gas: gasLimit[TxType.STAKING_INCREASE_STAKE],
   };
 
   useEffect(() => {

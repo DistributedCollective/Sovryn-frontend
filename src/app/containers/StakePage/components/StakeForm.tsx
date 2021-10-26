@@ -7,11 +7,12 @@ import { CacheCallResponse } from 'app/hooks/useCacheCall';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import { StakingDateSelector } from 'app/components/StakingDateSelector';
 import { useAccount } from 'app/hooks/useAccount';
-import { ethGenesisAddress, discordInvite } from 'utils/classifiers';
+import { ethGenesisAddress, discordInvite, gasLimit } from 'utils/classifiers';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { AvailableBalance } from '../../../components/AvailableBalance';
 import { Asset } from 'types/asset';
+import { TxType } from 'store/global/transactions-store/types';
 
 interface Props {
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
@@ -33,7 +34,7 @@ export function StakeForm(props: Props) {
   const { checkMaintenance, States } = useMaintenance();
   const stakingLocked = checkMaintenance(States.STAKING);
   const txConf = {
-    gas: 450000,
+    gas: gasLimit[TxType.STAKING_STAKE],
   };
 
   return (

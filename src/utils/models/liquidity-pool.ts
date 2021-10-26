@@ -11,6 +11,7 @@ export class LiquidityPool {
   constructor(
     public readonly poolAsset: Asset,
     public readonly supplyAssets: LiquidityPoolSupplyAsset[] = [],
+    public readonly hasSovRewards: boolean = true,
   ) {
     this.assetDetails = AssetsDictionary.get(this.poolAsset);
   }
