@@ -8,14 +8,10 @@ interface Response {
 }
 
 export function useLiquidityMining_getUserInfoList() {
-  return useCacheCallWithValue<Response>(
+  return useCacheCallWithValue<Response[]>(
     'liquidityMiningProxy',
     'getUserInfoList',
-    {
-      amount: '0',
-      rewardDebt: '0',
-      accumulatedReward: '0',
-    },
+    [],
     useAccount(),
   );
 }

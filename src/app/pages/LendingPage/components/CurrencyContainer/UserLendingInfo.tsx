@@ -17,13 +17,13 @@ import { useLending_tokenPrice } from 'app/hooks/lending/useLending_tokenPrice';
 import { weiToFixed, weiTo18 } from 'utils/blockchain/math-helpers';
 import { useLending_profitOf } from 'app/hooks/lending/useLending_profitOf';
 import { useAccount } from 'app/hooks/useAccount';
-import { useLiquidityMining_getPoolId } from 'app/pages/LiquidityMining/hooks/useLiquidityMining_getPoolId';
 import { useLiquidityMining_getUserAccumulatedReward } from 'app/pages/LiquidityMining/hooks/useLiquidityMining_getUserAccumulatedReward';
-import { useLiquidityMining_getUserInfoList } from 'app/pages/LiquidityMining/hooks/useLiquidityMining_getUserInfoList';
+import { useLending_recentRewardSOV } from 'app/hooks/lending/useLending_recentRewardSOV';
 import { translations } from 'locales/i18n';
 import { Asset } from 'types';
 import { getLendingContract } from 'utils/blockchain/contract-helpers';
 import { LendingPool } from 'utils/models/lending-pool';
+import { LendingPoolDictionary } from 'utils/dictionaries/lending-pool-dictionary';
 
 import { RowTable } from '../../../../components/FinanceV2Components/RowTable';
 import { TableBody } from '../../../../components/FinanceV2Components/RowTable/TableBody';
@@ -49,26 +49,8 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
   } = useLiquidityMining_getUserAccumulatedReward(
     getLendingContract(asset).address,
   );
-  const {
-    value: userInfoList,
-    loading: userInfoListLoading,
-  } = useLiquidityMining_getUserInfoList();
-  const {
-    value: poolID,
-    loading: poolIDLoading,
-  } = useLiquidityMining_getPoolId(getLendingContract(asset).address);
 
-  const recentRewardSOV = useMemo(
-    () =>
-      userInfoListLoading === false &&
-      poolIDLoading === false &&
-      userInfoList &&
-      userInfoList[poolID] &&
-      userInfoList[poolID][2]
-        ? userInfoList[poolID][2]
-        : 0,
-    [userInfoList, poolID, userInfoListLoading, poolIDLoading],
-  );
+  const recentRewardSOV = useLending_recentRewardSOV(asset);
 
   const { value: profitCall, loading: profitLoading } = useLending_profitOf(
     asset,
@@ -94,18 +76,31 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
     loading: tokenPriceLoading,
   } = useLending_tokenPrice(asset);
 
-  const balance = useMemo(() => {
-    return bignumber(balanceCall).minus(profitCall).toString();
-  }, [balanceCall, profitCall]);
+  const { useLM } = LendingPoolDictionary.get(asset);
 
-  const totalProfit = useMemo(() => {
-    return bignumber(tokenPrice)
-      .sub(checkpointPrice)
-      .mul(totalBalance)
-      .div(Math.pow(10, assetDecimals))
-      .add(profitCall)
-      .toFixed(0);
-  }, [profitCall, totalBalance, checkpointPrice, tokenPrice, assetDecimals]);
+  // this only gets used for LM enabled lending pools
+  const totalProfit = useMemo(
+    () =>
+      bignumber(tokenPrice)
+        .sub(checkpointPrice)
+        .mul(totalBalance)
+        .div(Math.pow(10, assetDecimals))
+        .add(profitCall)
+        .toFixed(0),
+    [profitCall, totalBalance, checkpointPrice, tokenPrice, assetDecimals],
+  );
+
+  // calculation for LM enabled lending pools uses totalProfit to get correct balance
+  const poolProfit = useMemo(() => (useLM ? totalProfit : profitCall), [
+    useLM,
+    totalProfit,
+    profitCall,
+  ]);
+
+  const balance = useMemo(
+    () => bignumber(balanceCall).minus(poolProfit).toString(),
+    [balanceCall, poolProfit],
+  );
 
   useEffect(() => {
     if (balance !== '0') {
@@ -173,12 +168,12 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
                 }
                 value={
                   <ProfitLossRenderer
-                    isProfit={bignumber(totalProfit).greaterThanOrEqualTo(0)}
-                    amount={weiToFixed(totalProfit, 8)}
+                    isProfit={bignumber(poolProfit).greaterThanOrEqualTo(0)}
+                    amount={weiToFixed(poolProfit, 8)}
                     asset={asset}
                   />
                 }
-                tooltip={<>{weiTo18(totalProfit)}</>}
+                tooltip={<>{weiTo18(poolProfit)}</>}
               />
             </TableBodyData>
             <TableBodyData>

@@ -3,10 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { Skeleton } from '../PageSkeleton';
-import {
-  FullVesting,
-  useListOfUserVestings,
-} from './Vesting/useListOfUserVestings';
+import { useListOfUserVestings } from './Vesting/useListOfUserVestings';
+import { FullVesting } from './Vesting/types';
 import { VestedItem } from './Vesting/VestedItem';
 import { VestingWithdrawDialog } from './Vesting/VestingWithdrawDialog';
 import type { Nullable } from 'types';

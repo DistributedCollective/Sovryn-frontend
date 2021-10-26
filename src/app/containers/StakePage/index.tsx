@@ -394,12 +394,12 @@ const InnerStakePage: React.FC = () => {
                 <p className="tw-text-lg tw--mt-1">
                   {t(translations.stake.total)}
                 </p>
-                <p className="xl:tw-text-4xl tw-text-3xl tw-mt-2 tw-mb-6">
+                <div className="xl:tw-text-4xl tw-text-3xl tw-mt-2 tw-mb-6">
                   {weiTo4(balanceOf.value)} SOV
                   {balanceOf.loading && (
                     <Spinner size={20} className="tw-inline-block tw-m-2" />
                   )}
-                </p>
+                </div>
                 <Modal
                   show={stakeForm}
                   content={
@@ -480,12 +480,12 @@ const InnerStakePage: React.FC = () => {
                 <p className="tw-text-lg tw--mt-1">
                   {t(translations.stake.votingPower)}
                 </p>
-                <p className="xl:tw-text-4xl tw-text-3xl tw-mt-2 tw-mb-6">
+                <div className="xl:tw-text-4xl tw-text-3xl tw-mt-2 tw-mb-6">
                   {weiTo4(voteBalance.value)}
                   {voteBalance.loading && (
                     <Spinner size={20} className="tw-inline-block tw-m-2" />
                   )}
-                </p>
+                </div>
                 <div className="tw-flex tw-flex-col tw-items-start">
                   <div className="tw-bg-primary tw-font-normal tw-bg-opacity-10 tw-hover:text-primary tw-focus:outline-none tw-focus:bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-px-8 tw-py-3 tw-text-lg tw-text-primary tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-primary tw-rounded-xl hover:tw-no-underline tw-no-underline tw-inline-block">
                     <a
