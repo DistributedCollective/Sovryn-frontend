@@ -310,6 +310,11 @@
       },
       "accessCodeVerificationStep": {
         "dialogTitle": "Welcome to the {{token}} Pre-Sale on Origins ",
+        "alert": {
+          "closed": "{{token}} pre-sale already finished.",
+          "inProgress": "You can now participate in the {{token}} pre-sale.",
+          "notOpenYet": "The {{token}} public pre-sale will open at {{time}}, get your RBTC ready!"
+        },
         "verified": {
           "privateSale": "You have been given whitelist access to participate in the FISH Origins pre-sale.",
           "publicSale": "You can now participate in the {{token}} pre-sale."

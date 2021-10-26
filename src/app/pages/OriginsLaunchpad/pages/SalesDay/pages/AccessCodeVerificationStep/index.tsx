@@ -1,24 +1,52 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import imgLargeNFT from 'assets/images/OriginsLaunchpad/FishSale/large_NFT.svg';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { DialogTitle, DialogWrapper } from './styled';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { useIsAddressVerified } from 'app/pages/OriginsLaunchpad/hooks/useIsAddressVerified';
+import { ISaleInformation } from '../../../../types';
 
 interface IAccessCodeVerificationStepProps {
   tierId: number;
   saleName: string;
+  info: ISaleInformation;
   onVerified?: () => void;
 }
+
+interface ISaleStatus {
+  isClosed: boolean;
+  isActive: boolean;
+  startAt: string;
+}
+
+const timestampToString = (timestamp: number) =>
+  new Date(timestamp * 1000).toLocaleString('en-GB', {
+    day: 'numeric',
+    month: 'short',
+    hour: 'numeric',
+    hour12: false,
+    minute: 'numeric',
+  });
 
 export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepProps> = ({
   tierId,
   saleName,
+  info,
   onVerified,
 }) => {
   const { t } = useTranslation();
   const isVerified = useIsAddressVerified(tierId);
+  const saleStatus = useMemo<ISaleStatus>(() => {
+    const { isClosed, saleStart, period } = info;
+    const saleEndTS = Number(saleStart) + Number(period);
+    const nowTS = Date.now() / 1e3;
+    return {
+      isClosed,
+      isActive: !isClosed && Number(saleStart) <= nowTS && saleEndTS >= nowTS,
+      startAt: timestampToString(Number(saleStart)),
+    };
+  }, [info]);
 
   return (
     <>
@@ -33,19 +61,26 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
             )}
           </DialogTitle>
           <div className="tw-text-xl tw-font-extralight tw-mb-32">
-            {isVerified
-              ? t(
-                  translations.originsLaunchpad.saleDay
-                    .accessCodeVerificationStep.verified[
-                    tierId === 2 ? 'publicSale' : 'privateSale'
-                  ],
-                  { token: saleName },
-                )
-              : t(
-                  translations.originsLaunchpad.saleDay
-                    .accessCodeVerificationStep.notVerified,
-                  { token: saleName },
-                )}
+            {saleStatus.isClosed &&
+              t(
+                translations.originsLaunchpad.saleDay.accessCodeVerificationStep
+                  .alert.closed,
+                { token: saleName },
+              )}
+            {!saleStatus.isClosed &&
+              saleStatus.isActive &&
+              t(
+                translations.originsLaunchpad.saleDay.accessCodeVerificationStep
+                  .alert.inProgress,
+                { token: saleName },
+              )}
+            {!saleStatus.isClosed &&
+              !saleStatus.isActive &&
+              t(
+                translations.originsLaunchpad.saleDay.accessCodeVerificationStep
+                  .alert.notOpenYet,
+                { token: saleName, time: saleStatus.startAt },
+              )}
           </div>
 
           {isVerified && (
@@ -58,6 +93,7 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
                 onClick={onVerified}
                 className="tw-block tw-w-full tw-h-10 tw-px-9 tw-mt-8 tw-rounded-xl tw-bg-gray-1 tw-bg-opacity-10"
                 textClassName="tw-text-lg tw-tracking-normal tw-leading-snug"
+                disabled={!saleStatus.isActive}
               />
             </div>
           )}

@@ -9,6 +9,7 @@ import { useIsConnected } from 'app/hooks/useAccount';
 import { ImportantInformationStep } from './pages/ImportantInformationStep';
 import { BuyStep } from './pages/BuyStep';
 import { useGetSaleInformation } from '../../hooks/useGetSaleInformation';
+import { ISaleInformation } from '../../types';
 
 interface ISalesDayProps {
   tierId: number;
@@ -30,6 +31,7 @@ export const SalesDay: React.FC<ISalesDayProps> = ({ tierId, saleName }) => {
             tierId={tierId}
             saleName={saleName}
             onVerified={() => setStep(2)}
+            info={info}
           />
         );
       case 2:
