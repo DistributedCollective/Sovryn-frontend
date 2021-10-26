@@ -9,7 +9,6 @@ import { useIsConnected } from 'app/hooks/useAccount';
 import { ImportantInformationStep } from './pages/ImportantInformationStep';
 import { BuyStep } from './pages/BuyStep';
 import { useGetSaleInformation } from '../../hooks/useGetSaleInformation';
-import { ISaleInformation } from '../../types';
 
 interface ISalesDayProps {
   tierId: number;
