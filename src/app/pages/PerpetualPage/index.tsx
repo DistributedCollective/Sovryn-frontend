@@ -98,29 +98,14 @@ export function PerpetualPage() {
   );
 
   // This can be used for testing Withdraw/Close position
-  //  const marginAccountBalance = usePerpetual_marginAccountBalance();
-
   // const { withdraw } = usePerpetual_withdrawMarginToken();
-  // const onWithdrawClick = useCallback(() => withdraw('11.683'), [withdraw]);
-
-  // const { trade } = usePerpetual_trade();
-  // const onClosePositionClick = useCallback(() => {
-  //   if (marginAccountBalance.fPositionBC === 0) {
-  //     return;
-  //   }
-
-  //   trade(
-  //     String(marginAccountBalance.fCashCC),
-  //     String(-1 * marginAccountBalance.fPositionBC),
-  //   )
-  //     .then(_ => withdraw(String(marginAccountBalance.fCashCC)))
-  //     .catch(e => console.log(e.message));
-  // }, [
-  //   marginAccountBalance.fCashCC,
-  //   marginAccountBalance.fPositionBC,
-  //   trade,
+  // const onWithdrawClick = useCallback(() => withdraw('2.556735194'), [
   //   withdraw,
   // ]);
+
+  // const marginAccountBalance = usePerpetual_marginAccountBalance();
+
+  // const { closePosition } = usePerpetual_closePosition();
 
   return (
     <>
@@ -180,9 +165,9 @@ export function PerpetualPage() {
 
         {/* This can be used for testing Withdraw/Close position */}
         {/* <button className="tw-block" onClick={onWithdrawClick}>
-          Withdraw 20 margin tokens
+          Withdraw margin
         </button>
-        <button className="tw-block" onClick={onClosePositionClick}>
+        <button className="tw-block" onClick={closePosition}>
           Close the position
         </button> */}
 

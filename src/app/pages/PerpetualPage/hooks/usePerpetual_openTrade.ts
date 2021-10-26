@@ -9,7 +9,7 @@ import { usePerpetual_depositMarginToken } from './usePerpetual_depositMarginTok
 
 const MASK_MARKET_ORDER = BigNumber.from('0x40000000');
 
-export const usePerpetual_trade = () => {
+export const usePerpetual_openTrade = () => {
   const address = useAccount();
 
   const { deposit } = usePerpetual_depositMarginToken();
