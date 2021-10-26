@@ -1,0 +1,9 @@
+.noRewardWrapper {
+    @apply tw-flex tw-items-center;
+    padding: 2.25rem 4.8125rem 2.75rem 4.8125rem;
+}
+
+.noRewardText {
+    @apply tw-ml-12;
+    max-width: 21.875rem;
+}
