@@ -12,7 +12,6 @@ import { reducer, sliceKey, actions } from './slice';
 import { HeaderLabs } from '../../components/HeaderLabs';
 import { Footer } from '../../components/Footer';
 import { PerpetualPairDictionary } from '../../../utils/dictionaries/perpetual-pair-dictionary';
-import { TradeForm } from './components/TradeForm';
 import { Theme, TradingChart } from '../../components/TradingChart';
 import { OpenPositionsTable } from './components/OpenPositionsTable';
 import { useIsConnected } from '../../hooks/useAccount';
