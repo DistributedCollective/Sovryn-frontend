@@ -38,6 +38,8 @@ export function ReviewStep() {
     [States.BRIDGE]: bridgeLocked,
     [States.ETH_BRIDGE]: ethBridgeLocked,
     [States.BSC_BRIDGE]: bscBridgeLocked,
+    [States.ETH_BRIDGE_DEPOSIT]: ethBridgeDepositLocked,
+    [States.BSC_BRIDGE_DEPOSIT]: bscBridgeDepositLocked,
     [States.BRIDGE_SOV_DEPOSIT]: sovDepositLocked,
     [States.BRIDGE_XUSD_DEPOSIT]: xusdDepositLocked,
     [States.BRIDGE_ETH_DEPOSIT]: ethDepositLocked,
@@ -79,10 +81,15 @@ export function ReviewStep() {
 
   const lockedChains = useMemo(
     () => ({
-      [Chain.ETH]: ethBridgeLocked,
-      [Chain.BSC]: bscBridgeLocked,
+      [Chain.ETH]: ethBridgeLocked || ethBridgeDepositLocked,
+      [Chain.BSC]: bscBridgeLocked || bscBridgeDepositLocked,
     }),
-    [ethBridgeLocked, bscBridgeLocked],
+    [
+      ethBridgeLocked,
+      ethBridgeDepositLocked,
+      bscBridgeLocked,
+      bscBridgeDepositLocked,
+    ],
   );
 
   const asset = useMemo(

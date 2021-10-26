@@ -23,8 +23,6 @@ export function BridgeLink({ asset }: Props) {
   const { checkMaintenances, States } = useMaintenance();
   const {
     [States.BRIDGE]: bridgeLocked,
-    [States.ETH_BRIDGE]: ethBridgeLocked,
-    [States.BSC_BRIDGE]: bscBridgeLocked,
     [States.BRIDGE_SOV_DEPOSIT]: sovDepositLocked,
     [States.BRIDGE_SOV_WITHDRAW]: sovWithdrawLocked,
     [States.BRIDGE_ETH_DEPOSIT]: ethDepositLocked,
