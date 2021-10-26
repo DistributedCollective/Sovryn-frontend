@@ -186,7 +186,7 @@
   },
   "marginTradeForm": {
     "fields": {
-      "currency": "Ativo",
+      "currency": "Ativo de garantia",
       "currency_placeholder": "Escolha o ativo",
       "amount": "Quantidade",
       "startPrice": "Preço de entrada",
@@ -1417,7 +1417,7 @@
     "tradeForm": {
       "labels": {
         "pair": "Par de negociação:",
-        "asset": "Ativo:",
+        "asset": "Ativo de garantia:",
         "leverage": "Alavancagem:",
         "amount": "Quantidade:",
         "slippage": "Slippage Tolerance:",
