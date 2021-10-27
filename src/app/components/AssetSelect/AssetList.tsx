@@ -20,7 +20,7 @@ export const AssetList: React.FC<AssetListProps> = ({ selected, onSelect }) => {
   const wrapperRef = useRef(null);
   const outsideClicked = useDetectOutsideClick(wrapperRef);
   useEffect(() => {
-    if (outsideClicked && onSelect && typeof onSelect === 'function') {
+    if (outsideClicked && onSelect) {
       onSelect(selected);
     }
   }, [selected, onSelect, outsideClicked]);
