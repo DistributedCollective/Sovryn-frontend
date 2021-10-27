@@ -21,7 +21,7 @@ export const usePerpetual_openTrade = () => {
       const limitPrice = isClosePositionTransaction ? -100000 : 1000000; // this is hardcoded for now but Vasili is preparing a function for this
 
       if (!isClosePositionTransaction) {
-        deposit(marginAmount);
+        await deposit(marginAmount);
       }
 
       const deadline = Math.round(Date.now() / 1000) + 86400; // 1 day
@@ -38,7 +38,7 @@ export const usePerpetual_openTrade = () => {
         timeNow,
       ];
 
-      send(
+      await send(
         [order],
         {
           from: address,
