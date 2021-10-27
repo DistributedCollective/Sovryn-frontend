@@ -50,8 +50,6 @@
 
     "bridge": "Sorry, cross-chain transfers are currently under maintenance, please check our discord (link in footer) for updates.",
     "bridgeSteps": "Sorry, cross-chain transfers are currently under maintenance, please check our <0>discord</0> for updates.",
-    "ethBridge": "Sorry, Ethereum network cross-chain transfers are currently under maintenance, please check our <0>discord</0> for updates.",
-    "bscBridge": "Sorry, BSC network cross-chain transfers are currently under maintenance, please check our <0>discord</0> for updates.",
     "bridgeSovDeposit": "Sorry, SOV cross-chain deposits are currently under maintenance, please check our discord (link in footer) for updates.",
     "bridgeSovWithdraw": "Sorry, SOV cross-chain withdrawals are currently under maintenance, please check our discord (link in footer) for updates.",
     "bridgeEthDeposit": "Sorry, ETH cross-chain deposits are currently under maintenance, please check our discord (link in footer) for updates.",

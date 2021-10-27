@@ -80,7 +80,7 @@ export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
           />
         )}
 
-        <div className="tw-mt-16">
+        <>
           {(rewardsLocked || claimLocked) && (
             <ErrorBadge
               content={
@@ -100,17 +100,17 @@ export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
               }
             />
           )}
-          {!rewardsLocked && (
+          {!(rewardsLocked || claimLocked) && (
             <Button
               disabled={isDisabled}
               onClick={onSubmit}
-              className="tw-w-full tw-mb-4"
+              className="tw-w-full tw-mb-4 tw-mt-16"
               text={t(translations.rewardPage.claimForm.cta)}
             />
           )}
 
           <div className="tw-text-xs">{footer}</div>
-        </div>
+        </>
       </div>
       <TxDialog tx={tx} />
     </div>
