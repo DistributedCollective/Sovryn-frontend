@@ -46,18 +46,15 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
     onChange,
   ]);
 
-  const onInputBlur = useCallback(
-    event => {
-      let numberValue = Number(value);
-      if (!Number.isFinite(numberValue) || numberValue < min) {
-        numberValue = min;
-      } else if (numberValue > max) {
-        numberValue = max;
-      }
-      onChange(numberValue);
-    },
-    [value, min, max, onChange],
-  );
+  const onInputBlur = useCallback(() => {
+    let numberValue = Number(value);
+    if (!Number.isFinite(numberValue) || numberValue < min) {
+      numberValue = min;
+    } else if (numberValue > max) {
+      numberValue = max;
+    }
+    onChange(numberValue);
+  }, [value, min, max, onChange]);
 
   return (
     <div className="tw-flex tw-flex-row tw-items-start tw-justify-between tw-h-12">

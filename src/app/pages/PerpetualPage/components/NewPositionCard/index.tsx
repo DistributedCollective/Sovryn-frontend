@@ -18,11 +18,12 @@ import {
 } from '../../types';
 import { TransitionSteps } from '../../../../containers/TransitionSteps';
 import { TransitionAnimation } from '../../../../containers/TransitionContainer';
-import { Asset } from '../../../../../types';
+import { Asset, Nullable } from '../../../../../types';
 import { NewPositionCardContextType, NewPositionCardStep } from './types';
 import { SlippageFormStep } from './components/SlippageFormStep';
 import { TradeFormStep } from './components/TradeFormStep';
 import { ConnectFormStep } from './components/ConnectFormStep';
+import { noop } from '../../../../constants';
 
 export const NewPositionCardContext = React.createContext<
   NewPositionCardContextType
@@ -37,8 +38,8 @@ export const NewPositionCardContext = React.createContext<
     leverage: 1,
     slippage: 0.5,
   },
-  onChangeTrade: () => {},
-  onSubmit: () => {},
+  onChangeTrade: noop,
+  onSubmit: noop,
 });
 
 const StepComponents = {
@@ -49,7 +50,7 @@ const StepComponents = {
 
 type NewPositionCardProps = {
   /** balance as wei string */
-  balance: string | null;
+  balance: Nullable<string>;
 };
 
 export const NewPositionCard: React.FC<NewPositionCardProps> = ({
