@@ -262,20 +262,13 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           assetString={pair.shortAsset}
         />
       </div>
-
-      <FormGroup
-        label={t(translations.perpetualPage.tradeForm.labels.leverage)}
-        className="tw-p-4 tw-pb-px tw-mt-4 tw-mb-2 tw-bg-gray-4 tw-rounded-lg"
-      >
-        <LeverageSelector
-          value={trade.leverage}
-          min={minLeverage}
-          max={maxLeverage}
-          steps={[1, 2, 3, 5, 10, 15]}
-          onChange={onChangeLeverage}
-        />
-      </FormGroup>
-
+      <LeverageSelector
+        value={trade.leverage}
+        min={minLeverage}
+        max={maxLeverage}
+        steps={[1, 2, 3, 5, 10, 15]}
+        onChange={onChangeLeverage}
+      />
       <div className="tw-mb-2 tw-text-secondary tw-text-xs">
         <button className="tw-flex tw-flex-row" onClick={onOpenSlippage}>
           <Trans

@@ -18,24 +18,14 @@ import {
   PerpetualTrade,
 } from '../../../types';
 import { actions } from '../../../slice';
+import { EditPositionSizeDialogContext } from '..';
 
 export const SlippageFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
   changeTo,
 }) => {
-  const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  const { modalOptions } = useSelector(selectPerpetualPage);
-
-  const trade = useMemo(
-    () => (isPerpetualTrade(modalOptions) ? modalOptions : undefined),
-    [modalOptions],
-  );
-
-  const pair = useMemo(
-    () => trade?.pairType && PerpetualPairDictionary.get(trade.pairType),
-    [trade?.pairType],
-  );
+  const { changedTrade, onChange } = useContext(EditPositionSizeDialogContext);
 
   const onCloseSlippage = useCallback(
     () =>
@@ -47,16 +37,12 @@ export const SlippageFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
   );
   const onChangeSlippage = useCallback(
     slippage =>
-      dispatch(
-        actions.setModal(
-          PerpetualPageModals.EDIT_POSITION_SIZE,
-          trade && {
-            ...trade,
-            slippage,
-          },
-        ),
-      ),
-    [dispatch, trade],
+      changedTrade &&
+      onChange({
+        ...changedTrade,
+        slippage,
+      }),
+    [onChange, changedTrade],
   );
 
   const minEntryPrice = useMemo(() => {
@@ -86,7 +72,7 @@ export const SlippageFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
         {t(translations.perpetualPage.tradeForm.titles.slippage)}
       </h3>
       <SlippageForm
-        slippage={trade?.slippage || 0.5}
+        slippage={changedTrade?.slippage || 0.5}
         onChange={onChangeSlippage}
       />
     </div>

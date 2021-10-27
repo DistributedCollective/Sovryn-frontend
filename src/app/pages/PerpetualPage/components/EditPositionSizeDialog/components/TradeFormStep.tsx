@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { TransitionStep } from '../../../../../containers/TransitionSteps';
 import { selectPerpetualPage } from '../../../selectors';
@@ -10,43 +10,34 @@ import {
 } from '../../../types';
 import { TradeForm } from '../../TradeForm';
 import { EditPositionSizeDialogStep } from '../types';
+import { EditPositionSizeDialogContext } from '..';
 
 export const TradeFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
   changeTo,
 }) => {
   const dispatch = useDispatch();
+  const { changedTrade, onChange } = useContext(EditPositionSizeDialogContext);
 
   const onOpenSlippage = useCallback(
     () => changeTo(EditPositionSizeDialogStep.slippage),
     [changeTo],
   );
 
-  const { modalOptions } = useSelector(selectPerpetualPage);
-  const trade = useMemo(
-    () => (isPerpetualTrade(modalOptions) ? modalOptions : undefined),
-    [modalOptions],
-  );
-
-  console.log(modalOptions, trade);
-
-  const onChange = useCallback(
-    (trade: PerpetualTrade) =>
-      dispatch(actions.setModal(PerpetualPageModals.EDIT_POSITION_SIZE, trade)),
-    [dispatch],
-  );
-
   const onSubmit = useCallback(
-    () => dispatch(actions.setModal(PerpetualPageModals.TRADE_REVIEW, trade)),
-    [dispatch, trade],
+    () =>
+      dispatch(
+        actions.setModal(PerpetualPageModals.TRADE_REVIEW, changedTrade),
+      ),
+    [dispatch, changedTrade],
   );
 
-  if (!trade) {
+  if (!changedTrade) {
     return null;
   }
 
   return (
     <TradeForm
-      trade={trade}
+      trade={changedTrade}
       onOpenSlippage={onOpenSlippage}
       onSubmit={onSubmit}
       onChange={onChange}

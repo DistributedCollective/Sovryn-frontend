@@ -5,6 +5,7 @@ import { Slider, SliderType } from 'app/components/Form/Slider';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { Input } from '../../../../components/Input';
+import { FormGroup } from '../../../../components/Form/FormGroup';
 
 type LeverageSelectorProps = {
   value: number;
@@ -57,49 +58,54 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
   }, [value, min, max, onChange]);
 
   return (
-    <div className="tw-flex tw-flex-row tw-items-start tw-justify-between tw-h-12">
-      {manual || sliderValue < 0 ? (
-        <>
-          <button
-            className="tw-w-1/6 tw-p-1 tw-text-secondary"
-            onClick={onDisableManual}
-          >
-            <ArrowForwardIcon className="tw-transform tw-rotate-180" />
-          </button>
-          <Input
-            className="tw-w-2/3 tw-mx-4 tw-text-center"
-            type="number"
-            value={value}
-            min={min}
-            max={max}
-            onBlur={onInputBlur}
-            onChange={onInputChange}
-          />
-          <span className="tw-w-1/6" />
-        </>
-      ) : (
-        <>
-          <button
-            className="tw-w-1/6 tw-text-sm tw-text-secondary tw-font-semibold"
-            onClick={onEnableManualMinimum}
-          >
-            {t(translations.perpetualPage.tradeForm.buttons.minLeverage)}
-          </button>
-          <Slider
-            className="tw-mx-4"
-            value={sliderValue}
-            onChange={onSliderChange}
-            min={0}
-            max={steps.length - 1}
-            stepSize={1}
-            labelRenderer={value => `${steps[value]}x`}
-            type={SliderType.gradient}
-          />
-          <button className="tw-text-secondary" onClick={onEnableManual}>
-            <EditIcon className="tw-h-5" />
-          </button>
-        </>
-      )}
-    </div>
+    <FormGroup
+      label={t(translations.perpetualPage.tradeForm.labels.leverage)}
+      className="tw-p-4 tw-pb-px tw-mt-4 tw-mb-2 tw-bg-gray-4 tw-rounded-lg"
+    >
+      <div className="tw-flex tw-flex-row tw-items-start tw-justify-between tw-h-12">
+        {manual || sliderValue < 0 ? (
+          <>
+            <button
+              className="tw-w-1/6 tw-p-1 tw-text-secondary"
+              onClick={onDisableManual}
+            >
+              <ArrowForwardIcon className="tw-transform tw-rotate-180" />
+            </button>
+            <Input
+              className="tw-w-2/3 tw-mx-4 tw-text-center"
+              type="number"
+              value={value}
+              min={min}
+              max={max}
+              onBlur={onInputBlur}
+              onChange={onInputChange}
+            />
+            <span className="tw-w-1/6" />
+          </>
+        ) : (
+          <>
+            <button
+              className="tw-w-1/6 tw-text-sm tw-text-secondary tw-font-semibold"
+              onClick={onEnableManualMinimum}
+            >
+              {t(translations.perpetualPage.tradeForm.buttons.minLeverage)}
+            </button>
+            <Slider
+              className="tw-mx-4"
+              value={sliderValue}
+              onChange={onSliderChange}
+              min={0}
+              max={steps.length - 1}
+              stepSize={1}
+              labelRenderer={value => `${steps[value]}x`}
+              type={SliderType.gradient}
+            />
+            <button className="tw-text-secondary" onClick={onEnableManual}>
+              <EditIcon className="tw-h-5" />
+            </button>
+          </>
+        )}
+      </div>
+    </FormGroup>
   );
 };
