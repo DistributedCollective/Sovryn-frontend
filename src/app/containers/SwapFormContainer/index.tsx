@@ -270,7 +270,10 @@ export function SwapFormContainer() {
       <div className={styles.swapFormContainer}>
         <div className={styles.swapForm}>
           <div className={styles.title}>{t(translations.swap.send)}</div>
-          <div className={styles.currency}>
+          <div
+            className={styles.currency}
+            data-action-id="swap-send-swapAssetSelector"
+          >
             <SwapAssetSelector
               value={sourceToken}
               items={sourceOptions}
@@ -278,7 +281,10 @@ export function SwapFormContainer() {
               onChange={value => setSourceToken(value.key)}
             />
           </div>
-          <div className={styles.availableBalance}>
+          <div
+            className={styles.availableBalance}
+            data-action-id="swap-send-availableBalance"
+          >
             <AvailableBalance asset={sourceToken} />
           </div>
           <div className={styles.amount}>
@@ -286,6 +292,7 @@ export function SwapFormContainer() {
               value={amount}
               onChange={value => setAmount(value)}
               asset={sourceToken}
+              dataActionId="swap-send-amountInput"
             />
           </div>
         </div>
@@ -294,11 +301,15 @@ export function SwapFormContainer() {
             className={styles.swapRevert}
             style={{ backgroundImage: `url(${swapIcon})` }}
             onClick={onSwapAssert}
+            data-action-id="swap-button-swapRevert"
           />
         </div>
         <div className={styles.swapForm}>
           <div className={styles.title}>{t(translations.swap.receive)}</div>
-          <div className={styles.currency}>
+          <div
+            data-action-id="swap-receive-swapAssetSelector"
+            className={styles.currency}
+          >
             <SwapAssetSelector
               value={targetToken}
               items={targetOptions}
@@ -329,6 +340,7 @@ export function SwapFormContainer() {
           <img
             src={settingIcon}
             alt="settings"
+            data-action-id="swap-receive-availableBalance"
             onClick={() => setDialogOpen(true)}
           />
         </div>
@@ -360,6 +372,7 @@ export function SwapFormContainer() {
           }
           onClick={send}
           text={t(translations.swap.cta)}
+          dataActionId={'swap-button'}
         />
       </div>
 

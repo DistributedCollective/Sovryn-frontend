@@ -18,6 +18,7 @@ interface InputProps {
   min?: number;
   max?: number;
   step?: number;
+  dataActionId?: string;
 }
 
 export function Input({
@@ -46,6 +47,7 @@ export function Input({
       className={cn('tw-input-wrapper', className, {
         readonly: props.readOnly,
       })}
+      data-action-id={props.dataActionId}
     >
       <input
         className={cn('tw-input', inputClassName)}
