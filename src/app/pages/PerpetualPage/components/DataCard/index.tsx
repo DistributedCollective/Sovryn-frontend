@@ -6,7 +6,7 @@ type DataCardProps = {
   hasCustomHeight?: boolean;
   className?: String;
   children: React.ReactNode;
-  noPadding?: boolean;
+  hasPadding?: boolean;
 };
 
 export const DataCard: React.FC<DataCardProps> = ({
@@ -14,7 +14,7 @@ export const DataCard: React.FC<DataCardProps> = ({
   hasCustomHeight,
   className,
   children,
-  noPadding = false,
+  hasPadding = true,
 }) => (
   <div
     className={classNames(
@@ -26,7 +26,7 @@ export const DataCard: React.FC<DataCardProps> = ({
     <h2 className="tw-px-4 tw-py-1 tw-m-4 tw-mb-0 tw-text-sm tw-font-medium tw-border-b tw-border-sov-white">
       {title}
     </h2>
-    <div className={classNames('tw-w-full tw-h-full', !noPadding && 'tw-p-4')}>
+    <div className={classNames('tw-w-full tw-h-full', hasPadding && 'tw-p-4')}>
       {children}
     </div>
   </div>

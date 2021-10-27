@@ -98,7 +98,7 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
     <DataCard
       title={t(translations.perpetualPage.tradeForm.titles.order)}
       className="tw-relative"
-      noPadding
+      hasPadding={false}
     >
       <NewPositionCardContext.Provider value={stepProps}>
         <TransitionSteps<NewPositionCardStep>
