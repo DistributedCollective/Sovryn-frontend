@@ -49,15 +49,17 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
             <ListItem>
               {t(baseTranslations.information[3], { token: saleName })}
             </ListItem>
-            <ListItem>
-              {t(baseTranslations.information[4], { token: saleName })}
-            </ListItem>
           </div>
 
           <div className="tw-text-left tw-w-full lg:tw-w-1/2">
             <ListItem>
               <strong>
                 {t(baseTranslations.information[6], { token: saleName })}
+              </strong>
+            </ListItem>
+            <ListItem>
+              <strong>
+                {t(baseTranslations.information[4], { token: saleName })}
               </strong>
             </ListItem>
             <ListItem>
