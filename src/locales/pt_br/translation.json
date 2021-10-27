@@ -214,8 +214,9 @@
       "switchAssets": "Alternar ativos"
     },
     "arbitrage": {
-      "best_rate": "Oportunidade de arbitragem trocando até ",
-      "for": "por até",
+      "best_rate": "Oportunidade de arbitragem",
+      "for": "por",
+      "text": "Ganhe <0>{{percent}}</0> acima do preço de mercado ao trocar <1></1> for <2></2>",
       "popover_p1": "Você pode ajudar a manter o sistema em equilíbrio trocando {{fromAmount}} {{fromToken}} por {{toAmount}} {{toToken}}.",
       "popover_p2": "Isso é {{earn}} {{toToken}} a mais do que o preço de mercado."
     }
@@ -493,7 +494,10 @@
     "cta": "Trocar",
     "minimumReceived": "Mínimo a receber:",
     "send": "Enviar",
-    "receive": "Receber"
+    "receive": "Receber",
+    "receiveAmount": "Quantidade",
+    "tradeAmount": "Quantidade",
+    "advancedSettings": "Configurações avançadas"
   },
   "stake": {
     "title": "SOV investidos/reservados",
