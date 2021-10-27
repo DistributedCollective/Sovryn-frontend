@@ -216,7 +216,7 @@
     "arbitrage": {
       "best_rate": "Oportunidade de arbitragem",
       "for": "por",
-      "text": "Ganhe <0>{{percent}}</0> acima do preço de mercado ao trocar <1></1> for <2></2>",
+      "text": "Troque <1></1> por <2></2> e receba <0>{{percent}}</0> a mais do que o preço de mercado",
       "popover_p1": "Você pode ajudar a manter o sistema em equilíbrio trocando {{fromAmount}} {{fromToken}} por {{toAmount}} {{toToken}}.",
       "popover_p2": "Isso é {{earn}} {{toToken}} a mais do que o preço de mercado."
     }
