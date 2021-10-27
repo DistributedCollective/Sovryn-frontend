@@ -18,7 +18,7 @@ export const DataCard: React.FC<DataCardProps> = ({
 }) => (
   <div
     className={classNames(
-      'tw-flex tw-flex-col tw-min-w-mintw-pt-1.5 tw-bg-black tw-rounded-xl',
+      'tw-flex tw-flex-col tw-min-w-min tw-pt-1.5 tw-bg-black tw-rounded-xl',
       !hasCustomHeight && 'tw-flex-1',
       className,
     )}
