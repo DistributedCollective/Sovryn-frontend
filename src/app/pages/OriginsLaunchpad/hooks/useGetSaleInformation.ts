@@ -47,7 +47,7 @@ export const useGetSaleInformation = (tierId: number) => {
   };
 
   useEffect(() => {
-    contractReader.call('ZEROPresale', 'totalRaised', []).then(result =>
+    contractReader.call('MINTPresale', 'totalRaised', []).then(result =>
       setSaleInfo(preValue => ({
         ...preValue,
         totalReceived: result as string,
@@ -58,7 +58,7 @@ export const useGetSaleInformation = (tierId: number) => {
   useEffect(() => {
     if (account) {
       contractReader
-        .call('ZEROPresale', 'contributors', [account])
+        .call('MINTPresale', 'contributors', [account])
         .then(result =>
           setSaleInfo(preValue => ({
             ...preValue,
@@ -70,7 +70,7 @@ export const useGetSaleInformation = (tierId: number) => {
 
   useEffect(() => {
     contractReader
-      .call<string>('ZEROPresale', 'contributorsCounter', [])
+      .call<string>('MINTPresale', 'contributorsCounter', [])
       .then(result =>
         setSaleInfo(prevValue => ({
           ...prevValue,
@@ -80,7 +80,7 @@ export const useGetSaleInformation = (tierId: number) => {
   }, [transactions]);
 
   useEffect(() => {
-    contractReader.call<boolean>('ZEROPresale', 'isClosed', []).then(result => {
+    contractReader.call<boolean>('MINTPresale', 'isClosed', []).then(result => {
       setSaleInfo(preValue => ({
         ...preValue,
         isClosed: result,
@@ -89,7 +89,7 @@ export const useGetSaleInformation = (tierId: number) => {
   }, []);
 
   useEffect(() => {
-    contractReader.call<string>('ZEROPresale', 'openDate', []).then(result => {
+    contractReader.call<string>('MINTPresale', 'openDate', []).then(result => {
       setSaleInfo(preValue => ({
         ...preValue,
         saleStart: result,
@@ -98,7 +98,7 @@ export const useGetSaleInformation = (tierId: number) => {
   }, []);
 
   useEffect(() => {
-    contractReader.call<string>('ZEROPresale', 'period', []).then(result => {
+    contractReader.call<string>('MINTPresale', 'period', []).then(result => {
       setSaleInfo(preValue => ({
         ...preValue,
         period: result,

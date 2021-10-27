@@ -237,7 +237,7 @@ function AssetRow({
   const dollarValue = useDollarValue(item.asset, tokens);
   const dollarValueOfZERO = useDollarValue4ZERO(tokens);
   const _dollarValue =
-    item.asset === Asset.ZERO ? dollarValueOfZERO : dollarValue;
+    item.asset === Asset.MINT ? dollarValueOfZERO : dollarValue;
 
   if (tokens === '0' && item.hideIfZero)
     return <React.Fragment key={item.asset} />;

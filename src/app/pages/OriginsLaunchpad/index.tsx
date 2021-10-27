@@ -33,7 +33,7 @@ export const OriginsLaunchpad: React.FC = () => {
 
       <div className="tw-container tw-pt-11 tw-font-body">
         {activeTierId > 0 ? (
-          <SalesDay tierId={activeTierId} saleName="ZERO" />
+          <SalesDay tierId={activeTierId} saleName="MINT" />
         ) : (
           <Dashboard />
         )}

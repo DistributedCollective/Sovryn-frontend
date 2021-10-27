@@ -98,7 +98,7 @@ export const BuySection: React.FC<IBuySectionProps> = ({
     ) {
       contribute(
         bignumber(amountInSOV).mul(100).toString(),
-        Asset.ZERO,
+        Asset.MINT,
         amountInSOV,
         Asset.SOV,
       );
@@ -114,7 +114,7 @@ export const BuySection: React.FC<IBuySectionProps> = ({
     if (sourceToken === Asset.SOV) {
       contribute(
         bignumber(weiAmount).mul(100).toString(),
-        Asset.ZERO,
+        Asset.MINT,
         weiAmount,
         Asset.SOV,
       );
@@ -145,8 +145,8 @@ export const BuySection: React.FC<IBuySectionProps> = ({
           </div>
 
           <div className="tw-mt-7 tw-text-sm tw-border tw-rounded-lg tw-border-gray-7 tw-py-2">
-            Equivalent ZERO Token : {weiToFixed(getAmountOfZERO(), 4)}{' '}
-            <AssetRenderer asset={Asset.ZERO} />
+            Equivalent {saleName} Token : {weiToFixed(getAmountOfZERO(), 4)}{' '}
+            <AssetRenderer asset={Asset.MINT} />
           </div>
 
           <BuyButton

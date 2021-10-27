@@ -34,9 +34,9 @@ import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
 import SwapsExternalAbi from './abi/SwapsExternalAbi.json';
 import stakingRewardsProxyAbi from './abi/StakingRewards.json';
 import nftAbi from './abi/nftAbi.json';
-import ZeroControllerAbi from './abi/ZEROController.json';
-import ZeroTokenAbi from './abi/ZERO_token.json';
-import ZeroPresaleAbi from './abi/ZEROPresale.json';
+import MINTControllerAbi from './abi/MINTController.json';
+import MINTTokenAbi from './abi/MINT_token.json';
+import MINTPresaleAbi from './abi/MINTPresale.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -338,18 +338,18 @@ export const contracts = {
     address: '0x576ae218aecfd4cbd2dbe07250b47e26060932b1',
     abi: nftAbi,
   },
-  ZERO_ctrl: {
+  MINT_ctrl: {
     address: '0x741A6E83C6E96168839e88e34729de7a244E19f7',
-    abi: ZeroControllerAbi,
+    abi: MINTControllerAbi,
     blockNumber: 2267574,
   },
-  ZERO_token: {
+  MINT_token: {
     address: '0xd373969479FA3c530e12f175FAff64711aF4F1A6',
-    abi: ZeroTokenAbi,
+    abi: MINTTokenAbi,
     blockNumber: 2267574,
   },
-  ZEROPresale: {
+  MINTPresale: {
     address: '0x88C76c7C2096Ca197F9A3F35AACbF5540AD1123D',
-    abi: ZeroPresaleAbi,
+    abi: MINTPresaleAbi,
   },
 };

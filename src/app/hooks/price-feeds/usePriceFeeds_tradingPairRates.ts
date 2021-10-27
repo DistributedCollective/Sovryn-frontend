@@ -77,7 +77,7 @@ export function usePriceFeeds_tradingPairRates() {
             value: result as any,
           });
         } catch (e) {
-          if (target !== Asset.ZERO && source !== Asset.ZERO) {
+          if (target !== Asset.MINT && source !== Asset.MINT) {
             console.error(
               `Failed to retrieve rate of ${source} - ${target}`,
               e,
