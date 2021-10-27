@@ -3,7 +3,7 @@ import { AssetRenderer } from '../AssetRenderer';
 import { AssetSelectItemWrapper } from './styled';
 import { Asset } from 'types/asset';
 import { useDetectOutsideClick } from './hooks/useClickedOutside';
-const assets: Array<Asset> = [
+const assets: Asset[] = [
   Asset.RBTC,
   Asset.SOV,
   Asset.XUSD,
