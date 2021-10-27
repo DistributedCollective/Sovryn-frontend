@@ -82,10 +82,10 @@ export const AssetValue: React.FC<AssetValueProps> = ({
           <>
             {isApproximation && '≈ '}
             {fullFormattedValue}
-            {asset && (
+            {(asset || assetString) && (
               <>
                 {' '}
-                <AssetSymbolRenderer asset={asset} />
+                <AssetSymbolRenderer asset={asset} assetString={assetString} />
               </>
             )}
           </>

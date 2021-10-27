@@ -6,18 +6,20 @@ import styles from './index.module.scss';
 type InputProps = Partial<
   Pick<
     HTMLInputProps,
-    'value' | 'type' | 'placeholder' | 'min' | 'max' | 'step'
+    'value' | 'type' | 'placeholder' | 'min' | 'max' | 'step' | 'onBlur'
   >
 > & {
   disabled?: boolean;
   readOnly?: boolean;
   className?: string;
+  classNameInput?: string;
   dataActionId?: string;
   onChange: (value: string) => void;
 };
 
 export const Input: React.FC<InputProps> = ({
   className,
+  classNameInput,
   type,
   step,
   dataActionId,
@@ -30,14 +32,26 @@ export const Input: React.FC<InputProps> = ({
     onChange,
   ]);
 
-  const onStepUp = useCallback(event => inputRef.current?.stepUp(), []);
-  const onStepDown = useCallback(event => inputRef.current?.stepDown(), []);
+  const onStepUp = useCallback(
+    event => {
+      inputRef.current?.stepUp();
+      onChange(inputRef.current?.value || '');
+    },
+    [onChange],
+  );
+  const onStepDown = useCallback(
+    event => {
+      inputRef.current?.stepDown();
+      onChange(inputRef.current?.value || '');
+    },
+    [onChange],
+  );
 
   return (
     <div className={classNames('tw-relative', className)}>
       <input
         ref={inputRef}
-        className={styles.input}
+        className={classNames(styles.input, classNameInput)}
         type={type}
         step={step}
         data-action-id={dataActionId}

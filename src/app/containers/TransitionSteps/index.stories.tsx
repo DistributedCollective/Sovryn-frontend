@@ -68,11 +68,11 @@ const TestStep: TransitionStep<Steps> = ({ changeTo, id }) => (
   </div>
 );
 
-export const Basic = ({ animateHeight = true, animation, duration }) => {
+export const Basic = () => {
   return (
     <div className="tw-max-w-lg tw-w-full tw-mx-auto tw-bg-gray-3 tw-rounded-xl">
       <TransitionSteps<Steps>
-        defaultActive={Steps.alpha}
+        active={Steps.alpha}
         defaultAnimation={TransitionAnimation.fade}
         steps={{
           [Steps.alpha]: TestStep,

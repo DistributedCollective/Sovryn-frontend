@@ -16,6 +16,7 @@
     "withdraw": "Withdraw",
     "availableBalance": "Available Balance:",
     "maintenance": "Under Maintenance",
+    "comingSoon": "Coming Soon",
     "next": "Next",
     "loading": "Loading...",
     "unit": {
@@ -1597,7 +1598,8 @@
     "tradeForm": {
       "titles": {
         "order": "Place New Order",
-        "welcome": "Welcome to Sovryn Perpetuals"
+        "welcome": "Welcome to Sovryn Perpetuals",
+        "slippage": "Slippage Settings"
       },
       "text": {
         "welcome1": "This is a preview of our perpetuals dashboard.\n The market data to the side is live.",
@@ -1611,6 +1613,11 @@
         "leverage": "Position Leverage:",
         "orderValue": "Order Value:",
         "limitPrice": "Limit Price:",
+        "orderCost": "Order Cost:",
+        "maxTradeSize": "Max Trade Size:",
+        "minEntryPrice": "Min Entry Price:",
+        "minLiquidationPrice": "Min Liquidation Price:",
+        "tradingFee": "Trading Fee:",
         "slippage": "Slippage Tolerance:",
         "balance": "Available Balance: <0/> <1/>",
         "txFee": "Tx Fee: <0/> {{symbol}}"
@@ -1624,7 +1631,8 @@
         "buyMarket": "Buy Market",
         "buyLimit": "Buy Limit",
         "sellMarket": "Sell Market",
-        "sellLimit": "Sell Limit"
+        "sellLimit": "Sell Limit",
+        "minLeverage": "MIN"
       }
     },
     "tradeDialog": {
@@ -1645,6 +1653,9 @@
         "long": "Long",
         "short": "Short"
       }
+    },
+    "reviewTrade": {
+      "title": "Review Order"
     },
     "openPositions": "Positions",
     "closedPositions": "Closed Positions",

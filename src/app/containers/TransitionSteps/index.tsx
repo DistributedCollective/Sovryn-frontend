@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { usePrevious } from '../../hooks/usePrevious';
 import {
   TransitionAnimation,
   TransitionContainer,
@@ -14,21 +15,24 @@ export type TransitionStep<I extends string | number> = React.FC<
 >;
 
 export type TransitionStepsProps<I extends string | number> = {
+  classNameOuter?: string;
+  classNameInner?: string;
   steps: {
     [key in I]: TransitionStep<I>;
   };
-  defaultActive: I;
+  active: I;
   defaultAnimation: TransitionAnimation;
-  duration?: number;
 };
 
 export const TransitionSteps = <I extends string | number>({
+  classNameOuter,
+  classNameInner,
   steps,
-  defaultActive,
+  active: outsideActive,
   defaultAnimation,
-  duration,
 }: TransitionStepsProps<I>) => {
-  const [active, setActive] = useState(defaultActive);
+  const previousOutsideActive = usePrevious(outsideActive);
+  const [active, setActive] = useState(outsideActive);
   const [animation, setAnimation] = useState(defaultAnimation);
 
   const changeTo = useCallback<TransitionStepProps<I>['changeTo']>(
@@ -42,14 +46,25 @@ export const TransitionSteps = <I extends string | number>({
     [steps, defaultAnimation],
   );
 
+  useEffect(() => {
+    if (
+      outsideActive &&
+      outsideActive !== active &&
+      outsideActive !== previousOutsideActive
+    ) {
+      changeTo(outsideActive);
+    }
+  }, [outsideActive, active, previousOutsideActive, changeTo]);
+
   const Step: TransitionStep<I> = steps[active];
 
   return (
     <TransitionContainer
+      classNameOuter={classNameOuter}
+      classNameInner={classNameInner}
       active={active}
       animateHeight
       animation={animation}
-      duration={duration}
     >
       {Step && <Step id={active} changeTo={changeTo} />}
     </TransitionContainer>

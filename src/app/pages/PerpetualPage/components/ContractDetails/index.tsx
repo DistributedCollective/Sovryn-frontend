@@ -36,7 +36,7 @@ export const ContractDetails: React.FC<ContractDetailsProps> = ({ pair }) => {
             data?.volume24h && (
               <>
                 {toNumberFormat(data.volume24h, 2)}{' '}
-                <AssetSymbolRenderer asset={pair.longAsset} />
+                <AssetSymbolRenderer assetString={pair.longAsset} />
               </>
             )
           }
@@ -47,7 +47,7 @@ export const ContractDetails: React.FC<ContractDetailsProps> = ({ pair }) => {
             data?.openInterest && (
               <>
                 {toNumberFormat(data.openInterest, 2)}{' '}
-                <AssetSymbolRenderer asset={pair.longAsset} />
+                <AssetSymbolRenderer assetString={pair.longAsset} />
               </>
             )
           }
@@ -69,7 +69,7 @@ export const ContractDetails: React.FC<ContractDetailsProps> = ({ pair }) => {
             data?.contractValue && (
               <>
                 {toNumberFormat(data.contractValue, 2)}{' '}
-                <AssetSymbolRenderer asset={pair.longAsset} />
+                <AssetSymbolRenderer assetString={pair.longAsset} />
               </>
             )
           }
@@ -84,7 +84,7 @@ export const ContractDetails: React.FC<ContractDetailsProps> = ({ pair }) => {
             data?.minTradeAmount && (
               <>
                 {toNumberFormat(data.minTradeAmount, 2)}{' '}
-                <AssetSymbolRenderer asset={pair.longAsset} />
+                <AssetSymbolRenderer assetString={pair.longAsset} />
               </>
             )
           }

@@ -23,19 +23,25 @@ export const RecentTradesTable: React.FC<RecentTradesTableProps> = ({
           <th className="tw-h-6 tw-w-4/12 tw-pr-4 tw-pb-1 tw-text-right">
             <Trans
               i18nKey={translations.perpetualPage.recentTrades.price}
-              components={[<AssetSymbolRenderer asset={pair.longAsset} />]}
+              components={[
+                <AssetSymbolRenderer assetString={pair.longAsset} />,
+              ]}
             />
           </th>
           <th className="tw-h-6 tw-w-4/12 tw-pr-4 tw-pb-1 tw-text-right">
             <Trans
               i18nKey={translations.perpetualPage.recentTrades.size}
-              components={[<AssetSymbolRenderer asset={pair.shortAsset} />]}
+              components={[
+                <AssetSymbolRenderer assetString={pair.shortAsset} />,
+              ]}
             />
           </th>
           <th className="tw-h-6 tw-pr-4 tw-pb-1 tw-text-right">
             <Trans
               i18nKey={translations.perpetualPage.recentTrades.time}
-              components={[<AssetSymbolRenderer asset={pair.shortAsset} />]}
+              components={[
+                <AssetSymbolRenderer assetString={pair.shortAsset} />,
+              ]}
             />
           </th>
           <th />

@@ -1579,6 +1579,9 @@
         "short": "Vendido"
       }
     },
+    "reviewTrade": {
+      "title": "Revisar ordem"
+    },
     "openPositions": "Posições",
     "closedPositions": "Posições fechadas",
     "orderHistory": "Histórico de ordens",

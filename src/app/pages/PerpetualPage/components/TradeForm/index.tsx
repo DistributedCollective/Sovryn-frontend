@@ -1,154 +1,104 @@
-import cn from 'classnames';
-import { useWalletContext } from '@sovryn/react-wallet';
-import { bignumber, string } from 'mathjs';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Trans, Translation, useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useCallback, useMemo, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
-import { AmountInput } from 'app/components/Form/AmountInput';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { FormGroup } from 'app/components/Form/FormGroup';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import settingImg from 'assets/images/settings-blue.svg';
 import { discordInvite } from 'utils/classifiers';
-import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
-import { getLendingContractName } from '../../../../../utils/blockchain/contract-helpers';
 import { translations } from '../../../../../locales/i18n';
 import { TradingPosition } from '../../../../../types/trading-position';
-import {
-  PerpetualPairDictionary,
-  PerpetualPairType,
-} from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
-import { AvailableBalance } from '../../../../components/AvailableBalance';
-import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
-import { useWeiAmount } from '../../../../hooks/useWeiAmount';
-import { selectPerpetualPage } from '../../selectors';
-import { actions } from '../../slice';
-import { AdvancedSettingDialog } from '../AdvancedSettingDialog';
-import { Button } from '../Button';
-import { CollateralAssets } from '../CollateralAssets';
+import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { LeverageSelector } from '../LeverageSelector';
-import { useGetEstimatedMarginDetails } from '../../../../hooks/trading/useGetEstimatedMarginDetails';
-import { LiquidationPrice } from '../LiquidationPrice';
-import { useCurrentPositionPrice } from '../../../../hooks/trading/useCurrentPositionPrice';
 import {
   formatAsNumber,
-  toNumberFormat,
+  weiToNumberFormat,
 } from '../../../../../utils/display-text/format';
-import { usePerpetual_resolvePairTokens } from '../../hooks/usePerpetual_resolvePairTokens';
-import { DataCard } from '../DataCard';
 import classNames from 'classnames';
-import { ActionButton } from '../../../../components/Form/ActionButton';
-import { PerpetualPageModals, PerpetualTradeType } from '../../types';
-import { TradeType } from '../RecentTradesTable/types';
-import { AssetRenderer } from '../../../../components/AssetRenderer';
+import { PerpetualTrade, PerpetualTradeType } from '../../types';
 import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
 import { Input } from '../../../../components/Input';
-import { TradeButton } from '../../../../components/TradeButton';
-import { AssetDecimals } from '../../../../components/AssetValue/types';
-import { toWei } from 'web3-utils';
+import {
+  AssetDecimals,
+  AssetValueMode,
+} from '../../../../components/AssetValue/types';
+import { fromWei, toWei } from 'web3-utils';
+import { Tooltip } from '@blueprintjs/core';
+import { bignumber } from 'mathjs';
+import { AssetValue } from '../../../../components/AssetValue';
 
 interface ITradeFormProps {
-  pairType: PerpetualPairType;
-  /** balance as wei string */
-  balance: string | null;
+  trade: PerpetualTrade;
+  isNewTrade?: boolean;
+  onChange: (trade: PerpetualTrade) => void;
+  onSubmit: () => void;
+  onOpenSlippage: () => void;
 }
 
-export const TradeForm: React.FC<ITradeFormProps> = ({ pairType, balance }) => {
+const STEP_SIZE = 0.002;
+const STEP_PRECISION = 3;
+
+export const TradeForm: React.FC<ITradeFormProps> = ({
+  trade,
+  isNewTrade,
+  onChange,
+  onSubmit,
+  onOpenSlippage,
+}) => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const { connected, connect } = useWalletContext();
   const { checkMaintenance, States } = useMaintenance();
-  const openTradesLocked = checkMaintenance(States.OPEN_MARGIN_TRADES);
+  const inMaintenance = checkMaintenance(States.PERPETUAL_TRADES);
 
-  const [positionType, setPosition] = useState<TradingPosition>(
-    TradingPosition.LONG,
-  );
-
-  const [tradeType, setTradeType] = useState<PerpetualTradeType>(
-    PerpetualTradeType.MARKET,
-  );
-
-  const { position, amount, collateral, leverage } = useSelector(
-    selectPerpetualPage,
-  );
-
-  const [orderAmount, setOrderAmount] = useState<string>('');
+  const [amount, setAmount] = useState(trade.amount);
   const onChangeOrderAmount = useCallback(
-    (value: string) => {
-      setOrderAmount(value);
-      if (value) {
-        dispatch(actions.setAmount(toWei(value)));
-      }
+    (amount: string) => {
+      const roundedAmount = bignumber(amount || '0')
+        .dividedBy(STEP_SIZE)
+        .round()
+        .mul(STEP_SIZE);
+      setAmount(amount);
+      onChange({ ...trade, amount: toWei(roundedAmount.toString()) });
     },
-    [setOrderAmount, dispatch],
+    [onChange, trade],
   );
+  const onBlurOrderAmount = useCallback(() => {
+    setAmount(fromWei(trade.amount));
+  }, [trade.amount]);
 
-  const [orderLimit, setOrderLimit] = useState<string>('');
+  const [limit, setLimit] = useState(trade.limit);
   const onChangeOrderLimit = useCallback(
-    (value: string) => {
-      setOrderLimit(value);
-      if (value) {
-        dispatch(actions.setLimit(toWei(value)));
-      }
+    (limit: string) => {
+      setLimit(limit);
+      onChange({ ...trade, limit: toWei(limit) });
     },
-    [setOrderLimit, dispatch],
+    [onChange, trade],
   );
 
-  const [slippage, setSlippage] = useState(0.5);
-
-  const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
-  const asset = useMemo(() => AssetsDictionary.get(collateral), [collateral]);
-
-  const {
-    loanToken,
-    collateralToken,
-    useLoanTokens,
-  } = usePerpetual_resolvePairTokens(pair, position, collateral);
-  const contractName = getLendingContractName(loanToken);
-
-  const { value: estimations } = useGetEstimatedMarginDetails(
-    loanToken,
-    leverage,
-    useLoanTokens ? amount : '0',
-    useLoanTokens ? '0' : amount,
-    collateralToken,
+  const onChangeLeverage = useCallback(
+    (leverage: number) => {
+      onChange({ ...trade, leverage });
+    },
+    [onChange, trade],
   );
 
-  const { minReturn } = useSlippage(estimations.collateral, slippage);
-  const submit = useCallback(e => dispatch(actions.setPosition(e)), [dispatch]);
+  const pair = useMemo(() => PerpetualPairDictionary.get(trade.pairType), [
+    trade.pairType,
+  ]);
+
+  const collateralToken = useMemo(
+    () => AssetsDictionary.get(trade.collateral),
+    [trade.collateral],
+  );
 
   const bindSelectPosition = useCallback(
-    (position: TradingPosition) => () => {
-      dispatch(actions.setPosition(position));
-      setPosition(position);
-    },
-    [dispatch, setPosition],
+    (position: TradingPosition) => () => onChange({ ...trade, position }),
+    [trade, onChange],
   );
 
   const bindSelectTradeType = useCallback(
-    (tradeType: PerpetualTradeType) => () => {
-      setTradeType(tradeType);
-    },
-    [setTradeType],
+    (tradeType: PerpetualTradeType) => () => onChange({ ...trade, tradeType }),
+    [trade, onChange],
   );
-
-  const onShowSettings = useCallback(() => {
-    dispatch(actions.setModal(PerpetualPageModals.TRADE_SETTINGS));
-  }, [dispatch]);
-
-  const { price, loading } = useCurrentPositionPrice(
-    loanToken,
-    collateralToken,
-    estimations.principal,
-    positionType === TradingPosition.LONG,
-  );
-
-  useEffect(() => {
-    if (!pair.collaterals.includes(collateral)) {
-      dispatch(actions.setCollateral(pair.collaterals[0]));
-    }
-  }, [pair.collaterals, collateral, dispatch]);
 
   const tradeButtonLabel = useMemo(() => {
     const i18nKey = {
@@ -156,212 +106,223 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType, balance }) => {
       LONG_MARKET: translations.perpetualPage.tradeForm.buttons.buyMarket,
       SHORT_LIMIT: translations.perpetualPage.tradeForm.buttons.sellLimit,
       SHORT_MARKET: translations.perpetualPage.tradeForm.buttons.sellMarket,
-    }[`${position}_${tradeType}`];
+    }[`${trade.position}_${trade.tradeType}`];
     console.log(i18nKey);
 
     return i18nKey && t(i18nKey);
-  }, [t, position, tradeType]);
+  }, [t, trade.position, trade.tradeType]);
 
-  if (!connected) {
-    return (
-      <DataCard
-        className="tw-flex-grow tw-text-xs"
-        title={t(translations.perpetualPage.tradeForm.titles.welcome)}
-      >
-        <p className="tw-mt-4">
-          {t(translations.perpetualPage.tradeForm.text.welcome1)}
-        </p>
-        <p className="tw-mb-2">
-          {t(translations.perpetualPage.tradeForm.text.welcome2)}
-        </p>
-        <ul className="tw-ml-4 tw-mb-8 tw-list-disc">
-          <Trans
-            i18nKey={translations.perpetualPage.tradeForm.text.welcome3}
-            components={[<li className="tw-mb-1" />]}
-          />
-        </ul>
-        <p className="tw-mb-11">
-          {/* TODO: add href to quickstart guide */}
-          <Trans
-            i18nKey={translations.perpetualPage.tradeForm.text.welcome4}
-            components={[
-              <a
-                className="tw-text-secondary tw-underline"
-                href="https://wiki.sovryn.app/"
-              >
-                Quickstart Guide
-              </a>,
-            ]}
-          />
-        </p>
+  const price = useMemo(() => {
+    // TODO implement price calculation
+    return 1337.1337;
+  }, []);
+
+  const orderCost = useMemo(() => {
+    // TODO implement orderCost calculation
+    return 0.1337;
+  }, []);
+
+  const tradingFee = useMemo(() => {
+    // TODO implement tradingFee calculation
+    return 0.1337;
+  }, []);
+
+  const maxTradeSize = useMemo(() => {
+    // TODO implement maxTradeSize calculation
+    return 1337;
+  }, []);
+
+  const minLeverage = useMemo(() => {
+    // TODO implement minLeverage calculation
+    return 0.1;
+  }, []);
+
+  const maxLeverage = useMemo(() => {
+    // TODO implement maxLeverage calculation
+    return 15;
+  }, []);
+
+  return (
+    <div className="tw-relative tw-h-full tw-pb-16">
+      <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-2.5 tw-mb-5">
         <button
-          className="tw-w-full tw-min-h-10 tw-p-2 tw-text-base tw-text-primary tw-border tw-border-primary tw-bg-primary-05 tw-rounded-lg tw-transition-colors tw-duration-300 hover:tw-bg-primary-25"
-          onClick={connect}
+          className={classNames(
+            'tw-w-full tw-h-8 tw-font-semibold tw-text-base tw-text-white tw-bg-trade-long tw-rounded-lg',
+            trade.position !== TradingPosition.LONG &&
+              'tw-opacity-25 hover:tw-opacity-100 tw-transition-opacity tw-duration-300',
+          )}
+          onClick={bindSelectPosition(TradingPosition.LONG)}
+          // disabled={!validate || !connected || openTradesLocked}
         >
-          {t(translations.perpetualPage.tradeForm.buttons.connect)}
+          {t(translations.perpetualPage.tradeForm.buttons.buy)}
         </button>
-      </DataCard>
-    );
-  } else {
-    return (
-      <>
-        <DataCard
-          title={t(translations.perpetualPage.tradeForm.titles.order)}
-          className="tw-relative tw-pb-16"
+        <button
+          className={classNames(
+            'tw-w-full tw-h-8 tw-font-semibold tw-text-base tw-text-white tw-bg-trade-short tw-rounded-lg',
+            trade.position !== TradingPosition.SHORT &&
+              'tw-opacity-25 hover:tw-opacity-100 tw-transition-opacity tw-duration-300',
+          )}
+          onClick={bindSelectPosition(TradingPosition.SHORT)}
         >
-          <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-2.5 tw-mb-5">
-            <button
-              className={classNames(
-                'tw-w-full tw-h-8 tw-font-semibold tw-text-base tw-text-white tw-bg-trade-long tw-rounded-lg',
-                position !== TradingPosition.LONG &&
-                  'tw-opacity-25 hover:tw-opacity-100 tw-transition-opacity tw-duration-300',
-              )}
-              onClick={bindSelectPosition(TradingPosition.LONG)}
-              // disabled={!validate || !connected || openTradesLocked}
-            >
-              {t(translations.perpetualPage.tradeForm.buttons.buy)}
-            </button>
-            <button
-              className={classNames(
-                'tw-w-full tw-h-8 tw-font-semibold tw-text-base tw-text-white tw-bg-trade-short tw-rounded-lg',
-                position !== TradingPosition.SHORT &&
-                  'tw-opacity-25 hover:tw-opacity-100 tw-transition-opacity tw-duration-300',
-              )}
-              onClick={bindSelectPosition(TradingPosition.SHORT)}
-            >
-              {t(translations.perpetualPage.tradeForm.buttons.sell)}
-            </button>
-          </div>
-          <div className="tw-flex tw-flex-row tw-items-start tw-mb-5">
-            <button
-              className={classNames(
-                'tw-h-8 tw-px-3 tw-py-1 tw-font-semibold tw-text-base tw-text-sov-white tw-bg-gray-7 tw-rounded-lg',
-                tradeType !== PerpetualTradeType.MARKET &&
-                  'tw-opacity-25 hover:tw-opacity-100 tw-transition-opacity tw-duration-300',
-              )}
-              onClick={bindSelectTradeType(PerpetualTradeType.MARKET)}
-              // disabled={!validate || !connected || openTradesLocked}
-            >
-              {t(translations.perpetualPage.tradeForm.buttons.market)}
-            </button>
-            <button
-              className={classNames(
-                'tw-h-8 tw-px-3 tw-py-1 tw-font-semibold tw-text-base tw-text-sov-white tw-bg-gray-7 tw-rounded-lg',
-                tradeType !== PerpetualTradeType.LIMIT &&
-                  'tw-opacity-25 hover:tw-opacity-100 tw-transition-opacity tw-duration-300',
-              )}
-              onClick={bindSelectTradeType(PerpetualTradeType.LIMIT)}
-            >
-              {t(translations.perpetualPage.tradeForm.buttons.limit)}
-            </button>
-          </div>
-          <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-sm">
-            <label>
-              {t(translations.perpetualPage.tradeForm.labels.orderValue)}
-            </label>
-            <div className="tw-mx-4 tw-text-right">
-              <AssetSymbolRenderer asset={pair.shortAsset} />
-            </div>
-            <Input
-              className="tw-w-2/5"
-              type="number"
-              value={orderAmount}
-              step={0.001}
-              min={0}
-              onChange={onChangeOrderAmount}
-            />
-          </div>
-          <div
+          {t(translations.perpetualPage.tradeForm.buttons.sell)}
+        </button>
+      </div>
+      <div className="tw-flex tw-flex-row tw-items-center tw-mb-4">
+        <button
+          className={classNames(
+            'tw-h-8 tw-px-3 tw-py-1 tw-font-semibold tw-text-sm tw-text-sov-white tw-bg-gray-7 tw-rounded-lg',
+            trade.tradeType !== PerpetualTradeType.MARKET &&
+              'tw-opacity-25 hover:tw-opacity-100 tw-transition-opacity tw-duration-300',
+          )}
+          onClick={bindSelectTradeType(PerpetualTradeType.MARKET)}
+          // disabled={!validate || !connected || openTradesLocked}
+        >
+          {t(translations.perpetualPage.tradeForm.buttons.market)}
+        </button>
+        <Tooltip content={t(translations.common.comingSoon)}>
+          <button
+            className="tw-h-8 tw-px-3 tw-py-1 tw-font-semibold tw-text-sm tw-text-sov-white tw-bg-gray-7 tw-rounded-lg tw-opacity-25 tw-cursor-not-allowed"
+            disabled
+          >
+            {t(translations.perpetualPage.tradeForm.buttons.limit)}
+          </button>
+        </Tooltip>
+        <div className="tw-flex tw-flex-row tw-items-between tw-justify-between tw-flex-1 tw-ml-2 tw-text-xs">
+          <label className="tw-mr-1">
+            {t(translations.perpetualPage.tradeForm.labels.maxTradeSize)}
+          </label>
+          <AssetValue
+            minDecimals={0}
+            maxDecimals={6}
+            mode={AssetValueMode.auto}
+            value={maxTradeSize}
+            assetString={pair.shortAsset}
+          />
+        </div>
+      </div>
+      <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-sm">
+        <label>
+          {t(translations.perpetualPage.tradeForm.labels.orderValue)}
+        </label>
+        <div className="tw-flex-1 tw-mx-4 tw-text-right">
+          <AssetSymbolRenderer assetString={pair.shortAsset} />
+        </div>
+        <Input
+          className="tw-w-2/5"
+          type="number"
+          value={amount}
+          step={STEP_SIZE}
+          min={0}
+          onChange={onChangeOrderAmount}
+          onBlur={onBlurOrderAmount}
+        />
+      </div>
+      <div
+        className={classNames(
+          'tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-sm',
+          trade.tradeType !== PerpetualTradeType.LIMIT && 'tw-hidden',
+        )}
+      >
+        <label>
+          {t(translations.perpetualPage.tradeForm.labels.limitPrice)}
+        </label>
+        <div className="tw-flex-1 tw-mx-4 tw-text-right">
+          <AssetSymbolRenderer assetString={pair.longAsset} />
+        </div>
+        <Input
+          className="tw-w-2/5"
+          type="number"
+          value={limit}
+          step={0.1}
+          min={0}
+          onChange={onChangeOrderLimit}
+        />
+      </div>
+      <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-text-xs tw-font-medium">
+        <label>
+          {t(translations.perpetualPage.tradeForm.labels.orderCost)}
+        </label>
+        <AssetValue
+          minDecimals={4}
+          maxDecimals={4}
+          mode={AssetValueMode.auto}
+          value={orderCost}
+          assetString={pair.shortAsset}
+        />
+      </div>
+      <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-text-xs tw-font-medium">
+        <label>
+          {t(translations.perpetualPage.tradeForm.labels.tradingFee)}
+        </label>
+        <AssetValue
+          minDecimals={4}
+          maxDecimals={4}
+          mode={AssetValueMode.auto}
+          value={tradingFee}
+          assetString={pair.shortAsset}
+        />
+      </div>
+
+      <FormGroup
+        label={t(translations.perpetualPage.tradeForm.labels.leverage)}
+        className="tw-p-4 tw-pb-px tw-mt-4 tw-mb-2 tw-bg-gray-4 tw-rounded-lg"
+      >
+        <LeverageSelector
+          value={trade.leverage}
+          min={minLeverage}
+          max={maxLeverage}
+          steps={[1, 2, 3, 5, 10, 15]}
+          onChange={onChangeLeverage}
+        />
+      </FormGroup>
+
+      <div className="tw-mb-2 tw-text-secondary tw-text-xs">
+        <button className="tw-flex tw-flex-row" onClick={onOpenSlippage}>
+          <Trans
+            i18nKey={translations.marginTradeForm.fields.advancedSettings}
+          />
+          <img className="tw-ml-2" alt="setting" src={settingImg} />
+        </button>
+      </div>
+      <div className="tw-absolute tw-bottom-0 tw-left-0 tw-right-0">
+        {!inMaintenance ? (
+          <button
             className={classNames(
-              'tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-sm',
-              tradeType !== PerpetualTradeType.LIMIT && 'tw-hidden',
+              'tw-flex tw-flex-row tw-justify-between tw-items-center tw-w-full tw-h-12 tw-px-4 tw-font-semibold tw-text-base tw-text-white tw-bg-trade-long tw-rounded-lg tw-opacity-100 hover:tw-opacity-75 tw-transition-opacity tw-duration-300',
+              trade.position === TradingPosition.LONG
+                ? 'tw-bg-trade-long'
+                : 'tw-bg-trade-short',
             )}
+            onClick={onSubmit}
+            // disabled={!validate || !connected || openTradesLocked}
           >
-            <label>
-              {t(translations.perpetualPage.tradeForm.labels.limitPrice)}
-            </label>
-            <div className="tw-mx-4 tw-text-right">
-              <AssetSymbolRenderer asset={pair.longAsset} />
-            </div>
-            <Input
-              className="tw-w-2/5"
-              type="number"
-              value={orderLimit}
-              step={0.1}
-              min={0}
-              onChange={onChangeOrderLimit}
-            />
-          </div>
-
-          <FormGroup
-            label={t(translations.perpetualPage.tradeForm.labels.leverage)}
-            className="tw-p-4 tw-pb-1 tw-mt-4 tw-mb-2 tw-bg-gray-4 tw-rounded-lg"
-          >
-            <LeverageSelector
-              value={leverage}
-              steps={[1, 2, 3, 5, 10, 15]}
-              onChange={value => dispatch(actions.setLeverage(value))}
-            />
-          </FormGroup>
-
-          <div className="tw-mb-2 tw-text-secondary tw-text-xs">
-            <button className="tw-flex tw-flex-row" onClick={onShowSettings}>
+            <span className="tw-mr-2">{tradeButtonLabel}</span>
+            <span>
+              {weiToNumberFormat(trade.amount, STEP_PRECISION)}
+              {` @ ${trade.position === TradingPosition.LONG ? '≥' : '≤'} `}
+              {weiToNumberFormat(price, 2)}
+            </span>
+          </button>
+        ) : (
+          <ErrorBadge
+            content={
               <Trans
-                i18nKey={translations.marginTradeForm.fields.advancedSettings}
+                i18nKey={translations.maintenance.openMarginTrades}
+                components={[
+                  <a
+                    href={discordInvite}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                  >
+                    x
+                  </a>,
+                ]}
               />
-              <img
-                className="tw-ml-2"
-                alt="setting"
-                src={settingImg}
-                onClick={() => {
-                  console.log('1123');
-                }}
-              />
-            </button>
-          </div>
-          <div className="tw-absolute tw-bottom-4 tw-left-4 tw-right-4">
-            {!openTradesLocked ? (
-              <button
-                className={classNames(
-                  'tw-flex tw-flex-row tw-justify-between tw-items-center tw-w-full tw-h-12 tw-px-4 tw-font-semibold tw-text-base tw-text-white tw-bg-trade-long tw-rounded-lg tw-opacity-100 hover:tw-opacity-75 tw-transition-opacity tw-duration-300',
-                  position === TradingPosition.LONG
-                    ? 'tw-bg-trade-long'
-                    : 'tw-bg-trade-short',
-                )}
-                onClick={bindSelectPosition(TradingPosition.LONG)}
-                // disabled={!validate || !connected || openTradesLocked}
-              >
-                <span className="tw-mr-2">{tradeButtonLabel}</span>
-                <span>
-                  {formatAsNumber(orderAmount, AssetDecimals[pair.shortAsset])}
-                  {` @ ${position === TradingPosition.LONG ? '≥' : '≤'} `}
-                  {formatAsNumber(price, AssetDecimals[pair.longAsset])}
-                </span>
-              </button>
-            ) : (
-              <ErrorBadge
-                content={
-                  <Trans
-                    i18nKey={translations.maintenance.openMarginTrades}
-                    components={[
-                      <a
-                        href={discordInvite}
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
-                      >
-                        x
-                      </a>,
-                    ]}
-                  />
-                }
-              />
-            )}
-          </div>
-        </DataCard>
-        <AdvancedSettingDialog />
-        {/* <TradeDialog /> */}
-      </>
-    );
-  }
+            }
+          />
+        )}
+      </div>
+    </div>
+  );
 };

@@ -12,7 +12,6 @@ import { reducer, sliceKey, actions } from './slice';
 import { HeaderLabs } from '../../components/HeaderLabs';
 import { Footer } from '../../components/Footer';
 import { PerpetualPairDictionary } from '../../../utils/dictionaries/perpetual-pair-dictionary';
-import { TradeForm } from './components/TradeForm';
 import { Theme, TradingChart } from '../../components/TradingChart';
 import { OpenPositionsTable } from './components/OpenPositionsTable';
 import { useIsConnected } from '../../hooks/useAccount';
@@ -32,6 +31,8 @@ import { ProviderType } from '@sovryn/wallet';
 import { AccountBalanceCard } from './components/AccountBalanceCard';
 import { usePerpetual_accountBalance } from './hooks/usePerpetual_accountBalance';
 import { AccountDialog } from './components/AccountDialog';
+import { NewPositionCard } from './components/NewPositionCard';
+import { TradeReviewDialog } from './components/TradeReviewDialog';
 
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -160,10 +161,7 @@ export function PerpetualPage() {
           </DataCard>
           <div className="tw-flex tw-flex-col xl:tw-min-w-80 xl:tw-w-1/5 tw-space-y-2">
             <AccountBalanceCard balance={availableBalance} />
-            <TradeForm
-              pairType={linkPairType || pairType}
-              balance={availableBalance}
-            />
+            <NewPositionCard balance={availableBalance} />
           </div>
         </div>
 
@@ -213,6 +211,7 @@ export function PerpetualPage() {
         onClose={() => setShowNotificationSettingsModal(false)}
       />
       <AccountDialog pairType={pairType} />
+      <TradeReviewDialog />
     </>
   );
 }
