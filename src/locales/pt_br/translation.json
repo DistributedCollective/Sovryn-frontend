@@ -593,7 +593,7 @@
         "genesis": "SOV Gênese",
         "origin": "SOV Origem",
         "team": "SOV Team",
-        "reward": "SOV Bônus"
+        "reward": "SOV Recompensa"
       }
     },
     "actions": {
@@ -1327,14 +1327,14 @@
         "title": "Você não possui SOV Recompensa",
         "recommendationsTitle": "Ganhe SOV Recompensa das seguintes formas:",
         "recommendation1": "Emprestando cripto que faça parte de promoção em andamento",
-        "recommendation2": "Minerando liquidez em algum pool com promoção em andamento",
-        "recommendation3": "Operando margem em qualquer par de criptos na Sovryn"
+        "recommendation2": "Minerando liquidez em pools com promoção em andamento",
+        "recommendation3": "Operando margem em criptos listadas na Sovryn"
       },
       "liquidSovTab": {
         "title": "Você não possui SOV Líquido",
         "recommendationsTitle": "Ganhe SOV Líquido das seguintes formas:",
         "recommendation1": "Investindo seus SOV",
-        "recommendation2": "Operando margem em qualquer par de criptos na Sovryn"
+        "recommendation2": "Operando margem em criptos listadas na Sovryn"
       },
       "feesEarnedTab": {
         "title": "Você não possui dividendos/comissão a receber",
@@ -1359,7 +1359,7 @@
       "learn": "Saiba mais"
     },
     "feesEarnedClaimForm": {
-      "note": "Ao reivindicar seus dividendos e afins, eles automaticamente são adicionados no seu saldo <0/> no portfólio.",
+      "note": "Ao reivindicar seus dividendos/comissão, eles automaticamente são adicionados no seu saldo <0/> no portfólio.",
       "learn": "Saiba mais"
     },
     "stakingForm": {
