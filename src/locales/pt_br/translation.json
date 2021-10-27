@@ -1420,7 +1420,7 @@
         "asset": "Ativo de garantia:",
         "leverage": "Alavancagem:",
         "amount": "Quantidade:",
-        "slippage": "Slippage Tolerance:",
+        "slippage": "Diferença máxima no preço:",
         "balance": "Saldo disponível: <0/> <1/>",
         "txFee": "Taxa de transação: <0/> {{symbol}}"
       },
@@ -1925,9 +1925,9 @@
     "earn": "Ganhe com a Sovryn"
   },
   "addToMargin": {
-    "title": "Depositar",
-    "amount": "Quantidade:",
-    "liquidationPrice": "Preço de liquidação:"
+    "title": "Adicionar margem",
+    "amount": "Aumentar margem em:",
+    "liquidationPrice": "Preço estimado de liquidação:"
   },
   "openPositionTable": {
     "direction": "Direção",
@@ -1940,7 +1940,8 @@
     "actions": "Ação",
     "noData": "Sem dados",
     "cta": {
-      "margin": "Adicionar margem",
+      "increase": "Aumentar",
+      "margin": "Margem",
       "close": "Fechar"
     }
   },
