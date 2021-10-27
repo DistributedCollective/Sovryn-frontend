@@ -19,10 +19,9 @@ import { ActionButton } from 'app/components/Form/ActionButton';
 import { translations } from 'locales/i18n';
 import { useTranslation, Trans } from 'react-i18next';
 import { useMaintenance } from 'app/hooks/useMaintenance';
+import { useDepositMaintenance } from 'app/pages/BridgeDepositPage/hooks/useDepositMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
-import { CrossBridgeAsset } from '../../types/cross-bridge-asset';
-import { Chain } from 'types';
 
 export function AmountSelector() {
   const { amount, chain, targetChain, sourceAsset, targetAsset } = useSelector(
@@ -30,52 +29,8 @@ export function AmountSelector() {
   );
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { checkMaintenances, States } = useMaintenance();
-  const {
-    [States.BRIDGE]: bridgeLocked,
-    [States.ETH_BRIDGE]: ethBridgeLocked,
-    [States.BSC_BRIDGE]: bscBridgeLocked,
-    [States.ETH_BRIDGE_DEPOSIT]: ethBridgeDepositLocked,
-    [States.BSC_BRIDGE_DEPOSIT]: bscBridgeDepositLocked,
-    [States.BRIDGE_SOV_DEPOSIT]: sovDepositLocked,
-    [States.BRIDGE_XUSD_DEPOSIT]: xusdDepositLocked,
-    [States.BRIDGE_ETH_DEPOSIT]: ethDepositLocked,
-    [States.BRIDGE_BNB_DEPOSIT]: bnbDepositLocked,
-  } = checkMaintenances();
-
-  const lockedChains = useMemo(
-    () => ({
-      [Chain.ETH]: ethBridgeLocked || ethBridgeDepositLocked,
-      [Chain.BSC]: bscBridgeLocked || bscBridgeDepositLocked,
-    }),
-    [
-      ethBridgeLocked,
-      ethBridgeDepositLocked,
-      bscBridgeLocked,
-      bscBridgeDepositLocked,
-    ],
-  );
-
-  const assetDepositLocked = useMemo(() => {
-    switch (targetAsset) {
-      case CrossBridgeAsset.SOV:
-        return sovDepositLocked;
-      case CrossBridgeAsset.XUSD:
-        return xusdDepositLocked;
-      case CrossBridgeAsset.ETH:
-        return ethDepositLocked;
-      case CrossBridgeAsset.BNB:
-        return bnbDepositLocked;
-      default:
-        return false;
-    }
-  }, [
-    targetAsset,
-    sovDepositLocked,
-    xusdDepositLocked,
-    ethDepositLocked,
-    bnbDepositLocked,
-  ]);
+  const { checkMaintenance, States } = useMaintenance();
+  const bridgeLocked = checkMaintenance(States.BRIDGE);
 
   const asset = useMemo(
     () =>
@@ -136,6 +91,9 @@ export function AmountSelector() {
     limitsLoading,
     value,
   ]);
+
+  const { lockedChains, isAssetDepositLocked } = useDepositMaintenance();
+  const assetDepositLocked = isAssetDepositLocked(targetAsset);
 
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-w-80">

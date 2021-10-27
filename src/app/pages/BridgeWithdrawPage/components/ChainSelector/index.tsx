@@ -12,37 +12,15 @@ import { BridgeDictionary } from '../../../BridgeDepositPage/dictionaries/bridge
 import { SelectBox } from '../../../BridgeDepositPage/components/SelectBox';
 import { CrossBridgeAsset } from '../../../BridgeDepositPage/types/cross-bridge-asset';
 import { useMaintenance } from 'app/hooks/useMaintenance';
+import { useWithdrawMaintenance } from 'app/pages/BridgeWithdrawPage/hooks/useWithdrawMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 
 export function ChainSelector() {
   const { sourceAsset, chain } = useSelector(selectBridgeWithdrawPage);
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { checkMaintenances, States } = useMaintenance();
-  const {
-    [States.BRIDGE]: bridgeLocked,
-    [States.ETH_BRIDGE]: ethBridgeLocked,
-    [States.BSC_BRIDGE]: bscBridgeLocked,
-    [States.ETH_BRIDGE_WITHDRAW]: ethBridgeWithdrawLocked,
-    [States.BSC_BRIDGE_WITHDRAW]: bscBridgeWithdrawLocked,
-    [States.BRIDGE_SOV_WITHDRAW]: sovWithdrawLocked,
-    [States.BRIDGE_XUSD_WITHDRAW]: xusdWithdrawLocked,
-    [States.BRIDGE_ETH_WITHDRAW]: ethWithdrawLocked,
-    [States.BRIDGE_BNB_WITHDRAW]: bnbWithdrawLocked,
-  } = checkMaintenances();
-
-  const lockedChains = useMemo(
-    () => ({
-      [Chain.ETH]: ethBridgeLocked || ethBridgeWithdrawLocked,
-      [Chain.BSC]: bscBridgeLocked || bscBridgeWithdrawLocked,
-    }),
-    [
-      ethBridgeLocked,
-      ethBridgeWithdrawLocked,
-      bscBridgeLocked,
-      bscBridgeWithdrawLocked,
-    ],
-  );
+  const { checkMaintenance, States } = useMaintenance();
+  const bridgeLocked = checkMaintenance(States.BRIDGE);
 
   const selectNetwork = useCallback(
     (chain: Chain) => {
@@ -64,33 +42,14 @@ export function ChainSelector() {
     [sourceAsset, chain],
   );
 
+  const { lockedChains, isAssetWithdrawLocked } = useWithdrawMaintenance();
+  const assetWithdrawLocked = isAssetWithdrawLocked(sourceAsset);
   const lockedChainsVisible = useMemo(
     () =>
       networks.filter(val => val.chain && lockedChains[val.chain] === true)
         .length > 0,
     [lockedChains, networks],
   );
-
-  const assetWithdrawLocked = useMemo(() => {
-    switch (sourceAsset) {
-      case CrossBridgeAsset.SOV:
-        return sovWithdrawLocked;
-      case CrossBridgeAsset.XUSD:
-        return xusdWithdrawLocked;
-      case CrossBridgeAsset.ETH:
-        return ethWithdrawLocked;
-      case CrossBridgeAsset.BNB:
-        return bnbWithdrawLocked;
-      default:
-        return false;
-    }
-  }, [
-    sourceAsset,
-    sovWithdrawLocked,
-    xusdWithdrawLocked,
-    ethWithdrawLocked,
-    bnbWithdrawLocked,
-  ]);
 
   return (
     <div>

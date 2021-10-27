@@ -23,8 +23,8 @@ import styles from './index.module.scss';
 import cn from 'classnames';
 import { discordInvite } from 'utils/classifiers';
 import { useMaintenance } from 'app/hooks/useMaintenance';
+import { useWithdrawMaintenance } from 'app/pages/BridgeWithdrawPage/hooks/useWithdrawMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import { Chain } from 'types';
 
 export function AmountSelector() {
   const { amount, chain, targetChain, sourceAsset, targetAsset } = useSelector(
@@ -33,52 +33,8 @@ export function AmountSelector() {
   const { t } = useTranslation();
   const trans = translations.BridgeWithdrawPage.amountSelector;
   const dispatch = useDispatch();
-  const { checkMaintenances, States } = useMaintenance();
-  const {
-    [States.BRIDGE]: bridgeLocked,
-    [States.ETH_BRIDGE]: ethBridgeLocked,
-    [States.BSC_BRIDGE]: bscBridgeLocked,
-    [States.ETH_BRIDGE_WITHDRAW]: ethBridgeWithdrawLocked,
-    [States.BSC_BRIDGE_WITHDRAW]: bscBridgeWithdrawLocked,
-    [States.BRIDGE_SOV_WITHDRAW]: sovWithdrawLocked,
-    [States.BRIDGE_XUSD_WITHDRAW]: xusdWithdrawLocked,
-    [States.BRIDGE_ETH_WITHDRAW]: ethWithdrawLocked,
-    [States.BRIDGE_BNB_WITHDRAW]: bnbWithdrawLocked,
-  } = checkMaintenances();
-
-  const lockedChains = useMemo(
-    () => ({
-      [Chain.ETH]: ethBridgeLocked || ethBridgeWithdrawLocked,
-      [Chain.BSC]: bscBridgeLocked || bscBridgeWithdrawLocked,
-    }),
-    [
-      ethBridgeLocked,
-      ethBridgeWithdrawLocked,
-      bscBridgeLocked,
-      bscBridgeWithdrawLocked,
-    ],
-  );
-
-  const assetWithdrawLocked = useMemo(() => {
-    switch (sourceAsset) {
-      case CrossBridgeAsset.SOV:
-        return sovWithdrawLocked;
-      case CrossBridgeAsset.XUSD:
-        return xusdWithdrawLocked;
-      case CrossBridgeAsset.ETH:
-        return ethWithdrawLocked;
-      case CrossBridgeAsset.BNB:
-        return bnbWithdrawLocked;
-      default:
-        return false;
-    }
-  }, [
-    sourceAsset,
-    sovWithdrawLocked,
-    xusdWithdrawLocked,
-    ethWithdrawLocked,
-    bnbWithdrawLocked,
-  ]);
+  const { checkMaintenance, States } = useMaintenance();
+  const bridgeLocked = checkMaintenance(States.BRIDGE);
 
   const currentAsset = useMemo(
     () =>
@@ -159,6 +115,9 @@ export function AmountSelector() {
     limits.returnData.getFeePerToken,
     checkSpentToday,
   ]);
+
+  const { lockedChains, isAssetWithdrawLocked } = useWithdrawMaintenance();
+  const assetWithdrawLocked = isAssetWithdrawLocked(sourceAsset);
 
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-w-96">

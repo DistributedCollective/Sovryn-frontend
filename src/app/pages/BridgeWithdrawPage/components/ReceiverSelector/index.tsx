@@ -11,7 +11,6 @@ import { Input } from '../../../../components/Form/Input';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { discordInvite } from 'utils/classifiers';
 
-import { CrossBridgeAsset } from 'app/pages/BridgeDepositPage/types/cross-bridge-asset';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { rskWalletAddressLength } from 'app/constants';
@@ -19,6 +18,7 @@ import styles from './index.module.scss';
 import imgWarning from 'assets/images/warning_black_24dp.svg';
 import classNames from 'classnames';
 import { useMaintenance } from 'app/hooks/useMaintenance';
+import { useWithdrawMaintenance } from 'app/pages/BridgeWithdrawPage/hooks/useWithdrawMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 
 interface IReceiverSelectorProps {
@@ -33,52 +33,8 @@ export function ReceiverSelector({ address }: IReceiverSelectorProps) {
     selectBridgeWithdrawPage,
   );
   const dispatch = useDispatch();
-  const { checkMaintenances, States } = useMaintenance();
-  const {
-    [States.BRIDGE]: bridgeLocked,
-    [States.ETH_BRIDGE]: ethBridgeLocked,
-    [States.BSC_BRIDGE]: bscBridgeLocked,
-    [States.ETH_BRIDGE_WITHDRAW]: ethBridgeWithdrawLocked,
-    [States.BSC_BRIDGE_WITHDRAW]: bscBridgeWithdrawLocked,
-    [States.BRIDGE_SOV_WITHDRAW]: sovWithdrawLocked,
-    [States.BRIDGE_XUSD_WITHDRAW]: xusdWithdrawLocked,
-    [States.BRIDGE_ETH_WITHDRAW]: ethWithdrawLocked,
-    [States.BRIDGE_BNB_WITHDRAW]: bnbWithdrawLocked,
-  } = checkMaintenances();
-
-  const lockedChains = useMemo(
-    () => ({
-      [Chain.ETH]: ethBridgeLocked || ethBridgeWithdrawLocked,
-      [Chain.BSC]: bscBridgeLocked || bscBridgeWithdrawLocked,
-    }),
-    [
-      ethBridgeLocked,
-      ethBridgeWithdrawLocked,
-      bscBridgeLocked,
-      bscBridgeWithdrawLocked,
-    ],
-  );
-
-  const assetWithdrawLocked = useMemo(() => {
-    switch (sourceAsset) {
-      case CrossBridgeAsset.SOV:
-        return sovWithdrawLocked;
-      case CrossBridgeAsset.XUSD:
-        return xusdWithdrawLocked;
-      case CrossBridgeAsset.ETH:
-        return ethWithdrawLocked;
-      case CrossBridgeAsset.BNB:
-        return bnbWithdrawLocked;
-      default:
-        return false;
-    }
-  }, [
-    sourceAsset,
-    sovWithdrawLocked,
-    xusdWithdrawLocked,
-    ethWithdrawLocked,
-    bnbWithdrawLocked,
-  ]);
+  const { checkMaintenance, States } = useMaintenance();
+  const bridgeLocked = checkMaintenance(States.BRIDGE);
 
   const network = useMemo(
     () => BridgeNetworkDictionary.get(targetChain as Chain),
@@ -98,6 +54,9 @@ export function ReceiverSelector({ address }: IReceiverSelectorProps) {
   const valid = useMemo(() => {
     return value && value.length === rskWalletAddressLength;
   }, [value]);
+
+  const { lockedChains, isAssetWithdrawLocked } = useWithdrawMaintenance();
+  const assetWithdrawLocked = isAssetWithdrawLocked(sourceAsset);
 
   return (
     <div className="tw-flex tw-flex-col tw-items-center">
