@@ -186,7 +186,7 @@
   },
   "marginTradeForm": {
     "fields": {
-      "currency": "Ativo",
+      "currency": "Ativo de garantia",
       "currency_placeholder": "Escolha o ativo",
       "amount": "Quantidade",
       "startPrice": "Preço de entrada",
@@ -1417,7 +1417,7 @@
     "tradeForm": {
       "labels": {
         "pair": "Par de negociação:",
-        "asset": "Ativo:",
+        "asset": "Ativo de garantia:",
         "leverage": "Alavancagem:",
         "amount": "Quantidade:",
         "slippage": "Slippage Tolerance:",
@@ -1443,6 +1443,7 @@
       "maintananceMargin": "Margem de manutenção:",
       "liquidationPrice": "Preço estimado de liquidação:",
       "entryPrice": "Preço de entrada da posição:",
+      "minEntry": "Preço mínimo de entrada:",
       "minLiq": "Preço mínimo de liquidação:",
       "interestAPR": "Juros anual",
       "renewalDate": "Data de renovação:",
@@ -1485,7 +1486,7 @@
       "market": "Mercado",
       "limit": "Limitada",
       "advancedSettings": "Configurações avançadas",
-      "limitPrice": "Preço máximo:"
+      "limitPrice": "Preço:"
     },
     "priceHistory": {
       "turnover": "Volume de negociações",
@@ -1502,7 +1503,7 @@
       "tradingPair": "Par de negociação:",
       "orderType": "Tipo de ordem:",
       "tradeAmount": "Quantidade negociada:",
-      "limitPrice": "Preço máximo:",
+      "limitPrice": "Preço:",
       "duration": "Duração:"
     },
     "limitOrderSetting": {
@@ -1518,7 +1519,7 @@
       "pair": "Par",
       "orderType": "Tipo de ordem",
       "tradeAmount": "Quantidade negociada",
-      "limitPrice": "Preço máximo",
+      "limitPrice": "Preço",
       "amountReceive": "Quantidade a receber",
       "duration": "Duração",
       "deadline": "Prazo",
