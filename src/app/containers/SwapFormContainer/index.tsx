@@ -372,7 +372,7 @@ export function SwapFormContainer() {
           }
           onClick={send}
           text={t(translations.swap.cta)}
-          dataActionId={'swap-button'}
+          dataActionId="swap-confirmButton"
         />
       </div>
 
