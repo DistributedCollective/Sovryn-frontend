@@ -91,7 +91,7 @@ export function DialogContent(props: IDialogContentProps) {
     '0x',
   );
 
-  const handleConfirmSwap = useCallback(() => send(), []);
+  const handleConfirmSwap = useCallback(() => send(), [send]);
 
   const valid = useIsAmountWithinLimits(weiAmount, '1', props.item.collateral);
 
@@ -101,9 +101,8 @@ export function DialogContent(props: IDialogContentProps) {
   const closeTradesLocked = checkMaintenance(States.CLOSE_MARGIN_TRADES);
 
   const args = useMemo(
-    () => 
-      [props.item.loanId, receiver, weiAmount, isCollateral, '0x'],
-   [props.item.loanId, receiver, weiAmount, isCollateral]
+    () => [props.item.loanId, receiver, weiAmount, isCollateral, '0x'],
+    [props.item.loanId, receiver, weiAmount, isCollateral],
   );
 
   const simulator = useSimulator(

@@ -283,7 +283,7 @@ function OpenPositionRowInner({ item }: IOpenPositionRowInnerProps) {
   );
 }
 
-export function OpenPositionRow({ item }: Props) {
+export function OpenPositionRow({ item }: IOpenPositionRowInnerProps) {
   try {
     const loanAsset = assetByTokenAddress(item.loanToken);
     const collateralAsset = assetByTokenAddress(item.collateralToken);
