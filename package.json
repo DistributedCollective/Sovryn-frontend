@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "private": true,
   "dependencies": {
+    "@apollo/client": "3.4.16",
     "@babel/core": "7.9.0",
     "@blueprintjs/core": "3.42.0",
     "@blueprintjs/select": "3.13.7",
@@ -74,6 +75,7 @@
     "file-loader": "4.3.0",
     "fontfaceobserver": "2.1.0",
     "fs-extra": "^8.1.0",
+    "graphql": "15.7.1",
     "highcharts": "9.1.0",
     "highcharts-react-official": "3.0.0",
     "html-webpack-link-type-plugin": "1.1.0",
