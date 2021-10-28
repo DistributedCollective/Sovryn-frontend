@@ -8,11 +8,7 @@ import { TransitionAnimation } from '../../../../containers/TransitionContainer'
 import { TransitionSteps } from '../../../../containers/TransitionSteps';
 import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
-import {
-  isPerpetualTrade,
-  PerpetualPageModals,
-  PerpetualTrade,
-} from '../../types';
+import { isPerpetualTrade, PerpetualPageModals } from '../../types';
 import { TradeDetails } from '../TradeDetails';
 import { SlippageFormStep } from './components/SlippageFormStep';
 import { TradeFormStep } from './components/TradeFormStep';
@@ -69,13 +65,13 @@ export const EditPositionSizeDialog: React.FC = () => {
       <EditPositionSizeDialogContext.Provider value={context}>
         {trade && pair && (
           <TradeDetails
-            className="tw-mx-16 tw-mb-4"
+            className="tw-mw-340 tw-mx-auto tw-mb-4"
             trade={trade}
             pair={pair}
           />
         )}
         <TransitionSteps<EditPositionSizeDialogStep>
-          classNameInner="tw-px-16"
+          classNameInner="tw-h-96"
           steps={steps}
           active={EditPositionSizeDialogStep.trade}
           defaultAnimation={TransitionAnimation.slideLeft}

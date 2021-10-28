@@ -18,7 +18,6 @@ import {
   PerpetualTradeType,
 } from '../../types';
 import { TradingPosition } from '../../../../../types/trading-position';
-import { TradeType } from '../RecentTradesTable/types';
 
 interface IOpenPositionRowProps {
   item: OpenPositionEntry;

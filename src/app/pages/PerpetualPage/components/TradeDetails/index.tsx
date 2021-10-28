@@ -2,14 +2,11 @@ import classNames from 'classnames';
 import { bignumber } from 'mathjs';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { toWei } from 'web3-utils';
 import { translations } from '../../../../../locales/i18n';
-import { TradingPosition } from '../../../../../types/trading-position';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { PerpetualPair } from '../../../../../utils/models/perpetual-pair';
 import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
-import { AvailableBalance } from '../../../../components/AvailableBalance';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
 import { PerpetualTrade } from '../../types';
 

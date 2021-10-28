@@ -36,12 +36,12 @@
   &.host :global(.bp3-slider-track) {
     @apply tw-h-2.5;
     border-radius: 5px;
-    background: transparent linear-gradient(90deg, #5bfd04 0%, #c16002 100%) 0%
+    background: transparent linear-gradient(90deg, #5bfd04 0%, #fe0000 100%) 0%
       0% no-repeat padding-box;
   }
 
   &.host :global(.bp3-slider-progress) {
-    @apply tw-h-2.5 tw-bg-black tw-opacity-50;
+    @apply tw-h-2.5 tw-bg-gray-2 tw-opacity-75;
   }
 
   &.host :global(.bp3-slider-progress):global(.bp3-intent-primary) {

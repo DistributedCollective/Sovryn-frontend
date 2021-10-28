@@ -33,7 +33,6 @@ import { usePerpetual_accountBalance } from './hooks/usePerpetual_accountBalance
 import { AccountDialog } from './components/AccountDialog';
 import { NewPositionCard } from './components/NewPositionCard';
 import { TradeReviewDialog } from './components/TradeReviewDialog';
-import { EditPositionSizeDialogStep } from './components/EditPositionSizeDialog/types';
 import { EditPositionSizeDialog } from './components/EditPositionSizeDialog';
 
 export function PerpetualPage() {

@@ -1622,13 +1622,15 @@
       "labels": {
         "pair": "Pair:",
         "asset": "Asset to receive:",
-        "leverage": "Position Leverage:",
+        "leverageSelector": "Position Leverage:",
+        "leverage": "Leverage:",
         "orderValue": "Order Value:",
         "limitPrice": "Limit Price:",
         "orderCost": "Order Cost:",
         "maxTradeSize": "Max Trade Size:",
         "minEntryPrice": "Min Entry Price:",
         "minLiquidationPrice": "Min Liquidation Price:",
+        "liquidationPrice": "Liquidation Price:",
         "tradingFee": "Trading Fee:",
         "slippage": "Slippage Tolerance:",
         "balance": "Available Balance: <0/> <1/>",
@@ -1644,7 +1646,8 @@
         "buyLimit": "Buy Limit",
         "sellMarket": "Sell Market",
         "sellLimit": "Sell Limit",
-        "minLeverage": "MIN"
+        "minLeverage": "MIN",
+        "slippageSettings": "Slippage Settings"
       }
     },
     "tradeDialog": {

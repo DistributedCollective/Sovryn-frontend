@@ -1,13 +1,8 @@
-import React, { useCallback, useMemo, useContext } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useCallback, useContext } from 'react';
+import { useDispatch } from 'react-redux';
 import { TransitionStep } from '../../../../../containers/TransitionSteps';
-import { selectPerpetualPage } from '../../../selectors';
 import { actions } from '../../../slice';
-import {
-  isPerpetualTrade,
-  PerpetualPageModals,
-  PerpetualTrade,
-} from '../../../types';
+import { PerpetualPageModals } from '../../../types';
 import { TradeForm } from '../../TradeForm';
 import { EditPositionSizeDialogStep } from '../types';
 import { EditPositionSizeDialogContext } from '..';
@@ -36,11 +31,13 @@ export const TradeFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
   }
 
   return (
-    <TradeForm
-      trade={changedTrade}
-      onOpenSlippage={onOpenSlippage}
-      onSubmit={onSubmit}
-      onChange={onChange}
-    />
+    <div className="tw-mw-340 tw-h-full tw-mx-auto">
+      <TradeForm
+        trade={changedTrade}
+        onOpenSlippage={onOpenSlippage}
+        onSubmit={onSubmit}
+        onChange={onChange}
+      />
+    </div>
   );
 };

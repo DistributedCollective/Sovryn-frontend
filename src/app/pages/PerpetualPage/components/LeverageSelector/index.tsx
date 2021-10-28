@@ -6,8 +6,10 @@ import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { Input } from '../../../../components/Input';
 import { FormGroup } from '../../../../components/Form/FormGroup';
+import classNames from 'classnames';
 
 type LeverageSelectorProps = {
+  className?: string;
   value: number;
   min: number;
   max: number;
@@ -16,6 +18,7 @@ type LeverageSelectorProps = {
 };
 
 export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
+  className,
   value,
   min,
   max,
@@ -59,8 +62,11 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
 
   return (
     <FormGroup
-      label={t(translations.perpetualPage.tradeForm.labels.leverage)}
-      className="tw-p-4 tw-pb-px tw-mt-4 tw-mb-2 tw-bg-gray-4 tw-rounded-lg"
+      label={t(translations.perpetualPage.tradeForm.labels.leverageSelector)}
+      className={classNames(
+        'tw-p-4 tw-pb-px tw-bg-gray-4 tw-rounded-lg',
+        className,
+      )}
     >
       <div className="tw-flex tw-flex-row tw-items-start tw-justify-between tw-h-12">
         {manual || sliderValue < 0 ? (
