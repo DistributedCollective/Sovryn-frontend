@@ -3,7 +3,7 @@ import { Nullable, Asset } from '../../../types';
 import { ContractName } from '../../../utils/types/contracts';
 import { Sovryn } from '../../../utils/sovryn';
 import { simulateTx } from '../../../utils/simulator/simulateTx';
-import { currentChainId } from '../../../utils/classifiers';
+import { currentChainId, gasLimit } from '../../../utils/classifiers';
 import {
   getContract,
   getTokenContract,
@@ -15,6 +15,7 @@ import {
   TxData,
   TxTuple,
 } from '../../../utils/simulator/types';
+import { TxType } from '../../../store/global/transaction-store/types';
 
 export type SimulatorHookResponse = {
   loading: boolean;
@@ -53,7 +54,7 @@ export function useSimulator(
       to: getContract(to).address,
       from: account,
       input: Sovryn.contracts[to].methods[method](...args).encodeABI(),
-      gas: 6800000,
+      gas: gasLimit[TxType.SIMULATOR_REQUEST],
       gas_price: '0',
       value,
     };
@@ -67,7 +68,7 @@ export function useSimulator(
         input: Sovryn.contracts[getTokenContractName(approveTx.asset)].methods
           .approve(approveTx.spender, approveTx.amount)
           .encodeABI(),
-        gas: 6800000,
+        gas: gasLimit[TxType.SIMULATOR_REQUEST],
         gas_price: '0',
         value: '0',
       };
