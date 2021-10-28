@@ -26,7 +26,7 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { useWithdrawMaintenance } from 'app/pages/BridgeWithdrawPage/hooks/useWithdrawMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 
-export function AmountSelector() {
+export const AmountSelector: React.FC = () => {
   const { amount, chain, targetChain, sourceAsset, targetAsset } = useSelector(
     selectBridgeWithdrawPage,
   );
@@ -274,7 +274,7 @@ export function AmountSelector() {
       </div>
     </div>
   );
-}
+};
 
 const Table = styled.table`
   td {

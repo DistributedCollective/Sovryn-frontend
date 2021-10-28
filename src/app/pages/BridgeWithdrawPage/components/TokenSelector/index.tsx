@@ -20,7 +20,7 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { useWithdrawMaintenance } from 'app/pages/BridgeWithdrawPage/hooks/useWithdrawMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 
-export function TokenSelector() {
+export const TokenSelector: React.FC = () => {
   const { t } = useTranslation();
 
   const account = useAccount();
@@ -169,4 +169,4 @@ export function TokenSelector() {
       )}
     </div>
   );
-}
+};

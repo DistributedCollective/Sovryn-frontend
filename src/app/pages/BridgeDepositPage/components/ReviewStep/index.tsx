@@ -21,7 +21,7 @@ import { useDepositMaintenance } from 'app/pages/BridgeDepositPage/hooks/useDepo
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
 
-export function ReviewStep() {
+export const ReviewStep: React.FC = () => {
   const {
     amount,
     chain,
@@ -168,4 +168,4 @@ export function ReviewStep() {
       </div>
     </div>
   );
-}
+};

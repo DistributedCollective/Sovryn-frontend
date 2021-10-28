@@ -23,7 +23,7 @@ import { useDepositMaintenance } from 'app/pages/BridgeDepositPage/hooks/useDepo
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
 
-export function AmountSelector() {
+export const AmountSelector: React.FC = () => {
   const { amount, chain, targetChain, sourceAsset, targetAsset } = useSelector(
     selectBridgeDepositPage,
   );
@@ -246,7 +246,7 @@ export function AmountSelector() {
       </div>
     </div>
   );
-}
+};
 
 const Table = styled.table`
   td {

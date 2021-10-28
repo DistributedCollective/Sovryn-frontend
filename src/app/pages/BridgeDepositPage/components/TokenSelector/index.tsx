@@ -19,7 +19,7 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { useDepositMaintenance } from 'app/pages/BridgeDepositPage/hooks/useDepositMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 
-export function TokenSelector() {
+export const TokenSelector: React.FC = () => {
   const { chain, targetChain, targetAsset } = useSelector(
     selectBridgeDepositPage,
   );
@@ -157,4 +157,4 @@ export function TokenSelector() {
       </div>
     </div>
   );
-}
+};

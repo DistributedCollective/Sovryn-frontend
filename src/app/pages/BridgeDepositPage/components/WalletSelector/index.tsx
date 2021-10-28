@@ -27,14 +27,15 @@ import {
 import styles from './index.module.scss';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { noop } from 'app/constants';
 
-export function WalletSelector() {
+export const WalletSelector: React.FC = () => {
   const { t } = useTranslation();
   const { checkMaintenances, States } = useMaintenance();
   const { [States.BRIDGE]: bridgeLocked } = checkMaintenances();
 
   const dispatch = useDispatch();
-  const { ethereum } = window as any;
+  const { ethereum } = window;
 
   const { bridgeChainId } = useSelector(selectWalletProvider);
   const { chain } = useSelector(selectBridgeDepositPage);
@@ -208,8 +209,8 @@ export function WalletSelector() {
             />
           )}
           <WalletConnectionView
-            onStep={step => console.log('step: ', step)}
-            onCompleted={step => console.log('step: ', step)}
+            onStep={noop}
+            onCompleted={noop}
             hideInstructionLink={true}
             enableSoftwareWallet={
               process.env.REACT_APP_ENABLE_SOFTWARE_WALLET === 'true'
@@ -219,4 +220,4 @@ export function WalletSelector() {
       )}
     </div>
   );
-}
+};

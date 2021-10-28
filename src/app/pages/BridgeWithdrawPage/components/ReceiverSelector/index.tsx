@@ -25,7 +25,9 @@ interface IReceiverSelectorProps {
   address: string;
 }
 
-export function ReceiverSelector({ address }: IReceiverSelectorProps) {
+export const ReceiverSelector: React.FC<IReceiverSelectorProps> = ({
+  address,
+}) => {
   const { t } = useTranslation();
   const trans = translations.BridgeWithdrawPage.receiverSelector;
   const [showWarning, setShowWarning] = useState(false);
@@ -135,4 +137,4 @@ export function ReceiverSelector({ address }: IReceiverSelectorProps) {
       </div>
     </div>
   );
-}
+};

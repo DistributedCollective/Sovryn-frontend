@@ -23,7 +23,7 @@ import { useWithdrawMaintenance } from 'app/pages/BridgeWithdrawPage/hooks/useWi
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
 
-export function ReviewStep() {
+export const ReviewStep: React.FC = () => {
   const {
     amount,
     chain,
@@ -211,4 +211,4 @@ export function ReviewStep() {
       </div>
     </div>
   );
-}
+};

@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import { StepItem } from './index';
 
-interface StepProps {
+interface IStepProps {
   step: StepItem;
   current?: Boolean;
   active?: Boolean;
@@ -12,14 +12,14 @@ interface StepProps {
   disabled?: boolean;
 }
 
-export function Step({
+export const Step: React.FC<IStepProps> = ({
   step,
   current,
   active,
   isFirst,
   onClick,
   disabled,
-}: StepProps) {
+}) => {
   return (
     <li
       className={classNames(
@@ -79,4 +79,4 @@ export function Step({
       {step?.title || step.stepTitle}
     </li>
   );
-}
+};

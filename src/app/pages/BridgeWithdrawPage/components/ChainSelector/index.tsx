@@ -15,7 +15,7 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { useWithdrawMaintenance } from 'app/pages/BridgeWithdrawPage/hooks/useWithdrawMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 
-export function ChainSelector() {
+export const ChainSelector: React.FC = () => {
   const { sourceAsset, chain } = useSelector(selectBridgeWithdrawPage);
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -96,4 +96,4 @@ export function ChainSelector() {
       )}
     </div>
   );
-}
+};
