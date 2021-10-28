@@ -18,17 +18,17 @@ interface ITokenItemProps {
   sourceAsset: CrossBridgeAsset;
   image: string;
   symbol: string;
-  onClick: Function;
+  onClick: () => void;
   disabled?: boolean;
 }
 
-export function TokenItem({
+export const TokenItem: React.FC<ITokenItemProps> = ({
   sourceAsset,
   image,
   symbol,
   onClick,
   disabled,
-}: ITokenItemProps) {
+}) => {
   const { t } = useTranslation();
   const { chain, targetChain } = useSelector(selectBridgeDepositPage);
   const asset = useMemo(
@@ -68,4 +68,4 @@ export function TokenItem({
       </div>
     </div>
   );
-}
+};

@@ -16,12 +16,11 @@ import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { NetworkModel } from '../../types/network-model';
 import { translations } from 'locales/i18n';
 import { useTranslation, Trans } from 'react-i18next';
-import { useMaintenance } from 'app/hooks/useMaintenance';
-import { useDepositMaintenance } from 'app/pages/BridgeDepositPage/hooks/useDepositMaintenance';
+import { useIsBridgeDepositLocked } from 'app/pages/BridgeDepositPage/hooks/useIsBridgeDepositLocked';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
 
-export function ReviewStep() {
+export const ReviewStep: React.FC = () => {
   const {
     amount,
     chain,
@@ -33,8 +32,6 @@ export function ReviewStep() {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const trans = translations.BridgeDepositPage.reviewStep;
-  const { checkMaintenance, States } = useMaintenance();
-  const bridgeLocked = checkMaintenance(States.BRIDGE);
 
   const handleSubmit = useCallback(() => {
     dispatch(actions.submitForm());
@@ -89,8 +86,7 @@ export function ReviewStep() {
     limitsLoading,
   ]);
 
-  const { lockedChains, isAssetDepositLocked } = useDepositMaintenance();
-  const assetDepositLocked = isAssetDepositLocked(targetAsset);
+  const bridgeDepositLocked = useIsBridgeDepositLocked(targetAsset, chain);
 
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
@@ -134,19 +130,11 @@ export function ReviewStep() {
         <Button
           className="tw-mt-20 tw-w-80"
           text={t(trans.confirmDeposit)}
-          disabled={
-            bridgeLocked ||
-            assetDepositLocked ||
-            (chain && lockedChains[chain]) ||
-            !isValid ||
-            tx.loading
-          }
+          disabled={bridgeDepositLocked || !isValid || tx.loading}
           loading={tx.loading}
           onClick={handleSubmit}
         />
-        {(bridgeLocked ||
-          assetDepositLocked ||
-          (chain && lockedChains[chain])) && (
+        {bridgeDepositLocked && (
           <ErrorBadge
             content={
               <Trans
@@ -168,4 +156,4 @@ export function ReviewStep() {
       </div>
     </div>
   );
-}
+};

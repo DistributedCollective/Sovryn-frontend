@@ -9,13 +9,13 @@ export interface StepItem {
   icon?: React.ReactChild;
 }
 
-type Props = {
+type IStepperProps = {
   onClick: Function;
   step: number;
   steps: StepItem[];
 };
 
-export function Stepper({ steps, step, onClick }: Props) {
+export const Stepper: React.FC<IStepperProps> = ({ steps, step, onClick }) => {
   const { checkMaintenance, States } = useMaintenance();
   const bridgeLocked = checkMaintenance(States.BRIDGE);
   const activeIndex = steps.findIndex(item => item.value === step);
@@ -54,4 +54,4 @@ export function Stepper({ steps, step, onClick }: Props) {
       </ul>
     </div>
   );
-}
+};

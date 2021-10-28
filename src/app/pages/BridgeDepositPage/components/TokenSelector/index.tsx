@@ -15,19 +15,16 @@ import { TokenItem } from './TokenItem';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { useWalletContext } from '@sovryn/react-wallet';
-import { useMaintenance } from 'app/hooks/useMaintenance';
-import { useDepositMaintenance } from 'app/pages/BridgeDepositPage/hooks/useDepositMaintenance';
+import { useIsBridgeDepositLocked } from 'app/pages/BridgeDepositPage/hooks/useIsBridgeDepositLocked';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 
-export function TokenSelector() {
+export const TokenSelector: React.FC = () => {
   const { chain, targetChain, targetAsset } = useSelector(
     selectBridgeDepositPage,
   );
   const walletContext = useWalletContext();
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { checkMaintenance, States } = useMaintenance();
-  const bridgeLocked = checkMaintenance(States.BRIDGE);
 
   useEffect(() => {
     if (chain === null) {
@@ -93,8 +90,7 @@ export function TokenSelector() {
     chain,
   ]);
 
-  const { lockedChains, isAssetDepositLocked } = useDepositMaintenance();
-  const assetDepositLocked = isAssetDepositLocked(targetAsset);
+  const bridgeDepositLocked = useIsBridgeDepositLocked(targetAsset, chain);
 
   return (
     <div>
@@ -111,11 +107,7 @@ export function TokenSelector() {
                 image={item.image}
                 symbol={item.symbol}
                 onClick={() => selectSourceAsset(item.asset)}
-                disabled={
-                  bridgeLocked ||
-                  assetDepositLocked ||
-                  (chain && lockedChains[chain])
-                }
+                disabled={bridgeDepositLocked}
               />
             );
           })}
@@ -128,9 +120,7 @@ export function TokenSelector() {
           })}
         </p>
       )}
-      {(bridgeLocked ||
-        assetDepositLocked ||
-        (chain && lockedChains[chain])) && (
+      {bridgeDepositLocked && (
         <ErrorBadge
           content={
             <Trans
@@ -157,4 +147,4 @@ export function TokenSelector() {
       </div>
     </div>
   );
-}
+};

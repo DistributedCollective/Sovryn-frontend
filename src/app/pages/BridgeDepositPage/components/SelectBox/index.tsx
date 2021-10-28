@@ -3,13 +3,19 @@ import cn from 'classnames';
 
 import { Item } from './styled';
 
-type Props = {
+type ISelectBoxProps = {
   onClick?: Function;
   children: React.ReactNode;
   disabled?: boolean;
   className?: string;
 };
-export function SelectBox({ onClick, disabled, children, className }: Props) {
+
+export const SelectBox: React.FC<ISelectBoxProps> = ({
+  onClick,
+  disabled,
+  children,
+  className,
+}) => {
   const handleClick = useCallback(() => {
     if (!disabled && onClick) onClick();
   }, [disabled, onClick]);
@@ -30,4 +36,4 @@ export function SelectBox({ onClick, disabled, children, className }: Props) {
       </Item>
     </>
   );
-}
+};
