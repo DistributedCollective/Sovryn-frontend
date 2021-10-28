@@ -34,6 +34,9 @@ import { AccountDialog } from './components/AccountDialog';
 import { NewPositionCard } from './components/NewPositionCard';
 import { TradeReviewDialog } from './components/TradeReviewDialog';
 import { EditPositionSizeDialog } from './components/EditPositionSizeDialog';
+import { usePerpetual_marginAccountBalance } from './hooks/usePerpetual_marginAccountBalance';
+import { usePerpetual_withdrawMarginToken } from './hooks/usePerpetual_withdrawMarginToken';
+import { usePerpetual_closePosition } from './hooks/usePerpetual_closePosition';
 
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -98,14 +101,18 @@ export function PerpetualPage() {
   );
 
   // This can be used for testing Withdraw/Close position
-  // const { withdraw } = usePerpetual_withdrawMarginToken();
-  // const onWithdrawClick = useCallback(() => withdraw('2.556735194'), [
-  //   withdraw,
-  // ]);
+  const { withdraw } = usePerpetual_withdrawMarginToken();
+  const onWithdrawClick = useCallback(() => withdraw('5.54151847352111'), [
+    withdraw,
+  ]);
 
-  // const marginAccountBalance = usePerpetual_marginAccountBalance();
+  const marginAccountBalance = usePerpetual_marginAccountBalance();
 
-  // const { closePosition } = usePerpetual_closePosition();
+  console.log(
+    `Margin account balance: ${JSON.stringify(marginAccountBalance)}`,
+  );
+
+  const { closePosition } = usePerpetual_closePosition();
 
   return (
     <>
@@ -164,12 +171,12 @@ export function PerpetualPage() {
         </div>
 
         {/* This can be used for testing Withdraw/Close position */}
-        {/* <button className="tw-block" onClick={onWithdrawClick}>
+        <button className="tw-block" onClick={onWithdrawClick}>
           Withdraw margin
         </button>
         <button className="tw-block" onClick={closePosition}>
           Close the position
-        </button> */}
+        </button>
 
         {connected && (
           <>
