@@ -17,9 +17,12 @@ import { useBridgeTokenBalance } from '../../hooks/useBridgeTokenBalance';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { translations } from 'locales/i18n';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
+import { useIsBridgeDepositLocked } from 'app/pages/BridgeDepositPage/hooks/useIsBridgeDepositLocked';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { discordInvite } from 'utils/classifiers';
 
-export function AmountSelector() {
+export const AmountSelector: React.FC = () => {
   const { amount, chain, targetChain, sourceAsset, targetAsset } = useSelector(
     selectBridgeDepositPage,
   );
@@ -33,6 +36,8 @@ export function AmountSelector() {
       ) as AssetModel,
     [chain, sourceAsset, targetChain],
   );
+
+  const bridgeDepositLocked = useIsBridgeDepositLocked(targetAsset, chain);
 
   const [value, setValue] = useState(
     amount ? asset.fromWei(amount, asset.minDecimals) : '',
@@ -205,13 +210,32 @@ export function AmountSelector() {
         <ActionButton
           className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
           text={t(translations.common.next)}
-          disabled={!isValid}
+          disabled={bridgeDepositLocked || !isValid}
           onClick={selectAmount}
         />
+        {bridgeDepositLocked && (
+          <ErrorBadge
+            content={
+              <Trans
+                i18nKey={translations.maintenance.bridgeSteps}
+                components={[
+                  <a
+                    href={discordInvite}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                  >
+                    x
+                  </a>,
+                ]}
+              />
+            }
+          />
+        )}
       </div>
     </div>
   );
-}
+};
 
 const Table = styled.table`
   td {
