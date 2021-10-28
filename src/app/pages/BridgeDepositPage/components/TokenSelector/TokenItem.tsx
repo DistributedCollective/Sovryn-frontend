@@ -14,7 +14,21 @@ import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
 
-export function TokenItem({ sourceAsset, image, symbol, onClick }) {
+interface ITokenItemProps {
+  sourceAsset: CrossBridgeAsset;
+  image: string;
+  symbol: string;
+  onClick: Function;
+  disabled?: boolean;
+}
+
+export function TokenItem({
+  sourceAsset,
+  image,
+  symbol,
+  onClick,
+  disabled,
+}: ITokenItemProps) {
   const { t } = useTranslation();
   const { chain, targetChain } = useSelector(selectBridgeDepositPage);
   const asset = useMemo(
@@ -27,8 +41,8 @@ export function TokenItem({ sourceAsset, image, symbol, onClick }) {
 
   const balance = useTokenBalance(chain as any, asset);
   const isDisabled = useCallback(
-    () => !bignumber(balance.value).greaterThan(0),
-    [balance],
+    () => disabled || !bignumber(balance.value).greaterThan(0),
+    [balance, disabled],
   );
 
   return (

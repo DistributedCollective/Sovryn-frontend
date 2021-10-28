@@ -15,15 +15,26 @@ import { useBridgeLimits } from '../../hooks/useBridgeLimits';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { NetworkModel } from '../../types/network-model';
 import { translations } from 'locales/i18n';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { useDepositMaintenance } from 'app/pages/BridgeDepositPage/hooks/useDepositMaintenance';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { discordInvite } from 'utils/classifiers';
 
 export function ReviewStep() {
-  const { amount, chain, targetChain, sourceAsset, tx } = useSelector(
-    selectBridgeDepositPage,
-  );
+  const {
+    amount,
+    chain,
+    targetChain,
+    sourceAsset,
+    targetAsset,
+    tx,
+  } = useSelector(selectBridgeDepositPage);
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const trans = translations.BridgeDepositPage.reviewStep;
+  const { checkMaintenance, States } = useMaintenance();
+  const bridgeLocked = checkMaintenance(States.BRIDGE);
 
   const handleSubmit = useCallback(() => {
     dispatch(actions.submitForm());
@@ -78,6 +89,9 @@ export function ReviewStep() {
     limitsLoading,
   ]);
 
+  const { lockedChains, isAssetDepositLocked } = useDepositMaintenance();
+  const assetDepositLocked = isAssetDepositLocked(targetAsset);
+
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
       <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
@@ -120,10 +134,37 @@ export function ReviewStep() {
         <Button
           className="tw-mt-20 tw-w-80"
           text={t(trans.confirmDeposit)}
-          disabled={!isValid || tx.loading}
+          disabled={
+            bridgeLocked ||
+            assetDepositLocked ||
+            (chain && lockedChains[chain]) ||
+            !isValid ||
+            tx.loading
+          }
           loading={tx.loading}
           onClick={handleSubmit}
         />
+        {(bridgeLocked ||
+          assetDepositLocked ||
+          (chain && lockedChains[chain])) && (
+          <ErrorBadge
+            content={
+              <Trans
+                i18nKey={translations.maintenance.bridgeSteps}
+                components={[
+                  <a
+                    href={discordInvite}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                  >
+                    x
+                  </a>,
+                ]}
+              />
+            }
+          />
+        )}
       </div>
     </div>
   );
