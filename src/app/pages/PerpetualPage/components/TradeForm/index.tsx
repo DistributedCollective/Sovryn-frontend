@@ -123,21 +123,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     return 1337.1337;
   }, []);
 
-  const maxTradeSize = useMemo(() => {
-    // TODO implement maxTradeSize calculation
-    return 1337;
-  }, []);
-
-  const minLeverage = useMemo(() => {
-    // TODO implement minLeverage calculation
-    return 0.1;
-  }, []);
-
-  const maxLeverage = useMemo(() => {
-    // TODO implement maxLeverage calculation
-    return 15;
-  }, []);
-
   return (
     <div className="tw-relative tw-h-full tw-pb-16">
       <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-2.5 tw-mb-5">
@@ -191,7 +176,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
             minDecimals={0}
             maxDecimals={6}
             mode={AssetValueMode.auto}
-            value={maxTradeSize}
+            value={pair.config.tradeSize.max}
             assetString={pair.shortAsset}
           />
         </div>
@@ -262,9 +247,9 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         <LeverageSelector
           className="tw-mb-2"
           value={trade.leverage}
-          min={minLeverage}
-          max={maxLeverage}
-          steps={[1, 2, 3, 5, 10, 15]}
+          min={pair.config.leverage.min}
+          max={pair.config.leverage.max}
+          steps={pair.config.leverage.steps}
           onChange={onChangeLeverage}
         />
       )}
@@ -283,8 +268,8 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           <LeverageViewer
             className="tw-mt-3 tw-mb-4"
             label={t(translations.perpetualPage.tradeForm.labels.leverage)}
-            min={minLeverage}
-            max={maxLeverage}
+            min={pair.config.leverage.min}
+            max={pair.config.leverage.max}
             value={trade.leverage}
             valueLabel={`${toNumberFormat(trade.leverage, 2)}x`}
           />

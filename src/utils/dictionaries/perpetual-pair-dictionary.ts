@@ -6,6 +6,20 @@ export enum PerpetualPairType {
   BTCUSD = 'BTCUSD',
 }
 
+export type PerpetualPairConfig = {
+  leverage: {
+    min: number;
+    max: number;
+    steps: number[];
+    default: number;
+  };
+  tradeSize: {
+    min: number;
+    max: number;
+    step: number;
+  };
+};
+
 export class PerpetualPairDictionary {
   /**
    * @deprecated
@@ -28,6 +42,19 @@ export class PerpetualPairDictionary {
         'USD',
         'BTC',
         [Asset.PERPETUALS],
+        {
+          leverage: {
+            min: 0.1,
+            max: 15,
+            steps: [1, 2, 3, 5, 10, 15],
+            default: 1,
+          },
+          tradeSize: {
+            min: 0.002,
+            max: 1,
+            step: 0.002,
+          },
+        },
         false,
       ),
     ],

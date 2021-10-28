@@ -1675,6 +1675,12 @@
     "editPositionSize": {
       "title": "Edit Position Size"
     },
+    "editLeverage": {
+      "title": "Edit Leverage",
+      "margin": "Position Margin:",
+      "liquidation": "Liquidation Price:",
+      "button": "Review"
+    },
     "currentTrade": {
       "position": "Current Position:",
       "margin": "Current Margin:",
