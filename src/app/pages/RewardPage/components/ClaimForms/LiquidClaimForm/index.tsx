@@ -20,10 +20,10 @@ export const LiquidClaimForm: React.FC<IClaimFormProps> = ({
       [],
       {
         from: address,
-        gas: gasLimit[TxType.STAKING_REWARDS_CLAIM],
+        gas: gasLimit[TxType.STAKING_LIQUID_SOV_CLAIM],
       },
       {
-        type: TxType.STAKING_REWARDS_CLAIM,
+        type: TxType.STAKING_LIQUID_SOV_CLAIM,
       },
     );
   }, [address, send]);
