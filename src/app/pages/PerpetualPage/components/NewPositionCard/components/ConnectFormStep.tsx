@@ -1,13 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { translations } from '../../../../../../locales/i18n';
 import { TransitionStep } from '../../../../../containers/TransitionSteps';
 import { NewPositionCardStep } from '../types';
+import { useGetEvents, Event } from 'app/hooks/graphql/useGetEvents';
 
 export const ConnectFormStep: TransitionStep<NewPositionCardStep> = ({
   changeTo,
 }) => {
+  const { loading, error, data } = useGetEvents(Event.TRADE);
+
+  useEffect(() => {
+    console.log(loading);
+    console.log(data);
+    console.log(error);
+  }, [loading, error, data]);
+
   const { t } = useTranslation();
   const { connect } = useWalletContext();
 
