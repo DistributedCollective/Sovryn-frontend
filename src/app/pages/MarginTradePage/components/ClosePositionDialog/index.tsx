@@ -7,13 +7,13 @@ import { ActiveLoan } from 'types/active-loan';
 import { DialogContent } from './DialogContent';
 import { ResetTxResponseInterface } from '../../../../hooks/useSendContractTx';
 
-interface Props {
+interface IClosePositionDialog {
   item: ActiveLoan;
   showModal: boolean;
   onCloseModal: () => void;
 }
 
-export function ClosePositionDialog(props: Props) {
+export function ClosePositionDialog(props: IClosePositionDialog) {
   const [tx, setTx] = useState<ResetTxResponseInterface>(({
     status: TxStatus.NONE,
   } as unknown) as ResetTxResponseInterface);
@@ -29,9 +29,7 @@ export function ClosePositionDialog(props: Props) {
           />
         )}
       </Dialog>
-      <TxDialog tx={tx} onUserConfirmed={() => props.onCloseModal()} />
+      <TxDialog tx={tx} onUserConfirmed={props.onCloseModal} />
     </>
   );
 }
-
-ClosePositionDialog.defaultProps = {};

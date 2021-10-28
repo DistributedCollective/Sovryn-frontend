@@ -50,15 +50,15 @@ type StateDiff = {
 type TransactionInfo = {
   block_number: number;
   call_trace: any;
-  console_logs: Nullable<any>;
+  console_logs: Nullable;
   contract_address: string;
   contract_id: string;
   created_at: string;
   intrinsic_gas: number;
   logs: Nullable<LogData[]>;
   method: Nullable<string>;
-  parameters: Nullable<any>;
-  raw_state_diff: Nullable<any>;
+  parameters: Nullable;
+  raw_state_diff: Nullable;
   refund_gas: number;
   stack_trace: StackTrace[];
   state_diff: Nullable<StateDiff[]>;
@@ -66,7 +66,7 @@ type TransactionInfo = {
 };
 
 type Transaction = {
-  access_list: Nullable<any>;
+  access_list: Nullable;
   addresses: Nullable<string[]>;
   block_hash: string;
   block_number: number;

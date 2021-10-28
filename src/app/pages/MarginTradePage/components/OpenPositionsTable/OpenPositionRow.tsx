@@ -24,13 +24,13 @@ import { formatNumber } from '../../../../containers/StatsPage/utils';
 import { usePriceFeeds_QueryRate } from '../../../../hooks/price-feeds/useQueryRate';
 import classNames from 'classnames';
 
-interface Props {
+interface IOpenPositionRowInnerProps {
   item: ActiveLoan;
 }
 
 const slippage = 0.1; // 10%
 
-function OpenPositionRowInner({ item }: Props) {
+function OpenPositionRowInner({ item }: IOpenPositionRowInnerProps) {
   const { t } = useTranslation();
   const { checkMaintenances, States } = useMaintenance();
   const {
@@ -87,7 +87,7 @@ function OpenPositionRowInner({ item }: Props) {
   );
 
   const profit = useMemo(() => {
-    let _profit = bignumber(0);
+    let result = bignumber(0);
     let positionValue = bignumber(0);
     let openPrice = bignumber(0);
 
@@ -97,12 +97,12 @@ function OpenPositionRowInner({ item }: Props) {
     if (isLong) {
       positionValue = collateralAssetAmount;
       openPrice = bignumber(item.startRate);
-      _profit = bignumber(currentCollateralToPrincipalRate.rate)
+      result = bignumber(currentCollateralToPrincipalRate.rate)
         .minus(openPrice)
         .times(positionValue)
         .div(10 ** 18);
 
-      _profit = _profit.minus(_profit.mul(slippage));
+      result = result.minus(result.mul(slippage));
     } else {
       positionValue = collateralAssetAmount
         .times(currentCollateralToPrincipalRate.rate)
@@ -110,7 +110,7 @@ function OpenPositionRowInner({ item }: Props) {
       openPrice = bignumber(10 ** 36)
         .div(item.startRate)
         .div(10 ** 18); // div 10 **18 ?
-      _profit = openPrice
+      result = openPrice
         .minus(
           bignumber(1)
             .div(currentCollateralToPrincipalRate.rate)
@@ -118,10 +118,10 @@ function OpenPositionRowInner({ item }: Props) {
         )
         .times(positionValue)
         .div(10 ** 18);
-      _profit = _profit.add(_profit.mul(slippage));
+      result = result.add(result.mul(slippage));
     }
 
-    return _profit.toString();
+    return result.toString();
   }, [
     currentCollateralToPrincipalRate,
     isLong,

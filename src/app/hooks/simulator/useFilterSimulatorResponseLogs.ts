@@ -28,7 +28,7 @@ export function useFilterSimulatorResponseLogs<T = { [key: string]: string }>(
   simulatorResponse: SimulatorHookResponse,
   topic: string,
   abiInput: AbiInput[],
-  index?: 0 | 1 | undefined,
+  index?: 0 | 1,
 ): Response<T> {
   const response = useMemo(() => {
     if (simulatorResponse.loading) {
@@ -57,7 +57,7 @@ export function useFilterSimulatorResponseLogs<T = { [key: string]: string }>(
 
     if (tx.transaction.status) {
       const items = tx.transaction.transaction_info.logs;
-      if (items && items.length) {
+      if (items?.length) {
         logs = items
           .filter(item => item.raw.topics[0] === topic)
           .map(item => {
@@ -85,5 +85,5 @@ export function useFilterSimulatorResponseLogs<T = { [key: string]: string }>(
     };
   }, [simulatorResponse, topic, abiInput, index]);
 
-  return (response as unknown) as Response<T>;
+  return response;
 }

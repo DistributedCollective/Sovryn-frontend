@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { AmountInput } from 'app/components/Form/AmountInput';
@@ -29,7 +29,7 @@ import {
   useFilterSimulatorResponseLogs,
 } from '../../../../hooks/simulator/useFilterSimulatorResponseLogs';
 
-interface Props {
+interface IDialogContentProps {
   item: ActiveLoan;
   onCloseModal: () => void;
   onTx: (tx: ResetTxResponseInterface) => void;
@@ -63,10 +63,10 @@ const VaultWithdrawLogInput = [
   },
 ];
 
-export function DialogContent(props: Props) {
+export function DialogContent(props: IDialogContentProps) {
   const receiver = useAccount();
 
-  const [amount, setAmount] = useState<string>('');
+  const [amount, setAmount] = useState('');
   const [collateral, setCollateral] = useState(
     assetByTokenAddress(props.item.collateralToken),
   );
@@ -91,9 +91,7 @@ export function DialogContent(props: Props) {
     '0x',
   );
 
-  const handleConfirmSwap = () => {
-    send();
-  };
+  const handleConfirmSwap = useCallback(() => send(), []);
 
   const valid = useIsAmountWithinLimits(weiAmount, '1', props.item.collateral);
 
@@ -131,10 +129,6 @@ export function DialogContent(props: Props) {
     [simulation, receiver],
   );
 
-  useEffect(() => {
-    // props.onTx(rest);
-  }, [rest, props]);
-
   return (
     <>
       <div className="tw-mw-340 tw-mx-auto">
@@ -156,7 +150,7 @@ export function DialogContent(props: Props) {
         <CollateralAssets
           label={t(translations.closeTradingPositionHandler.withdrawIn)}
           value={collateral}
-          onChange={value => setCollateral(value)}
+          onChange={setCollateral}
           options={options}
         />
 
