@@ -33,7 +33,7 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
         </DialogTitle>
 
         <div className="tw-flex tw-flex-col tw-space-y-4 lg:tw-flex-row lg:tw-space-y-0 lg:tw-space-x-20">
-          <div className="tw-text-left tw-w-1/2 tw-mr-20">
+          <div className="tw-text-left tw-w-full lg:tw-w-1/2 tw-mr-20">
             <ListItem>
               {t(baseTranslations.information[1], { token: saleName })}
             </ListItem>
