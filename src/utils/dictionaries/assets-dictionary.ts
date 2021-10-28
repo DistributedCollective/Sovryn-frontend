@@ -107,8 +107,8 @@ export class AssetsDictionary {
         new AssetDetails(Asset.RIF, 'RIF', 'RIF', 18, rifToken, true),
       ],
       [
-        Asset.MINT,
-        new AssetDetails(Asset.MINT, 'MINT', 'MINT', 18, mintIcon, true),
+        Asset.MYNT,
+        new AssetDetails(Asset.MYNT, 'MYNT', 'MYNT', 18, mintIcon, true),
       ],
     ],
   );

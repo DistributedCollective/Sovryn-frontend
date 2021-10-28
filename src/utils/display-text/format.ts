@@ -28,10 +28,10 @@ export function weiToUSD(
 
 export function toNumberFormat(value: number | string, decimals: number = 0) {
   if (isNaN(Number(value))) value = 0;
-  return (
-    Math.floor(Number(value) * 10 ** decimals) /
-    10 ** decimals
-  ).toString();
+  return Number(value).toLocaleString(navigator.language, {
+    maximumFractionDigits: decimals,
+    minimumFractionDigits: decimals,
+  });
 }
 
 export function numberToUSD(

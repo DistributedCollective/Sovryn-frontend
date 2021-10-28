@@ -6,18 +6,20 @@ import { ArrowDown, ArrowUp } from './Arrows';
 import { Asset } from 'types/asset';
 
 interface AssetSelectProps {
-  selected: Asset;
+  selected?: Asset;
+  selectedAssetString?: string;
   onChange?: (asset: Asset) => void;
 }
 
 export const AssetSelect: React.FC<AssetSelectProps> = ({
   selected,
+  selectedAssetString,
   onChange,
 }) => {
-  const [isOpen, setOpen] = useState<boolean>(false);
+  const [isOpen, setOpen] = useState(false);
   const handleOnSelect = (asset: Asset): void => {
     setOpen(false);
-    if (onChange && typeof onChange === 'function') onChange(asset);
+    onChange?.(asset);
   };
   return (
     <div className="tw-cursor-pointer">
@@ -29,7 +31,12 @@ export const AssetSelect: React.FC<AssetSelectProps> = ({
         captureDismiss={true}
         fill={true}
         targetClassName="tw-text-left"
-        content={<AssetList selected={selected} onSelect={handleOnSelect} />}
+        content={
+          <AssetList
+            selected={selected || (selectedAssetString as Asset)}
+            onSelect={handleOnSelect}
+          />
+        }
         hoverOpenDelay={0}
         hoverCloseDelay={0}
         position={Position.BOTTOM_RIGHT}
@@ -42,6 +49,7 @@ export const AssetSelect: React.FC<AssetSelectProps> = ({
             <AssetRenderer
               assetClassName="tw-text-left tw-font-rowdies tw-text-base"
               asset={selected}
+              assetString={selectedAssetString}
             />
           </div>
           {isOpen ? <ArrowUp /> : <ArrowDown />}

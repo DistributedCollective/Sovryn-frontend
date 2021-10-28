@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import camelCase from 'camelcase';
 import imgLargeNFT from 'assets/images/OriginsLaunchpad/FishSale/large_NFT.svg';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -14,10 +15,10 @@ interface IAccessCodeVerificationStepProps {
   onVerified?: () => void;
 }
 
-interface ISaleStatus {
-  isClosed: boolean;
-  isActive: boolean;
-  startAt: string;
+enum SaleStatus {
+  Closed = 'Closed',
+  Active = 'Active',
+  NotYetOpen = 'NotYetOpen',
 }
 
 const timestampToString = (timestamp: number) =>
@@ -37,15 +38,14 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
 }) => {
   const { t } = useTranslation();
   const isVerified = useIsAddressVerified(tierId);
-  const saleStatus = useMemo<ISaleStatus>(() => {
+  const saleStatus = useMemo<SaleStatus>(() => {
     const { isClosed, saleStart, period } = info;
+    if (isClosed) return SaleStatus.Closed;
     const saleEndTS = Number(saleStart) + Number(period);
     const nowTS = Date.now() / 1e3;
-    return {
-      isClosed,
-      isActive: !isClosed && Number(saleStart) <= nowTS && saleEndTS >= nowTS,
-      startAt: timestampToString(Number(saleStart)),
-    };
+    if (!isClosed && Number(saleStart) <= nowTS && saleEndTS >= nowTS)
+      return SaleStatus.Active;
+    return SaleStatus.NotYetOpen;
   }, [info]);
 
   return (
@@ -61,26 +61,14 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
             )}
           </DialogTitle>
           <div className="tw-text-xl tw-font-extralight tw-mb-32">
-            {saleStatus.isClosed &&
-              t(
-                translations.originsLaunchpad.saleDay.accessCodeVerificationStep
-                  .alert.closed,
-                { token: saleName },
-              )}
-            {!saleStatus.isClosed &&
-              saleStatus.isActive &&
-              t(
-                translations.originsLaunchpad.saleDay.accessCodeVerificationStep
-                  .alert.inProgress,
-                { token: saleName },
-              )}
-            {!saleStatus.isClosed &&
-              !saleStatus.isActive &&
-              t(
-                translations.originsLaunchpad.saleDay.accessCodeVerificationStep
-                  .alert.notOpenYet,
-                { token: saleName, time: saleStatus.startAt },
-              )}
+            {t(
+              translations.originsLaunchpad.saleDay.accessCodeVerificationStep
+                .alert[camelCase(saleStatus)],
+              {
+                token: saleName,
+                time: timestampToString(Number(info.saleStart)),
+              },
+            )}
           </div>
 
           {isVerified && (
@@ -93,7 +81,7 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
                 onClick={onVerified}
                 className="tw-block tw-w-full tw-h-10 tw-px-9 tw-mt-8 tw-rounded-xl tw-bg-gray-1 tw-bg-opacity-10"
                 textClassName="tw-text-lg tw-tracking-normal tw-leading-snug"
-                disabled={!saleStatus.isActive}
+                disabled={saleStatus !== SaleStatus.Active}
               />
             </div>
           )}

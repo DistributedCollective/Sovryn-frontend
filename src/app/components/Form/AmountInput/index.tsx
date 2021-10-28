@@ -1,6 +1,6 @@
 import { bignumber } from 'mathjs';
 import React, { useMemo } from 'react';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 import { Asset } from '../../../../types';
 import { fromWei, toWei } from '../../../../utils/blockchain/math-helpers';
@@ -50,13 +50,17 @@ export function AmountInput({
         appendElem={
           asset || assetString ? (
             assetSelectable ? (
-              <AssetSelect selected={asset as Asset} onChange={onSelectAsset} />
+              <AssetSelect
+                selected={asset!}
+                selectedAssetString={assetString!}
+                onChange={onSelectAsset}
+              />
             ) : (
               <AssetRenderer asset={asset} assetString={assetString} />
             )
           ) : null
         }
-        className="tw-rounded-lg"
+        className="tw-rounded-lg tw-max-w-full"
         appendClassName={assetSelectable ? '' : 'tw-mr-5'}
         readOnly={readonly}
       />
@@ -92,6 +96,7 @@ export function AmountSelector(props: AmountSelectorProps) {
     }
     return value;
   }, [props.maxAmount, value]);
+
   const selectedAmount = useMemo(() => {
     if (!props.parentValue || !balance) return undefined;
     const parentWei = toWei(props.parentValue);
@@ -105,6 +110,7 @@ export function AmountSelector(props: AmountSelectorProps) {
       return pAmt.substring(0, n - 1) === parentWei.substring(0, n - 1);
     });
   }, [props.parentValue, balance]);
+
   const handleChange = (percent: number) => {
     let value = '0';
     let isTotal = false;
@@ -120,9 +126,8 @@ export function AmountSelector(props: AmountSelectorProps) {
     }
     props.onChange(fromWei(value), isTotal);
   };
-  console.log('[selected]', selectedAmount);
   return (
-    <div className="tw-mt-6 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded-md tw-divide-x tw-divide-secondary">
+    <div className="tw-mt-2.5 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded-md tw-divide-x tw-divide-secondary">
       {amounts.map(value => (
         <AmountSelectorButton
           key={value}
@@ -145,8 +150,8 @@ export function AmountSelectorButton(props: AmountButtonProps) {
   return (
     <button
       onClick={props.onClick}
-      className={cn(
-        'tw-bg-secondary tw-font-medium tw-text-xs tw-leading-none tw-px-4 tw-py-2 tw-text-center tw-w-full tw-transition hover:tw-bg-opacity-25',
+      className={classNames(
+        'tw-bg-secondary tw-font-medium tw-text-xs tw-leading-none tw-px-4 tw-py-1 tw-text-center tw-w-full tw-transition hover:tw-bg-opacity-25',
         {
           'tw-bg-opacity-0': !props.selected,
           'tw-text-secondary': !props.selected,

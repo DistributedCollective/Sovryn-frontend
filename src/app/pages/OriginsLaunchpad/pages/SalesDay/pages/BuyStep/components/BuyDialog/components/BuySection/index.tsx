@@ -14,11 +14,9 @@ import { usePrevious } from 'app/hooks/usePrevious';
 import { useSwapsExternal_getSwapExpectedReturn } from 'app/hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
 import { useSwapsExternal_approveAndSwapExternal } from 'app/hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
-// import { useApproveAndBuyToken } from 'app/pages/OriginsLaunchpad/hooks/useApproveAndBuyToken';
 import { useApproveAndContribute } from 'app/pages/OriginsLaunchpad/hooks/useApproveAndContribute';
 import { TxDialog } from '../TxDialog';
 import { TxDialog as SwapTxDialog } from 'app/components/Dialogs/TxDialog';
-// import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { BalanceOfAsset } from './components/BalanceOfAsset';
@@ -35,18 +33,15 @@ interface IBuySectionProps {
 export const BuySection: React.FC<IBuySectionProps> = ({
   saleName,
   depositRate,
-  sourceToken: defaultSourceToken,
-  maxAmount,
   totalDeposit,
 }) => {
   const { t } = useTranslation();
   const connected = useCanInteract(true);
 
-  const [sourceToken, setSourceToken] = useState<Asset>(Asset.SOV);
+  const [sourceToken, setSourceToken] = useState(Asset.SOV);
   const [amount, setAmount] = useState('');
   const [tokenAmount, setTokenAmount] = useState(amount);
   const [slippage] = useState(0.5);
-  // const [isOverMaxLimit, setIsOverMaxLimit] = useState(false);
 
   const account = useAccount();
   const weiAmount = useWeiAmount(amount);
@@ -56,7 +51,6 @@ export const BuySection: React.FC<IBuySectionProps> = ({
     return (
       bignumber(weiAmount).greaterThan(0) &&
       bignumber(weiTokenAmount).greaterThan(0)
-      // && !isOverMaxLimit
     );
   }, [weiAmount, weiTokenAmount]);
 
@@ -83,11 +77,6 @@ export const BuySection: React.FC<IBuySectionProps> = ({
     depositRate,
   ]);
 
-  // useEffect(
-  //   () => setIsOverMaxLimit(bignumber(weiAmount).greaterThan(maxAmount)),
-  //   [weiAmount, maxAmount],
-  // );
-
   const { contribute, ...buyTx } = useApproveAndContribute();
 
   useEffect(() => {
@@ -98,23 +87,23 @@ export const BuySection: React.FC<IBuySectionProps> = ({
     ) {
       contribute(
         bignumber(amountInSOV).mul(100).toString(),
-        Asset.MINT,
+        Asset.MYNT,
         amountInSOV,
         Asset.SOV,
       );
     }
   }, [sourceToken, txSwap, contribute, amountInSOV, oldSwapStatus]);
 
-  const getAmountOfZERO = () => {
-    const amountOfSOV = sourceToken === Asset.SOV ? weiAmount : amountInSOV;
-    return bignumber(amountOfSOV).mul(100);
-  };
+  const getMyntAmount = useCallback(() => {
+    const amount = sourceToken === Asset.SOV ? weiAmount : amountInSOV;
+    return bignumber(amount).mul(100);
+  }, [sourceToken, weiAmount, amountInSOV]);
 
   const onBuyClick = useCallback(() => {
     if (sourceToken === Asset.SOV) {
       contribute(
         bignumber(weiAmount).mul(100).toString(),
-        Asset.MINT,
+        Asset.MYNT,
         weiAmount,
         Asset.SOV,
       );
@@ -145,8 +134,15 @@ export const BuySection: React.FC<IBuySectionProps> = ({
           </div>
 
           <div className="tw-mt-7 tw-text-sm tw-border tw-rounded-lg tw-border-gray-7 tw-py-2">
-            Equivalent {saleName} Token : {weiToFixed(getAmountOfZERO(), 4)}{' '}
-            <AssetRenderer asset={Asset.MINT} />
+            {t(
+              translations.originsLaunchpad.saleDay.buyStep.buyDialog
+                .equivalentTokenAmount,
+              {
+                token: saleName,
+                amount: weiToFixed(getMyntAmount(), 4),
+              },
+            )}{' '}
+            <AssetRenderer assetString={saleName} />
           </div>
 
           <BuyButton

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const BuyInformationWrapper = styled.div`
   width: 36%;
   height: 100%;
-  padding: 72px 1.5rem 72px 2.5625rem;
+  padding: 4.5rem 1.5rem 4.5rem 2.5625rem;
 `;
 
 export const AllocationDiv = styled.div`

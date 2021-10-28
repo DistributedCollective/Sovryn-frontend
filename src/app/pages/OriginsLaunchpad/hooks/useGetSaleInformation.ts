@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 
+import { translations } from 'locales/i18n';
 import { useAccount } from 'app/hooks/useAccount';
 import { Asset } from 'types';
 import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
@@ -15,6 +17,7 @@ const timestampToString = (timestamp: number) =>
   });
 
 export const useGetSaleInformation = (tierId: number) => {
+  const { t } = useTranslation();
   const account = useAccount();
   const transactions = useSelector(selectTransactions);
   const [saleInfo, setSaleInfo] = useState<ISaleInformation>({
@@ -38,7 +41,10 @@ export const useGetSaleInformation = (tierId: number) => {
   const saleEndDate = () => {
     const { isClosed, saleStart, period } = saleInfo;
     if (isClosed) {
-      return 'Sale Closed';
+      return t(
+        translations.originsLaunchpad.saleDay.buyStep.buyInformationLabels
+          .saleClosed,
+      );
     }
     if (saleStart && period) {
       return timestampToString(Number(saleStart) + Number(period));
@@ -47,10 +53,10 @@ export const useGetSaleInformation = (tierId: number) => {
   };
 
   useEffect(() => {
-    contractReader.call('MINTPresale', 'totalRaised', []).then(result =>
+    contractReader.call<string>('MYNTPresale', 'totalRaised', []).then(result =>
       setSaleInfo(preValue => ({
         ...preValue,
-        totalReceived: result as string,
+        totalReceived: result,
       })),
     );
   }, [transactions]);
@@ -58,11 +64,11 @@ export const useGetSaleInformation = (tierId: number) => {
   useEffect(() => {
     if (account) {
       contractReader
-        .call('MINTPresale', 'contributors', [account])
+        .call<string>('MYNTPresale', 'contributors', [account])
         .then(result =>
           setSaleInfo(preValue => ({
             ...preValue,
-            yourTotalDeposit: result as string,
+            yourTotalDeposit: result,
           })),
         );
     }
@@ -70,7 +76,7 @@ export const useGetSaleInformation = (tierId: number) => {
 
   useEffect(() => {
     contractReader
-      .call<string>('MINTPresale', 'contributorsCounter', [])
+      .call<string>('MYNTPresale', 'contributorsCounter', [])
       .then(result =>
         setSaleInfo(prevValue => ({
           ...prevValue,
@@ -80,7 +86,7 @@ export const useGetSaleInformation = (tierId: number) => {
   }, [transactions]);
 
   useEffect(() => {
-    contractReader.call<boolean>('MINTPresale', 'isClosed', []).then(result => {
+    contractReader.call<boolean>('MYNTPresale', 'isClosed', []).then(result => {
       setSaleInfo(preValue => ({
         ...preValue,
         isClosed: result,
@@ -89,7 +95,7 @@ export const useGetSaleInformation = (tierId: number) => {
   }, []);
 
   useEffect(() => {
-    contractReader.call<string>('MINTPresale', 'openDate', []).then(result => {
+    contractReader.call<string>('MYNTPresale', 'openDate', []).then(result => {
       setSaleInfo(preValue => ({
         ...preValue,
         saleStart: result,
@@ -98,7 +104,7 @@ export const useGetSaleInformation = (tierId: number) => {
   }, []);
 
   useEffect(() => {
-    contractReader.call<string>('MINTPresale', 'period', []).then(result => {
+    contractReader.call<string>('MYNTPresale', 'period', []).then(result => {
       setSaleInfo(preValue => ({
         ...preValue,
         period: result,

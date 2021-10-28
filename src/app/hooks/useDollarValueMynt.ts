@@ -4,20 +4,17 @@ import { bignumber } from 'mathjs';
 import { useCachedAssetPrice } from './trading/useCachedAssetPrice';
 import { AssetsDictionary } from '../../utils/dictionaries/assets-dictionary';
 
-// Converts asset amount in wei to RUSDT and returns dollar value in wei back
-export function useDollarValue(asset: Asset, weiAmount: string) {
+// Converts MYNT amount in wei to RUSDT and returns dollar value in wei back
+export const useDollarValueMynt = (weiAmount: string) => {
+  const asset = Asset.SOV;
   const dollars = useCachedAssetPrice(asset, Asset.USDT);
 
   const value = useMemo(() => {
     const { decimals } = AssetsDictionary.get(asset);
-    if ([Asset.USDT, Asset.DOC, Asset.RDOC].includes(asset)) {
-      return weiAmount;
-    } else {
-      return bignumber(weiAmount)
-        .mul(dollars.value)
-        .div(10 ** decimals)
-        .toFixed(0);
-    }
+    return bignumber(weiAmount)
+      .mul(dollars.value)
+      .div(10 ** (decimals + 2))
+      .toFixed(0);
   }, [asset, dollars, weiAmount]);
 
   return {
@@ -25,4 +22,4 @@ export function useDollarValue(asset: Asset, weiAmount: string) {
     loading: dollars.loading,
     error: dollars.error,
   };
-}
+};

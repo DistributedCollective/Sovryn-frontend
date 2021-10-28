@@ -312,8 +312,8 @@
         "dialogTitle": "Welcome to the {{token}} Pre-Sale on Origins ",
         "alert": {
           "closed": "{{token}} pre-sale already finished.",
-          "inProgress": "You can now participate in the {{token}} pre-sale.",
-          "notOpenYet": "The {{token}} public pre-sale will open at {{time}}, get your RBTC ready!"
+          "active": "You can now participate in the {{token}} pre-sale.",
+          "notYetOpen": "The {{token}} public pre-sale will open at {{time}}, get your RBTC ready!"
         },
         "verified": {
           "privateSale": "You have been given whitelist access to participate in the FISH Origins pre-sale.",
@@ -366,7 +366,8 @@
           "acceptedCurrencies": "Accepted Currencies",
           "tokenSaleEndTime": "Token Sale End Time",
           "totalDepositReceived": "Total Deposit Received",
-          "tokenPrice": "Token Price"
+          "tokenPrice": "Token Price",
+          "saleClosed": "Sale Closed"
         },
         "buyDialog": {
           "enterAmount": "Enter Amount",
@@ -374,7 +375,9 @@
           "transactionFee": "Transaction Fee",
           "buyButton": "Buy {{token}}",
           "isOverMaxLimit": "You cannot deposit more than max limit",
-          "yourTotalDeposit": "Your Total Deposit"
+          "yourTotalDeposit": "Your Total Deposit",
+          "balance": "Balance",
+          "equivalentTokenAmount": "Equivalent {{token}} Token : {{amount}}"
         },
         "instructions": {
           "title": "Instructions",

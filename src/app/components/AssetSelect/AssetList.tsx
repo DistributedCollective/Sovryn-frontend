@@ -29,10 +29,8 @@ export const AssetList: React.FC<AssetListProps> = ({ selected, onSelect }) => {
       {assets.map((asset, i) => (
         <AssetSelectItemWrapper
           className="tw-px-3 tw-py-1 tw-text-black"
-          onClick={() =>
-            typeof onSelect === 'function' ? onSelect(asset) : {}
-          }
-          key={i}
+          onClick={() => onSelect?.(asset)}
+          key={asset}
         >
           <AssetRenderer
             assetClassName="tw-text-lg tw-font-rowdies"

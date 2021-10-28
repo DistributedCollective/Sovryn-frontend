@@ -33,9 +33,9 @@ import VestingRegistryOriginAbi from './abi/VestingRegistryOrigin.json';
 import SovrynProtocolAbi from './abi/sovrynProtocol.json';
 import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
 import nftAbi from './abi/nftAbi.json';
-import MINTControllerAbi from './abi/MINTController.json';
-import MINTTokenAbi from './abi/MINT_token.json';
-import MINTPresaleAbi from './abi/MINTPresale.json';
+import MYNTControllerAbi from './abi/MYNTController.json';
+import MYNTTokenAbi from './abi/MYNT_token.json';
+import MYNTPresaleAbi from './abi/MYNTPresale.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -343,18 +343,18 @@ export const contracts = {
     address: '0x576ae218aecfd4cbd2dbe07250b47e26060932b1', // todo
     abi: nftAbi,
   },
-  MINT_ctrl: {
+  MYNT_ctrl: {
     address: '0x741A6E83C6E96168839e88e34729de7a244E19f7',
-    abi: MINTControllerAbi,
+    abi: MYNTControllerAbi,
     blockNumber: 2267574,
   },
-  MINT_token: {
+  MYNT_token: {
     address: '0xd373969479FA3c530e12f175FAff64711aF4F1A6',
-    abi: MINTTokenAbi,
+    abi: MYNTTokenAbi,
     blockNumber: 2267574,
   },
-  MINTPresale: {
+  MYNTPresale: {
     address: '0x88C76c7C2096Ca197F9A3F35AACbF5540AD1123D',
-    abi: MINTPresaleAbi,
+    abi: MYNTPresaleAbi,
   },
 };

@@ -41,10 +41,9 @@ export const InformationSection: React.FC<IInformationSectionProps> = ({
           translations.originsLaunchpad.saleDay.buyStep.buyInformationLabels
             .tokenPrice,
         )}
-        // value={`${depositRateToSatoshis(info.depositRate)} Sats`}
         value={
           <>
-            0.01 <AssetSymbolRenderer asset={Asset.SOV} />
+            0.01 <AssetSymbolRenderer assetString={saleName} />
           </>
         }
       />
@@ -66,7 +65,7 @@ export const InformationSection: React.FC<IInformationSectionProps> = ({
           <>
             {[Asset.RBTC, Asset.SOV, Asset.XUSD, Asset.ETH, Asset.BNB].map(
               (asset, i) => (
-                <React.Fragment key={i}>
+                <React.Fragment key={asset}>
                   {i > 0 ? ', ' : ''}
                   <AssetSymbolRenderer asset={asset} key={i} />
                 </React.Fragment>
