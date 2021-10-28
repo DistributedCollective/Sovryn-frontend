@@ -32,7 +32,7 @@ const dirtyDepositAsset = {
   [Asset.ETH]: CrossBridgeAsset.ETHS,
 };
 
-export function BridgeDepositPage() {
+export const BridgeDepositPage: React.FC = () => {
   useInjectReducer({ key: sliceKey, reducer: reducer });
   useInjectSaga({ key: sliceKey, saga: bridgeDepositPageSaga });
 
@@ -134,4 +134,4 @@ export function BridgeDepositPage() {
       </div>
     </>
   );
-}
+};
