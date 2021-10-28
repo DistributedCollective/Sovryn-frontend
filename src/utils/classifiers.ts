@@ -23,7 +23,7 @@ export const blockExplorers = {
 };
 
 export const readNodes = {
-  30: 'wss://mainnet.sovryn.app/ws',
+  30: 'wss://mainnet.sovryn.app/websocket',
   31: 'wss://testnet.sovryn.app/ws',
 };
 
@@ -75,9 +75,10 @@ export const gasLimit = {
   [TxType.STAKING_EXTEND]: 450000,
   [TxType.STAKING_WITHDRAW]: 500000,
   [TxType.STAKING_REWARDS_CLAIM]: 3250000, //limit should be reduced once contract issue with claiming 0 values is resolved
+  [TxType.STAKING_LIQUID_SOV_CLAIM]: 1500000,
   [TxType.DEPOSIT_COLLATERAL]: 150000,
   [TxType.CLAIM_VESTED_SOV_REWARDS]: 6000000,
-  [TxType.SOV_WITHDRAW_VESTING]: 900000,
+  [TxType.SOV_WITHDRAW_VESTING]: 1500000,
 };
 
 export const discordInvite = 'https://discord.gg/kBTNx4zjRf'; //unlimited use, no-expiry invite
