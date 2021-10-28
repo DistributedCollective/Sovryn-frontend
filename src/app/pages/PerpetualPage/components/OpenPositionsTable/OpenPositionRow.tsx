@@ -28,7 +28,6 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
   const inMaintenance = checkMaintenance(States.PERPETUAL_TRADES);
-  // TODO: implement maintenance stops for actions!
 
   const pair = PerpetualPairDictionary.get(item.pair as PerpetualPairType);
 
