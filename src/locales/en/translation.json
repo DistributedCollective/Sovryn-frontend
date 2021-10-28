@@ -313,7 +313,7 @@
         "alert": {
           "closed": "{{token}} pre-sale already finished.",
           "active": "You can now participate in the {{token}} pre-sale.",
-          "notYetOpen": "The {{token}} public pre-sale will open at {{time}}, get your RBTC ready!"
+          "notYetOpen": "The {{token}} public pre-sale will open at {{time}}, get your {{depositToken}} ready!"
         },
         "verified": {
           "privateSale": "You have been given whitelist access to participate in the FISH Origins pre-sale.",

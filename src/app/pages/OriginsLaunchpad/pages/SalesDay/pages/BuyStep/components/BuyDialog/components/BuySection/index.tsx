@@ -25,10 +25,10 @@ interface IBuySectionProps {
   saleName: string;
   depositRate: number;
   sourceToken: Asset;
-  tierId: number;
-  maxAmount: string;
   totalDeposit: string;
 }
+
+const slippage = 0.5;
 
 export const BuySection: React.FC<IBuySectionProps> = ({
   saleName,
@@ -41,7 +41,6 @@ export const BuySection: React.FC<IBuySectionProps> = ({
   const [sourceToken, setSourceToken] = useState(Asset.SOV);
   const [amount, setAmount] = useState('');
   const [tokenAmount, setTokenAmount] = useState(amount);
-  const [slippage] = useState(0.5);
 
   const account = useAccount();
   const weiAmount = useWeiAmount(amount);

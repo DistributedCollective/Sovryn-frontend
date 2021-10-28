@@ -26,7 +26,7 @@ export const AssetList: React.FC<AssetListProps> = ({ selected, onSelect }) => {
   }, [selected, onSelect, outsideClicked]);
   return (
     <ul className="tw-bg-white tw-rounded-lg" ref={wrapperRef}>
-      {assets.map((asset, i) => (
+      {assets.map(asset => (
         <AssetSelectItemWrapper
           className="tw-px-3 tw-py-1 tw-text-black"
           onClick={() => onSelect?.(asset)}

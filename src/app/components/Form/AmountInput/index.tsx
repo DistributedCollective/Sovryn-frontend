@@ -1,9 +1,8 @@
 import { bignumber } from 'mathjs';
 import React, { useMemo } from 'react';
-import classNames from 'classnames';
 
 import { Asset } from '../../../../types';
-import { fromWei, toWei } from '../../../../utils/blockchain/math-helpers';
+import { fromWei } from '../../../../utils/blockchain/math-helpers';
 import { AssetRenderer } from '../../AssetRenderer';
 import { AssetSelect } from 'app/components/AssetSelect';
 import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
@@ -51,8 +50,8 @@ export function AmountInput({
           asset || assetString ? (
             assetSelectable ? (
               <AssetSelect
-                selected={asset!}
-                selectedAssetString={assetString!}
+                selected={asset}
+                selectedAssetString={assetString}
                 onChange={onSelectAsset}
               />
             ) : (
@@ -97,20 +96,6 @@ export function AmountSelector(props: AmountSelectorProps) {
     return value;
   }, [props.maxAmount, value]);
 
-  const selectedAmount = useMemo(() => {
-    if (!props.parentValue || !balance) return undefined;
-    const parentWei = toWei(props.parentValue);
-    if (parentWei === balance) return 100;
-    const n = parentWei.length;
-    return amounts.find(percent => {
-      const pAmt = bignumber(balance)
-        .mul(percent / 100)
-        .round()
-        .toString();
-      return pAmt.substring(0, n - 1) === parentWei.substring(0, n - 1);
-    });
-  }, [props.parentValue, balance]);
-
   const handleChange = (percent: number) => {
     let value = '0';
     let isTotal = false;
@@ -131,7 +116,6 @@ export function AmountSelector(props: AmountSelectorProps) {
       {amounts.map(value => (
         <AmountSelectorButton
           key={value}
-          selected={selectedAmount === value}
           text={`${value}%`}
           onClick={() => handleChange(value)}
         />
@@ -141,7 +125,6 @@ export function AmountSelector(props: AmountSelectorProps) {
 }
 
 interface AmountButtonProps {
-  selected?: boolean;
   text?: string;
   onClick?: () => void;
 }
@@ -150,14 +133,7 @@ export function AmountSelectorButton(props: AmountButtonProps) {
   return (
     <button
       onClick={props.onClick}
-      className={classNames(
-        'tw-bg-secondary tw-font-medium tw-text-xs tw-leading-none tw-px-4 tw-py-1 tw-text-center tw-w-full tw-transition hover:tw-bg-opacity-25',
-        {
-          'tw-bg-opacity-0': !props.selected,
-          'tw-text-secondary': !props.selected,
-          'tw-text-white': props.selected,
-        },
-      )}
+      className="tw-text-secondary tw-bg-secondary tw-bg-opacity-0 tw-font-medium tw-text-xs tw-leading-none tw-px-4 tw-py-2 tw-text-center tw-w-full tw-transition hover:tw-bg-opacity-25"
     >
       {props.text}
     </button>

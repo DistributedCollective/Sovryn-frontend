@@ -29,8 +29,13 @@ export const InformationSection: React.FC<IInformationSectionProps> = ({
         )}
         value={
           <>
-            <span className="tw-pr-1">{weiToFixed(info.totalReceived, 4)}</span>
-            <AssetSymbolRenderer asset={Asset.SOV} />
+            <span className="tw-pr-1 tw-font-orbitron">
+              {weiToFixed(info.totalReceived, 4)}
+            </span>
+            <AssetSymbolRenderer
+              asset={Asset.SOV}
+              assetClassName="tw-font-orbitron"
+            />
           </>
         }
         className="tw-text-primary"
@@ -43,7 +48,8 @@ export const InformationSection: React.FC<IInformationSectionProps> = ({
         )}
         value={
           <>
-            0.01 <AssetSymbolRenderer assetString={saleName} />
+            {1 / info.depositRate}{' '}
+            <AssetSymbolRenderer assetString={saleName} />
           </>
         }
       />
@@ -67,7 +73,10 @@ export const InformationSection: React.FC<IInformationSectionProps> = ({
               (asset, i) => (
                 <React.Fragment key={asset}>
                   {i > 0 ? ', ' : ''}
-                  <AssetSymbolRenderer asset={asset} key={i} />
+                  <AssetSymbolRenderer
+                    asset={asset}
+                    assetClassName="tw-font-orbitron"
+                  />
                 </React.Fragment>
               ),
             )}

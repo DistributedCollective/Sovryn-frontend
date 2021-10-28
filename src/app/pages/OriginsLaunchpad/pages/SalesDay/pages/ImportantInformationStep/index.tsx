@@ -6,13 +6,11 @@ import { Checkbox } from '@blueprintjs/core';
 import { ActionButton } from 'app/components/Form/ActionButton';
 
 interface IImportantInformationStepProps {
-  tierId: number;
   saleName: string;
   onSubmit?: () => void;
 }
 
 export const ImportantInformationStep: React.FC<IImportantInformationStepProps> = ({
-  tierId,
   saleName,
   onSubmit,
 }) => {
@@ -25,11 +23,7 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
   );
 
   const baseTranslations =
-    tierId === 2
-      ? translations.originsLaunchpad.saleDay.importantInformationStep
-          .publicSale
-      : translations.originsLaunchpad.saleDay.importantInformationStep
-          .privateSale;
+    translations.originsLaunchpad.saleDay.importantInformationStep.publicSale;
 
   return (
     <>
@@ -39,7 +33,7 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
         </DialogTitle>
 
         <div className="tw-flex tw-flex-col tw-space-y-4 lg:tw-flex-row lg:tw-space-y-0 lg:tw-space-x-20">
-          <div className="tw-text-left tw-max-w-1/5 tw-mr-20">
+          <div className="tw-text-left tw-w-1/2 tw-mr-20">
             <ListItem>
               {t(baseTranslations.information[1], { token: saleName })}
             </ListItem>
@@ -65,9 +59,7 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
             <ListItem>
               {t(baseTranslations.information[7], { token: saleName })}
             </ListItem>
-            {tierId === 2 && (
-              <ListItem>{t(baseTranslations.information[9])}</ListItem>
-            )}
+            <ListItem>{t(baseTranslations.information[9])}</ListItem>
           </div>
         </div>
 

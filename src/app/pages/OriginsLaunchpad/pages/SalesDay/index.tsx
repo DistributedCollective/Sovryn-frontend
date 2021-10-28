@@ -27,7 +27,6 @@ export const SalesDay: React.FC<ISalesDayProps> = ({ tierId, saleName }) => {
       case 1:
         return (
           <AccessCodeVerificationStep
-            tierId={tierId}
             saleName={saleName}
             onVerified={() => setStep(2)}
             info={info}
@@ -36,15 +35,12 @@ export const SalesDay: React.FC<ISalesDayProps> = ({ tierId, saleName }) => {
       case 2:
         return (
           <ImportantInformationStep
-            tierId={tierId}
             saleName={saleName}
             onSubmit={() => setStep(3)}
           />
         );
       case 3:
-        return (
-          <BuyStep tierId={tierId} saleInformation={info} saleName={saleName} />
-        );
+        return <BuyStep saleInformation={info} saleName={saleName} />;
       default:
         return <EngageWalletStep saleName={saleName} />;
     }

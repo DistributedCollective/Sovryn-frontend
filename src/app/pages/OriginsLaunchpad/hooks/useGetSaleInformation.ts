@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -7,7 +7,7 @@ import { useAccount } from 'app/hooks/useAccount';
 import { Asset } from 'types';
 import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
 import { contractReader } from 'utils/sovryn/contract-reader';
-import { DepositType, ISaleInformation, VerificationType } from '../types';
+import { ISaleInformation } from '../types';
 import { selectTransactions } from 'store/global/transactions-store/selectors';
 
 const timestampToString = (timestamp: number) =>
@@ -20,25 +20,23 @@ export const useGetSaleInformation = (tierId: number) => {
   const { t } = useTranslation();
   const account = useAccount();
   const transactions = useSelector(selectTransactions);
+  const [exchangeRate, setExchangeRate] = useState<number>(1);
+  const [PPM, setPPM] = useState<number>(1);
   const [saleInfo, setSaleInfo] = useState<ISaleInformation>({
-    minAmount: '0',
-    maxAmount: '0',
-    remainingTokens: 0,
     saleStart: '',
     saleEnd: '-',
     period: '',
+    depositToken: Asset.RBTC,
     depositRate: 1,
     participatingWallets: '0',
-    depositToken: Asset.RBTC,
-    depositType: DepositType.RBTC,
-    verificationType: VerificationType.None,
-    totalSaleAllocation: 0,
     totalReceived: '0',
     yourTotalDeposit: '0',
     isClosed: false,
   });
 
-  const saleEndDate = () => {
+  const depositRate = useMemo(() => exchangeRate / PPM, [exchangeRate, PPM]);
+
+  const saleEndDate = useMemo(() => {
     const { isClosed, saleStart, period } = saleInfo;
     if (isClosed) {
       return t(
@@ -50,7 +48,7 @@ export const useGetSaleInformation = (tierId: number) => {
       return timestampToString(Number(saleStart) + Number(period));
     }
     return '-';
-  };
+  }, [saleInfo, t]);
 
   useEffect(() => {
     contractReader.call<string>('MYNTPresale', 'totalRaised', []).then(result =>
@@ -114,47 +112,32 @@ export const useGetSaleInformation = (tierId: number) => {
 
   useEffect(() => {
     contractReader
-      .call('originsBase', 'readTierPartA', [tierId])
+      .call<string>('MYNT_ctrl', 'contributionToken', [])
       .then(result => {
-        setSaleInfo(prevValue => ({
-          ...prevValue,
-          minAmount: result['_minAmount'],
-          maxAmount: result['_maxAmount'],
-          remainingTokens: result['_remainingTokens'],
-          depositRate: result['_depositRate'],
+        setSaleInfo(preValue => ({
+          ...preValue,
+          depositToken: assetByTokenAddress(result),
         }));
       });
-  }, [tierId]);
+  }, []);
 
   useEffect(() => {
     contractReader
-      .call('originsBase', 'readTierPartB', [tierId])
+      .call<number>('MYNTPresale', 'exchangeRate', [])
       .then(result => {
-        setSaleInfo(prevValue => ({
-          ...prevValue,
-          depositToken:
-            result['_depositType'] === DepositType.RBTC
-              ? Asset.RBTC
-              : assetByTokenAddress(result['_depositToken']),
-          depositType: result['_depositType'],
-          verificationType: result['_verificationType'],
-        }));
+        setExchangeRate(result);
       });
-  }, [tierId]);
+  }, []);
 
   useEffect(() => {
-    contractReader
-      .call<number>('originsBase', 'getTotalTokenAllocationPerTier', [tierId])
-      .then(result => {
-        setSaleInfo(prevValue => ({
-          ...prevValue,
-          totalSaleAllocation: result,
-        }));
-      });
-  }, [tierId]);
+    contractReader.call<number>('MYNTPresale', 'PPM', []).then(result => {
+      setPPM(result);
+    });
+  }, []);
 
   return {
     ...saleInfo,
-    saleEnd: saleEndDate(),
+    saleEnd: saleEndDate,
+    depositRate,
   };
 };
