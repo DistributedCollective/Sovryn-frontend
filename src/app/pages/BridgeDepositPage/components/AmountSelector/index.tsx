@@ -17,7 +17,11 @@ import { useBridgeTokenBalance } from '../../hooks/useBridgeTokenBalance';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { translations } from 'locales/i18n';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { useDepositMaintenance } from 'app/pages/BridgeDepositPage/hooks/useDepositMaintenance';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { discordInvite } from 'utils/classifiers';
 
 export function AmountSelector() {
   const { amount, chain, targetChain, sourceAsset, targetAsset } = useSelector(
@@ -25,6 +29,8 @@ export function AmountSelector() {
   );
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const { checkMaintenance, States } = useMaintenance();
+  const bridgeLocked = checkMaintenance(States.BRIDGE);
 
   const asset = useMemo(
     () =>
@@ -85,6 +91,9 @@ export function AmountSelector() {
     limitsLoading,
     value,
   ]);
+
+  const { lockedChains, isAssetDepositLocked } = useDepositMaintenance();
+  const assetDepositLocked = isAssetDepositLocked(targetAsset);
 
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
@@ -205,9 +214,35 @@ export function AmountSelector() {
         <ActionButton
           className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
           text={t(translations.common.next)}
-          disabled={!isValid}
+          disabled={
+            bridgeLocked ||
+            assetDepositLocked ||
+            (chain && lockedChains[chain]) ||
+            !isValid
+          }
           onClick={selectAmount}
         />
+        {(bridgeLocked ||
+          assetDepositLocked ||
+          (chain && lockedChains[chain])) && (
+          <ErrorBadge
+            content={
+              <Trans
+                i18nKey={translations.maintenance.bridgeSteps}
+                components={[
+                  <a
+                    href={discordInvite}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                  >
+                    x
+                  </a>,
+                ]}
+              />
+            }
+          />
+        )}
       </div>
     </div>
   );

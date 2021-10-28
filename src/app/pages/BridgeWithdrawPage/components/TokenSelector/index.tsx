@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Chain } from 'types';
 import { translations } from 'locales/i18n';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 
 import { actions } from '../../slice';
 import { selectBridgeWithdrawPage } from '../../selectors';
@@ -15,6 +15,10 @@ import { BridgeNetworkDictionary } from 'app/pages/BridgeDepositPage/dictionarie
 import { AssetModel } from '../../../BridgeDepositPage/types/asset-model';
 import { TokenItem } from './TokenItem';
 import { useAccount } from '../../../../hooks/useAccount';
+import { discordInvite } from 'utils/classifiers';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { useWithdrawMaintenance } from 'app/pages/BridgeWithdrawPage/hooks/useWithdrawMaintenance';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 
 export function TokenSelector() {
   const { t } = useTranslation();
@@ -24,6 +28,8 @@ export function TokenSelector() {
     selectBridgeWithdrawPage,
   );
   const dispatch = useDispatch();
+  const { checkMaintenance, States } = useMaintenance();
+  const bridgeLocked = checkMaintenance(States.BRIDGE);
 
   useEffect(() => {
     if (chain === null) {
@@ -103,6 +109,9 @@ export function TokenSelector() {
     [balances],
   );
 
+  const { lockedChains, isAssetWithdrawLocked } = useWithdrawMaintenance();
+  const assetWithdrawLocked = isAssetWithdrawLocked(sourceAsset);
+
   return (
     <div>
       <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
@@ -120,6 +129,11 @@ export function TokenSelector() {
                 balance={getBalance(item.asset)}
                 loading={!balances.length}
                 onClick={() => selectTargetAsset(item.asset)}
+                disabled={
+                  bridgeLocked ||
+                  assetWithdrawLocked ||
+                  (targetChain && lockedChains[targetChain])
+                }
               />
             );
           })}
@@ -131,6 +145,27 @@ export function TokenSelector() {
             network: network?.name,
           })}
         </p>
+      )}
+      {(bridgeLocked ||
+        assetWithdrawLocked ||
+        (targetChain && lockedChains[targetChain])) && (
+        <ErrorBadge
+          content={
+            <Trans
+              i18nKey={translations.maintenance.bridgeSteps}
+              components={[
+                <a
+                  href={discordInvite}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                >
+                  x
+                </a>,
+              ]}
+            />
+          }
+        />
       )}
     </div>
   );
