@@ -100,12 +100,16 @@ export function DialogContent(props: IDialogContentProps) {
   const { checkMaintenance, States } = useMaintenance();
   const closeTradesLocked = checkMaintenance(States.CLOSE_MARGIN_TRADES);
 
-  const args = [props.item.loanId, receiver, weiAmount, isCollateral, '0x'];
+  const args = useMemo(
+    () => 
+      [props.item.loanId, receiver, weiAmount, isCollateral, '0x'],
+   [props.item.loanId, receiver, weiAmount, isCollateral]
+  );
 
   const simulator = useSimulator(
     'sovrynProtocol',
     'closeWithSwap',
-    [props.item.loanId, receiver, weiAmount, isCollateral, '0x'],
+    args,
     '0',
     weiAmount !== '0',
   );
