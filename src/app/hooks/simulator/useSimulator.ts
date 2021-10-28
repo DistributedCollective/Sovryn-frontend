@@ -15,7 +15,7 @@ import {
   TxData,
   TxTuple,
 } from '../../../utils/simulator/types';
-import { TxType } from '../../../store/global/transaction-store/types';
+import { TxType } from '../../../store/global/transactions-store/types';
 
 export type SimulatorHookResponse = {
   loading: boolean;
