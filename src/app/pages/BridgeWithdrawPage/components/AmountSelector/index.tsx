@@ -18,9 +18,13 @@ import { useBridgeLimits } from '../../../BridgeDepositPage/hooks/useBridgeLimit
 import { useBridgeTokenBalance } from '../../../BridgeDepositPage/hooks/useBridgeTokenBalance';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { translations } from 'locales/i18n';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import styles from './index.module.scss';
 import cn from 'classnames';
+import { discordInvite } from 'utils/classifiers';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { useWithdrawMaintenance } from 'app/pages/BridgeWithdrawPage/hooks/useWithdrawMaintenance';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 
 export function AmountSelector() {
   const { amount, chain, targetChain, sourceAsset, targetAsset } = useSelector(
@@ -29,6 +33,8 @@ export function AmountSelector() {
   const { t } = useTranslation();
   const trans = translations.BridgeWithdrawPage.amountSelector;
   const dispatch = useDispatch();
+  const { checkMaintenance, States } = useMaintenance();
+  const bridgeLocked = checkMaintenance(States.BRIDGE);
 
   const currentAsset = useMemo(
     () =>
@@ -109,6 +115,9 @@ export function AmountSelector() {
     limits.returnData.getFeePerToken,
     checkSpentToday,
   ]);
+
+  const { lockedChains, isAssetWithdrawLocked } = useWithdrawMaintenance();
+  const assetWithdrawLocked = isAssetWithdrawLocked(sourceAsset);
 
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-w-96">
@@ -232,9 +241,36 @@ export function AmountSelector() {
         <ActionButton
           className="tw-mt-10 tw-w-96 tw-font-semibold tw-rounded-xl"
           text={t(translations.common.next)}
-          disabled={!isValid}
+          disabled={
+            bridgeLocked ||
+            assetWithdrawLocked ||
+            (targetChain && lockedChains[targetChain]) ||
+            !isValid
+          }
           onClick={selectAmount}
         />
+
+        {(bridgeLocked ||
+          assetWithdrawLocked ||
+          (targetChain && lockedChains[targetChain])) && (
+          <ErrorBadge
+            content={
+              <Trans
+                i18nKey={translations.maintenance.bridgeSteps}
+                components={[
+                  <a
+                    href={discordInvite}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                  >
+                    x
+                  </a>,
+                ]}
+              />
+            }
+          />
+        )}
       </div>
     </div>
   );
