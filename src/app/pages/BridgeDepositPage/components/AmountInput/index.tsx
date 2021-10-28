@@ -52,19 +52,23 @@ export const AmountInput: React.FC<IAmountInputProps> = ({
 
 const amounts = [10, 25, 50, 75, 100];
 
-interface AmountSelectorProps {
+interface IAmountSelectorProps {
   asset: AssetModel;
   maxAmount?: string;
   onChange: (value: string) => void;
 }
 
-export function AmountSelector(props: AmountSelectorProps) {
+export const AmountSelector: React.FC<IAmountSelectorProps> = ({
+  asset,
+  maxAmount,
+  onChange,
+}) => {
   const balance = useMemo(() => {
-    if (props.maxAmount !== undefined) {
-      return props.maxAmount;
+    if (maxAmount !== undefined) {
+      return maxAmount;
     }
     return '0';
-  }, [props.maxAmount]);
+  }, [maxAmount]);
 
   const handleChange = useCallback(
     (percent: number) => {
@@ -78,9 +82,9 @@ export function AmountSelector(props: AmountSelectorProps) {
           .mul(percent / 100)
           .toString();
       }
-      props.onChange(props.asset.fromWei(value));
+      onChange(asset.fromWei(value));
     },
-    [balance, props],
+    [balance, asset, onChange],
   );
   return (
     <div
@@ -98,4 +102,4 @@ export function AmountSelector(props: AmountSelectorProps) {
       ))}
     </div>
   );
-}
+};

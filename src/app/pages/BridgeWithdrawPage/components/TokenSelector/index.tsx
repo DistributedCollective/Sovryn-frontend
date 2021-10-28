@@ -16,8 +16,7 @@ import { AssetModel } from '../../../BridgeDepositPage/types/asset-model';
 import { TokenItem } from './TokenItem';
 import { useAccount } from '../../../../hooks/useAccount';
 import { discordInvite } from 'utils/classifiers';
-import { useMaintenance } from 'app/hooks/useMaintenance';
-import { useWithdrawMaintenance } from 'app/pages/BridgeWithdrawPage/hooks/useWithdrawMaintenance';
+import { useIsBridgeWithdrawLocked } from 'app/pages/BridgeWithdrawPage/hooks/useIsBridgeWithdrawLocked';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 
 export const TokenSelector: React.FC = () => {
@@ -28,8 +27,6 @@ export const TokenSelector: React.FC = () => {
     selectBridgeWithdrawPage,
   );
   const dispatch = useDispatch();
-  const { checkMaintenance, States } = useMaintenance();
-  const bridgeLocked = checkMaintenance(States.BRIDGE);
 
   useEffect(() => {
     if (chain === null) {
@@ -109,8 +106,10 @@ export const TokenSelector: React.FC = () => {
     [balances],
   );
 
-  const { lockedChains, isAssetWithdrawLocked } = useWithdrawMaintenance();
-  const assetWithdrawLocked = isAssetWithdrawLocked(sourceAsset);
+  const bridgeWithdrawLocked = useIsBridgeWithdrawLocked(
+    sourceAsset,
+    targetChain,
+  );
 
   return (
     <div>
@@ -129,11 +128,7 @@ export const TokenSelector: React.FC = () => {
                 balance={getBalance(item.asset)}
                 loading={!balances.length}
                 onClick={() => selectTargetAsset(item.asset)}
-                disabled={
-                  bridgeLocked ||
-                  assetWithdrawLocked ||
-                  (targetChain && lockedChains[targetChain])
-                }
+                disabled={bridgeWithdrawLocked}
               />
             );
           })}
@@ -146,9 +141,7 @@ export const TokenSelector: React.FC = () => {
           })}
         </p>
       )}
-      {(bridgeLocked ||
-        assetWithdrawLocked ||
-        (targetChain && lockedChains[targetChain])) && (
+      {bridgeWithdrawLocked && (
         <ErrorBadge
           content={
             <Trans

@@ -22,8 +22,7 @@ import { useTranslation, Trans } from 'react-i18next';
 import styles from './index.module.scss';
 import cn from 'classnames';
 import { discordInvite } from 'utils/classifiers';
-import { useMaintenance } from 'app/hooks/useMaintenance';
-import { useWithdrawMaintenance } from 'app/pages/BridgeWithdrawPage/hooks/useWithdrawMaintenance';
+import { useIsBridgeWithdrawLocked } from 'app/pages/BridgeWithdrawPage/hooks/useIsBridgeWithdrawLocked';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 
 export const AmountSelector: React.FC = () => {
@@ -33,8 +32,6 @@ export const AmountSelector: React.FC = () => {
   const { t } = useTranslation();
   const trans = translations.BridgeWithdrawPage.amountSelector;
   const dispatch = useDispatch();
-  const { checkMaintenance, States } = useMaintenance();
-  const bridgeLocked = checkMaintenance(States.BRIDGE);
 
   const currentAsset = useMemo(
     () =>
@@ -116,8 +113,10 @@ export const AmountSelector: React.FC = () => {
     checkSpentToday,
   ]);
 
-  const { lockedChains, isAssetWithdrawLocked } = useWithdrawMaintenance();
-  const assetWithdrawLocked = isAssetWithdrawLocked(sourceAsset);
+  const bridgeWithdrawLocked = useIsBridgeWithdrawLocked(
+    sourceAsset,
+    targetChain,
+  );
 
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-w-96">
@@ -241,18 +240,11 @@ export const AmountSelector: React.FC = () => {
         <ActionButton
           className="tw-mt-10 tw-w-96 tw-font-semibold tw-rounded-xl"
           text={t(translations.common.next)}
-          disabled={
-            bridgeLocked ||
-            assetWithdrawLocked ||
-            (targetChain && lockedChains[targetChain]) ||
-            !isValid
-          }
+          disabled={bridgeWithdrawLocked || !isValid}
           onClick={selectAmount}
         />
 
-        {(bridgeLocked ||
-          assetWithdrawLocked ||
-          (targetChain && lockedChains[targetChain])) && (
+        {bridgeWithdrawLocked && (
           <ErrorBadge
             content={
               <Trans

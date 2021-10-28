@@ -2,7 +2,7 @@ import { useMemo, useCallback } from 'react';
 
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { CrossBridgeAsset } from '../types/cross-bridge-asset';
-import { Chain } from 'types';
+import { Nullable, Chain } from 'types';
 
 export function useDepositMaintenance() {
   const { checkMaintenances, States } = useMaintenance();
@@ -31,7 +31,7 @@ export function useDepositMaintenance() {
   );
 
   const isAssetDepositLocked = useCallback(
-    (targetAsset: CrossBridgeAsset | null) => {
+    (targetAsset: Nullable<CrossBridgeAsset>) => {
       switch (targetAsset) {
         case CrossBridgeAsset.SOV:
           return sovDepositLocked;

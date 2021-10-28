@@ -17,8 +17,7 @@ import { rskWalletAddressLength } from 'app/constants';
 import styles from './index.module.scss';
 import imgWarning from 'assets/images/warning_black_24dp.svg';
 import classNames from 'classnames';
-import { useMaintenance } from 'app/hooks/useMaintenance';
-import { useWithdrawMaintenance } from 'app/pages/BridgeWithdrawPage/hooks/useWithdrawMaintenance';
+import { useIsBridgeWithdrawLocked } from 'app/pages/BridgeWithdrawPage/hooks/useIsBridgeWithdrawLocked';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 
 interface IReceiverSelectorProps {
@@ -35,8 +34,6 @@ export const ReceiverSelector: React.FC<IReceiverSelectorProps> = ({
     selectBridgeWithdrawPage,
   );
   const dispatch = useDispatch();
-  const { checkMaintenance, States } = useMaintenance();
-  const bridgeLocked = checkMaintenance(States.BRIDGE);
 
   const network = useMemo(
     () => BridgeNetworkDictionary.get(targetChain as Chain),
@@ -57,8 +54,10 @@ export const ReceiverSelector: React.FC<IReceiverSelectorProps> = ({
     return value && value.length === rskWalletAddressLength;
   }, [value]);
 
-  const { lockedChains, isAssetWithdrawLocked } = useWithdrawMaintenance();
-  const assetWithdrawLocked = isAssetWithdrawLocked(sourceAsset);
+  const bridgeWithdrawLocked = useIsBridgeWithdrawLocked(
+    sourceAsset,
+    targetChain,
+  );
 
   return (
     <div className="tw-flex tw-flex-col tw-items-center">
@@ -105,17 +104,10 @@ export const ReceiverSelector: React.FC<IReceiverSelectorProps> = ({
         <ActionButton
           className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
           text={t(translations.common.next)}
-          disabled={
-            bridgeLocked ||
-            assetWithdrawLocked ||
-            (targetChain && lockedChains[targetChain]) ||
-            !valid
-          }
+          disabled={bridgeWithdrawLocked || !valid}
           onClick={selectReceiver}
         />
-        {(bridgeLocked ||
-          assetWithdrawLocked ||
-          (targetChain && lockedChains[targetChain])) && (
+        {bridgeWithdrawLocked && (
           <ErrorBadge
             content={
               <Trans

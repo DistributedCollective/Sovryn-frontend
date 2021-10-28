@@ -31,8 +31,8 @@ import { noop } from 'app/constants';
 
 export const WalletSelector: React.FC = () => {
   const { t } = useTranslation();
-  const { checkMaintenances, States } = useMaintenance();
-  const { [States.BRIDGE]: bridgeLocked } = checkMaintenances();
+  const { checkMaintenance, States } = useMaintenance();
+  const bridgeLocked = checkMaintenance(States.BRIDGE);
 
   const dispatch = useDispatch();
   const { ethereum } = window;
