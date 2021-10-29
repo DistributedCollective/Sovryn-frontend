@@ -19,6 +19,7 @@ import {
 import { translations } from '../../../../../locales/i18n';
 import { Asset } from '../../../../../types';
 import {
+  getContract,
   getLendingContractName,
   getTokenContract,
 } from '../../../../../utils/blockchain/contract-helpers';
@@ -200,6 +201,13 @@ export function TradeDialog() {
       txArgs,
       collateral === Asset.RBTC ? amount : '0',
       amount !== '0' && !!contractName && !!position,
+      collateral !== Asset.WRBTC
+        ? {
+            asset: collateral,
+            spender: getContract(contractName).address,
+            amount,
+          }
+        : undefined,
     ),
     TRADE_LOG_SIGNATURE_HASH,
     TradeLogInputs,

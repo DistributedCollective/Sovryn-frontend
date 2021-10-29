@@ -30,7 +30,7 @@ export function useFilterSimulatorResponseLogs<T = { [key: string]: string }>(
   abiInput: AbiInput[],
   index?: 0 | 1,
 ): Response<T> {
-  const response = useMemo(() => {
+  return useMemo(() => {
     if (simulatorResponse.loading) {
       return {
         status: SimulationStatus.PENDING,
@@ -52,6 +52,8 @@ export function useFilterSimulatorResponseLogs<T = { [key: string]: string }>(
     const tx: SimulatedTx = (index === undefined
       ? simulatorResponse.value[simulatorResponse.value.length - 1]
       : simulatorResponse.value[index]) as SimulatedTx;
+
+    console.log(index, simulatorResponse.value.length - 1, tx);
 
     let logs: LogData<T>[] = [];
 
@@ -84,6 +86,4 @@ export function useFilterSimulatorResponseLogs<T = { [key: string]: string }>(
       logs,
     };
   }, [simulatorResponse, topic, abiInput, index]);
-
-  return response;
 }
