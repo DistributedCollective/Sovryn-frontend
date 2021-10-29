@@ -12,6 +12,7 @@ import { Slider } from 'app/components/Form/Slider';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import {
   discordInvite,
+  MAINTENANCE_MARGIN,
   TRADE_LOG_SIGNATURE_HASH,
   useTenderlySimulator,
 } from 'utils/classifiers';
@@ -36,7 +37,6 @@ import { Dialog } from '../../../../containers/Dialog';
 import { useApproveAndTrade } from '../../../../hooks/trading/useApproveAndTrade';
 import { useTrading_resolvePairTokens } from '../../../../hooks/trading/useTrading_resolvePairTokens';
 import { useAccount } from '../../../../hooks/useAccount';
-import { LiquidationPrice } from '../LiquidationPrice';
 import { TxFeeCalculator } from '../TxFeeCalculator';
 import { TradingPosition } from 'types/trading-position';
 import { useGetEstimatedMarginDetails } from '../../../../hooks/trading/useGetEstimatedMarginDetails';
@@ -51,8 +51,8 @@ import {
 import { DummyInput } from '../../../../components/Form/Input';
 import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
 import { bignumber } from 'mathjs';
-
-const maintenanceMargin = 15000000000000000000;
+import { TradeEventData } from '../../../../../types/active-loan';
+import { usePositionLiquidationPrice } from '../../../../hooks/trading/usePositionLiquidationPrice';
 
 const TradeLogInputs = [
   {
@@ -194,14 +194,14 @@ export function TradeDialog() {
     value: collateral === Asset.RBTC ? amount : '0',
   };
 
-  const simulator = useFilterSimulatorResponseLogs<{ entryPrice: string }>(
+  const simulator = useFilterSimulatorResponseLogs<TradeEventData>(
     useSimulator(
       contractName,
       'marginTrade',
       txArgs,
       collateral === Asset.RBTC ? amount : '0',
       amount !== '0' && !!contractName && !!position,
-      collateral !== Asset.WRBTC
+      collateral !== Asset.WRBTC && contractName && position
         ? {
             asset: collateral,
             spender: getContract(contractName).address,
@@ -213,15 +213,29 @@ export function TradeDialog() {
     TradeLogInputs,
   );
 
-  const entryPrice = useMemo(() => {
-    const price = simulator.logs.shift()?.decoded.entryPrice || '0';
-    return position === TradingPosition.LONG
-      ? bignumber(1)
-          .div(price)
-          .mul(10 ** 36)
-          .toFixed(0)
-      : price;
+  const { entryPrice, positionSize, borrowedAmount } = useMemo(() => {
+    const log: TradeEventData | undefined = simulator.logs.shift()?.decoded;
+    const price = log?.entryPrice || '0';
+    const entryPrice =
+      position === TradingPosition.LONG
+        ? bignumber(1)
+            .div(price)
+            .mul(10 ** 36)
+            .toFixed(0)
+        : price;
+    return {
+      entryPrice,
+      positionSize: log?.positionSize || '0',
+      borrowedAmount: log?.borrowedAmount || '0',
+    };
   }, [simulator.logs, position]);
+
+  const liquidationPrice = usePositionLiquidationPrice(
+    borrowedAmount,
+    positionSize,
+    position,
+    MAINTENANCE_MARGIN,
+  );
 
   return (
     <>
@@ -267,24 +281,28 @@ export function TradeDialog() {
               label={t(
                 translations.marginTradePage.tradeDialog.maintananceMargin,
               )}
-              value={<>{weiToNumberFormat(maintenanceMargin)}%</>}
+              value={<>{weiToNumberFormat(MAINTENANCE_MARGIN)}%</>}
             />
-            <LabelValuePair
-              label={t(
-                translations.marginTradePage.tradeDialog.liquidationPrice,
-              )}
-              value={
-                <>
-                  <LiquidationPrice
-                    asset={pair.shortAsset}
-                    assetLong={pair.longAsset}
-                    leverage={leverage}
-                    position={position}
-                  />{' '}
-                  {pair.longDetails.symbol}
-                </>
-              }
-            />
+            {useTenderlySimulator && (
+              <LabelValuePair
+                label={t(
+                  translations.marginTradePage.tradeDialog.liquidationPrice,
+                )}
+                value={
+                  <>
+                    <LoadableValue
+                      loading={simulator.status === SimulationStatus.PENDING}
+                      value={
+                        <>
+                          {toNumberFormat(liquidationPrice, 4)}{' '}
+                          {pair.longDetails.symbol}
+                        </>
+                      }
+                    />
+                  </>
+                }
+              />
+            )}
           </div>
 
           <FormGroup

@@ -24,7 +24,7 @@ type Response<T> = {
   logs: LogData<T>[];
 };
 
-export function useFilterSimulatorResponseLogs<T = { [key: string]: string }>(
+export function useFilterSimulatorResponseLogs<T = Record<string, string>>(
   simulatorResponse: SimulatorHookResponse,
   topic: string,
   abiInput: AbiInput[],
@@ -52,8 +52,6 @@ export function useFilterSimulatorResponseLogs<T = { [key: string]: string }>(
     const tx: SimulatedTx = (index === undefined
       ? simulatorResponse.value[simulatorResponse.value.length - 1]
       : simulatorResponse.value[index]) as SimulatedTx;
-
-    console.log(index, simulatorResponse.value.length - 1, tx);
 
     let logs: LogData<T>[] = [];
 

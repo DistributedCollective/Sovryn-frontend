@@ -4,7 +4,7 @@
  *
  */
 import React, { useMemo, useState } from 'react';
-import { useTranslation, Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
 import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading-pair-dictionary';
@@ -22,11 +22,13 @@ import { AmountInput } from 'app/components/Form/AmountInput';
 import { FormGroup } from 'app/components/Form/FormGroup';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import type { ActiveLoan } from 'types/active-loan';
+import { ActiveLoan } from 'types/active-loan';
 import { discordInvite } from 'utils/classifiers';
 import { bignumber } from 'mathjs';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { formatNumber } from '../../../../containers/StatsPage/utils';
+import { usePositionLiquidationPrice } from '../../../../hooks/trading/usePositionLiquidationPrice';
+import { TradingPosition } from '../../../../../types/trading-position';
 
 interface Props {
   item: ActiveLoan;
@@ -73,26 +75,12 @@ export function AddToMarginDialog(props: Props) {
     pair.longAsset,
   ]);
 
-  const liquidationPrice = useMemo(() => {
-    const liquidation_collateralToLoanRate = bignumber(
-      bignumber(
-        bignumber(props.item.maintenanceMargin)
-          .mul(props.item.principal)
-          .div(10 ** 20)
-          .add(props.item.principal),
-      ),
-    )
-      .div(props.item.collateral)
-      .mul(10 ** 18);
-
-    if (isLong) {
-      return liquidation_collateralToLoanRate.div(10 ** 18).toString();
-    }
-    return bignumber(10 ** 36)
-      .div(liquidation_collateralToLoanRate)
-      .div(10 ** 18)
-      .toString();
-  }, [props.item, isLong]);
+  const liquidationPrice = usePositionLiquidationPrice(
+    props.item.principal,
+    bignumber(props.item.collateral).add(weiAmount).toString(),
+    isLong ? TradingPosition.LONG : TradingPosition.SHORT,
+    props.item.maintenanceMargin,
+  );
 
   return (
     <>

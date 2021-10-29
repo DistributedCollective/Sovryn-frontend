@@ -88,12 +88,14 @@ export function useSimulator(
         }));
       })
       .catch(error => {
-        setState(prevState => ({
-          ...prevState,
-          loading: false,
-          value: null,
-          error,
-        }));
+        if (error.name !== 'AbortError') {
+          setState(prevState => ({
+            ...prevState,
+            loading: false,
+            value: null,
+            error,
+          }));
+        }
       });
 
     return () => {

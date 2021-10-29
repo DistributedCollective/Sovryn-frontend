@@ -23,6 +23,7 @@ import { LoadableValue } from '../../../../components/LoadableValue';
 import { formatNumber } from '../../../../containers/StatsPage/utils';
 import { usePriceFeeds_QueryRate } from '../../../../hooks/price-feeds/useQueryRate';
 import classNames from 'classnames';
+import { usePositionLiquidationPrice } from '../../../../hooks/trading/usePositionLiquidationPrice';
 
 interface IOpenPositionRowInnerProps {
   item: ActiveLoan;
@@ -54,29 +55,12 @@ function OpenPositionRowInner({ item }: IOpenPositionRowInnerProps) {
   const isLong = position === TradingPosition.LONG;
   const leverage = leverageFromMargin(item.startMargin);
 
-  //liquidation_collateralToLoanRate = ((maintenance_margin * principal / 10^20) + principal) / collateral * 10^18
-  //If SHORT -> 10^36 / liquidation_collateralToLoanRate
-
-  const liquidationPrice = useMemo(() => {
-    const liquidation_collateralToLoanRate = bignumber(
-      bignumber(
-        bignumber(item.maintenanceMargin)
-          .mul(item.principal)
-          .div(10 ** 20)
-          .add(item.principal),
-      ),
-    )
-      .div(item.collateral)
-      .mul(10 ** 18);
-
-    if (isLong) {
-      return liquidation_collateralToLoanRate.div(10 ** 18).toString();
-    }
-    return bignumber(10 ** 36)
-      .div(liquidation_collateralToLoanRate)
-      .div(10 ** 18)
-      .toString();
-  }, [item, isLong]);
+  const liquidationPrice = usePositionLiquidationPrice(
+    item.principal,
+    item.collateral,
+    position,
+    item.maintenanceMargin,
+  );
 
   const {
     value: currentCollateralToPrincipalRate,
