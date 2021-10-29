@@ -33,6 +33,7 @@ import { usePerpetual_accountBalance } from './hooks/usePerpetual_accountBalance
 import { AccountDialog } from './components/AccountDialog';
 import { NewPositionCard } from './components/NewPositionCard';
 import { TradeReviewDialog } from './components/TradeReviewDialog';
+import { EditPositionSizeDialog } from './components/EditPositionSizeDialog';
 
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -212,6 +213,7 @@ export function PerpetualPage() {
       />
       <AccountDialog pairType={pairType} />
       <TradeReviewDialog />
+      <EditPositionSizeDialog />
     </>
   );
 }
