@@ -49,7 +49,7 @@ export const InformationSection: React.FC<IInformationSectionProps> = ({
         value={
           <>
             {1 / info.depositRate}{' '}
-            <AssetSymbolRenderer assetString={saleName} />
+            <AssetSymbolRenderer asset={info.depositToken} />
           </>
         }
       />

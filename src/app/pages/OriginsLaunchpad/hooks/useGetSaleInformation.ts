@@ -20,8 +20,8 @@ export const useGetSaleInformation = (tierId: number) => {
   const { t } = useTranslation();
   const account = useAccount();
   const transactions = useSelector(selectTransactions);
-  const [exchangeRate, setExchangeRate] = useState<number>(1);
-  const [PPM, setPPM] = useState<number>(1);
+  const [exchangeRate, setExchangeRate] = useState(1);
+  const [partsPerMillion, setPartPerMillion] = useState(1);
   const [saleInfo, setSaleInfo] = useState<ISaleInformation>({
     saleStart: '',
     saleEnd: '-',
@@ -34,7 +34,10 @@ export const useGetSaleInformation = (tierId: number) => {
     isClosed: false,
   });
 
-  const depositRate = useMemo(() => exchangeRate / PPM, [exchangeRate, PPM]);
+  const depositRate = useMemo(() => exchangeRate / partsPerMillion, [
+    exchangeRate,
+    partsPerMillion,
+  ]);
 
   const saleEndDate = useMemo(() => {
     const { isClosed, saleStart, period } = saleInfo;
@@ -131,7 +134,7 @@ export const useGetSaleInformation = (tierId: number) => {
 
   useEffect(() => {
     contractReader.call<number>('MYNTPresale', 'PPM', []).then(result => {
-      setPPM(result);
+      setPartPerMillion(result);
     });
   }, []);
 
