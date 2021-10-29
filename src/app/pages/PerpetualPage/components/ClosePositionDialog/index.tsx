@@ -43,7 +43,7 @@ import { useSlippage } from './useSlippage';
 import { SlippageDialog } from './Dialogs/SlippageDialog';
 import settingIcon from 'assets/images/settings-blue.svg';
 import { ActionButton } from 'app/components/Form/ActionButton';
-import { PERPETUAL_SLIPPAGE_DEFAULT } from '../..';
+import { PERPETUAL_SLIPPAGE_DEFAULT } from '../../types';
 
 interface IClosePositionDialogProps {
   item: ActiveLoan;

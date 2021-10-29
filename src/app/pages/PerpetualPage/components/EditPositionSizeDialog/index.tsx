@@ -16,6 +16,7 @@ import {
   EditPositionSizeDialogState,
   EditPositionSizeDialogStep,
 } from './types';
+import { noop } from '../../../../constants';
 
 const steps = {
   [EditPositionSizeDialogStep.slippage]: SlippageFormStep,
@@ -24,7 +25,7 @@ const steps = {
 
 export const EditPositionSizeDialogContext = React.createContext<
   EditPositionSizeDialogState
->({ onChange: () => {} });
+>({ onChange: noop });
 
 export const EditPositionSizeDialog: React.FC = () => {
   const dispatch = useDispatch();

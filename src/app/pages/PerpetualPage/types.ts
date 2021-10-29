@@ -2,6 +2,8 @@ import { Asset } from '../../../types';
 import { TradingPosition } from '../../../types/trading-position';
 import { PerpetualPairType } from '../../../utils/dictionaries/perpetual-pair-dictionary';
 
+export const PERPETUAL_SLIPPAGE_DEFAULT = 0.5;
+
 export enum PerpetualTradeType {
   MARKET = 'MARKET',
   LIMIT = 'LIMIT',

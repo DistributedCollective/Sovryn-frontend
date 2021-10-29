@@ -4,13 +4,13 @@ import { TradingPosition } from '../../../../types/trading-position';
 import { PerpetualPairType } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { useBlockSync } from '../../../hooks/useAccount';
 import { PerpetualTradeType } from '../types';
-import { PERPETUAL_SLIPPAGE_DEFAULT } from '..';
+import { PERPETUAL_SLIPPAGE_DEFAULT } from '../types';
 
 export type OpenPositionEntry = {
   id: string;
-  pair: keyof typeof PerpetualPairType;
-  type: keyof typeof PerpetualTradeType;
-  position: keyof typeof TradingPosition;
+  pair: PerpetualPairType;
+  type: PerpetualTradeType;
+  position: TradingPosition;
   amount: string;
   value: number;
   entryPrice: number;

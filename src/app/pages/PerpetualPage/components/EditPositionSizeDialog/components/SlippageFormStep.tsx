@@ -7,7 +7,7 @@ import { EditPositionSizeDialogStep } from '../types';
 import { TransitionAnimation } from '../../../../../containers/TransitionContainer';
 import { translations } from '../../../../../../locales/i18n';
 import { EditPositionSizeDialogContext } from '..';
-import { PERPETUAL_SLIPPAGE_DEFAULT } from '../../..';
+import { PERPETUAL_SLIPPAGE_DEFAULT } from '../../../types';
 
 export const SlippageFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
   changeTo,

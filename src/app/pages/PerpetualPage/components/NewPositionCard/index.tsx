@@ -24,7 +24,7 @@ import { SlippageFormStep } from './components/SlippageFormStep';
 import { TradeFormStep } from './components/TradeFormStep';
 import { ConnectFormStep } from './components/ConnectFormStep';
 import { noop } from '../../../../constants';
-import { PERPETUAL_SLIPPAGE_DEFAULT } from '../..';
+import { PERPETUAL_SLIPPAGE_DEFAULT } from '../../types';
 
 export const NewPositionCardContext = React.createContext<
   NewPositionCardContextType

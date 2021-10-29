@@ -35,8 +35,6 @@ import { NewPositionCard } from './components/NewPositionCard';
 import { TradeReviewDialog } from './components/TradeReviewDialog';
 import { EditPositionSizeDialog } from './components/EditPositionSizeDialog';
 
-export const PERPETUAL_SLIPPAGE_DEFAULT = 0.5;
-
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
 

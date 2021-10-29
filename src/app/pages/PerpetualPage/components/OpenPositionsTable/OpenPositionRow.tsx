@@ -12,31 +12,27 @@ import { translations } from '../../../../../locales/i18n';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { actions } from '../../slice';
-import {
-  PerpetualPageModals,
-  PerpetualTrade,
-  PerpetualTradeType,
-} from '../../types';
+import { PerpetualPageModals, PerpetualTrade } from '../../types';
 import { TradingPosition } from '../../../../../types/trading-position';
 
-interface IOpenPositionRowProps {
+type OpenPositionRowProps = {
   item: OpenPositionEntry;
-}
+};
 
-export function OpenPositionRow({ item }: IOpenPositionRowProps) {
+export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
-  const inMaintenance = checkMaintenance(States.PERPETUAL_TRADES);
+  const isMaintenance = checkMaintenance(States.PERPETUAL_TRADES);
 
-  const pair = PerpetualPairDictionary.get(item.pair as PerpetualPairType);
+  const pair = PerpetualPairDictionary.get(item.pair);
 
   const onOpenEditSize = useCallback(() => {
     const trade: PerpetualTrade = {
       id: item.id,
-      pairType: item.pair as PerpetualPairType,
-      tradeType: item.type as PerpetualTradeType,
-      position: item.position as TradingPosition,
+      pairType: item.pair,
+      tradeType: item.type,
+      position: item.position,
       slippage: item.slippage,
       amount: item.amount,
       collateral: pair.collaterals[0],
@@ -45,7 +41,9 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
     dispatch(actions.setModal(PerpetualPageModals.EDIT_POSITION_SIZE, trade));
   }, [item, pair, dispatch]);
 
-  if (pair === undefined) return null;
+  if (pair === undefined) {
+    return null;
+  }
 
   return (
     <tr>
@@ -128,7 +126,7 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
       </td>
       <td>
         <div className="tw-flex tw-items-center tw-justify-end xl:tw-justify-around 2xl:tw-justify-start">
-          {inMaintenance ? (
+          {isMaintenance ? (
             <div>{t(translations.common.maintenance)}</div>
           ) : (
             <button
@@ -142,4 +140,4 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
       </td>
     </tr>
   );
-}
+};
