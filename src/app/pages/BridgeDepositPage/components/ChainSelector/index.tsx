@@ -15,7 +15,7 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { useDepositMaintenance } from 'app/pages/BridgeDepositPage/hooks/useDepositMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 
-export function ChainSelector() {
+export const ChainSelector: React.FC = () => {
   const dispatch = useDispatch();
   const walletContext = useWalletContext();
   const { t } = useTranslation();
@@ -96,4 +96,4 @@ export function ChainSelector() {
       )}
     </div>
   );
-}
+};

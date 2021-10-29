@@ -42,7 +42,7 @@ const initialSteps: StepItem[] = [
 
 // User should be able to go back on steps but not forward (even if moved back,
 // unless we are confident that user didn't change anything)
-export function SidebarSteps() {
+export const SidebarSteps: React.FC = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
@@ -186,4 +186,4 @@ export function SidebarSteps() {
       </div>
     </>
   );
-}
+};

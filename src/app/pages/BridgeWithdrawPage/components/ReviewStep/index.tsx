@@ -18,12 +18,11 @@ import { prettyTx } from '../../../../../utils/helpers';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Table } from '../styled';
-import { useMaintenance } from 'app/hooks/useMaintenance';
-import { useWithdrawMaintenance } from 'app/pages/BridgeWithdrawPage/hooks/useWithdrawMaintenance';
+import { useIsBridgeWithdrawLocked } from 'app/pages/BridgeWithdrawPage/hooks/useIsBridgeWithdrawLocked';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
 
-export function ReviewStep() {
+export const ReviewStep: React.FC = () => {
   const {
     amount,
     chain,
@@ -35,8 +34,6 @@ export function ReviewStep() {
   } = useSelector(selectBridgeWithdrawPage);
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { checkMaintenance, States } = useMaintenance();
-  const bridgeLocked = checkMaintenance(States.BRIDGE);
 
   const handleSubmit = useCallback(() => {
     dispatch(actions.submitForm());
@@ -107,8 +104,10 @@ export function ReviewStep() {
     limitsLoading,
   ]);
 
-  const { lockedChains, isAssetWithdrawLocked } = useWithdrawMaintenance();
-  const assetWithdrawLocked = isAssetWithdrawLocked(sourceAsset);
+  const bridgeWithdrawLocked = useIsBridgeWithdrawLocked(
+    sourceAsset,
+    targetChain,
+  );
 
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
@@ -177,19 +176,11 @@ export function ReviewStep() {
         <Button
           className="tw-mt-20 tw-w-80 "
           text={t(translations.BridgeWithdrawPage.reviewStep.confirm)}
-          disabled={
-            bridgeLocked ||
-            assetWithdrawLocked ||
-            (targetChain && lockedChains[targetChain]) ||
-            !isValid ||
-            tx.loading
-          }
+          disabled={bridgeWithdrawLocked || !isValid || tx.loading}
           loading={tx.loading}
           onClick={handleSubmit}
         />
-        {(bridgeLocked ||
-          assetWithdrawLocked ||
-          (targetChain && lockedChains[targetChain])) && (
+        {bridgeWithdrawLocked && (
           <ErrorBadge
             content={
               <Trans
@@ -211,4 +202,4 @@ export function ReviewStep() {
       </div>
     </div>
   );
-}
+};

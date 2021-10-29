@@ -7,8 +7,9 @@ import { Tooltip } from '@blueprintjs/core';
 import { useAccount } from 'app/hooks/useAccount';
 import { Asset } from 'types';
 import { useMaintenance } from 'app/hooks/useMaintenance';
+import { useIsBridgeLinkLocked } from './hooks/useIsBridgeLinkLocked';
 
-interface Props {
+interface IBridgeLinkProps {
   asset: Asset;
 }
 
@@ -17,27 +18,19 @@ enum CROSSCHAIN_TYPE {
   WITHDRAW = 'withdraw',
 }
 
-export function BridgeLink({ asset }: Props) {
+export const BridgeLink: React.FC<IBridgeLinkProps> = ({ asset }) => {
   const receiver = useAccount();
   const { t } = useTranslation();
-  const { checkMaintenances, States } = useMaintenance();
-  const {
-    [States.BRIDGE]: bridgeLocked,
-    [States.BRIDGE_SOV_DEPOSIT]: sovDepositLocked,
-    [States.BRIDGE_SOV_WITHDRAW]: sovWithdrawLocked,
-    [States.BRIDGE_ETH_DEPOSIT]: ethDepositLocked,
-    [States.BRIDGE_ETH_WITHDRAW]: ethWithdrawLocked,
-    [States.BRIDGE_BNB_DEPOSIT]: bnbDepositLocked,
-    [States.BRIDGE_BNB_WITHDRAW]: bnbWithdrawLocked,
-    [States.BRIDGE_XUSD_DEPOSIT]: xusdDepositLocked,
-    [States.BRIDGE_XUSD_WITHDRAW]: xusdWithdrawLocked,
-  } = checkMaintenances();
+  const { checkMaintenance, States } = useMaintenance();
+  const bridgeLocked = checkMaintenance(States.BRIDGE);
 
   const getMaintenanceTooltipCopy = (
     asset: Asset,
     type: CROSSCHAIN_TYPE,
   ): string => {
-    if (bridgeLocked) return t(translations.maintenance.bridge);
+    if (bridgeLocked) {
+      return t(translations.maintenance.bridge);
+    }
 
     switch (asset) {
       case Asset.SOV:
@@ -61,13 +54,13 @@ export function BridgeLink({ asset }: Props) {
     }
   };
 
+  const { assetDepositLocked, assetWithdrawLocked } = useIsBridgeLinkLocked(
+    asset,
+  );
+
   return (
     <>
-      {bridgeLocked ||
-      (asset === Asset.SOV && sovDepositLocked) ||
-      (asset === Asset.ETH && ethDepositLocked) ||
-      (asset === Asset.BNB && bnbDepositLocked) ||
-      (asset === Asset.XUSD && xusdDepositLocked) ? (
+      {assetDepositLocked ? (
         <Tooltip
           position="bottom"
           hoverOpenDelay={0}
@@ -92,11 +85,7 @@ export function BridgeLink({ asset }: Props) {
           <span>{t(translations.common.deposit)}</span>
         </Link>
       )}
-      {bridgeLocked ||
-      (asset === Asset.SOV && sovWithdrawLocked) ||
-      (asset === Asset.ETH && ethWithdrawLocked) ||
-      (asset === Asset.BNB && bnbWithdrawLocked) ||
-      (asset === Asset.XUSD && xusdWithdrawLocked) ? (
+      {assetWithdrawLocked ? (
         <Tooltip
           position="bottom"
           hoverOpenDelay={0}
@@ -123,4 +112,4 @@ export function BridgeLink({ asset }: Props) {
       )}
     </>
   );
-}
+};
