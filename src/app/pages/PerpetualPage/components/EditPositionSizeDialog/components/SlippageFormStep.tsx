@@ -7,6 +7,7 @@ import { EditPositionSizeDialogStep } from '../types';
 import { TransitionAnimation } from '../../../../../containers/TransitionContainer';
 import { translations } from '../../../../../../locales/i18n';
 import { EditPositionSizeDialogContext } from '..';
+import { PERPETUAL_SLIPPAGE_DEFAULT } from '../../..';
 
 export const SlippageFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
   changeTo,
@@ -50,7 +51,7 @@ export const SlippageFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
         {t(translations.perpetualPage.tradeForm.titles.slippage)}
       </h3>
       <SlippageForm
-        slippage={changedTrade?.slippage || 0.5}
+        slippage={changedTrade?.slippage || PERPETUAL_SLIPPAGE_DEFAULT}
         onChange={onChangeSlippage}
       />
     </div>

@@ -43,6 +43,7 @@ import { useSlippage } from './useSlippage';
 import { SlippageDialog } from './Dialogs/SlippageDialog';
 import settingIcon from 'assets/images/settings-blue.svg';
 import { ActionButton } from 'app/components/Form/ActionButton';
+import { PERPETUAL_SLIPPAGE_DEFAULT } from '../..';
 
 interface IClosePositionDialogProps {
   item: ActiveLoan;
@@ -142,7 +143,7 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
     ),
     weiAmount,
   );
-  const [slippage, setSlippage] = useState(0.5);
+  const [slippage, setSlippage] = useState(PERPETUAL_SLIPPAGE_DEFAULT);
   const totalAmount = Number(amount) + Number(fromWei(profit));
   const { minReturn } = useSlippage(toWei(totalAmount), slippage);
 

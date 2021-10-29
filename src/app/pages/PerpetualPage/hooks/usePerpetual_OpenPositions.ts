@@ -4,6 +4,7 @@ import { TradingPosition } from '../../../../types/trading-position';
 import { PerpetualPairType } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { useBlockSync } from '../../../hooks/useAccount';
 import { PerpetualTradeType } from '../types';
+import { PERPETUAL_SLIPPAGE_DEFAULT } from '..';
 
 export type OpenPositionEntry = {
   id: string;
@@ -49,7 +50,7 @@ const placeholderFetch = async (
       liquidationPrice: markPrice - amount,
       margin: value * 3,
       leverage: 3.115,
-      slippage: 0.5,
+      slippage: PERPETUAL_SLIPPAGE_DEFAULT,
       unrealized: {
         shortValue: value * 2,
         longValue: amount * 2,
