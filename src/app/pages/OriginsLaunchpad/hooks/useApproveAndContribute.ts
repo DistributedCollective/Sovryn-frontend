@@ -42,7 +42,7 @@ export const useApproveAndContribute = () => {
         {
           type: TxType.ORIGINS_SALE_BUY,
           customData: {
-            date: new Date().getTime() / 1000,
+            date: Date.now() / 1000,
             sourceAmount: sourceWeiAmount,
             destinationAmount: destinationWeiAmount,
             sourceToken: sourceToken,
