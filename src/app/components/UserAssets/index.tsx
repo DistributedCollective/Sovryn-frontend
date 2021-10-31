@@ -30,6 +30,7 @@ import { ConversionDialog } from './ConversionDialog';
 import { BridgeLink } from './BridgeLink';
 import { UnWrapDialog } from './UnWrapDialog';
 import { useDollarValue } from '../../hooks/useDollarValue';
+import { useDollarValueMynt } from '../../hooks/useDollarValueMynt';
 
 export function UserAssets() {
   const { t } = useTranslation();
@@ -232,6 +233,11 @@ function AssetRow({
   }, [item.asset, account, blockSync]);
 
   const dollarValue = useDollarValue(item.asset, tokens);
+  const dollarValueMynt = useDollarValueMynt(tokens);
+  const _dollarValue = useMemo(
+    () => (item.asset === Asset.MYNT ? dollarValueMynt : dollarValue),
+    [dollarValue, dollarValueMynt],
+  );
 
   if (tokens === '0' && item.hideIfZero)
     return <React.Fragment key={item.asset} />;
@@ -246,8 +252,8 @@ function AssetRow({
       </td>
       <td className="tw-text-right tw-hidden md:tw-table-cell">
         <LoadableValue
-          value={weiToUSD(dollarValue.value)}
-          loading={dollarValue.loading}
+          value={weiToUSD(_dollarValue.value)}
+          loading={_dollarValue.loading}
         />
       </td>
       <td className="tw-text-right tw-hidden md:tw-table-cell">

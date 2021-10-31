@@ -16,7 +16,7 @@ const timestampToString = (timestamp: number) =>
     month: 'short',
   });
 
-export const useGetSaleInformation = (tierId: number) => {
+export const useGetSaleInformation = (tierId?: number) => {
   const { t } = useTranslation();
   const account = useAccount();
   const transactions = useSelector(selectTransactions);

@@ -11,14 +11,13 @@ import { BuyStep } from './pages/BuyStep';
 import { useGetSaleInformation } from '../../hooks/useGetSaleInformation';
 
 interface ISalesDayProps {
-  tierId: number;
   saleName: string;
 }
 
-export const SalesDay: React.FC<ISalesDayProps> = ({ tierId, saleName }) => {
+export const SalesDay: React.FC<ISalesDayProps> = ({ saleName }) => {
   const { t } = useTranslation();
   const connected = useIsConnected();
-  const info = useGetSaleInformation(tierId);
+  const info = useGetSaleInformation();
 
   const [step, setStep] = useState(1);
 
