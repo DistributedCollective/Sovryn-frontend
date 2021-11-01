@@ -9,7 +9,6 @@ import {
 } from '../../../../store/global/transactions-store/types';
 import { actions } from 'store/global/transactions-store/slice';
 import { translations } from '../../../../locales/i18n';
-import { TradeButton } from '../../../components/TradeButton';
 import styles from './dialog.module.scss';
 import wMetamask from 'assets/wallets/metamask.svg';
 import wNifty from 'assets/wallets/nifty.png';
@@ -20,10 +19,13 @@ import wTrezor from 'assets/wallets/trezor.svg';
 import wWalletConnect from 'assets/wallets/walletconnect.svg';
 import styled from 'styled-components/macro';
 import { useWalletContext } from '@sovryn/react-wallet';
+import txFailed from 'assets/images/failed-tx.svg';
+import { Trans } from 'react-i18next';
+import { ActionButton } from 'app/components/Form/ActionButton';
 
 interface Props extends RequestDialogState {}
 
-export function TxRequestDialog({ open, type, amount, asset, error }: Props) {
+export function TxRequestDialog({ open, type, error }: Props) {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { address } = useWalletContext();
@@ -43,24 +45,37 @@ export function TxRequestDialog({ open, type, amount, asset, error }: Props) {
             <h1>
               {t(translations.walletProvider.txRequestDialog.approve.title)}
             </h1>
+
+            <WalletLogo wallet={wallet} />
+
             {error ? (
               <>
-                <p>
-                  {t(translations.walletProvider.txRequestDialog.approve.error)}
+                <img
+                  src={txFailed}
+                  alt="failed"
+                  className="tw-w-8 tw-mx-auto tw-mb-4 tw-opacity-75"
+                />
+                <p className="tw-text-center tw-text-warning">
+                  <Trans
+                    i18nKey={translations.transactionDialog.txStatus.aborted}
+                  />
+                  <div>{error}</div>
                 </p>
-                <div className="alert alert-warning">{error}</div>
-                <TradeButton
-                  text={t(
-                    translations.walletProvider.txRequestDialog.closeButton,
-                  )}
+                <ActionButton
                   onClick={() =>
                     dispatch(actions.closeTransactionRequestDialog())
                   }
+                  text={t(
+                    translations.walletProvider.txRequestDialog.closeButton,
+                  )}
+                  className={
+                    'tw-flex tw-items-center tw-justify-center tw-h-12 tw-rounded-lg tw-w-80 tw-mx-auto'
+                  }
+                  textClassName="tw-inline-block tw-text-lg"
                 />
               </>
             ) : (
               <>
-                <WalletLogo wallet={wallet} />
                 <p>
                   {t(translations.buySovPage.txDialog.pendingUser.text, {
                     walletName: getWalletName(wallet),
@@ -76,18 +91,18 @@ export function TxRequestDialog({ open, type, amount, asset, error }: Props) {
 }
 
 const WLContainer = styled.div`
-  width: 98px;
-  height: 98px;
+  width: 160px;
+  height: 160px;
   border-radius: 1.25rem;
   border: 1px solid #e8e8e8;
-  margin: 0 auto 35px;
+  margin: 0 auto 1rem;
   div {
     font-size: 0.75rem;
   }
 `;
 const WLImage = styled.img`
-  width: 50px;
-  height: 50px;
+  width: 85px;
+  height: 85px;
   margin-bottom: 10px;
   object-fit: contain;
 `;
