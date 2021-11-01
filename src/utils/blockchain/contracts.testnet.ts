@@ -36,6 +36,7 @@ import nftAbi from './abi/nftAbi.json';
 import MYNTControllerAbi from './abi/MYNTController.json';
 import MYNTTokenAbi from './abi/MYNT_token.json';
 import MYNTPresaleAbi from './abi/MYNTPresale.json';
+import MYNTMarketMakerAbi from './abi/MYNTMarketMaker.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -356,5 +357,9 @@ export const contracts = {
   MYNTPresale: {
     address: '0x88C76c7C2096Ca197F9A3F35AACbF5540AD1123D',
     abi: MYNTPresaleAbi,
+  },
+  MYNTMarketMaker: {
+    address: '0x661042BE633A3e9fF4FEd0895405B1624C7F2256',
+    abi: MYNTMarketMakerAbi,
   },
 };
