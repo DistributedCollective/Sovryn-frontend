@@ -6,6 +6,7 @@ import { translations } from 'locales/i18n';
 import { DialogTitle, DialogWrapper } from './styled';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { ISaleInformation } from '../../../../types';
+import { timestampToDateTimeString } from 'utils/dateHelpers';
 
 interface IAccessCodeVerificationStepProps {
   saleName: string;
@@ -18,15 +19,6 @@ enum SaleStatus {
   Active = 'Active',
   NotYetOpen = 'NotYetOpen',
 }
-
-const timestampToString = (timestamp: number) =>
-  new Date(timestamp * 1000).toLocaleString('en-GB', {
-    day: 'numeric',
-    month: 'short',
-    hour: 'numeric',
-    hour12: false,
-    minute: 'numeric',
-  });
 
 export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepProps> = ({
   saleName,
@@ -69,7 +61,7 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
                 .alert[camelCase(saleStatus)],
               {
                 token: saleName,
-                time: timestampToString(Number(info.saleStart)),
+                time: timestampToDateTimeString(Number(info.saleStart)),
                 depositToken: info.depositToken,
               },
             )}
