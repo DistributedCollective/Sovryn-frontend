@@ -37,6 +37,15 @@ import { EditPositionSizeDialog } from './components/EditPositionSizeDialog';
 import { usePerpetual_marginAccountBalance } from './hooks/usePerpetual_marginAccountBalance';
 import { usePerpetual_withdrawMarginToken } from './hooks/usePerpetual_withdrawMarginToken';
 import { usePerpetual_closePosition } from './hooks/usePerpetual_closePosition';
+import { usePerpetual_queryAmmState } from './hooks/usePerpetual_queryAmmState';
+import { usePerpetual_queryPerpParameters } from './hooks/usePerpetual_queryPerpParameters';
+import { usePerpetual_queryTraderState } from './hooks/usePerpetual_queryTraderState';
+import {
+  getIndexPrice,
+  getMarkPrice,
+  getSignedMaxAbsPositionForTrader,
+  getTradingFeeRate,
+} from './temporaryUtils';
 
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -113,6 +122,30 @@ export function PerpetualPage() {
   );
 
   const { closePosition } = usePerpetual_closePosition();
+
+  const ammState = usePerpetual_queryAmmState();
+  // console.log(`Amm state: ${JSON.stringify(ammState)}`);
+
+  const perpParameters = usePerpetual_queryPerpParameters();
+  // console.log(`Perp parameters: ${JSON.stringify(perpParameters)}`);
+
+  const traderState = usePerpetual_queryTraderState();
+  //console.log(`Trader state: ${JSON.stringify(traderState)}`);
+
+  // console.log(
+  //   `Max position for the trader is: ${getSignedMaxAbsPositionForTrader(
+  //     1,
+  //     10,
+  //     perpParameters,
+  //     traderState,
+  //     ammState,
+  //   )}`,
+  // );
+  // console.log(
+  //   `Mark price is ${getMarkPrice(ammState)} and index price is ${getIndexPrice(
+  //     ammState,
+  //   )}`,
+  // );
 
   return (
     <>
