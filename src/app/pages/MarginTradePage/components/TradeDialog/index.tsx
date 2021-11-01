@@ -3,43 +3,42 @@ import React, { useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { toWei } from 'web3-utils';
-
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { FormGroup } from 'app/components/Form/FormGroup';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
-import { Slider } from 'app/components/Form/Slider';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
 
-import { translations } from '../../../../../locales/i18n';
-import { Asset } from '../../../../../types';
+import { translations } from 'locales/i18n';
+import { Asset } from 'types';
 import {
   getLendingContractName,
   getTokenContract,
-} from '../../../../../utils/blockchain/contract-helpers';
-import { fromWei } from '../../../../../utils/blockchain/math-helpers';
-import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
-import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading-pair-dictionary';
-import {
-  toNumberFormat,
-  weiToNumberFormat,
-} from '../../../../../utils/display-text/format';
-// import { TxDialog } from '../../../../components/Dialogs/TxDialog';
-import { TransactionDialog } from '../../../../components/TransactionDialog';
-import { LoadableValue } from '../../../../components/LoadableValue';
-import { Dialog } from '../../../../containers/Dialog';
-import { useApproveAndTrade } from '../../../../hooks/trading/useApproveAndTrade';
-import { useTrading_resolvePairTokens } from '../../../../hooks/trading/useTrading_resolvePairTokens';
-import { useAccount } from '../../../../hooks/useAccount';
+} from 'utils/blockchain/contract-helpers';
+import { fromWei } from 'utils/blockchain/math-helpers';
+import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
+import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
+import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
+
+import { LoadableValue } from 'app/components/LoadableValue';
+import { Dialog } from 'app/containers/Dialog';
+import { useApproveAndTrade } from 'app/hooks/trading/useApproveAndTrade';
+import { useTrading_resolvePairTokens } from 'app/hooks/trading/useTrading_resolvePairTokens';
+import { useAccount } from 'app/hooks/useAccount';
+
 import { LiquidationPrice } from '../LiquidationPrice';
 import { TxFeeCalculator } from '../TxFeeCalculator';
 import { TradingPosition } from 'types/trading-position';
-import { useGetEstimatedMarginDetails } from '../../../../hooks/trading/useGetEstimatedMarginDetails';
+import { useGetEstimatedMarginDetails } from 'app/hooks/trading/useGetEstimatedMarginDetails';
 import { selectMarginTradePage } from '../../selectors';
 import { actions } from '../../slice';
-import { PricePrediction } from '../../../../containers/MarginTradeForm/PricePrediction';
+import { PricePrediction } from 'app/containers/MarginTradeForm/PricePrediction';
+
+import { TransactionDialog } from '../../../../components/TransactionDialog';
 import { TransactionFee } from 'app/pages/MarginTradePage/components/TxFeeCalculator/TransactionFee';
+import { Slider } from 'app/components/Form/Slider';
+// import { TxDialog } from 'app/components/Dialogs/TxDialog';
 
 const maintenanceMargin = 15000000000000000000;
 
