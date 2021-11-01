@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import dayjs from 'dayjs';
 import cn from 'classnames';
-import { FullVesting } from './useListOfUserVestings';
+import { FullVesting } from './types';
 import { weiToNumberFormat } from '../../../../utils/display-text/format';
 import { AssetSymbolRenderer } from '../../AssetSymbolRenderer';
 import { Dialog } from '../../../containers/Dialog';

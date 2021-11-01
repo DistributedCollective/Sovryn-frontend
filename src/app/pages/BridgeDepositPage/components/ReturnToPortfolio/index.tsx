@@ -22,7 +22,7 @@ import {
 const addNetworkCallback =
   currentNetwork === 'mainnet' ? addRskMainnet : addRskTestnet;
 
-export function ReturnToPortfolio() {
+export const ReturnToPortfolio: React.FC = () => {
   const { t } = useTranslation();
   const trans = translations.BridgeDepositPage.returnToPortfolio;
   const dispatch = useDispatch();
@@ -121,4 +121,4 @@ export function ReturnToPortfolio() {
       )}
     </div>
   );
-}
+};

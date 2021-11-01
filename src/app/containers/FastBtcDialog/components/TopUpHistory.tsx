@@ -1,9 +1,4 @@
-/**
- *
- * TopUpHistory
- *
- */
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -28,6 +23,15 @@ export function TopUpHistory() {
   const dispatch = useDispatch();
 
   const asset = AssetsDictionary.get(Asset.RBTC);
+
+  const sortedHistoryItems = useMemo(
+    () =>
+      [...state.history.items].sort(
+        (x, y) =>
+          new Date(y.dateAdded).getTime() - new Date(x.dateAdded).getTime(),
+      ),
+    [state.history.items],
+  );
 
   useEffect(() => {
     if (isConnected && account) {
@@ -96,7 +100,7 @@ export function TopUpHistory() {
                 </td>
               </tr>
             )}
-            {state.history.items.map(item => (
+            {sortedHistoryItems.map(item => (
               <tr key={item.txHash}>
                 <td className="tw-text-left tw-hidden md:tw-table-cell">
                   <DisplayDate

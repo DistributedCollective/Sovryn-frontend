@@ -6,7 +6,7 @@ import { useSendToContractAddressTx } from '../../../hooks/useSendToContractAddr
 import VestingAbi from '../../../../utils/blockchain/abi/Vesting.json';
 import { AbiItem } from 'web3-utils';
 import { TxType } from '../../../../store/global/transactions-store/types';
-import { FullVesting } from './useListOfUserVestings';
+import { FullVesting } from './types';
 import styles from '../../../containers/WalletPage/components/dialog.module.scss';
 import { translations } from '../../../../locales/i18n';
 import { FieldGroup } from '../../FieldGroup';
@@ -19,6 +19,7 @@ import { Button } from '../../Button';
 import { AssetSymbolRenderer } from '../../AssetSymbolRenderer';
 import { VestingUnlockScheduleDialog } from './VestingUnlockScheduleDialog';
 import { TxDialog } from '../../Dialogs/TxDialog';
+import { gasLimit } from 'utils/classifiers';
 
 type VestingWithdrawFormProps = {
   vesting: FullVesting;
@@ -46,7 +47,7 @@ export const VestingWithdrawForm: React.FC<VestingWithdrawFormProps> = ({
     if (!tx.loading) {
       send(
         [address.toLowerCase()],
-        { from: account },
+        { from: account, gas: gasLimit[TxType.SOV_WITHDRAW_VESTING] },
         { type: TxType.SOV_WITHDRAW_VESTING },
       );
     }
@@ -113,7 +114,7 @@ export const VestingWithdrawForm: React.FC<VestingWithdrawFormProps> = ({
           </FieldGroup>
 
           <div className={styles.txFee}>
-            {t(translations.common.fee, { amount: '0.000014' })}
+            {t(translations.common.fee, { amount: '0.000019' })}
           </div>
         </div>
 

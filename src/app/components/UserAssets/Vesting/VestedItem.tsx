@@ -10,7 +10,7 @@ import { translations } from '../../../../locales/i18n';
 import { ActionButton } from '../../Form/ActionButton';
 import { AssetsDictionary } from '../../../../utils/dictionaries/assets-dictionary';
 import { useMaintenance } from '../../../hooks/useMaintenance';
-import { FullVesting } from './useListOfUserVestings';
+import { FullVesting } from './types';
 import { useDollarValue } from '../../../hooks/useDollarValue';
 import { useGetVesting } from './useGetVesting';
 
@@ -25,7 +25,7 @@ export const VestedItem: React.FC<VestedItemProps> = ({
 }) => {
   const { value, loading } = useGetVesting(vesting);
 
-  const { logoSvg, symbol } = AssetsDictionary.get(vesting.asset);
+  const { logoSvg } = AssetsDictionary.get(vesting.asset);
 
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
@@ -45,7 +45,7 @@ export const VestedItem: React.FC<VestedItemProps> = ({
           src={logoSvg}
           alt={vesting.asset}
         />{' '}
-        {vesting.label || symbol}
+        {t(translations.stake.currentVests.assetType[vesting.type])}
       </td>
       <td className="tw-text-right">
         <LoadableValue
