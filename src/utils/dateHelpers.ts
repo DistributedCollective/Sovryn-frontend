@@ -11,3 +11,9 @@ export const timestampToDateTimeString = (timestamp: number) =>
     hour12: false,
     minute: 'numeric',
   });
+
+export const timestampToString = (timestamp: number) =>
+  new Date(timestamp * 1000).toLocaleString('en-GB', {
+    day: 'numeric',
+    month: 'short',
+  });

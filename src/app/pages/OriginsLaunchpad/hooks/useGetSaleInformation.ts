@@ -7,14 +7,9 @@ import { useAccount } from 'app/hooks/useAccount';
 import { Asset } from 'types';
 import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
 import { contractReader } from 'utils/sovryn/contract-reader';
+import { timestampToString } from 'utils/dateHelpers';
 import { ISaleInformation } from '../types';
 import { selectTransactions } from 'store/global/transactions-store/selectors';
-
-const timestampToString = (timestamp: number) =>
-  new Date(timestamp * 1000).toLocaleString('en-GB', {
-    day: 'numeric',
-    month: 'short',
-  });
 
 export const useGetSaleInformation = () => {
   const { t } = useTranslation();
