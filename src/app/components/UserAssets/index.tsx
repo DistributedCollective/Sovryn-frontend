@@ -236,7 +236,7 @@ function AssetRow({
   const dollarValueMynt = useDollarValueMynt(tokens);
   const _dollarValue = useMemo(
     () => (item.asset === Asset.MYNT ? dollarValueMynt : dollarValue),
-    [dollarValue, dollarValueMynt],
+    [dollarValue, dollarValueMynt, item.asset],
   );
 
   if (tokens === '0' && item.hideIfZero)

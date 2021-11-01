@@ -1,5 +1,5 @@
-import { Asset } from 'types';
 import { useMemo } from 'react';
+import { Asset } from 'types';
 import { bignumber } from 'mathjs';
 import { useCachedAssetPrice } from './trading/useCachedAssetPrice';
 import { AssetsDictionary } from '../../utils/dictionaries/assets-dictionary';
@@ -17,7 +17,7 @@ export const useDollarValueMynt = (weiAmount: string) => {
       .div(10 ** decimals)
 
       .toFixed(0);
-  }, [asset, sovDollars, weiAmount]);
+  }, [asset, sovDollars, sovWeiAmount]);
 
   return {
     value,
