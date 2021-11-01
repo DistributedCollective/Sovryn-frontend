@@ -45,6 +45,7 @@ export function useGetContractPastEvents(
   }, [address, contractName, event, filters]);
 
   useEffect(() => {
+    let cancel = false;
     if (!address) {
       setEvents([]);
       setLoading(false);
@@ -53,6 +54,7 @@ export function useGetContractPastEvents(
     setLoading(true);
     getEvents()
       .then(result => {
+        if (cancel) return;
         setEvents(result);
         setLoading(false);
       })
@@ -60,6 +62,9 @@ export function useGetContractPastEvents(
         setEvents([]);
         setLoading(false);
       });
+    return () => {
+      cancel = true;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [address, syncBlockNumber]);
 

@@ -9,12 +9,14 @@
     "cancel": "Cancel",
     "fee": "Tx Fee: {{amount}} (r)BTC",
     "pending": "Pending",
+    "complete": "Complete",
     "confirmed": "Confirmed",
     "failed": "Failed",
     "deposit": "Deposit",
     "withdraw": "Withdraw",
     "availableBalance": "Available Balance:",
     "maintenance": "Under Maintenance",
+    "comingSoon": "Coming Soon",
     "next": "Next",
     "loading": "Loading...",
     "unit": {
@@ -202,7 +204,11 @@
       "currency": "Currency",
       "currency_placeholder": "Choose currency",
       "amount": "Amount",
-      "startPrice": "Start Price"
+      "startPrice": "Start Price",
+      "advancedSettings": "Advanced Settings",
+      "esEntryPrice": "Estimated Entry Price:",
+      "esLiquidationPrice": "Estimated Liquidation Price:",
+      "interestAPY": "Interest APY:"
     },
     "buttons": {
       "submit": "Place Trade"
@@ -284,7 +290,9 @@
     "originsClaim": "Origins Claim",
     "launchpad": "Launchpad",
     "claim": "Claim",
-    "rewards": "Rewards"
+    "rewards": "Rewards",
+    "labs": "Labs",
+    "perpetual": "Perpetual"
   },
   "originsLaunchpad": {
     "upcomingSales": {
@@ -789,10 +797,10 @@
     "no_items": "Your borrow history is empty."
   },
   "wrongNetworkDialog": {
-    "title": "Change to RSK Network",
+    "title": "Change to {{name}} Network",
     "networkAlert": "We detected that you are on {{name}} network.",
     "networkAlertUnknown": "We detected that you are on a different network.",
-    "walletAelrt": "Please switch to RSK Mainnet in your {{string}} wallet.",
+    "walletAelrt": "Please switch to {{network}} in your {{wallet}} wallet.",
     "networkSetting": {
       "title": "RSK Mainnet Settings",
       "networkName": "RSK Mainnet Settings",
@@ -1257,7 +1265,12 @@
   },
   "closeTradingPositionHandler": {
     "title": "Close Position",
-    "withdrawIn": "Asset:",
+    "withdrawIn": "Asset to receive:",
+    "amountReceived": "Amount received:",
+    "marginType": "Margin Type:",
+    "positionSize": "Position Size:",
+    "minimumReceived": "Minimum Received:",
+    "pl": "P/L:",
     "amountToClose": "Position amount to close:",
     "liquidity": {
       "line_1": "Liquidity is too low for closing position.",
@@ -1493,9 +1506,10 @@
     "tradeForm": {
       "labels": {
         "pair": "Pair:",
-        "asset": "Collateral:",
+        "asset": "Asset to receive:",
         "leverage": "Leverage:",
-        "amount": "Amount:",
+        "amount": "Trade Amount:",
+        "slippage": "Slippage Tolerance:",
         "balance": "Available Balance: <0/> <1/>",
         "txFee": "Tx Fee: <0/>"
       },
@@ -1509,18 +1523,195 @@
       "pair": "Trading Pair:",
       "leverage": "Leverage:",
       "asset": "Collateral:",
-      "direction": "Direction:",
+      "direction": "Pair:",
+      "positionSize": "Position Size",
       "maintananceMargin": "Maintenance Margin:",
       "liquidationPrice": "Est. Liquidation Price:",
       "entryPrice": "Approx. Position Entry Price:",
       "estimationErrorNote": "Due to a display error, the price your order fills at may differ from the price shown in the order summary before confirmation. However, your order will still be protected from filling at a worse price than that allowed by your slippage tolerance setting, and may even fill at a better price than that displayed. We have identified a fix for this issue and will be updating the app ASAP.",
+      "minEntry": "Minimum Entry Price: ",
+      "minLiq": "Minimum Liquidation Price: ",
+      "interestAPR": "Interest APY",
+      "renewalDate": "Renewal Date:",
       "position": {
         "long": "Long",
         "short": "Short"
       }
     },
-    "openPositions": "Open Positions",
-    "tradingHistory": "Trading History"
+    "openPositions": "Open positions",
+    "tradingHistory": "Margin order history",
+    "notificationSettingsDialog": {
+      "title": "Margin Trade notification settings",
+      "notifyVia": "Notify via",
+      "telegramHandle": "Enter Telegram handle",
+      "discordHandle": "Enter Discord handle",
+      "usernamePlaceholder": "@username",
+      "receiveNotificationTitle": "You will receive a notification at",
+      "notificationEvents": {
+        "1": "25% margin",
+        "2": "Liquidation"
+      },
+      "submit": "Confirm"
+    },
+    "notificationsButton": {
+      "enable": "Enable notifications",
+      "enabled": "Notifications enabled"
+    }
+  },
+  "perpetualPage": {
+    "meta": {
+      "title": "Perpetual Trading",
+      "description": "Trade with perpetuals"
+    },
+    "accountBalance": {
+      "titleBalance": "Perpetual Account",
+      "titleHistory": "Funding History",
+      "total": "Total Balance:",
+      "pending": "Pending transfer…",
+      "available": "Available Balance",
+      "inPositions": "In positions",
+      "unrealized": "Unrealized P&L",
+      "viewHistory": "View Transaction History",
+      "deposit": "Deposit",
+      "withdraw": "Withdraw",
+      "transfer": "Transfer",
+      "availableBalance": "Available Balance:",
+      "fundAccount": "Fund Account",
+      "viewAccount": "View Account",
+      "action": "Action",
+      "time": "Date/Time",
+      "amount": "Amount",
+      "status": "Status",
+      "transactionId": "Transaction ID"
+    },
+    "ammDepth": {
+      "price": "Price (<0/>)",
+      "size": "Size (<0/>)",
+      "total": "Total (<0/>)",
+      "indexPrice": "Index Price:",
+      "markPrice": "Mark Price:"
+    },
+    "contractDetails": {
+      "title": "Contract Details:",
+      "indexPrice": "Index Price:",
+      "volume24h": "24hr Volume:",
+      "openInterest": "Open Interest:",
+      "fundingRate": "Funding Rate: ",
+      "fundingRate4hr": "in 4hrs",
+      "contractValue": "ContractValue:",
+      "lotSize": "Lot Size:",
+      "minTradeAmount": "Min Trade Amount:"
+    },
+    "recentTrades": {
+      "price": "Price (<0/>)",
+      "size": "Size (<0/>)",
+      "time": "Time"
+    },
+    "tradeForm": {
+      "titles": {
+        "order": "Place New Order",
+        "welcome": "Welcome to Sovryn Perpetuals",
+        "slippage": "Slippage Settings"
+      },
+      "text": {
+        "welcome1": "This is a preview of our perpetuals dashboard.\n The market data to the side is live.",
+        "welcome2": "In order to start trading perpetuals on Sovryn you need to:",
+        "welcome3": "<0>Connect a Hardware, web or mobile wallet</0> <0>Be connected to the Polygon network</0> <0>Fund your account by depositing BTC</0>",
+        "welcome4": "New from Bitmex? <0>Read our getting started guide</0>"
+      },
+      "labels": {
+        "pair": "Pair:",
+        "asset": "Asset to receive:",
+        "leverageSelector": "Position Leverage:",
+        "leverage": "Leverage:",
+        "orderValue": "Order Value:",
+        "limitPrice": "Limit Price:",
+        "orderCost": "Order Cost:",
+        "maxTradeSize": "Max Trade Size:",
+        "minEntryPrice": "Min Entry Price:",
+        "minLiquidationPrice": "Min Liquidation Price:",
+        "liquidationPrice": "Liquidation Price:",
+        "tradingFee": "Trading Fee:",
+        "slippage": "Slippage Tolerance:",
+        "balance": "Available Balance: <0/> <1/>",
+        "txFee": "Tx Fee: <0/> {{symbol}}"
+      },
+      "buttons": {
+        "buy": "Buy",
+        "sell": "Sell",
+        "connect": "Connect Wallet",
+        "market": "Market",
+        "limit": "Limit",
+        "buyMarket": "Buy Market",
+        "buyLimit": "Buy Limit",
+        "sellMarket": "Sell Market",
+        "sellLimit": "Sell Limit",
+        "minLeverage": "MIN",
+        "slippageSettings": "Slippage Settings"
+      }
+    },
+    "tradeDialog": {
+      "title": "Review Transaction",
+      "pair": "Trading Pair:",
+      "leverage": "Position Leverage:",
+      "asset": "Collateral:",
+      "direction": "Pair:",
+      "positionSize": "Position Size",
+      "maintananceMargin": "Maintenance Margin:",
+      "liquidationPrice": "Est. Liquidation price:",
+      "entryPrice": "Position Entry Price:",
+      "minEntry": "Minimum Entry Price: ",
+      "minLiq": "Minimum Liquidation Price: ",
+      "interestAPR": "Interest APY",
+      "renewalDate": "Renewal Date:",
+      "position": {
+        "long": "Long",
+        "short": "Short"
+      }
+    },
+    "reviewTrade": {
+      "title": "Review Order"
+    },
+    "editPositionSize": {
+      "title": "Edit Position Size"
+    },
+    "currentTrade": {
+      "position": "Current Position:",
+      "margin": "Current Margin:",
+      "available": "Available Balance:"
+    },
+    "openPositions": "Positions",
+    "closedPositions": "Closed Positions",
+    "orderHistory": "Order History",
+    "openPositionsTable": {
+      "pair": "Pair",
+      "positionSize": "Position Size",
+      "value": "Value",
+      "entryPrice": "Entry Price",
+      "markPrice": "Mark Price",
+      "liquidationPrice": "Liq. Price",
+      "margin": "Margin",
+      "unrealized": "Unrealized P&L (ROE %)",
+      "realized": "Realized P&L",
+      "actions": "Actions",
+      "editSize": "Size",
+      "editLeverage": "Leverage",
+      "editMargin": "Margin",
+      "editClose": "Close"
+    },
+    "notificationSettingsDialog": {
+      "title": "Margin Trade notification settings",
+      "notifyVia": "Notify via",
+      "telegramHandle": "Enter Telegram handle",
+      "discordHandle": "Enter Discord handle",
+      "usernamePlaceholder": "@username",
+      "receiveNotificationTitle": "You will receive a notification at",
+      "notificationEvents": {
+        "1": "25% margin",
+        "2": "Liquidation"
+      },
+      "submit": "Confirm"
+    }
   },
   "spotTradingPage": {
     "meta": {
@@ -1938,8 +2129,8 @@
   },
   "addToMargin": {
     "title": "Add to Margin",
-    "amount": "Amount to Add:",
-    "liquidationPrice": "Liquidation Price:"
+    "amount": "Increase margin by:",
+    "liquidationPrice": "Estimated Liquidation price:"
   },
   "openPositionTable": {
     "direction": "Direction",
@@ -1952,7 +2143,8 @@
     "actions": "Actions",
     "noData": "No data",
     "cta": {
-      "margin": "Add to Margin",
+      "increase": "Increase",
+      "margin": "Margin",
       "close": "Close"
     }
   },

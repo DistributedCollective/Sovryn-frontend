@@ -33,6 +33,8 @@ import VestingRegistryOriginAbi from './abi/VestingRegistryOrigin.json';
 import SovrynProtocolAbi from './abi/sovrynProtocol.json';
 import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
 import nftAbi from './abi/nftAbi.json';
+import perpetualManagerAbi from './abi/PerpetualManager.json';
+import marginTokenAbi from './abi/MarginToken.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -343,5 +345,13 @@ export const contracts = {
   sovrynNFT: {
     address: '0x576ae218aecfd4cbd2dbe07250b47e26060932b1', // todo
     abi: nftAbi,
+  },
+  perpetualManager: {
+    address: '0x055A902303746382FBB7D18f6aE0df56eFDc5213',
+    abi: perpetualManagerAbi,
+  },
+  PERPETUALS_token: {
+    address: '0xDaF779963E49c081dB6cf3Cf60368B0075517010',
+    abi: marginTokenAbi,
   },
 };

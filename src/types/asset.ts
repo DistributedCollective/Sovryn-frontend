@@ -12,5 +12,6 @@ export enum Asset {
   MOC = 'MOC',
   BNB = 'BNBS',
   FISH = 'FISH',
+  PERPETUALS = 'PERPETUALS',
   RIF = 'RIF',
 }

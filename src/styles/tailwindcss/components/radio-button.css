@@ -5,7 +5,8 @@
   }
 
   .tw-radio-group__label {
-    @apply tw-flex-grow-0 tw-flex-shrink tw-block tw-w-full tw-p-2 tw-cursor-pointer tw-m-0 tw-h-10 tw-flex tw-flex-row tw-items-center tw-justify-center tw-transition tw-truncate;
+    @apply tw-flex-grow-0 tw-flex-shrink tw-block tw-w-full tw-p-2 tw-cursor-pointer tw-m-0 tw-flex tw-flex-row tw-items-center tw-justify-center tw-transition tw-truncate tw-text-sm;
+    height: 1.875rem;
   }
 
   .tw-radio-group__label--active {

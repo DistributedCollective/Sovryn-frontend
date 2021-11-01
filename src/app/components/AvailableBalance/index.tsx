@@ -26,7 +26,11 @@ export function AvailableBalance(props: Props) {
         i18nKey={translations.marginTradePage.tradeForm.labels.balance}
         components={[
           <LoadableValue
-            value={weiToNumberFormat(value, 6)}
+            value={
+              <>
+                {weiToNumberFormat(value, 6)} {asset.asset}
+              </>
+            }
             loading={loading}
             tooltip={
               <>

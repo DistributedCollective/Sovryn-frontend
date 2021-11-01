@@ -1,5 +1,6 @@
-import { contractWriter } from 'utils/sovryn/contract-writer';
 import { contractReader } from 'utils/sovryn/contract-reader';
+import { contractWriter } from 'utils/sovryn/contract-writer';
+
 import VestingABI from '../abi/Vesting.json';
 import { gasLimit } from 'utils/classifiers';
 import { TxType } from 'store/global/transactions-store/types';

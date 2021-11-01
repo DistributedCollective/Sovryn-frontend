@@ -11,11 +11,11 @@ import { useSelector } from 'react-redux';
 import { selectTransactionArray } from 'store/global/transactions-store/selectors';
 import { TxStatus, TxType } from 'store/global/transactions-store/types';
 
-interface Props {
+interface IOpenPositionsTableProps {
   perPage: number;
 }
 
-export function OpenPositionsTable({ perPage }: Props) {
+export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const transactions = useSelector(selectTransactionArray);
@@ -67,19 +67,19 @@ export function OpenPositionsTable({ perPage }: Props) {
             <th className="tw-w-full">
               {t(translations.openPositionTable.direction)}
             </th>
-            <th className="tw-w-full">
+            <th className="tw-w-full tw-hidden xl:tw-table-cell">
               {t(translations.openPositionTable.positionSize)}
             </th>
             <th className="tw-w-full tw-hidden xl:tw-table-cell">
               {t(translations.openPositionTable.entryPrice)}
             </th>
-            <th className="tw-w-full tw-hidden xl:tw-table-cell">
+            <th className="tw-w-full tw-hidden md:tw-table-cell">
               {t(translations.openPositionTable.liquidationPrice)}
             </th>
             <th className="tw-w-full tw-hidden xl:tw-table-cell">
               {t(translations.openPositionTable.positionMargin)}
             </th>
-            <th className="tw-w-full">
+            <th className="tw-w-full tw-hidden sm:tw-table-cell">
               {t(translations.openPositionTable.unrealizedPL)}
             </th>
             <th className="tw-w-full tw-hidden 2xl:tw-table-cell">
