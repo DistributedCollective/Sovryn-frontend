@@ -49,6 +49,18 @@
     "liquidity": "Sorry, liquidity providing is currently under maintenance, some features may be unavailable. Please check our <0>discord</0> for updates.",
     "fastBTC": "Sorry, FastBTC deposits are currently under maintenance, please check our <0>discord</0> for updates.",
     "transack": "Sorry, Transack deposits are currently under maintenance, please check our <0>discord</0> for updates.",
+
+    "bridge": "Sorry, cross-chain transfers are currently under maintenance, please check our discord (link in footer) for updates.",
+    "bridgeSteps": "Sorry, cross-chain transfers are currently under maintenance, please check our <0>discord</0> for updates.",
+    "bridgeSovDeposit": "Sorry, SOV cross-chain deposits are currently under maintenance, please check our discord (link in footer) for updates.",
+    "bridgeSovWithdraw": "Sorry, SOV cross-chain withdrawals are currently under maintenance, please check our discord (link in footer) for updates.",
+    "bridgeEthDeposit": "Sorry, ETH cross-chain deposits are currently under maintenance, please check our discord (link in footer) for updates.",
+    "bridgeEthWithdraw": "Sorry, ETH cross-chain withdrawals are currently under maintenance, please check our discord (link in footer) for updates.",
+    "bridgeBnbDeposit": "Sorry, BNB cross-chain deposits are currently under maintenance, please check our discord (link in footer) for updates.",
+    "bridgeBnbWithdraw": "Sorry, BNB cross-chain withdrawals are currently under maintenance, please check our discord (link in footer) for updates.",
+    "bridgeXusdDeposit": "Sorry, XUSD cross-chain deposits are currently under maintenance, please check our discord (link in footer) for updates.",
+    "bridgeXusdWithdraw": "Sorry, XUSD cross-chain withdrawals are currently under maintenance, please check our discord (link in footer) for updates.",
+
     "staking": "Sorry, adding to stakes is currently under maintenance, please check our discord (link in footer) for updates.",
     "stakingModal": "Sorry, adding to stakes is currently under maintenance, please check our <0>discord</0> for updates.",
     "unstaking": "Sorry, unstaking is currently under maintenance, please check our discord (link in footer) for updates.",
@@ -1610,13 +1622,15 @@
       "labels": {
         "pair": "Pair:",
         "asset": "Asset to receive:",
-        "leverage": "Position Leverage:",
+        "leverageSelector": "Position Leverage:",
+        "leverage": "Leverage:",
         "orderValue": "Order Value:",
         "limitPrice": "Limit Price:",
         "orderCost": "Order Cost:",
         "maxTradeSize": "Max Trade Size:",
         "minEntryPrice": "Min Entry Price:",
         "minLiquidationPrice": "Min Liquidation Price:",
+        "liquidationPrice": "Liquidation Price:",
         "tradingFee": "Trading Fee:",
         "slippage": "Slippage Tolerance:",
         "balance": "Available Balance: <0/> <1/>",
@@ -1632,7 +1646,8 @@
         "buyLimit": "Buy Limit",
         "sellMarket": "Sell Market",
         "sellLimit": "Sell Limit",
-        "minLeverage": "MIN"
+        "minLeverage": "MIN",
+        "slippageSettings": "Slippage Settings"
       }
     },
     "tradeDialog": {
@@ -1657,6 +1672,14 @@
     "reviewTrade": {
       "title": "Review Order"
     },
+    "editPositionSize": {
+      "title": "Edit Position Size"
+    },
+    "currentTrade": {
+      "position": "Current Position:",
+      "margin": "Current Margin:",
+      "available": "Available Balance:"
+    },
     "openPositions": "Positions",
     "closedPositions": "Closed Positions",
     "orderHistory": "Order History",
@@ -1670,7 +1693,11 @@
       "margin": "Margin",
       "unrealized": "Unrealized P&L (ROE %)",
       "realized": "Realized P&L",
-      "actions": "Actions"
+      "actions": "Actions",
+      "editSize": "Size",
+      "editLeverage": "Leverage",
+      "editMargin": "Margin",
+      "editClose": "Close"
     },
     "notificationSettingsDialog": {
       "title": "Margin Trade notification settings",

@@ -28,7 +28,7 @@ import { noop } from '../../../../constants';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { detectWeb3Wallet } from 'utils/helpers';
 
-export function ConfirmStep() {
+export const ConfirmStep: React.FC = () => {
   const { t } = useTranslation();
   const trans = translations.BridgeWithdrawPage.confirmStep;
   const history = useHistory();
@@ -237,4 +237,4 @@ export function ConfirmStep() {
       )}
     </div>
   );
-}
+};

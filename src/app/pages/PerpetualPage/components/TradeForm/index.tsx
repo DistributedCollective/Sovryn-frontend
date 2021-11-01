@@ -1,8 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import { FormGroup } from 'app/components/Form/FormGroup';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import settingImg from 'assets/images/settings-blue.svg';
 import { discordInvite } from 'utils/classifiers';
@@ -11,21 +9,19 @@ import { TradingPosition } from '../../../../../types/trading-position';
 import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { LeverageSelector } from '../LeverageSelector';
 import {
-  formatAsNumber,
   weiToNumberFormat,
+  toNumberFormat,
 } from '../../../../../utils/display-text/format';
 import classNames from 'classnames';
 import { PerpetualTrade, PerpetualTradeType } from '../../types';
 import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
 import { Input } from '../../../../components/Input';
-import {
-  AssetDecimals,
-  AssetValueMode,
-} from '../../../../components/AssetValue/types';
 import { fromWei, toWei } from 'web3-utils';
 import { Tooltip } from '@blueprintjs/core';
 import { bignumber } from 'mathjs';
 import { AssetValue } from '../../../../components/AssetValue';
+import { AssetValueMode } from '../../../../components/AssetValue/types';
+import { LeverageViewer } from '../LeverageViewer';
 
 interface ITradeFormProps {
   trade: PerpetualTrade;
@@ -49,7 +45,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   const { checkMaintenance, States } = useMaintenance();
   const inMaintenance = checkMaintenance(States.PERPETUAL_TRADES);
 
-  const [amount, setAmount] = useState(trade.amount);
+  const [amount, setAmount] = useState(fromWei(trade.amount));
   const onChangeOrderAmount = useCallback(
     (amount: string) => {
       const roundedAmount = bignumber(amount || '0')
@@ -84,11 +80,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   const pair = useMemo(() => PerpetualPairDictionary.get(trade.pairType), [
     trade.pairType,
   ]);
-
-  const collateralToken = useMemo(
-    () => AssetsDictionary.get(trade.collateral),
-    [trade.collateral],
-  );
 
   const bindSelectPosition = useCallback(
     (position: TradingPosition) => () => onChange({ ...trade, position }),
@@ -125,6 +116,11 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   const tradingFee = useMemo(() => {
     // TODO implement tradingFee calculation
     return 0.1337;
+  }, []);
+
+  const liquidationPrice = useMemo(() => {
+    // TODO implement liquidationPrice calculation
+    return 1337.1337;
   }, []);
 
   const maxTradeSize = useMemo(() => {
@@ -250,7 +246,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           assetString={pair.shortAsset}
         />
       </div>
-      <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-text-xs tw-font-medium">
+      <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-xs tw-font-medium">
         <label>
           {t(translations.perpetualPage.tradeForm.labels.tradingFee)}
         </label>
@@ -262,28 +258,50 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           assetString={pair.shortAsset}
         />
       </div>
-
-      <FormGroup
-        label={t(translations.perpetualPage.tradeForm.labels.leverage)}
-        className="tw-p-4 tw-pb-px tw-mt-4 tw-mb-2 tw-bg-gray-4 tw-rounded-lg"
-      >
+      {isNewTrade && (
         <LeverageSelector
+          className="tw-mb-2"
           value={trade.leverage}
           min={minLeverage}
           max={maxLeverage}
           steps={[1, 2, 3, 5, 10, 15]}
           onChange={onChangeLeverage}
         />
-      </FormGroup>
-
-      <div className="tw-mb-2 tw-text-secondary tw-text-xs">
+      )}
+      <div className="tw-my-2 tw-text-secondary tw-text-xs">
         <button className="tw-flex tw-flex-row" onClick={onOpenSlippage}>
           <Trans
-            i18nKey={translations.marginTradeForm.fields.advancedSettings}
+            i18nKey={
+              translations.perpetualPage.tradeForm.buttons.slippageSettings
+            }
           />
           <img className="tw-ml-2" alt="setting" src={settingImg} />
         </button>
       </div>
+      {!isNewTrade && (
+        <>
+          <LeverageViewer
+            className="tw-mt-3 tw-mb-4"
+            label={t(translations.perpetualPage.tradeForm.labels.leverage)}
+            min={minLeverage}
+            max={maxLeverage}
+            value={trade.leverage}
+            valueLabel={`${toNumberFormat(trade.leverage, 2)}x`}
+          />
+          <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
+            <label>
+              {t(translations.perpetualPage.tradeForm.labels.liquidationPrice)}
+            </label>
+            <AssetValue
+              minDecimals={2}
+              maxDecimals={2}
+              mode={AssetValueMode.auto}
+              value={liquidationPrice}
+              assetString={pair.longAsset}
+            />
+          </div>
+        </>
+      )}
       <div className="tw-absolute tw-bottom-0 tw-left-0 tw-right-0">
         {!inMaintenance ? (
           <button

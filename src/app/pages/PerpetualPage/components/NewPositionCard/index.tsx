@@ -24,6 +24,7 @@ import { SlippageFormStep } from './components/SlippageFormStep';
 import { TradeFormStep } from './components/TradeFormStep';
 import { ConnectFormStep } from './components/ConnectFormStep';
 import { noop } from '../../../../constants';
+import { PERPETUAL_SLIPPAGE_DEFAULT } from '../../types';
 
 export const NewPositionCardContext = React.createContext<
   NewPositionCardContextType
@@ -36,7 +37,7 @@ export const NewPositionCardContext = React.createContext<
     amount: '0',
     limit: '0',
     leverage: 1,
-    slippage: 0.5,
+    slippage: PERPETUAL_SLIPPAGE_DEFAULT,
   },
   onChangeTrade: noop,
   onSubmit: noop,
@@ -69,7 +70,7 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
     amount: '0',
     limit: '0',
     leverage: 1,
-    slippage: 0.5,
+    slippage: PERPETUAL_SLIPPAGE_DEFAULT,
   });
 
   const onSubmit = useCallback(

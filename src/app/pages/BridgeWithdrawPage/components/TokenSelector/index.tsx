@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Chain } from 'types';
 import { translations } from 'locales/i18n';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 
 import { actions } from '../../slice';
 import { selectBridgeWithdrawPage } from '../../selectors';
@@ -15,8 +15,11 @@ import { BridgeNetworkDictionary } from 'app/pages/BridgeDepositPage/dictionarie
 import { AssetModel } from '../../../BridgeDepositPage/types/asset-model';
 import { TokenItem } from './TokenItem';
 import { useAccount } from '../../../../hooks/useAccount';
+import { discordInvite } from 'utils/classifiers';
+import { useIsBridgeWithdrawLocked } from 'app/pages/BridgeWithdrawPage/hooks/useIsBridgeWithdrawLocked';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 
-export function TokenSelector() {
+export const TokenSelector: React.FC = () => {
   const { t } = useTranslation();
 
   const account = useAccount();
@@ -103,6 +106,11 @@ export function TokenSelector() {
     [balances],
   );
 
+  const bridgeWithdrawLocked = useIsBridgeWithdrawLocked(
+    sourceAsset,
+    targetChain,
+  );
+
   return (
     <div>
       <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
@@ -120,6 +128,7 @@ export function TokenSelector() {
                 balance={getBalance(item.asset)}
                 loading={!balances.length}
                 onClick={() => selectTargetAsset(item.asset)}
+                disabled={bridgeWithdrawLocked}
               />
             );
           })}
@@ -132,6 +141,25 @@ export function TokenSelector() {
           })}
         </p>
       )}
+      {bridgeWithdrawLocked && (
+        <ErrorBadge
+          content={
+            <Trans
+              i18nKey={translations.maintenance.bridgeSteps}
+              components={[
+                <a
+                  href={discordInvite}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                >
+                  x
+                </a>,
+              ]}
+            />
+          }
+        />
+      )}
     </div>
   );
-}
+};

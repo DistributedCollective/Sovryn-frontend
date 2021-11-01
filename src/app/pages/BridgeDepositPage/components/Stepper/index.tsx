@@ -1,5 +1,6 @@
 import React from 'react';
 import { Step } from './Step';
+import { useMaintenance } from 'app/hooks/useMaintenance';
 
 export interface StepItem {
   stepTitle: string;
@@ -8,13 +9,15 @@ export interface StepItem {
   icon?: React.ReactChild;
 }
 
-type Props = {
+type IStepperProps = {
   onClick: Function;
   step: number;
   steps: StepItem[];
 };
 
-export function Stepper({ steps, step, onClick }: Props) {
+export const Stepper: React.FC<IStepperProps> = ({ steps, step, onClick }) => {
+  const { checkMaintenance, States } = useMaintenance();
+  const bridgeLocked = checkMaintenance(States.BRIDGE);
   const activeIndex = steps.findIndex(item => item.value === step);
   return (
     <div>
@@ -31,8 +34,9 @@ export function Stepper({ steps, step, onClick }: Props) {
           <Step
             step={steps[0]}
             current={activeIndex === 0}
-            active={activeIndex >= 0}
+            active={activeIndex >= 0 && !bridgeLocked}
             onClick={() => onClick(steps[0].value)}
+            disabled={bridgeLocked}
             isFirst
           />
         </div>
@@ -42,11 +46,12 @@ export function Stepper({ steps, step, onClick }: Props) {
             key={i}
             step={item}
             current={activeIndex === i + 1}
-            active={activeIndex >= i + 1}
-            onClick={() => onClick(item.value)}
+            active={activeIndex >= i + 1 && !bridgeLocked}
+            onClick={() => !bridgeLocked && onClick(item.value)}
+            disabled={bridgeLocked}
           />
         ))}
       </ul>
     </div>
   );
-}
+};
