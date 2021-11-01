@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import imgTitle from 'assets/images/OriginsLaunchpad/FishSale/title_image.png';
+import imgTitle from 'assets/images/OriginsLaunchpad/MyntSale/token.svg';
 import { TitleContent, TitleImage } from './styled';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
