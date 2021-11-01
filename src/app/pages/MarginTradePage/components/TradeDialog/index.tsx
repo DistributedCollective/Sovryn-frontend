@@ -16,8 +16,7 @@ import {
   getLendingContractName,
   getTokenContract,
 } from 'utils/blockchain/contract-helpers';
-import { fromWei } from 'utils/blockchain/math-helpers';
-import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
+import { fromWei, weiTo18, weiToFixed } from 'utils/blockchain/math-helpers';
 import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
 import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
 
@@ -37,7 +36,8 @@ import { PricePrediction } from 'app/containers/MarginTradeForm/PricePrediction'
 
 import { TransactionDialog } from '../../../../components/TransactionDialog';
 import { TransactionFee } from 'app/pages/MarginTradePage/components/TxFeeCalculator/TransactionFee';
-import { Slider } from 'app/components/Form/Slider';
+import { AssetRenderer } from 'app/components/AssetRenderer';
+import { DummyInput } from 'app/components/Form/Input';
 // import { TxDialog } from 'app/components/Dialogs/TxDialog';
 
 const maintenanceMargin = 15000000000000000000;
