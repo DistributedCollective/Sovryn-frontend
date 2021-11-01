@@ -25,7 +25,8 @@ import {
   toNumberFormat,
   weiToNumberFormat,
 } from '../../../../../utils/display-text/format';
-import { TxDialog } from '../../../../components/Dialogs/TxDialog';
+// import { TxDialog } from '../../../../components/Dialogs/TxDialog';
+import { TransactionDialog } from '../../../../components/TransactionDialog';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { Dialog } from '../../../../containers/Dialog';
 import { useApproveAndTrade } from '../../../../hooks/trading/useApproveAndTrade';
@@ -38,6 +39,7 @@ import { useGetEstimatedMarginDetails } from '../../../../hooks/trading/useGetEs
 import { selectMarginTradePage } from '../../selectors';
 import { actions } from '../../slice';
 import { PricePrediction } from '../../../../containers/MarginTradeForm/PricePrediction';
+import { TransactionFee } from 'app/pages/MarginTradePage/components/TxFeeCalculator/TransactionFee';
 
 const maintenanceMargin = 15000000000000000000;
 
@@ -247,9 +249,26 @@ export function TradeDialog() {
           />
         </div>
       </Dialog>
-      <TxDialog
+      {/* <TxDialog
         tx={tx}
         onUserConfirmed={() => dispatch(actions.closeTradingModal())}
+      /> */}
+      <TransactionDialog
+        tx={{ ...tx, retry: submit }}
+        onUserConfirmed={() => dispatch(actions.closeTradingModal())}
+        action="Trade"
+        fee={
+          <TransactionFee
+            args={txArgs}
+            txConfig={txConf}
+            methodName="marginTrade"
+            contractName={contractName}
+            condition={true}
+          />
+        }
+        finalMessage={
+          <div className="tw-text-center tw-w-full">Cancel Limit Buy</div>
+        }
       />
     </>
   );
