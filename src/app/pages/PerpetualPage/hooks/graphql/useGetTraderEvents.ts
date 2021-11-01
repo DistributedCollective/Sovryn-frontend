@@ -8,11 +8,8 @@ import { useQuery, gql } from '@apollo/client';
 import { DocumentNode } from 'graphql';
 
 export function useGetTraderEvents(event: Event[], user: string) {
-  console.debug('Geting events tab');
-  const SUBGRAPH_QUERY = generateQuery(
-    event,
-    '0xaaa5a190accbc50f4f9c130b5876521e4d5f9d6c',
-  );
+  console.debug('Getting events tab');
+  const SUBGRAPH_QUERY = generateQuery(event, user);
   const query = useQuery(SUBGRAPH_QUERY);
   return query;
 }
@@ -36,17 +33,15 @@ export enum Event {
   TRADE = 'TRADE',
   TOKENS_DEPOSITED = 'TOKENS_DEPOSITED',
   TOKENS_WITHDRAWN = 'TOKENS_WITHDRAWN',
+  LIQUIDATE = 'LIQUIDATE',
+  LIQUIDITY_ADDED = 'LIQUIDITY_ADDED',
+  LIQUIDITY_REMOVED = 'LIQUIDITY_REMOVED',
 }
 
 class EventDetails {
-  constructor(
-    public entityName: string,
-    public fields: string[],
-    public userField: string,
-  ) {
+  constructor(public entityName: string, public fields: string[]) {
     this.entityName = entityName;
     this.fields = fields;
-    this.userField = userField;
   }
 }
 
@@ -57,19 +52,54 @@ class EventDictionary {
     [
       [
         Event.TRADE,
-        new EventDetails(
-          'trades',
-          ['perpetualId', 'tradeAmount', 'price', ...genericFields],
-          'trader',
-        ),
+        new EventDetails('trades', [
+          'perpetualId',
+          'tradeAmount',
+          'price',
+          ...genericFields,
+        ]),
       ],
       [
         Event.TOKENS_DEPOSITED,
-        new EventDetails(
-          'tokensDeposits',
-          ['perpetualId', 'amount', ...genericFields],
-          'trader',
-        ),
+        new EventDetails('tokensDeposits', [
+          'perpetualId',
+          'amount',
+          ...genericFields,
+        ]),
+      ],
+      [
+        Event.TOKENS_WITHDRAWN,
+        new EventDetails('tokensWithdraws', [
+          'perpetualId',
+          'amount',
+          ...genericFields,
+        ]),
+      ],
+      [
+        Event.LIQUIDATE,
+        new EventDetails('liquidates', [
+          'perpetualId',
+          'amount',
+          ...genericFields,
+        ]),
+      ],
+      [
+        Event.LIQUIDITY_ADDED,
+        new EventDetails('liquidityAddeds', [
+          'poolId',
+          'tokenAmount',
+          'shareAmount',
+          ...genericFields,
+        ]),
+      ],
+      [
+        Event.LIQUIDITY_REMOVED,
+        new EventDetails('liquidityRemoveds', [
+          'poolId',
+          'tokenAmount',
+          'shareAmount',
+          ...genericFields,
+        ]),
       ],
     ],
   );

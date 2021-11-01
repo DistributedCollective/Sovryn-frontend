@@ -34,6 +34,7 @@ import { AccountDialog } from './components/AccountDialog';
 import { NewPositionCard } from './components/NewPositionCard';
 import { TradeReviewDialog } from './components/TradeReviewDialog';
 import { TestHistory } from './components/TestHistory';
+import { TestCandles } from './components/TestCandles';
 
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -173,6 +174,8 @@ export function PerpetualPage() {
         <button className="tw-block" onClick={onWithdrawClick}>
           Withdraw 20 margin tokens
         </button> */}
+
+        <TestCandles />
 
         <TestHistory />
 

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { translations } from '../../../../../../locales/i18n';

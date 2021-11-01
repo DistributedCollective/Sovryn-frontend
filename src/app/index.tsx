@@ -88,7 +88,9 @@ export function App() {
                 new ApolloClient({
                   uri:
                     'http://3.22.188.172:8000/subgraphs/name/DistributedCollective/Sovryn-perpetual-swaps-subgraph',
-                  cache: new InMemoryCache(),
+                  cache: new InMemoryCache({
+                    resultCaching: false,
+                  }),
                 })
               }
             >
@@ -120,21 +122,11 @@ export function App() {
               path="/optin-success"
               render={props => <EmailPage {...props} type="OPTIN" />}
             />
-            <ApolloProvider
-              client={
-                new ApolloClient({
-                  uri:
-                    'http://3.22.188.172:8001/subgraphs/name/DistributedCollective/Sovryn-perpetual-swaps-subgraph/graphql',
-                  cache: new InMemoryCache(),
-                })
-              }
-            >
-              <Route
-                exact
-                path="/unsubscribe"
-                render={props => <EmailPage {...props} type="UNSUBSCRIBE" />}
-              />
-            </ApolloProvider>
+            <Route
+              exact
+              path="/unsubscribe"
+              render={props => <EmailPage {...props} type="UNSUBSCRIBE" />}
+            />
             <Route component={NotFoundPage} />
           </Switch>
         </WalletProvider>

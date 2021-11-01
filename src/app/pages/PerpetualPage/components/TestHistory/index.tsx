@@ -3,18 +3,18 @@ import {
   useGetTraderEvents,
   Event,
 } from '../../hooks/graphql/useGetTraderEvents';
-
 export const TestHistory = () => {
-  const { loading, error, data } = useGetTraderEvents(
-    [Event.TRADE, Event.TOKENS_DEPOSITED],
-    '',
-  );
+  const {
+    loading: eventLoading,
+    error: eventError,
+    data: eventData,
+  } = useGetTraderEvents([Event.TRADE, Event.TOKENS_DEPOSITED], '');
 
   useEffect(() => {
-    console.log(loading);
-    console.log(data);
-    console.log(error);
-  }, [loading, error, data]);
+    console.log(eventLoading);
+    console.log(eventData);
+    console.log(eventError);
+  }, [eventLoading, eventError, eventData]);
 
   return (
     <div>
