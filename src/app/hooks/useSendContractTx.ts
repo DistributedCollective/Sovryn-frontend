@@ -35,6 +35,7 @@ export interface SendTxResponse {
 
 export interface ResetTxResponseInterface extends SendTxResponse {
   reset: () => void;
+  retry?: () => void;
 }
 
 export interface SendTxResponseInterface extends ResetTxResponseInterface {
