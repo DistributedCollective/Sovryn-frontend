@@ -1493,6 +1493,30 @@
       },
       {
         "internalType": "address",
+        "name": "_user",
+        "type": "address"
+      }
+    ],
+    "name": "getAmountForPeriod",
+    "outputs": [
+      {
+        "internalType": "int128",
+        "name": "",
+        "type": "int128"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_poolId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "address",
         "name": "_account",
         "type": "address"
       }
@@ -2008,7 +2032,7 @@
           },
           {
             "internalType": "int128",
-            "name": "fDustSizeQC",
+            "name": "fLotSizeBC",
             "type": "int128"
           },
           {
@@ -2389,6 +2413,30 @@
       }
     ],
     "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_poolId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "int128",
+        "name": "_fShareAmount",
+        "type": "int128"
+      }
+    ],
+    "name": "getTokenAmountToReturn",
+    "outputs": [
+      {
+        "internalType": "int128",
+        "name": "",
+        "type": "int128"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -2826,6 +2874,19 @@
       }
     ],
     "name": "withdraw",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "_iPerpetualId",
+        "type": "bytes32"
+      }
+    ],
+    "name": "withdrawAll",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

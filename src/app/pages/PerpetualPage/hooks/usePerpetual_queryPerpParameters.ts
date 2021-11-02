@@ -67,8 +67,7 @@ const parsePerpParameter = (response: any): PerpParameters => ({
   fLiquidationPenaltyRate: ABK64x64ToFloat(response[25]),
   fMinimalSpread: ABK64x64ToFloat(response[26]),
   fIncentiveSpread: ABK64x64ToFloat(response[27]),
-  fLotSizeBC: 0.002, // just temporary fix
-  //fLotSizeBC: ABK64x64ToFloat(response.fLotSizeBC), // what index is this? do I have the latest ABI?
+  fLotSizeBC: ABK64x64ToFloat(response[28]),
   fFundingRateClamp: ABK64x64ToFloat(response[29]),
   fMarkPriceEMALambda: ABK64x64ToFloat(response[30]),
   fSigma2: ABK64x64ToFloat(response[31]),
