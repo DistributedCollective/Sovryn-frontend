@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import camelCase from 'camelcase';
-import imgLargeNFT from 'assets/images/OriginsLaunchpad/FishSale/large_NFT.svg';
+import imgLargeNFT from 'assets/origins_launchpad/MYNT_NFT_Large.png';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { DialogTitle, DialogWrapper } from './styled';
@@ -45,7 +45,11 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
 
   return (
     <>
-      <img src={imgLargeNFT} alt="Dialog NFT" />
+      <img
+        src={imgLargeNFT}
+        alt="Dialog NFT"
+        className="tw-my-auto tw-border-8 tw-border-gray-9 tw-rounded-3xl"
+      />
       <DialogWrapper>
         <div className="tw-max-w-lg">
           <DialogTitle>

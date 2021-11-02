@@ -6,7 +6,8 @@ import {
   InstructionsTitle,
   MainInstructionsWrapper,
 } from './styled';
-import imgInstructions from 'assets/images/OriginsLaunchpad/FishSale/small_NFT.svg';
+import imgInstructions from 'assets/origins_launchpad/MYNT_NFT_small.png';
+import { discordInvite } from 'utils/classifiers';
 
 interface IInstructionsProps {
   saleName: string;
@@ -48,20 +49,20 @@ export const Instructions: React.FC<IInstructionsProps> = ({ saleName }) => {
                 .discordSupport
             }
             components={[
-              <a
-                href="http://discord.com/invite/J22WS6z"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a href={discordInvite} target="_blank" rel="noopener noreferrer">
                 x
               </a>,
             ]}
-            tOptions={{ discordUrl: 'discord.com/invite/J22WS6z' }}
+            tOptions={{ discordUrl: discordInvite }}
           />
         </div>
       </MainInstructionsWrapper>
 
-      <img src={imgInstructions} alt="instructions" />
+      <img
+        src={imgInstructions}
+        alt="instructions"
+        className="tw-border-4 tw-rounded tw-border-gray-9"
+      />
     </InstructionsSectionsWrapper>
   );
 };

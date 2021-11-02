@@ -80,3 +80,5 @@ export const gasLimit = {
 };
 
 export const discordInvite = 'https://discord.gg/kBTNx4zjRf'; //unlimited use, no-expiry invite
+
+export const sovrynTelegram = 'https://t.me/SovrynBitcoin';

@@ -1,9 +1,12 @@
 import React, { useCallback, useState } from 'react';
-import { DialogTitle, DialogWrapper, ListItem } from './styled';
-import { useTranslation } from 'react-i18next';
-import { translations } from 'locales/i18n';
+import { useTranslation, Trans } from 'react-i18next';
 import { Checkbox } from '@blueprintjs/core';
+import { Link } from 'react-router-dom';
+
+import { DialogTitle, DialogWrapper, ListItem } from './styled';
+import { translations } from 'locales/i18n';
 import { ActionButton } from 'app/components/Form/ActionButton';
+import { discordInvite, sovrynTelegram } from 'utils/classifiers';
 
 interface IImportantInformationStepProps {
   saleName: string;
@@ -41,7 +44,29 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
               {t(baseTranslations.information[2], { token: saleName })}
             </ListItem>
             <ListItem>
-              {t(baseTranslations.information[3], { token: saleName })}
+              <div>
+                <Trans
+                  i18nKey={baseTranslations.information[3]}
+                  components={[
+                    <a
+                      href={discordInvite}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="tw-inline tw-underline"
+                    >
+                      x
+                    </a>,
+                    <a
+                      href={sovrynTelegram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="tw-inline tw-underline"
+                    >
+                      x
+                    </a>,
+                  ]}
+                />
+              </div>
             </ListItem>
           </div>
 
@@ -57,9 +82,19 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
               </strong>
             </ListItem>
             <ListItem>
-              {t(baseTranslations.information[7], { token: saleName })}
+              <div>
+                <Trans
+                  i18nKey={baseTranslations.information[7]}
+                  values={{ token: saleName }}
+                  components={[
+                    <Link to="/wallet" className="tw-underline">
+                      x
+                    </Link>,
+                  ]}
+                />
+              </div>
             </ListItem>
-            <ListItem>{t(baseTranslations.information[9])}</ListItem>
+            <ListItem>{t(baseTranslations.information[8])}</ListItem>
           </div>
         </div>
 

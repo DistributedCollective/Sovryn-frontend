@@ -5,6 +5,7 @@ export const DialogWrapper = styled.div`
   padding: 2.5rem 8.75rem 3.75rem 8.75rem;
   border-radius: 1.25rem;
   margin-left: 2.5rem;
+  margin-right: 2.5rem;
   width: 77.1875rem;
 `;
 

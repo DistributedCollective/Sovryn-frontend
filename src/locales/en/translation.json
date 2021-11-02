@@ -301,19 +301,19 @@
       }
     },
     "saleDay": {
-      "title": "{{token}} Pre-Sale on Origins ",
+      "title": "{{token}}-Token Bootstrap Event on Origins ",
       "engageWalletScreen": {
-        "dialogTitle": "Welcome to the {{token}} Pre-Sale on Origins",
+        "dialogTitle": "Welcome to the {{token}} Bootstrap Event on Origins",
         "buttonText": "Connect Wallet",
         "dialogFooter1": "Engage a browser, mobile or hardware wallet connected to the <0>RSK Mainnet</0>",
         "dialogFooter2": "Don’t have a wallet? Sovryn recommends <0>Liquality wallet</0>"
       },
       "accessCodeVerificationStep": {
-        "dialogTitle": "Welcome to the {{token}} Pre-Sale on Origins ",
+        "dialogTitle": "Welcome to the {{token}}-Token Bootstrap Event on Origins ",
         "alert": {
-          "closed": "{{token}} pre-sale already finished.",
-          "active": "You can now participate in the {{token}} pre-sale.",
-          "notYetOpen": "The {{token}} public pre-sale will open at {{time}}, get your {{depositToken}} ready!"
+          "closed": "{{token}}-Token bootstrap event already finished.",
+          "active": "You can now participate in the {{token}}-Token bootstrap event.",
+          "notYetOpen": "The {{token}}-Token public bootstrap event will open at {{time}}, get your {{depositToken}} ready!"
         },
         "verified": {
           "privateSale": "You have been given whitelist access to participate in the FISH Origins pre-sale.",
@@ -325,7 +325,7 @@
       },
       "importantInformationStep": {
         "privateSale": {
-          "title": "Important Information about the {{token}} Private Pre-Sale Process and Terms",
+          "title": "Important Information about the Sovryn {{token}} Bootstrap Event",
           "information": {
             "1": "You have been whitelisted for the Blockchain Whispers' Private {{token}} pre-sale! Welcome and thanks for your support!",
             "2": "It is highly recommended to send funds from an address directly owned by you (EOA).",
@@ -340,19 +340,18 @@
           "submitButtonText": "I Understand"
         },
         "publicSale": {
-          "title": "Important Information about the {{token}} Public Pre-Sale Process and Terms",
+          "title": "Important Information about the {{token}}-Token Bootstrap Event",
           "information": {
-            "1": "Welcome to the {{token}} Token pre-sale. Thank you kindly for your support!",
-            "2": "It is highly recommended to send funds from an address directly owned by you (EOA).",
-            "3": "For any questions, please ask the community in Discord or Telegram channels",
-            "4": "The price of 100 {{token}} Tokens is 1 SOV",
-            "5": "Half the {{token}} purchased will vest (be liquid) upon completion of the pre-sale, the other half will vest linearly for approximately 10 consecutive months from the time they are claimed.",
-            "6": "The sale ends in 7 Days.",
-            "7": "Once you complete the purchase of the {{token}} Token it will be visible on the Portfolio Section.",
-            "8": "A {{token}} AMM pool will be available on Sovryn. {{token}} can be used to vote in BabelFish governance as soon as it begins to vest and after BabelFish governance has been launched.",
-            "9": "There will be no vesting schedule for the purchased Token. So you can transfer Tokens once the sale ends."
+            "1": "Welcome to the {{token}}-Token Bootstrap Event. Thank you for your participation!",
+            "2": "We advise you to participate in this sale with a wallet solely and directly owned by you (EOA). ",
+            "3": "For any questions, please ask the community in our <0>Discord</0> or <1>Telegram</1> channels.",
+            "4": "The price of 100 {{token}} is 1 SOV. Other assets will be converted to SOV at the current exchange rate prior to the purchase.",
+            "5": "There will be no vesting schedule for the purchased Token. You can transfer purchased {{token}}-tokens once the sale is concluded.",
+            "6": "The sale ends on 11th November 2021.",
+            "7": "Once you receive the purchased {{token}}-Token it will be visible in your <0>Portfolio</0> section.",
+            "8": "There will be no vesting schedule for the purchased Token. So you can transfer Tokens once the sale ends."
           },
-          "checkboxText": "I have read and understand that I am responsible for my own Sovrynity",
+          "checkboxText": "I have read the information and accept my Sovryn participation in this bootstrap sale",
           "submitButtonText": "I Understand"
         }
       },
@@ -363,7 +362,7 @@
           "allocationRemaining": "Allocation Remaining",
           "participatingWallets": "Participating Wallets",
           "price": "Price",
-          "acceptedCurrencies": "Accepted Currencies",
+          "acceptedCurrencies": "Accepted Assets",
           "tokenSaleEndTime": "Token Sale End Time",
           "totalDepositReceived": "Total Deposit Received",
           "tokenPrice": "Token Price",
@@ -381,7 +380,7 @@
         },
         "instructions": {
           "title": "Instructions",
-          "instruction1": "Buy {{token}} with the accepted currencies in your engaged wallet",
+          "instruction1": "Buy {{token}} with the accepted assets in your engaged wallet",
           "instruction2": "Please allow up to 5 minutes for the transaction to process",
           "discordSupport": "For support please join us on <0>{{discordUrl}}</0>"
         }
