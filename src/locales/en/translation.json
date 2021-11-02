@@ -1627,7 +1627,8 @@
       "dayChange": "24H change",
       "dayPercentChange": "24hr % Change",
       "dayLow": "24hr Low:",
-      "dayHigh": "24hr High:"
+      "dayHigh": "24hr High:",
+      "all": "ALL"
     }
   },
   "form": {
