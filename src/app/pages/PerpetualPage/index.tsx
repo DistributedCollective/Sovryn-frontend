@@ -34,18 +34,6 @@ import { AccountDialog } from './components/AccountDialog';
 import { NewPositionCard } from './components/NewPositionCard';
 import { TradeReviewDialog } from './components/TradeReviewDialog';
 import { EditPositionSizeDialog } from './components/EditPositionSizeDialog';
-import { usePerpetual_marginAccountBalance } from './hooks/usePerpetual_marginAccountBalance';
-import { usePerpetual_withdrawMarginToken } from './hooks/usePerpetual_withdrawMarginToken';
-import { usePerpetual_closePosition } from './hooks/usePerpetual_closePosition';
-import { usePerpetual_queryAmmState } from './hooks/usePerpetual_queryAmmState';
-import { usePerpetual_queryPerpParameters } from './hooks/usePerpetual_queryPerpParameters';
-import { usePerpetual_queryTraderState } from './hooks/usePerpetual_queryTraderState';
-import {
-  getIndexPrice,
-  getMarkPrice,
-  getSignedMaxAbsPositionForTrader,
-  getTradingFeeRate,
-} from './temporaryUtils';
 
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -110,42 +98,18 @@ export function PerpetualPage() {
   );
 
   // This can be used for testing Withdraw/Close position
-  const { withdraw } = usePerpetual_withdrawMarginToken();
-  const onWithdrawClick = useCallback(() => withdraw('5.54151847352111'), [
-    withdraw,
-  ]);
+  // const { withdraw } = usePerpetual_withdrawMarginToken();
+  // const onWithdrawClick = useCallback(() => withdraw('5.54151847352111'), [
+  //   withdraw,
+  // ]);
 
-  const marginAccountBalance = usePerpetual_marginAccountBalance();
-
-  console.log(
-    `Margin account balance: ${JSON.stringify(marginAccountBalance)}`,
-  );
-
-  const { closePosition } = usePerpetual_closePosition();
-
-  const ammState = usePerpetual_queryAmmState();
-  // console.log(`Amm state: ${JSON.stringify(ammState)}`);
-
-  const perpParameters = usePerpetual_queryPerpParameters();
-  // console.log(`Perp parameters: ${JSON.stringify(perpParameters)}`);
-
-  const traderState = usePerpetual_queryTraderState();
-  //console.log(`Trader state: ${JSON.stringify(traderState)}`);
+  // const marginAccountBalance = usePerpetual_marginAccountBalance();
 
   // console.log(
-  //   `Max position for the trader is: ${getSignedMaxAbsPositionForTrader(
-  //     1,
-  //     10,
-  //     perpParameters,
-  //     traderState,
-  //     ammState,
-  //   )}`,
+  //   `Margin account balance: ${JSON.stringify(marginAccountBalance)}`,
   // );
-  // console.log(
-  //   `Mark price is ${getMarkPrice(ammState)} and index price is ${getIndexPrice(
-  //     ammState,
-  //   )}`,
-  // );
+
+  // const { closePosition } = usePerpetual_closePosition();
 
   return (
     <>
@@ -204,12 +168,12 @@ export function PerpetualPage() {
         </div>
 
         {/* This can be used for testing Withdraw/Close position */}
-        <button className="tw-block" onClick={onWithdrawClick}>
+        {/* <button className="tw-block" onClick={onWithdrawClick}>
           Withdraw margin
         </button>
         <button className="tw-block" onClick={closePosition}>
           Close the position
-        </button>
+        </button> */}
 
         {connected && (
           <>

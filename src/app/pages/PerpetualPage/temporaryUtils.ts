@@ -1,6 +1,6 @@
 /*
 This file contains just temporary utils, will be deleted and replaced by
-an npm package that will Vasili prepare.
+an npm package that will be prepared by Vasili.
 */
 
 /*---
@@ -319,7 +319,10 @@ function getQuote2CollateralFX(ammData: AMMState): number {
  * @returns {number} conversion rate
  */
 
-function getBase2CollateralFX(ammData: AMMState, atMarkPrice: boolean): number {
+export function getBase2CollateralFX(
+  ammData: AMMState,
+  atMarkPrice: boolean,
+): number {
   let s2 = atMarkPrice
     ? ammData.currentPremiumEMA + ammData.indexS2PriceData
     : ammData.indexS2PriceData;
@@ -342,64 +345,15 @@ function getBase2CollateralFX(ammData: AMMState, atMarkPrice: boolean): number {
  * @returns {number} conversion rate
  */
 
-function getBase2QuoteFX(ammData: AMMState, atMarkPrice: boolean): number {
+export function getBase2QuoteFX(
+  ammData: AMMState,
+  atMarkPrice: boolean,
+): number {
   let s2 = atMarkPrice
     ? ammData.currentPremiumEMA + ammData.indexS2PriceData
     : ammData.indexS2PriceData;
   return s2;
 }
-
-/**
- * Calculate the price at which the perpetual will be liquidated
- * @param {number} currentPos - The current position of the trade (base currency), negative if short
- * @param {number} traderCash - Cash of the trader
- * @param {AMMState} ammData - AMM state
- * @param {PerpParameters} perpParams - Contains parameter of the perpetual
- * @returns {number} approximate liquidation price
- */
-// IMPORTANT: This method is not implemented because it requires 'newton-raphson-method' as dependency so we'll wait for the npm package with that
-
-// function calculateApproxLiquidationPrice(
-//   position: number,
-//   traderCash: number,
-//   ammData: AMMState,
-//   perpParams: PerpParameters,
-// ): number {
-//   let maintMarginRate = getMaintenanceMarginRate(position, perpParams);
-//   if (ammData.M1 != 0) {
-//     // quote currency perpetual
-//     return calculateLiquidationPriceCollateralQuote(
-//       ammData.L1,
-//       position,
-//       traderCash,
-//       maintMarginRate,
-//     );
-//   } else if (ammData.M2 != 0) {
-//     // base currency perpetual
-//     return calculateLiquidationPriceCollateralBase(
-//       ammData.L1,
-//       position,
-//       traderCash,
-//       maintMarginRate,
-//     );
-//   } else if (ammData.M3 != 0) {
-//     // quanto currency perpetual
-//     // we calculate a price that in 90% of the cases leads to a liquidation according to the
-//     // instrument parameters sigma2/3, rho and current prices
-//     return calculateLiquidationPriceCollateralQuanto(
-//       ammData.L1,
-//       position,
-//       traderCash,
-//       maintMarginRate,
-//       perpParams.fRho23,
-//       perpParams.fSigma2,
-//       perpParams.fSigma3,
-//       ammData.indexS2PriceData,
-//       ammData.indexS3PriceData,
-//     );
-//   }
-//   return -1;
-// }
 
 /**
  * Get the amount of collateral required to obtain a given leverage with a given position size.
