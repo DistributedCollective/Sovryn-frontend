@@ -6,7 +6,7 @@ exports.config = {
   //
   // WebdriverIO allows it to run your tests in arbitrary locations (e.g. locally or
   // on a remote machine).
-  runner: "local",
+  runner: 'local',
   //
   // ==================
   // Specify Test Files
@@ -23,14 +23,14 @@ exports.config = {
   // then the current working directory is where your `package.json` resides, so `wdio`
   // will be called from there.
   //
-  specs: ["./features/**/*.feature"],
+  specs: ['./features/**/*.feature'],
   suites: {
-    test_ui: ["./features/Stake.feature"],
-    trade: ["./features/Trade.feature"],
-    buysov: ["./features/Buy-SOV.feature"],
-    spot: ["./features/Spot.feature"],
-    swap: ["./features/Swap.feature"],
-    margin: ["./features/Margin.feature"],
+    test_ui: ['./features/Stake.feature'],
+    trade: ['./features/Trade.feature'],
+    buysov: ['./features/Buy-SOV.feature'],
+    spot: ['./features/Spot.feature'],
+    swap: ['./features/Swap.feature'],
+    margin: ['./features/Margin.feature'],
   },
   // Patterns to exclude.
   exclude: [
@@ -65,16 +65,16 @@ exports.config = {
       // 5 instances get started at a time.
       maxInstances: 5,
       //
-      browserName: "chrome",
+      browserName: 'chrome',
       acceptInsecureCerts: true,
 
-      "goog:chromeOptions": {
+      'goog:chromeOptions': {
         // Install upon starting browser in order to launch it
         extensions: [
           // Entry should be a base64-encoded packed Chrome app (.crx)
-          require("fs")
-            .readFileSync("Extension/MetaMask_v9.8.3.crx")
-            .toString("base64"),
+          require('fs')
+            .readFileSync('Extension/MetaMask_v9.8.3.crx')
+            .toString('base64'),
         ],
       },
 
@@ -91,7 +91,7 @@ exports.config = {
   // Define all options that are relevant for the WebdriverIO instance here
   //
   // Level of logging verbosity: trace | debug | info | warn | error | silent
-  logLevel: "info",
+  logLevel: 'info',
   //
   // Set specific log levels per logger
   // loggers:
@@ -115,8 +115,8 @@ exports.config = {
   // with `/`, the base url gets prepended, not including the path portion of your baseUrl.
   // If your `url` parameter starts without a scheme or `/` (like `some/path`), the base url
   // gets prepended directly.
-  baseUrlLocalhost: "http://localhost",
-  baseUrlStaking: "https://platform.staging.coinburp.ninja/burp/stake",
+  baseUrlLocalhost: 'http://localhost',
+  baseUrlStaking: 'https://platform.staging.coinburp.ninja/burp/stake',
   //
   // Default timeout for all waitFor* commands.
   waitforTimeout: 20000,
@@ -132,7 +132,7 @@ exports.config = {
   // Services take over a specific job you don't want to take care of. They enhance
   // your test setup with almost no effort. Unlike plugins, they don't add new
   // commands. Instead, they hook themselves up into the test process.
-  services: ["chromedriver"],
+  services: ['chromedriver'],
 
   // Framework you want to run your specs with.
   // The following are supported: Mocha, Jasmine, and Cucumber
@@ -140,7 +140,7 @@ exports.config = {
   //
   // Make sure you have the wdio adapter package for the specific framework installed
   // before running any tests.
-  framework: "cucumber",
+  framework: 'cucumber',
   //
   // The number of times to retry the entire specfile when it fails as a whole
   // specFileRetries: 1,
@@ -154,23 +154,23 @@ exports.config = {
   // Test reporter for stdout.
   // The only one supported by default is 'dot'
   // see also: https://webdriver.io/docs/dot-reporter
-  reporters: ["spec"],
+  reporters: ['spec'],
 
   //
   // If you are using Cucumber you need to specify the location of your step definitions.
   cucumberOpts: {
     // <string[]> (file/dir) require files before executing features
-    require: ["./features/step-definitions/steps.js"],
+    require: ['./features/step-definitions/steps.js'],
     // <boolean> show full backtrace for errors
     backtrace: false,
     // <string[]> ("extension:module") require files with the given EXTENSION after requiring MODULE (repeatable)
-    requireModule: ["@babel/register"],
+    requireModule: ['@babel/register'],
     // <boolean> invoke formatters without executing steps
     dryRun: false,
     // <boolean> abort the run on first failure
     failFast: false,
     // <string[]> (type[:path]) specify the output format, optionally supply PATH to redirect formatter output (repeatable)
-    format: ["pretty"],
+    format: ['pretty'],
     // <boolean> hide step definition snippets for pending steps
     snippets: true,
     // <boolean> hide source uris
@@ -180,7 +180,7 @@ exports.config = {
     // <boolean> fail if there are any undefined or pending steps
     strict: false,
     // <string> (expression) only execute the features or scenarios with tags matching the expression
-    tagExpression: "",
+    tagExpression: '',
     // <number> timeout for step definitions
     timeout: 120000,
     // <boolean> Enable this config to treat undefined definitions as warnings.
