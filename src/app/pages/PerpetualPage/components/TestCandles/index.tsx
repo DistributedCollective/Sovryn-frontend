@@ -2,15 +2,15 @@ import React, { useEffect } from 'react';
 import {
   useGetCandles,
   CandleDuration,
-} from '../../hooks/graphql/useGetCandles';
+} from '../../hooks/graphql/useGetChartCandles';
 
 export const TestCandles = () => {
   const {
     loading: candleLoading,
     error: candleError,
-    data: candleData,
+    returnData: candleData,
   } = useGetCandles(
-    CandleDuration.H_1,
+    CandleDuration.M_15,
     '0xada5013122d395ba3c54772283fb069b10426056ef8ca54750cb9bb552a59e7d',
     1635618840,
   );

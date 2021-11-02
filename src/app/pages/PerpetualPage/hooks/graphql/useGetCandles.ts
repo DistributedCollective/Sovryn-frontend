@@ -35,7 +35,7 @@ const generateCandleQuery = (
   endTime?: number,
 ): DocumentNode => {
   const candleDetails = CandleDictionary.get(candleDuration);
-  console.log(candleDetails);
+  console.debug(candleDetails);
   return gql`
     {
       ${candleDetails.entityName}(
