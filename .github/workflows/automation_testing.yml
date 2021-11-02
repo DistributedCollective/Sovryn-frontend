@@ -1,0 +1,39 @@
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - '**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # First you need to install a chromium browser in your runner
+      - name: Install Chromium
+        run: sudo apt-get install chromium-browser
+
+      # You fetch the current ref
+      - uses: actions/checkout@v2
+
+      # Use Node version above 14.x you want to use
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: 'lts/erbium'
+          cache: 'yarn'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@distributedcollective'
+
+      - name: Install NPM dependencies
+        run: yarn install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GPR_ACCESS_TOKEN }}
+
+
+      # This is where you could build your app
+      # You could also start your server process (take a look at https://github.com/Slashgear/slashgear.github.io/blob/source/.github/workflows/continuous-integration.yml)
+
+      # Run your test with the same command you uses locally
+      - run: yarn wdio run automated_test/wdio.conf.js
+        name: Running E2E tests
