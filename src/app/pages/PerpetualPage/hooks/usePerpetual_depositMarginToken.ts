@@ -25,7 +25,7 @@ export const usePerpetual_depositMarginToken = () => {
         return;
       }
 
-      send(
+      await send(
         [PERPETUAL_ID, floatToABK64x64(parseFloat(amount))],
         {
           from: account,

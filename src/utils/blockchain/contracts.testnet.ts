@@ -347,7 +347,7 @@ export const contracts = {
     abi: nftAbi,
   },
   perpetualManager: {
-    address: '0x055A902303746382FBB7D18f6aE0df56eFDc5213',
+    address: '0xB59bdf071508B8D1f4Bb76f18CAB01eA96E1Fa4E',
     abi: perpetualManagerAbi,
   },
   PERPETUALS_token: {

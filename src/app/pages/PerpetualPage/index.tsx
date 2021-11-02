@@ -97,18 +97,19 @@ export function PerpetualPage() {
     [],
   );
 
-  // This can be used for testing Deposit/Withdraw
-
-  // const { deposit } = usePerpetual_depositMarginToken();
-  // const onDepositClick = useCallback(() => deposit('20'), [deposit]);
-
+  // This can be used for testing Withdraw/Close position
   // const { withdraw } = usePerpetual_withdrawMarginToken();
-  // const onWithdrawClick = useCallback(() => withdraw('20'), [withdraw]);
+  // const onWithdrawClick = useCallback(() => withdraw('5.54151847352111'), [
+  //   withdraw,
+  // ]);
 
-  // const { send: sendMargin, ...rest } = useSendContractTx(
-  //   'perpetualManager',
-  //   'getMarginAccount',
+  // const marginAccountBalance = usePerpetual_marginAccountBalance();
+
+  // console.log(
+  //   `Margin account balance: ${JSON.stringify(marginAccountBalance)}`,
   // );
+
+  // const { closePosition } = usePerpetual_closePosition();
 
   return (
     <>
@@ -166,12 +167,12 @@ export function PerpetualPage() {
           </div>
         </div>
 
-        {/* This can be used for testing Deposit/Withdraw */}
-        {/* <button className="tw-block" onClick={onDepositClick}>
-          Deposit 20 margin tokens
+        {/* This can be used for testing Withdraw/Close position */}
+        {/* <button className="tw-block" onClick={onWithdrawClick}>
+          Withdraw margin
         </button>
-        <button className="tw-block" onClick={onWithdrawClick}>
-          Withdraw 20 margin tokens
+        <button className="tw-block" onClick={closePosition}>
+          Close the position
         </button> */}
 
         {connected && (

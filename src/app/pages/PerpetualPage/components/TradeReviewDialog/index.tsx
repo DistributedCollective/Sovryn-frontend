@@ -6,11 +6,16 @@ import { Dialog } from '../../../../containers/Dialog';
 import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
 import { isPerpetualTrade, PerpetualPageModals } from '../../types';
+import { usePerpetual_openTrade } from '../../hooks/usePerpetual_openTrade';
+import { bignumber } from 'mathjs';
+import { weiToNumberFormat } from 'utils/display-text/format';
 
 export const TradeReviewDialog: React.FC = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { modal, modalOptions } = useSelector(selectPerpetualPage);
+
+  const { trade: openTrade } = usePerpetual_openTrade();
 
   const trade = useMemo(
     () => (isPerpetualTrade(modalOptions) ? modalOptions : undefined),
@@ -22,6 +27,18 @@ export const TradeReviewDialog: React.FC = () => {
     [dispatch],
   );
 
+  const onSubmit = useCallback(
+    () =>
+      trade &&
+      openTrade(
+        bignumber(weiToNumberFormat(trade?.amount))
+          .div(trade?.leverage)
+          .toString(),
+        weiToNumberFormat(trade?.amount),
+      ),
+    [openTrade, trade],
+  );
+
   return (
     <Dialog
       isOpen={modal === PerpetualPageModals.TRADE_REVIEW}
@@ -30,6 +47,7 @@ export const TradeReviewDialog: React.FC = () => {
       <h1>{t(translations.perpetualPage.reviewTrade.title)}</h1>
       {/* TODO: implement Review Trade Dialog */}
       <pre>{JSON.stringify(trade, null, 2)}</pre>
+      <button onClick={onSubmit}>Open trade</button>
     </Dialog>
   );
 };

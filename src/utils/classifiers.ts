@@ -80,6 +80,7 @@ export const gasLimit = {
   [TxType.WITHDRAW_COLLATERAL]: 1000000,
   [TxType.CLAIM_VESTED_SOV_REWARDS]: 6000000,
   [TxType.SOV_WITHDRAW_VESTING]: 1500000,
+  [TxType.OPEN_PERPETUAL_TRADE]: 1200000,
 };
 
 export const discordInvite = 'https://discord.gg/kBTNx4zjRf'; //unlimited use, no-expiry invite
