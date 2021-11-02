@@ -12,24 +12,11 @@ import {
   widget,
   IChartingLibraryWidget,
 } from '@distributedcollective/charting-library/src/charting_library/charting_library.min';
-import {
-  useGetCandles,
-  CandleDuration,
-} from '../../hooks/graphql/useGetCandles';
 
 import { Skeleton } from '../../../../components/PageSkeleton';
-import Datafeed, {
-  supportedResolutions,
-  MAX_DAYS,
-  MAX_MONTHS,
-  lastBarCache,
-  Bar,
-  config,
-} from './datafeed';
+import Datafeed from './datafeed';
 import Storage from './storage';
 import { noop } from '../../../../constants';
-import { stream } from './streaming';
-import { fromWei } from 'utils/blockchain/math-helpers';
 
 export enum Theme {
   LIGHT = 'Light',
@@ -45,48 +32,15 @@ export interface ChartContainerProps {
 export function TradingChart(props: ChartContainerProps) {
   const [hasCharts, setHasCharts] = useState<boolean>(false);
   const [chart, setChart] = useState<IChartingLibraryWidget | null>(null);
-  const [stateBars, setStateBars] = useState<Bar[]>([]);
-  const [candleDuration, setCandleDuration] = useState<CandleDuration>(
-    CandleDuration.M_15,
-  );
-  const [perpetual, setPerpetual] = useState<string>(
-    '0xada5013122d395ba3c54772283fb069b10426056ef8ca54750cb9bb552a59e7d',
-  );
-  const [startTime, setStartTime] = useState<number>(1635767519);
-
-  const { data: candleData, loading, error } = useGetCandles(
-    candleDuration,
-    perpetual,
-    startTime,
-  );
 
   useEffect(() => {
-    console.log(candleData);
-    console.log(loading);
-    console.log(error);
-    if (candleData) {
-      console.log('THERE IS candleData');
-      const newBars = candleData.candleSticksFifteenMinutes.map(bar => {
-        return {
-          time: bar.periodStartUnix * 1e3,
-          low: fromWei(bar.low),
-          high: fromWei(bar.high),
-          open: fromWei(bar.open),
-          close: fromWei(bar.close),
-        };
-      });
-      console.log(newBars);
-      setStateBars(newBars);
-    }
-  }, [candleData, loading, error]);
-
-  useEffect(() => {
+    console.log('USE EFFECT');
     try {
       // full list of widget config options here: https://github.com/tradingview/charting_library/wiki/Widget-Constructor/cf26598509d8bba6dc95c5fe8208caa5e8474827
       const widgetOptions: any = {
         debug: false,
-        symbol: perpetual,
-        datafeed: Datafeed(stateBars, perpetual),
+        symbol: props.symbol,
+        datafeed: Datafeed,
         save_load_adapter: Storage,
         study_count_limit: 15, //max number of indicators that can be added to charts
         interval: '30', //default time interval
@@ -99,8 +53,13 @@ export function TradingChart(props: ChartContainerProps) {
           'study_templates', //remove to disable storing of indicators
           'side_toolbar_in_fullscreen_mode',
         ], //full list of features here: https://github.com/tradingview/charting_library/wiki/Featuresets/c2ec34605fa84781048d32b87a2b08ef1466639a
-        disabled_features: ['header_symbol_search', 'header_compare'],
+        disabled_features: [
+          'header_symbol_search',
+          //'header_saveload', //uncomment to disable storing of drawings
+          'header_compare',
+        ],
         autosize: true,
+        // toolbar_bg: '#a3a3a3',
         theme: props.theme,
         time_frames: [
           { text: '1d', resolution: '10', description: '1d', title: '1d' },

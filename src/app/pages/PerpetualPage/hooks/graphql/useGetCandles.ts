@@ -28,7 +28,7 @@ export function useGetCandles(
   return candleQuery;
 }
 
-const generateCandleQuery = (
+export const generateCandleQuery = (
   candleDuration: CandleDuration,
   perpetualId: string,
   startTime: number,

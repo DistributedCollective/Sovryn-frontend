@@ -9,123 +9,133 @@
  * this directory. Refer to:
  * https://github.com/tradingview/charting_library/wiki/Breaking-Changes
  */
-import axios, { CancelTokenSource } from 'axios';
 
-import { Bar } from './datafeed';
+import Web3 from 'web3';
+import PerpetualManager from 'utils/blockchain/abi/PerpetualManager.json';
+import { weiTo2 } from 'utils/blockchain/math-helpers';
 
-type SubItem = {
-  symbolInfo: any;
-  subscribeUID: string; //e.g. SOV/USDT_10
-  resolution: string;
-  lastBar: Bar;
-  handler: Function;
-  timer?: number;
-};
+const web3Socket = new Web3(
+  new Web3.providers.WebsocketProvider(
+    'wss://ws-nd-233-405-699.p2pify.com/' + process.env.BSC_WS_TESTNET_API,
+  ),
+);
 
-const REFRESH_RATE = 15 * 1e3;
+const web3Http = new Web3('https://data-seed-prebsc-1-s1.binance.org:8545/');
 
-export class Streaming {
-  private subscriptions = new Map<string, SubItem>();
-  private cancelTokenSource: CancelTokenSource | null = null;
+// TODO: move to config
+const address = '0x307c2d3d8ac397c58ba86b3806bcb9465968be34'.toLowerCase();
+const tradeTopic =
+  '0x07e349dbc09d1f39e3df0bcb7c5cac53d0020e2da13badb5cd6fa4450801a7f7';
 
-  private onUpdate(subscriptionItem: SubItem) {
-    if (!subscriptionItem?.symbolInfo?.name) {
-      console.log('error in symbol info', subscriptionItem);
-      return;
-    }
+const jsonInput = PerpetualManager.find(item => item.name === 'Trade')?.inputs;
 
-    if (typeof document?.hasFocus === 'function' && !document.hasFocus())
-      return;
-    if (this.cancelTokenSource) this.cancelTokenSource.cancel();
-    this.cancelTokenSource = axios.CancelToken.source();
-    axios
-      .get(`${subscriptionItem.symbolInfo.name.replace('/', ':')}`, {
-        cancelToken: this.cancelTokenSource.token,
-        params: {
-          startTime: subscriptionItem?.lastBar?.time || Date.now(),
-        },
-      })
-      .then(response => {
-        if (
-          response.data &&
-          response.data.series &&
-          response.data.series.length > 0
-        ) {
-          response.data.series.forEach(item => {
-            let bar;
-            if (
-              !subscriptionItem.lastBar ||
-              item.time * 1e3 > subscriptionItem.lastBar.time
-            ) {
-              // generate new bar
-              bar = {
-                ...item,
-                time: item.time * 1e3,
-              };
-            } else if (
-              subscriptionItem.lastBar &&
-              item.time * 1e3 === subscriptionItem.lastBar.time
-            ) {
-              // update last bar
-              bar = {
-                ...subscriptionItem.lastBar,
-                high: Math.max(subscriptionItem.lastBar.high, item.high),
-                low: Math.min(subscriptionItem.lastBar.low, item.low),
-                close: item.close,
-              };
-            }
-            // update last bar cache and execute chart callback
-            subscriptionItem.lastBar = bar;
-            subscriptionItem.handler(bar);
-          });
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }
-
-  private addSubscription(subItem) {
-    subItem.timer = setInterval(() => this.onUpdate(subItem), REFRESH_RATE);
-    this.subscriptions.set(subItem.subscribeUID, subItem);
-  }
-
-  private clearSubscription(subscribeUID) {
-    const currentSub = this.subscriptions.get(subscribeUID);
-    if (!currentSub) return;
-    clearInterval(currentSub.timer);
-    delete currentSub.timer;
-    this.subscriptions.delete(subscribeUID);
-  }
-
-  public subscribeOnStream(
-    symbolInfo,
-    resolution,
-    onRealtimeCallback,
-    subscribeUID,
-    onResetCacheNeededCallback,
-    lastBar,
-  ) {
-    let subscriptionItem = this.subscriptions.get(subscribeUID);
-    if (subscriptionItem) {
-      // already subscribed to the channel, continue to use the existing subscription
-      console.log(`already subscribed to`, subscriptionItem);
-      return;
-    }
-
-    subscriptionItem = {
-      symbolInfo,
-      subscribeUID,
-      resolution,
-      lastBar,
-      handler: onRealtimeCallback,
-    };
-    this.addSubscription(subscriptionItem);
-  }
-
-  public unsubscribeFromStream(subscriberUID) {
-    this.clearSubscription(subscriberUID);
-  }
+function decodeLogs(logs: string, topics: string[]): { [key: string]: string } {
+  const decoded = web3Http.eth.abi.decodeLog(
+    jsonInput != null ? jsonInput : [],
+    logs,
+    topics,
+  );
+  return decoded;
 }
 
-export const stream = new Streaming();
+const subscription = web3Socket.eth.subscribe(
+  'logs',
+  {
+    fromBlock: 13556506,
+    address: address,
+    topics: [tradeTopic],
+  },
+  (err, res) => {
+    if (!err) console.error(err);
+    console.log(res);
+  },
+);
+
+const channelToSubscription = new Map();
+
+subscription.on('connected', () => {
+  console.log('web3 socket for perp swaps is connected');
+});
+subscription.on('data', data => {
+  /** Decode logs and add to database */
+  const decoded = decodeLogs(data.data, [data.topics[1]]);
+  console.log('[socket] Message:', decoded);
+  const parsedEvent = {
+    address: data.address,
+    blockNumber: data.blockNumber,
+    transactionIndex: data.transactionIndex,
+    transactionHash: data.transactionHash,
+    logIndex: data.logIndex,
+    eventData: {
+      perpetualId: decoded.perpetualId,
+      trader: decoded.trader,
+      orderFlags: decoded.orderFlags,
+      tradeAmount: decoded.tradeAmount,
+      price: decoded.price,
+      blockTimestamp: decoded.blockTimestamp,
+    },
+  };
+  const tradePrice = parseFloat(weiTo2(parsedEvent.eventData.price));
+  const tradeTime = parsedEvent.eventData.blockTimestamp;
+  const channelString = parsedEvent.eventData.perpetualId;
+  const subscriptionItem = channelToSubscription.get(channelString);
+  if (subscriptionItem === undefined) {
+    return;
+  }
+  const lastDailyBar = subscriptionItem.lastDailyBar;
+  let bar = {
+    ...lastDailyBar,
+    high: Math.max(lastDailyBar.high, tradePrice),
+    low: Math.min(lastDailyBar.low, tradePrice),
+    close: tradePrice,
+  };
+  console.log('[socket] Update the latest bar by price', tradePrice);
+  subscriptionItem.lastDailyBar = bar;
+
+  // send data to every subscriber of that symbol
+  subscriptionItem.handlers.forEach(handler => handler.callback(bar));
+});
+subscription.on('changed', changed => console.log(changed));
+subscription.on('error', err => {
+  console.error(err);
+});
+
+export function subscribeOnStream(
+  symbolInfo,
+  resolution,
+  onRealtimeCallback,
+  subscribeUID,
+  onResetCacheNeededCallback,
+  lastDailyBar,
+) {
+  console.log('subscribe on stream placeholder');
+  const channelString =
+    '0xada5013122d395ba3c54772283fb069b10426056ef8ca54750cb9bb552a59e7d';
+  const handler = {
+    id: subscribeUID,
+    callback: onRealtimeCallback,
+  };
+  let subscriptionItem = channelToSubscription.get(channelString);
+  if (subscriptionItem) {
+    // already subscribed to the channel, use the existing subscription
+    subscriptionItem.handlers.push(handler);
+    return;
+  }
+  subscriptionItem = {
+    subscribeUID,
+    resolution,
+    lastDailyBar,
+    handlers: [handler],
+  };
+  channelToSubscription.set(channelString, subscriptionItem);
+  console.log(
+    '[subscribeBars]: Subscribe to streaming. Channel:',
+    channelString,
+  );
+  console.log('SubAdd', { subs: [channelString] });
+}
+
+export function unsubscribeFromStream(subscriberUID) {
+  // find a subscription with id === subscriberUID
+  console.log('unsubscribe from stream placeholder');
+}

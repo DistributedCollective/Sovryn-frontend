@@ -10,15 +10,16 @@
  * https://github.com/tradingview/charting_library/wiki/Breaking-Changes
  */
 
-import { stream } from './streaming';
+import { subscribeOnStream, unsubscribeFromStream } from './streaming';
+import { apolloClient } from '../../graphQlHelpers';
 import {
-  useGetCandles,
+  generateCandleQuery,
   CandleDuration,
 } from '../../hooks/graphql/useGetCandles';
+import { weiTo2 } from 'utils/blockchain/math-helpers';
 
 export const supportedResolutions = [
   '10',
-  '15',
   '20',
   '30',
   '60',
@@ -31,17 +32,46 @@ export const supportedResolutions = [
   '1W',
   '1M',
 ];
-export const MAX_DAYS = 5;
-export const MAX_MONTHS = 1;
+const MAX_DAYS = 5;
+const MAX_MONTHS = 1;
 
-export const lastBarCache = new Map<string, Bar>();
+const lastBarCache = new Map<string, Bar>();
 
 // Supported configuration options can be found here:
 // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#onreadycallback
-export const config = {
+const config = {
+  exchanges: [],
   symbols_types: [],
   supported_resolutions: supportedResolutions,
   supports_time: false,
+};
+
+const makeApiRequest = async (
+  candleDuration: CandleDuration,
+  perpId: string,
+  startTime: number,
+) => {
+  console.log('Making api request for candles...');
+  try {
+    const response = await apolloClient.query({
+      query: generateCandleQuery(candleDuration, perpId, startTime),
+    });
+    const keys = Object.keys(response.data);
+    const bars: Bar[] = response.data[keys[0]].map(item => {
+      return {
+        time: item.periodStartUnix * 1e3,
+        high: parseFloat(weiTo2(item.high)),
+        low: parseFloat(weiTo2(item.low)),
+        open: parseFloat(weiTo2(item.open)),
+        close: parseFloat(weiTo2(item.close)),
+      };
+    });
+    console.log(bars);
+    return bars;
+  } catch (error) {
+    console.log(error);
+    throw new Error(`Request error: ${error}`);
+  }
 };
 
 export type Bar = {
@@ -53,70 +83,86 @@ export type Bar = {
   volume?: number;
 };
 
-const tradingChartDataFeeds = (stateBars, perpetualId) => {
-  return {
-    // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#onreadycallback
-    onReady: callback => {
-      setTimeout(() => callback(config));
-    },
+const tradingChartDataFeeds = {
+  // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#onreadycallback
+  onReady: callback => {
+    setTimeout(() => callback(config));
+  },
 
-    // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#searchsymbolsuserinput-exchange-symboltype-onresultreadycallback
-    searchSymbols: async (
-      userInput,
-      exchange,
-      symbolType,
-      onResultReadyCallback,
-    ) => {
-      // disabled via chart config in index.tsx
-    },
+  // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#searchsymbolsuserinput-exchange-symboltype-onresultreadycallback
+  searchSymbols: async (
+    userInput,
+    exchange,
+    symbolType,
+    onResultReadyCallback,
+  ) => {
+    // disabled via chart config in index.tsx
+  },
 
-    // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#resolvesymbolsymbolname-onsymbolresolvedcallback-onresolveerrorcallback-extension
-    resolveSymbol: async (
-      symbolName,
-      onSymbolResolvedCallback,
-      onResolveErrorCallback,
-    ) => {
-      const symbolInfo = {
-        name: perpetualId,
-        description: '',
-        type: 'crypto',
-        session: '24x7',
-        timezone: 'Etc/UTC',
-        ticker: perpetualId,
-        minmov: 1, //0.00000001,
-        pricescale: 100,
-        has_intraday: true,
-        intraday_multipliers: ['15', '60', '240', '1440'],
-        supported_resolution: supportedResolutions,
-        has_no_volume: true,
-        has_empty_bars: true,
-        has_daily: true,
-        has_weekly_and_monthly: true,
-        data_status: 'streaming',
-      };
+  // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#resolvesymbolsymbolname-onsymbolresolvedcallback-onresolveerrorcallback-extension
+  resolveSymbol: async (
+    symbolName,
+    onSymbolResolvedCallback,
+    onResolveErrorCallback,
+  ) => {
+    const symbolInfo = {
+      name: symbolName,
+      description: '',
+      type: 'crypto',
+      session: '24x7',
+      timezone: 'Etc/UTC',
+      ticker: symbolName,
+      minmov: 1, //0.00000001,
+      pricescale: 100,
+      has_intraday: true,
+      intraday_multipliers: ['15', '60'],
+      supported_resolution: supportedResolutions,
+      has_no_volume: true,
+      has_empty_bars: true,
+      has_daily: false,
+      has_weekly_and_monthly: false,
+      data_status: 'streaming',
+    };
 
-      setTimeout(() => onSymbolResolvedCallback(symbolInfo));
-    },
+    setTimeout(() => onSymbolResolvedCallback(symbolInfo));
+  },
 
-    // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#getbarssymbolinfo-resolution-periodparams-onhistorycallback-onerrorcallback
-    getBars: (
-      symbolInfo,
-      resolution,
-      from,
-      to,
-      onHistoryCallback,
-      onErrorCallback,
-      firstDataRequest,
-    ) => {
-      let bars = stateBars;
-      console.debug(bars);
+  // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#getbarssymbolinfo-resolution-periodparams-onhistorycallback-onerrorcallback
+  getBars: async (
+    symbolInfo,
+    resolution,
+    from,
+    to,
+    onHistoryCallback,
+    onErrorCallback,
+    firstDataRequest,
+  ) => {
+    console.log('GETTING BARS');
+    const now = Math.floor(new Date().getTime() / 1000) - 86400;
+    console.log(now);
+    const candleDuration: CandleDuration =
+      resolution === '15' ? CandleDuration.M_15 : CandleDuration.H_1;
+    try {
+      const data = await makeApiRequest(
+        candleDuration,
+        '0xada5013122d395ba3c54772283fb069b10426056ef8ca54750cb9bb552a59e7d',
+        1635779700,
+      );
+      console.log('DATA');
+      console.log(data);
+      let bars: Bar[] = [];
+      if (data) {
+        bars = data;
+      } else {
+        bars = [];
+      }
+
       if (!bars.length) {
         onHistoryCallback([], {
           noData: true,
         });
         return;
       }
-
       const lastBar = lastBarCache.get(symbolInfo.name);
       const newestBar = bars[bars.length - 1];
       if (lastBar) {
@@ -129,41 +175,50 @@ const tradingChartDataFeeds = (stateBars, perpetualId) => {
       onHistoryCallback(bars, {
         noData: false,
       });
-      return bars;
-    },
-    // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#calculatehistorydepthresolution-resolutionback-intervalback
-    calculateHistoryDepth: (resolution, resolutionBack, intervalBack) => {
-      if (resolutionBack === 'D') {
-        if (resolution > MAX_DAYS)
-          return { resolutionBack: 'D', intervalBack: MAX_DAYS };
-      } else if (resolutionBack === 'M') {
-        if (resolution > MAX_MONTHS)
-          return { resolutionBack: 'M', intervalBack: MAX_MONTHS };
-      }
-    },
-    // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#subscribebarssymbolinfo-resolution-onrealtimecallback-subscriberuid-onresetcacheneededcallback
-    subscribeBars: (
+    } catch (error) {
+      onErrorCallback(error);
+    }
+  },
+  // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#calculatehistorydepthresolution-resolutionback-intervalback
+  calculateHistoryDepth: (resolution, resolutionBack, intervalBack) => {
+    if (resolutionBack === 'D') {
+      if (resolution > MAX_DAYS)
+        return { resolutionBack: 'D', intervalBack: MAX_DAYS };
+    } else if (resolutionBack === 'M') {
+      if (resolution > MAX_MONTHS)
+        return { resolutionBack: 'M', intervalBack: MAX_MONTHS };
+    }
+  },
+  // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#subscribebarssymbolinfo-resolution-onrealtimecallback-subscriberuid-onresetcacheneededcallback
+  subscribeBars: (
+    symbolInfo,
+    resolution,
+    onRealtimeCallback,
+    subscribeUID,
+    onResetCacheNeededCallback,
+  ) => {
+    console.log(
+      '[subscribeBars]: Method call with subscribeUID:',
+      subscribeUID,
+    );
+    subscribeOnStream(
       symbolInfo,
       resolution,
       onRealtimeCallback,
       subscribeUID,
       onResetCacheNeededCallback,
-    ) => {
-      stream.subscribeOnStream(
-        symbolInfo,
-        resolution,
-        onRealtimeCallback,
-        subscribeUID,
-        onResetCacheNeededCallback,
-        lastBarCache.get(symbolInfo.name),
-      );
-    },
+      lastBarCache.get(symbolInfo.full_name),
+    );
+  },
 
-    // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#unsubscribebarssubscriberuid
-    unsubscribeBars: subscriberUID => {
-      stream.unsubscribeFromStream(subscriberUID);
-    },
-  };
+  // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#unsubscribebarssubscriberuid
+  unsubscribeBars: subscriberUID => {
+    console.log(
+      '[unsubscribeBars]: Method call with subscriberUID:',
+      subscriberUID,
+    );
+    unsubscribeFromStream(subscriberUID);
+  },
 };
 
 export default tradingChartDataFeeds;
