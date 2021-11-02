@@ -49,6 +49,8 @@ import { BridgeDepositPage } from './pages/BridgeDepositPage/Loadable';
 import { BridgeWithdrawPage } from './pages/BridgeWithdrawPage/Loadable';
 import { PerpetualPage } from './pages/PerpetualPage';
 
+import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
+
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
 
@@ -81,7 +83,19 @@ export function App() {
             <Route exact path="/" component={LandingPage} />
             <Route exact path="/buy-sov" component={BuySovPage} />
             <Route exact path="/trade" component={MarginTradePage} />
-            <Route exact path="/perpetual" component={PerpetualPage} />
+            <ApolloProvider
+              client={
+                new ApolloClient({
+                  uri:
+                    'http://3.22.188.172:8000/subgraphs/name/DistributedCollective/Sovryn-perpetual-swaps-subgraph',
+                  cache: new InMemoryCache({
+                    resultCaching: false,
+                  }),
+                })
+              }
+            >
+              <Route exact path="/perpetual" component={PerpetualPage} />
+            </ApolloProvider>
             <Route exact path="/swap" component={SwapPage} />
             <Route exact path="/spot" component={SpotTradingPage} />
             <Route exact path="/lend" component={LendingPage} />
