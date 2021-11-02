@@ -1539,12 +1539,13 @@
       "cta": "CANCELAR ORDEM LIMITADA"
   },
   "pairNavbar": {
-      "pair": "Par",
+      "pair": "Pares",
       "lastTradedPrice": "Último preço",
       "dayChange": "24H oscilação",
       "dayPercentChange": "24hr % oscilação",
       "dayLow": "24hr baixa:",
-      "dayHigh": "24hr alta:"
+      "dayHigh": "24hr alta:",
+      "all": "TODOS"
     }
   },
   "form": {
