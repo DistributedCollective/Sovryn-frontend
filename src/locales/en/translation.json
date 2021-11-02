@@ -1331,6 +1331,14 @@
       "paragraph2": "Until then, why not try the desktop version?"
     }
   },
+  "promotionsDialog": {
+    "title": "New Event on the Origins Launchpad",
+    "promotion1_title": "MYNT-Token",
+    "promotion1_1": "The MYNT-Token Bootstrap Event is now live!",
+    "promotion1_2": "Find out more information about MYNT <0>here</0>",
+    "promotion1_3": "Ready to participate? Head over to the event page by clicking the button below!",
+    "promotion1_cta": "Go to event"
+  },
   "fastBtcDialog": {
     "title": "Top Up FastBTC",
     "subtitle": "Deposit BTC to receive rBTC in your wallet",
