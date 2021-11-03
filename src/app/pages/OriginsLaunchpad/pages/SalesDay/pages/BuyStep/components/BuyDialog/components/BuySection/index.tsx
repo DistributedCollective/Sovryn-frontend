@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { Asset } from 'types';
 import { TxStatus } from 'store/global/transactions-store/types';
 import { BuyWrapper, BuyButton } from './styled';
+import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
 import { useWeiAmount } from 'app/hooks/useWeiAmount';
 import { useCanInteract } from 'app/hooks/useCanInteract';
 import { useAccount } from 'app/hooks/useAccount';
@@ -43,15 +44,18 @@ export const BuySection: React.FC<IBuySectionProps> = ({
   const [tokenAmount, setTokenAmount] = useState(amount);
 
   const account = useAccount();
+  const balance = useAssetBalanceOf(sourceToken);
   const weiAmount = useWeiAmount(amount);
   const weiTokenAmount = useWeiAmount(tokenAmount);
 
   const isValidAmount = useMemo(() => {
     return (
+      !balance.loading &&
       bignumber(weiAmount).greaterThan(0) &&
-      bignumber(weiTokenAmount).greaterThan(0)
+      bignumber(weiTokenAmount).greaterThan(0) &&
+      bignumber(weiAmount).lessThan(balance.value)
     );
-  }, [weiAmount, weiTokenAmount]);
+  }, [weiAmount, weiTokenAmount, balance]);
 
   const { value: amountInSOV } = useSwapsExternal_getSwapExpectedReturn(
     sourceToken,

@@ -26,7 +26,7 @@ export const BuyButton = styled.button<IBuyButtonProps>`
   text-transform: uppercase;
   padding: initial;
 
-  &:hover {
+  &:not([disabled]):hover {
     opacity: 75%;
   }
 
@@ -34,5 +34,6 @@ export const BuyButton = styled.button<IBuyButtonProps>`
     props.disabled &&
     css`
       cursor: not-allowed;
+      opacity: 0.5;
     `}
 `;
