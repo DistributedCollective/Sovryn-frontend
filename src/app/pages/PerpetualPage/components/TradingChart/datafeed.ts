@@ -15,11 +15,12 @@ import { apolloClient } from '../../graphQlHelpers';
 import {
   generateCandleQuery,
   CandleDuration,
+  CandleDictionary,
 } from '../../hooks/graphql/useGetCandles';
 import { weiTo2 } from 'utils/blockchain/math-helpers';
 
 export const supportedResolutions = [
-  '10',
+  '15',
   '20',
   '30',
   '60',
@@ -35,7 +36,7 @@ export const supportedResolutions = [
 const MAX_DAYS = 5;
 const MAX_MONTHS = 1;
 
-const lastBarCache = new Map<string, Bar>();
+const lastBarsCache = new Map<string, Bar>();
 
 // Supported configuration options can be found here:
 // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#onreadycallback
@@ -53,8 +54,10 @@ const makeApiRequest = async (
 ) => {
   console.log('Making api request for candles...');
   try {
+    const query = generateCandleQuery(candleDuration, perpId, startTime);
+    console.log(query.loc?.source.body);
     const response = await apolloClient.query({
-      query: generateCandleQuery(candleDuration, perpId, startTime),
+      query: query,
     });
     const keys = Object.keys(response.data);
     const bars: Bar[] = response.data[keys[0]].map(item => {
@@ -83,6 +86,22 @@ export type Bar = {
   volume?: number;
 };
 
+export const symbolMap = {
+  'BTC/USD':
+    '0xada5013122d395ba3c54772283fb069b10426056ef8ca54750cb9bb552a59e7d',
+};
+
+const resolutionMap: { [key: string]: CandleDuration } = {
+  '1': CandleDuration.M_1,
+  '10': CandleDuration.M_1,
+  '15': CandleDuration.M_15,
+  '30': CandleDuration.M_15,
+  '60': CandleDuration.H_1,
+  '240': CandleDuration.H_4,
+  '720': CandleDuration.H_4,
+  '1440': CandleDuration.D_1,
+};
+
 const tradingChartDataFeeds = {
   // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#onreadycallback
   onReady: callback => {
@@ -106,7 +125,7 @@ const tradingChartDataFeeds = {
     onResolveErrorCallback,
   ) => {
     const symbolInfo = {
-      name: symbolName,
+      name: symbolMap[symbolName],
       description: '',
       type: 'crypto',
       session: '24x7',
@@ -119,8 +138,8 @@ const tradingChartDataFeeds = {
       supported_resolution: supportedResolutions,
       has_no_volume: true,
       has_empty_bars: true,
-      has_daily: false,
-      has_weekly_and_monthly: false,
+      has_daily: true,
+      has_weekly_and_monthly: true,
       data_status: 'streaming',
     };
 
@@ -138,15 +157,16 @@ const tradingChartDataFeeds = {
     firstDataRequest,
   ) => {
     console.log('GETTING BARS');
-    const now = Math.floor(new Date().getTime() / 1000) - 86400;
-    console.log(now);
-    const candleDuration: CandleDuration =
-      resolution === '15' ? CandleDuration.M_15 : CandleDuration.H_1;
+    const startTime = from;
+    console.log(startTime);
+    const candleDuration: CandleDuration = resolutionMap[resolution]
+      ? resolutionMap[resolution]
+      : CandleDuration.M_15;
     try {
       const data = await makeApiRequest(
         candleDuration,
-        '0xada5013122d395ba3c54772283fb069b10426056ef8ca54750cb9bb552a59e7d',
-        1635779700,
+        symbolInfo.name,
+        startTime,
       );
       console.log('DATA');
       console.log(data);
@@ -157,20 +177,25 @@ const tradingChartDataFeeds = {
         bars = [];
       }
 
+      if (firstDataRequest) {
+        lastBarsCache.set(symbolInfo.full_name, { ...bars[bars.length - 1] });
+      }
+      console.log(`[getBars]: returned ${bars.length} bar(s)`);
+
       if (!bars.length) {
         onHistoryCallback([], {
           noData: true,
         });
         return;
       }
-      const lastBar = lastBarCache.get(symbolInfo.name);
+      const lastBar = lastBarsCache.get(symbolInfo.name);
       const newestBar = bars[bars.length - 1];
       if (lastBar) {
         if (newestBar.time >= lastBar.time) {
-          lastBarCache.set(symbolInfo.name, newestBar);
+          lastBarsCache.set(symbolInfo.name, newestBar);
         }
       } else {
-        lastBarCache.set(symbolInfo.name, newestBar);
+        lastBarsCache.set(symbolInfo.name, newestBar);
       }
       onHistoryCallback(bars, {
         noData: false,
@@ -181,13 +206,11 @@ const tradingChartDataFeeds = {
   },
   // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#calculatehistorydepthresolution-resolutionback-intervalback
   calculateHistoryDepth: (resolution, resolutionBack, intervalBack) => {
-    if (resolutionBack === 'D') {
-      if (resolution > MAX_DAYS)
-        return { resolutionBack: 'D', intervalBack: MAX_DAYS };
-    } else if (resolutionBack === 'M') {
-      if (resolution > MAX_MONTHS)
-        return { resolutionBack: 'M', intervalBack: MAX_MONTHS };
-    }
+    const candleDetails = CandleDictionary.get(resolutionMap[resolution]);
+    return {
+      resolutionBack: candleDetails.resolutionBack,
+      intervalBack: candleDetails.resolutionBack,
+    };
   },
   // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#subscribebarssymbolinfo-resolution-onrealtimecallback-subscriberuid-onresetcacheneededcallback
   subscribeBars: (
@@ -202,16 +225,18 @@ const tradingChartDataFeeds = {
       subscribeUID,
     );
     subscribeOnStream(
-      symbolInfo,
+      symbolMap[symbolInfo.name],
       resolution,
       onRealtimeCallback,
       subscribeUID,
       onResetCacheNeededCallback,
-      lastBarCache.get(symbolInfo.full_name),
+      lastBarsCache.get(
+        Object.keys(symbolMap).find(item => item === symbolInfo.name) || '',
+      ),
     );
   },
 
-  // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#unsubscribebarssubscriberuid
+  // // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#unsubscribebarssubscriberuid
   unsubscribeBars: subscriberUID => {
     console.log(
       '[unsubscribeBars]: Method call with subscriberUID:',
