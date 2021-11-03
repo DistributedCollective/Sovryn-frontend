@@ -22,6 +22,12 @@ import { bignumber } from 'mathjs';
 import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
 import { LeverageViewer } from '../LeverageViewer';
+import {
+  getMaximalTradeSizeInPerpetual,
+  shrinkToLot,
+} from '../../temporaryUtils';
+import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
+import { usePerpetual_queryPerpParameters } from '../../hooks/usePerpetual_queryPerpParameters';
 
 interface ITradeFormProps {
   trade: PerpetualTrade;
@@ -30,9 +36,6 @@ interface ITradeFormProps {
   onSubmit: () => void;
   onOpenSlippage: () => void;
 }
-
-const STEP_SIZE = 0.002;
-const STEP_PRECISION = 3;
 
 export const TradeForm: React.FC<ITradeFormProps> = ({
   trade,
@@ -44,18 +47,41 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
   const inMaintenance = checkMaintenance(States.PERPETUAL_TRADES);
+  const ammState = usePerpetual_queryAmmState();
+  const perpParameters = usePerpetual_queryPerpParameters();
+
+  const [lotSize, lotPrecision] = useMemo(() => {
+    const lotSize = Number(perpParameters.fLotSizeBC.toPrecision(8));
+    const lotPrecision = lotSize.toString().replace(/^.*\.?/, '').length;
+    return [lotSize, lotPrecision];
+  }, [perpParameters.fLotSizeBC]);
+
+  const maxTradeSize = useMemo(
+    () =>
+      Number(
+        Math.abs(
+          getMaximalTradeSizeInPerpetual(
+            0,
+            trade.position === TradingPosition.LONG ? 1 : -1,
+            ammState,
+            perpParameters,
+          ),
+        ).toPrecision(8),
+      ),
+    [trade.position, ammState, perpParameters],
+  );
 
   const [amount, setAmount] = useState(fromWei(trade.amount));
   const onChangeOrderAmount = useCallback(
     (amount: string) => {
-      const roundedAmount = bignumber(amount || '0')
-        .dividedBy(STEP_SIZE)
-        .round()
-        .mul(STEP_SIZE);
+      const roundedAmount = shrinkToLot(
+        Math.max(Math.min(Number(amount) || 0, maxTradeSize), 0),
+        lotSize,
+      );
       setAmount(amount);
       onChange({ ...trade, amount: toWei(roundedAmount.toString()) });
     },
-    [onChange, trade],
+    [onChange, trade, lotSize, maxTradeSize],
   );
   const onBlurOrderAmount = useCallback(() => {
     setAmount(fromWei(trade.amount));
@@ -176,7 +202,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
             minDecimals={0}
             maxDecimals={6}
             mode={AssetValueMode.auto}
-            value={pair.config.tradeSize.max}
+            value={maxTradeSize}
             assetString={pair.shortAsset}
           />
         </div>
@@ -192,8 +218,9 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           className="tw-w-2/5"
           type="number"
           value={amount}
-          step={STEP_SIZE}
+          step={lotSize}
           min={0}
+          max={maxTradeSize}
           onChange={onChangeOrderAmount}
           onBlur={onBlurOrderAmount}
         />
@@ -301,7 +328,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           >
             <span className="tw-mr-2">{tradeButtonLabel}</span>
             <span>
-              {weiToNumberFormat(trade.amount, STEP_PRECISION)}
+              {weiToNumberFormat(trade.amount, lotPrecision)}
               {` @ ${trade.position === TradingPosition.LONG ? '≥' : '≤'} `}
               {weiToNumberFormat(price, 2)}
             </span>

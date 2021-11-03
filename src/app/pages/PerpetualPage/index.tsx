@@ -178,9 +178,9 @@ export function PerpetualPage() {
           Close the position
         </button> */}
 
-        <TestCandles />
+        {/* <TestCandles /> */}
 
-        <TestHistory />
+        {/* <TestHistory /> */}
 
         {connected && (
           <>

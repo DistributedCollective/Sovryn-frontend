@@ -435,7 +435,7 @@ const calcKStar = (
  * @param {number} lotSize - size of the lot (e.g., 0.0001)
  * @returns {number} rounded value
  */
-const shrinkToLot = (value: number, lotSize: number): number => {
+export const shrinkToLot = (value: number, lotSize: number): number => {
   if (value < 0) {
     return Math.ceil(value / lotSize) * lotSize;
   }
