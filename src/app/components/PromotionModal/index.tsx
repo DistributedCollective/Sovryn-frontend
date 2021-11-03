@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 import { translations } from '../../../locales/i18n';
 import { local } from '../../../utils/storage';
 import { Dialog } from '../../containers/Dialog/Loadable';
 import SalesButton from '../SalesButton';
 import imgLargeNFT from 'assets/origins_launchpad/MYNT_NFT.png';
-import { DialogWrapper, ListItem } from './styled';
+
 import styles from 'app/components/Dialogs/dialog.module.scss';
+import promotionModalStyles from './index.module.scss';
 
 const SESSION_KEY = 'sovryn-promo-dialog-1'; //increment this whenever new content is added, to ensure users see it even if they viewed one previously
 
@@ -21,15 +22,15 @@ export const PromotionModal: React.FC = () => {
   const history = useHistory();
   useEffect(() => setShow(shouldModalBeVisible()), []);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     local.setItem(SESSION_KEY, '1');
     setShow(false);
-  };
+  }, []);
 
-  const handleSaleOpen = () => {
+  const handleSaleOpen = useCallback(() => {
     handleClose();
     history.push('/origins');
-  };
+  }, [history, handleClose]);
 
   return (
     <Dialog
@@ -37,13 +38,10 @@ export const PromotionModal: React.FC = () => {
       onClose={handleClose}
       isCloseButtonShown={true}
       canEscapeKeyClose={true}
-      className={cn('tw-w-full tw-max-w-6xl tw-p-6', styles.dialog)}
+      className={classNames('tw-w-full tw-max-w-6xl tw-p-6', styles.dialog)}
     >
       <div className="tw-font-light tw-text-center tw-w-full tw-mx-auto">
-        <div
-          className="tw-font-bold tw-text-center tw-mb-6"
-          style={{ fontSize: '25px' }}
-        >
+        <div className={promotionModalStyles.title}>
           {t(translations.promotionsDialog.title)}
         </div>
         <div className="tw-flex tw-flex-row">
@@ -55,18 +53,15 @@ export const PromotionModal: React.FC = () => {
             />
           </div>
           <div className="tw-w-6/12 tw-mr-32">
-            <DialogWrapper className="tw-justify-evenly tw-h-full">
-              <div
-                className="tw-font-bold tw-text-center tw-mb-6"
-                style={{ fontSize: '25px' }}
-              >
+            <div className={promotionModalStyles.dialogWrapper}>
+              <div className={promotionModalStyles.title}>
                 {t(translations.promotionsDialog.promotion1_title)}
               </div>
-              <div className="">
-                <ListItem>
+              <div>
+                <div className={promotionModalStyles.listItem}>
                   {t(translations.promotionsDialog.promotion1_1)}
-                </ListItem>
-                <ListItem>
+                </div>
+                <div className={promotionModalStyles.listItem}>
                   <Trans
                     i18nKey={translations.promotionsDialog.promotion1_2}
                     components={[
@@ -80,16 +75,16 @@ export const PromotionModal: React.FC = () => {
                       </a>,
                     ]}
                   />
-                </ListItem>
-                <ListItem>
+                </div>
+                <div className={promotionModalStyles.listItem}>
                   {t(translations.promotionsDialog.promotion1_3)}
-                </ListItem>
+                </div>
               </div>
               <SalesButton
                 text={t(translations.promotionsDialog.promotion1_cta)}
                 onClick={handleSaleOpen}
               />
-            </DialogWrapper>
+            </div>
           </div>
         </div>
       </div>

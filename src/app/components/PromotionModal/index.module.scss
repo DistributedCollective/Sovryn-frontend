@@ -1,21 +1,25 @@
-import styled from 'styled-components';
+.title {
+  @apply tw-font-bold tw-text-center tw-mb-6;
+  font-size: 25px;
+}
 
-export const DialogWrapper = styled.div`
+.dialogWrapper {
+  @apply tw-justify-evenly tw-h-full;
   background-color: #181818;
   padding: 0rem 5.25rem 1.5625rem 5.25rem;
   border-radius: 1.25rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-`;
+}
 
-export const DialogTitle = styled.div`
+.dialogTitle {
   font-size: 1.75rem;
   letter-spacing: 0;
   margin-bottom: 5rem;
-`;
+}
 
-export const ListItem = styled.div`
+.listItem {
   display: flex;
   align-items: center;
   text-align: left;
@@ -38,9 +42,9 @@ export const ListItem = styled.div`
     left: -1rem;
     top: 0.25rem;
   }
-`;
+}
 
-export const CloseButton = styled.button`
+.closeButton {
   width: 42px;
   height: 42px;
   border-radius: 21px;
@@ -59,4 +63,4 @@ export const CloseButton = styled.button`
   &:hover {
     opacity: 0.8;
   }
-`;
+}
