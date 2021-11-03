@@ -57,7 +57,7 @@ export const Instructions: React.FC<IInstructionsProps> = ({ saleName }) => {
       <img
         src={imgInstructions}
         alt="instructions"
-        className="tw-border-4 tw-rounded tw-border-gray-9"
+        className="tw-border-solid tw-border-4 tw-rounded tw-border-gray-9"
       />
     </div>
   );
