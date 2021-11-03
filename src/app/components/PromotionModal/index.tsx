@@ -49,7 +49,7 @@ export const PromotionModal: React.FC = () => {
             <img
               src={imgLargeNFT}
               alt="MYNT"
-              className="tw-border-8 tw-border-gray-9 tw-rounded-3xl"
+              className="tw-border-solid tw-border-8 tw-border-gray-9 tw-rounded-3xl"
             />
           </div>
           <div className="tw-w-6/12 tw-mr-32">
