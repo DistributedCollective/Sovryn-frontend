@@ -18,16 +18,18 @@ import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer'
 import { Input } from '../../../../components/Input';
 import { fromWei, toWei } from 'web3-utils';
 import { Tooltip } from '@blueprintjs/core';
-import { bignumber } from 'mathjs';
 import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
 import { LeverageViewer } from '../LeverageViewer';
 import {
   getMaximalTradeSizeInPerpetual,
+  getRequiredMarginCollateral,
+  getTradingFee,
   shrinkToLot,
 } from '../../temporaryUtils';
 import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
 import { usePerpetual_queryPerpParameters } from '../../hooks/usePerpetual_queryPerpParameters';
+import { usePerpetual_marginAccountBalance } from '../../hooks/usePerpetual_marginAccountBalance';
 
 interface ITradeFormProps {
   trade: PerpetualTrade;
@@ -49,6 +51,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   const inMaintenance = checkMaintenance(States.PERPETUAL_TRADES);
   const ammState = usePerpetual_queryAmmState();
   const perpParameters = usePerpetual_queryPerpParameters();
+  const marginAccountBalance = usePerpetual_marginAccountBalance();
 
   const [lotSize, lotPrecision] = useMemo(() => {
     const lotSize = Number(perpParameters.fLotSizeBC.toPrecision(8));
@@ -134,15 +137,21 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     return 1337.1337;
   }, []);
 
-  const orderCost = useMemo(() => {
-    // TODO implement orderCost calculation
-    return 0.1337;
-  }, []);
+  const orderCost = useMemo(
+    () =>
+      getRequiredMarginCollateral(
+        trade.leverage,
+        marginAccountBalance.fPositionBC,
+        Number(trade.amount),
+        perpParameters,
+      ),
+    [marginAccountBalance.fPositionBC, perpParameters, trade],
+  );
 
-  const tradingFee = useMemo(() => {
-    // TODO implement tradingFee calculation
-    return 0.1337;
-  }, []);
+  const tradingFee = useMemo(
+    () => getTradingFee(Number(trade.amount), perpParameters),
+    [perpParameters, trade.amount],
+  );
 
   const liquidationPrice = useMemo(() => {
     // TODO implement liquidationPrice calculation
@@ -254,7 +263,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           minDecimals={4}
           maxDecimals={4}
           mode={AssetValueMode.auto}
-          value={orderCost}
+          value={String(orderCost)}
           assetString={pair.shortAsset}
         />
       </div>
@@ -264,9 +273,9 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         </label>
         <AssetValue
           minDecimals={4}
-          maxDecimals={4}
+          maxDecimals={6}
           mode={AssetValueMode.auto}
-          value={tradingFee}
+          value={String(tradingFee)}
           assetString={pair.shortAsset}
         />
       </div>
