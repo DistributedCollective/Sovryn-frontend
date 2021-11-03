@@ -10,10 +10,12 @@ export const timestampToDateTimeString = (timestamp: number) =>
     hour: 'numeric',
     hour12: false,
     minute: 'numeric',
+    timeZone: 'UTC',
   });
 
 export const timestampToDateString = (timestamp: number) =>
   new Date(timestamp * 1000).toLocaleString('en-GB', {
     day: 'numeric',
     month: 'short',
+    timeZone: 'UTC',
   });
