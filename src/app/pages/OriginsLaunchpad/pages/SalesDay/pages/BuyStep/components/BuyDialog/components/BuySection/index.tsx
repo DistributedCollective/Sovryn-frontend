@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 
 import { Asset } from 'types';
 import { TxStatus } from 'store/global/transactions-store/types';
-import { BuyWrapper, BuyButton } from './styled';
 import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
 import { useWeiAmount } from 'app/hooks/useWeiAmount';
 import { useCanInteract } from 'app/hooks/useCanInteract';
@@ -21,6 +20,7 @@ import { TxDialog as SwapTxDialog } from 'app/components/Dialogs/TxDialog';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { BalanceOfAsset } from './components/BalanceOfAsset';
+import styles from './index.module.scss';
 
 interface IBuySectionProps {
   saleName: string;
@@ -116,7 +116,7 @@ export const BuySection: React.FC<IBuySectionProps> = ({
   }, [sourceToken, contribute, weiAmount, sendSwap]);
 
   return (
-    <BuyWrapper>
+    <div className={styles.buyWrapper}>
       <div className="tw-max-w-sm tw-mx-auto tw-flex tw-flex-col tw-justify-between tw-h-full">
         <div>
           <BalanceOfAsset className="" asset={sourceToken} />
@@ -148,7 +148,8 @@ export const BuySection: React.FC<IBuySectionProps> = ({
             <AssetRenderer assetString={saleName} />
           </div>
 
-          <BuyButton
+          <button
+            className={styles.buyButton}
             disabled={buyTx.loading || !isValidAmount || !connected}
             onClick={onBuyClick}
           >
@@ -159,7 +160,7 @@ export const BuySection: React.FC<IBuySectionProps> = ({
                 { token: saleName },
               )}
             </span>
-          </BuyButton>
+          </button>
         </div>
 
         <div className="tw-text-sm tw-text-center tw-font-extralight tw-text-gray-9 tw-mt-14">
@@ -176,6 +177,6 @@ export const BuySection: React.FC<IBuySectionProps> = ({
       {txSwap && txSwap?.status !== TxStatus.CONFIRMED && (
         <SwapTxDialog tx={txSwap} />
       )}
-    </BuyWrapper>
+    </div>
   );
 };

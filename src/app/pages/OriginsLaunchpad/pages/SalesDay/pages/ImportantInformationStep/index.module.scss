@@ -1,21 +1,19 @@
-import styled from 'styled-components';
-
-export const DialogWrapper = styled.div`
+.dialogWrapper {
   background-color: #181818;
   padding: 2.5rem 8.75rem 3.75rem 8.75rem;
   border-radius: 1.25rem;
   margin-left: 2.5rem;
   margin-right: 2.5rem;
   width: 77.1875rem;
-`;
+}
 
-export const DialogTitle = styled.div`
+.dialogTitle {
   font-size: 1.75rem;
   letter-spacing: 0;
   margin-bottom: 5rem;
-`;
+}
 
-export const ListItem = styled.div`
+.listItem {
   display: flex;
   align-items: center;
   position: relative;
@@ -37,4 +35,4 @@ export const ListItem = styled.div`
     left: -1rem;
     top: 0.25rem;
   }
-`;
+}

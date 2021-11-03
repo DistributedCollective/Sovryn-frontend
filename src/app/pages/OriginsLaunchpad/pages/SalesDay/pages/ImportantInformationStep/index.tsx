@@ -3,10 +3,10 @@ import { useTranslation, Trans } from 'react-i18next';
 import { Checkbox } from '@blueprintjs/core';
 import { Link } from 'react-router-dom';
 
-import { DialogTitle, DialogWrapper, ListItem } from './styled';
 import { translations } from 'locales/i18n';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { discordInvite, sovrynTelegram } from 'utils/classifiers';
+import styles from './index.module.scss';
 
 interface IImportantInformationStepProps {
   saleName: string;
@@ -30,20 +30,20 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
 
   return (
     <>
-      <DialogWrapper>
-        <DialogTitle>
+      <div className={styles.dialogWrapper}>
+        <div className={styles.dialogTitle}>
           {t(baseTranslations.title, { token: saleName })}
-        </DialogTitle>
+        </div>
 
         <div className="tw-flex tw-flex-col tw-space-y-4 lg:tw-flex-row lg:tw-space-y-0 lg:tw-space-x-20">
           <div className="tw-text-left tw-w-full lg:tw-w-1/2 tw-mr-20">
-            <ListItem>
+            <div className={styles.listItem}>
               {t(baseTranslations.information[1], { token: saleName })}
-            </ListItem>
-            <ListItem>
+            </div>
+            <div className={styles.listItem}>
               {t(baseTranslations.information[2], { token: saleName })}
-            </ListItem>
-            <ListItem>
+            </div>
+            <div className={styles.listItem}>
               <div>
                 <Trans
                   i18nKey={baseTranslations.information[3]}
@@ -67,21 +67,21 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
                   ]}
                 />
               </div>
-            </ListItem>
+            </div>
           </div>
 
           <div className="tw-text-left tw-w-full lg:tw-w-1/2">
-            <ListItem>
+            <div className={styles.listItem}>
               <strong>
                 {t(baseTranslations.information[6], { token: saleName })}
               </strong>
-            </ListItem>
-            <ListItem>
+            </div>
+            <div className={styles.listItem}>
               <strong>
                 {t(baseTranslations.information[4], { token: saleName })}
               </strong>
-            </ListItem>
-            <ListItem>
+            </div>
+            <div className={styles.listItem}>
               <div>
                 <Trans
                   i18nKey={baseTranslations.information[7]}
@@ -93,8 +93,10 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
                   ]}
                 />
               </div>
-            </ListItem>
-            <ListItem>{t(baseTranslations.information[8])}</ListItem>
+            </div>
+            <div className={styles.listItem}>
+              {t(baseTranslations.information[8])}
+            </div>
           </div>
         </div>
 
@@ -114,7 +116,7 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
             disabled={!checked}
           />
         </div>
-      </DialogWrapper>
+      </div>
     </>
   );
 };

@@ -3,10 +3,10 @@ import camelCase from 'camelcase';
 import imgLargeNFT from 'assets/origins_launchpad/MYNT_NFT_Large.png';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { DialogTitle, DialogWrapper } from './styled';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { ISaleInformation } from '../../../../types';
 import { timestampToDateTimeString } from 'utils/dateHelpers';
+import styles from './index.module.scss';
 
 interface IAccessCodeVerificationStepProps {
   saleName: string;
@@ -50,15 +50,15 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
         alt="Dialog NFT"
         className="tw-my-auto tw-border-8 tw-border-gray-9 tw-rounded-3xl"
       />
-      <DialogWrapper>
+      <div className={styles.dialogWrapper}>
         <div className="tw-max-w-lg">
-          <DialogTitle>
+          <div className={styles.dialogTitle}>
             {t(
               translations.originsLaunchpad.saleDay.accessCodeVerificationStep
                 .dialogTitle,
               { token: saleName },
             )}
-          </DialogTitle>
+          </div>
           <div className="tw-text-xl tw-font-extralight tw-mb-32">
             {t(
               translations.originsLaunchpad.saleDay.accessCodeVerificationStep
@@ -105,7 +105,7 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
             />
           </div>
         )} */}
-      </DialogWrapper>
+      </div>
     </>
   );
 };

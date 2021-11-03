@@ -1,6 +1,4 @@
-import styled from 'styled-components';
-
-export const EngageButton = styled.button`
+.engageButton {
   border: 1px solid;
   white-space: nowrap;
   margin: 0 auto;
@@ -21,9 +19,9 @@ export const EngageButton = styled.button`
   &:focus {
     background: rgba(254, 192, 4, 0.5) !important;
   }
-`;
+}
 
-export const EngageWalletDialogWrapper = styled.div`
+.engageWalletDialogWrapper {
   height: 37.25rem;
   background-color: #181818;
   padding: 3.125rem 8.25rem 4.75rem 8.25rem;
@@ -32,10 +30,10 @@ export const EngageWalletDialogWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-`;
+}
 
-export const DialogTitle = styled.div`
+.dialogTitle {
   font-size: 1.75rem;
   letter-spacing: 0;
   margin-bottom: 10.375rem;
-`;
+}

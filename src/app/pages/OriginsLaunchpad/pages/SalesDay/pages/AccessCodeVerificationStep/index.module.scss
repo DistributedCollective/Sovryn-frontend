@@ -1,6 +1,4 @@
-import styled from 'styled-components';
-
-export const DialogWrapper = styled.div`
+.dialogWrapper {
   height: 37.25rem;
   background-color: #181818;
   padding: 3.125rem 8.25rem 1.5625rem 8.25rem;
@@ -9,10 +7,10 @@ export const DialogWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-`;
+}
 
-export const DialogTitle = styled.div`
+.dialogTitle {
   font-size: 1.75rem;
   letter-spacing: 0;
   margin-bottom: 5rem;
-`;
+}

@@ -5,9 +5,9 @@ import { translations } from 'locales/i18n';
 import { Asset } from 'types';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
-import { BuyInformationWrapper } from './styled';
 import { InfoItem } from './InfoItem';
 import { ISaleInformation } from '../../../../../../../../types';
+import styles from './index.module.scss';
 
 interface IInformationSectionProps {
   saleName: string;
@@ -21,7 +21,7 @@ export const InformationSection: React.FC<IInformationSectionProps> = ({
   const { t } = useTranslation();
 
   return (
-    <BuyInformationWrapper>
+    <div className={styles.buyInformationWrapper}>
       <InfoItem
         label={t(
           translations.originsLaunchpad.saleDay.buyStep.buyInformationLabels
@@ -92,6 +92,6 @@ export const InformationSection: React.FC<IInformationSectionProps> = ({
         value={info.saleEnd}
         isLastItem={true}
       />
-    </BuyInformationWrapper>
+    </div>
   );
 };
