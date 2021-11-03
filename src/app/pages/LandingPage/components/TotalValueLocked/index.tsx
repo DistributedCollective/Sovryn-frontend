@@ -102,6 +102,12 @@ export const TotalValueLocked: React.FC<ITotalValueLockedProps> = ({
             loading={loading}
           />
           <DataRow
+            contractName={t(translations.landingPage.tvl.subProtocol)}
+            btcValue={data?.tvlSubprotocols.totalBtc || 0}
+            usdValue={data?.tvlSubprotocols.totalUsd || 0}
+            loading={loading}
+          />
+          <DataRow
             contractName={t(translations.landingPage.tvl.total)}
             btcValue={data?.total_btc || 0}
             usdValue={data?.total_usd || 0}
