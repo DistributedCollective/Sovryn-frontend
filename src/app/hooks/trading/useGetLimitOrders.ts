@@ -1,12 +1,10 @@
 import { contractReader } from '../../../utils/sovryn/contract-reader';
-import { Order } from '../../pages/SpotTradingPage/helpers';
 import { useEffect, useState } from 'react';
 import { useCacheCallWithValue } from '../useCacheCallWithValue';
 import { ethers, BigNumber } from 'ethers';
 import { LimitOrder } from 'app/pages/SpotTradingPage/types';
-import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 
-function orderParser(orderArray: string[]): LimitOrder {
+function orderParser(orderArray: string[], hash: string): LimitOrder {
   const [
     maker,
     fromToken,
@@ -20,17 +18,6 @@ function orderParser(orderArray: string[]): LimitOrder {
     r,
     s,
   ] = orderArray;
-  const order = new Order(
-    maker,
-    AssetsDictionary.getByTokenContractAddress(fromToken).asset,
-    AssetsDictionary.getByTokenContractAddress(toToken).asset,
-    amountIn,
-    amountOutMin,
-    recipient,
-    deadline,
-    created,
-  );
-  const hash = order.hash();
   return {
     maker,
     fromToken,
@@ -62,9 +49,15 @@ export function useGetLimitOrders(
 
   useEffect(() => {
     const updateResult = async () => {
+      const hashesOrders = await contractReader.call<[string]>(
+        'orderBook',
+        'hashesOfMaker',
+        [account, page, limit],
+      );
+
       const list = hashes
         .filter(hash => hash['0'] !== ethers.constants.AddressZero)
-        .map(item => orderParser(item));
+        .map((item, i) => orderParser(item, hashesOrders[i]));
 
       const canceledOrders = await contractReader.call(
         'settlement',
@@ -89,10 +82,11 @@ export function useGetLimitOrders(
     if (hashes && !loadingHashes) {
       updateResult();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hashes, loadingHashes]);
 
   return {
-    value: orders,
+    value: orders.filter(item => !item.canceled),
     loading: loadingHashes || loading,
   };
 }
