@@ -7,7 +7,7 @@ import { useAccount } from 'app/hooks/useAccount';
 import { Asset } from 'types';
 import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
 import { contractReader } from 'utils/sovryn/contract-reader';
-import { timestampToString } from 'utils/dateHelpers';
+import { timestampToDateString } from 'utils/dateHelpers';
 import { ISaleInformation } from '../types';
 import { selectTransactions } from 'store/global/transactions-store/selectors';
 
@@ -43,7 +43,7 @@ export const useGetSaleInformation = () => {
       );
     }
     if (saleStart && period) {
-      return timestampToString(Number(saleStart) + Number(period));
+      return timestampToDateString(Number(saleStart) + Number(period));
     }
     return '-';
   }, [saleInfo, t]);

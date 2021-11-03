@@ -234,7 +234,7 @@ function AssetRow({
 
   const dollarValue = useDollarValue(item.asset, tokens);
   const dollarValueMynt = useDollarValueMynt(tokens);
-  const _dollarValue = useMemo(
+  const assetDollarValue = useMemo(
     () => (item.asset === Asset.MYNT ? dollarValueMynt : dollarValue),
     [dollarValue, dollarValueMynt, item.asset],
   );
@@ -252,8 +252,8 @@ function AssetRow({
       </td>
       <td className="tw-text-right tw-hidden md:tw-table-cell">
         <LoadableValue
-          value={weiToUSD(_dollarValue.value)}
-          loading={_dollarValue.loading}
+          value={weiToUSD(assetDollarValue.value)}
+          loading={assetDollarValue.loading}
         />
       </td>
       <td className="tw-text-right tw-hidden md:tw-table-cell">
