@@ -31,9 +31,9 @@ export function AvailableBalance(props: Props) {
         components={[
           <LoadableValue
             value={
-              <>
+              <span className="tw-ml-1">
                 {weiToNumberFormat(value, 6)} {asset.asset}
-              </>
+              </span>
             }
             loading={loading}
             tooltip={
