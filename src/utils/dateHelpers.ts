@@ -13,9 +13,21 @@ export const timestampToDateTimeString = (timestamp: number) =>
     timeZone: 'UTC',
   });
 
-export const timestampToDateString = (timestamp: number) =>
-  new Date(timestamp * 1000).toLocaleString('en-GB', {
-    day: 'numeric',
+export const timestampToDateString = (timestamp: number) => {
+  const date = parseInt(
+    new Date(timestamp * 1000).toLocaleString('en-GB', {
+      day: 'numeric',
+      timeZone: 'UTC',
+    }),
+  );
+  const month = new Date(timestamp * 1000).toLocaleString('en-GB', {
     month: 'short',
     timeZone: 'UTC',
   });
+  const getDateOrdinalFormat = n =>
+    n +
+    (n > 0
+      ? ['th', 'st', 'nd', 'rd'][(n > 3 && n < 21) || n % 10 > 3 ? 0 : n % 10]
+      : '');
+  return `${getDateOrdinalFormat(date)} ${month}`;
+};
