@@ -71,7 +71,7 @@ export const PromotionModal: React.FC = () => {
                     i18nKey={translations.promotionsDialog.promotion1_2}
                     components={[
                       <a
-                        href="https://forum.sovryn.app/t/draft-sip-the-sovryn-mynt/1954"
+                        href="https://github.com/DistributedCollective/SIPS/blob/main/SIP-0037.md"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="tw-underline tw-pl-1"
