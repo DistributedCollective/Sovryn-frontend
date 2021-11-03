@@ -1,12 +1,12 @@
 import { usePerpetual_marginAccountBalance } from './usePerpetual_marginAccountBalance';
 import { usePerpetual_openTrade } from './usePerpetual_openTrade';
-import { usePerpetual_withdrawMarginToken } from './usePerpetual_withdrawMarginToken';
+import { usePerpetual_withdrawAll } from './usePerpetual_withdrawAll';
 
 export const usePerpetual_closePosition = () => {
   const marginAccountBalance = usePerpetual_marginAccountBalance();
 
   const { trade, ...rest } = usePerpetual_openTrade();
-  const { withdraw } = usePerpetual_withdrawMarginToken();
+  const { withdraw } = usePerpetual_withdrawAll();
 
   return {
     closePosition: async () => {
@@ -18,7 +18,7 @@ export const usePerpetual_closePosition = () => {
         String(-1 * marginAccountBalance.fPositionBC),
       );
 
-      await withdraw(String(marginAccountBalance.fCashCC));
+      await withdraw();
     },
     ...rest,
   };
