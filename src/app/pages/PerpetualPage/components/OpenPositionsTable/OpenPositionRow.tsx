@@ -67,7 +67,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
       <td className="tw-text-right tw-hidden xl:tw-table-cell">
         <AssetValue value={item.markPrice} assetString={pair.quoteAsset} />
       </td>
-      <td className="tw-text-right tw-hidden xl:tw-table-cell tw-text-trade-short">
+      <td className="tw-text-right tw-hidden xl:tw-table-cell">
         <AssetValue
           value={item.liquidationPrice}
           assetString={pair.quoteAsset}

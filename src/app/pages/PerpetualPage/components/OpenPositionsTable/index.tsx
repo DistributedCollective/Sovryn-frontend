@@ -69,7 +69,7 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
             <th className="tw-hidden xl:tw-table-cell tw-text-right tw-text-sm">
               {t(translations.perpetualPage.openPositionsTable.markPrice)}
             </th>
-            <th className="tw-hidden xl:tw-table-cell tw-text-right tw-text-sm tw-text-trade-short">
+            <th className="tw-hidden xl:tw-table-cell tw-text-right tw-text-sm">
               {t(
                 translations.perpetualPage.openPositionsTable.liquidationPrice,
               )}
