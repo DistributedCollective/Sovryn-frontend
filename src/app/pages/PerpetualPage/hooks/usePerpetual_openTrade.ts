@@ -7,7 +7,7 @@ import { ethGenesisAddress, gasLimit } from 'utils/classifiers';
 import { floatToABK64x64, PERPETUAL_ID } from '../utils';
 import { usePerpetual_depositMarginToken } from './usePerpetual_depositMarginToken';
 
-const MASK_MARKET_ORDER = BigNumber.from('0x40000000');
+const MASK_MARKET_ORDER = 0x40000000;
 const MASK_CLOSE_ONLY = 0x80000000;
 
 export const usePerpetual_openTrade = () => {
@@ -35,7 +35,7 @@ export const usePerpetual_openTrade = () => {
         floatToABK64x64(limitPrice),
         deadline,
         ethGenesisAddress,
-        MASK_MARKET_ORDER,
+        isClosePositionTransaction ? MASK_CLOSE_ONLY : MASK_MARKET_ORDER,
         timeNow,
       ];
 

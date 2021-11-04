@@ -22,6 +22,7 @@ import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
 import { LeverageViewer } from '../LeverageViewer';
 import {
+  getIndexPrice,
   getMaximalTradeSizeInPerpetual,
   getRequiredMarginCollateral,
   getTradingFee,
@@ -55,7 +56,8 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
 
   const [lotSize, lotPrecision] = useMemo(() => {
     const lotSize = Number(perpParameters.fLotSizeBC.toPrecision(8));
-    const lotPrecision = lotSize.toString().replace(/^.*\.?/, '').length;
+    const lotPrecision = lotSize.toString().split(/[,.]/)[1]?.length || 0;
+
     return [lotSize, lotPrecision];
   }, [perpParameters.fLotSizeBC]);
 
@@ -64,14 +66,19 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       Number(
         Math.abs(
           getMaximalTradeSizeInPerpetual(
-            0,
+            marginAccountBalance.fPositionBC,
             trade.position === TradingPosition.LONG ? 1 : -1,
             ammState,
             perpParameters,
           ),
         ).toPrecision(8),
       ),
-    [trade.position, ammState, perpParameters],
+    [
+      marginAccountBalance.fPositionBC,
+      trade.position,
+      ammState,
+      perpParameters,
+    ],
   );
 
   const [amount, setAmount] = useState(fromWei(trade.amount));
@@ -132,11 +139,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     return i18nKey && t(i18nKey);
   }, [t, trade.position, trade.tradeType]);
 
-  const price = useMemo(() => {
-    // TODO implement price calculation
-    return 1337.1337;
-  }, []);
-
   const orderCost = useMemo(
     () =>
       getRequiredMarginCollateral(
@@ -152,6 +154,8 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     () => getTradingFee(Number(trade.amount), perpParameters),
     [perpParameters, trade.amount],
   );
+
+  const indexPrice = useMemo(() => getIndexPrice(ammState), [ammState]);
 
   const liquidationPrice = useMemo(() => {
     // TODO implement liquidationPrice calculation
@@ -339,7 +343,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
             <span>
               {weiToNumberFormat(trade.amount, lotPrecision)}
               {` @ ${trade.position === TradingPosition.LONG ? '≥' : '≤'} `}
-              {weiToNumberFormat(price, 2)}
+              {toNumberFormat(indexPrice, 2)}
             </span>
           </button>
         ) : (
