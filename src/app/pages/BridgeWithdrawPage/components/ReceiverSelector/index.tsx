@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import type { Chain } from 'types';
+import { Chain } from 'types';
 
 import { actions } from '../../slice';
 import { selectBridgeWithdrawPage } from '../../selectors';
@@ -9,23 +9,28 @@ import networkList from '../../../../components/NetworkRibbon/component/network.
 import { BridgeNetworkDictionary } from '../../../BridgeDepositPage/dictionaries/bridge-network-dictionary';
 import { Input } from '../../../../components/Form/Input';
 import { ActionButton } from 'app/components/Form/ActionButton';
+import { discordInvite } from 'utils/classifiers';
 
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { rskWalletAddressLength } from 'app/constants';
 import styles from './index.module.scss';
 import imgWarning from 'assets/images/warning_black_24dp.svg';
 import classNames from 'classnames';
+import { useIsBridgeWithdrawLocked } from 'app/pages/BridgeWithdrawPage/hooks/useIsBridgeWithdrawLocked';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 
 interface IReceiverSelectorProps {
   address: string;
 }
 
-export function ReceiverSelector({ address }: IReceiverSelectorProps) {
+export const ReceiverSelector: React.FC<IReceiverSelectorProps> = ({
+  address,
+}) => {
   const { t } = useTranslation();
   const trans = translations.BridgeWithdrawPage.receiverSelector;
   const [showWarning, setShowWarning] = useState(false);
-  const { targetChain, targetAsset, receiver } = useSelector(
+  const { sourceAsset, targetChain, targetAsset, receiver } = useSelector(
     selectBridgeWithdrawPage,
   );
   const dispatch = useDispatch();
@@ -48,6 +53,11 @@ export function ReceiverSelector({ address }: IReceiverSelectorProps) {
   const valid = useMemo(() => {
     return value && value.length === rskWalletAddressLength;
   }, [value]);
+
+  const bridgeWithdrawLocked = useIsBridgeWithdrawLocked(
+    sourceAsset,
+    targetChain,
+  );
 
   return (
     <div className="tw-flex tw-flex-col tw-items-center">
@@ -94,10 +104,29 @@ export function ReceiverSelector({ address }: IReceiverSelectorProps) {
         <ActionButton
           className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
           text={t(translations.common.next)}
-          disabled={!valid}
+          disabled={bridgeWithdrawLocked || !valid}
           onClick={selectReceiver}
         />
+        {bridgeWithdrawLocked && (
+          <ErrorBadge
+            content={
+              <Trans
+                i18nKey={translations.maintenance.bridgeSteps}
+                components={[
+                  <a
+                    href={discordInvite}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                  >
+                    x
+                  </a>,
+                ]}
+              />
+            }
+          />
+        )}
       </div>
     </div>
   );
-}
+};

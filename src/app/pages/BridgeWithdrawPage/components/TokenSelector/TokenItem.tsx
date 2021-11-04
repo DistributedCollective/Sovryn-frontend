@@ -20,6 +20,7 @@ export function TokenItem({
   image,
   symbol,
   onClick,
+  disabled,
 }) {
   const { t } = useTranslation();
   const { chain, targetChain } = useSelector(selectBridgeWithdrawPage);
@@ -31,9 +32,10 @@ export function TokenItem({
     [chain, sourceAsset, targetChain],
   );
 
-  const isDisabled = useMemo(() => !bignumber(balance).greaterThan(0), [
-    balance,
-  ]);
+  const isDisabled = useMemo(
+    () => disabled || !bignumber(balance).greaterThan(0),
+    [balance, disabled],
+  );
 
   return (
     <div>
