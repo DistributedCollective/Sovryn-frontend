@@ -7,8 +7,6 @@ import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
 import { isPerpetualTrade, PerpetualPageModals } from '../../types';
 import { usePerpetual_openTrade } from '../../hooks/usePerpetual_openTrade';
-import { bignumber } from 'mathjs';
-import { weiToNumberFormat } from 'utils/display-text/format';
 
 export const TradeReviewDialog: React.FC = () => {
   const dispatch = useDispatch();
@@ -31,10 +29,11 @@ export const TradeReviewDialog: React.FC = () => {
     () =>
       trade &&
       openTrade(
-        bignumber(weiToNumberFormat(trade?.amount))
-          .div(trade?.leverage)
-          .toString(),
-        weiToNumberFormat(trade?.amount),
+        false,
+        Number(trade?.amount),
+        trade.leverage,
+        trade.slippage,
+        trade.position,
       ),
     [openTrade, trade],
   );
