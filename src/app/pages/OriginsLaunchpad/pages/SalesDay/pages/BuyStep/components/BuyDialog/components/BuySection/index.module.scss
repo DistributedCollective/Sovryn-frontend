@@ -21,7 +21,7 @@
   padding: initial;
 
   &:not([disabled]):hover {
-    opacity: 75%;
+    opacity: 0.75;
   }
 
   &[disabled] {

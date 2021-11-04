@@ -48,7 +48,7 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
       <img
         src={imgLargeNFT}
         alt="Dialog NFT"
-        className="tw-my-auto tw-border-8 tw-border-gray-9 tw-rounded-3xl"
+        className="tw-my-auto tw-border-solid tw-border-8 tw-border-gray-9 tw-rounded-3xl"
       />
       <div className={styles.dialogWrapper}>
         <div className="tw-max-w-lg">

@@ -48,14 +48,14 @@ export const BuySection: React.FC<IBuySectionProps> = ({
   const weiAmount = useWeiAmount(amount);
   const weiTokenAmount = useWeiAmount(tokenAmount);
 
-  const isValidAmount = useMemo(() => {
-    return (
+  const isValidAmount = useMemo(
+    () =>
       !balance.loading &&
       bignumber(weiAmount).greaterThan(0) &&
       bignumber(weiTokenAmount).greaterThan(0) &&
-      bignumber(weiAmount).lessThan(balance.value)
-    );
-  }, [weiAmount, weiTokenAmount, balance]);
+      bignumber(weiAmount).lessThanOrEqualTo(balance.value),
+    [weiAmount, weiTokenAmount, balance],
+  );
 
   const { value: amountInSOV } = useSwapsExternal_getSwapExpectedReturn(
     sourceToken,
