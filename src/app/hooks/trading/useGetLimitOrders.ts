@@ -1,15 +1,10 @@
+import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { useEffect, useState } from 'react';
-import {
-  getContract,
-  getWeb3Contract,
-} from './../../../utils/blockchain/contract-helpers';
-import { bridgeNetwork } from 'app/pages/BridgeDepositPage/utils/bridge-network';
 import { useCacheCallWithValue } from '../useCacheCallWithValue';
-import { Chain } from 'types';
-import { ethers } from 'ethers';
+import { ethers, BigNumber } from 'ethers';
 import { LimitOrder } from 'app/pages/SpotTradingPage/types';
 
-function orderParser(orderArray = []): LimitOrder {
+function orderParser(orderArray: string[], hash: string): LimitOrder {
   const [
     maker,
     fromToken,
@@ -23,144 +18,75 @@ function orderParser(orderArray = []): LimitOrder {
     r,
     s,
   ] = orderArray;
-
   return {
     maker,
     fromToken,
     toToken,
-    amountIn,
-    amountOutMin,
+    amountIn: BigNumber.from(amountIn),
+    amountOutMin: BigNumber.from(amountOutMin),
     recipient,
-    deadline,
-    created,
+    deadline: BigNumber.from(deadline),
+    created: BigNumber.from(created),
     v,
     r,
     s,
+    hash,
   };
-}
-
-interface ICanceledOrders {
-  [key: string]: boolean;
-}
-interface IFilledOrders {
-  [key: string]: number;
 }
 
 export function useGetLimitOrders(
   account: string,
   page: number = 0,
   limit: number = 100,
+  isMargin = false,
 ) {
   const [orders, setOrders] = useState<LimitOrder[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [canceledOrders, setCanceledOrders] = useState<null | ICanceledOrders>(
-    null,
-  );
-  const [filledOrders] = useState<null | IFilledOrders>(null);
+  const [loading, setLoading] = useState(true);
 
   const { value: hashes, loading: loadingHashes } = useCacheCallWithValue<
-    Array<String>
-  >('orderBook', 'hashesOfMaker', [], account, page, limit);
-
-  const { address, abi } = getContract('settlement');
-  const settlement = getWeb3Contract(address, abi);
-
-  const getCanceledOrders = async () => {
-    const events = await settlement.getPastEvents('OrderCanceled', {
-      filter: {
-        value: hashes
-          .filter(hash => hash !== ethers.constants.HashZero)
-          .map(hash => `${hash}`),
-      },
-      fromBlock: 0,
-    });
-
-    const orderStatus = {};
-    events.forEach(event => (orderStatus[event.returnValues?.hash] = true));
-    setCanceledOrders({ ...orderStatus });
-
-    return canceledOrders;
-  };
-
-  const getFilledOrders = async () => {
-    const events = await settlement.getPastEvents('OrderFilled', {
-      filter: {
-        value: hashes
-          .filter(hash => hash !== ethers.constants.HashZero)
-          .map(hash => `${hash}`),
-      },
-      fromBlock: 0,
-    });
-    console.log('FilledOrders: ', events);
-
-    // const orderStatus = {};
-    // events.forEach(event => (orderStatus[event.returnValues?.hash] = true));
-
-    // setFilledOrders({ ...orderStatus });
-
-    // return canceledOrders;
-  };
+    Array<Array<string>>
+  >('orderBook', 'getOrders', [], account, page, limit);
 
   useEffect(() => {
-    if (hashes.length) {
-      getCanceledOrders();
-      if (!filledOrders) {
-        getFilledOrders();
-      }
+    const updateResult = async () => {
+      const hashesOrders = await contractReader.call<[string]>(
+        'orderBook',
+        'hashesOfMaker',
+        [account, page, limit],
+      );
+
+      const list = hashes
+        .filter(hash => hash['0'] !== ethers.constants.AddressZero)
+        .map((item, i) => orderParser(item, hashesOrders[i]));
+
+      const canceledOrders = await contractReader.call(
+        'settlement',
+        'checkCanceledHashes',
+        [list.map(item => item.hash)],
+      );
+      const filledOrders = await contractReader.call(
+        'settlement',
+        'checkFilledAmountHashes',
+        [list.map(item => item.hash)],
+      );
+
+      list.forEach((item, i) => {
+        item.canceled = !!canceledOrders[i]?.canceled;
+        item.filledAmount = filledOrders[i]?.amount;
+      });
+      console.log('list: ', list);
+      setOrders(list);
+      setLoading(false);
+    };
+
+    if (hashes && !loadingHashes) {
+      updateResult();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hashes]);
+  }, [hashes, loadingHashes]);
 
-  useEffect(() => {
-    setLoading(true);
-    bridgeNetwork
-      .multiCall<{ [key: string]: LimitOrder }>(
-        Chain.RSK,
-        hashes
-          .filter(hash => hash !== ethers.constants.HashZero)
-          .flatMap(hash => {
-            return [
-              {
-                address: getContract('orderBook').address,
-                abi: getContract('orderBook').abi,
-                fnName: 'orderOfHash',
-                args: [hash],
-                key: `${hash}`,
-                parser: value => orderParser(value),
-              },
-            ];
-          }),
-      )
-      .then(result => {
-        const orders = result?.returnData;
-        setOrders(
-          Object.keys(orders).map(orderHash => ({
-            hash: orderHash,
-            maker: orders[orderHash].maker,
-            fromToken: orders[orderHash].fromToken,
-            toToken: orders[orderHash].toToken,
-            amountIn: orders[orderHash].amountIn,
-            amountOutMin: orders[orderHash].amountOutMin,
-            recipient: orders[orderHash].recipient,
-            deadline: orders[orderHash].deadline,
-            created: orders[orderHash].created,
-            v: orders[orderHash].v,
-            r: orders[orderHash].r,
-            s: orders[orderHash].s,
-          })),
-        );
-      })
-      .catch(error => {
-        console.error('e', error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [hashes]);
   return {
-    value: orders.filter(
-      order => order.hash && canceledOrders && !canceledOrders[order.hash],
-    ),
-    loading: loadingHashes || loading || !canceledOrders,
+    value: orders.filter(item => !item.canceled),
+    loading: loadingHashes || loading,
   };
 }

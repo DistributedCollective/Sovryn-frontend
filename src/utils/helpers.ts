@@ -217,3 +217,5 @@ export const getFavoriteList = key => {
 export const setFavoriteList = (key: string, list) => {
   return localStorage.setItem(key, JSON.stringify(list));
 };
+export const isString = value =>
+  typeof value === 'string' || value instanceof String;

@@ -23,6 +23,7 @@ interface Props {
   maxAmount?: string;
   readonly?: boolean;
   showBalance?: boolean;
+  hideAmountSelector?: boolean;
 }
 
 export function AmountInput({
@@ -37,6 +38,7 @@ export function AmountInput({
   maxAmount,
   readonly,
   showBalance,
+  hideAmountSelector,
 }: Props) {
   return (
     <>
@@ -57,14 +59,16 @@ export function AmountInput({
         <div className="tw-text-xs tw-mt-1 tw-font-thin">{subText}</div>
       )}
       {subElem && <>{subElem}</>}
-      {!readonly && (asset || maxAmount !== undefined) && (
-        <AmountSelector
-          asset={asset}
-          maxAmount={maxAmount}
-          onChange={onChange}
-          showBalance={showBalance}
-        />
-      )}
+      {!readonly &&
+        !hideAmountSelector &&
+        (asset || maxAmount !== undefined) && (
+          <AmountSelector
+            asset={asset}
+            maxAmount={maxAmount}
+            onChange={onChange}
+            showBalance={showBalance}
+          />
+        )}
     </>
   );
 }

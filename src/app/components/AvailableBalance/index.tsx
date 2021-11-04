@@ -28,10 +28,9 @@ export function AvailableBalance(props: IAvailableBalanceProps) {
         components={[
           <LoadableValue
             value={
-              <div className="tw-font-semibold">
-                {weiToNumberFormat(value, 4)}{' '}
-                <AssetRenderer asset={asset.asset} />
-              </div>
+              <span className="tw-font-semibold tw-ml-1">
+                {weiToNumberFormat(value, 6)} {asset.asset}
+              </span>
             }
             loading={loading}
             tooltip={

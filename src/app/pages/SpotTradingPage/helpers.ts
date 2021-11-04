@@ -1,3 +1,4 @@
+import { LimitOrder } from 'app/pages/SpotTradingPage/types';
 import { utils } from 'ethers';
 import { _TypedDataEncoder } from 'ethers/lib/utils';
 import {
@@ -31,7 +32,7 @@ export class Order {
     this.toToken = getTokenContract(toAsset).address;
   }
 
-  hash() {
+  hash(overrides?: LimitOrder) {
     return utils.keccak256(
       utils.defaultAbiCoder.encode(
         [
@@ -47,14 +48,14 @@ export class Order {
         ],
         [
           Order.ORDER_TYPEHASH,
-          this.maker,
-          this.fromToken,
-          this.toToken,
-          this.amountIn,
-          this.amountOutMin,
-          this.recipient,
-          this.deadline,
-          this.created,
+          overrides?.maker || this.maker,
+          overrides?.fromToken || this.fromToken,
+          overrides?.toToken || this.toToken,
+          overrides?.amountIn || this.amountIn,
+          overrides?.amountOutMin || this.amountOutMin,
+          overrides?.recipient || this.recipient,
+          overrides?.deadline || this.deadline,
+          overrides?.created || this.created,
         ],
       ),
     );

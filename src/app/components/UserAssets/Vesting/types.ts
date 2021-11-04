@@ -14,7 +14,13 @@ export type FullVesting = Vesting & {
   stakes: StakesProp;
 };
 
-export type VestGroup = 'genesis' | 'origin' | 'team' | 'reward' | 'fish' | 'fishAirdrop';
+export type VestGroup =
+  | 'genesis'
+  | 'origin'
+  | 'team'
+  | 'reward'
+  | 'fish'
+  | 'fishAirdrop';
 
 export type StakesProp = {
   dates: Date[];
