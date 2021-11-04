@@ -263,6 +263,7 @@ export function SwapFormContainer() {
         asset={targetToken}
         onClose={() => setDialogOpen(false)}
         onChange={value => setSlippage(value)}
+        dataActionId="swap-"
       />
 
       <Arbitrage />
