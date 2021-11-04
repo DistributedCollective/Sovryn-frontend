@@ -282,11 +282,11 @@ export function SwapFormContainer() {
               onChange={value => setSourceToken(value.key)}
             />
           </div>
-          <div
-            className={styles.availableBalance}
-            data-action-id="swap-send-availableBalance"
-          >
-            <AvailableBalance asset={sourceToken} />
+          <div className={styles.availableBalance}>
+            <AvailableBalance
+              asset={sourceToken}
+              dataAttribute="swap-send-availableBalance"
+            />
           </div>
           <div className={styles.amount}>
             <AmountInput
@@ -319,7 +319,10 @@ export function SwapFormContainer() {
             />
           </div>
           <div className={styles.availableBalance}>
-            <AvailableBalance asset={targetToken} />
+            <AvailableBalance
+              asset={targetToken}
+              dataAttribute="swap-receive-availableBalance"
+            />
           </div>
           <div className={styles.amount}>
             <Input
