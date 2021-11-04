@@ -327,6 +327,7 @@ export function SwapFormContainer() {
               onChange={value => setAmount(value)}
               readOnly={true}
               appendElem={<AssetRenderer asset={targetToken} />}
+              dataActionId="swap-receive-amount"
             />
           </div>
         </div>
