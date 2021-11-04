@@ -1,15 +1,10 @@
 .engageButton {
-  border: 1px solid;
-  white-space: nowrap;
-  margin: 0 auto;
-  width: auto;
+  @apply tw-w-auto tw-font-thin tw-text-lg tw-tracking-normal tw-capitalize
+    tw-border tw-border-solid tw-whitespace-nowrap
+    tw-my-0 tw-mx-auto;
   height: 3.125rem;
   padding: 0.875rem 3.25rem;
-  font-weight: 100;
   color: var(--primary);
-  font-size: 1.125rem;
-  letter-spacing: 0;
-  text-transform: capitalize;
   transition: all 0.3s;
   border-radius: 0.625rem;
   &:hover {
@@ -22,18 +17,14 @@
 }
 
 .engageWalletDialogWrapper {
+  @apply tw-flex tw-flex-col tw-justify-between tw-ml-10;
   height: 37.25rem;
   background-color: #181818;
   padding: 3.125rem 8.25rem 4.75rem 8.25rem;
   border-radius: 1.25rem;
-  margin-left: 2.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
 .dialogTitle {
-  font-size: 1.75rem;
-  letter-spacing: 0;
+  @apply tw-text-3xl tw-tracking-normal;
   margin-bottom: 10.375rem;
 }

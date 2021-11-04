@@ -4,10 +4,5 @@
 }
 
 .titleContent {
-  font-size: 2.5rem;
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: 0;
-  margin-left: 2rem;
-  text-transform: uppercase;
+  @apply tw-text-4xl tw-font-semibold tw-leading-none tw-tracking-normal tw-ml-8 tw-uppercase;
 }

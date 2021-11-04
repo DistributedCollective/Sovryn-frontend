@@ -1,23 +1,15 @@
 .instructionsTitle {
-  font-size: 1rem;
-  text-transform: uppercase;
+  @apply tw-text-base tw-uppercase tw-leading-tight tw-tracking-normal tw-mb-4;
   color: #f4f4f4;
-  line-height: 1.25;
-  letter-spacing: 0;
-  margin-bottom: 1rem;
 }
 
 .mainInstructionsWrapper {
-  font-size: 0.75rem;
-  line-height: 1.5;
-  color: #ffffff;
-  font-weight: 100;
-  letter-spacing: 0;
+  @apply tw-text-xs tw-text-white tw-font-thin tw-leading-normal tw-tracking-normal;
   margin-bottom: 4.125rem;
 }
 
 .instructionsSectionsWrapper {
+  @apply tw-text-left;
   margin-left: 5.75rem;
-  text-align: left;
   max-width: 26.6875rem;
 }

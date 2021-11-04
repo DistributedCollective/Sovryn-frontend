@@ -9,11 +9,10 @@
 }
 
 .closeButton {
+  @apply tw-absolute tw-border-0;
   width: 42px;
   height: 42px;
   border-radius: 21px;
-  border: 0;
-  position: absolute;
   right: -30px;
   top: -30px;
   background: transparent
@@ -24,7 +23,7 @@
   will-change: opacity;
 
   &:hover {
-    opacity: 0.8;
+    @apply tw-opacity-80;
   }
 }
 
@@ -33,19 +32,15 @@
 }
 
 .WLContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  overflow: hidden;
-  width: 10rem;
-  height: 10rem;
+  @apply tw-flex tw-flex-col tw-justify-between tw-items-center
+    tw-w-40 tw-h-40
+    tw-border-solid tw-border-sov-white tw-overflow-hidden;
   border-radius: 1.25rem;
-  border: 5px solid #e8e8e8;
+  border-width: 5px;
   margin: 0 auto 4.375rem;
   padding: 1.3rem 2.1rem 1rem 2.1rem;
 }
 
 .WLImage {
-  width: 100%;
+  @apply tw-w-full;
 }

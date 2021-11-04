@@ -1,38 +1,25 @@
 .dialogWrapper {
+  @apply tw-mx-10;
   background-color: #181818;
   padding: 2.5rem 8.75rem 3.75rem 8.75rem;
   border-radius: 1.25rem;
-  margin-left: 2.5rem;
-  margin-right: 2.5rem;
   width: 77.1875rem;
 }
 
 .dialogTitle {
-  font-size: 1.75rem;
-  letter-spacing: 0;
-  margin-bottom: 5rem;
+  @apply tw-text-3xl tw-tracking-normal tw-mb-20;
 }
 
 .listItem {
-  display: flex;
-  align-items: center;
-  position: relative;
-  font-size: 0.875rem;
-  line-height: 1.25;
-  letter-spacing: 0;
-  font-weight: 100;
-  margin-bottom: 1rem;
+  @apply tw-relative tw-flex tw-items-center tw-text-sm tw-leading-5 tw-tracking-normal tw-font-thin tw-mb-4;
 
   &:before {
+    @apply tw-absolute tw--left-4 tw-top-1 tw-block;
     width: 7px;
     height: 7px;
     border-radius: 50%;
     background-color: #ededed;
     content: '';
     margin-right: 0.625rem;
-    display: block;
-    position: absolute;
-    left: -1rem;
-    top: 0.25rem;
   }
 }

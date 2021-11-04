@@ -1,16 +1,11 @@
 .dialogWrapper {
+  @apply tw-ml-10 tw-flex tw-flex-col tw-justify-between;
   height: 37.25rem;
   background-color: #181818;
   padding: 3.125rem 8.25rem 1.5625rem 8.25rem;
   border-radius: 1.25rem;
-  margin-left: 2.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
 }
 
 .dialogTitle {
-  font-size: 1.75rem;
-  letter-spacing: 0;
-  margin-bottom: 5rem;
+  @apply tw-text-3xl tw-tracking-normal tw-mb-20;
 }
