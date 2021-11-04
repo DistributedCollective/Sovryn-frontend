@@ -47,7 +47,8 @@ export type PerpetualTrade = {
 export const isPerpetualTrade = (x: any): x is PerpetualTrade =>
   x &&
   typeof x === 'object' &&
-  typeof x.pairType === 'string' &&
+  x.pair &&
+  typeof x.pair === 'object' &&
   typeof x.collateral === 'string' &&
   typeof x.tradeType === 'string' &&
   typeof x.position === 'string' &&

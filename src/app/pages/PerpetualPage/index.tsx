@@ -179,7 +179,7 @@ export function PerpetualPage() {
 
         <TestCandles />
 
-        <TestHistory />
+        {/* <TestHistory /> */}
 
         {connected && (
           <>

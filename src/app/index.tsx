@@ -87,7 +87,7 @@ export function App() {
               client={
                 new ApolloClient({
                   uri:
-                    'http://3.22.188.172:8000/subgraphs/name/DistributedCollective/Sovryn-perpetual-swaps-subgraph',
+                    'http://3.22.188.172/subgraphs/name/DistributedCollective/Sovryn-perpetual-swaps-subgraph',
                   cache: new InMemoryCache({
                     resultCaching: false,
                   }),

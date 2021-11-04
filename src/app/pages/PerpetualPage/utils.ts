@@ -14,6 +14,7 @@ import { transferAmount } from 'utils/blockchain/transfer-approve-amount';
 import { bridgeNetwork } from '../BridgeDepositPage/utils/bridge-network';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import marginTokenAbi from 'utils/blockchain/abi/MarginToken.json';
+import { toWei } from 'web3-utils';
 
 export const ONE_64x64 = BigNumber.from('0x10000000000000000');
 
@@ -39,6 +40,21 @@ export const floatToABK64x64 = (value: number) => {
   const decimalPartBigNumber = decimalPart.mul(ONE_64x64).div(dec18);
 
   return integerPartBigNumber.add(decimalPartBigNumber).mul(sign);
+};
+
+export const ABK64x64ToWei = (value: BigNumber) => {
+  const sign = value.lt(0) ? -1 : 1;
+  value = value.mul(sign);
+  const integerPart = value.div(ONE_64x64);
+  let decimalPart = value.sub(integerPart.mul(ONE_64x64));
+  const dec18 = BigNumber.from(10).pow(BigNumber.from(18));
+  decimalPart = decimalPart.mul(dec18).div(ONE_64x64);
+  const k = 18 - decimalPart.toString().length;
+
+  const sPad = '0'.repeat(k);
+  const weiString = integerPart.toString() + sPad + decimalPart.toString();
+
+  return weiString;
 };
 
 export const ABK64x64ToFloat = (value: BigNumber) => {

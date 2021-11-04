@@ -9,7 +9,11 @@ import { translations } from '../../../../../locales/i18n';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { actions } from '../../slice';
-import { PerpetualPageModals, PerpetualTrade } from '../../types';
+import {
+  PerpetualPageModals,
+  PerpetualTrade,
+  PERPETUAL_SLIPPAGE_DEFAULT,
+} from '../../types';
 import { TradingPosition } from '../../../../../types/trading-position';
 
 type OpenPositionRowProps = {
@@ -32,7 +36,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
       pairType: item.pairType,
       tradeType: item.type,
       position: item.position,
-      slippage: item.slippage,
+      slippage: PERPETUAL_SLIPPAGE_DEFAULT,
       amount: item.amount,
       collateral: pair.collateralAsset,
       leverage: item.leverage,
@@ -75,7 +79,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
       </td>
       <td
         className={classNames(
-          item.unrealized.shortValue >= 0
+          item.unrealized.baseValue >= 0
             ? 'tw-text-trade-long'
             : 'tw-text-trade-short',
         )}
@@ -84,12 +88,12 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
           <div className="tw-mr-2">
             <AssetValue
               className="tw-block"
-              value={item.unrealized.shortValue}
+              value={item.unrealized.baseValue}
               assetString={pair.baseAsset}
             />
             <AssetValue
               className="tw-block"
-              value={item.unrealized.longValue}
+              value={item.unrealized.quoteValue}
               assetString={pair.quoteAsset}
               isApproximation
             />
@@ -103,19 +107,19 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
       <td
         className={classNames(
           'tw-hidden 2xl:tw-table-cell',
-          item.realized.shortValue >= 0
+          item.realized.baseValue >= 0
             ? 'tw-text-trade-long'
             : 'tw-text-trade-short',
         )}
       >
         <AssetValue
           className="tw-block"
-          value={item.realized.shortValue}
+          value={item.realized.baseValue}
           assetString={pair.baseAsset}
         />
         <AssetValue
           className="tw-block"
-          value={item.realized.longValue}
+          value={item.realized.quoteValue}
           assetString={pair.quoteAsset}
           isApproximation
         />
