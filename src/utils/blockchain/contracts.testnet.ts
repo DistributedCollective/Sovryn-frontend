@@ -345,21 +345,21 @@ export const contracts = {
     abi: nftAbi,
   },
   MYNT_ctrl: {
-    address: '0x741A6E83C6E96168839e88e34729de7a244E19f7',
+    address: '0x6F62D2F571BcE7187CdFDD4b1E5E53cfD7d14dd2',
     abi: MYNTControllerAbi,
     blockNumber: 2267574,
   },
   MYNT_token: {
-    address: '0xd373969479FA3c530e12f175FAff64711aF4F1A6',
+    address: '0x139483e22575826183F5b56dd242f8f2C1AEf327',
     abi: MYNTTokenAbi,
     blockNumber: 2267574,
   },
   MYNTPresale: {
-    address: '0x88C76c7C2096Ca197F9A3F35AACbF5540AD1123D',
+    address: '0xc89E1ef68f406bf2F5337d2Aad0a99a023c1697c',
     abi: MYNTPresaleAbi,
   },
   MYNTMarketMaker: {
-    address: '0x661042BE633A3e9fF4FEd0895405B1624C7F2256',
+    address: '0xf75170ce8d4060b8D5fc24E996FA00A94bb8A232',
     abi: MYNTMarketMakerAbi,
   },
 };
