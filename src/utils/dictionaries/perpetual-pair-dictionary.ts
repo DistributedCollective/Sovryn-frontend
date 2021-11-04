@@ -6,6 +6,15 @@ export enum PerpetualPairType {
   BTCUSD = 'BTCUSD',
 }
 
+export type PerpetualPairConfig = {
+  leverage: {
+    min: number;
+    max: number;
+    steps: number[];
+    default: number;
+  };
+};
+
 export class PerpetualPairDictionary {
   // Note: do not remove pairs from the list, set them as deprecated (last property in PerpetualPair constructor)
   // if trading should be halted for them.
@@ -24,6 +33,14 @@ export class PerpetualPairDictionary {
         'USD',
         'BTC',
         Asset.PERPETUALS,
+        {
+          leverage: {
+            min: 0.1,
+            max: 15,
+            steps: [1, 2, 3, 5, 10, 15],
+            default: 1,
+          },
+        },
         false,
       ),
     ],

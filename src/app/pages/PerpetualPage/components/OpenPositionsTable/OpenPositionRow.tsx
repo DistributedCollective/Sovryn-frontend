@@ -30,19 +30,42 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
     item.pairType,
   ]);
 
-  const onOpenEditSize = useCallback(() => {
-    const trade: PerpetualTrade = {
-      id: item.id,
-      pairType: item.pairType,
-      tradeType: item.type,
-      position: item.position,
-      slippage: PERPETUAL_SLIPPAGE_DEFAULT,
-      amount: item.amount,
-      collateral: pair.collateralAsset,
-      leverage: item.leverage,
-    };
-    dispatch(actions.setModal(PerpetualPageModals.EDIT_POSITION_SIZE, trade));
-  }, [item, pair, dispatch]);
+  const onOpenTradeModal = useCallback(
+    (modal: PerpetualPageModals) => {
+      const trade: PerpetualTrade = {
+        id: item.id,
+        pairType: item.pairType,
+        tradeType: item.type,
+        position: item.position,
+        slippage: PERPETUAL_SLIPPAGE_DEFAULT,
+        amount: item.amount,
+        collateral: pair.collateralAsset,
+        leverage: item.leverage,
+      };
+      dispatch(actions.setModal(modal, trade));
+    },
+    [item, pair, dispatch],
+  );
+
+  const onEditSize = useCallback(
+    () => onOpenTradeModal(PerpetualPageModals.EDIT_POSITION_SIZE),
+    [onOpenTradeModal],
+  );
+
+  const onEditLeverage = useCallback(
+    () => onOpenTradeModal(PerpetualPageModals.EDIT_LEVERAGE),
+    [onOpenTradeModal],
+  );
+
+  const onEditMargin = useCallback(
+    () => onOpenTradeModal(PerpetualPageModals.EDIT_MARGIN),
+    [onOpenTradeModal],
+  );
+
+  const onCloseTrade = useCallback(
+    () => onOpenTradeModal(PerpetualPageModals.TRADE_CLOSE),
+    [onOpenTradeModal],
+  );
 
   if (pair === undefined) {
     return null;
@@ -129,12 +152,32 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
           {isMaintenance ? (
             <div>{t(translations.common.maintenance)}</div>
           ) : (
-            <button
-              className="tw-text-primary tw-text-sm tw-font-medium"
-              onClick={onOpenEditSize}
-            >
-              {t(translations.perpetualPage.openPositionsTable.editSize)}
-            </button>
+            <>
+              <button
+                className="tw-mr-8 tw-text-primary tw-text-sm tw-font-medium"
+                onClick={onEditSize}
+              >
+                {t(translations.perpetualPage.openPositionsTable.editSize)}
+              </button>
+              <button
+                className="tw-mr-8 tw-text-primary tw-text-sm tw-font-medium"
+                onClick={onEditLeverage}
+              >
+                {t(translations.perpetualPage.openPositionsTable.editLeverage)}
+              </button>
+              <button
+                className="tw-mr-8 tw-text-primary tw-text-sm tw-font-medium"
+                onClick={onEditMargin}
+              >
+                {t(translations.perpetualPage.openPositionsTable.editMargin)}
+              </button>
+              <button
+                className="tw-mr-8 tw-text-primary tw-text-sm tw-font-medium"
+                onClick={onCloseTrade}
+              >
+                {t(translations.perpetualPage.openPositionsTable.editClose)}
+              </button>
+            </>
           )}
         </div>
       </td>

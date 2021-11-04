@@ -36,6 +36,7 @@ import { TradeReviewDialog } from './components/TradeReviewDialog';
 import { TestHistory } from './components/TestHistory';
 import { TestCandles } from './components/TestCandles';
 import { EditPositionSizeDialog } from './components/EditPositionSizeDialog';
+import { EditLeverageDialog } from './components/EditLeverageDialog';
 
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -177,7 +178,7 @@ export function PerpetualPage() {
           Close the position
         </button> */}
 
-        <TestCandles />
+        {/* <TestCandles /> */}
 
         {/* <TestHistory /> */}
 
@@ -221,6 +222,7 @@ export function PerpetualPage() {
       <AccountDialog pairType={pairType} />
       <TradeReviewDialog />
       <EditPositionSizeDialog />
+      <EditLeverageDialog />
     </>
   );
 }
