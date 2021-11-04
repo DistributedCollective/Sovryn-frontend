@@ -45,7 +45,7 @@ class EventDetails {
   }
 }
 
-const genericFields = ['blockTimestamp', 'transaction { id }'];
+const genericFields = ['id', 'blockTimestamp', 'transaction { id }'];
 
 class EventDictionary {
   public static events: Map<Event, EventDetails> = new Map<Event, EventDetails>(
@@ -55,6 +55,7 @@ class EventDictionary {
         new EventDetails('trades', [
           'perpetualId',
           'tradeAmount',
+          'orderFlags',
           'price',
           ...genericFields,
         ]),

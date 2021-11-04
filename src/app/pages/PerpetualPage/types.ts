@@ -19,6 +19,17 @@ export enum PerpetualPageModals {
   EDIT_POSITION_SIZE = 'EDIT_POSITION_SIZE',
 }
 
+export type PerpetualTradeEvent = {
+  id: string;
+  perpetualId: string;
+  trader: string;
+  orderFlags: string;
+  tradeAmount: string;
+  price: string;
+  blockTimestamp: string;
+  transaction: { id: string };
+};
+
 export type PerpetualTrade = {
   id?: string;
   pairType: PerpetualPairType;

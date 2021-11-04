@@ -24,7 +24,7 @@ export const RecentTradesTable: React.FC<RecentTradesTableProps> = ({
             <Trans
               i18nKey={translations.perpetualPage.recentTrades.price}
               components={[
-                <AssetSymbolRenderer assetString={pair.longAsset} />,
+                <AssetSymbolRenderer assetString={pair.quoteAsset} />,
               ]}
             />
           </th>
@@ -32,7 +32,7 @@ export const RecentTradesTable: React.FC<RecentTradesTableProps> = ({
             <Trans
               i18nKey={translations.perpetualPage.recentTrades.size}
               components={[
-                <AssetSymbolRenderer assetString={pair.shortAsset} />,
+                <AssetSymbolRenderer assetString={pair.baseAsset} />,
               ]}
             />
           </th>
@@ -40,7 +40,7 @@ export const RecentTradesTable: React.FC<RecentTradesTableProps> = ({
             <Trans
               i18nKey={translations.perpetualPage.recentTrades.time}
               components={[
-                <AssetSymbolRenderer assetString={pair.shortAsset} />,
+                <AssetSymbolRenderer assetString={pair.baseAsset} />,
               ]}
             />
           </th>

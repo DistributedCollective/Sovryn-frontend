@@ -63,9 +63,6 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
             <th className="tw-text-right tw-text-sm">
               {t(translations.perpetualPage.openPositionsTable.positionSize)}
             </th>
-            <th className="tw-hidden xl:tw-table-cell tw-text-right tw-text-sm">
-              {t(translations.perpetualPage.openPositionsTable.value)}
-            </th>
             <th className="tw-hidden md:tw-table-cell tw-text-right tw-text-sm">
               {t(translations.perpetualPage.openPositionsTable.entryPrice)}
             </th>

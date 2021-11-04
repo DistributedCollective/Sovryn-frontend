@@ -192,7 +192,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
             maxDecimals={6}
             mode={AssetValueMode.auto}
             value={maxTradeSize}
-            assetString={pair.shortAsset}
+            assetString={pair.baseAsset}
           />
         </div>
       </div>
@@ -201,7 +201,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           {t(translations.perpetualPage.tradeForm.labels.orderValue)}
         </label>
         <div className="tw-flex-1 tw-mx-4 tw-text-right">
-          <AssetSymbolRenderer assetString={pair.shortAsset} />
+          <AssetSymbolRenderer assetString={pair.baseAsset} />
         </div>
         <Input
           className="tw-w-2/5"
@@ -223,7 +223,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           {t(translations.perpetualPage.tradeForm.labels.limitPrice)}
         </label>
         <div className="tw-flex-1 tw-mx-4 tw-text-right">
-          <AssetSymbolRenderer assetString={pair.longAsset} />
+          <AssetSymbolRenderer assetString={pair.quoteAsset} />
         </div>
         <Input
           className="tw-w-2/5"
@@ -243,7 +243,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           maxDecimals={4}
           mode={AssetValueMode.auto}
           value={orderCost}
-          assetString={pair.shortAsset}
+          assetString={pair.baseAsset}
         />
       </div>
       <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-xs tw-font-medium">
@@ -255,7 +255,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           maxDecimals={4}
           mode={AssetValueMode.auto}
           value={tradingFee}
-          assetString={pair.shortAsset}
+          assetString={pair.baseAsset}
         />
       </div>
       {isNewTrade && (
@@ -297,7 +297,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
               maxDecimals={2}
               mode={AssetValueMode.auto}
               value={liquidationPrice}
-              assetString={pair.longAsset}
+              assetString={pair.quoteAsset}
             />
           </div>
         </>

@@ -1,11 +1,8 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { numberToPercent, toNumberFormat } from 'utils/display-text/format';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { OpenPositionEntry } from '../../hooks/usePerpetual_OpenPositions';
-import {
-  PerpetualPairDictionary,
-  PerpetualPairType,
-} from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
+import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import classNames from 'classnames';
 import { AssetValue } from '../../../../components/AssetValue';
 import { translations } from '../../../../../locales/i18n';
@@ -25,17 +22,19 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
   const { checkMaintenance, States } = useMaintenance();
   const isMaintenance = checkMaintenance(States.PERPETUAL_TRADES);
 
-  const pair = PerpetualPairDictionary.get(item.pair);
+  const pair = useMemo(() => PerpetualPairDictionary.get(item.pairType), [
+    item.pairType,
+  ]);
 
   const onOpenEditSize = useCallback(() => {
     const trade: PerpetualTrade = {
       id: item.id,
-      pairType: item.pair,
+      pairType: item.pairType,
       tradeType: item.type,
       position: item.position,
       slippage: item.slippage,
       amount: item.amount,
-      collateral: pair.collaterals[0],
+      collateral: pair.collateralAsset,
       leverage: item.leverage,
     };
     dispatch(actions.setModal(PerpetualPageModals.EDIT_POSITION_SIZE, trade));
@@ -56,25 +55,22 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
             : 'tw-text-trade-short',
         )}
       >
-        <AssetValue value={item.amount} assetString={pair.longAsset} />
-      </td>
-      <td className="tw-text-right tw-hidden xl:tw-table-cell">
-        <AssetValue value={item.value} assetString={pair.shortAsset} />
+        <AssetValue value={item.amount} assetString={pair.baseAsset} />
       </td>
       <td className="tw-text-right tw-hidden md:tw-table-cell">
-        <AssetValue value={item.entryPrice} assetString={pair.longAsset} />
+        <AssetValue value={item.entryPrice} assetString={pair.quoteAsset} />
       </td>
       <td className="tw-text-right tw-hidden xl:tw-table-cell">
-        <AssetValue value={item.markPrice} assetString={pair.longAsset} />
+        <AssetValue value={item.markPrice} assetString={pair.quoteAsset} />
       </td>
       <td className="tw-text-right tw-hidden xl:tw-table-cell tw-text-trade-short">
         <AssetValue
           value={item.liquidationPrice}
-          assetString={pair.longAsset}
+          assetString={pair.quoteAsset}
         />
       </td>
       <td className="tw-text-right">
-        <AssetValue value={item.margin} assetString={pair.shortAsset} />
+        <AssetValue value={item.margin} assetString={pair.baseAsset} />
         {` (${toNumberFormat(item.leverage, 2)}x)`}
       </td>
       <td
@@ -89,12 +85,12 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
             <AssetValue
               className="tw-block"
               value={item.unrealized.shortValue}
-              assetString={pair.shortAsset}
+              assetString={pair.baseAsset}
             />
             <AssetValue
               className="tw-block"
               value={item.unrealized.longValue}
-              assetString={pair.longAsset}
+              assetString={pair.quoteAsset}
               isApproximation
             />
           </div>
@@ -115,12 +111,12 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
         <AssetValue
           className="tw-block"
           value={item.realized.shortValue}
-          assetString={pair.shortAsset}
+          assetString={pair.baseAsset}
         />
         <AssetValue
           className="tw-block"
           value={item.realized.longValue}
-          assetString={pair.longAsset}
+          assetString={pair.quoteAsset}
           isApproximation
         />
       </td>

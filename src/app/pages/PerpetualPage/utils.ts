@@ -17,6 +17,7 @@ import marginTokenAbi from 'utils/blockchain/abi/MarginToken.json';
 
 export const ONE_64x64 = BigNumber.from('0x10000000000000000');
 
+// TODO: remove and replace with id from PerpetualPair
 export const PERPETUAL_ID =
   '0xada5013122d395ba3c54772283fb069b10426056ef8ca54750cb9bb552a59e7d';
 

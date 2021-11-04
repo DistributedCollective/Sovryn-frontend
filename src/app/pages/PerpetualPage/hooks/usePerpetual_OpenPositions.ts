@@ -1,14 +1,22 @@
-import { useEffect, useState } from 'react';
 import { toWei } from 'web3-utils';
 import { TradingPosition } from '../../../../types/trading-position';
-import { PerpetualPairType } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
-import { useBlockSync } from '../../../hooks/useAccount';
-import { PerpetualTradeType } from '../types';
-import { PERPETUAL_SLIPPAGE_DEFAULT } from '../types';
+import {
+  PerpetualPairType,
+  PerpetualPairDictionary,
+} from '../../../../utils/dictionaries/perpetual-pair-dictionary';
+import {
+  PerpetualTradeType,
+  PERPETUAL_SLIPPAGE_DEFAULT,
+  PerpetualTradeEvent,
+} from '../types';
+import { Event, useGetTraderEvents } from './graphql/useGetTraderEvents';
+import { useMemo } from 'react';
+import { ABK64x64ToFloat } from '../utils';
+import { BigNumber } from 'ethers';
 
 export type OpenPositionEntry = {
   id: string;
-  pair: PerpetualPairType;
+  pairType: PerpetualPairType;
   type: PerpetualTradeType;
   position: TradingPosition;
   amount: string;
@@ -40,7 +48,7 @@ const placeholderFetch = async (
     const value = amount / entryPrice;
     entries.push({
       id: i.toString(16),
-      pair: PerpetualPairType.BTCUSD,
+      pairType: PerpetualPairType.BTCUSD,
       type: PerpetualTradeType.MARKET,
       position: i % 2 === 0 ? TradingPosition.LONG : TradingPosition.SHORT,
       amount: toWei(amount.toString()),
@@ -67,18 +75,27 @@ const placeholderFetch = async (
 };
 
 export const usePerpetual_OpenPosition = (address: string) => {
-  const blockId = useBlockSync();
-  const [data, setData] = useState<OpenPositionEntry[] | null>();
-  const [loading, setLoading] = useState<boolean>(false);
+  const {
+    data: tradeEvents,
+    previousData: previousTradeEvents,
+    loading,
+  } = useGetTraderEvents([Event.TRADE], address);
 
-  useEffect(() => {
-    // TODO: implement OpenPosition data fetching
-    setLoading(true);
-    placeholderFetch(blockId).then(data => {
-      setData(data);
-      setLoading(false);
+  const data = useMemo(() => {
+    const currentTradeEvents = tradeEvents || previousTradeEvents;
+
+    if (!currentTradeEvents) {
+      return [];
+    }
+
+    return currentTradeEvents.map((trade: PerpetualTradeEvent) => {
+      return {
+        id: trade.id,
+        pair: PerpetualPairDictionary.getById(trade.perpetualId),
+        amount: ABK64x64ToFloat(BigNumber.from(trade.tradeAmount)),
+      };
     });
-  }, [blockId]);
+  }, [tradeEvents, previousTradeEvents]);
 
   return { data, loading };
 };

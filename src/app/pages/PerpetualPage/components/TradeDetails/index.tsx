@@ -42,7 +42,7 @@ export const TradeDetails: React.FC<TradeDetailsProps> = ({
           maxDecimals={3}
           mode={AssetValueMode.auto}
           value={trade.amount}
-          assetString={pair.shortAsset}
+          assetString={pair.baseAsset}
         />
       </div>
 
@@ -59,7 +59,7 @@ export const TradeDetails: React.FC<TradeDetailsProps> = ({
             value={bignumber(trade.amount)
               .mul(trade.leverage + 1)
               .toString()}
-            assetString={pair.shortAsset}
+            assetString={pair.baseAsset}
           />
           <span className="tw-font-medium tw-ml-1">
             ({toNumberFormat(trade.leverage, 2)}x)
@@ -77,7 +77,7 @@ export const TradeDetails: React.FC<TradeDetailsProps> = ({
           maxDecimals={3}
           mode={AssetValueMode.auto}
           value={available}
-          assetString={pair.shortAsset}
+          assetString={pair.baseAsset}
         />
       </div>
     </div>

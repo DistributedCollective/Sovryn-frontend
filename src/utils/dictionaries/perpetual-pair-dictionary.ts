@@ -7,11 +7,6 @@ export enum PerpetualPairType {
 }
 
 export class PerpetualPairDictionary {
-  /**
-   * @deprecated
-   */
-  public static longPositionTokens = [Asset.DOC, Asset.USDT, Asset.XUSD];
-
   // Note: do not remove pairs from the list, set them as deprecated (last property in PerpetualPair constructor)
   // if trading should be halted for them.
   // Removing will break histories and open positions for that pair.
@@ -22,12 +17,13 @@ export class PerpetualPairDictionary {
     [
       PerpetualPairType.BTCUSD,
       new PerpetualPair(
+        '0xada5013122d395ba3c54772283fb069b10426056ef8ca54750cb9bb552a59e7d',
         PerpetualPairType.BTCUSD,
         'BTC/USD',
         'BTC/USD',
         'USD',
         'BTC',
-        [Asset.PERPETUALS],
+        Asset.PERPETUALS,
         false,
       ),
     ],
@@ -56,8 +52,8 @@ export class PerpetualPairDictionary {
   public static findPair(loanToken: Asset, collateral: Asset) {
     return this.list().find(
       item =>
-        (item.longAsset === loanToken && item.shortAsset === collateral) ||
-        (item.shortAsset === loanToken && item.longAsset === collateral),
+        (item.quoteAsset === loanToken && item.baseAsset === collateral) ||
+        (item.baseAsset === loanToken && item.quoteAsset === collateral),
     ) as PerpetualPair;
   }
 
@@ -66,7 +62,11 @@ export class PerpetualPairDictionary {
     if (!pair) {
       return undefined;
     }
-    if (pair.longAsset === loanToken) return TradingPosition.LONG;
+    if (pair.quoteAsset === loanToken) return TradingPosition.LONG;
     return TradingPosition.SHORT;
+  }
+
+  public static getById(id: string) {
+    return this.list().find(item => item.id === id);
   }
 }

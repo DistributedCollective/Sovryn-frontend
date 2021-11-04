@@ -50,7 +50,7 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
             <Trans
               i18nKey={translations.perpetualPage.ammDepth.price}
               components={[
-                <AssetSymbolRenderer assetString={pair.longAsset} />,
+                <AssetSymbolRenderer assetString={pair.quoteAsset} />,
               ]}
             />
           </th>
@@ -58,7 +58,7 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
             <Trans
               i18nKey={translations.perpetualPage.ammDepth.size}
               components={[
-                <AssetSymbolRenderer assetString={pair.shortAsset} />,
+                <AssetSymbolRenderer assetString={pair.baseAsset} />,
               ]}
             />
           </th>
@@ -66,7 +66,7 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
             <Trans
               i18nKey={translations.perpetualPage.ammDepth.total}
               components={[
-                <AssetSymbolRenderer assetString={pair.shortAsset} />,
+                <AssetSymbolRenderer assetString={pair.baseAsset} />,
               ]}
             />
           </th>
@@ -97,7 +97,7 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
                   content={
                     <>
                       {data.price}{' '}
-                      <AssetSymbolRenderer assetString={pair.longAsset} />
+                      <AssetSymbolRenderer assetString={pair.quoteAsset} />
                     </>
                   }
                 >
@@ -127,7 +127,7 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
                       <>
                         {t(translations.perpetualPage.ammDepth.indexPrice)}{' '}
                         {data.indexPrice}{' '}
-                        <AssetSymbolRenderer assetString={pair.longAsset} />
+                        <AssetSymbolRenderer assetString={pair.quoteAsset} />
                       </>
                     }
                   >
@@ -145,7 +145,7 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
                       <>
                         {t(translations.perpetualPage.ammDepth.markPrice)}{' '}
                         {data.markPrice}{' '}
-                        <AssetSymbolRenderer assetString={pair.longAsset} />
+                        <AssetSymbolRenderer assetString={pair.quoteAsset} />
                       </>
                     }
                   >
