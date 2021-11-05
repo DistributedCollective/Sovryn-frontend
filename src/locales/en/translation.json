@@ -1328,7 +1328,7 @@
     "acceptTerms": "I accept the risks and want to use dapp with my mobile device",
     "salesBtn": "I Understand",
     "content": {
-      "paragraph1": "For security reasons, the Sovryn dapp is not yet compatible for use on mobile devices.",
+      "paragraph1": "The Sovryn dapp is not yet fully compatible for use on mobile devices.",
       "paragraph2": "Until then, why not try the desktop version?"
     }
   },
