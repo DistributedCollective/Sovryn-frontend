@@ -1,46 +1,29 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Trans } from 'react-i18next';
 
 import { translations } from 'locales/i18n';
-import { TxType } from 'store/global/transactions-store/types';
-import { ethGenesisAddress, gasLimit } from 'utils/classifiers';
-
-import { useSendContractTx } from '../../../../../hooks/useSendContractTx';
+import { useClaimRewardSov } from './hooks/useClaimRewardSov';
 import { BaseClaimForm } from '../BaseClaimForm';
-import { IClaimFormProps } from '../BaseClaimForm/types';
-import { useAccount } from 'app/hooks/useAccount';
+import { IRewardClaimFormProps } from '../BaseClaimForm/types';
+import { useMaintenance } from 'app/hooks/useMaintenance';
 
-export const RewardClaimForm: React.FC<IClaimFormProps> = ({
+export const RewardClaimForm: React.FC<IRewardClaimFormProps> = ({
   className,
   amountToClaim,
+  hasLockedSov,
+  hasLMRewards,
 }) => {
-  const address = useAccount();
-
-  const { send, ...tx } = useSendContractTx(
-    'liquidityMiningProxy',
-    'claimRewardFromAllPools',
-  );
-
-  const onSubmit = useCallback(() => {
-    send(
-      [ethGenesisAddress],
-      {
-        from: address,
-        gas: gasLimit[TxType.CLAIM_VESTED_SOV_REWARDS],
-      },
-      {
-        type: TxType.CLAIM_VESTED_SOV_REWARDS,
-      },
-    );
-  }, [address, send]);
-
+  const { checkMaintenance, States } = useMaintenance();
+  const claimRewardSovLocked = checkMaintenance(States.CLAIM_REWARD_SOV);
+  const { send, ...tx } = useClaimRewardSov(hasLockedSov, hasLMRewards);
   return (
     <BaseClaimForm
       className={className}
       amountToClaim={amountToClaim}
       tx={tx}
       footer={<Footer />}
-      onSubmit={onSubmit}
+      onSubmit={send}
+      claimLocked={claimRewardSovLocked}
     />
   );
 };

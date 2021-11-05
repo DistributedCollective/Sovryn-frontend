@@ -6,35 +6,36 @@
 import React from 'react';
 import { Tooltip } from '@blueprintjs/core';
 
-interface Props {
+interface ILoadableValueProps {
   value: React.ReactNode;
-  loading: boolean;
-  loaderContent: React.ReactNode;
+  loading?: boolean;
+  loaderContent?: React.ReactNode;
   tooltip?: React.ReactNode;
 }
 
-export function LoadableValue(props: Props) {
-  if (props.loading) {
+export function LoadableValue({
+  value,
+  tooltip,
+  loading = false,
+  loaderContent = 'Loading some value.',
+}: ILoadableValueProps) {
+  if (loading) {
     return (
       <span className="tw-skeleton-wrapper tw-inline-block tw-whitespace-nowrap tw-overflow-hidden tw-m-0 tw-p-0">
         <span className="bp3-skeleton tw-inline-block tw-m-0 tw-p-0">
-          {props.loaderContent}
+          {loaderContent}
         </span>
       </span>
     );
   }
 
-  if (props.tooltip) {
+  if (tooltip) {
     return (
-      <Tooltip content={<>{props.tooltip}</>}>
-        <>{props.value}</>
+      <Tooltip content={<>{tooltip}</>}>
+        <>{value}</>
       </Tooltip>
     );
   }
 
-  return <>{props.value}</>;
+  return <>{value}</>;
 }
-
-LoadableValue.defaultProps = {
-  loaderContent: 'Loading some value.',
-};

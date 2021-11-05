@@ -254,7 +254,7 @@ export const contracts = {
     abi: VestingRegistryAbi,
   },
   staking: {
-    address: '0xDCd1889C1FBAd0A757EF7216Dda0529AB6268cCc',
+    address: '0xc37A85e35d7eECC82c4544dcba84CF7E61e1F1a3',
     abi: StakingAbi,
     blockNumber: 1218836,
   },
@@ -302,6 +302,10 @@ export const contracts = {
   lockedSov: {
     address: '0x6B94DA2d05039173d017359553D685aCfBaa782f',
     abi: LockedSovAbi,
+  },
+  feeSharingProxy_old: {
+    address: '0xedD92fb7C556E4A4faf8c4f5A90f471aDCD018f4',
+    abi: feeSharingProxyAbi,
   },
   feeSharingProxy: {
     address: '0xedD92fb7C556E4A4faf8c4f5A90f471aDCD018f4',

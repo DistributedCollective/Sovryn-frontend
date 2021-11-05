@@ -1,21 +1,26 @@
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 
 import { actions } from '../../slice';
 import { Chain } from '../../../../../types';
 import { selectBridgeWithdrawPage } from '../../selectors';
-import { currentChainId } from '../../../../../utils/classifiers';
+import { currentChainId, discordInvite } from 'utils/classifiers';
 
 import { BridgeDictionary } from '../../../BridgeDepositPage/dictionaries/bridge-dictionary';
 import { SelectBox } from '../../../BridgeDepositPage/components/SelectBox';
 import { CrossBridgeAsset } from '../../../BridgeDepositPage/types/cross-bridge-asset';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { useWithdrawMaintenance } from 'app/pages/BridgeWithdrawPage/hooks/useWithdrawMaintenance';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 
-export function ChainSelector() {
+export const ChainSelector: React.FC = () => {
   const { sourceAsset, chain } = useSelector(selectBridgeWithdrawPage);
   const dispatch = useDispatch();
   const { t } = useTranslation();
+  const { checkMaintenance, States } = useMaintenance();
+  const bridgeLocked = checkMaintenance(States.BRIDGE);
 
   const selectNetwork = useCallback(
     (chain: Chain) => {
@@ -37,6 +42,15 @@ export function ChainSelector() {
     [sourceAsset, chain],
   );
 
+  const { lockedChains, isAssetWithdrawLocked } = useWithdrawMaintenance();
+  const assetWithdrawLocked = isAssetWithdrawLocked(sourceAsset);
+  const lockedChainsVisible = useMemo(
+    () =>
+      networks.filter(val => val.chain && lockedChains[val.chain] === true)
+        .length > 0,
+    [lockedChains, networks],
+  );
+
   return (
     <div>
       <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
@@ -46,7 +60,13 @@ export function ChainSelector() {
       </div>
       <div className="tw-flex tw-px-2 tw-justify-center">
         {networks.map(item => (
-          <SelectBox key={item.chain} onClick={() => selectNetwork(item.chain)}>
+          <SelectBox
+            key={item.chain}
+            onClick={() => selectNetwork(item.chain)}
+            disabled={
+              bridgeLocked || assetWithdrawLocked || lockedChains[item.chain]
+            }
+          >
             <img className="tw-mb-5 tw-mt-2" src={item.logo} alt={item.chain} />
             <div>
               <span className="tw-uppercase">{item.chain} </span>{' '}
@@ -55,6 +75,25 @@ export function ChainSelector() {
           </SelectBox>
         ))}
       </div>
+      {(bridgeLocked || assetWithdrawLocked || lockedChainsVisible) && (
+        <ErrorBadge
+          content={
+            <Trans
+              i18nKey={translations.maintenance.bridgeSteps}
+              components={[
+                <a
+                  href={discordInvite}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                >
+                  x
+                </a>,
+              ]}
+            />
+          }
+        />
+      )}
     </div>
   );
-}
+};

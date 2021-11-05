@@ -5,5 +5,5 @@ export function leverageFromMargin(startMargin: string) {
     3: 4,
     2: 5,
   };
-  return leverage[startMargin[0]];
+  return leverage[startMargin[0]] || 2;
 }

@@ -47,6 +47,18 @@
     "liquidity": "Sorry, liquidity providing is currently under maintenance, some features may be unavailable. Please check our <0>discord</0> for updates.",
     "fastBTC": "Sorry, FastBTC deposits are currently under maintenance, please check our <0>discord</0> for updates.",
     "transack": "Sorry, Transack deposits are currently under maintenance, please check our <0>discord</0> for updates.",
+
+    "bridge": "Sorry, cross-chain transfers are currently under maintenance, please check our discord (link in footer) for updates.",
+    "bridgeSteps": "Sorry, cross-chain transfers are currently under maintenance, please check our <0>discord</0> for updates.",
+    "bridgeSovDeposit": "Sorry, SOV cross-chain deposits are currently under maintenance, please check our discord (link in footer) for updates.",
+    "bridgeSovWithdraw": "Sorry, SOV cross-chain withdrawals are currently under maintenance, please check our discord (link in footer) for updates.",
+    "bridgeEthDeposit": "Sorry, ETH cross-chain deposits are currently under maintenance, please check our discord (link in footer) for updates.",
+    "bridgeEthWithdraw": "Sorry, ETH cross-chain withdrawals are currently under maintenance, please check our discord (link in footer) for updates.",
+    "bridgeBnbDeposit": "Sorry, BNB cross-chain deposits are currently under maintenance, please check our discord (link in footer) for updates.",
+    "bridgeBnbWithdraw": "Sorry, BNB cross-chain withdrawals are currently under maintenance, please check our discord (link in footer) for updates.",
+    "bridgeXusdDeposit": "Sorry, XUSD cross-chain deposits are currently under maintenance, please check our discord (link in footer) for updates.",
+    "bridgeXusdWithdraw": "Sorry, XUSD cross-chain withdrawals are currently under maintenance, please check our discord (link in footer) for updates.",
+
     "staking": "Sorry, adding to stakes is currently under maintenance, please check our discord (link in footer) for updates.",
     "stakingModal": "Sorry, adding to stakes is currently under maintenance, please check our <0>discord</0> for updates.",
     "unstaking": "Sorry, unstaking is currently under maintenance, please check our discord (link in footer) for updates.",
@@ -1256,6 +1268,8 @@
     "title": "Close Position",
     "withdrawIn": "Asset:",
     "amountToClose": "Position amount to close:",
+    "withdrawAmount": "You will get:",
+    "simulationFailed": "Transaction will not close: {{error}}",
     "liquidity": {
       "line_1": "Liquidity is too low for closing position.",
       "line_2": "Try another return asset or wait for arbiters to re-balance."
@@ -1325,7 +1339,7 @@
     "acceptTerms": "I accept the risks and want to use dapp with my mobile device",
     "salesBtn": "I Understand",
     "content": {
-      "paragraph1": "For security reasons, the Sovryn dapp is not yet compatible for use on mobile devices.",
+      "paragraph1": "The Sovryn dapp is not yet fully compatible for use on mobile devices.",
       "paragraph2": "Until then, why not try the desktop version?"
     }
   },
@@ -1518,7 +1532,7 @@
       "maintananceMargin": "Maintenance Margin:",
       "liquidationPrice": "Est. Liquidation Price:",
       "entryPrice": "Approx. Position Entry Price:",
-      "estimationErrorNote": "Due to a display error, the price your order fills at may differ from the price shown in the order summary before confirmation. However, your order will still be protected from filling at a worse price than that allowed by your slippage tolerance setting, and may even fill at a better price than that displayed. We have identified a fix for this issue and will be updating the app ASAP.",
+      "estimationErrorNote": "Opening position will fail: {{error}}",
       "position": {
         "long": "Long",
         "short": "Short"
@@ -1688,7 +1702,8 @@
       "7d": "7d%",
       "marketCap": "Market Cap",
       "marketCapTooltip": "Market cap is calculated as circulating supply * current USD price. <br /> <br /> For SOV, circulating supply = total supply (100m) - tokens in vesting contracts, <0>not including </0> tokens in adoption and development fund contracts. <br /> <br /> For rBTC, circulating supply = BTC locked in the RSK 2 Way Peg <br /> <br /> For all other tokens, circulating supply = total supply <br /> <br /> For tokens that have come across a bridge from another chain, the circulating supply is the supply of that token on the RSK chain. For example, the circulating supply of ETHs is not equal to the circulating supply of ETH on ethereum.",
-      "circulatingSupply": "Circulating Supply"
+      "circulatingSupply": "Circulating Supply",
+      "circulatingSupplyTooltip": "We have updated the circulation supply formula to be showing the amount of liquid SOV token in line with market standards. SOV that has been unlocked from the adoption and development funds is now counted as circulating, and SOV that has been staked (either through vesting or voluntary staking) is not counted as circulating. <br /> <br />There is no change to your funds with this change. Just a standardisation of the displayed Circulating Supply."
     }
   },
   "BridgeDepositPage": {

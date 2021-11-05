@@ -6,13 +6,28 @@ import { Chain } from 'types';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { ethGenesisAddress } from 'utils/classifiers';
 import { LiquidityPoolDictionary } from 'utils/dictionaries/liquidity-pool-dictionary';
+import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 
 export const useGetAvailableLiquidityRewards = (): string => {
   const [liquidityRewards, setLiquidityRewards] = useState({
     accumulatedRewards: '0',
     userRewards: '0',
+    lockedRewards: '0',
   });
   const address = useAccount();
+  const {
+    value: lockedBalance,
+    loading: lockedBalanceLoading,
+  } = useCacheCallWithValue('lockedSov', 'getLockedBalance', '', address);
+
+  useEffect(() => {
+    if (!lockedBalanceLoading) {
+      setLiquidityRewards(value => ({
+        ...value,
+        lockedRewards: lockedBalance.toString() || '0',
+      }));
+    }
+  }, [lockedBalance, lockedBalanceLoading]);
 
   useEffect(() => {
     const ammPools = LiquidityPoolDictionary.list().filter(
@@ -88,5 +103,6 @@ export const useGetAvailableLiquidityRewards = (): string => {
 
   return bignumber(liquidityRewards.accumulatedRewards)
     .add(liquidityRewards.userRewards)
+    .add(liquidityRewards.lockedRewards)
     .toString();
 };
