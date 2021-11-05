@@ -4,7 +4,7 @@ import { BigNumber } from 'ethers';
 import { bignumber } from 'mathjs';
 import { TxType } from 'store/global/transactions-store/types';
 import { ethGenesisAddress, gasLimit } from 'utils/classifiers';
-import { floatToABK64x64, PERPETUAL_ID } from '../utils';
+import { floatToABK64x64, PERPETUAL_ID } from '../utils/contractUtils';
 import { usePerpetual_depositMarginToken } from './usePerpetual_depositMarginToken';
 
 const MASK_MARKET_ORDER = BigNumber.from('0x40000000');

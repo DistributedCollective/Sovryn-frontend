@@ -11,7 +11,7 @@ import { actions as txActions } from 'store/global/transactions-store/slice';
 import { bignumber } from 'mathjs';
 import { TxStatus, TxType } from 'store/global/transactions-store/types';
 import { transferAmount } from 'utils/blockchain/transfer-approve-amount';
-import { bridgeNetwork } from '../BridgeDepositPage/utils/bridge-network';
+import { bridgeNetwork } from '../../BridgeDepositPage/utils/bridge-network';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import marginTokenAbi from 'utils/blockchain/abi/MarginToken.json';
 import { toWei } from 'web3-utils';

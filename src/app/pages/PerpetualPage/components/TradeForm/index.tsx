@@ -25,7 +25,7 @@ import { LeverageViewer } from '../LeverageViewer';
 import {
   getMaximalTradeSizeInPerpetual,
   shrinkToLot,
-} from '../../temporaryUtils';
+} from '../../utils/perpUtils';
 import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
 import { usePerpetual_queryPerpParameters } from '../../hooks/usePerpetual_queryPerpParameters';
 

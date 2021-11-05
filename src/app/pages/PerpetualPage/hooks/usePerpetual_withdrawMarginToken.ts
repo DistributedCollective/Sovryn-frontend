@@ -2,7 +2,7 @@ import { useAccount } from 'app/hooks/useAccount';
 import { useSendContractTx } from 'app/hooks/useSendContractTx';
 import { gasLimit } from 'utils/classifiers';
 import { TxType } from 'store/global/transactions-store/types';
-import { PERPETUAL_ID, floatToABK64x64 } from '../utils';
+import { PERPETUAL_ID, floatToABK64x64 } from '../utils/contractUtils';
 
 export const usePerpetual_withdrawMarginToken = () => {
   const account = useAccount();

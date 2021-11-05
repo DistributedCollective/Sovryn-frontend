@@ -1,10 +1,10 @@
-import { TraderState } from '../temporaryUtils';
+import { TraderState } from '../utils/perpUtils';
 import { useEffect, useState } from 'react';
 import perpetualManagerAbi from 'utils/blockchain/abi/PerpetualManager.json';
 import { bridgeNetwork } from 'app/pages/BridgeDepositPage/utils/bridge-network';
 import { Chain } from 'types';
 import { getContract } from 'utils/blockchain/contract-helpers';
-import { ABK64x64ToFloat, PERPETUAL_ID } from '../utils';
+import { ABK64x64ToFloat, PERPETUAL_ID } from '../utils/contractUtils';
 import { useAccount } from 'app/hooks/useAccount';
 
 const initialTraderState = {
