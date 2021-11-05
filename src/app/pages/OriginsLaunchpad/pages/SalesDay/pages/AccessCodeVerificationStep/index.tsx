@@ -52,7 +52,7 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
       />
       <div className={styles.dialogWrapper}>
         <div className="tw-max-w-lg">
-          <div className={styles.dialogTitle}>
+          <div className="tw-text-3xl tw-tracking-normal tw-mb-20">
             {t(
               translations.originsLaunchpad.saleDay.accessCodeVerificationStep
                 .dialogTitle,

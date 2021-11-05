@@ -53,7 +53,7 @@ export const SalesDay: React.FC<ISalesDayProps> = ({ saleName }) => {
           src={imgTitle}
           alt="Origins Sales Day"
         />
-        <div className={styles.titleContent}>
+        <div className="tw-text-4xl tw-font-semibold tw-leading-none tw-tracking-normal tw-ml-8 tw-uppercase">
           {t(translations.originsLaunchpad.saleDay.title, { token: saleName })}
         </div>
       </div>
