@@ -18,6 +18,7 @@ interface InputProps {
   min?: number;
   max?: number;
   step?: number;
+  dataActionId?: string;
 }
 
 export function Input({
@@ -26,6 +27,7 @@ export function Input({
   className,
   inputClassName,
   appendElem,
+  dataActionId,
   ...props
 }: InputProps) {
   const handleChange = useCallback(
@@ -52,6 +54,7 @@ export function Input({
         lang={navigator.language}
         value={value}
         onChange={e => handleChange(e.currentTarget.value)}
+        data-action-id={dataActionId}
         {...props}
       />
       {appendElem && <div className="tw-input-append">{appendElem}</div>}
