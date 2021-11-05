@@ -376,7 +376,7 @@
           "isOverMaxLimit": "You cannot deposit more than max limit",
           "yourTotalDeposit": "Your Total Deposit",
           "balance": "Balance",
-          "equivalentTokenAmount": "Equivalent {{token}} Token : {{amount}}"
+          "estimatedTokenAmount": "Estimated {{token}} Token : {{amount}}"
         },
         "instructions": {
           "title": "Instructions",

@@ -139,7 +139,7 @@ export const BuySection: React.FC<IBuySectionProps> = ({
           <div className="tw-mt-7 tw-text-sm tw-border tw-rounded-lg tw-border-gray-7 tw-py-2">
             {t(
               translations.originsLaunchpad.saleDay.buyStep.buyDialog
-                .equivalentTokenAmount,
+                .estimatedTokenAmount,
               {
                 token: saleName,
                 amount: weiToFixed(getMyntAmount(), 4),
