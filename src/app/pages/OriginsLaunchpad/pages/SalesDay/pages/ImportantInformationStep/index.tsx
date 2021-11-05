@@ -94,9 +94,6 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
                 />
               </div>
             </div>
-            <div className={styles.listItem}>
-              {t(baseTranslations.information[8])}
-            </div>
           </div>
         </div>
 
