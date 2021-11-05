@@ -1866,6 +1866,37 @@
   {
     "inputs": [
       {
+        "internalType": "address",
+        "name": "_oracle",
+        "type": "address"
+      }
+    ],
+    "name": "getOraclePriceData",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "int128",
+            "name": "fPrice",
+            "type": "int128"
+          },
+          {
+            "internalType": "uint256",
+            "name": "time",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct PerpStorage.OraclePriceData",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "bytes32",
         "name": "_perpId",
         "type": "bytes32"
@@ -1940,40 +1971,6 @@
             "internalType": "address",
             "name": "oracleS3Addr",
             "type": "address"
-          },
-          {
-            "components": [
-              {
-                "internalType": "int128",
-                "name": "fPrice",
-                "type": "int128"
-              },
-              {
-                "internalType": "uint256",
-                "name": "time",
-                "type": "uint256"
-              }
-            ],
-            "internalType": "struct PerpStorage.OraclePriceData",
-            "name": "indexS2PriceData",
-            "type": "tuple"
-          },
-          {
-            "components": [
-              {
-                "internalType": "int128",
-                "name": "fPrice",
-                "type": "int128"
-              },
-              {
-                "internalType": "uint256",
-                "name": "time",
-                "type": "uint256"
-              }
-            ],
-            "internalType": "struct PerpStorage.OraclePriceData",
-            "name": "indexS3PriceData",
-            "type": "tuple"
           },
           {
             "components": [
@@ -2570,9 +2567,9 @@
     "name": "getTraderState",
     "outputs": [
       {
-        "internalType": "int128[6]",
+        "internalType": "int128[7]",
         "name": "",
-        "type": "int128[6]"
+        "type": "int128[7]"
       }
     ],
     "stateMutability": "view",
