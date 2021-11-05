@@ -1,6 +1,5 @@
 import { AbiInput } from 'web3-utils';
 import { SimulatorHookResponse } from './useSimulator';
-import { useMemo } from 'react';
 import { Nullable } from '../../../types';
 import { SimulatedTx } from '../../../utils/simulator/types';
 import { Sovryn } from '../../../utils/sovryn';
