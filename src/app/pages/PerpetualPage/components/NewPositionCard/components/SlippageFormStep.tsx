@@ -11,11 +11,20 @@ import { AssetValue } from '../../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../../components/AssetValue/types';
 import { PerpetualPairDictionary } from '../../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import styles from '../index.module.scss';
+import { usePerpetual_queryAmmState } from 'app/pages/PerpetualPage/hooks/usePerpetual_queryAmmState';
+import {
+  calculateSlippagePrice,
+  getIndexPrice,
+} from 'app/pages/PerpetualPage/utils/perpUtils';
+import { getTradeDirection } from 'app/pages/PerpetualPage/utils/contractUtils';
 
 export const SlippageFormStep: TransitionStep<NewPositionCardStep> = ({
   changeTo,
 }) => {
   const { t } = useTranslation();
+
+  const ammState = usePerpetual_queryAmmState();
+  const indexPrice = useMemo(() => getIndexPrice(ammState), [ammState]);
 
   const { trade, onChangeTrade } = useContext(NewPositionCardContext);
 
@@ -32,10 +41,15 @@ export const SlippageFormStep: TransitionStep<NewPositionCardStep> = ({
     [trade, onChangeTrade],
   );
 
-  const minEntryPrice = useMemo(() => {
-    // TODO: implement minEntryPrice calculation
-    return 1337.1337;
-  }, []);
+  const minEntryPrice = useMemo(
+    () =>
+      calculateSlippagePrice(
+        indexPrice,
+        trade.slippage,
+        getTradeDirection(trade.position),
+      ),
+    [indexPrice, trade.position, trade.slippage],
+  );
 
   const minLiquidationPrice = useMemo(() => {
     // TODO: implement minLiquidationPrice calculation
