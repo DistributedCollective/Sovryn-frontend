@@ -1259,6 +1259,8 @@
     "title": "Close Position",
     "withdrawIn": "Asset:",
     "amountToClose": "Position amount to close:",
+    "withdrawAmount": "You will get:",
+    "simulationFailed": "Transaction will not close: {{error}}",
     "liquidity": {
       "line_1": "Liquidity is too low for closing position.",
       "line_2": "Try another return asset or wait for arbiters to re-balance."
@@ -1513,7 +1515,7 @@
       "maintananceMargin": "Maintenance Margin:",
       "liquidationPrice": "Est. Liquidation Price:",
       "entryPrice": "Approx. Position Entry Price:",
-      "estimationErrorNote": "Due to a display error, the price your order fills at may differ from the price shown in the order summary before confirmation. However, your order will still be protected from filling at a worse price than that allowed by your slippage tolerance setting, and may even fill at a better price than that displayed. We have identified a fix for this issue and will be updating the app ASAP.",
+      "estimationErrorNote": "Opening position will fail: {{error}}",
       "position": {
         "long": "Long",
         "short": "Short"
