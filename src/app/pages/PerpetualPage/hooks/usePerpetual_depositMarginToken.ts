@@ -2,10 +2,10 @@ import { useAccount } from 'app/hooks/useAccount';
 import { useSendContractTx } from 'app/hooks/useSendContractTx';
 import { Asset } from 'types';
 import { getContract } from 'utils/blockchain/contract-helpers';
-import { toWei } from 'web3-utils';
 import { gasLimit } from 'utils/classifiers';
 import { TxType } from 'store/global/transactions-store/types';
 import { PERPETUAL_ID, floatToABK64x64, checkAndApprove } from '../utils';
+import { fromWei } from 'utils/blockchain/math-helpers';
 
 export const usePerpetual_depositMarginToken = () => {
   const account = useAccount();
@@ -17,7 +17,7 @@ export const usePerpetual_depositMarginToken = () => {
       const tx = await checkAndApprove(
         'PERPETUALS_token',
         getContract('perpetualManager').address,
-        toWei(amount),
+        amount,
         Asset.PERPETUALS,
       );
 
@@ -26,7 +26,7 @@ export const usePerpetual_depositMarginToken = () => {
       }
 
       await send(
-        [PERPETUAL_ID, floatToABK64x64(parseFloat(amount))],
+        [PERPETUAL_ID, floatToABK64x64(parseFloat(fromWei(amount)))],
         {
           from: account,
           gas: gasLimit[TxType.DEPOSIT_COLLATERAL],
