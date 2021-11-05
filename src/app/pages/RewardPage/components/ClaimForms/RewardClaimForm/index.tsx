@@ -11,10 +11,11 @@ export const RewardClaimForm: React.FC<IRewardClaimFormProps> = ({
   className,
   amountToClaim,
   hasLockedSov,
+  hasLMRewards,
 }) => {
   const { checkMaintenance, States } = useMaintenance();
   const claimRewardSovLocked = checkMaintenance(States.CLAIM_REWARD_SOV);
-  const { send, ...tx } = useClaimRewardSov(hasLockedSov);
+  const { send, ...tx } = useClaimRewardSov(hasLockedSov, hasLMRewards);
   return (
     <BaseClaimForm
       className={className}
