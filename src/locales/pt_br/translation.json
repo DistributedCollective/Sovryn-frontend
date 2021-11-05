@@ -1179,6 +1179,8 @@
     "title": "Fechar posição",
     "withdrawIn": "Ativo:",
     "amountToClose": "Quantidade:",
+    "withdrawAmount": "Você vai receber:",
+    "simulationFailed": "A transação não vai fechar: {{error}}",
     "liquidity": {
       "line_1": "Liquidez muito baixa para fechar a posição.",
       "line_2": "Tente resgatar usando outro ativo ou aguarde até alguém realizar arbitragem para rebalancear o sistema."
@@ -1248,7 +1250,7 @@
     "acceptTerms": "Eu aceito os riscos e desejo acessar o dapp usando meu celular",
     "salesBtn": "Eu entendo",
     "content": {
-      "paragraph1": "A Sovryn ainda não é totalmente compatível para uso em celulares.",
+      "paragraph1": "Por razões de segurança, o dapp Sovryn ainda não é compatível com celulares.",
       "paragraph2": "Que tal usar a versão para computadores?"
     }
   },
@@ -1432,6 +1434,7 @@
       "maintananceMargin": "Margem de manutenção:",
       "liquidationPrice": "Preço estimado de liquidação:",
       "entryPrice": "Preço aproximado de entrada:",
+      "estimationErrorNote": "A posição de abertura irá falhar: {{error}}",
       "position": {
         "long": "Comprado",
         "short": "Vendido"
