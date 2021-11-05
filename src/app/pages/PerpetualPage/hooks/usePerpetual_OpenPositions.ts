@@ -4,16 +4,11 @@ import {
   PerpetualPairType,
   PerpetualPairDictionary,
 } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
-import {
-  PerpetualTradeType,
-  PERPETUAL_SLIPPAGE_DEFAULT,
-  PerpetualTradeEvent,
-} from '../types';
+import { PerpetualTradeType, PerpetualTradeEvent } from '../types';
 import { Event, useGetTraderEvents } from './graphql/useGetTraderEvents';
 import { useMemo } from 'react';
-import { ABK64x64ToFloat, ABK64x64ToWei } from '../utils/contractUtils';
+import { ABK64x64ToFloat } from '../utils/contractUtils';
 import { BigNumber } from 'ethers';
-import { Nullable } from '../../../../types';
 import { usePerpetual_queryAmmState } from './usePerpetual_queryAmmState';
 import {
   getIndexPrice,
@@ -23,7 +18,6 @@ import {
   getBase2CollateralFX,
 } from '../utils/perpUtils';
 import { usePerpetual_queryTraderState } from './usePerpetual_queryTraderState';
-import { numberFromWei } from '../../../../utils/blockchain/math-helpers';
 
 export type OpenPositionEntry = {
   id: string;

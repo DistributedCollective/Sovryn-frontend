@@ -26,8 +26,8 @@ import {
   getMaximalTradeSizeInPerpetual,
   getRequiredMarginCollateral,
   getTradingFee,
-  shrinkToLot,
 } from '../../utils/perpUtils';
+import { shrinkToLot } from '../../utils/perpMath';
 import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
 import { usePerpetual_queryPerpParameters } from '../../hooks/usePerpetual_queryPerpParameters';
 import { usePerpetual_marginAccountBalance } from '../../hooks/usePerpetual_marginAccountBalance';

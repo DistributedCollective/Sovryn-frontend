@@ -98,6 +98,7 @@
     "local-storage": "2.0.0",
     "mathjs": ">=7.5.1",
     "mini-css-extract-plugin": "0.9.0",
+    "newton-raphson-method": "1.0.2",
     "node-plop": "0.25.0",
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "plop": "2.6.0",

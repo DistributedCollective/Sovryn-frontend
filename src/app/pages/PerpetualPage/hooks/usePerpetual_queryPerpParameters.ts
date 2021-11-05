@@ -35,6 +35,9 @@ const initialPerpParameters: PerpParameters = {
   fAMMMinSizeCC: 0,
   fMinimalTraderExposureEMA: 0,
   fMaximalTradeSizeBumpUp: 0,
+  // funding state
+  fCurrentFundingRate: 0,
+  fUnitAccumulatedFunding: 0,
 };
 
 export const usePerpetual_queryPerpParameters = (): PerpParameters => {
@@ -50,13 +53,18 @@ export const usePerpetual_queryPerpParameters = (): PerpParameters => {
         [PERPETUAL_ID],
       )
       .catch(e => console.log(e))
-      .then(result => result && setPerpParameters(parsePerpParameter(result)));
+      .then(result => {
+        console.log(result);
+        result && setPerpParameters(parsePerpParameter(result));
+      });
   }, []);
 
   return perpParameters;
 };
 
 const parsePerpParameter = (response: any): PerpParameters => ({
+  fCurrentFundingRate: ABK64x64ToFloat(response[9]),
+  fUnitAccumulatedFunding: ABK64x64ToFloat(response[10]),
   fInitialMarginRateAlpha: ABK64x64ToFloat(response[16]),
   fMarginRateBeta: ABK64x64ToFloat(response[17]),
   fInitialMarginRateCap: ABK64x64ToFloat(response[18]),
