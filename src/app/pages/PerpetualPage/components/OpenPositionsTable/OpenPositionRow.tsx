@@ -15,6 +15,7 @@ import {
   PERPETUAL_SLIPPAGE_DEFAULT,
 } from '../../types';
 import { TradingPosition } from '../../../../../types/trading-position';
+import { toWei } from 'web3-utils';
 
 type OpenPositionRowProps = {
   item: OpenPositionEntry;
@@ -38,7 +39,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
         tradeType: item.type,
         position: item.position,
         slippage: PERPETUAL_SLIPPAGE_DEFAULT,
-        amount: item.amount,
+        amount: toWei(item.amount.toPrecision(18)),
         collateral: pair.collateralAsset,
         leverage: item.leverage,
       };
@@ -85,7 +86,9 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
         <AssetValue value={item.amount} assetString={pair.baseAsset} />
       </td>
       <td className="tw-text-right tw-hidden md:tw-table-cell">
-        <AssetValue value={item.entryPrice} assetString={pair.quoteAsset} />
+        {item.entryPrice && (
+          <AssetValue value={item.entryPrice} assetString={pair.quoteAsset} />
+        )}
       </td>
       <td className="tw-text-right tw-hidden xl:tw-table-cell">
         <AssetValue value={item.markPrice} assetString={pair.quoteAsset} />

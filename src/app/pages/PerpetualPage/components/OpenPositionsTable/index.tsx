@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { selectTransactionArray } from 'store/global/transactions-store/selectors';
 import { TxStatus, TxType } from 'store/global/transactions-store/types';
 import { usePerpetual_OpenPosition } from '../../hooks/usePerpetual_OpenPositions';
+import { selectPerpetualPage } from '../../selectors';
 
 interface IOpenPositionsTableProps {
   perPage: number;
@@ -19,13 +20,11 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const transactions = useSelector(selectTransactionArray);
+  const { pairType } = useSelector(selectPerpetualPage);
 
-  const { data, loading } = usePerpetual_OpenPosition(useAccount());
+  const { data, loading } = usePerpetual_OpenPosition(useAccount(), pairType);
 
-  const items = useMemo(
-    () => (data ? data.slice(page * perPage - perPage, page * perPage) : []),
-    [perPage, page, data],
-  );
+  const items = data ? [data] : [];
 
   const isEmpty = !loading && !items.length && !transactions.length;
 

@@ -30,8 +30,8 @@ export type OpenPositionEntry = {
   pairType: PerpetualPairType;
   type: PerpetualTradeType;
   position: TradingPosition;
-  amount: string;
-  entryPrice: number;
+  amount: number;
+  entryPrice?: number;
   markPrice: number;
   liquidationPrice: number;
   margin: number;
@@ -40,53 +40,14 @@ export type OpenPositionEntry = {
   realized: { baseValue: number; quoteValue: number };
 };
 
-const placeholderFetch = async (
-  blockId: number,
-): Promise<OpenPositionEntry[]> => {
-  console.warn(
-    'PlaceholderFetch used by usePerpetual_OpenPosition! NOT IMPLEMENTED YET!',
-  );
-
-  const markPrice = 40000 + Math.random() * 200;
-  const entryPrice = 40000 + Math.random() * 200;
-
-  const entries: OpenPositionEntry[] = [];
-
-  for (let i = 1; i <= 10; i++) {
-    const amount = 200 * i;
-    entries.push({
-      id: i.toString(16),
-      pairType: PerpetualPairType.BTCUSD,
-      type: PerpetualTradeType.MARKET,
-      position: i % 2 === 0 ? TradingPosition.LONG : TradingPosition.SHORT,
-      amount: toWei(amount.toString()),
-      entryPrice,
-      markPrice,
-      liquidationPrice: markPrice - amount,
-      margin: amount * 3,
-      leverage: 3.115,
-      unrealized: {
-        baseValue: amount * 2,
-        quoteValue: amount * 2,
-        roe: amount / 200,
-      },
-      realized: {
-        baseValue: amount,
-        quoteValue: amount,
-      },
-    });
-  }
-
-  return new Promise(resolve => resolve(entries));
-};
-
 type OpenPositionHookResult = {
   loading: boolean;
-  data: OpenPositionEntry[];
+  data?: OpenPositionEntry;
 };
 
 export const usePerpetual_OpenPosition = (
   address: string,
+  pairType: PerpetualPairType.BTCUSD,
 ): OpenPositionHookResult => {
   const {
     data: tradeEvents,
@@ -96,71 +57,64 @@ export const usePerpetual_OpenPosition = (
 
   const ammState = usePerpetual_queryAmmState();
   const traderState = usePerpetual_queryTraderState();
+  console.log('traderState', traderState);
 
   const data = useMemo(() => {
-    const currentTradeEvents =
-      tradeEvents?.trader?.trades || previousTradeEvents?.trader?.trades;
-
-    if (!currentTradeEvents) {
-      return [];
-    }
     const indexPrice = getIndexPrice(ammState);
     const markPrice = getMarkPrice(ammState);
     const base2quote = getBase2QuoteFX(ammState, true);
+    const base2collateral = getBase2CollateralFX(ammState, true);
+    const pair = PerpetualPairDictionary.get(pairType);
 
-    console.log(currentTradeEvents);
-    return currentTradeEvents
-      .map(
-        (trade: PerpetualTradeEvent): Nullable<OpenPositionEntry> => {
-          const pair = PerpetualPairDictionary.getById(trade.perpetualId);
+    if (traderState.marginAccountPositionBC === 0 || !pair) {
+      return;
+    }
 
-          if (!pair) {
-            return null;
-          }
+    const currentTradeEvents: PerpetualTradeEvent[] | undefined =
+      tradeEvents?.trader?.trades || previousTradeEvents?.trader?.trades;
+    const latestTrade = currentTradeEvents?.find(
+      (trade: PerpetualTradeEvent) => trade.perpetualId === pair.id,
+    );
 
-          const tradeAmountWei = ABK64x64ToWei(
-            BigNumber.from(trade.tradeAmount),
-          );
-          const tradeAmount = numberFromWei(tradeAmountWei);
+    const entryPrice = latestTrade?.price
+      ? ABK64x64ToFloat(BigNumber.from(latestTrade.price))
+      : undefined;
 
-          // TODO: calculate liquidationPrice
-          const liquidationPrice = 0;
-          // TODO: calculate leverage
-          const leverage = 0;
-          // TODO: calculate margin
-          const margin = 0;
+    const tradeAmount = traderState.marginAccountPositionBC;
 
-          const unrealizedQuote = getTraderPnL(traderState, ammState);
-          const unrealized: OpenPositionEntry['unrealized'] = {
-            baseValue: unrealizedQuote / base2quote,
-            quoteValue: unrealizedQuote,
-            roe: unrealizedQuote / base2quote / tradeAmount,
-          };
+    // TODO: calculate liquidationPrice
+    const liquidationPrice = 0;
+    // TODO: calculate leverage
+    const leverage = 0;
+    const margin = traderState.marginAccountCashCC * base2collateral;
 
-          const realized: OpenPositionEntry['realized'] = {
-            baseValue: 0,
-            quoteValue: 0,
-          };
+    const unrealizedQuote = getTraderPnL(traderState, ammState);
+    const unrealized: OpenPositionEntry['unrealized'] = {
+      baseValue: unrealizedQuote / base2quote,
+      quoteValue: unrealizedQuote,
+      roe: unrealizedQuote / base2quote / tradeAmount,
+    };
 
-          return {
-            id: trade.id,
-            pairType: pair.pairType,
-            type: PerpetualTradeType.LIMIT,
-            position:
-              tradeAmount > 0 ? TradingPosition.LONG : TradingPosition.SHORT,
-            amount: tradeAmountWei,
-            entryPrice: ABK64x64ToFloat(BigNumber.from(trade.price)),
-            liquidationPrice,
-            leverage,
-            margin,
-            markPrice,
-            unrealized,
-            realized,
-          };
-        },
-      )
-      .filter(trade => !!trade);
-  }, [tradeEvents, previousTradeEvents, traderState, ammState]);
+    const realized: OpenPositionEntry['realized'] = {
+      baseValue: 0,
+      quoteValue: 0,
+    };
+
+    return {
+      id: pair.id,
+      pairType: pair.pairType,
+      type: PerpetualTradeType.MARKET,
+      position: tradeAmount > 0 ? TradingPosition.LONG : TradingPosition.SHORT,
+      amount: tradeAmount,
+      entryPrice,
+      liquidationPrice,
+      leverage,
+      margin,
+      markPrice,
+      unrealized,
+      realized,
+    };
+  }, [tradeEvents, previousTradeEvents, traderState, ammState, pairType]);
 
   return { data, loading };
 };
