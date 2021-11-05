@@ -31,6 +31,7 @@ import {
 import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
 import { usePerpetual_queryPerpParameters } from '../../hooks/usePerpetual_queryPerpParameters';
 import { usePerpetual_marginAccountBalance } from '../../hooks/usePerpetual_marginAccountBalance';
+import { getTradeDirection } from '../../utils';
 
 interface ITradeFormProps {
   trade: PerpetualTrade;
@@ -67,7 +68,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         Math.abs(
           getMaximalTradeSizeInPerpetual(
             marginAccountBalance.fPositionBC,
-            trade.position === TradingPosition.LONG ? 1 : -1,
+            getTradeDirection(trade.position),
             ammState,
             perpParameters,
           ),

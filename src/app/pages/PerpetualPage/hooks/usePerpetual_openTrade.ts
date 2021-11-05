@@ -10,7 +10,7 @@ import {
   getIndexPrice,
   getRequiredMarginCollateral,
 } from '../temporaryUtils';
-import { floatToABK64x64, PERPETUAL_ID } from '../utils';
+import { floatToABK64x64, getTradeDirection, PERPETUAL_ID } from '../utils';
 import { usePerpetual_depositMarginToken } from './usePerpetual_depositMarginToken';
 import { usePerpetual_marginAccountBalance } from './usePerpetual_marginAccountBalance';
 import { usePerpetual_queryAmmState } from './usePerpetual_queryAmmState';
@@ -40,7 +40,7 @@ export const usePerpetual_openTrade = () => {
       const limitPrice = calculateSlippagePrice(
         indexPrice,
         slippage,
-        tradingPosition === TradingPosition.LONG ? 1 : -1,
+        getTradeDirection(tradingPosition),
       );
 
       const marginCollateralAmount = getRequiredMarginCollateral(

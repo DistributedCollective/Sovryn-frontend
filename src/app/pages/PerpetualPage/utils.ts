@@ -14,11 +14,15 @@ import { transferAmount } from 'utils/blockchain/transfer-approve-amount';
 import { bridgeNetwork } from '../BridgeDepositPage/utils/bridge-network';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import marginTokenAbi from 'utils/blockchain/abi/MarginToken.json';
+import { TradingPosition } from 'types/trading-position';
 
 export const ONE_64x64 = BigNumber.from('0x10000000000000000');
 
 export const PERPETUAL_ID =
   '0xada5013122d395ba3c54772283fb069b10426056ef8ca54750cb9bb552a59e7d';
+
+export const getTradeDirection = (tradingPosition: TradingPosition) =>
+  tradingPosition === TradingPosition.LONG ? 1 : -1;
 
 // Converts float to ABK64x64 bigint-format, creates string from number with 18 decimals
 export const floatToABK64x64 = (value: number) => {

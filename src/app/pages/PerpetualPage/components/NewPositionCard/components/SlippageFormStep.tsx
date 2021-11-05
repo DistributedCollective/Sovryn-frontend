@@ -16,7 +16,7 @@ import {
   calculateSlippagePrice,
   getIndexPrice,
 } from 'app/pages/PerpetualPage/temporaryUtils';
-import { TradingPosition } from 'types/trading-position';
+import { getTradeDirection } from 'app/pages/PerpetualPage/utils';
 
 export const SlippageFormStep: TransitionStep<NewPositionCardStep> = ({
   changeTo,
@@ -46,7 +46,7 @@ export const SlippageFormStep: TransitionStep<NewPositionCardStep> = ({
       calculateSlippagePrice(
         indexPrice,
         trade.slippage,
-        trade.position === TradingPosition.LONG ? 1 : -1,
+        getTradeDirection(trade.position),
       ),
     [indexPrice, trade.position, trade.slippage],
   );
