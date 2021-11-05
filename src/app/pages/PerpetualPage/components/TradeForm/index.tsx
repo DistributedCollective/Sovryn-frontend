@@ -17,7 +17,7 @@ import { PerpetualTrade, PerpetualTradeType } from '../../types';
 import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
 import { Input } from '../../../../components/Input';
 import { fromWei, toWei } from 'web3-utils';
-import { Tooltip } from '@blueprintjs/core';
+import { PopoverPosition, Tooltip } from '@blueprintjs/core';
 import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
 import { LeverageViewer } from '../LeverageViewer';
@@ -199,7 +199,13 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         >
           {t(translations.perpetualPage.tradeForm.buttons.market)}
         </button>
-        <Tooltip content={t(translations.common.comingSoon)}>
+        <Tooltip
+          hoverOpenDelay={0}
+          hoverCloseDelay={0}
+          interactionKind="hover"
+          position={PopoverPosition.BOTTOM_LEFT}
+          content={t(translations.common.comingSoon)}
+        >
           <button
             className="tw-h-8 tw-px-3 tw-py-1 tw-font-semibold tw-text-sm tw-text-sov-white tw-bg-gray-7 tw-rounded-lg tw-opacity-25 tw-cursor-not-allowed"
             disabled
