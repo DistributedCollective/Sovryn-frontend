@@ -14,7 +14,7 @@ import promotionModalStyles from './index.module.scss';
 
 const SESSION_KEY = 'sovryn-promo-dialog-1'; //increment this whenever new content is added, to ensure users see it even if they viewed one previously
 
-const shouldModalBeVisible = () => !!local.getItem(SESSION_KEY);
+const shouldModalBeVisible = () => !local.getItem(SESSION_KEY);
 
 export const PromotionModal: React.FC = () => {
   const { t } = useTranslation();
