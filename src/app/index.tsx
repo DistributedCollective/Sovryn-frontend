@@ -50,7 +50,7 @@ import { BridgeWithdrawPage } from './pages/BridgeWithdrawPage/Loadable';
 import { PerpetualPage } from './pages/PerpetualPage';
 
 import { ApolloProvider } from '@apollo/client';
-import { apolloClient } from './pages/PerpetualPage/graphQlHelpers';
+import { apolloClient } from './pages/PerpetualPage/utils/graphQlHelpers';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';

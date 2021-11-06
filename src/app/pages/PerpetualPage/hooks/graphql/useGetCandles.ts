@@ -35,7 +35,6 @@ export const generateCandleQuery = (
   endTime?: number,
 ): DocumentNode => {
   const candleDetails = CandleDictionary.get(candleDuration);
-  console.debug(candleDetails);
   return gql`
     {
       ${candleDetails.entityName}(
@@ -85,10 +84,7 @@ export class CandleDictionary {
     CandleDuration,
     CandleDetails
   >([
-    [
-      CandleDuration.M_1,
-      new CandleDetails('candleSticksMinutes', 'D', 0.5, 0.5),
-    ],
+    [CandleDuration.M_1, new CandleDetails('candleSticksMinutes', 'D', 1, 1)],
     [
       CandleDuration.M_15,
       new CandleDetails('candleSticksFifteenMinutes', 'D', 3, 3),
@@ -98,7 +94,7 @@ export class CandleDictionary {
       CandleDuration.H_4,
       new CandleDetails('candleSticksFourHours', 'D', 10, 10),
     ],
-    [CandleDuration.D_1, new CandleDetails('candleSticksDays', 'M', 3, 90)],
+    [CandleDuration.D_1, new CandleDetails('candleSticksDays', 'D', 90, 90)],
   ]);
 
   public static get(candle: CandleDuration): CandleDetails {

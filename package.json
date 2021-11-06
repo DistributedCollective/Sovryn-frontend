@@ -170,6 +170,7 @@
     "webpack-dev-server": "3.10.3",
     "webpack-manifest-plugin": "2.2.0",
     "workbox-webpack-plugin": "4.3.1",
+    "ws": "8.2.3",
     "yarn": "1.22.10"
   },
   "bin": {

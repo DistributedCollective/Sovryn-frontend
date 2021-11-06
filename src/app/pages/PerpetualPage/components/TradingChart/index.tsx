@@ -34,7 +34,6 @@ export function TradingChart(props: ChartContainerProps) {
   const [chart, setChart] = useState<IChartingLibraryWidget | null>(null);
 
   useEffect(() => {
-    console.log('USE EFFECT');
     try {
       // full list of widget config options here: https://github.com/tradingview/charting_library/wiki/Widget-Constructor/cf26598509d8bba6dc95c5fe8208caa5e8474827
       const widgetOptions: any = {
@@ -62,7 +61,7 @@ export function TradingChart(props: ChartContainerProps) {
         // toolbar_bg: '#a3a3a3',
         theme: props.theme,
         time_frames: [
-          { text: '1d', resolution: '10', description: '1d', title: '1d' },
+          { text: '1d', resolution: '15', description: '1d', title: '1d' },
           { text: '3d', resolution: '30', description: '3d', title: '3d' },
           { text: '7d', resolution: '60', description: '7d', title: '7d' },
           { text: '3m', resolution: '120', description: '3m', title: '3m' },

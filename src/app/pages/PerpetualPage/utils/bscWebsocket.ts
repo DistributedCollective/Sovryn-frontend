@@ -1,5 +1,5 @@
 import Web3 from 'web3';
-import PerpetualManager from 'utils/blockchain/abi/PerpetualManager.json';
+import PerpetualManager from '../components/TradingChart/IPerpetualManager.json';
 
 // TODO: Change subscription ID to perpID + candleDuration
 
@@ -34,10 +34,8 @@ export const subscription = (
   const options = {
     address: address,
     topics: topics,
+    fromBlock: fromBlock,
   };
-  if (fromBlock) {
-    options[fromBlock] = fromBlock;
-  }
   return web3Socket.eth.subscribe('logs', options, (err, res) => {
     if (!err) console.error(err);
     console.log(res);
