@@ -13,6 +13,7 @@ import {
   PerpetualPageModals,
   PerpetualTrade,
   PERPETUAL_SLIPPAGE_DEFAULT,
+  PerpetualTradeType,
 } from '../../types';
 import { TradingPosition } from '../../../../../types/trading-position';
 import { toWei } from 'web3-utils';
@@ -36,12 +37,12 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
       const trade: PerpetualTrade = {
         id: item.id,
         pairType: item.pairType,
-        tradeType: item.type,
-        position: item.position,
+        tradeType: item.type || PerpetualTradeType.MARKET,
+        position: item.position || TradingPosition.LONG,
         slippage: PERPETUAL_SLIPPAGE_DEFAULT,
-        amount: toWei(item.amount.toPrecision(18)),
+        amount: item.amount ? toWei(item.amount.toPrecision(18)) : '0',
         collateral: pair.collateralAsset,
-        leverage: item.leverage,
+        leverage: item.leverage || 0,
       };
       dispatch(actions.setModal(modal, trade));
     },
@@ -68,6 +69,10 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
     [onOpenTradeModal],
   );
 
+  const isEmptyPosition = useMemo(() => !item.amount || item.amount === 0, [
+    item.amount,
+  ]);
+
   if (pair === undefined) {
     return null;
   }
@@ -83,7 +88,10 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
             : 'tw-text-trade-short',
         )}
       >
-        <AssetValue value={item.amount} assetString={pair.baseAsset} />
+        {item.amount && // typescript can't infer from !isEmptyPosition that item.amount has to exist
+          !isEmptyPosition && (
+            <AssetValue value={item.amount} assetString={pair.baseAsset} />
+          )}
       </td>
       <td className="tw-text-right tw-hidden md:tw-table-cell">
         {item.entryPrice && (
@@ -91,64 +99,74 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
         )}
       </td>
       <td className="tw-text-right tw-hidden xl:tw-table-cell">
-        <AssetValue value={item.markPrice} assetString={pair.quoteAsset} />
+        {item.markPrice && (
+          <AssetValue value={item.markPrice} assetString={pair.quoteAsset} />
+        )}
       </td>
       <td className="tw-text-right tw-hidden xl:tw-table-cell">
-        <AssetValue
-          value={item.liquidationPrice}
-          assetString={pair.quoteAsset}
-        />
+        {item.liquidationPrice && (
+          <AssetValue
+            value={item.liquidationPrice}
+            assetString={pair.quoteAsset}
+          />
+        )}
       </td>
       <td className="tw-text-right">
         <AssetValue value={item.margin} assetString={pair.baseAsset} />
-        {` (${toNumberFormat(item.leverage, 2)}x)`}
+        {item.leverage ? ` (${toNumberFormat(item.leverage, 2)}x)` : null}
       </td>
       <td
         className={classNames(
-          item.unrealized.baseValue >= 0
+          item.unrealized && item.unrealized.baseValue >= 0
             ? 'tw-text-trade-long'
             : 'tw-text-trade-short',
         )}
       >
-        <div className="tw-flex tw-flex-row tw-items-center">
-          <div className="tw-mr-2">
-            <AssetValue
-              className="tw-block"
-              value={item.unrealized.baseValue}
-              assetString={pair.baseAsset}
-            />
-            <AssetValue
-              className="tw-block"
-              value={item.unrealized.quoteValue}
-              assetString={pair.quoteAsset}
-              isApproximation
-            />
+        {item.unrealized && (
+          <div className="tw-flex tw-flex-row tw-items-center">
+            <div className="tw-mr-2">
+              <AssetValue
+                className="tw-block"
+                value={item.unrealized.baseValue}
+                assetString={pair.baseAsset}
+              />
+              <AssetValue
+                className="tw-block"
+                value={item.unrealized.quoteValue}
+                assetString={pair.quoteAsset}
+                isApproximation
+              />
+            </div>
+            <div>
+              ({item.unrealized.roe > 0 ? '+' : ''}
+              {numberToPercent(item.unrealized.roe, 1)})
+            </div>
           </div>
-          <div>
-            ({item.unrealized.roe > 0 ? '+' : ''}
-            {numberToPercent(item.unrealized.roe, 1)})
-          </div>
-        </div>
+        )}
       </td>
       <td
         className={classNames(
           'tw-hidden 2xl:tw-table-cell',
-          item.realized.baseValue >= 0
+          item.realized && item.realized.baseValue >= 0
             ? 'tw-text-trade-long'
             : 'tw-text-trade-short',
         )}
       >
-        <AssetValue
-          className="tw-block"
-          value={item.realized.baseValue}
-          assetString={pair.baseAsset}
-        />
-        <AssetValue
-          className="tw-block"
-          value={item.realized.quoteValue}
-          assetString={pair.quoteAsset}
-          isApproximation
-        />
+        {item.realized && (
+          <>
+            <AssetValue
+              className="tw-block"
+              value={item.realized.baseValue}
+              assetString={pair.baseAsset}
+            />
+            <AssetValue
+              className="tw-block"
+              value={item.realized.quoteValue}
+              assetString={pair.quoteAsset}
+              isApproximation
+            />
+          </>
+        )}
       </td>
       <td>
         <div className="tw-flex tw-items-center tw-justify-end xl:tw-justify-around 2xl:tw-justify-start">
@@ -163,14 +181,22 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
                 {t(translations.perpetualPage.openPositionsTable.editSize)}
               </button>
               <button
-                className="tw-mr-8 tw-text-primary tw-text-sm tw-font-medium"
+                className={classNames(
+                  'tw-mr-8 tw-text-primary tw-text-sm tw-font-medium',
+                  isEmptyPosition && 'tw-opacity-25 tw-cursor-not-allowed',
+                )}
                 onClick={onEditLeverage}
+                disabled={isEmptyPosition}
               >
                 {t(translations.perpetualPage.openPositionsTable.editLeverage)}
               </button>
               <button
-                className="tw-mr-8 tw-text-primary tw-text-sm tw-font-medium"
+                className={classNames(
+                  'tw-mr-8 tw-text-primary tw-text-sm tw-font-medium',
+                  isEmptyPosition && 'tw-opacity-25 tw-cursor-not-allowed',
+                )}
                 onClick={onEditMargin}
+                disabled={isEmptyPosition}
               >
                 {t(translations.perpetualPage.openPositionsTable.editMargin)}
               </button>

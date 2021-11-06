@@ -451,7 +451,7 @@ export function getTraderPnL(
 }
 
 /**
- * Get the unrealized Profit/Loss of a trader using mark price as benchmark. Reported in Quote currency.
+ * Get current Trader Leverage.
  * @param {AMMState} ammData - AMM state (for mark price and CCY conversion)
  * @param {TraderState} traderState - Trader state (for account balances)
  * @returns {number} current leverage for the trader

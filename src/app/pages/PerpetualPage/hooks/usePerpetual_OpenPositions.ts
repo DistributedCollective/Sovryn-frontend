@@ -1,4 +1,3 @@
-import { toWei, fromWei } from 'web3-utils';
 import { TradingPosition } from '../../../../types/trading-position';
 import {
   PerpetualPairType,
@@ -11,27 +10,29 @@ import { ABK64x64ToFloat } from '../utils/contractUtils';
 import { BigNumber } from 'ethers';
 import { usePerpetual_queryAmmState } from './usePerpetual_queryAmmState';
 import {
-  getIndexPrice,
+  calculateApproxLiquidationPrice,
   getMarkPrice,
   getTraderPnL,
   getBase2QuoteFX,
   getBase2CollateralFX,
+  getTraderLeverage,
 } from '../utils/perpUtils';
 import { usePerpetual_queryTraderState } from './usePerpetual_queryTraderState';
+import { usePerpetual_queryPerpParameters } from './usePerpetual_queryPerpParameters';
 
 export type OpenPositionEntry = {
   id: string;
   pairType: PerpetualPairType;
-  type: PerpetualTradeType;
-  position: TradingPosition;
-  amount: number;
+  type?: PerpetualTradeType;
+  position?: TradingPosition;
+  amount?: number;
   entryPrice?: number;
-  markPrice: number;
-  liquidationPrice: number;
+  markPrice?: number;
+  liquidationPrice?: number;
   margin: number;
-  leverage: number;
-  unrealized: { baseValue: number; quoteValue: number; roe: number };
-  realized: { baseValue: number; quoteValue: number };
+  leverage?: number;
+  unrealized?: { baseValue: number; quoteValue: number; roe: number };
+  realized?: { baseValue: number; quoteValue: number };
 };
 
 type OpenPositionHookResult = {
@@ -50,19 +51,30 @@ export const usePerpetual_OpenPosition = (
   } = useGetTraderEvents([Event.TRADE], address.toLowerCase());
 
   const ammState = usePerpetual_queryAmmState();
+  const perpParameters = usePerpetual_queryPerpParameters();
   const traderState = usePerpetual_queryTraderState();
-  console.log('traderState', traderState);
 
   const data = useMemo(() => {
-    const indexPrice = getIndexPrice(ammState);
     const markPrice = getMarkPrice(ammState);
     const base2quote = getBase2QuoteFX(ammState, true);
     const base2collateral = getBase2CollateralFX(ammState, true);
     const pair = PerpetualPairDictionary.get(pairType);
 
-    if (traderState.marginAccountPositionBC === 0 || !pair) {
+    if (traderState.marginBalanceCC === 0 || !pair) {
       return;
     }
+
+    const margin = traderState.marginBalanceCC / base2collateral;
+
+    if (traderState.marginAccountPositionBC === 0) {
+      return {
+        id: pair.id,
+        pairType,
+        margin,
+      };
+    }
+
+    const tradeAmount = traderState.marginAccountPositionBC;
 
     const currentTradeEvents: PerpetualTradeEvent[] | undefined =
       tradeEvents?.trader?.trades || previousTradeEvents?.trader?.trades;
@@ -74,13 +86,14 @@ export const usePerpetual_OpenPosition = (
       ? ABK64x64ToFloat(BigNumber.from(latestTrade.price))
       : undefined;
 
-    const tradeAmount = traderState.marginAccountPositionBC;
+    const liquidationPrice = calculateApproxLiquidationPrice(
+      tradeAmount,
+      traderState.marginAccountCashCC,
+      ammState,
+      perpParameters,
+    );
 
-    // TODO: calculate liquidationPrice
-    const liquidationPrice = 0;
-    // TODO: calculate leverage
-    const leverage = 0;
-    const margin = traderState.marginAccountCashCC * base2collateral;
+    const leverage = getTraderLeverage(traderState, ammState);
 
     const unrealizedQuote = getTraderPnL(traderState, ammState);
     const unrealized: OpenPositionEntry['unrealized'] = {
@@ -89,6 +102,7 @@ export const usePerpetual_OpenPosition = (
       roe: unrealizedQuote / base2quote / tradeAmount,
     };
 
+    // TODO: calculate Realized Profit and Loss
     const realized: OpenPositionEntry['realized'] = {
       baseValue: 0,
       quoteValue: 0,
@@ -108,7 +122,14 @@ export const usePerpetual_OpenPosition = (
       unrealized,
       realized,
     };
-  }, [tradeEvents, previousTradeEvents, traderState, ammState, pairType]);
+  }, [
+    tradeEvents,
+    previousTradeEvents,
+    pairType,
+    traderState,
+    perpParameters,
+    ammState,
+  ]);
 
   return { data, loading };
 };
