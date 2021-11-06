@@ -1508,11 +1508,11 @@
       "orderType": "Tipo de ordem:",
       "tradeAmount": "Quantidade negociada:",
       "limitPrice": "Preço:",
-      "duration": "Duração:"
+      "duration": "Validade da ordem:"
     },
     "limitOrderSetting": {
       "title": "Configurações avançadas",
-      "duration": "Duração:",
+      "duration": "Validade da ordem:",
       "untilCancelled": "Até cancelar",
       "day_one": "{{count}} dia",
       "day_other": "{{count}} dias",
@@ -1525,7 +1525,7 @@
       "tradeAmount": "Quantidade negociada",
       "limitPrice": "Preço",
       "amountReceive": "Quantidade a receber",
-      "duration": "Duração",
+      "duration": "Validade da ordem",
       "deadline": "Prazo",
       "actions": "Ação",
       "noData": "Sem dados",
