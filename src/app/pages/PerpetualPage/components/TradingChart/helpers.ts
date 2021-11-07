@@ -12,10 +12,10 @@ export const supportedResolutions = [
   '10',
   '15',
   '30',
-  'H',
+  '60',
   '240',
   '720',
-  'D',
+  '1440',
   '1D',
   '3D',
   '1W',
@@ -33,11 +33,12 @@ export const makeApiRequest = async (
   candleDuration: CandleDuration,
   perpId: string,
   startTime: number,
+  endTime: number,
 ) => {
   console.log('Making api request for candles...');
   try {
     const query = generateCandleQuery(candleDuration, perpId, startTime);
-    console.log(query.loc?.source.body);
+    console.debug(query.loc?.source.body);
     const response = await apolloClient.query({
       query: query,
     });
@@ -51,7 +52,7 @@ export const makeApiRequest = async (
         close: parseFloat(weiTo2(item.close)),
       };
     });
-    console.log(bars);
+    console.debug(bars);
     return bars;
   } catch (error) {
     console.log(error);
@@ -78,12 +79,13 @@ export const resolutionMap: { [key: string]: CandleDuration } = {
   '10': CandleDuration.M_1,
   '15': CandleDuration.M_15,
   '30': CandleDuration.M_15,
+  '60': CandleDuration.H_1,
   H: CandleDuration.H_1,
-  // '240': CandleDuration.H_4,
-  // '720': CandleDuration.H_4,
-  // '1440': CandleDuration.D_1,
+  '240': CandleDuration.H_4,
+  '720': CandleDuration.H_4,
+  '1440': CandleDuration.D_1,
   D: CandleDuration.D_1,
-  // '1D': CandleDuration.D_1,
+  '1D': CandleDuration.D_1,
   // '3D': CandleDuration.D_1,
   W: CandleDuration.D_1,
   // '1M': CandleDuration.D_1,

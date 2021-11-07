@@ -41,8 +41,6 @@ type SubItem = {
     id: string;
     callback: Function;
   }[];
-  timer?: number;
-  testThing: Bar;
 };
 
 const channelToSubscription = new Map<string, SubItem>();
@@ -52,12 +50,6 @@ function getNextDailyBarTime(barTime) {
   const date = new Date(barTime * 1000);
   date.setDate(date.getDate() + 1);
   return date.getTime() / 1000;
-}
-
-function getNewBarTime(tickTime: number, resolution: number) {
-  /** Takes in a Trade event time and generates bar of correct time */
-  const resolutionInMilis = resolution * 60 * 1000 * 2;
-  return Math.floor((tickTime * 1e3) / resolutionInMilis) * resolutionInMilis;
 }
 
 subscription.onopen = () => {
@@ -78,16 +70,11 @@ subscription.onmessage = message => {
     if (channelString) {
       const subscriptionItem = channelToSubscription.get(channelString);
       console.log('[socket] Subscription item', subscriptionItem);
-      if (subscriptionItem === undefined || !subscriptionItem.testThing) {
+      if (subscriptionItem === undefined || !subscriptionItem.lastBar) {
         return;
       }
       const lastBar = subscriptionItem.lastBar;
       const nextDailyBarTime = getNextDailyBarTime(lastBar.time);
-      const newBarTime = getNewBarTime(
-        new Date().getTime() / 1e3,
-        parseInt(subscriptionItem.resolution),
-      );
-      console.log('[socket]: New bar time', newBarTime);
       let bar;
       if (tradeTime >= nextDailyBarTime) {
         bar = {
@@ -96,7 +83,7 @@ subscription.onmessage = message => {
           high: Math.max(lastBar.close, tradePrice),
           low: Math.min(lastBar.close, tradePrice),
           close: tradePrice,
-          time: newBarTime,
+          time: new Date().getTime(),
         };
         console.log('[socket] Generate new bar', bar);
       } else {
@@ -148,7 +135,6 @@ export function subscribeOnStream(
     symbolInfo: symbolInfo,
     subscribeUID: subscribeUID,
     resolution: resolution,
-    testThing: lastBar,
     lastBar: lastBar,
     subHandlers: [handler],
   };

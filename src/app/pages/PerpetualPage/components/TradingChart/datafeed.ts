@@ -61,11 +61,11 @@ const tradingChartDataFeeds = {
       minmov: 1, //0.00000001,
       pricescale: 100,
       has_intraday: true,
-      intraday_multipliers: ['1', '15'],
+      intraday_multipliers: ['1', '15', '60', '240'],
       supported_resolution: supportedResolutions,
       has_no_volume: true,
       has_empty_bars: true,
-      has_daily: true,
+      has_daily: false,
       has_weekly_and_monthly: false,
       data_status: 'streaming',
     };
@@ -84,13 +84,24 @@ const tradingChartDataFeeds = {
     firstDataRequest,
   ) => {
     console.log('[getBars]: Method call', symbolInfo, resolution);
-    const startTime = from;
+    const startTime = (): number => {
+      const lastBarTime = lastBarsCache.get(symbolInfo.name)?.time;
+      if (firstDataRequest) {
+        return from;
+      } else if (lastBarTime !== undefined) {
+        return lastBarTime / 1e3;
+      } else {
+        return new Date().getTime() / 1e3;
+      }
+    };
+    const endTime = to;
     const candleDuration: CandleDuration = resolutionMap[resolution];
     try {
       const data = await makeApiRequest(
         candleDuration,
         symbolMap[symbolInfo.name],
-        startTime,
+        startTime(),
+        endTime,
       );
       console.log('[getBars]: Data', data);
       let bars: Bar[] = [];
@@ -105,7 +116,7 @@ const tradingChartDataFeeds = {
       }
       console.log(`[getBars]: returned ${bars.length} bar(s)`);
 
-      if (!bars.length) {
+      if (!bars || bars.length === 1) {
         onHistoryCallback([], {
           noData: true,
         });
@@ -114,17 +125,27 @@ const tradingChartDataFeeds = {
 
       const lastBar = lastBarsCache.get(symbolInfo.name);
       const newestBar = bars[bars.length - 1];
-      if (lastBar) {
-        if (newestBar.time >= lastBar.time) {
+      try {
+        if (lastBar) {
+          if (newestBar.time >= lastBar.time) {
+            lastBarsCache.set(symbolInfo.name, newestBar);
+          }
+        } else {
           lastBarsCache.set(symbolInfo.name, newestBar);
         }
-      } else {
-        lastBarsCache.set(symbolInfo.name, newestBar);
+      } catch (error) {
+        console.error('Errors caching newest bar as last bar', error);
       }
 
-      onHistoryCallback(bars, {
-        noData: false,
-      });
+      if (!bars || bars.length === 0) {
+        onHistoryCallback([], {
+          noData: true,
+        });
+      } else {
+        onHistoryCallback(bars, {
+          noData: false,
+        });
+      }
     } catch (error) {
       onErrorCallback(error);
     }

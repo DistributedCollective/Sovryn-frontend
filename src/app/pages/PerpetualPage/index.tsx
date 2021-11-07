@@ -176,9 +176,9 @@ export function PerpetualPage() {
           Withdraw 20 margin tokens
         </button> */}
 
-        <TestCandles />
+        {/* <TestCandles />
 
-        <TestHistory />
+        <TestHistory /> */}
 
         {connected && (
           <>

@@ -37,13 +37,13 @@ export function TradingChart(props: ChartContainerProps) {
     try {
       // full list of widget config options here: https://github.com/tradingview/charting_library/wiki/Widget-Constructor/cf26598509d8bba6dc95c5fe8208caa5e8474827
       const widgetOptions: any = {
-        debug: false,
+        debug: true,
         symbol: props.symbol,
         datafeed: Datafeed,
         save_load_adapter: Storage,
         study_count_limit: 15, //max number of indicators that can be added to charts
         interval: '30', //default time interval
-        timeframe: '3D', //default range
+        timeframe: '5D', //default range
         container_id: 'tv_chart_container', //id of DOM container
         library_path: '/charting_library/', //relative path of library in /public folder
         locale: 'en',

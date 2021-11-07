@@ -18,7 +18,6 @@ export function useGetCandles(
   startTime: number,
   endTime?: number,
 ) {
-  console.debug('Getting candles');
   const CANDLE_QUERY = generateCandleQuery(
     candleDuration,
     perpetualId,
