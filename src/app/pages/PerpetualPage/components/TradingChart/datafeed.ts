@@ -63,7 +63,7 @@ const tradingChartDataFeeds = {
       has_intraday: true,
       intraday_multipliers: ['1', '15', '60', '240'],
       supported_resolution: supportedResolutions,
-      has_no_volume: true,
+      has_no_volume: false,
       has_empty_bars: true,
       has_daily: true,
       has_weekly_and_monthly: false,

@@ -50,6 +50,7 @@ export const generateCandleQuery = (
         high
         low
         close
+        totalVolume
         periodStartUnix
       }
     }

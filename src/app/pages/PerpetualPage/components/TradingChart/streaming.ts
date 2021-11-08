@@ -81,6 +81,7 @@ subscription.on('data', data => {
           high: Math.max(lastBar.close, tradePrice),
           low: Math.min(lastBar.close, tradePrice),
           close: tradePrice,
+          volume: Math.abs(parseFloat(weiTo2(decoded.tradeAmount))),
           time: new Date().getTime(),
         };
         console.debug('[socket] Generate new bar', bar);
@@ -90,6 +91,9 @@ subscription.on('data', data => {
           high: Math.max(lastBar.high, tradePrice),
           low: Math.min(lastBar.low, tradePrice),
           close: tradePrice,
+          volume: lastBar.volume
+            ? lastBar.volume + Math.abs(parseFloat(weiTo2(decoded.tradeAmount)))
+            : Math.abs(parseFloat(weiTo2(decoded.tradeAmount))),
         };
       }
       console.log('[socket] Update the latest bar by price', tradePrice);

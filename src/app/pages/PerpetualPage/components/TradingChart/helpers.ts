@@ -50,6 +50,7 @@ export const makeApiRequest = async (
         low: parseFloat(weiTo2(item.low)),
         open: parseFloat(weiTo2(item.open)),
         close: parseFloat(weiTo2(item.close)),
+        volume: parseFloat(weiTo2(item.totalVolume)),
       };
     });
     console.debug(bars);
