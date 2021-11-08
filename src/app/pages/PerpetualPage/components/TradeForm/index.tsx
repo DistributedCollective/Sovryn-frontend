@@ -26,12 +26,16 @@ import {
   getMaximalTradeSizeInPerpetual,
   getRequiredMarginCollateral,
   getTradingFee,
+  getTraderLeverage,
+  calculateLeverageForPosition,
+  calculateApproxLiquidationPrice,
 } from '../../utils/perpUtils';
 import { shrinkToLot } from '../../utils/perpMath';
 import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
 import { usePerpetual_queryPerpParameters } from '../../hooks/usePerpetual_queryPerpParameters';
 import { usePerpetual_marginAccountBalance } from '../../hooks/usePerpetual_marginAccountBalance';
 import { getTradeDirection } from '../../utils/contractUtils';
+import { usePerpetual_queryTraderState } from '../../hooks/usePerpetual_queryTraderState';
 
 interface ITradeFormProps {
   trade: PerpetualTrade;
@@ -51,6 +55,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
   const inMaintenance = checkMaintenance(States.PERPETUAL_TRADES);
+  const traderState = usePerpetual_queryTraderState();
   const ammState = usePerpetual_queryAmmState();
   const perpParameters = usePerpetual_queryPerpParameters();
   const marginAccountBalance = usePerpetual_marginAccountBalance();
@@ -62,25 +67,24 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     return [lotSize, lotPrecision];
   }, [perpParameters.fLotSizeBC]);
 
-  const maxTradeSize = useMemo(
-    () =>
-      Number(
-        Math.abs(
-          getMaximalTradeSizeInPerpetual(
-            marginAccountBalance.fPositionBC,
-            getTradeDirection(trade.position),
-            ammState,
-            perpParameters,
-          ),
-        ).toPrecision(8),
-      ),
-    [
-      marginAccountBalance.fPositionBC,
-      trade.position,
-      ammState,
-      perpParameters,
-    ],
-  );
+  const maxTradeSize = useMemo(() => {
+    const maxTradeSize = Number(
+      Math.abs(
+        getMaximalTradeSizeInPerpetual(
+          marginAccountBalance.fPositionBC,
+          getTradeDirection(trade.position),
+          ammState,
+          perpParameters,
+        ),
+      ).toPrecision(8),
+    );
+    return Number.isFinite(maxTradeSize) ? maxTradeSize : 0;
+  }, [
+    marginAccountBalance.fPositionBC,
+    trade.position,
+    ammState,
+    perpParameters,
+  ]);
 
   const [amount, setAmount] = useState(fromWei(trade.amount));
   const onChangeOrderAmount = useCallback(
@@ -90,9 +94,17 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         lotSize,
       );
       setAmount(amount);
-      onChange({ ...trade, amount: toWei(roundedAmount.toString()) });
+      let newTrade = { ...trade, amount: toWei(roundedAmount.toString()) };
+      if (!isNewTrade) {
+        newTrade.leverage = calculateLeverageForPosition(
+          roundedAmount,
+          traderState,
+          ammState,
+        );
+      }
+      onChange(newTrade);
     },
-    [onChange, trade, lotSize, maxTradeSize],
+    [onChange, trade, lotSize, maxTradeSize, isNewTrade, traderState, ammState],
   );
   const onBlurOrderAmount = useCallback(() => {
     setAmount(fromWei(trade.amount));
@@ -158,10 +170,22 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
 
   const indexPrice = useMemo(() => getIndexPrice(ammState), [ammState]);
 
-  const liquidationPrice = useMemo(() => {
-    // TODO implement liquidationPrice calculation
-    return 1337.1337;
-  }, []);
+  const liquidationPrice = useMemo(
+    () =>
+      calculateApproxLiquidationPrice(
+        Number(amount) * getTradeDirection(trade.position),
+        traderState.availableCashCC,
+        ammState,
+        perpParameters,
+      ),
+    [
+      amount,
+      trade.position,
+      traderState.availableCashCC,
+      ammState,
+      perpParameters,
+    ],
+  );
 
   return (
     <div className="tw-relative tw-h-full tw-pb-16">

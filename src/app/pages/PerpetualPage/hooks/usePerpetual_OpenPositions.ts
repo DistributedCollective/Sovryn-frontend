@@ -14,7 +14,6 @@ import {
   getMarkPrice,
   getTraderPnL,
   getBase2QuoteFX,
-  getBase2CollateralFX,
   getTraderLeverage,
 } from '../utils/perpUtils';
 import { usePerpetual_queryTraderState } from './usePerpetual_queryTraderState';
@@ -57,14 +56,13 @@ export const usePerpetual_OpenPosition = (
   const data = useMemo(() => {
     const markPrice = getMarkPrice(ammState);
     const base2quote = getBase2QuoteFX(ammState, true);
-    const base2collateral = getBase2CollateralFX(ammState, true);
     const pair = PerpetualPairDictionary.get(pairType);
 
     if (traderState.marginBalanceCC === 0 || !pair) {
       return;
     }
 
-    const margin = traderState.marginBalanceCC / base2collateral;
+    const margin = traderState.availableCashCC;
 
     if (traderState.marginAccountPositionBC === 0) {
       return {

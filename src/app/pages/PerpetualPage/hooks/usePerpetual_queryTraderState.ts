@@ -31,10 +31,7 @@ export const usePerpetual_queryTraderState = (): TraderState => {
         [PERPETUAL_ID, account],
       )
       .catch(e => console.log(e))
-      .then(result => {
-        console.log(result);
-        result && setTraderState(parseTraderState(result));
-      });
+      .then(result => result && setTraderState(parseTraderState(result)));
   }, [account]);
 
   return traderState;

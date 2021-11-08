@@ -452,8 +452,8 @@ export function getTraderPnL(
 
 /**
  * Get current Trader Leverage.
- * @param {AMMState} ammData - AMM state (for mark price and CCY conversion)
  * @param {TraderState} traderState - Trader state (for account balances)
+ * @param {AMMState} ammData - AMM state (for mark price and CCY conversion)
  * @returns {number} current leverage for the trader
  */
 export function getTraderLeverage(
@@ -489,4 +489,43 @@ export function getFundingFee(
     perpData.fUnitAccumulatedFunding - traderState.fUnitAccumulatedFundingStart;
   // TODO: this is not correct!
   return fCurrentRate * traderState.marginAccountPositionBC;
+}
+
+// CUSTOM FRONTEND UTILS =======================================================
+
+/**
+ * calculate Leverage for new Position.
+ * @param {number} targetPositionSizeBC - new target position size
+ * @param {TraderState} traderState - Trader state (for account balances)
+ * @param {AMMState} ammData - AMM state (for mark price and CCY conversion)
+ * @returns {number} current leverage for the trader
+ */
+export function calculateLeverageForPosition(
+  targetPositionSizeBC: number,
+  traderState: TraderState,
+  ammData: AMMState,
+): number {
+  return (
+    (targetPositionSizeBC * getBase2CollateralFX(ammData, true)) /
+    traderState.availableCashCC
+  );
+}
+
+/**
+ * calculate Leverage for new Margin.
+ * @param {number} targetMarginCC - new target margin
+ * @param {TraderState} traderState - Trader state (for account balances)
+ * @param {AMMState} ammData - AMM state (for mark price and CCY conversion)
+ * @returns {number} current leverage for the trader
+ */
+export function calculateLeverageForMargin(
+  targetMarginCC: number,
+  traderState: TraderState,
+  ammData: AMMState,
+): number {
+  return (
+    (traderState.marginAccountPositionBC *
+      getBase2CollateralFX(ammData, true)) /
+    targetMarginCC
+  );
 }
