@@ -1,0 +1,25 @@
+.buyWrapper {
+  @apply tw-h-full;
+  width: 64%;
+  background-color: #181818;
+  box-shadow: -11px 0px 25px #00000026;
+  padding: 4.5rem 2rem;
+}
+
+.buyButton {
+  @apply tw-w-full tw-mt-8 tw-bg-trade-long
+    tw-border tw-border-solid tw-border-trade-long
+    tw-text-2xl tw-font-extrabold tw-text-white tw-uppercase;
+  height: 3.75rem;
+  border-radius: 0.625rem;
+  transition: opacity 0.3s;
+  padding: initial;
+
+  &:not([disabled]):hover {
+    @apply tw-opacity-75;
+  }
+
+  &[disabled] {
+    @apply tw-cursor-not-allowed tw-opacity-50;
+  }
+}

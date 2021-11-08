@@ -1,0 +1,25 @@
+.dialogWrapper {
+  @apply tw-mx-10;
+  background-color: #181818;
+  padding: 2.5rem 8.75rem 3.75rem 8.75rem;
+  border-radius: 1.25rem;
+  width: 77.1875rem;
+}
+
+.dialogTitle {
+  @apply tw-text-3xl tw-tracking-normal tw-mb-20;
+}
+
+.listItem {
+  @apply tw-relative tw-flex tw-items-center tw-text-sm tw-leading-5 tw-tracking-normal tw-font-thin tw-mb-4;
+
+  &:before {
+    @apply tw-absolute tw--left-4 tw-top-1 tw-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: #ededed;
+    content: '';
+    margin-right: 0.625rem;
+  }
+}

@@ -13,6 +13,7 @@ interface InputProps {
   type?: InputType;
   className?: string;
   inputClassName?: string;
+  appendClassName?: string;
   readOnly?: boolean;
   placeholder?: string;
   min?: number;
@@ -27,6 +28,7 @@ export function Input({
   className,
   inputClassName,
   appendElem,
+  appendClassName = 'tw-mr-5',
   dataActionId,
   ...props
 }: InputProps) {
@@ -57,7 +59,11 @@ export function Input({
         data-action-id={dataActionId}
         {...props}
       />
-      {appendElem && <div className="tw-input-append">{appendElem}</div>}
+      {appendElem && (
+        <div className={cn('tw-input-append', appendClassName)}>
+          {appendElem}
+        </div>
+      )}
     </div>
   );
 }
