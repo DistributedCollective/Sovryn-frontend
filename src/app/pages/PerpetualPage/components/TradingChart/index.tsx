@@ -56,6 +56,7 @@ export function TradingChart(props: ChartContainerProps) {
           'header_symbol_search',
           //'header_saveload', //uncomment to disable storing of drawings
           'header_compare',
+          'volume_force_overlay',
         ],
         autosize: true,
         // toolbar_bg: '#a3a3a3',
