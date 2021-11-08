@@ -5,4 +5,5 @@ export interface IClaimFormProps {
 
 export interface IRewardClaimFormProps extends IClaimFormProps {
   hasLockedSov: boolean;
+  hasLMRewards: boolean;
 }
