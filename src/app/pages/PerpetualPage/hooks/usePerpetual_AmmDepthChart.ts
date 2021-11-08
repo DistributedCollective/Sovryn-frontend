@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
 import { useBlockSync } from '../../../hooks/useAccount';
+import { usePerpetual_queryAmmState } from './usePerpetual_queryAmmState';
+import { getIndexPrice, getMarkPrice } from '../utils/perpUtils';
 
 export type AmmDepthChartDataEntry = {
   price: number;
@@ -67,13 +69,32 @@ const placeholderFetch = async (
 export const usePerpetual_AmmDepthChart = (pair: PerpetualPair) => {
   const blockId = useBlockSync();
   const [data, setData] = useState<AmmDepthChartData | null>();
+  const ammState = usePerpetual_queryAmmState();
+
+  const indexPrice = getIndexPrice(ammState);
+  const markPrice = getMarkPrice(ammState);
 
   useEffect(() => {
     // TODO: implement AmmDepthChart data fetching
     placeholderFetch(pair, blockId).then(data => {
-      setData(data);
+      setData(current => ({
+        ...data,
+        indexPrice: current?.indexPrice || 0,
+        markPrice: current?.markPrice || 0,
+      }));
     });
   }, [pair, blockId]);
+
+  useEffect(() => {
+    setData(
+      data =>
+        data && {
+          ...data,
+          indexPrice,
+          markPrice,
+        },
+    );
+  }, [indexPrice, markPrice]);
 
   return data;
 };

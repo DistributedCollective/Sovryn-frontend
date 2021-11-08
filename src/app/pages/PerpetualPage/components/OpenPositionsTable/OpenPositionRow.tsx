@@ -17,6 +17,7 @@ import {
 } from '../../types';
 import { TradingPosition } from '../../../../../types/trading-position';
 import { toWei } from 'web3-utils';
+import { AssetValueMode } from '../../../../components/AssetValue/types';
 
 type OpenPositionRowProps = {
   item: OpenPositionEntry;
@@ -40,7 +41,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
         tradeType: item.type || PerpetualTradeType.MARKET,
         position: item.position || TradingPosition.LONG,
         slippage: PERPETUAL_SLIPPAGE_DEFAULT,
-        amount: item.amount ? toWei(item.amount.toPrecision(18)) : '0',
+        amount: item.amount ? toWei(item.amount.toPrecision(8)) : '0',
         collateral: pair.collateralAsset,
         leverage: item.leverage || 0,
       };
@@ -90,7 +91,12 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
       >
         {item.amount && // typescript can't infer from !isEmptyPosition that item.amount has to exist
           !isEmptyPosition && (
-            <AssetValue value={item.amount} assetString={pair.baseAsset} />
+            <AssetValue
+              value={item.amount}
+              assetString={pair.baseAsset}
+              mode={AssetValueMode.auto}
+              showPositiveSign
+            />
           )}
       </td>
       <td className="tw-text-right tw-hidden md:tw-table-cell">
@@ -129,12 +135,14 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
                 className="tw-block"
                 value={item.unrealized.baseValue}
                 assetString={pair.baseAsset}
+                showPositiveSign
               />
               <AssetValue
                 className="tw-block"
                 value={item.unrealized.quoteValue}
                 assetString={pair.quoteAsset}
                 isApproximation
+                showPositiveSign
               />
             </div>
             <div>
@@ -158,12 +166,14 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
               className="tw-block"
               value={item.realized.baseValue}
               assetString={pair.baseAsset}
+              showPositiveSign
             />
             <AssetValue
               className="tw-block"
               value={item.realized.quoteValue}
               assetString={pair.quoteAsset}
               isApproximation
+              showPositiveSign
             />
           </>
         )}
