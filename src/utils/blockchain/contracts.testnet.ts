@@ -64,12 +64,13 @@ export const contracts = {
     abi: ConverterRegistryABI,
     blockNumber: 1218799,
   },
-  WRBTC_token: {
+  RBTC_token: {
     address: '0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab',
     abi: abiTestWBRTCToken,
     blockNumber: 1205599,
   },
-  RBTC_token: {
+  WRBTC_token: {
+    // keep this after RBTC_token to prevent issues with RBTC tx's being picked up as WRBTC
     address: '0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab',
     abi: abiTestWBRTCToken,
     blockNumber: 1205599,

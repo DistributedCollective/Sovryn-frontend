@@ -1179,6 +1179,8 @@
     "title": "Fechar posição",
     "withdrawIn": "Ativo:",
     "amountToClose": "Quantidade:",
+    "withdrawAmount": "Você vai receber:",
+    "simulationFailed": "A transação não vai fechar: {{error}}",
     "liquidity": {
       "line_1": "Liquidez muito baixa para fechar a posição.",
       "line_2": "Tente resgatar usando outro ativo ou aguarde até alguém realizar arbitragem para rebalancear o sistema."
@@ -1432,6 +1434,7 @@
       "maintananceMargin": "Margem de manutenção:",
       "liquidationPrice": "Preço estimado de liquidação:",
       "entryPrice": "Preço aproximado de entrada:",
+      "estimationErrorNote": "A posição de abertura irá falhar: {{error}}",
       "position": {
         "long": "Comprado",
         "short": "Vendido"
