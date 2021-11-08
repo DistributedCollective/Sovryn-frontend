@@ -194,6 +194,7 @@ export function BuyForm() {
         amount={rateByPath}
         value={slippage}
         onChange={value => setSlippage(value)}
+        dataActionId="buySov-"
       />
 
       <TxDialog tx={tx} />

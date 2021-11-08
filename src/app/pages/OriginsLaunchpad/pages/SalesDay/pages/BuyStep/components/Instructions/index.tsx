@@ -1,14 +1,9 @@
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import {
-  InstructionsSectionsWrapper,
-  InstructionsTitle,
-  MainInstructionsWrapper,
-} from './styled';
-import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
-import { Asset } from 'types';
-import imgInstructions from 'assets/images/OriginsLaunchpad/FishSale/small_NFT.svg';
+import imgInstructions from 'assets/origins_launchpad/MYNT_NFT_small.png';
+import { discordInvite } from 'utils/classifiers';
+import styles from './index.module.scss';
 
 interface IInstructionsProps {
   saleName: string;
@@ -18,12 +13,12 @@ export const Instructions: React.FC<IInstructionsProps> = ({ saleName }) => {
   const { t } = useTranslation();
 
   return (
-    <InstructionsSectionsWrapper>
-      <InstructionsTitle>
+    <div className={styles.instructionsSectionsWrapper}>
+      <div className={styles.instructionsTitle}>
         {t(translations.originsLaunchpad.saleDay.buyStep.instructions.title)}:
-      </InstructionsTitle>
+      </div>
 
-      <MainInstructionsWrapper>
+      <div className={styles.mainInstructionsWrapper}>
         <div>
           •{' '}
           <Trans
@@ -31,7 +26,6 @@ export const Instructions: React.FC<IInstructionsProps> = ({ saleName }) => {
               translations.originsLaunchpad.saleDay.buyStep.instructions
                 .instruction1
             }
-            components={[<AssetSymbolRenderer asset={Asset.RBTC} />]}
             tOptions={{ token: saleName }}
           />
         </div>
@@ -51,20 +45,20 @@ export const Instructions: React.FC<IInstructionsProps> = ({ saleName }) => {
                 .discordSupport
             }
             components={[
-              <a
-                href="http://discord.com/invite/J22WS6z"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
+              <a href={discordInvite} target="_blank" rel="noopener noreferrer">
                 x
               </a>,
             ]}
-            tOptions={{ discordUrl: 'discord.com/invite/J22WS6z' }}
+            tOptions={{ discordUrl: discordInvite }}
           />
         </div>
-      </MainInstructionsWrapper>
+      </div>
 
-      <img src={imgInstructions} alt="instructions" />
-    </InstructionsSectionsWrapper>
+      <img
+        src={imgInstructions}
+        alt="instructions"
+        className="tw-border-solid tw-border-4 tw-rounded tw-border-gray-9"
+      />
+    </div>
   );
 };
