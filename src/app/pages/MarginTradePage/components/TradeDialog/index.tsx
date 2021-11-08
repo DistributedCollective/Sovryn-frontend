@@ -10,11 +10,17 @@ import { FormGroup } from 'app/components/Form/FormGroup';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
 import { Slider } from 'app/components/Form/Slider';
 import { useMaintenance } from 'app/hooks/useMaintenance';
-import { discordInvite } from 'utils/classifiers';
+import {
+  discordInvite,
+  MAINTENANCE_MARGIN,
+  TRADE_LOG_SIGNATURE_HASH,
+  useTenderlySimulator,
+} from 'utils/classifiers';
 
 import { translations } from '../../../../../locales/i18n';
 import { Asset } from '../../../../../types';
 import {
+  getContract,
   getLendingContractName,
   getTokenContract,
 } from '../../../../../utils/blockchain/contract-helpers';
@@ -31,15 +37,97 @@ import { Dialog } from '../../../../containers/Dialog';
 import { useApproveAndTrade } from '../../../../hooks/trading/useApproveAndTrade';
 import { useTrading_resolvePairTokens } from '../../../../hooks/trading/useTrading_resolvePairTokens';
 import { useAccount } from '../../../../hooks/useAccount';
-import { LiquidationPrice } from '../LiquidationPrice';
 import { TxFeeCalculator } from '../TxFeeCalculator';
 import { TradingPosition } from 'types/trading-position';
 import { useGetEstimatedMarginDetails } from '../../../../hooks/trading/useGetEstimatedMarginDetails';
 import { selectMarginTradePage } from '../../selectors';
 import { actions } from '../../slice';
 import { PricePrediction } from '../../../../containers/MarginTradeForm/PricePrediction';
+import { useSimulator } from '../../../../hooks/simulator/useSimulator';
+import {
+  SimulationStatus,
+  useFilterSimulatorResponseLogs,
+} from '../../../../hooks/simulator/useFilterSimulatorResponseLogs';
+import { DummyInput } from '../../../../components/Form/Input';
+import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
+import { bignumber } from 'mathjs';
+import { TradeEventData } from '../../../../../types/active-loan';
+import { usePositionLiquidationPrice } from '../../../../hooks/trading/usePositionLiquidationPrice';
 
-const maintenanceMargin = 15000000000000000000;
+const TradeLogInputs = [
+  {
+    indexed: true,
+    internalType: 'address',
+    name: 'user',
+    type: 'address',
+  },
+  {
+    indexed: true,
+    internalType: 'address',
+    name: 'lender',
+    type: 'address',
+  },
+  {
+    indexed: true,
+    internalType: 'bytes32',
+    name: 'loanId',
+    type: 'bytes32',
+  },
+  {
+    indexed: false,
+    internalType: 'address',
+    name: 'collateralToken',
+    type: 'address',
+  },
+  {
+    indexed: false,
+    internalType: 'address',
+    name: 'loanToken',
+    type: 'address',
+  },
+  {
+    indexed: false,
+    internalType: 'uint256',
+    name: 'positionSize',
+    type: 'uint256',
+  },
+  {
+    indexed: false,
+    internalType: 'uint256',
+    name: 'borrowedAmount',
+    type: 'uint256',
+  },
+  {
+    indexed: false,
+    internalType: 'uint256',
+    name: 'interestRate',
+    type: 'uint256',
+  },
+  {
+    indexed: false,
+    internalType: 'uint256',
+    name: 'settlementDate',
+    type: 'uint256',
+  },
+  {
+    indexed: false,
+    internalType: 'uint256',
+    name: 'entryPrice',
+    type: 'uint256',
+  },
+  {
+    indexed: false,
+    internalType: 'uint256',
+    name: 'entryLeverage',
+    type: 'uint256',
+  },
+  {
+    indexed: false,
+    internalType: 'uint256',
+    name: 'currentLeverage',
+    type: 'uint256',
+  },
+];
 
 export function TradeDialog() {
   const { t } = useTranslation();
@@ -106,6 +194,49 @@ export function TradeDialog() {
     value: collateral === Asset.RBTC ? amount : '0',
   };
 
+  const simulator = useFilterSimulatorResponseLogs<TradeEventData>(
+    useSimulator(
+      contractName,
+      'marginTrade',
+      txArgs,
+      collateral === Asset.RBTC ? amount : '0',
+      amount !== '0' && !!contractName && !!position,
+      collateral !== Asset.WRBTC && contractName && position
+        ? {
+            asset: collateral,
+            spender: getContract(contractName).address,
+            amount,
+          }
+        : undefined,
+    ),
+    TRADE_LOG_SIGNATURE_HASH,
+    TradeLogInputs,
+  );
+
+  const { entryPrice, positionSize, borrowedAmount } = useMemo(() => {
+    const log: TradeEventData | undefined = simulator.logs.shift()?.decoded;
+    const price = log?.entryPrice || '0';
+    const entryPrice =
+      position === TradingPosition.LONG
+        ? bignumber(1)
+            .div(price)
+            .mul(10 ** 36)
+            .toFixed(0)
+        : price;
+    return {
+      entryPrice,
+      positionSize: log?.positionSize || '0',
+      borrowedAmount: log?.borrowedAmount || '0',
+    };
+  }, [simulator.logs, position]);
+
+  const liquidationPrice = usePositionLiquidationPrice(
+    borrowedAmount,
+    positionSize,
+    position,
+    MAINTENANCE_MARGIN,
+  );
+
   return (
     <>
       <Dialog
@@ -150,24 +281,28 @@ export function TradeDialog() {
               label={t(
                 translations.marginTradePage.tradeDialog.maintananceMargin,
               )}
-              value={<>{weiToNumberFormat(maintenanceMargin)}%</>}
+              value={<>{weiToNumberFormat(MAINTENANCE_MARGIN)}%</>}
             />
-            <LabelValuePair
-              label={t(
-                translations.marginTradePage.tradeDialog.liquidationPrice,
-              )}
-              value={
-                <>
-                  <LiquidationPrice
-                    asset={pair.shortAsset}
-                    assetLong={pair.longAsset}
-                    leverage={leverage}
-                    position={position}
-                  />{' '}
-                  {pair.longDetails.symbol}
-                </>
-              }
-            />
+            {useTenderlySimulator && (
+              <LabelValuePair
+                label={t(
+                  translations.marginTradePage.tradeDialog.liquidationPrice,
+                )}
+                value={
+                  <>
+                    <LoadableValue
+                      loading={simulator.status === SimulationStatus.PENDING}
+                      value={
+                        <>
+                          {toNumberFormat(liquidationPrice, 4)}{' '}
+                          {pair.longDetails.symbol}
+                        </>
+                      }
+                    />
+                  </>
+                }
+              />
+            )}
           </div>
 
           <FormGroup
@@ -189,19 +324,32 @@ export function TradeDialog() {
             label={t(translations.marginTradePage.tradeDialog.entryPrice)}
             className="tw-mt-8"
           >
-            <div className="tw-input-wrapper readonly">
-              <div className="tw-input">
-                <PricePrediction
-                  position={position}
-                  leverage={leverage}
-                  loanToken={loanToken}
-                  collateralToken={collateralToken}
-                  useLoanTokens={useLoanTokens}
-                  weiAmount={amount}
-                />
+            {useTenderlySimulator ? (
+              <DummyInput
+                value={
+                  <LoadableValue
+                    loading={simulator.status === SimulationStatus.PENDING}
+                    value={weiToNumberFormat(entryPrice, 6)}
+                    tooltip={weiToNumberFormat(entryPrice, 18)}
+                  />
+                }
+                appendElem={<AssetSymbolRenderer asset={pair.longAsset} />}
+              />
+            ) : (
+              <div className="tw-input-wrapper readonly">
+                <div className="tw-input">
+                  <PricePrediction
+                    position={position}
+                    leverage={leverage}
+                    loanToken={loanToken}
+                    collateralToken={collateralToken}
+                    useLoanTokens={useLoanTokens}
+                    weiAmount={amount}
+                  />
+                </div>
+                <div className="tw-input-append">{pair.longDetails.symbol}</div>
               </div>
-              <div className="tw-input-append">{pair.longDetails.symbol}</div>
-            </div>
+            )}
           </FormGroup>
           <TxFeeCalculator
             args={txArgs}
@@ -231,11 +379,16 @@ export function TradeDialog() {
               />
             )}
 
-            <ErrorBadge
-              content={t(
-                translations.marginTradePage.tradeDialog.estimationErrorNote,
+            {useTenderlySimulator &&
+              simulator.status === SimulationStatus.FAILED && (
+                <ErrorBadge
+                  content={t(
+                    translations.marginTradePage.tradeDialog
+                      .estimationErrorNote,
+                    { error: simulator.error },
+                  )}
+                />
               )}
-            />
           </div>
 
           <DialogButton

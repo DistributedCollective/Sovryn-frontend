@@ -3,11 +3,9 @@
  * AddToMarginDialog
  *
  */
-import React, { useState } from 'react';
-import { useTranslation, Trans } from 'react-i18next';
+import React, { useMemo, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { TradingPosition } from '../../../../../types/trading-position';
-import { leverageFromMargin } from '../../../../../utils/blockchain/leverage-from-start-margin';
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
 import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading-pair-dictionary';
 import { TxDialog } from '../../../../components/Dialogs/TxDialog';
@@ -19,14 +17,18 @@ import { useCanInteract } from '../../../../hooks/useCanInteract';
 import { useIsAmountWithinLimits } from '../../../../hooks/useIsAmountWithinLimits';
 import { useMaintenance } from '../../../../hooks/useMaintenance';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
-import { LiquidationPrice } from '../LiquidationPrice';
 import { TxFeeCalculator } from '../TxFeeCalculator';
 import { AmountInput } from 'app/components/Form/AmountInput';
 import { FormGroup } from 'app/components/Form/FormGroup';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import type { ActiveLoan } from 'types/active-loan';
+import { ActiveLoan } from 'types/active-loan';
 import { discordInvite } from 'utils/classifiers';
+import { bignumber } from 'mathjs';
+import { AssetRenderer } from '../../../../components/AssetRenderer';
+import { formatNumber } from '../../../../containers/StatsPage/utils';
+import { usePositionLiquidationPrice } from '../../../../hooks/trading/usePositionLiquidationPrice';
+import { TradingPosition } from '../../../../../types/trading-position';
 
 interface Props {
   item: ActiveLoan;
@@ -68,6 +70,18 @@ export function AddToMarginDialog(props: Props) {
     tokenDetails.asset,
   );
 
+  const isLong = useMemo(() => loanToken.asset === pair.longAsset, [
+    loanToken.asset,
+    pair.longAsset,
+  ]);
+
+  const liquidationPrice = usePositionLiquidationPrice(
+    props.item.principal,
+    bignumber(props.item.collateral).add(weiAmount).toString(),
+    isLong ? TradingPosition.LONG : TradingPosition.SHORT,
+    props.item.maintenanceMargin,
+  );
+
   return (
     <>
       <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
@@ -75,7 +89,6 @@ export function AddToMarginDialog(props: Props) {
           <h1 className="tw-mb-6 tw-text-sov-white tw-text-center">
             {t(translations.addToMargin.title)}
           </h1>
-
           <FormGroup
             label={t(translations.addToMargin.amount)}
             className="tw-mb-12"
@@ -86,30 +99,17 @@ export function AddToMarginDialog(props: Props) {
               asset={tokenDetails.asset}
             />
           </FormGroup>
-
           <FormGroup label={t(translations.addToMargin.liquidationPrice)}>
             <DummyField>
-              {props.liquidationPrice || (
-                <LiquidationPrice
-                  asset={pair.shortAsset}
-                  assetLong={pair.longAsset}
-                  leverage={leverageFromMargin(props.item.startMargin)}
-                  position={
-                    loanToken.asset === pair.longAsset
-                      ? TradingPosition.LONG
-                      : TradingPosition.SHORT
-                  }
-                />
-              )}
+              {formatNumber(Number(liquidationPrice), 4)}&nbsp;&nbsp;
+              <AssetRenderer asset={pair.longDetails.asset} />
             </DummyField>
           </FormGroup>
-
           <TxFeeCalculator
             args={[props.item.loanId, weiAmount]}
             methodName="depositCollateral"
             contractName="sovrynProtocol"
           />
-
           {topupLocked && (
             <ErrorBadge
               content={
