@@ -26,7 +26,6 @@ import {
   getMaximalTradeSizeInPerpetual,
   getRequiredMarginCollateral,
   getTradingFee,
-  getTraderLeverage,
   calculateLeverageForPosition,
   calculateApproxLiquidationPrice,
 } from '../../utils/perpUtils';

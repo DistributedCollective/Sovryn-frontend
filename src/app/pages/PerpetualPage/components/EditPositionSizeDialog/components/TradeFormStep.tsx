@@ -20,6 +20,7 @@ export const TradeFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
 
   const onSubmit = useCallback(
     () =>
+      // TODO: implement review and excecution for EditPositionSizeDialog
       dispatch(
         actions.setModal(PerpetualPageModals.TRADE_REVIEW, changedTrade),
       ),

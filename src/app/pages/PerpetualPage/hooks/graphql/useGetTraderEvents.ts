@@ -8,7 +8,6 @@ import { useQuery, gql } from '@apollo/client';
 import { DocumentNode } from 'graphql';
 
 export function useGetTraderEvents(event: Event[], user: string) {
-  console.debug('Getting events tab');
   const SUBGRAPH_QUERY = generateQuery(event, user);
   const query = useQuery(SUBGRAPH_QUERY);
   return query;
