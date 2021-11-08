@@ -347,12 +347,12 @@ export const contracts = {
   MYNT_ctrl: {
     address: '0xB576658700D32CCE28552349bCD52FaD8173ae32',
     abi: MYNTControllerAbi,
-    blockNumber: 2267574,
+    blockNumber: 3832084,
   },
   MYNT_token: {
     address: '0x2e6B1d146064613E8f521Eb3c6e65070af964EbB',
     abi: MYNTTokenAbi,
-    blockNumber: 2267574,
+    blockNumber: 3832084,
   },
   MYNTPresale: {
     address: '0xC3d646Ab4e1bE05eFb4Afaedf5Ae656Ff5AE4959',
