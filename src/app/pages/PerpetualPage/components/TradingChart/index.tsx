@@ -37,7 +37,7 @@ export function TradingChart(props: ChartContainerProps) {
     try {
       // full list of widget config options here: https://github.com/tradingview/charting_library/wiki/Widget-Constructor/cf26598509d8bba6dc95c5fe8208caa5e8474827
       const widgetOptions: any = {
-        debug: true,
+        debug: false,
         symbol: props.symbol,
         datafeed: Datafeed,
         save_load_adapter: Storage,

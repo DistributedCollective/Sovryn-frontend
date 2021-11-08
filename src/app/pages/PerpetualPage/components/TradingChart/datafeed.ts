@@ -65,7 +65,7 @@ const tradingChartDataFeeds = {
       supported_resolution: supportedResolutions,
       has_no_volume: true,
       has_empty_bars: true,
-      has_daily: false,
+      has_daily: true,
       has_weekly_and_monthly: false,
       data_status: 'streaming',
     };

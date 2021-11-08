@@ -19,7 +19,7 @@ import {
 import { symbolMap } from './helpers';
 
 // const WebSocket = require('ws');
-const url = 'ws://localhost:8080';
+// const url = 'ws://localhost:8080';
 
 // TODO: Change subscription ID to perpID + candleDuration
 
@@ -28,8 +28,8 @@ const address = '0xB59bdf071508B8D1f4Bb76f18CAB01eA96E1Fa4E'.toLowerCase();
 const tradeTopic =
   '0x07e349dbc09d1f39e3df0bcb7c5cac53d0020e2da13badb5cd6fa4450801a7f7';
 
-// const subscription = bscSubscription(address, [tradeTopic], 13762379);
-const subscription = new WebSocket(url);
+const subscription = bscSubscription(address, [tradeTopic]);
+// const subscription = new WebSocket(url);
 
 type SubItem = {
   symbolInfo: any;
@@ -52,24 +52,22 @@ function getNextDailyBarTime(barTime) {
   return date.getTime() / 1000;
 }
 
-subscription.onopen = () => {
+subscription.on('connected', () => {
   console.log('web3 socket for perp swaps is connected');
-};
+});
 
-subscription.onmessage = message => {
-  console.log(message);
-  const data = JSON.parse(message.data);
+subscription.on('data', data => {
   const decoded = decodeLogs(data.data, [data.topics[1]]);
   console.log('[socket] Message:', decoded);
   const tradePrice = parseFloat(weiTo2(decoded.price));
-  const tradeTime = new Date().getTime(); //parseInt(decoded.blockTimestamp);
+  const tradeTime = parseInt(decoded.blockTimestamp) * 1e3;
   const channelString = Object.keys(symbolMap).find(
     item => symbolMap[item].toLowerCase() === decoded.perpetualId.toLowerCase(),
   );
   try {
     if (channelString) {
       const subscriptionItem = channelToSubscription.get(channelString);
-      console.log('[socket] Subscription item', subscriptionItem);
+      console.debug('[socket] Subscription item', subscriptionItem);
       if (subscriptionItem === undefined || !subscriptionItem.lastBar) {
         return;
       }
@@ -85,7 +83,7 @@ subscription.onmessage = message => {
           close: tradePrice,
           time: new Date().getTime(),
         };
-        console.log('[socket] Generate new bar', bar);
+        console.debug('[socket] Generate new bar', bar);
       } else {
         bar = {
           ...lastBar,
@@ -98,17 +96,17 @@ subscription.onmessage = message => {
       subscriptionItem.lastBar = bar;
 
       // send data to every subscriber of that symbol
-      console.log('[socket] New subscriptionItem', subscriptionItem);
+      // console.log('[socket] New subscriptionItem', subscriptionItem);
       subscriptionItem.subHandlers.forEach(handler => handler.callback(bar));
     }
   } catch (e) {
     console.error(e);
   }
-};
-// subscription.on('changed', changed => console.log(changed));
-subscription.onerror = err => {
+});
+subscription.on('changed', changed => console.log(changed));
+subscription.on('error', err => {
   console.error(err);
-};
+});
 
 export function subscribeOnStream(
   symbolInfo,
@@ -138,9 +136,9 @@ export function subscribeOnStream(
     lastBar: lastBar,
     subHandlers: [handler],
   };
-  console.log('[subscribeBars]: subItem', subscriptionItem);
+  console.debug('[subscribeBars]: subItem', subscriptionItem);
   channelToSubscription.set(channelString, subscriptionItem);
-  console.log(
+  console.debug(
     '[subscribeBars]: channelToSubscription after add',
     channelToSubscription.entries(),
   );
@@ -148,7 +146,6 @@ export function subscribeOnStream(
 
 export function unsubscribeFromStream(subscriberUID) {
   // find a subscription with id === subscriberUID
-  console.log('unsubscribe from stream placeholder');
   for (const index in channelToSubscription.keys()) {
     const channelString = channelToSubscription.keys()[index];
     const subscriptionItem = channelToSubscription.get(channelString);

@@ -33,8 +33,6 @@ import { usePerpetual_accountBalance } from './hooks/usePerpetual_accountBalance
 import { AccountDialog } from './components/AccountDialog';
 import { NewPositionCard } from './components/NewPositionCard';
 import { TradeReviewDialog } from './components/TradeReviewDialog';
-import { TestHistory } from './components/TestHistory';
-import { TestCandles } from './components/TestCandles';
 import { EditPositionSizeDialog } from './components/EditPositionSizeDialog';
 
 export function PerpetualPage() {
@@ -175,10 +173,6 @@ export function PerpetualPage() {
         <button className="tw-block" onClick={onWithdrawClick}>
           Withdraw 20 margin tokens
         </button> */}
-
-        {/* <TestCandles />
-
-        <TestHistory /> */}
 
         {connected && (
           <>
