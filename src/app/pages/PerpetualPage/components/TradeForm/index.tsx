@@ -17,11 +17,21 @@ import { PerpetualTrade, PerpetualTradeType } from '../../types';
 import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
 import { Input } from '../../../../components/Input';
 import { fromWei, toWei } from 'web3-utils';
-import { Tooltip } from '@blueprintjs/core';
-import { bignumber } from 'mathjs';
+import { PopoverPosition, Tooltip } from '@blueprintjs/core';
 import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
 import { LeverageViewer } from '../LeverageViewer';
+import {
+  getIndexPrice,
+  getMaximalTradeSizeInPerpetual,
+  getRequiredMarginCollateral,
+  getTradingFee,
+  shrinkToLot,
+} from '../../temporaryUtils';
+import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
+import { usePerpetual_queryPerpParameters } from '../../hooks/usePerpetual_queryPerpParameters';
+import { usePerpetual_marginAccountBalance } from '../../hooks/usePerpetual_marginAccountBalance';
+import { getTradeDirection } from '../../utils';
 
 interface ITradeFormProps {
   trade: PerpetualTrade;
@@ -30,9 +40,6 @@ interface ITradeFormProps {
   onSubmit: () => void;
   onOpenSlippage: () => void;
 }
-
-const STEP_SIZE = 0.002;
-const STEP_PRECISION = 3;
 
 export const TradeForm: React.FC<ITradeFormProps> = ({
   trade,
@@ -44,18 +51,48 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
   const inMaintenance = checkMaintenance(States.PERPETUAL_TRADES);
+  const ammState = usePerpetual_queryAmmState();
+  const perpParameters = usePerpetual_queryPerpParameters();
+  const marginAccountBalance = usePerpetual_marginAccountBalance();
+
+  const [lotSize, lotPrecision] = useMemo(() => {
+    const lotSize = Number(perpParameters.fLotSizeBC.toPrecision(8));
+    const lotPrecision = lotSize.toString().split(/[,.]/)[1]?.length || 0;
+
+    return [lotSize, lotPrecision];
+  }, [perpParameters.fLotSizeBC]);
+
+  const maxTradeSize = useMemo(
+    () =>
+      Number(
+        Math.abs(
+          getMaximalTradeSizeInPerpetual(
+            marginAccountBalance.fPositionBC,
+            getTradeDirection(trade.position),
+            ammState,
+            perpParameters,
+          ),
+        ).toPrecision(8),
+      ),
+    [
+      marginAccountBalance.fPositionBC,
+      trade.position,
+      ammState,
+      perpParameters,
+    ],
+  );
 
   const [amount, setAmount] = useState(fromWei(trade.amount));
   const onChangeOrderAmount = useCallback(
     (amount: string) => {
-      const roundedAmount = bignumber(amount || '0')
-        .dividedBy(STEP_SIZE)
-        .round()
-        .mul(STEP_SIZE);
+      const roundedAmount = shrinkToLot(
+        Math.max(Math.min(Number(amount) || 0, maxTradeSize), 0),
+        lotSize,
+      );
       setAmount(amount);
       onChange({ ...trade, amount: toWei(roundedAmount.toString()) });
     },
-    [onChange, trade],
+    [onChange, trade, lotSize, maxTradeSize],
   );
   const onBlurOrderAmount = useCallback(() => {
     setAmount(fromWei(trade.amount));
@@ -103,39 +140,27 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     return i18nKey && t(i18nKey);
   }, [t, trade.position, trade.tradeType]);
 
-  const price = useMemo(() => {
-    // TODO implement price calculation
-    return 1337.1337;
-  }, []);
+  const orderCost = useMemo(
+    () =>
+      getRequiredMarginCollateral(
+        trade.leverage,
+        marginAccountBalance.fPositionBC,
+        Number(trade.amount),
+        perpParameters,
+      ),
+    [marginAccountBalance.fPositionBC, perpParameters, trade],
+  );
 
-  const orderCost = useMemo(() => {
-    // TODO implement orderCost calculation
-    return 0.1337;
-  }, []);
+  const tradingFee = useMemo(
+    () => getTradingFee(Number(trade.amount), perpParameters),
+    [perpParameters, trade.amount],
+  );
 
-  const tradingFee = useMemo(() => {
-    // TODO implement tradingFee calculation
-    return 0.1337;
-  }, []);
+  const indexPrice = useMemo(() => getIndexPrice(ammState), [ammState]);
 
   const liquidationPrice = useMemo(() => {
     // TODO implement liquidationPrice calculation
     return 1337.1337;
-  }, []);
-
-  const maxTradeSize = useMemo(() => {
-    // TODO implement maxTradeSize calculation
-    return 1337;
-  }, []);
-
-  const minLeverage = useMemo(() => {
-    // TODO implement minLeverage calculation
-    return 0.1;
-  }, []);
-
-  const maxLeverage = useMemo(() => {
-    // TODO implement maxLeverage calculation
-    return 15;
   }, []);
 
   return (
@@ -175,7 +200,13 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         >
           {t(translations.perpetualPage.tradeForm.buttons.market)}
         </button>
-        <Tooltip content={t(translations.common.comingSoon)}>
+        <Tooltip
+          hoverOpenDelay={0}
+          hoverCloseDelay={0}
+          interactionKind="hover"
+          position={PopoverPosition.BOTTOM_LEFT}
+          content={t(translations.common.comingSoon)}
+        >
           <button
             className="tw-h-8 tw-px-3 tw-py-1 tw-font-semibold tw-text-sm tw-text-sov-white tw-bg-gray-7 tw-rounded-lg tw-opacity-25 tw-cursor-not-allowed"
             disabled
@@ -207,8 +238,9 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           className="tw-w-2/5"
           type="number"
           value={amount}
-          step={STEP_SIZE}
+          step={lotSize}
           min={0}
+          max={maxTradeSize}
           onChange={onChangeOrderAmount}
           onBlur={onBlurOrderAmount}
         />
@@ -242,7 +274,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           minDecimals={4}
           maxDecimals={4}
           mode={AssetValueMode.auto}
-          value={orderCost}
+          value={String(orderCost)}
           assetString={pair.shortAsset}
         />
       </div>
@@ -252,9 +284,9 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         </label>
         <AssetValue
           minDecimals={4}
-          maxDecimals={4}
+          maxDecimals={6}
           mode={AssetValueMode.auto}
-          value={tradingFee}
+          value={String(tradingFee)}
           assetString={pair.shortAsset}
         />
       </div>
@@ -262,9 +294,9 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         <LeverageSelector
           className="tw-mb-2"
           value={trade.leverage}
-          min={minLeverage}
-          max={maxLeverage}
-          steps={[1, 2, 3, 5, 10, 15]}
+          min={pair.config.leverage.min}
+          max={pair.config.leverage.max}
+          steps={pair.config.leverage.steps}
           onChange={onChangeLeverage}
         />
       )}
@@ -283,8 +315,8 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           <LeverageViewer
             className="tw-mt-3 tw-mb-4"
             label={t(translations.perpetualPage.tradeForm.labels.leverage)}
-            min={minLeverage}
-            max={maxLeverage}
+            min={pair.config.leverage.min}
+            max={pair.config.leverage.max}
             value={trade.leverage}
             valueLabel={`${toNumberFormat(trade.leverage, 2)}x`}
           />
@@ -316,9 +348,9 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           >
             <span className="tw-mr-2">{tradeButtonLabel}</span>
             <span>
-              {weiToNumberFormat(trade.amount, STEP_PRECISION)}
+              {weiToNumberFormat(trade.amount, lotPrecision)}
               {` @ ${trade.position === TradingPosition.LONG ? '≥' : '≤'} `}
-              {weiToNumberFormat(price, 2)}
+              {toNumberFormat(indexPrice, 2)}
             </span>
           </button>
         ) : (

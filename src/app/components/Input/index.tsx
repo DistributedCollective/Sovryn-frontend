@@ -58,7 +58,7 @@ export const Input: React.FC<InputProps> = ({
         onChange={onChangeWrapper}
         {...rest}
       />
-      {type === 'number' && step && (
+      {type === 'number' && step ? (
         <>
           <button
             className={classNames(styles.stepButton, styles.up)}
@@ -73,7 +73,7 @@ export const Input: React.FC<InputProps> = ({
             <span />
           </button>
         </>
-      )}
+      ) : null}
     </div>
   );
 };

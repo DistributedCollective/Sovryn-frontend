@@ -1,0 +1,51 @@
+import { bridgeNetwork } from 'app/pages/BridgeDepositPage/utils/bridge-network';
+import { Chain } from 'types';
+import { getContract } from 'utils/blockchain/contract-helpers';
+import { AMMState } from '../temporaryUtils';
+import { ABK64x64ToFloat, PERPETUAL_ID } from '../utils';
+import perpetualManagerAbi from 'utils/blockchain/abi/PerpetualManager.json';
+import { useEffect, useState } from 'react';
+
+const initialAmmState: AMMState = {
+  L1: 0,
+  K2: 0,
+  M1: 0,
+  M2: 0,
+  M3: 0,
+  fCurrentTraderExposureEMA: 0,
+  indexS2PriceData: 0,
+  indexS3PriceData: 0,
+  currentPremiumEMA: 0,
+  currentPremium: 0,
+};
+
+export const usePerpetual_queryAmmState = (): AMMState => {
+  const [ammState, setAmmState] = useState(initialAmmState);
+
+  useEffect(() => {
+    bridgeNetwork
+      .call(
+        Chain.BSC,
+        getContract('perpetualManager').address,
+        perpetualManagerAbi,
+        'getAMMState',
+        [PERPETUAL_ID],
+      )
+      .then(result => setAmmState(parseAmmState(result)));
+  }, []);
+
+  return ammState;
+};
+
+const parseAmmState = (response: any): AMMState => ({
+  L1: ABK64x64ToFloat(response[0]),
+  K2: ABK64x64ToFloat(response[1]),
+  M1: ABK64x64ToFloat(response[2]),
+  M2: ABK64x64ToFloat(response[3]),
+  M3: ABK64x64ToFloat(response[4]),
+  fCurrentTraderExposureEMA: ABK64x64ToFloat(response[5]),
+  indexS2PriceData: ABK64x64ToFloat(response[6]),
+  indexS3PriceData: ABK64x64ToFloat(response[7]),
+  currentPremiumEMA: ABK64x64ToFloat(response[8]),
+  currentPremium: ABK64x64ToFloat(response[9]),
+});

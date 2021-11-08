@@ -1,6 +1,9 @@
 import type { ReactNode } from 'react';
 import type { Asset } from 'types/asset';
-import type { PerpetualPairType } from '../dictionaries/perpetual-pair-dictionary';
+import type {
+  PerpetualPairType,
+  PerpetualPairConfig,
+} from '../dictionaries/perpetual-pair-dictionary';
 import { TradingPosition } from '../../types/trading-position';
 
 export class PerpetualPair {
@@ -11,6 +14,7 @@ export class PerpetualPair {
     public readonly longAsset: string,
     public readonly shortAsset: string,
     public readonly collaterals: Asset[],
+    public readonly config: PerpetualPairConfig,
     public readonly deprecated: boolean = false,
   ) {}
 
