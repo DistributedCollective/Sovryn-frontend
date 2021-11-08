@@ -27,6 +27,7 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
   const items = data ? [data] : [];
 
   const isEmpty = !loading && !items.length && !transactions.length;
+  const showLoading = loading && !items.length && !transactions.length;
 
   const onPageChanged = data => {
     setPage(data.currentPage);
@@ -95,7 +96,7 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
           )}
           {onGoingTransactions}
 
-          {loading && (
+          {showLoading && (
             <tr>
               <td colSpan={99}>
                 <SkeletonRow />
@@ -103,7 +104,7 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
             </tr>
           )}
 
-          {items?.map(item => (
+          {items.map(item => (
             <OpenPositionRow key={item.id} item={item} />
           ))}
         </tbody>
