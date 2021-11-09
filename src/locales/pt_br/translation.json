@@ -467,6 +467,8 @@
       "lend": "Contrato de empréstimo",
       "amm": "Contrato Amm",
       "staked": "Contrato Bitocracia",
+      "subProtocol": "Subprotocolos",
+      "subtotal": "Sub total",
       "total": "Total"
     },
     "ammpool": {
@@ -553,7 +555,7 @@
       "hash": "ID transação",
       "totalStaked": "Total investido",
       "viewHistory": "Ver histórico",
-      "status": "Status",
+      "status": "Status da transação",
       "actions": {
         "stake": "Novo investimento",
         "unstake": "Sacar investimento",
@@ -924,7 +926,7 @@
         "amount": "Valor transacionado",
         "fee": "Taxa",
         "initiated": "Iniciado",
-        "status": "Status",
+        "status": "Status da transação",
         "estimated": "Tempo estimado"
       }
     }
@@ -1037,7 +1039,7 @@
       "amountSent": "Quantidade enviada",
       "to": "Para",
       "amountReceived": "Quantidade recebida",
-      "status": "Status"
+      "status": "Status da transação"
     },
     "emptyState": "Histórico vázio."
   },
@@ -1048,7 +1050,7 @@
       "vestingSchedule": "Tipo",
       "amount": "Quantidade",
       "hash": "ID transação",
-      "status": "Status"
+      "status": "Status da transação"
     }
   },
   "spotHistory": {
@@ -1060,7 +1062,7 @@
       "amountPaid": "Quantidade paga",
       "amountReceived": "Quantidade recebida",
       "transactionFee": "Taxa de transação",
-      "status": "Status"
+      "status": "Status da transação"
     },
     "emptyState": "Histórico vázio."
   },
@@ -1153,7 +1155,7 @@
         "asset": "Ativo",
         "lendingAmount": "Quantidade",
         "transactionHash": "ID transação",
-        "status": "Status"
+        "status": "Status da transação"
       }
     }
   },
@@ -1290,7 +1292,7 @@
     "buttonFiat": "Comprar rBTC",
     "transaction": {
       "title": "Detalhes da transação",
-      "status": "Status {{status}}",
+      "status": "Status da transação {{status}}",
       "from": "De:",
       "to": "Para:",
       "fee": "Taxa:",
@@ -1388,7 +1390,7 @@
         "type": "Tipo",
         "amount": "Quantidade",
         "transactionHash": "ID transação",
-        "status": "Status"
+        "status": "Status da transação"
       },
       "event": {
         "lendingReward": "Bônus de empréstimo",
@@ -1510,7 +1512,7 @@
         "asset": "Ativo",
         "liquidityAmount": "Quantidade",
         "transactionHash": "ID transação",
-        "status": "Status"
+        "status": "Status da transação"
       },
       "txType": {
         "added": "Adicionar liquidez",
@@ -1938,7 +1940,7 @@
       "sovAmount": "SOV Líquido ganho",
       "feesAmount": "Ganho",
       "hash": "ID transação",
-      "status": "Status"
+      "status": "Status da transação"
     },
     "tableEmpty": "Você ainda não indicou ninguém.",
     "referralFrom": "Indicação",
