@@ -22,12 +22,12 @@ import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
 import { LeverageViewer } from '../LeverageViewer';
 import {
-  getIndexPrice,
   getMaximalTradeSizeInPerpetual,
   getRequiredMarginCollateral,
   getTradingFee,
   calculateLeverageForPosition,
   calculateApproxLiquidationPrice,
+  getMidPrice,
 } from '../../utils/perpUtils';
 import { shrinkToLot } from '../../utils/perpMath';
 import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
@@ -167,7 +167,10 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     [perpParameters, trade.amount],
   );
 
-  const indexPrice = useMemo(() => getIndexPrice(ammState), [ammState]);
+  const midPrice = useMemo(() => getMidPrice(perpParameters, ammState), [
+    perpParameters,
+    ammState,
+  ]);
 
   const liquidationPrice = useMemo(
     () =>
@@ -373,7 +376,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
             <span>
               {weiToNumberFormat(trade.amount, lotPrecision)}
               {` @ ${trade.position === TradingPosition.LONG ? '≥' : '≤'} `}
-              {toNumberFormat(indexPrice, 2)}
+              {toNumberFormat(midPrice, 2)}
             </span>
           </button>
         ) : (

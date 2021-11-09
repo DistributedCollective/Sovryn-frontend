@@ -14,9 +14,15 @@ import styles from '../index.module.scss';
 import { usePerpetual_queryAmmState } from 'app/pages/PerpetualPage/hooks/usePerpetual_queryAmmState';
 import {
   calculateSlippagePrice,
-  getIndexPrice,
+  getMidPrice,
+  calculateApproxLiquidationPrice,
+  getRequiredMarginCollateral,
 } from 'app/pages/PerpetualPage/utils/perpUtils';
 import { getTradeDirection } from 'app/pages/PerpetualPage/utils/contractUtils';
+import { usePerpetual_queryPerpParameters } from '../../../hooks/usePerpetual_queryPerpParameters';
+import { fromWei } from 'web3-utils';
+import { usePerpetual_queryTraderState } from '../../../hooks/usePerpetual_queryTraderState';
+import { TradingPosition } from '../../../../../../types/trading-position';
 
 export const SlippageFormStep: TransitionStep<NewPositionCardStep> = ({
   changeTo,
@@ -24,7 +30,12 @@ export const SlippageFormStep: TransitionStep<NewPositionCardStep> = ({
   const { t } = useTranslation();
 
   const ammState = usePerpetual_queryAmmState();
-  const indexPrice = useMemo(() => getIndexPrice(ammState), [ammState]);
+  const perpParameters = usePerpetual_queryPerpParameters();
+  const traderState = usePerpetual_queryTraderState();
+  const midPrice = useMemo(() => getMidPrice(perpParameters, ammState), [
+    perpParameters,
+    ammState,
+  ]);
 
   const { trade, onChangeTrade } = useContext(NewPositionCardContext);
 
@@ -44,17 +55,36 @@ export const SlippageFormStep: TransitionStep<NewPositionCardStep> = ({
   const minEntryPrice = useMemo(
     () =>
       calculateSlippagePrice(
-        indexPrice,
+        midPrice,
         trade.slippage,
         getTradeDirection(trade.position),
       ),
-    [indexPrice, trade.position, trade.slippage],
+    [midPrice, trade.position, trade.slippage],
   );
 
   const minLiquidationPrice = useMemo(() => {
-    // TODO: implement minLiquidationPrice calculation
-    return 1337.1337;
-  }, []);
+    const amount =
+      Number(fromWei(trade.amount)) * getTradeDirection(trade.position);
+    const margin = getRequiredMarginCollateral(
+      trade.leverage,
+      traderState.marginAccountPositionBC,
+      amount,
+      perpParameters,
+    );
+    return calculateApproxLiquidationPrice(
+      amount,
+      margin,
+      ammState,
+      perpParameters,
+    );
+  }, [
+    trade.amount,
+    trade.position,
+    trade.leverage,
+    traderState.marginAccountPositionBC,
+    ammState,
+    perpParameters,
+  ]);
 
   return (
     <div>
@@ -75,7 +105,9 @@ export const SlippageFormStep: TransitionStep<NewPositionCardStep> = ({
       <SlippageForm slippage={trade.slippage} onChange={onChangeSlippage} />
       <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-mt-6 tw-mb-1 tw-text-xs tw-font-medium">
         <label>
-          {t(translations.perpetualPage.tradeForm.labels.minEntryPrice)}
+          {trade.position === TradingPosition.LONG
+            ? t(translations.perpetualPage.tradeForm.labels.maxEntryPrice)
+            : t(translations.perpetualPage.tradeForm.labels.minEntryPrice)}
         </label>
         <AssetValue
           className={styles.slippageValue}

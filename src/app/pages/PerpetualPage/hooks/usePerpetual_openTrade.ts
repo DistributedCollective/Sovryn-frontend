@@ -12,8 +12,8 @@ import {
 } from '../utils/contractUtils';
 import {
   calculateSlippagePrice,
-  getIndexPrice,
   getRequiredMarginCollateral,
+  getMidPrice,
 } from '../utils/perpUtils';
 import { usePerpetual_depositMarginToken } from './usePerpetual_depositMarginToken';
 import { usePerpetual_marginAccountBalance } from './usePerpetual_marginAccountBalance';
@@ -28,7 +28,10 @@ export const usePerpetual_openTrade = () => {
   const perpetualParameters = usePerpetual_queryPerpParameters();
   const ammState = usePerpetual_queryAmmState();
   const marginBalance = usePerpetual_marginAccountBalance();
-  const indexPrice = useMemo(() => getIndexPrice(ammState), [ammState]);
+  const midPrice = useMemo(() => getMidPrice(perpetualParameters, ammState), [
+    perpetualParameters,
+    ammState,
+  ]);
 
   const { deposit } = usePerpetual_depositMarginToken();
   const { send, ...rest } = useSendContractTx('perpetualManager', 'trade');
@@ -42,7 +45,7 @@ export const usePerpetual_openTrade = () => {
       tradingPosition: TradingPosition | undefined = TradingPosition.LONG,
     ) => {
       const limitPrice = calculateSlippagePrice(
-        indexPrice,
+        midPrice,
         slippage,
         getTradeDirection(tradingPosition),
       );

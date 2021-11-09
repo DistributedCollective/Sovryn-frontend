@@ -5,6 +5,8 @@ import {
   calculateLiquidationPriceCollateralQuote,
   calculateLiquidationPriceCollateralQuanto,
   calculateLiquidationPriceCollateralBase,
+  calcPerpPrice,
+  getPricesAndTradesForPercentRage,
 } from './perpMath';
 
 /*---
@@ -69,6 +71,18 @@ export type AMMState = {
   indexS3PriceData: number;
   currentPremiumEMA: number;
   currentPremium: number;
+};
+
+export type LiqPoolState = {
+  fPnLparticipantsCashCC: number; // current P&L participants cash
+  fAMMFundCashCC: number; // current sum of AMM funds cash
+  fDefaultFundCashCC: number; // current default fund size
+  iPriceUpdateTimeSec: number; // timestamp from block.timestamp
+  fTargetAMMFundSize: number; //target AMM pool size for all perpetuals in pool (sum)
+  fTargetDFSize: number; //target default fund size for all perpetuals in pool
+  iLastTargetPoolSizeTime: number; //timestamp (seconds) since last update of fTargetDFSize and fTargetAMMFundSize
+  iLastFundingTime: number; //timestamp since last funding rate update
+  isRunning: boolean;
 };
 
 export type TraderState = {
@@ -489,6 +503,81 @@ export function getFundingFee(
     perpData.fUnitAccumulatedFunding - traderState.fUnitAccumulatedFundingStart;
   // TODO: this is not correct!
   return fCurrentRate * traderState.marginAccountPositionBC;
+}
+
+export function getMidPrice(
+  perpParams: PerpParameters,
+  ammData: AMMState,
+): number {
+  let k = 0;
+  let r = 0;
+  let spreads = [perpParams.fMinimalSpread, perpParams.fIncentiveSpread];
+  return calcPerpPrice(
+    ammData.K2,
+    k,
+    ammData.L1,
+    ammData.indexS2PriceData,
+    ammData.indexS3PriceData,
+    perpParams.fSigma2,
+    perpParams.fSigma3,
+    perpParams.fRho23,
+    r,
+    ammData.M1,
+    ammData.M2,
+    ammData.M3,
+    spreads,
+  );
+}
+
+/**
+ * Builds the depth matrix using the bid-ask spread to construct prices and trade amounts:
+ * - Short prices are equi-spaced from the unit price of an infinitesimal short
+ * - Long prices are equi-spaced from the unit price of an infinitesimal long
+ * e.g. for -0.4%, we find a trade amount k such that (price(-k) - price(-0)) / price(-0) = -0.4%
+ * note that the mid-price is (price(+0) + price(-0)) / 2
+ *
+ * @param {PerpParameters} perpData Perpetual data
+ * @param {AMMState} ammData - AMM data
+ * @returns An array containing [prices, % deviation from mid price ((price - mid-price)/mid-price), trade amounts]
+ */
+
+export function getDepthMatrix(perpData: PerpParameters, ammData: AMMState) {
+  let pctRange = [
+    -1.0,
+    -0.9,
+    -0.8,
+    -0.7,
+    -0.6,
+    -0.5,
+    -0.4,
+    -0.3,
+    -0.2,
+    0,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9,
+    1.0,
+  ];
+  return getPricesAndTradesForPercentRage(
+    ammData.K2,
+    ammData.L1,
+    ammData.indexS2PriceData,
+    ammData.indexS3PriceData,
+    perpData.fSigma2,
+    perpData.fSigma3,
+    perpData.fRho23,
+    0,
+    ammData.M1,
+    ammData.M2,
+    ammData.M3,
+    [perpData.fMinimalSpread, perpData.fIncentiveSpread],
+    pctRange,
+  );
 }
 
 // CUSTOM FRONTEND UTILS =======================================================

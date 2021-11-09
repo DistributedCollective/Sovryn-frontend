@@ -1629,6 +1629,7 @@
         "orderCost": "Order Cost:",
         "maxTradeSize": "Max Trade Size:",
         "minEntryPrice": "Min Entry Price:",
+        "maxEntryPrice": "Max Entry Price:",
         "minLiquidationPrice": "Min Liquidation Price:",
         "liquidationPrice": "Liquidation Price:",
         "tradingFee": "Trading Fee:",
