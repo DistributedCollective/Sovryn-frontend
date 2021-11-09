@@ -11,6 +11,7 @@ import {
   usePerpetual_AmmDepthChart,
 } from '../../hooks/usePerpetual_AmmDepthChart';
 import { Tooltip } from '@blueprintjs/core';
+import { toNumberFormat } from '../../../../../utils/display-text/format';
 
 type AmmDepthChartProps = {
   pair: PerpetualPair;
@@ -26,8 +27,11 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
     let trendClass: string = 'tw-text-sov-white';
 
     if (data) {
-      max = data.shorts.reduce((acc, entry) => Math.max(acc, entry.total), max);
-      max = data.longs.reduce((acc, entry) => Math.max(acc, entry.total), max);
+      max = data.shorts.reduce(
+        (acc, entry) => Math.max(acc, entry.amount),
+        max,
+      );
+      max = data.longs.reduce((acc, entry) => Math.max(acc, entry.amount), max);
       if (data.trend > 0) {
         trendImage = trendArrowUp;
         trendText = 'trending upwards';
@@ -46,7 +50,7 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
     <table className="tw-w-full tw-h-full tw-text-xs tw-leading-tight">
       <thead>
         <tr>
-          <th className="tw-h-6 tw-w-4/12 tw-pr-4 tw-pb-1 tw-text-right">
+          <th className="tw-h-6 tw-w-4/12 tw-pr-4 tw-pb-1 tw-text-right tw-whitespace-nowrap">
             <Trans
               i18nKey={translations.perpetualPage.ammDepth.price}
               components={[
@@ -54,15 +58,10 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
               ]}
             />
           </th>
-          <th className="tw-h-6 tw-w-4/12 tw-pr-4 tw-pb-1 tw-text-right">
-            <Trans
-              i18nKey={translations.perpetualPage.ammDepth.size}
-              components={[
-                <AssetSymbolRenderer assetString={pair.baseAsset} />,
-              ]}
-            />
+          <th className="tw-h-6 tw-w-4/12 tw-pr-4 tw-pb-1 tw-text-right tw-whitespace-nowrap">
+            <Trans i18nKey={translations.perpetualPage.ammDepth.change} />
           </th>
-          <th className="tw-h-6 tw-pr-4 tw-pb-1 tw-text-right">
+          <th className="tw-h-6 tw-pr-4 tw-pb-1 tw-text-right tw-whitespace-nowrap">
             <Trans
               i18nKey={translations.perpetualPage.ammDepth.total}
               components={[
@@ -77,7 +76,7 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
           <>
             {data?.shorts?.map((entry, index) => (
               <AmmDepthChartRow
-                key={entry.price}
+                key={entry.id}
                 type="short"
                 row={entry}
                 maxTotal={maxTotal}
@@ -156,7 +155,7 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
             </tr>
             {data?.longs?.map((entry, index) => (
               <AmmDepthChartRow
-                key={entry.price}
+                key={entry.id}
                 type="long"
                 row={entry}
                 maxTotal={maxTotal}
@@ -194,7 +193,7 @@ const AmmDepthChartRow: React.FC<AmmDepthChartRowProps> = ({
           backgroundClassName,
         )}
       >
-        {row.price}
+        {toNumberFormat(row.price, 1)}
       </td>
       <td
         className={classNames(
@@ -202,7 +201,7 @@ const AmmDepthChartRow: React.FC<AmmDepthChartRowProps> = ({
           backgroundClassName,
         )}
       >
-        {row.size}
+        {Math.abs(row.deviation).toPrecision(1)}%
       </td>
       <td
         className={classNames(
@@ -215,9 +214,11 @@ const AmmDepthChartRow: React.FC<AmmDepthChartRowProps> = ({
             'tw-absolute tw-h-full tw-top-0 tw-left-0 tw-opacity-25 tw-rounded tw-transition-all tw-duration-300',
             type === 'short' ? 'tw-bg-trade-short' : 'tw-bg-trade-long',
           )}
-          style={{ width: (row.total / maxTotal) * 100 + '%' }}
+          style={{ width: (row.amount / maxTotal) * 100 + '%' }}
         />
-        <span className="tw-relative tw-z-10">{row.total}</span>
+        <span className="tw-relative tw-z-10">
+          {toNumberFormat(row.amount, 3)}
+        </span>
       </td>
     </tr>
   );

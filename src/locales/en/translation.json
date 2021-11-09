@@ -1586,8 +1586,8 @@
     },
     "ammDepth": {
       "price": "Price (<0/>)",
-      "size": "Size (<0/>)",
-      "total": "Total (<0/>)",
+      "change": "% Change",
+      "total": "Order Size (<0/>)",
       "indexPrice": "Index Price:",
       "markPrice": "Mark Price:"
     },
