@@ -14,29 +14,24 @@ import { weiTo2 } from 'utils/blockchain/math-helpers';
 import { Bar } from './helpers';
 import {
   subscription as bscSubscription,
-  decodeLogs,
+  decodeTradeLogs,
 } from '../../utils/bscWebsocket';
 import { symbolMap } from './helpers';
+import { getContract } from 'utils/blockchain/contract-helpers';
 
 // const WebSocket = require('ws');
 // const url = 'ws://localhost:8080';
 
-// TODO: Change subscription ID to perpID + candleDuration
-
 // TODO: move to config
-const address = '0xB59bdf071508B8D1f4Bb76f18CAB01eA96E1Fa4E'.toLowerCase();
-const tradeTopic =
-  '0x07e349dbc09d1f39e3df0bcb7c5cac53d0020e2da13badb5cd6fa4450801a7f7';
-
-const subscription = bscSubscription(address, [tradeTopic]);
+const address = getContract('perpetualManager').address.toLowerCase();
+const subscription = bscSubscription(address, ['Trade']);
 // const subscription = new WebSocket(url);
 
 type SubItem = {
   symbolInfo: any;
-  subscribeUID: string; //e.g. perpId_M_10
+  subscribeUID: string;
   resolution: string;
   lastBar: Bar;
-  // subHandlers: Function[];
   subHandlers: {
     id: string;
     callback: Function;
@@ -57,7 +52,7 @@ subscription.on('connected', () => {
 });
 
 subscription.on('data', data => {
-  const decoded = decodeLogs(data.data, [data.topics[1]]);
+  const decoded = decodeTradeLogs(data.data, [data.topics[1]]);
   console.log('[socket] Message:', decoded);
   const tradePrice = parseFloat(weiTo2(decoded.price));
   const tradeTime = parseInt(decoded.blockTimestamp) * 1e3;

@@ -84,10 +84,10 @@ export class CandleDictionary {
     CandleDuration,
     CandleDetails
   >([
-    [CandleDuration.M_1, new CandleDetails('candleSticksMinutes', 'D', 1, 1)],
+    [CandleDuration.M_1, new CandleDetails('candleSticksMinutes', 'D', 1, 5)],
     [
       CandleDuration.M_15,
-      new CandleDetails('candleSticksFifteenMinutes', 'D', 3, 3),
+      new CandleDetails('candleSticksFifteenMinutes', 'D', 3, 5),
     ],
     [CandleDuration.H_1, new CandleDetails('candleSticksHours', 'D', 5, 5)],
     [
