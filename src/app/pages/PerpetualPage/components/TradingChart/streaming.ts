@@ -22,7 +22,6 @@ import { getContract } from 'utils/blockchain/contract-helpers';
 // const WebSocket = require('ws');
 // const url = 'ws://localhost:8080';
 
-// TODO: move to config
 const address = getContract('perpetualManager').address.toLowerCase();
 const subscription = bscSubscription(address, ['Trade']);
 // const subscription = new WebSocket(url);

@@ -15,6 +15,7 @@ type AssetValueProps = {
   maxDecimals?: number;
   className?: string;
   isApproximation?: boolean;
+  showPositiveSign?: boolean;
 };
 
 export const AssetValue: React.FC<AssetValueProps> = ({
@@ -27,6 +28,7 @@ export const AssetValue: React.FC<AssetValueProps> = ({
   maxDecimals = 6,
   className,
   isApproximation = false,
+  showPositiveSign = false,
 }) => {
   const [formattedValue, fullFormattedValue] = useMemo(() => {
     if (!value && value !== 0) {
@@ -44,16 +46,34 @@ export const AssetValue: React.FC<AssetValueProps> = ({
       typeof value === 'string' ? numberFromWei(value) : value;
 
     return [
-      numberValue.toLocaleString(navigator.language, {
-        minimumFractionDigits: min,
-        maximumFractionDigits: max,
-      }),
-      numberValue.toLocaleString(navigator.language, {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 18,
-      }),
+      formatNumber(
+        numberValue,
+        {
+          minimumFractionDigits: min,
+          maximumFractionDigits: max,
+        },
+        isApproximation,
+        showPositiveSign,
+      ),
+      formatNumber(
+        numberValue,
+        {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 18,
+        },
+        isApproximation,
+        showPositiveSign,
+      ),
     ];
-  }, [value, minDecimals, maxDecimals, mode, asset]);
+  }, [
+    value,
+    minDecimals,
+    maxDecimals,
+    mode,
+    asset,
+    isApproximation,
+    showPositiveSign,
+  ]);
 
   if (!formattedValue) {
     return null;
@@ -61,7 +81,6 @@ export const AssetValue: React.FC<AssetValueProps> = ({
 
   const assetValue = (
     <span className={className}>
-      {isApproximation && '≈ '}
       {formattedValue}
       {(asset || assetString) && (
         <>
@@ -80,7 +99,6 @@ export const AssetValue: React.FC<AssetValueProps> = ({
         interactionKind="hover"
         content={
           <>
-            {isApproximation && '≈ '}
             {fullFormattedValue}
             {(asset || assetString) && (
               <>
@@ -97,4 +115,21 @@ export const AssetValue: React.FC<AssetValueProps> = ({
   }
 
   return assetValue;
+};
+
+const formatNumber = (
+  value: number,
+  options: Intl.NumberFormatOptions,
+  isApproximation: boolean,
+  showPositiveSign: boolean,
+) => {
+  let numberString = value.toLocaleString(navigator.language, options);
+  if (showPositiveSign && value > 0) {
+    numberString = `+${numberString}`;
+  }
+  if (isApproximation) {
+    numberString = `≈ ${numberString}`;
+  }
+
+  return numberString;
 };

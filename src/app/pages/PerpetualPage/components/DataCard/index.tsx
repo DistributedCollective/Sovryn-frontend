@@ -23,7 +23,7 @@ export const DataCard: React.FC<DataCardProps> = ({
       className,
     )}
   >
-    <h2 className="tw-px-4 tw-py-1 tw-m-4 tw-mb-0 tw-text-sm tw-font-medium tw-border-b tw-border-sov-white">
+    <h2 className="tw-px-4 tw-py-1 tw-mx-4 tw-mb-0 tw-text-sm tw-font-medium tw-border-b tw-border-sov-white">
       {title}
     </h2>
     <div className={classNames('tw-w-full tw-h-full', hasPadding && 'tw-p-4')}>

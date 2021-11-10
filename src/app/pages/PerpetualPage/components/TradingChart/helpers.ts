@@ -37,7 +37,6 @@ export const makeApiRequest = async (
   candleNumber: number,
   isFirstRequest: boolean,
 ) => {
-  console.log('Making api request for candles...');
   try {
     const query = isFirstRequest
       ? generateFirstCandleQuery(candleDuration, perpId, candleNumber)
@@ -57,7 +56,6 @@ export const makeApiRequest = async (
         volume: parseFloat(weiTo2(item.totalVolume)),
       };
     });
-    console.debug(bars);
     return bars;
   } catch (error) {
     console.log(error);
@@ -74,6 +72,7 @@ export type Bar = {
   volume?: number;
 };
 
+// TODO: use Perpetual ID from PerpetualPairDictionary for SymbolMap
 export const symbolMap = {
   'BTC/USD':
     '0xada5013122d395ba3c54772283fb069b10426056ef8ca54750cb9bb552a59e7d',
@@ -93,6 +92,7 @@ export const resolutionMap: { [key: string]: CandleDuration } = {
   '1D': CandleDuration.D_1,
   '3D': CandleDuration.D_1,
   W: CandleDuration.D_1,
-  '1M': CandleDuration.D_1,
+  '1W': CandleDuration.D_1,
   M: CandleDuration.D_1,
+  '1M': CandleDuration.D_1,
 };

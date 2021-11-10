@@ -9,6 +9,7 @@ import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
 import { PerpetualTrade } from '../../types';
+import { usePerpetual_queryTraderState } from '../../hooks/usePerpetual_queryTraderState';
 
 type TradeDetailsProps = {
   className?: string;
@@ -23,6 +24,7 @@ export const TradeDetails: React.FC<TradeDetailsProps> = ({
 }) => {
   const { t } = useTranslation();
 
+  const traderState = usePerpetual_queryTraderState();
   const { available } = usePerpetual_accountBalance(pair.pairType);
 
   return (
@@ -42,7 +44,7 @@ export const TradeDetails: React.FC<TradeDetailsProps> = ({
           maxDecimals={3}
           mode={AssetValueMode.auto}
           value={trade.amount}
-          assetString={pair.shortAsset}
+          assetString={pair.baseAsset}
         />
       </div>
 
@@ -56,10 +58,8 @@ export const TradeDetails: React.FC<TradeDetailsProps> = ({
             minDecimals={4}
             maxDecimals={4}
             mode={AssetValueMode.auto}
-            value={bignumber(trade.amount)
-              .mul(trade.leverage + 1)
-              .toString()}
-            assetString={pair.shortAsset}
+            value={traderState.availableCashCC}
+            assetString={pair.baseAsset}
           />
           <span className="tw-font-medium tw-ml-1">
             ({toNumberFormat(trade.leverage, 2)}x)
@@ -77,7 +77,7 @@ export const TradeDetails: React.FC<TradeDetailsProps> = ({
           maxDecimals={3}
           mode={AssetValueMode.auto}
           value={available}
-          assetString={pair.shortAsset}
+          assetString={pair.baseAsset}
         />
       </div>
     </div>

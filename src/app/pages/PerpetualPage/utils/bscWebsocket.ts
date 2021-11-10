@@ -1,17 +1,23 @@
 import Web3 from 'web3';
 import IPerpetualManager from 'utils/blockchain/abi/PerpetualManager.json';
 import { AbiItem } from 'web3-utils';
+import { BridgeNetworkDictionary } from '../../BridgeDepositPage/dictionaries/bridge-network-dictionary';
+import { ChainId } from '../../../../types';
 
 // TODO: Change subscription ID to perpID + candleDuration
 
 const web3Socket = new Web3(
   new Web3.providers.WebsocketProvider(
-    'wss://ws-nd-233-405-699.p2pify.com/' +
-      process.env.REACT_APP_BSC_WS_TESTNET,
+    process.env.REACT_APP_BSC_WS_URL +
+      (process.env.REACT_APP_BSC_WS_API_KEY || ''),
   ),
 );
 
-const web3Http = new Web3('https://data-seed-prebsc-1-s1.binance.org:8545/');
+const isMainnet = process.env.REACT_APP_NETWORK === 'mainnet';
+const rpcAddress = BridgeNetworkDictionary.getByChainId(
+  isMainnet ? ChainId.BSC_MAINNET : ChainId.BSC_TESTNET,
+)?.rpc;
+const web3Http = new Web3(rpcAddress || null);
 
 // const jsonInput = PerpetualManager.find(item => item.name === 'Trade')?.inputs;
 const PerpetualManager = IPerpetualManager as AbiItem[];

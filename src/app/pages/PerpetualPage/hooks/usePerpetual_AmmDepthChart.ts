@@ -1,11 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo, useRef } from 'react';
 import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
 import { useBlockSync } from '../../../hooks/useAccount';
+import { usePerpetual_queryAmmState } from './usePerpetual_queryAmmState';
+import {
+  getIndexPrice,
+  getMarkPrice,
+  getDepthMatrix,
+} from '../utils/perpUtils';
+import { usePerpetual_queryPerpParameters } from './usePerpetual_queryPerpParameters';
 
 export type AmmDepthChartDataEntry = {
+  id: number;
   price: number;
-  size: number;
-  total: number;
+  deviation: number;
+  amount: number;
 };
 
 export type AmmDepthChartData = {
@@ -17,63 +25,64 @@ export type AmmDepthChartData = {
   longs: AmmDepthChartDataEntry[];
 };
 
-let previousPrice = 0;
-
-const placeholderFetch = async (
+export const usePerpetual_AmmDepthChart = (
   pair: PerpetualPair,
-  blockId: number,
-): Promise<AmmDepthChartData> => {
-  console.warn(
-    'PlaceholderFetch used by usePerpetual_AmmDepthChart! NOT IMPLEMENTED YET!',
-  );
+): AmmDepthChartData => {
+  const perpertualParameters = usePerpetual_queryPerpParameters();
+  const ammState = usePerpetual_queryAmmState();
+  const previousMidPrice = useRef<number>();
 
-  const value = 40000 + Math.random() * 200;
-  const trend = Math.sign(value - previousPrice);
-  previousPrice = value;
+  const data = useMemo(() => {
+    const indexPrice = getIndexPrice(ammState);
+    const markPrice = getMarkPrice(ammState);
+    const entries = getDepthMatrix(perpertualParameters, ammState);
 
-  const shorts: AmmDepthChartDataEntry[] = [];
-  const longs: AmmDepthChartDataEntry[] = [];
+    let shorts: AmmDepthChartDataEntry[] = [];
+    let longs: AmmDepthChartDataEntry[] = [];
+    let midPrice = 0;
+    let trend = 0;
+    if (entries && entries.length >= 3) {
+      const length = entries[0].length;
+      const midIndex = Math.floor(length / 2);
+      for (let i = 0; i < length; i++) {
+        const price = entries[0][i];
+        const deviation = entries[1][i];
+        const amount = entries[2][i];
+        if (i < midIndex) {
+          shorts.push({
+            id: i,
+            price,
+            deviation: Math.abs(deviation),
+            amount: Math.abs(amount),
+          });
+        } else if (i > midIndex) {
+          longs.push({
+            id: i,
+            price,
+            deviation: Math.abs(deviation),
+            amount: Math.abs(amount),
+          });
+        } else {
+          trend = previousMidPrice.current
+            ? Math.sign(price - previousMidPrice.current)
+            : 0;
+          previousMidPrice.current = price;
+          midPrice = price;
+        }
+      }
+    }
 
-  let total = 0;
-  for (let i = 1; i <= 9; i++) {
-    const size = 100 * i ** 2;
-    total += size;
-    shorts.push({
-      price: Math.round(value + i * 8.5),
-      size,
-      total,
-    });
-    longs.push({
-      price: Math.round(value - i * 8.5),
-      size,
-      total,
-    });
-  }
+    // TODO use latest trade from websocket server for price and trend
 
-  shorts.reverse();
-
-  return new Promise(resolve =>
-    resolve({
-      price: value,
-      indexPrice: value + 2.3,
-      markPrice: value + 1.5,
-      trend: trend,
-      shorts: shorts,
-      longs: longs,
-    }),
-  );
-};
-
-export const usePerpetual_AmmDepthChart = (pair: PerpetualPair) => {
-  const blockId = useBlockSync();
-  const [data, setData] = useState<AmmDepthChartData | null>();
-
-  useEffect(() => {
-    // TODO: implement AmmDepthChart data fetching
-    placeholderFetch(pair, blockId).then(data => {
-      setData(data);
-    });
-  }, [pair, blockId]);
+    return {
+      price: midPrice,
+      trend,
+      indexPrice,
+      markPrice,
+      shorts,
+      longs,
+    };
+  }, [perpertualParameters, ammState]);
 
   return data;
 };
