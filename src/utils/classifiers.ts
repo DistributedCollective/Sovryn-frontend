@@ -48,6 +48,8 @@ export const sovAnalyticsCookie = { name: 'SovAnalytics', value: 'optout' };
 
 export const chartStorageKey = 'sovryn.charts';
 
+export const originsSaleStorageKey = 'sovryn.origins.sales';
+
 export const gasLimit = {
   [TxType.TRADE]: 3750000,
   [TxType.CLOSE_WITH_SWAP]: 2300000,

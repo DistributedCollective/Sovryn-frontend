@@ -1,13 +1,16 @@
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
+import { Switch, Route, Redirect, useRouteMatch } from 'react-router-dom';
 import { translations } from 'locales/i18n';
 import { Header } from 'app/components/Header';
 import { Footer } from 'app/components/Footer';
 import { SalesDay } from './pages/SalesDay';
+import { OriginsClaimPage } from 'app/pages/OriginsClaimPage/Loadable';
 
 export const OriginsLaunchpad: React.FC = () => {
   const { t } = useTranslation();
+  const match = useRouteMatch();
 
   useEffect(() => {
     document.body.classList.add('originsLaunchpad');
@@ -27,7 +30,17 @@ export const OriginsLaunchpad: React.FC = () => {
       <Header />
 
       <div className="tw-container tw-pt-11 tw-font-body">
-        <SalesDay saleName="MYNT" />
+        <Switch>
+          <Route path={`${match.url}/sales`}>
+            <SalesDay saleName="MYNT" />
+          </Route>
+          <Route
+            exact
+            path={`${match.url}/claim`}
+            component={OriginsClaimPage}
+          />
+          <Redirect to={`${match.path}/sales`} />
+        </Switch>
       </div>
       <Footer />
     </>
