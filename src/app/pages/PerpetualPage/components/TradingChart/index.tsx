@@ -43,7 +43,7 @@ export function TradingChart(props: ChartContainerProps) {
         save_load_adapter: Storage,
         study_count_limit: 15, //max number of indicators that can be added to charts
         interval: '30', //default time interval
-        timeframe: '5D', //default range
+        timeframe: '3D', //default range
         container_id: 'tv_chart_container', //id of DOM container
         library_path: '/charting_library/', //relative path of library in /public folder
         locale: 'en',
@@ -58,8 +58,20 @@ export function TradingChart(props: ChartContainerProps) {
           'header_compare',
           'volume_force_overlay',
         ],
+        overrides: {
+          'paneProperties.background': '#000000',
+          'paneProperties.vertGridProperties.color': '#454545',
+          'paneProperties.horzGridProperties.color': '#454545',
+          'symbolWatermarkProperties.transparency': 90,
+          'scalesProperties.textColor': '#AAA',
+          'scalesProperties.backgroundColor': '#121214',
+          'paneProperties.topMargin': 15,
+          'paneProperties.bottomMargin': 10,
+        },
         autosize: true,
-        // toolbar_bg: '#a3a3a3',
+        toolbar_bg: '#000000',
+        header_bg: '#000000',
+        // drawings_access: { type: 'black' },
         theme: props.theme,
         time_frames: [
           { text: '1d', resolution: '15', description: '1d', title: '1d' },
