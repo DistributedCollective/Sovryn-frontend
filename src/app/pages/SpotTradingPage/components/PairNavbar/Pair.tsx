@@ -1,5 +1,5 @@
 import React from 'react';
-import { pairs, SpotPairType } from '../../types';
+import { allPairs as pairs, SpotPairType } from '../../types';
 import { Asset } from 'types/asset';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
