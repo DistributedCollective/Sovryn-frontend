@@ -121,7 +121,9 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
   const { send, ...rest } = useCloseWithSwap(
     props.item.loanId,
     receiver,
-    bignumber(weiAmount).mul(leverage).toString(),
+    maxAmount === weiAmount
+      ? props.item.collateral
+      : toWei(bignumber(amount).mul(leverage).toString()),
     isCollateral,
     '0x',
   );
