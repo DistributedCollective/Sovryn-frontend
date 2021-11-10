@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Asset } from '../../../../types';
 import { fromWei } from '../../../../utils/blockchain/math-helpers';
 import { AssetRenderer } from '../../AssetRenderer';
+import { AssetSelect } from 'app/components/AssetSelect';
 import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
 import { Input } from '../Input';
 import {
@@ -18,6 +19,8 @@ interface Props {
   decimalPrecision?: number;
   asset?: Asset;
   assetString?: string;
+  assetSelectable?: boolean;
+  onSelectAsset?: (asset: Asset) => void;
   subText?: string;
   placeholder?: string;
   maxAmount?: string;
@@ -33,6 +36,8 @@ export function AmountInput({
   decimalPrecision = 6,
   asset,
   assetString,
+  assetSelectable,
+  onSelectAsset,
   subText,
   maxAmount,
   readonly,
@@ -48,10 +53,19 @@ export function AmountInput({
         placeholder={placeholder}
         appendElem={
           asset || assetString ? (
-            <AssetRenderer asset={asset} assetString={assetString} />
+            assetSelectable ? (
+              <AssetSelect
+                selected={asset}
+                selectedAssetString={assetString}
+                onChange={onSelectAsset}
+              />
+            ) : (
+              <AssetRenderer asset={asset} assetString={assetString} />
+            )
           ) : null
         }
-        className="tw-rounded-lg"
+        className="tw-rounded-lg tw-max-w-full"
+        appendClassName={assetSelectable ? '' : 'tw-mr-5'}
         readOnly={readonly}
         dataActionId={dataActionId}
       />
@@ -60,6 +74,7 @@ export function AmountInput({
       )}
       {!readonly && (asset || maxAmount !== undefined) && (
         <AmountSelector
+          parentValue={value}
           asset={asset}
           maxAmount={maxAmount}
           gasFee={gasFee}
@@ -73,6 +88,7 @@ export function AmountInput({
 const amounts = [10, 25, 50, 75, 100];
 
 interface AmountSelectorProps {
+  parentValue?: string;
   asset?: Asset;
   maxAmount?: string;
   gasFee?: string;
