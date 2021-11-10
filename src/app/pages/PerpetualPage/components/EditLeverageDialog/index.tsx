@@ -19,14 +19,12 @@ import { getTradeDirection } from '../../utils/contractUtils';
 import { fromWei } from 'web3-utils';
 import { usePerpetual_queryPerpParameters } from '../../hooks/usePerpetual_queryPerpParameters';
 import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
-import { usePerpetual_queryTraderState } from '../../hooks/usePerpetual_queryTraderState';
 
 export const EditLeverageDialog: React.FC = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { modal, modalOptions } = useSelector(selectPerpetualPage);
   const ammState = usePerpetual_queryAmmState();
-  const traderState = usePerpetual_queryTraderState();
   const perpParameters = usePerpetual_queryPerpParameters();
   const trade = useMemo(
     () => (isPerpetualTrade(modalOptions) ? modalOptions : undefined),
@@ -58,33 +56,37 @@ export const EditLeverageDialog: React.FC = () => {
   );
 
   const requiredMargin = useMemo(() => {
-    if (changedTrade) {
-      const position =
-        Number(fromWei(changedTrade.amount)) *
-        getTradeDirection(changedTrade.position);
-      return getRequiredMarginCollateral(
-        changedTrade.leverage,
-        position,
-        position,
-        perpParameters,
-      );
+    if (!changedTrade) {
+      return 0;
     }
-    return 0;
+
+    const position =
+      Number(fromWei(changedTrade.amount)) *
+      getTradeDirection(changedTrade.position);
+
+    return getRequiredMarginCollateral(
+      changedTrade.leverage,
+      position,
+      position,
+      perpParameters,
+    );
   }, [changedTrade, perpParameters]);
 
   const liquidationPrice = useMemo(() => {
-    if (changedTrade) {
-      const position =
-        Number(fromWei(changedTrade.amount)) *
-        getTradeDirection(changedTrade.position);
-      return calculateApproxLiquidationPrice(
-        position,
-        requiredMargin,
-        ammState,
-        perpParameters,
-      );
+    if (!changedTrade) {
+      return 0;
     }
-    return 0;
+
+    const position =
+      Number(fromWei(changedTrade.amount)) *
+      getTradeDirection(changedTrade.position);
+
+    return calculateApproxLiquidationPrice(
+      position,
+      requiredMargin,
+      ammState,
+      perpParameters,
+    );
   }, [changedTrade, requiredMargin, ammState, perpParameters]);
 
   useEffect(() => setChangedTrade(trade), [trade]);
