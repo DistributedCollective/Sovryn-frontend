@@ -1,20 +1,18 @@
 import { useEffect, useMemo, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
 import { translations } from 'locales/i18n';
-import { useAccount } from 'app/hooks/useAccount';
+import { useBlockSync, useAccount } from 'app/hooks/useAccount';
 import { Asset } from 'types';
 import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { timestampToDateString } from 'utils/dateHelpers';
 import { ISaleInformation } from '../types';
-import { selectTransactions } from 'store/global/transactions-store/selectors';
 
 export const useGetSaleInformation = () => {
   const { t } = useTranslation();
   const account = useAccount();
-  const transactions = useSelector(selectTransactions);
+  const blockSync = useBlockSync();
   const [exchangeRate, setExchangeRate] = useState(1);
   const [partsPerMillion, setPartPerMillion] = useState(1);
   const [saleInfo, setSaleInfo] = useState<ISaleInformation>({
@@ -55,7 +53,7 @@ export const useGetSaleInformation = () => {
         totalReceived: result,
       })),
     );
-  }, [transactions]);
+  }, [blockSync]);
 
   useEffect(() => {
     if (account) {
@@ -68,7 +66,7 @@ export const useGetSaleInformation = () => {
           })),
         );
     }
-  }, [account, transactions]);
+  }, [account, blockSync]);
 
   useEffect(() => {
     contractReader
@@ -79,7 +77,7 @@ export const useGetSaleInformation = () => {
           participatingWallets: result,
         })),
       );
-  }, [transactions]);
+  }, [blockSync]);
 
   useEffect(() => {
     contractReader.call<boolean>('MYNTPresale', 'isClosed', []).then(result => {
