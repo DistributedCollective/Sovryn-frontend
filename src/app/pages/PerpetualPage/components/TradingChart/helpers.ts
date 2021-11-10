@@ -93,6 +93,7 @@ export const resolutionMap: { [key: string]: CandleDuration } = {
   '1D': CandleDuration.D_1,
   '3D': CandleDuration.D_1,
   W: CandleDuration.D_1,
-  '1M': CandleDuration.D_1,
+  '1W': CandleDuration.D_1,
   M: CandleDuration.D_1,
+  '1M': CandleDuration.D_1,
 };
