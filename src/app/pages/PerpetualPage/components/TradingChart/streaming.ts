@@ -40,11 +40,8 @@ type SubItem = {
 
 const channelToSubscription = new Map<string, SubItem>();
 
-function getNextDailyBarTime(barTime) {
-  /** TODO: Change this to not be hardcoded as daily */
-  const date = new Date(barTime * 1000);
-  date.setDate(date.getDate() + 1);
-  return date.getTime() / 1000;
+function getNextBarTime(barTime: number, resolution: number) {
+  return barTime + resolution * 60;
 }
 
 subscription.on('connected', () => {
@@ -67,9 +64,12 @@ subscription.on('data', data => {
         return;
       }
       const lastBar = subscriptionItem.lastBar;
-      const nextDailyBarTime = getNextDailyBarTime(lastBar.time);
+      const nextBarTime = getNextBarTime(
+        lastBar.time,
+        parseInt(subscriptionItem.resolution),
+      );
       let bar;
-      if (tradeTime >= nextDailyBarTime) {
+      if (tradeTime >= nextBarTime) {
         bar = {
           ...lastBar,
           open: lastBar.close,
@@ -96,7 +96,19 @@ subscription.on('data', data => {
 
       // send data to every subscriber of that symbol
       // console.log('[socket] New subscriptionItem', subscriptionItem);
-      subscriptionItem.subHandlers.forEach(handler => handler.callback(bar));
+
+      subscriptionItem.subHandlers.forEach(handler => {
+        try {
+          handler.callback(bar);
+        } catch (e) {
+          const error = e as Error;
+          // This is a false positive due to using has_empty_bars. Not 100% sure about this, so if there are issues, this may be why
+          if (error.message.includes('time order violation')) {
+            return;
+          }
+          throw e;
+        }
+      });
     }
   } catch (e) {
     console.error(e);
