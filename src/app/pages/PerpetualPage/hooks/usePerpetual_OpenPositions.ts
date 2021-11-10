@@ -1,84 +1,133 @@
-import { useEffect, useState } from 'react';
-import { toWei } from 'web3-utils';
 import { TradingPosition } from '../../../../types/trading-position';
-import { PerpetualPairType } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
-import { useBlockSync } from '../../../hooks/useAccount';
-import { PerpetualTradeType } from '../types';
-import { PERPETUAL_SLIPPAGE_DEFAULT } from '../types';
+import {
+  PerpetualPairType,
+  PerpetualPairDictionary,
+} from '../../../../utils/dictionaries/perpetual-pair-dictionary';
+import { PerpetualTradeType, PerpetualTradeEvent } from '../types';
+import { Event, useGetTraderEvents } from './graphql/useGetTraderEvents';
+import { useMemo } from 'react';
+import { ABK64x64ToFloat } from '../utils/contractUtils';
+import { BigNumber } from 'ethers';
+import { usePerpetual_queryAmmState } from './usePerpetual_queryAmmState';
+import {
+  calculateApproxLiquidationPrice,
+  getMarkPrice,
+  getTraderPnL,
+  getBase2QuoteFX,
+  getTraderLeverage,
+} from '../utils/perpUtils';
+import { usePerpetual_queryTraderState } from './usePerpetual_queryTraderState';
+import { usePerpetual_queryPerpParameters } from './usePerpetual_queryPerpParameters';
 
 export type OpenPositionEntry = {
   id: string;
-  pair: PerpetualPairType;
-  type: PerpetualTradeType;
-  position: TradingPosition;
-  amount: string;
-  value: number;
-  entryPrice: number;
-  markPrice: number;
-  liquidationPrice: number;
+  pairType: PerpetualPairType;
+  type?: PerpetualTradeType;
+  position?: TradingPosition;
+  amount?: number;
+  entryPrice?: number;
+  markPrice?: number;
+  liquidationPrice?: number;
   margin: number;
-  leverage: number;
-  slippage: number;
-  unrealized: { shortValue: number; longValue: number; roe: number };
-  realized: { shortValue: number; longValue: number };
+  leverage?: number;
+  unrealized?: { baseValue: number; quoteValue: number; roe: number };
+  realized?: { baseValue: number; quoteValue: number };
 };
 
-const placeholderFetch = async (
-  blockId: number,
-): Promise<OpenPositionEntry[]> => {
-  console.warn(
-    'PlaceholderFetch used by usePerpetual_OpenPosition! NOT IMPLEMENTED YET!',
-  );
+type OpenPositionHookResult = {
+  loading: boolean;
+  data?: OpenPositionEntry;
+};
 
-  const markPrice = 40000 + Math.random() * 200;
-  const entryPrice = 40000 + Math.random() * 200;
+export const usePerpetual_OpenPosition = (
+  address: string,
+  pairType: PerpetualPairType.BTCUSD,
+): OpenPositionHookResult => {
+  const {
+    data: tradeEvents,
+    previousData: previousTradeEvents,
+    loading,
+  } = useGetTraderEvents([Event.TRADE], address.toLowerCase());
 
-  const entries: OpenPositionEntry[] = [];
+  const ammState = usePerpetual_queryAmmState();
+  const perpParameters = usePerpetual_queryPerpParameters();
+  const traderState = usePerpetual_queryTraderState();
 
-  for (let i = 1; i <= 10; i++) {
-    const amount = 200 * i;
-    const value = amount / entryPrice;
-    entries.push({
-      id: i.toString(16),
-      pair: PerpetualPairType.BTCUSD,
+  const data = useMemo(() => {
+    const markPrice = getMarkPrice(ammState);
+    const base2quote = getBase2QuoteFX(ammState, true);
+    const pair = PerpetualPairDictionary.get(pairType);
+
+    if (traderState.marginBalanceCC === 0 || !pair) {
+      return;
+    }
+
+    const margin = traderState.availableCashCC;
+
+    if (traderState.marginAccountPositionBC === 0) {
+      return {
+        id: pair.id,
+        pairType,
+        margin,
+      };
+    }
+
+    const tradeAmount = traderState.marginAccountPositionBC;
+
+    const currentTradeEvents: PerpetualTradeEvent[] | undefined =
+      tradeEvents?.trader?.trades || previousTradeEvents?.trader?.trades;
+    const latestTrade = currentTradeEvents?.find(
+      (trade: PerpetualTradeEvent) => trade.perpetualId === pair.id,
+    );
+
+    const entryPrice = latestTrade?.price
+      ? ABK64x64ToFloat(BigNumber.from(latestTrade.price))
+      : undefined;
+
+    const liquidationPrice = calculateApproxLiquidationPrice(
+      tradeAmount,
+      traderState.marginAccountCashCC,
+      ammState,
+      perpParameters,
+    );
+
+    const leverage = getTraderLeverage(traderState, ammState);
+
+    const unrealizedQuote = getTraderPnL(traderState, ammState);
+    const unrealized: OpenPositionEntry['unrealized'] = {
+      baseValue: unrealizedQuote / base2quote,
+      quoteValue: unrealizedQuote,
+      roe: unrealizedQuote / base2quote / tradeAmount,
+    };
+
+    // TODO: calculate Realized Profit and Loss
+    const realized: OpenPositionEntry['realized'] = {
+      baseValue: 0,
+      quoteValue: 0,
+    };
+
+    return {
+      id: pair.id,
+      pairType: pair.pairType,
       type: PerpetualTradeType.MARKET,
-      position: i % 2 === 0 ? TradingPosition.LONG : TradingPosition.SHORT,
-      amount: toWei(amount.toString()),
-      value,
+      position: tradeAmount > 0 ? TradingPosition.LONG : TradingPosition.SHORT,
+      amount: tradeAmount,
       entryPrice,
+      liquidationPrice,
+      leverage,
+      margin,
       markPrice,
-      liquidationPrice: markPrice - amount,
-      margin: value * 3,
-      leverage: 3.115,
-      slippage: PERPETUAL_SLIPPAGE_DEFAULT,
-      unrealized: {
-        shortValue: value * 2,
-        longValue: amount * 2,
-        roe: amount / 200,
-      },
-      realized: {
-        shortValue: value,
-        longValue: amount,
-      },
-    });
-  }
-
-  return new Promise(resolve => resolve(entries));
-};
-
-export const usePerpetual_OpenPosition = (address: string) => {
-  const blockId = useBlockSync();
-  const [data, setData] = useState<OpenPositionEntry[] | null>();
-  const [loading, setLoading] = useState<boolean>(false);
-
-  useEffect(() => {
-    // TODO: implement OpenPosition data fetching
-    setLoading(true);
-    placeholderFetch(blockId).then(data => {
-      setData(data);
-      setLoading(false);
-    });
-  }, [blockId]);
+      unrealized,
+      realized,
+    };
+  }, [
+    tradeEvents,
+    previousTradeEvents,
+    pairType,
+    traderState,
+    perpParameters,
+    ammState,
+  ]);
 
   return { data, loading };
 };

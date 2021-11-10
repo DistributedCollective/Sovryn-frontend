@@ -7,6 +7,7 @@ import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
 import { isPerpetualTrade, PerpetualPageModals } from '../../types';
 import { usePerpetual_openTrade } from '../../hooks/usePerpetual_openTrade';
+import { getTradeDirection } from '../../utils/contractUtils';
 
 export const TradeReviewDialog: React.FC = () => {
   const dispatch = useDispatch();
@@ -30,7 +31,7 @@ export const TradeReviewDialog: React.FC = () => {
       trade &&
       openTrade(
         false,
-        Number(trade?.amount),
+        trade?.amount,
         trade.leverage,
         trade.slippage,
         trade.position,

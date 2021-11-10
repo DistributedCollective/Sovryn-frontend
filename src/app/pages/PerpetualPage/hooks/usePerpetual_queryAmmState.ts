@@ -1,8 +1,8 @@
 import { bridgeNetwork } from 'app/pages/BridgeDepositPage/utils/bridge-network';
 import { Chain } from 'types';
 import { getContract } from 'utils/blockchain/contract-helpers';
-import { AMMState } from '../temporaryUtils';
-import { ABK64x64ToFloat, PERPETUAL_ID } from '../utils';
+import { AMMState } from '../utils/perpUtils';
+import { ABK64x64ToFloat, PERPETUAL_ID } from '../utils/contractUtils';
 import perpetualManagerAbi from 'utils/blockchain/abi/PerpetualManager.json';
 import { useEffect, useState } from 'react';
 

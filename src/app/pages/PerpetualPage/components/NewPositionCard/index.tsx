@@ -81,10 +81,10 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
   const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
 
   useEffect(() => {
-    if (!pair.collaterals.includes(collateral)) {
-      dispatch(actions.setCollateral(pair.collaterals[0]));
+    if (pair.collateralAsset !== collateral) {
+      dispatch(actions.setCollateral(pair.collateralAsset));
     }
-  }, [pair.collaterals, collateral, dispatch]);
+  }, [pair.collateralAsset, collateral, dispatch]);
 
   const stepProps: NewPositionCardContextType = useMemo(
     () => ({

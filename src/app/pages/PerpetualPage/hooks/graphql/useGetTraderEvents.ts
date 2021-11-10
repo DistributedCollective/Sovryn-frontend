@@ -8,7 +8,6 @@ import { useQuery, gql } from '@apollo/client';
 import { DocumentNode } from 'graphql';
 
 export function useGetTraderEvents(event: Event[], user: string) {
-  console.debug('Getting events tab');
   const SUBGRAPH_QUERY = generateQuery(event, user);
   const query = useQuery(SUBGRAPH_QUERY);
   return query;
@@ -45,7 +44,7 @@ class EventDetails {
   }
 }
 
-const genericFields = ['blockTimestamp', 'transaction { id }'];
+const genericFields = ['id', 'blockTimestamp', 'transaction { id }'];
 
 class EventDictionary {
   public static events: Map<Event, EventDetails> = new Map<Event, EventDetails>(
@@ -55,6 +54,7 @@ class EventDictionary {
         new EventDetails('trades', [
           'perpetualId',
           'tradeAmount',
+          'orderFlags',
           'price',
           ...genericFields,
         ]),

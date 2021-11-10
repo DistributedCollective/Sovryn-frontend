@@ -11,11 +11,21 @@ import { TradeDetails } from '../TradeDetails';
 import { LeverageSelector } from '../LeverageSelector';
 import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
+import {
+  getRequiredMarginCollateral,
+  calculateApproxLiquidationPrice,
+} from '../../utils/perpUtils';
+import { getTradeDirection } from '../../utils/contractUtils';
+import { fromWei } from 'web3-utils';
+import { usePerpetual_queryPerpParameters } from '../../hooks/usePerpetual_queryPerpParameters';
+import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
 
 export const EditLeverageDialog: React.FC = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { modal, modalOptions } = useSelector(selectPerpetualPage);
+  const ammState = usePerpetual_queryAmmState();
+  const perpParameters = usePerpetual_queryPerpParameters();
   const trade = useMemo(
     () => (isPerpetualTrade(modalOptions) ? modalOptions : undefined),
     [modalOptions],
@@ -38,21 +48,46 @@ export const EditLeverageDialog: React.FC = () => {
 
   const onSubmit = useCallback(
     () =>
+      // TODO: implement review and excecution for EditLeverageDialog
       dispatch(
         actions.setModal(PerpetualPageModals.TRADE_REVIEW, changedTrade),
       ),
     [dispatch, changedTrade],
   );
 
-  const positionMargin = useMemo(() => {
-    // TODO implement positionMargin calculation
-    return 1337.1337;
-  }, []);
+  const requiredMargin = useMemo(() => {
+    if (!changedTrade) {
+      return 0;
+    }
+
+    const position =
+      Number(fromWei(changedTrade.amount)) *
+      getTradeDirection(changedTrade.position);
+
+    return getRequiredMarginCollateral(
+      changedTrade.leverage,
+      position,
+      position,
+      perpParameters,
+    );
+  }, [changedTrade, perpParameters]);
 
   const liquidationPrice = useMemo(() => {
-    // TODO implement liquidationPrice calculation
-    return 1337.1337;
-  }, []);
+    if (!changedTrade) {
+      return 0;
+    }
+
+    const position =
+      Number(fromWei(changedTrade.amount)) *
+      getTradeDirection(changedTrade.position);
+
+    return calculateApproxLiquidationPrice(
+      position,
+      requiredMargin,
+      ammState,
+      perpParameters,
+    );
+  }, [changedTrade, requiredMargin, ammState, perpParameters]);
 
   useEffect(() => setChangedTrade(trade), [trade]);
 
@@ -83,8 +118,8 @@ export const EditLeverageDialog: React.FC = () => {
               minDecimals={4}
               maxDecimals={4}
               mode={AssetValueMode.auto}
-              value={positionMargin}
-              assetString={pair.shortAsset}
+              value={requiredMargin}
+              assetString={pair.baseAsset}
             />
           </div>
           <div className="tw-flex tw-flex-row tw-justify-between tw-mb-8 tw-px-6 tw-py-1 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
@@ -96,7 +131,7 @@ export const EditLeverageDialog: React.FC = () => {
               maxDecimals={2}
               mode={AssetValueMode.auto}
               value={liquidationPrice}
-              assetString={pair.longAsset}
+              assetString={pair.quoteAsset}
             />
           </div>
           <button

@@ -11,13 +11,14 @@ import { actions as txActions } from 'store/global/transactions-store/slice';
 import { bignumber } from 'mathjs';
 import { TxStatus, TxType } from 'store/global/transactions-store/types';
 import { transferAmount } from 'utils/blockchain/transfer-approve-amount';
-import { bridgeNetwork } from '../BridgeDepositPage/utils/bridge-network';
+import { bridgeNetwork } from '../../BridgeDepositPage/utils/bridge-network';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import marginTokenAbi from 'utils/blockchain/abi/MarginToken.json';
 import { TradingPosition } from 'types/trading-position';
 
 export const ONE_64x64 = BigNumber.from('0x10000000000000000');
 
+// TODO: remove and replace with id from PerpetualPair
 export const PERPETUAL_ID =
   '0xada5013122d395ba3c54772283fb069b10426056ef8ca54750cb9bb552a59e7d';
 
@@ -42,6 +43,21 @@ export const floatToABK64x64 = (value: number) => {
   const decimalPartBigNumber = decimalPart.mul(ONE_64x64).div(dec18);
 
   return integerPartBigNumber.add(decimalPartBigNumber).mul(sign);
+};
+
+export const ABK64x64ToWei = (value: BigNumber) => {
+  const sign = value.lt(0) ? -1 : 1;
+  value = value.mul(sign);
+  const integerPart = value.div(ONE_64x64);
+  let decimalPart = value.sub(integerPart.mul(ONE_64x64));
+  const dec18 = BigNumber.from(10).pow(BigNumber.from(18));
+  decimalPart = decimalPart.mul(dec18).div(ONE_64x64);
+  const k = 18 - decimalPart.toString().length;
+
+  const sPad = '0'.repeat(k);
+  const weiString = integerPart.toString() + sPad + decimalPart.toString();
+
+  return weiString;
 };
 
 export const ABK64x64ToFloat = (value: BigNumber) => {
