@@ -34,6 +34,7 @@ import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
 import SwapsExternalAbi from './abi/SwapsExternalAbi.json';
 import stakingRewardsProxyAbi from './abi/StakingRewards.json';
 import nftAbi from './abi/nftAbi.json';
+import fastBtcBridgeAbi from './abi/fastBtcBridge.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -338,5 +339,9 @@ export const contracts = {
   sovrynNFT: {
     address: '0x576ae218aecfd4cbd2dbe07250b47e26060932b1',
     abi: nftAbi,
+  },
+  fastBtcBridge: {
+    address: '0x0000000000000000000000000000000000000000', // todo
+    abi: fastBtcBridgeAbi,
   },
 };

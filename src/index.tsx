@@ -28,7 +28,7 @@ import * as GlobalTypes from './global';
 import { App } from 'app';
 import { ServiceWorkerToaster } from './app/components/ServiceWorkerToaster/Loadable';
 import { FirstVisitDisclaimerDialog } from './app/components/FirstVisitDisclaimerDialog/Loadable';
-import { MobileBrowsersWarningDialog } from './app/components/MobileBrowsersWarningDialog/index';
+import { MobileBrowsersWarningDialog } from './app/components/MobileBrowsersWarningDialog';
 
 import { HelmetProvider } from 'react-helmet-async';
 

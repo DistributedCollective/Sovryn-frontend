@@ -6,6 +6,7 @@
     "close": "Close",
     "for": "for",
     "confirm": "Confirm",
+    "continue": "Continue",
     "cancel": "Cancel",
     "fee": "Tx Fee: {{amount}} (r)BTC",
     "pending": "Pending",
@@ -17,6 +18,7 @@
     "maintenance": "Under Maintenance",
     "next": "Next",
     "loading": "Loading...",
+    "retry": "Retry",
     "unit": {
       "day": "{{count}} day",
       "day_plural": "{{count}} days"
@@ -169,6 +171,62 @@
     "meta": {
       "title": "Fast-BTC",
       "description": "Move your Bitcoin to RSK network."
+    },
+    "withdraw": {
+      "mainScreen": {
+        "title": "Withdraw <0/> to BTC Network",
+        "description": "Double check that you are entreing the correct withdrawal address."
+      },
+      "withdrawDetails": {
+        "title": "Withdraw Details",
+        "min": "MIN:",
+        "max": "MIN:",
+        "fee": "MIN:"
+      },
+      "withdrawInstructions": {
+        "title": "Instructions",
+        "line1": "Please check and confirm the address you are sending to is a BTC address.",
+        "line2": "Do not send less than the MIN limit.",
+        "line3": "Do not send more than the MAX limit.",
+        "line4": "Allow up to {{hours}} hrs to process.",
+        "line5": "If your transaction takes longer than {{hours}} hrs please <0>create a support ticket</0>."
+      },
+      "amountForm": {
+        "title": "<0/> Withdraw Amount",
+        "withdrawAmount": "Withdraw Amount",
+        "availableBalance": "Available Balance: <0/> <1/>"
+      },
+      "addressForm": {
+        "title": "BTC Network Withdraw Address",
+        "address": "Withdraw BTC to this address",
+        "errorBECH32": "Please enter a valid BECH32 BTC address!",
+        "cta": "Review Withdraw"
+      },
+      "reviewScreen": {
+        "title": "Review <0/> Withdrawal",
+        "amount": "Withdraw",
+        "address": "BTC Network Receive Address",
+        "fees": "Fees Paid:",
+        "received": "Receive Amount:",
+        "tx": "Tx ID:",
+        "description": "Your withdrawal is being processed If your transaction takes longer than {{hours}} hrs please <0>create a support ticket</0>"
+      },
+      "walletTxHelper": {
+        "confirm": "Please confirm the transaction in your {{wallet}} wallet",
+        "pending": "Please confirm the transaction in your {{wallet}} wallet",
+        "confirmed": "Please confirm the transaction in your {{wallet}} wallet",
+        "failed": "Your transaction has failed.",
+        "aborted": "You declined this transaction in your wallet."
+      },
+      "statusScreen": {
+        "titles": {
+          "pending_for_user": "Confirm <0/> Withdrawal",
+          "pending": "<0/> Withdraw processing...",
+          "confirmed": "Confirmed",
+          "failed": "Withdrawal failed"
+        },
+        "cta": "Return to Portfolio"
+      }
     }
   },
   "fastBtcForm": {
