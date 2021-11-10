@@ -94,14 +94,22 @@ const tradingChartDataFeeds = {
         return new Date().getTime() / 1e3;
       }
     };
+    const candleNumber = (): number => {
+      const candleSize = parseInt(resolution) > 0 ? resolution : 1440; //Resolution in minutes - if more than a day, use day
+      const timeSpanSeconds = to - from;
+      const numOfCandles = Math.ceil(timeSpanSeconds / (candleSize * 60));
+      return numOfCandles;
+    };
     const endTime = to;
     const candleDuration: CandleDuration = resolutionMap[resolution];
     try {
+      /** If first request then calculate number of bars and pass it in, else startTime */
       const data = await makeApiRequest(
         candleDuration,
         symbolMap[symbolInfo.name],
         startTime(),
-        endTime,
+        candleNumber(),
+        firstDataRequest,
       );
       console.log('[getBars]: Data', data);
       let bars: Bar[] = [];

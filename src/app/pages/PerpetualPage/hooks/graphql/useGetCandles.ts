@@ -57,6 +57,34 @@ export const generateCandleQuery = (
   `;
 };
 
+export const generateFirstCandleQuery = (
+  candleDuration: CandleDuration,
+  perpetualId: string,
+  candleNumber: number,
+): DocumentNode => {
+  const candleDetails = CandleDictionary.get(candleDuration);
+  return gql`
+    {
+      ${candleDetails.entityName}(
+        where: {
+          perpetualId: "${perpetualId}"
+        }
+        orderBy: periodStartUnix
+        orderDirection: asc
+        first: ${candleNumber < 500 ? candleNumber : 500}
+      ) {
+        perpetualId
+        open
+        high
+        low
+        close
+        totalVolume
+        periodStartUnix
+      }
+    }
+  `;
+};
+
 export enum CandleDuration {
   M_1 = 'M_1',
   M_15 = 'M_15',

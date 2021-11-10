@@ -1,6 +1,7 @@
 import { apolloClient } from '../../utils/graphQlHelpers';
 import {
   generateCandleQuery,
+  generateFirstCandleQuery,
   CandleDuration,
 } from '../../hooks/graphql/useGetCandles';
 import { weiTo2 } from 'utils/blockchain/math-helpers';
@@ -33,11 +34,14 @@ export const makeApiRequest = async (
   candleDuration: CandleDuration,
   perpId: string,
   startTime: number,
-  endTime: number,
+  candleNumber: number,
+  isFirstRequest: boolean,
 ) => {
   console.log('Making api request for candles...');
   try {
-    const query = generateCandleQuery(candleDuration, perpId, startTime);
+    const query = isFirstRequest
+      ? generateFirstCandleQuery(candleDuration, perpId, candleNumber)
+      : generateCandleQuery(candleDuration, perpId, startTime);
     console.debug(query.loc?.source.body);
     const response = await apolloClient.query({
       query: query,
