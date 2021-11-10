@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import imgTitle from 'assets/images/OriginsLaunchpad/FishSale/title_image.png';
-import { TitleContent, TitleImage } from './styled';
+import imgTitle from 'assets/images/OriginsLaunchpad/MyntSale/token.svg';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { EngageWalletStep } from './pages/EngageWalletStep/index';
@@ -9,16 +8,16 @@ import { useIsConnected } from 'app/hooks/useAccount';
 import { ImportantInformationStep } from './pages/ImportantInformationStep';
 import { BuyStep } from './pages/BuyStep';
 import { useGetSaleInformation } from '../../hooks/useGetSaleInformation';
+import styles from './index.module.scss';
 
 interface ISalesDayProps {
-  tierId: number;
   saleName: string;
 }
 
-export const SalesDay: React.FC<ISalesDayProps> = ({ tierId, saleName }) => {
+export const SalesDay: React.FC<ISalesDayProps> = ({ saleName }) => {
   const { t } = useTranslation();
   const connected = useIsConnected();
-  const info = useGetSaleInformation(tierId);
+  const info = useGetSaleInformation();
 
   const [step, setStep] = useState(1);
 
@@ -27,22 +26,20 @@ export const SalesDay: React.FC<ISalesDayProps> = ({ tierId, saleName }) => {
       case 1:
         return (
           <AccessCodeVerificationStep
-            tierId={tierId}
             saleName={saleName}
             onVerified={() => setStep(2)}
+            info={info}
           />
         );
       case 2:
         return (
           <ImportantInformationStep
-            tierId={tierId}
+            saleName={saleName}
             onSubmit={() => setStep(3)}
           />
         );
       case 3:
-        return (
-          <BuyStep tierId={tierId} saleInformation={info} saleName={saleName} />
-        );
+        return <BuyStep saleInformation={info} saleName={saleName} />;
       default:
         return <EngageWalletStep saleName={saleName} />;
     }
@@ -51,10 +48,14 @@ export const SalesDay: React.FC<ISalesDayProps> = ({ tierId, saleName }) => {
   return (
     <div className="tw-mb-52">
       <div className="tw-text-center tw-items-center tw-justify-center tw-flex tw-mb-12">
-        <TitleImage src={imgTitle} />
-        <TitleContent>
+        <img
+          className={styles.titleImage}
+          src={imgTitle}
+          alt="Origins Sales Day"
+        />
+        <div className="tw-text-4xl tw-font-semibold tw-leading-none tw-tracking-normal tw-ml-8 tw-uppercase">
           {t(translations.originsLaunchpad.saleDay.title, { token: saleName })}
-        </TitleContent>
+        </div>
       </div>
 
       <div className="tw-justify-center tw-flex tw-text-center">

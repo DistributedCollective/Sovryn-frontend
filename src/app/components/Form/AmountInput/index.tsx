@@ -4,6 +4,7 @@ import React, { useMemo } from 'react';
 import { Asset } from '../../../../types';
 import { fromWei } from '../../../../utils/blockchain/math-helpers';
 import { AssetRenderer } from '../../AssetRenderer';
+import { AssetSelect } from 'app/components/AssetSelect';
 import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
 import { Input } from '../Input';
 import {
@@ -17,6 +18,8 @@ interface Props {
   decimalPrecision?: number;
   asset?: Asset;
   assetString?: string;
+  assetSelectable?: boolean;
+  onSelectAsset?: (asset: Asset) => void;
   subText?: string;
   subElem?: React.ReactNode;
   placeholder?: string;
@@ -24,6 +27,7 @@ interface Props {
   readonly?: boolean;
   showBalance?: boolean;
   hideAmountSelector?: boolean;
+  dataActionId?: string;
 }
 
 export function AmountInput({
@@ -33,12 +37,15 @@ export function AmountInput({
   decimalPrecision = 6,
   asset,
   assetString,
+  assetSelectable,
+  onSelectAsset,
   subText,
   subElem,
   maxAmount,
   readonly,
   showBalance,
   hideAmountSelector,
+  dataActionId,
 }: Props) {
   return (
     <>
@@ -49,11 +56,21 @@ export function AmountInput({
         placeholder={placeholder}
         appendElem={
           asset || assetString ? (
-            <AssetRenderer asset={asset} assetString={assetString} />
+            assetSelectable ? (
+              <AssetSelect
+                selected={asset}
+                selectedAssetString={assetString}
+                onChange={onSelectAsset}
+              />
+            ) : (
+              <AssetRenderer asset={asset} assetString={assetString} />
+            )
           ) : null
         }
-        className="tw-rounded-lg"
+        className="tw-rounded-lg tw-max-w-full"
+        appendClassName={assetSelectable ? '' : 'tw-mr-5'}
         readOnly={readonly}
+        dataActionId={dataActionId}
       />
       {subText && (
         <div className="tw-text-xs tw-mt-1 tw-font-thin">{subText}</div>
@@ -63,6 +80,7 @@ export function AmountInput({
         !hideAmountSelector &&
         (asset || maxAmount !== undefined) && (
           <AmountSelector
+            parentValue={value}
             asset={asset}
             maxAmount={maxAmount}
             onChange={onChange}
@@ -76,6 +94,7 @@ export function AmountInput({
 const amounts = [10, 25, 50, 75, 100];
 
 interface AmountSelectorProps {
+  parentValue?: string;
   asset?: Asset;
   maxAmount?: string;
   showBalance?: boolean;
@@ -129,6 +148,7 @@ export function AmountSelectorButton(props: AmountButtonProps) {
     <button
       onClick={props.onClick}
       className="tw-h-5 tw-text-secondary tw-bg-secondary tw-bg-opacity-0 tw-font-medium tw-text-xs tw-leading-none tw-text-center tw-w-full tw-transition hover:tw-bg-opacity-25"
+      data-action-id={`swap-send-amountSelectorButton-${props.text}`}
     >
       {props.text}
     </button>

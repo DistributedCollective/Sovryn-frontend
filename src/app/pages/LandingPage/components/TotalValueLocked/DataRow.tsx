@@ -20,10 +20,7 @@ export const DataRow: React.FC<IDataRowProps> = ({
   className,
   contractClassName,
 }) => {
-  if (!loading && (!btcValue || !usdValue)) return null;
-
-  return loading ||
-    !(btcValue && Number(btcValue) > 0 && usdValue && Number(usdValue) > 0) ? (
+  return loading ? (
     <tr className={cn('tw-h-16', className)} key={contractName}>
       <td className={className}>{contractName}</td>
       <td className={className}>
@@ -40,16 +37,18 @@ export const DataRow: React.FC<IDataRowProps> = ({
     >
       <ContractName className={contractClassName}>{contractName}</ContractName>
       <td className={cn(className, 'tw-text-right')}>
-        {btcValue?.toLocaleString('en', {
-          maximumFractionDigits: 4,
-          minimumFractionDigits: 4,
-        }) || <div className="bp3-skeleton">&nbsp;</div>}
+        {(!isNaN(btcValue) &&
+          btcValue?.toLocaleString('en', {
+            maximumFractionDigits: 4,
+            minimumFractionDigits: 4,
+          })) || <div className="bp3-skeleton">&nbsp;</div>}
       </td>
       <td className={cn('tw-text-right', className)}>
-        {usdValue?.toLocaleString('en', {
-          maximumFractionDigits: 2,
-          minimumFractionDigits: 2,
-        }) || <div className="bp3-skeleton">&nbsp;</div>}
+        {(!isNaN(usdValue) &&
+          usdValue?.toLocaleString('en', {
+            maximumFractionDigits: 2,
+            minimumFractionDigits: 2,
+          })) || <div className="bp3-skeleton">&nbsp;</div>}
       </td>
     </tr>
   );

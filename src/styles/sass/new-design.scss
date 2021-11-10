@@ -124,7 +124,15 @@ button.button-width {
   @apply tw-absolute tw--inset-2.5
     tw-bg-white tw-rounded-2xl
     tw-overflow-hidden;
+  z-index: 1;
   content: '';
+}
+
+.image-bordered img {
+  z-index: 2;
+  max-width: 320px;
+  max-height: 460px;
+  @apply tw-relative tw-rounded-md;
 }
 
 .sov-title {
@@ -136,6 +144,7 @@ button.button-width {
   left: 20px;
   right: 20px;
   bottom: 30px;
+  z-index: 3;
 
   .table {
     @apply tw-m-0

@@ -18,6 +18,7 @@ interface Props {
   value: number;
   onChange: (value: number) => void;
   asset?: Asset;
+  dataActionId?: String;
 }
 
 export function SlippageDialog(props: Props) {
@@ -39,6 +40,7 @@ export function SlippageDialog(props: Props) {
       isOpen={props.isOpen}
       onClose={() => props.onClose()}
       className={styles.dialog}
+      data-action-id={props.dataActionId}
     >
       <button
         data-close=""
