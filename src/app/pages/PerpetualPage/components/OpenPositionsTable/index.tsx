@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { selectTransactionArray } from 'store/global/transactions-store/selectors';
 import { TxStatus, TxType } from 'store/global/transactions-store/types';
 import { usePerpetual_OpenPosition } from '../../hooks/usePerpetual_OpenPositions';
+import { selectPerpetualPage } from '../../selectors';
 
 interface IOpenPositionsTableProps {
   perPage: number;
@@ -19,15 +20,14 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const transactions = useSelector(selectTransactionArray);
+  const { pairType } = useSelector(selectPerpetualPage);
 
-  const { data, loading } = usePerpetual_OpenPosition(useAccount());
+  const { data, loading } = usePerpetual_OpenPosition(useAccount(), pairType);
 
-  const items = useMemo(
-    () => (data ? data.slice(page * perPage - perPage, page * perPage) : []),
-    [perPage, page, data],
-  );
+  const items = data ? [data] : [];
 
   const isEmpty = !loading && !items.length && !transactions.length;
+  const showLoading = loading && !items.length && !transactions.length;
 
   const onPageChanged = data => {
     setPage(data.currentPage);
@@ -63,16 +63,13 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
             <th className="tw-text-right tw-text-sm">
               {t(translations.perpetualPage.openPositionsTable.positionSize)}
             </th>
-            <th className="tw-hidden xl:tw-table-cell tw-text-right tw-text-sm">
-              {t(translations.perpetualPage.openPositionsTable.value)}
-            </th>
             <th className="tw-hidden md:tw-table-cell tw-text-right tw-text-sm">
               {t(translations.perpetualPage.openPositionsTable.entryPrice)}
             </th>
             <th className="tw-hidden xl:tw-table-cell tw-text-right tw-text-sm">
               {t(translations.perpetualPage.openPositionsTable.markPrice)}
             </th>
-            <th className="tw-hidden xl:tw-table-cell tw-text-right tw-text-sm tw-text-trade-short">
+            <th className="tw-hidden xl:tw-table-cell tw-text-right tw-text-sm">
               {t(
                 translations.perpetualPage.openPositionsTable.liquidationPrice,
               )}
@@ -99,7 +96,7 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
           )}
           {onGoingTransactions}
 
-          {loading && (
+          {showLoading && (
             <tr>
               <td colSpan={99}>
                 <SkeletonRow />
@@ -107,7 +104,7 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
             </tr>
           )}
 
-          {items?.map(item => (
+          {items.map(item => (
             <OpenPositionRow key={item.id} item={item} />
           ))}
         </tbody>

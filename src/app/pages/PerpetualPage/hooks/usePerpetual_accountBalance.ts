@@ -1,9 +1,3 @@
-import {
-  RecentTradesDataEntry,
-  TradePriceChange,
-  TradeType,
-} from '../components/RecentTradesTable/types';
-
 import { useBlockSync } from 'app/hooks/useAccount';
 import { useEffect, useState } from 'react';
 import { toWei } from '../../../../utils/blockchain/math-helpers';
