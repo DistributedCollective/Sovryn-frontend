@@ -34,11 +34,9 @@ import { selectMarginTradePage } from '../../selectors';
 import { actions } from '../../slice';
 import { PricePrediction } from 'app/containers/MarginTradeForm/PricePrediction';
 
-import { TransactionDialog } from '../../../../components/TransactionDialog';
-import { TransactionFee } from 'app/pages/MarginTradePage/components/TxFeeCalculator/TransactionFee';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { DummyInput } from 'app/components/Form/Input';
-// import { TxDialog } from 'app/components/Dialogs/TxDialog';
+import { TxDialog } from 'app/components/Dialogs/TxDialog';
 
 const maintenanceMargin = 15000000000000000000;
 
@@ -257,26 +255,9 @@ export function TradeDialog() {
           />
         </div>
       </Dialog>
-      {/* <TxDialog
+      <TxDialog
         tx={tx}
         onUserConfirmed={() => dispatch(actions.closeTradingModal())}
-      /> */}
-      <TransactionDialog
-        tx={{ ...tx, retry: submit }}
-        onUserConfirmed={() => dispatch(actions.closeTradingModal())}
-        action="Trade"
-        fee={
-          <TransactionFee
-            args={txArgs}
-            txConfig={txConf}
-            methodName="marginTrade"
-            contractName={contractName}
-            condition={true}
-          />
-        }
-        finalMessage={
-          <div className="tw-text-center tw-w-full">Cancel Limit Buy</div>
-        }
       />
     </>
   );

@@ -25,7 +25,7 @@ import { ActionButton } from 'app/components/Form/ActionButton';
 
 interface Props extends RequestDialogState {}
 
-export function TxRequestDialog({ open, type, error }: Props) {
+export const TxRequestDialog: React.FC<Props> = ({ open, type, error }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { address } = useWalletContext();
@@ -88,7 +88,7 @@ export function TxRequestDialog({ open, type, error }: Props) {
       </Dialog>
     </>
   );
-}
+};
 
 const WLContainer = styled.div`
   width: 160px;

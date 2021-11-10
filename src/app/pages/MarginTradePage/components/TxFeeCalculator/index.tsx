@@ -6,7 +6,7 @@ import { translations } from 'locales/i18n';
 import { ContractName } from '../../../../../utils/types/contracts';
 import { TransactionFee } from './TransactionFee';
 import { Asset } from 'types';
-interface Props {
+interface ITxFeeCalculator {
   asset?: Asset;
   contractName: ContractName;
   methodName: string;
@@ -17,26 +17,38 @@ interface Props {
   textClassName?: string;
 }
 
-export function TxFeeCalculator(props: Props) {
+export const TxFeeCalculator: React.FC<ITxFeeCalculator> = ({
+  asset = Asset.RBTC,
+  contractName,
+  methodName,
+  args,
+  txConfig = {},
+  condition = true,
+  className,
+  textClassName,
+}) => {
   return (
     <div
       className={cn(
         'tw-mb-8 tw-truncate tw-text-sm tw-font-thin tw-tracking-normal',
-        props.className,
+        className,
       )}
     >
-      <span className={props.textClassName}>
+      <span className={textClassName}>
         <Trans
           i18nKey={translations.marginTradePage.tradeForm.labels.txFee}
-          components={[<TransactionFee {...props} />]}
+          components={[
+            <TransactionFee
+              asset={asset}
+              contractName={contractName}
+              methodName={methodName}
+              args={args}
+              txConfig={txConfig}
+              condition={condition}
+            />,
+          ]}
         />
       </span>
     </div>
   );
-}
-
-TxFeeCalculator.defaultProps = {
-  asset: Asset.RBTC,
-  config: {},
-  condition: true,
 };

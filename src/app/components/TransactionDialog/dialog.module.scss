@@ -1,20 +1,15 @@
 .dialog {
   @apply tw-relative
     tw-font-body
-    tw-bg-black tw-border-0 tw-rounded-3xl;
+    tw-bg-black tw-border-0 tw-rounded-3xl tw-text-sov-white;
 
   padding: 30px 0 50px 0 !important;
   max-width: 468px;
-  color: #e9eae9;
 }
 
 .dialog h1 {
+  @apply tw-text-center tw-text-3xl tw-leading-tight tw-font-semibold tw-normal-case;
   margin-bottom: 30px;
-  text-transform: none;
-  text-align: center;
-  font-size: 1.75rem;
-  line-height: 1.25;
-  font-weight: 600;
 }
 
 .dialog button[data-close] {
@@ -37,4 +32,32 @@
 }
 .dialog .submit {
   max-width: 80rem;
+}
+
+.wlContainer {
+  width: 160px;
+  height: 160px;
+  border-radius: 1.25rem;
+  border: 1px solid #e8e8e8;
+  margin: 0 auto 1rem;
+  div {
+    font-size: 0.75rem;
+  }
+}
+
+.wlImage {
+  width: 85px;
+  height: 85px;
+  margin-bottom: 10px;
+  object-fit: contain;
+}
+
+.styledStatus {
+  width: 4rem;
+  margin: 0 auto 1rem;
+  text-align: center;
+  img {
+    width: 4rem;
+    height: 4rem;
+  }
 }

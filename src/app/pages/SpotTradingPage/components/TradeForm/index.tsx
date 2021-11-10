@@ -45,6 +45,7 @@ import { IPromotionLinkState } from 'app/pages/LandingPage/components/Promotions
 import { useSwapNetwork_conversionPath } from '../../../../hooks/swap-network/useSwapNetwork_conversionPath';
 import { useSwapNetwork_approveAndConvertByPath } from '../../../../hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
+import { TransactionDialog } from 'app/components/TransactionDialog';
 
 export function TradeForm() {
   const { t } = useTranslation();
@@ -261,6 +262,14 @@ export function TradeForm() {
         )}
       </div>
       <TxDialog tx={tx} />
+      <TransactionDialog
+        tx={{ ...tx, retry: send }}
+        onUserConfirmed={() => {}}
+        action="Trade"
+        finalMessage={
+          <div className="tw-text-center tw-w-full">Spot Trade</div>
+        }
+      />
     </>
   );
 }

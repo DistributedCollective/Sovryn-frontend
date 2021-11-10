@@ -11,7 +11,7 @@ import { LoadableValue } from 'app/components/LoadableValue';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { Asset } from 'types';
 
-interface Props {
+interface ITransactionFeeProps {
   asset?: Asset;
   contractName: ContractName;
   methodName: string;
@@ -20,33 +20,39 @@ interface Props {
   condition?: boolean;
 }
 
-export function TransactionFee(props: Props) {
+export const TransactionFee: React.FC<ITransactionFeeProps> = ({
+  asset = Asset.RBTC,
+  contractName,
+  methodName,
+  args,
+  txConfig = {},
+  condition = true,
+}) => {
   const { value, loading, error, gasPrice, gasLimit } = useEstimateContractGas(
-    props.contractName,
-    props.methodName,
-    props.args,
-    props.txConfig,
-    props.condition,
+    contractName,
+    methodName,
+    args,
+    txConfig,
+    condition,
   );
   const gasData = React.useMemo(() => {
-    const data = props.txConfig?.gas
-      ? fromWei(bignumber(props.txConfig?.gas).mul(gas.get()).toFixed(0))
+    const data = txConfig?.gas
+      ? fromWei(bignumber(txConfig?.gas).mul(gas.get()).toFixed(0))
       : fromWei(value);
     return data;
-  }, [props.txConfig, value]);
+  }, [txConfig, value]);
 
   return (
     <LoadableValue
       value={
         <>
-          {weiToNumberFormat(value, 8)}{' '}
-          <AssetSymbolRenderer asset={props.asset} />
+          {weiToNumberFormat(value, 8)} <AssetSymbolRenderer asset={asset} />
         </>
       }
       loading={loading}
       tooltip={
         <>
-          {gasData} <AssetSymbolRenderer asset={props.asset} />
+          {gasData} <AssetSymbolRenderer asset={asset} />
           <br />
           <small className="tw-text-gray-6">
             (gas price: {toNumberFormat(Number(fromWei(gasPrice, 'gwei')), 3)}{' '}
@@ -61,10 +67,4 @@ export function TransactionFee(props: Props) {
       }
     />
   );
-}
-
-TransactionFee.defaultProps = {
-  asset: Asset.RBTC,
-  config: {},
-  condition: true,
 };
