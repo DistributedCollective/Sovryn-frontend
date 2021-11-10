@@ -100,7 +100,6 @@ const tradingChartDataFeeds = {
       const numOfCandles = Math.ceil(timeSpanSeconds / (candleSize * 60));
       return numOfCandles;
     };
-    const endTime = to;
     const candleDuration: CandleDuration = resolutionMap[resolution];
     try {
       /** If first request then calculate number of bars and pass it in, else startTime */

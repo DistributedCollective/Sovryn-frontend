@@ -22,7 +22,6 @@ import { getContract } from 'utils/blockchain/contract-helpers';
 // const WebSocket = require('ws');
 // const url = 'ws://localhost:8080';
 
-// TODO: move to config
 const address = getContract('perpetualManager').address.toLowerCase();
 const subscription = bscSubscription(address, ['Trade']);
 // const subscription = new WebSocket(url);
@@ -41,7 +40,7 @@ type SubItem = {
 const channelToSubscription = new Map<string, SubItem>();
 
 function getNextDailyBarTime(barTime) {
-  /** TODO: Change this to not be hardcoded as daily */
+  // TODO: Change this to not be hardcoded as daily
   const date = new Date(barTime * 1000);
   date.setDate(date.getDate() + 1);
   return date.getTime() / 1000;

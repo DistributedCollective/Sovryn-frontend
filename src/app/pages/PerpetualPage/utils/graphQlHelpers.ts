@@ -1,8 +1,7 @@
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 
 export const apolloClient = new ApolloClient({
-  uri:
-    'http://3.22.188.172:80/subgraphs/name/DistributedCollective/Sovryn-perpetual-swaps-subgraph',
+  uri: process.env.REACT_APP_PERPETUAL_GRAPHQL,
   cache: new InMemoryCache({
     resultCaching: false,
   }),

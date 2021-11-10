@@ -7,7 +7,7 @@
  * https://github.com/tradingview/charting_library/wiki/Breaking-Changes
  */
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import cn from 'classnames';
+import classNames from 'classnames';
 import {
   widget,
   IChartingLibraryWidget,
@@ -23,13 +23,17 @@ export enum Theme {
   DARK = 'Dark',
 }
 
-export interface ChartContainerProps {
+export type ChartContainerProps = {
   symbol: string;
   theme?: Theme;
   hasCustomDimensions?: boolean;
-}
+};
 
-export function TradingChart(props: ChartContainerProps) {
+export const TradingChart: React.FC<ChartContainerProps> = ({
+  symbol,
+  theme = Theme.DARK,
+  hasCustomDimensions = false,
+}) => {
   const [hasCharts, setHasCharts] = useState<boolean>(false);
   const [chart, setChart] = useState<IChartingLibraryWidget | null>(null);
 
@@ -38,7 +42,7 @@ export function TradingChart(props: ChartContainerProps) {
       // full list of widget config options here: https://github.com/tradingview/charting_library/wiki/Widget-Constructor/cf26598509d8bba6dc95c5fe8208caa5e8474827
       const widgetOptions: any = {
         debug: false,
-        symbol: props.symbol,
+        symbol,
         datafeed: Datafeed,
         save_load_adapter: Storage,
         study_count_limit: 15, //max number of indicators that can be added to charts
@@ -60,7 +64,7 @@ export function TradingChart(props: ChartContainerProps) {
         ],
         autosize: true,
         // toolbar_bg: '#a3a3a3',
-        theme: props.theme,
+        theme,
         time_frames: [
           { text: '1d', resolution: '15', description: '1d', title: '1d' },
           { text: '3d', resolution: '30', description: '3d', title: '3d' },
@@ -94,32 +98,30 @@ export function TradingChart(props: ChartContainerProps) {
 
   useLayoutEffect(() => {
     if (chart && hasCharts) {
-      chart.chart().setSymbol(props.symbol, noop);
+      chart.chart().setSymbol(symbol, noop);
     }
-  }, [chart, hasCharts, props.symbol]);
+  }, [chart, hasCharts, symbol]);
 
   return (
     <div
-      className={cn(
+      className={classNames(
         'tw-w-full tw-h-full tw-flex tw-rounded tw-overflow-hidden',
         hasCharts && 'tw-border',
       )}
       style={
-        props.hasCustomDimensions
-          ? undefined
-          : { minWidth: 270, minHeight: 500 }
+        hasCustomDimensions ? undefined : { minWidth: 270, minHeight: 500 }
       }
     >
       <>
         <div
           id="tv_chart_container"
-          className={cn(
+          className={classNames(
             'tv-chart-container tw-flex-grow',
             !hasCharts && 'tw-hidden',
           )}
         />
         <div
-          className={cn(
+          className={classNames(
             'tw-w-full tw-h-full tw-content-end tw-gap-4',
             hasCharts ? 'tw-hidden' : 'tw-flex',
           )}
@@ -149,8 +151,4 @@ export function TradingChart(props: ChartContainerProps) {
       </>
     </div>
   );
-}
-
-TradingChart.defaultProps = {
-  theme: Theme.DARK,
 };
