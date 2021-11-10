@@ -219,6 +219,7 @@ export function SwapFormContainer() {
         asset={targetToken}
         onClose={() => setDialogOpen(false)}
         onChange={value => setSlippage(value)}
+        dataActionId="swap-"
       />
 
       <div className="tw-bg-gray-3 tw-w-full tw-mb-10 tw-overflow-hidden">
@@ -240,7 +241,10 @@ export function SwapFormContainer() {
       <div className={styles.swapFormContainer}>
         <div className={styles.swapForm}>
           <div className={styles.title}>{t(translations.swap.send)}</div>
-          <div className={styles.currency}>
+          <div
+            className={styles.currency}
+            data-action-id="swap-send-swapAssetSelector"
+          >
             {pairsData && assetData && (
               <SwapSelector
                 pairs={pairsData.pairs}
@@ -255,7 +259,10 @@ export function SwapFormContainer() {
             )}
           </div>
           <div className={styles.availableBalance}>
-            <AvailableBalance asset={sourceToken} />
+            <AvailableBalance
+              asset={sourceToken}
+              dataAttribute="swap-send-availableBalance"
+            />
           </div>
           <FormGroup
             label={t(translations.swap.tradeAmount)}
@@ -265,6 +272,7 @@ export function SwapFormContainer() {
               value={amount}
               onChange={value => setAmount(value)}
               asset={sourceToken}
+              dataActionId="swap-send-amountInput"
             />
           </FormGroup>
         </div>
@@ -273,11 +281,15 @@ export function SwapFormContainer() {
             className={styles.swapRevert}
             style={{ backgroundImage: `url(${swapIcon})` }}
             onClick={onSwapAssert}
+            data-action-id="swap-button-swapRevert"
           />
         </div>
         <div className={styles.swapForm}>
           <div className={styles.title}>{t(translations.swap.receive)}</div>
-          <div className={styles.currency}>
+          <div
+            className={styles.currency}
+            data-action-id="swap-receive-swapAssetSelector"
+          >
             {pairsData && assetData && targetToken && (
               <SwapSelector
                 pairs={pairsData.pairs}
@@ -292,7 +304,10 @@ export function SwapFormContainer() {
             )}
           </div>
           <div className={styles.availableBalance}>
-            <AvailableBalance asset={targetToken} />
+            <AvailableBalance
+              asset={targetToken}
+              dataAttribute="swap-receive-availableBalance"
+            />
           </div>
           <FormGroup
             label={t(translations.swap.receiveAmount)}
@@ -303,6 +318,7 @@ export function SwapFormContainer() {
               onChange={value => setAmount(value)}
               readOnly={true}
               appendElem={<AssetRenderer asset={targetToken} />}
+              dataActionId="swap-receive-amount"
             />
             <div className={styles.swapBtnHelper}>
               <div>{t(translations.swap.minimumReceived)}</div>
@@ -321,7 +337,12 @@ export function SwapFormContainer() {
             text={
               <div className="tw-flex">
                 {t(translations.swap.advancedSettings)}
-                <img className="tw-ml-1" src={settingIcon} alt="setting" />
+                <img
+                  data-action-id="swap-receive-availableBalance"
+                  className="tw-ml-1"
+                  src={settingIcon}
+                  alt="setting"
+                />
               </div>
             }
             onClick={() => setDialogOpen(true)}
@@ -363,6 +384,7 @@ export function SwapFormContainer() {
           }
           onClick={() => setIsReviewDialogOpen(true)}
           text={t(translations.swap.cta)}
+          dataActionId="swap-confirmButton"
         />
       </div>
 

@@ -37,6 +37,10 @@ import OrderBookAbi from './abi/OrderBook.json';
 // import SwapsExternalAbi from './abi/SwapsExternalAbi.json';
 import OrderBookMarginAbi from './abi/OrderBookMargin.json';
 import nftAbi from './abi/nftAbi.json';
+import MYNTControllerAbi from './abi/MYNTController.json';
+import MYNTTokenAbi from './abi/MYNT_token.json';
+import MYNTPresaleAbi from './abi/MYNTPresale.json';
+import MYNTMarketMakerAbi from './abi/MYNTMarketMaker.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -64,12 +68,13 @@ export const contracts = {
     abi: ConverterRegistryABI,
     blockNumber: 1218799,
   },
-  WRBTC_token: {
+  RBTC_token: {
     address: '0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab',
     abi: abiTestWBRTCToken,
     blockNumber: 1205599,
   },
-  RBTC_token: {
+  WRBTC_token: {
+    // keep this after RBTC_token to prevent issues with RBTC tx's being picked up as WRBTC
     address: '0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab',
     abi: abiTestWBRTCToken,
     blockNumber: 1205599,
@@ -359,5 +364,23 @@ export const contracts = {
   sovrynNFT: {
     address: '0x576ae218aecfd4cbd2dbe07250b47e26060932b1', // todo
     abi: nftAbi,
+  },
+  MYNT_ctrl: {
+    address: '0x6F62D2F571BcE7187CdFDD4b1E5E53cfD7d14dd2',
+    abi: MYNTControllerAbi,
+    blockNumber: 2267574,
+  },
+  MYNT_token: {
+    address: '0x139483e22575826183F5b56dd242f8f2C1AEf327',
+    abi: MYNTTokenAbi,
+    blockNumber: 2267574,
+  },
+  MYNTPresale: {
+    address: '0xc89E1ef68f406bf2F5337d2Aad0a99a023c1697c',
+    abi: MYNTPresaleAbi,
+  },
+  MYNTMarketMaker: {
+    address: '0xf75170ce8d4060b8D5fc24E996FA00A94bb8A232',
+    abi: MYNTMarketMakerAbi,
   },
 };
