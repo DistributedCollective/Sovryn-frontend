@@ -70,13 +70,13 @@ export const BridgeLink: React.FC<IBridgeLinkProps> = ({ asset }) => {
             <>{getMaintenanceTooltipCopy(asset, CROSSCHAIN_TYPE.DEPOSIT)}</>
           }
         >
-          <div className="tw-btn-action tw-cursor-not-allowed tw-opacity-25">
+          <div className="tw-cursor-not-allowed tw-opacity-25">
             {t(translations.common.deposit)}
           </div>
         </Tooltip>
       ) : (
         <Link
-          className="tw-btn-action"
+          className=""
           to={{
             pathname: '/cross-chain/deposit',
             state: { receiver, asset },
@@ -95,13 +95,13 @@ export const BridgeLink: React.FC<IBridgeLinkProps> = ({ asset }) => {
             <>{getMaintenanceTooltipCopy(asset, CROSSCHAIN_TYPE.WITHDRAW)}</>
           }
         >
-          <div className="tw-btn-action tw-cursor-not-allowed tw-opacity-25">
+          <div className="tw-cursor-not-allowed tw-opacity-25">
             {t(translations.common.withdraw)}
           </div>
         </Tooltip>
       ) : (
         <Link
-          className="tw-btn-action"
+          className=""
           to={{
             pathname: '/cross-chain/withdraw',
             state: { receiver, asset },
