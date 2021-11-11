@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { bignumber } from 'mathjs';
+import { Icon } from '@blueprintjs/core';
+
 import { translations } from '../../../locales/i18n';
-import { ActionButton } from 'app/components/Form/ActionButton';
 import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
 import { AssetDetails } from '../../../utils/models/asset-details';
@@ -31,6 +32,13 @@ import { BridgeLink } from './BridgeLink';
 import { UnWrapDialog } from './UnWrapDialog';
 import { useDollarValue } from '../../hooks/useDollarValue';
 import { useDollarValueMynt } from '../../hooks/useDollarValueMynt';
+import styles from './index.module.scss';
+import { CrossBridgeAsset } from 'app/pages/BridgeDepositPage/types/cross-bridge-asset';
+
+import busdIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/busd.svg';
+import usdtIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/usdt.svg';
+import usdcIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/usdc.svg';
+import daiIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/dai.svg';
 
 export function UserAssets() {
   const { t } = useTranslation();
@@ -186,6 +194,16 @@ interface AssetProps {
   onUnWrap: () => void;
 }
 
+const XUSD_ASSETS: {
+  asset: CrossBridgeAsset;
+  image: string;
+}[] = [
+  { asset: CrossBridgeAsset.DAI, image: daiIcon },
+  { asset: CrossBridgeAsset.USDT, image: usdtIcon },
+  { asset: CrossBridgeAsset.USDC, image: usdcIcon },
+  { asset: CrossBridgeAsset.BUSD, image: busdIcon },
+];
+
 function AssetRow({
   item,
   onFastBtc,
@@ -245,7 +263,31 @@ function AssetRow({
   return (
     <tr key={item.asset}>
       <td>
-        <AssetRenderer asset={item.asset} showImage />
+        <div className="tw-flex tw-flex-row tw-items-center">
+          <div className="tw-inline-flex tw-items-center">
+            <AssetRenderer asset={item.asset} showImage />
+          </div>
+          {item.asset === Asset.XUSD && (
+            <div className="tw-inline-flex tw-flex-row tw-space-x-1 tw-ml-4 tw-items-center">
+              {XUSD_ASSETS.map(xusdAsset => (
+                <img
+                  src={xusdAsset.image}
+                  className="tw-inline-block tw-h-6"
+                  alt={xusdAsset.asset}
+                  title={xusdAsset.asset}
+                />
+              ))}
+              <a
+                href="https://wiki.sovryn.app/en/technical-documents/xusd-overview"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="tw-text-white hover:tw-text-gray-9"
+              >
+                <Icon className="tw-cursor-pointer" icon="help" />
+              </a>
+            </div>
+          )}
+        </div>
       </td>
       <td className="tw-text-right">
         <LoadableValue value={weiToNumberFormat(tokens, 4)} loading={loading} />
@@ -259,31 +301,30 @@ function AssetRow({
       <td className="tw-text-right tw-hidden md:tw-table-cell">
         <div className="tw-w-full tw-flex tw-flex-row tw-space-x-4 tw-justify-end">
           {item.asset === Asset.RBTC && (
-            <ActionButton
-              text={t(translations.userAssets.actions.buy)}
-              onClick={() => onTransack()}
-            />
+            <button className={styles.actionLink} onClick={() => onFastBtc()}>
+              {t(translations.userAssets.actions.fastBtc)}
+            </button>
           )}
           {item.asset === Asset.RBTC && (
-            <ActionButton
-              text={t(translations.userAssets.actions.fastBtc)}
-              onClick={() => onFastBtc()}
-            />
+            <button className={styles.actionLink} onClick={() => onTransack()}>
+              {t(translations.userAssets.actions.buy)}
+            </button>
           )}
           {[Asset.USDT, Asset.RDOC].includes(item.asset) && (
-            <ActionButton
-              text={t(translations.userAssets.actions.convert)}
+            <button
+              className={styles.actionLink}
               onClick={() => onConvert(item.asset)}
-            />
+            >
+              {t(translations.userAssets.actions.convert)}
+            </button>
           )}
           {[Asset.SOV, Asset.ETH, Asset.XUSD, Asset.BNB].includes(
             item.asset,
           ) && <BridgeLink asset={item.asset} />}
           {item.asset === Asset.WRBTC && (
-            <ActionButton
-              text={t(translations.userAssets.actions.unwrap)}
-              onClick={onUnWrap}
-            />
+            <button className={styles.actionLink} onClick={onUnWrap}>
+              {t(translations.userAssets.actions.unwrap)}
+            </button>
           )}
         </div>
       </td>
