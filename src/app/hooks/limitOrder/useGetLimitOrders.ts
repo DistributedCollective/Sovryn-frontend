@@ -1,4 +1,4 @@
-import { contractReader } from '../../../utils/sovryn/contract-reader';
+import { contractReader } from 'utils/sovryn/contract-reader';
 import { useEffect, useState } from 'react';
 import { useCacheCallWithValue } from '../useCacheCallWithValue';
 import { ethers, BigNumber } from 'ethers';

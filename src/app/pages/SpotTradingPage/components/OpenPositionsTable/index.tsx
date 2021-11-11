@@ -5,7 +5,7 @@ import { OpenPositionRow } from './OpenPositionRow';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { Pagination } from '../../../../components/Pagination';
-import { useGetLimitOrders } from 'app/hooks/trading/useGetLimitOrders';
+import { useGetLimitOrders } from 'app/hooks/limitOrder/useGetLimitOrders';
 
 interface IOpenPositionsTableProps {
   perPage: number;

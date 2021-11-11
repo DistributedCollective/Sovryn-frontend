@@ -1,25 +1,19 @@
-import { contractReader } from './../../utils/sovryn/contract-reader';
-import { getContract as getContractData } from '../../utils/blockchain/contract-helpers';
+import { contractReader } from 'utils/sovryn/contract-reader';
+import { getContract as getContractData } from 'utils/blockchain/contract-helpers';
 import { selectWalletProvider } from 'app/containers/WalletProvider/selectors';
 import { useAccount } from 'app/hooks/useAccount';
-import { Asset } from '../../types';
-
+import { Asset } from 'types';
 import { ethers } from 'ethers';
 import { useSelector } from 'react-redux';
 import {
   CheckAndApproveResult,
   contractWriter,
 } from 'utils/sovryn/contract-writer';
-import { Order } from '../pages/SpotTradingPage/helpers';
-import { gas } from '../../utils/blockchain/gas-price';
 import { useCallback } from 'react';
 import { TransactionConfig } from 'web3-core';
-import { useSendTx } from './useSendTx';
-
-const getDeadline = daysFromNow =>
-  ethers.BigNumber.from(
-    Math.floor(Date.now() / 1000 + daysFromNow * 24 * 3600),
-  );
+import { gas } from 'utils/blockchain/gas-price';
+import { Order } from 'app/pages/SpotTradingPage/helpers';
+import { useSendTx } from '../useSendTx';
 
 export function useLimitOrder(
   sourceToken: Asset,
@@ -142,7 +136,12 @@ export function useCancelLimitOrder(sourceToken: Asset, amount: string) {
   return { cancelOrder, ...tx };
 }
 
-const getContract = contract => {
+export const getDeadline = daysFromNow =>
+  ethers.BigNumber.from(
+    Math.floor(Date.now() / 1000 + daysFromNow * 24 * 3600),
+  );
+
+export const getContract = contract => {
   const { address, abi } = getContractData(contract);
   return new ethers.Contract(address, abi);
 };

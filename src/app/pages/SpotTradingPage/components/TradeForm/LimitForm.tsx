@@ -21,7 +21,7 @@ import { discordInvite } from 'utils/classifiers';
 import styles from './index.module.scss';
 import { Duration } from '../LimitOrderSetting/Duration';
 import { TradeDialog } from '../TradeDialog';
-import { useLimitOrder } from 'app/hooks/useLimitOrder';
+import { useLimitOrder } from 'app/hooks/limitOrder/useLimitOrder';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import cn from 'classnames';
 import { useSwapsExternal_getSwapExpectedReturn } from 'app/hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';

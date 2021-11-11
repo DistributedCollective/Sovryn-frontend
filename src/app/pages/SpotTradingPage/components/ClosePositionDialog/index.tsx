@@ -3,7 +3,7 @@ import { translations } from 'locales/i18n';
 import { Dialog } from 'app/containers/Dialog/Loadable';
 import { LimitOrder, TradingTypes } from 'app/pages/SpotTradingPage/types';
 import { useTranslation } from 'react-i18next';
-import { useCancelLimitOrder } from 'app/hooks/useLimitOrder';
+import { useCancelLimitOrder } from 'app/hooks/limitOrder/useLimitOrder';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { LabelValuePair } from '../TradeDialog';
