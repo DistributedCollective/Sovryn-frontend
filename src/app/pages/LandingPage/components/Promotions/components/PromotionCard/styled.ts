@@ -19,6 +19,7 @@ export const CardImageSection = styled.div`
   justify-content: space-between;
   color: #ffffff;
   position: relative;
+  background-repeat: no-repeat;
 `;
 
 export const CardTextSection = styled.div`
