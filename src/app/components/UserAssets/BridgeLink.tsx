@@ -76,7 +76,6 @@ export const BridgeLink: React.FC<IBridgeLinkProps> = ({ asset }) => {
         </Tooltip>
       ) : (
         <Link
-          className=""
           to={{
             pathname: '/cross-chain/deposit',
             state: { receiver, asset },
@@ -101,7 +100,6 @@ export const BridgeLink: React.FC<IBridgeLinkProps> = ({ asset }) => {
         </Tooltip>
       ) : (
         <Link
-          className=""
           to={{
             pathname: '/cross-chain/withdraw',
             state: { receiver, asset },
