@@ -10,7 +10,7 @@ import { OriginsClaimPage } from 'app/pages/OriginsClaimPage/Loadable';
 
 export const OriginsLaunchpad: React.FC = () => {
   const { t } = useTranslation();
-  const match = useRouteMatch();
+  const { url } = useRouteMatch();
 
   useEffect(() => {
     document.body.classList.add('originsLaunchpad');
@@ -31,15 +31,11 @@ export const OriginsLaunchpad: React.FC = () => {
 
       <div className="tw-container tw-pt-11 tw-font-body">
         <Switch>
-          <Route path={`${match.url}/sales`}>
+          <Route path={`${url}/sales`}>
             <SalesDay saleName="MYNT" />
           </Route>
-          <Route
-            exact
-            path={`${match.url}/claim`}
-            component={OriginsClaimPage}
-          />
-          <Redirect to={`${match.path}/sales`} />
+          <Route exact path={`${url}/claim`} component={OriginsClaimPage} />
+          <Redirect to={`${url}/sales`} />
         </Switch>
       </div>
       <Footer />

@@ -14,8 +14,8 @@ const saleStorage = {
     local.setItem(originsSaleStorageKey, JSON.stringify(data));
   },
   getData: (): ISalesData => {
-    const strData = local.getItem(originsSaleStorageKey);
-    return strData ? (JSON.parse(strData) as ISalesData) : defaultData;
+    const data = local.getItem(originsSaleStorageKey);
+    return data ? JSON.parse(data) : defaultData;
   },
 };
 
