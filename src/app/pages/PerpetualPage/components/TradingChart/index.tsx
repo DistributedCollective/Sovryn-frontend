@@ -17,25 +17,26 @@ import { Skeleton } from '../../../../components/PageSkeleton';
 import Datafeed from './datafeed';
 import Storage from './storage';
 import { noop } from '../../../../constants';
+import { Nullable } from '../../../../../types';
 
 export enum Theme {
   LIGHT = 'Light',
   DARK = 'Dark',
 }
 
-export type ChartContainerProps = {
+export type TradingChartProps = {
   symbol: string;
   theme?: Theme;
   hasCustomDimensions?: boolean;
 };
 
-export const TradingChart: React.FC<ChartContainerProps> = ({
+export const TradingChart: React.FC<TradingChartProps> = ({
   symbol,
   theme = Theme.DARK,
   hasCustomDimensions = false,
 }) => {
-  const [hasCharts, setHasCharts] = useState<boolean>(false);
-  const [chart, setChart] = useState<IChartingLibraryWidget | null>(null);
+  const [hasCharts, setHasCharts] = useState(false);
+  const [chart, setChart] = useState<Nullable<IChartingLibraryWidget>>(null);
 
   useEffect(() => {
     try {
@@ -131,35 +132,34 @@ export const TradingChart: React.FC<ChartContainerProps> = ({
             !hasCharts && 'tw-hidden',
           )}
         />
-        <div
-          className={classNames(
-            'tw-w-full tw-h-full tw-content-end tw-gap-4',
-            hasCharts ? 'tw-hidden' : 'tw-flex',
-          )}
-        >
-          <div className="tw-flex tw-flex-col tw-justify-end tw-content-end tw-h-full tw-w-full">
-            <Skeleton height="50%" />
-          </div>
-          <div className="tw-flex tw-flex-col tw-justify-end tw-content-end tw-h-full tw-w-full">
-            <Skeleton height="30%" />
-          </div>
-          <div className="tw-flex tw-flex-col tw-justify-end tw-content-end tw-h-full tw-w-full">
-            <Skeleton height="80%" />
-          </div>
-          <div className="tw-flex tw-flex-col tw-justify-end tw-content-end tw-h-full tw-w-full">
-            <Skeleton height="70%" />
-          </div>
-          <div className="tw-flex tw-flex-col tw-justify-end tw-content-end tw-h-full tw-w-full">
-            <Skeleton height="65%" />
-          </div>
-          <div className="tw-flex tw-flex-col tw-justify-end tw-content-end tw-h-full tw-w-full">
-            <Skeleton height="30%" />
-          </div>
-          <div className="tw-flex tw-flex-col tw-justify-end tw-content-end tw-h-full tw-w-full">
-            <Skeleton height="55%" />
-          </div>
-        </div>
+        {!hasCharts && <TradingChartSkeleton />}
       </>
     </div>
   );
 };
+
+const TradingChartSkeleton: React.FC = () => (
+  <div className="tw-w-full tw-h-full tw-content-end tw-gap-4 tw-flex">
+    <div className="tw-flex tw-flex-col tw-justify-end tw-content-end tw-h-full tw-w-full">
+      <Skeleton height="50%" />
+    </div>
+    <div className="tw-flex tw-flex-col tw-justify-end tw-content-end tw-h-full tw-w-full">
+      <Skeleton height="30%" />
+    </div>
+    <div className="tw-flex tw-flex-col tw-justify-end tw-content-end tw-h-full tw-w-full">
+      <Skeleton height="80%" />
+    </div>
+    <div className="tw-flex tw-flex-col tw-justify-end tw-content-end tw-h-full tw-w-full">
+      <Skeleton height="70%" />
+    </div>
+    <div className="tw-flex tw-flex-col tw-justify-end tw-content-end tw-h-full tw-w-full">
+      <Skeleton height="65%" />
+    </div>
+    <div className="tw-flex tw-flex-col tw-justify-end tw-content-end tw-h-full tw-w-full">
+      <Skeleton height="30%" />
+    </div>
+    <div className="tw-flex tw-flex-col tw-justify-end tw-content-end tw-h-full tw-w-full">
+      <Skeleton height="55%" />
+    </div>
+  </div>
+);

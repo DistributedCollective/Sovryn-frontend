@@ -42,7 +42,7 @@ export const makeApiRequest = async (
       ? generateFirstCandleQuery(candleDuration, perpId, candleNumber)
       : generateCandleQuery(candleDuration, perpId, startTime);
     const response = await apolloClient.query({
-      query: query,
+      query,
     });
     const keys = Object.keys(response.data);
     const bars: Bar[] = response.data[keys[0]].map(item => {

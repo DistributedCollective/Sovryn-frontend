@@ -19,7 +19,6 @@ const rpcAddress = BridgeNetworkDictionary.getByChainId(
 )?.rpc;
 const web3Http = new Web3(rpcAddress || null);
 
-// const jsonInput = PerpetualManager.find(item => item.name === 'Trade')?.inputs;
 const PerpetualManager = IPerpetualManager as AbiItem[];
 
 export function decodeTradeLogs(
@@ -30,7 +29,7 @@ export function decodeTradeLogs(
     ?.inputs;
 
   const decoded = web3Http.eth.abi.decodeLog(
-    jsonInput != null ? jsonInput : [],
+    jsonInput !== undefined ? jsonInput : [],
     logs,
     topics,
   );
@@ -56,7 +55,8 @@ export const subscription = (
     options.fromBlock = fromBlock;
   }
   return web3Socket.eth.subscribe('logs', options, (err, res) => {
-    if (!err) console.error(err);
-    console.log(res);
+    if (err) {
+      console.error(err);
+    }
   });
 };
