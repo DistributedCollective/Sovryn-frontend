@@ -146,7 +146,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       SHORT_LIMIT: translations.perpetualPage.tradeForm.buttons.sellLimit,
       SHORT_MARKET: translations.perpetualPage.tradeForm.buttons.sellMarket,
     }[`${trade.position}_${trade.tradeType}`];
-    console.log(i18nKey);
 
     return i18nKey && t(i18nKey);
   }, [t, trade.position, trade.tradeType]);

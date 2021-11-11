@@ -8,7 +8,6 @@ import { useQuery, gql } from '@apollo/client';
  */
 
 export function useGetBannerData(perpetualId: string) {
-  console.debug('Getting recent trades');
   const candleStickStart = new Date().getTime() / 1000;
   const BANNER_QUERY = gql`
     {

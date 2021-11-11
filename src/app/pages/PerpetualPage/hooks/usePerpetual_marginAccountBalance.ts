@@ -42,7 +42,7 @@ export const usePerpetual_marginAccountBalance = () => {
           fPositionBC: fPositionBC ? ABK64x64ToFloat(fPositionBC) : 0,
         });
       })
-      .catch(e => console.log(e.message));
+      .catch(e => console.error(e.message));
   }, [address]);
 
   return marginAccountBalance;

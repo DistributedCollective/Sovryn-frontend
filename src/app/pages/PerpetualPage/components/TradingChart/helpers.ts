@@ -41,7 +41,6 @@ export const makeApiRequest = async (
     const query = isFirstRequest
       ? generateFirstCandleQuery(candleDuration, perpId, candleNumber)
       : generateCandleQuery(candleDuration, perpId, startTime);
-    console.debug(query.loc?.source.body);
     const response = await apolloClient.query({
       query: query,
     });
@@ -58,7 +57,7 @@ export const makeApiRequest = async (
     });
     return bars;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw new Error(`Request error: ${error}`);
   }
 };
