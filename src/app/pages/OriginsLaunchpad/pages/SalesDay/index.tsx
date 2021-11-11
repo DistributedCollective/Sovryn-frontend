@@ -24,7 +24,7 @@ interface ISalesDayProps {
 }
 
 export const SalesDay: React.FC<ISalesDayProps> = ({ saleName }) => {
-  const match = useRouteMatch();
+  const { url } = useRouteMatch();
   const history = useHistory();
   const location = useLocation();
   const { t } = useTranslation();
@@ -33,18 +33,17 @@ export const SalesDay: React.FC<ISalesDayProps> = ({ saleName }) => {
 
   const setStep = (step: number) => {
     saleStorage.saveData({ step });
-    history.push(`${match.url}/${step}`);
+    history.push(`${url}/${step}`);
   };
 
   useEffect(() => {
     const { step } = saleStorage.getData();
     if (connected) {
-      history.push(`${match.url}/${step}`);
+      history.push(`${url}/${step}`);
     } else {
-      history.push(`${match.url}/engage-wallet`);
+      history.push(`${url}/engage-wallet`);
     }
-    // eslint-disable-next-line
-  }, [connected, location.pathname]);
+  }, [connected, location.pathname, history, url]);
 
   return (
     <div className="tw-mb-52">
@@ -62,26 +61,26 @@ export const SalesDay: React.FC<ISalesDayProps> = ({ saleName }) => {
         <Switch>
           <Route
             exact
-            path={`${match.url}/engage-wallet`}
+            path={`${url}/engage-wallet`}
             component={EngageWalletStep}
           />
-          <Route exact path={`${match.url}/1`}>
+          <Route exact path={`${url}/1`}>
             <AccessCodeVerificationStep
               saleName={saleName}
               onVerified={() => setStep(2)}
               info={info}
             />
           </Route>
-          <Route exact path={`${match.url}/2`}>
+          <Route exact path={`${url}/2`}>
             <ImportantInformationStep
               saleName={saleName}
               onSubmit={() => setStep(3)}
             />
           </Route>
-          <Route exact path={`${match.url}/3`}>
+          <Route exact path={`${url}/3`}>
             <BuyStep saleInformation={info} saleName={saleName} />
           </Route>
-          <Redirect to={`${match.url}/engage-wallet`} />
+          <Redirect to={`${url}/engage-wallet`} />
         </Switch>
       </div>
     </div>
