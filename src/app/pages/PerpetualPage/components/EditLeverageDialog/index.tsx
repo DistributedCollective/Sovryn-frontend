@@ -96,7 +96,7 @@ export const EditLeverageDialog: React.FC = () => {
       isOpen={modal === PerpetualPageModals.EDIT_LEVERAGE}
       onClose={onClose}
     >
-      <h1>{t(translations.perpetualPage.editPositionSize.title)}</h1>
+      <h1>{t(translations.perpetualPage.editLeverage.title)}</h1>
       {trade && pair && (
         <div className="tw-mw-340 tw-mx-auto">
           <TradeDetails
