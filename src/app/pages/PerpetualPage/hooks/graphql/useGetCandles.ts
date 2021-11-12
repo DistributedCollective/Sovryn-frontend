@@ -18,7 +18,6 @@ export function useGetCandles(
   startTime: number,
   endTime?: number,
 ) {
-  console.debug('Getting candles');
   const CANDLE_QUERY = generateCandleQuery(
     candleDuration,
     perpetualId,
@@ -28,14 +27,13 @@ export function useGetCandles(
   return candleQuery;
 }
 
-const generateCandleQuery = (
+export const generateCandleQuery = (
   candleDuration: CandleDuration,
   perpetualId: string,
   startTime: number,
   endTime?: number,
 ): DocumentNode => {
   const candleDetails = CandleDictionary.get(candleDuration);
-  console.log(candleDetails);
   return gql`
     {
       ${candleDetails.entityName}(
@@ -44,14 +42,43 @@ const generateCandleQuery = (
           perpetualId: "${perpetualId}"
         }
         orderBy: periodStartUnix
-        orderDirection: desc
-        first: 200
+        orderDirection: asc
+        first: 500
       ) {
         perpetualId
         open
         high
         low
         close
+        totalVolume
+        periodStartUnix
+      }
+    }
+  `;
+};
+
+export const generateFirstCandleQuery = (
+  candleDuration: CandleDuration,
+  perpetualId: string,
+  candleNumber: number,
+): DocumentNode => {
+  const candleDetails = CandleDictionary.get(candleDuration);
+  return gql`
+    {
+      ${candleDetails.entityName}(
+        where: {
+          perpetualId: "${perpetualId}"
+        }
+        orderBy: periodStartUnix
+        orderDirection: asc
+        first: ${candleNumber < 500 ? candleNumber : 500}
+      ) {
+        perpetualId
+        open
+        high
+        low
+        close
+        totalVolume
         periodStartUnix
       }
     }
@@ -68,21 +95,34 @@ export enum CandleDuration {
 
 class CandleDetails {
   /** TODO: Add default number of candles or default startTime */
-  constructor(public entityName: string) {
+  constructor(
+    public entityName: string,
+    public resolutionBack: 'D' | 'M',
+    public intervalBack: number,
+    public startDaysFromNow: number, // Number of days back to start from in default query
+  ) {
     this.entityName = entityName;
+    this.resolutionBack = resolutionBack;
+    this.intervalBack = intervalBack;
   }
 }
 
-class CandleDictionary {
+export class CandleDictionary {
   public static candles: Map<CandleDuration, CandleDetails> = new Map<
     CandleDuration,
     CandleDetails
   >([
-    [CandleDuration.M_1, new CandleDetails('candleSticksMinutes')],
-    [CandleDuration.M_15, new CandleDetails('candleSticksFifteenMinutes')],
-    [CandleDuration.H_1, new CandleDetails('candleSticksHours')],
-    [CandleDuration.H_4, new CandleDetails('candleSticksFourHours')],
-    [CandleDuration.D_1, new CandleDetails('candleSticksDays')],
+    [CandleDuration.M_1, new CandleDetails('candleSticksMinutes', 'D', 1, 5)],
+    [
+      CandleDuration.M_15,
+      new CandleDetails('candleSticksFifteenMinutes', 'D', 3, 5),
+    ],
+    [CandleDuration.H_1, new CandleDetails('candleSticksHours', 'D', 5, 5)],
+    [
+      CandleDuration.H_4,
+      new CandleDetails('candleSticksFourHours', 'D', 10, 10),
+    ],
+    [CandleDuration.D_1, new CandleDetails('candleSticksDays', 'D', 90, 90)],
   ]);
 
   public static get(candle: CandleDuration): CandleDetails {

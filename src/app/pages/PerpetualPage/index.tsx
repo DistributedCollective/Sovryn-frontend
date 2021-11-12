@@ -12,7 +12,7 @@ import { reducer, sliceKey, actions } from './slice';
 import { HeaderLabs } from '../../components/HeaderLabs';
 import { Footer } from '../../components/Footer';
 import { PerpetualPairDictionary } from '../../../utils/dictionaries/perpetual-pair-dictionary';
-import { Theme, TradingChart } from '../../components/TradingChart';
+import { Theme, TradingChart } from './components/TradingChart';
 import { OpenPositionsTable } from './components/OpenPositionsTable';
 import { useIsConnected } from '../../hooks/useAccount';
 import { TradingHistory } from './components/TradingHistory';
@@ -33,8 +33,6 @@ import { usePerpetual_accountBalance } from './hooks/usePerpetual_accountBalance
 import { AccountDialog } from './components/AccountDialog';
 import { NewPositionCard } from './components/NewPositionCard';
 import { TradeReviewDialog } from './components/TradeReviewDialog';
-import { TestHistory } from './components/TestHistory';
-import { TestCandles } from './components/TestCandles';
 import { EditPositionSizeDialog } from './components/EditPositionSizeDialog';
 import { EditLeverageDialog } from './components/EditLeverageDialog';
 
