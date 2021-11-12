@@ -7,7 +7,10 @@ import { FormGroup } from 'app/components/Form/FormGroup';
 
 import { translations } from '../../../../../locales/i18n';
 import { assetByTokenAddress } from '../../../../../utils/blockchain/contract-helpers';
-import { VAULT_WITHDRAW_LOG_SIGNATURE_HASH } from '../../../../../utils/classifiers';
+import {
+  VAULT_WITHDRAW_LOG_SIGNATURE_HASH,
+  CLOSE_WITH_SWAP_SIGNATURE_HASH,
+} from '../../../../../utils/classifiers';
 import { useCloseWithSwap } from '../../../../hooks/protocol/useCloseWithSwap';
 import { useAccount } from '../../../../hooks/useAccount';
 import { useIsAmountWithinLimits } from '../../../../hooks/useIsAmountWithinLimits';
@@ -59,6 +62,69 @@ const VaultWithdrawLogInput = [
   {
     indexed: false,
     name: 'amount',
+    type: 'uint256',
+  },
+];
+
+const CloseWithSwapLogInput = [
+  {
+    indexed: true,
+    internalType: 'address',
+    name: 'user',
+    type: 'address',
+  },
+  {
+    indexed: true,
+    internalType: 'address',
+    name: 'lender',
+    type: 'address',
+  },
+  {
+    indexed: true,
+    internalType: 'bytes32',
+    name: 'loanId',
+    type: 'bytes32',
+  },
+  {
+    indexed: false,
+    internalType: 'address',
+    name: 'collateralToken',
+    type: 'address',
+  },
+  {
+    indexed: false,
+    internalType: 'address',
+    name: 'loanToken',
+    type: 'address',
+  },
+  {
+    indexed: false,
+    internalType: 'address',
+    name: 'closer',
+    type: 'address',
+  },
+  {
+    indexed: false,
+    internalType: 'uint256',
+    name: 'positionCloseSize',
+    type: 'uint256',
+  },
+  {
+    indexed: false,
+    internalType: 'uint256',
+    name: 'loanCloseAmount',
+    type: 'uint256',
+  },
+  {
+    indexed: false,
+    internalType: 'uint256',
+    name: 'exitPrice',
+    type: 'uint256',
+  },
+  {
+    indexed: false,
+    internalType: 'uint256',
+    name: 'currentLeverage',
     type: 'uint256',
   },
 ];
@@ -132,6 +198,12 @@ export function DialogContent(props: IDialogContentProps) {
     [simulation, receiver],
   );
 
+  const closeSimulation = useFilterSimulatorResponseLogs(
+    simulator,
+    CLOSE_WITH_SWAP_SIGNATURE_HASH,
+    CloseWithSwapLogInput,
+  );
+
   return (
     <>
       <div className="tw-mw-340 tw-mx-auto">
@@ -195,6 +267,8 @@ export function DialogContent(props: IDialogContentProps) {
             )}
           </>
         )}
+
+        <pre>{JSON.stringify(closeSimulation.logs, undefined, 2)}</pre>
 
         <TxFeeCalculator
           args={args}
