@@ -28,19 +28,10 @@ const lastBarsCache = new Map<string, Bar>();
 
 const tradingChartDataFeeds = {
   // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#onreadycallback
-  onReady: callback => {
-    setTimeout(() => callback(config));
-  },
+  onReady: callback => setTimeout(() => callback(config)),
 
   // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#searchsymbolsuserinput-exchange-symboltype-onresultreadycallback
-  searchSymbols: async (
-    userInput,
-    exchange,
-    symbolType,
-    onResultReadyCallback,
-  ) => {
-    // disabled via chart config in index.tsx
-  },
+  // searchSymbols disabled via chart config in index.tsx
 
   // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#resolvesymbolsymbolname-onsymbolresolvedcallback-onresolveerrorcallback-extension
   resolveSymbol: async (
@@ -178,9 +169,7 @@ const tradingChartDataFeeds = {
   },
 
   // // // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#unsubscribebarssubscriberuid
-  unsubscribeBars: subscriberUID => {
-    unsubscribeFromStream(subscriberUID);
-  },
+  unsubscribeBars: subscriberUID => unsubscribeFromStream(subscriberUID),
 };
 
 export default tradingChartDataFeeds;
