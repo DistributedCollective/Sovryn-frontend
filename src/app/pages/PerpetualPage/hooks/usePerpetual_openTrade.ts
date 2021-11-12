@@ -5,6 +5,7 @@ import { TxType } from 'store/global/transactions-store/types';
 import { TradingPosition } from 'types/trading-position';
 import { fromWei } from 'utils/blockchain/math-helpers';
 import { ethGenesisAddress, gasLimit } from 'utils/classifiers';
+import { toWei } from 'web3-utils';
 import {
   floatToABK64x64,
   PERPETUAL_ID,
@@ -67,7 +68,7 @@ export const usePerpetual_openTrade = () => {
       );
 
       if (!isClosePosition && marginRequired > 0) {
-        await deposit(String(marginRequired));
+        await deposit(toWei(String(marginRequired)));
       }
 
       const deadline = Math.round(Date.now() / 1000) + 86400; // 1 day
