@@ -62,13 +62,20 @@ function OpenPositionRowInner({ item }: IOpenPositionRowInnerProps) {
 
   const entryPrice = getEntryPrice(item, position);
 
-  const positionMargin = useMemo(
-    () =>
-      bignumber(entryPrice)
+  const positionMargin = useMemo(() => {
+    if (position === TradingPosition.LONG) {
+      return bignumber(entryPrice)
         .mul(bignumber(item.collateral).div(leverage))
-        .toString(),
-    [entryPrice, item.collateral, leverage],
-  );
+        .toString();
+    }
+    return bignumber(1)
+      .div(entryPrice)
+      .mul(bignumber(item.collateral).div(leverage))
+      .toString();
+  }, [entryPrice, item.collateral, leverage, position]);
+
+  const positionMarginAsset =
+    position === TradingPosition.LONG ? pair.longAsset : pair.shortAsset;
 
   return (
     <>
@@ -128,11 +135,8 @@ function OpenPositionRowInner({ item }: IOpenPositionRowInnerProps) {
             <LoadableValue
               value={
                 <>
-                  {weiToAssetNumberFormat(
-                    positionMargin,
-                    pair.shortDetails.asset,
-                  )}{' '}
-                  <AssetSymbolRenderer asset={pair.longDetails.asset} />
+                  {weiToAssetNumberFormat(positionMargin, positionMarginAsset)}{' '}
+                  <AssetSymbolRenderer asset={positionMarginAsset} />
                 </>
               }
               tooltip={weiToNumberFormat(positionMargin, 18)}

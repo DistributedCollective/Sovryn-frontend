@@ -1,14 +1,15 @@
 import React, { useMemo } from 'react';
 import classNames from 'classnames';
 import { bignumber } from 'mathjs';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 import { ActiveLoan } from 'types/active-loan';
-import { AssetRenderer } from 'app/components/AssetRenderer';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { usePriceFeeds_QueryRate } from 'app/hooks/price-feeds/useQueryRate';
 import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
 import {
+  toNumberFormat,
   weiToAssetNumberFormat,
-  weiToNumberFormat,
 } from 'utils/display-text/format';
 import { TradingPosition } from 'types/trading-position';
 import { TradingPair } from 'utils/models/trading-pair';
@@ -32,6 +33,7 @@ export const ProfitContainer: React.FC<ProfitContainerProps> = ({
   leverage,
   entryPrice,
 }) => {
+  const { t } = useTranslation();
   const isLong = position === TradingPosition.LONG;
 
   const loanToken = assetByTokenAddress(item.loanToken);
@@ -52,9 +54,7 @@ export const ProfitContainer: React.FC<ProfitContainerProps> = ({
         .mul(Math.pow(10, 18));
     }
 
-    return currentRate
-      .div(1.003) // decrease estimated price by 0.3%
-      .toString();
+    return currentRate.div(1.003).toString();
   }, [
     currentCollateralToPrincipalRate.rate,
     currentCollateralToPrincipalRate.precision,
@@ -67,18 +67,6 @@ export const ProfitContainer: React.FC<ProfitContainerProps> = ({
       ? percentageChange(openPrice, exitPrice)
       : percentageChange(exitPrice, openPrice);
   }, [isLong, entryPrice, exitPrice]);
-
-  const profitNew = useMemo(() => {
-    const openPrice = bignumber(entryPrice).mul(Math.pow(10, 18));
-
-    if (isLong) {
-      return bignumber(item.collateral)
-        .mul(bignumber(priceChange).div(100))
-        .toString();
-    }
-
-    return percentageChange(exitPrice, openPrice);
-  }, [isLong, entryPrice, exitPrice, item.collateral, priceChange]);
 
   const exitAmountCollateral = useCacheCallWithValue<{
     loanCloseAmount: string;
@@ -115,26 +103,23 @@ export const ProfitContainer: React.FC<ProfitContainerProps> = ({
       <LoadableValue
         loading={loading}
         value={
-          <span
-            className={classNames(
-              priceChange > '0' && 'tw-text-success',
-              priceChange < '0' && 'tw-text-warning',
-            )}
-          >
-            ~{' '}
-            {weiToAssetNumberFormat(
-              bignumber(profitNew).abs().toString(),
-              pair.shortAsset,
-            )}{' '}
-            <AssetRenderer asset={pair.shortDetails.asset} />
-          </span>
+          <>
+            <div
+              className={classNames(
+                priceChange > '0' && 'tw-text-success',
+                priceChange < '0' && 'tw-text-warning',
+              )}
+            >
+              {toNumberFormat(priceChange, 3)} %
+            </div>
+          </>
         }
         tooltip={
           <>
-            <div>{weiToNumberFormat(profitNew, 18)}</div>
+            <div>{toNumberFormat(priceChange, 18)}</div>
             <div className="tw-mt-2 tw-text-xs">
-              <div>You would withdraw one of these:</div>
-              <div className="tw-pl-3">
+              <div>{t(translations.openPositionTable.profitTooltip)}</div>
+              <div className="tw-mt-1 tw-pl-3">
                 {weiToAssetNumberFormat(
                   exitAmountLoan.value.withdrawAmount,
                   loanToken,
