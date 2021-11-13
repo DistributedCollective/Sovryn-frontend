@@ -56,6 +56,20 @@ class ContractReader {
       });
   }
 
+  public async callAsync<T = string | RevertInstructionError>(
+    contractName: ContractName,
+    methodName: string,
+    args: Array<any>,
+    account?: string,
+  ): Promise<T> {
+    return this.sovryn.contracts[contractName].methods[methodName](...args)
+      .callAsync({ from: account })
+      .catch(e => {
+        error('callAsync', { contractName, methodName, args }, e);
+        throw e;
+      });
+  }
+
   public async callByAddress<T = string | RevertInstructionError>(
     address: string,
     abi: AbiItem[] | AbiItem | any,

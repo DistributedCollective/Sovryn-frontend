@@ -7,10 +7,6 @@ import { FormGroup } from 'app/components/Form/FormGroup';
 
 import { translations } from '../../../../../locales/i18n';
 import { assetByTokenAddress } from '../../../../../utils/blockchain/contract-helpers';
-import {
-  VAULT_WITHDRAW_LOG_SIGNATURE_HASH,
-  CLOSE_WITH_SWAP_SIGNATURE_HASH,
-} from '../../../../../utils/classifiers';
 import { useCloseWithSwap } from '../../../../hooks/protocol/useCloseWithSwap';
 import { useAccount } from '../../../../hooks/useAccount';
 import { useIsAmountWithinLimits } from '../../../../hooks/useIsAmountWithinLimits';
@@ -20,17 +16,15 @@ import { CollateralAssets } from '../CollateralAssets';
 
 import { ActiveLoan } from 'types/active-loan';
 import { TxFeeCalculator } from '../TxFeeCalculator';
-import { useSimulator } from '../../../../hooks/simulator/useSimulator';
 import { ResetTxResponseInterface } from '../../../../hooks/useSendContractTx';
-import { weiToNumberFormat } from '../../../../../utils/display-text/format';
+import {
+  weiToAssetNumberFormat,
+  weiToNumberFormat,
+} from '../../../../../utils/display-text/format';
 import { DummyInput } from '../../../../components/Form/Input';
 import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
-import { ErrorBadge } from '../../../../components/Form/ErrorBadge';
 import { LoadableValue } from '../../../../components/LoadableValue';
-import {
-  SimulationStatus,
-  useFilterSimulatorResponseLogs,
-} from '../../../../hooks/simulator/useFilterSimulatorResponseLogs';
+import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 
 interface IDialogContentProps {
   item: ActiveLoan;
@@ -47,87 +41,6 @@ const getOptions = (item: ActiveLoan) => {
     assetByTokenAddress(item.loanToken),
   ];
 };
-
-const VaultWithdrawLogInput = [
-  {
-    indexed: true,
-    name: 'asset',
-    type: 'address',
-  },
-  {
-    indexed: true,
-    name: 'to',
-    type: 'address',
-  },
-  {
-    indexed: false,
-    name: 'amount',
-    type: 'uint256',
-  },
-];
-
-const CloseWithSwapLogInput = [
-  {
-    indexed: true,
-    internalType: 'address',
-    name: 'user',
-    type: 'address',
-  },
-  {
-    indexed: true,
-    internalType: 'address',
-    name: 'lender',
-    type: 'address',
-  },
-  {
-    indexed: true,
-    internalType: 'bytes32',
-    name: 'loanId',
-    type: 'bytes32',
-  },
-  {
-    indexed: false,
-    internalType: 'address',
-    name: 'collateralToken',
-    type: 'address',
-  },
-  {
-    indexed: false,
-    internalType: 'address',
-    name: 'loanToken',
-    type: 'address',
-  },
-  {
-    indexed: false,
-    internalType: 'address',
-    name: 'closer',
-    type: 'address',
-  },
-  {
-    indexed: false,
-    internalType: 'uint256',
-    name: 'positionCloseSize',
-    type: 'uint256',
-  },
-  {
-    indexed: false,
-    internalType: 'uint256',
-    name: 'loanCloseAmount',
-    type: 'uint256',
-  },
-  {
-    indexed: false,
-    internalType: 'uint256',
-    name: 'exitPrice',
-    type: 'uint256',
-  },
-  {
-    indexed: false,
-    internalType: 'uint256',
-    name: 'currentLeverage',
-    type: 'uint256',
-  },
-];
 
 export function DialogContent(props: IDialogContentProps) {
   const receiver = useAccount();
@@ -171,37 +84,19 @@ export function DialogContent(props: IDialogContentProps) {
     [props.item.loanId, receiver, weiAmount, isCollateral],
   );
 
-  const simulator = useSimulator(
+  const { value, loading } = useCacheCallWithValue<{
+    withdrawAmount: string;
+    withdrawToken: string;
+  }>(
     'sovrynProtocol',
     'closeWithSwap',
-    args,
-    '0',
-    weiAmount !== '0',
+    { withdrawAmount: '0', withdrawToken: '' },
+    ...args,
   );
 
-  const simulation = useFilterSimulatorResponseLogs<{
-    to: string;
-    asset: string;
-    amount: string;
-  }>(simulator, VAULT_WITHDRAW_LOG_SIGNATURE_HASH, VaultWithdrawLogInput);
-
-  const result = useMemo(
-    () =>
-      simulation.logs
-        .filter(
-          item => item.decoded.to.toLowerCase() === receiver.toLowerCase(),
-        )
-        .map(item => ({
-          asset: assetByTokenAddress(item.decoded.asset),
-          value: item.decoded.amount,
-        })),
-    [simulation, receiver],
-  );
-
-  const closeSimulation = useFilterSimulatorResponseLogs(
-    simulator,
-    CLOSE_WITH_SWAP_SIGNATURE_HASH,
-    CloseWithSwapLogInput,
+  const token = useMemo(
+    () => assetByTokenAddress(value.withdrawToken) || collateral,
+    [collateral, value.withdrawToken],
   );
 
   return (
@@ -229,60 +124,33 @@ export function DialogContent(props: IDialogContentProps) {
           options={options}
         />
 
-        {simulation.status !== SimulationStatus.NONE && (
-          <>
-            {simulation.status === SimulationStatus.PENDING ? (
-              <div className="bp3-skeleton tw-h-6 tw-w-full tw-mb-2" />
-            ) : (
-              <>
-                {simulation.status === SimulationStatus.SUCCESS ? (
-                  <FormGroup
-                    label={t(
-                      translations.closeTradingPositionHandler.withdrawAmount,
-                    )}
-                  >
-                    {result.map(item => (
-                      <DummyInput
-                        key={item.asset}
-                        value={
-                          <LoadableValue
-                            loading={false}
-                            value={weiToNumberFormat(item.value, 6)}
-                            tooltip={weiToNumberFormat(item.value, 18)}
-                          />
-                        }
-                        appendElem={<AssetSymbolRenderer asset={item.asset} />}
-                      />
-                    ))}
-                  </FormGroup>
-                ) : (
-                  <ErrorBadge
-                    content={t(
-                      translations.closeTradingPositionHandler.simulationFailed,
-                      { error: simulation.error },
-                    )}
-                  />
-                )}
-              </>
-            )}
-          </>
+        {value && (
+          <FormGroup
+            label={t(translations.closeTradingPositionHandler.withdrawAmount)}
+          >
+            <DummyInput
+              value={
+                <LoadableValue
+                  loading={loading}
+                  value={weiToAssetNumberFormat(value.withdrawAmount, token)}
+                  tooltip={weiToNumberFormat(value.withdrawAmount, 18)}
+                />
+              }
+              appendElem={<AssetSymbolRenderer asset={token} />}
+            />
+          </FormGroup>
         )}
-
-        <pre>{JSON.stringify(closeSimulation.logs, undefined, 2)}</pre>
 
         <TxFeeCalculator
           args={args}
           methodName="closeWithSwap"
           contractName="sovrynProtocol"
-          txConfig={{ gas: simulation.gasUsed }}
         />
 
         <DialogButton
           confirmLabel={t(translations.common.confirm)}
           onConfirm={() => handleConfirmSwap()}
-          disabled={
-            rest.loading || !valid || closeTradesLocked || simulator.loading
-          }
+          disabled={rest.loading || !valid || closeTradesLocked || loading}
           cancelLabel={t(translations.common.cancel)}
           onCancel={props.onCloseModal}
         />

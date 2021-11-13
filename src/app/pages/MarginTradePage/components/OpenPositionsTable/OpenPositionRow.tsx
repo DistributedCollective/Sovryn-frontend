@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bignumber } from 'mathjs';
 import { ActionButton } from 'app/components/Form/ActionButton';
@@ -8,14 +8,12 @@ import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading
 import { assetByTokenAddress } from '../../../../../utils/blockchain/contract-helpers';
 import { TradingPosition } from '../../../../../types/trading-position';
 import {
+  toAssetNumberFormat,
   toNumberFormat,
+  weiToAssetNumberFormat,
   weiToNumberFormat,
 } from '../../../../../utils/display-text/format';
-import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
-import {
-  weiTo18,
-  weiToFixed,
-} from '../../../../../utils/blockchain/math-helpers';
+import { weiTo18 } from '../../../../../utils/blockchain/math-helpers';
 import { leverageFromMargin } from '../../../../../utils/blockchain/leverage-from-start-margin';
 import { AddToMarginDialog } from '../AddToMarginDialog';
 import { ClosePositionDialog } from '../ClosePositionDialog';
@@ -24,21 +22,13 @@ import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { formatNumber } from '../../../../containers/StatsPage/utils';
-import { usePriceFeeds_QueryRate } from '../../../../hooks/price-feeds/useQueryRate';
-import classNames from 'classnames';
 import { usePositionLiquidationPrice } from '../../../../hooks/trading/usePositionLiquidationPrice';
-import { Button } from 'app/components/Button';
-import {
-  timestampToDateString,
-  timestampToDateTimeString,
-} from 'utils/dateHelpers';
-import { useSwapsExternal_getSwapExpectedReturn } from 'app/hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
+import { ProfitContainer } from './ProfitContainer';
+import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 
 interface IOpenPositionRowInnerProps {
   item: ActiveLoan;
 }
-
-const slippage = 0.1; // 10%
 
 function OpenPositionRowInner({ item }: IOpenPositionRowInnerProps) {
   const { t } = useTranslation();
@@ -61,7 +51,6 @@ function OpenPositionRowInner({ item }: IOpenPositionRowInnerProps) {
       ? TradingPosition.LONG
       : TradingPosition.SHORT;
 
-  const isLong = position === TradingPosition.LONG;
   const leverage = leverageFromMargin(item.startMargin);
 
   const liquidationPrice = usePositionLiquidationPrice(
@@ -71,117 +60,15 @@ function OpenPositionRowInner({ item }: IOpenPositionRowInnerProps) {
     item.maintenanceMargin,
   );
 
-  const {
-    value: currentCollateralToPrincipalRate,
-    loading,
-  } = usePriceFeeds_QueryRate(
-    assetByTokenAddress(item.collateralToken),
-    assetByTokenAddress(item.loanToken),
+  const entryPrice = getEntryPrice(item, position);
+
+  const positionMargin = useMemo(
+    () =>
+      bignumber(entryPrice)
+        .mul(bignumber(item.collateral).div(leverage))
+        .toString(),
+    [entryPrice, item.collateral, leverage],
   );
-
-  const exitAmount = useMemo(() => {
-    let result = bignumber(0);
-    let positionValue = bignumber(0);
-    let openPrice = bignumber(0);
-
-    const collateralAssetAmount = bignumber(item.collateral);
-    const loanAssetAmount = bignumber(item.principal);
-
-    const exitPrice = bignumber(currentCollateralToPrincipalRate.rate)
-      .div(1.0023) // decrease estimated price by 0.23%
-      .toString();
-
-    if (isLong) {
-      result = bignumber(item.collateral)
-        .mul(exitPrice)
-        .div(Math.pow(10, 18))
-        // .mul(bignumber(1).div(currentCollateralToPrincipalRate.rate))
-        // .mul(Math.pow(10, 18))
-        .minus(item.principal)
-        .add(item.interestDepositRemaining);
-    } else {
-    }
-
-    return result.toString();
-  }, [
-    currentCollateralToPrincipalRate,
-    isLong,
-    item.collateral,
-    item.principal,
-    item.interestDepositRemaining,
-  ]);
-
-  const profit = useMemo(() => {
-    let result = bignumber(0);
-    let positionValue = bignumber(0);
-    let openPrice = bignumber(0);
-
-    const collateralAssetAmount = bignumber(item.collateral);
-    const loanAssetAmount = bignumber(item.principal);
-
-    if (isLong) {
-      positionValue = collateralAssetAmount;
-      openPrice = bignumber(item.startRate);
-      result = bignumber(currentCollateralToPrincipalRate.rate)
-        .minus(openPrice)
-        .times(positionValue)
-        .div(leverage)
-        .div(10 ** 18);
-
-      // result = result.minus(result.mul(slippage));
-    } else {
-      positionValue = collateralAssetAmount
-        .times(currentCollateralToPrincipalRate.rate)
-        .minus(loanAssetAmount);
-      openPrice = bignumber(10 ** 36)
-        .div(item.startRate)
-        .div(10 ** 18); // div 10 **18 ?
-      result = openPrice
-        .minus(
-          bignumber(1)
-            .div(currentCollateralToPrincipalRate.rate)
-            .times(10 ** 18),
-        )
-        .times(positionValue)
-        .div(leverage)
-        .div(10 ** 18);
-      // result = result.add(result.mul(slippage));
-    }
-
-    return result.toString();
-  }, [
-    currentCollateralToPrincipalRate,
-    isLong,
-    item.collateral,
-    item.principal,
-    item.startRate,
-  ]);
-
-  const collateralAssetDetails = AssetsDictionary.get(collateralAsset);
-
-  const amount = bignumber(item.collateral).div(leverage).toFixed(0);
-
-  const [expanded, setExpanded] = useState(false);
-
-  const positionType = position;
-  const baseAsset = assetByTokenAddress(
-    positionType === TradingPosition.LONG
-      ? item.collateralToken
-      : item.loanToken,
-  );
-  const quoteAsset = assetByTokenAddress(
-    positionType === TradingPosition.LONG
-      ? item.loanToken
-      : item.collateralToken,
-  );
-  // let leverage =
-
-  const exitAmountMaybe = bignumber(item.collateral)
-    .mul(item.startRate)
-    .div(1e18)
-    .minus(item.principal)
-    .div(1e18)
-    .toString();
 
   return (
     <>
@@ -191,14 +78,32 @@ function OpenPositionRowInner({ item }: IOpenPositionRowInnerProps) {
         </td>
         <td>
           <div className="tw-whitespace-nowrap">
+            <div>
+              <LoadableValue
+                value={
+                  <>
+                    {weiToAssetNumberFormat(item.collateral, collateralAsset)}{' '}
+                    <AssetRenderer asset={collateralAsset} />
+                  </>
+                }
+                tooltip={weiToNumberFormat(item.collateral, 18)}
+              />
+            </div>
+            <div className="tw-opacity-25 tw-text-xs">
+              {leverage}x {position === TradingPosition.LONG ? 'LONG' : 'SHORT'}
+            </div>
+          </div>
+        </td>
+        <td className="tw-hidden xl:tw-table-cell">
+          <div className="tw-whitespace-nowrap">
             <LoadableValue
               value={
                 <>
-                  {weiToNumberFormat(item.collateral, 4)}{' '}
-                  <AssetRenderer asset={collateralAssetDetails.asset} />
+                  {toAssetNumberFormat(entryPrice, pair.longDetails.asset)}{' '}
+                  <AssetRenderer asset={pair.longDetails.asset} />
                 </>
               }
-              tooltip={weiToNumberFormat(item.collateral, 18)}
+              tooltip={toNumberFormat(entryPrice, 18)}
             />
           </div>
         </td>
@@ -207,33 +112,10 @@ function OpenPositionRowInner({ item }: IOpenPositionRowInnerProps) {
             <LoadableValue
               value={
                 <>
-                  {toNumberFormat(getEntryPrice(item, position), 4)}{' '}
-                  <AssetRenderer asset={pair.longDetails.asset} />
-                </>
-              }
-              tooltip={toNumberFormat(getEntryPrice(item, position), 18)}
-            />
-            <br />
-            <LoadableValue
-              value={
-                <>
-                  {weiToNumberFormat(
-                    currentCollateralToPrincipalRate.rate || '0',
-                    4,
+                  {toAssetNumberFormat(
+                    liquidationPrice,
+                    pair.longDetails.asset,
                   )}{' '}
-                  <AssetRenderer asset={pair.longDetails.asset} />
-                </>
-              }
-              tooltip={toNumberFormat(getEntryPrice(item, position), 18)}
-            />
-          </div>
-        </td>
-        <td className="tw-hidden xl:tw-table-cell">
-          <div className="tw-whitespace-nowrap">
-            <LoadableValue
-              value={
-                <>
-                  {toNumberFormat(liquidationPrice, 4)}{' '}
                   <AssetRenderer asset={pair.longDetails.asset} />
                 </>
               }
@@ -246,48 +128,29 @@ function OpenPositionRowInner({ item }: IOpenPositionRowInnerProps) {
             <LoadableValue
               value={
                 <>
-                  {weiToNumberFormat(amount, 4)}{' '}
-                  <AssetRenderer
-                    asset={assetByTokenAddress(item.collateralToken)}
-                  />{' '}
-                  ({leverage}x)
+                  {weiToAssetNumberFormat(
+                    positionMargin,
+                    pair.shortDetails.asset,
+                  )}{' '}
+                  <AssetSymbolRenderer asset={pair.longDetails.asset} />
                 </>
               }
-              tooltip={weiToNumberFormat(amount, 18)}
+              tooltip={weiToNumberFormat(positionMargin, 18)}
             />
+          </div>
+          <div className="tw-truncate tw-opacity-25">
+            {weiToNumberFormat(item.currentMargin, 3)} %
           </div>
         </td>
         <td>
           <div className="tw-whitespace-nowrap">
-            {exitAmountMaybe}
-            <br />
-            {weiToNumberFormat(exitAmount, 4)}
-            <br />
-            <LoadableValue
-              loading={loading}
-              value={
-                <span
-                  className={classNames(
-                    profit > '0' && 'tw-text-success',
-                    profit < '0' && 'tw-text-warning',
-                  )}
-                >
-                  ~ {weiToNumberFormat(profit, 4)}{' '}
-                  <AssetRenderer asset={pair.longDetails.asset} />
-                </span>
-              }
-              tooltip={
-                <>
-                  ~ {weiToNumberFormat(profit, 18)}{' '}
-                  <AssetRenderer asset={pair.longDetails.asset} />
-                </>
-              }
+            <ProfitContainer
+              item={item}
+              pair={pair}
+              position={position}
+              leverage={leverage}
+              entryPrice={entryPrice}
             />
-          </div>
-        </td>
-        <td className="tw-hidden 2xl:tw-table-cell">
-          <div className="tw-truncate">
-            {toNumberFormat(getInterestAPR(item), 2)}%
           </div>
         </td>
         <td>
@@ -343,65 +206,8 @@ function OpenPositionRowInner({ item }: IOpenPositionRowInnerProps) {
             onCloseModal={() => setShowClosePosition(false)}
             showModal={showClosePosition}
           />
-          <Button
-            onClick={() => setExpanded(prevValue => !prevValue)}
-            text="Expand"
-          />
         </td>
       </tr>
-      {expanded && (
-        <tr>
-          <td colSpan={99}>
-            <div>loanId: {item.loanId}</div>
-            <div>loanToken: {assetByTokenAddress(item.loanToken)}</div>
-            <div>
-              collateralToken: {assetByTokenAddress(item.collateralToken)}
-            </div>
-            <div>
-              principal: {item.principal} | {weiToFixed(item.principal, 4)}
-            </div>
-            <div>
-              collateral: {item.collateral} | {weiToFixed(item.collateral, 4)}
-            </div>
-            <div>
-              interestOwedPerDay: {item.interestOwedPerDay} |{' '}
-              {weiToFixed(item.interestOwedPerDay, 4)}
-            </div>
-            <div>
-              interestDepositRemaining: {item.interestDepositRemaining} |{' '}
-              {weiToFixed(item.interestDepositRemaining, 4)}
-            </div>
-            <div>
-              startRate: {item.startRate} | {weiToFixed(item.startRate, 4)}
-            </div>
-            <div>
-              startMargin: {item.startMargin} |{' '}
-              {weiToFixed(item.startMargin, 4)}
-            </div>
-            <div>
-              maintenanceMargin: {item.maintenanceMargin} |{' '}
-              {weiToFixed(item.maintenanceMargin, 4)}
-            </div>
-            <div>
-              currrentMargin: {item.currentMargin} |{' '}
-              {weiToFixed(item.currentMargin, 4)}
-            </div>
-            <div>maxLoanTerm: {item.maxLoanTerm}</div>
-            <div>
-              endTimestamp: {item.endTimestamp} |{' '}
-              {new Date(Number(item.endTimestamp) * 1000).toISOString()}
-            </div>
-            <div>
-              maxLiquidable: {item.maxLiquidatable} |{' '}
-              {weiToFixed(item.maxLiquidatable, 4)}
-            </div>
-            <div>
-              maxSeizable: {item.maxSeizable} |{' '}
-              {weiToFixed(item.maxSeizable, 4)}
-            </div>
-          </td>
-        </tr>
-      )}
     </>
   );
 }
@@ -423,12 +229,4 @@ export function OpenPositionRow({ item }: IOpenPositionRowInnerProps) {
 function getEntryPrice(item: ActiveLoan, position: TradingPosition) {
   if (position === TradingPosition.LONG) return Number(weiTo18(item.startRate));
   return 1 / Number(weiTo18(item.startRate));
-}
-
-function getInterestAPR(item: ActiveLoan) {
-  return bignumber(item.interestOwedPerDay)
-    .mul(365)
-    .div(item.principal)
-    .mul(100)
-    .toNumber();
 }

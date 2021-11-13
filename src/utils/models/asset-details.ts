@@ -17,6 +17,7 @@ export class AssetDetails {
     public symbol: string,
     public name: string,
     public decimals: number,
+    public displayDecimals: number,
     public logoSvg: string,
     public hasAMM: boolean,
     public hideIfZero: boolean = false,
