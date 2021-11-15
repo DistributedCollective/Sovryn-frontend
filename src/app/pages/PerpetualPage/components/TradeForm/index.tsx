@@ -85,7 +85,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     perpParameters,
   ]);
 
-  const [amount, setAmount] = useState(fromWei(trade.amount));
+  const [amount, setAmount] = useState(fromWei(trade.amount).replace(/^-/, ''));
   const onChangeOrderAmount = useCallback(
     (amount: string) => {
       const roundedAmount = shrinkToLot(

@@ -20,7 +20,7 @@ export const LeverageViewer: React.FC<LeverageViewerProps> = ({
   label,
 }) => {
   const [preStyle, postStyle] = useMemo(() => {
-    const width = ((value - min) / (max - min)) * 100;
+    const width = ((Math.min(max, value) - min) / (max - min)) * 100;
 
     return [{ width: `${width}%` }, { width: `${100 - width}%` }];
   }, [value, min, max]);

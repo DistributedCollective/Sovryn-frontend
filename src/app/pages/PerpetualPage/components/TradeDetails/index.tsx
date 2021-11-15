@@ -1,5 +1,4 @@
 import classNames from 'classnames';
-import { bignumber } from 'mathjs';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
