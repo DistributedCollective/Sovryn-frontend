@@ -172,6 +172,7 @@
       "title": "Fast-BTC",
       "description": "Move your Bitcoin to RSK network."
     },
+    "backToPortfolio": "Back to portfolio",
     "withdraw": {
       "mainScreen": {
         "title": "Withdraw <0/> to BTC Network",

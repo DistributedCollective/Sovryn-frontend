@@ -1,0 +1,5 @@
+.container {
+    width: 100%;
+    max-width: 25rem;
+    @apply tw-flex tw-flex-1 tw-flex-col tw-justify-center tw-items-center tw-py-12;
+}

@@ -44,57 +44,51 @@ export const AmountForm: React.FC = () => {
   );
 
   return (
-    <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
-      <div className="tw-flex tw-flex-col tw-items-center tw-w-full">
-        <div className="tw-mb-6 tw-text-2xl tw-text-center tw-font-semibold">
-          <Trans
-            i18nKey={translations.fastBtcPage.withdraw.amountForm.title}
-            components={[<AssetSymbolRenderer asset={Asset.RBTC} />]}
+    <>
+      <div className="tw-mb-6 tw-text-2xl tw-text-center tw-font-semibold">
+        <Trans
+          i18nKey={translations.fastBtcPage.withdraw.amountForm.title}
+          components={[<AssetSymbolRenderer asset={Asset.RBTC} />]}
+        />
+      </div>
+
+      <div className="tw-w-full">
+        <WithdrawDetails />
+
+        <FormGroup
+          label={t(translations.fastBtcPage.withdraw.amountForm.withdrawAmount)}
+        >
+          <AmountInput
+            value={value}
+            onChange={setValue}
+            asset={Asset.RBTC}
+            maxAmount={balance.value}
+            gasFee={gasLimit[TxType.FAST_BTC_WITHDRAW].toString()}
           />
-        </div>
-
-        <div className="tw-w-full">
-          <WithdrawDetails />
-
-          <FormGroup
-            label={t(
-              translations.fastBtcPage.withdraw.amountForm.withdrawAmount,
-            )}
-          >
-            <AmountInput
-              value={value}
-              onChange={setValue}
-              asset={Asset.RBTC}
-              maxAmount={balance.value}
-              gasFee={gasLimit[TxType.FAST_BTC_WITHDRAW].toString()}
-            />
-            <div className="tw-mt-1 tw-text-right tw-text-xs tw-my-8">
-              <Trans
-                i18nKey={
-                  translations.fastBtcPage.withdraw.amountForm.availableBalance
-                }
-                components={[
-                  <LoadableValue
-                    value={
-                      <strong>{weiToNumberFormat(balance.value, 4)}</strong>
-                    }
-                    loading={balance.loading}
-                  />,
-                  <AssetSymbolRenderer asset={Asset.RBTC} />,
-                ]}
-              />
-            </div>
-          </FormGroup>
-
-          <div className="tw-px-8">
-            <FastBtcButton
-              text={t(translations.common.continue)}
-              onClick={onContinueClick}
-              disabled={invalid}
+          <div className="tw-mt-1 tw-text-right tw-text-xs tw-my-8">
+            <Trans
+              i18nKey={
+                translations.fastBtcPage.withdraw.amountForm.availableBalance
+              }
+              components={[
+                <LoadableValue
+                  value={<strong>{weiToNumberFormat(balance.value, 4)}</strong>}
+                  loading={balance.loading}
+                />,
+                <AssetSymbolRenderer asset={Asset.RBTC} />,
+              ]}
             />
           </div>
+        </FormGroup>
+
+        <div className="tw-px-8">
+          <FastBtcButton
+            text={t(translations.common.continue)}
+            onClick={onContinueClick}
+            disabled={invalid}
+          />
         </div>
       </div>
-    </div>
+    </>
   );
 };

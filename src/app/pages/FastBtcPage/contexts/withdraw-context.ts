@@ -33,9 +33,9 @@ export type WithdrawContextType = WithdrawContextStateType &
   WithdrawContextFunctionsType;
 
 export const defaultValue: WithdrawContextType = {
-  step: WithdrawStep.REVIEW,
-  amount: '0.001',
-  address: 'tb1qg4lajh33swmy9dex7uyp40tmzzfftpclsdlt87',
+  step: WithdrawStep.MAIN,
+  amount: '',
+  address: '',
   limits: {
     min: 0,
     max: 0,

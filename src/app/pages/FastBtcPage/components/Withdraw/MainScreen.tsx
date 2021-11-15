@@ -18,28 +18,26 @@ export const MainScreen: React.FC = () => {
   );
 
   return (
-    <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
-      <div className="tw-flex tw-flex-col tw-items-center tw-w-full">
-        <div className="tw-mb-6 tw-text-2xl tw-text-center tw-font-semibold">
-          <Trans
-            i18nKey={translations.fastBtcPage.withdraw.mainScreen.title}
-            components={[<AssetSymbolRenderer asset={Asset.RBTC} />]}
+    <>
+      <div className="tw-mb-6 tw-text-2xl tw-text-center tw-font-semibold">
+        <Trans
+          i18nKey={translations.fastBtcPage.withdraw.mainScreen.title}
+          components={[<AssetSymbolRenderer asset={Asset.RBTC} />]}
+        />
+      </div>
+      <div className="tw-w-full">
+        <div className="tw-py-4 tw-px-8 tw-bg-gray-5 tw-text-white tw-rounded tw-mb-4">
+          {t(translations.fastBtcPage.withdraw.mainScreen.description)}
+        </div>
+        <WithdrawDetails />
+        <WithdrawInstructions />
+        <div className="tw-px-8">
+          <FastBtcButton
+            text={t(translations.common.continue)}
+            onClick={onContinueClick}
           />
         </div>
-        <div className="tw-w-full">
-          <div className="tw-py-4 tw-px-8 tw-bg-gray-5 tw-text-white tw-rounded tw-mb-4">
-            {t(translations.fastBtcPage.withdraw.mainScreen.description)}
-          </div>
-          <WithdrawDetails />
-          <WithdrawInstructions />
-          <div className="tw-px-8">
-            <FastBtcButton
-              text={t(translations.common.continue)}
-              onClick={onContinueClick}
-            />
-          </div>
-        </div>
       </div>
-    </div>
+    </>
   );
 };

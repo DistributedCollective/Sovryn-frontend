@@ -5,8 +5,8 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 export interface StepItem {
   stepTitle: string;
   value: number;
-  title?: string;
-  icon?: React.ReactChild;
+  title?: React.ReactNode;
+  icon?: React.ReactNode;
 }
 
 type IStepperProps = {

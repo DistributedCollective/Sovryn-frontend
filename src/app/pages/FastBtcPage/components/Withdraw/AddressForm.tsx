@@ -56,35 +56,33 @@ export const AddressForm: React.FC = () => {
   );
 
   return (
-    <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
-      <div className="tw-flex tw-flex-col tw-items-center tw-w-full">
-        <div className="tw-mb-6 tw-text-2xl tw-text-center tw-font-semibold">
-          {t(translations.fastBtcPage.withdraw.addressForm.title)}
-        </div>
+    <>
+      <div className="tw-mb-6 tw-text-2xl tw-text-center tw-font-semibold">
+        {t(translations.fastBtcPage.withdraw.addressForm.title)}
+      </div>
 
-        <div className="tw-w-full">
-          <FormGroup
-            label={t(translations.fastBtcPage.withdraw.addressForm.address)}
-          >
-            <Input onChange={onChange} value={value} />
-            {invalid && (
-              <ErrorBadge
-                content={t(
-                  translations.fastBtcPage.withdraw.addressForm.errorBECH32,
-                )}
-              />
-            )}
-          </FormGroup>
-
-          <div className="tw-px-8 tw-mt-8">
-            <FastBtcButton
-              text={t(translations.fastBtcPage.withdraw.addressForm.cta)}
-              onClick={onContinueClick}
-              disabled={valid !== 'valid'}
+      <div className="tw-w-full">
+        <FormGroup
+          label={t(translations.fastBtcPage.withdraw.addressForm.address)}
+        >
+          <Input onChange={onChange} value={value} />
+          {invalid && (
+            <ErrorBadge
+              content={t(
+                translations.fastBtcPage.withdraw.addressForm.errorBECH32,
+              )}
             />
-          </div>
+          )}
+        </FormGroup>
+
+        <div className="tw-px-8 tw-mt-8">
+          <FastBtcButton
+            text={t(translations.fastBtcPage.withdraw.addressForm.cta)}
+            onClick={onContinueClick}
+            disabled={valid !== 'valid'}
+          />
         </div>
       </div>
-    </div>
+    </>
   );
 };

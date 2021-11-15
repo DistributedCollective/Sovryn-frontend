@@ -15,7 +15,7 @@ import {
   weiToUSD,
 } from '../../../utils/display-text/format';
 import { contractReader } from '../../../utils/sovryn/contract-reader';
-import { FastBtcDialog, TransackDialog } from '../../containers/FastBtcDialog';
+import { TransackDialog } from '../../containers/FastBtcDialog';
 import {
   useAccount,
   useBlockSync,
@@ -39,6 +39,7 @@ import busdIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/busd
 import usdtIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/usdt.svg';
 import usdcIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/usdc.svg';
 import daiIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/dai.svg';
+import { Link } from 'react-router-dom';
 
 export function UserAssets() {
   const { t } = useTranslation();
@@ -58,7 +59,6 @@ export function UserAssets() {
     [],
   );
 
-  const [fastBtc, setFastBtc] = useState(false);
   const [transack, setTransack] = useState(false);
   const [conversionDialog, setConversionDialog] = useState(false);
   const [unwrapDialog, setUnwrapDialog] = useState(false);
@@ -117,7 +117,6 @@ export function UserAssets() {
                 <AssetRow
                   key={item.asset}
                   item={item}
-                  onFastBtc={() => setFastBtc(true)}
                   onTransack={() => setTransack(true)}
                   onConvert={onConvertOpen}
                   onUnWrap={() => setUnwrapDialog(true)}
@@ -126,7 +125,6 @@ export function UserAssets() {
           </tbody>
         </table>
       </div>
-      <FastBtcDialog isOpen={fastBtc} onClose={() => setFastBtc(false)} />
       <TransackDialog isOpen={transack} onClose={() => setTransack(false)} />
       <ConversionDialog
         isOpen={conversionDialog}
@@ -138,12 +136,8 @@ export function UserAssets() {
         onClose={() => setUnwrapDialog(false)}
       />
       <Dialog
-        isOpen={
-          (fastBtcLocked && (fastBtc || transack)) ||
-          (transackLocked && transack)
-        }
+        isOpen={(fastBtcLocked && transack) || (transackLocked && transack)}
         onClose={() => {
-          setFastBtc(false);
           setTransack(false);
         }}
       >
@@ -153,11 +147,7 @@ export function UserAssets() {
           </h1>
           <div className="tw-text-sm tw-font-light tw-tracking-normal tw-text-center">
             <Trans
-              i18nKey={
-                fastBtc
-                  ? translations.maintenance.fastBTC
-                  : translations.maintenance.transack
-              }
+              i18nKey={translations.maintenance.transack}
               components={[
                 <a
                   href={discordInvite}
@@ -175,7 +165,6 @@ export function UserAssets() {
               text={t(translations.modal.close)}
               inverted
               onClick={() => {
-                setFastBtc(false);
                 setTransack(false);
               }}
             />
@@ -188,7 +177,6 @@ export function UserAssets() {
 
 interface AssetProps {
   item: AssetDetails;
-  onFastBtc: () => void;
   onTransack: () => void;
   onConvert: (asset: Asset) => void;
   onUnWrap: () => void;
@@ -204,13 +192,7 @@ const XUSD_ASSETS: {
   { asset: CrossBridgeAsset.BUSD, image: busdIcon },
 ];
 
-function AssetRow({
-  item,
-  onFastBtc,
-  onTransack,
-  onConvert,
-  onUnWrap,
-}: AssetProps) {
+function AssetRow({ item, onTransack, onConvert, onUnWrap }: AssetProps) {
   const { t } = useTranslation();
   const account = useAccount();
   const [loading, setLoading] = useState(true);
@@ -301,14 +283,20 @@ function AssetRow({
       <td className="tw-text-right tw-hidden md:tw-table-cell">
         <div className="tw-w-full tw-flex tw-flex-row tw-space-x-4 tw-justify-end">
           {item.asset === Asset.RBTC && (
-            <button className={styles.actionLink} onClick={() => onFastBtc()}>
-              {t(translations.userAssets.actions.fastBtc)}
-            </button>
-          )}
-          {item.asset === Asset.RBTC && (
-            <button className={styles.actionLink} onClick={() => onTransack()}>
-              {t(translations.userAssets.actions.buy)}
-            </button>
+            <>
+              <Link to="/fast-btc/deposit">
+                <span>{t(translations.common.deposit)}</span>
+              </Link>
+              <button
+                className={styles.actionLink}
+                onClick={() => onTransack()}
+              >
+                {t(translations.userAssets.actions.buy)}
+              </button>
+              <Link to="/fast-btc/withdraw">
+                <span>{t(translations.common.withdraw)}</span>
+              </Link>
+            </>
           )}
           {[Asset.USDT, Asset.RDOC].includes(item.asset) && (
             <button
