@@ -11,7 +11,7 @@
   }
   .tw-btn-trade,
   .tw-btn-trade-content {
-    @apply tw-text-sov-white tw-uppercase tw-text-xl tw-font-black tw-leading-none tw-font-body;
+    @apply tw-text-sov-white tw-uppercase tw-text-base tw-font-black tw-leading-none tw-font-body;
     @apply tw-font-semibold;
   }
 

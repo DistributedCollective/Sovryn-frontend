@@ -203,9 +203,9 @@
       "currency_placeholder": "Choose currency",
       "amount": "Amount",
       "startPrice": "Start Price",
-      "advancedSettings": "Advanced Settings",
-      "esEntryPrice": "Estimated Entry Price:",
-      "esLiquidationPrice": "Estimated Liquidation Price:",
+      "slippageSettings": "Slippage Settings",
+      "esEntryPrice": "Est Entry Price:",
+      "esLiquidationPrice": "Est Liquidation Price:",
       "interestAPY": "Interest APY:"
     },
     "buttons": {
@@ -1534,9 +1534,9 @@
     "tradeForm": {
       "labels": {
         "pair": "Pair:",
-        "asset": "Asset to receive:",
-        "leverage": "Leverage:",
-        "amount": "Trade Amount:",
+        "asset": "Asset:",
+        "leverage": "Position Leverage:",
+        "amount": "Amount:",
         "slippage": "Slippage Tolerance:",
         "balance": "Available Balance: <0/> <1/>",
         "txFee": "Tx Fee: <0/> {{symbol}}"

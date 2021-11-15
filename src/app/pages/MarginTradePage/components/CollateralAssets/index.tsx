@@ -44,6 +44,7 @@ export function CollateralAssets({ value, onChange, options, label }: Props) {
     <>
       <FormGroup
         label={label || t(translations.marginTradePage.tradeForm.labels.asset)}
+        className="tw-flex tw-items-center tw-justify-between"
       >
         <RadioGroup
           value={value}

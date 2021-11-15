@@ -53,7 +53,7 @@ export function SlippageDialog(props: Props) {
 
       <div className="tw-mw-340 tw-mx-auto">
         <div className="tw-mb-6 text-left">
-          {t(translations.marginTradeForm.fields.advancedSettings)}
+          {t(translations.marginTradeForm.fields.slippageSettings)}
         </div>
         <div className="tw-text-sm tw-font-light tw-tracking-normal">
           <FormGroup

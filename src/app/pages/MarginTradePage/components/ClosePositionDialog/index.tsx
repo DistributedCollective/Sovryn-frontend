@@ -234,7 +234,7 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
             <ActionButton
               text={
                 <div className="tw-flex">
-                  {t(translations.marginTradeForm.fields.advancedSettings)}
+                  {t(translations.marginTradeForm.fields.slippageSettings)}
                   <img className="tw-ml-1" src={settingIcon} alt="setting" />
                 </div>
               }
