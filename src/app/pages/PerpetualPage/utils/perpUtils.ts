@@ -507,10 +507,10 @@ export function getTraderLeverage(
   traderState: TraderState,
   ammData: AMMState,
 ): number {
-  return (
+  return Math.abs(
     (traderState.marginAccountPositionBC *
       getBase2CollateralFX(ammData, true)) /
-    traderState.availableCashCC
+      traderState.availableCashCC,
   );
 }
 
