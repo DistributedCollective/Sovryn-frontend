@@ -1,5 +1,6 @@
 import React, { useContext, useMemo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import { translations } from 'locales/i18n';
 import { Asset } from 'types';
 import {
@@ -11,10 +12,12 @@ import { toNumberFormat } from 'utils/display-text/format';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import ArrowBack from 'assets/images/genesis/arrow_back.svg';
 import { prettyTx } from 'utils/helpers';
-import { Link } from 'react-router-dom';
+
+import walletIcon from '../../assets/wallet-icon.svg';
+import addressIcon from '../../assets/address-icon.svg';
+import successIcon from '../../assets/success-icon.svg';
 
 const stepOrder = [
-  WithdrawStep.MAIN,
   WithdrawStep.AMOUNT,
   WithdrawStep.ADDRESS,
   WithdrawStep.REVIEW,
@@ -32,9 +35,6 @@ const initialSteps: StepItem[] = [
   { stepTitle: 'Complete', value: WithdrawStep.COMPLETED },
 ];
 
-// User should be able to go back on steps but not forward (even if moved back,
-// unless we are confident that user didn't change anything)
-
 type SidebarStepsProps = {};
 
 export const SidebarStepsWithdraw: React.FC<SidebarStepsProps> = () => {
@@ -44,33 +44,58 @@ export const SidebarStepsWithdraw: React.FC<SidebarStepsProps> = () => {
   const steps = useMemo<StepItem[]>(() => {
     const prvSteps = [...initialSteps.map(item => ({ ...item }))];
     if (step > WithdrawStep.AMOUNT && amount) {
-      prvSteps[WithdrawStep.AMOUNT].title = (
-        <>
-          {toNumberFormat(amount, 8)} <AssetSymbolRenderer asset={Asset.RBTC} />
-        </>
-      );
-      // prvSteps[WithdrawStep.AMOUNT].icon = (
-      //   <img
-      //     className={'tw-object-contain tw-h-full tw-w-full tw-rounded-full'}
-      //     src={amount}
-      //     alt={amount}
-      //   />
-      // );
+      const item = prvSteps.find(item => item.value === WithdrawStep.AMOUNT);
+      if (item) {
+        item.title = (
+          <>
+            {toNumberFormat(amount, 8)}{' '}
+            <AssetSymbolRenderer asset={Asset.RBTC} />
+          </>
+        );
+        item.icon = (
+          <img
+            className={'tw-object-contain tw-h-full tw-w-full tw-rounded-full'}
+            src={walletIcon}
+            alt={amount}
+          />
+        );
+      }
     }
 
     if (step > WithdrawStep.ADDRESS && address) {
-      prvSteps[WithdrawStep.ADDRESS].title = prettyTx(address);
-      // prvSteps[WithdrawStep.ADDRESS].icon = (
-      //   <img
-      //     className={'tw-object-contain tw-h-full tw-w-full tw-rounded-full'}
-      //     src={address}
-      //     alt={address}
-      //   />
-      // );
+      const item = prvSteps.find(item => item.value === WithdrawStep.ADDRESS);
+      if (item) {
+        item.title = prettyTx(address);
+        item.icon = (
+          <img
+            className={'tw-object-contain tw-h-full tw-w-full tw-rounded-full'}
+            src={addressIcon}
+            alt={address}
+          />
+        );
+      }
     }
 
-    if (step >= WithdrawStep.PROCESSING) {
-      prvSteps[WithdrawStep.PROCESSING].title = 'Processing...';
+    if (step === WithdrawStep.PROCESSING) {
+      const item = prvSteps.find(
+        item => item.value === WithdrawStep.PROCESSING,
+      );
+      if (item) {
+        item.title = 'Processing...';
+      }
+    }
+
+    if (step === WithdrawStep.COMPLETED) {
+      const item = prvSteps.find(item => item.value === WithdrawStep.COMPLETED);
+      if (item) {
+        item.icon = (
+          <img
+            className={'tw-object-contain tw-h-full tw-w-full tw-rounded-full'}
+            src={successIcon}
+            alt="Completed"
+          />
+        );
+      }
     }
 
     return prvSteps;
