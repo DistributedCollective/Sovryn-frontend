@@ -1676,6 +1676,17 @@
     "editPositionSize": {
       "title": "Edit Position Size"
     },
+    "editMargin": {
+      "title": "Edit Margin",
+      "increase": "Increase",
+      "decrease": "Decrease",
+      "increaseLabel": "Deposit margin:",
+      "decreaseLabel": "Withdraw margin:",
+      "button": "Review"
+    },
+    "closeTrade": {
+      "title": "Close Position"
+    },
     "editLeverage": {
       "title": "Edit Leverage",
       "margin": "Position Margin:",

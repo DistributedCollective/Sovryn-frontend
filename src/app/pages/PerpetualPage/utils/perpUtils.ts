@@ -595,7 +595,7 @@ export function calculateLeverageForPosition(
   ammData: AMMState,
 ): number {
   return (
-    (targetPositionSizeBC * getBase2CollateralFX(ammData, true)) /
+    Math.abs(targetPositionSizeBC * getBase2CollateralFX(ammData, true)) /
     traderState.availableCashCC
   );
 }
@@ -613,8 +613,8 @@ export function calculateLeverageForMargin(
   ammData: AMMState,
 ): number {
   return (
-    (traderState.marginAccountPositionBC *
-      getBase2CollateralFX(ammData, true)) /
-    targetMarginCC
+    Math.abs(
+      traderState.marginAccountPositionBC * getBase2CollateralFX(ammData, true),
+    ) / targetMarginCC
   );
 }

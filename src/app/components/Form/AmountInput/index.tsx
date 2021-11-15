@@ -16,6 +16,7 @@ interface Props {
   value: string;
   onChange: (value: string, isTotal?: boolean | undefined) => void;
   decimalPrecision?: number;
+  step?: number;
   asset?: Asset;
   assetString?: string;
   subText?: string;
@@ -30,6 +31,7 @@ export function AmountInput({
   onChange,
   placeholder = toNumberFormat(0, 6),
   decimalPrecision = 6,
+  step = 1,
   asset,
   assetString,
   subText,
@@ -51,6 +53,7 @@ export function AmountInput({
         }
         className="tw-rounded-lg"
         readOnly={readonly}
+        step={step}
       />
       {subText && (
         <div className="tw-text-xs tw-mt-1 tw-font-thin">{subText}</div>
