@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useMaintenance } from 'app/hooks/useMaintenance';
@@ -58,6 +58,17 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   const ammState = usePerpetual_queryAmmState();
   const perpParameters = usePerpetual_queryPerpParameters();
   const marginAccountBalance = usePerpetual_marginAccountBalance();
+
+  const midPrice = useMemo(() => getMidPrice(perpParameters, ammState), [
+    perpParameters,
+    ammState,
+  ]);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => onChange({ ...trade, entryPrice: midPrice }), [
+    midPrice,
+    onChange,
+  ]);
 
   const [lotSize, lotPrecision] = useMemo(() => {
     const lotSize = Number(perpParameters.fLotSizeBC.toPrecision(8));
@@ -166,11 +177,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     () => getTradingFee(Number(trade.amount), perpParameters),
     [perpParameters, trade.amount],
   );
-
-  const midPrice = useMemo(() => getMidPrice(perpParameters, ammState), [
-    perpParameters,
-    ammState,
-  ]);
 
   const liquidationPrice = useMemo(
     () =>

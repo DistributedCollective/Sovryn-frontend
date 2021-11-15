@@ -11,10 +11,15 @@ import styles from './index.module.scss';
 import classNames from 'classnames';
 import { TradingPosition } from 'types/trading-position';
 import { fromWei } from 'web3-utils';
-import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
 import { usePerpetual_queryPerpParameters } from '../../hooks/usePerpetual_queryPerpParameters';
-import { getMidPrice } from '../../utils/perpUtils';
+import {
+  getRequiredMarginCollateral,
+  getTradingFee,
+} from '../../utils/perpUtils';
 import { toNumberFormat } from 'utils/display-text/format';
+import { usePerpetual_marginAccountBalance } from '../../hooks/usePerpetual_marginAccountBalance';
+import { AssetValue } from 'app/components/AssetValue';
+import { AssetValueMode } from 'app/components/AssetValue/types';
 
 const getTradePosition = (tradePosition: TradingPosition) =>
   tradePosition === TradingPosition.LONG ? (
@@ -28,7 +33,7 @@ export const TradeReviewDialog: React.FC = () => {
   const { t } = useTranslation();
   const { modal, modalOptions } = useSelector(selectPerpetualPage);
 
-  const ammState = usePerpetual_queryAmmState();
+  const marginAccountBalance = usePerpetual_marginAccountBalance();
   const perpParameters = usePerpetual_queryPerpParameters();
 
   const { trade: openTrade } = usePerpetual_openTrade();
@@ -56,9 +61,26 @@ export const TradeReviewDialog: React.FC = () => {
     [openTrade, trade],
   );
 
-  const midPrice = useMemo(() => getMidPrice(perpParameters, ammState), [
-    perpParameters,
-    ammState,
+  const margin = useMemo(
+    () =>
+      trade
+        ? getRequiredMarginCollateral(
+            trade!.leverage,
+            marginAccountBalance.fPositionBC,
+            Number(trade!.amount),
+            perpParameters,
+          )
+        : 0,
+    [marginAccountBalance.fPositionBC, perpParameters, trade],
+  );
+
+  const tradingFee = useMemo(
+    () => (trade ? getTradingFee(Number(trade!.amount), perpParameters) : 0),
+    [perpParameters, trade],
+  );
+
+  const isBuy = useMemo(() => trade?.position === TradingPosition.LONG, [
+    trade?.position,
   ]);
 
   if (!trade) {
@@ -73,13 +95,19 @@ export const TradeReviewDialog: React.FC = () => {
       <h1>{t(translations.perpetualPage.reviewTrade.title)}</h1>
       <div className={styles.contentWrapper}>
         <div className={styles.importantInfo}>
-          <div className={styles.orderAction}>
+          <div
+            className={classNames(
+              'tw-text-xl tw-font-medium tw-tracking-normal tw-leading-none',
+              isBuy ? styles.orderActionBuy : styles.orderActionSell,
+            )}
+          >
             {trade?.leverage}x{' '}
             {t(translations.perpetualPage.reviewTrade.market)}{' '}
             {getTradePosition(trade?.position)}
           </div>
           <div className={styles.orderActionAdditionalInfo}>
-            {fromWei(trade?.amount)} BTC @ ≥ {toNumberFormat(midPrice, 2)} USD
+            {toNumberFormat(fromWei(trade?.amount), 3)} BTC @{' '}
+            {isBuy ? '≥' : '≤'} {toNumberFormat(trade.entryPrice, 2)} USD
           </div>
         </div>
 
@@ -88,7 +116,15 @@ export const TradeReviewDialog: React.FC = () => {
             <span className="tw-text-gray-10 tw-font-light">
               {t(translations.perpetualPage.tradeForm.labels.tradingFee)}
             </span>
-            <span className="tradingFeeValue">0.0004 BTC</span>
+            <span className="tradingFeeValue">
+              <AssetValue
+                minDecimals={0}
+                maxDecimals={6}
+                mode={AssetValueMode.auto}
+                value={String(tradingFee)}
+                assetString="BTC"
+              />
+            </span>
           </div>
         </div>
 
@@ -100,7 +136,7 @@ export const TradeReviewDialog: React.FC = () => {
               {t(translations.perpetualPage.reviewTrade.labels.positionSize)}
             </span>
             <span className={styles.positionSize}>
-              +{fromWei(trade?.amount)} BTC
+              +{toNumberFormat(fromWei(trade?.amount), 3)} BTC
             </span>
           </div>
 
@@ -108,7 +144,15 @@ export const TradeReviewDialog: React.FC = () => {
             <span className="tw-text-gray-10 tw-font-light">
               {t(translations.perpetualPage.reviewTrade.labels.margin)}
             </span>
-            <span>0.006 BTC</span>
+            <span>
+              <AssetValue
+                minDecimals={4}
+                maxDecimals={4}
+                mode={AssetValueMode.auto}
+                value={String(margin)}
+                assetString="BTC"
+              />
+            </span>
           </div>
 
           <div className={classNames(styles.positionInfoRow, 'tw-mt-2')}>
@@ -123,8 +167,7 @@ export const TradeReviewDialog: React.FC = () => {
               {t(translations.perpetualPage.reviewTrade.labels.entryPrice)}
             </span>
             <span>
-              {trade.position === TradingPosition.LONG ? '≥' : '≤'}{' '}
-              {toNumberFormat(midPrice, 2)}
+              {isBuy ? '≥' : '≤'} {toNumberFormat(trade.entryPrice, 2)}
             </span>
           </div>
 
@@ -134,13 +177,13 @@ export const TradeReviewDialog: React.FC = () => {
                 translations.perpetualPage.reviewTrade.labels.liquidationPrice,
               )}
             </span>
-            <span>91 000 USD</span>
+            <span>91 000 USD</span> {/* TODO: Adjust later */}
           </div>
         </div>
 
         <div className="tw-flex tw-justify-center">
           <button className={styles.confirmButton} onClick={onSubmit}>
-            Confirm
+            {t(translations.perpetualPage.reviewTrade.labels.confirm)}
           </button>
         </div>
       </div>

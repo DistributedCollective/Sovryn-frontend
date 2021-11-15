@@ -1687,6 +1687,9 @@
         "liquidationPrice": "Liquidation Price:",
         "totalToReceive": "Total to Receive:"
       },
+        "confirm": "Confirm"
+      }
+    },
     "editPositionSize": {
       "title": "Edit Position Size",
       "amount": "Close Amount:",

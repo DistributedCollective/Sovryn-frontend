@@ -9,7 +9,14 @@
 
 .orderAction {
   @apply tw-text-xl tw-font-medium tw-tracking-normal tw-leading-none;
+}
+
+.orderActionBuy {
   color: #129c8e;
+}
+
+.orderActionSell {
+  color: #d64d08;
 }
 
 .orderActionAdditionalInfo {

@@ -38,6 +38,7 @@ export const NewPositionCardContext = React.createContext<
     limit: '0',
     leverage: 1,
     slippage: PERPETUAL_SLIPPAGE_DEFAULT,
+    entryPrice: 0,
   },
   onChangeTrade: noop,
   onSubmit: noop,
@@ -71,6 +72,7 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
     limit: '0',
     leverage: 1,
     slippage: PERPETUAL_SLIPPAGE_DEFAULT,
+    entryPrice: 0,
   });
 
   const onSubmit = useCallback(
