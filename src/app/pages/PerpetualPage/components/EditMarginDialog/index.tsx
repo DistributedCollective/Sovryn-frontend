@@ -113,12 +113,13 @@ export const EditMarginDialog: React.FC = () => {
   const liquidationPrice = useMemo(
     () =>
       calculateApproxLiquidationPrice(
-        changedTrade ? Number(fromWei(changedTrade.amount)) : 0,
-        Number(margin),
+        traderState,
         ammState,
         perpParameters,
+        changedTrade ? Number(fromWei(changedTrade.amount)) : 0,
+        (mode === EditMarginDialogMode.increase ? 1 : -1) * Number(margin),
       ),
-    [changedTrade, margin, ammState, perpParameters],
+    [changedTrade, mode, margin, traderState, ammState, perpParameters],
   );
 
   useEffect(() => setChangedTrade(trade), [trade]);

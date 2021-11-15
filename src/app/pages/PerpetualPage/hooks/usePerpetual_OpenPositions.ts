@@ -85,10 +85,11 @@ export const usePerpetual_OpenPosition = (
       : undefined;
 
     const liquidationPrice = calculateApproxLiquidationPrice(
-      tradeAmount,
-      traderState.marginAccountCashCC,
+      traderState,
       ammState,
       perpParameters,
+      tradeAmount,
+      0,
     );
 
     const leverage = getTraderLeverage(traderState, ammState);

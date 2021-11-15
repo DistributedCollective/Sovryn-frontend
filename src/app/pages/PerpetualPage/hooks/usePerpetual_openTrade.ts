@@ -68,8 +68,9 @@ export const usePerpetual_openTrade = () => {
       const marginCollateralAmount = getRequiredMarginCollateral(
         leverage,
         marginBalance.fPositionBC,
-        signedAmount,
+        marginBalance.fPositionBC - signedAmount,
         perpetualParameters,
+        ammState,
       );
 
       const marginRequired = Math.max(
