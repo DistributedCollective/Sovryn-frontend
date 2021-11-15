@@ -16,7 +16,6 @@ import { CollateralAssets } from '../CollateralAssets';
 
 import { ActiveLoan } from 'types/active-loan';
 import { TxFeeCalculator } from '../TxFeeCalculator';
-import { ResetTxResponseInterface } from '../../../../hooks/useSendContractTx';
 import {
   weiToAssetNumberFormat,
   weiToNumberFormat,
@@ -25,11 +24,11 @@ import { DummyInput } from '../../../../components/Form/Input';
 import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
-
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 interface IDialogContentProps {
   item: ActiveLoan;
   onCloseModal: () => void;
-  onTx: (tx: ResetTxResponseInterface) => void;
 }
 
 const getOptions = (item: ActiveLoan) => {
@@ -70,7 +69,9 @@ export function DialogContent(props: IDialogContentProps) {
     '0x',
   );
 
-  const handleConfirmSwap = useCallback(() => send(), [send]);
+  const handleConfirmSwap = useCallback(() => {
+    send();
+  }, [send]);
 
   const valid = useIsAmountWithinLimits(weiAmount, '1', props.item.collateral);
 
@@ -84,7 +85,7 @@ export function DialogContent(props: IDialogContentProps) {
     [props.item.loanId, receiver, weiAmount, isCollateral],
   );
 
-  const { value, loading } = useCacheCallWithValue<{
+  const { value, loading, error } = useCacheCallWithValue<{
     withdrawAmount: string;
     withdrawToken: string;
   }>(
@@ -147,14 +148,17 @@ export function DialogContent(props: IDialogContentProps) {
           contractName="sovrynProtocol"
         />
 
+        {weiAmount !== '0' && error && <ErrorBadge content={error} />}
+
         <DialogButton
           confirmLabel={t(translations.common.confirm)}
-          onConfirm={() => handleConfirmSwap()}
+          onConfirm={handleConfirmSwap}
           disabled={rest.loading || !valid || closeTradesLocked || loading}
           cancelLabel={t(translations.common.cancel)}
           onCancel={props.onCloseModal}
         />
       </div>
+      <TxDialog tx={rest} onClose={props.onCloseModal} />
     </>
   );
 }

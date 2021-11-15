@@ -9,7 +9,7 @@ import { useAccount, useBlockSync } from './useAccount';
 export interface CacheCallResponse<T = string> {
   value: Nullable<T>;
   loading: boolean;
-  error: string | null;
+  error: Nullable<string>;
 }
 
 /**
@@ -57,7 +57,7 @@ export function useCacheCall<T = any>(
             ...prevState,
             loading: false,
             value: null,
-            error,
+            error: error.message || error,
           }));
         });
     } catch (error) {
@@ -66,7 +66,7 @@ export function useCacheCall<T = any>(
         ...prevState,
         loading: false,
         value: null,
-        error,
+        error: (error as Error).message || error,
       }));
     }
 

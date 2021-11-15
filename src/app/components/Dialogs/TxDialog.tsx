@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useContext } from 'react';
+import { WalletContext } from '@sovryn/react-wallet';
 import { Dialog } from '../../containers/Dialog';
 import { ResetTxResponseInterface } from '../../hooks/useSendContractTx';
 import { TxStatus } from '../../../store/global/transactions-store/types';
@@ -16,7 +17,6 @@ import wWalletConnect from 'assets/wallets/walletconnect.svg';
 import { LinkToExplorer } from '../LinkToExplorer';
 import styled from 'styled-components/macro';
 import styles from './dialog.module.scss';
-import { useWalletContext } from '@sovryn/react-wallet';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { ConfirmButton } from 'app/pages/BuySovPage/components/Button/confirm';
@@ -26,13 +26,19 @@ interface Props {
   tx: ResetTxResponseInterface;
   onUserConfirmed?: () => void;
   onSuccess?: () => void;
+  onClose?: () => void;
 }
 
-export function TxDialog({ tx, onUserConfirmed, onSuccess }: Props) {
+export function TxDialog({ tx, onUserConfirmed, onSuccess, onClose }: Props) {
   const { t } = useTranslation();
-  const { address } = useWalletContext();
+  const { address } = useContext(WalletContext);
 
-  const close = useCallback(() => tx.reset(), [tx]);
+  const close = useCallback(() => {
+    tx.reset();
+    if (onClose) {
+      onClose();
+    }
+  }, [tx, onClose]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const wallet = useMemo(() => detectWeb3Wallet(), [address]);

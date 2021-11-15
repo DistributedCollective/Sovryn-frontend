@@ -166,7 +166,7 @@ function OpenPositionRowInner({ item }: IOpenPositionRowInnerProps) {
                 addToMarginLocked && 'tw-cursor-not-allowed'
               }`}
               textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
-              disabled={addToMarginLocked}
+              disabled={addToMarginLocked || item.currentMargin === '0'}
               title={
                 (addToMarginLocked &&
                   t(translations.maintenance.addToMarginTrades).replace(
@@ -183,7 +183,7 @@ function OpenPositionRowInner({ item }: IOpenPositionRowInnerProps) {
                 closeTradesLocked && 'tw-cursor-not-allowed'
               }`}
               textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
-              disabled={closeTradesLocked}
+              disabled={closeTradesLocked || item.currentMargin === '0'}
               title={
                 (closeTradesLocked &&
                   t(translations.maintenance.closeMarginTrades).replace(
