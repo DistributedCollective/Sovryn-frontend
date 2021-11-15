@@ -27,20 +27,21 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
 }) => {
   const { t } = useTranslation();
   const saleStatus = useMemo<SaleStatus>(() => {
-    const { isClosed, saleStart, period } = info;
+    return SaleStatus.Closed;
+    // const { isClosed, saleStart, period } = info;
 
-    if (isClosed) {
-      return SaleStatus.Closed;
-    }
+    // if (isClosed) {
+    //   return SaleStatus.Closed;
+    // }
 
-    const saleEndTS = Number(saleStart) + Number(period);
-    const nowTS = Date.now() / 1e3;
+    // const saleEndTS = Number(saleStart) + Number(period);
+    // const nowTS = Date.now() / 1e3;
 
-    if (!isClosed && Number(saleStart) <= nowTS && saleEndTS >= nowTS) {
-      return SaleStatus.Active;
-    }
+    // if (!isClosed && Number(saleStart) <= nowTS && saleEndTS >= nowTS) {
+    //   return SaleStatus.Active;
+    // }
 
-    return SaleStatus.NotYetOpen;
+    // return SaleStatus.NotYetOpen;
   }, [info]);
 
   return (
