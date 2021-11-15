@@ -27,8 +27,8 @@ import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
 import { useSwapsExternal_getSwapExpectedReturn } from '../../../../hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
-import { useSwapsExternal_approveAndSwapExternal } from '../../../../hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
-import { useAccount } from '../../../../hooks/useAccount';
+import { useSwapNetwork_conversionPath } from 'app/hooks/swap-network/useSwapNetwork_conversionPath';
+import { useSwapNetwork_approveAndConvertByPath } from 'app/hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
 
 const s = translations.swapTradeForm;
 
@@ -45,7 +45,7 @@ export function BuyForm() {
   const [amount, setAmount] = useState('');
   const [slippage, setSlippage] = useState(0.5);
   const weiAmount = useWeiAmount(amount);
-  const account = useAccount();
+  // const account = useAccount();
 
   const { value: balance } = useAssetBalanceOf(Asset.RBTC);
 
@@ -57,15 +57,23 @@ export function BuyForm() {
 
   const { minReturn } = useSlippage(rateByPath, slippage);
 
-  const { send, ...tx } = useSwapsExternal_approveAndSwapExternal(
-    Asset.RBTC,
-    Asset.SOV,
-    account,
-    account,
+  // const { send, ...tx } = useSwapsExternal_approveAndSwapExternal(
+  //   Asset.RBTC,
+  //   Asset.SOV,
+  //   account,
+  //   account,
+  //   weiAmount,
+  //   '0',
+  //   minReturn,
+  //   '0x',
+  // );
+
+  const { value: path } = useSwapNetwork_conversionPath(Asset.RBTC, Asset.SOV);
+
+  const { send, ...tx } = useSwapNetwork_approveAndConvertByPath(
+    path,
     weiAmount,
-    '0',
     minReturn,
-    '0x',
   );
 
   const validate = useMemo(() => {
