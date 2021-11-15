@@ -1,18 +1,22 @@
 import React, { useCallback } from 'react';
+import { Trans } from 'react-i18next';
+
 import { useSendContractTx } from '../../../../../hooks/useSendContractTx';
 import { TxType } from 'store/global/transactions-store/types';
 import { BaseClaimForm } from '../BaseClaimForm';
 import { IClaimFormProps } from '../BaseClaimForm/types';
 import { useAccount } from 'app/hooks/useAccount';
-import { Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { gasLimit } from 'utils/classifiers';
+import { useMaintenance } from 'app/hooks/useMaintenance';
 
 export const LiquidClaimForm: React.FC<IClaimFormProps> = ({
   className,
   amountToClaim,
 }) => {
   const address = useAccount();
+  const { checkMaintenance, States } = useMaintenance();
+  const claimLiquidSovLocked = checkMaintenance(States.CLAIM_LIQUID_SOV);
   const { send, ...tx } = useSendContractTx('stakingRewards', 'collectReward');
 
   const onSubmit = useCallback(() => {
@@ -20,10 +24,10 @@ export const LiquidClaimForm: React.FC<IClaimFormProps> = ({
       [],
       {
         from: address,
-        gas: gasLimit[TxType.STAKING_REWARDS_CLAIM],
+        gas: gasLimit[TxType.STAKING_LIQUID_SOV_CLAIM],
       },
       {
-        type: TxType.STAKING_REWARDS_CLAIM,
+        type: TxType.STAKING_LIQUID_SOV_CLAIM,
       },
     );
   }, [address, send]);
@@ -35,6 +39,7 @@ export const LiquidClaimForm: React.FC<IClaimFormProps> = ({
       tx={tx}
       onSubmit={onSubmit}
       footer={<Footer />}
+      claimLocked={claimLiquidSovLocked}
     />
   );
 };

@@ -82,6 +82,9 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
               </strong>
             </div>
             <div className={styles.listItem}>
+              {t(baseTranslations.information[5], { token: saleName })}
+            </div>
+            <div className={styles.listItem}>
               <div>
                 <Trans
                   i18nKey={baseTranslations.information[7]}
@@ -93,9 +96,6 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
                   ]}
                 />
               </div>
-            </div>
-            <div className={styles.listItem}>
-              {t(baseTranslations.information[8])}
             </div>
           </div>
         </div>

@@ -19,6 +19,7 @@ import { Button } from '../../Button';
 import { AssetSymbolRenderer } from '../../AssetSymbolRenderer';
 import { VestingUnlockScheduleDialog } from './VestingUnlockScheduleDialog';
 import { TxDialog } from '../../Dialogs/TxDialog';
+import { gasLimit } from 'utils/classifiers';
 
 type VestingWithdrawFormProps = {
   vesting: FullVesting;
@@ -46,7 +47,7 @@ export const VestingWithdrawForm: React.FC<VestingWithdrawFormProps> = ({
     if (!tx.loading) {
       send(
         [address.toLowerCase()],
-        { from: account },
+        { from: account, gas: gasLimit[TxType.SOV_WITHDRAW_VESTING] },
         { type: TxType.SOV_WITHDRAW_VESTING },
       );
     }
@@ -113,7 +114,7 @@ export const VestingWithdrawForm: React.FC<VestingWithdrawFormProps> = ({
           </FieldGroup>
 
           <div className={styles.txFee}>
-            {t(translations.common.fee, { amount: '0.000014' })}
+            {t(translations.common.fee, { amount: '0.000019' })}
           </div>
         </div>
 

@@ -3,26 +3,35 @@ import classNames from 'classnames';
 
 import { StepItem } from './index';
 
-interface StepProps {
+interface IStepProps {
   step: StepItem;
   current?: Boolean;
   active?: Boolean;
   isFirst?: Boolean;
   onClick: Function;
+  disabled?: boolean;
 }
 
-export function Step({ step, current, active, isFirst, onClick }: StepProps) {
+export const Step: React.FC<IStepProps> = ({
+  step,
+  current,
+  active,
+  isFirst,
+  onClick,
+  disabled,
+}) => {
   return (
     <li
       className={classNames(
-        'tw-flex tw-items-center tw-cursor-pointer tw-transition tw-duration-700 tw-ease-in-out',
+        'tw-flex tw-items-center tw-transition tw-duration-700 tw-ease-in-out',
         {
           'tw-opacity-25': !active,
           'tw-font-bold': current,
         },
+        disabled ? 'tw-cursor-not-allowed' : 'tw-cursor-pointer',
       )}
       style={{ height: 64 }}
-      onClick={() => onClick()}
+      onClick={() => !disabled && onClick()}
     >
       <div style={{ width: 36 }}>
         <span className="tw-flex tw-items-center tw-justify-center tw-w-5 tw-h-5 tw-border tw-rounded-full tw-transform tw-relative tw-border-transparent">
@@ -70,4 +79,4 @@ export function Step({ step, current, active, isFirst, onClick }: StepProps) {
       {step?.title || step.stepTitle}
     </li>
   );
-}
+};

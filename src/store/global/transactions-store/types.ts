@@ -19,6 +19,7 @@ export enum TxType {
   VESTING_DELEGATE = 'vesting-delegate',
   STAKING_INCREASE_STAKE = 'staking',
   STAKING_REWARDS_CLAIM = 'staking_rewards_claim',
+  STAKING_LIQUID_SOV_CLAIM = 'staking_liquid_sov_claim',
   NONE = 'none',
   APPROVE = 'approve',
   LEND = 'lend',
@@ -49,6 +50,7 @@ export enum TxType {
   CROSS_CHAIN_WITHDRAW = 'cross_chain_withdraw',
   UNWRAP_WRBTC = 'unwrap_wrbtc',
   CLAIM_VESTED_SOV_REWARDS = 'claim_vested_sov_rewards',
+  SIMULATOR_REQUEST = 'simulator_request',
 }
 
 export enum TxStatus {

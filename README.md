@@ -1,3 +1,5 @@
+[GitHub](https://github.com/DistributedCollective) | [Wiki](https://wiki.sovryn.app/en/home) | [Forum](https://forum.sovryn.app/) | [Blog](https://www.sovryn.app/blog/) | [LinkedIn](https://www.linkedin.com/company/sovryn/about/) | [Twitter](https://twitter.com/SovrynBTC)
+
 # Sovryn DApp
 
 ---
@@ -10,56 +12,81 @@
 
 ## Install & Start
 
-Make sure you use at least version 10 of Node.js.
+### Prerequisites
 
-Install packages:
+- Make a fork of this repository and clone it to your machine.
 
-```shell
-yarn
-```
+- Make sure you use at least version 12 of Node.js.
 
-If you are using a Windows machine then you may receive errors when running this command, related to shell scripts in `/bin` not including the `.sh` file extension. To avoid this please run `yarn --ignore-scripts` instead, and execute the `gh-pack` script manually as needed.
+  - To install Node.JS as a Windows user, download the required installation from the [Node.js](https://nodejs.org/en/download/) website.
+  - To install Node.JS as a Linux or macOS user:
+    - `sudo dnf module install nodejs:12`
+  - To reset the older Node.JS installation so that you can upgrade to version 12:
 
-Start DApp for development:
+    - `sudo dnf module reset nodejs`
 
-```shell
-yarn start
-```
+    NOTE: Alternatively, You can use the NVM tool that is easy to use and allows you to switch between the installed node versions. For more information, see the [NVM](https://github.com/nvm-sh/nvm) guide.
 
-Build for production:
+- Generate the GitHub Personal Access Token (PAT) and copy the token code:
 
-```shell
-yarn build
-```
+  1. Using your GitHub profile Drop-down menu, navigate to **Settings -> Developer settings**.
+  2. Select the **Personal access tokens** option and click the **Generate new token** button.
+  3. Fill in the token information as follows:
 
-### Private dependecies
+     a) Describe the token using the **Note** field.
 
-The DApp includes a private package as a dependency, for this reason you need get access to install it.
-If your github account doesn't have 2FA enabled you can run this and provide your github credentials:
+     b) Set expiration to **_No expiration_**.
 
-```
-npm login --scope=@distributedcollective --registry=https://npm.pkg.github.com
+     c) Select the all **_repo_** and **_write:packages_** options, including the **_read:packages_**.
 
-> Username: [YOUR GITHUB USERNAME]
-> Password: [YOUR GITHUB PASSWORD]
-> EMAIL: [PUBLIC EMAIL ADDRESS]
-```
+  4. Click the **Generate Token** button at the bottom of the page.
+  5. Copy your generated token code for later.
 
-If your github account uses 2FA (npm login authentication fails) then you need to create personal access token.
-To authenticate by adding your personal access token to your `~/.npmrc` file (**file in your machine's user folder, not project folder!**), edit the ~/.npmrc file for your project to include the following line, replacing TOKEN with your personal access token. Create a new ~/.npmrc file if one doesn't exist.
+### Procedure
 
-```
-//npm.pkg.github.com/:_authToken=TOKEN
-```
+1. Create the `~/.npmrc` file in your home dirrectory. In a case you already have one, just add the line in the next step.
 
-[Instruction on how to create personal token](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) - you will need `read:packages` permission.
+2. Add the following content to the `~/.npmrc` file and replace the _<Your-GitHub-token-here>_ field with your PAT value copied from GitHub:
 
-Note: this step is only required if yarn install fails for you because of missing access to charting-library repository.
-If yarn install fails after these steps please ask for read access to the charting-library repository (for external contributors please see the section below).
+   ```shell
+   @distributedcollective:registry=https://npm.pkg.github.com
+   //npm.pkg.github.com/:_authToken=<Your-GitHub-token-here>
+   ```
+
+3. Save the file and restart your terminal.
+
+4. Navigate to your cloned repository and install the `yarn` tool:
+
+   ```shell
+   yarn install
+   ```
+
+   Yarn dependecies packages will be downloaded.
+
+5. Start DApp server:
+
+- For development testnet:
+
+  ```shell
+  yarn start
+  ```
+
+- For development mainnet:
+
+  ```shell
+  yarn start:mainnet
+  ```
+
+- For a production build:
+  ```shell
+  yarn build
+  ```
+
+NOTE: If you are using a Windows machine then you may receive errors when running this command, related to shell scripts in `/bin` not including the `.sh` file extension. To avoid this please run `yarn --ignore-scripts` instead, and execute the `gh-pack` script manually as needed.
 
 #### External Contributors
 
-Due to the terms of our licensing agreement with Trading View, we are unable to grant access to the charting-library repository to external contributors. In order to allow running of this repo locally, we have set up the `development_external` and `master_external` branches which exclude this dependency and is synched to the latest changes from `development`/`master` branches.
+Due to the terms of our licensing agreement with TradingView, we cannot grant access to the charting-library repository to external contributors. To allow running this repository locally, we have set up the `development_external` and `master_external` branches that exclude this dependency and are synced to the latest changes from `development`/`master` branches.
 
 Any new Pull Requests should target the non-external versions of these branches as outlined in the "Which Branch?" section below.
 
@@ -71,7 +98,7 @@ Any new Pull Requests should target the non-external versions of these branches 
 
 ### Bug Reports
 
-To foster active collaboration, Sovryn strongly encourages pull requests, not just bug reports. "Bug reports" may also be sent in the form of a pull request containing a failing test.
+To foster active collaboration, Sovryn strongly encourages the creation of pull requests rather than just bug reports. "Bug reports" may also be sent in the form of a pull request containing a failing test.
 
 However, if you file a bug report, your issue should contain a title and a clear description of the issue. You should also include as much relevant information as possible. The goal of a bug report is to make it easy for yourself - and others - to replicate the bug and develop a fix.
 
@@ -79,7 +106,7 @@ Remember, bug reports are created in the hope that others with the same problem 
 
 ### Support Questions
 
-Sovryn's GitHub issue trackers are not intended to provide help or support. Instead, use one of the following channels:
+Sovryn's GitHub issue trackers are not intended to provide help or support. Use one of the following channels instead:
 
 - [Discord](https://discord.gg/J22WS6z)
 - [Wiki Pages](https://wiki.sovryn.app)
@@ -88,19 +115,21 @@ Sovryn's GitHub issue trackers are not intended to provide help or support. Inst
 
 ### Core Development Discussion
 
-You may propose new features or improvements of existing DApp behavior in the Sovryn Ideas issue board. If you propose a new feature, please be willing to implement at least some of the code that would be needed to complete the feature.
+You may propose new features or improvements of existing DApp behavior using the _Sovryn Ideas_ issue board. If you propose a new feature, please be willing to implement at least some of the code that would be needed to complete the feature.
 
 Informal discussion regarding bugs, new features, and implementation of existing features takes place in the #sorcery channel of the Sovryn Discord server.
 
 ### Which Branch?
 
-**All** bug fixes should be sent to the latest stable (master) branch. Bug fixes should never be sent to the development branch unless they fix features that exist only in the upcoming release.
+The `development` branch acts as a testnet containing the latest changes. The `master` branch is production branch for the **live.sovryn.app**. Depending on your feature you are contributing with, select the proper branch as a starting point. Most of the time, it will be the `development` branch unless you provide hotfixes or features that should be released before other features - then it can be `master`. By doing so, we merge all features to `development` and then `development` to `master` to make one big release batch.
+
+**All** bug fixes should be sent to the latest stable `master` branch. Bug fixes should never be sent to the development branch unless they fix features that exist only in the upcoming release.
 
 **Minor** features that are fully backward compatible with the current release may be sent to the latest stable branch.
 
-**Major** new features should always be sent to the development branch, which contains the upcoming release.
+**Major** new features should always be sent to the `development` branch, which contains the upcoming release.
 
-If you are unsure if your feature qualifies as a major or minor, please ask in the #sorcery channel of the Sovryn Discord server.
+Ask in the #sorcery channel of the Sovryn Discord server when unsure if the feature qualifies as major or minor.
 
 ### Working With UI
 
@@ -108,11 +137,11 @@ All UI designs used for this repository should be available publically in [Googl
 
 ## Security Vulnerabilities
 
-If you discover a security vulnerability within DApp, please submit your bug report to [Immunefi](https://immunefi.com/bounty/sovryn/) (there is bounty rewards). All security vulnerabilities will be promptly addressed.
+If you discover a security vulnerability within DApp, please submit your bug report to [Immunefi](https://immunefi.com/bounty/sovryn/) (there are bounty rewards). All security vulnerabilities will be promptly addressed.
 
 ## Code of Conduct
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/). For more information, see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
 ## Licence
 

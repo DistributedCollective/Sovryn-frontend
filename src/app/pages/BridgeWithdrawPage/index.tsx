@@ -30,7 +30,7 @@ const dirtyWithdrawAssets = {
   [Asset.ETH]: CrossBridgeAsset.ETHS,
 };
 
-export function BridgeWithdrawPage() {
+export const BridgeWithdrawPage: React.FC = () => {
   useInjectReducer({ key: sliceKey, reducer: reducer });
   useInjectSaga({ key: sliceKey, saga: bridgeWithdrawPageSaga });
 
@@ -123,4 +123,4 @@ export function BridgeWithdrawPage() {
       </div>
     </>
   );
-}
+};
