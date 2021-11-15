@@ -3,6 +3,8 @@ changelog:
     labels:
       - exclude-from-release
       - release
+    authors:
+      - github-actions
   categories:
     - title: Breaking Changes 🛠
       labels:
