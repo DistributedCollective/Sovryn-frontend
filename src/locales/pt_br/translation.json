@@ -277,28 +277,28 @@
   },
   "originsLaunchpad": {
     "upcomingSales": {
-      "title": "Upcoming Sales On Origins Launchpad",
+      "title": "Próximas vendas na plataforma Origens",
       "projectCard": {
-        "saleToken": "Sale Token",
-        "project": "Project",
-        "startDate": "Starts",
-        "startPrice": "Price"
+        "saleToken": "Token à venda",
+        "project": "Projeto",
+        "startDate": "Data de início",
+        "startPrice": "Preço"
       },
-      "inputLabel": "Enter Email Address",
-      "inputLabelName": "Name or Pseudonym",
-      "submitButton": "Sign up for Origins Updates",
-      "submitSuccess": "Successfully subscribed!"
+      "inputLabel": "Insira um endereço de e-mail",
+      "inputLabelName": "Nome ou apelido",
+      "submitButton": "Cadastre-se para novidades",
+      "submitSuccess": "Cadastro realizado!"
     },
     "previousSales": {
-      "title": "Previous Sales On Origins",
+      "title": "Vendas finalizadas",
       "projectCard": {
-        "saleName": "Sale Name",
-        "saleAllocation": "Sale Allocation",
-        "totalRaised": "Total Raised",
-        "participatingWallets": "Participating Wallets",
-        "date": "Date",
-        "saleDuration": "Sale Duration",
-        "price": "Price"
+        "saleName": "Nome",
+        "saleAllocation": "Disponibilizado para venda",
+        "totalRaised": "Total arrecadado",
+        "participatingWallets": "Carteiras participantes",
+        "date": "Data",
+        "saleDuration": "Duração da venda",
+        "price": "Preço"
       }
     },
     "saleDay": {
