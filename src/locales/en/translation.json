@@ -1674,9 +1674,9 @@
       "title": "Review Order",
       "closeTitle": "Review Close",
       "close": "Close",
+      "positionFullyClosed": "Position Fully Closed",
       "labels": {
-        "total": "Total to Receive:",
-        "fullyClosed": "Position Fully Closed"
+        "totalToReceive": "Total to Receive:"
       }
     },
     "editPositionSize": {
