@@ -173,6 +173,27 @@
       "description": "Move your Bitcoin to RSK network."
     },
     "backToPortfolio": "Back to portfolio",
+    "deposit": {
+      "mainScreen": {
+        "title": "Deposit BTC to Sovryn as <0/>",
+        "description": "Always generate a new deposit address and only use it once",
+        "cta": "Generate Deposit Address"
+      },
+      "depositDetails": {
+        "title": "Deposit details",
+        "min": "MIN:",
+        "max": "MAX:",
+        "fee": "Fee:"
+      },
+      "depositInstructions": {
+        "title": "Instructions:",
+        "line1": "Do not deposit any asset other than BTC.",
+        "line2": "Do not send more than the MIN limit.",
+        "line3": "Do not send more than the MAX limit.",
+        "line4": "Allow up to {{hours}} hrs to proccess.",
+        "line5": "If your transaction takes longer than {{hours}} hrs please <0>create a support ticket</0>."
+      }
+    },
     "withdraw": {
       "mainScreen": {
         "title": "Withdraw <0/> to BTC Network",
@@ -185,7 +206,7 @@
         "fee": "MIN:"
       },
       "withdrawInstructions": {
-        "title": "Instructions",
+        "title": "Instructions:",
         "line1": "Please check and confirm the address you are sending to is a BTC address.",
         "line2": "Do not send less than the MIN limit.",
         "line3": "Do not send more than the MAX limit.",

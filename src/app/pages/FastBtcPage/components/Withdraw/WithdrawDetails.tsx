@@ -2,7 +2,7 @@ import React, { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { Asset } from 'types';
-import { translations } from '../../../../../locales/i18n';
+import { translations } from 'locales/i18n';
 import { WithdrawContext } from '../../contexts/withdraw-context';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { LoadableValue } from '../../../../components/LoadableValue';
@@ -45,7 +45,7 @@ export const WithdrawDetails: React.FC = () => {
       </h4>
       <ul className="tw-pl-4 tw-list-disc">
         <li>
-          MIN:{' '}
+          {t(translations.fastBtcPage.withdraw.withdrawDetails.min)}{' '}
           <LoadableValue
             value={
               <>
@@ -57,7 +57,7 @@ export const WithdrawDetails: React.FC = () => {
           />
         </li>
         <li>
-          MAX:{' '}
+          {t(translations.fastBtcPage.withdraw.withdrawDetails.max)}{' '}
           <LoadableValue
             value={
               <>
@@ -69,7 +69,7 @@ export const WithdrawDetails: React.FC = () => {
           />
         </li>
         <li>
-          FEE:{' '}
+          {t(translations.fastBtcPage.withdraw.withdrawDetails.fee)}{' '}
           <LoadableValue value={<>{renderFee}</>} loading={limits.loading} />
         </li>
       </ul>

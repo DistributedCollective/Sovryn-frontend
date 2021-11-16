@@ -116,8 +116,7 @@ export function App() {
                 path="/unsubscribe"
                 render={props => <EmailPage {...props} type="UNSUBSCRIBE" />}
               />
-              <Route exact path="/fast-btc/deposit" component={FastBtcPage} />
-              <Route exact path="/fast-btc/withdraw" component={FastBtcPage} />
+              <Route exact path="/fast-btc/:type" component={FastBtcPage} />
               <Route component={NotFoundPage} />
             </Switch>
           </WalletProvider>

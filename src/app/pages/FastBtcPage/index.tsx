@@ -1,15 +1,25 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useHistory, useParams } from 'react-router';
 import { Helmet } from 'react-helmet-async';
-
 import { useTranslation } from 'react-i18next';
-import { translations } from '../../../locales/i18n';
+
+import { translations } from 'locales/i18n';
 import UserWallet from '../BridgeDepositPage/components/UserWallet';
 import { useAccount } from '../../hooks/useAccount';
 import { WithdrawContainer } from './containers/WithdrawContainer';
+import { DepositContainer } from './containers/DepositContainer';
 
 export function FastBtcPage() {
   const { t } = useTranslation();
   const account = useAccount();
+  const { type } = useParams<{ type: 'withdraw' | 'deposit' }>();
+  const history = useHistory();
+
+  useEffect(() => {
+    if (!['deposit', 'withdraw'].includes(type)) {
+      history.push('/wallet');
+    }
+  }, [type, history]);
 
   return (
     <>
@@ -25,7 +35,8 @@ export function FastBtcPage() {
         style={{ marginTop: '-4.4rem' }}
       >
         <UserWallet address={account} />
-        <WithdrawContainer />
+        {type === 'deposit' && <DepositContainer />}
+        {type === 'withdraw' && <WithdrawContainer />}
       </div>
     </>
   );

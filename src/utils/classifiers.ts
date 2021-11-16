@@ -96,3 +96,6 @@ export const VAULT_WITHDRAW_LOG_SIGNATURE_HASH =
   '0xc44aeefa68e8b9c1ad5f7be4b0dd194580f81f5c362862e72196503a320eb7a1';
 
 export const MAINTENANCE_MARGIN = 15000000000000000000;
+
+export const CREATE_TICKET_LINK =
+  'https://sovryn.freshdesk.com/support/tickets/new';

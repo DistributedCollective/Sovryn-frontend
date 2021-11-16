@@ -1,7 +1,7 @@
 import { eventChannel } from 'redux-saga';
 import { take, call, put, takeLatest } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
-import io from 'socket.io-client';
+import { io } from 'socket.io-client';
 import { currentChainId, fastBtcApis } from 'utils/classifiers';
 import { actions } from './slice';
 import { actions as wActions } from 'app/containers/WalletProvider/slice';
