@@ -1671,10 +1671,18 @@
       }
     },
     "reviewTrade": {
-      "title": "Review Order"
+      "title": "Review Order",
+      "closeTitle": "Review Close",
+      "close": "Close",
+      "labels": {
+        "total": "Total to Receive:",
+        "fullyClosed": "Position Fully Closed"
+      }
     },
     "editPositionSize": {
-      "title": "Edit Position Size"
+      "title": "Edit Position Size",
+      "amount": "Close Amount:",
+      "total": "Total to Receive:"
     },
     "editMargin": {
       "title": "Edit Margin",
@@ -1696,7 +1704,8 @@
     "currentTrade": {
       "position": "Current Position:",
       "margin": "Current Margin:",
-      "available": "Available Balance:"
+      "available": "Available Balance:",
+      "unrealizedPnL": "Unrealized P/L:"
     },
     "openPositions": "Positions",
     "closedPositions": "Closed Positions",
