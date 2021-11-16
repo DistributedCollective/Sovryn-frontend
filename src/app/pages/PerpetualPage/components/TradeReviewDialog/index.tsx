@@ -20,6 +20,10 @@ import { toNumberFormat } from 'utils/display-text/format';
 import { usePerpetual_marginAccountBalance } from '../../hooks/usePerpetual_marginAccountBalance';
 import { AssetValue } from 'app/components/AssetValue';
 import { AssetValueMode } from 'app/components/AssetValue/types';
+import {
+  PerpetualPairDictionary,
+  PerpetualPairType,
+} from 'utils/dictionaries/perpetual-pair-dictionary';
 
 const getTradePosition = (tradePosition: TradingPosition) =>
   tradePosition === TradingPosition.LONG ? (
@@ -74,8 +78,14 @@ export const TradeReviewDialog: React.FC = () => {
     [marginAccountBalance.fPositionBC, perpParameters, trade],
   );
 
+  const pair = useMemo(
+    () =>
+      PerpetualPairDictionary.get(trade?.pairType || PerpetualPairType.BTCUSD),
+    [trade],
+  );
+
   const tradingFee = useMemo(
-    () => (trade ? getTradingFee(Number(trade!.amount), perpParameters) : 0),
+    () => (trade ? getTradingFee(Number(trade.amount), perpParameters) : 0),
     [perpParameters, trade],
   );
 
@@ -92,92 +102,114 @@ export const TradeReviewDialog: React.FC = () => {
       isOpen={modal === PerpetualPageModals.TRADE_REVIEW}
       onClose={onClose}
     >
-      <h1>{t(translations.perpetualPage.reviewTrade.title)}</h1>
+      <h1 className="tw-font-semibold">
+        {t(translations.perpetualPage.reviewTrade.title)}
+      </h1>
       <div className={styles.contentWrapper}>
-        <div className={styles.importantInfo}>
+        <div className="tw-w-full tw-p-4 tw-bg-gray-2 tw-flex tw-flex-col tw-items-center tw-rounded-xl">
           <div
             className={classNames(
-              'tw-text-xl tw-font-medium tw-tracking-normal tw-leading-none',
+              'tw-text-xl tw-font-semibold tw-tracking-normal tw-leading-none',
               isBuy ? styles.orderActionBuy : styles.orderActionSell,
             )}
           >
-            {trade?.leverage}x{' '}
+            {toNumberFormat(trade?.leverage, 2)}x{' '}
             {t(translations.perpetualPage.reviewTrade.market)}{' '}
             {getTradePosition(trade?.position)}
           </div>
-          <div className={styles.orderActionAdditionalInfo}>
-            {toNumberFormat(fromWei(trade?.amount), 3)} BTC @{' '}
-            {isBuy ? '≥' : '≤'} {toNumberFormat(trade.entryPrice, 2)} USD
+          <div className="tw-text-sm tw-tracking-normal tw-mt-2 tw-leading-none tw-text-sov-white tw-font-medium">
+            {toNumberFormat(fromWei(trade?.amount), 3)} {pair.baseAsset} @{' '}
+            {isBuy ? '≥' : '≤'} {toNumberFormat(trade.entryPrice, 2)}{' '}
+            {pair.quoteAsset}
           </div>
         </div>
 
-        <div className={classNames(styles.importantInfo, 'tw-mt-4')}>
+        <div className="tw-w-full tw-p-4 tw-bg-gray-2 tw-flex tw-flex-col tw-items-center tw-rounded-xl tw-mt-4">
           <div className={styles.tradingFeeWrapper}>
-            <span className="tw-text-gray-10 tw-font-light">
+            <span className="tw-text-gray-10">
               {t(translations.perpetualPage.tradeForm.labels.tradingFee)}
             </span>
-            <span className="tradingFeeValue">
+            <span className="tw-text-sov-white tw-font-medium">
               <AssetValue
                 minDecimals={0}
                 maxDecimals={6}
                 mode={AssetValueMode.auto}
                 value={String(tradingFee)}
-                assetString="BTC"
+                assetString={pair.baseAsset}
               />
             </span>
           </div>
         </div>
 
-        <div className={styles.positionDetailsTitle}>New Position Details</div>
+        <div className="tw-text-sm tw-mt-6 tw-mb-2 tw-text-center tw-text-sov-white tw-font-medium">
+          {t(translations.perpetualPage.reviewTrade.positionDetailsTitle)}
+        </div>
 
-        <div className={styles.positionInfo}>
+        <div className="tw-w-full tw-p-4 tw-bg-gray-5 tw-flex tw-flex-col tw-items-center tw-rounded-xl">
           <div className={styles.positionInfoRow}>
-            <span className="tw-text-gray-10 tw-font-light">
+            <span className="tw-text-gray-10">
               {t(translations.perpetualPage.reviewTrade.labels.positionSize)}
             </span>
             <span className={styles.positionSize}>
-              +{toNumberFormat(fromWei(trade?.amount), 3)} BTC
-            </span>
-          </div>
-
-          <div className={classNames(styles.positionInfoRow, 'tw-mt-2')}>
-            <span className="tw-text-gray-10 tw-font-light">
-              {t(translations.perpetualPage.reviewTrade.labels.margin)}
-            </span>
-            <span>
               <AssetValue
-                minDecimals={4}
-                maxDecimals={4}
+                minDecimals={3}
+                maxDecimals={3}
                 mode={AssetValueMode.auto}
-                value={String(margin)}
-                assetString="BTC"
+                value={trade?.amount}
+                assetString={pair.baseAsset}
+                showPositiveSign
               />
             </span>
           </div>
 
           <div className={classNames(styles.positionInfoRow, 'tw-mt-2')}>
-            <span className="tw-text-gray-10 tw-font-light">
+            <span className="tw-text-gray-10">
+              {t(translations.perpetualPage.reviewTrade.labels.margin)}
+            </span>
+            <span className="tw-font-medium">
+              <AssetValue
+                minDecimals={4}
+                maxDecimals={4}
+                mode={AssetValueMode.auto}
+                value={String(margin)}
+                assetString={pair.baseAsset}
+              />
+            </span>
+          </div>
+
+          <div className={classNames(styles.positionInfoRow, 'tw-mt-2')}>
+            <span className="tw-text-gray-10">
               {t(translations.perpetualPage.reviewTrade.labels.leverage)}
             </span>
-            <span>{trade.leverage}x</span>
+            <span className="tw-font-medium">
+              {toNumberFormat(trade.leverage, 2)}x
+            </span>
           </div>
 
           <div className={classNames(styles.positionInfoRow, 'tw-mt-2')}>
-            <span className="tw-text-gray-10 tw-font-light">
+            <span className="tw-text-gray-10">
               {t(translations.perpetualPage.reviewTrade.labels.entryPrice)}
             </span>
-            <span>
-              {isBuy ? '≥' : '≤'} {toNumberFormat(trade.entryPrice, 2)}
+            <span className="tw-font-medium">
+              {isBuy ? '≥' : '≤'}{' '}
+              <AssetValue
+                minDecimals={2}
+                maxDecimals={2}
+                mode={AssetValueMode.auto}
+                value={trade.entryPrice}
+                assetString={pair.quoteAsset}
+              />
             </span>
           </div>
 
           <div className={classNames(styles.positionInfoRow, 'tw-mt-2')}>
-            <span className="tw-text-gray-10 tw-font-light">
+            <span className="tw-text-gray-10 tw-font-semibold">
               {t(
                 translations.perpetualPage.reviewTrade.labels.liquidationPrice,
               )}
             </span>
-            <span>91 000 USD</span> {/* TODO: Adjust later */}
+            <span className="tw-font-semibold">91 000 USD</span>{' '}
+            {/* TODO: Adjust later */}
           </div>
         </div>
 

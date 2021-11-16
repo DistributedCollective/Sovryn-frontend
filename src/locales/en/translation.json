@@ -1679,6 +1679,7 @@
       "sell": "Sell",
       "market": "Market",
       "limit": "Limit",
+      "positionDetailsTitle": "New Position Details",
       "labels": {
         "positionSize": "Position Size:",
         "margin": "Margin:",

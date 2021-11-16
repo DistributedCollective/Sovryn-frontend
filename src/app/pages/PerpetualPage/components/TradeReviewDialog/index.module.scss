@@ -2,15 +2,6 @@
   padding: 1.5rem 1.875rem 0 1.875rem;
 }
 
-.importantInfo {
-  @apply tw-w-full tw-p-4 tw-bg-gray-2 tw-flex tw-flex-col tw-items-center;
-  border-radius: 0.625rem;
-}
-
-.orderAction {
-  @apply tw-text-xl tw-font-medium tw-tracking-normal tw-leading-none;
-}
-
 .orderActionBuy {
   color: #129c8e;
 }
@@ -19,28 +10,9 @@
   color: #d64d08;
 }
 
-.orderActionAdditionalInfo {
-  @apply tw-text-sm tw-tracking-normal tw-mt-2 tw-leading-none;
-  color: #ededed;
-}
-
 .tradingFeeWrapper {
   @apply tw-flex tw-justify-between tw-w-full tw-text-sm tw-leading-none;
   padding: 0 3.75rem 0 1.5rem;
-}
-
-.tradingFeeValue {
-  color: #ededed;
-}
-
-.positionDetailsTitle {
-  @apply tw-text-sm tw-mt-6 tw-mb-2 tw-text-center;
-  color: #ededed;
-}
-
-.positionInfo {
-  @apply tw-w-full tw-p-4 tw-bg-gray-5 tw-flex tw-flex-col tw-items-center;
-  border-radius: 0.625rem;
 }
 
 .positionInfoRow {
@@ -54,5 +26,6 @@
 }
 
 .positionSize {
+  @apply tw-font-medium;
   color: #15ae9f;
 }
