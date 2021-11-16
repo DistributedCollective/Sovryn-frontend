@@ -5,7 +5,6 @@ import { toChecksumAddress } from '../helpers';
 import { ContractData } from '../types/contracts';
 
 const FIRST_BLOCK = currentNetwork === 'mainnet' ? 2758025 : 1000000;
-
 const fixContracts = () => {
   const newObj = {};
   const keys = Object.keys(contracts);

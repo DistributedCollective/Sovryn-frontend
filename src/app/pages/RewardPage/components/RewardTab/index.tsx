@@ -64,6 +64,10 @@ export const RewardTab: React.FC<IRewardTabProps> = ({
               <RewardClaimForm
                 amountToClaim={amountToClaim}
                 hasLockedSov={bignumber(availableLockedSovBalance).gt(0)}
+                hasLMRewards={
+                  bignumber(availableLendingRewards).gt(0) ||
+                  bignumber(availableLiquidityRewards).gt(0)
+                }
               />
             </div>
             <div className={styles.divider} />

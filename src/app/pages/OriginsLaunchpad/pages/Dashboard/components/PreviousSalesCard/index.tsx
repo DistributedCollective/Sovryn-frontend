@@ -12,7 +12,8 @@ interface IPreviousSalesCardProps {
   participatingWallets: string;
   date: string;
   saleDuration: string;
-  backgroundImage: string;
+  backgroundImage?: string;
+  backgroundElem?: React.ReactNode;
   price: string;
   className?: string;
   cardClassName?: string;
@@ -26,6 +27,7 @@ export const PreviousSalesCard: React.FC<IPreviousSalesCardProps> = ({
   date,
   saleDuration,
   backgroundImage,
+  backgroundElem,
   price,
   className,
   cardClassName,
@@ -34,14 +36,19 @@ export const PreviousSalesCard: React.FC<IPreviousSalesCardProps> = ({
   return (
     <div
       className={cn(
-        'tw-flex tw-min-w-100 tw-flex-col tw-items-center sm:tw-flex-row xl:tw-max-w-50',
+        'tw-flex tw-min-w-100 tw-flex-col tw-items-center sm:tw-flex-row xl:tw-max-w-50 tw-mb-12',
         className,
       )}
     >
-      <CardImage
-        style={{ backgroundImage: `url(${backgroundImage})` }}
-        className={cn(cardClassName)}
-      />
+      {backgroundImage && (
+        <CardImage
+          style={{ backgroundImage: `url(${backgroundImage})` }}
+          className={cn(cardClassName)}
+        />
+      )}
+      {backgroundElem && (
+        <div className={cn(cardClassName)}>{backgroundElem}</div>
+      )}
       <div className="tw-flex tw-flex-col tw-justify-center tw-ml-6 xl:tw-ml-4 2xl:tw-ml-11">
         <InfoRow
           label={t(

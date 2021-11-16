@@ -1,22 +1,18 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
+
 import { Asset } from 'types';
-import { BuyInformationWrapper } from './styled';
+import { weiToFixed } from 'utils/blockchain/math-helpers';
+import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { InfoItem } from './InfoItem';
-import { AllocationRemaining } from './AllocationRemaining';
-import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
 import { ISaleInformation } from '../../../../../../../../types';
-import { btcInSatoshis } from 'app/constants';
+import styles from './index.module.scss';
 
 interface IInformationSectionProps {
   saleName: string;
   info: ISaleInformation;
 }
-
-const depositRateToSatoshis = (depositRate: number) =>
-  toNumberFormat(btcInSatoshis / depositRate);
 
 export const InformationSection: React.FC<IInformationSectionProps> = ({
   saleName,
@@ -25,51 +21,37 @@ export const InformationSection: React.FC<IInformationSectionProps> = ({
   const { t } = useTranslation();
 
   return (
-    <BuyInformationWrapper>
-      <div className="tw-mb-8 tw-text-left">
-        <div className="tw-text-xs tw-tracking-normal tw-mb-3">
-          {t(
-            translations.originsLaunchpad.saleDay.buyStep.buyInformationLabels
-              .depositLimits,
-          )}
-          :
-        </div>
-        <div className="tw-text-xs">
-          <div>
-            • MIN:{' '}
-            {info.minAmount === '0'
-              ? '0'
-              : weiToNumberFormat(info.minAmount, 4)}{' '}
-            <AssetSymbolRenderer asset={Asset.RBTC} />
-          </div>
-          <div>
-            • MAX: {weiToNumberFormat(info.maxAmount, 4)}{' '}
-            <AssetSymbolRenderer asset={Asset.RBTC} />
-          </div>
-        </div>
-      </div>
-
+    <div className={styles.buyInformationWrapper}>
       <InfoItem
         label={t(
           translations.originsLaunchpad.saleDay.buyStep.buyInformationLabels
-            .saleAllocation,
+            .totalDepositReceived,
         )}
-        value={`${weiToNumberFormat(info.totalSaleAllocation)} ${saleName}`}
+        value={
+          <>
+            <span className="tw-pr-1 tw-font-orbitron">
+              {weiToFixed(info.totalReceived, 4)}
+            </span>
+            <AssetSymbolRenderer
+              asset={Asset.SOV}
+              assetClassName="tw-font-orbitron"
+            />
+          </>
+        }
+        className="tw-text-primary"
       />
 
       <InfoItem
         label={t(
           translations.originsLaunchpad.saleDay.buyStep.buyInformationLabels
-            .allocationRemaining,
+            .tokenPrice,
         )}
         value={
-          <AllocationRemaining
-            totalSaleAllocation={info.totalSaleAllocation}
-            remainingTokens={info.remainingTokens}
-            saleName={saleName}
-          />
+          <>
+            {1 / info.depositRate}{' '}
+            <AssetSymbolRenderer asset={info.depositToken} />
+          </>
         }
-        className="tw-text-primary"
       />
 
       <InfoItem
@@ -83,19 +65,21 @@ export const InformationSection: React.FC<IInformationSectionProps> = ({
       <InfoItem
         label={t(
           translations.originsLaunchpad.saleDay.buyStep.buyInformationLabels
-            .price,
-        )}
-        value={`${depositRateToSatoshis(info.depositRate)} Sats`}
-      />
-
-      <InfoItem
-        label={t(
-          translations.originsLaunchpad.saleDay.buyStep.buyInformationLabels
             .acceptedCurrencies,
         )}
         value={
           <>
-            <AssetSymbolRenderer asset={info.depositToken} />
+            {[Asset.RBTC, Asset.SOV, Asset.XUSD, Asset.ETH, Asset.BNB].map(
+              (asset, i) => (
+                <React.Fragment key={asset}>
+                  {i > 0 ? ', ' : ''}
+                  <AssetSymbolRenderer
+                    asset={asset}
+                    assetClassName="tw-font-orbitron"
+                  />
+                </React.Fragment>
+              ),
+            )}
           </>
         }
       />
@@ -108,6 +92,6 @@ export const InformationSection: React.FC<IInformationSectionProps> = ({
         value={info.saleEnd}
         isLastItem={true}
       />
-    </BuyInformationWrapper>
+    </div>
   );
 };

@@ -1,84 +1,141 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
+
+import { translations } from 'locales/i18n';
+import { useAccount } from 'app/hooks/useAccount';
 import { Asset } from 'types';
 import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
 import { contractReader } from 'utils/sovryn/contract-reader';
-import { DepositType, ISaleInformation, VerificationType } from '../types';
+import { timestampToDateString } from 'utils/dateHelpers';
+import { ISaleInformation } from '../types';
+import { selectTransactions } from 'store/global/transactions-store/selectors';
 
-const timestampToString = (timestamp: number) =>
-  new Date(timestamp * 1000).toLocaleString('en-GB', {
-    day: 'numeric',
-    month: 'short',
-  });
-
-export const useGetSaleInformation = (tierId: number) => {
+export const useGetSaleInformation = () => {
+  const { t } = useTranslation();
+  const account = useAccount();
+  const transactions = useSelector(selectTransactions);
+  const [exchangeRate, setExchangeRate] = useState(1);
+  const [partsPerMillion, setPartPerMillion] = useState(1);
   const [saleInfo, setSaleInfo] = useState<ISaleInformation>({
-    minAmount: '0',
-    maxAmount: '0',
-    remainingTokens: 0,
-    saleEnd: '',
+    saleStart: '',
+    saleEnd: '-',
+    period: '',
+    depositToken: Asset.RBTC,
     depositRate: 1,
     participatingWallets: '0',
-    depositToken: Asset.RBTC,
-    depositType: DepositType.RBTC,
-    verificationType: VerificationType.None,
-    totalSaleAllocation: 0,
+    totalReceived: '0',
+    yourTotalDeposit: '0',
+    isClosed: false,
   });
 
+  const depositRate = useMemo(() => exchangeRate / partsPerMillion, [
+    exchangeRate,
+    partsPerMillion,
+  ]);
+
+  const saleEndDate = useMemo(() => {
+    const { isClosed, saleStart, period } = saleInfo;
+    if (isClosed) {
+      return t(
+        translations.originsLaunchpad.saleDay.buyStep.buyInformationLabels
+          .saleClosed,
+      );
+    }
+    if (saleStart && period) {
+      return timestampToDateString(Number(saleStart) + Number(period));
+    }
+    return '-';
+  }, [saleInfo, t]);
+
   useEffect(() => {
-    contractReader
-      .call('originsBase', 'readTierPartA', [tierId])
-      .then(result => {
-        setSaleInfo(prevValue => ({
-          ...prevValue,
-          minAmount: result['_minAmount'],
-          maxAmount: result['_maxAmount'],
-          remainingTokens: result['_remainingTokens'],
-          saleStart: result['_saleStartTS'],
-          saleEnd: timestampToString(result['_saleEnd']),
-          depositRate: result['_depositRate'],
-        }));
-      });
-  }, [tierId]);
+    contractReader.call<string>('MYNTPresale', 'totalRaised', []).then(result =>
+      setSaleInfo(preValue => ({
+        ...preValue,
+        totalReceived: result,
+      })),
+    );
+  }, [transactions]);
+
+  useEffect(() => {
+    if (account) {
+      contractReader
+        .call<string>('MYNTPresale', 'contributors', [account])
+        .then(result =>
+          setSaleInfo(preValue => ({
+            ...preValue,
+            yourTotalDeposit: result,
+          })),
+        );
+    }
+  }, [account, transactions]);
 
   useEffect(() => {
     contractReader
-      .call<string>('originsBase', 'getParticipatingWalletCountPerTier', [
-        tierId,
-      ])
+      .call<string>('MYNTPresale', 'contributorsCounter', [])
       .then(result =>
         setSaleInfo(prevValue => ({
           ...prevValue,
           participatingWallets: result,
         })),
       );
-  }, [tierId]);
+  }, [transactions]);
+
+  useEffect(() => {
+    contractReader.call<boolean>('MYNTPresale', 'isClosed', []).then(result => {
+      setSaleInfo(preValue => ({
+        ...preValue,
+        isClosed: result,
+      }));
+    });
+  }, []);
+
+  useEffect(() => {
+    contractReader.call<string>('MYNTPresale', 'openDate', []).then(result => {
+      setSaleInfo(preValue => ({
+        ...preValue,
+        saleStart: result,
+      }));
+    });
+  }, []);
+
+  useEffect(() => {
+    contractReader.call<string>('MYNTPresale', 'period', []).then(result => {
+      setSaleInfo(preValue => ({
+        ...preValue,
+        period: result,
+      }));
+    });
+  }, []);
 
   useEffect(() => {
     contractReader
-      .call('originsBase', 'readTierPartB', [tierId])
+      .call<string>('MYNT_ctrl', 'contributionToken', [])
       .then(result => {
-        setSaleInfo(prevValue => ({
-          ...prevValue,
-          depositToken:
-            result['_depositType'] === DepositType.RBTC
-              ? Asset.RBTC
-              : assetByTokenAddress(result['_depositToken']),
-          depositType: result['_depositType'],
-          verificationType: result['_verificationType'],
+        setSaleInfo(preValue => ({
+          ...preValue,
+          depositToken: assetByTokenAddress(result),
         }));
       });
-  }, [tierId]);
+  }, []);
 
   useEffect(() => {
     contractReader
-      .call<number>('originsBase', 'getTotalTokenAllocationPerTier', [tierId])
+      .call<number>('MYNTPresale', 'exchangeRate', [])
       .then(result => {
-        setSaleInfo(prevValue => ({
-          ...prevValue,
-          totalSaleAllocation: result,
-        }));
+        setExchangeRate(result);
       });
-  }, [tierId]);
+  }, []);
 
-  return saleInfo;
+  useEffect(() => {
+    contractReader.call<number>('MYNTPresale', 'PPM', []).then(result => {
+      setPartPerMillion(result);
+    });
+  }, []);
+
+  return {
+    ...saleInfo,
+    saleEnd: saleEndDate,
+    depositRate,
+  };
 };

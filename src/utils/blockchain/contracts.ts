@@ -34,6 +34,10 @@ import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
 import SwapsExternalAbi from './abi/SwapsExternalAbi.json';
 import stakingRewardsProxyAbi from './abi/StakingRewards.json';
 import nftAbi from './abi/nftAbi.json';
+import MYNTControllerAbi from './abi/MYNTController.json';
+import MYNTTokenAbi from './abi/MYNT_token.json';
+import MYNTPresaleAbi from './abi/MYNTPresale.json';
+import MYNTMarketMakerAbi from './abi/MYNTMarketMaker.json';
 import perpetualManagerAbi from './abi/PerpetualManager.json';
 import marginTokenAbi from './abi/MarginToken.json';
 
@@ -63,12 +67,13 @@ export const contracts = {
     abi: ConverterRegistryABI,
     blockNumber: 2742580,
   },
-  WRBTC_token: {
+  RBTC_token: {
     address: '0x542fDA317318eBF1d3DEAf76E0b632741A7e677d',
     abi: abiTestWBRTCToken,
     blockNumber: 2742415,
   },
-  RBTC_token: {
+  WRBTC_token: {
+    // keep this after RBTC_token to prevent issues with RBTC tx's being picked up as WRBTC
     address: '0x542fDA317318eBF1d3DEAf76E0b632741A7e677d',
     abi: abiTestWBRTCToken,
     blockNumber: 2742415,
@@ -340,6 +345,24 @@ export const contracts = {
   sovrynNFT: {
     address: '0x576ae218aecfd4cbd2dbe07250b47e26060932b1',
     abi: nftAbi,
+  },
+  MYNT_ctrl: {
+    address: '0xB576658700D32CCE28552349bCD52FaD8173ae32',
+    abi: MYNTControllerAbi,
+    blockNumber: 3832084,
+  },
+  MYNT_token: {
+    address: '0x2e6B1d146064613E8f521Eb3c6e65070af964EbB',
+    abi: MYNTTokenAbi,
+    blockNumber: 3832084,
+  },
+  MYNTPresale: {
+    address: '0xC3d646Ab4e1bE05eFb4Afaedf5Ae656Ff5AE4959',
+    abi: MYNTPresaleAbi,
+  },
+  MYNTMarketMaker: {
+    address: '0x722935fF8A99D801D802bb3EE528408C11C18656',
+    abi: MYNTMarketMakerAbi,
   },
   perpetualManager: {
     address: '0x15D155e8aDE68ED7f273770b47E2B2eA263861cF',

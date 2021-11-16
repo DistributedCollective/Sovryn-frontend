@@ -1,135 +1,182 @@
 import { AmountInput } from 'app/components/Form/AmountInput';
 import { translations } from 'locales/i18n';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Asset } from 'types';
-import { BuyWrapper, BuyButton } from './styled';
-import { useTranslation } from 'react-i18next';
-import imgArrowDown from 'assets/images/arrow-down.svg';
-import { useWeiAmount } from 'app/hooks/useWeiAmount';
 import { bignumber } from 'mathjs';
-import { TxDialog } from '../TxDialog';
-import { noop } from 'app/constants';
+import { useTranslation } from 'react-i18next';
+
+import { Asset } from 'types';
+import { TxStatus } from 'store/global/transactions-store/types';
+import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
+import { useWeiAmount } from 'app/hooks/useWeiAmount';
 import { useCanInteract } from 'app/hooks/useCanInteract';
-import { useApproveAndBuyToken } from 'app/pages/OriginsLaunchpad/hooks/useApproveAndBuyToken';
-import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { useAccount } from 'app/hooks/useAccount';
+import { usePrevious } from 'app/hooks/usePrevious';
+import { useSwapsExternal_getSwapExpectedReturn } from 'app/hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
+import { useSwapsExternal_approveAndSwapExternal } from 'app/hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
+import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
+import { useApproveAndContribute } from 'app/pages/OriginsLaunchpad/hooks/useApproveAndContribute';
+import { TxDialog } from '../TxDialog';
+import { TxDialog as SwapTxDialog } from 'app/components/Dialogs/TxDialog';
+import { AssetRenderer } from 'app/components/AssetRenderer';
+import { weiToFixed } from 'utils/blockchain/math-helpers';
+import { BalanceOfAsset } from './components/BalanceOfAsset';
+import styles from './index.module.scss';
 
 interface IBuySectionProps {
   saleName: string;
   depositRate: number;
   sourceToken: Asset;
-  tierId: number;
-  maxAmount: string;
+  totalDeposit: string;
 }
+
+const slippage = 0.5;
 
 export const BuySection: React.FC<IBuySectionProps> = ({
   saleName,
   depositRate,
-  sourceToken,
-  tierId,
-  maxAmount,
+  totalDeposit,
 }) => {
   const { t } = useTranslation();
   const connected = useCanInteract(true);
 
+  const [sourceToken, setSourceToken] = useState(Asset.SOV);
   const [amount, setAmount] = useState('');
-  const [isOverMaxLimit, setIsOverMaxLimit] = useState(false);
-  const weiAmount = useWeiAmount(amount);
-
   const [tokenAmount, setTokenAmount] = useState(amount);
+
+  const account = useAccount();
+  const balance = useAssetBalanceOf(sourceToken);
+  const weiAmount = useWeiAmount(amount);
   const weiTokenAmount = useWeiAmount(tokenAmount);
 
-  const isValidAmount = useMemo(() => {
-    return (
+  const isValidAmount = useMemo(
+    () =>
+      !balance.loading &&
       bignumber(weiAmount).greaterThan(0) &&
       bignumber(weiTokenAmount).greaterThan(0) &&
-      !isOverMaxLimit
-    );
-  }, [isOverMaxLimit, weiAmount, weiTokenAmount]);
+      bignumber(weiAmount).lessThanOrEqualTo(balance.value),
+    [weiAmount, weiTokenAmount, balance],
+  );
+
+  const { value: amountInSOV } = useSwapsExternal_getSwapExpectedReturn(
+    sourceToken,
+    Asset.SOV,
+    weiAmount,
+  );
+  const { minReturn } = useSlippage(amountInSOV, slippage);
+  const { send: sendSwap, ...txSwap } = useSwapsExternal_approveAndSwapExternal(
+    sourceToken,
+    Asset.SOV,
+    account,
+    account,
+    weiAmount,
+    '0',
+    minReturn,
+    '0x',
+  );
+  const oldSwapStatus = usePrevious(txSwap.status);
 
   useEffect(() => setTokenAmount(`${Number(amount) * depositRate}`), [
     amount,
     depositRate,
   ]);
 
-  useEffect(
-    () => setIsOverMaxLimit(bignumber(weiAmount).greaterThan(maxAmount)),
-    [weiAmount, maxAmount],
-  );
+  const { contribute, ...buyTx } = useApproveAndContribute();
 
-  const { buy, ...buyTx } = useApproveAndBuyToken();
+  useEffect(() => {
+    if (
+      sourceToken !== Asset.SOV &&
+      txSwap?.status === TxStatus.CONFIRMED &&
+      oldSwapStatus !== TxStatus.CONFIRMED
+    ) {
+      contribute(
+        bignumber(amountInSOV).mul(100).toString(),
+        Asset.MYNT,
+        amountInSOV,
+        Asset.SOV,
+      );
+    }
+  }, [sourceToken, txSwap, contribute, amountInSOV, oldSwapStatus]);
 
-  const onBuyClick = useCallback(
-    () => buy(tierId, weiTokenAmount, saleName, weiAmount, sourceToken),
-    [buy, saleName, sourceToken, tierId, weiAmount, weiTokenAmount],
-  );
+  const getMyntAmount = useCallback(() => {
+    const amount = sourceToken === Asset.SOV ? weiAmount : amountInSOV;
+    return bignumber(amount).mul(100);
+  }, [sourceToken, weiAmount, amountInSOV]);
+
+  const onBuyClick = useCallback(() => {
+    if (sourceToken === Asset.SOV) {
+      contribute(
+        bignumber(weiAmount).mul(100).toString(),
+        Asset.MYNT,
+        weiAmount,
+        Asset.SOV,
+      );
+    } else {
+      sendSwap();
+    }
+  }, [sourceToken, contribute, weiAmount, sendSwap]);
 
   return (
-    <BuyWrapper>
-      <div className="tw-max-w-xs tw-mx-auto">
+    <div className={styles.buyWrapper}>
+      <div className="tw-max-w-sm tw-mx-auto tw-flex tw-flex-col tw-justify-between tw-h-full">
         <div>
-          <div className="tw-text-sm tw-text-left tw-font-extralight tw-mb-2 tw-text-sov-white">
-            {t(
-              translations.originsLaunchpad.saleDay.buyStep.buyDialog
-                .enterAmount,
-            )}
-            :
-          </div>
-          <AmountInput
-            value={amount}
-            onChange={value => setAmount(value)}
-            asset={Asset.RBTC}
-          />
-          {isOverMaxLimit && (
-            <ErrorBadge
-              content={
-                <span>
-                  {t(
-                    translations.originsLaunchpad.saleDay.buyStep.buyDialog
-                      .isOverMaxLimit,
-                  )}
-                </span>
-              }
+          <BalanceOfAsset className="" asset={sourceToken} />
+          <div className="tw-mt-12">
+            <div className="tw-text-sm tw-text-left tw-font-extralight tw-mb-2 tw-text-gray-9">
+              {t(
+                translations.originsLaunchpad.saleDay.buyStep.buyDialog
+                  .enterAmount,
+              )}
+            </div>
+            <AmountInput
+              value={amount}
+              onChange={value => setAmount(value)}
+              asset={sourceToken}
+              assetSelectable={true}
+              onSelectAsset={(asset: Asset) => setSourceToken(asset)}
             />
-          )}
-        </div>
+          </div>
 
-        <img
-          src={imgArrowDown}
-          alt="swap"
-          className="tw-h-8 tw-mx-auto tw-mt-10 tw-mb-8"
-        />
-
-        <div>
-          <div className="tw-text-sm tw-text-left tw-font-extralight tw-mb-2 tw-text-sov-white">
+          <div className="tw-mt-7 tw-text-sm tw-border tw-rounded-lg tw-border-gray-7 tw-py-2">
             {t(
               translations.originsLaunchpad.saleDay.buyStep.buyDialog
-                .tokenReceived,
-              { token: saleName },
-            )}
-            :
+                .estimatedTokenAmount,
+              {
+                token: saleName,
+                amount: weiToFixed(getMyntAmount(), 4),
+              },
+            )}{' '}
+            <AssetRenderer assetString={saleName} />
           </div>
-          <AmountInput
-            value={tokenAmount}
-            assetString={saleName}
-            readonly={true}
-            onChange={noop}
-          />
+
+          <button
+            className={styles.buyButton}
+            disabled={buyTx.loading || !isValidAmount || !connected}
+            onClick={onBuyClick}
+          >
+            <span>
+              {t(
+                translations.originsLaunchpad.saleDay.buyStep.buyDialog
+                  .buyButton,
+                { token: saleName },
+              )}
+            </span>
+          </button>
         </div>
 
-        <BuyButton
-          disabled={buyTx.loading || !isValidAmount || !connected}
-          onClick={onBuyClick}
-        >
-          <span>
-            {t(
-              translations.originsLaunchpad.saleDay.buyStep.buyDialog.buyButton,
-              { token: saleName },
-            )}
-          </span>
-        </BuyButton>
-
-        <TxDialog tx={buyTx} />
+        <div className="tw-text-sm tw-text-center tw-font-extralight tw-text-gray-9 tw-mt-14">
+          {t(
+            translations.originsLaunchpad.saleDay.buyStep.buyDialog
+              .yourTotalDeposit,
+          )}{' '}
+          :<span className="tw-px-2">{weiToFixed(totalDeposit, 4)}</span>
+          <AssetRenderer asset={Asset.SOV} />
+        </div>
       </div>
-    </BuyWrapper>
+
+      <TxDialog tx={buyTx} />
+      {txSwap && txSwap?.status !== TxStatus.CONFIRMED && (
+        <SwapTxDialog tx={txSwap} />
+      )}
+    </div>
   );
 };

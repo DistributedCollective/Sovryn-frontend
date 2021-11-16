@@ -5,12 +5,15 @@ type Props = {
   tokenId: string;
 };
 
+const urlCreator = window.URL || window.webkitURL;
+
 const SovNftToken: React.FC<Props> = ({ tokenId }) => {
   const [name, setName] = useState<string>(null!);
   const [image, setImage] = useState<string>(null!);
 
   useEffect(() => {
     const abortController = new AbortController();
+    let tempObjectUrl: string;
     async function run() {
       const tokenUri = await contractReader.call<string>(
         'sovrynNFT',
@@ -25,7 +28,11 @@ const SovNftToken: React.FC<Props> = ({ tokenId }) => {
           setName(metadata.name);
         }
         if (metadata?.image) {
-          setImage(metadata.image);
+          const blob = await fetch(metadata.image).then(response =>
+            response.blob(),
+          );
+          tempObjectUrl = urlCreator.createObjectURL(blob);
+          setImage(tempObjectUrl);
         }
       }
     }
@@ -36,6 +43,10 @@ const SovNftToken: React.FC<Props> = ({ tokenId }) => {
       if (abortController) {
         abortController.abort();
       }
+
+      if (tempObjectUrl) {
+        urlCreator.revokeObjectURL(tempObjectUrl);
+      }
     };
   }, [tokenId]);
 
@@ -44,16 +55,17 @@ const SovNftToken: React.FC<Props> = ({ tokenId }) => {
   }
 
   return (
-    <div className="md:tw-mr-5 sm:tw-mb-5 tw-mb-12 tw-ml-4 tw-mr-4 tw-relative tw-inline-block">
-      <div className="image-bordered">
-        <img
-          className="tw-w-full tw-h-full tw-image-responsive"
-          src={image}
-          alt={name || `SovNFT #${tokenId}`}
-          title={name || `SovNFT #${tokenId}`}
-        />
+    <>
+      <div className="md:tw-mr-5 sm:tw-mb-5 tw-mb-12 tw-ml-4 tw-mr-4 tw-relative tw-inline-block">
+        <div className="image-bordered">
+          <img
+            src={image}
+            alt={name || `SovNFT #${tokenId}`}
+            title={name || `SovNFT #${tokenId}`}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
