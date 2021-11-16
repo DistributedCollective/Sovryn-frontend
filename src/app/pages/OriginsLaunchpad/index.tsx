@@ -7,6 +7,7 @@ import { Header } from 'app/components/Header';
 import { Footer } from 'app/components/Footer';
 import { SalesDay } from './pages/SalesDay';
 import { OriginsClaimPage } from 'app/pages/OriginsClaimPage/Loadable';
+// import { Dashboard } from './pages/Dashboard';
 
 export const OriginsLaunchpad: React.FC = () => {
   const { t } = useTranslation();
@@ -37,6 +38,7 @@ export const OriginsLaunchpad: React.FC = () => {
           <Route exact path={`${url}/claim`} component={OriginsClaimPage} />
           <Redirect to={`${url}/sales`} />
         </Switch>
+        {/*<Dashboard />*/}
       </div>
       <Footer />
     </>
