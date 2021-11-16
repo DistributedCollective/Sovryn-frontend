@@ -99,7 +99,9 @@ export function DummyInput({
       <div className={cn('tw-input tw-truncate tw-pr-0', inputClassName)}>
         {value}
       </div>
-      {appendElem && <div className="tw-input-append">{appendElem}</div>}
+      {appendElem && (
+        <div className="tw-input-append tw-mt-2">{appendElem}</div>
+      )}
     </div>
   );
 }

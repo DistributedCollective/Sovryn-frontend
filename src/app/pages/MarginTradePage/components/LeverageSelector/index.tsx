@@ -1,5 +1,7 @@
 import React from 'react';
 import { Slider } from 'app/components/Form/Slider';
+import cn from 'classnames';
+import styles from './index.module.scss';
 
 interface Props {
   value: number;
@@ -15,6 +17,7 @@ export function LeverageSelector(props: Props) {
       max={5}
       stepSize={1}
       labelRenderer={value => <>{value}x</>}
+      className={cn(styles.colorized)}
     />
   );
 }

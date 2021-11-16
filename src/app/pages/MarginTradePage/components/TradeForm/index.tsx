@@ -114,7 +114,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
 
   return (
     <>
-      <div className="tw-trading-form-card tw-bg-black tw-rounded-3xl tw-p-4 tw-mx-auto xl:tw-mx-0">
+      <div className="tw-trading-form-card tw-bg-black tw-rounded-3xl tw-p-4 tw-mx-auto xl:tw-mx-0 tw-relative">
         {!openTradesLocked && (
           <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mw-340 tw-mx-auto">
             {pair.canOpenLong && (
@@ -256,15 +256,17 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
           )}
         </div>
 
-        <SlippageDialog
-          isOpen={openSlippage}
-          onClose={() => setOpenSlippage(false)}
-          amount={toWei(price)}
-          value={slippage}
-          asset={collateralToken}
-          onChange={value => setSlippage(value)}
-          isTrade={true}
-        />
+        {openSlippage && (
+          <SlippageDialog
+            isOpen={openSlippage}
+            onClose={() => setOpenSlippage(false)}
+            amount={toWei(price)}
+            value={slippage}
+            asset={collateralToken}
+            onChange={value => setSlippage(value)}
+            isTrade={true}
+          />
+        )}
         <TradeDialog
           onCloseModal={() => setIsTradingDialogOpen(false)}
           isOpen={isTradingDialogOpen}

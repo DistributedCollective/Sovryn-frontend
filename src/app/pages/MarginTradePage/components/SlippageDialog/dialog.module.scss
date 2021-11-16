@@ -1,27 +1,16 @@
-.dialog {
-    @apply tw-relative
-      tw-p-8
-      tw-font-body
-      tw-bg-black tw-border-0 tw-rounded-3xl;
-
-    max-width: 468px;
-  }
-
-  .dialog button[data-close] {
-    width: 42px;
-    height: 42px;
-    border-radius: 21px;
-    border: 0;
-    position: absolute;
-    right: -30px;
-    top: -30px;
-    background: transparent
-      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='42' height='42' viewBox='0 0 42 42'%3E%3Cg transform='translate(2 2)' fill='none' stroke='%23707070' stroke-width='2'%3E%3Ccircle cx='19' cy='19' r='19' stroke='none'/%3E%3Ccircle cx='19' cy='19' r='20' fill='none'/%3E%3C/g%3E%3Cpath d='M25.333,7.048,23.285,5l-8.119,8.119L7.048,5,5,7.048l8.119,8.119L5,23.285l2.048,2.048,8.119-8.119,8.119,8.119,2.048-2.048-8.119-8.119Z' transform='translate(5.833 5.833)' fill='%23f4f4f4'/%3E%3Cpath d='M0,0H42V42H0Z' fill='none'/%3E%3C/svg%3E")
-      center center no-repeat;
-    background-size: 42px 42px;
-    transition: opacity;
-    will-change: opacity;
-  }
-  .dialog button[data-close]:hover {
-    opacity: 0.8;
-  }
+.buttonClose {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  width: 24px;
+  height: 20px;
+  transition: opacity 0.5s;
+  background: transparent
+    url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMCwwSDI0VjI0SDBaIiBmaWxsPSJub25lIi8+PHBhdGggZD0iTTExLjY3LDMuODcsOS45LDIuMSwwLDEybDkuOSw5LjksMS43Ny0xLjc3TDMuNTQsMTJaIiBmaWxsPSIjZTllYWU5Ii8+PC9zdmc+')
+    center center no-repeat;
+  border: 0;
+  cursor: pointer;
+}
+.buttonClose:hover {
+  opacity: 0.8;
+}
