@@ -1691,9 +1691,7 @@
       "confirm": "Confirm"
     },
     "editPositionSize": {
-      "title": "Edit Position Size",
-      "amount": "Close Amount:",
-      "total": "Total to Receive:"
+      "title": "Edit Position Size"
     },
     "editMargin": {
       "title": "Edit Margin",
@@ -1703,14 +1701,16 @@
       "decreaseLabel": "Withdraw margin:",
       "button": "Review"
     },
-    "closeTrade": {
-      "title": "Close Position"
-    },
     "editLeverage": {
       "title": "Edit Leverage",
       "margin": "Position Margin:",
       "liquidation": "Liquidation Price:",
       "button": "Review"
+    },
+    "closePosition": {
+      "title": "Close Position",
+      "amount": "Close Amount:",
+      "total": "Total to Receive:"
     },
     "currentTrade": {
       "position": "Current Position:",
