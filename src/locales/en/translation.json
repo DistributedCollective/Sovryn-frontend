@@ -22,7 +22,10 @@
     "unit": {
       "day": "{{count}} day",
       "day_plural": "{{count}} days"
-    }
+    },
+    "gasPrice": "gas price",
+    "gasLimit": "gas limit",
+    "units": "units"
   },
   "global": {
     "liquidationPrice": "Liquidation Price",

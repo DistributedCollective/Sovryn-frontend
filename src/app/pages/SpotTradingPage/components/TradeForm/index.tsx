@@ -46,6 +46,7 @@ import { useSwapNetwork_conversionPath } from '../../../../hooks/swap-network/us
 import { useSwapNetwork_approveAndConvertByPath } from '../../../../hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
 import { TransactionDialog } from 'app/components/TransactionDialog';
+import { noop } from 'app/constants';
 
 export function TradeForm() {
   const { t } = useTranslation();
@@ -261,13 +262,15 @@ export function TradeForm() {
           </div>
         )}
       </div>
-      <TxDialog tx={tx} />
+      {/* <TxDialog tx={tx} /> */}
       <TransactionDialog
         tx={{ ...tx, retry: send }}
-        onUserConfirmed={() => {}}
+        onUserConfirmed={noop}
         action="Trade"
         finalMessage={
-          <div className="tw-text-center tw-w-full">Spot Trade</div>
+          <div className="tw-text-center tw-w-full">
+            {t(translations.spotTradingPage.meta.title)}
+          </div>
         }
       />
     </>

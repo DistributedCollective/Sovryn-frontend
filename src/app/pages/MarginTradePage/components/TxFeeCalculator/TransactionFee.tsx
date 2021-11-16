@@ -10,6 +10,8 @@ import { gas } from 'utils/blockchain/gas-price';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { Asset } from 'types';
+import { translations } from 'locales/i18n';
+import { useTranslation } from 'react-i18next';
 
 interface ITransactionFeeProps {
   asset?: Asset;
@@ -28,6 +30,7 @@ export const TransactionFee: React.FC<ITransactionFeeProps> = ({
   txConfig = {},
   condition = true,
 }) => {
+  const { t } = useTranslation();
   const { value, loading, error, gasPrice, gasLimit } = useEstimateContractGas(
     contractName,
     methodName,
@@ -55,12 +58,13 @@ export const TransactionFee: React.FC<ITransactionFeeProps> = ({
           {gasData} <AssetSymbolRenderer asset={asset} />
           <br />
           <small className="tw-text-gray-6">
-            (gas price: {toNumberFormat(Number(fromWei(gasPrice, 'gwei')), 3)}{' '}
-            gwei)
+            ({t(translations.common.gasPrice)}:{' '}
+            {toNumberFormat(Number(fromWei(gasPrice, 'gwei')), 3)} gwei)
           </small>
           <br />
           <small className="tw-text-gray-6">
-            (gas limit: {gasLimit} units)
+            ({t(translations.common.gasLimit)}: {gasLimit}{' '}
+            {t(translations.common.units)})
           </small>
           {error && <p className="tw-text-warning">{error}</p>}
         </>
