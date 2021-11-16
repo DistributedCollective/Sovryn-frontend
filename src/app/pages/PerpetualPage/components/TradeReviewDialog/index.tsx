@@ -80,7 +80,7 @@ export const TradeReviewDialog: React.FC = () => {
       Number(fromWei(trade.amount)) * getTradeDirection(trade.position);
 
     return getRequiredMarginCollateral(
-      trade!.leverage,
+      trade.leverage,
       marginAccountBalance.fPositionBC,
       marginAccountBalance.fPositionBC + amount,
       perpParameters,
