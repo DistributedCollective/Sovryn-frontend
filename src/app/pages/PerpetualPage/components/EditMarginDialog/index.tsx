@@ -185,7 +185,7 @@ export const EditMarginDialog: React.FC = () => {
             <AmountInput
               value={margin}
               maxAmount={maxAmountWei}
-              assetString={pair.collateralAsset}
+              assetString="BTC"
               decimalPrecision={6}
               step={0.0001}
               onChange={onChangeMargin}
