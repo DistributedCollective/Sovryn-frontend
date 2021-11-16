@@ -144,19 +144,19 @@ export function SwapFormContainer() {
     minReturn,
   );
 
-  const {
-    send: sendExternal,
-    ...txExternal
-  } = useSwapsExternal_approveAndSwapExternal(
-    sourceToken,
-    targetToken,
-    account,
-    account,
-    weiAmount,
-    '0',
-    minReturn,
-    '0x',
-  );
+  // const {
+  //   send: sendExternal,
+  //   ...txExternal
+  // } = useSwapsExternal_approveAndSwapExternal(
+  //   sourceToken,
+  //   targetToken,
+  //   account,
+  //   account,
+  //   weiAmount,
+  //   '0',
+  //   minReturn,
+  //   '0x',
+  // );
 
   const onSwapAssert = () => {
     const _sourceToken = sourceToken;
@@ -173,23 +173,27 @@ export function SwapFormContainer() {
     );
   }, [targetToken, sourceToken, minReturn, weiAmount]);
 
-  const tx = useMemo(
-    () =>
-      targetToken === Asset.RBTC ||
-      [targetToken, sourceToken].includes(Asset.RIF)
-        ? txPath
-        : txExternal,
-    [targetToken, sourceToken, txExternal, txPath],
-  );
+  // const tx = useMemo(
+  //   () =>
+  //     targetToken === Asset.RBTC ||
+  //     [targetToken, sourceToken].includes(Asset.RIF)
+  //       ? txPath
+  //       : txExternal,
+  //   [targetToken, sourceToken, txExternal, txPath],
+  // );
 
-  const send = useCallback(
-    () =>
-      targetToken === Asset.RBTC ||
-      [targetToken, sourceToken].includes(Asset.RIF)
-        ? sendPath()
-        : sendExternal(),
-    [targetToken, sourceToken, sendPath, sendExternal],
-  );
+  const tx = txPath;
+
+  // const send = useCallback(
+  //   () =>
+  //     targetToken === Asset.RBTC ||
+  //     [targetToken, sourceToken].includes(Asset.RIF)
+  //       ? sendPath()
+  //       : sendExternal(),
+  //   [targetToken, sourceToken, sendPath, sendExternal],
+  // );
+
+  const send = useCallback(() => sendPath(), [sendPath]);
 
   const setSwapTokents = useCallback((source: Asset, target: Asset) => {
     setSourceToken(source);
