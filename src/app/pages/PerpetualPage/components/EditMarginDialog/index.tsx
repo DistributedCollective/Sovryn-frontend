@@ -13,7 +13,6 @@ import { AssetValueMode } from '../../../../components/AssetValue/types';
 import {
   calculateApproxLiquidationPrice,
   calculateLeverageForMargin,
-  getBase2CollateralFX,
 } from '../../utils/perpUtils';
 import { fromWei, toWei } from 'web3-utils';
 import { usePerpetual_queryPerpParameters } from '../../hooks/usePerpetual_queryPerpParameters';
@@ -24,6 +23,7 @@ import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { AmountInput } from '../../../../components/Form/AmountInput';
 import { usePerpetual_queryTraderState } from '../../hooks/usePerpetual_queryTraderState';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
+import { calculateMaxMarginWithdrawal } from '../../utils/contractUtils';
 
 enum EditMarginDialogMode {
   increase,
@@ -83,21 +83,19 @@ export const EditMarginDialog: React.FC = () => {
       // Fees don't need to be subtracted, since Collateral is not paid with the Network Token
       return [Number(fromWei(available)), available];
     } else {
-      const requiredMargin =
-        (Math.abs(Number(fromWei(trade?.amount || '0'))) *
-          getBase2CollateralFX(ammState, true)) /
-        (pair?.config.leverage.max || 1);
-      const maxAmount = traderState.availableCashCC - requiredMargin;
+      const maxAmount = calculateMaxMarginWithdrawal(
+        pair,
+        traderState,
+        ammState,
+      );
       return [maxAmount, toWei(maxAmount.toPrecision(8))];
     }
-  }, [
-    mode,
-    available,
-    trade?.amount,
-    pair,
-    ammState,
-    traderState.availableCashCC,
-  ]);
+  }, [mode, available, pair, traderState, ammState]);
+
+  const signedMargin = useMemo(
+    () => (mode === EditMarginDialogMode.increase ? 1 : -1) * Number(margin),
+    [mode, margin],
+  );
 
   const onChangeMargin = useCallback(
     (margin?: string) =>
@@ -117,9 +115,9 @@ export const EditMarginDialog: React.FC = () => {
         ammState,
         perpParameters,
         changedTrade ? Number(fromWei(changedTrade.amount)) : 0,
-        (mode === EditMarginDialogMode.increase ? 1 : -1) * Number(margin),
+        signedMargin,
       ),
-    [changedTrade, mode, margin, traderState, ammState, perpParameters],
+    [changedTrade, signedMargin, traderState, ammState, perpParameters],
   );
 
   useEffect(() => setChangedTrade(trade), [trade]);
@@ -127,9 +125,7 @@ export const EditMarginDialog: React.FC = () => {
   useEffect(() => onChangeMargin(), [onChangeMargin]);
 
   useEffect(() => {
-    const newMargin =
-      traderState.availableCashCC +
-      (mode === EditMarginDialogMode.increase ? 1 : -1) * Number(margin);
+    const newMargin = traderState.availableCashCC + signedMargin;
 
     const leverage = calculateLeverageForMargin(
       newMargin,
@@ -140,7 +136,7 @@ export const EditMarginDialog: React.FC = () => {
     setChangedTrade(
       changedTrade => changedTrade && { ...changedTrade, leverage },
     );
-  }, [mode, margin, traderState, ammState]);
+  }, [signedMargin, traderState, ammState]);
 
   return (
     <Dialog
