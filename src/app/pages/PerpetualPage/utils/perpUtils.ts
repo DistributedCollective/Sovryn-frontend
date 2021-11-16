@@ -1,11 +1,14 @@
+// Copy of https://github.com/DistributedCollective/sovryn-perpetual-swap/blob/dev/scripts/utils/perpUtils.ts
+// 2021-11-16 8:30 commit: f1203d3184e5c796db3921eeffe70b889a9c12f4
+
 import {
   calcKStar,
   shrinkToLot,
+  calcPerpPrice,
   calculateMaintenanceMargin,
   calculateLiquidationPriceCollateralQuote,
   calculateLiquidationPriceCollateralQuanto,
   calculateLiquidationPriceCollateralBase,
-  calcPerpPrice,
   getPricesAndTradesForPercentRage,
 } from './perpMath';
 
@@ -42,7 +45,7 @@ export type PerpParameters = {
   fStressReturnS2_1: number;
   fStressReturnS3_0: number;
   fStressReturnS3_1: number;
-  fDFCoverN: number;
+  fDFCoverNRate: number;
   fDFLambda_0: number;
   fDFLambda_1: number;
   fAMMTargetDD: number;
@@ -320,6 +323,7 @@ export function calculateSlippagePrice(
  * @param {AMMState} ammData - Contains current price/state data
  * @returns {number} conversion rate
  */
+
 export function getQuote2CollateralFX(ammData: AMMState): number {
   if (ammData.M1 !== 0) {
     // quote
@@ -339,6 +343,7 @@ export function getQuote2CollateralFX(ammData: AMMState): number {
  * @param {boolean} atMarkPrice - conversion at spot or mark price
  * @returns {number} conversion rate
  */
+
 export function getBase2CollateralFX(
   ammData: AMMState,
   atMarkPrice: boolean,
@@ -364,6 +369,7 @@ export function getBase2CollateralFX(
  * @param {boolean} atMarkPrice - conversion at spot or mark price
  * @returns {number} conversion rate
  */
+
 export function getBase2QuoteFX(
   ammData: AMMState,
   atMarkPrice: boolean,
@@ -376,33 +382,47 @@ export function getBase2QuoteFX(
 
 /**
  * Calculate the price at which the perpetual will be liquidated
- * @param {number} currentPos - The current position of the trade (base currency), negative if short
- * @param {number} traderCash - Cash of the trader
+ * Example 1: trader has zero position and wants to trade 1 BTC --> tradeSize=1, traderCashAddedCC from getRequiredMarginCollateral
+ * Example 2: trader has a position and wants to trade an additional 0.5 BTC --> tradeSize=0.5, traderCashAddedCC from getRequiredMarginCollateral
+ * Example 3: trader already traded and wants to know current liq price --> tradeSize = 0, traderCashAddedCC = 0
+ * current liquidation price:
+ * @param {TraderState} traderState - Trader state (perpQueries.queryTraderState)
  * @param {AMMState} ammData - AMM state
  * @param {PerpParameters} perpParams - Contains parameter of the perpetual
+ * @param {number} tradeSize - The trade size (base currency), negative if short
+ * @param {number} traderCashAddedCC - Cash of the trader that is added to the perpetual margin account if the trader trades
+ *                                     use getRequiredMarginCollateral
+ *
  * @returns {number} approximate liquidation price
  */
+
 export function calculateApproxLiquidationPrice(
-  position: number,
-  traderCash: number,
+  traderState: TraderState,
   ammData: AMMState,
   perpParams: PerpParameters,
+  tradeSize: number,
+  traderCashAddedCC: number,
 ): number {
-  let maintMarginRate = getMaintenanceMarginRate(position, perpParams);
+  let tradePrice = getPrice(tradeSize, perpParams, ammData);
+  let newTraderCash = traderState.availableCashCC + traderCashAddedCC;
+  let lockedInValueQC =
+    traderState.marginAccountLockedInValueQC + tradeSize * tradePrice;
+  let traderNewPosition = traderState.marginAccountPositionBC + tradeSize;
+  let maintMarginRate = getMaintenanceMarginRate(traderNewPosition, perpParams);
   if (ammData.M1 !== 0) {
     // quote currency perpetual
     return calculateLiquidationPriceCollateralQuote(
-      ammData.L1,
-      position,
-      traderCash,
+      lockedInValueQC,
+      traderNewPosition,
+      newTraderCash,
       maintMarginRate,
     );
   } else if (ammData.M2 !== 0) {
     // base currency perpetual
     return calculateLiquidationPriceCollateralBase(
-      ammData.L1,
-      position,
-      traderCash,
+      lockedInValueQC,
+      traderNewPosition,
+      newTraderCash,
       maintMarginRate,
     );
   } else if (ammData.M3 !== 0) {
@@ -410,9 +430,9 @@ export function calculateApproxLiquidationPrice(
     // we calculate a price that in 90% of the cases leads to a liquidation according to the
     // instrument parameters sigma2/3, rho and current prices
     return calculateLiquidationPriceCollateralQuanto(
-      ammData.L1,
-      position,
-      traderCash,
+      lockedInValueQC,
+      traderNewPosition,
+      newTraderCash,
       maintMarginRate,
       perpParams.fRho23,
       perpParams.fSigma2,
@@ -430,7 +450,9 @@ export function calculateApproxLiquidationPrice(
  * @param {number} leverage - The leverage that the trader wants to achieve, given the position size
  * @param {number} currentPos - The trader's current signed position (can be 0) in base currency
  * @param {number} targetPos  - The trader's (signed) target position in base currency
+ * @param {number} base2collateral  - If the base currency is different than the collateral. If base is BTC, collateral is USD, this would be 100000 (the USD amount for 1 BTC)
  * @param {PerpParameters} perpParams - Contains parameter of the perpetual
+ * @param {AMMState} ammData - AMM state
  * @returns {number} balance required to arrive at the perpetual contract to obtain requested leverage
  */
 export function getRequiredMarginCollateral(
@@ -438,14 +460,23 @@ export function getRequiredMarginCollateral(
   currentPos: number,
   targetPos: number,
   perpParams: PerpParameters,
+  ammData: AMMState,
 ): number {
   let positionToTrade = targetPos - currentPos;
   let fees = Math.abs(positionToTrade) * getTradingFeeRate(perpParams);
+  let targetPosPrice = getPrice(positionToTrade, perpParams, ammData);
+
+  let base2collateral = getBase2CollateralFX(ammData, false);
+  let quote2collateral = getQuote2CollateralFX(ammData);
+
   // leverage = position/margincollateral
   // Protocol fees are subtracted from the margincollateral
   // Hence: leverage = position/(margincollateral - fees)
   //   -> margincollateral =  position/leverage + fees
-  return targetPos / leverage + fees;
+  return (
+    (Math.abs(targetPos) * targetPosPrice * quote2collateral) / leverage +
+    fees * base2collateral
+  );
 }
 
 /**
@@ -454,6 +485,7 @@ export function getRequiredMarginCollateral(
  * @param {TraderState} traderState - Trader state (for account balances)
  * @returns {number} PnL = value of position at mark price minus locked in value
  */
+
 export function getTraderPnL(
   traderState: TraderState,
   ammData: AMMState,
@@ -465,19 +497,21 @@ export function getTraderPnL(
 }
 
 /**
- * Get current Trader Leverage.
- * @param {TraderState} traderState - Trader state (for account balances)
+ * Get the current leverage of a trader using mark price as benchmark. Reported in Quote currency.
  * @param {AMMState} ammData - AMM state (for mark price and CCY conversion)
+ * @param {TraderState} traderState - Trader state (for account balances)
  * @returns {number} current leverage for the trader
  */
+
 export function getTraderLeverage(
   traderState: TraderState,
   ammData: AMMState,
 ): number {
+  // marginAccountPositionBC can be negative (when shorting), but leverage always has to be positive.
   return (
-    Math.abs(
-      traderState.marginAccountPositionBC * getBase2CollateralFX(ammData, true),
-    ) / traderState.availableCashCC
+    (Math.abs(traderState.marginAccountPositionBC) *
+      getBase2CollateralFX(ammData, true)) /
+    traderState.availableCashCC
   );
 }
 
@@ -487,12 +521,17 @@ export function getTraderLeverage(
  * @param {TraderState} traderState - Trader state (for account balances)
  * @returns {number} PnL = value of position at mark price minus locked in value
  */
+
 export function getTraderPnLInCC(
   traderState: TraderState,
   ammData: AMMState,
 ): number {
   return getQuote2CollateralFX(ammData) * getTraderPnL(traderState, ammData);
 }
+
+/**
+ *
+ */
 
 export function getFundingFee(
   traderState: TraderState,
@@ -509,7 +548,15 @@ export function getMidPrice(
   perpParams: PerpParameters,
   ammData: AMMState,
 ): number {
-  let k = 0;
+  return getPrice(0, perpParams, ammData);
+}
+
+export function getPrice(
+  traderPosition: number,
+  perpParams: PerpParameters,
+  ammData: AMMState,
+): number {
+  let k = traderPosition;
   let r = 0;
   let spreads = [perpParams.fMinimalSpread, perpParams.fIncentiveSpread];
   return calcPerpPrice(
@@ -595,7 +642,7 @@ export function calculateLeverageForPosition(
   ammData: AMMState,
 ): number {
   return (
-    (targetPositionSizeBC * getBase2CollateralFX(ammData, true)) /
+    Math.abs(targetPositionSizeBC * getBase2CollateralFX(ammData, true)) /
     traderState.availableCashCC
   );
 }
@@ -613,8 +660,8 @@ export function calculateLeverageForMargin(
   ammData: AMMState,
 ): number {
   return (
-    (traderState.marginAccountPositionBC *
-      getBase2CollateralFX(ammData, true)) /
-    targetMarginCC
+    Math.abs(
+      traderState.marginAccountPositionBC * getBase2CollateralFX(ammData, true),
+    ) / targetMarginCC
   );
 }

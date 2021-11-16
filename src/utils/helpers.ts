@@ -37,12 +37,8 @@ export const handleNumber = (value, onlyPositive = true) => {
 
   let number = value.replace(',', '.').replace(/[^\d.-]/g, '');
 
-  if (onlyPositive) {
-    number = number.replace('-', '');
-  }
-
   if (onlyPositive && Number(number) < 0) {
-    return Math.abs(number).toString();
+    return '0';
   }
 
   if (number.length === 1 && number === '.') {

@@ -68,20 +68,22 @@ export const SlippageFormStep: TransitionStep<NewPositionCardStep> = ({
     const margin = getRequiredMarginCollateral(
       trade.leverage,
       traderState.marginAccountPositionBC,
-      amount,
+      traderState.marginAccountPositionBC + amount,
       perpParameters,
+      ammState,
     );
     return calculateApproxLiquidationPrice(
-      amount,
-      margin,
+      traderState,
       ammState,
       perpParameters,
+      amount,
+      margin,
     );
   }, [
     trade.amount,
     trade.position,
     trade.leverage,
-    traderState.marginAccountPositionBC,
+    traderState,
     ammState,
     perpParameters,
   ]);

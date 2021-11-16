@@ -1671,10 +1671,29 @@
       }
     },
     "reviewTrade": {
-      "title": "Review Order"
+      "title": "Review Order",
+      "closeTitle": "Review Close",
+      "close": "Close",
+      "positionFullyClosed": "Position Fully Closed",
+      "labels": {
+        "totalToReceive": "Total to Receive:"
+      }
     },
     "editPositionSize": {
-      "title": "Edit Position Size"
+      "title": "Edit Position Size",
+      "amount": "Close Amount:",
+      "total": "Total to Receive:"
+    },
+    "editMargin": {
+      "title": "Edit Margin",
+      "increase": "Increase",
+      "decrease": "Decrease",
+      "increaseLabel": "Deposit margin:",
+      "decreaseLabel": "Withdraw margin:",
+      "button": "Review"
+    },
+    "closeTrade": {
+      "title": "Close Position"
     },
     "editLeverage": {
       "title": "Edit Leverage",
@@ -1685,7 +1704,8 @@
     "currentTrade": {
       "position": "Current Position:",
       "margin": "Current Margin:",
-      "available": "Available Balance:"
+      "available": "Available Balance:",
+      "unrealizedPnL": "Unrealized P/L:"
     },
     "openPositions": "Positions",
     "closedPositions": "Closed Positions",
