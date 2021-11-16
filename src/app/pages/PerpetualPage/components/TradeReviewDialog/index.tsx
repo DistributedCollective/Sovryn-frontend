@@ -24,6 +24,8 @@ import {
   PerpetualPairDictionary,
   PerpetualPairType,
 } from 'utils/dictionaries/perpetual-pair-dictionary';
+import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
+import { getTradeDirection } from '../../utils/contractUtils';
 
 const getTradePosition = (tradePosition: TradingPosition) =>
   tradePosition === TradingPosition.LONG ? (
@@ -39,6 +41,7 @@ export const TradeReviewDialog: React.FC = () => {
 
   const marginAccountBalance = usePerpetual_marginAccountBalance();
   const perpParameters = usePerpetual_queryPerpParameters();
+  const ammState = usePerpetual_queryAmmState();
 
   const { trade: openTrade } = usePerpetual_openTrade();
 
@@ -65,18 +68,22 @@ export const TradeReviewDialog: React.FC = () => {
     [openTrade, trade],
   );
 
-  const margin = useMemo(
-    () =>
-      trade
-        ? getRequiredMarginCollateral(
-            trade!.leverage,
-            marginAccountBalance.fPositionBC,
-            Number(trade!.amount),
-            perpParameters,
-          )
-        : 0,
-    [marginAccountBalance.fPositionBC, perpParameters, trade],
-  );
+  const margin = useMemo(() => {
+    if (!trade) {
+      return 0;
+    }
+
+    const amount =
+      Number(fromWei(trade.amount)) * getTradeDirection(trade.position);
+
+    return getRequiredMarginCollateral(
+      trade!.leverage,
+      marginAccountBalance.fPositionBC,
+      marginAccountBalance.fPositionBC + amount,
+      perpParameters,
+      ammState,
+    );
+  }, [ammState, marginAccountBalance.fPositionBC, perpParameters, trade]);
 
   const pair = useMemo(
     () =>
@@ -171,7 +178,7 @@ export const TradeReviewDialog: React.FC = () => {
                 minDecimals={4}
                 maxDecimals={4}
                 mode={AssetValueMode.auto}
-                value={String(margin)}
+                value={margin}
                 assetString={pair.baseAsset}
               />
             </span>
@@ -215,7 +222,7 @@ export const TradeReviewDialog: React.FC = () => {
 
         <div className="tw-flex tw-justify-center">
           <button className={styles.confirmButton} onClick={onSubmit}>
-            {t(translations.perpetualPage.reviewTrade.labels.confirm)}
+            {t(translations.perpetualPage.reviewTrade.confirm)}
           </button>
         </div>
       </div>

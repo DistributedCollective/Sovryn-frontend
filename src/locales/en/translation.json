@@ -1688,8 +1688,7 @@
         "liquidationPrice": "Liquidation Price:",
         "totalToReceive": "Total to Receive:"
       },
-        "confirm": "Confirm"
-      }
+      "confirm": "Confirm"
     },
     "editPositionSize": {
       "title": "Edit Position Size",
