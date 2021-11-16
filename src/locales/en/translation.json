@@ -1728,7 +1728,8 @@
     "closePosition": {
       "title": "Close Position",
       "amount": "Close Amount:",
-      "total": "Total to Receive:"
+      "total": "Total to Receive:",
+      "button": "Review"
     },
     "currentTrade": {
       "position": "Current Position:",

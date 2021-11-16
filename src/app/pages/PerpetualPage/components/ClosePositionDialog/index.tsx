@@ -8,12 +8,18 @@ import { TransitionAnimation } from '../../../../containers/TransitionContainer'
 import { TransitionSteps } from '../../../../containers/TransitionSteps';
 import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
-import { isPerpetualTrade, PerpetualPageModals } from '../../types';
+import {
+  isPerpetualTrade,
+  PerpetualPageModals,
+  PerpetualTrade,
+} from '../../types';
 import { TradeDetails } from '../TradeDetails';
 import { SlippageFormStep } from './components/SlippageFormStep';
 import { TradeFormStep } from './components/TradeFormStep';
 import { ClosePositionDialogState, ClosePositionDialogStep } from './types';
 import { noop } from '../../../../constants';
+import { PerpetualPair } from '../../../../../utils/models/perpetual-pair';
+import { generateCloseTrade } from './utils';
 
 const steps = {
   [ClosePositionDialogStep.slippage]: SlippageFormStep,
@@ -37,7 +43,9 @@ export const ClosePositionDialog: React.FC = () => {
     [trade],
   );
 
-  const [changedTrade, setChangedTrade] = useState(trade);
+  const [changedTrade, setChangedTrade] = useState(
+    trade && generateCloseTrade(trade),
+  );
 
   const context: ClosePositionDialogState = useMemo(() => {
     return {
@@ -52,7 +60,7 @@ export const ClosePositionDialog: React.FC = () => {
     [dispatch],
   );
 
-  useEffect(() => setChangedTrade(trade), [trade]);
+  useEffect(() => setChangedTrade(trade && generateCloseTrade(trade)), [trade]);
 
   return (
     <Dialog
@@ -66,6 +74,7 @@ export const ClosePositionDialog: React.FC = () => {
             className="tw-mw-340 tw-mx-auto tw-mb-4"
             trade={trade}
             pair={pair}
+            showUnrealizedPnL
           />
         )}
         <TransitionSteps<ClosePositionDialogStep>

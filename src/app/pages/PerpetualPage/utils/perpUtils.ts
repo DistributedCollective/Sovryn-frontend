@@ -666,3 +666,19 @@ export function calculateLeverageForMargin(
     ) / targetMarginCC
   );
 }
+
+/**
+ * Get the unrealized Profit/Loss of a trader using mark price as benchmark. Reported in Base currency.
+ * @param {AMMState} ammData - AMM state (for mark price and CCY conversion)
+ * @param {TraderState} traderState - Trader state (for account balances)
+ * @returns {number} PnL = value of position at mark price minus locked in value
+ */
+export function getTraderPnLInBC(
+  traderState: TraderState,
+  ammData: AMMState,
+): number {
+  return (
+    traderState.marginAccountPositionBC -
+    traderState.marginAccountLockedInValueQC / getMarkPrice(ammData)
+  );
+}
