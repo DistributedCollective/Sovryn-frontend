@@ -1,5 +1,5 @@
 // Copy of https://github.com/DistributedCollective/sovryn-perpetual-swap/blob/dev/scripts/utils/perpUtils.ts
-// 2021-11-15 13:50 commit: 68e46fd2e2ffa32752713fa96980178faa6ffa4e
+// 2021-11-16 8:30 commit: f1203d3184e5c796db3921eeffe70b889a9c12f4
 
 import {
   calcKStar,
@@ -497,7 +497,7 @@ export function getTraderPnL(
 }
 
 /**
- * Get the unrealized Profit/Loss of a trader using mark price as benchmark. Reported in Quote currency.
+ * Get the current leverage of a trader using mark price as benchmark. Reported in Quote currency.
  * @param {AMMState} ammData - AMM state (for mark price and CCY conversion)
  * @param {TraderState} traderState - Trader state (for account balances)
  * @returns {number} current leverage for the trader
@@ -507,10 +507,11 @@ export function getTraderLeverage(
   traderState: TraderState,
   ammData: AMMState,
 ): number {
-  return Math.abs(
-    (traderState.marginAccountPositionBC *
+  // marginAccountPositionBC can be negative (when shorting), but leverage always has to be positive.
+  return (
+    (Math.abs(traderState.marginAccountPositionBC) *
       getBase2CollateralFX(ammData, true)) /
-      traderState.availableCashCC,
+    traderState.availableCashCC
   );
 }
 
