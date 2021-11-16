@@ -172,10 +172,6 @@ export function PerpetualPage() {
           Close the position
         </button> */}
 
-        {/* <TestCandles /> */}
-
-        {/* <TestHistory /> */}
-
         {connected && (
           <>
             <div className="tw-flex tw-items-center tw-text-sm">

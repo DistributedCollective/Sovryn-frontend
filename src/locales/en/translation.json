@@ -1675,9 +1675,20 @@
       "closeTitle": "Review Close",
       "close": "Close",
       "positionFullyClosed": "Position Fully Closed",
+      "buy": "Buy",
+      "sell": "Sell",
+      "market": "Market",
+      "limit": "Limit",
+      "positionDetailsTitle": "New Position Details",
       "labels": {
+        "positionSize": "Position Size:",
+        "margin": "Margin:",
+        "leverage": "Leverage:",
+        "entryPrice": "Entry Price:",
+        "liquidationPrice": "Liquidation Price:",
         "totalToReceive": "Total to Receive:"
-      }
+      },
+      "confirm": "Confirm"
     },
     "editPositionSize": {
       "title": "Edit Position Size",
