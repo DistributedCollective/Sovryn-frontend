@@ -13,6 +13,7 @@ import { TradingPosition } from 'types/trading-position';
 import { fromWei } from 'web3-utils';
 import { usePerpetual_queryPerpParameters } from '../../hooks/usePerpetual_queryPerpParameters';
 import {
+  calculateApproxLiquidationPrice,
   getRequiredMarginCollateral,
   getTradingFee,
 } from '../../utils/perpUtils';
@@ -26,6 +27,7 @@ import {
 } from 'utils/dictionaries/perpetual-pair-dictionary';
 import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
 import { getTradeDirection } from '../../utils/contractUtils';
+import { usePerpetual_queryTraderState } from '../../hooks/usePerpetual_queryTraderState';
 
 const getTradePosition = (tradePosition: TradingPosition) =>
   tradePosition === TradingPosition.LONG ? (
@@ -42,6 +44,7 @@ export const TradeReviewDialog: React.FC = () => {
   const marginAccountBalance = usePerpetual_marginAccountBalance();
   const perpParameters = usePerpetual_queryPerpParameters();
   const ammState = usePerpetual_queryAmmState();
+  const traderState = usePerpetual_queryTraderState();
 
   const { trade: openTrade } = usePerpetual_openTrade();
 
@@ -99,6 +102,23 @@ export const TradeReviewDialog: React.FC = () => {
   const isBuy = useMemo(() => trade?.position === TradingPosition.LONG, [
     trade?.position,
   ]);
+
+  const liquidationPrice = useMemo(() => {
+    if (!trade) {
+      return 0;
+    }
+
+    const amount =
+      Number(fromWei(trade.amount)) * getTradeDirection(trade.position);
+
+    return calculateApproxLiquidationPrice(
+      traderState,
+      ammState,
+      perpParameters,
+      amount,
+      margin,
+    );
+  }, [trade, traderState, ammState, perpParameters, margin]);
 
   if (!trade) {
     return null;
@@ -215,8 +235,15 @@ export const TradeReviewDialog: React.FC = () => {
                 translations.perpetualPage.reviewTrade.labels.liquidationPrice,
               )}
             </span>
-            <span className="tw-font-semibold">91 000 USD</span>{' '}
-            {/* TODO: Adjust later */}
+            <span className="tw-font-semibold">
+              <AssetValue
+                minDecimals={2}
+                maxDecimals={2}
+                mode={AssetValueMode.auto}
+                value={liquidationPrice}
+                assetString={pair.quoteAsset}
+              />
+            </span>
           </div>
         </div>
 
