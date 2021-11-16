@@ -36,6 +36,7 @@ import { TradeReviewDialog } from './components/TradeReviewDialog';
 import { EditPositionSizeDialog } from './components/EditPositionSizeDialog';
 import { EditLeverageDialog } from './components/EditLeverageDialog';
 import { EditMarginDialog } from './components/EditMarginDialog';
+import { ClosePositionDialog } from './components/ClosePositionDialog';
 
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -214,6 +215,7 @@ export function PerpetualPage() {
       <EditPositionSizeDialog />
       <EditLeverageDialog />
       <EditMarginDialog />
+      <ClosePositionDialog />
     </>
   );
 }

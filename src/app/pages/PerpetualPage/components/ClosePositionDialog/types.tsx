@@ -1,11 +1,11 @@
 import { PerpetualTrade } from '../../types';
 
-export enum EditPositionSizeDialogStep {
+export enum ClosePositionDialogStep {
   trade = 'trade',
   slippage = 'slippage',
 }
 
-export type EditPositionSizeDialogState = {
+export type ClosePositionDialogState = {
   trade?: PerpetualTrade;
   changedTrade?: PerpetualTrade;
   onChange: (trade: PerpetualTrade) => void;

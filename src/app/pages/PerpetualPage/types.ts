@@ -19,7 +19,7 @@ export enum PerpetualPageModals {
   EDIT_POSITION_SIZE = 'EDIT_POSITION_SIZE',
   EDIT_LEVERAGE = 'EDIT_LEVERAGE',
   EDIT_MARGIN = 'EDIT_MARGIN',
-  TRADE_CLOSE = 'TRADE_CLOSE',
+  CLOSE_POSITION = 'CLOSE_POSITION',
 }
 
 export type PerpetualTradeEvent = {

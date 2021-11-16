@@ -3,25 +3,22 @@ import { useTranslation } from 'react-i18next';
 import { TransitionStep } from '../../../../../containers/TransitionSteps';
 import iconArrowForward from 'assets/images/arrow_forward.svg';
 import { SlippageForm } from '../../SlippageForm';
-import { EditPositionSizeDialogStep } from '../types';
+import { ClosePositionDialogStep } from '../types';
 import { TransitionAnimation } from '../../../../../containers/TransitionContainer';
 import { translations } from '../../../../../../locales/i18n';
-import { EditPositionSizeDialogContext } from '..';
+import { ClosePositionDialogContext } from '..';
 import { PERPETUAL_SLIPPAGE_DEFAULT } from '../../../types';
 
-export const SlippageFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
+export const SlippageFormStep: TransitionStep<ClosePositionDialogStep> = ({
   changeTo,
 }) => {
   const { t } = useTranslation();
 
-  const { changedTrade, onChange } = useContext(EditPositionSizeDialogContext);
+  const { changedTrade, onChange } = useContext(ClosePositionDialogContext);
 
   const onCloseSlippage = useCallback(
     () =>
-      changeTo(
-        EditPositionSizeDialogStep.trade,
-        TransitionAnimation.slideRight,
-      ),
+      changeTo(ClosePositionDialogStep.trade, TransitionAnimation.slideRight),
     [changeTo],
   );
   const onChangeSlippage = useCallback(

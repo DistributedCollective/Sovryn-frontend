@@ -4,23 +4,23 @@ import { TransitionStep } from '../../../../../containers/TransitionSteps';
 import { actions } from '../../../slice';
 import { PerpetualPageModals } from '../../../types';
 import { TradeForm } from '../../TradeForm';
-import { EditPositionSizeDialogStep } from '../types';
-import { EditPositionSizeDialogContext } from '..';
+import { ClosePositionDialogStep } from '../types';
+import { ClosePositionDialogContext } from '..';
 
-export const TradeFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
+export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
   changeTo,
 }) => {
   const dispatch = useDispatch();
-  const { changedTrade, onChange } = useContext(EditPositionSizeDialogContext);
+  const { changedTrade, onChange } = useContext(ClosePositionDialogContext);
 
   const onOpenSlippage = useCallback(
-    () => changeTo(EditPositionSizeDialogStep.slippage),
+    () => changeTo(ClosePositionDialogStep.slippage),
     [changeTo],
   );
 
   const onSubmit = useCallback(
     () =>
-      // TODO: implement review and excecution for EditPositionSizeDialog
+      // TODO: implement review and excecution for ClosePositionDialog
       dispatch(
         actions.setModal(PerpetualPageModals.TRADE_REVIEW, changedTrade),
       ),

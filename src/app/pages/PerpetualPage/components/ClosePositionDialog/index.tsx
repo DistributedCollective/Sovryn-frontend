@@ -12,22 +12,19 @@ import { isPerpetualTrade, PerpetualPageModals } from '../../types';
 import { TradeDetails } from '../TradeDetails';
 import { SlippageFormStep } from './components/SlippageFormStep';
 import { TradeFormStep } from './components/TradeFormStep';
-import {
-  EditPositionSizeDialogState,
-  EditPositionSizeDialogStep,
-} from './types';
+import { ClosePositionDialogState, ClosePositionDialogStep } from './types';
 import { noop } from '../../../../constants';
 
 const steps = {
-  [EditPositionSizeDialogStep.slippage]: SlippageFormStep,
-  [EditPositionSizeDialogStep.trade]: TradeFormStep,
+  [ClosePositionDialogStep.slippage]: SlippageFormStep,
+  [ClosePositionDialogStep.trade]: TradeFormStep,
 };
 
-export const EditPositionSizeDialogContext = React.createContext<
-  EditPositionSizeDialogState
+export const ClosePositionDialogContext = React.createContext<
+  ClosePositionDialogState
 >({ onChange: noop });
 
-export const EditPositionSizeDialog: React.FC = () => {
+export const ClosePositionDialog: React.FC = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { modal, modalOptions } = useSelector(selectPerpetualPage);
@@ -42,7 +39,7 @@ export const EditPositionSizeDialog: React.FC = () => {
 
   const [changedTrade, setChangedTrade] = useState(trade);
 
-  const context: EditPositionSizeDialogState = useMemo(() => {
+  const context: ClosePositionDialogState = useMemo(() => {
     return {
       trade,
       changedTrade,
@@ -59,11 +56,11 @@ export const EditPositionSizeDialog: React.FC = () => {
 
   return (
     <Dialog
-      isOpen={modal === PerpetualPageModals.EDIT_POSITION_SIZE}
+      isOpen={modal === PerpetualPageModals.CLOSE_POSITION}
       onClose={onClose}
     >
-      <h1>{t(translations.perpetualPage.editPositionSize.title)}</h1>
-      <EditPositionSizeDialogContext.Provider value={context}>
+      <h1>{t(translations.perpetualPage.closePosition.title)}</h1>
+      <ClosePositionDialogContext.Provider value={context}>
         {trade && pair && (
           <TradeDetails
             className="tw-mw-340 tw-mx-auto tw-mb-4"
@@ -71,13 +68,13 @@ export const EditPositionSizeDialog: React.FC = () => {
             pair={pair}
           />
         )}
-        <TransitionSteps<EditPositionSizeDialogStep>
+        <TransitionSteps<ClosePositionDialogStep>
           classNameInner="tw-h-96"
           steps={steps}
-          active={EditPositionSizeDialogStep.trade}
+          active={ClosePositionDialogStep.trade}
           defaultAnimation={TransitionAnimation.slideLeft}
         />
-      </EditPositionSizeDialogContext.Provider>
+      </ClosePositionDialogContext.Provider>
     </Dialog>
   );
 };
