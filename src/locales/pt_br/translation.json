@@ -1449,7 +1449,7 @@
       "entryPrice": "Preço de entrada da posição:",
       "minEntry": "Preço mínimo de entrada:",
       "minLiq": "Preço mínimo de liquidação:",
-      "interestAPR": "Juros anual",
+      "interestAPR": "Taxa anual",
       "renewalDate": "Data de renovação:",
       "position": {
         "long": "Comprado",
@@ -1545,7 +1545,8 @@
       "dayPercentChange": "24hr % oscilação",
       "dayLow": "24hr baixa:",
       "dayHigh": "24hr alta:",
-      "all": "TODOS"
+      "all": "TODOS",
+      "search": "Procurar"
     }
   },
   "form": {
