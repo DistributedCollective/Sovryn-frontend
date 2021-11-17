@@ -1508,7 +1508,7 @@
       "orderType": "Tipo de ordem:",
       "tradeAmount": "Quantidade negociada:",
       "limitPrice": "Preço:",
-      "duration": "Validade da ordem:"
+      "duration": "Validade:"
     },
     "limitOrderSetting": {
       "title": "Configurações avançadas",
