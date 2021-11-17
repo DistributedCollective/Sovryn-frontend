@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { AmountInput } from 'app/components/Form/AmountInput';
@@ -74,6 +74,18 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
       .toNumber();
   }, [limitPrice, marketPrice]);
 
+  useEffect(() => {
+    console.log({ marketPrice, limitPrice });
+    if (marketPrice !== '0' && (limitPrice === '' || limitPrice === '0')) {
+      setLimitPrice(weiToFixed(marketPrice, 6));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [marketPrice]);
+
+  useEffect(() => {
+    setLimitPrice('');
+  }, [sourceToken, targetToken]);
+
   const gasLimit = 340000;
 
   const validate = useMemo(() => {
@@ -131,29 +143,32 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
           />
         </div>
 
-        <div className="tw-flex tw-items-center tw-justify-between tw-mt-5">
+        <div className="tw-flex tw-relative tw-items-center tw-justify-between tw-mt-5">
           <span className={styles.amountLabel + ' tw-mr-4'}>
             {t(translations.spotTradingPage.tradeForm.limitPrice)}
           </span>
-          <div>
+          <div className="tw-flex tw-items-center">
+            <div className="tw-mr-2">
+              <AssetRenderer asset={targetToken} />
+            </div>
             <AmountInput
               value={stringToFixedPrecision(limitPrice, 6)}
               onChange={setLimitPrice}
-              asset={targetToken}
               hideAmountSelector
             />
-            <div className="tw-text-sm tw-truncate">
-              1 <AssetRenderer asset={sourceToken} /> ={' '}
-              {toNumberFormat(limitPrice, 6)}{' '}
-              <AssetRenderer asset={targetToken} />
-            </div>
+          </div>
+
+          <div className="tw-text-sm tw-w-full tw-text-right tw-truncate tw-absolute tw-top-full tw-mt-1">
+            1 <AssetRenderer asset={sourceToken} /> ={' '}
+            {toNumberFormat(limitPrice, 6)}{' '}
+            <AssetRenderer asset={targetToken} />
           </div>
         </div>
 
-        <div className="tw-mt-2">
+        {/* <div className="tw-mt-2">
           Market Price: 1 <AssetRenderer asset={sourceToken} /> ={' '}
           {weiToFixed(marketPrice, 6)} <AssetRenderer asset={targetToken} />
-        </div>
+        </div> */}
 
         <Duration value={duration} onChange={value => setDuration(value)} />
 

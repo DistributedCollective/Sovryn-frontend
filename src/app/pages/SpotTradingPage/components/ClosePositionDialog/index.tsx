@@ -56,7 +56,7 @@ export function ClosePositionDialog({
           <h1 className="tw-text-sov-white tw-text-center">
             {t(translations.spotTradingPage.cancelDialog.title)}
           </h1>
-          <div className="tw-py-4 tw-px-4 tw-bg-gray-2 sm:tw--mx-11 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
+          <div className="tw-py-4 tw-px-1 tw-bg-gray-2 sm:tw--mx-11 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
             <LabelValuePair
               label={t(translations.spotTradingPage.tradeDialog.tradingPair)}
               value={
@@ -87,12 +87,12 @@ export function ClosePositionDialog({
               value={
                 <>
                   {toNumberFormat(
-                    bignumber(item.amountIn.toString())
-                      .div(item.amountOutMin.toString())
+                    bignumber(item.amountOutMin.toString())
+                      .div(item.amountIn.toString())
                       .toString(),
                     4,
                   )}{' '}
-                  <AssetRenderer asset={fromToken.asset} />
+                  <AssetRenderer asset={toToken.asset} />
                 </>
               }
             />
