@@ -3,7 +3,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 import { translations } from 'locales/i18n';
 import { useWalletContext } from '@sovryn/react-wallet';
-import imgLargeNFT from 'assets/origins_launchpad/MYNT_NFT_Large.png';
+import imgLargeNFT from 'assets/origins_launchpad/ZERO_NFT.svg';
 import { Spinner } from '@blueprintjs/core';
 import styles from './index.module.scss';
 
@@ -25,6 +25,8 @@ export const EngageWalletStep: React.FC<IEngageWalletStepProps> = ({
         src={imgLargeNFT}
         alt="Dialog NFT"
         className="tw-my-auto tw-border-solid tw-border-8 tw-border-gray-9 tw-rounded-3xl"
+        width="432"
+        height="580"
       />
       <div className={styles.engageWalletDialogWrapper}>
         <div>

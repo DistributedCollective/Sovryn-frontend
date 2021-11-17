@@ -1,7 +1,7 @@
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import imgInstructions from 'assets/origins_launchpad/MYNT_NFT_small.png';
+import imgInstructions from 'assets/origins_launchpad/ZERO_NFT.svg';
 import { discordInvite } from 'utils/classifiers';
 import styles from './index.module.scss';
 
@@ -58,6 +58,7 @@ export const Instructions: React.FC<IInstructionsProps> = ({ saleName }) => {
         src={imgInstructions}
         alt="instructions"
         className="tw-border-solid tw-border-4 tw-rounded tw-border-gray-9"
+        width="188"
       />
     </div>
   );
