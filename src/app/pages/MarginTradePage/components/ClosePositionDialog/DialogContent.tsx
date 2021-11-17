@@ -69,9 +69,7 @@ export function DialogContent(props: IDialogContentProps) {
     '0x',
   );
 
-  const handleConfirmSwap = useCallback(() => {
-    send();
-  }, [send]);
+  const handleConfirmSwap = useCallback(() => send(), [send]);
 
   const valid = useIsAmountWithinLimits(weiAmount, '1', props.item.collateral);
 

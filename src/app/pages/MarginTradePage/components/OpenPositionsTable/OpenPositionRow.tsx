@@ -25,12 +25,15 @@ import { formatNumber } from '../../../../containers/StatsPage/utils';
 import { usePositionLiquidationPrice } from '../../../../hooks/trading/usePositionLiquidationPrice';
 import { ProfitContainer } from './ProfitContainer';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
+import { isLongTrade } from './helpers';
 
 interface IOpenPositionRowInnerProps {
   item: ActiveLoan;
 }
 
-function OpenPositionRowInner({ item }: IOpenPositionRowInnerProps) {
+const OpenPositionRowInner: React.FC<IOpenPositionRowInnerProps> = ({
+  item,
+}) => {
   const { t } = useTranslation();
   const { checkMaintenances, States } = useMaintenance();
   const {
@@ -51,6 +54,8 @@ function OpenPositionRowInner({ item }: IOpenPositionRowInnerProps) {
       ? TradingPosition.LONG
       : TradingPosition.SHORT;
 
+  const isLong = isLongTrade(position);
+
   const leverage = leverageFromMargin(item.startMargin);
 
   const liquidationPrice = usePositionLiquidationPrice(
@@ -63,7 +68,7 @@ function OpenPositionRowInner({ item }: IOpenPositionRowInnerProps) {
   const entryPrice = getEntryPrice(item, position);
 
   const positionMargin = useMemo(() => {
-    if (position === TradingPosition.LONG) {
+    if (isLong) {
       return bignumber(entryPrice)
         .mul(bignumber(item.collateral).div(leverage))
         .toString();
@@ -72,10 +77,9 @@ function OpenPositionRowInner({ item }: IOpenPositionRowInnerProps) {
       .div(entryPrice)
       .mul(bignumber(item.collateral).div(leverage))
       .toString();
-  }, [entryPrice, item.collateral, leverage, position]);
+  }, [entryPrice, item.collateral, leverage, isLong]);
 
-  const positionMarginAsset =
-    position === TradingPosition.LONG ? pair.longAsset : pair.shortAsset;
+  const positionMarginAsset = isLong ? pair.longAsset : pair.shortAsset;
 
   return (
     <>
@@ -150,9 +154,7 @@ function OpenPositionRowInner({ item }: IOpenPositionRowInnerProps) {
           <div className="tw-whitespace-nowrap">
             <ProfitContainer
               item={item}
-              pair={pair}
               position={position}
-              leverage={leverage}
               entryPrice={entryPrice}
             />
           </div>
@@ -214,9 +216,11 @@ function OpenPositionRowInner({ item }: IOpenPositionRowInnerProps) {
       </tr>
     </>
   );
-}
+};
 
-export function OpenPositionRow({ item }: IOpenPositionRowInnerProps) {
+export const OpenPositionRow: React.FC<IOpenPositionRowInnerProps> = ({
+  item,
+}) => {
   try {
     const loanAsset = assetByTokenAddress(item.loanToken);
     const collateralAsset = assetByTokenAddress(item.collateralToken);
@@ -228,7 +232,7 @@ export function OpenPositionRow({ item }: IOpenPositionRowInnerProps) {
     console.info(item);
     return <></>;
   }
-}
+};
 
 function getEntryPrice(item: ActiveLoan, position: TradingPosition) {
   if (position === TradingPosition.LONG) return Number(weiTo18(item.startRate));

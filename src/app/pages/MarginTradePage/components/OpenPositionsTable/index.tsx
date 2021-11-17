@@ -94,7 +94,7 @@ export function OpenPositionsTable({ perPage }: Props) {
                 className="tw-pl-2"
                 popoverClassName={'tw-w-1/2 tw-transform tw-translate-x-full'}
               >
-                <Icon className="tw-cursor-pointer" icon={'info-sign'} />
+                <Icon className="tw-cursor-pointer" icon="info-sign" />
               </Popover>
             </th>
             <th className="tw-w-full">
@@ -113,7 +113,7 @@ export function OpenPositionsTable({ perPage }: Props) {
                 className="tw-pl-2"
                 popoverClassName={'tw-w-1/2 tw-transform tw-translate-x-full'}
               >
-                <Icon className="tw-cursor-pointer" icon={'info-sign'} />
+                <Icon className="tw-cursor-pointer" icon="info-sign" />
               </Popover>
             </th>
             <th className="tw-w-full">

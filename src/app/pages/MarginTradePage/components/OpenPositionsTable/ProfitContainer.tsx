@@ -12,29 +12,25 @@ import {
   weiToAssetNumberFormat,
 } from 'utils/display-text/format';
 import { TradingPosition } from 'types/trading-position';
-import { TradingPair } from 'utils/models/trading-pair';
 import { percentageChange } from 'utils/helpers';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import { useAccount } from 'app/hooks/useAccount';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
+import { isLongTrade } from './helpers';
 
 type ProfitContainerProps = {
   item: ActiveLoan;
-  pair: TradingPair;
   position: TradingPosition;
-  leverage: number;
   entryPrice: number;
 };
 
 export const ProfitContainer: React.FC<ProfitContainerProps> = ({
   item,
-  pair,
   position,
-  leverage,
   entryPrice,
 }) => {
   const { t } = useTranslation();
-  const isLong = position === TradingPosition.LONG;
+  const isLong = isLongTrade(position);
 
   const loanToken = assetByTokenAddress(item.loanToken);
   const collateralToken = assetByTokenAddress(item.collateralToken);

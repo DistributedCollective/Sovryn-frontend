@@ -96,8 +96,7 @@ export function AddToMarginDialog(props: Props) {
           </FormGroup>
           <FormGroup label={t(translations.addToMargin.liquidationPrice)}>
             <DummyField>
-              {toAssetNumberFormat(liquidationPrice, pair.longDetails.asset)}
-              &nbsp;&nbsp;
+              {toAssetNumberFormat(liquidationPrice, pair.longDetails.asset)}{' '}
               <AssetRenderer asset={pair.longDetails.asset} />
             </DummyField>
           </FormGroup>
