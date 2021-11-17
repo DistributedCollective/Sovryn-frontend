@@ -13,12 +13,12 @@ export function OrderType({ value, onChange }: IOrderTypeProps) {
   const { t } = useTranslation();
 
   return (
-    <div className="tw-flex tw-items-center tw-mt-4 tw-mb-6">
+    <div className="tw-flex tw-items-center tw-my-3">
       <div
         className={cn(
-          'tw-cursor-pointer tw-py-1.5 tw-px-2.5 tw-rounded-lg tw-bg-gray-7 hover:tw-opacity-100 tw-transition-opacity tw-duration-300 tw-text-sov-white',
+          'tw-cursor-pointer tw-py-1 tw-px-2 tw-rounded-lg tw-bg-gray-7 hover:tw-opacity-100 tw-transition-opacity tw-duration-300 tw-text-sm',
           {
-            'tw-opacity-25': value !== OrderTypes.MARKET,
+            'tw-opacity-40': value !== OrderTypes.MARKET,
           },
         )}
         onClick={() => onChange(OrderTypes.MARKET)}
@@ -27,9 +27,9 @@ export function OrderType({ value, onChange }: IOrderTypeProps) {
       </div>
       <div
         className={cn(
-          'tw-cursor-pointer tw-py-1.5 tw-px-2.5 tw-rounded-lg tw-bg-gray-7 hover:tw-opacity-100 tw-transition-opacity tw-duration-300 tw-text-sov-white',
+          'tw-cursor-pointer tw-py-1 tw-px-2 tw-rounded-lg tw-bg-gray-7 hover:tw-opacity-100 tw-transition-opacity tw-duration-300 tw-text-sm',
           {
-            'tw-opacity-25': value !== OrderTypes.LIMIT,
+            'tw-opacity-40': value !== OrderTypes.LIMIT,
           },
         )}
         onClick={() => onChange(OrderTypes.LIMIT)}

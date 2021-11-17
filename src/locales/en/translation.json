@@ -1572,6 +1572,7 @@
     },
     "openPositions": "Open positions",
     "tradingHistory": "Margin order history",
+    "openLimitOrders": "Open limit orders",
     "notificationSettingsDialog": {
       "title": "Margin Trade notification settings",
       "notifyVia": "Notify via",
