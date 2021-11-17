@@ -7,7 +7,8 @@ import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
 import { bignumber } from 'mathjs';
 import { useWalletContext } from '@sovryn/react-wallet';
-import { OrderTypes, TradingTypes, ITradeFormProps } from '../../types';
+import { TradingTypes, ITradeFormProps } from '../../types';
+import { OrderTypes } from 'app/components/OrderType/types';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { maxMinusFee } from 'utils/helpers';
 import {

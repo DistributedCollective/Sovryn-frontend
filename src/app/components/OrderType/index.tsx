@@ -1,15 +1,15 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { OrderTypes } from '../../types';
 import { translations } from 'locales/i18n';
+import { OrderTypes } from './types';
 import cn from 'classnames';
 
-interface Props {
+interface IOrderTypeProps {
   value: OrderTypes;
   onChange: (value: OrderTypes) => void;
 }
 
-export function OrderType({ value, onChange }: Props) {
+export function OrderType({ value, onChange }: IOrderTypeProps) {
   const { t } = useTranslation();
 
   return (

@@ -224,7 +224,7 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
 
           <FormGroup
             label={t(translations.closeTradingPositionHandler.amountToClose)}
-            className="tw-mt-7"
+            className="tw-mt-3"
           >
             <AmountInput
               value={amount}
