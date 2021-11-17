@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import camelCase from 'camelcase';
-import imgLargeNFT from 'assets/origins_launchpad/MYNT_NFT_Large.png';
+import imgLargeNFT from 'assets/origins_launchpad/ZERO_NFT.svg';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { ActionButton } from 'app/components/Form/ActionButton';
@@ -49,6 +49,7 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
         src={imgLargeNFT}
         alt="Dialog NFT"
         className="tw-my-auto tw-border-solid tw-border-8 tw-border-gray-9 tw-rounded-3xl"
+        width="432"
       />
       <div className={styles.dialogWrapper}>
         <div className="tw-max-w-lg">
