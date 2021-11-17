@@ -31,7 +31,7 @@ import { TradeDialog } from '../TradeDialog';
 import { LiquidationPrice } from '../LiquidationPrice';
 import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
 import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
-import { SlippageDialog } from '../SlippageDialog';
+import { SlippageForm } from '../SlippageForm';
 import { toWei } from 'utils/blockchain/math-helpers';
 
 interface ITradeFormProps {
@@ -257,8 +257,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
         </div>
 
         {openSlippage && (
-          <SlippageDialog
-            isOpen={openSlippage}
+          <SlippageForm
             onClose={() => setOpenSlippage(false)}
             amount={toWei(price)}
             value={slippage}
