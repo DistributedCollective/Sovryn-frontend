@@ -27,7 +27,7 @@ export function SlippageDialog(props: Props) {
   const { minReturn } = useSlippage(props.amount, props.value);
 
   return (
-    <div className="tw-mx-auto tw-rounded-3xl tw-absolute tw-inset-0 tw-bg-black tw-p-4">
+    <div className="tw-rounded-3xl tw-absolute tw-inset-0 tw-bg-black tw-p-4">
       <button className={styles.buttonClose} onClick={props.onClose} />
       <div className="tw-mb-6 tw-text-center">
         {t(translations.marginTradeForm.fields.slippageSettings)}
@@ -64,6 +64,7 @@ export function SlippageDialog(props: Props) {
         ) : (
           <FormGroup
             label={t(translations.buySovPage.slippageDialog.minimumReceived)}
+            className="tw-form-group tw-mt-8 tw-mx-auto tw-mw-340"
           >
             <DummyInput
               value={<>{fromWei(minReturn)}</>}

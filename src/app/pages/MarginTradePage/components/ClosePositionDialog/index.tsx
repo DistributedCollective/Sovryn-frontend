@@ -123,7 +123,11 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
     receiver,
     maxAmount === weiAmount
       ? props.item.collateral
-      : toWei(bignumber(amount).mul(leverage).toString()),
+      : toWei(
+          bignumber(amount || '0')
+            .mul(leverage)
+            .toString(),
+        ),
     isCollateral,
     '0x',
   );
@@ -154,7 +158,7 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
   return (
     <>
       <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
-        <div className="tw-mw-340 tw-mx-auto">
+        <div className="tw-mx-auto">
           <h1 className="tw-text-sov-white tw-text-center">
             {t(translations.closeTradingPositionHandler.title)}
           </h1>
@@ -280,14 +284,16 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
             txConfig={{ gas: gasLimit[TxType.CLOSE_WITH_SWAP] }}
           />
 
-          <SlippageDialog
-            isOpen={openSlippage}
-            onClose={() => setOpenSlippage(false)}
-            amount={toWei(totalAmount)}
-            value={slippage}
-            asset={assetByTokenAddress(props.item.collateralToken)}
-            onChange={value => setSlippage(value)}
-          />
+          {openSlippage && (
+            <SlippageDialog
+              isOpen={openSlippage}
+              onClose={() => setOpenSlippage(false)}
+              amount={toWei(totalAmount)}
+              value={slippage}
+              asset={assetByTokenAddress(props.item.collateralToken)}
+              onChange={value => setSlippage(value)}
+            />
+          )}
 
           {(closeTradesLocked || test.diff > 5) && (
             <ErrorBadge

@@ -100,7 +100,7 @@ export function DummyInput({
         {value}
       </div>
       {appendElem && (
-        <div className="tw-input-append tw-mt-2">{appendElem}</div>
+        <div className="tw-input-append tw-mr-2">{appendElem}</div>
       )}
     </div>
   );
