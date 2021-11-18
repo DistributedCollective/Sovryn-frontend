@@ -1644,6 +1644,7 @@
       "deadline": "Deadline",
       "actions": "Action",
       "noData": "No Data",
+      "filledAmount": "Filled Amount",
       "cta": {
         "edit": "Edit",
         "close": "Close"

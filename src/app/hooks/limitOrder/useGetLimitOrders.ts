@@ -37,8 +37,7 @@ function orderParser(orderArray: string[], hash: string): LimitOrder {
 export function useGetLimitOrders(
   account: string,
   page: number = 0,
-  limit: number = 100,
-  isMargin = false,
+  limit: number = 200,
 ) {
   const [orders, setOrders] = useState<LimitOrder[]>([]);
   const [loading, setLoading] = useState(true);
@@ -79,11 +78,11 @@ export function useGetLimitOrders(
       setLoading(false);
     };
 
-    if (hashes && !loadingHashes) {
+    if (hashes && !loadingHashes && account) {
       updateResult();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hashes, loadingHashes]);
+  }, [hashes, loadingHashes, account]);
 
   return {
     value: orders.filter(item => !item.canceled),

@@ -24,7 +24,9 @@ import { TradeForm } from './components/TradeForm';
 import { useAccount } from 'app/hooks/useAccount';
 import { PairNavbar } from './components/PairNavbar';
 import { OpenPositionsTable } from './components/OpenPositionsTable';
+import { LimitOrderHistory } from './components/LimitOrderHistory';
 import { SpotHistory } from './components/SpotHistory';
+import { useGetLimitOrders } from 'app/hooks/limitOrder/useGetLimitOrders';
 
 export function SpotTradingPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -35,6 +37,8 @@ export function SpotTradingPage() {
   const { t } = useTranslation();
   const { pairType } = useSelector(selectSpotTradingPage);
   const account = useAccount();
+
+  const { value: limitOrders, loading } = useGetLimitOrders(account);
 
   return (
     <>
@@ -84,11 +88,11 @@ export function SpotTradingPage() {
                 active={activeTab === 1}
                 onClick={() => setActiveTab(1)}
               />
-              {/* <Tab
+              <Tab
                 text={t(translations.spotTradingPage.history.limitOrderHistory)}
                 active={activeTab === 2}
                 onClick={() => setActiveTab(2)}
-              /> */}
+              />
             </div>
 
             <div className="tw-w-full sm:tw-px-5 tw-mb-10">
@@ -97,7 +101,17 @@ export function SpotTradingPage() {
               </div>
 
               <div className={cn({ 'tw-hidden': activeTab !== 1 })}>
-                <OpenPositionsTable />
+                <OpenPositionsTable
+                  orders={limitOrders.filter(item => item.filledAmount === '0')}
+                  loading={loading}
+                />
+              </div>
+
+              <div className={cn({ 'tw-hidden': activeTab !== 2 })}>
+                <LimitOrderHistory
+                  orders={limitOrders.filter(item => item.filledAmount !== '0')}
+                  loading={loading}
+                />
               </div>
             </div>
           </div>
