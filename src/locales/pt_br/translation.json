@@ -1054,7 +1054,7 @@
     },
     "actions": {
       "deposit": "Bridge",
-      "fastBtc": "FastBTC",
+      "fastBtc": "Depositar",
       "convert": "Converter para XUSD",
       "swap": "Trocar",
       "trade": "Margem",
@@ -1306,6 +1306,13 @@
       "paragraph1": "Por razões de segurança, o dapp Sovryn ainda não é compatível com celulares.",
       "paragraph2": "Que tal usar a versão para computadores?"
     }
+  },
+  "transakDialog": {
+    "title": "Comprar <0>RBTC</0>",
+    "explanation1": "O serviço Transak permite comprar BTC que será covertido para <0>RBTC</0> e enviado para sua carteira",
+    "explanation2": "Tome cuidado para não exceder o limite de depósito aceito pela Sovryn, pois a Transak permite compras acima dos nossos limites máximos de depósito",
+    "chainId": "Certifique-se de que sua carteira esteja configurada para a rede correta. A carteira Liquality requer que o site do dapp seja atualizado para detectar a mudança de rede.",
+    "cta": "Comprar <0>RBTC</0>"
   },
   "onCopy": {
     "address": "O endereço foi copiado para a área de transferência."
