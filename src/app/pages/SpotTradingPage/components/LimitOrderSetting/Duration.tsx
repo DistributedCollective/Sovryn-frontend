@@ -29,7 +29,7 @@ const durationOptions = [
     value: 30,
   },
   {
-    text: '∞',
+    text: trans.infinity,
     value: 0,
   },
 ];

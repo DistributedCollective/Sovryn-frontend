@@ -1631,7 +1631,10 @@
       "untilCancelled": "Until cancelled",
       "day_one": "{{count}} day",
       "day_other": "{{count}} days",
-      "partialFilled": "Allow partial filled order:"
+      "partialFilled": "Allow partial filled order:",
+      "aboveMarket": "above market price",
+      "belowMarket": "below market price",
+      "infinity": "∞"
     },
     "openLimitOrders": {
       "dateTime": "Date/Time",

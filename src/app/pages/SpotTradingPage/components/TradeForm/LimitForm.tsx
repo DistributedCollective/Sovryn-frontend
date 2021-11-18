@@ -76,8 +76,10 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
   }, [limitPrice, marketPrice]);
 
   useEffect(() => {
-    console.log({ marketPrice, limitPrice });
-    if (marketPrice !== '0' && (limitPrice === '' || limitPrice === '0')) {
+    if (
+      marketPrice !== '0' &&
+      (limitPrice === '' || stringToFixedPrecision(limitPrice, 0) === '0')
+    ) {
       setLimitPrice(weiToFixed(marketPrice, 6));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -187,12 +189,17 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
             className={cn('tw-text-sm tw-text-right', {
               'tw-text-trade-short': limitMarketChange < 0,
               'tw-text-trade-long': limitMarketChange > 0,
-              'tw-invisible': limitMarketChange === '',
+              'tw-invisible':
+                limitMarketChange === '' ||
+                +stringToFixedPrecision(`${limitMarketChange}`, 2) === 0,
             })}
           >
-            Buy <AssetRenderer asset={targetToken} />{' '}
+            {t(translations.spotTradingPage.tradeForm.buy)}{' '}
+            <AssetRenderer asset={targetToken} />{' '}
             {stringToFixedPrecision(`${limitMarketChange}`, 2)}%{' '}
-            {limitMarketChange > 0 ? 'above ' : 'below '} market
+            {limitMarketChange > 0
+              ? t(translations.spotTradingPage.limitOrderSetting.aboveMarket)
+              : t(translations.spotTradingPage.limitOrderSetting.belowMarket)}
           </div>
         </div>
       </div>
