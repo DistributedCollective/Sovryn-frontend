@@ -126,7 +126,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
           <h1 className="tw-text-sov-white tw-text-center">
             {t(translations.marginTradePage.tradeDialog.title)}
           </h1>
-          <div className="tw-py-4 tw-px-4 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
+          <div className="tw-pt-3 tw-pb-2 tw-px-6 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
             <div
               className={cn(
                 'tw-text-center tw-font-medium tw-lowercase tw-text-xl',
@@ -160,7 +160,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
               />
             </div>
           </div>
-          <div className="tw-py-4 tw-px-4 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
+          <div className="tw-pt-3 tw-pb-2 tw-px-6 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
             <TxFeeCalculator
               args={txArgs}
               txConfig={txConf}
@@ -181,10 +181,16 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
             />
           </div>
 
-          <div className="tw-py-4 tw-px-4 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
+          <p className="tw-text-center tw-text-sm tw-mt-3 tw-mb-2">
+            {t(translations.marginTradePage.tradeDialog.newPositionDetails)}
+          </p>
+          <div className="tw-pt-3 tw-pb-2 tw-px-6 tw-bg-gray-5 tw-mb-4 tw-rounded-lg tw-text-xs tw-font-light">
             <LabelValuePair
               label={t(translations.marginTradePage.tradeDialog.positionSize)}
-              className="tw-font-medium"
+              className={cn({
+                'tw-text-trade-short': position === TradingPosition.SHORT,
+                'tw-text-trade-long': position === TradingPosition.LONG,
+              })}
               value={
                 <>
                   <LoadableValue
