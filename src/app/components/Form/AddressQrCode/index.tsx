@@ -48,7 +48,7 @@ export const AddressQrCode: React.FC<AddressQrCodeProps> = ({
   return (
     <>
       <div className="tw-text-lg tw-text-sov-white tw-ml-8 tw-mb-2.5">
-        {t(translations.fastBtcDialog.qr.title)}
+        {t(translations.fastBtcPage.deposit.qr.title)}
       </div>
       <div className="tw-qrcode-container">
         {label && <div className="tw-qrcode-label">{label}</div>}
@@ -81,7 +81,7 @@ export const AddressQrCode: React.FC<AddressQrCodeProps> = ({
                       {address.length > 0 ? (
                         <>{prettyTx(address, 15, 12)}</>
                       ) : (
-                        <>{t(translations.fastBtcDialog.qr.generating)}</>
+                        <>{t(translations.fastBtcPage.deposit.qr.generating)}</>
                       )}
                     </Text>
                   </div>

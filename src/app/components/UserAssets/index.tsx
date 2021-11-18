@@ -15,7 +15,6 @@ import {
   weiToUSD,
 } from '../../../utils/display-text/format';
 import { contractReader } from '../../../utils/sovryn/contract-reader';
-import { TransackDialog } from '../../containers/FastBtcDialog';
 import {
   useAccount,
   useBlockSync,
@@ -40,6 +39,7 @@ import usdtIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/usdt
 import usdcIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/usdc.svg';
 import daiIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/dai.svg';
 import { Link } from 'react-router-dom';
+import { TransackDialog } from '../TransakDialog/TransakDialog';
 
 export function UserAssets() {
   const { t } = useTranslation();

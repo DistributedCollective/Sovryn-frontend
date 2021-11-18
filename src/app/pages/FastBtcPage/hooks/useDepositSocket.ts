@@ -4,6 +4,17 @@ import { currentChainId, fastBtcApis } from 'utils/classifiers';
 
 type EventHandler = (event: string, value: any) => void;
 
+export type HistoryItem = {
+  id: number;
+  dateAdded: string;
+  btcadr: string;
+  web3adr: string;
+  status: string;
+  txHash: string;
+  type: string;
+  valueBtc: number;
+};
+
 export function useDepositSocket(eventHandler?: EventHandler) {
   const socket = useRef<Socket>();
 
@@ -70,9 +81,9 @@ export function useDepositSocket(eventHandler?: EventHandler) {
 
   const getDepositHistory = useCallback(
     (address: string) =>
-      new Promise((resolve, reject) => {
+      new Promise<HistoryItem[]>((resolve, reject) => {
         if (socket.current) {
-          socket.current.emit('getDepositHisotory', address, res =>
+          socket.current.emit('getDepositHistory', address, res =>
             resolve(res),
           );
         } else {

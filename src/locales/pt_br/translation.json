@@ -162,26 +162,6 @@
       "description": "Transfira seu Bitcoin para a rede RSK."
     }
   },
-  "fastBtcForm": {
-    "title": "Depositar-BTC",
-    "history": {
-      "title": "Histórico",
-      "empty": "Histórico vázio.",
-      "walletHistory": "Insira seu endereço da carteira RSK para ver o histórico.",
-      "loading": "Carregando..."
-    },
-    "connectWallet": "Você precisa primeiro conectar sua carteira com o dapp.",
-    "connect": "Conecte sua carteira ou insira você mesmo um endereço no campo acima.",
-    "depositAdress": "Endereço de depósito BTC",
-    "depositAddressCopied": "Seu endereço BTC de depósito foi copiado para a área de transferência",
-    "toDepositWallet": "depositar carteira",
-    "placeholder": "Seu endereço da carteira RSK",
-    "waitingForDeposit": "Aguardando depósito",
-    "exchanging": "Nós estamos trocando seu BTC para rBTC.",
-    "transfered": "foi transferido para sua carteira RSK",
-    "swapAgain": "Realizar outra troca",
-    "disabledText": "Os depósitos foram temporariamente desativados. Pedimos que você não envie fundos até que seja reativado. Obrigado!"
-  },
   "tradeOrSwapTabs": {
     "tabs": {
       "trade": "Operar",
@@ -905,39 +885,6 @@
     "success": "Sucesso!",
     "successText": "Entraremos em contato assim que a Sovryn estiver otimizada para celulares."
   },
-  "fastBTC": {
-    "screens": {
-      "1": {
-        "title": "You Are Connected!",
-        "p1": "In order to borrow/lend and trade on Sovryn, you must first enable your Bitcoin by transferring them to your rsk wallet.",
-        "p2": "You do this by creating a unique btc address that pegs to your RSK address, supercharging your BTC into RBTC.",
-        "createAddress": "Create Address"
-      },
-      "2": {
-        "p1": "Your unique BTC address has been created, transfer BTC to receive RBTC in your RSK wallet.",
-        "depositRequirements": "Deposit requirements",
-        "fee": "Fee",
-        "feeExplainer": "Deducted from transaction amount",
-        "important": "Important",
-        "important1": "Do not deposit any non - BTC assets to this address, otherwise your assets will be lost permanently",
-        "important2": "Please allow upto 15 mins for the transaction to process",
-        "contactUs": "For support please join us on",
-        "txDetected": "Transaction detected"
-      },
-      "3": {
-        "txDetails": "Detalhes da transação",
-        "txHash": "rBTC Tx hash",
-        "txId": " BTC Tx ID",
-        "from": "Da carteira",
-        "to": "Para carteira",
-        "amount": "Valor transacionado",
-        "fee": "Taxa",
-        "initiated": "Iniciado",
-        "status": "Status",
-        "estimated": "Tempo estimado"
-      }
-    }
-  },
   "walletProvider": {
     "txRequestDialog": {
       "closeButton": "Ok",
@@ -1261,54 +1208,6 @@
     "content": {
       "paragraph1": "Por razões de segurança, o dapp Sovryn ainda não é compatível com celulares.",
       "paragraph2": "Que tal usar a versão para computadores?"
-    }
-  },
-  "fastBtcDialog": {
-    "title": "FastBTC",
-    "subtitle": "Deposite BTC para receber rBTC na sua carteira",
-    "note": "Antes de enviar, sempre verifique se não houve mudança no endereço de depósito BTC",
-    "limits": {
-      "title": "Limites:",
-      "min": "Mín: {{amount}}",
-      "max": "Máx: {{amount}}",
-      "btc": "BTC"
-    },
-    "instructions": {
-      "title": "Instruções:",
-      "point1": "Não deposite nenhum ativo que não seja BTC",
-      "point2": "Não envie mais BTC do que o limite máximo",
-      "point3": "Aguarde aproximandamente 60 minutos para que a transação seja processada",
-      "point4": "Se o rBTC não estiver visível na sua carteira após 60 minutos, abra um ",
-      "point4LinkText": "ticket de suporte",
-      "chainId": "Verifique se sua carteira está configurada para a rede correta. A carteira Liquality exige que a página do dapp seja atualizada para detectar a mudança de rede."
-    },
-    "fiatDialog": {
-      "title": "Comprar <0>RBTC</0>",
-      "explanation1": "O serviço Transak permite comprar BTC que será covertido para <0>RBTC</0> e enviado para sua carteira",
-      "explanation2": "Tome cuidado para não exceder o limite de depósito aceito pela Sovryn, pois a Transak permite compras acima dos nossos limites máximos de depósito",
-      "instructions": {
-        "point1": "Não compre mais BTC que o limite máximo mostrado acima",
-        "point2": "Aguarde 15 minutos para que a transação seja processada",
-        "chainId": "Verifique se sua carteira está configurada para a rede correta. A carteira Liquality exige que a página do dapp seja atualizada para detectar a mundaça da rede."
-      }
-    },
-    "qr": {
-      "title": "Envie BTC para este endereço:"
-    },
-    "buttonBTC": "Gerar endereço BTC",
-    "buttonFiat": "Comprar rBTC",
-    "transaction": {
-      "title": "Detalhes da transação",
-      "status": "Status {{status}}",
-      "from": "De:",
-      "to": "Para:",
-      "fee": "Taxa:",
-      "hash": "Hash:",
-      "close": "Fechar",
-      "address": "Endereço:",
-      "pending": "pendente",
-      "confirmed": "confirmada",
-      "sent": "enviada"
     }
   },
   "onCopy": {

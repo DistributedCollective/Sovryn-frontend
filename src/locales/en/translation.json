@@ -207,6 +207,10 @@
         "txId": "Tx ID:",
         "description": "Your deposit is being processed. If your transaction takes longer than {{hours}} hrs please <0>create a support ticket</0>.",
         "cta": "Return to Portfolio"
+      },
+      "qr": {
+        "title": "Send BTC to this address:",
+        "generating": "Generating..."
       }
     },
     "withdraw": {
@@ -265,26 +269,6 @@
         "cta": "Return to Portfolio"
       }
     }
-  },
-  "fastBtcForm": {
-    "title": "Top-Up",
-    "history": {
-      "title": "BTC Deposit History",
-      "empty": "History is empty.",
-      "walletHistory": "Enter your RSK wallet address to see history.",
-      "loading": "Loading..."
-    },
-    "connectWallet": "To use Top-Up you need to connect your wallet with the dapp.",
-    "connect": "Connect to your wallet or just enter wallet address above yourself.",
-    "depositAdress": "BTC Deposit Address",
-    "depositAddressCopied": "Your BTC deposit address copied to clipboard",
-    "toDepositWallet": "to deposit wallet",
-    "placeholder": "Your RSK Wallet",
-    "waitingForDeposit": "Waiting for deposit",
-    "exchanging": "We are exchanging to rBTC it now.",
-    "transfered": "was transfered to your RSK walllet",
-    "swapAgain": "Swap again",
-    "disabledText": "Top-up deposits have been temporarily disabled. We ask that you not send funds until re-enabled. Thank you!"
   },
   "tradeOrSwapTabs": {
     "tabs": {
@@ -1059,39 +1043,6 @@
     "success": "Success!",
     "successText": "We will contact you as soon as Sovryn Mobile is live."
   },
-  "fastBTC": {
-    "screens": {
-      "1": {
-        "title": "You Are Connected!",
-        "p1": "In order to borrow/lend and trade on Sovryn, you must first enable your Bitcoin by transferring them to your rsk wallet.",
-        "p2": "You do this by creating a unique btc address that pegs to your RSK address, supercharging your BTC into RBTC.",
-        "createAddress": "Create Address"
-      },
-      "2": {
-        "p1": "Your unique BTC address has been created, transfer BTC to receive RBTC in your RSK wallet.",
-        "depositRequirements": "Deposit requirements",
-        "fee": "Fee",
-        "feeExplainer": "Deducted from transaction amount",
-        "important": "Important",
-        "important1": "Do not deposit any non - BTC assets to this address, otherwise your assets will be lost permanently",
-        "important2": "Please allow upto 15 mins for the transaction to process",
-        "contactUs": "For support please join us on",
-        "txDetected": "Transaction detected"
-      },
-      "3": {
-        "txDetails": "Transaction Details",
-        "txHash": "rBTC Tx hash",
-        "txId": " BTC Tx ID",
-        "from": "From wallet",
-        "to": "To wallet",
-        "amount": "Amount transacted",
-        "fee": "Fee",
-        "initiated": "Initiated",
-        "status": "Status",
-        "estimated": "Estimated Time"
-      }
-    }
-  },
   "walletProvider": {
     "txRequestDialog": {
       "closeButton": "Ok",
@@ -1446,54 +1397,12 @@
     "promotion1_3": "Ready to participate? Head over to the event page by clicking the button below!",
     "promotion1_cta": "Go to event"
   },
-  "fastBtcDialog": {
-    "title": "Top Up FastBTC",
-    "subtitle": "Deposit BTC to receive rBTC in your wallet",
-    "note": "Always be sure to check the BTC deposit address as FastBTC gets updated",
-    "limits": {
-      "title": "Deposit limits:",
-      "min": "MIN: {{amount}}",
-      "max": "MAX: {{amount}}",
-      "btc": "BTC"
-    },
-    "instructions": {
-      "title": "Instructions:",
-      "point1": "Do not deposit anything other than BTC",
-      "point2": "Do not send more BTC than the MAX limit",
-      "point3": "Allow up to 60 mins for the transaction to process",
-      "point4": "If rBTC is not visible on your wallet after 60 mins open a ",
-      "point4LinkText": "support ticket",
-      "chainId": "Make sure your wallet is set to correct network. Liquality Wallet requires dapp refresh to detect network change."
-    },
-    "fiatDialog": {
-      "title": "Buy <0>RBTC</0> with fiat",
-      "explanation1": "Transak allows you to buy BTC which is then converted to <0>RBTC</0> and sent to your wallet",
-      "explanation2": "Make sure you do not exceed Sovryn deposit limits as Transak allows purchases above our max deposit limits",
-      "instructions": {
-        "point1": "Do not buy more BTC than the MAX limit above",
-        "point2": "Allow  15 mins for the transaction to process",
-        "chainId": "Make sure your wallet is set to correct network. Liquality Wallet requires dapp refresh to detect network change."
-      }
-    },
-    "qr": {
-      "title": "Send BTC to this address:",
-      "generating": "Generating..."
-    },
-    "buttonBTC": "Generate deposit address",
-    "buttonFiat": "Get rBTC with fiat",
-    "transaction": {
-      "title": "Transaction Details",
-      "status": "Status {{status}}",
-      "from": "From:",
-      "to": "To:",
-      "fee": "Tx Fee:",
-      "hash": "Tx Hash:",
-      "close": "Close",
-      "address": "Address",
-      "pending": "pending",
-      "confirmed": "confirmed",
-      "sent": "sent"
-    }
+  "transakDialog": {
+    "title": "Buy <0>RBTC</0> with fiat",
+    "explanation1": "Transak allows you to buy BTC which is then converted to <0>RBTC</0> and sent to your wallet",
+    "explanation2": "Make sure you do not exceed Sovryn deposit limits as Transak allows purchases above our max deposit limits",
+    "chainId": "Make sure your wallet is set to correct network. Liquality Wallet requires dapp refresh to detect network change.",
+    "cta": "Buy <0>RBTC</0> with fiat"
   },
   "onCopy": {
     "address": "Address was copied to clipboard."

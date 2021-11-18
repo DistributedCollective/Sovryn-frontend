@@ -1,55 +1,68 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
+import {
+  HistoryItem,
+  useDepositSocket,
+} from 'app/pages/FastBtcPage/hooks/useDepositSocket';
+import { useAccount } from 'app/hooks/useAccount';
+import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
+import { Asset } from 'types/asset';
+import { translations } from 'locales/i18n';
+import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
+import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
+import { toNumberFormat } from 'utils/display-text/format';
+import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 
-import { translations } from '../../../../locales/i18n';
-import { Asset } from '../../../../types/asset';
-import { weiToFixed } from '../../../../utils/blockchain/math-helpers';
-import { AssetsDictionary } from '../../../../utils/dictionaries/assets-dictionary';
-import { DisplayDate } from '../../../components/ActiveUserLoanContainer/components/DisplayDate';
-import { SkeletonRow } from '../../../components/Skeleton/SkeletonRow';
-import { useAccount, useIsConnected } from '../../../hooks/useAccount';
-import { selectFastBtcDialog } from '../selectors';
-import { actions } from '../slice';
-
-export function TopUpHistory() {
+export const TopUpHistory: React.FC = () => {
   const { t } = useTranslation();
 
-  const isConnected = useIsConnected();
   const account = useAccount();
-  const state = useSelector(selectFastBtcDialog);
-  const dispatch = useDispatch();
+
+  const { ready, getDepositHistory } = useDepositSocket();
+
+  const [state, setState] = useState<{
+    items: HistoryItem[];
+    loading: boolean;
+  }>({ items: [], loading: false });
 
   const asset = AssetsDictionary.get(Asset.RBTC);
 
   const sortedHistoryItems = useMemo(
     () =>
-      [...state.history.items].sort(
+      [...state.items].sort(
         (x, y) =>
           new Date(y.dateAdded).getTime() - new Date(x.dateAdded).getTime(),
       ),
-    [state.history.items],
+    [state.items],
   );
 
-  useEffect(() => {
-    if (isConnected && account) {
-      dispatch(actions.init());
+  const getHistory = useCallback(() => {
+    if (ready && account) {
+      setState(prevState => ({ ...prevState, loading: true }));
+      getDepositHistory(account)
+        .then(response => {
+          setState({ loading: false, items: response });
+        })
+        .catch(error => {
+          console.error(error);
+          setState({ loading: false, items: [] });
+        });
     }
-  }, [account, isConnected, dispatch]);
+  }, [ready, account, getDepositHistory]);
 
   useEffect(() => {
-    if (state.ready && account) {
-      dispatch(actions.getHistory(account));
+    if (ready && account) {
+      getHistory();
 
       const timer = setInterval(() => {
-        dispatch(actions.getHistory(account));
+        getHistory();
       }, 15e3);
 
       return () => clearInterval(timer);
     }
-  }, [state.ready, account, dispatch]);
+  }, [ready, account, getHistory]);
 
   return (
     <section>
@@ -80,14 +93,14 @@ export function TopUpHistory() {
             </tr>
           </thead>
           <tbody className="tw-mt-12">
-            {state.history.items.length === 0 && !state.history.loading && (
+            {state.items.length === 0 && !state.loading && (
               <tr>
                 <td className="tw-text-center" colSpan={99}>
                   {t(translations.topUpHistory.emptyState)}
                 </td>
               </tr>
             )}
-            {state.history.loading && !state.history.items.length && (
+            {state.loading && !state.items.length && (
               <tr>
                 <td colSpan={99}>
                   <SkeletonRow
@@ -116,11 +129,17 @@ export function TopUpHistory() {
                     src={asset.logoSvg}
                     alt={asset.asset}
                   />{' '}
-                  {item.type === 'deposit' ? 'BTC' : 'rBTC'}
+                  {item.type === 'deposit' ? (
+                    'BTC'
+                  ) : (
+                    <AssetSymbolRenderer asset={Asset.RBTC} />
+                  )}
                 </td>
                 <td>
                   <div className="tw-flex tw-flex-nowrap tw-text-right tw-justify-end">
-                    <small>{weiToFixed(item.valueBtc * 1e10, 4)}&nbsp;</small>
+                    <small>
+                      {toNumberFormat(item.valueBtc / 1e8, 6)}&nbsp;
+                    </small>
                     <small className="tw-text-gray-6">
                       {item.type === 'deposit' ? 'BTC' : 'rBTC'}
                     </small>
@@ -158,4 +177,4 @@ export function TopUpHistory() {
       </div>
     </section>
   );
-}
+};
