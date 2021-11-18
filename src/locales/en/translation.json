@@ -20,7 +20,10 @@
     "unit": {
       "day": "{{count}} day",
       "day_plural": "{{count}} days"
-    }
+    },
+    "gasPrice": "gas price",
+    "gasLimit": "gas limit",
+    "units": "units"
   },
   "global": {
     "liquidationPrice": "Liquidation Price",
@@ -1516,7 +1519,7 @@
         "leverage": "Leverage:",
         "amount": "Amount:",
         "balance": "Available Balance: <0/> <1/>",
-        "txFee": "Tx Fee: <0/> {{symbol}}"
+        "txFee": "Tx Fee: <0/>"
       },
       "buttons": {
         "long": "Long",
@@ -1828,6 +1831,22 @@
       "title": "Select coin to withdraw to",
       "notSupported": "Sorry, no supported deposit tokens for {{sourceAsset}} on{{network}} network. Try choosing another network or token.",
       "maxWithdrawal": "Max Withdrawal:"
+    }
+  },
+  "transactionDialog": {
+    "pendingUser": {
+      "title": "Confirm {{action}}",
+      "text": "Please confirm the transaction in your {{walletName}} wallet",
+      "failed": "Confirm Failed",
+      "retry": "Retry"
+    },
+    "txStatus": {
+      "title": "Transaction Status",
+      "aborted": "Your transaction has failed. <br/>Please cancel or retry your transaction",
+      "abortedLedger": "Make sure \"Contract data\" is set to \"Allowed\" in your Ledger app settings",
+      "cta": "View in Tracker",
+      "processing": "Transaction processing...",
+      "complete": "Transaction Complete"
     }
   },
   "buySovPage": {
