@@ -233,7 +233,7 @@
         "cta": "Revisar saque"
       },
       "reviewScreen": {
-        "title": "Review <0/> Withdrawal",
+        "title": "Revisar saque <0/>",
         "amount": "Withdraw",
         "address": "BTC Network Receive Address",
         "fees": "Taxas pagas:",
