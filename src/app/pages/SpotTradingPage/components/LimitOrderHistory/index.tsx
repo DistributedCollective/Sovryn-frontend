@@ -1,22 +1,22 @@
 import React, { useMemo, useState } from 'react';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
-import { OpenPositionRow } from './OpenPositionRow';
+import { LimitOrderRow } from './LimitOrderRow';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { Pagination } from '../../../../components/Pagination';
 import { LimitOrder } from '../../types';
 
-interface IOpenPositionsTableProps {
+interface ILimitOrderHistoryProps {
   perPage?: number;
   orders: LimitOrder[];
   loading: boolean;
 }
 
-export function OpenPositionsTable({
+export function LimitOrderHistory({
   perPage = 5,
   orders,
   loading,
-}: IOpenPositionsTableProps) {
+}: ILimitOrderHistoryProps) {
   const { t } = useTranslation();
   const trans = translations.spotTradingPage.openLimitOrders;
 
@@ -44,8 +44,7 @@ export function OpenPositionsTable({
             <th className="tw-w-full">{t(trans.tradeAmount)}</th>
             <th className="tw-w-full">{t(trans.limitPrice)}</th>
             <th className="tw-w-full">{t(trans.amountReceive)}</th>
-            <th className="tw-w-full">{t(trans.deadline)}</th>
-            <th className="tw-w-full">{t(trans.actions)}</th>
+            <th className="tw-w-full">{t(trans.filledAmount)}</th>
           </tr>
         </thead>
         <tbody>
@@ -66,7 +65,7 @@ export function OpenPositionsTable({
           {items.length > 0 && (
             <>
               {items.map(item => (
-                <OpenPositionRow key={item.hash} item={item} />
+                <LimitOrderRow key={item.hash} item={item} />
               ))}
             </>
           )}

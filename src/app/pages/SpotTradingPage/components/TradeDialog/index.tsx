@@ -136,22 +136,21 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
                   label={t(translations.spotTradingPage.tradeDialog.duration)}
                   value={
                     <>
-                      {!duration
-                        ? t(
-                            translations.spotTradingPage.limitOrderSetting
-                              .untilCancelled,
-                          )
-                        : duration === 1
-                        ? t(
-                            translations.spotTradingPage.limitOrderSetting
-                              .day_one,
-                            { count: duration },
-                          )
-                        : t(
-                            translations.spotTradingPage.limitOrderSetting
-                              .day_other,
-                            { count: duration },
-                          )}
+                      {!duration ? (
+                        <span>&#8734;</span>
+                      ) : duration === 1 ? (
+                        t(
+                          translations.spotTradingPage.limitOrderSetting
+                            .day_one,
+                          { count: duration },
+                        )
+                      ) : (
+                        t(
+                          translations.spotTradingPage.limitOrderSetting
+                            .day_other,
+                          { count: duration },
+                        )
+                      )}
                     </>
                   }
                 />

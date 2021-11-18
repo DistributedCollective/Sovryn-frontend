@@ -37,8 +37,7 @@ function orderParser(orderArray: string[], hash: string): LimitOrder {
 export function useGetLimitOrders(
   account: string,
   page: number = 0,
-  limit: number = 100,
-  isMargin = false,
+  limit: number = 200,
 ) {
   const [orders, setOrders] = useState<LimitOrder[]>([]);
   const [loading, setLoading] = useState(true);
@@ -46,6 +45,8 @@ export function useGetLimitOrders(
   const { value: hashes, loading: loadingHashes } = useCacheCallWithValue<
     Array<Array<string>>
   >('orderBook', 'getOrders', [], account, page, limit);
+
+  const deadlinePassed = (date: number) => new Date(date) < new Date();
 
   useEffect(() => {
     const updateResult = async () => {
@@ -74,16 +75,22 @@ export function useGetLimitOrders(
         item.canceled = !!canceledOrders[i]?.canceled;
         item.filledAmount = filledOrders[i]?.amount;
       });
-      console.log('list: ', list);
-      setOrders(list);
+
+      setOrders(
+        list.filter(
+          item =>
+            item.filledAmount !== '0' ||
+            !deadlinePassed(item.deadline.toNumber()),
+        ),
+      );
       setLoading(false);
     };
 
-    if (hashes && !loadingHashes) {
+    if (hashes && !loadingHashes && account) {
       updateResult();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hashes, loadingHashes]);
+  }, [hashes, loadingHashes, account]);
 
   return {
     value: orders.filter(item => !item.canceled),

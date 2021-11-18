@@ -29,7 +29,7 @@ const durationOptions = [
     value: 30,
   },
   {
-    text: trans.untilCancelled,
+    text: trans.infinity,
     value: 0,
   },
 ];
@@ -39,7 +39,7 @@ export function Duration({ onChange, value }: Props) {
 
   return (
     <FormGroup className="tw-mt-8" label={t(trans.duration)}>
-      <div className="tw-h-8 tw-mt-1 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded-md tw-divide-x tw-divide-secondary">
+      <div className="tw-mt-1 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded-md tw-divide-x tw-divide-secondary">
         {durationOptions.map(option => (
           <DurationButton
             text={t(option.text, { count: option.value })}
