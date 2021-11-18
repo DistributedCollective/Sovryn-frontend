@@ -1,6 +1,5 @@
 import React from 'react';
 import { Trans } from 'react-i18next';
-
 import type { TransactionConfig } from 'web3-core';
 import { translations } from 'locales/i18n';
 import { ContractName } from '../../../../../utils/types/contracts';
