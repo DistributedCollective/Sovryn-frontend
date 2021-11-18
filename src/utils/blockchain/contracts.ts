@@ -38,6 +38,7 @@ import MYNTControllerAbi from './abi/MYNTController.json';
 import MYNTTokenAbi from './abi/MYNT_token.json';
 import MYNTPresaleAbi from './abi/MYNTPresale.json';
 import MYNTMarketMakerAbi from './abi/MYNTMarketMaker.json';
+import ZEROTokenAbi from './abi/ZERO_token.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -361,5 +362,10 @@ export const contracts = {
   MYNTMarketMaker: {
     address: '0x722935fF8A99D801D802bb3EE528408C11C18656',
     abi: MYNTMarketMakerAbi,
+  },
+  ZERO_token: {
+    address: '0x6979bd7aa099c6c0566c40e5B1FC88CB96D73254',
+    abi: ZEROTokenAbi,
+    blockNumber: 2267574,
   },
 };
