@@ -1,6 +1,5 @@
 import React from 'react';
-import { Trans } from 'react-i18next';
-
+import { useTranslation } from 'react-i18next';
 import type { TransactionConfig } from 'web3-core';
 import { translations } from 'locales/i18n';
 import { fromWei } from 'utils/blockchain/math-helpers';
@@ -27,6 +26,7 @@ interface Props {
 }
 
 export function TxFeeCalculator(props: Props) {
+  const { t } = useTranslation();
   const { value, loading, error, gasPrice, gasLimit } = useEstimateContractGas(
     props.contractName,
     props.methodName,
@@ -43,37 +43,38 @@ export function TxFeeCalculator(props: Props) {
   return (
     <div
       className={cn(
-        'tw-mb-8 tw-truncate tw-text-sm tw-font-thin tw-tracking-normal',
+        'tw-flex tw-flex-row tw-mb-1 tw-justify-between tw-text-sov-white',
         props.className,
       )}
     >
-      <span className={props.textClassName}>
-        <Trans
-          i18nKey={translations.marginTradePage.tradeForm.labels.txFee}
-          values={{ symbol: props.symbol }}
-          components={[
-            <LoadableValue
-              value={weiToNumberFormat(value, 8)}
-              loading={loading}
-              tooltip={
-                <>
-                  {gasData} {props.symbol}
-                  <br />
-                  <small className="tw-text-gray-6">
-                    (gas price:{' '}
-                    {toNumberFormat(Number(fromWei(gasPrice, 'gwei')), 3)} gwei)
-                  </small>
-                  <br />
-                  <small className="tw-text-gray-6">
-                    (gas limit: {gasLimit} units)
-                  </small>
-                  {error && <p className="tw-text-warning">{error}</p>}
-                </>
-              }
-            />,
-          ]}
+      <div className="tw-w-1/2 tw-text-gray-10 tw-text-gray-10">
+        {t(translations.marginTradePage.tradeForm.labels.tradingFee)}
+      </div>
+      <div className="tw-w-1/3 tw-font-medium">
+        <LoadableValue
+          value={
+            <>
+              {weiToNumberFormat(value, 5)} {props.symbol}
+            </>
+          }
+          loading={loading}
+          tooltip={
+            <>
+              {gasData} {props.symbol}
+              <br />
+              <small className="tw-text-gray-6">
+                (gas price:{' '}
+                {toNumberFormat(Number(fromWei(gasPrice, 'gwei')), 3)} gwei)
+              </small>
+              <br />
+              <small className="tw-text-gray-6">
+                (gas limit: {gasLimit} units)
+              </small>
+              {error && <p className="tw-text-warning">{error}</p>}
+            </>
+          }
         />
-      </span>
+      </div>
     </div>
   );
 }

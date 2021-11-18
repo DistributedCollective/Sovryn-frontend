@@ -117,9 +117,6 @@ function normalizeEvent(
 function calculateProfits(events: CustomEvent[]): CalculatedEvent | null {
   const opens = events.filter(item => item.type === 'buy');
   const closes = events.filter(item => item.type === 'sell');
-  console.log('opens', opens);
-  console.log('closes', closes);
-
   const positionSize = opens
     .reduce(
       (previous, current) => previous.add(current.positionSize),

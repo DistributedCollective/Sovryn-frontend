@@ -1539,7 +1539,8 @@
         "amount": "Amount:",
         "slippage": "Slippage Tolerance:",
         "balance": "Available Balance: <0/> <1/>",
-        "txFee": "Tx Fee: <0/> {{symbol}}"
+        "txFee": "Tx Fee: <0/> {{symbol}}",
+        "tradingFee": "Trading Fee:"
       },
       "buttons": {
         "long": "Long",
@@ -1551,10 +1552,11 @@
       }
     },
     "tradeDialog": {
-      "title": "Review Transaction",
+      "title": "Review Order",
       "pair": "Trading Pair:",
       "leverage": "Leverage:",
       "asset": "Collateral:",
+      "margin": "Margin:",
       "direction": "Pair:",
       "positionSize": "Position Size",
       "maintananceMargin": "Maintenance Margin:",
@@ -1563,7 +1565,7 @@
       "interestAPR": "Interest APY",
       "renewalDate": "Renewal Date:",
       "liquidationPrice": "Est. Liquidation Price:",
-      "entryPrice": "Approx. Position Entry Price:",
+      "entryPrice": "Est Entry Price:",
       "estimationErrorNote": "Opening position will fail: {{error}}",
       "position": {
         "long": "Long",
