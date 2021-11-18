@@ -228,7 +228,7 @@
       },
       "addressForm": {
         "title": "BTC Network Withdraw Address",
-        "address": "Withdraw BTC to this address",
+        "address": "Sacar BTC para este endereço",
         "errorBECH32": "Insira um endereço BTC BECH32 válido!",
         "cta": "Revisar saque"
       },
