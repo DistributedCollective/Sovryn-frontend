@@ -294,11 +294,6 @@ export enum TradingTypes {
   SELL = 'SELL',
 }
 
-export enum OrderTypes {
-  MARKET = 'MARKET',
-  LIMIT = 'LIMIT',
-}
-
 export const getOrder = (from: Asset, to: Asset) => {
   const fromSymbol = AssetsDictionary.get(from)?.symbol.toUpperCase();
   const toSymbol = AssetsDictionary.get(to)?.symbol.toUpperCase();

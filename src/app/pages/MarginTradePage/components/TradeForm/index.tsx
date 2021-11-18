@@ -31,8 +31,10 @@ import { TradeDialog } from '../TradeDialog';
 import { LiquidationPrice } from '../LiquidationPrice';
 import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
 import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
-import { SlippageDialog } from '../SlippageDialog';
+import { SlippageForm } from '../SlippageForm';
 import { toWei } from 'utils/blockchain/math-helpers';
+import { OrderType } from 'app/components/OrderType';
+import { OrderTypes } from 'app/components/OrderType/types';
 
 interface ITradeFormProps {
   pairType: TradingPairType;
@@ -46,6 +48,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   const [tradeAmount, setTradeAmount] = useState<string>('');
   const [slippage, setSlippage] = useState(0.5);
   const weiAmount = useWeiAmount(tradeAmount);
+  const [orderType, setOrderType] = useState(OrderTypes.MARKET);
   const { position, amount, collateral, leverage } = useSelector(
     selectMarginTradePage,
   );
@@ -139,7 +142,8 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
             )}
           </div>
         )}
-        <div className="tw-mw-340 tw-mx-auto tw-mt-4">
+        <OrderType value={orderType} onChange={setOrderType} />
+        <div className="tw-mw-340 tw-mx-auto tw-mt-3">
           <CollateralAssets
             value={collateral}
             onChange={value => dispatch(actions.setCollateral(value))}
@@ -238,15 +242,23 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
 
               <Button
                 text={
-                  position === TradingPosition.LONG
-                    ? t(
+                  position === TradingPosition.LONG ? (
+                    <>
+                      {t(
                         translations.marginTradePage.tradeForm.placePosition
                           .placeLong,
-                      )
-                    : t(
+                      )}{' '}
+                      {orderType}
+                    </>
+                  ) : (
+                    <>
+                      {t(
                         translations.marginTradePage.tradeForm.placePosition
                           .placeShort,
-                      )
+                      )}{' '}
+                      {orderType}
+                    </>
+                  )
                 }
                 position={position}
                 onClick={() => setIsTradingDialogOpen(true)}
@@ -257,8 +269,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
         </div>
 
         {openSlippage && (
-          <SlippageDialog
-            isOpen={openSlippage}
+          <SlippageForm
             onClose={() => setOpenSlippage(false)}
             amount={toWei(price)}
             value={slippage}

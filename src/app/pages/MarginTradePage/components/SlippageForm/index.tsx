@@ -13,7 +13,6 @@ import styles from './dialog.module.scss';
 import { weiToNumberFormat } from 'utils/display-text/format';
 
 interface Props {
-  isOpen: boolean;
   onClose: () => void;
   amount: string;
   value: number;
@@ -22,7 +21,7 @@ interface Props {
   isTrade?: boolean;
 }
 
-export function SlippageDialog(props: Props) {
+export function SlippageForm(props: Props) {
   const { t } = useTranslation();
   const { minReturn } = useSlippage(props.amount, props.value);
 

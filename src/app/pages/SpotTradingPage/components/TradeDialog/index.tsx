@@ -12,7 +12,8 @@ import {
   weiToNumberFormat,
 } from 'utils/display-text/format';
 import { Dialog } from 'app/containers/Dialog';
-import { OrderTypes, TradingTypes } from '../../types';
+import { TradingTypes } from '../../types';
+import { OrderTypes } from 'app/components/OrderType/types';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { AssetRenderer } from 'app/components/AssetRenderer';

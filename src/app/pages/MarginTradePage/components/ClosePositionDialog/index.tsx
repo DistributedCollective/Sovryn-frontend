@@ -39,8 +39,8 @@ import { TxFeeCalculator } from '../TxFeeCalculator';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useTrading_testRates } from 'app/hooks/trading/useTrading_testRates';
 import { discordInvite } from 'utils/classifiers';
-import { useSlippage } from '../SlippageDialog/useSlippage';
-import { SlippageDialog } from '../SlippageDialog';
+import { useSlippage } from '../SlippageForm/useSlippage';
+import { SlippageForm } from '../SlippageForm';
 import settingIcon from 'assets/images/settings-blue.svg';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { bignumber } from 'mathjs';
@@ -224,7 +224,7 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
 
           <FormGroup
             label={t(translations.closeTradingPositionHandler.amountToClose)}
-            className="tw-mt-7"
+            className="tw-mt-3"
           >
             <AmountInput
               value={amount}
@@ -285,8 +285,7 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
           />
 
           {openSlippage && (
-            <SlippageDialog
-              isOpen={openSlippage}
+            <SlippageForm
               onClose={() => setOpenSlippage(false)}
               amount={toWei(totalAmount)}
               value={slippage}
