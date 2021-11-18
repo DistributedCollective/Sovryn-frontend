@@ -135,7 +135,7 @@ export const SidebarStepsWithdraw: React.FC<SidebarStepsProps> = () => {
     <>
       <Link
         to="/wallet"
-        className="tw-absolute tw-top-0 tw-left-0 tw-flex tw-items-center tw-font-semibold tw-text-2xl tw-cursor-pointer tw-select-none tw-text-white tw-whitespace-nowrap tw-no-underline"
+        className="tw-absolute tw--top-2 tw-left-0 tw-flex tw-items-center tw-font-semibold tw-text-2xl tw-cursor-pointer tw-select-none tw-text-white tw-whitespace-nowrap tw-no-underline"
       >
         <img
           alt="arrowback"

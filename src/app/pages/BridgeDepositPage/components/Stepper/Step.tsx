@@ -43,22 +43,24 @@ export const Step: React.FC<IStepProps> = ({
           )}
           <span
             className={classNames(
-              'tw-absolute tw-border-sov-white tw-rounded-full tw-bg-sov-white tw-inline-block tw-transition tw-duration-700 tw-ease-in-out',
+              'tw-absolute tw-border-sov-white tw-rounded-full tw-inline-block tw-transition tw-duration-700 tw-ease-in-out',
               {
                 'tw-w-2 tw-h-2': !active,
                 'tw-w-2.5 tw-h-2.5': !!active,
                 'tw-scale-0': step?.icon,
                 'tw-scale-100': !step?.icon,
+                'tw-bg-sov-white': !step?.icon,
               },
             )}
           ></span>
           <span
             className={classNames(
-              'tw-absolute tw-border-sov-white tw-w-2 tw-h-2 tw-rounded-full tw-bg-sov-white tw-inline-block tw-transition tw-duration-700 tw-ease-in-out',
+              'tw-absolute tw-border-sov-white tw-w-2 tw-h-2 tw-rounded-full tw-inline-block tw-transition tw-duration-700 tw-ease-in-out',
               {
                 'tw-transform tw-scale-125': !!active,
                 'tw-scale-0': step?.icon,
                 'tw-scale-100': !step?.icon,
+                'tw-bg-sov-white': !step?.icon,
               },
             )}
           ></span>

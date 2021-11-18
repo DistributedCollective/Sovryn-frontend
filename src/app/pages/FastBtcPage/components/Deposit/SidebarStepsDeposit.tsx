@@ -2,68 +2,40 @@ import React, { useContext, useMemo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { translations } from 'locales/i18n';
-import { Asset } from 'types';
 import {
   StepItem,
   Stepper,
 } from 'app/pages/BridgeDepositPage/components/Stepper';
-import { WithdrawContext, WithdrawStep } from '../../contexts/withdraw-context';
-import { toNumberFormat } from 'utils/display-text/format';
-import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import ArrowBack from 'assets/images/genesis/arrow_back.svg';
 import { prettyTx } from 'utils/helpers';
 
-import walletIcon from '../../assets/wallet-icon.svg';
 import addressIcon from '../../assets/address-icon.svg';
 import successIcon from '../../assets/success-icon.svg';
+import { DepositContext, DepositStep } from '../../contexts/deposit-context';
 
 const stepOrder = [
-  WithdrawStep.AMOUNT,
-  WithdrawStep.ADDRESS,
-  WithdrawStep.REVIEW,
-  WithdrawStep.CONFIRM,
-  WithdrawStep.PROCESSING,
-  WithdrawStep.COMPLETED,
+  DepositStep.ADDRESS,
+  DepositStep.PROCESSING,
+  DepositStep.COMPLETED,
 ];
 
 const initialSteps: StepItem[] = [
-  { stepTitle: 'Withdraw Amount', value: WithdrawStep.AMOUNT },
-  { stepTitle: 'Withdraw Address', value: WithdrawStep.ADDRESS },
-  { stepTitle: 'Review', value: WithdrawStep.REVIEW },
-  { stepTitle: 'Confirm', value: WithdrawStep.CONFIRM },
-  { stepTitle: 'Processing', value: WithdrawStep.PROCESSING },
-  { stepTitle: 'Complete', value: WithdrawStep.COMPLETED },
+  { stepTitle: 'Deposit Address', value: DepositStep.ADDRESS },
+  { stepTitle: 'Processing', value: DepositStep.PROCESSING },
+  { stepTitle: 'Complete', value: DepositStep.COMPLETED },
 ];
 
 type SidebarStepsProps = {};
 
 export const SidebarStepsDeposit: React.FC<SidebarStepsProps> = () => {
   const { t } = useTranslation();
-  const { step, set, amount, address } = useContext(WithdrawContext);
+  const { step, set, address, depositTx } = useContext(DepositContext);
 
   const steps = useMemo<StepItem[]>(() => {
     const prvSteps = [...initialSteps.map(item => ({ ...item }))];
-    if (step > WithdrawStep.AMOUNT && amount) {
-      const item = prvSteps.find(item => item.value === WithdrawStep.AMOUNT);
-      if (item) {
-        item.title = (
-          <>
-            {toNumberFormat(amount, 8)}{' '}
-            <AssetSymbolRenderer asset={Asset.RBTC} />
-          </>
-        );
-        item.icon = (
-          <img
-            className={'tw-object-contain tw-h-full tw-w-full tw-rounded-full'}
-            src={walletIcon}
-            alt={amount}
-          />
-        );
-      }
-    }
 
-    if (step > WithdrawStep.ADDRESS && address) {
-      const item = prvSteps.find(item => item.value === WithdrawStep.ADDRESS);
+    if (step > DepositStep.ADDRESS && address) {
+      const item = prvSteps.find(item => item.value === DepositStep.ADDRESS);
       if (item) {
         item.title = prettyTx(address);
         item.icon = (
@@ -76,17 +48,20 @@ export const SidebarStepsDeposit: React.FC<SidebarStepsProps> = () => {
       }
     }
 
-    if (step === WithdrawStep.PROCESSING) {
-      const item = prvSteps.find(
-        item => item.value === WithdrawStep.PROCESSING,
-      );
+    if (step === DepositStep.PROCESSING) {
+      const item = prvSteps.find(item => item.value === DepositStep.PROCESSING);
       if (item) {
-        item.title = 'Processing...';
+        if (depositTx?.status === 'pending') {
+          item.title = 'Processing (1/2)';
+        }
+        if (depositTx?.status === 'confirmed') {
+          item.title = 'Processing (2/2)';
+        }
       }
     }
 
-    if (step === WithdrawStep.COMPLETED) {
-      const item = prvSteps.find(item => item.value === WithdrawStep.COMPLETED);
+    if (step === DepositStep.COMPLETED) {
+      const item = prvSteps.find(item => item.value === DepositStep.COMPLETED);
       if (item) {
         item.icon = (
           <img
@@ -99,10 +74,10 @@ export const SidebarStepsDeposit: React.FC<SidebarStepsProps> = () => {
     }
 
     return prvSteps;
-  }, [step, address, amount]);
+  }, [step, address, depositTx]);
 
   const canOpen = useCallback(
-    (testStep: WithdrawStep) => {
+    (testStep: DepositStep) => {
       const indexOfTest = stepOrder.indexOf(testStep);
       const indexOfStep = stepOrder.indexOf(step);
 
@@ -112,18 +87,14 @@ export const SidebarStepsDeposit: React.FC<SidebarStepsProps> = () => {
       return (
         indexOfTest < indexOfStep &&
         // Can't go back if in confirm, processing or complete state.
-        ![
-          WithdrawStep.CONFIRM,
-          WithdrawStep.PROCESSING,
-          WithdrawStep.COMPLETED,
-        ].includes(step)
+        ![DepositStep.CONFIRM, DepositStep.COMPLETED].includes(step)
       );
     },
     [step],
   );
 
   const changeStep = useCallback(
-    (nextStep: WithdrawStep) => {
+    (nextStep: DepositStep) => {
       if (canOpen(nextStep)) {
         set(prevState => ({ ...prevState, step: nextStep }));
       }
@@ -135,7 +106,7 @@ export const SidebarStepsDeposit: React.FC<SidebarStepsProps> = () => {
     <>
       <Link
         to="/wallet"
-        className="tw-absolute tw-top-0 tw-left-0 tw-flex tw-items-center tw-font-semibold tw-text-2xl tw-cursor-pointer tw-select-none tw-text-white tw-whitespace-nowrap tw-no-underline"
+        className="tw-absolute tw--top-2 tw-left-0 tw-flex tw-items-center tw-font-semibold tw-text-2xl tw-cursor-pointer tw-select-none tw-text-white tw-whitespace-nowrap tw-no-underline"
       >
         <img
           alt="arrowback"
@@ -144,7 +115,7 @@ export const SidebarStepsDeposit: React.FC<SidebarStepsProps> = () => {
         />
         {t(translations.fastBtcPage.backToPortfolio)}
       </Link>
-      {step !== WithdrawStep.MAIN && (
+      {step !== DepositStep.MAIN && (
         <div className="tw-mt-24">
           <Stepper steps={steps} step={step} onClick={changeStep} />
         </div>

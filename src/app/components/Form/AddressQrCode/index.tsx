@@ -11,12 +11,12 @@ export enum URIType {
   BITCOIN = 'bitcoin:',
 }
 
-interface Props {
+type AddressQrCodeProps = {
   label?: string;
   address: string;
   uri?: URIType;
   hideClickToCopy?: boolean;
-}
+};
 
 const CopySuccess = ({ copied }) => {
   const { t } = useTranslation();
@@ -37,7 +37,12 @@ const CopySuccess = ({ copied }) => {
   );
 };
 
-export function AddressQrCode({ label, address, uri, hideClickToCopy }: Props) {
+export const AddressQrCode: React.FC<AddressQrCodeProps> = ({
+  label,
+  address,
+  uri,
+  hideClickToCopy,
+}) => {
   const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
   return (
@@ -109,4 +114,4 @@ export function AddressQrCode({ label, address, uri, hideClickToCopy }: Props) {
       </div>
     </>
   );
-}
+};

@@ -192,6 +192,21 @@
         "line3": "Do not send more than the MAX limit.",
         "line4": "Allow up to {{hours}} hrs to proccess.",
         "line5": "If your transaction takes longer than {{hours}} hrs please <0>create a support ticket</0>."
+      },
+      "addressForm": {
+        "title": "BTC Deposit Address",
+        "description": "Send BTC to this address"
+      },
+      "statusScreen": {
+        "title": "BTC Deposit processing",
+        "titleCompleted": "BTC Deposit Complete",
+        "amount": "Deposit",
+        "fees": "Fees Paid:",
+        "received": "Receive Amount:",
+        "txHash": "Tx Hash:",
+        "txId": "Tx ID:",
+        "description": "Your deposit is being processed. If your transaction takes longer than {{hours}} hrs please <0>create a support ticket</0>.",
+        "cta": "Return to Portfolio"
       }
     },
     "withdraw": {

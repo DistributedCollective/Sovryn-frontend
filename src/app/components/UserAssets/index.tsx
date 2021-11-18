@@ -253,6 +253,7 @@ function AssetRow({ item, onTransack, onConvert, onUnWrap }: AssetProps) {
             <div className="tw-inline-flex tw-flex-row tw-space-x-1 tw-ml-4 tw-items-center">
               {XUSD_ASSETS.map(xusdAsset => (
                 <img
+                  key={xusdAsset.asset}
                   src={xusdAsset.image}
                   className="tw-inline-block tw-h-6"
                   alt={xusdAsset.asset}

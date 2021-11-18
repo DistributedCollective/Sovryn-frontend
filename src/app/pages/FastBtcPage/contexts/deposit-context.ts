@@ -1,4 +1,5 @@
 import { createContext, Dispatch, SetStateAction } from 'react';
+import { Nullable } from 'types';
 
 export enum DepositStep {
   MAIN,
@@ -14,8 +15,11 @@ export type DepositContextStateType = {
   step: DepositStep;
   ready: boolean;
   address: string;
+  addressLoading: boolean;
+  addressError: Nullable<string>;
+  depositTx: Nullable<TxData>;
+  transferTx: Nullable<TxData>;
   limits: DepositLimits;
-  tx: TxData;
 };
 
 type DepositLimits = {
@@ -24,10 +28,13 @@ type DepositLimits = {
   loading: boolean;
 };
 
-type TxData = {
-  depositTx: string;
-  transferTx: string;
+export type TxData = {
+  txHash: string;
+  value: number;
+  status: TxStatus;
 };
+
+type TxStatus = string;
 
 export type DepositContextFunctionsType = {
   set: Dispatch<SetStateAction<DepositContextStateType>>;
@@ -41,10 +48,10 @@ export const defaultValue: DepositContextType = {
   step: DepositStep.MAIN,
   ready: false,
   address: '',
-  tx: {
-    depositTx: '',
-    transferTx: '',
-  },
+  addressLoading: false,
+  addressError: null,
+  depositTx: null,
+  transferTx: null,
   limits: {
     min: 0,
     max: 0,

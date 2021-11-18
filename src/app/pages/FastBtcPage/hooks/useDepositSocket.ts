@@ -2,14 +2,18 @@ import { useRef, useEffect, useCallback } from 'react';
 import { Socket, io } from 'socket.io-client';
 import { currentChainId, fastBtcApis } from 'utils/classifiers';
 
-export function useDepositSocket() {
+type EventHandler = (event: string, value: any) => void;
+
+export function useDepositSocket(eventHandler?: EventHandler) {
   const socket = useRef<Socket>();
 
   const handleInput = useCallback(
-    (type: string) => (...value: any) => {
-      console.log('fastbtc', type, value);
+    (type: any) => (value: any) => {
+      if (eventHandler) {
+        eventHandler(type, value);
+      }
     },
-    [],
+    [eventHandler],
   );
 
   useEffect(() => {
@@ -42,13 +46,19 @@ export function useDepositSocket() {
 
   const getDepositAddress = useCallback(
     (address: string) =>
-      new Promise((resolve, reject) => {
+      new Promise<{
+        btcadr: string;
+        dateAdded: number;
+        id: number;
+        label: string;
+        web3adr: string;
+      }>((resolve, reject) => {
         if (socket.current) {
           socket.current.emit('getDepositAddress', address, (err, res) => {
             if (res) {
               resolve(res);
             } else {
-              reject(err);
+              reject(new Error(err?.error || err));
             }
           });
         } else {

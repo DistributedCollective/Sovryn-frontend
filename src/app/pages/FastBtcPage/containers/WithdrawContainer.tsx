@@ -103,7 +103,7 @@ export const WithdrawContainer: React.FC = () => {
       <div className="tw-flex tw-flex-row tw-justify-between tw-items-center tw-w-full">
         <div
           className={cn(
-            'tw-relative tw-z-50 tw-h-full tw-flex tw-flex-col tw-items-start tw-justify-center tw-pl-8',
+            'tw-hidden tw-relative tw-z-50 tw-h-full md:tw-flex tw-flex-col tw-items-start tw-justify-center tw-pl-8',
             { invisible: false },
           )}
           style={{ minHeight: 'calc(100vh - 2.5rem)' }}
@@ -112,7 +112,7 @@ export const WithdrawContainer: React.FC = () => {
         </div>
         <div
           style={{
-            minHeight: 'calc(100% - 2.5rem)',
+            minHeight: 'calc(100vh - 2.5rem)',
           }}
           className="tw-flex tw-flex-col tw-flex-1 tw-justify-center tw-items-center"
         >

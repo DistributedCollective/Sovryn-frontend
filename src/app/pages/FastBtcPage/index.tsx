@@ -4,10 +4,10 @@ import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
 import { translations } from 'locales/i18n';
-import UserWallet from '../BridgeDepositPage/components/UserWallet';
 import { useAccount } from '../../hooks/useAccount';
 import { WithdrawContainer } from './containers/WithdrawContainer';
 import { DepositContainer } from './containers/DepositContainer';
+import Header from './components/Header';
 
 export function FastBtcPage() {
   const { t } = useTranslation();
@@ -30,11 +30,11 @@ export function FastBtcPage() {
           content={t(translations.fastBtcPage.meta.description)}
         />
       </Helmet>
+      <Header address={account} />
       <div
-        className="tw-flex tw-flex-row tw-justify-between tw-items-start tw-w-full tw-p-5 tw-bg-gray-4 tw-relative"
+        className="tw-flex tw-flex-row tw-justify-between tw-items-center md:tw-items-start tw-w-full tw-p-5 tw-bg-gray-4 tw-relative tw-text-sm"
         style={{ marginTop: '-4.4rem' }}
       >
-        <UserWallet address={account} />
         {type === 'deposit' && <DepositContainer />}
         {type === 'withdraw' && <WithdrawContainer />}
       </div>
