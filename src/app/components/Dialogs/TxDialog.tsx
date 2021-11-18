@@ -22,13 +22,17 @@ import { translations } from 'locales/i18n';
 import { ConfirmButton } from 'app/pages/BuySovPage/components/Button/confirm';
 import { usePrevious } from '../../hooks/usePrevious';
 
-interface Props {
+type TxDialogProps = {
   tx: ResetTxResponseInterface;
   onUserConfirmed?: () => void;
   onSuccess?: () => void;
-}
+};
 
-export function TxDialog({ tx, onUserConfirmed, onSuccess }: Props) {
+export const TxDialog: React.FC<TxDialogProps> = ({
+  tx,
+  onUserConfirmed,
+  onSuccess,
+}) => {
   const { t } = useTranslation();
   const { address } = useWalletContext();
 
@@ -124,7 +128,7 @@ export function TxDialog({ tx, onUserConfirmed, onSuccess }: Props) {
       )}
     </Dialog>
   );
-}
+};
 
 function getWalletName(wallet) {
   if (wallet === 'liquality') return 'Liquality';
@@ -205,13 +209,15 @@ const ExplorerLink = styled.div.attrs(_ => ({
   }
 `;
 
-export function StatusComponent({
-  status,
-  onlyImage = false,
-}: {
+type StatusComponentProps = {
   status: TxStatus;
   onlyImage?: boolean;
-}) {
+};
+
+export const StatusComponent: React.FC<StatusComponentProps> = ({
+  status,
+  onlyImage = false,
+}) => {
   return (
     <StyledStatus>
       <img
@@ -222,7 +228,7 @@ export function StatusComponent({
       {!onlyImage && <p>{getStatus(status)}</p>}
     </StyledStatus>
   );
-}
+};
 
 const WLContainer = styled.div`
   width: 98px;
@@ -241,11 +247,15 @@ const WLImage = styled.img`
   object-fit: contain;
 `;
 
-function WalletLogo({ wallet }: { wallet: string }) {
+type WalletLogoProps = {
+  wallet: string;
+};
+
+const WalletLogo: React.FC<WalletLogoProps> = ({ wallet }) => {
   return (
     <WLContainer className="tw-flex tw-flex-col tw-justify-center tw-items-center tw-overflow-hidden">
       <WLImage src={getWalletImage(wallet)} alt="Wallet" />
       <div className="tw-truncate">{getWalletName(wallet)}</div>
     </WLContainer>
   );
-}
+};
