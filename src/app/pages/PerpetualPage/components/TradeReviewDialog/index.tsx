@@ -81,6 +81,8 @@ export const TradeReviewDialog: React.FC = () => {
     [modalOptions],
   );
 
+  console.log(isPerpetualTradeReview(modalOptions), modalOptions);
+
   const pair = useMemo(
     () =>
       PerpetualPairDictionary.get(trade?.pairType || PerpetualPairType.BTCUSD),

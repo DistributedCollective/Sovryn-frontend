@@ -21,7 +21,7 @@ import {
 } from '../../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { AssetValue } from '../../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../../components/AssetValue/types';
-import { getTraderPnLInBC } from '../../../utils/perpUtils';
+import { getTraderPnLInBC, getMidPrice } from '../../../utils/perpUtils';
 import { getTradeDirection } from '../../../utils/contractUtils';
 import { TradingPosition } from '../../../../../../types/trading-position';
 
@@ -39,7 +39,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
 
   const [lotSize, lotPrecision] = useMemo(() => {
     const lotSize = Number(perpParameters.fLotSizeBC.toPrecision(8));
-    const lotPrecision = lotSize.toString().split(/[,.]/)[1]?.length || 0;
+    const lotPrecision = lotSize.toString().split(/[,.]/)[1]?.length || 1;
 
     return [lotSize, lotPrecision];
   }, [perpParameters.fLotSizeBC]);
@@ -52,32 +52,47 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     [changedTrade?.pairType],
   );
 
-  const onOpenSlippage = useCallback(
-    () => changeTo(ClosePositionDialogStep.slippage),
-    [changeTo],
-  );
-
-  const onSubmit = useCallback(() => {
-    if (!trade || !changedTrade) {
-      return;
-    }
-
-    const amountCurrent =
-      getTradeDirection(trade?.position) * Number(fromWei(trade?.amount));
-    const amountChange =
-      getTradeDirection(changedTrade?.position) *
-      Number(fromWei(changedTrade?.amount));
+  const {
+    amountChange,
+    amountTarget,
+    marginTarget,
+    unrealizedPartial,
+  } = useMemo(() => {
+    const amountCurrent = trade
+      ? getTradeDirection(trade.position) * Number(fromWei(trade.amount))
+      : 0;
+    const amountChange = changedTrade
+      ? getTradeDirection(changedTrade.position) *
+        Number(fromWei(changedTrade.amount))
+      : 0;
 
     const amountTarget = amountCurrent + amountChange;
-    const leverage =
-      traderState.availableCashCC * (amountTarget / amountCurrent);
+    const targetFactor = amountTarget / amountCurrent;
+    const marginTarget = traderState.availableCashCC * targetFactor;
+
+    const unrealizedPartial =
+      getTraderPnLInBC(traderState, ammState) * (1 - targetFactor);
+
+    return {
+      amountChange,
+      amountTarget,
+      marginTarget,
+      unrealizedPartial,
+    };
+  }, [trade, changedTrade, traderState, ammState]);
+
+  const onSubmit = useCallback(() => {
+    if (!changedTrade) {
+      return;
+    }
 
     const targetTrade = {
       ...changedTrade,
       amount: toWei(Math.abs(amountTarget).toPrecision(8)),
+      margin: toWei(marginTarget.toPrecision(8)),
       position:
         amountTarget >= 0 ? TradingPosition.LONG : TradingPosition.SHORT,
-      leverage,
+      entryPrice: getMidPrice(perpParameters, ammState),
     };
 
     dispatch(
@@ -86,7 +101,14 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
         trade: targetTrade,
       }),
     );
-  }, [dispatch, trade, changedTrade, traderState]);
+  }, [
+    dispatch,
+    changedTrade,
+    amountTarget,
+    marginTarget,
+    perpParameters,
+    ammState,
+  ]);
 
   const onChangeAmount = useCallback(
     (value: string) =>
@@ -94,15 +116,10 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     [onChange, changedTrade],
   );
 
-  const amount = useMemo(
-    () => (changedTrade?.amount ? fromWei(changedTrade.amount) : '0'),
-    [changedTrade?.amount],
+  const onOpenSlippage = useCallback(
+    () => changeTo(ClosePositionDialogStep.slippage),
+    [changeTo],
   );
-
-  const unrealized = useMemo(() => getTraderPnLInBC(traderState, ammState), [
-    traderState,
-    ammState,
-  ]);
 
   if (!trade) {
     return null;
@@ -139,7 +156,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
       <div className="tw-mb-4 tw-text-sm">
         <label>{t(translations.perpetualPage.closePosition.amount)}</label>
         <AmountInput
-          value={amount}
+          value={Math.abs(amountChange).toPrecision(lotPrecision)}
           maxAmount={trade?.amount}
           assetString={pair.baseAsset}
           decimalPrecision={lotPrecision}
@@ -162,12 +179,14 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
         <AssetValue
           className={classNames(
             'tw-text-base tw-font-semibold',
-            unrealized > 0 ? 'tw-text-trade-long' : 'tw-text-trade-short',
+            unrealizedPartial > 0
+              ? 'tw-text-trade-long'
+              : 'tw-text-trade-short',
           )}
           minDecimals={4}
           maxDecimals={4}
           mode={AssetValueMode.auto}
-          value={unrealized}
+          value={unrealizedPartial}
           assetString={pair.baseAsset}
           showPositiveSign
           useTooltip

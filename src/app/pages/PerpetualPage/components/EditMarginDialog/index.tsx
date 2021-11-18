@@ -71,9 +71,11 @@ export const EditMarginDialog: React.FC = () => {
 
   const onSubmit = useCallback(
     () =>
-      // TODO: implement review and excecution for EditMarginDialog
       dispatch(
-        actions.setModal(PerpetualPageModals.TRADE_REVIEW, changedTrade),
+        actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
+          origin: PerpetualPageModals.EDIT_MARGIN,
+          trade: changedTrade,
+        }),
       ),
     [dispatch, changedTrade],
   );
@@ -98,14 +100,30 @@ export const EditMarginDialog: React.FC = () => {
   );
 
   const onChangeMargin = useCallback(
-    (margin?: string) =>
-      setMargin(currentMargin =>
-        Math.max(
-          0,
-          Math.min(maxAmount, margin ? Number(margin) : Number(currentMargin)),
-        ).toString(),
-      ),
-    [maxAmount],
+    (value?: string) => {
+      const clampedMargin = Math.max(
+        0,
+        Math.min(maxAmount, value ? Number(value) : Math.abs(signedMargin)),
+      );
+      setMargin(clampedMargin.toString());
+
+      const newMargin = traderState.availableCashCC + signedMargin;
+      const leverage = calculateLeverageForMargin(
+        newMargin,
+        traderState,
+        ammState,
+      );
+
+      setChangedTrade(
+        changedTrade =>
+          changedTrade && {
+            ...changedTrade,
+            leverage,
+            margin: toWei(newMargin.toPrecision(8)),
+          },
+      );
+    },
+    [signedMargin, maxAmount, traderState, ammState],
   );
 
   const liquidationPrice = useMemo(
@@ -124,23 +142,7 @@ export const EditMarginDialog: React.FC = () => {
 
   useEffect(() => onChangeMargin(), [onChangeMargin]);
 
-  useEffect(() => {
-    const newMargin = traderState.availableCashCC + signedMargin;
-    const leverage = calculateLeverageForMargin(
-      newMargin,
-      traderState,
-      ammState,
-    );
-
-    setChangedTrade(
-      changedTrade =>
-        changedTrade && {
-          ...changedTrade,
-          leverage,
-          margin: toWei(newMargin.toPrecision(8)),
-        },
-    );
-  }, [signedMargin, traderState, ammState]);
+  useEffect(() => {}, [signedMargin, traderState, ammState]);
 
   return (
     <Dialog
