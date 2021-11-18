@@ -22,6 +22,8 @@ import {
 import { AssetValue } from '../../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../../components/AssetValue/types';
 import { getTraderPnLInBC } from '../../../utils/perpUtils';
+import { getTradeDirection } from '../../../utils/contractUtils';
+import { TradingPosition } from '../../../../../../types/trading-position';
 
 export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
   changeTo,
@@ -55,14 +57,36 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     [changeTo],
   );
 
-  const onSubmit = useCallback(
-    () =>
-      // TODO: implement review and excecution for ClosePositionDialog
-      dispatch(
-        actions.setModal(PerpetualPageModals.TRADE_REVIEW, changedTrade),
-      ),
-    [dispatch, changedTrade],
-  );
+  const onSubmit = useCallback(() => {
+    if (!trade || !changedTrade) {
+      return;
+    }
+
+    const amountCurrent =
+      getTradeDirection(trade?.position) * Number(fromWei(trade?.amount));
+    const amountChange =
+      getTradeDirection(changedTrade?.position) *
+      Number(fromWei(changedTrade?.amount));
+
+    const amountTarget = amountCurrent + amountChange;
+    const leverage =
+      traderState.availableCashCC * (amountTarget / amountCurrent);
+
+    const targetTrade = {
+      ...changedTrade,
+      amount: toWei(Math.abs(amountTarget).toPrecision(8)),
+      position:
+        amountTarget >= 0 ? TradingPosition.LONG : TradingPosition.SHORT,
+      leverage,
+    };
+
+    dispatch(
+      actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
+        origin: PerpetualPageModals.CLOSE_POSITION,
+        trade: targetTrade,
+      }),
+    );
+  }, [dispatch, trade, changedTrade, traderState]);
 
   const onChangeAmount = useCallback(
     (value: string) =>

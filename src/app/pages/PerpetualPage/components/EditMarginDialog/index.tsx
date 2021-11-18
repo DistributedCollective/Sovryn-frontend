@@ -114,10 +114,10 @@ export const EditMarginDialog: React.FC = () => {
         traderState,
         ammState,
         perpParameters,
-        changedTrade ? Number(fromWei(changedTrade.amount)) : 0,
+        0,
         signedMargin,
       ),
-    [changedTrade, signedMargin, traderState, ammState, perpParameters],
+    [signedMargin, traderState, ammState, perpParameters],
   );
 
   useEffect(() => setChangedTrade(trade), [trade]);
@@ -126,7 +126,6 @@ export const EditMarginDialog: React.FC = () => {
 
   useEffect(() => {
     const newMargin = traderState.availableCashCC + signedMargin;
-
     const leverage = calculateLeverageForMargin(
       newMargin,
       traderState,
@@ -134,7 +133,12 @@ export const EditMarginDialog: React.FC = () => {
     );
 
     setChangedTrade(
-      changedTrade => changedTrade && { ...changedTrade, leverage },
+      changedTrade =>
+        changedTrade && {
+          ...changedTrade,
+          leverage,
+          margin: toWei(newMargin.toPrecision(8)),
+        },
     );
   }, [signedMargin, traderState, ammState]);
 

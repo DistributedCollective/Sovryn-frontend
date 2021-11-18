@@ -76,7 +76,13 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
   });
 
   const onSubmit = useCallback(
-    () => dispatch(actions.setModal(PerpetualPageModals.TRADE_REVIEW, trade)),
+    () =>
+      dispatch(
+        actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
+          origin: PerpetualPageModals.NONE,
+          trade,
+        }),
+      ),
     [dispatch, trade],
   );
 

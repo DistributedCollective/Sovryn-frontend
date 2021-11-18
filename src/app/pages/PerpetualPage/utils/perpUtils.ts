@@ -668,6 +668,24 @@ export function calculateLeverageForMargin(
 }
 
 /**
+ * calculate Leverage for new Margin and Position.
+ * @param {number} targetPositionSizeBC - new target position size
+ * @param {number} targetMarginCC - new target margin
+ * @param {AMMState} ammData - AMM state (for mark price and CCY conversion)
+ * @returns {number} current leverage for the trader
+ */
+export function calculateLeverage(
+  targetPositionSizeBC: number,
+  targetMarginCC: number,
+  ammData: AMMState,
+): number {
+  return (
+    Math.abs(targetPositionSizeBC * getBase2CollateralFX(ammData, true)) /
+    targetMarginCC
+  );
+}
+
+/**
  * Get the unrealized Profit/Loss of a trader using mark price as benchmark. Reported in Base currency.
  * @param {AMMState} ammData - AMM state (for mark price and CCY conversion)
  * @param {TraderState} traderState - Trader state (for account balances)

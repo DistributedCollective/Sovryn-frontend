@@ -104,10 +104,11 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         lotSize,
       );
       setAmount(amount);
+      const signedAmount = roundedAmount * getTradeDirection(trade.position);
       let newTrade = { ...trade, amount: toWei(roundedAmount.toString()) };
       if (!isNewTrade) {
         newTrade.leverage = calculateLeverageForPosition(
-          roundedAmount,
+          traderState.marginAccountPositionBC + signedAmount,
           traderState,
           ammState,
         );

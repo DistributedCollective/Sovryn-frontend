@@ -1,6 +1,7 @@
-import { Asset } from '../../../types';
+import { Asset, Nullable } from '../../../types';
 import { TradingPosition } from '../../../types/trading-position';
 import { PerpetualPairType } from '../../../utils/dictionaries/perpetual-pair-dictionary';
+import { Transaction } from 'ethers';
 
 export const PERPETUAL_SLIPPAGE_DEFAULT = 0.5;
 
@@ -43,10 +44,19 @@ export type PerpetualTrade = {
   amount: string;
   /** wei string */
   limit?: string;
+  /** wei string */
+  margin?: string;
   leverage: number;
   slippage: number;
   entryPrice: number;
 };
+
+export type PerpetualTradeReview = {
+  origin: PerpetualPageModals;
+  trade: PerpetualTrade;
+};
+
+export type PendingTransactions = Nullable<Transaction>[];
 
 export const isPerpetualTrade = (x: any): x is PerpetualTrade =>
   x &&
@@ -59,13 +69,20 @@ export const isPerpetualTrade = (x: any): x is PerpetualTrade =>
   typeof x.leverage === 'number' &&
   typeof x.slippage === 'number' &&
   typeof x.entryPrice === 'number' &&
-  (x.limit === undefined || typeof x.limit === 'string');
+  (x.limit === undefined || typeof x.limit === 'string') &&
+  (x.margin === undefined || typeof x.margin === 'string');
+
+export const isPerpetualTradeReview = (x: any): x is PerpetualTradeReview =>
+  x &&
+  typeof x === 'object' &&
+  PerpetualPageModals[x.origin] !== undefined &&
+  isPerpetualTrade(x.trade);
 
 export type PerpetualPageState = {
   pairType: PerpetualPairType;
   collateral: Asset;
   modal: PerpetualPageModals;
-  modalOptions: any;
+  modalOptions?: PerpetualTrade | PerpetualTradeReview | PendingTransactions;
 };
 
 export type ContainerState = PerpetualPageState;

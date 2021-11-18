@@ -6,26 +6,53 @@ import { PerpetualPageModals } from '../../../types';
 import { TradeForm } from '../../TradeForm';
 import { EditPositionSizeDialogStep } from '../types';
 import { EditPositionSizeDialogContext } from '..';
+import { getTradeDirection } from '../../../utils/contractUtils';
+import { fromWei, toWei } from 'web3-utils';
+import { TradingPosition } from '../../../../../../types/trading-position';
+import { usePerpetual_queryTraderState } from '../../../hooks/usePerpetual_queryTraderState';
 
 export const TradeFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
   changeTo,
 }) => {
   const dispatch = useDispatch();
-  const { changedTrade, onChange } = useContext(EditPositionSizeDialogContext);
+  const traderState = usePerpetual_queryTraderState();
+  const { trade, changedTrade, onChange } = useContext(
+    EditPositionSizeDialogContext,
+  );
 
   const onOpenSlippage = useCallback(
     () => changeTo(EditPositionSizeDialogStep.slippage),
     [changeTo],
   );
 
-  const onSubmit = useCallback(
-    () =>
-      // TODO: implement review and excecution for EditPositionSizeDialog
-      dispatch(
-        actions.setModal(PerpetualPageModals.TRADE_REVIEW, changedTrade),
-      ),
-    [dispatch, changedTrade],
-  );
+  const onSubmit = useCallback(() => {
+    if (!trade || !changedTrade) {
+      return;
+    }
+
+    const amountCurrent =
+      getTradeDirection(trade?.position) * Number(fromWei(trade?.amount));
+    const amountChange =
+      getTradeDirection(changedTrade?.position) *
+      Number(fromWei(changedTrade?.amount));
+
+    const amountTarget = amountCurrent + amountChange;
+
+    const targetTrade = {
+      ...changedTrade,
+      amount: toWei(Math.abs(amountTarget).toPrecision(8)),
+      position:
+        amountTarget >= 0 ? TradingPosition.LONG : TradingPosition.SHORT,
+      margin: toWei(traderState.availableCashCC.toPrecision(8)),
+    };
+
+    dispatch(
+      actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
+        origin: PerpetualPageModals.EDIT_POSITION_SIZE,
+        trade: targetTrade,
+      }),
+    );
+  }, [dispatch, trade, changedTrade, traderState]);
 
   if (!changedTrade) {
     return null;

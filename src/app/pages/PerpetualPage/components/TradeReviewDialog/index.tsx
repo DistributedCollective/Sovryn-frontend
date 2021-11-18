@@ -5,7 +5,7 @@ import { translations } from '../../../../../locales/i18n';
 import { Dialog } from '../../../../containers/Dialog';
 import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
-import { isPerpetualTrade, PerpetualPageModals } from '../../types';
+import { PerpetualPageModals, isPerpetualTradeReview } from '../../types';
 import { usePerpetual_openTrade } from '../../hooks/usePerpetual_openTrade';
 import styles from './index.module.scss';
 import classNames from 'classnames';
@@ -16,6 +16,7 @@ import {
   calculateApproxLiquidationPrice,
   getRequiredMarginCollateral,
   getTradingFee,
+  calculateLeverage,
 } from '../../utils/perpUtils';
 import { toNumberFormat } from 'utils/display-text/format';
 import { usePerpetual_marginAccountBalance } from '../../hooks/usePerpetual_marginAccountBalance';
@@ -28,6 +29,30 @@ import {
 import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
 import { getTradeDirection } from '../../utils/contractUtils';
 import { usePerpetual_queryTraderState } from '../../hooks/usePerpetual_queryTraderState';
+
+type TradeAnalysis = {
+  amountChange: number;
+  amountTarget: number;
+  marginChange: number;
+  marginTarget: number;
+  leverageTarget: number;
+  entryPrice: number;
+  liquidationPrice: number;
+  tradingFee: number;
+};
+
+const titleMap = {
+  [PerpetualPageModals.NONE]:
+    translations.perpetualPage.reviewTrade.titles.newOrder,
+  [PerpetualPageModals.EDIT_POSITION_SIZE]:
+    translations.perpetualPage.reviewTrade.titles.newOrder,
+  [PerpetualPageModals.EDIT_LEVERAGE]:
+    translations.perpetualPage.reviewTrade.titles.editLeverage,
+  [PerpetualPageModals.EDIT_MARGIN]:
+    translations.perpetualPage.reviewTrade.titles.editMargin,
+  [PerpetualPageModals.CLOSE_POSITION]:
+    translations.perpetualPage.reviewTrade.titles.close,
+};
 
 const getTradePosition = (tradePosition: TradingPosition) =>
   tradePosition === TradingPosition.LONG ? (
@@ -48,10 +73,101 @@ export const TradeReviewDialog: React.FC = () => {
 
   const { trade: openTrade } = usePerpetual_openTrade();
 
-  const trade = useMemo(
-    () => (isPerpetualTrade(modalOptions) ? modalOptions : undefined),
+  const { origin, trade } = useMemo(
+    () =>
+      isPerpetualTradeReview(modalOptions)
+        ? modalOptions
+        : { origin: undefined, trade: undefined },
     [modalOptions],
   );
+
+  const pair = useMemo(
+    () =>
+      PerpetualPairDictionary.get(trade?.pairType || PerpetualPairType.BTCUSD),
+    [trade],
+  );
+
+  const {
+    amountChange,
+    amountTarget,
+    marginChange,
+    marginTarget,
+    leverageTarget,
+    entryPrice,
+    liquidationPrice,
+    tradingFee,
+  }: TradeAnalysis = useMemo(() => {
+    if (!trade) {
+      return {
+        amountChange: 0,
+        amountTarget: 0,
+        marginChange: 0,
+        marginTarget: 0,
+        leverageTarget: 0,
+        entryPrice: 0,
+        liquidationPrice: 0,
+        tradingFee: 0,
+      };
+    }
+
+    let amountTarget =
+      Number(fromWei(trade.amount)) * getTradeDirection(trade.position);
+    let amountChange = amountTarget - traderState.marginAccountPositionBC;
+
+    let marginTarget = trade.margin
+      ? Number(fromWei(trade.margin))
+      : traderState.availableCashCC +
+        getRequiredMarginCollateral(
+          trade.leverage,
+          traderState.marginAccountPositionBC,
+          amountTarget,
+          perpParameters,
+          ammState,
+        );
+    let marginChange = marginTarget - traderState.availableCashCC;
+
+    const leverageTarget = calculateLeverage(
+      amountTarget,
+      marginTarget,
+      ammState,
+    );
+
+    const liquidationPrice = calculateApproxLiquidationPrice(
+      traderState,
+      ammState,
+      perpParameters,
+      amountChange,
+      marginChange,
+    );
+
+    const tradingFee = getTradingFee(amountChange, perpParameters);
+
+    console.log(trade, {
+      amountChange,
+      amountTarget,
+      marginChange,
+      marginTarget,
+      leverageTarget,
+      liquidationPrice,
+      tradingFee,
+      entryPrice: trade.entryPrice,
+    });
+
+    return {
+      amountChange,
+      amountTarget,
+      marginChange,
+      marginTarget,
+      leverageTarget,
+      liquidationPrice,
+      tradingFee,
+      entryPrice: trade.entryPrice,
+    };
+  }, [trade, traderState, perpParameters, ammState]);
+
+  const isBuy = useMemo(() => trade?.position === TradingPosition.LONG, [
+    trade?.position,
+  ]);
 
   const onClose = useCallback(
     () => dispatch(actions.setModal(PerpetualPageModals.NONE)),
@@ -71,55 +187,6 @@ export const TradeReviewDialog: React.FC = () => {
     [openTrade, trade],
   );
 
-  const margin = useMemo(() => {
-    if (!trade) {
-      return 0;
-    }
-
-    const amount =
-      Number(fromWei(trade.amount)) * getTradeDirection(trade.position);
-
-    return getRequiredMarginCollateral(
-      trade.leverage,
-      marginAccountBalance.fPositionBC,
-      marginAccountBalance.fPositionBC + amount,
-      perpParameters,
-      ammState,
-    );
-  }, [ammState, marginAccountBalance.fPositionBC, perpParameters, trade]);
-
-  const pair = useMemo(
-    () =>
-      PerpetualPairDictionary.get(trade?.pairType || PerpetualPairType.BTCUSD),
-    [trade],
-  );
-
-  const tradingFee = useMemo(
-    () => (trade ? getTradingFee(Number(trade.amount), perpParameters) : 0),
-    [perpParameters, trade],
-  );
-
-  const isBuy = useMemo(() => trade?.position === TradingPosition.LONG, [
-    trade?.position,
-  ]);
-
-  const liquidationPrice = useMemo(() => {
-    if (!trade) {
-      return 0;
-    }
-
-    const amount =
-      Number(fromWei(trade.amount)) * getTradeDirection(trade.position);
-
-    return calculateApproxLiquidationPrice(
-      traderState,
-      ammState,
-      perpParameters,
-      amount,
-      margin,
-    );
-  }, [trade, traderState, ammState, perpParameters, margin]);
-
   if (!trade) {
     return null;
   }
@@ -129,9 +196,7 @@ export const TradeReviewDialog: React.FC = () => {
       isOpen={modal === PerpetualPageModals.TRADE_REVIEW}
       onClose={onClose}
     >
-      <h1 className="tw-font-semibold">
-        {t(translations.perpetualPage.reviewTrade.title)}
-      </h1>
+      <h1 className="tw-font-semibold">{origin && t(titleMap[origin])}</h1>
       <div className={styles.contentWrapper}>
         <div className="tw-w-full tw-p-4 tw-bg-gray-2 tw-flex tw-flex-col tw-items-center tw-rounded-xl">
           <div
@@ -140,13 +205,13 @@ export const TradeReviewDialog: React.FC = () => {
               isBuy ? styles.orderActionBuy : styles.orderActionSell,
             )}
           >
-            {toNumberFormat(trade?.leverage, 2)}x{' '}
+            {toNumberFormat(leverageTarget, 2)}x{' '}
             {t(translations.perpetualPage.reviewTrade.market)}{' '}
             {getTradePosition(trade?.position)}
           </div>
           <div className="tw-text-sm tw-tracking-normal tw-mt-2 tw-leading-none tw-text-sov-white tw-font-medium">
-            {toNumberFormat(fromWei(trade?.amount), 3)} {pair.baseAsset} @{' '}
-            {isBuy ? '≥' : '≤'} {toNumberFormat(trade.entryPrice, 2)}{' '}
+            {toNumberFormat(amountChange, 3)} {pair.baseAsset} @{' '}
+            {isBuy ? '≥' : '≤'} {toNumberFormat(entryPrice, 2)}{' '}
             {pair.quoteAsset}
           </div>
         </div>
@@ -177,12 +242,18 @@ export const TradeReviewDialog: React.FC = () => {
             <span className="tw-text-gray-10">
               {t(translations.perpetualPage.reviewTrade.labels.positionSize)}
             </span>
-            <span className={styles.positionSize}>
+            <span
+              className={
+                amountTarget > 0
+                  ? styles.positionSizeBuy
+                  : styles.positionSizeSell
+              }
+            >
               <AssetValue
                 minDecimals={3}
                 maxDecimals={3}
                 mode={AssetValueMode.auto}
-                value={trade?.amount}
+                value={amountTarget}
                 assetString={pair.baseAsset}
                 showPositiveSign
               />
@@ -198,7 +269,7 @@ export const TradeReviewDialog: React.FC = () => {
                 minDecimals={4}
                 maxDecimals={4}
                 mode={AssetValueMode.auto}
-                value={margin}
+                value={marginTarget}
                 assetString={pair.baseAsset}
               />
             </span>
@@ -209,25 +280,26 @@ export const TradeReviewDialog: React.FC = () => {
               {t(translations.perpetualPage.reviewTrade.labels.leverage)}
             </span>
             <span className="tw-font-medium">
-              {toNumberFormat(trade.leverage, 2)}x
+              {toNumberFormat(leverageTarget, 2)}x
             </span>
           </div>
-
-          <div className={classNames(styles.positionInfoRow, 'tw-mt-2')}>
-            <span className="tw-text-gray-10">
-              {t(translations.perpetualPage.reviewTrade.labels.entryPrice)}
-            </span>
-            <span className="tw-font-medium">
-              {isBuy ? '≥' : '≤'}{' '}
-              <AssetValue
-                minDecimals={2}
-                maxDecimals={2}
-                mode={AssetValueMode.auto}
-                value={trade.entryPrice}
-                assetString={pair.quoteAsset}
-              />
-            </span>
-          </div>
+          {amountChange !== 0 && (
+            <div className={classNames(styles.positionInfoRow, 'tw-mt-2')}>
+              <span className="tw-text-gray-10">
+                {t(translations.perpetualPage.reviewTrade.labels.entryPrice)}
+              </span>
+              <span className="tw-font-medium">
+                {amountChange > 0 ? '≥ ' : '≤ '}
+                <AssetValue
+                  minDecimals={2}
+                  maxDecimals={2}
+                  mode={AssetValueMode.auto}
+                  value={entryPrice}
+                  assetString={pair.quoteAsset}
+                />
+              </span>
+            </div>
+          )}
 
           <div className={classNames(styles.positionInfoRow, 'tw-mt-2')}>
             <span className="tw-text-gray-10 tw-font-semibold">

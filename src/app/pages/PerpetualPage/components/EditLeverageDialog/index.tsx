@@ -16,7 +16,7 @@ import {
   calculateApproxLiquidationPrice,
 } from '../../utils/perpUtils';
 import { getTradeDirection } from '../../utils/contractUtils';
-import { fromWei } from 'web3-utils';
+import { fromWei, toWei } from 'web3-utils';
 import { usePerpetual_queryPerpParameters } from '../../hooks/usePerpetual_queryPerpParameters';
 import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
 import { usePerpetual_queryTraderState } from '../../hooks/usePerpetual_queryTraderState';
@@ -38,10 +38,43 @@ export const EditLeverageDialog: React.FC = () => {
   );
 
   const [changedTrade, setChangedTrade] = useState(trade);
+  const [margin, setMargin] = useState(0);
   const onChangeLeverage = useCallback(
-    leverage => changedTrade && setChangedTrade({ ...changedTrade, leverage }),
-    [changedTrade],
+    leverage => {
+      if (!changedTrade) {
+        return;
+      }
+
+      const margin = getRequiredMarginCollateral(
+        leverage,
+        traderState.marginAccountPositionBC,
+        traderState.marginAccountPositionBC,
+        perpParameters,
+        ammState,
+      );
+      setMargin(margin);
+      setChangedTrade({
+        ...changedTrade,
+        leverage,
+        margin: toWei(margin.toPrecision(8)),
+      });
+    },
+    [changedTrade, traderState, perpParameters, ammState],
   );
+
+  const liquidationPrice = useMemo(() => {
+    if (!changedTrade) {
+      return 0;
+    }
+
+    return calculateApproxLiquidationPrice(
+      traderState,
+      ammState,
+      perpParameters,
+      0,
+      margin - traderState.availableCashCC,
+    );
+  }, [changedTrade, margin, traderState, ammState, perpParameters]);
 
   const onClose = useCallback(
     () => dispatch(actions.setModal(PerpetualPageModals.NONE)),
@@ -50,48 +83,14 @@ export const EditLeverageDialog: React.FC = () => {
 
   const onSubmit = useCallback(
     () =>
-      // TODO: implement review and excecution for EditLeverageDialog
       dispatch(
-        actions.setModal(PerpetualPageModals.TRADE_REVIEW, changedTrade),
+        actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
+          origin: PerpetualPageModals.EDIT_LEVERAGE,
+          trade: changedTrade,
+        }),
       ),
     [dispatch, changedTrade],
   );
-
-  const requiredMargin = useMemo(() => {
-    if (!changedTrade) {
-      return 0;
-    }
-
-    const position =
-      Number(fromWei(changedTrade.amount)) *
-      getTradeDirection(changedTrade.position);
-
-    return getRequiredMarginCollateral(
-      changedTrade.leverage,
-      traderState.marginAccountPositionBC,
-      traderState.marginAccountPositionBC + position,
-      perpParameters,
-      ammState,
-    );
-  }, [changedTrade, traderState, perpParameters, ammState]);
-
-  const liquidationPrice = useMemo(() => {
-    if (!changedTrade) {
-      return 0;
-    }
-
-    const position =
-      Number(fromWei(changedTrade.amount)) *
-      getTradeDirection(changedTrade.position);
-
-    return calculateApproxLiquidationPrice(
-      traderState,
-      ammState,
-      perpParameters,
-      position,
-      requiredMargin,
-    );
-  }, [changedTrade, requiredMargin, traderState, ammState, perpParameters]);
 
   useEffect(() => setChangedTrade(trade), [trade]);
 
@@ -122,7 +121,7 @@ export const EditLeverageDialog: React.FC = () => {
               minDecimals={4}
               maxDecimals={4}
               mode={AssetValueMode.auto}
-              value={requiredMargin}
+              value={margin}
               assetString={pair.baseAsset}
             />
           </div>
