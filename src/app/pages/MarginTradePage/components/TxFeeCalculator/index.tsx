@@ -1,5 +1,5 @@
 import React from 'react';
-import { Trans } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import type { TransactionConfig } from 'web3-core';
 import { translations } from 'locales/i18n';
 import { ContractName } from '../../../../../utils/types/contracts';
@@ -28,28 +28,27 @@ export const TxFeeCalculator: React.FC<ITxFeeCalculator> = ({
   className,
   textClassName,
 }) => {
+  const { t } = useTranslation();
   return (
     <div
       className={cn(
-        'tw-mb-8 tw-truncate tw-text-sm tw-font-thin tw-tracking-normal',
+        'tw-flex tw-flex-row tw-mb-1 tw-justify-between tw-text-sov-white',
         className,
       )}
     >
-      <span className={textClassName}>
-        <Trans
-          i18nKey={translations.marginTradePage.tradeForm.labels.txFee}
-          components={[
-            <TransactionFee
-              asset={asset}
-              contractName={contractName}
-              methodName={methodName}
-              args={args}
-              txConfig={txConfig}
-              condition={condition}
-            />,
-          ]}
+      <div className="tw-w-1/2 tw-text-gray-10 tw-text-gray-10">
+        {t(translations.marginTradePage.tradeForm.labels.tradingFee)}
+      </div>
+      <div className="tw-w-1/3 tw-font-medium">
+        <TransactionFee
+          asset={asset}
+          contractName={contractName}
+          methodName={methodName}
+          args={args}
+          txConfig={txConfig}
+          condition={condition}
         />
-      </span>
+      </div>
     </div>
   );
 };

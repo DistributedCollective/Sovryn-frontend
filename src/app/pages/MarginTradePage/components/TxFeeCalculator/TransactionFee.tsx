@@ -49,7 +49,7 @@ export const TransactionFee: React.FC<ITransactionFeeProps> = ({
     <LoadableValue
       value={
         <>
-          {weiToNumberFormat(value, 8)} <AssetSymbolRenderer asset={asset} />
+          {weiToNumberFormat(value, 5)} <AssetSymbolRenderer asset={asset} />
         </>
       }
       loading={loading}

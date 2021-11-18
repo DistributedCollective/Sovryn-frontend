@@ -145,7 +145,9 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
             <div className="tw-flex tw-justify-center tw-items-center">
               <LoadableValue
                 loading={false}
-                value={weiToNumberFormat(amount, 4)}
+                value={
+                  <div className="tw-mr-1">{weiToNumberFormat(amount, 4)}</div>
+                }
                 tooltip={fromWei(amount)}
               />{' '}
               <AssetRenderer asset={collateral} />
