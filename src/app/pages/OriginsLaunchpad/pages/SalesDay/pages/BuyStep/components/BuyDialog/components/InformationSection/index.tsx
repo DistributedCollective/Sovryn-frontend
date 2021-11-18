@@ -33,7 +33,7 @@ export const InformationSection: React.FC<IInformationSectionProps> = ({
     const mm = (Math.floor(diffTS / 60) % 60).toString().padStart(2, '0');
     const ss = (diffTS % 60).toString().padStart(2, '0');
 
-    setCountDown((dd ? `${dd}d ` : '') + `${hh}:${mm}:${ss}`);
+    setCountDown((dd ? `${dd}d : ` : '') + `${hh}h : ${mm}m : ${ss}s`);
   }, 1000);
 
   return (
