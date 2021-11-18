@@ -54,9 +54,11 @@ const OpenPositionRowInner: React.FC<IOpenPositionRowInnerProps> = ({
       ? TradingPosition.LONG
       : TradingPosition.SHORT;
 
-  const isLong = isLongTrade(position);
+  const isLong = useMemo(() => isLongTrade(position), [position]);
 
-  const leverage = leverageFromMargin(item.startMargin);
+  const leverage = useMemo(() => leverageFromMargin(item.startMargin), [
+    item.startMargin,
+  ]);
 
   const liquidationPrice = usePositionLiquidationPrice(
     item.principal,
@@ -65,7 +67,10 @@ const OpenPositionRowInner: React.FC<IOpenPositionRowInnerProps> = ({
     item.maintenanceMargin,
   );
 
-  const entryPrice = getEntryPrice(item, position);
+  const entryPrice = useMemo(() => getEntryPrice(item, position), [
+    item,
+    position,
+  ]);
 
   const positionMargin = useMemo(() => {
     if (isLong) {
@@ -79,7 +84,10 @@ const OpenPositionRowInner: React.FC<IOpenPositionRowInnerProps> = ({
       .toString();
   }, [entryPrice, item.collateral, leverage, isLong]);
 
-  const positionMarginAsset = isLong ? pair.longAsset : pair.shortAsset;
+  const positionMarginAsset = useMemo(
+    () => (isLong ? pair.longAsset : pair.shortAsset),
+    [isLong, pair],
+  );
 
   return (
     <>
@@ -101,7 +109,10 @@ const OpenPositionRowInner: React.FC<IOpenPositionRowInnerProps> = ({
               />
             </div>
             <div className="tw-opacity-25 tw-text-xs">
-              {leverage}x {position === TradingPosition.LONG ? 'LONG' : 'SHORT'}
+              {leverage}x{' '}
+              {position === TradingPosition.LONG
+                ? t(translations.trandingPositionSelector.long)
+                : t(translations.trandingPositionSelector.short)}
             </div>
           </div>
         </td>

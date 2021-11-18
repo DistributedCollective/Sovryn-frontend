@@ -30,10 +30,15 @@ export const ProfitContainer: React.FC<ProfitContainerProps> = ({
   entryPrice,
 }) => {
   const { t } = useTranslation();
-  const isLong = isLongTrade(position);
 
-  const loanToken = assetByTokenAddress(item.loanToken);
-  const collateralToken = assetByTokenAddress(item.collateralToken);
+  const { isLong, loanToken, collateralToken } = useMemo(
+    () => ({
+      isLong: isLongTrade(position),
+      loanToken: assetByTokenAddress(item.loanToken),
+      collateralToken: assetByTokenAddress(item.collateralToken),
+    }),
+    [position, item.loanToken, item.collateralToken],
+  );
 
   const {
     value: currentCollateralToPrincipalRate,
