@@ -98,7 +98,7 @@ export const usePerpetual_OpenPosition = (
     const unrealized: OpenPositionEntry['unrealized'] = {
       baseValue: unrealizedQuote / base2quote,
       quoteValue: unrealizedQuote,
-      roe: unrealizedQuote / base2quote / tradeAmount,
+      roe: unrealizedQuote / Math.abs(traderState.marginAccountLockedInValueQC),
     };
 
     // TODO: calculate Realized Profit and Loss

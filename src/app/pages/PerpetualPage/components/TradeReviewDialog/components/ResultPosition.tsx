@@ -1,0 +1,119 @@
+import React from 'react';
+import { AssetValue } from '../../../../../components/AssetValue';
+import { AssetValueMode } from '../../../../../components/AssetValue/types';
+import classNames from 'classnames';
+import styles from '../index.module.scss';
+import { useTranslation } from 'react-i18next';
+import { translations } from '../../../../../../locales/i18n';
+import { toNumberFormat } from '../../../../../../utils/display-text/format';
+import { PerpetualPair } from '../../../../../../utils/models/perpetual-pair';
+
+type ResultPositionProps = {
+  pair: PerpetualPair;
+  amountTarget: number;
+  amountChange: number;
+  marginTarget: number;
+  leverageTarget: number;
+  entryPrice: number;
+  liquidationPrice: number;
+};
+
+export const ResultPosition: React.FC<ResultPositionProps> = ({
+  pair,
+  amountTarget,
+  amountChange,
+  marginTarget,
+  leverageTarget,
+  entryPrice,
+  liquidationPrice,
+}) => {
+  const { t } = useTranslation();
+
+  return (
+    <>
+      <div className="tw-text-sm tw-mt-6 tw-mb-2 tw-text-center tw-text-sov-white tw-font-medium">
+        {t(translations.perpetualPage.reviewTrade.positionDetailsTitle)}
+      </div>
+
+      <div className="tw-w-full tw-p-4 tw-bg-gray-5 tw-flex tw-flex-col tw-items-center tw-rounded-xl">
+        <div className={styles.positionInfoRow}>
+          <span className="tw-text-gray-10">
+            {t(translations.perpetualPage.reviewTrade.labels.positionSize)}
+          </span>
+          <span
+            className={
+              amountTarget > 0
+                ? styles.positionSizeBuy
+                : styles.positionSizeSell
+            }
+          >
+            <AssetValue
+              minDecimals={3}
+              maxDecimals={3}
+              mode={AssetValueMode.auto}
+              value={amountTarget}
+              assetString={pair.baseAsset}
+              showPositiveSign
+            />
+          </span>
+        </div>
+
+        <div className={classNames(styles.positionInfoRow, 'tw-mt-2')}>
+          <span className="tw-text-gray-10">
+            {t(translations.perpetualPage.reviewTrade.labels.margin)}
+          </span>
+          <span className="tw-font-medium">
+            <AssetValue
+              minDecimals={4}
+              maxDecimals={4}
+              mode={AssetValueMode.auto}
+              value={marginTarget}
+              assetString={pair.baseAsset}
+            />
+          </span>
+        </div>
+
+        <div className={classNames(styles.positionInfoRow, 'tw-mt-2')}>
+          <span className="tw-text-gray-10">
+            {t(translations.perpetualPage.reviewTrade.labels.leverage)}
+          </span>
+          <span className="tw-font-medium">
+            {toNumberFormat(leverageTarget, 2)}x
+          </span>
+        </div>
+        {amountChange !== 0 && (
+          <div className={classNames(styles.positionInfoRow, 'tw-mt-2')}>
+            <span className="tw-text-gray-10">
+              {t(translations.perpetualPage.reviewTrade.labels.entryPrice)}
+            </span>
+            <span className="tw-font-medium">
+              {amountChange > 0 ? '≥ ' : '≤ '}
+              <AssetValue
+                minDecimals={2}
+                maxDecimals={2}
+                mode={AssetValueMode.auto}
+                value={entryPrice}
+                assetString={pair.quoteAsset}
+              />
+            </span>
+          </div>
+        )}
+
+        <div className={classNames(styles.positionInfoRow, 'tw-mt-2')}>
+          <span className="tw-text-gray-10 tw-font-semibold">
+            {t(translations.perpetualPage.reviewTrade.labels.liquidationPrice)}
+          </span>
+          <span className="tw-font-semibold">
+            <AssetValue
+              minDecimals={2}
+              maxDecimals={2}
+              mode={AssetValueMode.auto}
+              value={liquidationPrice}
+              assetString={pair.quoteAsset}
+            />
+          </span>
+        </div>
+      </div>
+    </>
+  );
+};

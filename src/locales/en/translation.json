@@ -1704,6 +1704,7 @@
       "deposit": "Deposit",
       "withdraw": "Withdraw",
       "leverage": "Leverage",
+      "margin": "Margin",
       "increase": "Increase",
       "decrease": "Decrease",
       "positionFullyClosed": "Position Fully Closed",
