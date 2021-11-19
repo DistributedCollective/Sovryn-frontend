@@ -64,7 +64,7 @@ const tradingChartDataFeeds = {
       intraday_multipliers: ['1', '15', '60', '240'],
       supported_resolution: supportedResolutions,
       has_no_volume: false,
-      has_empty_bars: true,
+      has_empty_bars: false,
       has_daily: true,
       has_weekly_and_monthly: false,
       data_status: 'streaming',
@@ -110,7 +110,7 @@ const tradingChartDataFeeds = {
         candleNumber(),
         firstDataRequest,
       );
-      console.log('[getBars]: Data', data);
+      console.debug('[getBars]: Data', data);
       let bars: Bar[] = [];
       if (data.length > 0) {
         bars = data;
@@ -121,7 +121,7 @@ const tradingChartDataFeeds = {
       if (firstDataRequest) {
         lastBarsCache.set(symbolInfo.name, { ...bars[bars.length - 1] });
       }
-      console.log(`[getBars]: returned ${bars.length} bar(s)`);
+      console.debug(`[getBars]: returned ${bars.length} bar(s)`);
 
       if (!bars || bars.length === 1) {
         onHistoryCallback([], {
@@ -134,7 +134,7 @@ const tradingChartDataFeeds = {
       const newestBar = bars[bars.length - 1];
       try {
         if (lastBar) {
-          if (newestBar.time >= lastBar.time) {
+          if (newestBar && newestBar.time >= lastBar.time) {
             lastBarsCache.set(symbolInfo.name, newestBar);
           }
         } else {
