@@ -4,11 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { PerpetualPair } from '../../../../../utils/models/perpetual-pair';
 import { usePerpetual_ContractDetails } from '../../hooks/usePerpetual_ContractDetails';
-import {
-  numberToPercent,
-  toNumberFormat,
-} from '../../../../../utils/display-text/format';
-import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
+import { numberToPercent } from '../../../../../utils/display-text/format';
+import { AssetValue } from 'app/components/AssetValue';
+import { AssetValueMode } from 'app/components/AssetValue/types';
 
 type ContractDetailsProps = {
   pair: PerpetualPair;
@@ -27,29 +25,53 @@ export const ContractDetails: React.FC<ContractDetailsProps> = ({ pair }) => {
         <ContractDetailEntry
           titleClassName="tw-font-medium"
           valueClassName="tw-text-primary tw-font-semibold"
+          title={t(translations.perpetualPage.contractDetails.markPrice)}
+          value={
+            <AssetValue
+              minDecimals={2}
+              maxDecimals={2}
+              mode={AssetValueMode.auto}
+              value={data?.markPrice || 0}
+              assetString={pair.quoteAsset}
+            />
+          }
+        />
+        <ContractDetailEntry
+          titleClassName="tw-font-medium"
+          valueClassName="tw-font-semibold"
           title={t(translations.perpetualPage.contractDetails.indexPrice)}
-          value={data?.indexPrice && toNumberFormat(data.indexPrice, 2)}
+          value={
+            <AssetValue
+              minDecimals={2}
+              maxDecimals={2}
+              mode={AssetValueMode.auto}
+              value={data?.indexPrice || 0}
+              assetString={pair.quoteAsset}
+            />
+          }
         />
         <ContractDetailEntry
           title={t(translations.perpetualPage.contractDetails.volume24h)}
           value={
-            data?.volume24h && (
-              <>
-                {toNumberFormat(data.volume24h, 2)}{' '}
-                <AssetSymbolRenderer assetString={pair.quoteAsset} />
-              </>
-            )
+            <AssetValue
+              minDecimals={2}
+              maxDecimals={2}
+              mode={AssetValueMode.auto}
+              value={data?.volume24h || 0}
+              assetString={pair.quoteAsset}
+            />
           }
         />
         <ContractDetailEntry
           title={t(translations.perpetualPage.contractDetails.openInterest)}
           value={
-            data?.openInterest && (
-              <>
-                {toNumberFormat(data.openInterest, 2)}{' '}
-                <AssetSymbolRenderer assetString={pair.quoteAsset} />
-              </>
-            )
+            <AssetValue
+              minDecimals={2}
+              maxDecimals={2}
+              mode={AssetValueMode.auto}
+              value={data?.openInterest || 0}
+              assetString={pair.quoteAsset}
+            />
           }
         />
         <ContractDetailEntry
@@ -57,36 +79,33 @@ export const ContractDetails: React.FC<ContractDetailsProps> = ({ pair }) => {
           value={
             <>
               <span className="tw-text-sm tw-text-trade-short tw-font-medium">
-                {data?.fundingRate4h && numberToPercent(data.fundingRate4h, 4)}
-              </span>{' '}
-              {t(translations.perpetualPage.contractDetails.fundingRate4hr)}
+                {data?.fundingRate && numberToPercent(data.fundingRate, 4)}
+              </span>
             </>
           }
         />
         <ContractDetailEntry
-          title={t(translations.perpetualPage.contractDetails.contractValue)}
-          value={
-            data?.contractValue && (
-              <>
-                {toNumberFormat(data.contractValue, 2)}{' '}
-                <AssetSymbolRenderer assetString={pair.quoteAsset} />
-              </>
-            )
-          }
-        />
-        <ContractDetailEntry
           title={t(translations.perpetualPage.contractDetails.lotSize)}
-          value={data?.lotSize && toNumberFormat(data.lotSize, 0)}
+          value={
+            <AssetValue
+              minDecimals={3}
+              maxDecimals={3}
+              mode={AssetValueMode.auto}
+              value={data?.lotSize || 0}
+              assetString={pair.baseAsset}
+            />
+          }
         />
         <ContractDetailEntry
           title={t(translations.perpetualPage.contractDetails.minTradeAmount)}
           value={
-            data?.minTradeAmount && (
-              <>
-                {toNumberFormat(data.minTradeAmount, 2)}{' '}
-                <AssetSymbolRenderer assetString={pair.quoteAsset} />
-              </>
-            )
+            <AssetValue
+              minDecimals={3}
+              maxDecimals={3}
+              mode={AssetValueMode.auto}
+              value={data?.minTradeAmount || 0}
+              assetString={pair.baseAsset}
+            />
           }
         />
       </div>

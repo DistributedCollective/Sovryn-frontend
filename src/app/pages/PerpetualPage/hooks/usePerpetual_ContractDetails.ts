@@ -1,48 +1,46 @@
 import { useEffect, useState } from 'react';
+import { Nullable } from 'types';
 import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
 import { useBlockSync } from '../../../hooks/useAccount';
+import { getIndexPrice, getMarkPrice } from '../utils/perpUtils';
+import { usePerpetual_queryAmmState } from './usePerpetual_queryAmmState';
+import { usePerpetual_queryPerpParameters } from './usePerpetual_queryPerpParameters';
 
 export type PerpetualContractDetailsData = {
+  markPrice: number;
   indexPrice: number;
   volume24h: number;
   openInterest: number;
-  fundingRate4h: number;
-  contractValue: number;
+  fundingRate: number;
   lotSize: number;
   minTradeAmount: number;
 };
 
-const placeholderFetch = async (
-  pair: PerpetualPair,
-  blockId: number,
-): Promise<PerpetualContractDetailsData> => {
-  console.warn(
-    'PlaceholderFetch used by usePerpetual_ContractDetails! NOT IMPLEMENTED YET!',
-  );
-
-  return new Promise(resolve =>
-    resolve({
-      indexPrice: 40000,
-      volume24h: 16348900,
-      openInterest: 57466600,
-      fundingRate4h: 0.0001,
-      contractValue: 10,
-      lotSize: 100,
-      minTradeAmount: 100,
-    }),
-  );
-};
-
 export const usePerpetual_ContractDetails = (pair: PerpetualPair) => {
   const blockId = useBlockSync();
-  const [data, setData] = useState<PerpetualContractDetailsData | null>();
+  const [data, setData] = useState<Nullable<PerpetualContractDetailsData>>();
 
-  useEffect(() => {
-    // TODO: implement ContractDetails data fetching
-    placeholderFetch(pair, blockId).then(data => {
-      setData(data);
-    });
-  }, [pair, blockId]);
+  const ammState = usePerpetual_queryAmmState();
+  const perpetualParameters = usePerpetual_queryPerpParameters();
+
+  useEffect(
+    () =>
+      setData({
+        markPrice: getMarkPrice(ammState),
+        indexPrice: getIndexPrice(ammState),
+        volume24h: 16348900, // TODO: Implement later, we don't have a util function for it yet
+        openInterest: 57466600, // TODO: Implement later, we don't have a util function for it yet
+        fundingRate: perpetualParameters.fCurrentFundingRate,
+        lotSize: perpetualParameters.fLotSizeBC,
+        minTradeAmount: perpetualParameters.fLotSizeBC,
+      }),
+    [
+      blockId,
+      ammState,
+      perpetualParameters.fCurrentFundingRate,
+      perpetualParameters.fLotSizeBC,
+    ],
+  );
 
   return data;
 };
