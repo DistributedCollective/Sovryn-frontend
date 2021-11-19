@@ -28,21 +28,10 @@ const lastBarsCache = new Map<string, Bar>();
 
 const tradingChartDataFeeds = {
   // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#onreadycallback
-  onReady: callback => {
-    console.log('[onReady]: Method call');
-    setTimeout(() => callback(config));
-  },
+  onReady: callback => setTimeout(() => callback(config)),
 
   // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#searchsymbolsuserinput-exchange-symboltype-onresultreadycallback
-  searchSymbols: async (
-    userInput,
-    exchange,
-    symbolType,
-    onResultReadyCallback,
-  ) => {
-    console.log('[searchSymbols]: Method call');
-    // disabled via chart config in index.tsx
-  },
+  // searchSymbols disabled via chart config in index.tsx
 
   // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#resolvesymbolsymbolname-onsymbolresolvedcallback-onresolveerrorcallback-extension
   resolveSymbol: async (
@@ -50,7 +39,6 @@ const tradingChartDataFeeds = {
     onSymbolResolvedCallback,
     onResolveErrorCallback,
   ) => {
-    console.log('[resolveSymbol]: Method call', symbolName);
     const symbolInfo = {
       name: symbolName,
       description: '',
@@ -69,7 +57,6 @@ const tradingChartDataFeeds = {
       has_weekly_and_monthly: false,
       data_status: 'streaming',
     };
-    console.log('[resolveSymbol]: Symbol resolved', symbolName);
     setTimeout(() => onSymbolResolvedCallback(symbolInfo));
   },
 
@@ -83,7 +70,6 @@ const tradingChartDataFeeds = {
     onErrorCallback,
     firstDataRequest,
   ) => {
-    console.log('[getBars]: Method call', symbolInfo, resolution);
     const startTime = (): number => {
       const lastBarTime = lastBarsCache.get(symbolInfo.name)?.time;
       if (firstDataRequest) {
@@ -173,15 +159,7 @@ const tradingChartDataFeeds = {
     subscribeUID,
     onResetCacheNeededCallback,
   ) => {
-    console.log(
-      '[subscribeBars]: Method call with subscribeUID:',
-      subscribeUID,
-      symbolInfo,
-      resolution,
-    );
-    console.log('[lastBarsCache]: ', lastBarsCache);
     const lastBar = lastBarsCache.get(symbolInfo.name);
-    console.log('[lastBar]', lastBar);
     subscribeOnStream(
       symbolInfo,
       resolution,
@@ -193,13 +171,7 @@ const tradingChartDataFeeds = {
   },
 
   // // // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#unsubscribebarssubscriberuid
-  unsubscribeBars: subscriberUID => {
-    console.log(
-      '[unsubscribeBars]: Method call with subscriberUID:',
-      subscriberUID,
-    );
-    unsubscribeFromStream(subscriberUID);
-  },
+  unsubscribeBars: subscriberUID => unsubscribeFromStream(subscriberUID),
 };
 
 export default tradingChartDataFeeds;

@@ -92,9 +92,8 @@ export const makeApiRequest = async (
     const query = isFirstRequest
       ? generateFirstCandleQuery(candleDuration, perpId, candleNumber)
       : generateCandleQuery(candleDuration, perpId, startTime);
-    console.debug(query.loc?.source.body);
     const response = await apolloClient.query({
-      query: query,
+      query,
     });
     const keys = Object.keys(response.data);
     const bars: Bar[] = response.data[keys[0]].map(item => {
@@ -110,7 +109,7 @@ export const makeApiRequest = async (
     const newBars = addMissingBars(bars, candleDuration);
     return newBars;
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw new Error(`Request error: ${error}`);
   }
 };

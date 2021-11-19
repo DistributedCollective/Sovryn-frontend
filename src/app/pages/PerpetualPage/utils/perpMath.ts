@@ -322,19 +322,6 @@ export function getTradeAmountFromPrice(
     kd = 2 * kd;
     count = count + 1;
   }
-  // check that price belongs to range
-  if ((getPrice(kd) - price) * (getPrice(ku) - price) >= 0) {
-    console.log(
-      kd,
-      getPrice(kd),
-      ku,
-      getPrice(ku),
-      price,
-      getPrice(-dk),
-      midPrice,
-      getPrice(dk),
-    );
-  }
 
   // bisection search
   let km = 0.5 * (ku + kd);
@@ -437,7 +424,6 @@ export function getPricesAndTradesForPercentRage(
     );
     // percentage relative to mid-price
     pctRangeOut[i] = (100 * (priceRange[i] - midPrice)) / midPrice;
-    //console.log(pctRangeOut[i], pctRange[i]);
   }
   return [priceRange, pctRangeOut, kRange];
 }
