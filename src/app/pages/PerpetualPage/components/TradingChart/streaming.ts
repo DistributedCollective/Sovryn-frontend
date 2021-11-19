@@ -103,6 +103,9 @@ subscription.on('data', data => {
     console.error(e);
   }
 });
+subscription.on('connected', () => {
+  console.log('[candlestickChart] bsc websocket connected');
+});
 subscription.on('error', err => {
   console.error(err);
 });
