@@ -358,9 +358,10 @@
             "2": "We advise you to participate in this sale with a wallet solely and directly owned by you (EOA). ",
             "3": "For any questions, please ask the community in our <0>Discord</0> or <1>Telegram</1> channels.",
             "4": "The price of 100 {{token}} is 1 SOV. Other assets will be converted to SOV at the current exchange rate prior to the purchase.",
-            "5": "There will be no vesting schedule for the purchased token. You can transfer purchased {{token}} once the sale is concluded.",
-            "6": "The sale ends on 15th November 2021.",
-            "7": "Once you receive the purchased {{token}} it will be visible in your <0>Portfolio</0> section."
+            "5": "If you participate in the bootstrap event with an asset other than SOV, you will have to accept multiple transactions prompted by your web3/hardware wallet.",
+            "6": "There will be no vesting schedule for the purchased token. You can transfer purchased {{token}} once the sale is concluded.",
+            "7": "The sale ends on 6th December 2021.",
+            "8": "Once you receive the purchased {{token}} it will be visible in your <0>Portfolio</0> section."
           },
           "checkboxText": "I have read the information and accept my Sovryn participation in this bootstrap sale",
           "submitButtonText": "I Understand"
