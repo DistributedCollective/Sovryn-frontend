@@ -7,12 +7,12 @@ import { translations } from '../../../locales/i18n';
 import { local } from '../../../utils/storage';
 import { Dialog } from '../../containers/Dialog/Loadable';
 import SalesButton from '../SalesButton';
-import imgLargeNFT from 'assets/origins_launchpad/MYNT_NFT.png';
+import imgLargeNFT from 'assets/origins_launchpad/ZERO_NFT.svg';
 
 import styles from 'app/components/Dialogs/dialog.module.scss';
 import promotionModalStyles from './index.module.scss';
 
-const SESSION_KEY = 'sovryn-promo-dialog-1'; //increment this whenever new content is added, to ensure users see it even if they viewed one previously
+const SESSION_KEY = 'sovryn-promo-dialog-2'; //increment this whenever new content is added, to ensure users see it even if they viewed one previously
 
 const shouldModalBeVisible = () => !local.getItem(SESSION_KEY);
 
@@ -44,29 +44,31 @@ export const PromotionModal: React.FC = () => {
         <div className={promotionModalStyles.title}>
           {t(translations.promotionsDialog.title)}
         </div>
-        <div className="tw-flex tw-flex-row">
-          <div className="tw-w-6/12 tw-flex tw-justify-end tw-mr-16">
+        <div className="tw-flex tw-flex-row tw-justify-center tw-flex-wrap tw-px-6">
+          <div className="tw-flex tw-justify-end tw-mb-6 xl:tw-mb-0 xl:tw-mr-16">
             <img
               src={imgLargeNFT}
-              alt="MYNT"
+              alt="ZERO"
               className="tw-border-solid tw-border-8 tw-border-gray-9 tw-rounded-3xl"
+              width="432"
+              height="580"
             />
           </div>
-          <div className="tw-w-6/12 tw-mr-32">
+          <div className="">
             <div className={promotionModalStyles.dialogWrapper}>
               <div className={promotionModalStyles.title}>
-                {t(translations.promotionsDialog.promotion1_title)}
+                {t(translations.promotionsDialog.promotion2_title)}
               </div>
-              <div>
+              <div className="tw-flex tw-flex-col tw-h-full tw-justify-center">
                 <div className={promotionModalStyles.listItem}>
-                  {t(translations.promotionsDialog.promotion1_1)}
+                  {t(translations.promotionsDialog.promotion2_1)}
                 </div>
                 <div className={promotionModalStyles.listItem}>
                   <Trans
-                    i18nKey={translations.promotionsDialog.promotion1_2}
+                    i18nKey={translations.promotionsDialog.promotion2_2}
                     components={[
                       <a
-                        href="https://github.com/DistributedCollective/SIPS/blob/main/SIP-0037.md"
+                        href="https://github.com/DistributedCollective/SIPS/blob/main/SIP-0039.md"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="tw-underline tw-pl-1"
@@ -77,13 +79,13 @@ export const PromotionModal: React.FC = () => {
                   />
                 </div>
                 <div className={promotionModalStyles.listItem}>
-                  {t(translations.promotionsDialog.promotion1_3)}
+                  {t(translations.promotionsDialog.promotion2_3)}
                 </div>
               </div>
-              <SalesButton
-                text={t(translations.promotionsDialog.promotion1_cta)}
+              {/* <SalesButton
+                text={t(translations.promotionsDialog.promotion2_cta)}
                 onClick={handleSaleOpen}
-              />
+              /> */}
             </div>
           </div>
         </div>

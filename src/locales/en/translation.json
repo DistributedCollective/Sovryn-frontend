@@ -1349,7 +1349,12 @@
     "promotion1_1": "The MYNT Bootstrap Event is now live!",
     "promotion1_2": "Find out more information about MYNT <0>here</0>",
     "promotion1_3": "Ready to participate? Head over to the event page by clicking the button below!",
-    "promotion1_cta": "Go to event"
+    "promotion1_cta": "Go to event",
+
+    "promotion2_title": "ZERO Bootstrap Event",
+    "promotion2_1": "ZERO Bootstrap Event is coming soon!",
+    "promotion2_2": "Find out more information about ZERO <0>here</0>",
+    "promotion2_3": "Get ready to participate by purchasing SOV"
   },
   "fastBtcDialog": {
     "title": "Top Up FastBTC",
