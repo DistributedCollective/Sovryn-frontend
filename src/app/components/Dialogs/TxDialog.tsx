@@ -103,18 +103,18 @@ export function TxDialog({ tx, onUserConfirmed, onSuccess }: Props) {
 
           {!tx.txHash && tx.status === TxStatus.FAILED && (
             <>
-              <p className="tw-text-center">
+              <p className="tw-text-center tw-px-3 tw-text-warning">
                 {t(translations.buySovPage.txDialog.txStatus.aborted)}
               </p>
               {wallet === 'ledger' && (
-                <p className="tw-text-center">
+                <p className="tw-text-center tw-px-3 tw-text-warning">
                   {t(translations.buySovPage.txDialog.txStatus.abortedLedger)}
                 </p>
               )}
             </>
           )}
 
-          <div style={{ maxWidth: 200 }} className="tw-mx-auto tw-w-full">
+          <div className="tw-mx-auto tw-w-full tw-mw-340 tw-mt-10">
             <ConfirmButton
               onClick={close}
               text={t(translations.common.close)}
@@ -162,11 +162,12 @@ function getStatus(tx: TxStatus) {
 
 const StyledStatus = styled.div`
   width: 100px;
-  margin: 0 auto 35px;
+  margin: 0 auto;
   text-align: center;
   img {
-    width: 100px;
-    height: 100px;
+    width: 55px;
+    height: 55px;
+    margin: 0 auto;
   }
   p {
     font-size: 1rem;

@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { css } from 'styled-components/macro';
+import cn from 'classnames';
 
 interface BtnProps {
   onClick: () => void;
@@ -12,42 +12,18 @@ interface Props extends BtnProps {
   dataActionId?: string;
 }
 
-const StyledButton = styled.button`
-  height: 50px;
-  width: 100%;
-  margin-top: 40px;
-  border: 1px solid var(--primary);
-  color: #000;
-  padding: 11px;
-  font-size: 1.25rem;
-  font-weight: 900;
-  background: var(--primary);
-  border-radius: 0.75rem;
-  text-transform: none;
-  line-height: 1;
-  transition: background 0.3s;
-  text-transform: uppercase;
-
-  &:hover {
-    background: rgba(254, 192, 4, 0.75);
-  }
-
-  ${(props: BtnProps) =>
-    props.disabled &&
-    css`
-      opacity: 25%;
-    `}
-`;
-
 export function ConfirmButton(props: Props) {
   return (
-    <StyledButton
+    <button
       onClick={props.onClick}
       disabled={props.disabled}
-      className={props.className}
+      className={cn(
+        props.className,
+        'tw-w-full tw-bg-primary tw-font-normal tw-bg-opacity-0 tw-hover:text-primary tw-focus:outline-none tw-focus:bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-px-8 tw-py-2 tw-text-lg tw-text-primary tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-primary tw-rounded-xl hover:tw-no-underline tw-no-underline',
+      )}
       data-action-id={props.dataActionId}
     >
       {props.text}
-    </StyledButton>
+    </button>
   );
 }

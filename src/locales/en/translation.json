@@ -545,6 +545,7 @@
     "feeTitle": "Total earned fees Available",
     "noUnlockedSov": "You don't have unlocked SOV",
     "txFee": "Tx Fee",
+    "txId": "Tx ID:",
     "sov": "SOV",
     "days": "days",
     "delegation": {
@@ -2009,7 +2010,7 @@
       },
       "txStatus": {
         "title": "Transaction Status",
-        "aborted": "Transaction was aborted by user.",
+        "aborted": "You have chosen to reject this transaction. Please cancel or retry your transaction",
         "abortedLedger": "Make sure \"Contract data\" is set to \"Allowed\" in your Ledger app settings",
         "cta": "View in Tracker"
       }

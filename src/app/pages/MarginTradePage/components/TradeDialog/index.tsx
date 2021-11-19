@@ -16,7 +16,7 @@ import {
 import { fromWei, toWei, weiTo18 } from 'utils/blockchain/math-helpers';
 import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
 import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
-import { TxDialog } from 'app/components/Dialogs/TxDialog';
+import { TransactionDialog } from 'app/components/TransactionDialog';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { Dialog } from 'app/containers/Dialog';
 import { useApproveAndTrade } from 'app/hooks/trading/useApproveAndTrade';
@@ -122,7 +122,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
   return (
     <>
       <Dialog isOpen={props.isOpen} onClose={() => props.onCloseModal()}>
-        <div className="tw-w-auto tw-mx-7">
+        <div className="tw-w-auto md:tw-mx-7 tw-mx-2">
           <h1 className="tw-text-sov-white tw-text-center">
             {t(translations.marginTradePage.tradeDialog.title)}
           </h1>
@@ -298,18 +298,30 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
             />
           </div>
 
-          <DialogButton
-            confirmLabel={t(translations.common.confirm)}
-            onConfirm={() => submit()}
-            disabled={openTradesLocked}
-            cancelLabel={t(translations.common.cancel)}
-            onCancel={() => dispatch(actions.closeTradingModal(position))}
-          />
+          <div className="tw-mw-340 tw-mx-auto">
+            <DialogButton
+              confirmLabel={t(translations.common.confirm)}
+              onConfirm={() => submit()}
+              disabled={openTradesLocked}
+              cancelLabel={t(translations.common.cancel)}
+              onCancel={() => dispatch(actions.closeTradingModal(position))}
+            />
+          </div>
         </div>
       </Dialog>
-      <TxDialog
+      <TransactionDialog
         tx={tx}
         onUserConfirmed={() => dispatch(actions.closeTradingModal(position))}
+        fee={
+          <TxFeeCalculator
+            args={txArgs}
+            txConfig={txConf}
+            methodName="marginTrade"
+            contractName={contractName}
+            condition={true}
+            textClassName={'tw-w-1/2 tw-text-gray-10 tw-text-gray-10'}
+          />
+        }
       />
     </>
   );
@@ -325,14 +337,14 @@ function LabelValuePair(props: LabelValuePairProps) {
   return (
     <div
       className={cn(
-        'tw-flex tw-flex-row tw-mb-1 tw-justify-between tw-text-sov-white',
+        'tw-flex tw-flex-row tw-mb-1 tw-justify-between tw-text-sov-white tw-items-center',
         props.className,
       )}
     >
       <div className="tw-w-1/2 tw-text-gray-10 tw-text-gray-10">
         {props.label}
       </div>
-      <div className="tw-w-1/3 tw-font-medium">{props.value}</div>
+      <div className="sm:tw-w-1/3 tw-w-1/2 tw-font-medium">{props.value}</div>
     </div>
   );
 }

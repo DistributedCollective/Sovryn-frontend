@@ -98,13 +98,13 @@ export function TxDialog(props: Props) {
 
           {!props.tx.txHash && props.tx.status === TxStatus.FAILED && (
             <>
-              <p className="tw-text-center">
+              <p className="tw-text-center tw-px-3 tw-text-warning">
                 {t(translations.buySovPage.txDialog.txStatus.aborted)}
               </p>
             </>
           )}
 
-          <div style={{ maxWidth: 200 }} className="tw-mx-auto tw-w-full">
+          <div className="tw-mx-auto tw-w-full tw-mw-340">
             <ConfirmButton
               onClick={() =>
                 props.tx.status === TxStatus.CONFIRMED ? confirm() : close()
@@ -154,11 +154,12 @@ function getStatus(tx: TxStatus) {
 
 const StyledStatus = styled.div`
   width: 100px;
-  margin: 0 auto 35px;
+  margin: 0 auto;
   text-align: center;
   img {
-    width: 100px;
-    height: 100px;
+    width: 65px;
+    height: 65px;
+    margin: 0 auto;
   }
   p {
     font-size: 1rem;

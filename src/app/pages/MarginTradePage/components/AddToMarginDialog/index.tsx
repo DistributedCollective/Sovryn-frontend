@@ -7,7 +7,7 @@ import { leverageFromMargin } from '../../../../../utils/blockchain/leverage-fro
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading-pair-dictionary';
-import { TxDialog } from '../../../../components/Dialogs/TxDialog';
+import { TransactionDialog } from 'app/components/TransactionDialog';
 import { DummyField } from '../../../../components/DummyField';
 import { Dialog } from '../../../../containers/Dialog/Loadable';
 import { useApproveAndAddMargin } from '../../../../hooks/trading/useApproveAndAndMargin';
@@ -170,7 +170,17 @@ export function AddToMarginDialog(props: IAddToMarginDialogProps) {
           />
         </div>
       </Dialog>
-      <TxDialog tx={tx} onUserConfirmed={() => props.onCloseModal()} />
+      <TransactionDialog
+        fee={
+          <TxFeeCalculator
+            args={[props.item.loanId, weiAmount]}
+            methodName="depositCollateral"
+            contractName="sovrynProtocol"
+          />
+        }
+        tx={tx}
+        onUserConfirmed={() => props.onCloseModal()}
+      />
     </>
   );
 }

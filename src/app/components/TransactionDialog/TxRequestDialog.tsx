@@ -48,7 +48,7 @@ export const TxRequestDialog: React.FC<Props> = ({ open, type, error }) => {
                   alt="failed"
                   className="tw-w-8 tw-mx-auto tw-mb-4 tw-opacity-75"
                 />
-                <p className="tw-text-center tw-text-warning">
+                <p className="tw-text-center tw-px-3 tw-text-warning">
                   <Trans
                     i18nKey={translations.transactionDialog.txStatus.aborted}
                   />

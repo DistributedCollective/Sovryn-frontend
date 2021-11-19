@@ -24,7 +24,7 @@ import { translations } from 'locales/i18n';
 import { TxType } from 'store/global/transactions-store/types';
 import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
 import { gasLimit } from 'utils/classifiers';
-import { TxDialog } from 'app/components/Dialogs/TxDialog';
+import { TransactionDialog } from 'app/components/TransactionDialog';
 import { Dialog } from 'app/containers/Dialog/Loadable';
 import { useCloseWithSwap } from 'app/hooks/protocol/useCloseWithSwap';
 import { useAccount } from 'app/hooks/useAccount';
@@ -339,7 +339,18 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
           />
         </div>
       </Dialog>
-      <TxDialog tx={rest} onUserConfirmed={() => props.onCloseModal()} />
+      <TransactionDialog
+        fee={
+          <TxFeeCalculator
+            args={args}
+            methodName="closeWithSwap"
+            contractName="sovrynProtocol"
+            txConfig={{ gas: gasLimit[TxType.CLOSE_WITH_SWAP] }}
+          />
+        }
+        tx={rest}
+        onUserConfirmed={() => props.onCloseModal()}
+      />
     </>
   );
 }

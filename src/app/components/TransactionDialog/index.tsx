@@ -73,7 +73,7 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
           </p>
         </>
       )}
-      {!tx.txHash && tx.status === TxStatus.FAILED && (
+      {[TxStatus.FAILED].includes(tx.status) && (
         <>
           <h1>{getTransactionTitle(tx.status, action)}</h1>
           <WalletLogo wallet={wallet} />
@@ -124,21 +124,20 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
             )}
 
             {tx.txHash && (
-              <div className="tw-w-full tw-rounded-xl tw-bg-gray-2 tw-grid tw-grid-cols-2 tw-px-6 tw-py-4">
-                {fee && (
-                  <>
-                    <span className="tw-text-sm">
-                      {t(translations.stake.txFee)}
-                    </span>
-                    <span>{fee}</span>
-                  </>
-                )}
-                <span className="tw-text-sm">Tx ID:</span>
-                <LinkToExplorer
-                  txHash={tx.txHash}
-                  text={prettyTx(tx.txHash)}
-                  className="tw-text-blue tw-underline"
-                />
+              <div className="tw-pt-3 tw-pb-2 tw-px-6 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
+                {fee && <>{fee}</>}
+                <div className="tw-flex tw-flex-row tw-mb-1 tw-justify-between tw-text-sov-white tw-items-center">
+                  <div className="tw-w-1/2 tw-text-gray-10 tw-text-gray-10">
+                    {t(translations.stake.txId)}
+                  </div>
+                  <div className="sm:tw-w-1/3 tw-w-1/2 tw-font-medium">
+                    <LinkToExplorer
+                      txHash={tx.txHash}
+                      text={prettyTx(tx.txHash)}
+                      className="tw-text-blue tw-underline"
+                    />
+                  </div>
+                </div>
               </div>
             )}
           </div>
