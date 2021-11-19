@@ -3,6 +3,7 @@ import type {
   BlockTag,
   TransactionRequest,
 } from '@ethersproject/abstract-provider';
+import type { JsonRpcPayload } from 'web3-core-helpers';
 
 export class RpcNode {
   public readonly provider: ethers.providers.JsonRpcProvider;
@@ -57,5 +58,9 @@ export class RpcNode {
     signedTransaction: string | Promise<string>,
   ) {
     return this.provider.sendTransaction(signedTransaction);
+  }
+
+  public send(payload: JsonRpcPayload) {
+    return this.provider.send(payload.method, payload.params);
   }
 }

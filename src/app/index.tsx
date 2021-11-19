@@ -51,6 +51,7 @@ import { PerpetualPage } from './pages/PerpetualPage';
 
 import { ApolloProvider } from '@apollo/client';
 import { apolloClient } from './pages/PerpetualPage/utils/graphQlHelpers';
+import { SandboxPage } from './pages/Sandbox';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';

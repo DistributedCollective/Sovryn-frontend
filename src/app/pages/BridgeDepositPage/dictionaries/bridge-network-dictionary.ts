@@ -55,6 +55,17 @@ export class BridgeNetworkDictionary {
       '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
     ),
     new NetworkModel(
+      Chain.ETH,
+      ChainId.ETH_RINKEBY,
+      'Rinkeby',
+      CrossBridgeAsset.ETH,
+      ethIcon,
+      `https://rinkeby.infura.io/v3/${process.env.REACT_APP_INFURA_KEY}`,
+      'https://rinkeby.etherscan.io',
+      AppMode.TESTNET,
+      '0x5ba1e12693dc8f9c48aad8770482f4739beed696',
+    ),
+    new NetworkModel(
       Chain.BSC,
       ChainId.BSC_MAINNET,
       'Binance Smart Chain',
