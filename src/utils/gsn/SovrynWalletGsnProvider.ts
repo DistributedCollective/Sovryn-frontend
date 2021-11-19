@@ -1,5 +1,6 @@
 import { walletService } from '@sovryn/react-wallet';
 import type { JsonRpcPayload, JsonRpcResponse } from 'web3-core-helpers';
+import type { RequestPayload } from '@sovryn/wallet/interfaces/wallet.interface';
 import { RpcNode } from 'utils/blockchain/rpc-node';
 
 type JsonRpcCallback = (error: Error | null, result?: JsonRpcResponse) => void;
@@ -16,8 +17,13 @@ export class SovrynWalletGsnProvider {
         'eth_signTypedData_v4',
       ].includes(payload.method)
     ) {
-      const wallet = walletService.wallet as any; // todo upgrade interface to have always have request method.
-      return wallet.provider.request(payload);
+      return walletService
+        .request(payload as RequestPayload)
+        .then(response => ({
+          id: Number(payload.id || 0),
+          jsonrpc: payload.jsonrpc,
+          result: response,
+        }));
     }
     return this.node.send(payload);
   }
