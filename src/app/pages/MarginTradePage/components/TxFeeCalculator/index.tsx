@@ -35,16 +35,15 @@ export function TxFeeCalculator(props: Props) {
     props.condition,
   );
   const gasData = React.useMemo(() => {
-    const data = props.txConfig?.gas
+    return props.txConfig?.gas
       ? fromWei(bignumber(props.txConfig?.gas).mul(gas.get()).toFixed(0))
       : fromWei(value);
-    return data;
   }, [props.txConfig, value]);
 
   return (
     <div
       className={cn(
-        'tw-mb-8 tw-truncate tw-text-sm tw-font-thin tw-tracking-normal',
+        'tw-mb-10 tw-truncate tw-text-base tw-font-thin tw-tracking-normal',
         props.className,
       )}
     >

@@ -37,8 +37,6 @@ import { AvailableBalance } from 'app/components/AvailableBalance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
-import { useSwapsExternal_approveAndSwapExternal } from '../../../../hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
-import { useAccount } from '../../../../hooks/useAccount';
 import { useSwapsExternal_getSwapExpectedReturn } from '../../../../hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from 'app/pages/LandingPage/components/Promotions/components/PromotionCard/types';
@@ -51,7 +49,7 @@ export function TradeForm() {
   const { connected } = useWalletContext();
   const dispatch = useDispatch();
   const { checkMaintenance, States } = useMaintenance();
-  const account = useAccount();
+  // const account = useAccount();
   const spotLocked = checkMaintenance(States.SPOT_TRADES);
 
   const [tradeType, setTradeType] = useState(TradingTypes.BUY);
@@ -76,19 +74,19 @@ export function TradeForm() {
     weiAmount,
   );
   const { minReturn } = useSlippage(rateByPath, slippage);
-  const {
-    send: sendExternal,
-    ...txExternal
-  } = useSwapsExternal_approveAndSwapExternal(
-    sourceToken,
-    targetToken,
-    account,
-    account,
-    weiAmount,
-    '0',
-    minReturn,
-    '0x',
-  );
+  // const {
+  //   send: sendExternal,
+  //   ...txExternal
+  // } = useSwapsExternal_approveAndSwapExternal(
+  //   sourceToken,
+  //   targetToken,
+  //   account,
+  //   account,
+  //   weiAmount,
+  //   '0',
+  //   minReturn,
+  //   '0x',
+  // );
 
   const { value: path } = useSwapNetwork_conversionPath(
     tokenAddress(sourceToken),
@@ -126,23 +124,27 @@ export function TradeForm() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => linkPairType && history.replace(location.pathname), []);
 
-  const tx = useMemo(
-    () =>
-      targetToken === Asset.RBTC ||
-      [targetToken, sourceToken].includes(Asset.RIF)
-        ? txPath
-        : txExternal,
-    [targetToken, sourceToken, txExternal, txPath],
-  );
+  // const tx = useMemo(
+  //   () =>
+  //     targetToken === Asset.RBTC ||
+  //     [targetToken, sourceToken].includes(Asset.RIF)
+  //       ? txPath
+  //       : txExternal,
+  //   [targetToken, sourceToken, txExternal, txPath],
+  // );
 
-  const send = useCallback(
-    () =>
-      targetToken === Asset.RBTC ||
-      [targetToken, sourceToken].includes(Asset.RIF)
-        ? sendPath()
-        : sendExternal(),
-    [targetToken, sourceToken, sendPath, sendExternal],
-  );
+  const tx = txPath;
+
+  // const send = useCallback(
+  //   () =>
+  //     targetToken === Asset.RBTC ||
+  //     [targetToken, sourceToken].includes(Asset.RIF)
+  //       ? sendPath()
+  //       : sendExternal(),
+  //   [targetToken, sourceToken, sendPath, sendExternal],
+  // );
+
+  const send = useCallback(() => sendPath(), [sendPath]);
 
   return (
     <>

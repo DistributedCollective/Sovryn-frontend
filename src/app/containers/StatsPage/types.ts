@@ -28,6 +28,10 @@ export type TvlData = {
     totalBtc: number;
     totalUsd: number;
   };
+  tvlSubprotocols: {
+    totalBtc: number;
+    totalUsd: number;
+  };
   total_btc: number;
   total_usd: number;
 };
@@ -36,7 +40,8 @@ export type TvlContract =
   | 'tvlProtocol'
   | 'tvlAmm'
   | 'tvlLending'
-  | 'tvlStaking';
+  | 'tvlStaking'
+  | 'tvlSubprotocols';
 
 type AmmAPY = {
   activity_date: string;

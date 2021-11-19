@@ -19,7 +19,7 @@
   }
   .tw-input-append {
     @apply tw-text-black;
-    @apply tw-mr-5 !important;
+    /* @apply tw-mr-5 !important; */
   }
 
   .tw-input-wrapper.readonly {

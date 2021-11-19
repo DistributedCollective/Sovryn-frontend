@@ -1,6 +1,5 @@
 import classNames from 'classnames';
-import { bignumber } from 'mathjs';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
@@ -10,6 +9,8 @@ import { AssetValueMode } from '../../../../components/AssetValue/types';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
 import { PerpetualTrade } from '../../types';
 import { usePerpetual_queryTraderState } from '../../hooks/usePerpetual_queryTraderState';
+import { getTradeDirection } from '../../utils/contractUtils';
+import { fromWei } from 'web3-utils';
 
 type TradeDetailsProps = {
   className?: string;
@@ -27,6 +28,11 @@ export const TradeDetails: React.FC<TradeDetailsProps> = ({
   const traderState = usePerpetual_queryTraderState();
   const { available } = usePerpetual_accountBalance(pair.pairType);
 
+  const positionSize = useMemo(
+    () => getTradeDirection(trade.position) * Number(fromWei(trade.amount)),
+    [trade.position, trade.amount],
+  );
+
   return (
     <div
       className={classNames(
@@ -39,11 +45,14 @@ export const TradeDetails: React.FC<TradeDetailsProps> = ({
           {t(translations.perpetualPage.currentTrade.position)}
         </label>
         <AssetValue
-          className="tw-text-trade-long tw-font-medium"
+          className={classNames(
+            'tw-font-medium',
+            positionSize > 0 ? 'tw-text-trade-long' : 'tw-text-trade-short',
+          )}
           minDecimals={3}
           maxDecimals={3}
           mode={AssetValueMode.auto}
-          value={trade.amount}
+          value={positionSize}
           assetString={pair.baseAsset}
         />
       </div>

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useMaintenance } from 'app/hooks/useMaintenance';
@@ -59,6 +59,17 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   const perpParameters = usePerpetual_queryPerpParameters();
   const marginAccountBalance = usePerpetual_marginAccountBalance();
 
+  const midPrice = useMemo(() => getMidPrice(perpParameters, ammState), [
+    perpParameters,
+    ammState,
+  ]);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => onChange({ ...trade, entryPrice: midPrice }), [
+    midPrice,
+    onChange,
+  ]);
+
   const [lotSize, lotPrecision] = useMemo(() => {
     const lotSize = Number(perpParameters.fLotSizeBC.toPrecision(8));
     const lotPrecision = lotSize.toString().split(/[,.]/)[1]?.length || 0;
@@ -85,7 +96,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     perpParameters,
   ]);
 
-  const [amount, setAmount] = useState(fromWei(trade.amount));
+  const [amount, setAmount] = useState(fromWei(trade.amount).replace(/^-/, ''));
   const onChangeOrderAmount = useCallback(
     (amount: string) => {
       const roundedAmount = shrinkToLot(
@@ -150,41 +161,39 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     return i18nKey && t(i18nKey);
   }, [t, trade.position, trade.tradeType]);
 
-  const orderCost = useMemo(
-    () =>
-      getRequiredMarginCollateral(
-        trade.leverage,
-        marginAccountBalance.fPositionBC,
-        Number(trade.amount),
-        perpParameters,
-      ),
-    [marginAccountBalance.fPositionBC, perpParameters, trade],
-  );
+  const requiredCollateral = useMemo(() => {
+    const amount =
+      Number(fromWei(trade.amount)) * getTradeDirection(trade.position);
+    return getRequiredMarginCollateral(
+      trade.leverage,
+      marginAccountBalance.fPositionBC,
+      marginAccountBalance.fPositionBC + amount,
+      perpParameters,
+      ammState,
+    );
+  }, [marginAccountBalance.fPositionBC, perpParameters, ammState, trade]);
 
-  const tradingFee = useMemo(
+  const tradingFeeWei = useMemo(
     () => getTradingFee(Number(trade.amount), perpParameters),
     [perpParameters, trade.amount],
   );
 
-  const midPrice = useMemo(() => getMidPrice(perpParameters, ammState), [
-    perpParameters,
-    ammState,
-  ]);
-
   const liquidationPrice = useMemo(
     () =>
       calculateApproxLiquidationPrice(
-        Number(amount) * getTradeDirection(trade.position),
-        traderState.availableCashCC,
+        traderState,
         ammState,
         perpParameters,
+        Number(amount) * getTradeDirection(trade.position),
+        requiredCollateral,
       ),
     [
       amount,
       trade.position,
-      traderState.availableCashCC,
+      traderState,
       ammState,
       perpParameters,
+      requiredCollateral,
     ],
   );
 
@@ -299,7 +308,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           minDecimals={4}
           maxDecimals={4}
           mode={AssetValueMode.auto}
-          value={String(orderCost)}
+          value={requiredCollateral}
           assetString={pair.baseAsset}
         />
       </div>
@@ -311,7 +320,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           minDecimals={4}
           maxDecimals={6}
           mode={AssetValueMode.auto}
-          value={String(tradingFee)}
+          value={String(tradingFeeWei)}
           assetString={pair.baseAsset}
         />
       </div>

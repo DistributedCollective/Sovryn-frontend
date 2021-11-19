@@ -30,7 +30,6 @@ import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
 import { useSwapsExternal_getSwapExpectedReturn } from '../../hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
-import { useSwapsExternal_approveAndSwapExternal } from '../../hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
 import { IPromotionLinkState } from 'app/pages/LandingPage/components/Promotions/components/PromotionCard/types';
 
 import styles from './index.module.scss';
@@ -184,19 +183,19 @@ export function SwapFormContainer() {
     minReturn,
   );
 
-  const {
-    send: sendExternal,
-    ...txExternal
-  } = useSwapsExternal_approveAndSwapExternal(
-    sourceToken,
-    targetToken,
-    account,
-    account,
-    weiAmount,
-    '0',
-    minReturn,
-    '0x',
-  );
+  // const {
+  //   send: sendExternal,
+  //   ...txExternal
+  // } = useSwapsExternal_approveAndSwapExternal(
+  //   sourceToken,
+  //   targetToken,
+  //   account,
+  //   account,
+  //   weiAmount,
+  //   '0',
+  //   minReturn,
+  //   '0x',
+  // );
 
   const location = useLocation<IPromotionLinkState>();
   const history = useHistory<IPromotionLinkState>();
@@ -236,23 +235,27 @@ export function SwapFormContainer() {
     );
   }, [targetToken, sourceToken, minReturn, weiAmount]);
 
-  const tx = useMemo(
-    () =>
-      targetToken === Asset.RBTC ||
-      [targetToken, sourceToken].includes(Asset.RIF)
-        ? txPath
-        : txExternal,
-    [targetToken, sourceToken, txExternal, txPath],
-  );
+  // const tx = useMemo(
+  //   () =>
+  //     targetToken === Asset.RBTC ||
+  //     [targetToken, sourceToken].includes(Asset.RIF)
+  //       ? txPath
+  //       : txExternal,
+  //   [targetToken, sourceToken, txExternal, txPath],
+  // );
 
-  const send = useCallback(
-    () =>
-      targetToken === Asset.RBTC ||
-      [targetToken, sourceToken].includes(Asset.RIF)
-        ? sendPath()
-        : sendExternal(),
-    [targetToken, sourceToken, sendPath, sendExternal],
-  );
+  const tx = txPath;
+
+  // const send = useCallback(
+  //   () =>
+  //     targetToken === Asset.RBTC ||
+  //     [targetToken, sourceToken].includes(Asset.RIF)
+  //       ? sendPath()
+  //       : sendExternal(),
+  //   [targetToken, sourceToken, sendPath, sendExternal],
+  // );
+
+  const send = useCallback(() => sendPath(), [sendPath]);
 
   return (
     <>
@@ -263,6 +266,7 @@ export function SwapFormContainer() {
         asset={targetToken}
         onClose={() => setDialogOpen(false)}
         onChange={value => setSlippage(value)}
+        dataActionId="swap-"
       />
 
       <Arbitrage />
@@ -270,7 +274,10 @@ export function SwapFormContainer() {
       <div className={styles.swapFormContainer}>
         <div className={styles.swapForm}>
           <div className={styles.title}>{t(translations.swap.send)}</div>
-          <div className={styles.currency}>
+          <div
+            className={styles.currency}
+            data-action-id="swap-send-swapAssetSelector"
+          >
             <SwapAssetSelector
               value={sourceToken}
               items={sourceOptions}
@@ -279,13 +286,17 @@ export function SwapFormContainer() {
             />
           </div>
           <div className={styles.availableBalance}>
-            <AvailableBalance asset={sourceToken} />
+            <AvailableBalance
+              asset={sourceToken}
+              dataAttribute="swap-send-availableBalance"
+            />
           </div>
           <div className={styles.amount}>
             <AmountInput
               value={amount}
               onChange={value => setAmount(value)}
               asset={sourceToken}
+              dataActionId="swap-send-amountInput"
             />
           </div>
         </div>
@@ -294,11 +305,15 @@ export function SwapFormContainer() {
             className={styles.swapRevert}
             style={{ backgroundImage: `url(${swapIcon})` }}
             onClick={onSwapAssert}
+            data-action-id="swap-button-swapRevert"
           />
         </div>
         <div className={styles.swapForm}>
           <div className={styles.title}>{t(translations.swap.receive)}</div>
-          <div className={styles.currency}>
+          <div
+            data-action-id="swap-receive-swapAssetSelector"
+            className={styles.currency}
+          >
             <SwapAssetSelector
               value={targetToken}
               items={targetOptions}
@@ -307,7 +322,10 @@ export function SwapFormContainer() {
             />
           </div>
           <div className={styles.availableBalance}>
-            <AvailableBalance asset={targetToken} />
+            <AvailableBalance
+              asset={targetToken}
+              dataAttribute="swap-receive-availableBalance"
+            />
           </div>
           <div className={styles.amount}>
             <Input
@@ -315,6 +333,7 @@ export function SwapFormContainer() {
               onChange={value => setAmount(value)}
               readOnly={true}
               appendElem={<AssetRenderer asset={targetToken} />}
+              dataActionId="swap-receive-amount"
             />
           </div>
         </div>
@@ -329,6 +348,7 @@ export function SwapFormContainer() {
           <img
             src={settingIcon}
             alt="settings"
+            data-action-id="swap-receive-availableBalance"
             onClick={() => setDialogOpen(true)}
           />
         </div>
@@ -360,6 +380,7 @@ export function SwapFormContainer() {
           }
           onClick={send}
           text={t(translations.swap.cta)}
+          dataActionId="swap-confirmButton"
         />
       </div>
 

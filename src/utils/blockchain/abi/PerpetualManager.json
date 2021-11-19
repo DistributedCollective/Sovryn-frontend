@@ -16,9 +16,9 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "bytes32",
-        "name": "perpetualIndex",
+        "name": "perpetualId",
         "type": "bytes32"
       },
       {
@@ -264,9 +264,9 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "bytes32",
-        "name": "perpetualIndex",
+        "name": "perpetualId",
         "type": "bytes32"
       }
     ],
@@ -277,9 +277,9 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "bytes32",
-        "name": "perpetualIndex",
+        "name": "perpetualId",
         "type": "bytes32"
       },
       {
@@ -314,9 +314,9 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": false,
+        "indexed": true,
         "internalType": "bytes32",
-        "name": "perpetualIndex",
+        "name": "perpetualId",
         "type": "bytes32"
       }
     ],
@@ -328,77 +328,177 @@
     "inputs": [
       {
         "indexed": true,
-        "internalType": "address",
-        "name": "oldOralce",
-        "type": "address"
+        "internalType": "bytes32",
+        "name": "perpetualId",
+        "type": "bytes32"
       },
+      {
+        "indexed": false,
+        "internalType": "address[2]",
+        "name": "oracles",
+        "type": "address[2]"
+      }
+    ],
+    "name": "SetOracles",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
       {
         "indexed": true,
-        "internalType": "address",
-        "name": "newOracle",
-        "type": "address"
-      }
-    ],
-    "name": "SetOracle",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "perpetualIndex",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "int256[9]",
-        "name": "baseParams",
-        "type": "int256[9]"
-      }
-    ],
-    "name": "SetPerpetualBaseParameter",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "perpetualIndex",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "int256[8]",
-        "name": "riskParams",
-        "type": "int256[8]"
-      },
-      {
-        "indexed": false,
-        "internalType": "int256[8]",
-        "name": "minRiskParamValues",
-        "type": "int256[8]"
-      },
-      {
-        "indexed": false,
-        "internalType": "int256[8]",
-        "name": "maxRiskParamValues",
-        "type": "int256[8]"
-      }
-    ],
-    "name": "SetPerpetualRiskParameter",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
         "internalType": "bytes32",
-        "name": "perpetualIndex",
+        "name": "perpetualId",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "int128",
+        "name": "value",
+        "type": "int128"
+      }
+    ],
+    "name": "SetParameter",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "bytes32",
+        "name": "perpetualId",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "internalType": "string",
+        "name": "name",
+        "type": "string"
+      },
+      {
+        "indexed": false,
+        "internalType": "int128",
+        "name": "value1",
+        "type": "int128"
+      },
+      {
+        "indexed": false,
+        "internalType": "int128",
+        "name": "value2",
+        "type": "int128"
+      }
+    ],
+    "name": "SetParameterPair",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "bytes32",
+        "name": "perpetualId",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "internalType": "int128[11]",
+        "name": "baseParams",
+        "type": "int128[11]"
+      }
+    ],
+    "name": "SetPerpetualBaseParameters",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "bytes32",
+        "name": "perpetualId",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "internalType": "int128[5]",
+        "name": "underlyingRiskParams",
+        "type": "int128[5]"
+      },
+      {
+        "indexed": false,
+        "internalType": "int128[12]",
+        "name": "defaultFundRiskParams",
+        "type": "int128[12]"
+      }
+    ],
+    "name": "SetPerpetualRiskParameters",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "poolId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "targetPoolSizeUpdateTime",
+        "type": "uint256"
+      }
+    ],
+    "name": "SetTargetPoolSizeUpdateTime",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "poolId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "PnLparticipantWithdrawalPeriod",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "int128",
+        "name": "PnLparticipantWithdrawalPercentageLimit",
+        "type": "int128"
+      },
+      {
+        "indexed": false,
+        "internalType": "int128",
+        "name": "PnLparticipantWithdrawalMinAmountLimit",
+        "type": "int128"
+      }
+    ],
+    "name": "SetWithdrawalLimit",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "bytes32",
+        "name": "perpetualId",
         "type": "bytes32"
       },
       {
@@ -526,9 +626,40 @@
     "anonymous": false,
     "inputs": [
       {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "_poolId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "int128",
+        "name": "fEarnings",
+        "type": "int128"
+      },
+      {
+        "indexed": false,
+        "internalType": "int128",
+        "name": "newDefaultFundSize",
+        "type": "int128"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "blockTimestamp",
+        "type": "uint256"
+      }
+    ],
+    "name": "TransferEarningsToTreasury",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
         "indexed": true,
         "internalType": "bytes32",
-        "name": "perpetualIndex",
+        "name": "perpetualId",
         "type": "bytes32"
       },
       {
@@ -558,25 +689,18 @@
     "inputs": [
       {
         "indexed": true,
+        "internalType": "uint256",
+        "name": "poolId",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
         "internalType": "address",
-        "name": "treasuryAddress",
+        "name": "oldTreasury",
         "type": "address"
       },
       {
         "indexed": false,
-        "internalType": "int256",
-        "name": "treasuryFee",
-        "type": "int256"
-      }
-    ],
-    "name": "TransferFeeToTreasury",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
         "internalType": "address",
         "name": "newTreasury",
         "type": "address"
@@ -591,7 +715,7 @@
       {
         "indexed": true,
         "internalType": "bytes32",
-        "name": "perpetualIndex",
+        "name": "perpetualId",
         "type": "bytes32"
       },
       {
@@ -837,25 +961,6 @@
       }
     ],
     "name": "UpdateParticipationFundCash",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "perpetualIndex",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "int256[8]",
-        "name": "riskParams",
-        "type": "int256[8]"
-      }
-    ],
-    "name": "UpdatePerpetualRiskParameter",
     "type": "event"
   },
   {
@@ -2189,7 +2294,7 @@
           },
           {
             "internalType": "int128",
-            "name": "fDFCoverN",
+            "name": "fDFCoverNRate",
             "type": "int128"
           },
           {
@@ -2583,7 +2688,7 @@
         "type": "address"
       }
     ],
-    "name": "initializePerpetualFactory",
+    "name": "initializePerpetualPoolFactory",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -2793,6 +2898,134 @@
   {
     "inputs": [
       {
+        "internalType": "bytes32",
+        "name": "_iPerpetualId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "int128[11]",
+        "name": "_baseParams",
+        "type": "int128[11]"
+      }
+    ],
+    "name": "setPerpetualBaseParams",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "_iPerpetualId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "address[2]",
+        "name": "_oracles",
+        "type": "address[2]"
+      }
+    ],
+    "name": "setPerpetualOracles",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "_iPerpetualId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "string",
+        "name": "_varName",
+        "type": "string"
+      },
+      {
+        "internalType": "int128",
+        "name": "_value",
+        "type": "int128"
+      }
+    ],
+    "name": "setPerpetualParam",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "_iPerpetualId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "string",
+        "name": "_name",
+        "type": "string"
+      },
+      {
+        "internalType": "int128",
+        "name": "_value1",
+        "type": "int128"
+      },
+      {
+        "internalType": "int128",
+        "name": "_value2",
+        "type": "int128"
+      }
+    ],
+    "name": "setPerpetualParamPair",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "_iPerpetualId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "int128[5]",
+        "name": "_underlyingRiskParams",
+        "type": "int128[5]"
+      },
+      {
+        "internalType": "int128[12]",
+        "name": "_defaultFundRiskParams",
+        "type": "int128[12]"
+      }
+    ],
+    "name": "setPerpetualRiskParams",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_poolId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_iTargetPoolSizeUpdateTime",
+        "type": "uint256"
+      }
+    ],
+    "name": "setTargetPoolSizeUpdateTime",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "uint256",
         "name": "_liqPoolID",
         "type": "uint256"
@@ -2804,6 +3037,34 @@
       }
     ],
     "name": "setTreasury",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_poolId",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_iPnLparticipantWithdrawalPeriod",
+        "type": "uint256"
+      },
+      {
+        "internalType": "int128",
+        "name": "_fPnLparticipantWithdrawalPercentageLimit",
+        "type": "int128"
+      },
+      {
+        "internalType": "int128",
+        "name": "_fPnLparticipantWithdrawalMinAmountLimit",
+        "type": "int128"
+      }
+    ],
+    "name": "setWithdrawalLimit",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -2969,6 +3230,19 @@
         "type": "int128"
       }
     ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_poolId",
+        "type": "uint256"
+      }
+    ],
+    "name": "transferEarningsToTreasury",
+    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
