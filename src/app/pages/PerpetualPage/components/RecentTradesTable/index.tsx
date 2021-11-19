@@ -14,12 +14,13 @@ import {
   decodeTradeLogs,
 } from '../../utils/bscWebsocket';
 import { getContract } from 'utils/blockchain/contract-helpers';
+import { fromWei } from 'web3-utils';
 
 // const WebSocket = require('ws');
 // const url = 'ws://localhost:8080';
 
 const address = getContract('perpetualManager').address.toLowerCase();
-const subscription = bscSubscription(address, ['Trade']);
+const subscription = bscSubscription(address, ['Trade'], 14245518);
 
 type RecentTradesTableProps = {
   pair: PerpetualPair;
@@ -65,9 +66,39 @@ export const RecentTradesTable: React.FC<RecentTradesTableProps> = ({
     }
   }, [newData, error]);
 
-  subscription.on('connected', () => {
-    console.log('[recentTrades] bsc websocket connected');
-  });
+  useEffect(() => {
+    if (!loading) {
+      subscription.on('connected', () => {
+        console.log('[recentTrades] bsc websocket connected');
+      });
+
+      subscription.on('data', data => {
+        console.log('[recentTrades] messageReceived', data);
+        if (trades.length > 0) {
+          console.log('THERE ARE TRADES');
+          const decoded = decodeTradeLogs(data.data, [data.topics[1]]);
+          const prevTrade = trades[0];
+          const price = parseFloat(weiTo2(decoded.price));
+          const parsedTrade: RecentTradesDataEntry = {
+            id: data.transactionHash,
+            type:
+              decoded.tradeAmount[0] === '-' ? TradeType.SELL : TradeType.BUY,
+            priceChange:
+              prevTrade.price === price
+                ? TradePriceChange.NO_CHANGE
+                : prevTrade.price > price
+                ? TradePriceChange.UP
+                : TradePriceChange.DOWN,
+            price: price,
+            size: Math.abs(parseFloat(weiTo2(decoded.tradeAmount))),
+            time: new Date().toTimeString().slice(0, 8),
+          };
+          console.log(parsedTrade);
+          trades.unshift(parsedTrade);
+        }
+      });
+    }
+  }, [loading, trades]);
 
   return (
     <table className={styles.recentTradesTable}>
