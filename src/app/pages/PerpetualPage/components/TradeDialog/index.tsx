@@ -41,7 +41,7 @@ const titleMap = {
   [PerpetualPageModals.CLOSE_POSITION]:
     translations.perpetualPage.reviewTrade.titles.close,
 };
-export const TradeReviewDialog: React.FC = () => {
+export const TradeDialog: React.FC = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { modal, modalOptions } = useSelector(selectPerpetualPage);

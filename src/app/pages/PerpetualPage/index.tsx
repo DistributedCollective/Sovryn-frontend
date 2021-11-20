@@ -32,7 +32,7 @@ import { AccountBalanceCard } from './components/AccountBalanceCard';
 import { usePerpetual_accountBalance } from './hooks/usePerpetual_accountBalance';
 import { AccountDialog } from './components/AccountDialog';
 import { NewPositionCard } from './components/NewPositionCard';
-import { TradeReviewDialog } from './components/TradeReviewDialog';
+import { TradeDialog } from './components/TradeDialog';
 import { EditPositionSizeDialog } from './components/EditPositionSizeDialog';
 import { EditLeverageDialog } from './components/EditLeverageDialog';
 import { EditMarginDialog } from './components/EditMarginDialog';
@@ -211,7 +211,7 @@ export function PerpetualPage() {
         onClose={() => setShowNotificationSettingsModal(false)}
       />
       <AccountDialog pairType={pairType} />
-      <TradeReviewDialog />
+      <TradeDialog />
       <EditPositionSizeDialog />
       <EditLeverageDialog />
       <EditMarginDialog />
