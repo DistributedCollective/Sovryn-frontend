@@ -1,13 +1,10 @@
-import React, { useCallback, useMemo } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
+import React, { useCallback, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { translations } from '../../../../../locales/i18n';
 import { Dialog } from '../../../../containers/Dialog';
 import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
 import { PerpetualPageModals, isPerpetualTradeReview } from '../../types';
-import { usePerpetual_openTrade } from '../../hooks/usePerpetual_openTrade';
-import styles from './index.module.scss';
 import { fromWei } from 'web3-utils';
 import { usePerpetual_queryPerpParameters } from '../../hooks/usePerpetual_queryPerpParameters';
 import {
@@ -17,7 +14,6 @@ import {
   calculateLeverage,
   getTraderPnL,
 } from '../../utils/perpUtils';
-import { usePerpetual_marginAccountBalance } from '../../hooks/usePerpetual_marginAccountBalance';
 import {
   PerpetualPairDictionary,
   PerpetualPairType,
@@ -25,33 +21,52 @@ import {
 import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
 import { getTradeDirection } from '../../utils/contractUtils';
 import { usePerpetual_queryTraderState } from '../../hooks/usePerpetual_queryTraderState';
-import { ResultPosition } from './components/ResultPosition';
-import { TradeSummary } from './components/TradeSummary';
-import { TradeAnalysis } from './types';
+import {
+  TradeAnalysis,
+  TradeDialogContextType,
+  PerpetualTx,
+  TradeDialogStep,
+} from './types';
+import { noop } from '../../../../constants';
+import { TransitionSteps } from '../../../../containers/TransitionSteps';
+import { TransitionAnimation } from '../../../../containers/TransitionContainer';
+import { ReviewStep } from './components/ReviewStep';
 
-const titleMap = {
-  [PerpetualPageModals.NONE]:
-    translations.perpetualPage.reviewTrade.titles.newOrder,
-  [PerpetualPageModals.EDIT_POSITION_SIZE]:
-    translations.perpetualPage.reviewTrade.titles.newOrder,
-  [PerpetualPageModals.EDIT_LEVERAGE]:
-    translations.perpetualPage.reviewTrade.titles.editLeverage,
-  [PerpetualPageModals.EDIT_MARGIN]:
-    translations.perpetualPage.reviewTrade.titles.editMargin,
-  [PerpetualPageModals.CLOSE_POSITION]:
-    translations.perpetualPage.reviewTrade.titles.close,
+const tradeDialogContextDefault: TradeDialogContextType = {
+  pair: PerpetualPairDictionary.get(PerpetualPairType.BTCUSD),
+  analysis: {
+    amountChange: 0,
+    amountTarget: 0,
+    marginChange: 0,
+    roe: 0,
+    marginTarget: 0,
+    leverageTarget: 0,
+    entryPrice: 0,
+    liquidationPrice: 0,
+    tradingFee: 0,
+  },
+  transactions: [],
+  setTransactions: noop,
+  onClose: noop,
 };
+
+export const TradeDialogContext = React.createContext<TradeDialogContextType>(
+  tradeDialogContextDefault,
+);
+
+const TradeDialogStepComponents = {
+  [TradeDialogStep.review]: ReviewStep,
+  [TradeDialogStep.processing]: ReviewStep, // TODO implement TradeDialogStep Processing
+  [TradeDialogStep.approval]: ReviewStep, // TODO implement TradeDialogStep Approval
+};
+
 export const TradeDialog: React.FC = () => {
   const dispatch = useDispatch();
-  const { t } = useTranslation();
   const { modal, modalOptions } = useSelector(selectPerpetualPage);
 
-  const marginAccountBalance = usePerpetual_marginAccountBalance();
   const perpParameters = usePerpetual_queryPerpParameters();
   const ammState = usePerpetual_queryAmmState();
   const traderState = usePerpetual_queryTraderState();
-
-  const { trade: openTrade } = usePerpetual_openTrade();
 
   const { origin, trade } = useMemo(
     () =>
@@ -61,37 +76,17 @@ export const TradeDialog: React.FC = () => {
     [modalOptions],
   );
 
-  console.log(isPerpetualTradeReview(modalOptions), modalOptions);
-
   const pair = useMemo(
     () =>
       PerpetualPairDictionary.get(trade?.pairType || PerpetualPairType.BTCUSD),
     [trade],
   );
 
-  const {
-    amountChange,
-    amountTarget,
-    marginChange,
-    marginTarget,
-    roe,
-    leverageTarget,
-    entryPrice,
-    liquidationPrice,
-    tradingFee,
-  }: TradeAnalysis = useMemo(() => {
+  const [transactions, setTransactions] = useState<PerpetualTx[]>([]);
+
+  const analysis: TradeAnalysis = useMemo(() => {
     if (!trade) {
-      return {
-        amountChange: 0,
-        amountTarget: 0,
-        marginChange: 0,
-        roe: 0,
-        marginTarget: 0,
-        leverageTarget: 0,
-        entryPrice: 0,
-        liquidationPrice: 0,
-        tradingFee: 0,
-      };
+      return tradeDialogContextDefault.analysis;
     }
 
     let amountTarget =
@@ -160,17 +155,17 @@ export const TradeDialog: React.FC = () => {
     [dispatch],
   );
 
-  const onSubmit = useCallback(
-    () =>
-      trade &&
-      openTrade(
-        false,
-        trade?.amount,
-        trade.leverage,
-        trade.slippage,
-        trade.position,
-      ),
-    [openTrade, trade],
+  const context: TradeDialogContextType = useMemo(
+    () => ({
+      origin,
+      pair,
+      trade,
+      analysis,
+      transactions,
+      setTransactions,
+      onClose,
+    }),
+    [origin, pair, trade, analysis, transactions, onClose],
   );
 
   if (!trade) {
@@ -182,37 +177,13 @@ export const TradeDialog: React.FC = () => {
       isOpen={modal === PerpetualPageModals.TRADE_REVIEW}
       onClose={onClose}
     >
-      <h1 className="tw-font-semibold">{origin && t(titleMap[origin])}</h1>
-      <div className={styles.contentWrapper}>
-        <TradeSummary
-          origin={origin}
-          trade={trade}
-          amountChange={amountChange}
-          amountTarget={amountTarget}
-          entryPrice={entryPrice}
-          leverageTarget={leverageTarget}
-          liquidationPrice={liquidationPrice}
-          marginChange={marginChange}
-          marginTarget={marginTarget}
-          roe={roe}
-          pair={pair}
-          tradingFee={tradingFee}
+      <TradeDialogContext.Provider value={context}>
+        <TransitionSteps<TradeDialogStep>
+          active={TradeDialogStep.review}
+          defaultAnimation={TransitionAnimation.slideLeft}
+          steps={TradeDialogStepComponents}
         />
-        <ResultPosition
-          amountChange={amountChange}
-          amountTarget={amountTarget}
-          entryPrice={entryPrice}
-          leverageTarget={leverageTarget}
-          liquidationPrice={liquidationPrice}
-          marginTarget={marginTarget}
-          pair={pair}
-        />
-        <div className="tw-flex tw-justify-center">
-          <button className={styles.confirmButton} onClick={onSubmit}>
-            {t(translations.perpetualPage.reviewTrade.confirm)}
-          </button>
-        </div>
-      </div>
+      </TradeDialogContext.Provider>
     </Dialog>
   );
 };

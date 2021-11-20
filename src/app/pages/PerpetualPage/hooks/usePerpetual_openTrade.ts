@@ -42,7 +42,7 @@ export const usePerpetual_openTrade = () => {
   return {
     trade: async (
       isClosePosition: boolean | undefined = false,
-      /** target amount as wei string */
+      /** amount as wei string */
       amount: string = '0',
       leverage: number | undefined = 1,
       slippage: number | undefined = 0.5,
