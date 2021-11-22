@@ -164,6 +164,12 @@
     },
     "backToPortfolio": "Voltar",
     "deposit": {
+      "sidebarSteps": {
+        "address": "Endereço de depósito",
+        "processing": "Processando",
+        "processingSteps": "Processando... ({{step}}/{{steps}})",
+        "completed": "Concluído"
+      },
       "mainScreen": {
         "title": "Depositar BTC e receber <0/>",
         "description": "Sempre gere um novo endereço de depósito e use-o apenas uma vez",
@@ -204,12 +210,21 @@
       }
     },
     "withdraw": {
+      "sidebarSteps": {
+        "amount": "Quantidade do saque",
+        "address": "Endereço de saque",
+        "review": "Revisar",
+        "confirm": "Confirmar",
+        "processing": "Processando",
+        "processingProgress": "Processando...",
+        "completed": "Concluído"
+      },
       "mainScreen": {
         "title": "Sacar <0/> para a rede BTC",
         "description": "Sempre verifique se o endereço de saque está correto."
       },
       "withdrawDetails": {
-        "title": "Detalhes",
+        "title": "Observações",
         "min": "MÍN:",
         "max": "MÁX:",
         "fee": "TAXA:"
@@ -223,7 +238,7 @@
         "line5": "Se a transação não for concluída em {{hours}} horas <0>abra um ticket de suporte</0>."
       },
       "amountForm": {
-        "title": "<0/> Quantidade",
+        "title": "Sacar <0/>",
         "withdrawAmount": "Quantidade",
         "availableBalance": "Saldo disponível: <0/> <1/>"
       },
