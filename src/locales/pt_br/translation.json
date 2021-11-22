@@ -6,6 +6,7 @@
     "close": "Fechar",
     "for": "por",
     "confirm": "Confirmar",
+    "continue": "Continuar",
     "cancel": "Cancelar",
     "fee": "Taxa: {{amount}} (r)BTC",
     "pending": "Pendente",
@@ -160,6 +161,102 @@
     "meta": {
       "title": "Depositar-BTC",
       "description": "Transfira seu Bitcoin para a rede RSK."
+      "backToPortfolio": "Voltar",
+    "deposit": {
+      "mainScreen": {
+        "title": "Depositar BTC e receber <0/>",
+        "description": "Sempre gere um novo endereço de depósito e use-o apenas uma vez",
+        "cta": "Gerar endereço de depósito"
+      },
+      "depositDetails": {
+        "title": "Detalhes",
+        "min": "MÍN:",
+        "max": "MÁX:",
+        "fee": "Taxa:"
+      },
+      "depositInstructions": {
+        "title": "Instruções:",
+        "line1": "Não deposite nenhum ativo que não seja BTC.",
+        "line2": "Não envie menos BTC do que o limite mínimo.",
+        "line3": "Não envie mais BTC do que o limite máximo.",
+        "line4": "Aguarde até {{hours}} horas para processar.",
+        "line5": "Se a transação não for concluída em {{hours}} horas <0>abra um ticket de suporte</0>."
+      },
+      "addressForm": {
+        "title": "Endereço de depósito BTC",
+        "description": "Envie BTC para este endereço"
+      },
+      "statusScreen": {
+        "title": "Processando depósito BTC",
+        "titleCompleted": "Depósito BTC concluído",
+        "amount": "Depósito",
+        "fees": "Taxas pagas:",
+        "received": "Quantidade recebida:",
+        "txHash": "Hash da transação:",
+        "txId": "ID transação:",
+        "description": "O depósito está sendo processado. Se a transação não for concluída em {{hours}} horas <0>abra um ticket de suporte</0>.",
+        "cta": "Voltar"
+      },
+      "qr": {
+        "title": "Envie BTC para este endereço:",
+        "generating": "Gerando..."
+      }
+    },
+    "withdraw": {
+      "mainScreen": {
+        "title": "Sacar <0/> para a rede BTC",
+        "description": "Sempre verifique se o endereço de saque está correto."
+      },
+      "withdrawDetails": {
+        "title": "Detalhes",
+        "min": "MÍN:",
+        "max": "MÁX:",
+        "fee": "TAXA:"
+      },
+      "withdrawInstructions": {
+        "title": "Instruções:",
+        "line1": "Verifique e confirme se o endereço que você está enviando é um endereço BTC.",
+        "line2": "Não envie menos BTC do que o limite mínimo.",
+        "line3": "Não envie mais BTC do que o limite máximo.",
+        "line4": "Aguarde até {{hours}} horas para processar.",
+        "line5": "Se a transação não for concluída em {{hours}} horas <0>abra um ticket de suporte</0>."
+      },
+      "amountForm": {
+        "title": "<0/> Quantidade",
+        "withdrawAmount": "Quantidade",
+        "availableBalance": "Saldo disponível: <0/> <1/>"
+      },
+      "addressForm": {
+        "title": "BTC Network Withdraw Address",
+        "address": "Sacar BTC para este endereço",
+        "errorBECH32": "Insira um endereço BTC BECH32 válido!",
+        "cta": "Revisar saque"
+      },
+      "reviewScreen": {
+        "title": "Revisar saque <0/>",
+        "amount": "Withdraw",
+        "address": "BTC Network Receive Address",
+        "fees": "Taxas pagas:",
+        "received": "Quantidade recebida:",
+        "tx": "ID transação:",
+        "description": "O saque está sendo processado. Se a transação não for concluída em {{hours}} horas <0>abra um ticket de suporte</0>."
+      },
+      "walletTxHelper": {
+        "confirm": "Confirme a transação na sua carteira {{wallet}}",
+        "pending": "Confirme a transação na sua carteira {{wallet}}",
+        "confirmed": "Confirme a transação na sua carteira {{wallet}}",
+        "failed": "Transação falhou.",
+        "aborted": "Você recusou esta transação."
+      },
+      "statusScreen": {
+        "titles": {
+          "pending_for_user": "Confirmar saque <0/>",
+          "pending": "<0/> Processando saque...",
+          "confirmed": "Confirmado",
+          "failed": "Saque falhou"
+        },
+        "cta": "Voltar"
+      }
     }
   },
   "tradeOrSwapTabs": {
@@ -216,7 +313,7 @@
     "title": "Dicas Sovryn"
   },
   "footer": {
-    "title": "Feito e disponibilizado por <0>Bitcoinheiros</0>",
+    "title": "Feito e disponibilizado por <0>Bitcoiners</0>",
     "notice_1": "Esteja ciente de que somente você possui controle e acesso ao seus ativos, qualquer ação que você realizar pode causar uma perda considerável de fundos.",
     "notice_2": "Sempre verifique as taxas de transação antes de realizar operações na SOVRYN. Algumas carteiras podem configurar automaticamente taxas muito altas.",
     "notice_3": "Visite nosso <0>FAQ</0> se tiver dúvidas.",
@@ -957,7 +1054,7 @@
     },
     "actions": {
       "deposit": "Bridge",
-      "fastBtc": "FastBTC",
+      "fastBtc": "Depositar",
       "convert": "Converter para XUSD",
       "swap": "Trocar",
       "trade": "Margem",
@@ -1209,6 +1306,13 @@
       "paragraph1": "Por razões de segurança, o dapp Sovryn ainda não é compatível com celulares.",
       "paragraph2": "Que tal usar a versão para computadores?"
     }
+  },
+  "transakDialog": {
+    "title": "Comprar <0>RBTC</0>",
+    "explanation1": "O serviço Transak permite comprar BTC que será covertido para <0>RBTC</0> e enviado para sua carteira",
+    "explanation2": "Tome cuidado para não exceder o limite de depósito aceito pela Sovryn, pois a Transak permite compras acima dos nossos limites máximos de depósito",
+    "chainId": "Certifique-se de que sua carteira esteja configurada para a rede correta. A carteira Liquality requer que o site do dapp seja atualizado para detectar a mudança de rede.",
+    "cta": "Comprar <0>RBTC</0>"
   },
   "onCopy": {
     "address": "O endereço foi copiado para a área de transferência."
