@@ -1709,7 +1709,7 @@
       "connectNetwork": "Conectar",
       "notConnected": "Para continuar você precisa conectar na sua",
       "wrongNetwork": "Para continuar mude novamente para a rede RSK na sua",
-      "switchNetwork": "Mudar rede",
+      "switchNetwork": "Alterar rede",
       "connected": "Tudo certo",
       "return": "Voltar para o portfólio"
     },
