@@ -6,6 +6,7 @@ import { translations } from 'locales/i18n';
 import { WithdrawContext } from '../../contexts/withdraw-context';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { LoadableValue } from '../../../../components/LoadableValue';
+import { btcInSatoshis } from 'app/constants';
 
 const DYNAMIC_FEE_DIVISOR = 10000;
 
@@ -17,7 +18,7 @@ export const WithdrawDetails: React.FC = () => {
     if (!limits.dynamicFee) {
       return (
         <>
-          {toNumberFormat(limits.baseFee / 1e8, 5)}{' '}
+          {toNumberFormat(limits.baseFee / btcInSatoshis, 5)}{' '}
           <AssetSymbolRenderer asset={Asset.RBTC} />
         </>
       );
@@ -31,7 +32,7 @@ export const WithdrawDetails: React.FC = () => {
 
     return (
       <>
-        {toNumberFormat(limits.baseFee / 1e8, 6)}{' '}
+        {toNumberFormat(limits.baseFee / btcInSatoshis, 6)}{' '}
         <AssetSymbolRenderer asset={Asset.RBTC} /> +{' '}
         {toNumberFormat(limits.dynamicFee / DYNAMIC_FEE_DIVISOR, 4)} %
       </>
@@ -49,7 +50,7 @@ export const WithdrawDetails: React.FC = () => {
           <LoadableValue
             value={
               <>
-                {toNumberFormat(limits.min / 1e8, 5)}{' '}
+                {toNumberFormat(limits.min / btcInSatoshis, 5)}{' '}
                 <AssetSymbolRenderer asset={Asset.RBTC} />
               </>
             }
@@ -61,7 +62,7 @@ export const WithdrawDetails: React.FC = () => {
           <LoadableValue
             value={
               <>
-                {toNumberFormat(limits.max / 1e8, 3)}{' '}
+                {toNumberFormat(limits.max / btcInSatoshis, 3)}{' '}
                 <AssetSymbolRenderer asset={Asset.RBTC} />
               </>
             }

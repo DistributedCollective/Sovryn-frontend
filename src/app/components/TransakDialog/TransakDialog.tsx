@@ -5,16 +5,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import { TransakScreen } from './TransakScreen';
 import styles from './index.module.scss';
-interface Props {
+interface ITransakDialogProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export const TransackDialog: React.FC<Props> = (props: Props) => {
+export const TransakDialog: React.FC<ITransakDialogProps> = ({
+  isOpen,
+  onClose,
+}) => {
   return (
     <Overlay
-      isOpen={props.isOpen}
-      onClose={() => props.onClose()}
+      isOpen={isOpen}
+      onClose={() => onClose()}
       className={Classes.OVERLAY_SCROLL_CONTAINER}
       hasBackdrop
       canEscapeKeyClose
@@ -27,7 +30,7 @@ export const TransackDialog: React.FC<Props> = (props: Props) => {
           )}
         >
           <div className={styles.container}>
-            <div className={styles.close} onClick={() => props.onClose()}>
+            <div className={styles.close} onClick={onClose}>
               <FontAwesomeIcon icon={faTimes} />
             </div>
             <div className={styles.innerContainer}>

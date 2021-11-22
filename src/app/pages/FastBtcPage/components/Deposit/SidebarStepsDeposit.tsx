@@ -25,22 +25,22 @@ const initialSteps: StepItem[] = [
   { stepTitle: 'Complete', value: DepositStep.COMPLETED },
 ];
 
-type SidebarStepsProps = {};
-
-export const SidebarStepsDeposit: React.FC<SidebarStepsProps> = () => {
+export const SidebarStepsDeposit: React.FC = () => {
   const { t } = useTranslation();
   const { step, set, address, depositTx } = useContext(DepositContext);
 
   const steps = useMemo<StepItem[]>(() => {
-    const prvSteps = [...initialSteps.map(item => ({ ...item }))];
+    const previousSteps = [...initialSteps.map(item => ({ ...item }))];
 
     if (step > DepositStep.ADDRESS && address) {
-      const item = prvSteps.find(item => item.value === DepositStep.ADDRESS);
+      const item = previousSteps.find(
+        item => item.value === DepositStep.ADDRESS,
+      );
       if (item) {
         item.title = prettyTx(address);
         item.icon = (
           <img
-            className={'tw-object-contain tw-h-full tw-w-full tw-rounded-full'}
+            className="tw-object-contain tw-h-full tw-w-full tw-rounded-full"
             src={addressIcon}
             alt={address}
           />
@@ -49,7 +49,9 @@ export const SidebarStepsDeposit: React.FC<SidebarStepsProps> = () => {
     }
 
     if (step === DepositStep.PROCESSING) {
-      const item = prvSteps.find(item => item.value === DepositStep.PROCESSING);
+      const item = previousSteps.find(
+        item => item.value === DepositStep.PROCESSING,
+      );
       if (item) {
         if (depositTx?.status === 'pending') {
           item.title = 'Processing (1/2)';
@@ -61,7 +63,9 @@ export const SidebarStepsDeposit: React.FC<SidebarStepsProps> = () => {
     }
 
     if (step === DepositStep.COMPLETED) {
-      const item = prvSteps.find(item => item.value === DepositStep.COMPLETED);
+      const item = previousSteps.find(
+        item => item.value === DepositStep.COMPLETED,
+      );
       if (item) {
         item.icon = (
           <img
@@ -73,7 +77,7 @@ export const SidebarStepsDeposit: React.FC<SidebarStepsProps> = () => {
       }
     }
 
-    return prvSteps;
+    return previousSteps;
   }, [step, address, depositTx]);
 
   const canOpen = useCallback(
@@ -111,7 +115,7 @@ export const SidebarStepsDeposit: React.FC<SidebarStepsProps> = () => {
         <img
           alt="arrowback"
           src={ArrowBack}
-          style={{ height: '20px', width: '20px', marginRight: '10px' }}
+          className="tw-w-4 tw-h-4 tw-mr-2"
         />
         {t(translations.fastBtcPage.backToPortfolio)}
       </Link>

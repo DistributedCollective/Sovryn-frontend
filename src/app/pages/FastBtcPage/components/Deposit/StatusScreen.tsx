@@ -13,6 +13,7 @@ import { StatusComponent } from '../../../../components/Dialogs/TxDialog';
 import { DepositContext, DepositStep } from '../../contexts/deposit-context';
 import { DEPOSIT_FEE_SATS } from '../../constants';
 import { CREATE_TICKET_LINK } from 'utils/classifiers';
+import { btcInSatoshis } from 'app/constants';
 
 export const StatusScreen: React.FC = () => {
   const { step, depositTx, transferTx } = useContext(DepositContext);
@@ -24,10 +25,7 @@ export const StatusScreen: React.FC = () => {
   ]);
 
   const feeAmount = useMemo(
-    () =>
-      bignumber(DEPOSIT_FEE_SATS)
-        .div(10 ** 8)
-        .toString(),
+    () => bignumber(DEPOSIT_FEE_SATS).div(btcInSatoshis).toString(),
     [],
   );
 

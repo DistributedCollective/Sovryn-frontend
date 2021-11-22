@@ -1,4 +1,10 @@
-import React, { useCallback, useContext, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useMemo,
+  useState,
+  useEffect,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import debounce from 'lodash.debounce';
 import { translations } from 'locales/i18n';
@@ -9,16 +15,26 @@ import { contractReader } from '../../../../../utils/sovryn/contract-reader';
 import { ErrorBadge } from '../../../../components/Form/ErrorBadge';
 import { FastBtcButton } from '../FastBtcButton';
 
-type AddressValidation = 'none' | 'loading' | 'valid' | 'invalid';
+enum AddressValidationState {
+  NONE,
+  LOADING,
+  VALID,
+  INVALID,
+}
 
 export const AddressForm: React.FC = () => {
   const { address, set } = useContext(WithdrawContext);
   const { t } = useTranslation();
 
-  const [valid, setValid] = useState<AddressValidation>('none');
+  const [addressValidationState, setAddressValidationState] = useState<
+    AddressValidationState
+  >(AddressValidationState.NONE);
   const [value, setValue] = useState(address);
 
-  const invalid = useMemo(() => valid === 'invalid', [valid]);
+  const invalid = useMemo(
+    () => addressValidationState === AddressValidationState.INVALID,
+    [addressValidationState],
+  );
 
   const onContinueClick = useCallback(
     () =>
@@ -31,13 +47,15 @@ export const AddressForm: React.FC = () => {
   );
 
   const validate = useCallback(async (adr: string) => {
-    setValid('loading');
+    setAddressValidationState(AddressValidationState.LOADING);
     const result = await contractReader.call(
       'fastBtcBridge',
       'isValidBtcAddress',
       [adr],
     );
-    setValid(result ? 'valid' : 'invalid');
+    setAddressValidationState(
+      result ? AddressValidationState.VALID : AddressValidationState.INVALID,
+    );
   }, []);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -49,11 +67,16 @@ export const AddressForm: React.FC = () => {
   const onChange = useCallback(
     (adr: string) => {
       setValue(adr);
-      setValid('none');
+      setAddressValidationState(AddressValidationState.NONE);
       delayedOnChange(adr);
     },
     [delayedOnChange],
   );
+
+  useEffect(() => {
+    setAddressValidationState(AddressValidationState.NONE);
+    delayedOnChange(value);
+  }, [delayedOnChange, value]);
 
   return (
     <>
@@ -65,7 +88,7 @@ export const AddressForm: React.FC = () => {
         <FormGroup
           label={t(translations.fastBtcPage.withdraw.addressForm.address)}
         >
-          <Input onChange={onChange} value={value} />
+          <Input onChange={onChange} value={value} className="tw-max-w-none" />
           {invalid && (
             <ErrorBadge
               content={t(
@@ -79,7 +102,7 @@ export const AddressForm: React.FC = () => {
           <FastBtcButton
             text={t(translations.fastBtcPage.withdraw.addressForm.cta)}
             onClick={onContinueClick}
-            disabled={valid !== 'valid'}
+            disabled={addressValidationState !== AddressValidationState.VALID}
           />
         </div>
       </div>

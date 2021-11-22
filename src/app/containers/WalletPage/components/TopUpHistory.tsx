@@ -137,9 +137,7 @@ export const TopUpHistory: React.FC = () => {
                 </td>
                 <td>
                   <div className="tw-flex tw-flex-nowrap tw-text-right tw-justify-end">
-                    <small>
-                      {toNumberFormat(item.valueBtc / 1e8, 6)}&nbsp;
-                    </small>
+                    <small>{toNumberFormat(item.valueBtc / 1e8, 6)}</small>{' '}
                     <small className="tw-text-gray-6">
                       {item.type === 'deposit' ? 'BTC' : 'rBTC'}
                     </small>

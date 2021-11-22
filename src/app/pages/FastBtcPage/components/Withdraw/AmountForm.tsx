@@ -26,7 +26,9 @@ export const AmountForm: React.FC = () => {
 
   const invalid = useMemo(() => {
     const weiAmount = toWei(value || '0');
-    if (bignumber(weiAmount).lessThanOrEqualTo(0)) return true;
+    if (bignumber(weiAmount).lessThanOrEqualTo(0)) {
+      return true;
+    }
 
     return bignumber(weiAmount)
       .add(gasLimit[TxType.FAST_BTC_WITHDRAW])

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import cn from 'classnames';
+import classNames from 'classnames';
 // import { CSSTransition, SwitchTransition } from 'react-transition-group';
 import { AmountForm } from '../components/Withdraw/AmountForm';
 import {
@@ -102,19 +102,18 @@ export const WithdrawContainer: React.FC = () => {
     <WithdrawContext.Provider value={value}>
       <div className="tw-flex tw-flex-row tw-justify-between tw-items-center tw-w-full">
         <div
-          className={cn(
+          className={classNames(
             'tw-hidden tw-relative tw-z-50 tw-h-full md:tw-flex tw-flex-col tw-items-start tw-justify-center tw-pl-8',
-            { invisible: false },
+            styles.wrapper,
           )}
-          style={{ minHeight: 'calc(100vh - 2.5rem)' }}
         >
           <SidebarStepsWithdraw />
         </div>
         <div
-          style={{
-            minHeight: 'calc(100vh - 2.5rem)',
-          }}
-          className="tw-flex tw-flex-col tw-flex-1 tw-justify-center tw-items-center"
+          className={classNames(
+            'tw-flex tw-flex-col tw-flex-1 tw-justify-center tw-items-center',
+            styles.wrapper,
+          )}
         >
           <div className={styles.container}>
             {/*<SwitchTransition>*/}

@@ -13,7 +13,7 @@ import {
 } from 'utils/display-text/format';
 import { translations } from 'locales/i18n';
 
-interface Props {
+interface IAmountInputProps {
   value: string;
   onChange: (value: string, isTotal?: boolean | undefined) => void;
   decimalPrecision?: number;
@@ -29,7 +29,7 @@ interface Props {
   gasFee?: string;
 }
 
-export function AmountInput({
+export const AmountInput: React.FC<IAmountInputProps> = ({
   value,
   onChange,
   placeholder = toNumberFormat(0, 6),
@@ -43,7 +43,7 @@ export function AmountInput({
   readonly,
   dataActionId,
   gasFee,
-}: Props) {
+}) => {
   return (
     <>
       <Input
@@ -83,11 +83,11 @@ export function AmountInput({
       )}
     </>
   );
-}
+};
 
 const amounts = [10, 25, 50, 75, 100];
 
-interface AmountSelectorProps {
+interface IAmountSelectorProps {
   parentValue?: string;
   asset?: Asset;
   maxAmount?: string;
@@ -95,15 +95,20 @@ interface AmountSelectorProps {
   onChange: (value: string, isTotal: boolean) => void;
 }
 
-export function AmountSelector(props: AmountSelectorProps) {
+export const AmountSelector: React.FC<IAmountSelectorProps> = ({
+  asset = Asset.RBTC,
+  maxAmount,
+  gasFee = '0',
+  onChange,
+}) => {
   const { t } = useTranslation();
-  const { value } = useAssetBalanceOf(props.asset || Asset.RBTC);
+  const { value } = useAssetBalanceOf(asset);
   const balance = useMemo(() => {
-    if (props.maxAmount !== undefined) {
-      return props.maxAmount;
+    if (maxAmount !== undefined) {
+      return maxAmount;
     }
     return value;
-  }, [props.maxAmount, value]);
+  }, [maxAmount, value]);
 
   const handleChange = (percent: number) => {
     let value = '0';
@@ -120,18 +125,18 @@ export function AmountSelector(props: AmountSelectorProps) {
     }
 
     if (
-      props.asset === Asset.RBTC &&
+      asset === Asset.RBTC &&
       percent === 100 && // remove this to check for selections
       bignumber(value)
-        .add(props.gasFee || '0')
+        .add(gasFee || '0')
         .greaterThan(balance)
     ) {
       value = bignumber(value)
-        .minus(props.gasFee || '0')
+        .minus(gasFee || '0')
         .toString();
     }
 
-    props.onChange(fromWei(value), isTotal);
+    onChange(fromWei(value), isTotal);
   };
   return (
     <div className="tw-mt-2.5 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded-md tw-divide-x tw-divide-secondary">
@@ -144,21 +149,24 @@ export function AmountSelector(props: AmountSelectorProps) {
       ))}
     </div>
   );
-}
+};
 
-interface AmountButtonProps {
+interface IAmountButtonProps {
   text?: string;
   onClick?: () => void;
 }
 
-export function AmountSelectorButton(props: AmountButtonProps) {
+export const AmountSelectorButton: React.FC<IAmountButtonProps> = ({
+  text,
+  onClick,
+}) => {
   return (
     <button
-      onClick={props.onClick}
+      onClick={onClick}
       className="tw-text-secondary tw-bg-secondary tw-bg-opacity-0 tw-font-medium tw-text-xs tw-leading-none tw-px-4 tw-py-1 tw-text-center tw-w-full tw-transition hover:tw-bg-opacity-25 focus:tw-bg-opacity-50 tw-uppercase"
-      data-action-id={`swap-send-amountSelectorButton-${props.text}`}
+      data-action-id={`swap-send-amountSelectorButton-${text}`}
     >
-      {props.text}
+      {text}
     </button>
   );
-}
+};

@@ -8,11 +8,15 @@ import { useAccount } from '../../hooks/useAccount';
 import { WithdrawContainer } from './containers/WithdrawContainer';
 import { DepositContainer } from './containers/DepositContainer';
 import Header from './components/Header';
+import classNames from 'classnames';
+import styles from './fast-btc-page.module.css';
+
+type FastBtcDirectionType = 'deposit' | 'withdraw';
 
 export function FastBtcPage() {
   const { t } = useTranslation();
   const account = useAccount();
-  const { type } = useParams<{ type: 'withdraw' | 'deposit' }>();
+  const { type } = useParams<{ type: FastBtcDirectionType }>();
   const history = useHistory();
 
   useEffect(() => {
@@ -32,7 +36,10 @@ export function FastBtcPage() {
       </Helmet>
       <Header address={account} />
       <div
-        className="tw-flex tw-flex-row tw-justify-between tw-items-center md:tw-items-start tw-w-full tw-p-5 tw-bg-gray-4 tw-relative tw-text-sm"
+        className={classNames(
+          'tw-flex tw-flex-row tw-justify-between tw-items-center md:tw-items-start tw-w-full tw-p-5 tw-bg-gray-4 tw-relative tw-text-sm',
+          styles.page,
+        )}
         style={{ marginTop: '-4.4rem' }}
       >
         {type === 'deposit' && <DepositContainer />}

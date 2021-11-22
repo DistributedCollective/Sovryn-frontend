@@ -39,9 +39,9 @@ import usdtIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/usdt
 import usdcIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/usdc.svg';
 import daiIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/dai.svg';
 import { Link } from 'react-router-dom';
-import { TransackDialog } from '../TransakDialog/TransakDialog';
+import { TransakDialog } from '../TransakDialog/TransakDialog';
 
-export function UserAssets() {
+export const UserAssets: React.FC = () => {
   const { t } = useTranslation();
   const connected = useIsConnected();
   const account = useAccount();
@@ -125,7 +125,7 @@ export function UserAssets() {
           </tbody>
         </table>
       </div>
-      <TransackDialog isOpen={transack} onClose={() => setTransack(false)} />
+      <TransakDialog isOpen={transack} onClose={() => setTransack(false)} />
       <ConversionDialog
         isOpen={conversionDialog}
         asset={conversionToken}
@@ -173,9 +173,9 @@ export function UserAssets() {
       </Dialog>
     </>
   );
-}
+};
 
-interface AssetProps {
+interface IAssetProps {
   item: AssetDetails;
   onTransack: () => void;
   onConvert: (asset: Asset) => void;
@@ -192,7 +192,12 @@ const XUSD_ASSETS: {
   { asset: CrossBridgeAsset.BUSD, image: busdIcon },
 ];
 
-function AssetRow({ item, onTransack, onConvert, onUnWrap }: AssetProps) {
+const AssetRow: React.FC<IAssetProps> = ({
+  item,
+  onTransack,
+  onConvert,
+  onUnWrap,
+}) => {
   const { t } = useTranslation();
   const account = useAccount();
   const [loading, setLoading] = useState(true);
@@ -319,4 +324,4 @@ function AssetRow({ item, onTransack, onConvert, onUnWrap }: AssetProps) {
       </td>
     </tr>
   );
-}
+};

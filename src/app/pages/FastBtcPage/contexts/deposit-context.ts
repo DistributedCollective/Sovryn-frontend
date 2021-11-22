@@ -34,7 +34,7 @@ export type TxData = {
   status: TxStatus;
 };
 
-type TxStatus = string;
+type TxStatus = 'pending' | 'confirmed' | string;
 
 export type DepositContextFunctionsType = {
   set: Dispatch<SetStateAction<DepositContextStateType>>;

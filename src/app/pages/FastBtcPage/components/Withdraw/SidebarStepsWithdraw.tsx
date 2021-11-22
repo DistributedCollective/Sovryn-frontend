@@ -35,16 +35,16 @@ const initialSteps: StepItem[] = [
   { stepTitle: 'Complete', value: WithdrawStep.COMPLETED },
 ];
 
-type SidebarStepsProps = {};
-
-export const SidebarStepsWithdraw: React.FC<SidebarStepsProps> = () => {
+export const SidebarStepsWithdraw: React.FC = () => {
   const { t } = useTranslation();
   const { step, set, amount, address } = useContext(WithdrawContext);
 
   const steps = useMemo<StepItem[]>(() => {
-    const prvSteps = [...initialSteps.map(item => ({ ...item }))];
+    const previousSteps = [...initialSteps.map(item => ({ ...item }))];
     if (step > WithdrawStep.AMOUNT && amount) {
-      const item = prvSteps.find(item => item.value === WithdrawStep.AMOUNT);
+      const item = previousSteps.find(
+        item => item.value === WithdrawStep.AMOUNT,
+      );
       if (item) {
         item.title = (
           <>
@@ -54,7 +54,7 @@ export const SidebarStepsWithdraw: React.FC<SidebarStepsProps> = () => {
         );
         item.icon = (
           <img
-            className={'tw-object-contain tw-h-full tw-w-full tw-rounded-full'}
+            className="tw-object-contain tw-h-full tw-w-full tw-rounded-full"
             src={walletIcon}
             alt={amount}
           />
@@ -63,7 +63,9 @@ export const SidebarStepsWithdraw: React.FC<SidebarStepsProps> = () => {
     }
 
     if (step > WithdrawStep.ADDRESS && address) {
-      const item = prvSteps.find(item => item.value === WithdrawStep.ADDRESS);
+      const item = previousSteps.find(
+        item => item.value === WithdrawStep.ADDRESS,
+      );
       if (item) {
         item.title = prettyTx(address);
         item.icon = (
@@ -77,7 +79,7 @@ export const SidebarStepsWithdraw: React.FC<SidebarStepsProps> = () => {
     }
 
     if (step === WithdrawStep.PROCESSING) {
-      const item = prvSteps.find(
+      const item = previousSteps.find(
         item => item.value === WithdrawStep.PROCESSING,
       );
       if (item) {
@@ -86,7 +88,9 @@ export const SidebarStepsWithdraw: React.FC<SidebarStepsProps> = () => {
     }
 
     if (step === WithdrawStep.COMPLETED) {
-      const item = prvSteps.find(item => item.value === WithdrawStep.COMPLETED);
+      const item = previousSteps.find(
+        item => item.value === WithdrawStep.COMPLETED,
+      );
       if (item) {
         item.icon = (
           <img
@@ -98,7 +102,7 @@ export const SidebarStepsWithdraw: React.FC<SidebarStepsProps> = () => {
       }
     }
 
-    return prvSteps;
+    return previousSteps;
   }, [step, address, amount]);
 
   const canOpen = useCallback(
@@ -140,7 +144,7 @@ export const SidebarStepsWithdraw: React.FC<SidebarStepsProps> = () => {
         <img
           alt="arrowback"
           src={ArrowBack}
-          style={{ height: '20px', width: '20px', marginRight: '10px' }}
+          className="tw-w-4 tw-h-4 tw-mr-2"
         />
         {t(translations.fastBtcPage.backToPortfolio)}
       </Link>

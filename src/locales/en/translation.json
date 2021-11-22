@@ -188,7 +188,7 @@
       "depositInstructions": {
         "title": "Instructions:",
         "line1": "Do not deposit any asset other than BTC.",
-        "line2": "Do not send more than the MIN limit.",
+        "line2": "Do not send less than the MIN limit.",
         "line3": "Do not send more than the MAX limit.",
         "line4": "Allow up to {{hours}} hrs to proccess.",
         "line5": "If your transaction takes longer than {{hours}} hrs please <0>create a support ticket</0>."
@@ -221,8 +221,8 @@
       "withdrawDetails": {
         "title": "Withdraw Details",
         "min": "MIN:",
-        "max": "MIN:",
-        "fee": "MIN:"
+        "max": "MAX:",
+        "fee": "FEE:"
       },
       "withdrawInstructions": {
         "title": "Instructions:",
@@ -250,7 +250,7 @@
         "fees": "Fees Paid:",
         "received": "Receive Amount:",
         "tx": "Tx ID:",
-        "description": "Your withdrawal is being processed If your transaction takes longer than {{hours}} hrs please <0>create a support ticket</0>"
+        "description": "Your withdrawal is being processed. If your transaction takes longer than {{hours}} hrs please <0>create a support ticket</0>"
       },
       "walletTxHelper": {
         "confirm": "Please confirm the transaction in your {{wallet}} wallet",
@@ -1399,8 +1399,8 @@
   },
   "transakDialog": {
     "title": "Buy <0>RBTC</0> with fiat",
-    "explanation1": "Transak allows you to buy BTC which is then converted to <0>RBTC</0> and sent to your wallet",
-    "explanation2": "Make sure you do not exceed Sovryn deposit limits as Transak allows purchases above our max deposit limits",
+    "explanation1": "Transak allows you to buy <0>RBTC</0> with FIAT within minutes!",
+    "explanation2": "Transak may ask you to complete KYC form!",
     "chainId": "Make sure your wallet is set to correct network. Liquality Wallet requires dapp refresh to detect network change.",
     "cta": "Buy <0>RBTC</0> with fiat"
   },
