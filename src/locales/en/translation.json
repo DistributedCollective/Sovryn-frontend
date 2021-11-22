@@ -1755,6 +1755,14 @@
       "editMargin": "Margin",
       "editClose": "Close"
     },
+    "closedPositionsTable": {
+      "dateTime": "Date & Time",
+      "symbol": "Symbol",
+      "collateral": "Collateral",
+      "positionSize": "Position Size",
+      "realizedPnl": "Realized P&L",
+      "noData": "No data"
+    },
     "notificationSettingsDialog": {
       "title": "Margin Trade notification settings",
       "notifyVia": "Notify via",
