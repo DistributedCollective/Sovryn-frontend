@@ -46,9 +46,7 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
   const onSubmit = useCallback(async () => {
     // TODO: implement proper transaction execution and updating transactions
     // Temporary solution! Should be done in sequence somewhere else e.g. TradeExecutionStep (ProcessStep)
-    console.log('TEST:: execute transactions', transactions);
     for (let transaction of transactions) {
-      console.log('TEST:: execute transaction', transaction);
       await execute(transaction);
     }
   }, [transactions, execute]);

@@ -122,18 +122,6 @@ export const TradeDialog: React.FC = () => {
 
     const tradingFee = getTradingFee(amountChange, perpParameters);
 
-    console.log(trade, {
-      amountChange,
-      amountTarget,
-      marginChange,
-      roe,
-      marginTarget,
-      leverageTarget,
-      liquidationPrice,
-      tradingFee,
-      entryPrice: trade.entryPrice,
-    });
-
     return {
       amountChange,
       amountTarget,
