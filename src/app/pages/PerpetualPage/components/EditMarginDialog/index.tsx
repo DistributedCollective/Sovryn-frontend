@@ -14,7 +14,7 @@ import {
   calculateApproxLiquidationPrice,
   calculateLeverageForMargin,
 } from '../../utils/perpUtils';
-import { fromWei, toWei } from 'web3-utils';
+import { fromWei } from 'web3-utils';
 import { usePerpetual_queryPerpParameters } from '../../hooks/usePerpetual_queryPerpParameters';
 import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
 import classNames from 'classnames';
@@ -24,6 +24,7 @@ import { AmountInput } from '../../../../components/Form/AmountInput';
 import { usePerpetual_queryTraderState } from '../../hooks/usePerpetual_queryTraderState';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
 import { calculateMaxMarginWithdrawal } from '../../utils/contractUtils';
+import { toWei } from '../../../../../utils/blockchain/math-helpers';
 
 enum EditMarginDialogMode {
   increase,
@@ -71,13 +72,27 @@ export const EditMarginDialog: React.FC = () => {
 
   const onSubmit = useCallback(
     () =>
+      changedTrade &&
       dispatch(
         actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
           origin: PerpetualPageModals.EDIT_MARGIN,
           trade: changedTrade,
+          transactions: [
+            mode === EditMarginDialogMode.increase
+              ? {
+                  method: 'deposit',
+                  amount: toWei(margin),
+                  tx: null,
+                }
+              : {
+                  method: 'withdraw',
+                  amount: toWei(margin),
+                  tx: null,
+                },
+          ],
         }),
       ),
-    [dispatch, changedTrade],
+    [dispatch, changedTrade, mode, margin],
   );
 
   const [maxAmount, maxAmountWei] = useMemo(() => {
@@ -105,7 +120,7 @@ export const EditMarginDialog: React.FC = () => {
         0,
         Math.min(maxAmount, value ? Number(value) : Math.abs(signedMargin)),
       );
-      setMargin(clampedMargin.toString());
+      setMargin(clampedMargin.toPrecision(8));
 
       const newMargin = traderState.availableCashCC + signedMargin;
       const leverage = calculateLeverageForMargin(

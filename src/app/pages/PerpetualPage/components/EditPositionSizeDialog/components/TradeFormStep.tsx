@@ -50,6 +50,15 @@ export const TradeFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
       actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
         origin: PerpetualPageModals.EDIT_POSITION_SIZE,
         trade: targetTrade,
+        transactions: [
+          {
+            method: 'trade',
+            amount: changedTrade.amount,
+            tradingPosition: changedTrade.position,
+            slippage: changedTrade.slippage,
+            tx: null,
+          },
+        ],
       }),
     );
   }, [dispatch, trade, changedTrade, traderState]);

@@ -15,11 +15,10 @@ import {
   getRequiredMarginCollateral,
   calculateApproxLiquidationPrice,
 } from '../../utils/perpUtils';
-import { getTradeDirection } from '../../utils/contractUtils';
-import { fromWei, toWei } from 'web3-utils';
 import { usePerpetual_queryPerpParameters } from '../../hooks/usePerpetual_queryPerpParameters';
 import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
 import { usePerpetual_queryTraderState } from '../../hooks/usePerpetual_queryTraderState';
+import { toWei } from '../../../../../utils/blockchain/math-helpers';
 
 export const EditLeverageDialog: React.FC = () => {
   const dispatch = useDispatch();
@@ -81,16 +80,32 @@ export const EditLeverageDialog: React.FC = () => {
     [dispatch],
   );
 
-  const onSubmit = useCallback(
-    () =>
-      dispatch(
-        actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
-          origin: PerpetualPageModals.EDIT_LEVERAGE,
-          trade: changedTrade,
-        }),
-      ),
-    [dispatch, changedTrade],
-  );
+  const onSubmit = useCallback(() => {
+    if (!changedTrade) {
+      return;
+    }
+    const marginChange = margin - traderState.availableCashCC;
+
+    dispatch(
+      actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
+        origin: PerpetualPageModals.EDIT_LEVERAGE,
+        trade: changedTrade,
+        transactions: [
+          marginChange >= 0
+            ? {
+                method: 'deposit',
+                amount: toWei(marginChange),
+                tx: null,
+              }
+            : {
+                method: 'withdraw',
+                amount: toWei(Math.abs(marginChange)),
+                tx: null,
+              },
+        ],
+      }),
+    );
+  }, [dispatch, changedTrade, margin, traderState.availableCashCC]);
 
   useEffect(() => setChangedTrade(trade), [trade]);
 

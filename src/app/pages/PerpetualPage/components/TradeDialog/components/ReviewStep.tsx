@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { TradeSummary } from './TradeSummary';
 import { usePerpetual_openTrade } from '../../../hooks/usePerpetual_openTrade';
 import { ResultPosition } from './ResultPosition';
+import { usePerpetual_executeTransaction } from '../../../hooks/usePerpetual_executeTransaction';
 
 const titleMap = {
   [PerpetualPageModals.NONE]:
@@ -25,7 +26,9 @@ const titleMap = {
 
 export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
   const { t } = useTranslation();
-  const { origin, trade, pair, analysis } = useContext(TradeDialogContext);
+  const { origin, trade, pair, analysis, transactions } = useContext(
+    TradeDialogContext,
+  );
   const {
     amountChange,
     amountTarget,
@@ -38,20 +41,17 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     tradingFee,
   } = analysis;
 
-  const { trade: openTrade } = usePerpetual_openTrade();
+  const { execute } = usePerpetual_executeTransaction();
 
-  const onSubmit = useCallback(
-    () =>
-      trade &&
-      openTrade(
-        false,
-        trade?.amount,
-        trade.leverage,
-        trade.slippage,
-        trade.position,
-      ),
-    [openTrade, trade],
-  );
+  const onSubmit = useCallback(async () => {
+    // TODO: implement proper transaction execution and updating transactions
+    // Temporary solution! Should be done in sequence somewhere else e.g. TradeExecutionStep (ProcessStep)
+    console.log('TEST:: execute transactions', transactions);
+    for (let transaction of transactions) {
+      console.log('TEST:: execute transaction', transaction);
+      await execute(transaction);
+    }
+  }, [transactions, execute]);
 
   return (
     <>

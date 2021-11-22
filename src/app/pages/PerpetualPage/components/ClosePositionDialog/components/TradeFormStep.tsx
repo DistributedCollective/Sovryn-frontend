@@ -11,7 +11,7 @@ import { Tooltip, PopoverPosition } from '@blueprintjs/core';
 import { AmountInput } from '../../../../../components/Form/AmountInput';
 import { ClosePositionDialogStep } from '../types';
 import { ClosePositionDialogContext } from '..';
-import { fromWei, toWei } from 'web3-utils';
+import { fromWei } from 'web3-utils';
 import { usePerpetual_queryTraderState } from '../../../hooks/usePerpetual_queryTraderState';
 import { usePerpetual_queryAmmState } from '../../../hooks/usePerpetual_queryAmmState';
 import { usePerpetual_queryPerpParameters } from '../../../hooks/usePerpetual_queryPerpParameters';
@@ -24,6 +24,7 @@ import { AssetValueMode } from '../../../../../components/AssetValue/types';
 import { getTraderPnLInBC, getMidPrice } from '../../../utils/perpUtils';
 import { getTradeDirection } from '../../../utils/contractUtils';
 import { TradingPosition } from '../../../../../../types/trading-position';
+import { toWei } from '../../../../../../utils/blockchain/math-helpers';
 
 export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
   changeTo,
@@ -56,6 +57,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     amountChange,
     amountTarget,
     marginTarget,
+    marginChange,
     unrealizedPartial,
   } = useMemo(() => {
     const amountCurrent = trade
@@ -69,6 +71,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     const amountTarget = amountCurrent + amountChange;
     const targetFactor = amountTarget / amountCurrent;
     const marginTarget = traderState.availableCashCC * targetFactor;
+    const marginChange = marginTarget - traderState.availableCashCC;
 
     const unrealizedPartial =
       getTraderPnLInBC(traderState, ammState) * (1 - targetFactor);
@@ -77,6 +80,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
       amountChange,
       amountTarget,
       marginTarget,
+      marginChange,
       unrealizedPartial,
     };
   }, [trade, changedTrade, traderState, ammState]);
@@ -99,13 +103,38 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
       actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
         origin: PerpetualPageModals.CLOSE_POSITION,
         trade: targetTrade,
+        transactions: [
+          {
+            method: 'trade',
+            isClosePosition: true,
+            amount:
+              amountTarget === 0
+                ? toWei(1.1 * amountChange)
+                : toWei(amountChange),
+            slippage: trade?.slippage,
+            tx: null,
+          },
+          marginTarget === 0
+            ? {
+                method: 'withdrawAll',
+                tx: null,
+              }
+            : {
+                method: 'withdraw',
+                amount: toWei(Math.abs(marginChange)),
+                tx: null,
+              },
+        ],
       }),
     );
   }, [
     dispatch,
     changedTrade,
     amountTarget,
+    amountChange,
     marginTarget,
+    marginChange,
+    trade?.slippage,
     perpParameters,
     ammState,
   ]);

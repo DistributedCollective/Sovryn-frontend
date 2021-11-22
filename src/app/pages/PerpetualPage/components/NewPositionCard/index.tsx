@@ -81,6 +81,16 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
         actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
           origin: PerpetualPageModals.NONE,
           trade,
+          transactions: [
+            {
+              method: 'trade',
+              amount: trade.amount,
+              tradingPosition: trade.position,
+              slippage: trade.slippage,
+              leverage: trade.leverage,
+              tx: null,
+            },
+          ],
         }),
       ),
     [dispatch, trade],

@@ -2,6 +2,7 @@ import { Asset, Nullable } from '../../../types';
 import { TradingPosition } from '../../../types/trading-position';
 import { PerpetualPairType } from '../../../utils/dictionaries/perpetual-pair-dictionary';
 import { Transaction } from 'ethers';
+import { PerpetualTx } from './components/TradeDialog/types';
 
 export const PERPETUAL_SLIPPAGE_DEFAULT = 0.5;
 
@@ -54,6 +55,7 @@ export type PerpetualTrade = {
 export type PerpetualTradeReview = {
   origin: PerpetualPageModals;
   trade: PerpetualTrade;
+  transactions: PerpetualTx[];
 };
 
 export type PendingTransactions = Nullable<Transaction>[];
@@ -76,7 +78,8 @@ export const isPerpetualTradeReview = (x: any): x is PerpetualTradeReview =>
   x &&
   typeof x === 'object' &&
   PerpetualPageModals[x.origin] !== undefined &&
-  isPerpetualTrade(x.trade);
+  isPerpetualTrade(x.trade) &&
+  Array.isArray(x.transactions);
 
 export type PerpetualPageState = {
   pairType: PerpetualPairType;

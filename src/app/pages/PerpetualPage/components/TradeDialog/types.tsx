@@ -2,6 +2,7 @@ import { TradingPosition } from '../../../../../types/trading-position';
 import { Transaction } from '../../../../../store/global/transactions-store/types';
 import { PerpetualPageModals, PerpetualTrade } from '../../types';
 import { PerpetualPair } from '../../../../../utils/models/perpetual-pair';
+import { Nullable } from '../../../../../types';
 
 export enum TradeDialogStep {
   review = 'review',
@@ -45,8 +46,6 @@ export type PerpetualTxWithrawMargin = {
 
 export type PerpetualTxWithrawAllMargin = {
   method: 'withdrawAll';
-  /** amount as wei string */
-  amount: string;
 };
 
 export type PerpetualTx = (
@@ -55,7 +54,7 @@ export type PerpetualTx = (
   | PerpetualTxWithrawMargin
   | PerpetualTxWithrawAllMargin
 ) & {
-  tx: Transaction;
+  tx: Nullable<Transaction>;
 };
 
 export type TradeDialogContextType = {
@@ -64,6 +63,5 @@ export type TradeDialogContextType = {
   trade?: PerpetualTrade;
   analysis: TradeAnalysis;
   transactions: PerpetualTx[];
-  setTransactions: (txs: PerpetualTx[]) => void;
   onClose: () => void;
 };

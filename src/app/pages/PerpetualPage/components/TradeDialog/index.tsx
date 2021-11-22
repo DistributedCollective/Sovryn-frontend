@@ -46,7 +46,6 @@ const tradeDialogContextDefault: TradeDialogContextType = {
     tradingFee: 0,
   },
   transactions: [],
-  setTransactions: noop,
   onClose: noop,
 };
 
@@ -68,11 +67,11 @@ export const TradeDialog: React.FC = () => {
   const ammState = usePerpetual_queryAmmState();
   const traderState = usePerpetual_queryTraderState();
 
-  const { origin, trade } = useMemo(
+  const { origin, trade, transactions } = useMemo(
     () =>
       isPerpetualTradeReview(modalOptions)
         ? modalOptions
-        : { origin: undefined, trade: undefined },
+        : { origin: undefined, trade: undefined, transactions: [] },
     [modalOptions],
   );
 
@@ -81,8 +80,6 @@ export const TradeDialog: React.FC = () => {
       PerpetualPairDictionary.get(trade?.pairType || PerpetualPairType.BTCUSD),
     [trade],
   );
-
-  const [transactions, setTransactions] = useState<PerpetualTx[]>([]);
 
   const analysis: TradeAnalysis = useMemo(() => {
     if (!trade) {
@@ -162,7 +159,6 @@ export const TradeDialog: React.FC = () => {
       trade,
       analysis,
       transactions,
-      setTransactions,
       onClose,
     }),
     [origin, pair, trade, analysis, transactions, onClose],
