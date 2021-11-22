@@ -22,14 +22,19 @@ import { translations } from 'locales/i18n';
 import { ConfirmButton } from 'app/pages/BuySovPage/components/Button/confirm';
 import { usePrevious } from '../../hooks/usePrevious';
 
-interface Props {
+type ITxDialogProps = {
   tx: ResetTxResponseInterface;
   onUserConfirmed?: () => void;
   onSuccess?: () => void;
   onClose?: () => void;
-}
+};
 
-export function TxDialog({ tx, onUserConfirmed, onSuccess, onClose }: Props) {
+export const TxDialog: React.FC<ITxDialogProps> = ({
+  tx,
+  onUserConfirmed,
+  onSuccess,
+  onClose,
+}) => {
   const { t } = useTranslation();
   const { address } = useContext(WalletContext);
 
@@ -130,7 +135,7 @@ export function TxDialog({ tx, onUserConfirmed, onSuccess, onClose }: Props) {
       )}
     </Dialog>
   );
-}
+};
 
 function getWalletName(wallet) {
   if (wallet === 'liquality') return 'Liquality';
