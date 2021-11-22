@@ -27,6 +27,7 @@ export type PerpParameters = {
   fInitialMarginRateAlpha: number;
   fMarginRateBeta: number;
   fInitialMarginRateCap: number;
+  fOpenInterest: number;
   fMaintenanceMarginRateAlpha: number;
   fTreasuryFeeRate: number;
   fPnLPartRate: number;
