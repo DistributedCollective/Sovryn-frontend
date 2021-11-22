@@ -50,6 +50,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
   const { position, amount, pairType, collateral, leverage } = useSelector(
     selectMarginTradePage,
   );
+  const orderTypeValue = props.orderType;
 
   const dispatch = useDispatch();
   const pair = useMemo(() => TradingPairDictionary.get(pairType), [pairType]);
@@ -136,7 +137,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
                 },
               )}
             >
-              {toNumberFormat(leverage) + 'x'} {props.orderType}{' '}
+              {toNumberFormat(leverage) + 'x'} {orderTypeValue}{' '}
               {position === TradingPosition.LONG
                 ? TradingTypes.BUY
                 : TradingTypes.SELL}
@@ -322,6 +323,17 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
             textClassName={'tw-w-1/2 tw-text-gray-10 tw-text-gray-10'}
           />
         }
+        data={{
+          position,
+          leverage,
+          orderTypeValue,
+          pair,
+          amount,
+          collateral,
+          loanToken,
+          collateralToken,
+          useLoanTokens,
+        }}
       />
     </>
   );

@@ -158,7 +158,7 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
   return (
     <>
       <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
-        <div className="tw-mx-auto">
+        <div className="tw-mw-340 tw-mx-auto">
           <h1 className="tw-text-sov-white tw-text-center">
             {t(translations.closeTradingPositionHandler.title)}
           </h1>
@@ -277,12 +277,14 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
             </div>
           </FormGroup>
 
-          <TxFeeCalculator
-            args={args}
-            methodName="closeWithSwap"
-            contractName="sovrynProtocol"
-            txConfig={{ gas: gasLimit[TxType.CLOSE_WITH_SWAP] }}
-          />
+          <div className="tw-text-sm tw-mb-3">
+            <TxFeeCalculator
+              args={args}
+              methodName="closeWithSwap"
+              contractName="sovrynProtocol"
+              txConfig={{ gas: gasLimit[TxType.CLOSE_WITH_SWAP] }}
+            />
+          </div>
 
           {openSlippage && (
             <SlippageForm

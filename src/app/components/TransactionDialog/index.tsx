@@ -16,6 +16,16 @@ import cn from 'classnames';
 import { getStatusImage } from './utils';
 import { WalletLogo } from './WalletLogo';
 import { getWalletName } from '../UserAssets/TxDialog/WalletLogo';
+import { TradingPosition } from 'types/trading-position';
+import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
+import { TradingTypes } from 'app/pages/SpotTradingPage/types';
+import { LoadableValue } from '../LoadableValue';
+import { fromWei } from 'utils/blockchain/math-helpers';
+import { AssetRenderer } from '../AssetRenderer';
+import { PricePrediction } from 'app/containers/MarginTradeForm/PricePrediction';
+import { OrderTypes } from '../OrderType/types';
+import { TradingPair } from 'utils/models/trading-pair';
+import { Asset } from 'types';
 
 interface ITransactionDialogProps {
   tx: ResetTxResponseInterface;
@@ -24,6 +34,17 @@ interface ITransactionDialogProps {
   action?: string;
   fee?: React.ReactNode;
   finalMessage?: React.ReactNode;
+  data?: {
+    position: TradingPosition;
+    leverage: number;
+    orderTypeValue: OrderTypes;
+    pair: TradingPair;
+    amount: string;
+    collateral: Asset;
+    loanToken: Asset;
+    collateralToken: Asset;
+    useLoanTokens: boolean;
+  };
 }
 
 export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
@@ -33,6 +54,7 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
   action,
   fee,
   finalMessage,
+  data,
 }) => {
   const { t } = useTranslation();
   const { address } = useWalletContext();
@@ -120,6 +142,51 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
             {finalMessage && (
               <div className="tw-w-full tw-rounded-xl tw-bg-gray-2 tw-px-6 tw-py-4 tw-mb-4">
                 {finalMessage}
+              </div>
+            )}
+
+            {data && (
+              <div className="tw-pt-3 tw-pb-2 tw-px-6 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
+                <div
+                  className={cn(
+                    'tw-text-center tw-font-medium tw-lowercase tw-text-xl',
+                    {
+                      'tw-text-trade-short':
+                        data.position === TradingPosition.SHORT,
+                      'tw-text-trade-long':
+                        data.position === TradingPosition.LONG,
+                    },
+                  )}
+                >
+                  {toNumberFormat(data.leverage) + 'x'} {data.orderTypeValue}{' '}
+                  {data.position === TradingPosition.LONG
+                    ? TradingTypes.BUY
+                    : TradingTypes.SELL}
+                </div>
+                <div className="tw-text-center tw-my-1">
+                  {data.pair.chartSymbol}
+                </div>
+                <div className="tw-flex tw-justify-center tw-items-center">
+                  <LoadableValue
+                    loading={false}
+                    value={
+                      <div className="tw-mr-1">
+                        {weiToNumberFormat(data.amount, 4)}
+                      </div>
+                    }
+                    tooltip={fromWei(data.amount)}
+                  />{' '}
+                  <AssetRenderer asset={data.collateral} />
+                  <div className="tw-px-1">&#64; &ge;</div>
+                  <PricePrediction
+                    position={data.position}
+                    leverage={data.leverage}
+                    loanToken={data.loanToken}
+                    collateralToken={data.collateralToken}
+                    useLoanTokens={data.useLoanTokens}
+                    weiAmount={data.amount}
+                  />
+                </div>
               </div>
             )}
 

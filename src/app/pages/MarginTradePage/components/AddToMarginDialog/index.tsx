@@ -136,11 +136,13 @@ export function AddToMarginDialog(props: IAddToMarginDialogProps) {
             </DummyField>
           </FormGroup>
 
-          <TxFeeCalculator
-            args={[props.item.loanId, weiAmount]}
-            methodName="depositCollateral"
-            contractName="sovrynProtocol"
-          />
+          <div className="tw-text-sm tw-mb-3">
+            <TxFeeCalculator
+              args={[props.item.loanId, weiAmount]}
+              methodName="depositCollateral"
+              contractName="sovrynProtocol"
+            />
+          </div>
 
           {topupLocked && (
             <ErrorBadge
