@@ -197,7 +197,7 @@
         "title": "Processando depósito BTC",
         "titleCompleted": "Depósito BTC concluído",
         "amount": "Depósito",
-        "fees": "Taxas pagas:",
+        "fees": "Taxas:",
         "received": "Quantidade recebida:",
         "txHash": "Hash da transação:",
         "txId": "ID transação:",
