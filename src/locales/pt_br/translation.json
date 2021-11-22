@@ -211,7 +211,7 @@
     },
     "withdraw": {
       "sidebarSteps": {
-        "amount": "Quantidade do saque",
+        "amount": "Quantidade",
         "address": "Endereço de saque",
         "review": "Revisar",
         "confirm": "Confirmar",
