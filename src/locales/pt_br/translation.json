@@ -243,17 +243,17 @@
         "availableBalance": "Saldo disponível: <0/> <1/>"
       },
       "addressForm": {
-        "title": "BTC Network Withdraw Address",
+        "title": "Endereço de saque BTC",
         "address": "Sacar BTC para este endereço",
         "errorBECH32": "Insira um endereço BTC BECH32 válido!",
         "cta": "Revisar saque"
       },
       "reviewScreen": {
         "title": "Revisar saque <0/>",
-        "amount": "Withdraw",
-        "address": "BTC Network Receive Address",
+        "amount": "Sacar",
+        "address": "Endereço BTC de recebimento",
         "fees": "Taxas pagas:",
-        "received": "Quantidade recebida:",
+        "received": "Receber:",
         "tx": "ID transação:",
         "description": "O saque está sendo processado. Se a transação não for concluída em {{hours}} horas <0>abra um ticket de suporte</0>."
       },
