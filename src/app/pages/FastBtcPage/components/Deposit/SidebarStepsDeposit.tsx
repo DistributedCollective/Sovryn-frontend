@@ -19,15 +19,27 @@ const stepOrder = [
   DepositStep.COMPLETED,
 ];
 
-const initialSteps: StepItem[] = [
-  { stepTitle: 'Deposit Address', value: DepositStep.ADDRESS },
-  { stepTitle: 'Processing', value: DepositStep.PROCESSING },
-  { stepTitle: 'Complete', value: DepositStep.COMPLETED },
-];
-
 export const SidebarStepsDeposit: React.FC = () => {
   const { t } = useTranslation();
   const { step, set, address, depositTx } = useContext(DepositContext);
+
+  const initialSteps: StepItem[] = useMemo(
+    () => [
+      {
+        stepTitle: t(translations.fastBtcPage.deposit.sidebarSteps.address),
+        value: DepositStep.ADDRESS,
+      },
+      {
+        stepTitle: t(translations.fastBtcPage.deposit.sidebarSteps.processing),
+        value: DepositStep.PROCESSING,
+      },
+      {
+        stepTitle: t(translations.fastBtcPage.deposit.sidebarSteps.completed),
+        value: DepositStep.COMPLETED,
+      },
+    ],
+    [t],
+  );
 
   const steps = useMemo<StepItem[]>(() => {
     const previousSteps = [...initialSteps.map(item => ({ ...item }))];
@@ -54,10 +66,20 @@ export const SidebarStepsDeposit: React.FC = () => {
       );
       if (item) {
         if (depositTx?.status === 'pending') {
-          item.title = 'Processing (1/2)';
+          item.title =
+            t(translations.fastBtcPage.deposit.sidebarSteps.processingSteps, {
+              step: 1,
+              steps: 2,
+            }) + 'Processing (1/2)';
         }
         if (depositTx?.status === 'confirmed') {
-          item.title = 'Processing (2/2)';
+          item.title = t(
+            translations.fastBtcPage.deposit.sidebarSteps.processingSteps,
+            {
+              step: 2,
+              steps: 2,
+            },
+          );
         }
       }
     }
@@ -78,7 +100,7 @@ export const SidebarStepsDeposit: React.FC = () => {
     }
 
     return previousSteps;
-  }, [step, address, depositTx]);
+  }, [step, address, depositTx, t, initialSteps]);
 
   const canOpen = useCallback(
     (testStep: DepositStep) => {

@@ -161,7 +161,8 @@
     "meta": {
       "title": "Depositar-BTC",
       "description": "Transfira seu Bitcoin para a rede RSK."
-      "backToPortfolio": "Voltar",
+    },
+    "backToPortfolio": "Voltar",
     "deposit": {
       "mainScreen": {
         "title": "Depositar BTC e receber <0/>",

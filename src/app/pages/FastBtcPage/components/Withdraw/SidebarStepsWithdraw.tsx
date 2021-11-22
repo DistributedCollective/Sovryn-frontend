@@ -26,18 +26,39 @@ const stepOrder = [
   WithdrawStep.COMPLETED,
 ];
 
-const initialSteps: StepItem[] = [
-  { stepTitle: 'Withdraw Amount', value: WithdrawStep.AMOUNT },
-  { stepTitle: 'Withdraw Address', value: WithdrawStep.ADDRESS },
-  { stepTitle: 'Review', value: WithdrawStep.REVIEW },
-  { stepTitle: 'Confirm', value: WithdrawStep.CONFIRM },
-  { stepTitle: 'Processing', value: WithdrawStep.PROCESSING },
-  { stepTitle: 'Complete', value: WithdrawStep.COMPLETED },
-];
-
 export const SidebarStepsWithdraw: React.FC = () => {
   const { t } = useTranslation();
   const { step, set, amount, address } = useContext(WithdrawContext);
+
+  const initialSteps: StepItem[] = useMemo(
+    () => [
+      {
+        stepTitle: t(translations.fastBtcPage.withdraw.sidebarSteps.amount),
+        value: WithdrawStep.AMOUNT,
+      },
+      {
+        stepTitle: t(translations.fastBtcPage.withdraw.sidebarSteps.address),
+        value: WithdrawStep.ADDRESS,
+      },
+      {
+        stepTitle: t(translations.fastBtcPage.withdraw.sidebarSteps.review),
+        value: WithdrawStep.REVIEW,
+      },
+      {
+        stepTitle: t(translations.fastBtcPage.withdraw.sidebarSteps.confirm),
+        value: WithdrawStep.CONFIRM,
+      },
+      {
+        stepTitle: t(translations.fastBtcPage.withdraw.sidebarSteps.processing),
+        value: WithdrawStep.PROCESSING,
+      },
+      {
+        stepTitle: t(translations.fastBtcPage.withdraw.sidebarSteps.completed),
+        value: WithdrawStep.COMPLETED,
+      },
+    ],
+    [t],
+  );
 
   const steps = useMemo<StepItem[]>(() => {
     const previousSteps = [...initialSteps.map(item => ({ ...item }))];
@@ -83,7 +104,9 @@ export const SidebarStepsWithdraw: React.FC = () => {
         item => item.value === WithdrawStep.PROCESSING,
       );
       if (item) {
-        item.title = 'Processing...';
+        item.title = t(
+          translations.fastBtcPage.withdraw.sidebarSteps.processingProgress,
+        );
       }
     }
 
@@ -103,7 +126,7 @@ export const SidebarStepsWithdraw: React.FC = () => {
     }
 
     return previousSteps;
-  }, [step, address, amount]);
+  }, [step, address, amount, t, initialSteps]);
 
   const canOpen = useCallback(
     (testStep: WithdrawStep) => {
