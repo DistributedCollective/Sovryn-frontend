@@ -9,7 +9,7 @@ import { usePerpetual_queryTraderState } from './usePerpetual_queryTraderState';
 import marginTokenAbi from 'utils/blockchain/abi/MarginToken.json';
 import { usePerpetual_marginAccountBalance } from './usePerpetual_marginAccountBalance';
 import { usePerpetual_queryAmmState } from './usePerpetual_queryAmmState';
-import { getTraderPnL } from '../utils/perpUtils';
+import { getTraderPnLInCC } from '../utils/perpUtils';
 import { bignumber } from 'mathjs';
 
 type AccountBalance = {
@@ -48,14 +48,16 @@ export const usePerpetual_accountBalance = (pairType: PerpetualPairType) => {
       .then(result => result && setAvailableBalance(String(result)));
   }, [account]);
 
-  const unrealizedPnl = useMemo(() => getTraderPnL(traderState, ammState), [
+  const unrealizedPnl = useMemo(() => getTraderPnLInCC(traderState, ammState), [
     ammState,
     traderState,
   ]);
 
   useEffect(() => {
     setData({
-      total: bignumber(availableBalance).add(marginBalance.fCashCC).toString(),
+      total: bignumber(availableBalance)
+        .add(toWei(marginBalance.fCashCC))
+        .toString(),
       available: availableBalance,
       inPositions: toWei(marginBalance.fCashCC),
       unrealized: toWei(unrealizedPnl),
