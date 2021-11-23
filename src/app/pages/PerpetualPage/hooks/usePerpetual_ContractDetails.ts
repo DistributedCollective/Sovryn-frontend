@@ -40,10 +40,12 @@ export const usePerpetual_ContractDetails = () => {
         true,
       );
 
-      data && data[0]?.volume && setVolume24h(data[0]?.volume);
+      if (data && data[0]?.volume) {
+        setVolume24h(data[0]?.volume);
+      }
     };
 
-    get24hVolume().then().catch();
+    get24hVolume().catch(console.error);
   }, []);
 
   useEffect(
