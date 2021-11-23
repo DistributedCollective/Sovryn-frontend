@@ -10,6 +10,7 @@ import { getTradeDirection } from '../../../utils/contractUtils';
 import { fromWei, toWei } from 'web3-utils';
 import { TradingPosition } from '../../../../../../types/trading-position';
 import { usePerpetual_queryTraderState } from '../../../hooks/usePerpetual_queryTraderState';
+import { PerpetualTxMethods } from '../../TradeDialog/types';
 
 export const TradeFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
   changeTo,
@@ -52,7 +53,7 @@ export const TradeFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
         trade: targetTrade,
         transactions: [
           {
-            method: 'trade',
+            method: PerpetualTxMethods.trade,
             amount: changedTrade.amount,
             tradingPosition: changedTrade.position,
             slippage: changedTrade.slippage,

@@ -25,6 +25,7 @@ import { usePerpetual_queryTraderState } from '../../hooks/usePerpetual_queryTra
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
 import { calculateMaxMarginWithdrawal } from '../../utils/contractUtils';
 import { toWei } from '../../../../../utils/blockchain/math-helpers';
+import { PerpetualTxMethods } from '../TradeDialog/types';
 
 enum EditMarginDialogMode {
   increase,
@@ -80,12 +81,12 @@ export const EditMarginDialog: React.FC = () => {
           transactions: [
             mode === EditMarginDialogMode.increase
               ? {
-                  method: 'deposit',
+                  method: PerpetualTxMethods.deposit,
                   amount: toWei(margin),
                   tx: null,
                 }
               : {
-                  method: 'withdraw',
+                  method: PerpetualTxMethods.withdraw,
                   amount: toWei(margin),
                   tx: null,
                 },
@@ -155,9 +156,8 @@ export const EditMarginDialog: React.FC = () => {
 
   useEffect(() => setChangedTrade(trade), [trade]);
 
+  // call onChangeMargin, when it's renewed to enforce maxAmount.
   useEffect(() => onChangeMargin(), [onChangeMargin]);
-
-  useEffect(() => {}, [signedMargin, traderState, ammState]);
 
   return (
     <Dialog

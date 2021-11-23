@@ -1,5 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dialog } from '../../../../containers/Dialog';
 import { selectPerpetualPage } from '../../selectors';
@@ -24,7 +23,6 @@ import { usePerpetual_queryTraderState } from '../../hooks/usePerpetual_queryTra
 import {
   TradeAnalysis,
   TradeDialogContextType,
-  PerpetualTx,
   TradeDialogStep,
 } from './types';
 import { noop } from '../../../../constants';
@@ -86,11 +84,11 @@ export const TradeDialog: React.FC = () => {
       return tradeDialogContextDefault.analysis;
     }
 
-    let amountTarget =
+    const amountTarget =
       Number(fromWei(trade.amount)) * getTradeDirection(trade.position);
-    let amountChange = amountTarget - traderState.marginAccountPositionBC;
+    const amountChange = amountTarget - traderState.marginAccountPositionBC;
 
-    let marginTarget = trade.margin
+    const marginTarget = trade.margin
       ? Number(fromWei(trade.margin))
       : traderState.availableCashCC +
         getRequiredMarginCollateral(

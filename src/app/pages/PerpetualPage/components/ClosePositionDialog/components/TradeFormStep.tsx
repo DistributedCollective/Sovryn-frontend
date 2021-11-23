@@ -25,6 +25,7 @@ import { getTraderPnLInBC, getMidPrice } from '../../../utils/perpUtils';
 import { getTradeDirection } from '../../../utils/contractUtils';
 import { TradingPosition } from '../../../../../../types/trading-position';
 import { toWei } from '../../../../../../utils/blockchain/math-helpers';
+import { PerpetualTxMethods } from '../../TradeDialog/types';
 
 export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
   changeTo,
@@ -105,7 +106,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
         trade: targetTrade,
         transactions: [
           {
-            method: 'trade',
+            method: PerpetualTxMethods.trade,
             isClosePosition: true,
             amount:
               amountTarget === 0
@@ -116,11 +117,11 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
           },
           marginTarget === 0
             ? {
-                method: 'withdrawAll',
+                method: PerpetualTxMethods.withdrawAll,
                 tx: null,
               }
             : {
-                method: 'withdraw',
+                method: PerpetualTxMethods.withdraw,
                 amount: toWei(Math.abs(marginChange)),
                 tx: null,
               },

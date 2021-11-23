@@ -22,40 +22,48 @@ export type TradeAnalysis = {
   tradingFee: number;
 };
 
+export enum PerpetualTxMethods {
+  trade = 'trade',
+  deposit = 'deposit',
+  withdraw = 'withdraw',
+  withdrawAll = 'withdrawAll',
+}
+
 export type PerpetualTxTrade = {
-  method: 'trade';
+  method: PerpetualTxMethods.trade;
   /** amount as wei string */
   amount: string;
   leverage?: number;
   slippage?: number;
   tradingPosition?: TradingPosition;
   isClosePosition?: boolean;
+  tx: Nullable<Transaction>;
 };
 
 export type PerpetualTxDepositMargin = {
-  method: 'deposit';
+  method: PerpetualTxMethods.deposit;
   /** amount as wei string */
   amount: string;
+  tx: Nullable<Transaction>;
 };
 
 export type PerpetualTxWithrawMargin = {
-  method: 'withdraw';
+  method: PerpetualTxMethods.withdraw;
   /** amount as wei string */
   amount: string;
+  tx: Nullable<Transaction>;
 };
 
 export type PerpetualTxWithrawAllMargin = {
-  method: 'withdrawAll';
+  method: PerpetualTxMethods.withdrawAll;
+  tx: Nullable<Transaction>;
 };
 
-export type PerpetualTx = (
+export type PerpetualTx =
   | PerpetualTxTrade
   | PerpetualTxDepositMargin
   | PerpetualTxWithrawMargin
-  | PerpetualTxWithrawAllMargin
-) & {
-  tx: Nullable<Transaction>;
-};
+  | PerpetualTxWithrawAllMargin;
 
 export type TradeDialogContextType = {
   pair: PerpetualPair;

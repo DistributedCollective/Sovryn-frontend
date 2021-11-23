@@ -25,6 +25,7 @@ import { TradeFormStep } from './components/TradeFormStep';
 import { ConnectFormStep } from './components/ConnectFormStep';
 import { noop } from '../../../../constants';
 import { PERPETUAL_SLIPPAGE_DEFAULT } from '../../types';
+import { PerpetualTxMethods } from '../TradeDialog/types';
 
 export const NewPositionCardContext = React.createContext<
   NewPositionCardContextType
@@ -83,7 +84,7 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
           trade,
           transactions: [
             {
-              method: 'trade',
+              method: PerpetualTxMethods.trade,
               amount: trade.amount,
               tradingPosition: trade.position,
               slippage: trade.slippage,

@@ -47,7 +47,7 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  let {
+  const {
     title,
     showMarginText,
     showAmountText,

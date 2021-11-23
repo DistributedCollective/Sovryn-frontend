@@ -19,6 +19,7 @@ import { usePerpetual_queryPerpParameters } from '../../hooks/usePerpetual_query
 import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
 import { usePerpetual_queryTraderState } from '../../hooks/usePerpetual_queryTraderState';
 import { toWei } from '../../../../../utils/blockchain/math-helpers';
+import { PerpetualTxMethods } from '../TradeDialog/types';
 
 export const EditLeverageDialog: React.FC = () => {
   const dispatch = useDispatch();
@@ -93,12 +94,12 @@ export const EditLeverageDialog: React.FC = () => {
         transactions: [
           marginChange >= 0
             ? {
-                method: 'deposit',
+                method: PerpetualTxMethods.deposit,
                 amount: toWei(marginChange),
                 tx: null,
               }
             : {
-                method: 'withdraw',
+                method: PerpetualTxMethods.withdraw,
                 amount: toWei(Math.abs(marginChange)),
                 tx: null,
               },
