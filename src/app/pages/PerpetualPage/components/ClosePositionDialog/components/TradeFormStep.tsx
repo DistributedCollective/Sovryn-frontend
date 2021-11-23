@@ -21,7 +21,11 @@ import {
 } from '../../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { AssetValue } from '../../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../../components/AssetValue/types';
-import { getTraderPnLInBC, getMidPrice } from '../../../utils/perpUtils';
+import {
+  getTraderPnLInBC,
+  getMidPrice,
+  getTraderPnLInCC,
+} from '../../../utils/perpUtils';
 import { getTradeDirection } from '../../../utils/contractUtils';
 import { TradingPosition } from '../../../../../../types/trading-position';
 import { toWei } from '../../../../../../utils/blockchain/math-helpers';
@@ -59,7 +63,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     amountTarget,
     marginTarget,
     marginChange,
-    unrealizedPartial,
+    totalToReceive,
   } = useMemo(() => {
     const amountCurrent = trade
       ? getTradeDirection(trade.position) * Number(fromWei(trade.amount))
@@ -75,14 +79,15 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     const marginChange = marginTarget - traderState.availableCashCC;
 
     const unrealizedPartial =
-      getTraderPnLInBC(traderState, ammState) * (1 - targetFactor);
+      getTraderPnLInCC(traderState, ammState) * (1 - targetFactor);
+    const totalToReceive = Math.abs(marginChange) + unrealizedPartial;
 
     return {
       amountChange,
       amountTarget,
       marginTarget,
       marginChange,
-      unrealizedPartial,
+      totalToReceive,
     };
   }, [trade, changedTrade, traderState, ammState]);
 
@@ -207,16 +212,11 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
       <div className="tw-flex tw-flex-row tw-justify-between tw-items-center tw-mb-8 tw-px-6 tw-py-1 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
         <label>{t(translations.perpetualPage.closePosition.total)}</label>
         <AssetValue
-          className={classNames(
-            'tw-text-base tw-font-semibold',
-            unrealizedPartial > 0
-              ? 'tw-text-trade-long'
-              : 'tw-text-trade-short',
-          )}
+          className="tw-text-base tw-font-semibold tw-text-trade-long"
           minDecimals={4}
           maxDecimals={4}
           mode={AssetValueMode.auto}
-          value={unrealizedPartial}
+          value={totalToReceive}
           assetString={pair.baseAsset}
           showPositiveSign
           useTooltip

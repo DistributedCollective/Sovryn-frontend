@@ -24,7 +24,7 @@ type TradeSummaryProps = {
   amountChange: number;
   marginTarget: number;
   marginChange: number;
-  roe: number;
+  partialUnrealizedPnL: number;
   leverageTarget: number;
   entryPrice: number;
   liquidationPrice: number;
@@ -39,7 +39,7 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
   amountChange,
   marginTarget,
   marginChange,
-  roe,
+  partialUnrealizedPnL,
   leverageTarget,
   entryPrice,
   liquidationPrice,
@@ -115,6 +115,8 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
     }
   }, [t, origin, marginChange, amountChange, leverageTarget, trade?.tradeType]);
 
+  const totalToReceive = -marginChange + partialUnrealizedPnL;
+
   return (
     <>
       <div className="tw-w-full tw-p-4 tw-bg-gray-2 tw-flex tw-flex-col tw-items-center tw-rounded-xl">
@@ -146,29 +148,20 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
             <span className="tw-text-gray-10 tw-mr-2">
               {t(translations.perpetualPage.reviewTrade.labels.totalToReceive)}
             </span>
-            <span className="tw-flex tw-flex-col tw-text-sov-white tw-font-medium">
-              <AssetValue
-                className={
-                  marginChange > 0
-                    ? 'tw-text-trade-short'
-                    : 'tw-text-trade-long'
-                }
-                minDecimals={4}
-                maxDecimals={4}
-                mode={AssetValueMode.auto}
-                value={-marginChange}
-                assetString={pair.baseAsset}
-                showPositiveSign
-              />
-              <span
-                className={
-                  roe > 0 ? 'tw-text-trade-long' : 'tw-text-trade-short'
-                }
-              >
-                {roe >= 0 ? '+' : ''}
-                {numberToPercent(roe, 2)}
-              </span>
-            </span>
+            <AssetValue
+              className={classNames(
+                'tw-text-sov-white tw-font-medium',
+                totalToReceive > 0
+                  ? 'tw-text-trade-long'
+                  : 'tw-text-trade-short',
+              )}
+              minDecimals={4}
+              maxDecimals={4}
+              mode={AssetValueMode.auto}
+              value={totalToReceive}
+              assetString={pair.baseAsset}
+              showPositiveSign
+            />
           </div>
         )}
       </div>
@@ -183,7 +176,7 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
               minDecimals={0}
               maxDecimals={6}
               mode={AssetValueMode.auto}
-              value={String(tradingFee)}
+              value={tradingFee}
               assetString={pair.baseAsset}
             />
           </span>

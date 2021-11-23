@@ -7,7 +7,6 @@ import { PerpetualPageModals } from '../../../types';
 import { translations } from '../../../../../../locales/i18n';
 import { useTranslation } from 'react-i18next';
 import { TradeSummary } from './TradeSummary';
-import { usePerpetual_openTrade } from '../../../hooks/usePerpetual_openTrade';
 import { ResultPosition } from './ResultPosition';
 import { usePerpetual_executeTransaction } from '../../../hooks/usePerpetual_executeTransaction';
 
@@ -37,7 +36,7 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     liquidationPrice,
     marginChange,
     marginTarget,
-    roe,
+    partialUnrealizedPnL,
     tradingFee,
   } = analysis;
 
@@ -64,7 +63,7 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
           leverageTarget={leverageTarget}
           liquidationPrice={liquidationPrice}
           marginChange={marginChange}
-          roe={roe}
+          partialUnrealizedPnL={partialUnrealizedPnL}
           marginTarget={marginTarget}
           pair={pair}
           tradingFee={tradingFee}

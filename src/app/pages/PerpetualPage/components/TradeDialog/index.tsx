@@ -11,7 +11,7 @@ import {
   getRequiredMarginCollateral,
   getTradingFee,
   calculateLeverage,
-  getTraderPnL,
+  getTraderPnLInCC,
 } from '../../utils/perpUtils';
 import {
   PerpetualPairDictionary,
@@ -36,8 +36,8 @@ const tradeDialogContextDefault: TradeDialogContextType = {
     amountChange: 0,
     amountTarget: 0,
     marginChange: 0,
-    roe: 0,
     marginTarget: 0,
+    partialUnrealizedPnL: 0,
     leverageTarget: 0,
     entryPrice: 0,
     liquidationPrice: 0,
@@ -100,9 +100,9 @@ export const TradeDialog: React.FC = () => {
         );
     const marginChange = marginTarget - traderState.availableCashCC;
 
-    const roe =
-      getTraderPnL(traderState, ammState) /
-      Math.abs(traderState.marginAccountLockedInValueQC);
+    const partialUnrealizedPnL =
+      getTraderPnLInCC(traderState, ammState) *
+      Math.abs(-marginChange / traderState.availableCashCC);
 
     const leverageTarget = calculateLeverage(
       amountTarget,
@@ -118,13 +118,13 @@ export const TradeDialog: React.FC = () => {
       marginChange,
     );
 
-    const tradingFee = getTradingFee(amountChange, perpParameters);
+    const tradingFee = getTradingFee(Math.abs(amountChange), perpParameters);
 
     return {
       amountChange,
       amountTarget,
       marginChange,
-      roe,
+      partialUnrealizedPnL,
       marginTarget,
       leverageTarget,
       liquidationPrice,

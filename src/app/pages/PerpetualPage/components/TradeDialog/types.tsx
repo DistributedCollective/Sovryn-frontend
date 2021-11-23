@@ -15,7 +15,7 @@ export type TradeAnalysis = {
   amountTarget: number;
   marginChange: number;
   marginTarget: number;
-  roe: number;
+  partialUnrealizedPnL: number;
   leverageTarget: number;
   entryPrice: number;
   liquidationPrice: number;
