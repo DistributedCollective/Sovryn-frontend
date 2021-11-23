@@ -39,7 +39,7 @@ export const TxFeeCalculator: React.FC<ITxFeeCalculator> = ({
       <div className="tw-w-1/2 tw-text-gray-10 tw-text-gray-10">
         {t(translations.marginTradePage.tradeForm.labels.tradingFee)}
       </div>
-      <div className="sm:tw-w-1/3 tw-w-1/2 tw-font-medium">
+      <div className="tw-w-1/2 tw-font-medium tw-text-right">
         <TransactionFee
           asset={asset}
           contractName={contractName}

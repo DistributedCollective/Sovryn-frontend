@@ -1,12 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
-import {
-  calculateProfit,
-  weiToNumberFormat,
-  toNumberFormat,
-} from 'utils/display-text/format';
-import { DummyInput } from 'app/components/Form/Input';
+import { calculateProfit, weiToNumberFormat } from 'utils/display-text/format';
 import {
   toWei,
   weiTo18,
@@ -37,13 +32,15 @@ import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPri
 import type { ActiveLoan } from 'types/active-loan';
 import { TxFeeCalculator } from '../TxFeeCalculator';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import { useTrading_testRates } from 'app/hooks/trading/useTrading_testRates';
-import { discordInvite } from 'utils/classifiers';
 import { useSlippage } from '../SlippageForm/useSlippage';
 import { SlippageForm } from '../SlippageForm';
 import settingIcon from 'assets/images/settings-blue.svg';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { bignumber } from 'mathjs';
+import { DummyInput } from 'app/components/Form/Input';
+import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
+import { ProfitContainer } from '../OpenPositionsTable/ProfitContainer';
+import { TradingPosition } from 'types/trading-position';
 
 interface IClosePositionDialogProps {
   item: ActiveLoan;
@@ -106,11 +103,6 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
   const args = [props.item.loanId, receiver, weiAmount, isCollateral, '0x'];
   const isLong = targetToken.asset === pair.longAsset;
 
-  function getEntryPrice(item: ActiveLoan) {
-    if (isLong) return Number(weiTo18(item.startRate));
-    return 1 / Number(weiTo18(item.startRate));
-  }
-
   const { price: currentPriceSource, loading } = useCurrentPositionPrice(
     sourceToken.asset,
     targetToken.asset,
@@ -132,28 +124,37 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
     '0x',
   );
 
-  const startPriceSource = getEntryPrice(props.item);
+  const position =
+    pair?.longAsset === props.item.loanToken
+      ? TradingPosition.LONG
+      : TradingPosition.SHORT;
 
-  const [profit, diff] = calculateProfit(
+  const entryPrice = useMemo(() => getEntryPrice(props.item, position), [
+    props.item,
+    position,
+  ]);
+
+  const [profit] = calculateProfit(
     isLong,
     currentPriceSource,
-    startPriceSource,
+    entryPrice,
     weiAmount,
   );
 
   const valid = useIsAmountWithinLimits(weiAmount, '1', props.item.collateral);
-  const test = useTrading_testRates(
-    assetByTokenAddress(
-      isCollateral ? props.item.loanToken : props.item.collateralToken,
-    ),
-    assetByTokenAddress(
-      isCollateral ? props.item.collateralToken : props.item.loanToken,
-    ),
-    weiAmount,
-  );
   const [slippage, setSlippage] = useState(0.5);
   const totalAmount = Number(amount) + Number(fromWei(profit));
   const { minReturn } = useSlippage(toWei(totalAmount), slippage);
+
+  const { error } = useCacheCallWithValue<{
+    withdrawAmount: string;
+    withdrawToken: string;
+  }>(
+    'sovrynProtocol',
+    'closeWithSwap',
+    { withdrawAmount: '0', withdrawToken: '' },
+    ...args,
+  );
 
   return (
     <>
@@ -195,20 +196,11 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
                 <LoadableValue
                   loading={loading}
                   value={
-                    <span
-                      className={
-                        diff < 0 ? 'tw-text-trade-short' : 'tw-text-trade-long'
-                      }
-                    >
-                      <div>
-                        {diff > 0 && '+'}
-                        {weiToNumberFormat(profit, 6)}{' '}
-                        <AssetRenderer asset={sourceToken.asset} />
-                        {amount !== '0' && (
-                          <div>({toNumberFormat(diff * 100, 2)}%)</div>
-                        )}
-                      </div>
-                    </span>
+                    <ProfitContainer
+                      item={props.item}
+                      position={position}
+                      entryPrice={entryPrice}
+                    />
                   }
                 />
               }
@@ -296,42 +288,7 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
             />
           )}
 
-          {(closeTradesLocked || test.diff > 5) && (
-            <ErrorBadge
-              content={
-                closeTradesLocked ? (
-                  <Trans
-                    i18nKey={translations.maintenance.closeMarginTrades}
-                    components={[
-                      <a
-                        href={discordInvite}
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
-                      >
-                        x
-                      </a>,
-                    ]}
-                  />
-                ) : test.diff > 5 ? (
-                  <>
-                    <p className="tw-mb-1">
-                      {t(
-                        translations.closeTradingPositionHandler.liquidity
-                          .line_1,
-                      )}
-                    </p>
-                    <p className="tw-mb-0">
-                      {t(
-                        translations.closeTradingPositionHandler.liquidity
-                          .line_2,
-                      )}
-                    </p>
-                  </>
-                ) : undefined
-              }
-            />
-          )}
+          {weiAmount !== '0' && error && <ErrorBadge content={error} />}
           <DialogButton
             confirmLabel={t(translations.common.confirm)}
             onConfirm={() => handleConfirm()}
@@ -383,4 +340,9 @@ function LabelValuePair(props: LabelValuePairProps) {
       <div className="tw-w-1/2 tw-font-medium">{props.value}</div>
     </div>
   );
+}
+
+function getEntryPrice(item: ActiveLoan, position: TradingPosition) {
+  if (position === TradingPosition.LONG) return Number(weiTo18(item.startRate));
+  return 1 / Number(weiTo18(item.startRate));
 }

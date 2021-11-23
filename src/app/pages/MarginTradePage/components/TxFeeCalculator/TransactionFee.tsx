@@ -1,12 +1,9 @@
 import React from 'react';
-
 import type { TransactionConfig } from 'web3-core';
 import { fromWei } from 'utils/blockchain/math-helpers';
-import { bignumber } from 'mathjs';
 import { ContractName } from 'utils/types/contracts';
 import { useEstimateContractGas } from 'app/hooks/useEstimateGas';
 import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
-import { gas } from 'utils/blockchain/gas-price';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { Asset } from 'types';
@@ -38,24 +35,18 @@ export const TransactionFee: React.FC<ITransactionFeeProps> = ({
     txConfig,
     condition,
   );
-  const gasData = React.useMemo(() => {
-    const data = txConfig?.gas
-      ? fromWei(bignumber(txConfig?.gas).mul(gas.get()).toFixed(0))
-      : fromWei(value);
-    return data;
-  }, [txConfig, value]);
 
   return (
     <LoadableValue
       value={
         <>
-          {weiToNumberFormat(value, 5)} <AssetSymbolRenderer asset={asset} />
+          {weiToNumberFormat(value, 6)} <AssetSymbolRenderer asset={asset} />
         </>
       }
       loading={loading}
       tooltip={
         <>
-          {gasData} <AssetSymbolRenderer asset={asset} />
+          {fromWei(value)} <AssetSymbolRenderer asset={asset} />
           <br />
           <small className="tw-text-gray-6">
             ({t(translations.common.gasPrice)}:{' '}
