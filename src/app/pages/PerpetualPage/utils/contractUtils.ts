@@ -15,6 +15,8 @@ import { bridgeNetwork } from '../../BridgeDepositPage/utils/bridge-network';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import marginTokenAbi from 'utils/blockchain/abi/MarginToken.json';
 import { TradingPosition } from 'types/trading-position';
+import { TraderState, getBase2CollateralFX, AMMState } from './perpUtils';
+import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
 
 export const ONE_64x64 = BigNumber.from('0x10000000000000000');
 
@@ -154,4 +156,16 @@ export const checkAndApprove = async (
       rejected: true,
     };
   }
+};
+
+export const calculateMaxMarginWithdrawal = (
+  pair: PerpetualPair | undefined,
+  traderState: TraderState,
+  ammState: AMMState,
+) => {
+  const requiredMargin =
+    (Math.abs(traderState.marginAccountPositionBC) *
+      getBase2CollateralFX(ammState, true)) /
+    (pair?.config.leverage.max || 1);
+  return traderState.availableCashCC - requiredMargin;
 };

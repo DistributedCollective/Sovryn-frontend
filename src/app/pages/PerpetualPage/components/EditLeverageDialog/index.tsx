@@ -19,11 +19,13 @@ import { getTradeDirection } from '../../utils/contractUtils';
 import { fromWei } from 'web3-utils';
 import { usePerpetual_queryPerpParameters } from '../../hooks/usePerpetual_queryPerpParameters';
 import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
+import { usePerpetual_queryTraderState } from '../../hooks/usePerpetual_queryTraderState';
 
 export const EditLeverageDialog: React.FC = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { modal, modalOptions } = useSelector(selectPerpetualPage);
+  const traderState = usePerpetual_queryTraderState();
   const ammState = usePerpetual_queryAmmState();
   const perpParameters = usePerpetual_queryPerpParameters();
   const trade = useMemo(
@@ -66,11 +68,12 @@ export const EditLeverageDialog: React.FC = () => {
 
     return getRequiredMarginCollateral(
       changedTrade.leverage,
-      position,
-      position,
+      traderState.marginAccountPositionBC,
+      traderState.marginAccountPositionBC + position,
       perpParameters,
+      ammState,
     );
-  }, [changedTrade, perpParameters]);
+  }, [changedTrade, traderState, perpParameters, ammState]);
 
   const liquidationPrice = useMemo(() => {
     if (!changedTrade) {
@@ -82,12 +85,13 @@ export const EditLeverageDialog: React.FC = () => {
       getTradeDirection(changedTrade.position);
 
     return calculateApproxLiquidationPrice(
-      position,
-      requiredMargin,
+      traderState,
       ammState,
       perpParameters,
+      position,
+      requiredMargin,
     );
-  }, [changedTrade, requiredMargin, ammState, perpParameters]);
+  }, [changedTrade, requiredMargin, traderState, ammState, perpParameters]);
 
   useEffect(() => setChangedTrade(trade), [trade]);
 
@@ -96,7 +100,7 @@ export const EditLeverageDialog: React.FC = () => {
       isOpen={modal === PerpetualPageModals.EDIT_LEVERAGE}
       onClose={onClose}
     >
-      <h1>{t(translations.perpetualPage.editPositionSize.title)}</h1>
+      <h1>{t(translations.perpetualPage.editLeverage.title)}</h1>
       {trade && pair && (
         <div className="tw-mw-340 tw-mx-auto">
           <TradeDetails

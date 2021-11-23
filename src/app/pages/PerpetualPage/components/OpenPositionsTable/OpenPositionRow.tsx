@@ -18,6 +18,8 @@ import {
 import { TradingPosition } from '../../../../../types/trading-position';
 import { toWei } from 'web3-utils';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
+import { usePerpetual_closePosition } from '../../hooks/usePerpetual_closePosition';
+import { TxStatus } from '../../../../../store/global/transactions-store/types';
 
 type OpenPositionRowProps = {
   item: OpenPositionEntry;
@@ -28,6 +30,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
   const isMaintenance = checkMaintenance(States.PERPETUAL_TRADES);
+  const { status, closePosition } = usePerpetual_closePosition();
 
   const pair = useMemo(() => PerpetualPairDictionary.get(item.pairType), [
     item.pairType,
@@ -41,9 +44,10 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
         tradeType: item.type || PerpetualTradeType.MARKET,
         position: item.position || TradingPosition.LONG,
         slippage: PERPETUAL_SLIPPAGE_DEFAULT,
-        amount: item.amount ? toWei(item.amount.toPrecision(8)) : '0',
+        amount: item.amount ? toWei(Math.abs(item.amount).toPrecision(8)) : '0',
         collateral: pair.collateralAsset,
         leverage: item.leverage || 0,
+        entryPrice: item.entryPrice || 0,
       };
       dispatch(actions.setModal(modal, trade));
     },
@@ -66,8 +70,8 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
   );
 
   const onCloseTrade = useCallback(
-    () => onOpenTradeModal(PerpetualPageModals.TRADE_CLOSE),
-    [onOpenTradeModal],
+    () => (!status || status === TxStatus.NONE) && closePosition(),
+    [status, closePosition],
   );
 
   const isEmptyPosition = useMemo(() => !item.amount || item.amount === 0, [

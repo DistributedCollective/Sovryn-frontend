@@ -45,6 +45,7 @@ export type PerpetualTrade = {
   limit?: string;
   leverage: number;
   slippage: number;
+  entryPrice: number;
 };
 
 export const isPerpetualTrade = (x: any): x is PerpetualTrade =>
@@ -57,6 +58,7 @@ export const isPerpetualTrade = (x: any): x is PerpetualTrade =>
   typeof x.amount === 'string' &&
   typeof x.leverage === 'number' &&
   typeof x.slippage === 'number' &&
+  typeof x.entryPrice === 'number' &&
   (x.limit === undefined || typeof x.limit === 'string');
 
 export type PerpetualPageState = {

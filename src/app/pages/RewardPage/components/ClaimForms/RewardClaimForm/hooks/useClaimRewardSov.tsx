@@ -4,7 +4,10 @@ import { useAccount } from 'app/hooks/useAccount';
 import { ethGenesisAddress, gasLimit } from 'utils/classifiers';
 import { TxType } from 'store/global/transactions-store/types';
 
-export const useClaimRewardSov = (hasLockedSov: boolean) => {
+export const useClaimRewardSov = (
+  hasLockedSov: boolean,
+  hasLMRewards: boolean,
+) => {
   const address = useAccount();
 
   const { send: sendLocked } = useSendContractTx(
@@ -35,17 +38,19 @@ export const useClaimRewardSov = (hasLockedSov: boolean) => {
         nonce++;
       }
 
-      await send(
-        [ethGenesisAddress],
-        {
-          nonce,
-          from: address,
-          gas: gasLimit[TxType.CLAIM_VESTED_SOV_REWARDS],
-        },
-        {
-          type: TxType.CLAIM_VESTED_SOV_REWARDS,
-        },
-      );
+      if (hasLMRewards) {
+        await send(
+          [ethGenesisAddress],
+          {
+            nonce,
+            from: address,
+            gas: gasLimit[TxType.CLAIM_VESTED_SOV_REWARDS],
+          },
+          {
+            type: TxType.CLAIM_VESTED_SOV_REWARDS,
+          },
+        );
+      }
     },
     ...tx,
   };

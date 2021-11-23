@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
@@ -35,6 +35,7 @@ import { NewPositionCard } from './components/NewPositionCard';
 import { TradeReviewDialog } from './components/TradeReviewDialog';
 import { EditPositionSizeDialog } from './components/EditPositionSizeDialog';
 import { EditLeverageDialog } from './components/EditLeverageDialog';
+import { EditMarginDialog } from './components/EditMarginDialog';
 
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -92,11 +93,6 @@ export function PerpetualPage() {
 
   const connected = useIsConnected();
   const [activeTab, setActiveTab] = useState(0);
-
-  const onNotificationSettingsClick = useCallback(
-    () => setShowNotificationSettingsModal(true),
-    [],
-  );
 
   // This can be used for testing Withdraw/Close position
   // const { withdraw } = usePerpetual_withdrawMarginToken();
@@ -176,10 +172,6 @@ export function PerpetualPage() {
           Close the position
         </button> */}
 
-        {/* <TestCandles /> */}
-
-        {/* <TestHistory /> */}
-
         {connected && (
           <>
             <div className="tw-flex tw-items-center tw-text-sm">
@@ -221,6 +213,7 @@ export function PerpetualPage() {
       <TradeReviewDialog />
       <EditPositionSizeDialog />
       <EditLeverageDialog />
+      <EditMarginDialog />
     </>
   );
 }

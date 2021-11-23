@@ -5,6 +5,7 @@ import { TxType } from 'store/global/transactions-store/types';
 import { TradingPosition } from 'types/trading-position';
 import { fromWei } from 'utils/blockchain/math-helpers';
 import { ethGenesisAddress, gasLimit } from 'utils/classifiers';
+import { toWei } from 'web3-utils';
 import {
   floatToABK64x64,
   PERPETUAL_ID,
@@ -19,6 +20,7 @@ import { usePerpetual_depositMarginToken } from './usePerpetual_depositMarginTok
 import { usePerpetual_marginAccountBalance } from './usePerpetual_marginAccountBalance';
 import { usePerpetual_queryAmmState } from './usePerpetual_queryAmmState';
 import { usePerpetual_queryPerpParameters } from './usePerpetual_queryPerpParameters';
+import { usePerpetual_queryTraderState } from './usePerpetual_queryTraderState';
 
 const MASK_MARKET_ORDER = 0x40000000;
 const MASK_CLOSE_ONLY = 0x80000000;
@@ -26,6 +28,7 @@ const MASK_CLOSE_ONLY = 0x80000000;
 export const usePerpetual_openTrade = () => {
   const address = useAccount();
   const perpetualParameters = usePerpetual_queryPerpParameters();
+  const traderState = usePerpetual_queryTraderState();
   const ammState = usePerpetual_queryAmmState();
   const marginBalance = usePerpetual_marginAccountBalance();
   const midPrice = useMemo(() => getMidPrice(perpetualParameters, ammState), [
@@ -45,20 +48,29 @@ export const usePerpetual_openTrade = () => {
       slippage: number | undefined = 0.5,
       tradingPosition: TradingPosition | undefined = TradingPosition.LONG,
     ) => {
-      const signedAmount =
-        getTradeDirection(tradingPosition) * Number(fromWei(amount));
+      let signedAmount;
+      if (isClosePosition) {
+        // 1.1 to prevent rounding issues, contract clamps CLOSE_ONLY trades to 0 either way
+        signedAmount = -1.1 * marginBalance.fPositionBC;
+      } else {
+        signedAmount =
+          getTradeDirection(tradingPosition) * Number(fromWei(amount));
+      }
+
+      let tradeDirection = Math.sign(signedAmount);
 
       const limitPrice = calculateSlippagePrice(
         midPrice,
         slippage,
-        getTradeDirection(tradingPosition),
+        tradeDirection,
       );
 
       const marginCollateralAmount = getRequiredMarginCollateral(
         leverage,
         marginBalance.fPositionBC,
-        signedAmount,
+        marginBalance.fPositionBC - signedAmount,
         perpetualParameters,
+        ammState,
       );
 
       const marginRequired = Math.max(
@@ -67,7 +79,7 @@ export const usePerpetual_openTrade = () => {
       );
 
       if (!isClosePosition && marginRequired > 0) {
-        await deposit(String(marginRequired));
+        await deposit(toWei(marginRequired.toPrecision(8)));
       }
 
       const deadline = Math.round(Date.now() / 1000) + 86400; // 1 day
@@ -75,13 +87,7 @@ export const usePerpetual_openTrade = () => {
       const order = [
         PERPETUAL_ID,
         address,
-        floatToABK64x64(
-          isClosePosition
-            ? /* -1.1 to prevent rounding issues, contract clamps CLOSE_ONLY trades to 0 */
-              -1.1 * marginBalance.fPositionBC
-            : /* not an additive trade, but a jump to the targeted amount  */
-              signedAmount - marginBalance.fPositionBC,
-        ),
+        floatToABK64x64(signedAmount),
         floatToABK64x64(limitPrice),
         deadline,
         ethGenesisAddress,
