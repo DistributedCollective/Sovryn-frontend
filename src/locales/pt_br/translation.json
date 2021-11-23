@@ -162,7 +162,7 @@
       "title": "FastBTC",
       "description": "Transfira seu Bitcoin para a rede RSK."
     },
-    "backToPortfolio": "Voltar",
+    "backToPortfolio": "Voltar ao portfólio",
     "deposit": {
       "sidebarSteps": {
         "address": "Endereço de depósito",
