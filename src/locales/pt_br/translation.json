@@ -212,7 +212,7 @@
     "withdraw": {
       "sidebarSteps": {
         "amount": "Sacar quantidade",
-        "address": "Endereço",
+        "address": "Endereço de saque",
         "review": "Revisar",
         "confirm": "Confirmar",
         "processing": "Processando",
