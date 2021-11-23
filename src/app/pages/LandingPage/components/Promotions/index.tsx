@@ -23,7 +23,7 @@ export const Promotions: React.FC = () => {
             duration="Ongoing weekly rewards"
             text="Provide any amount of XUSD to the XUSD lending pool and instantly start accruing your share of 15,000 SOV rewards."
             linkAsset={Asset.XUSD}
-            learnMoreLink="https://www.sovryn.app/blog/sov-is-diving-into-the-lending-pools"
+            learnMoreLink="https://www.sovryn.app/blog/sov-is-diving-into-lending-pools"
             logoAsset1={Asset.XUSD}
           />
 
@@ -55,7 +55,7 @@ export const Promotions: React.FC = () => {
             title="30K SOV rewards"
             duration="Ongoing weekly rewards"
             text="Provide a 1:1 ratio of SOV and rBTC to the SOV/rBTC AMM liquidity pool and instantly start accruing your share of 30,000 SOV rewards."
-            learnMoreLink="https://www.sovryn.app/blog/prepare-yourself-for-the-awakening"
+            learnMoreLink="https://www.sovryn.app/blog/get-stacking-with-our-biggest-loot-drop-yet"
             logoAsset1={Asset.SOV}
             logoAsset2={Asset.RBTC}
           />
@@ -66,7 +66,7 @@ export const Promotions: React.FC = () => {
             title="15K SOV rewards"
             duration="Ongoing weekly rewards"
             text="Provide a 1:1 ratio of ETH and rBTC to the ETH/rBTC AMM liquidity pool and instantly start accruing your share of 15,000 SOV rewards."
-            learnMoreLink="https://www.sovryn.app/blog/over-1000-yield-for-eth-btc-lp-s"
+            learnMoreLink="https://www.sovryn.app/blog/over-1000-yield-for-eth-btc-lps"
             logoAsset1={Asset.ETH}
             logoAsset2={Asset.RBTC}
           />
