@@ -15,7 +15,6 @@ import { PerpetualPairDictionary } from '../../../utils/dictionaries/perpetual-p
 import { Theme, TradingChart } from './components/TradingChart';
 import { OpenPositionsTable } from './components/OpenPositionsTable';
 import { useIsConnected } from '../../hooks/useAccount';
-import { TradingHistory } from './components/TradingHistory';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
 import { NotificationSettingsDialog } from './components/NotificationSettingsDialog';
@@ -37,6 +36,7 @@ import { EditPositionSizeDialog } from './components/EditPositionSizeDialog';
 import { EditLeverageDialog } from './components/EditLeverageDialog';
 import { EditMarginDialog } from './components/EditMarginDialog';
 import { ClosedPositionsTable } from './components/ClosedPositionsTable';
+import { OrderHistoryTable } from './components/OrderHistoryTable/index';
 
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -174,7 +174,7 @@ export function PerpetualPage() {
             <div className="tw-w-full tw-mb-24">
               {activeTab === 0 && <OpenPositionsTable perPage={5} />}
               {activeTab === 1 && <ClosedPositionsTable perPage={5} />}
-              {activeTab === 2 && <TradingHistory />}
+              {activeTab === 2 && <OrderHistoryTable perPage={5} />}
             </div>
           </>
         )}

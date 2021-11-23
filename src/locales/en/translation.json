@@ -1763,6 +1763,24 @@
       "realizedPnl": "Realized P&L",
       "noData": "No data"
     },
+    "orderHistoryTable": {
+      "dateTime": "Date & Time",
+      "symbol": "Symbol",
+      "orderType": "Order Type",
+      "orderState": "Order State",
+      "collateral": "Collateral",
+      "orderSize": "Order Size",
+      "limitPrice": "Limit Price",
+      "execSize": "Exec Size",
+      "execPrice": "Exec Price",
+      "orderId": "Order ID",
+      "tableData": {
+        "market": "Market",
+        "limit": "Limit",
+        "buy": "BUY",
+        "sell": "SELL"
+      }
+    },
     "notificationSettingsDialog": {
       "title": "Margin Trade notification settings",
       "notifyVia": "Notify via",
