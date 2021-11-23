@@ -48,8 +48,7 @@ export const Step: React.FC<IStepProps> = ({
                 'tw-w-2 tw-h-2': !active,
                 'tw-w-2.5 tw-h-2.5': !!active,
                 'tw-scale-0': step?.icon,
-                'tw-scale-100': !step?.icon,
-                'tw-bg-sov-white': !step?.icon,
+                'tw-scale-100 tw-bg-sov-white': !step?.icon,
               },
             )}
           ></span>
@@ -59,8 +58,7 @@ export const Step: React.FC<IStepProps> = ({
               {
                 'tw-transform tw-scale-125': !!active,
                 'tw-scale-0': step?.icon,
-                'tw-scale-100': !step?.icon,
-                'tw-bg-sov-white': !step?.icon,
+                'tw-scale-100 tw-bg-sov-white': !step?.icon,
               },
             )}
           ></span>

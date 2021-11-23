@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import blockies from 'ethereum-blockies';
-import cn from 'classnames';
 import { prettyTx } from 'utils/helpers';
 import { Link } from 'react-router-dom';
 import { translations } from 'locales/i18n';
@@ -31,11 +30,7 @@ const Header: React.FC<HeaderProps> = ({ address }) => {
       <div className="tw-truncate md:tw-hidden">
         <Link to="/wallet">{t(translations.common.back)}</Link>
       </div>
-      <div
-        className={cn(
-          'tw-max-w-60 engage-wallet tw-w-full tw-flex tw-items-center tw-px-4 tw-justify-end tw-truncate',
-        )}
-      >
+      <div className="tw-max-w-60 engage-wallet tw-w-full tw-flex tw-items-center tw-px-4 tw-justify-end tw-truncate">
         <span>{prettyTx(address || '', 4, 4)}</span>
         <span className="tw-pl-2">
           <img className="tw-rounded" src={blockieImage} alt="wallet address" />

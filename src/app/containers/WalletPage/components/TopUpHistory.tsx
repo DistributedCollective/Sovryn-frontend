@@ -14,6 +14,7 @@ import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
 import { toNumberFormat } from 'utils/display-text/format';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
+import { btcInSatoshis } from 'app/constants';
 
 export const TopUpHistory: React.FC = () => {
   const { t } = useTranslation();
@@ -137,7 +138,9 @@ export const TopUpHistory: React.FC = () => {
                 </td>
                 <td>
                   <div className="tw-flex tw-flex-nowrap tw-text-right tw-justify-end">
-                    <small>{toNumberFormat(item.valueBtc / 1e8, 6)}</small>{' '}
+                    <small>
+                      {toNumberFormat(item.valueBtc / btcInSatoshis, 6)}
+                    </small>{' '}
                     <small className="tw-text-gray-6">
                       {item.type === 'deposit' ? 'BTC' : 'rBTC'}
                     </small>

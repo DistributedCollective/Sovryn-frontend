@@ -64,18 +64,11 @@ export const AddressForm: React.FC = () => {
     [validate],
   );
 
-  const onChange = useCallback(
-    (adr: string) => {
-      setValue(adr);
-      setAddressValidationState(AddressValidationState.NONE);
-      delayedOnChange(adr);
-    },
-    [delayedOnChange],
-  );
-
   useEffect(() => {
-    setAddressValidationState(AddressValidationState.NONE);
-    delayedOnChange(value);
+    if (value) {
+      setAddressValidationState(AddressValidationState.NONE);
+      delayedOnChange(value);
+    }
   }, [delayedOnChange, value]);
 
   return (
@@ -88,7 +81,7 @@ export const AddressForm: React.FC = () => {
         <FormGroup
           label={t(translations.fastBtcPage.withdraw.addressForm.address)}
         >
-          <Input onChange={onChange} value={value} className="tw-max-w-none" />
+          <Input onChange={setValue} value={value} className="tw-max-w-none" />
           {invalid && (
             <ErrorBadge
               content={t(
@@ -103,6 +96,7 @@ export const AddressForm: React.FC = () => {
             text={t(translations.fastBtcPage.withdraw.addressForm.cta)}
             onClick={onContinueClick}
             disabled={addressValidationState !== AddressValidationState.VALID}
+            loading={addressValidationState === AddressValidationState.LOADING}
           />
         </div>
       </div>

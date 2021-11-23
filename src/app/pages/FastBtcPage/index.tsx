@@ -11,7 +11,10 @@ import Header from './components/Header';
 import classNames from 'classnames';
 import styles from './fast-btc-page.module.css';
 
-type FastBtcDirectionType = 'deposit' | 'withdraw';
+enum FastBtcDirectionType {
+  DEPOSIT = 'deposit',
+  WITHDRAW = 'withdraw',
+}
 
 export function FastBtcPage() {
   const { t } = useTranslation();
@@ -20,7 +23,11 @@ export function FastBtcPage() {
   const history = useHistory();
 
   useEffect(() => {
-    if (!['deposit', 'withdraw'].includes(type)) {
+    if (
+      ![FastBtcDirectionType.DEPOSIT, FastBtcDirectionType.WITHDRAW].includes(
+        type,
+      )
+    ) {
       history.push('/wallet');
     }
   }, [type, history]);
@@ -42,8 +49,8 @@ export function FastBtcPage() {
         )}
         style={{ marginTop: '-4.4rem' }}
       >
-        {type === 'deposit' && <DepositContainer />}
-        {type === 'withdraw' && <WithdrawContainer />}
+        {type === FastBtcDirectionType.DEPOSIT && <DepositContainer />}
+        {type === FastBtcDirectionType.WITHDRAW && <WithdrawContainer />}
       </div>
     </>
   );
