@@ -1,29 +1,39 @@
 import { utils } from 'ethers';
 import { _TypedDataEncoder } from 'ethers/lib/utils';
-import { getContract } from '../../../utils/blockchain/contract-helpers';
 import { signData } from 'eth-permit/dist/rpc';
 import { MarginLimitOrder } from './types';
+import {
+  getContract,
+  getTokenContract,
+} from '../../../utils/blockchain/contract-helpers';
+import type { Asset } from '../../../types';
 
 export class MarginOrder {
   static ORDER_TYPEHASH =
     '0xe30dcb91507ed7c8a9a2019b56e407eee8294529022e84f18b5420374e178404';
 
+  readonly loanTokenAddress: string;
+  readonly collateralTokenAddress: string;
+
   constructor(
-    private readonly loanId: string,
-    private readonly leverageAmount: string,
-    private readonly loanTokenAddress: string,
-    private readonly loanTokenSent: string,
-    private readonly collateralTokenSent: string,
-    private readonly collateralTokenAddress: string,
-    private readonly trader: string,
-    private readonly minReturn: string,
-    private readonly loanDataBytes: string,
-    private readonly deadline: string,
-    private readonly createdTimestamp: string,
-    private readonly v?: number,
-    private readonly r?: string,
-    private readonly s?: string,
-  ) {}
+    readonly loanId: string,
+    readonly leverageAmount: string,
+    loanToken: Asset,
+    readonly loanTokenSent: string,
+    readonly collateralTokenSent: string,
+    collateralToken: Asset,
+    readonly trader: string,
+    readonly minReturn: string,
+    readonly loanDataBytes: string,
+    readonly deadline: string,
+    readonly createdTimestamp: string,
+    readonly v?: number,
+    readonly r?: string,
+    readonly s?: string,
+  ) {
+    this.loanTokenAddress = getTokenContract(loanToken).address;
+    this.collateralTokenAddress = getTokenContract(collateralToken).address;
+  }
 
   hash(overrides?: MarginLimitOrder) {
     return utils.keccak256(
