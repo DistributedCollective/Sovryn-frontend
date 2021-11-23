@@ -1612,12 +1612,11 @@
     },
     "contractDetails": {
       "title": "Contract Details:",
+      "markPrice": "Mark Price:",
       "indexPrice": "Index Price:",
       "volume24h": "24hr Volume:",
       "openInterest": "Open Interest:",
       "fundingRate": "Funding Rate: ",
-      "fundingRate4hr": "in 4hrs",
-      "contractValue": "ContractValue:",
       "lotSize": "Lot Size:",
       "minTradeAmount": "Min Trade Amount:"
     },

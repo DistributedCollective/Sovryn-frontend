@@ -137,8 +137,11 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
             <div className="tw-mr-2">
               <AssetValue
                 className="tw-block"
+                minDecimals={2}
+                maxDecimals={4}
                 value={item.unrealized.baseValue}
                 assetString={pair.baseAsset}
+                mode={AssetValueMode.auto}
                 showPositiveSign
               />
               <AssetValue
@@ -168,8 +171,11 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
           <>
             <AssetValue
               className="tw-block"
+              minDecimals={2}
+              maxDecimals={4}
               value={item.realized.baseValue}
               assetString={pair.baseAsset}
+              mode={AssetValueMode.auto}
               showPositiveSign
             />
             <AssetValue
