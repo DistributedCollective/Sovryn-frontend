@@ -13,8 +13,6 @@ const web3Socket = new Web3(
   ),
 );
 
-console.log('[socket]: Provider url: ', process.env.REACT_APP_BSC_WS);
-
 const isMainnet = process.env.REACT_APP_NETWORK === 'mainnet';
 const rpcAddress = BridgeNetworkDictionary.getByChainId(
   isMainnet ? ChainId.BSC_MAINNET : ChainId.BSC_TESTNET,

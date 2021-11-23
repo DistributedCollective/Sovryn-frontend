@@ -96,7 +96,6 @@ const tradingChartDataFeeds = {
         candleNumber(),
         firstDataRequest,
       );
-      console.debug('[getBars]: Data', data);
       let bars: Bar[] = [];
       if (data.length > 0) {
         bars = data;
@@ -107,7 +106,6 @@ const tradingChartDataFeeds = {
       if (firstDataRequest) {
         lastBarsCache.set(symbolInfo.name, { ...bars[bars.length - 1] });
       }
-      console.debug(`[getBars]: returned ${bars.length} bar(s)`);
 
       if (!bars || bars.length === 1) {
         onHistoryCallback([], {

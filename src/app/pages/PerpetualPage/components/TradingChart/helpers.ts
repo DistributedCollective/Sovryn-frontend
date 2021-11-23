@@ -35,24 +35,23 @@ const addMissingBars = (bars: Bar[], candleDuration: CandleDuration): Bar[] => {
   const candleDetails = CandleDictionary.get(candleDuration);
   const seconds = candleDetails.candleSeconds * 1e3;
   let newBars: Bar[] = [];
+  const now = new Date().getTime();
+  const latestBar = Math.floor(now / seconds) * seconds;
+  if (bars[bars.length - 1].time !== latestBar) {
+    bars.push({
+      time: latestBar,
+      open: bars[bars.length - 1].close,
+      high: bars[bars.length - 1].close,
+      low: bars[bars.length - 1].close,
+      close: bars[bars.length - 1].close,
+      volume: 0,
+    });
+  }
   for (let i = 0; i < bars.length; i++) {
-    const now = new Date().getTime();
-    const latestBar = Math.floor(now / seconds) * seconds;
-    if (bars[bars.length - 1].time !== latestBar) {
-      bars.push({
-        time: latestBar,
-        open: bars[bars.length - 1].close,
-        high: bars[bars.length - 1].close,
-        low: bars[bars.length - 1].close,
-        close: bars[bars.length - 1].close,
-        volume: 0,
-      });
-    }
     if (i === 0) {
       newBars.push(bars[i]);
     } else if (bars[i].time === newBars[newBars.length - 1].time + seconds) {
-      /** Is next bar in sequence */
-      console.log('IS NEXT BAR: ', bars[i]);
+      /* Is next bar in sequence */
       newBars.push(bars[i]);
     } else {
       const extraBar = {
@@ -72,9 +71,6 @@ const addMissingBars = (bars: Bar[], candleDuration: CandleDuration): Bar[] => {
         newBars.push(newBar);
         startTime += seconds;
       }
-      console.debug(
-        'New bar time reached: ' + new Date(startTime).toLocaleString(),
-      );
       newBars.push(bars[i]);
     }
   }
