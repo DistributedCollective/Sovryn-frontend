@@ -182,7 +182,7 @@
         "fee": "Taxa:"
       },
       "depositInstructions": {
-        "title": "Observações:",
+        "title": "Instruções:",
         "line1": "Não deposite nenhum ativo que não seja BTC.",
         "line2": "Não envie menos BTC do que o limite mínimo.",
         "line3": "Não envie mais BTC do que o limite máximo.",
