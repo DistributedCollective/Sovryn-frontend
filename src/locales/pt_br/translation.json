@@ -250,7 +250,7 @@
       },
       "reviewScreen": {
         "title": "Revisar saque <0/>",
-        "amount": "Sacar",
+        "amount": "Quantidade",
         "address": "Endereço BTC de recebimento",
         "fees": "Taxas:",
         "received": "Receber:",
