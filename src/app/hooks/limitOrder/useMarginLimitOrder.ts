@@ -11,52 +11,68 @@ import {
 import { useCallback } from 'react';
 import { TransactionConfig } from 'web3-core';
 import { gas } from 'utils/blockchain/gas-price';
-import { Order } from 'app/pages/SpotTradingPage/helpers';
+import { MarginOrder } from 'app/pages/MarginTradePage/helpers';
 import { useSendTx } from '../useSendTx';
 import { getContract, getDeadline } from './useLimitOrder';
+import { TradingPair } from '../../../utils/models/trading-pair';
+import { TradingPosition } from '../../../types/trading-position';
+import { useTrading_resolvePairTokens } from '../trading/useTrading_resolvePairTokens';
+import { toWei } from 'web3-utils';
 
 export function useMarginLimitOrder(
-  sourceToken: Asset,
-  targetToken: Asset,
-  amount: string,
-  amountOutMin: string,
+  pair: TradingPair,
+  position: TradingPosition,
+  collateral: Asset,
+  leverage: number,
+  collateralTokenSent: string,
+  minReturn,
   duration: number = 365,
 ) {
   const account = useAccount();
   const { chainId } = useSelector(selectWalletProvider);
 
+  const {
+    loanToken,
+    collateralToken,
+    useLoanTokens,
+  } = useTrading_resolvePairTokens(pair, position, collateral);
+
   const { send, ...tx } = useSendTx();
 
   const createOrder = useCallback(async () => {
-    let tx: CheckAndApproveResult = {};
-    if (sourceToken !== Asset.RBTC) {
-      tx = await contractWriter.checkAndApprove(
-        sourceToken,
-        getContract('settlement').address,
-        amount,
-      );
-      if (tx.rejected) {
-        return;
-      }
-    } else {
-      try {
-        await contractWriter.send('settlement', 'deposit', [account], {
-          value: amount,
-        });
-      } catch (error) {
-        return;
-      }
-    }
+    // let tx: CheckAndApproveResult = {};
+    // if (sourceToken !== Asset.RBTC) {
+    //   tx = await contractWriter.checkAndApprove(
+    //     sourceToken,
+    //     getContract('settlement').address,
+    //     amount,
+    //   );
+    //   if (tx.rejected) {
+    //     return;
+    //   }
+    // } else {
+    //   try {
+    //     await contractWriter.send('settlement', 'deposit', [account], {
+    //       value: amount,
+    //     });
+    //   } catch (error) {
+    //     return;
+    //   }
+    // }
 
     const created = ethers.BigNumber.from(Math.floor(Date.now() / 1000));
 
-    const order = new Order(
-      account,
-      sourceToken,
-      targetToken,
-      amount,
-      amountOutMin,
-      account,
+    // collateral === Asset.RBTC ? collateralTokenSent : '0', // weiAmount
+    const order = new MarginOrder(
+      '0x0000000000000000000000000000000000000000000000000000000000000000', // loanId
+      toWei(String(leverage - 1), 'ether'), // leverageAmount
+      loanToken, //  asset: Asset,
+      useLoanTokens ? collateralTokenSent : '0', //loanTokenSent
+      useLoanTokens ? '0' : collateralTokenSent, //collateralTokenSent
+      collateralToken, //collateralToken
+      account, // trader
+      minReturn, //minReturn
+      '0x', //loanDataBytes
       getDeadline(duration > 0 ? duration : 365).toString(),
       created.toString(),
     );
@@ -83,11 +99,13 @@ export function useMarginLimitOrder(
       nonce,
     } as TransactionConfig);
   }, [
-    sourceToken,
+    leverage,
+    loanToken,
+    useLoanTokens,
+    collateralTokenSent,
+    collateralToken,
     account,
-    targetToken,
-    amount,
-    amountOutMin,
+    minReturn,
     duration,
     chainId,
     send,
