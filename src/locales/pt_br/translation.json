@@ -159,7 +159,7 @@
   },
   "fastBtcPage": {
     "meta": {
-      "title": "Depositar-BTC",
+      "title": "FastBTC",
       "description": "Transfira seu Bitcoin para a rede RSK."
     },
     "backToPortfolio": "Voltar",
@@ -176,7 +176,7 @@
         "cta": "Gerar endereço de depósito"
       },
       "depositDetails": {
-        "title": "Detalhes",
+        "title": "Observações",
         "min": "MÍN:",
         "max": "MÁX:",
         "fee": "Taxa:"
@@ -244,7 +244,7 @@
       },
       "addressForm": {
         "title": "Endereço de saque BTC",
-        "address": "Sacar BTC para este endereço",
+        "address": "Sacar BTC para o endereço:",
         "errorBECH32": "Insira um endereço BTC BECH32 válido!",
         "cta": "Revisar saque"
       },
@@ -252,7 +252,7 @@
         "title": "Revisar saque <0/>",
         "amount": "Sacar",
         "address": "Endereço BTC de recebimento",
-        "fees": "Taxas pagas:",
+        "fees": "Taxas:",
         "received": "Receber:",
         "tx": "ID transação:",
         "description": "O saque está sendo processado. Se a transação não for concluída em {{hours}} horas <0>abra um ticket de suporte</0>."
