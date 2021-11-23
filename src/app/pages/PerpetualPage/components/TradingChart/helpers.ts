@@ -3,6 +3,7 @@ import {
   generateCandleQuery,
   generateFirstCandleQuery,
   CandleDuration,
+  CandleDictionary,
 } from '../../hooks/graphql/useGetCandles';
 import { weiTo2 } from 'utils/blockchain/math-helpers';
 
@@ -30,6 +31,52 @@ export const config = {
   supports_time: false,
 };
 
+const addMissingBars = (bars: Bar[], candleDuration: CandleDuration): Bar[] => {
+  const candleDetails = CandleDictionary.get(candleDuration);
+  const seconds = candleDetails.candleSeconds * 1e3;
+  let newBars: Bar[] = [];
+  const now = new Date().getTime();
+  const latestBar = Math.floor(now / seconds) * seconds;
+  if (bars[bars.length - 1].time !== latestBar) {
+    bars.push({
+      time: latestBar,
+      open: bars[bars.length - 1].close,
+      high: bars[bars.length - 1].close,
+      low: bars[bars.length - 1].close,
+      close: bars[bars.length - 1].close,
+      volume: 0,
+    });
+  }
+  for (let i = 0; i < bars.length; i++) {
+    if (i === 0) {
+      newBars.push(bars[i]);
+    } else if (bars[i].time === newBars[newBars.length - 1].time + seconds) {
+      /* Is next bar in sequence */
+      newBars.push(bars[i]);
+    } else {
+      const extraBar = {
+        high: newBars[newBars.length - 1].close,
+        low: newBars[newBars.length - 1].close,
+        open: newBars[newBars.length - 1].close,
+        close: newBars[newBars.length - 1].close,
+        volume: 0,
+      };
+      let startTime = newBars[newBars.length - 1].time + seconds;
+      while (startTime < bars[i].time) {
+        const newBar = {
+          ...extraBar,
+          time: startTime,
+          time2: new Date(startTime).toLocaleString(),
+        };
+        newBars.push(newBar);
+        startTime += seconds;
+      }
+      newBars.push(bars[i]);
+    }
+  }
+  return newBars;
+};
+
 export const makeApiRequest = async (
   candleDuration: CandleDuration,
   perpId: string,
@@ -55,7 +102,8 @@ export const makeApiRequest = async (
         volume: parseFloat(weiTo2(item.totalVolume)),
       };
     });
-    return bars;
+    const newBars = addMissingBars(bars, candleDuration);
+    return newBars;
   } catch (error) {
     console.error(error);
     throw new Error(`Request error: ${error}`);
