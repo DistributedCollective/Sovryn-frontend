@@ -3,7 +3,6 @@ import { translations } from 'locales/i18n';
 import React, { useEffect, useState } from 'react';
 import { Trans } from 'react-i18next';
 import { PerpetualPair } from 'utils/models/perpetual-pair';
-import { usePerpetual_RecentTradesTable } from '../../hooks/usePerpetual_RecentTradesTable';
 import styles from './index.module.scss';
 import { RecentTradesTableRow } from './components/RecentTablesRow/index';
 import { RecentTradesDataEntry, TradePriceChange, TradeType } from './types';
@@ -14,7 +13,6 @@ import {
   decodeTradeLogs,
 } from '../../utils/bscWebsocket';
 import { getContract } from 'utils/blockchain/contract-helpers';
-import { fromWei } from 'web3-utils';
 
 // const WebSocket = require('ws');
 // const url = 'ws://localhost:8080';
