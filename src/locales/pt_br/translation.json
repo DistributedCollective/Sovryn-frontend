@@ -267,11 +267,11 @@
       "statusScreen": {
         "titles": {
           "pending_for_user": "Confirmar saque <0/>",
-          "pending": "<0/> Processando saque...",
+          "pending": "Processando saque <0/>.",
           "confirmed": "Confirmado",
           "failed": "Saque falhou"
         },
-        "cta": "Voltar"
+        "cta": "Voltar ao portfólio"
       }
     }
   },
