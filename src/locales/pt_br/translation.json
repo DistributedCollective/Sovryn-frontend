@@ -1739,7 +1739,7 @@
     "amountSelector": {
       "title": "Insira a quantidade a ser sacada",
       "balance": "Saldo disponível",
-      "dailyBridgeLimits": "Limites diário e taxas",
+      "dailyBridgeLimits": "Limites diário do serviço",
       "minAmount": "Quantidade mínima",
       "maxAmount": "Quantidade máxima",
       "dailyLimit": "Limite diário",
