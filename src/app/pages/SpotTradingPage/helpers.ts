@@ -12,21 +12,21 @@ export class Order {
   static ORDER_TYPEHASH =
     '0x7c228c78bd055996a44b5046fb56fa7c28c66bce92d9dc584f742b2cd76a140f';
 
-  private readonly fromToken: string;
-  private readonly toToken: string;
+  readonly fromToken: string;
+  readonly toToken: string;
 
   constructor(
-    private readonly maker: string,
+    readonly maker: string,
     fromAsset: Asset,
     toAsset: Asset,
-    private readonly amountIn: string,
-    private readonly amountOutMin: string,
-    private readonly recipient: string = maker,
-    private readonly deadline: string,
-    private readonly created: string,
-    private readonly v?: number,
-    private readonly r?: string,
-    private readonly s?: string,
+    readonly amountIn: string,
+    readonly amountOutMin: string,
+    readonly recipient: string = maker,
+    readonly deadline: string,
+    readonly created: string,
+    readonly v?: number,
+    readonly r?: string,
+    readonly s?: string,
   ) {
     this.fromToken = getTokenContract(fromAsset).address;
     this.toToken = getTokenContract(toAsset).address;

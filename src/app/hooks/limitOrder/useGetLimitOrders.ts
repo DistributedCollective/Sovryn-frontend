@@ -46,7 +46,7 @@ export function useGetLimitOrders(
     Array<Array<string>>
   >('orderBook', 'getOrders', [], account, page, limit);
 
-  const deadlinePassed = (date: number) => new Date(date) < new Date();
+  const deadlinePassed = (date: number) => new Date(date * 1000) < new Date();
 
   useEffect(() => {
     const updateResult = async () => {

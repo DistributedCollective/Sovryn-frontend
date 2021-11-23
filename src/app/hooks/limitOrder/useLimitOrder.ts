@@ -4,6 +4,7 @@ import { selectWalletProvider } from 'app/containers/WalletProvider/selectors';
 import { useAccount } from 'app/hooks/useAccount';
 import { Asset } from 'types';
 import { ethers } from 'ethers';
+import { SignatureLike } from '@ethersproject/bytes';
 import { useSelector } from 'react-redux';
 import {
   CheckAndApproveResult,
@@ -14,6 +15,8 @@ import { TransactionConfig } from 'web3-core';
 import { gas } from 'utils/blockchain/gas-price';
 import { Order } from 'app/pages/SpotTradingPage/helpers';
 import { useSendTx } from '../useSendTx';
+import { signTypeData } from './utils';
+import axios from 'axios';
 
 export function useLimitOrder(
   sourceToken: Asset,
@@ -48,40 +51,54 @@ export function useLimitOrder(
       }
     }
 
-    const created = ethers.BigNumber.from(Math.floor(Date.now() / 1000));
+    try {
+      const created = ethers.BigNumber.from(Math.floor(Date.now() / 1000));
 
-    const order = new Order(
-      account,
-      sourceToken,
-      targetToken,
-      amount,
-      amountOutMin,
-      account,
-      getDeadline(duration > 0 ? duration : 365).toString(),
-      created.toString(),
-    );
+      const order = new Order(
+        account,
+        sourceToken,
+        targetToken,
+        amount,
+        amountOutMin,
+        account,
+        getDeadline(duration > 0 ? duration : 365).toString(),
+        created.toString(),
+      );
 
-    console.log({ order });
+      const signature = await signTypeData(order, account, chainId);
 
-    // todo: signing inside of order.toArgs works only for browser wallets :(
-    const args = await order.toArgs(chainId!);
+      const sig = ethers.utils.splitSignature(signature as SignatureLike);
+      console.log({ order });
 
-    console.log({ args });
+      const args = [
+        order.maker,
+        order.fromToken,
+        order.toToken,
+        order.amountIn,
+        order.amountOutMin,
+        order.recipient,
+        order.deadline,
+        order.created,
+        sig.v,
+        sig.r,
+        sig.s,
+      ];
 
-    const contract = getContract('orderBook');
+      const contract = getContract('orderBook');
 
-    const populated = await contract.populateTransaction.createOrder(args);
+      const populated = await contract.populateTransaction.createOrder(args);
 
-    console.log({ populated });
+      const apiUrl = 'http://18.217.222.156:3000/api/createOrder';
 
-    const nonce = await contractReader.nonce(account);
+      const { status, data } = await axios.post(apiUrl, {
+        data: populated.data,
+        from: account,
+      });
 
-    send({
-      ...populated,
-      gas: '600000',
-      gasPrice: gas.get(),
-      nonce,
-    } as TransactionConfig);
+      return { status, data };
+    } catch (error) {
+      console.log('error', error);
+    }
   }, [
     sourceToken,
     account,
@@ -90,7 +107,6 @@ export function useLimitOrder(
     amountOutMin,
     duration,
     chainId,
-    send,
   ]);
 
   return { createOrder, ...tx };
