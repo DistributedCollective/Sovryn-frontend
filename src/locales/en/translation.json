@@ -1069,7 +1069,7 @@
     },
     "actions": {
       "deposit": "Deposit",
-      "fastBtc": "FastBTC",
+      "fastBtc": "Deposit",
       "convert": "Convert to XUSD",
       "unwrap": "Unwrap to RBTC",
       "swap": "Swap",
