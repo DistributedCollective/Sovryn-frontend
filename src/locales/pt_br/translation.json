@@ -230,7 +230,7 @@
         "fee": "TAXA:"
       },
       "withdrawInstructions": {
-        "title": "Observações:",
+        "title": "Instruções:",
         "line1": "Verifique e confirme se o endereço que você está enviando é um endereço BTC.",
         "line2": "Não envie menos BTC do que o limite mínimo.",
         "line3": "Não envie mais BTC do que o limite máximo.",
