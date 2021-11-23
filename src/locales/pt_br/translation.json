@@ -164,6 +164,12 @@
     },
     "backToPortfolio": "Voltar",
     "deposit": {
+      "sidebarSteps": {
+        "address": "Endereço de depósito",
+        "processing": "Processando",
+        "processingSteps": "Processando... ({{step}}/{{steps}})",
+        "completed": "Concluído"
+      },
       "mainScreen": {
         "title": "Depositar BTC e receber <0/>",
         "description": "Sempre gere um novo endereço de depósito e use-o apenas uma vez",
@@ -191,7 +197,7 @@
         "title": "Processando depósito BTC",
         "titleCompleted": "Depósito BTC concluído",
         "amount": "Depósito",
-        "fees": "Taxas pagas:",
+        "fees": "Taxas:",
         "received": "Quantidade recebida:",
         "txHash": "Hash da transação:",
         "txId": "ID transação:",
@@ -204,12 +210,21 @@
       }
     },
     "withdraw": {
+      "sidebarSteps": {
+        "amount": "Inserir quantidade",
+        "address": "Endereço de saque",
+        "review": "Revisar",
+        "confirm": "Confirmar",
+        "processing": "Processando",
+        "processingProgress": "Processando...",
+        "completed": "Concluído"
+      },
       "mainScreen": {
         "title": "Sacar <0/> para a rede BTC",
         "description": "Sempre verifique se o endereço de saque está correto."
       },
       "withdrawDetails": {
-        "title": "Detalhes",
+        "title": "Observações",
         "min": "MÍN:",
         "max": "MÁX:",
         "fee": "TAXA:"
@@ -223,22 +238,22 @@
         "line5": "Se a transação não for concluída em {{hours}} horas <0>abra um ticket de suporte</0>."
       },
       "amountForm": {
-        "title": "<0/> Quantidade",
+        "title": "Sacar <0/>",
         "withdrawAmount": "Quantidade",
         "availableBalance": "Saldo disponível: <0/> <1/>"
       },
       "addressForm": {
-        "title": "BTC Network Withdraw Address",
+        "title": "Endereço de saque BTC",
         "address": "Sacar BTC para este endereço",
         "errorBECH32": "Insira um endereço BTC BECH32 válido!",
         "cta": "Revisar saque"
       },
       "reviewScreen": {
         "title": "Revisar saque <0/>",
-        "amount": "Withdraw",
-        "address": "BTC Network Receive Address",
+        "amount": "Sacar",
+        "address": "Endereço BTC de recebimento",
         "fees": "Taxas pagas:",
-        "received": "Quantidade recebida:",
+        "received": "Receber:",
         "tx": "ID transação:",
         "description": "O saque está sendo processado. Se a transação não for concluída em {{hours}} horas <0>abra um ticket de suporte</0>."
       },
@@ -1694,7 +1709,7 @@
       "connectNetwork": "Conectar",
       "notConnected": "Para continuar você precisa conectar na sua",
       "wrongNetwork": "Para continuar mude novamente para a rede RSK na sua",
-      "switchNetwork": "Mudar rede",
+      "switchNetwork": "Alterar rede",
       "connected": "Tudo certo",
       "return": "Voltar para o portfólio"
     },
