@@ -1325,7 +1325,7 @@
   },
   "transakDialog": {
     "title": "Comprar <0>RBTC</0>",
-    "explanation1": "Use o serviço do nosso parceiro Transak para comprar <0>RBTC</0> em minutos!",
+    "explanation1": "Use o serviço da Transak para comprar <0>RBTC</0> em minutos!",
     "explanation2": "Seus dados pessoais podem ser exigidos pela Transak!",
     "chainId": "Verifique se sua carteira está configurada para a rede correta. A carteira Liquality exige que a página do dapp seja atualizada para detectar a mundaça da rede.",
     "cta": "Comprar <0>RBTC</0>"
