@@ -26,6 +26,7 @@ export enum PerpetualTxMethods {
   trade = 'trade',
   deposit = 'deposit',
   withdraw = 'withdraw',
+  withdrawPercentage = 'withdrawPercentage',
   withdrawAll = 'withdrawAll',
 }
 
@@ -47,14 +48,14 @@ export type PerpetualTxDepositMargin = {
   tx: Nullable<Transaction>;
 };
 
-export type PerpetualTxWithrawMargin = {
+export type PerpetualTxWithdrawMargin = {
   method: PerpetualTxMethods.withdraw;
   /** amount as wei string */
   amount: string;
   tx: Nullable<Transaction>;
 };
 
-export type PerpetualTxWithrawAllMargin = {
+export type PerpetualTxWithdrawAllMargin = {
   method: PerpetualTxMethods.withdrawAll;
   tx: Nullable<Transaction>;
 };
@@ -62,8 +63,8 @@ export type PerpetualTxWithrawAllMargin = {
 export type PerpetualTx =
   | PerpetualTxTrade
   | PerpetualTxDepositMargin
-  | PerpetualTxWithrawMargin
-  | PerpetualTxWithrawAllMargin;
+  | PerpetualTxWithdrawMargin
+  | PerpetualTxWithdrawAllMargin;
 
 export type TradeDialogContextType = {
   pair: PerpetualPair;

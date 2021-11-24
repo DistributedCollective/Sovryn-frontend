@@ -75,6 +75,7 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
           leverageTarget={leverageTarget}
           liquidationPrice={liquidationPrice}
           marginTarget={marginTarget}
+          origin={origin}
           pair={pair}
         />
         <div className="tw-flex tw-justify-center">

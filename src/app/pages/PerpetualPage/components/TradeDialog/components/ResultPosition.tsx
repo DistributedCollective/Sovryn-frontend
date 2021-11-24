@@ -7,8 +7,10 @@ import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../../locales/i18n';
 import { toNumberFormat } from '../../../../../../utils/display-text/format';
 import { PerpetualPair } from '../../../../../../utils/models/perpetual-pair';
+import { PerpetualPageModals } from '../../../types';
 
 type ResultPositionProps = {
+  origin?: PerpetualPageModals;
   pair: PerpetualPair;
   amountTarget: number;
   amountChange: number;
@@ -19,6 +21,7 @@ type ResultPositionProps = {
 };
 
 export const ResultPosition: React.FC<ResultPositionProps> = ({
+  origin,
   pair,
   amountTarget,
   amountChange,
@@ -28,6 +31,14 @@ export const ResultPosition: React.FC<ResultPositionProps> = ({
   liquidationPrice,
 }) => {
   const { t } = useTranslation();
+
+  if (origin === PerpetualPageModals.CLOSE_POSITION && marginTarget === 0) {
+    return (
+      <div className="tw-text-sm tw-mt-6 tw-mb-2 tw-text-center tw-text-sov-white tw-font-medium">
+        {t(translations.perpetualPage.reviewTrade.positionFullyClosed)}
+      </div>
+    );
+  }
 
   return (
     <>

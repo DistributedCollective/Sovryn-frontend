@@ -7,7 +7,7 @@ import {
   PerpetualTx,
   PerpetualTxTrade,
   PerpetualTxDepositMargin,
-  PerpetualTxWithrawMargin,
+  PerpetualTxWithdrawMargin,
 } from '../components/TradeDialog/types';
 import { ResetTxResponseInterface } from '../../../hooks/useSendContractTx';
 
@@ -58,7 +58,7 @@ export const usePerpetual_executeTransaction = () => {
             const depositTx: PerpetualTxDepositMargin = transaction;
             return deposit(depositTx.amount);
           case 'withdraw':
-            const withdrawTx: PerpetualTxWithrawMargin = transaction;
+            const withdrawTx: PerpetualTxWithdrawMargin = transaction;
             return withdraw(withdrawTx.amount);
           case 'withdrawAll':
             return withdrawAll();
