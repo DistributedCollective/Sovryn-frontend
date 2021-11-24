@@ -36,6 +36,7 @@ import { TradeReviewDialog } from './components/TradeReviewDialog';
 import { EditPositionSizeDialog } from './components/EditPositionSizeDialog';
 import { EditLeverageDialog } from './components/EditLeverageDialog';
 import { EditMarginDialog } from './components/EditMarginDialog';
+import SocketProvider from './components/RecentTradesTable/components/socketProvider';
 
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -156,7 +157,9 @@ export function PerpetualPage() {
             className="tw-flex-grow tw-block xl:tw-hidden 2xl:tw-block xl:tw-w-1/5"
             title={`Recent Trades (${pairType.toString()})`}
           >
-            <RecentTradesTable pair={pair} />
+            <SocketProvider>
+              <RecentTradesTable pair={pair} />
+            </SocketProvider>
           </DataCard>
           {/* <div className="tw-flex tw-flex-col xl:tw-min-w-80 xl:tw-w-1/5 tw-space-y-2">
             <AccountBalanceCard balance={availableBalance} />

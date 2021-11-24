@@ -1,6 +1,6 @@
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { translations } from 'locales/i18n';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Trans } from 'react-i18next';
 import { PerpetualPair } from 'utils/models/perpetual-pair';
 import styles from './index.module.scss';
@@ -13,12 +13,13 @@ import {
   decodeTradeLogs,
 } from '../../utils/bscWebsocket';
 import { getContract } from 'utils/blockchain/contract-helpers';
+import SocketContext from './context';
 
 // const WebSocket = require('ws');
 // const url = 'ws://localhost:8080';
 
 const address = getContract('perpetualManager').address.toLowerCase();
-const subscription = bscSubscription(address, ['Trade'], 14245518);
+const subscription = bscSubscription(address, ['Trade']);
 
 type RecentTradesTableProps = {
   pair: PerpetualPair;
@@ -27,7 +28,6 @@ type RecentTradesTableProps = {
 const formatTradeData = (data: any[]): RecentTradesDataEntry[] => {
   const parsedData: RecentTradesDataEntry[] = data.map((trade, index) => {
     const prevTrade = index !== data.length - 1 ? data[index + 1] : data[index];
-    console.log(prevTrade);
     return {
       id: index.toString(),
       price: parseFloat(weiTo2(trade.price)),
@@ -52,6 +52,11 @@ export const RecentTradesTable: React.FC<RecentTradesTableProps> = ({
 }) => {
   const { data: newData, error, loading } = useGetRecentTrades(pair.id);
   const [trades, setTrades] = useState<RecentTradesDataEntry[]>([]);
+  const { trades: wsTrades } = useContext(SocketContext);
+
+  useEffect(() => {
+    console.log('[socketProvider]: trades state changed', wsTrades);
+  }, [wsTrades]);
 
   useEffect(() => {
     if (newData) {
@@ -71,9 +76,8 @@ export const RecentTradesTable: React.FC<RecentTradesTableProps> = ({
       });
 
       subscription.on('data', data => {
-        console.log('[recentTrades] messageReceived', data);
+        // console.log('[recentTrades] messageReceived', data);
         if (trades.length > 0) {
-          console.log('THERE ARE TRADES');
           const decoded = decodeTradeLogs(data.data, [data.topics[1]]);
           const prevTrade = trades[0];
           const price = parseFloat(weiTo2(decoded.price));
@@ -91,7 +95,7 @@ export const RecentTradesTable: React.FC<RecentTradesTableProps> = ({
             size: Math.abs(parseFloat(weiTo2(decoded.tradeAmount))),
             time: new Date().toTimeString().slice(0, 8),
           };
-          console.log(parsedTrade);
+          // console.log(parsedTrade);
           trades.unshift(parsedTrade);
         }
       });

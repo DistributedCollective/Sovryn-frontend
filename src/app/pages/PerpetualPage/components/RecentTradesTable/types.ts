@@ -1,3 +1,5 @@
+import { StringifyOptions } from 'querystring';
+
 export enum TradePriceChange {
   'UP' = 'up',
   'DOWN' = 'down',
@@ -16,4 +18,18 @@ export type RecentTradesDataEntry = {
   price: number;
   size: number;
   time: string;
+};
+
+export type TradeEvent = {
+  address: string;
+  blockNumber: number;
+  logIndex: number;
+  transactionHash: string;
+  transactionIndex: number;
+  perpetualId: string;
+  trader: string;
+  orderFlags: string;
+  tradeAmount: string;
+  price: string;
+  blockTimestamp: string;
 };
