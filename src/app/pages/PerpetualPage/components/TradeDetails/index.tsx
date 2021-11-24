@@ -9,8 +9,7 @@ import { AssetValueMode } from '../../../../components/AssetValue/types';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
 import { PerpetualTrade } from '../../types';
 import { usePerpetual_queryTraderState } from '../../hooks/usePerpetual_queryTraderState';
-import { getTradeDirection } from '../../utils/contractUtils';
-import { fromWei } from 'web3-utils';
+import { getSignedAmount } from '../../utils/contractUtils';
 import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
 import { getTraderPnLInBC } from '../../utils/perpUtils';
 
@@ -34,7 +33,7 @@ export const TradeDetails: React.FC<TradeDetailsProps> = ({
   const { available } = usePerpetual_accountBalance(pair.pairType);
 
   const positionSize = useMemo(
-    () => getTradeDirection(trade.position) * Number(fromWei(trade.amount)),
+    () => getSignedAmount(trade.position, trade.amount),
     [trade.position, trade.amount],
   );
 

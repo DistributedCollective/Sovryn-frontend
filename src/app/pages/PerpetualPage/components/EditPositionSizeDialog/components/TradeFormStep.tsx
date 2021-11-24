@@ -6,8 +6,8 @@ import { PerpetualPageModals } from '../../../types';
 import { TradeForm } from '../../TradeForm';
 import { EditPositionSizeDialogStep } from '../types';
 import { EditPositionSizeDialogContext } from '..';
-import { getTradeDirection } from '../../../utils/contractUtils';
-import { fromWei, toWei } from 'web3-utils';
+import { getSignedAmount } from '../../../utils/contractUtils';
+import { toWei } from 'web3-utils';
 import { TradingPosition } from '../../../../../../types/trading-position';
 import { usePerpetual_queryTraderState } from '../../../hooks/usePerpetual_queryTraderState';
 import { PerpetualTxMethods } from '../../TradeDialog/types';
@@ -31,11 +31,11 @@ export const TradeFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
       return;
     }
 
-    const amountCurrent =
-      getTradeDirection(trade?.position) * Number(fromWei(trade?.amount));
-    const amountChange =
-      getTradeDirection(changedTrade?.position) *
-      Number(fromWei(changedTrade?.amount));
+    const amountCurrent = getSignedAmount(trade.position, trade.amount);
+    const amountChange = getSignedAmount(
+      changedTrade.position,
+      changedTrade.amount,
+    );
 
     const amountTarget = amountCurrent + amountChange;
 

@@ -11,7 +11,6 @@ import { Tooltip, PopoverPosition } from '@blueprintjs/core';
 import { AmountInput } from '../../../../../components/Form/AmountInput';
 import { ClosePositionDialogStep } from '../types';
 import { ClosePositionDialogContext } from '..';
-import { fromWei } from 'web3-utils';
 import { usePerpetual_queryTraderState } from '../../../hooks/usePerpetual_queryTraderState';
 import { usePerpetual_queryAmmState } from '../../../hooks/usePerpetual_queryAmmState';
 import { usePerpetual_queryPerpParameters } from '../../../hooks/usePerpetual_queryPerpParameters';
@@ -21,12 +20,8 @@ import {
 } from '../../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { AssetValue } from '../../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../../components/AssetValue/types';
-import {
-  getTraderPnLInBC,
-  getMidPrice,
-  getTraderPnLInCC,
-} from '../../../utils/perpUtils';
-import { getTradeDirection } from '../../../utils/contractUtils';
+import { getMidPrice, getTraderPnLInCC } from '../../../utils/perpUtils';
+import { getSignedAmount } from '../../../utils/contractUtils';
 import { TradingPosition } from '../../../../../../types/trading-position';
 import { toWei } from '../../../../../../utils/blockchain/math-helpers';
 import { PerpetualTxMethods } from '../../TradeDialog/types';
@@ -66,11 +61,10 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     totalToReceive,
   } = useMemo(() => {
     const amountCurrent = trade
-      ? getTradeDirection(trade.position) * Number(fromWei(trade.amount))
+      ? getSignedAmount(trade.position, trade.amount)
       : 0;
     const amountChange = changedTrade
-      ? getTradeDirection(changedTrade.position) *
-        Number(fromWei(changedTrade.amount))
+      ? getSignedAmount(changedTrade.position, changedTrade.amount)
       : 0;
 
     const amountTarget = amountCurrent + amountChange;

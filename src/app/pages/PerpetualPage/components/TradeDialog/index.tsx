@@ -18,7 +18,7 @@ import {
   PerpetualPairType,
 } from 'utils/dictionaries/perpetual-pair-dictionary';
 import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
-import { getTradeDirection } from '../../utils/contractUtils';
+import { getSignedAmount } from '../../utils/contractUtils';
 import { usePerpetual_queryTraderState } from '../../hooks/usePerpetual_queryTraderState';
 import {
   TradeAnalysis,
@@ -84,8 +84,7 @@ export const TradeDialog: React.FC = () => {
       return tradeDialogContextDefault.analysis;
     }
 
-    const amountTarget =
-      Number(fromWei(trade.amount)) * getTradeDirection(trade.position);
+    const amountTarget = getSignedAmount(trade.position, trade.amount);
     const amountChange = amountTarget - traderState.marginAccountPositionBC;
 
     const marginTarget = trade.margin

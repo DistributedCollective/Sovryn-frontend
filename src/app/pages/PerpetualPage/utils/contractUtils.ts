@@ -17,6 +17,7 @@ import marginTokenAbi from 'utils/blockchain/abi/MarginToken.json';
 import { TradingPosition } from 'types/trading-position';
 import { TraderState, getBase2CollateralFX, AMMState } from './perpUtils';
 import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
+import { fromWei } from '../../../../utils/blockchain/math-helpers';
 
 export const ONE_64x64 = BigNumber.from('0x10000000000000000');
 
@@ -26,6 +27,13 @@ export const PERPETUAL_ID =
 
 export const getTradeDirection = (tradingPosition: TradingPosition) =>
   tradingPosition === TradingPosition.LONG ? 1 : -1;
+
+export const getSignedAmount = (
+  position: TradingPosition,
+  weiAmount: string,
+) => {
+  return getTradeDirection(position) * Number(fromWei(weiAmount));
+};
 
 // Converts float to ABK64x64 bigint-format, creates string from number with 18 decimals
 export const floatToABK64x64 = (value: number) => {
@@ -149,7 +157,7 @@ export const checkAndApprove = async (
     };
   } catch (e) {
     dispatch(txActions.setLoading(false));
-    dispatch(txActions.setTransactionRequestDialogError(e.message));
+    dispatch(txActions.setTransactionRequestDialogError((e as Error).message));
     return {
       approveTx: null,
       nonce,

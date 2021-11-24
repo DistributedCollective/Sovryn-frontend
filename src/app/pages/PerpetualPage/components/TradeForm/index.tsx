@@ -33,7 +33,7 @@ import { shrinkToLot } from '../../utils/perpMath';
 import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
 import { usePerpetual_queryPerpParameters } from '../../hooks/usePerpetual_queryPerpParameters';
 import { usePerpetual_marginAccountBalance } from '../../hooks/usePerpetual_marginAccountBalance';
-import { getTradeDirection } from '../../utils/contractUtils';
+import { getSignedAmount, getTradeDirection } from '../../utils/contractUtils';
 import { usePerpetual_queryTraderState } from '../../hooks/usePerpetual_queryTraderState';
 
 interface ITradeFormProps {
@@ -163,8 +163,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   }, [t, trade.position, trade.tradeType]);
 
   const requiredCollateral = useMemo(() => {
-    const amount =
-      Number(fromWei(trade.amount)) * getTradeDirection(trade.position);
+    const amount = getSignedAmount(trade.position, trade.amount);
     return getRequiredMarginCollateral(
       trade.leverage,
       marginAccountBalance.fPositionBC,
