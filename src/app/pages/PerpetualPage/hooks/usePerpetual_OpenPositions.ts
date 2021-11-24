@@ -30,7 +30,7 @@ export type OpenPositionEntry = {
   liquidationPrice?: number;
   margin: number;
   leverage?: number;
-  unrealized?: { baseValue: number; quoteValue: number; roe: number };
+  unrealized?: { baseValue: number; quoteValue: number };
   realized?: { baseValue: number; quoteValue: number };
 };
 
@@ -98,7 +98,6 @@ export const usePerpetual_OpenPosition = (
     const unrealized: OpenPositionEntry['unrealized'] = {
       baseValue: unrealizedQuote / base2quote,
       quoteValue: unrealizedQuote,
-      roe: unrealizedQuote / base2quote / tradeAmount,
     };
 
     // TODO: calculate Realized Profit and Loss
