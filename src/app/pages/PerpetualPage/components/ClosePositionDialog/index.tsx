@@ -8,17 +8,12 @@ import { TransitionAnimation } from '../../../../containers/TransitionContainer'
 import { TransitionSteps } from '../../../../containers/TransitionSteps';
 import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
-import {
-  isPerpetualTrade,
-  PerpetualPageModals,
-  PerpetualTrade,
-} from '../../types';
+import { isPerpetualTrade, PerpetualPageModals } from '../../types';
 import { TradeDetails } from '../TradeDetails';
 import { SlippageFormStep } from './components/SlippageFormStep';
 import { TradeFormStep } from './components/TradeFormStep';
 import { ClosePositionDialogState, ClosePositionDialogStep } from './types';
 import { noop } from '../../../../constants';
-import { PerpetualPair } from '../../../../../utils/models/perpetual-pair';
 import { generateCloseTrade } from './utils';
 
 const steps = {
@@ -29,7 +24,6 @@ const steps = {
 export const ClosePositionDialogContext = React.createContext<
   ClosePositionDialogState
 >({ onChange: noop });
-
 export const ClosePositionDialog: React.FC = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();

@@ -8,6 +8,7 @@ import {
   PerpetualTxTrade,
   PerpetualTxDepositMargin,
   PerpetualTxWithdrawMargin,
+  PerpetualTxMethods,
 } from '../components/TradeDialog/types';
 import { ResetTxResponseInterface } from '../../../hooks/useSendContractTx';
 
@@ -27,16 +28,16 @@ export const usePerpetual_executeTransaction = () => {
     let rest: ResetTxResponseInterface | undefined;
 
     switch (transaction?.method) {
-      case 'trade':
+      case PerpetualTxMethods.trade:
         rest = tradeRest;
         break;
-      case 'deposit':
+      case PerpetualTxMethods.deposit:
         rest = depositRest;
         break;
-      case 'withdraw':
+      case PerpetualTxMethods.withdraw:
         rest = withdrawRest;
         break;
-      case 'withdrawAll':
+      case PerpetualTxMethods.withdrawAll:
         rest = withdrawAllRest;
         break;
     }
@@ -45,7 +46,7 @@ export const usePerpetual_executeTransaction = () => {
       execute: (transaction: PerpetualTx) => {
         setTransaction(transaction);
         switch (transaction?.method) {
-          case 'trade':
+          case PerpetualTxMethods.trade:
             const tradeTx: PerpetualTxTrade = transaction;
             return trade(
               tradeTx.isClosePosition,
@@ -54,13 +55,13 @@ export const usePerpetual_executeTransaction = () => {
               tradeTx.slippage,
               tradeTx.tradingPosition,
             );
-          case 'deposit':
+          case PerpetualTxMethods.deposit:
             const depositTx: PerpetualTxDepositMargin = transaction;
             return deposit(depositTx.amount);
-          case 'withdraw':
+          case PerpetualTxMethods.withdraw:
             const withdrawTx: PerpetualTxWithdrawMargin = transaction;
             return withdraw(withdrawTx.amount);
-          case 'withdrawAll':
+          case PerpetualTxMethods.withdrawAll:
             return withdrawAll();
         }
       },
