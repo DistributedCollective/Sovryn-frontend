@@ -1739,6 +1739,7 @@
     "openPositions": "Positions",
     "closedPositions": "Closed Positions",
     "orderHistory": "Order History",
+    "fundingPayments": "Funding Payments",
     "openPositionsTable": {
       "pair": "Pair",
       "positionSize": "Position Size",
@@ -1780,6 +1781,14 @@
         "buy": "BUY",
         "sell": "SELL"
       }
+    },
+    "fundingPaymentsTable": {
+      "dateTime": "Date & Time",
+      "symbol": "Symbol",
+      "collateral": "Collateral",
+      "payment": "Payment",
+      "rate": "Rate",
+      "timeSinceLastPayment": "Time since last payment"
     },
     "notificationSettingsDialog": {
       "title": "Margin Trade notification settings",

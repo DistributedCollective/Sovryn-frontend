@@ -37,6 +37,7 @@ import { EditLeverageDialog } from './components/EditLeverageDialog';
 import { EditMarginDialog } from './components/EditMarginDialog';
 import { ClosedPositionsTable } from './components/ClosedPositionsTable';
 import { OrderHistoryTable } from './components/OrderHistoryTable/index';
+import { FundingPaymentsTable } from './components/FundingPaymentsTable/index';
 
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -169,12 +170,18 @@ export function PerpetualPage() {
                 active={activeTab === 2}
                 onClick={() => setActiveTab(2)}
               />
+              <Tab
+                text={t(translations.perpetualPage.fundingPayments)}
+                active={activeTab === 3}
+                onClick={() => setActiveTab(3)}
+              />
             </div>
 
             <div className="tw-w-full tw-mb-24">
               {activeTab === 0 && <OpenPositionsTable perPage={5} />}
               {activeTab === 1 && <ClosedPositionsTable perPage={5} />}
               {activeTab === 2 && <OrderHistoryTable perPage={5} />}
+              {activeTab === 3 && <FundingPaymentsTable perPage={5} />}
             </div>
           </>
         )}
