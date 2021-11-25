@@ -18,9 +18,11 @@ import {
   calculateApproxLiquidationPrice,
   getRequiredMarginCollateral,
 } from 'app/pages/PerpetualPage/utils/perpUtils';
-import { getTradeDirection } from 'app/pages/PerpetualPage/utils/contractUtils';
+import {
+  getSignedAmount,
+  getTradeDirection,
+} from 'app/pages/PerpetualPage/utils/contractUtils';
 import { usePerpetual_queryPerpParameters } from '../../../hooks/usePerpetual_queryPerpParameters';
-import { fromWei } from 'web3-utils';
 import { usePerpetual_queryTraderState } from '../../../hooks/usePerpetual_queryTraderState';
 import { TradingPosition } from '../../../../../../types/trading-position';
 
@@ -63,8 +65,7 @@ export const SlippageFormStep: TransitionStep<NewPositionCardStep> = ({
   );
 
   const minLiquidationPrice = useMemo(() => {
-    const amount =
-      Number(fromWei(trade.amount)) * getTradeDirection(trade.position);
+    const amount = getSignedAmount(trade.position, trade.amount);
     const margin = getRequiredMarginCollateral(
       trade.leverage,
       traderState.marginAccountPositionBC,

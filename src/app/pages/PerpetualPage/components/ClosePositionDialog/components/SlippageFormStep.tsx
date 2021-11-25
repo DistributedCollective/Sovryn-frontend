@@ -3,24 +3,24 @@ import { useTranslation } from 'react-i18next';
 import { TransitionStep } from '../../../../../containers/TransitionSteps';
 import iconArrowForward from 'assets/images/arrow_forward.svg';
 import { SlippageForm } from '../../SlippageForm';
-import { EditPositionSizeDialogStep } from '../types';
+import { ClosePositionDialogStep } from '../types';
 import { TransitionAnimation } from '../../../../../containers/TransitionContainer';
 import { translations } from '../../../../../../locales/i18n';
-import { EditPositionSizeDialogContext } from '..';
+import { ClosePositionDialogContext } from '..';
 import { PERPETUAL_SLIPPAGE_DEFAULT } from '../../../types';
+import { calculateSlippagePrice, getMidPrice } from '../../../utils/perpUtils';
 import { usePerpetual_queryAmmState } from '../../../hooks/usePerpetual_queryAmmState';
 import { usePerpetual_queryPerpParameters } from '../../../hooks/usePerpetual_queryPerpParameters';
-import { getMidPrice, calculateSlippagePrice } from '../../../utils/perpUtils';
-import {
-  PerpetualPairType,
-  PerpetualPairDictionary,
-} from '../../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { getTradeDirection } from '../../../utils/contractUtils';
-import { AssetValue } from '../../../../../components/AssetValue';
 import { TradingPosition } from '../../../../../../types/trading-position';
+import { AssetValue } from '../../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../../components/AssetValue/types';
+import {
+  PerpetualPairDictionary,
+  PerpetualPairType,
+} from '../../../../../../utils/dictionaries/perpetual-pair-dictionary';
 
-export const SlippageFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
+export const SlippageFormStep: TransitionStep<ClosePositionDialogStep> = ({
   changeTo,
 }) => {
   const { t } = useTranslation();
@@ -32,16 +32,7 @@ export const SlippageFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
     ammState,
   ]);
 
-  const { changedTrade, onChange } = useContext(EditPositionSizeDialogContext);
-
-  const onCloseSlippage = useCallback(
-    () =>
-      changeTo(
-        EditPositionSizeDialogStep.trade,
-        TransitionAnimation.slideRight,
-      ),
-    [changeTo],
-  );
+  const { changedTrade, onChange } = useContext(ClosePositionDialogContext);
 
   const pair = useMemo(
     () =>
@@ -51,6 +42,11 @@ export const SlippageFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
     [changedTrade?.pairType],
   );
 
+  const onCloseSlippage = useCallback(
+    () =>
+      changeTo(ClosePositionDialogStep.trade, TransitionAnimation.slideRight),
+    [changeTo],
+  );
   const onChangeSlippage = useCallback(
     slippage =>
       changedTrade &&

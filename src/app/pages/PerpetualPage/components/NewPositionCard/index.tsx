@@ -25,6 +25,7 @@ import { TradeFormStep } from './components/TradeFormStep';
 import { ConnectFormStep } from './components/ConnectFormStep';
 import { noop } from '../../../../constants';
 import { PERPETUAL_SLIPPAGE_DEFAULT } from '../../types';
+import { PerpetualTxMethods } from '../TradeDialog/types';
 
 export const NewPositionCardContext = React.createContext<
   NewPositionCardContextType
@@ -76,7 +77,23 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
   });
 
   const onSubmit = useCallback(
-    () => dispatch(actions.setModal(PerpetualPageModals.TRADE_REVIEW, trade)),
+    () =>
+      dispatch(
+        actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
+          origin: PerpetualPageModals.NONE,
+          trade,
+          transactions: [
+            {
+              method: PerpetualTxMethods.trade,
+              amount: trade.amount,
+              tradingPosition: trade.position,
+              slippage: trade.slippage,
+              leverage: trade.leverage,
+              tx: null,
+            },
+          ],
+        }),
+      ),
     [dispatch, trade],
   );
 

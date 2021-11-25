@@ -25,7 +25,12 @@
   height: 3.125rem;
 }
 
-.positionSize {
+.positionSizeBuy {
   @apply tw-font-medium;
   color: #15ae9f;
+}
+
+.positionSizeSell {
+  @apply tw-font-medium;
+  color: #ce4b09;
 }

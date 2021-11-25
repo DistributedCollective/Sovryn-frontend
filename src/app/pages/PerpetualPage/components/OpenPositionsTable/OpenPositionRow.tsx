@@ -70,8 +70,8 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
   );
 
   const onCloseTrade = useCallback(
-    () => (!status || status === TxStatus.NONE) && closePosition(),
-    [status, closePosition],
+    () => onOpenTradeModal(PerpetualPageModals.CLOSE_POSITION),
+    [onOpenTradeModal],
   );
 
   const isEmptyPosition = useMemo(() => !item.amount || item.amount === 0, [

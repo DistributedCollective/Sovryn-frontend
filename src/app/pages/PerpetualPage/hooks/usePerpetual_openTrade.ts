@@ -9,7 +9,7 @@ import { toWei } from 'web3-utils';
 import {
   floatToABK64x64,
   PERPETUAL_ID,
-  getTradeDirection,
+  getSignedAmount,
 } from '../utils/contractUtils';
 import {
   calculateSlippagePrice,
@@ -20,7 +20,6 @@ import { usePerpetual_depositMarginToken } from './usePerpetual_depositMarginTok
 import { usePerpetual_marginAccountBalance } from './usePerpetual_marginAccountBalance';
 import { usePerpetual_queryAmmState } from './usePerpetual_queryAmmState';
 import { usePerpetual_queryPerpParameters } from './usePerpetual_queryPerpParameters';
-import { usePerpetual_queryTraderState } from './usePerpetual_queryTraderState';
 
 const MASK_MARKET_ORDER = 0x40000000;
 const MASK_CLOSE_ONLY = 0x80000000;
@@ -28,7 +27,6 @@ const MASK_CLOSE_ONLY = 0x80000000;
 export const usePerpetual_openTrade = () => {
   const address = useAccount();
   const perpetualParameters = usePerpetual_queryPerpParameters();
-  const traderState = usePerpetual_queryTraderState();
   const ammState = usePerpetual_queryAmmState();
   const marginBalance = usePerpetual_marginAccountBalance();
   const midPrice = useMemo(() => getMidPrice(perpetualParameters, ammState), [
@@ -42,7 +40,7 @@ export const usePerpetual_openTrade = () => {
   return {
     trade: async (
       isClosePosition: boolean | undefined = false,
-      /** target amount as wei string */
+      /** amount as wei string */
       amount: string = '0',
       leverage: number | undefined = 1,
       slippage: number | undefined = 0.5,
@@ -51,10 +49,12 @@ export const usePerpetual_openTrade = () => {
       let signedAmount;
       if (isClosePosition) {
         // 1.1 to prevent rounding issues, contract clamps CLOSE_ONLY trades to 0 either way
-        signedAmount = -1.1 * marginBalance.fPositionBC;
-      } else {
         signedAmount =
-          getTradeDirection(tradingPosition) * Number(fromWei(amount));
+          amount && amount !== '0'
+            ? -Math.sign(marginBalance.fPositionBC) * Number(fromWei(amount))
+            : -1.1 * marginBalance.fPositionBC;
+      } else {
+        signedAmount = getSignedAmount(tradingPosition, amount);
       }
 
       let tradeDirection = Math.sign(signedAmount);
