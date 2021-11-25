@@ -92,23 +92,24 @@ export const ResultPosition: React.FC<ResultPositionProps> = ({
             {toNumberFormat(leverageTarget, 2)}x
           </span>
         </div>
-        {amountChange !== 0 && (
-          <div className={classNames(styles.positionInfoRow, 'tw-mt-2')}>
-            <span className="tw-text-gray-10">
-              {t(translations.perpetualPage.reviewTrade.labels.entryPrice)}
-            </span>
-            <span className="tw-font-medium">
-              {amountChange > 0 ? '≥ ' : '≤ '}
-              <AssetValue
-                minDecimals={2}
-                maxDecimals={2}
-                mode={AssetValueMode.auto}
-                value={entryPrice}
-                assetString={pair.quoteAsset}
-              />
-            </span>
-          </div>
-        )}
+        {origin !== PerpetualPageModals.EDIT_LEVERAGE &&
+          origin !== PerpetualPageModals.EDIT_MARGIN && (
+            <div className={classNames(styles.positionInfoRow, 'tw-mt-2')}>
+              <span className="tw-text-gray-10">
+                {t(translations.perpetualPage.reviewTrade.labels.entryPrice)}
+              </span>
+              <span className="tw-font-medium">
+                {amountChange > 0 ? '≥ ' : '≤ '}
+                <AssetValue
+                  minDecimals={2}
+                  maxDecimals={2}
+                  mode={AssetValueMode.auto}
+                  value={entryPrice}
+                  assetString={pair.quoteAsset}
+                />
+              </span>
+            </div>
+          )}
 
         <div className={classNames(styles.positionInfoRow, 'tw-mt-2')}>
           <span className="tw-text-gray-10 tw-font-semibold">
