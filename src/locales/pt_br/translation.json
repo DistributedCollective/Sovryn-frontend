@@ -18,6 +18,7 @@
     "maintenance": "Em manutenção",
     "next": "Próximo",
     "loading": "Carregando...",
+    "retry": "Tentar novamente",
     "unit": {
       "day": "{{count}} dia",
       "day_plural": "{{count}} dias"
