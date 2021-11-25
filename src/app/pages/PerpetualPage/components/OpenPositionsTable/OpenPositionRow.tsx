@@ -152,10 +152,6 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
                 showPositiveSign
               />
             </div>
-            <div>
-              ({item.unrealized.roe > 0 ? '+' : ''}
-              {numberToPercent(item.unrealized.roe, 1)})
-            </div>
           </div>
         )}
       </td>
