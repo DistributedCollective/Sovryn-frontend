@@ -75,7 +75,7 @@ export const RecentTradesTable: React.FC<RecentTradesTableProps> = ({
         time: new Date().toTimeString().slice(0, 8),
       };
       // console.log(parsedTrade);
-      setTrades([parsedTrade, ...trades]);
+      setTrades([parsedTrade, ...trades.slice(0, recentTradesLength)]);
     }
   }, [loading, newTrades, trades]);
 
