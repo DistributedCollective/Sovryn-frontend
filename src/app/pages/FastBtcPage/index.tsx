@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
@@ -32,10 +32,21 @@ export function FastBtcPage() {
     }
   }, [type, history]);
 
+  const renderTitle = useMemo(() => {
+    switch (type) {
+      case FastBtcDirectionType.DEPOSIT:
+        return t(translations.fastBtcPage.meta.titleDeposit);
+      case FastBtcDirectionType.WITHDRAW:
+        return t(translations.fastBtcPage.meta.titleWithdraw);
+      default:
+        return t(translations.fastBtcPage.meta.title);
+    }
+  }, [type, t]);
+
   return (
     <>
       <Helmet>
-        <title>{t(translations.fastBtcPage.meta.title)}</title>
+        <title>{renderTitle}</title>
         <meta
           name="description"
           content={t(translations.fastBtcPage.meta.description)}

@@ -170,6 +170,8 @@
   "fastBtcPage": {
     "meta": {
       "title": "Fast-BTC",
+      "titleDeposit": "Deposit BTC",
+      "titleWithdraw": "Withdraw BTC",
       "description": "Move your Bitcoin to RSK network."
     },
     "backToPortfolio": "Back to portfolio",
