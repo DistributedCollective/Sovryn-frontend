@@ -7,7 +7,8 @@ import { Nullable } from '../../../../../types';
 export enum TradeDialogStep {
   review = 'review',
   approval = 'approval',
-  processing = 'processing',
+  confirmation = 'confirmation',
+  transaction = 'transaction',
 }
 
 export type TradeAnalysis = {
@@ -66,11 +67,40 @@ export type PerpetualTx =
   | PerpetualTxWithdrawMargin
   | PerpetualTxWithdrawAllMargin;
 
+export enum PerpetualTxStage {
+  /** Transaction has been reviewed by the user */
+  reviewed = 'reviewed',
+  /** Transaction requires spending approval, spending approval requested */
+  approvalPending = 'approvalPending',
+  /** Transaction spending approval received */
+  approvalSuccess = 'approvalSuccess',
+  /** Transaction spending approval denied */
+  approvalFailure = 'approvalFailure',
+  /** Transaction confirmation pending  */
+  confirmationPending = 'confirmationPending',
+  /** Transaction confirmation denied */
+  confirmationFailure = 'confirmationFailure',
+  /** Transaction send */
+  transactionPending = 'transactionPending',
+  /** Transaction confirmed */
+  transactionSuccess = 'transactionSuccess',
+  /** Transaction failed */
+  transactionFailure = 'transactionFailure',
+}
+
+export type TradeDialogCurrentTransaction = {
+  index: number;
+  stage: PerpetualTxStage;
+};
+
 export type TradeDialogContextType = {
   pair: PerpetualPair;
   origin?: PerpetualPageModals;
   trade?: PerpetualTrade;
   analysis: TradeAnalysis;
   transactions: PerpetualTx[];
+  currentTransaction?: TradeDialogCurrentTransaction;
+  setTransactions: (txs: PerpetualTx[]) => void;
+  setCurrentTransaction: (next: TradeDialogCurrentTransaction) => void;
   onClose: () => void;
 };

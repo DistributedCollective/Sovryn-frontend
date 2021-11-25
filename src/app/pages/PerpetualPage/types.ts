@@ -3,6 +3,7 @@ import { TradingPosition } from '../../../types/trading-position';
 import { PerpetualPairType } from '../../../utils/dictionaries/perpetual-pair-dictionary';
 import { Transaction } from 'ethers';
 import { PerpetualTx } from './components/TradeDialog/types';
+import { CheckAndApproveResult } from '../../../utils/sovryn/contract-writer';
 
 export const PERPETUAL_SLIPPAGE_DEFAULT = 0.5;
 
@@ -89,3 +90,7 @@ export type PerpetualPageState = {
 };
 
 export type ContainerState = PerpetualPageState;
+
+export type CheckAndApproveResultWithError = CheckAndApproveResult & {
+  error?: Error;
+};

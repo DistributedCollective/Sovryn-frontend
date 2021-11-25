@@ -39,16 +39,17 @@ export function TxRequestDialog({ open, type, amount, asset, error }: Props) {
         className={styles.dialog}
       >
         {type === TxType.APPROVE && (
-          <>
+          <div className="tw-mw-340 tw-mx-auto tw-text-center">
             <h1>
               {t(translations.walletProvider.txRequestDialog.approve.title)}
             </h1>
+            <WalletLogo wallet={wallet} />
             {error ? (
               <>
-                <p>
+                <p className="tw-mb-4">
                   {t(translations.walletProvider.txRequestDialog.approve.error)}
                 </p>
-                <div className="alert alert-warning">{error}</div>
+                <div className="tw-mb-8 alert alert-warning">{error}</div>
                 <TradeButton
                   text={t(
                     translations.walletProvider.txRequestDialog.closeButton,
@@ -60,7 +61,6 @@ export function TxRequestDialog({ open, type, amount, asset, error }: Props) {
               </>
             ) : (
               <>
-                <WalletLogo wallet={wallet} />
                 <p>
                   {t(translations.buySovPage.txDialog.pendingUser.text, {
                     walletName: getWalletName(wallet),
@@ -68,7 +68,7 @@ export function TxRequestDialog({ open, type, amount, asset, error }: Props) {
                 </p>
               </>
             )}
-          </>
+          </div>
         )}
       </Dialog>
     </>

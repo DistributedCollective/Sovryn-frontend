@@ -2,10 +2,7 @@ import { walletService } from '@sovryn/react-wallet';
 import { BigNumber } from 'ethers';
 import { Asset, Chain } from 'types';
 import { Sovryn } from 'utils/sovryn';
-import {
-  CheckAndApproveResult,
-  contractWriter,
-} from 'utils/sovryn/contract-writer';
+import { contractWriter } from 'utils/sovryn/contract-writer';
 import { ContractName } from 'utils/types/contracts';
 import { actions as txActions } from 'store/global/transactions-store/slice';
 import { bignumber } from 'mathjs';
@@ -18,6 +15,8 @@ import { TradingPosition } from 'types/trading-position';
 import { TraderState, getBase2CollateralFX, AMMState } from './perpUtils';
 import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
 import { fromWei } from '../../../../utils/blockchain/math-helpers';
+import { isError } from 'util';
+import { CheckAndApproveResultWithError } from '../types';
 
 export const ONE_64x64 = BigNumber.from('0x10000000000000000');
 
@@ -91,7 +90,7 @@ export const checkAndApprove = async (
   spenderAddress: string,
   amount: string,
   asset: Asset,
-): Promise<CheckAndApproveResult> => {
+): Promise<CheckAndApproveResultWithError> => {
   const sovryn = Sovryn;
   const address = walletService.address.toLowerCase();
   const dispatch = sovryn.store().dispatch;
@@ -109,14 +108,7 @@ export const checkAndApprove = async (
     );
 
     let approveTx: any = null;
-    if (bignumber(String(allowance)).lessThan(amount)) {
-      dispatch(
-        txActions.openTransactionRequestDialog({
-          type: TxType.APPROVE,
-          asset,
-          amount: transferAmount.get(amount),
-        }),
-      );
+    if (bignumber(String(allowance)).lessThanOrEqualTo(amount)) {
       approveTx = await contractWriter
         .send(
           contractName,
@@ -130,7 +122,7 @@ export const checkAndApprove = async (
           },
         )
         .then(tx => {
-          sovryn.store().dispatch(
+          dispatch(
             txActions.addTransaction({
               transactionHash: tx as string,
               approveTransactionHash: null,
@@ -148,20 +140,17 @@ export const checkAndApprove = async (
         });
       nonce += 1;
     }
-    dispatch(txActions.setLoading(false));
-    dispatch(txActions.closeTransactionRequestDialog());
     return {
       approveTx,
       nonce,
       rejected: false,
     };
   } catch (e) {
-    dispatch(txActions.setLoading(false));
-    dispatch(txActions.setTransactionRequestDialogError((e as Error).message));
     return {
       approveTx: null,
       nonce,
       rejected: true,
+      error: isError(e) ? e : new Error(e.toString()),
     };
   }
 };

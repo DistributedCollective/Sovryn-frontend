@@ -1719,6 +1719,35 @@
       },
       "confirm": "Confirm"
     },
+    "processTrade": {
+      "titles": {
+        "approval": "Approve Order",
+        "approvalFailed": "Approval Failed",
+        "approvalRejected": "Approval Rejected",
+        "confirm": "Confirm Order",
+        "confirmFailed": "Confirm Failed",
+        "confirmRejected": "Confirm Rejected",
+        "confirmMulti": "Confirm {{current}} from {{count}}",
+        "confirmMultiFailed": "Confirm {{current}} from {{count}} Failed",
+        "confirmMultiRejected": "Confirm {{current}} from {{count}} Rejected",
+        "processing": "Order processing…",
+        "complete": "Order Complete",
+        "failed": "Order Failed"
+      },
+      "texts": {
+        "approval": "Please approve BTC to be spent by the Sovryn smart contracts in your {{wallet}} wallet",
+        "confirm": "Please confirm transaction in your {{wallet}} wallet",
+        "confirmMulit": "Please confirm transaction {{current}} of {{count}} in your {{wallet}} wallet",
+        "error": "Your transaction has failed due to <0/> Your position has not been opened",
+        "rejected": "You have chosen to reject this transaction",
+        "rejectedMulti": "You have chosen to reject transaction {{current}} of {{count}}",
+        "cancelOrRetry": "Please cancel or retry your transaction"
+      },
+      "buttons": {
+        "retry": "Retry",
+        "close": "Close"
+      }
+    },
     "editPositionSize": {
       "title": "Edit Position Size"
     },

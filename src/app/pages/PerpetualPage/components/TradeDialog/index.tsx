@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dialog } from '../../../../containers/Dialog';
 import { selectPerpetualPage } from '../../selectors';
@@ -24,11 +24,15 @@ import {
   TradeAnalysis,
   TradeDialogContextType,
   TradeDialogStep,
+  TradeDialogCurrentTransaction,
 } from './types';
 import { noop } from '../../../../constants';
 import { TransitionSteps } from '../../../../containers/TransitionSteps';
 import { TransitionAnimation } from '../../../../containers/TransitionContainer';
 import { ReviewStep } from './components/ReviewStep';
+import { ApprovalStep } from './components/ApprovalStep';
+import { ConfirmationStep } from './components/ConfirmationStep';
+import { TransactionStep } from './components/TransactionStep';
 
 const tradeDialogContextDefault: TradeDialogContextType = {
   pair: PerpetualPairDictionary.get(PerpetualPairType.BTCUSD),
@@ -44,6 +48,8 @@ const tradeDialogContextDefault: TradeDialogContextType = {
     tradingFee: 0,
   },
   transactions: [],
+  setTransactions: noop,
+  setCurrentTransaction: noop,
   onClose: noop,
 };
 
@@ -53,8 +59,9 @@ export const TradeDialogContext = React.createContext<TradeDialogContextType>(
 
 const TradeDialogStepComponents = {
   [TradeDialogStep.review]: ReviewStep,
-  [TradeDialogStep.processing]: ReviewStep, // TODO implement TradeDialogStep Processing
-  [TradeDialogStep.approval]: ReviewStep, // TODO implement TradeDialogStep Approval
+  [TradeDialogStep.approval]: ApprovalStep,
+  [TradeDialogStep.confirmation]: ConfirmationStep,
+  [TradeDialogStep.transaction]: TransactionStep,
 };
 
 export const TradeDialog: React.FC = () => {
@@ -65,13 +72,18 @@ export const TradeDialog: React.FC = () => {
   const ammState = usePerpetual_queryAmmState();
   const traderState = usePerpetual_queryTraderState();
 
-  const { origin, trade, transactions } = useMemo(
+  const { origin, trade, transactions: requestedTransactions } = useMemo(
     () =>
       isPerpetualTradeReview(modalOptions)
         ? modalOptions
         : { origin: undefined, trade: undefined, transactions: [] },
     [modalOptions],
   );
+
+  const [transactions, setTransactions] = useState(requestedTransactions);
+  const [currentTransaction, setCurrentTransaction] = useState<
+    TradeDialogCurrentTransaction
+  >();
 
   const pair = useMemo(
     () =>
@@ -144,9 +156,12 @@ export const TradeDialog: React.FC = () => {
       trade,
       analysis,
       transactions,
+      currentTransaction,
+      setTransactions,
+      setCurrentTransaction,
       onClose,
     }),
-    [origin, pair, trade, analysis, transactions, onClose],
+    [origin, pair, trade, analysis, transactions, currentTransaction, onClose],
   );
 
   if (!trade) {
