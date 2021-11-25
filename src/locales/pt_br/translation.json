@@ -160,6 +160,8 @@
   "fastBtcPage": {
     "meta": {
       "title": "FastBTC",
+      "titleDeposit": "Depositar BTC",
+      "titleWithdraw": "Sacar BTC",
       "description": "Transfira seu Bitcoin para a rede RSK."
     },
     "backToPortfolio": "Voltar ao portfólio",
