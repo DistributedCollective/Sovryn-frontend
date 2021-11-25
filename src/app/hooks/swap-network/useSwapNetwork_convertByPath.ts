@@ -1,7 +1,7 @@
 import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
-import { Asset } from '../../../types';
-import { TxType, AppMode } from '../../../store/global/transactions-store/types';
+import { Asset, AppMode } from '../../../types';
+import { TxType } from '../../../store/global/transactions-store/types';
 import { gasLimit, currentNetwork } from '../../../utils/classifiers';
 
 export function useSwapNetwork_convertByPath(
