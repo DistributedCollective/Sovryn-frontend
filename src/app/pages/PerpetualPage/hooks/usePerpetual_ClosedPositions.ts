@@ -19,6 +19,7 @@ type ClosedPositionHookResult = {
 export const usePerpetual_ClosedPositions = (
   pairType: PerpetualPairType.BTCUSD,
 ): ClosedPositionHookResult => {
+  // TODO: implement ClosedPositions hook
   return {
     data: [
       {

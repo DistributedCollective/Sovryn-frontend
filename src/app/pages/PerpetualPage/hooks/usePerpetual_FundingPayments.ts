@@ -18,6 +18,7 @@ type FundingPaymentsHookResult = {
 export const usePerpetual_FundingPayments = (
   pairType: PerpetualPairType.BTCUSD,
 ): FundingPaymentsHookResult => {
+  // TODO: implement FundingPayments hook
   return {
     data: [
       {

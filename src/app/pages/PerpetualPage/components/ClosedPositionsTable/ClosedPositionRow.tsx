@@ -41,7 +41,6 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
       </td>
       <td
         className={classNames(
-          'tw-hidden 2xl:tw-table-cell',
           item.realizedPnl.baseValue > 0
             ? 'tw-text-trade-long'
             : 'tw-text-trade-short',
