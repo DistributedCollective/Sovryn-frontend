@@ -1667,6 +1667,10 @@
         "sellLimit": "Sell Limit",
         "minLeverage": "MIN",
         "slippageSettings": "Slippage Settings"
+      },
+      "disabledState": {
+        "explanation1": "Only one position can be opened at a time",
+        "explanation2": "You can edit and close your position in the action section below"
       }
     },
     "tradeDialog": {
