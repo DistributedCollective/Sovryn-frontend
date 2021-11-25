@@ -117,7 +117,7 @@ export const ProfitContainer: React.FC<ProfitContainerProps> = ({
         }
         tooltip={
           <>
-            <div>{toNumberFormat(priceChange, 18)}</div>
+            <div>{toNumberFormat(priceChange, 18)} %</div>
             <div className="tw-mt-2 tw-text-xs">
               <div>{t(translations.openPositionTable.profitTooltip)}</div>
               <div className="tw-mt-1 tw-pl-3">

@@ -18,6 +18,7 @@ import { PositionBlock } from '../OpenPositionsTable/PositionBlock';
 import { LinkToExplorer } from '../../../../components/LinkToExplorer';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { Pagination } from '../../../../components/Pagination';
+import { isLongTrade } from '../OpenPositionsTable/helpers';
 
 type EventType = 'buy' | 'sell';
 
@@ -273,6 +274,8 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
 
         if (pair === undefined) return null;
 
+        const isLong = pair.longAsset === item.loanToken;
+
         return {
           item: item,
           icon: <PositionBlock position={item.position} name={pair.name} />,
@@ -280,18 +283,21 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
           positionSize: (
             <Tooltip content={weiTo18(item.positionSize)}>
               <span>
-                {weiToNumberFormat(item.positionSize, 4)} {item.collateralToken}
+                {weiToNumberFormat(item.positionSize, 4)}{' '}
+                {isLong ? item.loanToken : item.collateralToken}
               </span>
             </Tooltip>
           ),
           entryPrice: (
             <>
-              {weiToNumberFormat(item.entryPrice, 4)} {item.collateralToken}
+              {weiToNumberFormat(item.entryPrice, 4)}{' '}
+              {isLong ? item.loanToken : item.collateralToken}
             </>
           ),
           closePrice: (
             <>
-              {weiToNumberFormat(item.closePrice, 4)} {item.collateralToken}
+              {weiToNumberFormat(item.closePrice, 4)}{' '}
+              {isLong ? item.loanToken : item.collateralToken}
             </>
           ),
           profit: (
