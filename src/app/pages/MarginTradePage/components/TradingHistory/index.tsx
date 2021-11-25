@@ -18,7 +18,6 @@ import { PositionBlock } from '../OpenPositionsTable/PositionBlock';
 import { LinkToExplorer } from '../../../../components/LinkToExplorer';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { Pagination } from '../../../../components/Pagination';
-import { isLongTrade } from '../OpenPositionsTable/helpers';
 
 type EventType = 'buy' | 'sell';
 
