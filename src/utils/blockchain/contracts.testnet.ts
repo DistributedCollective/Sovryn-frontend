@@ -55,7 +55,7 @@ export const contracts = {
     blockNumber: 1218689,
   },
   swapNetwork: {
-    address: '0x61172B53423E205a399640e5283e51FE60EC2256',
+    address: '0x6390df6de9f24902b29740371525c2ceaA8F5a4f',
     abi: SwapNetworkABI,
     blockNumber: 1218795,
   },

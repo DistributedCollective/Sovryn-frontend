@@ -1,8 +1,8 @@
 import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
 import { Asset } from '../../../types';
-import { TxType } from '../../../store/global/transactions-store/types';
-import { gasLimit } from '../../../utils/classifiers';
+import { TxType, AppMode } from '../../../store/global/transactions-store/types';
+import { gasLimit, currentNetwork } from '../../../utils/classifiers';
 
 export function useSwapNetwork_convertByPath(
   sourceToken: Asset,
@@ -38,6 +38,12 @@ export function useSwapNetwork_convertByPath(
           '0x0000000000000000000000000000000000000000',
           '0',
         ];
+
+        // add affiliate params on testnet
+        // todo make sure to move it to mainnet once contract deployed
+        if (currentNetwork === AppMode.TESTNET) {
+          args = [...args, ['0x0000000000000000000000000000000000000000', '0']];
+        }
 
         config = {
           from: account,
