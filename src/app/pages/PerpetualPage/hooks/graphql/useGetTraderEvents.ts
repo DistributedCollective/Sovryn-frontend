@@ -35,6 +35,7 @@ export enum Event {
   LIQUIDATE = 'LIQUIDATE',
   LIQUIDITY_ADDED = 'LIQUIDITY_ADDED',
   LIQUIDITY_REMOVED = 'LIQUIDITY_REMOVED',
+  UPDATE_MARGIN_ACCOUNT = 'UPDATE_MARGIN_ACCOUNT',
 }
 
 class EventDetails {
@@ -99,6 +100,19 @@ class EventDictionary {
           'tokenAmount',
           'shareAmount',
           ...genericFields,
+        ]),
+      ],
+      [
+        Event.UPDATE_MARGIN_ACCOUNT,
+        new EventDetails('updateMarginAccount', [
+          'id',
+          'perpetualId',
+          'fPositionBC',
+          'fCashCC',
+          'fLockedInValueQC',
+          'fFundingPaymentCC',
+          'fOpenInterestBC',
+          'blockTimestamp',
         ]),
       ],
     ],

@@ -1,5 +1,8 @@
+import { useAccount } from 'app/hooks/useAccount';
+import { useMemo } from 'react';
 import { toWei } from 'utils/blockchain/math-helpers';
 import { PerpetualPairType } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
+import { Event, useGetTraderEvents } from './graphql/useGetTraderEvents';
 
 export type FundingPaymentsEntry = {
   id: string;
@@ -18,7 +21,23 @@ type FundingPaymentsHookResult = {
 export const usePerpetual_FundingPayments = (
   pairType: PerpetualPairType.BTCUSD,
 ): FundingPaymentsHookResult => {
-  // TODO: implement FundingPayments hook
+  const address = useAccount();
+
+  const {
+    data: fundingEvents,
+    previousData: previousFundingEvents,
+    loading,
+  } = useGetTraderEvents([Event.UPDATE_MARGIN_ACCOUNT], address.toLowerCase());
+
+  const data = useMemo(() => {
+    const currentFundingEvents =
+      fundingEvents?.trader?.updateMarginAccount ||
+      previousFundingEvents?.trader?.updateMarginAccount;
+  }, [
+    previousFundingEvents?.trader?.updateMarginAccount,
+    fundingEvents?.trader?.updateMarginAccount,
+  ]);
+
   return {
     data: [
       {
