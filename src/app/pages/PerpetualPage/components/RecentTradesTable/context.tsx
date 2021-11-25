@@ -1,14 +1,24 @@
+import { createContext } from 'react';
+import { TradeEvent } from './types';
 import React, { useState, useEffect } from 'react';
-import SocketContext from '../context';
 import {
   subscription,
   decodeTradeLogs,
 } from 'app/pages/PerpetualPage/utils/bscWebsocket';
 import { getContract } from 'utils/blockchain/contract-helpers';
-import { TradeEvent } from '../types';
+
+export const SocketContext = createContext<{
+  trades: TradeEvent[];
+  indexPrice: string;
+  markPrice: string;
+}>({
+  trades: [],
+  indexPrice: '',
+  markPrice: '',
+});
 
 const address = getContract('perpetualManager').address.toLowerCase();
-const socket = subscription(address, ['Trade'], 14259519);
+const socket = subscription(address, ['Trade']);
 
 const initSockets = ({ setValue }) => {
   socketEvents({ setValue });
@@ -41,9 +51,11 @@ const socketEvents = ({ setValue }) => {
   });
 };
 
-const SocketProvider = props => {
+export const SocketProvider = props => {
   const [value, setValue] = useState({
     trades: [],
+    indexPrice: '',
+    markPrice: '',
   });
 
   useEffect(() => initSockets({ setValue }), []);
@@ -53,5 +65,3 @@ const SocketProvider = props => {
     </SocketContext.Provider>
   );
 };
-
-export default SocketProvider;

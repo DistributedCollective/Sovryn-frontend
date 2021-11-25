@@ -8,18 +8,7 @@ import { RecentTradesTableRow } from './components/RecentTablesRow/index';
 import { RecentTradesDataEntry, TradePriceChange, TradeType } from './types';
 import { useGetRecentTrades } from '../../hooks/graphql/useGetRecentTrades';
 import { weiTo2 } from 'utils/blockchain/math-helpers';
-import {
-  subscription as bscSubscription,
-  decodeTradeLogs,
-} from '../../utils/bscWebsocket';
-import { getContract } from 'utils/blockchain/contract-helpers';
-import SocketContext from './context';
-
-// const WebSocket = require('ws');
-// const url = 'ws://localhost:8080';
-
-const address = getContract('perpetualManager').address.toLowerCase();
-const subscription = bscSubscription(address, ['Trade']);
+import { SocketContext } from './context';
 
 type RecentTradesTableProps = {
   pair: PerpetualPair;
@@ -52,11 +41,8 @@ export const RecentTradesTable: React.FC<RecentTradesTableProps> = ({
 }) => {
   const { data: newData, error, loading } = useGetRecentTrades(pair.id);
   const [trades, setTrades] = useState<RecentTradesDataEntry[]>([]);
-  const { trades: wsTrades } = useContext(SocketContext);
-
-  useEffect(() => {
-    console.log('[socketProvider]: trades state changed', wsTrades);
-  }, [wsTrades]);
+  const { trades: newTrades } = useContext(SocketContext);
+  const recentTradesLength = 20;
 
   useEffect(() => {
     if (newData) {
@@ -70,37 +56,28 @@ export const RecentTradesTable: React.FC<RecentTradesTableProps> = ({
   }, [newData, error]);
 
   useEffect(() => {
-    if (!loading) {
-      subscription.on('connected', () => {
-        console.log('[recentTrades] bsc websocket connected');
-      });
-
-      subscription.on('data', data => {
-        // console.log('[recentTrades] messageReceived', data);
-        if (trades.length > 0) {
-          const decoded = decodeTradeLogs(data.data, [data.topics[1]]);
-          const prevTrade = trades[0];
-          const price = parseFloat(weiTo2(decoded.price));
-          const parsedTrade: RecentTradesDataEntry = {
-            id: data.transactionHash,
-            type:
-              decoded.tradeAmount[0] === '-' ? TradeType.SELL : TradeType.BUY,
-            priceChange:
-              prevTrade.price === price
-                ? TradePriceChange.NO_CHANGE
-                : prevTrade.price > price
-                ? TradePriceChange.UP
-                : TradePriceChange.DOWN,
-            price: price,
-            size: Math.abs(parseFloat(weiTo2(decoded.tradeAmount))),
-            time: new Date().toTimeString().slice(0, 8),
-          };
-          // console.log(parsedTrade);
-          trades.unshift(parsedTrade);
-        }
-      });
+    if (!loading && newTrades.length > 0) {
+      console.log('[socketProvider] adding new trade to recent trades');
+      const prevTrade = trades[0];
+      const newTrade = newTrades[0];
+      const price = parseFloat(weiTo2(newTrade.price));
+      const parsedTrade: RecentTradesDataEntry = {
+        id: newTrade.transactionHash,
+        type: newTrade.tradeAmount[0] === '-' ? TradeType.SELL : TradeType.BUY,
+        priceChange:
+          prevTrade.price === price
+            ? TradePriceChange.NO_CHANGE
+            : prevTrade.price > price
+            ? TradePriceChange.UP
+            : TradePriceChange.DOWN,
+        price: price,
+        size: Math.abs(parseFloat(weiTo2(newTrade.tradeAmount))),
+        time: new Date().toTimeString().slice(0, 8),
+      };
+      // console.log(parsedTrade);
+      setTrades([parsedTrade, ...trades]);
     }
-  }, [loading, trades]);
+  }, [loading, newTrades, trades]);
 
   return (
     <table className={styles.recentTradesTable}>
@@ -135,13 +112,15 @@ export const RecentTradesTable: React.FC<RecentTradesTableProps> = ({
       </thead>
       <tbody>
         {trades &&
-          trades.map((item, index) => (
-            <RecentTradesTableRow
-              key={item.id}
-              row={item}
-              isOddRow={index % 2 === 0}
-            />
-          ))}
+          trades
+            .slice(0, recentTradesLength)
+            .map((item, index) => (
+              <RecentTradesTableRow
+                key={item.id}
+                row={item}
+                isOddRow={index % 2 === 0}
+              />
+            ))}
       </tbody>
     </table>
   );
