@@ -36,7 +36,7 @@ import { TradeReviewDialog } from './components/TradeReviewDialog';
 import { EditPositionSizeDialog } from './components/EditPositionSizeDialog';
 import { EditLeverageDialog } from './components/EditLeverageDialog';
 import { EditMarginDialog } from './components/EditMarginDialog';
-import { SocketProvider } from './components/RecentTradesTable/context';
+import { RecentTradesContextProvider } from './components/RecentTradesTable/context';
 
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -119,104 +119,104 @@ export function PerpetualPage() {
         />
       </Helmet>
       <HeaderLabs />
-      <div className="tw-relative tw--top-2.5 tw-w-full">
-        <div className="tw-w-full tw-bg-gray-2 tw-py-2">
-          <div className="tw-container">
-            <div>
-              Pair Select Placeholder
-              {/*TODO: implement pair select*/}
+      <RecentTradesContextProvider pair={pair}>
+        <div className="tw-relative tw--top-2.5 tw-w-full">
+          <div className="tw-w-full tw-bg-gray-2 tw-py-2">
+            <div className="tw-container">
+              <div>
+                Pair Select Placeholder
+                {/*TODO: implement pair select*/}
+              </div>
             </div>
           </div>
+          <ContractDetails pair={pair} />
         </div>
-        <ContractDetails pair={pair} />
-      </div>
-      <div className={'tw-container tw-mt-5'}>
-        <div
-          className={
-            'tw-flex tw-flex-col tw-mb-8 xl:tw-flex-row xl:tw-justify-stretch tw-space-y-2 xl:tw-space-y-0 xl:tw-space-x-2'
-          }
-        >
-          {/* <DataCard
-            className="xl:tw-w-1/5"
-            title={`AMM Depth (${pairType.toString()})`}
+        <div className={'tw-container tw-mt-5'}>
+          <div
+            className={
+              'tw-flex tw-flex-col tw-mb-8 xl:tw-flex-row xl:tw-justify-stretch tw-space-y-2 xl:tw-space-y-0 xl:tw-space-x-2'
+            }
           >
-            <AmmDepthChart pair={pair} />
-          </DataCard>
-          <DataCard
-            title={`Chart (${pairType.toString()})`}
-            className={'tw-max-w-full xl:tw-w-3/5 2xl:tw-w-2/5'}
-            hasCustomHeight
-          >
-            <TradingChart
-              symbol={pair.chartSymbol}
-              theme={Theme.DARK}
-              hasCustomDimensions
-            />
-          </DataCard> */}
-          <DataCard
-            className="tw-flex-grow tw-block xl:tw-hidden 2xl:tw-block xl:tw-w-1/5"
-            title={`Recent Trades (${pairType.toString()})`}
-          >
-            <SocketProvider pair={pair}>
+            <DataCard
+              className="xl:tw-w-1/5"
+              title={`AMM Depth (${pairType.toString()})`}
+            >
+              <AmmDepthChart pair={pair} />
+            </DataCard>
+            <DataCard
+              title={`Chart (${pairType.toString()})`}
+              className={'tw-max-w-full xl:tw-w-3/5 2xl:tw-w-2/5'}
+              hasCustomHeight
+            >
+              <TradingChart
+                symbol={pair.chartSymbol}
+                theme={Theme.DARK}
+                hasCustomDimensions
+              />
+            </DataCard>
+            <DataCard
+              className="tw-flex-grow tw-block xl:tw-hidden 2xl:tw-block xl:tw-w-1/5"
+              title={`Recent Trades (${pairType.toString()})`}
+            >
               <RecentTradesTable pair={pair} />
-            </SocketProvider>
-          </DataCard>
-          {/* <div className="tw-flex tw-flex-col xl:tw-min-w-80 xl:tw-w-1/5 tw-space-y-2">
+            </DataCard>
+            {/* <div className="tw-flex tw-flex-col xl:tw-min-w-80 xl:tw-w-1/5 tw-space-y-2">
             <AccountBalanceCard balance={availableBalance} />
             <NewPositionCard balance={availableBalance} />
           </div> */}
-        </div>
+          </div>
 
-        {/* This can be used for testing Withdraw/Close position */}
-        {/* <button className="tw-block" onClick={onWithdrawClick}>
+          {/* This can be used for testing Withdraw/Close position */}
+          {/* <button className="tw-block" onClick={onWithdrawClick}>
           Withdraw margin
         </button>
         <button className="tw-block" onClick={closePosition}>
           Close the position
         </button> */}
 
-        {connected && (
-          <>
-            <div className="tw-flex tw-items-center tw-text-sm">
-              <Tab
-                text={t(translations.perpetualPage.openPositions)}
-                active={activeTab === 0}
-                onClick={() => setActiveTab(0)}
-              />
-              <Tab
-                text={t(translations.perpetualPage.closedPositions)}
-                active={activeTab === 1}
-                onClick={() => setActiveTab(1)}
-              />
-              <Tab
-                text={t(translations.perpetualPage.orderHistory)}
-                active={activeTab === 2}
-                onClick={() => setActiveTab(2)}
-              />
-            </div>
+          {connected && (
+            <>
+              <div className="tw-flex tw-items-center tw-text-sm">
+                <Tab
+                  text={t(translations.perpetualPage.openPositions)}
+                  active={activeTab === 0}
+                  onClick={() => setActiveTab(0)}
+                />
+                <Tab
+                  text={t(translations.perpetualPage.closedPositions)}
+                  active={activeTab === 1}
+                  onClick={() => setActiveTab(1)}
+                />
+                <Tab
+                  text={t(translations.perpetualPage.orderHistory)}
+                  active={activeTab === 2}
+                  onClick={() => setActiveTab(2)}
+                />
+              </div>
 
-            <div className="tw-w-full tw-mb-24">
-              {activeTab === 0 && <OpenPositionsTable perPage={5} />}
-              {activeTab === 1 && (
-                <div>
-                  NOT IMPLEMENTED {/*TODO: implement closed positions table*/}
-                </div>
-              )}
-              {activeTab === 2 && <TradingHistory />}
-            </div>
-          </>
-        )}
-      </div>
-      <Footer />
-      <NotificationSettingsDialog
-        isOpen={showNotificationSettingsModal}
-        onClose={() => setShowNotificationSettingsModal(false)}
-      />
-      <AccountDialog pairType={pairType} />
-      <TradeReviewDialog />
-      <EditPositionSizeDialog />
-      <EditLeverageDialog />
-      <EditMarginDialog />
+              <div className="tw-w-full tw-mb-24">
+                {activeTab === 0 && <OpenPositionsTable perPage={5} />}
+                {activeTab === 1 && (
+                  <div>
+                    NOT IMPLEMENTED {/*TODO: implement closed positions table*/}
+                  </div>
+                )}
+                {activeTab === 2 && <TradingHistory />}
+              </div>
+            </>
+          )}
+        </div>
+        <Footer />
+        <NotificationSettingsDialog
+          isOpen={showNotificationSettingsModal}
+          onClose={() => setShowNotificationSettingsModal(false)}
+        />
+        <AccountDialog pairType={pairType} />
+        <TradeReviewDialog />
+        <EditPositionSizeDialog />
+        <EditLeverageDialog />
+        <EditMarginDialog />
+      </RecentTradesContextProvider>
     </>
   );
 }

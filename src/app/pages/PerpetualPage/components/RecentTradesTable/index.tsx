@@ -5,7 +5,7 @@ import { Trans } from 'react-i18next';
 import { PerpetualPair } from 'utils/models/perpetual-pair';
 import styles from './index.module.scss';
 import { RecentTradesTableRow } from './components/RecentTablesRow/index';
-import { SocketContext } from './context';
+import { RecentTradesContext } from './context';
 
 type RecentTradesTableProps = {
   pair: PerpetualPair;
@@ -14,7 +14,7 @@ type RecentTradesTableProps = {
 export const RecentTradesTable: React.FC<RecentTradesTableProps> = ({
   pair,
 }) => {
-  const { trades } = useContext(SocketContext);
+  const { trades } = useContext(RecentTradesContext);
 
   return (
     <table className={styles.recentTradesTable}>
