@@ -15,6 +15,12 @@ export function useGetRecentTrades(perpetualId: string, count: number = 20) {
           perpetual: "${perpetualId}"
         }
       ) {
+        trader {
+          id
+        }
+        perpetual {
+          id
+        }
         tradeAmount
         price
         blockTimestamp

@@ -136,7 +136,7 @@ export function PerpetualPage() {
             'tw-flex tw-flex-col tw-mb-8 xl:tw-flex-row xl:tw-justify-stretch tw-space-y-2 xl:tw-space-y-0 xl:tw-space-x-2'
           }
         >
-          <DataCard
+          {/* <DataCard
             className="xl:tw-w-1/5"
             title={`AMM Depth (${pairType.toString()})`}
           >
@@ -152,12 +152,12 @@ export function PerpetualPage() {
               theme={Theme.DARK}
               hasCustomDimensions
             />
-          </DataCard>
+          </DataCard> */}
           <DataCard
             className="tw-flex-grow tw-block xl:tw-hidden 2xl:tw-block xl:tw-w-1/5"
             title={`Recent Trades (${pairType.toString()})`}
           >
-            <SocketProvider>
+            <SocketProvider pair={pair}>
               <RecentTradesTable pair={pair} />
             </SocketProvider>
           </DataCard>

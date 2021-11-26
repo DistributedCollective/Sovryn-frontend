@@ -1,83 +1,20 @@
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { translations } from 'locales/i18n';
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Trans } from 'react-i18next';
 import { PerpetualPair } from 'utils/models/perpetual-pair';
 import styles from './index.module.scss';
 import { RecentTradesTableRow } from './components/RecentTablesRow/index';
-import { RecentTradesDataEntry, TradePriceChange, TradeType } from './types';
-import { useGetRecentTrades } from '../../hooks/graphql/useGetRecentTrades';
-import { weiTo2 } from 'utils/blockchain/math-helpers';
 import { SocketContext } from './context';
 
 type RecentTradesTableProps = {
   pair: PerpetualPair;
 };
 
-const formatTradeData = (data: any[]): RecentTradesDataEntry[] => {
-  const parsedData: RecentTradesDataEntry[] = data.map((trade, index) => {
-    const prevTrade = index !== data.length - 1 ? data[index + 1] : data[index];
-    return {
-      id: index.toString(),
-      price: parseFloat(weiTo2(trade.price)),
-      priceChange:
-        parseFloat(prevTrade.price) === parseFloat(trade.price)
-          ? TradePriceChange.NO_CHANGE
-          : parseFloat(prevTrade.price) > parseFloat(trade.price)
-          ? TradePriceChange.UP
-          : TradePriceChange.DOWN,
-      size: Math.abs(parseFloat(weiTo2(trade.tradeAmount))),
-      time: new Date(parseInt(trade.blockTimestamp) * 1e3)
-        .toTimeString()
-        .slice(0, 8),
-      type: trade.tradeAmount[0] === '-' ? TradeType.SELL : TradeType.BUY,
-    };
-  });
-  return parsedData;
-};
-
 export const RecentTradesTable: React.FC<RecentTradesTableProps> = ({
   pair,
 }) => {
-  const { data: newData, error, loading } = useGetRecentTrades(pair.id);
-  const [trades, setTrades] = useState<RecentTradesDataEntry[]>([]);
-  const { trades: newTrades } = useContext(SocketContext);
-  const recentTradesLength = 20;
-
-  useEffect(() => {
-    if (newData) {
-      const parsedData = formatTradeData(newData.trades);
-      setTrades(parsedData);
-    }
-
-    if (error) {
-      console.error(error);
-    }
-  }, [newData, error]);
-
-  useEffect(() => {
-    if (!loading && newTrades.length > 0) {
-      console.log('[socketProvider] adding new trade to recent trades');
-      const prevTrade = trades[0];
-      const newTrade = newTrades[0];
-      const price = parseFloat(weiTo2(newTrade.price));
-      const parsedTrade: RecentTradesDataEntry = {
-        id: newTrade.transactionHash,
-        type: newTrade.tradeAmount[0] === '-' ? TradeType.SELL : TradeType.BUY,
-        priceChange:
-          prevTrade.price === price
-            ? TradePriceChange.NO_CHANGE
-            : prevTrade.price > price
-            ? TradePriceChange.UP
-            : TradePriceChange.DOWN,
-        price: price,
-        size: Math.abs(parseFloat(weiTo2(newTrade.tradeAmount))),
-        time: new Date().toTimeString().slice(0, 8),
-      };
-      // console.log(parsedTrade);
-      setTrades([parsedTrade, ...trades.slice(0, recentTradesLength)]);
-    }
-  }, [loading, newTrades, trades]);
+  const { trades } = useContext(SocketContext);
 
   return (
     <table className={styles.recentTradesTable}>
@@ -113,7 +50,7 @@ export const RecentTradesTable: React.FC<RecentTradesTableProps> = ({
       <tbody>
         {trades &&
           trades
-            .slice(0, recentTradesLength)
+            .slice(0, 20)
             .map((item, index) => (
               <RecentTradesTableRow
                 key={item.id}

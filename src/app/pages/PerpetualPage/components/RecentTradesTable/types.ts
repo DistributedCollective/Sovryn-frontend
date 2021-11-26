@@ -21,14 +21,9 @@ export type RecentTradesDataEntry = {
 };
 
 export type TradeEvent = {
-  address: string;
-  blockNumber: number;
-  logIndex: number;
   transactionHash: string;
-  transactionIndex: number;
   perpetualId: string;
   trader: string;
-  orderFlags: string;
   tradeAmount: string;
   price: string;
   blockTimestamp: string;
