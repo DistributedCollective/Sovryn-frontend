@@ -6,7 +6,6 @@ import { useQuery, gql } from '@apollo/client';
  */
 
 export function useGetRecentTrades(perpetualId: string, count: number = 20) {
-  console.log('GETTING RECENT TRADES');
   const RECENT_TRADES_QUERY = gql`
     {
       trades(
@@ -30,7 +29,6 @@ export function useGetRecentTrades(perpetualId: string, count: number = 20) {
       }
     }
   `;
-  console.debug(RECENT_TRADES_QUERY.loc?.source.body);
   const recentTradesQuery = useQuery(RECENT_TRADES_QUERY);
   return recentTradesQuery;
 }
