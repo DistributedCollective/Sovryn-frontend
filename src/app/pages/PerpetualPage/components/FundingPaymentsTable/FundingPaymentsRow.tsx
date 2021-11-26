@@ -9,10 +9,25 @@ import { FundingPaymentsEntry } from '../../hooks/usePerpetual_FundingPayments';
 
 type FundingPaymentsRowProps = {
   item: FundingPaymentsEntry;
+  isFirstItem?: boolean;
+};
+
+const formatTimestampDifference = (timestamp: number) => {
+  const date = new Date(timestamp * 1000);
+
+  const days = Math.floor(timestamp / (60 * 60 * 24))
+    .toString()
+    .padStart(2, '0');
+  const hours = date.getUTCHours().toString().padStart(2, '0');
+  const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+  const seconds = date.getSeconds().toString().padStart(2, '0');
+
+  return `${days}:${hours}:${minutes}:${seconds}`;
 };
 
 export const FundingPaymentsRow: React.FC<FundingPaymentsRowProps> = ({
   item,
+  isFirstItem,
 }) => {
   const pair = useMemo(() => PerpetualPairDictionary.get(item.pairType), [
     item.pairType,
@@ -40,7 +55,11 @@ export const FundingPaymentsRow: React.FC<FundingPaymentsRowProps> = ({
         />
       </td>
       <td>{item.rate}%</td>
-      <td>{item.timeSinceLastPayment}</td>
+      <td>
+        {isFirstItem
+          ? '-'
+          : formatTimestampDifference(parseFloat(item.timeSinceLastPayment))}
+      </td>
     </tr>
   );
 };
