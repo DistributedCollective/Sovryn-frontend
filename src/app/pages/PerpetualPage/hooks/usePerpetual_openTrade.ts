@@ -105,6 +105,10 @@ export const usePerpetual_openTrade = () => {
         { type: TxType.OPEN_PERPETUAL_TRADE },
       );
     },
-    ...rest,
+    txData: rest.txData,
+    txHash: rest.txHash,
+    loading: rest.loading,
+    status: rest.status,
+    reset: rest.reset,
   };
 };

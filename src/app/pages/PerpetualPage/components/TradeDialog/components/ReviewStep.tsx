@@ -1,6 +1,10 @@
 import React, { useContext, useCallback } from 'react';
 import { TransitionStep } from '../../../../../containers/TransitionSteps';
-import { TradeDialogStep } from '../types';
+import {
+  TradeDialogStep,
+  PerpetualTxStage,
+  PerpetualTxMethods,
+} from '../types';
 import { TradeDialogContext } from '../index';
 import styles from '../index.module.scss';
 import { PerpetualPageModals } from '../../../types';
@@ -9,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { TradeSummary } from './TradeSummary';
 import { ResultPosition } from './ResultPosition';
 import { usePerpetual_executeTransaction } from '../../../hooks/usePerpetual_executeTransaction';
+import { TransitionAnimation } from '../../../../../containers/TransitionContainer';
 
 const titleMap = {
   [PerpetualPageModals.NONE]:
@@ -25,9 +30,14 @@ const titleMap = {
 
 export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
   const { t } = useTranslation();
-  const { origin, trade, pair, analysis, transactions } = useContext(
-    TradeDialogContext,
-  );
+  const {
+    origin,
+    trade,
+    pair,
+    analysis,
+    transactions,
+    setCurrentTransaction,
+  } = useContext(TradeDialogContext);
   const {
     amountChange,
     amountTarget,
@@ -45,10 +55,21 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
   const onSubmit = useCallback(async () => {
     // TODO: implement proper transaction execution and updating transactions
     // Temporary solution! Should be done in sequence somewhere else e.g. TradeExecutionStep (ProcessStep)
-    for (let transaction of transactions) {
-      await execute(transaction);
-    }
-  }, [transactions, execute]);
+    // for (let transaction of transactions) {
+    //   await execute(transaction);
+    // }
+    setCurrentTransaction({
+      index: 0,
+      stage: PerpetualTxStage.reviewed,
+    });
+
+    changeTo(
+      transactions[0]?.method === PerpetualTxMethods.deposit
+        ? TradeDialogStep.approval
+        : TradeDialogStep.confirmation,
+      TransitionAnimation.slideLeft,
+    );
+  }, [transactions, setCurrentTransaction, changeTo]);
 
   return (
     <>

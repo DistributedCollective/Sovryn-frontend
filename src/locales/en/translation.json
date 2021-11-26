@@ -1738,7 +1738,7 @@
         "approval": "Please approve BTC to be spent by the Sovryn smart contracts in your {{wallet}} wallet",
         "confirm": "Please confirm transaction in your {{wallet}} wallet",
         "confirmMulit": "Please confirm transaction {{current}} of {{count}} in your {{wallet}} wallet",
-        "error": "Your transaction has failed due to <0/> Your position has not been opened",
+        "error": "Your transaction has failed due to <0>{{error}}</0> Your position has not been opened",
         "rejected": "You have chosen to reject this transaction",
         "rejectedMulti": "You have chosen to reject transaction {{current}} of {{count}}",
         "cancelOrRetry": "Please cancel or retry your transaction"

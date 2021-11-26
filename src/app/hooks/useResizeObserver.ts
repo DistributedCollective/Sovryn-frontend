@@ -4,7 +4,7 @@ import { Nullable } from '../../types';
 export const useResizeObserver = <E extends HTMLElement>() => {
   const [element, setElement] = useState<E>();
   const [dimensions, setDimensions] = useState<Nullable<DOMRectReadOnly>>(null);
-  const ref = useCallback(ref => setElement(ref), [setElement]);
+  const ref = useCallback(ref => ref && setElement(ref), [setElement]);
 
   useEffect(() => {
     if (!element) {

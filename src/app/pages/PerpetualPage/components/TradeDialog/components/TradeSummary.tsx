@@ -5,10 +5,7 @@ import classNames from 'classnames';
 import styles from '../index.module.scss';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../../locales/i18n';
-import {
-  toNumberFormat,
-  numberToPercent,
-} from '../../../../../../utils/display-text/format';
+import { toNumberFormat } from '../../../../../../utils/display-text/format';
 import { PerpetualPair } from '../../../../../../utils/models/perpetual-pair';
 import {
   PerpetualPageModals,

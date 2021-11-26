@@ -39,6 +39,10 @@ export const usePerpetual_depositMarginToken = () => {
         { type: TxType.DEPOSIT_COLLATERAL },
       );
     },
-    ...rest,
+    txData: rest.txData,
+    txHash: rest.txHash,
+    loading: rest.loading,
+    status: rest.status,
+    reset: rest.reset,
   };
 };

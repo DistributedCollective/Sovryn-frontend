@@ -21,8 +21,21 @@
 }
 
 .confirmButton {
-  @apply tw-w-80 tw-rounded-2xl tw-bg-primary tw-text-black tw-mt-16 tw-text-lg tw-font-semibold;
-  height: 3.125rem;
+  @apply tw-w-80 tw-p-3 tw-mt-16
+    tw-text-black tw-text-lg tw-font-semibold 
+    tw-bg-primary tw-rounded-lg 
+    tw-transition-colors tw-duration-300 
+    hover:tw-bg-primary-75;
+  min-height: 3.125rem;
+}
+
+.ghostButton {
+  @apply tw-w-80 tw-p-3 tw-mt-8
+    tw-text-primary tw-text-lg tw-font-semibold 
+    tw-bg-primary-10 tw-border-2 tw-border-primary tw-rounded-lg 
+    tw-transition-colors tw-duration-300 
+    hover:tw-bg-primary-25;
+  min-height: 3.125rem;
 }
 
 .positionSizeBuy {

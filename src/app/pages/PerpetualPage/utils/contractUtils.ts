@@ -15,7 +15,6 @@ import { TradingPosition } from 'types/trading-position';
 import { TraderState, getBase2CollateralFX, AMMState } from './perpUtils';
 import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
 import { fromWei } from '../../../../utils/blockchain/math-helpers';
-import { isError } from 'util';
 import { CheckAndApproveResultWithError } from '../types';
 
 export const ONE_64x64 = BigNumber.from('0x10000000000000000');
@@ -150,7 +149,7 @@ export const checkAndApprove = async (
       approveTx: null,
       nonce,
       rejected: true,
-      error: isError(e) ? e : new Error(e.toString()),
+      error: e,
     };
   }
 };

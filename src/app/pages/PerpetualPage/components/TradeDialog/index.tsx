@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dialog } from '../../../../containers/Dialog';
 import { selectPerpetualPage } from '../../selectors';
@@ -163,6 +163,10 @@ export const TradeDialog: React.FC = () => {
     }),
     [origin, pair, trade, analysis, transactions, currentTransaction, onClose],
   );
+
+  useEffect(() => setTransactions(requestedTransactions), [
+    requestedTransactions,
+  ]);
 
   if (!trade) {
     return null;

@@ -65,7 +65,11 @@ export const usePerpetual_executeTransaction = () => {
             return withdrawAll();
         }
       },
-      ...(rest || {}),
+      txData: rest?.txData,
+      txHash: rest?.txHash,
+      loading: rest?.loading,
+      status: rest?.status,
+      reset: rest?.reset,
       perpetualTx: transaction
         ? {
             ...transaction,

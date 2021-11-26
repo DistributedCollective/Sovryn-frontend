@@ -20,6 +20,10 @@ export const usePerpetual_withdrawMarginToken = () => {
         { type: TxType.WITHDRAW_COLLATERAL },
       );
     },
-    ...rest,
+    txData: rest.txData,
+    txHash: rest.txHash,
+    loading: rest.loading,
+    status: rest.status,
+    reset: rest.reset,
   };
 };
