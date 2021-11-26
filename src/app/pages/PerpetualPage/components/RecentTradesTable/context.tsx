@@ -17,7 +17,7 @@ export const RecentTradesContext = createContext<{
 
 const recentTradesMaxLength = 50;
 const address = getContract('perpetualManager').address.toLowerCase();
-const socket = subscription(address, ['Trade'], 14422010);
+const socket = subscription(address, ['Trade']);
 
 const initSockets = ({ setValue }, perpetualId) => {
   socketEvents({ setValue }, perpetualId);
