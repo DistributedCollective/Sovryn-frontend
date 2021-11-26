@@ -90,12 +90,7 @@ subscription.on('data', data => {
         try {
           handler.callback(bar);
         } catch (e) {
-          const error = e as Error;
-          // This is a false positive due to using has_empty_bars. Not 100% sure about this, so if there are issues, this may be why
-          if (error.message.includes('time order violation')) {
-            return;
-          }
-          throw e;
+          console.error(e);
         }
       });
     }

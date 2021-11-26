@@ -25,12 +25,22 @@ const perpetualPageSlice = createSlice({
     setModal: {
       reducer(
         state,
-        { payload, meta }: PayloadAction<PerpetualPageModals, string, any>,
+        {
+          payload,
+          meta,
+        }: PayloadAction<
+          PerpetualPageModals,
+          string,
+          ContainerState['modalOptions']
+        >,
       ) {
         state.modal = payload;
         state.modalOptions = meta;
       },
-      prepare(modal: PerpetualPageModals, modalOptions?: any) {
+      prepare(
+        modal: PerpetualPageModals,
+        modalOptions?: ContainerState['modalOptions'],
+      ) {
         return { payload: modal, meta: modalOptions };
       },
     },

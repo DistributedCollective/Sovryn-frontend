@@ -1612,12 +1612,11 @@
     },
     "contractDetails": {
       "title": "Contract Details:",
+      "markPrice": "Mark Price:",
       "indexPrice": "Index Price:",
       "volume24h": "24hr Volume:",
       "openInterest": "Open Interest:",
       "fundingRate": "Funding Rate: ",
-      "fundingRate4hr": "in 4hrs",
-      "contractValue": "ContractValue:",
       "lotSize": "Lot Size:",
       "minTradeAmount": "Min Trade Amount:"
     },
@@ -1690,14 +1689,25 @@
       }
     },
     "reviewTrade": {
-      "title": "Review Order",
-      "closeTitle": "Review Close",
+      "titles": {
+        "close": "Review Close",
+        "newOrder": "Review Order",
+        "editSize": "Review Edit Size",
+        "editLeverage": "Review Edit Leverage",
+        "editMargin": "Review Edit Margin"
+      },
       "close": "Close",
-      "positionFullyClosed": "Position Fully Closed",
       "buy": "Buy",
       "sell": "Sell",
       "market": "Market",
       "limit": "Limit",
+      "deposit": "Deposit",
+      "withdraw": "Withdraw",
+      "leverage": "Leverage",
+      "margin": "Margin",
+      "increase": "Increase",
+      "decrease": "Decrease",
+      "positionFullyClosed": "Position Fully Closed",
       "positionDetailsTitle": "New Position Details",
       "labels": {
         "positionSize": "Position Size:",
@@ -1729,7 +1739,8 @@
     "closePosition": {
       "title": "Close Position",
       "amount": "Close Amount:",
-      "total": "Total to Receive:"
+      "total": "Total to Receive:",
+      "button": "Review"
     },
     "currentTrade": {
       "position": "Current Position:",
@@ -1740,6 +1751,7 @@
     "openPositions": "Positions",
     "closedPositions": "Closed Positions",
     "orderHistory": "Order History",
+    "fundingPayments": "Funding Payments",
     "openPositionsTable": {
       "pair": "Pair",
       "positionSize": "Position Size",
@@ -1748,13 +1760,47 @@
       "markPrice": "Mark Price",
       "liquidationPrice": "Liq. Price",
       "margin": "Margin",
-      "unrealized": "Unrealized P&L (ROE %)",
+      "unrealized": "Unrealized P&L",
       "realized": "Realized P&L",
       "actions": "Actions",
       "editSize": "Size",
       "editLeverage": "Leverage",
       "editMargin": "Margin",
       "editClose": "Close"
+    },
+    "closedPositionsTable": {
+      "dateTime": "Date & Time",
+      "symbol": "Symbol",
+      "collateral": "Collateral",
+      "positionSize": "Position Size",
+      "realizedPnl": "Realized P&L",
+      "noData": "No data"
+    },
+    "orderHistoryTable": {
+      "dateTime": "Date & Time",
+      "symbol": "Symbol",
+      "orderType": "Order Type",
+      "orderState": "Order State",
+      "collateral": "Collateral",
+      "orderSize": "Order Size",
+      "limitPrice": "Limit Price",
+      "execSize": "Exec Size",
+      "execPrice": "Exec Price",
+      "orderId": "Order ID",
+      "tableData": {
+        "market": "Market",
+        "limit": "Limit",
+        "buy": "BUY",
+        "sell": "SELL"
+      }
+    },
+    "fundingPaymentsTable": {
+      "dateTime": "Date & Time",
+      "symbol": "Symbol",
+      "collateral": "Collateral",
+      "payment": "Payment",
+      "rate": "Rate",
+      "timeSinceLastPayment": "Time since last payment"
     },
     "notificationSettingsDialog": {
       "title": "Margin Trade notification settings",

@@ -14,7 +14,7 @@ import {
   calculateApproxLiquidationPrice,
   calculateLeverageForMargin,
 } from '../../utils/perpUtils';
-import { fromWei, toWei } from 'web3-utils';
+import { fromWei } from 'web3-utils';
 import { usePerpetual_queryPerpParameters } from '../../hooks/usePerpetual_queryPerpParameters';
 import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
 import classNames from 'classnames';
@@ -24,6 +24,8 @@ import { AmountInput } from '../../../../components/Form/AmountInput';
 import { usePerpetual_queryTraderState } from '../../hooks/usePerpetual_queryTraderState';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
 import { calculateMaxMarginWithdrawal } from '../../utils/contractUtils';
+import { toWei } from '../../../../../utils/blockchain/math-helpers';
+import { PerpetualTxMethods } from '../TradeDialog/types';
 
 enum EditMarginDialogMode {
   increase,
@@ -71,11 +73,27 @@ export const EditMarginDialog: React.FC = () => {
 
   const onSubmit = useCallback(
     () =>
-      // TODO: implement review and excecution for EditMarginDialog
+      changedTrade &&
       dispatch(
-        actions.setModal(PerpetualPageModals.TRADE_REVIEW, changedTrade),
+        actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
+          origin: PerpetualPageModals.EDIT_MARGIN,
+          trade: changedTrade,
+          transactions: [
+            mode === EditMarginDialogMode.increase
+              ? {
+                  method: PerpetualTxMethods.deposit,
+                  amount: toWei(margin),
+                  tx: null,
+                }
+              : {
+                  method: PerpetualTxMethods.withdraw,
+                  amount: toWei(margin),
+                  tx: null,
+                },
+          ],
+        }),
       ),
-    [dispatch, changedTrade],
+    [dispatch, changedTrade, mode, margin],
   );
 
   const [maxAmount, maxAmountWei] = useMemo(() => {
@@ -98,14 +116,30 @@ export const EditMarginDialog: React.FC = () => {
   );
 
   const onChangeMargin = useCallback(
-    (margin?: string) =>
-      setMargin(currentMargin =>
-        Math.max(
-          0,
-          Math.min(maxAmount, margin ? Number(margin) : Number(currentMargin)),
-        ).toString(),
-      ),
-    [maxAmount],
+    (value?: string) => {
+      const clampedMargin = Math.max(
+        0,
+        Math.min(maxAmount, value ? Number(value) : Math.abs(signedMargin)),
+      );
+      setMargin(clampedMargin.toPrecision(8));
+
+      const newMargin = traderState.availableCashCC + signedMargin;
+      const leverage = calculateLeverageForMargin(
+        newMargin,
+        traderState,
+        ammState,
+      );
+
+      setChangedTrade(
+        changedTrade =>
+          changedTrade && {
+            ...changedTrade,
+            leverage,
+            margin: toWei(newMargin.toPrecision(8)),
+          },
+      );
+    },
+    [signedMargin, maxAmount, traderState, ammState],
   );
 
   const liquidationPrice = useMemo(
@@ -114,29 +148,16 @@ export const EditMarginDialog: React.FC = () => {
         traderState,
         ammState,
         perpParameters,
-        changedTrade ? Number(fromWei(changedTrade.amount)) : 0,
+        0,
         signedMargin,
       ),
-    [changedTrade, signedMargin, traderState, ammState, perpParameters],
+    [signedMargin, traderState, ammState, perpParameters],
   );
 
   useEffect(() => setChangedTrade(trade), [trade]);
 
+  // call onChangeMargin, when it's renewed to enforce maxAmount.
   useEffect(() => onChangeMargin(), [onChangeMargin]);
-
-  useEffect(() => {
-    const newMargin = traderState.availableCashCC + signedMargin;
-
-    const leverage = calculateLeverageForMargin(
-      newMargin,
-      traderState,
-      ammState,
-    );
-
-    setChangedTrade(
-      changedTrade => changedTrade && { ...changedTrade, leverage },
-    );
-  }, [signedMargin, traderState, ammState]);
 
   return (
     <Dialog

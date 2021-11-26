@@ -70,8 +70,8 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
   );
 
   const onCloseTrade = useCallback(
-    () => (!status || status === TxStatus.NONE) && closePosition(),
-    [status, closePosition],
+    () => onOpenTradeModal(PerpetualPageModals.CLOSE_POSITION),
+    [onOpenTradeModal],
   );
 
   const isEmptyPosition = useMemo(() => !item.amount || item.amount === 0, [
@@ -137,8 +137,11 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
             <div className="tw-mr-2">
               <AssetValue
                 className="tw-block"
+                minDecimals={2}
+                maxDecimals={4}
                 value={item.unrealized.baseValue}
                 assetString={pair.baseAsset}
+                mode={AssetValueMode.auto}
                 showPositiveSign
               />
               <AssetValue
@@ -148,10 +151,6 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
                 isApproximation
                 showPositiveSign
               />
-            </div>
-            <div>
-              ({item.unrealized.roe > 0 ? '+' : ''}
-              {numberToPercent(item.unrealized.roe, 1)})
             </div>
           </div>
         )}
@@ -168,8 +167,11 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
           <>
             <AssetValue
               className="tw-block"
+              minDecimals={2}
+              maxDecimals={4}
               value={item.realized.baseValue}
               assetString={pair.baseAsset}
+              mode={AssetValueMode.auto}
               showPositiveSign
             />
             <AssetValue

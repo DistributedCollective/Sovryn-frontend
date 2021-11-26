@@ -52,7 +52,7 @@ const tradingChartDataFeeds = {
       intraday_multipliers: ['1', '15', '60', '240'],
       supported_resolution: supportedResolutions,
       has_no_volume: false,
-      has_empty_bars: true,
+      has_empty_bars: false,
       has_daily: true,
       has_weekly_and_monthly: false,
       data_status: 'streaming',
@@ -118,7 +118,7 @@ const tradingChartDataFeeds = {
       const newestBar = bars[bars.length - 1];
       try {
         if (lastBar) {
-          if (newestBar.time >= lastBar.time) {
+          if (newestBar && newestBar.time >= lastBar.time) {
             lastBarsCache.set(symbolInfo.name, newestBar);
           }
         } else {

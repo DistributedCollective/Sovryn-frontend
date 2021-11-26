@@ -2,13 +2,22 @@ import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { translations } from '../../../../../locales/i18n';
-import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
+import {
+  PerpetualPairDictionary,
+  PerpetualPairType,
+} from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { Dialog } from '../../../../containers/Dialog';
 import { TransitionAnimation } from '../../../../containers/TransitionContainer';
 import { TransitionSteps } from '../../../../containers/TransitionSteps';
 import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
-import { isPerpetualTrade, PerpetualPageModals } from '../../types';
+import {
+  isPerpetualTrade,
+  PerpetualPageModals,
+  PerpetualTrade,
+  PERPETUAL_SLIPPAGE_DEFAULT,
+  PerpetualTradeType,
+} from '../../types';
 import { TradeDetails } from '../TradeDetails';
 import { SlippageFormStep } from './components/SlippageFormStep';
 import { TradeFormStep } from './components/TradeFormStep';
@@ -17,6 +26,8 @@ import {
   EditPositionSizeDialogStep,
 } from './types';
 import { noop } from '../../../../constants';
+import { Asset } from '../../../../../types';
+import { TradingPosition } from '../../../../../types/trading-position';
 
 const steps = {
   [EditPositionSizeDialogStep.slippage]: SlippageFormStep,
@@ -40,7 +51,16 @@ export const EditPositionSizeDialog: React.FC = () => {
     [trade],
   );
 
-  const [changedTrade, setChangedTrade] = useState(trade);
+  const [changedTrade, setChangedTrade] = useState<PerpetualTrade>({
+    pairType: trade?.pairType || PerpetualPairType.BTCUSD,
+    tradeType: trade?.tradeType || PerpetualTradeType.MARKET,
+    collateral: trade?.collateral || Asset.PERPETUALS,
+    position: trade?.position || TradingPosition.LONG,
+    slippage: trade?.slippage || PERPETUAL_SLIPPAGE_DEFAULT,
+    leverage: trade?.leverage || 0,
+    amount: '0',
+    entryPrice: 0,
+  });
 
   const context: EditPositionSizeDialogState = useMemo(() => {
     return {
@@ -55,7 +75,20 @@ export const EditPositionSizeDialog: React.FC = () => {
     [dispatch],
   );
 
-  useEffect(() => setChangedTrade(trade), [trade]);
+  useEffect(
+    () =>
+      trade &&
+      setChangedTrade(changedTrade => ({
+        ...changedTrade,
+        pairType: trade?.pairType || PerpetualPairType.BTCUSD,
+        tradeType: trade?.tradeType || PerpetualTradeType.MARKET,
+        collateral: trade?.collateral || Asset.PERPETUALS,
+        position: trade?.position || TradingPosition.LONG,
+        slippage: trade?.slippage || PERPETUAL_SLIPPAGE_DEFAULT,
+        leverage: trade?.leverage || 0,
+      })),
+    [trade],
+  );
 
   return (
     <Dialog

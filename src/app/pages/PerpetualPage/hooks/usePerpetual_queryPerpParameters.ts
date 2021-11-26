@@ -10,6 +10,7 @@ const initialPerpParameters: PerpParameters = {
   fInitialMarginRateAlpha: 0,
   fMarginRateBeta: 0,
   fInitialMarginRateCap: 0,
+  fOpenInterest: 0,
   fMaintenanceMarginRateAlpha: 0,
   fTreasuryFeeRate: 0,
   fPnLPartRate: 0,
@@ -62,6 +63,7 @@ export const usePerpetual_queryPerpParameters = (): PerpParameters => {
 const parsePerpParameter = (response: any): PerpParameters => ({
   fCurrentFundingRate: ABK64x64ToFloat(response[9]),
   fUnitAccumulatedFunding: ABK64x64ToFloat(response[10]),
+  fOpenInterest: ABK64x64ToFloat(response[12]),
   fInitialMarginRateAlpha: ABK64x64ToFloat(response[16]),
   fMarginRateBeta: ABK64x64ToFloat(response[17]),
   fInitialMarginRateCap: ABK64x64ToFloat(response[18]),
