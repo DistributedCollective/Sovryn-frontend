@@ -1049,7 +1049,7 @@
       "amountReceived": "Quantidade recebida",
       "status": "Status",
       "transactionFee":"Transaction Fee",
-      "gasFee": "Gas Fee"
+      "gasFee": "Gás"
     },
     "emptyState": "Histórico vázio.",
     "recentSwapHistory": "Histórico"
