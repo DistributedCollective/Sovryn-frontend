@@ -1520,7 +1520,7 @@
     },
     "limitOrderSetting": {
       "title": "Configurações avançadas",
-      "duration": "Validade:",
+      "duration": "Expira em:",
       "untilCancelled": "Até cancelar",
       "day_one": "{{count}} dia",
       "day_other": "{{count}} dias",
