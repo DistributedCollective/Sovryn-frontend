@@ -1893,7 +1893,7 @@
       },
       "txStatus": {
         "title": "Status da transação",
-        "aborted": "Você optou por rejeitar esta transação. Cancele ou realize a transação novamente",
+        "aborted": "Você optou por rejeitar esta transação. Cancele ou refaça a transação",
         "abortedLedger": "Verifique se \"Contract data\" está configurado para \"Permitido\" no seu aplicativo Ledger",
         "cta": "Ver na blockchain"
       }
