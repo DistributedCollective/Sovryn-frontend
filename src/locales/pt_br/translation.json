@@ -1465,7 +1465,7 @@
     },
     "openPositions": "Posições abertas",
     "tradingHistory": "Posições fechadas",
-    "openLimitOrders": "Ordens limitadas abertas",
+    "openLimitOrders": "Ordens a limite abertas",
     "notificationSettingsDialog": {
       "title": "Configurações de notificação",
       "notifyVia": "Notificar via",
