@@ -1536,7 +1536,7 @@
       "tradeAmount": "Quantidade negociada",
       "limitPrice": "Preço",
       "amountReceive": "Quantidade a receber",
-      "duration": "Validade",
+      "duration": "Expira em",
       "deadline": "Prazo",
       "actions": "Ação",
       "noData": "Sem dados",
