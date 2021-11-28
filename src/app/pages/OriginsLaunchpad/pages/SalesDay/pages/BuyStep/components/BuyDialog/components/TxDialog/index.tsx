@@ -13,7 +13,6 @@ import { usePrevious } from 'app/hooks/usePrevious';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
-import { CloseButton } from './styled';
 import { StatusComponent } from './StatusComponent';
 import { WalletLogo, getWalletName } from './WalletLogo';
 
@@ -52,9 +51,9 @@ export const TxDialog: React.FC<ITxDialogProps> = ({ tx, onUserConfirmed }) => {
       onClose={close}
       className={styles.dialog}
     >
-      <CloseButton onClick={close}>
+      <button className={styles.closeButton}>
         <span className="tw-sr-only">Close Dialog</span>
-      </CloseButton>
+      </button>
       {tx.status === TxStatus.PENDING_FOR_USER && (
         <>
           <div className="tw-mb-24 tw-normal-case tw-text-center tw-text-2xl tw-font-semibold">
@@ -136,11 +135,11 @@ export const TxDialog: React.FC<ITxDialogProps> = ({ tx, onUserConfirmed }) => {
 
           {!tx.txHash && tx.status === TxStatus.FAILED && (
             <>
-              <p className="tw-text-center">
+              <p className="tw-text-center tw-px-3 tw-text-warning">
                 {t(translations.buySovPage.txDialog.txStatus.aborted)}
               </p>
               {wallet === 'ledger' && (
-                <p className="tw-text-center">
+                <p className="tw-text-center tw-px-3 tw-text-warning">
                   {t(translations.buySovPage.txDialog.txStatus.abortedLedger)}
                 </p>
               )}

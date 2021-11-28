@@ -31,8 +31,10 @@ import { TradeDialog } from '../TradeDialog';
 import { LiquidationPrice } from '../LiquidationPrice';
 import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
 import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
-import { SlippageDialog } from '../SlippageDialog';
+import { SlippageForm } from '../SlippageForm';
 import { toWei } from 'utils/blockchain/math-helpers';
+import { OrderType } from 'app/components/OrderType';
+import { OrderTypes } from 'app/components/OrderType/types';
 
 interface ITradeFormProps {
   pairType: TradingPairType;
@@ -46,6 +48,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   const [tradeAmount, setTradeAmount] = useState<string>('');
   const [slippage, setSlippage] = useState(0.5);
   const weiAmount = useWeiAmount(tradeAmount);
+  const [orderType, setOrderType] = useState(OrderTypes.MARKET);
   const { position, amount, collateral, leverage } = useSelector(
     selectMarginTradePage,
   );
@@ -114,7 +117,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
 
   return (
     <>
-      <div className="tw-trading-form-card tw-bg-black tw-rounded-3xl tw-p-8 tw-mx-auto xl:tw-mx-0">
+      <div className="tw-trading-form-card tw-bg-black tw-rounded-3xl tw-p-4 tw-mx-auto xl:tw-mx-0 tw-relative">
         {!openTradesLocked && (
           <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mw-340 tw-mx-auto">
             {pair.canOpenLong && (
@@ -122,7 +125,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                 text={t(translations.marginTradePage.tradeForm.buttons.long)}
                 position={TradingPosition.LONG}
                 onClick={handlePositionLong}
-                className={cn('tw-capitalize tw-h-10 tw-opacity-50', {
+                className={cn('tw-capitalize tw-h-8 tw-opacity-50', {
                   'tw-opacity-100': position === TradingPosition.LONG,
                 })}
               />
@@ -132,29 +135,21 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                 text={t(translations.marginTradePage.tradeForm.buttons.short)}
                 position={TradingPosition.SHORT}
                 onClick={handlePositionShort}
-                className={cn('tw-capitalize tw-h-10 tw-opacity-50', {
+                className={cn('tw-capitalize tw-h-8 tw-opacity-50', {
                   'tw-opacity-100': position === TradingPosition.SHORT,
                 })}
               />
             )}
           </div>
         )}
-        <div className="tw-mw-340 tw-mx-auto tw-mt-5">
+        <OrderType value={orderType} onChange={setOrderType} />
+        <div className="tw-mw-340 tw-mx-auto tw-mt-3">
           <CollateralAssets
             value={collateral}
             onChange={value => dispatch(actions.setCollateral(value))}
             options={pair.collaterals}
           />
           <AvailableBalance asset={collateral} />
-          <FormGroup
-            label={t(translations.marginTradePage.tradeForm.labels.leverage)}
-            className="tw-mb-6 tw-mt-6"
-          >
-            <LeverageSelector
-              value={leverage}
-              onChange={value => dispatch(actions.setLeverage(value))}
-            />
-          </FormGroup>
 
           <FormGroup
             label={t(translations.marginTradePage.tradeForm.labels.amount)}
@@ -166,19 +161,16 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
             />
           </FormGroup>
 
-          <div className="tw-mt-3 tw-mb-5 tw-text-secondary tw-text-xs tw-flex">
-            <ActionButton
-              text={
-                <div className="tw-flex">
-                  {t(translations.marginTradeForm.fields.advancedSettings)}
-                  <img className="tw-ml-1" src={settingIcon} alt="setting" />
-                </div>
-              }
-              onClick={() => setOpenSlippage(true)}
-              className="tw-border-none tw-ml-0 tw-p-0 tw-h-auto"
-              textClassName="tw-text-xs tw-overflow-visible tw-text-secondary"
+          <FormGroup
+            label={t(translations.marginTradePage.tradeForm.labels.leverage)}
+            className="tw-mb-4 tw-mt-6 tw-w-full tw-bg-gray-4 tw-rounded-md tw-px-4 tw-py-2"
+          >
+            <LeverageSelector
+              value={leverage}
+              onChange={value => dispatch(actions.setLeverage(value))}
             />
-          </div>
+          </FormGroup>
+
           {!openTradesLocked && (
             <>
               <LabelValuePair
@@ -210,39 +202,63 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                 value={<>{weiToNumberFormat(estimations.interestRate, 2)} %</>}
               />
 
-              <div className="tw-mt-6">
-                {openTradesLocked && (
-                  <ErrorBadge
-                    content={
-                      <Trans
-                        i18nKey={translations.maintenance.openMarginTrades}
-                        components={[
-                          <a
-                            href={discordInvite}
-                            target="_blank"
-                            rel="noreferrer noopener"
-                            className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
-                          >
-                            x
-                          </a>,
-                        ]}
+              {openTradesLocked && (
+                <ErrorBadge
+                  content={
+                    <Trans
+                      i18nKey={translations.maintenance.openMarginTrades}
+                      components={[
+                        <a
+                          href={discordInvite}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                          className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                        >
+                          x
+                        </a>,
+                      ]}
+                    />
+                  }
+                />
+              )}
+
+              <div className="tw-mb-4 tw-text-secondary tw-text-xs tw-flex">
+                <ActionButton
+                  text={
+                    <div className="tw-flex">
+                      {t(translations.marginTradeForm.fields.slippageSettings)}
+                      <img
+                        className="tw-ml-1"
+                        src={settingIcon}
+                        alt="setting"
                       />
-                    }
-                  />
-                )}
+                    </div>
+                  }
+                  onClick={() => setOpenSlippage(true)}
+                  className="tw-border-none tw-ml-0 tw-p-0 tw-h-auto"
+                  textClassName="tw-text-xs tw-overflow-visible tw-text-secondary"
+                />
               </div>
 
               <Button
                 text={
-                  position === TradingPosition.LONG
-                    ? t(
+                  position === TradingPosition.LONG ? (
+                    <>
+                      {t(
                         translations.marginTradePage.tradeForm.placePosition
                           .placeLong,
-                      )
-                    : t(
+                      )}{' '}
+                      {orderType}
+                    </>
+                  ) : (
+                    <>
+                      {t(
                         translations.marginTradePage.tradeForm.placePosition
                           .placeShort,
-                      )
+                      )}{' '}
+                      {orderType}
+                    </>
+                  )
                 }
                 position={position}
                 onClick={() => setIsTradingDialogOpen(true)}
@@ -252,19 +268,21 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
           )}
         </div>
 
-        <SlippageDialog
-          isOpen={openSlippage}
-          onClose={() => setOpenSlippage(false)}
-          amount={toWei(price)}
-          value={slippage}
-          asset={collateralToken}
-          onChange={value => setSlippage(value)}
-          isTrade={true}
-        />
+        {openSlippage && (
+          <SlippageForm
+            onClose={() => setOpenSlippage(false)}
+            amount={toWei(price)}
+            value={slippage}
+            asset={collateralToken}
+            onChange={value => setSlippage(value)}
+            isTrade={true}
+          />
+        )}
         <TradeDialog
           onCloseModal={() => setIsTradingDialogOpen(false)}
           isOpen={isTradingDialogOpen}
           slippage={slippage}
+          orderType={orderType}
         />
       </div>
     </>
@@ -281,7 +299,7 @@ function LabelValuePair(props: LabelValuePairProps) {
   return (
     <div
       className={cn(
-        'tw-flex tw-text-xs tw-flex-row tw-flex-wrap tw-justify-between tw-space-x-4 tw-mb-3',
+        'tw-flex tw-text-xs tw-flex-row tw-flex-wrap tw-justify-between tw-space-x-4 tw-mb-2',
         props.className,
       )}
     >

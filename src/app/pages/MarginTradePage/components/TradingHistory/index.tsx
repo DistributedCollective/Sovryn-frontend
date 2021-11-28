@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSortBy, useTable } from 'react-table';
 import { useTranslation } from 'react-i18next';
-import { EventData } from 'web3-eth-contract';
 import { translations } from 'locales/i18n';
 import { bignumber } from 'mathjs';
 import { Tooltip } from '@blueprintjs/core';
@@ -9,20 +8,20 @@ import { Asset } from '../../../../../types';
 import { TradingPosition } from 'types/trading-position';
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
 import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
-import { toWei, weiTo18, weiToFixed } from 'utils/blockchain/math-helpers';
+import { toWei, weiTo18 } from 'utils/blockchain/math-helpers';
 import { useAccount } from '../../../../hooks/useAccount';
-import { useGetContractPastEvents } from '../../../../hooks/useGetContractPastEvents';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { TradeProfit } from 'app/components/TradeProfit';
 import { PositionBlock } from '../OpenPositionsTable/PositionBlock';
 import { LinkToExplorer } from '../../../../components/LinkToExplorer';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { Pagination } from '../../../../components/Pagination';
+import { backendUrl, currentChainId } from 'utils/classifiers';
+import axios from 'axios';
 
 type EventType = 'buy' | 'sell';
 
 interface CustomEvent {
-  blockNumber: number;
   loanId: string;
   loanToken: Asset;
   collateralToken: Asset;
@@ -32,10 +31,19 @@ interface CustomEvent {
   positionSize: string;
   price: string;
   txHash: string;
+  isOpen: boolean;
+  time: number;
+  event: string;
+  collateralToLoanRate: string;
+}
+
+interface EventData {
+  data: Array<CustomEvent>;
+  isOpen: boolean;
+  loanId: string;
 }
 
 export interface CalculatedEvent {
-  blockNumber: number;
   loanId: string;
   position: TradingPosition;
   loanToken: Asset;
@@ -49,12 +57,14 @@ export interface CalculatedEvent {
   closeTxHash: string;
 }
 
-function normalizeEvent(event: EventData): CustomEvent | undefined {
-  const loanToken = AssetsDictionary.getByTokenContractAddress(
-    event.returnValues.loanToken,
-  ).asset;
+function normalizeEvent(
+  event: CustomEvent,
+  isOpen: boolean,
+): CustomEvent | undefined {
+  const loanToken = AssetsDictionary.getByTokenContractAddress(event.loanToken)
+    .asset;
   const collateralToken = AssetsDictionary.getByTokenContractAddress(
-    event.returnValues.collateralToken,
+    event.collateralToken,
   ).asset;
   const pair = TradingPairDictionary.findPair(loanToken, collateralToken);
 
@@ -65,65 +75,53 @@ function normalizeEvent(event: EventData): CustomEvent | undefined {
   const position =
     pair.longAsset === loanToken ? TradingPosition.LONG : TradingPosition.SHORT;
 
-  const loanId = event.returnValues.loanId;
+  const loanId = event.loanId;
+
   switch (event.event) {
     default:
     case 'Trade':
       return {
-        blockNumber: event.blockNumber,
         loanId,
         loanToken,
         collateralToken,
         position,
         type: 'buy',
-        leverage: event.returnValues.entryLeverage,
-        positionSize: event.returnValues.positionSize,
-        price: event.returnValues.entryPrice,
-        txHash: event.transactionHash,
+        leverage: event.leverage + 1,
+        positionSize: event.positionSize,
+        price: event.collateralToLoanRate,
+        txHash: event.txHash,
+        isOpen: isOpen,
+        time: event.time,
+        event: event.event,
+        collateralToLoanRate: event.collateralToLoanRate,
       };
     case 'CloseWithSwap':
       return {
-        blockNumber: event.blockNumber,
         loanId,
         loanToken,
         collateralToken,
         position,
         type: 'sell',
-        leverage: event.returnValues.currentLeverage,
-        positionSize: event.returnValues.positionCloseSize,
-        price: event.returnValues.exitPrice,
-        txHash: event.transactionHash,
+        leverage: event.leverage + 1,
+        positionSize: event.positionSize,
+        price: event.collateralToLoanRate,
+        txHash: event.txHash,
+        isOpen: isOpen,
+        time: event.time,
+        event: event.event,
+        collateralToLoanRate: event.collateralToLoanRate,
       };
   }
 }
 
 function calculateProfits(events: CustomEvent[]): CalculatedEvent | null {
-  events = events.reverse();
   const opens = events.filter(item => item.type === 'buy');
   const closes = events.filter(item => item.type === 'sell');
-
-  if (!opens.length) {
-    return null;
-  }
-
   const positionSize = opens
     .reduce(
       (previous, current) => previous.add(current.positionSize),
       bignumber('0'),
     )
-    .toString();
-  const openSize = closes.reduce(
-    (previous, current) => previous.minus(current.positionSize),
-    bignumber(positionSize),
-  );
-
-  if (openSize.greaterThan(0)) {
-    // Position is still open, ignore calculations.
-    return null;
-  }
-
-  const leverage = bignumber(opens[0].leverage)
-    .add(10 ** 18)
     .toString();
 
   const pair = TradingPairDictionary.findPair(
@@ -131,7 +129,7 @@ function calculateProfits(events: CustomEvent[]): CalculatedEvent | null {
     opens[0].collateralToken,
   );
 
-  const prettyPrice = amount => {
+  const prettyPrice = (amount: string) => {
     return events[0].loanToken === pair.shortAsset
       ? amount
       : toWei(
@@ -141,8 +139,8 @@ function calculateProfits(events: CustomEvent[]): CalculatedEvent | null {
         );
   };
 
-  const entryPrice = prettyPrice(opens[0].price);
-  const closePrice = prettyPrice(closes[closes.length - 1].price);
+  const entryPrice = prettyPrice(opens[0].positionSize);
+  const closePrice = prettyPrice(closes[closes.length - 1].positionSize);
 
   let change = bignumber(bignumber(closePrice).minus(entryPrice))
     .div(entryPrice)
@@ -153,17 +151,14 @@ function calculateProfits(events: CustomEvent[]): CalculatedEvent | null {
       .toNumber();
   }
 
-  const profit = bignumber(change)
-    .mul(bignumber(positionSize) /*.mul(bignumber(leverage).div(1e18))*/)
-    .toFixed(0);
+  const profit = bignumber(change).mul(bignumber(positionSize)).toFixed(0);
 
   return {
     loanId: events[0].loanId,
-    blockNumber: events[0].blockNumber,
     position: events[0].position,
     collateralToken: events[0].collateralToken,
     loanToken: events[0].loanToken,
-    leverage,
+    leverage: events[0].leverage,
     positionSize,
     entryPrice,
     closePrice,
@@ -176,67 +171,63 @@ function calculateProfits(events: CustomEvent[]): CalculatedEvent | null {
 export function TradingHistory() {
   const { t } = useTranslation();
   const account = useAccount();
+  const [loading, setLoading] = useState(false);
+  const [eventsHistory, setEventsHistory] = useState<EventData[]>([]);
 
-  const tradeStates = useGetContractPastEvents('sovrynProtocol', 'Trade', {
-    user: account,
-  });
-  const closeStates = useGetContractPastEvents(
-    'sovrynProtocol',
-    'CloseWithSwap',
-    { user: account },
-  );
+  const getHistory = useCallback(() => {
+    if (currentChainId) {
+      setLoading(true);
+      axios
+        .get(`${backendUrl[currentChainId]}/events/trade/${account}`)
+        .then(({ data }) => {
+          setEventsHistory(data.events);
+          setLoading(false);
+        });
+    }
+  }, [account]);
 
-  const loading = tradeStates.loading || closeStates.loading;
+  useEffect(() => {
+    getHistory();
+  }, [getHistory]);
+
   const [events, setEvents] = useState<CalculatedEvent[]>([]);
 
-  const mergeEvents = useCallback(
-    (closeEvents: EventData[] = [], tradeEvents: EventData[] = []) => {
-      const mergedEvents = [...closeEvents, ...tradeEvents].sort(
-        (a, b) => b.blockNumber - a.blockNumber,
-      );
-
-      const items: { [key: string]: CustomEvent[] } = {};
-      mergedEvents.forEach(item => {
-        const loanId = item.returnValues.loanId.toLowerCase();
+  const mergeEvents = useCallback(() => {
+    const items: { [key: string]: CustomEvent[] } = {};
+    if (!loading) {
+      eventsHistory.forEach(item => {
+        const loanId = item.loanId.toLowerCase();
         if (!items.hasOwnProperty(loanId)) {
           items[loanId] = [];
         }
-        const event = normalizeEvent(item);
-        if (event !== undefined) {
-          items[loanId].push(event);
-        }
-      });
-
-      const entries = Object.entries(items);
-
-      const closeEntries: CalculatedEvent[] = [];
-      entries.forEach(([, /*loanId*/ events]) => {
-        // exclude entries that does not have sell events
-        if (events.filter(item => item.type === 'sell').length > 0) {
-          const calculation = calculateProfits(events);
-          if (calculation) {
-            closeEntries.push(calculation);
+        item.data.forEach((element: CustomEvent) => {
+          const event = normalizeEvent(element, false);
+          if (event !== undefined) {
+            items[loanId].push(event);
           }
-        }
+        });
       });
+    }
 
-      setEvents(closeEntries);
-    },
-    [],
-  );
+    const entries = Object.entries(items);
+    const closeEntries: CalculatedEvent[] = [];
+    entries.forEach(([, events]) => {
+      // exclude entries that does not have sell events
+      if (events.filter(item => item.type === 'sell').length > 0) {
+        const calculation = calculateProfits(events);
+        if (calculation) {
+          closeEntries.push(calculation);
+        }
+      }
+    });
+    setEvents(closeEntries);
+  }, [eventsHistory, loading]);
 
   useEffect(() => {
-    if (account) {
-      mergeEvents(closeStates.events, tradeStates.events);
+    if (account && eventsHistory) {
+      mergeEvents();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    account,
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    JSON.stringify(tradeStates.events),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    JSON.stringify(closeStates.events),
-  ]);
+  }, [account, eventsHistory, mergeEvents]);
 
   if (loading && !events.length) {
     return <SkeletonRow />;
@@ -276,7 +267,7 @@ function HistoryTable(props: { items: CalculatedEvent[] }) {
         return {
           item: item,
           icon: <PositionBlock position={item.position} name={pair.name} />,
-          leverage: `${weiToFixed(item.leverage, 1)}x`,
+          leverage: `${item.leverage}x`,
           positionSize: (
             <Tooltip content={weiTo18(item.positionSize)}>
               <span>

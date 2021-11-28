@@ -15,3 +15,18 @@ export interface ActiveLoan {
   startMargin: string;
   startRate: string;
 }
+
+export interface TradeEventData {
+  borrowedAmount: string;
+  collateralToken: string;
+  currentLeverage: string;
+  entryLeverage: string;
+  entryPrice: string;
+  interestRate: string;
+  lender: string;
+  loanId: string;
+  loanToken: string;
+  positionSize: string;
+  settlementDate: string;
+  user: string;
+}

@@ -1,0 +1,36 @@
+.colorized {
+  :global(.bp3-slider-track) {
+    @apply tw-h-2.5 tw-rounded-xl;
+    background: transparent linear-gradient(90deg, #5BFD04 0%, #FE0000 100%) 0% 0% no-repeat padding-box;
+  }
+
+  :global(.bp3-slider-progress) {
+    @apply tw-h-2.5 tw-bg-black tw-opacity-70;
+  }
+
+  :global(.bp3-slider-progress):global(.bp3-intent-primary) {
+    @apply tw-bg-transparent tw-opacity-100;
+  }
+
+  :global(.bp3-slider-handle) {
+    width: 22px;
+    height: 22px;
+    border-radius: 11px;
+  }
+
+  :global(.bp3-slider-axis) {
+    width: calc(100% - 1.75rem);
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  :global(.bp3-slider-label) {
+    @apply tw-text-white tw-text-sm tw-font-semibold
+      tw-top-2.5;
+  }
+
+  :global(.bp3-slider-handle) :global(.bp3-slider-label) {
+    display: none;
+  }
+}

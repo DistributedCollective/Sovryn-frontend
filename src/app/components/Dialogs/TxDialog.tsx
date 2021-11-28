@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useContext } from 'react';
+import { WalletContext } from '@sovryn/react-wallet';
 import { Dialog } from '../../containers/Dialog';
 import { ResetTxResponseInterface } from '../../hooks/useSendContractTx';
 import { TxStatus } from '../../../store/global/transactions-store/types';
@@ -16,23 +17,33 @@ import wWalletConnect from 'assets/wallets/walletconnect.svg';
 import { LinkToExplorer } from '../LinkToExplorer';
 import styled from 'styled-components/macro';
 import styles from './dialog.module.scss';
-import { useWalletContext } from '@sovryn/react-wallet';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { ConfirmButton } from 'app/pages/BuySovPage/components/Button/confirm';
 import { usePrevious } from '../../hooks/usePrevious';
 
-interface Props {
+type ITxDialogProps = {
   tx: ResetTxResponseInterface;
   onUserConfirmed?: () => void;
   onSuccess?: () => void;
-}
+  onClose?: () => void;
+};
 
-export function TxDialog({ tx, onUserConfirmed, onSuccess }: Props) {
+export const TxDialog: React.FC<ITxDialogProps> = ({
+  tx,
+  onUserConfirmed,
+  onSuccess,
+  onClose,
+}) => {
   const { t } = useTranslation();
-  const { address } = useWalletContext();
+  const { address } = useContext(WalletContext);
 
-  const close = useCallback(() => tx.reset(), [tx]);
+  const close = useCallback(() => {
+    tx.reset();
+    if (onClose) {
+      onClose();
+    }
+  }, [tx, onClose]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const wallet = useMemo(() => detectWeb3Wallet(), [address]);
@@ -103,18 +114,18 @@ export function TxDialog({ tx, onUserConfirmed, onSuccess }: Props) {
 
           {!tx.txHash && tx.status === TxStatus.FAILED && (
             <>
-              <p className="tw-text-center">
+              <p className="tw-text-center tw-px-3 tw-text-warning">
                 {t(translations.buySovPage.txDialog.txStatus.aborted)}
               </p>
               {wallet === 'ledger' && (
-                <p className="tw-text-center">
+                <p className="tw-text-center tw-px-3 tw-text-warning">
                   {t(translations.buySovPage.txDialog.txStatus.abortedLedger)}
                 </p>
               )}
             </>
           )}
 
-          <div style={{ maxWidth: 200 }} className="tw-mx-auto tw-w-full">
+          <div className="tw-mx-auto tw-w-full tw-mw-340 tw-mt-10">
             <ConfirmButton
               onClick={close}
               text={t(translations.common.close)}
@@ -124,7 +135,7 @@ export function TxDialog({ tx, onUserConfirmed, onSuccess }: Props) {
       )}
     </Dialog>
   );
-}
+};
 
 function getWalletName(wallet) {
   if (wallet === 'liquality') return 'Liquality';
@@ -162,11 +173,12 @@ function getStatus(tx: TxStatus) {
 
 const StyledStatus = styled.div`
   width: 100px;
-  margin: 0 auto 35px;
+  margin: 0 auto;
   text-align: center;
   img {
-    width: 100px;
-    height: 100px;
+    width: 55px;
+    height: 55px;
+    margin: 0 auto;
   }
   p {
     font-size: 1rem;

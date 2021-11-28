@@ -40,6 +40,7 @@ export const PairSelect: React.FC<IPairSelect> = ({
   onPairChange,
   pairsData,
 }) => {
+  const { t } = useTranslation();
   const ref = useRef(null);
   const { pairType } = useSelector(selectMarginTradePage);
   const [open, setOpen] = useState(false);
@@ -77,7 +78,7 @@ export const PairSelect: React.FC<IPairSelect> = ({
             className={cn('tw-rounded-lg', styles.search)}
             inputClassName="tw-ml-0"
             onChange={setSearch}
-            placeholder={'Search'}
+            placeholder={t(translations.spotTradingPage.pairNavbar.search)}
             prependElem={
               <img className="tw-w-5" src={arrowDownIcon} alt="Arrow" />
             }

@@ -8,13 +8,12 @@ import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
 import { bignumber } from 'mathjs';
 import { useWalletContext } from '@sovryn/react-wallet';
-import { OrderTypes, TradingTypes, ITradeFormProps } from '../../types';
-import { Input } from 'app/components/Form/Input';
+import { TradingTypes, ITradeFormProps } from '../../types';
+import { OrderTypes } from 'app/components/OrderType/types';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
 import { Asset } from 'types/asset';
-import { SlippageDialog } from 'app/pages/BuySovPage/components/BuyForm/Dialogs/SlippageDialog';
 import { maxMinusFee } from 'utils/helpers';
 import { weiToNumberFormat } from 'utils/display-text/format';
 import { AvailableBalance } from 'app/components/AvailableBalance';
@@ -22,7 +21,6 @@ import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
 import { useSwapsExternal_getSwapExpectedReturn } from '../../../../hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
-import settingImg from 'assets/images/settings-blue.svg';
 import styles from './index.module.scss';
 import { tokenAddress, TradeDialog } from '../TradeDialog';
 import { useAccount } from 'app/hooks/useAccount';
@@ -31,6 +29,7 @@ import { useSwapNetwork_approveAndConvertByPath } from '../../../../hooks/swap-n
 import { useSwapNetwork_conversionPath } from 'app/hooks/swap-network/useSwapNetwork_conversionPath';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import cn from 'classnames';
+import { Slider } from 'app/components/Form/Slider';
 
 export const MarketForm: React.FC<ITradeFormProps> = ({
   sourceToken,
@@ -44,7 +43,6 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
   const account = useAccount();
   const spotLocked = checkMaintenance(States.SPOT_TRADES);
 
-  const [slippageDialog, setSlippageDialog] = useState<boolean>(false);
   const [isTradingDialogOpen, setIsTradingDialogOpen] = useState<boolean>(
     false,
   );
@@ -110,14 +108,6 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
 
   return (
     <div className={cn({ 'tw-hidden': hidden })}>
-      <SlippageDialog
-        isOpen={slippageDialog}
-        amount={rateByPath}
-        value={slippage}
-        asset={targetToken}
-        onClose={() => setSlippageDialog(false)}
-        onChange={value => setSlippage(value)}
-      />
       <TradeDialog
         onCloseModal={() => setIsTradingDialogOpen(false)}
         isOpen={isTradingDialogOpen}
@@ -132,47 +122,53 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
         submit={() => send()}
       />
       <TxDialog tx={tx} />
-      <div className="tw-mw-340 tw-mx-auto">
-        <FormGroup
-          label={t(translations.marginTradePage.tradeForm.labels.amount)}
-        >
+      <div className="tw-mx-auto">
+        <div className="tw-mb-2 tw-mt-2 tw-bg-gray-5 tw-py-2 tw-text-center tw-flex tw-items-center tw-justify-center tw-rounded-lg">
+          <AvailableBalance
+            className={styles['available-balance']}
+            asset={sourceToken}
+          />
+        </div>
+        <div className="tw-flex tw-items-center tw-justify-between tw-mt-5">
+          <span className={styles.amountLabel + ' tw-mr-4'}>Amount:</span>
           <AmountInput
             value={amount}
             onChange={value => setAmount(value)}
             asset={sourceToken}
-            subElem={
-              <div className="tw-mb-2 tw-mt-2">
-                <AvailableBalance
-                  className={styles['available-balance']}
-                  asset={sourceToken}
-                />
-              </div>
-            }
+            hideAmountSelector
+          />
+        </div>
+
+        <FormGroup
+          className="tw-px-3 tw-mt-8"
+          label={t(translations.buySovPage.slippageDialog.tolerance)}
+        >
+          <Slider
+            value={slippage}
+            onChange={e => setSlippage(e)}
+            min={0.1}
+            max={1}
+            stepSize={0.05}
+            labelRenderer={value => <>{value}%</>}
+            labelValues={[0.1, 0.25, 0.5, 0.75, 1]}
+            dataActionId="buySov-slippageDialog-slider"
           />
         </FormGroup>
-
-        <div
-          onClick={() => setSlippageDialog(true)}
-          className="tw-text-secondary tw-text-xs tw-inline-flex tw-items-center tw-cursor-pointer tw-mb-7"
-        >
-          {t(translations.spotTradingPage.tradeForm.advancedSettings)}
-          <img className="tw-ml-2" alt="setting" src={settingImg} />
-        </div>
 
         <div className={styles['market-gap']} />
 
         <div className="swap-form__amount">
-          <div className="tw-text-base tw-mb-1">
-            {t(translations.spotTradingPage.tradeForm.amountReceived)}:
+          <div className="tw-flex tw-items-center tw-justify-between tw-px-6 tw-py-2 tw-w-full tw-border tw-border-gray-5 tw-rounded-lg">
+            <span>
+              {t(translations.spotTradingPage.tradeForm.amountReceived)}
+            </span>
+            <span>
+              {weiToFixed(rateByPath, 6)} <AssetRenderer asset={targetToken} />
+            </span>
           </div>
-          <Input
-            value={weiToFixed(rateByPath, 6)}
-            onChange={value => setAmount(value)}
-            readOnly={true}
-            appendElem={<AssetRenderer asset={targetToken} />}
-          />
+
           <div className="swap-btn-helper tw-flex tw-items-center tw-justify-betweenS tw-mt-2">
-            <span className="tw-w-full tw-flex tw-items-center tw-justify-between tw-text-xs tw-whitespace-nowrap tw-mr-1">
+            <span className="tw-w-full tw-flex tw-items-center tw-justify-between tw-text-xs tw-whitespace-nowrap">
               <span>{t(translations.swap.minimumReceived)} </span>
               <span>
                 {weiToNumberFormat(minReturn, 6)}{' '}
@@ -204,7 +200,7 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
         )}
       </div>
       {!spotLocked && (
-        <div className="tw-mw-340 tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mx-auto">
+        <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mx-auto">
           <Button
             text={t(
               tradeType === TradingTypes.BUY

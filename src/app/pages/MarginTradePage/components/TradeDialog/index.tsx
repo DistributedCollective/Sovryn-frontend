@@ -4,7 +4,6 @@ import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import { FormGroup } from 'app/components/Form/FormGroup';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
@@ -17,7 +16,7 @@ import {
 import { fromWei, toWei, weiTo18 } from 'utils/blockchain/math-helpers';
 import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
 import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
-import { TxDialog } from 'app/components/Dialogs/TxDialog';
+import { TransactionDialog } from 'app/components/TransactionDialog';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { Dialog } from 'app/containers/Dialog';
 import { useApproveAndTrade } from 'app/hooks/trading/useApproveAndTrade';
@@ -31,14 +30,17 @@ import { selectMarginTradePage } from '../../selectors';
 import { actions } from '../../slice';
 import { PricePrediction } from 'app/containers/MarginTradeForm/PricePrediction';
 import { AssetRenderer } from 'app/components/AssetRenderer';
-import { DummyInput } from 'app/components/Form/Input';
 import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
+import { OrderTypes } from 'app/components/OrderType/types';
+import { TradingTypes } from 'app/pages/SpotTradingPage/types';
+import { bignumber } from 'mathjs';
 
 const maintenanceMargin = 15000000000000000000;
 interface ITradeDialogProps {
   slippage: number;
   isOpen: boolean;
   onCloseModal: () => void;
+  orderType: OrderTypes;
 }
 export const TradeDialog: React.FC<ITradeDialogProps> = props => {
   const { t } = useTranslation();
@@ -48,6 +50,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
   const { position, amount, pairType, collateral, leverage } = useSelector(
     selectMarginTradePage,
   );
+  const orderTypeValue = props.orderType;
 
   const dispatch = useDispatch();
   const pair = useMemo(() => TradingPairDictionary.get(pairType), [pairType]);
@@ -120,33 +123,95 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
   return (
     <>
       <Dialog isOpen={props.isOpen} onClose={() => props.onCloseModal()}>
-        <div className="tw-mw-340 tw-mx-auto">
+        <div className="tw-w-auto md:tw-mx-7 tw-mx-2">
           <h1 className="tw-text-sov-white tw-text-center">
             {t(translations.marginTradePage.tradeDialog.title)}
           </h1>
-          <div className="tw-py-4 tw-px-4 tw-bg-gray-2 sm:tw--mx-11 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
-            <LabelValuePair
-              label={t(translations.marginTradePage.tradeDialog.pair)}
-              value={pair.chartSymbol}
+          <div className="tw-pt-3 tw-pb-2 tw-px-6 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
+            <div
+              className={cn(
+                'tw-text-center tw-font-medium tw-lowercase tw-text-xl',
+                {
+                  'tw-text-trade-short': position === TradingPosition.SHORT,
+                  'tw-text-trade-long': position === TradingPosition.LONG,
+                },
+              )}
+            >
+              {toNumberFormat(leverage) + 'x'} {orderTypeValue}{' '}
+              {position === TradingPosition.LONG
+                ? TradingTypes.BUY
+                : TradingTypes.SELL}
+            </div>
+            <div className="tw-text-center tw-my-1">{pair.chartSymbol}</div>
+            <div className="tw-flex tw-justify-center tw-items-center">
+              <LoadableValue
+                loading={false}
+                value={
+                  <div className="tw-mr-1">{weiToNumberFormat(amount, 4)}</div>
+                }
+                tooltip={fromWei(amount)}
+              />{' '}
+              <AssetRenderer asset={collateral} />
+              <div className="tw-px-1">&#64; &ge;</div>
+              <PricePrediction
+                position={position}
+                leverage={leverage}
+                loanToken={loanToken}
+                collateralToken={collateralToken}
+                useLoanTokens={useLoanTokens}
+                weiAmount={amount}
+              />
+            </div>
+          </div>
+          <div className="tw-pt-3 tw-pb-2 tw-px-6 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
+            <TxFeeCalculator
+              args={txArgs}
+              txConfig={txConf}
+              methodName="marginTrade"
+              contractName={contractName}
+              condition={true}
+              textClassName={'tw-w-1/2 tw-text-gray-10 tw-text-gray-10'}
             />
             <LabelValuePair
-              label={t(translations.marginTradePage.tradeDialog.leverage)}
-              value={
-                <>
-                  <LoadableValue
-                    loading={false}
-                    value={toNumberFormat(leverage) + 'x'}
-                    tooltip={position}
-                  />
-                </>
-              }
+              label={t(
+                translations.marginTradePage.tradeDialog.maintananceMargin,
+              )}
+              value={<>{weiToNumberFormat(maintenanceMargin)} %</>}
+            />
+            <LabelValuePair
+              label={t(translations.marginTradePage.tradeDialog.interestAPR)}
+              value={<>{weiToNumberFormat(estimations.interestRate, 2)} %</>}
+            />
+          </div>
+
+          <p className="tw-text-center tw-text-sm tw-mt-3 tw-mb-2">
+            {t(translations.marginTradePage.tradeDialog.newPositionDetails)}
+          </p>
+          <div className="tw-pt-3 tw-pb-2 tw-px-6 tw-bg-gray-5 tw-mb-4 tw-rounded-lg tw-text-xs tw-font-light">
+            <LabelValuePair
+              label={t(translations.marginTradePage.tradeDialog.positionSize)}
               className={cn({
                 'tw-text-trade-short': position === TradingPosition.SHORT,
                 'tw-text-trade-long': position === TradingPosition.LONG,
               })}
+              value={
+                <>
+                  <LoadableValue
+                    loading={false}
+                    value={weiToNumberFormat(
+                      bignumber(amount).mul(leverage).toFixed(0),
+                      4,
+                    )}
+                    tooltip={fromWei(
+                      bignumber(amount).mul(leverage).toFixed(0),
+                    )}
+                  />{' '}
+                  <AssetRenderer asset={collateral} />
+                </>
+              }
             />
             <LabelValuePair
-              label={t(translations.marginTradePage.tradeDialog.asset)}
+              label={t(translations.marginTradePage.tradeDialog.margin)}
               value={
                 <>
                   <LoadableValue
@@ -159,19 +224,39 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
               }
             />
             <LabelValuePair
-              label={t(
-                translations.marginTradePage.tradeDialog.maintananceMargin,
-              )}
-              value={<>{weiToNumberFormat(maintenanceMargin)} %</>}
+              label={t(translations.marginTradePage.tradeDialog.leverage)}
+              value={
+                <>
+                  <LoadableValue
+                    loading={false}
+                    value={toNumberFormat(leverage) + 'x'}
+                    tooltip={position}
+                  />
+                </>
+              }
             />
             <LabelValuePair
-              label={t(translations.marginTradePage.tradeDialog.interestAPR)}
-              value={<>{weiToNumberFormat(estimations.interestRate, 2)} %</>}
+              label={t(translations.marginTradePage.tradeDialog.entryPrice)}
+              value={
+                <>
+                  <LoadableValue
+                    loading={false}
+                    value={weiToNumberFormat(minReturn, 2)}
+                    tooltip={
+                      <>
+                        {weiTo18(minReturn)} {pair.longDetails.symbol}
+                      </>
+                    }
+                  />{' '}
+                  {pair.longDetails.symbol}
+                </>
+              }
             />
             <LabelValuePair
               label={t(
                 translations.marginTradePage.tradeDialog.liquidationPrice,
               )}
+              className="tw-font-medium"
               value={
                 <>
                   <LiquidationPrice
@@ -184,56 +269,8 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
                 </>
               }
             />
-            {/* <LabelValuePair
-              label={t(translations.marginTradePage.tradeDialog.renewalDate)}
-              value={<>-</>}
-            /> */}
           </div>
 
-          <FormGroup
-            label={t(translations.marginTradePage.tradeDialog.entryPrice)}
-            className="tw-mt-3"
-          >
-            <DummyInput
-              value={
-                <PricePrediction
-                  position={position}
-                  leverage={leverage}
-                  loanToken={loanToken}
-                  collateralToken={collateralToken}
-                  useLoanTokens={useLoanTokens}
-                  weiAmount={amount}
-                />
-              }
-              appendElem={pair.longDetails.symbol}
-              className="tw-h-10"
-            />
-            <div className="tw-truncate tw-text-xs tw-font-light tw-tracking-normal tw-flex tw-justify-between tw-mt-1">
-              <p className="tw-mb-3">
-                {t(translations.marginTradePage.tradeDialog.minEntry)}
-              </p>
-              <div className="tw-font-semibold">
-                <LoadableValue
-                  loading={false}
-                  value={weiToNumberFormat(minReturn, 2)}
-                  tooltip={
-                    <>
-                      {weiTo18(minReturn)} {pair.longDetails.symbol}
-                    </>
-                  }
-                />{' '}
-                {pair.longDetails.symbol}
-              </div>
-            </div>
-          </FormGroup>
-
-          <TxFeeCalculator
-            args={txArgs}
-            txConfig={txConf}
-            methodName="marginTrade"
-            contractName={contractName}
-            condition={true}
-          />
           <div className="tw-mt-4">
             {openTradesLocked && (
               <ErrorBadge
@@ -262,18 +299,41 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
             />
           </div>
 
-          <DialogButton
-            confirmLabel={t(translations.common.confirm)}
-            onConfirm={() => submit()}
-            disabled={openTradesLocked}
-            cancelLabel={t(translations.common.cancel)}
-            onCancel={() => dispatch(actions.closeTradingModal(position))}
-          />
+          <div className="tw-mw-340 tw-mx-auto">
+            <DialogButton
+              confirmLabel={t(translations.common.confirm)}
+              onConfirm={() => submit()}
+              disabled={openTradesLocked}
+              cancelLabel={t(translations.common.cancel)}
+              onCancel={() => dispatch(actions.closeTradingModal(position))}
+            />
+          </div>
         </div>
       </Dialog>
-      <TxDialog
+      <TransactionDialog
         tx={tx}
         onUserConfirmed={() => dispatch(actions.closeTradingModal(position))}
+        fee={
+          <TxFeeCalculator
+            args={txArgs}
+            txConfig={txConf}
+            methodName="marginTrade"
+            contractName={contractName}
+            condition={true}
+            textClassName={'tw-w-1/2 tw-text-gray-10 tw-text-gray-10'}
+          />
+        }
+        data={{
+          position,
+          leverage,
+          orderTypeValue,
+          pair,
+          amount,
+          collateral,
+          loanToken,
+          collateralToken,
+          useLoanTokens,
+        }}
       />
     </>
   );
@@ -289,14 +349,14 @@ function LabelValuePair(props: LabelValuePairProps) {
   return (
     <div
       className={cn(
-        'tw-flex tw-flex-row tw-mb-1 tw-justify-start tw-text-sov-white',
+        'tw-flex tw-flex-row tw-mb-1 tw-justify-between tw-text-sov-white tw-items-center',
         props.className,
       )}
     >
-      <div className="tw-w-1/2 tw-text-gray-10 sm:tw-ml-8 sm:tw-pl-2 tw-text-gray-10">
+      <div className="tw-w-1/2 tw-text-gray-10 tw-text-gray-10">
         {props.label}
       </div>
-      <div className="tw-w-1/2 tw-font-medium">{props.value}</div>
+      <div className="sm:tw-w-1/3 tw-w-1/2 tw-font-medium">{props.value}</div>
     </div>
   );
 }

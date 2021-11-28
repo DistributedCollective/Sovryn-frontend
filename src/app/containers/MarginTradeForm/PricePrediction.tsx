@@ -48,6 +48,6 @@ export function PricePrediction({
   );
 
   return (
-    <LoadableValue loading={loading} value={<>{toNumberFormat(price, 6)}</>} />
+    <LoadableValue loading={loading} value={<>{toNumberFormat(price, 2)}</>} />
   );
 }

@@ -35,7 +35,12 @@ import SwapsExternalAbi from './abi/SwapsExternalAbi.json';
 import stakingRewardsProxyAbi from './abi/StakingRewards.json';
 import SettlementAbi from './abi/Settlement.json';
 import OrderBookAbi from './abi/OrderBook.json';
+import OrderBookMarginAbi from './abi/OrderBookMargin.json';
 import nftAbi from './abi/nftAbi.json';
+import MYNTControllerAbi from './abi/MYNTController.json';
+import MYNTTokenAbi from './abi/MYNT_token.json';
+import MYNTPresaleAbi from './abi/MYNTPresale.json';
+import MYNTMarketMakerAbi from './abi/MYNTMarketMaker.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -63,12 +68,13 @@ export const contracts = {
     abi: ConverterRegistryABI,
     blockNumber: 2742580,
   },
-  WRBTC_token: {
+  RBTC_token: {
     address: '0x542fDA317318eBF1d3DEAf76E0b632741A7e677d',
     abi: abiTestWBRTCToken,
     blockNumber: 2742415,
   },
-  RBTC_token: {
+  WRBTC_token: {
+    // keep this after RBTC_token to prevent issues with RBTC tx's being picked up as WRBTC
     address: '0x542fDA317318eBF1d3DEAf76E0b632741A7e677d',
     abi: abiTestWBRTCToken,
     blockNumber: 2742415,
@@ -338,15 +344,37 @@ export const contracts = {
     abi: BabelfishAggregatorAbi,
   },
   orderBook: {
-    address: '0xb30fCeE20313AAdb88A22fF06B1067170A7c481a',
+    address: '0x55C850Eb67C4fbD9c0C36FDcDea0111D6cAf7A93',
     abi: OrderBookAbi,
   },
+  orderBookMargin: {
+    address: '0x67796fC67221928BF3e15039c31b2127EDC661bf',
+    abi: OrderBookMarginAbi,
+  },
   settlement: {
-    address: '0x8627267135FbfFd393f8b07646388F0A219A9c0C',
+    address: '0xC8075574A89b991921171c37a929dff299861b65',
     abi: SettlementAbi,
   },
   sovrynNFT: {
     address: '0x576ae218aecfd4cbd2dbe07250b47e26060932b1',
     abi: nftAbi,
+  },
+  MYNT_ctrl: {
+    address: '0xB576658700D32CCE28552349bCD52FaD8173ae32',
+    abi: MYNTControllerAbi,
+    blockNumber: 3832084,
+  },
+  MYNT_token: {
+    address: '0x2e6B1d146064613E8f521Eb3c6e65070af964EbB',
+    abi: MYNTTokenAbi,
+    blockNumber: 3832084,
+  },
+  MYNTPresale: {
+    address: '0xC3d646Ab4e1bE05eFb4Afaedf5Ae656Ff5AE4959',
+    abi: MYNTPresaleAbi,
+  },
+  MYNTMarketMaker: {
+    address: '0x722935fF8A99D801D802bb3EE528408C11C18656',
+    abi: MYNTMarketMakerAbi,
   },
 };

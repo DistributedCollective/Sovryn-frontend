@@ -1,17 +1,20 @@
 import React, { useCallback, useState } from 'react';
-import { DialogTitle, DialogWrapper, ListItem } from './styled';
-import { useTranslation } from 'react-i18next';
-import { translations } from 'locales/i18n';
+import { useTranslation, Trans } from 'react-i18next';
 import { Checkbox } from '@blueprintjs/core';
+import { Link } from 'react-router-dom';
+
+import { translations } from 'locales/i18n';
 import { ActionButton } from 'app/components/Form/ActionButton';
+import { discordInvite, sovrynTelegram } from 'utils/classifiers';
+import styles from './index.module.scss';
 
 interface IImportantInformationStepProps {
-  tierId: number;
+  saleName: string;
   onSubmit?: () => void;
 }
 
 export const ImportantInformationStep: React.FC<IImportantInformationStepProps> = ({
-  tierId,
+  saleName,
   onSubmit,
 }) => {
   const { t } = useTranslation();
@@ -23,34 +26,77 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
   );
 
   const baseTranslations =
-    tierId === 2
-      ? translations.originsLaunchpad.saleDay.importantInformationStep
-          .publicSale
-      : translations.originsLaunchpad.saleDay.importantInformationStep
-          .privateSale;
+    translations.originsLaunchpad.saleDay.importantInformationStep.publicSale;
 
   return (
     <>
-      <DialogWrapper>
-        <DialogTitle>{t(baseTranslations.title)}</DialogTitle>
+      <div className={styles.dialogWrapper}>
+        <div className={styles.dialogTitle}>
+          {t(baseTranslations.title, { token: saleName })}
+        </div>
 
         <div className="tw-flex tw-flex-col tw-space-y-4 lg:tw-flex-row lg:tw-space-y-0 lg:tw-space-x-20">
-          <div className="tw-text-left tw-max-w-1/5 tw-mr-20">
-            <ListItem>{t(baseTranslations.information[1])}</ListItem>
-            <ListItem>{t(baseTranslations.information[2])}</ListItem>
-            <ListItem>{t(baseTranslations.information[3])}</ListItem>
-            <ListItem>{t(baseTranslations.information[4])}</ListItem>
+          <div className="tw-text-left tw-w-full lg:tw-w-1/2 tw-mr-20">
+            <div className={styles.listItem}>
+              {t(baseTranslations.information[1], { token: saleName })}
+            </div>
+            <div className={styles.listItem}>
+              {t(baseTranslations.information[2], { token: saleName })}
+            </div>
+            <div className={styles.listItem}>
+              <div>
+                <Trans
+                  i18nKey={baseTranslations.information[3]}
+                  components={[
+                    <a
+                      href={discordInvite}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="tw-inline tw-underline"
+                    >
+                      x
+                    </a>,
+                    <a
+                      href={sovrynTelegram}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="tw-inline tw-underline"
+                    >
+                      x
+                    </a>,
+                  ]}
+                />
+              </div>
+            </div>
           </div>
 
           <div className="tw-text-left tw-w-full lg:tw-w-1/2">
-            <ListItem>
-              <strong>{t(baseTranslations.information[6])}</strong>
-            </ListItem>
-            <ListItem>{t(baseTranslations.information[7])}</ListItem>
-            <ListItem>{t(baseTranslations.information[8])}</ListItem>
-            {tierId === 2 && (
-              <ListItem>{t(baseTranslations.information[9])}</ListItem>
-            )}
+            <div className={styles.listItem}>
+              <strong>
+                {t(baseTranslations.information[6], { token: saleName })}
+              </strong>
+            </div>
+            <div className={styles.listItem}>
+              <strong>
+                {t(baseTranslations.information[4], { token: saleName })}
+              </strong>
+            </div>
+            <div className={styles.listItem}>
+              {t(baseTranslations.information[5], { token: saleName })}
+            </div>
+            <div className={styles.listItem}>
+              <div>
+                <Trans
+                  i18nKey={baseTranslations.information[7]}
+                  values={{ token: saleName }}
+                  components={[
+                    <Link to="/wallet" className="tw-underline">
+                      x
+                    </Link>,
+                  ]}
+                />
+              </div>
+            </div>
           </div>
         </div>
 
@@ -70,7 +116,7 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
             disabled={!checked}
           />
         </div>
-      </DialogWrapper>
+      </div>
     </>
   );
 };

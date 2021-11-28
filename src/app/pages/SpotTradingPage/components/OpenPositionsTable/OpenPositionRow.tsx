@@ -20,7 +20,6 @@ interface IOpenPositionRowProps {
 
 export function OpenPositionRow({ item }: IOpenPositionRowProps) {
   const { t } = useTranslation();
-  // const account = useAccount();
   const [showClosePosition, setShowClosePosition] = useState(false);
   const { checkMaintenances, States } = useMaintenance();
   const {
@@ -29,29 +28,6 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
 
   const fromToken = getTokenFromAddress(item.fromToken);
   const toToken = getTokenFromAddress(item.toToken);
-
-  // const {
-  //   value: canceledOrders,
-  //   loading: loadingCanceledOrders,
-  // } = useCacheCallWithValue<Array<String>>(
-  //   'settlement',
-  //   'canceledOfHash',
-  //   '',
-  //   account,
-  // );
-
-  // useEffect(() => {
-  //   if (!loadingCanceledOrders) {
-  //     console.log('canceledOrders: ', canceledOrders);
-  //   }
-  // }, [canceledOrders, loadingCanceledOrders]);
-
-  // console.log(
-  //   'item.amountIn.div(item.amountOutMin): ',
-  //   item.amountIn,
-  //   item.amountOutMin,
-  //   item.amountIn.div(item.amountOutMin),
-  // );
 
   const tradeType = useMemo(() => {
     return pairList.find(
@@ -110,21 +86,21 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
           : t(translations.spotTradingPage.tradeForm.sell)}
       </td>
       <td className="tw-hidden md:tw-table-cell">
-        {weiToNumberFormat(item.amountIn.toString(), 4)}{' '}
+        {weiToNumberFormat(item.amountIn.toString(), 6)}{' '}
         <AssetRenderer asset={fromToken.asset} />
       </td>
 
       <td className="tw-hidden md:tw-table-cell">
         {toNumberFormat(
-          bignumber(item.amountIn.toString())
-            .div(item.amountOutMin.toString())
+          bignumber(item.amountOutMin.toString())
+            .div(item.amountIn.toString())
             .toString(),
-          4,
+          6,
         )}{' '}
-        <AssetRenderer asset={fromToken.asset} />
+        <AssetRenderer asset={toToken.asset} />
       </td>
       <td>
-        {weiToNumberFormat(item.amountOutMin.toString(), 4)}{' '}
+        {weiToNumberFormat(item.amountOutMin.toString(), 6)}{' '}
         <AssetRenderer asset={toToken.asset} />
       </td>
       <td>

@@ -21,7 +21,6 @@ import { ActionButton } from 'app/components/Form/ActionButton';
 import { weiToNumberFormat } from 'utils/display-text/format';
 import { AvailableBalance } from 'app/components/AvailableBalance';
 import { Arbitrage } from 'app/components/Arbitrage/Arbitrage';
-import { useAccount } from 'app/hooks/useAccount';
 import { FormGroup } from 'app/components/Form/FormGroup';
 import swapIcon from '../../../assets/images/swap/swap_horizontal.svg';
 import settingIcon from 'assets/images/settings-blue.svg';
@@ -29,7 +28,6 @@ import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { backendUrl, currentChainId, discordInvite } from 'utils/classifiers';
 import { useSwapsExternal_getSwapExpectedReturn } from 'app/hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
-import { useSwapsExternal_approveAndSwapExternal } from 'app/hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
 import { IPromotionLinkState } from 'app/pages/LandingPage/components/Promotions/components/PromotionCard/types';
 import styles from './index.module.scss';
 import { useSwapNetwork_approveAndConvertByPath } from 'app/hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
@@ -58,7 +56,6 @@ export function SwapFormContainer() {
   const [sourceToken, setSourceToken] = useState(Asset.RBTC);
   const [targetToken, setTargetToken] = useState(Asset.SOV);
   const [slippage, setSlippage] = useState(0.5);
-  const account = useAccount();
   const weiAmount = useWeiAmount(amount);
 
   const [pairsLoading, setPairsLoading] = useState(false);
@@ -144,19 +141,19 @@ export function SwapFormContainer() {
     minReturn,
   );
 
-  const {
-    send: sendExternal,
-    ...txExternal
-  } = useSwapsExternal_approveAndSwapExternal(
-    sourceToken,
-    targetToken,
-    account,
-    account,
-    weiAmount,
-    '0',
-    minReturn,
-    '0x',
-  );
+  // const {
+  //   send: sendExternal,
+  //   ...txExternal
+  // } = useSwapsExternal_approveAndSwapExternal(
+  //   sourceToken,
+  //   targetToken,
+  //   account,
+  //   account,
+  //   weiAmount,
+  //   '0',
+  //   minReturn,
+  //   '0x',
+  // );
 
   const onSwapAssert = () => {
     const _sourceToken = sourceToken;
@@ -173,23 +170,27 @@ export function SwapFormContainer() {
     );
   }, [targetToken, sourceToken, minReturn, weiAmount]);
 
-  const tx = useMemo(
-    () =>
-      targetToken === Asset.RBTC ||
-      [targetToken, sourceToken].includes(Asset.RIF)
-        ? txPath
-        : txExternal,
-    [targetToken, sourceToken, txExternal, txPath],
-  );
+  // const tx = useMemo(
+  //   () =>
+  //     targetToken === Asset.RBTC ||
+  //     [targetToken, sourceToken].includes(Asset.RIF)
+  //       ? txPath
+  //       : txExternal,
+  //   [targetToken, sourceToken, txExternal, txPath],
+  // );
 
-  const send = useCallback(
-    () =>
-      targetToken === Asset.RBTC ||
-      [targetToken, sourceToken].includes(Asset.RIF)
-        ? sendPath()
-        : sendExternal(),
-    [targetToken, sourceToken, sendPath, sendExternal],
-  );
+  const tx = txPath;
+
+  // const send = useCallback(
+  //   () =>
+  //     targetToken === Asset.RBTC ||
+  //     [targetToken, sourceToken].includes(Asset.RIF)
+  //       ? sendPath()
+  //       : sendExternal(),
+  //   [targetToken, sourceToken, sendPath, sendExternal],
+  // );
+
+  const send = useCallback(() => sendPath(), [sendPath]);
 
   const setSwapTokents = useCallback((source: Asset, target: Asset) => {
     setSourceToken(source);
@@ -219,6 +220,7 @@ export function SwapFormContainer() {
         asset={targetToken}
         onClose={() => setDialogOpen(false)}
         onChange={value => setSlippage(value)}
+        dataActionId="swap-"
       />
 
       <div className="tw-bg-gray-3 tw-w-full tw-mb-10 tw-overflow-hidden">
@@ -240,7 +242,10 @@ export function SwapFormContainer() {
       <div className={styles.swapFormContainer}>
         <div className={styles.swapForm}>
           <div className={styles.title}>{t(translations.swap.send)}</div>
-          <div className={styles.currency}>
+          <div
+            className={styles.currency}
+            data-action-id="swap-send-swapAssetSelector"
+          >
             {pairsData && assetData && (
               <SwapSelector
                 pairs={pairsData.pairs}
@@ -255,7 +260,10 @@ export function SwapFormContainer() {
             )}
           </div>
           <div className={styles.availableBalance}>
-            <AvailableBalance asset={sourceToken} />
+            <AvailableBalance
+              asset={sourceToken}
+              dataAttribute="swap-send-availableBalance"
+            />
           </div>
           <FormGroup
             label={t(translations.swap.tradeAmount)}
@@ -265,6 +273,7 @@ export function SwapFormContainer() {
               value={amount}
               onChange={value => setAmount(value)}
               asset={sourceToken}
+              dataActionId="swap-send-amountInput"
             />
           </FormGroup>
         </div>
@@ -273,11 +282,15 @@ export function SwapFormContainer() {
             className={styles.swapRevert}
             style={{ backgroundImage: `url(${swapIcon})` }}
             onClick={onSwapAssert}
+            data-action-id="swap-button-swapRevert"
           />
         </div>
         <div className={styles.swapForm}>
           <div className={styles.title}>{t(translations.swap.receive)}</div>
-          <div className={styles.currency}>
+          <div
+            className={styles.currency}
+            data-action-id="swap-receive-swapAssetSelector"
+          >
             {pairsData && assetData && targetToken && (
               <SwapSelector
                 pairs={pairsData.pairs}
@@ -292,7 +305,10 @@ export function SwapFormContainer() {
             )}
           </div>
           <div className={styles.availableBalance}>
-            <AvailableBalance asset={targetToken} />
+            <AvailableBalance
+              asset={targetToken}
+              dataAttribute="swap-receive-availableBalance"
+            />
           </div>
           <FormGroup
             label={t(translations.swap.receiveAmount)}
@@ -303,6 +319,7 @@ export function SwapFormContainer() {
               onChange={value => setAmount(value)}
               readOnly={true}
               appendElem={<AssetRenderer asset={targetToken} />}
+              dataActionId="swap-receive-amount"
             />
             <div className={styles.swapBtnHelper}>
               <div>{t(translations.swap.minimumReceived)}</div>
@@ -321,7 +338,12 @@ export function SwapFormContainer() {
             text={
               <div className="tw-flex">
                 {t(translations.swap.advancedSettings)}
-                <img className="tw-ml-1" src={settingIcon} alt="setting" />
+                <img
+                  data-action-id="swap-receive-availableBalance"
+                  className="tw-ml-1"
+                  src={settingIcon}
+                  alt="setting"
+                />
               </div>
             }
             onClick={() => setDialogOpen(true)}
@@ -363,6 +385,7 @@ export function SwapFormContainer() {
           }
           onClick={() => setIsReviewDialogOpen(true)}
           text={t(translations.swap.cta)}
+          dataActionId="swap-confirmButton"
         />
       </div>
 

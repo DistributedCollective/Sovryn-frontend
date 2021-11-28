@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectSpotTradingPage } from '../../selectors';
 import { BuySell } from '../BuySell';
-import { OrderType } from '../OrderType';
-import { OrderTypes, pairs, TradingTypes } from '../../types';
+import { OrderType } from 'app/components/OrderType';
+import { OrderTypes } from 'app/components/OrderType/types';
+import { allPairs as pairs, TradingTypes } from '../../types';
 import { Asset } from 'types/asset';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from 'app/pages/LandingPage/components/Promotions/components/PromotionCard/types';
@@ -38,8 +39,8 @@ export function TradeForm() {
 
   return (
     <>
-      <div className="tw-trading-form-card spot-form tw-bg-black tw-rounded-3xl tw-p-12 tw-mx-auto xl:tw-mx-0">
-        <div className="tw-mw-340 tw-mx-auto">
+      <div className="tw-trading-form-card spot-form tw-bg-black tw-rounded-3xl tw-px-4 tw-py-6 tw-mx-auto xl:tw-mx-0">
+        <div className="tw-mx-auto">
           <BuySell value={tradeType} onChange={setTradeType} />
           <OrderType value={orderType} onChange={setOrderType} />
           <LimitForm

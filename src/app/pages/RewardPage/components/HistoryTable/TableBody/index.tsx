@@ -6,10 +6,12 @@ import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { translations } from '../../../../../../locales/i18n';
 import { TableRow } from '../TableRow/index';
 import { Asset } from 'types';
+import { lendingPools } from 'app/pages/RewardPage/helpers';
 
 export interface RewardEvent {
   amount: string;
   event: RewardEventType;
+  poolToken: string;
   timestamp: number;
   txHash: string;
 }
@@ -33,12 +35,12 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
   const { t } = useTranslation();
 
   const getEventType = useCallback(
-    type => {
-      switch (type) {
-        case RewardEventType.DEPOSITED:
-          return t(translations.rewardPage.historyTable.event.lendingReward);
+    item => {
+      switch (item.event) {
         case RewardEventType.REWARD_CLAIMED:
-          return t(translations.rewardPage.historyTable.event.liquidityReward);
+          return lendingPools.includes(item.poolToken?.toLowerCase())
+            ? t(translations.rewardPage.historyTable.event.lendingReward)
+            : t(translations.rewardPage.historyTable.event.liquidityReward);
         case RewardEventType.EARN_REWARD:
           return t(translations.rewardPage.historyTable.event.tradingReward);
         case RewardEventType.REWARD_WITHDRAWN:
@@ -49,7 +51,7 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
         case RewardEventType.USER_FEE_WITHDRAWN:
           return t(translations.rewardPage.historyTable.event.feesReward);
         default:
-          return type;
+          return item.event;
       }
     },
     [t],
@@ -69,7 +71,7 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
           time={item.timestamp}
           txHash={item.txHash}
           amount={item.amount}
-          type={getEventType(item.event)}
+          type={getEventType(item)}
           asset={getEventAsset(item.event)}
         />
       ))}

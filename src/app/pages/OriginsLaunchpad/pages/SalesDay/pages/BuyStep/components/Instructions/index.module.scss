@@ -1,0 +1,15 @@
+.instructionsTitle {
+  @apply tw-text-base tw-uppercase tw-leading-tight tw-tracking-normal tw-mb-4;
+  color: #f4f4f4;
+}
+
+.mainInstructionsWrapper {
+  @apply tw-text-xs tw-text-white tw-font-thin tw-leading-normal tw-tracking-normal;
+  margin-bottom: 4.125rem;
+}
+
+.instructionsSectionsWrapper {
+  @apply tw-text-left;
+  margin-left: 5.75rem;
+  max-width: 26.6875rem;
+}

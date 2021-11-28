@@ -28,7 +28,7 @@ import {
   getWalletImage,
 } from 'app/components/UserAssets/TxDialog/WalletLogo';
 
-export function ConfirmStep() {
+export const ConfirmStep: React.FC = () => {
   const { t } = useTranslation();
   const trans = translations.BridgeDepositPage.confirmStep;
   const dispatch = useDispatch();
@@ -224,4 +224,4 @@ export function ConfirmStep() {
       )}
     </div>
   );
-}
+};

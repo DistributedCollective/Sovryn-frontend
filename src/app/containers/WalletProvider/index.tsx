@@ -25,7 +25,6 @@ import { transactionsStateSaga } from 'store/global/transactions-store/saga';
 import { reducer, sliceKey } from './slice';
 import { walletProviderSaga } from './saga';
 import { selectRequestDialogState } from '../../../store/global/transactions-store/selectors';
-import { TxRequestDialog } from './components/TxRequestDialog';
 import { FastBtcForm } from '../FastBtcForm/Loadable';
 import {
   sliceKey as btcSlice,
@@ -37,6 +36,7 @@ import { actions } from './slice';
 import { useEvent } from 'app/hooks/useAnalytics';
 import { selectWalletProvider } from './selectors';
 import { useLocation } from 'react-router-dom';
+import { TxRequestDialog } from 'app/components/TransactionDialog/TxRequestDialog';
 
 interface Props {
   children: React.ReactNode;

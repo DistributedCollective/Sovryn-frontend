@@ -1,29 +1,33 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
-import { FormGroup } from 'app/components/Form/FormGroup';
 import { AmountInput } from 'app/components/Form/AmountInput';
 import { Button } from '../Button';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
 import { bignumber } from 'mathjs';
 import { useWalletContext } from '@sovryn/react-wallet';
-import { OrderTypes, TradingTypes, ITradeFormProps } from '../../types';
-import { Input } from 'app/components/Form/Input';
+import { TradingTypes, ITradeFormProps } from '../../types';
+import { OrderTypes } from 'app/components/OrderType/types';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { maxMinusFee } from 'utils/helpers';
-import { stringToFixedPrecision } from 'utils/display-text/format';
+import {
+  stringToFixedPrecision,
+  toNumberFormat,
+} from 'utils/display-text/format';
 import { AvailableBalance } from 'app/components/AvailableBalance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
-import settingImg from 'assets/images/settings-blue.svg';
 import styles from './index.module.scss';
-import { LimitOrderSetting } from '../LimitOrderSetting';
+import { Duration } from '../LimitOrderSetting/Duration';
 import { TradeDialog } from '../TradeDialog';
-import { useLimitOrder } from 'app/hooks/useLimitOrder';
+import { useLimitOrder } from 'app/hooks/limitOrder/useLimitOrder';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import cn from 'classnames';
+import { useSwapsExternal_getSwapExpectedReturn } from 'app/hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
+import { toWei } from 'web3-utils';
+import { weiToFixed } from 'utils/blockchain/math-helpers';
 
 export const LimitForm: React.FC<ITradeFormProps> = ({
   sourceToken,
@@ -41,14 +45,13 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
   const [amount, setAmount] = useState<string>('');
   const [limitPrice, setLimitPrice] = useState<string>('');
 
-  const [setting, setSetting] = useState<boolean>(false);
   const [duration, setDuration] = useState<number>(0);
 
   const amountOut = useMemo(() => {
-    if (!limitPrice || !amount || limitPrice === '0') return '';
+    if (!limitPrice || !amount || limitPrice === '0') return '0';
 
     return bignumber(amount || '0')
-      .div(limitPrice)
+      .times(limitPrice)
       .toString();
   }, [limitPrice, amount]);
 
@@ -56,6 +59,36 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
   const weiAmountOut = useWeiAmount(amountOut);
 
   const { value: balance } = useAssetBalanceOf(sourceToken);
+  const { value: marketPrice } = useSwapsExternal_getSwapExpectedReturn(
+    sourceToken,
+    targetToken,
+    toWei('1'),
+  );
+
+  const limitMarketChange = useMemo(() => {
+    if (!limitPrice || limitPrice === '0' || !marketPrice) return '';
+
+    return bignumber(limitPrice)
+      .div(weiToFixed(marketPrice, 6))
+      .mul(100)
+      .minus(100)
+      .toNumber();
+  }, [limitPrice, marketPrice]);
+
+  useEffect(() => {
+    if (
+      marketPrice !== '0' &&
+      (limitPrice === '' || stringToFixedPrecision(limitPrice, 0) === '0')
+    ) {
+      setLimitPrice(weiToFixed(marketPrice, 6));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [marketPrice]);
+
+  useEffect(() => {
+    setLimitPrice('');
+  }, [sourceToken, targetToken]);
+
   const gasLimit = 340000;
 
   const validate = useMemo(() => {
@@ -80,12 +113,6 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
 
   return (
     <div className={cn({ 'tw-hidden': hidden })}>
-      <LimitOrderSetting
-        isOpen={setting}
-        value={duration}
-        onClose={() => setSetting(false)}
-        onChange={value => setDuration(value)}
-      />
       <TradeDialog
         onCloseModal={() => setTradeDialog(false)}
         isOpen={tradeDialog}
@@ -101,64 +128,78 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
       />
 
       <TxDialog tx={tx} />
-      <div className="tw-mw-340 tw-mx-auto">
-        <FormGroup
-          label={t(translations.marginTradePage.tradeForm.labels.amount)}
-        >
+      <div className="tw-mx-auto">
+        <div className="tw-mb-2 tw-mt-2 tw-bg-gray-5 tw-py-2 tw-text-center tw-flex tw-items-center tw-justify-center tw-rounded-lg">
+          <AvailableBalance
+            className={styles['available-balance']}
+            asset={sourceToken}
+          />
+        </div>
+
+        <div className="tw-flex tw-items-center tw-justify-between tw-mt-5">
+          <span className={styles.amountLabel + ' tw-mr-4'}>Amount:</span>
           <AmountInput
             value={amount}
             onChange={value => setAmount(value)}
             asset={sourceToken}
-            subElem={
-              <div className="tw-mb-2 tw-mt-2">
-                <AvailableBalance
-                  className={styles['available-balance']}
-                  asset={sourceToken}
-                />
-              </div>
-            }
+            hideAmountSelector
           />
-        </FormGroup>
-
-        <FormGroup
-          className="tw-mt-8"
-          label={t(translations.spotTradingPage.tradeForm.limitPrice)}
-        >
-          <Input
-            value={stringToFixedPrecision(limitPrice, 6)}
-            onChange={setLimitPrice}
-            type="number"
-            appendElem={<AssetRenderer asset={sourceToken} />}
-            className="tw-rounded-lg"
-          />
-        </FormGroup>
-
-        <div
-          onClick={() => setSetting(true)}
-          className="tw-text-secondary tw-text-xs tw-inline-flex tw-items-center tw-cursor-pointer tw-mb-7"
-        >
-          {t(translations.spotTradingPage.tradeForm.advancedSettings)}
-          <img className="tw-ml-2" alt="setting" src={settingImg} />
         </div>
 
-        <div className="swap-form__amount">
-          <div className="tw-text-base tw-mb-1">
-            {t(translations.spotTradingPage.tradeForm.amountReceived)}:
+        <div className="tw-flex tw-relative tw-items-center tw-justify-between tw-mt-5">
+          <span className={styles.amountLabel + ' tw-mr-4'}>
+            {t(translations.spotTradingPage.tradeForm.limitPrice)}
+          </span>
+          <div className="tw-flex tw-items-center">
+            <div className="tw-mr-2">
+              <AssetRenderer asset={targetToken} />
+            </div>
+            <AmountInput
+              value={stringToFixedPrecision(limitPrice, 6)}
+              onChange={setLimitPrice}
+              hideAmountSelector
+            />
           </div>
-          <Input
-            value={stringToFixedPrecision(amountOut, 6)}
-            onChange={() => {}}
-            readOnly={true}
-            appendElem={<AssetRenderer asset={targetToken} />}
-          />
-          <div className="tw-invisible swap-btn-helper tw-flex tw-items-center tw-justify-betweenS tw-mt-2">
-            <span className="tw-w-full tw-flex tw-items-center tw-justify-between tw-text-xs tw-whitespace-nowrap tw-mr-1">
-              <span>{t(translations.swap.minimumReceived)} </span>
-              <span>
-                {/* {weiToNumberFormat(minReturn, 6)}{' '} */}
-                <AssetRenderer asset={targetToken} />
-              </span>
+
+          <div className="tw-text-sm tw-w-full tw-text-right tw-truncate tw-absolute tw-top-full tw-mt-1">
+            1 <AssetRenderer asset={sourceToken} /> ={' '}
+            {toNumberFormat(limitPrice, 6)}{' '}
+            <AssetRenderer asset={targetToken} />
+          </div>
+        </div>
+
+        {/* <div className="tw-mt-2">
+          Market Price: 1 <AssetRenderer asset={sourceToken} /> ={' '}
+          {weiToFixed(marketPrice, 6)} <AssetRenderer asset={targetToken} />
+        </div> */}
+
+        <Duration value={duration} onChange={value => setDuration(value)} />
+
+        <div className="swap-form__amount">
+          <div className="tw-flex tw-items-center tw-justify-between tw-px-6 tw-py-2 tw-w-full tw-border tw-border-gray-5 tw-rounded-lg">
+            <span>
+              {t(translations.spotTradingPage.tradeForm.amountReceived)}
             </span>
+            <span>
+              {stringToFixedPrecision(amountOut, 6)}{' '}
+              <AssetRenderer asset={targetToken} />
+            </span>
+          </div>
+          <div
+            className={cn('tw-text-sm tw-text-right', {
+              'tw-text-trade-short': limitMarketChange < 0,
+              'tw-text-trade-long': limitMarketChange > 0,
+              'tw-invisible':
+                limitMarketChange === '' ||
+                +stringToFixedPrecision(`${limitMarketChange}`, 2) === 0,
+            })}
+          >
+            {t(translations.spotTradingPage.tradeForm.buy)}{' '}
+            <AssetRenderer asset={targetToken} />{' '}
+            {stringToFixedPrecision(`${limitMarketChange}`, 2)}%{' '}
+            {limitMarketChange > 0
+              ? t(translations.spotTradingPage.limitOrderSetting.aboveMarket)
+              : t(translations.spotTradingPage.limitOrderSetting.belowMarket)}
           </div>
         </div>
       </div>
@@ -184,7 +225,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
         )}
       </div>
       {!spotLocked && (
-        <div className="tw-mw-340 tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mx-auto">
+        <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mx-auto">
           <Button
             text={t(
               tradeType === TradingTypes.BUY

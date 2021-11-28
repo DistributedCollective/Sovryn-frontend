@@ -35,7 +35,12 @@ import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
 import SettlementAbi from './abi/Settlement.json';
 import OrderBookAbi from './abi/OrderBook.json';
 // import SwapsExternalAbi from './abi/SwapsExternalAbi.json';
+import OrderBookMarginAbi from './abi/OrderBookMargin.json';
 import nftAbi from './abi/nftAbi.json';
+import MYNTControllerAbi from './abi/MYNTController.json';
+import MYNTTokenAbi from './abi/MYNT_token.json';
+import MYNTPresaleAbi from './abi/MYNTPresale.json';
+import MYNTMarketMakerAbi from './abi/MYNTMarketMaker.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -63,12 +68,13 @@ export const contracts = {
     abi: ConverterRegistryABI,
     blockNumber: 1218799,
   },
-  WRBTC_token: {
+  RBTC_token: {
     address: '0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab',
     abi: abiTestWBRTCToken,
     blockNumber: 1205599,
   },
-  RBTC_token: {
+  WRBTC_token: {
+    // keep this after RBTC_token to prevent issues with RBTC tx's being picked up as WRBTC
     address: '0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab',
     abi: abiTestWBRTCToken,
     blockNumber: 1205599,
@@ -253,7 +259,7 @@ export const contracts = {
     abi: VestingRegistryAbi,
   },
   staking: {
-    address: '0xDCd1889C1FBAd0A757EF7216Dda0529AB6268cCc',
+    address: '0xc37A85e35d7eECC82c4544dcba84CF7E61e1F1a3',
     abi: StakingAbi,
     blockNumber: 1218836,
   },
@@ -344,15 +350,37 @@ export const contracts = {
     abi: BabelfishAggregatorAbi,
   },
   orderBook: {
-    address: '0xb30fCeE20313AAdb88A22fF06B1067170A7c481a',
+    address: '0x55C850Eb67C4fbD9c0C36FDcDea0111D6cAf7A93',
     abi: OrderBookAbi,
   },
+  orderBookMargin: {
+    address: '0x67796fC67221928BF3e15039c31b2127EDC661bf',
+    abi: OrderBookMarginAbi,
+  },
   settlement: {
-    address: '0x8627267135FbfFd393f8b07646388F0A219A9c0C',
+    address: '0xC8075574A89b991921171c37a929dff299861b65',
     abi: SettlementAbi,
   },
   sovrynNFT: {
     address: '0x576ae218aecfd4cbd2dbe07250b47e26060932b1', // todo
     abi: nftAbi,
+  },
+  MYNT_ctrl: {
+    address: '0x6F62D2F571BcE7187CdFDD4b1E5E53cfD7d14dd2',
+    abi: MYNTControllerAbi,
+    blockNumber: 2267574,
+  },
+  MYNT_token: {
+    address: '0x139483e22575826183F5b56dd242f8f2C1AEf327',
+    abi: MYNTTokenAbi,
+    blockNumber: 2267574,
+  },
+  MYNTPresale: {
+    address: '0xc89E1ef68f406bf2F5337d2Aad0a99a023c1697c',
+    abi: MYNTPresaleAbi,
+  },
+  MYNTMarketMaker: {
+    address: '0xf75170ce8d4060b8D5fc24E996FA00A94bb8A232',
+    abi: MYNTMarketMakerAbi,
   },
 };

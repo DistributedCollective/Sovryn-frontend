@@ -50,7 +50,7 @@
 
    ```shell
    @distributedcollective:registry=https://npm.pkg.github.com
-   //npm.pkg.github.com/:\_authToken=<Your-GitHub-token-here>
+   //npm.pkg.github.com/:_authToken=<Your-GitHub-token-here>
    ```
 
 3. Save the file and restart your terminal.

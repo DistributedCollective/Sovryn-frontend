@@ -8,12 +8,12 @@
       },
       {
         "internalType": "address",
-        "name": "orderBookAddress",
+        "name": "_orderBookAddress",
         "type": "address"
       },
       {
         "internalType": "address",
-        "name": "marginOrderBookAddress",
+        "name": "_marginOrderBookAddress",
         "type": "address"
       },
       {
@@ -97,6 +97,19 @@
       }
     ],
     "name": "FeeTransferred",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "bytes32",
+        "name": "hash",
+        "type": "bytes32"
+      }
+    ],
+    "name": "MarginOrderCanceled",
     "type": "event"
   },
   {
@@ -320,6 +333,19 @@
     "type": "function"
   },
   {
+    "inputs": [],
+    "name": "allCanceledHashes",
+    "outputs": [
+      {
+        "internalType": "bytes32[]",
+        "name": "",
+        "type": "bytes32[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       {
         "internalType": "address",
@@ -354,11 +380,6 @@
   {
     "inputs": [
       {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      },
-      {
         "internalType": "bytes32",
         "name": "",
         "type": "bytes32"
@@ -370,6 +391,68 @@
         "internalType": "bool",
         "name": "",
         "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32[]",
+        "name": "hashes",
+        "type": "bytes32[]"
+      }
+    ],
+    "name": "checkCanceledHashes",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "bytes32",
+            "name": "hash",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bool",
+            "name": "canceled",
+            "type": "bool"
+          }
+        ],
+        "internalType": "struct ISettlement.CanceledCheck[]",
+        "name": "result",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32[]",
+        "name": "hashes",
+        "type": "bytes32[]"
+      }
+    ],
+    "name": "checkFilledAmountHashes",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "bytes32",
+            "name": "hash",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "uint256",
+            "name": "amount",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct ISettlement.FilledAmountCheck[]",
+        "name": "result",
+        "type": "tuple[]"
       }
     ],
     "stateMutability": "view",
@@ -698,12 +781,12 @@
   },
   {
     "inputs": [],
-    "name": "relayerFeePercent",
+    "name": "orderBookAddress",
     "outputs": [
       {
-        "internalType": "uint256",
+        "internalType": "address",
         "name": "",
-        "type": "uint256"
+        "type": "address"
       }
     ],
     "stateMutability": "view",
@@ -711,12 +794,25 @@
   },
   {
     "inputs": [],
-    "name": "sovrynLoanToken",
+    "name": "orderBookMarginAddress",
     "outputs": [
       {
-        "internalType": "contract ISovrynLoanToken",
+        "internalType": "address",
         "name": "",
         "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "relayerFeePercent",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
       }
     ],
     "stateMutability": "view",

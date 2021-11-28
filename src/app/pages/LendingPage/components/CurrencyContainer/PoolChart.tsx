@@ -5,9 +5,7 @@ import { getAssetColor } from 'app/components/FinanceV2Components/utils/getAsset
 import { Spinner } from 'app/components/Spinner';
 import { LendingPool } from 'utils/models/lending-pool';
 import { abbreviateNumber } from 'utils/helpers';
-import { databaseRpcNodes } from 'utils/classifiers';
-import { useSelector } from 'react-redux';
-import { selectWalletProvider } from 'app/containers/WalletProvider/selectors';
+import { databaseRpcNodes, currentChainId } from 'utils/classifiers';
 import { getLendingContract } from 'utils/blockchain/contract-helpers';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -47,33 +45,30 @@ const tooltipFormatter = function (this: any) {
 
 export function PoolChart(props: Props) {
   const { t } = useTranslation();
-  const { chainId } = useSelector(selectWalletProvider);
   const [data, setData] = useState<DataItem[]>([]);
   const asset = props.pool.getAsset();
 
   useEffect(() => {
-    if (chainId) {
-      fetch(databaseRpcNodes[chainId], {
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          method: 'custom_getLoanTokenHistory',
-          params: [
-            {
-              address: getLendingContract(asset).address,
-            },
-          ],
-        }),
+    fetch(databaseRpcNodes[currentChainId], {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        method: 'custom_getLoanTokenHistory',
+        params: [
+          {
+            address: getLendingContract(asset).address,
+          },
+        ],
+      }),
+    })
+      .then(e => e.json().then())
+      .then(e => {
+        setData(e.slice(-28)); //last 7 days of data in 6hr chunks
       })
-        .then(e => e.json().then())
-        .then(e => {
-          setData(e.slice(-28)); //last 7 days of data in 6hr chunks
-        })
-        .catch(console.error);
-    }
-  }, [asset, chainId, props.pool]);
+      .catch(console.error);
+  }, [asset, props.pool]);
 
   const supplyApr: [number, number][] = useMemo(
     () => data.map(i => [Date.parse(i.timestamp), i.supply_apr / 1e8]),

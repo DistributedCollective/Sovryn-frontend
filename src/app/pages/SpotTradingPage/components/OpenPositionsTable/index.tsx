@@ -1,28 +1,30 @@
 import React, { useMemo, useState } from 'react';
-import { useAccount } from 'app/hooks/useAccount';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { OpenPositionRow } from './OpenPositionRow';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { Pagination } from '../../../../components/Pagination';
-import { useGetLimitOrders } from 'app/hooks/trading/useGetLimitOrders';
+import { LimitOrder } from '../../types';
 
 interface IOpenPositionsTableProps {
-  perPage: number;
+  perPage?: number;
+  orders: LimitOrder[];
+  loading: boolean;
 }
 
-export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
+export function OpenPositionsTable({
+  perPage = 5,
+  orders,
+  loading,
+}: IOpenPositionsTableProps) {
   const { t } = useTranslation();
   const trans = translations.spotTradingPage.openLimitOrders;
-  const account = useAccount();
 
   const [page, setPage] = useState(1);
 
-  const { value, loading } = useGetLimitOrders(account);
-
   const items = useMemo(
-    () => value.slice(page * perPage - perPage, page * perPage),
-    [perPage, page, value],
+    () => orders.slice(page * perPage - perPage, page * perPage),
+    [perPage, page, orders],
   );
 
   const isEmpty = !loading && !items.length;
@@ -71,9 +73,9 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
         </tbody>
       </table>
 
-      {value.length > 0 && (
+      {orders.length > 0 && (
         <Pagination
-          totalRecords={value.length}
+          totalRecords={orders.length}
           pageLimit={perPage}
           pageNeighbours={1}
           onChange={onPageChanged}
@@ -82,7 +84,3 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
     </>
   );
 }
-
-OpenPositionsTable.defaultProps = {
-  perPage: 5,
-};

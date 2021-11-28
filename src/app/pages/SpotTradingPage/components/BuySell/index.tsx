@@ -17,7 +17,7 @@ export function BuySell({ value, onChange }: Props) {
     <div className="tw-flex tw-items-center">
       <Button
         className={cn(
-          'tw-mr-1 tw-btn-trade tw-bg-trade-long tw-capitalize tw-h-10',
+          'tw-mr-1 tw-btn-trade tw-h-8 tw-capitalize tw-flex tw-items-center tw-justify-center tw-py-0',
           {
             'tw-opacity-25': value !== TradingTypes.BUY,
           },
@@ -29,7 +29,7 @@ export function BuySell({ value, onChange }: Props) {
       />
       <Button
         className={cn(
-          'tw-ml-1 tw-btn-trade tw-bg-trade-long tw-capitalize tw-h-10',
+          'tw-ml-1 tw-btn-trade tw-h-8 tw-capitalize tw-flex tw-items-center tw-justify-center tw-py-0',
           {
             'tw-opacity-25': value !== TradingTypes.SELL,
           },

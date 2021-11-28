@@ -1,22 +1,14 @@
 import React from 'react';
-import { Trans } from 'react-i18next';
-
+import { useTranslation } from 'react-i18next';
 import type { TransactionConfig } from 'web3-core';
 import { translations } from 'locales/i18n';
-import { fromWei } from 'utils/blockchain/math-helpers';
-import { LoadableValue } from '../../../../components/LoadableValue';
-import {
-  toNumberFormat,
-  weiToNumberFormat,
-} from '../../../../../utils/display-text/format';
 import { ContractName } from '../../../../../utils/types/contracts';
-import { useEstimateContractGas } from '../../../../hooks/useEstimateGas';
 import cn from 'classnames';
-import { gas } from '../../../../../utils/blockchain/gas-price';
-import { bignumber } from 'mathjs';
+import { TransactionFee } from './TransactionFee';
+import { Asset } from 'types';
 
-interface Props {
-  symbol?: string;
+interface ITxFeeCalculator {
+  asset?: Asset;
   contractName: ContractName;
   methodName: string;
   args: any[];
@@ -26,61 +18,37 @@ interface Props {
   textClassName?: string;
 }
 
-export function TxFeeCalculator(props: Props) {
-  const { value, loading, error, gasPrice, gasLimit } = useEstimateContractGas(
-    props.contractName,
-    props.methodName,
-    props.args,
-    props.txConfig,
-    props.condition,
-  );
-  const gasData = React.useMemo(() => {
-    const data = props.txConfig?.gas
-      ? fromWei(bignumber(props.txConfig?.gas).mul(gas.get()).toFixed(0))
-      : fromWei(value);
-    return data;
-  }, [props.txConfig, value]);
-
+export const TxFeeCalculator: React.FC<ITxFeeCalculator> = ({
+  asset = Asset.RBTC,
+  contractName,
+  methodName,
+  args,
+  txConfig = {},
+  condition = true,
+  className,
+  textClassName,
+}) => {
+  const { t } = useTranslation();
   return (
     <div
       className={cn(
-        'tw-mb-8 tw-truncate tw-text-sm tw-font-thin tw-tracking-normal',
-        props.className,
+        'tw-flex tw-flex-row tw-mb-1 tw-justify-between tw-text-sov-white tw-items-center',
+        className,
       )}
     >
-      <span className={props.textClassName}>
-        <Trans
-          i18nKey={translations.marginTradePage.tradeForm.labels.txFee}
-          values={{ symbol: props.symbol }}
-          components={[
-            <LoadableValue
-              value={weiToNumberFormat(value, 8)}
-              loading={loading}
-              tooltip={
-                <>
-                  {gasData} {props.symbol}
-                  <br />
-                  <small className="tw-text-gray-6">
-                    (gas price:{' '}
-                    {toNumberFormat(Number(fromWei(gasPrice, 'gwei')), 3)} gwei)
-                  </small>
-                  <br />
-                  <small className="tw-text-gray-6">
-                    (gas limit: {gasLimit} units)
-                  </small>
-                  {error && <p className="tw-text-warning">{error}</p>}
-                </>
-              }
-            />,
-          ]}
+      <div className="tw-w-1/2 tw-text-gray-10 tw-text-gray-10">
+        {t(translations.marginTradePage.tradeForm.labels.tradingFee)}
+      </div>
+      <div className="tw-w-1/2 tw-font-medium tw-text-right">
+        <TransactionFee
+          asset={asset}
+          contractName={contractName}
+          methodName={methodName}
+          args={args}
+          txConfig={txConfig}
+          condition={condition}
         />
-      </span>
+      </div>
     </div>
   );
-}
-
-TxFeeCalculator.defaultProps = {
-  symbol: 'rBTC',
-  config: {},
-  condition: true,
 };

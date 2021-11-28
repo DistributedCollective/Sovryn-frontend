@@ -10,6 +10,7 @@ import { usePageViews } from 'app/hooks/useAnalytics';
 import iconNewTab from 'assets/images/iconNewTab.svg';
 import { translations } from 'locales/i18n';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
+import { useIsConnected } from 'app/hooks/useAccount';
 
 import WalletConnector from '../../containers/WalletConnector';
 import { lendBorrowSovrynSaga } from '../../pages/BorrowPage/saga';
@@ -27,6 +28,7 @@ export function Header() {
   const location = useLocation();
   const [open, setOpen] = useState(false);
   const node = useRef(null);
+  const connected = useIsConnected();
 
   usePageViews();
   useInjectReducer({ key: lendBorrowSlice, reducer: lendBorrowReducer });
@@ -417,6 +419,16 @@ export function Header() {
             </div>
           </div>
           <div className="tw-flex tw-justify-start tw-items-center">
+            <Link
+              className={classNames('tw-btn-action xl:tw-mr-2', {
+                'tw-hidden': !connected,
+              })}
+              to={{
+                pathname: '/wallet',
+              }}
+            >
+              <span>{t(translations.common.deposit)}</span>
+            </Link>
             <a
               href="https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp"
               target="_blank"

@@ -8,7 +8,7 @@ import { Input } from '../../../../components/Form/Input';
 import { AssetModel } from '../../types/asset-model';
 import { AmountSelectorButton } from '../../../../components/Form/AmountInput';
 
-interface Props {
+interface IAmountInputProps {
   value: string;
   onChange: (value: string) => void;
   decimalPrecision?: number;
@@ -18,7 +18,7 @@ interface Props {
   maxAmount?: string;
 }
 
-export function AmountInput({
+export const AmountInput: React.FC<IAmountInputProps> = ({
   value,
   onChange,
   placeholder = toNumberFormat(0, 6),
@@ -26,7 +26,7 @@ export function AmountInput({
   asset,
   subText,
   maxAmount,
-}: Props) {
+}) => {
   return (
     <>
       <Input
@@ -48,23 +48,27 @@ export function AmountInput({
       )}
     </>
   );
-}
+};
 
 const amounts = [10, 25, 50, 75, 100];
 
-interface AmountSelectorProps {
+interface IAmountSelectorProps {
   asset: AssetModel;
   maxAmount?: string;
   onChange: (value: string) => void;
 }
 
-export function AmountSelector(props: AmountSelectorProps) {
+export const AmountSelector: React.FC<IAmountSelectorProps> = ({
+  asset,
+  maxAmount,
+  onChange,
+}) => {
   const balance = useMemo(() => {
-    if (props.maxAmount !== undefined) {
-      return props.maxAmount;
+    if (maxAmount !== undefined) {
+      return maxAmount;
     }
     return '0';
-  }, [props.maxAmount]);
+  }, [maxAmount]);
 
   const handleChange = useCallback(
     (percent: number) => {
@@ -78,9 +82,9 @@ export function AmountSelector(props: AmountSelectorProps) {
           .mul(percent / 100)
           .toString();
       }
-      props.onChange(props.asset.fromWei(value));
+      onChange(asset.fromWei(value));
     },
-    [balance, props],
+    [balance, asset, onChange],
   );
   return (
     <div
@@ -98,4 +102,4 @@ export function AmountSelector(props: AmountSelectorProps) {
       ))}
     </div>
   );
-}
+};

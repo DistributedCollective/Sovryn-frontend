@@ -12,7 +12,8 @@ import {
   weiToNumberFormat,
 } from 'utils/display-text/format';
 import { Dialog } from 'app/containers/Dialog';
-import { OrderTypes, TradingTypes } from '../../types';
+import { TradingTypes } from '../../types';
+import { OrderTypes } from 'app/components/OrderType/types';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { AssetRenderer } from 'app/components/AssetRenderer';
@@ -126,7 +127,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
                     value={
                       <>
                         {stringToFixedPrecision(limitPrice, 6)}{' '}
-                        <AssetRenderer asset={sourceToken} />
+                        <AssetRenderer asset={targetToken} />
                       </>
                     }
                   />
@@ -135,22 +136,21 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
                   label={t(translations.spotTradingPage.tradeDialog.duration)}
                   value={
                     <>
-                      {!duration
-                        ? t(
-                            translations.spotTradingPage.limitOrderSetting
-                              .untilCancelled,
-                          )
-                        : duration === 1
-                        ? t(
-                            translations.spotTradingPage.limitOrderSetting
-                              .day_one,
-                            { count: duration },
-                          )
-                        : t(
-                            translations.spotTradingPage.limitOrderSetting
-                              .day_other,
-                            { count: duration },
-                          )}
+                      {!duration ? (
+                        <span>&#8734;</span>
+                      ) : duration === 1 ? (
+                        t(
+                          translations.spotTradingPage.limitOrderSetting
+                            .day_one,
+                          { count: duration },
+                        )
+                      ) : (
+                        t(
+                          translations.spotTradingPage.limitOrderSetting
+                            .day_other,
+                          { count: duration },
+                        )
+                      )}
                     </>
                   }
                 />

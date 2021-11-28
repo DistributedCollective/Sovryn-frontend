@@ -74,46 +74,48 @@ export function App() {
       {siteLocked ? (
         <MaintenancePage />
       ) : (
-        <WalletProvider>
-          <NetworkRibbon />
-          <Switch>
-            <Route exact path="/" component={LandingPage} />
-            <Route exact path="/buy-sov" component={BuySovPage} />
-            <Route exact path="/trade" component={MarginTradePage} />
-            <Route exact path="/swap" component={SwapPage} />
-            <Route exact path="/spot" component={SpotTradingPage} />
-            <Route exact path="/lend" component={LendingPage} />
-            <Route exact path="/borrow" component={BorrowPage} />
-            <Route exact path="/stake" component={StakePage} />
-            <Redirect exact from="/liquidity" to="/yield-farm" />
-            <Route exact path="/yield-farm" component={LiquidityMiningPage} />
-            <Route exact path="/reward" component={RewardPage} />
-            <Route exact path="/wallet" component={WalletPage} />
-            <Route exact path="/origins" component={OriginsLaunchpadPage} />
-            <Route exact path="/origins/claim" component={OriginsClaimPage} />
-            <Route
-              exact
-              path="/cross-chain/deposit"
-              component={BridgeDepositPage}
-            />
-            <Route
-              exact
-              path="/cross-chain/withdraw"
-              component={BridgeWithdrawPage}
-            />
-            <Route
-              exact
-              path="/optin-success"
-              render={props => <EmailPage {...props} type="OPTIN" />}
-            />
-            <Route
-              exact
-              path="/unsubscribe"
-              render={props => <EmailPage {...props} type="UNSUBSCRIBE" />}
-            />
-            <Route component={NotFoundPage} />
-          </Switch>
-        </WalletProvider>
+        <>
+          <WalletProvider>
+            <NetworkRibbon />
+            <Switch>
+              <Route exact path="/" component={LandingPage} />
+              <Route exact path="/buy-sov" component={BuySovPage} />
+              <Route exact path="/trade" component={MarginTradePage} />
+              <Route exact path="/swap" component={SwapPage} />
+              <Route exact path="/spot" component={SpotTradingPage} />
+              <Route exact path="/lend" component={LendingPage} />
+              <Route exact path="/borrow" component={BorrowPage} />
+              <Route exact path="/stake" component={StakePage} />
+              <Redirect exact from="/liquidity" to="/yield-farm" />
+              <Route exact path="/yield-farm" component={LiquidityMiningPage} />
+              <Route exact path="/reward" component={RewardPage} />
+              <Route exact path="/wallet" component={WalletPage} />
+              <Route exact path="/origins" component={OriginsLaunchpadPage} />
+              <Route exact path="/origins/claim" component={OriginsClaimPage} />
+              <Route
+                exact
+                path="/cross-chain/deposit"
+                component={BridgeDepositPage}
+              />
+              <Route
+                exact
+                path="/cross-chain/withdraw"
+                component={BridgeWithdrawPage}
+              />
+              <Route
+                exact
+                path="/optin-success"
+                render={props => <EmailPage {...props} type="OPTIN" />}
+              />
+              <Route
+                exact
+                path="/unsubscribe"
+                render={props => <EmailPage {...props} type="UNSUBSCRIBE" />}
+              />
+              <Route component={NotFoundPage} />
+            </Switch>
+          </WalletProvider>
+        </>
       )}
     </BrowserRouter>
   );
