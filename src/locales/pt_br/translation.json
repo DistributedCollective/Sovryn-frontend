@@ -218,11 +218,18 @@
       "switchAssets": "Alternar ativos"
     },
     "arbitrage": {
-      "best_rate": "Oportunidade de arbitragem trocando até ",
-      "for": "por até",
+      "best_rate": "Oportunidade de arbitragem",
+      "for": "por",
+      "text": "Troque <1></1> por <2></2> e receba <0>{{percent}}</0> a mais do que o preço de mercado",
       "popover_p1": "Você pode ajudar a manter o sistema em equilíbrio trocando {{fromAmount}} {{fromToken}} por {{toAmount}} {{toToken}}.",
       "popover_p2": "Isso é {{earn}} {{toToken}} a mais do que o preço de mercado."
-    }
+  },
+  "reviewSwap": "Revisar troca",
+    "swapAsset": "Enviar:",
+    "amount": "Quantidade:",
+    "amountReceived": "Quantidade a receber:",
+    "receiveAsset": "Receber:",
+    "minimumReceived": "Mínimo a receber:"
   },
   "amountField": {
     "placeholder": "Insira a quantidade",
@@ -247,7 +254,7 @@
     "notice_4": "Se você é um usuário novato, veja nossa <0>Wiki</0> e aprenda a usar a SOVRYN.",
     "notice_5": "Para saber das últimas atualizações ou discussões, participe do nosso servidor da <0>Discord</0>.",
     "optOut": "Desativar o Google Analytics",
-    "buildID": "Build ID"
+    "buildID": "Versão"
   },
   "analyticsDialog": {
     "title": "Dados analíticos",
@@ -508,7 +515,10 @@
     "cta": "Trocar",
     "minimumReceived": "Mínimo a receber:",
     "send": "Enviar",
-    "receive": "Receber"
+    "receive": "Receber",
+    "receiveAmount": "Quantidade",
+    "tradeAmount": "Quantidade",
+    "advancedSettings": "Configurações avançadas"
   },
   "stake": {
     "title": "SOV investidos/reservados",
@@ -1052,9 +1062,12 @@
       "amountSent": "Quantidade enviada",
       "to": "Para",
       "amountReceived": "Quantidade recebida",
+      "transactionFee":"Taxa de transação",
+      "gasFee": "Gás"
       "status": "Status da transação"
     },
-    "emptyState": "Histórico vázio."
+    "emptyState": "Histórico vázio.",
+    "recentSwapHistory": "Histórico"
   },
   "vestedHistory": {
     "title": "SOV",
