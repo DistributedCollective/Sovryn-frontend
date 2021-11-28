@@ -1472,7 +1472,7 @@
       "title": "Negociações recentes",
       "price": "Preço (<0/>)",
       "size": "Tamanho (<0/>)",
-      "time": "Time"
+      "time": "Horário"
     },
     "tradeDialog": {
       "title": "Revisar ordem",
