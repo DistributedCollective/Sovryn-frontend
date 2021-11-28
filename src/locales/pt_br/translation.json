@@ -1126,8 +1126,8 @@
     "poolChart": {
       "totalLiquidity": "Total",
       "apy": "{{asset}} Juros anual",
-      "available": "Disponíveis",
-      "borrowed": "Emprestados"
+      "available": "Disponível",
+      "borrowed": "Emprestado"
     },
     "rowTable": {
       "noLiquidityProvided": "Empreste {{asset}} e ganhe rendimentos",
