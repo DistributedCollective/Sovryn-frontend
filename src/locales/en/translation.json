@@ -1771,7 +1771,7 @@
       "lend": "Lending Contract",
       "amm": "Amm Contract",
       "staked": "Bitocracy Staking Contract",
-      "subProtocol": "Subprotocols",
+      "subProtocol": "Subprotocol Bonding Curve Contracts",
       "subtotal": "Sub total",
       "total": "Total"
     },
