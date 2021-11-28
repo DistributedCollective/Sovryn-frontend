@@ -254,11 +254,11 @@
   "mainMenu": {
     "buySov": "Comprar SOV",
     "trade": "Negociar",
-    "swap": "Trocar criptos",
+    "swap": "Trocar cripto",
     "marginTrade": "Operar margem",
     "finance": "Finanças",
-    "lend": "Emprestar criptos",
-    "borrow": "Obter empréstimos",
+    "lend": "Emprestar cripto",
+    "borrow": "Obter empréstimo",
     "yieldFarm": "Minerar liquidez",
     "reward": "Bônus SOV",
     "staking": "Token SOV",
@@ -487,10 +487,10 @@
       "contractBalance": "Saldo do contrato",
       "imBalance": "Desequilíbrio"
     },
-    "asset": "Ativos",
+    "asset": "Ativo",
     "totalAssetSupplied": "Total",
-    "totalAssetBorrowed": "Emprestados",
-    "totalAvailable": "Disponíveis",
+    "totalAssetBorrowed": "Emprestado",
+    "totalAvailable": "Disponível",
     "supplyAPR": "Juros anual (credor)",
     "borrowAPR": "Juros anual (devedor)"
   },
@@ -1603,8 +1603,8 @@
     "lendBorrow": "EMPRESTAR & OBTER EMPRÉSTIMOS DE ATIVOS",
     "ammpool": {
       "title": "POOLS AMM",
-      "asset": "Ativos",
-      "pool": "Pools",
+      "asset": "Ativo",
+      "pool": "Pool",
       "stakedBalance": "Total",
       "contractBalance": "Saldo do contrato",
       "imBalance": "Desequilíbrio",
@@ -1625,7 +1625,7 @@
     },
     "cryptocurrencyPrices": {
       "title": "PREÇO DOS ATIVOS",
-      "asset": "Ativos",
+      "asset": "Ativo",
       "price": "Preço",
       "24h": "24h%",
       "7d": "7d%",
