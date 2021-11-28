@@ -20,7 +20,10 @@
     "unit": {
       "day": "{{count}} dia",
       "day_plural": "{{count}} dias"
-    }
+    },
+    "gasPrice": "Preço gás",
+    "gasLimit": "Limite gás",
+    "units": "unidades"
   },
   "global": {
     "liquidationPrice": "Preço de liquidação",
@@ -194,9 +197,9 @@
       "currency_placeholder": "Escolha o ativo",
       "amount": "Quantidade",
       "startPrice": "Preço de entrada",
-      "advancedSettings": "Configurações avançadas",
-      "esEntryPrice": "Preço estimado de entrada:",
-      "esLiquidationPrice": "Preço estimado de liquidação:",
+      "slippageSettings": "Configurações avançadas",
+      "esEntryPrice": "Preço aproximado de entrada:",
+      "esLiquidationPrice": "Preço aproximado de liquidação:",
       "interestAPY": "Juros anual:"
     },
     "buttons": {
@@ -531,6 +534,7 @@
     "feeTitle": "Dividendos disponíveis",
     "noUnlockedSov": "Você não possui SOV disponíveis para investimento",
     "txFee": "Taxa de transação",
+    "txId": "ID transação:",
     "sov": "SOV",
     "days": "dias",
     "delegation": {
@@ -950,7 +954,7 @@
         "fee": "Taxa",
         "initiated": "Iniciado",
         "status": "Status da transação",
-        "estimated": "Tempo estimado"
+        "estimated": "Tempo aproximado"
       }
     }
   },
@@ -1452,7 +1456,8 @@
         "amount": "Quantidade:",
         "slippage": "Diferença máxima no preço:",
         "balance": "Saldo disponível: <0/> <1/>",
-        "txFee": "Taxa de transação: <0/> {{symbol}}"
+        "txFee": "Taxa de transação: <0/>",
+        "tradingFee": "Taxa de negociação:"
       },
       "buttons": {
         "long": "Comprado",
@@ -1463,28 +1468,38 @@
         "placeShort": "Operar vendido"
       }
     },
+    "recentTrades": {
+      "title": "Negociações recentes",
+      "price": "Preço (<0/>)",
+      "size": "Tamanho (<0/>)",
+      "time": "Time"
+    },
     "tradeDialog": {
-      "title": "Revisar transação",
+      "title": "Revisar ordem",
       "pair": "Par de negociação:",
       "leverage": "Alavancagem:",
       "asset": "Ativo de garantia:",
+      "margin": "Margem:",
       "direction": "Par de negociação:",
       "positionSize": "Tamanho da posição",
       "maintananceMargin": "Margem de manutenção:",
-      "liquidationPrice": "Preço estimado de liquidação:",
+      "liquidationPrice": "Preço aproximado de liquidação:",
+      "entryPrice": "Preço aproximado de entrada:",
       "minEntry": "Preço mínimo de entrada:",
       "minLiq": "Preço mínimo de liquidação:",
-      "interestAPR": "Juros anual",
+      "interestAPR": "Taxa anual",
       "renewalDate": "Data de renovação:",
       "entryPrice": "Preço aproximado de entrada:",
       "estimationErrorNote": "A posição de abertura irá falhar: {{error}}",
       "position": {
         "long": "Comprado",
         "short": "Vendido"
-      }
+      },
+      "newPositionDetails": "Detalhes nova posição"
     },
     "openPositions": "Posições abertas",
     "tradingHistory": "Posições fechadas",
+    "openLimitOrders": "Ordens a limite abertas",
     "notificationSettingsDialog": {
       "title": "Configurações de notificação",
       "notifyVia": "Notificar via",
@@ -1509,8 +1524,8 @@
       "description": "Operar spot"
     },
     "tradeForm": {
-      "buy_cta": "COMPRAR",
-      "sell_cta": "VENDER",
+      "buy_cta": "INSERIR ORDEM DE COMPRA",
+      "sell_cta": "INSERIR ORDEM DE VENDA",
       "amountReceived": "Receber",
       "buy": "Compra",
       "sell": "Venda",
@@ -1535,15 +1550,18 @@
       "orderType": "Tipo de ordem:",
       "tradeAmount": "Quantidade negociada:",
       "limitPrice": "Preço:",
-      "duration": "Duração:"
+      "duration": "Expira em:"
     },
     "limitOrderSetting": {
       "title": "Configurações avançadas",
-      "duration": "Duração:",
+      "duration": "Expira em:",
       "untilCancelled": "Até cancelar",
       "day_one": "{{count}} dia",
       "day_other": "{{count}} dias",
-      "partialFilled": "Permitir ordem parcialmente executada:"
+      "partialFilled": "Permitir ordem parcialmente executada:",
+      "aboveMarket": "acima do preço de mercado",
+      "belowMarket": "abaixo do preço de mercado",
+      "infinity": "∞"
     },
     "openLimitOrders": {
       "dateTime": "Data e hora",
@@ -1552,10 +1570,11 @@
       "tradeAmount": "Quantidade negociada",
       "limitPrice": "Preço",
       "amountReceive": "Quantidade a receber",
-      "duration": "Duração",
+      "duration": "Expira em",
       "deadline": "Prazo",
       "actions": "Ação",
       "noData": "Sem dados",
+      "filledAmount": "Quantidade inserida",
       "cta": {
         "edit": "Editar",
         "close": "Fechar"
@@ -1572,7 +1591,8 @@
       "dayPercentChange": "24hr % oscilação",
       "dayLow": "24hr baixa:",
       "dayHigh": "24hr alta:",
-      "all": "TODOS"
+      "all": "TODOS",
+      "search": "Procurar"
     }
   },
   "form": {
@@ -1844,6 +1864,22 @@
       "notSupported": "Desculpe, não suportamos saques para {{sourceAsset}} na rede {{network}}. Tente outra rede ou cripto.",
       "maxWithdrawal": "Máximo permitido:"
     }
+   },
+   "transactionDialog": {
+    "pendingUser": {
+      "title": "Confirmar {{action}}",
+      "text": "Confirme a transação na sua carteira {{walletName}}",
+      "failed": "Falhou",
+      "retry": "Tentar novamente"
+    },
+    "txStatus": {
+      "title": "Status da transação",
+      "aborted": "Transação falhou. <br/>Cancele ou refaça a transação",
+      "abortedLedger": "Make sure \"Contract data\" is set to \"Allowed\" in your Ledger app settings",
+      "cta": "Ver na blockchain",
+      "processing": "Transação em processamento...",
+      "complete": "Transação concluída"
+    }
   },
   "buySovPage": {
     "meta": {
@@ -1891,7 +1927,7 @@
       },
       "txStatus": {
         "title": "Status da transação",
-        "aborted": "Transação abortada pelo usuário.",
+        "aborted": "Você optou por rejeitar esta transação. Cancele ou refaça a transação",
         "abortedLedger": "Verifique se \"Contract data\" está configurado para \"Permitido\" no seu aplicativo Ledger",
         "cta": "Ver na blockchain"
       }
@@ -1959,7 +1995,7 @@
   "addToMargin": {
     "title": "Adicionar margem",
     "amount": "Aumentar margem em:",
-    "liquidationPrice": "Preço estimado de liquidação:"
+    "liquidationPrice": "Preço aproximado de liquidação:"
   },
   "openPositionTable": {
     "direction": "Direção",
