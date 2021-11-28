@@ -1,6 +1,7 @@
 import { Order } from 'app/pages/SpotTradingPage/helpers';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { walletService } from '@sovryn/react-wallet';
+import Web3 from 'web3';
 
 export async function signTypeData(order: Order, account: string, chainId) {
   const msgParams = JSON.stringify({
@@ -15,11 +16,11 @@ export async function signTypeData(order: Order, account: string, chainId) {
       maker: order.maker,
       fromToken: order.fromToken,
       toToken: order.toToken,
-      amountIn: order.amountIn,
-      amountOutMin: order.amountOutMin,
+      amountIn: Web3.utils.toBN(order.amountIn).toString(),
+      amountOutMin: Web3.utils.toBN(order.amountOutMin).toString(),
       recipient: order.recipient,
-      deadline: order.deadline,
-      created: order.created,
+      deadline: Web3.utils.toBN(order.deadline).toString(),
+      created: Web3.utils.toBN(order.created).toString(),
     },
     primaryType: 'Order',
     types: {

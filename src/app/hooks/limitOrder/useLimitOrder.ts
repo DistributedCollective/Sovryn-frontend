@@ -68,10 +68,15 @@ export function useLimitOrder(
         created.toString(),
       );
 
+      console.log({ order });
+
       const signature = await signTypeData(order, account, chainId);
 
+      console.log({ signature });
+
       const sig = ethers.utils.splitSignature(signature as SignatureLike);
-      console.log({ order });
+
+      console.log({ sig });
 
       const args = [
         order.maker,
