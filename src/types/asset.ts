@@ -13,6 +13,7 @@ export enum Asset {
   BNB = 'BNBS',
   BNBS = 'BNBS',
   FISH = 'FISH',
+  TRADING = 'TRADING',
   RIF = 'RIF',
   MYNT = 'MYNT',
 }

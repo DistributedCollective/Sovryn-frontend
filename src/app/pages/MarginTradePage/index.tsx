@@ -3,17 +3,15 @@ import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { Tab } from '../../components/Tab';
-
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import { translations } from 'locales/i18n';
-
+import { RecentTradesTable } from './components/RecentTradesTable';
 import { reducer, sliceKey } from './slice';
 import { selectMarginTradePage } from './selectors';
 import { marginTradePageSaga } from './saga';
 import { Header } from '../../components/Header';
 import { Footer } from '../../components/Footer';
 import { TradingPairDictionary } from '../../../utils/dictionaries/trading-pair-dictionary';
-
 import { TradeForm } from './components/TradeForm';
 import { Theme, TradingChart } from '../../components/TradingChart';
 import { OpenPositionsTable } from './components/OpenPositionsTable';
@@ -79,6 +77,15 @@ export function MarginTradePage() {
             }
           >
             <TradingChart symbol={pair.chartSymbol} theme={Theme.DARK} />
+          </div>
+          <div
+            className="tw-trading-recent-trades-card tw-bg-black tw-rounded-3xl tw-p-4 tw-mx-auto xl:tw-mr-2 tw-relative"
+            title={
+              t(translations.marginTradePage.recentTrades.title) +
+              ` (${pairType.toString()})`
+            }
+          >
+            <RecentTradesTable pair={pair} />
           </div>
           <TradeForm pairType={linkPairType || pairType} />
         </div>

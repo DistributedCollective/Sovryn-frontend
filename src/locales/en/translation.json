@@ -1555,6 +1555,12 @@
         "placeShort": "Place Short"
       }
     },
+    "recentTrades": {
+      "title": "Recent Trades",
+      "price": "Price (<0/>)",
+      "size": "Size (<0/>)",
+      "time": "Time"
+    },
     "tradeDialog": {
       "title": "Review Order",
       "pair": "Trading Pair:",

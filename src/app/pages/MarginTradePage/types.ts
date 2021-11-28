@@ -5,6 +5,8 @@ import { TradingPosition } from '../../../types/trading-position';
 import { IPairData } from '../LandingPage/components/CryptocurrencyPrices/types';
 import { BigNumber } from 'ethers';
 
+export const MARGIN_SLIPPAGE_DEFAULT = 0.5;
+
 export interface MarginTradePageState {
   pairType: TradingPairType;
   collateral: Asset;

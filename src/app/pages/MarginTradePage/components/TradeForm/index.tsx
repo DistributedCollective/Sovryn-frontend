@@ -35,6 +35,7 @@ import { SlippageForm } from '../SlippageForm';
 import { toWei } from 'utils/blockchain/math-helpers';
 import { OrderType } from 'app/components/OrderType';
 import { OrderTypes } from 'app/components/OrderType/types';
+import { MARGIN_SLIPPAGE_DEFAULT } from '../../types';
 
 interface ITradeFormProps {
   pairType: TradingPairType;
@@ -46,7 +47,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   const openTradesLocked = checkMaintenance(States.OPEN_MARGIN_TRADES);
   const [openSlippage, setOpenSlippage] = useState(false);
   const [tradeAmount, setTradeAmount] = useState<string>('');
-  const [slippage, setSlippage] = useState(0.5);
+  const [slippage, setSlippage] = useState(MARGIN_SLIPPAGE_DEFAULT);
   const weiAmount = useWeiAmount(tradeAmount);
   const [orderType, setOrderType] = useState(OrderTypes.MARKET);
   const { position, amount, collateral, leverage } = useSelector(
