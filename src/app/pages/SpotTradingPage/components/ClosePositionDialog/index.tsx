@@ -15,7 +15,7 @@ import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
 import cn from 'classnames';
 import { bignumber } from 'mathjs';
 interface IClosePositionDialogProps {
-  item: LimitOrder;
+  order: LimitOrder;
   showModal: boolean;
   onCloseModal: () => void;
   fromToken: AssetDetails;
@@ -24,7 +24,7 @@ interface IClosePositionDialogProps {
 }
 
 export function ClosePositionDialog({
-  item,
+  order,
   onCloseModal,
   showModal,
   fromToken,
@@ -32,14 +32,11 @@ export function ClosePositionDialog({
   tradeType,
 }: IClosePositionDialogProps) {
   const { t } = useTranslation();
-  const { cancelOrder, ...tx } = useCancelLimitOrder(
-    fromToken.asset,
-    item.amountIn.toString(),
-  );
+  const { cancelOrder, ...tx } = useCancelLimitOrder(order, fromToken.asset);
 
   const submit = () => {
-    if (item.hash) {
-      cancelOrder(item.hash);
+    if (order.hash) {
+      cancelOrder(order.hash);
     }
   };
 
@@ -87,8 +84,8 @@ export function ClosePositionDialog({
               value={
                 <>
                   {toNumberFormat(
-                    bignumber(item.amountOutMin.toString())
-                      .div(item.amountIn.toString())
+                    bignumber(order.amountOutMin.toString())
+                      .div(order.amountIn.toString())
                       .toString(),
                     4,
                   )}{' '}
@@ -101,7 +98,7 @@ export function ClosePositionDialog({
               label={t(translations.spotTradingPage.tradeDialog.tradeAmount)}
               value={
                 <>
-                  {weiToNumberFormat(item.amountIn.toString(), 6)}{' '}
+                  {weiToNumberFormat(order.amountIn.toString(), 6)}{' '}
                   <AssetRenderer asset={fromToken.asset} />
                 </>
               }
@@ -113,7 +110,7 @@ export function ClosePositionDialog({
               {t(translations.spotTradingPage.tradeForm.amountReceived)}:
             </div>
             <Input
-              value={weiToNumberFormat(item.amountOutMin.toString(), 6)}
+              value={weiToNumberFormat(order.amountOutMin.toString(), 6)}
               onChange={() => {}}
               readOnly={true}
               appendElem={<AssetRenderer asset={toToken.asset} />}

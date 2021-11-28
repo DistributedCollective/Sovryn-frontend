@@ -1,99 +1,67 @@
+import { useState } from 'react';
+import { BigNumber } from 'ethers';
+import { LimitOrder, IApiLimitOrder } from 'app/pages/SpotTradingPage/types';
+import { backendUrl, currentChainId } from 'utils/classifiers';
+import axios, { Canceler } from 'axios';
+import { useCallback, useRef } from 'react';
+import { useInterval } from '../useInterval';
 import { contractReader } from 'utils/sovryn/contract-reader';
-import { useEffect, useState } from 'react';
-import { useCacheCallWithValue } from '../useCacheCallWithValue';
-import { ethers, BigNumber } from 'ethers';
-import { LimitOrder } from 'app/pages/SpotTradingPage/types';
 
-function orderParser(orderArray: string[], hash: string): LimitOrder {
-  const [
-    maker,
-    fromToken,
-    toToken,
-    amountIn,
-    amountOutMin,
-    recipient,
-    deadline,
-    created,
-    v,
-    r,
-    s,
-  ] = orderArray;
+function orderParser(order: IApiLimitOrder): LimitOrder {
   return {
-    maker,
-    fromToken,
-    toToken,
-    amountIn: BigNumber.from(amountIn),
-    amountOutMin: BigNumber.from(amountOutMin),
-    recipient,
-    deadline: BigNumber.from(deadline),
-    created: BigNumber.from(created),
-    v,
-    r,
-    s,
-    hash,
+    ...order,
+    amountIn: BigNumber.from(order.amountIn.hex),
+    amountOutMin: BigNumber.from(order.amountOutMin.hex),
+    deadline: BigNumber.from(order.deadline.hex),
+    created: BigNumber.from(order.created.hex),
+    filledAmount: BigNumber.from(order.filled.hex).toString(),
   };
 }
 
-export function useGetLimitOrders(
-  account: string,
-  page: number = 0,
-  limit: number = 200,
-) {
+const deadlinePassed = (date: number) => new Date(date * 1000) < new Date();
+
+export function useGetLimitOrders(account: string) {
   const [orders, setOrders] = useState<LimitOrder[]>([]);
   const [loading, setLoading] = useState(true);
+  const cancelDataRequest = useRef<Canceler>();
 
-  const { value: hashes, loading: loadingHashes } = useCacheCallWithValue<
-    Array<Array<string>>
-  >('orderBook', 'getOrders', [], account, page, limit);
+  const url = `${backendUrl[currentChainId]}/limitOrder/orders`;
 
-  const deadlinePassed = (date: number) => new Date(date * 1000) < new Date();
+  const getData = useCallback(async () => {
+    const total = await contractReader.call<[string]>(
+      'orderBook',
+      'numberOfAllHashes',
+      [],
+    );
 
-  useEffect(() => {
-    const updateResult = async () => {
-      const hashesOrders = await contractReader.call<[string]>(
-        'orderBook',
-        'hashesOfMaker',
-        [account, page, limit],
-      );
+    if (!account) return;
 
-      const list = hashes
-        .filter(hash => hash['0'] !== ethers.constants.AddressZero)
-        .map((item, i) => orderParser(item, hashesOrders[i]));
+    cancelDataRequest.current && cancelDataRequest.current();
 
-      const canceledOrders = await contractReader.call(
-        'settlement',
-        'checkCanceledHashes',
-        [list.map(item => item.hash)],
-      );
-      const filledOrders = await contractReader.call(
-        'settlement',
-        'checkFilledAmountHashes',
-        [list.map(item => item.hash)],
-      );
+    const cancelToken = new axios.CancelToken(c => {
+      cancelDataRequest.current = c;
+    });
+    axios
+      .get(url + `/${account}?offset=0&limit=${total}`, { cancelToken })
+      .then(res => {
+        setOrders(
+          res.data.data
+            .map(orderParser)
+            .filter(
+              item =>
+                item.filledAmount !== '0' ||
+                !deadlinePassed(item.deadline.toNumber()),
+            ),
+        );
+        setLoading(false);
+      })
+      .catch(e => console.error(e));
+  }, [account, url]);
 
-      list.forEach((item, i) => {
-        item.canceled = !!canceledOrders[i]?.canceled;
-        item.filledAmount = filledOrders[i]?.amount;
-      });
-
-      setOrders(
-        list.filter(
-          item =>
-            item.filledAmount !== '0' ||
-            !deadlinePassed(item.deadline.toNumber()),
-        ),
-      );
-      setLoading(false);
-    };
-
-    if (hashes && !loadingHashes && account) {
-      updateResult();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [hashes, loadingHashes, account]);
+  useInterval(getData, 60 * 1e3, { immediate: true });
 
   return {
     value: orders.filter(item => !item.canceled),
-    loading: loadingHashes || loading,
+    loading,
   };
 }

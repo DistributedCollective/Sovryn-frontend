@@ -102,6 +102,10 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
       )
     );
   }, [amount, balance, limitPrice, sourceToken, weiAmount, weiAmountOut]);
+  const onSuccess = ({ status, data }) => {
+    setTradeDialog(false);
+    console.log('status, data: ', status, data);
+  };
 
   const { createOrder, ...tx } = useLimitOrder(
     sourceToken,
@@ -109,6 +113,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
     weiAmount,
     weiAmountOut,
     duration,
+    onSuccess,
   );
 
   return (

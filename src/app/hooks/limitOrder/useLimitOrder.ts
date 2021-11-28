@@ -1,3 +1,4 @@
+import { LimitOrder } from 'app/pages/SpotTradingPage/types';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { getContract as getContractData } from 'utils/blockchain/contract-helpers';
 import { selectWalletProvider } from 'app/containers/WalletProvider/selectors';
@@ -17,6 +18,7 @@ import { Order } from 'app/pages/SpotTradingPage/helpers';
 import { useSendTx } from '../useSendTx';
 import { signTypeData } from './utils';
 import axios from 'axios';
+import { backendUrl, currentChainId } from 'utils/classifiers';
 
 export function useLimitOrder(
   sourceToken: Asset,
@@ -24,6 +26,7 @@ export function useLimitOrder(
   amount: string,
   amountOutMin: string,
   duration: number = 365,
+  onSuccess: Function,
 ) {
   const account = useAccount();
   const { chainId } = useSelector(selectWalletProvider);
@@ -88,12 +91,17 @@ export function useLimitOrder(
 
       const populated = await contract.populateTransaction.createOrder(args);
 
-      const apiUrl = 'http://18.217.222.156:3000/api/createOrder';
+      console.log('populated: ', populated);
 
-      const { status, data } = await axios.post(apiUrl, {
-        data: populated.data,
-        from: account,
-      });
+      const { status, data } = await axios.post(
+        backendUrl[currentChainId] + '/limitOrder/createOrder',
+        {
+          data: populated.data,
+          from: account,
+        },
+      );
+
+      onSuccess({ status, data });
 
       return { status, data };
     } catch (error) {
@@ -101,30 +109,32 @@ export function useLimitOrder(
     }
   }, [
     sourceToken,
+    amount,
     account,
     targetToken,
-    amount,
     amountOutMin,
     duration,
     chainId,
+    onSuccess,
   ]);
 
   return { createOrder, ...tx };
 }
 
-export function useCancelLimitOrder(sourceToken: Asset, amount: string) {
+export function useCancelLimitOrder(order: LimitOrder, sourceToken: Asset) {
   const account = useAccount();
 
   const { send, ...tx } = useSendTx();
 
   const cancelOrder = useCallback(
     async (orderHash: string) => {
-      console.log('orderHash: ', orderHash);
       const contract = getContract('settlement');
 
       try {
         if (sourceToken === Asset.RBTC) {
-          await contractWriter.send('settlement', 'withdraw', [account]);
+          await contractWriter.send('settlement', 'withdraw', [
+            order.amountIn.toString(),
+          ]);
         }
       } catch (error) {
         console.error('error', error);
@@ -146,7 +156,7 @@ export function useCancelLimitOrder(sourceToken: Asset, amount: string) {
         nonce,
       } as TransactionConfig);
     },
-    [account, send, sourceToken],
+    [account, order.amountIn, send, sourceToken],
   );
 
   return { cancelOrder, ...tx };

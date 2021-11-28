@@ -130,7 +130,7 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
           />
         </div>
         <ClosePositionDialog
-          item={item}
+          order={item}
           onCloseModal={() => setShowClosePosition(false)}
           showModal={showClosePosition}
           fromToken={fromToken}

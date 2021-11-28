@@ -23,10 +23,8 @@ import { Theme, TradingChart } from '../../components/TradingChart';
 import { TradeForm } from './components/TradeForm';
 import { useAccount } from 'app/hooks/useAccount';
 import { PairNavbar } from './components/PairNavbar';
-import { OpenPositionsTable } from './components/OpenPositionsTable';
-import { LimitOrderHistory } from './components/LimitOrderHistory';
+import { LimitOrderTables } from './components/LimitOrderTables';
 import { SpotHistory } from './components/SpotHistory';
-import { useGetLimitOrders } from 'app/hooks/limitOrder/useGetLimitOrders';
 
 export function SpotTradingPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -37,8 +35,6 @@ export function SpotTradingPage() {
   const { t } = useTranslation();
   const { pairType } = useSelector(selectSpotTradingPage);
   const account = useAccount();
-
-  const { value: limitOrders, loading } = useGetLimitOrders(account);
 
   return (
     <>
@@ -51,13 +47,6 @@ export function SpotTradingPage() {
       </Helmet>
       <Header />
       <PairNavbar />
-      {/* <div
-        className={cn('tw-container tw-mt-9 tw-mx-auto tw-px-6', {
-          'tw-hidden': !pairType.includes('SOV'),
-        })}
-      >
-        <PriceHistory />
-      </div> */}
       <div className="tw-container tw-mt-9 tw-mx-auto tw-px-6">
         <div className="tw-flex tw-flex-col xl:tw-flex-row xl:tw-justify-between">
           <div
@@ -99,20 +88,7 @@ export function SpotTradingPage() {
               <div className={cn({ 'tw-hidden': activeTab !== 0 })}>
                 <SpotHistory />
               </div>
-
-              <div className={cn({ 'tw-hidden': activeTab !== 1 })}>
-                <OpenPositionsTable
-                  orders={limitOrders.filter(item => item.filledAmount === '0')}
-                  loading={loading}
-                />
-              </div>
-
-              <div className={cn({ 'tw-hidden': activeTab !== 2 })}>
-                <LimitOrderHistory
-                  orders={limitOrders.filter(item => item.filledAmount !== '0')}
-                  loading={loading}
-                />
-              </div>
+              <LimitOrderTables activeTab={activeTab} />
             </div>
           </div>
         )}

@@ -339,6 +339,27 @@ export type LimitOrder = {
   filledAmount?: string;
 };
 
+type IApiBigNumber = {
+  hex: string;
+};
+
+export type IApiLimitOrder = {
+  hash: string;
+  maker: string;
+  fromToken: string;
+  toToken: string;
+  amountIn: IApiBigNumber;
+  amountOutMin: IApiBigNumber;
+  recipient: string;
+  deadline: IApiBigNumber;
+  created: IApiBigNumber;
+  v: string;
+  r: string;
+  s: string;
+  canceled: boolean;
+  filled: IApiBigNumber;
+  filledAmount: string;
+};
 export interface ITradeFormProps {
   sourceToken: Asset;
   targetToken: Asset;
