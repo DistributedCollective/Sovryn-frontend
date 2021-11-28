@@ -96,7 +96,7 @@ export function LiquidityMining() {
             message={t(translations.liquidityMining.recalibration, {
               date,
             })}
-            linkUrl="https://www.sovryn.app/blog/prepare-yourself-for-the-awakening"
+            linkUrl="https://www.sovryn.app/blog/get-stacking-with-our-biggest-loot-drop-yet"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Purple}
           />
@@ -107,7 +107,7 @@ export function LiquidityMining() {
             message={t(translations.liquidityMining.recalibration, {
               date,
             })}
-            linkUrl="https://www.sovryn.app/blog/over-1000-yield-for-eth-btc-lp-s"
+            linkUrl="https://www.sovryn.app/blog/over-1000-yield-for-eth-btc-lps"
             linkText={t(translations.liquidityMining.lootDropLink)}
             highlightColor={LootDropColors.Green}
           />

@@ -223,8 +223,8 @@
       "text": "Troque <1></1> por <2></2> e receba <0>{{percent}}</0> a mais do que o preço de mercado",
       "popover_p1": "Você pode ajudar a manter o sistema em equilíbrio trocando {{fromAmount}} {{fromToken}} por {{toAmount}} {{toToken}}.",
       "popover_p2": "Isso é {{earn}} {{toToken}} a mais do que o preço de mercado."
-  },
-  "reviewSwap": "Revisar troca",
+    },
+    "reviewSwap": "Revisar troca",
     "swapAsset": "Enviar:",
     "amount": "Quantidade:",
     "amountReceived": "Quantidade a receber:",
@@ -1062,7 +1062,7 @@
       "amountSent": "Quantidade enviada",
       "to": "Para",
       "amountReceived": "Quantidade recebida",
-      "transactionFee":"Taxa de transação",
+      "transactionFee": "Taxa de transação",
       "gasFee": "Gás",
       "status": "Status da transação"
     },
