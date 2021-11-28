@@ -41,6 +41,7 @@ import { DummyInput } from 'app/components/Form/Input';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import { ProfitContainer } from '../OpenPositionsTable/ProfitContainer';
 import { TradingPosition } from 'types/trading-position';
+import { MARGIN_SLIPPAGE_DEFAULT } from '../../types';
 
 interface IClosePositionDialogProps {
   item: ActiveLoan;
@@ -142,7 +143,7 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
   );
 
   const valid = useIsAmountWithinLimits(weiAmount, '1', props.item.collateral);
-  const [slippage, setSlippage] = useState(0.5);
+  const [slippage, setSlippage] = useState(MARGIN_SLIPPAGE_DEFAULT);
   const totalAmount = Number(amount) + Number(fromWei(profit));
   const { minReturn } = useSlippage(toWei(totalAmount), slippage);
 

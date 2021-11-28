@@ -82,6 +82,10 @@
     max-width: 352px;
     width: 100%;
   }
+  .tw-trading-recent-trades-card {
+    max-width: 369px;
+    width: 100%;
+  }
 
   .tw-mw-340 {
     @apply tw-w-full;

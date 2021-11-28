@@ -1063,7 +1063,7 @@
       "to": "Para",
       "amountReceived": "Quantidade recebida",
       "transactionFee":"Taxa de transação",
-      "gasFee": "Gás"
+      "gasFee": "Gás",
       "status": "Status da transação"
     },
     "emptyState": "Histórico vázio.",
