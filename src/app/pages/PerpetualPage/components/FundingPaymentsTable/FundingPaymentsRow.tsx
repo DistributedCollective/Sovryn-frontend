@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { bignumber } from 'mathjs';
 import React, { useMemo } from 'react';
 import { PerpetualPairDictionary } from 'utils/dictionaries/perpetual-pair-dictionary';
+import { toNumberFormat } from 'utils/display-text/format';
 import { FundingPaymentsEntry } from '../../hooks/usePerpetual_FundingPayments';
 
 type FundingPaymentsRowProps = {
@@ -54,7 +55,7 @@ export const FundingPaymentsRow: React.FC<FundingPaymentsRowProps> = ({
           showPositiveSign
         />
       </td>
-      <td>{item.rate}%</td>
+      <td>{toNumberFormat(item.rate, 5)}%</td>
       <td>
         {isFirstItem
           ? '-'
