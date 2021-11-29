@@ -516,7 +516,7 @@
     "addStake": "Novo investimento",
     "feeTitle": "Dividendos disponíveis",
     "noUnlockedSov": "Você não possui SOV disponíveis para investimento",
-    "txFee": "Taxa de transação",
+    "txFee": "Taxa de rede",
     "sov": "SOV",
     "days": "dias",
     "delegation": {
@@ -1025,7 +1025,7 @@
       "title": "Converter",
       "from": "De",
       "to": "Para",
-      "txFee": "Taxa de transação",
+      "txFee": "Taxa de rede",
       "cta": "Converter para XUSD",
       "txDialog": {
         "titleInProgress": "Transação em andamento",
@@ -1070,7 +1070,7 @@
       "orderType": "Tipo de ordem",
       "amountPaid": "Quantidade paga",
       "amountReceived": "Quantidade recebida",
-      "transactionFee": "Taxa de transação",
+      "transactionFee": "Taxa de rede",
       "status": "Status da transação"
     },
     "emptyState": "Histórico vázio."
@@ -1429,7 +1429,7 @@
         "leverage": "Alavancagem:",
         "amount": "Quantidade:",
         "balance": "Saldo disponível: <0/> <1/>",
-        "txFee": "Taxa de transação: <0/> {{symbol}}"
+        "txFee": "Taxa de rede: <0/> {{symbol}}"
       },
       "buttons": {
         "long": "Comprado",
