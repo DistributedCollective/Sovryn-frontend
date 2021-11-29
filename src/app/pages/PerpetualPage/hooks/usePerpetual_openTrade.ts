@@ -46,16 +46,7 @@ export const usePerpetual_openTrade = () => {
       slippage: number | undefined = 0.5,
       tradingPosition: TradingPosition | undefined = TradingPosition.LONG,
     ) => {
-      let signedAmount;
-      if (isClosePosition) {
-        // 1.1 to prevent rounding issues, contract clamps CLOSE_ONLY trades to 0 either way
-        signedAmount =
-          amount && amount !== '0'
-            ? -Math.sign(marginBalance.fPositionBC) * Number(fromWei(amount))
-            : -1.1 * marginBalance.fPositionBC;
-      } else {
-        signedAmount = getSignedAmount(tradingPosition, amount);
-      }
+      const signedAmount = getSignedAmount(tradingPosition, amount);
 
       let tradeDirection = Math.sign(signedAmount);
 

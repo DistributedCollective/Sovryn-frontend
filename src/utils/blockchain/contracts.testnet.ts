@@ -370,11 +370,11 @@ export const contracts = {
     abi: MYNTMarketMakerAbi,
   },
   perpetualManager: {
-    address: '0x72442Df7DD04636474400e8635C31ef21017ac27',
+    address: '0x412603CAB89140985AA78Ec440933494C7608815',
     abi: perpetualManagerAbi,
   },
   PERPETUALS_token: {
-    address: '0xDaF779963E49c081dB6cf3Cf60368B0075517010',
+    address: '0x905babaB35ed80d5F88b27172E9F4892805B28EF',
     abi: marginTokenAbi,
   },
 };

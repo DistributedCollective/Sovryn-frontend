@@ -81,7 +81,9 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
       amountTarget,
       marginTarget,
       marginChange,
-      totalToReceive,
+      totalToReceive: Number.isNaN(totalToReceive)
+        ? traderState.availableCashCC
+        : totalToReceive,
     };
   }, [trade, changedTrade, traderState, ammState]);
 
@@ -93,40 +95,55 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     const targetTrade = {
       ...changedTrade,
       amount: toWei(Math.abs(amountTarget).toPrecision(8)),
-      margin: toWei(marginTarget.toPrecision(8)),
+      margin: toWei(
+        (Number.isNaN(marginTarget) ? 0 : marginTarget).toPrecision(8),
+      ), // marginTarget is NaN in case we don't have a position but we successfully deposited a margin
       position:
         amountTarget >= 0 ? TradingPosition.LONG : TradingPosition.SHORT,
       entryPrice: getMidPrice(perpParameters, ammState),
     };
 
-    dispatch(
-      actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
-        origin: PerpetualPageModals.CLOSE_POSITION,
-        trade: targetTrade,
-        transactions: [
-          {
-            method: PerpetualTxMethods.trade,
-            isClosePosition: true,
-            amount:
-              amountTarget === 0
-                ? toWei(1.1 * amountChange)
-                : toWei(amountChange),
-            slippage: trade?.slippage,
-            tx: null,
-          },
-          marginTarget === 0
-            ? {
-                method: PerpetualTxMethods.withdrawAll,
-                tx: null,
-              }
-            : {
-                method: PerpetualTxMethods.withdraw,
-                amount: toWei(Math.abs(marginChange)),
-                tx: null,
-              },
-        ],
-      }),
-    );
+    if (!Number.isNaN(marginTarget)) {
+      dispatch(
+        actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
+          origin: PerpetualPageModals.CLOSE_POSITION,
+          trade: targetTrade,
+          transactions: [
+            {
+              method: PerpetualTxMethods.trade,
+              isClosePosition: true,
+              amount: toWei(amountChange),
+              slippage: trade?.slippage,
+              tx: null,
+            },
+            marginTarget === 0
+              ? {
+                  method: PerpetualTxMethods.withdrawAll,
+                  tx: null,
+                }
+              : {
+                  method: PerpetualTxMethods.withdraw,
+                  amount: toWei(Math.abs(marginChange)),
+                  tx: null,
+                },
+          ],
+        }),
+      );
+    } else {
+      // marginTarget is NaN in case we don't have a position but we successfully deposited a margin
+      dispatch(
+        actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
+          origin: PerpetualPageModals.CLOSE_POSITION,
+          trade: targetTrade,
+          transactions: [
+            {
+              method: PerpetualTxMethods.withdrawAll,
+              tx: null,
+            },
+          ],
+        }),
+      );
+    }
   }, [
     dispatch,
     changedTrade,

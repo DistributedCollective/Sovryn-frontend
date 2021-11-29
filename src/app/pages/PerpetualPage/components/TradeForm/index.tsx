@@ -40,6 +40,7 @@ import { usePerpetual_OpenPosition } from '../../hooks/usePerpetual_OpenPosition
 import { useSelector } from 'react-redux';
 import { selectPerpetualPage } from '../../selectors';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
+import { usePerpetual_queryLiqPoolStateFromPerpetualId } from '../../hooks/usePerpetual_queryLiqPoolStateFromPerpetualId';
 
 interface ITradeFormProps {
   trade: PerpetualTrade;
@@ -63,6 +64,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   const ammState = usePerpetual_queryAmmState();
   const perpParameters = usePerpetual_queryPerpParameters();
   const marginAccountBalance = usePerpetual_marginAccountBalance();
+  const liqPoolState = usePerpetual_queryLiqPoolStateFromPerpetualId();
 
   const { pairType } = useSelector(selectPerpetualPage);
   const { data: openPosition, loading } = usePerpetual_OpenPosition(
@@ -105,6 +107,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           marginAccountBalance.fPositionBC,
           getTradeDirection(trade.position),
           ammState,
+          liqPoolState,
           perpParameters,
         ),
       ).toPrecision(8),
@@ -114,6 +117,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     marginAccountBalance.fPositionBC,
     trade.position,
     ammState,
+    liqPoolState,
     perpParameters,
   ]);
 
@@ -221,10 +225,11 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   return (
     <div
       className={classNames('tw-relative tw-h-full tw-pb-16', {
-        'tw-pointer-events-none': hasOpenPosition || hasEmptyBalance,
+        'tw-pointer-events-none':
+          isNewTrade && (hasOpenPosition || hasEmptyBalance),
       })}
     >
-      {(hasEmptyBalance || hasOpenPosition) && (
+      {isNewTrade && (hasOpenPosition || hasEmptyBalance) && (
         <div className="tw-absolute tw-left-0 tw-top-0 tw-bg-black tw-h-full tw-w-full tw-z-10 tw-bg-opacity-90 tw-flex tw-items-center tw-justify-center tw-flex-col tw-text-center tw-text-sm tw-font-semibold">
           <div className="tw-px-10">
             {t(
@@ -423,7 +428,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
                 : 'tw-bg-trade-short',
             )}
             onClick={onSubmit}
-            disabled={hasOpenPosition || hasEmptyBalance}
+            disabled={isNewTrade && (hasOpenPosition || hasEmptyBalance)}
           >
             <span className="tw-mr-2">{tradeButtonLabel}</span>
             <span>

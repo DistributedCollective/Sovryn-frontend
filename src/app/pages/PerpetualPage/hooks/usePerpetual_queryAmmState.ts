@@ -15,8 +15,8 @@ const initialAmmState: AMMState = {
   fCurrentTraderExposureEMA: 0,
   indexS2PriceData: 0,
   indexS3PriceData: 0,
-  currentPremiumEMA: 0,
-  currentPremium: 0,
+  currentPremiumRateEMA: 0,
+  currentPremiumRate: 0,
 };
 
 export const usePerpetual_queryAmmState = (): AMMState => {
@@ -46,6 +46,6 @@ const parseAmmState = (response: any): AMMState => ({
   fCurrentTraderExposureEMA: ABK64x64ToFloat(response[5]),
   indexS2PriceData: ABK64x64ToFloat(response[6]),
   indexS3PriceData: ABK64x64ToFloat(response[7]),
-  currentPremiumEMA: ABK64x64ToFloat(response[8]),
-  currentPremium: ABK64x64ToFloat(response[9]),
+  currentPremiumRateEMA: ABK64x64ToFloat(response[8]),
+  currentPremiumRate: ABK64x64ToFloat(response[9]),
 });
