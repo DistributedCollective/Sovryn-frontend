@@ -39,6 +39,9 @@ import MYNTTokenAbi from './abi/MYNT_token.json';
 import MYNTPresaleAbi from './abi/MYNTPresale.json';
 import MYNTMarketMakerAbi from './abi/MYNTMarketMaker.json';
 import ZEROTokenAbi from './abi/ZERO_token.json';
+import ZEROControllerAbi from './abi/ZEROController.json';
+import ZEROPresaleAbi from './abi/ZEROPresale.json';
+import ZEROMarketMakerAbi from './abi/MYNTMarketMaker.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -363,9 +366,22 @@ export const contracts = {
     address: '0x722935fF8A99D801D802bb3EE528408C11C18656',
     abi: MYNTMarketMakerAbi,
   },
+  ZERO_ctrl: {
+    address: '0x75e28C6fA259811862bb65f7cC02c683Deca7f96',
+    abi: ZEROControllerAbi,
+    blockNumber: 2267574,
+  },
   ZERO_token: {
-    address: '0x6979bd7aa099c6c0566c40e5B1FC88CB96D73254',
+    address: '0xAc5C5917e713581c8C8B78c7B12f2D67dA0323f0',
     abi: ZEROTokenAbi,
     blockNumber: 2267574,
+  },
+  ZEROPresale: {
+    address: '0xC4C82fE6d6D531cf7bE8DaC7F9F0Ba63FED4c8d0',
+    abi: ZEROPresaleAbi,
+  },
+  ZEROMarketMaker: {
+    address: '0x93e58CD85406749B8F0aDE90caBB6bF6Ddb05f7d',
+    abi: ZEROMarketMakerAbi,
   },
 };

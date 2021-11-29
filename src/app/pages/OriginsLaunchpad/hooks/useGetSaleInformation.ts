@@ -47,7 +47,7 @@ export const useGetSaleInformation = () => {
   }, [saleInfo, t]);
 
   useEffect(() => {
-    contractReader.call<string>('MYNTPresale', 'totalRaised', []).then(result =>
+    contractReader.call<string>('ZEROPresale', 'totalRaised', []).then(result =>
       setSaleInfo(preValue => ({
         ...preValue,
         totalReceived: result,
@@ -58,7 +58,7 @@ export const useGetSaleInformation = () => {
   useEffect(() => {
     if (account) {
       contractReader
-        .call<string>('MYNTPresale', 'contributors', [account])
+        .call<string>('ZEROPresale', 'contributors', [account])
         .then(result =>
           setSaleInfo(preValue => ({
             ...preValue,
@@ -70,7 +70,7 @@ export const useGetSaleInformation = () => {
 
   useEffect(() => {
     contractReader
-      .call<string>('MYNTPresale', 'contributorsCounter', [])
+      .call<string>('ZEROPresale', 'contributorsCounter', [])
       .then(result =>
         setSaleInfo(prevValue => ({
           ...prevValue,
@@ -80,7 +80,7 @@ export const useGetSaleInformation = () => {
   }, [blockSync]);
 
   useEffect(() => {
-    contractReader.call<boolean>('MYNTPresale', 'isClosed', []).then(result => {
+    contractReader.call<boolean>('ZEROPresale', 'isClosed', []).then(result => {
       setSaleInfo(preValue => ({
         ...preValue,
         isClosed: result,
@@ -89,7 +89,7 @@ export const useGetSaleInformation = () => {
   }, []);
 
   useEffect(() => {
-    contractReader.call<string>('MYNTPresale', 'openDate', []).then(result => {
+    contractReader.call<string>('ZEROPresale', 'openDate', []).then(result => {
       setSaleInfo(preValue => ({
         ...preValue,
         saleStart: result,
@@ -98,7 +98,7 @@ export const useGetSaleInformation = () => {
   }, []);
 
   useEffect(() => {
-    contractReader.call<string>('MYNTPresale', 'period', []).then(result => {
+    contractReader.call<string>('ZEROPresale', 'period', []).then(result => {
       setSaleInfo(preValue => ({
         ...preValue,
         period: result,
@@ -108,7 +108,7 @@ export const useGetSaleInformation = () => {
 
   useEffect(() => {
     contractReader
-      .call<string>('MYNT_ctrl', 'contributionToken', [])
+      .call<string>('ZERO_ctrl', 'contributionToken', [])
       .then(result => {
         setSaleInfo(preValue => ({
           ...preValue,
@@ -119,14 +119,14 @@ export const useGetSaleInformation = () => {
 
   useEffect(() => {
     contractReader
-      .call<number>('MYNTPresale', 'exchangeRate', [])
+      .call<number>('ZEROPresale', 'exchangeRate', [])
       .then(result => {
         setExchangeRate(result);
       });
   }, []);
 
   useEffect(() => {
-    contractReader.call<number>('MYNTPresale', 'PPM', []).then(result => {
+    contractReader.call<number>('ZEROPresale', 'PPM', []).then(result => {
       setPartPerMillion(result);
     });
   }, []);

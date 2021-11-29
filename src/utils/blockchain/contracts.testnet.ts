@@ -38,6 +38,9 @@ import MYNTTokenAbi from './abi/MYNT_token.json';
 import MYNTPresaleAbi from './abi/MYNTPresale.json';
 import MYNTMarketMakerAbi from './abi/MYNTMarketMaker.json';
 import ZEROTokenAbi from './abi/ZERO_token.json';
+import ZEROControllerAbi from './abi/ZEROController.json';
+import ZEROPresaleAbi from './abi/ZEROPresale.json';
+import ZEROMarketMakerAbi from './abi/MYNTMarketMaker.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -351,7 +354,7 @@ export const contracts = {
     abi: nftAbi,
   },
   MYNT_ctrl: {
-    address: '0x75e28C6fA259811862bb65f7cC02c683Deca7f96',
+    address: '0x6F62D2F571BcE7187CdFDD4b1E5E53cfD7d14dd2',
     abi: MYNTControllerAbi,
     blockNumber: 2267574,
   },
@@ -361,16 +364,29 @@ export const contracts = {
     blockNumber: 2267574,
   },
   MYNTPresale: {
-    address: '0xC4C82fE6d6D531cf7bE8DaC7F9F0Ba63FED4c8d0',
+    address: '0xc89E1ef68f406bf2F5337d2Aad0a99a023c1697c',
     abi: MYNTPresaleAbi,
   },
   MYNTMarketMaker: {
     address: '0xf75170ce8d4060b8D5fc24E996FA00A94bb8A232',
     abi: MYNTMarketMakerAbi,
   },
+  ZERO_ctrl: {
+    address: '0x75e28C6fA259811862bb65f7cC02c683Deca7f96',
+    abi: ZEROControllerAbi,
+    blockNumber: 2267574,
+  },
   ZERO_token: {
-    address: '0x6979bd7aa099c6c0566c40e5B1FC88CB96D73254',
+    address: '0xAc5C5917e713581c8C8B78c7B12f2D67dA0323f0',
     abi: ZEROTokenAbi,
     blockNumber: 2267574,
+  },
+  ZEROPresale: {
+    address: '0xC4C82fE6d6D531cf7bE8DaC7F9F0Ba63FED4c8d0',
+    abi: ZEROPresaleAbi,
+  },
+  ZEROMarketMaker: {
+    address: '0x93e58CD85406749B8F0aDE90caBB6bF6Ddb05f7d',
+    abi: ZEROMarketMakerAbi,
   },
 };
