@@ -12,7 +12,7 @@ import { useAccount } from 'app/hooks/useAccount';
 export const useApproveAndContribute = () => {
   const account = useAccount();
 
-  const { send, ...rest } = useSendContractTx('MYNT_ctrl', 'contribute');
+  const { send, ...rest } = useSendContractTx('ZERO_ctrl', 'contribute');
 
   return {
     contribute: async (
@@ -23,7 +23,7 @@ export const useApproveAndContribute = () => {
     ) => {
       const tx: CheckAndApproveResult = await contractWriter.checkAndApprove(
         sourceToken,
-        getContract('MYNTPresale').address,
+        getContract('ZEROPresale').address,
         sourceWeiAmount,
       );
 
