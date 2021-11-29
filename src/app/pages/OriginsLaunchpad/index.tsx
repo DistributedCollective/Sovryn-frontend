@@ -33,7 +33,7 @@ export const OriginsLaunchpad: React.FC = () => {
       <div className="tw-container tw-pt-11 tw-font-body">
         <Switch>
           <Route path={`${url}/sales`}>
-            <SalesDay saleName="MYNT" />
+            <SalesDay saleName="ZERO" />
           </Route>
           <Route exact path={`${url}/claim`} component={OriginsClaimPage} />
           <Redirect to={`${url}/sales`} />

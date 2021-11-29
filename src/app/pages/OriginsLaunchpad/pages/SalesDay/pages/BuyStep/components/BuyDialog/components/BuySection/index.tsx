@@ -90,14 +90,14 @@ export const BuySection: React.FC<IBuySectionProps> = ({
     ) {
       contribute(
         bignumber(amountInSOV).mul(100).toString(),
-        Asset.MYNT,
+        Asset.ZERO,
         amountInSOV,
         Asset.SOV,
       );
     }
   }, [sourceToken, txSwap, contribute, amountInSOV, oldSwapStatus]);
 
-  const getMyntAmount = useCallback(() => {
+  const getZeroAmount = useCallback(() => {
     const amount = sourceToken === Asset.SOV ? weiAmount : amountInSOV;
     return bignumber(amount).mul(100);
   }, [sourceToken, weiAmount, amountInSOV]);
@@ -106,7 +106,7 @@ export const BuySection: React.FC<IBuySectionProps> = ({
     if (sourceToken === Asset.SOV) {
       contribute(
         bignumber(weiAmount).mul(100).toString(),
-        Asset.MYNT,
+        Asset.ZERO,
         weiAmount,
         Asset.SOV,
       );
@@ -142,7 +142,7 @@ export const BuySection: React.FC<IBuySectionProps> = ({
                 .estimatedTokenAmount,
               {
                 token: saleName,
-                amount: weiToFixed(getMyntAmount(), 4),
+                amount: weiToFixed(getZeroAmount(), 4),
               },
             )}{' '}
             <AssetRenderer assetString={saleName} />

@@ -23,9 +23,7 @@ export const InformationSection: React.FC<IInformationSectionProps> = ({
   const [countDown, setCountDown] = useState('');
 
   useInterval(() => {
-    // const { saleStart, period } = info;
-    let saleStart = 1637465681,
-      period = 0; // test for countdown
+    const { saleStart, period } = info;
     const diffTS =
       Number(saleStart) + Number(period) - Math.floor(Date.now() / 1000);
     const dd = Math.floor(diffTS / 86400);
