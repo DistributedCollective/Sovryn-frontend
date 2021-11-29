@@ -1456,7 +1456,7 @@
         "amount": "Quantidade:",
         "slippage": "Diferença máxima no preço:",
         "balance": "Saldo disponível: <0/> <1/>",
-        "txFee": "Taxa de transação: <0/>",
+        "txFee": "Taxa de rede: <0/>",
         "tradingFee": "Taxa de negociação:"
       },
       "buttons": {
