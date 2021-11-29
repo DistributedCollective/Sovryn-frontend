@@ -5,6 +5,9 @@ import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { Pagination } from '../../../../components/Pagination';
 import { LimitOrder } from '../../types';
+import { useSelector } from 'react-redux';
+import { selectSpotTradingPage } from '../../selectors';
+import { orderParser } from 'app/hooks/limitOrder/useGetLimitOrders';
 
 interface IOpenPositionsTableProps {
   perPage?: number;
@@ -19,6 +22,7 @@ export function OpenPositionsTable({
 }: IOpenPositionsTableProps) {
   const { t } = useTranslation();
   const trans = translations.spotTradingPage.openLimitOrders;
+  const { pendingLimitOrders } = useSelector(selectSpotTradingPage);
 
   const [page, setPage] = useState(1);
 
@@ -26,6 +30,16 @@ export function OpenPositionsTable({
     () => orders.slice(page * perPage - perPage, page * perPage),
     [perPage, page, orders],
   );
+  const pendingList = useMemo(() => {
+    return pendingLimitOrders
+      .map(item => orderParser(item))
+      .filter(
+        item =>
+          orders.findIndex(
+            order => order.created.toString() === item.created.toString(),
+          ) < 0,
+      );
+  }, [orders, pendingLimitOrders]);
 
   const isEmpty = !loading && !items.length;
 
@@ -63,6 +77,13 @@ export function OpenPositionsTable({
             </tr>
           )}
 
+          {pendingList.length > 0 && (
+            <>
+              {pendingList.map(item => (
+                <OpenPositionRow key={item.hash} item={item} pending={true} />
+              ))}
+            </>
+          )}
           {items.length > 0 && (
             <>
               {items.map(item => (

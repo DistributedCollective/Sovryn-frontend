@@ -1,10 +1,11 @@
+import { IApiLimitOrder } from './../../pages/SpotTradingPage/types';
 import { LimitOrder } from 'app/pages/SpotTradingPage/types';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { getContract as getContractData } from 'utils/blockchain/contract-helpers';
 import { selectWalletProvider } from 'app/containers/WalletProvider/selectors';
 import { useAccount } from 'app/hooks/useAccount';
 import { Asset } from 'types';
-import { ethers } from 'ethers';
+import { ethers, BigNumber } from 'ethers';
 import { SignatureLike } from '@ethersproject/bytes';
 import { useSelector } from 'react-redux';
 import {
@@ -27,6 +28,7 @@ export function useLimitOrder(
   amountOutMin: string,
   duration: number = 365,
   onSuccess: Function,
+  onError: Function,
 ) {
   const account = useAccount();
   const { chainId } = useSelector(selectWalletProvider);
@@ -55,7 +57,7 @@ export function useLimitOrder(
     }
 
     try {
-      const created = ethers.BigNumber.from(Math.floor(Date.now() / 1000));
+      const created = BigNumber.from(Math.floor(Date.now() / 1000));
 
       const order = new Order(
         account,
@@ -98,19 +100,41 @@ export function useLimitOrder(
 
       console.log('populated: ', populated);
 
-      const { status, data } = await axios.post(
+      const { data } = await axios.post(
         backendUrl[currentChainId] + '/limitOrder/createOrder',
         {
           data: populated.data,
           from: account,
         },
       );
-
-      onSuccess({ status, data });
-
-      return { status, data };
+      if (data.success) {
+        const newOrder: IApiLimitOrder = {
+          maker: order.maker,
+          fromToken: order.fromToken,
+          toToken: order.toToken,
+          recipient: order.recipient,
+          amountIn: {
+            hex: BigNumber.from(order.amountIn).toHexString(),
+          },
+          amountOutMin: {
+            hex: BigNumber.from(order.amountOutMin).toHexString(),
+          },
+          deadline: { hex: BigNumber.from(order.deadline).toHexString() },
+          created: { hex: BigNumber.from(order.created).toHexString() },
+          filled: { hex: BigNumber.from('0').toHexString() },
+          canceled: false,
+          v: data.data.v,
+          r: data.data.r,
+          s: data.data.s,
+          hash: data.data.hash,
+        };
+        onSuccess(data.data, newOrder);
+      } else {
+        onError(data.error);
+      }
     } catch (error) {
       console.log('error', error);
+      onError(error);
     }
   }, [
     sourceToken,
@@ -121,6 +145,7 @@ export function useLimitOrder(
     duration,
     chainId,
     onSuccess,
+    onError,
   ]);
 
   return { createOrder, ...tx };

@@ -280,7 +280,7 @@ export const allPairList = Object.keys(allPairs);
 
 export interface SpotTradingPageState {
   pairType: SpotPairType;
-  amount: string;
+  pendingLimitOrders: IApiLimitOrder[];
 }
 
 export interface TradingPairs {
@@ -358,7 +358,7 @@ export type IApiLimitOrder = {
   s: string;
   canceled: boolean;
   filled: IApiBigNumber;
-  filledAmount: string;
+  filledAmount?: string;
 };
 export interface ITradeFormProps {
   sourceToken: Asset;

@@ -13,12 +13,15 @@ import { ClosePositionDialog } from '../ClosePositionDialog';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { bignumber } from 'mathjs';
 import cn from 'classnames';
+import { TableTransactionStatus } from 'app/components/FinanceV2Components/TableTransactionStatus';
+import { TxStatus } from 'store/global/transactions-store/types';
 // import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 interface IOpenPositionRowProps {
   item: LimitOrder;
+  pending?: boolean;
 }
 
-export function OpenPositionRow({ item }: IOpenPositionRowProps) {
+export function OpenPositionRow({ item, pending }: IOpenPositionRowProps) {
   const { t } = useTranslation();
   const [showClosePosition, setShowClosePosition] = useState(false);
   const { checkMaintenances, States } = useMaintenance();
@@ -111,23 +114,28 @@ export function OpenPositionRow({ item }: IOpenPositionRowProps) {
 
       <td>
         <div className="tw-flex tw-items-center">
-          <ActionButton
-            text={t(translations.openPositionTable.cta.close)}
-            onClick={() => setShowClosePosition(true)}
-            className={`tw-border-none tw-ml-0 tw-pl-0 ${
-              closeTradesLocked && 'tw-cursor-not-allowed'
-            }`}
-            textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
-            disabled={closeTradesLocked}
-            title={
-              (closeTradesLocked &&
-                t(translations.maintenance.closeMarginTrades).replace(
-                  /<\/?\d+>/g,
-                  '',
-                )) ||
-              undefined
-            }
-          />
+          {!pending && (
+            <ActionButton
+              text={t(translations.openPositionTable.cta.close)}
+              onClick={() => setShowClosePosition(true)}
+              className={`tw-border-none tw-ml-0 tw-pl-0 ${
+                closeTradesLocked && 'tw-cursor-not-allowed'
+              }`}
+              textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
+              disabled={closeTradesLocked}
+              title={
+                (closeTradesLocked &&
+                  t(translations.maintenance.closeMarginTrades).replace(
+                    /<\/?\d+>/g,
+                    '',
+                  )) ||
+                undefined
+              }
+            />
+          )}
+          {pending && (
+            <TableTransactionStatus transactionStatus={TxStatus.PENDING} />
+          )}
         </div>
         <ClosePositionDialog
           order={item}

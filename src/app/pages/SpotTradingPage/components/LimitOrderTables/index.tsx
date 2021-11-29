@@ -15,9 +15,13 @@ export function LimitOrderTables({ activeTab }: ILimitOrderTablesProps) {
   const account = useAccount();
 
   const { value, loading } = useGetLimitOrders<LimitOrder>(account);
-  const limitOrders = useMemo(() => value.filter(order => !order.canceled), [
-    value,
-  ]);
+  const limitOrders = useMemo(
+    () =>
+      value
+        .filter(order => !order.canceled)
+        .sort((o1, o2) => (o1.created > o2.created ? -1 : 1)),
+    [value],
+  );
 
   return (
     <>
