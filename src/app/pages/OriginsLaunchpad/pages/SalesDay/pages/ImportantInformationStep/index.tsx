@@ -85,9 +85,12 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
               {t(baseTranslations.information[5], { token: saleName })}
             </div>
             <div className={styles.listItem}>
+              {t(baseTranslations.information[7], { token: saleName })}
+            </div>
+            <div className={styles.listItem}>
               <div>
                 <Trans
-                  i18nKey={baseTranslations.information[7]}
+                  i18nKey={baseTranslations.information[8]}
                   values={{ token: saleName }}
                   components={[
                     <Link to="/wallet" className="tw-underline">
