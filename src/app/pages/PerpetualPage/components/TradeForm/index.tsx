@@ -39,6 +39,7 @@ import { useAccount } from 'app/hooks/useAccount';
 import { usePerpetual_OpenPosition } from '../../hooks/usePerpetual_OpenPositions';
 import { useSelector } from 'react-redux';
 import { selectPerpetualPage } from '../../selectors';
+import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
 
 interface ITradeFormProps {
   trade: PerpetualTrade;
@@ -72,6 +73,11 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   const hasOpenPosition = useMemo(() => !loading && !!openPosition, [
     loading,
     openPosition,
+  ]);
+
+  const { available: availableBalance } = usePerpetual_accountBalance(pairType);
+  const hasEmptyBalance = useMemo(() => availableBalance === '0', [
+    availableBalance,
   ]);
 
   const midPrice = useMemo(() => getMidPrice(perpParameters, ammState), [
@@ -215,17 +221,26 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   return (
     <div
       className={classNames('tw-relative tw-h-full tw-pb-16', {
-        'tw-pointer-events-none': hasOpenPosition,
+        'tw-pointer-events-none': hasOpenPosition || hasEmptyBalance,
       })}
     >
-      {hasOpenPosition && (
+      {(hasEmptyBalance || hasOpenPosition) && (
         <div className="tw-absolute tw-left-0 tw-top-0 tw-bg-black tw-h-full tw-w-full tw-z-10 tw-bg-opacity-90 tw-flex tw-items-center tw-justify-center tw-flex-col tw-text-center tw-text-sm tw-font-semibold">
           <div className="tw-px-10">
-            {t(translations.perpetualPage.tradeForm.disabledState.explanation1)}
+            {t(
+              translations.perpetualPage.tradeForm.disabledState[
+                hasEmptyBalance ? 'emptyBalanceExplanation' : 'explanation1'
+              ],
+            )}
           </div>
-          <div className="tw-px-10 tw-mt-4">
-            {t(translations.perpetualPage.tradeForm.disabledState.explanation2)}
-          </div>
+
+          {!hasEmptyBalance && hasOpenPosition && (
+            <div className="tw-px-10 tw-mt-4">
+              {t(
+                translations.perpetualPage.tradeForm.disabledState.explanation2,
+              )}
+            </div>
+          )}
         </div>
       )}
 
