@@ -7,7 +7,7 @@ import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
 import { bignumber } from 'mathjs';
 import { useWalletContext } from '@sovryn/react-wallet';
-import { TradingTypes, ITradeFormProps } from '../../types';
+import { TradingTypes, ITradeFormProps, IApiLimitOrder } from '../../types';
 import { OrderTypes } from 'app/components/OrderType/types';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { maxMinusFee } from 'utils/helpers';
@@ -28,6 +28,8 @@ import cn from 'classnames';
 import { useSwapsExternal_getSwapExpectedReturn } from 'app/hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
 import { toWei } from 'web3-utils';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
+import { actions } from '../../slice';
+import { useDispatch } from 'react-redux';
 
 export const LimitForm: React.FC<ITradeFormProps> = ({
   sourceToken,
@@ -39,6 +41,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
   const { connected } = useWalletContext();
   const { checkMaintenance, States } = useMaintenance();
   const spotLocked = checkMaintenance(States.SPOT_TRADES);
+  const dispatch = useDispatch();
 
   const [tradeDialog, setTradeDialog] = useState(false);
 
@@ -102,9 +105,16 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
       )
     );
   }, [amount, balance, limitPrice, sourceToken, weiAmount, weiAmountOut]);
-  const onSuccess = ({ status, data }) => {
+
+  const onSuccess = (data, order: IApiLimitOrder) => {
     setTradeDialog(false);
-    console.log('status, data: ', status, data);
+    console.log('order: ', order);
+    dispatch(actions.addPendingLimitOrders(order));
+    console.log('data: ', data);
+  };
+  const onError = error => {
+    setTradeDialog(false);
+    console.log('error: ', error);
   };
 
   const { createOrder, ...tx } = useLimitOrder(
@@ -114,6 +124,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
     weiAmountOut,
     duration,
     onSuccess,
+    onError,
   );
 
   return (
@@ -166,11 +177,11 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
             />
           </div>
 
-          <div className="tw-text-sm tw-w-full tw-text-right tw-truncate tw-absolute tw-top-full tw-mt-1">
+          {/* <div className="tw-text-sm tw-w-full tw-text-right tw-truncate tw-absolute tw-top-full tw-mt-1">
             1 <AssetRenderer asset={sourceToken} /> ={' '}
             {toNumberFormat(limitPrice, 6)}{' '}
             <AssetRenderer asset={targetToken} />
-          </div>
+          </div> */}
         </div>
 
         {/* <div className="tw-mt-2">
