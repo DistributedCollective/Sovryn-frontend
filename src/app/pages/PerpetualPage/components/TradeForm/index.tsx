@@ -423,7 +423,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
                 : 'tw-bg-trade-short',
             )}
             onClick={onSubmit}
-            disabled={hasOpenPosition}
+            disabled={hasOpenPosition || hasEmptyBalance}
           >
             <span className="tw-mr-2">{tradeButtonLabel}</span>
             <span>
