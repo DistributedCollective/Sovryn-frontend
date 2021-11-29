@@ -1701,9 +1701,9 @@
       "24h": "24h%",
       "7d": "7d%",
       "marketCap": "Market Cap",
-      "marketCapTooltip": "Market cap is calculated as circulating supply * current USD price. <br /> <br /> For SOV, circulating supply = total supply (100m) - tokens in vesting contracts, <0>not including </0> tokens in adoption and development fund contracts. <br /> <br /> For rBTC, circulating supply = BTC locked in the RSK 2 Way Peg <br /> <br /> For all other tokens, circulating supply = total supply <br /> <br /> For tokens that have come across a bridge from another chain, the circulating supply is the supply of that token on the RSK chain. For example, the circulating supply of ETHs is not equal to the circulating supply of ETH on ethereum.",
+      "marketCapTooltip": "Market cap is calculated as circulating supply * current USD price.",
       "circulatingSupply": "Circulating Supply",
-      "circulatingSupplyTooltip": "We have updated the circulation supply formula to be showing the amount of liquid SOV token in line with market standards. SOV that has been unlocked from the adoption and development funds is now counted as circulating, and SOV that has been staked (either through vesting or voluntary staking) is not counted as circulating. <br /> <br />There is no change to your funds with this change. Just a standardisation of the displayed Circulating Supply."
+      "circulatingSupplyTooltip": "For SOV, circulating supply = total supply (100m) - tokens staked (either through vesting or voluntary staking) <br /> <br /> For rBTC, circulating supply = BTC locked in the RSK 2 Way Peg <br /> <br /> For all other tokens, circulating supply = total supply <br /> <br /> For tokens that have come across a bridge from another chain, the circulating supply is the supply of that token on the RSK chain. For example, the circulating supply of ETHs is not equal to the circulating supply of ETH on ethereum.",
     }
   },
   "BridgeDepositPage": {
