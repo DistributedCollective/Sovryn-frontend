@@ -6,8 +6,26 @@ import axios, { Canceler } from 'axios';
 import { useCallback, useRef } from 'react';
 import { useInterval } from '../useInterval';
 import { contractReader } from 'utils/sovryn/contract-reader';
+import {
+  MarginLimitOrder,
+  IApiMarginLimitOrder,
+} from 'app/pages/MarginTradePage/types';
 
-function orderParser(order: IApiLimitOrder): LimitOrder {
+function marginOrderParser(order: IApiMarginLimitOrder): MarginLimitOrder {
+  return {
+    ...order,
+    leverageAmount: BigNumber.from(order.leverageAmount.hex),
+    loanTokenSent: BigNumber.from(order.loanTokenSent.hex),
+    collateralTokenSent: BigNumber.from(order.collateralTokenSent.hex),
+    minReturn: BigNumber.from(order.minReturn.hex),
+    deadline: BigNumber.from(order.deadline.hex),
+    createdTimestamp: BigNumber.from(order.createdTimestamp.hex),
+    filled: BigNumber.from(order.filled.hex),
+    filledAmount: BigNumber.from(order.filled.hex).toString(),
+  };
+}
+
+export function orderParser(order: IApiLimitOrder): LimitOrder {
   return {
     ...order,
     amountIn: BigNumber.from(order.amountIn.hex),
@@ -20,33 +38,41 @@ function orderParser(order: IApiLimitOrder): LimitOrder {
 
 const deadlinePassed = (date: number) => new Date(date * 1000) < new Date();
 
-export function useGetLimitOrders(account: string) {
-  const [orders, setOrders] = useState<LimitOrder[]>([]);
+export function useGetLimitOrders<T>(
+  account: string,
+  isMargin: boolean = false,
+) {
+  const [orders, setOrders] = useState<T[]>([]);
   const [loading, setLoading] = useState(true);
   const cancelDataRequest = useRef<Canceler>();
 
   const url = `${backendUrl[currentChainId]}/limitOrder/orders`;
 
   const getData = useCallback(async () => {
+    if (!account) return;
     const total = await contractReader.call<[string]>(
-      'orderBook',
+      isMargin ? 'orderBookMargin' : 'orderBook',
       'numberOfAllHashes',
       [],
     );
 
-    if (!account) return;
-
     cancelDataRequest.current && cancelDataRequest.current();
-
     const cancelToken = new axios.CancelToken(c => {
       cancelDataRequest.current = c;
     });
+
     axios
-      .get(url + `/${account}?offset=0&limit=${total}`, { cancelToken })
+      .get(
+        url +
+          `/${account}?offset=0&limit=${total}&isMargin=${isMargin ? 1 : 0}`,
+        { cancelToken },
+      )
       .then(res => {
         setOrders(
           res.data.data
-            .map(orderParser)
+            .map(item =>
+              isMargin ? marginOrderParser(item) : orderParser(item),
+            )
             .filter(
               item =>
                 item.filledAmount !== '0' ||
@@ -56,12 +82,12 @@ export function useGetLimitOrders(account: string) {
         setLoading(false);
       })
       .catch(e => console.error(e));
-  }, [account, url]);
+  }, [account, isMargin, url]);
 
   useInterval(getData, 60 * 1e3, { immediate: true });
 
   return {
-    value: orders.filter(item => !item.canceled),
+    value: orders,
     loading,
   };
 }
