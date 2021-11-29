@@ -12,9 +12,87 @@
         "internalType": "bytes32",
         "name": "hash",
         "type": "bytes32"
+      },
+      {
+        "components": [
+          {
+            "internalType": "bytes32",
+            "name": "loanId",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "uint256",
+            "name": "leverageAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "loanTokenAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "loanTokenSent",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "collateralTokenSent",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "collateralTokenAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "trader",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "minReturn",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "loanDataBytes",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "uint256",
+            "name": "deadline",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "createdTimestamp",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint8",
+            "name": "v",
+            "type": "uint8"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "r",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "s",
+            "type": "bytes32"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct MarginOrders.Order",
+        "name": "order",
+        "type": "tuple"
       }
     ],
-    "name": "OrderCreated",
+    "name": "MarginOrderCreated",
     "type": "event"
   },
   {
@@ -137,6 +215,126 @@
     "name": "createOrder",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "trader",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "offset",
+        "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "limit",
+        "type": "uint256"
+      }
+    ],
+    "name": "getOrders",
+    "outputs": [
+      {
+        "components": [
+          {
+            "internalType": "bytes32",
+            "name": "loanId",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "uint256",
+            "name": "leverageAmount",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "loanTokenAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "loanTokenSent",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "collateralTokenSent",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "collateralTokenAddress",
+            "type": "address"
+          },
+          {
+            "internalType": "address",
+            "name": "trader",
+            "type": "address"
+          },
+          {
+            "internalType": "uint256",
+            "name": "minReturn",
+            "type": "uint256"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "loanDataBytes",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "uint256",
+            "name": "deadline",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "createdTimestamp",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint8",
+            "name": "v",
+            "type": "uint8"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "r",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "s",
+            "type": "bytes32"
+          }
+        ],
+        "internalType": "struct MarginOrders.Order[]",
+        "name": "orders",
+        "type": "tuple[]"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "hash",
+        "type": "bytes32"
+      }
+    ],
+    "name": "getTrader",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "trader",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
     "type": "function"
   },
   {
