@@ -32,6 +32,7 @@ import { BridgeLink } from './BridgeLink';
 import { UnWrapDialog } from './UnWrapDialog';
 import { useDollarValue } from '../../hooks/useDollarValue';
 import { useDollarValueMynt } from '../../hooks/useDollarValueMynt';
+import { useDollarValueZero } from '../../hooks/useDollarValueZero';
 import styles from './index.module.scss';
 import { CrossBridgeAsset } from 'app/pages/BridgeDepositPage/types/cross-bridge-asset';
 
@@ -252,9 +253,16 @@ function AssetRow({
 
   const dollarValue = useDollarValue(item.asset, tokens);
   const dollarValueMynt = useDollarValueMynt(tokens);
+  const dollarValueZero = useDollarValueZero(tokens);
+
   const assetDollarValue = useMemo(
-    () => (item.asset === Asset.MYNT ? dollarValueMynt : dollarValue),
-    [dollarValue, dollarValueMynt, item.asset],
+    () =>
+      item.asset === Asset.MYNT
+        ? dollarValueMynt
+        : item.asset === Asset.ZERO
+        ? dollarValueZero
+        : dollarValue,
+    [dollarValue, dollarValueMynt, dollarValueZero, item.asset],
   );
 
   if (tokens === '0' && item.hideIfZero)
