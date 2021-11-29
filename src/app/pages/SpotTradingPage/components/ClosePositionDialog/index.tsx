@@ -34,12 +34,6 @@ export function ClosePositionDialog({
   const { t } = useTranslation();
   const { cancelOrder, ...tx } = useCancelLimitOrder(order, fromToken.asset);
 
-  const submit = () => {
-    if (order.hash) {
-      cancelOrder(order.hash);
-    }
-  };
-
   const pair = useMemo(() => {
     return tradeType === TradingTypes.BUY
       ? [toToken, fromToken]
@@ -119,7 +113,7 @@ export function ClosePositionDialog({
 
           <DialogButton
             confirmLabel={t(translations.spotTradingPage.cancelDialog.cta)}
-            onConfirm={() => submit()}
+            onConfirm={cancelOrder}
             cancelLabel={t(translations.common.cancel)}
             onCancel={() => onCloseModal()}
           />

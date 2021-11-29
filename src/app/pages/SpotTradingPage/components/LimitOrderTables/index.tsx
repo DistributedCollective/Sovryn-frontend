@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import cn from 'classnames';
 
 import { useGetLimitOrders } from 'app/hooks/limitOrder/useGetLimitOrders';
 import { OpenPositionsTable } from '../OpenPositionsTable';
 import { LimitOrderHistory } from '../LimitOrderHistory';
 import { useAccount } from 'app/hooks/useAccount';
+import { LimitOrder } from '../../types';
 
 interface ILimitOrderTablesProps {
   activeTab: number;
@@ -12,7 +13,11 @@ interface ILimitOrderTablesProps {
 
 export function LimitOrderTables({ activeTab }: ILimitOrderTablesProps) {
   const account = useAccount();
-  const { value: limitOrders, loading } = useGetLimitOrders(account);
+
+  const { value, loading } = useGetLimitOrders<LimitOrder>(account);
+  const limitOrders = useMemo(() => value.filter(order => !order.canceled), [
+    value,
+  ]);
 
   return (
     <>

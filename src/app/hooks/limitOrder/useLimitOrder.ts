@@ -131,38 +131,62 @@ export function useCancelLimitOrder(order: LimitOrder, sourceToken: Asset) {
 
   const { send, ...tx } = useSendTx();
 
-  const cancelOrder = useCallback(
-    async (orderHash: string) => {
-      const contract = getContract('settlement');
+  const cancelOrder = useCallback(async () => {
+    const contract = getContract('settlement');
 
-      try {
-        if (sourceToken === Asset.RBTC) {
-          await contractWriter.send('settlement', 'withdraw', [
-            order.amountIn.toString(),
-          ]);
-        }
-      } catch (error) {
-        console.error('error', error);
-        return;
+    try {
+      if (sourceToken === Asset.RBTC) {
+        await contractWriter.send('settlement', 'withdraw', [
+          order.amountIn.toString(),
+        ]);
       }
+    } catch (error) {
+      console.error('error', error);
+      return;
+    }
 
-      const populated = await contract.populateTransaction.cancelOrder(
-        orderHash,
-      );
+    const args = [
+      order.maker,
+      order.fromToken,
+      order.toToken,
+      order.amountIn.toString(),
+      order.amountOutMin.toString(),
+      order.recipient,
+      order.deadline.toString(),
+      order.created.toString(),
+      order.v,
+      order.r,
+      order.s,
+    ];
 
-      console.log({ populated });
+    const populated = await contract.populateTransaction.cancelOrder(args);
 
-      const nonce = await contractReader.nonce(account);
+    console.log({ populated });
 
-      send({
-        ...populated,
-        gas: '600000',
-        gasPrice: gas.get(),
-        nonce,
-      } as TransactionConfig);
-    },
-    [account, order.amountIn, send, sourceToken],
-  );
+    const nonce = await contractReader.nonce(account);
+
+    send({
+      ...populated,
+      gas: '600000',
+      gasPrice: gas.get(),
+      nonce,
+    } as TransactionConfig);
+  }, [
+    account,
+    order.amountIn,
+    order.amountOutMin,
+    order.created,
+    order.deadline,
+    order.fromToken,
+    order.maker,
+    order.r,
+    order.recipient,
+    order.s,
+    order.toToken,
+    order.v,
+    send,
+    sourceToken,
+  ]);
 
   return { cancelOrder, ...tx };
 }
