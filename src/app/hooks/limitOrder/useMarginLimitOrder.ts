@@ -61,7 +61,7 @@ export function useMarginLimitOrder(
 
     // collateral === Asset.RBTC ? collateralTokenSent : '0', // weiAmount
     const order = new MarginOrder(
-      '0x0000000000000000000000000000000000000000000000000000000000000000', // loanId
+      ethers.constants.HashZero, // loanId
       toWei(String(leverage - 1), 'ether'), // leverageAmount
       loanToken, //  asset: Asset,
       useLoanTokens ? collateralTokenSent : '0', //loanTokenSent
@@ -69,7 +69,7 @@ export function useMarginLimitOrder(
       collateralToken, //collateralToken
       account, // trader
       minReturn, //minReturn
-      '0x', //loanDataBytes
+      ethers.constants.HashZero, //loanDataBytes
       getDeadline(duration > 0 ? duration : 365).toString(),
       created.toString(),
     );
@@ -101,14 +101,14 @@ export function useMarginLimitOrder(
       sig.s,
     ];
 
-    const contract = getContract('orderBook');
+    const contract = getContract('orderBookMargin');
 
     const populated = await contract.populateTransaction.createOrder(args);
 
     console.log('populated: ', populated);
 
     const { data } = await axios.post(
-      backendUrl[currentChainId] + '/limitOrder/createOrder',
+      backendUrl[currentChainId] + '/limitOrder/createMarginOrder',
       {
         data: populated.data,
         from: account,
