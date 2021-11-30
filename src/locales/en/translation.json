@@ -207,6 +207,7 @@
       "amount": "Amount",
       "startPrice": "Start Price",
       "slippageSettings": "Slippage Settings",
+      "limitSettings": "Limit Order Settings",
       "esEntryPrice": "Est Entry Price:",
       "esLiquidationPrice": "Est Liquidation Price:",
       "interestAPY": "Interest APY:"

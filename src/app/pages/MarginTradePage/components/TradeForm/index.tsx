@@ -30,12 +30,20 @@ import { useGetEstimatedMarginDetails } from 'app/hooks/trading/useGetEstimatedM
 import { TradeDialog } from '../TradeDialog';
 import { LiquidationPrice } from '../LiquidationPrice';
 import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
-import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
+import {
+  stringToFixedPrecision,
+  toNumberFormat,
+  weiToNumberFormat,
+} from 'utils/display-text/format';
 import { SlippageForm } from '../SlippageForm';
 import { toWei } from 'utils/blockchain/math-helpers';
 import { OrderType } from 'app/components/OrderType';
 import { OrderTypes } from 'app/components/OrderType/types';
 import { MARGIN_SLIPPAGE_DEFAULT } from '../../types';
+import { AssetRenderer } from 'app/components/AssetRenderer';
+import styles from './index.module.scss';
+import { LimitSetting } from '../LimitSetting';
+import { durationOptions } from 'app/pages/SpotTradingPage/components/LimitOrderSetting/Duration';
 
 interface ITradeFormProps {
   pairType: TradingPairType;
@@ -49,7 +57,16 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   const [tradeAmount, setTradeAmount] = useState<string>('');
   const [slippage, setSlippage] = useState(MARGIN_SLIPPAGE_DEFAULT);
   const weiAmount = useWeiAmount(tradeAmount);
+
   const [orderType, setOrderType] = useState(OrderTypes.MARKET);
+  const [limitPrice, setLimitPrice] = useState<string>('');
+  const [openLimitSetting, setOpenLimitSetting] = useState(false);
+  const [duration, setDuration] = useState<number>(0);
+  const durationLabel = useMemo(
+    () => durationOptions.find(item => item.value === duration)?.text || '',
+    [duration],
+  );
+
   const { position, amount, collateral, leverage } = useSelector(
     selectMarginTradePage,
   );
@@ -162,9 +179,40 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
             />
           </FormGroup>
 
+          {orderType === OrderTypes.LIMIT && (
+            <>
+              <div className="tw-flex tw-text-sm tw-relative tw-items-center tw-justify-between tw-mt-5">
+                <span className={styles.amountLabel + ' tw-mr-2'}>
+                  {t(translations.spotTradingPage.tradeForm.limitPrice)}
+                </span>
+                <div className="tw-flex tw-items-center">
+                  <div className="tw-mr-2">
+                    <AssetRenderer asset={collateral} />
+                  </div>
+                  <AmountInput
+                    value={stringToFixedPrecision(limitPrice, 6)}
+                    onChange={setLimitPrice}
+                    hideAmountSelector
+                  />
+                </div>
+              </div>
+              <div className="tw-flex tw-text-secondary tw-text-xs tw-relative tw-items-center tw-justify-between tw-mt-2">
+                <span className={'tw-mr-1'}>
+                  {t(translations.spotTradingPage.limitOrderSetting.duration)}
+                </span>
+                <span
+                  className="tw-flex tw-cursor-pointer"
+                  onClick={() => setOpenLimitSetting(true)}
+                >
+                  {t(durationLabel, { count: duration })}
+                  <img className="tw-ml-1" src={settingIcon} alt="setting" />
+                </span>
+              </div>
+            </>
+          )}
           <FormGroup
             label={t(translations.marginTradePage.tradeForm.labels.leverage)}
-            className="tw-mb-4 tw-mt-6 tw-w-full tw-bg-gray-4 tw-rounded-md tw-px-4 tw-py-2"
+            className="tw-mb-4 tw-mt-4 tw-w-full tw-bg-gray-4 tw-rounded-md tw-px-4 tw-py-2"
           >
             <LeverageSelector
               value={leverage}
@@ -223,23 +271,27 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                 />
               )}
 
-              <div className="tw-mb-4 tw-text-secondary tw-text-xs tw-flex">
-                <ActionButton
-                  text={
-                    <div className="tw-flex">
-                      {t(translations.marginTradeForm.fields.slippageSettings)}
-                      <img
-                        className="tw-ml-1"
-                        src={settingIcon}
-                        alt="setting"
-                      />
-                    </div>
-                  }
-                  onClick={() => setOpenSlippage(true)}
-                  className="tw-border-none tw-ml-0 tw-p-0 tw-h-auto"
-                  textClassName="tw-text-xs tw-overflow-visible tw-text-secondary"
-                />
-              </div>
+              {orderType === OrderTypes.MARKET && (
+                <div className="tw-mb-4 tw-text-secondary tw-text-xs tw-flex">
+                  <ActionButton
+                    text={
+                      <div className="tw-flex">
+                        {t(
+                          translations.marginTradeForm.fields.slippageSettings,
+                        )}
+                        <img
+                          className="tw-ml-1"
+                          src={settingIcon}
+                          alt="setting"
+                        />
+                      </div>
+                    }
+                    onClick={() => setOpenSlippage(true)}
+                    className="tw-border-none tw-ml-0 tw-p-0 tw-h-auto"
+                    textClassName="tw-text-xs tw-overflow-visible tw-text-secondary"
+                  />
+                </div>
+              )}
 
               <Button
                 text={
@@ -279,11 +331,19 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
             isTrade={true}
           />
         )}
+        {openLimitSetting && (
+          <LimitSetting
+            onClose={() => setOpenLimitSetting(false)}
+            duration={duration}
+            handleDuration={value => setDuration(value)}
+          />
+        )}
         <TradeDialog
           onCloseModal={() => setIsTradingDialogOpen(false)}
           isOpen={isTradingDialogOpen}
           slippage={slippage}
           orderType={orderType}
+          duration={duration}
         />
       </div>
     </>

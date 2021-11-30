@@ -34,6 +34,7 @@ import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPri
 import { OrderTypes } from 'app/components/OrderType/types';
 import { TradingTypes } from 'app/pages/SpotTradingPage/types';
 import { bignumber } from 'mathjs';
+import { useMarginLimitOrder } from 'app/hooks/limitOrder/useMarginLimitOrder';
 
 const maintenanceMargin = 15000000000000000000;
 interface ITradeDialogProps {
@@ -41,6 +42,7 @@ interface ITradeDialogProps {
   isOpen: boolean;
   onCloseModal: () => void;
   orderType: OrderTypes;
+  duration?: number;
 }
 export const TradeDialog: React.FC<ITradeDialogProps> = props => {
   const { t } = useTranslation();
@@ -93,16 +95,30 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
     minReturnCollateral,
   );
 
+  const { createOrder } = useMarginLimitOrder(
+    pair,
+    position,
+    collateral,
+    leverage,
+    amount,
+    minReturnCollateral,
+    props.duration,
+  );
+
   const submit = () => {
-    trade({
-      pair,
-      position,
-      collateralToken,
-      collateral,
-      leverage,
-      amount,
-    });
-    props.onCloseModal();
+    if (props.orderType === OrderTypes.MARKET) {
+      trade({
+        pair,
+        position,
+        collateralToken,
+        collateral,
+        leverage,
+        amount,
+      });
+      props.onCloseModal();
+    } else {
+      createOrder();
+    }
   };
 
   const txArgs = [

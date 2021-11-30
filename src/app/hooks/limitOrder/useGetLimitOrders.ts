@@ -69,15 +69,14 @@ export function useGetLimitOrders<T>(
       )
       .then(res => {
         setOrders(
-          res.data.data
-            .map(item =>
-              isMargin ? marginOrderParser(item) : orderParser(item),
-            )
-            .filter(
-              item =>
-                item.filledAmount !== '0' ||
-                !deadlinePassed(item.deadline.toNumber()),
-            ),
+          res.data.data.map(item =>
+            isMargin ? marginOrderParser(item) : orderParser(item),
+          ),
+          // .filter(
+          //   item =>
+          //     item.filledAmount !== '0' ||
+          //     !deadlinePassed(item.deadline.toNumber()),
+          // ),
         );
         setLoading(false);
       })

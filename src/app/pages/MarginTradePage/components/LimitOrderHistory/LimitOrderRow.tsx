@@ -33,16 +33,16 @@ export function LimitOrderRow({ item, pending }: ILimitOrderRowProps) {
     pair?.longAsset === loanAsset
       ? TradingPosition.LONG
       : TradingPosition.SHORT;
-  const isLong = useMemo(() => isLongTrade(position), [position]);
+  // const isLong = useMemo(() => isLongTrade(position), [position]);
 
   const leverage = weiToNumberFormat(item.leverageAmount.toString());
 
   const amount = item.collateralTokenSent.div(leverage).toNumber();
 
-  const positionMarginAsset = useMemo(
-    () => (isLong ? pair?.longAsset : pair?.shortAsset),
-    [isLong, pair],
-  );
+  // const positionMarginAsset = useMemo(
+  //   () => (isLong ? pair?.longAsset : pair?.shortAsset),
+  //   [isLong, pair],
+  // );
 
   return (
     <tr>

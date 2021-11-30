@@ -1,16 +1,10 @@
-import { contractReader } from 'utils/sovryn/contract-reader';
+import { SignatureLike } from '@ethersproject/bytes';
 import { selectWalletProvider } from 'app/containers/WalletProvider/selectors';
 import { useAccount } from 'app/hooks/useAccount';
 import { Asset } from 'types';
 import { ethers } from 'ethers';
 import { useSelector } from 'react-redux';
-import {
-  CheckAndApproveResult,
-  contractWriter,
-} from 'utils/sovryn/contract-writer';
 import { useCallback } from 'react';
-import { TransactionConfig } from 'web3-core';
-import { gas } from 'utils/blockchain/gas-price';
 import { MarginOrder } from 'app/pages/MarginTradePage/helpers';
 import { useSendTx } from '../useSendTx';
 import { getContract, getDeadline } from './useLimitOrder';
@@ -18,6 +12,9 @@ import { TradingPair } from '../../../utils/models/trading-pair';
 import { TradingPosition } from '../../../types/trading-position';
 import { useTrading_resolvePairTokens } from '../trading/useTrading_resolvePairTokens';
 import { toWei } from 'web3-utils';
+import axios from 'axios';
+import { backendUrl, currentChainId } from 'utils/classifiers';
+import { signTypeMarginOrderData } from './utils';
 
 export function useMarginLimitOrder(
   pair: TradingPair,
@@ -79,25 +76,45 @@ export function useMarginLimitOrder(
 
     console.log({ order });
 
-    // todo: signing inside of order.toArgs works only for browser wallets :(
-    const args = await order.toArgs(chainId!);
+    const signature = await signTypeMarginOrderData(order, account, chainId);
 
-    console.log({ args });
+    console.log({ signature });
+
+    const sig = ethers.utils.splitSignature(signature as SignatureLike);
+
+    console.log({ sig });
+
+    const args = [
+      order.loanId,
+      order.leverageAmount,
+      order.loanTokenAddress,
+      order.loanTokenSent,
+      order.collateralTokenSent,
+      order.collateralTokenAddress,
+      order.trader,
+      order.minReturn,
+      order.loanDataBytes,
+      order.deadline,
+      order.createdTimestamp,
+      sig.v,
+      sig.r,
+      sig.s,
+    ];
 
     const contract = getContract('orderBook');
 
     const populated = await contract.populateTransaction.createOrder(args);
 
-    console.log({ populated });
+    console.log('populated: ', populated);
 
-    const nonce = await contractReader.nonce(account);
-
-    send({
-      ...populated,
-      gas: '600000',
-      gasPrice: gas.get(),
-      nonce,
-    } as TransactionConfig);
+    const { data } = await axios.post(
+      backendUrl[currentChainId] + '/limitOrder/createOrder',
+      {
+        data: populated.data,
+        from: account,
+      },
+    );
+    console.log('data: ', data);
   }, [
     leverage,
     loanToken,
@@ -108,7 +125,6 @@ export function useMarginLimitOrder(
     minReturn,
     duration,
     chainId,
-    send,
   ]);
 
   return { createOrder, ...tx };
