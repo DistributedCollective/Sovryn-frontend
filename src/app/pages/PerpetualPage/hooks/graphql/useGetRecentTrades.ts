@@ -13,6 +13,8 @@ export function useGetRecentTrades(perpetualId: string, count: number = 20) {
         where: {
           perpetual: "${perpetualId}"
         }
+        orderBy: blockTimestamp
+        orderDirection: desc
       ) {
         trader {
           id

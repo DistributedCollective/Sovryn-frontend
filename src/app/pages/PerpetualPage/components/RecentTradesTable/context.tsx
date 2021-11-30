@@ -24,12 +24,14 @@ const initSockets = ({ setValue }, perpetualId) => {
 };
 
 const socketEvents = ({ setValue }, perpetualId) => {
-  socket.on('connected', () => {
-    console.log('[recentTradesWs] bsc websocket connected');
-  });
+  /** This can be uncommented for testing */
+  // socket.on('connected', () => {
+  //   console.log('[recentTradesWs] bsc websocket connected');
+  // });
 
   socket.on('data', data => {
-    console.log('[recentTradesWs] data received');
+    /** This can be uncommented for testing */
+    // console.log('[recentTradesWs] data received');
     const decoded = decodeTradeLogs(data.data, [data.topics[1]]);
     if (decoded.perpetualId.toLowerCase() === perpetualId.toLowerCase()) {
       const price = parseFloat(weiTo2(decoded.price));
@@ -104,6 +106,16 @@ export const RecentTradesContextProvider = props => {
     if (error) {
       console.error(error);
     }
+    return () => {
+      socket.unsubscribe((error, success) => {
+        if (error) {
+          console.error(error);
+        }
+        if (success) {
+          return;
+        }
+      });
+    };
   }, [data, error, props.pair.id]);
 
   return (
