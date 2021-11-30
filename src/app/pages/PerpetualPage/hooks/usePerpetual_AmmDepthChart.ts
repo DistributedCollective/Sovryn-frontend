@@ -1,6 +1,5 @@
-import { useEffect, useState, useMemo, useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
-import { useBlockSync } from '../../../hooks/useAccount';
 import { usePerpetual_queryAmmState } from './usePerpetual_queryAmmState';
 import {
   getIndexPrice,
@@ -28,14 +27,14 @@ export type AmmDepthChartData = {
 export const usePerpetual_AmmDepthChart = (
   pair: PerpetualPair,
 ): AmmDepthChartData => {
-  const perpertualParameters = usePerpetual_queryPerpParameters();
+  const perpetualParameters = usePerpetual_queryPerpParameters();
   const ammState = usePerpetual_queryAmmState();
   const previousMidPrice = useRef<number>();
 
   const data = useMemo(() => {
     const indexPrice = getIndexPrice(ammState);
     const markPrice = getMarkPrice(ammState);
-    const entries = getDepthMatrix(perpertualParameters, ammState);
+    const entries = getDepthMatrix(perpetualParameters, ammState);
 
     let shorts: AmmDepthChartDataEntry[] = [];
     let longs: AmmDepthChartDataEntry[] = [];
@@ -82,7 +81,7 @@ export const usePerpetual_AmmDepthChart = (
       shorts,
       longs,
     };
-  }, [perpertualParameters, ammState]);
+  }, [perpetualParameters, ammState]);
 
   return data;
 };

@@ -7,7 +7,7 @@ import { getContract } from 'utils/blockchain/contract-helpers';
 import { ABK64x64ToFloat, PERPETUAL_ID } from '../utils/contractUtils';
 import { useAccount } from 'app/hooks/useAccount';
 
-const initialTraderState: TraderState = {
+export const initialTraderState: TraderState = {
   marginBalanceCC: 0,
   availableMarginCC: 0,
   availableCashCC: 0,
