@@ -149,10 +149,10 @@ export function PerpetualPage() {
             >
               <RecentTradesTable pair={pair} />
             </DataCard>
-            {/* <div className="tw-flex tw-flex-col xl:tw-min-w-80 xl:tw-w-1/5 tw-space-y-2">
-            <AccountBalanceCard balance={availableBalance} />
-            <NewPositionCard balance={availableBalance} />
-          </div> */}
+            <div className="tw-flex tw-flex-col xl:tw-min-w-80 xl:tw-w-1/5 tw-space-y-2">
+              <AccountBalanceCard balance={availableBalance} />
+              <NewPositionCard balance={availableBalance} />
+            </div>
           </div>
 
           {connected && (

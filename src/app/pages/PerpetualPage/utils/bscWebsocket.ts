@@ -8,8 +8,6 @@ const wssUrl =
   process.env.REACT_APP_BSC_WS_URL +
   (process.env.REACT_APP_BSC_WS_API_KEY || '');
 
-console.log('[wssUrl]', wssUrl);
-
 const web3Socket = new Web3(new Web3.providers.WebsocketProvider(wssUrl));
 
 const isMainnet = process.env.REACT_APP_NETWORK === 'mainnet';
