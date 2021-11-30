@@ -38,7 +38,6 @@ export function calculateLiquidationPriceCollateralQuote(
   maintenance_margin_ratio,
 ) {
   // correct only if markprice = spot price
-  console.log('unfinished: calculateLiquidationPriceCollateralQuote');
   return (
     (LockedInValueQC - cash_cc) /
     (position - maintenance_margin_ratio * Math.abs(position))
@@ -113,16 +112,22 @@ export function calcKStar(
   K2: number,
   L1: number,
   S2: number,
+  S3: number,
   M1: number,
   M2: number,
   M3: number,
+  rho: number,
+  sig2: number,
+  sig3: number,
 ) {
+  let kStar = M2 - K2;
   if (M3 !== 0) {
-    return 0;
+    let h =
+      (((S3 / S2) * (Math.exp(rho * sig2 * sig3) - 1)) /
+        (Math.exp(sig2 * sig2) - 1)) *
+      M3;
+    kStar = kStar + h;
   }
-  let u = -L1 / S2 - M1 / S2;
-  let v = K2 - M2;
-  let kStar = (u - v) / 2;
   return kStar;
 }
 
@@ -221,16 +226,15 @@ export function calcPerpPrice(
 
   let res, sgnm, incentive;
   let dL = k * S2;
+  let kStar = M2 - K2;
   if (M3 === 0) {
     res = probDefNoQuanto(K2 + k, L1 + dL, S2, sig2, r, M1, M2);
-    let u = -L1 / S2 - M1 / S2;
-    let v = K2 - M2;
-    let kStar = (u - v) / 2;
-    sgnm = Math.sign(k - kStar);
-    incentive = spreads[1] * (k - kStar);
   } else {
-    const dk = 1e-7;
-    let dL2 = dL + dk * dL;
+    let h =
+      (((S3 / S2) * (Math.exp(rho * sig2 * sig3) - 1)) /
+        (Math.exp(sig2 * sig2) - 1)) *
+      M3;
+    kStar = kStar + h;
     res = probDefQuanto(
       K2 + k,
       L1 + dL,
@@ -244,22 +248,9 @@ export function calcPerpPrice(
       M2,
       M3,
     );
-    let resUp = probDefQuanto(
-      K2 + k + dk,
-      L1 + dL2,
-      S2,
-      S3,
-      sig2,
-      sig3,
-      rho,
-      r,
-      M1,
-      M2,
-      M3,
-    );
-    sgnm = resUp[0] < res[0] ? -1 : 1;
-    incentive = 0;
   }
+  sgnm = Math.sign(k - kStar);
+  incentive = spreads[1] * (k - kStar);
   let q = res[0];
   return S2 * (1 + sgnm * q + Math.sign(k) * spreads[0] + incentive);
 }

@@ -35,6 +35,12 @@ import { usePerpetual_queryPerpParameters } from '../../hooks/usePerpetual_query
 import { usePerpetual_marginAccountBalance } from '../../hooks/usePerpetual_marginAccountBalance';
 import { getSignedAmount, getTradeDirection } from '../../utils/contractUtils';
 import { usePerpetual_queryTraderState } from '../../hooks/usePerpetual_queryTraderState';
+import { useAccount } from 'app/hooks/useAccount';
+import { usePerpetual_OpenPosition } from '../../hooks/usePerpetual_OpenPositions';
+import { useSelector } from 'react-redux';
+import { selectPerpetualPage } from '../../selectors';
+import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
+import { usePerpetual_queryLiqPoolStateFromPerpetualId } from '../../hooks/usePerpetual_queryLiqPoolStateFromPerpetualId';
 
 interface ITradeFormProps {
   trade: PerpetualTrade;
@@ -58,6 +64,23 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   const ammState = usePerpetual_queryAmmState();
   const perpParameters = usePerpetual_queryPerpParameters();
   const marginAccountBalance = usePerpetual_marginAccountBalance();
+  const liqPoolState = usePerpetual_queryLiqPoolStateFromPerpetualId();
+
+  const { pairType } = useSelector(selectPerpetualPage);
+  const { data: openPosition, loading } = usePerpetual_OpenPosition(
+    useAccount(),
+    pairType,
+  );
+
+  const hasOpenPosition = useMemo(() => !loading && !!openPosition, [
+    loading,
+    openPosition,
+  ]);
+
+  const { available: availableBalance } = usePerpetual_accountBalance(pairType);
+  const hasEmptyBalance = useMemo(() => availableBalance === '0', [
+    availableBalance,
+  ]);
 
   const midPrice = useMemo(() => getMidPrice(perpParameters, ammState), [
     perpParameters,
@@ -84,6 +107,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           marginAccountBalance.fPositionBC,
           getTradeDirection(trade.position),
           ammState,
+          liqPoolState,
           perpParameters,
         ),
       ).toPrecision(8),
@@ -93,6 +117,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     marginAccountBalance.fPositionBC,
     trade.position,
     ammState,
+    liqPoolState,
     perpParameters,
   ]);
 
@@ -198,7 +223,32 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   );
 
   return (
-    <div className="tw-relative tw-h-full tw-pb-16">
+    <div
+      className={classNames('tw-relative tw-h-full tw-pb-16', {
+        'tw-pointer-events-none':
+          isNewTrade && (hasOpenPosition || hasEmptyBalance),
+      })}
+    >
+      {isNewTrade && (hasOpenPosition || hasEmptyBalance) && (
+        <div className="tw-absolute tw-left-0 tw-top-0 tw-bg-black tw-h-full tw-w-full tw-z-10 tw-bg-opacity-90 tw-flex tw-items-center tw-justify-center tw-flex-col tw-text-center tw-text-sm tw-font-semibold">
+          <div className="tw-px-10">
+            {t(
+              translations.perpetualPage.tradeForm.disabledState[
+                hasEmptyBalance ? 'emptyBalanceExplanation' : 'explanation1'
+              ],
+            )}
+          </div>
+
+          {!hasEmptyBalance && hasOpenPosition && (
+            <div className="tw-px-10 tw-mt-4">
+              {t(
+                translations.perpetualPage.tradeForm.disabledState.explanation2,
+              )}
+            </div>
+          )}
+        </div>
+      )}
+
       <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-2.5 tw-mb-5">
         <button
           className={classNames(
@@ -378,7 +428,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
                 : 'tw-bg-trade-short',
             )}
             onClick={onSubmit}
-            // disabled={!validate || !connected || openTradesLocked}
+            disabled={isNewTrade && (hasOpenPosition || hasEmptyBalance)}
           >
             <span className="tw-mr-2">{tradeButtonLabel}</span>
             <span>
