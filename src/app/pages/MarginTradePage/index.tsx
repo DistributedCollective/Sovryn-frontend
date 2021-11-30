@@ -22,6 +22,7 @@ import { IPromotionLinkState } from '../LandingPage/components/Promotions/compon
 import styles from './index.module.scss';
 import { NotificationSettingsDialog } from './components/NotificationSettingsDialog';
 import { PairNavbar } from './components/PairNavbar';
+import { LimitOrderTables } from './components/LimitOrderTables';
 
 export function MarginTradePage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -103,11 +104,22 @@ export function MarginTradePage() {
                 active={activeTab === 1}
                 onClick={() => setActiveTab(1)}
               />
+              <Tab
+                text={t(translations.spotTradingPage.history.openLimitOrders)}
+                active={activeTab === 2}
+                onClick={() => setActiveTab(2)}
+              />
+              <Tab
+                text={t(translations.spotTradingPage.history.limitOrderHistory)}
+                active={activeTab === 3}
+                onClick={() => setActiveTab(3)}
+              />
             </div>
 
             <div className="tw-w-full sm:tw-px-5">
               {activeTab === 0 && <OpenPositionsTable />}
               {activeTab === 1 && <TradingHistory />}
+              <LimitOrderTables activeTab={activeTab} />
             </div>
           </>
         )}

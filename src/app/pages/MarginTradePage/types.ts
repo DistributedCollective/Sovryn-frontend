@@ -25,15 +25,14 @@ export type ContainerState = MarginTradePageState;
 
 export type MarginLimitOrder = {
   hash?: string;
-  maker: string;
   loanId: string;
-  leverageAmount: string;
+  leverageAmount: BigNumber;
   loanTokenAddress: string;
-  loanTokenSent: string;
-  collateralTokenSent: string;
+  loanTokenSent: BigNumber;
+  collateralTokenSent: BigNumber;
   collateralTokenAddress: string;
   trader: string;
-  minReturn: string;
+  minReturn: BigNumber;
   loanDataBytes: string;
   deadline: BigNumber;
   createdTimestamp: BigNumber;
@@ -42,4 +41,29 @@ export type MarginLimitOrder = {
   s: string;
   canceled?: boolean;
   filledAmount?: string;
+  filled?: BigNumber;
+};
+
+type IApiBigNumber = {
+  hex: string;
+};
+
+export type IApiMarginLimitOrder = {
+  loanId: string;
+  leverageAmount: IApiBigNumber;
+  loanTokenAddress: string;
+  loanTokenSent: IApiBigNumber;
+  collateralTokenSent: IApiBigNumber;
+  collateralTokenAddress: string;
+  trader: string;
+  minReturn: IApiBigNumber;
+  loanDataBytes: string;
+  deadline: IApiBigNumber;
+  createdTimestamp: IApiBigNumber;
+  v: string;
+  r: string;
+  s: string;
+  hash: string;
+  canceled: boolean;
+  filled: IApiBigNumber;
 };
