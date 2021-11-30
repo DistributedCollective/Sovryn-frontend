@@ -39,21 +39,14 @@ const socketEvents = ({ setValue }, perpetualId) => {
         id: data.transactionHash,
         price: parseFloat(weiTo2(decoded.price)),
         size: Math.abs(parseFloat(weiTo2(decoded.tradeAmount))),
-        time: new Date(parseInt(decoded.blockTimestamp) * 1e3)
-          .toTimeString()
-          .slice(0, 8),
-        type: decoded.tradeAmount[0] === '-' ? TradeType.SELL : TradeType.BUY,
+        time: convertTimestampToTime(parseInt(decoded.blockTimestamp) * 1e3),
+        type: getTradeType(decoded.tradeAmount),
         priceChange: TradePriceChange.NO_CHANGE,
         fromSocket: true,
       };
       setValue(state => {
         const prevPrice = state.trades[0].price;
-        parsedTrade.priceChange =
-          prevPrice === price
-            ? TradePriceChange.NO_CHANGE
-            : prevPrice > price
-            ? TradePriceChange.DOWN
-            : TradePriceChange.UP;
+        parsedTrade.priceChange = getPriceChange(prevPrice, price);
         return {
           ...state,
           trades: [
@@ -72,28 +65,41 @@ const formatTradeData = (data: any[]): RecentTradesDataEntry[] => {
     return {
       id: trade.transaction.id,
       price: parseFloat(weiTo2(trade.price)),
-      priceChange:
-        parseFloat(prevTrade.price) === parseFloat(trade.price)
-          ? TradePriceChange.NO_CHANGE
-          : parseFloat(prevTrade.price) > parseFloat(trade.price)
-          ? TradePriceChange.DOWN
-          : TradePriceChange.UP,
+      priceChange: getPriceChange(
+        parseFloat(prevTrade.price),
+        parseFloat(trade.price),
+      ),
       size: Math.abs(parseFloat(weiTo2(trade.tradeAmount))),
-      time: new Date(parseInt(trade.blockTimestamp) * 1e3)
-        .toTimeString()
-        .slice(0, 8),
-      type: trade.tradeAmount[0] === '-' ? TradeType.SELL : TradeType.BUY,
+      time: convertTimestampToTime(parseInt(trade.blockTimestamp) * 1e3),
+      type: getTradeType(trade.tradeAmount),
       fromSocket: false,
     };
   });
   return parsedData;
 };
 
+const getPriceChange = (prevPrice: number, price: number): TradePriceChange => {
+  if (prevPrice < price) {
+    return TradePriceChange.UP;
+  } else if (prevPrice > price) {
+    return TradePriceChange.DOWN;
+  } else {
+    return TradePriceChange.NO_CHANGE;
+  }
+};
+
+const getTradeType = (tradeAmount: string): TradeType => {
+  return tradeAmount[0] === '-' ? TradeType.SELL : TradeType.BUY;
+};
+
+const convertTimestampToTime = (timestamp: number): string =>
+  new Date(timestamp).toTimeString().slice(0, 8);
+
 export const RecentTradesContextProvider = props => {
   const [value, setValue] = useState<{ trades: RecentTradesDataEntry[] }>({
     trades: [],
   });
-  const { data, error, loading } = useGetRecentTrades(
+  const { data, error } = useGetRecentTrades(
     props.pair.id,
     recentTradesMaxLength,
   );
