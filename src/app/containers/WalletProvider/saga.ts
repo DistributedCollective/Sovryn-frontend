@@ -20,6 +20,9 @@ import delay from '@redux-saga/delay-p';
 import axios from 'axios';
 import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { backendUrl, currentChainId } from '../../../utils/classifiers';
+import { bridgeNetwork } from '../../pages/BridgeDepositPage/utils/bridge-network';
+import { BridgeNetworkDictionary } from '../../pages/BridgeDepositPage/dictionaries/bridge-network-dictionary';
+import { Chain } from '../../../types';
 
 function createBlockChannels({ web3 }) {
   return eventChannel(emit => {
@@ -158,9 +161,13 @@ function* callTestTransactionsState() {
   let hasChanges = false;
   const transactions = yield select(selectTransactionArray);
   const txes = transactions.filter(item => item.status === TxStatus.PENDING);
+
   for (let tx of txes) {
     const receipt: TransactionReceipt = yield call(
-      [Sovryn, Sovryn.getWeb3().eth.getTransactionReceipt],
+      [bridgeNetwork, bridgeNetwork.receipt],
+      tx.chainId
+        ? BridgeNetworkDictionary.getByChainId(tx.chainId)?.chain || Chain.RSK
+        : Chain.RSK,
       tx.transactionHash,
     );
     if (receipt === null) {

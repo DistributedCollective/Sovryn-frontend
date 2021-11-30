@@ -15,12 +15,12 @@ import wTrezor from 'assets/wallets/trezor.svg';
 import wWalletConnect from 'assets/wallets/walletconnect.svg';
 import { LinkToExplorer } from '../LinkToExplorer';
 import styled from 'styled-components/macro';
-import styles from './dialog.module.scss';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { ConfirmButton } from 'app/pages/BuySovPage/components/Button/confirm';
 import { usePrevious } from '../../hooks/usePrevious';
+import classNames from 'classnames';
 
 interface Props {
   tx: ResetTxResponseInterface;
@@ -83,7 +83,7 @@ export function TxDialog({ tx, onUserConfirmed, onSuccess }: Props) {
             <span className="tw-sr-only">Close Dialog</span>
           </button>
           <h1>{t(translations.buySovPage.txDialog.txStatus.title)}</h1>
-          <StatusComponent status={tx.status} />
+          <TxStatusIcon status={tx.status} showLabel />
 
           {!!tx.txHash && (
             <StyledHashContainer>
@@ -159,20 +159,6 @@ function getStatus(tx: TxStatus) {
   return <Trans i18nKey={translations.common.pending} />;
 }
 
-const StyledStatus = styled.div`
-  width: 100px;
-  margin: 0 auto 35px;
-  text-align: center;
-  img {
-    width: 100px;
-    height: 100px;
-  }
-  p {
-    font-size: 1rem;
-    font-weight: 500;
-  }
-`;
-
 const StyledHashContainer = styled.div`
   max-width: 215px;
   width: 100%;
@@ -204,18 +190,43 @@ const ExplorerLink = styled.div.attrs(_ => ({
   }
 `;
 
-function StatusComponent({ status }: { status: TxStatus }) {
-  return (
-    <StyledStatus>
-      <img
-        src={getStatusImage(status)}
-        className={`${status === 'pending' && 'tw-animate-spin'}`}
-        alt="Status"
-      />
-      <p>{getStatus(status)}</p>
-    </StyledStatus>
-  );
-}
+type TxStatusIconProps = {
+  status: TxStatus;
+  className?: string;
+  isInline?: boolean;
+  showLabel?: boolean;
+};
+
+export const TxStatusIcon: React.FC<TxStatusIconProps> = ({
+  status,
+  className,
+  isInline,
+  showLabel,
+}) => (
+  <div
+    className={classNames(
+      isInline
+        ? 'tw-inline-flex tw-flex-row tw-max-h-full'
+        : 'tw-w-24 tw-mx-auto tw-mb-8 tw-text-center',
+      className,
+    )}
+  >
+    <img
+      src={getStatusImage(status)}
+      className={classNames(
+        isInline ? 'tw-h-auto flex-initial' : 'tw-h-24 tw-w-24',
+        isInline && showLabel && 'tw-mr-2',
+        status === 'pending' && 'tw-animate-spin',
+      )}
+      alt="Status"
+    />
+    {showLabel && (
+      <p className={!isInline ? 'tw-text-base tw-font-medium' : ''}>
+        {getStatus(status)}
+      </p>
+    )}
+  </div>
+);
 
 const WLContainer = styled.div`
   width: 98px;

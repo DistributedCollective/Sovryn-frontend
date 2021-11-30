@@ -105,6 +105,7 @@ export function useSendContractTx(
 
   const reset = useCallback(() => {
     setTxId(TxStatus.NONE);
+    setTx(undefined);
   }, []);
 
   useEffect(() => {

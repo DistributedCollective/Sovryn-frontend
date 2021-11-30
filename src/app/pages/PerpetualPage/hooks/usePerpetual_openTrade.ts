@@ -45,6 +45,7 @@ export const usePerpetual_openTrade = () => {
       leverage: number | undefined = 1,
       slippage: number | undefined = 0.5,
       tradingPosition: TradingPosition | undefined = TradingPosition.LONG,
+      nonce?: number,
     ) => {
       const signedAmount = getSignedAmount(tradingPosition, amount);
 
@@ -55,23 +56,6 @@ export const usePerpetual_openTrade = () => {
         slippage,
         tradeDirection,
       );
-
-      const marginCollateralAmount = getRequiredMarginCollateral(
-        leverage,
-        marginBalance.fPositionBC,
-        marginBalance.fPositionBC - signedAmount,
-        perpetualParameters,
-        ammState,
-      );
-
-      const marginRequired = Math.max(
-        0,
-        marginCollateralAmount - marginBalance.fCashCC,
-      );
-
-      if (!isClosePosition && marginRequired > 0) {
-        await deposit(toWei(marginRequired.toPrecision(8)));
-      }
 
       const deadline = Math.round(Date.now() / 1000) + 86400; // 1 day
       const timeNow = Math.round(Date.now() / 1000);
@@ -92,6 +76,7 @@ export const usePerpetual_openTrade = () => {
           from: address,
           gas: gasLimit[TxType.OPEN_PERPETUAL_TRADE],
           gasPrice: 60,
+          nonce,
         },
         { type: TxType.OPEN_PERPETUAL_TRADE },
       );

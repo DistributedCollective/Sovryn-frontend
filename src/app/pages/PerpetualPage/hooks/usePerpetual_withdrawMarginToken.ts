@@ -10,12 +10,13 @@ export const usePerpetual_withdrawMarginToken = () => {
   const { send, ...rest } = useSendContractTx('perpetualManager', 'withdraw');
 
   return {
-    withdraw: async (amount: string) => {
+    withdraw: async (amount: string, nonce?: number) => {
       send(
         [PERPETUAL_ID, floatToABK64x64(parseFloat(amount))],
         {
           from: account,
           gas: gasLimit[TxType.WITHDRAW_COLLATERAL],
+          nonce,
         },
         { type: TxType.WITHDRAW_COLLATERAL },
       );

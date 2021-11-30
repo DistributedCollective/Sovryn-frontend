@@ -70,6 +70,7 @@ export interface Transactions {
 }
 
 export interface Transaction {
+  chainId?: number;
   transactionHash: string;
   approveTransactionHash: Nullable<string>;
   type: TxType;

@@ -17,24 +17,13 @@ export const usePerpetual_depositMarginToken = () => {
   const { send, ...rest } = useSendContractTx('perpetualManager', 'deposit');
 
   return {
-    deposit: async (amount: string) => {
-      const tx = await checkAndApprove(
-        'PERPETUALS_token',
-        getContract('perpetualManager').address,
-        amount,
-        Asset.PERPETUALS,
-      );
-
-      if (tx.rejected) {
-        return;
-      }
-
+    deposit: async (amount: string, nonce?: number) => {
       await send(
         [PERPETUAL_ID, floatToABK64x64(parseFloat(fromWei(amount)))],
         {
           from: account,
           gas: gasLimit[TxType.DEPOSIT_COLLATERAL],
-          nonce: tx?.nonce,
+          nonce: nonce,
         },
         { type: TxType.DEPOSIT_COLLATERAL },
       );

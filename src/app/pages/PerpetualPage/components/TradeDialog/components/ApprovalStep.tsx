@@ -25,29 +25,31 @@ import { getContract } from '../../../../../../utils/blockchain/contract-helpers
 import { TransitionAnimation } from '../../../../../containers/TransitionContainer';
 import { Asset } from '../../../../../../types';
 import classNames from 'classnames';
-import { TxStatus } from '../../../../../../store/global/transactions-store/types';
+import { TxStatusIcon } from '../../../../../components/Dialogs/TxDialog';
+import { useSelector } from 'react-redux';
+import { selectTransactions } from '../../../../../../store/global/transactions-store/selectors';
+import { LinkToExplorer } from '../../../../../components/LinkToExplorer';
 
 export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
   const { t } = useTranslation();
   const {
     transactions,
     currentTransaction,
+    setTransactions,
     setCurrentTransaction,
   } = useContext(TradeDialogContext);
   const { wallet } = useWalletContext();
 
   const [result, setResult] = useState<CheckAndApproveResultWithError>();
+  const transactionsMap = useSelector(selectTransactions);
+  const transaction = useMemo(
+    () => (result?.approveTx ? transactionsMap[result.approveTx] : undefined),
+    [result?.approveTx, transactionsMap],
+  );
 
   const { title, text } = useMemo(
-    () =>
-      getTranslations(
-        t,
-        result?.rejected,
-        result?.error,
-        currentTransaction?.index,
-        transactions.length,
-      ),
-    [result, t, transactions.length, currentTransaction?.index],
+    () => getTranslations(t, Boolean(result?.rejected), result?.error),
+    [result, t],
   );
 
   const onRetry = useCallback(() => {
@@ -56,6 +58,7 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     }
     setCurrentTransaction({
       index: currentTransaction?.index,
+      nonce: currentTransaction.nonce,
       stage: PerpetualTxStage.reviewed,
     });
     setResult(undefined);
@@ -72,9 +75,10 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
       if (current.method !== PerpetualTxMethods.deposit) {
         setCurrentTransaction({
           index: currentTransaction.index,
-          stage: PerpetualTxStage.approvalPending,
+          nonce: currentTransaction.nonce,
+          stage: PerpetualTxStage.approved,
         });
-        changeTo(TradeDialogStep.transaction, TransitionAnimation.slideLeft);
+        changeTo(TradeDialogStep.confirmation, TransitionAnimation.slideLeft);
       } else {
         const deposit: PerpetualTxDepositMargin = current;
         checkAndApprove(
@@ -87,24 +91,38 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
             if (!result.rejected) {
               setCurrentTransaction({
                 index: currentTransaction.index,
-                stage: PerpetualTxStage.approvalPending,
+                nonce: result.nonce || currentTransaction.nonce,
+                stage: PerpetualTxStage.confirmed,
               });
+              setTransactions(transactions =>
+                transactions.map(tx => {
+                  if (tx === deposit) {
+                    let newDeposit = { ...deposit };
+                    newDeposit.approvalTx = result.approveTx || null;
+                    return newDeposit;
+                  }
+                  return tx;
+                }),
+              );
+              changeTo(
+                TradeDialogStep.confirmation,
+                TransitionAnimation.slideLeft,
+              );
             }
             setResult(result);
           })
           .catch(error => {
             console.error(error);
           });
-
-        // TODO FIXME: make I need to wait on the approval transaction to determine success/failure
-
-        setCurrentTransaction({
-          index: currentTransaction.index,
-          stage: PerpetualTxStage.approvalPending,
-        });
       }
     }
-  }, [currentTransaction, transactions, setCurrentTransaction, changeTo]);
+  }, [
+    currentTransaction,
+    transactions,
+    setCurrentTransaction,
+    setTransactions,
+    changeTo,
+  ]);
 
   return (
     <>
@@ -112,11 +130,11 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
       <div className={classNames('tw-text-center', styles.contentWrapper)}>
         <WalletLogo wallet={wallet?.wallet?.getWalletType() || ''} />
 
-        {result?.rejected && (
-          <img
-            src={txFailed}
-            alt="failed"
-            className="tw-w-8 tw-mx-auto tw-mb-4 tw-opacity-75"
+        {transaction?.status && (
+          <TxStatusIcon
+            className="tw-w-8 tw-h-8"
+            status={transaction.status}
+            isInline
           />
         )}
         {text}
@@ -133,45 +151,33 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
   );
 };
 
-const getTranslations = (t, rejected, error, current, count) => {
+const getTranslations = (t, rejected: boolean, error: Error | undefined) => {
   if (rejected) {
-    if (error) {
-      return {
-        title: t(translations.perpetualPage.processTrade.titles.approvalFailed),
-        text: (
-          <p className="tw-text-warning">
-            <Trans
-              i18nKey={translations.perpetualPage.processTrade.texts.error}
-              values={{ error: `(${error.message})` }}
-              components={[<span className="tw-block">error</span>]}
-            />
-            <br />
-            {t(translations.perpetualPage.processTrade.texts.cancelOrRetry)}
-          </p>
-        ),
-      };
-    } else {
-      return {
-        title: t(
-          translations.perpetualPage.processTrade.titles.approvalRejected,
-        ),
-        text: (
-          <p className="tw-text-warning">
-            {t(
-              count === 1
-                ? translations.perpetualPage.processTrade.texts.rejected
-                : translations.perpetualPage.processTrade.texts.rejectedMulti,
-              {
-                current,
-                count,
-              },
-            )}
-            <br />
-            {t(translations.perpetualPage.processTrade.texts.cancelOrRetry)}
-          </p>
-        ),
-      };
-    }
+    return {
+      title: t(translations.perpetualPage.processTrade.titles.approvalRejected),
+      text: (
+        <p className="tw-text-warning">
+          {t(translations.perpetualPage.processTrade.texts.rejected)}
+          <br />
+          {t(translations.perpetualPage.processTrade.texts.cancelOrRetry)}
+        </p>
+      ),
+    };
+  } else if (error) {
+    return {
+      title: t(translations.perpetualPage.processTrade.titles.approvalFailed),
+      text: (
+        <p className="tw-text-warning">
+          <Trans
+            i18nKey={translations.perpetualPage.processTrade.texts.error}
+            values={{ error: `(${error.message})` }}
+            components={[<span className="tw-block">error</span>]}
+          />
+          <br />
+          {t(translations.perpetualPage.processTrade.texts.cancelOrRetry)}
+        </p>
+      ),
+    };
   }
   return {
     title: t(translations.perpetualPage.processTrade.titles.approval),

@@ -28,6 +28,7 @@ export function decodeTradeLogs(
   const jsonInput = PerpetualManager.find(item => item.name === 'Trade')
     ?.inputs;
 
+  // TODO FIXME: can lead to crashes if possible error is not caught.
   const decoded = web3Http.eth.abi.decodeLog(
     jsonInput !== undefined ? jsonInput : [],
     logs,

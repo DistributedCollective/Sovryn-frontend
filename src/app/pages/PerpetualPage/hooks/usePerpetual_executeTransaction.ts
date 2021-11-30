@@ -43,7 +43,7 @@ export const usePerpetual_executeTransaction = () => {
     }
 
     return {
-      execute: (transaction: PerpetualTx) => {
+      execute: (transaction: PerpetualTx, nonce?: number) => {
         setTransaction(transaction);
         switch (transaction?.method) {
           case PerpetualTxMethods.trade:
@@ -54,15 +54,16 @@ export const usePerpetual_executeTransaction = () => {
               tradeTx.leverage,
               tradeTx.slippage,
               tradeTx.tradingPosition,
+              nonce,
             );
           case PerpetualTxMethods.deposit:
             const depositTx: PerpetualTxDepositMargin = transaction;
-            return deposit(depositTx.amount);
+            return deposit(depositTx.amount, nonce);
           case PerpetualTxMethods.withdraw:
             const withdrawTx: PerpetualTxWithdrawMargin = transaction;
-            return withdraw(withdrawTx.amount);
+            return withdraw(withdrawTx.amount, nonce);
           case PerpetualTxMethods.withdrawAll:
-            return withdrawAll();
+            return withdrawAll(nonce);
         }
       },
       txData: rest?.txData,
@@ -70,12 +71,6 @@ export const usePerpetual_executeTransaction = () => {
       loading: rest?.loading,
       status: rest?.status,
       reset: rest?.reset,
-      perpetualTx: transaction
-        ? {
-            ...transaction,
-            tx: rest?.txData,
-          }
-        : undefined,
     };
   }, [
     trade,

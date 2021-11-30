@@ -1,5 +1,5 @@
 import { walletService } from '@sovryn/react-wallet';
-import { BigNumber } from 'ethers';
+import { BigNumber, ethers } from 'ethers';
 import { Asset, Chain } from 'types';
 import { Sovryn } from 'utils/sovryn';
 import { contractWriter } from 'utils/sovryn/contract-writer';
@@ -16,6 +16,7 @@ import { TraderState, getBase2CollateralFX, AMMState } from './perpUtils';
 import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
 import { fromWei } from '../../../../utils/blockchain/math-helpers';
 import { CheckAndApproveResultWithError } from '../types';
+import { BridgeNetworkDictionary } from '../../BridgeDepositPage/dictionaries/bridge-network-dictionary';
 
 export const ONE_64x64 = BigNumber.from('0x10000000000000000');
 
@@ -123,6 +124,7 @@ export const checkAndApprove = async (
         .then(tx => {
           dispatch(
             txActions.addTransaction({
+              chainId: BridgeNetworkDictionary.get(Chain.BSC)?.chainId,
               transactionHash: tx as string,
               approveTransactionHash: null,
               type: TxType.APPROVE,
@@ -135,6 +137,7 @@ export const checkAndApprove = async (
               assetAmount: transferAmount.get(amount),
             }),
           );
+
           return tx;
         });
       nonce += 1;

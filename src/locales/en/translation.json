@@ -1736,8 +1736,11 @@
         "confirmMultiFailed": "Confirm {{current}} from {{count}} Failed",
         "confirmMultiRejected": "Confirm {{current}} from {{count}} Rejected",
         "processing": "Order processing…",
-        "complete": "Order Complete",
-        "failed": "Order Failed"
+        "processingMulti": "Order processing {{current}} from {{count}}…",
+        "completed": "Order Completed",
+        "completedMulti": "Order {{current}} from {{count}} Completed",
+        "failed": "Order Failed",
+        "failedMulti": "Order {{current}} from {{count}} Failed"
       },
       "texts": {
         "approval": "Please approve BTC to be spent by the Sovryn smart contracts in your {{wallet}} wallet",
@@ -1747,6 +1750,11 @@
         "rejected": "You have chosen to reject this transaction",
         "rejectedMulti": "You have chosen to reject transaction {{current}} of {{count}}",
         "cancelOrRetry": "Please cancel or retry your transaction"
+      },
+      "labels": {
+        "approvalTx": "Approval Tx ID:",
+        "marginTx": "Margin Tx ID:",
+        "tradeTx": "Trade Tx ID:"
       },
       "buttons": {
         "retry": "Retry",

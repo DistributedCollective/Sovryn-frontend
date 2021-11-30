@@ -13,12 +13,13 @@ export const usePerpetual_withdrawAll = () => {
   );
 
   return {
-    withdraw: async () => {
+    withdraw: async (nonce?: number) => {
       send(
         [PERPETUAL_ID],
         {
           from: account,
           gas: gasLimit[TxType.WITHDRAW_COLLATERAL],
+          nonce,
         },
         { type: TxType.WITHDRAW_COLLATERAL },
       );

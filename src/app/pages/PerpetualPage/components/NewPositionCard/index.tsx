@@ -25,7 +25,13 @@ import { TradeFormStep } from './components/TradeFormStep';
 import { ConnectFormStep } from './components/ConnectFormStep';
 import { noop } from '../../../../constants';
 import { PERPETUAL_SLIPPAGE_DEFAULT } from '../../types';
-import { PerpetualTxMethods } from '../TradeDialog/types';
+import { PerpetualTxMethods, PerpetualTx } from '../TradeDialog/types';
+import { getRequiredMarginCollateral } from '../../utils/perpUtils';
+import { usePerpetual_queryTraderState } from '../../hooks/usePerpetual_queryTraderState';
+import { usePerpetual_queryPerpParameters } from '../../hooks/usePerpetual_queryPerpParameters';
+import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
+import { toWei } from 'web3-utils';
+import { getSignedAmount } from '../../utils/contractUtils';
 
 export const NewPositionCardContext = React.createContext<
   NewPositionCardContextType
@@ -63,6 +69,9 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
   const dispatch = useDispatch();
   const { connected } = useWalletContext();
   const { pairType, collateral } = useSelector(selectPerpetualPage);
+  const traderState = usePerpetual_queryTraderState();
+  const perpParameters = usePerpetual_queryPerpParameters();
+  const ammState = usePerpetual_queryAmmState();
 
   const [trade, setTrade] = useState<PerpetualTrade>({
     pairType,
@@ -76,26 +85,41 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
     entryPrice: 0,
   });
 
-  const onSubmit = useCallback(
-    () =>
-      dispatch(
-        actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
-          origin: PerpetualPageModals.NONE,
-          trade,
-          transactions: [
-            {
-              method: PerpetualTxMethods.trade,
-              amount: trade.amount,
-              tradingPosition: trade.position,
-              slippage: trade.slippage,
-              leverage: trade.leverage,
-              tx: null,
-            },
-          ],
-        }),
-      ),
-    [dispatch, trade],
-  );
+  const onSubmit = useCallback(() => {
+    const requiredMargin = getRequiredMarginCollateral(
+      trade.leverage,
+      traderState.availableCashCC,
+      getSignedAmount(trade.position, trade.amount),
+      perpParameters,
+      ammState,
+    );
+
+    const transactions: PerpetualTx[] = [];
+    if (requiredMargin > 0) {
+      transactions.push({
+        method: PerpetualTxMethods.deposit,
+        amount: toWei(requiredMargin.toPrecision(8)),
+        approvalTx: null,
+        tx: null,
+      });
+    }
+    transactions.push({
+      method: PerpetualTxMethods.trade,
+      amount: trade.amount,
+      tradingPosition: trade.position,
+      slippage: trade.slippage,
+      leverage: trade.leverage,
+      tx: null,
+    });
+
+    dispatch(
+      actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
+        origin: PerpetualPageModals.NONE,
+        trade,
+        transactions,
+      }),
+    );
+  }, [dispatch, trade, traderState, perpParameters, ammState]);
 
   const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
 

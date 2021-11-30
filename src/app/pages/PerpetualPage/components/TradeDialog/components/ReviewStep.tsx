@@ -14,6 +14,8 @@ import { TradeSummary } from './TradeSummary';
 import { ResultPosition } from './ResultPosition';
 import { usePerpetual_executeTransaction } from '../../../hooks/usePerpetual_executeTransaction';
 import { TransitionAnimation } from '../../../../../containers/TransitionContainer';
+import { bridgeNetwork } from '../../../../BridgeDepositPage/utils/bridge-network';
+import { Chain } from '../../../../../../types';
 
 const titleMap = {
   [PerpetualPageModals.NONE]:
@@ -50,17 +52,18 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     tradingFee,
   } = analysis;
 
-  const { execute } = usePerpetual_executeTransaction();
-
   const onSubmit = useCallback(async () => {
     // TODO: implement proper transaction execution and updating transactions
     // Temporary solution! Should be done in sequence somewhere else e.g. TradeExecutionStep (ProcessStep)
     // for (let transaction of transactions) {
     //   await execute(transaction);
     // }
+    let nonce = await bridgeNetwork.nonce(Chain.BSC);
+
     setCurrentTransaction({
       index: 0,
       stage: PerpetualTxStage.reviewed,
+      nonce,
     });
 
     changeTo(

@@ -3,6 +3,7 @@ import { Transaction } from '../../../../../store/global/transactions-store/type
 import { PerpetualPageModals, PerpetualTrade } from '../../types';
 import { PerpetualPair } from '../../../../../utils/models/perpetual-pair';
 import { Nullable } from '../../../../../types';
+import { Dispatch, SetStateAction } from 'react';
 
 export enum TradeDialogStep {
   review = 'review',
@@ -39,26 +40,27 @@ export type PerpetualTxTrade = {
   slippage?: number;
   tradingPosition?: TradingPosition;
   isClosePosition?: boolean;
-  tx: Nullable<Transaction>;
+  tx: Nullable<string>;
 };
 
 export type PerpetualTxDepositMargin = {
   method: PerpetualTxMethods.deposit;
   /** amount as wei string */
   amount: string;
-  tx: Nullable<Transaction>;
+  tx: Nullable<string>;
+  approvalTx: Nullable<string>;
 };
 
 export type PerpetualTxWithdrawMargin = {
   method: PerpetualTxMethods.withdraw;
   /** amount as wei string */
   amount: string;
-  tx: Nullable<Transaction>;
+  tx: Nullable<string>;
 };
 
 export type PerpetualTxWithdrawAllMargin = {
   method: PerpetualTxMethods.withdrawAll;
-  tx: Nullable<Transaction>;
+  tx: Nullable<string>;
 };
 
 export type PerpetualTx =
@@ -68,27 +70,13 @@ export type PerpetualTx =
   | PerpetualTxWithdrawAllMargin;
 
 export enum PerpetualTxStage {
-  /** Transaction has been reviewed by the user */
   reviewed = 'reviewed',
-  /** Transaction requires spending approval, spending approval requested */
-  approvalPending = 'approvalPending',
-  /** Transaction spending approval received */
-  approvalSuccess = 'approvalSuccess',
-  /** Transaction spending approval denied */
-  approvalFailure = 'approvalFailure',
-  /** Transaction confirmation pending  */
-  confirmationPending = 'confirmationPending',
-  /** Transaction confirmation denied */
-  confirmationFailure = 'confirmationFailure',
-  /** Transaction send */
-  transactionPending = 'transactionPending',
-  /** Transaction confirmed */
-  transactionSuccess = 'transactionSuccess',
-  /** Transaction failed */
-  transactionFailure = 'transactionFailure',
+  approved = 'approved',
+  confirmed = 'confirmed',
 }
 
 export type TradeDialogCurrentTransaction = {
+  nonce: number;
   index: number;
   stage: PerpetualTxStage;
 };
@@ -100,7 +88,9 @@ export type TradeDialogContextType = {
   analysis: TradeAnalysis;
   transactions: PerpetualTx[];
   currentTransaction?: TradeDialogCurrentTransaction;
-  setTransactions: (txs: PerpetualTx[]) => void;
-  setCurrentTransaction: (next: TradeDialogCurrentTransaction) => void;
+  setTransactions: Dispatch<SetStateAction<PerpetualTx[]>>;
+  setCurrentTransaction: Dispatch<
+    SetStateAction<TradeDialogCurrentTransaction | undefined>
+  >;
   onClose: () => void;
 };

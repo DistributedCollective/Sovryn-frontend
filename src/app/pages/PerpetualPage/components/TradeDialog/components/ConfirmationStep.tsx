@@ -7,24 +7,22 @@ import React, {
 } from 'react';
 import txFailed from 'assets/images/failed-tx.svg';
 import { TransitionStep } from '../../../../../containers/TransitionSteps';
-import {
-  TradeDialogStep,
-  PerpetualTxStage,
-  PerpetualTxMethods,
-  PerpetualTxDepositMargin,
-} from '../types';
+import { TradeDialogStep, PerpetualTxStage } from '../types';
 import { TradeDialogContext } from '../index';
 import styles from '../index.module.scss';
 import { translations } from '../../../../../../locales/i18n';
 import { useTranslation, Trans } from 'react-i18next';
 import { WalletLogo } from '../../../../../components/UserAssets/TxDialog/WalletLogo';
 import { useWalletContext } from '@sovryn/react-wallet';
-import { checkAndApprove } from '../../../utils/contractUtils';
-import { getContract } from '../../../../../../utils/blockchain/contract-helpers';
-import { TransitionAnimation } from '../../../../../containers/TransitionContainer';
-import { Asset } from '../../../../../../types';
 import classNames from 'classnames';
 import { usePerpetual_executeTransaction } from '../../../hooks/usePerpetual_executeTransaction';
+import { CheckAndApproveResultWithError } from '../../../types';
+import { TxStatus } from '../../../../../../store/global/transactions-store/types';
+import { useSelector } from 'react-redux';
+import { selectTransactions } from '../../../../../../store/global/transactions-store/selectors';
+import { TransitionAnimation } from '../../../../../containers/TransitionContainer';
+import { TxStatusIcon } from '../../../../../components/Dialogs/TxDialog';
+import { LinkToExplorer } from '../../../../../components/LinkToExplorer';
 
 export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
   changeTo,
@@ -33,58 +31,125 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
   const {
     transactions,
     currentTransaction,
+    setTransactions,
     setCurrentTransaction,
   } = useContext(TradeDialogContext);
   const { wallet } = useWalletContext();
-  const {
-    execute,
-    perpetualTx,
-    loading,
-    status,
-  } = usePerpetual_executeTransaction();
+  const { execute, txHash, status, reset } = usePerpetual_executeTransaction();
 
-  const [result, setResult] = useState<>();
+  const transactionsMap = useSelector(selectTransactions);
+  const transactionStatus = useMemo(
+    () => (txHash ? transactionsMap[txHash]?.status || status : status),
+    [txHash, transactionsMap, status],
+  );
+
+  const [rejected, setRejected] = useState(false);
 
   const { title, text } = useMemo(
     () =>
       getTranslations(
         t,
-        result?.rejected,
-        result?.error,
-        currentTransaction?.index,
+        rejected,
+        transactionStatus === TxStatus.FAILED
+          ? new Error('Transaction Failed!')
+          : undefined,
+        (currentTransaction?.index || 0) + 1,
         transactions.length,
       ),
-    [t, result, transactions.length, currentTransaction?.index],
+    [
+      t,
+      rejected,
+      transactionStatus,
+      transactions.length,
+      currentTransaction?.index,
+    ],
   );
 
   const onRetry = useCallback(() => {
     if (!currentTransaction) {
       return;
     }
+
+    setTransactions(transactions =>
+      transactions.map((transaction, index) =>
+        index === currentTransaction?.index
+          ? { ...transaction, tx: null }
+          : transaction,
+      ),
+    );
     setCurrentTransaction({
-      index: currentTransaction?.index,
-      stage: PerpetualTxStage.reviewed,
+      index: currentTransaction.index,
+      nonce: currentTransaction.nonce,
+      stage: PerpetualTxStage.approved,
     });
-    setResult(undefined);
-  }, [currentTransaction, setCurrentTransaction]);
+
+    setRejected(false);
+    if (reset) {
+      reset();
+    }
+  }, [currentTransaction, setCurrentTransaction, setTransactions, reset]);
 
   useEffect(() => {
     if (
+      (status === undefined || status === TxStatus.NONE) &&
       currentTransaction &&
       transactions[currentTransaction.index] &&
-      (currentTransaction.stage === PerpetualTxStage.approvalSuccess ||
-        currentTransaction.stage === PerpetualTxStage.reviewed)
+      !transactions[currentTransaction.index].tx
     ) {
       const current = transactions[currentTransaction.index];
-
-      execute(current);
-
-      setCurrentTransaction({
-        index: currentTransaction.index,
-        stage: PerpetualTxStage.confirmationPending,
+      execute(current).catch(() => {
+        setRejected(true);
       });
     }
-  }, [currentTransaction, transactions, setCurrentTransaction, changeTo]);
+  }, [status, currentTransaction, transactions, execute]);
+
+  useEffect(() => {
+    if (!currentTransaction || !txHash) {
+      return;
+    }
+    setTransactions(transactions =>
+      transactions.map((transaction, index) =>
+        index === currentTransaction.index
+          ? { ...transaction, tx: txHash }
+          : transaction,
+      ),
+    );
+
+    if (currentTransaction.index + 1 < transactions.length) {
+      setCurrentTransaction({
+        index: currentTransaction.index + 1,
+        nonce: currentTransaction.nonce + 1,
+        stage: PerpetualTxStage.reviewed,
+      });
+      changeTo(TradeDialogStep.confirmation, TransitionAnimation.slideLeft);
+    } else {
+      setCurrentTransaction({
+        index: currentTransaction.index,
+        nonce: currentTransaction.nonce + 1,
+        stage: PerpetualTxStage.confirmed,
+      });
+      changeTo(TradeDialogStep.transaction, TransitionAnimation.slideLeft);
+    }
+    if (reset) {
+      reset();
+    }
+  }, [
+    txHash,
+    currentTransaction,
+    transactions,
+    setCurrentTransaction,
+    setTransactions,
+    changeTo,
+    reset,
+  ]);
+
+  console.log(
+    'ConfirmationStep',
+    status,
+    transactionStatus,
+    txHash,
+    currentTransaction,
+  );
 
   return (
     <>
@@ -92,16 +157,16 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
       <div className={classNames('tw-text-center', styles.contentWrapper)}>
         <WalletLogo wallet={wallet?.wallet?.getWalletType() || ''} />
 
-        {result?.rejected && (
-          <img
-            src={txFailed}
-            alt="failed"
-            className="tw-w-8 tw-mx-auto tw-mb-4 tw-opacity-75"
+        {transactionStatus !== TxStatus.NONE && (
+          <TxStatusIcon
+            className="tw-w-8 tw-h-8"
+            status={transactionStatus}
+            isInline
           />
         )}
         {text}
 
-        {result?.rejected && (
+        {(rejected || transactionStatus === TxStatus.FAILED) && (
           <div className="tw-flex tw-justify-center">
             <button className={styles.ghostButton} onClick={onRetry}>
               {t(translations.perpetualPage.processTrade.buttons.retry)}
@@ -113,60 +178,63 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
   );
 };
 
-const getTranslations = (t, rejected, error, current, count) => {
+const getTranslations = (
+  t,
+  rejected: boolean,
+  error: Error | undefined,
+  current: number,
+  count: number,
+) => {
   if (rejected) {
-    if (error) {
-      return {
-        title: t(
-          count === 1
-            ? translations.perpetualPage.processTrade.titles.confirmFailed
-            : translations.perpetualPage.processTrade.titles.confirmMultiFailed,
-          {
-            current,
-            count,
-          },
-        ),
-        text: (
-          <p className="tw-text-warning">
-            <Trans
-              i18nKey={translations.perpetualPage.processTrade.texts.error}
-              values={{ error: `(${error.message})` }}
-              components={[<span className="tw-block">error</span>]}
-            />
-            <br />
-            {t(translations.perpetualPage.processTrade.texts.cancelOrRetry)}
-          </p>
-        ),
-      };
-    } else {
-      return {
-        title: t(
-          count === 1
-            ? translations.perpetualPage.processTrade.titles.confirmRejected
-            : translations.perpetualPage.processTrade.titles
-                .confirmMultiRejected,
-          {
-            current,
-            count,
-          },
-        ),
-        text: (
-          <p className="tw-text-warning">
-            {t(
-              count === 1
-                ? translations.perpetualPage.processTrade.texts.rejected
-                : translations.perpetualPage.processTrade.texts.rejectedMulti,
-              {
-                current,
-                count,
-              },
-            )}
-            <br />
-            {t(translations.perpetualPage.processTrade.texts.cancelOrRetry)}
-          </p>
-        ),
-      };
-    }
+    return {
+      title: t(
+        count === 1
+          ? translations.perpetualPage.processTrade.titles.confirmRejected
+          : translations.perpetualPage.processTrade.titles.confirmMultiRejected,
+        {
+          current,
+          count,
+        },
+      ),
+      text: (
+        <p className="tw-text-warning">
+          {t(
+            count === 1
+              ? translations.perpetualPage.processTrade.texts.rejected
+              : translations.perpetualPage.processTrade.texts.rejectedMulti,
+            {
+              current,
+              count,
+            },
+          )}
+          <br />
+          {t(translations.perpetualPage.processTrade.texts.cancelOrRetry)}
+        </p>
+      ),
+    };
+  } else if (error) {
+    return {
+      title: t(
+        count === 1
+          ? translations.perpetualPage.processTrade.titles.confirmFailed
+          : translations.perpetualPage.processTrade.titles.confirmMultiFailed,
+        {
+          current,
+          count,
+        },
+      ),
+      text: (
+        <p className="tw-text-warning">
+          <Trans
+            i18nKey={translations.perpetualPage.processTrade.texts.error}
+            values={{ error: `(${error.message})` }}
+            components={[<span className="tw-block">error</span>]}
+          />
+          <br />
+          {t(translations.perpetualPage.processTrade.texts.cancelOrRetry)}
+        </p>
+      ),
+    };
   }
   return {
     title: t(
@@ -178,6 +246,6 @@ const getTranslations = (t, rejected, error, current, count) => {
         count,
       },
     ),
-    text: <p>{t(translations.perpetualPage.processTrade.texts.approval)}</p>,
+    text: <p>{t(translations.perpetualPage.processTrade.texts.confirm)}</p>,
   };
 };

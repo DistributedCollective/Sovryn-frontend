@@ -96,6 +96,7 @@ export const EditLeverageDialog: React.FC = () => {
             ? {
                 method: PerpetualTxMethods.deposit,
                 amount: toWei(marginChange),
+                approvalTx: null,
                 tx: null,
               }
             : {

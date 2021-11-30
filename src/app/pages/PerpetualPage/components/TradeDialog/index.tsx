@@ -25,6 +25,7 @@ import {
   TradeDialogContextType,
   TradeDialogStep,
   TradeDialogCurrentTransaction,
+  PerpetualTx,
 } from './types';
 import { noop } from '../../../../constants';
 import { TransitionSteps } from '../../../../containers/TransitionSteps';
@@ -80,7 +81,10 @@ export const TradeDialog: React.FC = () => {
     [modalOptions],
   );
 
-  const [transactions, setTransactions] = useState(requestedTransactions);
+  const [transactions, setTransactions] = useState<PerpetualTx[]>(
+    requestedTransactions,
+  );
+
   const [currentTransaction, setCurrentTransaction] = useState<
     TradeDialogCurrentTransaction
   >();
