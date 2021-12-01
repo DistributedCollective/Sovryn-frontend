@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react';
+import React, { createContext, useEffect, useMemo, useState } from 'react';
 import {
   initialAmmState,
   usePerpetual_queryAmmState,
@@ -39,26 +39,18 @@ export const PerpetualQueriesContext = createContext<
 });
 
 export const PerpetualQueriesContextProvider: React.FC = ({ children }) => {
-  const [value, setValue] = useState<PerpetualQueriesContextValue>({
-    ammState: initialAmmState,
-    perpetualParameters: initialPerpParameters,
-    traderState: initialTraderState,
-    liquidityPoolState: initialLiqPoolState,
-  });
-
   const ammState = usePerpetual_queryAmmState();
   const perpetualParameters = usePerpetual_queryPerpParameters();
   const traderState = usePerpetual_queryTraderState();
   const liquidityPoolState = usePerpetual_queryLiqPoolStateFromPerpetualId();
 
-  useEffect(
-    () =>
-      setValue({
-        ammState,
-        perpetualParameters,
-        traderState,
-        liquidityPoolState,
-      }),
+  const value = useMemo(
+    () => ({
+      ammState,
+      perpetualParameters,
+      traderState,
+      liquidityPoolState,
+    }),
     [ammState, liquidityPoolState, perpetualParameters, traderState],
   );
 
