@@ -1,5 +1,10 @@
-import { createContext } from 'react';
-import { RecentTradesDataEntry, TradePriceChange, TradeType } from './types';
+import { createContext, SetStateAction, Dispatch } from 'react';
+import {
+  RecentTradesDataEntry,
+  TradePriceChange,
+  TradeType,
+  RecentTradesContextType,
+} from './types';
 import React, { useState, useEffect } from 'react';
 import {
   subscription,
@@ -8,6 +13,7 @@ import {
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { useGetRecentTrades } from '../../hooks/graphql/useGetRecentTrades';
 import { weiTo2 } from 'utils/blockchain/math-helpers';
+import { Subscription } from 'web3-core-subscriptions';
 
 export const RecentTradesContext = createContext<{
   trades: RecentTradesDataEntry[];
@@ -17,13 +23,24 @@ export const RecentTradesContext = createContext<{
 
 const recentTradesMaxLength = 50;
 const address = getContract('perpetualManager').address.toLowerCase();
-const socket = subscription(address, ['Trade']);
 
-const initSockets = ({ setValue }, perpetualId) => {
-  socketEvents({ setValue }, perpetualId);
+type InitSocketParams = {
+  setValue: Dispatch<SetStateAction<RecentTradesContextType>>;
 };
 
-const socketEvents = ({ setValue }, perpetualId) => {
+const initSockets = ({ setValue }: InitSocketParams, perpetualId: string) => {
+  const socket = subscription(address, ['Trade']);
+
+  addSocketEventListeners(socket, { setValue }, perpetualId);
+
+  return socket;
+};
+
+const addSocketEventListeners = (
+  socket: Subscription<any>,
+  { setValue }: InitSocketParams,
+  perpetualId: string,
+) => {
   /** This can be uncommented for testing */
   // socket.on('connected', () => {
   //   console.log('[recentTradesWs] bsc websocket connected');
@@ -38,9 +55,9 @@ const socketEvents = ({ setValue }, perpetualId) => {
       const parsedTrade: RecentTradesDataEntry = {
         id: data.transactionHash,
         price: parseFloat(weiTo2(decoded.price)),
-        size: Math.abs(parseFloat(weiTo2(decoded.tradeAmount))),
+        size: Math.abs(parseFloat(weiTo2(decoded.tradeAmountBC))),
         time: convertTimestampToTime(parseInt(decoded.blockTimestamp) * 1e3),
-        type: getTradeType(decoded.tradeAmount),
+        type: getTradeType(decoded.tradeAmountBC),
         priceChange: TradePriceChange.NO_CHANGE,
         fromSocket: true,
       };
@@ -69,9 +86,9 @@ const formatTradeData = (data: any[]): RecentTradesDataEntry[] => {
         parseFloat(prevTrade.price),
         parseFloat(trade.price),
       ),
-      size: Math.abs(parseFloat(weiTo2(trade.tradeAmount))),
+      size: Math.abs(parseFloat(weiTo2(trade.tradeAmountBC))),
       time: convertTimestampToTime(parseInt(trade.blockTimestamp) * 1e3),
-      type: getTradeType(trade.tradeAmount),
+      type: getTradeType(trade.tradeAmountBC),
       fromSocket: false,
     };
   });
@@ -96,7 +113,7 @@ const convertTimestampToTime = (timestamp: number): string =>
   new Date(timestamp).toTimeString().slice(0, 8);
 
 export const RecentTradesContextProvider = props => {
-  const [value, setValue] = useState<{ trades: RecentTradesDataEntry[] }>({
+  const [value, setValue] = useState<RecentTradesContextType>({
     trades: [],
   });
   const { data, error } = useGetRecentTrades(
@@ -107,21 +124,26 @@ export const RecentTradesContextProvider = props => {
     if (data) {
       const parsedData = formatTradeData(data.trades);
       setValue({ trades: parsedData });
-      initSockets({ setValue }, props.pair.id);
     }
     if (error) {
       console.error(error);
     }
-    return () => {
-      socket.unsubscribe((error, success) => {
-        if (error) {
-          console.error(error);
+
+    if (data || error) {
+      let socket = initSockets({ setValue }, props.pair.id);
+      return () => {
+        if (socket) {
+          socket.unsubscribe((error, success) => {
+            if (error) {
+              console.error(error);
+            }
+            if (success) {
+              return;
+            }
+          });
         }
-        if (success) {
-          return;
-        }
-      });
-    };
+      };
+    }
   }, [data, error, props.pair.id]);
 
   return (

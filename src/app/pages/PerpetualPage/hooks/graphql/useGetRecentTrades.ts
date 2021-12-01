@@ -22,7 +22,7 @@ export function useGetRecentTrades(perpetualId: string, count: number = 20) {
         perpetual {
           id
         }
-        tradeAmount
+        tradeAmountBC
         price
         blockTimestamp
         transaction {
