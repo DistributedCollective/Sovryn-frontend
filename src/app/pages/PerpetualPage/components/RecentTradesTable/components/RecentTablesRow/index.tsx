@@ -2,14 +2,19 @@ import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import { RecentTradesDataEntry, TradeType } from '../../types';
 import { getPriceChangeImage, getPriceColor } from './utils';
+import { toNumberFormat } from '../../../../../../../utils/display-text/format';
 
 type RecentTradesTableRowProps = {
   row: RecentTradesDataEntry;
+  pricePrecision: number;
+  sizePrecision: number;
   isOddRow: boolean;
 };
 
 export const RecentTradesTableRow: React.FC<RecentTradesTableRowProps> = ({
   row,
+  pricePrecision,
+  sizePrecision,
   isOddRow,
 }) => {
   const priceChangeImage = useMemo(() => getPriceChangeImage(row.priceChange), [
@@ -48,7 +53,7 @@ export const RecentTradesTableRow: React.FC<RecentTradesTableRowProps> = ({
           <span className="tw-mr-3.5" />
         )}
 
-        {row.price}
+        {row.price.toFixed(pricePrecision)}
       </td>
       <td
         className={classNames(
@@ -56,7 +61,7 @@ export const RecentTradesTableRow: React.FC<RecentTradesTableRowProps> = ({
           backgroundClassName,
         )}
       >
-        {row.size}
+        {row.size.toFixed(sizePrecision)}
       </td>
       <td
         className={classNames(

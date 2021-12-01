@@ -14,6 +14,8 @@ import { getContract } from 'utils/blockchain/contract-helpers';
 import { useGetRecentTrades } from '../../hooks/graphql/useGetRecentTrades';
 import { weiTo2 } from 'utils/blockchain/math-helpers';
 import { Subscription } from 'web3-core-subscriptions';
+import { BigNumber } from 'ethers';
+import { ABK64x64ToFloat } from '../../utils/contractUtils';
 
 export const RecentTradesContext = createContext<{
   trades: RecentTradesDataEntry[];
@@ -51,13 +53,16 @@ const addSocketEventListeners = (
     // console.log('[recentTradesWs] data received');
     const decoded = decodeTradeLogs(data.data, [data.topics[1]]);
     if (decoded.perpetualId.toLowerCase() === perpetualId.toLowerCase()) {
-      const price = parseFloat(weiTo2(decoded.price));
+      const price = ABK64x64ToFloat(BigNumber.from(decoded.price));
+      const tradeAmount = ABK64x64ToFloat(
+        BigNumber.from(decoded.tradeAmountBC),
+      );
       const parsedTrade: RecentTradesDataEntry = {
         id: data.transactionHash,
-        price: parseFloat(weiTo2(decoded.price)),
-        size: Math.abs(parseFloat(weiTo2(decoded.tradeAmountBC))),
+        price,
+        size: Math.abs(tradeAmount),
         time: convertTimestampToTime(parseInt(decoded.blockTimestamp) * 1e3),
-        type: getTradeType(decoded.tradeAmountBC),
+        type: getTradeType(tradeAmount),
         priceChange: TradePriceChange.NO_CHANGE,
         fromSocket: true,
       };
@@ -79,16 +84,16 @@ const addSocketEventListeners = (
 const formatTradeData = (data: any[]): RecentTradesDataEntry[] => {
   const parsedData: RecentTradesDataEntry[] = data.map((trade, index) => {
     const prevTrade = index !== data.length - 1 ? data[index + 1] : data[index];
+    const prevPrice = ABK64x64ToFloat(BigNumber.from(prevTrade.price));
+    const price = ABK64x64ToFloat(BigNumber.from(trade.price));
+    const tradeAmount = ABK64x64ToFloat(BigNumber.from(trade.tradeAmountBC));
     return {
       id: trade.transaction.id,
-      price: parseFloat(weiTo2(trade.price)),
-      priceChange: getPriceChange(
-        parseFloat(prevTrade.price),
-        parseFloat(trade.price),
-      ),
-      size: Math.abs(parseFloat(weiTo2(trade.tradeAmountBC))),
+      price,
+      priceChange: getPriceChange(prevPrice, price),
+      size: Math.abs(tradeAmount),
       time: convertTimestampToTime(parseInt(trade.blockTimestamp) * 1e3),
-      type: getTradeType(trade.tradeAmountBC),
+      type: getTradeType(tradeAmount),
       fromSocket: false,
     };
   });
@@ -105,8 +110,8 @@ const getPriceChange = (prevPrice: number, price: number): TradePriceChange => {
   }
 };
 
-const getTradeType = (tradeAmount: string): TradeType => {
-  return tradeAmount[0] === '-' ? TradeType.SELL : TradeType.BUY;
+const getTradeType = (tradeAmount: number): TradeType => {
+  return tradeAmount < 0 ? TradeType.SELL : TradeType.BUY;
 };
 
 const convertTimestampToTime = (timestamp: number): string =>
