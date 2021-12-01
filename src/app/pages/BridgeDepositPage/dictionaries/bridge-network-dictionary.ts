@@ -60,7 +60,7 @@ export class BridgeNetworkDictionary {
       'Binance Smart Chain',
       CrossBridgeAsset.BNB,
       bscIcon,
-      'https://bsc-dataseed.binance.org', // TODO: switch RPC to 'https://bsc.sovryn.app/mainnet'
+      'https://bsc.sovryn.app/mainnet',
       'https://bscscan.com',
       AppMode.MAINNET,
       '0x41263cba59eb80dc200f3e2544eda4ed6a90e76c',
@@ -71,7 +71,7 @@ export class BridgeNetworkDictionary {
       'Binance Smart Testnet',
       CrossBridgeAsset.BNB,
       bscIcon,
-      'https://data-seed-prebsc-1-s2.binance.org:8545', //TODO: switch RPC to 'https://bsc.sovryn.app/testnet'
+      'https://bsc.sovryn.app/testnet',
       'https://testnet.bscscan.com',
       AppMode.TESTNET,
       '0xae11C5B5f29A6a25e955F0CB8ddCc416f522AF5C',
