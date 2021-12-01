@@ -65,10 +65,10 @@ export async function signTypeMarginOrderData(
 ) {
   const msgParams = JSON.stringify({
     domain: {
-      name: 'OrderBook',
+      name: 'OrderBookMargin',
       version: '1',
       chainId,
-      verifyingContract: getContract('orderBook').address,
+      verifyingContract: getContract('orderBookMargin').address,
     },
 
     message: {
