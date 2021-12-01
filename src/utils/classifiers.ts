@@ -76,12 +76,12 @@ export const gasLimit = {
   [TxType.STAKING_WITHDRAW]: 500000,
   [TxType.STAKING_REWARDS_CLAIM]: 3250000, //limit should be reduced once contract issue with claiming 0 values is resolved
   [TxType.STAKING_LIQUID_SOV_CLAIM]: 1500000,
-  [TxType.DEPOSIT_COLLATERAL]: 150000,
-  [TxType.WITHDRAW_COLLATERAL]: 1000000,
+  [TxType.DEPOSIT_COLLATERAL]: 160000,
+  [TxType.WITHDRAW_COLLATERAL]: 1200000,
   [TxType.CLAIM_VESTED_SOV_REWARDS]: 6000000,
   [TxType.SOV_WITHDRAW_VESTING]: 1500000,
   [TxType.SIMULATOR_REQUEST]: 6800000,
-  [TxType.OPEN_PERPETUAL_TRADE]: 1200000,
+  [TxType.OPEN_PERPETUAL_TRADE]: 1800000,
 };
 
 export const discordInvite = 'https://discord.gg/kBTNx4zjRf'; //unlimited use, no-expiry invite
