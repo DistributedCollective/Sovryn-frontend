@@ -45,7 +45,11 @@ function getNextBarTime(barTime: number, resolution: number) {
 }
 
 subscription.on('data', data => {
-  const decoded = decodeTradeLogs(data.data, [data.topics[1]]);
+  const decoded = decodeTradeLogs(data.data, data.topics.slice(1));
+  if (!decoded) {
+    return;
+  }
+
   const tradePrice = ABK64x64ToFloat(BigNumber.from(decoded.price));
   const tradeAmount = ABK64x64ToFloat(BigNumber.from(decoded.tradeAmountBC));
   const tradeTime = parseInt(decoded.blockTimestamp) * 1e3;

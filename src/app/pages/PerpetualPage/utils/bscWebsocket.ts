@@ -17,20 +17,18 @@ const rpcAddress = BridgeNetworkDictionary.getByChainId(
 const web3Http = new Web3(rpcAddress || null);
 
 const PerpetualManager = IPerpetualManager as AbiItem[];
+const TradeParameters =
+  PerpetualManager.find(item => item.name === 'Trade')?.inputs || [];
 
 export function decodeTradeLogs(
   logs: string,
   topics: string[],
-): { [key: string]: string } {
-  const jsonInput = PerpetualManager.find(item => item.name === 'Trade')
-    ?.inputs;
-
-  const decoded = web3Http.eth.abi.decodeLog(
-    jsonInput !== undefined ? jsonInput : [],
-    logs,
-    topics,
-  );
-  return decoded;
+): { [key: string]: string } | undefined {
+  try {
+    return web3Http.eth.abi.decodeLog(TradeParameters, logs, topics);
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 export const subscription = (

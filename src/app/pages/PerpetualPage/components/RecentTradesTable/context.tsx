@@ -50,8 +50,12 @@ const addSocketEventListeners = (
   socket.on('data', data => {
     /** This can be uncommented for testing */
     // console.log('[recentTradesWs] data received');
-    const decoded = decodeTradeLogs(data.data, [data.topics[1]]);
-    if (decoded.perpetualId.toLowerCase() === perpetualId.toLowerCase()) {
+    const decoded = decodeTradeLogs(data.data, data.topics.slice(1));
+
+    if (
+      decoded &&
+      decoded.perpetualId.toLowerCase() === perpetualId.toLowerCase()
+    ) {
       const price = ABK64x64ToFloat(BigNumber.from(decoded.price));
       const tradeAmount = ABK64x64ToFloat(
         BigNumber.from(decoded.tradeAmountBC),
