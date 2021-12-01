@@ -26,7 +26,9 @@ export enum PerpetualPageModals {
 
 export type PerpetualTradeEvent = {
   id: string;
-  perpetualId: string;
+  perpetual: {
+    id: string;
+  };
   trader: string;
   orderFlags: string;
   tradeAmount: string;

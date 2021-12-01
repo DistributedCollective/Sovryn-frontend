@@ -9,14 +9,16 @@ import { EditPositionSizeDialogContext } from '..';
 import { getSignedAmount } from '../../../utils/contractUtils';
 import { toWei } from 'web3-utils';
 import { TradingPosition } from '../../../../../../types/trading-position';
-import { usePerpetual_queryTraderState } from '../../../hooks/usePerpetual_queryTraderState';
 import { PerpetualTxMethods } from '../../TradeDialog/types';
+import { PerpetualQueriesContext } from 'app/pages/PerpetualPage/contexts/PerpetualQueriesContext';
 
 export const TradeFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
   changeTo,
 }) => {
   const dispatch = useDispatch();
-  const traderState = usePerpetual_queryTraderState();
+
+  const { traderState } = useContext(PerpetualQueriesContext);
+
   const { trade, changedTrade, onChange } = useContext(
     EditPositionSizeDialogContext,
   );

@@ -11,9 +11,6 @@ import { Tooltip, PopoverPosition } from '@blueprintjs/core';
 import { AmountInput } from '../../../../../components/Form/AmountInput';
 import { ClosePositionDialogStep } from '../types';
 import { ClosePositionDialogContext } from '..';
-import { usePerpetual_queryTraderState } from '../../../hooks/usePerpetual_queryTraderState';
-import { usePerpetual_queryAmmState } from '../../../hooks/usePerpetual_queryAmmState';
-import { usePerpetual_queryPerpParameters } from '../../../hooks/usePerpetual_queryPerpParameters';
 import {
   PerpetualPairDictionary,
   PerpetualPairType,
@@ -25,15 +22,20 @@ import { getSignedAmount } from '../../../utils/contractUtils';
 import { TradingPosition } from '../../../../../../types/trading-position';
 import { toWei } from '../../../../../../utils/blockchain/math-helpers';
 import { PerpetualTxMethods } from '../../TradeDialog/types';
+import { PerpetualQueriesContext } from 'app/pages/PerpetualPage/contexts/PerpetualQueriesContext';
 
 export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
   changeTo,
 }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const traderState = usePerpetual_queryTraderState();
-  const ammState = usePerpetual_queryAmmState();
-  const perpParameters = usePerpetual_queryPerpParameters();
+
+  const {
+    ammState,
+    traderState,
+    perpetualParameters: perpParameters,
+  } = useContext(PerpetualQueriesContext);
+
   const { changedTrade, trade, onChange } = useContext(
     ClosePositionDialogContext,
   );

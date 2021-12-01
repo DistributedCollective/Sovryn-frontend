@@ -6,7 +6,7 @@ import { PerpParameters } from '../utils/perpUtils';
 import { ABK64x64ToFloat, PERPETUAL_ID } from '../utils/contractUtils';
 import perpetualManagerAbi from 'utils/blockchain/abi/PerpetualManager.json';
 
-const initialPerpParameters: PerpParameters = {
+export const initialPerpParameters: PerpParameters = {
   fInitialMarginRateAlpha: 0,
   fMarginRateBeta: 0,
   fInitialMarginRateCap: 0,

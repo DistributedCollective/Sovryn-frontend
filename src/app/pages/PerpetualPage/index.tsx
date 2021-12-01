@@ -40,6 +40,7 @@ import { ClosePositionDialog } from './components/ClosePositionDialog';
 import { ClosedPositionsTable } from './components/ClosedPositionsTable';
 import { OrderHistoryTable } from './components/OrderHistoryTable/index';
 import { FundingPaymentsTable } from './components/FundingPaymentsTable/index';
+import { PerpetualQueriesContextProvider } from './contexts/PerpetualQueriesContext';
 
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -99,7 +100,7 @@ export function PerpetualPage() {
   const [activeTab, setActiveTab] = useState(0);
 
   return (
-    <>
+    <PerpetualQueriesContextProvider>
       <Helmet>
         <title>{t(translations.perpetualPage.meta.title)}</title>
         <meta
@@ -201,6 +202,6 @@ export function PerpetualPage() {
         <EditMarginDialog />
         <ClosePositionDialog />
       </RecentTradesContextProvider>
-    </>
+    </PerpetualQueriesContextProvider>
   );
 }

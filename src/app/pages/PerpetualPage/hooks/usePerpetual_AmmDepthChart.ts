@@ -1,4 +1,4 @@
-import { useMemo, useContext } from 'react';
+import { useEffect, useState, useMemo, useRef, useContext } from 'react';
 import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
 import { usePerpetual_queryAmmState } from './usePerpetual_queryAmmState';
 import {
@@ -6,7 +6,7 @@ import {
   getMarkPrice,
   getDepthMatrix,
 } from '../utils/perpUtils';
-import { usePerpetual_queryPerpParameters } from './usePerpetual_queryPerpParameters';
+import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import { RecentTradesContext } from '../components/RecentTradesTable/context';
 import { TradePriceChange } from '../components/RecentTradesTable/types';
 
@@ -29,15 +29,13 @@ export type AmmDepthChartData = {
 export const usePerpetual_AmmDepthChart = (
   pair: PerpetualPair,
 ): AmmDepthChartData => {
-  const perpertualParameters = usePerpetual_queryPerpParameters();
-  const ammState = usePerpetual_queryAmmState();
-
+  const { ammState, perpetualParameters } = useContext(PerpetualQueriesContext);
   const { trades } = useContext(RecentTradesContext);
 
   const data = useMemo(() => {
     const indexPrice = getIndexPrice(ammState);
     const markPrice = getMarkPrice(ammState);
-    const entries = getDepthMatrix(perpertualParameters, ammState);
+    const entries = getDepthMatrix(perpetualParameters, ammState);
 
     let shorts: AmmDepthChartDataEntry[] = [];
     let longs: AmmDepthChartDataEntry[] = [];
@@ -75,7 +73,7 @@ export const usePerpetual_AmmDepthChart = (
       shorts,
       longs,
     };
-  }, [trades, perpertualParameters, ammState]);
+  }, [trades, perpetualParameters, ammState]);
 
   return data;
 };

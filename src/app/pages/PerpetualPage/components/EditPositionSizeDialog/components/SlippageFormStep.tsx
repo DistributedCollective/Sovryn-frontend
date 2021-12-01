@@ -8,8 +8,6 @@ import { TransitionAnimation } from '../../../../../containers/TransitionContain
 import { translations } from '../../../../../../locales/i18n';
 import { EditPositionSizeDialogContext } from '..';
 import { PERPETUAL_SLIPPAGE_DEFAULT } from '../../../types';
-import { usePerpetual_queryAmmState } from '../../../hooks/usePerpetual_queryAmmState';
-import { usePerpetual_queryPerpParameters } from '../../../hooks/usePerpetual_queryPerpParameters';
 import { getMidPrice, calculateSlippagePrice } from '../../../utils/perpUtils';
 import {
   PerpetualPairType,
@@ -19,14 +17,17 @@ import { getTradeDirection } from '../../../utils/contractUtils';
 import { AssetValue } from '../../../../../components/AssetValue';
 import { TradingPosition } from '../../../../../../types/trading-position';
 import { AssetValueMode } from '../../../../../components/AssetValue/types';
+import { PerpetualQueriesContext } from 'app/pages/PerpetualPage/contexts/PerpetualQueriesContext';
 
 export const SlippageFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
   changeTo,
 }) => {
   const { t } = useTranslation();
 
-  const ammState = usePerpetual_queryAmmState();
-  const perpParameters = usePerpetual_queryPerpParameters();
+  const { ammState, perpetualParameters: perpParameters } = useContext(
+    PerpetualQueriesContext,
+  );
+
   const midPrice = useMemo(() => getMidPrice(perpParameters, ammState), [
     perpParameters,
     ammState,

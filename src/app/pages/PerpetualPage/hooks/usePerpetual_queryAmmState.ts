@@ -6,7 +6,7 @@ import { ABK64x64ToFloat, PERPETUAL_ID } from '../utils/contractUtils';
 import perpetualManagerAbi from 'utils/blockchain/abi/PerpetualManager.json';
 import { useEffect, useState } from 'react';
 
-const initialAmmState: AMMState = {
+export const initialAmmState: AMMState = {
   L1: 0,
   K2: 0,
   M1: 0,
