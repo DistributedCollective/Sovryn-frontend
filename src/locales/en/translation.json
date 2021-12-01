@@ -1965,8 +1965,8 @@
       "aborted": "Your transaction has failed. <br/>Please cancel or retry your transaction",
       "abortedLedger": "Make sure \"Contract data\" is set to \"Allowed\" in your Ledger app settings",
       "cta": "View in Tracker",
-      "processing": "Transaction processing...",
-      "complete": "Transaction Complete"
+      "processing": "Order processing...",
+      "complete": "Order Complete"
     }
   },
   "buySovPage": {

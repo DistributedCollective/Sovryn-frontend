@@ -3,7 +3,7 @@ import { Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
 import { discordInvite } from 'utils/classifiers';
-
+import { ToastContainer } from 'react-toastify';
 import OptOutDialog from 'app/components/OptOutDialog';
 import footerLogo from 'assets/images/footer-logo.svg';
 
@@ -123,6 +123,7 @@ export const Footer: React.FC = () => {
         open={optDialogOpen}
         onClose={() => setOptDialogOpen(false)}
       />
+      <ToastContainer />
     </footer>
   );
 };
