@@ -4,14 +4,11 @@ import { AbiItem } from 'web3-utils';
 import { BridgeNetworkDictionary } from '../../BridgeDepositPage/dictionaries/bridge-network-dictionary';
 import { ChainId } from '../../../../types';
 
-// TODO: Change subscription ID to perpID + candleDuration
+const wssUrl =
+  process.env.REACT_APP_BSC_WS_URL +
+  (process.env.REACT_APP_BSC_WS_API_KEY || '');
 
-const web3Socket = new Web3(
-  new Web3.providers.WebsocketProvider(
-    process.env.REACT_APP_BSC_WS_URL +
-      (process.env.REACT_APP_BSC_WS_API_KEY || ''),
-  ),
-);
+const web3Socket = new Web3(new Web3.providers.WebsocketProvider(wssUrl));
 
 const isMainnet = process.env.REACT_APP_NETWORK === 'mainnet';
 const rpcAddress = BridgeNetworkDictionary.getByChainId(
@@ -20,20 +17,18 @@ const rpcAddress = BridgeNetworkDictionary.getByChainId(
 const web3Http = new Web3(rpcAddress || null);
 
 const PerpetualManager = IPerpetualManager as AbiItem[];
+const TradeParameters =
+  PerpetualManager.find(item => item.name === 'Trade')?.inputs || [];
 
 export function decodeTradeLogs(
   logs: string,
   topics: string[],
-): { [key: string]: string } {
-  const jsonInput = PerpetualManager.find(item => item.name === 'Trade')
-    ?.inputs;
-
-  const decoded = web3Http.eth.abi.decodeLog(
-    jsonInput !== undefined ? jsonInput : [],
-    logs,
-    topics,
-  );
-  return decoded;
+): { [key: string]: string } | undefined {
+  try {
+    return web3Http.eth.abi.decodeLog(TradeParameters, logs, topics);
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 export const subscription = (

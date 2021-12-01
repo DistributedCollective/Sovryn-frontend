@@ -16,4 +16,7 @@ export type RecentTradesDataEntry = {
   price: number;
   size: number;
   time: string;
+  fromSocket?: boolean;
 };
+
+export type RecentTradesContextType = { trades: RecentTradesDataEntry[] };
