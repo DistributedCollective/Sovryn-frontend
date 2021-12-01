@@ -5,7 +5,9 @@ import {
   CandleDuration,
   CandleDictionary,
 } from '../../hooks/graphql/useGetCandles';
-import { weiTo2 } from 'utils/blockchain/math-helpers';
+import { ABK64x64ToFloat } from '../../utils/contractUtils';
+import { BigNumber } from 'ethers';
+import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
 
 // Supported configuration options can be found here:
 // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#onreadycallback
@@ -37,31 +39,33 @@ const addMissingBars = (bars: Bar[], candleDuration: CandleDuration): Bar[] => {
   let newBars: Bar[] = [];
   const now = new Date().getTime();
   const latestBar = Math.floor(now / seconds) * seconds;
-  if (bars[bars.length - 1].time !== latestBar) {
+  let previousBar = bars[bars.length - 1];
+  if (previousBar.time !== latestBar) {
     bars.push({
       time: latestBar,
-      open: bars[bars.length - 1].close,
-      high: bars[bars.length - 1].close,
-      low: bars[bars.length - 1].close,
-      close: bars[bars.length - 1].close,
+      open: previousBar.close,
+      high: previousBar.close,
+      low: previousBar.close,
+      close: previousBar.close,
       volume: 0,
     });
   }
   for (let i = 0; i < bars.length; i++) {
+    previousBar = newBars[newBars.length - 1];
     if (i === 0) {
       newBars.push(bars[i]);
-    } else if (bars[i].time === newBars[newBars.length - 1].time + seconds) {
+    } else if (bars[i].time === previousBar.time + seconds) {
       /* Is next bar in sequence */
       newBars.push(bars[i]);
     } else {
       const extraBar = {
-        high: newBars[newBars.length - 1].close,
-        low: newBars[newBars.length - 1].close,
-        open: newBars[newBars.length - 1].close,
-        close: newBars[newBars.length - 1].close,
+        high: previousBar.close,
+        low: previousBar.close,
+        open: previousBar.close,
+        close: previousBar.close,
         volume: 0,
       };
-      let startTime = newBars[newBars.length - 1].time + seconds;
+      let startTime = previousBar.time + seconds;
       while (startTime < bars[i].time) {
         const newBar = {
           ...extraBar,
@@ -95,11 +99,11 @@ export const makeApiRequest = async (
     const bars: Bar[] = response.data[keys[0]].map(item => {
       return {
         time: item.periodStartUnix * 1e3,
-        high: parseFloat(weiTo2(item.high)),
-        low: parseFloat(weiTo2(item.low)),
-        open: parseFloat(weiTo2(item.open)),
-        close: parseFloat(weiTo2(item.close)),
-        volume: parseFloat(weiTo2(item.totalVolume)),
+        high: ABK64x64ToFloat(BigNumber.from(item.high)),
+        low: ABK64x64ToFloat(BigNumber.from(item.low)),
+        open: ABK64x64ToFloat(BigNumber.from(item.open)),
+        close: ABK64x64ToFloat(BigNumber.from(item.close)),
+        volume: ABK64x64ToFloat(BigNumber.from(item.totalVolume)),
       };
     });
     const newBars = addMissingBars(bars, candleDuration);
@@ -119,11 +123,10 @@ export type Bar = {
   volume?: number;
 };
 
-// TODO: use Perpetual ID from PerpetualPairDictionary for SymbolMap
-export const symbolMap = {
-  'BTC/USD':
-    '0xada5013122d395ba3c54772283fb069b10426056ef8ca54750cb9bb552a59e7d',
-};
+export const symbolMap = PerpetualPairDictionary.list().reduce(
+  (acc, entry) => ({ ...acc, [entry.chartSymbol]: entry.id }),
+  {},
+);
 
 export const resolutionMap: { [key: string]: CandleDuration } = {
   '1': CandleDuration.M_1,

@@ -12,6 +12,7 @@ import {
 } from '../../hooks/usePerpetual_AmmDepthChart';
 import { Tooltip } from '@blueprintjs/core';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
+import { TradePriceChange } from '../RecentTradesTable/types';
 
 type AmmDepthChartProps = {
   pair: PerpetualPair;
@@ -32,14 +33,22 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
         max,
       );
       max = data.longs.reduce((acc, entry) => Math.max(acc, entry.amount), max);
-      if (data.trend > 0) {
-        trendImage = trendArrowUp;
-        trendText = 'trending upwards';
-        trendClass = 'tw-text-trade-long';
-      } else if (data.trend < 0) {
-        trendImage = trendArrowDown;
-        trendText = 'trending downwards';
-        trendClass = 'tw-text-trade-short';
+      switch (data.trend) {
+        case TradePriceChange.UP:
+          trendImage = trendArrowUp;
+          trendText = 'trending upwards';
+          trendClass = 'tw-text-trade-long';
+          break;
+        case TradePriceChange.DOWN:
+          trendImage = trendArrowDown;
+          trendText = 'trending downwards';
+          trendClass = 'tw-text-trade-short';
+          break;
+        case TradePriceChange.NO_CHANGE:
+          trendImage = undefined;
+          trendText = 'trend stable';
+          trendClass = 'tw-text-sov-white';
+          break;
       }
     }
 

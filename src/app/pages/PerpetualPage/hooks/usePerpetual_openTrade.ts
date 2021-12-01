@@ -3,7 +3,6 @@ import { useSendContractTx } from 'app/hooks/useSendContractTx';
 import { useMemo } from 'react';
 import { TxType } from 'store/global/transactions-store/types';
 import { TradingPosition } from 'types/trading-position';
-import { fromWei } from 'utils/blockchain/math-helpers';
 import { ethGenesisAddress, gasLimit } from 'utils/classifiers';
 import { toWei } from 'web3-utils';
 import {
