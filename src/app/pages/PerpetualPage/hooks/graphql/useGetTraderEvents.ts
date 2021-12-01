@@ -52,8 +52,8 @@ class EventDictionary {
       [
         Event.TRADE,
         new EventDetails('trades', [
-          'perpetualId',
-          'tradeAmount',
+          'perpetual { id }',
+          'tradeAmountBC',
           'orderFlags',
           'price',
           ...genericFields,

@@ -77,7 +77,7 @@ export const usePerpetual_OpenPosition = (
     const currentTradeEvents: PerpetualTradeEvent[] | undefined =
       tradeEvents?.trader?.trades || previousTradeEvents?.trader?.trades;
     const latestTrade = currentTradeEvents?.find(
-      (trade: PerpetualTradeEvent) => trade.perpetualId === pair.id,
+      (trade: PerpetualTradeEvent) => trade.perpetual?.id === pair.id,
     );
 
     const entryPrice = latestTrade?.price
