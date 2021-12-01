@@ -49,7 +49,8 @@ export type PerpParameters = {
   fDFCoverNRate: number;
   fDFLambda_0: number;
   fDFLambda_1: number;
-  fAMMTargetDD: number;
+  fAMMTargetDD_0: number;
+  fAMMTargetDD_1: number;
   fAMMMinSizeCC: number;
   fMinimalTraderExposureEMA: number;
   fMaximalTradeSizeBumpUp: number;
@@ -73,8 +74,8 @@ export type AMMState = {
   // Oracle data:
   indexS2PriceData: number;
   indexS3PriceData: number;
-  currentPremiumEMA: number;
-  currentPremium: number;
+  currentPremiumRateEMA: number;
+  currentPremiumRate: number;
 };
 
 export type LiqPoolState = {
@@ -104,6 +105,7 @@ export type TraderState = {
  * perpetual, assuming enough margin is available (i.e. not considering leverage).
  * @param {number} currentPos - The current position of the trade (base currency), negative if short
  * @param {number} direction - {-1, 1} Does the trader want to buy (1), or sell (-1)
+ * @param {LiqPoolState} liqPool - Contains current liq pool state data
  * @param {AMMState} ammData - Contains current price/state data
  * @param {PerpParameters} perpParams - Contains parameter of the perpetual
  * @param {boolean} isQuanto - True if collateral currency of instrument is different from base and quote
@@ -115,39 +117,49 @@ export function getMaximalTradeSizeInPerpetual(
   currentPos: number,
   direction: number,
   ammData: AMMState,
+  liqPool: LiqPoolState,
   perpParams: PerpParameters,
 ): number {
-  let kStar = 0;
   let lotSize = perpParams.fLotSizeBC;
   let isQuanto: boolean = ammData.M3 !== 0;
-  if (!isQuanto) {
-    kStar = calcKStar(
-      ammData.K2,
-      ammData.L1,
-      ammData.indexS2PriceData,
-      ammData.M1,
-      ammData.M2,
-      ammData.M3,
-    );
-    kStar = shrinkToLot(kStar, lotSize);
+  let kStar = calcKStar(
+    ammData.K2,
+    ammData.L1,
+    ammData.indexS2PriceData,
+    ammData.indexS3PriceData,
+    ammData.M1,
+    ammData.M2,
+    ammData.M3,
+    perpParams.fRho23,
+    perpParams.fSigma2,
+    perpParams.fSigma3,
+  );
+  kStar = shrinkToLot(kStar, lotSize);
+  let fundingRatio = liqPool.fDefaultFundCashCC / liqPool.fTargetDFSize;
+  let scale: number;
+  if (direction === Math.sign(kStar)) {
+    scale = perpParams.fMaximalTradeSizeBumpUp;
+  } else {
+    // adverse direction
+    scale =
+      fundingRatio > 1
+        ? perpParams.fMaximalTradeSizeBumpUp
+        : 0.5 + 0.5 * fundingRatio;
   }
-  let maxAbsTradeSize =
-    ammData.fCurrentTraderExposureEMA * perpParams.fMaximalTradeSizeBumpUp;
-  maxAbsTradeSize = shrinkToLot(maxAbsTradeSize, lotSize);
+  let maxAbsPositionSize = ammData.fCurrentTraderExposureEMA * scale;
+  maxAbsPositionSize = shrinkToLot(maxAbsPositionSize, lotSize);
   let maxSignedTradeSize: number;
   if (direction < 0) {
     maxSignedTradeSize = Math.min(
       kStar,
-      Math.min(-maxAbsTradeSize - currentPos, 0),
+      Math.min(-maxAbsPositionSize - currentPos, 0),
     );
   } else {
     maxSignedTradeSize = Math.max(
       kStar,
-      Math.max(maxAbsTradeSize - currentPos, 0),
+      Math.max(maxAbsPositionSize - currentPos, 0),
     );
   }
-  // round
-  maxSignedTradeSize = shrinkToLot(maxSignedTradeSize, lotSize);
   return maxSignedTradeSize;
 }
 
@@ -158,7 +170,7 @@ export function getMaximalTradeSizeInPerpetual(
  */
 
 export function getMarkPrice(ammData: AMMState): number {
-  return ammData.indexS2PriceData + ammData.currentPremiumEMA;
+  return ammData.indexS2PriceData * (1 + ammData.currentPremiumRateEMA);
 }
 
 /**
@@ -194,15 +206,16 @@ export function getTradingFeeRate(perpParams: PerpParameters): number {
 
 /**
  * Get trading fee in collateral currency
+ * @param {deltaPosition} number - Traded amount
  * @param {PerpParameters} perpParams - Contains parameter of the perpetual
  * @returns {number} fee relative to position size
  */
 
 export function getTradingFee(
-  position: number,
+  deltaPosition: number,
   perpParams: PerpParameters,
 ): number {
-  return position * getTradingFeeRate(perpParams);
+  return Math.abs(deltaPosition) * getTradingFeeRate(perpParams);
 }
 
 /**
@@ -270,6 +283,9 @@ export function getMaxInitialLeverage(
  * @param {number} direction - {-1, 1} Does the trader want to buy (1), or sell (-1)
  * @param {number} availableWalletBalance - trader's available wallet balance
  * @param {PerpParameters} perpParams - Contains parameter of the perpetual
+ * @param {traderState} TraderState - Contains trader state data
+ * @param {AMMState} ammData  - Contains amm state data
+ * @param {LiqPoolState} poolData - Contains liq pool state data
  * @returns {number} maintenance margin rate
  */
 
@@ -279,12 +295,19 @@ export function getSignedMaxAbsPositionForTrader(
   perpParams: PerpParameters,
   traderState: TraderState,
   ammData: AMMState,
+  poolData: LiqPoolState,
 ): number {
   // max position = min(current position + maximal trade size, max position allowed by leverage constraint)
   let currentPos = traderState.marginAccountPositionBC;
   let maxSignedPos =
     currentPos +
-    getMaximalTradeSizeInPerpetual(currentPos, direction, ammData, perpParams);
+    getMaximalTradeSizeInPerpetual(
+      currentPos,
+      direction,
+      ammData,
+      poolData,
+      perpParams,
+    );
   let availableCollateral =
     traderState.availableMarginCC + availableWalletBalance;
   if (availableCollateral < 0) {
@@ -350,7 +373,7 @@ export function getBase2CollateralFX(
   atMarkPrice: boolean,
 ): number {
   let s2 = atMarkPrice
-    ? ammData.currentPremiumEMA + ammData.indexS2PriceData
+    ? (ammData.currentPremiumRateEMA + 1) * ammData.indexS2PriceData
     : ammData.indexS2PriceData;
   if (ammData.M1 !== 0) {
     // quote
@@ -376,7 +399,7 @@ export function getBase2QuoteFX(
   atMarkPrice: boolean,
 ): number {
   let s2 = atMarkPrice
-    ? ammData.currentPremiumEMA + ammData.indexS2PriceData
+    ? (1 + ammData.currentPremiumRateEMA) * ammData.indexS2PriceData
     : ammData.indexS2PriceData;
   return s2;
 }
