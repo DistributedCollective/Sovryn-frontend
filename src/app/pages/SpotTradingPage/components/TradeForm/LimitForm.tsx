@@ -11,10 +11,7 @@ import { TradingTypes, ITradeFormProps, IApiLimitOrder } from '../../types';
 import { OrderTypes } from 'app/components/OrderType/types';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { maxMinusFee } from 'utils/helpers';
-import {
-  stringToFixedPrecision,
-  toNumberFormat,
-} from 'utils/display-text/format';
+import { stringToFixedPrecision } from 'utils/display-text/format';
 import { AvailableBalance } from 'app/components/AvailableBalance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useMaintenance } from 'app/hooks/useMaintenance';
