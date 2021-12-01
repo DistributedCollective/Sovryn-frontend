@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useMemo, useState } from 'react';
+import React, { createContext, useMemo } from 'react';
 import {
   initialAmmState,
   usePerpetual_queryAmmState,
