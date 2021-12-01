@@ -1,11 +1,11 @@
 import { useAccount } from 'app/hooks/useAccount';
 import { useSendContractTx } from 'app/hooks/useSendContractTx';
-import { useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 import { TxType } from 'store/global/transactions-store/types';
 import { TradingPosition } from 'types/trading-position';
-import { fromWei } from 'utils/blockchain/math-helpers';
 import { ethGenesisAddress, gasLimit } from 'utils/classifiers';
 import { toWei } from 'web3-utils';
+import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import {
   floatToABK64x64,
   PERPETUAL_ID,
@@ -18,16 +18,15 @@ import {
 } from '../utils/perpUtils';
 import { usePerpetual_depositMarginToken } from './usePerpetual_depositMarginToken';
 import { usePerpetual_marginAccountBalance } from './usePerpetual_marginAccountBalance';
-import { usePerpetual_queryAmmState } from './usePerpetual_queryAmmState';
-import { usePerpetual_queryPerpParameters } from './usePerpetual_queryPerpParameters';
 
 const MASK_MARKET_ORDER = 0x40000000;
 const MASK_CLOSE_ONLY = 0x80000000;
 
 export const usePerpetual_openTrade = () => {
   const address = useAccount();
-  const perpetualParameters = usePerpetual_queryPerpParameters();
-  const ammState = usePerpetual_queryAmmState();
+
+  const { ammState, perpetualParameters } = useContext(PerpetualQueriesContext);
+
   const marginBalance = usePerpetual_marginAccountBalance();
   const midPrice = useMemo(() => getMidPrice(perpetualParameters, ammState), [
     perpetualParameters,

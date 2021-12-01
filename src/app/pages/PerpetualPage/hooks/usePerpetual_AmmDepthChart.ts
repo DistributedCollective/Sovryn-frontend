@@ -1,12 +1,11 @@
-import { useMemo, useRef } from 'react';
+import { useContext, useMemo, useRef } from 'react';
 import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
-import { usePerpetual_queryAmmState } from './usePerpetual_queryAmmState';
 import {
   getIndexPrice,
   getMarkPrice,
   getDepthMatrix,
 } from '../utils/perpUtils';
-import { usePerpetual_queryPerpParameters } from './usePerpetual_queryPerpParameters';
+import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 
 export type AmmDepthChartDataEntry = {
   id: number;
@@ -27,8 +26,7 @@ export type AmmDepthChartData = {
 export const usePerpetual_AmmDepthChart = (
   pair: PerpetualPair,
 ): AmmDepthChartData => {
-  const perpetualParameters = usePerpetual_queryPerpParameters();
-  const ammState = usePerpetual_queryAmmState();
+  const { ammState, perpetualParameters } = useContext(PerpetualQueriesContext);
   const previousMidPrice = useRef<number>();
 
   const data = useMemo(() => {

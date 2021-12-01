@@ -11,7 +11,6 @@ import { AssetValue } from '../../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../../components/AssetValue/types';
 import { PerpetualPairDictionary } from '../../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import styles from '../index.module.scss';
-import { usePerpetual_queryAmmState } from 'app/pages/PerpetualPage/hooks/usePerpetual_queryAmmState';
 import {
   calculateSlippagePrice,
   getMidPrice,
@@ -22,18 +21,20 @@ import {
   getSignedAmount,
   getTradeDirection,
 } from 'app/pages/PerpetualPage/utils/contractUtils';
-import { usePerpetual_queryPerpParameters } from '../../../hooks/usePerpetual_queryPerpParameters';
-import { usePerpetual_queryTraderState } from '../../../hooks/usePerpetual_queryTraderState';
 import { TradingPosition } from '../../../../../../types/trading-position';
+import { PerpetualQueriesContext } from 'app/pages/PerpetualPage/contexts/PerpetualQueriesContext';
 
 export const SlippageFormStep: TransitionStep<NewPositionCardStep> = ({
   changeTo,
 }) => {
   const { t } = useTranslation();
 
-  const ammState = usePerpetual_queryAmmState();
-  const perpParameters = usePerpetual_queryPerpParameters();
-  const traderState = usePerpetual_queryTraderState();
+  const {
+    ammState,
+    traderState,
+    perpetualParameters: perpParameters,
+  } = useContext(PerpetualQueriesContext);
+
   const midPrice = useMemo(() => getMidPrice(perpParameters, ammState), [
     perpParameters,
     ammState,

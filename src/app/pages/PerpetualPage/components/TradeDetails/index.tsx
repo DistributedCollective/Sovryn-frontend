@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
@@ -8,10 +8,9 @@ import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
 import { PerpetualTrade } from '../../types';
-import { usePerpetual_queryTraderState } from '../../hooks/usePerpetual_queryTraderState';
 import { getSignedAmount } from '../../utils/contractUtils';
-import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
 import { getTraderPnLInBC } from '../../utils/perpUtils';
+import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 
 type TradeDetailsProps = {
   className?: string;
@@ -28,8 +27,8 @@ export const TradeDetails: React.FC<TradeDetailsProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const traderState = usePerpetual_queryTraderState();
-  const ammState = usePerpetual_queryAmmState();
+  const { ammState, traderState } = useContext(PerpetualQueriesContext);
+
   const { available } = usePerpetual_accountBalance(pair.pairType);
 
   const positionSize = useMemo(

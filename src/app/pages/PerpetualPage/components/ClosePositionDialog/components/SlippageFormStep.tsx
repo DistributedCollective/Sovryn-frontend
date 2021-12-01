@@ -9,8 +9,6 @@ import { translations } from '../../../../../../locales/i18n';
 import { ClosePositionDialogContext } from '..';
 import { PERPETUAL_SLIPPAGE_DEFAULT } from '../../../types';
 import { calculateSlippagePrice, getMidPrice } from '../../../utils/perpUtils';
-import { usePerpetual_queryAmmState } from '../../../hooks/usePerpetual_queryAmmState';
-import { usePerpetual_queryPerpParameters } from '../../../hooks/usePerpetual_queryPerpParameters';
 import { getTradeDirection } from '../../../utils/contractUtils';
 import { TradingPosition } from '../../../../../../types/trading-position';
 import { AssetValue } from '../../../../../components/AssetValue';
@@ -19,14 +17,17 @@ import {
   PerpetualPairDictionary,
   PerpetualPairType,
 } from '../../../../../../utils/dictionaries/perpetual-pair-dictionary';
+import { PerpetualQueriesContext } from 'app/pages/PerpetualPage/contexts/PerpetualQueriesContext';
 
 export const SlippageFormStep: TransitionStep<ClosePositionDialogStep> = ({
   changeTo,
 }) => {
   const { t } = useTranslation();
 
-  const ammState = usePerpetual_queryAmmState();
-  const perpParameters = usePerpetual_queryPerpParameters();
+  const { ammState, perpetualParameters: perpParameters } = useContext(
+    PerpetualQueriesContext,
+  );
+
   const midPrice = useMemo(() => getMidPrice(perpParameters, ammState), [
     perpParameters,
     ammState,
