@@ -12,7 +12,6 @@ import {
 } from 'app/pages/PerpetualPage/utils/bscWebsocket';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { useGetRecentTrades } from '../../hooks/graphql/useGetRecentTrades';
-import { weiTo2 } from 'utils/blockchain/math-helpers';
 import { Subscription } from 'web3-core-subscriptions';
 import { BigNumber } from 'ethers';
 import { ABK64x64ToFloat } from '../../utils/contractUtils';

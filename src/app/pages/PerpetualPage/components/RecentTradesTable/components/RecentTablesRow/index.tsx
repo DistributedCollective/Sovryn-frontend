@@ -2,7 +2,6 @@ import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import { RecentTradesDataEntry, TradeType } from '../../types';
 import { getPriceChangeImage, getPriceColor } from './utils';
-import { toNumberFormat } from '../../../../../../../utils/display-text/format';
 
 type RecentTradesTableRowProps = {
   row: RecentTradesDataEntry;

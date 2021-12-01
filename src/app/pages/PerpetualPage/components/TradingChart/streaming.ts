@@ -10,7 +10,6 @@
  * https://github.com/tradingview/charting_library/wiki/Breaking-Changes
  */
 
-import { weiTo2 } from 'utils/blockchain/math-helpers';
 import { Bar } from './helpers';
 import {
   subscription as bscSubscription,

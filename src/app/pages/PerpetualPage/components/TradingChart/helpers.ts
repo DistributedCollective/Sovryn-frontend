@@ -5,7 +5,6 @@ import {
   CandleDuration,
   CandleDictionary,
 } from '../../hooks/graphql/useGetCandles';
-import { weiTo2 } from 'utils/blockchain/math-helpers';
 import { ABK64x64ToFloat } from '../../utils/contractUtils';
 import { BigNumber } from 'ethers';
 import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
