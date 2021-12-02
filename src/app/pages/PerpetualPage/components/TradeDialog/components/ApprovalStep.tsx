@@ -28,7 +28,7 @@ import classNames from 'classnames';
 import { TxStatusIcon } from '../../../../../components/Dialogs/TxDialog';
 import { useSelector } from 'react-redux';
 import { selectTransactions } from '../../../../../../store/global/transactions-store/selectors';
-import { LinkToExplorer } from '../../../../../components/LinkToExplorer';
+import { TxStatus } from '../../../../../../store/global/transactions-store/types';
 
 export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
   const { t } = useTranslation();
@@ -128,13 +128,16 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     <>
       <h1 className="tw-font-semibold">{title}</h1>
       <div className={classNames('tw-text-center', styles.contentWrapper)}>
-        <WalletLogo wallet={wallet?.wallet?.getWalletType() || ''} />
+        <WalletLogo
+          className="tw-mb-8"
+          wallet={wallet?.wallet?.getWalletType() || ''}
+        />
 
-        {transaction?.status && (
-          <TxStatusIcon
-            className="tw-w-8 tw-h-8"
-            status={transaction.status}
-            isInline
+        {(result?.rejected || transaction?.status === TxStatus.FAILED) && (
+          <img
+            className="tw-inline tw-w-8 tw-h-8 tw-mb-4"
+            src={txFailed}
+            alt={t(translations.common.failed)}
           />
         )}
         {text}

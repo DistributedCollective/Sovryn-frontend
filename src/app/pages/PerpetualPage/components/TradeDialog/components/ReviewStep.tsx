@@ -12,7 +12,6 @@ import { translations } from '../../../../../../locales/i18n';
 import { useTranslation } from 'react-i18next';
 import { TradeSummary } from './TradeSummary';
 import { ResultPosition } from './ResultPosition';
-import { usePerpetual_executeTransaction } from '../../../hooks/usePerpetual_executeTransaction';
 import { TransitionAnimation } from '../../../../../containers/TransitionContainer';
 import { bridgeNetwork } from '../../../../BridgeDepositPage/utils/bridge-network';
 import { Chain } from '../../../../../../types';

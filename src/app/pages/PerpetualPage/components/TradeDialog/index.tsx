@@ -1,4 +1,10 @@
-import React, { useCallback, useMemo, useState, useEffect, useContext } from 'react';
+import React, {
+  useCallback,
+  useMemo,
+  useState,
+  useEffect,
+  useContext,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dialog } from '../../../../containers/Dialog';
 import { selectPerpetualPage } from '../../selectors';

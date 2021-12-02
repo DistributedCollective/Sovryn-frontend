@@ -30,28 +30,8 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
     setPage(data.currentPage);
   };
 
-  const onGoingTransactions = useMemo(() => {
-    const relevantTransactions = transactions
-      .filter(
-        tx =>
-          tx.type === TxType.PERPETUAL_OPEN &&
-          [TxStatus.FAILED, TxStatus.PENDING].includes(tx.status),
-      )
-      .reverse();
-
-    return (
-      relevantTransactions.length > 0 && (
-        <>
-          {relevantTransactions.map(item => (
-            <PendingPositionRow key={item.transactionHash} item={item} />
-          ))}
-        </>
-      )
-    );
-  }, [transactions]);
-
-  const isEmpty = !loading && !items.length && !onGoingTransactions;
-  const showLoading = loading && !items.length && !onGoingTransactions;
+  const isEmpty = !loading && !items.length;
+  const showLoading = loading && !items.length;
 
   return (
     <>
@@ -95,8 +75,6 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
               <td colSpan={99}>{t(translations.openPositionTable.noData)}</td>
             </tr>
           )}
-          {onGoingTransactions}
-
           {showLoading && (
             <tr>
               <td colSpan={99}>
@@ -104,7 +82,6 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
               </td>
             </tr>
           )}
-
           {items.map(item => (
             <OpenPositionRow key={item.id} item={item} />
           ))}

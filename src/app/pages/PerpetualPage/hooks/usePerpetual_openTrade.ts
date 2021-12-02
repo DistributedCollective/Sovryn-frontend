@@ -4,20 +4,13 @@ import { useContext, useMemo } from 'react';
 import { TxType } from 'store/global/transactions-store/types';
 import { TradingPosition } from 'types/trading-position';
 import { ethGenesisAddress, gasLimit } from 'utils/classifiers';
-import { toWei } from 'web3-utils';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import {
   floatToABK64x64,
   PERPETUAL_ID,
   getSignedAmount,
 } from '../utils/contractUtils';
-import {
-  calculateSlippagePrice,
-  getRequiredMarginCollateral,
-  getMidPrice,
-} from '../utils/perpUtils';
-import { usePerpetual_depositMarginToken } from './usePerpetual_depositMarginToken';
-import { usePerpetual_marginAccountBalance } from './usePerpetual_marginAccountBalance';
+import { calculateSlippagePrice, getMidPrice } from '../utils/perpUtils';
 
 const MASK_MARKET_ORDER = 0x40000000;
 const MASK_CLOSE_ONLY = 0x80000000;
@@ -27,13 +20,11 @@ export const usePerpetual_openTrade = () => {
 
   const { ammState, perpetualParameters } = useContext(PerpetualQueriesContext);
 
-  const marginBalance = usePerpetual_marginAccountBalance();
   const midPrice = useMemo(() => getMidPrice(perpetualParameters, ammState), [
     perpetualParameters,
     ammState,
   ]);
 
-  const { deposit } = usePerpetual_depositMarginToken();
   const { send, ...rest } = useSendContractTx('perpetualManager', 'trade');
 
   return {

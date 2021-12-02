@@ -16,13 +16,10 @@ import { WalletLogo } from '../../../../../components/UserAssets/TxDialog/Wallet
 import { useWalletContext } from '@sovryn/react-wallet';
 import classNames from 'classnames';
 import { usePerpetual_executeTransaction } from '../../../hooks/usePerpetual_executeTransaction';
-import { CheckAndApproveResultWithError } from '../../../types';
 import { TxStatus } from '../../../../../../store/global/transactions-store/types';
 import { useSelector } from 'react-redux';
 import { selectTransactions } from '../../../../../../store/global/transactions-store/selectors';
 import { TransitionAnimation } from '../../../../../containers/TransitionContainer';
-import { TxStatusIcon } from '../../../../../components/Dialogs/TxDialog';
-import { LinkToExplorer } from '../../../../../components/LinkToExplorer';
 
 export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
   changeTo,
@@ -39,7 +36,7 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
 
   const transactionsMap = useSelector(selectTransactions);
   const transactionStatus = useMemo(
-    () => (txHash ? transactionsMap[txHash]?.status || status : status),
+    () => (txHash ? transactionsMap[txHash]?.status : status),
     [txHash, transactionsMap, status],
   );
 
@@ -143,25 +140,20 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
     reset,
   ]);
 
-  console.log(
-    'ConfirmationStep',
-    status,
-    transactionStatus,
-    txHash,
-    currentTransaction,
-  );
-
   return (
     <>
       <h1 className="tw-font-semibold">{title}</h1>
       <div className={classNames('tw-text-center', styles.contentWrapper)}>
-        <WalletLogo wallet={wallet?.wallet?.getWalletType() || ''} />
+        <WalletLogo
+          className="tw-mb-8"
+          wallet={wallet?.wallet?.getWalletType() || ''}
+        />
 
-        {transactionStatus !== TxStatus.NONE && (
-          <TxStatusIcon
-            className="tw-w-8 tw-h-8"
-            status={transactionStatus}
-            isInline
+        {transactionStatus === TxStatus.FAILED && (
+          <img
+            className="tw-inline tw-w-8 tw-h-8 tw-mb-4"
+            src={txFailed}
+            alt={t(translations.common.failed)}
           />
         )}
         {text}

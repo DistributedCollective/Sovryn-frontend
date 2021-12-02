@@ -165,9 +165,8 @@ function* callTestTransactionsState() {
   for (let tx of txes) {
     const receipt: TransactionReceipt = yield call(
       [bridgeNetwork, bridgeNetwork.receipt],
-      tx.chainId
-        ? BridgeNetworkDictionary.getByChainId(tx.chainId)?.chain || Chain.RSK
-        : Chain.RSK,
+      (tx.chainId && BridgeNetworkDictionary.getByChainId(tx.chainId)?.chain) ||
+        Chain.RSK,
       tx.transactionHash,
     );
     if (receipt === null) {

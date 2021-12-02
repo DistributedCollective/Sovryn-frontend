@@ -6,7 +6,8 @@ import wPortis from 'assets/wallets/portis.svg';
 import wLedger from 'assets/wallets/ledger.svg';
 import wTrezor from 'assets/wallets/trezor.svg';
 import wWalletConnect from 'assets/wallets/walletconnect.svg';
-import { WLContainer, WLImage } from './styled';
+import classNames from 'classnames';
+import styles from './dialog.module.scss';
 
 export const getWalletImage = wallet => {
   if (wallet === 'liquality') return wLiquality;
@@ -28,13 +29,17 @@ export const getWalletName = wallet => {
   return 'MetaMask';
 };
 
-interface IWalletLogoProps {
+type WalletLogoProps = {
   wallet: string;
-}
+  className?: string;
+};
 
-export const WalletLogo: React.FC<IWalletLogoProps> = ({ wallet }) => (
-  <WLContainer>
-    <WLImage src={getWalletImage(wallet)} alt="Wallet" />
+export const WalletLogo: React.FC<WalletLogoProps> = ({
+  wallet,
+  className,
+}) => (
+  <div className={classNames(styles.walletLogo, className)}>
+    <img className="tw-w-full" src={getWalletImage(wallet)} alt="Wallet" />
     <div className="tw-text-sm tw-truncate">{getWalletName(wallet)}</div>
-  </WLContainer>
+  </div>
 );

@@ -1,5 +1,5 @@
 import { walletService } from '@sovryn/react-wallet';
-import { BigNumber, ethers } from 'ethers';
+import { BigNumber } from 'ethers';
 import { Asset, Chain } from 'types';
 import { Sovryn } from 'utils/sovryn';
 import { contractWriter } from 'utils/sovryn/contract-writer';

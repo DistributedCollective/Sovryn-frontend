@@ -1,14 +1,8 @@
 import { useAccount } from 'app/hooks/useAccount';
 import { useSendContractTx } from 'app/hooks/useSendContractTx';
-import { Asset } from 'types';
-import { getContract } from 'utils/blockchain/contract-helpers';
 import { gasLimit } from 'utils/classifiers';
 import { TxType } from 'store/global/transactions-store/types';
-import {
-  PERPETUAL_ID,
-  floatToABK64x64,
-  checkAndApprove,
-} from '../utils/contractUtils';
+import { PERPETUAL_ID, floatToABK64x64 } from '../utils/contractUtils';
 import { fromWei } from 'utils/blockchain/math-helpers';
 
 export const usePerpetual_depositMarginToken = () => {

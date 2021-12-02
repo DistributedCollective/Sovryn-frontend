@@ -46,7 +46,7 @@ export const ResultPosition: React.FC<ResultPositionProps> = ({
         {t(translations.perpetualPage.reviewTrade.positionDetailsTitle)}
       </div>
 
-      <div className="tw-w-full tw-p-4 tw-bg-gray-5 tw-flex tw-flex-col tw-items-center tw-rounded-xl">
+      <div className="tw-w-full tw-py-4 tw-px-6 tw-bg-gray-5 tw-flex tw-flex-col tw-items-center tw-rounded-xl">
         <div className={styles.positionInfoRow}>
           <span className="tw-text-gray-10">
             {t(translations.perpetualPage.reviewTrade.labels.positionSize)}

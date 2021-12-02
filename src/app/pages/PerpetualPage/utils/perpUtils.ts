@@ -121,7 +121,6 @@ export function getMaximalTradeSizeInPerpetual(
   perpParams: PerpParameters,
 ): number {
   let lotSize = perpParams.fLotSizeBC;
-  let isQuanto: boolean = ammData.M3 !== 0;
   let kStar = calcKStar(
     ammData.K2,
     ammData.L1,

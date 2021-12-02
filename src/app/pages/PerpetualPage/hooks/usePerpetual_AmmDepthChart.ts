@@ -1,6 +1,5 @@
-import { useEffect, useState, useMemo, useRef, useContext } from 'react';
+import { useMemo, useContext } from 'react';
 import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
-import { usePerpetual_queryAmmState } from './usePerpetual_queryAmmState';
 import {
   getIndexPrice,
   getMarkPrice,

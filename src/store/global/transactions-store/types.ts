@@ -25,8 +25,6 @@ export enum TxType {
   LEND = 'lend',
   UNLEND = 'unlend',
   TRADE = 'trade',
-  PERPETUAL_OPEN = 'perpetual-open',
-  PERPETUAL_CLOSE = 'perpetual-close',
   CLOSE_WITH_DEPOSIT = 'close_with_deposit',
   CLOSE_WITH_SWAP = 'close_with_swap',
   BORROW = 'borrow',

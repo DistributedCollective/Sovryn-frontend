@@ -1754,7 +1754,8 @@
       "labels": {
         "approvalTx": "Approval Tx ID:",
         "marginTx": "Margin Tx ID:",
-        "tradeTx": "Trade Tx ID:"
+        "tradeTx": "Trade Tx ID:",
+        "tx": "Tx ID:"
       },
       "buttons": {
         "retry": "Retry",

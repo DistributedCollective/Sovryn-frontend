@@ -1,5 +1,4 @@
 import { TradingPosition } from '../../../../../types/trading-position';
-import { Transaction } from '../../../../../store/global/transactions-store/types';
 import { PerpetualPageModals, PerpetualTrade } from '../../types';
 import { PerpetualPair } from '../../../../../utils/models/perpetual-pair';
 import { Nullable } from '../../../../../types';
