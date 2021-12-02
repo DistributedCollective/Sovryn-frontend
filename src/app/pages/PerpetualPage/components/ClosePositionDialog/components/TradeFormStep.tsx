@@ -75,7 +75,8 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     const marginChange = marginTarget - traderState.availableCashCC;
 
     const unrealizedPartial =
-      getTraderPnLInCC(traderState, ammState) * (1 - targetFactor);
+      getTraderPnLInCC(traderState, ammState, perpParameters) *
+      (1 - targetFactor);
     const totalToReceive = Math.abs(marginChange) + unrealizedPartial;
 
     return {
@@ -87,7 +88,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
         ? traderState.availableCashCC
         : totalToReceive,
     };
-  }, [trade, changedTrade, traderState, ammState]);
+  }, [trade, changedTrade, traderState, ammState, perpParameters]);
 
   const onSubmit = useCallback(() => {
     if (!changedTrade) {
@@ -118,16 +119,6 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
               slippage: trade?.slippage,
               tx: null,
             },
-            marginTarget === 0
-              ? {
-                  method: PerpetualTxMethods.withdrawAll,
-                  tx: null,
-                }
-              : {
-                  method: PerpetualTxMethods.withdraw,
-                  amount: toWei(Math.abs(marginChange)),
-                  tx: null,
-                },
           ],
         }),
       );
@@ -152,7 +143,6 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     amountTarget,
     amountChange,
     marginTarget,
-    marginChange,
     trade?.slippage,
     perpParameters,
     ammState,

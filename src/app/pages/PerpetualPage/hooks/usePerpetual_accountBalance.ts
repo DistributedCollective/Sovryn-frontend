@@ -30,7 +30,9 @@ export const usePerpetual_accountBalance = (pairType: PerpetualPairType) => {
 
   const [availableBalance, setAvailableBalance] = useState('0');
 
-  const { ammState, traderState } = useContext(PerpetualQueriesContext);
+  const { ammState, traderState, perpetualParameters } = useContext(
+    PerpetualQueriesContext,
+  );
 
   const marginBalance = usePerpetual_marginAccountBalance();
 
@@ -47,10 +49,10 @@ export const usePerpetual_accountBalance = (pairType: PerpetualPairType) => {
       .then(result => result && setAvailableBalance(String(result)));
   }, [account]);
 
-  const unrealizedPnl = useMemo(() => getTraderPnLInCC(traderState, ammState), [
-    ammState,
-    traderState,
-  ]);
+  const unrealizedPnl = useMemo(
+    () => getTraderPnLInCC(traderState, ammState, perpetualParameters),
+    [ammState, perpetualParameters, traderState],
+  );
 
   useEffect(() => {
     setData({

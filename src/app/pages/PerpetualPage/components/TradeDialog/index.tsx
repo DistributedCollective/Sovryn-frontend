@@ -100,7 +100,7 @@ export const TradeDialog: React.FC = () => {
     const marginChange = marginTarget - traderState.availableCashCC;
 
     const partialUnrealizedPnL =
-      getTraderPnLInCC(traderState, ammState) *
+      getTraderPnLInCC(traderState, ammState, perpParameters) *
       Math.abs(-marginChange / traderState.availableCashCC);
 
     const leverageTarget = calculateLeverage(

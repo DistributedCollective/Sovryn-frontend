@@ -17,6 +17,7 @@ import {
 } from '../hooks/usePerpetual_queryTraderState';
 import {
   AMMState,
+  getDepthMatrix,
   LiqPoolState,
   PerpParameters,
   TraderState,
@@ -27,6 +28,7 @@ type PerpetualQueriesContextValue = {
   perpetualParameters: PerpParameters;
   traderState: TraderState;
   liquidityPoolState: LiqPoolState;
+  depthMatrixEntries: any[][];
 };
 
 export const PerpetualQueriesContext = createContext<
@@ -36,6 +38,7 @@ export const PerpetualQueriesContext = createContext<
   perpetualParameters: initialPerpParameters,
   traderState: initialTraderState,
   liquidityPoolState: initialLiqPoolState,
+  depthMatrixEntries: [],
 });
 
 export const PerpetualQueriesContextProvider: React.FC = ({ children }) => {
@@ -43,6 +46,7 @@ export const PerpetualQueriesContextProvider: React.FC = ({ children }) => {
   const perpetualParameters = usePerpetual_queryPerpParameters();
   const traderState = usePerpetual_queryTraderState();
   const liquidityPoolState = usePerpetual_queryLiqPoolStateFromPerpetualId();
+  const depthMatrixEntries = getDepthMatrix(perpetualParameters, ammState);
 
   const value = useMemo(
     () => ({
@@ -50,8 +54,15 @@ export const PerpetualQueriesContextProvider: React.FC = ({ children }) => {
       perpetualParameters,
       traderState,
       liquidityPoolState,
+      depthMatrixEntries,
     }),
-    [ammState, liquidityPoolState, perpetualParameters, traderState],
+    [
+      ammState,
+      depthMatrixEntries,
+      liquidityPoolState,
+      perpetualParameters,
+      traderState,
+    ],
   );
 
   return (
