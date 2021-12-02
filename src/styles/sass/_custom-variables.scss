@@ -8,4 +8,10 @@
   --gray-1: theme('colors.gray-1');
   --gray-3: theme('colors.gray-3');
   --warning: theme('colors.warning');
+
+  // react-toastify overrides
+  --toastify-color-progress-success: theme('colors.success') !important;
+  --toastify-color-progress-error: theme('colors.warning') !important;
+  --toastify-toast-min-height: 4.5rem !important;
+  --toastify-color-light: #eaeaea !important;
 }
