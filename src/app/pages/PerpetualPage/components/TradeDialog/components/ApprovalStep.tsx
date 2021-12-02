@@ -25,7 +25,6 @@ import { getContract } from '../../../../../../utils/blockchain/contract-helpers
 import { TransitionAnimation } from '../../../../../containers/TransitionContainer';
 import { Asset } from '../../../../../../types';
 import classNames from 'classnames';
-import { TxStatusIcon } from '../../../../../components/Dialogs/TxDialog';
 import { useSelector } from 'react-redux';
 import { selectTransactions } from '../../../../../../store/global/transactions-store/selectors';
 import { TxStatus } from '../../../../../../store/global/transactions-store/types';

@@ -48,7 +48,7 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
         t,
         rejected,
         transactionStatus === TxStatus.FAILED
-          ? new Error('Transaction Failed!')
+          ? new Error('Transaction failed for an unknown reason!')
           : undefined,
         (currentTransaction?.index || 0) + 1,
         transactions.length,

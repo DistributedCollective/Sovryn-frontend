@@ -1736,11 +1736,8 @@
         "confirmMultiFailed": "Confirm {{current}} from {{count}} Failed",
         "confirmMultiRejected": "Confirm {{current}} from {{count}} Rejected",
         "processing": "Order processing…",
-        "processingMulti": "Order processing {{current}} from {{count}}…",
         "completed": "Order Completed",
-        "completedMulti": "Order {{current}} from {{count}} Completed",
-        "failed": "Order Failed",
-        "failedMulti": "Order {{current}} from {{count}} Failed"
+        "failed": "Order Failed"
       },
       "texts": {
         "approval": "Please approve BTC to be spent by the Sovryn smart contracts in your {{wallet}} wallet",

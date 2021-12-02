@@ -23,9 +23,6 @@ export const StatusImage = styled.img`
   width: 4.375rem;
 `;
 
-export const WLContainer = styled.div`
-`;
-
 export const TitleWrapper = styled.div`
   font-size: 1.75rem;
   line-height: 1.25;
