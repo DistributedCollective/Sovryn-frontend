@@ -1,13 +1,14 @@
-import { useEffect, useState, useMemo, useRef } from 'react';
+import { useEffect, useState, useMemo, useRef, useContext } from 'react';
 import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
-import { useBlockSync } from '../../../hooks/useAccount';
 import { usePerpetual_queryAmmState } from './usePerpetual_queryAmmState';
 import {
   getIndexPrice,
   getMarkPrice,
   getDepthMatrix,
 } from '../utils/perpUtils';
-import { usePerpetual_queryPerpParameters } from './usePerpetual_queryPerpParameters';
+import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
+import { RecentTradesContext } from '../components/RecentTradesTable/context';
+import { TradePriceChange } from '../components/RecentTradesTable/types';
 
 export type AmmDepthChartDataEntry = {
   id: number;
@@ -20,7 +21,7 @@ export type AmmDepthChartData = {
   price: number;
   indexPrice: number;
   markPrice: number;
-  trend: number; // difference between now and previous block
+  trend: TradePriceChange; // difference between now and previous block
   shorts: AmmDepthChartDataEntry[];
   longs: AmmDepthChartDataEntry[];
 };
@@ -28,19 +29,17 @@ export type AmmDepthChartData = {
 export const usePerpetual_AmmDepthChart = (
   pair: PerpetualPair,
 ): AmmDepthChartData => {
-  const perpertualParameters = usePerpetual_queryPerpParameters();
-  const ammState = usePerpetual_queryAmmState();
-  const previousMidPrice = useRef<number>();
+  const { ammState, perpetualParameters } = useContext(PerpetualQueriesContext);
+  const { trades } = useContext(RecentTradesContext);
 
   const data = useMemo(() => {
     const indexPrice = getIndexPrice(ammState);
     const markPrice = getMarkPrice(ammState);
-    const entries = getDepthMatrix(perpertualParameters, ammState);
+    const entries = getDepthMatrix(perpetualParameters, ammState);
 
     let shorts: AmmDepthChartDataEntry[] = [];
     let longs: AmmDepthChartDataEntry[] = [];
-    let midPrice = 0;
-    let trend = 0;
+
     if (entries && entries.length >= 3) {
       const length = entries[0].length;
       const midIndex = Math.floor(length / 2);
@@ -62,27 +61,19 @@ export const usePerpetual_AmmDepthChart = (
             deviation: Math.abs(deviation),
             amount: Math.abs(amount),
           });
-        } else {
-          trend = previousMidPrice.current
-            ? Math.sign(price - previousMidPrice.current)
-            : 0;
-          previousMidPrice.current = price;
-          midPrice = price;
         }
       }
     }
 
-    // TODO use latest trade from websocket server for price and trend
-
     return {
-      price: midPrice,
-      trend,
+      price: trades[0]?.price || markPrice,
+      trend: trades[0]?.priceChange || TradePriceChange.NO_CHANGE,
       indexPrice,
       markPrice,
       shorts,
       longs,
     };
-  }, [perpertualParameters, ammState]);
+  }, [trades, perpetualParameters, ammState]);
 
   return data;
 };

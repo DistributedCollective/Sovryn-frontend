@@ -35,10 +35,12 @@ import { TradeDialog } from './components/TradeDialog';
 import { EditPositionSizeDialog } from './components/EditPositionSizeDialog';
 import { EditLeverageDialog } from './components/EditLeverageDialog';
 import { EditMarginDialog } from './components/EditMarginDialog';
+import { RecentTradesContextProvider } from './components/RecentTradesTable/context';
 import { ClosePositionDialog } from './components/ClosePositionDialog';
 import { ClosedPositionsTable } from './components/ClosedPositionsTable';
 import { OrderHistoryTable } from './components/OrderHistoryTable/index';
 import { FundingPaymentsTable } from './components/FundingPaymentsTable/index';
+import { PerpetualQueriesContextProvider } from './contexts/PerpetualQueriesContext';
 
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -98,7 +100,7 @@ export function PerpetualPage() {
   const [activeTab, setActiveTab] = useState(0);
 
   return (
-    <>
+    <PerpetualQueriesContextProvider>
       <Helmet>
         <title>{t(translations.perpetualPage.meta.title)}</title>
         <meta
@@ -107,97 +109,99 @@ export function PerpetualPage() {
         />
       </Helmet>
       <HeaderLabs />
-      <div className="tw-relative tw--top-2.5 tw-w-full">
-        <div className="tw-w-full tw-bg-gray-2 tw-py-2">
-          <div className="tw-container">
-            <div>
-              Pair Select Placeholder
-              {/*TODO: implement pair select*/}
+      <RecentTradesContextProvider pair={pair}>
+        <div className="tw-relative tw--top-2.5 tw-w-full">
+          <div className="tw-w-full tw-bg-gray-2 tw-py-2">
+            <div className="tw-container">
+              <div>
+                Pair Select Placeholder
+                {/*TODO: implement pair select*/}
+              </div>
             </div>
           </div>
+          <ContractDetails pair={pair} />
         </div>
-        <ContractDetails pair={pair} />
-      </div>
-      <div className={'tw-container tw-mt-5'}>
-        <div
-          className={
-            'tw-flex tw-flex-col tw-mb-8 xl:tw-flex-row xl:tw-justify-stretch tw-space-y-2 xl:tw-space-y-0 xl:tw-space-x-2'
-          }
-        >
-          <DataCard
-            className="xl:tw-w-1/5"
-            title={`AMM Depth (${pairType.toString()})`}
+        <div className={'tw-container tw-mt-5'}>
+          <div
+            className={
+              'tw-flex tw-flex-col tw-mb-8 xl:tw-flex-row xl:tw-justify-stretch tw-space-y-2 xl:tw-space-y-0 xl:tw-space-x-2'
+            }
           >
-            <AmmDepthChart pair={pair} />
-          </DataCard>
-          <DataCard
-            title={`Chart (${pairType.toString()})`}
-            className={'tw-max-w-full xl:tw-w-3/5 2xl:tw-w-2/5'}
-            hasCustomHeight
-          >
-            <TradingChart
-              symbol={pair.chartSymbol}
-              theme={Theme.DARK}
-              hasCustomDimensions
-            />
-          </DataCard>
-          <DataCard
-            className="tw-flex-grow tw-block xl:tw-hidden 2xl:tw-block xl:tw-w-1/5"
-            title={`Recent Trades (${pairType.toString()})`}
-          >
-            <RecentTradesTable pair={pair} />
-          </DataCard>
-          <div className="tw-flex tw-flex-col xl:tw-min-w-80 xl:tw-w-1/5 tw-space-y-2">
-            <AccountBalanceCard balance={availableBalance} />
-            <NewPositionCard balance={availableBalance} />
+            <DataCard
+              className="xl:tw-w-1/5"
+              title={`AMM Depth (${pairType.toString()})`}
+            >
+              <AmmDepthChart pair={pair} />
+            </DataCard>
+            <DataCard
+              title={`Chart (${pairType.toString()})`}
+              className={'tw-max-w-full xl:tw-w-3/5 2xl:tw-w-2/5'}
+              hasCustomHeight
+            >
+              <TradingChart
+                symbol={pair.chartSymbol}
+                theme={Theme.DARK}
+                hasCustomDimensions
+              />
+            </DataCard>
+            <DataCard
+              className="tw-flex-grow tw-block xl:tw-hidden 2xl:tw-block xl:tw-w-1/5"
+              title={`Recent Trades (${pairType.toString()})`}
+            >
+              <RecentTradesTable pair={pair} />
+            </DataCard>
+            <div className="tw-flex tw-flex-col xl:tw-min-w-80 xl:tw-w-1/5 tw-space-y-2">
+              <AccountBalanceCard balance={availableBalance} />
+              <NewPositionCard balance={availableBalance} />
+            </div>
           </div>
+
+          {connected && (
+            <>
+              <div className="tw-flex tw-items-center tw-text-sm">
+                <Tab
+                  text={t(translations.perpetualPage.openPositions)}
+                  active={activeTab === 0}
+                  onClick={() => setActiveTab(0)}
+                />
+                <Tab
+                  text={t(translations.perpetualPage.closedPositions)}
+                  active={activeTab === 1}
+                  onClick={() => setActiveTab(1)}
+                />
+                <Tab
+                  text={t(translations.perpetualPage.orderHistory)}
+                  active={activeTab === 2}
+                  onClick={() => setActiveTab(2)}
+                />
+                <Tab
+                  text={t(translations.perpetualPage.fundingPayments)}
+                  active={activeTab === 3}
+                  onClick={() => setActiveTab(3)}
+                />
+              </div>
+
+              <div className="tw-w-full tw-mb-24">
+                {activeTab === 0 && <OpenPositionsTable perPage={5} />}
+                {activeTab === 1 && <ClosedPositionsTable perPage={5} />}
+                {activeTab === 2 && <OrderHistoryTable perPage={5} />}
+                {activeTab === 3 && <FundingPaymentsTable perPage={5} />}
+              </div>
+            </>
+          )}
         </div>
-
-        {connected && (
-          <>
-            <div className="tw-flex tw-items-center tw-text-sm">
-              <Tab
-                text={t(translations.perpetualPage.openPositions)}
-                active={activeTab === 0}
-                onClick={() => setActiveTab(0)}
-              />
-              <Tab
-                text={t(translations.perpetualPage.closedPositions)}
-                active={activeTab === 1}
-                onClick={() => setActiveTab(1)}
-              />
-              <Tab
-                text={t(translations.perpetualPage.orderHistory)}
-                active={activeTab === 2}
-                onClick={() => setActiveTab(2)}
-              />
-              <Tab
-                text={t(translations.perpetualPage.fundingPayments)}
-                active={activeTab === 3}
-                onClick={() => setActiveTab(3)}
-              />
-            </div>
-
-            <div className="tw-w-full tw-mb-24">
-              {activeTab === 0 && <OpenPositionsTable perPage={5} />}
-              {activeTab === 1 && <ClosedPositionsTable perPage={5} />}
-              {activeTab === 2 && <OrderHistoryTable perPage={5} />}
-              {activeTab === 3 && <FundingPaymentsTable perPage={5} />}
-            </div>
-          </>
-        )}
-      </div>
-      <Footer />
-      <NotificationSettingsDialog
-        isOpen={showNotificationSettingsModal}
-        onClose={() => setShowNotificationSettingsModal(false)}
-      />
-      <AccountDialog pairType={pairType} />
-      <TradeDialog />
-      <EditPositionSizeDialog />
-      <EditLeverageDialog />
-      <EditMarginDialog />
-      <ClosePositionDialog />
-    </>
+        <Footer />
+        <NotificationSettingsDialog
+          isOpen={showNotificationSettingsModal}
+          onClose={() => setShowNotificationSettingsModal(false)}
+        />
+        <AccountDialog pairType={pairType} />
+        <TradeDialog />
+        <EditPositionSizeDialog />
+        <EditLeverageDialog />
+        <EditMarginDialog />
+        <ClosePositionDialog />
+      </RecentTradesContextProvider>
+    </PerpetualQueriesContextProvider>
   );
 }

@@ -1,11 +1,10 @@
-import React, { useCallback, useMemo, useState, useEffect } from 'react';
+import React, { useCallback, useMemo, useState, useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dialog } from '../../../../containers/Dialog';
 import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
 import { PerpetualPageModals, isPerpetualTradeReview } from '../../types';
 import { fromWei } from 'web3-utils';
-import { usePerpetual_queryPerpParameters } from '../../hooks/usePerpetual_queryPerpParameters';
 import {
   calculateApproxLiquidationPrice,
   getRequiredMarginCollateral,
@@ -17,9 +16,7 @@ import {
   PerpetualPairDictionary,
   PerpetualPairType,
 } from 'utils/dictionaries/perpetual-pair-dictionary';
-import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
 import { getSignedAmount } from '../../utils/contractUtils';
-import { usePerpetual_queryTraderState } from '../../hooks/usePerpetual_queryTraderState';
 import {
   TradeAnalysis,
   TradeDialogContextType,
@@ -34,6 +31,7 @@ import { ReviewStep } from './components/ReviewStep';
 import { ApprovalStep } from './components/ApprovalStep';
 import { ConfirmationStep } from './components/ConfirmationStep';
 import { TransactionStep } from './components/TransactionStep';
+import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 
 const tradeDialogContextDefault: TradeDialogContextType = {
   pair: PerpetualPairDictionary.get(PerpetualPairType.BTCUSD),
@@ -69,9 +67,11 @@ export const TradeDialog: React.FC = () => {
   const dispatch = useDispatch();
   const { modal, modalOptions } = useSelector(selectPerpetualPage);
 
-  const perpParameters = usePerpetual_queryPerpParameters();
-  const ammState = usePerpetual_queryAmmState();
-  const traderState = usePerpetual_queryTraderState();
+  const {
+    ammState,
+    traderState,
+    perpetualParameters: perpParameters,
+  } = useContext(PerpetualQueriesContext);
 
   const { origin, trade, transactions: requestedTransactions } = useMemo(
     () =>

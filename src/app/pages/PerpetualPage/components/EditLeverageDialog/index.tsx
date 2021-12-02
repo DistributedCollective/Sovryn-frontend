@@ -1,4 +1,10 @@
-import React, { useCallback, useMemo, useState, useEffect } from 'react';
+import React, {
+  useCallback,
+  useMemo,
+  useState,
+  useEffect,
+  useContext,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { translations } from '../../../../../locales/i18n';
@@ -15,19 +21,21 @@ import {
   getRequiredMarginCollateral,
   calculateApproxLiquidationPrice,
 } from '../../utils/perpUtils';
-import { usePerpetual_queryPerpParameters } from '../../hooks/usePerpetual_queryPerpParameters';
-import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
-import { usePerpetual_queryTraderState } from '../../hooks/usePerpetual_queryTraderState';
 import { toWei } from '../../../../../utils/blockchain/math-helpers';
 import { PerpetualTxMethods } from '../TradeDialog/types';
+import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 
 export const EditLeverageDialog: React.FC = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { modal, modalOptions } = useSelector(selectPerpetualPage);
-  const traderState = usePerpetual_queryTraderState();
-  const ammState = usePerpetual_queryAmmState();
-  const perpParameters = usePerpetual_queryPerpParameters();
+
+  const {
+    ammState,
+    traderState,
+    perpetualParameters: perpParameters,
+  } = useContext(PerpetualQueriesContext);
+
   const trade = useMemo(
     () => (isPerpetualTrade(modalOptions) ? modalOptions : undefined),
     [modalOptions],

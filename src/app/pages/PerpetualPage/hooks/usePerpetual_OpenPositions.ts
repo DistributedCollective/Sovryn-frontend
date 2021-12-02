@@ -5,10 +5,9 @@ import {
 } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { PerpetualTradeType, PerpetualTradeEvent } from '../types';
 import { Event, useGetTraderEvents } from './graphql/useGetTraderEvents';
-import { useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 import { ABK64x64ToFloat } from '../utils/contractUtils';
 import { BigNumber } from 'ethers';
-import { usePerpetual_queryAmmState } from './usePerpetual_queryAmmState';
 import {
   calculateApproxLiquidationPrice,
   getMarkPrice,
@@ -16,8 +15,7 @@ import {
   getBase2QuoteFX,
   getTraderLeverage,
 } from '../utils/perpUtils';
-import { usePerpetual_queryTraderState } from './usePerpetual_queryTraderState';
-import { usePerpetual_queryPerpParameters } from './usePerpetual_queryPerpParameters';
+import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 
 export type OpenPositionEntry = {
   id: string;
@@ -49,9 +47,11 @@ export const usePerpetual_OpenPosition = (
     loading,
   } = useGetTraderEvents([Event.TRADE], address.toLowerCase());
 
-  const ammState = usePerpetual_queryAmmState();
-  const perpParameters = usePerpetual_queryPerpParameters();
-  const traderState = usePerpetual_queryTraderState();
+  const {
+    ammState,
+    traderState,
+    perpetualParameters: perpParameters,
+  } = useContext(PerpetualQueriesContext);
 
   const data = useMemo(() => {
     const markPrice = getMarkPrice(ammState);
@@ -77,7 +77,7 @@ export const usePerpetual_OpenPosition = (
     const currentTradeEvents: PerpetualTradeEvent[] | undefined =
       tradeEvents?.trader?.trades || previousTradeEvents?.trader?.trades;
     const latestTrade = currentTradeEvents?.find(
-      (trade: PerpetualTradeEvent) => trade.perpetualId === pair.id,
+      (trade: PerpetualTradeEvent) => trade.perpetual?.id === pair.id,
     );
 
     const entryPrice = latestTrade?.price

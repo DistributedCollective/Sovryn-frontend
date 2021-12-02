@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useMaintenance } from 'app/hooks/useMaintenance';
@@ -30,17 +36,14 @@ import {
   getMidPrice,
 } from '../../utils/perpUtils';
 import { shrinkToLot } from '../../utils/perpMath';
-import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
-import { usePerpetual_queryPerpParameters } from '../../hooks/usePerpetual_queryPerpParameters';
 import { usePerpetual_marginAccountBalance } from '../../hooks/usePerpetual_marginAccountBalance';
 import { getSignedAmount, getTradeDirection } from '../../utils/contractUtils';
-import { usePerpetual_queryTraderState } from '../../hooks/usePerpetual_queryTraderState';
 import { useAccount } from 'app/hooks/useAccount';
 import { usePerpetual_OpenPosition } from '../../hooks/usePerpetual_OpenPositions';
 import { useSelector } from 'react-redux';
 import { selectPerpetualPage } from '../../selectors';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
-import { usePerpetual_queryLiqPoolStateFromPerpetualId } from '../../hooks/usePerpetual_queryLiqPoolStateFromPerpetualId';
+import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 
 interface ITradeFormProps {
   trade: PerpetualTrade;
@@ -60,11 +63,15 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
   const inMaintenance = checkMaintenance(States.PERPETUAL_TRADES);
-  const traderState = usePerpetual_queryTraderState();
-  const ammState = usePerpetual_queryAmmState();
-  const perpParameters = usePerpetual_queryPerpParameters();
+
+  const {
+    ammState,
+    traderState,
+    perpetualParameters: perpParameters,
+    liquidityPoolState: liqPoolState,
+  } = useContext(PerpetualQueriesContext);
+
   const marginAccountBalance = usePerpetual_marginAccountBalance();
-  const liqPoolState = usePerpetual_queryLiqPoolStateFromPerpetualId();
 
   const { pairType } = useSelector(selectPerpetualPage);
   const { data: openPosition, loading } = usePerpetual_OpenPosition(

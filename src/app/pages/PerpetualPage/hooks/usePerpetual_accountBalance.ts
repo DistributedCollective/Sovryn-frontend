@@ -1,16 +1,15 @@
 import { useAccount, useBlockSync } from 'app/hooks/useAccount';
 import { bridgeNetwork } from 'app/pages/BridgeDepositPage/utils/bridge-network';
-import { useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { Chain } from 'types';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { toWei } from '../../../../utils/blockchain/math-helpers';
 import { PerpetualPairType } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
-import { usePerpetual_queryTraderState } from './usePerpetual_queryTraderState';
 import marginTokenAbi from 'utils/blockchain/abi/MarginToken.json';
 import { usePerpetual_marginAccountBalance } from './usePerpetual_marginAccountBalance';
-import { usePerpetual_queryAmmState } from './usePerpetual_queryAmmState';
 import { getTraderPnLInCC } from '../utils/perpUtils';
 import { bignumber } from 'mathjs';
+import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 
 type AccountBalance = {
   total: string;
@@ -31,8 +30,8 @@ export const usePerpetual_accountBalance = (pairType: PerpetualPairType) => {
 
   const [availableBalance, setAvailableBalance] = useState('0');
 
-  const traderState = usePerpetual_queryTraderState();
-  const ammState = usePerpetual_queryAmmState();
+  const { ammState, traderState } = useContext(PerpetualQueriesContext);
+
   const marginBalance = usePerpetual_marginAccountBalance();
 
   useEffect(() => {

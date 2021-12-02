@@ -1,13 +1,12 @@
 import { Bar } from 'app/components/TradingChart/datafeed';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Nullable } from 'types';
 import { useBlockSync } from '../../../hooks/useAccount';
 import { makeApiRequest } from '../components/TradingChart/helpers';
+import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import { PERPETUAL_ID } from '../utils/contractUtils';
 import { getIndexPrice, getMarkPrice } from '../utils/perpUtils';
 import { CandleDuration } from './graphql/useGetCandles';
-import { usePerpetual_queryAmmState } from './usePerpetual_queryAmmState';
-import { usePerpetual_queryPerpParameters } from './usePerpetual_queryPerpParameters';
 
 export type PerpetualContractDetailsData = {
   markPrice: number;
@@ -24,8 +23,7 @@ export const usePerpetual_ContractDetails = () => {
   const [volume24h, setVolume24h] = useState(0);
   const [data, setData] = useState<Nullable<PerpetualContractDetailsData>>();
 
-  const ammState = usePerpetual_queryAmmState();
-  const perpetualParameters = usePerpetual_queryPerpParameters();
+  const { ammState, perpetualParameters } = useContext(PerpetualQueriesContext);
 
   useEffect(() => {
     const get24hVolume = async () => {

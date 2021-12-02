@@ -6,7 +6,7 @@ import { Chain } from 'types';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import perpetualManagerAbi from 'utils/blockchain/abi/PerpetualManager.json';
 
-const initialLiqPoolState: LiqPoolState = {
+export const initialLiqPoolState: LiqPoolState = {
   fPnLparticipantsCashCC: 0,
   fAMMFundCashCC: 0,
   fDefaultFundCashCC: 0,

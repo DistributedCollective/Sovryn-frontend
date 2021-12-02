@@ -11,10 +11,18 @@ export function useGetRecentTrades(perpetualId: string, count: number = 20) {
       trades(
         first: ${count}
         where: {
-          perpetualId: "${perpetualId}"
+          perpetual: "${perpetualId}"
         }
+        orderBy: blockTimestamp
+        orderDirection: desc
       ) {
-        tradeAmount
+        trader {
+          id
+        }
+        perpetual {
+          id
+        }
+        tradeAmountBC
         price
         blockTimestamp
         transaction {

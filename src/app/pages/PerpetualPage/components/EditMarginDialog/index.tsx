@@ -1,4 +1,10 @@
-import React, { useCallback, useMemo, useState, useEffect } from 'react';
+import React, {
+  useCallback,
+  useMemo,
+  useState,
+  useEffect,
+  useContext,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { translations } from '../../../../../locales/i18n';
@@ -15,17 +21,15 @@ import {
   calculateLeverageForMargin,
 } from '../../utils/perpUtils';
 import { fromWei } from 'web3-utils';
-import { usePerpetual_queryPerpParameters } from '../../hooks/usePerpetual_queryPerpParameters';
-import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
 import classNames from 'classnames';
 import { LeverageViewer } from '../LeverageViewer';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { AmountInput } from '../../../../components/Form/AmountInput';
-import { usePerpetual_queryTraderState } from '../../hooks/usePerpetual_queryTraderState';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
 import { calculateMaxMarginWithdrawal } from '../../utils/contractUtils';
 import { toWei } from '../../../../../utils/blockchain/math-helpers';
 import { PerpetualTxMethods } from '../TradeDialog/types';
+import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 
 enum EditMarginDialogMode {
   increase,
@@ -38,9 +42,13 @@ export const EditMarginDialog: React.FC = () => {
   const { pairType: currentPairType, modal, modalOptions } = useSelector(
     selectPerpetualPage,
   );
-  const ammState = usePerpetual_queryAmmState();
-  const perpParameters = usePerpetual_queryPerpParameters();
-  const traderState = usePerpetual_queryTraderState();
+
+  const {
+    ammState,
+    traderState,
+    perpetualParameters: perpParameters,
+  } = useContext(PerpetualQueriesContext);
+
   const trade = useMemo(
     () => (isPerpetualTrade(modalOptions) ? modalOptions : undefined),
     [modalOptions],
