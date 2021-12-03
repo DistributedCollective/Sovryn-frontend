@@ -46,10 +46,7 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
     () =>
       getTranslations(
         t,
-        rejected,
-        transactionStatus === TxStatus.FAILED
-          ? new Error('Transaction failed for an unknown reason!')
-          : undefined,
+        rejected || transactionStatus === TxStatus.FAILED,
         (currentTransaction?.index || 0) + 1,
         transactions.length,
       ),
@@ -169,7 +166,6 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
 const getTranslations = (
   t,
   rejected: boolean,
-  error: Error | undefined,
   current: number,
   count: number,
 ) => {
@@ -195,29 +191,6 @@ const getTranslations = (
               count,
             },
           )}
-          <br />
-          {t(translations.perpetualPage.processTrade.texts.cancelOrRetry)}
-        </p>
-      ),
-    };
-  } else if (error) {
-    return {
-      title: t(
-        count === 1
-          ? translations.perpetualPage.processTrade.titles.confirmFailed
-          : translations.perpetualPage.processTrade.titles.confirmMultiFailed,
-        {
-          current,
-          count,
-        },
-      ),
-      text: (
-        <p className="tw-text-warning">
-          <Trans
-            i18nKey={translations.perpetualPage.processTrade.texts.error}
-            values={{ error: `(${error.message})` }}
-            components={[<span className="tw-block">error</span>]}
-          />
           <br />
           {t(translations.perpetualPage.processTrade.texts.cancelOrRetry)}
         </p>
