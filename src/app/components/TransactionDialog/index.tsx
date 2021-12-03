@@ -201,7 +201,7 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
                   <div className="tw-w-1/2 tw-text-gray-10 tw-text-gray-10">
                     {t(translations.stake.txId)}
                   </div>
-                  <div className="sm:tw-w-1/3 tw-w-1/2 tw-font-medium">
+                  <div className="tw-font-medium">
                     <LinkToExplorer
                       txHash={tx.txHash}
                       text={prettyTx(tx.txHash)}
