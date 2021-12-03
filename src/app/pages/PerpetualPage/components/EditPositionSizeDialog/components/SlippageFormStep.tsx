@@ -8,7 +8,7 @@ import { TransitionAnimation } from '../../../../../containers/TransitionContain
 import { translations } from '../../../../../../locales/i18n';
 import { EditPositionSizeDialogContext } from '..';
 import { PERPETUAL_SLIPPAGE_DEFAULT } from '../../../types';
-import { getMidPrice, calculateSlippagePrice } from '../../../utils/perpUtils';
+import { calculateSlippagePrice } from '../../../utils/perpUtils';
 import {
   PerpetualPairType,
   PerpetualPairDictionary,
@@ -24,14 +24,7 @@ export const SlippageFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
 }) => {
   const { t } = useTranslation();
 
-  const { ammState, perpetualParameters: perpParameters } = useContext(
-    PerpetualQueriesContext,
-  );
-
-  const midPrice = useMemo(() => getMidPrice(perpParameters, ammState), [
-    perpParameters,
-    ammState,
-  ]);
+  const { averagePrice } = useContext(PerpetualQueriesContext);
 
   const { changedTrade, onChange } = useContext(EditPositionSizeDialogContext);
 
@@ -66,11 +59,11 @@ export const SlippageFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
     () =>
       changedTrade &&
       calculateSlippagePrice(
-        midPrice,
+        averagePrice,
         changedTrade.slippage,
         getTradeDirection(changedTrade.position),
       ),
-    [midPrice, changedTrade],
+    [averagePrice, changedTrade],
   );
 
   return (

@@ -513,11 +513,13 @@ export function getRequiredMarginCollateral(
 export function getTraderPnL(
   traderState: TraderState,
   ammData: AMMState,
+  perpData: PerpParameters,
 ): number {
-  return (
+  let tradePnL =
     traderState.marginAccountPositionBC * getMarkPrice(ammData) -
-    traderState.marginAccountLockedInValueQC
-  );
+    traderState.marginAccountLockedInValueQC;
+  let fundingPnL = getFundingFee(traderState, perpData);
+  return tradePnL + fundingPnL;
 }
 
 /**
@@ -549,23 +551,30 @@ export function getTraderLeverage(
 export function getTraderPnLInCC(
   traderState: TraderState,
   ammData: AMMState,
+  perpData: PerpParameters,
 ): number {
-  return getQuote2CollateralFX(ammData) * getTraderPnL(traderState, ammData);
+  return (
+    getQuote2CollateralFX(ammData) *
+    getTraderPnL(traderState, ammData, perpData)
+  );
 }
 
 /**
- *
+ * Get the unpaid, accumulated funding rate in collateral currency
+ * @param {AMMState} ammData - AMM state (for mark price and CCY conversion)
+ * @param {TraderState} traderState - Trader state (for account balances)
+ * @returns {number} PnL = value of position at mark price minus locked in value
  */
 
 export function getFundingFee(
   traderState: TraderState,
   perpData: PerpParameters,
-  ammData: AMMState,
 ): number {
-  let fCurrentRate =
+  let fCurrentFee =
     perpData.fUnitAccumulatedFunding - traderState.fUnitAccumulatedFundingStart;
-  // TODO: this is not correct!
-  return fCurrentRate * traderState.marginAccountPositionBC;
+  // if the fee is positive, the long pays the short receives and vice versa
+  // hence no abs(position) required
+  return fCurrentFee * traderState.marginAccountPositionBC;
 }
 
 export function getMidPrice(
@@ -614,25 +623,25 @@ export function getPrice(
 
 export function getDepthMatrix(perpData: PerpParameters, ammData: AMMState) {
   let pctRange = [
-    -1.0,
-    -0.9,
-    -0.8,
-    -0.7,
-    -0.6,
-    -0.5,
-    -0.4,
-    -0.3,
-    -0.2,
-    0,
-    0.2,
-    0.3,
-    0.4,
-    0.5,
-    0.6,
-    0.7,
-    0.8,
-    0.9,
     1.0,
+    0.9,
+    0.8,
+    0.7,
+    0.6,
+    0.5,
+    0.4,
+    0.3,
+    0.2,
+    0,
+    -0.2,
+    -0.3,
+    -0.4,
+    -0.5,
+    -0.6,
+    -0.7,
+    -0.8,
+    -0.9,
+    -1.0,
   ];
   return getPricesAndTradesForPercentRage(
     ammData.K2,

@@ -13,7 +13,6 @@ import { PerpetualPairDictionary } from '../../../../../../utils/dictionaries/pe
 import styles from '../index.module.scss';
 import {
   calculateSlippagePrice,
-  getMidPrice,
   calculateApproxLiquidationPrice,
   getRequiredMarginCollateral,
 } from 'app/pages/PerpetualPage/utils/perpUtils';
@@ -33,12 +32,8 @@ export const SlippageFormStep: TransitionStep<NewPositionCardStep> = ({
     ammState,
     traderState,
     perpetualParameters: perpParameters,
+    averagePrice,
   } = useContext(PerpetualQueriesContext);
-
-  const midPrice = useMemo(() => getMidPrice(perpParameters, ammState), [
-    perpParameters,
-    ammState,
-  ]);
 
   const { trade, onChangeTrade } = useContext(NewPositionCardContext);
 
@@ -58,11 +53,11 @@ export const SlippageFormStep: TransitionStep<NewPositionCardStep> = ({
   const minEntryPrice = useMemo(
     () =>
       calculateSlippagePrice(
-        midPrice,
+        averagePrice,
         trade.slippage,
         getTradeDirection(trade.position),
       ),
-    [midPrice, trade.position, trade.slippage],
+    [averagePrice, trade.position, trade.slippage],
   );
 
   const minLiquidationPrice = useMemo(() => {

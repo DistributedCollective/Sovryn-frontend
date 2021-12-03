@@ -1,11 +1,6 @@
-import { useEffect, useState, useMemo, useRef, useContext } from 'react';
+import { useMemo, useContext } from 'react';
 import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
-import { usePerpetual_queryAmmState } from './usePerpetual_queryAmmState';
-import {
-  getIndexPrice,
-  getMarkPrice,
-  getDepthMatrix,
-} from '../utils/perpUtils';
+import { getIndexPrice, getMarkPrice } from '../utils/perpUtils';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import { RecentTradesContext } from '../components/RecentTradesTable/context';
 import { TradePriceChange } from '../components/RecentTradesTable/types';
@@ -29,13 +24,14 @@ export type AmmDepthChartData = {
 export const usePerpetual_AmmDepthChart = (
   pair: PerpetualPair,
 ): AmmDepthChartData => {
-  const { ammState, perpetualParameters } = useContext(PerpetualQueriesContext);
+  const { ammState, depthMatrixEntries: entries, averagePrice } = useContext(
+    PerpetualQueriesContext,
+  );
   const { trades } = useContext(RecentTradesContext);
 
   const data = useMemo(() => {
     const indexPrice = getIndexPrice(ammState);
     const markPrice = getMarkPrice(ammState);
-    const entries = getDepthMatrix(perpetualParameters, ammState);
 
     let shorts: AmmDepthChartDataEntry[] = [];
     let longs: AmmDepthChartDataEntry[] = [];
@@ -43,6 +39,7 @@ export const usePerpetual_AmmDepthChart = (
     if (entries && entries.length >= 3) {
       const length = entries[0].length;
       const midIndex = Math.floor(length / 2);
+
       for (let i = 0; i < length; i++) {
         const price = entries[0][i];
         const deviation = entries[1][i];
@@ -66,14 +63,14 @@ export const usePerpetual_AmmDepthChart = (
     }
 
     return {
-      price: trades[0]?.price || markPrice,
+      price: averagePrice,
       trend: trades[0]?.priceChange || TradePriceChange.NO_CHANGE,
       indexPrice,
       markPrice,
       shorts,
       longs,
     };
-  }, [trades, perpetualParameters, ammState]);
+  }, [ammState, averagePrice, entries, trades]);
 
   return data;
 };
