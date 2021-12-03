@@ -9,11 +9,12 @@
 }
 
 .walletLogo {
-  @apply tw-flex tw-flex-col tw-justify-between tw-items-center tw-overflow-hidden;
-  width: 10rem;
-  height: 10rem;
-  border-radius: 1.25rem;
-  border: 5px solid #e8e8e8;
-  margin: 0 auto 4.375rem;
+  @apply tw-flex tw-flex-col tw-justify-between tw-items-center 
+    tw-w-40 tw-h-40 tw-mx-auto
+    tw-border-sov-white tw-rounded-3xl
+    tw-overflow-hidden;
+  border-width: 5px;
+  border-style: solid;
+  margin-bottom: 4.375rem;
   padding: 1.3rem 2.1rem 1rem 2.1rem;
 }
