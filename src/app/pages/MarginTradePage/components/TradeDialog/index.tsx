@@ -6,10 +6,16 @@ import { DialogButton } from 'app/components/Form/DialogButton';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
 import { useMaintenance } from 'app/hooks/useMaintenance';
-import { discordInvite } from 'utils/classifiers';
+import {
+  discordInvite,
+  TRADE_LOG_SIGNATURE_HASH,
+  useTenderlySimulator,
+  MAINTENANCE_MARGIN,
+} from 'utils/classifiers';
 import { translations } from 'locales/i18n';
 import { Asset } from 'types';
 import {
+  getContract,
   getLendingContractName,
   getTokenContract,
 } from 'utils/blockchain/contract-helpers';
@@ -35,14 +41,97 @@ import { bignumber } from 'mathjs';
 import { TxStatus } from 'store/global/transactions-store/types';
 import { TradeDialogInfo } from './TradeDialogInfo';
 import { Toast } from 'app/components/Toast';
+import {
+  SimulationStatus,
+  useFilterSimulatorResponseLogs,
+} from 'app/hooks/simulator/useFilterSimulatorResponseLogs';
+import { TradeEventData } from 'types/active-loan';
+import { useSimulator } from 'app/hooks/simulator/useSimulator';
+import { TradingTypes } from 'app/pages/SpotTradingPage/types';
+import { PricePrediction } from 'app/containers/MarginTradeForm/PricePrediction';
 
-const maintenanceMargin = 15000000000000000000;
 interface ITradeDialogProps {
   slippage: number;
   isOpen: boolean;
   onCloseModal: () => void;
   orderType: OrderTypes;
 }
+
+const TradeLogInputs = [
+  {
+    indexed: true,
+    internalType: 'address',
+    name: 'user',
+    type: 'address',
+  },
+  {
+    indexed: true,
+    internalType: 'address',
+    name: 'lender',
+    type: 'address',
+  },
+  {
+    indexed: true,
+    internalType: 'bytes32',
+    name: 'loanId',
+    type: 'bytes32',
+  },
+  {
+    indexed: false,
+    internalType: 'address',
+    name: 'collateralToken',
+    type: 'address',
+  },
+  {
+    indexed: false,
+    internalType: 'address',
+    name: 'loanToken',
+    type: 'address',
+  },
+  {
+    indexed: false,
+    internalType: 'uint256',
+    name: 'positionSize',
+    type: 'uint256',
+  },
+  {
+    indexed: false,
+    internalType: 'uint256',
+    name: 'borrowedAmount',
+    type: 'uint256',
+  },
+  {
+    indexed: false,
+    internalType: 'uint256',
+    name: 'interestRate',
+    type: 'uint256',
+  },
+  {
+    indexed: false,
+    internalType: 'uint256',
+    name: 'settlementDate',
+    type: 'uint256',
+  },
+  {
+    indexed: false,
+    internalType: 'uint256',
+    name: 'entryPrice',
+    type: 'uint256',
+  },
+  {
+    indexed: false,
+    internalType: 'uint256',
+    name: 'entryLeverage',
+    type: 'uint256',
+  },
+  {
+    indexed: false,
+    internalType: 'uint256',
+    name: 'currentLeverage',
+    type: 'uint256',
+  },
+];
+
 export const TradeDialog: React.FC<ITradeDialogProps> = props => {
   const { t } = useTranslation();
   const account = useAccount();
@@ -92,6 +181,40 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
     leverage,
     amount,
     minReturnCollateral,
+  );
+
+  const txArgs = [
+    '0x0000000000000000000000000000000000000000000000000000000000000000', //0 if new loan
+    toWei(String(leverage - 1), 'ether'),
+    useLoanTokens ? amount : '0',
+    useLoanTokens ? '0' : amount,
+    getTokenContract(collateralToken).address,
+    account, // trader
+    minReturn,
+    '0x',
+  ];
+
+  const txConf = {
+    value: collateral === Asset.RBTC ? amount : '0',
+  };
+
+  const simulator = useFilterSimulatorResponseLogs<TradeEventData>(
+    useSimulator(
+      contractName,
+      'marginTrade',
+      txArgs,
+      collateral === Asset.RBTC ? amount : '0',
+      amount !== '0' && !!contractName && !!position,
+      collateral !== Asset.WRBTC && contractName && position
+        ? {
+            asset: collateral,
+            spender: getContract(contractName).address,
+            amount,
+          }
+        : undefined,
+    ),
+    TRADE_LOG_SIGNATURE_HASH,
+    TradeLogInputs,
   );
 
   useEffect(() => {
@@ -165,21 +288,6 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
     props.onCloseModal();
   };
 
-  const txArgs = [
-    '0x0000000000000000000000000000000000000000000000000000000000000000', //0 if new loan
-    toWei(String(leverage - 1), 'ether'),
-    useLoanTokens ? amount : '0',
-    useLoanTokens ? '0' : amount,
-    getTokenContract(collateralToken).address,
-    account, // trader
-    minReturn,
-    '0x',
-  ];
-
-  const txConf = {
-    value: collateral === Asset.RBTC ? amount : '0',
-  };
-
   return (
     <>
       <Dialog isOpen={props.isOpen} onClose={() => props.onCloseModal()}>
@@ -211,7 +319,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
               label={t(
                 translations.marginTradePage.tradeDialog.maintananceMargin,
               )}
-              value={<>{weiToNumberFormat(maintenanceMargin)} %</>}
+              value={<>{weiToNumberFormat(MAINTENANCE_MARGIN)} %</>}
             />
             <LabelValuePair
               label={t(translations.marginTradePage.tradeDialog.interestAPR)}
@@ -327,11 +435,16 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
               />
             )}
 
-            <ErrorBadge
-              content={t(
-                translations.marginTradePage.tradeDialog.estimationErrorNote,
+            {useTenderlySimulator &&
+              simulator.status === SimulationStatus.FAILED && (
+                <ErrorBadge
+                  content={t(
+                    translations.marginTradePage.tradeDialog
+                      .estimationErrorNote,
+                    { error: simulator.error },
+                  )}
+                />
               )}
-            />
           </div>
 
           <div className="tw-mw-340 tw-mx-auto">
@@ -358,17 +471,44 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
             textClassName={'tw-w-1/2 tw-text-gray-10 tw-text-gray-10'}
           />
         }
-        data={{
-          position,
-          leverage,
-          orderTypeValue,
-          pair,
-          amount,
-          collateral,
-          loanToken,
-          collateralToken,
-          useLoanTokens,
-        }}
+        finalMessage={
+          <div className="tw-pt-3 tw-pb-2 tw-px-6 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
+            <div
+              className={cn(
+                'tw-text-center tw-font-medium tw-lowercase tw-text-xl',
+                {
+                  'tw-text-trade-short': position === TradingPosition.SHORT,
+                  'tw-text-trade-long': position === TradingPosition.LONG,
+                },
+              )}
+            >
+              {toNumberFormat(leverage) + 'x'} {orderTypeValue}{' '}
+              {position === TradingPosition.LONG
+                ? TradingTypes.BUY
+                : TradingTypes.SELL}
+            </div>
+            <div className="tw-text-center tw-my-1">{pair.chartSymbol}</div>
+            <div className="tw-flex tw-justify-center tw-items-center">
+              <LoadableValue
+                loading={false}
+                value={
+                  <div className="tw-mr-1">{weiToNumberFormat(amount, 4)}</div>
+                }
+                tooltip={fromWei(amount)}
+              />{' '}
+              <AssetRenderer asset={collateral} />
+              <div className="tw-px-1">&#64; &ge;</div>
+              <PricePrediction
+                position={position}
+                leverage={leverage}
+                loanToken={loanToken}
+                collateralToken={collateralToken}
+                useLoanTokens={useLoanTokens}
+                weiAmount={amount}
+              />
+            </div>
+          </div>
+        }
       />
     </>
   );

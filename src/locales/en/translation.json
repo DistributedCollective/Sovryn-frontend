@@ -1559,7 +1559,8 @@
       "title": "Recent Trades",
       "price": "Price (<0/>)",
       "size": "Size (<0/>)",
-      "time": "Time"
+      "time": "Time",
+      "noTrades": "No Recent Trades"
     },
     "tradeDialog": {
       "title": "Review Order",

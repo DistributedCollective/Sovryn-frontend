@@ -5,15 +5,15 @@ export enum TradePriceChange {
 }
 
 export enum TradeType {
-  'SELL' = 'sell',
-  'BUY' = 'buy',
+  'SHORT' = 'short',
+  'LONG' = 'long',
 }
 
 export type RecentTradesDataEntry = {
-  id: string;
-  type: TradeType;
+  collateralToken: string;
+  entryPrice: string;
+  loanToken: string;
+  positionSize: string;
+  timestamp: string;
   priceChange: TradePriceChange;
-  price: number;
-  size: number;
-  time: string;
 };

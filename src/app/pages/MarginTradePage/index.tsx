@@ -78,13 +78,7 @@ export function MarginTradePage() {
           >
             <TradingChart symbol={pair.chartSymbol} theme={Theme.DARK} />
           </div>
-          <div
-            className="tw-trading-recent-trades-card tw-bg-black tw-rounded-3xl tw-p-4 tw-mx-auto xl:tw-mr-2 tw-relative"
-            title={
-              t(translations.marginTradePage.recentTrades.title) +
-              ` (${pairType.toString()})`
-            }
-          >
+          <div className="tw-trading-recent-trades-card tw-bg-black tw-rounded-2xl tw-px-4 tw-py-3 tw-mx-auto xl:tw-mr-2 tw-relative">
             <RecentTradesTable pair={pair} />
           </div>
           <TradeForm pairType={linkPairType || pairType} />

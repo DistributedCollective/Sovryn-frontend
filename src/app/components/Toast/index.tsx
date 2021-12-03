@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { ReactComponent as IconSuccess } from 'assets/images/icon-success.svg';
 import { ReactComponent as IconRejected } from 'assets/images/failed-tx.svg';
 
-export function Toast(type: string, message: JSX.Element) {
+export function Toast(type: string, message: React.ReactNode) {
   const toastConfig = {
     position: toast.POSITION.TOP_CENTER,
     toastId: type,
