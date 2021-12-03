@@ -40,6 +40,7 @@ export type PerpetualTxTrade = {
   tradingPosition?: TradingPosition;
   isClosePosition?: boolean;
   tx: Nullable<string>;
+  approvalTx: Nullable<string>;
 };
 
 export type PerpetualTxDepositMargin = {

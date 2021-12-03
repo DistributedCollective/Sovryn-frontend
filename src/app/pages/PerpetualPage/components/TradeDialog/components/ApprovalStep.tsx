@@ -28,15 +28,18 @@ import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 import { selectTransactions } from '../../../../../../store/global/transactions-store/selectors';
 import { TxStatus } from '../../../../../../store/global/transactions-store/types';
+import { toWei } from '../../../../../../utils/blockchain/math-helpers';
 
 export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
   const { t } = useTranslation();
   const {
+    analysis,
     transactions,
     currentTransaction,
     setTransactions,
     setCurrentTransaction,
   } = useContext(TradeDialogContext);
+  const { marginChange } = analysis;
   const { wallet } = useWalletContext();
 
   const [result, setResult] = useState<CheckAndApproveResultWithError>();
@@ -71,19 +74,14 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     ) {
       const current = transactions[currentTransaction.index];
 
-      if (current.method !== PerpetualTxMethods.deposit) {
-        setCurrentTransaction({
-          index: currentTransaction.index,
-          nonce: currentTransaction.nonce,
-          stage: PerpetualTxStage.approved,
-        });
-        changeTo(TradeDialogStep.confirmation, TransitionAnimation.slideLeft);
-      } else {
-        const deposit: PerpetualTxDepositMargin = current;
+      if (
+        current.method === PerpetualTxMethods.deposit ||
+        current.method === PerpetualTxMethods.trade
+      ) {
         checkAndApprove(
           'PERPETUALS_token',
           getContract('perpetualManager').address,
-          deposit.amount,
+          toWei(marginChange),
           Asset.PERPETUALS,
         )
           .then(result => {
@@ -95,8 +93,8 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
               });
               setTransactions(transactions =>
                 transactions.map(tx => {
-                  if (tx === deposit) {
-                    let newDeposit = { ...deposit };
+                  if (tx === current) {
+                    let newDeposit = { ...current };
                     newDeposit.approvalTx = result.approveTx || null;
                     return newDeposit;
                   }
@@ -118,6 +116,7 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
   }, [
     currentTransaction,
     transactions,
+    marginChange,
     setCurrentTransaction,
     setTransactions,
     changeTo,

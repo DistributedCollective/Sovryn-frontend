@@ -15,6 +15,11 @@ import { ResultPosition } from './ResultPosition';
 import { TransitionAnimation } from '../../../../../containers/TransitionContainer';
 import { bridgeNetwork } from '../../../../BridgeDepositPage/utils/bridge-network';
 import { Chain } from '../../../../../../types';
+import { getRequiredMarginCollateral } from '../../../utils/perpUtils';
+import { PerpetualQueriesContext } from '../../../contexts/PerpetualQueriesContext';
+import { getSignedAmount } from '../../../utils/contractUtils';
+import { TradingPosition } from '../../../../../../types/trading-position';
+import { toWei } from 'web3-utils';
 
 const titleMap = {
   [PerpetualPageModals.NONE]:
@@ -31,14 +36,9 @@ const titleMap = {
 
 export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
   const { t } = useTranslation();
-  const {
-    origin,
-    trade,
-    pair,
-    analysis,
-    transactions,
-    setCurrentTransaction,
-  } = useContext(TradeDialogContext);
+  const { origin, trade, pair, analysis, setCurrentTransaction } = useContext(
+    TradeDialogContext,
+  );
   const {
     amountChange,
     amountTarget,
@@ -52,11 +52,6 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
   } = analysis;
 
   const onSubmit = useCallback(async () => {
-    // TODO: implement proper transaction execution and updating transactions
-    // Temporary solution! Should be done in sequence somewhere else e.g. TradeExecutionStep (ProcessStep)
-    // for (let transaction of transactions) {
-    //   await execute(transaction);
-    // }
     let nonce = await bridgeNetwork.nonce(Chain.BSC);
 
     setCurrentTransaction({
@@ -65,13 +60,15 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
       nonce,
     });
 
+    console.log(marginChange);
+
     changeTo(
-      transactions[0]?.method === PerpetualTxMethods.deposit
+      marginChange > 0
         ? TradeDialogStep.approval
         : TradeDialogStep.confirmation,
       TransitionAnimation.slideLeft,
     );
-  }, [transactions, setCurrentTransaction, changeTo]);
+  }, [marginChange, setCurrentTransaction, changeTo]);
 
   return (
     <>

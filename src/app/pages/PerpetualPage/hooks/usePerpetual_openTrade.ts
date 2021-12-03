@@ -52,7 +52,7 @@ export const usePerpetual_openTrade = () => {
         deadline,
         ethGenesisAddress,
         isClosePosition ? MASK_CLOSE_ONLY : MASK_MARKET_ORDER,
-        0,
+        floatToABK64x64(leverage),
         timeNow,
       ];
 

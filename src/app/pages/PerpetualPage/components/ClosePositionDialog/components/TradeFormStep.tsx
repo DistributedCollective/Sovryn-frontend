@@ -119,6 +119,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
               amount: toWei(amountChange),
               slippage: trade?.slippage,
               tx: null,
+              approvalTx: null,
             },
           ],
         }),
@@ -140,13 +141,12 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     }
   }, [
     dispatch,
+    averagePrice,
     changedTrade,
     amountTarget,
     amountChange,
     marginTarget,
     trade?.slippage,
-    perpParameters,
-    ammState,
   ]);
 
   const onChangeAmount = useCallback(

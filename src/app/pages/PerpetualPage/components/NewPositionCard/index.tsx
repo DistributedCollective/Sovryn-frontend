@@ -33,9 +33,6 @@ import { noop } from '../../../../constants';
 import { PERPETUAL_SLIPPAGE_DEFAULT } from '../../types';
 import { PerpetualTxMethods, PerpetualTx } from '../TradeDialog/types';
 import { getRequiredMarginCollateral } from '../../utils/perpUtils';
-import { usePerpetual_queryTraderState } from '../../hooks/usePerpetual_queryTraderState';
-import { usePerpetual_queryPerpParameters } from '../../hooks/usePerpetual_queryPerpParameters';
-import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
 import { toWei } from 'web3-utils';
 import { getSignedAmount } from '../../utils/contractUtils';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
@@ -95,40 +92,24 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
   });
 
   const onSubmit = useCallback(() => {
-    const requiredMargin = getRequiredMarginCollateral(
-      trade.leverage,
-      traderState.availableCashCC,
-      getSignedAmount(trade.position, trade.amount),
-      perpParameters,
-      ammState,
-    );
-
-    const transactions: PerpetualTx[] = [];
-    if (requiredMargin > 0) {
-      transactions.push({
-        method: PerpetualTxMethods.deposit,
-        amount: toWei(requiredMargin.toPrecision(8)),
-        approvalTx: null,
-        tx: null,
-      });
-    }
-    transactions.push({
-      method: PerpetualTxMethods.trade,
-      amount: trade.amount,
-      tradingPosition: trade.position,
-      slippage: trade.slippage,
-      leverage: trade.leverage,
-      tx: null,
-    });
-
     dispatch(
       actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
         origin: PerpetualPageModals.NONE,
         trade,
-        transactions,
+        transactions: [
+          {
+            method: PerpetualTxMethods.trade,
+            amount: trade.amount,
+            tradingPosition: trade.position,
+            slippage: trade.slippage,
+            leverage: trade.leverage,
+            tx: null,
+            approvalTx: null,
+          },
+        ],
       }),
     );
-  }, [dispatch, trade, traderState, perpParameters, ammState]);
+  }, [dispatch, trade]);
 
   const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
 
