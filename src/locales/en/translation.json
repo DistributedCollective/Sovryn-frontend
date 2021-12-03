@@ -1619,7 +1619,8 @@
       "market": "Market",
       "limit": "Limit",
       "advancedSettings": "Advanced Settings",
-      "limitPrice": "Limit Price:"
+      "limitPrice": "Limit Price:",
+      "receive": "Receive:"
     },
     "priceHistory": {
       "turnover": "Turnover",

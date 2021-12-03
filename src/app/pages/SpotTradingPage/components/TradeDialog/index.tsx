@@ -55,20 +55,6 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
   const { checkMaintenance, States } = useMaintenance();
   const spotLocked = checkMaintenance(States.SPOT_TRADES);
 
-  const getOrderTypeLabel = useCallback(() => {
-    const orderLabel =
-      orderType === OrderTypes.LIMIT
-        ? t(translations.spotTradingPage.tradeForm.limit)
-        : t(translations.spotTradingPage.tradeForm.market);
-
-    const typeLabel =
-      tradeType === TradingTypes.BUY
-        ? t(translations.spotTradingPage.tradeForm.buy)
-        : t(translations.spotTradingPage.tradeForm.sell);
-
-    return `${orderLabel} ${typeLabel}`;
-  }, [orderType, t, tradeType]);
-
   return (
     <>
       <Dialog isOpen={isOpen} onClose={() => onCloseModal()}>
@@ -82,31 +68,18 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
             <LabelValuePair
               label={t(translations.spotTradingPage.tradeDialog.tradingPair)}
               value={
-                <>
-                  <AssetSymbolRenderer
-                    asset={
-                      tradeType === TradingTypes.SELL
-                        ? sourceToken
-                        : targetToken
-                    }
-                  />
-                  /
-                  <AssetSymbolRenderer
-                    asset={
-                      tradeType === TradingTypes.BUY ? sourceToken : targetToken
-                    }
-                  />
-                </>
+                <PairLabel
+                  sourceToken={sourceToken}
+                  targetToken={targetToken}
+                  tradeType={tradeType}
+                />
               }
             />
             <LabelValuePair
               label={t(translations.spotTradingPage.tradeDialog.orderType)}
-              value={getOrderTypeLabel()}
-              className={cn({
-                'tw-text-trade-short': tradeType === TradingTypes.SELL,
-                'tw-text-trade-long': tradeType === TradingTypes.BUY,
-              })}
+              value={<OrderLabel orderType={orderType} tradeType={tradeType} />}
             />
+
             <LabelValuePair
               label={t(translations.spotTradingPage.tradeDialog.tradeAmount)}
               value={
@@ -181,13 +154,6 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
             )}
           </div>
 
-          {/* <TxFeeCalculator
-            args={txArgs}
-            txConfig={txConf}
-            methodName="spot"
-            contractName={contractName}
-            condition={true}
-          /> */}
           <div className="tw-mt-4">
             {spotLocked && (
               <ErrorBadge
@@ -222,13 +188,80 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
   );
 };
 
+interface OrderLabelProps {
+  orderType: React.ReactNode;
+  tradeType: React.ReactNode;
+  className?: string;
+}
+
+export const OrderLabel: React.FC<OrderLabelProps> = ({
+  orderType,
+  tradeType,
+  className,
+}) => {
+  const { t } = useTranslation();
+
+  const getOrderTypeLabel = useCallback(() => {
+    const orderLabel =
+      orderType === OrderTypes.LIMIT
+        ? t(translations.spotTradingPage.tradeForm.limit)
+        : t(translations.spotTradingPage.tradeForm.market);
+
+    const typeLabel =
+      tradeType === TradingTypes.BUY
+        ? t(translations.spotTradingPage.tradeForm.buy)
+        : t(translations.spotTradingPage.tradeForm.sell);
+
+    return `${orderLabel} ${typeLabel}`;
+  }, [orderType, t, tradeType]);
+
+  return (
+    <div
+      className={cn(className, {
+        'tw-text-trade-short': tradeType === TradingTypes.SELL,
+        'tw-text-trade-long': tradeType === TradingTypes.BUY,
+      })}
+    >
+      {getOrderTypeLabel()}
+    </div>
+  );
+};
+
+interface PairLabelProps {
+  targetToken: Asset;
+  sourceToken: Asset;
+  tradeType: TradingTypes;
+  className?: string;
+}
+
+export const PairLabel: React.FC<PairLabelProps> = ({
+  sourceToken,
+  targetToken,
+  tradeType,
+  className,
+}) => {
+  return (
+    <>
+      <AssetSymbolRenderer
+        asset={tradeType === TradingTypes.SELL ? sourceToken : targetToken}
+        assetClassName={className}
+      />
+      /
+      <AssetSymbolRenderer
+        asset={tradeType === TradingTypes.BUY ? sourceToken : targetToken}
+        assetClassName={className}
+      />
+    </>
+  );
+};
+
 interface LabelValuePairProps {
   label: React.ReactNode;
   value: React.ReactNode;
   className?: string;
 }
 
-export function LabelValuePair(props: LabelValuePairProps) {
+export const LabelValuePair: React.FC<LabelValuePairProps> = props => {
   return (
     <div
       className={cn(
@@ -242,7 +275,7 @@ export function LabelValuePair(props: LabelValuePairProps) {
       <div className="tw-w-1/2 tw-font-medium">{props.value}</div>
     </div>
   );
-}
+};
 
 export function tokenAddress(asset: Asset) {
   return AssetsDictionary.get(asset).getTokenContractAddress();

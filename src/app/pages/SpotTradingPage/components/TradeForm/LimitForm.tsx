@@ -20,13 +20,14 @@ import styles from './index.module.scss';
 import { Duration } from '../LimitOrderSetting/Duration';
 import { TradeDialog } from '../TradeDialog';
 import { useLimitOrder } from 'app/hooks/limitOrder/useLimitOrder';
-import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import cn from 'classnames';
 import { useSwapsExternal_getSwapExpectedReturn } from 'app/hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
 import { toWei } from 'web3-utils';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { actions } from '../../slice';
 import { useDispatch } from 'react-redux';
+import { Toast } from 'app/components/Toast';
+import { TransactionDialog } from 'app/components/TransactionDialog';
 
 export const LimitForm: React.FC<ITradeFormProps> = ({
   sourceToken,
@@ -105,10 +106,18 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
 
   const onSuccess = (data, order: IApiLimitOrder) => {
     setTradeDialog(false);
-    console.log('order: ', order);
     dispatch(actions.addPendingLimitOrders(order));
-    console.log('data: ', data);
+
+    Toast(
+      'success',
+      <div className="tw-flex">
+        <p className="tw-mb-0 tw-mr-2">
+          <Trans i18nKey={translations.transactionDialog.txStatus.complete} />
+        </p>
+      </div>,
+    );
   };
+
   const onError = error => {
     setTradeDialog(false);
     console.log('error: ', error);
@@ -140,7 +149,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
         submit={() => createOrder()}
       />
 
-      <TxDialog tx={tx} />
+      <TransactionDialog tx={tx} />
       <div className="tw-mx-auto">
         <div className="tw-mb-2 tw-mt-2 tw-bg-gray-5 tw-py-2 tw-text-center tw-flex tw-items-center tw-justify-center tw-rounded-lg">
           <AvailableBalance
