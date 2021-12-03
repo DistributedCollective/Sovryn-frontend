@@ -6,7 +6,6 @@ import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { actions } from '../../slice';
 import { PerpetualPageModals } from '../../types';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { CustomToastContent, toastOptions } from '../CustomToastContent';
 
 type AccountBalanceCardProps = {

@@ -52,6 +52,7 @@ import { PerpetualPage } from './pages/PerpetualPage';
 import { ApolloProvider } from '@apollo/client';
 import { apolloClient } from './pages/PerpetualPage/utils/graphQlHelpers';
 import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
