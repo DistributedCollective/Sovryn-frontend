@@ -24,7 +24,7 @@ export type AmmDepthChartData = {
 export const usePerpetual_AmmDepthChart = (
   pair: PerpetualPair,
 ): AmmDepthChartData => {
-  const { ammState, depthMatrixEntries: entries } = useContext(
+  const { ammState, depthMatrixEntries: entries, averagePrice } = useContext(
     PerpetualQueriesContext,
   );
   const { trades } = useContext(RecentTradesContext);
@@ -33,17 +33,12 @@ export const usePerpetual_AmmDepthChart = (
     const indexPrice = getIndexPrice(ammState);
     const markPrice = getMarkPrice(ammState);
 
-    let averagePrice = undefined;
-
     let shorts: AmmDepthChartDataEntry[] = [];
     let longs: AmmDepthChartDataEntry[] = [];
 
     if (entries && entries.length >= 3) {
       const length = entries[0].length;
       const midIndex = Math.floor(length / 2);
-
-      const averagePriceIndex = entries[1].indexOf(0);
-      averagePrice = entries[0][averagePriceIndex];
 
       for (let i = 0; i < length; i++) {
         const price = entries[0][i];
@@ -68,14 +63,14 @@ export const usePerpetual_AmmDepthChart = (
     }
 
     return {
-      price: averagePrice || markPrice,
+      price: averagePrice,
       trend: trades[0]?.priceChange || TradePriceChange.NO_CHANGE,
       indexPrice,
       markPrice,
       shorts,
       longs,
     };
-  }, [ammState, entries, trades]);
+  }, [ammState, averagePrice, entries, trades]);
 
   return data;
 };

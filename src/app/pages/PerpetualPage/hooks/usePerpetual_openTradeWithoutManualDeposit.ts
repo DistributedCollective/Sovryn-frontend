@@ -1,6 +1,6 @@
 import { useAccount } from 'app/hooks/useAccount';
 import { useSendContractTx } from 'app/hooks/useSendContractTx';
-import { useContext, useMemo } from 'react';
+import { useContext } from 'react';
 import { TxType } from 'store/global/transactions-store/types';
 import { Asset } from 'types';
 import { TradingPosition } from 'types/trading-position';
@@ -16,7 +16,6 @@ import {
 } from '../utils/contractUtils';
 import {
   calculateSlippagePrice,
-  getMidPrice,
   getRequiredMarginCollateral,
 } from '../utils/perpUtils';
 import { usePerpetual_marginAccountBalance } from './usePerpetual_marginAccountBalance';
@@ -27,23 +26,9 @@ const MASK_CLOSE_ONLY = 0x80000000;
 export const usePerpetual_openTradeWithoutManualDeposit = () => {
   const address = useAccount();
 
-  const {
-    ammState,
-    perpetualParameters,
-    depthMatrixEntries: entries,
-  } = useContext(PerpetualQueriesContext);
-
-  const midPrice = useMemo(() => getMidPrice(perpetualParameters, ammState), [
-    perpetualParameters,
-    ammState,
-  ]);
-
-  let averagePrice = undefined;
-
-  if (entries && entries.length >= 3) {
-    const averagePriceIndex = entries[1].indexOf(0);
-    averagePrice = entries[0][averagePriceIndex];
-  }
+  const { ammState, perpetualParameters, averagePrice } = useContext(
+    PerpetualQueriesContext,
+  );
 
   const marginBalance = usePerpetual_marginAccountBalance();
 
@@ -63,7 +48,7 @@ export const usePerpetual_openTradeWithoutManualDeposit = () => {
       let tradeDirection = Math.sign(signedAmount);
 
       const limitPrice = calculateSlippagePrice(
-        averagePrice || midPrice,
+        averagePrice,
         slippage,
         tradeDirection,
       );

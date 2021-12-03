@@ -17,7 +17,7 @@ import {
 } from '../../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { AssetValue } from '../../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../../components/AssetValue/types';
-import { getMidPrice, getTraderPnLInCC } from '../../../utils/perpUtils';
+import { getTraderPnLInCC } from '../../../utils/perpUtils';
 import { getSignedAmount } from '../../../utils/contractUtils';
 import { TradingPosition } from '../../../../../../types/trading-position';
 import { toWei } from '../../../../../../utils/blockchain/math-helpers';
@@ -34,6 +34,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     ammState,
     traderState,
     perpetualParameters: perpParameters,
+    averagePrice,
   } = useContext(PerpetualQueriesContext);
 
   const { changedTrade, trade, onChange } = useContext(
@@ -103,7 +104,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
       ), // marginTarget is NaN in case we don't have a position but we successfully deposited a margin
       position:
         amountTarget >= 0 ? TradingPosition.LONG : TradingPosition.SHORT,
-      entryPrice: getMidPrice(perpParameters, ammState),
+      entryPrice: averagePrice,
     };
 
     if (!Number.isNaN(marginTarget)) {

@@ -29,6 +29,7 @@ type PerpetualQueriesContextValue = {
   traderState: TraderState;
   liquidityPoolState: LiqPoolState;
   depthMatrixEntries: any[][];
+  averagePrice: number;
 };
 
 export const PerpetualQueriesContext = createContext<
@@ -39,7 +40,17 @@ export const PerpetualQueriesContext = createContext<
   traderState: initialTraderState,
   liquidityPoolState: initialLiqPoolState,
   depthMatrixEntries: [],
+  averagePrice: 0,
 });
+
+const getAveragePrice = (depthMatrixEntries: any[][]): number => {
+  if (depthMatrixEntries && depthMatrixEntries.length >= 3) {
+    const averagePriceIndex = depthMatrixEntries[1].indexOf(0);
+    return depthMatrixEntries[0][averagePriceIndex];
+  }
+
+  return 0;
+};
 
 export const PerpetualQueriesContextProvider: React.FC = ({ children }) => {
   const ammState = usePerpetual_queryAmmState();
@@ -55,6 +66,7 @@ export const PerpetualQueriesContextProvider: React.FC = ({ children }) => {
       traderState,
       liquidityPoolState,
       depthMatrixEntries,
+      averagePrice: getAveragePrice(depthMatrixEntries),
     }),
     [
       ammState,

@@ -8,7 +8,7 @@ import { TransitionAnimation } from '../../../../../containers/TransitionContain
 import { translations } from '../../../../../../locales/i18n';
 import { ClosePositionDialogContext } from '..';
 import { PERPETUAL_SLIPPAGE_DEFAULT } from '../../../types';
-import { calculateSlippagePrice, getMidPrice } from '../../../utils/perpUtils';
+import { calculateSlippagePrice } from '../../../utils/perpUtils';
 import { getTradeDirection } from '../../../utils/contractUtils';
 import { TradingPosition } from '../../../../../../types/trading-position';
 import { AssetValue } from '../../../../../components/AssetValue';
@@ -24,14 +24,7 @@ export const SlippageFormStep: TransitionStep<ClosePositionDialogStep> = ({
 }) => {
   const { t } = useTranslation();
 
-  const { ammState, perpetualParameters: perpParameters } = useContext(
-    PerpetualQueriesContext,
-  );
-
-  const midPrice = useMemo(() => getMidPrice(perpParameters, ammState), [
-    perpParameters,
-    ammState,
-  ]);
+  const { averagePrice } = useContext(PerpetualQueriesContext);
 
   const { changedTrade, onChange } = useContext(ClosePositionDialogContext);
 
@@ -62,11 +55,11 @@ export const SlippageFormStep: TransitionStep<ClosePositionDialogStep> = ({
     () =>
       changedTrade &&
       calculateSlippagePrice(
-        midPrice,
+        averagePrice,
         changedTrade.slippage,
         getTradeDirection(changedTrade.position),
       ),
-    [midPrice, changedTrade],
+    [changedTrade, averagePrice],
   );
 
   return (
