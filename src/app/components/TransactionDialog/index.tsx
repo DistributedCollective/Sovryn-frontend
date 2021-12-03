@@ -31,6 +31,7 @@ interface ITransactionDialogProps {
   tx: ResetTxResponseInterface;
   onUserConfirmed?: () => void;
   onSuccess?: () => void;
+  onError?: () => void;
   action?: string;
   fee?: React.ReactNode;
   finalMessage?: React.ReactNode;
@@ -51,6 +52,7 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
   tx,
   onUserConfirmed,
   onSuccess,
+  onError,
   action,
   fee,
   finalMessage,
@@ -79,8 +81,10 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
   useEffect(() => {
     if (tx.status === TxStatus.CONFIRMED && onSuccess) {
       onSuccess();
+    } else if (tx.status === TxStatus.FAILED && onError) {
+      onError();
     }
-  }, [tx.status, onSuccess]);
+  }, [tx.status, onSuccess, onError]);
 
   return (
     <Dialog isOpen={tx.status !== TxStatus.NONE} onClose={onClose}>
@@ -213,7 +217,7 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
             onClick={onClose}
             text={t(translations.common.close)}
             className={
-              'tw-max-w-7xl tw-flex tw-items-center tw-justify-center tw-h-12 tw-rounded-lg tw-w-80 tw-mx-auto tw-mt-16'
+              'tw-max-w-7xl tw-flex tw-items-center tw-justify-center tw-h-12 tw-rounded-lg tw-w-80 tw-mx-auto tw-mt-14'
             }
             textClassName="tw-inline-block tw-text-lg"
           />
