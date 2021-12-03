@@ -33,7 +33,6 @@ import {
   getTradingFee,
   calculateLeverageForPosition,
   calculateApproxLiquidationPrice,
-  getMidPrice,
 } from '../../utils/perpUtils';
 import { shrinkToLot } from '../../utils/perpMath';
 import { usePerpetual_marginAccountBalance } from '../../hooks/usePerpetual_marginAccountBalance';
@@ -69,6 +68,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     traderState,
     perpetualParameters: perpParameters,
     liquidityPoolState: liqPoolState,
+    averagePrice,
   } = useContext(PerpetualQueriesContext);
 
   const marginAccountBalance = usePerpetual_marginAccountBalance();
@@ -89,14 +89,9 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     availableBalance,
   ]);
 
-  const midPrice = useMemo(() => getMidPrice(perpParameters, ammState), [
-    perpParameters,
-    ammState,
-  ]);
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => onChange({ ...trade, entryPrice: midPrice }), [
-    midPrice,
+  useEffect(() => onChange({ ...trade, entryPrice: averagePrice }), [
+    averagePrice,
     onChange,
   ]);
 
@@ -441,7 +436,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
             <span>
               {weiToNumberFormat(trade.amount, lotPrecision)}
               {` @ ${trade.position === TradingPosition.LONG ? '≥' : '≤'} `}
-              {toNumberFormat(midPrice, 2)}
+              {toNumberFormat(averagePrice, 2)}
             </span>
           </button>
         ) : (

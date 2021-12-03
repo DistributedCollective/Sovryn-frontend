@@ -1574,6 +1574,81 @@
   {
     "inputs": [
       {
+        "internalType": "bytes32",
+        "name": "_iPerpetualId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "int128",
+        "name": "_fPrice",
+        "type": "int128"
+      },
+      {
+        "internalType": "int128",
+        "name": "_fTradeAmountBC",
+        "type": "int128"
+      },
+      {
+        "components": [
+          {
+            "internalType": "bytes32",
+            "name": "iPerpetualId",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "address",
+            "name": "traderAddr",
+            "type": "address"
+          },
+          {
+            "internalType": "int128",
+            "name": "fAmount",
+            "type": "int128"
+          },
+          {
+            "internalType": "int128",
+            "name": "fLimitPrice",
+            "type": "int128"
+          },
+          {
+            "internalType": "uint256",
+            "name": "iDeadline",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "referrerAddr",
+            "type": "address"
+          },
+          {
+            "internalType": "uint32",
+            "name": "flags",
+            "type": "uint32"
+          },
+          {
+            "internalType": "int128",
+            "name": "fLeverage",
+            "type": "int128"
+          },
+          {
+            "internalType": "uint256",
+            "name": "createdTimestamp",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct IPerpetualOrder.Order",
+        "name": "_order",
+        "type": "tuple"
+      }
+    ],
+    "name": "depositMarginForNewLeveragedTrade",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "uint256",
         "name": "_poolId",
         "type": "uint256"
@@ -1839,6 +1914,55 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "int128",
+        "name": "_fPosition",
+        "type": "int128"
+      },
+      {
+        "internalType": "int128",
+        "name": "_fLeverage",
+        "type": "int128"
+      },
+      {
+        "internalType": "int128",
+        "name": "_fPrice",
+        "type": "int128"
+      },
+      {
+        "internalType": "int128",
+        "name": "_fS2",
+        "type": "int128"
+      },
+      {
+        "internalType": "int128",
+        "name": "_fS2Mark",
+        "type": "int128"
+      },
+      {
+        "internalType": "int128",
+        "name": "_fS3",
+        "type": "int128"
+      },
+      {
+        "internalType": "int128",
+        "name": "_fTotalFeeRate",
+        "type": "int128"
+      }
+    ],
+    "name": "getDepositAmountForLvgPosition",
+    "outputs": [
+      {
+        "internalType": "int128",
+        "name": "",
+        "type": "int128"
+      }
+    ],
+    "stateMutability": "pure",
     "type": "function"
   },
   {
@@ -3476,12 +3600,17 @@
             "type": "uint32"
           },
           {
+            "internalType": "int128",
+            "name": "fLeverage",
+            "type": "int128"
+          },
+          {
             "internalType": "uint256",
             "name": "createdTimestamp",
             "type": "uint256"
           }
         ],
-        "internalType": "struct IPerpetualTradeManager.Order",
+        "internalType": "struct IPerpetualOrder.Order",
         "name": "_order",
         "type": "tuple"
       }
@@ -3537,12 +3666,17 @@
             "type": "uint32"
           },
           {
+            "internalType": "int128",
+            "name": "fLeverage",
+            "type": "int128"
+          },
+          {
             "internalType": "uint256",
             "name": "createdTimestamp",
             "type": "uint256"
           }
         ],
-        "internalType": "struct IPerpetualTradeManager.Order",
+        "internalType": "struct IPerpetualOrder.Order",
         "name": "_order",
         "type": "tuple"
       },
@@ -3673,6 +3807,24 @@
       }
     ],
     "name": "withdrawAll",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "_iPerpetualId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "address",
+        "name": "_traderAddr",
+        "type": "address"
+      }
+    ],
+    "name": "withdrawDepositFromMarginAccount",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"

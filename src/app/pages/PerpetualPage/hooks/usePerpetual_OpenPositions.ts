@@ -94,7 +94,7 @@ export const usePerpetual_OpenPosition = (
 
     const leverage = getTraderLeverage(traderState, ammState);
 
-    const unrealizedQuote = getTraderPnL(traderState, ammState);
+    const unrealizedQuote = getTraderPnL(traderState, ammState, perpParameters);
     const unrealized: OpenPositionEntry['unrealized'] = {
       baseValue: unrealizedQuote / base2quote,
       quoteValue: unrealizedQuote,

@@ -5,6 +5,8 @@ import { translations } from '../../../../../locales/i18n';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { actions } from '../../slice';
 import { PerpetualPageModals } from '../../types';
+import { toast } from 'react-toastify';
+import { CustomToastContent, toastOptions } from '../CustomToastContent';
 
 type AccountBalanceCardProps = {
   /** balance in wei */
@@ -26,6 +28,31 @@ export const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
       dispatch(actions.setModal(PerpetualPageModals.FASTBTC_DEPOSIT));
     }
   }, [dispatch, hasBalance]);
+
+  /* Uncomment and use it in the button onClick to test toasts */
+  // const notifySuccess = () =>
+  //   toast.success(
+  //     ({ toastProps }) => (
+  //       <CustomToastContent
+  //         toastProps={toastProps}
+  //         mainInfo="Close Complete"
+  //         additionalInfo="Market Close 0.002 BTC"
+  //       />
+  //     ),
+  //     toastOptions,
+  //   );
+
+  // const notifyError = () =>
+  //   toast.error(
+  //     ({ toastProps }) => (
+  //       <CustomToastContent
+  //         toastProps={toastProps}
+  //         mainInfo="Trade Failed"
+  //         additionalInfo="Limit price has been reached"
+  //       />
+  //     ),
+  //     toastOptions,
+  //   );
 
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-h-24 tw-p-2.5 tw-bg-gray-4 tw-rounded-lg">
