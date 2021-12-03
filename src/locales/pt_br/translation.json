@@ -1532,7 +1532,8 @@
       "market": "Mercado",
       "limit": "Limitada",
       "advancedSettings": "Configurações avançadas",
-      "limitPrice": "Preço:"
+      "limitPrice": "Preço:",
+      "receive": "Receber:"
     },
     "priceHistory": {
       "turnover": "Volume de negociações",
