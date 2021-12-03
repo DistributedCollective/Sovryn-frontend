@@ -81,9 +81,7 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
     });
 
     setRejected(false);
-    if (reset) {
-      reset();
-    }
+    reset?.();
   }, [currentTransaction, setCurrentTransaction, setTransactions, reset]);
 
   useEffect(() => {
@@ -127,9 +125,7 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
       });
       changeTo(TradeDialogStep.transaction, TransitionAnimation.slideLeft);
     }
-    if (reset) {
-      reset();
-    }
+    reset?.();
   }, [
     txHash,
     currentTransaction,

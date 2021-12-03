@@ -108,7 +108,7 @@ export const checkAndApprove = async (
     );
 
     let approveTx: any = null;
-    if (bignumber(String(allowance)).lessThanOrEqualTo(amount)) {
+    if (bignumber(String(allowance)).lessThan(amount)) {
       approveTx = await contractWriter
         .send(
           contractName,
