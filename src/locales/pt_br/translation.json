@@ -1526,7 +1526,7 @@
     },
     "tradeForm": {
       "buy_cta": "INSERIR ORDEM DE COMPRA",
-      "sell_cta": "INSERIR ORDEM DE VENDA",
+      "sell_cta": "REVISAR ORDEM",
       "amountReceived": "Receber",
       "buy": "Compra",
       "sell": "Venda",
