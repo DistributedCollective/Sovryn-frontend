@@ -1464,15 +1464,16 @@
         "short": "Vendido"
       },
       "placePosition": {
-        "placeLong": "Operar comprado",
-        "placeShort": "Operar vendido"
+        "placeLong": "Revisar ordem",
+        "placeShort": "Revisar ordem"
       }
     },
     "recentTrades": {
       "title": "Negociações recentes",
       "price": "Preço (<0/>)",
       "size": "Tamanho (<0/>)",
-      "time": "Horário"
+      "time": "Horário",
+      "noTrades": "Sem negociações recentes"
     },
     "tradeDialog": {
       "title": "Revisar ordem",
