@@ -119,8 +119,6 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
   );
   const showToast = useCallback(
     (status: string) => {
-      if (isTradingDialogOpen) return;
-
       Toast(
         status,
         <div className="tw-flex tw-items-center">
@@ -145,7 +143,7 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
         </div>,
       );
     },
-    [amount, isTradingDialogOpen, sourceToken, tradeType],
+    [amount, sourceToken, tradeType],
   );
 
   return (
@@ -162,12 +160,25 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
         sourceToken={sourceToken}
         expectedReturn={weiToFixed(rateByPath, 6)}
         submit={() => send()}
+        fee={
+          <TxFeeCalculator
+            args={[
+              getTokenContract(sourceToken).address,
+              getTokenContract(targetToken).address,
+              toWei(amount || '0'),
+            ]}
+            methodName="getSwapExpectedReturn"
+            contractName="sovrynProtocol"
+            className="tw-mb-0"
+          />
+        }
       />
       <TransactionDialog
         tx={{ ...tx, retry: send }}
         onUserConfirmed={() => setIsTradingDialogOpen(false)}
         onSuccess={() => showToast('success')}
         onError={() => showToast('error')}
+        action={t(translations.spotTradingPage.tradeDialog.order)}
         fee={
           <TxFeeCalculator
             args={[
@@ -310,7 +321,7 @@ export const OrderView: React.FC<IOrderViewProps> = ({
   return (
     <div className="tw-text-center">
       <OrderLabel
-        className="tw-text-xl tw-font-semibold tw-mb-1"
+        className="tw-text-lg tw-font-semibold tw-mb-1"
         orderType={orderType}
         tradeType={tradeType}
       />

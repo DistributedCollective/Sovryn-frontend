@@ -25,14 +25,14 @@ export const TxFeeCalculator: React.FC<ITxFeeCalculator> = ({
   args,
   txConfig = {},
   condition = true,
-  className,
+  className = 'tw-mb-1',
   textClassName,
 }) => {
   const { t } = useTranslation();
   return (
     <div
       className={cn(
-        'tw-flex tw-flex-row tw-mb-1 tw-justify-between tw-text-sov-white tw-items-center',
+        'tw-flex tw-flex-row tw-justify-between tw-text-sov-white tw-items-center',
         className,
       )}
     >

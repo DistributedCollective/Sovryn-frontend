@@ -28,6 +28,8 @@ import { actions } from '../../slice';
 import { useDispatch } from 'react-redux';
 import { Toast } from 'app/components/Toast';
 import { TransactionDialog } from 'app/components/TransactionDialog';
+import { TxStatus } from 'store/global/transactions-store/types';
+import { LimitResultDialog } from './LimitResultDialog';
 
 export const LimitForm: React.FC<ITradeFormProps> = ({
   sourceToken,
@@ -42,6 +44,9 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
   const dispatch = useDispatch();
 
   const [tradeDialog, setTradeDialog] = useState(false);
+
+  const [orderStatus, setOrderStatus] = useState<TxStatus>(TxStatus.NONE);
+  const [txHash, setTxHash] = useState<string>('');
 
   const [amount, setAmount] = useState<string>('');
   const [limitPrice, setLimitPrice] = useState<string>('');
@@ -113,7 +118,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
             <Trans
               i18nKey={
                 status === 'success'
-                  ? translations.transactionDialog.txStatus.complete
+                  ? translations.transactionDialog.txStatus.submit
                   : translations.transactionDialog.pendingUser.failed
               }
             />
@@ -133,16 +138,21 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
     [amount, sourceToken, tradeType],
   );
 
-  const onSuccess = (order: IApiLimitOrder) => {
-    setTradeDialog(false);
+  const onSuccess = (order: IApiLimitOrder, data) => {
+    setTxHash(data.hash);
+    setOrderStatus(TxStatus.CONFIRMED);
     dispatch(actions.addPendingLimitOrders(order));
     showToast('success');
   };
 
   const onError = error => {
-    setTradeDialog(false);
+    setOrderStatus(TxStatus.FAILED);
     showToast('error');
-    console.log('error: ', error);
+  };
+
+  const onStart = error => {
+    setTradeDialog(false);
+    setOrderStatus(TxStatus.PENDING);
   };
 
   const { createOrder, ...tx } = useLimitOrder(
@@ -153,7 +163,14 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
     duration,
     onSuccess,
     onError,
+    onStart,
   );
+
+  const submit = useCallback(() => {
+    setOrderStatus(TxStatus.NONE);
+    setTxHash('');
+    createOrder();
+  }, [createOrder]);
 
   return (
     <div className={cn({ 'tw-hidden': hidden })}>
@@ -168,10 +185,21 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
         sourceToken={sourceToken}
         limitPrice={limitPrice}
         duration={duration}
-        submit={() => createOrder()}
+        submit={submit}
       />
-
       <TransactionDialog tx={tx} />
+      <LimitResultDialog
+        isOpen={orderStatus !== TxStatus.NONE}
+        onClose={() => setOrderStatus(TxStatus.NONE)}
+        status={orderStatus}
+        tradeType={tradeType}
+        amount={amount}
+        targetToken={targetToken}
+        sourceToken={sourceToken}
+        limitPrice={limitPrice}
+        txHash={txHash}
+        expectedReturn={stringToFixedPrecision(amountOut, 6)}
+      />
       <div className="tw-mx-auto">
         <div className="tw-mb-2 tw-mt-2 tw-bg-gray-5 tw-py-2 tw-text-center tw-flex tw-items-center tw-justify-center tw-rounded-lg">
           <AvailableBalance

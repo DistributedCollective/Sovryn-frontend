@@ -29,6 +29,7 @@ export function useLimitOrder(
   duration: number = 365,
   onSuccess: Function,
   onError: Function,
+  onStart: Function,
 ) {
   const account = useAccount();
   const { chainId } = useSelector(selectWalletProvider);
@@ -100,6 +101,8 @@ export function useLimitOrder(
 
       console.log('populated: ', populated);
 
+      onStart();
+
       const { data } = await axios.post(
         backendUrl[currentChainId] + '/limitOrder/createOrder',
         {
@@ -123,10 +126,10 @@ export function useLimitOrder(
           created: { hex: BigNumber.from(order.created).toHexString() },
           filled: { hex: BigNumber.from('0').toHexString() },
           canceled: false,
-          v: data.data.v,
-          r: data.data.r,
-          s: data.data.s,
-          hash: data.data.hash,
+          v: data?.data?.v,
+          r: data?.data?.r,
+          s: data?.data?.s,
+          hash: data?.data?.hash,
         };
         onSuccess(newOrder, data.data);
       } else {
@@ -144,6 +147,7 @@ export function useLimitOrder(
     amountOutMin,
     duration,
     chainId,
+    onStart,
     onSuccess,
     onError,
   ]);

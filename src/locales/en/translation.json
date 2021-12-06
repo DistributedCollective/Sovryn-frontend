@@ -1632,15 +1632,17 @@
       "limitOrderHistory": "Limit order history"
     },
     "tradeDialog": {
-      "marketTitle": "Review Market Trade",
-      "limitTitle": "Review Limit Order",
+      "marketTitle": "Review Order",
+      "limitTitle": "Review Order",
       "tradingPair": "Trading Pair:",
       "orderType": "Order Type:",
       "tradeAmount": "Trade Amount:",
       "limitPrice": "Limit Price:",
       "duration": "Duration:",
       "receiveAmount": "Receive Amount:",
-      "orderAmount": "Order Amount:"
+      "orderAmount": "Order Amount:",
+      "newOrderDetails": "New Order Details",
+      "order": "Order"
     },
     "limitOrderSetting": {
       "title": "Advanced Settings",
@@ -1976,7 +1978,8 @@
       "abortedLedger": "Make sure \"Contract data\" is set to \"Allowed\" in your Ledger app settings",
       "cta": "View in Tracker",
       "processing": "{{action}} processing...",
-      "complete": "{{action}} Complete"
+      "complete": "{{action}} Complete",
+      "submit": "{{action}} Submitted"
     }
   },
   "buySovPage": {

@@ -9,7 +9,6 @@ import { LabelValuePair, OrderLabel } from '../TradeDialog';
 import { AssetDetails } from 'utils/models/asset-details';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { AssetRenderer } from 'app/components/AssetRenderer';
-import { Input } from 'app/components/Form/Input';
 import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
 import cn from 'classnames';
 import { bignumber } from 'mathjs';
