@@ -5,7 +5,7 @@ import { LimitOrder, TradingTypes } from 'app/pages/SpotTradingPage/types';
 import { Trans, useTranslation } from 'react-i18next';
 import { useCancelLimitOrder } from 'app/hooks/limitOrder/useLimitOrder';
 import { DialogButton } from 'app/components/Form/DialogButton';
-import { LabelValuePair } from '../TradeDialog';
+import { LabelValuePair, OrderLabel } from '../TradeDialog';
 import { AssetDetails } from 'utils/models/asset-details';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { AssetRenderer } from 'app/components/AssetRenderer';
@@ -16,6 +16,7 @@ import { bignumber } from 'mathjs';
 import { TransactionDialog } from 'app/components/TransactionDialog';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import { Toast } from 'app/components/Toast';
+import { OrderTypes } from 'app/components/OrderType/types';
 interface IClosePositionDialogProps {
   order: LimitOrder;
   showModal: boolean;
@@ -80,7 +81,23 @@ export function ClosePositionDialog({
           <h1 className="tw-text-sov-white tw-text-center">
             {t(translations.spotTradingPage.cancelDialog.title)}
           </h1>
-          <div className="tw-py-4 tw-px-1 tw-bg-gray-2 sm:tw--mx-11 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
+          <div className="tw-py-4 tw-px-1 tw-bg-gray-2 sm:tw--mx-11 tw-mb-4 tw-rounded-lg tw-text-center">
+            <OrderLabel
+              className="tw-text-lg tw-font-semibold tw-mb-1"
+              orderType={OrderTypes.LIMIT}
+              tradeType={tradeType}
+            />
+            <div>
+              {toNumberFormat(
+                bignumber(order.amountOutMin.toString())
+                  .div(order.amountIn.toString())
+                  .toString(),
+                4,
+              )}{' '}
+              <AssetRenderer asset={toToken.asset} />
+            </div>
+          </div>
+          <div className="tw-py-4 tw-px-1 tw-bg-gray-2 sm:tw--mx-11 tw-mb-16 tw-rounded-lg tw-text-sm tw-font-light">
             <LabelValuePair
               label={t(translations.spotTradingPage.tradeDialog.tradingPair)}
               value={
@@ -106,6 +123,27 @@ export function ClosePositionDialog({
                 </>
               }
             />
+
+            <LabelValuePair
+              label={t(translations.spotTradingPage.tradeDialog.orderAmount)}
+              value={
+                <>
+                  {weiToNumberFormat(order.amountIn.toString(), 6)}{' '}
+                  <AssetRenderer asset={fromToken.asset} />
+                </>
+              }
+            />
+
+            <LabelValuePair
+              label={t(translations.spotTradingPage.tradeDialog.receiveAmount)}
+              value={
+                <>
+                  {weiToNumberFormat(order.amountOutMin.toString(), 6)}{' '}
+                  <AssetRenderer asset={toToken.asset} />
+                </>
+              }
+            />
+
             <LabelValuePair
               label={t(translations.spotTradingPage.tradeDialog.limitPrice)}
               value={
@@ -119,28 +157,6 @@ export function ClosePositionDialog({
                   <AssetRenderer asset={toToken.asset} />
                 </>
               }
-            />
-
-            <LabelValuePair
-              label={t(translations.spotTradingPage.tradeDialog.tradeAmount)}
-              value={
-                <>
-                  {weiToNumberFormat(order.amountIn.toString(), 6)}{' '}
-                  <AssetRenderer asset={fromToken.asset} />
-                </>
-              }
-            />
-          </div>
-
-          <div className="tw-my-8">
-            <div className="tw-text-base tw-mb-1">
-              {t(translations.spotTradingPage.tradeForm.amountReceived)}:
-            </div>
-            <Input
-              value={weiToNumberFormat(order.amountOutMin.toString(), 6)}
-              onChange={() => {}}
-              readOnly={true}
-              appendElem={<AssetRenderer asset={toToken.asset} />}
             />
           </div>
 
