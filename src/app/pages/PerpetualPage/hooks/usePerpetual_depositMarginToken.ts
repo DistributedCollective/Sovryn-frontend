@@ -2,8 +2,7 @@ import { useAccount } from 'app/hooks/useAccount';
 import { useSendContractTx } from 'app/hooks/useSendContractTx';
 import { gasLimit } from 'utils/classifiers';
 import { TxType } from 'store/global/transactions-store/types';
-import { PERPETUAL_ID, floatToABK64x64 } from '../utils/contractUtils';
-import { numberFromWei } from 'utils/blockchain/math-helpers';
+import { PERPETUAL_ID, weiToABK64x64 } from '../utils/contractUtils';
 
 export const usePerpetual_depositMarginToken = () => {
   const account = useAccount();
@@ -13,7 +12,7 @@ export const usePerpetual_depositMarginToken = () => {
   return {
     deposit: async (amount: string, nonce?: number) => {
       await send(
-        [PERPETUAL_ID, floatToABK64x64(numberFromWei(amount))],
+        [PERPETUAL_ID, weiToABK64x64(amount)],
         {
           from: account,
           gas: gasLimit[TxType.DEPOSIT_COLLATERAL],

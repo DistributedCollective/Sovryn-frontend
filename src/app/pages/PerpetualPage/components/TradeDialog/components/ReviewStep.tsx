@@ -60,8 +60,6 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
       nonce,
     });
 
-    console.log(marginChange);
-
     changeTo(
       marginChange > 0
         ? TradeDialogStep.approval

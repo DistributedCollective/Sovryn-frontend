@@ -44,7 +44,8 @@ export const TransactionStep: TransitionStep<TradeDialogStep> = ({
     () =>
       transactions.reduce<Transaction[]>((acc, transaction) => {
         if (
-          transaction.method === PerpetualTxMethods.deposit &&
+          (transaction.method === PerpetualTxMethods.deposit ||
+            transaction.method === PerpetualTxMethods.trade) &&
           transaction.approvalTx &&
           transactionsMap[transaction.approvalTx]
         ) {

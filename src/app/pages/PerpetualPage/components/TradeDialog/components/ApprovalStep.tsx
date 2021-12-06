@@ -77,10 +77,15 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
         current.method === PerpetualTxMethods.deposit ||
         current.method === PerpetualTxMethods.trade
       ) {
+        const approvalAmount =
+          current.method === PerpetualTxMethods.deposit
+            ? current.amount
+            : toWei(marginChange * 1.01); // Add 1% to allowance to fix rounding issues in the frontend
+
         checkAndApprove(
           'PERPETUALS_token',
           getContract('perpetualManager').address,
-          toWei(marginChange),
+          approvalAmount,
           Asset.PERPETUALS,
         )
           .then(result => {
@@ -93,9 +98,9 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
               setTransactions(transactions =>
                 transactions.map(tx => {
                   if (tx === current) {
-                    let newDeposit = { ...current };
-                    newDeposit.approvalTx = result.approveTx || null;
-                    return newDeposit;
+                    let updatedTx = { ...current };
+                    updatedTx.approvalTx = result.approveTx || null;
+                    return updatedTx;
                   }
                   return tx;
                 }),

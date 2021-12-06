@@ -11,6 +11,18 @@ type SlippageFormProps = {
   onChange: (slippage: number) => void;
 };
 
+const SLIPPAGE_MIN = 0.1;
+const SLIPPAGE_MAX = process.env.REACT_APP_NETWORK === 'mainnet' ? 1 : 2;
+const SLIPPAGE_STEP = 0.05;
+const SLIPPAGE_LABEL_COUNT = 5;
+const SLIPPAGE_LABELS = Array(SLIPPAGE_LABEL_COUNT)
+  .fill(0)
+  .map((_, index) =>
+    index === 0
+      ? SLIPPAGE_MIN
+      : (index / (SLIPPAGE_LABEL_COUNT - 1)) * SLIPPAGE_MAX,
+  );
+
 export const SlippageForm: React.FC<SlippageFormProps> = ({
   slippage,
   onChange,
@@ -27,11 +39,11 @@ export const SlippageForm: React.FC<SlippageFormProps> = ({
           className="tw-px-4"
           value={slippage}
           onChange={onChange}
-          min={0.1}
-          max={1}
-          stepSize={0.05}
-          labelRenderer={value => <>{value}%</>}
-          labelValues={[0.1, 0.25, 0.5, 0.75, 1]}
+          min={SLIPPAGE_MIN}
+          max={SLIPPAGE_MAX}
+          stepSize={SLIPPAGE_STEP}
+          labelRenderer={value => `${value}%`}
+          labelValues={SLIPPAGE_LABELS}
         />
       </FormGroup>
     </div>

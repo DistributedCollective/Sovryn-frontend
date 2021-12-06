@@ -5,9 +5,7 @@ import { Sovryn } from 'utils/sovryn';
 import { contractWriter } from 'utils/sovryn/contract-writer';
 import { ContractName } from 'utils/types/contracts';
 import { actions as txActions } from 'store/global/transactions-store/slice';
-import { bignumber } from 'mathjs';
 import { TxStatus, TxType } from 'store/global/transactions-store/types';
-import { transferAmount } from 'utils/blockchain/transfer-approve-amount';
 import { bridgeNetwork } from '../../BridgeDepositPage/utils/bridge-network';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import marginTokenAbi from 'utils/blockchain/abi/MarginToken.json';
@@ -19,6 +17,7 @@ import { CheckAndApproveResultWithError } from '../types';
 import { BridgeNetworkDictionary } from '../../BridgeDepositPage/dictionaries/bridge-network-dictionary';
 
 export const ONE_64x64 = BigNumber.from('0x10000000000000000');
+export const DEC_18 = BigNumber.from(10).pow(BigNumber.from(18));
 
 // TODO: remove and replace with id from PerpetualPair
 export const PERPETUAL_ID =
@@ -34,6 +33,10 @@ export const getSignedAmount = (
   return getTradeDirection(position) * Number(fromWei(weiAmount));
 };
 
+// Converts wei string to ABK64x64 bigint-format, creates string from number with 18 decimals
+export const weiToABK64x64 = (value: string) =>
+  BigNumber.from(value).mul(ONE_64x64).div(DEC_18);
+
 // Converts float to ABK64x64 bigint-format, creates string from number with 18 decimals
 export const floatToABK64x64 = (value: number) => {
   if (value === 0) {
@@ -48,8 +51,7 @@ export const floatToABK64x64 = (value: number) => {
   const decimalPart = BigNumber.from(stringValueArray[1]);
 
   const integerPartBigNumber = integerPart.mul(ONE_64x64);
-  const dec18 = BigNumber.from(10).pow(BigNumber.from(18));
-  const decimalPartBigNumber = decimalPart.mul(ONE_64x64).div(dec18);
+  const decimalPartBigNumber = decimalPart.mul(ONE_64x64).div(DEC_18);
 
   return integerPartBigNumber.add(decimalPartBigNumber).mul(sign);
 };
@@ -59,8 +61,7 @@ export const ABK64x64ToWei = (value: BigNumber) => {
   value = value.mul(sign);
   const integerPart = value.div(ONE_64x64);
   let decimalPart = value.sub(integerPart.mul(ONE_64x64));
-  const dec18 = BigNumber.from(10).pow(BigNumber.from(18));
-  decimalPart = decimalPart.mul(dec18).div(ONE_64x64);
+  decimalPart = decimalPart.mul(DEC_18).div(ONE_64x64);
   const k = 18 - decimalPart.toString().length;
 
   const sPad = '0'.repeat(k);
@@ -74,8 +75,7 @@ export const ABK64x64ToFloat = (value: BigNumber) => {
   value = value.mul(sign);
   const integerPart = value.div(ONE_64x64);
   let decimalPart = value.sub(integerPart.mul(ONE_64x64));
-  const dec18 = BigNumber.from(10).pow(BigNumber.from(18));
-  decimalPart = decimalPart.mul(dec18).div(ONE_64x64);
+  decimalPart = decimalPart.mul(DEC_18).div(ONE_64x64);
   const k = 18 - decimalPart.toString().length;
 
   const sPad = '0'.repeat(k);
@@ -108,19 +108,14 @@ export const checkAndApprove = async (
     );
 
     let approveTx: any = null;
-    if (bignumber(String(allowance)).lessThan(amount)) {
+    if (BigNumber.from(allowance).lt(amount)) {
       approveTx = await contractWriter
-        .send(
-          contractName,
-          'approve',
-          [spenderAddress, transferAmount.get(amount)],
-          {
-            nonce,
-            from: address,
-            gas: 60000,
-            gasPrice: approveGasPrice,
-          },
-        )
+        .send(contractName, 'approve', [spenderAddress, amount], {
+          nonce,
+          from: address,
+          gas: 60000,
+          gasPrice: approveGasPrice,
+        })
         .then(tx => {
           dispatch(
             txActions.addTransaction({
@@ -134,7 +129,7 @@ export const checkAndApprove = async (
               from: address,
               value: '0',
               asset,
-              assetAmount: transferAmount.get(amount),
+              assetAmount: amount,
             }),
           );
 
