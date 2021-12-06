@@ -1525,8 +1525,8 @@
       "description": "Operar spot"
     },
     "tradeForm": {
-      "buy_cta": "REVISAR ORDEM",
-      "sell_cta": "REVISAR ORDEM",
+      "buy_cta": "REVISAR ORDEM DE COMPRA",
+      "sell_cta": "REVISAR ORDEM DE VENDA",
       "amountReceived": "Receber",
       "buy": "Comprar",
       "sell": "Vender",
