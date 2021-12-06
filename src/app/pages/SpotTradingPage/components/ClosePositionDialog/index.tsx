@@ -1,10 +1,9 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { translations } from 'locales/i18n';
 import { Dialog } from 'app/containers/Dialog/Loadable';
 import { LimitOrder, TradingTypes } from 'app/pages/SpotTradingPage/types';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useCancelLimitOrder } from 'app/hooks/limitOrder/useLimitOrder';
-import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { LabelValuePair } from '../TradeDialog';
 import { AssetDetails } from 'utils/models/asset-details';
@@ -14,6 +13,9 @@ import { Input } from 'app/components/Form/Input';
 import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
 import cn from 'classnames';
 import { bignumber } from 'mathjs';
+import { TransactionDialog } from 'app/components/TransactionDialog';
+import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
+import { Toast } from 'app/components/Toast';
 interface IClosePositionDialogProps {
   order: LimitOrder;
   showModal: boolean;
@@ -39,6 +41,37 @@ export function ClosePositionDialog({
       ? [toToken, fromToken]
       : [fromToken, toToken];
   }, [fromToken, toToken, tradeType]);
+
+  const showToast = useCallback((status: string) => {
+    Toast(
+      status,
+      <div className="tw-flex tw-items-center">
+        <p className="tw-mb-0">
+          <Trans
+            i18nKey={
+              status === 'success'
+                ? translations.spotTradingPage.cancelDialog.complete
+                : translations.spotTradingPage.cancelDialog.failed
+            }
+          />
+        </p>
+      </div>,
+    );
+  }, []);
+
+  const txArgs = [
+    order.maker,
+    order.fromToken,
+    order.toToken,
+    order.amountIn.toString(),
+    order.amountOutMin.toString(),
+    order.recipient,
+    order.deadline.toString(),
+    order.created.toString(),
+    order.v,
+    order.r,
+    order.s,
+  ];
 
   return (
     <>
@@ -119,7 +152,27 @@ export function ClosePositionDialog({
           />
         </div>
       </Dialog>
-      <TxDialog tx={tx} />
+      <TransactionDialog
+        tx={{ ...tx, retry: cancelOrder }}
+        onUserConfirmed={onCloseModal}
+        action={t(translations.spotTradingPage.cancelDialog.tx.title)}
+        onSuccess={() => showToast('success')}
+        onError={() => showToast('error')}
+        finalMessage={
+          <div className="tw-text-center tw-text-lg tw-font-semibold">
+            {t(translations.spotTradingPage.cancelDialog.tx.message, {
+              tradeType,
+            })}
+          </div>
+        }
+        fee={
+          <TxFeeCalculator
+            args={[txArgs]}
+            methodName="cancelOrder"
+            contractName="settlement"
+          />
+        }
+      />
     </>
   );
 }

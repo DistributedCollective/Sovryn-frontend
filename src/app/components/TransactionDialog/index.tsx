@@ -177,15 +177,24 @@ export const getTransactionTitle = (tx: TxStatus, action: string = '') => {
       );
     case TxStatus.PENDING:
       return (
-        <Trans i18nKey={translations.transactionDialog.txStatus.processing} />
+        <Trans
+          i18nKey={translations.transactionDialog.txStatus.processing}
+          values={{ action }}
+        />
       );
     case TxStatus.CONFIRMED:
       return (
-        <Trans i18nKey={translations.transactionDialog.txStatus.complete} />
+        <Trans
+          i18nKey={translations.transactionDialog.txStatus.complete}
+          values={{ action }}
+        />
       );
     default:
       return (
-        <Trans i18nKey={translations.transactionDialog.txStatus.processing} />
+        <Trans
+          i18nKey={translations.transactionDialog.txStatus.processing}
+          values={{ action }}
+        />
       );
   }
 };

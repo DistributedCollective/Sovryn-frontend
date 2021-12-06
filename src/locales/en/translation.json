@@ -1670,7 +1670,13 @@
     },
     "cancelDialog": {
       "title": "Cancel Limit Order",
-      "cta": "CANCEL LIMIT ORDER"
+      "cta": "CANCEL LIMIT ORDER",
+      "complete": "Cancel Complete",
+      "failed": "Cancel Failed",
+      "tx": {
+        "title": "Cancel",
+        "message": "Cancel Limit {{tradeType}}"
+      }
     },
     "pairNavbar": {
       "pair": "Pair",
@@ -1967,8 +1973,8 @@
       "aborted": "Your transaction has failed. <br/>Please cancel or retry your transaction",
       "abortedLedger": "Make sure \"Contract data\" is set to \"Allowed\" in your Ledger app settings",
       "cta": "View in Tracker",
-      "processing": "Order processing...",
-      "complete": "Order Complete"
+      "processing": "{{action}} processing...",
+      "complete": "{{action}} Complete"
     }
   },
   "buySovPage": {

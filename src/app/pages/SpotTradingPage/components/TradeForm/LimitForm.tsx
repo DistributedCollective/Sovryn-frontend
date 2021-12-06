@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { AmountInput } from 'app/components/Form/AmountInput';
@@ -18,7 +18,7 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
 import styles from './index.module.scss';
 import { Duration } from '../LimitOrderSetting/Duration';
-import { TradeDialog } from '../TradeDialog';
+import { OrderLabel, TradeDialog } from '../TradeDialog';
 import { useLimitOrder } from 'app/hooks/limitOrder/useLimitOrder';
 import cn from 'classnames';
 import { useSwapsExternal_getSwapExpectedReturn } from 'app/hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
@@ -104,22 +104,44 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
     );
   }, [amount, balance, limitPrice, sourceToken, weiAmount, weiAmountOut]);
 
-  const onSuccess = (data, order: IApiLimitOrder) => {
+  const showToast = useCallback(
+    (status: string) => {
+      Toast(
+        status,
+        <div className="tw-flex tw-items-center">
+          <p className="tw-mb-0 tw-mr-2">
+            <Trans
+              i18nKey={
+                status === 'success'
+                  ? translations.transactionDialog.txStatus.complete
+                  : translations.transactionDialog.pendingUser.failed
+              }
+            />
+          </p>
+          <OrderLabel
+            className="tw-ml-2 tw-font-normal"
+            orderType={OrderTypes.LIMIT}
+            tradeType={tradeType}
+          />
+          <div className="tw-ml-2">
+            {stringToFixedPrecision(amount, 6)}{' '}
+            <AssetRenderer asset={sourceToken} />
+          </div>
+        </div>,
+      );
+    },
+    [amount, sourceToken, tradeType],
+  );
+
+  const onSuccess = (order: IApiLimitOrder) => {
     setTradeDialog(false);
     dispatch(actions.addPendingLimitOrders(order));
-
-    Toast(
-      'success',
-      <div className="tw-flex">
-        <p className="tw-mb-0 tw-mr-2">
-          <Trans i18nKey={translations.transactionDialog.txStatus.complete} />
-        </p>
-      </div>,
-    );
+    showToast('success');
   };
 
   const onError = error => {
     setTradeDialog(false);
+    showToast('error');
     console.log('error: ', error);
   };
 

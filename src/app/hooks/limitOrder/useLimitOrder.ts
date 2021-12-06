@@ -128,7 +128,7 @@ export function useLimitOrder(
           s: data.data.s,
           hash: data.data.hash,
         };
-        onSuccess(data.data, newOrder);
+        onSuccess(newOrder, data.data);
       } else {
         onError(data.error);
       }
