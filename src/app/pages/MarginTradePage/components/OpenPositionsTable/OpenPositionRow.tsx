@@ -167,6 +167,7 @@ const OpenPositionRowInner: React.FC<IOpenPositionRowInnerProps> = ({
               item={item}
               position={position}
               entryPrice={entryPrice}
+              leverage={leverage}
             />
           </div>
         </td>

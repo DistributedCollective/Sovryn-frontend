@@ -22,11 +22,13 @@ type ProfitContainerProps = {
   item: ActiveLoan;
   position: TradingPosition;
   entryPrice: number;
+  leverage: number;
 };
 
 export const ProfitContainer: React.FC<ProfitContainerProps> = ({
   item,
   position,
+  leverage,
   entryPrice,
 }) => {
   const { t } = useTranslation();
@@ -64,10 +66,11 @@ export const ProfitContainer: React.FC<ProfitContainerProps> = ({
 
   const priceChange = useMemo(() => {
     const openPrice = bignumber(entryPrice).mul(Math.pow(10, 18));
-    return isLong
+    const percentageBetweenPrices = isLong
       ? percentageChange(openPrice, exitPrice)
       : percentageChange(exitPrice, openPrice);
-  }, [isLong, entryPrice, exitPrice]);
+    return bignumber(percentageBetweenPrices).mul(leverage).toString();
+  }, [isLong, entryPrice, exitPrice, leverage]);
 
   const exitAmountCollateral = useCacheCallWithValue<{
     loanCloseAmount: string;
