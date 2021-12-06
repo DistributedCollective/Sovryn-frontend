@@ -2,7 +2,6 @@ import { usePerpetual_openTrade } from './usePerpetual_openTrade';
 import { usePerpetual_depositMarginToken } from './usePerpetual_depositMarginToken';
 import { usePerpetual_withdrawAll } from './usePerpetual_withdrawAll';
 import { usePerpetual_withdrawMarginToken } from './usePerpetual_withdrawMarginToken';
-import { usePerpetual_openTradeWithoutManualDeposit } from './usePerpetual_openTradeWithoutManualDeposit';
 import { useMemo, useState } from 'react';
 import {
   PerpetualTx,

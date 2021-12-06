@@ -11,7 +11,7 @@ import { TradeDialogStep, PerpetualTxStage } from '../types';
 import { TradeDialogContext } from '../index';
 import styles from '../index.module.scss';
 import { translations } from '../../../../../../locales/i18n';
-import { useTranslation, Trans } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { WalletLogo } from '../../../../../components/UserAssets/TxDialog/WalletLogo';
 import { useWalletContext } from '@sovryn/react-wallet';
 import classNames from 'classnames';

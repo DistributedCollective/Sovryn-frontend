@@ -1,10 +1,6 @@
 import React, { useContext, useCallback } from 'react';
 import { TransitionStep } from '../../../../../containers/TransitionSteps';
-import {
-  TradeDialogStep,
-  PerpetualTxStage,
-  PerpetualTxMethods,
-} from '../types';
+import { TradeDialogStep, PerpetualTxStage } from '../types';
 import { TradeDialogContext } from '../index';
 import styles from '../index.module.scss';
 import { PerpetualPageModals } from '../../../types';
@@ -15,11 +11,6 @@ import { ResultPosition } from './ResultPosition';
 import { TransitionAnimation } from '../../../../../containers/TransitionContainer';
 import { bridgeNetwork } from '../../../../BridgeDepositPage/utils/bridge-network';
 import { Chain } from '../../../../../../types';
-import { getRequiredMarginCollateral } from '../../../utils/perpUtils';
-import { PerpetualQueriesContext } from '../../../contexts/PerpetualQueriesContext';
-import { getSignedAmount } from '../../../utils/contractUtils';
-import { TradingPosition } from '../../../../../../types/trading-position';
-import { toWei } from 'web3-utils';
 
 const titleMap = {
   [PerpetualPageModals.NONE]:

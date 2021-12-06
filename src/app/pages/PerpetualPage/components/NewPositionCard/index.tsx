@@ -1,11 +1,5 @@
 import { useWalletContext } from '@sovryn/react-wallet';
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-  useContext,
-} from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { translations } from '../../../../../locales/i18n';
@@ -31,11 +25,7 @@ import { TradeFormStep } from './components/TradeFormStep';
 import { ConnectFormStep } from './components/ConnectFormStep';
 import { noop } from '../../../../constants';
 import { PERPETUAL_SLIPPAGE_DEFAULT } from '../../types';
-import { PerpetualTxMethods, PerpetualTx } from '../TradeDialog/types';
-import { getRequiredMarginCollateral } from '../../utils/perpUtils';
-import { toWei } from 'web3-utils';
-import { getSignedAmount } from '../../utils/contractUtils';
-import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
+import { PerpetualTxMethods } from '../TradeDialog/types';
 
 export const NewPositionCardContext = React.createContext<
   NewPositionCardContextType
@@ -73,11 +63,6 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
   const dispatch = useDispatch();
   const { connected } = useWalletContext();
   const { pairType, collateral } = useSelector(selectPerpetualPage);
-  const {
-    ammState,
-    traderState,
-    perpetualParameters: perpParameters,
-  } = useContext(PerpetualQueriesContext);
 
   const [trade, setTrade] = useState<PerpetualTrade>({
     pairType,
