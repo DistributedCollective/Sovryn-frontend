@@ -15,6 +15,12 @@ module.exports = {
   rules: {
     'prettier/prettier': ['error', prettierOptions],
     '@typescript-eslint/ban-ts-comment': 'error',
+    'react-hooks/exhaustive-deps': [
+      'warn',
+      {
+        additionalHooks: 'useDebouncedEffect',
+      },
+    ],
   },
   overrides: [
     {
