@@ -57,7 +57,11 @@ export const PerpetualQueriesContextProvider: React.FC = ({ children }) => {
   const perpetualParameters = usePerpetual_queryPerpParameters();
   const traderState = usePerpetual_queryTraderState();
   const liquidityPoolState = usePerpetual_queryLiqPoolStateFromPerpetualId();
-  const depthMatrixEntries = getDepthMatrix(perpetualParameters, ammState);
+
+  const depthMatrixEntries = useMemo(
+    () => getDepthMatrix(perpetualParameters, ammState),
+    [ammState, perpetualParameters],
+  );
 
   const value = useMemo(
     () => ({

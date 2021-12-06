@@ -5,6 +5,7 @@ import { getContract } from 'utils/blockchain/contract-helpers';
 import { PerpParameters } from '../utils/perpUtils';
 import { ABK64x64ToFloat, PERPETUAL_ID } from '../utils/contractUtils';
 import perpetualManagerAbi from 'utils/blockchain/abi/PerpetualManager.json';
+import { usePerpetual_getLatestTradeId } from './usePerpetual_getLatestTradeId';
 
 export const initialPerpParameters: PerpParameters = {
   fInitialMarginRateAlpha: 0,
@@ -45,6 +46,8 @@ export const initialPerpParameters: PerpParameters = {
 export const usePerpetual_queryPerpParameters = (): PerpParameters => {
   const [perpParameters, setPerpParameters] = useState(initialPerpParameters);
 
+  const latestTradeId = usePerpetual_getLatestTradeId();
+
   useEffect(() => {
     bridgeNetwork
       .call(
@@ -56,7 +59,7 @@ export const usePerpetual_queryPerpParameters = (): PerpParameters => {
       )
       .catch(e => console.error(e))
       .then(result => result && setPerpParameters(parsePerpParameter(result)));
-  }, []);
+  }, [latestTradeId]);
 
   return perpParameters;
 };

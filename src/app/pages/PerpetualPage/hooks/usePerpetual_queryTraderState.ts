@@ -6,6 +6,7 @@ import { Chain } from 'types';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { ABK64x64ToFloat, PERPETUAL_ID } from '../utils/contractUtils';
 import { useAccount } from 'app/hooks/useAccount';
+import { usePerpetual_getLatestTradeId } from './usePerpetual_getLatestTradeId';
 
 export const initialTraderState: TraderState = {
   marginBalanceCC: 0,
@@ -21,6 +22,8 @@ export const usePerpetual_queryTraderState = (): TraderState => {
   const [traderState, setTraderState] = useState(initialTraderState);
   const account = useAccount();
 
+  const latestTradeId = usePerpetual_getLatestTradeId();
+
   useEffect(() => {
     bridgeNetwork
       .call(
@@ -32,7 +35,7 @@ export const usePerpetual_queryTraderState = (): TraderState => {
       )
       .catch(e => console.error(e))
       .then(result => result && setTraderState(parseTraderState(result)));
-  }, [account]);
+  }, [account, latestTradeId]);
 
   return traderState;
 };
