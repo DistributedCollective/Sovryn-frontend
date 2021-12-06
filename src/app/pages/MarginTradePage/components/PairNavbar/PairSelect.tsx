@@ -176,7 +176,7 @@ export const CryptocurrencyPairs: React.FC<ICryptocurrencyPairsProps> = ({
       currencyList.push([list[i], list[i], 'RBTC']); //adding RBTC as key for RBTC as source
       for (let j = 0; j < list.length; j++) {
         if (list[i].base_symbol !== list[j].base_symbol)
-          //here we push to the currencyList all posible variants of currencies
+          //here we push to the currencyList all possible variants of currencies
           currencyList.push([list[i], list[j]]);
       }
     }
