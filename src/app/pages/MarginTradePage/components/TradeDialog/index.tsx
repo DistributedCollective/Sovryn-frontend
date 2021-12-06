@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import cn from 'classnames';
 import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -38,7 +38,6 @@ import { AssetRenderer } from 'app/components/AssetRenderer';
 import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
 import { OrderTypes } from 'app/components/OrderType/types';
 import { bignumber } from 'mathjs';
-import { TxStatus } from 'store/global/transactions-store/types';
 import { TradeDialogInfo } from './TradeDialogInfo';
 import { Toast } from 'app/components/Toast';
 import {
@@ -216,65 +215,6 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
     TRADE_LOG_SIGNATURE_HASH,
     TradeLogInputs,
   );
-
-  useEffect(() => {
-    if (tx.status === TxStatus.FAILED) {
-      Toast(
-        'error',
-        <div className="tw-flex">
-          <p className="tw-mb-0 tw-mr-2">
-            <Trans
-              i18nKey={translations.transactionDialog.pendingUser.failed}
-            />
-          </p>
-          <TradeDialogInfo
-            position={position}
-            leverage={leverage}
-            orderTypeValue={orderTypeValue}
-            pair={pair}
-            amount={amount}
-            collateral={collateral}
-            loanToken={loanToken}
-            collateralToken={collateralToken}
-            useLoanTokens={useLoanTokens}
-            isToast={true}
-          />
-        </div>,
-      );
-    } else if (tx.status === TxStatus.CONFIRMED) {
-      Toast(
-        'success',
-        <div className="tw-flex">
-          <p className="tw-mb-0 tw-mr-2">
-            <Trans i18nKey={translations.transactionDialog.txStatus.complete} />
-          </p>
-          <TradeDialogInfo
-            position={position}
-            leverage={leverage}
-            orderTypeValue={orderTypeValue}
-            pair={pair}
-            amount={amount}
-            collateral={collateral}
-            loanToken={loanToken}
-            collateralToken={collateralToken}
-            useLoanTokens={useLoanTokens}
-            isToast={true}
-          />
-        </div>,
-      );
-    }
-  }, [
-    tx.status,
-    position,
-    leverage,
-    orderTypeValue,
-    pair,
-    amount,
-    collateral,
-    loanToken,
-    collateralToken,
-    useLoanTokens,
-  ]);
 
   const submit = () => {
     trade({
@@ -509,6 +449,54 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
             </div>
           </div>
         }
+        onError={() => {
+          Toast(
+            'error',
+            <div className="tw-flex">
+              <p className="tw-mb-0 tw-mr-2">
+                <Trans
+                  i18nKey={translations.transactionDialog.pendingUser.failed}
+                />
+              </p>
+              <TradeDialogInfo
+                position={position}
+                leverage={leverage}
+                orderTypeValue={orderTypeValue}
+                pair={pair}
+                amount={amount}
+                collateral={collateral}
+                loanToken={loanToken}
+                collateralToken={collateralToken}
+                useLoanTokens={useLoanTokens}
+                isToast={true}
+              />
+            </div>,
+          );
+        }}
+        onSuccess={() => {
+          Toast(
+            'success',
+            <div className="tw-flex">
+              <p className="tw-mb-0 tw-mr-2">
+                <Trans
+                  i18nKey={translations.transactionDialog.txStatus.complete}
+                />
+              </p>
+              <TradeDialogInfo
+                position={position}
+                leverage={leverage}
+                orderTypeValue={orderTypeValue}
+                pair={pair}
+                amount={amount}
+                collateral={collateral}
+                loanToken={loanToken}
+                collateralToken={collateralToken}
+                useLoanTokens={useLoanTokens}
+                isToast={true}
+              />
+            </div>,
+          );
+        }}
       />
     </>
   );

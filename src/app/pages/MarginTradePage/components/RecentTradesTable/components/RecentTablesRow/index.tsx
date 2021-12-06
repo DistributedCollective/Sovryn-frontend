@@ -42,7 +42,7 @@ export const RecentTradesTableRow: React.FC<RecentTradesTableRowProps> = ({
     >
       <td
         className={classNames(
-          'tw-pl-4 tw-py-1 tw-text-left tw-font-semibold tw-rounded-l tw-truncate',
+          'tw-pl-4 tw-py-1 tw-text-left tw-font-semibold tw-rounded-l tw-whitespace-nowrap',
           backgroundClassName,
           priceColor,
         )}
