@@ -5,9 +5,16 @@ import { currentNetwork } from '../classifiers';
 
 type PoolVersion = 2 | 1;
 
+export enum PoolEnv {
+  ALL,
+  MAINNET_ONLY,
+  TESTNET_ONLY,
+}
+
 export class LiquidityPool {
   public readonly assetDetails: AssetDetails;
   public version: PoolVersion = 2;
+  public poolEnv: PoolEnv = PoolEnv.ALL;
   constructor(
     public readonly poolAsset: Asset,
     public readonly supplyAssets: LiquidityPoolSupplyAsset[] = [],
@@ -48,6 +55,10 @@ export class LiquidityPool {
   }
   public getVersion() {
     return this.version;
+  }
+  public setPoolEnv(env: PoolEnv) {
+    this.poolEnv = env;
+    return this;
   }
 }
 

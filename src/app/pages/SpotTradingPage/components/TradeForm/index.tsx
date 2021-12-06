@@ -26,7 +26,7 @@ import { ArrowDown } from 'app/pages/BuySovPage/components/ArrowStep/down';
 import { Input } from 'app/components/Form/Input';
 import settingIcon from '../../../../../assets/images/swap/ic_setting.svg';
 import { AssetRenderer } from 'app/components/AssetRenderer';
-import { weiToFixed } from 'utils/blockchain/math-helpers';
+import { weiToFixedAsset } from 'utils/blockchain/math-helpers';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
 import { Asset } from 'types/asset';
 import { SlippageDialog } from 'app/pages/BuySovPage/components/BuyForm/Dialogs/SlippageDialog';
@@ -66,7 +66,7 @@ export function TradeForm() {
 
   const { pairType } = useSelector(selectSpotTradingPage);
 
-  const weiAmount = useWeiAmount(amount);
+  const weiAmount = useWeiAmount(amount, sourceToken);
 
   const { value: rateByPath } = useSwapsExternal_getSwapExpectedReturn(
     sourceToken,
@@ -208,7 +208,7 @@ export function TradeForm() {
               {t(translations.spotTradingPage.tradeForm.amountReceived)}:
             </div>
             <Input
-              value={weiToFixed(rateByPath, 6)}
+              value={weiToFixedAsset(rateByPath, targetToken, 6)}
               onChange={value => setAmount(value)}
               readOnly={true}
               appendElem={<AssetRenderer asset={targetToken} />}

@@ -20,6 +20,7 @@ const assetsWithoutOracle: Asset[] = [
   Asset.BNB,
   Asset.RIF,
   Asset.RDOC,
+  Asset.BRZ,
 ];
 
 const excludeAssets: Asset[] = [Asset.CSOV, Asset.RDOC, Asset.MYNT];
@@ -82,14 +83,15 @@ export function usePriceFeeds_tradingPairRates() {
       }
     }
 
-    const btcToUsd = items.find(
-      item => item.source === Asset.RBTC && item.target === Asset.USDT,
-    )?.value?.rate;
-
     for (let asset of assetsWithoutOracle) {
       if (!AssetsDictionary.get(asset)?.hasAMM) continue;
       try {
         const btcToAsset = await getSwapRate(Asset.RBTC, asset, '1');
+        const assetToUsd = (await getSwapRate(
+          asset,
+          Asset.USDT,
+          '1',
+        )) as string;
 
         items.push({
           source: Asset.RBTC,
@@ -104,20 +106,18 @@ export function usePriceFeeds_tradingPairRates() {
           source: asset,
           target: Asset.RBTC,
           value: {
-            precision: '1000000000000000000',
+            precision: (10 ** AssetsDictionary.get(asset).decimals).toString(),
             rate: toWei(1 / Number(btcToAsset)),
           },
         });
-
-        const assetToUsd = bignumber(btcToUsd)
-          .mul(1 / Number(btcToAsset))
-          .toFixed(0);
 
         items.push({
           source: asset,
           target: Asset.USDT,
           value: {
-            precision: '1000000000000000000',
+            precision: (
+              10 ** Math.abs(18 + AssetsDictionary.get(asset).decimals - 36)
+            ).toString(),
             rate: assetToUsd,
           },
         });

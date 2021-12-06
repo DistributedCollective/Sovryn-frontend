@@ -3,7 +3,10 @@ import { Trans, useTranslation } from 'react-i18next';
 import { useHistory, useLocation } from 'react-router-dom';
 import { translations } from 'locales/i18n';
 import { AssetRenderer } from 'app/components/AssetRenderer';
-import { fromWei, weiToFixed } from '../../../utils/blockchain/math-helpers';
+import {
+  fromWei,
+  weiToFixedAsset,
+} from '../../../utils/blockchain/math-helpers';
 import { Asset } from '../../../types';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
@@ -59,7 +62,7 @@ export function SwapFormContainer() {
   const [targetOptions, setTargetOptions] = useState<any[]>([]);
   const [slippage, setSlippage] = useState(0.5);
   const account = useAccount();
-  const weiAmount = useWeiAmount(amount);
+  const weiAmount = useWeiAmount(amount, sourceToken);
   const { value: tokens } = useCacheCallWithValue<string[]>(
     'converterRegistry',
     'getConvertibleTokens',
@@ -329,7 +332,7 @@ export function SwapFormContainer() {
           </div>
           <div className={styles.amount}>
             <Input
-              value={weiToFixed(rateByPath, 6)}
+              value={weiToFixedAsset(rateByPath, targetToken, 6)}
               onChange={value => setAmount(value)}
               readOnly={true}
               appendElem={<AssetRenderer asset={targetToken} />}

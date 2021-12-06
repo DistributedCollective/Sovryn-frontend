@@ -367,4 +367,12 @@ export const contracts = {
     address: '0xf75170ce8d4060b8D5fc24E996FA00A94bb8A232',
     abi: MYNTMarketMakerAbi,
   },
+  BRZ_token: {
+    address: '0xE355c280131dFaF18Bf1c3648aEe3C396dB6b5Fd',
+    abi: TestTokenABI,
+  },
+  BRZ_amm: {
+    address: '0x7107E42f4b59310D217333B544465d428395Affe',
+    abi: LiquidityPoolV1Converter,
+  },
 };

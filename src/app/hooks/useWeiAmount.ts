@@ -1,6 +1,7 @@
-import { Unit } from 'web3-utils';
-import { toWei } from 'utils/blockchain/math-helpers';
+import { assetToWei } from 'utils/blockchain/math-helpers';
+import { Asset } from 'types';
 
-export function useWeiAmount(amount: any, unit: Unit = 'ether') {
-  return toWei(amount, unit);
+// Using SOV as default as it's 18 decimals
+export function useWeiAmount(amount: any, asset: Asset = Asset.SOV) {
+  return assetToWei(amount, asset);
 }

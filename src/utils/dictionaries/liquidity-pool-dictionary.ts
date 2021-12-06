@@ -1,7 +1,9 @@
 import { Asset } from 'types/asset';
+import { isMainet } from 'utils/classifiers';
 import {
   LiquidityPool,
   LiquidityPoolSupplyAsset,
+  PoolEnv,
 } from '../models/liquidity-pool';
 
 export class LiquidityPoolDictionary {
@@ -156,6 +158,21 @@ export class LiquidityPoolDictionary {
         }),
       ]).setVersion(1),
     ],
+    [
+      Asset.BRZ,
+      new LiquidityPool(Asset.BRZ, [
+        new LiquidityPoolSupplyAsset(Asset.BRZ, {
+          mainnet: '0x6f96096687952349DD5944E0EB1Be327DcdeB705', // todo
+          testnet: '0x179caA42B5024ec1C3D8513A262fC9986F565295',
+        }),
+        new LiquidityPoolSupplyAsset(Asset.XUSD, {
+          mainnet: '0x6f96096687952349DD5944E0EB1Be327DcdeB705', // todo
+          testnet: '0x179caA42B5024ec1C3D8513A262fC9986F565295',
+        }),
+      ])
+        .setVersion(1)
+        .setPoolEnv(PoolEnv.TESTNET_ONLY),
+    ],
   ]);
 
   public static get(asset: Asset): LiquidityPool {
@@ -163,11 +180,14 @@ export class LiquidityPoolDictionary {
   }
 
   public static list(): Array<LiquidityPool> {
-    return Array.from(this.pools.values());
+    const env = isMainet ? PoolEnv.MAINNET_ONLY : PoolEnv.TESTNET_ONLY;
+    return Array.from(this.pools.values()).filter(
+      item => item.poolEnv === PoolEnv.ALL || item.poolEnv === env,
+    );
   }
 
   public static pairTypeList(): Array<Asset> {
-    return Array.from(this.pools.keys());
+    return this.list().map(item => item.poolAsset);
   }
 
   public static find(pairs: Array<Asset>): Array<LiquidityPool> {
@@ -176,9 +196,5 @@ export class LiquidityPoolDictionary {
 
   public static getPoolAsset(pool: Asset, asset: Asset) {
     return this.get(pool).getPoolAsset(asset);
-  }
-
-  public static entries() {
-    return Array.from(this.pools.entries());
   }
 }

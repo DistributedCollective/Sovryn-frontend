@@ -3,7 +3,7 @@ import { ItemRenderer, Select } from '@blueprintjs/select';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Asset } from 'types';
-import { weiToNumberFormat } from 'utils/display-text/format';
+import { weiToAssetNumberFormat } from 'utils/display-text/format';
 import {
   areOptionsEqual,
   filterItem,
@@ -29,7 +29,7 @@ interface Props {
 export function SwapAssetSelector(props: Props) {
   const { t } = useTranslation();
 
-  const onItemSelect = item => props.onChange(item);
+  const onItemSelect = useCallback(item => props.onChange(item), [props]);
 
   const getSelected = useCallback(() => {
     return props.items.find(item => String(item.key) === String(props.value));
@@ -108,7 +108,9 @@ export const renderItem: ItemRenderer<SelectItem> = (
         <Text ellipsize>
           <div className="tw-flex tw-flex-items-center tw-justify-between">
             <AssetRenderer asset={item.key} showImage imageSize={5} />{' '}
-            <div className="tw-text-xs">{weiToNumberFormat(item.value, 4)}</div>
+            <div className="tw-text-xs">
+              {weiToAssetNumberFormat(item.value, item.key, 4)}
+            </div>
           </div>
         </Text>
       }

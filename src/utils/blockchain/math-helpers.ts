@@ -1,4 +1,6 @@
 import { bignumber } from 'mathjs';
+import { Asset } from 'types';
+import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { Unit } from 'web3-utils';
 
 export const normalizeWei = (amount: string) => {
@@ -82,4 +84,26 @@ export const toWei = (amount: any, unit: Unit = 'ether') => {
 
 export const trimZero = (amount: string) => {
   return amount.replace(/([0-9]+(\.[0-9]+[1-9])?)(\.?0+$)/, '$1');
+};
+
+export const assetToWei = (amount: any, asset: Asset) => {
+  return roundToSmaller(
+    bignumber(amount || '0').mul(10 ** AssetsDictionary.get(asset).decimals),
+    0,
+  );
+};
+
+export const assetFromWei = (amount: any, asset: Asset) => {
+  return roundToSmaller(
+    bignumber(amount || '0').div(10 ** AssetsDictionary.get(asset).decimals),
+    18,
+  );
+};
+
+export const weiToFixedAsset = (
+  amount: any,
+  asset: Asset,
+  decimals: number,
+) => {
+  return roundToSmaller(bignumber(assetFromWei(amount, asset)), decimals);
 };

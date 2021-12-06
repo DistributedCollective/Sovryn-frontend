@@ -2,7 +2,10 @@ import { bignumber } from 'mathjs';
 import React, { useMemo } from 'react';
 
 import { Asset } from '../../../../types';
-import { fromWei } from '../../../../utils/blockchain/math-helpers';
+import {
+  assetFromWei,
+  fromWei,
+} from '../../../../utils/blockchain/math-helpers';
 import { AssetRenderer } from '../../AssetRenderer';
 import { AssetSelect } from 'app/components/AssetSelect';
 import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
@@ -112,7 +115,7 @@ export function AmountSelector(props: AmountSelectorProps) {
         .mul(percent / 100)
         .toString();
     }
-    props.onChange(fromWei(value), isTotal);
+    props.onChange(assetFromWei(value, props.asset || Asset.RBTC), isTotal);
   };
   return (
     <div className="tw-mt-2.5 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded-md tw-divide-x tw-divide-secondary">

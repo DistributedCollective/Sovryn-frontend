@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Asset } from 'types/asset';
 import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
-import { weiToNumberFormat } from 'utils/display-text/format';
+import { weiToAssetNumberFormat } from 'utils/display-text/format';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 
 interface BalanceOfAssetProps {
@@ -26,7 +26,9 @@ export const BalanceOfAsset: React.FC<BalanceOfAssetProps> = ({
         <span className="tw-pr-1">
           {t(translations.originsLaunchpad.saleDay.buyStep.buyDialog.balance)} :
         </span>
-        <span className="tw-pr-1">{weiToNumberFormat(balance?.value, 4)}</span>
+        <span className="tw-pr-1">
+          {weiToAssetNumberFormat(balance?.value, asset, 4)}
+        </span>
         <AssetRenderer asset={asset} />
       </div>
     </div>

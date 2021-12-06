@@ -9,6 +9,9 @@ export const chains = {
 export const currentNetwork: AppMode | string =
   String(process.env.REACT_APP_NETWORK).toLowerCase() || AppMode.MAINNET;
 
+export const isMainet = currentNetwork === AppMode.MAINNET;
+export const isTestnet = currentNetwork === AppMode.TESTNET;
+
 export const currentChainId = chains[currentNetwork];
 
 export const blockExplorers = {

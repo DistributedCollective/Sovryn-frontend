@@ -11,7 +11,7 @@ import { LoadableValue } from '../LoadableValue';
 import { Asset } from '../../../types';
 import { Skeleton } from '../PageSkeleton';
 import {
-  weiToNumberFormat,
+  weiToAssetNumberFormat,
   weiToUSD,
 } from '../../../utils/display-text/format';
 import { contractReader } from '../../../utils/sovryn/contract-reader';
@@ -290,7 +290,10 @@ function AssetRow({
         </div>
       </td>
       <td className="tw-text-right">
-        <LoadableValue value={weiToNumberFormat(tokens, 4)} loading={loading} />
+        <LoadableValue
+          value={weiToAssetNumberFormat(tokens, item.asset, 4)}
+          loading={loading}
+        />
       </td>
       <td className="tw-text-right tw-hidden md:tw-table-cell">
         <LoadableValue

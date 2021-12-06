@@ -3,8 +3,8 @@ import { Trans } from 'react-i18next';
 import { Asset } from 'types/asset';
 import { translations } from 'locales/i18n';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
-import { fromWei } from 'utils/blockchain/math-helpers';
-import { weiToNumberFormat } from 'utils/display-text/format';
+import { assetFromWei } from 'utils/blockchain/math-helpers';
+import { weiToAssetNumberFormat } from 'utils/display-text/format';
 import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
 import { LoadableValue } from '../LoadableValue';
 import { AssetRenderer } from '../AssetRenderer';
@@ -25,13 +25,14 @@ export function AvailableBalance(props: Props) {
           <LoadableValue
             value={
               <div data-action-id={props.dataAttribute}>
-                {weiToNumberFormat(value, 6)}
+                {weiToAssetNumberFormat(value, asset.asset, 6)}
               </div>
             }
             loading={loading}
             tooltip={
               <>
-                {fromWei(value)} <AssetRenderer asset={asset.asset} />
+                {assetFromWei(value, asset.asset)}{' '}
+                <AssetRenderer asset={asset.asset} />
               </>
             }
           />,

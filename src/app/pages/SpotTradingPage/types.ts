@@ -53,6 +53,15 @@ export enum SpotPairType {
   RIF_ETH = 'RIF_ETH',
   RIF_BNB = 'RIF_BNB',
   RIF_FISH = 'RIF_FISH',
+  // BRZ
+  BRZ_RBTC = 'BRZ_RBTC',
+  BRZ_SOV = 'BRZ_SOV',
+  BRZ_XUSD = 'BRZ_XUSD',
+  BRZ_USDT = 'BRZ_USDT',
+  BRZ_DOC = 'BRZ_DOC',
+  BRZ_ETH = 'BRZ_ETH',
+  BRZ_BNB = 'BRZ_BNB',
+  BRZ_FISH = 'BRZ_FISH',
 }
 
 export const pairs = {
@@ -106,6 +115,15 @@ export const pairs = {
   [SpotPairType.RIF_ETH]: [Asset.RIF, Asset.ETH],
   [SpotPairType.RIF_BNB]: [Asset.RIF, Asset.BNB],
   [SpotPairType.RIF_FISH]: [Asset.RIF, Asset.FISH],
+  // BRZ
+  [SpotPairType.BRZ_RBTC]: [Asset.BRZ, Asset.RBTC],
+  [SpotPairType.BRZ_SOV]: [Asset.BRZ, Asset.SOV],
+  [SpotPairType.BRZ_XUSD]: [Asset.BRZ, Asset.XUSD],
+  [SpotPairType.BRZ_USDT]: [Asset.BRZ, Asset.USDT],
+  [SpotPairType.BRZ_DOC]: [Asset.BRZ, Asset.DOC],
+  [SpotPairType.BRZ_ETH]: [Asset.BRZ, Asset.ETH],
+  [SpotPairType.BRZ_BNB]: [Asset.BRZ, Asset.BNB],
+  [SpotPairType.BRZ_FISH]: [Asset.BRZ, Asset.FISH],
 };
 
 export const pairList = [
@@ -159,6 +177,15 @@ export const pairList = [
   SpotPairType.RIF_ETH,
   SpotPairType.RIF_BNB,
   SpotPairType.RIF_FISH,
+  // BRZ
+  SpotPairType.BRZ_RBTC,
+  SpotPairType.BRZ_SOV,
+  SpotPairType.BRZ_XUSD,
+  SpotPairType.BRZ_USDT,
+  SpotPairType.BRZ_DOC,
+  SpotPairType.BRZ_ETH,
+  SpotPairType.BRZ_BNB,
+  SpotPairType.BRZ_FISH,
 ];
 
 export interface SpotTradingPageState {

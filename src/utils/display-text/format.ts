@@ -3,8 +3,11 @@ import {
   weiTo18,
   fromWei,
   roundToSmaller,
+  weiToFixedAsset,
+  assetFromWei,
 } from '../blockchain/math-helpers';
 import { bignumber } from 'mathjs';
+import type { Asset } from 'types';
 
 export function formatAsNumber(value, decimals): number {
   return parseFloat(weiToFixed(value, decimals).toLocaleString());
@@ -14,6 +17,22 @@ export function weiToNumberFormat(value: any, decimals: number = 0) {
   return toNumberFormat(Number(fromWei(value || '0')), decimals);
 }
 
+export function formatAssetAsNumber(
+  value: any,
+  asset: Asset,
+  decimals: number,
+): number {
+  return parseFloat(weiToFixedAsset(value, asset, decimals).toLocaleString());
+}
+
+export function weiToAssetNumberFormat(
+  value: any,
+  asset: Asset,
+  decimals: number = 0,
+) {
+  return toNumberFormat(Number(assetFromWei(value || '0', asset)), decimals);
+}
+
 export function weiToUSD(
   value: string,
   decimals: number = 4,
@@ -21,6 +40,19 @@ export function weiToUSD(
 ) {
   return numberToUSD(
     Number(weiToFixed(value, decimals)),
+    decimals,
+    minDecimals,
+  );
+}
+
+export function assetWeiToUSD(
+  value: string,
+  asset: Asset,
+  decimals: number = 4,
+  minDecimals: number = decimals,
+) {
+  return numberToUSD(
+    Number(weiToFixedAsset(value, asset, decimals)),
     decimals,
     minDecimals,
   );

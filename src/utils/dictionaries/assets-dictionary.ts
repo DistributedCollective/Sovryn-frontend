@@ -13,8 +13,10 @@ import fishIcon from 'assets/images/tokens/babelfish.svg';
 import rdoc from 'assets/images/tokens/rifd.svg';
 import rifToken from 'assets/images/tokens/rif.svg';
 import mintIcon from 'assets/images/tokens/mint.svg';
+import brzIcon from 'assets/images/tokens/brz.svg';
 
 import { AssetDetails } from '../models/asset-details';
+import { isTestnet } from 'utils/classifiers';
 
 export class AssetsDictionary {
   public static assets: Map<Asset, AssetDetails> = new Map<Asset, AssetDetails>(
@@ -109,6 +111,10 @@ export class AssetsDictionary {
       [
         Asset.MYNT,
         new AssetDetails(Asset.MYNT, 'MYNT', 'MYNT', 18, mintIcon, true),
+      ],
+      [
+        Asset.BRZ,
+        new AssetDetails(Asset.BRZ, 'BRZ', 'BRZ', 4, brzIcon, isTestnet),
       ],
     ],
   );
