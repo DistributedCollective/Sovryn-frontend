@@ -11,7 +11,6 @@ import {
   TradeDialogStep,
   PerpetualTxStage,
   PerpetualTxMethods,
-  PerpetualTxDepositMargin,
 } from '../types';
 import { TradeDialogContext } from '../index';
 import styles from '../index.module.scss';

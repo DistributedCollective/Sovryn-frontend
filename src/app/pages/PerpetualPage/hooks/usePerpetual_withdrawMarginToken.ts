@@ -3,6 +3,7 @@ import { useSendContractTx } from 'app/hooks/useSendContractTx';
 import { gasLimit } from 'utils/classifiers';
 import { TxType } from 'store/global/transactions-store/types';
 import { PERPETUAL_ID, floatToABK64x64 } from '../utils/contractUtils';
+import { numberFromWei } from '../../../../utils/blockchain/math-helpers';
 
 export const usePerpetual_withdrawMarginToken = () => {
   const account = useAccount();
@@ -12,7 +13,7 @@ export const usePerpetual_withdrawMarginToken = () => {
   return {
     withdraw: async (amount: string, nonce?: number) => {
       send(
-        [PERPETUAL_ID, floatToABK64x64(parseFloat(amount))],
+        [PERPETUAL_ID, floatToABK64x64(numberFromWei(amount))],
         {
           from: account,
           gas: gasLimit[TxType.WITHDRAW_COLLATERAL],

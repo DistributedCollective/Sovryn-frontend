@@ -80,7 +80,7 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
           } ${t(translations.perpetualPage.reviewTrade.close)}`,
           showAmountText: true,
           showCloseText: true,
-          isBuy: false,
+          isBuy: amountChange > 0,
         };
       case PerpetualPageModals.EDIT_LEVERAGE:
         return {

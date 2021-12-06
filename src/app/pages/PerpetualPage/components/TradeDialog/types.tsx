@@ -27,7 +27,6 @@ export enum PerpetualTxMethods {
   trade = 'trade',
   deposit = 'deposit',
   withdraw = 'withdraw',
-  withdrawPercentage = 'withdrawPercentage',
   withdrawAll = 'withdrawAll',
 }
 

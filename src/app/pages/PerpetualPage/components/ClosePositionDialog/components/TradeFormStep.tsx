@@ -21,8 +21,9 @@ import { getTraderPnLInCC } from '../../../utils/perpUtils';
 import { getSignedAmount } from '../../../utils/contractUtils';
 import { TradingPosition } from '../../../../../../types/trading-position';
 import { toWei } from '../../../../../../utils/blockchain/math-helpers';
-import { PerpetualTxMethods } from '../../TradeDialog/types';
+import { PerpetualTxMethods, PerpetualTx } from '../../TradeDialog/types';
 import { PerpetualQueriesContext } from 'app/pages/PerpetualPage/contexts/PerpetualQueriesContext';
+import { roundToLot } from '../../../utils/perpMath';
 
 export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
   changeTo,
@@ -98,47 +99,45 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
 
     const targetTrade = {
       ...changedTrade,
-      amount: toWei(Math.abs(amountTarget).toPrecision(8)),
-      margin: toWei(
-        (Number.isNaN(marginTarget) ? 0 : marginTarget).toPrecision(8),
-      ), // marginTarget is NaN in case we don't have a position but we successfully deposited a margin
+      amount: toWei(Math.abs(amountTarget)),
+      margin: toWei(Number.isNaN(marginTarget) ? 0 : marginTarget), // marginTarget is NaN in case we don't have a position but we successfully deposited a margin
       position:
         amountTarget >= 0 ? TradingPosition.LONG : TradingPosition.SHORT,
       entryPrice: averagePrice,
     };
 
+    const transactions: PerpetualTx[] = [];
     if (!Number.isNaN(marginTarget)) {
-      dispatch(
-        actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
-          origin: PerpetualPageModals.CLOSE_POSITION,
-          trade: targetTrade,
-          transactions: [
-            {
-              method: PerpetualTxMethods.trade,
-              isClosePosition: true,
-              amount: toWei(amountChange),
-              slippage: trade?.slippage,
-              tx: null,
-              approvalTx: null,
-            },
-          ],
-        }),
-      );
+      transactions.push({
+        method: PerpetualTxMethods.trade,
+        isClosePosition: true,
+        amount: toWei(amountChange),
+        slippage: changedTrade?.slippage,
+        tx: null,
+        approvalTx: null,
+      });
+      if (Math.abs(amountTarget) > 0) {
+        transactions.push({
+          method: PerpetualTxMethods.withdraw,
+          amount: toWei(Math.abs(totalToReceive)),
+          tx: null,
+        });
+      }
     } else {
-      // marginTarget is NaN in case we don't have a position but we successfully deposited a margin
-      dispatch(
-        actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
-          origin: PerpetualPageModals.CLOSE_POSITION,
-          trade: targetTrade,
-          transactions: [
-            {
-              method: PerpetualTxMethods.withdrawAll,
-              tx: null,
-            },
-          ],
-        }),
-      );
+      // marginTarget is NaN in case we don't have a position but we successfully deposited a margin: [
+      transactions.push({
+        method: PerpetualTxMethods.withdrawAll,
+        tx: null,
+      });
     }
+
+    dispatch(
+      actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
+        origin: PerpetualPageModals.CLOSE_POSITION,
+        trade: targetTrade,
+        transactions,
+      }),
+    );
   }, [
     dispatch,
     averagePrice,
@@ -146,13 +145,22 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     amountTarget,
     amountChange,
     marginTarget,
-    trade?.slippage,
+    totalToReceive,
   ]);
 
   const onChangeAmount = useCallback(
-    (value: string) =>
-      changedTrade && onChange({ ...changedTrade, amount: toWei(value) }),
-    [onChange, changedTrade],
+    (value: string) => {
+      const amount = Number(value);
+      if (!changedTrade || !Number.isFinite(amount)) {
+        return;
+      }
+
+      onChange({
+        ...changedTrade,
+        amount: toWei(roundToLot(amount, lotSize)),
+      });
+    },
+    [onChange, changedTrade, lotSize],
   );
 
   const onOpenSlippage = useCallback(
@@ -195,7 +203,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
       <div className="tw-mb-4 tw-text-sm">
         <label>{t(translations.perpetualPage.closePosition.amount)}</label>
         <AmountInput
-          value={Math.abs(amountChange).toPrecision(lotPrecision)}
+          value={Math.abs(amountChange).toFixed(lotPrecision)}
           maxAmount={trade?.amount}
           assetString={pair.baseAsset}
           decimalPrecision={lotPrecision}
