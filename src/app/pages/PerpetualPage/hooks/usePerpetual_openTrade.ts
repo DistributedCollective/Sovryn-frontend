@@ -11,6 +11,7 @@ import {
   getSignedAmount,
 } from '../utils/contractUtils';
 import { calculateSlippagePrice } from '../utils/perpUtils';
+import { PERPETUAL_SLIPPAGE_DEFAULT } from '../types';
 
 const MASK_MARKET_ORDER = 0x40000000;
 const MASK_CLOSE_ONLY = 0x80000000;
@@ -28,7 +29,7 @@ export const usePerpetual_openTrade = () => {
       /** amount as wei string */
       amount: string = '0',
       leverage: number | undefined = 1,
-      slippage: number | undefined = 0.5,
+      slippage: number | undefined = PERPETUAL_SLIPPAGE_DEFAULT,
       tradingPosition: TradingPosition | undefined = TradingPosition.LONG,
       nonce?: number,
     ) => {

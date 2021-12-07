@@ -80,7 +80,7 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
         const approvalAmount =
           current.method === PerpetualTxMethods.deposit
             ? current.amount
-            : toWei(marginChange * 1.01); // Add 1% to allowance to fix rounding issues in the frontend
+            : toWei(marginChange * 1.001); // Add 0.1% to allowance to fix rounding issues in the frontend
 
         checkAndApprove(
           'PERPETUALS_token',

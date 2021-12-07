@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from 'react';
+import React, { useContext, useCallback, useMemo } from 'react';
 import { TransitionStep } from '../../../../../containers/TransitionSteps';
 import { TradeDialogStep, PerpetualTxStage } from '../types';
 import { TradeDialogContext } from '../index';
@@ -11,6 +11,7 @@ import { ResultPosition } from './ResultPosition';
 import { TransitionAnimation } from '../../../../../containers/TransitionContainer';
 import { bridgeNetwork } from '../../../../BridgeDepositPage/utils/bridge-network';
 import { Chain } from '../../../../../../types';
+import { PerpetualQueriesContext } from '../../../contexts/PerpetualQueriesContext';
 
 const titleMap = {
   [PerpetualPageModals.NONE]:
@@ -41,6 +42,14 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     partialUnrealizedPnL,
     tradingFee,
   } = analysis;
+
+  const { perpetualParameters } = useContext(PerpetualQueriesContext);
+  const [lotSize, lotPrecision] = useMemo(() => {
+    const lotSize = Number(perpetualParameters.fLotSizeBC.toPrecision(8));
+    const lotPrecision = lotSize.toString().split(/[,.]/)[1]?.length || 1;
+
+    return [lotSize, lotPrecision];
+  }, [perpetualParameters.fLotSizeBC]);
 
   const onSubmit = useCallback(async () => {
     let nonce = await bridgeNetwork.nonce(Chain.BSC);
@@ -86,6 +95,8 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
           marginTarget={marginTarget}
           origin={origin}
           pair={pair}
+          lotPrecision={lotPrecision}
+          lotSize={lotSize}
         />
         <div className="tw-flex tw-justify-center">
           <button className={styles.confirmButton} onClick={onSubmit}>

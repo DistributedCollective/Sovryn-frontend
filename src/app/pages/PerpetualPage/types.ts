@@ -5,7 +5,7 @@ import { Transaction } from 'ethers';
 import { PerpetualTx } from './components/TradeDialog/types';
 import { CheckAndApproveResult } from '../../../utils/sovryn/contract-writer';
 
-export const PERPETUAL_SLIPPAGE_DEFAULT = 0.5;
+export const PERPETUAL_SLIPPAGE_DEFAULT = 0.005;
 
 export enum PerpetualTradeType {
   MARKET = 'MARKET',

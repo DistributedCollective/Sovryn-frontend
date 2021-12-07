@@ -18,6 +18,8 @@ type ResultPositionProps = {
   leverageTarget: number;
   entryPrice: number;
   liquidationPrice: number;
+  lotSize: number;
+  lotPrecision: number;
 };
 
 export const ResultPosition: React.FC<ResultPositionProps> = ({
@@ -29,10 +31,15 @@ export const ResultPosition: React.FC<ResultPositionProps> = ({
   leverageTarget,
   entryPrice,
   liquidationPrice,
+  lotSize,
+  lotPrecision,
 }) => {
   const { t } = useTranslation();
 
-  if (origin === PerpetualPageModals.CLOSE_POSITION && marginTarget === 0) {
+  if (
+    origin === PerpetualPageModals.CLOSE_POSITION &&
+    Math.abs(marginTarget) < lotSize
+  ) {
     return (
       <div className="tw-text-sm tw-mt-6 tw-mb-2 tw-text-center tw-text-sov-white tw-font-medium">
         {t(translations.perpetualPage.reviewTrade.positionFullyClosed)}
@@ -59,8 +66,8 @@ export const ResultPosition: React.FC<ResultPositionProps> = ({
             }
           >
             <AssetValue
-              minDecimals={3}
-              maxDecimals={3}
+              minDecimals={lotPrecision}
+              maxDecimals={lotPrecision}
               mode={AssetValueMode.auto}
               value={amountTarget}
               assetString={pair.baseAsset}

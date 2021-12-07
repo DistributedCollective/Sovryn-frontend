@@ -116,7 +116,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
         tx: null,
         approvalTx: null,
       });
-      if (Math.abs(amountTarget) > 0) {
+      if (Math.abs(amountTarget) >= lotSize) {
         transactions.push({
           method: PerpetualTxMethods.withdraw,
           amount: toWei(Math.abs(totalToReceive)),
@@ -146,6 +146,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     amountChange,
     marginTarget,
     totalToReceive,
+    lotSize,
   ]);
 
   const onChangeAmount = useCallback(
