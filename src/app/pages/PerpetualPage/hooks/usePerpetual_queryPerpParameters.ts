@@ -63,7 +63,6 @@ export const usePerpetual_queryPerpParameters = (): PerpParameters => {
       .then(result => result && setPerpParameters(parsePerpParameter(result)));
   }, []);
 
-  console.log(perpParameters);
   return perpParameters;
 };
 

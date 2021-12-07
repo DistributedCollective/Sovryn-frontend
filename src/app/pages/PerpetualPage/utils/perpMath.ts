@@ -298,7 +298,6 @@ export function findRoot(f: Function, x: number) {
     let f1 = f(x);
 
     if (Math.abs(f1) < fTol) {
-      console.log('converged in', i, 'iterations');
       break;
     }
 
@@ -326,7 +325,7 @@ export function findRoot(f: Function, x: number) {
     //x = x - 2 * f1 * fp / (2 * fp * fp - f1 * fpp);
     //x = x - 2 * f1 / (2 * fp  - f1 * fpp / fp);
   }
-  console.log('failed to converge in', numIter, 'iterations');
+  // console.log('failed to converge in', numIter, 'iterations');
   return x;
 }
 
@@ -584,19 +583,6 @@ export function getTradeAmountFromPrice(
   while (kd < 0 && getPrice(kd) >= price && count < numIter) {
     kd = 2 * kd;
     count = count + 1;
-  }
-  // check that price belongs to range
-  if ((getPrice(kd) - price) * (getPrice(ku) - price) >= 0) {
-    console.log(
-      kd,
-      getPrice(kd),
-      ku,
-      getPrice(ku),
-      price,
-      getPrice(-dk),
-      midPrice,
-      getPrice(dk),
-    );
   }
 
   // bisection search
@@ -867,13 +853,6 @@ export function equalForPrecision(
   const eps = ONE_64x64.div(BigNumber.from(denum));
   const x_dn = x.sub(eps);
   const x_up = x.add(eps);
-  if (doPrintLog) {
-    console.log('x = ', ABK64x64ToFloat(x));
-    console.log('eps= ', ABK64x64ToFloat(eps));
-    console.log('x- = ', ABK64x64ToFloat(x_dn));
-    console.log('x+ = ', ABK64x64ToFloat(x_up));
-    console.log('y = ', ABK64x64ToFloat(y));
-  }
   return y.gt(x_dn) && y.lt(x_up);
 }
 
@@ -886,13 +865,6 @@ export function equalForPrecisionFloat(
   const eps = 10 ** -decimals;
   const x_dn = x - eps;
   const x_up = x + eps;
-  if (doPrintLog) {
-    console.log('x = ', x);
-    console.log('eps= ', eps);
-    console.log('x- = ', x_dn);
-    console.log('x+ = ', x_up);
-    console.log('y = ', y);
-  }
   return y >= x_dn && y <= x_up;
 }
 
