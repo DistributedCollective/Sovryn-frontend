@@ -53,6 +53,8 @@ export const usePerpetual_OrderHistory = (
     account.toLowerCase(),
     'blockTimestamp',
     OrderDirection.desc,
+    page,
+    perPage,
   );
 
   const data: OrderHistoryEntry[] = useMemo(() => {
