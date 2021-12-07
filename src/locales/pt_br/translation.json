@@ -1555,7 +1555,7 @@
       "duration": "Expira em:",
       "receiveAmount": "Quantidade a receber:",
       "orderAmount": "Quantidade negociada:",
-      "newOrderDetails": "Novos detalhes da ordem",
+      "newOrderDetails": "Detalhes",
       "order": "Ordem"
     },
     "limitOrderSetting": {
