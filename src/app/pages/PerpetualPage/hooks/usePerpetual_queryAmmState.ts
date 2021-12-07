@@ -5,6 +5,7 @@ import { AMMState } from '../utils/perpUtils';
 import { ABK64x64ToFloat, PERPETUAL_ID } from '../utils/contractUtils';
 import perpetualManagerAbi from 'utils/blockchain/abi/PerpetualManager.json';
 import { useEffect, useState } from 'react';
+import { usePerpetual_getLatestTradeId } from './usePerpetual_getLatestTradeId';
 
 export const initialAmmState: AMMState = {
   L1: 0,
@@ -22,6 +23,8 @@ export const initialAmmState: AMMState = {
 export const usePerpetual_queryAmmState = (): AMMState => {
   const [ammState, setAmmState] = useState(initialAmmState);
 
+  const latestTradeId = usePerpetual_getLatestTradeId();
+
   useEffect(() => {
     bridgeNetwork
       .call(
@@ -32,7 +35,7 @@ export const usePerpetual_queryAmmState = (): AMMState => {
         [PERPETUAL_ID],
       )
       .then(result => setAmmState(parseAmmState(result)));
-  }, []);
+  }, [latestTradeId]);
 
   return ammState;
 };
