@@ -53,6 +53,20 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     [result, t],
   );
 
+  const [current, approvalAmount] = useMemo(() => {
+    const current =
+      currentTransaction?.index !== undefined
+        ? transactions[currentTransaction?.index]
+        : undefined;
+
+    if (current?.method === PerpetualTxMethods.deposit) {
+      return [current, current.amount];
+    } else if (current?.method === PerpetualTxMethods.trade) {
+      return [current, toWei(marginChange * 1.1)]; // add 10% to allow for market deviation
+    }
+    return [undefined, '0'];
+  }, [transactions, currentTransaction, marginChange]);
+
   const onRetry = useCallback(() => {
     if (!currentTransaction) {
       return;
@@ -67,59 +81,48 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
 
   useEffect(() => {
     if (
-      currentTransaction &&
-      transactions[currentTransaction.index] &&
-      currentTransaction.stage === PerpetualTxStage.reviewed
+      current &&
+      approvalAmount !== '0' &&
+      currentTransaction?.stage === PerpetualTxStage.reviewed
     ) {
-      const current = transactions[currentTransaction.index];
-
-      if (
-        current.method === PerpetualTxMethods.deposit ||
-        current.method === PerpetualTxMethods.trade
-      ) {
-        const approvalAmount =
-          current.method === PerpetualTxMethods.deposit
-            ? current.amount
-            : toWei(marginChange * 1.01); // Add 1% to allowance to fix rounding issues in the frontend
-
-        checkAndApprove(
-          'PERPETUALS_token',
-          getContract('perpetualManager').address,
-          approvalAmount,
-          Asset.PERPETUALS,
-        )
-          .then(result => {
-            if (!result.rejected) {
-              setCurrentTransaction({
-                index: currentTransaction.index,
-                nonce: result.nonce || currentTransaction.nonce,
-                stage: PerpetualTxStage.confirmed,
-              });
-              setTransactions(transactions =>
-                transactions.map(tx => {
-                  if (tx === current) {
-                    let updatedTx = { ...current };
-                    updatedTx.approvalTx = result.approveTx || null;
-                    return updatedTx;
-                  }
-                  return tx;
-                }),
-              );
-              changeTo(
-                TradeDialogStep.confirmation,
-                TransitionAnimation.slideLeft,
-              );
-            }
-            setResult(result);
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      }
+      checkAndApprove(
+        'PERPETUALS_token',
+        getContract('perpetualManager').address,
+        approvalAmount,
+        Asset.PERPETUALS,
+      )
+        .then(result => {
+          if (!result.rejected) {
+            setCurrentTransaction({
+              index: currentTransaction.index,
+              nonce: result.nonce || currentTransaction.nonce,
+              stage: PerpetualTxStage.confirmed,
+            });
+            setTransactions(transactions =>
+              transactions.map(tx => {
+                if (tx === current) {
+                  let updatedTx = { ...current };
+                  updatedTx.approvalTx = result.approveTx || null;
+                  return updatedTx;
+                }
+                return tx;
+              }),
+            );
+            changeTo(
+              TradeDialogStep.confirmation,
+              TransitionAnimation.slideLeft,
+            );
+          }
+          setResult(result);
+        })
+        .catch(error => {
+          console.error(error);
+        });
     }
   }, [
+    current,
+    approvalAmount,
     currentTransaction,
-    transactions,
     marginChange,
     setCurrentTransaction,
     setTransactions,
