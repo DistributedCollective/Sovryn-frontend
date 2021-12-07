@@ -1,5 +1,5 @@
 import React from 'react';
-import { PromotionsCarousel } from './components/PromotionsCarousel/index';
+import { PromotionsCarousel } from './components/PromotionsCarousel';
 import { AppSection, PromotionColor } from './components/PromotionCard/types';
 import { PromotionCard } from './components/PromotionCard';
 import { Asset } from 'types';
