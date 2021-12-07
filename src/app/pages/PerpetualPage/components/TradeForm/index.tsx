@@ -224,6 +224,13 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     ],
   );
 
+  const buttonDisabled = useMemo(
+    () =>
+      (isNewTrade && (hasOpenPosition || hasEmptyBalance)) ||
+      Number(amount) <= 0,
+    [isNewTrade, hasOpenPosition, hasEmptyBalance, amount],
+  );
+
   return (
     <div
       className={classNames('tw-relative tw-h-full tw-pb-16', {
@@ -424,13 +431,16 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         {!inMaintenance ? (
           <button
             className={classNames(
-              'tw-flex tw-flex-row tw-justify-between tw-items-center tw-w-full tw-h-12 tw-px-4 tw-font-semibold tw-text-base tw-text-white tw-bg-trade-long tw-rounded-lg tw-opacity-100 hover:tw-opacity-75 tw-transition-opacity tw-duration-300',
+              'tw-flex tw-flex-row tw-justify-between tw-items-center tw-w-full tw-h-12 tw-px-4 tw-font-semibold tw-text-base tw-text-white tw-bg-trade-long tw-rounded-lg tw-transition-opacity tw-duration-300',
               trade.position === TradingPosition.LONG
                 ? 'tw-bg-trade-long'
                 : 'tw-bg-trade-short',
+              buttonDisabled
+                ? 'tw-opacity-25 tw-cursor-not-allowed'
+                : 'tw-opacity-100 hover:tw-opacity-75',
             )}
             onClick={onSubmit}
-            disabled={isNewTrade && (hasOpenPosition || hasEmptyBalance)}
+            disabled={buttonDisabled}
           >
             <span className="tw-mr-2">{tradeButtonLabel}</span>
             <span>
