@@ -19,7 +19,7 @@ export const OrderHistoryTable: React.FC<IOrderHistoryTableProps> = ({
   const [page, setPage] = useState(1);
 
   const { pairType } = useSelector(selectPerpetualPage);
-  const { data, loading } = usePerpetual_OrderHistory(pairType);
+  const { data, loading } = usePerpetual_OrderHistory(pairType, page, perPage);
 
   const onPageChanged = useCallback(data => {
     setPage(data.currentPage);

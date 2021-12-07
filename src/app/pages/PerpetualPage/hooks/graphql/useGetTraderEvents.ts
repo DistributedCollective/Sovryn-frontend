@@ -76,6 +76,8 @@ class EventDictionary {
           'tradeAmountBC',
           'orderFlags',
           'price',
+          'limitPrice',
+          'isClose',
           ...genericFields,
         ]),
       ],
