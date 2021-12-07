@@ -3,7 +3,7 @@ import {
   CheckAndApproveResult,
   contractWriter,
 } from 'utils/sovryn/contract-writer';
-import { getContract } from 'utils/blockchain/contract-helpers';
+import { getAmmContract, getContract } from 'utils/blockchain/contract-helpers';
 import { useMining_AddLiquidityV1 } from './useMining_AddLiquidityV1';
 
 export function useMining_ApproveAndAddLiquidityV1(
@@ -21,6 +21,10 @@ export function useMining_ApproveAndAddLiquidityV1(
   return {
     deposit: async () => {
       let tx: CheckAndApproveResult = {};
+      const useBtcWrapperProxy = reserveTokens.indexOf(Asset.RBTC) !== -1;
+      const contract = useBtcWrapperProxy
+        ? getContract('BTCWrapperProxy')
+        : getAmmContract(pool);
 
       for (let i = 0; i < reserveTokens.length; i++) {
         const asset = reserveTokens[i];
@@ -28,7 +32,7 @@ export function useMining_ApproveAndAddLiquidityV1(
         if (asset !== Asset.RBTC) {
           tx = await contractWriter.checkAndApprove(
             asset,
-            getContract('BTCWrapperProxy').address,
+            contract.address,
             amount,
           );
           if (tx.rejected) {

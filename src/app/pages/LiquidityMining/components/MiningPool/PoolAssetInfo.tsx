@@ -15,7 +15,7 @@ import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import {
   toNumberFormat,
-  weiToNumberFormat,
+  weiToAssetNumberFormat,
 } from '../../../../../utils/display-text/format';
 import { contractReader } from '../../../../../utils/sovryn/contract-reader';
 import cn from 'classnames';
@@ -87,7 +87,7 @@ function ReserveStakedBalanceV1({ pool, supplyAsset }: Props) {
   return (
     <LoadableValue
       loading={loading}
-      value={<>{weiToNumberFormat(balance, 4)}</>}
+      value={<>{weiToAssetNumberFormat(balance, supplyAsset.asset, 4)}</>}
     />
   );
 }
@@ -102,7 +102,7 @@ function ReserveStakedBalanceV2({ pool, supplyAsset }: Props) {
   return (
     <LoadableValue
       loading={balance.loading}
-      value={<>{weiToNumberFormat(balance.value, 4)}</>}
+      value={<>{weiToAssetNumberFormat(balance.value, supplyAsset.asset, 4)}</>}
     />
   );
 }

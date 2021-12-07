@@ -163,11 +163,11 @@ export class LiquidityPoolDictionary {
       new LiquidityPool(Asset.BRZ, [
         new LiquidityPoolSupplyAsset(Asset.BRZ, {
           mainnet: '0x6f96096687952349DD5944E0EB1Be327DcdeB705', // todo
-          testnet: '0x179caA42B5024ec1C3D8513A262fC9986F565295',
+          testnet: '0x7107E42f4b59310D217333B544465d428395Affe',
         }),
         new LiquidityPoolSupplyAsset(Asset.XUSD, {
           mainnet: '0x6f96096687952349DD5944E0EB1Be327DcdeB705', // todo
-          testnet: '0x179caA42B5024ec1C3D8513A262fC9986F565295',
+          testnet: '0x7107E42f4b59310D217333B544465d428395Affe',
         }),
       ])
         .setVersion(1)

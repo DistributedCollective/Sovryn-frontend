@@ -8,7 +8,6 @@ import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary'
 import { CachedAssetRate } from '../../containers/WalletProvider/types';
 import { actions } from 'app/containers/WalletProvider/slice';
 import { toWei } from '../../../utils/blockchain/math-helpers';
-import { bignumber } from 'mathjs';
 
 const assetsWithoutOracle: Asset[] = [
   Asset.SOV,

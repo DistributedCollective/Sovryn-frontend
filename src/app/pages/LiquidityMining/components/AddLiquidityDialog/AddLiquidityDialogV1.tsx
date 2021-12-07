@@ -22,7 +22,10 @@ import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { Asset } from '../../../../../types';
 import { LiquidityPool } from '../../../../../utils/models/liquidity-pool';
 import { usePoolToken } from '../../../../hooks/amm/usePoolToken';
-import { weiToNumberFormat } from '../../../../../utils/display-text/format';
+import {
+  weiToAssetNumberFormat,
+  weiToNumberFormat,
+} from '../../../../../utils/display-text/format';
 import { useMining_ApproveAndAddLiquidityV1 } from '../../hooks/useMining_ApproveAndAddLiquidityV1';
 import { useLiquidityMining_getExpectedV1TokenAmount } from '../../hooks/useLiquidityMining_getExpectedV1TokenAmount';
 import { useLiquidityMining_getExpectedV1PoolTokens } from '../../hooks/useLiquidityMining_getExpectedV1PoolTokens';
@@ -49,7 +52,7 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
   const token2 = pool.supplyAssets[1].asset;
 
   const [amount1, setAmount1] = useState('0');
-  const weiAmount1 = useWeiAmount(amount1);
+  const weiAmount1 = useWeiAmount(amount1, token1);
 
   const { value: weiAmount2 } = useLiquidityMining_getExpectedV1TokenAmount(
     pool,
@@ -121,7 +124,7 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
               value={amount1}
               subText={`${t(
                 translations.common.availableBalance,
-              )} ${weiToNumberFormat(balance1, 8)}`}
+              )} ${weiToAssetNumberFormat(balance1, token1, 8)}`}
               asset={token1}
             />
           </FormGroup>
@@ -131,10 +134,9 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
             className="tw-mt-6 tw-h-9"
           />
           <div className="tw-text-xs tw-font-thin tw-mt-1">
-            {`${t(translations.common.availableBalance)} ${weiToNumberFormat(
-              balance2,
-              8,
-            )}`}
+            {`${t(
+              translations.common.availableBalance,
+            )} ${weiToAssetNumberFormat(balance2, token2, 8)}`}
           </div>
           <TxFeeCalculator
             args={txFeeArgs}

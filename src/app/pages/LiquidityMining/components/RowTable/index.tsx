@@ -2,7 +2,7 @@ import React from 'react';
 import { Asset } from '../../../../../types';
 import { LiquidityPool } from '../../../../../utils/models/liquidity-pool';
 import { LoadableValue } from '../../../../components/LoadableValue';
-import { weiToNumberFormat } from '../../../../../utils/display-text/format';
+import { weiToAssetNumberFormat } from '../../../../../utils/display-text/format';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { RowTable } from '../../../../components/FinanceV2Components/RowTable';
 import { TableBody } from '../../../../components/FinanceV2Components/RowTable/TableBody';
@@ -72,7 +72,7 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
                   loading={loading1}
                   value={
                     <>
-                      {weiToNumberFormat(balance1, 6)}{' '}
+                      {weiToAssetNumberFormat(balance1, asset1, 6)}{' '}
                       <AssetRenderer asset={asset1} />
                     </>
                   }
@@ -83,7 +83,7 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
                   loading={loading2}
                   value={
                     <>
-                      {weiToNumberFormat(balance2, 6)}{' '}
+                      {weiToAssetNumberFormat(balance2, asset2, 6)}{' '}
                       <AssetRenderer asset={asset2} />
                     </>
                   }

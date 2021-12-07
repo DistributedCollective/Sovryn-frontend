@@ -28,7 +28,10 @@ import {
   LiquidityPool,
   LiquidityPoolSupplyAsset,
 } from '../../../../../utils/models/liquidity-pool';
-import { weiToNumberFormat } from '../../../../../utils/display-text/format';
+import {
+  weiToAssetNumberFormat,
+  weiToNumberFormat,
+} from '../../../../../utils/display-text/format';
 import { useLiquidityMining_getUserInfo } from '../../hooks/useLiquidityMining_getUserInfo';
 import { Asset } from '../../../../../types';
 import { contractReader } from '../../../../../utils/sovryn/contract-reader';
@@ -71,7 +74,7 @@ export function RemoveLiquidityDialogV1({ pool, ...props }: Props) {
   const [amount, setAmount] = useState('0');
   const [balance, setBalance] = useState('0');
   const [sideBalance, setSideBalance] = useState('0');
-  const weiAmount = useWeiAmount(amount);
+  const weiAmount = useWeiAmount(amount, mainToken.asset);
 
   usePoolToken(pool.poolAsset, pool.poolAsset);
 
@@ -211,7 +214,7 @@ export function RemoveLiquidityDialogV1({ pool, ...props }: Props) {
               asset={mainToken.asset}
               subText={`${t(
                 translations.common.availableBalance,
-              )} ${weiToNumberFormat(balance, 8)}`}
+              )} ${weiToAssetNumberFormat(balance, mainToken.asset, 8)}`}
               maxAmount={balance}
             />
           </FormGroup>
@@ -221,10 +224,9 @@ export function RemoveLiquidityDialogV1({ pool, ...props }: Props) {
             className="tw-mt-6 tw-h-9"
           />
           <div className="tw-text-xs tw-font-thin tw-mt-1">
-            {`${t(translations.common.availableBalance)} ${weiToNumberFormat(
-              sideBalance,
-              8,
-            )}`}
+            {`${t(
+              translations.common.availableBalance,
+            )} ${weiToAssetNumberFormat(sideBalance, sideToken.asset, 8)}`}
           </div>
           <ArrowDown />
           <FormGroup

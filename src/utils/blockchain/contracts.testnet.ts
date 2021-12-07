@@ -372,7 +372,7 @@ export const contracts = {
     abi: TestTokenABI,
   },
   BRZ_amm: {
-    address: '0x7107E42f4b59310D217333B544465d428395Affe',
+    address: '0x6Ca500A8F39C452CE7533AA320c9b7752F04AA64',
     abi: LiquidityPoolV1Converter,
   },
 };
