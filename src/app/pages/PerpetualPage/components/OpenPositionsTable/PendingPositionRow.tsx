@@ -11,6 +11,7 @@ import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { AssetValue } from '../../../../components/AssetValue';
+import { PERPETUAL_CHAIN_ID } from '../../types';
 
 interface IPendingPositionRow {
   item: Transaction;
@@ -51,8 +52,9 @@ export function PendingPositionRow({ item }: IPendingPositionRow) {
                 <p className="tw-m-0">{t(translations.common.pending)}</p>
               )}
               <LinkToExplorer
-                txHash={item.transactionHash}
                 className="tw-text-primary tw-font-normal tw-whitespace-nowrap"
+                txHash={item.transactionHash}
+                chainId={PERPETUAL_CHAIN_ID}
               />
             </div>
             <div>
