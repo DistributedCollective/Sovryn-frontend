@@ -68,6 +68,7 @@ export const SlippageFormStep: TransitionStep<NewPositionCardStep> = ({
       traderState.marginAccountPositionBC + amount,
       perpParameters,
       ammState,
+      traderState,
     );
     return calculateApproxLiquidationPrice(
       traderState,

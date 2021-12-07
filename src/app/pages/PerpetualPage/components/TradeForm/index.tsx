@@ -197,8 +197,15 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       marginAccountBalance.fPositionBC + amount,
       perpParameters,
       ammState,
+      traderState,
     );
-  }, [marginAccountBalance.fPositionBC, perpParameters, ammState, trade]);
+  }, [
+    marginAccountBalance.fPositionBC,
+    perpParameters,
+    ammState,
+    traderState,
+    trade,
+  ]);
 
   const tradingFeeWei = useMemo(
     () => getTradingFee(Number(trade.amount), perpParameters),

@@ -26,9 +26,12 @@ const MASK_CLOSE_ONLY = 0x80000000;
 export const usePerpetual_openTradeWithoutManualDeposit = () => {
   const address = useAccount();
 
-  const { ammState, perpetualParameters, averagePrice } = useContext(
-    PerpetualQueriesContext,
-  );
+  const {
+    ammState,
+    perpetualParameters,
+    traderState,
+    averagePrice,
+  } = useContext(PerpetualQueriesContext);
 
   const marginBalance = usePerpetual_marginAccountBalance();
 
@@ -59,6 +62,7 @@ export const usePerpetual_openTradeWithoutManualDeposit = () => {
         marginBalance.fPositionBC - signedAmount,
         perpetualParameters,
         ammState,
+        traderState,
       );
 
       const marginRequired = Math.max(

@@ -10,7 +10,6 @@ import { Dialog } from '../../../../containers/Dialog';
 import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
 import { PerpetualPageModals, isPerpetualTradeReview } from '../../types';
-import { fromWei } from 'web3-utils';
 import {
   calculateApproxLiquidationPrice,
   getRequiredMarginCollateral,
@@ -38,6 +37,7 @@ import { ApprovalStep } from './components/ApprovalStep';
 import { ConfirmationStep } from './components/ConfirmationStep';
 import { TransactionStep } from './components/TransactionStep';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
+import { numberFromWei } from '../../../../../utils/blockchain/math-helpers';
 
 const tradeDialogContextDefault: TradeDialogContextType = {
   pair: PerpetualPairDictionary.get(PerpetualPairType.BTCUSD),
@@ -110,7 +110,7 @@ export const TradeDialog: React.FC = () => {
     const amountChange = amountTarget - traderState.marginAccountPositionBC;
 
     const marginTarget = trade.margin
-      ? Number(fromWei(trade.margin))
+      ? numberFromWei(trade.margin)
       : traderState.availableCashCC +
         getRequiredMarginCollateral(
           trade.leverage,
@@ -118,6 +118,7 @@ export const TradeDialog: React.FC = () => {
           amountTarget,
           perpParameters,
           ammState,
+          traderState,
         );
     const marginChange = marginTarget - traderState.availableCashCC;
 
