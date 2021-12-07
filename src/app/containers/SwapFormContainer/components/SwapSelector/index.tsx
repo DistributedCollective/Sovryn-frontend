@@ -97,7 +97,7 @@ export const SwapSelector: React.FC<ISwapSelectorProps> = ({
         {open && (
           <div
             className={cn(
-              'tw-absolute tw-transform tw-translate-y-full tw-bottom-0 tw-left-0 tw-bg-gray-2 tw-py-4 tw-px-8 tw-rounded-lg tw-z-50',
+              'tw-absolute tw-transform tw-translate-y-full tw-bottom-0 tw-left-0 tw-bg-gray-2 tw-py-4 tw-px-8 tw-rounded-lg tw-z-10',
               styles.pairsModal,
             )}
           >

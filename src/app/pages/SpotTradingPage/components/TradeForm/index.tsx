@@ -4,7 +4,7 @@ import { selectSpotTradingPage } from '../../selectors';
 import { BuySell } from '../BuySell';
 import { OrderType } from 'app/components/OrderType';
 import { OrderTypes } from 'app/components/OrderType/types';
-import { allPairs as pairs, TradingTypes } from '../../types';
+import { pairs, TradingTypes } from '../../types';
 import { Asset } from 'types/asset';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from 'app/pages/LandingPage/components/Promotions/components/PromotionCard/types';

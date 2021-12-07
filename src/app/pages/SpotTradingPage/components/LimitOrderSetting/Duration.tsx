@@ -42,6 +42,7 @@ export function Duration({ onChange, value }: Props) {
       <div className="tw-mt-1 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded-md tw-divide-x tw-divide-secondary">
         {durationOptions.map(option => (
           <DurationButton
+            key={option.value}
             text={t(option.text, { count: option.value })}
             active={value === option.value}
             onClick={() => onChange(option.value)}

@@ -82,9 +82,8 @@ export const PairNavbar: React.FC = () => {
   useEffect(() => {
     if (list)
       // set SOV_RBTC by default
-      for (let i = 0; i < list.length; i++) {
-        if (list[i].trading_pairs === SpotPairType.SOV_RBTC)
-          setPair([list[i], list[i]]);
+      for (let pair of list) {
+        if (pair.trading_pairs === SpotPairType.SOV_RBTC) setPair([pair, pair]);
       }
   }, [list]);
 
