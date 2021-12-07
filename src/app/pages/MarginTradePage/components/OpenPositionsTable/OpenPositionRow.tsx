@@ -198,6 +198,7 @@ const OpenPositionRowInner: React.FC<IOpenPositionRowInnerProps> = ({
             item={item}
             position={position}
             entryPrice={entryPrice}
+            leverage={leverage}
           />
         </td>
         <td className="tw-w-full tw-hidden 2xl:tw-table-cell">

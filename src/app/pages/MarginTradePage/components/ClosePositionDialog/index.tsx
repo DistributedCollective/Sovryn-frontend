@@ -201,6 +201,7 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
                       item={props.item}
                       position={position}
                       entryPrice={entryPrice}
+                      leverage={leverage}
                     />
                   }
                 />
