@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { AbiInput } from 'web3-utils';
 import { SimulatorHookResponse } from './useSimulator';
 import { Nullable } from '../../../types';
@@ -29,56 +30,64 @@ export function useFilterSimulatorResponseLogs<T = Record<string, string>>(
   abiInput: AbiInput[],
   index?: 0 | 1,
 ): Response<T> {
-  if (simulatorResponse.loading) {
-    return {
-      status: SimulationStatus.PENDING,
-      gasUsed: 0,
-      error: null,
-      logs: [],
-    };
-  }
-
-  if (simulatorResponse.value === null) {
-    return {
-      status: SimulationStatus.NONE,
-      gasUsed: 0,
-      error: null,
-      logs: [],
-    };
-  }
-
-  const tx: SimulatedTx = (index === undefined
-    ? simulatorResponse.value[simulatorResponse.value.length - 1]
-    : simulatorResponse.value[index]) as SimulatedTx;
-
-  let logs: LogData<T>[] = [];
-
-  if (tx.transaction.status) {
-    const items = tx.transaction.transaction_info.logs;
-    if (items?.length) {
-      logs = items
-        .filter(item => item.raw.topics[0] === topic)
-        .map(item => {
-          item.raw.topics.shift();
-          const decoded = (Sovryn.getWeb3().eth.abi.decodeLog(
-            abiInput,
-            item.raw.data,
-            item.raw.topics,
-          ) as unknown) as T;
-          return {
-            raw: item.raw,
-            decoded,
-          };
-        });
+  return useMemo(() => {
+    if (simulatorResponse.loading) {
+      return {
+        status: SimulationStatus.PENDING,
+        gasUsed: 0,
+        error: null,
+        logs: [],
+      };
     }
-  }
 
-  return {
-    status: tx.transaction.status
-      ? SimulationStatus.SUCCESS
-      : SimulationStatus.FAILED,
-    gasUsed: tx.transaction.gas_used,
-    error: tx.transaction.error_message || null,
-    logs,
-  };
+    if (simulatorResponse.value === null) {
+      return {
+        status: SimulationStatus.NONE,
+        gasUsed: 0,
+        error: null,
+        logs: [],
+      };
+    }
+
+    const tx: SimulatedTx = (index === undefined
+      ? simulatorResponse.value[simulatorResponse.value.length - 1]
+      : simulatorResponse.value[index]) as SimulatedTx;
+
+    let logs: LogData<T>[] = [];
+
+    if (tx.transaction.status) {
+      const items = tx.transaction.transaction_info.logs;
+      if (items?.length) {
+        logs = items
+          .filter(item => item.raw.topics[0] === topic)
+          .map(item => {
+            item.raw.topics.shift();
+            const decoded = (Sovryn.getWeb3().eth.abi.decodeLog(
+              abiInput,
+              item.raw.data,
+              item.raw.topics,
+            ) as unknown) as T;
+            return {
+              raw: item.raw,
+              decoded,
+            };
+          });
+      }
+    }
+
+    return {
+      status: tx.transaction.status
+        ? SimulationStatus.SUCCESS
+        : SimulationStatus.FAILED,
+      gasUsed: tx.transaction.gas_used,
+      error: tx.transaction.error_message || null,
+      logs,
+    };
+  }, [
+    abiInput,
+    index,
+    simulatorResponse.loading,
+    simulatorResponse.value,
+    topic,
+  ]);
 }
