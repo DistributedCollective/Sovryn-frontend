@@ -1496,7 +1496,7 @@
         "long": "Comprado",
         "short": "Vendido"
       },
-      "newPositionDetails": "Novos detalhes da ordem"
+      "newPositionDetails": "Detalhes"
     },
     "openPositions": "Posições abertas",
     "tradingHistory": "Posições fechadas",
