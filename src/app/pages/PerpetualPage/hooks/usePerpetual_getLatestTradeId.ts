@@ -3,7 +3,7 @@ import { Nullable } from 'types';
 import { RecentTradesContext } from '../components/RecentTradesTable/context';
 import throttle from 'lodash.throttle';
 
-const BSC_AVERAGE_BLOCK_TIME = 3500; // 3.5s
+const THROTTLE_DELAY = 1000; // 1s
 
 export const usePerpetual_getLatestTradeId = () => {
   const [latestTradeId, setLatestTradeId] = useState<Nullable<string>>();
@@ -11,7 +11,7 @@ export const usePerpetual_getLatestTradeId = () => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const throttledSetLatestTradeId = useCallback(
-    throttle(value => setLatestTradeId(value), BSC_AVERAGE_BLOCK_TIME),
+    throttle(value => setLatestTradeId(value), THROTTLE_DELAY),
     [],
   );
 
