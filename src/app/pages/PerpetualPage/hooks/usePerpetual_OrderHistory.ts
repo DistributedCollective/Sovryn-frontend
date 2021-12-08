@@ -35,6 +35,7 @@ export type OrderHistoryEntry = {
 type OrderHistoryHookResult = {
   loading: boolean;
   data?: OrderHistoryEntry[];
+  totalCount: number;
 };
 
 export const usePerpetual_OrderHistory = (
@@ -60,7 +61,6 @@ export const usePerpetual_OrderHistory = (
   const data: OrderHistoryEntry[] = useMemo(() => {
     const currentTradeEvents =
       tradeEvents?.trader?.trades || previousTradeEvents?.trader?.trades;
-
     const currentTradeEventsLength = currentTradeEvents?.length;
     let entries: OrderHistoryEntry[] = [];
 
@@ -91,5 +91,19 @@ export const usePerpetual_OrderHistory = (
     tradeEvents?.trader?.trades,
   ]);
 
-  return { data, loading };
+  const totalCount = useMemo(
+    () =>
+      tradeEvents?.trader?.tradesTotalCount ||
+      previousTradeEvents?.trader?.tradesTotalCount,
+    [
+      previousTradeEvents?.trader?.tradesTotalCount,
+      tradeEvents?.trader?.tradesTotalCount,
+    ],
+  );
+
+  return {
+    data,
+    loading,
+    totalCount,
+  };
 };

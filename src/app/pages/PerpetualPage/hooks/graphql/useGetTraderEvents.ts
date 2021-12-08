@@ -28,6 +28,7 @@ export function useGetTraderEvents(
     page,
     perPage,
   );
+
   const query = useQuery(SUBGRAPH_QUERY);
   return query;
 }
@@ -64,6 +65,7 @@ function generateQuery(
   return gql`
   { trader(id: "${user}")
   {
+    ${getTotalCountFieldName(events[0])}
     ${arr.toString()}
   }
 }
@@ -79,6 +81,15 @@ export enum Event {
   LIQUIDITY_REMOVED = 'LIQUIDITY_REMOVED',
   UPDATE_MARGIN_ACCOUNT = 'UPDATE_MARGIN_ACCOUNT',
 }
+
+const getTotalCountFieldName = (event: Event) => {
+  switch (event) {
+    case Event.TRADE:
+      return 'tradesTotalCount';
+    default:
+      return 'tradesTotalCount';
+  }
+};
 
 class EventDetails {
   constructor(public entityName: string, public fields: string[]) {
