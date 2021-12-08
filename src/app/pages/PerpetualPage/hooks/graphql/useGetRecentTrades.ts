@@ -1,7 +1,7 @@
 import { useQuery, gql } from '@apollo/client';
 
-/** Hook to get recents trades for right hand panel
- * Takes count as parameters: numbe of rows to return, perpetualId
+/** Hook to get recent trades for right hand panel
+ * Takes count as parameters: number of rows to return, perpetualId
  * Default is 20
  */
 

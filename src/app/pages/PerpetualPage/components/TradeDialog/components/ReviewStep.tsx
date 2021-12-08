@@ -1,4 +1,4 @@
-import React, { useContext, useCallback, useMemo } from 'react';
+import React, { useContext, useCallback } from 'react';
 import { TransitionStep } from '../../../../../containers/TransitionSteps';
 import { TradeDialogStep, PerpetualTxStage } from '../types';
 import { TradeDialogContext } from '../index';

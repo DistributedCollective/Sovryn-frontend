@@ -5,6 +5,7 @@ import { bridgeNetwork } from 'app/pages/BridgeDepositPage/utils/bridge-network'
 import { Chain } from 'types';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import perpetualManagerAbi from 'utils/blockchain/abi/PerpetualManager.json';
+import { usePerpetual_getLatestTradeId } from './usePerpetual_getLatestTradeId';
 
 export const initialLiqPoolState: LiqPoolState = {
   fPnLparticipantsCashCC: 0,
@@ -21,6 +22,8 @@ export const initialLiqPoolState: LiqPoolState = {
 export const usePerpetual_queryLiqPoolStateFromPerpetualId = (): LiqPoolState => {
   const [liqPoolState, setLiqPoolState] = useState(initialLiqPoolState);
   const [poolId, setPoolId] = useState('0');
+
+  const latestTradeId = usePerpetual_getLatestTradeId();
 
   useEffect(() => {
     bridgeNetwork
@@ -44,7 +47,7 @@ export const usePerpetual_queryLiqPoolStateFromPerpetualId = (): LiqPoolState =>
         [poolId],
       )
       .then(result => setLiqPoolState(parseLiqPoolState(result)));
-  }, [poolId]);
+  }, [poolId, latestTradeId]);
 
   return liqPoolState;
 };

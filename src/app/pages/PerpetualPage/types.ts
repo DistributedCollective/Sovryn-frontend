@@ -1,11 +1,14 @@
-import { Asset, Nullable } from '../../../types';
+import { Asset, Nullable, Chain, ChainId } from '../../../types';
 import { TradingPosition } from '../../../types/trading-position';
 import { PerpetualPairType } from '../../../utils/dictionaries/perpetual-pair-dictionary';
 import { Transaction } from 'ethers';
 import { PerpetualTx } from './components/TradeDialog/types';
 import { CheckAndApproveResult } from '../../../utils/sovryn/contract-writer';
+import { getBridgeChainId } from '../BridgeDepositPage/utils/helpers';
 
 export const PERPETUAL_SLIPPAGE_DEFAULT = 0.005;
+export const PERPETUAL_CHAIN_ID =
+  getBridgeChainId(Chain.BSC) || ChainId.BSC_MAINNET;
 
 export enum PerpetualTradeType {
   MARKET = 'MARKET',

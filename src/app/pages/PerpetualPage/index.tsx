@@ -98,16 +98,16 @@ export function PerpetualPage() {
   const [activeTab, setActiveTab] = useState(0);
 
   return (
-    <PerpetualQueriesContextProvider>
-      <Helmet>
-        <title>{t(translations.perpetualPage.meta.title)}</title>
-        <meta
-          name="description"
-          content={t(translations.perpetualPage.meta.description)}
-        />
-      </Helmet>
-      <HeaderLabs />
-      <RecentTradesContextProvider pair={pair}>
+    <RecentTradesContextProvider pair={pair}>
+      <PerpetualQueriesContextProvider>
+        <Helmet>
+          <title>{t(translations.perpetualPage.meta.title)}</title>
+          <meta
+            name="description"
+            content={t(translations.perpetualPage.meta.description)}
+          />
+        </Helmet>
+        <HeaderLabs />
         <div className="tw-relative tw--top-2.5 tw-w-full">
           <div className="tw-w-full tw-bg-gray-2 tw-py-2">
             <div className="tw-container">
@@ -199,7 +199,7 @@ export function PerpetualPage() {
         <EditLeverageDialog />
         <EditMarginDialog />
         <ClosePositionDialog />
-      </RecentTradesContextProvider>
-    </PerpetualQueriesContextProvider>
+      </PerpetualQueriesContextProvider>
+    </RecentTradesContextProvider>
   );
 }
