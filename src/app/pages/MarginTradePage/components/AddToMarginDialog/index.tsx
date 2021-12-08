@@ -1,8 +1,3 @@
-/**
- *
- * AddToMarginDialog
- *
- */
 import React, { useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -26,9 +21,9 @@ import { ActiveLoan } from 'types/active-loan';
 import { discordInvite } from 'utils/classifiers';
 import { bignumber } from 'mathjs';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
-import { formatNumber } from '../../../../containers/StatsPage/utils';
 import { usePositionLiquidationPrice } from '../../../../hooks/trading/usePositionLiquidationPrice';
 import { TradingPosition } from '../../../../../types/trading-position';
+import { toAssetNumberFormat } from 'utils/display-text/format';
 
 interface Props {
   item: ActiveLoan;
@@ -101,7 +96,7 @@ export function AddToMarginDialog(props: Props) {
           </FormGroup>
           <FormGroup label={t(translations.addToMargin.liquidationPrice)}>
             <DummyField>
-              {formatNumber(Number(liquidationPrice), 4)}&nbsp;&nbsp;
+              {toAssetNumberFormat(liquidationPrice, pair.longDetails.asset)}{' '}
               <AssetRenderer asset={pair.longDetails.asset} />
             </DummyField>
           </FormGroup>
