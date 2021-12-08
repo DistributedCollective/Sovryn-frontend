@@ -36,18 +36,13 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     traderState,
     perpetualParameters: perpParameters,
     averagePrice,
+    lotSize,
+    lotPrecision,
   } = useContext(PerpetualQueriesContext);
 
   const { changedTrade, trade, onChange } = useContext(
     ClosePositionDialogContext,
   );
-
-  const [lotSize, lotPrecision] = useMemo(() => {
-    const lotSize = Number(perpParameters.fLotSizeBC.toPrecision(8));
-    const lotPrecision = lotSize.toString().split(/[,.]/)[1]?.length || 1;
-
-    return [lotSize, lotPrecision];
-  }, [perpParameters.fLotSizeBC]);
 
   const pair = useMemo(
     () =>
@@ -61,7 +56,6 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     amountChange,
     amountTarget,
     marginTarget,
-    marginChange,
     totalToReceive,
   } = useMemo(() => {
     const amountCurrent = trade
@@ -85,7 +79,6 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
       amountChange,
       amountTarget,
       marginTarget,
-      marginChange,
       totalToReceive: Number.isNaN(totalToReceive)
         ? traderState.availableCashCC
         : totalToReceive,

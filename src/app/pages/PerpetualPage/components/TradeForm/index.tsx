@@ -69,6 +69,8 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     perpetualParameters: perpParameters,
     liquidityPoolState: liqPoolState,
     averagePrice,
+    lotSize,
+    lotPrecision,
   } = useContext(PerpetualQueriesContext);
 
   const marginAccountBalance = usePerpetual_marginAccountBalance();
@@ -94,13 +96,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     averagePrice,
     onChange,
   ]);
-
-  const [lotSize, lotPrecision] = useMemo(() => {
-    const lotSize = Number(perpParameters.fLotSizeBC.toPrecision(8));
-    const lotPrecision = lotSize.toString().split(/[,.]/)[1]?.length || 0;
-
-    return [lotSize, lotPrecision];
-  }, [perpParameters.fLotSizeBC]);
 
   const maxTradeSize = useMemo(() => {
     const maxTradeSize = Number(

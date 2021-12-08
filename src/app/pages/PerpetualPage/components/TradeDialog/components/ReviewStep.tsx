@@ -43,13 +43,7 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     tradingFee,
   } = analysis;
 
-  const { perpetualParameters } = useContext(PerpetualQueriesContext);
-  const [lotSize, lotPrecision] = useMemo(() => {
-    const lotSize = Number(perpetualParameters.fLotSizeBC.toPrecision(8));
-    const lotPrecision = lotSize.toString().split(/[,.]/)[1]?.length || 1;
-
-    return [lotSize, lotPrecision];
-  }, [perpetualParameters.fLotSizeBC]);
+  const { lotSize, lotPrecision } = useContext(PerpetualQueriesContext);
 
   const onSubmit = useCallback(async () => {
     let nonce = await bridgeNetwork.nonce(Chain.BSC);
