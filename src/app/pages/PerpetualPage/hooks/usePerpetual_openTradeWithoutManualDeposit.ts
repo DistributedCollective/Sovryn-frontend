@@ -18,7 +18,6 @@ import {
   calculateSlippagePrice,
   getRequiredMarginCollateral,
 } from '../utils/perpUtils';
-import { usePerpetual_marginAccountBalance } from './usePerpetual_marginAccountBalance';
 import { PERPETUAL_SLIPPAGE_DEFAULT } from '../types';
 
 const MASK_MARKET_ORDER = 0x40000000;
@@ -33,8 +32,6 @@ export const usePerpetual_openTradeWithoutManualDeposit = () => {
     traderState,
     averagePrice,
   } = useContext(PerpetualQueriesContext);
-
-  const marginBalance = usePerpetual_marginAccountBalance();
 
   const { send, ...rest } = useSendContractTx('perpetualManager', 'trade');
 
@@ -57,18 +54,12 @@ export const usePerpetual_openTradeWithoutManualDeposit = () => {
         tradeDirection,
       );
 
-      const marginCollateralAmount = getRequiredMarginCollateral(
+      const requiredMargin = getRequiredMarginCollateral(
         leverage || 1,
-        marginBalance.fPositionBC,
-        marginBalance.fPositionBC - signedAmount,
+        traderState.marginAccountPositionBC + signedAmount,
         perpetualParameters,
         ammState,
         traderState,
-      );
-
-      const marginRequired = Math.max(
-        0,
-        marginCollateralAmount - marginBalance.fCashCC,
       );
 
       const deadline = Math.round(Date.now() / 1000) + 86400; // 1 day
@@ -77,7 +68,7 @@ export const usePerpetual_openTradeWithoutManualDeposit = () => {
       const tx = await checkAndApprove(
         'PERPETUALS_token',
         getContract('perpetualManager').address,
-        toWei(marginRequired),
+        toWei(requiredMargin),
         Asset.PERPETUALS,
       );
 

@@ -9,6 +9,10 @@ import { BigNumber } from 'ethers';
 import { usePerpetual_getLatestTradeId } from './usePerpetual_getLatestTradeId';
 
 export const initialPerpParameters: PerpParameters = {
+  poolId: 0,
+  oracleS2Addr: '',
+  oracleS3Addr: '',
+
   fInitialMarginRateAlpha: 0,
   fMarginRateBeta: 0,
   fInitialMarginRateCap: 0,
@@ -19,7 +23,6 @@ export const initialPerpParameters: PerpParameters = {
   fReferralRebateRate: 0,
   fLiquidationPenaltyRate: 0,
   fMinimalSpread: 0,
-  fIncentiveSpread: 0,
   fLotSizeBC: 0,
   fFundingRateClamp: 0,
   fMarkPriceEMALambda: 0,
@@ -42,10 +45,6 @@ export const initialPerpParameters: PerpParameters = {
   // funding state
   fCurrentFundingRate: 0,
   fUnitAccumulatedFunding: 0,
-
-  poolId: 0,
-  oracleS2Addr: '',
-  oracleS3Addr: '',
 };
 
 export const usePerpetual_queryPerpParameters = (): PerpParameters => {
@@ -70,19 +69,21 @@ export const usePerpetual_queryPerpParameters = (): PerpParameters => {
 };
 
 const parsePerpParameter = (response: any): PerpParameters => ({
-  fCurrentFundingRate: ABK64x64ToFloat(response[9]),
-  fUnitAccumulatedFunding: ABK64x64ToFloat(response[10]),
-  fOpenInterest: ABK64x64ToFloat(response[12]),
-  fInitialMarginRateAlpha: ABK64x64ToFloat(response[16]),
-  fMarginRateBeta: ABK64x64ToFloat(response[17]),
-  fInitialMarginRateCap: ABK64x64ToFloat(response[18]),
-  fMaintenanceMarginRateAlpha: ABK64x64ToFloat(response[19]),
-  fTreasuryFeeRate: ABK64x64ToFloat(response[20]),
-  fPnLPartRate: ABK64x64ToFloat(response[21]),
-  fReferralRebateRate: ABK64x64ToFloat(response[22]),
-  fLiquidationPenaltyRate: ABK64x64ToFloat(response[23]),
-  fMinimalSpread: ABK64x64ToFloat(response[24]),
-  fIncentiveSpread: ABK64x64ToFloat(response[25]),
+  poolId: BigNumber.from(response[1]).toNumber(),
+  oracleS2Addr: response[2],
+  oracleS3Addr: response[3],
+  fCurrentFundingRate: ABK64x64ToFloat(response[10]),
+  fUnitAccumulatedFunding: ABK64x64ToFloat(response[11]),
+  fOpenInterest: ABK64x64ToFloat(response[13]),
+  fInitialMarginRateAlpha: ABK64x64ToFloat(response[17]),
+  fMarginRateBeta: ABK64x64ToFloat(response[18]),
+  fInitialMarginRateCap: ABK64x64ToFloat(response[19]),
+  fMaintenanceMarginRateAlpha: ABK64x64ToFloat(response[20]),
+  fTreasuryFeeRate: ABK64x64ToFloat(response[21]),
+  fPnLPartRate: ABK64x64ToFloat(response[22]),
+  fReferralRebateRate: ABK64x64ToFloat(response[23]),
+  fLiquidationPenaltyRate: ABK64x64ToFloat(response[24]),
+  fMinimalSpread: ABK64x64ToFloat(response[25]),
   fLotSizeBC: ABK64x64ToFloat(response[26]),
   fFundingRateClamp: ABK64x64ToFloat(response[27]),
   fMarkPriceEMALambda: ABK64x64ToFloat(response[28]),
@@ -101,7 +102,4 @@ const parsePerpParameter = (response: any): PerpParameters => ({
   fAMMMinSizeCC: ABK64x64ToFloat(response[38]),
   fMinimalTraderExposureEMA: ABK64x64ToFloat(response[39]),
   fMaximalTradeSizeBumpUp: ABK64x64ToFloat(response[41]),
-  poolId: BigNumber.from(response[1]).toNumber(),
-  oracleS2Addr: response[2],
-  oracleS3Addr: response[3],
 });
