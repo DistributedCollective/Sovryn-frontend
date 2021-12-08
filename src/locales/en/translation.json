@@ -1838,7 +1838,7 @@
       "collateral": "Collateral",
       "payment": "Payment",
       "rate": "Rate",
-      "timeSinceLastPayment": "Time since last payment"
+      "timeSinceLastPayment": "Time since last payment (DD:HH:MM:SS)"
     },
     "notificationSettingsDialog": {
       "title": "Margin Trade notification settings",

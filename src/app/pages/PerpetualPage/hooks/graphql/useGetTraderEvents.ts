@@ -7,18 +7,37 @@
 import { useQuery, gql } from '@apollo/client';
 import { DocumentNode } from 'graphql';
 
-export function useGetTraderEvents(event: Event[], user: string) {
-  const SUBGRAPH_QUERY = generateQuery(event, user);
+export enum OrderDirection {
+  asc = 'asc',
+  desc = 'desc',
+}
+
+export function useGetTraderEvents(
+  event: Event[],
+  user: string,
+  orderBy?: string,
+  orderDirection?: OrderDirection,
+) {
+  const SUBGRAPH_QUERY = generateQuery(event, user, orderBy, orderDirection);
   const query = useQuery(SUBGRAPH_QUERY);
   return query;
 }
 
-function generateQuery(events: Event[], user: string): DocumentNode {
+function generateQuery(
+  events: Event[],
+  user: string,
+  orderBy?: string,
+  orderDirection?: OrderDirection,
+): DocumentNode {
   const arr = events.map(event => {
     const eventDetails = EventDictionary.get(event);
-    return `${eventDetails.entityName} { ${eventDetails.fields.toString()} }`;
+    return `${eventDetails.entityName} ${
+      orderBy && orderDirection
+        ? `(orderBy: ${orderBy}, orderDirection: ${orderDirection})`
+        : ''
+    } { ${eventDetails.fields.toString()} }`;
   });
-  // const arr = ['trades { tradeAmount }'];
+
   return gql`
   { trader(id: "${user}")
   {
@@ -35,6 +54,7 @@ export enum Event {
   LIQUIDATE = 'LIQUIDATE',
   LIQUIDITY_ADDED = 'LIQUIDITY_ADDED',
   LIQUIDITY_REMOVED = 'LIQUIDITY_REMOVED',
+  UPDATE_MARGIN_ACCOUNT = 'UPDATE_MARGIN_ACCOUNT',
 }
 
 class EventDetails {
@@ -99,6 +119,19 @@ class EventDictionary {
           'tokenAmount',
           'shareAmount',
           ...genericFields,
+        ]),
+      ],
+      [
+        Event.UPDATE_MARGIN_ACCOUNT,
+        new EventDetails('updateMarginAccount', [
+          'id',
+          'perpetualId',
+          'fPositionBC',
+          'fCashCC',
+          'fLockedInValueQC',
+          'fFundingPaymentCC',
+          'fOpenInterestBC',
+          'blockTimestamp',
         ]),
       ],
     ],

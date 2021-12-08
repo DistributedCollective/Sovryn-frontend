@@ -75,8 +75,12 @@ export const FundingPaymentsTable: React.FC<IFundingPaymentsTable> = ({
             </tr>
           )}
 
-          {data?.map(item => (
-            <FundingPaymentsRow key={item.id} item={item} />
+          {data?.map((item, index) => (
+            <FundingPaymentsRow
+              key={item.id}
+              item={item}
+              isFirstItem={index === data?.length - 1}
+            />
           ))}
         </tbody>
       </table>
