@@ -4,7 +4,7 @@ import { OrderHistoryEntry } from '../../hooks/usePerpetual_OrderHistory';
 import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
 import classNames from 'classnames';
 import { TradingPosition } from 'types/trading-position';
-import { PerpetualTradeType } from '../../types';
+import { PerpetualTradeType, PERPETUAL_CHAIN_ID } from '../../types';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { AssetValue } from 'app/components/AssetValue';
@@ -87,10 +87,10 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({ item }) => {
       </td>
       <td>
         <LinkToExplorer
+          className="tw-text-sov-white tw-underline"
           txHash={item.orderId}
           text={prettyTx(item.orderId)}
-          className="tw-text-sov-white tw-underline"
-          chainId={bridgeChainId || currentChainId}
+          chainId={PERPETUAL_CHAIN_ID}
         />
       </td>
     </tr>

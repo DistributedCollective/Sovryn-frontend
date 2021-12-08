@@ -18,6 +18,7 @@ import {
   FundingHistoryStatus,
 } from '../../hooks/usePerpetual_FundingHistory';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
+import { PERPETUAL_CHAIN_ID } from '../../types';
 
 const ActionIcons = {
   [FundingHistoryAction.deposit]: <IconDeposit className="tw-h-6" />,
@@ -81,8 +82,9 @@ export const AccountFundingHistoryRow: React.FC<FundingHistoryEntry> = ({
       </td>
       <td>
         <LinkToExplorer
-          txHash={transactionHash}
           className="tw-text-primary tw-font-normal tw-whitespace-nowrap"
+          txHash={transactionHash}
+          chainId={PERPETUAL_CHAIN_ID}
         />
       </td>
       <td>
