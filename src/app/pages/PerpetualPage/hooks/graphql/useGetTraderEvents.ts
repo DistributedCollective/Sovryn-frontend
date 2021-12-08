@@ -62,10 +62,14 @@ function generateQuery(
     } { ${eventDetails.fields.toString()} }`;
   });
 
+  const totalCountArray = events
+    .filter(item => !!totalCountFields[item])
+    .map(item => `${totalCountFields[item]} `);
+
   return gql`
   { trader(id: "${user}")
   {
-    ${getTotalCountFieldName(events[0])}
+    ${totalCountArray.toString()}
     ${arr.toString()}
   }
 }
@@ -82,13 +86,8 @@ export enum Event {
   UPDATE_MARGIN_ACCOUNT = 'UPDATE_MARGIN_ACCOUNT',
 }
 
-const getTotalCountFieldName = (event: Event) => {
-  switch (event) {
-    case Event.TRADE:
-      return 'tradesTotalCount';
-    default:
-      return 'tradesTotalCount';
-  }
+const totalCountFields = {
+  [Event.TRADE]: 'tradesTotalCount',
 };
 
 class EventDetails {
