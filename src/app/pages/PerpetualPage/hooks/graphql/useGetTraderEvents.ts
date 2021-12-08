@@ -17,8 +17,18 @@ export function useGetTraderEvents(
   user: string,
   orderBy?: string,
   orderDirection?: OrderDirection,
+  page?: number,
+  perPage?: number,
 ) {
-  const SUBGRAPH_QUERY = generateQuery(event, user, orderBy, orderDirection);
+  const SUBGRAPH_QUERY = generateQuery(
+    event,
+    user,
+    orderBy,
+    orderDirection,
+    page,
+    perPage,
+  );
+
   const query = useQuery(SUBGRAPH_QUERY);
   return query;
 }
@@ -28,19 +38,38 @@ function generateQuery(
   user: string,
   orderBy?: string,
   orderDirection?: OrderDirection,
+  page?: number,
+  perPage?: number,
 ): DocumentNode {
   const arr = events.map(event => {
     const eventDetails = EventDictionary.get(event);
+
+    const isOrdered = orderBy && orderDirection;
+    const hasPagination = page && perPage;
+
+    const orderFilterString = isOrdered
+      ? `orderBy: ${orderBy}, orderDirection: ${orderDirection}`
+      : '';
+
+    const paginationFilterString = hasPagination
+      ? `skip: ${(page! - 1) * perPage!} first: ${perPage!}`
+      : '';
+
     return `${eventDetails.entityName} ${
-      orderBy && orderDirection
-        ? `(orderBy: ${orderBy}, orderDirection: ${orderDirection})`
+      isOrdered || hasPagination
+        ? `(${orderFilterString} ${paginationFilterString})`
         : ''
     } { ${eventDetails.fields.toString()} }`;
   });
 
+  const totalCountArray = events
+    .filter(item => !!totalCountFields[item])
+    .map(item => `${totalCountFields[item]} `);
+
   return gql`
   { trader(id: "${user}")
   {
+    ${totalCountArray.toString()}
     ${arr.toString()}
   }
 }
@@ -56,6 +85,10 @@ export enum Event {
   LIQUIDITY_REMOVED = 'LIQUIDITY_REMOVED',
   UPDATE_MARGIN_ACCOUNT = 'UPDATE_MARGIN_ACCOUNT',
 }
+
+const totalCountFields = {
+  [Event.TRADE]: 'tradesTotalCount',
+};
 
 class EventDetails {
   constructor(public entityName: string, public fields: string[]) {
@@ -76,6 +109,8 @@ class EventDictionary {
           'tradeAmountBC',
           'orderFlags',
           'price',
+          'limitPrice',
+          'isClose',
           ...genericFields,
         ]),
       ],
