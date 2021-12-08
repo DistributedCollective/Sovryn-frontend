@@ -20,7 +20,10 @@ import { AssetValueMode } from '../../../../../components/AssetValue/types';
 import { getTraderPnLInCC } from '../../../utils/perpUtils';
 import { getSignedAmount } from '../../../utils/contractUtils';
 import { TradingPosition } from '../../../../../../types/trading-position';
-import { toWei } from '../../../../../../utils/blockchain/math-helpers';
+import {
+  toWei,
+  fromWei,
+} from '../../../../../../utils/blockchain/math-helpers';
 import { PerpetualTxMethods, PerpetualTx } from '../../TradeDialog/types';
 import { PerpetualQueriesContext } from 'app/pages/PerpetualPage/contexts/PerpetualQueriesContext';
 import { roundToLot } from '../../../utils/perpMath';
@@ -55,6 +58,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
   const {
     amountChange,
     amountTarget,
+    marginChange,
     marginTarget,
     totalToReceive,
   } = useMemo(() => {
@@ -66,7 +70,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
       : 0;
 
     const amountTarget = amountCurrent + amountChange;
-    const targetFactor = amountTarget / amountCurrent;
+    const targetFactor = amountCurrent === 0 ? 1 : amountTarget / amountCurrent;
     const marginTarget = traderState.availableCashCC * targetFactor;
     const marginChange = marginTarget - traderState.availableCashCC;
 
@@ -78,6 +82,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     return {
       amountChange,
       amountTarget,
+      marginChange,
       marginTarget,
       totalToReceive: Number.isNaN(totalToReceive)
         ? traderState.availableCashCC
@@ -144,17 +149,27 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
 
   const onChangeAmount = useCallback(
     (value: string) => {
-      const amount = Number(value);
+      let amount = Number(value);
       if (!changedTrade || !Number.isFinite(amount)) {
         return;
       }
 
+      amount = roundToLot(
+        Math.max(0, Math.min(Number(fromWei(trade?.amount || '0')), amount)),
+        lotSize,
+      );
+
       onChange({
         ...changedTrade,
-        amount: toWei(roundToLot(amount, lotSize)),
+        amount: toWei(amount),
       });
     },
-    [onChange, changedTrade, lotSize],
+    [onChange, changedTrade, lotSize, trade?.amount],
+  );
+
+  const isButtonDisabled = useMemo(
+    () => amountChange === 0 && marginChange === 0,
+    [amountChange, marginChange],
   );
 
   const onOpenSlippage = useCallback(
@@ -229,7 +244,13 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
         />
       </div>
       <button
-        className="tw-absolute tw-bottom-0 tw-w-full tw-min-h-10 tw-p-2 tw-text-lg tw-text-primary tw-font-medium tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-duration-300 hover:tw-bg-primary-25"
+        className={classNames(
+          'tw-absolute tw-bottom-0 tw-w-full tw-min-h-10 tw-p-2 tw-text-lg tw-text-primary tw-font-medium tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-transition-opacity tw-duration-300',
+          isButtonDisabled
+            ? 'tw-opacity-25 tw-cursor-not-allowed'
+            : 'tw-opacity-100 hover:tw-bg-primary-25',
+        )}
+        disabled={isButtonDisabled}
         onClick={onSubmit}
       >
         {t(translations.perpetualPage.closePosition.button)}
