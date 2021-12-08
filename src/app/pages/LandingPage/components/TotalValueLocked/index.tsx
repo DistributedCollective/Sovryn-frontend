@@ -45,7 +45,7 @@ export const TotalValueLocked: React.FC<ITotalValueLockedProps> = ({
     () =>
       rowCoreData
         .map(item => item.btcValue)
-        .reduce((acc, currentValue) => (acc += currentValue), 0),
+        .reduce((acc, currentValue) => acc + currentValue, 0),
     [rowCoreData],
   );
 
@@ -53,7 +53,7 @@ export const TotalValueLocked: React.FC<ITotalValueLockedProps> = ({
     () =>
       rowCoreData
         .map(item => item.usdValue)
-        .reduce((acc, currentValue) => (acc += currentValue), 0),
+        .reduce((acc, currentValue) => acc + currentValue, 0),
     [rowCoreData],
   );
 
@@ -81,7 +81,7 @@ export const TotalValueLocked: React.FC<ITotalValueLockedProps> = ({
           </tr>
         </thead>
         <tbody className="mt-5">
-          {rowCoreData.map((row, i) => (
+          {rowCoreData.map(row => (
             <DataRow
               key={row.contract}
               contractName={row.contract}
