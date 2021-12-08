@@ -23,7 +23,7 @@ import { DataCard } from './components/DataCard';
 import { AmmDepthChart } from './components/AmmDepthChart';
 import { RecentTradesTable } from './components/RecentTradesTable';
 import { ContractDetails } from './components/ContractDetails';
-import { currentNetwork } from '../../../utils/classifiers';
+import { isMainnet } from '../../../utils/classifiers';
 import { ChainId } from '../../../types';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { ProviderType } from '@sovryn/wallet';
@@ -75,9 +75,7 @@ export function PerpetualPage() {
     //set the bridge chain id to Matic
     dispatch(
       walletProviderActions.setBridgeChainId(
-        currentNetwork === 'mainnet'
-          ? ChainId.BSC_MAINNET
-          : ChainId.BSC_TESTNET,
+        isMainnet ? ChainId.BSC_MAINNET : ChainId.BSC_TESTNET,
       ),
     );
 

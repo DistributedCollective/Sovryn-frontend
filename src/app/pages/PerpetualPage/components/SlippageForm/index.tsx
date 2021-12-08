@@ -5,6 +5,7 @@ import { FormGroup } from 'app/components/Form/FormGroup';
 import { Slider } from 'app/components/Form/Slider';
 
 import { translations } from '../../../../../locales/i18n';
+import { isMainnet } from '../../../../../utils/classifiers';
 
 type SlippageFormProps = {
   slippage: number;
@@ -12,7 +13,7 @@ type SlippageFormProps = {
 };
 
 const SLIPPAGE_MIN = 0.001;
-const SLIPPAGE_MAX = process.env.REACT_APP_NETWORK === 'mainnet' ? 0.01 : 0.02;
+const SLIPPAGE_MAX = isMainnet ? 0.01 : 0.02;
 const SLIPPAGE_STEP = 0.0005;
 const SLIPPAGE_LABEL_COUNT = 5;
 const SLIPPAGE_LABELS = Array(SLIPPAGE_LABEL_COUNT)

@@ -3,12 +3,12 @@ import IPerpetualManager from 'utils/blockchain/abi/PerpetualManager.json';
 import { AbiItem } from 'web3-utils';
 import { BridgeNetworkDictionary } from '../../BridgeDepositPage/dictionaries/bridge-network-dictionary';
 import { ChainId } from '../../../../types';
+import { isMainnet } from '../../../../utils/classifiers';
 
 const web3Socket = new Web3(
   new Web3.providers.WebsocketProvider(process.env.REACT_APP_BSC_WS_URL || ''),
 );
 
-const isMainnet = process.env.REACT_APP_NETWORK === 'mainnet';
 const rpcAddress = BridgeNetworkDictionary.getByChainId(
   isMainnet ? ChainId.BSC_MAINNET : ChainId.BSC_TESTNET,
 )?.rpc;

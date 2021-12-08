@@ -8,14 +8,13 @@ import liquality from '../../../../assets/wallet_icons/liquality.svg';
 import metamask from '../../../../assets/wallet_icons/Metamask.svg';
 import nifty from '../../../../assets/wallet_icons/nifty.svg';
 import netData from './network.json';
-import { currentNetwork } from 'utils/classifiers';
+import { isMainnet } from 'utils/classifiers';
 import { addRskMainnet, addRskTestnet } from 'utils/metamaskHelpers';
 import { ActionButton } from 'app/components/Form/ActionButton';
 
 import styles from '../NetworkRibbon.module.scss';
 
-const addNetworkCallback =
-  currentNetwork === 'mainnet' ? addRskMainnet : addRskTestnet;
+const addNetworkCallback = isMainnet ? addRskMainnet : addRskTestnet;
 
 interface Props {
   onStart: () => void;
