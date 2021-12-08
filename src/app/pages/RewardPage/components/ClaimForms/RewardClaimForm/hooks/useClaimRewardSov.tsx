@@ -4,16 +4,8 @@ import { useAccount } from 'app/hooks/useAccount';
 import { ethGenesisAddress, gasLimit } from 'utils/classifiers';
 import { TxType } from 'store/global/transactions-store/types';
 
-export const useClaimRewardSov = (
-  hasLockedSov: boolean,
-  hasLMRewards: boolean,
-) => {
+export const useClaimRewardSov = () => {
   const address = useAccount();
-
-  const { send: sendLocked } = useSendContractTx(
-    'lockedSov',
-    'createVestingAndStake',
-  );
 
   const { send, ...tx } = useSendContractTx(
     'liquidityMiningProxy',
@@ -22,35 +14,19 @@ export const useClaimRewardSov = (
 
   return {
     send: async () => {
-      let nonce = await contractReader.nonce(address);
-      if (hasLockedSov) {
-        await sendLocked(
-          [],
-          {
-            nonce,
-            from: address,
-            gas: gasLimit[TxType.LOCKED_SOV_CLAIM],
-          },
-          {
-            type: TxType.LOCKED_SOV_CLAIM,
-          },
-        );
-        nonce++;
-      }
+      const nonce = await contractReader.nonce(address);
 
-      if (hasLMRewards) {
-        await send(
-          [ethGenesisAddress],
-          {
-            nonce,
-            from: address,
-            gas: gasLimit[TxType.CLAIM_VESTED_SOV_REWARDS],
-          },
-          {
-            type: TxType.CLAIM_VESTED_SOV_REWARDS,
-          },
-        );
-      }
+      await send(
+        [ethGenesisAddress],
+        {
+          nonce,
+          from: address,
+          gas: gasLimit[TxType.CLAIM_VESTED_SOV_REWARDS],
+        },
+        {
+          type: TxType.CLAIM_VESTED_SOV_REWARDS,
+        },
+      );
     },
     ...tx,
   };

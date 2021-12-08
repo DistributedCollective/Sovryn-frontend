@@ -32,7 +32,6 @@ export function RewardPage() {
     availableLendingRewards,
     availableTradingRewards,
     availableLiquidityRewards,
-    availableLockedSovBalance,
     amountToClaim: rewardSovClaimAmount,
   } = useGetRewardSovClaimAmount();
 
@@ -92,7 +91,6 @@ export function RewardPage() {
                   availableLendingRewards={availableLendingRewards}
                   availableLiquidityRewards={availableLiquidityRewards}
                   availableTradingRewards={availableTradingRewards}
-                  availableLockedSovBalance={availableLockedSovBalance}
                   amountToClaim={rewardSovClaimAmount}
                 />
               )}
