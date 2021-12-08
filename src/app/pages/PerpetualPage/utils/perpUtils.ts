@@ -23,8 +23,10 @@ import {
 ----*/
 
 export interface PerpParameters {
-  //get perpetual
-  //base parameters
+  poolId: number;
+  oracleS2Addr: string;
+  oracleS3Addr: string;
+  // base parameters
   fInitialMarginRateAlpha: number;
   fMarginRateBeta: number;
   fInitialMarginRateCap: number;
@@ -35,7 +37,6 @@ export interface PerpParameters {
   fReferralRebateRate: number;
   fLiquidationPenaltyRate: number;
   fMinimalSpread: number;
-  fIncentiveSpread: number;
   fLotSizeBC: number;
   fFundingRateClamp: number;
   fMarkPriceEMALambda: number;
@@ -58,10 +59,6 @@ export interface PerpParameters {
   // funding state
   fCurrentFundingRate: number;
   fUnitAccumulatedFunding: number;
-
-  poolId: number;
-  oracleS2Addr: string;
-  oracleS3Addr: string;
 }
 
 export interface PerpCurrencySymbols {

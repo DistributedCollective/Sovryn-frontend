@@ -220,9 +220,9 @@
       },
       {
         "indexed": false,
-        "internalType": "int128[11]",
+        "internalType": "int128[10]",
         "name": "baseParams",
-        "type": "int128[11]"
+        "type": "int128[10]"
       },
       {
         "indexed": false,
@@ -334,7 +334,7 @@
       {
         "indexed": false,
         "internalType": "int128",
-        "name": "fSettlementPremiumEMA",
+        "name": "fSettlementMarkPremiumRate",
         "type": "int128"
       },
       {
@@ -458,9 +458,9 @@
       },
       {
         "indexed": false,
-        "internalType": "int128[11]",
+        "internalType": "int128[10]",
         "name": "baseParams",
-        "type": "int128[11]"
+        "type": "int128[10]"
       }
     ],
     "name": "SetPerpetualBaseParameters",
@@ -1343,9 +1343,9 @@
         "type": "int128"
       },
       {
-        "internalType": "int128[2]",
-        "name": "_fSpreads",
-        "type": "int128[2]"
+        "internalType": "int128",
+        "name": "_fMinimalSpread",
+        "type": "int128"
       }
     ],
     "name": "calculatePerpetualPrice",
@@ -1528,9 +1528,9 @@
         "type": "address[2]"
       },
       {
-        "internalType": "int128[11]",
+        "internalType": "int128[10]",
         "name": "_baseParams",
-        "type": "int128[11]"
+        "type": "int128[10]"
       },
       {
         "internalType": "int128[5]",
@@ -2353,8 +2353,13 @@
               }
             ],
             "internalType": "struct PerpStorage.OraclePriceData",
-            "name": "currentPremiumRateEMA",
+            "name": "currentMarkPremiumRate",
             "type": "tuple"
+          },
+          {
+            "internalType": "int128",
+            "name": "premiumRatesEMA",
+            "type": "int128"
           },
           {
             "components": [
@@ -2375,7 +2380,7 @@
               }
             ],
             "internalType": "struct PerpStorage.OraclePriceData",
-            "name": "settlementPremiumRateEMA",
+            "name": "settlementMarkPremiumRate",
             "type": "tuple"
           },
           {
@@ -2500,11 +2505,6 @@
           {
             "internalType": "int128",
             "name": "fMinimalSpread",
-            "type": "int128"
-          },
-          {
-            "internalType": "int128",
-            "name": "fIncentiveSpread",
             "type": "int128"
           },
           {
@@ -3318,9 +3318,9 @@
         "type": "bytes32"
       },
       {
-        "internalType": "int128[11]",
+        "internalType": "int128[10]",
         "name": "_baseParams",
-        "type": "int128[11]"
+        "type": "int128[10]"
       }
     ],
     "name": "setPerpetualBaseParams",
@@ -3734,9 +3734,27 @@
         "internalType": "bytes32",
         "name": "_iPerpetualId",
         "type": "bytes32"
+      },
+      {
+        "internalType": "int128",
+        "name": "fTargetFundSize",
+        "type": "int128"
       }
     ],
-    "name": "updateAMMTargetPoolSize",
+    "name": "updateAMMTargetFundSize",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "_iPoolIndex",
+        "type": "uint256"
+      }
+    ],
+    "name": "updateDefaultFundTargetSize",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
