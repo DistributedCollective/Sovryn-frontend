@@ -23,6 +23,7 @@ import {
 ----*/
 
 export interface PerpParameters {
+  // addressing
   poolId: number;
   oracleS2Addr: string;
   oracleS3Addr: string;
