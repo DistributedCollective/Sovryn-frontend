@@ -24,6 +24,7 @@ import { StarButton } from 'app/components/StarButton';
 import { actions } from '../../slice';
 import useOnClickOutside from 'app/hooks/useOnClickOutside';
 import arrowDownIcon from 'assets/images/swap/ic_arrow_down.svg';
+import searchIcon from 'assets/images/search.svg';
 import styles from './index.module.scss';
 
 const FAVORITE = 'FAVORITE';
@@ -78,7 +79,7 @@ export const PairSelect: React.FC<IPairSelect> = ({
             onChange={setSearch}
             placeholder={'Search'}
             prependElem={
-              <img className="tw-w-5" src={arrowDownIcon} alt="Arrow" />
+              <img className="tw-w-5" src={searchIcon} alt="Search" />
             }
           />
 
