@@ -492,7 +492,6 @@ export function calculateApproxLiquidationPrice(
  * Get the amount of collateral required to obtain a given leverage with a given position size.
  * Considers the trading fees and the collateral already deposited.
  * @param {number} leverage - The leverage that the trader wants to achieve, given the position size
- * @param {number} currentPos - The trader's current signed position (can be 0) in base currency
  * @param {number} targetPos  - The trader's (signed) target position in base currency
  * @param {number} base2collateral  - If the base currency is different than the collateral. If base is BTC, collateral is USD, this would be 100000 (the USD amount for 1 BTC)
  * @param {PerpParameters} perpParams - Contains parameter of the perpetual
@@ -501,12 +500,12 @@ export function calculateApproxLiquidationPrice(
  */
 export function getRequiredMarginCollateral(
   leverage: number,
-  currentPos: number,
   targetPos: number,
   perpParams: PerpParameters,
   ammData: AMMState,
   traderState: TraderState,
 ): number {
+  let currentPos = traderState.marginAccountPositionBC;
   let positionToTrade = targetPos - currentPos;
   let feesBC = Math.abs(positionToTrade) * getTradingFeeRate(perpParams);
   let tradeAmountPrice = getPrice(positionToTrade, perpParams, ammData);

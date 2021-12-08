@@ -56,7 +56,6 @@ export const EditLeverageDialog: React.FC = () => {
       const margin = getRequiredMarginCollateral(
         leverage,
         traderState.marginAccountPositionBC,
-        traderState.marginAccountPositionBC,
         perpParameters,
         ammState,
         traderState,

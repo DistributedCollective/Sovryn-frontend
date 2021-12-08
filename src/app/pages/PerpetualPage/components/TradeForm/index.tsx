@@ -35,7 +35,6 @@ import {
   calculateApproxLiquidationPrice,
 } from '../../utils/perpUtils';
 import { shrinkToLot } from '../../utils/perpMath';
-import { usePerpetual_marginAccountBalance } from '../../hooks/usePerpetual_marginAccountBalance';
 import { getSignedAmount, getTradeDirection } from '../../utils/contractUtils';
 import { useAccount } from 'app/hooks/useAccount';
 import { usePerpetual_OpenPosition } from '../../hooks/usePerpetual_OpenPositions';
@@ -73,8 +72,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     lotPrecision,
   } = useContext(PerpetualQueriesContext);
 
-  const marginAccountBalance = usePerpetual_marginAccountBalance();
-
   const { pairType } = useSelector(selectPerpetualPage);
   const { data: openPosition, loading } = usePerpetual_OpenPosition(
     useAccount(),
@@ -101,7 +98,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     const maxTradeSize = Number(
       Math.abs(
         getMaximalTradeSizeInPerpetual(
-          marginAccountBalance.fPositionBC,
+          traderState.marginAccountPositionBC,
           getTradeDirection(trade.position),
           ammState,
           liqPoolState,
@@ -111,7 +108,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     );
     return Number.isFinite(maxTradeSize) ? maxTradeSize : 0;
   }, [
-    marginAccountBalance.fPositionBC,
+    traderState.marginAccountPositionBC,
     trade.position,
     ammState,
     liqPoolState,
@@ -188,19 +185,12 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     const amount = getSignedAmount(trade.position, trade.amount);
     return getRequiredMarginCollateral(
       trade.leverage,
-      marginAccountBalance.fPositionBC,
-      marginAccountBalance.fPositionBC + amount,
+      traderState.marginAccountPositionBC + amount,
       perpParameters,
       ammState,
       traderState,
     );
-  }, [
-    marginAccountBalance.fPositionBC,
-    perpParameters,
-    ammState,
-    traderState,
-    trade,
-  ]);
+  }, [perpParameters, ammState, traderState, trade]);
 
   const tradingFeeWei = useMemo(
     () => getTradingFee(Number(trade.amount), perpParameters),

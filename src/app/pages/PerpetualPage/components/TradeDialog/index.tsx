@@ -114,7 +114,6 @@ export const TradeDialog: React.FC = () => {
       : traderState.availableCashCC +
         getRequiredMarginCollateral(
           trade.leverage,
-          traderState.marginAccountPositionBC,
           amountTarget,
           perpParameters,
           ammState,

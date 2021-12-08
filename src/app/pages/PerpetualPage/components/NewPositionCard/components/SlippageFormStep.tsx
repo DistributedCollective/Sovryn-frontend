@@ -64,7 +64,6 @@ export const SlippageFormStep: TransitionStep<NewPositionCardStep> = ({
     const amount = getSignedAmount(trade.position, trade.amount);
     const margin = getRequiredMarginCollateral(
       trade.leverage,
-      traderState.marginAccountPositionBC,
       traderState.marginAccountPositionBC + amount,
       perpParameters,
       ammState,
