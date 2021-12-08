@@ -51,7 +51,6 @@ export const usePerpetual_FundingPayments = (
 
     const currentFundingEventsLength = currentFundingEvents?.length;
 
-    console.log(currentFundingEvents);
     let data: FundingPaymentsEntry[] = [];
 
     if (currentFundingEvents?.length > 0) {
