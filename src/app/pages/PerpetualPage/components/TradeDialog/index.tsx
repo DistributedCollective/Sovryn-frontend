@@ -1,10 +1,15 @@
-import React, { useCallback, useContext, useMemo } from 'react';
+import React, {
+  useCallback,
+  useMemo,
+  useState,
+  useEffect,
+  useContext,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dialog } from '../../../../containers/Dialog';
 import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
 import { PerpetualPageModals, isPerpetualTradeReview } from '../../types';
-import { fromWei } from 'web3-utils';
 import {
   calculateApproxLiquidationPrice,
   getRequiredMarginCollateral,
@@ -21,12 +26,18 @@ import {
   TradeAnalysis,
   TradeDialogContextType,
   TradeDialogStep,
+  TradeDialogCurrentTransaction,
+  PerpetualTx,
 } from './types';
 import { noop } from '../../../../constants';
 import { TransitionSteps } from '../../../../containers/TransitionSteps';
 import { TransitionAnimation } from '../../../../containers/TransitionContainer';
 import { ReviewStep } from './components/ReviewStep';
+import { ApprovalStep } from './components/ApprovalStep';
+import { ConfirmationStep } from './components/ConfirmationStep';
+import { TransactionStep } from './components/TransactionStep';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
+import { numberFromWei } from '../../../../../utils/blockchain/math-helpers';
 
 const tradeDialogContextDefault: TradeDialogContextType = {
   pair: PerpetualPairDictionary.get(PerpetualPairType.BTCUSD),
@@ -42,6 +53,8 @@ const tradeDialogContextDefault: TradeDialogContextType = {
     tradingFee: 0,
   },
   transactions: [],
+  setTransactions: noop,
+  setCurrentTransaction: noop,
   onClose: noop,
 };
 
@@ -51,8 +64,9 @@ export const TradeDialogContext = React.createContext<TradeDialogContextType>(
 
 const TradeDialogStepComponents = {
   [TradeDialogStep.review]: ReviewStep,
-  [TradeDialogStep.processing]: ReviewStep, // TODO implement TradeDialogStep Processing
-  [TradeDialogStep.approval]: ReviewStep, // TODO implement TradeDialogStep Approval
+  [TradeDialogStep.approval]: ApprovalStep,
+  [TradeDialogStep.confirmation]: ConfirmationStep,
+  [TradeDialogStep.transaction]: TransactionStep,
 };
 
 export const TradeDialog: React.FC = () => {
@@ -65,13 +79,21 @@ export const TradeDialog: React.FC = () => {
     perpetualParameters: perpParameters,
   } = useContext(PerpetualQueriesContext);
 
-  const { origin, trade, transactions } = useMemo(
+  const { origin, trade, transactions: requestedTransactions } = useMemo(
     () =>
       isPerpetualTradeReview(modalOptions)
         ? modalOptions
         : { origin: undefined, trade: undefined, transactions: [] },
     [modalOptions],
   );
+
+  const [transactions, setTransactions] = useState<PerpetualTx[]>(
+    requestedTransactions,
+  );
+
+  const [currentTransaction, setCurrentTransaction] = useState<
+    TradeDialogCurrentTransaction
+  >();
 
   const pair = useMemo(
     () =>
@@ -88,7 +110,7 @@ export const TradeDialog: React.FC = () => {
     const amountChange = amountTarget - traderState.marginAccountPositionBC;
 
     const marginTarget = trade.margin
-      ? Number(fromWei(trade.margin))
+      ? numberFromWei(trade.margin)
       : traderState.availableCashCC +
         getRequiredMarginCollateral(
           trade.leverage,
@@ -96,6 +118,7 @@ export const TradeDialog: React.FC = () => {
           amountTarget,
           perpParameters,
           ammState,
+          traderState,
         );
     const marginChange = marginTarget - traderState.availableCashCC;
 
@@ -144,10 +167,17 @@ export const TradeDialog: React.FC = () => {
       trade,
       analysis,
       transactions,
+      currentTransaction,
+      setTransactions,
+      setCurrentTransaction,
       onClose,
     }),
-    [origin, pair, trade, analysis, transactions, onClose],
+    [origin, pair, trade, analysis, transactions, currentTransaction, onClose],
   );
+
+  useEffect(() => setTransactions(requestedTransactions), [
+    requestedTransactions,
+  ]);
 
   if (!trade) {
     return null;

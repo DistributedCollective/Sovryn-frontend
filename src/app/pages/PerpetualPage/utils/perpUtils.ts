@@ -1,5 +1,6 @@
-// Copy of https://github.com/DistributedCollective/sovryn-perpetual-swap/blob/dev/scripts/utils/perpUtils.ts
-// 2021-11-16 8:30 commit: f1203d3184e5c796db3921eeffe70b889a9c12f4
+/*
+    Helper-functions for frontend
+*/
 
 import {
   calcKStar,
@@ -21,7 +22,7 @@ import {
 // for TeslaUSD collateralized in BTC: CC=BTC, BC=Tesla, QC=USD
 ----*/
 
-export type PerpParameters = {
+export interface PerpParameters {
   //get perpetual
   //base parameters
   fInitialMarginRateAlpha: number;
@@ -57,9 +58,18 @@ export type PerpParameters = {
   // funding state
   fCurrentFundingRate: number;
   fUnitAccumulatedFunding: number;
-};
 
-export type AMMState = {
+  poolId: number;
+  oracleS2Addr: string;
+  oracleS3Addr: string;
+}
+
+export interface PerpCurrencySymbols {
+  tradedPair: string; //BTCUSD
+  collateralCurrency: string; //USDT
+}
+
+export interface AMMState {
   // values from AMM margin account:
   // L1 = -fLockedInValueQC
   // K2 = -fPositionBC
@@ -74,11 +84,11 @@ export type AMMState = {
   // Oracle data:
   indexS2PriceData: number;
   indexS3PriceData: number;
-  currentPremiumRateEMA: number;
+  currentMarkPremiumRate: number;
   currentPremiumRate: number;
-};
+}
 
-export type LiqPoolState = {
+export interface LiqPoolState {
   fPnLparticipantsCashCC: number; // current P&L participants cash
   fAMMFundCashCC: number; // current sum of AMM funds cash
   fDefaultFundCashCC: number; // current default fund size
@@ -88,9 +98,9 @@ export type LiqPoolState = {
   iLastTargetPoolSizeTime: number; //timestamp (seconds) since last update of fTargetDFSize and fTargetAMMFundSize
   iLastFundingTime: number; //timestamp since last funding rate update
   isRunning: boolean;
-};
+}
 
-export type TraderState = {
+export interface TraderState {
   marginBalanceCC: number; // current margin balance
   availableMarginCC: number; // amount above initial margin (can be negative if below)
   availableCashCC: number; // cash minus unpaid funding
@@ -98,7 +108,7 @@ export type TraderState = {
   marginAccountPositionBC: number; // from margin account
   marginAccountLockedInValueQC: number; // from margin account
   fUnitAccumulatedFundingStart: number; // from margin account
-};
+}
 
 /**
  * Get the maximal trade size for a trader with position currentPos (can be 0) for a given
@@ -121,7 +131,6 @@ export function getMaximalTradeSizeInPerpetual(
   perpParams: PerpParameters,
 ): number {
   let lotSize = perpParams.fLotSizeBC;
-  let isQuanto: boolean = ammData.M3 !== 0;
   let kStar = calcKStar(
     ammData.K2,
     ammData.L1,
@@ -141,10 +150,7 @@ export function getMaximalTradeSizeInPerpetual(
     scale = perpParams.fMaximalTradeSizeBumpUp;
   } else {
     // adverse direction
-    scale =
-      fundingRatio > 1
-        ? perpParams.fMaximalTradeSizeBumpUp
-        : 0.5 + 0.5 * fundingRatio;
+    scale = perpParams.fMaximalTradeSizeBumpUp * Math.min(1, fundingRatio);
   }
   let maxAbsPositionSize = ammData.fCurrentTraderExposureEMA * scale;
   maxAbsPositionSize = shrinkToLot(maxAbsPositionSize, lotSize);
@@ -170,7 +176,7 @@ export function getMaximalTradeSizeInPerpetual(
  */
 
 export function getMarkPrice(ammData: AMMState): number {
-  return ammData.indexS2PriceData * (1 + ammData.currentPremiumRateEMA);
+  return ammData.indexS2PriceData * (1 + ammData.currentMarkPremiumRate);
 }
 
 /**
@@ -327,9 +333,9 @@ export function getSignedMaxAbsPositionForTrader(
 }
 
 /**
- * Calculate the worst price, the trader is willing to accept compared to the mid-price
+ * Calculate the worst price, the trader is willing to accept compared to the provided price
  * @param {number} currentMidPrice - The current price from which we calculate the slippage
- * @param {number} slippagePercent - The slippage that the trader is willing to accept. The number is in Percentage points.
+ * @param {number} slippagePercent - The slippage that the trader is willing to accept. The number is in decimals (0.01=1%).
  * @param {number} direction - {-1, 1} Does the trader want to buy (1), or sell (-1)
  * @returns {number} worst acceptable price
  */
@@ -338,8 +344,29 @@ export function calculateSlippagePrice(
   slippagePercent: number,
   direction: number,
 ) {
-  slippagePercent = slippagePercent / 100;
   return currentMidPrice * (1 + Math.sign(direction) * slippagePercent);
+}
+
+/**
+ * Calculate the worst price, the trader is willing to accept compared to the mid-price calculated as the average
+ * of price(+lot) and price(-lot)
+ * @param {PerpParameters} perpParams   - Perpetual Parameters
+ * @param {AMMState} ammData            - AMM state data
+ * @param {number} slippagePercent      - The slippage that the trader is willing to accept. The number is in decimals (0.01=1%).
+ * @param {number} direction - {-1, 1} Does the trader want to buy (1), or sell (-1)
+ * @returns {number} worst acceptable price
+ */
+export function calculateSlippagePriceFromMidPrice(
+  perpParams: PerpParameters,
+  ammData: AMMState,
+  slippagePercent: number,
+  direction: number,
+) {
+  const lot = perpParams.fLotSizeBC;
+  let price =
+    0.5 *
+    (getPrice(-lot, perpParams, ammData) + getPrice(lot, perpParams, ammData));
+  return calculateSlippagePrice(price, slippagePercent, direction);
 }
 
 /**
@@ -373,7 +400,7 @@ export function getBase2CollateralFX(
   atMarkPrice: boolean,
 ): number {
   let s2 = atMarkPrice
-    ? (ammData.currentPremiumRateEMA + 1) * ammData.indexS2PriceData
+    ? (ammData.currentMarkPremiumRate + 1) * ammData.indexS2PriceData
     : ammData.indexS2PriceData;
   if (ammData.M1 !== 0) {
     // quote
@@ -399,7 +426,7 @@ export function getBase2QuoteFX(
   atMarkPrice: boolean,
 ): number {
   let s2 = atMarkPrice
-    ? (1 + ammData.currentPremiumRateEMA) * ammData.indexS2PriceData
+    ? (1 + ammData.currentMarkPremiumRate) * ammData.indexS2PriceData
     : ammData.indexS2PriceData;
   return s2;
 }
@@ -458,10 +485,6 @@ export function calculateApproxLiquidationPrice(
       traderNewPosition,
       newTraderCash,
       maintMarginRate,
-      perpParams.fRho23,
-      perpParams.fSigma2,
-      perpParams.fSigma3,
-      ammData.indexS2PriceData,
       ammData.indexS3PriceData,
     );
   }
@@ -470,7 +493,7 @@ export function calculateApproxLiquidationPrice(
 
 /**
  * Get the amount of collateral required to obtain a given leverage with a given position size.
- * Considers the trading fees.
+ * Considers the trading fees and the collateral already deposited.
  * @param {number} leverage - The leverage that the trader wants to achieve, given the position size
  * @param {number} currentPos - The trader's current signed position (can be 0) in base currency
  * @param {number} targetPos  - The trader's (signed) target position in base currency
@@ -485,10 +508,11 @@ export function getRequiredMarginCollateral(
   targetPos: number,
   perpParams: PerpParameters,
   ammData: AMMState,
+  traderState: TraderState,
 ): number {
   let positionToTrade = targetPos - currentPos;
-  let fees = Math.abs(positionToTrade) * getTradingFeeRate(perpParams);
-  let targetPosPrice = getPrice(positionToTrade, perpParams, ammData);
+  let feesBC = Math.abs(positionToTrade) * getTradingFeeRate(perpParams);
+  let tradeAmountPrice = getPrice(positionToTrade, perpParams, ammData);
 
   let base2collateral = getBase2CollateralFX(ammData, false);
   let quote2collateral = getQuote2CollateralFX(ammData);
@@ -496,11 +520,19 @@ export function getRequiredMarginCollateral(
   // leverage = position/margincollateral
   // Protocol fees are subtracted from the margincollateral
   // Hence: leverage = position/(margincollateral - fees)
-  //   -> margincollateral =  position/leverage + fees
-  return (
-    (Math.abs(targetPos) * targetPosPrice * quote2collateral) / leverage +
-    fees * base2collateral
-  );
+  //   -> margincollateral =  position/leverage + pnl + fees
+  let Sm = getMarkPrice(ammData);
+  let initialPnLQC =
+    currentPos * getMarkPrice(ammData) -
+    traderState.marginAccountLockedInValueQC;
+  let newPnLQC = positionToTrade * (Sm - tradeAmountPrice);
+  let pnlCC = (initialPnLQC + newPnLQC) * quote2collateral;
+  let collRequired =
+    (Math.abs(targetPos) * base2collateral) / leverage -
+    pnlCC +
+    feesBC * base2collateral;
+  // account for collateral already deposited
+  return Math.max(0, collRequired - traderState.availableCashCC);
 }
 
 /**
@@ -523,7 +555,8 @@ export function getTraderPnL(
 }
 
 /**
- * Get the current leverage of a trader using mark price as benchmark. Reported in Quote currency.
+ * Get the current leverage of a trader using mark price as benchmark.
+ * See chapter "Lemmas / Leverage" in whitepaper
  * @param {AMMState} ammData - AMM state (for mark price and CCY conversion)
  * @param {TraderState} traderState - Trader state (for account balances)
  * @returns {number} current leverage for the trader
@@ -533,11 +566,14 @@ export function getTraderLeverage(
   traderState: TraderState,
   ammData: AMMState,
 ): number {
-  // marginAccountPositionBC can be negative (when shorting), but leverage always has to be positive.
+  let pnlQC =
+    traderState.marginAccountPositionBC * getMarkPrice(ammData) -
+    traderState.marginAccountLockedInValueQC;
+  let b = pnlQC * getQuote2CollateralFX(ammData) + traderState.availableCashCC;
   return (
     (Math.abs(traderState.marginAccountPositionBC) *
-      getBase2CollateralFX(ammData, true)) /
-    traderState.availableCashCC
+      getBase2CollateralFX(ammData, false)) /
+    b
   );
 }
 
@@ -591,7 +627,6 @@ export function getPrice(
 ): number {
   let k = traderPosition;
   let r = 0;
-  let spreads = [perpParams.fMinimalSpread, perpParams.fIncentiveSpread];
   return calcPerpPrice(
     ammData.K2,
     k,
@@ -605,7 +640,7 @@ export function getPrice(
     ammData.M1,
     ammData.M2,
     ammData.M3,
-    spreads,
+    perpParams.fMinimalSpread,
   );
 }
 
@@ -655,7 +690,7 @@ export function getDepthMatrix(perpData: PerpParameters, ammData: AMMState) {
     ammData.M1,
     ammData.M2,
     ammData.M3,
-    [perpData.fMinimalSpread, perpData.fIncentiveSpread],
+    perpData.fMinimalSpread,
     pctRange,
   );
 }

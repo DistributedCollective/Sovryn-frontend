@@ -76,26 +76,25 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
     entryPrice: 0,
   });
 
-  const onSubmit = useCallback(
-    () =>
-      dispatch(
-        actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
-          origin: PerpetualPageModals.NONE,
-          trade,
-          transactions: [
-            {
-              method: PerpetualTxMethods.trade,
-              amount: trade.amount,
-              tradingPosition: trade.position,
-              slippage: trade.slippage,
-              leverage: trade.leverage,
-              tx: null,
-            },
-          ],
-        }),
-      ),
-    [dispatch, trade],
-  );
+  const onSubmit = useCallback(() => {
+    dispatch(
+      actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
+        origin: PerpetualPageModals.NONE,
+        trade,
+        transactions: [
+          {
+            method: PerpetualTxMethods.trade,
+            amount: trade.amount,
+            tradingPosition: trade.position,
+            slippage: trade.slippage,
+            leverage: trade.leverage,
+            tx: null,
+            approvalTx: null,
+          },
+        ],
+      }),
+    );
+  }, [dispatch, trade]);
 
   const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
 

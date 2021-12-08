@@ -14,13 +14,13 @@ import wLedger from 'assets/wallets/ledger.svg';
 import wTrezor from 'assets/wallets/trezor.svg';
 import wWalletConnect from 'assets/wallets/walletconnect.svg';
 import { LinkToExplorer } from '../LinkToExplorer';
-import styled from 'styled-components/macro';
-import styles from './dialog.module.scss';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { ConfirmButton } from 'app/pages/BuySovPage/components/Button/confirm';
 import { usePrevious } from '../../hooks/usePrevious';
+import classNames from 'classnames';
+import styles from './TxDialog.module.scss';
 
 interface Props {
   tx: ResetTxResponseInterface;
@@ -83,21 +83,24 @@ export function TxDialog({ tx, onUserConfirmed, onSuccess }: Props) {
             <span className="tw-sr-only">Close Dialog</span>
           </button>
           <h1>{t(translations.buySovPage.txDialog.txStatus.title)}</h1>
-          <StatusComponent status={tx.status} />
+          <TxStatusIcon status={tx.status} showLabel />
 
           {!!tx.txHash && (
-            <StyledHashContainer>
-              <StyledHash>
-                <strong>Hash:</strong> {prettyTx(tx.txHash)}
-              </StyledHash>
-              <ExplorerLink>
+            <div className={styles.hashContainer}>
+              <div className="tw-mb-9 tw-text-center tw-font-sm tw-font-light">
+                <strong className="tw-inline-block tw-mr-3.5 tw-font-medium">
+                  Hash:
+                </strong>
+                {prettyTx(tx.txHash)}
+              </div>
+              <div className="tw-text-center">
                 <LinkToExplorer
+                  className="tw-text-blue tw-font-medium tw-underline hover:tw-no-underline"
                   txHash={tx.txHash}
                   text={t(translations.buySovPage.txDialog.txStatus.cta)}
-                  className="tw-text-blue"
                 />
-              </ExplorerLink>
-            </StyledHashContainer>
+              </div>
+            </div>
           )}
 
           {!tx.txHash && tx.status === TxStatus.FAILED && (
@@ -159,86 +162,53 @@ function getStatus(tx: TxStatus) {
   return <Trans i18nKey={translations.common.pending} />;
 }
 
-const StyledStatus = styled.div`
-  width: 100px;
-  margin: 0 auto 35px;
-  text-align: center;
-  img {
-    width: 100px;
-    height: 100px;
-  }
-  p {
-    font-size: 1rem;
-    font-weight: 500;
-  }
-`;
+type TxStatusIconProps = {
+  status: TxStatus;
+  className?: string;
+  isInline?: boolean;
+  showLabel?: boolean;
+};
 
-const StyledHashContainer = styled.div`
-  max-width: 215px;
-  width: 100%;
-  margin: 0 auto;
-`;
-
-const StyledHash = styled.div`
-  text-align: center;
-  font-size: 0.875rem;
-  font-weight: 300;
-  margin-bottom: 35px;
-  strong {
-    font-weight: 500;
-    margin-right: 14px;
-    display: inline-block;
-  }
-`;
-
-const ExplorerLink = styled.div.attrs(_ => ({
-  className: 'tw-text-secondary',
-}))`
-  text-align: center;
-  a {
-    text-decoration: underline !important;
-    font-weight: 500 !important;
-    &:hover {
-      text-decoration: none !important;
-    }
-  }
-`;
-
-function StatusComponent({ status }: { status: TxStatus }) {
-  return (
-    <StyledStatus>
-      <img
-        src={getStatusImage(status)}
-        className={`${status === 'pending' && 'tw-animate-spin'}`}
-        alt="Status"
-      />
-      <p>{getStatus(status)}</p>
-    </StyledStatus>
-  );
-}
-
-const WLContainer = styled.div`
-  width: 98px;
-  height: 98px;
-  border-radius: 1.25rem;
-  border: 1px solid #e8e8e8;
-  margin: 0 auto 35px;
-  div {
-    font-size: 0.75rem;
-  }
-`;
-const WLImage = styled.img`
-  width: 50px;
-  height: 50px;
-  margin-bottom: 10px;
-  object-fit: contain;
-`;
+export const TxStatusIcon: React.FC<TxStatusIconProps> = ({
+  status,
+  className,
+  isInline,
+  showLabel,
+}) => (
+  <div
+    className={classNames(
+      isInline
+        ? 'tw-inline-flex tw-flex-row tw-max-h-full'
+        : 'tw-w-24 tw-mx-auto tw-mb-8 tw-text-center',
+      className,
+    )}
+  >
+    <img
+      src={getStatusImage(status)}
+      className={classNames(
+        isInline ? 'tw-h-auto flex-initial' : 'tw-h-24 tw-w-24',
+        isInline && showLabel && 'tw-mr-2',
+        status === 'pending' && 'tw-animate-spin',
+      )}
+      alt="Status"
+    />
+    {showLabel && (
+      <p className={!isInline ? 'tw-text-base tw-font-medium' : ''}>
+        {getStatus(status)}
+      </p>
+    )}
+  </div>
+);
 
 function WalletLogo({ wallet }: { wallet: string }) {
   return (
-    <WLContainer className="tw-flex tw-flex-col tw-justify-center tw-items-center tw-overflow-hidden">
-      <WLImage src={getWalletImage(wallet)} alt="Wallet" />
-      <div className="tw-truncate">{getWalletName(wallet)}</div>
-    </WLContainer>
+    <div className={styles.wlContainer}>
+      <img
+        className={styles.wlImage}
+        src={getWalletImage(wallet)}
+        alt="Wallet"
+      />
+      <div className="tw-text-xs tw-truncate">{getWalletName(wallet)}</div>
+    </div>
   );
 }

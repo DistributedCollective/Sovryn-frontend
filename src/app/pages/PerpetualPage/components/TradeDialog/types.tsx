@@ -1,13 +1,14 @@
 import { TradingPosition } from '../../../../../types/trading-position';
-import { Transaction } from '../../../../../store/global/transactions-store/types';
 import { PerpetualPageModals, PerpetualTrade } from '../../types';
 import { PerpetualPair } from '../../../../../utils/models/perpetual-pair';
 import { Nullable } from '../../../../../types';
+import { Dispatch, SetStateAction } from 'react';
 
 export enum TradeDialogStep {
   review = 'review',
   approval = 'approval',
-  processing = 'processing',
+  confirmation = 'confirmation',
+  transaction = 'transaction',
 }
 
 export type TradeAnalysis = {
@@ -26,7 +27,6 @@ export enum PerpetualTxMethods {
   trade = 'trade',
   deposit = 'deposit',
   withdraw = 'withdraw',
-  withdrawPercentage = 'withdrawPercentage',
   withdrawAll = 'withdrawAll',
 }
 
@@ -38,26 +38,28 @@ export type PerpetualTxTrade = {
   slippage?: number;
   tradingPosition?: TradingPosition;
   isClosePosition?: boolean;
-  tx: Nullable<Transaction>;
+  tx: Nullable<string>;
+  approvalTx: Nullable<string>;
 };
 
 export type PerpetualTxDepositMargin = {
   method: PerpetualTxMethods.deposit;
   /** amount as wei string */
   amount: string;
-  tx: Nullable<Transaction>;
+  tx: Nullable<string>;
+  approvalTx: Nullable<string>;
 };
 
 export type PerpetualTxWithdrawMargin = {
   method: PerpetualTxMethods.withdraw;
   /** amount as wei string */
   amount: string;
-  tx: Nullable<Transaction>;
+  tx: Nullable<string>;
 };
 
 export type PerpetualTxWithdrawAllMargin = {
   method: PerpetualTxMethods.withdrawAll;
-  tx: Nullable<Transaction>;
+  tx: Nullable<string>;
 };
 
 export type PerpetualTx =
@@ -66,11 +68,28 @@ export type PerpetualTx =
   | PerpetualTxWithdrawMargin
   | PerpetualTxWithdrawAllMargin;
 
+export enum PerpetualTxStage {
+  reviewed = 'reviewed',
+  approved = 'approved',
+  confirmed = 'confirmed',
+}
+
+export type TradeDialogCurrentTransaction = {
+  nonce: number;
+  index: number;
+  stage: PerpetualTxStage;
+};
+
 export type TradeDialogContextType = {
   pair: PerpetualPair;
   origin?: PerpetualPageModals;
   trade?: PerpetualTrade;
   analysis: TradeAnalysis;
   transactions: PerpetualTx[];
+  currentTransaction?: TradeDialogCurrentTransaction;
+  setTransactions: Dispatch<SetStateAction<PerpetualTx[]>>;
+  setCurrentTransaction: Dispatch<
+    SetStateAction<TradeDialogCurrentTransaction | undefined>
+  >;
   onClose: () => void;
 };

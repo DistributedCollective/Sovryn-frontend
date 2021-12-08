@@ -11,9 +11,6 @@ import { AssetValue } from 'app/components/AssetValue';
 import { AssetValueMode } from 'app/components/AssetValue/types';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { prettyTx } from 'utils/helpers';
-import { currentChainId } from 'utils/classifiers';
-import { selectWalletProvider } from 'app/containers/WalletProvider/selectors';
-import { useSelector } from 'react-redux';
 
 type OrderHistoryRowProps = {
   item: OrderHistoryEntry;
@@ -21,8 +18,6 @@ type OrderHistoryRowProps = {
 
 export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({ item }) => {
   const { t } = useTranslation();
-
-  const { bridgeChainId } = useSelector(selectWalletProvider);
 
   const pair = useMemo(() => PerpetualPairDictionary.get(item.pairType), [
     item.pairType,

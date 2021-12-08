@@ -5,6 +5,7 @@ import { getContract } from 'utils/blockchain/contract-helpers';
 import { PerpParameters } from '../utils/perpUtils';
 import { ABK64x64ToFloat, PERPETUAL_ID } from '../utils/contractUtils';
 import perpetualManagerAbi from 'utils/blockchain/abi/PerpetualManager.json';
+import { BigNumber } from 'ethers';
 import { usePerpetual_getLatestTradeId } from './usePerpetual_getLatestTradeId';
 
 export const initialPerpParameters: PerpParameters = {
@@ -41,6 +42,10 @@ export const initialPerpParameters: PerpParameters = {
   // funding state
   fCurrentFundingRate: 0,
   fUnitAccumulatedFunding: 0,
+
+  poolId: 0,
+  oracleS2Addr: '',
+  oracleS3Addr: '',
 };
 
 export const usePerpetual_queryPerpParameters = (): PerpParameters => {
@@ -96,4 +101,7 @@ const parsePerpParameter = (response: any): PerpParameters => ({
   fAMMMinSizeCC: ABK64x64ToFloat(response[38]),
   fMinimalTraderExposureEMA: ABK64x64ToFloat(response[39]),
   fMaximalTradeSizeBumpUp: ABK64x64ToFloat(response[41]),
+  poolId: BigNumber.from(response[1]).toNumber(),
+  oracleS2Addr: response[2],
+  oracleS3Addr: response[3],
 });

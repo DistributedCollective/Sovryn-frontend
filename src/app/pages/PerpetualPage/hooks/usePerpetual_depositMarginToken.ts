@@ -1,15 +1,8 @@
 import { useAccount } from 'app/hooks/useAccount';
 import { useSendContractTx } from 'app/hooks/useSendContractTx';
-import { Asset } from 'types';
-import { getContract } from 'utils/blockchain/contract-helpers';
 import { gasLimit } from 'utils/classifiers';
 import { TxType } from 'store/global/transactions-store/types';
-import {
-  PERPETUAL_ID,
-  floatToABK64x64,
-  checkAndApprove,
-} from '../utils/contractUtils';
-import { fromWei } from 'utils/blockchain/math-helpers';
+import { PERPETUAL_ID, weiToABK64x64 } from '../utils/contractUtils';
 
 export const usePerpetual_depositMarginToken = () => {
   const account = useAccount();
@@ -17,28 +10,21 @@ export const usePerpetual_depositMarginToken = () => {
   const { send, ...rest } = useSendContractTx('perpetualManager', 'deposit');
 
   return {
-    deposit: async (amount: string) => {
-      const tx = await checkAndApprove(
-        'PERPETUALS_token',
-        getContract('perpetualManager').address,
-        amount,
-        Asset.PERPETUALS,
-      );
-
-      if (tx.rejected) {
-        return;
-      }
-
+    deposit: async (amount: string, nonce?: number) => {
       await send(
-        [PERPETUAL_ID, floatToABK64x64(parseFloat(fromWei(amount)))],
+        [PERPETUAL_ID, weiToABK64x64(amount)],
         {
           from: account,
           gas: gasLimit[TxType.DEPOSIT_COLLATERAL],
-          nonce: tx?.nonce,
+          nonce: nonce,
         },
         { type: TxType.DEPOSIT_COLLATERAL },
       );
     },
-    ...rest,
+    txData: rest.txData,
+    txHash: rest.txHash,
+    loading: rest.loading,
+    status: rest.status,
+    reset: rest.reset,
   };
 };

@@ -5,16 +5,30 @@ import classNames from 'classnames';
 import styles from '../index.module.scss';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../../locales/i18n';
-import {
-  toNumberFormat,
-  numberToPercent,
-} from '../../../../../../utils/display-text/format';
+import { toNumberFormat } from '../../../../../../utils/display-text/format';
 import { PerpetualPair } from '../../../../../../utils/models/perpetual-pair';
 import {
   PerpetualPageModals,
   PerpetualTrade,
   PerpetualTradeType,
 } from '../../../types';
+import {
+  Transaction,
+  TxType,
+  TxStatus,
+} from '../../../../../../store/global/transactions-store/types';
+import { LinkToExplorer } from '../../../../../components/LinkToExplorer';
+import { TxStatusIcon } from '../../../../../components/Dialogs/TxDialog';
+
+const TxTypeLabels = {
+  [TxType.APPROVE]: translations.perpetualPage.processTrade.labels.approvalTx,
+  [TxType.OPEN_PERPETUAL_TRADE]:
+    translations.perpetualPage.processTrade.labels.tradeTx,
+  [TxType.DEPOSIT_COLLATERAL]:
+    translations.perpetualPage.processTrade.labels.marginTx,
+  [TxType.WITHDRAW_COLLATERAL]:
+    translations.perpetualPage.processTrade.labels.marginTx,
+};
 
 type TradeSummaryProps = {
   origin?: PerpetualPageModals;
@@ -29,6 +43,7 @@ type TradeSummaryProps = {
   entryPrice: number;
   liquidationPrice: number;
   tradingFee: number;
+  transactions?: Transaction[];
 };
 
 export const TradeSummary: React.FC<TradeSummaryProps> = ({
@@ -44,6 +59,7 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
   entryPrice,
   liquidationPrice,
   tradingFee,
+  transactions,
 }) => {
   const { t } = useTranslation();
 
@@ -64,7 +80,7 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
           } ${t(translations.perpetualPage.reviewTrade.close)}`,
           showAmountText: true,
           showCloseText: true,
-          isBuy: false,
+          isBuy: amountChange > 0,
         };
       case PerpetualPageModals.EDIT_LEVERAGE:
         return {
@@ -166,9 +182,9 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
         )}
       </div>
 
-      <div className="tw-w-full tw-p-4 tw-bg-gray-2 tw-flex tw-flex-col tw-items-center tw-rounded-xl tw-mt-4">
-        <div className={styles.tradingFeeWrapper}>
-          <span className="tw-text-gray-10">
+      <div className="tw-flex tw-flex-col tw-items-between tw-w-full tw-py-4 tw-px-6 tw-mt-4 tw-text-sm tw-leading-loose tw-bg-gray-2 tw-rounded-xl">
+        <div className="tw-flex tw-w-full">
+          <span className="tw-flex-auto tw-w-1/2 tw-text-left tw-text-gray-10">
             {t(translations.perpetualPage.tradeForm.labels.tradingFee)}
           </span>
           <span className="tw-text-sov-white tw-font-medium">
@@ -181,7 +197,49 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
             />
           </span>
         </div>
+        {transactions?.map(transaction => (
+          <LabeledTransactionHash
+            key={transaction.transactionHash}
+            label={t(
+              TxTypeLabels[transaction.type] ||
+                translations.perpetualPage.processTrade.labels.tx,
+            )}
+            transaction={transaction}
+          />
+        ))}
       </div>
     </>
   );
 };
+
+type LabeledTransactionHashProps = {
+  label: React.ReactNode;
+  transaction: Transaction;
+};
+
+const LabeledTransactionHash: React.FC<LabeledTransactionHashProps> = ({
+  label,
+  transaction,
+}) => (
+  <div className="tw-flex tw-flex-row tw-w-full tw-justify-start">
+    <span className="tw-flex-auto tw-w-1/2 tw-text-left tw-text-gray-10">
+      {label}
+    </span>
+    <span className="tw-flex-auto tw-text-sov-white tw-text-right tw-font-medium">
+      {transaction.transactionHash && (
+        <LinkToExplorer
+          txHash={transaction.transactionHash}
+          chainId={transaction.chainId}
+          className="tw-text-primary tw-font-normal tw-whitespace-nowrap"
+        />
+      )}
+    </span>
+    {transaction.status !== TxStatus.NONE && (
+      <TxStatusIcon
+        className="tw-ml-2 tw-w-6 tw-h-6"
+        status={transaction.status}
+        isInline
+      />
+    )}
+  </div>
+);

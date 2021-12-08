@@ -30,6 +30,8 @@ type PerpetualQueriesContextValue = {
   liquidityPoolState: LiqPoolState;
   depthMatrixEntries: any[][];
   averagePrice: number;
+  lotSize: number;
+  lotPrecision: number;
 };
 
 export const PerpetualQueriesContext = createContext<
@@ -41,6 +43,8 @@ export const PerpetualQueriesContext = createContext<
   liquidityPoolState: initialLiqPoolState,
   depthMatrixEntries: [],
   averagePrice: 0,
+  lotSize: 0.002,
+  lotPrecision: 3,
 });
 
 const getAveragePrice = (depthMatrixEntries: any[][]): number => {
@@ -63,6 +67,13 @@ export const PerpetualQueriesContextProvider: React.FC = ({ children }) => {
     [ammState, perpetualParameters],
   );
 
+  const [lotSize, lotPrecision] = useMemo(() => {
+    // Round lotSize since ABK64x64 to float leads to period 9 decimals.
+    const lotSize = Number(perpetualParameters.fLotSizeBC.toPrecision(8));
+    const lotPrecision = lotSize.toString().split(/[,.]/)[1]?.length || 1;
+    return [lotSize, lotPrecision];
+  }, [perpetualParameters.fLotSizeBC]);
+
   const value = useMemo(
     () => ({
       ammState,
@@ -71,6 +82,8 @@ export const PerpetualQueriesContextProvider: React.FC = ({ children }) => {
       liquidityPoolState,
       depthMatrixEntries,
       averagePrice: getAveragePrice(depthMatrixEntries),
+      lotSize,
+      lotPrecision,
     }),
     [
       ammState,
@@ -78,6 +91,8 @@ export const PerpetualQueriesContextProvider: React.FC = ({ children }) => {
       liquidityPoolState,
       perpetualParameters,
       traderState,
+      lotSize,
+      lotPrecision,
     ],
   );
 

@@ -2,7 +2,6 @@ import { bignumber } from 'mathjs';
 import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { toWei } from 'web3-utils';
 import { translations } from '../../../../../locales/i18n';
 import { numberFromWei } from '../../../../../utils/blockchain/math-helpers';
 import { PerpetualPairType } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';

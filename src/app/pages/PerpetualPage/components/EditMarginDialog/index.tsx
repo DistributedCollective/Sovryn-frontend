@@ -91,6 +91,7 @@ export const EditMarginDialog: React.FC = () => {
               ? {
                   method: PerpetualTxMethods.deposit,
                   amount: toWei(margin),
+                  approvalTx: null,
                   tx: null,
                 }
               : {
@@ -172,7 +173,7 @@ export const EditMarginDialog: React.FC = () => {
       isOpen={modal === PerpetualPageModals.EDIT_MARGIN}
       onClose={onClose}
     >
-      <h1>{t(translations.perpetualPage.editLeverage.title)}</h1>
+      <h1>{t(translations.perpetualPage.editMargin.title)}</h1>
       {trade && pair && (
         <div className="tw-mw-340 tw-mx-auto">
           <TradeDetails

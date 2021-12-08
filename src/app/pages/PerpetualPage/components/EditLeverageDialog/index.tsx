@@ -59,6 +59,7 @@ export const EditLeverageDialog: React.FC = () => {
         traderState.marginAccountPositionBC,
         perpParameters,
         ammState,
+        traderState,
       );
       setMargin(margin);
       setChangedTrade({
@@ -104,6 +105,7 @@ export const EditLeverageDialog: React.FC = () => {
             ? {
                 method: PerpetualTxMethods.deposit,
                 amount: toWei(marginChange),
+                approvalTx: null,
                 tx: null,
               }
             : {

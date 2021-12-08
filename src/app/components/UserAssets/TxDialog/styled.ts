@@ -23,23 +23,6 @@ export const StatusImage = styled.img`
   width: 4.375rem;
 `;
 
-export const WLContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  overflow: hidden;
-  width: 10rem;
-  height: 10rem;
-  border-radius: 1.25rem;
-  border: 5px solid #e8e8e8;
-  margin: 0 auto 4.375rem;
-  padding: 1.3rem 2.1rem 1rem 2.1rem;
-`;
-export const WLImage = styled.img`
-  width: 100%;
-`;
-
 export const TitleWrapper = styled.div`
   font-size: 1.75rem;
   line-height: 1.25;

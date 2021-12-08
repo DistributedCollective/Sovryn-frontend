@@ -1,6 +1,6 @@
 import React, { useContext, useCallback } from 'react';
 import { TransitionStep } from '../../../../../containers/TransitionSteps';
-import { TradeDialogStep } from '../types';
+import { TradeDialogStep, PerpetualTxStage } from '../types';
 import { TradeDialogContext } from '../index';
 import styles from '../index.module.scss';
 import { PerpetualPageModals } from '../../../types';
@@ -8,7 +8,10 @@ import { translations } from '../../../../../../locales/i18n';
 import { useTranslation } from 'react-i18next';
 import { TradeSummary } from './TradeSummary';
 import { ResultPosition } from './ResultPosition';
-import { usePerpetual_executeTransaction } from '../../../hooks/usePerpetual_executeTransaction';
+import { TransitionAnimation } from '../../../../../containers/TransitionContainer';
+import { bridgeNetwork } from '../../../../BridgeDepositPage/utils/bridge-network';
+import { Chain } from '../../../../../../types';
+import { PerpetualQueriesContext } from '../../../contexts/PerpetualQueriesContext';
 
 const titleMap = {
   [PerpetualPageModals.NONE]:
@@ -25,7 +28,7 @@ const titleMap = {
 
 export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
   const { t } = useTranslation();
-  const { origin, trade, pair, analysis, transactions } = useContext(
+  const { origin, trade, pair, analysis, setCurrentTransaction } = useContext(
     TradeDialogContext,
   );
   const {
@@ -40,15 +43,24 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     tradingFee,
   } = analysis;
 
-  const { execute } = usePerpetual_executeTransaction();
+  const { lotSize, lotPrecision } = useContext(PerpetualQueriesContext);
 
   const onSubmit = useCallback(async () => {
-    // TODO: implement proper transaction execution and updating transactions
-    // Temporary solution! Should be done in sequence somewhere else e.g. TradeExecutionStep (ProcessStep)
-    for (let transaction of transactions) {
-      await execute(transaction);
-    }
-  }, [transactions, execute]);
+    let nonce = await bridgeNetwork.nonce(Chain.BSC);
+
+    setCurrentTransaction({
+      index: 0,
+      stage: PerpetualTxStage.reviewed,
+      nonce,
+    });
+
+    changeTo(
+      marginChange > 0
+        ? TradeDialogStep.approval
+        : TradeDialogStep.confirmation,
+      TransitionAnimation.slideLeft,
+    );
+  }, [marginChange, setCurrentTransaction, changeTo]);
 
   return (
     <>
@@ -77,6 +89,8 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
           marginTarget={marginTarget}
           origin={origin}
           pair={pair}
+          lotPrecision={lotPrecision}
+          lotSize={lotSize}
         />
         <div className="tw-flex tw-justify-center">
           <button className={styles.confirmButton} onClick={onSubmit}>

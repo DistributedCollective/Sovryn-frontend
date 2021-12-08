@@ -6,7 +6,7 @@ import { isWeb3Wallet } from '@sovryn/wallet';
 
 import { Chain } from 'types';
 import { actions } from '../../slice';
-import { currentChainId, currentNetwork } from 'utils/classifiers';
+import { currentChainId, isMainnet } from 'utils/classifiers';
 import { addRskMainnet, addRskTestnet } from 'utils/metamaskHelpers';
 import { SelectBox } from '../SelectBox';
 import { detectWeb3Wallet } from 'utils/helpers';
@@ -19,8 +19,7 @@ import {
   getWalletImage,
 } from 'app/components/UserAssets/TxDialog/WalletLogo';
 
-const addNetworkCallback =
-  currentNetwork === 'mainnet' ? addRskMainnet : addRskTestnet;
+const addNetworkCallback = isMainnet ? addRskMainnet : addRskTestnet;
 
 export const ReturnToPortfolio: React.FC = () => {
   const { t } = useTranslation();

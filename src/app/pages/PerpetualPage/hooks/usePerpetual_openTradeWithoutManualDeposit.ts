@@ -19,6 +19,7 @@ import {
   getRequiredMarginCollateral,
 } from '../utils/perpUtils';
 import { usePerpetual_marginAccountBalance } from './usePerpetual_marginAccountBalance';
+import { PERPETUAL_SLIPPAGE_DEFAULT } from '../types';
 
 const MASK_MARKET_ORDER = 0x40000000;
 const MASK_CLOSE_ONLY = 0x80000000;
@@ -26,9 +27,12 @@ const MASK_CLOSE_ONLY = 0x80000000;
 export const usePerpetual_openTradeWithoutManualDeposit = () => {
   const address = useAccount();
 
-  const { ammState, perpetualParameters, averagePrice } = useContext(
-    PerpetualQueriesContext,
-  );
+  const {
+    ammState,
+    perpetualParameters,
+    traderState,
+    averagePrice,
+  } = useContext(PerpetualQueriesContext);
 
   const marginBalance = usePerpetual_marginAccountBalance();
 
@@ -40,7 +44,7 @@ export const usePerpetual_openTradeWithoutManualDeposit = () => {
       /** amount as wei string */
       amount: string = '0',
       leverage: number | undefined = 1,
-      slippage: number | undefined = 0.5,
+      slippage: number | undefined = PERPETUAL_SLIPPAGE_DEFAULT,
       tradingPosition: TradingPosition | undefined = TradingPosition.LONG,
     ) => {
       const signedAmount = getSignedAmount(tradingPosition, amount);
@@ -59,6 +63,7 @@ export const usePerpetual_openTradeWithoutManualDeposit = () => {
         marginBalance.fPositionBC - signedAmount,
         perpetualParameters,
         ammState,
+        traderState,
       );
 
       const marginRequired = Math.max(

@@ -1,9 +1,7 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 import { usePageViews } from 'app/hooks/useAnalytics';
-import { translations } from 'locales/i18n';
 
 import WalletConnector from '../../containers/WalletConnector';
 import { LanguageToggle } from '../LanguageToggle';
@@ -12,8 +10,6 @@ import { ReactComponent as SovLogo } from 'assets/images/sovryn-logo-labs.svg';
 import { ReactComponent as ArrowBack } from 'assets/images/genesis/arrow_back.svg';
 
 export function HeaderLabs() {
-  const { t } = useTranslation();
-
   usePageViews();
 
   return (

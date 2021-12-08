@@ -60,6 +60,7 @@ export const TradeFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
             tradingPosition: changedTrade.position,
             slippage: changedTrade.slippage,
             tx: null,
+            approvalTx: null,
           },
         ],
       }),

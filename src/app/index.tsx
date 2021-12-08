@@ -10,7 +10,7 @@ import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 
-import { currentNetwork } from 'utils/classifiers';
+import { currentNetwork, isMainnet } from 'utils/classifiers';
 import { useAppTheme } from './hooks/app/useAppTheme';
 import { useMaintenance } from './hooks/useMaintenance';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
@@ -54,8 +54,7 @@ import { apolloClient } from './pages/PerpetualPage/utils/graphQlHelpers';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const title =
-  currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
+const title = !isMainnet ? `Sovryn ${currentNetwork}` : 'Sovryn';
 
 export function App() {
   useAppTheme();

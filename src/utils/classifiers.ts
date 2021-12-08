@@ -9,6 +9,8 @@ export const chains = {
 export const currentNetwork: AppMode | string =
   String(process.env.REACT_APP_NETWORK).toLowerCase() || AppMode.MAINNET;
 
+export const isMainnet = currentNetwork === 'mainnet';
+
 export const currentChainId = chains[currentNetwork];
 
 export const blockExplorers = {
@@ -81,7 +83,7 @@ export const gasLimit = {
   [TxType.CLAIM_VESTED_SOV_REWARDS]: 6000000,
   [TxType.SOV_WITHDRAW_VESTING]: 1500000,
   [TxType.SIMULATOR_REQUEST]: 6800000,
-  [TxType.OPEN_PERPETUAL_TRADE]: 1800000,
+  [TxType.OPEN_PERPETUAL_TRADE]: 2000000,
 };
 
 export const discordInvite = 'https://discord.gg/kBTNx4zjRf'; //unlimited use, no-expiry invite
