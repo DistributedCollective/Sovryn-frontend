@@ -3,21 +3,20 @@ import imgArrowUp from 'assets/images/trend-arrow-up.svg';
 import imgArrowDown from 'assets/images/trend-arrow-down.svg';
 
 export const getPriceChange = (
-  prevPrice: number,
+  previousPrice: number,
   price: number,
 ): TradePriceChange => {
-  if (prevPrice < price) {
+  if (previousPrice < price) {
     return TradePriceChange.UP;
-  } else if (prevPrice > price) {
+  } else if (previousPrice > price) {
     return TradePriceChange.DOWN;
   } else {
     return TradePriceChange.NO_CHANGE;
   }
 };
 
-export const getTradeType = (tradeAmount: number): TradeType => {
-  return tradeAmount < 0 ? TradeType.SELL : TradeType.BUY;
-};
+export const getTradeType = (tradeAmount: number): TradeType =>
+  tradeAmount < 0 ? TradeType.SELL : TradeType.BUY;
 
 export const getPriceChangeImage = (priceChange: TradePriceChange) => {
   switch (priceChange) {
