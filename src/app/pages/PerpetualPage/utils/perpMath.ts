@@ -1,5 +1,5 @@
 import { BigNumber } from 'ethers';
-import { erf } from 'mathjs';
+const mathjs = require('mathjs');
 const ONE_64x64 = BigNumber.from('0x10000000000000000');
 const DECIMALS = BigNumber.from(10).pow(BigNumber.from(18));
 
@@ -14,7 +14,7 @@ export const PerpetualStateEMERGENCY = 3;
 export const PerpetualStateCLEARED = 4;
 
 export function cdfNormalStd(x: number, mu = 0, sig = 1) {
-  return 0.5 * (1 + erf((x - mu) / (sig * Math.sqrt(2))));
+  return 0.5 * (1 + mathjs.erf((x - mu) / (sig * Math.sqrt(2))));
 }
 
 export function calculateMaintenanceMargin(
@@ -132,6 +132,50 @@ export function calculateLiquidationPriceCollateralQuote(
     maintenance_margin_ratio,
     1,
   );
+}
+
+/**
+ * Calculate margin balance for a trader
+ * @param {number} position  - traders position
+ * @param {number} markPrice - mark price
+ * @param {number} lockedInValueQC - traders locked in value
+ * @param {number} S3 - collateral to quote conversion
+ * @param {number} m - trader collateral in collateral currency
+ * @returns {number} Amount to be liquidated (in base currency)
+ */
+export function calculateMarginBalance(
+  position: number,
+  markPrice: number,
+  lockedInValueQC: number,
+  S3: number,
+  m: number,
+): number {
+  return (position * markPrice - lockedInValueQC) / S3 + m;
+}
+
+/**
+ * Determine whether the trader is maintenance margin safe, given the required target margin rate tau.
+ * @param {number} tau  - target margin rate (e.g., the maintenance margin rate)
+ * @param {number} position  - traders position
+ * @param {number} markPrice - mark price
+ * @param {number} lockedInValueQC - traders locked in value
+ * @param {number} S2 - index price S2, base to quote conversion
+ * @param {number} S3 - collateral to quote conversion
+ * @param {number} m - trader collateral in collateral currency
+ * @returns {number} Amount to be liquidated (in base currency)
+ */
+export function isTraderMarginSafe(
+  tau: number,
+  position: number,
+  markPrice: number,
+  lockedInValueQC: number,
+  S2: number,
+  S3: number,
+  m: number,
+): boolean {
+  let b = calculateMarginBalance(position, markPrice, lockedInValueQC, S3, m);
+  let marginRequirement = (Math.abs(position) * tau * S2) / S3;
+  return b > marginRequirement;
 }
 
 /**
@@ -584,7 +628,6 @@ export function getTradeAmountFromPrice(
     kd = 2 * kd;
     count = count + 1;
   }
-
   // bisection search
   let km = 0.5 * (ku + kd);
   count = 0;
@@ -853,6 +896,13 @@ export function equalForPrecision(
   const eps = ONE_64x64.div(BigNumber.from(denum));
   const x_dn = x.sub(eps);
   const x_up = x.add(eps);
+  if (doPrintLog) {
+    console.log('x = ', ABK64x64ToFloat(x));
+    console.log('eps= ', ABK64x64ToFloat(eps));
+    console.log('x- = ', ABK64x64ToFloat(x_dn));
+    console.log('x+ = ', ABK64x64ToFloat(x_up));
+    console.log('y = ', ABK64x64ToFloat(y));
+  }
   return y.gt(x_dn) && y.lt(x_up);
 }
 
@@ -865,6 +915,13 @@ export function equalForPrecisionFloat(
   const eps = 10 ** -decimals;
   const x_dn = x - eps;
   const x_up = x + eps;
+  if (doPrintLog) {
+    console.log('x = ', x);
+    console.log('eps= ', eps);
+    console.log('x- = ', x_dn);
+    console.log('x+ = ', x_up);
+    console.log('y = ', y);
+  }
   return y >= x_dn && y <= x_up;
 }
 
@@ -996,4 +1053,15 @@ export function fromDec18(x: BigNumber) {
 
 export function toDec18(x: BigNumber) {
   return x.mul(DECIMALS).div(ONE_64x64);
+}
+
+export function getMaxLeveragePosition(alpha, beta, cash, fee, minimalSpread) {
+  if (cash < 0) {
+    // trader should have been liquidated
+    return 0;
+  }
+  alpha = alpha + fee + minimalSpread;
+  // (fee_rate + minimal_spread + min(alpha + beta |pos|, cap)) * |pos| <= cash
+  let maxPos = (-alpha + Math.sqrt(alpha ** 2 + 4 * beta * cash)) / (2 * beta);
+  return maxPos;
 }

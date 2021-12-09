@@ -16,6 +16,8 @@ export const initialAmmState: AMMState = {
   fCurrentTraderExposureEMA: 0,
   indexS2PriceData: 0,
   indexS3PriceData: 0,
+  indexS2PriceDataOracle: 0,
+  indexS3PriceDataOracle: 0,
   currentMarkPremiumRate: 0,
   currentPremiumRate: 0,
 };
@@ -51,4 +53,6 @@ const parseAmmState = (response: any): AMMState => ({
   indexS3PriceData: ABK64x64ToFloat(response[7]),
   currentMarkPremiumRate: ABK64x64ToFloat(response[8]),
   currentPremiumRate: ABK64x64ToFloat(response[9]),
+  indexS2PriceDataOracle: ABK64x64ToFloat(response[10]),
+  indexS3PriceDataOracle: ABK64x64ToFloat(response[11]),
 });

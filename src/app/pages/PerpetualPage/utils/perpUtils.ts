@@ -11,6 +11,8 @@ import {
   calculateLiquidationPriceCollateralQuanto,
   calculateLiquidationPriceCollateralBase,
   getPricesAndTradesForPercentRage,
+  getMaxLeveragePosition,
+  isTraderMarginSafe,
 } from './perpMath';
 
 /*---
@@ -23,11 +25,8 @@ import {
 ----*/
 
 export interface PerpParameters {
-  // addressing
-  poolId: number;
-  oracleS2Addr: string;
-  oracleS3Addr: string;
-  // base parameters
+  //get perpetual
+  //base parameters
   fInitialMarginRateAlpha: number;
   fMarginRateBeta: number;
   fInitialMarginRateCap: number;
@@ -60,6 +59,10 @@ export interface PerpParameters {
   // funding state
   fCurrentFundingRate: number;
   fUnitAccumulatedFunding: number;
+
+  poolId: number;
+  oracleS2Addr: string;
+  oracleS3Addr: string;
 }
 
 export interface PerpCurrencySymbols {
@@ -80,8 +83,10 @@ export interface AMMState {
   // PerpetualData.fCurrentTraderExposureEMA
   fCurrentTraderExposureEMA: number;
   // Oracle data:
-  indexS2PriceData: number;
-  indexS3PriceData: number;
+  indexS2PriceData: number; // S2 price used in the current state of the contract
+  indexS3PriceData: number; // S3 price used in the current state of the contract
+  indexS2PriceDataOracle: number; // most up to date S2 price, can differ from contract price
+  indexS3PriceDataOracle: number; // most up to date S4 price, can differ from contract price
   currentMarkPremiumRate: number;
   currentPremiumRate: number;
 }
@@ -128,74 +133,89 @@ export function getMaximalTradeSizeInPerpetual(
   liqPool: LiqPoolState,
   perpParams: PerpParameters,
 ): number {
-  let lotSize = perpParams.fLotSizeBC;
-  let kStar = calcKStar(
-    ammData.K2,
-    ammData.L1,
+  function getMaxSizeFromPrice(S2: number, S3: number): number {
+    let kStar = calcKStar(
+      ammData.K2,
+      ammData.L1,
+      S2,
+      S3,
+      ammData.M1,
+      ammData.M2,
+      ammData.M3,
+      perpParams.fRho23,
+      perpParams.fSigma2,
+      perpParams.fSigma3,
+    );
+    let lotSize = perpParams.fLotSizeBC;
+    kStar = shrinkToLot(kStar, lotSize);
+    let fundingRatio = liqPool.fDefaultFundCashCC / liqPool.fTargetDFSize;
+    let scale: number;
+    if (direction === Math.sign(kStar)) {
+      scale = perpParams.fMaximalTradeSizeBumpUp;
+    } else {
+      // adverse direction
+      scale = perpParams.fMaximalTradeSizeBumpUp * Math.min(1, fundingRatio);
+    }
+    let maxAbsPositionSize = ammData.fCurrentTraderExposureEMA * scale;
+    maxAbsPositionSize = shrinkToLot(maxAbsPositionSize, lotSize);
+    let maxSignedTradeSize: number;
+    if (direction < 0) {
+      maxSignedTradeSize = Math.min(
+        kStar,
+        Math.min(-maxAbsPositionSize - currentPos, 0),
+      );
+    } else {
+      maxSignedTradeSize = Math.max(
+        kStar,
+        Math.max(maxAbsPositionSize - currentPos, 0),
+      );
+    }
+    return maxSignedTradeSize;
+  }
+  // calculate the max trade size based on the current oracle price and the latest price stored in the contract
+  let maxSizeContractPx: number = getMaxSizeFromPrice(
     ammData.indexS2PriceData,
     ammData.indexS3PriceData,
-    ammData.M1,
-    ammData.M2,
-    ammData.M3,
-    perpParams.fRho23,
-    perpParams.fSigma2,
-    perpParams.fSigma3,
   );
-  kStar = shrinkToLot(kStar, lotSize);
-  let fundingRatio = liqPool.fDefaultFundCashCC / liqPool.fTargetDFSize;
-  let scale: number;
-  if (direction === Math.sign(kStar)) {
-    scale = perpParams.fMaximalTradeSizeBumpUp;
-  } else {
-    // adverse direction
-    scale = perpParams.fMaximalTradeSizeBumpUp * Math.min(1, fundingRatio);
-  }
-  let maxAbsPositionSize = ammData.fCurrentTraderExposureEMA * scale;
-  maxAbsPositionSize = shrinkToLot(maxAbsPositionSize, lotSize);
-  let maxSignedTradeSize: number;
-  if (direction < 0) {
-    maxSignedTradeSize = Math.min(
-      kStar,
-      Math.min(-maxAbsPositionSize - currentPos, 0),
-    );
-  } else {
-    maxSignedTradeSize = Math.max(
-      kStar,
-      Math.max(maxAbsPositionSize - currentPos, 0),
-    );
-  }
-  return maxSignedTradeSize;
+  let maxSizeOraclePx: number = getMaxSizeFromPrice(
+    ammData.indexS2PriceDataOracle,
+    ammData.indexS3PriceDataOracle,
+  );
+  return Math.min(maxSizeContractPx, maxSizeOraclePx);
 }
 
 /**
  * Extract the mark-price from AMMState-data
+ * Use most up to date price data, which can differ from stored value in contract
  * @param {AMMState} ammData - Should contain current state of perpetual
  * @returns {number} mark price
  */
 
 export function getMarkPrice(ammData: AMMState): number {
-  return ammData.indexS2PriceData * (1 + ammData.currentMarkPremiumRate);
+  return ammData.indexS2PriceDataOracle * (1 + ammData.currentMarkPremiumRate);
 }
 
 /**
  * Extract the index-price from AMMState-data
+ * Use most up to date price data, which can differ from stored value in contract
  * @param {AMMState} ammData - Should contain current state of perpetual
  * @returns {number} index price
  */
 
 export function getIndexPrice(ammData: AMMState): number {
-  return ammData.indexS2PriceData;
+  return ammData.indexS2PriceDataOracle;
 }
 
 /**
  * Extract the quanto-price from AMMState-data.
  * E.g., if ETHUSD backed in BTC, the BTCUSD price is the quanto-price
+ * Use most up to date price data, which can differ from stored value in contract
  * @param {AMMState} ammData - Should contain current state of perpetual
  * @returns {number} quanto price (non-zero if 3rd currency involved)
  */
 
 export function getQuantoPrice(ammData: AMMState): number {
-  return ammData.indexS3PriceData;
+  return ammData.indexS3PriceDataOracle;
 }
 
 /**
@@ -317,12 +337,14 @@ export function getSignedMaxAbsPositionForTrader(
   if (availableCollateral < 0) {
     return 0;
   }
+
   let alpha = perpParams.fInitialMarginRateAlpha;
   let beta = perpParams.fMarginRateBeta;
-  // solution to quadratic equation
-  let posMargin =
-    (-alpha + Math.sqrt(alpha ** 2 + 4 * beta * availableCollateral)) /
-    (2 * beta);
+  let fee = getTradingFeeRate(perpParams);
+  let minimalSpread = perpParams.fMinimalSpread;
+  let cash = traderState.availableCashCC;
+  let posMargin = getMaxLeveragePosition(alpha, beta, cash, fee, minimalSpread);
+
   if (direction < 0) {
     return Math.max(-posMargin, maxSignedPos);
   } else {
@@ -369,6 +391,7 @@ export function calculateSlippagePriceFromMidPrice(
 
 /**
  * Conversion rate quote to collateral
+ * Use most up to date price data
  * @param {AMMState} ammData - Contains current price/state data
  * @returns {number} conversion rate
  */
@@ -379,15 +402,16 @@ export function getQuote2CollateralFX(ammData: AMMState): number {
     return 1;
   } else if (ammData.M2 !== 0) {
     // base
-    return 1 / ammData.indexS2PriceData;
+    return 1 / ammData.indexS2PriceDataOracle;
   } else {
     // quanto
-    return 1 / ammData.indexS3PriceData;
+    return 1 / ammData.indexS3PriceDataOracle;
   }
 }
 
 /**
  * Conversion rate base to collateral
+ * Use most up to date price data
  * @param {AMMState} ammData - Contains current price/state data
  * @param {boolean} atMarkPrice - conversion at spot or mark price
  * @returns {number} conversion rate
@@ -398,22 +422,23 @@ export function getBase2CollateralFX(
   atMarkPrice: boolean,
 ): number {
   let s2 = atMarkPrice
-    ? (ammData.currentMarkPremiumRate + 1) * ammData.indexS2PriceData
-    : ammData.indexS2PriceData;
+    ? (ammData.currentMarkPremiumRate + 1) * ammData.indexS2PriceDataOracle
+    : ammData.indexS2PriceDataOracle;
   if (ammData.M1 !== 0) {
     // quote
     return s2;
   } else if (ammData.M2 !== 0) {
     // base
-    return s2 / ammData.indexS2PriceData;
+    return s2 / ammData.indexS2PriceDataOracle;
   } else {
     // quanto
-    return s2 / ammData.indexS3PriceData;
+    return s2 / ammData.indexS3PriceDataOracle;
   }
 }
 
 /**
  * Conversion rate base to quote
+ * Use most up to date price data
  * @param {AMMState} ammData - Contains current price/state data
  * @param {boolean} atMarkPrice - conversion at spot or mark price
  * @returns {number} conversion rate
@@ -424,8 +449,8 @@ export function getBase2QuoteFX(
   atMarkPrice: boolean,
 ): number {
   let s2 = atMarkPrice
-    ? (1 + ammData.currentMarkPremiumRate) * ammData.indexS2PriceData
-    : ammData.indexS2PriceData;
+    ? (1 + ammData.currentMarkPremiumRate) * ammData.indexS2PriceDataOracle
+    : ammData.indexS2PriceDataOracle;
   return s2;
 }
 
@@ -476,14 +501,14 @@ export function calculateApproxLiquidationPrice(
     );
   } else if (ammData.M3 !== 0) {
     // quanto currency perpetual
-    // we calculate a price that in 90% of the cases leads to a liquidation according to the
+    // we calculate a price that leads to a liquidation according to the
     // instrument parameters sigma2/3, rho and current prices
     return calculateLiquidationPriceCollateralQuanto(
       lockedInValueQC,
       traderNewPosition,
       newTraderCash,
       maintMarginRate,
-      ammData.indexS3PriceData,
+      ammData.indexS3PriceDataOracle,
     );
   }
   return -1;
@@ -522,8 +547,16 @@ export function getRequiredMarginCollateral(
   let initialPnLQC =
     currentPos * getMarkPrice(ammData) -
     traderState.marginAccountLockedInValueQC;
-  let newPnLQC = positionToTrade * (Sm - tradeAmountPrice);
+  let buffer = Math.abs(positionToTrade) * perpParams.fMinimalSpread * Sm;
+  let newPnLQC = positionToTrade * (Sm - tradeAmountPrice) - buffer;
   let pnlCC = (initialPnLQC + newPnLQC) * quote2collateral;
+  /*
+    console.log("newPnLQC = ", newPnLQC)
+    console.log("pnlCC = ", pnlCC)
+    console.log("base2collateral = ", base2collateral)
+    console.log("leverage = ", leverage)
+    console.log("feesBC = ", feesBC)
+    console.log("coll base = ", Math.abs(targetPos) * base2collateral / leverage)*/
   let collRequired =
     (Math.abs(targetPos) * base2collateral) / leverage -
     pnlCC +
@@ -594,8 +627,8 @@ export function getTraderPnLInCC(
 
 /**
  * Get the unpaid, accumulated funding rate in collateral currency
- * @param {AMMState} ammData - AMM state (for mark price and CCY conversion)
  * @param {TraderState} traderState - Trader state (for account balances)
+ * @param {PerpParameters} perpData - Perp parameters
  * @returns {number} PnL = value of position at mark price minus locked in value
  */
 
@@ -610,6 +643,15 @@ export function getFundingFee(
   return fCurrentFee * traderState.marginAccountPositionBC;
 }
 
+/**
+ * Get the mid-price based on 0 quantity (no bid-ask spread)
+ * Uses the most recent index data (from Oracle), which might differ
+ * from the stored data in the contract
+ * @param {PerpParameters} perpData - Perp parameters
+ * @param {AMMState} ammData - AMM state (for mark price and CCY conversion)
+ * @returns {number} PnL = value of position at mark price minus locked in value
+ */
+
 export function getMidPrice(
   perpParams: PerpParameters,
   ammData: AMMState,
@@ -617,19 +659,29 @@ export function getMidPrice(
   return getPrice(0, perpParams, ammData);
 }
 
+/**
+ * Calculates the price using the most recent Oracle price data
+ * (might differ from the oracle price stored in the contract)
+ *
+ * @param {number} tradeSize size of the trade
+ * @param {PerpParameters} perpData Perpetual data
+ * @param {AMMState} ammData - AMM data
+ * @returns An array containing [prices, % deviation from mid price ((price - mid-price)/mid-price), trade amounts]
+ */
+
 export function getPrice(
-  traderPosition: number,
+  tradeSize: number,
   perpParams: PerpParameters,
   ammData: AMMState,
 ): number {
-  let k = traderPosition;
+  let k = tradeSize;
   let r = 0;
   return calcPerpPrice(
     ammData.K2,
     k,
     ammData.L1,
-    ammData.indexS2PriceData,
-    ammData.indexS3PriceData,
+    ammData.indexS2PriceDataOracle,
+    ammData.indexS3PriceDataOracle,
     perpParams.fSigma2,
     perpParams.fSigma3,
     perpParams.fRho23,
@@ -648,6 +700,7 @@ export function getPrice(
  * e.g. for -0.4%, we find a trade amount k such that (price(-k) - price(-0)) / price(-0) = -0.4%
  * note that the mid-price is (price(+0) + price(-0)) / 2
  *
+ * Uses prices based on the recent oracle data, which can differ from the contract's price entry.
  * @param {PerpParameters} perpData Perpetual data
  * @param {AMMState} ammData - AMM data
  * @returns An array containing [prices, % deviation from mid price ((price - mid-price)/mid-price), trade amounts]
@@ -678,8 +731,8 @@ export function getDepthMatrix(perpData: PerpParameters, ammData: AMMState) {
   return getPricesAndTradesForPercentRage(
     ammData.K2,
     ammData.L1,
-    ammData.indexS2PriceData,
-    ammData.indexS3PriceData,
+    ammData.indexS2PriceDataOracle,
+    ammData.indexS3PriceDataOracle,
     perpData.fSigma2,
     perpData.fSigma3,
     perpData.fRho23,
@@ -689,6 +742,42 @@ export function getDepthMatrix(perpData: PerpParameters, ammData: AMMState) {
     ammData.M3,
     perpData.fMinimalSpread,
     pctRange,
+  );
+}
+
+/**
+ * Builds the depth matrix using the bid-ask spread to construct prices and trade amounts:
+ * - Short prices are equi-spaced from the unit price of an infinitesimal short
+ * - Long prices are equi-spaced from the unit price of an infinitesimal long
+ * e.g. for -0.4%, we find a trade amount k such that (price(-k) - price(-0)) / price(-0) = -0.4%
+ * note that the mid-price is (price(+0) + price(-0)) / 2
+ *
+ * Uses prices based on the recent oracle data, which can differ from the contract's price entry.
+ * @param {TraderState} traderState - Trader state (for account balances)
+ * @param {PerpParameters} perpData Perpetual data
+ * @param {AMMState} ammData - AMM data
+ * @returns An array containing [prices, % deviation from mid price ((price - mid-price)/mid-price), trade amounts]
+ */
+
+export function isTraderMaintenanceMarginSafe(
+  traderState: TraderState,
+  perpParams: PerpParameters,
+  ammData: AMMState,
+) {
+  let tau = getMaintenanceMarginRate(
+    traderState.marginAccountPositionBC,
+    perpParams,
+  );
+  let m = traderState.availableCashCC;
+  let s3 = 1 / getQuote2CollateralFX(ammData);
+  return isTraderMarginSafe(
+    tau,
+    traderState.marginAccountPositionBC,
+    getMarkPrice(ammData),
+    traderState.marginAccountLockedInValueQC,
+    ammData.indexS2PriceDataOracle,
+    s3,
+    m,
   );
 }
 
