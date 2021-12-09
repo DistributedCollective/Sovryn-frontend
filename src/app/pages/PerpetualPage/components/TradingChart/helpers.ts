@@ -40,7 +40,7 @@ const addMissingBars = (bars: Bar[], candleDuration: CandleDuration): Bar[] => {
   const now = new Date().getTime();
   const latestBar = Math.floor(now / seconds) * seconds;
   let previousBar = bars[bars.length - 1];
-  if (previousBar.time !== latestBar) {
+  if (previousBar?.time !== latestBar) {
     bars.push({
       time: latestBar,
       open: previousBar.close,
