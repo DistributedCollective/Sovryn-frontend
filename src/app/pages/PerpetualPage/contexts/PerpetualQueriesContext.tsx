@@ -1,4 +1,4 @@
-import React, { createContext, useMemo } from 'react';
+import React, { createContext, useMemo, useEffect, useCallback } from 'react';
 import {
   initialAmmState,
   usePerpetual_queryAmmState,
@@ -22,6 +22,25 @@ import {
   PerpParameters,
   TraderState,
 } from '../utils/perpUtils';
+import { getContract } from '../../../../utils/blockchain/contract-helpers';
+import { subscription } from '../utils/bscWebsocket';
+import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
+import throttle from 'lodash.throttle';
+
+const THROTTLE_DELAY = 1000; // 1s
+const UPDATE_INTERVAL = 10000; // 1s
+
+const address = getContract('perpetualManager').address.toLowerCase();
+
+type InitSocketParams = {
+  update: () => void;
+};
+
+const initSocket = ({ update }: InitSocketParams, perpetualId: string) => {
+  const socket = subscription(address, ['Trade', 'UpdatePrice']);
+  socket.on('data', update);
+  return socket;
+};
 
 type PerpetualQueriesContextValue = {
   ammState: AMMState;
@@ -56,15 +75,52 @@ const getAveragePrice = (depthMatrixEntries: any[][]): number => {
   return 0;
 };
 
-export const PerpetualQueriesContextProvider: React.FC = ({ children }) => {
-  const ammState = usePerpetual_queryAmmState();
-  const perpetualParameters = usePerpetual_queryPerpParameters();
-  const traderState = usePerpetual_queryTraderState();
-  const liquidityPoolState = usePerpetual_queryLiqPoolStateFromPerpetualId();
+type PerpetualQueriesContextProviderProps = {
+  pair: PerpetualPair;
+  children: React.ReactNode;
+};
+
+export const PerpetualQueriesContextProvider: React.FC<PerpetualQueriesContextProviderProps> = ({
+  pair,
+  children,
+}) => {
+  const {
+    result: ammState,
+    refetch: refetchAmmState,
+  } = usePerpetual_queryAmmState(pair.id);
+  const {
+    result: perpetualParameters,
+    refetch: refetchPerpetualParameters,
+  } = usePerpetual_queryPerpParameters(pair.id);
+  const {
+    result: traderState,
+    refetch: refetchTraderState,
+  } = usePerpetual_queryTraderState(pair.id);
+  const {
+    result: liquidityPoolState,
+    refetch: refetchLiquidityPoolState,
+  } = usePerpetual_queryLiqPoolStateFromPerpetualId(pair.id);
 
   const depthMatrixEntries = useMemo(
     () => getDepthMatrix(perpetualParameters, ammState),
     [ammState, perpetualParameters],
+  );
+
+  // throttle function prevents the exaustive deps check
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const refetch = useCallback(
+    throttle(() => {
+      refetchAmmState();
+      refetchPerpetualParameters();
+      refetchTraderState();
+      refetchLiquidityPoolState();
+    }, THROTTLE_DELAY),
+    [
+      refetchAmmState,
+      refetchPerpetualParameters,
+      refetchTraderState,
+      refetchLiquidityPoolState,
+    ],
   );
 
   const [lotSize, lotPrecision] = useMemo(() => {
@@ -95,6 +151,20 @@ export const PerpetualQueriesContextProvider: React.FC = ({ children }) => {
       lotPrecision,
     ],
   );
+
+  useEffect(() => {
+    const socket = initSocket({ update: refetch }, pair.id);
+    const intervalId = setInterval(refetch, UPDATE_INTERVAL);
+
+    return () => {
+      clearInterval(intervalId);
+      socket.unsubscribe((error, success) => {
+        if (error) {
+          console.error(error);
+        }
+      });
+    };
+  }, [refetch, pair.id]);
 
   return (
     <PerpetualQueriesContext.Provider value={value}>

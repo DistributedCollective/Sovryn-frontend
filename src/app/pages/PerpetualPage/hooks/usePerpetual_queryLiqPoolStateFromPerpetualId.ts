@@ -1,11 +1,10 @@
 import { LiqPoolState } from '../utils/perpUtils';
-import { useEffect, useState } from 'react';
-import { ABK64x64ToFloat, PERPETUAL_ID } from '../utils/contractUtils';
+import { useEffect, useState, useCallback, useMemo } from 'react';
+import { ABK64x64ToFloat } from '../utils/contractUtils';
 import { bridgeNetwork } from 'app/pages/BridgeDepositPage/utils/bridge-network';
 import { Chain } from 'types';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import perpetualManagerAbi from 'utils/blockchain/abi/PerpetualManager.json';
-import { usePerpetual_getLatestTradeId } from './usePerpetual_getLatestTradeId';
 
 export const initialLiqPoolState: LiqPoolState = {
   fPnLparticipantsCashCC: 0,
@@ -19,25 +18,12 @@ export const initialLiqPoolState: LiqPoolState = {
   isRunning: false,
 };
 
-export const usePerpetual_queryLiqPoolStateFromPerpetualId = (): LiqPoolState => {
+export const usePerpetual_queryLiqPoolStateFromPerpetualId = (
+  perpetualId: string,
+) => {
   const [liqPoolState, setLiqPoolState] = useState(initialLiqPoolState);
-  const [poolId, setPoolId] = useState('0');
 
-  const latestTradeId = usePerpetual_getLatestTradeId();
-
-  useEffect(() => {
-    bridgeNetwork
-      .call(
-        Chain.BSC,
-        getContract('perpetualManager').address,
-        perpetualManagerAbi,
-        'getPoolIdByPerpetualId',
-        [PERPETUAL_ID],
-      )
-      .then(result => setPoolId(result));
-  }, []);
-
-  useEffect(() => {
+  const fetchPoolState = useCallback((poolId: string) => {
     bridgeNetwork
       .call(
         Chain.BSC,
@@ -47,9 +33,31 @@ export const usePerpetual_queryLiqPoolStateFromPerpetualId = (): LiqPoolState =>
         [poolId],
       )
       .then(result => setLiqPoolState(parseLiqPoolState(result)));
-  }, [poolId, latestTradeId]);
+  }, []);
 
-  return liqPoolState;
+  const fetch = useCallback(() => {
+    bridgeNetwork
+      .call(
+        Chain.BSC,
+        getContract('perpetualManager').address,
+        perpetualManagerAbi,
+        'getPoolIdByPerpetualId',
+        [perpetualId],
+      )
+      .then(result => {
+        fetchPoolState(result);
+      });
+  }, [perpetualId, fetchPoolState]);
+
+  useEffect(fetch, [fetch]);
+
+  return useMemo(
+    () => ({
+      refetch: fetch,
+      result: liqPoolState,
+    }),
+    [fetch, liqPoolState],
+  );
 };
 
 const parseLiqPoolState = (response: any): LiqPoolState => ({

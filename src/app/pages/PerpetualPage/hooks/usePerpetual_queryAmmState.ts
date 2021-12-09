@@ -2,10 +2,9 @@ import { bridgeNetwork } from 'app/pages/BridgeDepositPage/utils/bridge-network'
 import { Chain } from 'types';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { AMMState } from '../utils/perpUtils';
-import { ABK64x64ToFloat, PERPETUAL_ID } from '../utils/contractUtils';
+import { ABK64x64ToFloat } from '../utils/contractUtils';
 import perpetualManagerAbi from 'utils/blockchain/abi/PerpetualManager.json';
-import { useEffect, useState } from 'react';
-import { usePerpetual_getLatestTradeId } from './usePerpetual_getLatestTradeId';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 
 export const initialAmmState: AMMState = {
   L1: 0,
@@ -22,24 +21,30 @@ export const initialAmmState: AMMState = {
   currentPremiumRate: 0,
 };
 
-export const usePerpetual_queryAmmState = (): AMMState => {
+export const usePerpetual_queryAmmState = (perpetualId: string) => {
   const [ammState, setAmmState] = useState(initialAmmState);
 
-  const latestTradeId = usePerpetual_getLatestTradeId();
-
-  useEffect(() => {
+  const fetch = useCallback(() => {
     bridgeNetwork
       .call(
         Chain.BSC,
         getContract('perpetualManager').address,
         perpetualManagerAbi,
         'getAMMState',
-        [PERPETUAL_ID],
+        [perpetualId],
       )
       .then(result => setAmmState(parseAmmState(result)));
-  }, [latestTradeId]);
+  }, [perpetualId]);
 
-  return ammState;
+  useEffect(fetch, [fetch]);
+
+  return useMemo(
+    () => ({
+      refetch: fetch,
+      result: ammState,
+    }),
+    [fetch, ammState],
+  );
 };
 
 const parseAmmState = (response: any): AMMState => ({

@@ -100,7 +100,7 @@ export function PerpetualPage() {
 
   return (
     <RecentTradesContextProvider pair={pair}>
-      <PerpetualQueriesContextProvider>
+      <PerpetualQueriesContextProvider pair={pair}>
         <Helmet>
           <title>{t(translations.perpetualPage.meta.title)}</title>
           <meta
