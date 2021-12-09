@@ -17,8 +17,8 @@ export const ContractDetails: React.FC<ContractDetailsProps> = ({ pair }) => {
   const data = usePerpetual_ContractDetails();
 
   return (
-    <div className="tw-w-full tw-bg-black tw-py-2">
-      <div className="tw-container tw-flex tw-flex-col sm:tw-flex-row tw-flex-wrap tw-items-start sm:tw-items-center">
+    <div className="tw-w-full tw-bg-black">
+      <div className="tw-container tw-flex tw-flex-col sm:tw-flex-row tw-flex-wrap tw-items-start sm:tw-items-center tw-px-8 tw-py-2">
         <h3 className="tw-mt-0.5 sm:tw-mr-5 tw-text-sm tw-font-semibold tw-normal-case">
           {t(translations.perpetualPage.contractDetails.title)}
         </h3>

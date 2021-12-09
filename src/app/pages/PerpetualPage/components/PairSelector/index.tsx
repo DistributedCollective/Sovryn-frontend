@@ -20,7 +20,7 @@ export const PairSelector: React.FC<PairSelectorProps> = ({ pair }) => {
   return (
     <div className="tw-w-full tw-bg-gray-3">
       <div className="tw-container tw-flex tw-flex-row">
-        <div className="tw-flex tw-flex-row tw-items-center tw-w-56 tw-pr-3 tw-py-1.5">
+        <div className="tw-flex tw-flex-row tw-items-center tw-w-56 tw-px-4 tw-py-1.5">
           <img className="tw-w-auto tw-h-7 tw-mr-2" src={btcIcon} alt="BTC" />
           <span className="tw-font-bold tw-text-sm">BTC</span>
         </div>
