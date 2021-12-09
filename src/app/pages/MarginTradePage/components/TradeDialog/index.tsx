@@ -394,6 +394,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
               disabled={openTradesLocked}
               cancelLabel={t(translations.common.cancel)}
               onCancel={() => dispatch(actions.closeTradingModal(position))}
+              data-action-id="margin-reviewTransaction-button-confirm"
             />
           </div>
         </div>

@@ -35,7 +35,10 @@ export const Pair: React.FC<IPair> = ({ pairType }) => {
         />
       </div>
 
-      <div className="tw-font-light text-white tw-ml-2.5">
+      <div
+        className="tw-font-light text-white tw-ml-2.5"
+        data-action-id="margin-select-pair"
+      >
         <AssetSymbolRenderer asset={Asset[sourceToken]} />
         /
         <AssetSymbolRenderer asset={Asset[targetToken]} />

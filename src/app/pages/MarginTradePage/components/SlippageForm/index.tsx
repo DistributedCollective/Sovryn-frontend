@@ -44,6 +44,7 @@ export function SlippageForm(props: Props) {
             stepSize={0.1}
             labelRenderer={value => <>{value}%</>}
             labelValues={[0.1, 0.25, 0.5, 0.75, 1]}
+            dataActionId="margin-reviewTransaction-slider-slippageTolerance"
           />
         </FormGroup>
 
@@ -58,6 +59,7 @@ export function SlippageForm(props: Props) {
                 </>
               }
               className="tw-mt-5"
+              dataActionId="margin-reviewTransaction-minimumEntryPrice"
             />
           </>
         ) : (
@@ -69,6 +71,7 @@ export function SlippageForm(props: Props) {
               value={<>{fromWei(minReturn)}</>}
               appendElem={<AssetRenderer asset={props.asset || Asset.SOV} />}
               className="tw-h-10 tw-truncate"
+              data-action-id="margin-reviewTransaction-minimumEntryPrice"
             />
           </FormGroup>
         )}
@@ -81,6 +84,7 @@ interface LabelValuePairProps {
   label: React.ReactNode;
   value: React.ReactNode;
   className?: string;
+  dataActionId?: string;
 }
 
 function LabelValuePair(props: LabelValuePairProps) {
@@ -90,6 +94,7 @@ function LabelValuePair(props: LabelValuePairProps) {
         'tw-flex tw-text-xs tw-flex-row tw-flex-wrap tw-justify-between tw-space-x-4 tw-mb-3',
         props.className,
       )}
+      data-action-id={props.dataActionId}
     >
       <div className="tw-truncate ">{props.label}</div>
       <div className="tw-truncate tw-text-right">{props.value}</div>

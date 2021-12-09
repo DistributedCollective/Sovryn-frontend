@@ -70,7 +70,7 @@ export function AmountInput({
         className="tw-rounded-lg tw-max-w-full"
         appendClassName={assetSelectable ? '' : 'tw-mr-5'}
         readOnly={readonly}
-        dataActionId={dataActionId}
+        dataActionId={`${dataActionId}-amountInput`}
       />
       {subText && (
         <div className="tw-text-xs tw-mt-1 tw-font-thin">{subText}</div>
@@ -85,6 +85,7 @@ export function AmountInput({
             maxAmount={maxAmount}
             onChange={onChange}
             showBalance={showBalance}
+            dataActionId={dataActionId}
           />
         )}
     </>
@@ -98,6 +99,7 @@ interface AmountSelectorProps {
   asset?: Asset;
   maxAmount?: string;
   showBalance?: boolean;
+  dataActionId?: string;
   onChange: (value: string, isTotal: boolean) => void;
 }
 
@@ -132,6 +134,7 @@ export function AmountSelector(props: AmountSelectorProps) {
           key={value}
           text={`${value}%`}
           onClick={() => handleChange(value)}
+          dataActionId={props.dataActionId}
         />
       ))}
     </div>
@@ -141,6 +144,7 @@ export function AmountSelector(props: AmountSelectorProps) {
 interface AmountButtonProps {
   text?: string;
   onClick?: () => void;
+  dataActionId?: string;
 }
 
 export function AmountSelectorButton(props: AmountButtonProps) {
@@ -148,7 +152,7 @@ export function AmountSelectorButton(props: AmountButtonProps) {
     <button
       onClick={props.onClick}
       className="tw-h-5 tw-text-secondary tw-bg-secondary tw-bg-opacity-0 tw-font-medium tw-text-xs tw-leading-none tw-text-center tw-w-full tw-transition hover:tw-bg-opacity-25"
-      data-action-id={`swap-send-amountSelectorButton-${props.text}`}
+      data-action-id={`${props.dataActionId}-send-amountSelectorButton-${props.text}`}
     >
       {props.text}
     </button>

@@ -12,7 +12,13 @@ export const useMargin_RecentTradesTable = (pair: TradingPair) => {
 
   useEffect(() => {
     axios
-      .get(`${url}/?baseToken=${baseToken}&quoteToken=${quoteToken}&length=100`)
+      .get(url, {
+        params: {
+          baseToken: baseToken,
+          quoteToken: quoteToken,
+          length: 100,
+        },
+      })
       .then(res => {
         setData(res.data);
       })

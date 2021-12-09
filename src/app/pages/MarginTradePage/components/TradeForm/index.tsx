@@ -129,6 +129,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                 className={cn('tw-capitalize tw-h-8 tw-opacity-50', {
                   'tw-opacity-100': position === TradingPosition.LONG,
                 })}
+                data-action-id="margin-button-long"
               />
             )}
             {pair.canOpenShort && (
@@ -139,18 +140,26 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                 className={cn('tw-capitalize tw-h-8 tw-opacity-50', {
                   'tw-opacity-100': position === TradingPosition.SHORT,
                 })}
+                data-action-id="margin-button-short"
               />
             )}
           </div>
         )}
-        <OrderType value={orderType} onChange={setOrderType} />
+        <OrderType
+          value={orderType}
+          onChange={setOrderType}
+          dataActionId="margin"
+        />
         <div className="tw-mw-340 tw-mx-auto tw-mt-3">
           <CollateralAssets
             value={collateral}
             onChange={value => dispatch(actions.setCollateral(value))}
             options={pair.collaterals}
           />
-          <AvailableBalance asset={collateral} />
+          <AvailableBalance
+            asset={collateral}
+            dataAttribute="margin-label-availableBalance"
+          />
 
           <FormGroup
             label={t(translations.marginTradePage.tradeForm.labels.amount)}
@@ -159,6 +168,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
               value={tradeAmount}
               onChange={value => setTradeAmount(value)}
               asset={collateral}
+              dataActionId="margin"
             />
           </FormGroup>
 
@@ -238,6 +248,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                   onClick={() => setOpenSlippage(true)}
                   className="tw-border-none tw-ml-0 tw-p-0 tw-h-auto"
                   textClassName="tw-text-xs tw-overflow-visible tw-text-secondary"
+                  data-action-id="margin-button-settings"
                 />
               </div>
 
@@ -264,6 +275,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                 position={position}
                 onClick={() => setIsTradingDialogOpen(true)}
                 disabled={buttonDisabled}
+                data-action-id="margin-reviewTransaction-button-placePosition"
               />
             </>
           )}

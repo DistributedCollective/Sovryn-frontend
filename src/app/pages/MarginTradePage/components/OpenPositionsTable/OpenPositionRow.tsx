@@ -224,6 +224,7 @@ const OpenPositionRowInner: React.FC<IOpenPositionRowInnerProps> = ({
                   )) ||
                 undefined
               }
+              data-action-id="margin-openPositions-AddToMarginButton"
             />
             <ActionButton
               text={t(translations.openPositionTable.cta.close)}
@@ -241,6 +242,7 @@ const OpenPositionRowInner: React.FC<IOpenPositionRowInnerProps> = ({
                   )) ||
                 undefined
               }
+              data-action-id="margin-openPositions-CloseButton"
             />
           </div>
           <AddToMarginDialog

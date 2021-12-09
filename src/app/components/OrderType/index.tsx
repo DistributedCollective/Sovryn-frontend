@@ -7,9 +7,10 @@ import cn from 'classnames';
 interface IOrderTypeProps {
   value: OrderTypes;
   onChange: (value: OrderTypes) => void;
+  dataActionId?: string;
 }
 
-export function OrderType({ value, onChange }: IOrderTypeProps) {
+export function OrderType({ value, onChange, dataActionId }: IOrderTypeProps) {
   const { t } = useTranslation();
 
   return (
@@ -22,6 +23,7 @@ export function OrderType({ value, onChange }: IOrderTypeProps) {
           },
         )}
         onClick={() => onChange(OrderTypes.MARKET)}
+        data-action-id={dataActionId ? `${dataActionId}-button-market` : ''}
       >
         {t(translations.spotTradingPage.tradeForm.market)}
       </div>
@@ -33,6 +35,7 @@ export function OrderType({ value, onChange }: IOrderTypeProps) {
           },
         )}
         onClick={() => onChange(OrderTypes.LIMIT)}
+        data-action-id={dataActionId ? `${dataActionId}-button-limit` : ''}
       >
         {t(translations.spotTradingPage.tradeForm.limit)}
       </div>
