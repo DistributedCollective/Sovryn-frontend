@@ -47,7 +47,7 @@ export const usePerpetual_accountBalance = (pairType: PerpetualPairType) => {
       )
       .catch(e => console.log(e))
       .then(result => result && setAvailableBalance(String(result)));
-  }, [account]);
+  }, [account, blockId]);
 
   const unrealizedPnl = useMemo(
     () => getTraderPnLInCC(traderState, ammState, perpetualParameters),
