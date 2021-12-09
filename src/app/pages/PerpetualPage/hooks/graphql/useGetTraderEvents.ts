@@ -92,11 +92,13 @@ export enum Event {
   LIQUIDITY_REMOVED = 'LIQUIDITY_REMOVED',
   UPDATE_MARGIN_ACCOUNT = 'UPDATE_MARGIN_ACCOUNT',
   POSITION = 'POSITION',
+  FUNDING_PAYMENT = 'FUNDING_PAYMENT',
 }
 
 const totalCountFields = {
   [Event.TRADE]: 'tradesTotalCount',
   [Event.POSITION]: 'positionsTotalCount',
+  [Event.FUNDING_PAYMENT]: 'positionsTotalCount',
 };
 
 class EventDetails {
@@ -185,6 +187,16 @@ class EventDictionary {
           'currentPositionSizeBC',
           'totalPnLCC',
           'endDate',
+        ]),
+      ],
+      [
+        Event.FUNDING_PAYMENT,
+        new EventDetails('fundingPayments', [
+          'id',
+          'fFundingPaymentCC',
+          'fundingRate',
+          'fundingTime',
+          'blockTimestamp',
         ]),
       ],
     ],

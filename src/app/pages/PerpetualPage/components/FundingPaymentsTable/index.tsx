@@ -20,7 +20,11 @@ export const FundingPaymentsTable: React.FC<IFundingPaymentsTable> = ({
   const [page, setPage] = useState(1);
 
   const { pairType } = useSelector(selectPerpetualPage);
-  const { data, loading } = usePerpetual_FundingPayments(pairType);
+  const { data, loading, totalCount } = usePerpetual_FundingPayments(
+    pairType,
+    page,
+    perPage,
+  );
 
   const onPageChanged = useCallback(data => {
     setPage(data.currentPage);
@@ -75,19 +79,15 @@ export const FundingPaymentsTable: React.FC<IFundingPaymentsTable> = ({
             </tr>
           )}
 
-          {data?.map((item, index) => (
-            <FundingPaymentsRow
-              key={item.id}
-              item={item}
-              isFirstItem={index === data?.length - 1}
-            />
+          {data?.map(item => (
+            <FundingPaymentsRow key={item.id} item={item} />
           ))}
         </tbody>
       </table>
 
-      {data && data.length > 0 && (
+      {data && totalCount > 0 && (
         <Pagination
-          totalRecords={data.length}
+          totalRecords={totalCount}
           pageLimit={perPage}
           pageNeighbours={1}
           onChange={onPageChanged}
