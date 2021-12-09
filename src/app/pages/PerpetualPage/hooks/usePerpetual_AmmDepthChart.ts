@@ -2,7 +2,7 @@ import { useMemo, useContext } from 'react';
 import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
 import { getIndexPrice, getMarkPrice } from '../utils/perpUtils';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
-import { RecentTradesContext } from '../components/RecentTradesTable/context';
+import { RecentTradesContext } from '../contexts/RecentTradesContext';
 import { TradePriceChange } from '../components/RecentTradesTable/types';
 
 export type AmmDepthChartDataEntry = {

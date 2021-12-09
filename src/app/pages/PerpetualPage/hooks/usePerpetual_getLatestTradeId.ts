@@ -1,6 +1,6 @@
 import { useCallback, useContext, useState, useEffect } from 'react';
 import { Nullable } from 'types';
-import { RecentTradesContext } from '../components/RecentTradesTable/context';
+import { RecentTradesContext } from '../contexts/RecentTradesContext';
 import throttle from 'lodash.throttle';
 
 const THROTTLE_DELAY = 1000; // 1s
