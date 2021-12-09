@@ -18,8 +18,6 @@ import {
 import { TradingPosition } from '../../../../../types/trading-position';
 import { toWei } from 'web3-utils';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
-import { usePerpetual_closePosition } from '../../hooks/usePerpetual_closePosition';
-import { TxStatus } from '../../../../../store/global/transactions-store/types';
 
 type OpenPositionRowProps = {
   item: OpenPositionEntry;
@@ -30,7 +28,6 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
   const isMaintenance = checkMaintenance(States.PERPETUAL_TRADES);
-  const { status, closePosition } = usePerpetual_closePosition();
 
   const pair = useMemo(() => PerpetualPairDictionary.get(item.pairType), [
     item.pairType,
