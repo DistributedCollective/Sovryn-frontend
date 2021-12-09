@@ -1800,9 +1800,9 @@
     "name": "getAMMState",
     "outputs": [
       {
-        "internalType": "int128[10]",
+        "internalType": "int128[12]",
         "name": "",
-        "type": "int128[10]"
+        "type": "int128[12]"
       }
     ],
     "stateMutability": "view",
