@@ -163,6 +163,8 @@ export const EditMarginDialog: React.FC = () => {
     [signedMargin, traderState, ammState, perpParameters],
   );
 
+  const isButtonDisabled = useMemo(() => Number(margin) === 0, [margin]);
+
   useEffect(() => setChangedTrade(trade), [trade]);
 
   // call onChangeMargin, when it's renewed to enforce maxAmount.
@@ -244,7 +246,13 @@ export const EditMarginDialog: React.FC = () => {
             />
           </div>
           <button
-            className="tw-w-full tw-min-h-10 tw-p-2 tw-text-lg tw-text-primary tw-font-medium tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-duration-300 hover:tw-bg-primary-25"
+            className={classNames(
+              'tw-w-full tw-min-h-10 tw-p-2 tw-text-lg tw-text-primary tw-font-medium tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-transition-opacity tw-duration-300',
+              isButtonDisabled
+                ? 'tw-opacity-25 tw-cursor-not-allowed'
+                : 'tw-opacity-100 hover:tw-bg-primary-25',
+            )}
+            disabled={isButtonDisabled}
             onClick={onSubmit}
           >
             {t(translations.perpetualPage.editMargin.button)}

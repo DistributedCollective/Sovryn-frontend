@@ -41,6 +41,7 @@ import { ClosedPositionsTable } from './components/ClosedPositionsTable';
 import { OrderHistoryTable } from './components/OrderHistoryTable/index';
 import { FundingPaymentsTable } from './components/FundingPaymentsTable/index';
 import { PerpetualQueriesContextProvider } from './contexts/PerpetualQueriesContext';
+import { PairSelector } from './components/PairSelector';
 
 export function PerpetualPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -109,14 +110,7 @@ export function PerpetualPage() {
         </Helmet>
         <HeaderLabs />
         <div className="tw-relative tw--top-2.5 tw-w-full">
-          <div className="tw-w-full tw-bg-gray-2 tw-py-2">
-            <div className="tw-container">
-              <div>
-                Pair Select Placeholder
-                {/*TODO: implement pair select*/}
-              </div>
-            </div>
-          </div>
+          <PairSelector pair={pair} />
           <ContractDetails pair={pair} />
         </div>
         <div className={'tw-container tw-mt-5'}>

@@ -2,7 +2,6 @@ import { createContext, SetStateAction, Dispatch } from 'react';
 import {
   RecentTradesDataEntry,
   TradePriceChange,
-  TradeType,
   RecentTradesContextType,
 } from './types';
 import React, { useState, useEffect } from 'react';
@@ -15,6 +14,10 @@ import { useGetRecentTrades } from '../../hooks/graphql/useGetRecentTrades';
 import { Subscription } from 'web3-core-subscriptions';
 import { BigNumber } from 'ethers';
 import { ABK64x64ToFloat } from '../../utils/contractUtils';
+import {
+  getTradeType,
+  getPriceChange,
+} from './components/RecentTablesRow/utils';
 
 export const RecentTradesContext = createContext<{
   trades: RecentTradesDataEntry[];
@@ -101,20 +104,6 @@ const formatTradeData = (data: any[]): RecentTradesDataEntry[] => {
     };
   });
   return parsedData;
-};
-
-const getPriceChange = (prevPrice: number, price: number): TradePriceChange => {
-  if (prevPrice < price) {
-    return TradePriceChange.UP;
-  } else if (prevPrice > price) {
-    return TradePriceChange.DOWN;
-  } else {
-    return TradePriceChange.NO_CHANGE;
-  }
-};
-
-const getTradeType = (tradeAmount: number): TradeType => {
-  return tradeAmount < 0 ? TradeType.SELL : TradeType.BUY;
 };
 
 const convertTimestampToTime = (timestamp: number): string =>
