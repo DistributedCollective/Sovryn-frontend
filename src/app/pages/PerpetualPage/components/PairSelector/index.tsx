@@ -3,12 +3,9 @@ import btcIcon from 'assets/images/tokens/rbtc.svg';
 import { PerpetualPair } from '../../../../../utils/models/perpetual-pair';
 import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import classNames from 'classnames';
-import { RecentTradesContext } from '../RecentTradesTable/context';
-import {
-  getPriceColor,
-  getPriceChange,
-} from '../RecentTradesTable/components/RecentTablesRow/utils';
+import { getPriceColor, getPriceChange } from '../RecentTradesTable/utils';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
+import { RecentTradesContext } from '../../contexts/RecentTradesContext';
 
 type PairSelectorProps = {
   pair: PerpetualPair;
