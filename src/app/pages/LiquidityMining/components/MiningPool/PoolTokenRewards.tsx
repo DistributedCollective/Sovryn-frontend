@@ -47,9 +47,7 @@ const PoolTokenRewardsV2: React.FC<IPoolTokenRewardsProps> = ({ pool }) => {
   const {
     value: token2,
     loading: loading2,
-  } = useLiquidityMining_getTotalUserAccumulatedReward(
-    pool.poolTokenB as string,
-  );
+  } = useLiquidityMining_getTotalUserAccumulatedReward(pool.poolTokenB!);
 
   return (
     <>

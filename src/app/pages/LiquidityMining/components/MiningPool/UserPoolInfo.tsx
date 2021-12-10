@@ -47,7 +47,7 @@ export const UserPoolInfo: React.FC<IUserPoolInfoProps> = ({
   );
 
   const { value: reward2 } = useLiquidityMining_getUserAccumulatedReward(
-    poolTokenB as string,
+    poolTokenB!,
   );
 
   const rewardI1 = useMemo(

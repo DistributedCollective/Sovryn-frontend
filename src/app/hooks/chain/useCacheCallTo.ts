@@ -60,7 +60,7 @@ export function useCacheCallTo<T = string>(
       setState({
         loading: false,
         value: null,
-        error: (error as any)?.messsage || error,
+        error: (error as any)?.message || error,
       });
     }
 

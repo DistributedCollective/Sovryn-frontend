@@ -38,7 +38,7 @@ export const AmmPoolsBanner: React.FC<IAmmPoosBannerProps> = ({
   useEffect(() => {
     const getBalance = async (pool: AmmLiquidityPool, token: Asset) => {
       return await contractReader.callByAddress(
-        pool.getPoolTokenAddress(token) as string,
+        pool.getPoolTokenAddress(token)!,
         ERC20Abi,
         'balanceOf',
         [account],

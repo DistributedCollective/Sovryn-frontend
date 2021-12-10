@@ -118,7 +118,9 @@ const Row: React.FC<IRowProps> = ({ pool, rate, ammData, hide = false }) => {
     { immediate: true },
   );
 
-  if (hide) return null;
+  if (hide) {
+    return null;
+  }
 
   return (
     <>

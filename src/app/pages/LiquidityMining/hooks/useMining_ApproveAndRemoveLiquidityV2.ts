@@ -7,6 +7,7 @@ import {
 import { useMining_RemoveLiquidityV2 } from './useMining_RemoveLiquidityV2';
 import { toWei } from '../../../../utils/blockchain/math-helpers';
 import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
+import { MILLION } from 'utils/classifiers';
 
 export function useMining_ApproveAndRemoveLiquidityV2(
   pool: AmmLiquidityPool,
@@ -25,9 +26,9 @@ export function useMining_ApproveAndRemoveLiquidityV2(
     withdraw: async () => {
       let tx: CheckAndApproveResult = {};
       tx = await contractWriter.checkAndApproveAddresses(
-        pool.getPoolTokenAddress(asset) as string,
+        pool.getPoolTokenAddress(asset)!,
         getContract('BTCWrapperProxy').address,
-        [amount, toWei('1000000000000000000000')],
+        [amount, toWei(MILLION)],
         asset,
       );
       if (tx.rejected) {

@@ -50,7 +50,7 @@ export const RemoveLiquidityDialog: React.FC<IRemoveLiquidityDialogProps> = ({
   const [amount, setAmount] = useState('0');
   const weiAmount = useWeiAmount(amount);
 
-  const poolTokenAddress = pool.getPoolTokenAddress(asset) as string;
+  const poolTokenAddress = pool.getPoolTokenAddress(asset)!;
 
   const {
     value: { amount: poolTokenBalance, accumulatedReward },

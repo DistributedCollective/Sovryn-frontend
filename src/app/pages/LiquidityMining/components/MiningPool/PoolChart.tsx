@@ -7,12 +7,12 @@ import ComparisonChart from 'app/components/FinanceV2Components/ComparisonChart'
 import { getAssetColor } from 'app/components/FinanceV2Components/utils/getAssetColor';
 import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
 
-interface Props {
+interface IPoolChartProps {
   pool: AmmLiquidityPool;
   history: AmmHistory;
 }
 
-export function PoolChart({ pool, history }: Props) {
+export function PoolChart({ pool, history }: IPoolChartProps) {
   const { t } = useTranslation();
   const [primaryAssetHistory, setPrimaryAssetHistory] = useState<ChartData>([]);
   const [secondaryAssetHistory, setSecondaryAssetHistory] = useState<ChartData>(

@@ -34,7 +34,7 @@ export const TableRow: React.FC<ITableRowProps> = ({
         <DisplayDate timestamp={new Date(time).getTime().toString()} />
       </td>
       <td>
-        <TablePoolRenderer asset={pool?.assetA} secondaryAsset={pool?.assetB} />
+        <TablePoolRenderer asset={pool.assetA} secondaryAsset={pool.assetB} />
       </td>
       <td>
         {type === 'Added'

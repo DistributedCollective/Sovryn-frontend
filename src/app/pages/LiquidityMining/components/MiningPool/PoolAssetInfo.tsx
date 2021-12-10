@@ -1,5 +1,5 @@
 import React from 'react';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { useCacheCallWithValue } from '../../../../hooks/useCacheCallWithValue';
 import { useReserveWeight } from '../../../../hooks/useReserveWeight';
 import {
@@ -27,7 +27,7 @@ export function PoolAssetInfo({ pool, supplyAsset, className }: Props) {
 
   return (
     <div
-      className={cn(
+      className={classNames(
         'tw-flex tw-flex-row tw-justify-between tw-items-center',
         className,
       )}
