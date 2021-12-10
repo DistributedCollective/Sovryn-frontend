@@ -23,7 +23,11 @@ import {
   TraderState,
 } from '../utils/perpUtils';
 import { getContract } from '../../../../utils/blockchain/contract-helpers';
-import { subscription } from '../utils/bscWebsocket';
+import {
+  subscription,
+  PerpetualManagerEventKeys,
+  decodePerpetualManagerLog,
+} from '../utils/bscWebsocket';
 import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
 import throttle from 'lodash.throttle';
 
@@ -37,8 +41,19 @@ type InitSocketParams = {
 };
 
 const initSocket = ({ update }: InitSocketParams, perpetualId: string) => {
-  const socket = subscription(address, ['Trade', 'UpdatePrice']);
-  socket.on('data', update);
+  const socket = subscription(address, [
+    PerpetualManagerEventKeys.Trade,
+    PerpetualManagerEventKeys.UpdatePrice,
+  ]);
+  socket.on('data', data => {
+    const decoded = decodePerpetualManagerLog(data);
+    if (
+      decoded &&
+      decoded.perpetualId.toLowerCase() === perpetualId.toLowerCase()
+    ) {
+      update();
+    }
+  });
   return socket;
 };
 
