@@ -18,7 +18,7 @@ import { TxFeeCalculator } from '../../../MarginTradePage/components/TxFeeCalcul
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 import { useMining_ApproveAndRemoveLiquidityV2 } from '../../hooks/useMining_ApproveAndRemoveLiquidityV2';
-import { useRemoveLiquidityReturnAndFee } from '../../../../hooks/amm/useRemoveLiquidityReturnAndFee';
+import { useMining_RemoveLiquidityReturnAndFee } from '../../hooks/useMining_RemoveLiquidityReturnAndFee';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { useLiquidityMining_getUserInfo } from '../../hooks/useLiquidityMining_getUserInfo';
@@ -58,7 +58,11 @@ export const RemoveLiquidityDialog: React.FC<IRemoveLiquidityDialogProps> = ({
   } = useLiquidityMining_getUserInfo(poolTokenAddress);
   const {
     value: { 0: balance },
-  } = useRemoveLiquidityReturnAndFee(pool, poolTokenAddress, poolTokenBalance);
+  } = useMining_RemoveLiquidityReturnAndFee(
+    pool,
+    poolTokenAddress,
+    poolTokenBalance,
+  );
 
   const poolWeiAmount = useMemo(
     () =>

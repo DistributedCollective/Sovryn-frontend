@@ -14,8 +14,6 @@ import feeSharingProxyAbi from './abi/FeeSharingProxy.json';
 import stakingRewardsProxyAbi from './abi/StakingRewards.json';
 import FISHTokenAbi from './abi/FISH.json';
 import LiquidityMiningAbi from './abi/LiquidityMining.json';
-import LiquidityPoolV1Converter from './abi/LiquidityPoolV1Converter.json';
-import LiquidityPoolV2Converter from './abi/LiquidityPoolV2Converter.json';
 import LoanTokenLogicStandard from './abi/LoanTokenLogicStandard.json';
 import LoanTokenLogicWrbtc from './abi/LoanTokenLogicWrbtc.json';
 import LockedFundAbi from './abi/LockedFund.json';
@@ -90,11 +88,6 @@ export const contracts = {
     abi: LoanTokenLogicStandard,
     blockNumber: 1218721,
   },
-  DOC_amm: {
-    address: '0x497b0517dd24f66c456e93bc0adbb2a2bf159ec4',
-    abi: LiquidityPoolV2Converter,
-    blockNumber: 1218833,
-  },
   RDOC_token: {
     address: '0xc3de9f38581f83e281f260d0ddbaac0e102ff9f8',
     abi: TestTokenABI,
@@ -105,30 +98,10 @@ export const contracts = {
     abi: TestTokenABI,
     blockNumber: 202559,
   },
-  // MOC_lending: {
-  //   address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f',
-  //   abi: LoanTokenLogicStandard,
-  //   blockNumber: 1218721,
-  // },
-  MOC_amm: {
-    address: '0x3D18E1EC60c9725494252A835593aa90Da777E15',
-    abi: LiquidityPoolV1Converter,
-    blockNumber: 1218833,
-  },
   RIF_token: {
     address: '0x19f64674d8a5b4e652319f5e239efd3bc969a1fe',
     abi: TestTokenABI,
     blockNumber: 1408174,
-  },
-  // RIF_lending: {
-  //   address: '',
-  //   abi: LoanTokenLogicStandard,
-  //   blockNumber: 1406290,
-  // },
-  RIF_amm: {
-    address: '0xA82881bceb367f8653559937A6eFBFffBF2E06DD',
-    abi: LiquidityPoolV1Converter,
-    blockNumber: 1218833,
   },
   USDT_token: {
     address: '0x4D5a316D23eBE168d8f887b4447bf8DbFA4901CC',
@@ -140,11 +113,6 @@ export const contracts = {
     abi: LoanTokenLogicStandard,
     blockNumber: 1406290,
   },
-  USDT_amm: {
-    address: '0x133eBE9c8bA524C9B1B601E794dF527f390729bF',
-    abi: LiquidityPoolV2Converter,
-    blockNumber: 1218833,
-  },
   XUSD_token: {
     address: '0x74858FE37d391f81F89472e1D8BC8Ef9CF67B3b1',
     abi: TestTokenABI,
@@ -154,11 +122,6 @@ export const contracts = {
     address: '0x9bD0cE087b14ef67C3D37C891139AaE7d94a961A',
     abi: LoanTokenLogicStandard,
     blockNumber: 1406290,
-  },
-  XUSD_amm: {
-    address: '0x9a1aE300b23F4C676186e6d417ac586889aAfF42',
-    abi: LiquidityPoolV1Converter,
-    blockNumber: 1218833,
   },
   BPRO_token: {
     address: '0x4dA7997A819bb46B6758b9102234c289Dd2ad3bf',
@@ -170,40 +133,15 @@ export const contracts = {
     abi: LoanTokenLogicStandard,
     blockNumber: 1218721,
   },
-  BPRO_amm: {
-    address: '0xe4E467D8B5f61b5C83048d857210678eB86730A4',
-    abi: LiquidityPoolV2Converter,
-    blockNumber: 1218833,
-  },
   ETH_token: {
     address: '0x0Fd0d8D78Ce9299Ee0e5676a8d51F938C234162c',
     abi: TestTokenABI,
     blockNumber: 1408174,
   },
-  // ETH_lending: {
-  //   address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
-  //   abi: LoanTokenLogicStandard,
-  //   blockNumber: 1406290,
-  // },
-  ETH_amm: {
-    address: '0x4c493276E14791472633B55aaD82E49D28540bC6',
-    abi: LiquidityPoolV1Converter,
-    blockNumber: 1218833,
-  },
   BNBS_token: {
     address: '0x801F223Def9A4e3a543eAcCEFB79dCE981Fa2Fb5',
     abi: TestTokenABI,
     blockNumber: 1408174,
-  },
-  // BNBS_lending: {
-  //   address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
-  //   abi: LoanTokenLogicStandard,
-  //   blockNumber: 1406290,
-  // },
-  BNBS_amm: {
-    address: '0xA8D7FDd2f67273F178EFe731d4becd38E2A94E11',
-    abi: LiquidityPoolV1Converter,
-    blockNumber: 1218833,
   },
   CrowdSale: {
     address: '0x62BDB11190f538274bD55A4DC74fA4665e7CB752',
@@ -278,16 +216,6 @@ export const contracts = {
     abi: tokenAbi,
     blockNumber: 1606431,
   },
-  SOV_amm: {
-    address: '0xaBAABc2191A23D6Bb2cfa973892062c131cb7647',
-    abi: LiquidityPoolV1Converter,
-    blockNumber: 1218833,
-  },
-  // SOV_lending: {
-  //   address: '0x09c5faf7723b13434abdf1a65ab1b667bc02a902', // todo
-  //   abi: LoanTokenLogicStandard,
-  //   blockNumber: 1218742,
-  // },
   NFT_tier1: {
     address: '0xC5452Dbb2E3956C1161cB9C2d6DB53C2b60E7805',
     abi: tokenAbi,
@@ -319,10 +247,6 @@ export const contracts = {
   FISH_token: {
     address: '0xaa7038D80521351F243168FefE0352194e3f83C3',
     abi: FISHTokenAbi,
-  },
-  FISH_amm: {
-    address: '0x5871040a14331c0f7AB5390A3Df16D271b0936ef',
-    abi: LiquidityPoolV1Converter,
   },
   FISH_staking: {
     address: '0xc1fc98FEFA2130fC1CE352ec85f7aa61021eFE97',

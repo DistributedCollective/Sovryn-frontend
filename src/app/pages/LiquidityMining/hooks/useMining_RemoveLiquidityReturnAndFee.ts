@@ -1,7 +1,7 @@
 import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
-import { useCacheCallToWithValue } from '../chain/useCacheCallToWithValue';
+import { useCacheCallToWithValue } from '../../../hooks/chain/useCacheCallToWithValue';
 
-export function useRemoveLiquidityReturnAndFee(
+export function useMining_RemoveLiquidityReturnAndFee(
   pool: AmmLiquidityPool,
   poolToken: string,
   amount: string,
@@ -10,7 +10,7 @@ export function useRemoveLiquidityReturnAndFee(
     pool.converter,
     pool.converterAbi,
     'removeLiquidityReturnAndFee',
-    ['-1', '-1'],
+    ['0', '0'],
     [poolToken, amount],
   );
 }
