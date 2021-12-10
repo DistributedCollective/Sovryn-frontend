@@ -68,7 +68,7 @@ export const usePerpetual_ClosedPositions = (
           ),
           realizedPnl: {
             baseValue: realizedPnlCC,
-            quoteValue: realizedPnlCC * markPrice,
+            quoteValue: realizedPnlCC / getQuote2CollateralFX(ammState),
           },
         };
       });
