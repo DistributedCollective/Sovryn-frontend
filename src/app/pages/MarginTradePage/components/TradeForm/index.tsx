@@ -213,26 +213,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                 value={<>{weiToNumberFormat(estimations.interestRate, 2)} %</>}
               />
 
-              {openTradesLocked && (
-                <ErrorBadge
-                  content={
-                    <Trans
-                      i18nKey={translations.maintenance.openMarginTrades}
-                      components={[
-                        <a
-                          href={discordInvite}
-                          target="_blank"
-                          rel="noreferrer noopener"
-                          className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
-                        >
-                          x
-                        </a>,
-                      ]}
-                    />
-                  }
-                />
-              )}
-
               <div className="tw-mb-4 tw-text-secondary tw-text-xs tw-flex">
                 <ActionButton
                   text={
@@ -278,6 +258,26 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                 data-action-id="margin-reviewTransaction-button-placePosition"
               />
             </>
+          )}
+
+          {openTradesLocked && (
+            <ErrorBadge
+              content={
+                <Trans
+                  i18nKey={translations.maintenance.openMarginTrades}
+                  components={[
+                    <a
+                      href={discordInvite}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                    >
+                      x
+                    </a>,
+                  ]}
+                />
+              }
+            />
           )}
         </div>
 
