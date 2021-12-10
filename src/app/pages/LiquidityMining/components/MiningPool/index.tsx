@@ -6,7 +6,6 @@ import { ActionButton } from 'app/components/Form/ActionButton';
 import { Spinner } from 'app/components/Spinner';
 import { AddLiquidityDialog } from '../AddLiquidityDialog';
 import { RemoveLiquidityDialog } from '../RemoveLiquidityDialog';
-import { LiquidityPool } from '../../../../../utils/models/liquidity-pool';
 import { PoolAssetInfo } from './PoolAssetInfo';
 import { PoolChart } from './PoolChart';
 import { UserPoolInfo } from './UserPoolInfo';
@@ -14,23 +13,29 @@ import { useCanInteract } from '../../../../hooks/useCanInteract';
 import { AddLiquidityDialogV1 } from '../AddLiquidityDialog/AddLiquidityDialogV1';
 import { RemoveLiquidityDialogV1 } from '../RemoveLiquidityDialog/RemoveLiquidityDialogV1';
 import { CardRow } from 'app/components/FinanceV2Components/CardRow';
-import { Asset } from 'types';
-import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import type { AmmHistory } from './types';
+import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
+import { LiquidityPoolDictionary } from 'utils/dictionaries/liquidity-pool-dictionary';
 
-interface Props {
-  pool: LiquidityPool;
+interface IMiningPoolProps {
+  pool: AmmLiquidityPool;
   ammData: AmmHistory;
-  linkAsset?: Asset;
+  linkAsset?: string;
 }
 
 type DialogType = 'none' | 'add' | 'remove';
 
-export function MiningPool({ pool, ammData, linkAsset }: Props) {
+export const MiningPool: React.FC<IMiningPoolProps> = ({
+  pool,
+  ammData,
+  linkAsset,
+}) => {
   const { t } = useTranslation();
   const [dialog, setDialog] = useState<DialogType>(
-    pool.poolAsset === linkAsset ? 'add' : 'none',
+    linkAsset && pool.key === LiquidityPoolDictionary.getByKey(linkAsset)?.key
+      ? 'add'
+      : 'none',
   );
   const canInteract = useCanInteract();
   const [isEmptyBalance, setIsEmptyBalance] = useState(true);
@@ -80,14 +85,12 @@ export function MiningPool({ pool, ammData, linkAsset }: Props) {
             <div className="tw-flex tw-items-center tw-mr-4">
               {/* Assets and balances */}
               <div className="tw-flex tw-flex-col tw-justify-between">
-                {pool.supplyAssets.map((item, index) => (
-                  <PoolAssetInfo
-                    key={item.asset}
-                    pool={pool}
-                    supplyAsset={item}
-                    className={index === 1 ? 'tw-mt-2.5' : ''}
-                  />
-                ))}
+                <PoolAssetInfo pool={pool} supplyAsset={pool.assetA} />
+                <PoolAssetInfo
+                  pool={pool}
+                  supplyAsset={pool.assetB}
+                  className="tw-mt-2.5"
+                />
               </div>
             </div>
           )
@@ -103,25 +106,11 @@ export function MiningPool({ pool, ammData, linkAsset }: Props) {
             successfulTransactions={successfulTransactions}
           />
         }
-        leftColor={
-          (pool.supplyAssets[0].asset === Asset.SOV &&
-            pool.supplyAssets[1].asset === Asset.RBTC &&
-            LootDropColors.Purple) ||
-          (pool.supplyAssets[0].asset === Asset.ETH &&
-            pool.supplyAssets[1].asset === Asset.RBTC &&
-            LootDropColors.Green) ||
-          (pool.supplyAssets[0].asset === Asset.XUSD &&
-            pool.supplyAssets[1].asset === Asset.RBTC &&
-            LootDropColors.Yellow) ||
-          (pool.supplyAssets[0].asset === Asset.BNB &&
-            pool.supplyAssets[1].asset === Asset.RBTC &&
-            LootDropColors.Blue) ||
-          undefined
-        }
+        leftColor={pool.lootDropColor}
       />
       {canInteract && (
         <>
-          {pool.version === 1 && (
+          {pool.converterVersion === 1 && (
             <>
               <AddLiquidityDialogV1
                 pool={pool}
@@ -137,7 +126,7 @@ export function MiningPool({ pool, ammData, linkAsset }: Props) {
               />
             </>
           )}
-          {pool.version === 2 && (
+          {pool.converterVersion === 2 && (
             <>
               <AddLiquidityDialog
                 pool={pool}
@@ -157,4 +146,4 @@ export function MiningPool({ pool, ammData, linkAsset }: Props) {
       )}
     </div>
   );
-}
+};

@@ -1,17 +1,16 @@
-import { Asset } from 'types/asset';
-import { getAmmContractName } from 'utils/blockchain/contract-helpers';
-import { useCacheCallWithValue } from '../useCacheCallWithValue';
+import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
+import { useCacheCallToWithValue } from '../chain/useCacheCallToWithValue';
 
 export function useRemoveLiquidityReturnAndFee(
-  pool: Asset,
+  pool: AmmLiquidityPool,
   poolToken: string,
   amount: string,
 ) {
-  return useCacheCallWithValue(
-    getAmmContractName(pool),
+  return useCacheCallToWithValue(
+    pool.converter,
+    pool.converterAbi,
     'removeLiquidityReturnAndFee',
-    ['0', '0'],
-    poolToken,
-    amount,
+    ['-1', '-1'],
+    [poolToken, amount],
   );
 }

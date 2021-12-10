@@ -31,7 +31,7 @@ interface IPromotionCardProps {
   logoAsset1: Asset;
   logoAsset2?: Asset;
   learnMoreLink?: string;
-  linkAsset?: Asset;
+  linkAsset?: Asset | string;
   linkTargetAsset?: Asset;
   linkMarginPairType?: TradingPairType;
   linkSpotTradingPairType?: SpotPairType;

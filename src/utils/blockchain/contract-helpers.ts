@@ -13,15 +13,18 @@ export const getLendingContractName = (asset: Asset) =>
 export const getTokenContract = (asset: Asset) =>
   AssetsDictionary.get(asset).tokenContract;
 
+/** @deprecated */
 export const getAmmContract = (asset: Asset) =>
   AssetsDictionary.get(asset).ammContract;
 
 export const getTokenContractName = (asset: Asset) =>
   AssetsDictionary.get(asset).getTokenContractName();
 
+/** @deprecated */
 export const getPoolTokenContractName = (pool: Asset, asset: Asset) =>
   `${pool}_${asset}_poolToken` as ContractName;
 
+/** @deprecated */
 export const getAmmContractName = (asset: Asset) =>
   AssetsDictionary.get(asset).getAmmContractName() as ContractName;
 

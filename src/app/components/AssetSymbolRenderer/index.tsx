@@ -32,15 +32,15 @@ const symbolMap = {
   ),
 };
 
-export function getAssetSymbol(asset: Asset) {
+export function getAssetSymbol(asset: Asset | string) {
   if (symbolMap.hasOwnProperty(asset)) {
     return symbolMap[asset];
   }
-  return AssetsDictionary.get(asset)?.symbol || asset;
+  return AssetsDictionary.get(asset as Asset)?.symbol || asset;
 }
 
 interface IAssetSymbolRenderer {
-  asset?: Asset;
+  asset?: Asset | string;
   assetString?: string;
   assetClassName?: string;
 }

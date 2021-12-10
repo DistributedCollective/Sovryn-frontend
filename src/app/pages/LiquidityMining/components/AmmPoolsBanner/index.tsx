@@ -3,10 +3,6 @@ import { LiquidityPoolDictionary } from 'utils/dictionaries/liquidity-pool-dicti
 import { contractReader } from '../../../../../utils/sovryn/contract-reader';
 import { useAccount, useBlockSync } from '../../../../hooks/useAccount';
 import ERC20Abi from 'utils/blockchain/abi/erc20.json';
-import {
-  LiquidityPool,
-  LiquidityPoolSupplyAsset,
-} from '../../../../../utils/models/liquidity-pool';
 import { Asset } from '../../../../../types';
 import { AmmPool } from './AmmPool';
 import { PoolTransferDialog } from './PoolTransferDialog';
@@ -14,12 +10,13 @@ import { ActionButton } from 'app/components/Form/ActionButton';
 
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
+import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
 
 const pools = LiquidityPoolDictionary.list();
 
 interface StateInterface {
-  pool: Asset;
-  asset: LiquidityPoolSupplyAsset;
+  pool: AmmLiquidityPool;
+  asset: Asset;
   balance: string;
 }
 
@@ -27,7 +24,9 @@ interface IAmmPoosBannerProps {
   onDataNotPresent: () => void;
 }
 
-export function AmmPoolsBanner({ onDataNotPresent }: IAmmPoosBannerProps) {
+export const AmmPoolsBanner: React.FC<IAmmPoosBannerProps> = ({
+  onDataNotPresent,
+}) => {
   const { t } = useTranslation();
 
   const account = useAccount();
@@ -37,12 +36,9 @@ export function AmmPoolsBanner({ onDataNotPresent }: IAmmPoosBannerProps) {
   const [state, setState] = useState<StateInterface[]>([]);
 
   useEffect(() => {
-    const getBalance = async (
-      pool: LiquidityPool,
-      token: LiquidityPoolSupplyAsset,
-    ) => {
+    const getBalance = async (pool: AmmLiquidityPool, token: Asset) => {
       return await contractReader.callByAddress(
-        token.getContractAddress(),
+        pool.getPoolTokenAddress(token) as string,
         ERC20Abi,
         'balanceOf',
         [account],
@@ -52,31 +48,21 @@ export function AmmPoolsBanner({ onDataNotPresent }: IAmmPoosBannerProps) {
     const getData = async () => {
       const items: StateInterface[] = [];
       for (let pool of pools) {
-        if (pool.version === 1) {
-          const balance = await getBalance(pool, pool.supplyAssets[0]);
+        const balance = await getBalance(pool, pool.assetA);
+        if (typeof balance === 'string' && balance !== '0') {
+          items.push({
+            pool: pool,
+            asset: pool.assetA,
+            balance,
+          });
+        }
+        if (pool.converterVersion === 2) {
+          const balance = await getBalance(pool, pool.assetB);
           if (typeof balance === 'string' && balance !== '0') {
             items.push({
-              pool: pool.poolAsset,
-              asset: pool.supplyAssets[0],
-              balance,
-            });
-          }
-        } else if (pool.version === 2) {
-          const balance1 = await getBalance(pool, pool.supplyAssets[0]);
-          if (typeof balance1 === 'string' && balance1 !== '0') {
-            items.push({
-              pool: pool.poolAsset,
-              asset: pool.supplyAssets[0],
-              balance: balance1,
-            });
-          }
-
-          const balance2 = await getBalance(pool, pool.supplyAssets[1]);
-          if (typeof balance2 === 'string' && balance2 !== '0') {
-            items.push({
-              pool: pool.poolAsset,
-              asset: pool.supplyAssets[1],
-              balance: balance2,
+              pool: pool,
+              asset: pool.assetB,
+              balance: balance,
             });
           }
         }
@@ -117,7 +103,7 @@ export function AmmPoolsBanner({ onDataNotPresent }: IAmmPoosBannerProps) {
         <div className="tw-flex tw-flex-col">
           {state.map(item => (
             <AmmPool
-              key={item.pool + '-' + item.asset.asset}
+              key={item.pool.key}
               pool={item.pool}
               asset={item.asset}
               balance={item.balance}
@@ -127,4 +113,4 @@ export function AmmPoolsBanner({ onDataNotPresent }: IAmmPoosBannerProps) {
       </PoolTransferDialog>
     </div>
   );
-}
+};

@@ -140,12 +140,9 @@ export function LiquidityMining() {
         >
           {pools.map(item => (
             <MiningPool
-              key={item.poolAsset}
+              key={`${item.assetA}/${item.assetB}`}
               pool={item}
-              ammData={
-                ammData &&
-                ammData[item?.assetDetails?.ammContract?.address?.toLowerCase()]
-              }
+              ammData={ammData && ammData[item?.converter.toLowerCase()]}
               linkAsset={location.state?.asset}
             />
           ))}

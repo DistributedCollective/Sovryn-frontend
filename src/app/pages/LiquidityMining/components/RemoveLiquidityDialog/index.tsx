@@ -8,10 +8,7 @@ import { translations } from '../../../../../locales/i18n';
 import { useCanInteract } from '../../../../hooks/useCanInteract';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { useSlippage } from '../../../BuySovPage/components/BuyForm/useSlippage';
-import {
-  getAmmContract,
-  getTokenContract,
-} from '../../../../../utils/blockchain/contract-helpers';
+import { getTokenContract } from '../../../../../utils/blockchain/contract-helpers';
 import { CollateralAssets } from '../../../MarginTradePage/components/CollateralAssets';
 import { AmountInput } from 'app/components/Form/AmountInput';
 import { ArrowDown } from '../../../../components/Arrows';
@@ -21,13 +18,8 @@ import { TxFeeCalculator } from '../../../MarginTradePage/components/TxFeeCalcul
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 import { useMining_ApproveAndRemoveLiquidityV2 } from '../../hooks/useMining_ApproveAndRemoveLiquidityV2';
-import { usePoolToken } from '../../../../hooks/amm/usePoolToken';
 import { useRemoveLiquidityReturnAndFee } from '../../../../hooks/amm/useRemoveLiquidityReturnAndFee';
 import { LoadableValue } from '../../../../components/LoadableValue';
-import {
-  LiquidityPool,
-  LiquidityPoolSupplyAsset,
-} from '../../../../../utils/models/liquidity-pool';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { useLiquidityMining_getUserInfo } from '../../hooks/useLiquidityMining_getUserInfo';
 import { Asset } from '../../../../../types';
@@ -35,44 +27,38 @@ import { useLiquidityMining_getUserAccumulatedReward } from '../../hooks/useLiqu
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
+import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
 
-interface Props {
-  pool: LiquidityPool;
+interface IRemoveLiquidityDialogProps {
+  pool: AmmLiquidityPool;
   showModal: boolean;
   onCloseModal: () => void;
   onSuccess: () => void;
 }
 
-export function RemoveLiquidityDialog({ pool, ...props }: Props) {
+export const RemoveLiquidityDialog: React.FC<IRemoveLiquidityDialogProps> = ({
+  pool,
+  ...props
+}) => {
   const { t } = useTranslation();
 
   const canInteract = useCanInteract();
   const { checkMaintenance, States } = useMaintenance();
   const removeliquidityLocked = checkMaintenance(States.REMOVE_LIQUIDITY);
 
-  const [asset, setAsset] = useState(pool.poolAsset);
+  const [asset, setAsset] = useState(pool.assetA);
   const [amount, setAmount] = useState('0');
   const weiAmount = useWeiAmount(amount);
 
-  usePoolToken(pool.poolAsset, asset);
-
-  const supplyAsset = useMemo(() => {
-    return pool.supplyAssets.find(
-      item => item.asset === asset,
-    ) as LiquidityPoolSupplyAsset;
-  }, [pool.supplyAssets, asset]);
+  const poolTokenAddress = pool.getPoolTokenAddress(asset) as string;
 
   const {
     value: { amount: poolTokenBalance, accumulatedReward },
     loading,
-  } = useLiquidityMining_getUserInfo(supplyAsset.getContractAddress());
+  } = useLiquidityMining_getUserInfo(poolTokenAddress);
   const {
     value: { 0: balance },
-  } = useRemoveLiquidityReturnAndFee(
-    pool.poolAsset,
-    supplyAsset.getContractAddress(),
-    poolTokenBalance,
-  );
+  } = useRemoveLiquidityReturnAndFee(pool, poolTokenAddress, poolTokenBalance);
 
   const poolWeiAmount = useMemo(
     () =>
@@ -86,9 +72,8 @@ export function RemoveLiquidityDialog({ pool, ...props }: Props) {
   const { minReturn } = useSlippage(weiAmount, 5);
 
   const { withdraw, ...tx } = useMining_ApproveAndRemoveLiquidityV2(
-    pool.poolAsset,
+    pool,
     asset,
-    supplyAsset.getContractAddress(),
     poolWeiAmount,
     minReturn,
   );
@@ -102,16 +87,14 @@ export function RemoveLiquidityDialog({ pool, ...props }: Props) {
 
   const txFeeArgs = useMemo(() => {
     return [
-      getAmmContract(pool.poolAsset).address,
+      pool.converter,
       getTokenContract(asset).address,
       poolWeiAmount || '0',
       minReturn || '0',
     ];
-  }, [pool.poolAsset, asset, poolWeiAmount, minReturn]);
+  }, [pool, asset, poolWeiAmount, minReturn]);
 
-  const rewards = useLiquidityMining_getUserAccumulatedReward(
-    supplyAsset.getContractAddress(),
-  );
+  const rewards = useLiquidityMining_getUserAccumulatedReward(poolTokenAddress);
 
   const reward = useMemo(
     () => bignumber(rewards.value).add(accumulatedReward).toFixed(0),
@@ -120,9 +103,7 @@ export function RemoveLiquidityDialog({ pool, ...props }: Props) {
 
   const handleConfirm = () => withdraw();
 
-  const assets = useMemo(() => pool.supplyAssets.map(item => item.asset), [
-    pool.supplyAssets,
-  ]);
+  const assets = useMemo(() => [pool.assetA, pool.assetB], [pool]);
 
   return (
     <>
@@ -209,4 +190,4 @@ export function RemoveLiquidityDialog({ pool, ...props }: Props) {
       />
     </>
   );
-}
+};

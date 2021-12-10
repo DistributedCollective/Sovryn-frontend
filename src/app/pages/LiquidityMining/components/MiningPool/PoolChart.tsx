@@ -2,45 +2,44 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { translations } from 'locales/i18n';
-import { currentNetwork } from 'utils/classifiers';
-import type { LiquidityPool } from 'utils/models/liquidity-pool';
 import type { AmmHistory, ChartData } from './types';
 import ComparisonChart from 'app/components/FinanceV2Components/ComparisonChart';
 import { getAssetColor } from 'app/components/FinanceV2Components/utils/getAssetColor';
+import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
 
 interface Props {
-  pool: LiquidityPool;
+  pool: AmmLiquidityPool;
   history: AmmHistory;
 }
 
 export function PoolChart({ pool, history }: Props) {
   const { t } = useTranslation();
-  const [btcHistory, setBtcHistory] = useState<ChartData>([]);
-  const [assetHistory, setAssetHistory] = useState<ChartData>([]);
+  const [primaryAssetHistory, setPrimaryAssetHistory] = useState<ChartData>([]);
+  const [secondaryAssetHistory, setSecondaryAssetHistory] = useState<ChartData>(
+    [],
+  );
   const [totalHistory, setTotalHistory] = useState<ChartData>([]);
 
   useEffect(() => {
     if (history?.data && history?.balanceHistory && pool) {
-      const assetAddress = pool.supplyAssets[0].poolTokens[
-        currentNetwork
-      ].toLowerCase();
-      const btcAddress = pool.supplyAssets[1].poolTokens[
-        currentNetwork
-      ].toLowerCase();
+      const { poolTokenA, poolTokenB } = pool;
 
-      const asset: ChartData = history.data[assetAddress]?.map(i => [
+      const primaryAssetData: ChartData = history.data[poolTokenA]?.map(i => [
         Date.parse(i.activity_date),
         i.APY_pc,
       ]);
-      setAssetHistory(asset);
+      setPrimaryAssetHistory(primaryAssetData);
 
-      //only use btc data for v2 pools, as v1 pools are 50/50 and have same APY for both sides
-      if (btcAddress !== assetAddress && history.data[btcAddress]) {
-        const btc: ChartData = history.data[btcAddress]?.map(i => [
-          Date.parse(i.activity_date),
-          i.APY_pc,
-        ]);
-        setBtcHistory(btc);
+      //only use secondary asset data for v2 pools, as v1 pools are 50/50 and have same APY for both sides
+      if (
+        pool.converterVersion === 2 &&
+        poolTokenB &&
+        history.data[poolTokenB]
+      ) {
+        const secondaryAssetData: ChartData = history.data[
+          poolTokenB
+        ]?.map(i => [Date.parse(i.activity_date), i.APY_pc]);
+        setSecondaryAssetHistory(secondaryAssetData);
       }
       const total: ChartData = history.balanceHistory?.map(i => [
         Date.parse(i.activity_date),
@@ -52,25 +51,25 @@ export function PoolChart({ pool, history }: Props) {
 
   return (
     <>
-      {assetHistory?.length > 0 && totalHistory?.length > 0 && (
+      {primaryAssetHistory?.length > 0 && totalHistory?.length > 0 && (
         <ComparisonChart
           primaryData={{
             name: `${
-              btcHistory && btcHistory.length > 0
-                ? pool.poolAsset
+              secondaryAssetHistory && secondaryAssetHistory.length > 0
+                ? pool.assetA
                 : t(translations.liquidity.pool)
             } ${t(translations.liquidity.apy)}`,
-            color: getAssetColor(pool.poolAsset),
-            data: assetHistory,
+            color: getAssetColor(pool.assetA),
+            data: primaryAssetHistory,
             numDecimals: 2,
             suffix: '%',
           }}
           secondaryData={
-            btcHistory?.length > 0
+            secondaryAssetHistory?.length > 0
               ? {
-                  name: `rBTC ${t(translations.liquidity.apy)}`,
-                  color: '#FFAC3E',
-                  data: btcHistory,
+                  name: `${pool.assetB} ${t(translations.liquidity.apy)}`,
+                  color: getAssetColor(pool.assetB),
+                  data: secondaryAssetHistory,
                   numDecimals: 2,
                   suffix: '%',
                 }
@@ -81,7 +80,7 @@ export function PoolChart({ pool, history }: Props) {
             color: '#ACACAC',
             data: totalHistory,
             numDecimals: 2,
-            suffix: '₿',
+            suffix: '₿', // todo: true for now, but most likely will change
           }}
         />
       )}
