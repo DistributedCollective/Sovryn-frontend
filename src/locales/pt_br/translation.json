@@ -200,7 +200,7 @@
       "slippageSettings": "Configurações avançadas",
       "esEntryPrice": "Preço aproximado de entrada:",
       "esLiquidationPrice": "Preço aproximado de liquidação:",
-      "interestAPY": "Juros anual:"
+      "interestAPY": "Taxa anual:"
     },
     "buttons": {
       "submit": "Realizar operação"
@@ -1464,8 +1464,8 @@
         "short": "Vendido"
       },
       "placePosition": {
-        "placeLong": "Revisar ordem",
-        "placeShort": "Revisar ordem"
+        "placeLong": "Revisar ordem a",
+        "placeShort": "Revisar ordem a"
       }
     },
     "recentTrades": {
@@ -1496,7 +1496,7 @@
         "long": "Comprado",
         "short": "Vendido"
       },
-      "newPositionDetails": "Detalhes nova posição"
+      "newPositionDetails": "Detalhes"
     },
     "openPositions": "Posições abertas",
     "tradingHistory": "Posições fechadas",
@@ -1525,11 +1525,11 @@
       "description": "Operar spot"
     },
     "tradeForm": {
-      "buy_cta": "REVISAR ORDEM",
-      "sell_cta": "REVISAR ORDEM",
+      "buy_cta": "REVISAR ORDEM DE COMPRA",
+      "sell_cta": "REVISAR ORDEM DE VENDA",
       "amountReceived": "Receber",
-      "buy": "Compra",
-      "sell": "Venda",
+      "buy": "Comprar",
+      "sell": "Vender",
       "market": "Mercado",
       "limit": "Limitada",
       "advancedSettings": "Configurações avançadas",
@@ -1546,13 +1546,17 @@
       "limitOrderHistory": "Histórico de ordens a limite"
     },
     "tradeDialog": {
-      "marketTitle": "Revisar ordem a mercado",
-      "limitTitle": "Revisar ordem a limite",
+      "marketTitle": "Revisar ordem",
+      "limitTitle": "Revisar ordem",
       "tradingPair": "Par de negociação:",
       "orderType": "Tipo de ordem:",
       "tradeAmount": "Quantidade negociada:",
       "limitPrice": "Preço:",
-      "duration": "Expira em:"
+      "duration": "Expira em:",
+      "receiveAmount": "Quantidade a receber:",
+      "orderAmount": "Quantidade negociada:",
+      "newOrderDetails": "Detalhes",
+      "order": "Ordem"
     },
     "limitOrderSetting": {
       "title": "Configurações avançadas",
@@ -1584,7 +1588,13 @@
     },
     "cancelDialog": {
       "title": "Cancelar ordem limitada",
-      "cta": "CANCELAR ORDEM LIMITADA"
+      "cta": "Confirmar",
+      "complete": "Cancelada com sucesso",
+      "failed": "Falha ao cancelar",
+      "tx": {
+        "title": "Cancelar",
+        "message": "Cancelar ordem {{tradeType}}"
+      }
     },
     "pairNavbar": {
       "pair": "Pares",
@@ -1879,8 +1889,9 @@
       "aborted": "Transação falhou. <br/>Cancele ou refaça a transação",
       "abortedLedger": "Make sure \"Contract data\" is set to \"Allowed\" in your Ledger app settings",
       "cta": "Ver na blockchain",
-      "processing": "Transação em processamento...",
-      "complete": "Transação concluída"
+      "processing": "{{action}} em processamento...",
+      "complete": "{{action}} concluída",
+      "submit": "{{action}} Inserida"
     }
   },
   "buySovPage": {
