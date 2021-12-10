@@ -32,7 +32,7 @@ import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
 import throttle from 'lodash.throttle';
 
 const THROTTLE_DELAY = 1000; // 1s
-const UPDATE_INTERVAL = 10000; // 1s
+const UPDATE_INTERVAL = 10000; // 10s
 
 const address = getContract('perpetualManager').address.toLowerCase();
 
@@ -121,7 +121,7 @@ export const PerpetualQueriesContextProvider: React.FC<PerpetualQueriesContextPr
     [ammState, perpetualParameters],
   );
 
-  // throttle function prevents the exaustive deps check
+  // throttle function prevents the exhaustive deps check
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const refetch = useCallback(
     throttle(() => {
