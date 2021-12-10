@@ -18,6 +18,7 @@
     "maintenance": "Em manutenção",
     "next": "Próximo",
     "loading": "Carregando...",
+    "retry": "Tentar novamente",
     "unit": {
       "day": "{{count}} dia",
       "day_plural": "{{count}} dias"
@@ -159,10 +160,12 @@
   },
   "fastBtcPage": {
     "meta": {
-      "title": "Depositar-BTC",
+      "title": "FastBTC",
+      "titleDeposit": "Depositar BTC",
+      "titleWithdraw": "Sacar BTC",
       "description": "Transfira seu Bitcoin para a rede RSK."
     },
-    "backToPortfolio": "Voltar",
+    "backToPortfolio": "Voltar ao portfólio",
     "deposit": {
       "sidebarSteps": {
         "address": "Endereço de depósito",
@@ -176,7 +179,7 @@
         "cta": "Gerar endereço de depósito"
       },
       "depositDetails": {
-        "title": "Detalhes",
+        "title": "Limites e taxas",
         "min": "MÍN:",
         "max": "MÁX:",
         "fee": "Taxa:"
@@ -202,7 +205,7 @@
         "txHash": "Hash da transação:",
         "txId": "ID transação:",
         "description": "O depósito está sendo processado. Se a transação não for concluída em {{hours}} horas <0>abra um ticket de suporte</0>.",
-        "cta": "Voltar"
+        "cta": "Voltar ao portfólio"
       },
       "qr": {
         "title": "Envie BTC para este endereço:",
@@ -224,7 +227,7 @@
         "description": "Sempre verifique se o endereço de saque está correto."
       },
       "withdrawDetails": {
-        "title": "Observações",
+        "title": "Limites e taxas",
         "min": "MÍN:",
         "max": "MÁX:",
         "fee": "TAXA:"
@@ -244,15 +247,15 @@
       },
       "addressForm": {
         "title": "Endereço de saque BTC",
-        "address": "Sacar BTC para este endereço",
+        "address": "Sacar BTC para o endereço:",
         "errorBECH32": "Insira um endereço BTC BECH32 válido!",
         "cta": "Revisar saque"
       },
       "reviewScreen": {
         "title": "Revisar saque <0/>",
-        "amount": "Sacar",
+        "amount": "Quantidade",
         "address": "Endereço BTC de recebimento",
-        "fees": "Taxas pagas:",
+        "fees": "Taxas:",
         "received": "Receber:",
         "tx": "ID transação:",
         "description": "O saque está sendo processado. Se a transação não for concluída em {{hours}} horas <0>abra um ticket de suporte</0>."
@@ -267,11 +270,11 @@
       "statusScreen": {
         "titles": {
           "pending_for_user": "Confirmar saque <0/>",
-          "pending": "<0/> Processando saque...",
+          "pending": "Processando saque <0/>.",
           "confirmed": "Confirmado",
           "failed": "Saque falhou"
         },
-        "cta": "Voltar"
+        "cta": "Voltar ao portfólio"
       }
     }
   },
@@ -1325,9 +1328,9 @@
   },
   "transakDialog": {
     "title": "Comprar <0>RBTC</0>",
-    "explanation1": "O serviço Transak permite comprar BTC que será covertido para <0>RBTC</0> e enviado para sua carteira",
-    "explanation2": "Tome cuidado para não exceder o limite de depósito aceito pela Sovryn, pois a Transak permite compras acima dos nossos limites máximos de depósito",
-    "chainId": "Certifique-se de que sua carteira esteja configurada para a rede correta. A carteira Liquality requer que o site do dapp seja atualizado para detectar a mudança de rede.",
+    "explanation1": "Use o serviço da Transak para comprar <0>RBTC</0> em minutos!",
+    "explanation2": "Para concluir a compra, seus dados pessoais podem ser exigidos pela Transak.",
+    "chainId": "Verifique se sua carteira está configurada para a rede correta. A carteira Liquality exige que a página do dapp seja atualizada para detectar a mundaça da rede.",
     "cta": "Comprar <0>RBTC</0>"
   },
   "onCopy": {
@@ -1711,7 +1714,7 @@
       "wrongNetwork": "Para continuar mude novamente para a rede RSK na sua",
       "switchNetwork": "Alterar rede",
       "connected": "Tudo certo",
-      "return": "Voltar para o portfólio"
+      "return": "Voltar ao portfólio"
     },
     "tokenSelector": {
       "title": "Qual cripto você deseja depositar?",
