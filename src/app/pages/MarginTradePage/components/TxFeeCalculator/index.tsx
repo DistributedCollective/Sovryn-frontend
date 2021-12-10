@@ -41,6 +41,7 @@ export const TxFeeCalculator: React.FC<ITxFeeCalculator> = ({
       </div>
       <div
         className={cn('tw-w-1/2 tw-font-medium tw-text-right', textClassName)}
+        data-action-id="margin-reviewTransaction-txFeeCalculator"
       >
         <TransactionFee
           asset={asset}
