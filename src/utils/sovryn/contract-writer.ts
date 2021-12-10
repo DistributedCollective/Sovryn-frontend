@@ -19,6 +19,7 @@ import {
 import { Nullable } from '../../types';
 import { gas } from '../blockchain/gas-price';
 import { transferAmount } from '../blockchain/transfer-approve-amount';
+import { MIN_GAS } from 'utils/classifiers';
 
 export interface CheckAndApproveResult {
   approveTx?: Nullable<string>;
@@ -159,13 +160,17 @@ class ContractWriter {
           options.nonce ||
           (await contractReader.nonce(walletService.address.toLowerCase()));
 
-        const gasLimit =
+        let gasLimit =
           options?.gas ||
           (await this.estimateCustomGas(address, abi, methodName, args, {
             value: options?.value,
             gasPrice: options?.gasPrice,
             nonce,
           }));
+
+        if (bignumber(gasLimit).lessThan(MIN_GAS)) {
+          gasLimit = MIN_GAS;
+        }
 
         try {
           const signedTxOrTransactionHash = await walletService.signTransaction(

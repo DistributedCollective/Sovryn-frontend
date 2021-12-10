@@ -13,21 +13,23 @@ function resolveContract(sourceToken: Asset, targetToken: Asset) {
     : appContracts.swapNetwork.address;
 }
 
+const resolveAsset = (address: string, _default: Asset) => {
+  try {
+    return (
+      AssetsDictionary.getByTokenContractAddress(address).asset || _default
+    );
+  } catch (error) {
+    return _default;
+  }
+};
+
 export function useSwapNetwork_approveAndConvertByPath(
   path: string[],
   amount: string,
   minReturn: string,
 ) {
-  let sourceToken = Asset.DOC;
-  let targetToken = Asset.RBTC;
-  try {
-    sourceToken = AssetsDictionary.getByTokenContractAddress(path[0]).asset;
-    targetToken = AssetsDictionary.getByTokenContractAddress(
-      path[path.length - 1],
-    ).asset;
-  } catch (e) {
-    //
-  }
+  const sourceToken = resolveAsset(path[0], Asset.RBTC);
+  const targetToken = resolveAsset(path[path.length - 1], Asset.SOV);
 
   const { send, ...txState } = useSwapNetwork_convertByPath(
     sourceToken,

@@ -94,7 +94,9 @@ export function DummyInput({
       })}
     >
       <div className={cn('tw-input', inputClassName)}>{value}</div>
-      {appendElem && <div className="tw-input-append">{appendElem}</div>}
+      {appendElem && (
+        <div className="tw-input-append tw-pr-5">{appendElem}</div>
+      )}
     </div>
   );
 }

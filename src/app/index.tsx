@@ -49,8 +49,6 @@ import { BridgeDepositPage } from './pages/BridgeDepositPage/Loadable';
 import { BridgeWithdrawPage } from './pages/BridgeWithdrawPage/Loadable';
 import { FastBtcPage } from './pages/FastBtcPage/Loadable';
 
-import { PromotionModal } from 'app/components/PromotionModal/Loadable';
-
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
 
@@ -78,7 +76,6 @@ export function App() {
         <MaintenancePage />
       ) : (
         <>
-          <PromotionModal />
           <WalletProvider>
             <NetworkRibbon />
             <Switch>
