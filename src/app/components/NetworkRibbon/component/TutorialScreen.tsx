@@ -143,7 +143,7 @@ export const TutorialScreen: React.FC<TutorialScreenProps> = ({
     setStep(next);
   };
 
-  const tOptions = useMemo(
+  const translationOptions = useMemo(
     () =>
       network && {
         name: network.name,
@@ -166,7 +166,7 @@ export const TutorialScreen: React.FC<TutorialScreenProps> = ({
             <img
               key={step}
               src={steps[step].image}
-              alt={t(steps[step].title, tOptions)}
+              alt={t(steps[step].title, translationOptions)}
               className={styles.tutorialImage}
             />
           </div>
@@ -200,25 +200,34 @@ export const TutorialScreen: React.FC<TutorialScreenProps> = ({
         </div>
         <div className="tw-w-3/4 lg:tw-w-3/5">
           <div className="tw-text-left tw-text-3xl tw-font-medium tw-text-white">
-            {t(steps[step].step, tOptions)}
+            {t(steps[step].step, translationOptions)}
           </div>
           <div className="tw-text-left tw-text-base tw-font-medium tw-text-white tw-mt-4">
-            {t(steps[step].title, tOptions)}
+            {t(steps[step].title, translationOptions)}
           </div>
           {step === 3 && walletType === 'metamask' && (
             <>
               <div className="tw-text-left tw-text-base tw-font-medium tw-text-white tw-mt-12">
-                {t(translations.wrongNetworkDialog.settings.title, tOptions)}
+                {t(
+                  translations.wrongNetworkDialog.settings.title,
+                  translationOptions,
+                )}
               </div>
               <div className={styles.subDetails}>
                 <div>
-                  {t(translations.wrongNetworkDialog.settings.name, tOptions)}
+                  {t(
+                    translations.wrongNetworkDialog.settings.name,
+                    translationOptions,
+                  )}
                 </div>
-                <div>{tOptions?.network || ''}</div>
+                <div>{translationOptions?.network || ''}</div>
               </div>
               <div className={styles.subDetails}>
                 <div>
-                  {t(translations.wrongNetworkDialog.settings.rpc, tOptions)}
+                  {t(
+                    translations.wrongNetworkDialog.settings.rpc,
+                    translationOptions,
+                  )}
                 </div>
                 <div>{network?.rpc[0] || ''}</div>
               </div>
@@ -226,14 +235,17 @@ export const TutorialScreen: React.FC<TutorialScreenProps> = ({
                 <div>
                   {t(
                     translations.wrongNetworkDialog.settings.chainId,
-                    tOptions,
+                    translationOptions,
                   )}
                 </div>
                 <div>{network?.chainId || ''}</div>
               </div>
               <div className={styles.subDetails}>
                 <div>
-                  {t(translations.wrongNetworkDialog.settings.symbol, tOptions)}
+                  {t(
+                    translations.wrongNetworkDialog.settings.symbol,
+                    translationOptions,
+                  )}
                 </div>
                 <div>{network?.nativeCurrency.symbol || ''}</div>
               </div>
@@ -241,7 +253,7 @@ export const TutorialScreen: React.FC<TutorialScreenProps> = ({
                 <div>
                   {t(
                     translations.wrongNetworkDialog.settings.explorer,
-                    tOptions,
+                    translationOptions,
                   )}
                 </div>
                 <div>{network?.explorers[0]?.url || ''}</div>
