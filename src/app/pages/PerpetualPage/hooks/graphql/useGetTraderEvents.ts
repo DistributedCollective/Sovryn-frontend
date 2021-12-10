@@ -19,6 +19,7 @@ export function useGetTraderEvents(
   orderDirection?: OrderDirection,
   page?: number,
   perPage?: number,
+  whereCondition?: string,
 ) {
   const SUBGRAPH_QUERY = generateQuery(
     event,
@@ -27,6 +28,7 @@ export function useGetTraderEvents(
     orderDirection,
     page,
     perPage,
+    whereCondition,
   );
 
   const query = useQuery(SUBGRAPH_QUERY);
@@ -40,6 +42,7 @@ function generateQuery(
   orderDirection?: OrderDirection,
   page?: number,
   perPage?: number,
+  whereCondition?: string,
 ): DocumentNode {
   const arr = events.map(event => {
     const eventDetails = EventDictionary.get(event);
@@ -55,9 +58,13 @@ function generateQuery(
       ? `skip: ${(page! - 1) * perPage!} first: ${perPage!}`
       : '';
 
+    const whereConditionString = whereCondition
+      ? `where: {${whereCondition}}`
+      : '';
+
     return `${eventDetails.entityName} ${
-      isOrdered || hasPagination
-        ? `(${orderFilterString} ${paginationFilterString})`
+      isOrdered || hasPagination || whereCondition
+        ? `(${orderFilterString} ${paginationFilterString} ${whereConditionString})`
         : ''
     } { ${eventDetails.fields.toString()} }`;
   });
@@ -84,10 +91,12 @@ export enum Event {
   LIQUIDITY_ADDED = 'LIQUIDITY_ADDED',
   LIQUIDITY_REMOVED = 'LIQUIDITY_REMOVED',
   UPDATE_MARGIN_ACCOUNT = 'UPDATE_MARGIN_ACCOUNT',
+  POSITION = 'POSITION',
 }
 
 const totalCountFields = {
   [Event.TRADE]: 'tradesTotalCount',
+  [Event.POSITION]: 'positionsTotalCount',
 };
 
 class EventDetails {
@@ -167,6 +176,15 @@ class EventDictionary {
           'fFundingPaymentCC',
           'fOpenInterestBC',
           'blockTimestamp',
+        ]),
+      ],
+      [
+        Event.POSITION,
+        new EventDetails('positions', [
+          'id',
+          'currentPositionSizeBC',
+          'totalPnLCC',
+          'endDate',
         ]),
       ],
     ],
