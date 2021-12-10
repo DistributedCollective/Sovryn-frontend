@@ -1,8 +1,5 @@
 import { Icon } from '@blueprintjs/core';
 import React, { useState, useMemo } from 'react';
-import styled, { css } from 'styled-components/macro';
-
-import { media } from 'styles/media';
 import { useTranslation } from 'react-i18next';
 
 import { translations } from 'locales/i18n';
@@ -23,6 +20,8 @@ import nifty03 from '../../../../assets/wallet_tutorials/nifty/nifty_03.svg';
 import { BackButton } from '../../../components/BackButton';
 import { Network } from '../types';
 import { capitalize } from '../../../../utils/helpers';
+import styles from '../NetworkRibbon.module.scss';
+import classNames from 'classnames';
 
 type Step = {
   title: string;
@@ -162,191 +161,95 @@ export const TutorialScreen: React.FC<TutorialScreenProps> = ({
     <>
       <BackButton onClick={onBack} />
       <div className="tw-flex tw-flex-row tw-justify-center tw-items-center tw-my-8 tw-py-4">
-        <LeftBlock>
+        <div className="tw-w-1/4 lg:tw-w-2/5 tw-mr-8">
           <div className="tw-rounded tw-p-4 tw-text-center">
             <img
               key={step}
               src={steps[step].image}
               alt={t(steps[step].title, tOptions)}
-              className="tw-mx-auto tutorial-image"
+              className={styles.tutorialImage}
             />
           </div>
           <div className="tw-flex tw-flex-row tw-justify-center tw-items-center tw-mt-1">
-            <NavBtn onClick={handleBack}>
-              <Icon
-                icon="caret-left"
-                iconSize={24}
-                className="tw-text-sov-white"
-              />
-            </NavBtn>
+            <button
+              className={styles.navArrow}
+              type="button"
+              onClick={handleBack}
+            >
+              <Icon icon="caret-left" iconSize={24} />
+            </button>
             {steps.map((_, i) => (
-              <NavRound
-                onClick={() => setStep(i)}
-                active={i === step}
+              <button
                 key={i}
+                className={classNames(
+                  styles.navRound,
+                  i === step && 'tw-bg-white',
+                )}
+                type="button"
+                onClick={() => setStep(i)}
               />
             ))}
-            <NavBtn onClick={handleNext}>
-              <Icon
-                icon="caret-right"
-                iconSize={24}
-                className="tw-text-sov-white"
-              />
-            </NavBtn>
+            <button
+              className={styles.navArrow}
+              type="button"
+              onClick={handleNext}
+            >
+              <Icon icon="caret-right" iconSize={24} />
+            </button>
           </div>
-        </LeftBlock>
-        <RightBlock>
-          <StepTitle>{t(steps[step].step, tOptions)}</StepTitle>
-          <SettingsTitle className="tw-mt-4">
+        </div>
+        <div className="tw-w-3/4 lg:tw-w-3/5">
+          <div className="tw-text-left tw-text-3xl tw-font-medium tw-text-white">
+            {t(steps[step].step, tOptions)}
+          </div>
+          <div className="tw-text-left tw-text-base tw-font-medium tw-text-white tw-mt-4">
             {t(steps[step].title, tOptions)}
-          </SettingsTitle>
+          </div>
           {step === 3 && walletType === 'metamask' && (
             <>
-              <SettingsTitle className="tw-mt-12">
+              <div className="tw-text-left tw-text-base tw-font-medium tw-text-white tw-mt-12">
                 {t(translations.wrongNetworkDialog.settings.title, tOptions)}
-              </SettingsTitle>
-              <Details>
-                <SubDetails>
-                  <DetailTitle className="tw-mt-4">
-                    {t(translations.wrongNetworkDialog.settings.name, tOptions)}
-                  </DetailTitle>
-                  <DetailTitle className="tw-mt-4">
-                    {t(translations.wrongNetworkDialog.settings.rpc, tOptions)}
-                  </DetailTitle>
-                  <DetailTitle className="tw-mt-4">
-                    {t(
-                      translations.wrongNetworkDialog.settings.chainId,
-                      tOptions,
-                    )}
-                  </DetailTitle>
-                  <DetailTitle className="tw-mt-4">
-                    {t(
-                      translations.wrongNetworkDialog.settings.symbol,
-                      tOptions,
-                    )}
-                  </DetailTitle>
-                  <DetailTitle className="tw-mt-4">
-                    {t(
-                      translations.wrongNetworkDialog.settings.explorer,
-                      tOptions,
-                    )}
-                  </DetailTitle>
-                </SubDetails>
-                <SubDetails>
-                  <DetailTitle className="tw-mt-4">
-                    {tOptions?.network || ''}
-                  </DetailTitle>
-                  <DetailTitle className="tw-mt-4">
-                    {network?.rpc[0] || ''}
-                  </DetailTitle>
-                  <DetailTitle className="tw-mt-4">
-                    {network?.chainId || ''}
-                  </DetailTitle>
-                  <DetailTitle className="tw-mt-4">
-                    {network?.nativeCurrency.symbol || ''}
-                  </DetailTitle>
-                  <DetailTitle className="tw-mt-4">
-                    {network?.explorers[0]?.url || ''}
-                  </DetailTitle>
-                </SubDetails>
-              </Details>
+              </div>
+              <div className={styles.subDetails}>
+                <div>
+                  {t(translations.wrongNetworkDialog.settings.name, tOptions)}
+                </div>
+                <div>{tOptions?.network || ''}</div>
+              </div>
+              <div className={styles.subDetails}>
+                <div>
+                  {t(translations.wrongNetworkDialog.settings.rpc, tOptions)}
+                </div>
+                <div>{network?.rpc[0] || ''}</div>
+              </div>
+              <div className={styles.subDetails}>
+                <div>
+                  {t(
+                    translations.wrongNetworkDialog.settings.chainId,
+                    tOptions,
+                  )}
+                </div>
+                <div>{network?.chainId || ''}</div>
+              </div>
+              <div className={styles.subDetails}>
+                <div>
+                  {t(translations.wrongNetworkDialog.settings.symbol, tOptions)}
+                </div>
+                <div>{network?.nativeCurrency.symbol || ''}</div>
+              </div>
+              <div className={styles.subDetails}>
+                <div>
+                  {t(
+                    translations.wrongNetworkDialog.settings.explorer,
+                    tOptions,
+                  )}
+                </div>
+                <div>{network?.explorers[0]?.url || ''}</div>
+              </div>
             </>
           )}
-        </RightBlock>
+        </div>
       </div>
     </>
   );
 };
-
-const Details = styled.div`
-  width: 70%;
-  display: flex;
-  flex-direction: row;
-  /* justify-content: start; */
-`;
-const SubDetails = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  /* justify-content: start; */
-`;
-const SettingsTitle = styled.div`
-  font-size: 1rem;
-  font-weight: 500;
-  text-align: left;
-  color: white;
-`;
-const StepTitle = styled.div`
-  font-size: 1.75rem;
-  font-weight: 500;
-  text-align: left;
-  color: white;
-`;
-const DetailTitle = styled.div`
-  font-size: 0.75rem;
-  font-weight: 400;
-  text-align: left;
-  color: white;
-`;
-const LeftBlock = styled.div`
-  width: 50%;
-  /* max-width: 312px; */
-  margin-right: 30px;
-
-  .tutorial-image {
-    animation: fadeIn 1s ease-in;
-    width: 350px;
-    height: 350px;
-  }
-
-  @keyframes fadeIn {
-    0% {
-      opacity: 0.5;
-    }
-
-    100% {
-      opacity: 1;
-    }
-  }
-`;
-
-const RightBlock = styled.div`
-  width: 100%;
-  ${media.lg`
-    width: 485px;
-  `}
-`;
-const NavRound = styled.button.attrs(_ => ({
-  type: 'button',
-  className: 'tw-flex-grow-0 tw-flex-shrink-0',
-}))`
-  border: none;
-  margin: 0 5px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: #b1b1b1;
-  transition: background-color 0.5s;
-  will-change: background-color;
-  padding: 0;
-  &:hover {
-    background-color: #fff;
-  }
-  ${(props: { active?: boolean }) =>
-    props.active &&
-    css`
-      background-color: #ffff;
-    `}
-`;
-
-const NavBtn = styled.button.attrs(_ => ({
-  type: 'button',
-  className: 'tw-flex-grow-0 tw-flex-shrink-0 tw-flex tw-items-center',
-}))`
-  border: none;
-  margin: 0 5px;
-  width: 20px;
-  height: 20px;
-  padding: 0;
-  background: none;
-`;
