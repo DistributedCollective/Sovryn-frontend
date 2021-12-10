@@ -19,7 +19,11 @@ export const ClosedPositionsTable: React.FC<IClosedPositionsTableProps> = ({
   const [page, setPage] = useState(1);
 
   const { pairType } = useSelector(selectPerpetualPage);
-  const { data, loading } = usePerpetual_ClosedPositions(pairType);
+  const { data, loading, totalCount } = usePerpetual_ClosedPositions(
+    pairType,
+    page,
+    perPage,
+  );
 
   const onPageChanged = useCallback(data => {
     setPage(data.currentPage);
@@ -74,9 +78,9 @@ export const ClosedPositionsTable: React.FC<IClosedPositionsTableProps> = ({
         </tbody>
       </table>
 
-      {data && data.length > 0 && (
+      {data && totalCount > 0 && (
         <Pagination
-          totalRecords={data.length}
+          totalRecords={totalCount}
           pageLimit={perPage}
           pageNeighbours={1}
           onChange={onPageChanged}

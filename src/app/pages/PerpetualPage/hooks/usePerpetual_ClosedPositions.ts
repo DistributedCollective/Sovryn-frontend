@@ -1,6 +1,15 @@
-import { TradingPosition } from 'types/trading-position';
-import { toWei } from 'utils/blockchain/math-helpers';
+import { useAccount } from 'app/hooks/useAccount';
+import { BigNumber } from 'ethers';
+import { useContext, useMemo } from 'react';
 import { PerpetualPairType } from 'utils/dictionaries/perpetual-pair-dictionary';
+import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
+import { ABK64x64ToFloat } from '../utils/contractUtils';
+import { getMarkPrice } from '../utils/perpUtils';
+import {
+  Event,
+  useGetTraderEvents,
+  OrderDirection,
+} from './graphql/useGetTraderEvents';
 
 export type ClosedPositionEntry = {
   id: string;
@@ -8,37 +17,83 @@ export type ClosedPositionEntry = {
   datetime: string;
   positionSize: string;
   realizedPnl: { baseValue: number; quoteValue: number };
-  position: TradingPosition;
 };
 
 type ClosedPositionHookResult = {
   loading: boolean;
   data?: ClosedPositionEntry[];
+  totalCount: number;
 };
 
 export const usePerpetual_ClosedPositions = (
   pairType: PerpetualPairType.BTCUSD,
+  page: number,
+  perPage: number,
 ): ClosedPositionHookResult => {
-  // TODO: implement ClosedPositions hook
-  return {
-    data: [
-      {
-        id: '1',
-        pairType: pairType,
-        datetime: '1637367029',
-        positionSize: toWei(0.02),
-        realizedPnl: { baseValue: 0.002, quoteValue: 1000 },
-        position: TradingPosition.LONG,
-      },
-      {
-        id: '2',
-        pairType: pairType,
-        datetime: '1631794829',
-        positionSize: toWei(0.4),
-        realizedPnl: { baseValue: 0.102, quoteValue: 6000 },
-        position: TradingPosition.SHORT,
-      },
+  const address = useAccount();
+
+  const { ammState } = useContext(PerpetualQueriesContext);
+  const markPrice = useMemo(() => getMarkPrice(ammState), [ammState]);
+
+  const {
+    data: positions,
+    previousData: previousPositions,
+    loading,
+  } = useGetTraderEvents(
+    [Event.POSITION],
+    address.toLowerCase(),
+    'endDate',
+    OrderDirection.desc,
+    page,
+    perPage,
+    'isClosed: true',
+  );
+
+  const data: ClosedPositionEntry[] = useMemo(() => {
+    const currentPositions =
+      positions?.trader?.positions || previousPositions?.trader?.positions;
+
+    let data: ClosedPositionEntry[] = [];
+
+    if (currentPositions?.length > 0) {
+      data = currentPositions.map(item => {
+        const realizedPnlCC = ABK64x64ToFloat(BigNumber.from(item.totalPnLCC));
+
+        return {
+          id: item.id,
+          pairType,
+          datetime: item.endDate,
+          positionSize: ABK64x64ToFloat(
+            BigNumber.from(item.currentPositionSizeBC),
+          ),
+          realizedPnl: {
+            baseValue: realizedPnlCC,
+            quoteValue: realizedPnlCC * markPrice,
+          },
+        };
+      });
+    }
+    return data;
+  }, [
+    markPrice,
+    pairType,
+    positions?.trader?.positions,
+    previousPositions?.trader?.positions,
+  ]);
+
+  const totalCount = useMemo(
+    () =>
+      positions?.trader?.positionsTotalCount ||
+      previousPositions?.trader?.positionsTotalCount,
+    [
+      positions?.trader?.positionsTotalCount,
+      previousPositions?.trader?.positionsTotalCount,
     ],
-    loading: false,
+  );
+
+  return {
+    data,
+    loading,
+    totalCount,
   };
 };

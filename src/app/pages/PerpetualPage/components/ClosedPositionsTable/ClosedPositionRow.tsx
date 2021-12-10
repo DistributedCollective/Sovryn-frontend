@@ -2,8 +2,8 @@ import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/D
 import { AssetValue } from 'app/components/AssetValue';
 import { AssetValueMode } from 'app/components/AssetValue/types';
 import classNames from 'classnames';
+import { bignumber } from 'mathjs';
 import React, { useMemo } from 'react';
-import { TradingPosition } from 'types/trading-position';
 import { PerpetualPairDictionary } from 'utils/dictionaries/perpetual-pair-dictionary';
 import { ClosedPositionEntry } from '../../hooks/usePerpetual_ClosedPositions';
 
@@ -27,7 +27,7 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
       <td>{pair.collateralAsset}</td>
       <td
         className={classNames(
-          item.position === TradingPosition.LONG
+          bignumber(item.positionSize).gt(0)
             ? 'tw-text-trade-long'
             : 'tw-text-trade-short',
         )}
