@@ -15,6 +15,17 @@ import styles from '../NetworkRibbon.module.scss';
 import { Network } from '../types';
 import { capitalize } from '../../../../utils/helpers';
 
+const getWalletLogo = (wallet: string) => {
+  switch (wallet) {
+    case 'metamask':
+      return metamask;
+    case 'liquality':
+      return liquality;
+    case 'nifty':
+      return nifty;
+  }
+};
+
 type DetectionScreenProps = {
   onStart: () => void;
   walletType: string;
@@ -26,21 +37,13 @@ export const DetectionScreen: React.FC<DetectionScreenProps> = ({
   walletType,
   network,
 }) => {
-  var logo: any = null;
   const { ethereum } = window;
   const { t } = useTranslation();
   const currentChainId = parseInt(ethereum?.chainId as string);
   const walletName = capitalize(walletType);
   const currentNetwork = networks.find(item => item.chainId === currentChainId)
     ?.chain;
-
-  if (walletType === 'metamask') {
-    logo = metamask;
-  } else if (walletType === 'liquality') {
-    logo = liquality;
-  } else if (walletType === 'nifty') {
-    logo = nifty;
-  }
+  const logo = getWalletLogo(walletType);
 
   const onAddNetwork = useCallback(
     () => network && addNetworkByChainId(network.chainId),
@@ -61,7 +64,7 @@ export const DetectionScreen: React.FC<DetectionScreenProps> = ({
               })
             : t(translations.wrongNetworkDialog.networkAlertUnknown)}
           <br />
-          {t(translations.wrongNetworkDialog.walletAelrt, {
+          {t(translations.wrongNetworkDialog.walletAlert, {
             wallet: walletName,
             network:
               network && `${network.chain} ${capitalize(network.network)}`,
@@ -70,7 +73,11 @@ export const DetectionScreen: React.FC<DetectionScreenProps> = ({
       </div>
       <div className="tw-flex tw-mx-4 tw-mb-8 md:tw-mb-12 xl:tw-mb-24 tw-justify-center tw-flex-col sm:tw-flex-row tw-font-body">
         <div className="tw-flex tw-flex-row tw-justify-center tw-items-center logo">
-          <img alt="1" src={logo} className="tw-text-center" />
+          <img
+            alt={`${walletName} logo`}
+            src={logo}
+            className="tw-text-center"
+          />
         </div>
         {walletType === 'metamask' &&
           network &&

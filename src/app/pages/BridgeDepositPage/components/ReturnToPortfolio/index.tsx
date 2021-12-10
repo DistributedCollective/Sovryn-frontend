@@ -19,7 +19,7 @@ import {
 } from 'app/components/UserAssets/TxDialog/WalletLogo';
 import { addNetworkByChainId } from '../../../../../utils/metamaskHelpers';
 
-const chainId = isMainnet ? ChainId.RSK_MAINNET : ChainId.BSC_TESTNET;
+const chainId = isMainnet ? ChainId.RSK_MAINNET : ChainId.RSK_TESTNET;
 
 export const ReturnToPortfolio: React.FC = () => {
   const { t } = useTranslation();

@@ -14,6 +14,7 @@ import { TutorialScreen } from './component/TutorialScreen';
 import { selectWalletProvider } from '../../containers/WalletProvider/selectors';
 import networksRaw from './network.json';
 import { Network } from './types';
+
 const networks: Network[] = networksRaw;
 
 export function NetworkRibbon(this: any) {

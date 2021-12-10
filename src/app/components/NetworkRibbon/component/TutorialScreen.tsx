@@ -30,7 +30,7 @@ type Step = {
   step: string;
 };
 
-const liqSteps: Step[] = [
+const liqualitySteps: Step[] = [
   {
     step: translations.wrongNetworkDialog.stepTitle.step1,
     title: translations.wrongNetworkDialog.liquality.step1,
@@ -57,7 +57,7 @@ const liqSteps: Step[] = [
     image: liquality05,
   },
 ];
-const metaSteps: Step[] = [
+const metamaskSteps: Step[] = [
   {
     step: translations.wrongNetworkDialog.stepTitle.step1,
     title: translations.wrongNetworkDialog.metamask.step1,
@@ -108,8 +108,8 @@ const niftySteps: Step[] = [
 ];
 
 const stepsMap = {
-  metamask: metaSteps,
-  liquality: liqSteps,
+  metamask: metamaskSteps,
+  liquality: liqualitySteps,
   nifty: niftySteps,
 };
 

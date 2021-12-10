@@ -809,7 +809,7 @@
     "title": "Change to {{name}} Network",
     "networkAlert": "We detected that you are on {{name}} network.",
     "networkAlertUnknown": "We detected that you are on a different network.",
-    "walletAelrt": "Please switch to {{network}} in your {{wallet}} wallet.",
+    "walletAlert": "Please switch to {{network}} in your {{wallet}} wallet.",
     "tutorialGuide": "How to connect to {{network}} with {{wallet}}",
     "settings": {
       "title": "{{network}} Settings",
