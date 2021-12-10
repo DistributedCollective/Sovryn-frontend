@@ -7,12 +7,14 @@ import { WalletContext } from '@sovryn/react-wallet';
 import { translations } from 'locales/i18n';
 
 import { currentChainId } from '../../../utils/classifiers';
-import { detectWeb3Wallet } from '../../../utils/helpers';
+import { detectWeb3Wallet, capitalize } from '../../../utils/helpers';
 import { NetworkDialog } from '../NetworkDialog';
 import { DetectionScreen } from './component/DetectionScreen';
 import { TutorialScreen } from './component/TutorialScreen';
 import { selectWalletProvider } from '../../containers/WalletProvider/selectors';
-import networks from './component/network.json';
+import networksRaw from './network.json';
+import { Network } from './types';
+const networks: Network[] = networksRaw;
 
 export function NetworkRibbon(this: any) {
   const { bridgeChainId } = useSelector(selectWalletProvider);
@@ -59,19 +61,24 @@ export function NetworkRibbon(this: any) {
       <div className="tw-py-2 tw-font-body">
         <div className="tw-font-semibold tw-text-2xl tw-leading-none tw-normal-case tw-text-center">
           {t(translations.wrongNetworkDialog.title, {
-            name: `${targetNetwork?.chain} ${targetNetwork?.network}`,
-          })}{' '}
+            name: `${targetNetwork?.chain} ${capitalize(
+              targetNetwork?.network || '',
+            )}`,
+          })}
         </div>
       </div>
       {!startTut ? (
         <DetectionScreen
           onStart={handleTutDialog}
           walletType={walletName}
-          network={targetNetwork?.network}
-          chain={targetNetwork?.chain}
+          network={targetNetwork}
         />
       ) : (
-        <TutorialScreen walletType={walletName} onBack={handleBack} />
+        <TutorialScreen
+          walletType={walletName}
+          network={targetNetwork}
+          onBack={handleBack}
+        />
       )}
     </NetworkDialog>
   );

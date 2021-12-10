@@ -232,3 +232,6 @@ export const abbreviateNumber = (
 };
 
 export const isNullOrUndefined = val => val === undefined || val === null;
+
+export const capitalize = (val: string) =>
+  val && val.charAt(0).toLocaleUpperCase() + val.slice(1);

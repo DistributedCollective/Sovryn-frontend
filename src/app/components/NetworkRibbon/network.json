@@ -1092,7 +1092,12 @@
     },
     "rpc": ["https://public-node.rsk.co", "https://mycrypto.rsk.co"],
     "faucets": [],
-    "explorers": [],
+    "explorers": [
+      {
+        "name": "rsk explorer",
+        "url": "https://explorer.rsk.co"
+      }
+    ],
     "infoURL": "https://rsk.co"
   },
   {
@@ -1112,7 +1117,12 @@
       "https://mycrypto.testnet.rsk.co"
     ],
     "faucets": ["https://faucet.testnet.rsk.co"],
-    "explorers": [],
+    "explorers": [
+      {
+        "name": "rsk explorer",
+        "url": "https://explorer.testnet.rsk.co/"
+      }
+    ],
     "infoURL": "https://rsk.co"
   },
   {
@@ -1649,7 +1659,12 @@
       "wss://bsc-ws-node.nariox.org"
     ],
     "faucets": [],
-    "explorers": [],
+    "explorers": [
+      {
+        "name": "BscScan",
+        "url": "https://bscscan.com/"
+      }
+    ],
     "infoURL": "https://www.binance.org"
   },
   {
@@ -2264,7 +2279,12 @@
       "https://data-seed-prebsc-2-s3.binance.org:8545"
     ],
     "faucets": ["https://testnet.binance.org/faucet-smart"],
-    "explorers": [],
+    "explorers": [
+      {
+        "name": "BscScan",
+        "url": "https://testnet.bscscan.com/"
+      }
+    ],
     "infoURL": "https://testnet.binance.org/"
   },
   {

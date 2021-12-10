@@ -1,5 +1,5 @@
 import { Icon } from '@blueprintjs/core';
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import styled, { css } from 'styled-components/macro';
 
 import { media } from 'styles/media';
@@ -21,104 +21,114 @@ import nifty01 from '../../../../assets/wallet_tutorials/nifty/nifty_01.svg';
 import nifty02 from '../../../../assets/wallet_tutorials/nifty/nifty_02.svg';
 import nifty03 from '../../../../assets/wallet_tutorials/nifty/nifty_03.svg';
 import { BackButton } from '../../../components/BackButton';
+import { Network } from '../types';
+import { capitalize } from '../../../../utils/helpers';
 
-interface Props {
-  walletType: string;
-  onBack: () => void;
-}
-interface IStep {
+type Step = {
   title: string;
   image: any;
   step: string;
-}
+};
 
-export function TutorialScreen(props: Props) {
+const liqSteps: Step[] = [
+  {
+    step: translations.wrongNetworkDialog.stepTitle.step1,
+    title: translations.wrongNetworkDialog.liquality.step1,
+    image: liquality01,
+  },
+  {
+    step: translations.wrongNetworkDialog.stepTitle.step2,
+    title: translations.wrongNetworkDialog.liquality.step2,
+    image: liquality02,
+  },
+  {
+    step: translations.wrongNetworkDialog.stepTitle.step3,
+    title: translations.wrongNetworkDialog.liquality.step3,
+    image: liquality03,
+  },
+  {
+    step: translations.wrongNetworkDialog.stepTitle.step4,
+    title: translations.wrongNetworkDialog.liquality.step4,
+    image: liquality04,
+  },
+  {
+    step: translations.wrongNetworkDialog.stepTitle.step5,
+    title: translations.wrongNetworkDialog.liquality.step5,
+    image: liquality05,
+  },
+];
+const metaSteps: Step[] = [
+  {
+    step: translations.wrongNetworkDialog.stepTitle.step1,
+    title: translations.wrongNetworkDialog.metamask.step1,
+    image: metamask01,
+  },
+  {
+    step: translations.wrongNetworkDialog.stepTitle.step2,
+    title: translations.wrongNetworkDialog.metamask.step2,
+    image: metamask02,
+  },
+  {
+    step: translations.wrongNetworkDialog.stepTitle.step3,
+    title: translations.wrongNetworkDialog.metamask.step3,
+    image: metamask03,
+  },
+  {
+    step: translations.wrongNetworkDialog.stepTitle.step4,
+    title: translations.wrongNetworkDialog.metamask.step4,
+    image: metamask04,
+  },
+  {
+    step: translations.wrongNetworkDialog.stepTitle.step5,
+    title: translations.wrongNetworkDialog.metamask.step5,
+    image: metamask05,
+  },
+  {
+    step: translations.wrongNetworkDialog.stepTitle.step6,
+    title: translations.wrongNetworkDialog.metamask.step6,
+    image: metamask06,
+  },
+];
+const niftySteps: Step[] = [
+  {
+    step: translations.wrongNetworkDialog.stepTitle.step1,
+    title: translations.wrongNetworkDialog.nifty.step1,
+    image: nifty01,
+  },
+  {
+    step: translations.wrongNetworkDialog.stepTitle.step2,
+    title: translations.wrongNetworkDialog.nifty.step2,
+    image: nifty02,
+  },
+  {
+    step: translations.wrongNetworkDialog.stepTitle.step3,
+    title: translations.wrongNetworkDialog.nifty.step3,
+    image: nifty03,
+  },
+];
+
+const stepsMap = {
+  metamask: metaSteps,
+  liquality: liqSteps,
+  nifty: niftySteps,
+};
+
+type TutorialScreenProps = {
+  walletType: string;
+  network?: Network;
+  onBack: () => void;
+};
+
+export const TutorialScreen: React.FC<TutorialScreenProps> = ({
+  walletType,
+  network,
+  onBack,
+}) => {
   const [step, setStep] = useState(0);
   const { t } = useTranslation();
-  const liqSteps: IStep[] = [
-    {
-      step: t(translations.wrongNetworkDialog.stepTitle.step1),
-      title: t(translations.wrongNetworkDialog.liquality.step1),
-      image: liquality01,
-    },
-    {
-      step: t(translations.wrongNetworkDialog.stepTitle.step2),
-      title: t(translations.wrongNetworkDialog.liquality.step2),
-      image: liquality02,
-    },
-    {
-      step: t(translations.wrongNetworkDialog.stepTitle.step3),
-      title: t(translations.wrongNetworkDialog.liquality.step3),
-      image: liquality03,
-    },
-    {
-      step: t(translations.wrongNetworkDialog.stepTitle.step4),
-      title: t(translations.wrongNetworkDialog.liquality.step4),
-      image: liquality04,
-    },
-    {
-      step: t(translations.wrongNetworkDialog.stepTitle.step5),
-      title: t(translations.wrongNetworkDialog.liquality.step5),
-      image: liquality05,
-    },
-  ];
-  const metaSteps: IStep[] = [
-    {
-      step: t(translations.wrongNetworkDialog.stepTitle.step1),
-      title: t(translations.wrongNetworkDialog.metamask.step1),
-      image: metamask01,
-    },
-    {
-      step: t(translations.wrongNetworkDialog.stepTitle.step2),
-      title: t(translations.wrongNetworkDialog.metamask.step2),
-      image: metamask02,
-    },
-    {
-      step: t(translations.wrongNetworkDialog.stepTitle.step3),
-      title: t(translations.wrongNetworkDialog.metamask.step3),
-      image: metamask03,
-    },
-    {
-      step: t(translations.wrongNetworkDialog.stepTitle.step4),
-      title: t(translations.wrongNetworkDialog.metamask.step4),
-      image: metamask04,
-    },
-    {
-      step: t(translations.wrongNetworkDialog.stepTitle.step5),
-      title: t(translations.wrongNetworkDialog.metamask.step5),
-      image: metamask05,
-    },
-    {
-      step: t(translations.wrongNetworkDialog.stepTitle.step6),
-      title: t(translations.wrongNetworkDialog.metamask.step6),
-      image: metamask06,
-    },
-  ];
-  const niftySteps: IStep[] = [
-    {
-      step: t(translations.wrongNetworkDialog.stepTitle.step1),
-      title: t(translations.wrongNetworkDialog.nifty.step1),
-      image: nifty01,
-    },
-    {
-      step: t(translations.wrongNetworkDialog.stepTitle.step2),
-      title: t(translations.wrongNetworkDialog.nifty.step2),
-      image: nifty02,
-    },
-    {
-      step: t(translations.wrongNetworkDialog.stepTitle.step3),
-      title: t(translations.wrongNetworkDialog.nifty.step3),
-      image: nifty03,
-    },
-  ];
-  var steps: IStep[] = [];
-  if (props.walletType === 'metamask') {
-    steps = metaSteps;
-  } else if (props.walletType === 'liquality') {
-    steps = liqSteps;
-  } else if (props.walletType === 'nifty') {
-    steps = niftySteps;
-  }
+
+  var steps = stepsMap[walletType];
+
   const handleBack = () => {
     let next = step - 1;
     if (next < 0) {
@@ -134,16 +144,30 @@ export function TutorialScreen(props: Props) {
     setStep(next);
   };
 
+  const tOptions = useMemo(
+    () =>
+      network && {
+        name: network.name,
+        chain: network.chain,
+        network: `${network.chain} ${capitalize(network.network)}`,
+      },
+    [network],
+  );
+
+  if (!network && !steps?.[step]) {
+    return null;
+  }
+
   return (
     <>
-      <BackButton onClick={props.onBack} />
+      <BackButton onClick={onBack} />
       <div className="tw-flex tw-flex-row tw-justify-center tw-items-center tw-my-8 tw-py-4">
         <LeftBlock>
           <div className="tw-rounded tw-p-4 tw-text-center">
             <img
               key={step}
               src={steps[step].image}
-              alt={steps[step].title}
+              alt={t(steps[step].title, tOptions)}
               className="tw-mx-auto tutorial-image"
             />
           </div>
@@ -172,32 +196,57 @@ export function TutorialScreen(props: Props) {
           </div>
         </LeftBlock>
         <RightBlock>
-          <StepTitle>{steps[step].step}</StepTitle>
-          <SettingsTitle className="tw-mt-4">{steps[step].title}</SettingsTitle>
-          {step === 3 && props.walletType === 'metamask' && (
+          <StepTitle>{t(steps[step].step, tOptions)}</StepTitle>
+          <SettingsTitle className="tw-mt-4">
+            {t(steps[step].title, tOptions)}
+          </SettingsTitle>
+          {step === 3 && walletType === 'metamask' && (
             <>
               <SettingsTitle className="tw-mt-12">
-                RSK Mainnet Settings
+                {t(translations.wrongNetworkDialog.settings.title, tOptions)}
               </SettingsTitle>
               <Details>
                 <SubDetails>
-                  <DetailTitle className="tw-mt-4">Network Name:</DetailTitle>
-                  <DetailTitle className="tw-mt-4">New RPC Url:</DetailTitle>
-                  <DetailTitle className="tw-mt-4">Chain Id:</DetailTitle>
-                  <DetailTitle className="tw-mt-4">Symbol:</DetailTitle>
                   <DetailTitle className="tw-mt-4">
-                    Block Explorer URL:
+                    {t(translations.wrongNetworkDialog.settings.name, tOptions)}
+                  </DetailTitle>
+                  <DetailTitle className="tw-mt-4">
+                    {t(translations.wrongNetworkDialog.settings.rpc, tOptions)}
+                  </DetailTitle>
+                  <DetailTitle className="tw-mt-4">
+                    {t(
+                      translations.wrongNetworkDialog.settings.chainId,
+                      tOptions,
+                    )}
+                  </DetailTitle>
+                  <DetailTitle className="tw-mt-4">
+                    {t(
+                      translations.wrongNetworkDialog.settings.symbol,
+                      tOptions,
+                    )}
+                  </DetailTitle>
+                  <DetailTitle className="tw-mt-4">
+                    {t(
+                      translations.wrongNetworkDialog.settings.explorer,
+                      tOptions,
+                    )}
                   </DetailTitle>
                 </SubDetails>
                 <SubDetails>
-                  <DetailTitle className="tw-mt-4">RSK Mainnet</DetailTitle>
                   <DetailTitle className="tw-mt-4">
-                    https://public-node.rsk.co
+                    {tOptions?.network || ''}
                   </DetailTitle>
-                  <DetailTitle className="tw-mt-4">30</DetailTitle>
-                  <DetailTitle className="tw-mt-4">RBTC</DetailTitle>
                   <DetailTitle className="tw-mt-4">
-                    https://explorer.rsk.co
+                    {network?.rpc[0] || ''}
+                  </DetailTitle>
+                  <DetailTitle className="tw-mt-4">
+                    {network?.chainId || ''}
+                  </DetailTitle>
+                  <DetailTitle className="tw-mt-4">
+                    {network?.nativeCurrency.symbol || ''}
+                  </DetailTitle>
+                  <DetailTitle className="tw-mt-4">
+                    {network?.explorers[0]?.url || ''}
                   </DetailTitle>
                 </SubDetails>
               </Details>
@@ -207,7 +256,7 @@ export function TutorialScreen(props: Props) {
       </div>
     </>
   );
-}
+};
 
 const Details = styled.div`
   width: 70%;

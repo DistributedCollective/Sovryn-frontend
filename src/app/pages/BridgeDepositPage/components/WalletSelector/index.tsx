@@ -8,7 +8,7 @@ import { getBridgeChainId } from '../../utils/helpers';
 import { selectWalletProvider } from '../../../../containers/WalletProvider/selectors';
 import { selectBridgeDepositPage } from '../../selectors';
 import { BridgeNetworkDictionary } from '../../dictionaries/bridge-network-dictionary';
-import networkList from '../../../../components/NetworkRibbon/component/network.json';
+import networkList from '../../../../components/NetworkRibbon/network.json';
 import error_alert from 'assets/images/error_outline-24px.svg';
 import { detectWeb3Wallet } from 'utils/helpers';
 import { SelectBox } from '../SelectBox';

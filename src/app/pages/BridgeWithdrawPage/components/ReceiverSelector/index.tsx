@@ -5,7 +5,7 @@ import { Chain } from 'types';
 import { actions } from '../../slice';
 import { selectBridgeWithdrawPage } from '../../selectors';
 import { FormGroup } from '../../../../components/Form/FormGroup';
-import networkList from '../../../../components/NetworkRibbon/component/network.json';
+import networkList from '../../../../components/NetworkRibbon/network.json';
 import { BridgeNetworkDictionary } from '../../../BridgeDepositPage/dictionaries/bridge-network-dictionary';
 import { Input } from '../../../../components/Form/Input';
 import { ActionButton } from 'app/components/Form/ActionButton';
