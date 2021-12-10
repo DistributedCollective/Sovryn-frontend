@@ -4,7 +4,7 @@ import { useContext, useMemo } from 'react';
 import { PerpetualPairType } from 'utils/dictionaries/perpetual-pair-dictionary';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import { ABK64x64ToFloat } from '../utils/contractUtils';
-import { getMarkPrice } from '../utils/perpUtils';
+import { getQuote2CollateralFX } from '../utils/perpUtils';
 import {
   Event,
   useGetTraderEvents,
@@ -33,7 +33,6 @@ export const usePerpetual_ClosedPositions = (
   const address = useAccount();
 
   const { ammState } = useContext(PerpetualQueriesContext);
-  const markPrice = useMemo(() => getMarkPrice(ammState), [ammState]);
 
   const {
     data: positions,
@@ -75,7 +74,7 @@ export const usePerpetual_ClosedPositions = (
     }
     return data;
   }, [
-    markPrice,
+    ammState,
     pairType,
     positions?.trader?.positions,
     previousPositions?.trader?.positions,
