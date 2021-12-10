@@ -254,11 +254,11 @@
   "mainMenu": {
     "buySov": "Comprar SOV",
     "trade": "Negociar",
-    "swap": "Trocar criptos",
+    "swap": "Trocar cripto",
     "marginTrade": "Operar margem",
     "finance": "Finanças",
-    "lend": "Emprestar criptos",
-    "borrow": "Obter empréstimos",
+    "lend": "Emprestar cripto",
+    "borrow": "Obter empréstimo",
     "yieldFarm": "Minerar liquidez",
     "reward": "Bônus SOV",
     "staking": "Token SOV",
@@ -476,6 +476,8 @@
       "lend": "Contrato de empréstimo",
       "amm": "Contrato Amm",
       "staked": "Contrato Bitocracia",
+      "subProtocol": "Subprotocolos",
+      "subtotal": "Sub total",
       "total": "Total"
     },
     "ammpool": {
@@ -485,10 +487,10 @@
       "contractBalance": "Saldo do contrato",
       "imBalance": "Desequilíbrio"
     },
-    "asset": "Ativos",
+    "asset": "Ativo",
     "totalAssetSupplied": "Total",
-    "totalAssetBorrowed": "Emprestados",
-    "totalAvailable": "Disponíveis",
+    "totalAssetBorrowed": "Emprestado",
+    "totalAvailable": "Disponível",
     "supplyAPR": "Juros anual (credor)",
     "borrowAPR": "Juros anual (devedor)"
   },
@@ -514,7 +516,7 @@
     "addStake": "Novo investimento",
     "feeTitle": "Dividendos disponíveis",
     "noUnlockedSov": "Você não possui SOV disponíveis para investimento",
-    "txFee": "Taxa de transação",
+    "txFee": "Taxa de rede",
     "sov": "SOV",
     "days": "dias",
     "delegation": {
@@ -562,7 +564,7 @@
       "hash": "ID transação",
       "totalStaked": "Total investido",
       "viewHistory": "Ver histórico",
-      "status": "Status",
+      "status": "Status da transação",
       "actions": {
         "stake": "Novo investimento",
         "unstake": "Sacar investimento",
@@ -723,7 +725,7 @@
     },
     "borrowingContainer": {
       "amount": "Valor do empréstimo",
-      "tokenAssetCollateral": "Ativo a ser colaterizado e quantidade",
+      "tokenAssetCollateral": "Ativo de garantia e quantidade",
       "borrow": "Obter empréstimo",
       "chooseDays": "Quantidade de dias",
       "disabled": "Ativo não disponível para empréstimo."
@@ -933,7 +935,7 @@
         "amount": "Valor transacionado",
         "fee": "Taxa",
         "initiated": "Iniciado",
-        "status": "Status",
+        "status": "Status da transação",
         "estimated": "Tempo estimado"
       }
     }
@@ -1023,7 +1025,7 @@
       "title": "Converter",
       "from": "De",
       "to": "Para",
-      "txFee": "Taxa de transação",
+      "txFee": "Taxa de rede",
       "cta": "Converter para XUSD",
       "txDialog": {
         "titleInProgress": "Transação em andamento",
@@ -1046,7 +1048,7 @@
       "amountSent": "Quantidade enviada",
       "to": "Para",
       "amountReceived": "Quantidade recebida",
-      "status": "Status"
+      "status": "Status da transação"
     },
     "emptyState": "Histórico vázio."
   },
@@ -1057,7 +1059,7 @@
       "vestingSchedule": "Tipo",
       "amount": "Quantidade",
       "hash": "ID transação",
-      "status": "Status"
+      "status": "Status da transação"
     }
   },
   "spotHistory": {
@@ -1068,8 +1070,8 @@
       "orderType": "Tipo de ordem",
       "amountPaid": "Quantidade paga",
       "amountReceived": "Quantidade recebida",
-      "transactionFee": "Taxa de transação",
-      "status": "Status"
+      "transactionFee": "Taxa de rede",
+      "status": "Status da transação"
     },
     "emptyState": "Histórico vázio."
   },
@@ -1124,8 +1126,8 @@
     "poolChart": {
       "totalLiquidity": "Total",
       "apy": "{{asset}} Juros anual",
-      "available": "Disponíveis",
-      "borrowed": "Emprestados"
+      "available": "Disponível",
+      "borrowed": "Emprestado"
     },
     "rowTable": {
       "noLiquidityProvided": "Empreste {{asset}} e ganhe rendimentos",
@@ -1162,7 +1164,7 @@
         "asset": "Ativo",
         "lendingAmount": "Quantidade",
         "transactionHash": "ID transação",
-        "status": "Status"
+        "status": "Status da transação"
       }
     }
   },
@@ -1299,7 +1301,7 @@
     "buttonFiat": "Comprar rBTC",
     "transaction": {
       "title": "Detalhes da transação",
-      "status": "Status {{status}}",
+      "status": "Status da transação {{status}}",
       "from": "De:",
       "to": "Para:",
       "fee": "Taxa:",
@@ -1397,7 +1399,7 @@
         "type": "Tipo",
         "amount": "Quantidade",
         "transactionHash": "ID transação",
-        "status": "Status"
+        "status": "Status da transação"
       },
       "event": {
         "lendingReward": "Bônus de empréstimo",
@@ -1427,7 +1429,7 @@
         "leverage": "Alavancagem:",
         "amount": "Quantidade:",
         "balance": "Saldo disponível: <0/> <1/>",
-        "txFee": "Taxa de transação: <0/> {{symbol}}"
+        "txFee": "Taxa de rede: <0/> {{symbol}}"
       },
       "buttons": {
         "long": "Comprado",
@@ -1519,7 +1521,7 @@
         "asset": "Ativo",
         "liquidityAmount": "Quantidade",
         "transactionHash": "ID transação",
-        "status": "Status"
+        "status": "Status da transação"
       },
       "txType": {
         "added": "Adicionar liquidez",
@@ -1601,8 +1603,8 @@
     "lendBorrow": "EMPRESTAR & OBTER EMPRÉSTIMOS DE ATIVOS",
     "ammpool": {
       "title": "POOLS AMM",
-      "asset": "Ativos",
-      "pool": "Pools",
+      "asset": "Ativo",
+      "pool": "Pool",
       "stakedBalance": "Total",
       "contractBalance": "Saldo do contrato",
       "imBalance": "Desequilíbrio",
@@ -1623,7 +1625,7 @@
     },
     "cryptocurrencyPrices": {
       "title": "PREÇO DOS ATIVOS",
-      "asset": "Ativos",
+      "asset": "Ativo",
       "price": "Preço",
       "24h": "24h%",
       "7d": "7d%",
@@ -1947,7 +1949,7 @@
       "sovAmount": "SOV Líquido ganho",
       "feesAmount": "Ganho",
       "hash": "ID transação",
-      "status": "Status"
+      "status": "Status da transação"
     },
     "tableEmpty": "Você ainda não indicou ninguém.",
     "referralFrom": "Indicação",
