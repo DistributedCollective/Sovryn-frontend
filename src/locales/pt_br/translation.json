@@ -731,7 +731,7 @@
   },
   "borrow": {
     "meta": {
-      "title": "Obter empréstimos"
+      "title": "Obter empréstimo"
     }
   },
   "activeUserBorrows": {
@@ -1591,15 +1591,15 @@
       "title": "Promoções",
       "learnMore": "Saiba mais",
       "sections": {
-        "lending": "Emprestando criptos",
-        "borrowing": "Obtendo empréstimos",
+        "lending": "Emprestando cripto",
+        "borrowing": "Obtendo empréstimo",
         "yieldFarming": "Minerando liquidez",
         "marginTrading": "Operando margem",
-        "swap": "Trocando criptos",
+        "swap": "Trocando cripto",
         "spotTrading": "Operando spot"
       }
     },
-    "lendBorrow": "EMPRESTAR & OBTER EMPRÉSTIMOS DE ATIVOS",
+    "lendBorrow": "EMPRESTAR & OBTER EMPRÉSTIMO DE ATIVOS",
     "ammpool": {
       "title": "POOLS AMM",
       "asset": "Ativo",
