@@ -476,8 +476,6 @@
       "lend": "Contrato de empréstimo",
       "amm": "Contrato Amm",
       "staked": "Contrato Bitocracia",
-      "subProtocol": "Subprotocolos",
-      "subtotal": "Sub total",
       "total": "Total"
     },
     "ammpool": {
@@ -1585,6 +1583,7 @@
       "lend": "Contrato de empréstimo",
       "amm": "Contrato Amm",
       "staked": "Contrato Bitocracia",
+      "subProtocol": "Subprotocolos",
       "subtotal": "Sub total",
       "total": "Total"
     },
