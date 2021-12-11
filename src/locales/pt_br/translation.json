@@ -1350,8 +1350,8 @@
         "recommendation2": "Operando margem em criptos listadas na Sovryn"
       },
       "feesEarnedTab": {
-        "title": "Você não possui dividendos/comissão a receber",
-        "recommendationsTitle": "Ganhe dividendos/comissão em <0/> das seguintes formas:",
+        "title": "Você não possui Dividendos/Comissão a receber",
+        "recommendationsTitle": "Ganhe Dividendos/Comissão em <0/> das seguintes formas:",
         "recommendation1": "Investindo seus SOV",
         "recommendation2": "Quando usuários indicados por você realizam transações na Sovryn"
       }
@@ -1372,7 +1372,7 @@
       "learn": "Saiba mais"
     },
     "feesEarnedClaimForm": {
-      "note": "Ao reivindicar seus dividendos/comissão, eles automaticamente são adicionados no seu saldo <0/> no portfólio.",
+      "note": "Ao reivindicar seus Dividendos/Comissão, eles automaticamente são adicionados no seu saldo <0/> no portfólio.",
       "learn": "Saiba mais"
     },
     "stakingForm": {
