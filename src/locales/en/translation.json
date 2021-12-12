@@ -298,7 +298,9 @@
     "originsClaim": "Origins Claim",
     "launchpad": "Launchpad",
     "claim": "Claim",
-    "rewards": "Rewards"
+    "rewards": "Rewards",
+    "labs": "Labs",
+    "zero": "Zero"
   },
   "originsLaunchpad": {
     "upcomingSales": {
