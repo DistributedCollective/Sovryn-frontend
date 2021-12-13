@@ -237,3 +237,6 @@ export const isNullOrUndefined = val => val === undefined || val === null;
 // (b - a) / |a| * 100
 export const percentageChange = (a: Decimal.Value, b: Decimal.Value) =>
   bignumber(bignumber(b).minus(a)).div(bignumber(a).abs()).mul(100).toString();
+
+export const capitalize = (val: string) =>
+  val && val.charAt(0).toLocaleUpperCase() + val.slice(1);

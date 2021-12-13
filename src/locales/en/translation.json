@@ -810,16 +810,16 @@
     "title": "Change to {{name}} Network",
     "networkAlert": "We detected that you are on {{name}} network.",
     "networkAlertUnknown": "We detected that you are on a different network.",
-    "walletAelrt": "Please switch to {{network}} in your {{wallet}} wallet.",
-    "networkSetting": {
-      "title": "RSK Mainnet Settings",
-      "networkName": "RSK Mainnet Settings",
-      "rpcUrl": "RSK Mainnet Settings",
-      "symbol": "RSK Mainnet Settings",
-      "explorerUrl": "RSK Mainnet Settings",
-      "chainId": "Chain Id"
+    "walletAlert": "Please switch to {{network}} in your {{wallet}} wallet.",
+    "tutorialGuide": "How to connect to {{network}} with {{wallet}}",
+    "settings": {
+      "title": "{{network}} Settings",
+      "name": "Network Name:",
+      "rpc": "New RPC Url:",
+      "chainId": "Chain Id:",
+      "symbol": "Symbol:",
+      "explorer": "Block Explorer URL:"
     },
-    "tutorialGuide": "How to connect to RSK Mainnet with {{wallet}}",
     "stepTitle": {
       "step1": "Step 01:",
       "step2": "Step 02:",
@@ -832,17 +832,17 @@
       "step1": "Open up Metamask in your browser",
       "step2": "Go to network dropdown",
       "step3": "Select Custom RPC",
-      "step4": "Input RSK Mainnet settings",
+      "step4": "Input {{network}} settings",
       "step5": "Click Save",
       "step6": "Click Add Network",
-      "connectButton": "Configure RSK in MetaMask"
+      "connectButton": "Configure {{network}} in MetaMask"
     },
     "liquality": {
       "step1": "Open up Liquality in your browser",
       "step2": "Go to dropdown",
       "step3": "Select Settings",
       "step4": "Go to network dropdown",
-      "step5": "Select RSK"
+      "step5": "Select {{network}}"
     },
     "nifty": {
       "step1": "Open up Nifty in your browser",
