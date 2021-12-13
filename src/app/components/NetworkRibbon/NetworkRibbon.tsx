@@ -6,28 +6,26 @@ import { isWeb3Wallet } from '@sovryn/wallet';
 import { WalletContext } from '@sovryn/react-wallet';
 import { translations } from 'locales/i18n';
 
-import { currentChainId } from '../../../utils/classifiers';
 import { detectWeb3Wallet, capitalize } from '../../../utils/helpers';
 import { NetworkDialog } from '../NetworkDialog';
 import { DetectionScreen } from './component/DetectionScreen';
 import { TutorialScreen } from './component/TutorialScreen';
 import { selectWalletProvider } from '../../containers/WalletProvider/selectors';
-import networksRaw from './network.json';
-import { Network } from './types';
-
-const networks: Network[] = networksRaw;
+import { getNetworkByChainId } from '../../../utils/blockchain/networks';
 
 export function NetworkRibbon(this: any) {
   const { bridgeChainId } = useSelector(selectWalletProvider);
-  const { connected, wallet } = useContext(WalletContext);
+  const { connected, wallet, chainId, expectedChainId } = useContext(
+    WalletContext,
+  );
   const location = useLocation();
   const walletName = detectWeb3Wallet();
   const { t } = useTranslation();
 
   const isOpen = useMemo(() => {
     console.log('bridgeChainId: ', bridgeChainId);
-    console.log('currentChainId: ', currentChainId);
-    console.log('wallet.chainId: ', wallet.chainId);
+    console.log('expectedChainId: ', expectedChainId);
+    console.log('currentChainId: ', chainId);
     if (
       !connected ||
       !isWeb3Wallet(wallet.providerType!) ||
@@ -35,22 +33,24 @@ export function NetworkRibbon(this: any) {
     )
       return false;
 
-    if (bridgeChainId) return wallet.chainId !== bridgeChainId;
+    if (bridgeChainId) return chainId !== bridgeChainId;
 
-    return wallet.chainId !== currentChainId;
+    return chainId !== expectedChainId;
   }, [
     bridgeChainId,
     location.pathname,
     connected,
     wallet.providerType,
-    wallet.chainId,
+    chainId,
+    expectedChainId,
   ]);
 
   const targetNetwork = useMemo(() => {
-    return networks.find(
-      item => item.chainId === (bridgeChainId || currentChainId),
-    );
-  }, [bridgeChainId]);
+    const chainId = bridgeChainId || expectedChainId;
+    if (typeof chainId === 'number') {
+      return getNetworkByChainId(chainId);
+    }
+  }, [bridgeChainId, expectedChainId]);
 
   const [startTut, setStart] = useState(false);
 
@@ -72,6 +72,7 @@ export function NetworkRibbon(this: any) {
         <DetectionScreen
           onStart={handleTutDialog}
           walletType={walletName}
+          currentChainId={chainId}
           network={targetNetwork}
         />
       ) : (

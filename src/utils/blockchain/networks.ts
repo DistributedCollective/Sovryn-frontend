@@ -1,3 +1,5 @@
+import networksRaw from './networks.json';
+
 export type Network = {
   name: string;
   chainId: number;
@@ -15,3 +17,8 @@ export type Network = {
   }[];
   infoURL: string;
 };
+
+export const networks: Network[] = networksRaw;
+
+export const getNetworkByChainId = (chainId: number) =>
+  networks.find(network => network.chainId === chainId);

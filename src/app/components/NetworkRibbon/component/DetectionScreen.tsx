@@ -7,13 +7,15 @@ import error_alert from '../../../../assets/images/error_outline-24px.svg';
 import liquality from '../../../../assets/wallet_icons/liquality.svg';
 import metamask from '../../../../assets/wallet_icons/Metamask.svg';
 import nifty from '../../../../assets/wallet_icons/nifty.svg';
-import networks from '../network.json';
 import { addNetworkByChainId, isAddableNetwork } from 'utils/metamaskHelpers';
 import { ActionButton } from 'app/components/Form/ActionButton';
 
 import styles from '../NetworkRibbon.module.scss';
-import { Network } from '../types';
 import { capitalize } from '../../../../utils/helpers';
+import {
+  Network,
+  getNetworkByChainId,
+} from '../../../../utils/blockchain/networks';
 
 const getWalletLogo = (wallet: string) => {
   switch (wallet) {
@@ -29,20 +31,20 @@ const getWalletLogo = (wallet: string) => {
 type DetectionScreenProps = {
   onStart: () => void;
   walletType: string;
+  currentChainId?: number;
   network?: Network;
 };
 
 export const DetectionScreen: React.FC<DetectionScreenProps> = ({
   onStart,
   walletType,
+  currentChainId,
   network,
 }) => {
-  const { ethereum } = window;
   const { t } = useTranslation();
-  const currentChainId = parseInt(ethereum?.chainId as string);
   const walletName = capitalize(walletType);
-  const currentNetwork = networks.find(item => item.chainId === currentChainId)
-    ?.chain;
+  const currentNetwork =
+    currentChainId && getNetworkByChainId(currentChainId)?.chain;
   const logo = getWalletLogo(walletType);
 
   const onAddNetwork = useCallback(

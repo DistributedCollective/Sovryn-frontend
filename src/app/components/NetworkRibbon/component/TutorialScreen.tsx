@@ -18,10 +18,10 @@ import nifty01 from '../../../../assets/wallet_tutorials/nifty/nifty_01.svg';
 import nifty02 from '../../../../assets/wallet_tutorials/nifty/nifty_02.svg';
 import nifty03 from '../../../../assets/wallet_tutorials/nifty/nifty_03.svg';
 import { BackButton } from '../../../components/BackButton';
-import { Network } from '../types';
 import { capitalize } from '../../../../utils/helpers';
 import styles from '../NetworkRibbon.module.scss';
 import classNames from 'classnames';
+import { Network } from '../../../../utils/blockchain/networks';
 
 type Step = {
   title: string;
