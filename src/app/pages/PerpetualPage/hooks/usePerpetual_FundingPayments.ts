@@ -1,7 +1,7 @@
 import { useAccount } from 'app/hooks/useAccount';
 import { BigNumber } from 'ethers';
 import { bignumber } from 'mathjs';
-import { useMemo } from 'react';
+import { useMemo, useContext } from 'react';
 import { toWei } from 'utils/blockchain/math-helpers';
 import { PerpetualPairType } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { ABK64x64ToFloat } from '../utils/contractUtils';
@@ -11,7 +11,7 @@ import {
   OrderDirection,
   useGetTraderEvents,
 } from './graphql/useGetTraderEvents';
-import { usePerpetual_queryAmmState } from './usePerpetual_queryAmmState';
+import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 
 export type FundingPaymentsEntry = {
   id: string;
@@ -31,7 +31,7 @@ export const usePerpetual_FundingPayments = (
   pairType: PerpetualPairType.BTCUSD,
 ): FundingPaymentsHookResult => {
   const address = useAccount();
-  const ammState = usePerpetual_queryAmmState();
+  const { ammState } = useContext(PerpetualQueriesContext);
 
   const {
     data: fundingEvents,

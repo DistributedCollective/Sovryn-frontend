@@ -6,8 +6,7 @@ import { getContract } from 'utils/blockchain/contract-helpers';
 import { toWei } from '../../../../utils/blockchain/math-helpers';
 import { PerpetualPairType } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 import marginTokenAbi from 'utils/blockchain/abi/MarginToken.json';
-import { usePerpetual_marginAccountBalance } from './usePerpetual_marginAccountBalance';
-import { getTraderPnLInCC } from '../utils/perpUtils';
+import { getTraderPnLInCC, getBase2CollateralFX } from '../utils/perpUtils';
 import { bignumber } from 'mathjs';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 
@@ -18,23 +17,17 @@ type AccountBalance = {
   unrealized: string;
 };
 
-export const usePerpetual_accountBalance = (pairType: PerpetualPairType) => {
+export const usePerpetual_accountBalance = (
+  pairType: PerpetualPairType,
+): AccountBalance => {
   const blockId = useBlockSync();
   const account = useAccount();
-  const [data, setData] = useState<AccountBalance>({
-    total: '',
-    available: '',
-    inPositions: '',
-    unrealized: '',
-  });
 
   const [availableBalance, setAvailableBalance] = useState('0');
 
   const { ammState, traderState, perpetualParameters } = useContext(
     PerpetualQueriesContext,
   );
-
-  const marginBalance = usePerpetual_marginAccountBalance();
 
   useEffect(() => {
     bridgeNetwork
@@ -47,23 +40,29 @@ export const usePerpetual_accountBalance = (pairType: PerpetualPairType) => {
       )
       .catch(e => console.log(e))
       .then(result => result && setAvailableBalance(String(result)));
-  }, [account]);
+  }, [account, blockId]);
 
   const unrealizedPnl = useMemo(
     () => getTraderPnLInCC(traderState, ammState, perpetualParameters),
     [ammState, perpetualParameters, traderState],
   );
 
-  useEffect(() => {
-    setData({
+  const inPosition = useMemo(
+    () =>
+      traderState.marginAccountPositionBC *
+      getBase2CollateralFX(ammState, false),
+    [traderState.marginAccountPositionBC, ammState],
+  );
+
+  return useMemo(
+    () => ({
       total: bignumber(availableBalance)
-        .add(toWei(marginBalance.fCashCC))
+        .add(toWei(traderState.availableCashCC))
         .toString(),
       available: availableBalance,
-      inPositions: toWei(marginBalance.fCashCC),
+      inPositions: toWei(inPosition),
       unrealized: toWei(unrealizedPnl),
-    });
-  }, [availableBalance, blockId, marginBalance.fCashCC, unrealizedPnl]);
-
-  return data;
+    }),
+    [availableBalance, traderState.availableCashCC, inPosition, unrealizedPnl],
+  );
 };

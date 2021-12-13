@@ -13,7 +13,8 @@
 import { Bar } from './helpers';
 import {
   subscription as bscSubscription,
-  decodeTradeLogs,
+  PerpetualManagerEventKeys,
+  decodePerpetualManagerLog,
 } from '../../utils/bscWebsocket';
 import { symbolMap } from './helpers';
 import { getContract } from 'utils/blockchain/contract-helpers';
@@ -24,7 +25,9 @@ import { ABK64x64ToFloat } from '../../utils/contractUtils';
 // const url = 'ws://localhost:8080';
 
 const address = getContract('perpetualManager').address.toLowerCase();
-const subscription = bscSubscription(address, ['Trade']);
+const subscription = bscSubscription(address, [
+  PerpetualManagerEventKeys.Trade,
+]);
 // const subscription = new WebSocket(url);
 
 type SubItem = {
@@ -45,7 +48,7 @@ function getNextBarTime(barTime: number, resolution: number) {
 }
 
 subscription.on('data', data => {
-  const decoded = decodeTradeLogs(data.data, data.topics.slice(1));
+  const decoded = decodePerpetualManagerLog(data);
   if (!decoded) {
     return;
   }

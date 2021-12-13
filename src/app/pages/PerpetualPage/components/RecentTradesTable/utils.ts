@@ -1,4 +1,4 @@
-import { TradePriceChange, TradeType } from '../../types';
+import { TradePriceChange, TradeType } from './types';
 import imgArrowUp from 'assets/images/trend-arrow-up.svg';
 import imgArrowDown from 'assets/images/trend-arrow-down.svg';
 

@@ -5,7 +5,7 @@ import { Trans } from 'react-i18next';
 import { PerpetualPair } from 'utils/models/perpetual-pair';
 import styles from './index.module.scss';
 import { RecentTradesTableRow } from './components/RecentTablesRow/index';
-import { RecentTradesContext } from './context';
+import { RecentTradesContext } from '../../contexts/RecentTradesContext';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 
 type RecentTradesTableProps = {
