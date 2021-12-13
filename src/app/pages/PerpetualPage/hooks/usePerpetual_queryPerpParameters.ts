@@ -1,12 +1,11 @@
 import { bridgeNetwork } from 'app/pages/BridgeDepositPage/utils/bridge-network';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { Chain } from 'types';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { PerpParameters } from '../utils/perpUtils';
-import { ABK64x64ToFloat, PERPETUAL_ID } from '../utils/contractUtils';
+import { ABK64x64ToFloat } from '../utils/contractUtils';
 import perpetualManagerAbi from 'utils/blockchain/abi/PerpetualManager.json';
 import { BigNumber } from 'ethers';
-import { usePerpetual_getLatestTradeId } from './usePerpetual_getLatestTradeId';
 
 export const initialPerpParameters: PerpParameters = {
   poolId: 0,
@@ -47,25 +46,31 @@ export const initialPerpParameters: PerpParameters = {
   fUnitAccumulatedFunding: 0,
 };
 
-export const usePerpetual_queryPerpParameters = (): PerpParameters => {
+export const usePerpetual_queryPerpParameters = (perpetualId: string) => {
   const [perpParameters, setPerpParameters] = useState(initialPerpParameters);
 
-  const latestTradeId = usePerpetual_getLatestTradeId();
-
-  useEffect(() => {
+  const fetch = useCallback(() => {
     bridgeNetwork
       .call(
         Chain.BSC,
         getContract('perpetualManager').address,
         perpetualManagerAbi,
         'getPerpetual',
-        [PERPETUAL_ID],
+        [perpetualId],
       )
       .catch(e => console.error(e))
       .then(result => result && setPerpParameters(parsePerpParameter(result)));
-  }, [latestTradeId]);
+  }, [perpetualId]);
 
-  return perpParameters;
+  useEffect(fetch, [fetch]);
+
+  return useMemo(
+    () => ({
+      refetch: fetch,
+      result: perpParameters,
+    }),
+    [fetch, perpParameters],
+  );
 };
 
 const parsePerpParameter = (response: any): PerpParameters => ({

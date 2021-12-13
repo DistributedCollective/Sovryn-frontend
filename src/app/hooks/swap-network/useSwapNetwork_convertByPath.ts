@@ -22,8 +22,6 @@ export function useSwapNetwork_convertByPath(
     send: (nonce?: number, approveTx?: string | null) => {
       let args = [path, amount, minReturn];
 
-      console.log('amout', amount);
-
       let config: any = {
         from: account,
         value: sourceToken === Asset.RBTC ? amount : '0',
@@ -47,8 +45,6 @@ export function useSwapNetwork_convertByPath(
           nonce,
         };
       }
-
-      console.log(config, sourceToken, targetToken);
 
       return send(args, config, {
         type: TxType.CONVERT_BY_PATH,

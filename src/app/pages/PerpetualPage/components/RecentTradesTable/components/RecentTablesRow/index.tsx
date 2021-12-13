@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import { RecentTradesDataEntry, TradeType } from '../../types';
-import { getPriceChangeImage, getPriceColor } from './utils';
+import { getPriceChangeImage, getPriceColor } from '../../utils';
 import { LinkToExplorer } from '../../../../../../components/LinkToExplorer';
 import { PERPETUAL_CHAIN_ID } from '../../../../types';
 

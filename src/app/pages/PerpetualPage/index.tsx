@@ -35,7 +35,7 @@ import { TradeDialog } from './components/TradeDialog';
 import { EditPositionSizeDialog } from './components/EditPositionSizeDialog';
 import { EditLeverageDialog } from './components/EditLeverageDialog';
 import { EditMarginDialog } from './components/EditMarginDialog';
-import { RecentTradesContextProvider } from './components/RecentTradesTable/context';
+import { RecentTradesContextProvider } from './contexts/RecentTradesContext';
 import { ClosePositionDialog } from './components/ClosePositionDialog';
 import { ClosedPositionsTable } from './components/ClosedPositionsTable';
 import { OrderHistoryTable } from './components/OrderHistoryTable/index';
@@ -100,7 +100,7 @@ export function PerpetualPage() {
 
   return (
     <RecentTradesContextProvider pair={pair}>
-      <PerpetualQueriesContextProvider>
+      <PerpetualQueriesContextProvider pair={pair}>
         <Helmet>
           <title>{t(translations.perpetualPage.meta.title)}</title>
           <meta

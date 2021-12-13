@@ -3,21 +3,22 @@ import {
   RecentTradesDataEntry,
   TradePriceChange,
   RecentTradesContextType,
-} from './types';
+} from '../components/RecentTradesTable/types';
 import React, { useState, useEffect } from 'react';
 import {
   subscription,
-  decodeTradeLogs,
+  PerpetualManagerEventKeys,
+  decodePerpetualManagerLog,
 } from 'app/pages/PerpetualPage/utils/bscWebsocket';
 import { getContract } from 'utils/blockchain/contract-helpers';
-import { useGetRecentTrades } from '../../hooks/graphql/useGetRecentTrades';
+import { useGetRecentTrades } from '../hooks/graphql/useGetRecentTrades';
 import { Subscription } from 'web3-core-subscriptions';
 import { BigNumber } from 'ethers';
-import { ABK64x64ToFloat } from '../../utils/contractUtils';
+import { ABK64x64ToFloat } from '../utils/contractUtils';
 import {
-  getTradeType,
   getPriceChange,
-} from './components/RecentTablesRow/utils';
+  getTradeType,
+} from '../components/RecentTradesTable/utils';
 
 export const RecentTradesContext = createContext<{
   trades: RecentTradesDataEntry[];
@@ -33,7 +34,7 @@ type InitSocketParams = {
 };
 
 const initSockets = ({ setValue }: InitSocketParams, perpetualId: string) => {
-  const socket = subscription(address, ['Trade']);
+  const socket = subscription(address, [PerpetualManagerEventKeys.Trade]);
 
   addSocketEventListeners(socket, { setValue }, perpetualId);
 
@@ -53,7 +54,7 @@ const addSocketEventListeners = (
   socket.on('data', data => {
     /** This can be uncommented for testing */
     // console.log('[recentTradesWs] data received');
-    const decoded = decodeTradeLogs(data.data, data.topics.slice(1));
+    const decoded = decodePerpetualManagerLog(data);
 
     if (
       decoded &&

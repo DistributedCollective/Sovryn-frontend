@@ -15,6 +15,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { selectTransactions } from '../../../../../../store/global/transactions-store/selectors';
 import { actions } from '../../../slice';
 import { PerpetualPageModals } from '../../../types';
+import { RecentTradesContext } from '../../../contexts/RecentTradesContext';
 
 const TxStatusPriority = {
   [TxStatus.NONE]: 0,
@@ -37,6 +38,7 @@ export const TransactionStep: TransitionStep<TradeDialogStep> = ({
     transactions,
     currentTransaction,
   } = useContext(TradeDialogContext);
+  const { trades } = useContext(RecentTradesContext);
 
   const transactionsMap = useSelector(selectTransactions);
 
@@ -61,14 +63,15 @@ export const TransactionStep: TransitionStep<TradeDialogStep> = ({
 
   const currentTransactionStatus = useMemo(
     () =>
-      requiredTransactions.reduce(
-        (acc, transaction) =>
-          TxStatusPriority[acc] > TxStatusPriority[transaction.status]
-            ? acc
-            : transaction.status,
-        TxStatus.NONE,
-      ),
-    [requiredTransactions],
+      requiredTransactions.reduce((acc, transaction) => {
+        if (trades.find(trade => trade.id === transaction.transactionHash)) {
+          return TxStatus.CONFIRMED;
+        }
+        return TxStatusPriority[acc] > TxStatusPriority[transaction.status]
+          ? acc
+          : transaction.status;
+      }, TxStatus.NONE),
+    [requiredTransactions, trades],
   );
 
   const title = useMemo(

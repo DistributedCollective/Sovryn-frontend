@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useContext } from 'react';
 import { AssetValue } from '../../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../../components/AssetValue/types';
 import classNames from 'classnames';
@@ -19,6 +19,8 @@ import {
 } from '../../../../../../store/global/transactions-store/types';
 import { LinkToExplorer } from '../../../../../components/LinkToExplorer';
 import { TxStatusIcon } from '../../../../../components/Dialogs/TxDialog';
+import { RecentTradesContext } from '../../../contexts/RecentTradesContext';
+import { RecentTradesDataEntry } from '../../RecentTradesTable/types';
 
 const TxTypeLabels = {
   [TxType.APPROVE]: translations.perpetualPage.processTrade.labels.approvalTx,
@@ -62,6 +64,7 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
   transactions,
 }) => {
   const { t } = useTranslation();
+  const { trades } = useContext(RecentTradesContext);
 
   const {
     title,
@@ -205,6 +208,9 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
                 translations.perpetualPage.processTrade.labels.tx,
             )}
             transaction={transaction}
+            trade={trades.find(
+              trade => trade.id === transaction.transactionHash,
+            )}
           />
         ))}
       </div>
@@ -215,11 +221,13 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
 type LabeledTransactionHashProps = {
   label: React.ReactNode;
   transaction: Transaction;
+  trade?: RecentTradesDataEntry;
 };
 
 const LabeledTransactionHash: React.FC<LabeledTransactionHashProps> = ({
   label,
   transaction,
+  trade,
 }) => (
   <div className="tw-flex tw-flex-row tw-w-full tw-justify-start">
     <span className="tw-flex-auto tw-w-1/2 tw-text-left tw-text-gray-10">
@@ -237,7 +245,7 @@ const LabeledTransactionHash: React.FC<LabeledTransactionHashProps> = ({
     {transaction.status !== TxStatus.NONE && (
       <TxStatusIcon
         className="tw-ml-2 tw-w-6 tw-h-6"
-        status={transaction.status}
+        status={trade ? TxStatus.CONFIRMED : transaction.status}
         isInline
       />
     )}

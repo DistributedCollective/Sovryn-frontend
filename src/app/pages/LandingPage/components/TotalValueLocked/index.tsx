@@ -18,19 +18,24 @@ export const TotalValueLocked: React.FC<ITotalValueLockedProps> = ({
   const rowCoreData = useMemo(
     () => [
       {
-        contract: t(translations.statsPage.tvl.protocol),
+        contract: t(translations.landingPage.tvl.protocol),
         btcValue: data?.tvlProtocol?.totalBtc || 0,
         usdValue: data?.tvlProtocol?.totalUsd || 0,
       },
       {
-        contract: t(translations.statsPage.tvl.lend),
+        contract: t(translations.landingPage.tvl.lend),
         btcValue: data?.tvlLending?.totalBtc || 0,
         usdValue: data?.tvlLending?.totalUsd || 0,
       },
       {
-        contract: t(translations.statsPage.tvl.amm),
+        contract: t(translations.landingPage.tvl.amm),
         btcValue: data?.tvlAmm?.totalBtc || 0,
         usdValue: data?.tvlAmm?.totalUsd || 0,
+      },
+      {
+        contract: t(translations.landingPage.tvl.subProtocol),
+        btcValue: data?.tvlSubprotocols?.totalBtc || 0,
+        usdValue: data?.tvlSubprotocols?.totalUsd || 0,
       },
     ],
     [data, t],
@@ -40,7 +45,7 @@ export const TotalValueLocked: React.FC<ITotalValueLockedProps> = ({
     () =>
       rowCoreData
         .map(item => item.btcValue)
-        .reduce((acc, currentValue) => (acc += currentValue), 0),
+        .reduce((acc, currentValue) => acc + currentValue, 0),
     [rowCoreData],
   );
 
@@ -48,7 +53,7 @@ export const TotalValueLocked: React.FC<ITotalValueLockedProps> = ({
     () =>
       rowCoreData
         .map(item => item.usdValue)
-        .reduce((acc, currentValue) => (acc += currentValue), 0),
+        .reduce((acc, currentValue) => acc + currentValue, 0),
     [rowCoreData],
   );
 
@@ -76,7 +81,7 @@ export const TotalValueLocked: React.FC<ITotalValueLockedProps> = ({
           </tr>
         </thead>
         <tbody className="mt-5">
-          {rowCoreData.map((row, i) => (
+          {rowCoreData.map(row => (
             <DataRow
               key={row.contract}
               contractName={row.contract}
@@ -99,12 +104,6 @@ export const TotalValueLocked: React.FC<ITotalValueLockedProps> = ({
             contractName={t(translations.landingPage.tvl.staked)}
             btcValue={data?.tvlStaking?.totalBtc || 0}
             usdValue={data?.tvlStaking?.totalUsd || 0}
-            loading={loading}
-          />
-          <DataRow
-            contractName={t(translations.landingPage.tvl.subProtocol)}
-            btcValue={data?.tvlSubprotocols?.totalBtc || 0}
-            usdValue={data?.tvlSubprotocols?.totalUsd || 0}
             loading={loading}
           />
           <DataRow
