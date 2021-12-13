@@ -19,6 +19,7 @@ import {
   getPriceChange,
   getTradeType,
 } from '../components/RecentTradesTable/utils';
+import dayjs from 'dayjs';
 
 export const RecentTradesContext = createContext<{
   trades: RecentTradesDataEntry[];
@@ -108,7 +109,7 @@ const formatTradeData = (data: any[]): RecentTradesDataEntry[] => {
 };
 
 const convertTimestampToTime = (timestamp: number): string =>
-  new Date(timestamp).toTimeString().slice(0, 8);
+  dayjs(timestamp).utc().format('HH:mm:ss');
 
 export const RecentTradesContextProvider = props => {
   const [value, setValue] = useState<RecentTradesContextType>({
