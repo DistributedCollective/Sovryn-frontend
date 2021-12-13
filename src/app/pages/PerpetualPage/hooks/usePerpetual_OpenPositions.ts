@@ -88,7 +88,7 @@ export const usePerpetual_OpenPosition = (
       traderState,
       ammState,
       perpParameters,
-      tradeAmount,
+      0,
       0,
     );
 
