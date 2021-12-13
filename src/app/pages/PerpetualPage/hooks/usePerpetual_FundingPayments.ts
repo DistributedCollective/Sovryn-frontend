@@ -1,13 +1,13 @@
 import { useAccount } from 'app/hooks/useAccount';
-import { useMemo, useContext } from 'react';
-import { numberFromWei } from 'utils/blockchain/math-helpers';
+import { BigNumber } from 'ethers';
+import { useMemo } from 'react';
 import { PerpetualPairType } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
+import { ABK64x64ToFloat } from '../utils/contractUtils';
 import {
   Event,
   OrderDirection,
   useGetTraderEvents,
 } from './graphql/useGetTraderEvents';
-import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 
 export type FundingPaymentsEntry = {
   id: string;
@@ -30,7 +30,6 @@ export const usePerpetual_FundingPayments = (
   perPage: number,
 ): FundingPaymentsHookResult => {
   const address = useAccount();
-  const { ammState } = useContext(PerpetualQueriesContext);
 
   const {
     data: fundingEvents,
@@ -58,9 +57,11 @@ export const usePerpetual_FundingPayments = (
           id: item.id,
           pairType: pairType,
           datetime: item.blockTimestamp,
-          payment: item.fFundingPaymentCC,
-          rate: numberFromWei(item.fundingRate),
-          timeSinceLastPayment: numberFromWei(item.fundingTime),
+          payment: ABK64x64ToFloat(BigNumber.from(item.fFundingPaymentCC)),
+          rate: ABK64x64ToFloat(BigNumber.from(item.fundingRate)),
+          timeSinceLastPayment: ABK64x64ToFloat(
+            BigNumber.from(item.fundingTime),
+          ),
         };
       });
       return data;
