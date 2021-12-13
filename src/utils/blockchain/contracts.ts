@@ -112,7 +112,7 @@ export const contracts = {
   //   blockNumber: 1218721,
   // },
   MOC_amm: {
-    address: '0x34031D1cd14e2C80B0268B47eFf49643375aFaeb',
+    address: '0x60cc333072f16d5f4cb2bc36d6aa1f00381e22c2',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -127,7 +127,7 @@ export const contracts = {
   //   blockNumber: 1406290,
   // },
   RIF_amm: {
-    address: '0x1769044CBa7aD37719badE16Cc71EC3f027b943D',
+    address: '0xf6377dec9ce79b5bc0576618a5cd3e95f49f9ace',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -157,7 +157,7 @@ export const contracts = {
     blockNumber: 1406290,
   },
   XUSD_amm: {
-    address: '0x029448377a56c15928ec783baf6ca736ed99a57f',
+    address: '0x34163bb263ac77e9d6315676a2b9624cfc5ff861',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -187,7 +187,7 @@ export const contracts = {
     blockNumber: 1406290,
   },
   ETH_amm: {
-    address: '0xcef26b429e272960d8fa2ea190b06df5dd8f68e2',
+    address: '0xd8397c1944862b6a9674c85a5496c208dc9417bb',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -202,7 +202,7 @@ export const contracts = {
   //   blockNumber: 1406290,
   // },
   BNBS_amm: {
-    address: '0x3a36919f1d6729ea8bd2a04f72bd9d5396f7e549',
+    address: '0x150bc1f9f1020255d44385865928aadc6b7ad9f3',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -280,7 +280,7 @@ export const contracts = {
     blockNumber: 3100260,
   },
   SOV_amm: {
-    address: '0x3fd679b01ddab34da8f72b7ec301aa75ea25f338',
+    address: '0x88a67a0e79e311fe93c6e2101d55d6d2ae3a7e94',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -317,7 +317,7 @@ export const contracts = {
     abi: FISHTokenAbi,
   },
   FISH_amm: {
-    address: '0xe731DA93034D769c2045B1ee137D42E1Aa23C18e',
+    address: '0x832769cc15dbdd6814819988c7a875ec2cb943e8',
     abi: LiquidityPoolV1Converter,
   },
   FISH_staking: {
