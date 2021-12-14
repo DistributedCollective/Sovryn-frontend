@@ -840,16 +840,16 @@ export function calculateLeverage(
 
 /**
  * Get the unrealized Profit/Loss of a trader using mark price as benchmark. Reported in Base currency.
- * @param {AMMState} ammData - AMM state (for mark price and CCY conversion)
+ * @param {AMMState} ammState - AMM state (for mark price and CCY conversion)
  * @param {TraderState} traderState - Trader state (for account balances)
  * @returns {number} PnL = value of position at mark price minus locked in value
  */
 export function getTraderPnLInBC(
   traderState: TraderState,
-  ammData: AMMState,
+  ammState: AMMState,
+  perpParams: PerpParameters,
 ): number {
   return (
-    traderState.marginAccountPositionBC -
-    traderState.marginAccountLockedInValueQC / getMarkPrice(ammData)
+    getTraderPnL(traderState, ammState, perpParams) / getMarkPrice(ammState)
   );
 }

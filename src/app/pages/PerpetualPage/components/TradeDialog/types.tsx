@@ -19,6 +19,7 @@ export type TradeAnalysis = {
   partialUnrealizedPnL: number;
   leverageTarget: number;
   entryPrice: number;
+  limitPrice: number;
   liquidationPrice: number;
   tradingFee: number;
 };

@@ -99,7 +99,7 @@ export const TransactionStep: TransitionStep<TradeDialogStep> = ({
           origin={origin}
           trade={trade}
           pair={pair}
-          {...analysis}
+          analysis={analysis}
           transactions={requiredTransactions}
         />
         <div className="tw-flex tw-justify-center">

@@ -74,6 +74,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     const marginTarget = traderState.availableCashCC * targetFactor;
     const marginChange = marginTarget - traderState.availableCashCC;
 
+    // TODO: calculate worst possible PnL with limitPrice instead
     const unrealizedPartial =
       getTraderPnLInCC(traderState, ammState, perpParameters) *
       (1 - targetFactor);

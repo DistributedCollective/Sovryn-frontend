@@ -31,18 +31,6 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
   const { origin, trade, pair, analysis, setCurrentTransaction } = useContext(
     TradeDialogContext,
   );
-  const {
-    amountChange,
-    amountTarget,
-    entryPrice,
-    leverageTarget,
-    liquidationPrice,
-    marginChange,
-    marginTarget,
-    partialUnrealizedPnL,
-    tradingFee,
-  } = analysis;
-
   const { lotSize, lotPrecision } = useContext(PerpetualQueriesContext);
 
   const onSubmit = useCallback(async () => {
@@ -55,12 +43,12 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     });
 
     changeTo(
-      marginChange > 0
+      analysis.marginChange > 0
         ? TradeDialogStep.approval
         : TradeDialogStep.confirmation,
       TransitionAnimation.slideLeft,
     );
-  }, [marginChange, setCurrentTransaction, changeTo]);
+  }, [analysis.marginChange, setCurrentTransaction, changeTo]);
 
   return (
     <>
@@ -68,29 +56,16 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
       <div className={styles.contentWrapper}>
         <TradeSummary
           origin={origin}
-          trade={trade}
-          amountChange={amountChange}
-          amountTarget={amountTarget}
-          entryPrice={entryPrice}
-          leverageTarget={leverageTarget}
-          liquidationPrice={liquidationPrice}
-          marginChange={marginChange}
-          partialUnrealizedPnL={partialUnrealizedPnL}
-          marginTarget={marginTarget}
           pair={pair}
-          tradingFee={tradingFee}
+          trade={trade}
+          analysis={analysis}
         />
         <ResultPosition
-          amountChange={amountChange}
-          amountTarget={amountTarget}
-          entryPrice={entryPrice}
-          leverageTarget={leverageTarget}
-          liquidationPrice={liquidationPrice}
-          marginTarget={marginTarget}
           origin={origin}
           pair={pair}
           lotPrecision={lotPrecision}
           lotSize={lotSize}
+          analysis={analysis}
         />
         <div className="tw-flex tw-justify-center">
           <button className={styles.confirmButton} onClick={onSubmit}>

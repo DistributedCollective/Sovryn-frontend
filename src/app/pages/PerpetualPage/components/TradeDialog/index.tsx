@@ -16,6 +16,8 @@ import {
   getTradingFee,
   calculateLeverage,
   getTraderPnLInCC,
+  calculateSlippagePriceFromMidPrice,
+  getPrice,
 } from '../../utils/perpUtils';
 import {
   PerpetualPairDictionary,
@@ -49,6 +51,7 @@ const tradeDialogContextDefault: TradeDialogContextType = {
     partialUnrealizedPnL: 0,
     leverageTarget: 0,
     entryPrice: 0,
+    limitPrice: 0,
     liquidationPrice: 0,
     tradingFee: 0,
   },
@@ -121,6 +124,7 @@ export const TradeDialog: React.FC = () => {
         );
     const marginChange = marginTarget - traderState.availableCashCC;
 
+    // TODO: calculate worst possible PnL with limitPrice instead
     const partialUnrealizedPnL =
       getTraderPnLInCC(traderState, ammState, perpParameters) *
       Math.abs(-marginChange / traderState.availableCashCC);
@@ -139,6 +143,15 @@ export const TradeDialog: React.FC = () => {
       marginChange,
     );
 
+    const limitPrice = calculateSlippagePriceFromMidPrice(
+      perpParameters,
+      ammState,
+      trade.slippage,
+      Math.sign(amountChange),
+    );
+
+    const entryPrice = getPrice(amountChange, perpParameters, ammState);
+
     const tradingFee = getTradingFee(Math.abs(amountChange), perpParameters);
 
     return {
@@ -150,7 +163,8 @@ export const TradeDialog: React.FC = () => {
       leverageTarget,
       liquidationPrice,
       tradingFee,
-      entryPrice: trade.entryPrice,
+      entryPrice,
+      limitPrice,
     };
   }, [trade, traderState, perpParameters, ammState]);
 

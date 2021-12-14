@@ -21,6 +21,7 @@ import { LinkToExplorer } from '../../../../../components/LinkToExplorer';
 import { TxStatusIcon } from '../../../../../components/Dialogs/TxDialog';
 import { RecentTradesContext } from '../../../contexts/RecentTradesContext';
 import { RecentTradesDataEntry } from '../../RecentTradesTable/types';
+import { TradeAnalysis } from '../types';
 
 const TxTypeLabels = {
   [TxType.APPROVE]: translations.perpetualPage.processTrade.labels.approvalTx,
@@ -36,15 +37,7 @@ type TradeSummaryProps = {
   origin?: PerpetualPageModals;
   trade?: PerpetualTrade;
   pair: PerpetualPair;
-  amountTarget: number;
-  amountChange: number;
-  marginTarget: number;
-  marginChange: number;
-  partialUnrealizedPnL: number;
-  leverageTarget: number;
-  entryPrice: number;
-  liquidationPrice: number;
-  tradingFee: number;
+  analysis: TradeAnalysis;
   transactions?: Transaction[];
 };
 
@@ -52,17 +45,18 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
   origin = PerpetualPageModals.NONE,
   trade,
   pair,
-  amountTarget,
-  amountChange,
-  marginTarget,
-  marginChange,
-  partialUnrealizedPnL,
-  leverageTarget,
-  entryPrice,
-  liquidationPrice,
-  tradingFee,
+  analysis,
   transactions,
 }) => {
+  const {
+    amountChange,
+    marginChange,
+    partialUnrealizedPnL,
+    leverageTarget,
+    limitPrice,
+    tradingFee,
+  } = analysis;
+
   const { t } = useTranslation();
   const { trades } = useContext(RecentTradesContext);
 
@@ -156,9 +150,9 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
           </div>
         )}
         {showAmountText && (
-          <div className="tw-text-sm tw-tracking-normal tw-mt-2 tw-leading-none tw-text-sov-white tw-font-medium">
+          <div className="tw-text-sm tw-tracking-normal tw-mt-2 tw-leading-none tw-text-sov-wThite tw-font-medium">
             {toNumberFormat(Math.abs(amountChange), 3)} {pair.baseAsset} @{' '}
-            {isBuy ? '≥' : '≤'} {toNumberFormat(entryPrice, 2)}{' '}
+            {isBuy ? '≤' : '≥'} {toNumberFormat(limitPrice, 2)}{' '}
             {pair.quoteAsset}
           </div>
         )}
