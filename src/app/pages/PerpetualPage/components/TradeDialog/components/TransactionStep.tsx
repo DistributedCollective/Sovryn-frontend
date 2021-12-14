@@ -103,8 +103,8 @@ export const TransactionStep: TransitionStep<TradeDialogStep> = ({
           transactions={requiredTransactions}
         />
         <div className="tw-flex tw-justify-center">
-          <button className={styles.confirmButton} onClick={onClose}>
-            {t(translations.perpetualPage.reviewTrade.confirm)}
+          <button className={styles.ghostButton} onClick={onClose}>
+            {t(translations.perpetualPage.reviewTrade.close)}
           </button>
         </div>
       </div>

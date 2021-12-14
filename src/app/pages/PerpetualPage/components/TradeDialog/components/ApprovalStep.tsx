@@ -80,11 +80,15 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
   }, [currentTransaction, setCurrentTransaction]);
 
   useEffect(() => {
-    if (
-      current &&
-      approvalAmount !== '0' &&
-      currentTransaction?.stage === PerpetualTxStage.reviewed
-    ) {
+    if (!current || approvalAmount === '0') {
+      setTimeout(
+        () =>
+          changeTo(TradeDialogStep.confirmation, TransitionAnimation.slideLeft),
+        500,
+      );
+    }
+
+    if (currentTransaction?.stage === PerpetualTxStage.reviewed) {
       checkAndApprove(
         'PERPETUALS_token',
         getContract('perpetualManager').address,
