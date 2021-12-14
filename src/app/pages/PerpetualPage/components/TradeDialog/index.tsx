@@ -104,9 +104,42 @@ export const TradeDialog: React.FC = () => {
     [trade],
   );
 
-  const analysis: TradeAnalysis = useMemo(() => {
+  const [analysis, setAnalysis] = useState<TradeAnalysis>(
+    tradeDialogContextDefault.analysis,
+  );
+
+  const onClose = useCallback(
+    () => dispatch(actions.setModal(PerpetualPageModals.NONE)),
+    [dispatch],
+  );
+
+  const context: TradeDialogContextType = useMemo(
+    () => ({
+      origin,
+      pair,
+      trade,
+      analysis,
+      transactions,
+      currentTransaction,
+      setTransactions,
+      setCurrentTransaction,
+      onClose,
+    }),
+    [origin, pair, trade, analysis, transactions, currentTransaction, onClose],
+  );
+
+  useEffect(() => setTransactions(requestedTransactions), [
+    requestedTransactions,
+  ]);
+
+  useEffect(() => {
     if (!trade) {
-      return tradeDialogContextDefault.analysis;
+      setAnalysis(tradeDialogContextDefault.analysis);
+      return;
+    }
+
+    if (currentTransaction) {
+      return;
     }
 
     const amountTarget = getSignedAmount(trade.position, trade.amount);
@@ -153,7 +186,7 @@ export const TradeDialog: React.FC = () => {
 
     const tradingFee = getTradingFee(Math.abs(amountChange), perpParameters);
 
-    return {
+    setAnalysis({
       amountChange,
       amountTarget,
       marginChange,
@@ -164,32 +197,8 @@ export const TradeDialog: React.FC = () => {
       tradingFee,
       entryPrice,
       limitPrice,
-    };
-  }, [trade, traderState, perpParameters, ammState]);
-
-  const onClose = useCallback(
-    () => dispatch(actions.setModal(PerpetualPageModals.NONE)),
-    [dispatch],
-  );
-
-  const context: TradeDialogContextType = useMemo(
-    () => ({
-      origin,
-      pair,
-      trade,
-      analysis,
-      transactions,
-      currentTransaction,
-      setTransactions,
-      setCurrentTransaction,
-      onClose,
-    }),
-    [origin, pair, trade, analysis, transactions, currentTransaction, onClose],
-  );
-
-  useEffect(() => setTransactions(requestedTransactions), [
-    requestedTransactions,
-  ]);
+    });
+  }, [currentTransaction, trade, traderState, perpParameters, ammState]);
 
   if (!trade) {
     return null;
