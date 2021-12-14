@@ -33,6 +33,7 @@ import {
   getTradingFee,
   calculateLeverageForPosition,
   calculateApproxLiquidationPrice,
+  calculateSlippagePrice,
 } from '../../utils/perpUtils';
 import { shrinkToLot } from '../../utils/perpMath';
 import { getSignedAmount, getTradeDirection } from '../../utils/contractUtils';
@@ -214,6 +215,16 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       perpParameters,
       requiredCollateral,
     ],
+  );
+
+  const limitPrice = useMemo(
+    () =>
+      calculateSlippagePrice(
+        averagePrice,
+        trade.slippage,
+        getTradeDirection(trade.position),
+      ),
+    [averagePrice, trade.slippage, trade.position],
   );
 
   const buttonDisabled = useMemo(
@@ -437,8 +448,8 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
             <span className="tw-mr-2">{tradeButtonLabel}</span>
             <span>
               {weiToNumberFormat(trade.amount, lotPrecision)}
-              {` @ ${trade.position === TradingPosition.LONG ? '≥' : '≤'} `}
-              {toNumberFormat(averagePrice, 2)}
+              {` @ ${trade.position === TradingPosition.LONG ? '≤' : '≥'} `}
+              {toNumberFormat(limitPrice, 2)}
             </span>
           </button>
         ) : (
