@@ -112,6 +112,14 @@ export const TradeDialog: React.FC = () => {
     const amountTarget = getSignedAmount(trade.position, trade.amount);
     const amountChange = amountTarget - traderState.marginAccountPositionBC;
 
+    const entryPrice = getPrice(amountChange, perpParameters, ammState);
+    const limitPrice = calculateSlippagePriceFromMidPrice(
+      perpParameters,
+      ammState,
+      trade.slippage,
+      Math.sign(amountChange),
+    );
+
     const marginTarget = trade.margin
       ? numberFromWei(trade.margin)
       : traderState.availableCashCC +
@@ -121,12 +129,12 @@ export const TradeDialog: React.FC = () => {
           perpParameters,
           ammState,
           traderState,
+          trade.slippage,
         );
     const marginChange = marginTarget - traderState.availableCashCC;
 
-    // TODO: calculate worst possible PnL with limitPrice instead
     const partialUnrealizedPnL =
-      getTraderPnLInCC(traderState, ammState, perpParameters) *
+      getTraderPnLInCC(traderState, ammState, perpParameters, limitPrice) *
       Math.abs(-marginChange / traderState.availableCashCC);
 
     const leverageTarget = calculateLeverage(
@@ -142,15 +150,6 @@ export const TradeDialog: React.FC = () => {
       amountChange,
       marginChange,
     );
-
-    const limitPrice = calculateSlippagePriceFromMidPrice(
-      perpParameters,
-      ammState,
-      trade.slippage,
-      Math.sign(amountChange),
-    );
-
-    const entryPrice = getPrice(amountChange, perpParameters, ammState);
 
     const tradingFee = getTradingFee(Math.abs(amountChange), perpParameters);
 

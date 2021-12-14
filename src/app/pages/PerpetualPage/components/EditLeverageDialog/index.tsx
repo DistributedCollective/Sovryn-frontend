@@ -59,6 +59,7 @@ export const EditLeverageDialog: React.FC = () => {
         perpParameters,
         ammState,
         traderState,
+        changedTrade.slippage,
       );
       setMargin(margin);
       setChangedTrade({

@@ -161,20 +161,25 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
             <span className="tw-text-gray-10 tw-mr-2">
               {t(translations.perpetualPage.reviewTrade.labels.totalToReceive)}
             </span>
-            <AssetValue
+            <span
               className={classNames(
                 'tw-text-sov-white tw-font-medium',
                 totalToReceive > 0
                   ? 'tw-text-trade-long'
                   : 'tw-text-trade-short',
               )}
-              minDecimals={4}
-              maxDecimals={4}
-              mode={AssetValueMode.auto}
-              value={totalToReceive}
-              assetString={pair.baseAsset}
-              showPositiveSign
-            />
+            >
+              ≥
+              <AssetValue
+                className="tw-ml-1"
+                minDecimals={4}
+                maxDecimals={4}
+                mode={AssetValueMode.auto}
+                value={totalToReceive}
+                assetString={pair.baseAsset}
+                showPositiveSign
+              />
+            </span>
           </div>
         )}
       </div>

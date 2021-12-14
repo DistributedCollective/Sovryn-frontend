@@ -190,6 +190,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       perpParameters,
       ammState,
       traderState,
+      trade.slippage,
     );
   }, [perpParameters, ammState, traderState, trade]);
 

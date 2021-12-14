@@ -522,6 +522,7 @@ export function calculateApproxLiquidationPrice(
  * @param {number} base2collateral  - If the base currency is different than the collateral. If base is BTC, collateral is USD, this would be 100000 (the USD amount for 1 BTC)
  * @param {PerpParameters} perpParams - Contains parameter of the perpetual
  * @param {AMMState} ammData - AMM state
+ * @param {number} slippagePercent - optional. Specify slippage compared to mid-price that the trader is willing to accept
  * @returns {number} balance required to arrive at the perpetual contract to obtain requested leverage
  */
 export function getRequiredMarginCollateral(
@@ -530,12 +531,23 @@ export function getRequiredMarginCollateral(
   perpParams: PerpParameters,
   ammData: AMMState,
   traderState: TraderState,
+  slippagePercent = 0,
 ): number {
   let currentPos = traderState.marginAccountPositionBC;
   let positionToTrade = targetPos - currentPos;
   let feesBC = Math.abs(positionToTrade) * getTradingFeeRate(perpParams);
+  let dir = Math.sign(positionToTrade);
+  let slippagePrice = calculateSlippagePriceFromMidPrice(
+    perpParams,
+    ammData,
+    slippagePercent,
+    dir,
+  );
   let tradeAmountPrice = getPrice(positionToTrade, perpParams, ammData);
-
+  tradeAmountPrice =
+    dir > 0
+      ? Math.max(tradeAmountPrice, slippagePrice)
+      : Math.min(tradeAmountPrice, slippagePrice);
   let base2collateral = getBase2CollateralFX(ammData, false);
   let quote2collateral = getQuote2CollateralFX(ammData);
 
@@ -551,12 +563,12 @@ export function getRequiredMarginCollateral(
   let newPnLQC = positionToTrade * (Sm - tradeAmountPrice) - buffer;
   let pnlCC = (initialPnLQC + newPnLQC) * quote2collateral;
   /*
-    console.log("newPnLQC = ", newPnLQC)
-    console.log("pnlCC = ", pnlCC)
-    console.log("base2collateral = ", base2collateral)
-    console.log("leverage = ", leverage)
-    console.log("feesBC = ", feesBC)
-    console.log("coll base = ", Math.abs(targetPos) * base2collateral / leverage)*/
+  console.log("newPnLQC = ", newPnLQC)
+  console.log("pnlCC = ", pnlCC)
+  console.log("base2collateral = ", base2collateral)
+  console.log("leverage = ", leverage)
+  console.log("feesBC = ", feesBC)
+  console.log("coll base = ", Math.abs(targetPos) * base2collateral / leverage)*/
   let collRequired =
     (Math.abs(targetPos) * base2collateral) / leverage -
     pnlCC +
@@ -576,12 +588,15 @@ export function getTraderPnL(
   traderState: TraderState,
   ammData: AMMState,
   perpData: PerpParameters,
+  limitPrice: number = NaN,
 ): number {
+  let price = isNaN(limitPrice) ? getMarkPrice(ammData) : limitPrice;
   let tradePnL =
-    traderState.marginAccountPositionBC * getMarkPrice(ammData) -
+    traderState.marginAccountPositionBC * price -
     traderState.marginAccountLockedInValueQC;
-  let fundingPnL = getFundingFee(traderState, perpData);
-  return tradePnL + fundingPnL;
+  let fundingPnL =
+    getFundingFee(traderState, perpData) / getQuote2CollateralFX(ammData);
+  return tradePnL - fundingPnL;
 }
 
 /**
@@ -618,10 +633,11 @@ export function getTraderPnLInCC(
   traderState: TraderState,
   ammData: AMMState,
   perpData: PerpParameters,
+  price: number = NaN,
 ): number {
   return (
     getQuote2CollateralFX(ammData) *
-    getTraderPnL(traderState, ammData, perpData)
+    getTraderPnL(traderState, ammData, perpData, price)
   );
 }
 
@@ -741,6 +757,7 @@ export function getDepthMatrix(perpData: PerpParameters, ammData: AMMState) {
     ammData.M2,
     ammData.M3,
     perpData.fMinimalSpread,
+    perpData.fLotSizeBC,
     pctRange,
   );
 }
