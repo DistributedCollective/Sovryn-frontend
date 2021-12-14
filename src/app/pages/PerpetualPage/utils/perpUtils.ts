@@ -523,6 +523,7 @@ export function calculateApproxLiquidationPrice(
  * @param {PerpParameters} perpParams - Contains parameter of the perpetual
  * @param {AMMState} ammData - AMM state
  * @param {number} slippagePercent - optional. Specify slippage compared to mid-price that the trader is willing to accept
+ * @param {boolean} accountForExistingMargin - optional, default true. subtracts existing margin and clamp to
  * @returns {number} balance required to arrive at the perpetual contract to obtain requested leverage
  */
 export function getRequiredMarginCollateral(
@@ -532,6 +533,7 @@ export function getRequiredMarginCollateral(
   ammData: AMMState,
   traderState: TraderState,
   slippagePercent = 0,
+  accountForExistingMargin = true,
 ): number {
   let currentPos = traderState.marginAccountPositionBC;
   let positionToTrade = targetPos - currentPos;
@@ -573,8 +575,13 @@ export function getRequiredMarginCollateral(
     (Math.abs(targetPos) * base2collateral) / leverage -
     pnlCC +
     feesBC * base2collateral;
-  // account for collateral already deposited
-  return Math.max(0, collRequired - traderState.availableCashCC);
+
+  if (accountForExistingMargin) {
+    // account for collateral already deposited
+    return Math.max(0, collRequired - traderState.availableCashCC);
+  } else {
+    return collRequired;
+  }
 }
 
 /**
@@ -801,57 +808,24 @@ export function isTraderMaintenanceMarginSafe(
 // CUSTOM FRONTEND UTILS =======================================================
 
 /**
- * calculate Leverage for new Position.
- * @param {number} targetPositionSizeBC - new target position size
- * @param {TraderState} traderState - Trader state (for account balances)
- * @param {AMMState} ammData - AMM state (for mark price and CCY conversion)
- * @returns {number} current leverage for the trader
- */
-export function calculateLeverageForPosition(
-  targetPositionSizeBC: number,
-  traderState: TraderState,
-  ammData: AMMState,
-): number {
-  return (
-    Math.abs(targetPositionSizeBC * getBase2CollateralFX(ammData, true)) /
-    traderState.availableCashCC
-  );
-}
-
-/**
- * calculate Leverage for new Margin.
- * @param {number} targetMarginCC - new target margin
- * @param {TraderState} traderState - Trader state (for account balances)
- * @param {AMMState} ammData - AMM state (for mark price and CCY conversion)
- * @returns {number} current leverage for the trader
- */
-export function calculateLeverageForMargin(
-  targetMarginCC: number,
-  traderState: TraderState,
-  ammData: AMMState,
-): number {
-  return (
-    Math.abs(
-      traderState.marginAccountPositionBC * getBase2CollateralFX(ammData, true),
-    ) / targetMarginCC
-  );
-}
-
-/**
  * calculate Leverage for new Margin and Position.
  * @param {number} targetPositionSizeBC - new target position size
  * @param {number} targetMarginCC - new target margin
- * @param {AMMState} ammData - AMM state (for mark price and CCY conversion)
+ * @param {TraderState} traderState
+ * @param {AMMState} ammState
+ * @param {PerpParameters} perpParameters
  * @returns {number} current leverage for the trader
  */
 export function calculateLeverage(
   targetPositionSizeBC: number,
   targetMarginCC: number,
-  ammData: AMMState,
+  traderState: TraderState,
+  ammState: AMMState,
+  perpParameters: PerpParameters,
 ): number {
   return (
-    Math.abs(targetPositionSizeBC * getBase2CollateralFX(ammData, true)) /
-    targetMarginCC
+    Math.abs(targetPositionSizeBC * getBase2CollateralFX(ammState, false)) /
+    (targetMarginCC + getTraderPnLInCC(traderState, ammState, perpParameters))
   );
 }
 

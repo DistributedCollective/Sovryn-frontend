@@ -18,7 +18,7 @@ import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
 import {
   calculateApproxLiquidationPrice,
-  calculateLeverageForMargin,
+  calculateLeverage,
 } from '../../utils/perpUtils';
 import { fromWei } from 'web3-utils';
 import classNames from 'classnames';
@@ -115,7 +115,7 @@ export const EditMarginDialog: React.FC = () => {
         traderState,
         ammState,
       );
-      return [maxAmount, toWei(maxAmount.toPrecision(8))];
+      return [maxAmount, toWei(maxAmount)];
     }
   }, [mode, available, pair, traderState, ammState]);
 
@@ -133,10 +133,12 @@ export const EditMarginDialog: React.FC = () => {
       setMargin(clampedMargin.toPrecision(8));
 
       const newMargin = traderState.availableCashCC + signedMargin;
-      const leverage = calculateLeverageForMargin(
+      const leverage = calculateLeverage(
+        traderState.marginAccountPositionBC,
         newMargin,
         traderState,
         ammState,
+        perpParameters,
       );
 
       setChangedTrade(
@@ -144,11 +146,11 @@ export const EditMarginDialog: React.FC = () => {
           changedTrade && {
             ...changedTrade,
             leverage,
-            margin: toWei(newMargin.toPrecision(8)),
+            margin: toWei(newMargin),
           },
       );
     },
-    [signedMargin, maxAmount, traderState, ammState],
+    [signedMargin, maxAmount, traderState, ammState, perpParameters],
   );
 
   const liquidationPrice = useMemo(

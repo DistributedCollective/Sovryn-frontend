@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import { numberToPercent, toNumberFormat } from 'utils/display-text/format';
+import { toNumberFormat } from 'utils/display-text/format';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { OpenPositionEntry } from '../../hooks/usePerpetual_OpenPositions';
 import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
@@ -16,8 +16,8 @@ import {
   PerpetualTradeType,
 } from '../../types';
 import { TradingPosition } from '../../../../../types/trading-position';
-import { toWei } from 'web3-utils';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
+import { toWei } from '../../../../../utils/blockchain/math-helpers';
 
 type OpenPositionRowProps = {
   item: OpenPositionEntry;
@@ -41,7 +41,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
         tradeType: item.type || PerpetualTradeType.MARKET,
         position: item.position || TradingPosition.LONG,
         slippage: PERPETUAL_SLIPPAGE_DEFAULT,
-        amount: item.amount ? toWei(Math.abs(item.amount).toPrecision(8)) : '0',
+        amount: item.amount ? toWei(Math.abs(item.amount)) : '0',
         collateral: pair.collateralAsset,
         leverage: item.leverage || 0,
         entryPrice: item.entryPrice || 0,
@@ -119,7 +119,13 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
         )}
       </td>
       <td className="tw-text-right">
-        <AssetValue value={item.margin} assetString={pair.baseAsset} />
+        <AssetValue
+          minDecimals={2}
+          maxDecimals={6}
+          value={item.margin}
+          assetString={pair.baseAsset}
+          mode={AssetValueMode.auto}
+        />
         {item.leverage ? ` (${toNumberFormat(item.leverage, 2)}x)` : null}
       </td>
       <td
@@ -135,7 +141,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
               <AssetValue
                 className="tw-block"
                 minDecimals={2}
-                maxDecimals={4}
+                maxDecimals={6}
                 value={item.unrealized.baseValue}
                 assetString={pair.baseAsset}
                 mode={AssetValueMode.auto}
@@ -165,7 +171,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
             <AssetValue
               className="tw-block"
               minDecimals={2}
-              maxDecimals={4}
+              maxDecimals={6}
               value={item.realized.baseValue}
               assetString={pair.baseAsset}
               mode={AssetValueMode.auto}

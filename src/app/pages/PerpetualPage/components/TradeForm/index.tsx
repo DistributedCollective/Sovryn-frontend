@@ -31,9 +31,9 @@ import {
   getMaximalTradeSizeInPerpetual,
   getRequiredMarginCollateral,
   getTradingFee,
-  calculateLeverageForPosition,
   calculateApproxLiquidationPrice,
   calculateSlippagePrice,
+  calculateLeverage,
 } from '../../utils/perpUtils';
 import { shrinkToLot } from '../../utils/perpMath';
 import { getSignedAmount, getTradeDirection } from '../../utils/contractUtils';
@@ -127,15 +127,26 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       const signedAmount = roundedAmount * getTradeDirection(trade.position);
       let newTrade = { ...trade, amount: toWei(roundedAmount.toString()) };
       if (!isNewTrade) {
-        newTrade.leverage = calculateLeverageForPosition(
+        newTrade.leverage = calculateLeverage(
           traderState.marginAccountPositionBC + signedAmount,
+          traderState.availableCashCC,
           traderState,
           ammState,
+          perpParameters,
         );
       }
       onChange(newTrade);
     },
-    [onChange, trade, lotSize, maxTradeSize, isNewTrade, traderState, ammState],
+    [
+      onChange,
+      trade,
+      lotSize,
+      maxTradeSize,
+      isNewTrade,
+      traderState,
+      ammState,
+      perpParameters,
+    ],
   );
   const onBlurOrderAmount = useCallback(() => {
     setAmount(fromWei(trade.amount));

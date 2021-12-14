@@ -14,10 +14,10 @@ import {
   calculateApproxLiquidationPrice,
   getRequiredMarginCollateral,
   getTradingFee,
-  calculateLeverage,
   getTraderPnLInCC,
   calculateSlippagePriceFromMidPrice,
   getPrice,
+  calculateLeverage,
 } from '../../utils/perpUtils';
 import {
   PerpetualPairDictionary,
@@ -128,9 +128,10 @@ export const TradeDialog: React.FC = () => {
     [origin, pair, trade, analysis, transactions, currentTransaction, onClose],
   );
 
-  useEffect(() => setTransactions(requestedTransactions), [
-    requestedTransactions,
-  ]);
+  useEffect(() => {
+    setCurrentTransaction(undefined);
+    setTransactions(requestedTransactions);
+  }, [origin, requestedTransactions]);
 
   useEffect(() => {
     if (!trade) {
@@ -155,14 +156,14 @@ export const TradeDialog: React.FC = () => {
 
     const marginTarget = trade.margin
       ? numberFromWei(trade.margin)
-      : traderState.availableCashCC +
-        getRequiredMarginCollateral(
+      : getRequiredMarginCollateral(
           trade.leverage,
           amountTarget,
           perpParameters,
           ammState,
           traderState,
           trade.slippage,
+          false,
         );
     const marginChange = marginTarget - traderState.availableCashCC;
 
@@ -173,7 +174,9 @@ export const TradeDialog: React.FC = () => {
     const leverageTarget = calculateLeverage(
       amountTarget,
       marginTarget,
+      traderState,
       ammState,
+      perpParameters,
     );
 
     const liquidationPrice = calculateApproxLiquidationPrice(

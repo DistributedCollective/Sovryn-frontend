@@ -61,12 +61,13 @@ export const EditLeverageDialog: React.FC = () => {
         ammState,
         traderState,
         changedTrade.slippage,
+        false,
       );
       setMargin(margin);
       setChangedTrade({
         ...changedTrade,
         leverage,
-        margin: toWei(margin.toPrecision(8)),
+        margin: toWei(margin),
       });
     },
     [changedTrade, traderState, perpParameters, ammState],
