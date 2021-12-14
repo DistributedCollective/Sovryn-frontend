@@ -49,13 +49,13 @@ export const FundingPaymentsRow: React.FC<FundingPaymentsRowProps> = ({
         <AssetValue
           value={item.payment}
           minDecimals={2}
-          maxDecimals={7}
+          maxDecimals={10}
           assetString={pair.baseAsset}
           mode={AssetValueMode.auto}
           showPositiveSign
         />
       </td>
-      <td>{toNumberFormat(item.rate, 7)}%</td>
+      <td>{toNumberFormat(item.rate, 8)}%</td>
       <td>
         {formatTimestampDifference(parseFloat(item.timeSinceLastPayment))}
       </td>

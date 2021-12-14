@@ -38,7 +38,7 @@ export const usePerpetual_FundingPayments = (
   } = useGetTraderEvents(
     [Event.FUNDING_PAYMENT],
     address.toLowerCase(),
-    'blockTimestamp',
+    'lastBlockTimestamp',
     OrderDirection.desc,
     page,
     perPage,
@@ -53,14 +53,18 @@ export const usePerpetual_FundingPayments = (
 
     if (currentFundingEvents?.length > 0) {
       data = currentFundingEvents.map(item => {
+        const fundingRateObject = item.fundingRates[0];
+
         return {
           id: item.id,
           pairType: pairType,
-          datetime: item.blockTimestamp,
-          payment: ABK64x64ToFloat(BigNumber.from(item.fFundingPaymentCC)),
-          rate: ABK64x64ToFloat(BigNumber.from(item.fundingRate)),
+          datetime: fundingRateObject.blockTimestamp,
+          payment: ABK64x64ToFloat(
+            BigNumber.from(fundingRateObject.fFundingPaymentCC),
+          ),
+          rate: ABK64x64ToFloat(BigNumber.from(fundingRateObject.fundingRate)),
           timeSinceLastPayment: ABK64x64ToFloat(
-            BigNumber.from(item.fundingTime),
+            BigNumber.from(fundingRateObject.fundingTime),
           ),
         };
       });

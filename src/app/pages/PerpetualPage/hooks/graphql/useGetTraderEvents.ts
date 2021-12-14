@@ -193,10 +193,7 @@ class EventDictionary {
         Event.FUNDING_PAYMENT,
         new EventDetails('fundingPayments', [
           'id',
-          'fFundingPaymentCC',
-          'fundingRate',
-          'fundingTime',
-          'blockTimestamp',
+          'fundingRates(orderBy: blockTimestamp, orderDirection: desc, first:1) { fFundingPaymentCC, fundingRate, fundingTime, blockTimestamp}',
         ]),
       ],
     ],
