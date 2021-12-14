@@ -27,6 +27,8 @@ export const blockExplorers = {
 export const readNodes = {
   30: 'wss://mainnet.sovryn.app/websocket',
   31: 'wss://testnet.sovryn.app/ws',
+  56: 'wss://bsc.sovryn.app/mainnet',
+  97: 'wss://bsc.sovryn.app/testnet',
 };
 
 export const fastBtcApis = {

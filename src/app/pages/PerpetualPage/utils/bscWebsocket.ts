@@ -4,15 +4,13 @@ import IPerpetualManager from 'utils/blockchain/abi/PerpetualManager.json';
 import { AbiItem, AbiInput } from 'web3-utils';
 import { BridgeNetworkDictionary } from '../../BridgeDepositPage/dictionaries/bridge-network-dictionary';
 import { ChainId, Nullable } from '../../../../types';
-import { isMainnet } from '../../../../utils/classifiers';
+import { isMainnet, readNodes } from '../../../../utils/classifiers';
 
-const web3Socket = new Web3(
-  new Web3.providers.WebsocketProvider(process.env.REACT_APP_BSC_WS_URL || ''),
-);
+const chainId = isMainnet ? ChainId.BSC_MAINNET : ChainId.BSC_TESTNET;
 
-const rpcAddress = BridgeNetworkDictionary.getByChainId(
-  isMainnet ? ChainId.BSC_MAINNET : ChainId.BSC_TESTNET,
-)?.rpc;
+const web3Socket = new Web3(readNodes[chainId]);
+
+const rpcAddress = BridgeNetworkDictionary.getByChainId(chainId)?.rpc;
 const web3Http = new Web3(rpcAddress || null);
 
 const PerpetualManager = IPerpetualManager as AbiItem[];
