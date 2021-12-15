@@ -62,7 +62,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
         valueLabel: (
           <AssetValue
             value={available}
-            assetString={pair.baseAsset}
+            assetString="BTC"
             mode={AssetValueMode.auto}
             minDecimals={8}
             maxDecimals={8}
@@ -79,7 +79,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
         valueLabel: (
           <AssetValue
             value={inPositions}
-            assetString={pair.baseAsset}
+            assetString="BTC"
             mode={AssetValueMode.auto}
             minDecimals={3}
             maxDecimals={3}
@@ -104,7 +104,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
               value={bignumber(unrealized || '0')
                 .abs()
                 .toString()}
-              assetString={pair.baseAsset}
+              assetString="BTC"
               mode={AssetValueMode.auto}
               minDecimals={8}
               maxDecimals={8}
@@ -116,31 +116,31 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
         color: isUnrealizedNegative ? 'rgba(29, 127, 247, 0.25)' : undefined,
       },
     ];
-  }, [unrealized, available, t, inPositions, pair.baseAsset]);
+  }, [unrealized, available, t, inPositions]);
 
   const totalLabel = useMemo(
     () => (
       <div className="tw-flex tw-flex-row tw-items-center">
         <AssetValue
-          value={total.baseValue}
-          assetString={pair.baseAsset}
+          value={total.collateralValue}
+          assetString="BTC"
           mode={AssetValueMode.auto}
           minDecimals={2}
           maxDecimals={8}
         />
         <span className="tw-ml-2 tw-text-xs">
-          ≈{' '}
           <AssetValue
             value={total.quoteValue}
             assetString={pair.quoteAsset}
             mode={AssetValueMode.auto}
             minDecimals={2}
             maxDecimals={2}
+            isApproximation
           />
         </span>
       </div>
     ),
-    [pair.baseAsset, pair.quoteAsset, total.baseValue, total.quoteValue],
+    [pair.quoteAsset, total.collateralValue, total.quoteValue],
   );
 
   // TODO: add pending transfer value to available balance

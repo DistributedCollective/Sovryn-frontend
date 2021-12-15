@@ -19,7 +19,7 @@ import { PerpetualPairType } from 'utils/dictionaries/perpetual-pair-dictionary'
 
 type AccountBalance = {
   total: {
-    baseValue: string;
+    collateralValue: string;
     quoteValue: string;
   };
   available: string;
@@ -64,7 +64,7 @@ export const usePerpetual_accountBalance = (
     [traderState.marginAccountPositionBC, ammState],
   );
 
-  const totalBaseValue = useMemo(
+  const totalCollateralValue = useMemo(
     () =>
       bignumber(availableBalance)
         .add(toWei(traderState.availableCashCC))
@@ -74,14 +74,16 @@ export const usePerpetual_accountBalance = (
 
   const totalQuoteValue = useMemo(
     () =>
-      toWei(numberFromWei(totalBaseValue) / getQuote2CollateralFX(ammState)),
-    [ammState, totalBaseValue],
+      toWei(
+        numberFromWei(totalCollateralValue) / getQuote2CollateralFX(ammState),
+      ),
+    [ammState, totalCollateralValue],
   );
 
   return useMemo(
     () => ({
       total: {
-        baseValue: totalBaseValue,
+        collateralValue: totalCollateralValue,
         quoteValue: totalQuoteValue,
       },
       available: availableBalance,
@@ -89,7 +91,7 @@ export const usePerpetual_accountBalance = (
       unrealized: toWei(unrealizedPnl),
     }),
     [
-      totalBaseValue,
+      totalCollateralValue,
       totalQuoteValue,
       availableBalance,
       inPosition,
