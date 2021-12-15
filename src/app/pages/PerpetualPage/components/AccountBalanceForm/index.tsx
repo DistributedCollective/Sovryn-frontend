@@ -4,8 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { translations } from '../../../../../locales/i18n';
 import { numberFromWei } from '../../../../../utils/blockchain/math-helpers';
-import { PerpetualPairType } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
-import { weiToNumberFormat } from '../../../../../utils/display-text/format';
+import {
+  PerpetualPairDictionary,
+  PerpetualPairType,
+} from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
@@ -46,6 +48,8 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
     inPositions,
     unrealized,
   } = usePerpetual_accountBalance(pairType);
+
+  const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
 
   const chartEntries: BarCompositionChartEntry[] = useMemo(() => {
     const isUnrealizedNegative = bignumber(unrealized || '0').isNegative();
@@ -112,18 +116,31 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
         color: isUnrealizedNegative ? 'rgba(29, 127, 247, 0.25)' : undefined,
       },
     ];
-  }, [t, available, inPositions, unrealized]);
+  }, [unrealized, available, t, inPositions]);
 
-  // TODO: implement useDollarValue for BTC
-  const totalUsd = 'USD not Implemented';
   const totalLabel = useMemo(
     () => (
       <div className="tw-flex tw-flex-row tw-items-center">
-        <span>{weiToNumberFormat(total, 8)} BTC</span>
-        <span className="tw-ml-2 tw-text-xs">≈ {totalUsd}</span>
+        <AssetValue
+          value={total.collateralValue}
+          assetString="BTC"
+          mode={AssetValueMode.auto}
+          minDecimals={2}
+          maxDecimals={8}
+        />
+        <span className="tw-ml-2 tw-text-xs">
+          <AssetValue
+            value={total.quoteValue}
+            assetString={pair.quoteAsset}
+            mode={AssetValueMode.auto}
+            minDecimals={2}
+            maxDecimals={2}
+            isApproximation
+          />
+        </span>
       </div>
     ),
-    [total],
+    [pair.quoteAsset, total.collateralValue, total.quoteValue],
   );
 
   // TODO: add pending transfer value to available balance
@@ -145,25 +162,32 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
         </button>
       </div>
       <div className="tw-flex tw-flex-col md:tw-flex-row tw-justify-center tw-mx-auto tw-mt-16 tw-space-y-4 md:tw-space-y-0 md:tw-space-x-10">
-        <button
-          className="tw-min-w-40 tw-min-h-10 tw-p-2 tw-text-base tw-text-primary tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-duration-300 hover:tw-bg-primary-25"
-          onClick={onOpenDeposit}
-        >
+        <ActionButton onClick={onOpenDeposit}>
           {t(translations.perpetualPage.accountBalance.deposit)}
-        </button>
-        <button
-          className="tw-min-w-40 tw-min-h-10 tw-p-2 tw-text-base tw-text-primary tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-duration-300 hover:tw-bg-primary-25"
-          onClick={onOpenWithdraw}
-        >
+        </ActionButton>
+
+        <ActionButton onClick={onOpenWithdraw}>
           {t(translations.perpetualPage.accountBalance.withdraw)}
-        </button>
-        <button
-          className="tw-min-w-40 tw-min-h-10 tw-p-2 tw-text-base tw-text-primary tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-duration-300 hover:tw-bg-primary-25"
-          onClick={onOpenTransfer}
-        >
+        </ActionButton>
+
+        <ActionButton onClick={onOpenTransfer}>
           {t(translations.perpetualPage.accountBalance.transfer)}
-        </button>
+        </ActionButton>
       </div>
     </div>
   );
 };
+
+type ActionButtonProps = {
+  onClick: () => void;
+  children: React.ReactNode;
+};
+
+const ActionButton: React.FC<ActionButtonProps> = ({ onClick, children }) => (
+  <button
+    className="tw-min-w-40 tw-min-h-10 tw-p-2 tw-text-base tw-text-primary tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-duration-300 hover:tw-bg-primary-25"
+    onClick={onClick}
+  >
+    {children}
+  </button>
+);
