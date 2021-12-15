@@ -586,8 +586,10 @@ export function getRequiredMarginCollateral(
 
 /**
  * Get the unrealized Profit/Loss of a trader using mark price as benchmark. Reported in Quote currency.
- * @param {AMMState} ammData - AMM state (for mark price and CCY conversion)
  * @param {TraderState} traderState - Trader state (for account balances)
+ * @param {AMMState} ammData - AMM state (for mark price and CCY conversion)
+ * @param {PerpParameters} perpParams - Contains parameter of the perpetual
+ * @param {number} limitPrice - optional exit price for which the PnL should be calculated
  * @returns {number} PnL = value of position at mark price minus locked in value
  */
 
@@ -609,8 +611,8 @@ export function getTraderPnL(
 /**
  * Get the current leverage of a trader using mark price as benchmark.
  * See chapter "Lemmas / Leverage" in whitepaper
- * @param {AMMState} ammData - AMM state (for mark price and CCY conversion)
  * @param {TraderState} traderState - Trader state (for account balances)
+ * @param {AMMState} ammData - AMM state (for mark price and CCY conversion)
  * @returns {number} current leverage for the trader
  */
 
@@ -631,8 +633,10 @@ export function getTraderLeverage(
 
 /**
  * Get the unrealized Profit/Loss of a trader using mark price as benchmark. Reported in collateral currency
- * @param {AMMState} ammData - AMM state (for mark price and CCY conversion)
  * @param {TraderState} traderState - Trader state (for account balances)
+ * @param {AMMState} ammData - AMM state (for mark price and CCY conversion)
+ * @param {PerpParameters} perpParams - Contains parameter of the perpetual
+ * @param {number} price - optional exit price for which the PnL should be calculated
  * @returns {number} PnL = value of position at mark price minus locked in value
  */
 
@@ -770,11 +774,7 @@ export function getDepthMatrix(perpData: PerpParameters, ammData: AMMState) {
 }
 
 /**
- * Builds the depth matrix using the bid-ask spread to construct prices and trade amounts:
- * - Short prices are equi-spaced from the unit price of an infinitesimal short
- * - Long prices are equi-spaced from the unit price of an infinitesimal long
- * e.g. for -0.4%, we find a trade amount k such that (price(-k) - price(-0)) / price(-0) = -0.4%
- * note that the mid-price is (price(+0) + price(-0)) / 2
+ * Check whether trader is maintenance margin safe (i.e. cannot be liquidated yet)
  *
  * Uses prices based on the recent oracle data, which can differ from the contract's price entry.
  * @param {TraderState} traderState - Trader state (for account balances)
@@ -793,6 +793,40 @@ export function isTraderMaintenanceMarginSafe(
     perpParams,
   );
   let m = traderState.availableCashCC;
+  let s3 = 1 / getQuote2CollateralFX(ammData);
+  return isTraderMarginSafe(
+    tau,
+    traderState.marginAccountPositionBC,
+    getMarkPrice(ammData),
+    traderState.marginAccountLockedInValueQC,
+    ammData.indexS2PriceDataOracle,
+    s3,
+    m,
+  );
+}
+
+/**
+ * Check whether trader is initial margin safe (i.e. can increase position or withdraw margin)
+ *
+ * Uses prices based on the recent oracle data, which can differ from the contract's price entry.
+ * @param {TraderState} traderState - Trader state (for account balances)
+ * @param {number} deltaCashCC - requested change in margin cash in collateral currency (plus to add, minus to remove)
+ * @param {PerpParameters} perpData Perpetual data
+ * @param {AMMState} ammData - AMM data
+ * @returns An array containing [prices, % deviation from mid price ((price - mid-price)/mid-price), trade amounts]
+ */
+
+export function isTraderInitialMarginSafe(
+  traderState: TraderState,
+  deltaCashCC: number,
+  perpParams: PerpParameters,
+  ammData: AMMState,
+) {
+  let tau = getInitialMarginRate(
+    traderState.marginAccountPositionBC,
+    perpParams,
+  );
+  let m = traderState.availableCashCC + deltaCashCC;
   let s3 = 1 / getQuote2CollateralFX(ammData);
   return isTraderMarginSafe(
     tau,

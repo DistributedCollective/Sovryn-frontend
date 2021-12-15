@@ -1853,6 +1853,10 @@
         "2": "Liquidation"
       },
       "submit": "Confirm"
+    },
+    "warnings": {
+      "priceExceedsSlippage": "Trade is likely to fail, because expected price exceeds limit price! Update slippage to at least {{slippage}}, to avoid transaction failure.",
+      "targetMarginUnsafe": "Margin withdrawal is likely to fail, because the resulting margin does not meet the required maintenance margin. Reduce margin withdrawal or leverage, to avoid transaction failure."
     }
   },
   "spotTradingPage": {
