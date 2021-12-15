@@ -10,7 +10,6 @@ import { FundingPaymentsEntry } from '../../hooks/usePerpetual_FundingPayments';
 
 type FundingPaymentsRowProps = {
   item: FundingPaymentsEntry;
-  isFirstItem?: boolean;
 };
 
 const formatTimestampDifference = (timestamp: number) => {
@@ -28,7 +27,6 @@ const formatTimestampDifference = (timestamp: number) => {
 
 export const FundingPaymentsRow: React.FC<FundingPaymentsRowProps> = ({
   item,
-  isFirstItem,
 }) => {
   const pair = useMemo(() => PerpetualPairDictionary.get(item.pairType), [
     item.pairType,
@@ -50,16 +48,16 @@ export const FundingPaymentsRow: React.FC<FundingPaymentsRowProps> = ({
       >
         <AssetValue
           value={item.payment}
+          minDecimals={2}
+          maxDecimals={10}
           assetString={pair.baseAsset}
           mode={AssetValueMode.auto}
           showPositiveSign
         />
       </td>
-      <td>{toNumberFormat(item.rate, 5)}%</td>
+      <td>{toNumberFormat(item.rate, 8)}%</td>
       <td>
-        {isFirstItem
-          ? '-'
-          : formatTimestampDifference(parseFloat(item.timeSinceLastPayment))}
+        {formatTimestampDifference(parseFloat(item.timeSinceLastPayment))}
       </td>
     </tr>
   );
