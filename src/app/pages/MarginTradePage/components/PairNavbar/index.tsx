@@ -102,6 +102,7 @@ export const PairNavbar: React.FC = () => {
           <button
             onClick={onNotificationSettingsClick}
             className="tw-text-sm tw-text-primary tw-tracking-normal tw-flex tw-items-center"
+            data-action-id="margin-select-asset-enable-notification-button"
           >
             <img
               src={imgNotificationBell}

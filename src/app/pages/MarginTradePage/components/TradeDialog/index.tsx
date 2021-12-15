@@ -230,7 +230,11 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
 
   return (
     <>
-      <Dialog isOpen={props.isOpen} onClose={() => props.onCloseModal()}>
+      <Dialog
+        dataAttribute="margin-select-asset-review-order-close-button"
+        isOpen={props.isOpen}
+        onClose={() => props.onCloseModal()}
+      >
         <div className="tw-w-auto md:tw-mx-7 tw-mx-2">
           <h1 className="tw-text-sov-white tw-text-center">
             {t(translations.marginTradePage.tradeDialog.title)}
