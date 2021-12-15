@@ -40,7 +40,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
   const { t } = useTranslation();
   const { connected } = useWalletContext();
   const { checkMaintenance, States } = useMaintenance();
-  const spotLocked = checkMaintenance(States.SPOT_TRADES);
+  const spotLocked = checkMaintenance(States.SPOT_LIMIT);
   const dispatch = useDispatch();
 
   const [tradeDialog, setTradeDialog] = useState(false);
