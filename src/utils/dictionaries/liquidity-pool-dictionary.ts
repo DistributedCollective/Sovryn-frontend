@@ -160,7 +160,7 @@ export class LiquidityPoolDictionary {
       Asset.MYNT,
       new LiquidityPool(Asset.MYNT, [
         new LiquidityPoolSupplyAsset(Asset.MYNT, {
-          mainnet: '0xAE66117C8105a65D914fB47d37a127E879244319', // todo
+          mainnet: '0x36263AC99ecDcf1aB20513D580B7d8D32D3C439d',
           testnet: '0xB12FA09a50c56e9a0C826b98e76DA7645017AB4D',
         }),
         new LiquidityPoolSupplyAsset(Asset.RBTC, {
