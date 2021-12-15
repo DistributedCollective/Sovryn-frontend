@@ -121,8 +121,8 @@ export const PairStats: React.FC<IPairStatsProps> = ({ pair }) => {
   ]);
 
   return (
-    <div className="tw-flex tw-items-center tw-justify-around tw-flex-1 tw-py-2 tw-text-xs">
-      <div>
+    <div className="tw-flex tw-items-center tw-justify-around tw-flex-1 tw-text-xs">
+      <div className="tw-flex tw-items-center tw-text-center tw-flex-col lg:tw-flex-row tw-py-2">
         {t(translations.spotTradingPage.pairNavbar.lastTradedPrice)}
         <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-primary">
           <LoadableValue
@@ -131,7 +131,7 @@ export const PairStats: React.FC<IPairStatsProps> = ({ pair }) => {
           />
         </span>
       </div>
-      <div>
+      <div className="tw-flex tw-items-center tw-text-center tw-flex-col lg:tw-flex-row tw-py-2">
         {t(translations.spotTradingPage.pairNavbar.dayPercentChange)}{' '}
         <span
           className={cn('tw-ml-2 tw-font-semibold tw-text-sm', {
@@ -147,7 +147,7 @@ export const PairStats: React.FC<IPairStatsProps> = ({ pair }) => {
         </span>
       </div>
 
-      <div>
+      <div className="tw-flex tw-items-center tw-text-center tw-flex-col lg:tw-flex-row tw-py-2">
         {t(translations.spotTradingPage.pairNavbar.dayLow)}{' '}
         <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-trade-short">
           <LoadableValue
@@ -156,7 +156,7 @@ export const PairStats: React.FC<IPairStatsProps> = ({ pair }) => {
           />
         </span>
       </div>
-      <div>
+      <div className="tw-flex tw-items-center tw-text-center tw-flex-col lg:tw-flex-row tw-py-2">
         {t(translations.spotTradingPage.pairNavbar.dayHigh)}{' '}
         <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-trade-long">
           <LoadableValue

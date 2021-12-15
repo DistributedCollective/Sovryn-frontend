@@ -49,10 +49,13 @@ export const PairSelect: React.FC<IPairSelect> = ({
   useOnClickOutside(ref, () => setOpen(false));
 
   return (
-    <div ref={ref} className="tw-relative tw-w-64">
+    <div ref={ref} className="tw-relative tw-w-64 tw-self-stretch tw-mr-2">
       <div
         onClick={() => setOpen(!open)}
-        className="tw-flex tw-items-center tw-py-1 tw-bg-gray-2 tw-px-8 tw-rounded-lg tw-cursor-pointer tw-select-none tw-transition-opacity hover:tw-bg-opacity-75"
+        className={cn(
+          { 'tw-rounded-b-lg': !open },
+          'tw-flex tw-h-full tw-items-center tw-py-1 tw-bg-gray-2 tw-px-8 tw-rounded-t-lg tw-cursor-pointer tw-select-none tw-transition-opacity hover:tw-bg-opacity-75',
+        )}
       >
         <div className="tw-flex-1">
           <Pair pairType={pairType} />
