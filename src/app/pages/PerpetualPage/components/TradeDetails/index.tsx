@@ -27,7 +27,9 @@ export const TradeDetails: React.FC<TradeDetailsProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const { ammState, traderState } = useContext(PerpetualQueriesContext);
+  const { ammState, perpetualParameters, traderState } = useContext(
+    PerpetualQueriesContext,
+  );
 
   const { available } = usePerpetual_accountBalance(pair.pairType);
 
@@ -36,10 +38,10 @@ export const TradeDetails: React.FC<TradeDetailsProps> = ({
     [trade.position, trade.amount],
   );
 
-  const unrealized = useMemo(() => getTraderPnLInBC(traderState, ammState), [
-    traderState,
-    ammState,
-  ]);
+  const unrealized = useMemo(
+    () => getTraderPnLInBC(traderState, ammState, perpetualParameters),
+    [traderState, ammState, perpetualParameters],
+  );
 
   return (
     <div

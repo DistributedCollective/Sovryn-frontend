@@ -1,7 +1,8 @@
 import { BigNumber } from 'ethers';
 const mathjs = require('mathjs');
-const ONE_64x64 = BigNumber.from('0x10000000000000000');
-const DECIMALS = BigNumber.from(10).pow(BigNumber.from(18));
+const BN = BigNumber;
+const ONE_64x64 = BN.from('0x10000000000000000');
+const DECIMALS = BN.from(10).pow(BN.from(18));
 
 // constants based on enums
 export const COLLATERAL_CURRENCY_QUOTE = 0;
@@ -369,7 +370,7 @@ export function findRoot(f: Function, x: number) {
     //x = x - 2 * f1 * fp / (2 * fp * fp - f1 * fpp);
     //x = x - 2 * f1 / (2 * fp  - f1 * fpp / fp);
   }
-  // console.log('failed to converge in', numIter, 'iterations');
+  console.log('failed to converge in', numIter, 'iterations');
   return x;
 }
 
@@ -584,10 +585,10 @@ export function getTradeAmountFromPrice(
   M1: number,
   M2: number,
   M3: number,
-  MinimalSpread: number,
+  minimalSpread: number,
+  lotSize: number,
 ) {
   const numIter = 100;
-  const dk = 1e-8;
   const fTol = 1e-7;
 
   function getPrice(x: number) {
@@ -604,18 +605,18 @@ export function getTradeAmountFromPrice(
       M1,
       M2,
       M3,
-      MinimalSpread,
+      minimalSpread,
     );
     return px;
   }
   // check on which side of the mid-price we are
-  let midPrice = 0.5 * (getPrice(dk) + getPrice(-dk));
+  let midPrice = 0.5 * (getPrice(lotSize) + getPrice(-lotSize));
   if (Math.abs(midPrice - price) < fTol) {
     return 0;
   }
   // set up initial interval
-  let ku = price < midPrice ? -dk : 0.01;
-  let kd = price < midPrice ? -0.01 : dk;
+  let ku = price < midPrice ? -lotSize : 0.01;
+  let kd = price < midPrice ? -0.01 : lotSize;
   // right-end
   let count = 0;
   while (ku > 0 && getPrice(ku) <= price && count < numIter) {
@@ -657,13 +658,13 @@ export function getPricesAndTradesForPercentRage(
   M2: number,
   M3: number,
   minimalSpread: number,
+  lotSize: number,
   pctRange: number[],
 ) {
-  const dk = 1e-8;
   // bid-ask spread and mid prices
   let shortPrice0 = calcPerpPrice(
     K2,
-    -dk,
+    -lotSize,
     L1,
     S2,
     S3,
@@ -678,7 +679,7 @@ export function getPricesAndTradesForPercentRage(
   );
   let longPrice0 = calcPerpPrice(
     K2,
-    dk,
+    lotSize,
     L1,
     S2,
     S3,
@@ -726,6 +727,7 @@ export function getPricesAndTradesForPercentRage(
       M2,
       M3,
       minimalSpread,
+      lotSize,
     );
     // percentage relative to mid-price
     pctRangeOut[i] = (100 * (priceRange[i] - midPrice)) / midPrice;
@@ -749,8 +751,9 @@ export function calculateFundingRate(
   if (collateralCCY !== COLLATERAL_CURRENCY_BASE) {
     M2 = 0;
   }
+  let kStar = M2 - K2; //correct only for M3 = 0
   return (
-    Math.max(r, clamp) + Math.min(r, -clamp) + Math.sign(K2 - M2) * baserate
+    Math.max(r, clamp) + Math.min(r, -clamp) + Math.sign(-kStar) * baserate
   );
 }
 
@@ -893,7 +896,7 @@ export function equalForPrecision(
   doPrintLog = false,
 ) {
   const denum = '1' + '0'.repeat(decimals);
-  const eps = ONE_64x64.div(BigNumber.from(denum));
+  const eps = ONE_64x64.div(BN.from(denum));
   const x_dn = x.sub(eps);
   const x_up = x.add(eps);
   if (doPrintLog) {
@@ -1055,13 +1058,32 @@ export function toDec18(x: BigNumber) {
   return x.mul(DECIMALS).div(ONE_64x64);
 }
 
-export function getMaxLeveragePosition(alpha, beta, cash, fee, minimalSpread) {
-  if (cash < 0) {
-    // trader should have been liquidated
+export function getMaxLeveragePosition(
+  cashBC,
+  targetPremiumRate,
+  alpha,
+  beta,
+  feeRate,
+  slippageRate = null,
+) {
+  // initial margin rate = min(alpha + beta * |pos|, cap)
+  // we want to find a position size such that
+  // (margin balance) - (initial balance) >= (trading fees)
+  // pos * Sm / S3 - L / S3 + cash_cc  - m_r * |pos| * Sm / S3 >= f_r * |pos| * S2 / S3
+  if (slippageRate === null) {
+    slippageRate = targetPremiumRate;
+  }
+  let a = beta * (1 - targetPremiumRate);
+  let b =
+    targetPremiumRate +
+    slippageRate +
+    feeRate +
+    alpha * (1 - targetPremiumRate);
+  let c = cashBC; // cash_cc * S3 / S2;
+  let discriminant = b * b + 4 * a * c;
+  if (discriminant < 0) {
     return 0;
   }
-  alpha = alpha + fee + minimalSpread;
-  // (fee_rate + minimal_spread + min(alpha + beta |pos|, cap)) * |pos| <= cash
-  let maxPos = (-alpha + Math.sqrt(alpha ** 2 + 4 * beta * cash)) / (2 * beta);
+  let maxPos = (-b + Math.sqrt(discriminant)) / (2 * a);
   return maxPos;
 }

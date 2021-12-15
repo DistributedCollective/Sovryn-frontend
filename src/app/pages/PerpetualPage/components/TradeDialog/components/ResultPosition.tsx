@@ -8,16 +8,12 @@ import { translations } from '../../../../../../locales/i18n';
 import { toNumberFormat } from '../../../../../../utils/display-text/format';
 import { PerpetualPair } from '../../../../../../utils/models/perpetual-pair';
 import { PerpetualPageModals } from '../../../types';
+import { TradeAnalysis } from '../types';
 
 type ResultPositionProps = {
   origin?: PerpetualPageModals;
   pair: PerpetualPair;
-  amountTarget: number;
-  amountChange: number;
-  marginTarget: number;
-  leverageTarget: number;
-  entryPrice: number;
-  liquidationPrice: number;
+  analysis: TradeAnalysis;
   lotSize: number;
   lotPrecision: number;
 };
@@ -25,15 +21,18 @@ type ResultPositionProps = {
 export const ResultPosition: React.FC<ResultPositionProps> = ({
   origin,
   pair,
-  amountTarget,
-  amountChange,
-  marginTarget,
-  leverageTarget,
-  entryPrice,
-  liquidationPrice,
+  analysis,
   lotSize,
   lotPrecision,
 }) => {
+  const {
+    amountTarget,
+    amountChange,
+    marginTarget,
+    leverageTarget,
+    limitPrice,
+    liquidationPrice,
+  } = analysis;
   const { t } = useTranslation();
 
   if (
@@ -106,12 +105,12 @@ export const ResultPosition: React.FC<ResultPositionProps> = ({
                 {t(translations.perpetualPage.reviewTrade.labels.entryPrice)}
               </span>
               <span className="tw-font-medium">
-                {amountChange > 0 ? '≥ ' : '≤ '}
+                {amountChange > 0 ? '≤ ' : '≥ '}
                 <AssetValue
                   minDecimals={2}
                   maxDecimals={2}
                   mode={AssetValueMode.auto}
-                  value={entryPrice}
+                  value={limitPrice}
                   assetString={pair.quoteAsset}
                 />
               </span>

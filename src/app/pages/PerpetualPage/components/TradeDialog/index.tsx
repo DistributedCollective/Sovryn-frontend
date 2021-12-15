@@ -14,8 +14,10 @@ import {
   calculateApproxLiquidationPrice,
   getRequiredMarginCollateral,
   getTradingFee,
-  calculateLeverage,
   getTraderPnLInCC,
+  calculateSlippagePriceFromMidPrice,
+  getPrice,
+  calculateLeverage,
 } from '../../utils/perpUtils';
 import {
   PerpetualPairDictionary,
@@ -49,6 +51,7 @@ const tradeDialogContextDefault: TradeDialogContextType = {
     partialUnrealizedPnL: 0,
     leverageTarget: 0,
     entryPrice: 0,
+    limitPrice: 0,
     liquidationPrice: 0,
     tradingFee: 0,
   },
@@ -101,58 +104,9 @@ export const TradeDialog: React.FC = () => {
     [trade],
   );
 
-  const analysis: TradeAnalysis = useMemo(() => {
-    if (!trade) {
-      return tradeDialogContextDefault.analysis;
-    }
-
-    const amountTarget = getSignedAmount(trade.position, trade.amount);
-    const amountChange = amountTarget - traderState.marginAccountPositionBC;
-
-    const marginTarget = trade.margin
-      ? numberFromWei(trade.margin)
-      : traderState.availableCashCC +
-        getRequiredMarginCollateral(
-          trade.leverage,
-          amountTarget,
-          perpParameters,
-          ammState,
-          traderState,
-        );
-    const marginChange = marginTarget - traderState.availableCashCC;
-
-    const partialUnrealizedPnL =
-      getTraderPnLInCC(traderState, ammState, perpParameters) *
-      Math.abs(-marginChange / traderState.availableCashCC);
-
-    const leverageTarget = calculateLeverage(
-      amountTarget,
-      marginTarget,
-      ammState,
-    );
-
-    const liquidationPrice = calculateApproxLiquidationPrice(
-      traderState,
-      ammState,
-      perpParameters,
-      amountChange,
-      marginChange,
-    );
-
-    const tradingFee = getTradingFee(Math.abs(amountChange), perpParameters);
-
-    return {
-      amountChange,
-      amountTarget,
-      marginChange,
-      partialUnrealizedPnL,
-      marginTarget,
-      leverageTarget,
-      liquidationPrice,
-      tradingFee,
-      entryPrice: trade.entryPrice,
-    };
-  }, [trade, traderState, perpParameters, ammState]);
+  const [analysis, setAnalysis] = useState<TradeAnalysis>(
+    tradeDialogContextDefault.analysis,
+  );
 
   const onClose = useCallback(
     () => dispatch(actions.setModal(PerpetualPageModals.NONE)),
@@ -174,9 +128,80 @@ export const TradeDialog: React.FC = () => {
     [origin, pair, trade, analysis, transactions, currentTransaction, onClose],
   );
 
-  useEffect(() => setTransactions(requestedTransactions), [
-    requestedTransactions,
-  ]);
+  useEffect(() => {
+    setCurrentTransaction(undefined);
+    setTransactions(requestedTransactions);
+  }, [origin, requestedTransactions]);
+
+  useEffect(() => {
+    if (!trade) {
+      setAnalysis(tradeDialogContextDefault.analysis);
+      return;
+    }
+
+    if (currentTransaction) {
+      return;
+    }
+
+    const amountTarget = getSignedAmount(trade.position, trade.amount);
+    const amountChange = amountTarget - traderState.marginAccountPositionBC;
+
+    const entryPrice = getPrice(amountChange, perpParameters, ammState);
+    const limitPrice = calculateSlippagePriceFromMidPrice(
+      perpParameters,
+      ammState,
+      trade.slippage,
+      Math.sign(amountChange),
+    );
+
+    const marginTarget = trade.margin
+      ? numberFromWei(trade.margin)
+      : getRequiredMarginCollateral(
+          trade.leverage,
+          amountTarget,
+          perpParameters,
+          ammState,
+          traderState,
+          trade.slippage,
+          false,
+        );
+    const marginChange = marginTarget - traderState.availableCashCC;
+
+    const partialUnrealizedPnL =
+      getTraderPnLInCC(traderState, ammState, perpParameters, limitPrice) *
+      Math.abs(-marginChange / traderState.availableCashCC);
+
+    const leverageTarget = calculateLeverage(
+      amountTarget,
+      marginTarget,
+      traderState,
+      ammState,
+      perpParameters,
+    );
+
+    const liquidationPrice = calculateApproxLiquidationPrice(
+      traderState,
+      ammState,
+      perpParameters,
+      amountChange,
+      marginChange,
+    );
+
+    const tradingFee = getTradingFee(Math.abs(amountChange), perpParameters);
+
+    setAnalysis({
+      amountChange,
+      amountTarget,
+      marginChange,
+      partialUnrealizedPnL,
+      marginTarget,
+      leverageTarget,
+      liquidationPrice,
+      tradingFee,
+      entryPrice,
+      limitPrice,
+    });
+  }, [currentTransaction, trade, traderState, perpParameters, ammState]);
 
   if (!trade) {
     return null;

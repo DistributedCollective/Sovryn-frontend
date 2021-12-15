@@ -68,6 +68,7 @@ export const SlippageFormStep: TransitionStep<NewPositionCardStep> = ({
       perpParameters,
       ammState,
       traderState,
+      trade.slippage,
     );
     return calculateApproxLiquidationPrice(
       traderState,
@@ -80,6 +81,7 @@ export const SlippageFormStep: TransitionStep<NewPositionCardStep> = ({
     trade.amount,
     trade.position,
     trade.leverage,
+    trade.slippage,
     traderState,
     ammState,
     perpParameters,

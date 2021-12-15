@@ -7,10 +7,10 @@ import { TradeForm } from '../../TradeForm';
 import { EditPositionSizeDialogStep } from '../types';
 import { EditPositionSizeDialogContext } from '..';
 import { getSignedAmount } from '../../../utils/contractUtils';
-import { toWei } from 'web3-utils';
 import { TradingPosition } from '../../../../../../types/trading-position';
 import { PerpetualTxMethods } from '../../TradeDialog/types';
 import { PerpetualQueriesContext } from 'app/pages/PerpetualPage/contexts/PerpetualQueriesContext';
+import { toWei } from '../../../../../../utils/blockchain/math-helpers';
 
 export const TradeFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
   changeTo,
@@ -43,10 +43,10 @@ export const TradeFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
 
     const targetTrade = {
       ...changedTrade,
-      amount: toWei(Math.abs(amountTarget).toPrecision(8)),
+      amount: toWei(Math.abs(amountTarget)),
       position:
         amountTarget >= 0 ? TradingPosition.LONG : TradingPosition.SHORT,
-      margin: toWei(traderState.availableCashCC.toPrecision(8)),
+      margin: toWei(traderState.availableCashCC),
     };
 
     dispatch(

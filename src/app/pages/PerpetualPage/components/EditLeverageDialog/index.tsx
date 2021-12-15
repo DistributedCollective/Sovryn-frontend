@@ -24,6 +24,7 @@ import {
 import { toWei } from '../../../../../utils/blockchain/math-helpers';
 import { PerpetualTxMethods } from '../TradeDialog/types';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
+import classNames from 'classnames';
 
 export const EditLeverageDialog: React.FC = () => {
   const dispatch = useDispatch();
@@ -59,12 +60,14 @@ export const EditLeverageDialog: React.FC = () => {
         perpParameters,
         ammState,
         traderState,
+        changedTrade.slippage,
+        false,
       );
       setMargin(margin);
       setChangedTrade({
         ...changedTrade,
         leverage,
-        margin: toWei(margin.toPrecision(8)),
+        margin: toWei(margin),
       });
     },
     [changedTrade, traderState, perpParameters, ammState],
@@ -117,6 +120,11 @@ export const EditLeverageDialog: React.FC = () => {
     );
   }, [dispatch, changedTrade, margin, traderState.availableCashCC]);
 
+  const isButtonDisabled = useMemo(
+    () => trade?.leverage === changedTrade?.leverage,
+    [trade?.leverage, changedTrade?.leverage],
+  );
+
   useEffect(() => setChangedTrade(trade), [trade]);
 
   return (
@@ -163,7 +171,13 @@ export const EditLeverageDialog: React.FC = () => {
             />
           </div>
           <button
-            className="tw-w-full tw-min-h-10 tw-p-2 tw-text-lg tw-text-primary tw-font-medium tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-duration-300 hover:tw-bg-primary-25"
+            className={classNames(
+              'tw-w-full tw-min-h-10 tw-p-2 tw-text-lg tw-text-primary tw-font-medium tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-transition-opacity tw-duration-300',
+              isButtonDisabled
+                ? 'tw-opacity-25 tw-cursor-not-allowed'
+                : 'tw-opacity-100 hover:tw-bg-primary-25',
+            )}
+            disabled={isButtonDisabled}
             onClick={onSubmit}
           >
             {t(translations.perpetualPage.editLeverage.button)}

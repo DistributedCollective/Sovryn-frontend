@@ -4,7 +4,11 @@ import settingImg from 'assets/images/settings-blue.svg';
 import classNames from 'classnames';
 import { TransitionStep } from '../../../../../containers/TransitionSteps';
 import { actions } from '../../../slice';
-import { PerpetualPageModals, PerpetualTradeType } from '../../../types';
+import {
+  PerpetualPageModals,
+  PerpetualTradeType,
+  PERPETUAL_SLIPPAGE_DEFAULT,
+} from '../../../types';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from '../../../../../../locales/i18n';
 import { Tooltip, PopoverPosition } from '@blueprintjs/core';
@@ -17,7 +21,10 @@ import {
 } from '../../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { AssetValue } from '../../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../../components/AssetValue/types';
-import { getTraderPnLInCC } from '../../../utils/perpUtils';
+import {
+  getTraderPnLInCC,
+  calculateSlippagePrice,
+} from '../../../utils/perpUtils';
 import { getSignedAmount } from '../../../utils/contractUtils';
 import { TradingPosition } from '../../../../../../types/trading-position';
 import {
@@ -74,8 +81,14 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     const marginTarget = traderState.availableCashCC * targetFactor;
     const marginChange = marginTarget - traderState.availableCashCC;
 
+    const limitPrice = calculateSlippagePrice(
+      averagePrice,
+      changedTrade?.slippage || PERPETUAL_SLIPPAGE_DEFAULT,
+      Math.sign(amountChange),
+    );
+
     const unrealizedPartial =
-      getTraderPnLInCC(traderState, ammState, perpParameters) *
+      getTraderPnLInCC(traderState, ammState, perpParameters, limitPrice) *
       (1 - targetFactor);
     const totalToReceive = Math.abs(marginChange) + unrealizedPartial;
 
@@ -88,7 +101,14 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
         ? traderState.availableCashCC
         : totalToReceive,
     };
-  }, [trade, changedTrade, traderState, ammState, perpParameters]);
+  }, [
+    averagePrice,
+    trade,
+    changedTrade,
+    traderState,
+    ammState,
+    perpParameters,
+  ]);
 
   const onSubmit = useCallback(() => {
     if (!changedTrade) {
@@ -232,16 +252,19 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
       </div>
       <div className="tw-flex tw-flex-row tw-justify-between tw-items-center tw-mb-8 tw-px-6 tw-py-1 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
         <label>{t(translations.perpetualPage.closePosition.total)}</label>
-        <AssetValue
-          className="tw-text-base tw-font-semibold tw-text-trade-long"
-          minDecimals={4}
-          maxDecimals={4}
-          mode={AssetValueMode.auto}
-          value={totalToReceive}
-          assetString={pair.baseAsset}
-          showPositiveSign
-          useTooltip
-        />
+        <span className="tw-text-base tw-font-semibold tw-text-trade-long">
+          ≥
+          <AssetValue
+            className="tw-ml-1"
+            minDecimals={4}
+            maxDecimals={4}
+            mode={AssetValueMode.auto}
+            value={totalToReceive}
+            assetString={pair.baseAsset}
+            showPositiveSign
+            useTooltip
+          />
+        </span>
       </div>
       <button
         className={classNames(
