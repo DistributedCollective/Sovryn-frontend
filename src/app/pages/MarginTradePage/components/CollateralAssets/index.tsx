@@ -64,7 +64,7 @@ export function CollateralAssets({ value, onChange, options, label }: Props) {
                   />
                   <div
                     className="tw-truncate tw-uppercase"
-                    data-action-id={`margin-radioGroupButton-collateral${idx}`}
+                    data-action-id={`margin-select-asset-selector${idx + 1}`}
                   >
                     <AssetRenderer
                       asset={AssetsDictionary.get(options[idx]).asset}

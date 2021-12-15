@@ -18,7 +18,7 @@ export function LeverageSelector(props: Props) {
       stepSize={1}
       labelRenderer={value => <>{value}x</>}
       className={cn(styles.colorized)}
-      dataActionId="margin-leverageSelector"
+      dataActionId="margin-select-asset-position-leverage"
     />
   );
 }

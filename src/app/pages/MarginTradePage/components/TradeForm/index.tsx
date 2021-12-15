@@ -228,7 +228,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                   onClick={() => setOpenSlippage(true)}
                   className="tw-border-none tw-ml-0 tw-p-0 tw-h-auto"
                   textClassName="tw-text-xs tw-overflow-visible tw-text-secondary"
-                  data-action-id="margin-button-settings"
+                  data-action-id="margin-select-asset-slippage-setting"
                 />
               </div>
 
