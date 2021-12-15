@@ -5,7 +5,6 @@ import React, {
   useEffect,
   useMemo,
 } from 'react';
-import { useTranslation } from 'react-i18next';
 import { PairStats } from './PairStats';
 import { PairSelect } from './PairSelect';
 import { useLocation } from 'react-router-dom';
@@ -15,7 +14,6 @@ import { backendUrl, currentChainId } from 'utils/classifiers';
 import { SpotPairType } from '../../types';
 
 export const PairNavbar: React.FC = () => {
-  const { t } = useTranslation();
   const location = useLocation();
 
   const [pairsLoading, setPairsLoading] = useState(false);
