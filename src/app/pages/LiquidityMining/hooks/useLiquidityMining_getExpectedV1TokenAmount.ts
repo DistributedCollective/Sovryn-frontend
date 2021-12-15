@@ -1,8 +1,10 @@
 import { useMemo } from 'react';
 import { bignumber } from 'mathjs';
 import type { AbiItem } from 'web3-utils';
-import { getTokenContract } from 'utils/blockchain/contract-helpers';
-import erc20Abi from 'utils/blockchain/abi/erc20.json';
+import {
+  getContract,
+  getTokenContract,
+} from 'utils/blockchain/contract-helpers';
 import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
 import { useCacheCallToWithValue } from 'app/hooks/chain/useCacheCallToWithValue';
 
@@ -10,6 +12,8 @@ export function useLiquidityMining_getExpectedV1TokenAmount(
   pool: AmmLiquidityPool,
   amount: string,
 ) {
+  const erc20Abi = getContract('SOV_token').abi;
+
   const balance1 = useCacheCallToWithValue(
     getTokenContract(pool.assetA).address,
     erc20Abi as AbiItem[],

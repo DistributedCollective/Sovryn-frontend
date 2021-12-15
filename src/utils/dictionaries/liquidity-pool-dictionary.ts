@@ -26,7 +26,9 @@ export class LiquidityPoolDictionary {
       ) as AmmLiquidityPool;
     }
     return this.list().find(
-      item => item.converter === converterOrAssetA.toLowerCase(),
+      item =>
+        item.converter === converterOrAssetA.toLowerCase() ||
+        item.previousConverters.includes(converterOrAssetA.toLocaleLowerCase()),
     ) as AmmLiquidityPool;
   }
 

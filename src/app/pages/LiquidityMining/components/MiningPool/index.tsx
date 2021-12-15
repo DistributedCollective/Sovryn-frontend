@@ -24,7 +24,11 @@ interface IMiningPoolProps {
   linkAsset?: string;
 }
 
-type DialogType = 'none' | 'add' | 'remove';
+enum DialogType {
+  NONE,
+  ADD,
+  REMOVE,
+}
 
 export const MiningPool: React.FC<IMiningPoolProps> = ({
   pool,
@@ -34,8 +38,8 @@ export const MiningPool: React.FC<IMiningPoolProps> = ({
   const { t } = useTranslation();
   const [dialog, setDialog] = useState<DialogType>(
     linkAsset && pool.key === LiquidityPoolDictionary.getByKey(linkAsset)?.key
-      ? 'add'
-      : 'none',
+      ? DialogType.ADD
+      : DialogType.NONE,
   );
   const canInteract = useCanInteract();
   const [isEmptyBalance, setIsEmptyBalance] = useState(true);
@@ -61,14 +65,14 @@ export const MiningPool: React.FC<IMiningPoolProps> = ({
       <div className="tw-ml-5 tw-w-full tw-max-w-36">
         <ActionButton
           text={t(translations.liquidityMining.deposit)}
-          onClick={() => setDialog('add')}
+          onClick={() => setDialog(DialogType.ADD)}
           className="tw-block tw-w-full tw-mb-3 tw-rounded-lg tw-bg-primary-25 hover:tw-opacity-75"
           textClassName="tw-text-base"
           disabled={!canInteract || addliquidityLocked}
         />
         <ActionButton
           text={t(translations.liquidityMining.withdraw)}
-          onClick={() => setDialog('remove')}
+          onClick={() => setDialog(DialogType.REMOVE)}
           className="tw-block tw-w-full tw-rounded-lg"
           textClassName="tw-text-base"
           disabled={!canInteract || isEmptyBalance || removeliquidityLocked}
@@ -114,14 +118,14 @@ export const MiningPool: React.FC<IMiningPoolProps> = ({
             <>
               <AddLiquidityDialogV1
                 pool={pool}
-                showModal={dialog === 'add'}
-                onCloseModal={() => setDialog('none')}
+                showModal={dialog === DialogType.ADD}
+                onCloseModal={() => setDialog(DialogType.NONE)}
                 onSuccess={onSuccessfulTransaction}
               />
               <RemoveLiquidityDialogV1
                 pool={pool}
-                showModal={dialog === 'remove'}
-                onCloseModal={() => setDialog('none')}
+                showModal={dialog === DialogType.REMOVE}
+                onCloseModal={() => setDialog(DialogType.NONE)}
                 onSuccess={onSuccessfulTransaction}
               />
             </>
@@ -130,14 +134,14 @@ export const MiningPool: React.FC<IMiningPoolProps> = ({
             <>
               <AddLiquidityDialog
                 pool={pool}
-                showModal={dialog === 'add'}
-                onCloseModal={() => setDialog('none')}
+                showModal={dialog === DialogType.ADD}
+                onCloseModal={() => setDialog(DialogType.NONE)}
                 onSuccess={onSuccessfulTransaction}
               />
               <RemoveLiquidityDialog
                 pool={pool}
-                showModal={dialog === 'remove'}
-                onCloseModal={() => setDialog('none')}
+                showModal={dialog === DialogType.REMOVE}
+                onCloseModal={() => setDialog(DialogType.NONE)}
                 onSuccess={onSuccessfulTransaction}
               />
             </>

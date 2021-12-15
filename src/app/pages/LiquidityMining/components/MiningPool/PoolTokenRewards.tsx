@@ -12,14 +12,12 @@ interface IPoolTokenRewardsProps {
 
 export const PoolTokenRewards: React.FC<IPoolTokenRewardsProps> = ({
   pool,
-}) => {
-  return (
-    <>
-      {pool.converterVersion === 1 && <PoolTokenRewardsV1 pool={pool} />}
-      {pool.converterVersion === 2 && <PoolTokenRewardsV2 pool={pool} />}
-    </>
-  );
-};
+}) => (
+  <>
+    {pool.converterVersion === 1 && <PoolTokenRewardsV1 pool={pool} />}
+    {pool.converterVersion === 2 && <PoolTokenRewardsV2 pool={pool} />}
+  </>
+);
 
 const PoolTokenRewardsV1: React.FC<IPoolTokenRewardsProps> = ({ pool }) => {
   const { value, loading } = useLiquidityMining_getTotalUserAccumulatedReward(

@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
-import type { AbiItem } from 'web3-utils';
 
 import { FormGroup } from 'app/components/Form/FormGroup';
 
@@ -11,6 +10,7 @@ import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { useSlippage } from '../../../BuySovPage/components/BuyForm/useSlippage';
 import { bignumber } from 'mathjs';
 import {
+  getContract,
   getTokenContract,
   getTokenContractName,
 } from '../../../../../utils/blockchain/contract-helpers';
@@ -34,7 +34,6 @@ import { discordInvite } from 'utils/classifiers';
 import { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
 
 import { useCacheCallToWithValue } from 'app/hooks/chain/useCacheCallToWithValue';
-import erc20Abi from 'utils/blockchain/abi/erc20.json';
 
 interface IRemoveLiquidityDialogV1Props {
   pool: AmmLiquidityPool;
@@ -65,7 +64,7 @@ export const RemoveLiquidityDialogV1: React.FC<IRemoveLiquidityDialogV1Props> = 
 
   const { value: supply } = useCacheCallToWithValue(
     pool.poolTokenA,
-    erc20Abi as AbiItem[],
+    getContract('SOV_token').abi,
     'totalSupply',
     '0',
     [],

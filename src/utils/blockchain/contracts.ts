@@ -5,7 +5,6 @@
  */
 import bzxAbi from './abi/bzxAbi.json';
 import priceFeedsAbi from './abi/priceFeedAbi.json';
-import LiquidityPoolV2Converter from './abi/LiquidityPoolV2Converter.json';
 import tokenAbi from './abi/abiTestToken.json';
 import abiTestWBRTCToken from './abi/abiTestWBRTCToken.json';
 import LoanTokenLogicWrbtc from './abi/LoanTokenLogicWrbtc.json';
@@ -22,7 +21,6 @@ import VestingRegistryAbi from './abi/VestingRegistry.json';
 import VestingRegistryOriginAbi from './abi/VestingRegistryOrigin.json';
 import StakingAbi from './abi/Staking.json';
 import OriginClaimAbi from './abi/OriginInvestorsClaim.json';
-import LiquidityPoolV1Converter from './abi/LiquidityPoolV1Converter.json';
 import EscrowRewardsAbi from './abi/EscrowRewardsAbi.json';
 import LiquidityMiningAbi from './abi/LiquidityMining.json';
 import LockedSovAbi from './abi/LockedSOV.json';

@@ -44,7 +44,7 @@ export const RemoveLiquidityDialog: React.FC<IRemoveLiquidityDialogProps> = ({
 
   const canInteract = useCanInteract();
   const { checkMaintenance, States } = useMaintenance();
-  const removeliquidityLocked = checkMaintenance(States.REMOVE_LIQUIDITY);
+  const removeLiquidityLocked = checkMaintenance(States.REMOVE_LIQUIDITY);
 
   const [asset, setAsset] = useState(pool.assetA);
   const [amount, setAmount] = useState('0');
@@ -156,7 +156,7 @@ export const RemoveLiquidityDialog: React.FC<IRemoveLiquidityDialogProps> = ({
             className="tw-mt-6"
           />
 
-          {removeliquidityLocked && (
+          {removeLiquidityLocked && (
             <ErrorBadge
               content={
                 <Trans
@@ -175,12 +175,12 @@ export const RemoveLiquidityDialog: React.FC<IRemoveLiquidityDialogProps> = ({
               }
             />
           )}
-          {!removeliquidityLocked && (
+          {!removeLiquidityLocked && (
             <DialogButton
               confirmLabel={t(translations.liquidityMining.modals.withdraw.cta)}
               onConfirm={() => handleConfirm()}
               disabled={
-                tx.loading || !valid || !canInteract || removeliquidityLocked
+                tx.loading || !valid || !canInteract || removeLiquidityLocked
               }
               className="tw-rounded-lg"
             />

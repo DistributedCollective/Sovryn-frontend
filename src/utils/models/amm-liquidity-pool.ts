@@ -9,6 +9,7 @@ export type ConverterVersion = 1 | 2;
 export class AmmLiquidityPool {
   private _lootDropColor?: LootDropColors | string;
   private _hasSovRewards: boolean = true;
+  private _previousConverters: string[] = [];
   constructor(
     public readonly assetA: Asset,
     public readonly assetB: Asset,
@@ -66,6 +67,13 @@ export class AmmLiquidityPool {
       return this.assetB;
     }
     return undefined;
+  }
+  public setPreviousConverters(converters: string[]) {
+    this._previousConverters = converters.map(item => item.toLowerCase());
+    return this;
+  }
+  public get previousConverters() {
+    return this._previousConverters;
   }
   public get converterAbi(): AbiItem | AbiItem[] {
     return (this.converterVersion === 1

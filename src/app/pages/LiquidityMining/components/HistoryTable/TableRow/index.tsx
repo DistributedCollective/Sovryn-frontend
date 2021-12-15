@@ -28,6 +28,10 @@ export const TableRow: React.FC<ITableRowProps> = ({
 }) => {
   const { t } = useTranslation();
 
+  if (!pool) {
+    return <></>;
+  }
+
   return (
     <tr className="tw-text-xs">
       <td>

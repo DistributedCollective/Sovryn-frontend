@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from 'react';
 import { AbiItem } from 'web3-utils';
 import { Nullable } from 'types';
 
@@ -24,8 +25,6 @@ export function useCacheCallTo<T = string>(
 ): CacheCallResponse<T> {
   const syncBlockNumber = useBlockSync();
 
-  const abiRef = useRef(abi);
-
   const [state, setState] = useState<CacheCallResponse<T>>({
     value: null,
     loading: false,
@@ -37,7 +36,7 @@ export function useCacheCallTo<T = string>(
 
     try {
       contractReader
-        .callByAddress(to, abiRef.current, methodName, args)
+        .callByAddress(to, abi, methodName, args)
         .then(response => {
           setState({
             value: (response as unknown) as Nullable<T>,
@@ -56,7 +55,6 @@ export function useCacheCallTo<T = string>(
           }));
         });
     } catch (error) {
-      // todo add winston logger?
       setState({
         loading: false,
         value: null,
@@ -67,9 +65,13 @@ export function useCacheCallTo<T = string>(
     return () => {
       // todo: find a way to cancel contract call
     };
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [to, methodName, syncBlockNumber, JSON.stringify(args)]);
+  }, [
+    to,
+    methodName,
+    syncBlockNumber,
+    JSON.stringify(args),
+    JSON.stringify(abi),
+  ]);
 
   return state;
 }

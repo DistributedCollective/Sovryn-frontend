@@ -3,13 +3,14 @@ import { bignumber } from 'mathjs';
 import type { AbiItem } from 'web3-utils';
 import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
 import { useCacheCallToWithValue } from 'app/hooks/chain/useCacheCallToWithValue';
-
-import erc20Abi from 'utils/blockchain/abi/erc20.json';
+import { getContract } from 'utils/blockchain/contract-helpers';
 
 export function useLiquidityMining_getExpectedV1PoolTokens(
   pool: AmmLiquidityPool,
   amount: string,
 ) {
+  const erc20Abi = getContract('SOV_token').abi;
+
   const poolTokenSupply = useCacheCallToWithValue(
     pool.poolTokenA,
     erc20Abi as AbiItem[],
