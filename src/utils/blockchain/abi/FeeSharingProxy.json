@@ -36,6 +36,31 @@
       {
         "indexed": true,
         "internalType": "address",
+        "name": "converter",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "FeeAMMWithdrawn",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
         "name": "token",
         "type": "address"
       },
@@ -103,6 +128,25 @@
         "type": "address"
       },
       {
+        "indexed": false,
+        "internalType": "address",
+        "name": "converter",
+        "type": "address"
+      }
+    ],
+    "name": "UnwhitelistedConverter",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      },
+      {
         "indexed": true,
         "internalType": "address",
         "name": "receiver",
@@ -125,6 +169,40 @@
     "type": "event"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "converter",
+        "type": "address"
+      }
+    ],
+    "name": "WhitelistedConverter",
+    "type": "event"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "converterAddress",
+        "type": "address"
+      }
+    ],
+    "name": "addWhitelistedConverterAddress",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "constant": true,
     "inputs": [
       {
@@ -144,6 +222,21 @@
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getWhitelistedConverterList",
+    "outputs": [
+      {
+        "internalType": "address[]",
+        "name": "converterList",
+        "type": "address[]"
       }
     ],
     "payable": false,
@@ -198,9 +291,9 @@
     "name": "numTokenCheckpoints",
     "outputs": [
       {
-        "internalType": "uint32",
+        "internalType": "uint256",
         "name": "",
-        "type": "uint32"
+        "type": "uint256"
       }
     ],
     "payable": false,
@@ -239,9 +332,9 @@
     "name": "processedCheckpoints",
     "outputs": [
       {
-        "internalType": "uint32",
+        "internalType": "uint256",
         "name": "",
-        "type": "uint32"
+        "type": "uint256"
       }
     ],
     "payable": false,
@@ -261,6 +354,21 @@
     ],
     "payable": false,
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "converterAddress",
+        "type": "address"
+      }
+    ],
+    "name": "removeWhitelistedConverterAddress",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -410,6 +518,21 @@
       }
     ],
     "name": "withdrawFees",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "_converters",
+        "type": "address[]"
+      }
+    ],
+    "name": "withdrawFeesAMM",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
