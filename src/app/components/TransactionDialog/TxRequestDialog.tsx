@@ -1,11 +1,11 @@
-import React, { useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { detectWeb3Wallet } from 'utils/helpers';
 
 import { actions } from 'store/global/transactions-store/slice';
 import { translations } from 'locales/i18n';
-import { useWalletContext } from '@sovryn/react-wallet';
+import { WalletContext } from '@sovryn/react-wallet';
 import txFailed from 'assets/images/failed-tx.svg';
 import { Trans } from 'react-i18next';
 import { ActionButton } from 'app/components/Form/ActionButton';
@@ -22,7 +22,7 @@ interface Props extends RequestDialogState {}
 export const TxRequestDialog: React.FC<Props> = ({ open, type, error }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { address } = useWalletContext();
+  const { address } = useContext(WalletContext);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const wallet = useMemo(() => detectWeb3Wallet(), [address]);

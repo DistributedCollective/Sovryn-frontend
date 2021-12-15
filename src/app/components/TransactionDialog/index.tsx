@@ -1,13 +1,12 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { Dialog } from 'app/containers/Dialog';
 import { ResetTxResponseInterface } from '../../hooks/useSendContractTx';
 import { TxStatus } from 'store/global/transactions-store/types';
 import { detectWeb3Wallet, prettyTx } from 'utils/helpers';
 import txFailed from 'assets/images/failed-tx.svg';
-
 import { LinkToExplorer } from '../LinkToExplorer';
 import styles from './dialog.module.scss';
-import { useWalletContext } from '@sovryn/react-wallet';
+import { WalletContext } from '@sovryn/react-wallet';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { usePrevious } from '../../hooks/usePrevious';
@@ -37,7 +36,7 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
   finalMessage,
 }) => {
   const { t } = useTranslation();
-  const { address } = useWalletContext();
+  const { address } = useContext(WalletContext);
   const onClose = useCallback(() => tx.reset(), [tx]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -46,22 +45,16 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
   const oldStatus = usePrevious(tx.status);
 
   useEffect(() => {
-    if (
-      oldStatus === TxStatus.PENDING_FOR_USER &&
+    oldStatus === TxStatus.PENDING_FOR_USER &&
       tx.status === TxStatus.PENDING &&
-      onUserConfirmed
-    ) {
+      onUserConfirmed &&
       onUserConfirmed();
-    }
   }, [oldStatus, tx.status, onUserConfirmed]);
 
   useEffect(() => {
-    if (tx.status === TxStatus.CONFIRMED && onSuccess) {
-      onSuccess();
-    } else if (tx.status === TxStatus.FAILED && onError) {
-      onError();
-    }
-  }, [tx.status, onSuccess, onError]);
+    tx.status === TxStatus.CONFIRMED && onSuccess && onSuccess();
+    tx.status === TxStatus.FAILED && onError && onError();
+  }, [tx.status, oldStatus, onSuccess, onError]);
 
   return (
     <Dialog isOpen={tx.status !== TxStatus.NONE} onClose={onClose}>
