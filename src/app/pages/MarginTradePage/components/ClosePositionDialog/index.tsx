@@ -168,7 +168,12 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
           <div className="tw-py-4 tw-px-4 tw-bg-gray-2 sm:tw--mx-11 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
             <LabelValuePair
               label={t(translations.marginTradePage.tradeDialog.pair)}
-              value={pair.chartSymbol}
+              value={
+                <>
+                  <AssetRenderer asset={pair.shortAsset} />/
+                  <AssetRenderer asset={pair.longAsset} />
+                </>
+              }
             />
             <LabelValuePair
               label={t(translations.closeTradingPositionHandler.marginType)}

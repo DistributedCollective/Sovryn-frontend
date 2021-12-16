@@ -5,6 +5,7 @@ import { useGetEstimatedMarginDetails } from '../../hooks/trading/useGetEstimate
 import { useCurrentPositionPrice } from '../../hooks/trading/useCurrentPositionPrice';
 import { LoadableValue } from '../../components/LoadableValue';
 import { toNumberFormat } from '../../../utils/display-text/format';
+import { AssetRenderer } from 'app/components/AssetRenderer';
 
 interface Props {
   position: TradingPosition;
@@ -48,6 +49,18 @@ export function PricePrediction({
   );
 
   return (
-    <LoadableValue loading={loading} value={<>{toNumberFormat(price, 2)}</>} />
+    <LoadableValue
+      loading={loading}
+      value={
+        <>
+          {toNumberFormat(price, 2)} <AssetRenderer asset={loanToken} />
+        </>
+      }
+      tooltip={
+        <>
+          {price} <AssetRenderer asset={loanToken} />
+        </>
+      }
+    />
   );
 }
