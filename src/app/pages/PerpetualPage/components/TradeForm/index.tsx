@@ -248,7 +248,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
 
   return (
     <div
-      className={classNames('tw-relative tw-h-full tw-pb-16', {
+      className={classNames('tw-relative tw-min-h-full tw-pb-16', {
         'tw-pointer-events-none':
           isNewTrade && (hasOpenPosition || hasEmptyBalance),
       })}
@@ -442,6 +442,16 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           </div>
         </>
       )}
+      <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1 tw-mt-6 tw-text-warning tw-text-xs tw-font-medium tw-border tw-border-warning tw-rounded-lg">
+        WARNING
+        <br />
+        WARNING
+        <br />
+        WARNING
+        <br />
+        WARNING
+        <br />
+      </div>
       <div className="tw-absolute tw-bottom-0 tw-left-0 tw-right-0">
         {!inMaintenance ? (
           <button
