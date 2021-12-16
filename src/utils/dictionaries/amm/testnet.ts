@@ -11,7 +11,9 @@ export const testnetAmm = [
     AppMode.TESTNET,
     '0xaBAABc2191A23D6Bb2cfa973892062c131cb7647',
     '0xdF298421CB18740a7059b0Af532167fAA45e7A98',
-  ).setLootDropColor(LootDropColors.Purple),
+  )
+    .setLootDropColor(LootDropColors.Purple)
+    .setPreviousConverters(['0xaBAABc2191A23D6Bb2cfa973892062c131cb7647']),
   new AmmLiquidityPool(
     Asset.XUSD,
     Asset.RBTC,
@@ -19,7 +21,9 @@ export const testnetAmm = [
     AppMode.TESTNET,
     '0x9a1aE300b23F4C676186e6d417ac586889aAfF42',
     '0x6601Ccd32342d644282e82Cb05A3Dd88964D18c1',
-  ).setLootDropColor(LootDropColors.Yellow),
+  )
+    .setLootDropColor(LootDropColors.Yellow)
+    .setPreviousConverters(['0x9a1aE300b23F4C676186e6d417ac586889aAfF42']),
   new AmmLiquidityPool(
     Asset.FISH,
     Asset.RBTC,
@@ -27,7 +31,7 @@ export const testnetAmm = [
     AppMode.TESTNET,
     '0x5871040a14331c0f7AB5390A3Df16D271b0936ef',
     '0xe41E262889f89b9a6331680606D9e9AabD01743e',
-  ),
+  ).setPreviousConverters(['0x5871040a14331c0f7AB5390A3Df16D271b0936ef']),
   new AmmLiquidityPool(
     Asset.USDT,
     Asset.RBTC,
@@ -44,7 +48,7 @@ export const testnetAmm = [
     AppMode.TESTNET,
     '0xA8D7FDd2f67273F178EFe731d4becd38E2A94E11',
     '0xf97A3589c3fE2059fA3AB4819317B77b4BC6c9A8',
-  ),
+  ).setPreviousConverters(['0xA8D7FDd2f67273F178EFe731d4becd38E2A94E11']),
   new AmmLiquidityPool(
     Asset.ETH,
     Asset.RBTC,
@@ -52,7 +56,9 @@ export const testnetAmm = [
     AppMode.TESTNET,
     '0x4c493276E14791472633B55aaD82E49D28540bC6',
     '0xBb5B900EDa0F1459F582aB2436EA825a927f5bA2',
-  ).setLootDropColor(LootDropColors.Blue),
+  )
+    .setLootDropColor(LootDropColors.Blue)
+    .setPreviousConverters(['0x4c493276E14791472633B55aaD82E49D28540bC6']),
   new AmmLiquidityPool(
     Asset.MOC,
     Asset.RBTC,
@@ -60,7 +66,9 @@ export const testnetAmm = [
     AppMode.TESTNET,
     '0x3D18E1EC60c9725494252A835593aa90Da777E15',
     '0x6e03DEFD0ae9091Be74f64c8CB9BE319994E5deB',
-  ).setSovRewards(false),
+  )
+    .setSovRewards(false)
+    .setPreviousConverters(['0x3D18E1EC60c9725494252A835593aa90Da777E15']),
   new AmmLiquidityPool(
     Asset.DOC,
     Asset.RBTC,
