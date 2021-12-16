@@ -1583,6 +1583,13 @@
       "title": "Perpetual Trading",
       "description": "Trade with perpetuals"
     },
+    "toasts": {
+      "market": "Market",
+      "buy": "Buy",
+      "sell": "Sell",
+      "closePosition": "Close position",
+      "orderComplete": "Order complete"
+    },
     "accountBalance": {
       "titleBalance": "Perpetual Account",
       "titleHistory": "Funding History",

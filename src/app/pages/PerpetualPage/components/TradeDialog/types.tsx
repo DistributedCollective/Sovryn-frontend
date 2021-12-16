@@ -94,3 +94,8 @@ export type TradeDialogContextType = {
   >;
   onClose: () => void;
 };
+
+export const isTrade = (
+  transaction: PerpetualTx,
+): transaction is PerpetualTxTrade =>
+  transaction.method === PerpetualTxMethods.trade;

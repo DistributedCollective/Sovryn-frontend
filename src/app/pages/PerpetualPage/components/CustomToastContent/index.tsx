@@ -22,7 +22,7 @@ const getIcon = (toastType?: TypeOptions) => {
 interface ICustomToastContentProps {
   toastProps: ToastOptions;
   mainInfo: string;
-  additionalInfo: string;
+  additionalInfo: React.ReactNode | string;
 }
 
 export const CustomToastContent: React.FC<ICustomToastContentProps> = ({
