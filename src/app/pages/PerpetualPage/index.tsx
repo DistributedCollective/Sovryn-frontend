@@ -42,6 +42,7 @@ import { OrderHistoryTable } from './components/OrderHistoryTable/index';
 import { FundingPaymentsTable } from './components/FundingPaymentsTable/index';
 import { PerpetualQueriesContextProvider } from './contexts/PerpetualQueriesContext';
 import { PairSelector } from './components/PairSelector';
+import { ToastsWatcher } from './components/ToastsWatcher';
 import { ToastsContextProvider } from './contexts/ToastsContext';
 
 export function PerpetualPage() {
@@ -195,6 +196,7 @@ export function PerpetualPage() {
           <EditLeverageDialog />
           <EditMarginDialog />
           <ClosePositionDialog />
+          <ToastsWatcher />
         </ToastsContextProvider>
       </PerpetualQueriesContextProvider>
     </RecentTradesContextProvider>
