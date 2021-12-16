@@ -179,14 +179,9 @@ export const calculateMaxMarginWithdrawal = (
 
 export type Validation = {
   valid: boolean;
-  isWarning?: boolean;
-  error?: Error;
-  errorMessage?: React.ReactNode;
-};
-
-export type PositionChangeValidation = {
-  amountChange: Validation;
-  marginChange: Validation;
+  isWarning: boolean;
+  errors: Error[];
+  errorMessages: React.ReactNode[];
 };
 
 export const validatePositionChange = (
@@ -197,14 +192,16 @@ export const validatePositionChange = (
   perpParameters: PerpParameters,
   ammState: AMMState,
 ) => {
-  const result: PositionChangeValidation = {
-    amountChange: {
-      valid: true,
-    },
-    marginChange: {
-      valid: true,
-    },
+  const result: Validation = {
+    valid: true,
+    isWarning: false,
+    errors: [],
+    errorMessages: [],
   };
+
+  if (ammState.indexS2PriceData === 0 || perpParameters.fLotSizeBC === 0) {
+    return undefined;
+  }
 
   if (amountChange !== 0) {
     const slippagePrice = calculateSlippagePriceFromMidPrice(
@@ -220,20 +217,19 @@ export const validatePositionChange = (
         ? expectedPrice > slippagePrice
         : expectedPrice < slippagePrice
     ) {
-      const requiredSlippage =
-        getMidPrice(perpParameters, ammState) / expectedPrice;
+      const midPrice = getMidPrice(perpParameters, ammState);
+      const requiredSlippage = Math.abs(expectedPrice - midPrice) / midPrice;
 
-      result.amountChange = {
-        valid: false,
-        isWarning: true,
-        error: new Error('Expected price exceeds limit price!'),
-        errorMessage: (
-          <Trans
-            i18nKey={translations.perpetualPage.warnings.priceExceedsSlippage}
-            values={{ slippage: numberToPercent(requiredSlippage, 2) }}
-          />
-        ),
-      };
+      result.valid = false;
+      result.isWarning = true;
+      result.errors.push(new Error('Expected price exceeds limit price!'));
+      result.errorMessages?.push(
+        <Trans
+          key="priceExceedsSlippage"
+          i18nKey={translations.perpetualPage.warnings.priceExceedsSlippage}
+          values={{ slippage: numberToPercent(requiredSlippage, 2) }}
+        />,
+      );
     }
   }
 
@@ -246,16 +242,15 @@ export const validatePositionChange = (
       ammState,
     )
   ) {
-    result.marginChange = {
-      valid: false,
-      isWarning: true,
-      error: new Error('Resulting margin is not safe!'),
-      errorMessage: (
-        <Trans
-          i18nKey={translations.perpetualPage.warnings.targetMarginUnsafe}
-        />
-      ),
-    };
+    result.valid = false;
+    result.isWarning = true;
+    result.errors.push(new Error('Resulting margin is not safe!'));
+    result.errorMessages?.push(
+      <Trans
+        key="targetMarginUnsafe"
+        i18nKey={translations.perpetualPage.warnings.targetMarginUnsafe}
+      />,
+    );
   }
 
   return result;

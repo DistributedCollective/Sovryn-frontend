@@ -25,6 +25,10 @@ import { toWei } from '../../../../../utils/blockchain/math-helpers';
 import { PerpetualTxMethods } from '../TradeDialog/types';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 import classNames from 'classnames';
+import {
+  getSignedAmount,
+  validatePositionChange,
+} from '../../utils/contractUtils';
 
 export const EditLeverageDialog: React.FC = () => {
   const dispatch = useDispatch();
@@ -120,9 +124,31 @@ export const EditLeverageDialog: React.FC = () => {
     );
   }, [dispatch, changedTrade, margin, traderState.availableCashCC]);
 
+  const validation = useMemo(() => {
+    if (!changedTrade) {
+      return;
+    }
+    const signedAmount = getSignedAmount(
+      changedTrade.position,
+      changedTrade.amount,
+    );
+    const marginChange = margin - traderState.availableCashCC;
+
+    return validatePositionChange(
+      signedAmount,
+      marginChange,
+      changedTrade.slippage,
+      traderState,
+      perpParameters,
+      ammState,
+    );
+  }, [changedTrade, margin, traderState, perpParameters, ammState]);
+
   const isButtonDisabled = useMemo(
-    () => trade?.leverage === changedTrade?.leverage,
-    [trade?.leverage, changedTrade?.leverage],
+    () =>
+      trade?.leverage === changedTrade?.leverage ||
+      (validation && !validation.valid && !validation.isWarning),
+    [trade?.leverage, changedTrade?.leverage, validation],
   );
 
   useEffect(() => setChangedTrade(trade), [trade]);
@@ -158,7 +184,7 @@ export const EditLeverageDialog: React.FC = () => {
               assetString={pair.baseAsset}
             />
           </div>
-          <div className="tw-flex tw-flex-row tw-justify-between tw-mb-8 tw-px-6 tw-py-1 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
+          <div className="tw-flex tw-flex-row tw-justify-between tw-mb-4 tw-px-6 tw-py-1 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
             <label>
               {t(translations.perpetualPage.editLeverage.liquidation)}
             </label>
@@ -170,9 +196,14 @@ export const EditLeverageDialog: React.FC = () => {
               assetString={pair.quoteAsset}
             />
           </div>
+          {validation && !validation.valid && validation.errors.length > 0 && (
+            <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1 tw-mb-4 tw-text-warning tw-text-xs tw-font-medium tw-border tw-border-warning tw-rounded-lg">
+              {validation.errorMessages}
+            </div>
+          )}
           <button
             className={classNames(
-              'tw-w-full tw-min-h-10 tw-p-2 tw-text-lg tw-text-primary tw-font-medium tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-transition-opacity tw-duration-300',
+              'tw-w-full tw-min-h-10 tw-p-2 tw-mt-4 tw-text-lg tw-text-primary tw-font-medium tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-transition-opacity tw-duration-300',
               isButtonDisabled
                 ? 'tw-opacity-25 tw-cursor-not-allowed'
                 : 'tw-opacity-100 hover:tw-bg-primary-25',

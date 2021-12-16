@@ -36,7 +36,11 @@ import {
   calculateLeverage,
 } from '../../utils/perpUtils';
 import { shrinkToLot } from '../../utils/perpMath';
-import { getSignedAmount, getTradeDirection } from '../../utils/contractUtils';
+import {
+  getSignedAmount,
+  getTradeDirection,
+  validatePositionChange,
+} from '../../utils/contractUtils';
 import { useAccount } from 'app/hooks/useAccount';
 import { usePerpetual_OpenPosition } from '../../hooks/usePerpetual_OpenPositions';
 import { useSelector } from 'react-redux';
@@ -239,11 +243,36 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     [averagePrice, trade.slippage, trade.position],
   );
 
+  const validation = useMemo(() => {
+    const signedAmount = getSignedAmount(trade.position, trade.amount);
+    const margin = isNewTrade
+      ? getRequiredMarginCollateral(
+          trade.leverage,
+          signedAmount,
+          perpParameters,
+          ammState,
+          traderState,
+          trade.slippage,
+        )
+      : traderState.availableCashCC;
+    return signedAmount === 0 && margin === 0
+      ? undefined
+      : validatePositionChange(
+          signedAmount,
+          margin,
+          trade.slippage,
+          traderState,
+          perpParameters,
+          ammState,
+        );
+  }, [isNewTrade, trade, traderState, perpParameters, ammState]);
+
   const buttonDisabled = useMemo(
     () =>
       (isNewTrade && (hasOpenPosition || hasEmptyBalance)) ||
-      Number(amount) <= 0,
-    [isNewTrade, hasOpenPosition, hasEmptyBalance, amount],
+      Number(amount) <= 0 ||
+      (validation && !validation.valid && !validation.isWarning),
+    [isNewTrade, hasOpenPosition, hasEmptyBalance, amount, validation],
   );
 
   return (
@@ -421,14 +450,14 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       {!isNewTrade && (
         <>
           <LeverageViewer
-            className="tw-mt-3 tw-mb-4"
+            className="tw-mt-3"
             label={t(translations.perpetualPage.tradeForm.labels.leverage)}
             min={pair.config.leverage.min}
             max={pair.config.leverage.max}
             value={trade.leverage}
             valueLabel={`${toNumberFormat(trade.leverage, 2)}x`}
           />
-          <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
+          <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1 tw-mt-4 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
             <label>
               {t(translations.perpetualPage.tradeForm.labels.liquidationPrice)}
             </label>
@@ -442,16 +471,11 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           </div>
         </>
       )}
-      <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1 tw-mt-6 tw-text-warning tw-text-xs tw-font-medium tw-border tw-border-warning tw-rounded-lg">
-        WARNING
-        <br />
-        WARNING
-        <br />
-        WARNING
-        <br />
-        WARNING
-        <br />
-      </div>
+      {validation && !validation.valid && validation.errors.length > 0 && (
+        <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1 tw-mt-4 tw-text-warning tw-text-xs tw-font-medium tw-border tw-border-warning tw-rounded-lg">
+          {validation.errorMessages}
+        </div>
+      )}
       <div className="tw-absolute tw-bottom-0 tw-left-0 tw-right-0">
         {!inMaintenance ? (
           <button
