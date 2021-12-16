@@ -34,6 +34,7 @@ import {
   calculateApproxLiquidationPrice,
   calculateSlippagePrice,
   calculateLeverage,
+  getMaxInitialLeverage,
 } from '../../utils/perpUtils';
 import { shrinkToLot } from '../../utils/perpMath';
 import {
@@ -128,17 +129,24 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         lotSize,
       );
       setAmount(amount);
-      const signedAmount = roundedAmount * getTradeDirection(trade.position);
+      const amountChange = roundedAmount * getTradeDirection(trade.position);
+      const targetAmount = traderState.marginAccountPositionBC + amountChange;
+
       let newTrade = { ...trade, amount: toWei(roundedAmount.toString()) };
+
       if (!isNewTrade) {
         newTrade.leverage = calculateLeverage(
-          traderState.marginAccountPositionBC + signedAmount,
+          targetAmount,
           traderState.availableCashCC,
           traderState,
           ammState,
           perpParameters,
         );
+      } else {
+        const maxLeverage = getMaxInitialLeverage(targetAmount, perpParameters);
+        newTrade.leverage = Math.min(maxLeverage, newTrade.leverage);
       }
+
       onChange(newTrade);
     },
     [
@@ -208,6 +216,15 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       trade.slippage,
     );
   }, [perpParameters, ammState, traderState, trade]);
+
+  const maxLeverage = useMemo(
+    () =>
+      getMaxInitialLeverage(
+        getSignedAmount(trade.position, trade.amount),
+        perpParameters,
+      ),
+    [trade.position, trade.amount, perpParameters],
+  );
 
   const tradingFeeWei = useMemo(
     () => getTradingFee(Number(trade.amount), perpParameters),
@@ -432,7 +449,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           className="tw-mb-2"
           value={trade.leverage}
           min={pair.config.leverage.min}
-          max={pair.config.leverage.max}
+          max={maxLeverage}
           steps={pair.config.leverage.steps}
           onChange={onChangeLeverage}
         />
@@ -453,7 +470,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
             className="tw-mt-3"
             label={t(translations.perpetualPage.tradeForm.labels.leverage)}
             min={pair.config.leverage.min}
-            max={pair.config.leverage.max}
+            max={maxLeverage}
             value={trade.leverage}
             valueLabel={`${toNumberFormat(trade.leverage, 2)}x`}
           />

@@ -20,6 +20,7 @@ import { AssetValueMode } from '../../../../components/AssetValue/types';
 import {
   getRequiredMarginCollateral,
   calculateApproxLiquidationPrice,
+  getMaxInitialLeverage,
 } from '../../utils/perpUtils';
 import { toWei } from '../../../../../utils/blockchain/math-helpers';
 import { PerpetualTxMethods } from '../TradeDialog/types';
@@ -29,6 +30,7 @@ import {
   getSignedAmount,
   validatePositionChange,
 } from '../../utils/contractUtils';
+import { shrinkToLot } from '../../utils/perpMath';
 
 export const EditLeverageDialog: React.FC = () => {
   const dispatch = useDispatch();
@@ -50,16 +52,33 @@ export const EditLeverageDialog: React.FC = () => {
     [trade],
   );
 
+  const maxLeverage = useMemo(
+    () =>
+      trade
+        ? getMaxInitialLeverage(
+            getSignedAmount(trade.position, trade.amount),
+            perpParameters,
+          )
+        : pair?.config.leverage.max || 15,
+    [trade, perpParameters, pair],
+  );
+
   const [changedTrade, setChangedTrade] = useState(trade);
   const [margin, setMargin] = useState(0);
+  const [leverage, setLeverage] = useState(
+    shrinkToLot(trade?.leverage || 1, 0.01),
+  );
   const onChangeLeverage = useCallback(
     leverage => {
       if (!changedTrade) {
         return;
       }
+      const roundedLeverage =
+        leverage === maxLeverage ? leverage : shrinkToLot(leverage, 0.01);
+      setLeverage(roundedLeverage);
 
       const margin = getRequiredMarginCollateral(
-        leverage,
+        roundedLeverage,
         traderState.marginAccountPositionBC,
         perpParameters,
         ammState,
@@ -74,7 +93,7 @@ export const EditLeverageDialog: React.FC = () => {
         margin: toWei(margin),
       });
     },
-    [changedTrade, traderState, perpParameters, ammState],
+    [changedTrade, maxLeverage, traderState, perpParameters, ammState],
   );
 
   const liquidationPrice = useMemo(() => {
@@ -105,7 +124,7 @@ export const EditLeverageDialog: React.FC = () => {
     dispatch(
       actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
         origin: PerpetualPageModals.EDIT_LEVERAGE,
-        trade: changedTrade,
+        trade: { ...changedTrade, leverage },
         transactions: [
           marginChange >= 0
             ? {
@@ -122,7 +141,7 @@ export const EditLeverageDialog: React.FC = () => {
         ],
       }),
     );
-  }, [dispatch, changedTrade, margin, traderState.availableCashCC]);
+  }, [dispatch, changedTrade, leverage, margin, traderState.availableCashCC]);
 
   const validation = useMemo(() => {
     if (!changedTrade) {
@@ -151,7 +170,10 @@ export const EditLeverageDialog: React.FC = () => {
     [trade?.leverage, changedTrade?.leverage, validation],
   );
 
-  useEffect(() => setChangedTrade(trade), [trade]);
+  useEffect(() => {
+    setChangedTrade(trade);
+    setLeverage(shrinkToLot(trade?.leverage || 1, 0.01));
+  }, [trade]);
 
   return (
     <Dialog
@@ -169,9 +191,9 @@ export const EditLeverageDialog: React.FC = () => {
           <LeverageSelector
             className="tw-mb-6"
             min={pair.config.leverage.min}
-            max={pair.config.leverage.max}
+            max={maxLeverage}
             steps={pair.config.leverage.steps}
-            value={changedTrade?.leverage || 0}
+            value={leverage}
             onChange={onChangeLeverage}
           />
           <div className="tw-flex tw-flex-row tw-justify-between tw-mb-4 tw-px-6 tw-py-1 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
