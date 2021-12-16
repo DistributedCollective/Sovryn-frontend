@@ -33,19 +33,22 @@ export const CompetitionPage: React.FC = () => {
   const connected = useIsConnected();
   // const { t } = useTranslation();
 
-  const getRegisteredWallets = useCallback(() => {
+  const getRegisteredWallets = () => {
     axios
       .get(`${notificationUrl}/tradingCompetition`)
       .then(res => {
         console.log('res: ', res);
-        if (res?.status === 200 && res.data) setRegisteredTraders(res.data);
+        if (res?.status === 200 && res.data) {
+          setRegisteredTraders(res.data);
+        }
       })
       .catch(e => {
         console.log('e: ', e);
       });
-  }, []);
-
+  };
   useEffect(() => {
+    getRegisteredWallets();
+
     if (walletContext.provider !== ProviderType.WEB3) {
       walletContext.disconnect();
     }
@@ -56,8 +59,6 @@ export const CompetitionPage: React.FC = () => {
         isMainnet ? ChainId.BSC_MAINNET : ChainId.BSC_TESTNET,
       ),
     );
-
-    getRegisteredWallets();
 
     return () => {
       // Unset bridge settings

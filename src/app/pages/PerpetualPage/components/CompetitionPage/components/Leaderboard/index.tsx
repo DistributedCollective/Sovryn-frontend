@@ -32,8 +32,8 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
   );
 
   useEffect(() => {
-    if (!data?.length || !account) return;
-
+    if (!data?.length) return;
+    console.log(leaderboardData);
     //TODO: update logic here to following:
     // loop over all registered wallets by walletAddress
     // if leaderboardData contains trades for the walletAddress, then create traderrow component with data
@@ -54,11 +54,13 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
     }));
 
     setItems(rows);
-    const userRow = rows.filter(
-      val => val.walletAddress === account.toLowerCase(),
-    )[0];
-    if (userRow) {
-      setUserData(userRow);
+    if (account) {
+      const userRow = rows.filter(
+        val => val.walletAddress === account.toLowerCase(),
+      )[0];
+      if (userRow) {
+        setUserData(userRow);
+      }
     }
   }, [account, data, leaderboardData]);
 
@@ -76,12 +78,12 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
           className={`${styles.leaderboardContainer} tw-overflow-y-auto tw-text-sm tw-align-middle`}
         >
           {items.map(val =>
-            val.walletAddress === account.toLowerCase() ? (
-              <div ref={userRowRef}>
+            val.walletAddress === account?.toLowerCase() ? (
+              <div ref={userRowRef} key={val.walletAddress}>
                 <UserTraderRow data={val} />
               </div>
             ) : (
-              <TraderRow data={val} />
+              <TraderRow data={val} key={val.walletAddress} />
             ),
           )}
         </div>

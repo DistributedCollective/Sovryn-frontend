@@ -15,6 +15,8 @@ export function useGetLeaderboardData(traderIDs: string[]) {
         id
         tradeAmountBC
         newPositionSizeBC
+        price
+        blockTimestamp
       }
     }
   }
