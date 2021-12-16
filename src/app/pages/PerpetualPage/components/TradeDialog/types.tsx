@@ -99,3 +99,18 @@ export const isTrade = (
   transaction: PerpetualTx,
 ): transaction is PerpetualTxTrade =>
   transaction.method === PerpetualTxMethods.trade;
+
+export const isDepositMargin = (
+  transaction: PerpetualTx,
+): transaction is PerpetualTxDepositMargin =>
+  transaction.method === PerpetualTxMethods.deposit;
+
+export const isWithdrawMargin = (
+  transaction: PerpetualTx,
+): transaction is PerpetualTxWithdrawMargin =>
+  transaction.method === PerpetualTxMethods.withdraw;
+
+export const isWithdrawAllMargin = (
+  transaction: PerpetualTx,
+): transaction is PerpetualTxWithdrawAllMargin =>
+  transaction.method === PerpetualTxMethods.withdrawAll;
