@@ -1,3 +1,5 @@
+import { AssetValue } from 'app/components/AssetValue';
+import { AssetValueMode } from 'app/components/AssetValue/types';
 import { noop } from 'app/constants';
 import { translations } from 'locales/i18n';
 import React, {
@@ -17,7 +19,12 @@ import {
   CustomToastContent,
   toastOptions,
 } from '../components/CustomToastContent';
-import { isTrade, PerpetualTx } from '../components/TradeDialog/types';
+import {
+  isDepositMargin,
+  isTrade,
+  isWithdrawMargin,
+  PerpetualTx,
+} from '../components/TradeDialog/types';
 import { RecentTradesContext } from './RecentTradesContext';
 
 type ToastsContextValue = {
@@ -113,6 +120,36 @@ const ToastAdditionalInfo: React.FC<ToastAdditionalInfoProps> = ({
           ],
         )}{' '}
         {amount} BTC
+      </>
+    );
+  }
+
+  if (isDepositMargin(transaction)) {
+    return (
+      <>
+        {t(translations.perpetualPage.toasts.increaseMargin)}
+        <AssetValue
+          minDecimals={3}
+          maxDecimals={6}
+          mode={AssetValueMode.auto}
+          value={transaction.amount}
+          assetString="BCT"
+        />
+      </>
+    );
+  }
+
+  if (isWithdrawMargin(transaction)) {
+    return (
+      <>
+        {t(translations.perpetualPage.toasts.decreaseMargin)}
+        <AssetValue
+          minDecimals={3}
+          maxDecimals={6}
+          mode={AssetValueMode.auto}
+          value={transaction.amount}
+          assetString="BCT"
+        />
       </>
     );
   }

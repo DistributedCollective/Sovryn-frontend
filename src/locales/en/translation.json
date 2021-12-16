@@ -1588,7 +1588,9 @@
       "buy": "Buy",
       "sell": "Sell",
       "closePosition": "Close position",
-      "orderComplete": "Order complete"
+      "orderComplete": "Order complete",
+      "increaseMargin": "Increase margin",
+      "decreaseMargin": "Decrease margin"
     },
     "accountBalance": {
       "titleBalance": "Perpetual Account",
