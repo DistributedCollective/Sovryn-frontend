@@ -5,17 +5,15 @@
  */
 import bzxAbi from './abi/bzxAbi.json';
 import priceFeedsAbi from './abi/priceFeedAbi.json';
-import tokenAbi from './abi/abiTestToken.json';
-import abiTestWBRTCToken from './abi/abiTestWBRTCToken.json';
+import WBRTCTokenABI from './abi/abiTestWBRTCToken.json';
 import LoanTokenLogicWrbtc from './abi/LoanTokenLogicWrbtc.json';
 import LoanTokenLogicStandard from './abi/LoanTokenLogicStandard.json';
-import TestTokenABI from './abi/abiTestToken.json';
+import erc20TokenAbi from './abi/abiTestToken.json';
 import SwapNetworkABI from './abi/SovrynSwapNetwork.json';
 import ConverterRegistryABI from './abi/ConverterRegistry.json';
 import RBTCWrapperProxy from './abi/RBTCWrapperProxy.json';
 import CrowdSaleAbi from './abi/CrowdSale.json';
 import SovrynNFTAbi from './abi/SovrynNFT.json';
-import CSOVTokenAbi from './abi/CSOVToken.json';
 import VestingAbi from './abi/Vesting.json';
 import VestingRegistryAbi from './abi/VestingRegistry.json';
 import VestingRegistryOriginAbi from './abi/VestingRegistryOrigin.json';
@@ -65,13 +63,13 @@ export const contracts = {
   },
   RBTC_token: {
     address: '0x542fDA317318eBF1d3DEAf76E0b632741A7e677d',
-    abi: abiTestWBRTCToken,
+    abi: WBRTCTokenABI,
     blockNumber: 2742415,
   },
   WRBTC_token: {
     // keep this after RBTC_token to prevent issues with RBTC tx's being picked up as WRBTC
     address: '0x542fDA317318eBF1d3DEAf76E0b632741A7e677d',
-    abi: abiTestWBRTCToken,
+    abi: WBRTCTokenABI,
     blockNumber: 2742415,
   },
   RBTC_lending: {
@@ -81,7 +79,7 @@ export const contracts = {
   },
   DOC_token: {
     address: '0xe700691da7b9851f2f35f8b8182c69c53ccad9db',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 1764664,
   },
   DOC_lending: {
@@ -91,22 +89,22 @@ export const contracts = {
   },
   RDOC_token: {
     address: '0x2d919f19D4892381d58EdEbEcA66D5642ceF1A1F',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 1764664,
   },
   MOC_token: {
     address: '0x9aC7Fe28967b30e3a4E6E03286D715B42B453d10',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 202559,
   },
   RIF_token: {
     address: '0x2acc95758f8b5f583470ba265eb685a8f45fc9d5',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 1408174,
   },
   USDT_token: {
     address: '0xEf213441a85DF4d7acBdAe0Cf78004E1e486BB96',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 1408174,
   },
   USDT_lending: {
@@ -116,7 +114,7 @@ export const contracts = {
   },
   XUSD_token: {
     address: '0xb5999795BE0EbB5bAb23144AA5FD6A02D080299F',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 1408174,
   },
   XUSD_lending: {
@@ -126,7 +124,7 @@ export const contracts = {
   },
   BPRO_token: {
     address: '0x440cd83c160de5c96ddb20246815ea44c7abbca8',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 1764667,
   },
   BPRO_lending: {
@@ -136,7 +134,7 @@ export const contracts = {
   },
   ETH_token: {
     address: '0x1D931Bf8656d795E50eF6D639562C5bD8Ac2B78f',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 1408174,
   },
   ETH_lending: {
@@ -146,7 +144,7 @@ export const contracts = {
   },
   BNBS_token: {
     address: '0x6D9659bdF5b1A1dA217f7BbAf7dBAF8190E2e71B',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 1408174,
   },
   CrowdSale: {
@@ -205,12 +203,12 @@ export const contracts = {
   },
   CSOV_token: {
     address: '0x0106F2fFBF6A4f5DEcE323d20E16E2037E732790',
-    abi: CSOVTokenAbi,
+    abi: erc20TokenAbi,
     blockNumber: 1218833,
   },
   CSOV2_token: {
     address: '0x7f7Dcf9DF951C4A332740e9a125720DA242A34ff',
-    abi: CSOVTokenAbi,
+    abi: erc20TokenAbi,
     blockNumber: 1218833,
   },
   OriginInvestorsClaim: {
@@ -219,12 +217,12 @@ export const contracts = {
   },
   SOV_token: {
     address: '0xEFc78fc7d48b64958315949279Ba181c2114ABBd',
-    abi: tokenAbi,
+    abi: erc20TokenAbi,
     blockNumber: 3100260,
   },
   NFT_tier1: {
     address: '0x857a62c9c0b6f1211e04275a1f0c5f26fce2021f',
-    abi: tokenAbi,
+    abi: erc20TokenAbi,
   },
   escrowRewards: {
     address: '0x8205153fA1492DFA191395bEABA3a210FeDf5A60',

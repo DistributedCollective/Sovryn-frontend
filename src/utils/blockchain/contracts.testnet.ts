@@ -1,18 +1,15 @@
-import tokenAbi from './abi/abiTestToken.json';
-import TestTokenABI from './abi/abiTestToken.json';
-import abiTestWBRTCToken from './abi/abiTestWBRTCToken.json';
 /**
  * Do not import this file directly.
  * Use getContract(contractName) helper
  * @example getContract('sovrynProtocol');
  */
+import erc20TokenAbi from './abi/abiTestToken.json';
+import WBRTCTokenABI from './abi/abiTestWBRTCToken.json';
 import ConverterRegistryABI from './abi/ConverterRegistry.json';
 import CrowdSaleAbi from './abi/CrowdSale.json';
-import CSOVTokenAbi from './abi/CSOVToken.json';
 import EscrowRewardsAbi from './abi/EscrowRewardsAbi.json';
 import feeSharingProxyAbi from './abi/FeeSharingProxy.json';
 import stakingRewardsProxyAbi from './abi/StakingRewards.json';
-import FISHTokenAbi from './abi/FISH.json';
 import LiquidityMiningAbi from './abi/LiquidityMining.json';
 import LoanTokenLogicStandard from './abi/LoanTokenLogicStandard.json';
 import LoanTokenLogicWrbtc from './abi/LoanTokenLogicWrbtc.json';
@@ -64,13 +61,13 @@ export const contracts = {
   },
   RBTC_token: {
     address: '0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab',
-    abi: abiTestWBRTCToken,
+    abi: WBRTCTokenABI,
     blockNumber: 1205599,
   },
   WRBTC_token: {
     // keep this after RBTC_token to prevent issues with RBTC tx's being picked up as WRBTC
     address: '0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab',
-    abi: abiTestWBRTCToken,
+    abi: WBRTCTokenABI,
     blockNumber: 1205599,
   },
   RBTC_lending: {
@@ -80,7 +77,7 @@ export const contracts = {
   },
   DOC_token: {
     address: '0xCB46c0ddc60D18eFEB0E586C17Af6ea36452Dae0',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 202559,
   },
   DOC_lending: {
@@ -90,22 +87,22 @@ export const contracts = {
   },
   RDOC_token: {
     address: '0xc3de9f38581f83e281f260d0ddbaac0e102ff9f8',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 1764664,
   },
   MOC_token: {
     address: '0x45a97b54021a3f99827641afe1bfae574431e6ab',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 202559,
   },
   RIF_token: {
     address: '0x19f64674d8a5b4e652319f5e239efd3bc969a1fe',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 1408174,
   },
   USDT_token: {
     address: '0x4D5a316D23eBE168d8f887b4447bf8DbFA4901CC',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 1408174,
   },
   USDT_lending: {
@@ -115,7 +112,7 @@ export const contracts = {
   },
   XUSD_token: {
     address: '0x74858FE37d391f81F89472e1D8BC8Ef9CF67B3b1',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 1408174,
   },
   XUSD_lending: {
@@ -125,7 +122,7 @@ export const contracts = {
   },
   BPRO_token: {
     address: '0x4dA7997A819bb46B6758b9102234c289Dd2ad3bf',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 202562,
   },
   BPRO_lending: {
@@ -135,12 +132,12 @@ export const contracts = {
   },
   ETH_token: {
     address: '0x0Fd0d8D78Ce9299Ee0e5676a8d51F938C234162c',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 1408174,
   },
   BNBS_token: {
     address: '0x801F223Def9A4e3a543eAcCEFB79dCE981Fa2Fb5',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 1408174,
   },
   CrowdSale: {
@@ -199,12 +196,12 @@ export const contracts = {
   },
   CSOV_token: {
     address: '0x75bbf7f4d77777730eE35b94881B898113a93124',
-    abi: CSOVTokenAbi,
+    abi: erc20TokenAbi,
     blockNumber: 1218833,
   },
   CSOV2_token: {
     address: '0x1dA260149ffee6fD4443590ee58F65b8dC2106B9',
-    abi: CSOVTokenAbi,
+    abi: erc20TokenAbi,
     blockNumber: 1218833,
   },
   OriginInvestorsClaim: {
@@ -213,12 +210,12 @@ export const contracts = {
   },
   SOV_token: {
     address: '0x6a9A07972D07e58F0daf5122d11E069288A375fb',
-    abi: tokenAbi,
+    abi: erc20TokenAbi,
     blockNumber: 1606431,
   },
   NFT_tier1: {
     address: '0xC5452Dbb2E3956C1161cB9C2d6DB53C2b60E7805',
-    abi: tokenAbi,
+    abi: erc20TokenAbi,
   },
   escrowRewards: {
     address: '0x8205153fA1492DFA191395bEABA3a210FeDf5A60',
@@ -246,7 +243,7 @@ export const contracts = {
   },
   FISH_token: {
     address: '0xaa7038D80521351F243168FefE0352194e3f83C3',
-    abi: FISHTokenAbi,
+    abi: erc20TokenAbi,
   },
   FISH_staking: {
     address: '0xc1fc98FEFA2130fC1CE352ec85f7aa61021eFE97',
