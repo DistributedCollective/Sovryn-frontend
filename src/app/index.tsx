@@ -48,6 +48,7 @@ import { usePriceFeeds_tradingPairRates } from './hooks/price-feeds/usePriceFeed
 import { BridgeDepositPage } from './pages/BridgeDepositPage/Loadable';
 import { BridgeWithdrawPage } from './pages/BridgeWithdrawPage/Loadable';
 import { PerpetualPage } from './pages/PerpetualPage';
+import { CompetitionPage } from './pages/PerpetualPage/components/CompetitionPage';
 
 import { ApolloProvider } from '@apollo/client';
 import { apolloClient } from './pages/PerpetualPage/utils/graphQlHelpers';
@@ -88,6 +89,11 @@ export function App() {
               <Route exact path="/trade" component={MarginTradePage} />
               <ApolloProvider client={apolloClient}>
                 <Route exact path="/perpetual" component={PerpetualPage} />
+                <Route
+                  exact
+                  path="/perpetual/competition"
+                  component={CompetitionPage}
+                />
               </ApolloProvider>
               <Route exact path="/swap" component={SwapPage} />
               <Route exact path="/spot" component={SpotTradingPage} />

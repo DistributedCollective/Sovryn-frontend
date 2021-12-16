@@ -9,7 +9,11 @@ import styles from './index.module.scss';
 import { ReactComponent as SovLogo } from 'assets/images/sovryn-logo-labs.svg';
 import { ReactComponent as ArrowBack } from 'assets/images/genesis/arrow_back.svg';
 
-export function HeaderLabs() {
+interface IHeaderLabsProps {
+  menus?: React.ReactNode;
+}
+
+export const HeaderLabs: React.FC<IHeaderLabsProps> = ({ menus }) => {
   usePageViews();
 
   return (
@@ -25,6 +29,7 @@ export function HeaderLabs() {
             <SovLogo className={styles.logo} />
           </div>
         </div>
+        <div className="">{menus}</div>
         <div className="tw-w-1/4 tw-flex tw-justify-end tw-items-center">
           <div className="xl:tw-mr-4">
             <LanguageToggle innerClasses="tw-text-black tw-h-8" />
@@ -34,4 +39,4 @@ export function HeaderLabs() {
       </div>
     </header>
   );
-}
+};

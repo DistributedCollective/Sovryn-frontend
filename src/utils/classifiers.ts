@@ -46,6 +46,10 @@ export const backendUrl = {
   31: 'https://api.test.sovryn.app',
 };
 
+export const notificationUrl = isMainnet
+  ? 'https://notify.sovryn.app'
+  : 'https://notify.test.sovryn.app';
+
 export const ethGenesisAddress = '0x0000000000000000000000000000000000000000';
 
 export const sovAnalyticsCookie = { name: 'SovAnalytics', value: 'optout' };

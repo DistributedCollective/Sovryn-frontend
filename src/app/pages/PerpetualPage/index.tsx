@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
+import { Link } from 'react-router-dom';
 import { Tab } from '../../components/Tab';
 import { actions as walletProviderActions } from 'app/containers/WalletProvider/slice';
 
@@ -108,7 +109,13 @@ export function PerpetualPage() {
             content={t(translations.perpetualPage.meta.description)}
           />
         </Helmet>
-        <HeaderLabs />
+        <HeaderLabs
+          menus={
+            <Link to="/perpetual/competition" className="tw-text-black">
+              <>Competition</>
+            </Link>
+          }
+        />
         <div className="tw-relative tw--top-2.5 tw-w-full">
           <PairSelector pair={pair} />
           <ContractDetails pair={pair} />

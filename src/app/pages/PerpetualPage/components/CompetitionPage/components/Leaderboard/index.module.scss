@@ -1,0 +1,37 @@
+.traderRow {
+  background-color: #2b2b2b;
+  border: 1px solid transparent;
+}
+
+.userTraderRow {
+  border-color: #ffffff40;
+  background-color: #404040;
+  & .userPosition {
+    border-color: #ffffff40;
+    background-color: #161616;
+  }
+}
+
+.traderRow .openedPositions,
+.userTraderRow .openedPositions,
+.traderRow .totalPnL,
+.userTraderRow .totalPnL {
+  color: #07b300;
+}
+
+.leaderboardContainer {
+  max-height: 575px;
+
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+  &::-webkit-scrollbar-track {
+    background: #ffffff49;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #ffffff;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #aeaeae;
+  }
+}
