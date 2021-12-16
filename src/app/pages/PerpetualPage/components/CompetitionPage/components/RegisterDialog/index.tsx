@@ -46,6 +46,7 @@ export const RegisterDialog: React.FC<IRegisterDialogProps> = ({
           .then(res => {
             console.log('res: ', res);
             if (res.status && res.status === 200) {
+              setPseudonym('');
               onClose();
             }
           })
@@ -59,7 +60,14 @@ export const RegisterDialog: React.FC<IRegisterDialogProps> = ({
   }, [onClose, account, pseudonym]);
 
   return (
-    <Dialog isOpen={isOpen} onClose={onClose} size={DialogSize.md}>
+    <Dialog
+      isOpen={isOpen}
+      onClose={() => {
+        setPseudonym('');
+        onClose();
+      }}
+      size={DialogSize.md}
+    >
       <div className="tw-mx-auto">
         <h1 className="tw-text-sov-white tw-text-center">Enter Competition</h1>
 
