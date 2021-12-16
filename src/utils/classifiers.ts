@@ -22,9 +22,9 @@ export const blockExplorers = {
   97: 'https://testnet.bscscan.com',
 };
 
-export const readNodes = {
-  30: 'wss://mainnet.sovryn.app/websocket',
-  31: 'wss://testnet.sovryn.app/ws',
+export const rpcNodes = {
+  30: 'https://mainnet.sovryn.app/rpc',
+  31: 'https://testnet.sovryn.app/rpc',
 };
 
 export const fastBtcApis = {
