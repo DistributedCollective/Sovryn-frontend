@@ -197,7 +197,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
 
     return validatePositionChange(
       amountChange,
-      marginChange,
+      0, // Don't test for margin change as it will be moved equally.
       changedTrade.slippage,
       traderState,
       perpParameters,
@@ -206,7 +206,6 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
   }, [
     amountChange,
     amountTarget,
-    marginChange,
     changedTrade,
     traderState,
     perpParameters,
