@@ -3,7 +3,10 @@ import { bignumber } from 'mathjs';
 import type { AbiItem } from 'web3-utils';
 import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
 import { useCacheCallToWithValue } from 'app/hooks/chain/useCacheCallToWithValue';
-import { getContract } from 'utils/blockchain/contract-helpers';
+import {
+  getContract,
+  getTokenContract,
+} from 'utils/blockchain/contract-helpers';
 
 export function useLiquidityMining_getExpectedV1PoolTokens(
   pool: AmmLiquidityPool,
@@ -20,11 +23,11 @@ export function useLiquidityMining_getExpectedV1PoolTokens(
   );
 
   const tokenBalanceOnConverter = useCacheCallToWithValue(
-    pool.poolTokenA,
+    getTokenContract(pool.assetA).address,
     erc20Abi as AbiItem[],
     'balanceOf',
     '0',
-    [pool.converter],
+    [pool.converter.toLocaleLowerCase()],
   );
 
   const value = useMemo(
