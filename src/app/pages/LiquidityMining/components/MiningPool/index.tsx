@@ -22,12 +22,18 @@ import type { AmmHistory } from './types';
 interface Props {
   pool: LiquidityPool;
   ammData: AmmHistory;
+  ammDataLoading: boolean;
   linkAsset?: Asset;
 }
 
 type DialogType = 'none' | 'add' | 'remove';
 
-export function MiningPool({ pool, ammData, linkAsset }: Props) {
+export function MiningPool({
+  pool,
+  ammData,
+  ammDataLoading,
+  linkAsset,
+}: Props) {
   const { t } = useTranslation();
   const [dialog, setDialog] = useState<DialogType>(
     pool.poolAsset === linkAsset ? 'add' : 'none',
@@ -93,7 +99,13 @@ export function MiningPool({ pool, ammData, linkAsset }: Props) {
           )
         }
         ChartSection={
-          ammData ? <PoolChart pool={pool} history={ammData} /> : <Spinner />
+          ammDataLoading ? (
+            <Spinner />
+          ) : ammData ? (
+            <PoolChart pool={pool} history={ammData} />
+          ) : (
+            <></>
+          )
         }
         Actions={<Actions />}
         DataSection={

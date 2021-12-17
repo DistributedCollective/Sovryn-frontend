@@ -47,7 +47,7 @@ export function LiquidityMining() {
     setHasOldPools,
   ]);
 
-  const { value: ammData } = useFetch(
+  const { value: ammData, loading } = useFetch(
     `${backendUrl[currentChainId]}/amm/apy/all`,
   );
 
@@ -146,6 +146,7 @@ export function LiquidityMining() {
                 ammData &&
                 ammData[item?.assetDetails?.ammContract?.address?.toLowerCase()]
               }
+              ammDataLoading={loading}
               linkAsset={location.state?.asset}
             />
           ))}
