@@ -1590,7 +1590,8 @@
       "closePosition": "Close position",
       "orderComplete": "Order complete",
       "increaseMargin": "Increase margin",
-      "decreaseMargin": "Decrease margin"
+      "decreaseMargin": "Decrease margin",
+      "editLeverage": "Edit leverage to {{leverage}}x"
     },
     "accountBalance": {
       "titleBalance": "Perpetual Account",

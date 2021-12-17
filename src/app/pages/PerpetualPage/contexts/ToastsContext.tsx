@@ -7,9 +7,13 @@ import React, {
 } from 'react';
 import { PerpetualTx } from '../components/TradeDialog/types';
 
+export type ToastTransaction = PerpetualTx & {
+  leverage?: number;
+};
+
 type ToastsContextValue = {
-  toastTransactions: PerpetualTx[];
-  setToastTransactions: Dispatch<SetStateAction<PerpetualTx[]>>;
+  toastTransactions: ToastTransaction[];
+  setToastTransactions: Dispatch<SetStateAction<ToastTransaction[]>>;
 };
 
 export const ToastsContext = createContext<ToastsContextValue>({
@@ -24,7 +28,7 @@ type ToastsContextProviderProps = {
 export const ToastsContextProvider: React.FC<ToastsContextProviderProps> = ({
   children,
 }) => {
-  const [transactions, setTransactions] = useState<PerpetualTx[]>([]);
+  const [transactions, setTransactions] = useState<ToastTransaction[]>([]);
 
   return (
     <ToastsContext.Provider

@@ -58,13 +58,29 @@ export const TransactionStep: TransitionStep<TradeDialogStep> = ({
         }
         if (transaction.tx && transactionsMap[transaction.tx]) {
           acc.push(transactionsMap[transaction.tx]);
+
+          const leverage =
+            origin === PerpetualPageModals.EDIT_LEVERAGE
+              ? trade?.leverage
+              : undefined;
+
           if (!toastTransactions.find(item => item.tx === transaction.tx!)) {
-            setToastTransactions(prevState => [...prevState, transaction]);
+            setToastTransactions(prevState => [
+              ...prevState,
+              { ...transaction, leverage },
+            ]);
           }
         }
         return acc;
       }, []),
-    [setToastTransactions, toastTransactions, transactions, transactionsMap],
+    [
+      origin,
+      setToastTransactions,
+      toastTransactions,
+      trade?.leverage,
+      transactions,
+      transactionsMap,
+    ],
   );
 
   const currentTransactionStatus = useMemo(

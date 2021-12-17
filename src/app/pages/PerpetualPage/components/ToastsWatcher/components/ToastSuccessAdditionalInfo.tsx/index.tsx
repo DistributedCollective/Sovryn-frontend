@@ -1,19 +1,19 @@
 import { AssetValue } from 'app/components/AssetValue';
 import { AssetValueMode } from 'app/components/AssetValue/types';
+import { ToastTransaction } from 'app/pages/PerpetualPage/contexts/ToastsContext';
 import { translations } from 'locales/i18n';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { TradingPosition } from 'types/trading-position';
 import { weiToNumberFormat } from 'utils/display-text/format';
 import {
-  PerpetualTx,
   isTrade,
   isDepositMargin,
   isWithdrawMargin,
 } from '../../../TradeDialog/types';
 
 type ToastSuccessAdditionalInfoProps = {
-  transaction: PerpetualTx;
+  transaction: ToastTransaction;
 };
 
 export const ToastSuccessAdditionalInfo: React.FC<ToastSuccessAdditionalInfoProps> = ({
@@ -46,7 +46,17 @@ export const ToastSuccessAdditionalInfo: React.FC<ToastSuccessAdditionalInfoProp
     );
   }
 
-  if (isDepositMargin(transaction)) {
+  if (transaction.leverage) {
+    return (
+      <>
+        {t(translations.perpetualPage.toasts.editLeverage, {
+          leverage: transaction.leverage,
+        })}{' '}
+      </>
+    );
+  }
+
+  if (!transaction.leverage && isDepositMargin(transaction)) {
     return (
       <>
         {t(translations.perpetualPage.toasts.increaseMargin)}{' '}
@@ -61,7 +71,7 @@ export const ToastSuccessAdditionalInfo: React.FC<ToastSuccessAdditionalInfoProp
     );
   }
 
-  if (isWithdrawMargin(transaction)) {
+  if (!transaction.leverage && isWithdrawMargin(transaction)) {
     return (
       <>
         {t(translations.perpetualPage.toasts.decreaseMargin)}{' '}
