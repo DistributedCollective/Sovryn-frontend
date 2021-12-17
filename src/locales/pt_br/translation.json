@@ -236,14 +236,14 @@
     "title": "Dicas Sovryn"
   },
   "footer": {
-    "title": "Feito e disponibilizado por <0>Bitcoinheiros</0>",
+    "title": "Feito e disponibilizado por <0>Bitcoiners</0>",
     "notice_1": "Esteja ciente de que somente você possui controle e acesso ao seus ativos, qualquer ação que você realizar pode causar uma perda considerável de fundos.",
     "notice_2": "Sempre verifique as taxas de transação antes de realizar operações na SOVRYN. Algumas carteiras podem configurar automaticamente taxas muito altas.",
     "notice_3": "Visite nosso <0>FAQ</0> se tiver dúvidas.",
     "notice_4": "Se você é um usuário novato, veja nossa <0>Wiki</0> e aprenda a usar a SOVRYN.",
     "notice_5": "Para saber das últimas atualizações ou discussões, participe do nosso servidor da <0>Discord</0>.",
     "optOut": "Desativar o Google Analytics",
-    "buildID": "Build ID"
+    "buildID": "Versão"
   },
   "analyticsDialog": {
     "title": "Dados analíticos",
@@ -476,8 +476,6 @@
       "lend": "Contrato de empréstimo",
       "amm": "Contrato Amm",
       "staked": "Contrato Bitocracia",
-      "subProtocol": "Subprotocolos",
-      "subtotal": "Sub total",
       "total": "Total"
     },
     "ammpool": {
@@ -733,7 +731,7 @@
   },
   "borrow": {
     "meta": {
-      "title": "Obter empréstimos"
+      "title": "Obter empréstimo"
     }
   },
   "activeUserBorrows": {
@@ -1261,7 +1259,7 @@
     "acceptTerms": "Eu aceito os riscos e desejo acessar o dapp usando meu celular",
     "salesBtn": "Eu entendo",
     "content": {
-      "paragraph1": "Por razões de segurança, o dapp Sovryn ainda não é compatível com celulares.",
+      "paragraph1": "A Sovryn ainda não é totalmente compatível com celulares.",
       "paragraph2": "Que tal usar a versão para computadores?"
     }
   },
@@ -1350,8 +1348,8 @@
         "recommendation2": "Operando margem em criptos listadas na Sovryn"
       },
       "feesEarnedTab": {
-        "title": "Você não possui dividendos/comissão a receber",
-        "recommendationsTitle": "Ganhe dividendos/comissão em <0/> das seguintes formas:",
+        "title": "Você não possui Dividendos/Comissão a receber",
+        "recommendationsTitle": "Ganhe Dividendos/Comissão em <0/> das seguintes formas:",
         "recommendation1": "Investindo seus SOV",
         "recommendation2": "Quando usuários indicados por você realizam transações na Sovryn"
       }
@@ -1372,7 +1370,7 @@
       "learn": "Saiba mais"
     },
     "feesEarnedClaimForm": {
-      "note": "Ao reivindicar seus dividendos/comissão, eles automaticamente são adicionados no seu saldo <0/> no portfólio.",
+      "note": "Ao reivindicar seus Dividendos/Comissão, eles automaticamente são adicionados no seu saldo <0/> no portfólio.",
       "learn": "Saiba mais"
     },
     "stakingForm": {
@@ -1585,6 +1583,7 @@
       "lend": "Contrato de empréstimo",
       "amm": "Contrato Amm",
       "staked": "Contrato Bitocracia",
+      "subProtocol": "Subprotocolos",
       "subtotal": "Sub total",
       "total": "Total"
     },
@@ -1592,15 +1591,15 @@
       "title": "Promoções",
       "learnMore": "Saiba mais",
       "sections": {
-        "lending": "Emprestando criptos",
-        "borrowing": "Obtendo empréstimos",
+        "lending": "Emprestando cripto",
+        "borrowing": "Obtendo empréstimo",
         "yieldFarming": "Minerando liquidez",
         "marginTrading": "Operando margem",
-        "swap": "Trocando criptos",
+        "swap": "Trocando cripto",
         "spotTrading": "Operando spot"
       }
     },
-    "lendBorrow": "EMPRESTAR & OBTER EMPRÉSTIMOS DE ATIVOS",
+    "lendBorrow": "EMPRESTAR & OBTER EMPRÉSTIMO DE ATIVOS",
     "ammpool": {
       "title": "POOLS AMM",
       "asset": "Ativo",

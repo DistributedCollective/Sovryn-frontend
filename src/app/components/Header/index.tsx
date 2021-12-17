@@ -21,6 +21,8 @@ import {
 import { LanguageToggle } from '../LanguageToggle';
 import styles from './index.module.scss';
 import { StyledBurger, StyledLogo, StyledMenu } from './styled';
+import { currentNetwork } from 'utils/classifiers';
+import { AppMode } from 'types';
 
 export function Header() {
   const { t } = useTranslation();
@@ -177,6 +179,7 @@ export function Header() {
     FINANCE: 'finance',
     BITOCRACY: 'bitocracy',
     ORIGINS: 'origins',
+    LABS: 'labs',
   };
 
   const isSectionOpen = (section: string) => {
@@ -185,6 +188,7 @@ export function Header() {
       [SECTION_TYPE.FINANCE]: ['/lend', '/yield-farm'],
       [SECTION_TYPE.BITOCRACY]: ['/stake'],
       [SECTION_TYPE.ORIGINS]: ['/origins', '/origins/claim'],
+      [SECTION_TYPE.LABS]: ['/labs'],
     };
     return section && paths[section].includes(location.pathname);
   };
@@ -416,6 +420,37 @@ export function Header() {
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
                 </div>
               </NavPopover>
+              {/* {currentNetwork === AppMode.TESTNET && (
+                <>
+                  <NavPopover
+                    content={
+                      <BPMenu>
+                        <MenuItem
+                          text={t(translations.mainMenu.zero)}
+                          className="bp3-popover-dismiss"
+                          href="https://test.sovryn.app/zero"
+                          rel="noopener noreferrer"
+                          data-action-id="header-origins-link-launchpad"
+                        />
+                      </BPMenu>
+                    }
+                  >
+                    <div
+                      className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
+                        isSectionOpen(SECTION_TYPE.LABS) && 'tw-font-bold'
+                      }`}
+                    >
+                      <span
+                        className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
+                        data-action-id="header-link-origins"
+                      >
+                        {t(translations.mainMenu.labs)}
+                      </span>
+                      <FontAwesomeIcon icon={faChevronDown} size="xs" />
+                    </div>
+                  </NavPopover>
+                </>
+              )} */}
             </div>
           </div>
           <div className="tw-flex tw-justify-start tw-items-center">
