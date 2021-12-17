@@ -61,5 +61,5 @@ const parseAmmState = (response: any): AMMState => ({
   currentPremiumRate: ABK64x64ToFloat(response[9]),
   indexS2PriceDataOracle: ABK64x64ToFloat(response[10]),
   indexS3PriceDataOracle: ABK64x64ToFloat(response[11]),
-  defFundToTargetRatio: ABK64x64ToFloat(response[12]),
+  defFundToTargetRatio: response[12] && ABK64x64ToFloat(response[12]),
 });

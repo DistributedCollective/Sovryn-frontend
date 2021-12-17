@@ -18,6 +18,8 @@ import {
   calculateSlippagePriceFromMidPrice,
   getPrice,
   calculateLeverage,
+  getBase2CollateralFX,
+  getMinimalSpread,
 } from '../../utils/perpUtils';
 import {
   PerpetualPairDictionary,
@@ -53,6 +55,7 @@ const tradeDialogContextDefault: TradeDialogContextType = {
     entryPrice: 0,
     limitPrice: 0,
     liquidationPrice: 0,
+    orderCost: 0,
     tradingFee: 0,
   },
   transactions: [],
@@ -156,28 +159,23 @@ export const TradeDialog: React.FC = () => {
 
     const marginTarget = trade.margin
       ? numberFromWei(trade.margin)
-      : getRequiredMarginCollateral(
-          trade.leverage,
-          amountTarget,
-          perpParameters,
-          ammState,
-          traderState,
-          trade.slippage,
-          false,
-        );
+      : Math.abs(amountTarget) / trade.leverage;
+
+    const orderCost = getRequiredMarginCollateral(
+      trade.leverage,
+      amountTarget,
+      perpParameters,
+      ammState,
+      traderState,
+      trade.slippage,
+      true,
+    );
+
     const marginChange = marginTarget - traderState.availableCashCC;
 
     const partialUnrealizedPnL =
       getTraderPnLInCC(traderState, ammState, perpParameters, limitPrice) *
       Math.abs(-marginChange / traderState.availableCashCC);
-
-    const leverageTarget = calculateLeverage(
-      amountTarget,
-      marginTarget,
-      traderState,
-      ammState,
-      perpParameters,
-    );
 
     const liquidationPrice = calculateApproxLiquidationPrice(
       traderState,
@@ -189,6 +187,14 @@ export const TradeDialog: React.FC = () => {
 
     const tradingFee = getTradingFee(Math.abs(amountChange), perpParameters);
 
+    const leverageTarget = calculateLeverage(
+      amountTarget,
+      marginTarget,
+      traderState,
+      ammState,
+      perpParameters,
+    );
+
     setAnalysis({
       amountChange,
       amountTarget,
@@ -197,9 +203,10 @@ export const TradeDialog: React.FC = () => {
       marginTarget,
       leverageTarget,
       liquidationPrice,
-      tradingFee,
       entryPrice,
       limitPrice,
+      orderCost,
+      tradingFee,
     });
   }, [currentTransaction, trade, traderState, perpParameters, ammState]);
 

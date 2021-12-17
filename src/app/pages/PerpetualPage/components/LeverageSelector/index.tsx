@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState, useEffect } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { ReactComponent as EditIcon } from 'assets/images/edit.svg';
 import { ReactComponent as ArrowForwardIcon } from 'assets/images/arrow_forward.svg';
 import { Slider, SliderType } from 'app/components/Form/Slider';
@@ -42,7 +42,7 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
 
   const onEnableManual = useCallback(() => {
     setManual(true);
-    onChange(Number(roundToSmaller(value, 2)));
+    onChange(Number(roundToSmaller(value, 5)));
   }, [value, onChange]);
 
   const onEnableManualMinimum = useCallback(() => {
@@ -100,7 +100,7 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
               value={value}
               min={min}
               max={max}
-              step={0.01}
+              step={0.00001}
               onBlur={onInputBlur}
               onChange={onInputChange}
             />
