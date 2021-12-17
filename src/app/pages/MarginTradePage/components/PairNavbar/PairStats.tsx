@@ -26,6 +26,7 @@ export const PairStats: React.FC<IPairStatsProps> = ({ pair }) => {
   const lowestPrice = candles.sort(function (a, b) {
     return a.low - b.low;
   });
+  const url = backendUrl[currentChainId];
   const highestPrice = candles.sort(function (a, b) {
     return a.high - b.high;
   });
@@ -36,11 +37,13 @@ export const PairStats: React.FC<IPairStatsProps> = ({ pair }) => {
     const dayBefore = new Date();
     const currentTime = new Date().getTime();
     dayBefore.setDate(dayBefore.getDate() - 1);
-    const pairs_api = `${
-      backendUrl[currentChainId]
-    }/datafeed/price/${symbolA}:${symbolB}?startTime=${dayBefore.getTime()}&endTime=${currentTime}`;
     axios
-      .get(pairs_api)
+      .get(url + `/datafeed/price/${symbolA}:${symbolB}`, {
+        params: {
+          startTime: `${dayBefore.getTime()}`,
+          endTime: `${currentTime}`,
+        },
+      })
       .then(res => {
         setCandels(res.data.series);
       })
@@ -48,7 +51,7 @@ export const PairStats: React.FC<IPairStatsProps> = ({ pair }) => {
       .finally(() => {
         setCandlesLoading(false);
       });
-  }, [symbolA, symbolB]);
+  }, [symbolA, symbolB, url]);
 
   useEffect(() => {
     setCandels(['']);
