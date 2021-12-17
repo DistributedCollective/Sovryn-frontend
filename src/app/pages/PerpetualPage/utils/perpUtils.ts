@@ -6,7 +6,7 @@ import {
   calcKStar,
   shrinkToLot,
   calcPerpPrice,
-  calculateMaintenanceMargin,
+  calculateMaintenanceMarginRate,
   calculateLiquidationPriceCollateralQuote,
   calculateLiquidationPriceCollateralQuanto,
   calculateLiquidationPriceCollateralBase,
@@ -37,6 +37,7 @@ export interface PerpParameters {
   fReferralRebateRate: number;
   fLiquidationPenaltyRate: number;
   fMinimalSpread: number;
+  fMinimalSpreadInStress: number;
   fLotSizeBC: number;
   fFundingRateClamp: number;
   fMarkPriceEMALambda: number;
@@ -89,6 +90,7 @@ export interface AMMState {
   indexS3PriceDataOracle: number; // most up to date S4 price, can differ from contract price
   currentMarkPremiumRate: number;
   currentPremiumRate: number;
+  defFundToTargetRatio: number; // funding state of default fund. Relevant for minimal bid-ask spread
 }
 
 export interface LiqPoolState {
@@ -272,7 +274,7 @@ export function getMaintenanceMarginRate(
   position: number,
   perpParams: PerpParameters,
 ): number {
-  return calculateMaintenanceMargin(
+  return calculateMaintenanceMarginRate(
     perpParams.fInitialMarginRateAlpha,
     perpParams.fMaintenanceMarginRateAlpha,
     perpParams.fInitialMarginRateCap,
@@ -284,6 +286,8 @@ export function getMaintenanceMarginRate(
 /**
  * Get the maximal leverage that is allowed by the initial margin requirement.
  * The margin requirement depends on the position size.
+ * Use this function:
+ * to determine the max leverage for new and existing positions
  * @param {number} position - The position for which we calculate the maximal initial leverage
  * @param {PerpParameters} perpParams - Contains parameter of the perpetual
  * @returns {number} maximal leverage
@@ -561,7 +565,8 @@ export function getRequiredMarginCollateral(
   let initialPnLQC =
     currentPos * getMarkPrice(ammData) -
     traderState.marginAccountLockedInValueQC;
-  let buffer = Math.abs(positionToTrade) * perpParams.fMinimalSpread * Sm;
+  let buffer =
+    Math.abs(positionToTrade) * getMinimalSpread(perpParams, ammData) * Sm;
   let newPnLQC = positionToTrade * (Sm - tradeAmountPrice) - buffer;
   let pnlCC = (initialPnLQC + newPnLQC) * quote2collateral;
   /*
@@ -582,6 +587,40 @@ export function getRequiredMarginCollateral(
   } else {
     return collRequired;
   }
+}
+
+/**
+ * Maximal amount the trader can withdraw so that they still are initial margin safe
+ *
+ * Uses prices based on the recent oracle data, which can differ from the contract's price entry.
+ * @param {TraderState} traderState - Trader state (for account balances)
+ * @param {PerpParameters} perpData Perpetual data
+ * @param {AMMState} ammData - AMM data
+ * @returns An array containing [prices, % deviation from mid price ((price - mid-price)/mid-price), trade amounts]
+ */
+
+export function getMaximalMarginToWidthdraw(
+  traderState: TraderState,
+  perpParams: PerpParameters,
+  ammData: AMMState,
+) {
+  let currentPos = traderState.marginAccountPositionBC;
+  let S2 = ammData.indexS2PriceDataOracle;
+  let S3 = 1 / getQuote2CollateralFX(ammData);
+
+  // required initial margin rate
+  let tau = getInitialMarginRate(currentPos, perpParams);
+  // required collateral: margin balance >= |pos|*tau * S2/S3
+  let m =
+    (Math.abs(currentPos) * tau * S2) / S3 -
+    (currentPos * getMarkPrice(ammData) -
+      traderState.marginAccountLockedInValueQC) /
+      S3;
+  // we can withdraw only the amount the current margin collateral is above m
+  let maxAmount = traderState.availableCashCC - m;
+  // we shrink the amount by 1 lot (collateral currency equivalent) to be safe
+  maxAmount = shrinkToLot(maxAmount, (perpParams.fLotSizeBC * S2) / S3);
+  return Math.max(0, maxAmount);
 }
 
 /**
@@ -703,6 +742,8 @@ export function getPrice(
 ): number {
   let k = tradeSize;
   let r = 0;
+  let minSpread = getMinimalSpread(perpParams, ammData);
+
   return calcPerpPrice(
     ammData.K2,
     k,
@@ -716,7 +757,7 @@ export function getPrice(
     ammData.M1,
     ammData.M2,
     ammData.M3,
-    perpParams.fMinimalSpread,
+    minSpread,
   );
 }
 
@@ -837,6 +878,22 @@ export function isTraderInitialMarginSafe(
     s3,
     m,
   );
+}
+
+/**
+ * Return minimal spread that depends on Default Fund funding rate
+ * @param {PerpParameters} perpData Perpetual data
+ * @param {AMMState} ammData - AMM data
+ * @returns minimal bid-ask spread
+ */
+
+export function getMinimalSpread(
+  perpParams: PerpParameters,
+  ammData: AMMState,
+): number {
+  return ammData.defFundToTargetRatio > 1
+    ? perpParams.fMinimalSpread
+    : perpParams.fMinimalSpreadInStress;
 }
 
 // CUSTOM FRONTEND UTILS =======================================================

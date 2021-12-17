@@ -19,6 +19,7 @@ export const initialAmmState: AMMState = {
   indexS3PriceDataOracle: 0,
   currentMarkPremiumRate: 0,
   currentPremiumRate: 0,
+  defFundToTargetRatio: 0,
 };
 
 export const usePerpetual_queryAmmState = (perpetualId: string) => {
@@ -60,4 +61,5 @@ const parseAmmState = (response: any): AMMState => ({
   currentPremiumRate: ABK64x64ToFloat(response[9]),
   indexS2PriceDataOracle: ABK64x64ToFloat(response[10]),
   indexS3PriceDataOracle: ABK64x64ToFloat(response[11]),
+  defFundToTargetRatio: ABK64x64ToFloat(response[12]),
 });
