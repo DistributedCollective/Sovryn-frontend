@@ -20,11 +20,16 @@ import { AssetValueMode } from '../../../../components/AssetValue/types';
 import {
   getRequiredMarginCollateral,
   calculateApproxLiquidationPrice,
+  getMaxInitialLeverage,
 } from '../../utils/perpUtils';
 import { toWei } from '../../../../../utils/blockchain/math-helpers';
 import { PerpetualTxMethods } from '../TradeDialog/types';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 import classNames from 'classnames';
+import {
+  getSignedAmount,
+  validatePositionChange,
+} from '../../utils/contractUtils';
 
 export const EditLeverageDialog: React.FC = () => {
   const dispatch = useDispatch();
@@ -46,16 +51,31 @@ export const EditLeverageDialog: React.FC = () => {
     [trade],
   );
 
+  const maxLeverage = useMemo(
+    () =>
+      trade
+        ? getMaxInitialLeverage(
+            getSignedAmount(trade.position, trade.amount),
+            perpParameters,
+          )
+        : pair?.config.leverage.max || 15,
+    [trade, perpParameters, pair],
+  );
+
   const [changedTrade, setChangedTrade] = useState(trade);
   const [margin, setMargin] = useState(0);
+  const [leverage, setLeverage] = useState(Number(trade?.leverage.toFixed(2)));
   const onChangeLeverage = useCallback(
     leverage => {
       if (!changedTrade) {
         return;
       }
+      const roundedLeverage =
+        leverage === maxLeverage ? leverage : Number(leverage.toFixed(2));
+      setLeverage(roundedLeverage);
 
       const margin = getRequiredMarginCollateral(
-        leverage,
+        roundedLeverage,
         traderState.marginAccountPositionBC,
         perpParameters,
         ammState,
@@ -70,7 +90,7 @@ export const EditLeverageDialog: React.FC = () => {
         margin: toWei(margin),
       });
     },
-    [changedTrade, traderState, perpParameters, ammState],
+    [changedTrade, maxLeverage, traderState, perpParameters, ammState],
   );
 
   const liquidationPrice = useMemo(() => {
@@ -101,7 +121,7 @@ export const EditLeverageDialog: React.FC = () => {
     dispatch(
       actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
         origin: PerpetualPageModals.EDIT_LEVERAGE,
-        trade: changedTrade,
+        trade: { ...changedTrade, leverage },
         transactions: [
           marginChange >= 0
             ? {
@@ -118,14 +138,39 @@ export const EditLeverageDialog: React.FC = () => {
         ],
       }),
     );
-  }, [dispatch, changedTrade, margin, traderState.availableCashCC]);
+  }, [dispatch, changedTrade, leverage, margin, traderState.availableCashCC]);
+
+  const validation = useMemo(() => {
+    if (!changedTrade) {
+      return;
+    }
+    const signedAmount = getSignedAmount(
+      changedTrade.position,
+      changedTrade.amount,
+    );
+    const marginChange = margin - traderState.availableCashCC;
+
+    return validatePositionChange(
+      signedAmount,
+      marginChange,
+      changedTrade.slippage,
+      traderState,
+      perpParameters,
+      ammState,
+    );
+  }, [changedTrade, margin, traderState, perpParameters, ammState]);
 
   const isButtonDisabled = useMemo(
-    () => trade?.leverage === changedTrade?.leverage,
-    [trade?.leverage, changedTrade?.leverage],
+    () =>
+      trade?.leverage === changedTrade?.leverage ||
+      (validation && !validation.valid && !validation.isWarning),
+    [trade?.leverage, changedTrade?.leverage, validation],
   );
 
-  useEffect(() => setChangedTrade(trade), [trade]);
+  useEffect(() => {
+    setChangedTrade(trade);
+    setLeverage(Number(trade?.leverage.toFixed(2)));
+  }, [trade]);
 
   return (
     <Dialog
@@ -143,9 +188,9 @@ export const EditLeverageDialog: React.FC = () => {
           <LeverageSelector
             className="tw-mb-6"
             min={pair.config.leverage.min}
-            max={pair.config.leverage.max}
+            max={maxLeverage}
             steps={pair.config.leverage.steps}
-            value={changedTrade?.leverage || 0}
+            value={leverage}
             onChange={onChangeLeverage}
           />
           <div className="tw-flex tw-flex-row tw-justify-between tw-mb-4 tw-px-6 tw-py-1 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
@@ -158,7 +203,7 @@ export const EditLeverageDialog: React.FC = () => {
               assetString={pair.baseAsset}
             />
           </div>
-          <div className="tw-flex tw-flex-row tw-justify-between tw-mb-8 tw-px-6 tw-py-1 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
+          <div className="tw-flex tw-flex-row tw-justify-between tw-mb-4 tw-px-6 tw-py-1 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
             <label>
               {t(translations.perpetualPage.editLeverage.liquidation)}
             </label>
@@ -170,9 +215,14 @@ export const EditLeverageDialog: React.FC = () => {
               assetString={pair.quoteAsset}
             />
           </div>
+          {validation && !validation.valid && validation.errors.length > 0 && (
+            <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1 tw-mb-4 tw-text-warning tw-text-xs tw-font-medium tw-border tw-border-warning tw-rounded-lg">
+              {validation.errorMessages}
+            </div>
+          )}
           <button
             className={classNames(
-              'tw-w-full tw-min-h-10 tw-p-2 tw-text-lg tw-text-primary tw-font-medium tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-transition-opacity tw-duration-300',
+              'tw-w-full tw-min-h-10 tw-p-2 tw-mt-4 tw-text-lg tw-text-primary tw-font-medium tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-transition-opacity tw-duration-300',
               isButtonDisabled
                 ? 'tw-opacity-25 tw-cursor-not-allowed'
                 : 'tw-opacity-100 hover:tw-bg-primary-25',

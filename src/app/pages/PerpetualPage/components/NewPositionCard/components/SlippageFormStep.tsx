@@ -88,7 +88,7 @@ export const SlippageFormStep: TransitionStep<NewPositionCardStep> = ({
   ]);
 
   return (
-    <div>
+    <div className="tw-p-4">
       <h3 className="tw-relative tw-mb-12 tw-text-center tw-text-base tw-font-medium tw-normal-case tw-leading-normal">
         <button
           className="tw-absolute tw-left-0 tw-top-0"

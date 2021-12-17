@@ -13,12 +13,14 @@ export const TradeFormStep: TransitionStep<NewPositionCardStep> = ({
     [changeTo],
   );
   return (
-    <TradeForm
-      trade={trade}
-      isNewTrade
-      onOpenSlippage={onOpenSlippage}
-      onSubmit={onSubmit}
-      onChange={onChangeTrade}
-    />
+    <div className="tw-p-4">
+      <TradeForm
+        trade={trade}
+        isNewTrade
+        onOpenSlippage={onOpenSlippage}
+        onSubmit={onSubmit}
+        onChange={onChangeTrade}
+      />
+    </div>
   );
 };
