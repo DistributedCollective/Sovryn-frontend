@@ -5,9 +5,11 @@ import { selectWalletProvider } from '../../containers/WalletProvider/selectors'
 import { fixNumber } from '../../../utils/helpers';
 
 export function useCachedAssetPrice(sourceAsset: Asset, destAsset: Asset) {
-  const { assetRates: items, assetRatesLoading } = useSelector(
-    selectWalletProvider,
-  );
+  const {
+    assetRates: items,
+    assetRatesLoading,
+    assetRatesLoaded,
+  } = useSelector(selectWalletProvider);
   const value = useMemo(() => {
     const item = items.find(
       item => item.source === sourceAsset && item.target === destAsset,
@@ -18,13 +20,20 @@ export function useCachedAssetPrice(sourceAsset: Asset, destAsset: Asset) {
       return '0';
     }
   }, [items, sourceAsset, destAsset]);
-  return { value: value, error: null, loading: assetRatesLoading };
+
+  return {
+    value: value,
+    error: null,
+    loading: assetRatesLoading && !assetRatesLoaded,
+  };
 }
 
 export function useCachedAssetRate(sourceAsset: Asset, destAsset: Asset) {
-  const { assetRates: items, assetRatesLoading } = useSelector(
-    selectWalletProvider,
-  );
+  const {
+    assetRates: items,
+    assetRatesLoading,
+    assetRatesLoaded,
+  } = useSelector(selectWalletProvider);
   const value = useMemo(() => {
     if (sourceAsset === destAsset) {
       return { rate: '1', precision: '1' };
@@ -39,5 +48,9 @@ export function useCachedAssetRate(sourceAsset: Asset, destAsset: Asset) {
       return { rate: '0', precision: '0' };
     }
   }, [items, sourceAsset, destAsset]);
-  return { value: value, error: null, loading: assetRatesLoading };
+  return {
+    value: value,
+    error: null,
+    loading: assetRatesLoading && !assetRatesLoaded,
+  };
 }
