@@ -12,11 +12,11 @@ import {
   isWithdrawMargin,
 } from '../../../TradeDialog/types';
 
-type ToastSuccessAdditionalInfoProps = {
+type ToastAdditionalInfoProps = {
   transaction: ToastTransaction;
 };
 
-export const ToastSuccessAdditionalInfo: React.FC<ToastSuccessAdditionalInfoProps> = ({
+export const ToastAdditionalInfo: React.FC<ToastAdditionalInfoProps> = ({
   transaction,
 }) => {
   const { t } = useTranslation();

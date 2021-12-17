@@ -1589,6 +1589,7 @@
       "sell": "Sell",
       "closePosition": "Close position",
       "orderComplete": "Order complete",
+      "orderFailed": "Order failed",
       "increaseMargin": "Increase margin",
       "decreaseMargin": "Decrease margin",
       "editLeverage": "Edit leverage to {{leverage}}x"
