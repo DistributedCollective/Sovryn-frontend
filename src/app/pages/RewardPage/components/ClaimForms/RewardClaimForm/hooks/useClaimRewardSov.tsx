@@ -14,12 +14,9 @@ export const useClaimRewardSov = () => {
 
   return {
     send: async () => {
-      const nonce = await contractReader.nonce(address);
-
       await send(
         [ethGenesisAddress],
         {
-          nonce,
           from: address,
           gas: gasLimit[TxType.CLAIM_VESTED_SOV_REWARDS],
         },
