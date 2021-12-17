@@ -30,7 +30,6 @@ import {
   getSignedAmount,
   validatePositionChange,
 } from '../../utils/contractUtils';
-import { shrinkToLot } from '../../utils/perpMath';
 
 export const EditLeverageDialog: React.FC = () => {
   const dispatch = useDispatch();
@@ -65,16 +64,14 @@ export const EditLeverageDialog: React.FC = () => {
 
   const [changedTrade, setChangedTrade] = useState(trade);
   const [margin, setMargin] = useState(0);
-  const [leverage, setLeverage] = useState(
-    shrinkToLot(trade?.leverage || 1, 0.01),
-  );
+  const [leverage, setLeverage] = useState(Number(trade?.leverage.toFixed(2)));
   const onChangeLeverage = useCallback(
     leverage => {
       if (!changedTrade) {
         return;
       }
       const roundedLeverage =
-        leverage === maxLeverage ? leverage : shrinkToLot(leverage, 0.01);
+        leverage === maxLeverage ? leverage : Number(leverage.toFixed(2));
       setLeverage(roundedLeverage);
 
       const margin = getRequiredMarginCollateral(
@@ -172,7 +169,7 @@ export const EditLeverageDialog: React.FC = () => {
 
   useEffect(() => {
     setChangedTrade(trade);
-    setLeverage(shrinkToLot(trade?.leverage || 1, 0.01));
+    setLeverage(Number(trade?.leverage.toFixed(2)));
   }, [trade]);
 
   return (

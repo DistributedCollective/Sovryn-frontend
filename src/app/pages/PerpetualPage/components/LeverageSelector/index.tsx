@@ -42,7 +42,7 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
 
   const onEnableManual = useCallback(() => {
     setManual(true);
-    onChange(Number(roundToSmaller(value, 5)));
+    onChange(Number(roundToSmaller(value, 2)));
   }, [value, onChange]);
 
   const onEnableManualMinimum = useCallback(() => {
@@ -100,7 +100,7 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
               value={value}
               min={min}
               max={max}
-              step={0.00001}
+              step={0.01}
               onBlur={onInputBlur}
               onChange={onInputChange}
             />
