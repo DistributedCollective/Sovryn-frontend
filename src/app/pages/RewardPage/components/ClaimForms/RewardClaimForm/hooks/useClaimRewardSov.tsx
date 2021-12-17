@@ -1,4 +1,3 @@
-import { contractReader } from 'utils/sovryn/contract-reader';
 import { useSendContractTx } from 'app/hooks/useSendContractTx';
 import { useAccount } from 'app/hooks/useAccount';
 import { ethGenesisAddress, gasLimit } from 'utils/classifiers';
