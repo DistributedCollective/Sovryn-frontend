@@ -47,6 +47,13 @@ enum States {
   CLAIM_REWARD_SOV = 'claimRewardSov',
   CLAIM_LIQUID_SOV = 'claimLiquidSov',
   CLAIM_FEES_EARNED = 'claimFeesEarned',
+
+  PERPETUALS = 'perpetuals',
+  PERPETUALS_ACCOUNT_FUND = 'perpetualsAccountFund',
+  PERPETUALS_ACCOUNT_WITHDRAW = 'perpetualsAccountWithdraw',
+  PERPETUALS_ACCOUNT_TRANSFER = 'perpetualsAccountTransfer',
+  PERPETUALS_TRADE = 'perpetualsTrade',
+  PERPETUALS_EDIT_MARGIN = 'perpetualsEditMargin',
 }
 
 type MaintenanceResult = {

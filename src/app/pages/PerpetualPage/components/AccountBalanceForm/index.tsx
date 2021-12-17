@@ -1,3 +1,4 @@
+import { useMaintenance } from 'app/hooks/useMaintenance';
 import { bignumber } from 'mathjs';
 import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -31,6 +32,19 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
+  const { checkMaintenance, States } = useMaintenance();
+  const fundAccountLocked =
+    checkMaintenance(States.PERPETUALS) ||
+    checkMaintenance(States.PERPETUALS_ACCOUNT_FUND);
+
+  const withdrawAccountLocked =
+    checkMaintenance(States.PERPETUALS) ||
+    checkMaintenance(States.PERPETUALS_ACCOUNT_WITHDRAW);
+
+  const transferAccountLocked =
+    checkMaintenance(States.PERPETUALS) ||
+    checkMaintenance(States.PERPETUALS_ACCOUNT_TRANSFER);
 
   const onOpenDeposit = useCallback(() => {
     dispatch(actions.setModal(PerpetualPageModals.FASTBTC_DEPOSIT));

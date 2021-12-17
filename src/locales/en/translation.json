@@ -72,7 +72,12 @@
     "withdrawVests": "Sorry, withdrawing vests is currently under maintenance, please check our discord (link in footer) for updates.",
     "withdrawVestsModal": "Sorry, withdrawing vests is currently under maintenance, please check our <0>discord</0> for updates.",
     "claimRewards": "Sorry, claiming rewards is currently under maintenance, please check our <0>discord</0> for updates.",
-    "claimOrigins": "Sorry, origins claim is currently under maintenance, please check our <0>discord</0> for updates."
+    "claimOrigins": "Sorry, origins claim is currently under maintenance, please check our <0>discord</0> for updates.",
+
+    "perpetuals": "Sorry, perpetual swaps are currently under maintenance, please check our discord (link in footer) for updates.",
+    "perpetualsAccountFund": "Sorry, perpetual swaps deposits are currently under maintenance, please check our discord (link in footer) for updates.",
+    "perpetualsAccountWithdraw": "Sorry, perpetual swaps withdrawals are currently under maintenance, please check our discord (link in footer) for updates.",
+    "perpetualsAccountTransfer": "Sorry, perpetual swaps transfers are currently under maintenance, please check our discord (link in footer) for updates."
   },
   "homePage": {
     "title": "Home Page",
