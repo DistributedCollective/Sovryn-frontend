@@ -21,6 +21,7 @@ interface InputProps {
   max?: number;
   step?: number;
   dataActionId?: string;
+  disabled?: boolean;
 }
 
 export function Input({

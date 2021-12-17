@@ -1,6 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from 'utils/@reduxjs/toolkit';
-import { ContainerState } from './types';
+import { ContainerState, NotificationUser } from './types';
 import { TradingPairType } from 'utils/dictionaries/trading-pair-dictionary';
 import { Asset } from 'types';
 import { TradingPosition } from 'types/trading-position';
@@ -12,6 +12,9 @@ export const initialState: ContainerState = {
   amount: '0',
   leverage: 2,
   position: TradingPosition.LONG,
+
+  notificationToken: '',
+  notificationUser: undefined,
 };
 
 const marginTradePageSlice = createSlice({
@@ -35,6 +38,15 @@ const marginTradePageSlice = createSlice({
     },
     closeTradingModal(state, { payload }: PayloadAction<TradingPosition>) {
       state.position = payload;
+    },
+    setNotificationToken(state, { payload }: PayloadAction<string>) {
+      state.notificationToken = payload;
+    },
+    setNotificationUser(
+      state,
+      { payload }: PayloadAction<NotificationUser | undefined>,
+    ) {
+      state.notificationUser = payload;
     },
   },
 });

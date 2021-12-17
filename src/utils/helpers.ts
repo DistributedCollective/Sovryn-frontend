@@ -251,3 +251,18 @@ export const isString = value =>
 // (b - a) / |a| * 100
 export const percentageChange = (a: Decimal.Value, b: Decimal.Value) =>
   bignumber(bignumber(b).minus(a)).div(bignumber(a).abs()).mul(100).toString();
+
+export const parseJwt = (token: string) => {
+  var base64Url = token.split('.')[1];
+  var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+  var jsonPayload = decodeURIComponent(
+    atob(base64)
+      .split('')
+      .map(function (c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join(''),
+  );
+
+  return JSON.parse(jsonPayload);
+};
