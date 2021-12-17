@@ -67,7 +67,9 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
 }) => {
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
-  const inMaintenance = checkMaintenance(States.PERPETUAL_TRADES);
+  const inMaintenance =
+    checkMaintenance(States.PERPETUALS) ||
+    checkMaintenance(States.PERPETUALS_TRADE);
 
   const {
     ammState,
@@ -484,7 +486,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           <ErrorBadge
             content={
               <Trans
-                i18nKey={translations.maintenance.openMarginTrades}
+                i18nKey={translations.maintenance.perpetualsTrade}
                 components={[
                   <a
                     href={discordInvite}

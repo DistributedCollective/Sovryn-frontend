@@ -27,7 +27,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
-  const isMaintenance = checkMaintenance(States.PERPETUAL_TRADES);
+  const isMaintenance = checkMaintenance(States.PERPETUALS_TRADE);
 
   const pair = useMemo(() => PerpetualPairDictionary.get(item.pairType), [
     item.pairType,
