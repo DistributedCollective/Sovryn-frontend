@@ -67,7 +67,7 @@ export const TransactionStep: TransitionStep<TradeDialogStep> = ({
           if (!toastTransactions.find(item => item.tx === transaction.tx!)) {
             setToastTransactions(prevState => [
               ...prevState,
-              { ...transaction, leverage },
+              { ...transaction, leverage, pair },
             ]);
           }
         }
@@ -75,6 +75,7 @@ export const TransactionStep: TransitionStep<TradeDialogStep> = ({
       }, []),
     [
       origin,
+      pair,
       setToastTransactions,
       toastTransactions,
       trade?.leverage,

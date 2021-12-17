@@ -70,7 +70,7 @@ export const ToastsWatcher: React.FC = () => {
         setProcessedToasts(prevState => [...prevState, txToProcess[0].tx!]);
       }
     }
-  }, [processedToasts, t, toastTransactions, transactionsMap]);
+  }, [hasNoOpenModal, processedToasts, t, toastTransactions, transactionsMap]);
 
   return <></>;
 };

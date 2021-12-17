@@ -5,10 +5,12 @@ import React, {
   SetStateAction,
   useState,
 } from 'react';
+import { PerpetualPair } from 'utils/models/perpetual-pair';
 import { PerpetualTx } from '../components/TradeDialog/types';
 
 export type ToastTransaction = PerpetualTx & {
   leverage?: number;
+  pair: PerpetualPair;
 };
 
 type ToastsContextValue = {

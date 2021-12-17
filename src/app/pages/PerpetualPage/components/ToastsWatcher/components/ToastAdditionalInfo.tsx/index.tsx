@@ -20,13 +20,17 @@ export const ToastAdditionalInfo: React.FC<ToastAdditionalInfoProps> = ({
   transaction,
 }) => {
   const { t } = useTranslation();
+  const {
+    pair: { baseAsset },
+  } = transaction;
 
   if (isTrade(transaction)) {
     const amount = weiToNumberFormat(transaction.amount, 3);
     if (transaction.isClosePosition) {
       return (
         <>
-          {t(translations.perpetualPage.toasts.closePosition)} {amount} BTC
+          {t(translations.perpetualPage.toasts.closePosition)} {amount}{' '}
+          {baseAsset}
         </>
       );
     }
@@ -41,7 +45,7 @@ export const ToastAdditionalInfo: React.FC<ToastAdditionalInfoProps> = ({
               : 'sell'
           ],
         )}{' '}
-        {amount} BTC
+        {amount} {{ baseAsset }}
       </>
     );
   }
@@ -65,7 +69,7 @@ export const ToastAdditionalInfo: React.FC<ToastAdditionalInfoProps> = ({
           maxDecimals={6}
           mode={AssetValueMode.auto}
           value={transaction.amount}
-          assetString="BCT"
+          assetString={baseAsset}
         />
       </>
     );
@@ -80,7 +84,7 @@ export const ToastAdditionalInfo: React.FC<ToastAdditionalInfoProps> = ({
           maxDecimals={6}
           mode={AssetValueMode.auto}
           value={transaction.amount}
-          assetString="BCT"
+          assetString={baseAsset}
         />
       </>
     );
