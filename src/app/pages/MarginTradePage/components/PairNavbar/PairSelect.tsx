@@ -175,14 +175,14 @@ export const CryptocurrencyPairs: React.FC<ICryptocurrencyPairsProps> = ({
   const filteredList = useMemo(() => {
     const currencyList: [TradingPairs] = [] as any; //an Object with all possible pairs
     //making a currencyList with all possible pairs
-    for (let i = 0; i < list.length; i++) {
+    for (let pair of list) {
       //first here we push only RBTC pair
-      currencyList.push([list[i], list[i]]);
-      currencyList.push([list[i], list[i], 'RBTC']); //adding RBTC as key for RBTC as source
-      for (let j = 0; j < list.length; j++) {
-        if (list[i].base_symbol !== list[j].base_symbol)
+      currencyList.push([pair, pair]);
+      currencyList.push([pair, pair, 'RBTC']); //adding RBTC as key for RBTC as source
+      for (let pair2 of list) {
+        if (pair.base_symbol !== pair2.base_symbol)
           //here we push to the currencyList all possible variants of currencies
-          currencyList.push([list[i], list[j]]);
+          currencyList.push([pair, pair2]);
       }
     }
 
@@ -295,7 +295,11 @@ export const CryptocurrencyPairs: React.FC<ICryptocurrencyPairsProps> = ({
               else if (lastPrice < dayPrice)
                 percent = ((lastPrice - dayPrice) / lastPrice) * 100;
             //for pairs with RBTC as source
-            if (pair[2]) percent = -pair[0].price_change_percent_24h;
+            if (pair[2])
+              percent =
+                pair[0].price_change_percent_24h !== 0
+                  ? -pair[0].price_change_percent_24h
+                  : pair[0].price_change_percent_24h;
             //for pairs with RBTC as target
             if (pair[0].base_symbol === pair[1].base_symbol && !pair[2])
               percent = pair[0].price_change_percent_24h;

@@ -36,6 +36,8 @@ import { toWei } from 'utils/blockchain/math-helpers';
 import { OrderType } from 'app/components/OrderType';
 import { OrderTypes } from 'app/components/OrderType/types';
 import { MARGIN_SLIPPAGE_DEFAULT } from '../../types';
+import { AssetRenderer } from 'app/components/AssetRenderer';
+import { LoadableValue } from 'app/components/LoadableValue';
 
 interface ITradeFormProps {
   pairType: TradingPairType;
@@ -68,7 +70,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     collateralToken,
   );
 
-  const { price } = useCurrentPositionPrice(
+  const { price, loading: loadingPrice } = useCurrentPositionPrice(
     loanToken,
     collateralToken,
     estimations.principal,
@@ -188,7 +190,20 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                 label={t(translations.marginTradeForm.fields.esEntryPrice)}
                 value={
                   <>
-                    {toNumberFormat(price, 2)} {pair.longDetails.symbol}
+                    <LoadableValue
+                      value={
+                        <>
+                          {toNumberFormat(price, 2)}{' '}
+                          <AssetRenderer asset={pair.longAsset} />
+                        </>
+                      }
+                      tooltip={
+                        <>
+                          {price} <AssetRenderer asset={pair.longAsset} />
+                        </>
+                      }
+                      loading={loadingPrice}
+                    />
                   </>
                 }
               />
@@ -204,7 +219,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                       leverage={leverage}
                       position={position}
                     />{' '}
-                    {pair.longDetails.symbol}
+                    <AssetRenderer asset={pair.longAsset} />
                   </>
                 }
               />
@@ -228,7 +243,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                   onClick={() => setOpenSlippage(true)}
                   className="tw-border-none tw-ml-0 tw-p-0 tw-h-auto"
                   textClassName="tw-text-xs tw-overflow-visible tw-text-secondary"
-                  data-action-id="margin-select-asset-slippage-setting"
+                  data-action-id="margin-slippage-setting"
                 />
               </div>
 

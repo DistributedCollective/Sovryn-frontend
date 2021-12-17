@@ -257,7 +257,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
               methodName="marginTrade"
               contractName={contractName}
               condition={true}
-              textClassName={'tw-text-gray-10 tw-text-gray-10'}
+              textClassName={'tw-text-gray-10 tw-text-gray-10 tw-pr-2'}
             />
             <LabelValuePair
               label={t(

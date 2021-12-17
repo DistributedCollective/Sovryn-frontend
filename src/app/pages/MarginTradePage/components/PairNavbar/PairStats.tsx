@@ -106,7 +106,7 @@ export const PairStats: React.FC<IPairStatsProps> = ({ pair }) => {
         setHightPrice(pair[0].high_price_24h);
     }
 
-    if (candles.length > 0 && pair[0] !== pair[1]) {
+    if (candles.length && pair[0] !== pair[1]) {
       setLowPrice(lowestPrice[0].low);
       setHightPrice(highestPrice[highestPrice.length - 1].high);
     }

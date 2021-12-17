@@ -56,7 +56,10 @@ export const PairNavbar: React.FC = () => {
       cancelDataRequest.current = c;
     });
     axios
-      .get(url + '/api/v1/trading-pairs/summary/?extra=true', {
+      .get(url + '/api/v1/trading-pairs/summary/', {
+        params: {
+          extra: true,
+        },
         cancelToken,
       })
       .then(res => {
@@ -82,9 +85,9 @@ export const PairNavbar: React.FC = () => {
   useEffect(() => {
     if (list)
       // set SOV_RBTC by default
-      for (let i = 0; i < list.length; i++) {
-        if (list[i].trading_pairs === TradingPairType.SOV_RBTC)
-          setPair([list[i], list[i]]);
+      for (let item of list) {
+        if (item.trading_pairs === TradingPairType.SOV_RBTC)
+          setPair([item, item]);
       }
   }, [list]);
 
@@ -97,7 +100,7 @@ export const PairNavbar: React.FC = () => {
           pairsData={pairsData}
         />
 
-        {pair.length > 1 && !pairsLoading && <PairStats pair={pair} />}
+        {pair.length && !pairsLoading && <PairStats pair={pair} />}
         <div>
           <button
             onClick={onNotificationSettingsClick}

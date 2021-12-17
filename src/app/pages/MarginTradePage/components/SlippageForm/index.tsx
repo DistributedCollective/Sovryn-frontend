@@ -48,7 +48,7 @@ export function SlippageForm(props: Props) {
             stepSize={0.1}
             labelRenderer={value => <>{value}%</>}
             labelValues={[0.1, 0.25, 0.5, 0.75, 1]}
-            dataActionId="margin-select-asset-slippage-tolerance-bar"
+            dataActionId="margin-slippage-tolerance-bar"
           />
         </FormGroup>
 
