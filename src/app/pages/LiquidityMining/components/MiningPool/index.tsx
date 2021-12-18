@@ -21,6 +21,7 @@ import { LiquidityPoolDictionary } from 'utils/dictionaries/liquidity-pool-dicti
 interface IMiningPoolProps {
   pool: AmmLiquidityPool;
   ammData: AmmHistory;
+  ammDataLoading: boolean;
   linkAsset?: string;
 }
 
@@ -33,6 +34,7 @@ enum DialogType {
 export const MiningPool: React.FC<IMiningPoolProps> = ({
   pool,
   ammData,
+  ammDataLoading,
   linkAsset,
 }) => {
   const { t } = useTranslation();
@@ -100,7 +102,13 @@ export const MiningPool: React.FC<IMiningPoolProps> = ({
           )
         }
         ChartSection={
-          ammData ? <PoolChart pool={pool} history={ammData} /> : <Spinner />
+          ammDataLoading ? (
+            <Spinner />
+          ) : ammData ? (
+            <PoolChart pool={pool} history={ammData} />
+          ) : (
+            <></>
+          )
         }
         Actions={<Actions />}
         DataSection={

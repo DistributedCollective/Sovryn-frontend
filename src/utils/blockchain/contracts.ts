@@ -294,4 +294,8 @@ export const contracts = {
     address: '0x722935fF8A99D801D802bb3EE528408C11C18656',
     abi: MYNTMarketMakerAbi,
   },
+  MYNT_amm: {
+    address: '0x25B8D024B39174824424f032423E03dd7dcCF044',
+    abi: LiquidityPoolV1Converter,
+  },
 };
