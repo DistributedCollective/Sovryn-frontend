@@ -95,4 +95,12 @@ export const testnetAmm = [
     '0xA82881bceb367f8653559937A6eFBFffBF2E06DD',
     '0x67fAA17ce83b14B2EA0e643A9030B133edD3Cc43',
   ),
+  new AmmLiquidityPool(
+    Asset.MYNT,
+    Asset.RBTC,
+    1,
+    AppMode.TESTNET,
+    '0x84953dAF0E7a9fFb8B4fDf7F948185e1cF85852e',
+    '0xB12FA09a50c56e9a0C826b98e76DA7645017AB4D',
+  ),
 ];

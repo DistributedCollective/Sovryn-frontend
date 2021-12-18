@@ -97,4 +97,12 @@ export const mainnetAmm = [
     '0xf6377dec9ce79b5bc0576618a5cd3e95f49f9ace',
     '0xAE66117C8105a65D914fB47d37a127E879244319',
   ).setPreviousConverters(['0x1769044CBa7aD37719badE16Cc71EC3f027b943D']),
+  new AmmLiquidityPool(
+    Asset.MYNT,
+    Asset.RBTC,
+    1,
+    AppMode.MAINNET,
+    '0x25B8D024B39174824424f032423E03dd7dcCF044',
+    '0x36263AC99ecDcf1aB20513D580B7d8D32D3C439d',
+  ),
 ];
