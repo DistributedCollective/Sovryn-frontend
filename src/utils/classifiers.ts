@@ -22,9 +22,9 @@ export const blockExplorers = {
   97: 'https://testnet.bscscan.com',
 };
 
-export const readNodes = {
-  30: 'wss://mainnet.sovryn.app/websocket',
-  31: 'wss://testnet.sovryn.app/ws',
+export const rpcNodes = {
+  30: 'https://mainnet.sovryn.app/rpc',
+  31: 'https://testnet.sovryn.app/rpc',
 };
 
 export const fastBtcApis = {
@@ -94,3 +94,5 @@ export const TRADE_LOG_SIGNATURE_HASH =
 export const MAINTENANCE_MARGIN = 15000000000000000000;
 
 export const MIN_GAS = 40000;
+
+export const MILLION = 1000000;

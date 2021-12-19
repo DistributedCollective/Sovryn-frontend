@@ -21,8 +21,6 @@ import {
 import { LanguageToggle } from '../LanguageToggle';
 import styles from './index.module.scss';
 import { StyledBurger, StyledLogo, StyledMenu } from './styled';
-// import { currentNetwork } from 'utils/classifiers';
-// import { AppMode } from 'types';
 
 export function Header() {
   const { t } = useTranslation();

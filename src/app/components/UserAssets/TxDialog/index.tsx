@@ -116,7 +116,9 @@ export const TxDialog: React.FC<ITxDialogProps> = ({ tx, onUserConfirmed }) => {
 
                   <div className="tw-mb-3.5">
                     {weiToFixed(txData?.assetAmount, 6)}{' '}
-                    <AssetSymbolRenderer asset={txData?.asset || Asset.USDT} />
+                    <AssetSymbolRenderer
+                      assetString={txData?.asset || Asset.USDT}
+                    />
                   </div>
 
                   <div className="tw-mb-3.5">
