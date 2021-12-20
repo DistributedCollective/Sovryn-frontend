@@ -20,9 +20,7 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
       {items.map((item, index) => (
         <TableRow
           key={`${item.asset}/${index}`}
-          pool={LiquidityPoolDictionary.get(
-            AssetsDictionary.getByAmmContractAddress(item.pool)?.asset,
-          )}
+          pool={LiquidityPoolDictionary.get(item.pool)}
           time={item.time}
           txHash={item.txHash}
           amount={weiToFixed(item.amount, 4)}

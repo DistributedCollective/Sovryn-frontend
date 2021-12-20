@@ -6,6 +6,7 @@ import { Asset } from 'types';
 import { Title } from './styled';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
+import { LiquidityPoolDictionary } from 'utils/dictionaries/liquidity-pool-dictionary';
 
 export const Promotions: React.FC = () => {
   const { t } = useTranslation();
@@ -36,6 +37,7 @@ export const Promotions: React.FC = () => {
             learnMoreLink="https://www.sovryn.app/blog/bnb-btc-pool-is-live"
             logoAsset1={Asset.BNB}
             logoAsset2={Asset.RBTC}
+            linkAsset={LiquidityPoolDictionary.get(Asset.BNB, Asset.RBTC)?.key}
           />
 
           <PromotionCard
@@ -47,6 +49,7 @@ export const Promotions: React.FC = () => {
             learnMoreLink="https://www.sovryn.app/blog/xusd-go-brrrrr"
             logoAsset1={Asset.XUSD}
             logoAsset2={Asset.RBTC}
+            linkAsset={LiquidityPoolDictionary.get(Asset.XUSD, Asset.RBTC)?.key}
           />
 
           <PromotionCard
@@ -58,6 +61,7 @@ export const Promotions: React.FC = () => {
             learnMoreLink="https://www.sovryn.app/blog/get-stacking-with-our-biggest-loot-drop-yet"
             logoAsset1={Asset.SOV}
             logoAsset2={Asset.RBTC}
+            linkAsset={LiquidityPoolDictionary.get(Asset.SOV, Asset.RBTC)?.key}
           />
 
           <PromotionCard
@@ -69,6 +73,7 @@ export const Promotions: React.FC = () => {
             learnMoreLink="https://www.sovryn.app/blog/over-1000-yield-for-eth-btc-lps"
             logoAsset1={Asset.ETH}
             logoAsset2={Asset.RBTC}
+            linkAsset={LiquidityPoolDictionary.get(Asset.ETH, Asset.RBTC)?.key}
           />
         </PromotionsCarousel>
       </div>
