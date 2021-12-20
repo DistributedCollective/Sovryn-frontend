@@ -56,7 +56,7 @@ export const gasLimit = {
   [TxType.BORROW]: 1500000,
   [TxType.CONVERT_BY_PATH]: 750000,
   [TxType.LEND]: 300000,
-  [TxType.UNLEND]: 350000,
+  [TxType.UNLEND]: 450000,
   [TxType.SALE_BUY_SOV]: 260000,
   [TxType.SOV_REIMBURSE]: 100000,
   [TxType.SOV_CONVERT]: 2700000,

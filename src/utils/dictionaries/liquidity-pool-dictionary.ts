@@ -156,6 +156,19 @@ export class LiquidityPoolDictionary {
         }),
       ]).setVersion(1),
     ],
+    [
+      Asset.MYNT,
+      new LiquidityPool(Asset.MYNT, [
+        new LiquidityPoolSupplyAsset(Asset.MYNT, {
+          mainnet: '0x36263AC99ecDcf1aB20513D580B7d8D32D3C439d',
+          testnet: '0xB12FA09a50c56e9a0C826b98e76DA7645017AB4D',
+        }),
+        new LiquidityPoolSupplyAsset(Asset.RBTC, {
+          mainnet: '0x7Fef930ebaA90B2f8619722adc55e3f1D965B79b',
+          testnet: '0x6e03DEFD0ae9091Be74f64c8CB9BE319994E5deB',
+        }),
+      ]).setVersion(1),
+    ],
   ]);
 
   public static get(asset: Asset): LiquidityPool {
