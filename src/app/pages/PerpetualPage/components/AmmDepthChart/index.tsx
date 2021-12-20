@@ -56,7 +56,7 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
   }, [data]);
 
   return (
-    <table className="tw-w-full tw-h-full tw-text-xs tw-leading-tight">
+    <table className="tw-w-full tw-h-full tw-text-xs tw-leading-snug">
       <thead>
         <tr>
           <th className="tw-h-6 tw-w-4/12 tw-pr-4 tw-pb-1 tw-text-right tw-whitespace-nowrap">

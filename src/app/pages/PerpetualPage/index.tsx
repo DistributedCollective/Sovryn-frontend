@@ -144,7 +144,7 @@ export function PerpetualPage() {
               />
             </DataCard>
             <DataCard
-              className="tw-flex-grow tw-block xl:tw-hidden 2xl:tw-block xl:tw-w-1/5"
+              className="xl:tw-hidden 2xl:tw-flex xl:tw-w-1/5"
               title={`Recent Trades (${pairType.toString()})`}
             >
               <RecentTradesTable pair={pair} />

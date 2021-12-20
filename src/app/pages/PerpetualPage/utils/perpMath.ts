@@ -18,7 +18,7 @@ export function cdfNormalStd(x: number, mu = 0, sig = 1) {
   return 0.5 * (1 + mathjs.erf((x - mu) / (sig * Math.sqrt(2))));
 }
 
-export function calculateMaintenanceMargin(
+export function calculateMaintenanceMarginRate(
   fInitialMarginRateAlpha,
   fMaintenanceMarginRateAlpha,
   fInitialMarginRateCap,
@@ -136,25 +136,6 @@ export function calculateLiquidationPriceCollateralQuote(
 }
 
 /**
- * Calculate margin balance for a trader
- * @param {number} position  - traders position
- * @param {number} markPrice - mark price
- * @param {number} lockedInValueQC - traders locked in value
- * @param {number} S3 - collateral to quote conversion
- * @param {number} m - trader collateral in collateral currency
- * @returns {number} Amount to be liquidated (in base currency)
- */
-export function calculateMarginBalance(
-  position: number,
-  markPrice: number,
-  lockedInValueQC: number,
-  S3: number,
-  m: number,
-): number {
-  return (position * markPrice - lockedInValueQC) / S3 + m;
-}
-
-/**
  * Determine whether the trader is maintenance margin safe, given the required target margin rate tau.
  * @param {number} tau  - target margin rate (e.g., the maintenance margin rate)
  * @param {number} position  - traders position
@@ -244,6 +225,26 @@ export function getMarginBalanceCC(
 ): number {
   let q2c = getQuote2CollateralFX(S2, S3, collateralCurrencyIndex);
   return (pos * (S2 + markPremium) - LockedInValueQC) * q2c + cashCC;
+}
+
+/**
+ * Calculate margin balance in collateral currency for a trader
+ * See alternative function above
+ * @param {number} position  - traders position
+ * @param {number} markPrice - mark price
+ * @param {number} lockedInValueQC - traders locked in value
+ * @param {number} S3 - collateral to quote conversion
+ * @param {number} m - trader collateral in collateral currency
+ * @returns {number} Amount to be liquidated (in base currency)
+ */
+export function calculateMarginBalance(
+  position: number,
+  markPrice: number,
+  lockedInValueQC: number,
+  S3: number,
+  m: number,
+): number {
+  return (position * markPrice - lockedInValueQC) / S3 + m;
 }
 
 /**

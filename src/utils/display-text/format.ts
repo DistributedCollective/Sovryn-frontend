@@ -42,11 +42,15 @@ export function weiToUSD(
   );
 }
 
-export function toNumberFormat(value: number | string, decimals: number = 0) {
+export function toNumberFormat(
+  value: number | string,
+  decimals: number = 0,
+  minDecimals: number = decimals,
+) {
   if (isNaN(Number(value))) value = 0;
   return Number(value).toLocaleString(navigator.language, {
     maximumFractionDigits: decimals,
-    minimumFractionDigits: decimals,
+    minimumFractionDigits: minDecimals,
   });
 }
 
