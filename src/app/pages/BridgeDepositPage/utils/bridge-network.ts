@@ -171,9 +171,12 @@ export class BridgeNetwork {
     fnName: string,
     args: any[],
   ) {
-    return this.prepareContract(chain, address, abi).callStatic[fnName](
-      ...args,
-    );
+    return this.prepareContract(chain, address, abi)
+      .callStatic[fnName](...args)
+      .catch(error => {
+        console.error(chain, address, fnName, args);
+        throw error;
+      });
   }
 
   public async send(chain: Chain, tx: TransactionRequest) {

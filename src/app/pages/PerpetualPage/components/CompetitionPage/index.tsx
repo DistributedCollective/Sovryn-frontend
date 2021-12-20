@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
@@ -19,6 +19,11 @@ import { ChainId } from 'types';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { ProviderType } from '@sovryn/wallet';
 import { RegisteredTraderData } from './types';
+import { PerpetualQueriesContextProvider } from '../../contexts/PerpetualQueriesContext';
+import {
+  PerpetualPairDictionary,
+  PerpetualPairType,
+} from 'utils/dictionaries/perpetual-pair-dictionary';
 
 export const CompetitionPage: React.FC = () => {
   const [registerDialogOpen, setRegisterDialogOpen] = useState<boolean>(false);
@@ -89,6 +94,11 @@ export const CompetitionPage: React.FC = () => {
       });
   }, [account, connected, registerDialogOpen]);
 
+  const pair = useMemo(
+    () => PerpetualPairDictionary.get(PerpetualPairType.BTCUSD),
+    [],
+  );
+
   return (
     <>
       <Helmet>
@@ -115,58 +125,63 @@ export const CompetitionPage: React.FC = () => {
           </div>
         }
       />
-      <div className="tw-container tw-my-12">
-        <div className="tw-flex tw-flex-row tw-justify-evenly">
-          <div className="tw-flex tw-flex-col tw-w-5/12">
-            <Leaderboard showUserRow={isRegistered} data={registeredTraders} />
-          </div>
-          <div className="tw-flex tw-flex-col tw-w-5/12">
-            <div className="tw-text-2xl tw-font-bold tw-mb-6">
-              Trading Competition Rules
+      <PerpetualQueriesContextProvider pair={pair}>
+        <div className="tw-container tw-my-12">
+          <div className="tw-flex tw-flex-row tw-justify-evenly">
+            <div className="tw-flex tw-flex-col tw-w-5/12">
+              <Leaderboard
+                showUserRow={isRegistered}
+                data={registeredTraders}
+              />
             </div>
-            <div className="">
-              <ul className="tw-list-disc tw-mb-4">
-                <li className="tw-mb-4">
-                  Every user can register their wallet to participate in the
-                  competition through a whitelisting process.
-                </li>
-                <li className="tw-mb-4">
-                  Every participant will be sent a specific amount of RBTC
-                  and/or BNB to start trading on the perpetual pairs of BNB/USD
-                  and BTC/USD.
-                </li>
-                <li className="tw-mb-4">
-                  The cumulative P&L of the participants is the deciding factor
-                  for the winner.
-                </li>
-                <li className="tw-mb-4">
-                  The competition is held for 2-3 weeks.
-                </li>
-                <li className="tw-mb-4">
-                  End of competition -&gt; Set date for participants to close
-                  all their perpetual positions within a day, if they do not
-                  close it they are excluded from the competition.
-                </li>
-              </ul>
-            </div>
-            <div className="tw-w-6/12">
-              {!connected && (
-                <Button
-                  text="Connect wallet"
-                  disabled={connected}
-                  onClick={() => walletContext.connect()}
-                />
-              )}
-              {connected && !isRegistered && (
-                <Button
-                  text="Enter Contest"
-                  onClick={() => setRegisterDialogOpen(true)}
-                />
-              )}
+            <div className="tw-flex tw-flex-col tw-w-5/12">
+              <div className="tw-text-2xl tw-font-bold tw-mb-6">
+                Trading Competition Rules
+              </div>
+              <div className="">
+                <ul className="tw-list-disc tw-mb-4">
+                  <li className="tw-mb-4">
+                    Every user can register their wallet to participate in the
+                    competition through a whitelisting process.
+                  </li>
+                  <li className="tw-mb-4">
+                    Every participant will be sent a specific amount of RBTC
+                    and/or BNB to start trading on the perpetual pairs of
+                    BNB/USD and BTC/USD.
+                  </li>
+                  <li className="tw-mb-4">
+                    The cumulative P&L of the participants is the deciding
+                    factor for the winner.
+                  </li>
+                  <li className="tw-mb-4">
+                    The competition is held for 2-3 weeks.
+                  </li>
+                  <li className="tw-mb-4">
+                    End of competition -&gt; Set date for participants to close
+                    all their perpetual positions within a day, if they do not
+                    close it they are excluded from the competition.
+                  </li>
+                </ul>
+              </div>
+              <div className="tw-w-6/12">
+                {!connected && (
+                  <Button
+                    text="Connect wallet"
+                    disabled={connected}
+                    onClick={() => walletContext.connect()}
+                  />
+                )}
+                {connected && !isRegistered && (
+                  <Button
+                    text="Enter Contest"
+                    onClick={() => setRegisterDialogOpen(true)}
+                  />
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </PerpetualQueriesContextProvider>
       <Footer />
       <RegisterDialog
         isOpen={registerDialogOpen}

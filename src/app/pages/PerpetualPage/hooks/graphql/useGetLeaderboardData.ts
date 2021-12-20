@@ -9,8 +9,10 @@ export function useGetLeaderboardData(traderIDs: string[]) {
   {
     traders(where: { id_in: ["${traderIDs.join(`","`)}"]}) {
       id
+      balance
       totalPnLCC
       totalFundingPaymentCC
+      positionsTotalCount
       trades {
         id
         tradeAmountBC

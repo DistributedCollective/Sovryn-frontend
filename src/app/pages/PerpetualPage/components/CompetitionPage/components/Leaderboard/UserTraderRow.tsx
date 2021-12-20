@@ -2,6 +2,7 @@ import React from 'react';
 
 import { LeaderboardData } from 'app/pages/PerpetualPage/components/CompetitionPage/types';
 import styles from './index.module.scss';
+import { weiToNumberFormat } from 'utils/display-text/format';
 
 interface ITraderRowProps {
   data: LeaderboardData;
@@ -27,7 +28,7 @@ export const UserTraderRow: React.FC<ITraderRowProps> = ({ data }) => {
       </div>
       <div className="tw-px-1 tw-w-4/12 tw-my-auto">{data.lastTrade}</div>
       <div className={`${styles.totalPnL} tw-px-1 tw-w-2/12 tw-my-auto`}>
-        {data.totalPnL}%
+        {weiToNumberFormat(data.totalPnL, 4)}%
       </div>
     </div>
   );

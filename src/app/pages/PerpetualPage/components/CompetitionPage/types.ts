@@ -4,7 +4,7 @@ export type LeaderboardData = {
   walletAddress: string;
   openedPositions: number;
   lastTrade: string; //datestamp
-  totalPnL: number;
+  totalPnL: string;
 };
 
 export type RegisteredTraderData = {

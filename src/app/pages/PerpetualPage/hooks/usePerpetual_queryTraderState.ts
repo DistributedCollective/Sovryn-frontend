@@ -45,7 +45,7 @@ export const usePerpetual_queryTraderState = (perpetualId: string) => {
   );
 };
 
-const parseTraderState = (response: any): TraderState => ({
+export const parseTraderState = (response: any): TraderState => ({
   marginBalanceCC: ABK64x64ToFloat(response[0]),
   availableMarginCC: ABK64x64ToFloat(response[1]),
   availableCashCC: ABK64x64ToFloat(response[2]),
