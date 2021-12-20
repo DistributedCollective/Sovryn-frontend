@@ -116,26 +116,19 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
         });
       }
 
-      const actualTraders = items
-        .filter(item => item.openedPositions)
-        .sort((a, b) => {
-          return (
-            bignumber(b.totalPnL).minus(a.totalPnL).toNumber() ||
-            a.openedPositions - b.openedPositions
-          );
-        });
-      const lurkers = items.filter(item => !item.openedPositions);
-      return [...actualTraders, ...lurkers].map((val, index) => ({
-        ...val,
-        rank: (index + 1).toString(),
-      }));
+      return items
+        .sort((a, b) => bignumber(b.totalPnL).minus(a.totalPnL).toNumber())
+        .map((val, index) => ({
+          ...val,
+          rank: (index + 1).toString(),
+        }));
     };
 
     run().then(rows => {
       setItems(rows);
       if (account) {
         const userRow = rows.find(
-          val => val.walletAddress === account.toLowerCase(),
+          val => val.walletAddress.toLowerCase() === account.toLowerCase(),
         );
         if (userRow) {
           setUserData(userRow);
