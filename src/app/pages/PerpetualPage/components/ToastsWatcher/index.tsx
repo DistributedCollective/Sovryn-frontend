@@ -21,8 +21,6 @@ export const ToastsWatcher: React.FC = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    console.log(modal);
-
     if (modal === PerpetualPageModals.TRADE_REVIEW) {
       return;
     }
