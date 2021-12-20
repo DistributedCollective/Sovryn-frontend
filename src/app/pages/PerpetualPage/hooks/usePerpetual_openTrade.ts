@@ -1,23 +1,31 @@
 import { useAccount } from 'app/hooks/useAccount';
 import { useSendContractTx } from 'app/hooks/useSendContractTx';
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 import { TxType } from 'store/global/transactions-store/types';
 import { TradingPosition } from 'types/trading-position';
 import { ethGenesisAddress, gasLimit } from 'utils/classifiers';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
-import {
-  floatToABK64x64,
-  PERPETUAL_ID,
-  getSignedAmount,
-} from '../utils/contractUtils';
+import { floatToABK64x64, getSignedAmount } from '../utils/contractUtils';
 import { calculateSlippagePrice } from '../utils/perpUtils';
-import { PERPETUAL_SLIPPAGE_DEFAULT } from '../types';
+import {
+  PERPETUAL_SLIPPAGE_DEFAULT,
+  PERPETUAL_GAS_PRICE_DEFAULT,
+} from '../types';
+import {
+  PerpetualPairType,
+  PerpetualPairDictionary,
+} from '../../../../utils/dictionaries/perpetual-pair-dictionary';
+import { Asset } from '../../../../types';
+import { PerpetualTx } from '../components/TradeDialog/types';
 
 const MASK_MARKET_ORDER = 0x40000000;
 const MASK_CLOSE_ONLY = 0x80000000;
 
-export const usePerpetual_openTrade = () => {
-  const address = useAccount();
+export const usePerpetual_openTrade = (pairType: PerpetualPairType) => {
+  const account = useAccount();
+  const perpetualId = useMemo(() => PerpetualPairDictionary.get(pairType)?.id, [
+    pairType,
+  ]);
 
   const { averagePrice } = useContext(PerpetualQueriesContext);
 
@@ -32,6 +40,7 @@ export const usePerpetual_openTrade = () => {
       slippage: number | undefined = PERPETUAL_SLIPPAGE_DEFAULT,
       tradingPosition: TradingPosition | undefined = TradingPosition.LONG,
       nonce?: number,
+      customData?: PerpetualTx,
     ) => {
       const signedAmount = getSignedAmount(tradingPosition, amount);
 
@@ -46,8 +55,8 @@ export const usePerpetual_openTrade = () => {
       const deadline = Math.round(Date.now() / 1000) + 86400; // 1 day
       const timeNow = Math.round(Date.now() / 1000);
       const order = [
-        PERPETUAL_ID,
-        address,
+        perpetualId,
+        account,
         floatToABK64x64(signedAmount),
         floatToABK64x64(limitPrice),
         deadline,
@@ -60,12 +69,16 @@ export const usePerpetual_openTrade = () => {
       await send(
         [order],
         {
-          from: address,
+          from: account,
           gas: gasLimit[TxType.OPEN_PERPETUAL_TRADE],
-          gasPrice: 60,
+          gasPrice: PERPETUAL_GAS_PRICE_DEFAULT,
           nonce,
         },
-        { type: TxType.OPEN_PERPETUAL_TRADE },
+        {
+          type: TxType.OPEN_PERPETUAL_TRADE,
+          asset: Asset.PERPETUALS,
+          customData,
+        },
       );
     },
     txData: rest.txData,

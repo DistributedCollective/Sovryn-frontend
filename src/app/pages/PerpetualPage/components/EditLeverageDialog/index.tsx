@@ -8,7 +8,10 @@ import React, {
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { translations } from '../../../../../locales/i18n';
-import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
+import {
+  PerpetualPairDictionary,
+  PerpetualPairType,
+} from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { Dialog } from '../../../../containers/Dialog';
 import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
@@ -125,20 +128,30 @@ export const EditLeverageDialog: React.FC = () => {
         transactions: [
           marginChange >= 0
             ? {
+                pair: pair?.pairType || PerpetualPairType.BTCUSD,
                 method: PerpetualTxMethods.deposit,
                 amount: toWei(marginChange),
+                target: {
+                  leverage: changedTrade.leverage,
+                },
                 approvalTx: null,
                 tx: null,
+                origin: PerpetualPageModals.EDIT_LEVERAGE,
               }
             : {
+                pair: pair?.pairType || PerpetualPairType.BTCUSD,
                 method: PerpetualTxMethods.withdraw,
                 amount: toWei(Math.abs(marginChange)),
+                target: {
+                  leverage: changedTrade.leverage,
+                },
                 tx: null,
+                origin: PerpetualPageModals.EDIT_LEVERAGE,
               },
         ],
       }),
     );
-  }, [dispatch, changedTrade, leverage, margin, traderState.availableCashCC]);
+  }, [dispatch, changedTrade, leverage, margin, traderState.availableCashCC, pair]);
 
   const validation = useMemo(() => {
     if (!changedTrade) {

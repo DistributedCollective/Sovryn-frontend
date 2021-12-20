@@ -83,6 +83,7 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
         trade,
         transactions: [
           {
+            pair: pairType,
             method: PerpetualTxMethods.trade,
             amount: trade.amount,
             tradingPosition: trade.position,
@@ -94,7 +95,7 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
         ],
       }),
     );
-  }, [dispatch, trade]);
+  }, [dispatch, trade, pairType]);
 
   const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
 

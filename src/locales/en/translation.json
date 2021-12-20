@@ -1583,6 +1583,19 @@
       "title": "Perpetual Trading",
       "description": "Trade with perpetuals"
     },
+    "toasts": {
+      "market": "Market",
+      "buy": "Buy",
+      "sell": "Sell",
+      "closePosition": "Close position",
+      "orderComplete": "Order complete",
+      "orderFailed": "Order failed",
+      "increaseMargin": "Increase margin",
+      "decreaseMargin": "Decrease margin",
+      "editLeverage": "Edit leverage to {{leverage}}x",
+      "approvalComplete": "Approval complete",
+      "approvalFailed": "Approval failed"
+    },
     "accountBalance": {
       "titleBalance": "Perpetual Account",
       "titleHistory": "Funding History",
