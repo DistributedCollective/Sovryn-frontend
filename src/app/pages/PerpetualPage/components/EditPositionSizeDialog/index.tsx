@@ -106,7 +106,7 @@ export const EditPositionSizeDialog: React.FC = () => {
           />
         )}
         <TransitionSteps<EditPositionSizeDialogStep>
-          classNameInner="tw-h-96"
+          classNameInner="tw-min-h-96"
           steps={steps}
           active={EditPositionSizeDialogStep.trade}
           defaultAnimation={TransitionAnimation.slideLeft}

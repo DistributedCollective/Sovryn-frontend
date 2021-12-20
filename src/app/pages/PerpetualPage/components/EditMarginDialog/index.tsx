@@ -29,7 +29,11 @@ import { LeverageViewer } from '../LeverageViewer';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { AmountInput } from '../../../../components/Form/AmountInput';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
-import { calculateMaxMarginWithdrawal } from '../../utils/contractUtils';
+import {
+  calculateMaxMarginWithdrawal,
+  getSignedAmount,
+  validatePositionChange,
+} from '../../utils/contractUtils';
 import { toWei } from '../../../../../utils/blockchain/math-helpers';
 import { PerpetualTxMethods } from '../TradeDialog/types';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
@@ -172,7 +176,30 @@ export const EditMarginDialog: React.FC = () => {
     [signedMargin, traderState, ammState, perpParameters],
   );
 
-  const isButtonDisabled = useMemo(() => Number(margin) === 0, [margin]);
+  const validation = useMemo(() => {
+    if (!changedTrade) {
+      return;
+    }
+    const signedAmount = getSignedAmount(
+      changedTrade.position,
+      changedTrade.amount,
+    );
+    return validatePositionChange(
+      signedAmount,
+      signedMargin,
+      changedTrade.slippage,
+      traderState,
+      perpParameters,
+      ammState,
+    );
+  }, [changedTrade, signedMargin, traderState, perpParameters, ammState]);
+
+  const isButtonDisabled = useMemo(
+    () =>
+      Number(margin) === 0 ||
+      (validation && !validation.valid && !validation.isWarning),
+    [margin, validation],
+  );
 
   useEffect(() => setChangedTrade(trade), [trade]);
 
@@ -242,7 +269,7 @@ export const EditMarginDialog: React.FC = () => {
               changedTrade && `${toNumberFormat(changedTrade.leverage, 2)}x`
             }
           />
-          <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1 tw-mb-8 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
+          <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1 tw-mb-4 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
             <label>
               {t(translations.perpetualPage.tradeForm.labels.liquidationPrice)}
             </label>
@@ -254,9 +281,14 @@ export const EditMarginDialog: React.FC = () => {
               assetString={pair.quoteAsset}
             />
           </div>
+          {validation && !validation.valid && validation.errors.length > 0 && (
+            <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1 tw-mb-4 tw-text-warning tw-text-xs tw-font-medium tw-border tw-border-warning tw-rounded-lg">
+              {validation.errorMessages}
+            </div>
+          )}
           <button
             className={classNames(
-              'tw-w-full tw-min-h-10 tw-p-2 tw-text-lg tw-text-primary tw-font-medium tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-transition-opacity tw-duration-300',
+              'tw-w-full tw-min-h-10 tw-p-2 tw-mt-4 tw-text-lg tw-text-primary tw-font-medium tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-transition-opacity tw-duration-300',
               isButtonDisabled
                 ? 'tw-opacity-25 tw-cursor-not-allowed'
                 : 'tw-opacity-100 hover:tw-bg-primary-25',

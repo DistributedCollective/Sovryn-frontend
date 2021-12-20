@@ -57,19 +57,11 @@ export const usePerpetual_accountBalance = (
     [ammState, perpetualParameters, traderState],
   );
 
-  const inPosition = useMemo(
-    () =>
-      traderState.marginAccountPositionBC *
-      getBase2CollateralFX(ammState, false),
-    [traderState.marginAccountPositionBC, ammState],
-  );
+  const inPosition = traderState.availableCashCC;
 
   const totalCollateralValue = useMemo(
-    () =>
-      bignumber(availableBalance)
-        .add(toWei(traderState.availableCashCC))
-        .toString(),
-    [availableBalance, traderState.availableCashCC],
+    () => bignumber(availableBalance).add(toWei(inPosition)).toString(),
+    [availableBalance, inPosition],
   );
 
   const totalQuoteValue = useMemo(

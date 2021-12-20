@@ -72,7 +72,7 @@ export const ClosePositionDialog: React.FC = () => {
           />
         )}
         <TransitionSteps<ClosePositionDialogStep>
-          classNameInner="tw-h-96"
+          classNameInner="tw-min-h-96"
           steps={steps}
           active={ClosePositionDialogStep.trade}
           defaultAnimation={TransitionAnimation.slideLeft}

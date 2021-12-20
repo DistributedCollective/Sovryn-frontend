@@ -12,7 +12,7 @@ export const ConnectFormStep: TransitionStep<NewPositionCardStep> = ({
   const { connect } = useWalletContext();
 
   return (
-    <div className="tw-flex-grow tw-text-xs">
+    <div className="tw-flex-grow tw-p-4 tw-text-xs">
       <p className="tw-mt-4">
         {t(translations.perpetualPage.tradeForm.text.welcome1)}
       </p>

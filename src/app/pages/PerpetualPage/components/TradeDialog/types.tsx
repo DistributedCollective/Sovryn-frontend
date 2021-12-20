@@ -22,6 +22,7 @@ export type TradeAnalysis = {
   entryPrice: number;
   limitPrice: number;
   liquidationPrice: number;
+  orderCost: number;
   tradingFee: number;
 };
 

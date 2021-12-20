@@ -22,6 +22,7 @@ export const initialPerpParameters: PerpParameters = {
   fReferralRebateRate: 0,
   fLiquidationPenaltyRate: 0,
   fMinimalSpread: 0,
+  fMinimalSpreadInStress: 0,
   fLotSizeBC: 0,
   fFundingRateClamp: 0,
   fMarkPriceEMALambda: 0,
@@ -89,6 +90,7 @@ const parsePerpParameter = (response: any): PerpParameters => ({
   fReferralRebateRate: ABK64x64ToFloat(response[23]),
   fLiquidationPenaltyRate: ABK64x64ToFloat(response[24]),
   fMinimalSpread: ABK64x64ToFloat(response[25]),
+  fMinimalSpreadInStress: ABK64x64ToFloat(response[25]), // TODO: update with the next contract update
   fLotSizeBC: ABK64x64ToFloat(response[26]),
   fFundingRateClamp: ABK64x64ToFloat(response[27]),
   fMarkPriceEMALambda: ABK64x64ToFloat(response[28]),

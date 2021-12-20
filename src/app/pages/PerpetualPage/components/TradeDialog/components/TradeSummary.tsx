@@ -54,6 +54,7 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
     partialUnrealizedPnL,
     leverageTarget,
     limitPrice,
+    orderCost,
     tradingFee,
   } = analysis;
 
@@ -191,7 +192,7 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
           </span>
           <span className="tw-text-sov-white tw-font-medium">
             <AssetValue
-              minDecimals={0}
+              minDecimals={tradingFee === 0 ? 0 : 6}
               maxDecimals={6}
               mode={AssetValueMode.auto}
               value={tradingFee}
@@ -199,6 +200,22 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
             />
           </span>
         </div>
+        {marginChange > 0 && (
+          <div className="tw-flex tw-w-full">
+            <span className="tw-flex-auto tw-w-1/2 tw-text-left tw-text-gray-10">
+              {t(translations.perpetualPage.tradeForm.labels.orderCost)}
+            </span>
+            <span className="tw-text-sov-white tw-font-medium">
+              <AssetValue
+                minDecimals={6}
+                maxDecimals={6}
+                mode={AssetValueMode.auto}
+                value={orderCost}
+                assetString={pair.baseAsset}
+              />
+            </span>
+          </div>
+        )}
         {transactions?.map(transaction => (
           <LabeledTransactionHash
             key={transaction.transactionHash}

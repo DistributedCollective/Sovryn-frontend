@@ -38,7 +38,7 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     setTransactions,
     setCurrentTransaction,
   } = useContext(TradeDialogContext);
-  const { marginChange } = analysis;
+  const { orderCost } = analysis;
   const { wallet } = useWalletContext();
 
   const [result, setResult] = useState<CheckAndApproveResultWithError>();
@@ -62,10 +62,10 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     if (current?.method === PerpetualTxMethods.deposit) {
       return [current, current.amount];
     } else if (current?.method === PerpetualTxMethods.trade) {
-      return [current, toWei(marginChange * 1.1)]; // add 10% to allow for market deviation
+      return [current, toWei(orderCost * 1.1)]; // add 10% to allow for market deviation
     }
     return [undefined, '0'];
-  }, [transactions, currentTransaction, marginChange]);
+  }, [transactions, currentTransaction, orderCost]);
 
   const onRetry = useCallback(() => {
     if (!currentTransaction) {
@@ -128,7 +128,7 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     current,
     approvalAmount,
     currentTransaction,
-    marginChange,
+    orderCost,
     setCurrentTransaction,
     setTransactions,
     changeTo,

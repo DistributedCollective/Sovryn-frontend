@@ -123,7 +123,7 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
       <NewPositionCardContext.Provider value={stepProps}>
         <TransitionSteps<NewPositionCardStep>
           classNameOuter="tw-h-full tw-min-h-max"
-          classNameInner="tw-p-4 tw-h-full tw-min-h-max"
+          classNameInner="tw-h-auto tw-min-h-96"
           active={
             connected
               ? NewPositionCardStep.trade
