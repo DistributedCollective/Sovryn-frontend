@@ -21,8 +21,6 @@ import {
 import { LanguageToggle } from '../LanguageToggle';
 import styles from './index.module.scss';
 import { StyledBurger, StyledLogo, StyledMenu } from './styled';
-import { currentNetwork } from 'utils/classifiers';
-import { AppMode } from 'types';
 
 export function Header() {
   const { t } = useTranslation();
@@ -420,7 +418,7 @@ export function Header() {
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
                 </div>
               </NavPopover>
-              {currentNetwork === AppMode.TESTNET && (
+              {/* {currentNetwork === AppMode.TESTNET && (
                 <>
                   <NavPopover
                     content={
@@ -450,7 +448,7 @@ export function Header() {
                     </div>
                   </NavPopover>
                 </>
-              )}
+              )} */}
             </div>
           </div>
           <div className="tw-flex tw-justify-start tw-items-center">
