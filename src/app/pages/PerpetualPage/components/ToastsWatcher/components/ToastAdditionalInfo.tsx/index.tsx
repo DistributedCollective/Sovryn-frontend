@@ -1,8 +1,7 @@
 import { AssetValue } from 'app/components/AssetValue';
 import { AssetValueMode } from 'app/components/AssetValue/types';
-import { ToastTransaction } from 'app/pages/PerpetualPage/contexts/ToastsContext';
 import { translations } from 'locales/i18n';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TradingPosition } from 'types/trading-position';
 import { weiToNumberFormat } from 'utils/display-text/format';
@@ -10,27 +9,57 @@ import {
   isTrade,
   isDepositMargin,
   isWithdrawMargin,
+  PerpetualTx,
 } from '../../../TradeDialog/types';
+import { PerpetualPairDictionary } from '../../../../../../../utils/dictionaries/perpetual-pair-dictionary';
+import {
+  Transaction,
+  TxType,
+  TxStatus,
+} from '../../../../../../../store/global/transactions-store/types';
 
 type ToastAdditionalInfoProps = {
-  transaction: ToastTransaction;
+  transaction: Transaction;
+  perpetualTx: PerpetualTx;
 };
 
 export const ToastAdditionalInfo: React.FC<ToastAdditionalInfoProps> = ({
   transaction,
+  perpetualTx,
 }) => {
   const { t } = useTranslation();
-  const {
-    pair: { baseAsset },
-  } = transaction;
+  const { pair: pairType } = perpetualTx;
 
-  if (isTrade(transaction)) {
-    const amount = weiToNumberFormat(transaction.amount, 3);
-    if (transaction.isClosePosition) {
+  const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
+
+  const pagination = useMemo(
+    () =>
+      perpetualTx.index !== undefined &&
+      perpetualTx.count !== undefined &&
+      perpetualTx.count > 1 ? (
+        <div className="tw-text-right">
+          {perpetualTx.index + 1}/{perpetualTx.count}
+        </div>
+      ) : null,
+    [perpetualTx],
+  );
+
+  if (transaction.type === TxType.APPROVE) {
+    return t(
+      transaction.status === TxStatus.CONFIRMED
+        ? translations.perpetualPage.toasts.approvalComplete
+        : translations.perpetualPage.toasts.approvalFailed,
+    );
+  }
+
+  if (isTrade(perpetualTx)) {
+    const amount = weiToNumberFormat(perpetualTx.amount, 3);
+    if (perpetualTx.isClosePosition) {
       return (
         <>
-          {t(translations.perpetualPage.toasts.closePosition)} {amount}{' '}
-          {baseAsset}
+          {t(translations.perpetualPage.toasts.closePosition)}{' '}
+          <AssetValue value={amount} assetString={pair.baseAsset} />
+          {pagination}
         </>
       );
     }
@@ -40,27 +69,29 @@ export const ToastAdditionalInfo: React.FC<ToastAdditionalInfoProps> = ({
         {t(translations.perpetualPage.toasts.market)}{' '}
         {t(
           translations.perpetualPage.toasts[
-            transaction.tradingPosition === TradingPosition.LONG
+            perpetualTx.tradingPosition === TradingPosition.LONG
               ? 'buy'
               : 'sell'
           ],
         )}{' '}
-        {amount} {{ baseAsset }}
+        <AssetValue value={amount} assetString={pair.baseAsset} />
+        {pagination}
       </>
     );
   }
 
-  if (transaction.leverage) {
+  if (perpetualTx.target?.leverage) {
     return (
       <>
         {t(translations.perpetualPage.toasts.editLeverage, {
-          leverage: transaction.leverage,
+          leverage: perpetualTx.target.leverage,
         })}{' '}
+        {pagination}
       </>
     );
   }
 
-  if (!transaction.leverage && isDepositMargin(transaction)) {
+  if (isDepositMargin(perpetualTx)) {
     return (
       <>
         {t(translations.perpetualPage.toasts.increaseMargin)}{' '}
@@ -68,14 +99,15 @@ export const ToastAdditionalInfo: React.FC<ToastAdditionalInfoProps> = ({
           minDecimals={3}
           maxDecimals={6}
           mode={AssetValueMode.auto}
-          value={transaction.amount}
-          assetString={baseAsset}
+          value={perpetualTx.amount}
+          assetString={pair.baseAsset}
         />
+        {pagination}
       </>
     );
   }
 
-  if (!transaction.leverage && isWithdrawMargin(transaction)) {
+  if (isWithdrawMargin(perpetualTx)) {
     return (
       <>
         {t(translations.perpetualPage.toasts.decreaseMargin)}{' '}
@@ -83,9 +115,10 @@ export const ToastAdditionalInfo: React.FC<ToastAdditionalInfoProps> = ({
           minDecimals={3}
           maxDecimals={6}
           mode={AssetValueMode.auto}
-          value={transaction.amount}
-          assetString={baseAsset}
+          value={perpetualTx.amount}
+          assetString={pair.baseAsset}
         />
+        {pagination}
       </>
     );
   }

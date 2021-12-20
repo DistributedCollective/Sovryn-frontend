@@ -1,76 +1,91 @@
 import { translations } from 'locales/i18n';
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { selectTransactions } from 'store/global/transactions-store/selectors';
-import { TxStatus } from 'store/global/transactions-store/types';
-import { ToastsContext } from '../../contexts/ToastsContext';
+import { TxStatus, TxType } from 'store/global/transactions-store/types';
 import { selectPerpetualPage } from '../../selectors';
 import { PerpetualPageModals } from '../../types';
 import { CustomToastContent, toastOptions } from '../CustomToastContent';
 import { ToastAdditionalInfo } from './components/ToastAdditionalInfo.tsx';
+import { Asset } from '../../../../../types';
+import { isPerpetualTx } from '../TradeDialog/types';
 
 export const ToastsWatcher: React.FC = () => {
-  const [processedToasts, setProcessedToasts] = useState<string[]>([]);
-  const transactionsMap = useSelector(selectTransactions);
+  const [toastedTransactions, setToastedTransactions] = useState({});
+  const transactions = useSelector(selectTransactions);
 
   const { modal } = useSelector(selectPerpetualPage);
-  const hasNoOpenModal = useMemo(() => modal === PerpetualPageModals.NONE, [
-    modal,
-  ]);
 
   const { t } = useTranslation();
 
-  const { toastTransactions } = useContext(ToastsContext);
-
   useEffect(() => {
-    const txToProcess = toastTransactions.filter(
-      item => !processedToasts.includes(item.tx!),
+    console.log(modal);
+
+    if (modal === PerpetualPageModals.TRADE_REVIEW) {
+      return;
+    }
+
+    const toastTransactions = Object.values(transactions).filter(
+      transaction =>
+        [
+          TxType.APPROVE,
+          TxType.DEPOSIT_COLLATERAL,
+          TxType.WITHDRAW_COLLATERAL,
+          TxType.OPEN_PERPETUAL_TRADE,
+        ].includes(transaction.type) &&
+        transaction.asset === Asset.PERPETUALS &&
+        [TxStatus.CONFIRMED, TxStatus.FAILED].includes(transaction.status) &&
+        !toastedTransactions[transaction.transactionHash],
     );
 
-    if (txToProcess.length > 0) {
-      const transaction = transactionsMap[txToProcess[0].tx!];
+    for (let transaction of toastTransactions) {
+      if (!isPerpetualTx(transaction.customData)) {
+        continue;
+      }
+
+      const perpetualTx = transaction.customData;
 
       if (transaction.status === TxStatus.CONFIRMED) {
-        if (hasNoOpenModal) {
-          toast.success(
-            ({ toastProps }) => (
-              <CustomToastContent
-                toastProps={toastProps}
-                mainInfo={t(translations.perpetualPage.toasts.orderComplete)}
-                additionalInfo={
-                  <ToastAdditionalInfo transaction={txToProcess[0]} />
-                }
-              />
-            ),
-            toastOptions,
-          );
-        }
-
-        setProcessedToasts(prevState => [...prevState, txToProcess[0].tx!]);
+        toast.success(
+          ({ toastProps }) => (
+            <CustomToastContent
+              toastProps={toastProps}
+              mainInfo={t(translations.perpetualPage.toasts.orderComplete)}
+              additionalInfo={
+                <ToastAdditionalInfo
+                  transaction={transaction}
+                  perpetualTx={perpetualTx}
+                />
+              }
+            />
+          ),
+          toastOptions,
+        );
+      } else if (transaction.status === TxStatus.FAILED) {
+        toast.error(
+          ({ toastProps }) => (
+            <CustomToastContent
+              toastProps={toastProps}
+              mainInfo={t(translations.perpetualPage.toasts.orderFailed)}
+              additionalInfo={
+                <ToastAdditionalInfo
+                  transaction={transaction}
+                  perpetualTx={perpetualTx}
+                />
+              }
+            />
+          ),
+          toastOptions,
+        );
       }
-
-      if (transaction.status === TxStatus.FAILED) {
-        if (hasNoOpenModal) {
-          toast.error(
-            ({ toastProps }) => (
-              <CustomToastContent
-                toastProps={toastProps}
-                mainInfo={t(translations.perpetualPage.toasts.orderFailed)}
-                additionalInfo={
-                  <ToastAdditionalInfo transaction={txToProcess[0]} />
-                }
-              />
-            ),
-            toastOptions,
-          );
-        }
-
-        setProcessedToasts(prevState => [...prevState, txToProcess[0].tx!]);
-      }
+      setToastedTransactions(transactions => ({
+        ...transactions,
+        [transaction.transactionHash]: true,
+      }));
     }
-  }, [hasNoOpenModal, processedToasts, t, toastTransactions, transactionsMap]);
+  }, [modal, t, transactions, toastedTransactions]);
 
-  return <></>;
+  return null;
 };

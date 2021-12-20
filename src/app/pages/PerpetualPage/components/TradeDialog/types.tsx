@@ -3,6 +3,7 @@ import { PerpetualPageModals, PerpetualTrade } from '../../types';
 import { PerpetualPair } from '../../../../../utils/models/perpetual-pair';
 import { Nullable } from '../../../../../types';
 import { Dispatch, SetStateAction } from 'react';
+import { PerpetualPairType } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
 
 export enum TradeDialogStep {
   review = 'review',
@@ -31,7 +32,19 @@ export enum PerpetualTxMethods {
   withdrawAll = 'withdrawAll',
 }
 
-export type PerpetualTxTrade = {
+interface PerpetualTxBase {
+  pair: PerpetualPairType;
+  method: PerpetualTxMethods;
+  tx: Nullable<string>;
+  origin?: PerpetualPageModals;
+  index?: number;
+  count?: number;
+  target?: {
+    leverage: number;
+  };
+}
+
+export interface PerpetualTxTrade extends PerpetualTxBase {
   method: PerpetualTxMethods.trade;
   /** amount as wei string */
   amount: string;
@@ -39,35 +52,36 @@ export type PerpetualTxTrade = {
   slippage?: number;
   tradingPosition?: TradingPosition;
   isClosePosition?: boolean;
-  tx: Nullable<string>;
-  approvalTx: Nullable<string>;
-};
 
-export type PerpetualTxDepositMargin = {
+  approvalTx: Nullable<string>;
+}
+
+export interface PerpetualTxDepositMargin extends PerpetualTxBase {
   method: PerpetualTxMethods.deposit;
   /** amount as wei string */
   amount: string;
-  tx: Nullable<string>;
-  approvalTx: Nullable<string>;
-};
 
-export type PerpetualTxWithdrawMargin = {
+  approvalTx: Nullable<string>;
+}
+
+export interface PerpetualTxWithdrawMargin extends PerpetualTxBase {
   method: PerpetualTxMethods.withdraw;
   /** amount as wei string */
   amount: string;
-  tx: Nullable<string>;
-};
+}
 
-export type PerpetualTxWithdrawAllMargin = {
+export interface PerpetualTxWithdrawAllMargin extends PerpetualTxBase {
   method: PerpetualTxMethods.withdrawAll;
-  tx: Nullable<string>;
-};
+}
 
 export type PerpetualTx =
   | PerpetualTxTrade
   | PerpetualTxDepositMargin
   | PerpetualTxWithdrawMargin
   | PerpetualTxWithdrawAllMargin;
+
+export const isPerpetualTx = (x: any): x is PerpetualTx =>
+  x && typeof x === 'object' && PerpetualTxMethods[x.method] !== undefined;
 
 export enum PerpetualTxStage {
   reviewed = 'reviewed',

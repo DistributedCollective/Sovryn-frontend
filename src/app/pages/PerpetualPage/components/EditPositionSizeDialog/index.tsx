@@ -36,7 +36,7 @@ const steps = {
 
 export const EditPositionSizeDialogContext = React.createContext<
   EditPositionSizeDialogState
->({ onChange: noop });
+>({ pairType: PerpetualPairType.BTCUSD, onChange: noop });
 
 export const EditPositionSizeDialog: React.FC = () => {
   const dispatch = useDispatch();
@@ -64,6 +64,7 @@ export const EditPositionSizeDialog: React.FC = () => {
 
   const context: EditPositionSizeDialogState = useMemo(() => {
     return {
+      pairType: changedTrade.pairType,
       trade,
       changedTrade,
       onChange: setChangedTrade,

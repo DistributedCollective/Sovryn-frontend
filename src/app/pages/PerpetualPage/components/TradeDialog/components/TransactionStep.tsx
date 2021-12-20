@@ -16,7 +16,6 @@ import { selectTransactions } from '../../../../../../store/global/transactions-
 import { actions } from '../../../slice';
 import { PerpetualPageModals } from '../../../types';
 import { RecentTradesContext } from '../../../contexts/RecentTradesContext';
-import { ToastsContext } from 'app/pages/PerpetualPage/contexts/ToastsContext';
 
 const TxStatusPriority = {
   [TxStatus.NONE]: 0,
@@ -41,8 +40,6 @@ export const TransactionStep: TransitionStep<TradeDialogStep> = ({
   } = useContext(TradeDialogContext);
   const { trades } = useContext(RecentTradesContext);
 
-  const { toastTransactions, setToastTransactions } = useContext(ToastsContext);
-
   const transactionsMap = useSelector(selectTransactions);
 
   const requiredTransactions: Transaction[] = useMemo(
@@ -58,30 +55,10 @@ export const TransactionStep: TransitionStep<TradeDialogStep> = ({
         }
         if (transaction.tx && transactionsMap[transaction.tx]) {
           acc.push(transactionsMap[transaction.tx]);
-
-          const leverage =
-            origin === PerpetualPageModals.EDIT_LEVERAGE
-              ? trade?.leverage
-              : undefined;
-
-          if (!toastTransactions.find(item => item.tx === transaction.tx!)) {
-            setToastTransactions(prevState => [
-              ...prevState,
-              { ...transaction, leverage, pair },
-            ]);
-          }
         }
         return acc;
       }, []),
-    [
-      origin,
-      pair,
-      setToastTransactions,
-      toastTransactions,
-      trade?.leverage,
-      transactions,
-      transactionsMap,
-    ],
+    [transactions, transactionsMap],
   );
 
   const currentTransactionStatus = useMemo(

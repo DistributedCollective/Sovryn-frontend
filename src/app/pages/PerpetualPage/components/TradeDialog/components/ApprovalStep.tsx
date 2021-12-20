@@ -94,6 +94,7 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
         getContract('perpetualManager').address,
         approvalAmount,
         Asset.PERPETUALS,
+        current,
       )
         .then(result => {
           if (!result.rejected) {

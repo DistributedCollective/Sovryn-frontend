@@ -124,9 +124,10 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
       entryPrice: averagePrice,
     };
 
-    const transactions: PerpetualTx[] = [];
+    let transactions: PerpetualTx[] = [];
     if (!Number.isNaN(marginTarget)) {
       transactions.push({
+        pair: pair.pairType,
         method: PerpetualTxMethods.trade,
         isClosePosition: true,
         amount: toWei(amountChange),
@@ -136,6 +137,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
       });
       if (Math.abs(amountTarget) >= lotSize) {
         transactions.push({
+          pair: pair.pairType,
           method: PerpetualTxMethods.withdraw,
           amount: toWei(Math.abs(totalToReceive)),
           tx: null,
@@ -144,10 +146,18 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     } else {
       // marginTarget is NaN in case we don't have a position but we successfully deposited a margin: [
       transactions.push({
+        pair: pair.pairType,
         method: PerpetualTxMethods.withdrawAll,
         tx: null,
       });
     }
+
+    transactions = transactions.map((transaction, index) => ({
+      ...transaction,
+      origin: PerpetualPageModals.CLOSE_POSITION,
+      index,
+      count: transactions.length,
+    }));
 
     dispatch(
       actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
@@ -165,6 +175,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     marginTarget,
     totalToReceive,
     lotSize,
+    pair,
   ]);
 
   const onChangeAmount = useCallback(

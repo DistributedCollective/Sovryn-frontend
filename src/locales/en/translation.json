@@ -1592,7 +1592,9 @@
       "orderFailed": "Order failed",
       "increaseMargin": "Increase margin",
       "decreaseMargin": "Decrease margin",
-      "editLeverage": "Edit leverage to {{leverage}}x"
+      "editLeverage": "Edit leverage to {{leverage}}x",
+      "approvalComplete": "Approval complete",
+      "approvalFailed": "Approval failed"
     },
     "accountBalance": {
       "titleBalance": "Perpetual Account",

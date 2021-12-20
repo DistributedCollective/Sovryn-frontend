@@ -90,6 +90,7 @@ export const checkAndApprove = async (
   spenderAddress: string,
   amount: string,
   asset: Asset,
+  customData?: any,
 ): Promise<CheckAndApproveResultWithError> => {
   const sovryn = Sovryn;
   const address = walletService.address.toLowerCase();
@@ -130,6 +131,7 @@ export const checkAndApprove = async (
               value: '0',
               asset,
               assetAmount: amount,
+              customData,
             }),
           );
 
