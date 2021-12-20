@@ -1583,6 +1583,19 @@
       "title": "Perpetual Trading",
       "description": "Trade with perpetuals"
     },
+    "toasts": {
+      "market": "Market",
+      "buy": "Buy",
+      "sell": "Sell",
+      "closePosition": "Close position",
+      "orderComplete": "Order complete",
+      "orderFailed": "Order failed",
+      "increaseMargin": "Increase margin",
+      "decreaseMargin": "Decrease margin",
+      "editLeverage": "Edit leverage to {{leverage}}x",
+      "approvalComplete": "Approval complete",
+      "approvalFailed": "Approval failed"
+    },
     "accountBalance": {
       "titleBalance": "Perpetual Account",
       "titleHistory": "Funding History",
@@ -1853,6 +1866,10 @@
         "2": "Liquidation"
       },
       "submit": "Confirm"
+    },
+    "warnings": {
+      "priceExceedsSlippage": "Trade is likely to fail, because the expected price exceeds limit price! Update slippage to at least {{slippage}}, to avoid transaction failure.",
+      "targetMarginUnsafe": "Margin withdrawal is likely to fail. The resulting margin is to low and does not meet the required maintenance margin."
     }
   },
   "spotTradingPage": {

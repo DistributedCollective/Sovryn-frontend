@@ -11,17 +11,22 @@ import {
   PerpetualTxMethods,
 } from '../components/TradeDialog/types';
 import { ResetTxResponseInterface } from '../../../hooks/useSendContractTx';
+import { PerpetualPairType } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 
-export const usePerpetual_executeTransaction = () => {
+export const usePerpetual_executeTransaction = (
+  pairType: PerpetualPairType,
+) => {
   // TODO: find a nicer solution only this hooks should ever be used anyway
-  const { trade, ...tradeRest } = usePerpetual_openTrade();
+  const { trade, ...tradeRest } = usePerpetual_openTrade(pairType);
   // const { trade, ...tradeRest } = usePerpetual_openTradeWithoutManualDeposit();
-  const { deposit, ...depositRest } = usePerpetual_depositMarginToken();
-  const { withdraw, ...withdrawRest } = usePerpetual_withdrawMarginToken();
+  const { deposit, ...depositRest } = usePerpetual_depositMarginToken(pairType);
+  const { withdraw, ...withdrawRest } = usePerpetual_withdrawMarginToken(
+    pairType,
+  );
   const {
     withdraw: withdrawAll,
     ...withdrawAllRest
-  } = usePerpetual_withdrawAll();
+  } = usePerpetual_withdrawAll(pairType);
 
   const [transaction, setTransaction] = useState<PerpetualTx>();
 
@@ -56,15 +61,16 @@ export const usePerpetual_executeTransaction = () => {
               tradeTx.slippage,
               tradeTx.tradingPosition,
               nonce,
+              transaction,
             );
           case PerpetualTxMethods.deposit:
             const depositTx: PerpetualTxDepositMargin = transaction;
-            return deposit(depositTx.amount, nonce);
+            return deposit(depositTx.amount, nonce, transaction);
           case PerpetualTxMethods.withdraw:
             const withdrawTx: PerpetualTxWithdrawMargin = transaction;
-            return withdraw(withdrawTx.amount, nonce);
+            return withdraw(withdrawTx.amount, nonce, transaction);
           case PerpetualTxMethods.withdrawAll:
-            return withdrawAll(nonce);
+            return withdrawAll(nonce, transaction);
         }
       },
       txData: rest?.txData,

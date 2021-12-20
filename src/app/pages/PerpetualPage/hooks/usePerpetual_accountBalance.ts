@@ -3,15 +3,25 @@ import { bridgeNetwork } from 'app/pages/BridgeDepositPage/utils/bridge-network'
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { Chain } from 'types';
 import { getContract } from 'utils/blockchain/contract-helpers';
-import { toWei } from '../../../../utils/blockchain/math-helpers';
-import { PerpetualPairType } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
+import {
+  numberFromWei,
+  toWei,
+} from '../../../../utils/blockchain/math-helpers';
 import marginTokenAbi from 'utils/blockchain/abi/MarginToken.json';
-import { getTraderPnLInCC, getBase2CollateralFX } from '../utils/perpUtils';
+import {
+  getTraderPnLInCC,
+  getBase2CollateralFX,
+  getQuote2CollateralFX,
+} from '../utils/perpUtils';
 import { bignumber } from 'mathjs';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
+import { PerpetualPairType } from 'utils/dictionaries/perpetual-pair-dictionary';
 
 type AccountBalance = {
-  total: string;
+  total: {
+    collateralValue: string;
+    quoteValue: string;
+  };
   available: string;
   inPositions: string;
   unrealized: string;
@@ -47,22 +57,37 @@ export const usePerpetual_accountBalance = (
     [ammState, perpetualParameters, traderState],
   );
 
-  const inPosition = useMemo(
+  const inPosition = traderState.availableCashCC;
+
+  const totalCollateralValue = useMemo(
+    () => bignumber(availableBalance).add(toWei(inPosition)).toString(),
+    [availableBalance, inPosition],
+  );
+
+  const totalQuoteValue = useMemo(
     () =>
-      traderState.marginAccountPositionBC *
-      getBase2CollateralFX(ammState, false),
-    [traderState.marginAccountPositionBC, ammState],
+      toWei(
+        numberFromWei(totalCollateralValue) / getQuote2CollateralFX(ammState),
+      ),
+    [ammState, totalCollateralValue],
   );
 
   return useMemo(
     () => ({
-      total: bignumber(availableBalance)
-        .add(toWei(traderState.availableCashCC))
-        .toString(),
+      total: {
+        collateralValue: totalCollateralValue,
+        quoteValue: totalQuoteValue,
+      },
       available: availableBalance,
       inPositions: toWei(inPosition),
       unrealized: toWei(unrealizedPnl),
     }),
-    [availableBalance, traderState.availableCashCC, inPosition, unrealizedPnl],
+    [
+      totalCollateralValue,
+      totalQuoteValue,
+      availableBalance,
+      inPosition,
+      unrealizedPnl,
+    ],
   );
 };

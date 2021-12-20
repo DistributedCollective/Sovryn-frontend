@@ -26,13 +26,16 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
 }) => {
   const { t } = useTranslation();
   const {
+    pair,
     transactions,
     currentTransaction,
     setTransactions,
     setCurrentTransaction,
   } = useContext(TradeDialogContext);
   const { wallet } = useWalletContext();
-  const { execute, txHash, status, reset } = usePerpetual_executeTransaction();
+  const { execute, txHash, status, reset } = usePerpetual_executeTransaction(
+    pair.pairType,
+  );
 
   const transactionsMap = useSelector(selectTransactions);
   const transactionStatus = useMemo(
@@ -89,7 +92,7 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
       !transactions[currentTransaction.index].tx
     ) {
       const current = transactions[currentTransaction.index];
-      execute(current).catch(() => {
+      execute(current, currentTransaction.nonce).catch(() => {
         setRejected(true);
       });
     }

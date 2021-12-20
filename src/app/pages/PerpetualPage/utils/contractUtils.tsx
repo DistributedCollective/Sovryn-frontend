@@ -1,3 +1,4 @@
+import React from 'react';
 import { walletService } from '@sovryn/react-wallet';
 import { BigNumber } from 'ethers';
 import { Asset, Chain } from 'types';
@@ -10,11 +11,23 @@ import { bridgeNetwork } from '../../BridgeDepositPage/utils/bridge-network';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import marginTokenAbi from 'utils/blockchain/abi/MarginToken.json';
 import { TradingPosition } from 'types/trading-position';
-import { TraderState, getBase2CollateralFX, AMMState } from './perpUtils';
+import {
+  TraderState,
+  getBase2CollateralFX,
+  AMMState,
+  PerpParameters,
+  calculateSlippagePriceFromMidPrice,
+  getPrice,
+  getMidPrice,
+  isTraderInitialMarginSafe,
+} from './perpUtils';
 import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
 import { fromWei } from '../../../../utils/blockchain/math-helpers';
 import { CheckAndApproveResultWithError } from '../types';
 import { BridgeNetworkDictionary } from '../../BridgeDepositPage/dictionaries/bridge-network-dictionary';
+import { Trans } from 'react-i18next';
+import { translations } from '../../../../locales/i18n';
+import { numberToPercent } from '../../../../utils/display-text/format';
 
 export const ONE_64x64 = BigNumber.from('0x10000000000000000');
 export const DEC_18 = BigNumber.from(10).pow(BigNumber.from(18));
@@ -90,6 +103,7 @@ export const checkAndApprove = async (
   spenderAddress: string,
   amount: string,
   asset: Asset,
+  customData?: any,
 ): Promise<CheckAndApproveResultWithError> => {
   const sovryn = Sovryn;
   const address = walletService.address.toLowerCase();
@@ -130,6 +144,7 @@ export const checkAndApprove = async (
               value: '0',
               asset,
               assetAmount: amount,
+              customData,
             }),
           );
 
@@ -162,4 +177,83 @@ export const calculateMaxMarginWithdrawal = (
       getBase2CollateralFX(ammState, true)) /
     (pair?.config.leverage.max || 1);
   return traderState.availableCashCC - requiredMargin;
+};
+
+export type Validation = {
+  valid: boolean;
+  isWarning: boolean;
+  errors: Error[];
+  errorMessages: React.ReactNode[];
+};
+
+export const validatePositionChange = (
+  amountChange: number,
+  marginChange: number,
+  slippage: number,
+  traderState: TraderState,
+  perpParameters: PerpParameters,
+  ammState: AMMState,
+) => {
+  const result: Validation = {
+    valid: true,
+    isWarning: false,
+    errors: [],
+    errorMessages: [],
+  };
+
+  if (ammState.indexS2PriceData === 0 || perpParameters.fLotSizeBC === 0) {
+    return undefined;
+  }
+
+  if (amountChange !== 0) {
+    const slippagePrice = calculateSlippagePriceFromMidPrice(
+      perpParameters,
+      ammState,
+      slippage,
+      Math.sign(amountChange),
+    );
+    const expectedPrice = getPrice(amountChange, perpParameters, ammState);
+
+    if (
+      amountChange > 0
+        ? expectedPrice > slippagePrice
+        : expectedPrice < slippagePrice
+    ) {
+      const midPrice = getMidPrice(perpParameters, ammState);
+      const requiredSlippage = Math.abs(expectedPrice - midPrice) / midPrice;
+
+      result.valid = false;
+      result.isWarning = true;
+      result.errors.push(new Error('Expected price exceeds limit price!'));
+      result.errorMessages?.push(
+        <Trans
+          key="priceExceedsSlippage"
+          i18nKey={translations.perpetualPage.warnings.priceExceedsSlippage}
+          values={{ slippage: numberToPercent(requiredSlippage, 2) }}
+        />,
+      );
+    }
+  }
+
+  if (
+    marginChange !== 0 &&
+    !isTraderInitialMarginSafe(
+      traderState,
+      marginChange,
+      perpParameters,
+      ammState,
+    )
+  ) {
+    result.valid = false;
+    result.isWarning = true;
+    result.errors.push(new Error('Resulting margin is not safe!'));
+    result.errorMessages?.push(
+      <Trans
+        key="targetMarginUnsafe"
+        i18nKey={translations.perpetualPage.warnings.targetMarginUnsafe}
+      />,
+    );
+  }
+
+  return result;
 };

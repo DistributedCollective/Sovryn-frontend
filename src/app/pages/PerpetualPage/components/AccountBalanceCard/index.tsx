@@ -29,31 +29,6 @@ export const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
     }
   }, [dispatch, hasBalance]);
 
-  /* Uncomment and use it in the button onClick to test toasts */
-  // const notifySuccess = () =>
-  //   toast.success(
-  //     ({ toastProps }) => (
-  //       <CustomToastContent
-  //         toastProps={toastProps}
-  //         mainInfo="Close Complete"
-  //         additionalInfo="Market Close 0.002 BTC"
-  //       />
-  //     ),
-  //     toastOptions,
-  //   );
-
-  // const notifyError = () =>
-  //   toast.error(
-  //     ({ toastProps }) => (
-  //       <CustomToastContent
-  //         toastProps={toastProps}
-  //         mainInfo="Trade Failed"
-  //         additionalInfo="Limit price has been reached"
-  //       />
-  //     ),
-  //     toastOptions,
-  //   );
-
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-h-24 tw-p-2.5 tw-bg-gray-4 tw-rounded-lg">
       <div className="tw-flex tw-flex-row tw-flex-wrap tw-items-center tw-justify-between tw-w-full tw-px-3 tw-py-2 tw-bg-gray-6 tw-rounded-lg">

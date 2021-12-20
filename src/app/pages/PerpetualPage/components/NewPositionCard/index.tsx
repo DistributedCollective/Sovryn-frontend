@@ -83,6 +83,7 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
         trade,
         transactions: [
           {
+            pair: pairType,
             method: PerpetualTxMethods.trade,
             amount: trade.amount,
             tradingPosition: trade.position,
@@ -94,7 +95,7 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
         ],
       }),
     );
-  }, [dispatch, trade]);
+  }, [dispatch, trade, pairType]);
 
   const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
 
@@ -122,7 +123,7 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
       <NewPositionCardContext.Provider value={stepProps}>
         <TransitionSteps<NewPositionCardStep>
           classNameOuter="tw-h-full tw-min-h-max"
-          classNameInner="tw-p-4 tw-h-full tw-min-h-max"
+          classNameInner="tw-h-auto tw-min-h-96"
           active={
             connected
               ? NewPositionCardStep.trade
