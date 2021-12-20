@@ -75,7 +75,7 @@ export interface Transaction {
   to: string;
   from: string;
   value: string;
-  asset: Nullable<Asset>;
+  asset: Nullable<Asset | string>;
   assetAmount: Nullable<string>;
   customData?: { [key: string]: any };
 }
@@ -83,7 +83,7 @@ export interface Transaction {
 export interface RequestDialogState {
   open: boolean;
   type: TxType;
-  asset: Nullable<Asset>;
+  asset: Nullable<Asset | string>;
   amount: string;
   error: Nullable<string>;
 }

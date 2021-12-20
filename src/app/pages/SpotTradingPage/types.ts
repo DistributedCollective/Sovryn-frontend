@@ -53,6 +53,16 @@ export enum SpotPairType {
   RIF_ETH = 'RIF_ETH',
   RIF_BNB = 'RIF_BNB',
   RIF_FISH = 'RIF_FISH',
+  // MYNT
+  MYNT_RBTC = 'MYNT_RBTC',
+  MYNT_SOV = 'MYNT_SOV',
+  MYNT_XUSD = 'MYNT_XUSD',
+  MYNT_USDT = 'MYNT_USDT',
+  MYNT_DOC = 'MYNT_DOC',
+  MYNT_ETH = 'MYNT_ETH',
+  MYNT_BNB = 'MYNT_BNB',
+  MYNT_FISH = 'MYNT_FISH',
+  MYNT_RIF = 'MYNT_RIF',
 }
 
 export const pairs = {
@@ -106,6 +116,16 @@ export const pairs = {
   [SpotPairType.RIF_ETH]: [Asset.RIF, Asset.ETH],
   [SpotPairType.RIF_BNB]: [Asset.RIF, Asset.BNB],
   [SpotPairType.RIF_FISH]: [Asset.RIF, Asset.FISH],
+  // MYNT
+  [SpotPairType.MYNT_RBTC]: [Asset.MYNT, Asset.RBTC],
+  [SpotPairType.MYNT_SOV]: [Asset.MYNT, Asset.SOV],
+  [SpotPairType.MYNT_XUSD]: [Asset.MYNT, Asset.XUSD],
+  [SpotPairType.MYNT_USDT]: [Asset.MYNT, Asset.USDT],
+  [SpotPairType.MYNT_DOC]: [Asset.MYNT, Asset.DOC],
+  [SpotPairType.MYNT_ETH]: [Asset.MYNT, Asset.ETH],
+  [SpotPairType.MYNT_BNB]: [Asset.MYNT, Asset.BNB],
+  [SpotPairType.MYNT_FISH]: [Asset.MYNT, Asset.FISH],
+  [SpotPairType.MYNT_RIF]: [Asset.MYNT, Asset.RIF],
 };
 
 export const pairList = [
@@ -159,6 +179,16 @@ export const pairList = [
   SpotPairType.RIF_ETH,
   SpotPairType.RIF_BNB,
   SpotPairType.RIF_FISH,
+  // MYNT
+  SpotPairType.MYNT_RBTC,
+  SpotPairType.MYNT_SOV,
+  SpotPairType.MYNT_XUSD,
+  SpotPairType.MYNT_USDT,
+  SpotPairType.MYNT_DOC,
+  SpotPairType.MYNT_ETH,
+  SpotPairType.MYNT_BNB,
+  SpotPairType.MYNT_FISH,
+  SpotPairType.MYNT_RIF,
 ];
 
 export interface SpotTradingPageState {

@@ -30,7 +30,6 @@ import { ConversionDialog } from './ConversionDialog';
 import { BridgeLink } from './BridgeLink';
 import { UnWrapDialog } from './UnWrapDialog';
 import { useDollarValue } from '../../hooks/useDollarValue';
-import { useDollarValueMynt } from '../../hooks/useDollarValueMynt';
 import styles from './index.module.scss';
 import { CrossBridgeAsset } from 'app/pages/BridgeDepositPage/types/cross-bridge-asset';
 
@@ -237,12 +236,7 @@ const AssetRow: React.FC<IAssetProps> = ({
     get().catch();
   }, [item.asset, account, blockSync]);
 
-  const dollarValue = useDollarValue(item.asset, tokens);
-  const dollarValueMynt = useDollarValueMynt(tokens);
-  const assetDollarValue = useMemo(
-    () => (item.asset === Asset.MYNT ? dollarValueMynt : dollarValue),
-    [dollarValue, dollarValueMynt, item.asset],
-  );
+  const assetDollarValue = useDollarValue(item.asset, tokens);
 
   if (tokens === '0' && item.hideIfZero)
     return <React.Fragment key={item.asset} />;
