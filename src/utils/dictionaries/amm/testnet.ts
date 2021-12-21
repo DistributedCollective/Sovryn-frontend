@@ -9,7 +9,7 @@ export const testnetAmm = [
     Asset.RBTC,
     1,
     AppMode.TESTNET,
-    '0xaBAABc2191A23D6Bb2cfa973892062c131cb7647',
+    '0xc2d05263318e2304fc7cdad40eea6a091b310080',
     '0xdF298421CB18740a7059b0Af532167fAA45e7A98',
   )
     .setLootDropColor(LootDropColors.Purple)
@@ -19,7 +19,7 @@ export const testnetAmm = [
     Asset.RBTC,
     1,
     AppMode.TESTNET,
-    '0x9a1aE300b23F4C676186e6d417ac586889aAfF42',
+    '0xe5e750ead0e564e489b0776273e4a10f3f3d4028',
     '0x6601Ccd32342d644282e82Cb05A3Dd88964D18c1',
   )
     .setLootDropColor(LootDropColors.Yellow)
@@ -29,7 +29,7 @@ export const testnetAmm = [
     Asset.RBTC,
     1,
     AppMode.TESTNET,
-    '0x5871040a14331c0f7AB5390A3Df16D271b0936ef',
+    '0x4265d4f55219a4BDe9f1DE1348dA1f0b504849b4',
     '0xe41E262889f89b9a6331680606D9e9AabD01743e',
   ).setPreviousConverters(['0x5871040a14331c0f7AB5390A3Df16D271b0936ef']),
   new AmmLiquidityPool(
@@ -54,7 +54,7 @@ export const testnetAmm = [
     Asset.RBTC,
     1,
     AppMode.TESTNET,
-    '0x4c493276E14791472633B55aaD82E49D28540bC6',
+    '0x9f570ffe6c421e2c7611aaea14770b807e9fb424',
     '0xBb5B900EDa0F1459F582aB2436EA825a927f5bA2',
   )
     .setLootDropColor(LootDropColors.Blue)
@@ -64,7 +64,7 @@ export const testnetAmm = [
     Asset.RBTC,
     1,
     AppMode.TESTNET,
-    '0x3D18E1EC60c9725494252A835593aa90Da777E15',
+    '0x2cb88F02cCA4dddBE8C41a6920853838Ada09F8b',
     '0x6e03DEFD0ae9091Be74f64c8CB9BE319994E5deB',
   )
     .setSovRewards(false)
@@ -102,5 +102,5 @@ export const testnetAmm = [
     AppMode.TESTNET,
     '0x84953dAF0E7a9fFb8B4fDf7F948185e1cF85852e',
     '0xB12FA09a50c56e9a0C826b98e76DA7645017AB4D',
-  ),
+  ).setLootDropColor(LootDropColors.Orange),
 ];
