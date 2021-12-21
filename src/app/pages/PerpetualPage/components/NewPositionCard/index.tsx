@@ -88,7 +88,7 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
   // throttle function prevents the exhaustive deps check
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const updateFlags = useCallback(
-    debounce(setFlags, 250, { leading: true, trailing: true, maxWait: 250 }),
+    debounce(setFlags, 250, { leading: false, trailing: true, maxWait: 250 }),
     [setFlags],
   );
 
