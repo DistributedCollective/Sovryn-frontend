@@ -18,6 +18,17 @@ export const Promotions: React.FC = () => {
       <div className="tw-relative tw-mb-8">
         <PromotionsCarousel>
           <PromotionCard
+            appSection={AppSection.YieldFarm}
+            backgroundColor={PromotionColor.Orange}
+            title="15K SOV rewards"
+            duration="Ongoing weekly rewards"
+            text="Provide a 1:1 ratio of MYNT and rBTC to the MYNT/BTC AMM liquidity pool and instantly start accruing your share of 15,000 SOV rewards. Learn more"
+            learnMoreLink="https://www.sovryn.app/blog/sovryn-mynt-project-updates"
+            logoAsset1={Asset.MYNT}
+            logoAsset2={Asset.RBTC}
+          />
+
+          <PromotionCard
             appSection={AppSection.Lend}
             backgroundColor={PromotionColor.Yellow}
             title="15K SOV rewards"

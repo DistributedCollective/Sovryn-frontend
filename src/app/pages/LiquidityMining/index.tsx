@@ -69,6 +69,17 @@ export function LiquidityMining() {
         <LootDropSectionWrapper>
           <LootDrop
             title="15k SOV"
+            asset1={Asset.MYNT}
+            asset2={Asset.RBTC}
+            message={t(translations.liquidityMining.recalibration, {
+              date,
+            })}
+            linkUrl="https://www.sovryn.app/blog/sovryn-mynt-project-updates"
+            linkText={t(translations.liquidityMining.lootDropLink)}
+            highlightColor={LootDropColors.Orange}
+          />
+          <LootDrop
+            title="15k SOV"
             asset1={Asset.BNB}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
