@@ -5,9 +5,10 @@ import {
 } from 'utils/sovryn/contract-writer';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { useMining_AddLiquidityV2 } from './useMining_AddLiquidityV2';
+import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
 
 export function useMining_ApproveAndAddLiquidityV2(
-  pool: Asset,
+  pool: AmmLiquidityPool,
   asset: Asset,
   amount: string,
   minReturn: string,
