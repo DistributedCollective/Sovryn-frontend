@@ -21,10 +21,6 @@ export const ToastsWatcher: React.FC = () => {
   const { t } = useTranslation();
 
   useEffect(() => {
-    if (modal === PerpetualPageModals.TRADE_REVIEW) {
-      return;
-    }
-
     const toastTransactions = Object.values(transactions).filter(
       transaction =>
         [
@@ -45,38 +41,40 @@ export const ToastsWatcher: React.FC = () => {
 
       const perpetualTx = transaction.customData;
 
-      if (transaction.status === TxStatus.CONFIRMED) {
-        toast.success(
-          ({ toastProps }) => (
-            <CustomToastContent
-              toastProps={toastProps}
-              mainInfo={t(translations.perpetualPage.toasts.orderComplete)}
-              additionalInfo={
-                <ToastAdditionalInfo
-                  transaction={transaction}
-                  perpetualTx={perpetualTx}
-                />
-              }
-            />
-          ),
-          toastOptions,
-        );
-      } else if (transaction.status === TxStatus.FAILED) {
-        toast.error(
-          ({ toastProps }) => (
-            <CustomToastContent
-              toastProps={toastProps}
-              mainInfo={t(translations.perpetualPage.toasts.orderFailed)}
-              additionalInfo={
-                <ToastAdditionalInfo
-                  transaction={transaction}
-                  perpetualTx={perpetualTx}
-                />
-              }
-            />
-          ),
-          toastOptions,
-        );
+      if (modal !== PerpetualPageModals.TRADE_REVIEW) {
+        if (transaction.status === TxStatus.CONFIRMED) {
+          toast.success(
+            ({ toastProps }) => (
+              <CustomToastContent
+                toastProps={toastProps}
+                mainInfo={t(translations.perpetualPage.toasts.orderComplete)}
+                additionalInfo={
+                  <ToastAdditionalInfo
+                    transaction={transaction}
+                    perpetualTx={perpetualTx}
+                  />
+                }
+              />
+            ),
+            toastOptions,
+          );
+        } else if (transaction.status === TxStatus.FAILED) {
+          toast.error(
+            ({ toastProps }) => (
+              <CustomToastContent
+                toastProps={toastProps}
+                mainInfo={t(translations.perpetualPage.toasts.orderFailed)}
+                additionalInfo={
+                  <ToastAdditionalInfo
+                    transaction={transaction}
+                    perpetualTx={perpetualTx}
+                  />
+                }
+              />
+            ),
+            toastOptions,
+          );
+        }
       }
       setToastedTransactions(transactions => ({
         ...transactions,
