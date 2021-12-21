@@ -33,7 +33,7 @@ import { noop } from '../../../../constants';
 import { PERPETUAL_SLIPPAGE_DEFAULT } from '../../types';
 import { PerpetualTxMethods } from '../TradeDialog/types';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
-import throttle from 'lodash.throttle';
+import debounce from 'lodash.debounce';
 
 export const NewPositionCardContext = React.createContext<
   NewPositionCardContextType
@@ -87,7 +87,10 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
 
   // throttle function prevents the exhaustive deps check
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const updateFlags = useCallback(throttle(setFlags, 250), [setFlags]);
+  const updateFlags = useCallback(
+    debounce(setFlags, 250, { leading: true, trailing: true, maxWait: 250 }),
+    [setFlags],
+  );
 
   useEffect(() => {
     updateFlags([inPositions !== '0', availableBalance === '0']);
