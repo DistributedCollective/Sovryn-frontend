@@ -55,6 +55,7 @@ export interface CalculatedEvent {
   profit: string;
   entryTxHash: string;
   closeTxHash: string;
+  time: number;
 }
 
 function normalizeEvent(
@@ -165,6 +166,7 @@ function calculateProfits(events: CustomEvent[]): CalculatedEvent | null {
     profit: profit,
     entryTxHash: opens[0].txHash || '',
     closeTxHash: closes[closes.length - 1].txHash || '',
+    time: events[0].time,
   };
 }
 
@@ -220,7 +222,10 @@ export function TradingHistory() {
         }
       }
     });
-    setEvents(closeEntries);
+    const sortedEntries = closeEntries.sort(function (a, b) {
+      return b.time - a.time;
+    });
+    setEvents(sortedEntries);
   }, [eventsHistory, loading]);
 
   useEffect(() => {
