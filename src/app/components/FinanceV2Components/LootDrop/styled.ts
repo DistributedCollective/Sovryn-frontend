@@ -6,7 +6,7 @@ export enum LootDropColors {
   Green = '#6DAC6F',
   Pink = '#D69B9B',
   Blue = '#8EDBDB',
-  Red = '#57090f',
+  Orange = '#db6e4d',
 }
 
 export const LootDropWrapper = styled.div`

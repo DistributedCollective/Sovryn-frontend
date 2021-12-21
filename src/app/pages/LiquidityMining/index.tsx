@@ -76,7 +76,7 @@ export function LiquidityMining() {
             })}
             linkUrl="https://www.sovryn.app/blog/sovryn-mynt-project-updates"
             linkText={t(translations.liquidityMining.lootDropLink)}
-            highlightColor={LootDropColors.Red}
+            highlightColor={LootDropColors.Orange}
           />
           <LootDrop
             title="15k SOV"
