@@ -83,7 +83,7 @@ export const subscription = (
 ) => {
   let options = {
     address: address,
-    topics: events.map(event => PerpetualManagerEvents[event]?.topic || ''),
+    topics: [events.map(event => PerpetualManagerEvents[event]?.topic || '')],
     fromBlock,
   };
   if (fromBlock) {

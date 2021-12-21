@@ -29,7 +29,7 @@ import {
   decodePerpetualManagerLog,
 } from '../utils/bscWebsocket';
 import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
-import throttle from 'lodash.throttle';
+import debounce from 'lodash.debounce';
 
 const THROTTLE_DELAY = 1000; // 1s
 const UPDATE_INTERVAL = 10000; // 10s
@@ -124,12 +124,16 @@ export const PerpetualQueriesContextProvider: React.FC<PerpetualQueriesContextPr
   // throttle function prevents the exhaustive deps check
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const refetch = useCallback(
-    throttle(() => {
-      refetchAmmState();
-      refetchPerpetualParameters();
-      refetchTraderState();
-      refetchLiquidityPoolState();
-    }, THROTTLE_DELAY),
+    debounce(
+      () => {
+        refetchAmmState();
+        refetchPerpetualParameters();
+        refetchTraderState();
+        refetchLiquidityPoolState();
+      },
+      THROTTLE_DELAY,
+      { leading: true, trailing: true, maxWait: THROTTLE_DELAY },
+    ),
     [
       refetchAmmState,
       refetchPerpetualParameters,
@@ -173,6 +177,7 @@ export const PerpetualQueriesContextProvider: React.FC<PerpetualQueriesContextPr
 
     return () => {
       clearInterval(intervalId);
+      refetch.cancel();
       socket.unsubscribe((error, success) => {
         if (error) {
           console.error(error);

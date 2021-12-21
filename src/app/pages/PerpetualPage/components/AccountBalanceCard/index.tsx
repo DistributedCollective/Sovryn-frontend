@@ -5,8 +5,7 @@ import { translations } from '../../../../../locales/i18n';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { actions } from '../../slice';
 import { PerpetualPageModals } from '../../types';
-import { toast } from 'react-toastify';
-import { CustomToastContent, toastOptions } from '../CustomToastContent';
+import { Tooltip } from '@blueprintjs/core';
 
 type AccountBalanceCardProps = {
   /** balance in wei */
@@ -21,13 +20,14 @@ export const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
 
   const hasBalance = useMemo(() => balance && balance !== '0', [balance]);
 
-  const onButtonClick = useCallback(() => {
-    if (hasBalance) {
-      dispatch(actions.setModal(PerpetualPageModals.ACCOUNT_BALANCE));
-    } else {
-      dispatch(actions.setModal(PerpetualPageModals.FASTBTC_DEPOSIT));
-    }
-  }, [dispatch, hasBalance]);
+  const onFundAccount = useCallback(
+    () => dispatch(actions.setModal(PerpetualPageModals.FASTBTC_DEPOSIT)),
+    [dispatch],
+  );
+  const onViewAccount = useCallback(
+    () => dispatch(actions.setModal(PerpetualPageModals.ACCOUNT_BALANCE)),
+    [dispatch],
+  );
 
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-h-24 tw-p-2.5 tw-bg-gray-4 tw-rounded-lg">
@@ -39,14 +39,24 @@ export const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
           {weiToNumberFormat(balance, 4)} BTC
         </span>
       </div>
-      <button
-        className="tw-px-4 tw-py-2 tw-mt-1 tw-text-xs tw-font-medium tw-text-primary"
-        onClick={onButtonClick}
-      >
-        {hasBalance
-          ? t(translations.perpetualPage.accountBalance.viewAccount)
-          : t(translations.perpetualPage.accountBalance.fundAccount)}
-      </button>
+      {hasBalance ? (
+        <button
+          className="tw-px-4 tw-py-2 tw-mt-1 tw-text-xs tw-font-medium tw-text-primary"
+          onClick={onViewAccount}
+        >
+          {t(translations.perpetualPage.accountBalance.viewAccount)}
+        </button>
+      ) : (
+        <Tooltip content={t(translations.common.comingSoon)}>
+          <button
+            className="tw-px-4 tw-py-2 tw-mt-1 tw-text-xs tw-font-medium tw-text-primary tw-cursor-not-allowed tw-opacity-25"
+            disabled={true}
+            onClick={onFundAccount}
+          >
+            {t(translations.perpetualPage.accountBalance.fundAccount)}
+          </button>
+        </Tooltip>
+      )}
     </div>
   );
 };

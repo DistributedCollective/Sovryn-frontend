@@ -151,7 +151,14 @@ export const EditLeverageDialog: React.FC = () => {
         ],
       }),
     );
-  }, [dispatch, changedTrade, leverage, margin, traderState.availableCashCC, pair]);
+  }, [
+    dispatch,
+    changedTrade,
+    leverage,
+    margin,
+    traderState.availableCashCC,
+    pair,
+  ]);
 
   const validation = useMemo(() => {
     if (!changedTrade) {
