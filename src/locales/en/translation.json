@@ -284,7 +284,9 @@
     "originsClaim": "Origins Claim",
     "launchpad": "Launchpad",
     "claim": "Claim",
-    "rewards": "Rewards"
+    "rewards": "Rewards",
+    "labs": "Labs",
+    "myntToken": "MYNT Token"
   },
   "originsLaunchpad": {
     "upcomingSales": {
