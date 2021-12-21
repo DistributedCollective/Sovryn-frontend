@@ -255,7 +255,9 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                         translations.marginTradePage.tradeForm.placePosition
                           .placeLong,
                       )}{' '}
-                      {orderType}
+                      {orderType === OrderTypes.MARKET
+                        ? t(translations.marginTradePage.tradeForm.market)
+                        : t(translations.marginTradePage.tradeForm.limit)}
                     </>
                   ) : (
                     <>
@@ -263,7 +265,9 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                         translations.marginTradePage.tradeForm.placePosition
                           .placeShort,
                       )}{' '}
-                      {orderType}
+                      {orderType === OrderTypes.MARKET
+                        ? t(translations.marginTradePage.tradeForm.market)
+                        : t(translations.marginTradePage.tradeForm.limit)}
                     </>
                   )
                 }

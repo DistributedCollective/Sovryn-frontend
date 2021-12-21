@@ -1555,7 +1555,9 @@
       "placePosition": {
         "placeLong": " Place Long",
         "placeShort": "Place Short"
-      }
+      },
+      "market": "Market",
+      "limit": "Limit"
     },
     "recentTrades": {
       "title": "Recent Trades",
