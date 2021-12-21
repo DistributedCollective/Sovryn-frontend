@@ -18,8 +18,6 @@ import {
   calculateSlippagePriceFromMidPrice,
   getPrice,
   calculateLeverage,
-  getBase2CollateralFX,
-  getMinimalSpread,
 } from '../../utils/perpUtils';
 import {
   PerpetualPairDictionary,

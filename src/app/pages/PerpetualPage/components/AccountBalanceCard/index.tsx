@@ -5,8 +5,6 @@ import { translations } from '../../../../../locales/i18n';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { actions } from '../../slice';
 import { PerpetualPageModals } from '../../types';
-import { toast } from 'react-toastify';
-import { CustomToastContent, toastOptions } from '../CustomToastContent';
 import { Tooltip } from '@blueprintjs/core';
 
 type AccountBalanceCardProps = {
