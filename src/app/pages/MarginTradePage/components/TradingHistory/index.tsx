@@ -140,8 +140,10 @@ function calculateProfits(events: CustomEvent[]): CalculatedEvent | null {
         );
   };
 
-  const entryPrice = prettyPrice(opens[0].positionSize);
-  const closePrice = prettyPrice(closes[closes.length - 1].positionSize);
+  const entryPrice = prettyPrice(opens[0].collateralToLoanRate);
+  const closePrice = prettyPrice(
+    closes[closes.length - 1].collateralToLoanRate,
+  );
 
   let change = bignumber(bignumber(closePrice).minus(entryPrice))
     .div(entryPrice)
