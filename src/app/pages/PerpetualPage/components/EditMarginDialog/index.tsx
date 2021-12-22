@@ -31,7 +31,6 @@ import { AmountInput } from '../../../../components/Form/AmountInput';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
 import {
   calculateMaxMarginWithdrawal,
-  getSignedAmount,
   validatePositionChange,
 } from '../../utils/contractUtils';
 import { toWei } from '../../../../../utils/blockchain/math-helpers';
@@ -180,12 +179,8 @@ export const EditMarginDialog: React.FC = () => {
     if (!changedTrade) {
       return;
     }
-    const signedAmount = getSignedAmount(
-      changedTrade.position,
-      changedTrade.amount,
-    );
     return validatePositionChange(
-      signedAmount,
+      0,
       signedMargin,
       changedTrade.slippage,
       traderState,
