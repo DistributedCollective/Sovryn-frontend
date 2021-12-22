@@ -11,41 +11,17 @@ import {
   TxType,
 } from 'store/global/transactions-store/types';
 import { actions } from 'store/global/transactions-store/slice';
-import { Asset } from 'types/asset';
 import { ContractName } from 'utils/types/contracts';
 import { useAccount } from './useAccount';
-import { Nullable, Chain } from 'types';
+import { Chain } from 'types';
 import { gasLimit } from '../../utils/classifiers';
 import { bridgeNetwork } from '../pages/BridgeDepositPage/utils/bridge-network';
 import { getContract } from '../../utils/blockchain/contract-helpers';
 import { BridgeNetworkDictionary } from '../pages/BridgeDepositPage/dictionaries/bridge-network-dictionary';
-
-export interface TransactionOptions {
-  type?: TxType;
-  approveTransactionHash?: Nullable<string>;
-  asset?: Asset;
-  assetAmount?: string;
-  customData?: { [key: string]: any };
-}
-
-export interface SendTxResponse {
-  txHash: string;
-  txData: Nullable<Transaction>;
-  status: TxStatus | any;
-  loading: boolean;
-}
-
-export interface ResetTxResponseInterface extends SendTxResponse {
-  reset: () => void;
-}
-
-export interface SendTxResponseInterface extends ResetTxResponseInterface {
-  send: (
-    args: any[],
-    config?: TransactionConfig,
-    options?: TransactionOptions,
-  ) => void;
-}
+import {
+  SendTxResponseInterface,
+  TransactionOptions,
+} from './useSendContractTx';
 
 export function useBridgeNetworkSendTx(
   chain: Chain,
