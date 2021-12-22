@@ -36,6 +36,10 @@ export const usePerpetual_accountBalance = (
   );
 
   useEffect(() => {
+    if (!account) {
+      return;
+    }
+
     bridgeNetwork
       .call(
         Chain.BSC,
