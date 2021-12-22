@@ -167,6 +167,7 @@ class ContractWriter {
             gasPrice: options?.gasPrice,
             nonce,
           }));
+        let gasPrice = options?.gasPrice || gas.get();
 
         if (bignumber(gasLimit).lessThan(MIN_GAS)) {
           gasLimit = MIN_GAS;
@@ -178,7 +179,7 @@ class ContractWriter {
               to: address.toLowerCase(),
               value: String(options?.value || '0'),
               data: data,
-              gasPrice: gas.get(),
+              gasPrice: String(gasPrice),
               nonce,
               gasLimit: String(gasLimit),
               chainId: walletService.chainId,

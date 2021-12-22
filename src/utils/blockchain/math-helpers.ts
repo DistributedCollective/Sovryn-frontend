@@ -73,8 +73,11 @@ export const toWei = (amount: any, unit: Unit = 'ether') => {
     case 'ether':
       decimals = 18;
       break;
+    case 'gwei':
+      decimals = 9;
+      break;
     default:
-      throw new Error('Unsupported unit (custom fromWei helper)');
+      throw new Error('Unsupported unit (custom toWei helper)');
   }
 
   return roundToSmaller(bignumber(amount || '0').mul(10 ** decimals), 0);
