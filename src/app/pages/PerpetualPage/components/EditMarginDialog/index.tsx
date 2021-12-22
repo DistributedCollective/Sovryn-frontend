@@ -8,7 +8,10 @@ import React, {
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { translations } from '../../../../../locales/i18n';
-import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
+import {
+  PerpetualPairDictionary,
+  PerpetualPairType,
+} from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { Dialog } from '../../../../containers/Dialog';
 import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
@@ -28,7 +31,6 @@ import { AmountInput } from '../../../../components/Form/AmountInput';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
 import {
   calculateMaxMarginWithdrawal,
-  getSignedAmount,
   validatePositionChange,
 } from '../../utils/contractUtils';
 import { toWei } from '../../../../../utils/blockchain/math-helpers';
@@ -93,20 +95,24 @@ export const EditMarginDialog: React.FC = () => {
           transactions: [
             mode === EditMarginDialogMode.increase
               ? {
+                  pair: pair?.pairType || PerpetualPairType.BTCUSD,
                   method: PerpetualTxMethods.deposit,
                   amount: toWei(margin),
                   approvalTx: null,
                   tx: null,
+                  origin: PerpetualPageModals.EDIT_MARGIN,
                 }
               : {
+                  pair: pair?.pairType || PerpetualPairType.BTCUSD,
                   method: PerpetualTxMethods.withdraw,
                   amount: toWei(margin),
                   tx: null,
+                  origin: PerpetualPageModals.EDIT_MARGIN,
                 },
           ],
         }),
       ),
-    [dispatch, changedTrade, mode, margin],
+    [dispatch, changedTrade, mode, margin, pair],
   );
 
   const [maxAmount, maxAmountWei] = useMemo(() => {
@@ -173,12 +179,8 @@ export const EditMarginDialog: React.FC = () => {
     if (!changedTrade) {
       return;
     }
-    const signedAmount = getSignedAmount(
-      changedTrade.position,
-      changedTrade.amount,
-    );
     return validatePositionChange(
-      signedAmount,
+      0,
       signedMargin,
       changedTrade.slippage,
       traderState,

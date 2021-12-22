@@ -4,11 +4,11 @@ import IPerpetualManager from 'utils/blockchain/abi/PerpetualManager.json';
 import { AbiItem, AbiInput } from 'web3-utils';
 import { BridgeNetworkDictionary } from '../../BridgeDepositPage/dictionaries/bridge-network-dictionary';
 import { ChainId, Nullable } from '../../../../types';
-import { isMainnet, readNodes } from '../../../../utils/classifiers';
+import { isMainnet, rpcNodes } from '../../../../utils/classifiers';
 
 const chainId = isMainnet ? ChainId.BSC_MAINNET : ChainId.BSC_TESTNET;
 
-const web3Socket = new Web3(readNodes[chainId]);
+const web3Socket = new Web3(rpcNodes[chainId]);
 
 const rpcAddress = BridgeNetworkDictionary.getByChainId(chainId)?.rpc;
 const web3Http = new Web3(rpcAddress || null);
@@ -83,7 +83,7 @@ export const subscription = (
 ) => {
   let options = {
     address: address,
-    topics: events.map(event => PerpetualManagerEvents[event]?.topic || ''),
+    topics: [events.map(event => PerpetualManagerEvents[event]?.topic || '')],
     fromBlock,
   };
   if (fromBlock) {

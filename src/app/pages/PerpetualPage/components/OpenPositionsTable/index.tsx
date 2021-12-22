@@ -1,14 +1,10 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useAccount } from 'app/hooks/useAccount';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { OpenPositionRow } from './OpenPositionRow';
-import { PendingPositionRow } from './PendingPositionRow';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
-import { Pagination } from '../../../../components/Pagination';
 import { useSelector } from 'react-redux';
-import { selectTransactionArray } from 'store/global/transactions-store/selectors';
-import { TxStatus, TxType } from 'store/global/transactions-store/types';
 import { usePerpetual_OpenPosition } from '../../hooks/usePerpetual_OpenPositions';
 import { selectPerpetualPage } from '../../selectors';
 
@@ -18,17 +14,11 @@ interface IOpenPositionsTableProps {
 
 export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
   const { t } = useTranslation();
-  const [page, setPage] = useState(1);
-  const transactions = useSelector(selectTransactionArray);
   const { pairType } = useSelector(selectPerpetualPage);
 
   const { data, loading } = usePerpetual_OpenPosition(useAccount(), pairType);
 
   const items = useMemo(() => (data && data.margin > 0 ? [data] : []), [data]);
-
-  const onPageChanged = data => {
-    setPage(data.currentPage);
-  };
 
   const isEmpty = !loading && !items.length;
   const showLoading = loading && !items.length;
@@ -87,19 +77,6 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
           ))}
         </tbody>
       </table>
-
-      {items.length > 0 && (
-        <Pagination
-          totalRecords={items.length}
-          pageLimit={perPage}
-          pageNeighbours={1}
-          onChange={onPageChanged}
-        />
-      )}
     </>
   );
 }
-
-OpenPositionsTable.defaultProps = {
-  perPage: 5,
-};

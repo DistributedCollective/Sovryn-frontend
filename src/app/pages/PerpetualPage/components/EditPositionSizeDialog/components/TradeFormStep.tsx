@@ -16,10 +16,9 @@ export const TradeFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
   changeTo,
 }) => {
   const dispatch = useDispatch();
-
   const { traderState } = useContext(PerpetualQueriesContext);
 
-  const { trade, changedTrade, onChange } = useContext(
+  const { pairType, trade, changedTrade, onChange } = useContext(
     EditPositionSizeDialogContext,
   );
 
@@ -55,17 +54,19 @@ export const TradeFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
         trade: targetTrade,
         transactions: [
           {
+            pair: pairType,
             method: PerpetualTxMethods.trade,
             amount: changedTrade.amount,
             tradingPosition: changedTrade.position,
             slippage: changedTrade.slippage,
             tx: null,
             approvalTx: null,
+            origin: PerpetualPageModals.EDIT_POSITION_SIZE,
           },
         ],
       }),
     );
-  }, [dispatch, trade, changedTrade, traderState]);
+  }, [dispatch, pairType, trade, changedTrade, traderState]);
 
   if (!changedTrade) {
     return null;

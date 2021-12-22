@@ -17,6 +17,8 @@ import {
   BarCompositionChart,
   BarCompositionChartEntry,
 } from '../BarCompositionChart';
+import classNames from 'classnames';
+import { Tooltip } from '@blueprintjs/core';
 
 type AccountBalanceFormProps = {
   pairType: PerpetualPairType;
@@ -154,23 +156,26 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
         entries={chartEntries}
       />
       <div className="tw-mt-2 tw-text-right">
-        <button
-          className="tw-text-xs tw-font-medium tw-text-secondary tw-underline"
-          onClick={onOpenTransactionHistory}
-        >
-          {t(translations.perpetualPage.accountBalance.viewHistory)}
-        </button>
+        <Tooltip content={t(translations.common.comingSoon)}>
+          <button
+            className="tw-text-xs tw-font-medium tw-text-secondary tw-underline tw-opacity-50 tw-cursor-not-allowed"
+            disabled
+            onClick={onOpenTransactionHistory}
+          >
+            {t(translations.perpetualPage.accountBalance.viewHistory)}
+          </button>
+        </Tooltip>
       </div>
       <div className="tw-flex tw-flex-col md:tw-flex-row tw-justify-center tw-mx-auto tw-mt-16 tw-space-y-4 md:tw-space-y-0 md:tw-space-x-10">
-        <ActionButton onClick={onOpenDeposit}>
+        <ActionButton disabled comingSoon onClick={onOpenDeposit}>
           {t(translations.perpetualPage.accountBalance.deposit)}
         </ActionButton>
 
-        <ActionButton onClick={onOpenWithdraw}>
+        <ActionButton disabled comingSoon onClick={onOpenWithdraw}>
           {t(translations.perpetualPage.accountBalance.withdraw)}
         </ActionButton>
 
-        <ActionButton onClick={onOpenTransfer}>
+        <ActionButton disabled comingSoon onClick={onOpenTransfer}>
           {t(translations.perpetualPage.accountBalance.transfer)}
         </ActionButton>
       </div>
@@ -180,14 +185,37 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
 
 type ActionButtonProps = {
   onClick: () => void;
+  disabled: boolean;
+  comingSoon: boolean;
   children: React.ReactNode;
 };
 
-const ActionButton: React.FC<ActionButtonProps> = ({ onClick, children }) => (
-  <button
-    className="tw-min-w-40 tw-min-h-10 tw-p-2 tw-text-base tw-text-primary tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-duration-300 hover:tw-bg-primary-25"
-    onClick={onClick}
-  >
-    {children}
-  </button>
-);
+const ActionButton: React.FC<ActionButtonProps> = ({
+  onClick,
+  disabled,
+  comingSoon,
+  children,
+}) => {
+  const { t } = useTranslation();
+
+  const button = (
+    <button
+      className={classNames(
+        'tw-min-w-40 tw-min-h-10 tw-p-2 tw-text-base tw-text-primary tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-duration-300',
+        disabled
+          ? 'tw-opacity-25 tw-cursor-not-allowed'
+          : 'hover:tw-bg-primary-25 tw-cursor-pointer',
+      )}
+      disabled={disabled}
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  );
+
+  return comingSoon ? (
+    <Tooltip content={t(translations.common.comingSoon)}>{button}</Tooltip>
+  ) : (
+    button
+  );
+};

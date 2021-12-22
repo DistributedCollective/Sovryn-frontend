@@ -43,9 +43,10 @@ import { OrderHistoryTable } from './components/OrderHistoryTable/index';
 import { FundingPaymentsTable } from './components/FundingPaymentsTable/index';
 import { PerpetualQueriesContextProvider } from './contexts/PerpetualQueriesContext';
 import { PairSelector } from './components/PairSelector';
+import { ToastsWatcher } from './components/ToastsWatcher';
 
 export function PerpetualPage() {
-  useInjectReducer({ key: sliceKey, reducer: reducer });
+  useInjectReducer({ key: sliceKey, reducer });
 
   const dispatch = useDispatch();
   const walletContext = useWalletContext();
@@ -74,7 +75,7 @@ export function PerpetualPage() {
       walletContext.disconnect();
     }
 
-    //set the bridge chain id to Matic
+    //set the bridge chain id to BSC
     dispatch(
       walletProviderActions.setBridgeChainId(
         isMainnet ? ChainId.BSC_MAINNET : ChainId.BSC_TESTNET,
@@ -195,11 +196,13 @@ export function PerpetualPage() {
           onClose={() => setShowNotificationSettingsModal(false)}
         />
         <AccountDialog pairType={pairType} />
+
         <TradeDialog />
         <EditPositionSizeDialog />
         <EditLeverageDialog />
         <EditMarginDialog />
         <ClosePositionDialog />
+        <ToastsWatcher />
       </PerpetualQueriesContextProvider>
     </RecentTradesContextProvider>
   );

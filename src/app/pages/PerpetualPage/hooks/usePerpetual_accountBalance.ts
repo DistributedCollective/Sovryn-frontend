@@ -8,11 +8,7 @@ import {
   toWei,
 } from '../../../../utils/blockchain/math-helpers';
 import marginTokenAbi from 'utils/blockchain/abi/MarginToken.json';
-import {
-  getTraderPnLInCC,
-  getBase2CollateralFX,
-  getQuote2CollateralFX,
-} from '../utils/perpUtils';
+import { getTraderPnLInCC, getQuote2CollateralFX } from '../utils/perpUtils';
 import { bignumber } from 'mathjs';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import { PerpetualPairType } from 'utils/dictionaries/perpetual-pair-dictionary';

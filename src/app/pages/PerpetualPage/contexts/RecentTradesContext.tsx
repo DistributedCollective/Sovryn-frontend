@@ -47,15 +47,16 @@ const addSocketEventListeners = (
   { setValue }: InitSocketParams,
   perpetualId: string,
 ) => {
-  /** This can be uncommented for testing */
+  /* This can be uncommented for testing */
   // socket.on('connected', () => {
   //   console.log('[recentTradesWs] bsc websocket connected');
   // });
 
   socket.on('data', data => {
-    /** This can be uncommented for testing */
-    // console.log('[recentTradesWs] data received');
     const decoded = decodePerpetualManagerLog(data);
+
+    /* This can be uncommented for testing */
+    // console.log('[recentTradesWs] data received', data, decoded);
 
     if (
       decoded &&

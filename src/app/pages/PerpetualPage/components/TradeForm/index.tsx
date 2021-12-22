@@ -42,16 +42,12 @@ import {
   getTradeDirection,
   validatePositionChange,
 } from '../../utils/contractUtils';
-import { useAccount } from 'app/hooks/useAccount';
-import { usePerpetual_OpenPosition } from '../../hooks/usePerpetual_OpenPositions';
-import { useSelector } from 'react-redux';
-import { selectPerpetualPage } from '../../selectors';
-import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 
 interface ITradeFormProps {
   trade: PerpetualTrade;
   isNewTrade?: boolean;
+  disabled?: boolean;
   onChange: (trade: PerpetualTrade) => void;
   onSubmit: () => void;
   onOpenSlippage: () => void;
@@ -60,6 +56,7 @@ interface ITradeFormProps {
 export const TradeForm: React.FC<ITradeFormProps> = ({
   trade,
   isNewTrade,
+  disabled,
   onChange,
   onSubmit,
   onOpenSlippage,
@@ -77,22 +74,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     lotSize,
     lotPrecision,
   } = useContext(PerpetualQueriesContext);
-
-  const { pairType } = useSelector(selectPerpetualPage);
-  const { data: openPosition, loading } = usePerpetual_OpenPosition(
-    useAccount(),
-    pairType,
-  );
-
-  const hasOpenPosition = useMemo(() => !loading && !!openPosition, [
-    loading,
-    openPosition,
-  ]);
-
-  const { available: availableBalance } = usePerpetual_accountBalance(pairType);
-  const hasEmptyBalance = useMemo(() => availableBalance === '0', [
-    availableBalance,
-  ]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => onChange({ ...trade, entryPrice: averagePrice }), [
@@ -286,39 +267,19 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
 
   const buttonDisabled = useMemo(
     () =>
-      (isNewTrade && (hasOpenPosition || hasEmptyBalance)) ||
+      disabled ||
       Number(amount) <= 0 ||
       (validation && !validation.valid && !validation.isWarning),
-    [isNewTrade, hasOpenPosition, hasEmptyBalance, amount, validation],
+    [disabled, amount, validation],
   );
 
   return (
     <div
-      className={classNames('tw-relative tw-min-h-full tw-pb-16', {
-        'tw-pointer-events-none':
-          isNewTrade && (hasOpenPosition || hasEmptyBalance),
-      })}
-    >
-      {isNewTrade && (hasOpenPosition || hasEmptyBalance) && (
-        <div className="tw-absolute tw-left-0 tw-top-0 tw-bg-black tw-h-full tw-w-full tw-z-10 tw-bg-opacity-90 tw-flex tw-items-center tw-justify-center tw-flex-col tw-text-center tw-text-sm tw-font-semibold">
-          <div className="tw-px-10">
-            {t(
-              translations.perpetualPage.tradeForm.disabledState[
-                hasEmptyBalance ? 'emptyBalanceExplanation' : 'explanation1'
-              ],
-            )}
-          </div>
-
-          {!hasEmptyBalance && hasOpenPosition && (
-            <div className="tw-px-10 tw-mt-4">
-              {t(
-                translations.perpetualPage.tradeForm.disabledState.explanation2,
-              )}
-            </div>
-          )}
-        </div>
+      className={classNames(
+        'tw-relative tw-min-h-full tw-pb-16',
+        disabled && 'tw-pointer-events-none',
       )}
-
+    >
       <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-2.5 tw-mb-5">
         <button
           className={classNames(

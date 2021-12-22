@@ -21,8 +21,6 @@ import {
 import { LanguageToggle } from '../LanguageToggle';
 import styles from './index.module.scss';
 import { StyledBurger, StyledLogo, StyledMenu } from './styled';
-import { currentNetwork } from 'utils/classifiers';
-import { AppMode } from 'types';
 
 export function Header() {
   const { t } = useTranslation();
@@ -193,7 +191,7 @@ export function Header() {
       [SECTION_TYPE.FINANCE]: ['/lend', '/yield-farm'],
       [SECTION_TYPE.BITOCRACY]: ['/stake'],
       [SECTION_TYPE.ORIGINS]: ['/origins', '/origins/claim'],
-      [SECTION_TYPE.LABS]: ['/labs'],
+      [SECTION_TYPE.LABS]: ['/labs', '/mynt-token'],
     };
     return section && paths[section].includes(location.pathname);
   };
@@ -429,17 +427,17 @@ export function Header() {
                 content={
                   <BPMenu>
                     <MenuItem
+                      text={t(translations.mainMenu.myntToken)}
+                      className="bp3-popover-dismiss"
+                      href="/mynt-token"
+                      rel="noopener noreferrer"
+                      data-action-id="header-origins-link-launchpad"
+                    />
+                    <MenuItem
                       text={t(translations.mainMenu.perpetual)}
                       className="bp3-popover-dismiss"
                       onClick={() => history.push('/perpetual')}
                       data-action-id="header-labs-link-perpetual"
-                    />
-                    <MenuItem
-                      text={t(translations.mainMenu.zero)}
-                      className="bp3-popover-dismiss"
-                      href="https://test.sovryn.app/zero"
-                      rel="noopener noreferrer"
-                      data-action-id="header-origins-link-launchpad"
                     />
                   </BPMenu>
                 }

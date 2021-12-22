@@ -26,10 +26,14 @@ import { ConnectFormStep } from './components/ConnectFormStep';
 import { noop } from '../../../../constants';
 import { PERPETUAL_SLIPPAGE_DEFAULT } from '../../types';
 import { PerpetualTxMethods } from '../TradeDialog/types';
+import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
+import debounce from 'lodash.debounce';
 
 export const NewPositionCardContext = React.createContext<
   NewPositionCardContextType
 >({
+  hasEmptyBalance: true,
+  hasOpenPosition: false,
   trade: {
     pairType: PerpetualPairType.BTCUSD,
     collateral: Asset.PERPETUALS,
@@ -64,6 +68,29 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
   const { connected } = useWalletContext();
   const { pairType, collateral } = useSelector(selectPerpetualPage);
 
+  const {
+    available: availableBalance,
+    inPositions,
+  } = usePerpetual_accountBalance(pairType);
+
+  // handle flags in a throttled way to prevent flickering when updating
+  const [[hasOpenPosition, hasEmptyBalance], setFlags] = useState([
+    false,
+    true,
+  ]);
+
+  // throttle function prevents the exhaustive deps check
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const updateFlags = useCallback(
+    debounce(setFlags, 250, { leading: false, trailing: true, maxWait: 250 }),
+    [setFlags],
+  );
+
+  useEffect(() => {
+    updateFlags([inPositions !== '0', availableBalance === '0']);
+    return () => updateFlags.cancel();
+  }, [inPositions, availableBalance, updateFlags]);
+
   const [trade, setTrade] = useState<PerpetualTrade>({
     pairType,
     collateral,
@@ -83,6 +110,7 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
         trade,
         transactions: [
           {
+            pair: pairType,
             method: PerpetualTxMethods.trade,
             amount: trade.amount,
             tradingPosition: trade.position,
@@ -94,7 +122,7 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
         ],
       }),
     );
-  }, [dispatch, trade]);
+  }, [dispatch, trade, pairType]);
 
   const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
 
@@ -106,11 +134,13 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
 
   const stepProps: NewPositionCardContextType = useMemo(
     () => ({
+      hasOpenPosition,
+      hasEmptyBalance,
       trade,
       onSubmit,
       onChangeTrade: setTrade,
     }),
-    [trade, onSubmit],
+    [trade, onSubmit, hasOpenPosition, hasEmptyBalance],
   );
 
   return (
