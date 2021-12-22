@@ -31,7 +31,6 @@ import { AmountInput } from '../../../../components/Form/AmountInput';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
 import {
   calculateMaxMarginWithdrawal,
-  getSignedAmount,
   validatePositionChange,
 } from '../../utils/contractUtils';
 import { toWei } from '../../../../../utils/blockchain/math-helpers';
