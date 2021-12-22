@@ -1,28 +1,33 @@
 import { useMemo } from 'react';
 import { bignumber } from 'mathjs';
+import type { AbiItem } from 'web3-utils';
+import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
+import { useCacheCallToWithValue } from 'app/hooks/chain/useCacheCallToWithValue';
 import {
-  getAmmContract,
-  getPoolTokenContractName,
-  getTokenContractName,
+  getContract,
+  getTokenContract,
 } from 'utils/blockchain/contract-helpers';
-import { useCacheCallWithValue } from '../../../hooks/useCacheCallWithValue';
-import { LiquidityPool } from '../../../../utils/models/liquidity-pool';
 
 export function useLiquidityMining_getExpectedV1PoolTokens(
-  pool: LiquidityPool,
+  pool: AmmLiquidityPool,
   amount: string,
 ) {
-  const poolTokenSupply = useCacheCallWithValue(
-    getPoolTokenContractName(pool.poolAsset, pool.poolAsset),
+  const erc20Abi = getContract('SOV_token').abi;
+
+  const poolTokenSupply = useCacheCallToWithValue(
+    pool.poolTokenA,
+    erc20Abi as AbiItem[],
     'totalSupply',
     '0',
+    [],
   );
 
-  const tokenBalanceOnConverter = useCacheCallWithValue(
-    getTokenContractName(pool.poolAsset),
+  const tokenBalanceOnConverter = useCacheCallToWithValue(
+    getTokenContract(pool.assetA).address,
+    erc20Abi as AbiItem[],
     'balanceOf',
     '0',
-    getAmmContract(pool.poolAsset).address,
+    [pool.converter.toLocaleLowerCase()],
   );
 
   const value = useMemo(

@@ -24,9 +24,9 @@ export const blockExplorers = {
   97: 'https://testnet.bscscan.com',
 };
 
-export const readNodes = {
-  30: 'wss://mainnet.sovryn.app/websocket',
-  31: 'wss://testnet.sovryn.app/ws',
+export const rpcNodes = {
+  30: 'https://mainnet.sovryn.app/rpc',
+  31: 'https://testnet.sovryn.app/rpc',
   56: 'wss://bsc.sovryn.app/mainnet',
   97: 'wss://bsc.sovryn.app/testnet',
 };
@@ -60,7 +60,7 @@ export const gasLimit = {
   [TxType.BORROW]: 1500000,
   [TxType.CONVERT_BY_PATH]: 750000,
   [TxType.LEND]: 300000,
-  [TxType.UNLEND]: 350000,
+  [TxType.UNLEND]: 450000,
   [TxType.SALE_BUY_SOV]: 260000,
   [TxType.SOV_REIMBURSE]: 100000,
   [TxType.SOV_CONVERT]: 2700000,
@@ -100,3 +100,5 @@ export const TRADE_LOG_SIGNATURE_HASH =
 export const MAINTENANCE_MARGIN = 15000000000000000000;
 
 export const MIN_GAS = 40000;
+
+export const MILLION = 1000000;

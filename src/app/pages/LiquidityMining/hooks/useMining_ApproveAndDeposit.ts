@@ -5,21 +5,23 @@ import {
 } from 'utils/sovryn/contract-writer';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { useLiquidityMining_Deposit } from './useLiquidityMining_Deposit';
-import { ContractName } from '../../../../utils/types/contracts';
+import { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
 
 export function useMining_ApproveAndDeposit(
-  poolTokenContract: ContractName,
+  pool: AmmLiquidityPool,
   asset: Asset,
-  poolToken: string,
   amount: string,
 ) {
-  const { deposit, ...txState } = useLiquidityMining_Deposit(poolToken, amount);
+  const { deposit, ...txState } = useLiquidityMining_Deposit(
+    pool.getPoolTokenAddress(asset) as string,
+    amount,
+  );
   return {
     deposit: async () => {
       let tx: CheckAndApproveResult = {};
 
-      tx = await contractWriter.checkAndApproveContract(
-        poolTokenContract,
+      tx = await contractWriter.checkAndApproveAddresses(
+        pool.getPoolTokenAddress(asset) as string,
         getContract('liquidityMiningProxy').address,
         amount,
         asset,
