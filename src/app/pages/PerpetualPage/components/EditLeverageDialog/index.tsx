@@ -164,14 +164,10 @@ export const EditLeverageDialog: React.FC = () => {
     if (!changedTrade) {
       return;
     }
-    const signedAmount = getSignedAmount(
-      changedTrade.position,
-      changedTrade.amount,
-    );
     const marginChange = margin - traderState.availableCashCC;
 
     return validatePositionChange(
-      signedAmount,
+      0,
       marginChange,
       changedTrade.slippage,
       traderState,

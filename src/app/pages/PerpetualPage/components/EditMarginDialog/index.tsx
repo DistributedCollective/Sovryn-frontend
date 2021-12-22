@@ -180,12 +180,8 @@ export const EditMarginDialog: React.FC = () => {
     if (!changedTrade) {
       return;
     }
-    const signedAmount = getSignedAmount(
-      changedTrade.position,
-      changedTrade.amount,
-    );
     return validatePositionChange(
-      signedAmount,
+      0,
       signedMargin,
       changedTrade.slippage,
       traderState,
