@@ -3,7 +3,8 @@ import React from 'react';
 import { LeaderboardData } from 'app/pages/PerpetualPage/components/CompetitionPage/types';
 import { prettyTx } from 'utils/helpers';
 import styles from './index.module.scss';
-import { weiToNumberFormat } from 'utils/display-text/format';
+import { TradeDetails } from './TradeDetails';
+import { toNumberFormat } from 'utils/display-text/format';
 
 interface ITraderRowProps {
   data: LeaderboardData;
@@ -23,9 +24,11 @@ export const TraderRow: React.FC<ITraderRowProps> = ({ data }) => {
       >
         {data.openedPositions}
       </div>
-      <div className="tw-px-1 tw-w-4/12 tw-my-auto">{data.lastTrade}</div>
+      <div className="tw-px-1 tw-w-4/12 tw-my-auto">
+        <TradeDetails value={data.lastTrade} pair="BTC/USD" />
+      </div>
       <div className={`${styles.totalPnL} tw-px-1 tw-w-2/12 tw-my-auto`}>
-        {weiToNumberFormat(data.totalPnL, 4)}%
+        {toNumberFormat(data.totalPnL, 2)}%
       </div>
     </div>
   );

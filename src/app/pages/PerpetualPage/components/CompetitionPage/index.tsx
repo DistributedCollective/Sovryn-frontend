@@ -36,19 +36,18 @@ export const CompetitionPage: React.FC = () => {
   const walletContext = useWalletContext();
   const account = useAccount();
   const connected = useIsConnected();
-  // const { t } = useTranslation();
+  const { t } = useTranslation();
 
   const getRegisteredWallets = () => {
     axios
       .get(`${notificationUrl}/tradingCompetition`)
       .then(res => {
-        console.log('res: ', res);
         if (res?.status === 200 && res.data) {
           setRegisteredTraders(res.data);
         }
       })
       .catch(e => {
-        console.log('e: ', e);
+        console.error('e: ', e);
       });
   };
   useEffect(() => {
@@ -102,25 +101,23 @@ export const CompetitionPage: React.FC = () => {
   return (
     <>
       <Helmet>
-        {/* <title>{t(translations.perpetualPage.meta.title)}</title> */}
-        <title>test</title>
-        {/* <meta
+        <title>{t(translations.competitionPage.meta.title)}</title>
+        <meta
           name="description"
-          content={t(translations.perpetualPage.meta.description)}
-        /> */}
-        <meta name="description" content="test" />
+          content={t(translations.competitionPage.meta.description)}
+        />
       </Helmet>
       <HeaderLabs
         menus={
           <div className="tw-text-center" style={{ width: '300px' }}>
             <Link to="/perpetual" className="tw-mr-4 tw-text-black">
-              <>Perpetual Swap</>
+              {t(translations.competitionPage.nav.perpetualSwap)}
             </Link>
             <Link
               to="/perpetual/competition"
               className="tw-text-black hover:tw-no-underline"
             >
-              <>Competition</>
+              {t(translations.competitionPage.nav.competition)}
             </Link>
           </div>
         }
@@ -136,44 +133,38 @@ export const CompetitionPage: React.FC = () => {
             </div>
             <div className="tw-flex tw-flex-col tw-w-5/12">
               <div className="tw-text-2xl tw-font-bold tw-mb-6">
-                Trading Competition Rules
+                {t(translations.competitionPage.rules.title)}
               </div>
               <div className="">
                 <ul className="tw-list-disc tw-mb-4">
                   <li className="tw-mb-4">
-                    Every user can register their wallet to participate in the
-                    competition through a whitelisting process.
+                    {t(translations.competitionPage.rules.line1)}
                   </li>
                   <li className="tw-mb-4">
-                    Every participant will be sent a specific amount of RBTC
-                    and/or BNB to start trading on the perpetual pairs of
-                    BNB/USD and BTC/USD.
+                    {t(translations.competitionPage.rules.line2)}
                   </li>
                   <li className="tw-mb-4">
-                    The cumulative P&L of the participants is the deciding
-                    factor for the winner.
+                    {t(translations.competitionPage.rules.line3)}
                   </li>
                   <li className="tw-mb-4">
-                    The competition is held for 2-3 weeks.
+                    {t(translations.competitionPage.rules.line4)}
                   </li>
                   <li className="tw-mb-4">
-                    End of competition -&gt; Set date for participants to close
-                    all their perpetual positions within a day, if they do not
-                    close it they are excluded from the competition.
+                    {t(translations.competitionPage.rules.line5)}
                   </li>
                 </ul>
               </div>
               <div className="tw-w-6/12">
                 {!connected && (
                   <Button
-                    text="Connect wallet"
+                    text={t(translations.competitionPage.cta.connect)}
                     disabled={connected}
                     onClick={() => walletContext.connect()}
                   />
                 )}
                 {connected && !isRegistered && (
                   <Button
-                    text="Enter Contest"
+                    text={t(translations.competitionPage.cta.enter)}
                     onClick={() => setRegisterDialogOpen(true)}
                   />
                 )}

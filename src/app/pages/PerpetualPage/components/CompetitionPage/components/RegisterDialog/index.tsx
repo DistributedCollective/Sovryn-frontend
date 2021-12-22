@@ -10,6 +10,8 @@ import { DialogButton } from 'app/components/Form/DialogButton';
 import { DummyField } from 'app/components/DummyField';
 import { useIsConnected, useAccount } from 'app/hooks/useAccount';
 import { notificationUrl } from 'utils/classifiers';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 
 const SIGNED_MSG_BASE = 'Login to backend on %%';
 
@@ -24,6 +26,7 @@ export const RegisterDialog: React.FC<IRegisterDialogProps> = ({
 }) => {
   const account = useAccount();
   const connected = useIsConnected();
+  const { t } = useTranslation();
   // const { checkMaintenance, States } = useMaintenance();
   // const openTradesLocked = checkMaintenance(States.OPEN_MARGIN_TRADES);
 
@@ -69,29 +72,37 @@ export const RegisterDialog: React.FC<IRegisterDialogProps> = ({
       size={DialogSize.md}
     >
       <div className="tw-mx-auto">
-        <h1 className="tw-text-sov-white tw-text-center">Enter Competition</h1>
+        <h1 className="tw-text-sov-white tw-text-center">
+          {t(translations.competitionPage.join.title)}
+        </h1>
 
-        <FormGroup label="Pseudonym (Optional):" className="tw-mb-6">
+        <FormGroup
+          label={t(translations.competitionPage.join.pseudonym)}
+          className="tw-mb-6"
+        >
           <Input
             value={pseudonym}
             onChange={val => setPseudonym(val)}
-            placeholder="Enter Pseudonym"
+            placeholder={t(
+              translations.competitionPage.join.pseudonymPlaceholder,
+            )}
             className="tw-max-w-full"
           />
         </FormGroup>
-        <FormGroup label="Wallet Address:" className="tw-mb-6">
+        <FormGroup
+          label={t(translations.competitionPage.join.wallet)}
+          className="tw-mb-6"
+        >
           <DummyField>{account}</DummyField>
         </FormGroup>
 
         <Checkbox
           checked={termsChecked}
           onChange={() => setTermsChecked(!termsChecked)}
-          label={
-            "I agree to the Perp Swaps trading competition's terms and condition"
-          }
+          label={t(translations.competitionPage.join.conditions)}
         />
         <DialogButton
-          confirmLabel="Confirm"
+          confirmLabel={t(translations.competitionPage.join.cta)}
           onConfirm={onSubmit}
           disabled={!termsChecked || !connected}
         />

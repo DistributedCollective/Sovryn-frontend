@@ -9,16 +9,14 @@ export function useGetLeaderboardData(traderIDs: string[]) {
   {
     traders(where: { id_in: ["${traderIDs.join(`","`)}"]}) {
       id
-      balance
       totalPnLCC
       totalFundingPaymentCC
       positionsTotalCount
-      trades {
-        id
-        tradeAmountBC
-        newPositionSizeBC
-        price
-        blockTimestamp
+      positions(orderBy: lastChanged, orderDirection: desc) {
+        currentPositionSizeBC
+        totalPnLCC
+        isClosed
+        lastChanged
       }
     }
   }

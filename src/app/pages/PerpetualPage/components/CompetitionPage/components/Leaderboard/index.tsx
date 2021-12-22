@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useContext } from 'react';
+import React, { useEffect, useState, useRef, useContext, useMemo } from 'react';
 import classNames from 'classnames';
 
 import { TraderRow } from './TraderRow';
@@ -11,10 +11,7 @@ import {
 import { useAccount } from 'app/hooks/useAccount';
 import { useGetLeaderboardData } from 'app/pages/PerpetualPage/hooks/graphql/useGetLeaderboardData';
 import styles from './index.module.scss';
-import {
-  calculateSlippagePrice,
-  getTraderPnLInBC,
-} from 'app/pages/PerpetualPage/utils/perpUtils';
+import { getTraderPnLInBC } from 'app/pages/PerpetualPage/utils/perpUtils';
 import { bignumber } from 'mathjs';
 import { bridgeNetwork } from 'app/pages/BridgeDepositPage/utils/bridge-network';
 import { getContract } from 'utils/blockchain/contract-helpers';
@@ -25,28 +22,30 @@ import {
 } from 'utils/dictionaries/perpetual-pair-dictionary';
 import { parseTraderState } from 'app/pages/PerpetualPage/hooks/usePerpetual_queryTraderState';
 import { PerpetualQueriesContext } from 'app/pages/PerpetualPage/contexts/PerpetualQueriesContext';
+import { ABK64x64ToFloat } from 'app/pages/PerpetualPage/utils/perpMath';
+import { BigNumber } from 'ethers/lib/ethers';
+import { percentageChange } from 'utils/helpers';
+import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 
 interface ILeaderboardProps {
   data: RegisteredTraderData[];
   showUserRow: boolean;
 }
 
-const calcLast = (trader: any) => {
-  if (!trader) {
-    return '-';
-  }
-  return 'o';
-};
-
 export const Leaderboard: React.FC<ILeaderboardProps> = ({
   data,
   showUserRow,
 }) => {
+  const { t } = useTranslation();
   const userRowRef = useRef(null);
   const userRowVisible = useIntersection(userRowRef.current);
   const account = useAccount();
   const [items, setItems] = useState<LeaderboardData[]>([]);
   const [userData, setUserData] = useState<LeaderboardData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [loaded, setLoaded] = useState(false);
 
   const { perpetualParameters, ammState } = useContext(PerpetualQueriesContext);
 
@@ -59,16 +58,6 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
     if (!perpetualParameters || !perpetualParameters.poolId) return;
     if (!ammState) return;
     if (leaderboardData === undefined) return;
-    //TODO: update logic here to following:
-    // loop over all registered wallets by walletAddress
-    // if leaderboardData contains trades for the walletAddress, then create traderrow component with data
-    //   if walletAddress == user address then create UserTraderRow instead
-    // if trader has no trades in leaderboardData, create TraderRow component with blank data (rank="-", num positions=0, tradeDetails="-", totalPnL=0) and add at bottom of list
-    //   if walletAddress in leaderboardData, create UserTraderRow
-    // sort rows into ranked order based on total PnL
-    // retrieve user row if present and set that as separate state var
-
-    //TODO: replace this with real parsed data, sort by PnL as described above
 
     const perpetualId = PerpetualPairDictionary.get(PerpetualPairType.BTCUSD)
       .id;
@@ -83,27 +72,65 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
         );
 
         let totalPnL = '0';
-        if (trader?.positionsTotalCount) {
-          const traderState = await bridgeNetwork
-            .call(Chain.BSC, contract.address, contract.abi, 'getTraderState', [
-              perpetualId,
-              item.walletAddress.toLowerCase(),
-            ])
-            .then(parseTraderState);
+        let tradeDetails = '';
+        if (trader && trader?.positionsTotalCount) {
+          const realizedProfit =
+            ABK64x64ToFloat(BigNumber.from(trader.totalPnLCC || '0')) +
+            ABK64x64ToFloat(
+              BigNumber.from(trader.totalFundingPaymentCC || '0'),
+            );
 
-          const unrealizedProfit = getTraderPnLInBC(
-            traderState,
-            ammState,
-            perpetualParameters,
+          let unrealizedProfit = 0;
+
+          if (trader.positions.find(item => !item.isClosed)) {
+            const traderState = await bridgeNetwork
+              .call(
+                Chain.BSC,
+                contract.address,
+                contract.abi,
+                'getTraderState',
+                [perpetualId, item.walletAddress.toLowerCase()],
+              )
+              .then(parseTraderState);
+
+            unrealizedProfit = getTraderPnLInBC(
+              traderState,
+              ammState,
+              perpetualParameters,
+            );
+          }
+
+          const startingBalance = trader.positions.reduce(
+            (previous, current) =>
+              previous +
+              ABK64x64ToFloat(
+                BigNumber.from(current.currentPositionSizeBC || '0'),
+              ),
+            0,
           );
 
-          totalPnL = bignumber(
-            bignumber(trader?.totalPnLCC || 0)
-              .add(trader?.totalFundingPaymentCC || 0)
-              .add(unrealizedProfit || 0),
-          )
-            .div(1)
-            .toString();
+          totalPnL = percentageChange(
+            startingBalance,
+            bignumber(startingBalance)
+              .add(realizedProfit)
+              .add(unrealizedProfit),
+          );
+
+          const lastPositionStartingBalance = ABK64x64ToFloat(
+            BigNumber.from(trader.positions[0].currentPositionSizeBC || '0'),
+          );
+          const lastPositionProfit = ABK64x64ToFloat(
+            BigNumber.from(trader.positions[0].totalPnLCC || '0'),
+          );
+
+          tradeDetails = Number(
+            percentageChange(
+              lastPositionStartingBalance,
+              lastPositionStartingBalance +
+                lastPositionProfit +
+                unrealizedProfit,
+            ),
+          ).toFixed(2);
         }
 
         items.push({
@@ -111,7 +138,7 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
           userName: item.userName,
           walletAddress: item.walletAddress,
           openedPositions: trader?.positionsTotalCount || 0,
-          lastTrade: calcLast(trader),
+          lastTrade: tradeDetails,
           totalPnL,
         });
       }
@@ -124,28 +151,50 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
         }));
     };
 
-    run().then(rows => {
-      setItems(rows);
-      if (account) {
-        const userRow = rows.find(
-          val => val.walletAddress.toLowerCase() === account.toLowerCase(),
-        );
-        if (userRow) {
-          setUserData(userRow);
+    setLoading(true);
+    run()
+      .then(rows => {
+        setItems(rows);
+        setLoading(false);
+        setLoaded(true);
+        if (account) {
+          const userRow = rows.find(
+            val => val.walletAddress.toLowerCase() === account.toLowerCase(),
+          );
+          if (userRow) {
+            setUserData(userRow);
+          }
         }
-      }
-    });
+      })
+      .catch(() => {
+        setLoading(false);
+      });
   }, [account, data, leaderboardData, ammState, perpetualParameters]);
+
+  const showSpinner = useMemo(() => (!loaded ? loading : false), [
+    loading,
+    loaded,
+  ]);
 
   return (
     <>
       <div className="leaderboard-table">
-        <div className="tw-flex tw-flex-row tw-items-end tw-text-sm tw-tracking-tighter tw-mb-3 tw-mr-8">
-          <div className="tw-px-1 tw-w-1/12">Rank</div>
-          <div className="tw-px-1 tw-w-3/12">Name / Wallet Address</div>
-          <div className="tw-px-1 tw-w-2/12">No. of started positions</div>
-          <div className="tw-px-1 tw-w-4/12">Trade Details</div>
-          <div className="tw-px-1 tw-w-2/12">Total P/L</div>
+        <div className="tw-flex tw-flex-row tw-items-end tw-text-xs tw-tracking-tighter tw-mb-3 tw-mr-8">
+          <div className="tw-px-1 tw-w-1/12">
+            {t(translations.competitionPage.table.rank)}
+          </div>
+          <div className="tw-px-1 tw-w-3/12">
+            {t(translations.competitionPage.table.name)}
+          </div>
+          <div className="tw-px-1 tw-w-2/12">
+            {t(translations.competitionPage.table.positions)}
+          </div>
+          <div className="tw-px-1 tw-w-4/12">
+            {t(translations.competitionPage.table.trade)}
+          </div>
+          <div className="tw-px-1 tw-w-2/12">
+            {t(translations.competitionPage.table.total)}
+          </div>
         </div>
         <div
           className={`${styles.leaderboardContainer} tw-overflow-y-auto tw-text-sm tw-align-middle`}
@@ -159,6 +208,7 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
               <TraderRow data={val} key={val.walletAddress} />
             ),
           )}
+          {showSpinner && <SkeletonRow />}
         </div>
         <div
           className={classNames('tw-my-2 tw-h-16', {
