@@ -1,5 +1,4 @@
 import { useAccount } from 'app/hooks/useAccount';
-import { useSendContractTx } from 'app/hooks/useSendContractTx';
 import { useContext, useMemo } from 'react';
 import { TxType } from 'store/global/transactions-store/types';
 import { TradingPosition } from 'types/trading-position';
@@ -15,8 +14,9 @@ import {
   PerpetualPairType,
   PerpetualPairDictionary,
 } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
-import { Asset } from '../../../../types';
+import { Asset, Chain } from '../../../../types';
 import { PerpetualTx } from '../components/TradeDialog/types';
+import { useBridgeNetworkSendTx } from '../../../hooks/useBridgeNetworkSendTx';
 
 const MASK_MARKET_ORDER = 0x40000000;
 const MASK_CLOSE_ONLY = 0x80000000;
@@ -29,7 +29,11 @@ export const usePerpetual_openTrade = (pairType: PerpetualPairType) => {
 
   const { averagePrice } = useContext(PerpetualQueriesContext);
 
-  const { send, ...rest } = useSendContractTx('perpetualManager', 'trade');
+  const { send, ...rest } = useBridgeNetworkSendTx(
+    Chain.BSC,
+    'perpetualManager',
+    'trade',
+  );
 
   return {
     trade: async (
