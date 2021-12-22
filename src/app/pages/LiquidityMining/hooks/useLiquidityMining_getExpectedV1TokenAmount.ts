@@ -1,28 +1,33 @@
 import { useMemo } from 'react';
 import { bignumber } from 'mathjs';
+import type { AbiItem } from 'web3-utils';
 import {
-  getAmmContract,
-  getTokenContractName,
+  getContract,
+  getTokenContract,
 } from 'utils/blockchain/contract-helpers';
-import { useCacheCallWithValue } from '../../../hooks/useCacheCallWithValue';
-import { LiquidityPool } from '../../../../utils/models/liquidity-pool';
+import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
+import { useCacheCallToWithValue } from 'app/hooks/chain/useCacheCallToWithValue';
 
 export function useLiquidityMining_getExpectedV1TokenAmount(
-  pool: LiquidityPool,
+  pool: AmmLiquidityPool,
   amount: string,
 ) {
-  const balance1 = useCacheCallWithValue(
-    getTokenContractName(pool.supplyAssets[0].getAsset()),
+  const erc20Abi = getContract('SOV_token').abi;
+
+  const balance1 = useCacheCallToWithValue(
+    getTokenContract(pool.assetA).address,
+    erc20Abi as AbiItem[],
     'balanceOf',
     '0',
-    getAmmContract(pool.poolAsset).address,
+    [pool.converter],
   );
 
-  const balance2 = useCacheCallWithValue(
-    getTokenContractName(pool.supplyAssets[1].getAsset()),
+  const balance2 = useCacheCallToWithValue(
+    getTokenContract(pool.assetB).address,
+    erc20Abi as AbiItem[],
     'balanceOf',
     '0',
-    getAmmContract(pool.poolAsset).address,
+    [pool.converter],
   );
 
   const value = useMemo(() => {
@@ -30,7 +35,7 @@ export function useLiquidityMining_getExpectedV1TokenAmount(
     return bignumber(amount || '0')
       .mul(rate)
       .toFixed(0);
-  }, [balance1.value, balance2.value, amount]);
+  }, [balance1, balance2, amount]);
 
   return {
     value: value,
