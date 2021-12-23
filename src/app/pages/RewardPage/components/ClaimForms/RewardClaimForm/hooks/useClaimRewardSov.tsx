@@ -2,7 +2,8 @@ import { contractReader } from 'utils/sovryn/contract-reader';
 import { useSendContractTx } from 'app/hooks/useSendContractTx';
 import { useAccount } from 'app/hooks/useAccount';
 import { ethGenesisAddress, gasLimit } from 'utils/classifiers';
-import { TxType } from 'store/global/transactions-store/types';
+import { TxStatus, TxType } from 'store/global/transactions-store/types';
+import { useMemo } from 'react';
 
 export const useClaimRewardSov = (
   hasLockedSov: boolean,
@@ -10,15 +11,20 @@ export const useClaimRewardSov = (
 ) => {
   const address = useAccount();
 
-  const { send: sendLocked } = useSendContractTx(
+  const { send: sendLocked, ...tx1 } = useSendContractTx(
     'lockedSov',
     'createVestingAndStake',
   );
 
-  const { send, ...tx } = useSendContractTx(
+  const { send, ...tx2 } = useSendContractTx(
     'liquidityMiningProxy',
     'claimRewardFromAllPools',
   );
+
+  const tx = useMemo(() => (tx2 && tx2.status !== TxStatus.NONE ? tx2 : tx1), [
+    tx1,
+    tx2,
+  ]);
 
   return {
     send: async () => {
