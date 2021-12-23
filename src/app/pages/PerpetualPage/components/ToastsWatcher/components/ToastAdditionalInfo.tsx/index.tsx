@@ -53,12 +53,17 @@ export const ToastAdditionalInfo: React.FC<ToastAdditionalInfoProps> = ({
   }
 
   if (isTrade(perpetualTx)) {
-    const amount = weiToNumberFormat(perpetualTx.amount, 3);
     if (perpetualTx.isClosePosition) {
       return (
         <>
           {t(translations.perpetualPage.toasts.closePosition)}{' '}
-          <AssetValue value={amount} assetString={pair.baseAsset} />
+          <AssetValue
+            value={perpetualTx.amount}
+            assetString={pair.baseAsset}
+            minDecimals={0}
+            maxDecimals={6}
+            mode={AssetValueMode.auto}
+          />
           {pagination}
         </>
       );
@@ -74,7 +79,13 @@ export const ToastAdditionalInfo: React.FC<ToastAdditionalInfoProps> = ({
               : 'sell'
           ],
         )}{' '}
-        <AssetValue value={amount} assetString={pair.baseAsset} />
+        <AssetValue
+          value={perpetualTx.amount}
+          assetString={pair.baseAsset}
+          minDecimals={0}
+          maxDecimals={6}
+          mode={AssetValueMode.auto}
+        />
         {pagination}
       </>
     );
