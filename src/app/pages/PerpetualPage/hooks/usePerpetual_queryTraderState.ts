@@ -49,12 +49,12 @@ export const usePerpetual_queryTraderState = (perpetualId: string) => {
   );
 };
 
-export const parseTraderState = (response: any): TraderState => ({
-  marginBalanceCC: ABK64x64ToFloat(response[0]),
-  availableMarginCC: ABK64x64ToFloat(response[1]),
-  availableCashCC: ABK64x64ToFloat(response[2]),
-  marginAccountCashCC: ABK64x64ToFloat(response[3]),
-  marginAccountPositionBC: ABK64x64ToFloat(response[4]),
-  marginAccountLockedInValueQC: ABK64x64ToFloat(response[5]),
-  fUnitAccumulatedFundingStart: ABK64x64ToFloat(response[6]),
+export const parseTraderState = (traderStateArr: any): TraderState => ({
+  marginBalanceCC: ABK64x64ToFloat(traderStateArr[0]), // current margin balance
+  availableMarginCC: ABK64x64ToFloat(traderStateArr[1]), // amount over initial margin
+  availableCashCC: ABK64x64ToFloat(traderStateArr[2]), // cash minus unpaid funding
+  marginAccountCashCC: ABK64x64ToFloat(traderStateArr[3]), // from margin account
+  marginAccountPositionBC: ABK64x64ToFloat(traderStateArr[4]), // from margin account
+  marginAccountLockedInValueQC: ABK64x64ToFloat(traderStateArr[5]), // from margin account
+  fUnitAccumulatedFundingStart: ABK64x64ToFloat(traderStateArr[6]), // from margin account
 });
