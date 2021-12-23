@@ -52,23 +52,26 @@ export const usePerpetual_FundingPayments = (
     let data: FundingPaymentsEntry[] = [];
 
     if (currentFundingEvents?.length > 0) {
-      data = currentFundingEvents.map(item => {
-        const fundingRateObject = item.fundingRates[0];
+      data = currentFundingEvents.reduce((acc, item) => {
+        if (item?.fundingRates) {
+          for (let fundingRate of item.fundingRates) {
+            acc.push({
+              id: item.id,
+              pairType: pairType,
+              datetime: fundingRate.blockTimestamp,
+              payment: ABK64x64ToFloat(
+                BigNumber.from(fundingRate.fFundingPaymentCC),
+              ),
+              rate: ABK64x64ToFloat(BigNumber.from(fundingRate.fundingRate)),
+              timeSinceLastPayment: ABK64x64ToFloat(
+                BigNumber.from(fundingRate.fundingTime),
+              ),
+            });
+          }
+        }
 
-        return {
-          id: item.id,
-          pairType: pairType,
-          datetime: fundingRateObject.blockTimestamp,
-          payment: ABK64x64ToFloat(
-            BigNumber.from(fundingRateObject.fFundingPaymentCC),
-          ),
-          rate: ABK64x64ToFloat(BigNumber.from(fundingRateObject.fundingRate)),
-          timeSinceLastPayment: ABK64x64ToFloat(
-            BigNumber.from(fundingRateObject.fundingTime),
-          ),
-        };
-      });
-      return data;
+        return acc;
+      }, []);
     }
 
     return data;
