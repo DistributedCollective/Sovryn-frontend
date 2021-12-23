@@ -40,19 +40,19 @@ export const usePerpetual_AmmDepthChart = (
       const length = entries[0].length;
       const midIndex = Math.floor(length / 2);
 
-      for (let i = 0; i < length; i++) {
+      for (let i = length - 1; i >= 0; i--) {
         const price = entries[0][i];
         const deviation = entries[1][i];
         const amount = entries[2][i];
         if (i < midIndex) {
-          shorts.push({
+          longs.push({
             id: i,
             price,
             deviation: Math.abs(deviation),
             amount: Math.abs(amount),
           });
         } else if (i > midIndex) {
-          longs.push({
+          shorts.push({
             id: i,
             price,
             deviation: Math.abs(deviation),
