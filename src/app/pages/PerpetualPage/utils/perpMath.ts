@@ -1,6 +1,6 @@
-import { BigNumber } from 'ethers';
-const mathjs = require('mathjs');
-const BN = BigNumber;
+import { BigNumber, ethers } from 'ethers';
+import * as mathjs from 'mathjs';
+const BN = ethers.BigNumber;
 const ONE_64x64 = BN.from('0x10000000000000000');
 const DECIMALS = BN.from(10).pow(BN.from(18));
 
@@ -182,7 +182,9 @@ export function isTraderMarginSafe(
  * @param {number} liquidationFee - liquidation fee rate, applied to position size (base currency) being liquidated
  * @param {number} tradingFee - trading fee rate, applied to position size (base currency) being liquidated
  * @param {number} lotSize - lot size (base currency)
- * @param {number} base2Col - base to collateral conversion (at index price)
+ * @param {number} S2 - index price (base to quote)
+ * @param {number} S3 - collateral to quote conversion
+ * @param {number} Sm - mark price (base to quote conversion)
  * @returns {number} Amount to be liquidated (in base currency)
  */
 export function calculateLiquidationAmount(
@@ -193,11 +195,14 @@ export function calculateLiquidationAmount(
   liquidationFee: number,
   tradingFee: number,
   lotSize: number,
-  base2Col: number,
+  S3: number,
+  S2: number,
+  Sm: number,
 ) {
+  console.assert(mntncMarginRate < targetMarginRate);
   if (
-    marginBalanceCC / base2Col >
-    mntncMarginRate * Math.abs(traderPositionBC)
+    marginBalanceCC * S3 >
+    mntncMarginRate * Math.abs(traderPositionBC) * S2
   ) {
     // margin safe
     return 0;
@@ -205,19 +210,21 @@ export function calculateLiquidationAmount(
   let f = liquidationFee + tradingFee;
   // if the current margin balance does not exceed the fees,
   // we need to liquidate the whole position
-  if (!(marginBalanceCC > Math.abs(traderPositionBC) * f * base2Col)) {
+  if (!(marginBalanceCC > (Math.abs(traderPositionBC) * f * S2) / S3)) {
     return traderPositionBC;
   }
   let nom =
-    Math.abs(traderPositionBC) * targetMarginRate - marginBalanceCC / base2Col;
-  let deltapos = nom / (Math.sign(traderPositionBC) * (targetMarginRate - f));
+    Math.abs(traderPositionBC) * targetMarginRate * Sm - marginBalanceCC * S3;
+  let deltapos =
+    nom / (Math.sign(traderPositionBC) * (targetMarginRate * Sm - f * S2));
   // now round to lot
   deltapos = growToLot(deltapos, lotSize);
   return deltapos;
 }
 
 /**
- * Get the margin balance in collateral currency
+ * Calculate margin balance in collateral currency for a trader
+ * See alternative function below
  * @param {number} pos - position (base currency)
  * @param {number} LockedInValueQC - trader locked in value in quote currency
  * @param {number} S2 - Index S2
@@ -305,13 +312,14 @@ export function getQuote2CollateralFX(
   indexS3: number,
   collateralCurrencyIndex: number,
 ): number {
-  if (collateralCurrencyIndex === COLLATERAL_CURRENCY_QUOTE) {
+  if (collateralCurrencyIndex == COLLATERAL_CURRENCY_QUOTE) {
     // quote
     return 1;
-  } else if (collateralCurrencyIndex === COLLATERAL_CURRENCY_BASE) {
+  } else if (collateralCurrencyIndex == COLLATERAL_CURRENCY_BASE) {
     // base
     return 1 / indexS2;
   } else {
+    console.assert(collateralCurrencyIndex == COLLATERAL_CURRENCY_QUANTO);
     // quanto
     return 1 / indexS3;
   }
@@ -335,10 +343,10 @@ export function getBase2CollateralFX(
   atMarkPrice: boolean,
 ): number {
   let s2 = atMarkPrice ? markPremium + indexS2 : indexS2;
-  if (collateral_currency_index === COLLATERAL_CURRENCY_QUOTE) {
+  if (collateral_currency_index == COLLATERAL_CURRENCY_QUOTE) {
     // quote
     return s2;
-  } else if (collateral_currency_index === COLLATERAL_CURRENCY_BASE) {
+  } else if (collateral_currency_index == COLLATERAL_CURRENCY_BASE) {
     // base
     return s2 / indexS2;
   } else {
@@ -350,6 +358,7 @@ export function getBase2CollateralFX(
 export function findRoot(f: Function, x: number) {
   // TODO: lots of clean-up and this fails in corner cases
   let numIter = 100;
+  const dx = 1e-6;
   const fTol = 1e-10;
   let y = x + 0.001;
 
@@ -357,6 +366,7 @@ export function findRoot(f: Function, x: number) {
     let f1 = f(x);
 
     if (Math.abs(f1) < fTol) {
+      console.log('converged in', i, 'iterations');
       break;
     }
 
@@ -529,7 +539,7 @@ export function calcKStar(
   sig3: number,
 ) {
   let kStar = M2 - K2;
-  if (M3 !== 0) {
+  if (M3 != 0) {
     let h =
       (((S3 / S2) * (Math.exp(rho * sig2 * sig3) - 1)) /
         (Math.exp(sig2 * sig2) - 1)) *
@@ -559,7 +569,7 @@ export function calcPerpPrice(
   let res, sgnm;
   let dL = k * S2;
   let kStar = M2 - K2;
-  if (M3 === 0) {
+  if (M3 == 0) {
     res = probDefNoQuanto(K2 + k, L1 + dL, S2, sig2, r, M1, M2);
   } else {
     let h =
@@ -603,6 +613,7 @@ export function getTradeAmountFromPrice(
   lotSize: number,
 ) {
   const numIter = 100;
+  const dk = 1e-8;
   const fTol = 1e-7;
 
   function getPrice(x: number) {
@@ -628,6 +639,18 @@ export function getTradeAmountFromPrice(
   if (Math.abs(midPrice - price) < fTol) {
     return 0;
   }
+  if (price < midPrice) {
+    console.assert(
+      price <= getPrice(-lotSize),
+      'below mid price but above 0-short price',
+    );
+  }
+  if (price > midPrice) {
+    console.assert(
+      price >= getPrice(lotSize),
+      'above mid price but below 0-long price',
+    );
+  }
   // set up initial interval
   let ku = price < midPrice ? -lotSize : 0.01;
   let kd = price < midPrice ? -0.01 : lotSize;
@@ -643,6 +666,24 @@ export function getTradeAmountFromPrice(
     kd = 2 * kd;
     count = count + 1;
   }
+  // check that price belongs to range
+  if ((getPrice(kd) - price) * (getPrice(ku) - price) >= 0) {
+    console.log(
+      kd,
+      getPrice(kd),
+      ku,
+      getPrice(ku),
+      price,
+      getPrice(-lotSize),
+      midPrice,
+      getPrice(lotSize),
+    );
+  }
+  console.assert(
+    (getPrice(kd) - price) * (getPrice(ku) - price) < 0,
+    'valid interval not found',
+  );
+
   // bisection search
   let km = 0.5 * (ku + kd);
   count = 0;
@@ -714,7 +755,7 @@ export function getPricesAndTradesForPercentRage(
 
   for (let i = 0; i < pctRange.length; i++) {
     // if 0%, use mid-price
-    if (pctRange[i] === 0) {
+    if (pctRange[i] == 0) {
       kRange[i] = 0;
       priceRange[i] = midPrice;
       pctRangeOut[i] = 0;
@@ -762,7 +803,7 @@ export function calculateFundingRate(
   const r = premiumRateEWMA;
   const K2 = pos;
   let M2 = AMMFundCashCC;
-  if (collateralCCY !== COLLATERAL_CURRENCY_BASE) {
+  if (collateralCCY != COLLATERAL_CURRENCY_BASE) {
     M2 = 0;
   }
   let kStar = M2 - K2; //correct only for M3 = 0
@@ -774,9 +815,9 @@ export function calculateFundingRate(
 function getTargetCollateralM2(K2, S2, L1, sigma2, DDTarget) {
   let mu = -0.5 * sigma2 ** 2;
   let m: number;
-  if (L1 < 0 && K2 !== 0) {
+  if (L1 < 0 && K2 != 0) {
     m = K2 - L1 / Math.exp(mu + sigma2 * DDTarget) / S2;
-  } else if (L1 > 0 && K2 !== 0) {
+  } else if (L1 > 0 && K2 != 0) {
     m = K2 - L1 / Math.exp(mu - sigma2 * DDTarget) / S2;
   } else {
     m = -1;
@@ -808,7 +849,7 @@ function getTargetCollateralM3(
   r,
   DDTarget,
 ) {
-  if (K2 === 0) {
+  if (K2 == 0) {
     return -1;
   }
   let kappa = L1 / S2 / K2;
@@ -841,11 +882,12 @@ export function calculateAMMTargetSize(
   collateralCCY,
 ) {
   let M;
-  if (collateralCCY === COLLATERAL_CURRENCY_BASE) {
+  if (collateralCCY == COLLATERAL_CURRENCY_BASE) {
     M = getTargetCollateralM2(K2, S2, L1, sigma2, DDTarget);
-  } else if (collateralCCY === COLLATERAL_CURRENCY_QUOTE) {
+  } else if (collateralCCY == COLLATERAL_CURRENCY_QUOTE) {
     M = getTargetCollateralM1(K2, S2, L1, sigma2, DDTarget);
   } else {
+    console.assert(collateralCCY == COLLATERAL_CURRENCY_QUANTO);
     M = getTargetCollateralM3(
       K2,
       S2,
@@ -889,14 +931,15 @@ export function getDFTargetSize(
   k2Trader = Math.abs(k2Trader);
   let loss_down = (K2pair[0] + n * k2Trader) * (1 - Math.exp(r2pair[0]));
   let loss_up = (K2pair[1] + n * k2Trader) * (Math.exp(r2pair[1]) - 1);
-  if (collateralCCY === COLLATERAL_CURRENCY_QUOTE) {
+  if (collateralCCY == COLLATERAL_CURRENCY_QUOTE) {
     return S2 * Math.max(loss_down, loss_up);
-  } else if (collateralCCY === COLLATERAL_CURRENCY_BASE) {
+  } else if (collateralCCY == COLLATERAL_CURRENCY_BASE) {
     return Math.max(
       loss_down / Math.exp(r2pair[0]),
       loss_up / Math.exp(r2pair[1]),
     );
   } else {
+    console.assert(collateralCCY == COLLATERAL_CURRENCY_QUANTO);
     let m0 = loss_down / Math.exp(r3pair[0]);
     let m1 = loss_up / Math.exp(r3pair[1]);
     return (S2 / S3) * Math.max(m0, m1);
@@ -942,18 +985,6 @@ export function equalForPrecisionFloat(
   return y >= x_dn && y <= x_up;
 }
 
-export function getLeadingDecimalZeros(sNumber) {
-  // return leading decimal zeros, e.g.
-  // 0.02 -> 1, 0.002 -> 2, 0.1003 -> 0
-  let x = sNumber.split('.');
-  let sDec = x[x.length - 1];
-  let i = 0;
-  while (sDec[i] === '0' && i < sDec.length) {
-    i++;
-  }
-  return i;
-}
-
 export function mul64x64(x: BigNumber, y: BigNumber) {
   return x.mul(y).div(ONE_64x64);
 }
@@ -978,7 +1009,7 @@ export function abs64x64(x: BigNumber) {
 export function floatToABK64x64(x) {
   // convert float to ABK64x64 bigint-format
   // Create string from number with 18 decimals
-  if (x === 0) {
+  if (x == 0) {
     return BigNumber.from(0);
   }
   let sg = Math.sign(x);
@@ -996,14 +1027,14 @@ export function floatToABK64x64(x) {
 export function fractionToABDK64x64(nominator: number, denominator: number) {
   // convert a fraction of to integers to ABDK64x64 bigint-format
   // more accurate than the floating point version.
-  if (nominator === 0) {
+  if (nominator == 0) {
     return BigNumber.from(0);
   }
-  if (denominator === 0) {
+  if (denominator == 0) {
     throw new Error('fractionToABDK64x64 denominator must not be zero');
   }
   if (
-    nominator - Math.floor(nominator) !== 0 ||
+    nominator - Math.floor(nominator) != 0 ||
     denominator - Math.floor(denominator)
   ) {
     throw new Error('fractionToABDK64x64 arguments must be integer numbers');
@@ -1022,6 +1053,7 @@ export function ABK64x64ToFloat(x: BigNumber) {
   let xDec = x.sub(xInt.mul(ONE_64x64));
   xDec = xDec.mul(dec18).div(ONE_64x64);
   let k = 18 - xDec.toString().length;
+  console.assert(k >= 0);
   let sPad = '0'.repeat(k);
   let NumberStr = xInt.toString() + '.' + sPad + xDec.toString();
   return parseFloat(NumberStr) * s;
@@ -1050,7 +1082,7 @@ export function mulDec18(x, y) {
 
 export function floatToDec18(x) {
   // float number to dec 18
-  if (x === 0) {
+  if (x == 0) {
     return BigNumber.from(0);
   }
   let sg = Math.sign(x);
@@ -1084,7 +1116,7 @@ export function getMaxLeveragePosition(
   // we want to find a position size such that
   // (margin balance) - (initial balance) >= (trading fees)
   // pos * Sm / S3 - L / S3 + cash_cc  - m_r * |pos| * Sm / S3 >= f_r * |pos| * S2 / S3
-  if (slippageRate === null) {
+  if (slippageRate == null) {
     slippageRate = targetPremiumRate;
   }
   let a = beta * (1 - targetPremiumRate);

@@ -5,7 +5,6 @@ import { getContract } from 'utils/blockchain/contract-helpers';
 import { PerpParameters } from '../utils/perpUtils';
 import { ABK64x64ToFloat } from '../utils/contractUtils';
 import perpetualManagerAbi from 'utils/blockchain/abi/PerpetualManager.json';
-import { BigNumber } from 'ethers';
 
 export const initialPerpParameters: PerpParameters = {
   poolId: 0,
