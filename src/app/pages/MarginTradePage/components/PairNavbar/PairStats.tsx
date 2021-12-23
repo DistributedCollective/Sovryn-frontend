@@ -26,9 +26,10 @@ export const PairStats: React.FC<IPairStatsProps> = ({ pair }) => {
   const lowestPrice = candles.sort(function (a, b) {
     return a.low - b.low;
   });
+
   const url = backendUrl[currentChainId];
   const highestPrice = candles.sort(function (a, b) {
-    return a.high - b.high;
+    return b.high - a.high;
   });
 
   const getPairsCandles = useCallback(() => {
@@ -82,7 +83,7 @@ export const PairStats: React.FC<IPairStatsProps> = ({ pair }) => {
       //for pairs with RBTC as target
       if (pair[0] === pair[1] && !pair[2]) setDayPrice(pair[0].day_price);
 
-      //generating dayPrice for all pairs
+      //generating percent for all pairs
       //for pairs without RBTC
       if (pair[1] !== pair[0])
         if (lastPrice > dayPrice)
@@ -90,10 +91,17 @@ export const PairStats: React.FC<IPairStatsProps> = ({ pair }) => {
         else if (lastPrice < dayPrice)
           setPercent(((lastPrice - dayPrice) / lastPrice) * 100);
       //for pairs with RBTC as source
-      if (pair[2]) setPercent(-pair[0].price_change_percent_24h);
+      if (pair[2])
+        setPercent(
+          pair[0].price_change_percent_24h !== 0
+            ? -pair[0].price_change_percent_24h
+            : pair[0].price_change_percent_24h,
+        );
+
       //for pairs with RBTC as target
       if (pair[0] === pair[1] && !pair[2])
         setPercent(pair[0].price_change_percent_24h);
+
       //generating lowPrice
       // for pairs with RBTC as source
       if (pair[2]) setLowPrice(1 / pair[0].high_price_24h);
