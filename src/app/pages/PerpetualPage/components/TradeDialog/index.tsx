@@ -183,7 +183,11 @@ export const TradeDialog: React.FC = () => {
       marginChange,
     );
 
-    const tradingFee = getTradingFee(Math.abs(amountChange), perpParameters);
+    const tradingFee = getTradingFee(
+      Math.abs(amountChange),
+      perpParameters,
+      ammState,
+    );
 
     const leverageTarget = calculateLeverage(
       amountTarget,

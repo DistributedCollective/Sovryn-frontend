@@ -277,7 +277,7 @@ export const EditMarginDialog: React.FC = () => {
             />
           </div>
           {validation && !validation.valid && validation.errors.length > 0 && (
-            <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1 tw-mb-4 tw-text-warning tw-text-xs tw-font-medium tw-border tw-border-warning tw-rounded-lg">
+            <div className="tw-flex tw-flex-col tw-justify-between tw-px-6 tw-py-1 tw-mb-4 tw-text-warning tw-text-xs tw-font-medium tw-border tw-border-warning tw-rounded-lg">
               {validation.errorMessages}
             </div>
           )}

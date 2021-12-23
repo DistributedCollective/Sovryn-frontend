@@ -227,6 +227,7 @@ export const validatePositionChange = (
       result.errors.push(new Error('Expected price exceeds limit price!'));
       result.errorMessages?.push(
         <Trans
+          parent="div"
           key="priceExceedsSlippage"
           i18nKey={translations.perpetualPage.warnings.priceExceedsSlippage}
           values={{ slippage: numberToPercent(requiredSlippage, 2) }}
@@ -236,10 +237,10 @@ export const validatePositionChange = (
   }
 
   if (
-    marginChange !== 0 &&
     !isTraderInitialMarginSafe(
       traderState,
       marginChange,
+      amountChange,
       perpParameters,
       ammState,
     )
@@ -249,11 +250,14 @@ export const validatePositionChange = (
     result.errors.push(new Error('Resulting margin is not safe!'));
     result.errorMessages?.push(
       <Trans
+        parent="div"
         key="targetMarginUnsafe"
         i18nKey={translations.perpetualPage.warnings.targetMarginUnsafe}
       />,
     );
   }
+
+  console.log(amountChange, marginChange, result);
 
   return result;
 };

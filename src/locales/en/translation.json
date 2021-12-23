@@ -1870,7 +1870,7 @@
     },
     "warnings": {
       "priceExceedsSlippage": "Trade is likely to fail, because the expected price exceeds limit price! Update slippage to at least {{slippage}}, to avoid transaction failure.",
-      "targetMarginUnsafe": "Margin withdrawal is likely to fail. The resulting margin is to low and does not meet the required maintenance margin."
+      "targetMarginUnsafe": "Transaction is likely to fail. The resulting position does not meet the required maintenance margin."
     }
   },
   "spotTradingPage": {
