@@ -140,8 +140,10 @@ export class SovrynNetwork {
         ],
       });
 
-      Array.from(Object.keys(appContracts)).forEach(key => {
-        this.addWriteContract(key, appContracts[key]);
+      Object.keys(appContracts).forEach(key => {
+        if (appContracts[key].chainId === currentChainId) {
+          this.addWriteContract(key, appContracts[key]);
+        }
       });
     } catch (e) {
       console.error('init write web3 fails');
@@ -163,8 +165,10 @@ export class SovrynNetwork {
         this._readWeb3 = new Web3(web3Provider);
         this._readWeb3.eth.handleRevert = true;
 
-        Array.from(Object.keys(appContracts)).forEach(key => {
-          this.addReadContract(key, appContracts[key]);
+        Object.keys(appContracts).forEach(key => {
+          if (appContracts[key].chainId === currentChainId) {
+            this.addReadContract(key, appContracts[key]);
+          }
         });
 
         // if (isWebsocket) {
@@ -194,8 +198,10 @@ export class SovrynNetwork {
         keepAlive: true,
       });
       this._databaseWeb3 = new Web3(web3Provider);
-      Array.from(Object.keys(appContracts)).forEach(key => {
-        this.addDatabaseContract(key, appContracts[key]);
+      Object.keys(appContracts).forEach(key => {
+        if (appContracts[key].chainId === currentChainId) {
+          this.addDatabaseContract(key, appContracts[key]);
+        }
       });
     } catch (e) {
       console.error('init database web3 fails.');

@@ -35,6 +35,19 @@ export function calculateMaintenanceMarginRate(
   );
 }
 
+export function calculateInitialMarginRate(
+  fInitialMarginRateAlpha,
+  fMaintenanceMarginRateAlpha,
+  fInitialMarginRateCap,
+  fMarginRateBeta,
+  pos,
+): number {
+  return Math.min(
+    fInitialMarginRateAlpha + fMarginRateBeta * Math.abs(pos),
+    fInitialMarginRateCap,
+  );
+}
+
 /**
  * Determine amount to be deposited into margin account so that the given leverage
  * is obtained when trading a position pos (trade amount = position)
@@ -56,7 +69,7 @@ export function getDepositAmountForLvgPosition(
   S2Mark: number,
   totalFeeRate: number,
 ) {
-  let a = (Math.abs(pos) * S2) / leverage;
+  let a = (Math.abs(pos) * S2Mark) / leverage;
   let pnl = pos * (S2Mark - price);
   let fees = Math.abs(pos) * totalFeeRate * S2;
   return (a - pnl + fees) / S3;

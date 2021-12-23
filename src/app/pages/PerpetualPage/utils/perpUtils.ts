@@ -299,7 +299,8 @@ export function getMaxInitialLeverage(
 ): number {
   let mRate = getInitialMarginRate(position, perpParams);
   // leverage = 1 / marginrate
-  return 1 / mRate;
+  const buffer = 1e-13;
+  return 1 / mRate - buffer;
 }
 
 /**
