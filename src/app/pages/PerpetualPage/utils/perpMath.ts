@@ -1,6 +1,7 @@
-import { BigNumber, ethers } from 'ethers';
-import * as mathjs from 'mathjs';
-const BN = ethers.BigNumber;
+import { BigNumber } from 'ethers';
+import console from 'console';
+import { erf } from 'mathjs';
+const BN = BigNumber;
 const ONE_64x64 = BN.from('0x10000000000000000');
 const DECIMALS = BN.from(10).pow(BN.from(18));
 
@@ -15,7 +16,7 @@ export const PerpetualStateEMERGENCY = 3;
 export const PerpetualStateCLEARED = 4;
 
 export function cdfNormalStd(x: number, mu = 0, sig = 1) {
-  return 0.5 * (1 + mathjs.erf((x - mu) / (sig * Math.sqrt(2))));
+  return 0.5 * (1 + erf((x - mu) / (sig * Math.sqrt(2))));
 }
 
 export function calculateMaintenanceMarginRate(
@@ -319,7 +320,7 @@ export function getQuote2CollateralFX(
     // base
     return 1 / indexS2;
   } else {
-    console.assert(collateralCurrencyIndex == COLLATERAL_CURRENCY_QUANTO);
+    console.assert(collateralCurrencyIndex === COLLATERAL_CURRENCY_QUANTO);
     // quanto
     return 1 / indexS3;
   }
@@ -887,7 +888,7 @@ export function calculateAMMTargetSize(
   } else if (collateralCCY == COLLATERAL_CURRENCY_QUOTE) {
     M = getTargetCollateralM1(K2, S2, L1, sigma2, DDTarget);
   } else {
-    console.assert(collateralCCY == COLLATERAL_CURRENCY_QUANTO);
+    console.assert(collateralCCY === COLLATERAL_CURRENCY_QUANTO);
     M = getTargetCollateralM3(
       K2,
       S2,
@@ -939,7 +940,7 @@ export function getDFTargetSize(
       loss_up / Math.exp(r2pair[1]),
     );
   } else {
-    console.assert(collateralCCY == COLLATERAL_CURRENCY_QUANTO);
+    console.assert(collateralCCY === COLLATERAL_CURRENCY_QUANTO);
     let m0 = loss_down / Math.exp(r3pair[0]);
     let m1 = loss_up / Math.exp(r3pair[1]);
     return (S2 / S3) * Math.max(m0, m1);
