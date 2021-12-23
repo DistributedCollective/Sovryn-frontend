@@ -22,7 +22,6 @@ import classNames from 'classnames';
 import { PerpetualTrade, PerpetualTradeType } from '../../types';
 import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
 import { Input } from '../../../../components/Input';
-import { fromWei, toWei } from 'web3-utils';
 import { PopoverPosition, Tooltip } from '@blueprintjs/core';
 import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
@@ -43,6 +42,11 @@ import {
   validatePositionChange,
 } from '../../utils/contractUtils';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
+import {
+  fromWei,
+  numberFromWei,
+  toWei,
+} from '../../../../../utils/blockchain/math-helpers';
 
 interface ITradeFormProps {
   trade: PerpetualTrade;
@@ -207,9 +211,9 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     [trade.position, trade.amount, perpParameters],
   );
 
-  const tradingFeeWei = useMemo(
-    () => getTradingFee(Number(trade.amount), perpParameters),
-    [perpParameters, trade.amount],
+  const tradingFee = useMemo(
+    () => getTradingFee(numberFromWei(trade.amount), perpParameters, ammState),
+    [trade.amount, perpParameters, ammState],
   );
 
   const liquidationPrice = useMemo(
@@ -243,7 +247,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
 
   const validation = useMemo(() => {
     const signedAmount = getSignedAmount(trade.position, trade.amount);
-    const margin = isNewTrade
+    const marginChange = isNewTrade
       ? getRequiredMarginCollateral(
           trade.leverage,
           signedAmount,
@@ -252,17 +256,17 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           traderState,
           trade.slippage,
         )
-      : traderState.availableCashCC;
-    return signedAmount === 0 && margin === 0
-      ? undefined
-      : validatePositionChange(
+      : 0;
+    return signedAmount !== 0 || marginChange !== 0
+      ? validatePositionChange(
           signedAmount,
-          margin,
+          marginChange,
           trade.slippage,
           traderState,
           perpParameters,
           ammState,
-        );
+        )
+      : undefined;
   }, [isNewTrade, trade, traderState, perpParameters, ammState]);
 
   const buttonDisabled = useMemo(
@@ -401,7 +405,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           minDecimals={4}
           maxDecimals={6}
           mode={AssetValueMode.auto}
-          value={String(tradingFeeWei)}
+          value={tradingFee}
           assetString={pair.baseAsset}
         />
       </div>
@@ -450,7 +454,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         </>
       )}
       {validation && !validation.valid && validation.errors.length > 0 && (
-        <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1 tw-mt-4 tw-text-warning tw-text-xs tw-font-medium tw-border tw-border-warning tw-rounded-lg">
+        <div className="tw-flex tw-flex-col tw-justify-between tw-px-6 tw-py-1 tw-mt-4 tw-text-warning tw-text-xs tw-font-medium tw-border tw-border-warning tw-rounded-lg">
           {validation.errorMessages}
         </div>
       )}

@@ -1,6 +1,8 @@
 /*
-  COMMIT: 58f8fecbe97596974c11fd205761096337f6f1c5
+  COMMIT: 4011607fba82503c9a7bc81220bec94498c1d451
+  Helper-functions for frontend
 */
+
 import console from 'console';
 import {
   calcKStar,
@@ -31,7 +33,6 @@ export interface PerpParameters {
   fInitialMarginRateAlpha: number;
   fMarginRateBeta: number;
   fInitialMarginRateCap: number;
-  fOpenInterest: number;
   fMaintenanceMarginRateAlpha: number;
   fTreasuryFeeRate: number;
   fPnLPartRate: number;
@@ -61,6 +62,8 @@ export interface PerpParameters {
   // funding state
   fCurrentFundingRate: number;
   fUnitAccumulatedFunding: number;
+
+  fOpenInterest: number;
 
   poolId: number;
   oracleS2Addr: string;
@@ -241,8 +244,11 @@ export function getTradingFeeRate(perpParams: PerpParameters): number {
 export function getTradingFee(
   deltaPosition: number,
   perpParams: PerpParameters,
+  ammData: AMMState,
 ): number {
-  return Math.abs(deltaPosition) * getTradingFeeRate(perpParams);
+  let feeBC = Math.abs(deltaPosition) * getTradingFeeRate(perpParams);
+  let fx = getBase2CollateralFX(ammData, false);
+  return feeBC * fx;
 }
 
 /**
@@ -534,6 +540,7 @@ export function calculateApproxLiquidationPrice(
  * @param {PerpParameters} perpParams - Contains parameter of the perpetual
  * @param {AMMState} ammData - AMM state
  * @param {number} slippagePercent - optional. Specify slippage compared to mid-price that the trader is willing to accept
+ * @param {boolean} accountForExistingMargin - optional, default true. subtracts existing margin and clamp to 0
  * @returns {number} balance required to arrive at the perpetual contract to obtain requested leverage
  */
 export function getRequiredMarginCollateral(
@@ -576,18 +583,11 @@ export function getRequiredMarginCollateral(
     Math.abs(positionToTrade) * getMinimalSpread(perpParams, ammData) * Sm;
   let newPnLQC = positionToTrade * (Sm - tradeAmountPrice) - buffer;
   let pnlCC = (initialPnLQC + newPnLQC) * quote2collateral;
-  /*
-    console.log("newPnLQC = ", newPnLQC)
-    console.log("pnlCC = ", pnlCC)
-    console.log("base2collateral = ", base2collateral)
-    console.log("leverage = ", leverage)
-    console.log("feesBC = ", feesBC)
-    console.log("coll base = ", Math.abs(targetPos) * base2collateral / leverage)*/
+
   let collRequired =
     (Math.abs(targetPos) * base2collateral) / leverage -
     pnlCC +
     feesBC * base2collateral;
-
   if (accountForExistingMargin) {
     // account for collateral already deposited
     return Math.max(0, collRequired - traderState.availableCashCC);
@@ -690,11 +690,11 @@ export function getTraderPnLInCC(
   traderState: TraderState,
   ammData: AMMState,
   perpData: PerpParameters,
-  price: number = NaN,
+  limitPrice: number = NaN,
 ): number {
   return (
     getQuote2CollateralFX(ammData) *
-    getTraderPnL(traderState, ammData, perpData, price)
+    getTraderPnL(traderState, ammData, perpData, limitPrice)
   );
 }
 
@@ -853,12 +853,14 @@ export function isTraderMaintenanceMarginSafe(
   );
 }
 
+// TODO: get max position size for given margin
 /**
  * Check whether trader is initial margin safe (i.e. can increase position or withdraw margin)
  *
  * Uses prices based on the recent oracle data, which can differ from the contract's price entry.
  * @param {TraderState} traderState - Trader state (for account balances)
  * @param {number} deltaCashCC - requested change in margin cash in collateral currency (plus to add, minus to remove)
+ * @param {number} deltaPosBC - requested change in position size (plus to add, minus to remove)
  * @param {PerpParameters} perpData Perpetual data
  * @param {AMMState} ammData - AMM data
  * @returns An array containing [prices, % deviation from mid price ((price - mid-price)/mid-price), trade amounts]
@@ -867,6 +869,7 @@ export function isTraderMaintenanceMarginSafe(
 export function isTraderInitialMarginSafe(
   traderState: TraderState,
   deltaCashCC: number,
+  deltaPosBC: number,
   perpParams: PerpParameters,
   ammData: AMMState,
 ) {
@@ -875,12 +878,21 @@ export function isTraderInitialMarginSafe(
     perpParams,
   );
   let m = traderState.availableCashCC + deltaCashCC;
+  let newPositionBC = traderState.marginAccountPositionBC + deltaPosBC;
+  let lockedIn = traderState.marginAccountLockedInValueQC;
+  if (deltaPosBC !== 0) {
+    // factor-in a trade of size deltaPosBC
+    let px = getPrice(deltaPosBC, perpParams, ammData);
+    lockedIn = lockedIn + px * deltaPosBC;
+    let feesCC = getTradingFee(deltaPosBC, perpParams, ammData);
+    m = m - feesCC;
+  }
   let s3 = 1 / getQuote2CollateralFX(ammData);
   return isTraderMarginSafe(
     tau,
-    traderState.marginAccountPositionBC,
+    newPositionBC,
     getMarkPrice(ammData),
-    traderState.marginAccountLockedInValueQC,
+    lockedIn,
     ammData.indexS2PriceDataOracle,
     s3,
     m,

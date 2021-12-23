@@ -208,7 +208,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
 
     return validatePositionChange(
       amountChange,
-      0, // Don't test for margin change as it will be moved equally.
+      marginChange,
       changedTrade.slippage,
       traderState,
       perpParameters,
@@ -217,6 +217,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
   }, [
     amountChange,
     amountTarget,
+    marginChange,
     changedTrade,
     traderState,
     perpParameters,
@@ -305,7 +306,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
         </span>
       </div>
       {validation && !validation.valid && validation.errors.length > 0 && (
-        <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1 tw-mb-4 tw-text-warning tw-text-xs tw-font-medium tw-border tw-border-warning tw-rounded-lg">
+        <div className="tw-flex tw-flex-col tw-justify-between tw-px-6 tw-py-1 tw-mb-4 tw-text-warning tw-text-xs tw-font-medium tw-border tw-border-warning tw-rounded-lg">
           {validation.errorMessages}
         </div>
       )}
