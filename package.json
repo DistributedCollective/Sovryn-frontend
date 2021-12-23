@@ -47,6 +47,7 @@
     "camelcase": "^5.3.1",
     "case-sensitive-paths-webpack-plugin": "2.3.0",
     "classnames": "2.3.1",
+    "console": "0.7.2",
     "core-js": "3.7.0",
     "create-file-webpack-plugin": "1.0.1",
     "cross-env": "7.0.2",

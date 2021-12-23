@@ -1,5 +1,6 @@
 import { BigNumber } from 'ethers';
-const mathjs = require('mathjs');
+import console from 'console';
+import { erf } from 'mathjs';
 const BN = BigNumber;
 const ONE_64x64 = BN.from('0x10000000000000000');
 const DECIMALS = BN.from(10).pow(BN.from(18));
@@ -15,7 +16,7 @@ export const PerpetualStateEMERGENCY = 3;
 export const PerpetualStateCLEARED = 4;
 
 export function cdfNormalStd(x: number, mu = 0, sig = 1) {
-  return 0.5 * (1 + mathjs.erf((x - mu) / (sig * Math.sqrt(2))));
+  return 0.5 * (1 + erf((x - mu) / (sig * Math.sqrt(2))));
 }
 
 export function calculateMaintenanceMarginRate(
@@ -182,7 +183,9 @@ export function isTraderMarginSafe(
  * @param {number} liquidationFee - liquidation fee rate, applied to position size (base currency) being liquidated
  * @param {number} tradingFee - trading fee rate, applied to position size (base currency) being liquidated
  * @param {number} lotSize - lot size (base currency)
- * @param {number} base2Col - base to collateral conversion (at index price)
+ * @param {number} S2 - index price (base to quote)
+ * @param {number} S3 - collateral to quote conversion
+ * @param {number} Sm - mark price (base to quote conversion)
  * @returns {number} Amount to be liquidated (in base currency)
  */
 export function calculateLiquidationAmount(
@@ -193,11 +196,14 @@ export function calculateLiquidationAmount(
   liquidationFee: number,
   tradingFee: number,
   lotSize: number,
-  base2Col: number,
+  S3: number,
+  S2: number,
+  Sm: number,
 ) {
+  console.assert(mntncMarginRate < targetMarginRate);
   if (
-    marginBalanceCC / base2Col >
-    mntncMarginRate * Math.abs(traderPositionBC)
+    marginBalanceCC * S3 >
+    mntncMarginRate * Math.abs(traderPositionBC) * S2
   ) {
     // margin safe
     return 0;
@@ -205,19 +211,21 @@ export function calculateLiquidationAmount(
   let f = liquidationFee + tradingFee;
   // if the current margin balance does not exceed the fees,
   // we need to liquidate the whole position
-  if (!(marginBalanceCC > Math.abs(traderPositionBC) * f * base2Col)) {
+  if (!(marginBalanceCC > (Math.abs(traderPositionBC) * f * S2) / S3)) {
     return traderPositionBC;
   }
   let nom =
-    Math.abs(traderPositionBC) * targetMarginRate - marginBalanceCC / base2Col;
-  let deltapos = nom / (Math.sign(traderPositionBC) * (targetMarginRate - f));
+    Math.abs(traderPositionBC) * targetMarginRate * Sm - marginBalanceCC * S3;
+  let deltapos =
+    nom / (Math.sign(traderPositionBC) * (targetMarginRate * Sm - f * S2));
   // now round to lot
   deltapos = growToLot(deltapos, lotSize);
   return deltapos;
 }
 
 /**
- * Get the margin balance in collateral currency
+ * Calculate margin balance in collateral currency for a trader
+ * See alternative function below
  * @param {number} pos - position (base currency)
  * @param {number} LockedInValueQC - trader locked in value in quote currency
  * @param {number} S2 - Index S2
@@ -312,6 +320,7 @@ export function getQuote2CollateralFX(
     // base
     return 1 / indexS2;
   } else {
+    console.assert(collateralCurrencyIndex === COLLATERAL_CURRENCY_QUANTO);
     // quanto
     return 1 / indexS3;
   }
@@ -357,6 +366,7 @@ export function findRoot(f: Function, x: number) {
     let f1 = f(x);
 
     if (Math.abs(f1) < fTol) {
+      console.log('converged in', i, 'iterations');
       break;
     }
 
@@ -628,6 +638,18 @@ export function getTradeAmountFromPrice(
   if (Math.abs(midPrice - price) < fTol) {
     return 0;
   }
+  if (price < midPrice) {
+    console.assert(
+      price <= getPrice(-lotSize),
+      'below mid price but above 0-short price',
+    );
+  }
+  if (price > midPrice) {
+    console.assert(
+      price >= getPrice(lotSize),
+      'above mid price but below 0-long price',
+    );
+  }
   // set up initial interval
   let ku = price < midPrice ? -lotSize : 0.01;
   let kd = price < midPrice ? -0.01 : lotSize;
@@ -643,6 +665,24 @@ export function getTradeAmountFromPrice(
     kd = 2 * kd;
     count = count + 1;
   }
+  // check that price belongs to range
+  if ((getPrice(kd) - price) * (getPrice(ku) - price) >= 0) {
+    console.log(
+      kd,
+      getPrice(kd),
+      ku,
+      getPrice(ku),
+      price,
+      getPrice(-lotSize),
+      midPrice,
+      getPrice(lotSize),
+    );
+  }
+  console.assert(
+    (getPrice(kd) - price) * (getPrice(ku) - price) < 0,
+    'valid interval not found',
+  );
+
   // bisection search
   let km = 0.5 * (ku + kd);
   count = 0;
@@ -846,6 +886,7 @@ export function calculateAMMTargetSize(
   } else if (collateralCCY === COLLATERAL_CURRENCY_QUOTE) {
     M = getTargetCollateralM1(K2, S2, L1, sigma2, DDTarget);
   } else {
+    console.assert(collateralCCY === COLLATERAL_CURRENCY_QUANTO);
     M = getTargetCollateralM3(
       K2,
       S2,
@@ -897,6 +938,7 @@ export function getDFTargetSize(
       loss_up / Math.exp(r2pair[1]),
     );
   } else {
+    console.assert(collateralCCY === COLLATERAL_CURRENCY_QUANTO);
     let m0 = loss_down / Math.exp(r3pair[0]);
     let m1 = loss_up / Math.exp(r3pair[1]);
     return (S2 / S3) * Math.max(m0, m1);
@@ -1022,6 +1064,7 @@ export function ABK64x64ToFloat(x: BigNumber) {
   let xDec = x.sub(xInt.mul(ONE_64x64));
   xDec = xDec.mul(dec18).div(ONE_64x64);
   let k = 18 - xDec.toString().length;
+  console.assert(k >= 0);
   let sPad = '0'.repeat(k);
   let NumberStr = xInt.toString() + '.' + sPad + xDec.toString();
   return parseFloat(NumberStr) * s;

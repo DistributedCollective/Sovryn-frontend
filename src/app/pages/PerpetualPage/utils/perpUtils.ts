@@ -1,7 +1,7 @@
 /*
-    Helper-functions for frontend
+  COMMIT: 58f8fecbe97596974c11fd205761096337f6f1c5
 */
-
+import console from 'console';
 import {
   calcKStar,
   shrinkToLot,
@@ -13,6 +13,7 @@ import {
   getPricesAndTradesForPercentRage,
   getMaxLeveragePosition,
   isTraderMarginSafe,
+  cdfNormalStd,
 } from './perpMath';
 
 /*---
@@ -346,9 +347,12 @@ export function getSignedMaxAbsPositionForTrader(
   let alpha = perpParams.fInitialMarginRateAlpha;
   let beta = perpParams.fMarginRateBeta;
   let fee = getTradingFeeRate(perpParams);
-  let minimalSpread = perpParams.fMinimalSpread;
-  let cash = traderState.availableCashCC;
-  let posMargin = getMaxLeveragePosition(alpha, beta, cash, fee, minimalSpread);
+  let cashBC =
+    (traderState.availableCashCC * ammData.indexS3PriceDataOracle) /
+    ammData.indexS2PriceDataOracle;
+  let premiumRate = cdfNormalStd(perpParams.fAMMTargetDD_1);
+
+  let posMargin = getMaxLeveragePosition(cashBC, premiumRate, alpha, beta, fee);
 
   if (direction < 0) {
     return Math.max(-posMargin, maxSignedPos);
@@ -369,6 +373,8 @@ export function calculateSlippagePrice(
   slippagePercent: number,
   direction: number,
 ) {
+  console.assert(slippagePercent < 0.1); //10% is unreasonably high slippage
+  console.assert(slippagePercent >= 0);
   return currentMidPrice * (1 + Math.sign(direction) * slippagePercent);
 }
 
@@ -528,7 +534,6 @@ export function calculateApproxLiquidationPrice(
  * @param {PerpParameters} perpParams - Contains parameter of the perpetual
  * @param {AMMState} ammData - AMM state
  * @param {number} slippagePercent - optional. Specify slippage compared to mid-price that the trader is willing to accept
- * @param {boolean} accountForExistingMargin - optional, default true. subtracts existing margin and clamp to
  * @returns {number} balance required to arrive at the perpetual contract to obtain requested leverage
  */
 export function getRequiredMarginCollateral(
@@ -540,6 +545,7 @@ export function getRequiredMarginCollateral(
   slippagePercent = 0,
   accountForExistingMargin = true,
 ): number {
+  console.assert(leverage > 0);
   let currentPos = traderState.marginAccountPositionBC;
   let positionToTrade = targetPos - currentPos;
   let feesBC = Math.abs(positionToTrade) * getTradingFeeRate(perpParams);
@@ -571,12 +577,12 @@ export function getRequiredMarginCollateral(
   let newPnLQC = positionToTrade * (Sm - tradeAmountPrice) - buffer;
   let pnlCC = (initialPnLQC + newPnLQC) * quote2collateral;
   /*
-  console.log("newPnLQC = ", newPnLQC)
-  console.log("pnlCC = ", pnlCC)
-  console.log("base2collateral = ", base2collateral)
-  console.log("leverage = ", leverage)
-  console.log("feesBC = ", feesBC)
-  console.log("coll base = ", Math.abs(targetPos) * base2collateral / leverage)*/
+    console.log("newPnLQC = ", newPnLQC)
+    console.log("pnlCC = ", pnlCC)
+    console.log("base2collateral = ", base2collateral)
+    console.log("leverage = ", leverage)
+    console.log("feesBC = ", feesBC)
+    console.log("coll base = ", Math.abs(targetPos) * base2collateral / leverage)*/
   let collRequired =
     (Math.abs(targetPos) * base2collateral) / leverage -
     pnlCC +
@@ -777,25 +783,25 @@ export function getPrice(
 
 export function getDepthMatrix(perpData: PerpParameters, ammData: AMMState) {
   let pctRange = [
-    1.0,
-    0.9,
-    0.8,
-    0.7,
-    0.6,
-    0.5,
-    0.4,
-    0.3,
-    0.2,
-    0,
-    -0.2,
-    -0.3,
-    -0.4,
-    -0.5,
-    -0.6,
-    -0.7,
-    -0.8,
-    -0.9,
     -1.0,
+    -0.9,
+    -0.8,
+    -0.7,
+    -0.6,
+    -0.5,
+    -0.4,
+    -0.3,
+    -0.2,
+    0,
+    0.2,
+    0.3,
+    0.4,
+    0.5,
+    0.6,
+    0.7,
+    0.8,
+    0.9,
+    1.0,
   ];
   return getPricesAndTradesForPercentRage(
     ammData.K2,
