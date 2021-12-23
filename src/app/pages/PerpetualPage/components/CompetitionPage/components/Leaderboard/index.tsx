@@ -91,7 +91,7 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
                 'getTraderState',
                 [perpetualId, item.walletAddress.toLowerCase()],
               )
-              .then(parseTraderState);
+              .then(result => parseTraderState(result));
 
             unrealizedProfit = getTraderPnLInBC(
               traderState,

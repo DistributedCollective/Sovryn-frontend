@@ -60,14 +60,14 @@ export const usePerpetual_queryLiqPoolStateFromPerpetualId = (
   );
 };
 
-const parseLiqPoolState = (pool: any): LiqPoolState => ({
-  fPnLparticipantsCashCC: ABK64x64ToFloat(pool.fPnLparticipantsCashCC),
-  fAMMFundCashCC: ABK64x64ToFloat(pool.fAMMFundCashCC),
-  fDefaultFundCashCC: ABK64x64ToFloat(pool.fDefaultFundCashCC),
-  iPriceUpdateTimeSec: ABK64x64ToFloat(pool.iPriceUpdateTimeSec),
-  fTargetAMMFundSize: ABK64x64ToFloat(pool.fTargetAMMFundSize),
-  fTargetDFSize: ABK64x64ToFloat(pool.fTargetDFSize),
-  iLastTargetPoolSizeTime: ABK64x64ToFloat(pool.iLastTargetPoolSizeTime),
-  iLastFundingTime: ABK64x64ToFloat(pool.iLastFundingTime),
-  isRunning: pool.isRunning,
+const parseLiqPoolState = (response: any): LiqPoolState => ({
+  fPnLparticipantsCashCC: ABK64x64ToFloat(response[6]),
+  fAMMFundCashCC: ABK64x64ToFloat(response[7]),
+  fDefaultFundCashCC: ABK64x64ToFloat(response[8]),
+  iPriceUpdateTimeSec: ABK64x64ToFloat(response[9]),
+  fTargetAMMFundSize: ABK64x64ToFloat(response[10]),
+  fTargetDFSize: ABK64x64ToFloat(response[11]),
+  iLastTargetPoolSizeTime: ABK64x64ToFloat(response[12]),
+  iLastFundingTime: ABK64x64ToFloat(response[13]),
+  isRunning: response[1],
 });
