@@ -34,6 +34,7 @@ import MYNTPresaleAbi from './abi/MYNTPresale.json';
 import MYNTMarketMakerAbi from './abi/MYNTMarketMaker.json';
 import perpetualManagerAbi from './abi/PerpetualManager.json';
 import marginTokenAbi from './abi/MarginToken.json';
+import { ChainId } from '../../types';
 
 export const contracts = {
   sovrynProtocol: {
@@ -293,9 +294,11 @@ export const contracts = {
   perpetualManager: {
     address: '0x0606857c54803a8F5936CF832Ebf539e254eBEFa',
     abi: perpetualManagerAbi,
+    chainId: ChainId.BSC_TESTNET,
   },
   PERPETUALS_token: {
     address: '0x7628E5F70cCa5665f00BD0911D146F4a7E8efB22',
     abi: marginTokenAbi,
+    chainId: ChainId.BSC_TESTNET,
   },
 };

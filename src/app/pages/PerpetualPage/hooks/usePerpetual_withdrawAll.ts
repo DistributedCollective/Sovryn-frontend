@@ -1,5 +1,4 @@
 import { useAccount } from 'app/hooks/useAccount';
-import { useSendContractTx } from 'app/hooks/useSendContractTx';
 import { TxType } from 'store/global/transactions-store/types';
 import { gasLimit } from 'utils/classifiers';
 import {
@@ -8,8 +7,9 @@ import {
 } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { useMemo } from 'react';
 import { PERPETUAL_GAS_PRICE_DEFAULT } from '../types';
-import { Asset } from '../../../../types';
+import { Asset, Chain } from '../../../../types';
 import { PerpetualTx } from '../components/TradeDialog/types';
+import { useBridgeNetworkSendTx } from '../../../hooks/useBridgeNetworkSendTx';
 
 export const usePerpetual_withdrawAll = (pairType: PerpetualPairType) => {
   const account = useAccount();
@@ -17,7 +17,8 @@ export const usePerpetual_withdrawAll = (pairType: PerpetualPairType) => {
     pairType,
   ]);
 
-  const { send, ...rest } = useSendContractTx(
+  const { send, ...rest } = useBridgeNetworkSendTx(
+    Chain.BSC,
     'perpetualManager',
     'withdrawAll',
   );

@@ -22,6 +22,10 @@ export const usePerpetual_queryTraderState = (perpetualId: string) => {
   const account = useAccount();
 
   const fetch = useCallback(() => {
+    if (!account) {
+      return;
+    }
+
     bridgeNetwork
       .call(
         Chain.BSC,
