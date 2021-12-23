@@ -5,6 +5,7 @@ import { getContract } from 'utils/blockchain/contract-helpers';
 import { PerpParameters } from '../utils/perpUtils';
 import { ABK64x64ToFloat } from '../utils/contractUtils';
 import perpetualManagerAbi from 'utils/blockchain/abi/PerpetualManager.json';
+import { BigNumber } from 'ethers';
 
 export const initialPerpParameters: PerpParameters = {
   poolId: 0,
@@ -74,44 +75,38 @@ export const usePerpetual_queryPerpParameters = (perpetualId: string) => {
 };
 
 const parsePerpParameter = (response: any): PerpParameters => ({
-  fOpenInterest: 0,
-  fInitialMarginRateAlpha: ABK64x64ToFloat(response.fInitialMarginRateAlpha),
-  fMarginRateBeta: ABK64x64ToFloat(response.fMarginRateBeta),
-  fInitialMarginRateCap: ABK64x64ToFloat(response.fInitialMarginRateCap),
-  fMaintenanceMarginRateAlpha: ABK64x64ToFloat(
-    response.fMaintenanceMarginRateAlpha,
-  ),
-  fTreasuryFeeRate: ABK64x64ToFloat(response.fTreasuryFeeRate),
-  fPnLPartRate: ABK64x64ToFloat(response.fPnLPartRate),
-  fReferralRebateRate: ABK64x64ToFloat(response.fReferralRebateRate),
-  fLiquidationPenaltyRate: ABK64x64ToFloat(response.fLiquidationPenaltyRate),
-  fMinimalSpread: ABK64x64ToFloat(response.fMinimalSpread),
-  fMinimalSpreadInStress: ABK64x64ToFloat(response.fMinimalSpreadInStress),
-  fLotSizeBC: ABK64x64ToFloat(response.fLotSizeBC),
-  fFundingRateClamp: ABK64x64ToFloat(response.fFundingRateClamp),
-  fMarkPriceEMALambda: ABK64x64ToFloat(response.fMarkPriceEMALambda),
-  fSigma2: ABK64x64ToFloat(response.fSigma2),
-  fSigma3: ABK64x64ToFloat(response.fSigma3),
-  fRho23: ABK64x64ToFloat(response.fRho23),
-  // default fund / AMM fund
-  fStressReturnS2_0: ABK64x64ToFloat(response.fStressReturnS2[0]),
-  fStressReturnS2_1: ABK64x64ToFloat(response.fStressReturnS2[1]),
-  fStressReturnS3_0: ABK64x64ToFloat(response.fStressReturnS3[0]),
-  fStressReturnS3_1: ABK64x64ToFloat(response.fStressReturnS3[1]),
-  fDFCoverNRate: ABK64x64ToFloat(response.fDFCoverNRate),
-  fDFLambda_0: ABK64x64ToFloat(response.fDFLambda[0]),
-  fDFLambda_1: ABK64x64ToFloat(response.fDFLambda[1]),
-  fAMMTargetDD_0: ABK64x64ToFloat(response.fAMMTargetDD[0]),
-  fAMMTargetDD_1: ABK64x64ToFloat(response.fAMMTargetDD[1]),
-  fAMMMinSizeCC: ABK64x64ToFloat(response.fAMMMinSizeCC),
-  fMinimalTraderExposureEMA: ABK64x64ToFloat(
-    response.fMinimalTraderExposureEMA,
-  ),
-  fMaximalTradeSizeBumpUp: ABK64x64ToFloat(response.fMaximalTradeSizeBumpUp),
-  fCurrentFundingRate: ABK64x64ToFloat(response.fCurrentFundingRate),
-  fUnitAccumulatedFunding: ABK64x64ToFloat(response.fUnitAccumulatedFunding),
-
-  poolId: response.poolId,
-  oracleS2Addr: response.oracleS2Addr,
-  oracleS3Addr: response.oracleS3Addr,
+  poolId: BigNumber.from(response[1]).toNumber(),
+  oracleS2Addr: response[2],
+  oracleS3Addr: response[3],
+  fCurrentFundingRate: ABK64x64ToFloat(response[10]),
+  fUnitAccumulatedFunding: ABK64x64ToFloat(response[11]),
+  fOpenInterest: ABK64x64ToFloat(response[13]),
+  fInitialMarginRateAlpha: ABK64x64ToFloat(response[17]),
+  fMarginRateBeta: ABK64x64ToFloat(response[18]),
+  fInitialMarginRateCap: ABK64x64ToFloat(response[19]),
+  fMaintenanceMarginRateAlpha: ABK64x64ToFloat(response[20]),
+  fTreasuryFeeRate: ABK64x64ToFloat(response[21]),
+  fPnLPartRate: ABK64x64ToFloat(response[22]),
+  fReferralRebateRate: ABK64x64ToFloat(response[23]),
+  fLiquidationPenaltyRate: ABK64x64ToFloat(response[24]),
+  fMinimalSpread: ABK64x64ToFloat(response[25]),
+  fMinimalSpreadInStress: ABK64x64ToFloat(response[25]), // TODO: update with the next contract update
+  fLotSizeBC: ABK64x64ToFloat(response[26]),
+  fFundingRateClamp: ABK64x64ToFloat(response[27]),
+  fMarkPriceEMALambda: ABK64x64ToFloat(response[28]),
+  fSigma2: ABK64x64ToFloat(response[29]),
+  fSigma3: ABK64x64ToFloat(response[30]),
+  fRho23: ABK64x64ToFloat(response[31]),
+  fStressReturnS2_0: ABK64x64ToFloat(response[33][0]),
+  fStressReturnS2_1: ABK64x64ToFloat(response[33][1]),
+  fStressReturnS3_0: ABK64x64ToFloat(response[34][0]),
+  fStressReturnS3_1: ABK64x64ToFloat(response[34][1]),
+  fDFCoverNRate: ABK64x64ToFloat(response[35]),
+  fDFLambda_0: ABK64x64ToFloat(response[36][0]),
+  fDFLambda_1: ABK64x64ToFloat(response[36][1]),
+  fAMMTargetDD_0: ABK64x64ToFloat(response[37][0]),
+  fAMMTargetDD_1: ABK64x64ToFloat(response[37][1]),
+  fAMMMinSizeCC: ABK64x64ToFloat(response[38]),
+  fMinimalTraderExposureEMA: ABK64x64ToFloat(response[39]),
+  fMaximalTradeSizeBumpUp: ABK64x64ToFloat(response[41]),
 });
