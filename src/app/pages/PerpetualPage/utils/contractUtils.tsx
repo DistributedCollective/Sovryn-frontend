@@ -257,7 +257,5 @@ export const validatePositionChange = (
     );
   }
 
-  console.log(amountChange, marginChange, result);
-
   return result;
 };
