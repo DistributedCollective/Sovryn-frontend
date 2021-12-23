@@ -46,8 +46,6 @@ export const AccountDialog: React.FC<AccountDialogProps> = ({ pairType }) => {
     }
   }, [modal]);
 
-  console.log(modal);
-
   return (
     <Dialog
       isOpen={modal === PerpetualPageModals.ACCOUNT_BALANCE}

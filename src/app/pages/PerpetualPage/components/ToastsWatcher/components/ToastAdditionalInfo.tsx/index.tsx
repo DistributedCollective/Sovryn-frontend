@@ -4,7 +4,6 @@ import { translations } from 'locales/i18n';
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TradingPosition } from 'types/trading-position';
-import { weiToNumberFormat } from 'utils/display-text/format';
 import {
   isTrade,
   isDepositMargin,
