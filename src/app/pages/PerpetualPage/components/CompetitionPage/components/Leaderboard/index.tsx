@@ -34,7 +34,6 @@ import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import debounce from 'lodash.debounce';
-import { useDebouncedEffect } from '../../../../../../hooks/useDebouncedEffect';
 
 interface ILeaderboardProps {
   data: RegisteredTraderData[];
@@ -72,6 +71,8 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
         return;
       }
 
+      console.log(perpetualParameters, ammState, leaderboardData);
+
       const perpetualId = PerpetualPairDictionary.get(PerpetualPairType.BTCUSD)
         .id;
       const contract = getContract('perpetualManager');
@@ -89,8 +90,8 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
             userName: item.userName,
             walletAddress: item.walletAddress,
             openedPositions: trader?.positionsTotalCount || 0,
-            lastTrade: '',
-            totalPnL: '',
+            lastTrade: 0,
+            totalPnL: 0,
           };
 
           if (trader?.positionsTotalCount) {
@@ -114,7 +115,10 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
                 .then(result => parseTraderState(result))
                 .catch(console.error);
 
+              console.log(item, traderState);
+
               if (!traderState) {
+                items.push(entry);
                 continue;
               }
 
@@ -134,11 +138,13 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
               0,
             );
 
-            entry.totalPnL = percentageChange(
-              startingBalance,
-              bignumber(startingBalance)
-                .add(realizedProfit)
-                .add(unrealizedProfit),
+            entry.totalPnL = Number(
+              percentageChange(
+                startingBalance,
+                bignumber(startingBalance)
+                  .add(realizedProfit)
+                  .add(unrealizedProfit),
+              ),
             );
 
             const lastPositionStartingBalance = ABK64x64ToFloat(
@@ -155,7 +161,7 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
                   lastPositionProfit +
                   unrealizedProfit,
               ),
-            ).toFixed(2);
+            );
           }
           items.push(entry);
         }
@@ -179,6 +185,7 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
       setLoaded(false);
       run()
         .then(rows => {
+          console.log(rows);
           setItems(rows);
           setLoaded(true);
           if (account) {
@@ -190,7 +197,8 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
             }
           }
         })
-        .catch(() => {
+        .catch(error => {
+          console.error(error);
           setLoaded(true);
         });
     }),

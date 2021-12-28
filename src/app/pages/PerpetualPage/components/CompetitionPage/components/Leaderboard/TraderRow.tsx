@@ -66,11 +66,10 @@ export const TraderRow = forwardRef<HTMLDivElement, ITraderRowProps>(
   },
 );
 
-const getColor = (value: number | string) => {
-  const number = Number(value);
-  if (number > 0) {
+const getColor = (value: number) => {
+  if (value > 0) {
     return 'tw-text-trade-long';
-  } else if (number < 0) {
+  } else if (value < 0) {
     return 'tw-text-trade-short';
   }
   return 'tw-sov-white';
