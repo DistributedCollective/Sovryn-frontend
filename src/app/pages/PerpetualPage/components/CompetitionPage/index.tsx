@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, useMemo } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
@@ -153,6 +153,15 @@ export const CompetitionPage: React.FC = () => {
                     {t(translations.competitionPage.rules.line5)}
                   </li>
                 </ul>
+                <div className="tw-my-8">
+                  <a
+                    href="https://docs.google.com/spreadsheets/d/1BXGuES87YXn8kXWaciY9FwSBOnS90jUtVwcVkj2tCtc/edit?usp=sharing"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {t(translations.competitionPage.rules.reportBugs)}
+                  </a>
+                </div>
               </div>
               <div className="tw-w-6/12">
                 {!connected && (

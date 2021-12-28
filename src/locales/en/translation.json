@@ -2352,10 +2352,11 @@
     "rules": {
       "title": "Trading Competition Rules",
       "line1": "Every user can register their wallet to participate in the competition through a whitelisting process.",
-      "line2": "Every participant will be sent a specific amount of RBTC and/or BNB to start trading on the perpetual pairs of BNB/USD and BTC/USD.",
+      "line2": "Every participant will be sent a specific amount of RBTC to start trading on the perpetual pair BTC/USD.",
       "line3": "The cumulative P&L of the participants is the deciding factor for the winner.",
-      "line4": "The competition is held for 2-3 weeks.",
-      "line5": "End of competition -> Set date for participants to close all their perpetual positions within a day, if they do not close it they are excluded from the competition."
+      "line4": "The internal competition is held until 1PM UTC the 4th January.",
+      "line5": "End of competition -> Set date for participants to close all their perpetual positions within a day, if they do not close it they are excluded from the competition.",
+      "reportBugs": "Please report bugs and issues here!"
     },
     "cta": {
       "connect": "Connect Wallet",
