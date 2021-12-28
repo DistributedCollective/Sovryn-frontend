@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef, useContext, useMemo } from 'react';
 import classNames from 'classnames';
 
 import { TraderRow } from './TraderRow';
-import { UserTraderRow } from './UserTraderRow';
 import { useIntersection } from 'app/hooks/useIntersection';
 import {
   LeaderboardData,
@@ -39,7 +38,7 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
   showUserRow,
 }) => {
   const { t } = useTranslation();
-  const userRowRef = useRef(null);
+  const userRowRef = useRef<HTMLDivElement>(null);
   const userRowVisible = useIntersection(userRowRef.current);
   const account = useAccount();
   const [items, setItems] = useState<LeaderboardData[]>([]);
@@ -144,7 +143,15 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
       }
 
       return items
-        .sort((a, b) => bignumber(b.totalPnL).minus(a.totalPnL).toNumber())
+        .sort((a, b) => {
+          if (a.openedPositions === 0) {
+            if (b.openedPositions === 0) {
+              return a.walletAddress.localeCompare(b.walletAddress);
+            }
+            return 1;
+          }
+          return bignumber(b.totalPnL).minus(a.totalPnL).toNumber();
+        })
         .map((val, index) => ({
           ...val,
           rank: (index + 1).toString(),
@@ -199,15 +206,17 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
         <div
           className={`${styles.leaderboardContainer} tw-overflow-y-auto tw-text-sm tw-align-middle`}
         >
-          {items.map(val =>
-            val.walletAddress === account?.toLowerCase() ? (
-              <div ref={userRowRef} key={val.walletAddress}>
-                <UserTraderRow data={val} />
-              </div>
-            ) : (
-              <TraderRow data={val} key={val.walletAddress} />
-            ),
-          )}
+          {items.map(val => {
+            const isUser = val.walletAddress === account?.toLowerCase();
+            return (
+              <TraderRow
+                ref={isUser ? userRowRef : null}
+                data={val}
+                key={val.walletAddress}
+                isUser={isUser}
+              />
+            );
+          })}
           {showSpinner && <SkeletonRow />}
         </div>
         <div
@@ -218,7 +227,7 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
           <div className={classNames({ 'tw-hidden': userRowVisible })}>
             <div className="tw-mb-2 tw-ml-4">...</div>
             <div className="tw-mr-4 tw-text-sm tw-align-middle">
-              {userData && <UserTraderRow data={userData} />}
+              {userData && <TraderRow data={userData} isUser />}
             </div>
           </div>
         </div>
