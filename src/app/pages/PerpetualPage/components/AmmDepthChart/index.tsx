@@ -210,7 +210,7 @@ const AmmDepthChartRow: React.FC<AmmDepthChartRowProps> = ({
           backgroundClassName,
         )}
       >
-        {Math.abs(row.deviation).toPrecision(1)}%
+        {toNumberFormat(Math.abs(row.deviation), 2, 0)}%
       </td>
       <td
         className={classNames(
