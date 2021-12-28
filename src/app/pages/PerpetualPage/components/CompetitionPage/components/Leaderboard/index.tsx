@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useRef, useContext, useMemo } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useRef,
+  useContext,
+  useCallback,
+} from 'react';
 import classNames from 'classnames';
 
 import { TraderRow } from './TraderRow';
@@ -27,6 +33,8 @@ import { percentageChange } from 'utils/helpers';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
+import debounce from 'lodash.debounce';
+import { useDebouncedEffect } from '../../../../../../hooks/useDebouncedEffect';
 
 interface ILeaderboardProps {
   data: RegisteredTraderData[];
@@ -43,7 +51,6 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
   const account = useAccount();
   const [items, setItems] = useState<LeaderboardData[]>([]);
   const [userData, setUserData] = useState<LeaderboardData | null>(null);
-  const [loading, setLoading] = useState(true);
   const [loaded, setLoaded] = useState(false);
 
   const { perpetualParameters, ammState } = useContext(PerpetualQueriesContext);
@@ -52,136 +59,145 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
     data.map(val => val.walletAddress),
   );
 
-  useEffect(() => {
-    if (!data?.length) return;
-    if (!perpetualParameters || !perpetualParameters.poolId) return;
-    if (!ammState) return;
-    if (leaderboardData === undefined) return;
-
-    const perpetualId = PerpetualPairDictionary.get(PerpetualPairType.BTCUSD)
-      .id;
-    const contract = getContract('perpetualManager');
-
-    const run = async () => {
-      const items: LeaderboardData[] = [];
-
-      for (const item of data) {
-        const trader = leaderboardData?.traders.find(
-          row => row.id.toLowerCase() === item.walletAddress.toLowerCase(),
-        );
-
-        let totalPnL = '0';
-        let tradeDetails = '';
-        if (trader && trader?.positionsTotalCount) {
-          const realizedProfit =
-            ABK64x64ToFloat(BigNumber.from(trader.totalPnLCC || '0')) +
-            ABK64x64ToFloat(
-              BigNumber.from(trader.totalFundingPaymentCC || '0'),
-            );
-
-          let unrealizedProfit = 0;
-
-          if (trader.positions.find(item => !item.isClosed)) {
-            const traderState = await bridgeNetwork
-              .call(
-                Chain.BSC,
-                contract.address,
-                contract.abi,
-                'getTraderState',
-                [perpetualId, item.walletAddress.toLowerCase()],
-              )
-              .then(result => parseTraderState(result));
-
-            unrealizedProfit = getTraderPnLInBC(
-              traderState,
-              ammState,
-              perpetualParameters,
-            );
-          }
-
-          const startingBalance = trader.positions.reduce(
-            (previous, current) =>
-              previous +
-              ABK64x64ToFloat(
-                BigNumber.from(current.currentPositionSizeBC || '0'),
-              ),
-            0,
-          );
-
-          totalPnL = percentageChange(
-            startingBalance,
-            bignumber(startingBalance)
-              .add(realizedProfit)
-              .add(unrealizedProfit),
-          );
-
-          const lastPositionStartingBalance = ABK64x64ToFloat(
-            BigNumber.from(trader.positions[0].currentPositionSizeBC || '0'),
-          );
-          const lastPositionProfit = ABK64x64ToFloat(
-            BigNumber.from(trader.positions[0].totalPnLCC || '0'),
-          );
-
-          tradeDetails = Number(
-            percentageChange(
-              lastPositionStartingBalance,
-              lastPositionStartingBalance +
-                lastPositionProfit +
-                unrealizedProfit,
-            ),
-          ).toFixed(2);
-        }
-
-        items.push({
-          rank: '-',
-          userName: item.userName,
-          walletAddress: item.walletAddress,
-          openedPositions: trader?.positionsTotalCount || 0,
-          lastTrade: tradeDetails,
-          totalPnL,
-        });
+  // throttle function prevents the exhaustive deps check
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const updateItems = useCallback(
+    debounce(() => {
+      if (
+        !data?.length ||
+        !perpetualParameters?.poolId ||
+        !ammState ||
+        leaderboardData === undefined
+      ) {
+        return;
       }
 
-      return items
-        .sort((a, b) => {
-          if (a.openedPositions === 0) {
-            if (b.openedPositions === 0) {
-              return a.walletAddress.localeCompare(b.walletAddress);
-            }
-            return 1;
-          }
-          return bignumber(b.totalPnL).minus(a.totalPnL).toNumber();
-        })
-        .map((val, index) => ({
-          ...val,
-          rank: (index + 1).toString(),
-        }));
-    };
+      const perpetualId = PerpetualPairDictionary.get(PerpetualPairType.BTCUSD)
+        .id;
+      const contract = getContract('perpetualManager');
 
-    setLoading(true);
-    run()
-      .then(rows => {
-        setItems(rows);
-        setLoading(false);
-        setLoaded(true);
-        if (account) {
-          const userRow = rows.find(
-            val => val.walletAddress.toLowerCase() === account.toLowerCase(),
+      const run = async () => {
+        const items: LeaderboardData[] = [];
+
+        for (const item of data) {
+          const trader = leaderboardData?.traders.find(
+            row => row.id.toLowerCase() === item.walletAddress.toLowerCase(),
           );
-          if (userRow) {
-            setUserData(userRow);
-          }
-        }
-      })
-      .catch(() => {
-        setLoading(false);
-      });
-  }, [account, data, leaderboardData, ammState, perpetualParameters]);
 
-  const showSpinner = useMemo(() => (!loaded ? loading : false), [
-    loading,
-    loaded,
-  ]);
+          const entry: LeaderboardData = {
+            rank: '-',
+            userName: item.userName,
+            walletAddress: item.walletAddress,
+            openedPositions: trader?.positionsTotalCount || 0,
+            lastTrade: '',
+            totalPnL: '',
+          };
+
+          if (trader?.positionsTotalCount) {
+            const realizedProfit =
+              ABK64x64ToFloat(BigNumber.from(trader.totalPnLCC || '0')) +
+              ABK64x64ToFloat(
+                BigNumber.from(trader.totalFundingPaymentCC || '0'),
+              );
+
+            let unrealizedProfit = 0;
+
+            if (trader.positions.find(item => !item.isClosed)) {
+              const traderState = await bridgeNetwork
+                .call(
+                  Chain.BSC,
+                  contract.address,
+                  contract.abi,
+                  'getTraderState',
+                  [perpetualId, item.walletAddress.toLowerCase()],
+                )
+                .then(result => parseTraderState(result))
+                .catch(console.error);
+
+              if (!traderState) {
+                continue;
+              }
+
+              unrealizedProfit = getTraderPnLInBC(
+                traderState,
+                ammState,
+                perpetualParameters,
+              );
+            }
+
+            const startingBalance = trader.positions.reduce(
+              (previous, current) =>
+                previous +
+                ABK64x64ToFloat(
+                  BigNumber.from(current.currentPositionSizeBC || '0'),
+                ),
+              0,
+            );
+
+            entry.totalPnL = percentageChange(
+              startingBalance,
+              bignumber(startingBalance)
+                .add(realizedProfit)
+                .add(unrealizedProfit),
+            );
+
+            const lastPositionStartingBalance = ABK64x64ToFloat(
+              BigNumber.from(trader.positions[0].currentPositionSizeBC || '0'),
+            );
+            const lastPositionProfit = ABK64x64ToFloat(
+              BigNumber.from(trader.positions[0].totalPnLCC || '0'),
+            );
+
+            entry.lastTrade = Number(
+              percentageChange(
+                lastPositionStartingBalance,
+                lastPositionStartingBalance +
+                  lastPositionProfit +
+                  unrealizedProfit,
+              ),
+            ).toFixed(2);
+          }
+          items.push(entry);
+        }
+
+        return items
+          .sort((a, b) => {
+            if (a.openedPositions === 0) {
+              if (b.openedPositions === 0) {
+                return a.walletAddress.localeCompare(b.walletAddress);
+              }
+              return 1;
+            }
+            return bignumber(b.totalPnL).minus(a.totalPnL).toNumber();
+          })
+          .map((val, index) => ({
+            ...val,
+            rank: (index + 1).toString(),
+          }));
+      };
+
+      setLoaded(false);
+      run()
+        .then(rows => {
+          setItems(rows);
+          setLoaded(true);
+          if (account) {
+            const userRow = rows.find(
+              val => val.walletAddress.toLowerCase() === account.toLowerCase(),
+            );
+            if (userRow) {
+              setUserData(userRow);
+            }
+          }
+        })
+        .catch(() => {
+          setLoaded(true);
+        });
+    }),
+    [account, data, leaderboardData, ammState, perpetualParameters],
+  );
+
+  useEffect(() => updateItems(), [updateItems]);
 
   return (
     <>
@@ -217,7 +233,7 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
               />
             );
           })}
-          {showSpinner && <SkeletonRow />}
+          {!loaded && (!items || items.length === 0) && <SkeletonRow />}
         </div>
         <div
           className={classNames('tw-my-2 tw-h-16', {

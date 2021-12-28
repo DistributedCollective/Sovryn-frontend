@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
@@ -38,7 +38,7 @@ export const CompetitionPage: React.FC = () => {
   const connected = useIsConnected();
   const { t } = useTranslation();
 
-  const getRegisteredWallets = () => {
+  const getRegisteredWallets = useCallback(() => {
     axios
       .get(`${notificationUrl}/tradingCompetition`)
       .then(res => {
@@ -49,7 +49,13 @@ export const CompetitionPage: React.FC = () => {
       .catch(e => {
         console.error('e: ', e);
       });
-  };
+  }, []);
+
+  const onClose = useCallback(() => {
+    setRegisterDialogOpen(false);
+    getRegisteredWallets();
+  }, [getRegisteredWallets]);
+
   useEffect(() => {
     getRegisteredWallets();
 
@@ -75,7 +81,9 @@ export const CompetitionPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (!account || !connected) return;
+    if (!account || !connected) {
+      return;
+    }
 
     axios
       .get(`${notificationUrl}/tradingCompetition/${account.toLowerCase()}`)
@@ -122,7 +130,7 @@ export const CompetitionPage: React.FC = () => {
           </div>
         }
       />
-      <PerpetualQueriesContextProvider pair={pair}>
+      <PerpetualQueriesContextProvider pair={pair} updateInterval={60000}>
         <div className="tw-container tw-my-12">
           <div className="tw-flex tw-flex-row tw-justify-evenly">
             <div className="tw-flex tw-flex-col tw-w-5/12">
@@ -183,13 +191,7 @@ export const CompetitionPage: React.FC = () => {
         </div>
       </PerpetualQueriesContextProvider>
       <Footer />
-      <RegisterDialog
-        isOpen={registerDialogOpen}
-        onClose={() => {
-          setRegisterDialogOpen(false);
-          getRegisteredWallets();
-        }}
-      />
+      <RegisterDialog isOpen={registerDialogOpen} onClose={onClose} />
     </>
   );
 };
