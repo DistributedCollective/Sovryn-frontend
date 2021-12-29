@@ -164,11 +164,11 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
 
         return items
           .sort((a, b) => {
-            if (a.openedPositions === 0) {
-              if (b.openedPositions === 0) {
+            if (a.openedPositions === 0 || b.openedPositions === 0) {
+              if (a.openedPositions === 0 && b.openedPositions === 0) {
                 return a.walletAddress.localeCompare(b.walletAddress);
               }
-              return 1;
+              return a.openedPositions === 0 ? 1 : -1;
             }
             return bignumber(b.totalPnL).minus(a.totalPnL).toNumber();
           })
