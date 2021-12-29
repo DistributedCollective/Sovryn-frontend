@@ -37,6 +37,8 @@ import {
 import { PerpetualTxMethods, PerpetualTx } from '../../TradeDialog/types';
 import { PerpetualQueriesContext } from 'app/pages/PerpetualPage/contexts/PerpetualQueriesContext';
 import { roundToLot } from '../../../utils/perpMath';
+import { ActionDialogSubmitButton } from '../../ActionDialogSubmitButton';
+import { usePerpetual_isTradingInMaintenance } from 'app/pages/PerpetualPage/hooks/usePerpetual_isTradingInMaintenance';
 
 export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
   changeTo,
@@ -52,6 +54,8 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     lotSize,
     lotPrecision,
   } = useContext(PerpetualQueriesContext);
+
+  const inMaintenance = usePerpetual_isTradingInMaintenance();
 
   const { changedTrade, trade, onChange } = useContext(
     ClosePositionDialogContext,
@@ -310,18 +314,16 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
           {validation.errorMessages}
         </div>
       )}
-      <button
-        className={classNames(
-          'tw-absolute tw-bottom-0 tw-w-full tw-min-h-10 tw-p-2 tw-mt-4 tw-text-lg tw-text-primary tw-font-medium tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-transition-opacity tw-duration-300',
-          isButtonDisabled
-            ? 'tw-opacity-25 tw-cursor-not-allowed'
-            : 'tw-opacity-100 hover:tw-bg-primary-25',
-        )}
-        disabled={isButtonDisabled}
+
+      <ActionDialogSubmitButton
+        inMaintenance={inMaintenance}
+        isDisabled={isButtonDisabled}
         onClick={onSubmit}
+        className="tw-absolute tw-bottom-0"
+        maintenanceClassName="tw-absolute tw-bottom-0"
       >
         {t(translations.perpetualPage.closePosition.button)}
-      </button>
+      </ActionDialogSubmitButton>
     </div>
   );
 };

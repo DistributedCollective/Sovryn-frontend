@@ -9,7 +9,6 @@ enum States {
   ADD_TO_MARGIN_TRADES = 'addToMarginTrades',
   CLOSE_MARGIN_TRADES = 'closeMarginTrades',
   SPOT_TRADES = 'spotTrades',
-  PERPETUAL_TRADES = 'perpetualTrades',
   SWAP_TRADES = 'swapTrades',
   DEPOSIT_LEND = 'depositLend',
   WITHDRAW_LEND = 'withdrawLend',
@@ -47,6 +46,12 @@ enum States {
   CLAIM_REWARD_SOV = 'claimRewardSov',
   CLAIM_LIQUID_SOV = 'claimLiquidSov',
   CLAIM_FEES_EARNED = 'claimFeesEarned',
+
+  PERPETUALS = 'perpetuals',
+  PERPETUALS_ACCOUNT_FUND = 'perpetualsAccountFund',
+  PERPETUALS_ACCOUNT_WITHDRAW = 'perpetualsAccountWithdraw',
+  PERPETUALS_ACCOUNT_TRANSFER = 'perpetualsAccountTransfer',
+  PERPETUALS_TRADE = 'perpetualsTrade',
 }
 
 type MaintenanceResult = {

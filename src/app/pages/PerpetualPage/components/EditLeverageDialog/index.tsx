@@ -28,16 +28,19 @@ import {
 import { toWei } from '../../../../../utils/blockchain/math-helpers';
 import { PerpetualTxMethods } from '../TradeDialog/types';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
-import classNames from 'classnames';
 import {
   getSignedAmount,
   validatePositionChange,
 } from '../../utils/contractUtils';
+import { ActionDialogSubmitButton } from '../ActionDialogSubmitButton';
+import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';
 
 export const EditLeverageDialog: React.FC = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { modal, modalOptions } = useSelector(selectPerpetualPage);
+
+  const inMaintenance = usePerpetual_isTradingInMaintenance();
 
   const {
     ammState,
@@ -231,23 +234,22 @@ export const EditLeverageDialog: React.FC = () => {
               assetString={pair.quoteAsset}
             />
           </div>
-          {validation && !validation.valid && validation.errors.length > 0 && (
-            <div className="tw-flex tw-flex-col tw-justify-between tw-px-6 tw-py-1 tw-mb-4 tw-text-warning tw-text-xs tw-font-medium tw-border tw-border-warning tw-rounded-lg">
-              {validation.errorMessages}
-            </div>
-          )}
-          <button
-            className={classNames(
-              'tw-w-full tw-min-h-10 tw-p-2 tw-mt-4 tw-text-lg tw-text-primary tw-font-medium tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-transition-opacity tw-duration-300',
-              isButtonDisabled
-                ? 'tw-opacity-25 tw-cursor-not-allowed'
-                : 'tw-opacity-100 hover:tw-bg-primary-25',
+          {!inMaintenance &&
+            validation &&
+            !validation.valid &&
+            validation.errors.length > 0 && (
+              <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1 tw-mb-4 tw-text-warning tw-text-xs tw-font-medium tw-border tw-border-warning tw-rounded-lg">
+                {validation.errorMessages}
+              </div>
             )}
-            disabled={isButtonDisabled}
+
+          <ActionDialogSubmitButton
+            inMaintenance={inMaintenance}
+            isDisabled={isButtonDisabled}
             onClick={onSubmit}
           >
             {t(translations.perpetualPage.editLeverage.button)}
-          </button>
+          </ActionDialogSubmitButton>
         </div>
       )}
     </Dialog>

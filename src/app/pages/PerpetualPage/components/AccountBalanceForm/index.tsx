@@ -1,3 +1,4 @@
+import { useMaintenance } from 'app/hooks/useMaintenance';
 import { bignumber } from 'mathjs';
 import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -19,6 +20,7 @@ import {
 } from '../BarCompositionChart';
 import classNames from 'classnames';
 import { Tooltip } from '@blueprintjs/core';
+import { TotalValueLocked } from '../../../LandingPage/components/TotalValueLocked';
 
 type AccountBalanceFormProps = {
   pairType: PerpetualPairType;
@@ -31,6 +33,19 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
+  const { checkMaintenance, States } = useMaintenance();
+  const fundAccountLocked =
+    checkMaintenance(States.PERPETUALS) ||
+    checkMaintenance(States.PERPETUALS_ACCOUNT_FUND);
+
+  const withdrawAccountLocked =
+    checkMaintenance(States.PERPETUALS) ||
+    checkMaintenance(States.PERPETUALS_ACCOUNT_WITHDRAW);
+
+  const transferAccountLocked =
+    checkMaintenance(States.PERPETUALS) ||
+    checkMaintenance(States.PERPETUALS_ACCOUNT_TRANSFER);
 
   const onOpenDeposit = useCallback(() => {
     dispatch(actions.setModal(PerpetualPageModals.FASTBTC_DEPOSIT));
@@ -167,15 +182,27 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
         </Tooltip>
       </div>
       <div className="tw-flex tw-flex-col md:tw-flex-row tw-justify-center tw-mx-auto tw-mt-16 tw-space-y-4 md:tw-space-y-0 md:tw-space-x-10">
-        <ActionButton disabled comingSoon onClick={onOpenDeposit}>
+        <ActionButton
+          disabled
+          tooltip={t(translations.common.comingSoon)}
+          onClick={onOpenDeposit}
+        >
           {t(translations.perpetualPage.accountBalance.deposit)}
         </ActionButton>
 
-        <ActionButton disabled comingSoon onClick={onOpenWithdraw}>
+        <ActionButton
+          disabled
+          tooltip={t(translations.common.comingSoon)}
+          onClick={onOpenWithdraw}
+        >
           {t(translations.perpetualPage.accountBalance.withdraw)}
         </ActionButton>
 
-        <ActionButton disabled comingSoon onClick={onOpenTransfer}>
+        <ActionButton
+          disabled
+          tooltip={t(translations.common.comingSoon)}
+          onClick={onOpenTransfer}
+        >
           {t(translations.perpetualPage.accountBalance.transfer)}
         </ActionButton>
       </div>
@@ -185,19 +212,17 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
 
 type ActionButtonProps = {
   onClick: () => void;
-  disabled: boolean;
-  comingSoon: boolean;
+  disabled?: boolean;
+  tooltip: string;
   children: React.ReactNode;
 };
 
 const ActionButton: React.FC<ActionButtonProps> = ({
   onClick,
   disabled,
-  comingSoon,
+  tooltip,
   children,
 }) => {
-  const { t } = useTranslation();
-
   const button = (
     <button
       className={classNames(
@@ -213,9 +238,5 @@ const ActionButton: React.FC<ActionButtonProps> = ({
     </button>
   );
 
-  return comingSoon ? (
-    <Tooltip content={t(translations.common.comingSoon)}>{button}</Tooltip>
-  ) : (
-    button
-  );
+  return tooltip ? <Tooltip content={tooltip}>{button}</Tooltip> : button;
 };

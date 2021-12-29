@@ -5,13 +5,16 @@ import { TradeDialogContext } from '../index';
 import styles from '../index.module.scss';
 import { PerpetualPageModals } from '../../../types';
 import { translations } from '../../../../../../locales/i18n';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { TradeSummary } from './TradeSummary';
 import { ResultPosition } from './ResultPosition';
 import { TransitionAnimation } from '../../../../../containers/TransitionContainer';
 import { bridgeNetwork } from '../../../../BridgeDepositPage/utils/bridge-network';
 import { Chain } from '../../../../../../types';
 import { PerpetualQueriesContext } from '../../../contexts/PerpetualQueriesContext';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { discordInvite } from 'utils/classifiers';
+import { usePerpetual_isTradingInMaintenance } from 'app/pages/PerpetualPage/hooks/usePerpetual_isTradingInMaintenance';
 
 const titleMap = {
   [PerpetualPageModals.NONE]:
@@ -32,6 +35,8 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     TradeDialogContext,
   );
   const { lotSize, lotPrecision } = useContext(PerpetualQueriesContext);
+
+  const inMaintenance = usePerpetual_isTradingInMaintenance();
 
   const onSubmit = useCallback(async () => {
     let nonce = await bridgeNetwork.nonce(Chain.BSC);
@@ -68,9 +73,33 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
           analysis={analysis}
         />
         <div className="tw-flex tw-justify-center">
-          <button className={styles.confirmButton} onClick={onSubmit}>
-            {t(translations.perpetualPage.reviewTrade.confirm)}
-          </button>
+          {inMaintenance ? (
+            <ErrorBadge
+              content={
+                <Trans
+                  i18nKey={translations.maintenance.perpetualsTrade}
+                  components={[
+                    <a
+                      href={discordInvite}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                    >
+                      x
+                    </a>,
+                  ]}
+                />
+              }
+            />
+          ) : (
+            <button
+              className={styles.confirmButton}
+              onClick={inMaintenance ? undefined : onSubmit}
+              disabled={inMaintenance}
+            >
+              {t(translations.perpetualPage.reviewTrade.confirm)}
+            </button>
+          )}
         </div>
       </div>
     </>
