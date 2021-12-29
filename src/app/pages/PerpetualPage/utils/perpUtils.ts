@@ -1,5 +1,5 @@
 /*
-  COMMIT: 4011607fba82503c9a7bc81220bec94498c1d451
+  COMMIT: acece63d6a206854356ccfa2337dfa5178d4bfc8
   Helper-functions for frontend
 */
 
@@ -117,77 +117,6 @@ export interface TraderState {
   marginAccountPositionBC: number; // from margin account
   marginAccountLockedInValueQC: number; // from margin account
   fUnitAccumulatedFundingStart: number; // from margin account
-}
-
-/**
- * Get the maximal trade size for a trader with position currentPos (can be 0) for a given
- * perpetual, assuming enough margin is available (i.e. not considering leverage).
- * @param {number} currentPos - The current position of the trade (base currency), negative if short
- * @param {number} direction - {-1, 1} Does the trader want to buy (1), or sell (-1)
- * @param {LiqPoolState} liqPool - Contains current liq pool state data
- * @param {AMMState} ammData - Contains current price/state data
- * @param {PerpParameters} perpParams - Contains parameter of the perpetual
- * @param {boolean} isQuanto - True if collateral currency of instrument is different from base and quote
- *                             currency (e.g., SP500 quoted in USD and collateralized in BTC,
- *                             false for BTCUSD backed in BTC)
- * @returns {number} signed position size that the trader can enter
- */
-export function getMaximalTradeSizeInPerpetual(
-  currentPos: number,
-  direction: number,
-  ammData: AMMState,
-  liqPool: LiqPoolState,
-  perpParams: PerpParameters,
-): number {
-  function getMaxSizeFromPrice(S2: number, S3: number): number {
-    let kStar = calcKStar(
-      ammData.K2,
-      ammData.L1,
-      S2,
-      S3,
-      ammData.M1,
-      ammData.M2,
-      ammData.M3,
-      perpParams.fRho23,
-      perpParams.fSigma2,
-      perpParams.fSigma3,
-    );
-    let lotSize = perpParams.fLotSizeBC;
-    kStar = shrinkToLot(kStar, lotSize);
-    let fundingRatio = liqPool.fDefaultFundCashCC / liqPool.fTargetDFSize;
-    let scale: number;
-    if (direction === Math.sign(kStar)) {
-      scale = perpParams.fMaximalTradeSizeBumpUp;
-    } else {
-      // adverse direction
-      scale = perpParams.fMaximalTradeSizeBumpUp * Math.min(1, fundingRatio);
-    }
-    let maxAbsPositionSize = ammData.fCurrentTraderExposureEMA * scale;
-    maxAbsPositionSize = shrinkToLot(maxAbsPositionSize, lotSize);
-    let maxSignedTradeSize: number;
-    if (direction < 0) {
-      maxSignedTradeSize = Math.min(
-        kStar,
-        Math.min(-maxAbsPositionSize - currentPos, 0),
-      );
-    } else {
-      maxSignedTradeSize = Math.max(
-        kStar,
-        Math.max(maxAbsPositionSize - currentPos, 0),
-      );
-    }
-    return maxSignedTradeSize;
-  }
-  // calculate the max trade size based on the current oracle price and the latest price stored in the contract
-  let maxSizeContractPx: number = getMaxSizeFromPrice(
-    ammData.indexS2PriceData,
-    ammData.indexS3PriceData,
-  );
-  let maxSizeOraclePx: number = getMaxSizeFromPrice(
-    ammData.indexS2PriceDataOracle,
-    ammData.indexS3PriceDataOracle,
-  );
-  return Math.min(maxSizeContractPx, maxSizeOraclePx);
 }
 
 /**
@@ -365,6 +294,114 @@ export function getSignedMaxAbsPositionForTrader(
   } else {
     return Math.max(posMargin, maxSignedPos);
   }
+}
+
+/**
+ * Get the maximal trade size for a trader with position currentPos (can be 0) for a given
+ * perpetual, assuming enough margin is available (i.e. not considering leverage).
+ * @param {number} currentPos - The current position of the trade (base currency), negative if short
+ * @param {number} direction - {-1, 1} Does the trader want to buy (1), or sell (-1)
+ * @param {LiqPoolState} liqPool - Contains current liq pool state data
+ * @param {AMMState} ammData - Contains current price/state data
+ * @param {PerpParameters} perpParams - Contains parameter of the perpetual
+ * @param {boolean} isQuanto - True if collateral currency of instrument is different from base and quote
+ *                             currency (e.g., SP500 quoted in USD and collateralized in BTC,
+ *                             false for BTCUSD backed in BTC)
+ * @returns {number} signed position size that the trader can enter
+ */
+export function getMaximalTradeSizeInPerpetual(
+  currentPos: number,
+  direction: number,
+  ammData: AMMState,
+  liqPool: LiqPoolState,
+  perpParams: PerpParameters,
+): number {
+  function getMaxSizeFromPrice(S2: number, S3: number): number {
+    let kStar = calcKStar(
+      ammData.K2,
+      ammData.L1,
+      S2,
+      S3,
+      ammData.M1,
+      ammData.M2,
+      ammData.M3,
+      perpParams.fRho23,
+      perpParams.fSigma2,
+      perpParams.fSigma3,
+    );
+    let lotSize = perpParams.fLotSizeBC;
+    kStar = shrinkToLot(kStar, lotSize);
+    let fundingRatio = liqPool.fDefaultFundCashCC / liqPool.fTargetDFSize;
+    let scale: number;
+    if (direction === Math.sign(kStar)) {
+      scale = perpParams.fMaximalTradeSizeBumpUp;
+    } else {
+      // adverse direction
+      scale = perpParams.fMaximalTradeSizeBumpUp * Math.min(1, fundingRatio);
+    }
+    let maxAbsPositionSize = ammData.fCurrentTraderExposureEMA * scale;
+    maxAbsPositionSize = shrinkToLot(maxAbsPositionSize, lotSize);
+    let maxSignedTradeSize: number;
+    if (direction < 0) {
+      maxSignedTradeSize = Math.min(
+        kStar,
+        Math.min(-maxAbsPositionSize - currentPos, 0),
+      );
+    } else {
+      maxSignedTradeSize = Math.max(
+        kStar,
+        Math.max(maxAbsPositionSize - currentPos, 0),
+      );
+    }
+    return maxSignedTradeSize;
+  }
+  // calculate the max trade size based on the current oracle price and the latest price stored in the contract
+  let maxSizeContractPx: number = getMaxSizeFromPrice(
+    ammData.indexS2PriceData,
+    ammData.indexS3PriceData,
+  );
+  let maxSizeOraclePx: number = getMaxSizeFromPrice(
+    ammData.indexS2PriceDataOracle,
+    ammData.indexS3PriceDataOracle,
+  );
+  return Math.min(maxSizeContractPx, maxSizeOraclePx);
+}
+
+/**
+ * Get maximal trade size for trader without adding additional margin.
+ * Use this when changing position size, which does not add margin.
+ * Direction=-1 for short, 1 for long
+ * This function calculates the largest trade considering
+ * - leverage constraints
+ * - position size constraint by AMM
+ * - available funds in margin account
+ * @param {number} direction - {-1, 1} Does the trader want to buy (1), or sell (-1)
+ * @param {number} availableWalletBalance - trader's available wallet balance
+ * @param {PerpParameters} perpParams - Contains parameter of the perpetual
+ * @param {traderState} TraderState - Contains trader state data
+ * @param {AMMState} ammData  - Contains amm state data
+ * @param {LiqPoolState} poolData - Contains liq pool state data
+ * @returns {number} maintenance margin rate
+ */
+
+export function getMaximalTradeSizeInPerpetualWithCurrentMargin(
+  direction: number,
+  perpParams: PerpParameters,
+  traderState: TraderState,
+  ammData: AMMState,
+  poolData: LiqPoolState,
+): number {
+  let availableWalletBalance = 0;
+  let maxPos = getSignedMaxAbsPositionForTrader(
+    direction,
+    availableWalletBalance,
+    perpParams,
+    traderState,
+    ammData,
+    poolData,
+  );
+
+  return maxPos - traderState.marginAccountPositionBC;
 }
 
 /**
@@ -626,7 +663,8 @@ export function getMaximalMarginToWidthdraw(
   // we can withdraw only the amount the current margin collateral is above m
   let maxAmount = traderState.availableCashCC - m;
   // we shrink the amount by 1 lot (collateral currency equivalent) to be safe
-  maxAmount = shrinkToLot(maxAmount, (perpParams.fLotSizeBC * S2) / S3);
+  // shrinking the margin amount is non-sense
+  // maxAmount = shrinkToLot(maxAmount, (perpParams.fLotSizeBC * S2) / S3);
   return Math.max(0, maxAmount);
 }
 

@@ -22,6 +22,7 @@ import { AssetValueMode } from '../../../../components/AssetValue/types';
 import {
   calculateApproxLiquidationPrice,
   calculateLeverage,
+  getMaximalMarginToWidthdraw,
 } from '../../utils/perpUtils';
 import { fromWei } from 'web3-utils';
 import classNames from 'classnames';
@@ -29,10 +30,7 @@ import { LeverageViewer } from '../LeverageViewer';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { AmountInput } from '../../../../components/Form/AmountInput';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
-import {
-  calculateMaxMarginWithdrawal,
-  validatePositionChange,
-} from '../../utils/contractUtils';
+import { validatePositionChange } from '../../utils/contractUtils';
 import { toWei } from '../../../../../utils/blockchain/math-helpers';
 import { PerpetualTxMethods } from '../TradeDialog/types';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
@@ -124,14 +122,14 @@ export const EditMarginDialog: React.FC = () => {
       // Fees don't need to be subtracted, since Collateral is not paid with the Network Token
       return [Number(fromWei(available)), available];
     } else {
-      const maxAmount = calculateMaxMarginWithdrawal(
-        pair,
+      const maxAmount = getMaximalMarginToWidthdraw(
         traderState,
+        perpParameters,
         ammState,
       );
       return [maxAmount, toWei(maxAmount)];
     }
-  }, [mode, available, pair, traderState, ammState]);
+  }, [mode, available, traderState, perpParameters, ammState]);
 
   const signedMargin = useMemo(
     () => (mode === EditMarginDialogMode.increase ? 1 : -1) * Number(margin),

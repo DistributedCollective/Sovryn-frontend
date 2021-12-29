@@ -13,7 +13,6 @@ import marginTokenAbi from 'utils/blockchain/abi/MarginToken.json';
 import { TradingPosition } from 'types/trading-position';
 import {
   TraderState,
-  getBase2CollateralFX,
   AMMState,
   PerpParameters,
   calculateSlippagePriceFromMidPrice,
@@ -21,7 +20,6 @@ import {
   getMidPrice,
   isTraderInitialMarginSafe,
 } from './perpUtils';
-import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
 import { fromWei } from '../../../../utils/blockchain/math-helpers';
 import { CheckAndApproveResultWithError } from '../types';
 import { BridgeNetworkDictionary } from '../../BridgeDepositPage/dictionaries/bridge-network-dictionary';
@@ -165,18 +163,6 @@ export const checkAndApprove = async (
       error: e,
     };
   }
-};
-
-export const calculateMaxMarginWithdrawal = (
-  pair: PerpetualPair | undefined,
-  traderState: TraderState,
-  ammState: AMMState,
-) => {
-  const requiredMargin =
-    (Math.abs(traderState.marginAccountPositionBC) *
-      getBase2CollateralFX(ammState, true)) /
-    (pair?.config.leverage.max || 1);
-  return traderState.availableCashCC - requiredMargin;
 };
 
 export type Validation = {
