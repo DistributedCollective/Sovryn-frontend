@@ -37,8 +37,8 @@ import {
 import { PerpetualTxMethods, PerpetualTx } from '../../TradeDialog/types';
 import { PerpetualQueriesContext } from 'app/pages/PerpetualPage/contexts/PerpetualQueriesContext';
 import { roundToLot } from '../../../utils/perpMath';
-import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ActionDialogSubmitButton } from '../../ActionDialogSubmitButton';
+import { usePerpetual_isTradingInMaintenance } from 'app/pages/PerpetualPage/hooks/usePerpetual_isTradingInMaintenance';
 
 export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
   changeTo,
@@ -55,10 +55,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     lotPrecision,
   } = useContext(PerpetualQueriesContext);
 
-  const { checkMaintenance, States } = useMaintenance();
-  const inMaintenance =
-    checkMaintenance(States.PERPETUALS) ||
-    checkMaintenance(States.PERPETUALS_TRADE);
+  const inMaintenance = usePerpetual_isTradingInMaintenance();
 
   const { changedTrade, trade, onChange } = useContext(
     ClosePositionDialogContext,

@@ -32,18 +32,15 @@ import {
   getSignedAmount,
   validatePositionChange,
 } from '../../utils/contractUtils';
-import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ActionDialogSubmitButton } from '../ActionDialogSubmitButton';
+import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';
 
 export const EditLeverageDialog: React.FC = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { modal, modalOptions } = useSelector(selectPerpetualPage);
 
-  const { checkMaintenance, States } = useMaintenance();
-  const inMaintenance =
-    checkMaintenance(States.PERPETUALS) ||
-    checkMaintenance(States.PERPETUALS_TRADE);
+  const inMaintenance = usePerpetual_isTradingInMaintenance();
 
   const {
     ammState,

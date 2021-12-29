@@ -19,6 +19,7 @@ import { TradingPosition } from '../../../../../types/trading-position';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
 import { toWei } from '../../../../../utils/blockchain/math-helpers';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';
 
 type OpenPositionRowProps = {
   item: OpenPositionEntry;
@@ -27,10 +28,8 @@ type OpenPositionRowProps = {
 export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { checkMaintenance, States } = useMaintenance();
-  const isMaintenance =
-    checkMaintenance(States.PERPETUALS) ||
-    checkMaintenance(States.PERPETUALS_TRADE);
+
+  const inMaintenance = usePerpetual_isTradingInMaintenance();
 
   const pair = useMemo(() => PerpetualPairDictionary.get(item.pairType), [
     item.pairType,
@@ -192,7 +191,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
       </td>
       <td>
         <div className="tw-flex tw-items-center tw-justify-end xl:tw-justify-around 2xl:tw-justify-start">
-          {isMaintenance ? (
+          {inMaintenance ? (
             <ErrorBadge
               content={<>{t(translations.maintenance.perpetualsTrade)}</>}
             />

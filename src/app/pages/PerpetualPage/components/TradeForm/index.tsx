@@ -7,7 +7,6 @@ import React, {
 } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import { useMaintenance } from 'app/hooks/useMaintenance';
 import settingImg from 'assets/images/settings-blue.svg';
 import { discordInvite } from 'utils/classifiers';
 import { translations } from '../../../../../locales/i18n';
@@ -42,11 +41,9 @@ import {
   validatePositionChange,
 } from '../../utils/contractUtils';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
-import {
-  fromWei,
-  numberFromWei,
-  toWei,
-} from '../../../../../utils/blockchain/math-helpers';
+import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';
+import { numberFromWei } from 'utils/blockchain/math-helpers';
+import { fromWei, toWei } from 'web3-utils';
 
 interface ITradeFormProps {
   trade: PerpetualTrade;
@@ -66,10 +63,8 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   onOpenSlippage,
 }) => {
   const { t } = useTranslation();
-  const { checkMaintenance, States } = useMaintenance();
-  const inMaintenance =
-    checkMaintenance(States.PERPETUALS) ||
-    checkMaintenance(States.PERPETUALS_TRADE);
+
+  const inMaintenance = usePerpetual_isTradingInMaintenance();
 
   const {
     ammState,

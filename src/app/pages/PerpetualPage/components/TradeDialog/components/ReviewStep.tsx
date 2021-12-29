@@ -12,9 +12,9 @@ import { TransitionAnimation } from '../../../../../containers/TransitionContain
 import { bridgeNetwork } from '../../../../BridgeDepositPage/utils/bridge-network';
 import { Chain } from '../../../../../../types';
 import { PerpetualQueriesContext } from '../../../contexts/PerpetualQueriesContext';
-import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
+import { usePerpetual_isTradingInMaintenance } from 'app/pages/PerpetualPage/hooks/usePerpetual_isTradingInMaintenance';
 
 const titleMap = {
   [PerpetualPageModals.NONE]:
@@ -36,10 +36,7 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
   );
   const { lotSize, lotPrecision } = useContext(PerpetualQueriesContext);
 
-  const { checkMaintenance, States } = useMaintenance();
-  const inMaintenance =
-    checkMaintenance(States.PERPETUALS) ||
-    checkMaintenance(States.PERPETUALS_TRADE);
+  const inMaintenance = usePerpetual_isTradingInMaintenance();
 
   const onSubmit = useCallback(async () => {
     let nonce = await bridgeNetwork.nonce(Chain.BSC);

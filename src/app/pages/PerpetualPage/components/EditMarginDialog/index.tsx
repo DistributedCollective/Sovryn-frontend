@@ -36,8 +36,8 @@ import {
 import { toWei } from '../../../../../utils/blockchain/math-helpers';
 import { PerpetualTxMethods } from '../TradeDialog/types';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
-import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ActionDialogSubmitButton } from '../ActionDialogSubmitButton';
+import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';
 
 enum EditMarginDialogMode {
   increase,
@@ -51,10 +51,7 @@ export const EditMarginDialog: React.FC = () => {
     selectPerpetualPage,
   );
 
-  const { checkMaintenance, States } = useMaintenance();
-  const inMaintenance =
-    checkMaintenance(States.PERPETUALS) ||
-    checkMaintenance(States.PERPETUALS_TRADE);
+  const inMaintenance = usePerpetual_isTradingInMaintenance();
 
   const {
     ammState,
