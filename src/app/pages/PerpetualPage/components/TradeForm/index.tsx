@@ -499,6 +499,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
                 ]}
               />
             }
+            className="tw-mb-0 tw-pb-0"
           />
         )}
       </div>

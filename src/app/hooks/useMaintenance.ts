@@ -52,7 +52,6 @@ enum States {
   PERPETUALS_ACCOUNT_WITHDRAW = 'perpetualsAccountWithdraw',
   PERPETUALS_ACCOUNT_TRANSFER = 'perpetualsAccountTransfer',
   PERPETUALS_TRADE = 'perpetualsTrade',
-  PERPETUALS_EDIT_MARGIN = 'perpetualsEditMargin',
 }
 
 type MaintenanceResult = {

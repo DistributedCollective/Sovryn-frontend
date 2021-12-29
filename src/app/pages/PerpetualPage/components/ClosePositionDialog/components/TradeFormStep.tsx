@@ -37,6 +37,9 @@ import {
 import { PerpetualTxMethods, PerpetualTx } from '../../TradeDialog/types';
 import { PerpetualQueriesContext } from 'app/pages/PerpetualPage/contexts/PerpetualQueriesContext';
 import { roundToLot } from '../../../utils/perpMath';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { discordInvite } from 'utils/classifiers';
 
 export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
   changeTo,
@@ -52,6 +55,11 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     lotSize,
     lotPrecision,
   } = useContext(PerpetualQueriesContext);
+
+  const { checkMaintenance, States } = useMaintenance();
+  const inMaintenance =
+    checkMaintenance(States.PERPETUALS) ||
+    checkMaintenance(States.PERPETUALS_TRADE);
 
   const { changedTrade, trade, onChange } = useContext(
     ClosePositionDialogContext,
@@ -310,18 +318,40 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
           {validation.errorMessages}
         </div>
       )}
-      <button
-        className={classNames(
-          'tw-absolute tw-bottom-0 tw-w-full tw-min-h-10 tw-p-2 tw-mt-4 tw-text-lg tw-text-primary tw-font-medium tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-transition-opacity tw-duration-300',
-          isButtonDisabled
-            ? 'tw-opacity-25 tw-cursor-not-allowed'
-            : 'tw-opacity-100 hover:tw-bg-primary-25',
-        )}
-        disabled={isButtonDisabled}
-        onClick={onSubmit}
-      >
-        {t(translations.perpetualPage.closePosition.button)}
-      </button>
+
+      {!inMaintenance ? (
+        <button
+          className={classNames(
+            'tw-absolute tw-bottom-0 tw-w-full tw-min-h-10 tw-p-2 tw-mt-4 tw-text-lg tw-text-primary tw-font-medium tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-transition-opacity tw-duration-300',
+            isButtonDisabled
+              ? 'tw-opacity-25 tw-cursor-not-allowed'
+              : 'tw-opacity-100 hover:tw-bg-primary-25',
+          )}
+          disabled={isButtonDisabled}
+          onClick={onSubmit}
+        >
+          {t(translations.perpetualPage.closePosition.button)}
+        </button>
+      ) : (
+        <ErrorBadge
+          content={
+            <Trans
+              i18nKey={translations.maintenance.perpetualsTrade}
+              components={[
+                <a
+                  href={discordInvite}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                >
+                  x
+                </a>,
+              ]}
+            />
+          }
+          className="tw-mb-0 tw-pb-0"
+        />
+      )}
     </div>
   );
 };
