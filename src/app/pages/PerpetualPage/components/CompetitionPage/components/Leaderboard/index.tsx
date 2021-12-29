@@ -71,8 +71,6 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
         return;
       }
 
-      console.log(perpetualParameters, ammState, leaderboardData);
-
       const perpetualId = PerpetualPairDictionary.get(PerpetualPairType.BTCUSD)
         .id;
       const contract = getContract('perpetualManager');
@@ -114,8 +112,6 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
                 )
                 .then(result => parseTraderState(result))
                 .catch(console.error);
-
-              console.log(item, traderState);
 
               if (!traderState) {
                 items.push(entry);
@@ -185,7 +181,6 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
       setLoaded(false);
       run()
         .then(rows => {
-          console.log(rows);
           setItems(rows);
           setLoaded(true);
           if (account) {

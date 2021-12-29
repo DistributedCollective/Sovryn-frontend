@@ -48,7 +48,7 @@ export const usePerpetual_accountBalance = (
         'balanceOf',
         [account],
       )
-      .catch(e => console.log(e))
+      .catch(console.error)
       .then(result => result && setAvailableBalance(String(result)));
   }, [account, blockId]);
 

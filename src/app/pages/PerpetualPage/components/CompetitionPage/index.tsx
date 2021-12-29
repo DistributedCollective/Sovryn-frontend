@@ -47,7 +47,7 @@ export const CompetitionPage: React.FC = () => {
         }
       })
       .catch(e => {
-        console.error('e: ', e);
+        console.error(e);
       });
   }, []);
 
@@ -88,7 +88,6 @@ export const CompetitionPage: React.FC = () => {
     axios
       .get(`${notificationUrl}/tradingCompetition/${account.toLowerCase()}`)
       .then(res => {
-        console.log('res: ', res);
         if (
           res?.status === 200 &&
           res?.data?.walletAddress === account.toLowerCase()
@@ -96,7 +95,7 @@ export const CompetitionPage: React.FC = () => {
           setIsRegistered(true);
       })
       .catch(e => {
-        console.log('e: ', e);
+        console.error(e);
         setIsRegistered(false);
       });
   }, [account, connected, registerDialogOpen]);
