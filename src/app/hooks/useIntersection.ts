@@ -7,6 +7,10 @@ export const useIntersection = (
   const [isVisible, setState] = useState(false);
 
   useEffect(() => {
+    if (!element) {
+      return;
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         setState(entry.isIntersecting);
@@ -14,10 +18,10 @@ export const useIntersection = (
       { rootMargin: threshold },
     );
 
-    element && element !== null && observer.observe(element);
+    observer.observe(element);
 
     return () => {
-      element && element !== null && observer.unobserve(element);
+      observer.unobserve(element);
     };
   }, [element, threshold]);
 

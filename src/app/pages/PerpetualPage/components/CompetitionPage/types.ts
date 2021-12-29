@@ -3,8 +3,8 @@ export type LeaderboardData = {
   userName: string | null;
   walletAddress: string;
   openedPositions: number;
-  lastTrade: string; //datestamp
-  totalPnL: string;
+  lastTrade: number;
+  totalPnL: number;
 };
 
 export type RegisteredTraderData = {

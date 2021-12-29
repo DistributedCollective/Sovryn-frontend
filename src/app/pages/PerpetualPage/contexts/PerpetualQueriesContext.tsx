@@ -92,11 +92,13 @@ const getAveragePrice = (depthMatrixEntries: any[][]): number => {
 
 type PerpetualQueriesContextProviderProps = {
   pair: PerpetualPair;
+  updateInterval?: number;
   children: React.ReactNode;
 };
 
 export const PerpetualQueriesContextProvider: React.FC<PerpetualQueriesContextProviderProps> = ({
   pair,
+  updateInterval = UPDATE_INTERVAL,
   children,
 }) => {
   const {
@@ -173,7 +175,7 @@ export const PerpetualQueriesContextProvider: React.FC<PerpetualQueriesContextPr
 
   useEffect(() => {
     const socket = initSocket({ update: refetch }, pair.id);
-    const intervalId = setInterval(refetch, UPDATE_INTERVAL);
+    const intervalId = setInterval(refetch, updateInterval);
 
     return () => {
       clearInterval(intervalId);
@@ -184,7 +186,7 @@ export const PerpetualQueriesContextProvider: React.FC<PerpetualQueriesContextPr
         }
       });
     };
-  }, [refetch, pair.id]);
+  }, [updateInterval, refetch, pair.id]);
 
   return (
     <PerpetualQueriesContext.Provider value={value}>

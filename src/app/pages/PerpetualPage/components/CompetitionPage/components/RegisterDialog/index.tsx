@@ -47,14 +47,13 @@ export const RegisterDialog: React.FC<IRegisterDialogProps> = ({
             },
           )
           .then(res => {
-            console.log('res: ', res);
             if (res.status && res.status === 200) {
               setPseudonym('');
               onClose();
             }
           })
           .catch(e => {
-            console.log('e: ', e);
+            console.error(e);
           }),
       );
     } else {
