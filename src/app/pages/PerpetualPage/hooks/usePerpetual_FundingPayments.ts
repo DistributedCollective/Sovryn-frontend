@@ -36,38 +36,35 @@ export const usePerpetual_FundingPayments = (
     previousData: previousFundingEvents,
     loading,
   } = useGetTraderEvents(
-    [Event.FUNDING_PAYMENT],
+    [Event.FUNDING_RATE],
     address.toLowerCase(),
-    'lastBlockTimestamp',
+    'blockTimestamp',
     OrderDirection.desc,
     page,
     perPage,
+    'fundingTime_not: "0"',
   );
 
   const data: FundingPaymentsEntry[] = useMemo(() => {
     const currentFundingEvents =
-      fundingEvents?.trader?.fundingPayments ||
-      previousFundingEvents?.trader?.fundingPayments;
+      fundingEvents?.trader?.fundingRates ||
+      previousFundingEvents?.trader?.fundingRates;
 
     let data: FundingPaymentsEntry[] = [];
 
     if (currentFundingEvents?.length > 0) {
       data = currentFundingEvents.reduce((acc, item) => {
-        if (item?.fundingRates) {
-          for (let fundingRate of item.fundingRates) {
-            acc.push({
-              id: item.id,
-              pairType: pairType,
-              datetime: fundingRate.blockTimestamp,
-              payment: ABK64x64ToFloat(
-                BigNumber.from(fundingRate.fFundingPaymentCC),
-              ),
-              rate: ABK64x64ToFloat(BigNumber.from(fundingRate.fundingRate)),
-              timeSinceLastPayment: ABK64x64ToFloat(
-                BigNumber.from(fundingRate.fundingTime),
-              ),
-            });
-          }
+        if (item) {
+          acc.push({
+            id: item.id,
+            pairType: pairType,
+            datetime: item.blockTimestamp,
+            payment: ABK64x64ToFloat(BigNumber.from(item.fFundingPaymentCC)),
+            rate: ABK64x64ToFloat(BigNumber.from(item.fundingRate)),
+            timeSinceLastPayment: ABK64x64ToFloat(
+              BigNumber.from(item.fundingTime),
+            ),
+          });
         }
 
         return acc;
@@ -76,20 +73,27 @@ export const usePerpetual_FundingPayments = (
 
     return data;
   }, [
-    fundingEvents?.trader?.fundingPayments,
+    fundingEvents?.trader?.fundingRates,
     pairType,
-    previousFundingEvents?.trader?.fundingPayments,
+    previousFundingEvents?.trader?.fundingRates,
   ]);
 
-  const totalCount = useMemo(
-    () =>
+  const totalCount = useMemo(() => {
+    const fundingRatesTotalCount =
+      fundingEvents?.trader?.fundingRatesTotalCount ||
+      previousFundingEvents?.trader?.fundingRatesTotalCount;
+
+    const positionsTotalCount =
       fundingEvents?.trader?.positionsTotalCount ||
-      previousFundingEvents?.trader?.positionsTotalCount,
-    [
-      fundingEvents?.trader?.positionsTotalCount,
-      previousFundingEvents?.trader?.positionsTotalCount,
-    ],
-  );
+      previousFundingEvents?.trader?.positionsTotalCount;
+
+    return fundingRatesTotalCount - positionsTotalCount; // because we always receive a 0 funding payment when we open a position
+  }, [
+    fundingEvents?.trader?.fundingRatesTotalCount,
+    fundingEvents?.trader?.positionsTotalCount,
+    previousFundingEvents?.trader?.fundingRatesTotalCount,
+    previousFundingEvents?.trader?.positionsTotalCount,
+  ]);
 
   return {
     data,
