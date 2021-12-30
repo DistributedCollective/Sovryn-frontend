@@ -34,6 +34,9 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
     const steps = unfilteredSteps.filter(
       step => step >= min && step * 1.2 <= max,
     );
+    if (unfilteredSteps[0] < min && steps[0] !== min) {
+      steps.unshift(min);
+    }
     if (steps[steps.length - 1] !== max) {
       steps.push(max);
     }
