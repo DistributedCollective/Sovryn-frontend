@@ -220,9 +220,9 @@
       },
       {
         "indexed": false,
-        "internalType": "int128[10]",
+        "internalType": "int128[11]",
         "name": "baseParams",
-        "type": "int128[10]"
+        "type": "int128[11]"
       },
       {
         "indexed": false,
@@ -458,9 +458,9 @@
       },
       {
         "indexed": false,
-        "internalType": "int128[10]",
+        "internalType": "int128[11]",
         "name": "baseParams",
-        "type": "int128[10]"
+        "type": "int128[11]"
       }
     ],
     "name": "SetPerpetualBaseParameters",
@@ -1528,9 +1528,9 @@
         "type": "address[2]"
       },
       {
-        "internalType": "int128[10]",
+        "internalType": "int128[11]",
         "name": "_baseParams",
-        "type": "int128[10]"
+        "type": "int128[11]"
       },
       {
         "internalType": "int128[5]",
@@ -1800,9 +1800,9 @@
     "name": "getAMMState",
     "outputs": [
       {
-        "internalType": "int128[12]",
+        "internalType": "int128[13]",
         "name": "",
-        "type": "int128[12]"
+        "type": "int128[13]"
       }
     ],
     "stateMutability": "view",
@@ -2505,6 +2505,11 @@
           {
             "internalType": "int128",
             "name": "fMinimalSpread",
+            "type": "int128"
+          },
+          {
+            "internalType": "int128",
+            "name": "fMinimalSpreadInStress",
             "type": "int128"
           },
           {
@@ -3283,6 +3288,19 @@
     "inputs": [
       {
         "internalType": "bytes32",
+        "name": "_iPerpetualId",
+        "type": "bytes32"
+      }
+    ],
+    "name": "setEmergencyState",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
         "name": "_perpetualId",
         "type": "bytes32"
       },
@@ -3318,9 +3336,9 @@
         "type": "bytes32"
       },
       {
-        "internalType": "int128[10]",
+        "internalType": "int128[11]",
         "name": "_baseParams",
-        "type": "int128[10]"
+        "type": "int128[11]"
       }
     ],
     "name": "setPerpetualBaseParams",
