@@ -33,6 +33,7 @@ import {
   calculateSlippagePrice,
   calculateLeverage,
   getMaxInitialLeverage,
+  getMaximalTradeSizeInPerpetualWithCurrentMargin,
 } from '../../utils/perpUtils';
 import { shrinkToLot } from '../../utils/perpMath';
 import {
@@ -90,21 +91,33 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   ]);
 
   const maxTradeSize = useMemo(() => {
-    const maxTradeSize = Number(
-      Math.abs(
-        getMaximalTradeSizeInPerpetual(
-          traderState.marginAccountPositionBC,
-          getTradeDirection(trade.position),
-          ammState,
-          liqPoolState,
-          perpParameters,
-        ),
-      ).toPrecision(8),
-    );
+    let maxTradeSize;
+    if (isNewTrade) {
+      maxTradeSize = Number(
+        Math.abs(
+          getMaximalTradeSizeInPerpetual(
+            traderState.marginAccountPositionBC,
+            getTradeDirection(trade.position),
+            ammState,
+            liqPoolState,
+            perpParameters,
+          ),
+        ).toPrecision(8),
+      );
+    } else {
+      maxTradeSize = getMaximalTradeSizeInPerpetualWithCurrentMargin(
+        getTradeDirection(trade.position),
+        perpParameters,
+        traderState,
+        ammState,
+        liqPoolState,
+      );
+    }
     return Number.isFinite(maxTradeSize) ? maxTradeSize : 0;
   }, [
-    traderState.marginAccountPositionBC,
+    isNewTrade,
     trade.position,
+    traderState,
     ammState,
     liqPoolState,
     perpParameters,

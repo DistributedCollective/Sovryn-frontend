@@ -1,5 +1,5 @@
 /*
-  COMMIT: acece63d6a206854356ccfa2337dfa5178d4bfc8
+  COMMIT: 0832fccf148c9660d48fc239cfa89a49f2ed9a01
   Helper-functions for frontend
 */
 
@@ -16,6 +16,10 @@ import {
   getMaxLeveragePosition,
   isTraderMarginSafe,
   cdfNormalStd,
+  getMarginBalanceCC,
+  COLLATERAL_CURRENCY_BASE,
+  COLLATERAL_CURRENCY_QUANTO,
+  COLLATERAL_CURRENCY_QUOTE,
 } from './perpMath';
 
 /*---
@@ -251,7 +255,7 @@ export function getMaxInitialLeverage(
  * @param {traderState} TraderState - Contains trader state data
  * @param {AMMState} ammData  - Contains amm state data
  * @param {LiqPoolState} poolData - Contains liq pool state data
- * @returns {number} maintenance margin rate
+ * @returns {number} position-size in base-currency
  */
 
 export function getSignedMaxAbsPositionForTrader(
@@ -289,10 +293,17 @@ export function getSignedMaxAbsPositionForTrader(
 
   let posMargin = getMaxLeveragePosition(cashBC, premiumRate, alpha, beta, fee);
 
+  console.log({
+    availableCashCC: traderState.availableCashCC,
+    S3: ammData.indexS3PriceDataOracle,
+    S2: ammData.indexS2PriceDataOracle,
+  });
+  console.log({ posMargin, cashBC, premiumRate, alpha, beta, fee });
+
   if (direction < 0) {
     return Math.max(-posMargin, maxSignedPos);
   } else {
-    return Math.max(posMargin, maxSignedPos);
+    return Math.min(posMargin, maxSignedPos);
   }
 }
 
@@ -649,22 +660,31 @@ export function getMaximalMarginToWidthdraw(
   ammData: AMMState,
 ) {
   let currentPos = traderState.marginAccountPositionBC;
+  let Sm = getMarkPrice(ammData);
   let S2 = ammData.indexS2PriceDataOracle;
   let S3 = 1 / getQuote2CollateralFX(ammData);
 
   // required initial margin rate
   let tau = getInitialMarginRate(currentPos, perpParams);
-  // required collateral: margin balance >= |pos|*tau * S2/S3
-  let m =
-    (Math.abs(currentPos) * tau * S2) / S3 -
-    (currentPos * getMarkPrice(ammData) -
-      traderState.marginAccountLockedInValueQC) /
-      S3;
-  // we can withdraw only the amount the current margin collateral is above m
-  let maxAmount = traderState.availableCashCC - m;
-  // we shrink the amount by 1 lot (collateral currency equivalent) to be safe
-  // shrinking the margin amount is non-sense
-  // maxAmount = shrinkToLot(maxAmount, (perpParams.fLotSizeBC * S2) / S3);
+  // required collateral: margin balance >= |pos|*tau * S2Mark/S3
+  let collType = getPerpetualCollateralType(ammData);
+  let b = getMarginBalanceCC(
+    currentPos,
+    traderState.marginAccountLockedInValueQC,
+    S2,
+    S3,
+    Sm - S3,
+    traderState.availableCashCC,
+    collType,
+  );
+  // we can withdraw only the amount the current margin balance is above |pos|*tau * S2Mark/S3
+  let maxAmount = b - (Math.abs(currentPos) * tau * Sm) / S3;
+  // we shrink the amount by a fraction of a lot (collateral currency equivalent) to be safe and avoid that the margin is not enough
+  const lotSizeFraction = 0.1;
+  maxAmount = shrinkToLot(
+    maxAmount,
+    ((perpParams.fLotSizeBC * S2) / S3) * lotSizeFraction,
+  );
   return Math.max(0, maxAmount);
 }
 
@@ -951,6 +971,21 @@ export function getMinimalSpread(
   return ammData.defFundToTargetRatio > 1
     ? perpParams.fMinimalSpread
     : perpParams.fMinimalSpreadInStress;
+}
+
+/**
+ * internal function to get the type of collateral: quote, base, or quanto
+ * @param {AMMState} ammData - AMM data
+ * @returns COLLATERAL_CURRENCY_BASE | COLLATERAL_CURRENCY_QUOTE | COLLATERAL_CURRENCY_QUANTO
+ */
+function getPerpetualCollateralType(ammData: AMMState) {
+  if (ammData.M2 !== 0) {
+    return COLLATERAL_CURRENCY_BASE;
+  } else if (ammData.M3 !== 0) {
+    return COLLATERAL_CURRENCY_QUANTO;
+  } else {
+    return COLLATERAL_CURRENCY_QUOTE;
+  }
 }
 
 // CUSTOM FRONTEND UTILS =======================================================
