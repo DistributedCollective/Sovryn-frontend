@@ -4,7 +4,11 @@ import {
   PerpetualPairDictionary,
 } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { PerpetualTradeType, PerpetualTradeEvent } from '../types';
-import { Event, useGetTraderEvents } from './graphql/useGetTraderEvents';
+import {
+  Event,
+  OrderDirection,
+  useGetTraderEvents,
+} from './graphql/useGetTraderEvents';
 import { useContext, useMemo } from 'react';
 import { ABK64x64ToFloat } from '../utils/contractUtils';
 import { BigNumber } from 'ethers';
@@ -45,7 +49,12 @@ export const usePerpetual_OpenPosition = (
     data: tradeEvents,
     previousData: previousTradeEvents,
     loading,
-  } = useGetTraderEvents([Event.TRADE], address.toLowerCase());
+  } = useGetTraderEvents(
+    [Event.TRADE],
+    address.toLowerCase(),
+    'blockTimestamp',
+    OrderDirection.desc,
+  );
 
   const {
     ammState,
