@@ -12,28 +12,30 @@ interface IPairStatsProps {
   pair: TradingPairs;
 }
 
+interface ICandlesProps {
+  close: number;
+  high: number;
+  low: number;
+  open: number;
+  time: number;
+}
+
 export const PairStats: React.FC<IPairStatsProps> = ({ pair }) => {
   const { t } = useTranslation();
-  const [candles, setCandels] = useState([]) as any;
+  const [candles, setCandels] = useState<ICandlesProps[]>();
   const [lowPrice, setLowPrice] = useState<number>(0);
   const [hightPrice, setHightPrice] = useState<number>(0);
   const [lastPrice, setLastPrice] = useState<number>(0);
   const [dayPrice, setDayPrice] = useState<number>(0);
   const [percent, setPercent] = useState<number>(0);
-  const [candlesLoading, setCandlesLoading] = useState(false);
-  const [symbolA, setSymbolA] = useState('');
-  const [symbolB, setSymbolB] = useState('');
-  const lowestPrice = candles.sort(function (a, b) {
-    return a.low - b.low;
-  });
-
+  const [candlesLoading, setCandlesLoading] = useState<boolean>(false);
+  const [symbolA, setSymbolA] = useState<string>('');
+  const [symbolB, setSymbolB] = useState<string>('');
   const url = backendUrl[currentChainId];
-  const highestPrice = candles.sort(function (a, b) {
-    return b.high - a.high;
-  });
 
   const getPairsCandles = useCallback(() => {
     setCandlesLoading(true);
+    setCandels([]);
     //getting the current day and yesterday
     const dayBefore = new Date();
     const currentTime = new Date().getTime();
@@ -45,9 +47,7 @@ export const PairStats: React.FC<IPairStatsProps> = ({ pair }) => {
           endTime: `${currentTime}`,
         },
       })
-      .then(res => {
-        setCandels(res.data.series);
-      })
+      .then(({ data }) => setCandels(data.series))
       .catch(e => console.error(e))
       .finally(() => {
         setCandlesLoading(false);
@@ -55,7 +55,6 @@ export const PairStats: React.FC<IPairStatsProps> = ({ pair }) => {
   }, [symbolA, symbolB, url]);
 
   useEffect(() => {
-    setCandels(['']);
     setSymbolA(pair[0].base_symbol);
     setSymbolB(pair[1].base_symbol);
     if (pair[0] !== pair[1]) {
@@ -116,20 +115,7 @@ export const PairStats: React.FC<IPairStatsProps> = ({ pair }) => {
       if (pair[0] === pair[1] && !pair[2])
         setHightPrice(pair[0].high_price_24h);
     }
-
-    if (candles.length && pair[0] !== pair[1]) {
-      setLowPrice(lowestPrice[0].low);
-      setHightPrice(highestPrice[highestPrice.length - 1].high);
-    }
-  }, [
-    lastPrice,
-    pair,
-    candlesLoading,
-    candles,
-    highestPrice,
-    lowestPrice,
-    dayPrice,
-  ]);
+  }, [lastPrice, pair, candlesLoading, candles, dayPrice]);
 
   return (
     <div className="tw-flex tw-items-center tw-justify-around tw-flex-1 tw-text-xs">
