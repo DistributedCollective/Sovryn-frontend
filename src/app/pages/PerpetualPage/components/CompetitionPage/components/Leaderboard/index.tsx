@@ -18,14 +18,10 @@ import { useGetLeaderboardData } from 'app/pages/PerpetualPage/hooks/graphql/use
 import styles from './index.module.scss';
 import { getTraderPnLInBC } from 'app/pages/PerpetualPage/utils/perpUtils';
 import { bignumber } from 'mathjs';
-import { bridgeNetwork } from 'app/pages/BridgeDepositPage/utils/bridge-network';
-import { getContract } from 'utils/blockchain/contract-helpers';
-import { Chain } from 'types/chain';
 import {
   PerpetualPairDictionary,
   PerpetualPairType,
 } from 'utils/dictionaries/perpetual-pair-dictionary';
-import { parseTraderState } from 'app/pages/PerpetualPage/hooks/usePerpetual_queryTraderState';
 import { PerpetualQueriesContext } from 'app/pages/PerpetualPage/contexts/PerpetualQueriesContext';
 import { ABK64x64ToFloat } from 'app/pages/PerpetualPage/utils/perpMath';
 import { BigNumber } from 'ethers/lib/ethers';
@@ -34,6 +30,7 @@ import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import debounce from 'lodash.debounce';
+import { useGetTraderStates } from 'app/pages/PerpetualPage/hooks/graphql/useGetTraderStates';
 
 interface ILeaderboardProps {
   data: RegisteredTraderData[];
@@ -51,6 +48,8 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
   const [items, setItems] = useState<LeaderboardData[]>([]);
   const [userData, setUserData] = useState<LeaderboardData | null>(null);
   const [loaded, setLoaded] = useState(false);
+
+  const traderStates = useGetTraderStates();
 
   const { perpetualParameters, ammState } = useContext(PerpetualQueriesContext);
 
@@ -73,7 +72,6 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
 
       const perpetualId = PerpetualPairDictionary.get(PerpetualPairType.BTCUSD)
         .id;
-      const contract = getContract('perpetualManager');
 
       const run = async () => {
         const items: LeaderboardData[] = [];
@@ -102,16 +100,10 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
             let unrealizedProfit = 0;
 
             if (trader.positions.find(item => !item.isClosed)) {
-              const traderState = await bridgeNetwork
-                .call(
-                  Chain.BSC,
-                  contract.address,
-                  contract.abi,
-                  'getTraderState',
-                  [perpetualId, item.walletAddress.toLowerCase()],
-                )
-                .then(result => parseTraderState(result))
-                .catch(console.error);
+              const traderState = traderStates.find(
+                traderState =>
+                  traderState.id.startsWith(item.walletAddress.toLowerCase()),
+              );
 
               if (!traderState) {
                 items.push(entry);
