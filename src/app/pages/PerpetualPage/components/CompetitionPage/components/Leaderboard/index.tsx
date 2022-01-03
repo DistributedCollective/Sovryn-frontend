@@ -102,7 +102,7 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
             if (trader.positions.find(item => !item.isClosed)) {
               const traderState = traderStates.find(
                 traderState =>
-                  traderState.id === item.walletAddress.toLowerCase(),
+                  traderState.id.startsWith(item.walletAddress.toLowerCase()),
               );
 
               if (!traderState) {
