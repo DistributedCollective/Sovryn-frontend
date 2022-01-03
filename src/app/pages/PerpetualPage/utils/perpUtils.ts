@@ -1,5 +1,5 @@
 /*
-  COMMIT: 0832fccf148c9660d48fc239cfa89a49f2ed9a01
+  COMMIT: 67f3e263cfd5145d20e6d6d45a785e2a440d88ee
   Helper-functions for frontend
 */
 
@@ -16,10 +16,10 @@ import {
   getMaxLeveragePosition,
   isTraderMarginSafe,
   cdfNormalStd,
-  getMarginBalanceCC,
+  COLLATERAL_CURRENCY_QUOTE,
   COLLATERAL_CURRENCY_BASE,
   COLLATERAL_CURRENCY_QUANTO,
-  COLLATERAL_CURRENCY_QUOTE,
+  getMarginBalanceCC,
 } from './perpMath';
 
 /*---
@@ -286,19 +286,12 @@ export function getSignedMaxAbsPositionForTrader(
   let alpha = perpParams.fInitialMarginRateAlpha;
   let beta = perpParams.fMarginRateBeta;
   let fee = getTradingFeeRate(perpParams);
+  let S3 = 1 / getQuote2CollateralFX(ammData);
   let cashBC =
-    (traderState.availableCashCC * ammData.indexS3PriceDataOracle) /
-    ammData.indexS2PriceDataOracle;
+    (traderState.availableCashCC * S3) / ammData.indexS2PriceDataOracle;
   let premiumRate = cdfNormalStd(perpParams.fAMMTargetDD_1);
 
   let posMargin = getMaxLeveragePosition(cashBC, premiumRate, alpha, beta, fee);
-
-  console.log({
-    availableCashCC: traderState.availableCashCC,
-    S3: ammData.indexS3PriceDataOracle,
-    S2: ammData.indexS2PriceDataOracle,
-  });
-  console.log({ posMargin, cashBC, premiumRate, alpha, beta, fee });
 
   if (direction < 0) {
     return Math.max(-posMargin, maxSignedPos);
@@ -411,7 +404,6 @@ export function getMaximalTradeSizeInPerpetualWithCurrentMargin(
     ammData,
     poolData,
   );
-
   return maxPos - traderState.marginAccountPositionBC;
 }
 

@@ -43,8 +43,7 @@ import {
 } from '../../utils/contractUtils';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';
-import { numberFromWei } from 'utils/blockchain/math-helpers';
-import { fromWei, toWei } from 'web3-utils';
+import { numberFromWei, toWei, fromWei } from 'utils/blockchain/math-helpers';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
 import { useSelector } from 'react-redux';
 import { selectPerpetualPage } from '../../selectors';
@@ -93,7 +92,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   const maxTradeSize = useMemo(() => {
     let maxTradeSize;
     if (isNewTrade) {
-      maxTradeSize = Number(
+      maxTradeSize = shrinkToLot(
         Math.abs(
           getMaximalTradeSizeInPerpetual(
             traderState.marginAccountPositionBC,
@@ -102,15 +101,21 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
             liqPoolState,
             perpParameters,
           ),
-        ).toPrecision(8),
+        ),
+        lotSize,
       );
     } else {
-      maxTradeSize = getMaximalTradeSizeInPerpetualWithCurrentMargin(
-        getTradeDirection(trade.position),
-        perpParameters,
-        traderState,
-        ammState,
-        liqPoolState,
+      maxTradeSize = shrinkToLot(
+        Math.abs(
+          getMaximalTradeSizeInPerpetualWithCurrentMargin(
+            getTradeDirection(trade.position),
+            perpParameters,
+            traderState,
+            ammState,
+            liqPoolState,
+          ),
+        ),
+        lotSize,
       );
     }
     return Number.isFinite(maxTradeSize) ? maxTradeSize : 0;
@@ -121,6 +126,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     ammState,
     liqPoolState,
     perpParameters,
+    lotSize,
   ]);
 
   const [minLeverage, maxLeverage] = useMemo(() => {
@@ -158,18 +164,22 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     ammState,
   ]);
 
-  const [amount, setAmount] = useState(fromWei(trade.amount).replace(/^-/, ''));
+  const [amount, setAmount] = useState(
+    Math.abs(numberFromWei(trade.amount)).toFixed(lotPrecision),
+  );
   const onChangeOrderAmount = useCallback(
     (amount: string) => {
-      const roundedAmount = shrinkToLot(
-        Math.max(Math.min(Number(amount) || 0, maxTradeSize), 0),
-        lotSize,
+      const roundedAmount = Number(
+        shrinkToLot(
+          Math.max(Math.min(Number(amount) || 0, maxTradeSize), 0),
+          lotSize,
+        ).toFixed(lotPrecision),
       );
       setAmount(amount);
       const amountChange = roundedAmount * getTradeDirection(trade.position);
       const targetAmount = traderState.marginAccountPositionBC + amountChange;
 
-      let newTrade = { ...trade, amount: toWei(roundedAmount.toString()) };
+      let newTrade = { ...trade, amount: toWei(roundedAmount) };
 
       if (isNewTrade) {
         newTrade.leverage = Math.max(
@@ -192,6 +202,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       onChange,
       trade,
       lotSize,
+      lotPrecision,
       maxTradeSize,
       minLeverage,
       maxLeverage,
@@ -203,8 +214,8 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   );
 
   const onBlurOrderAmount = useCallback(() => {
-    setAmount(fromWei(trade.amount));
-  }, [trade.amount]);
+    setAmount(numberFromWei(trade.amount).toFixed(lotPrecision));
+  }, [lotPrecision, trade.amount]);
 
   const [limit, setLimit] = useState(trade.limit);
   const onChangeOrderLimit = useCallback(
