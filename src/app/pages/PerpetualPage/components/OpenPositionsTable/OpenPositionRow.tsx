@@ -131,16 +131,12 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
         {item.leverage ? ` (${toNumberFormat(item.leverage, 2)}x)` : null}
       </td>
       <td
-        className={classNames(
-          {
-            'tw-text-trade-long':
-              item.unrealized && item.unrealized.baseValue > 0,
-          },
-          {
-            'tw-text-trade-short':
-              item.unrealized && item.unrealized.baseValue < 0,
-          },
-        )}
+        className={classNames({
+          'tw-text-trade-long':
+            item.unrealized && item.unrealized.baseValue > 0,
+          'tw-text-trade-short':
+            item.unrealized && item.unrealized.baseValue < 0,
+        })}
       >
         {item.unrealized && (
           <div className="tw-flex tw-flex-row tw-items-center">
@@ -156,8 +152,8 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
               />
               <AssetValue
                 className="tw-block"
-                minDecimals={0}
-                maxDecimals={10}
+                minDecimals={2}
+                maxDecimals={2}
                 value={item.unrealized.quoteValue}
                 assetString={pair.quoteAsset}
                 mode={AssetValueMode.auto}
@@ -169,15 +165,10 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
         )}
       </td>
       <td
-        className={classNames(
-          'tw-hidden 2xl:tw-table-cell',
-          {
-            'tw-text-trade-long': item.realized && item.realized.baseValue > 0,
-          },
-          {
-            'tw-text-trade-short': item.realized && item.realized.baseValue < 0,
-          },
-        )}
+        className={classNames('tw-hidden 2xl:tw-table-cell', {
+          'tw-text-trade-long': item.realized && item.realized.baseValue > 0,
+          'tw-text-trade-short': item.realized && item.realized.baseValue < 0,
+        })}
       >
         {item.realized && (
           <>
@@ -192,8 +183,8 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
             />
             <AssetValue
               className="tw-block"
-              minDecimals={0}
-              maxDecimals={10}
+              minDecimals={2}
+              maxDecimals={2}
               value={item.realized.quoteValue}
               assetString={pair.quoteAsset}
               mode={AssetValueMode.auto}
