@@ -19,6 +19,8 @@ import {
   getPrice,
   getMidPrice,
   isTraderInitialMarginSafe,
+  getRequiredMarginCollateralWithGasFees,
+  calculateLeverage,
 } from './perpUtils';
 import { fromWei } from '../../../../utils/blockchain/math-helpers';
 import { CheckAndApproveResultWithError } from '../types';
@@ -176,9 +178,11 @@ export const validatePositionChange = (
   amountChange: number,
   marginChange: number,
   slippage: number,
+  availableBalance: number,
   traderState: TraderState,
   perpParameters: PerpParameters,
   ammState: AMMState,
+  useMetaTransactions: boolean,
 ) => {
   const result: Validation = {
     valid: true,
@@ -241,6 +245,41 @@ export const validatePositionChange = (
         i18nKey={translations.perpetualPage.warnings.targetMarginUnsafe}
       />,
     );
+  }
+
+  if (amountChange !== 0 || marginChange !== 0) {
+    const targetAmount = amountChange + traderState.marginAccountPositionBC;
+    const targetMargin = marginChange + traderState.availableCashCC;
+    const leverage = calculateLeverage(
+      targetAmount,
+      targetMargin,
+      traderState,
+      ammState,
+      perpParameters,
+    );
+
+    const requiredMargin = getRequiredMarginCollateralWithGasFees(
+      leverage,
+      targetAmount,
+      perpParameters,
+      ammState,
+      traderState,
+      slippage,
+      useMetaTransactions,
+    );
+
+    if (requiredMargin > traderState.availableCashCC + availableBalance) {
+      result.valid = false;
+      result.isWarning = true;
+      result.errors.push(new Error('Order cost exceeds total balance!'));
+      result.errorMessages?.push(
+        <Trans
+          parent="div"
+          key="targetMarginUnsafe"
+          i18nKey={translations.perpetualPage.warnings.exceedsBalance}
+        />,
+      );
+    }
   }
 
   return result;

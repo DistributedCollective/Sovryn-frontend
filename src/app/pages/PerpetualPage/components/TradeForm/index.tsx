@@ -27,13 +27,13 @@ import { AssetValueMode } from '../../../../components/AssetValue/types';
 import { LeverageViewer } from '../LeverageViewer';
 import {
   getMaximalTradeSizeInPerpetual,
-  getRequiredMarginCollateral,
   getTradingFee,
   calculateApproxLiquidationPrice,
   calculateSlippagePrice,
   calculateLeverage,
   getMaxInitialLeverage,
   getMaximalTradeSizeInPerpetualWithCurrentMargin,
+  getRequiredMarginCollateralWithGasFees,
 } from '../../utils/perpUtils';
 import { shrinkToLot } from '../../utils/perpMath';
 import {
@@ -43,7 +43,7 @@ import {
 } from '../../utils/contractUtils';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';
-import { numberFromWei, toWei, fromWei } from 'utils/blockchain/math-helpers';
+import { numberFromWei, toWei } from 'utils/blockchain/math-helpers';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
 import { useSelector } from 'react-redux';
 import { selectPerpetualPage } from '../../selectors';
@@ -118,6 +118,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         lotSize,
       );
     }
+
     return Number.isFinite(maxTradeSize) ? maxTradeSize : 0;
   }, [
     isNewTrade,
@@ -140,7 +141,10 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       possibleMargin -=
         gasLimit.deposit_collateral + gasLimit.open_perpetual_trade;
     }
-    return [
+
+    const maxLeverage = getMaxInitialLeverage(amountTarget, perpParameters);
+    const minLeverage = Math.min(
+      maxLeverage,
       Math.max(
         pair.config.leverage.min,
         calculateLeverage(
@@ -151,8 +155,9 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           perpParameters,
         ),
       ),
-      getMaxInitialLeverage(amountTarget, perpParameters),
-    ];
+    );
+
+    return [minLeverage, maxLeverage];
   }, [
     trade.position,
     trade.amount,
@@ -256,15 +261,16 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
 
   const requiredCollateral = useMemo(() => {
     const amount = getSignedAmount(trade.position, trade.amount);
-    return getRequiredMarginCollateral(
+    return getRequiredMarginCollateralWithGasFees(
       trade.leverage,
       traderState.marginAccountPositionBC + amount,
       perpParameters,
       ammState,
       traderState,
       trade.slippage,
+      useMetaTransactions,
     );
-  }, [perpParameters, ammState, traderState, trade]);
+  }, [perpParameters, ammState, traderState, trade, useMetaTransactions]);
 
   const tradingFee = useMemo(
     () => getTradingFee(numberFromWei(trade.amount), perpParameters, ammState),
@@ -302,27 +308,29 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
 
   const validation = useMemo(() => {
     const signedAmount = getSignedAmount(trade.position, trade.amount);
-    const marginChange = isNewTrade
-      ? getRequiredMarginCollateral(
-          trade.leverage,
-          signedAmount,
-          perpParameters,
-          ammState,
-          traderState,
-          trade.slippage,
-        )
-      : 0;
+    const marginChange = isNewTrade ? requiredCollateral : 0;
     return signedAmount !== 0 || marginChange !== 0
       ? validatePositionChange(
           signedAmount,
           marginChange,
           trade.slippage,
+          numberFromWei(availableBalanceWei),
           traderState,
           perpParameters,
           ammState,
+          useMetaTransactions,
         )
       : undefined;
-  }, [isNewTrade, trade, traderState, perpParameters, ammState]);
+  }, [
+    isNewTrade,
+    trade,
+    requiredCollateral,
+    availableBalanceWei,
+    traderState,
+    perpParameters,
+    ammState,
+    useMetaTransactions,
+  ]);
 
   const buttonDisabled = useMemo(
     () =>

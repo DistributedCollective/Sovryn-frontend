@@ -32,7 +32,7 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
 
   const steps = useMemo(() => {
     const steps = unfilteredSteps.filter(
-      step => step >= min && step * 1.2 <= max,
+      step => step - 0.05 >= min && step + 0.05 <= max,
     );
     if (unfilteredSteps[0] < min && steps[0] !== min) {
       steps.unshift(min);
