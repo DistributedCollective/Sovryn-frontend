@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import { Dialog } from 'app/containers/Dialog/Loadable';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
@@ -14,7 +14,7 @@ import { useAccount } from 'app/hooks/useAccount';
 import { useDispatch, useSelector } from 'react-redux';
 import { actions } from '../../slice';
 import { selectMarginTradePage } from '../../selectors';
-import { parseJwt } from 'utils/helpers';
+import { parseJwt, validateEmail } from 'utils/helpers';
 import { walletService } from '@sovryn/react-wallet';
 import { Toast } from 'app/components/Toast';
 
@@ -32,9 +32,11 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
   const { t } = useTranslation();
   const account = useAccount();
   const dispatch = useDispatch();
-  const { notificationToken, notificationUser } = useSelector(
-    selectMarginTradePage,
-  );
+  const {
+    notificationToken,
+    notificationUser,
+    notificationWallet,
+  } = useSelector(selectMarginTradePage);
   const [loading, setLoading] = useState(false);
 
   const [email, setEmail] = useState('');
@@ -43,6 +45,8 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
   const [isEmailActive, setIsEmailActive] = useState(false);
   const [isTelegramActive, setIsTelegramActive] = useState(false);
   const [isDiscordActive, setIsDiscordActive] = useState(false);
+
+  const emailIsValid = useMemo(() => !email || validateEmail(email), [email]);
 
   const onChangeEmailSwitch = useCallback(
     () => setIsEmailActive(prevValue => !prevValue),
@@ -59,6 +63,17 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
   );
 
   useEffect(() => {
+    console.log(
+      'a:',
+      { account, notificationWallet },
+      account && notificationWallet !== account,
+    );
+    if (account && notificationWallet !== account) {
+      dispatch(actions.resetNotification());
+    }
+  }, [account, dispatch, notificationWallet]);
+
+  useEffect(() => {
     if (isOpen && !notificationToken) {
       getToken();
     }
@@ -73,33 +88,45 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
   }, [notificationToken, isOpen, notificationUser]);
 
   useEffect(() => {
-    if (!isOpen) {
-      resetForm(notificationUser);
-    }
+    resetForm(notificationUser);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isOpen]);
+  }, [notificationUser]);
 
-  const getToken = () => {
+  const getToken = async () => {
     if (!account) return;
-    const newUser = false;
     const timestamp = new Date();
     const message = `Login to backend on ${timestamp}`;
-    walletService.signMessage(message).then(signedMessage => {
-      axios
-        .post(url + 'user/' + (newUser ? 'register' : 'auth'), {
-          signedMessage,
-          message,
-          walletAddress: account,
-        })
-        .then(res => {
-          if (res.data && res.data.token) {
-            dispatch(actions.setNotificationToken(res.data.token));
-          }
-        })
-        .catch(e => {
-          console.log(e);
-        });
-    });
+    const { data: alreadyUser } = await axios.get(
+      url + 'user/isUser/' + account,
+    );
+    walletService
+      .signMessage(message)
+      .then(signedMessage => {
+        axios
+          .post(url + 'user/' + (alreadyUser ? 'auth' : 'register'), {
+            signedMessage,
+            message,
+            walletAddress: account,
+          })
+          .then(res => {
+            if (res.data && res.data.token) {
+              dispatch(
+                actions.setNotificationToken({
+                  token: res.data.token,
+                  wallet: account,
+                }),
+              );
+            }
+          })
+          .catch(e => {
+            console.log(e);
+            onClose();
+          });
+      })
+      .catch(e => {
+        console.log(e);
+        onClose();
+      });
   };
 
   const getUser = () => {
@@ -138,9 +165,9 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
         url + 'user/' + account,
         {
           walletAddress: account,
-          email,
-          telegramHandle: telegramUsername,
-          discordHandle: discordUsername,
+          email: email || undefined,
+          telegramHandle: telegramUsername || undefined,
+          discordHandle: discordUsername || undefined,
           isEmailNotifications: isEmailActive,
           isDiscordNotifications: isDiscordActive,
           isTelegramNotifications: isTelegramActive,
@@ -214,6 +241,7 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
               onChange={onChangeEmailSwitch}
               large
               className="tw-mb-0"
+              disabled={loading || !notificationToken}
             />
           </div>
 
@@ -238,6 +266,7 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
               )}
               className="tw-rounded-lg tw-h-8"
               inputClassName="tw-font-medium"
+              disabled={loading || !notificationToken}
             />
           </FormGroup>
         </div>
@@ -257,6 +286,7 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
               onChange={onChangeTelegramSwitch}
               large
               className="tw-mb-0"
+              disabled={loading || !notificationToken}
             />
           </div>
 
@@ -281,6 +311,7 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
               )}
               className="tw-rounded-lg tw-h-8"
               inputClassName="tw-font-medium"
+              disabled={loading || !notificationToken}
             />
           </FormGroup>
         </div>
@@ -296,6 +327,7 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
               onChange={onChangeDiscordSwitch}
               large
               className="tw-mb-0"
+              disabled={loading || !notificationToken}
             />
           </div>
 
@@ -320,6 +352,7 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
               )}
               className="tw-rounded-lg tw-h-8"
               inputClassName="tw-font-medium"
+              disabled={loading || !notificationToken}
             />
           </FormGroup>
         </div>
@@ -354,7 +387,7 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
             translations.marginTradePage.notificationSettingsDialog.submit,
           )}
           onConfirm={() => updateUser()}
-          disabled={loading || !notificationToken}
+          disabled={loading || !notificationToken || !emailIsValid}
           className="tw-rounded-lg tw-mt-6"
         />
       </div>

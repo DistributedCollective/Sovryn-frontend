@@ -16,6 +16,7 @@ import { IPairsData } from 'app/pages/LandingPage/components/CryptocurrencyPrice
 import axios, { Canceler } from 'axios';
 import { backendUrl, currentChainId } from 'utils/classifiers';
 import { TradingPairType } from 'utils/dictionaries/trading-pair-dictionary';
+import { useIsConnected } from 'app/hooks/useAccount';
 
 export const PairNavbar: React.FC = () => {
   const { t } = useTranslation();
@@ -26,6 +27,7 @@ export const PairNavbar: React.FC = () => {
   const cancelDataRequest = useRef<Canceler>();
   const cancelPairsDataRequest = useRef<Canceler>();
   const url = backendUrl[currentChainId];
+  const connected = useIsConnected();
 
   const [
     showNotificationSettingsModal,
@@ -101,20 +103,22 @@ export const PairNavbar: React.FC = () => {
         />
 
         {pair.length && !pairsLoading && <PairStats pair={pair} />}
-        <div>
-          <button
-            onClick={onNotificationSettingsClick}
-            className="tw-text-sm tw-text-primary tw-tracking-normal tw-flex tw-items-center"
-            data-action-id="margin-select-asset-enable-notification-button"
-          >
-            <img
-              src={imgNotificationBell}
-              alt="Notification bell"
-              className="tw-mr-1.5"
-            />{' '}
-            {t(translations.marginTradePage.notificationsButton.enable)}
-          </button>
-        </div>
+        {connected && (
+          <div>
+            <button
+              onClick={onNotificationSettingsClick}
+              className="tw-text-sm tw-text-primary tw-tracking-normal tw-flex tw-items-center"
+              data-action-id="margin-select-asset-enable-notification-button"
+            >
+              <img
+                src={imgNotificationBell}
+                alt="Notification bell"
+                className="tw-mr-1.5"
+              />{' '}
+              {t(translations.marginTradePage.notificationsButton.enable)}
+            </button>
+          </div>
+        )}
       </div>
 
       <NotificationSettingsDialog

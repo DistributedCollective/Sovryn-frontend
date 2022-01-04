@@ -1615,7 +1615,7 @@
       "submit": "Confirm"
     },
     "notificationsButton": {
-      "enable": "Enable notifications",
+      "enable": "Notification",
       "enabled": "Notifications enabled"
     }
   },

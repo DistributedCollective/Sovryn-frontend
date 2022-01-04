@@ -14,6 +14,7 @@ export interface MarginTradePageState {
   leverage: number;
   position: TradingPosition;
 
+  notificationWallet?: string;
   notificationToken?: string;
   notificationUser?: NotificationUser;
 }
@@ -69,6 +70,11 @@ export type IApiMarginLimitOrder = {
   hash: string;
   canceled: boolean;
   filled: IApiBigNumber;
+};
+
+export type NotificationPayload = {
+  token: string;
+  wallet: string;
 };
 
 export type NotificationUser = {
