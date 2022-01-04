@@ -25,7 +25,10 @@ import {
   calculateApproxLiquidationPrice,
   getMaxInitialLeverage,
 } from '../../utils/perpUtils';
-import { toWei } from '../../../../../utils/blockchain/math-helpers';
+import {
+  toWei,
+  numberFromWei,
+} from '../../../../../utils/blockchain/math-helpers';
 import { PerpetualTxMethods } from '../TradeDialog/types';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 import {
@@ -34,11 +37,17 @@ import {
 } from '../../utils/contractUtils';
 import { ActionDialogSubmitButton } from '../ActionDialogSubmitButton';
 import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';
+import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
 
 export const EditLeverageDialog: React.FC = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { modal, modalOptions } = useSelector(selectPerpetualPage);
+  const {
+    pairType: currentPairType,
+    modal,
+    modalOptions,
+    useMetaTransactions,
+  } = useSelector(selectPerpetualPage);
 
   const inMaintenance = usePerpetual_isTradingInMaintenance();
 
@@ -53,9 +62,10 @@ export const EditLeverageDialog: React.FC = () => {
     [modalOptions],
   );
   const pair = useMemo(
-    () => trade?.pairType && PerpetualPairDictionary.get(trade.pairType),
-    [trade],
+    () => PerpetualPairDictionary.get(trade?.pairType || currentPairType),
+    [trade, currentPairType],
   );
+  const { available } = usePerpetual_accountBalance(pair.pairType);
 
   const maxLeverage = useMemo(
     () =>
@@ -64,7 +74,7 @@ export const EditLeverageDialog: React.FC = () => {
             getSignedAmount(trade.position, trade.amount),
             perpParameters,
           )
-        : pair?.config.leverage.max || 15,
+        : pair.config.leverage.max || 15,
     [trade, perpParameters, pair],
   );
 
@@ -131,7 +141,7 @@ export const EditLeverageDialog: React.FC = () => {
         transactions: [
           marginChange >= 0
             ? {
-                pair: pair?.pairType || PerpetualPairType.BTCUSD,
+                pair: pair.pairType || PerpetualPairType.BTCUSD,
                 method: PerpetualTxMethods.deposit,
                 amount: toWei(marginChange),
                 target: {
@@ -142,7 +152,7 @@ export const EditLeverageDialog: React.FC = () => {
                 origin: PerpetualPageModals.EDIT_LEVERAGE,
               }
             : {
-                pair: pair?.pairType || PerpetualPairType.BTCUSD,
+                pair: pair.pairType || PerpetualPairType.BTCUSD,
                 method: PerpetualTxMethods.withdraw,
                 amount: toWei(Math.abs(marginChange)),
                 target: {
@@ -172,12 +182,23 @@ export const EditLeverageDialog: React.FC = () => {
     return validatePositionChange(
       0,
       marginChange,
+      changedTrade.leverage,
       changedTrade.slippage,
+      numberFromWei(available),
       traderState,
       perpParameters,
       ammState,
+      useMetaTransactions,
     );
-  }, [changedTrade, margin, traderState, perpParameters, ammState]);
+  }, [
+    changedTrade,
+    margin,
+    available,
+    traderState,
+    perpParameters,
+    ammState,
+    useMetaTransactions,
+  ]);
 
   const isButtonDisabled = useMemo(
     () =>

@@ -13,15 +13,14 @@ import marginTokenAbi from 'utils/blockchain/abi/MarginToken.json';
 import { TradingPosition } from 'types/trading-position';
 import {
   TraderState,
-  getBase2CollateralFX,
   AMMState,
   PerpParameters,
   calculateSlippagePriceFromMidPrice,
   getPrice,
   getMidPrice,
   isTraderInitialMarginSafe,
+  getRequiredMarginCollateralWithGasFees,
 } from './perpUtils';
-import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
 import { fromWei } from '../../../../utils/blockchain/math-helpers';
 import { CheckAndApproveResultWithError } from '../types';
 import { BridgeNetworkDictionary } from '../../BridgeDepositPage/dictionaries/bridge-network-dictionary';
@@ -167,18 +166,6 @@ export const checkAndApprove = async (
   }
 };
 
-export const calculateMaxMarginWithdrawal = (
-  pair: PerpetualPair | undefined,
-  traderState: TraderState,
-  ammState: AMMState,
-) => {
-  const requiredMargin =
-    (Math.abs(traderState.marginAccountPositionBC) *
-      getBase2CollateralFX(ammState, true)) /
-    (pair?.config.leverage.max || 1);
-  return traderState.availableCashCC - requiredMargin;
-};
-
 export type Validation = {
   valid: boolean;
   isWarning: boolean;
@@ -189,10 +176,13 @@ export type Validation = {
 export const validatePositionChange = (
   amountChange: number,
   marginChange: number,
+  targetLeverage: number,
   slippage: number,
+  availableBalance: number,
   traderState: TraderState,
   perpParameters: PerpParameters,
   ammState: AMMState,
+  useMetaTransactions: boolean,
 ) => {
   const result: Validation = {
     valid: true,
@@ -255,6 +245,33 @@ export const validatePositionChange = (
         i18nKey={translations.perpetualPage.warnings.targetMarginUnsafe}
       />,
     );
+  }
+
+  if (amountChange !== 0 || marginChange !== 0) {
+    const targetAmount = amountChange + traderState.marginAccountPositionBC;
+
+    const requiredMargin = getRequiredMarginCollateralWithGasFees(
+      targetLeverage,
+      targetAmount,
+      perpParameters,
+      ammState,
+      traderState,
+      slippage,
+      useMetaTransactions,
+    );
+
+    if (requiredMargin > traderState.availableCashCC + availableBalance) {
+      result.valid = false;
+      result.isWarning = true;
+      result.errors.push(new Error('Order cost exceeds total balance!'));
+      result.errorMessages?.push(
+        <Trans
+          parent="div"
+          key="targetMarginUnsafe"
+          i18nKey={translations.perpetualPage.warnings.exceedsBalance}
+        />,
+      );
+    }
   }
 
   return result;

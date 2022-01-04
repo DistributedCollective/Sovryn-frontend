@@ -59,8 +59,8 @@ export const usePerpetual_queryPerpParameters = (perpetualId: string) => {
         'getPerpetual',
         [perpetualId],
       )
-      .catch(e => console.error(e))
-      .then(result => result && setPerpParameters(parsePerpParameter(result)));
+      .then(result => result && setPerpParameters(parsePerpParameter(result)))
+      .catch(console.error);
   }, [perpetualId]);
 
   useEffect(fetch, [fetch]);
@@ -90,23 +90,23 @@ const parsePerpParameter = (response: any): PerpParameters => ({
   fReferralRebateRate: ABK64x64ToFloat(response[23]),
   fLiquidationPenaltyRate: ABK64x64ToFloat(response[24]),
   fMinimalSpread: ABK64x64ToFloat(response[25]),
-  fMinimalSpreadInStress: ABK64x64ToFloat(response[25]), // TODO: update with the next contract update
-  fLotSizeBC: ABK64x64ToFloat(response[26]),
-  fFundingRateClamp: ABK64x64ToFloat(response[27]),
-  fMarkPriceEMALambda: ABK64x64ToFloat(response[28]),
-  fSigma2: ABK64x64ToFloat(response[29]),
-  fSigma3: ABK64x64ToFloat(response[30]),
-  fRho23: ABK64x64ToFloat(response[31]),
-  fStressReturnS2_0: ABK64x64ToFloat(response[33][0]),
-  fStressReturnS2_1: ABK64x64ToFloat(response[33][1]),
-  fStressReturnS3_0: ABK64x64ToFloat(response[34][0]),
-  fStressReturnS3_1: ABK64x64ToFloat(response[34][1]),
-  fDFCoverNRate: ABK64x64ToFloat(response[35]),
-  fDFLambda_0: ABK64x64ToFloat(response[36][0]),
-  fDFLambda_1: ABK64x64ToFloat(response[36][1]),
-  fAMMTargetDD_0: ABK64x64ToFloat(response[37][0]),
-  fAMMTargetDD_1: ABK64x64ToFloat(response[37][1]),
-  fAMMMinSizeCC: ABK64x64ToFloat(response[38]),
-  fMinimalTraderExposureEMA: ABK64x64ToFloat(response[39]),
-  fMaximalTradeSizeBumpUp: ABK64x64ToFloat(response[41]),
+  fMinimalSpreadInStress: ABK64x64ToFloat(response[26]),
+  fLotSizeBC: ABK64x64ToFloat(response[27]),
+  fFundingRateClamp: ABK64x64ToFloat(response[28]),
+  fMarkPriceEMALambda: ABK64x64ToFloat(response[29]),
+  fSigma2: ABK64x64ToFloat(response[30]),
+  fSigma3: ABK64x64ToFloat(response[31]),
+  fRho23: ABK64x64ToFloat(response[32]),
+  fStressReturnS2_0: ABK64x64ToFloat(response[34][0]),
+  fStressReturnS2_1: ABK64x64ToFloat(response[34][1]),
+  fStressReturnS3_0: ABK64x64ToFloat(response[35][0]),
+  fStressReturnS3_1: ABK64x64ToFloat(response[35][1]),
+  fDFCoverNRate: ABK64x64ToFloat(response[36]),
+  fDFLambda_0: ABK64x64ToFloat(response[37][0]),
+  fDFLambda_1: ABK64x64ToFloat(response[37][1]),
+  fAMMTargetDD_0: ABK64x64ToFloat(response[38][0]),
+  fAMMTargetDD_1: ABK64x64ToFloat(response[38][1]),
+  fAMMMinSizeCC: ABK64x64ToFloat(response[39]),
+  fMinimalTraderExposureEMA: ABK64x64ToFloat(response[40]),
+  fMaximalTradeSizeBumpUp: ABK64x64ToFloat(response[42]),
 });

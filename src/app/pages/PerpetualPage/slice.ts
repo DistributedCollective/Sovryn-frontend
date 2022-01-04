@@ -8,6 +8,7 @@ import { PerpetualPairType } from '../../../utils/dictionaries/perpetual-pair-di
 export const initialState: ContainerState = {
   pairType: PerpetualPairType.BTCUSD,
   collateral: Asset.RBTC,
+  useMetaTransactions: false,
   modal: PerpetualPageModals.NONE,
   modalOptions: undefined,
 };
@@ -21,6 +22,9 @@ const perpetualPageSlice = createSlice({
     },
     setCollateral(state, { payload }: PayloadAction<Asset>) {
       state.collateral = payload;
+    },
+    setUseMetaTransactions(state, { payload }: PayloadAction<boolean>) {
+      state.useMetaTransactions = payload;
     },
     setModal: {
       reducer(

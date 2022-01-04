@@ -34,8 +34,8 @@ export const usePerpetual_queryTraderState = (perpetualId: string) => {
         'getTraderState',
         [perpetualId, account],
       )
-      .catch(e => console.error(e))
-      .then(result => result && setTraderState(parseTraderState(result)));
+      .then(result => result && setTraderState(parseTraderState(result)))
+      .catch(console.error);
   }, [perpetualId, account]);
 
   useEffect(fetch, [fetch]);

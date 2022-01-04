@@ -96,6 +96,7 @@ export const isPerpetualTradeReview = (x: any): x is PerpetualTradeReview =>
 export type PerpetualPageState = {
   pairType: PerpetualPairType;
   collateral: Asset;
+  useMetaTransactions: boolean;
   modal: PerpetualPageModals;
   modalOptions?: PerpetualTrade | PerpetualTradeReview | PendingTransactions;
 };
