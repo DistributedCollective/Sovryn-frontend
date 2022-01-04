@@ -36,6 +36,8 @@ import {
 import { toWei } from '../../../../../utils/blockchain/math-helpers';
 import { PerpetualTxMethods } from '../TradeDialog/types';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
+import { ActionDialogSubmitButton } from '../ActionDialogSubmitButton';
+import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';
 
 enum EditMarginDialogMode {
   increase,
@@ -48,6 +50,8 @@ export const EditMarginDialog: React.FC = () => {
   const { pairType: currentPairType, modal, modalOptions } = useSelector(
     selectPerpetualPage,
   );
+
+  const inMaintenance = usePerpetual_isTradingInMaintenance();
 
   const {
     ammState,
@@ -281,18 +285,14 @@ export const EditMarginDialog: React.FC = () => {
               {validation.errorMessages}
             </div>
           )}
-          <button
-            className={classNames(
-              'tw-w-full tw-min-h-10 tw-p-2 tw-mt-4 tw-text-lg tw-text-primary tw-font-medium tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-transition-opacity tw-duration-300',
-              isButtonDisabled
-                ? 'tw-opacity-25 tw-cursor-not-allowed'
-                : 'tw-opacity-100 hover:tw-bg-primary-25',
-            )}
-            disabled={isButtonDisabled}
+
+          <ActionDialogSubmitButton
+            inMaintenance={inMaintenance}
+            isDisabled={isButtonDisabled}
             onClick={onSubmit}
           >
             {t(translations.perpetualPage.editMargin.button)}
-          </button>
+          </ActionDialogSubmitButton>
         </div>
       )}
     </Dialog>
