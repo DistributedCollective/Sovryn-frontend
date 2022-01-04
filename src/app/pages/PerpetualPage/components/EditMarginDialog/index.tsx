@@ -134,7 +134,6 @@ export const EditMarginDialog: React.FC = () => {
         perpParameters,
         ammState,
       );
-      console.log()
       return [maxAmount, toWei(maxAmount)];
     }
   }, [mode, available, traderState, perpParameters, ammState]);
