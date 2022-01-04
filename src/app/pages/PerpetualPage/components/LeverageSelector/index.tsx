@@ -10,6 +10,8 @@ import classNames from 'classnames';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { roundToSmaller } from '../../../../../utils/blockchain/math-helpers';
 
+const leverageStepDeviation = 0.05;
+
 type LeverageSelectorProps = {
   className?: string;
   value: number;
@@ -32,7 +34,9 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
 
   const steps = useMemo(() => {
     const steps = unfilteredSteps.filter(
-      step => step - 0.05 >= min && step + 0.05 <= max,
+      step =>
+        step - leverageStepDeviation >= min &&
+        step + leverageStepDeviation <= max,
     );
     if (unfilteredSteps[0] < min && steps[0] !== min) {
       steps.unshift(min);
