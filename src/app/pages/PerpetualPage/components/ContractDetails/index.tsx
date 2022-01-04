@@ -7,7 +7,6 @@ import { usePerpetual_ContractDetails } from '../../hooks/usePerpetual_ContractD
 import { numberToPercent } from '../../../../../utils/display-text/format';
 import { AssetValue } from 'app/components/AssetValue';
 import { AssetValueMode } from 'app/components/AssetValue/types';
-import { getPriceColor, getPriceChange } from '../RecentTradesTable/utils';
 
 type ContractDetailsProps = {
   pair: PerpetualPair;
