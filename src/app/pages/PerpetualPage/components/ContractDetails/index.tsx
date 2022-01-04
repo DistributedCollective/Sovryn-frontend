@@ -7,6 +7,7 @@ import { usePerpetual_ContractDetails } from '../../hooks/usePerpetual_ContractD
 import { numberToPercent } from '../../../../../utils/display-text/format';
 import { AssetValue } from 'app/components/AssetValue';
 import { AssetValueMode } from 'app/components/AssetValue/types';
+import { getPriceColor, getPriceChange } from '../RecentTradesTable/utils';
 
 type ContractDetailsProps = {
   pair: PerpetualPair;
@@ -78,7 +79,14 @@ export const ContractDetails: React.FC<ContractDetailsProps> = ({ pair }) => {
           title={t(translations.perpetualPage.contractDetails.fundingRate)}
           value={
             <>
-              <span className="tw-text-sm tw-text-trade-short tw-font-medium">
+              <span
+                className={classNames('tw-text-sm tw-font-medium', {
+                  'tw-text-trade-short':
+                    data?.fundingRate && data.fundingRate < 0,
+                  'tw-text-trade-long':
+                    data?.fundingRate && data.fundingRate > 0,
+                })}
+              >
                 {data?.fundingRate && numberToPercent(data.fundingRate, 4)}
               </span>
             </>
