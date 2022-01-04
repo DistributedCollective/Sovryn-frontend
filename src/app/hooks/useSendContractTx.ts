@@ -59,7 +59,7 @@ export function useSendContractTx(
   const [tx, setTx] = useState<Transaction>();
 
   const send = useCallback(
-    (
+    async (
       args: any[],
       config: TransactionConfig = {},
       options: TransactionOptions = {},
@@ -74,7 +74,7 @@ export function useSendContractTx(
         config.gas = gasLimit[options.type];
       }
 
-      contractWriter
+      await contractWriter
         .send(contractName, methodName, args, config)
         .then(e => {
           const transactionHash = e as string;
