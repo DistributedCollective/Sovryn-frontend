@@ -32,6 +32,8 @@ import { translations } from 'locales/i18n';
 import debounce from 'lodash.debounce';
 import { useGetTraderStates } from 'app/pages/PerpetualPage/hooks/graphql/useGetTraderStates';
 
+const initialFunding = 0.2; // funds sent to every trader at the beginning of the competition
+
 interface ILeaderboardProps {
   data: RegisteredTraderData[];
   showUserRow: boolean;
@@ -100,9 +102,8 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
             let unrealizedProfit = 0;
 
             if (trader.positions.find(item => !item.isClosed)) {
-              const traderState = traderStates.find(
-                traderState =>
-                  traderState.id.startsWith(item.walletAddress.toLowerCase()),
+              const traderState = traderStates.find(traderState =>
+                traderState.id.startsWith(item.walletAddress.toLowerCase()),
               );
 
               if (!traderState) {
@@ -117,23 +118,9 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
               );
             }
 
-            const startingBalance = trader.positions.reduce(
-              (previous, current) =>
-                previous +
-                ABK64x64ToFloat(
-                  BigNumber.from(current.currentPositionSizeBC || '0'),
-                ),
-              0,
-            );
+            const totalProfitWithFunding = realizedProfit + unrealizedProfit;
 
-            entry.totalPnL = Number(
-              percentageChange(
-                startingBalance,
-                bignumber(startingBalance)
-                  .add(realizedProfit)
-                  .add(unrealizedProfit),
-              ),
-            );
+            entry.totalPnL = (totalProfitWithFunding / initialFunding) * 100;
 
             const lastPositionStartingBalance = ABK64x64ToFloat(
               BigNumber.from(trader.positions[0].currentPositionSizeBC || '0'),
