@@ -182,6 +182,7 @@ export const EditLeverageDialog: React.FC = () => {
     return validatePositionChange(
       0,
       marginChange,
+      changedTrade.leverage,
       changedTrade.slippage,
       numberFromWei(available),
       traderState,

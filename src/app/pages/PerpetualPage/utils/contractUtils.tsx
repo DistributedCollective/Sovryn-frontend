@@ -20,7 +20,6 @@ import {
   getMidPrice,
   isTraderInitialMarginSafe,
   getRequiredMarginCollateralWithGasFees,
-  calculateLeverage,
 } from './perpUtils';
 import { fromWei } from '../../../../utils/blockchain/math-helpers';
 import { CheckAndApproveResultWithError } from '../types';
@@ -177,6 +176,7 @@ export type Validation = {
 export const validatePositionChange = (
   amountChange: number,
   marginChange: number,
+  targetLeverage: number,
   slippage: number,
   availableBalance: number,
   traderState: TraderState,
@@ -249,17 +249,9 @@ export const validatePositionChange = (
 
   if (amountChange !== 0 || marginChange !== 0) {
     const targetAmount = amountChange + traderState.marginAccountPositionBC;
-    const targetMargin = marginChange + traderState.availableCashCC;
-    const leverage = calculateLeverage(
-      targetAmount,
-      targetMargin,
-      traderState,
-      ammState,
-      perpParameters,
-    );
 
     const requiredMargin = getRequiredMarginCollateralWithGasFees(
-      leverage,
+      targetLeverage,
       targetAmount,
       perpParameters,
       ammState,

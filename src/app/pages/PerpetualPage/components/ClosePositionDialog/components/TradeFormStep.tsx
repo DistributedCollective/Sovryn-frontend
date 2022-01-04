@@ -220,6 +220,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     return validatePositionChange(
       amountChange,
       marginChange,
+      changedTrade.leverage,
       changedTrade.slippage,
       numberFromWei(available),
       traderState,

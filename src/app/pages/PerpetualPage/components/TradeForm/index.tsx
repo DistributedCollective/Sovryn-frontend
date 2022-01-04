@@ -313,6 +313,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       ? validatePositionChange(
           signedAmount,
           marginChange,
+          trade.leverage,
           trade.slippage,
           numberFromWei(availableBalanceWei),
           traderState,

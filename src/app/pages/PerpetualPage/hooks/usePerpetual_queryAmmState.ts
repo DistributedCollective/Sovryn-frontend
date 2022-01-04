@@ -48,21 +48,18 @@ export const usePerpetual_queryAmmState = (perpetualId: string) => {
   );
 };
 
-const parseAmmState = (response: any): AMMState => {
-  console.log(response);
-  return {
-    L1: ABK64x64ToFloat(response[0]),
-    K2: ABK64x64ToFloat(response[1]),
-    M1: ABK64x64ToFloat(response[2]),
-    M2: ABK64x64ToFloat(response[3]),
-    M3: ABK64x64ToFloat(response[4]),
-    fCurrentTraderExposureEMA: ABK64x64ToFloat(response[5]),
-    indexS2PriceData: ABK64x64ToFloat(response[6]),
-    indexS3PriceData: ABK64x64ToFloat(response[7]),
-    currentMarkPremiumRate: ABK64x64ToFloat(response[8]),
-    currentPremiumRate: ABK64x64ToFloat(response[9]),
-    indexS2PriceDataOracle: ABK64x64ToFloat(response[10]),
-    indexS3PriceDataOracle: ABK64x64ToFloat(response[11]),
-    defFundToTargetRatio: response[12] && ABK64x64ToFloat(response[12]),
-  };
-};
+const parseAmmState = (response: any): AMMState => ({
+  L1: ABK64x64ToFloat(response[0]),
+  K2: ABK64x64ToFloat(response[1]),
+  M1: ABK64x64ToFloat(response[2]),
+  M2: ABK64x64ToFloat(response[3]),
+  M3: ABK64x64ToFloat(response[4]),
+  fCurrentTraderExposureEMA: ABK64x64ToFloat(response[5]),
+  indexS2PriceData: ABK64x64ToFloat(response[6]),
+  indexS3PriceData: ABK64x64ToFloat(response[7]),
+  currentMarkPremiumRate: ABK64x64ToFloat(response[8]),
+  currentPremiumRate: ABK64x64ToFloat(response[9]),
+  indexS2PriceDataOracle: ABK64x64ToFloat(response[10]),
+  indexS3PriceDataOracle: ABK64x64ToFloat(response[11]),
+  defFundToTargetRatio: response[12] && ABK64x64ToFloat(response[12]),
+});
