@@ -215,6 +215,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
             onChange={value => setAmount(value)}
             asset={sourceToken}
             hideAmountSelector
+            dataActionId="spot-limit-amountInput"
           />
         </div>
 
@@ -230,6 +231,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
               value={stringToFixedPrecision(limitPrice, 6)}
               onChange={setLimitPrice}
               hideAmountSelector
+              dataActionId="spot-limit-limitPrice"
             />
           </div>
 
@@ -307,6 +309,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
             tradingType={tradeType}
             onClick={() => setTradeDialog(true)}
             disabled={!validate || !connected || spotLocked}
+            data-action-id="spot-limit-submit"
           />
         </div>
       )}

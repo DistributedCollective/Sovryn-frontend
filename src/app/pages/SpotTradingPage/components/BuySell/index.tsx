@@ -26,6 +26,7 @@ export function BuySell({ value, onChange }: Props) {
         text={t(translations.spotTradingPage.tradeForm.buy)}
         tradingType={TradingTypes.BUY}
         onClick={() => onChange(TradingTypes.BUY)}
+        data-action-id="spot-buy"
       />
       <Button
         className={cn(
@@ -38,6 +39,7 @@ export function BuySell({ value, onChange }: Props) {
         text={t(translations.spotTradingPage.tradeForm.sell)}
         tradingType={TradingTypes.SELL}
         onClick={() => onChange(TradingTypes.SELL)}
+        data-action-id="spot-sell"
       />
     </div>
   );

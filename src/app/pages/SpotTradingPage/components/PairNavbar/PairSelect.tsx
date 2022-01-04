@@ -84,6 +84,7 @@ export const PairSelect: React.FC<IPairSelect> = ({
             prependElem={
               <img className="tw-w-5" src={searchIcon} alt="Search" />
             }
+            data-action-id="spot-select-searchbar"
           />
 
           <div className="tw-flex tw-items-center tw-mt-3">

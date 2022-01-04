@@ -33,7 +33,6 @@ import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPri
 import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
 import { SlippageForm } from '../SlippageForm';
 import { toWei } from 'utils/blockchain/math-helpers';
-import { OrderType } from 'app/components/OrderType';
 import { OrderTypes } from 'app/components/OrderType/types';
 import { MARGIN_SLIPPAGE_DEFAULT } from '../../types';
 import { AssetRenderer } from 'app/components/AssetRenderer';
@@ -51,7 +50,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   const [tradeAmount, setTradeAmount] = useState<string>('');
   const [slippage, setSlippage] = useState(MARGIN_SLIPPAGE_DEFAULT);
   const weiAmount = useWeiAmount(tradeAmount);
-  const [orderType, setOrderType] = useState(OrderTypes.MARKET);
+  const [orderType] = useState(OrderTypes.MARKET);
   const { position, amount, collateral, leverage } = useSelector(
     selectMarginTradePage,
   );
@@ -147,11 +146,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
             )}
           </div>
         )}
-        <OrderType
-          value={orderType}
-          onChange={setOrderType}
-          dataActionId="margin"
-        />
         <div className="tw-mw-340 tw-mx-auto tw-mt-3">
           <CollateralAssets
             value={collateral}

@@ -42,7 +42,11 @@ export function TradeForm() {
       <div className="tw-trading-form-card spot-form tw-bg-black tw-rounded-3xl tw-px-4 tw-py-6 tw-mx-auto xl:tw-mx-0">
         <div className="tw-mx-auto">
           <BuySell value={tradeType} onChange={setTradeType} />
-          <OrderType value={orderType} onChange={setOrderType} />
+          <OrderType
+            value={orderType}
+            onChange={setOrderType}
+            dataActionId="spot"
+          />
           <LimitForm
             sourceToken={sourceToken}
             targetToken={targetToken}

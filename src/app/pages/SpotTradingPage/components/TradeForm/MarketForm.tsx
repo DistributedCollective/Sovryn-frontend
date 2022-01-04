@@ -217,6 +217,7 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
             onChange={value => setAmount(value)}
             asset={sourceToken}
             hideAmountSelector
+            dataActionId="spot-market-amountInput"
           />
         </div>
 
@@ -232,7 +233,7 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
             stepSize={0.05}
             labelRenderer={value => <>{value}%</>}
             labelValues={[0.1, 0.25, 0.5, 0.75, 1]}
-            dataActionId="buySov-slippageDialog-slider"
+            dataActionId="spot-slider-slippageTolerance"
           />
         </FormGroup>
 
@@ -291,6 +292,7 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
             tradingType={tradeType}
             onClick={() => setIsTradingDialogOpen(true)}
             disabled={!validate || !connected || spotLocked}
+            data-action-id="spot-market-submit"
           />
         </div>
       )}
