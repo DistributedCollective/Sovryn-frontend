@@ -16,7 +16,10 @@ import {
 import { useAccount } from 'app/hooks/useAccount';
 import { useGetLeaderboardData } from 'app/pages/PerpetualPage/hooks/graphql/useGetLeaderboardData';
 import styles from './index.module.scss';
-import { getTraderPnLInBC } from 'app/pages/PerpetualPage/utils/perpUtils';
+import {
+  getTraderPnLInBC,
+  getBase2CollateralFX,
+} from 'app/pages/PerpetualPage/utils/perpUtils';
 import { bignumber } from 'mathjs';
 import {
   PerpetualPairDictionary,
@@ -78,6 +81,8 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
       const run = async () => {
         const items: LeaderboardData[] = [];
 
+        const baseToCollateral = getBase2CollateralFX(ammState, false);
+
         for (const item of data) {
           const trader = leaderboardData?.traders.find(
             row => row.id.toLowerCase() === item.walletAddress.toLowerCase(),
@@ -111,20 +116,21 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
                 continue;
               }
 
-              unrealizedProfit = getTraderPnLInBC(
-                traderState,
-                ammState,
-                perpetualParameters,
-              );
+              unrealizedProfit =
+                getTraderPnLInBC(traderState, ammState, perpetualParameters) *
+                baseToCollateral;
             }
 
             const totalProfitWithFunding = realizedProfit + unrealizedProfit;
 
             entry.totalPnL = (totalProfitWithFunding / initialFunding) * 100;
 
-            const lastPositionStartingBalance = ABK64x64ToFloat(
-              BigNumber.from(trader.positions[0].currentPositionSizeBC || '0'),
-            );
+            const lastPositionStartingBalance =
+              ABK64x64ToFloat(
+                BigNumber.from(
+                  trader.positions[0].currentPositionSizeBC || '0',
+                ),
+              ) * baseToCollateral;
             const lastPositionProfit = ABK64x64ToFloat(
               BigNumber.from(trader.positions[0].totalPnLCC || '0'),
             );
