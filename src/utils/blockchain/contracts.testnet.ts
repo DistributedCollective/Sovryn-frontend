@@ -292,12 +292,12 @@ export const contracts = {
     abi: MYNTMarketMakerAbi,
   },
   perpetualManager: {
-    address: '0x427cF4BdF9a6DCdc360625fC4295747b9D6796bA',
+    address: '0xd835178BC0F4CfdeCDb42B3D14f0963337e9Db2F',
     abi: perpetualManagerAbi,
     chainId: ChainId.BSC_TESTNET,
   },
   PERPETUALS_token: {
-    address: '0x8389b185D40293b080e27794694704F98aD50f5A',
+    address: '0x39CB6c5F85B9110745be3C25636083D2b38B0115',
     abi: marginTokenAbi,
     chainId: ChainId.BSC_TESTNET,
   },
