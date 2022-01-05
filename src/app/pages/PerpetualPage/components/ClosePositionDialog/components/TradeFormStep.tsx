@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useMemo } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import settingImg from 'assets/images/settings-blue.svg';
 import classNames from 'classnames';
 import { TransitionStep } from '../../../../../containers/TransitionSteps';
@@ -33,12 +33,15 @@ import { TradingPosition } from '../../../../../../types/trading-position';
 import {
   toWei,
   fromWei,
+  numberFromWei,
 } from '../../../../../../utils/blockchain/math-helpers';
 import { PerpetualTxMethods, PerpetualTx } from '../../TradeDialog/types';
 import { PerpetualQueriesContext } from 'app/pages/PerpetualPage/contexts/PerpetualQueriesContext';
 import { roundToLot } from '../../../utils/perpMath';
 import { ActionDialogSubmitButton } from '../../ActionDialogSubmitButton';
 import { usePerpetual_isTradingInMaintenance } from 'app/pages/PerpetualPage/hooks/usePerpetual_isTradingInMaintenance';
+import { selectPerpetualPage } from '../../../selectors';
+import { usePerpetual_accountBalance } from '../../../hooks/usePerpetual_accountBalance';
 
 export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
   changeTo,
@@ -55,6 +58,8 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     lotPrecision,
   } = useContext(PerpetualQueriesContext);
 
+  const { useMetaTransactions } = useSelector(selectPerpetualPage);
+
   const inMaintenance = usePerpetual_isTradingInMaintenance();
 
   const { changedTrade, trade, onChange } = useContext(
@@ -68,6 +73,8 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
       ),
     [changedTrade?.pairType],
   );
+
+  const { available } = usePerpetual_accountBalance(pair.pairType);
 
   const {
     amountChange,
@@ -213,19 +220,24 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     return validatePositionChange(
       amountChange,
       marginChange,
+      changedTrade.leverage,
       changedTrade.slippage,
+      numberFromWei(available),
       traderState,
       perpParameters,
       ammState,
+      useMetaTransactions,
     );
   }, [
     amountChange,
     amountTarget,
     marginChange,
     changedTrade,
+    available,
     traderState,
     perpParameters,
     ammState,
+    useMetaTransactions,
   ]);
 
   const isButtonDisabled = useMemo(

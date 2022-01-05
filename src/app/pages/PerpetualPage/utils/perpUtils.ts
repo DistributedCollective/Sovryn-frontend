@@ -1,5 +1,5 @@
 /*
-  COMMIT: 4011607fba82503c9a7bc81220bec94498c1d451
+  COMMIT: 67f3e263cfd5145d20e6d6d45a785e2a440d88ee
   Helper-functions for frontend
 */
 
@@ -16,7 +16,13 @@ import {
   getMaxLeveragePosition,
   isTraderMarginSafe,
   cdfNormalStd,
+  COLLATERAL_CURRENCY_QUOTE,
+  COLLATERAL_CURRENCY_BASE,
+  COLLATERAL_CURRENCY_QUANTO,
+  getMarginBalanceCC,
 } from './perpMath';
+import { numberFromWei } from '../../../../utils/blockchain/math-helpers';
+import { gasLimit } from '../../../../utils/classifiers';
 
 /*---
 // Suffix CC/BC/QC:
@@ -117,77 +123,6 @@ export interface TraderState {
   marginAccountPositionBC: number; // from margin account
   marginAccountLockedInValueQC: number; // from margin account
   fUnitAccumulatedFundingStart: number; // from margin account
-}
-
-/**
- * Get the maximal trade size for a trader with position currentPos (can be 0) for a given
- * perpetual, assuming enough margin is available (i.e. not considering leverage).
- * @param {number} currentPos - The current position of the trade (base currency), negative if short
- * @param {number} direction - {-1, 1} Does the trader want to buy (1), or sell (-1)
- * @param {LiqPoolState} liqPool - Contains current liq pool state data
- * @param {AMMState} ammData - Contains current price/state data
- * @param {PerpParameters} perpParams - Contains parameter of the perpetual
- * @param {boolean} isQuanto - True if collateral currency of instrument is different from base and quote
- *                             currency (e.g., SP500 quoted in USD and collateralized in BTC,
- *                             false for BTCUSD backed in BTC)
- * @returns {number} signed position size that the trader can enter
- */
-export function getMaximalTradeSizeInPerpetual(
-  currentPos: number,
-  direction: number,
-  ammData: AMMState,
-  liqPool: LiqPoolState,
-  perpParams: PerpParameters,
-): number {
-  function getMaxSizeFromPrice(S2: number, S3: number): number {
-    let kStar = calcKStar(
-      ammData.K2,
-      ammData.L1,
-      S2,
-      S3,
-      ammData.M1,
-      ammData.M2,
-      ammData.M3,
-      perpParams.fRho23,
-      perpParams.fSigma2,
-      perpParams.fSigma3,
-    );
-    let lotSize = perpParams.fLotSizeBC;
-    kStar = shrinkToLot(kStar, lotSize);
-    let fundingRatio = liqPool.fDefaultFundCashCC / liqPool.fTargetDFSize;
-    let scale: number;
-    if (direction === Math.sign(kStar)) {
-      scale = perpParams.fMaximalTradeSizeBumpUp;
-    } else {
-      // adverse direction
-      scale = perpParams.fMaximalTradeSizeBumpUp * Math.min(1, fundingRatio);
-    }
-    let maxAbsPositionSize = ammData.fCurrentTraderExposureEMA * scale;
-    maxAbsPositionSize = shrinkToLot(maxAbsPositionSize, lotSize);
-    let maxSignedTradeSize: number;
-    if (direction < 0) {
-      maxSignedTradeSize = Math.min(
-        kStar,
-        Math.min(-maxAbsPositionSize - currentPos, 0),
-      );
-    } else {
-      maxSignedTradeSize = Math.max(
-        kStar,
-        Math.max(maxAbsPositionSize - currentPos, 0),
-      );
-    }
-    return maxSignedTradeSize;
-  }
-  // calculate the max trade size based on the current oracle price and the latest price stored in the contract
-  let maxSizeContractPx: number = getMaxSizeFromPrice(
-    ammData.indexS2PriceData,
-    ammData.indexS3PriceData,
-  );
-  let maxSizeOraclePx: number = getMaxSizeFromPrice(
-    ammData.indexS2PriceDataOracle,
-    ammData.indexS3PriceDataOracle,
-  );
-  return Math.min(maxSizeContractPx, maxSizeOraclePx);
 }
 
 /**
@@ -322,7 +257,7 @@ export function getMaxInitialLeverage(
  * @param {traderState} TraderState - Contains trader state data
  * @param {AMMState} ammData  - Contains amm state data
  * @param {LiqPoolState} poolData - Contains liq pool state data
- * @returns {number} maintenance margin rate
+ * @returns {number} position-size in base-currency
  */
 
 export function getSignedMaxAbsPositionForTrader(
@@ -353,9 +288,9 @@ export function getSignedMaxAbsPositionForTrader(
   let alpha = perpParams.fInitialMarginRateAlpha;
   let beta = perpParams.fMarginRateBeta;
   let fee = getTradingFeeRate(perpParams);
+  let S3 = 1 / getQuote2CollateralFX(ammData);
   let cashBC =
-    (traderState.availableCashCC * ammData.indexS3PriceDataOracle) /
-    ammData.indexS2PriceDataOracle;
+    (traderState.availableCashCC * S3) / ammData.indexS2PriceDataOracle;
   let premiumRate = cdfNormalStd(perpParams.fAMMTargetDD_1);
 
   let posMargin = getMaxLeveragePosition(cashBC, premiumRate, alpha, beta, fee);
@@ -363,8 +298,115 @@ export function getSignedMaxAbsPositionForTrader(
   if (direction < 0) {
     return Math.max(-posMargin, maxSignedPos);
   } else {
-    return Math.max(posMargin, maxSignedPos);
+    return Math.min(posMargin, maxSignedPos);
   }
+}
+
+/**
+ * Get the maximal trade size for a trader with position currentPos (can be 0) for a given
+ * perpetual, assuming enough margin is available (i.e. not considering leverage).
+ * @param {number} currentPos - The current position of the trade (base currency), negative if short
+ * @param {number} direction - {-1, 1} Does the trader want to buy (1), or sell (-1)
+ * @param {LiqPoolState} liqPool - Contains current liq pool state data
+ * @param {AMMState} ammData - Contains current price/state data
+ * @param {PerpParameters} perpParams - Contains parameter of the perpetual
+ * @param {boolean} isQuanto - True if collateral currency of instrument is different from base and quote
+ *                             currency (e.g., SP500 quoted in USD and collateralized in BTC,
+ *                             false for BTCUSD backed in BTC)
+ * @returns {number} signed position size that the trader can enter
+ */
+export function getMaximalTradeSizeInPerpetual(
+  currentPos: number,
+  direction: number,
+  ammData: AMMState,
+  liqPool: LiqPoolState,
+  perpParams: PerpParameters,
+): number {
+  function getMaxSizeFromPrice(S2: number, S3: number): number {
+    let kStar = calcKStar(
+      ammData.K2,
+      ammData.L1,
+      S2,
+      S3,
+      ammData.M1,
+      ammData.M2,
+      ammData.M3,
+      perpParams.fRho23,
+      perpParams.fSigma2,
+      perpParams.fSigma3,
+    );
+    let lotSize = perpParams.fLotSizeBC;
+    kStar = shrinkToLot(kStar, lotSize);
+    let fundingRatio = liqPool.fDefaultFundCashCC / liqPool.fTargetDFSize;
+    let scale: number;
+    if (direction === Math.sign(kStar)) {
+      scale = perpParams.fMaximalTradeSizeBumpUp;
+    } else {
+      // adverse direction
+      scale = perpParams.fMaximalTradeSizeBumpUp * Math.min(1, fundingRatio);
+    }
+    let maxAbsPositionSize = ammData.fCurrentTraderExposureEMA * scale;
+    maxAbsPositionSize = shrinkToLot(maxAbsPositionSize, lotSize);
+    let maxSignedTradeSize: number;
+    if (direction < 0) {
+      maxSignedTradeSize = Math.min(
+        kStar,
+        Math.min(-maxAbsPositionSize - currentPos, 0),
+      );
+    } else {
+      maxSignedTradeSize = Math.max(
+        kStar,
+        Math.max(maxAbsPositionSize - currentPos, 0),
+      );
+    }
+    return maxSignedTradeSize;
+  }
+  // calculate the max trade size based on the current oracle price and the latest price stored in the contract
+  let maxSizeContractPx: number = getMaxSizeFromPrice(
+    ammData.indexS2PriceData,
+    ammData.indexS3PriceData,
+  );
+  let maxSizeOraclePx: number = getMaxSizeFromPrice(
+    ammData.indexS2PriceDataOracle,
+    ammData.indexS3PriceDataOracle,
+  );
+  return Math.min(maxSizeContractPx, maxSizeOraclePx);
+}
+
+/**
+ * Get maximal trade size for trader without adding additional margin.
+ * Use this when changing position size, which does not add margin.
+ * Direction=-1 for short, 1 for long
+ * This function calculates the largest trade considering
+ * - leverage constraints
+ * - position size constraint by AMM
+ * - available funds in margin account
+ * @param {number} direction - {-1, 1} Does the trader want to buy (1), or sell (-1)
+ * @param {number} availableWalletBalance - trader's available wallet balance
+ * @param {PerpParameters} perpParams - Contains parameter of the perpetual
+ * @param {traderState} TraderState - Contains trader state data
+ * @param {AMMState} ammData  - Contains amm state data
+ * @param {LiqPoolState} poolData - Contains liq pool state data
+ * @returns {number} maintenance margin rate
+ */
+
+export function getMaximalTradeSizeInPerpetualWithCurrentMargin(
+  direction: number,
+  perpParams: PerpParameters,
+  traderState: TraderState,
+  ammData: AMMState,
+  poolData: LiqPoolState,
+): number {
+  let availableWalletBalance = 0;
+  let maxPos = getSignedMaxAbsPositionForTrader(
+    direction,
+    availableWalletBalance,
+    perpParams,
+    traderState,
+    ammData,
+    poolData,
+  );
+  return maxPos - traderState.marginAccountPositionBC;
 }
 
 /**
@@ -612,21 +654,31 @@ export function getMaximalMarginToWidthdraw(
   ammData: AMMState,
 ) {
   let currentPos = traderState.marginAccountPositionBC;
+  let Sm = getMarkPrice(ammData);
   let S2 = ammData.indexS2PriceDataOracle;
   let S3 = 1 / getQuote2CollateralFX(ammData);
 
   // required initial margin rate
   let tau = getInitialMarginRate(currentPos, perpParams);
-  // required collateral: margin balance >= |pos|*tau * S2/S3
-  let m =
-    (Math.abs(currentPos) * tau * S2) / S3 -
-    (currentPos * getMarkPrice(ammData) -
-      traderState.marginAccountLockedInValueQC) /
-      S3;
-  // we can withdraw only the amount the current margin collateral is above m
-  let maxAmount = traderState.availableCashCC - m;
-  // we shrink the amount by 1 lot (collateral currency equivalent) to be safe
-  maxAmount = shrinkToLot(maxAmount, (perpParams.fLotSizeBC * S2) / S3);
+  // required collateral: margin balance >= |pos|*tau * S2Mark/S3
+  let collType = getPerpetualCollateralType(ammData);
+  let b = getMarginBalanceCC(
+    currentPos,
+    traderState.marginAccountLockedInValueQC,
+    S2,
+    S3,
+    Sm - S3,
+    traderState.availableCashCC,
+    collType,
+  );
+  // we can withdraw only the amount the current margin balance is above |pos|*tau * S2Mark/S3
+  let maxAmount = b - (Math.abs(currentPos) * tau * Sm) / S3;
+  // we shrink the amount by a fraction of a lot (collateral currency equivalent) to be safe and avoid that the margin is not enough
+  const lotSizeFraction = 0.1;
+  maxAmount = shrinkToLot(
+    maxAmount,
+    ((perpParams.fLotSizeBC * S2) / S3) * lotSizeFraction,
+  );
   return Math.max(0, maxAmount);
 }
 
@@ -915,6 +967,21 @@ export function getMinimalSpread(
     : perpParams.fMinimalSpreadInStress;
 }
 
+/**
+ * internal function to get the type of collateral: quote, base, or quanto
+ * @param {AMMState} ammData - AMM data
+ * @returns COLLATERAL_CURRENCY_BASE | COLLATERAL_CURRENCY_QUOTE | COLLATERAL_CURRENCY_QUANTO
+ */
+function getPerpetualCollateralType(ammData: AMMState) {
+  if (ammData.M2 !== 0) {
+    return COLLATERAL_CURRENCY_BASE;
+  } else if (ammData.M3 !== 0) {
+    return COLLATERAL_CURRENCY_QUANTO;
+  } else {
+    return COLLATERAL_CURRENCY_QUOTE;
+  }
+}
+
 // CUSTOM FRONTEND UTILS =======================================================
 
 /**
@@ -953,4 +1020,42 @@ export function getTraderPnLInBC(
   return (
     getTraderPnL(traderState, ammState, perpParams) / getMarkPrice(ammState)
   );
+}
+
+/**
+ * Get the amount of collateral required to obtain a given leverage with a given position size.
+ * Considers the trading fees and gas fees.
+ * @param {number} leverage - The leverage that the trader wants to achieve, given the position size
+ * @param {number} targetPos  - The trader's (signed) target position in base currency
+ * @param {number} base2collateral  - If the base currency is different than the collateral. If base is BTC, collateral is USD, this would be 100000 (the USD amount for 1 BTC)
+ * @param {PerpParameters} perpParams - Contains parameter of the perpetual
+ * @param {AMMState} ammData - AMM state
+ * @param {number} slippagePercent - optional. Specify slippage compared to mid-price that the trader is willing to accept
+ * @param {boolean} useMetaTransactions - optional, default false. Adds gas fees to the total
+ * @returns {number} balance required to arrive at the perpetual contract to obtain requested leverage
+ */
+export function getRequiredMarginCollateralWithGasFees(
+  leverage: number,
+  targetPos: number,
+  perpParams: PerpParameters,
+  ammData: AMMState,
+  traderState: TraderState,
+  slippagePercent: number = 0,
+  useMetaTransactions: boolean = false,
+) {
+  let requiredCollateral = getRequiredMarginCollateral(
+    leverage,
+    targetPos,
+    perpParams,
+    ammData,
+    traderState,
+    slippagePercent,
+    false,
+  );
+
+  if (useMetaTransactions) {
+    requiredCollateral += numberFromWei(gasLimit.open_perpetual_trade);
+  }
+
+  return requiredCollateral;
 }

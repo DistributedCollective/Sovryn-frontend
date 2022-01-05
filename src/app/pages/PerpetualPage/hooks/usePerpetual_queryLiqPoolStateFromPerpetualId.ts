@@ -32,7 +32,8 @@ export const usePerpetual_queryLiqPoolStateFromPerpetualId = (
         'getLiquidityPool',
         [poolId],
       )
-      .then(result => setLiqPoolState(parseLiqPoolState(result)));
+      .then(result => setLiqPoolState(parseLiqPoolState(result)))
+      .catch(console.error);
   }, []);
 
   const fetch = useCallback(() => {

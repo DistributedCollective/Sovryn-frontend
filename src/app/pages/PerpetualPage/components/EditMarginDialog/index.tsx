@@ -22,6 +22,7 @@ import { AssetValueMode } from '../../../../components/AssetValue/types';
 import {
   calculateApproxLiquidationPrice,
   calculateLeverage,
+  getMaximalMarginToWidthdraw,
 } from '../../utils/perpUtils';
 import { fromWei } from 'web3-utils';
 import classNames from 'classnames';
@@ -29,11 +30,11 @@ import { LeverageViewer } from '../LeverageViewer';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { AmountInput } from '../../../../components/Form/AmountInput';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
+import { validatePositionChange } from '../../utils/contractUtils';
 import {
-  calculateMaxMarginWithdrawal,
-  validatePositionChange,
-} from '../../utils/contractUtils';
-import { toWei } from '../../../../../utils/blockchain/math-helpers';
+  toWei,
+  numberFromWei,
+} from '../../../../../utils/blockchain/math-helpers';
 import { PerpetualTxMethods } from '../TradeDialog/types';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 import { ActionDialogSubmitButton } from '../ActionDialogSubmitButton';
@@ -47,9 +48,12 @@ enum EditMarginDialogMode {
 export const EditMarginDialog: React.FC = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { pairType: currentPairType, modal, modalOptions } = useSelector(
-    selectPerpetualPage,
-  );
+  const {
+    pairType: currentPairType,
+    modal,
+    modalOptions,
+    useMetaTransactions,
+  } = useSelector(selectPerpetualPage);
 
   const inMaintenance = usePerpetual_isTradingInMaintenance();
 
@@ -64,9 +68,10 @@ export const EditMarginDialog: React.FC = () => {
     [modalOptions],
   );
   const pair = useMemo(
-    () => trade?.pairType && PerpetualPairDictionary.get(trade.pairType),
-    [trade],
+    () => PerpetualPairDictionary.get(trade?.pairType || currentPairType),
+    [trade, currentPairType],
   );
+
   const { available } = usePerpetual_accountBalance(
     trade?.pairType || currentPairType,
   );
@@ -124,14 +129,14 @@ export const EditMarginDialog: React.FC = () => {
       // Fees don't need to be subtracted, since Collateral is not paid with the Network Token
       return [Number(fromWei(available)), available];
     } else {
-      const maxAmount = calculateMaxMarginWithdrawal(
-        pair,
+      const maxAmount = getMaximalMarginToWidthdraw(
         traderState,
+        perpParameters,
         ammState,
       );
       return [maxAmount, toWei(maxAmount)];
     }
-  }, [mode, available, pair, traderState, ammState]);
+  }, [mode, available, traderState, perpParameters, ammState]);
 
   const signedMargin = useMemo(
     () => (mode === EditMarginDialogMode.increase ? 1 : -1) * Number(margin),
@@ -186,12 +191,23 @@ export const EditMarginDialog: React.FC = () => {
     return validatePositionChange(
       0,
       signedMargin,
+      changedTrade.leverage,
       changedTrade.slippage,
+      numberFromWei(available),
       traderState,
       perpParameters,
       ammState,
+      useMetaTransactions,
     );
-  }, [changedTrade, signedMargin, traderState, perpParameters, ammState]);
+  }, [
+    changedTrade,
+    signedMargin,
+    available,
+    traderState,
+    perpParameters,
+    ammState,
+    useMetaTransactions,
+  ]);
 
   const isButtonDisabled = useMemo(
     () =>

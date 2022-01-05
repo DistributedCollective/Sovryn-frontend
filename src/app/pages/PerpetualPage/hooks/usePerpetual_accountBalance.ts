@@ -48,8 +48,8 @@ export const usePerpetual_accountBalance = (
         'balanceOf',
         [account],
       )
-      .catch(console.error)
-      .then(result => result && setAvailableBalance(String(result)));
+      .then(result => result && setAvailableBalance(String(result)))
+      .catch(console.error);
   }, [account, blockId]);
 
   const unrealizedPnl = useMemo(

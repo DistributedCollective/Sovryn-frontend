@@ -8,7 +8,7 @@ import React, {
 import { Trans, useTranslation } from 'react-i18next';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import settingImg from 'assets/images/settings-blue.svg';
-import { discordInvite } from 'utils/classifiers';
+import { discordInvite, gasLimit } from 'utils/classifiers';
 import { translations } from '../../../../../locales/i18n';
 import { TradingPosition } from '../../../../../types/trading-position';
 import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
@@ -27,12 +27,13 @@ import { AssetValueMode } from '../../../../components/AssetValue/types';
 import { LeverageViewer } from '../LeverageViewer';
 import {
   getMaximalTradeSizeInPerpetual,
-  getRequiredMarginCollateral,
   getTradingFee,
   calculateApproxLiquidationPrice,
   calculateSlippagePrice,
   calculateLeverage,
   getMaxInitialLeverage,
+  getMaximalTradeSizeInPerpetualWithCurrentMargin,
+  getRequiredMarginCollateralWithGasFees,
 } from '../../utils/perpUtils';
 import { shrinkToLot } from '../../utils/perpMath';
 import {
@@ -42,8 +43,10 @@ import {
 } from '../../utils/contractUtils';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';
-import { numberFromWei } from 'utils/blockchain/math-helpers';
-import { fromWei, toWei } from 'web3-utils';
+import { numberFromWei, toWei } from 'utils/blockchain/math-helpers';
+import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
+import { useSelector } from 'react-redux';
+import { selectPerpetualPage } from '../../selectors';
 
 interface ITradeFormProps {
   trade: PerpetualTrade;
@@ -66,6 +69,8 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
 
   const inMaintenance = usePerpetual_isTradingInMaintenance();
 
+  const { useMetaTransactions } = useSelector(selectPerpetualPage);
+
   const {
     ammState,
     traderState,
@@ -76,47 +81,117 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     lotPrecision,
   } = useContext(PerpetualQueriesContext);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => onChange({ ...trade, entryPrice: averagePrice }), [
-    averagePrice,
-    onChange,
+  const { available: availableBalanceWei } = usePerpetual_accountBalance(
+    trade.pairType,
+  );
+
+  const pair = useMemo(() => PerpetualPairDictionary.get(trade.pairType), [
+    trade.pairType,
   ]);
 
   const maxTradeSize = useMemo(() => {
-    const maxTradeSize = Number(
-      Math.abs(
-        getMaximalTradeSizeInPerpetual(
-          traderState.marginAccountPositionBC,
-          getTradeDirection(trade.position),
-          ammState,
-          liqPoolState,
-          perpParameters,
+    let maxTradeSize;
+    if (isNewTrade) {
+      maxTradeSize = shrinkToLot(
+        Math.abs(
+          getMaximalTradeSizeInPerpetual(
+            traderState.marginAccountPositionBC,
+            getTradeDirection(trade.position),
+            ammState,
+            liqPoolState,
+            perpParameters,
+          ),
         ),
-      ).toPrecision(8),
-    );
+        lotSize,
+      );
+    } else {
+      maxTradeSize = shrinkToLot(
+        Math.abs(
+          getMaximalTradeSizeInPerpetualWithCurrentMargin(
+            getTradeDirection(trade.position),
+            perpParameters,
+            traderState,
+            ammState,
+            liqPoolState,
+          ),
+        ),
+        lotSize,
+      );
+    }
+
     return Number.isFinite(maxTradeSize) ? maxTradeSize : 0;
   }, [
-    traderState.marginAccountPositionBC,
+    isNewTrade,
     trade.position,
+    traderState,
     ammState,
     liqPoolState,
     perpParameters,
+    lotSize,
   ]);
 
-  const [amount, setAmount] = useState(fromWei(trade.amount).replace(/^-/, ''));
+  const [minLeverage, maxLeverage] = useMemo(() => {
+    const amountChange = getSignedAmount(trade.position, trade.amount);
+    const amountTarget = traderState.marginAccountPositionBC + amountChange;
+    let possibleMargin =
+      numberFromWei(availableBalanceWei) +
+      traderState.availableCashCC -
+      getTradingFee(amountChange, perpParameters, ammState);
+    if (useMetaTransactions) {
+      possibleMargin -=
+        gasLimit.deposit_collateral + gasLimit.open_perpetual_trade;
+    }
+
+    const maxLeverage = getMaxInitialLeverage(amountTarget, perpParameters);
+    const minLeverage = Math.min(
+      maxLeverage,
+      Math.max(
+        pair.config.leverage.min,
+        calculateLeverage(
+          amountTarget,
+          possibleMargin,
+          traderState,
+          ammState,
+          perpParameters,
+        ),
+      ),
+    );
+
+    return [minLeverage, maxLeverage];
+  }, [
+    trade.position,
+    trade.amount,
+    pair,
+    availableBalanceWei,
+    useMetaTransactions,
+    traderState,
+    perpParameters,
+    ammState,
+  ]);
+
+  const [amount, setAmount] = useState(
+    Math.abs(numberFromWei(trade.amount)).toFixed(lotPrecision),
+  );
   const onChangeOrderAmount = useCallback(
     (amount: string) => {
-      const roundedAmount = shrinkToLot(
-        Math.max(Math.min(Number(amount) || 0, maxTradeSize), 0),
-        lotSize,
+      const roundedAmount = Number(
+        shrinkToLot(
+          Math.max(Math.min(Number(amount) || 0, maxTradeSize), 0),
+          lotSize,
+        ).toFixed(lotPrecision),
       );
       setAmount(amount);
       const amountChange = roundedAmount * getTradeDirection(trade.position);
       const targetAmount = traderState.marginAccountPositionBC + amountChange;
 
-      let newTrade = { ...trade, amount: toWei(roundedAmount.toString()) };
+      let newTrade = { ...trade, amount: toWei(roundedAmount) };
 
-      if (!isNewTrade) {
+      if (isNewTrade) {
+        newTrade.leverage = Math.max(
+          minLeverage,
+          Math.min(maxLeverage, newTrade.leverage),
+        );
+      } else {
         newTrade.leverage = calculateLeverage(
           targetAmount,
           traderState.availableCashCC,
@@ -124,9 +199,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           ammState,
           perpParameters,
         );
-      } else {
-        const maxLeverage = getMaxInitialLeverage(targetAmount, perpParameters);
-        newTrade.leverage = Math.min(maxLeverage, newTrade.leverage);
       }
 
       onChange(newTrade);
@@ -135,16 +207,20 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       onChange,
       trade,
       lotSize,
+      lotPrecision,
       maxTradeSize,
+      minLeverage,
+      maxLeverage,
       isNewTrade,
       traderState,
       ammState,
       perpParameters,
     ],
   );
+
   const onBlurOrderAmount = useCallback(() => {
-    setAmount(fromWei(trade.amount));
-  }, [trade.amount]);
+    setAmount(numberFromWei(trade.amount).toFixed(lotPrecision));
+  }, [lotPrecision, trade.amount]);
 
   const [limit, setLimit] = useState(trade.limit);
   const onChangeOrderLimit = useCallback(
@@ -161,10 +237,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     },
     [onChange, trade],
   );
-
-  const pair = useMemo(() => PerpetualPairDictionary.get(trade.pairType), [
-    trade.pairType,
-  ]);
 
   const bindSelectPosition = useCallback(
     (position: TradingPosition) => () => onChange({ ...trade, position }),
@@ -189,24 +261,16 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
 
   const requiredCollateral = useMemo(() => {
     const amount = getSignedAmount(trade.position, trade.amount);
-    return getRequiredMarginCollateral(
+    return getRequiredMarginCollateralWithGasFees(
       trade.leverage,
       traderState.marginAccountPositionBC + amount,
       perpParameters,
       ammState,
       traderState,
       trade.slippage,
+      useMetaTransactions,
     );
-  }, [perpParameters, ammState, traderState, trade]);
-
-  const maxLeverage = useMemo(
-    () =>
-      getMaxInitialLeverage(
-        getSignedAmount(trade.position, trade.amount),
-        perpParameters,
-      ),
-    [trade.position, trade.amount, perpParameters],
-  );
+  }, [perpParameters, ammState, traderState, trade, useMetaTransactions]);
 
   const tradingFee = useMemo(
     () => getTradingFee(numberFromWei(trade.amount), perpParameters, ammState),
@@ -244,27 +308,30 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
 
   const validation = useMemo(() => {
     const signedAmount = getSignedAmount(trade.position, trade.amount);
-    const marginChange = isNewTrade
-      ? getRequiredMarginCollateral(
-          trade.leverage,
-          signedAmount,
-          perpParameters,
-          ammState,
-          traderState,
-          trade.slippage,
-        )
-      : 0;
+    const marginChange = isNewTrade ? requiredCollateral : 0;
     return signedAmount !== 0 || marginChange !== 0
       ? validatePositionChange(
           signedAmount,
           marginChange,
+          trade.leverage,
           trade.slippage,
+          numberFromWei(availableBalanceWei),
           traderState,
           perpParameters,
           ammState,
+          useMetaTransactions,
         )
       : undefined;
-  }, [isNewTrade, trade, traderState, perpParameters, ammState]);
+  }, [
+    isNewTrade,
+    trade,
+    requiredCollateral,
+    availableBalanceWei,
+    traderState,
+    perpParameters,
+    ammState,
+    useMetaTransactions,
+  ]);
 
   const buttonDisabled = useMemo(
     () =>
@@ -273,6 +340,28 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       (validation && !validation.valid && !validation.isWarning),
     [disabled, amount, validation],
   );
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => onChange({ ...trade, entryPrice: averagePrice }), [
+    averagePrice,
+    onChange,
+  ]);
+
+  // clamp leverage
+  useEffect(() => {
+    if (isNewTrade) {
+      const leverage = Math.max(
+        minLeverage,
+        Math.min(maxLeverage, trade.leverage || 1),
+      );
+      if (Number.isFinite(leverage) && trade.leverage !== leverage) {
+        onChange({
+          ...trade,
+          leverage,
+        });
+      }
+    }
+  }, [isNewTrade, trade, minLeverage, maxLeverage, onChange]);
 
   return (
     <div
@@ -410,7 +499,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         <LeverageSelector
           className="tw-mb-2"
           value={trade.leverage}
-          min={pair.config.leverage.min}
+          min={minLeverage}
           max={maxLeverage}
           steps={pair.config.leverage.steps}
           onChange={onChangeLeverage}

@@ -59,8 +59,8 @@ export const usePerpetual_queryPerpParameters = (perpetualId: string) => {
         'getPerpetual',
         [perpetualId],
       )
-      .catch(console.error)
-      .then(result => result && setPerpParameters(parsePerpParameter(result)));
+      .then(result => result && setPerpParameters(parsePerpParameter(result)))
+      .catch(console.error);
   }, [perpetualId]);
 
   useEffect(fetch, [fetch]);

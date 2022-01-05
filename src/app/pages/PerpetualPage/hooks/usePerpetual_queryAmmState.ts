@@ -34,7 +34,8 @@ export const usePerpetual_queryAmmState = (perpetualId: string) => {
         'getAMMState',
         [perpetualId],
       )
-      .then(result => setAmmState(parseAmmState(result)));
+      .then(result => setAmmState(parseAmmState(result)))
+      .catch(console.error);
   }, [perpetualId]);
 
   useEffect(fetch, [fetch]);
