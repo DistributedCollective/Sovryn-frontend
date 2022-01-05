@@ -57,7 +57,11 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
   }, [tx.status, oldStatus, onSuccess, onError]);
 
   return (
-    <Dialog isOpen={tx.status !== TxStatus.NONE} onClose={onClose}>
+    <Dialog
+      isOpen={tx.status !== TxStatus.NONE}
+      onClose={onClose}
+      dataAttribute="transaction-dialog"
+    >
       {tx.status === TxStatus.PENDING_FOR_USER && (
         <>
           <h1>{getTransactionTitle(tx.status, action)}</h1>
@@ -145,6 +149,7 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
               'tw-max-w-7xl tw-flex tw-items-center tw-justify-center tw-h-12 tw-rounded-lg tw-w-80 tw-mx-auto tw-mt-14'
             }
             textClassName="tw-inline-block tw-text-lg"
+            data-action-id="close-transaction-dialog-button"
           />
         </>
       )}

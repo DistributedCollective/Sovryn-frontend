@@ -339,7 +339,7 @@ export function SwapFormContainer() {
               <div className="tw-flex">
                 {t(translations.swap.advancedSettings)}
                 <img
-                  data-action-id="swap-receive-availableBalance"
+                  data-action-id="slippage-setting-button"
                   className="tw-ml-1"
                   src={settingIcon}
                   alt="setting"

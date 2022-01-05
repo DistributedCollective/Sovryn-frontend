@@ -67,6 +67,7 @@ export function DetectionScreen(props: Props) {
               onClick={addNetworkCallback}
               className="tw-block tw-w-full tw-px-9 tw-rounded-lg tw-bg-gray-1 tw-bg-opacity-10"
               textClassName="tw-text-lg tw-tracking-normal tw-leading-6 tw-font-semibold"
+              data-action-id="connect-metamask-button"
             />
           </div>
         )}
