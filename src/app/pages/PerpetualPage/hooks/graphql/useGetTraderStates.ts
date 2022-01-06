@@ -2,6 +2,11 @@ import { useQuery, gql } from '@apollo/client';
 import { BigNumber } from 'ethers';
 import { ABK64x64ToFloat } from '../../utils/contractUtils';
 import { TraderState } from '../../utils/perpUtils';
+import {
+  PerpetualPairType,
+  PerpetualPairDictionary,
+} from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
+import { useMemo } from 'react';
 
 const fields = [
   'id',
@@ -14,20 +19,21 @@ const fields = [
   'fUnitAccumulatedFundingStart',
 ];
 
-const graphQuery = gql`
-  {
-    traderStates {
-      ${fields.toString()}
-    }
-  }
-`;
-
 export type TraderStatesItem = TraderState & {
   id: string;
 };
 
-export const useGetTraderStates = (): TraderStatesItem[] => {
-  const { data } = useQuery(graphQuery);
+export const useGetTraderStates = (
+  pairType: PerpetualPairType,
+): TraderStatesItem[] => {
+  const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
+  const { data } = useQuery(gql`
+  {
+    traderStates (where: {perpetual: ${JSON.stringify(pair.id)}}) {
+      ${fields.toString()}
+    }
+  }
+`);
 
   const result: TraderStatesItem[] = data?.traderStates?.map(item => ({
     id: item.id,

@@ -5,6 +5,10 @@ export type LeaderboardData = {
   openedPositions: number;
   lastTrade: number;
   totalPnL: number;
+  totalPnLCC?: number;
+  totalFundingPaymentCC?: number;
+  realizedProfitCC?: number;
+  unrealizedPnLCC?: number;
 };
 
 export type RegisteredTraderData = {

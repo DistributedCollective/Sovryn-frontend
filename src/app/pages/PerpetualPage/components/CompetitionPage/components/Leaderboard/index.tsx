@@ -20,15 +20,10 @@ import {
   getTraderPnLInBC,
   getBase2CollateralFX,
 } from 'app/pages/PerpetualPage/utils/perpUtils';
-import { bignumber } from 'mathjs';
-import {
-  PerpetualPairDictionary,
-  PerpetualPairType,
-} from 'utils/dictionaries/perpetual-pair-dictionary';
+import { PerpetualPairType } from 'utils/dictionaries/perpetual-pair-dictionary';
 import { PerpetualQueriesContext } from 'app/pages/PerpetualPage/contexts/PerpetualQueriesContext';
 import { ABK64x64ToFloat } from 'app/pages/PerpetualPage/utils/perpMath';
 import { BigNumber } from 'ethers/lib/ethers';
-import { percentageChange } from 'utils/helpers';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -54,11 +49,12 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
   const [userData, setUserData] = useState<LeaderboardData | null>(null);
   const [loaded, setLoaded] = useState(false);
 
-  const traderStates = useGetTraderStates();
+  const traderStates = useGetTraderStates(PerpetualPairType.BTCUSD);
 
   const { perpetualParameters, ammState } = useContext(PerpetualQueriesContext);
 
   const { data: leaderboardData } = useGetLeaderboardData(
+    PerpetualPairType.BTCUSD,
     data.map(val => val.walletAddress),
   );
 
@@ -74,9 +70,6 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
       ) {
         return;
       }
-
-      const perpetualId = PerpetualPairDictionary.get(PerpetualPairType.BTCUSD)
-        .id;
 
       const run = async () => {
         const items: LeaderboardData[] = [];
@@ -98,13 +91,17 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
           };
 
           if (trader?.positionsTotalCount) {
-            const realizedProfit =
-              ABK64x64ToFloat(BigNumber.from(trader.totalPnLCC || '0')) +
-              ABK64x64ToFloat(
-                BigNumber.from(trader.totalFundingPaymentCC || '0'),
-              );
+            entry.totalFundingPaymentCC = ABK64x64ToFloat(
+              BigNumber.from(trader.totalFundingPaymentCC || '0'),
+            );
+            entry.totalPnLCC = ABK64x64ToFloat(
+              BigNumber.from(trader.totalPnLCC || '0'),
+            );
 
-            let unrealizedProfit = 0;
+            entry.realizedProfitCC =
+              entry.totalFundingPaymentCC + entry.totalPnLCC;
+
+            entry.unrealizedPnLCC = 0;
 
             if (trader.positions.find(item => !item.isClosed)) {
               const traderState = traderStates.find(traderState =>
@@ -116,33 +113,24 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
                 continue;
               }
 
-              unrealizedProfit =
+              entry.unrealizedPnLCC =
                 getTraderPnLInBC(traderState, ammState, perpetualParameters) *
                 baseToCollateral;
             }
 
-            const totalProfitWithFunding = realizedProfit + unrealizedProfit;
+            const totalProfitWithFunding =
+              entry.realizedProfitCC + entry.unrealizedPnLCC;
 
             entry.totalPnL = (totalProfitWithFunding / initialFunding) * 100;
 
-            const lastPositionStartingBalance =
-              ABK64x64ToFloat(
-                BigNumber.from(
-                  trader.positions[0].currentPositionSizeBC || '0',
-                ),
-              ) * baseToCollateral;
             const lastPositionProfit = ABK64x64ToFloat(
               BigNumber.from(trader.positions[0].totalPnLCC || '0'),
             );
 
-            entry.lastTrade = Number(
-              percentageChange(
-                lastPositionStartingBalance,
-                lastPositionStartingBalance +
-                  lastPositionProfit +
-                  unrealizedProfit,
-              ),
-            );
+            entry.lastTrade =
+              ((lastPositionProfit + entry.unrealizedPnLCC) /
+                Math.abs(initialFunding)) *
+              100;
           }
           items.push(entry);
         }
@@ -155,7 +143,7 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
               }
               return a.openedPositions === 0 ? 1 : -1;
             }
-            return bignumber(b.totalPnL).minus(a.totalPnL).toNumber();
+            return Math.sign(b.totalPnL - a.totalPnL);
           })
           .map((val, index) => ({
             ...val,
@@ -166,6 +154,8 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
       setLoaded(false);
       run()
         .then(rows => {
+          // Log full results, to debug PnL values.
+          console.log(rows);
           setItems(rows);
           setLoaded(true);
           if (account) {
