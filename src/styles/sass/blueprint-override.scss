@@ -70,7 +70,7 @@ article.bp3-dialog h1 {
   &.bp3-tooltip {
     & .bp3-popover-content {
       @extend .sovryn-border;
-      @apply tw-bg-gray-1;
+      @apply tw-bg-gray-1 tw-max-w-xl;
     }
 
     & .bp3-popover-arrow {
