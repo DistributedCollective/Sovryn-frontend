@@ -60,7 +60,7 @@ export const usePerpetual_FundingPayments = (
             pairType: pairType,
             datetime: item.blockTimestamp,
             payment: ABK64x64ToFloat(BigNumber.from(item.fFundingPaymentCC)),
-            rate: ABK64x64ToFloat(BigNumber.from(item.fundingRate)),
+            rate: ABK64x64ToFloat(BigNumber.from(item.rate8h)),
             timeSinceLastPayment: BigNumber.from(item.deltaTime).toNumber(),
           });
         }

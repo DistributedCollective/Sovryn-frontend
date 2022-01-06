@@ -15,7 +15,8 @@ export type ClosedPositionEntry = {
   id: string;
   pairType: PerpetualPairType;
   datetime: string;
-  positionSize: string;
+  positionSizeMin: number;
+  positionSizeMax: number;
   realizedPnl: { baseValue: number; quoteValue: number };
 };
 
@@ -62,9 +63,8 @@ export const usePerpetual_ClosedPositions = (
           id: item.id,
           pairType,
           datetime: item.endDate,
-          positionSize: ABK64x64ToFloat(
-            BigNumber.from(item.currentPositionSizeBC),
-          ),
+          positionSizeMin: ABK64x64ToFloat(BigNumber.from(item.lowestSizeBC)),
+          positionSizeMax: ABK64x64ToFloat(BigNumber.from(item.highestSizeBC)),
           realizedPnl: {
             baseValue: realizedPnlCC,
             quoteValue: realizedPnlCC / getQuote2CollateralFX(ammState),

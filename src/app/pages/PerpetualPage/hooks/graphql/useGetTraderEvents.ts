@@ -185,6 +185,8 @@ class EventDictionary {
         new EventDetails('positions', [
           'id',
           'currentPositionSizeBC',
+          'lowestSizeBC',
+          'highestSizeBC',
           'totalPnLCC',
           'endDate',
         ]),
@@ -194,7 +196,7 @@ class EventDictionary {
         new EventDetails('fundingRates', [
           'id',
           'fFundingPaymentCC',
-          'fundingRate',
+          'rate8h',
           'blockTimestamp',
           'deltaTime',
         ]),
