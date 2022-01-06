@@ -21,18 +21,25 @@ import {
 import classNames from 'classnames';
 import { Tooltip } from '@blueprintjs/core';
 import { TotalValueLocked } from '../../../LandingPage/components/TotalValueLocked';
+import { getCollateralName } from '../../utils/renderUtils';
+import { Asset } from '../../../../../types';
 
 type AccountBalanceFormProps = {
+  collateral: Asset;
   pairType: PerpetualPairType;
   onOpenTransactionHistory: () => void;
 };
 
 export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
   pairType,
+  collateral,
   onOpenTransactionHistory,
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const collateralAsset = useMemo(() => getCollateralName(collateral), [
+    collateral,
+  ]);
 
   const { checkMaintenance, States } = useMaintenance();
   const fundAccountLocked =
@@ -79,7 +86,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
         valueLabel: (
           <AssetValue
             value={available}
-            assetString="BTC"
+            assetString={collateralAsset}
             mode={AssetValueMode.auto}
             minDecimals={8}
             maxDecimals={8}
@@ -96,7 +103,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
         valueLabel: (
           <AssetValue
             value={inPositions}
-            assetString="BTC"
+            assetString={collateralAsset}
             mode={AssetValueMode.auto}
             minDecimals={3}
             maxDecimals={3}
@@ -121,7 +128,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
               value={bignumber(unrealized || '0')
                 .abs()
                 .toString()}
-              assetString="BTC"
+              assetString={collateralAsset}
               mode={AssetValueMode.auto}
               minDecimals={8}
               maxDecimals={8}
@@ -133,14 +140,14 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
         color: isUnrealizedNegative ? 'rgba(29, 127, 247, 0.25)' : undefined,
       },
     ];
-  }, [unrealized, available, t, inPositions]);
+  }, [unrealized, available, t, inPositions, collateralAsset]);
 
   const totalLabel = useMemo(
     () => (
       <div className="tw-flex tw-flex-row tw-items-center">
         <AssetValue
           value={total.collateralValue}
-          assetString="BTC"
+          assetString={collateralAsset}
           mode={AssetValueMode.auto}
           minDecimals={2}
           maxDecimals={8}
@@ -157,7 +164,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
         </span>
       </div>
     ),
-    [pair.quoteAsset, total.collateralValue, total.quoteValue],
+    [pair.quoteAsset, total.collateralValue, total.quoteValue, collateralAsset],
   );
 
   // TODO: add pending transfer value to available balance

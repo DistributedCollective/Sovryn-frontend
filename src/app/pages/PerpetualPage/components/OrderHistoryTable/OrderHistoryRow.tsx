@@ -11,6 +11,7 @@ import { AssetValue } from 'app/components/AssetValue';
 import { AssetValueMode } from 'app/components/AssetValue/types';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { prettyTx } from 'utils/helpers';
+import { getCollateralName } from '../../utils/renderUtils';
 
 type OrderHistoryRowProps = {
   item: OrderHistoryEntry;
@@ -22,6 +23,10 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({ item }) => {
   const pair = useMemo(() => PerpetualPairDictionary.get(item.pairType), [
     item.pairType,
   ]);
+  const collateralAsset = useMemo(
+    () => getCollateralName(pair.collateralAsset),
+    [pair.collateralAsset],
+  );
 
   return (
     <tr>
@@ -47,7 +52,7 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({ item }) => {
         }`}
       </td>
       <td>{item.orderState}</td>
-      <td>{pair.collateralAsset}</td>
+      <td>{collateralAsset}</td>
       <td>
         <AssetValue
           value={item.orderSize}

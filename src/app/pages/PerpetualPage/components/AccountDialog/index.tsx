@@ -23,7 +23,7 @@ type AccountDialogProps = {
 export const AccountDialog: React.FC<AccountDialogProps> = ({ pairType }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { modal } = useSelector(selectPerpetualPage);
+  const { modal, collateral } = useSelector(selectPerpetualPage);
   const [accountView, setAccountView] = useState<AccountView>(
     AccountView.balance,
   );
@@ -72,6 +72,7 @@ export const AccountDialog: React.FC<AccountDialogProps> = ({ pairType }) => {
       </h1>
       {accountView === AccountView.balance && (
         <AccountBalanceForm
+          collateral={collateral}
           pairType={pairType}
           onOpenTransactionHistory={onOpenFundingHistory}
         />

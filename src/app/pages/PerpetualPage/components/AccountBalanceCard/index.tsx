@@ -1,11 +1,13 @@
 import React, { useMemo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { translations } from '../../../../../locales/i18n';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { actions } from '../../slice';
 import { PerpetualPageModals } from '../../types';
 import { Tooltip } from '@blueprintjs/core';
+import { selectPerpetualPage } from '../../selectors';
+import { getCollateralName } from '../../utils/renderUtils';
 
 type AccountBalanceCardProps = {
   /** balance in wei */
@@ -17,6 +19,11 @@ export const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
+  const { collateral } = useSelector(selectPerpetualPage);
+  const collateralAsset = useMemo(() => getCollateralName(collateral), [
+    collateral,
+  ]);
 
   const hasBalance = useMemo(() => balance && balance !== '0', [balance]);
 
@@ -36,7 +43,7 @@ export const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
           {t(translations.perpetualPage.accountBalance.availableBalance)}
         </span>
         <span className="tw-block tw-flex-grow tw-text-right">
-          {weiToNumberFormat(balance, 4)} BTC
+          {weiToNumberFormat(balance, 4)} {collateralAsset}
         </span>
       </div>
       {hasBalance ? (

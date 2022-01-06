@@ -39,6 +39,7 @@ import { PerpetualTxMethods } from '../TradeDialog/types';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 import { ActionDialogSubmitButton } from '../ActionDialogSubmitButton';
 import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';
+import { getCollateralName } from '../../utils/renderUtils';
 
 enum EditMarginDialogMode {
   increase,
@@ -50,6 +51,7 @@ export const EditMarginDialog: React.FC = () => {
   const { t } = useTranslation();
   const {
     pairType: currentPairType,
+    collateral,
     modal,
     modalOptions,
     useMetaTransactions,
@@ -62,6 +64,10 @@ export const EditMarginDialog: React.FC = () => {
     traderState,
     perpetualParameters: perpParameters,
   } = useContext(PerpetualQueriesContext);
+
+  const collateralName = useMemo(() => getCollateralName(collateral), [
+    collateral,
+  ]);
 
   const trade = useMemo(
     () => (isPerpetualTrade(modalOptions) ? modalOptions : undefined),
@@ -268,7 +274,7 @@ export const EditMarginDialog: React.FC = () => {
             <AmountInput
               value={margin}
               maxAmount={maxAmountWei}
-              assetString="BTC"
+              assetString={collateralName}
               decimalPrecision={6}
               step={0.0001}
               onChange={onChangeMargin}
