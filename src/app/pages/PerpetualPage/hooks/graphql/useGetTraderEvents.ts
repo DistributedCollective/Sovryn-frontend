@@ -6,78 +6,70 @@
 
 import { useQuery, gql } from '@apollo/client';
 import { DocumentNode } from 'graphql';
+import { useMemo } from 'react';
 
 export enum OrderDirection {
   asc = 'asc',
   desc = 'desc',
 }
 
-export function useGetTraderEvents(
-  event: Event[],
-  user: string,
-  orderBy?: string,
-  orderDirection?: OrderDirection,
-  page?: number,
-  perPage?: number,
-  whereCondition?: string,
-) {
-  const SUBGRAPH_QUERY = generateQuery(
-    event,
+export type EventQuery = {
+  event: Event;
+  orderBy?: string;
+  orderDirection?: OrderDirection;
+  page?: number;
+  perPage?: number;
+  whereCondition?: string;
+};
+
+export function useGetTraderEvents(user: string, events: EventQuery[]) {
+  const SUBGRAPH_QUERY = useMemo(() => generateQuery(user, events), [
     user,
-    orderBy,
-    orderDirection,
-    page,
-    perPage,
-    whereCondition,
-  );
+    events,
+  ]);
 
   const query = useQuery(SUBGRAPH_QUERY);
   return query;
 }
 
-function generateQuery(
-  events: Event[],
-  user: string,
-  orderBy?: string,
-  orderDirection?: OrderDirection,
-  page?: number,
-  perPage?: number,
-  whereCondition?: string,
-): DocumentNode {
-  const arr = events.map(event => {
-    const eventDetails = EventDictionary.get(event);
+function generateQuery(user: string, events: EventQuery[]): DocumentNode {
+  const array = events.map(
+    ({ event, orderBy, orderDirection, page, perPage, whereCondition }) => {
+      const eventDetails = EventDictionary.get(event);
 
-    const isOrdered = orderBy && orderDirection;
-    const hasPagination = page && perPage;
+      const isOrdered = orderBy && orderDirection;
+      const hasPagination = page && perPage;
 
-    const orderFilterString = isOrdered
-      ? `orderBy: ${orderBy}, orderDirection: ${orderDirection}`
-      : '';
+      const orderFilterString = isOrdered
+        ? `orderBy: ${orderBy}, orderDirection: ${orderDirection}`
+        : '';
 
-    const paginationFilterString = hasPagination
-      ? `skip: ${(page! - 1) * perPage!} first: ${perPage!}`
-      : '';
+      const paginationFilterString = hasPagination
+        ? `skip: ${(page! - 1) * perPage!} first: ${perPage!}`
+        : '';
 
-    const whereConditionString = whereCondition
-      ? `where: {${whereCondition}}`
-      : '';
+      const whereConditionString = whereCondition
+        ? `where: {${whereCondition}}`
+        : '';
 
-    return `${eventDetails.entityName} ${
-      isOrdered || hasPagination || whereCondition
-        ? `(${orderFilterString} ${paginationFilterString} ${whereConditionString})`
-        : ''
-    } { ${eventDetails.fields.toString()} }`;
-  });
+      return `${eventDetails.entityName} ${
+        isOrdered || hasPagination || whereCondition
+          ? `(${orderFilterString} ${paginationFilterString} ${whereConditionString})`
+          : ''
+      } { ${eventDetails.fields.toString()} }`;
+    },
+  );
 
   const totalCountArray = events
-    .filter(item => !!totalCountFields[item])
-    .map(item => `${totalCountFields[item]} `);
+    .map(item => totalCountFields[item.event])
+    .filter(Boolean)
+    .join(' ');
 
   return gql`
   { trader(id: "${user}")
   {
     ${totalCountArray.toString()}
-    ${arr.toString()}
+    ${array.toString()}
   }
 }
   `;
@@ -118,6 +110,7 @@ class EventDictionary {
         new EventDetails('trades', [
           'perpetual { id }',
           'tradeAmountBC',
+          'newPositionSizeBC',
           'orderFlags',
           'price',
           'limitPrice',
@@ -184,6 +177,7 @@ class EventDictionary {
         Event.POSITION,
         new EventDetails('positions', [
           'id',
+          'perpetual { id }',
           'currentPositionSizeBC',
           'lowestSizeBC',
           'highestSizeBC',

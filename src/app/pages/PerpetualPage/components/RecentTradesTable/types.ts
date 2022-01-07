@@ -11,6 +11,7 @@ export enum TradeType {
 
 export type RecentTradesDataEntry = {
   id: string;
+  trader: string;
   type: TradeType;
   priceChange: TradePriceChange;
   price: number;
@@ -19,4 +20,7 @@ export type RecentTradesDataEntry = {
   fromSocket?: boolean;
 };
 
-export type RecentTradesContextType = { trades: RecentTradesDataEntry[] };
+export type RecentTradesContextType = {
+  trades: RecentTradesDataEntry[];
+  latestTradeByUser?: RecentTradesDataEntry;
+};
