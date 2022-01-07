@@ -1,6 +1,6 @@
 import { useAccount } from 'app/hooks/useAccount';
 import { BigNumber } from 'ethers';
-import { useContext, useMemo } from 'react';
+import { useContext, useMemo, useEffect } from 'react';
 import { PerpetualPairType } from 'utils/dictionaries/perpetual-pair-dictionary';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import { ABK64x64ToFloat } from '../utils/contractUtils';
@@ -10,6 +10,8 @@ import {
   useGetTraderEvents,
   OrderDirection,
 } from './graphql/useGetTraderEvents';
+import { RecentTradesContext } from '../contexts/RecentTradesContext';
+import debounce from 'lodash.debounce';
 
 export type ClosedPositionEntry = {
   id: string;
@@ -34,20 +36,28 @@ export const usePerpetual_ClosedPositions = (
   const address = useAccount();
 
   const { ammState } = useContext(PerpetualQueriesContext);
+  const { latestTradeByUser } = useContext(RecentTradesContext);
+
+  const eventQuery = useMemo(
+    () => [
+      {
+        event: Event.POSITION,
+        orderBy: 'endDate',
+        orderDirection: OrderDirection.desc,
+        page,
+        perPage,
+        whereCondition: 'isClosed: true',
+      },
+    ],
+    [page, perPage],
+  );
 
   const {
     data: positions,
     previousData: previousPositions,
+    refetch,
     loading,
-  } = useGetTraderEvents(
-    [Event.POSITION],
-    address.toLowerCase(),
-    'endDate',
-    OrderDirection.desc,
-    page,
-    perPage,
-    'isClosed: true',
-  );
+  } = useGetTraderEvents(address.toLowerCase(), eventQuery);
 
   const data: ClosedPositionEntry[] = useMemo(() => {
     const currentPositions =
@@ -89,6 +99,22 @@ export const usePerpetual_ClosedPositions = (
       previousPositions?.trader?.positionsTotalCount,
     ],
   );
+
+  const refetchDebounced = useMemo(
+    () =>
+      debounce(refetch, 1000, {
+        leading: false,
+        trailing: true,
+        maxWait: 1000,
+      }),
+    [refetch],
+  );
+
+  useEffect(() => {
+    if (latestTradeByUser) {
+      refetchDebounced();
+    }
+  }, [latestTradeByUser, refetchDebounced]);
 
   return {
     data,

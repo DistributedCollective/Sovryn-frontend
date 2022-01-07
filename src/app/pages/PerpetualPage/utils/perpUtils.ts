@@ -1,7 +1,8 @@
 /*
-  COMMIT: 67f3e263cfd5145d20e6d6d45a785e2a440d88ee
-  Helper-functions for frontend
-*/
+ * https://github.com/DistributedCollective/sovryn-perpetual-swap/blob/dev/scripts/utils/perpUtils.ts
+ * COMMIT: 126aff0d8759938bc32409577fd344339303d055
+ * Helper-functions for frontend
+ */
 
 import console from 'console';
 import {
@@ -610,7 +611,7 @@ export function getRequiredMarginCollateral(
     dir > 0
       ? Math.max(tradeAmountPrice, slippagePrice)
       : Math.min(tradeAmountPrice, slippagePrice);
-  let base2collateral = getBase2CollateralFX(ammData, false);
+  let base2collateral = getBase2CollateralFX(ammData, true);
   let quote2collateral = getQuote2CollateralFX(ammData);
 
   // leverage = position/margincollateral
@@ -621,8 +622,7 @@ export function getRequiredMarginCollateral(
   let initialPnLQC =
     currentPos * getMarkPrice(ammData) -
     traderState.marginAccountLockedInValueQC;
-  let buffer =
-    Math.abs(positionToTrade) * getMinimalSpread(perpParams, ammData) * Sm;
+  let buffer = 1e-16;
   let newPnLQC = positionToTrade * (Sm - tradeAmountPrice) - buffer;
   let pnlCC = (initialPnLQC + newPnLQC) * quote2collateral;
 

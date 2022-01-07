@@ -1,5 +1,10 @@
-import { BigNumber } from 'ethers';
+/*
+ * https://github.com/DistributedCollective/sovryn-perpetual-swap/blob/dev/scripts/utils/perpMath.ts
+ * COMMIT: 2054666a4a876d7d1ee4cdbc05480ab41484b7d8
+ */
+
 import console from 'console';
+import { BigNumber } from 'ethers';
 import { erf } from 'mathjs';
 const BN = BigNumber;
 const ONE_64x64 = BN.from('0x10000000000000000');
@@ -356,7 +361,7 @@ export function getBase2CollateralFX(
   }
 }
 
-export function findRoot(f: Function, x: number) {
+export function findRoot(f: Function, x: number, doConsoleLog = false) {
   // TODO: lots of clean-up and this fails in corner cases
   let numIter = 100;
   const fTol = 1e-10;
@@ -366,7 +371,9 @@ export function findRoot(f: Function, x: number) {
     let f1 = f(x);
 
     if (Math.abs(f1) < fTol) {
-      console.log('converged in', i, 'iterations');
+      if (doConsoleLog) {
+        console.log('converged in', i, 'iterations');
+      }
       break;
     }
 
@@ -394,7 +401,9 @@ export function findRoot(f: Function, x: number) {
     //x = x - 2 * f1 * fp / (2 * fp * fp - f1 * fpp);
     //x = x - 2 * f1 / (2 * fp  - f1 * fpp / fp);
   }
-  console.log('failed to converge in', numIter, 'iterations');
+  if (doConsoleLog) {
+    console.log('failed to converge in', numIter, 'iterations');
+  }
   return x;
 }
 
@@ -611,6 +620,7 @@ export function getTradeAmountFromPrice(
   M3: number,
   minimalSpread: number,
   lotSize: number,
+  doLog = false,
 ) {
   const numIter = 100;
   const fTol = 1e-7;
@@ -666,7 +676,7 @@ export function getTradeAmountFromPrice(
     count = count + 1;
   }
   // check that price belongs to range
-  if ((getPrice(kd) - price) * (getPrice(ku) - price) >= 0) {
+  if (doLog && (getPrice(kd) - price) * (getPrice(ku) - price) >= 0) {
     console.log(
       kd,
       getPrice(kd),
@@ -760,12 +770,17 @@ export function getPricesAndTradesForPercentRage(
       pctRangeOut[i] = 0;
       continue;
     }
+    priceRange[i] = midPrice * (1 + pctRange[i] / 100);
     if (pctRange[i] > 0) {
-      // above mid price, use 0-long-position as reference
-      priceRange[i] = longPrice0 * (1 + pctRange[i] / 100);
+      console.assert(
+        priceRange[i] > longPrice0,
+        'invalid percent range for minimal spread',
+      );
     } else {
-      // below mid price, use 0-short-position as reference
-      priceRange[i] = shortPrice0 * (1 + pctRange[i] / 100);
+      console.assert(
+        priceRange[i] < shortPrice0,
+        'invalid percent range for minimal spread',
+      );
     }
     kRange[i] = getTradeAmountFromPrice(
       K2,
@@ -782,10 +797,10 @@ export function getPricesAndTradesForPercentRage(
       M3,
       minimalSpread,
       lotSize,
+      false,
     );
     // percentage relative to mid-price
     pctRangeOut[i] = (100 * (priceRange[i] - midPrice)) / midPrice;
-    //console.log(pctRangeOut[i], pctRange[i]);
   }
   return [priceRange, pctRangeOut, kRange];
 }
@@ -858,9 +873,7 @@ function getTargetCollateralM3(
   let qinv2 = DDTarget ** 2;
   let v = -S3 / S2 / K2;
   let a0 = (a * qinv2 - 1) * v ** 2;
-  //console.log("b=",b)
   let b0 = (b * qinv2 - 2 + 2 * kappa * Math.exp(-r)) * v;
-  //console.log("b0=",b0)
   let c0 =
     c * qinv2 - kappa ** 2 * Math.exp(-2 * r) + 2 * kappa * Math.exp(-r) - 1;
   let Mstar1 = (-b0 + Math.sqrt(b0 ** 2 - 4 * a0 * c0)) / (2 * a0);
@@ -1067,7 +1080,6 @@ export function dec18ToFloat(x) {
   let k = 18 - xDec.toString().length;
   let sPad = '0'.repeat(k);
   let NumberStr = xInt.toString() + '.' + sPad + xDec.toString();
-  //console.log("num=",NumberStr)
   return parseFloat(NumberStr) * s;
 }
 
@@ -1087,7 +1099,6 @@ export function floatToDec18(x) {
   let sg = Math.sign(x);
   x = Math.abs(x);
   let strX = x.toFixed(18);
-  //console.log("str=", strX);
   const arrX = strX.split('.');
   let xInt = BigNumber.from(arrX[0]);
   let xDec = BigNumber.from(arrX[1]);

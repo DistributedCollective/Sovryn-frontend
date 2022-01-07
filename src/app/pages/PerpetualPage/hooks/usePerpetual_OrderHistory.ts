@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useMemo, useEffect, useContext } from 'react';
 import { useAccount } from 'app/hooks/useAccount';
 import { TradingPosition } from 'types/trading-position';
 import { PerpetualPairType } from 'utils/dictionaries/perpetual-pair-dictionary';
@@ -10,6 +10,8 @@ import {
 } from './graphql/useGetTraderEvents';
 import { ABK64x64ToWei } from '../utils/contractUtils';
 import { BigNumber } from 'ethers';
+import { RecentTradesContext } from '../contexts/RecentTradesContext';
+import debounce from 'lodash.debounce';
 
 // TODO: Finalize this enum once we know what possible order states we can have
 enum OrderState {
@@ -45,18 +47,27 @@ export const usePerpetual_OrderHistory = (
 ): OrderHistoryHookResult => {
   const account = useAccount();
 
+  const { latestTradeByUser } = useContext(RecentTradesContext);
+
+  const eventQuery = useMemo(
+    () => [
+      {
+        event: Event.TRADE,
+        orderBy: 'blockTimestamp',
+        orderDirection: OrderDirection.desc,
+        page,
+        perPage,
+      },
+    ],
+    [page, perPage],
+  );
+
   const {
     data: tradeEvents,
     previousData: previousTradeEvents,
+    refetch,
     loading,
-  } = useGetTraderEvents(
-    [Event.TRADE],
-    account.toLowerCase(),
-    'blockTimestamp',
-    OrderDirection.desc,
-    page,
-    perPage,
-  );
+  } = useGetTraderEvents(account.toLowerCase(), eventQuery);
 
   const data: OrderHistoryEntry[] = useMemo(() => {
     const currentTradeEvents =
@@ -101,6 +112,21 @@ export const usePerpetual_OrderHistory = (
     ],
   );
 
+  const refetchDebounced = useMemo(
+    () =>
+      debounce(refetch, 1000, {
+        leading: false,
+        trailing: true,
+        maxWait: 1000,
+      }),
+    [refetch],
+  );
+
+  useEffect(() => {
+    if (latestTradeByUser) {
+      refetchDebounced();
+    }
+  }, [latestTradeByUser, refetchDebounced]);
   return {
     data,
     loading,
