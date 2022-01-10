@@ -38,6 +38,7 @@ import {
 import { ActionDialogSubmitButton } from '../ActionDialogSubmitButton';
 import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
+import { usePrevious } from '../../../../hooks/usePrevious';
 
 export const EditLeverageDialog: React.FC = () => {
   const dispatch = useDispatch();
@@ -207,10 +208,17 @@ export const EditLeverageDialog: React.FC = () => {
     [trade?.leverage, changedTrade?.leverage, validation],
   );
 
+  const previousChangedTrade = usePrevious(changedTrade);
+
   useEffect(() => {
     setChangedTrade(trade);
-    setLeverage(Number(trade?.leverage.toFixed(2)));
   }, [trade]);
+
+  useEffect(() => {
+    if (previousChangedTrade?.id !== changedTrade?.id) {
+      onChangeLeverage(changedTrade?.leverage);
+    }
+  }, [previousChangedTrade, changedTrade, onChangeLeverage]);
 
   return (
     <Dialog
