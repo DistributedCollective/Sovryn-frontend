@@ -137,9 +137,11 @@ class EventDictionary {
       [
         Event.LIQUIDATE,
         new EventDetails('liquidates', [
+          'id',
+          'blockTimestamp',
           'perpetualId',
-          'amount',
-          ...genericFields,
+          'amountLiquidatedBC',
+          'newPositionSizeBC',
         ]),
       ],
       [

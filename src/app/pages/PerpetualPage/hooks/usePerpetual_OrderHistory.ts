@@ -2,7 +2,11 @@ import { useMemo, useEffect, useContext } from 'react';
 import { useAccount } from 'app/hooks/useAccount';
 import { TradingPosition } from 'types/trading-position';
 import { PerpetualPairType } from 'utils/dictionaries/perpetual-pair-dictionary';
-import { PerpetualTradeType } from '../types';
+import {
+  PerpetualTradeType,
+  PerpetualTradeEvent,
+  PerpetualLiquidationEvent,
+} from '../types';
 import {
   Event,
   useGetTraderEvents,
@@ -24,14 +28,14 @@ export type OrderHistoryEntry = {
   id: string;
   pairType: PerpetualPairType;
   datetime: string;
-  position: TradingPosition;
+  position?: TradingPosition;
   tradeType: PerpetualTradeType;
   orderState: OrderState;
   orderSize: string;
-  limitPrice: string;
+  limitPrice?: string;
   execSize: string;
-  execPrice: string;
-  orderId: string;
+  execPrice?: string;
+  orderId?: string;
 };
 
 type OrderHistoryHookResult = {
@@ -49,17 +53,26 @@ export const usePerpetual_OrderHistory = (
 
   const { latestTradeByUser } = useContext(RecentTradesContext);
 
+  // page and per page is not used, as Trade and Liquidate Events are combined into one Paginated Table
+  // According to Remy a backend solution is not possible, vasili decided to throw out queried pagination.
   const eventQuery = useMemo(
     () => [
       {
         event: Event.TRADE,
         orderBy: 'blockTimestamp',
         orderDirection: OrderDirection.desc,
-        page,
-        perPage,
+        page: 0,
+        perPage: 1000,
+      },
+      {
+        event: Event.LIQUIDATE,
+        orderBy: 'blockTimestamp',
+        orderDirection: OrderDirection.desc,
+        page: 0,
+        perPage: 1000,
       },
     ],
-    [page, perPage],
+    [],
   );
 
   const {
@@ -70,46 +83,76 @@ export const usePerpetual_OrderHistory = (
   } = useGetTraderEvents(account.toLowerCase(), eventQuery);
 
   const data: OrderHistoryEntry[] = useMemo(() => {
-    const currentTradeEvents =
-      tradeEvents?.trader?.trades || previousTradeEvents?.trader?.trades;
-    const currentTradeEventsLength = currentTradeEvents?.length;
+    const currentTradeEvents: PerpetualTradeEvent[] =
+      tradeEvents?.trader?.trades || previousTradeEvents?.trader?.trades || [];
+    const currentTradeEventsLength = currentTradeEvents.length;
+    const currentLiquidationEvents: PerpetualLiquidationEvent[] =
+      tradeEvents?.trader?.liquidates ||
+      previousTradeEvents?.trader?.liquidates ||
+      [];
     let entries: OrderHistoryEntry[] = [];
 
     if (currentTradeEventsLength > 0) {
       entries = currentTradeEvents.map(item => {
+        const tradeAmount = BigNumber.from(item.tradeAmountBC);
+        const tradeAmountWei = ABK64x64ToWei(tradeAmount);
         return {
           id: item.id,
           pairType: pairType,
           datetime: item.blockTimestamp,
-          position:
-            item.tradeAmountBC > 0
-              ? TradingPosition.LONG
-              : TradingPosition.SHORT,
+          position: tradeAmount.isNegative()
+            ? TradingPosition.SHORT
+            : TradingPosition.LONG,
           tradeType: PerpetualTradeType.MARKET,
           orderState: OrderState.Filled,
-          orderSize: ABK64x64ToWei(BigNumber.from(item.tradeAmountBC)),
+          orderSize: tradeAmountWei,
           limitPrice: ABK64x64ToWei(BigNumber.from(item.limitPrice)),
-          execSize: ABK64x64ToWei(BigNumber.from(item.tradeAmountBC)),
+          execSize: tradeAmountWei,
           execPrice: ABK64x64ToWei(BigNumber.from(item.price)),
           orderId: item.transaction.id,
         };
       });
+      const oldestTradeTimestamp = Number(entries[entries.length - 1].datetime);
+      entries.push(
+        ...currentLiquidationEvents
+          .filter(
+            liquidation =>
+              liquidation &&
+              Number(liquidation.blockTimestamp) > oldestTradeTimestamp,
+          )
+          .map(item => {
+            const tradeAmountWei = ABK64x64ToWei(
+              BigNumber.from(item.amountLiquidatedBC),
+            );
+            return {
+              id: item.id,
+              pairType: pairType,
+              datetime: item.blockTimestamp,
+              position: undefined,
+              tradeType: PerpetualTradeType.LIQUIDATION,
+              orderState: OrderState.Filled,
+              orderSize: tradeAmountWei,
+              limitPrice: undefined,
+              execSize: tradeAmountWei,
+              execPrice: undefined,
+              orderId: undefined,
+            };
+          }),
+      );
+      entries.sort((a, b) => Number(b.datetime) - Number(a.datetime));
     }
     return entries;
   }, [
     pairType,
     previousTradeEvents?.trader?.trades,
     tradeEvents?.trader?.trades,
+    previousTradeEvents?.trader?.liquidates,
+    tradeEvents?.trader?.liquidates,
   ]);
 
-  const totalCount = useMemo(
-    () =>
-      tradeEvents?.trader?.tradesTotalCount ||
-      previousTradeEvents?.trader?.tradesTotalCount,
-    [
-      previousTradeEvents?.trader?.tradesTotalCount,
-      tradeEvents?.trader?.tradesTotalCount,
-    ],
+  const paginatedData = useMemo(
+    () => data && data.slice((page - 1) * perPage, page * perPage),
+    [data, page, perPage],
   );
 
   const refetchDebounced = useMemo(
@@ -127,9 +170,10 @@ export const usePerpetual_OrderHistory = (
       refetchDebounced();
     }
   }, [latestTradeByUser, refetchDebounced]);
+
   return {
-    data,
+    data: paginatedData,
     loading,
-    totalCount,
+    totalCount: data.length,
   };
 };
