@@ -57,7 +57,9 @@ export type PerpetualLiquidationEvent = {
   perpetualId: string;
   amountLiquidatedBC: string;
   newPositionSizeBC: string;
+  liquidationPrice: string;
   blockTimestamp: string;
+  transaction: { id: string };
   liquidator?: { id: string };
   trader?: { id: string };
   position?: { id: string };

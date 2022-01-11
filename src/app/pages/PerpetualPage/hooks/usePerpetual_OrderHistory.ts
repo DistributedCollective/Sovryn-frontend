@@ -134,8 +134,8 @@ export const usePerpetual_OrderHistory = (
               orderSize: tradeAmountWei,
               limitPrice: undefined,
               execSize: tradeAmountWei,
-              execPrice: undefined,
-              orderId: undefined,
+              execPrice: ABK64x64ToWei(BigNumber.from(item.liquidationPrice)),
+              orderId: item.transaction.id,
             };
           }),
       );
