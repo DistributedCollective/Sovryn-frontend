@@ -14,8 +14,15 @@ import styles from '../fast-btc-page.module.css';
 import { SidebarStepsDeposit } from '../components/Deposit/SidebarStepsDeposit';
 import { useDepositSocket } from '../hooks/useDepositSocket';
 import { StatusScreen } from '../components/Deposit/StatusScreen';
+import { FastBtcNetworkType } from '../types';
 
-export const DepositContainer: React.FC = () => {
+type DepositContainerProps = {
+  network: FastBtcNetworkType;
+};
+
+export const DepositContainer: React.FC<DepositContainerProps> = ({
+  network,
+}) => {
   const [state, setState] = useState<DepositContextStateType>(defaultValue);
   const { step } = state;
 
@@ -122,21 +129,11 @@ export const DepositContainer: React.FC = () => {
           )}
         >
           <div className={styles.container}>
-            {/*<SwitchTransition>*/}
-            {/*  <CSSTransition*/}
-            {/*    key={step}*/}
-            {/*    addEndListener={(node, done) =>*/}
-            {/*      node.addEventListener('transitionend', done, false)*/}
-            {/*    }*/}
-            {/*    classNames="fade"*/}
-            {/*  >*/}
-            {step === DepositStep.MAIN && <MainScreen />}
+            {step === DepositStep.MAIN && <MainScreen network={network} />}
             {step === DepositStep.ADDRESS && <AddressForm />}
             {[DepositStep.PROCESSING, DepositStep.COMPLETED].includes(step) && (
-              <StatusScreen />
+              <StatusScreen network={network} />
             )}
-            {/*</CSSTransition>*/}
-            {/*</SwitchTransition>*/}
           </div>
         </div>
       </div>

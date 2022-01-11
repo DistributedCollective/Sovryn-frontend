@@ -14,8 +14,14 @@ import { DepositContext, DepositStep } from '../../contexts/deposit-context';
 import { DEPOSIT_FEE_SATS } from '../../constants';
 import { CREATE_TICKET_LINK } from 'utils/classifiers';
 import { btcInSatoshis } from 'app/constants';
+import { FastBtcNetworkType } from '../../types';
+import { getBTCAssetForNetwork } from '../../helpers';
 
-export const StatusScreen: React.FC = () => {
+type StatusScreenProps = {
+  network: FastBtcNetworkType;
+};
+
+export const StatusScreen: React.FC<StatusScreenProps> = ({ network }) => {
   const { step, depositTx, transferTx } = useContext(DepositContext);
   const { t } = useTranslation();
   const history = useHistory();
@@ -55,7 +61,9 @@ export const StatusScreen: React.FC = () => {
               step === DepositStep.PROCESSING ? 'title' : 'titleCompleted'
             ]
           }
-          components={[<AssetSymbolRenderer asset={Asset.RBTC} />]}
+          components={[
+            <AssetSymbolRenderer asset={getBTCAssetForNetwork(network)} />,
+          ]}
         />
       </div>
       <div className="tw-w-full">

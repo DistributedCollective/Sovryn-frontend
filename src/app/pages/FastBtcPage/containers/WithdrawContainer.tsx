@@ -18,8 +18,15 @@ import { contractReader } from 'utils/sovryn/contract-reader';
 import { SidebarStepsWithdraw } from '../components/Withdraw/SidebarStepsWithdraw';
 
 import styles from '../fast-btc-page.module.css';
+import { FastBtcNetworkType } from '../types';
 
-export const WithdrawContainer: React.FC = () => {
+type WithdrawContainerProps = {
+  network: FastBtcNetworkType;
+};
+
+export const WithdrawContainer: React.FC<WithdrawContainerProps> = ({
+  network,
+}) => {
   const [state, setState] = useState<WithdrawContextStateType>(defaultValue);
   const { step } = state;
 

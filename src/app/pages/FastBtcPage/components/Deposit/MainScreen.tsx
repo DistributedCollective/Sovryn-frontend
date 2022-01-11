@@ -1,16 +1,23 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { DepositContext } from '../../contexts/deposit-context';
 import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
-import { Asset } from '../../../../../types';
+import { AppMode } from '../../../../../types';
 import { DepositDetails } from './DepositDetails';
 import { DepositInstructions } from './DepositInstructions';
 import { FastBtcButton } from '../FastBtcButton';
 import { useAccount } from 'app/hooks/useAccount';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { FastBtcNetworkType } from '../../types';
+import { currentNetwork } from 'utils/classifiers';
+import { getBTCAssetForNetwork } from '../../helpers';
 
-export const MainScreen: React.FC = () => {
+type MainScreenProps = {
+  network: FastBtcNetworkType;
+};
+
+export const MainScreen: React.FC<MainScreenProps> = ({ network }) => {
   const account = useAccount();
   const {
     ready,
@@ -20,17 +27,26 @@ export const MainScreen: React.FC = () => {
   } = useContext(DepositContext);
   const { t } = useTranslation();
 
-  const onContinueClick = useCallback(() => requestDepositAddress(account), [
-    requestDepositAddress,
-    account,
-  ]);
+  const prefix = useMemo(() => {
+    if (network === FastBtcNetworkType.BINANCE_SMART) {
+      return currentNetwork === AppMode.MAINNET ? 'bsc:' : 'bsctest:';
+    }
+    return '';
+  }, [network]);
+
+  const onContinueClick = useCallback(
+    () => requestDepositAddress(`${prefix}${account}`),
+    [requestDepositAddress, account, prefix],
+  );
 
   return (
     <>
       <div className="tw-mb-6 tw-text-2xl tw-text-center tw-font-semibold">
         <Trans
           i18nKey={translations.fastBtcPage.deposit.mainScreen.title}
-          components={[<AssetSymbolRenderer asset={Asset.RBTC} />]}
+          components={[
+            <AssetSymbolRenderer asset={getBTCAssetForNetwork(network)} />,
+          ]}
         />
       </div>
       <div className="tw-w-full">

@@ -10,16 +10,16 @@ import { DepositContainer } from './containers/DepositContainer';
 import Header from './components/Header';
 import classNames from 'classnames';
 import styles from './fast-btc-page.module.css';
-
-enum FastBtcDirectionType {
-  DEPOSIT = 'deposit',
-  WITHDRAW = 'withdraw',
-}
+import { FastBtcDirectionType, FastBtcNetworkType } from './types';
 
 export function FastBtcPage() {
   const { t } = useTranslation();
   const account = useAccount();
-  const { type } = useParams<{ type: FastBtcDirectionType }>();
+
+  const { type, network = FastBtcNetworkType.ROOTSTOCK } = useParams<{
+    type: FastBtcDirectionType;
+    network: FastBtcNetworkType;
+  }>();
   const history = useHistory();
 
   useEffect(() => {
@@ -60,8 +60,12 @@ export function FastBtcPage() {
         )}
         style={{ marginTop: '-4.4rem' }}
       >
-        {type === FastBtcDirectionType.DEPOSIT && <DepositContainer />}
-        {type === FastBtcDirectionType.WITHDRAW && <WithdrawContainer />}
+        {type === FastBtcDirectionType.DEPOSIT && (
+          <DepositContainer network={network} />
+        )}
+        {type === FastBtcDirectionType.WITHDRAW && (
+          <WithdrawContainer network={network} />
+        )}
       </div>
     </>
   );
