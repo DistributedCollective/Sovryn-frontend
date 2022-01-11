@@ -67,6 +67,12 @@
       {
         "indexed": false,
         "internalType": "int128",
+        "name": "liquidationPrice",
+        "type": "int128"
+      },
+      {
+        "indexed": false,
+        "internalType": "int128",
         "name": "newPositionSizeBC",
         "type": "int128"
       },
