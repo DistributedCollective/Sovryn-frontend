@@ -30,6 +30,7 @@ import {
 } from '../utils/bscWebsocket';
 import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
 import debounce from 'lodash.debounce';
+import { useAccount } from '../../../hooks/useAccount';
 
 const THROTTLE_DELAY = 1000; // 1s
 const UPDATE_INTERVAL = 10000; // 10s
@@ -37,10 +38,14 @@ const UPDATE_INTERVAL = 10000; // 10s
 const address = getContract('perpetualManager').address.toLowerCase();
 
 type InitSocketParams = {
-  update: () => void;
+  update: (isEventByTrader: boolean) => void;
+  account: string;
 };
 
-const initSocket = ({ update }: InitSocketParams, perpetualId: string) => {
+const initSocket = (
+  { update, account }: InitSocketParams,
+  perpetualId: string,
+) => {
   const socket = subscription(address, [
     PerpetualManagerEventKeys.Trade,
     PerpetualManagerEventKeys.UpdatePrice,
@@ -49,9 +54,9 @@ const initSocket = ({ update }: InitSocketParams, perpetualId: string) => {
     const decoded = decodePerpetualManagerLog(data);
     if (
       decoded &&
-      decoded.perpetualId.toLowerCase() === perpetualId.toLowerCase()
+      decoded.perpetualId?.toLowerCase() === perpetualId.toLowerCase()
     ) {
-      update();
+      update(!!account && decoded.trader?.toLowerCase() === account);
     }
   });
   return socket;
@@ -99,6 +104,8 @@ export const PerpetualQueriesContextProvider: React.FC<PerpetualQueriesContextPr
   pair,
   children,
 }) => {
+  const account = useAccount().toLowerCase();
+
   const {
     result: ammState,
     refetch: refetchAmmState,
@@ -123,23 +130,38 @@ export const PerpetualQueriesContextProvider: React.FC<PerpetualQueriesContextPr
 
   // throttle function prevents the exhaustive deps check
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const refetch = useCallback(
+  const refetchContract = useCallback(
     debounce(
       () => {
         refetchAmmState();
         refetchPerpetualParameters();
-        refetchTraderState();
         refetchLiquidityPoolState();
       },
       THROTTLE_DELAY,
       { leading: true, trailing: true, maxWait: THROTTLE_DELAY },
     ),
-    [
-      refetchAmmState,
-      refetchPerpetualParameters,
-      refetchTraderState,
-      refetchLiquidityPoolState,
-    ],
+    [refetchAmmState, refetchPerpetualParameters, refetchLiquidityPoolState],
+  );
+
+  // throttle function prevents the exhaustive deps check
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const refetchUser = useCallback(
+    debounce(() => refetchTraderState(), THROTTLE_DELAY, {
+      leading: true,
+      trailing: true,
+      maxWait: THROTTLE_DELAY,
+    }),
+    [refetchTraderState],
+  );
+
+  const refetch = useCallback(
+    (updateUser: boolean) => {
+      refetchContract();
+      if (updateUser) {
+        refetchUser();
+      }
+    },
+    [refetchContract, refetchUser],
   );
 
   const [lotSize, lotPrecision] = useMemo(() => {
@@ -172,19 +194,20 @@ export const PerpetualQueriesContextProvider: React.FC<PerpetualQueriesContextPr
   );
 
   useEffect(() => {
-    const socket = initSocket({ update: refetch }, pair.id);
+    const socket = initSocket({ update: refetch, account }, pair.id);
     const intervalId = setInterval(refetch, UPDATE_INTERVAL);
 
     return () => {
       clearInterval(intervalId);
-      refetch.cancel();
+      refetchContract.cancel();
+      refetchUser.cancel();
       socket.unsubscribe((error, success) => {
         if (error) {
           console.error(error);
         }
       });
     };
-  }, [refetch, pair.id]);
+  }, [refetch, refetchContract, refetchUser, account, pair.id]);
 
   return (
     <PerpetualQueriesContext.Provider value={value}>

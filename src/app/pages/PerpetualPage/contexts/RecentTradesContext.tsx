@@ -1,4 +1,4 @@
-import { createContext, SetStateAction, Dispatch } from 'react';
+import { createContext, useCallback } from 'react';
 import {
   RecentTradesDataEntry,
   TradePriceChange,
@@ -20,31 +20,31 @@ import {
   getTradeType,
 } from '../components/RecentTradesTable/utils';
 import dayjs from 'dayjs';
+import { useAccount } from '../../../hooks/useAccount';
 
-export const RecentTradesContext = createContext<{
-  trades: RecentTradesDataEntry[];
-}>({
+export const RecentTradesContext = createContext<RecentTradesContextType>({
   trades: [],
+  latestTradeByUser: undefined,
 });
 
 const recentTradesMaxLength = 50;
 const address = getContract('perpetualManager').address.toLowerCase();
 
 type InitSocketParams = {
-  setValue: Dispatch<SetStateAction<RecentTradesContextType>>;
+  pushTrade: (trade: RecentTradesDataEntry) => void;
 };
 
-const initSockets = ({ setValue }: InitSocketParams, perpetualId: string) => {
+const initSockets = (socketParams: InitSocketParams, perpetualId: string) => {
   const socket = subscription(address, [PerpetualManagerEventKeys.Trade]);
 
-  addSocketEventListeners(socket, { setValue }, perpetualId);
+  addSocketEventListeners(socket, socketParams, perpetualId);
 
   return socket;
 };
 
 const addSocketEventListeners = (
   socket: Subscription<any>,
-  { setValue }: InitSocketParams,
+  { pushTrade }: InitSocketParams,
   perpetualId: string,
 ) => {
   /* This can be uncommented for testing */
@@ -58,16 +58,14 @@ const addSocketEventListeners = (
     /* This can be uncommented for testing */
     // console.log('[recentTradesWs] data received', data, decoded);
 
-    if (
-      decoded &&
-      decoded.perpetualId.toLowerCase() === perpetualId.toLowerCase()
-    ) {
+    if (decoded?.perpetualId?.toLowerCase() === perpetualId.toLowerCase()) {
       const price = ABK64x64ToFloat(BigNumber.from(decoded.price));
       const tradeAmount = ABK64x64ToFloat(
         BigNumber.from(decoded.tradeAmountBC),
       );
       const parsedTrade: RecentTradesDataEntry = {
         id: data.transactionHash,
+        trader: decoded.trader,
         price,
         size: Math.abs(tradeAmount),
         time: convertTimestampToTime(parseInt(decoded.blockTimestamp) * 1e3),
@@ -75,17 +73,8 @@ const addSocketEventListeners = (
         priceChange: TradePriceChange.NO_CHANGE,
         fromSocket: true,
       };
-      setValue(state => {
-        const prevPrice = state.trades[0].price;
-        parsedTrade.priceChange = getPriceChange(prevPrice, price);
-        return {
-          ...state,
-          trades: [
-            parsedTrade,
-            ...state.trades.slice(0, recentTradesMaxLength - 1),
-          ],
-        };
-      });
+
+      pushTrade(parsedTrade);
     }
   });
 };
@@ -98,6 +87,7 @@ const formatTradeData = (data: any[]): RecentTradesDataEntry[] => {
     const tradeAmount = ABK64x64ToFloat(BigNumber.from(trade.tradeAmountBC));
     return {
       id: trade.transaction.id,
+      trader: trade.trader?.id,
       price,
       priceChange: getPriceChange(prevPrice, price),
       size: Math.abs(tradeAmount),
@@ -115,11 +105,33 @@ const convertTimestampToTime = (timestamp: number): string =>
 export const RecentTradesContextProvider = props => {
   const [value, setValue] = useState<RecentTradesContextType>({
     trades: [],
+    latestTradeByUser: undefined,
   });
+
+  const account = useAccount().toLowerCase();
+
   const { data, error } = useGetRecentTrades(
     props.pair.id,
     recentTradesMaxLength,
   );
+
+  const pushTrade = useCallback(
+    (trade: RecentTradesDataEntry) =>
+      setValue(state => {
+        const prevPrice = state.trades[0].price;
+        trade.priceChange = getPriceChange(prevPrice, trade.price);
+        return {
+          ...state,
+          latestTradeByUser:
+            account && trade.trader?.toLowerCase() === account
+              ? trade
+              : state.latestTradeByUser,
+          trades: [trade, ...state.trades.slice(0, recentTradesMaxLength - 1)],
+        };
+      }),
+    [account],
+  );
+
   useEffect(() => {
     if (data) {
       const parsedData = formatTradeData(data.trades);
@@ -130,7 +142,7 @@ export const RecentTradesContextProvider = props => {
     }
 
     if (data || error) {
-      let socket = initSockets({ setValue }, props.pair.id);
+      let socket = initSockets({ pushTrade }, props.pair.id);
       return () => {
         if (socket) {
           socket.unsubscribe((error, success) => {
@@ -144,7 +156,7 @@ export const RecentTradesContextProvider = props => {
         }
       };
     }
-  }, [data, error, props.pair.id]);
+  }, [data, error, pushTrade, props.pair.id]);
 
   return (
     <RecentTradesContext.Provider value={value}>

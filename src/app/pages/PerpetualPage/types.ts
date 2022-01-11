@@ -42,9 +42,26 @@ export type PerpetualTradeEvent = {
   trader: string;
   orderFlags: string;
   tradeAmount: string;
+  newPositionSizeBC: string;
   price: string;
   blockTimestamp: string;
   transaction: { id: string };
+};
+
+export type PerpetualPosition = {
+  id: string;
+  perpetual: { id: string };
+  trader?: { id: string };
+  isClosed: boolean;
+  totalPnLCC: string;
+  currentPositionSizeBC: string;
+  highestSizeBC: string;
+  lowestSizeBC: string;
+  startDate?: string;
+  endDate?: string;
+  lastChanged?: string;
+  startPositionSizeBC?: string;
+  tradesCount?: number;
 };
 
 export type PerpetualTrade = {
