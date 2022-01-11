@@ -1,7 +1,10 @@
 import { useMemo, useEffect, useContext } from 'react';
 import { useAccount } from 'app/hooks/useAccount';
 import { TradingPosition } from 'types/trading-position';
-import { PerpetualPairType } from 'utils/dictionaries/perpetual-pair-dictionary';
+import {
+  PerpetualPairType,
+  PerpetualPairDictionary,
+} from 'utils/dictionaries/perpetual-pair-dictionary';
 import { PerpetualTradeType } from '../types';
 import {
   Event,
@@ -49,6 +52,8 @@ export const usePerpetual_OrderHistory = (
 
   const { latestTradeByUser } = useContext(RecentTradesContext);
 
+  const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
+
   const eventQuery = useMemo(
     () => [
       {
@@ -57,9 +62,10 @@ export const usePerpetual_OrderHistory = (
         orderDirection: OrderDirection.desc,
         page,
         perPage,
+        where: `perpetual: ${JSON.stringify(pair.id)}`,
       },
     ],
-    [page, perPage],
+    [page, perPage, pair],
   );
 
   const {

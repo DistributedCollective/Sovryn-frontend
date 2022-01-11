@@ -43,7 +43,7 @@ export const usePerpetual_FundingPayments = (
         orderDirection: OrderDirection.desc,
         page,
         perPage,
-        whereCondition: 'fundingTime_not: "0"',
+        whereCondition: `fundingTime_not: "0"`,
       },
     ],
     [page, perPage],
