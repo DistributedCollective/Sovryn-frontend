@@ -87,6 +87,7 @@ export function App() {
               <Route exact path="/" component={LandingPage} />
               <Route exact path="/buy-sov" component={BuySovPage} />
               <Route exact path="/trade" component={MarginTradePage} />
+              <Route exact path="/sandbox" component={SandboxPage} />
               <ApolloProvider client={apolloClient}>
                 <Route exact path="/perpetual" component={PerpetualPage} />
               </ApolloProvider>

@@ -4,9 +4,19 @@ import Web3 from 'web3';
 import { walletService } from '@sovryn/react-wallet';
 import type { Contract } from 'web3-eth-contract';
 import type { TransactionConfig } from 'web3-core';
-import type { ChainId } from 'types';
+import { ChainId } from 'types';
 import { RpcNetwork } from 'utils/blockchain/rpc-network';
 import { SovrynWalletGsnProvider } from './SovrynWalletGsnProvider';
+
+const preferredRelays = {
+  [ChainId.BSC_MAINNET]: ['https://bsc.relay.sovryn.app/gsn1'],
+  [ChainId.BSC_TESTNET]: ['https://tbsc.relay.sovryn.app/gsn1'],
+};
+
+export interface GsnTransactionConfig extends TransactionConfig {
+  /** defaults to true when undefined */
+  useGSN?: boolean;
+}
 
 export class GsnWrapper {
   private _isReady: boolean = false;
@@ -20,6 +30,10 @@ export class GsnWrapper {
       provider: new SovrynWalletGsnProvider(RpcNetwork.get(chainId)),
       config: {
         paymasterAddress,
+        preferredRelays: preferredRelays[chainId],
+        relayLookupWindowBlocks: 4990,
+        relayRegistrationLookupBlocks: 4990,
+        pastEventsQueryMaxPageSize: 1000,
       },
     })
       .init()
@@ -55,7 +69,7 @@ export class GsnWrapper {
     abi: AbiItem | AbiItem[],
     method: string,
     args: any[] = [],
-    config: TransactionConfig = {},
+    config: GsnTransactionConfig = {},
   ) {
     this.doCheck();
     return this.getContract(address, abi)
