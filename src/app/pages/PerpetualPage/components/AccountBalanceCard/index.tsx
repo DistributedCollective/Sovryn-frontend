@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { translations } from '../../../../../locales/i18n';
@@ -8,24 +8,22 @@ import { PerpetualPageModals } from '../../types';
 import { Tooltip } from '@blueprintjs/core';
 import { selectPerpetualPage } from '../../selectors';
 import { getCollateralName } from '../../utils/renderUtils';
+import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 
-type AccountBalanceCardProps = {
-  /** balance in wei */
-  balance: string | null;
-};
-
-export const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
-  balance,
-}) => {
+export const AccountBalanceCard: React.FC = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const { availableBalance } = useContext(PerpetualQueriesContext);
 
   const { collateral } = useSelector(selectPerpetualPage);
   const collateralAsset = useMemo(() => getCollateralName(collateral), [
     collateral,
   ]);
 
-  const hasBalance = useMemo(() => balance && balance !== '0', [balance]);
+  const hasBalance = useMemo(
+    () => availableBalance && availableBalance !== '0',
+    [availableBalance],
+  );
 
   const onFundAccount = useCallback(
     () => dispatch(actions.setModal(PerpetualPageModals.FASTBTC_DEPOSIT)),
@@ -43,7 +41,7 @@ export const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
           {t(translations.perpetualPage.accountBalance.availableBalance)}
         </span>
         <span className="tw-block tw-flex-grow tw-text-right">
-          {weiToNumberFormat(balance, 4)} {collateralAsset}
+          {weiToNumberFormat(availableBalance, 4)} {collateralAsset}
         </span>
       </div>
       {hasBalance ? (

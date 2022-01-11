@@ -3,18 +3,17 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { selectTransactions } from 'store/global/transactions-store/selectors';
-import { TxStatus, TxType } from 'store/global/transactions-store/types';
+import { TxStatus } from 'store/global/transactions-store/types';
 import { selectPerpetualPage } from '../../selectors';
 import { PerpetualPageModals } from '../../types';
 import { CustomToastContent, toastOptions } from '../CustomToastContent';
 import { ToastAdditionalInfo } from './components/ToastAdditionalInfo.tsx';
-import { Asset } from '../../../../../types';
 import { isPerpetualTx } from '../TradeDialog/types';
+import { usePerpetual_completedTransactions } from '../../hooks/usePerpetual_completedTransactions';
 
 export const ToastsWatcher: React.FC = () => {
   const [toastedTransactions, setToastedTransactions] = useState({});
-  const transactions = useSelector(selectTransactions);
+  const transactions = usePerpetual_completedTransactions();
 
   const { modal } = useSelector(selectPerpetualPage);
 
@@ -22,16 +21,7 @@ export const ToastsWatcher: React.FC = () => {
 
   useEffect(() => {
     const toastTransactions = Object.values(transactions).filter(
-      transaction =>
-        [
-          TxType.APPROVE,
-          TxType.DEPOSIT_COLLATERAL,
-          TxType.WITHDRAW_COLLATERAL,
-          TxType.OPEN_PERPETUAL_TRADE,
-        ].includes(transaction.type) &&
-        transaction.asset === Asset.PERPETUALS &&
-        [TxStatus.CONFIRMED, TxStatus.FAILED].includes(transaction.status) &&
-        !toastedTransactions[transaction.transactionHash],
+      transaction => !toastedTransactions[transaction.transactionHash],
     );
 
     for (let transaction of toastTransactions) {

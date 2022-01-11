@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
 import { toNumberFormat } from 'utils/display-text/format';
-import { useMaintenance } from 'app/hooks/useMaintenance';
 import { OpenPositionEntry } from '../../hooks/usePerpetual_OpenPositions';
 import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import classNames from 'classnames';

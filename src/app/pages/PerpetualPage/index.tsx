@@ -31,7 +31,6 @@ import { ChainId } from '../../../types';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { ProviderType } from '@sovryn/wallet';
 import { AccountBalanceCard } from './components/AccountBalanceCard';
-import { usePerpetual_accountBalance } from './hooks/usePerpetual_accountBalance';
 import { AccountDialog } from './components/AccountDialog';
 import { NewPositionCard } from './components/NewPositionCard';
 import { TradeDialog } from './components/TradeDialog';
@@ -59,7 +58,6 @@ export function PerpetualPage() {
   ] = useState(false);
 
   const { pairType, collateral } = useSelector(selectPerpetualPage);
-  const { available: availableBalance } = usePerpetual_accountBalance(pairType);
   const { t } = useTranslation();
 
   const location = useLocation<IPromotionLinkState>();
@@ -156,8 +154,8 @@ export function PerpetualPage() {
               <RecentTradesTable pair={pair} />
             </DataCard>
             <div className="tw-flex tw-flex-col xl:tw-min-w-80 xl:tw-w-1/5 tw-space-y-2">
-              <AccountBalanceCard balance={availableBalance} />
-              <NewPositionCard balance={availableBalance} />
+              <AccountBalanceCard />
+              <NewPositionCard />
             </div>
           </div>
 
@@ -200,8 +198,7 @@ export function PerpetualPage() {
           isOpen={showNotificationSettingsModal}
           onClose={() => setShowNotificationSettingsModal(false)}
         />
-        <AccountDialog pairType={pairType} />
-
+        <AccountDialog />
         <TradeDialog />
         <EditPositionSizeDialog />
         <EditLeverageDialog />

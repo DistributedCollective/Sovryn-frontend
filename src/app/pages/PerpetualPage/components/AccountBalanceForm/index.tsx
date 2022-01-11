@@ -71,7 +71,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
     available,
     inPositions,
     unrealized,
-  } = usePerpetual_accountBalance(pairType);
+  } = usePerpetual_accountBalance();
 
   const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
 

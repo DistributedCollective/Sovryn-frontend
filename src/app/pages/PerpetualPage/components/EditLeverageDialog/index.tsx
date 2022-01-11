@@ -37,7 +37,6 @@ import {
 } from '../../utils/contractUtils';
 import { ActionDialogSubmitButton } from '../ActionDialogSubmitButton';
 import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';
-import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
 import { usePrevious } from '../../../../hooks/usePrevious';
 
 export const EditLeverageDialog: React.FC = () => {
@@ -56,6 +55,7 @@ export const EditLeverageDialog: React.FC = () => {
     ammState,
     traderState,
     perpetualParameters: perpParameters,
+    availableBalance,
   } = useContext(PerpetualQueriesContext);
 
   const trade = useMemo(
@@ -66,7 +66,6 @@ export const EditLeverageDialog: React.FC = () => {
     () => PerpetualPairDictionary.get(trade?.pairType || currentPairType),
     [trade, currentPairType],
   );
-  const { available } = usePerpetual_accountBalance(pair.pairType);
 
   const maxLeverage = useMemo(
     () =>
@@ -185,7 +184,7 @@ export const EditLeverageDialog: React.FC = () => {
       marginChange,
       changedTrade.leverage,
       changedTrade.slippage,
-      numberFromWei(available),
+      numberFromWei(availableBalance),
       traderState,
       perpParameters,
       ammState,
@@ -194,7 +193,7 @@ export const EditLeverageDialog: React.FC = () => {
   }, [
     changedTrade,
     margin,
-    available,
+    availableBalance,
     traderState,
     perpParameters,
     ammState,

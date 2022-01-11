@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import iconArrowForward from 'assets/images/arrow_forward.svg';
 import { translations } from '../../../../../locales/i18n';
-import { PerpetualPairType } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { Dialog, DialogSize } from '../../../../containers/Dialog';
 import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
@@ -16,14 +15,10 @@ enum AccountView {
   history,
 }
 
-type AccountDialogProps = {
-  pairType: PerpetualPairType;
-};
-
-export const AccountDialog: React.FC<AccountDialogProps> = ({ pairType }) => {
+export const AccountDialog: React.FC = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { modal, collateral } = useSelector(selectPerpetualPage);
+  const { modal, collateral, pairType } = useSelector(selectPerpetualPage);
   const [accountView, setAccountView] = useState<AccountView>(
     AccountView.balance,
   );
