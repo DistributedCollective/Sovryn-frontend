@@ -53,6 +53,7 @@ import { ApolloProvider } from '@apollo/client';
 import { apolloClient } from './pages/PerpetualPage/utils/graphQlHelpers';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { SandboxPage } from './pages/Sandbox';
 
 const title = !isMainnet ? `Sovryn ${currentNetwork}` : 'Sovryn';
 
