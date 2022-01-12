@@ -533,7 +533,7 @@
     "txFee": "Tx Fee",
     "sov": "SOV",
     "days": "days",
-    "vestingFees": "Vesting Fees",
+    "vestingFees": "Vested SOV",
     "delegation": {
       "delegateTo": "Delegate To",
       "delegatedTo": "Delegated To",

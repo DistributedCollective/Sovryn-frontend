@@ -80,7 +80,7 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
     <>
       {Number(currency.value) > 0 && (
         <div className="tw-flex tw-justify-between tw-items-center tw-mb-1 tw-mt-1 tw-leading-6">
-          <div className="tw-w-1/5">
+          <div className="tw-w-2/5">
             {contractToken.asset !== Asset.SOV ? (
               <Tooltip
                 content={
@@ -90,10 +90,19 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
                 <>i{contractToken.asset} (?)</>
               </Tooltip>
             ) : (
-              <>{title || contractToken.asset}</>
+              <Tooltip
+                content={
+                  <>
+                    {contractToken.asset} will be converted to RBTC and sent
+                    directly to your wallet.
+                  </>
+                }
+              >
+                <>{title || contractToken.asset} (?)</>
+              </Tooltip>
             )}
           </div>
-          <div className="tw-w-1/2 tw-ml-6">
+          <div className="tw-w-1/2 tw-mx-4">
             {numberFromWei(currency.value).toFixed(4)} ≈{' '}
             <LoadableValue
               value={weiToUSD(dollarValue)}
