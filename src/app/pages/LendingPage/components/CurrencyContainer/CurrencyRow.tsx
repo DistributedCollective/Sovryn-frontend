@@ -55,6 +55,7 @@ const CurrencyRow: React.FC<Props> = ({
             className="tw-block tw-w-full tw-mb-3 tw-rounded-lg tw-bg-primary-25 hover:tw-opacity-75"
             textClassName="tw-text-base"
             disabled={depositLocked || !connected}
+            data-action-id={`lend-deposit-button-${asset}`}
           />
         ) : (
           <Tooltip
@@ -81,6 +82,7 @@ const CurrencyRow: React.FC<Props> = ({
             className="tw-block tw-w-full tw-rounded-lg"
             textClassName="tw-text-base"
             disabled={isEmptyBalance || withdrawLocked || !connected}
+            data-action-id={`lend-withdrawal-button-${asset}`}
           />
         ) : (
           <Tooltip
