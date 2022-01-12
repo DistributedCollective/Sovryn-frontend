@@ -3,21 +3,19 @@ import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { DepositContext } from '../../contexts/deposit-context';
 import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
-import { AppMode } from '../../../../../types';
+import { AppMode, Chain } from '../../../../../types';
 import { DepositDetails } from './DepositDetails';
 import { DepositInstructions } from './DepositInstructions';
 import { FastBtcButton } from '../FastBtcButton';
 import { useAccount } from 'app/hooks/useAccount';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import { FastBtcNetworkType } from '../../types';
+import { NetworkAwareComponentProps } from '../../types';
 import { currentNetwork } from 'utils/classifiers';
 import { getBTCAssetForNetwork } from '../../helpers';
 
-type MainScreenProps = {
-  network: FastBtcNetworkType;
-};
-
-export const MainScreen: React.FC<MainScreenProps> = ({ network }) => {
+export const MainScreen: React.FC<NetworkAwareComponentProps> = ({
+  network,
+}) => {
   const account = useAccount();
   const {
     ready,
@@ -28,7 +26,7 @@ export const MainScreen: React.FC<MainScreenProps> = ({ network }) => {
   const { t } = useTranslation();
 
   const prefix = useMemo(() => {
-    if (network === FastBtcNetworkType.BINANCE_SMART) {
+    if (network === Chain.BSC) {
       return currentNetwork === AppMode.MAINNET ? 'bsc:' : 'bsctest:';
     }
     return '';

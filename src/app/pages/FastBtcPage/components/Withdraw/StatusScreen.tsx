@@ -19,10 +19,11 @@ import { useCacheCallWithValue } from '../../../../hooks/useCacheCallWithValue';
 import { bignumber } from 'mathjs';
 import { LinkToExplorer } from '../../../../components/LinkToExplorer';
 import { StatusComponent } from '../../../../components/Dialogs/TxDialog';
+import { NetworkAwareComponentProps } from '../../types';
 
 type StatusScreenProps = {
   tx: SendTxResponse;
-};
+} & NetworkAwareComponentProps;
 
 export const StatusScreen: React.FC<StatusScreenProps> = ({ tx }) => {
   const { set, amount } = useContext(WithdrawContext);

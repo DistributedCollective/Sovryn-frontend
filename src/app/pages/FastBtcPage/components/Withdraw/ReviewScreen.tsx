@@ -14,12 +14,16 @@ import { AddressBadge } from '../../../../components/AddressBadge';
 import { useCacheCallWithValue } from '../../../../hooks/useCacheCallWithValue';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { LoadableValue } from '../../../../components/LoadableValue';
+import { NetworkAwareComponentProps } from '../../types';
 
 type ReviewScreenProps = {
   onConfirm: () => void;
-};
+} & NetworkAwareComponentProps;
 
-export const ReviewScreen: React.FC<ReviewScreenProps> = ({ onConfirm }) => {
+export const ReviewScreen: React.FC<ReviewScreenProps> = ({
+  onConfirm,
+  network,
+}) => {
   const { amount, address } = useContext(WithdrawContext);
   const { t } = useTranslation();
 

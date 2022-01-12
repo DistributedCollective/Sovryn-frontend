@@ -27,11 +27,6 @@ export const rpcNodes = {
   31: 'https://testnet.sovryn.app/rpc',
 };
 
-export const fastBtcApis = {
-  30: 'https://fastbtc.sovryn.app/',
-  31: 'https://fastbtc.test.sovryn.app/',
-};
-
 export const databaseRpcNodes = {
   30: 'https://backend.sovryn.app/rpc',
   31: 'https://api.test.sovryn.app/rpc',

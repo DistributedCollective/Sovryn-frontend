@@ -3,7 +3,6 @@ import { Trans, useTranslation } from 'react-i18next';
 import { useHistory } from 'react-router-dom';
 import { translations } from 'locales/i18n';
 import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
-import { Asset } from '../../../../../types';
 import { TxStatus } from '../../../../../store/global/transactions-store/types';
 import { FastBtcButton } from '../FastBtcButton';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
@@ -14,14 +13,12 @@ import { DepositContext, DepositStep } from '../../contexts/deposit-context';
 import { DEPOSIT_FEE_SATS } from '../../constants';
 import { CREATE_TICKET_LINK } from 'utils/classifiers';
 import { btcInSatoshis } from 'app/constants';
-import { FastBtcNetworkType } from '../../types';
 import { getBTCAssetForNetwork } from '../../helpers';
+import { NetworkAwareComponentProps } from '../../types';
 
-type StatusScreenProps = {
-  network: FastBtcNetworkType;
-};
-
-export const StatusScreen: React.FC<StatusScreenProps> = ({ network }) => {
+export const StatusScreen: React.FC<NetworkAwareComponentProps> = ({
+  network,
+}) => {
   const { step, depositTx, transferTx } = useContext(DepositContext);
   const { t } = useTranslation();
   const history = useHistory();
@@ -52,6 +49,8 @@ export const StatusScreen: React.FC<StatusScreenProps> = ({ network }) => {
     [amount, feeAmount],
   );
 
+  const asset = getBTCAssetForNetwork(network);
+
   return (
     <>
       <div className="tw-mb-6 tw-text-2xl tw-text-center tw-font-semibold">
@@ -61,9 +60,7 @@ export const StatusScreen: React.FC<StatusScreenProps> = ({ network }) => {
               step === DepositStep.PROCESSING ? 'title' : 'titleCompleted'
             ]
           }
-          components={[
-            <AssetSymbolRenderer asset={getBTCAssetForNetwork(network)} />,
-          ]}
+          components={[<AssetSymbolRenderer asset={asset} />]}
         />
       </div>
       <div className="tw-w-full">
@@ -91,7 +88,7 @@ export const StatusScreen: React.FC<StatusScreenProps> = ({ network }) => {
               </div>
               <div className="tw-font-semibold">
                 {toNumberFormat(feeAmount, 8)}{' '}
-                <AssetSymbolRenderer asset={Asset.RBTC} />
+                <AssetSymbolRenderer asset={asset} />
               </div>
             </div>
             <div className="tw-flex tw-flex-row tw-mb-2 tw-justify-start tw-items-center">
@@ -100,7 +97,7 @@ export const StatusScreen: React.FC<StatusScreenProps> = ({ network }) => {
               </div>
               <div className="tw-font-semibold">
                 {toNumberFormat(receiveAmount, 8)}{' '}
-                <AssetSymbolRenderer asset={Asset.RBTC} />
+                <AssetSymbolRenderer asset={asset} />
               </div>
             </div>
             {depositTx && (

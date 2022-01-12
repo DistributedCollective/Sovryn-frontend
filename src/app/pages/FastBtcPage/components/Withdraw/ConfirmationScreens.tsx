@@ -9,8 +9,11 @@ import {
   TxStatus,
   TxType,
 } from '../../../../../store/global/transactions-store/types';
+import { NetworkAwareComponentProps } from '../../types';
 
-export const ConfirmationScreens: React.FC = () => {
+export const ConfirmationScreens: React.FC<NetworkAwareComponentProps> = ({
+  network,
+}) => {
   const { step, address, amount, set } = useContext(WithdrawContext);
 
   const { send, ...tx } = useSendContractTx('fastBtcBridge', 'transferToBtc');
@@ -50,13 +53,13 @@ export const ConfirmationScreens: React.FC = () => {
   return (
     <>
       {step === WithdrawStep.REVIEW && (
-        <ReviewScreen onConfirm={handleConfirm} />
+        <ReviewScreen onConfirm={handleConfirm} network={network} />
       )}
       {[
         WithdrawStep.CONFIRM,
         WithdrawStep.PROCESSING,
         WithdrawStep.COMPLETED,
-      ].includes(step) && <StatusScreen tx={tx} />}
+      ].includes(step) && <StatusScreen tx={tx} network={network} />}
     </>
   );
 };

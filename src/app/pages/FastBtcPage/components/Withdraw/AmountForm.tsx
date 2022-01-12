@@ -15,8 +15,12 @@ import { WithdrawDetails } from './WithdrawDetails';
 import { FastBtcButton } from '../FastBtcButton';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { LoadableValue } from '../../../../components/LoadableValue';
+import { NetworkAwareComponentProps } from '../../types';
+import { getBTCAssetForNetwork } from '../../helpers';
 
-export const AmountForm: React.FC = () => {
+export const AmountForm: React.FC<NetworkAwareComponentProps> = ({
+  network,
+}) => {
   const { amount, set } = useContext(WithdrawContext);
   const { t } = useTranslation();
 
@@ -45,17 +49,19 @@ export const AmountForm: React.FC = () => {
     [set, value],
   );
 
+  const asset = getBTCAssetForNetwork(network);
+
   return (
     <>
       <div className="tw-mb-6 tw-text-2xl tw-text-center tw-font-semibold">
         <Trans
           i18nKey={translations.fastBtcPage.withdraw.amountForm.title}
-          components={[<AssetSymbolRenderer asset={Asset.RBTC} />]}
+          components={[<AssetSymbolRenderer asset={asset} />]}
         />
       </div>
 
       <div className="tw-w-full">
-        <WithdrawDetails />
+        <WithdrawDetails network={network} />
 
         <FormGroup
           label={t(translations.fastBtcPage.withdraw.amountForm.withdrawAmount)}
@@ -77,7 +83,7 @@ export const AmountForm: React.FC = () => {
                   value={<strong>{weiToNumberFormat(balance.value, 4)}</strong>}
                   loading={balance.loading}
                 />,
-                <AssetSymbolRenderer asset={Asset.RBTC} />,
+                <AssetSymbolRenderer asset={asset} />,
               ]}
             />
           </div>

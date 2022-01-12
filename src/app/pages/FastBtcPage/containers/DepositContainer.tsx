@@ -14,13 +14,9 @@ import styles from '../fast-btc-page.module.css';
 import { SidebarStepsDeposit } from '../components/Deposit/SidebarStepsDeposit';
 import { useDepositSocket } from '../hooks/useDepositSocket';
 import { StatusScreen } from '../components/Deposit/StatusScreen';
-import { FastBtcNetworkType } from '../types';
+import { NetworkAwareComponentProps } from '../types';
 
-type DepositContainerProps = {
-  network: FastBtcNetworkType;
-};
-
-export const DepositContainer: React.FC<DepositContainerProps> = ({
+export const DepositContainer: React.FC<NetworkAwareComponentProps> = ({
   network,
 }) => {
   const [state, setState] = useState<DepositContextStateType>(defaultValue);

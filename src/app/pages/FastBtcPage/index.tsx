@@ -10,15 +10,16 @@ import { DepositContainer } from './containers/DepositContainer';
 import Header from './components/Header';
 import classNames from 'classnames';
 import styles from './fast-btc-page.module.css';
-import { FastBtcDirectionType, FastBtcNetworkType } from './types';
+import { FastBtcDirectionType } from './types';
+import { Chain } from 'types';
 
 export function FastBtcPage() {
   const { t } = useTranslation();
   const account = useAccount();
 
-  const { type, network = FastBtcNetworkType.ROOTSTOCK } = useParams<{
+  const { type, network = Chain.RSK } = useParams<{
     type: FastBtcDirectionType;
-    network: FastBtcNetworkType;
+    network: Chain;
   }>();
   const history = useHistory();
 

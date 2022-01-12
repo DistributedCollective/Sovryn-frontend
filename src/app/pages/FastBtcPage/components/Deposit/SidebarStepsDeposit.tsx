@@ -66,11 +66,13 @@ export const SidebarStepsDeposit: React.FC = () => {
       );
       if (item) {
         if (depositTx?.status === 'pending') {
-          item.title =
-            t(translations.fastBtcPage.deposit.sidebarSteps.processingSteps, {
+          item.title = t(
+            translations.fastBtcPage.deposit.sidebarSteps.processingSteps,
+            {
               step: 1,
               steps: 2,
-            }) + 'Processing (1/2)';
+            },
+          );
         }
         if (depositTx?.status === 'confirmed') {
           item.title = t(

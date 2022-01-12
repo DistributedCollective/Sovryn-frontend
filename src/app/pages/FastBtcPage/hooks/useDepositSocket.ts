@@ -1,6 +1,7 @@
 import { useRef, useEffect, useCallback } from 'react';
 import { Socket, io } from 'socket.io-client';
-import { currentChainId, fastBtcApis } from 'utils/classifiers';
+import { currentNetwork } from 'utils/classifiers';
+import { endpoints } from '../config/endpoints';
 
 type EventHandler = (event: string, value: any) => void;
 
@@ -28,7 +29,7 @@ export function useDepositSocket(eventHandler?: EventHandler) {
   );
 
   useEffect(() => {
-    const { origin, pathname } = new URL(fastBtcApis[currentChainId]);
+    const { origin, pathname } = new URL(endpoints[currentNetwork]);
 
     socket.current = io(`${origin}/`, {
       reconnectionDelayMax: 10000,

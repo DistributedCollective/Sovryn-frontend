@@ -12,19 +12,13 @@ import { MainScreen } from '../components/Withdraw/MainScreen';
 import { AddressForm } from '../components/Withdraw/AddressForm';
 import { ConfirmationScreens } from '../components/Withdraw/ConfirmationScreens';
 import { bridgeNetwork } from '../../BridgeDepositPage/utils/bridge-network';
-import { Chain } from '../../../../types';
-import { getContract } from '../../../../utils/blockchain/contract-helpers';
-import { contractReader } from 'utils/sovryn/contract-reader';
 import { SidebarStepsWithdraw } from '../components/Withdraw/SidebarStepsWithdraw';
 
 import styles from '../fast-btc-page.module.css';
-import { FastBtcNetworkType } from '../types';
+import { NetworkAwareComponentProps } from '../types';
+import { getFastBTCWithdrawalContract } from '../helpers';
 
-type WithdrawContainerProps = {
-  network: FastBtcNetworkType;
-};
-
-export const WithdrawContainer: React.FC<WithdrawContainerProps> = ({
+export const WithdrawContainer: React.FC<NetworkAwareComponentProps> = ({
   network,
 }) => {
   const [state, setState] = useState<WithdrawContextStateType>(defaultValue);
@@ -44,17 +38,20 @@ export const WithdrawContainer: React.FC<WithdrawContainerProps> = ({
       limits: { ...prevState.limits, loading: true },
     }));
 
-    const { address, abi } = getContract('fastBtcBridge');
+    const { address, abi } = getFastBTCWithdrawalContract(
+      network,
+      'fastBtcBridge',
+    );
 
-    contractReader
-      .call('fastBtcBridge', 'currentFeeStructureIndex', [])
+    bridgeNetwork
+      .call(network, address, abi, 'currentFeeStructureIndex', [])
       .then(feeStructureIndex => {
         bridgeNetwork
           .multiCall<{
             minTransferSatoshi: number;
             maxTransferSatoshi: number;
             feeStructures: { baseFeeSatoshi: number; dynamicFee: number };
-          }>(Chain.RSK, [
+          }>(network, [
             {
               address,
               abi,
@@ -103,7 +100,7 @@ export const WithdrawContainer: React.FC<WithdrawContainerProps> = ({
           limits: { ...prevState.limits, loading: false },
         }));
       });
-  }, []);
+  }, [network]);
 
   return (
     <WithdrawContext.Provider value={value}>
@@ -123,25 +120,15 @@ export const WithdrawContainer: React.FC<WithdrawContainerProps> = ({
           )}
         >
           <div className={styles.container}>
-            {/*<SwitchTransition>*/}
-            {/*  <CSSTransition*/}
-            {/*    key={step}*/}
-            {/*    addEndListener={(node, done) =>*/}
-            {/*      node.addEventListener('transitionend', done, false)*/}
-            {/*    }*/}
-            {/*    classNames="fade"*/}
-            {/*  >*/}
-            {step === WithdrawStep.MAIN && <MainScreen />}
-            {step === WithdrawStep.AMOUNT && <AmountForm />}
+            {step === WithdrawStep.MAIN && <MainScreen network={network} />}
+            {step === WithdrawStep.AMOUNT && <AmountForm network={network} />}
             {step === WithdrawStep.ADDRESS && <AddressForm />}
             {[
               WithdrawStep.REVIEW,
               WithdrawStep.CONFIRM,
               WithdrawStep.PROCESSING,
               WithdrawStep.COMPLETED,
-            ].includes(step) && <ConfirmationScreens />}
-            {/*</CSSTransition>*/}
-            {/*</SwitchTransition>*/}
+            ].includes(step) && <ConfirmationScreens network={network} />}
           </div>
         </div>
       </div>
