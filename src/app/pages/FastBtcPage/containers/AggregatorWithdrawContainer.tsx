@@ -1,5 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
+import { useDispatch } from 'react-redux';
+import { WalletContext } from '@sovryn/react-wallet';
+import { actions as walletProviderActions } from 'app/containers/WalletProvider/slice';
 import { AmountForm } from '../components/Withdraw/AmountForm';
 import {
   defaultValue,
@@ -14,14 +17,21 @@ import { bridgeNetwork } from '../../BridgeDepositPage/utils/bridge-network';
 import { SidebarStepsWithdraw } from '../components/Withdraw/SidebarStepsWithdraw';
 
 import styles from '../fast-btc-page.module.css';
-import { contractReader } from 'utils/sovryn/contract-reader';
-import { getContract } from 'utils/blockchain/contract-helpers';
-import { Chain } from 'types';
+import { NetworkAwareComponentProps } from '../types';
+import { getFastBTCWithdrawalContract } from '../helpers';
+import { getBridgeChainId } from 'app/pages/BridgeDepositPage/utils/helpers';
+import { NetworkStep } from '../components/AggregatorWithdraw/NetworkStep';
 
-export const WithdrawContainer: React.FC = () => {
-  const network = Chain.RSK;
+export const AggregatorWithdrawContainer: React.FC<NetworkAwareComponentProps> = ({
+  network,
+}) => {
+  const dispatch = useDispatch();
+  const { wallet } = useContext(WalletContext);
+
   const [state, setState] = useState<WithdrawContextStateType>(defaultValue);
   const { step } = state;
+
+  const chainRequired = useMemo(() => getBridgeChainId(network), [network]);
 
   const value = useMemo(
     () => ({
@@ -32,22 +42,33 @@ export const WithdrawContainer: React.FC = () => {
   );
 
   useEffect(() => {
+    dispatch(walletProviderActions.setBridgeChainId(chainRequired));
+    return () => {
+      // Unset bridge settings
+      // dispatch(walletProviderActions.setBridgeChainId(null));
+    };
+  }, [chainRequired, dispatch]);
+
+  useEffect(() => {
     setState(prevState => ({
       ...prevState,
       limits: { ...prevState.limits, loading: true },
     }));
 
-    const { address, abi } = getContract('fastBtcBridge');
+    const { address, abi } = getFastBTCWithdrawalContract(
+      network,
+      'fastBtcBridge',
+    );
 
-    contractReader
-      .call('fastBtcBridge', 'currentFeeStructureIndex', [])
+    bridgeNetwork
+      .call(network, address, abi, 'currentFeeStructureIndex', [])
       .then(feeStructureIndex => {
         bridgeNetwork
           .multiCall<{
             minTransferSatoshi: number;
             maxTransferSatoshi: number;
             feeStructures: { baseFeeSatoshi: number; dynamicFee: number };
-          }>(Chain.RSK, [
+          }>(network, [
             {
               address,
               abi,
@@ -96,7 +117,7 @@ export const WithdrawContainer: React.FC = () => {
           limits: { ...prevState.limits, loading: false },
         }));
       });
-  }, []);
+  }, [network]);
 
   return (
     <WithdrawContext.Provider value={value}>
@@ -116,15 +137,23 @@ export const WithdrawContainer: React.FC = () => {
           )}
         >
           <div className={styles.container}>
-            {step === WithdrawStep.MAIN && <MainScreen network={network} />}
-            {step === WithdrawStep.AMOUNT && <AmountForm network={network} />}
-            {step === WithdrawStep.ADDRESS && <AddressForm />}
-            {[
-              WithdrawStep.REVIEW,
-              WithdrawStep.CONFIRM,
-              WithdrawStep.PROCESSING,
-              WithdrawStep.COMPLETED,
-            ].includes(step) && <ConfirmationScreens network={network} />}
+            {chainRequired !== wallet?.chainId ? (
+              <NetworkStep network={network} />
+            ) : (
+              <>
+                {step === WithdrawStep.MAIN && <MainScreen network={network} />}
+                {step === WithdrawStep.AMOUNT && (
+                  <AmountForm network={network} />
+                )}
+                {step === WithdrawStep.ADDRESS && <AddressForm />}
+                {[
+                  WithdrawStep.REVIEW,
+                  WithdrawStep.CONFIRM,
+                  WithdrawStep.PROCESSING,
+                  WithdrawStep.COMPLETED,
+                ].includes(step) && <ConfirmationScreens network={network} />}
+              </>
+            )}
           </div>
         </div>
       </div>
