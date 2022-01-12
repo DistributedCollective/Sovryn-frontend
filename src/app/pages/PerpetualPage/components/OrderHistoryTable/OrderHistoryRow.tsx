@@ -12,6 +12,22 @@ import { AssetValueMode } from 'app/components/AssetValue/types';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { prettyTx } from 'utils/helpers';
 
+const tradeTypeTranslations: { [key in PerpetualTradeType]: string } = {
+  [PerpetualTradeType.MARKET]:
+    translations.perpetualPage.orderHistoryTable.tableData.market,
+  [PerpetualTradeType.LIMIT]:
+    translations.perpetualPage.orderHistoryTable.tableData.limit,
+  [PerpetualTradeType.LIQUIDATION]:
+    translations.perpetualPage.orderHistoryTable.tableData.liquidation,
+};
+
+const tradingPositionTranslations: { [key in TradingPosition]: string } = {
+  [TradingPosition.LONG]:
+    translations.perpetualPage.orderHistoryTable.tableData.buy,
+  [TradingPosition.SHORT]:
+    translations.perpetualPage.orderHistoryTable.tableData.sell,
+};
+
 type OrderHistoryRowProps = {
   item: OrderHistoryEntry;
 };
@@ -23,6 +39,16 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({ item }) => {
     item.pairType,
   ]);
 
+  const typeText = useMemo(() => {
+    if (item.position === undefined) {
+      return t(tradeTypeTranslations[item.tradeType]);
+    }
+
+    return `${t(tradeTypeTranslations[item.tradeType])} ${t(
+      tradingPositionTranslations[item.position],
+    )}`;
+  }, [t, item.tradeType, item.position]);
+
   return (
     <tr>
       <td>
@@ -30,21 +56,12 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({ item }) => {
       </td>
       <td>{pair.name}</td>
       <td
-        className={classNames(
-          item.position === TradingPosition.LONG
-            ? 'tw-text-trade-long'
-            : 'tw-text-trade-short',
-        )}
+        className={classNames({
+          'tw-text-trade-long': item.position === TradingPosition.LONG,
+          'tw-text-trade-short': item.position === TradingPosition.SHORT,
+        })}
       >
-        {`${
-          item.tradeType === PerpetualTradeType.MARKET
-            ? t(translations.perpetualPage.orderHistoryTable.tableData.market)
-            : t(translations.perpetualPage.orderHistoryTable.tableData.limit)
-        } ${
-          item.position === TradingPosition.LONG
-            ? t(translations.perpetualPage.orderHistoryTable.tableData.buy)
-            : t(translations.perpetualPage.orderHistoryTable.tableData.sell)
-        }`}
+        {typeText}
       </td>
       <td>{item.orderState}</td>
       <td>{pair.collateralAsset}</td>
@@ -56,13 +73,15 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({ item }) => {
         />
       </td>
       <td>
-        <AssetValue
-          minDecimals={0}
-          maxDecimals={2}
-          value={item.limitPrice}
-          assetString={pair.quoteAsset}
-          mode={AssetValueMode.auto}
-        />
+        {item.limitPrice && (
+          <AssetValue
+            minDecimals={0}
+            maxDecimals={2}
+            value={item.limitPrice}
+            assetString={pair.quoteAsset}
+            mode={AssetValueMode.auto}
+          />
+        )}
       </td>
       <td>
         <AssetValue
@@ -72,21 +91,25 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({ item }) => {
         />
       </td>
       <td>
-        <AssetValue
-          minDecimals={0}
-          maxDecimals={2}
-          value={item.execPrice}
-          assetString={pair.quoteAsset}
-          mode={AssetValueMode.auto}
-        />
+        {item.execPrice && (
+          <AssetValue
+            minDecimals={0}
+            maxDecimals={2}
+            value={item.execPrice}
+            assetString={pair.quoteAsset}
+            mode={AssetValueMode.auto}
+          />
+        )}
       </td>
       <td>
-        <LinkToExplorer
-          className="tw-text-sov-white tw-underline"
-          txHash={item.orderId}
-          text={prettyTx(item.orderId)}
-          chainId={PERPETUAL_CHAIN_ID}
-        />
+        {item.orderId && (
+          <LinkToExplorer
+            className="tw-text-sov-white tw-underline"
+            txHash={item.orderId}
+            text={prettyTx(item.orderId)}
+            chainId={PERPETUAL_CHAIN_ID}
+          />
+        )}
       </td>
     </tr>
   );

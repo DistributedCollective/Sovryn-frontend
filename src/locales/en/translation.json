@@ -1849,6 +1849,7 @@
       "tableData": {
         "market": "Market",
         "limit": "Limit",
+        "liquidation": "Liquidation",
         "buy": "BUY",
         "sell": "SELL"
       }

@@ -291,6 +291,18 @@ export const contracts = {
     address: '0xf75170ce8d4060b8D5fc24E996FA00A94bb8A232',
     abi: MYNTMarketMakerAbi,
   },
+  // perpetualManager: {
+  //   address: '0x427cF4BdF9a6DCdc360625fC4295747b9D6796bA',
+  //   abi: perpetualManagerAbi,
+  //   chainId: ChainId.BSC_TESTNET,
+  // },
+  // PERPETUALS_token: {
+  //   address: '0x8389b185D40293b080e27794694704F98aD50f5A',
+  //   abi: marginTokenAbi,
+  //   chainId: ChainId.BSC_TESTNET,
+  // },
+
+  // TODO: These are competition contracts, don't use them once we have a subgraph for our regular contracts
   perpetualManager: {
     address: '0x7686e71fA70a36D1f8A81cf2d6b4ba18C2568b86',
     abi: perpetualManagerAbi,

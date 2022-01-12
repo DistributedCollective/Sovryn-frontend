@@ -6,7 +6,7 @@ import {
 import {
   PerpetualTradeType,
   PerpetualTradeEvent,
-  PerpetualPosition,
+  PerpetualPositionEvent,
 } from '../types';
 import {
   Event,
@@ -119,7 +119,7 @@ export const usePerpetual_OpenPosition = (
           traderState.marginAccountPositionBC,
     );
 
-    const currentPositions: PerpetualPosition[] | undefined =
+    const currentPositions: PerpetualPositionEvent[] | undefined =
       tradeEvents?.trader?.positions || previousTradeEvents?.trader?.positions;
     const currentPosition = currentPositions?.find(
       position =>
