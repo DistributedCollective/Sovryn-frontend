@@ -99,7 +99,7 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
             );
 
             entry.realizedProfitCC =
-              entry.totalFundingPaymentCC + entry.totalPnLCC;
+              entry.totalPnLCC - entry.totalFundingPaymentCC;
 
             entry.unrealizedPnLCC = 0;
 
