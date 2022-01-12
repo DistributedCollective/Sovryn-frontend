@@ -5,21 +5,13 @@ import { Spinner, Tooltip } from '@blueprintjs/core';
 import { bignumber } from 'mathjs';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import {
-  numberFromWei,
-  weiTo4,
-  toWei,
-  fromWei,
-} from 'utils/blockchain/math-helpers';
-import { getContract } from 'utils/blockchain/contract-helpers';
-import { numberToUSD, weiToUSD } from 'utils/display-text/format';
+import { weiTo4, toWei, fromWei } from 'utils/blockchain/math-helpers';
+import { numberToUSD } from 'utils/display-text/format';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import {
   staking_allowance,
   staking_approve,
-  staking_withdrawFee,
-  staking_numTokenCheckpoints,
 } from 'utils/blockchain/requests/staking';
 import { Asset } from '../../../types';
 import { Modal } from '../../components/Modal';
@@ -28,21 +20,18 @@ import { Footer } from '../../components/Footer';
 import { CurrentVests } from './components/CurrentVests';
 import { CurrentStakes } from './components/CurrentStakes';
 import { DelegateForm } from './components/DelegateForm';
-import { LoadableValue } from '../../components/LoadableValue';
 import { ExtendStakeForm } from './components/ExtendStakeForm';
 import { IncreaseStakeForm } from './components/IncreaseStakeForm';
 import { WithdrawForm } from './components/WithdrawForm';
 import { useWeiAmount } from '../../hooks/useWeiAmount';
 import { useAssetBalanceOf } from '../../hooks/useAssetBalanceOf';
 import { HistoryEventsTable } from './components/HistoryEventsTable';
-import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { useStaking_getStakes } from '../../hooks/staking/useStaking_getStakes';
 import { useStaking_kickoffTs } from '../../hooks/staking/useStaking_kickoffTs';
 import { useStaking_balanceOf } from '../../hooks/staking/useStaking_balanceOf';
 import { useStaking_WEIGHT_FACTOR } from '../../hooks/staking/useStaking_WEIGHT_FACTOR';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { useStaking_getCurrentVotes } from '../../hooks/staking/useStaking_getCurrentVotes';
-import { useStaking_getAccumulatedFees } from '../../hooks/staking/useStaking_getAccumulatedFees';
 import { useStaking_computeWeightByDate } from '../../hooks/staking/useStaking_computeWeightByDate';
 import { StakeForm } from './components/StakeForm';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
@@ -53,9 +42,9 @@ import { useStakeExtend } from '../../hooks/staking/useStakeExtend';
 import { useStakeDelegate } from '../../hooks/staking/useStakeDelegate';
 import { useVestingDelegate } from '../../hooks/staking/useVestingDelegate';
 import { useMaintenance } from 'app/hooks/useMaintenance';
-import { ContractName } from 'utils/types/contracts';
 import { AssetDetails } from 'utils/models/asset-details';
 import { getUSDSum } from '../../../utils/helpers';
+import { FeeBlock } from './components/FeeBlock';
 
 const now = new Date();
 
@@ -475,6 +464,12 @@ const InnerStakePage: React.FC = () => {
                     />
                   );
                 })}
+                <FeeBlock
+                  usdTotal={updateUsdTotal}
+                  contractToken={AssetsDictionary.get(Asset.SOV)}
+                  title={t(translations.stake.vestingFees)}
+                  useNewContract
+                />
               </div>
               <div className="tw-staking-box tw-bg-gray-3 tw-p-8 tw-pb-6 tw-mb-5 tw-rounded-2xl lg:tw-w-1/3 lg:tw-mx-2 lg:tw-mb-0 2xl:tw-w-1/4">
                 <p className="tw-text-lg tw--mt-1">
@@ -609,84 +604,6 @@ const InnerStakePage: React.FC = () => {
         </div>
       </main>
       <Footer />
-    </>
-  );
-};
-
-interface IFeeBlockProps {
-  contractToken: AssetDetails;
-  usdTotal: (asset: AssetDetails, value: number) => void;
-}
-
-const FeeBlock: React.FC<IFeeBlockProps> = ({ contractToken, usdTotal }) => {
-  const account = useAccount();
-  const { t } = useTranslation();
-  const token =
-    contractToken.asset +
-    (contractToken.asset === Asset.SOV ? '_token' : '_lending');
-  const dollars = useCachedAssetPrice(contractToken.asset, Asset.USDT);
-  const tokenAddress = getContract(token as ContractName)?.address;
-  const currency = useStaking_getAccumulatedFees(account, tokenAddress);
-  const dollarValue = useMemo(() => {
-    if (currency.value === null) return '';
-    return bignumber(currency.value)
-      .mul(dollars.value)
-      .div(10 ** contractToken.decimals)
-      .toFixed(0);
-  }, [dollars.value, currency.value, contractToken.decimals]);
-
-  const handleWithdrawFee = useCallback(
-    async e => {
-      e.preventDefault();
-      try {
-        const numTokenCheckpoints = (await staking_numTokenCheckpoints(
-          tokenAddress,
-        )) as string;
-        await staking_withdrawFee(tokenAddress, numTokenCheckpoints, account);
-      } catch (e) {
-        console.error(e);
-      }
-    },
-    [tokenAddress, account],
-  );
-
-  useEffect(() => {
-    usdTotal(contractToken, Number(weiTo4(dollarValue)));
-  }, [contractToken, dollarValue, usdTotal]);
-
-  return (
-    <>
-      {Number(currency.value) > 0 && (
-        <div className="tw-flex tw-justify-between tw-items-center tw-mb-1 tw-mt-1 tw-leading-6">
-          <div className="tw-w-1/5">
-            {contractToken.asset !== Asset.SOV ? (
-              <Tooltip
-                content={
-                  <>{contractToken.asset} will be sent to the lending pool.</>
-                }
-              >
-                <>i{contractToken.asset} (?)</>
-              </Tooltip>
-            ) : (
-              <>{contractToken.asset}</>
-            )}
-          </div>
-          <div className="tw-w-1/2 tw-ml-6">
-            {numberFromWei(currency.value).toFixed(4)} ≈{' '}
-            <LoadableValue
-              value={weiToUSD(dollarValue)}
-              loading={dollars.loading}
-            />
-          </div>
-          <button
-            onClick={handleWithdrawFee}
-            type="button"
-            className="tw-text-primary hover:tw-text-primary tw-p-0 tw-text-normal tw-lowercase hover:tw-underline tw-font-medium tw-font-body tw-tracking-normal"
-          >
-            {t(translations.userAssets.actions.withdraw)}
-          </button>
-        </div>
-      )}
     </>
   );
 };

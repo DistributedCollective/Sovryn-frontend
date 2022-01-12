@@ -32,24 +32,32 @@ export function staking_withdrawFee(
   tokenAddress: string,
   processedCheckpoints: string,
   account: string,
+  useNewContract = false,
 ) {
-  return contractWriter.send('feeSharingProxy_old', 'withdraw', [
-    tokenAddress,
-    processedCheckpoints,
-    account,
-  ]);
+  return contractWriter.send(
+    useNewContract ? 'feeSharingProxy' : 'feeSharingProxy_old',
+    'withdraw',
+    [tokenAddress, processedCheckpoints, account],
+  );
 }
 export function staking_processedCheckpoints(
   account: string,
   tokenAddress: string,
+  useNewContract = false,
 ) {
-  return contractReader.call('feeSharingProxy_old', 'processedCheckpoints', [
-    account,
-    tokenAddress,
-  ]);
+  return contractReader.call(
+    useNewContract ? 'feeSharingProxy' : 'feeSharingProxy_old',
+    'processedCheckpoints',
+    [account, tokenAddress, (useNewContract = false)],
+  );
 }
-export function staking_numTokenCheckpoints(tokenAddress: string) {
-  return contractReader.call('feeSharingProxy_old', 'numTokenCheckpoints', [
-    tokenAddress,
-  ]);
+export function staking_numTokenCheckpoints(
+  tokenAddress: string,
+  useNewContract = false,
+) {
+  return contractReader.call(
+    useNewContract ? 'feeSharingProxy' : 'feeSharingProxy_old',
+    'numTokenCheckpoints',
+    [tokenAddress],
+  );
 }
