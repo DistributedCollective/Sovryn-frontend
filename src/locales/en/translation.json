@@ -1858,7 +1858,7 @@
       "dateTime": "Date & Time",
       "symbol": "Symbol",
       "collateral": "Collateral",
-      "payment": "Payment",
+      "received": "Received Funding",
       "rate": "Rate",
       "timeSinceLastPayment": "Time since last payment (DD:HH:MM:SS)"
     },

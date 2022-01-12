@@ -48,7 +48,7 @@ export const FundingPaymentsTable: React.FC<IFundingPaymentsTable> = ({
               {t(translations.perpetualPage.fundingPaymentsTable.collateral)}
             </th>
             <th className="tw-text-sm">
-              {t(translations.perpetualPage.fundingPaymentsTable.payment)}
+              {t(translations.perpetualPage.fundingPaymentsTable.received)}
             </th>
             <th className="tw-text-sm">
               {t(translations.perpetualPage.fundingPaymentsTable.rate)}
