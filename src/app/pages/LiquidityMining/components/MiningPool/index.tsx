@@ -128,6 +128,9 @@ export function MiningPool({
           (pool.supplyAssets[0].asset === Asset.BNB &&
             pool.supplyAssets[1].asset === Asset.RBTC &&
             LootDropColors.Blue) ||
+          (pool.supplyAssets[0].asset === Asset.MYNT &&
+            pool.supplyAssets[1].asset === Asset.RBTC &&
+            LootDropColors.Orange) ||
           undefined
         }
       />

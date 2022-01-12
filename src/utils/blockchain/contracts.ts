@@ -112,7 +112,7 @@ export const contracts = {
   //   blockNumber: 1218721,
   // },
   MOC_amm: {
-    address: '0x60cc333072f16d5f4cb2bc36d6aa1f00381e22c2',
+    address: '0xe321442DC4793c17F41Fe3fB192a856A4864cEAF',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -127,7 +127,7 @@ export const contracts = {
   //   blockNumber: 1406290,
   // },
   RIF_amm: {
-    address: '0xf6377dec9ce79b5bc0576618a5cd3e95f49f9ace',
+    address: '0x65528e06371635a338ca804cd65958a11cb11009',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -157,7 +157,7 @@ export const contracts = {
     blockNumber: 1406290,
   },
   XUSD_amm: {
-    address: '0x34163bb263ac77e9d6315676a2b9624cfc5ff861',
+    address: '0xa9c3d9681215ef7623dc28ea6b75bf87fdf285d9',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -187,7 +187,7 @@ export const contracts = {
     blockNumber: 1406290,
   },
   ETH_amm: {
-    address: '0xd8397c1944862b6a9674c85a5496c208dc9417bb',
+    address: '0xa57ec11497f45fe86eca50f4f1c9e75c8016a1af',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -202,7 +202,7 @@ export const contracts = {
   //   blockNumber: 1406290,
   // },
   BNBS_amm: {
-    address: '0x150bc1f9f1020255d44385865928aadc6b7ad9f3',
+    address: '0x1684b871ec5f93de142e79a670b541d75be07ead',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -280,7 +280,7 @@ export const contracts = {
     blockNumber: 3100260,
   },
   SOV_amm: {
-    address: '0x88a67a0e79e311fe93c6e2101d55d6d2ae3a7e94',
+    address: '0xe76Ea314b32fCf641C6c57f14110c5Baa1e45ff4',
     abi: LiquidityPoolV1Converter,
     blockNumber: 1218833,
   },
@@ -317,7 +317,7 @@ export const contracts = {
     abi: FISHTokenAbi,
   },
   FISH_amm: {
-    address: '0x832769cc15dbdd6814819988c7a875ec2cb943e8',
+    address: '0xdeb0894196863dbb2f2d4c683f6d33a2197056b5',
     abi: LiquidityPoolV1Converter,
   },
   FISH_staking: {
@@ -363,7 +363,7 @@ export const contracts = {
     abi: MYNTMarketMakerAbi,
   },
   MYNT_amm: {
-    address: '0x25B8D024B39174824424f032423E03dd7dcCF044',
+    address: '0x3a18e61d9c9f1546dea013478dd653c793098f17',
     abi: LiquidityPoolV1Converter,
   },
 };
