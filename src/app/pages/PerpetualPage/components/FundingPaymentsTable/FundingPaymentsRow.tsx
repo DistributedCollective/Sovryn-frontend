@@ -41,13 +41,13 @@ export const FundingPaymentsRow: React.FC<FundingPaymentsRowProps> = ({
       <td>{pair.collateralAsset}</td>
       <td
         className={classNames(
-          bignumber(item.payment).greaterThan(0)
+          bignumber(item.received).greaterThan(0)
             ? 'tw-text-trade-long'
             : 'tw-text-trade-short',
         )}
       >
         <AssetValue
-          value={item.payment}
+          value={item.received}
           minDecimals={2}
           maxDecimals={10}
           assetString={pair.baseAsset}
