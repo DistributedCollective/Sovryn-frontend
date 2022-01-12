@@ -33,7 +33,7 @@ export class GsnWrapper {
         preferredRelays: preferredRelays[chainId],
         relayLookupWindowBlocks: 4990,
         relayRegistrationLookupBlocks: 4990,
-        pastEventsQueryMaxPageSize: 1000,
+        pastEventsQueryMaxPageSize: 999,
       },
     })
       .init()
