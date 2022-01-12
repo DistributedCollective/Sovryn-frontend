@@ -237,6 +237,7 @@ export const contracts = {
     abi: LockedSovAbi,
   },
   feeSharingProxy_old: {
+    // retained for use with legacy staking fees
     address: '0x12B1B0C67d9A771EB5Db7726d23fdc6848fd93ef',
     abi: feeSharingProxyAbi,
   },
