@@ -27,6 +27,7 @@ interface Props {
   onChange: (customer: SelectItem) => void;
   inputFocus?: boolean;
   isItemDisabled?: string;
+  dataActionId?: string;
 }
 
 export function FormSelect(props: Props) {
@@ -79,6 +80,7 @@ export function FormSelect(props: Props) {
       popoverProps={{
         targetTagName: 'div',
       }}
+      data-action-id={props.dataActionId}
     >
       <StyledSelection active={!!selected} className={props.innerClasses}>
         <Text ellipsize>{selected ? selected.label : props.placeholder}</Text>
