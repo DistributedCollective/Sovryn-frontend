@@ -120,6 +120,7 @@ export const AddLiquidityDialogV1: React.FC<IAddLiquidityDialogV1Props> = ({
                 translations.common.availableBalance,
               )} ${weiToNumberFormat(balance1, 8)}`}
               asset={assetA}
+              dataActionId="yieldFarm"
             />
           </FormGroup>
           <DummyInput
@@ -170,6 +171,7 @@ export const AddLiquidityDialogV1: React.FC<IAddLiquidityDialogV1Props> = ({
                 tx.loading || !valid || !canInteract || addliquidityLocked
               }
               className="tw-rounded-lg"
+              data-action-id="yieldFarm-deposit-button"
             />
           )}
         </div>

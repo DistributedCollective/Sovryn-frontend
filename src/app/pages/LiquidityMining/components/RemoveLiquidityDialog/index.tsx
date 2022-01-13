@@ -133,6 +133,7 @@ export const RemoveLiquidityDialog: React.FC<IRemoveLiquidityDialogProps> = ({
               )} ${weiToNumberFormat(balance, 8)}`}
               asset={asset}
               maxAmount={balance}
+              dataActionId="yieldFarm"
             />
           </FormGroup>
           <ArrowDown />
@@ -183,6 +184,7 @@ export const RemoveLiquidityDialog: React.FC<IRemoveLiquidityDialogProps> = ({
                 tx.loading || !valid || !canInteract || removeLiquidityLocked
               }
               className="tw-rounded-lg"
+              data-action-id="yieldFarm-withdrawal-button"
             />
           )}
         </div>
