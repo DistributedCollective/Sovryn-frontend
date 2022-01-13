@@ -19,6 +19,7 @@ export const PERPETUAL_GAS_PRICE_DEFAULT = isMainnet
 export enum PerpetualTradeType {
   MARKET = 'MARKET',
   LIMIT = 'LIMIT',
+  LIQUIDATION = 'LIQUIDATION',
 }
 
 export enum PerpetualPageModals {
@@ -39,16 +40,31 @@ export type PerpetualTradeEvent = {
   perpetual: {
     id: string;
   };
-  trader: string;
   orderFlags: string;
-  tradeAmount: string;
+  tradeAmountBC: string;
   newPositionSizeBC: string;
   price: string;
+  limitPrice: string;
+  isClose: string;
   blockTimestamp: string;
   transaction: { id: string };
+  trader?: { id: string };
+  position?: { id: string };
 };
 
-export type PerpetualPosition = {
+export type PerpetualLiquidationEvent = {
+  id: string;
+  amountLiquidatedBC: string;
+  newPositionSizeBC: string;
+  liquidationPrice: string;
+  blockTimestamp: string;
+  transaction: { id: string };
+  liquidator?: { id: string };
+  trader?: { id: string };
+  position?: { id: string };
+};
+
+export type PerpetualPositionEvent = {
   id: string;
   perpetual: { id: string };
   trader?: { id: string };

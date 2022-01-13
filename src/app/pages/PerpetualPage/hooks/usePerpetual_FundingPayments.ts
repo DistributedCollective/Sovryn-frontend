@@ -15,7 +15,7 @@ export type FundingPaymentsEntry = {
   id: string;
   pairType: PerpetualPairType;
   datetime: string;
-  payment: string;
+  received: string;
   rate: number;
   timeSinceLastPayment: string;
 };
@@ -70,7 +70,8 @@ export const usePerpetual_FundingPayments = (
             id: item.id,
             pairType: pairType,
             datetime: item.blockTimestamp,
-            payment: ABK64x64ToFloat(BigNumber.from(item.fFundingPaymentCC)),
+            received:
+              -1 * ABK64x64ToFloat(BigNumber.from(item.fFundingPaymentCC)),
             rate: ABK64x64ToFloat(BigNumber.from(item.rate8h)),
             timeSinceLastPayment: BigNumber.from(item.deltaTime).toNumber(),
           });
