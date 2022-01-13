@@ -1,12 +1,15 @@
 import { useMemo, useEffect, useContext } from 'react';
 import { useAccount } from 'app/hooks/useAccount';
 import { TradingPosition } from 'types/trading-position';
-import { PerpetualPairType } from 'utils/dictionaries/perpetual-pair-dictionary';
 import {
   PerpetualTradeType,
   PerpetualTradeEvent,
   PerpetualLiquidationEvent,
 } from '../types';
+import {
+  PerpetualPairType,
+  PerpetualPairDictionary,
+} from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 import {
   Event,
   useGetTraderEvents,
@@ -53,6 +56,8 @@ export const usePerpetual_OrderHistory = (
 
   const { latestTradeByUser } = useContext(RecentTradesContext);
 
+  const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
+
   // page and per page is not used, as Trade and Liquidate Events are combined into one Paginated Table
   // According to Remy a backend solution is not possible, vasili decided to throw out queried pagination.
   const eventQuery = useMemo(
@@ -63,6 +68,7 @@ export const usePerpetual_OrderHistory = (
         orderDirection: OrderDirection.desc,
         page: 0,
         perPage: 1000,
+        where: `perpetual: ${JSON.stringify(pair.id)}`,
       },
       {
         event: Event.LIQUIDATE,
@@ -70,9 +76,10 @@ export const usePerpetual_OrderHistory = (
         orderDirection: OrderDirection.desc,
         page: 0,
         perPage: 1000,
+        where: `perpetual: ${JSON.stringify(pair.id)}`,
       },
     ],
-    [],
+    [pair.id],
   );
 
   const {

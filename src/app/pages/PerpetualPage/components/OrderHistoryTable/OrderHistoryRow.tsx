@@ -11,6 +11,7 @@ import { AssetValue } from 'app/components/AssetValue';
 import { AssetValueMode } from 'app/components/AssetValue/types';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { prettyTx } from 'utils/helpers';
+import { getCollateralName } from '../../utils/renderUtils';
 
 const tradeTypeTranslations: { [key in PerpetualTradeType]: string } = {
   [PerpetualTradeType.MARKET]:
@@ -38,6 +39,10 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({ item }) => {
   const pair = useMemo(() => PerpetualPairDictionary.get(item.pairType), [
     item.pairType,
   ]);
+  const collateralAsset = useMemo(
+    () => getCollateralName(pair.collateralAsset),
+    [pair.collateralAsset],
+  );
 
   const typeText = useMemo(() => {
     if (item.position === undefined) {
@@ -64,7 +69,7 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({ item }) => {
         {typeText}
       </td>
       <td>{item.orderState}</td>
-      <td>{pair.collateralAsset}</td>
+      <td>{collateralAsset}</td>
       <td>
         <AssetValue
           value={item.orderSize}

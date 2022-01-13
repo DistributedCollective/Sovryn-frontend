@@ -1,12 +1,15 @@
 import { Bar } from 'app/components/TradingChart/datafeed';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState, useMemo } from 'react';
 import { Nullable } from 'types';
 import { useBlockSync } from '../../../hooks/useAccount';
 import { makeApiRequest } from '../components/TradingChart/helpers';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
-import { PERPETUAL_ID } from '../utils/contractUtils';
 import { getIndexPrice, getMarkPrice } from '../utils/perpUtils';
 import { CandleDuration } from './graphql/useGetCandles';
+import {
+  PerpetualPairType,
+  PerpetualPairDictionary,
+} from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 
 export type PerpetualContractDetailsData = {
   markPrice: number;
@@ -18,12 +21,14 @@ export type PerpetualContractDetailsData = {
   minTradeAmount: number;
 };
 
-export const usePerpetual_ContractDetails = () => {
+export const usePerpetual_ContractDetails = (pairType: PerpetualPairType) => {
   const blockId = useBlockSync();
   const [volume24h, setVolume24h] = useState(0);
   const [data, setData] = useState<Nullable<PerpetualContractDetailsData>>();
 
   const { ammState, perpetualParameters } = useContext(PerpetualQueriesContext);
+
+  const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
 
   useEffect(() => {
     const get24hVolume = async () => {
@@ -32,7 +37,7 @@ export const usePerpetual_ContractDetails = () => {
 
       const data: Bar[] = await makeApiRequest(
         CandleDuration.D_1,
-        PERPETUAL_ID,
+        pair.id,
         timestampYesterday,
         1,
         true,
@@ -44,7 +49,7 @@ export const usePerpetual_ContractDetails = () => {
     };
 
     get24hVolume().catch(console.error);
-  }, []);
+  }, [pair.id]);
 
   useEffect(
     () =>

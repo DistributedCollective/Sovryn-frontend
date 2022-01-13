@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import dayjs from 'dayjs';
 
 import { ReactComponent as IconDeposit } from 'assets/images/fastbtc-deposit.svg';
@@ -19,6 +19,7 @@ import {
 } from '../../hooks/usePerpetual_FundingHistory';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
 import { PERPETUAL_CHAIN_ID } from '../../types';
+import { getCollateralName } from '../../utils/renderUtils';
 
 const ActionIcons = {
   [FundingHistoryAction.deposit]: <IconDeposit className="tw-h-6" />,
@@ -56,9 +57,12 @@ export const AccountFundingHistoryRow: React.FC<FundingHistoryEntry> = ({
   time,
   amount,
   status,
+  asset,
   transactionHash,
 }) => {
   const { t } = useTranslation();
+
+  const assetName = useMemo(() => getCollateralName(asset), [asset]);
 
   return (
     <tr className="tw-h-auto">
@@ -74,7 +78,7 @@ export const AccountFundingHistoryRow: React.FC<FundingHistoryEntry> = ({
       <td className="tw-text-right">
         <AssetValue
           value={amount}
-          assetString="BTC"
+          assetString={assetName}
           mode={AssetValueMode.auto}
           minDecimals={8}
           maxDecimals={8}

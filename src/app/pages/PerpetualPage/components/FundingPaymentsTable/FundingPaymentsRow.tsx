@@ -5,8 +5,9 @@ import classNames from 'classnames';
 import { bignumber } from 'mathjs';
 import React, { useMemo } from 'react';
 import { PerpetualPairDictionary } from 'utils/dictionaries/perpetual-pair-dictionary';
-import { toNumberFormat, numberToPercent } from 'utils/display-text/format';
+import { numberToPercent } from 'utils/display-text/format';
 import { FundingPaymentsEntry } from '../../hooks/usePerpetual_FundingPayments';
+import { getCollateralName } from '../../utils/renderUtils';
 
 type FundingPaymentsRowProps = {
   item: FundingPaymentsEntry;
@@ -31,6 +32,10 @@ export const FundingPaymentsRow: React.FC<FundingPaymentsRowProps> = ({
   const pair = useMemo(() => PerpetualPairDictionary.get(item.pairType), [
     item.pairType,
   ]);
+  const collateralAsset = useMemo(
+    () => getCollateralName(pair.collateralAsset),
+    [pair.collateralAsset],
+  );
 
   return (
     <tr>
@@ -38,7 +43,7 @@ export const FundingPaymentsRow: React.FC<FundingPaymentsRowProps> = ({
         <DisplayDate timestamp={item.datetime} />
       </td>
       <td>{pair.name}</td>
-      <td>{pair.collateralAsset}</td>
+      <td>{collateralAsset}</td>
       <td
         className={classNames(
           bignumber(item.received).greaterThan(0)

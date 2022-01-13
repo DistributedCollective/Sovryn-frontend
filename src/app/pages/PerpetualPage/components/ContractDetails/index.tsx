@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
@@ -7,14 +7,24 @@ import { usePerpetual_ContractDetails } from '../../hooks/usePerpetual_ContractD
 import { numberToPercent } from '../../../../../utils/display-text/format';
 import { AssetValue } from 'app/components/AssetValue';
 import { AssetValueMode } from 'app/components/AssetValue/types';
+import { getCollateralName } from '../../utils/renderUtils';
+import { Asset } from '../../../../../types';
 
 type ContractDetailsProps = {
   pair: PerpetualPair;
+  collateral: Asset;
 };
 
-export const ContractDetails: React.FC<ContractDetailsProps> = ({ pair }) => {
+export const ContractDetails: React.FC<ContractDetailsProps> = ({
+  pair,
+  collateral,
+}) => {
   const { t } = useTranslation();
-  const data = usePerpetual_ContractDetails();
+  const data = usePerpetual_ContractDetails(pair.pairType);
+
+  const collateralAsset = useMemo(() => getCollateralName(collateral), [
+    collateral,
+  ]);
 
   return (
     <div className="tw-w-full tw-bg-black">
@@ -70,7 +80,7 @@ export const ContractDetails: React.FC<ContractDetailsProps> = ({ pair }) => {
               maxDecimals={2}
               mode={AssetValueMode.auto}
               value={data?.openInterest || 0}
-              assetString={pair.baseAsset}
+              assetString={collateralAsset}
             />
           }
         />

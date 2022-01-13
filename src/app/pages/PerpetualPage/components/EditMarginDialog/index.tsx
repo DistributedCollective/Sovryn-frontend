@@ -29,7 +29,6 @@ import classNames from 'classnames';
 import { LeverageViewer } from '../LeverageViewer';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { AmountInput } from '../../../../components/Form/AmountInput';
-import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
 import { validatePositionChange } from '../../utils/contractUtils';
 import {
   toWei,
@@ -39,6 +38,7 @@ import { PerpetualTxMethods } from '../TradeDialog/types';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 import { ActionDialogSubmitButton } from '../ActionDialogSubmitButton';
 import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';
+import { getCollateralName } from '../../utils/renderUtils';
 
 enum EditMarginDialogMode {
   increase,
@@ -50,6 +50,7 @@ export const EditMarginDialog: React.FC = () => {
   const { t } = useTranslation();
   const {
     pairType: currentPairType,
+    collateral,
     modal,
     modalOptions,
     useMetaTransactions,
@@ -61,7 +62,12 @@ export const EditMarginDialog: React.FC = () => {
     ammState,
     traderState,
     perpetualParameters: perpParameters,
+    availableBalance,
   } = useContext(PerpetualQueriesContext);
+
+  const collateralName = useMemo(() => getCollateralName(collateral), [
+    collateral,
+  ]);
 
   const trade = useMemo(
     () => (isPerpetualTrade(modalOptions) ? modalOptions : undefined),
@@ -70,10 +76,6 @@ export const EditMarginDialog: React.FC = () => {
   const pair = useMemo(
     () => PerpetualPairDictionary.get(trade?.pairType || currentPairType),
     [trade, currentPairType],
-  );
-
-  const { available } = usePerpetual_accountBalance(
-    trade?.pairType || currentPairType,
   );
 
   const [mode, setMode] = useState(EditMarginDialogMode.increase);
@@ -127,7 +129,7 @@ export const EditMarginDialog: React.FC = () => {
   const [maxAmount, maxAmountWei] = useMemo(() => {
     if (mode === EditMarginDialogMode.increase) {
       // Fees don't need to be subtracted, since Collateral is not paid with the Network Token
-      return [Number(fromWei(available)), available];
+      return [Number(fromWei(availableBalance)), availableBalance];
     } else {
       const maxAmount = getMaximalMarginToWidthdraw(
         traderState,
@@ -136,7 +138,7 @@ export const EditMarginDialog: React.FC = () => {
       );
       return [maxAmount, toWei(maxAmount)];
     }
-  }, [mode, available, traderState, perpParameters, ammState]);
+  }, [mode, availableBalance, traderState, perpParameters, ammState]);
 
   const signedMargin = useMemo(
     () => (mode === EditMarginDialogMode.increase ? 1 : -1) * Number(margin),
@@ -193,7 +195,7 @@ export const EditMarginDialog: React.FC = () => {
       signedMargin,
       changedTrade.leverage,
       changedTrade.slippage,
-      numberFromWei(available),
+      numberFromWei(availableBalance),
       traderState,
       perpParameters,
       ammState,
@@ -202,7 +204,7 @@ export const EditMarginDialog: React.FC = () => {
   }, [
     changedTrade,
     signedMargin,
-    available,
+    availableBalance,
     traderState,
     perpParameters,
     ammState,
@@ -268,7 +270,7 @@ export const EditMarginDialog: React.FC = () => {
             <AmountInput
               value={margin}
               maxAmount={maxAmountWei}
-              assetString="BTC"
+              assetString={collateralName}
               decimalPrecision={6}
               step={0.0001}
               onChange={onChangeMargin}
