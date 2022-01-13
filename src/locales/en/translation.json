@@ -1628,8 +1628,12 @@
       "price": "Price (<0/>)",
       "change": "% Change",
       "total": "Order Size (<0/>)",
-      "indexPrice": "Index Price:",
-      "markPrice": "Mark Price:"
+      "tooltips": {
+        "indexPrice": "Index Price: <0/>",
+        "markPrice": "Mark Price: <0/>",
+        "midPrice": "Mid Price: <0/>",
+        "change": "Change in price relative to Mid Price when trading the corresponding order size."
+      }
     },
     "contractDetails": {
       "title": "Contract Details:",
@@ -1639,7 +1643,14 @@
       "openInterest": "Open Interest:",
       "fundingRate": "Funding Rate: ",
       "lotSize": "Lot Size:",
-      "minTradeAmount": "Min Trade Amount:"
+      "minTradeAmount": "Min Trade Amount:",
+      "tooltips": {
+        "lastTradedPrice": "Last traded price.",
+        "markPrice": "Latest Mark Price for this contract. To prevent price manipulation, the Mark Price is used for unrealized PnL and margin calculations.",
+        "indexPrice": "The Index price consists of a bucket of Spot prices obtained via Chainlink oracle.",
+        "openInterest": "The total amount of contracts held by either the long or the short traders, whatever is larger.",
+        "fundingRate": "Funding rate paid from buyers to sellers. If negative, the sellers pay to the buyers. We scale the displayed rate to be an 8h-rate. The rate is refreshed with every smart contract interaction or at most with every block. The time-weighted average value is used to calculate the funding rate paid."
+      }
     },
     "recentTrades": {
       "price": "Price (<0/>)",
@@ -1693,6 +1704,11 @@
         "emptyBalanceExplanation": "Fund your account to start trading",
         "explanation1": "Only one position can be opened at a time",
         "explanation2": "You can edit and close your position in the action section below"
+      },
+      "tooltips": {
+        "orderValue": "The notional amount for your position.",
+        "orderCost": "The approximate amount withdrawn from your wallet to pay for the trade. Consists of required margin and trading fee.",
+        "tradingFee": "The trading fee"
       }
     },
     "tradeDialog": {
@@ -1825,7 +1841,20 @@
       "editSize": "Size",
       "editLeverage": "Leverage",
       "editMargin": "Margin",
-      "editClose": "Close"
+      "editClose": "Close",
+      "tooltips": {
+        "editSize": "Change the position size to the extent possible with your current margin.",
+        "editLeverage": "Change the leverage of your position. This action will either withdraw from your margin account or deposit to your margin account.",
+        "editMargin": "Deposit margin or withdraw margin. This action will change the leverage of your position.",
+        "editClose": "Close the entire open position or just partially.",
+        "positionSize": "The size of your position. Negative values denote short positions.",
+        "entryPrice": "The average price received when opening this position.",
+        "markPrice": "Latest Mark Price for this contract. To prevent price manipulation, the Mark Price is used for unrealized PnL and margin calculations.",
+        "liquidationPrice": "The liquidation price is the approximate price at which your position can be liquidated. To move your position away from the liquidation price, you can decrease your position size, add margin, or use the leverage action to reduce leverage.",
+        "margin": "The margin allocated to the position and leverage ratio in brackets. The lower the Leverage Ratio, the further away your liquidation price will be relative to your position entry price.",
+        "unrealized": "The unrealized P&L is calculated using the Mark Price. It also contains the accrued funding payments.",
+        "realized": "The realized P&L that was paid to your margin account."
+      }
     },
     "closedPositionsTable": {
       "dateTime": "Date & Time",
@@ -1852,6 +1881,9 @@
         "liquidation": "Liquidation",
         "buy": "BUY",
         "sell": "SELL"
+      },
+      "tooltips": {
+        "limitPrice": "The worst price that trader was willing to accept. Is set via slippage settings for market orders."
       }
     },
     "fundingPaymentsTable": {
@@ -1860,7 +1892,12 @@
       "collateral": "Collateral",
       "received": "Received Funding",
       "rate": "Rate",
-      "timeSinceLastPayment": "Time since last payment (DD:HH:MM:SS)"
+      "timeSinceLastPayment": "Time since last payment (DD:HH:MM:SS)",
+      "tooltips": {
+        "received": "Amount of Funding Payment paid (negative) or received (positive).",
+        "rate": "The time-averaged funding rate, scaled to be an 8h-rate.",
+        "timeSinceLastPayment": "The duration for which the funding payment applies to."
+      }
     },
     "notificationSettingsDialog": {
       "title": "Margin Trade notification settings",
