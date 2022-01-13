@@ -2,13 +2,10 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { bignumber } from 'mathjs';
 import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { translations } from '../../../../../locales/i18n';
 import { numberFromWei } from '../../../../../utils/blockchain/math-helpers';
-import {
-  PerpetualPairDictionary,
-  PerpetualPairType,
-} from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
+import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
@@ -20,23 +17,21 @@ import {
 } from '../BarCompositionChart';
 import classNames from 'classnames';
 import { Tooltip } from '@blueprintjs/core';
-import { TotalValueLocked } from '../../../LandingPage/components/TotalValueLocked';
 import { getCollateralName } from '../../utils/renderUtils';
-import { Asset } from '../../../../../types';
+import { selectPerpetualPage } from '../../selectors';
 
 type AccountBalanceFormProps = {
-  collateral: Asset;
-  pairType: PerpetualPairType;
   onOpenTransactionHistory: () => void;
 };
 
 export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
-  pairType,
-  collateral,
   onOpenTransactionHistory,
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
+  const { collateral, pairType } = useSelector(selectPerpetualPage);
+
   const collateralAsset = useMemo(() => getCollateralName(collateral), [
     collateral,
   ]);

@@ -152,7 +152,7 @@ export const PerpetualQueriesContextProvider: React.FC<PerpetualQueriesContextPr
           refetchLiquidityPoolState();
         },
         THROTTLE_DELAY,
-        { leading: true, trailing: true, maxWait: THROTTLE_DELAY },
+        { leading: true, maxWait: THROTTLE_DELAY },
       ),
     [refetchAmmState, refetchPerpetualParameters, refetchLiquidityPoolState],
   );
@@ -161,7 +161,6 @@ export const PerpetualQueriesContextProvider: React.FC<PerpetualQueriesContextPr
     () =>
       debounce(() => refetchTraderState(), THROTTLE_DELAY, {
         leading: true,
-        trailing: true,
         maxWait: THROTTLE_DELAY,
       }),
     [refetchTraderState],
@@ -191,8 +190,8 @@ export const PerpetualQueriesContextProvider: React.FC<PerpetualQueriesContextPr
             )
             .then(result => result && setAvailableBalance(String(result)))
             .catch(console.error),
-        500,
-        { leading: false, trailing: true, maxWait: 500 },
+        THROTTLE_DELAY,
+        { maxWait: THROTTLE_DELAY },
       ),
     [account],
   );

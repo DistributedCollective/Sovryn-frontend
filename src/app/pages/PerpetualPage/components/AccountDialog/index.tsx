@@ -18,10 +18,8 @@ enum AccountView {
 export const AccountDialog: React.FC = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { modal, collateral, pairType } = useSelector(selectPerpetualPage);
-  const [accountView, setAccountView] = useState<AccountView>(
-    AccountView.balance,
-  );
+  const { modal } = useSelector(selectPerpetualPage);
+  const [accountView, setAccountView] = useState(AccountView.balance);
 
   const onClose = useCallback(() => {
     dispatch(actions.setModal(PerpetualPageModals.NONE));
@@ -66,15 +64,9 @@ export const AccountDialog: React.FC = () => {
           : t(translations.perpetualPage.accountBalance.titleHistory)}
       </h1>
       {accountView === AccountView.balance && (
-        <AccountBalanceForm
-          collateral={collateral}
-          pairType={pairType}
-          onOpenTransactionHistory={onOpenFundingHistory}
-        />
+        <AccountBalanceForm onOpenTransactionHistory={onOpenFundingHistory} />
       )}
-      {accountView === AccountView.history && (
-        <AccountFundingHistory pairType={pairType} />
-      )}
+      {accountView === AccountView.history && <AccountFundingHistory />}
     </Dialog>
   );
 };
