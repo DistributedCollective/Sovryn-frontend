@@ -34,6 +34,9 @@ export class GsnWrapper {
         relayLookupWindowBlocks: 4990,
         relayRegistrationLookupBlocks: 4990,
         pastEventsQueryMaxPageSize: 999,
+        loggerConfiguration: {
+          logLevel: 'debug',
+        },
       },
     })
       .init()
