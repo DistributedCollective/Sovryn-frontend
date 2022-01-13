@@ -28,7 +28,6 @@ import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import debounce from 'lodash.debounce';
-import { useGetTraderStates } from 'app/pages/PerpetualPage/hooks/graphql/useGetTraderStates';
 
 const initialFunding = 0.2; // funds sent to every trader at the beginning of the competition
 
@@ -48,8 +47,6 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
   const [items, setItems] = useState<LeaderboardData[]>([]);
   const [userData, setUserData] = useState<LeaderboardData | null>(null);
   const [loaded, setLoaded] = useState(false);
-
-  const traderStates = useGetTraderStates(PerpetualPairType.BTCUSD);
 
   const { perpetualParameters, ammState } = useContext(PerpetualQueriesContext);
 
@@ -103,19 +100,44 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
 
             entry.unrealizedPnLCC = 0;
 
-            if (trader.positions.find(item => !item.isClosed)) {
-              const traderState = traderStates.find(traderState =>
-                traderState.id.startsWith(item.walletAddress.toLowerCase()),
-              );
-
-              if (!traderState) {
-                items.push(entry);
-                continue;
-              }
+            if (
+              trader.positions.find(item => !item.isClosed) &&
+              trader.traderState
+            ) {
+              const parsedTraderState = {
+                marginBalanceCC: ABK64x64ToFloat(
+                  BigNumber.from(trader.traderState.marginBalanceCC),
+                ),
+                availableMarginCC: ABK64x64ToFloat(
+                  BigNumber.from(trader.traderState.availableMarginCC),
+                ),
+                availableCashCC: ABK64x64ToFloat(
+                  BigNumber.from(trader.traderState.availableCashCC),
+                ),
+                marginAccountCashCC: ABK64x64ToFloat(
+                  BigNumber.from(trader.traderState.marginAccountCashCC),
+                ),
+                marginAccountPositionBC: ABK64x64ToFloat(
+                  BigNumber.from(trader.traderState.marginAccountPositionBC),
+                ),
+                marginAccountLockedInValueQC: ABK64x64ToFloat(
+                  BigNumber.from(
+                    trader.traderState.marginAccountLockedInValueQC,
+                  ),
+                ),
+                fUnitAccumulatedFundingStart: ABK64x64ToFloat(
+                  BigNumber.from(
+                    trader.traderState.fUnitAccumulatedFundingStart,
+                  ),
+                ),
+              };
 
               entry.unrealizedPnLCC =
-                getTraderPnLInBC(traderState, ammState, perpetualParameters) *
-                baseToCollateral;
+                getTraderPnLInBC(
+                  parsedTraderState,
+                  ammState,
+                  perpetualParameters,
+                ) * baseToCollateral;
             }
 
             const totalProfitWithFunding =

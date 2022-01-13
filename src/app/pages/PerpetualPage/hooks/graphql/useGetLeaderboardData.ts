@@ -21,6 +21,15 @@ export function useGetLeaderboardData(
       totalPnLCC
       totalFundingPaymentCC
       positionsTotalCount
+      traderState {
+        marginBalanceCC
+        availableMarginCC
+        availableCashCC
+        marginAccountCashCC
+        marginAccountPositionBC
+        marginAccountLockedInValueQC
+        fUnitAccumulatedFundingStart
+      }
       positions(where: {perpetual: ${JSON.stringify(
         pair.id,
       )}}, orderBy: lastChanged, orderDirection: desc) {
