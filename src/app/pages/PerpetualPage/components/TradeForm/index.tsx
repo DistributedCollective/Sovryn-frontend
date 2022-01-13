@@ -44,9 +44,9 @@ import {
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';
 import { numberFromWei, toWei } from 'utils/blockchain/math-helpers';
-import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
 import { useSelector } from 'react-redux';
 import { selectPerpetualPage } from '../../selectors';
+import { getCollateralName } from '../../utils/renderUtils';
 
 interface ITradeFormProps {
   trade: PerpetualTrade;
@@ -79,14 +79,14 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     averagePrice,
     lotSize,
     lotPrecision,
+    availableBalance,
   } = useContext(PerpetualQueriesContext);
-
-  const { available: availableBalanceWei } = usePerpetual_accountBalance(
-    trade.pairType,
-  );
 
   const pair = useMemo(() => PerpetualPairDictionary.get(trade.pairType), [
     trade.pairType,
+  ]);
+  const collateralName = useMemo(() => getCollateralName(trade.collateral), [
+    trade.collateral,
   ]);
 
   const maxTradeSize = useMemo(() => {
@@ -134,7 +134,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     const amountChange = getSignedAmount(trade.position, trade.amount);
     const amountTarget = traderState.marginAccountPositionBC + amountChange;
     let possibleMargin =
-      numberFromWei(availableBalanceWei) +
+      numberFromWei(availableBalance) +
       traderState.availableCashCC -
       getTradingFee(amountChange, perpParameters, ammState);
     if (useMetaTransactions) {
@@ -162,7 +162,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     trade.position,
     trade.amount,
     pair,
-    availableBalanceWei,
+    availableBalance,
     useMetaTransactions,
     traderState,
     perpParameters,
@@ -315,7 +315,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           marginChange,
           trade.leverage,
           trade.slippage,
-          numberFromWei(availableBalanceWei),
+          numberFromWei(availableBalance),
           traderState,
           perpParameters,
           ammState,
@@ -326,7 +326,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     isNewTrade,
     trade,
     requiredCollateral,
-    availableBalanceWei,
+    availableBalance,
     traderState,
     perpParameters,
     ammState,
@@ -480,7 +480,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           maxDecimals={4}
           mode={AssetValueMode.auto}
           value={requiredCollateral}
-          assetString={pair.baseAsset}
+          assetString={collateralName}
         />
       </div>
       <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-xs tw-font-medium">
@@ -492,7 +492,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           maxDecimals={6}
           mode={AssetValueMode.auto}
           value={tradingFee}
-          assetString={pair.baseAsset}
+          assetString={collateralName}
         />
       </div>
       {isNewTrade && (

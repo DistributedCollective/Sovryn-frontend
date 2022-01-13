@@ -41,7 +41,6 @@ import { roundToLot } from '../../../utils/perpMath';
 import { ActionDialogSubmitButton } from '../../ActionDialogSubmitButton';
 import { usePerpetual_isTradingInMaintenance } from 'app/pages/PerpetualPage/hooks/usePerpetual_isTradingInMaintenance';
 import { selectPerpetualPage } from '../../../selectors';
-import { usePerpetual_accountBalance } from '../../../hooks/usePerpetual_accountBalance';
 
 export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
   changeTo,
@@ -56,6 +55,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     averagePrice,
     lotSize,
     lotPrecision,
+    availableBalance,
   } = useContext(PerpetualQueriesContext);
 
   const { useMetaTransactions } = useSelector(selectPerpetualPage);
@@ -73,8 +73,6 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
       ),
     [changedTrade?.pairType],
   );
-
-  const { available } = usePerpetual_accountBalance(pair.pairType);
 
   const {
     amountChange,
@@ -222,7 +220,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
       marginChange,
       changedTrade.leverage,
       changedTrade.slippage,
-      numberFromWei(available),
+      numberFromWei(availableBalance),
       traderState,
       perpParameters,
       ammState,
@@ -233,7 +231,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     amountTarget,
     marginChange,
     changedTrade,
-    available,
+    availableBalance,
     traderState,
     perpParameters,
     ammState,

@@ -18,7 +18,7 @@ import {
 } from '../../types';
 import { TransitionSteps } from '../../../../containers/TransitionSteps';
 import { TransitionAnimation } from '../../../../containers/TransitionContainer';
-import { Asset, Nullable } from '../../../../../types';
+import { Asset } from '../../../../../types';
 import { NewPositionCardContextType, NewPositionCardStep } from './types';
 import { SlippageFormStep } from './components/SlippageFormStep';
 import { TradeFormStep } from './components/TradeFormStep';
@@ -55,14 +55,7 @@ const StepComponents = {
   [NewPositionCardStep.slippage]: SlippageFormStep,
 };
 
-type NewPositionCardProps = {
-  /** balance as wei string */
-  balance: Nullable<string>;
-};
-
-export const NewPositionCard: React.FC<NewPositionCardProps> = ({
-  balance,
-}) => {
+export const NewPositionCard: React.FC = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { connected } = useWalletContext();
@@ -71,7 +64,7 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
   const {
     available: availableBalance,
     inPositions,
-  } = usePerpetual_accountBalance(pairType);
+  } = usePerpetual_accountBalance();
 
   // handle flags in a throttled way to prevent flickering when updating
   const [[hasOpenPosition, hasEmptyBalance], setFlags] = useState([

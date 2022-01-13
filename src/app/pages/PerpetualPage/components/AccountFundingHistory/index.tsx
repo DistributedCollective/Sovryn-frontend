@@ -1,21 +1,14 @@
 import React, { useMemo, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
-import { PerpetualPairType } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { Pagination } from '../../../../components/Pagination';
 import { SkeletonRow } from '../../../../components/Skeleton/SkeletonRow';
 import { usePerpetual_FundingHistory } from '../../hooks/usePerpetual_FundingHistory';
 import { AccountFundingHistoryRow } from './AccountFundingHistoryRow';
 
-type AccountFundingHistoryProps = {
-  pairType: PerpetualPairType;
-};
-
 const perPage = 8;
 
-export const AccountFundingHistory: React.FC<AccountFundingHistoryProps> = ({
-  pairType,
-}) => {
+export const AccountFundingHistory: React.FC = () => {
   const { t } = useTranslation();
   const { data: entries, loading } = usePerpetual_FundingHistory();
 

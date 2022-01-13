@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
@@ -12,7 +12,10 @@ import { translations } from 'locales/i18n';
 import { reducer, sliceKey, actions } from './slice';
 import { HeaderLabs } from '../../components/HeaderLabs';
 import { Footer } from '../../components/Footer';
-import { PerpetualPairDictionary } from '../../../utils/dictionaries/perpetual-pair-dictionary';
+import {
+  PerpetualPairDictionary,
+  PerpetualPairType,
+} from '../../../utils/dictionaries/perpetual-pair-dictionary';
 import { Theme, TradingChart } from './components/TradingChart';
 import { OpenPositionsTable } from './components/OpenPositionsTable';
 import { useIsConnected } from '../../hooks/useAccount';
@@ -29,7 +32,6 @@ import { ChainId } from '../../../types';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { ProviderType } from '@sovryn/wallet';
 import { AccountBalanceCard } from './components/AccountBalanceCard';
-import { usePerpetual_accountBalance } from './hooks/usePerpetual_accountBalance';
 import { AccountDialog } from './components/AccountDialog';
 import { NewPositionCard } from './components/NewPositionCard';
 import { TradeDialog } from './components/TradeDialog';
@@ -56,8 +58,7 @@ export function PerpetualPage() {
     setShowNotificationSettingsModal,
   ] = useState(false);
 
-  const { pairType } = useSelector(selectPerpetualPage);
-  const { available: availableBalance } = usePerpetual_accountBalance(pairType);
+  const { pairType, collateral } = useSelector(selectPerpetualPage);
   const { t } = useTranslation();
 
   const location = useLocation<IPromotionLinkState>();
@@ -65,6 +66,19 @@ export function PerpetualPage() {
 
   const [linkPairType, setLinkPairType] = useState(
     location.state?.perpetualPair,
+  );
+
+  const pair = useMemo(
+    () => PerpetualPairDictionary.get(linkPairType || pairType),
+    [linkPairType, pairType],
+  );
+
+  const connected = useIsConnected();
+  const [activeTab, setActiveTab] = useState(0);
+
+  const onChangePair = useCallback(
+    (pairType: PerpetualPairType) => dispatch(actions.setPairType(pairType)),
+    [dispatch],
   );
 
   useEffect(() => {
@@ -92,14 +106,6 @@ export function PerpetualPage() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const pair = useMemo(
-    () => PerpetualPairDictionary.get(linkPairType || pairType),
-    [linkPairType, pairType],
-  );
-
-  const connected = useIsConnected();
-  const [activeTab, setActiveTab] = useState(0);
-
   return (
     <RecentTradesContextProvider pair={pair}>
       <PerpetualQueriesContextProvider pair={pair}>
@@ -118,8 +124,12 @@ export function PerpetualPage() {
           }
         />
         <div className="tw-relative tw--top-2.5 tw-w-full">
-          <PairSelector pair={pair} />
-          <ContractDetails pair={pair} />
+          <PairSelector
+            pair={pair}
+            collateral={collateral}
+            onChange={onChangePair}
+          />
+          <ContractDetails pair={pair} collateral={collateral} />
         </div>
         <div className={'tw-container tw-mt-5'}>
           <div
@@ -151,8 +161,8 @@ export function PerpetualPage() {
               <RecentTradesTable pair={pair} />
             </DataCard>
             <div className="tw-flex tw-flex-col xl:tw-min-w-80 xl:tw-w-1/5 tw-space-y-2">
-              <AccountBalanceCard balance={availableBalance} />
-              <NewPositionCard balance={availableBalance} />
+              <AccountBalanceCard />
+              <NewPositionCard />
             </div>
           </div>
 
@@ -195,8 +205,7 @@ export function PerpetualPage() {
           isOpen={showNotificationSettingsModal}
           onClose={() => setShowNotificationSettingsModal(false)}
         />
-        <AccountDialog pairType={pairType} />
-
+        <AccountDialog />
         <TradeDialog />
         <EditPositionSizeDialog />
         <EditLeverageDialog />

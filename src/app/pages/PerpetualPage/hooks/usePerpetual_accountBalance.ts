@@ -1,17 +1,11 @@
-import { useAccount, useBlockSync } from 'app/hooks/useAccount';
-import { bridgeNetwork } from 'app/pages/BridgeDepositPage/utils/bridge-network';
-import { useContext, useEffect, useMemo, useState } from 'react';
-import { Chain } from 'types';
-import { getContract } from 'utils/blockchain/contract-helpers';
+import { useContext, useMemo } from 'react';
 import {
   numberFromWei,
   toWei,
 } from '../../../../utils/blockchain/math-helpers';
-import marginTokenAbi from 'utils/blockchain/abi/MarginToken.json';
 import { getTraderPnLInCC, getQuote2CollateralFX } from '../utils/perpUtils';
 import { bignumber } from 'mathjs';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
-import { PerpetualPairType } from 'utils/dictionaries/perpetual-pair-dictionary';
 
 type AccountBalance = {
   total: {
@@ -23,34 +17,13 @@ type AccountBalance = {
   unrealized: string;
 };
 
-export const usePerpetual_accountBalance = (
-  pairType: PerpetualPairType,
-): AccountBalance => {
-  const blockId = useBlockSync();
-  const account = useAccount();
-
-  const [availableBalance, setAvailableBalance] = useState('0');
-
-  const { ammState, traderState, perpetualParameters } = useContext(
-    PerpetualQueriesContext,
-  );
-
-  useEffect(() => {
-    if (!account) {
-      return;
-    }
-
-    bridgeNetwork
-      .call(
-        Chain.BSC,
-        getContract('PERPETUALS_token').address,
-        marginTokenAbi,
-        'balanceOf',
-        [account],
-      )
-      .then(result => result && setAvailableBalance(String(result)))
-      .catch(console.error);
-  }, [account, blockId]);
+export const usePerpetual_accountBalance = (): AccountBalance => {
+  const {
+    ammState,
+    traderState,
+    perpetualParameters,
+    availableBalance,
+  } = useContext(PerpetualQueriesContext);
 
   const unrealizedPnl = useMemo(
     () => getTraderPnLInCC(traderState, ammState, perpetualParameters),

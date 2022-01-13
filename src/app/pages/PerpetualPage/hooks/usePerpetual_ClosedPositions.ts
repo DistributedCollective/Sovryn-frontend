@@ -1,7 +1,10 @@
 import { useAccount } from 'app/hooks/useAccount';
 import { BigNumber } from 'ethers';
 import { useContext, useMemo, useEffect } from 'react';
-import { PerpetualPairType } from 'utils/dictionaries/perpetual-pair-dictionary';
+import {
+  PerpetualPairType,
+  PerpetualPairDictionary,
+} from 'utils/dictionaries/perpetual-pair-dictionary';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import { ABK64x64ToFloat } from '../utils/contractUtils';
 import { getQuote2CollateralFX } from '../utils/perpUtils';
@@ -29,7 +32,7 @@ type ClosedPositionHookResult = {
 };
 
 export const usePerpetual_ClosedPositions = (
-  pairType: PerpetualPairType.BTCUSD,
+  pairType: PerpetualPairType,
   page: number,
   perPage: number,
 ): ClosedPositionHookResult => {
@@ -37,6 +40,8 @@ export const usePerpetual_ClosedPositions = (
 
   const { ammState } = useContext(PerpetualQueriesContext);
   const { latestTradeByUser } = useContext(RecentTradesContext);
+
+  const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
 
   const eventQuery = useMemo(
     () => [
@@ -46,10 +51,10 @@ export const usePerpetual_ClosedPositions = (
         orderDirection: OrderDirection.desc,
         page,
         perPage,
-        whereCondition: 'isClosed: true',
+        whereCondition: `perpetual: ${JSON.stringify(pair.id)}, isClosed: true`,
       },
     ],
-    [page, perPage],
+    [page, perPage, pair],
   );
 
   const {

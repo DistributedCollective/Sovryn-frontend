@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { toWei } from 'web3-utils';
-import { Nullable } from '../../../../types';
+import { Nullable, Asset } from '../../../../types';
 import { useBlockSync } from '../../../hooks/useAccount';
 
 export enum FundingHistoryAction {
@@ -23,6 +23,7 @@ export type FundingHistoryEntry = {
   time: string;
   /** wei string */
   amount: string;
+  asset: Asset;
   transactionHash: string;
   status: FundingHistoryStatus;
 };
@@ -53,6 +54,7 @@ const placeholderFetch = async (
     entries.push({
       id: i.toString(16),
       amount,
+      asset: Asset.PERPETUALS,
       time: new Date().toISOString(),
       action: actions[i % actions.length],
       status: statuses[i % statuses.length],

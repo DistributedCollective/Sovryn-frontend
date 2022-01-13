@@ -2,13 +2,10 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { bignumber } from 'mathjs';
 import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { translations } from '../../../../../locales/i18n';
 import { numberFromWei } from '../../../../../utils/blockchain/math-helpers';
-import {
-  PerpetualPairDictionary,
-  PerpetualPairType,
-} from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
+import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
@@ -20,19 +17,24 @@ import {
 } from '../BarCompositionChart';
 import classNames from 'classnames';
 import { Tooltip } from '@blueprintjs/core';
-import { TotalValueLocked } from '../../../LandingPage/components/TotalValueLocked';
+import { getCollateralName } from '../../utils/renderUtils';
+import { selectPerpetualPage } from '../../selectors';
 
 type AccountBalanceFormProps = {
-  pairType: PerpetualPairType;
   onOpenTransactionHistory: () => void;
 };
 
 export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
-  pairType,
   onOpenTransactionHistory,
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
+  const { collateral, pairType } = useSelector(selectPerpetualPage);
+
+  const collateralAsset = useMemo(() => getCollateralName(collateral), [
+    collateral,
+  ]);
 
   const { checkMaintenance, States } = useMaintenance();
   const fundAccountLocked =
@@ -64,7 +66,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
     available,
     inPositions,
     unrealized,
-  } = usePerpetual_accountBalance(pairType);
+  } = usePerpetual_accountBalance();
 
   const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
 
@@ -79,7 +81,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
         valueLabel: (
           <AssetValue
             value={available}
-            assetString="BTC"
+            assetString={collateralAsset}
             mode={AssetValueMode.auto}
             minDecimals={8}
             maxDecimals={8}
@@ -96,7 +98,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
         valueLabel: (
           <AssetValue
             value={inPositions}
-            assetString="BTC"
+            assetString={collateralAsset}
             mode={AssetValueMode.auto}
             minDecimals={3}
             maxDecimals={3}
@@ -121,7 +123,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
               value={bignumber(unrealized || '0')
                 .abs()
                 .toString()}
-              assetString="BTC"
+              assetString={collateralAsset}
               mode={AssetValueMode.auto}
               minDecimals={8}
               maxDecimals={8}
@@ -133,14 +135,14 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
         color: isUnrealizedNegative ? 'rgba(29, 127, 247, 0.25)' : undefined,
       },
     ];
-  }, [unrealized, available, t, inPositions]);
+  }, [unrealized, available, t, inPositions, collateralAsset]);
 
   const totalLabel = useMemo(
     () => (
       <div className="tw-flex tw-flex-row tw-items-center">
         <AssetValue
           value={total.collateralValue}
-          assetString="BTC"
+          assetString={collateralAsset}
           mode={AssetValueMode.auto}
           minDecimals={2}
           maxDecimals={8}
@@ -157,7 +159,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
         </span>
       </div>
     ),
-    [pair.quoteAsset, total.collateralValue, total.quoteValue],
+    [pair.quoteAsset, total.collateralValue, total.quoteValue, collateralAsset],
   );
 
   // TODO: add pending transfer value to available balance

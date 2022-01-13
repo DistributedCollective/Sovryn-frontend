@@ -31,10 +31,6 @@ import { numberToPercent } from '../../../../utils/display-text/format';
 export const ONE_64x64 = BigNumber.from('0x10000000000000000');
 export const DEC_18 = BigNumber.from(10).pow(BigNumber.from(18));
 
-// TODO: remove and replace with id from PerpetualPair
-export const PERPETUAL_ID =
-  '0xada5013122d395ba3c54772283fb069b10426056ef8ca54750cb9bb552a59e7d';
-
 export const getTradeDirection = (tradingPosition: TradingPosition) =>
   tradingPosition === TradingPosition.LONG ? 1 : -1;
 
