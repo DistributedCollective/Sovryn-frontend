@@ -62,5 +62,5 @@ export function staking_numTokenCheckpoints(
   );
 }
 
-export const getFeeSharingProxyContractName = (useNewContract = false) =>
+export const getFeeSharingProxyContractName = (useNewContract: boolean) =>
   useNewContract ? 'feeSharingProxy' : 'feeSharingProxy_old';

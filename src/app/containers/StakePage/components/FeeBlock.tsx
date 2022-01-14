@@ -33,7 +33,7 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
   const account = useAccount();
   const { asset } = contractToken;
   const { t } = useTranslation();
-  const isSovToken = asset === Asset.SOV;
+  const isSovToken = useMemo(() => asset === Asset.SOV, [asset]);
   const token = useMemo(
     () =>
       isSovToken
@@ -90,23 +90,20 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
       {Number(currency.value) > 0 && (
         <div className="tw-flex tw-justify-between tw-items-center tw-mb-1 tw-mt-1 tw-leading-6">
           <div className="tw-w-2/5">
-            {asset !== Asset.SOV ? (
-              <Tooltip
-                content={
-                  <>{t(translations.stake.sentLendingPool, { asset })}</>
-                }
-              >
-                <>i{asset} (?)</>
-              </Tooltip>
-            ) : (
-              <Tooltip
-                content={
-                  <>{t(translations.stake.convertedToRBTC, { asset })}</>
-                }
-              >
-                <>{title || asset} (?)</>
-              </Tooltip>
-            )}
+            <Tooltip
+              content={
+                <>
+                  {t(
+                    translations.stake[
+                      isSovToken ? 'convertedToRBTC' : 'sentLendingPool'
+                    ],
+                    { asset },
+                  )}
+                </>
+              }
+            >
+              {isSovToken ? <>{title || asset} (?)</> : <>i{asset} (?)</>}
+            </Tooltip>
           </div>
           <div className="tw-w-1/2 tw-mx-4">
             {weiTo4(currency.value)} ≈{' '}
