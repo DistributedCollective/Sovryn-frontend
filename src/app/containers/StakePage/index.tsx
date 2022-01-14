@@ -458,14 +458,14 @@ const InnerStakePage: React.FC = () => {
                   if (item.asset === 'CSOV') return '';
                   return (
                     <FeeBlock
-                      usdTotal={updateUsdTotal}
+                      updateUsdTotal={updateUsdTotal}
                       key={item.asset}
                       contractToken={item}
                     />
                   );
                 })}
                 <FeeBlock
-                  usdTotal={updateUsdTotal}
+                  updateUsdTotal={updateUsdTotal}
                   contractToken={AssetsDictionary.get(Asset.SOV)}
                   title={t(translations.stake.vestingFees)}
                   useNewContract

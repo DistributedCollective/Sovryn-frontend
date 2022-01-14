@@ -19,14 +19,14 @@ import { weiToUSD } from 'utils/display-text/format';
 
 interface IFeeBlockProps {
   contractToken: AssetDetails;
-  usdTotal: (asset: AssetDetails, value: number) => void;
+  updateUsdTotal: (asset: AssetDetails, value: number) => void;
   useNewContract?: boolean;
   title?: string;
 }
 
 export const FeeBlock: React.FC<IFeeBlockProps> = ({
   contractToken,
-  usdTotal,
+  updateUsdTotal,
   useNewContract = false,
   title,
 }) => {
@@ -79,10 +79,10 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
     [tokenAddress, account, useNewContract],
   );
 
-  useEffect(() => usdTotal(contractToken, Number(weiTo4(dollarValue))), [
+  useEffect(() => updateUsdTotal(contractToken, Number(weiTo4(dollarValue))), [
     contractToken,
     dollarValue,
-    usdTotal,
+    updateUsdTotal,
   ]);
 
   return (
