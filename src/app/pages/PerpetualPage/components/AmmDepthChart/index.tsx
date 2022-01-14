@@ -110,14 +110,14 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
                   content={
                     <Trans
                       i18nKey={
-                        translations.perpetualPage.ammDepth.tooltips.indexPrice
+                        translations.perpetualPage.ammDepth.tooltips.midPrice
                       }
                       components={[
                         <AssetValue
                           value={data.price}
                           assetString={pair.quoteAsset}
                           minDecimals={2}
-                          maxDecimals={8}
+                          maxDecimals={4}
                           mode={AssetValueMode.auto}
                         />,
                       ]}
@@ -154,7 +154,7 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
                             value={data.indexPrice}
                             assetString={pair.quoteAsset}
                             minDecimals={2}
-                            maxDecimals={8}
+                            maxDecimals={4}
                             mode={AssetValueMode.auto}
                           />,
                         ]}
@@ -178,7 +178,7 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
                             value={data.markPrice}
                             assetString={pair.quoteAsset}
                             minDecimals={2}
-                            maxDecimals={8}
+                            maxDecimals={4}
                             mode={AssetValueMode.auto}
                           />,
                         ]}
