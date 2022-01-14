@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { AssetDetails } from 'utils/models/asset-details';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { Tooltip } from '@blueprintjs/core';
-import { numberFromWei, weiTo4 } from 'utils/blockchain/math-helpers';
+import { weiTo4 } from 'utils/blockchain/math-helpers';
 import {
   staking_withdrawFee,
   staking_numTokenCheckpoints,
@@ -13,7 +13,6 @@ import {
 import { useStaking_getAccumulatedFees } from 'app/hooks/staking/useStaking_getAccumulatedFees';
 import { translations } from 'locales/i18n';
 import { LoadableValue } from 'app/components/LoadableValue';
-import { ContractName } from 'utils/types/contracts';
 import { bignumber } from 'mathjs';
 import { Asset } from 'types';
 import { weiToUSD } from 'utils/display-text/format';
@@ -32,19 +31,27 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
   title,
 }) => {
   const account = useAccount();
+  const { asset } = contractToken;
   const { t } = useTranslation();
-  const token =
-    contractToken.asset +
-    (contractToken.asset === Asset.SOV ? '_token' : '_lending');
-  const dollars = useCachedAssetPrice(contractToken.asset, Asset.USDT);
-  const tokenAddress = getContract(token as ContractName)?.address;
+  const isSovToken = asset === Asset.SOV;
+  const token = useMemo(
+    () =>
+      isSovToken
+        ? contractToken.getTokenContractName()
+        : contractToken.getLendingContractName(),
+    [contractToken, isSovToken],
+  );
+  const dollars = useCachedAssetPrice(asset, Asset.USDT);
+  const tokenAddress = getContract(token)?.address;
   const currency = useStaking_getAccumulatedFees(
     account,
     tokenAddress,
     useNewContract,
   );
   const dollarValue = useMemo(() => {
-    if (currency.value === null) return '';
+    if (currency.value === null) {
+      return '';
+    }
     return bignumber(currency.value)
       .mul(dollars.value)
       .div(10 ** contractToken.decimals)
@@ -72,38 +79,37 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
     [tokenAddress, account, useNewContract],
   );
 
-  useEffect(() => {
-    usdTotal(contractToken, Number(weiTo4(dollarValue)));
-  }, [contractToken, dollarValue, usdTotal]);
+  useEffect(() => usdTotal(contractToken, Number(weiTo4(dollarValue))), [
+    contractToken,
+    dollarValue,
+    usdTotal,
+  ]);
 
   return (
     <>
       {Number(currency.value) > 0 && (
         <div className="tw-flex tw-justify-between tw-items-center tw-mb-1 tw-mt-1 tw-leading-6">
           <div className="tw-w-2/5">
-            {contractToken.asset !== Asset.SOV ? (
+            {asset !== Asset.SOV ? (
               <Tooltip
                 content={
-                  <>{contractToken.asset} will be sent to the lending pool.</>
+                  <>{t(translations.stake.sentLendingPool, { asset })}</>
                 }
               >
-                <>i{contractToken.asset} (?)</>
+                <>i{asset} (?)</>
               </Tooltip>
             ) : (
               <Tooltip
                 content={
-                  <>
-                    {contractToken.asset} will be converted to RBTC and sent
-                    directly to your wallet.
-                  </>
+                  <>{t(translations.stake.convertedToRBTC, { asset })}</>
                 }
               >
-                <>{title || contractToken.asset} (?)</>
+                <>{title || asset} (?)</>
               </Tooltip>
             )}
           </div>
           <div className="tw-w-1/2 tw-mx-4">
-            {numberFromWei(currency.value).toFixed(4)} ≈{' '}
+            {weiTo4(currency.value)} ≈{' '}
             <LoadableValue
               value={weiToUSD(dollarValue)}
               loading={dollars.loading}

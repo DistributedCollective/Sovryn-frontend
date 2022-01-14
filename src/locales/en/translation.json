@@ -529,6 +529,8 @@
     "viewGovernance": "View Governance",
     "addStake": "Add New Stake",
     "feeTitle": "Total earned fees Available",
+    "sentLendingPool": "{{asset}} will be sent to the lending pool.",
+    "convertedToRBTC": "{{asset}} will be converted to RBTC and sent directly to your wallet.",
     "noUnlockedSov": "You don't have unlocked SOV",
     "txFee": "Tx Fee",
     "sov": "SOV",

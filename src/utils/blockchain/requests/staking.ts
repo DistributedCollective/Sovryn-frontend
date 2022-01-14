@@ -35,7 +35,7 @@ export function staking_withdrawFee(
   useNewContract = false,
 ) {
   return contractWriter.send(
-    useNewContract ? 'feeSharingProxy' : 'feeSharingProxy_old',
+    getFeeSharingProxyContractName(useNewContract),
     'withdraw',
     [tokenAddress, processedCheckpoints, account],
   );
@@ -46,7 +46,7 @@ export function staking_processedCheckpoints(
   useNewContract = false,
 ) {
   return contractReader.call(
-    useNewContract ? 'feeSharingProxy' : 'feeSharingProxy_old',
+    getFeeSharingProxyContractName(useNewContract),
     'processedCheckpoints',
     [account, tokenAddress, (useNewContract = false)],
   );
@@ -56,8 +56,11 @@ export function staking_numTokenCheckpoints(
   useNewContract = false,
 ) {
   return contractReader.call(
-    useNewContract ? 'feeSharingProxy' : 'feeSharingProxy_old',
+    getFeeSharingProxyContractName(useNewContract),
     'numTokenCheckpoints',
     [tokenAddress],
   );
 }
+
+export const getFeeSharingProxyContractName = (useNewContract = false) =>
+  useNewContract ? 'feeSharingProxy' : 'feeSharingProxy_old';

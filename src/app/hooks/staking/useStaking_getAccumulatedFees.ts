@@ -1,5 +1,6 @@
 import { useCacheCallWithValue } from '../useCacheCallWithValue';
 import { ethGenesisAddress } from '../../../utils/classifiers';
+import { getFeeSharingProxyContractName } from 'utils/blockchain/requests/staking';
 
 export function useStaking_getAccumulatedFees(
   address: string,
@@ -7,7 +8,7 @@ export function useStaking_getAccumulatedFees(
   useNewContract = false,
 ) {
   return useCacheCallWithValue(
-    useNewContract ? 'feeSharingProxy' : 'feeSharingProxy_old',
+    getFeeSharingProxyContractName(useNewContract),
     'getAccumulatedFees',
     !!address && address !== ethGenesisAddress,
     address || ethGenesisAddress,
