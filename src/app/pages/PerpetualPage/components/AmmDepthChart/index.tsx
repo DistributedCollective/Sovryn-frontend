@@ -72,7 +72,7 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
           <th className="tw-h-6 tw-w-4/12 tw-pr-4 tw-pb-1 tw-text-right tw-whitespace-nowrap">
             <Tooltip
               position="bottom"
-              popoverClassName="tw-max-w-md"
+              popoverClassName="tw-max-w-md tw-font-light"
               content={t(translations.perpetualPage.ammDepth.tooltips.change)}
             >
               <Trans i18nKey={translations.perpetualPage.ammDepth.change} />
