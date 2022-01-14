@@ -1708,7 +1708,7 @@
       "tooltips": {
         "orderValue": "The notional amount for your position.",
         "orderCost": "The approximate amount withdrawn from your wallet to pay for the trade. Consists of required margin and trading fee.",
-        "tradingFee": "The trading fee"
+        "tradingFee": "The trading fee excluding blockchain transaction fees."
       }
     },
     "tradeDialog": {
