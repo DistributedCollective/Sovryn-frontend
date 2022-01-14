@@ -1894,7 +1894,6 @@
       "rate": "Rate",
       "timeSinceLastPayment": "Time since last payment (DD:HH:MM:SS)",
       "tooltips": {
-        "received": "Amount of Funding Payment paid (negative) or received (positive).",
         "rate": "The time-averaged funding rate, scaled to be an 8h-rate.",
         "timeSinceLastPayment": "The duration for which the funding payment applies to."
       }
