@@ -12,6 +12,8 @@ import { prettyTx } from 'utils/helpers';
 import addressIcon from '../../assets/address-icon.svg';
 import successIcon from '../../assets/success-icon.svg';
 import { DepositContext, DepositStep } from '../../contexts/deposit-context';
+import { NetworkAwareComponentProps } from '../../types';
+import { Chain } from 'types';
 
 const stepOrder = [
   DepositStep.ADDRESS,
@@ -19,7 +21,9 @@ const stepOrder = [
   DepositStep.COMPLETED,
 ];
 
-export const SidebarStepsDeposit: React.FC = () => {
+export const SidebarStepsDeposit: React.FC<NetworkAwareComponentProps> = ({
+  network,
+}) => {
   const { t } = useTranslation();
   const { step, set, address, depositTx } = useContext(DepositContext);
 
@@ -130,10 +134,23 @@ export const SidebarStepsDeposit: React.FC = () => {
     [canOpen, set],
   );
 
+  const backToUrl = useMemo(
+    () => (network === Chain.BSC ? '/perpetual' : '/wallet'),
+    [network],
+  );
+
+  const backToTitle = useMemo(
+    () =>
+      network === Chain.BSC
+        ? t(translations.fastBtcPage.backToPerpetuals)
+        : t(translations.fastBtcPage.backToPortfolio),
+    [network, t],
+  );
+
   return (
     <>
       <Link
-        to="/wallet"
+        to={backToUrl}
         className="tw-absolute tw--top-2 tw-left-0 tw-flex tw-items-center tw-font-semibold tw-text-2xl tw-cursor-pointer tw-select-none tw-text-white tw-whitespace-nowrap tw-no-underline"
       >
         <img
@@ -141,7 +158,7 @@ export const SidebarStepsDeposit: React.FC = () => {
           src={ArrowBack}
           className="tw-w-4 tw-h-4 tw-mr-2"
         />
-        {t(translations.fastBtcPage.backToPortfolio)}
+        {backToTitle}
       </Link>
       {step !== DepositStep.MAIN && (
         <div className="tw-mt-24">

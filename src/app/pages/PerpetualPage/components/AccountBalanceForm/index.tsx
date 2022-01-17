@@ -3,6 +3,7 @@ import { bignumber } from 'mathjs';
 import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { translations } from '../../../../../locales/i18n';
 import { numberFromWei } from '../../../../../utils/blockchain/math-helpers';
 import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
@@ -29,6 +30,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const { collateral, pairType } = useSelector(selectPerpetualPage);
 
@@ -50,8 +52,8 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
     checkMaintenance(States.PERPETUALS_ACCOUNT_TRANSFER);
 
   const onOpenDeposit = useCallback(() => {
-    dispatch(actions.setModal(PerpetualPageModals.FASTBTC_DEPOSIT));
-  }, [dispatch]);
+    history.push('/fast-btc/deposit/bsc');
+  }, [history]);
 
   const onOpenWithdraw = useCallback(() => {
     dispatch(actions.setModal(PerpetualPageModals.FASTBTC_WITHDRAW));
@@ -184,11 +186,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
         </Tooltip>
       </div>
       <div className="tw-flex tw-flex-col md:tw-flex-row tw-justify-center tw-mx-auto tw-mt-16 tw-space-y-4 md:tw-space-y-0 md:tw-space-x-10">
-        <ActionButton
-          disabled
-          tooltip={t(translations.common.comingSoon)}
-          onClick={onOpenDeposit}
-        >
+        <ActionButton onClick={onOpenDeposit}>
           {t(translations.perpetualPage.accountBalance.deposit)}
         </ActionButton>
 
@@ -215,7 +213,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
 type ActionButtonProps = {
   onClick: () => void;
   disabled?: boolean;
-  tooltip: string;
+  tooltip?: string;
   children: React.ReactNode;
 };
 

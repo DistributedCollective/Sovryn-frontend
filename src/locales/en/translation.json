@@ -183,6 +183,7 @@
       "description": "Move your Bitcoin to RSK network."
     },
     "backToPortfolio": "Back to portfolio",
+    "backToPerpetuals": "Back to perpetuals",
     "deposit": {
       "sidebarSteps": {
         "address": "Deposit Address",
