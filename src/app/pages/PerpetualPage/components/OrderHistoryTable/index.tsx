@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { usePerpetual_OrderHistory } from '../../hooks/usePerpetual_OrderHistory';
 import { selectPerpetualPage } from '../../selectors';
 import { OrderHistoryRow } from './OrderHistoryRow';
+import { Tooltip } from '@blueprintjs/core';
 
 interface IOrderHistoryTableProps {
   perPage: number;
@@ -56,7 +57,16 @@ export const OrderHistoryTable: React.FC<IOrderHistoryTableProps> = ({
               {t(translations.perpetualPage.orderHistoryTable.orderSize)}
             </th>
             <th className="tw-text-sm">
-              {t(translations.perpetualPage.orderHistoryTable.limitPrice)}
+              <Tooltip
+                position="bottom"
+                popoverClassName="tw-max-w-md tw-font-light"
+                content={t(
+                  translations.perpetualPage.orderHistoryTable.tooltips
+                    .limitPrice,
+                )}
+              >
+                {t(translations.perpetualPage.orderHistoryTable.limitPrice)}
+              </Tooltip>
             </th>
             <th className="tw-text-sm">
               {t(translations.perpetualPage.orderHistoryTable.execSize)}

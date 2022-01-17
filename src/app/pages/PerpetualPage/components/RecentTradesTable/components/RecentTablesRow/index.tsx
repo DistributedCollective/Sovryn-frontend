@@ -4,6 +4,7 @@ import { RecentTradesDataEntry, TradeType } from '../../types';
 import { getPriceChangeImage, getPriceColor } from '../../utils';
 import { LinkToExplorer } from '../../../../../../components/LinkToExplorer';
 import { PERPETUAL_CHAIN_ID } from '../../../../types';
+import { toNumberFormat } from '../../../../../../../utils/display-text/format';
 
 type RecentTradesTableRowProps = {
   row: RecentTradesDataEntry;
@@ -54,7 +55,7 @@ export const RecentTradesTableRow: React.FC<RecentTradesTableRowProps> = ({
             <span className="tw-mr-3.5" />
           )}
 
-          <span>{row.price.toFixed(pricePrecision)}</span>
+          <span>{toNumberFormat(row.price, pricePrecision)}</span>
         </div>
       </td>
       <td
@@ -63,7 +64,7 @@ export const RecentTradesTableRow: React.FC<RecentTradesTableRowProps> = ({
           backgroundClassName,
         )}
       >
-        {row.size.toFixed(sizePrecision)}
+        {toNumberFormat(row.size, sizePrecision)}
       </td>
       <td
         className={classNames(
