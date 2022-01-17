@@ -11,8 +11,9 @@ import { LoadableValue } from '../LoadableValue';
 import { AssetRenderer } from '../AssetRenderer';
 import { useGetProfitDollarValue } from 'app/hooks/trading/useGetProfitDollarValue';
 import { fromWei } from 'utils/blockchain/math-helpers';
+import classNames from 'classnames';
 
-interface Props {
+interface ICurrentPositionProfitProps {
   source: Asset;
   destination: Asset;
   amount: string;
@@ -20,13 +21,13 @@ interface Props {
   isLong: boolean;
 }
 
-export function CurrentPositionProfit({
+export const CurrentPositionProfit: React.FC<ICurrentPositionProfitProps> = ({
   source,
   destination,
   amount,
   startPrice,
   isLong,
-}: Props) {
+}) => {
   const { loading, price } = useCurrentPositionPrice(
     destination,
     source,
@@ -48,9 +49,10 @@ export function CurrentPositionProfit({
         value={
           <div className="tw-flex tw-items-center">
             <span
-              className={
-                diff < 0 ? 'tw-text-trade-short' : 'tw-text-trade-long'
-              }
+              className={classNames({
+                'tw-text-trade-short': diff < 0,
+                'tw-text-trade-long': diff > 0,
+              })}
             >
               <div>
                 {diff > 0 && '+'}
@@ -87,4 +89,4 @@ export function CurrentPositionProfit({
       />
     </>
   );
-}
+};

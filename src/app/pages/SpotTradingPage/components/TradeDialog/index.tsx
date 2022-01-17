@@ -13,7 +13,7 @@ import {
 } from 'utils/display-text/format';
 import { Dialog } from 'app/containers/Dialog';
 import { TradingTypes } from '../../types';
-import { OrderTypes } from 'app/components/OrderType/types';
+import { OrderType } from 'app/components/OrderTypeTitle/types';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { AssetRenderer } from 'app/components/AssetRenderer';
@@ -25,7 +25,7 @@ interface ITradeDialogProps {
   submit: () => void;
   tradeType: TradingTypes;
   slippage?: number;
-  orderType: OrderTypes;
+  orderType: OrderType;
   minReturn?: string;
   amount: string;
   expectedReturn: string;
@@ -61,7 +61,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
       <Dialog isOpen={isOpen} onClose={() => onCloseModal()}>
         <div className="tw-mw-340 tw-mx-auto">
           <h1 className="tw-text-sov-white tw-text-center">
-            {orderType === OrderTypes.LIMIT
+            {orderType === OrderType.LIMIT
               ? t(translations.spotTradingPage.tradeDialog.limitTitle)
               : t(translations.spotTradingPage.tradeDialog.marketTitle)}
           </h1>
@@ -103,7 +103,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
                 </>
               }
             />
-            {orderType === OrderTypes.MARKET && (
+            {orderType === OrderType.MARKET && (
               <LabelValuePair
                 label={t(translations.swap.minimumReceived)}
                 value={
@@ -115,7 +115,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
               />
             )}
 
-            {orderType === OrderTypes.LIMIT && (
+            {orderType === OrderType.LIMIT && (
               <>
                 {limitPrice && (
                   <LabelValuePair
@@ -206,7 +206,7 @@ export const OrderLabel: React.FC<OrderLabelProps> = ({
 
   const getOrderTypeLabel = useCallback(() => {
     const orderLabel =
-      orderType === OrderTypes.LIMIT
+      orderType === OrderType.LIMIT
         ? t(translations.spotTradingPage.tradeForm.limit)
         : t(translations.spotTradingPage.tradeForm.market);
 

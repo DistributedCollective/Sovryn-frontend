@@ -15,7 +15,7 @@ import { bignumber } from 'mathjs';
 import { TransactionDialog } from 'app/components/TransactionDialog';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import { Toast } from 'app/components/Toast';
-import { OrderTypes } from 'app/components/OrderType/types';
+import { OrderType } from 'app/components/OrderTypeTitle/types';
 interface IClosePositionDialogProps {
   order: LimitOrder;
   showModal: boolean;
@@ -83,7 +83,7 @@ export function ClosePositionDialog({
           <div className="tw-py-4 tw-px-1 tw-bg-gray-2 sm:tw--mx-11 tw-mb-4 tw-rounded-lg tw-text-center">
             <OrderLabel
               className="tw-text-lg tw-font-semibold tw-mb-1"
-              orderType={OrderTypes.LIMIT}
+              orderType={OrderType.LIMIT}
               tradeType={tradeType}
             />
             <div>

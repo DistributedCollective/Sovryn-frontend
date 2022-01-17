@@ -9,7 +9,7 @@ import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
 import { bignumber } from 'mathjs';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { TradingTypes, ITradeFormProps } from '../../types';
-import { OrderTypes } from 'app/components/OrderType/types';
+import { OrderType } from 'app/components/OrderTypeTitle/types';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
@@ -133,7 +133,7 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
           </p>
           <OrderLabel
             className="tw-ml-2 tw-font-normal"
-            orderType={OrderTypes.MARKET}
+            orderType={OrderType.MARKET}
             tradeType={tradeType}
           />
           <div className="tw-ml-2">
@@ -153,7 +153,7 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
         isOpen={isTradingDialogOpen}
         slippage={slippage}
         tradeType={tradeType}
-        orderType={OrderTypes.MARKET}
+        orderType={OrderType.MARKET}
         amount={amount}
         minReturn={minReturn}
         targetToken={targetToken}
@@ -193,7 +193,7 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
         finalMessage={
           <OrderView
             tradeType={tradeType}
-            orderType={OrderTypes.MARKET}
+            orderType={OrderType.MARKET}
             amount={amount}
             minReturn={minReturn}
             targetToken={targetToken}
@@ -303,7 +303,7 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
 interface IOrderViewProps {
   tradeType: TradingTypes;
   slippage?: number;
-  orderType: OrderTypes;
+  orderType: OrderType;
   minReturn?: string;
   expectedReturn?: string;
   amount: string;

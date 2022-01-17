@@ -4,7 +4,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { TradingTypes } from '../../types';
-import { OrderTypes } from 'app/components/OrderType/types';
+import { OrderType } from 'app/components/OrderTypeTitle/types';
 import { Asset } from 'types';
 import { OrderLabel, PairLabel } from '../TradeDialog';
 import { AssetRenderer } from 'app/components/AssetRenderer';
@@ -63,7 +63,7 @@ export const LimitResultDialog: React.FC<ILimitResultDialogProps> = ({
         <div className="tw-py-4 tw-px-4 tw-bg-gray-2 sm:tw--mx-11 tw-mb-4 tw-rounded-lg tw-text-center">
           <OrderLabel
             className="tw-text-lg tw-font-semibold tw-mb-1"
-            orderType={OrderTypes.LIMIT}
+            orderType={OrderType.LIMIT}
             tradeType={tradeType}
           />
           <PairLabel

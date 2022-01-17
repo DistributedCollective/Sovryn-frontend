@@ -4,16 +4,15 @@
     tw-bg-black tw-border-0 tw-rounded-3xl;
   padding: 15px !important;
   max-width: 100%;
-  margin: 30px;
 }
 
 .dialog h1 {
+  @apply tw-font-medium;
   margin-bottom: 1.5rem;
   text-transform: none;
   text-align: center;
   font-size: 1.375rem;
   line-height: 1.813rem;
-  font-weight: 500;
 }
 
 .dialog button[data-close] {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { bignumber } from 'mathjs';
 import { Tooltip } from '@blueprintjs/core';
 import { useTranslation } from 'react-i18next';
@@ -14,7 +14,7 @@ import { backendUrl, currentChainId } from 'utils/classifiers';
 import { toWei } from 'utils/blockchain/math-helpers';
 import { TradingPair } from 'utils/models/trading-pair';
 
-interface Props {
+interface ITradeProfitProps {
   asset: Asset;
   entryPrice: string;
   closePrice: string;
@@ -25,12 +25,18 @@ interface Props {
   loanId: string;
 }
 
-export function TradeProfit(props: Props) {
+export const TradeProfit: React.FC<ITradeProfitProps> = ({
+  loanToken,
+  pair,
+  loanId,
+  position,
+  asset,
+}) => {
   const account = useAccount();
-  const [profit, setProfit] = useState<string>('');
-  const [profitDirection, setProfitDirection] = useState<number>(0);
+  const [profit, setProfit] = useState('');
+  const [profitDirection, setProfitDirection] = useState(0);
   const prettyPrice = amount => {
-    return props.loanToken !== props.pair.shortAsset
+    return loanToken !== pair.shortAsset
       ? toWei(
           bignumber(1)
             .div(amount)
@@ -39,40 +45,46 @@ export function TradeProfit(props: Props) {
       : toWei(bignumber(amount).div(10 ** 8));
   };
 
-  fetch(backendUrl[currentChainId] + '/events/trade/' + account)
-    .then(response => {
-      return response.json();
-    })
-    .then(loanEvents => {
-      loanEvents.events.forEach(events => {
-        if (events.loanId === props.loanId) {
-          const entryPrice = prettyPrice(events.data[0].collateralToLoanRate);
-          const closePrice = prettyPrice(
-            events.data.slice(-1).pop().collateralToLoanRate,
-          ); // getting the last element in data
-          const positionSize = events.data[0].positionSize;
+  useEffect(() => {
+    fetch(backendUrl[currentChainId] + '/events/trade/' + account)
+      .then(response => {
+        return response.json();
+      })
+      .then(loanEvents => {
+        loanEvents.events.forEach(events => {
+          if (events.loanId === loanId) {
+            const entryPrice = prettyPrice(events.data[0].collateralToLoanRate);
+            const closePrice = prettyPrice(
+              events.data.slice(-1).pop().collateralToLoanRate,
+            ); // getting the last element in data
+            const positionSize = events.data[0].positionSize;
 
-          //LONG position
-          let change = bignumber(bignumber(closePrice).minus(entryPrice))
-            .div(entryPrice)
-            .mul(100)
-            .toNumber();
-
-          //SHORT position
-          if (props.position === TradingPosition.SHORT) {
-            change = bignumber(bignumber(entryPrice).minus(closePrice))
+            //LONG position
+            let change = bignumber(bignumber(closePrice).minus(entryPrice))
               .div(entryPrice)
               .mul(100)
               .toNumber();
+
+            //SHORT position
+            if (position === TradingPosition.SHORT) {
+              change = bignumber(bignumber(entryPrice).minus(closePrice))
+                .div(entryPrice)
+                .mul(100)
+                .toNumber();
+            }
+            setProfit(
+              bignumber(change)
+                .mul(bignumber(positionSize))
+                .div(100)
+                .toFixed(0),
+            );
+            setProfitDirection(change);
           }
-          setProfit(
-            bignumber(change).mul(bignumber(positionSize)).div(100).toFixed(0),
-          );
-          setProfitDirection(change);
-        }
-      });
-    })
-    .catch(console.error);
+        });
+      })
+      .catch(console.error);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div>
@@ -89,12 +101,12 @@ export function TradeProfit(props: Props) {
           }
         >
           {profitDirection > 0 && '+'}
-          {weiToNumberFormat(profit, 8)} {props.asset}
+          {weiToNumberFormat(profit, 8)} {asset}
         </span>
       </Tooltip>
     </div>
   );
-}
+};
 
 function Change({ profitDirection }: { profitDirection: number }) {
   const { t } = useTranslation();

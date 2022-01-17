@@ -12,7 +12,7 @@ import {
   toNumberFormat,
 } from 'utils/display-text/format';
 
-interface Props {
+interface IAmountInputProps {
   value: string;
   onChange: (value: string, isTotal?: boolean | undefined) => void;
   decimalPrecision?: number;
@@ -21,7 +21,7 @@ interface Props {
   assetSelectable?: boolean;
   onSelectAsset?: (asset: Asset) => void;
   subText?: string;
-  subElem?: React.ReactNode;
+  subElement?: React.ReactNode;
   placeholder?: string;
   maxAmount?: string;
   readonly?: boolean;
@@ -30,7 +30,7 @@ interface Props {
   dataActionId?: string;
 }
 
-export function AmountInput({
+export const AmountInput: React.FC<IAmountInputProps> = ({
   value,
   onChange,
   placeholder = toNumberFormat(0, 6),
@@ -40,61 +40,57 @@ export function AmountInput({
   assetSelectable,
   onSelectAsset,
   subText,
-  subElem,
+  subElement,
   maxAmount,
   readonly,
   showBalance,
   hideAmountSelector,
   dataActionId,
-}: Props) {
-  return (
-    <>
-      <Input
-        value={stringToFixedPrecision(value, decimalPrecision)}
+}) => (
+  <>
+    <Input
+      value={stringToFixedPrecision(value, decimalPrecision)}
+      onChange={onChange}
+      type="number"
+      placeholder={placeholder}
+      appendElem={
+        asset || assetString ? (
+          assetSelectable ? (
+            <AssetSelect
+              selected={asset}
+              selectedAssetString={assetString}
+              onChange={onSelectAsset}
+            />
+          ) : (
+            <AssetRenderer asset={asset} assetString={assetString} />
+          )
+        ) : null
+      }
+      className="tw-rounded-lg tw-max-w-full"
+      appendClassName={assetSelectable ? '' : 'tw-mr-5'}
+      readOnly={readonly}
+      dataActionId={`${dataActionId}-amountInput`}
+    />
+    {subText && (
+      <div className="tw-text-xs tw-mt-1 tw-font-thin">{subText}</div>
+    )}
+    {subElement && <>{subElement}</>}
+    {!readonly && !hideAmountSelector && (asset || maxAmount !== undefined) && (
+      <AmountSelector
+        parentValue={value}
+        asset={asset}
+        maxAmount={maxAmount}
         onChange={onChange}
-        type="number"
-        placeholder={placeholder}
-        appendElem={
-          asset || assetString ? (
-            assetSelectable ? (
-              <AssetSelect
-                selected={asset}
-                selectedAssetString={assetString}
-                onChange={onSelectAsset}
-              />
-            ) : (
-              <AssetRenderer asset={asset} assetString={assetString} />
-            )
-          ) : null
-        }
-        className="tw-rounded-lg tw-max-w-full"
-        appendClassName={assetSelectable ? '' : 'tw-mr-5'}
-        readOnly={readonly}
-        dataActionId={`${dataActionId}-amountInput`}
+        showBalance={showBalance}
+        dataActionId={dataActionId}
       />
-      {subText && (
-        <div className="tw-text-xs tw-mt-1 tw-font-thin">{subText}</div>
-      )}
-      {subElem && <>{subElem}</>}
-      {!readonly &&
-        !hideAmountSelector &&
-        (asset || maxAmount !== undefined) && (
-          <AmountSelector
-            parentValue={value}
-            asset={asset}
-            maxAmount={maxAmount}
-            onChange={onChange}
-            showBalance={showBalance}
-            dataActionId={dataActionId}
-          />
-        )}
-    </>
-  );
-}
+    )}
+  </>
+);
 
 const amounts = [10, 25, 50, 75, 100];
 
-interface AmountSelectorProps {
+interface IAmountButtonProps {
   parentValue?: string;
   asset?: Asset;
   maxAmount?: string;
@@ -103,14 +99,19 @@ interface AmountSelectorProps {
   onChange: (value: string, isTotal: boolean) => void;
 }
 
-export function AmountSelector(props: AmountSelectorProps) {
-  const { value } = useAssetBalanceOf(props.asset || Asset.RBTC);
+export const AmountSelector: React.FC<IAmountButtonProps> = ({
+  maxAmount,
+  asset,
+  onChange,
+  dataActionId,
+}) => {
+  const { value } = useAssetBalanceOf(asset || Asset.RBTC);
   const balance = useMemo(() => {
-    if (props.maxAmount !== undefined) {
-      return props.maxAmount;
+    if (maxAmount !== undefined) {
+      return maxAmount;
     }
     return value;
-  }, [props.maxAmount, value]);
+  }, [maxAmount, value]);
 
   const handleChange = (percent: number) => {
     let value = '0';
@@ -125,7 +126,7 @@ export function AmountSelector(props: AmountSelectorProps) {
         .mul(percent / 100)
         .toString();
     }
-    props.onChange(fromWei(value), isTotal);
+    onChange(fromWei(value), isTotal);
   };
   return (
     <div className="tw-h-5 tw-mt-1 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded-md tw-divide-x tw-divide-secondary">
@@ -134,12 +135,12 @@ export function AmountSelector(props: AmountSelectorProps) {
           key={value}
           text={`${value}%`}
           onClick={() => handleChange(value)}
-          dataActionId={props.dataActionId}
+          dataActionId={dataActionId}
         />
       ))}
     </div>
   );
-}
+};
 
 interface AmountButtonProps {
   text?: string;

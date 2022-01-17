@@ -3,12 +3,12 @@ import { Asset } from 'types';
 import { TradingPosition } from 'types/trading-position';
 import { PricePrediction } from 'app/containers/MarginTradeForm/PricePrediction';
 import { TradingTypes } from 'app/pages/SpotTradingPage/types';
-import { OrderTypes } from 'app/components/OrderType/types';
+import { OrderType } from 'app/components/OrderTypeTitle/types';
 
 interface ITradeToastInfoProps {
   position: TradingPosition;
   leverage: number;
-  orderTypeValue: OrderTypes;
+  orderTypeValue: OrderType;
   amount: string;
   collateral: Asset;
   loanToken: Asset;

@@ -34,7 +34,7 @@ interface IArbitrageProps {
   onClick: (source: Asset, target: Asset) => void;
 }
 
-export const Arbitrage: React.FC<IArbitrageProps> = props => {
+export const Arbitrage: React.FC<IArbitrageProps> = ({ onClick }) => {
   const { t } = useTranslation();
   const { assetRates } = useSelector(selectWalletProvider);
 
@@ -149,7 +149,7 @@ export const Arbitrage: React.FC<IArbitrageProps> = props => {
                 className="tw-block tw-rounded-50 tw-uppercase tw-bg-primary-25 hover:tw-opacity-75 tw-ml-4"
                 textClassName="tw-text-base"
                 onClick={() =>
-                  props.onClick(opportunity.fromToken, opportunity.toToken)
+                  onClick(opportunity.fromToken, opportunity.toToken)
                 }
               />
             </div>

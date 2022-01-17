@@ -33,7 +33,7 @@ import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPri
 import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
 import { SlippageForm } from '../SlippageForm';
 import { toWei } from 'utils/blockchain/math-helpers';
-import { OrderTypes } from 'app/components/OrderType/types';
+import { OrderType } from 'app/components/OrderTypeTitle/types';
 import { MARGIN_SLIPPAGE_DEFAULT } from '../../types';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { LoadableValue } from 'app/components/LoadableValue';
@@ -50,7 +50,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   const [tradeAmount, setTradeAmount] = useState<string>('');
   const [slippage, setSlippage] = useState(MARGIN_SLIPPAGE_DEFAULT);
   const weiAmount = useWeiAmount(tradeAmount);
-  const [orderType] = useState(OrderTypes.MARKET);
+  const [orderType] = useState(OrderType.MARKET);
   const { position, amount, collateral, leverage } = useSelector(
     selectMarginTradePage,
   );
@@ -249,7 +249,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                         translations.marginTradePage.tradeForm.placePosition
                           .placeLong,
                       )}{' '}
-                      {orderType === OrderTypes.MARKET
+                      {orderType === OrderType.MARKET
                         ? t(translations.marginTradePage.tradeForm.market)
                         : t(translations.marginTradePage.tradeForm.limit)}
                     </>
@@ -259,7 +259,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                         translations.marginTradePage.tradeForm.placePosition
                           .placeShort,
                       )}{' '}
-                      {orderType === OrderTypes.MARKET
+                      {orderType === OrderType.MARKET
                         ? t(translations.marginTradePage.tradeForm.market)
                         : t(translations.marginTradePage.tradeForm.limit)}
                     </>

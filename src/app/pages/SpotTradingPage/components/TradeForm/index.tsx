@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { selectSpotTradingPage } from '../../selectors';
 import { BuySell } from '../BuySell';
-import { OrderType } from 'app/components/OrderType';
-import { OrderTypes } from 'app/components/OrderType/types';
+import { OrderTypeTitle } from 'app/components/OrderTypeTitle';
+import { OrderType } from 'app/components/OrderTypeTitle/types';
 import { pairs, TradingTypes } from '../../types';
 import { Asset } from 'types/asset';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -13,7 +13,7 @@ import { MarketForm } from './MarketForm';
 
 export function TradeForm() {
   const [tradeType, setTradeType] = useState(TradingTypes.BUY);
-  const [orderType, setOrderType] = useState(OrderTypes.MARKET);
+  const [orderType, setOrderType] = useState(OrderType.MARKET);
 
   const [sourceToken, setSourceToken] = useState(Asset.SOV);
   const [targetToken, setTargetToken] = useState(Asset.RBTC);
@@ -42,7 +42,7 @@ export function TradeForm() {
       <div className="tw-trading-form-card spot-form tw-bg-black tw-rounded-3xl tw-px-4 tw-py-6 tw-mx-auto xl:tw-mx-0">
         <div className="tw-mx-auto">
           <BuySell value={tradeType} onChange={setTradeType} />
-          <OrderType
+          <OrderTypeTitle
             value={orderType}
             onChange={setOrderType}
             dataActionId="spot"
@@ -51,13 +51,13 @@ export function TradeForm() {
             sourceToken={sourceToken}
             targetToken={targetToken}
             tradeType={tradeType}
-            hidden={orderType !== OrderTypes.LIMIT}
+            hidden={orderType !== OrderType.LIMIT}
           />
           <MarketForm
             sourceToken={sourceToken}
             targetToken={targetToken}
             tradeType={tradeType}
-            hidden={orderType !== OrderTypes.MARKET}
+            hidden={orderType !== OrderType.MARKET}
           />
         </div>
       </div>

@@ -36,7 +36,7 @@ import { selectMarginTradePage } from '../../selectors';
 import { actions } from '../../slice';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
-import { OrderTypes } from 'app/components/OrderType/types';
+import { OrderType } from 'app/components/OrderTypeTitle/types';
 import { bignumber } from 'mathjs';
 import { TradeDialogInfo } from './TradeDialogInfo';
 import { TradeToastInfo } from './TradeToastInfo';
@@ -54,7 +54,7 @@ interface ITradeDialogProps {
   slippage: number;
   isOpen: boolean;
   onCloseModal: () => void;
-  orderType: OrderTypes;
+  orderType: OrderType;
 }
 
 const TradeLogInputs = [
