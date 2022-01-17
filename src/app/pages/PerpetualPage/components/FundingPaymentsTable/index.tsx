@@ -8,6 +8,7 @@ import React from 'react';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { Pagination } from 'app/components/Pagination';
 import { FundingPaymentsRow } from './FundingPaymentsRow';
+import { Tooltip } from '@blueprintjs/core';
 
 interface IFundingPaymentsTable {
   perPage: number;
@@ -51,13 +52,30 @@ export const FundingPaymentsTable: React.FC<IFundingPaymentsTable> = ({
               {t(translations.perpetualPage.fundingPaymentsTable.received)}
             </th>
             <th className="tw-text-sm">
-              {t(translations.perpetualPage.fundingPaymentsTable.rate)}
+              <Tooltip
+                position="bottom"
+                popoverClassName="tw-max-w-md tw-font-light"
+                content={t(
+                  translations.perpetualPage.fundingPaymentsTable.tooltips.rate,
+                )}
+              >
+                {t(translations.perpetualPage.fundingPaymentsTable.rate)}
+              </Tooltip>
             </th>
             <th className="tw-text-sm">
-              {t(
-                translations.perpetualPage.fundingPaymentsTable
-                  .timeSinceLastPayment,
-              )}
+              <Tooltip
+                position="bottom"
+                popoverClassName="tw-max-w-md tw-font-light"
+                content={t(
+                  translations.perpetualPage.fundingPaymentsTable.tooltips
+                    .timeSinceLastPayment,
+                )}
+              >
+                {t(
+                  translations.perpetualPage.fundingPaymentsTable
+                    .timeSinceLastPayment,
+                )}
+              </Tooltip>
             </th>
           </tr>
         </thead>

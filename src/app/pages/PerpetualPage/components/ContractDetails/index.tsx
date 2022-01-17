@@ -9,6 +9,7 @@ import { AssetValue } from 'app/components/AssetValue';
 import { AssetValueMode } from 'app/components/AssetValue/types';
 import { getCollateralName } from '../../utils/renderUtils';
 import { Asset } from '../../../../../types';
+import { Tooltip } from '@blueprintjs/core';
 
 type ContractDetailsProps = {
   pair: PerpetualPair;
@@ -36,6 +37,9 @@ export const ContractDetails: React.FC<ContractDetailsProps> = ({
           titleClassName="tw-font-medium"
           valueClassName="tw-text-primary tw-font-semibold"
           title={t(translations.perpetualPage.contractDetails.markPrice)}
+          tooltip={t(
+            translations.perpetualPage.contractDetails.tooltips.markPrice,
+          )}
           value={
             <AssetValue
               minDecimals={2}
@@ -50,6 +54,9 @@ export const ContractDetails: React.FC<ContractDetailsProps> = ({
           titleClassName="tw-font-medium"
           valueClassName="tw-font-semibold"
           title={t(translations.perpetualPage.contractDetails.indexPrice)}
+          tooltip={t(
+            translations.perpetualPage.contractDetails.tooltips.indexPrice,
+          )}
           value={
             <AssetValue
               minDecimals={2}
@@ -74,6 +81,9 @@ export const ContractDetails: React.FC<ContractDetailsProps> = ({
         />
         <ContractDetailEntry
           title={t(translations.perpetualPage.contractDetails.openInterest)}
+          tooltip={t(
+            translations.perpetualPage.contractDetails.tooltips.openInterest,
+          )}
           value={
             <AssetValue
               minDecimals={2}
@@ -86,6 +96,9 @@ export const ContractDetails: React.FC<ContractDetailsProps> = ({
         />
         <ContractDetailEntry
           title={t(translations.perpetualPage.contractDetails.fundingRate)}
+          tooltip={t(
+            translations.perpetualPage.contractDetails.tooltips.fundingRate,
+          )}
           value={
             <>
               <span
@@ -135,6 +148,7 @@ type ContractDetailEntryProps = {
   titleClassName?: string;
   valueClassName?: string;
   title: React.ReactNode;
+  tooltip?: React.ReactElement | string;
   value: React.ReactNode;
 };
 
@@ -143,12 +157,19 @@ const ContractDetailEntry: React.FC<ContractDetailEntryProps> = ({
   titleClassName,
   valueClassName,
   title,
+  tooltip,
   value,
 }) => (
   <div className={classNames('sm:tw-mr-8', className)}>
-    <span className={classNames('tw-mr-2.5 tw-text-xs', titleClassName)}>
-      {title}
-    </span>
+    <Tooltip
+      content={tooltip}
+      popoverClassName="tw-max-w-md tw-font-light"
+      position="bottom"
+    >
+      <span className={classNames('tw-mr-2.5 tw-text-xs', titleClassName)}>
+        {title}
+      </span>
+    </Tooltip>
     <span className={classNames('tw-text-sm tw-font-medium', valueClassName)}>
       {value}
     </span>

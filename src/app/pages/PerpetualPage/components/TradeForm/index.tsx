@@ -433,9 +433,15 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         </div>
       </div>
       <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-sm">
-        <label>
-          {t(translations.perpetualPage.tradeForm.labels.orderValue)}
-        </label>
+        <Tooltip
+          position="bottom"
+          popoverClassName="tw-max-w-md tw-font-light"
+          content={t(translations.perpetualPage.tradeForm.tooltips.orderValue)}
+        >
+          <label>
+            {t(translations.perpetualPage.tradeForm.labels.orderValue)}
+          </label>
+        </Tooltip>
         <div className="tw-flex-1 tw-mx-4 tw-text-right">
           <AssetSymbolRenderer assetString={pair.baseAsset} />
         </div>
@@ -472,9 +478,15 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         />
       </div>
       <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-text-xs tw-font-medium">
-        <label>
-          {t(translations.perpetualPage.tradeForm.labels.orderCost)}
-        </label>
+        <Tooltip
+          position="bottom"
+          popoverClassName="tw-max-w-md tw-font-light"
+          content={t(translations.perpetualPage.tradeForm.tooltips.orderCost)}
+        >
+          <label>
+            {t(translations.perpetualPage.tradeForm.labels.orderCost)}
+          </label>
+        </Tooltip>
         <AssetValue
           minDecimals={4}
           maxDecimals={4}
@@ -484,9 +496,15 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         />
       </div>
       <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-xs tw-font-medium">
-        <label>
-          {t(translations.perpetualPage.tradeForm.labels.tradingFee)}
-        </label>
+        <Tooltip
+          position="bottom"
+          popoverClassName="tw-max-w-md tw-font-light"
+          content={t(translations.perpetualPage.tradeForm.tooltips.tradingFee)}
+        >
+          <label>
+            {t(translations.perpetualPage.tradeForm.labels.tradingFee)}
+          </label>
+        </Tooltip>
         <AssetValue
           minDecimals={4}
           maxDecimals={6}
