@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { ReactComponent as EditIcon } from 'assets/images/edit.svg';
 import { ReactComponent as ArrowForwardIcon } from 'assets/images/arrow_forward.svg';
 import { Slider, SliderType } from 'app/components/Form/Slider';
@@ -11,6 +11,22 @@ import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { roundToSmaller } from '../../../../../utils/blockchain/math-helpers';
 
 const leverageStepDeviation = 0.05;
+
+const calculateCustomValueIndex = (steps: number[], customValue: number) => {
+  let closestIndex = 0;
+  let smallestDistance = 100;
+
+  steps.forEach((item, index) => {
+    if (Math.abs(item - customValue) < smallestDistance) {
+      closestIndex = index;
+      smallestDistance = Math.abs(item - customValue);
+    }
+  });
+
+  return steps[closestIndex] - customValue < 0
+    ? closestIndex + 1
+    : closestIndex;
+};
 
 type LeverageSelectorProps = {
   className?: string;
@@ -31,8 +47,9 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
 }) => {
   const { t } = useTranslation();
   const [manual, setManual] = useState(false);
+  const [hasCustomValue, setHasCustomValue] = useState<boolean>(false);
 
-  const steps = useMemo(() => {
+  const filteredSteps = useMemo(() => {
     const steps = unfilteredSteps.filter(
       step =>
         step - leverageStepDeviation >= min &&
@@ -47,19 +64,39 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
     return steps;
   }, [min, max, unfilteredSteps]);
 
+  const [steps, setSteps] = useState<number[]>(filteredSteps);
+
+  useEffect(() => {
+    if (!hasCustomValue && steps.length !== filteredSteps.length) {
+      setSteps(filteredSteps);
+    }
+  }, [filteredSteps, hasCustomValue, steps.length]);
+
   const onEnableManual = useCallback(() => {
     setManual(true);
+    if (hasCustomValue) {
+      setSteps(filteredSteps);
+      setHasCustomValue(false);
+    }
     onChange(Number(roundToSmaller(value, 2)));
-  }, [value, onChange]);
+  }, [filteredSteps, hasCustomValue, onChange, value]);
 
   const onEnableManualMinimum = useCallback(() => {
     setManual(true);
     onChange(min);
   }, [onChange, min]);
+
   const onDisableManual = useCallback(() => {
     setManual(false);
     if (!steps.includes(value)) {
-      onChange(steps[0]);
+      const customValueIndex = calculateCustomValueIndex(steps, value);
+
+      setHasCustomValue(true);
+      const tempSteps = steps.slice();
+      tempSteps.splice(customValueIndex, 0, value);
+      setSteps(tempSteps);
+
+      onChange(value);
     }
   }, [onChange, steps, value]);
 
