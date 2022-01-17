@@ -60,11 +60,11 @@ export function MarginTradePage() {
         />
       </Helmet>
       <Header />
-      <div className={styles.overview}>
-        <PairNavbar />
-      </div>
-      <div className="tw-container tw-mb-5 tw-mx-auto tw-px-3">
-        <div className="tw-flex tw-flex-col xl:tw-flex-row xl:tw-justify-between tw-max-w-full">
+      <div className="tw-container tw-mx-auto tw-px-3">
+        <div className={styles.overview}>
+          <PairNavbar />
+        </div>
+        <div className="tw-flex tw-mt-5 tw-flex-col xl:tw-flex-row xl:tw-justify-between tw-max-w-full">
           <div
             className={
               'tw-flex-shrink tw-flex-grow tw-mb-12 tw-max-w-none xl:tw-pr-4 xl:tw-mb-0'
