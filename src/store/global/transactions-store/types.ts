@@ -53,6 +53,7 @@ export enum TxType {
   UNWRAP_WRBTC = 'unwrap_wrbtc',
   CLAIM_VESTED_SOV_REWARDS = 'claim_vested_sov_rewards',
   SIMULATOR_REQUEST = 'simulator_request',
+  FAST_BTC_WITHDRAW = 'fast_btc_withdraw',
 }
 
 export enum TxStatus {

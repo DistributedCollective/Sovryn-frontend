@@ -211,7 +211,32 @@ export const TxStatusIcon: React.FC<TxStatusIconProps> = ({
   </div>
 );
 
-function WalletLogo({ wallet }: { wallet: string }) {
+type StatusComponentProps = {
+  status: TxStatus;
+  onlyImage?: boolean;
+};
+
+export const StatusComponent: React.FC<StatusComponentProps> = ({
+  status,
+  onlyImage = false,
+}) => {
+  return (
+    <div className={styles.wlContainer}>
+      <img
+        src={getStatusImage(status)}
+        className={`${status === 'pending' && 'tw-animate-spin'}`}
+        alt="Status"
+      />
+      {!onlyImage && <p>{getStatus(status)}</p>}
+    </div>
+  );
+};
+
+type WalletLogoProps = {
+  wallet: string;
+};
+
+const WalletLogo: React.FC<WalletLogoProps> = ({ wallet }) => {
   return (
     <div className={styles.wlContainer}>
       <img
@@ -222,4 +247,4 @@ function WalletLogo({ wallet }: { wallet: string }) {
       <div className="tw-text-xs tw-truncate">{getWalletName(wallet)}</div>
     </div>
   );
-}
+};

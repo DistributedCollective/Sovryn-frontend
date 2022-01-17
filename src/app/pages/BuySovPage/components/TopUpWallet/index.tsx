@@ -4,13 +4,13 @@ import { Button } from '../Button';
 import { useIsConnected } from '../../../../hooks/useAccount';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
 import { Asset } from '../../../../../types/asset';
-import { FastBtcDialog } from '../../../../containers/FastBtcDialog';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { Trans } from 'react-i18next';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
+import { TransakDialog } from 'app/components/TransakDialog/TransakDialog';
 
-export function TopUpWallet() {
+export const TopUpWallet: React.FC = () => {
   const { t } = useTranslation();
   const connected = useIsConnected();
   const { value: balance } = useAssetBalanceOf(Asset.RBTC);
@@ -49,7 +49,7 @@ export function TopUpWallet() {
         disabled={!connected}
         onClick={() => setOpen(true)}
       />
-      <FastBtcDialog isOpen={open} onClose={() => setOpen(false)} />
+      <TransakDialog isOpen={open} onClose={() => setOpen(false)} />
     </Card>
   );
-}
+};

@@ -48,6 +48,7 @@ import { usePriceFeeds_tradingPairRates } from './hooks/price-feeds/usePriceFeed
 import { BridgeDepositPage } from './pages/BridgeDepositPage/Loadable';
 import { BridgeWithdrawPage } from './pages/BridgeWithdrawPage/Loadable';
 import { PerpetualPage } from './pages/PerpetualPage';
+import { FastBtcPage } from './pages/FastBtcPage/Loadable';
 
 import { ApolloProvider } from '@apollo/client';
 import { apolloClient } from './pages/PerpetualPage/utils/graphQlHelpers';
@@ -119,6 +120,11 @@ export function App() {
                 exact
                 path="/unsubscribe"
                 render={props => <EmailPage {...props} type="UNSUBSCRIBE" />}
+              />
+              <Route
+                exact
+                path="/fast-btc/:type/:network?"
+                component={FastBtcPage}
               />
               <Route component={NotFoundPage} />
             </Switch>

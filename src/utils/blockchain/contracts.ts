@@ -3,6 +3,8 @@
  * Use getContract(contractName) helper
  * @example getContract('sovrynProtocol');
  */
+
+import { ChainId } from '../../types';
 import bzxAbi from './abi/bzxAbi.json';
 import priceFeedsAbi from './abi/priceFeedAbi.json';
 import WBRTCTokenABI from './abi/abiTestWBRTCToken.json';
@@ -36,7 +38,7 @@ import MYNTPresaleAbi from './abi/MYNTPresale.json';
 import MYNTMarketMakerAbi from './abi/MYNTMarketMaker.json';
 import perpetualManagerAbi from './abi/PerpetualManager.json';
 import marginTokenAbi from './abi/MarginToken.json';
-import { ChainId } from '../../types';
+import fastBtcBridgeAbi from './abi/fastBtcBridge.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -306,5 +308,9 @@ export const contracts = {
     address: '0x1431Aa8f066795d3aB94F8516B74FdCC5fD7897F',
     abi: marginTokenAbi,
     chainId: ChainId.BSC_MAINNET,
+  },
+  fastBtcBridge: {
+    address: '0x0000000000000000000000000000000000000000', // todo
+    abi: fastBtcBridgeAbi,
   },
 };

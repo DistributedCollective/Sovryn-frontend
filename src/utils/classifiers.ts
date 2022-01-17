@@ -31,11 +31,6 @@ export const rpcNodes = {
   97: 'wss://bsc.sovryn.app/testnet',
 };
 
-export const fastBtcApis = {
-  30: 'https://fastbtc.sovryn.app/',
-  31: 'https://fastbtc.test.sovryn.app/',
-};
-
 export const databaseRpcNodes = {
   30: 'https://backend.sovryn.app/rpc',
   31: 'https://api.test.sovryn.app/rpc',
@@ -86,6 +81,7 @@ export const gasLimit = {
   [TxType.SOV_WITHDRAW_VESTING]: 1900000,
   [TxType.SIMULATOR_REQUEST]: 6800000,
   [TxType.OPEN_PERPETUAL_TRADE]: 2200000,
+  [TxType.FAST_BTC_WITHDRAW]: 300000,
 };
 
 export const discordInvite = 'https://discord.gg/kBTNx4zjRf'; //unlimited use, no-expiry invite
@@ -100,5 +96,8 @@ export const TRADE_LOG_SIGNATURE_HASH =
 export const MAINTENANCE_MARGIN = 15000000000000000000;
 
 export const MIN_GAS = 40000;
+
+export const CREATE_TICKET_LINK =
+  'https://sovryn.freshdesk.com/support/tickets/new';
 
 export const MILLION = 1000000;
