@@ -63,7 +63,7 @@ export function MarginTradePage() {
       <div className={styles.overview}>
         <PairNavbar />
       </div>
-      <div className="tw-container tw-mt-5 tw-mx-auto tw-px-3">
+      <div className="tw-container tw-mb-5 tw-mx-auto tw-px-3">
         <div className="tw-flex tw-flex-col xl:tw-flex-row xl:tw-justify-between tw-max-w-full">
           <div
             className={
