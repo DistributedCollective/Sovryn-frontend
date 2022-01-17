@@ -102,10 +102,13 @@ export const ResultPosition: React.FC<ResultPositionProps> = ({
           origin !== PerpetualPageModals.EDIT_MARGIN && (
             <div className={classNames(styles.positionInfoRow, 'tw-mt-2')}>
               <span className="tw-text-gray-10">
-                {t(translations.perpetualPage.reviewTrade.labels.entryPrice)}
+                {t(
+                  translations.perpetualPage.reviewTrade.labels[
+                    amountChange > 0 ? 'maxEntryPrice' : 'minEntryPrice'
+                  ],
+                )}
               </span>
               <span className="tw-font-medium">
-                {amountChange > 0 ? '≤ ' : '≥ '}
                 <AssetValue
                   minDecimals={2}
                   maxDecimals={2}

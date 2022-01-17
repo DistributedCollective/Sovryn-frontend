@@ -533,6 +533,26 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           <img className="tw-ml-2" alt="setting" src={settingImg} />
         </button>
       </div>
+      {isNewTrade && (
+        <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1 tw-mt-4 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
+          <label>
+            {t(
+              translations.perpetualPage.tradeForm.labels[
+                trade.position === TradingPosition.LONG
+                  ? 'maxEntryPrice'
+                  : 'minEntryPrice'
+              ],
+            )}
+          </label>
+          <AssetValue
+            minDecimals={2}
+            maxDecimals={2}
+            mode={AssetValueMode.auto}
+            value={limitPrice}
+            assetString={pair.quoteAsset}
+          />
+        </div>
+      )}
       {!isNewTrade && (
         <>
           <LeverageViewer
@@ -552,6 +572,24 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
               maxDecimals={2}
               mode={AssetValueMode.auto}
               value={liquidationPrice}
+              assetString={pair.quoteAsset}
+            />
+          </div>
+          <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1 tw-mt-4 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
+            <label>
+              {t(
+                translations.perpetualPage.tradeForm.labels[
+                  trade.position === TradingPosition.LONG
+                    ? 'maxEntryPrice'
+                    : 'minEntryPrice'
+                ],
+              )}
+            </label>
+            <AssetValue
+              minDecimals={2}
+              maxDecimals={2}
+              mode={AssetValueMode.auto}
+              value={limitPrice}
               assetString={pair.quoteAsset}
             />
           </div>
@@ -579,9 +617,8 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           >
             <span className="tw-mr-2">{tradeButtonLabel}</span>
             <span>
-              {weiToNumberFormat(trade.amount, lotPrecision)}
-              {` @ ${trade.position === TradingPosition.LONG ? '≤' : '≥'} `}
-              {toNumberFormat(limitPrice, 2)}
+              {weiToNumberFormat(trade.amount, lotPrecision)} @{' '}
+              {toNumberFormat(averagePrice, 2)}
             </span>
           </button>
         ) : (
