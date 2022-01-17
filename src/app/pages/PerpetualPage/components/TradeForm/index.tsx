@@ -490,6 +490,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         <AssetValue
           minDecimals={4}
           maxDecimals={4}
+          useTooltip
           mode={AssetValueMode.auto}
           value={requiredCollateral}
           assetString={collateralName}
@@ -507,7 +508,8 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         </Tooltip>
         <AssetValue
           minDecimals={4}
-          maxDecimals={6}
+          maxDecimals={4}
+          useTooltip
           mode={AssetValueMode.auto}
           value={tradingFee}
           assetString={collateralName}
