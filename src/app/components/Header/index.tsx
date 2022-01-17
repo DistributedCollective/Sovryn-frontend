@@ -186,7 +186,7 @@ export function Header() {
       [SECTION_TYPE.FINANCE]: ['/lend', '/yield-farm'],
       [SECTION_TYPE.BITOCRACY]: ['/stake'],
       [SECTION_TYPE.ORIGINS]: ['/origins', '/origins/claim'],
-      [SECTION_TYPE.LABS]: ['/labs'],
+      [SECTION_TYPE.LABS]: ['/labs', '/mynt-token'],
     };
     return section && paths[section].includes(location.pathname);
   };
@@ -418,37 +418,32 @@ export function Header() {
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
                 </div>
               </NavPopover>
-              {/* {currentNetwork === AppMode.TESTNET && (
-                <>
-                  <NavPopover
-                    content={
-                      <BPMenu>
-                        <MenuItem
-                          text={t(translations.mainMenu.zero)}
-                          className="bp3-popover-dismiss"
-                          href="https://test.sovryn.app/zero"
-                          rel="noopener noreferrer"
-                          data-action-id="header-origins-link-launchpad"
-                        />
-                      </BPMenu>
-                    }
+              <NavPopover
+                content={
+                  <BPMenu>
+                    <MenuItem
+                      text={t(translations.mainMenu.myntToken)}
+                      className="bp3-popover-dismiss"
+                      href="/mynt-token"
+                      data-action-id="header-origins-link-launchpad"
+                    />
+                  </BPMenu>
+                }
+              >
+                <div
+                  className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
+                    isSectionOpen(SECTION_TYPE.LABS) && 'tw-font-bold'
+                  }`}
+                >
+                  <span
+                    className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
+                    data-action-id="header-link-origins"
                   >
-                    <div
-                      className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
-                        isSectionOpen(SECTION_TYPE.LABS) && 'tw-font-bold'
-                      }`}
-                    >
-                      <span
-                        className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
-                        data-action-id="header-link-origins"
-                      >
-                        {t(translations.mainMenu.labs)}
-                      </span>
-                      <FontAwesomeIcon icon={faChevronDown} size="xs" />
-                    </div>
-                  </NavPopover>
-                </>
-              )} */}
+                    {t(translations.mainMenu.labs)}
+                  </span>
+                  <FontAwesomeIcon icon={faChevronDown} size="xs" />
+                </div>
+              </NavPopover>
             </div>
           </div>
           <div className="tw-flex tw-justify-start tw-items-center">
