@@ -1,6 +1,6 @@
 /*
  * https://github.com/DistributedCollective/sovryn-perpetual-swap/blob/dev/scripts/utils/perpUtils.ts
- * COMMIT: 126aff0d8759938bc32409577fd344339303d055
+ * COMMIT: 6561e78d4e3b026f93becf6a9eb46b815e0c50d0
  * Helper-functions for frontend
  */
 
@@ -43,7 +43,7 @@ export interface PerpParameters {
   fMaintenanceMarginRateAlpha: number;
   fTreasuryFeeRate: number;
   fPnLPartRate: number;
-  fReferralRebateRate: number;
+  fReferralRebateCC: number;
   fLiquidationPenaltyRate: number;
   fMinimalSpread: number;
   fMinimalSpreadInStress: number;
