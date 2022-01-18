@@ -177,6 +177,7 @@ export function Header() {
     FINANCE: 'finance',
     BITOCRACY: 'bitocracy',
     ORIGINS: 'origins',
+    LABS: 'labs',
   };
 
   const isSectionOpen = (section: string) => {
@@ -185,6 +186,7 @@ export function Header() {
       [SECTION_TYPE.FINANCE]: ['/lend', '/yield-farm'],
       [SECTION_TYPE.BITOCRACY]: ['/stake'],
       [SECTION_TYPE.ORIGINS]: ['/origins', '/origins/claim'],
+      [SECTION_TYPE.LABS]: ['/labs', '/mynt-token'],
     };
     return section && paths[section].includes(location.pathname);
   };
@@ -412,6 +414,32 @@ export function Header() {
                     data-action-id="header-link-origins"
                   >
                     {t(translations.mainMenu.origins)}
+                  </span>
+                  <FontAwesomeIcon icon={faChevronDown} size="xs" />
+                </div>
+              </NavPopover>
+              <NavPopover
+                content={
+                  <BPMenu>
+                    <MenuItem
+                      text={t(translations.mainMenu.myntToken)}
+                      className="bp3-popover-dismiss"
+                      href="/mynt-token"
+                      data-action-id="header-origins-link-launchpad"
+                    />
+                  </BPMenu>
+                }
+              >
+                <div
+                  className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
+                    isSectionOpen(SECTION_TYPE.LABS) && 'tw-font-bold'
+                  }`}
+                >
+                  <span
+                    className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
+                    data-action-id="header-link-origins"
+                  >
+                    {t(translations.mainMenu.labs)}
                   </span>
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
                 </div>

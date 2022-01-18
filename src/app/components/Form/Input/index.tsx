@@ -21,9 +21,10 @@ interface InputProps {
   max?: number;
   step?: number;
   dataActionId?: string;
+  disabled?: boolean;
 }
 
-export function Input({
+export const Input: React.FC<InputProps> = ({
   value,
   onChange,
   className,
@@ -33,7 +34,7 @@ export function Input({
   appendClassName = 'tw-mr-5',
   dataActionId,
   ...props
-}: InputProps) {
+}) => {
   const handleChange = useCallback(
     (newValue: string) => {
       if (onChange) {
@@ -69,7 +70,7 @@ export function Input({
       )}
     </div>
   );
-}
+};
 
 Input.defaultProps = {
   inputClassName: 'tw-text-left',

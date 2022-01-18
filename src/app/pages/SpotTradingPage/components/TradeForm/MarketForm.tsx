@@ -9,27 +9,39 @@ import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
 import { bignumber } from 'mathjs';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { TradingTypes, ITradeFormProps } from '../../types';
-import { OrderTypes } from 'app/components/OrderType/types';
+import { OrderType } from 'app/components/OrderTypeTitle/types';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
 import { Asset } from 'types/asset';
 import { maxMinusFee } from 'utils/helpers';
-import { weiToNumberFormat } from 'utils/display-text/format';
+import {
+  stringToFixedPrecision,
+  weiToNumberFormat,
+} from 'utils/display-text/format';
 import { AvailableBalance } from 'app/components/AvailableBalance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
 import { useSwapsExternal_getSwapExpectedReturn } from '../../../../hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
 import styles from './index.module.scss';
-import { tokenAddress, TradeDialog } from '../TradeDialog';
+import {
+  OrderLabel,
+  PairLabel,
+  tokenAddress,
+  TradeDialog,
+} from '../TradeDialog';
 import { useAccount } from 'app/hooks/useAccount';
 import { useSwapsExternal_approveAndSwapExternal } from '../../../../hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
 import { useSwapNetwork_approveAndConvertByPath } from '../../../../hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
 import { useSwapNetwork_conversionPath } from 'app/hooks/swap-network/useSwapNetwork_conversionPath';
-import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import cn from 'classnames';
 import { Slider } from 'app/components/Form/Slider';
+import { TransactionDialog } from 'app/components/TransactionDialog';
+import { Toast } from 'app/components/Toast';
+import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
+import { getTokenContract } from 'utils/blockchain/contract-helpers';
+import { toWei } from 'web3-utils';
 
 export const MarketForm: React.FC<ITradeFormProps> = ({
   sourceToken,
@@ -105,6 +117,34 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
     () => (targetToken === Asset.RBTC ? sendPath() : sendExternal()),
     [targetToken, sendPath, sendExternal],
   );
+  const showToast = useCallback(
+    (status: string) => {
+      Toast(
+        status,
+        <div className="tw-flex tw-items-center">
+          <p className="tw-mb-0 tw-mr-2">
+            <Trans
+              i18nKey={
+                status === 'success'
+                  ? translations.transactionDialog.txStatus.complete
+                  : translations.transactionDialog.pendingUser.failed
+              }
+            />
+          </p>
+          <OrderLabel
+            className="tw-ml-2 tw-font-normal"
+            orderType={OrderType.MARKET}
+            tradeType={tradeType}
+          />
+          <div className="tw-ml-2">
+            {stringToFixedPrecision(amount, 6)}{' '}
+            <AssetRenderer asset={sourceToken} />
+          </div>
+        </div>,
+      );
+    },
+    [amount, sourceToken, tradeType],
+  );
 
   return (
     <div className={cn({ 'tw-hidden': hidden })}>
@@ -113,15 +153,56 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
         isOpen={isTradingDialogOpen}
         slippage={slippage}
         tradeType={tradeType}
-        orderType={OrderTypes.MARKET}
+        orderType={OrderType.MARKET}
         amount={amount}
         minReturn={minReturn}
         targetToken={targetToken}
         sourceToken={sourceToken}
         expectedReturn={weiToFixed(rateByPath, 6)}
         submit={() => send()}
+        fee={
+          <TxFeeCalculator
+            args={[
+              getTokenContract(sourceToken).address,
+              getTokenContract(targetToken).address,
+              toWei(amount || '0'),
+            ]}
+            methodName="getSwapExpectedReturn"
+            contractName="sovrynProtocol"
+            className="tw-mb-0"
+          />
+        }
       />
-      <TxDialog tx={tx} />
+      <TransactionDialog
+        tx={{ ...tx, retry: send }}
+        onUserConfirmed={() => setIsTradingDialogOpen(false)}
+        onSuccess={() => showToast('success')}
+        onError={() => showToast('error')}
+        action={t(translations.spotTradingPage.tradeDialog.order)}
+        fee={
+          <TxFeeCalculator
+            args={[
+              getTokenContract(sourceToken).address,
+              getTokenContract(targetToken).address,
+              toWei(amount || '0'),
+            ]}
+            methodName="getSwapExpectedReturn"
+            contractName="sovrynProtocol"
+          />
+        }
+        finalMessage={
+          <OrderView
+            tradeType={tradeType}
+            orderType={OrderType.MARKET}
+            amount={amount}
+            minReturn={minReturn}
+            targetToken={targetToken}
+            sourceToken={sourceToken}
+            expectedReturn={weiToFixed(rateByPath, 6)}
+          />
+        }
+      />
+
       <div className="tw-mx-auto">
         <div className="tw-mb-2 tw-mt-2 tw-bg-gray-5 tw-py-2 tw-text-center tw-flex tw-items-center tw-justify-center tw-rounded-lg">
           <AvailableBalance
@@ -136,6 +217,7 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
             onChange={value => setAmount(value)}
             asset={sourceToken}
             hideAmountSelector
+            dataActionId="spot-market-amountInput"
           />
         </div>
 
@@ -151,7 +233,7 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
             stepSize={0.05}
             labelRenderer={value => <>{value}%</>}
             labelValues={[0.1, 0.25, 0.5, 0.75, 1]}
-            dataActionId="buySov-slippageDialog-slider"
+            dataActionId="spot-slider-slippageTolerance"
           />
         </FormGroup>
 
@@ -210,9 +292,56 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
             tradingType={tradeType}
             onClick={() => setIsTradingDialogOpen(true)}
             disabled={!validate || !connected || spotLocked}
+            data-action-id="spot-market-submit"
           />
         </div>
       )}
+    </div>
+  );
+};
+
+interface IOrderViewProps {
+  tradeType: TradingTypes;
+  slippage?: number;
+  orderType: OrderType;
+  minReturn?: string;
+  expectedReturn?: string;
+  amount: string;
+  targetToken: Asset;
+  sourceToken: Asset;
+}
+
+export const OrderView: React.FC<IOrderViewProps> = ({
+  tradeType,
+  orderType,
+  amount,
+  expectedReturn,
+  targetToken,
+  sourceToken,
+}) => {
+  const { t } = useTranslation();
+  return (
+    <div className="tw-text-center">
+      <OrderLabel
+        className="tw-text-lg tw-font-semibold tw-mb-1"
+        orderType={orderType}
+        tradeType={tradeType}
+      />
+      <PairLabel
+        sourceToken={sourceToken}
+        targetToken={targetToken}
+        tradeType={tradeType}
+      />
+      <div>
+        {stringToFixedPrecision(amount, 6)}{' '}
+        <AssetRenderer asset={sourceToken} />
+      </div>
+      <div>
+        {t(translations.spotTradingPage.tradeForm.receive)}
+        <span className="tw-ml-1">
+          {expectedReturn} <AssetRenderer asset={targetToken} />
+        </span>
+      </div>
     </div>
   );
 };

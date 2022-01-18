@@ -299,7 +299,10 @@
     "originsClaim": "Origins Claim",
     "launchpad": "Launchpad",
     "claim": "Claim",
-    "rewards": "Rewards"
+    "rewards": "Rewards",
+    "labs": "Labs",
+    "myntToken": "MYNT Token",
+    "zero": "Zero"
   },
   "originsLaunchpad": {
     "upcomingSales": {
@@ -1554,13 +1557,16 @@
       "placePosition": {
         "placeLong": " Place Long",
         "placeShort": "Place Short"
-      }
+      },
+      "market": "Market",
+      "limit": "Limit"
     },
     "recentTrades": {
       "title": "Recent Trades",
       "price": "Price (<0/>)",
       "size": "Size (<0/>)",
-      "time": "Time"
+      "time": "Time",
+      "noTrades": "No Recent Trades"
     },
     "tradeDialog": {
       "title": "Review Order",
@@ -1588,11 +1594,20 @@
     "tradingHistory": "Margin order history",
     "openLimitOrders": "Open limit orders",
     "notificationSettingsDialog": {
-      "title": "Margin Trade notification settings",
-      "notifyVia": "Notify via",
+      "title": "Margin Notification Settings",
+      "notifyVia": "Receive a notifications for",
+      "marginCalls": "Margin Calls",
+      "liquidations": "Liquidations",
+      "filledLimitOrders": "Filled limit orders",
+      "enterEmail": "Enter Email Address",
+      "useRisk": "Use at your own risk",
+      "riskDesc": "Please be aware that this opt-in email notification service is hosted on a centralized AWS instance in the USA.",
       "telegramHandle": "Enter Telegram handle",
+      "emailHandle": "Enter Email",
       "discordHandle": "Enter Discord handle",
-      "usernamePlaceholder": "@username",
+      "usernamePlaceholder": "username",
+      "updateSuccess": "Notification settings updated",
+      "emailPlaceholder": "example@domain.com",
       "receiveNotificationTitle": "You will receive a notification at",
       "notificationEvents": {
         "1": "25% margin",
@@ -1601,7 +1616,7 @@
       "submit": "Confirm"
     },
     "notificationsButton": {
-      "enable": "Enable notifications",
+      "enable": "Notification",
       "enabled": "Notifications enabled"
     }
   },
@@ -1619,7 +1634,8 @@
       "market": "Market",
       "limit": "Limit",
       "advancedSettings": "Advanced Settings",
-      "limitPrice": "Limit Price:"
+      "limitPrice": "Limit Price:",
+      "receive": "Receive:"
     },
     "priceHistory": {
       "turnover": "Turnover",
@@ -1631,13 +1647,17 @@
       "limitOrderHistory": "Limit order history"
     },
     "tradeDialog": {
-      "marketTitle": "Review Market Trade",
-      "limitTitle": "Review Limit Order",
+      "marketTitle": "Review Order",
+      "limitTitle": "Review Order",
       "tradingPair": "Trading Pair:",
       "orderType": "Order Type:",
       "tradeAmount": "Trade Amount:",
       "limitPrice": "Limit Price:",
-      "duration": "Duration:"
+      "duration": "Duration:",
+      "receiveAmount": "Receive Amount:",
+      "orderAmount": "Order Amount:",
+      "newOrderDetails": "New Order Details",
+      "order": "Order"
     },
     "limitOrderSetting": {
       "title": "Advanced Settings",
@@ -1669,7 +1689,13 @@
     },
     "cancelDialog": {
       "title": "Cancel Limit Order",
-      "cta": "CANCEL LIMIT ORDER"
+      "cta": "Confirm",
+      "complete": "Cancel Complete",
+      "failed": "Cancel Failed",
+      "tx": {
+        "title": "Cancel",
+        "message": "Cancel Limit {{tradeType}}"
+      }
     },
     "pairNavbar": {
       "pair": "Pair",
@@ -1966,8 +1992,9 @@
       "aborted": "Your transaction has failed. <br/>Please cancel or retry your transaction",
       "abortedLedger": "Make sure \"Contract data\" is set to \"Allowed\" in your Ledger app settings",
       "cta": "View in Tracker",
-      "processing": "Transaction processing...",
-      "complete": "Transaction Complete"
+      "processing": "{{action}} processing...",
+      "complete": "{{action}} Complete",
+      "submit": "{{action}} Submitted"
     }
   },
   "buySovPage": {

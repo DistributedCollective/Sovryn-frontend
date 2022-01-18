@@ -1,6 +1,5 @@
 .star {
-  padding: 0 2px;
-  font-size: 1.5em;
+  @apply tw-px-0 tw-py-0.5 tw-text-2xl tw-cursor-pointer tw-transition hover:tw-opacity-75;
   fill: #4e4e4e;
 }
 .star:global(.active),

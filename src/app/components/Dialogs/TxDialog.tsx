@@ -21,6 +21,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { ConfirmButton } from 'app/pages/BuySovPage/components/Button/confirm';
 import { usePrevious } from '../../hooks/usePrevious';
+import classNames from 'classnames';
 
 type ITxDialogProps = {
   tx: ResetTxResponseInterface;
@@ -71,7 +72,7 @@ export const TxDialog: React.FC<ITxDialogProps> = ({
       isCloseButtonShown={false}
       isOpen={tx.status !== TxStatus.NONE}
       onClose={close}
-      className={styles.dialog}
+      className={classNames('tw-m-3.5', styles.dialog)}
     >
       {tx.status === TxStatus.PENDING_FOR_USER && (
         <>

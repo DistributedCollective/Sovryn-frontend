@@ -37,13 +37,13 @@ import {
 } from 'utils/display-text/format';
 import { SlippageForm } from '../SlippageForm';
 import { toWei } from 'utils/blockchain/math-helpers';
-import { OrderType } from 'app/components/OrderType';
-import { OrderTypes } from 'app/components/OrderType/types';
+import { OrderType } from 'app/components/OrderTypeTitle/types';
 import { MARGIN_SLIPPAGE_DEFAULT } from '../../types';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import styles from './index.module.scss';
 import { LimitSetting } from '../LimitSetting';
 import { durationOptions } from 'app/pages/SpotTradingPage/components/LimitOrderSetting/Duration';
+import { LoadableValue } from 'app/components/LoadableValue';
 
 interface ITradeFormProps {
   pairType: TradingPairType;
@@ -58,7 +58,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   const [slippage, setSlippage] = useState(MARGIN_SLIPPAGE_DEFAULT);
   const weiAmount = useWeiAmount(tradeAmount);
 
-  const [orderType, setOrderType] = useState(OrderTypes.MARKET);
+  const [orderType, setOrderType] = useState(OrderType.MARKET);
   const [limitPrice, setLimitPrice] = useState<string>('');
   const [openLimitSetting, setOpenLimitSetting] = useState(false);
   const [duration, setDuration] = useState<number>(0);
@@ -85,7 +85,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     collateralToken,
   );
 
-  const { price } = useCurrentPositionPrice(
+  const { price, loading: loadingPrice } = useCurrentPositionPrice(
     loanToken,
     collateralToken,
     estimations.principal,
@@ -146,6 +146,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                 className={cn('tw-capitalize tw-h-8 tw-opacity-50', {
                   'tw-opacity-100': position === TradingPosition.LONG,
                 })}
+                data-action-id="margin-button-long"
               />
             )}
             {pair.canOpenShort && (
@@ -156,18 +157,21 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                 className={cn('tw-capitalize tw-h-8 tw-opacity-50', {
                   'tw-opacity-100': position === TradingPosition.SHORT,
                 })}
+                data-action-id="margin-button-short"
               />
             )}
           </div>
         )}
-        <OrderType value={orderType} onChange={setOrderType} />
         <div className="tw-mw-340 tw-mx-auto tw-mt-3">
           <CollateralAssets
             value={collateral}
             onChange={value => dispatch(actions.setCollateral(value))}
             options={pair.collaterals}
           />
-          <AvailableBalance asset={collateral} />
+          <AvailableBalance
+            asset={collateral}
+            dataAttribute="margin-label-availableBalance"
+          />
 
           <FormGroup
             label={t(translations.marginTradePage.tradeForm.labels.amount)}
@@ -176,10 +180,11 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
               value={tradeAmount}
               onChange={value => setTradeAmount(value)}
               asset={collateral}
+              dataActionId="margin"
             />
           </FormGroup>
 
-          {orderType === OrderTypes.LIMIT && (
+          {orderType === OrderType.LIMIT && (
             <>
               <div className="tw-flex tw-text-sm tw-relative tw-items-center tw-justify-between tw-mt-5">
                 <span className={styles.amountLabel + ' tw-mr-2'}>
@@ -226,7 +231,20 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                 label={t(translations.marginTradeForm.fields.esEntryPrice)}
                 value={
                   <>
-                    {toNumberFormat(price, 2)} {pair.longDetails.symbol}
+                    <LoadableValue
+                      value={
+                        <>
+                          {toNumberFormat(price, 2)}{' '}
+                          <AssetRenderer asset={pair.longAsset} />
+                        </>
+                      }
+                      tooltip={
+                        <>
+                          {price} <AssetRenderer asset={pair.longAsset} />
+                        </>
+                      }
+                      loading={loadingPrice}
+                    />
                   </>
                 }
               />
@@ -242,7 +260,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                       leverage={leverage}
                       position={position}
                     />{' '}
-                    {pair.longDetails.symbol}
+                    <AssetRenderer asset={pair.longAsset} />
                   </>
                 }
               />
@@ -271,7 +289,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                 />
               )}
 
-              {orderType === OrderTypes.MARKET && (
+              {orderType === OrderType.MARKET && (
                 <div className="tw-mb-4 tw-text-secondary tw-text-xs tw-flex">
                   <ActionButton
                     text={
@@ -292,6 +310,24 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                   />
                 </div>
               )}
+              <div className="tw-mb-4 tw-text-secondary tw-text-xs tw-flex">
+                <ActionButton
+                  text={
+                    <div className="tw-flex">
+                      {t(translations.marginTradeForm.fields.slippageSettings)}
+                      <img
+                        className="tw-ml-1"
+                        src={settingIcon}
+                        alt="setting"
+                      />
+                    </div>
+                  }
+                  onClick={() => setOpenSlippage(true)}
+                  className="tw-border-none tw-ml-0 tw-p-0 tw-h-auto"
+                  textClassName="tw-text-xs tw-overflow-visible tw-text-secondary"
+                  data-action-id="margin-slippage-setting"
+                />
+              </div>
 
               <Button
                 text={
@@ -301,7 +337,9 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                         translations.marginTradePage.tradeForm.placePosition
                           .placeLong,
                       )}{' '}
-                      {orderType}
+                      {orderType === OrderType.MARKET
+                        ? t(translations.marginTradePage.tradeForm.market)
+                        : t(translations.marginTradePage.tradeForm.limit)}
                     </>
                   ) : (
                     <>
@@ -309,15 +347,38 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                         translations.marginTradePage.tradeForm.placePosition
                           .placeShort,
                       )}{' '}
-                      {orderType}
+                      {orderType === OrderType.MARKET
+                        ? t(translations.marginTradePage.tradeForm.market)
+                        : t(translations.marginTradePage.tradeForm.limit)}
                     </>
                   )
                 }
                 position={position}
                 onClick={() => setIsTradingDialogOpen(true)}
                 disabled={buttonDisabled}
+                data-action-id="margin-reviewTransaction-button-placePosition"
               />
             </>
+          )}
+
+          {openTradesLocked && (
+            <ErrorBadge
+              content={
+                <Trans
+                  i18nKey={translations.maintenance.openMarginTrades}
+                  components={[
+                    <a
+                      href={discordInvite}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                    >
+                      x
+                    </a>,
+                  ]}
+                />
+              }
+            />
           )}
         </div>
 

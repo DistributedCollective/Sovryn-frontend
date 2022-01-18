@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { AmountInput } from 'app/components/Form/AmountInput';
@@ -8,7 +8,7 @@ import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
 import { bignumber } from 'mathjs';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { TradingTypes, ITradeFormProps, IApiLimitOrder } from '../../types';
-import { OrderTypes } from 'app/components/OrderType/types';
+import { OrderType } from 'app/components/OrderTypeTitle/types';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { maxMinusFee } from 'utils/helpers';
 import { stringToFixedPrecision } from 'utils/display-text/format';
@@ -18,15 +18,18 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
 import styles from './index.module.scss';
 import { Duration } from '../LimitOrderSetting/Duration';
-import { TradeDialog } from '../TradeDialog';
+import { OrderLabel, TradeDialog } from '../TradeDialog';
 import { useLimitOrder } from 'app/hooks/limitOrder/useLimitOrder';
-import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import cn from 'classnames';
 import { useSwapsExternal_getSwapExpectedReturn } from 'app/hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
 import { toWei } from 'web3-utils';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { actions } from '../../slice';
 import { useDispatch } from 'react-redux';
+import { Toast } from 'app/components/Toast';
+import { TransactionDialog } from 'app/components/TransactionDialog';
+import { TxStatus } from 'store/global/transactions-store/types';
+import { LimitResultDialog } from './LimitResultDialog';
 
 export const LimitForm: React.FC<ITradeFormProps> = ({
   sourceToken,
@@ -37,10 +40,13 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
   const { t } = useTranslation();
   const { connected } = useWalletContext();
   const { checkMaintenance, States } = useMaintenance();
-  const spotLocked = checkMaintenance(States.SPOT_TRADES);
+  const spotLocked = checkMaintenance(States.SPOT_LIMIT);
   const dispatch = useDispatch();
 
   const [tradeDialog, setTradeDialog] = useState(false);
+
+  const [orderStatus, setOrderStatus] = useState<TxStatus>(TxStatus.NONE);
+  const [txHash, setTxHash] = useState<string>('');
 
   const [amount, setAmount] = useState<string>('');
   const [limitPrice, setLimitPrice] = useState<string>('');
@@ -103,15 +109,50 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
     );
   }, [amount, balance, limitPrice, sourceToken, weiAmount, weiAmountOut]);
 
-  const onSuccess = (data, order: IApiLimitOrder) => {
-    setTradeDialog(false);
-    console.log('order: ', order);
+  const showToast = useCallback(
+    (status: string) => {
+      Toast(
+        status,
+        <div className="tw-flex tw-items-center">
+          <p className="tw-mb-0 tw-mr-2">
+            <Trans
+              i18nKey={
+                status === 'success'
+                  ? translations.transactionDialog.txStatus.submit
+                  : translations.transactionDialog.pendingUser.failed
+              }
+            />
+          </p>
+          <OrderLabel
+            className="tw-ml-2 tw-font-normal"
+            orderType={OrderType.LIMIT}
+            tradeType={tradeType}
+          />
+          <div className="tw-ml-2">
+            {stringToFixedPrecision(amount, 6)}{' '}
+            <AssetRenderer asset={sourceToken} />
+          </div>
+        </div>,
+      );
+    },
+    [amount, sourceToken, tradeType],
+  );
+
+  const onSuccess = (order: IApiLimitOrder, data) => {
+    setTxHash(data.hash);
+    setOrderStatus(TxStatus.CONFIRMED);
     dispatch(actions.addPendingLimitOrders(order));
-    console.log('data: ', data);
+    showToast('success');
   };
+
   const onError = error => {
+    setOrderStatus(TxStatus.FAILED);
+    showToast('error');
+  };
+
+  const onStart = error => {
     setTradeDialog(false);
-    console.log('error: ', error);
+    setOrderStatus(TxStatus.PENDING);
   };
 
   const { createOrder, ...tx } = useLimitOrder(
@@ -122,7 +163,14 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
     duration,
     onSuccess,
     onError,
+    onStart,
   );
+
+  const submit = useCallback(() => {
+    setOrderStatus(TxStatus.NONE);
+    setTxHash('');
+    createOrder();
+  }, [createOrder]);
 
   return (
     <div className={cn({ 'tw-hidden': hidden })}>
@@ -130,17 +178,28 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
         onCloseModal={() => setTradeDialog(false)}
         isOpen={tradeDialog}
         tradeType={tradeType}
-        orderType={OrderTypes.LIMIT}
+        orderType={OrderType.LIMIT}
         amount={amount}
         expectedReturn={stringToFixedPrecision(amountOut, 6)}
         targetToken={targetToken}
         sourceToken={sourceToken}
         limitPrice={limitPrice}
         duration={duration}
-        submit={() => createOrder()}
+        submit={submit}
       />
-
-      <TxDialog tx={tx} />
+      <TransactionDialog tx={tx} />
+      <LimitResultDialog
+        isOpen={orderStatus !== TxStatus.NONE}
+        onClose={() => setOrderStatus(TxStatus.NONE)}
+        status={orderStatus}
+        tradeType={tradeType}
+        amount={amount}
+        targetToken={targetToken}
+        sourceToken={sourceToken}
+        limitPrice={limitPrice}
+        txHash={txHash}
+        expectedReturn={stringToFixedPrecision(amountOut, 6)}
+      />
       <div className="tw-mx-auto">
         <div className="tw-mb-2 tw-mt-2 tw-bg-gray-5 tw-py-2 tw-text-center tw-flex tw-items-center tw-justify-center tw-rounded-lg">
           <AvailableBalance
@@ -156,6 +215,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
             onChange={value => setAmount(value)}
             asset={sourceToken}
             hideAmountSelector
+            dataActionId="spot-limit-amountInput"
           />
         </div>
 
@@ -171,6 +231,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
               value={stringToFixedPrecision(limitPrice, 6)}
               onChange={setLimitPrice}
               hideAmountSelector
+              dataActionId="spot-limit-limitPrice"
             />
           </div>
 
@@ -248,6 +309,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
             tradingType={tradeType}
             onClick={() => setTradeDialog(true)}
             disabled={!validate || !connected || spotLocked}
+            data-action-id="spot-limit-submit"
           />
         </div>
       )}

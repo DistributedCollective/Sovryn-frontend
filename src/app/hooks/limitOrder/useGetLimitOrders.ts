@@ -83,7 +83,7 @@ export function useGetLimitOrders<T>(
       .catch(e => console.error(e));
   }, [account, isMargin, url]);
 
-  useInterval(getData, 60 * 1e3, { immediate: true });
+  useInterval(getData, 30 * 1e3, { immediate: true });
 
   return {
     value: orders,

@@ -13,7 +13,7 @@ import {
   weiToAssetNumberFormat,
   weiToNumberFormat,
 } from 'utils/display-text/format';
-import { fromWei, weiTo18 } from 'utils/blockchain/math-helpers';
+import { weiTo18 } from 'utils/blockchain/math-helpers';
 import { leverageFromMargin } from 'utils/blockchain/leverage-from-start-margin';
 import { AddToMarginDialog } from '../AddToMarginDialog';
 import { ClosePositionDialog } from '../ClosePositionDialog';
@@ -59,8 +59,6 @@ const OpenPositionRowInner: React.FC<IOpenPositionRowInnerProps> = ({
   const leverage = useMemo(() => leverageFromMargin(item.startMargin), [
     item.startMargin,
   ]);
-
-  const amount = bignumber(item.collateral).div(leverage).toFixed(0);
 
   const liquidationPrice = usePositionLiquidationPrice(
     item.principal,
@@ -150,47 +148,20 @@ const OpenPositionRowInner: React.FC<IOpenPositionRowInnerProps> = ({
             <LoadableValue
               value={
                 <>
-                  {weiToNumberFormat(amount, 8)}{' '}
-                  <AssetRenderer asset={collateralAsset} />
+                  {weiToAssetNumberFormat(positionMargin, positionMarginAsset)}{' '}
+                  <AssetSymbolRenderer asset={positionMarginAsset} />
                 </>
               }
-              loading={false}
               tooltip={
                 <>
-                  {weiTo18(amount)} <AssetRenderer asset={collateralAsset} />
+                  {weiToNumberFormat(positionMargin, 18)}{' '}
+                  <AssetSymbolRenderer asset={positionMarginAsset} />
                 </>
               }
             />
-            {collateralAsset !== pair.shortAsset && (
-              <div>
-                ≈ {weiToNumberFormat(item.startRate, 8)}{' '}
-                <AssetRenderer asset={pair.shortDetails.asset} />
-              </div>
-            )}
-
-            {collateralAsset === pair.shortAsset && (
-              <div>
-                ≈{' '}
-                <LoadableValue
-                  value={
-                    <>
-                      {weiToAssetNumberFormat(
-                        positionMargin,
-                        positionMarginAsset,
-                      )}{' '}
-                      <AssetSymbolRenderer asset={positionMarginAsset} />
-                    </>
-                  }
-                  loading={false}
-                  tooltip={
-                    <>
-                      {fromWei(positionMargin)}{' '}
-                      <AssetSymbolRenderer asset={positionMarginAsset} />
-                    </>
-                  }
-                />
-              </div>
-            )}
+          </div>
+          <div className="tw-truncate tw-opacity-25">
+            {weiToNumberFormat(item.currentMargin, 3)} %
           </div>
         </td>
         <td className="tw-w-full tw-hidden sm:tw-table-cell">
@@ -198,6 +169,7 @@ const OpenPositionRowInner: React.FC<IOpenPositionRowInnerProps> = ({
             item={item}
             position={position}
             entryPrice={entryPrice}
+            leverage={leverage}
           />
         </td>
         <td className="tw-w-full tw-hidden 2xl:tw-table-cell">
@@ -223,6 +195,7 @@ const OpenPositionRowInner: React.FC<IOpenPositionRowInnerProps> = ({
                   )) ||
                 undefined
               }
+              data-action-id="margin-openPositions-AddToMarginButton"
             />
             <ActionButton
               text={t(translations.openPositionTable.cta.close)}
@@ -240,6 +213,7 @@ const OpenPositionRowInner: React.FC<IOpenPositionRowInnerProps> = ({
                   )) ||
                 undefined
               }
+              data-action-id="margin-openPositions-CloseButton"
             />
           </div>
           <AddToMarginDialog

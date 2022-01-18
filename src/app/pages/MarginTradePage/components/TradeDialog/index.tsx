@@ -1,15 +1,21 @@
-import cn from 'classnames';
 import React, { useMemo } from 'react';
+import cn from 'classnames';
 import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
 import { useMaintenance } from 'app/hooks/useMaintenance';
-import { discordInvite } from 'utils/classifiers';
+import {
+  discordInvite,
+  TRADE_LOG_SIGNATURE_HASH,
+  useTenderlySimulator,
+  MAINTENANCE_MARGIN,
+} from 'utils/classifiers';
 import { translations } from 'locales/i18n';
 import { Asset } from 'types';
 import {
+  getContract,
   getLendingContractName,
   getTokenContract,
 } from 'utils/blockchain/contract-helpers';
@@ -28,22 +34,106 @@ import { TradingPosition } from 'types/trading-position';
 import { useGetEstimatedMarginDetails } from 'app/hooks/trading/useGetEstimatedMarginDetails';
 import { selectMarginTradePage } from '../../selectors';
 import { actions } from '../../slice';
-import { PricePrediction } from 'app/containers/MarginTradeForm/PricePrediction';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
-import { OrderTypes } from 'app/components/OrderType/types';
-import { TradingTypes } from 'app/pages/SpotTradingPage/types';
+import { OrderType } from 'app/components/OrderTypeTitle/types';
 import { bignumber } from 'mathjs';
 import { useMarginLimitOrder } from 'app/hooks/limitOrder/useMarginLimitOrder';
+import { TradeDialogInfo } from './TradeDialogInfo';
+import { TradeToastInfo } from './TradeToastInfo';
+import { Toast } from 'app/components/Toast';
+import {
+  SimulationStatus,
+  useFilterSimulatorResponseLogs,
+} from 'app/hooks/simulator/useFilterSimulatorResponseLogs';
+import { TradeEventData } from 'types/active-loan';
+import { useSimulator } from 'app/hooks/simulator/useSimulator';
+import { TradingTypes } from 'app/pages/SpotTradingPage/types';
+import { PricePrediction } from 'app/containers/MarginTradeForm/PricePrediction';
 
-const maintenanceMargin = 15000000000000000000;
 interface ITradeDialogProps {
   slippage: number;
   isOpen: boolean;
   onCloseModal: () => void;
-  orderType: OrderTypes;
   duration?: number;
+  orderType: OrderType;
 }
+
+const TradeLogInputs = [
+  {
+    indexed: true,
+    internalType: 'address',
+    name: 'user',
+    type: 'address',
+  },
+  {
+    indexed: true,
+    internalType: 'address',
+    name: 'lender',
+    type: 'address',
+  },
+  {
+    indexed: true,
+    internalType: 'bytes32',
+    name: 'loanId',
+    type: 'bytes32',
+  },
+  {
+    indexed: false,
+    internalType: 'address',
+    name: 'collateralToken',
+    type: 'address',
+  },
+  {
+    indexed: false,
+    internalType: 'address',
+    name: 'loanToken',
+    type: 'address',
+  },
+  {
+    indexed: false,
+    internalType: 'uint256',
+    name: 'positionSize',
+    type: 'uint256',
+  },
+  {
+    indexed: false,
+    internalType: 'uint256',
+    name: 'borrowedAmount',
+    type: 'uint256',
+  },
+  {
+    indexed: false,
+    internalType: 'uint256',
+    name: 'interestRate',
+    type: 'uint256',
+  },
+  {
+    indexed: false,
+    internalType: 'uint256',
+    name: 'settlementDate',
+    type: 'uint256',
+  },
+  {
+    indexed: false,
+    internalType: 'uint256',
+    name: 'entryPrice',
+    type: 'uint256',
+  },
+  {
+    indexed: false,
+    internalType: 'uint256',
+    name: 'entryLeverage',
+    type: 'uint256',
+  },
+  {
+    indexed: false,
+    internalType: 'uint256',
+    name: 'currentLeverage',
+    type: 'uint256',
+  },
+];
+
 export const TradeDialog: React.FC<ITradeDialogProps> = props => {
   const { t } = useTranslation();
   const account = useAccount();
@@ -106,7 +196,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
   );
 
   const submit = () => {
-    if (props.orderType === OrderTypes.MARKET) {
+    if (props.orderType === OrderType.MARKET) {
       trade({
         pair,
         position,
@@ -136,13 +226,221 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
     value: collateral === Asset.RBTC ? amount : '0',
   };
 
+  const simulator = useFilterSimulatorResponseLogs<TradeEventData>(
+    useSimulator(
+      contractName,
+      'marginTrade',
+      txArgs,
+      collateral === Asset.RBTC ? amount : '0',
+      amount !== '0' && !!contractName && !!position,
+      collateral !== Asset.WRBTC && contractName && position
+        ? {
+            asset: collateral,
+            spender: getContract(contractName).address,
+            amount,
+          }
+        : undefined,
+    ),
+    TRADE_LOG_SIGNATURE_HASH,
+    TradeLogInputs,
+  );
+
   return (
     <>
-      <Dialog isOpen={props.isOpen} onClose={() => props.onCloseModal()}>
+      <Dialog
+        dataAttribute="margin-select-asset-review-order-close-button"
+        isOpen={props.isOpen}
+        onClose={() => props.onCloseModal()}
+      >
         <div className="tw-w-auto md:tw-mx-7 tw-mx-2">
           <h1 className="tw-text-sov-white tw-text-center">
             {t(translations.marginTradePage.tradeDialog.title)}
           </h1>
+          <TradeDialogInfo
+            position={position}
+            leverage={leverage}
+            orderTypeValue={orderTypeValue}
+            amount={amount}
+            collateral={collateral}
+            loanToken={loanToken}
+            collateralToken={collateralToken}
+            useLoanTokens={useLoanTokens}
+          />
+          <div className="tw-pt-3 tw-pb-2 tw-px-6 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
+            <TxFeeCalculator
+              args={txArgs}
+              txConfig={txConf}
+              methodName="marginTrade"
+              contractName={contractName}
+              condition={true}
+              textClassName={'tw-text-gray-10 tw-text-gray-10 tw-pr-2'}
+            />
+            <LabelValuePair
+              label={t(
+                translations.marginTradePage.tradeDialog.maintananceMargin,
+              )}
+              value={<>{weiToNumberFormat(MAINTENANCE_MARGIN)} %</>}
+            />
+            <LabelValuePair
+              label={t(translations.marginTradePage.tradeDialog.interestAPR)}
+              value={<>{weiToNumberFormat(estimations.interestRate, 2)} %</>}
+            />
+          </div>
+
+          <p className="tw-text-center tw-text-sm tw-mt-3 tw-mb-2">
+            {t(translations.marginTradePage.tradeDialog.newPositionDetails)}
+          </p>
+          <div className="tw-pt-3 tw-pb-2 tw-px-6 tw-bg-gray-5 tw-mb-4 tw-rounded-lg tw-text-xs tw-font-light">
+            <LabelValuePair
+              label={t(translations.marginTradePage.tradeDialog.positionSize)}
+              className={cn({
+                'tw-text-trade-short': position === TradingPosition.SHORT,
+                'tw-text-trade-long': position === TradingPosition.LONG,
+              })}
+              value={
+                <>
+                  <LoadableValue
+                    loading={false}
+                    value={weiToNumberFormat(
+                      bignumber(amount).mul(leverage).toFixed(0),
+                      4,
+                    )}
+                    tooltip={
+                      <>
+                        {fromWei(bignumber(amount).mul(leverage).toFixed(0))}{' '}
+                        <AssetRenderer asset={collateral} />
+                      </>
+                    }
+                  />{' '}
+                  <AssetRenderer asset={collateral} />
+                </>
+              }
+            />
+            <LabelValuePair
+              label={t(translations.marginTradePage.tradeDialog.margin)}
+              value={
+                <>
+                  <LoadableValue
+                    loading={false}
+                    value={weiToNumberFormat(amount, 4)}
+                    tooltip={
+                      <>
+                        {fromWei(amount)} <AssetRenderer asset={collateral} />
+                      </>
+                    }
+                  />{' '}
+                  <AssetRenderer asset={collateral} />
+                </>
+              }
+            />
+            <LabelValuePair
+              label={t(translations.marginTradePage.tradeDialog.leverage)}
+              value={
+                <>
+                  <LoadableValue
+                    loading={false}
+                    value={toNumberFormat(leverage) + 'x'}
+                    tooltip={position}
+                  />
+                </>
+              }
+            />
+            <LabelValuePair
+              label={t(translations.marginTradePage.tradeDialog.entryPrice)}
+              value={
+                <>
+                  <LoadableValue
+                    loading={false}
+                    value={weiToNumberFormat(minReturn, 2)}
+                    tooltip={
+                      <>
+                        {weiTo18(minReturn)}{' '}
+                        <AssetRenderer asset={pair.longDetails.asset} />
+                      </>
+                    }
+                  />{' '}
+                  <AssetRenderer asset={pair.longDetails.asset} />
+                </>
+              }
+            />
+            <LabelValuePair
+              label={t(
+                translations.marginTradePage.tradeDialog.liquidationPrice,
+              )}
+              className="tw-font-medium"
+              value={
+                <>
+                  <LiquidationPrice
+                    asset={pair.shortAsset}
+                    assetLong={pair.longAsset}
+                    leverage={leverage}
+                    position={position}
+                  />{' '}
+                  <AssetRenderer asset={pair.longDetails.asset} />
+                </>
+              }
+            />
+          </div>
+
+          <div className="tw-mt-4">
+            {openTradesLocked && (
+              <ErrorBadge
+                content={
+                  <Trans
+                    i18nKey={translations.maintenance.openMarginTrades}
+                    components={[
+                      <a
+                        href={discordInvite}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                      >
+                        x
+                      </a>,
+                    ]}
+                  />
+                }
+              />
+            )}
+
+            {useTenderlySimulator &&
+              simulator.status === SimulationStatus.FAILED && (
+                <ErrorBadge
+                  content={t(
+                    translations.marginTradePage.tradeDialog
+                      .estimationErrorNote,
+                    { error: simulator.error },
+                  )}
+                />
+              )}
+          </div>
+
+          <div className="tw-mw-340 tw-mx-auto">
+            <DialogButton
+              confirmLabel={t(translations.common.confirm)}
+              onConfirm={() => submit()}
+              disabled={openTradesLocked}
+              cancelLabel={t(translations.common.cancel)}
+              onCancel={() => dispatch(actions.closeTradingModal(position))}
+              data-action-id="margin-reviewTransaction-button-confirm"
+            />
+          </div>
+        </div>
+      </Dialog>
+      <TransactionDialog
+        tx={tx}
+        onUserConfirmed={() => dispatch(actions.closeTradingModal(position))}
+        fee={
+          <TxFeeCalculator
+            args={txArgs}
+            txConfig={txConf}
+            methodName="marginTrade"
+            contractName={contractName}
+            condition={true}
+            textClassName={'tw-text-gray-10 tw-text-gray-10'}
+          />
+        }
+        finalMessage={
           <div className="tw-pt-3 tw-pb-2 tw-px-6 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
             <div
               className={cn(
@@ -179,176 +477,50 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
               />
             </div>
           </div>
-          <div className="tw-pt-3 tw-pb-2 tw-px-6 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
-            <TxFeeCalculator
-              args={txArgs}
-              txConfig={txConf}
-              methodName="marginTrade"
-              contractName={contractName}
-              condition={true}
-              textClassName={'tw-w-1/2 tw-text-gray-10 tw-text-gray-10'}
-            />
-            <LabelValuePair
-              label={t(
-                translations.marginTradePage.tradeDialog.maintananceMargin,
-              )}
-              value={<>{weiToNumberFormat(maintenanceMargin)} %</>}
-            />
-            <LabelValuePair
-              label={t(translations.marginTradePage.tradeDialog.interestAPR)}
-              value={<>{weiToNumberFormat(estimations.interestRate, 2)} %</>}
-            />
-          </div>
-
-          <p className="tw-text-center tw-text-sm tw-mt-3 tw-mb-2">
-            {t(translations.marginTradePage.tradeDialog.newPositionDetails)}
-          </p>
-          <div className="tw-pt-3 tw-pb-2 tw-px-6 tw-bg-gray-5 tw-mb-4 tw-rounded-lg tw-text-xs tw-font-light">
-            <LabelValuePair
-              label={t(translations.marginTradePage.tradeDialog.positionSize)}
-              className={cn({
-                'tw-text-trade-short': position === TradingPosition.SHORT,
-                'tw-text-trade-long': position === TradingPosition.LONG,
-              })}
-              value={
-                <>
-                  <LoadableValue
-                    loading={false}
-                    value={weiToNumberFormat(
-                      bignumber(amount).mul(leverage).toFixed(0),
-                      4,
-                    )}
-                    tooltip={fromWei(
-                      bignumber(amount).mul(leverage).toFixed(0),
-                    )}
-                  />{' '}
-                  <AssetRenderer asset={collateral} />
-                </>
-              }
-            />
-            <LabelValuePair
-              label={t(translations.marginTradePage.tradeDialog.margin)}
-              value={
-                <>
-                  <LoadableValue
-                    loading={false}
-                    value={weiToNumberFormat(amount, 4)}
-                    tooltip={fromWei(amount)}
-                  />{' '}
-                  <AssetRenderer asset={collateral} />
-                </>
-              }
-            />
-            <LabelValuePair
-              label={t(translations.marginTradePage.tradeDialog.leverage)}
-              value={
-                <>
-                  <LoadableValue
-                    loading={false}
-                    value={toNumberFormat(leverage) + 'x'}
-                    tooltip={position}
-                  />
-                </>
-              }
-            />
-            <LabelValuePair
-              label={t(translations.marginTradePage.tradeDialog.entryPrice)}
-              value={
-                <>
-                  <LoadableValue
-                    loading={false}
-                    value={weiToNumberFormat(minReturn, 2)}
-                    tooltip={
-                      <>
-                        {weiTo18(minReturn)} {pair.longDetails.symbol}
-                      </>
-                    }
-                  />{' '}
-                  {pair.longDetails.symbol}
-                </>
-              }
-            />
-            <LabelValuePair
-              label={t(
-                translations.marginTradePage.tradeDialog.liquidationPrice,
-              )}
-              className="tw-font-medium"
-              value={
-                <>
-                  <LiquidationPrice
-                    asset={pair.shortAsset}
-                    assetLong={pair.longAsset}
-                    leverage={leverage}
-                    position={position}
-                  />{' '}
-                  {pair.longDetails.symbol}
-                </>
-              }
-            />
-          </div>
-
-          <div className="tw-mt-4">
-            {openTradesLocked && (
-              <ErrorBadge
-                content={
-                  <Trans
-                    i18nKey={translations.maintenance.openMarginTrades}
-                    components={[
-                      <a
-                        href={discordInvite}
-                        target="_blank"
-                        rel="noreferrer noopener"
-                        className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
-                      >
-                        x
-                      </a>,
-                    ]}
-                  />
-                }
-              />
-            )}
-
-            <ErrorBadge
-              content={t(
-                translations.marginTradePage.tradeDialog.estimationErrorNote,
-              )}
-            />
-          </div>
-
-          <div className="tw-mw-340 tw-mx-auto">
-            <DialogButton
-              confirmLabel={t(translations.common.confirm)}
-              onConfirm={() => submit()}
-              disabled={openTradesLocked}
-              cancelLabel={t(translations.common.cancel)}
-              onCancel={() => dispatch(actions.closeTradingModal(position))}
-            />
-          </div>
-        </div>
-      </Dialog>
-      <TransactionDialog
-        tx={tx}
-        onUserConfirmed={() => dispatch(actions.closeTradingModal(position))}
-        fee={
-          <TxFeeCalculator
-            args={txArgs}
-            txConfig={txConf}
-            methodName="marginTrade"
-            contractName={contractName}
-            condition={true}
-            textClassName={'tw-w-1/2 tw-text-gray-10 tw-text-gray-10'}
-          />
         }
-        data={{
-          position,
-          leverage,
-          orderTypeValue,
-          pair,
-          amount,
-          collateral,
-          loanToken,
-          collateralToken,
-          useLoanTokens,
+        onError={() => {
+          Toast(
+            'error',
+            <div className="tw-flex">
+              <p className="tw-mb-0 tw-mr-2">
+                <Trans
+                  i18nKey={translations.transactionDialog.pendingUser.failed}
+                />
+              </p>
+              <TradeToastInfo
+                position={position}
+                leverage={leverage}
+                orderTypeValue={orderTypeValue}
+                amount={amount}
+                collateral={collateral}
+                loanToken={loanToken}
+                collateralToken={collateralToken}
+                useLoanTokens={useLoanTokens}
+              />
+            </div>,
+          );
+        }}
+        onSuccess={() => {
+          Toast(
+            'success',
+            <div className="tw-flex">
+              <p className="tw-mb-0 tw-mr-2">
+                <Trans
+                  i18nKey={translations.transactionDialog.txStatus.complete}
+                />
+              </p>
+              <TradeToastInfo
+                position={position}
+                leverage={leverage}
+                orderTypeValue={orderTypeValue}
+                amount={amount}
+                collateral={collateral}
+                loanToken={loanToken}
+                collateralToken={collateralToken}
+                useLoanTokens={useLoanTokens}
+              />
+            </div>,
+          );
         }}
       />
     </>
@@ -369,9 +541,7 @@ function LabelValuePair(props: LabelValuePairProps) {
         props.className,
       )}
     >
-      <div className="tw-w-1/2 tw-text-gray-10 tw-text-gray-10">
-        {props.label}
-      </div>
+      <div className="tw-w-1/2 tw-text-gray-10">{props.label}</div>
       <div className="sm:tw-w-1/3 tw-w-1/2 tw-font-medium">{props.value}</div>
     </div>
   );

@@ -20,18 +20,12 @@ import { TradingHistory } from './components/TradingHistory';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
 import styles from './index.module.scss';
-import { NotificationSettingsDialog } from './components/NotificationSettingsDialog';
 import { PairNavbar } from './components/PairNavbar';
 import { LimitOrderTables } from './components/LimitOrderTables';
 
 export function MarginTradePage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
   useInjectSaga({ key: sliceKey, saga: marginTradePageSaga });
-
-  const [
-    showNotificationSettingsModal,
-    setShowNotificationSettingsModal,
-  ] = useState(false);
 
   const { pairType } = useSelector(selectMarginTradePage);
   const { t } = useTranslation();
@@ -67,11 +61,11 @@ export function MarginTradePage() {
         />
       </Helmet>
       <Header />
-      <div className={styles.overview}>
-        <PairNavbar />
-      </div>
-      <div className="tw-container tw-mt-5 tw-mx-auto tw-px-3">
-        <div className="tw-flex tw-flex-col xl:tw-flex-row xl:tw-justify-between tw-max-w-full">
+      <div className="tw-container tw-mx-auto tw-px-3">
+        <div className={styles.overview}>
+          <PairNavbar />
+        </div>
+        <div className="tw-flex tw-mt-5 tw-flex-col xl:tw-flex-row xl:tw-justify-between tw-max-w-full">
           <div
             className={
               'tw-flex-shrink tw-flex-grow tw-mb-12 tw-max-w-none xl:tw-pr-4 xl:tw-mb-0'
@@ -79,13 +73,7 @@ export function MarginTradePage() {
           >
             <TradingChart symbol={pair.chartSymbol} theme={Theme.DARK} />
           </div>
-          <div
-            className="tw-trading-recent-trades-card tw-bg-black tw-rounded-3xl tw-p-4 tw-mx-auto xl:tw-mr-2 tw-relative"
-            title={
-              t(translations.marginTradePage.recentTrades.title) +
-              ` (${pairType.toString()})`
-            }
-          >
+          <div className="tw-trading-recent-trades-card tw-bg-black tw-rounded-2xl tw-px-4 tw-py-3 tw-mx-auto xl:tw-mr-2 tw-relative">
             <RecentTradesTable pair={pair} />
           </div>
           <TradeForm pairType={linkPairType || pairType} />
@@ -125,10 +113,6 @@ export function MarginTradePage() {
         )}
       </div>
       <Footer />
-      <NotificationSettingsDialog
-        isOpen={showNotificationSettingsModal}
-        onClose={() => setShowNotificationSettingsModal(false)}
-      />
     </>
   );
 }

@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { Dialog } from 'app/containers/Dialog';
 import { ResetTxResponseInterface } from 'app/hooks/useSendContractTx';
 import { TxStatus } from 'store/global/transactions-store/types';
 import { detectWeb3Wallet, prettyTx } from 'utils/helpers';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import styles from './dialog.module.scss';
-import { useWalletContext } from '@sovryn/react-wallet';
+import { WalletContext } from '@sovryn/react-wallet';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { ConfirmButton } from 'app/pages/BuySovPage/components/Button/confirm';
@@ -27,7 +27,7 @@ interface ITxDialogProps {
 
 export const TxDialog: React.FC<ITxDialogProps> = ({ tx, onUserConfirmed }) => {
   const { t } = useTranslation();
-  const { address } = useWalletContext();
+  const { address } = useContext(WalletContext);
 
   const close = useCallback(() => tx?.reset(), [tx]);
 
@@ -116,7 +116,9 @@ export const TxDialog: React.FC<ITxDialogProps> = ({ tx, onUserConfirmed }) => {
 
                   <div className="tw-mb-3.5">
                     {weiToFixed(txData?.assetAmount, 6)}{' '}
-                    <AssetSymbolRenderer asset={txData?.asset || Asset.USDT} />
+                    <AssetSymbolRenderer
+                      assetString={txData?.asset || Asset.USDT}
+                    />
                   </div>
 
                   <div className="tw-mb-3.5">

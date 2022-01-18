@@ -24,6 +24,7 @@ import { StarButton } from 'app/components/StarButton';
 import { actions } from '../../slice';
 import useOnClickOutside from 'app/hooks/useOnClickOutside';
 import arrowDownIcon from 'assets/images/swap/ic_arrow_down.svg';
+import searchIcon from 'assets/images/search.svg';
 import styles from './index.module.scss';
 
 const FAVORITE = 'FAVORITE';
@@ -48,10 +49,13 @@ export const PairSelect: React.FC<IPairSelect> = ({
   useOnClickOutside(ref, () => setOpen(false));
 
   return (
-    <div ref={ref} className="tw-relative tw-w-64">
+    <div ref={ref} className="tw-relative tw-w-64 tw-self-stretch tw-mr-2">
       <div
         onClick={() => setOpen(!open)}
-        className="tw-flex tw-items-center tw-py-1 tw-bg-gray-2 tw-px-8 tw-rounded-lg tw-cursor-pointer tw-select-none tw-transition-opacity hover:tw-bg-opacity-75"
+        className={cn(
+          { 'tw-rounded-b-lg': !open },
+          'tw-flex tw-h-full tw-items-center tw-py-1 tw-bg-gray-2 tw-px-8 tw-rounded-t-lg tw-cursor-pointer tw-select-none tw-transition-opacity hover:tw-bg-opacity-75',
+        )}
       >
         <div className="tw-flex-1">
           <Pair pairType={pairType} />
@@ -67,7 +71,7 @@ export const PairSelect: React.FC<IPairSelect> = ({
       {open && (
         <div
           className={cn(
-            'tw-absolute tw-transform tw-translate-y-full tw-bottom-0 tw-left-0 tw-bg-gray-2 tw-py-7 tw-px-9 tw-rounded-b-lg tw-z-50',
+            'tw-absolute tw-transform tw-translate-y-full tw-bottom-0 tw-left-0 tw-bg-gray-2 tw-py-7 tw-px-9 tw-rounded-b-lg tw-z-10',
             styles.pairsModal,
           )}
         >
@@ -78,8 +82,9 @@ export const PairSelect: React.FC<IPairSelect> = ({
             onChange={setSearch}
             placeholder={'Search'}
             prependElem={
-              <img className="tw-w-5" src={arrowDownIcon} alt="Arrow" />
+              <img className="tw-w-5" src={searchIcon} alt="Search" />
             }
+            data-action-id="spot-select-searchbar"
           />
 
           <div className="tw-flex tw-items-center tw-mt-3">
@@ -168,14 +173,14 @@ export const CryptocurrencyPairs: React.FC<ICryptocurrencyPairsProps> = ({
   const filteredList = useMemo(() => {
     const currencyList: [TradingPairs] = [] as any; //an Object with all possible pairs
     //making a currencyList with all possible pairs
-    for (let i = 0; i < list.length; i++) {
+    for (let pair of list) {
       //first here we push only RBTC pair
-      currencyList.push([list[i], list[i]]);
-      currencyList.push([list[i], list[i], 'RBTC']); //adding RBTC as key for RBTC as source
-      for (let j = 0; j < list.length; j++) {
-        if (list[i].base_symbol !== list[j].base_symbol)
-          //here we push to the currencyList all posible variants of currencies
-          currencyList.push([list[i], list[j]]);
+      currencyList.push([pair, pair]);
+      currencyList.push([pair, pair, 'RBTC']); //adding RBTC as key for RBTC as source
+      for (let pair2 of list) {
+        if (pair.base_symbol !== pair2.base_symbol)
+          // here we push to the currencyList all possible variants of currencies
+          currencyList.push([pair, pair2]);
       }
     }
 
@@ -260,6 +265,29 @@ export const CryptocurrencyPairs: React.FC<ICryptocurrencyPairsProps> = ({
         </thead>
         <tbody>
           {filteredList.map((pair: TradingPairs) => {
+            let isValidPair = false; //checking tradingPair, if this pair exist in SpotTradingType
+            if (
+              pair[0].base_symbol === pair[1].base_symbol &&
+              !pair[2] &&
+              SpotPairType[pair[0].base_symbol + '_' + pair[0].quote_symbol]
+            ) {
+              isValidPair = true;
+            }
+            if (
+              pair[0].base_symbol === pair[1].base_symbol &&
+              pair[2] &&
+              SpotPairType[pair[0].quote_symbol + '_' + pair[0].base_symbol]
+            ) {
+              isValidPair = true;
+            }
+            if (
+              SpotPairType[pair[0].base_symbol + '_' + pair[1].base_symbol] &&
+              !pair[2]
+            ) {
+              isValidPair = true;
+            }
+            if (!isValidPair) return null;
+
             //generating lastPrice for all pairs
             let lastPrice = 0;
             //for pairs without RBTC
@@ -318,36 +346,49 @@ export const CryptocurrencyPairs: React.FC<ICryptocurrencyPairsProps> = ({
                   />
                 </td>
                 <td className="tw-py-2" onClick={() => selectPair(pair)}>
-                  {/* pairs without RBTC */}
-                  {pair[1] !== pair[0] && (
-                    <Pair
-                      pairType={
-                        SpotPairType[
-                          pair[0].base_symbol + '_' + pair[1].base_symbol
-                        ]
-                      }
-                    />
-                  )}
-                  {/* pairs with RBTC as target */}
-                  {pair[0].base_symbol === pair[1].base_symbol && !pair[2] && (
-                    <Pair
-                      pairType={
-                        SpotPairType[
-                          pair[0].base_symbol + '_' + pair[0].quote_symbol
-                        ]
-                      }
-                    />
-                  )}
+                  {/* pairs with RBTC as target*/}
+                  {pair[0].base_symbol === pair[1].base_symbol &&
+                    !pair[2] &&
+                    SpotPairType[
+                      pair[0].base_symbol + '_' + pair[0].quote_symbol
+                    ] && (
+                      <Pair
+                        pairType={
+                          SpotPairType[
+                            pair[0].base_symbol + '_' + pair[0].quote_symbol
+                          ]
+                        }
+                      />
+                    )}
+
                   {/* pairs with RBTC as source */}
-                  {pair[2] && (
-                    <Pair
-                      pairType={
-                        SpotPairType[
-                          pair[0].quote_symbol + '_' + pair[0].base_symbol
-                        ]
-                      }
-                    />
-                  )}
+                  {pair[0].base_symbol === pair[1].base_symbol &&
+                    pair[2] &&
+                    SpotPairType[
+                      pair[0].quote_symbol + '_' + pair[0].base_symbol
+                    ] && (
+                      <Pair
+                        pairType={
+                          SpotPairType[
+                            pair[0].quote_symbol + '_' + pair[0].base_symbol
+                          ]
+                        }
+                      />
+                    )}
+
+                  {/* pairs without RBTC */}
+                  {SpotPairType[
+                    pair[0].base_symbol + '_' + pair[1].base_symbol
+                  ] &&
+                    !pair[2] && (
+                      <Pair
+                        pairType={
+                          SpotPairType[
+                            pair[0].base_symbol + '_' + pair[1].base_symbol
+                          ]
+                        }
+                      />
+                    )}
                 </td>
                 <td className="tw-text-right" onClick={() => selectPair(pair)}>
                   {toNumberFormat(lastPrice, 6)}

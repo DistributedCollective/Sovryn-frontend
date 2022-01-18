@@ -20,7 +20,10 @@
     "unit": {
       "day": "{{count}} dia",
       "day_plural": "{{count}} dias"
-    }
+    },
+    "gasPrice": "Preço gás",
+    "gasLimit": "Limite gás",
+    "units": "unidades"
   },
   "global": {
     "liquidationPrice": "Preço de liquidação",
@@ -194,10 +197,10 @@
       "currency_placeholder": "Escolha o ativo",
       "amount": "Quantidade",
       "startPrice": "Preço de entrada",
-      "advancedSettings": "Configurações avançadas",
-      "esEntryPrice": "Preço estimado de entrada:",
-      "esLiquidationPrice": "Preço estimado de liquidação:",
-      "interestAPY": "Juros anual:"
+      "slippageSettings": "Configurações avançadas",
+      "esEntryPrice": "Preço aproximado de entrada:",
+      "esLiquidationPrice": "Preço aproximado de liquidação:",
+      "interestAPY": "Taxa anual:"
     },
     "buttons": {
       "submit": "Realizar operação"
@@ -247,7 +250,7 @@
     "title": "Dicas Sovryn"
   },
   "footer": {
-    "title": "Feito e disponibilizado por <0>Bitcoinheiros</0>",
+    "title": "Feito e disponibilizado por <0>Bitcoiners</0>",
     "notice_1": "Esteja ciente de que somente você possui controle e acesso ao seus ativos, qualquer ação que você realizar pode causar uma perda considerável de fundos.",
     "notice_2": "Sempre verifique as taxas de transação antes de realizar operações na SOVRYN. Algumas carteiras podem configurar automaticamente taxas muito altas.",
     "notice_3": "Visite nosso <0>FAQ</0> se tiver dúvidas.",
@@ -265,11 +268,11 @@
   "mainMenu": {
     "buySov": "Comprar SOV",
     "trade": "Negociar",
-    "swap": "Trocar criptos",
+    "swap": "Trocar cripto",
     "marginTrade": "Operar margem",
     "finance": "Finanças",
-    "lend": "Emprestar criptos",
-    "borrow": "Obter empréstimos",
+    "lend": "Emprestar cripto",
+    "borrow": "Obter empréstimo",
     "yieldFarm": "Minerar liquidez",
     "reward": "Bônus SOV",
     "staking": "Token SOV",
@@ -487,8 +490,6 @@
       "lend": "Contrato de empréstimo",
       "amm": "Contrato Amm",
       "staked": "Contrato Bitocracia",
-      "subProtocol": "Subprotocolos",
-      "subtotal": "Sub total",
       "total": "Total"
     },
     "ammpool": {
@@ -498,10 +499,10 @@
       "contractBalance": "Saldo do contrato",
       "imBalance": "Desequilíbrio"
     },
-    "asset": "Ativos",
+    "asset": "Ativo",
     "totalAssetSupplied": "Total",
-    "totalAssetBorrowed": "Emprestados",
-    "totalAvailable": "Disponíveis",
+    "totalAssetBorrowed": "Emprestado",
+    "totalAvailable": "Disponível",
     "supplyAPR": "Juros anual (credor)",
     "borrowAPR": "Juros anual (devedor)"
   },
@@ -531,6 +532,7 @@
     "feeTitle": "Dividendos disponíveis",
     "noUnlockedSov": "Você não possui SOV disponíveis para investimento",
     "txFee": "Taxa de transação",
+    "txId": "ID transação:",
     "sov": "SOV",
     "days": "dias",
     "delegation": {
@@ -739,7 +741,7 @@
     },
     "borrowingContainer": {
       "amount": "Valor do empréstimo",
-      "tokenAssetCollateral": "Ativo a ser colaterizado e quantidade",
+      "tokenAssetCollateral": "Ativo de garantia e quantidade",
       "borrow": "Obter empréstimo",
       "chooseDays": "Quantidade de dias",
       "disabled": "Ativo não disponível para empréstimo."
@@ -747,7 +749,7 @@
   },
   "borrow": {
     "meta": {
-      "title": "Obter empréstimos"
+      "title": "Obter empréstimo"
     }
   },
   "activeUserBorrows": {
@@ -950,7 +952,7 @@
         "fee": "Taxa",
         "initiated": "Iniciado",
         "status": "Status da transação",
-        "estimated": "Tempo estimado"
+        "estimated": "Tempo aproximado"
       }
     }
   },
@@ -1039,7 +1041,7 @@
       "title": "Converter",
       "from": "De",
       "to": "Para",
-      "txFee": "Taxa de transação",
+      "txFee": "Taxa de rede",
       "cta": "Converter para XUSD",
       "txDialog": {
         "titleInProgress": "Transação em andamento",
@@ -1087,7 +1089,7 @@
       "orderType": "Tipo de ordem",
       "amountPaid": "Quantidade paga",
       "amountReceived": "Quantidade recebida",
-      "transactionFee": "Taxa de transação",
+      "transactionFee": "Taxa de rede",
       "status": "Status da transação"
     },
     "emptyState": "Histórico vázio."
@@ -1143,8 +1145,8 @@
     "poolChart": {
       "totalLiquidity": "Total",
       "apy": "{{asset}} Juros anual",
-      "available": "Disponíveis",
-      "borrowed": "Emprestados"
+      "available": "Disponível",
+      "borrowed": "Emprestado"
     },
     "rowTable": {
       "noLiquidityProvided": "Empreste {{asset}} e ganhe rendimentos",
@@ -1283,7 +1285,7 @@
     "acceptTerms": "Eu aceito os riscos e desejo acessar o dapp usando meu celular",
     "salesBtn": "Eu entendo",
     "content": {
-      "paragraph1": "Por razões de segurança, o dapp Sovryn ainda não é compatível com celulares.",
+      "paragraph1": "A Sovryn ainda não é totalmente compatível com celulares.",
       "paragraph2": "Que tal usar a versão para computadores?"
     }
   },
@@ -1372,8 +1374,8 @@
         "recommendation2": "Operando margem em criptos listadas na Sovryn"
       },
       "feesEarnedTab": {
-        "title": "Você não possui dividendos/comissão a receber",
-        "recommendationsTitle": "Ganhe dividendos/comissão em <0/> das seguintes formas:",
+        "title": "Você não possui Dividendos/Comissão a receber",
+        "recommendationsTitle": "Ganhe Dividendos/Comissão em <0/> das seguintes formas:",
         "recommendation1": "Investindo seus SOV",
         "recommendation2": "Quando usuários indicados por você realizam transações na Sovryn"
       }
@@ -1394,7 +1396,7 @@
       "learn": "Saiba mais"
     },
     "feesEarnedClaimForm": {
-      "note": "Ao reivindicar seus dividendos/comissão, eles automaticamente são adicionados no seu saldo <0/> no portfólio.",
+      "note": "Ao reivindicar seus Dividendos/Comissão, eles automaticamente são adicionados no seu saldo <0/> no portfólio.",
       "learn": "Saiba mais"
     },
     "stakingForm": {
@@ -1452,39 +1454,51 @@
         "amount": "Quantidade:",
         "slippage": "Diferença máxima no preço:",
         "balance": "Saldo disponível: <0/> <1/>",
-        "txFee": "Taxa de transação: <0/> {{symbol}}"
+        "txFee": "Taxa de rede: <0/>",
+        "tradingFee": "Taxa de negociação:"
       },
       "buttons": {
         "long": "Comprado",
         "short": "Vendido"
       },
       "placePosition": {
-        "placeLong": "Operar comprado",
-        "placeShort": "Operar vendido"
+        "placeLong": "Revisar ordem a",
+        "placeShort": "Revisar ordem a"
       }
     },
+    "recentTrades": {
+      "title": "Negociações recentes",
+      "price": "Preço (<0/>)",
+      "size": "Tamanho (<0/>)",
+      "time": "Horário",
+      "noTrades": "Sem negociações recentes"
+    },
     "tradeDialog": {
-      "title": "Revisar transação",
+      "title": "Revisar ordem",
       "pair": "Par de negociação:",
       "leverage": "Alavancagem:",
       "asset": "Ativo de garantia:",
+      "margin": "Margem:",
       "direction": "Par de negociação:",
       "positionSize": "Tamanho da posição",
       "maintananceMargin": "Margem de manutenção:",
-      "liquidationPrice": "Preço estimado de liquidação:",
+      "liquidationPrice": "Preço aproximado de liquidação:",
+      "entryPrice": "Preço aproximado de entrada:",
       "minEntry": "Preço mínimo de entrada:",
       "minLiq": "Preço mínimo de liquidação:",
-      "interestAPR": "Juros anual",
+      "interestAPR": "Taxa anual",
       "renewalDate": "Data de renovação:",
       "entryPrice": "Preço aproximado de entrada:",
       "estimationErrorNote": "A posição de abertura irá falhar: {{error}}",
       "position": {
         "long": "Comprado",
         "short": "Vendido"
-      }
+      },
+      "newPositionDetails": "Detalhes"
     },
     "openPositions": "Posições abertas",
     "tradingHistory": "Posições fechadas",
+    "openLimitOrders": "Ordens a limite abertas",
     "notificationSettingsDialog": {
       "title": "Configurações de notificação",
       "notifyVia": "Notificar via",
@@ -1509,15 +1523,16 @@
       "description": "Operar spot"
     },
     "tradeForm": {
-      "buy_cta": "COMPRAR",
-      "sell_cta": "VENDER",
+      "buy_cta": "REVISAR ORDEM DE COMPRA",
+      "sell_cta": "REVISAR ORDEM DE VENDA",
       "amountReceived": "Receber",
-      "buy": "Compra",
-      "sell": "Venda",
+      "buy": "Comprar",
+      "sell": "Vender",
       "market": "Mercado",
       "limit": "Limitada",
       "advancedSettings": "Configurações avançadas",
-      "limitPrice": "Preço:"
+      "limitPrice": "Preço:",
+      "receive": "Receber:"
     },
     "priceHistory": {
       "turnover": "Volume de negociações",
@@ -1529,21 +1544,28 @@
       "limitOrderHistory": "Histórico de ordens a limite"
     },
     "tradeDialog": {
-      "marketTitle": "Revisar ordem a mercado",
-      "limitTitle": "Revisar ordem a limite",
+      "marketTitle": "Revisar ordem",
+      "limitTitle": "Revisar ordem",
       "tradingPair": "Par de negociação:",
       "orderType": "Tipo de ordem:",
       "tradeAmount": "Quantidade negociada:",
       "limitPrice": "Preço:",
-      "duration": "Duração:"
+      "duration": "Expira em:",
+      "receiveAmount": "Quantidade a receber:",
+      "orderAmount": "Quantidade negociada:",
+      "newOrderDetails": "Detalhes",
+      "order": "Ordem"
     },
     "limitOrderSetting": {
       "title": "Configurações avançadas",
-      "duration": "Duração:",
+      "duration": "Expira em:",
       "untilCancelled": "Até cancelar",
       "day_one": "{{count}} dia",
       "day_other": "{{count}} dias",
-      "partialFilled": "Permitir ordem parcialmente executada:"
+      "partialFilled": "Permitir ordem parcialmente executada:",
+      "aboveMarket": "acima do preço de mercado",
+      "belowMarket": "abaixo do preço de mercado",
+      "infinity": "∞"
     },
     "openLimitOrders": {
       "dateTime": "Data e hora",
@@ -1552,10 +1574,11 @@
       "tradeAmount": "Quantidade negociada",
       "limitPrice": "Preço",
       "amountReceive": "Quantidade a receber",
-      "duration": "Duração",
+      "duration": "Expira em",
       "deadline": "Prazo",
       "actions": "Ação",
       "noData": "Sem dados",
+      "filledAmount": "Quantidade inserida",
       "cta": {
         "edit": "Editar",
         "close": "Fechar"
@@ -1563,7 +1586,13 @@
     },
     "cancelDialog": {
       "title": "Cancelar ordem limitada",
-      "cta": "CANCELAR ORDEM LIMITADA"
+      "cta": "Confirmar",
+      "complete": "Cancelada com sucesso",
+      "failed": "Falha ao cancelar",
+      "tx": {
+        "title": "Cancelar",
+        "message": "Cancelar ordem {{tradeType}}"
+      }
     },
     "pairNavbar": {
       "pair": "Pares",
@@ -1572,7 +1601,8 @@
       "dayPercentChange": "24hr % oscilação",
       "dayLow": "24hr baixa:",
       "dayHigh": "24hr alta:",
-      "all": "TODOS"
+      "all": "TODOS",
+      "search": "Procurar"
     }
   },
   "form": {
@@ -1672,6 +1702,7 @@
       "lend": "Contrato de empréstimo",
       "amm": "Contrato Amm",
       "staked": "Contrato Bitocracia",
+      "subProtocol": "Subprotocolos",
       "subtotal": "Sub total",
       "total": "Total"
     },
@@ -1679,19 +1710,19 @@
       "title": "Promoções",
       "learnMore": "Saiba mais",
       "sections": {
-        "lending": "Emprestando criptos",
-        "borrowing": "Obtendo empréstimos",
+        "lending": "Emprestando cripto",
+        "borrowing": "Obtendo empréstimo",
         "yieldFarming": "Minerando liquidez",
         "marginTrading": "Operando margem",
-        "swap": "Trocando criptos",
+        "swap": "Trocando cripto",
         "spotTrading": "Operando spot"
       }
     },
-    "lendBorrow": "EMPRESTAR & OBTER EMPRÉSTIMOS DE ATIVOS",
+    "lendBorrow": "EMPRESTAR & OBTER EMPRÉSTIMO DE ATIVOS",
     "ammpool": {
       "title": "POOLS AMM",
-      "asset": "Ativos",
-      "pool": "Pools",
+      "asset": "Ativo",
+      "pool": "Pool",
       "stakedBalance": "Total",
       "contractBalance": "Saldo do contrato",
       "imBalance": "Desequilíbrio",
@@ -1712,7 +1743,7 @@
     },
     "cryptocurrencyPrices": {
       "title": "PREÇO DOS ATIVOS",
-      "asset": "Ativos",
+      "asset": "Ativo",
       "price": "Preço",
       "24h": "24h%",
       "7d": "7d%",
@@ -1845,6 +1876,23 @@
       "maxWithdrawal": "Máximo permitido:"
     }
   },
+  "transactionDialog": {
+    "pendingUser": {
+      "title": "Confirmar {{action}}",
+      "text": "Confirme a transação na sua carteira {{walletName}}",
+      "failed": "Falhou",
+      "retry": "Tentar novamente"
+    },
+    "txStatus": {
+      "title": "Status da transação",
+      "aborted": "Transação falhou. <br/>Cancele ou refaça a transação",
+      "abortedLedger": "Make sure \"Contract data\" is set to \"Allowed\" in your Ledger app settings",
+      "cta": "Ver na blockchain",
+      "processing": "{{action}} em processamento...",
+      "complete": "{{action}} concluída",
+      "submit": "{{action}} Inserida"
+    }
+  },
   "buySovPage": {
     "meta": {
       "title": "Negociações com SOV estão abertas!",
@@ -1891,7 +1939,7 @@
       },
       "txStatus": {
         "title": "Status da transação",
-        "aborted": "Transação abortada pelo usuário.",
+        "aborted": "Você optou por rejeitar esta transação. Cancele ou refaça a transação",
         "abortedLedger": "Verifique se \"Contract data\" está configurado para \"Permitido\" no seu aplicativo Ledger",
         "cta": "Ver na blockchain"
       }
@@ -1959,7 +2007,7 @@
   "addToMargin": {
     "title": "Adicionar margem",
     "amount": "Aumentar margem em:",
-    "liquidationPrice": "Preço estimado de liquidação:"
+    "liquidationPrice": "Preço aproximado de liquidação:"
   },
   "openPositionTable": {
     "direction": "Direção",

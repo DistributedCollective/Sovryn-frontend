@@ -1,13 +1,12 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { Dialog } from 'app/containers/Dialog';
 import { ResetTxResponseInterface } from '../../hooks/useSendContractTx';
 import { TxStatus } from 'store/global/transactions-store/types';
 import { detectWeb3Wallet, prettyTx } from 'utils/helpers';
 import txFailed from 'assets/images/failed-tx.svg';
-
 import { LinkToExplorer } from '../LinkToExplorer';
 import styles from './dialog.module.scss';
-import { useWalletContext } from '@sovryn/react-wallet';
+import { WalletContext } from '@sovryn/react-wallet';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { usePrevious } from '../../hooks/usePrevious';
@@ -16,49 +15,28 @@ import cn from 'classnames';
 import { getStatusImage } from './utils';
 import { WalletLogo } from './WalletLogo';
 import { getWalletName } from '../UserAssets/TxDialog/WalletLogo';
-import { TradingPosition } from 'types/trading-position';
-import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
-import { TradingTypes } from 'app/pages/SpotTradingPage/types';
-import { LoadableValue } from '../LoadableValue';
-import { fromWei } from 'utils/blockchain/math-helpers';
-import { AssetRenderer } from '../AssetRenderer';
-import { PricePrediction } from 'app/containers/MarginTradeForm/PricePrediction';
-import { OrderTypes } from '../OrderType/types';
-import { TradingPair } from 'utils/models/trading-pair';
-import { Asset } from 'types';
 
 interface ITransactionDialogProps {
   tx: ResetTxResponseInterface;
   onUserConfirmed?: () => void;
   onSuccess?: () => void;
+  onError?: () => void;
   action?: string;
   fee?: React.ReactNode;
   finalMessage?: React.ReactNode;
-  data?: {
-    position: TradingPosition;
-    leverage: number;
-    orderTypeValue: OrderTypes;
-    pair: TradingPair;
-    amount: string;
-    collateral: Asset;
-    loanToken: Asset;
-    collateralToken: Asset;
-    useLoanTokens: boolean;
-  };
 }
 
 export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
   tx,
   onUserConfirmed,
   onSuccess,
+  onError,
   action,
   fee,
   finalMessage,
-  data,
 }) => {
   const { t } = useTranslation();
-  const { address } = useWalletContext();
-
+  const { address } = useContext(WalletContext);
   const onClose = useCallback(() => tx.reset(), [tx]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -67,23 +45,23 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
   const oldStatus = usePrevious(tx.status);
 
   useEffect(() => {
-    if (
-      oldStatus === TxStatus.PENDING_FOR_USER &&
+    oldStatus === TxStatus.PENDING_FOR_USER &&
       tx.status === TxStatus.PENDING &&
-      onUserConfirmed
-    ) {
+      onUserConfirmed &&
       onUserConfirmed();
-    }
   }, [oldStatus, tx.status, onUserConfirmed]);
 
   useEffect(() => {
-    if (tx.status === TxStatus.CONFIRMED && onSuccess) {
-      onSuccess();
-    }
-  }, [tx.status, onSuccess]);
+    tx.status === TxStatus.CONFIRMED && onSuccess && onSuccess();
+    tx.status === TxStatus.FAILED && onError && onError();
+  }, [tx.status, oldStatus, onSuccess, onError]);
 
   return (
-    <Dialog isOpen={tx.status !== TxStatus.NONE} onClose={onClose}>
+    <Dialog
+      isOpen={tx.status !== TxStatus.NONE}
+      onClose={onClose}
+      dataAttribute="transaction-dialog"
+    >
       {tx.status === TxStatus.PENDING_FOR_USER && (
         <>
           <h1>{getTransactionTitle(tx.status, action)}</h1>
@@ -145,51 +123,6 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
               </div>
             )}
 
-            {data && (
-              <div className="tw-pt-3 tw-pb-2 tw-px-6 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
-                <div
-                  className={cn(
-                    'tw-text-center tw-font-medium tw-lowercase tw-text-xl',
-                    {
-                      'tw-text-trade-short':
-                        data.position === TradingPosition.SHORT,
-                      'tw-text-trade-long':
-                        data.position === TradingPosition.LONG,
-                    },
-                  )}
-                >
-                  {toNumberFormat(data.leverage) + 'x'} {data.orderTypeValue}{' '}
-                  {data.position === TradingPosition.LONG
-                    ? TradingTypes.BUY
-                    : TradingTypes.SELL}
-                </div>
-                <div className="tw-text-center tw-my-1">
-                  {data.pair.chartSymbol}
-                </div>
-                <div className="tw-flex tw-justify-center tw-items-center">
-                  <LoadableValue
-                    loading={false}
-                    value={
-                      <div className="tw-mr-1">
-                        {weiToNumberFormat(data.amount, 4)}
-                      </div>
-                    }
-                    tooltip={fromWei(data.amount)}
-                  />{' '}
-                  <AssetRenderer asset={data.collateral} />
-                  <div className="tw-px-1">&#64; &ge;</div>
-                  <PricePrediction
-                    position={data.position}
-                    leverage={data.leverage}
-                    loanToken={data.loanToken}
-                    collateralToken={data.collateralToken}
-                    useLoanTokens={data.useLoanTokens}
-                    weiAmount={data.amount}
-                  />
-                </div>
-              </div>
-            )}
-
             {tx.txHash && (
               <div className="tw-pt-3 tw-pb-2 tw-px-6 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
                 {fee && <>{fee}</>}
@@ -197,7 +130,7 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
                   <div className="tw-w-1/2 tw-text-gray-10 tw-text-gray-10">
                     {t(translations.stake.txId)}
                   </div>
-                  <div className="sm:tw-w-1/3 tw-w-1/2 tw-font-medium">
+                  <div className="tw-font-medium">
                     <LinkToExplorer
                       txHash={tx.txHash}
                       text={prettyTx(tx.txHash)}
@@ -213,9 +146,10 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
             onClick={onClose}
             text={t(translations.common.close)}
             className={
-              'tw-max-w-7xl tw-flex tw-items-center tw-justify-center tw-h-12 tw-rounded-lg tw-w-80 tw-mx-auto tw-mt-16'
+              'tw-max-w-7xl tw-flex tw-items-center tw-justify-center tw-h-12 tw-rounded-lg tw-w-80 tw-mx-auto tw-mt-14'
             }
             textClassName="tw-inline-block tw-text-lg"
+            data-action-id="close-transaction-dialog-button"
           />
         </>
       )}
@@ -241,15 +175,24 @@ export const getTransactionTitle = (tx: TxStatus, action: string = '') => {
       );
     case TxStatus.PENDING:
       return (
-        <Trans i18nKey={translations.transactionDialog.txStatus.processing} />
+        <Trans
+          i18nKey={translations.transactionDialog.txStatus.processing}
+          values={{ action }}
+        />
       );
     case TxStatus.CONFIRMED:
       return (
-        <Trans i18nKey={translations.transactionDialog.txStatus.complete} />
+        <Trans
+          i18nKey={translations.transactionDialog.txStatus.complete}
+          values={{ action }}
+        />
       );
     default:
       return (
-        <Trans i18nKey={translations.transactionDialog.txStatus.processing} />
+        <Trans
+          i18nKey={translations.transactionDialog.txStatus.processing}
+          values={{ action }}
+        />
       );
   }
 };

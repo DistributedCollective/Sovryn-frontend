@@ -7,6 +7,7 @@ import { useBorrowLiquidationPrice } from 'app/hooks/trading/useBorrowLiquidatio
 import { bignumber } from 'mathjs';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
+import { AssetRenderer } from 'app/components/AssetRenderer';
 
 interface ILiquidationPriceProps {
   asset: Asset;
@@ -36,7 +37,11 @@ export function LiquidationPrice(props: ILiquidationPriceProps) {
   return (
     <LoadableValue
       value={<>{weiToNumberFormat(value, 2)}</>}
-      tooltip={fromWei(value)}
+      tooltip={
+        <>
+          {fromWei(value)} <AssetRenderer asset={props.assetLong} />
+        </>
+      }
       loading={loadingPrice || loadingLiq || loadingLongToUsdPrice}
     />
   );

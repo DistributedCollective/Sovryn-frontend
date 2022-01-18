@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import cn from 'classnames';
 import { Asset } from 'types/asset';
@@ -13,6 +13,9 @@ import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalcu
 import { getTokenContract } from 'utils/blockchain/contract-helpers';
 import { toWei, weiToFixed } from 'utils/blockchain/math-helpers';
 import { stringToFixedPrecision } from 'utils/display-text/format';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { discordInvite } from 'utils/classifiers';
+import { useMaintenance } from 'app/hooks/useMaintenance';
 
 interface IReviewDialogProps {
   isOpen: boolean;
@@ -25,6 +28,8 @@ interface IReviewDialogProps {
 }
 export const ReviewDialog: React.FC<IReviewDialogProps> = props => {
   const { t } = useTranslation();
+  const { checkMaintenance, States } = useMaintenance();
+  const swapDialogLocked = checkMaintenance(States.SWAP_TRADES);
 
   const onConfirm = useCallback(() => {
     props.onConfirm();
@@ -83,9 +88,30 @@ export const ReviewDialog: React.FC<IReviewDialogProps> = props => {
             contractName="sovrynProtocol"
           />
 
+          {swapDialogLocked && (
+            <ErrorBadge
+              content={
+                <Trans
+                  i18nKey={translations.maintenance.swapTrades}
+                  components={[
+                    <a
+                      href={discordInvite}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                    >
+                      x
+                    </a>,
+                  ]}
+                />
+              }
+            />
+          )}
+
           <DialogButton
             confirmLabel={t(translations.common.confirm)}
             onConfirm={onConfirm}
+            disabled={swapDialogLocked}
           />
         </div>
       </Dialog>

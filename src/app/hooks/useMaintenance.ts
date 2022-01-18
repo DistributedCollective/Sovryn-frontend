@@ -9,6 +9,8 @@ enum States {
   ADD_TO_MARGIN_TRADES = 'addToMarginTrades',
   CLOSE_MARGIN_TRADES = 'closeMarginTrades',
   SPOT_TRADES = 'spotTrades',
+  SPOT_LIMIT = 'spotLimit',
+  CLOSE_SPOT_LIMIT = 'closeSpotLimit',
   SWAP_TRADES = 'swapTrades',
   DEPOSIT_LEND = 'depositLend',
   WITHDRAW_LEND = 'withdrawLend',

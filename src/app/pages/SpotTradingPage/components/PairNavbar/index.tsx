@@ -5,20 +5,15 @@ import React, {
   useEffect,
   useMemo,
 } from 'react';
-import { useTranslation } from 'react-i18next';
-import { translations } from 'locales/i18n';
-import { NotificationSettingsDialog } from 'app/pages/MarginTradePage/components/NotificationSettingsDialog';
 import { PairStats } from './PairStats';
 import { PairSelect } from './PairSelect';
 import { useLocation } from 'react-router-dom';
-import imgNotificationBell from 'assets/images/marginTrade/notifications.svg';
 import { IPairsData } from 'app/pages/LandingPage/components/CryptocurrencyPrices/types';
 import axios, { Canceler } from 'axios';
 import { backendUrl, currentChainId } from 'utils/classifiers';
 import { SpotPairType } from '../../types';
 
 export const PairNavbar: React.FC = () => {
-  const { t } = useTranslation();
   const location = useLocation();
 
   const [pairsLoading, setPairsLoading] = useState(false);
@@ -26,11 +21,6 @@ export const PairNavbar: React.FC = () => {
   const cancelDataRequest = useRef<Canceler>();
   const cancelPairsDataRequest = useRef<Canceler>();
   const url = backendUrl[currentChainId];
-
-  const [
-    showNotificationSettingsModal,
-    setShowNotificationSettingsModal,
-  ] = useState(false);
 
   const getStorageKey = () => {
     switch (location.pathname) {
@@ -40,11 +30,6 @@ export const PairNavbar: React.FC = () => {
         return '';
     }
   };
-
-  const onNotificationSettingsClick = useCallback(
-    () => setShowNotificationSettingsModal(true),
-    [],
-  );
 
   const [pair, setPair] = useState([]) as any;
 
@@ -82,9 +67,8 @@ export const PairNavbar: React.FC = () => {
   useEffect(() => {
     if (list)
       // set SOV_RBTC by default
-      for (let i = 0; i < list.length; i++) {
-        if (list[i].trading_pairs === SpotPairType.SOV_RBTC)
-          setPair([list[i], list[i]]);
+      for (let pair of list) {
+        if (pair.trading_pairs === SpotPairType.SOV_RBTC) setPair([pair, pair]);
       }
   }, [list]);
 
@@ -98,25 +82,7 @@ export const PairNavbar: React.FC = () => {
         />
 
         {pair.length > 1 && !pairsLoading && <PairStats pair={pair} />}
-        <div>
-          <button
-            onClick={onNotificationSettingsClick}
-            className="tw-text-sm tw-text-primary tw-tracking-normal tw-flex tw-items-center"
-          >
-            <img
-              src={imgNotificationBell}
-              alt="Notification bell"
-              className="tw-mr-1.5"
-            />{' '}
-            {t(translations.marginTradePage.notificationsButton.enable)}
-          </button>
-        </div>
       </div>
-
-      <NotificationSettingsDialog
-        isOpen={showNotificationSettingsModal}
-        onClose={() => setShowNotificationSettingsModal(false)}
-      />
     </div>
   );
 };

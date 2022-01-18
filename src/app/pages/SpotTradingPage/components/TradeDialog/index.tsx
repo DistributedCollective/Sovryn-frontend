@@ -13,11 +13,10 @@ import {
 } from 'utils/display-text/format';
 import { Dialog } from 'app/containers/Dialog';
 import { TradingTypes } from '../../types';
-import { OrderTypes } from 'app/components/OrderType/types';
+import { OrderType } from 'app/components/OrderTypeTitle/types';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { AssetRenderer } from 'app/components/AssetRenderer';
-import { Input } from 'app/components/Form/Input';
 import { useWalletContext } from '@sovryn/react-wallet';
 
 interface ITradeDialogProps {
@@ -26,7 +25,7 @@ interface ITradeDialogProps {
   submit: () => void;
   tradeType: TradingTypes;
   slippage?: number;
-  orderType: OrderTypes;
+  orderType: OrderType;
   minReturn?: string;
   amount: string;
   expectedReturn: string;
@@ -34,6 +33,7 @@ interface ITradeDialogProps {
   sourceToken: Asset;
   limitPrice?: string;
   duration?: number;
+  fee?: React.ReactNode;
 }
 
 export const TradeDialog: React.FC<ITradeDialogProps> = ({
@@ -49,66 +49,45 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
   targetToken,
   sourceToken,
   duration,
+  fee,
 }) => {
   const { t } = useTranslation();
   const { connected } = useWalletContext();
   const { checkMaintenance, States } = useMaintenance();
   const spotLocked = checkMaintenance(States.SPOT_TRADES);
 
-  const getOrderTypeLabel = useCallback(() => {
-    const orderLabel =
-      orderType === OrderTypes.LIMIT
-        ? t(translations.spotTradingPage.tradeForm.limit)
-        : t(translations.spotTradingPage.tradeForm.market);
-
-    const typeLabel =
-      tradeType === TradingTypes.BUY
-        ? t(translations.spotTradingPage.tradeForm.buy)
-        : t(translations.spotTradingPage.tradeForm.sell);
-
-    return `${orderLabel} ${typeLabel}`;
-  }, [orderType, t, tradeType]);
-
   return (
     <>
       <Dialog isOpen={isOpen} onClose={() => onCloseModal()}>
         <div className="tw-mw-340 tw-mx-auto">
           <h1 className="tw-text-sov-white tw-text-center">
-            {orderType === OrderTypes.LIMIT
+            {orderType === OrderType.LIMIT
               ? t(translations.spotTradingPage.tradeDialog.limitTitle)
               : t(translations.spotTradingPage.tradeDialog.marketTitle)}
           </h1>
-          <div className="tw-py-4 tw-px-4 tw-bg-gray-2 sm:tw--mx-11 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
-            <LabelValuePair
-              label={t(translations.spotTradingPage.tradeDialog.tradingPair)}
-              value={
-                <>
-                  <AssetSymbolRenderer
-                    asset={
-                      tradeType === TradingTypes.SELL
-                        ? sourceToken
-                        : targetToken
-                    }
-                  />
-                  /
-                  <AssetSymbolRenderer
-                    asset={
-                      tradeType === TradingTypes.BUY ? sourceToken : targetToken
-                    }
-                  />
-                </>
-              }
+          <div className="tw-py-4 tw-px-4 tw-bg-gray-2 sm:tw--mx-11 tw-mb-4 tw-rounded-lg tw-text-center">
+            <OrderLabel
+              className="tw-text-lg tw-font-semibold tw-mb-1"
+              orderType={orderType}
+              tradeType={tradeType}
             />
-            <LabelValuePair
-              label={t(translations.spotTradingPage.tradeDialog.orderType)}
-              value={getOrderTypeLabel()}
-              className={cn({
-                'tw-text-trade-short': tradeType === TradingTypes.SELL,
-                'tw-text-trade-long': tradeType === TradingTypes.BUY,
-              })}
+            <PairLabel
+              sourceToken={sourceToken}
+              targetToken={targetToken}
+              tradeType={tradeType}
             />
+          </div>
+          {fee && (
+            <div className="tw-py-3 tw-px-4 tw-bg-gray-2 sm:tw--mx-11 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
+              {fee}
+            </div>
+          )}
+          <div className="tw-text-center tw-mt-1 tw-mb-2">
+            {t(translations.spotTradingPage.tradeDialog.newOrderDetails)}
+          </div>
+          <div className="tw-py-2 tw-px-4 tw-bg-gray-5 sm:tw--mx-11 tw-mb-16 tw-rounded-lg tw-text-sm tw-font-light">
             <LabelValuePair
-              label={t(translations.spotTradingPage.tradeDialog.tradeAmount)}
+              label={t(translations.spotTradingPage.tradeDialog.orderAmount)}
               value={
                 <>
                   {stringToFixedPrecision(amount, 6)}{' '}
@@ -116,8 +95,27 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
                 </>
               }
             />
+            <LabelValuePair
+              label={t(translations.spotTradingPage.tradeDialog.receiveAmount)}
+              value={
+                <>
+                  {expectedReturn} <AssetRenderer asset={targetToken} />
+                </>
+              }
+            />
+            {orderType === OrderType.MARKET && (
+              <LabelValuePair
+                label={t(translations.swap.minimumReceived)}
+                value={
+                  <>
+                    {weiToNumberFormat(minReturn, 6)}{' '}
+                    <AssetRenderer asset={targetToken} />
+                  </>
+                }
+              />
+            )}
 
-            {orderType === OrderTypes.LIMIT && (
+            {orderType === OrderType.LIMIT && (
               <>
                 {limitPrice && (
                   <LabelValuePair
@@ -158,36 +156,6 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
             )}
           </div>
 
-          <div className="tw-my-8">
-            <div className="tw-text-base tw-mb-1">
-              {t(translations.spotTradingPage.tradeForm.amountReceived)}:
-            </div>
-            <Input
-              value={expectedReturn}
-              onChange={() => {}}
-              readOnly={true}
-              appendElem={<AssetRenderer asset={targetToken} />}
-            />
-            {orderType === OrderTypes.MARKET && (
-              <div className="swap-btn-helper tw-flex tw-items-center tw-justify-betweenS tw-mt-2">
-                <span className="tw-w-full tw-flex tw-items-center tw-justify-between tw-text-xs tw-whitespace-nowrap tw-mr-1">
-                  <span>{t(translations.swap.minimumReceived)} </span>
-                  <span>
-                    {weiToNumberFormat(minReturn, 6)}{' '}
-                    <AssetRenderer asset={targetToken} />
-                  </span>
-                </span>
-              </div>
-            )}
-          </div>
-
-          {/* <TxFeeCalculator
-            args={txArgs}
-            txConfig={txConf}
-            methodName="spot"
-            contractName={contractName}
-            condition={true}
-          /> */}
           <div className="tw-mt-4">
             {spotLocked && (
               <ErrorBadge
@@ -215,9 +183,77 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
             disabled={spotLocked || !connected}
             cancelLabel={t(translations.common.cancel)}
             onCancel={() => onCloseModal()}
+            data-action-id="spot-reviewDialog-submit"
           />
         </div>
       </Dialog>
+    </>
+  );
+};
+
+interface OrderLabelProps {
+  orderType: React.ReactNode;
+  tradeType: React.ReactNode;
+  className?: string;
+}
+
+export const OrderLabel: React.FC<OrderLabelProps> = ({
+  orderType,
+  tradeType,
+  className,
+}) => {
+  const { t } = useTranslation();
+
+  const getOrderTypeLabel = useCallback(() => {
+    const orderLabel =
+      orderType === OrderType.LIMIT
+        ? t(translations.spotTradingPage.tradeForm.limit)
+        : t(translations.spotTradingPage.tradeForm.market);
+
+    const typeLabel =
+      tradeType === TradingTypes.BUY
+        ? t(translations.spotTradingPage.tradeForm.buy)
+        : t(translations.spotTradingPage.tradeForm.sell);
+
+    return `${orderLabel} ${typeLabel}`;
+  }, [orderType, t, tradeType]);
+
+  return (
+    <div
+      className={cn(className, {
+        'tw-text-trade-short': tradeType === TradingTypes.SELL,
+        'tw-text-trade-long': tradeType === TradingTypes.BUY,
+      })}
+    >
+      {getOrderTypeLabel()}
+    </div>
+  );
+};
+
+interface PairLabelProps {
+  targetToken: Asset;
+  sourceToken: Asset;
+  tradeType: TradingTypes;
+  className?: string;
+}
+
+export const PairLabel: React.FC<PairLabelProps> = ({
+  sourceToken,
+  targetToken,
+  tradeType,
+  className,
+}) => {
+  return (
+    <>
+      <AssetSymbolRenderer
+        asset={tradeType === TradingTypes.SELL ? sourceToken : targetToken}
+        assetClassName={className}
+      />
+      /
+      <AssetSymbolRenderer
+        asset={tradeType === TradingTypes.BUY ? sourceToken : targetToken}
+        assetClassName={className}
+      />
     </>
   );
 };
@@ -228,7 +264,7 @@ interface LabelValuePairProps {
   className?: string;
 }
 
-export function LabelValuePair(props: LabelValuePairProps) {
+export const LabelValuePair: React.FC<LabelValuePairProps> = props => {
   return (
     <div
       className={cn(
@@ -242,7 +278,7 @@ export function LabelValuePair(props: LabelValuePairProps) {
       <div className="tw-w-1/2 tw-font-medium">{props.value}</div>
     </div>
   );
-}
+};
 
 export function tokenAddress(asset: Asset) {
   return AssetsDictionary.get(asset).getTokenContractAddress();

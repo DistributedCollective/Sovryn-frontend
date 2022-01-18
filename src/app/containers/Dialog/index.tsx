@@ -11,6 +11,7 @@ interface Props {
   canEscapeKeyClose?: boolean;
   canOutsideClickClose?: boolean;
   className?: string;
+  dataAttribute?: string;
 }
 
 export function Dialog(props: Props) {
@@ -23,7 +24,12 @@ export function Dialog(props: Props) {
       className={props.className}
     >
       {props.isCloseButtonShown && (
-        <button data-close="" className="dialog-close" onClick={props.onClose}>
+        <button
+          data-action-id={props.dataAttribute}
+          data-close
+          className="dialog-close"
+          onClick={props.onClose}
+        >
           <span className="tw-sr-only">Close Dialog</span>
         </button>
       )}

@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import cn from 'classnames';
 import { calculateProfit, weiToNumberFormat } from 'utils/display-text/format';
 import {
@@ -18,7 +18,7 @@ import { LoadableValue } from 'app/components/LoadableValue';
 import { translations } from 'locales/i18n';
 import { TxType } from 'store/global/transactions-store/types';
 import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
-import { gasLimit } from 'utils/classifiers';
+import { discordInvite, gasLimit } from 'utils/classifiers';
 import { TransactionDialog } from 'app/components/TransactionDialog';
 import { Dialog } from 'app/containers/Dialog/Loadable';
 import { useCloseWithSwap } from 'app/hooks/protocol/useCloseWithSwap';
@@ -168,7 +168,12 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
           <div className="tw-py-4 tw-px-4 tw-bg-gray-2 sm:tw--mx-11 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
             <LabelValuePair
               label={t(translations.marginTradePage.tradeDialog.pair)}
-              value={pair.chartSymbol}
+              value={
+                <>
+                  <AssetRenderer asset={pair.shortAsset} />/
+                  <AssetRenderer asset={pair.longAsset} />
+                </>
+              }
             />
             <LabelValuePair
               label={t(translations.closeTradingPositionHandler.marginType)}
@@ -201,6 +206,7 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
                       item={props.item}
                       position={position}
                       entryPrice={entryPrice}
+                      leverage={leverage}
                     />
                   }
                 />
@@ -290,6 +296,26 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
           )}
 
           {weiAmount !== '0' && error && <ErrorBadge content={error} />}
+
+          {closeTradesLocked && (
+            <ErrorBadge
+              content={
+                <Trans
+                  i18nKey={translations.maintenance.closeMarginTrades}
+                  components={[
+                    <a
+                      href={discordInvite}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                    >
+                      x
+                    </a>,
+                  ]}
+                />
+              }
+            />
+          )}
           <DialogButton
             confirmLabel={t(translations.common.confirm)}
             onConfirm={() => handleConfirm()}

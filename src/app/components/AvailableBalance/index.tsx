@@ -8,23 +8,27 @@ import { weiToNumberFormat } from 'utils/display-text/format';
 import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
 import { LoadableValue } from '../LoadableValue';
 import { AssetRenderer } from '../AssetRenderer';
-import cn from 'classnames';
+import classNames from 'classnames';
 interface IAvailableBalanceProps {
   asset: Asset;
   className?: string;
   dataAttribute?: string;
 }
 
-export function AvailableBalance(props: IAvailableBalanceProps) {
-  const { value, loading } = useAssetBalanceOf(props.asset);
-  const asset = useMemo(() => AssetsDictionary.get(props.asset), [props.asset]);
+export const AvailableBalance: React.FC<IAvailableBalanceProps> = ({
+  asset,
+  className,
+  dataAttribute,
+}) => {
+  const { value, loading } = useAssetBalanceOf(asset);
+  const assetDetails = useMemo(() => AssetsDictionary.get(asset), [asset]);
   return (
     <div
-      className={cn(
-        props.className,
+      className={classNames(
         'tw-truncate tw-text-xs tw-font-light tw-tracking-normal tw-flex tw-justify-between tw-mb-2 tw-w-full',
+        className,
       )}
-      data-action-id={props.dataAttribute}
+      data-action-id={dataAttribute}
     >
       <Trans
         i18nKey={translations.marginTradePage.tradeForm.labels.balance}
@@ -32,17 +36,17 @@ export function AvailableBalance(props: IAvailableBalanceProps) {
           <LoadableValue
             value={
               <span
-                data-action-id={props.dataAttribute}
+                data-action-id={dataAttribute}
                 className="tw-font-semibold tw-ml-1"
               >
                 {weiToNumberFormat(value, 6)}{' '}
-                <AssetRenderer asset={asset.asset} />
+                <AssetRenderer asset={assetDetails.asset} />
               </span>
             }
             loading={loading}
             tooltip={
               <div className="tw-font-semibold">
-                {fromWei(value)} <AssetRenderer asset={asset.asset} />
+                {fromWei(value)} <AssetRenderer asset={assetDetails.asset} />
               </div>
             }
           />,
@@ -50,4 +54,4 @@ export function AvailableBalance(props: IAvailableBalanceProps) {
       />
     </div>
   );
-}
+};

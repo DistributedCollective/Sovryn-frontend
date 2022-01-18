@@ -154,7 +154,7 @@ export function VestingContract(props: Props) {
         setDelegateLoading(false);
       }
     }
-    if (unlockDate && !vestLoading && getStakes.value['dates'].length > 0) {
+    if (unlockDate && !vestLoading && getStakes.value?.dates?.length > 0) {
       getDelegate();
       setLocked(Number(unlockDate) > Math.round(new Date().getTime() / 1e3));
     }

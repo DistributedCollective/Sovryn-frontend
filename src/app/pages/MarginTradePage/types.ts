@@ -13,6 +13,10 @@ export interface MarginTradePageState {
   amount: string;
   leverage: number;
   position: TradingPosition;
+
+  notificationWallet?: string;
+  notificationToken?: string;
+  notificationUser?: NotificationUser;
 }
 
 export interface TradingPairs {
@@ -22,6 +26,10 @@ export interface TradingPairs {
 }
 
 export type ContainerState = MarginTradePageState;
+
+type IApiBigNumber = {
+  hex: string;
+};
 
 export type MarginLimitOrder = {
   hash?: string;
@@ -44,10 +52,6 @@ export type MarginLimitOrder = {
   filled?: BigNumber;
 };
 
-type IApiBigNumber = {
-  hex: string;
-};
-
 export type IApiMarginLimitOrder = {
   loanId: string;
   leverageAmount: IApiBigNumber;
@@ -66,4 +70,26 @@ export type IApiMarginLimitOrder = {
   hash: string;
   canceled: boolean;
   filled: IApiBigNumber;
+};
+
+export type NotificationPayload = {
+  token: string;
+  wallet: string;
+};
+
+export type NotificationUser = {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  walletAddress: string;
+  email?: string;
+  emailNotificationLastSent?: string;
+  discordHandle?: string;
+  discordNotificationLastSent?: string;
+  telegramHandle?: string;
+  telegramNotificationLastSent?: string;
+  isDiscordNotifications: boolean;
+  isEmailNotifications: boolean;
+  isTelegramNotifications: boolean;
+  role: string;
 };

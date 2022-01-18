@@ -25,9 +25,7 @@ export function OpenPositionRow({ item, pending }: IOpenPositionRowProps) {
   const { t } = useTranslation();
   const [showClosePosition, setShowClosePosition] = useState(false);
   const { checkMaintenances, States } = useMaintenance();
-  const {
-    [States.CLOSE_MARGIN_TRADES]: closeTradesLocked,
-  } = checkMaintenances();
+  const { [States.CLOSE_SPOT_LIMIT]: closeTradesLocked } = checkMaintenances();
 
   const fromToken = getTokenFromAddress(item.fromToken);
   const toToken = getTokenFromAddress(item.toToken);

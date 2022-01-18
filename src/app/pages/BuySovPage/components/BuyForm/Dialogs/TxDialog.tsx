@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
 import cn from 'classnames';
 import { Dialog } from '../../../../../containers/Dialog';
@@ -19,7 +19,7 @@ import { LinkToExplorer } from '../../../../../components/LinkToExplorer';
 import styled from 'styled-components/macro';
 import styles from './dialog.module.scss';
 import { ConfirmButton } from '../../Button/confirm';
-import { useWalletContext } from '@sovryn/react-wallet';
+import { WalletContext } from '@sovryn/react-wallet';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 
@@ -30,7 +30,7 @@ interface Props {
 export function TxDialog(props: Props) {
   const { t } = useTranslation();
   const history = useHistory();
-  const { address } = useWalletContext();
+  const { address } = useContext(WalletContext);
   const close = () => {
     props.tx && props.tx.reset();
   };
