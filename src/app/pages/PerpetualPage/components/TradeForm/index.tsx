@@ -554,16 +554,16 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         </div>
       )}
       {!isNewTrade && (
-        <>
+        <div className="tw-flex tw-flex-col tw-justify-between tw-px-6 tw-py-3 tw-mt-4 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
           <LeverageViewer
-            className="tw-mt-3"
             label={t(translations.perpetualPage.tradeForm.labels.leverage)}
             min={pair.config.leverage.min}
             max={maxLeverage}
             value={trade.leverage}
             valueLabel={`${toNumberFormat(trade.leverage, 2)}x`}
           />
-          <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1 tw-mt-4 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
+
+          <div className="tw-flex tw-justify-between tw-mt-1">
             <label>
               {t(translations.perpetualPage.tradeForm.labels.liquidationPrice)}
             </label>
@@ -575,7 +575,8 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
               assetString={pair.quoteAsset}
             />
           </div>
-          <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1 tw-mt-4 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
+
+          <div className="tw-flex tw-justify-between tw-mt-1">
             <label>
               {t(
                 translations.perpetualPage.tradeForm.labels[
@@ -593,7 +594,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
               assetString={pair.quoteAsset}
             />
           </div>
-        </>
+        </div>
       )}
       {validation && !validation.valid && validation.errors.length > 0 && (
         <div className="tw-flex tw-flex-col tw-justify-between tw-px-6 tw-py-1 tw-mt-4 tw-text-warning tw-text-xs tw-font-medium tw-border tw-border-warning tw-rounded-lg">
