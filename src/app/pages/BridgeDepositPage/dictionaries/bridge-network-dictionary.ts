@@ -71,7 +71,7 @@ export class BridgeNetworkDictionary {
       'Binance Smart Testnet',
       CrossBridgeAsset.BNB,
       bscIcon,
-      'https://data-seed-prebsc-1-s2.binance.org:8545/',
+      'https://bsc.sovryn.app/testnet',
       'https://testnet.bscscan.com',
       AppMode.TESTNET,
       '0xae11C5B5f29A6a25e955F0CB8ddCc416f522AF5C',
