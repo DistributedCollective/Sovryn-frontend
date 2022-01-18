@@ -34,6 +34,7 @@ import {
   getMaxInitialLeverage,
   getMaximalTradeSizeInPerpetualWithCurrentMargin,
   getRequiredMarginCollateralWithGasFees,
+  getPrice,
 } from '../../utils/perpUtils';
 import { shrinkToLot } from '../../utils/perpMath';
 import {
@@ -306,6 +307,16 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     [averagePrice, trade.slippage, trade.position],
   );
 
+  const entryPrice = useMemo(
+    () =>
+      getPrice(
+        getSignedAmount(trade.position, trade.amount),
+        perpParameters,
+        ammState,
+      ),
+    [trade.position, trade.amount, perpParameters, ammState],
+  );
+
   const validation = useMemo(() => {
     const signedAmount = getSignedAmount(trade.position, trade.amount);
     const marginChange = isNewTrade ? requiredCollateral : 0;
@@ -533,17 +544,37 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           <img className="tw-ml-2" alt="setting" src={settingImg} />
         </button>
       </div>
+      {isNewTrade && (
+        <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1.5 tw-mt-4 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
+          <label>
+            {t(
+              translations.perpetualPage.tradeForm.labels[
+                trade.position === TradingPosition.LONG
+                  ? 'maxEntryPrice'
+                  : 'minEntryPrice'
+              ],
+            )}
+          </label>
+          <AssetValue
+            minDecimals={2}
+            maxDecimals={2}
+            mode={AssetValueMode.auto}
+            value={limitPrice}
+            assetString={pair.quoteAsset}
+          />
+        </div>
+      )}
       {!isNewTrade && (
-        <>
+        <div className="tw-flex tw-flex-col tw-justify-between tw-px-6 tw-py-1.5 tw-mt-4 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
           <LeverageViewer
-            className="tw-mt-3"
             label={t(translations.perpetualPage.tradeForm.labels.leverage)}
             min={pair.config.leverage.min}
             max={maxLeverage}
             value={trade.leverage}
             valueLabel={`${toNumberFormat(trade.leverage, 2)}x`}
           />
-          <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1 tw-mt-4 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
+
+          <div className="tw-flex tw-justify-between tw-mt-1.5">
             <label>
               {t(translations.perpetualPage.tradeForm.labels.liquidationPrice)}
             </label>
@@ -555,7 +586,26 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
               assetString={pair.quoteAsset}
             />
           </div>
-        </>
+
+          <div className="tw-flex tw-justify-between tw-mt-1.5">
+            <label>
+              {t(
+                translations.perpetualPage.tradeForm.labels[
+                  trade.position === TradingPosition.LONG
+                    ? 'maxEntryPrice'
+                    : 'minEntryPrice'
+                ],
+              )}
+            </label>
+            <AssetValue
+              minDecimals={2}
+              maxDecimals={2}
+              mode={AssetValueMode.auto}
+              value={limitPrice}
+              assetString={pair.quoteAsset}
+            />
+          </div>
+        </div>
       )}
       {validation && !validation.valid && validation.errors.length > 0 && (
         <div className="tw-flex tw-flex-col tw-justify-between tw-px-6 tw-py-1 tw-mt-4 tw-text-warning tw-text-xs tw-font-medium tw-border tw-border-warning tw-rounded-lg">
@@ -579,9 +629,8 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           >
             <span className="tw-mr-2">{tradeButtonLabel}</span>
             <span>
-              {weiToNumberFormat(trade.amount, lotPrecision)}
-              {` @ ${trade.position === TradingPosition.LONG ? '≤' : '≥'} `}
-              {toNumberFormat(limitPrice, 2)}
+              {weiToNumberFormat(trade.amount, lotPrecision)} @{' '}
+              {toNumberFormat(entryPrice, 2)}
             </span>
           </button>
         ) : (
