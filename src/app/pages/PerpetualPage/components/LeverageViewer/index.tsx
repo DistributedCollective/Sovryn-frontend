@@ -29,7 +29,7 @@ export const LeverageViewer: React.FC<LeverageViewerProps> = ({
   return (
     <div
       className={classNames(
-        'tw-flex tw-flex-row tw-px-6 tw-py-1 tw-text-xs tw-font-medium tw-leading-relaxed tw-border tw-border-gray-5 tw-rounded-lg',
+        'tw-flex tw-text-xs tw-font-medium tw-leading-relaxed tw-justify-between',
         className,
       )}
     >

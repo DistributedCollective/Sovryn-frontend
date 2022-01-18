@@ -53,6 +53,7 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
     marginChange,
     partialUnrealizedPnL,
     leverageTarget,
+    entryPrice,
     limitPrice,
     orderCost,
     tradingFee,
@@ -151,36 +152,59 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
           </div>
         )}
         {showAmountText && (
-          <div className="tw-text-sm tw-tracking-normal tw-mt-2 tw-leading-none tw-text-sov-wThite tw-font-medium">
+          <div className="tw-text-sm tw-tracking-normal tw-mt-2 tw-leading-none tw-text-sov-white tw-font-medium">
             {toNumberFormat(Math.abs(amountChange), 3)} {pair.baseAsset} @{' '}
-            {isBuy ? '≤' : '≥'} {toNumberFormat(limitPrice, 2)}{' '}
-            {pair.quoteAsset}
+            {toNumberFormat(entryPrice, 2)} {pair.quoteAsset}
           </div>
         )}
         {showCloseText && (
-          <div className="tw-flex tw-justify-center tw-w-full tw-mt-2 tw-text-sm">
-            <span className="tw-text-gray-10 tw-mr-2">
-              {t(translations.perpetualPage.reviewTrade.labels.totalToReceive)}
-            </span>
-            <span
-              className={classNames(
-                'tw-text-sov-white tw-font-medium',
-                totalToReceive > 0
-                  ? 'tw-text-trade-long'
-                  : 'tw-text-trade-short',
-              )}
-            >
-              ≥
-              <AssetValue
-                className="tw-ml-1"
-                minDecimals={4}
-                maxDecimals={4}
-                mode={AssetValueMode.auto}
-                value={totalToReceive}
-                assetString={pair.baseAsset}
-                showPositiveSign
-              />
-            </span>
+          <div className="tw-flex tw-flex-col tw-items-center tw-justify-center tw-w-full tw-mt-4 tw-text-sm">
+            <div>
+              <span className="tw-text-gray-10 tw-mr-2">
+                {t(
+                  translations.perpetualPage.reviewTrade.labels[
+                    isBuy ? 'maxEntryPrice' : 'minEntryPrice'
+                  ],
+                )}
+              </span>
+              <span className="tw-text-sov-white">
+                <AssetValue
+                  className="tw-font-light"
+                  assetClassName="tw-font-light"
+                  value={limitPrice}
+                  assetString={pair.quoteAsset}
+                  minDecimals={2}
+                  maxDecimals={2}
+                  mode={AssetValueMode.auto}
+                />
+              </span>
+            </div>
+            <div>
+              <span className="tw-text-gray-10 tw-mr-2">
+                {t(
+                  translations.perpetualPage.reviewTrade.labels.totalToReceive,
+                )}
+              </span>
+              <span
+                className={classNames(
+                  'tw-text-sov-white tw-font-medium',
+                  totalToReceive > 0
+                    ? 'tw-text-trade-long'
+                    : 'tw-text-trade-short',
+                )}
+              >
+                ≥
+                <AssetValue
+                  className="tw-ml-1"
+                  minDecimals={4}
+                  maxDecimals={4}
+                  mode={AssetValueMode.auto}
+                  value={totalToReceive}
+                  assetString={pair.baseAsset}
+                  showPositiveSign
+                />
+              </span>
+            </div>
           </div>
         )}
       </div>

@@ -28,12 +28,14 @@ import { LeverageViewer } from '../LeverageViewer';
 import {
   getMaximalTradeSizeInPerpetual,
   getTradingFee,
+  getQuote2CollateralFX,
   calculateApproxLiquidationPrice,
   calculateSlippagePrice,
   calculateLeverage,
   getMaxInitialLeverage,
   getMaximalTradeSizeInPerpetualWithCurrentMargin,
   getRequiredMarginCollateralWithGasFees,
+  getPrice,
 } from '../../utils/perpUtils';
 import { shrinkToLot } from '../../utils/perpMath';
 import {
@@ -259,6 +261,11 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     return i18nKey && t(i18nKey);
   }, [t, trade.position, trade.tradeType]);
 
+  const quoteToCollateralFactor = useMemo(
+    () => getQuote2CollateralFX(ammState),
+    [ammState],
+  );
+
   const requiredCollateral = useMemo(() => {
     const amount = getSignedAmount(trade.position, trade.amount);
     return getRequiredMarginCollateralWithGasFees(
@@ -304,6 +311,16 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         getTradeDirection(trade.position),
       ),
     [averagePrice, trade.slippage, trade.position],
+  );
+
+  const entryPrice = useMemo(
+    () =>
+      getPrice(
+        getSignedAmount(trade.position, trade.amount),
+        perpParameters,
+        ammState,
+      ),
+    [trade.position, trade.amount, perpParameters, ammState],
   );
 
   const validation = useMemo(() => {
@@ -487,13 +504,38 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
             {t(translations.perpetualPage.tradeForm.labels.orderCost)}
           </label>
         </Tooltip>
-        <AssetValue
-          minDecimals={4}
-          maxDecimals={4}
-          mode={AssetValueMode.auto}
-          value={requiredCollateral}
-          assetString={collateralName}
-        />
+        <Tooltip
+          position={'auto-start'}
+          content={
+            <>
+              <AssetValue
+                className="tw-block tw-text-right"
+                minDecimals={8}
+                maxDecimals={8}
+                mode={AssetValueMode.auto}
+                value={requiredCollateral}
+                assetString={collateralName}
+              />
+              <AssetValue
+                className="tw-block tw-text-right"
+                minDecimals={2}
+                maxDecimals={2}
+                mode={AssetValueMode.auto}
+                value={requiredCollateral / quoteToCollateralFactor}
+                assetString={pair.quoteAsset}
+                isApproximation
+              />
+            </>
+          }
+        >
+          <AssetValue
+            minDecimals={4}
+            maxDecimals={4}
+            mode={AssetValueMode.auto}
+            value={requiredCollateral}
+            assetString={collateralName}
+          />
+        </Tooltip>
       </div>
       <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-xs tw-font-medium">
         <Tooltip
@@ -505,13 +547,38 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
             {t(translations.perpetualPage.tradeForm.labels.tradingFee)}
           </label>
         </Tooltip>
-        <AssetValue
-          minDecimals={4}
-          maxDecimals={6}
-          mode={AssetValueMode.auto}
-          value={tradingFee}
-          assetString={collateralName}
-        />
+        <Tooltip
+          position={'auto-start'}
+          content={
+            <>
+              <AssetValue
+                className="tw-block tw-text-right"
+                minDecimals={8}
+                maxDecimals={8}
+                mode={AssetValueMode.auto}
+                value={tradingFee}
+                assetString={collateralName}
+              />
+              <AssetValue
+                className="tw-block tw-text-right"
+                minDecimals={2}
+                maxDecimals={2}
+                mode={AssetValueMode.auto}
+                value={tradingFee / quoteToCollateralFactor}
+                assetString={pair.quoteAsset}
+                isApproximation
+              />
+            </>
+          }
+        >
+          <AssetValue
+            minDecimals={4}
+            maxDecimals={4}
+            mode={AssetValueMode.auto}
+            value={tradingFee}
+            assetString={collateralName}
+          />
+        </Tooltip>
       </div>
       {isNewTrade && (
         <LeverageSelector
@@ -533,17 +600,37 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           <img className="tw-ml-2" alt="setting" src={settingImg} />
         </button>
       </div>
+      {isNewTrade && (
+        <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1.5 tw-mt-4 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
+          <label>
+            {t(
+              translations.perpetualPage.tradeForm.labels[
+                trade.position === TradingPosition.LONG
+                  ? 'maxEntryPrice'
+                  : 'minEntryPrice'
+              ],
+            )}
+          </label>
+          <AssetValue
+            minDecimals={2}
+            maxDecimals={2}
+            mode={AssetValueMode.auto}
+            value={limitPrice}
+            assetString={pair.quoteAsset}
+          />
+        </div>
+      )}
       {!isNewTrade && (
-        <>
+        <div className="tw-flex tw-flex-col tw-justify-between tw-px-6 tw-py-1.5 tw-mt-4 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
           <LeverageViewer
-            className="tw-mt-3"
             label={t(translations.perpetualPage.tradeForm.labels.leverage)}
             min={pair.config.leverage.min}
             max={maxLeverage}
             value={trade.leverage}
             valueLabel={`${toNumberFormat(trade.leverage, 2)}x`}
           />
-          <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1 tw-mt-4 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
+
+          <div className="tw-flex tw-justify-between tw-mt-1.5">
             <label>
               {t(translations.perpetualPage.tradeForm.labels.liquidationPrice)}
             </label>
@@ -555,7 +642,26 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
               assetString={pair.quoteAsset}
             />
           </div>
-        </>
+
+          <div className="tw-flex tw-justify-between tw-mt-1.5">
+            <label>
+              {t(
+                translations.perpetualPage.tradeForm.labels[
+                  trade.position === TradingPosition.LONG
+                    ? 'maxEntryPrice'
+                    : 'minEntryPrice'
+                ],
+              )}
+            </label>
+            <AssetValue
+              minDecimals={2}
+              maxDecimals={2}
+              mode={AssetValueMode.auto}
+              value={limitPrice}
+              assetString={pair.quoteAsset}
+            />
+          </div>
+        </div>
       )}
       {validation && !validation.valid && validation.errors.length > 0 && (
         <div className="tw-flex tw-flex-col tw-justify-between tw-px-6 tw-py-1 tw-mt-4 tw-text-warning tw-text-xs tw-font-medium tw-border tw-border-warning tw-rounded-lg">
@@ -579,9 +685,8 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           >
             <span className="tw-mr-2">{tradeButtonLabel}</span>
             <span>
-              {weiToNumberFormat(trade.amount, lotPrecision)}
-              {` @ ${trade.position === TradingPosition.LONG ? '≤' : '≥'} `}
-              {toNumberFormat(limitPrice, 2)}
+              {weiToNumberFormat(trade.amount, lotPrecision)} @{' '}
+              {toNumberFormat(entryPrice, 2)}
             </span>
           </button>
         ) : (
