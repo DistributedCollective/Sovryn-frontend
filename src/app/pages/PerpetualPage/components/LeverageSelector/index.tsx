@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState, useReducer } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { ReactComponent as EditIcon } from 'assets/images/edit.svg';
 import { ReactComponent as ArrowForwardIcon } from 'assets/images/arrow_forward.svg';
 import { Slider, SliderType } from 'app/components/Form/Slider';
