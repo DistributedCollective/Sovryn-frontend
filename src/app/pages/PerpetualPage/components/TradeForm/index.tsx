@@ -34,6 +34,7 @@ import {
   getMaxInitialLeverage,
   getMaximalTradeSizeInPerpetualWithCurrentMargin,
   getRequiredMarginCollateralWithGasFees,
+  getPrice,
 } from '../../utils/perpUtils';
 import { shrinkToLot } from '../../utils/perpMath';
 import {
@@ -306,6 +307,16 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     [averagePrice, trade.slippage, trade.position],
   );
 
+  const entryPrice = useMemo(
+    () =>
+      getPrice(
+        getSignedAmount(trade.position, trade.amount),
+        perpParameters,
+        ammState,
+      ),
+    [trade.position, trade.amount, perpParameters, ammState],
+  );
+
   const validation = useMemo(() => {
     const signedAmount = getSignedAmount(trade.position, trade.amount);
     const marginChange = isNewTrade ? requiredCollateral : 0;
@@ -534,7 +545,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         </button>
       </div>
       {isNewTrade && (
-        <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1 tw-mt-4 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
+        <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1.5 tw-mt-4 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
           <label>
             {t(
               translations.perpetualPage.tradeForm.labels[
@@ -554,7 +565,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         </div>
       )}
       {!isNewTrade && (
-        <div className="tw-flex tw-flex-col tw-justify-between tw-px-6 tw-py-3 tw-mt-4 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
+        <div className="tw-flex tw-flex-col tw-justify-between tw-px-6 tw-py-1.5 tw-mt-4 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
           <LeverageViewer
             label={t(translations.perpetualPage.tradeForm.labels.leverage)}
             min={pair.config.leverage.min}
@@ -563,7 +574,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
             valueLabel={`${toNumberFormat(trade.leverage, 2)}x`}
           />
 
-          <div className="tw-flex tw-justify-between tw-mt-1">
+          <div className="tw-flex tw-justify-between tw-mt-1.5">
             <label>
               {t(translations.perpetualPage.tradeForm.labels.liquidationPrice)}
             </label>
@@ -576,7 +587,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
             />
           </div>
 
-          <div className="tw-flex tw-justify-between tw-mt-1">
+          <div className="tw-flex tw-justify-between tw-mt-1.5">
             <label>
               {t(
                 translations.perpetualPage.tradeForm.labels[
@@ -619,7 +630,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
             <span className="tw-mr-2">{tradeButtonLabel}</span>
             <span>
               {weiToNumberFormat(trade.amount, lotPrecision)} @{' '}
-              {toNumberFormat(averagePrice, 2)}
+              {toNumberFormat(entryPrice, 2)}
             </span>
           </button>
         ) : (

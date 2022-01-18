@@ -22,7 +22,6 @@ import { TxStatusIcon } from '../../../../../components/Dialogs/TxDialog';
 import { RecentTradesContext } from '../../../contexts/RecentTradesContext';
 import { RecentTradesDataEntry } from '../../RecentTradesTable/types';
 import { TradeAnalysis } from '../types';
-import { PerpetualQueriesContext } from 'app/pages/PerpetualPage/contexts/PerpetualQueriesContext';
 
 const TxTypeLabels = {
   [TxType.APPROVE]: translations.perpetualPage.processTrade.labels.approvalTx,
@@ -54,6 +53,7 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
     marginChange,
     partialUnrealizedPnL,
     leverageTarget,
+    entryPrice,
     limitPrice,
     orderCost,
     tradingFee,
@@ -61,7 +61,6 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
 
   const { t } = useTranslation();
   const { trades } = useContext(RecentTradesContext);
-  const { averagePrice } = useContext(PerpetualQueriesContext);
 
   const {
     title,
@@ -155,11 +154,31 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
         {showAmountText && (
           <div className="tw-text-sm tw-tracking-normal tw-mt-2 tw-leading-none tw-text-sov-white tw-font-medium">
             {toNumberFormat(Math.abs(amountChange), 3)} {pair.baseAsset} @{' '}
-            {toNumberFormat(averagePrice, 2)} {pair.quoteAsset}
+            {toNumberFormat(entryPrice, 2)} {pair.quoteAsset}
           </div>
         )}
         {showCloseText && (
           <div className="tw-flex tw-flex-col tw-items-center tw-justify-center tw-w-full tw-mt-4 tw-text-sm">
+            <div>
+              <span className="tw-text-gray-10 tw-mr-2">
+                {t(
+                  translations.perpetualPage.reviewTrade.labels[
+                    isBuy ? 'maxEntryPrice' : 'minEntryPrice'
+                  ],
+                )}
+              </span>
+              <span className="tw-text-sov-white">
+                <AssetValue
+                  className="tw-font-light"
+                  assetClassName="tw-font-light"
+                  value={limitPrice}
+                  assetString={pair.quoteAsset}
+                  minDecimals={2}
+                  maxDecimals={2}
+                  mode={AssetValueMode.auto}
+                />
+              </span>
+            </div>
             <div>
               <span className="tw-text-gray-10 tw-mr-2">
                 {t(
@@ -186,27 +205,6 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
                 />
               </span>
             </div>
-
-            {origin === PerpetualPageModals.CLOSE_POSITION && (
-              <div>
-                <span className="tw-text-gray-10 tw-mr-2">
-                  {t(
-                    translations.perpetualPage.reviewTrade.labels[
-                      isBuy ? 'maxEntryPrice' : 'minEntryPrice'
-                    ],
-                  )}
-                </span>
-                <span className="tw-font-medium tw-text-sov-white">
-                  <AssetValue
-                    minDecimals={2}
-                    maxDecimals={2}
-                    mode={AssetValueMode.auto}
-                    value={limitPrice}
-                    assetString={pair.quoteAsset}
-                  />
-                </span>
-              </div>
-            )}
           </div>
         )}
       </div>

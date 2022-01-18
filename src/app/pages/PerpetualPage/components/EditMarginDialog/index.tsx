@@ -276,7 +276,7 @@ export const EditMarginDialog: React.FC = () => {
               onChange={onChangeMargin}
             />
           </div>
-          <div className="tw-flex tw-flex-col tw-justify-between tw-px-6 tw-py-3 tw-mb-4 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
+          <div className="tw-flex tw-flex-col tw-justify-between tw-px-6 tw-py-1.5 tw-mb-4 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
             <LeverageViewer
               label={t(translations.perpetualPage.tradeForm.labels.leverage)}
               min={pair.config.leverage.min}
@@ -287,7 +287,7 @@ export const EditMarginDialog: React.FC = () => {
               }
             />
 
-            <div className="tw-flex tw-justify-between tw-mt-1">
+            <div className="tw-flex tw-justify-between tw-mt-1.5">
               <label>
                 {t(
                   translations.perpetualPage.tradeForm.labels.liquidationPrice,

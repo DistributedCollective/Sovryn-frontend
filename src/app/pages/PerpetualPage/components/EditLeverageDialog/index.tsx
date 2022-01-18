@@ -240,7 +240,7 @@ export const EditLeverageDialog: React.FC = () => {
             value={leverage}
             onChange={onChangeLeverage}
           />
-          <div className="tw-flex tw-flex-col tw-justify-between tw-mb-4 tw-px-6 tw-py-3 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
+          <div className="tw-flex tw-flex-col tw-justify-between tw-mb-4 tw-px-6 tw-py-1.5 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
             <div className="tw-flex tw-justify-between">
               <label>{t(translations.perpetualPage.editLeverage.margin)}</label>
               <AssetValue
@@ -252,7 +252,7 @@ export const EditLeverageDialog: React.FC = () => {
               />
             </div>
 
-            <div className="tw-flex tw-justify-between tw-mt-1">
+            <div className="tw-flex tw-justify-between tw-mt-1.5">
               <label>
                 {t(translations.perpetualPage.editLeverage.liquidation)}
               </label>
