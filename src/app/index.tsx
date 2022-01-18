@@ -49,8 +49,6 @@ import { BridgeDepositPage } from './pages/BridgeDepositPage/Loadable';
 import { BridgeWithdrawPage } from './pages/BridgeWithdrawPage/Loadable';
 import { PerpetualPage } from './pages/PerpetualPage';
 
-import { ApolloProvider } from '@apollo/client';
-import { apolloClient } from './pages/PerpetualPage/utils/graphQlHelpers';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -86,9 +84,6 @@ export function App() {
               <Route exact path="/" component={LandingPage} />
               <Route exact path="/buy-sov" component={BuySovPage} />
               <Route exact path="/trade" component={MarginTradePage} />
-              <ApolloProvider client={apolloClient}>
-                <Route exact path="/perpetual" component={PerpetualPage} />
-              </ApolloProvider>
               <Route exact path="/swap" component={SwapPage} />
               <Route exact path="/spot" component={SpotTradingPage} />
               <Route exact path="/lend" component={LendingPage} />
@@ -120,6 +115,7 @@ export function App() {
                 path="/unsubscribe"
                 render={props => <EmailPage {...props} type="UNSUBSCRIBE" />}
               />
+              <Route exact path="/perpetual" component={PerpetualPage} />
               <Route component={NotFoundPage} />
             </Switch>
             <ToastContainer className="tw-w-max" />
