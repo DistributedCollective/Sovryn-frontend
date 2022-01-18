@@ -5,13 +5,12 @@ import { TxStatus } from 'store/global/transactions-store/types';
 import { detectWeb3Wallet, prettyTx } from 'utils/helpers';
 import txFailed from 'assets/images/failed-tx.svg';
 import { LinkToExplorer } from '../LinkToExplorer';
-import styles from './dialog.module.scss';
 import { WalletContext } from '@sovryn/react-wallet';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { usePrevious } from '../../hooks/usePrevious';
 import { ActionButton } from 'app/components/Form/ActionButton';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { getStatusImage } from './utils';
 import { WalletLogo } from './WalletLogo';
 import { getWalletName } from '../UserAssets/TxDialog/WalletLogo';
@@ -47,8 +46,7 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
   useEffect(() => {
     oldStatus === TxStatus.PENDING_FOR_USER &&
       tx.status === TxStatus.PENDING &&
-      onUserConfirmed &&
-      onUserConfirmed();
+      onUserConfirmed?.();
   }, [oldStatus, tx.status, onUserConfirmed]);
 
   useEffect(() => {
@@ -94,10 +92,7 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
             <ActionButton
               text={t(translations.transactionDialog.pendingUser.retry)}
               onClick={tx.retry}
-              className={cn(
-                styles.submit,
-                'tw-flex tw-items-center tw-justify-center tw-h-12 tw-rounded-lg tw-w-80 tw-mx-auto',
-              )}
+              className="tw-flex tw-items-center tw-justify-center tw-h-12 tw-rounded-lg tw-w-80 tw-mx-auto"
               textClassName="tw-inline-block tw-text-lg"
             />
           )}
@@ -110,7 +105,7 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
           <div className={'tw-text-center tw-mx-auto tw-w-16 tw-mb-4'}>
             <img
               src={getStatusImage(tx.status)}
-              className={cn('tw-w-16 tw-h-16', {
+              className={classNames('tw-w-16 tw-h-16', {
                 'tw-animate-spin': tx.status === TxStatus.PENDING,
               })}
               alt="Status"
@@ -145,9 +140,7 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
           <ActionButton
             onClick={onClose}
             text={t(translations.common.close)}
-            className={
-              'tw-max-w-7xl tw-flex tw-items-center tw-justify-center tw-h-12 tw-rounded-lg tw-w-80 tw-mx-auto tw-mt-14'
-            }
+            className="tw-max-w-7xl tw-flex tw-items-center tw-justify-center tw-h-12 tw-rounded-lg tw-w-80 tw-mx-auto tw-mt-14"
             textClassName="tw-inline-block tw-text-lg"
             data-action-id="close-transaction-dialog-button"
           />

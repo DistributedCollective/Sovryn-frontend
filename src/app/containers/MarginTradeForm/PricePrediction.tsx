@@ -7,7 +7,7 @@ import { LoadableValue } from '../../components/LoadableValue';
 import { toNumberFormat } from '../../../utils/display-text/format';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 
-interface Props {
+interface IPricePredictionProps {
   position: TradingPosition;
   leverage: number;
   loanToken: Asset;
@@ -16,14 +16,14 @@ interface Props {
   weiAmount: string;
 }
 
-export function PricePrediction({
+export const PricePrediction: React.FC<IPricePredictionProps> = ({
   loanToken,
   collateralToken,
   useLoanTokens,
   weiAmount,
   leverage,
   ...props
-}: Props) {
+}) => {
   const collateralAmount = useMemo(() => (useLoanTokens ? '0' : weiAmount), [
     useLoanTokens,
     weiAmount,
@@ -63,4 +63,4 @@ export function PricePrediction({
       }
     />
   );
-}
+};

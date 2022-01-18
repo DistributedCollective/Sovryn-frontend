@@ -25,12 +25,7 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
 import { useSwapsExternal_getSwapExpectedReturn } from '../../../../hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
 import styles from './index.module.scss';
-import {
-  OrderLabel,
-  PairLabel,
-  tokenAddress,
-  TradeDialog,
-} from '../TradeDialog';
+import { OrderLabel, tokenAddress, TradeDialog } from '../TradeDialog';
 import { useAccount } from 'app/hooks/useAccount';
 import { useSwapsExternal_approveAndSwapExternal } from '../../../../hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
 import { useSwapNetwork_approveAndConvertByPath } from '../../../../hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
@@ -42,6 +37,7 @@ import { Toast } from 'app/components/Toast';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import { getTokenContract } from 'utils/blockchain/contract-helpers';
 import { toWei } from 'web3-utils';
+import { OrderView } from './OrderView';
 
 export const MarketForm: React.FC<ITradeFormProps> = ({
   sourceToken,
@@ -159,7 +155,7 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
         targetToken={targetToken}
         sourceToken={sourceToken}
         expectedReturn={weiToFixed(rateByPath, 6)}
-        submit={() => send()}
+        submit={send}
         fee={
           <TxFeeCalculator
             args={[
@@ -227,7 +223,7 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
         >
           <Slider
             value={slippage}
-            onChange={e => setSlippage(e)}
+            onChange={setSlippage}
             min={0.1}
             max={1}
             stepSize={0.05}
@@ -296,52 +292,6 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
           />
         </div>
       )}
-    </div>
-  );
-};
-
-interface IOrderViewProps {
-  tradeType: TradingTypes;
-  slippage?: number;
-  orderType: OrderType;
-  minReturn?: string;
-  expectedReturn?: string;
-  amount: string;
-  targetToken: Asset;
-  sourceToken: Asset;
-}
-
-export const OrderView: React.FC<IOrderViewProps> = ({
-  tradeType,
-  orderType,
-  amount,
-  expectedReturn,
-  targetToken,
-  sourceToken,
-}) => {
-  const { t } = useTranslation();
-  return (
-    <div className="tw-text-center">
-      <OrderLabel
-        className="tw-text-lg tw-font-semibold tw-mb-1"
-        orderType={orderType}
-        tradeType={tradeType}
-      />
-      <PairLabel
-        sourceToken={sourceToken}
-        targetToken={targetToken}
-        tradeType={tradeType}
-      />
-      <div>
-        {stringToFixedPrecision(amount, 6)}{' '}
-        <AssetRenderer asset={sourceToken} />
-      </div>
-      <div>
-        {t(translations.spotTradingPage.tradeForm.receive)}
-        <span className="tw-ml-1">
-          {expectedReturn} <AssetRenderer asset={targetToken} />
-        </span>
-      </div>
     </div>
   );
 };
