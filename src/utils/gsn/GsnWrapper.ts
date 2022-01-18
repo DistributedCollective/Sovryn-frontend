@@ -2,11 +2,13 @@ import { RelayProvider } from '@opengsn/provider';
 import { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
 import { walletService } from '@sovryn/react-wallet';
+import { ChainId } from 'types';
+import { RpcNode } from '../blockchain/rpc-node';
+import { RpcNetwork } from '../blockchain/rpc-network';
 import type { Contract } from 'web3-eth-contract';
 import type { TransactionConfig } from 'web3-core';
-import { ChainId } from 'types';
-import { RpcNetwork } from 'utils/blockchain/rpc-network';
-import { SovrynWalletGsnProvider } from './SovrynWalletGsnProvider';
+import type { Web3ProviderBaseInterface } from '@opengsn/common/dist/types/Aliases';
+import type { JsonRpcPayload, JsonRpcResponse } from 'web3-core-helpers';
 
 const preferredRelays = {
   [ChainId.BSC_MAINNET]: ['https://bsc.relay.sovryn.app/gsn1'],
@@ -27,13 +29,10 @@ export class GsnWrapper {
 
   public constructor(chainId: ChainId, paymasterAddress: string) {
     RelayProvider.newProvider({
-      provider: new SovrynWalletGsnProvider(RpcNetwork.get(chainId)),
+      provider: new GsnRpcNodeWrapper(RpcNetwork.get(chainId)),
       config: {
         paymasterAddress,
         preferredRelays: preferredRelays[chainId],
-        relayLookupWindowBlocks: 4990,
-        relayRegistrationLookupBlocks: 4990,
-        pastEventsQueryMaxPageSize: 999,
         loggerConfiguration: {
           logLevel: 'debug',
         },
@@ -95,5 +94,19 @@ export class GsnWrapper {
       return this._contracts[address];
     }
     throw new Error('Contract is not ready!');
+  }
+}
+
+class GsnRpcNodeWrapper implements Web3ProviderBaseInterface {
+  constructor(private provider: RpcNode) {}
+
+  send(
+    payload: JsonRpcPayload,
+    callback: (error: Error | null, result?: JsonRpcResponse) => void,
+  ): void {
+    this.provider
+      .send(payload)
+      .then(result => callback(null, result))
+      .catch(error => callback(error, undefined));
   }
 }

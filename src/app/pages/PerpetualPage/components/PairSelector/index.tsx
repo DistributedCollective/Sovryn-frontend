@@ -45,7 +45,7 @@ export const PairSelector: React.FC<PairSelectorProps> = ({ pair }) => {
             />
           ))}
         </div>
-        <div className="tw-flex tw-flex-row tw-items-center">
+        <div className="tw-flex tw-flex-row tw-items-center tw-px-4">
           <Switch
             className="tw-mb-0"
             large
