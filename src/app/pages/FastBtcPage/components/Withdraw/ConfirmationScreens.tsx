@@ -50,16 +50,9 @@ export const ConfirmationScreens: React.FC<NetworkAwareComponentProps> = ({
     }
   }, [tx.status, set]);
 
-  return (
-    <>
-      {step === WithdrawStep.REVIEW && (
-        <ReviewScreen onConfirm={handleConfirm} network={network} />
-      )}
-      {[
-        WithdrawStep.CONFIRM,
-        WithdrawStep.PROCESSING,
-        WithdrawStep.COMPLETED,
-      ].includes(step) && <StatusScreen tx={tx} network={network} />}
-    </>
-  );
+  if (step === WithdrawStep.REVIEW) {
+    return <ReviewScreen onConfirm={handleConfirm} network={network} />;
+  }
+
+  return <StatusScreen tx={tx} network={network} />;
 };

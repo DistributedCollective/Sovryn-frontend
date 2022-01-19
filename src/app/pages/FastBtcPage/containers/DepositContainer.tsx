@@ -53,25 +53,27 @@ export const DepositContainer: React.FC<NetworkAwareComponentProps> = ({
   }, []);
 
   const handleEvents = useCallback((type: string, value: any) => {
-    if (type === 'txAmount') {
-      setState(prevState => ({
-        ...prevState,
-        limits: { ...value, loading: false },
-      }));
-    }
-    if (type === 'depositTx') {
-      setState(prevState => ({
-        ...prevState,
-        depositTx: value,
-        step: DepositStep.PROCESSING,
-      }));
-    }
-    if (type === 'transferTx') {
-      setState(prevState => ({
-        ...prevState,
-        transferTx: value,
-        step: DepositStep.COMPLETED,
-      }));
+    switch (type) {
+      case 'txAmount':
+        setState(prevState => ({
+          ...prevState,
+          limits: { ...value, loading: false },
+        }));
+        break;
+      case 'depositTx':
+        setState(prevState => ({
+          ...prevState,
+          depositTx: value,
+          step: DepositStep.PROCESSING,
+        }));
+        break;
+      case 'transferTx':
+        setState(prevState => ({
+          ...prevState,
+          transferTx: value,
+          step: DepositStep.COMPLETED,
+        }));
+        break;
     }
   }, []);
 

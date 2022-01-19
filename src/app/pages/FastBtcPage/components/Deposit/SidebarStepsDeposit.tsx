@@ -9,8 +9,8 @@ import {
 import ArrowBack from 'assets/images/genesis/arrow_back.svg';
 import { prettyTx } from 'utils/helpers';
 
-import addressIcon from '../../assets/address-icon.svg';
-import successIcon from '../../assets/success-icon.svg';
+import addressIcon from 'assets/images/fast-btc/address-icon.svg';
+import successIcon from 'assets/images/fast-btc/success-icon.svg';
 import { DepositContext, DepositStep } from '../../contexts/deposit-context';
 import { NetworkAwareComponentProps } from '../../types';
 import { Chain } from 'types';
@@ -20,6 +20,10 @@ const stepOrder = [
   DepositStep.PROCESSING,
   DepositStep.COMPLETED,
 ];
+
+const isBehindStep = (current: DepositStep, needed: DepositStep) => {
+  return stepOrder.indexOf(current) > stepOrder.indexOf(needed);
+};
 
 export const SidebarStepsDeposit: React.FC<NetworkAwareComponentProps> = ({
   network,
@@ -48,7 +52,7 @@ export const SidebarStepsDeposit: React.FC<NetworkAwareComponentProps> = ({
   const steps = useMemo<StepItem[]>(() => {
     const previousSteps = [...initialSteps.map(item => ({ ...item }))];
 
-    if (step > DepositStep.ADDRESS && address) {
+    if (isBehindStep(step, DepositStep.ADDRESS) && address) {
       const item = previousSteps.find(
         item => item.value === DepositStep.ADDRESS,
       );

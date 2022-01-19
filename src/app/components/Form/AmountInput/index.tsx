@@ -135,7 +135,6 @@ export const AmountSelector: React.FC<IAmountSelectorProps> = ({
 
     if (
       asset === Asset.RBTC &&
-      percent === 100 && // remove this to check for selections
       bignumber(value)
         .add(gasFee || '0')
         .greaterThan(balance)

@@ -13,9 +13,9 @@ import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import ArrowBack from 'assets/images/genesis/arrow_back.svg';
 import { prettyTx } from 'utils/helpers';
 
-import walletIcon from '../../assets/wallet-icon.svg';
-import addressIcon from '../../assets/address-icon.svg';
-import successIcon from '../../assets/success-icon.svg';
+import walletIcon from 'assets/images/fast-btc/wallet-icon.svg';
+import addressIcon from 'assets/images/fast-btc/address-icon.svg';
+import successIcon from 'assets/images/fast-btc/success-icon.svg';
 
 const stepOrder = [
   WithdrawStep.AMOUNT,
@@ -25,6 +25,10 @@ const stepOrder = [
   WithdrawStep.PROCESSING,
   WithdrawStep.COMPLETED,
 ];
+
+const isBehindStep = (current: WithdrawStep, needed: WithdrawStep) => {
+  return stepOrder.indexOf(current) > stepOrder.indexOf(needed);
+};
 
 export const SidebarStepsWithdraw: React.FC = () => {
   const { t } = useTranslation();
@@ -62,7 +66,7 @@ export const SidebarStepsWithdraw: React.FC = () => {
 
   const steps = useMemo<StepItem[]>(() => {
     const previousSteps = [...initialSteps.map(item => ({ ...item }))];
-    if (step > WithdrawStep.AMOUNT && amount) {
+    if (isBehindStep(step, WithdrawStep.AMOUNT) && amount) {
       const item = previousSteps.find(
         item => item.value === WithdrawStep.AMOUNT,
       );
@@ -83,7 +87,7 @@ export const SidebarStepsWithdraw: React.FC = () => {
       }
     }
 
-    if (step > WithdrawStep.ADDRESS && address) {
+    if (isBehindStep(step, WithdrawStep.ADDRESS) && address) {
       const item = previousSteps.find(
         item => item.value === WithdrawStep.ADDRESS,
       );

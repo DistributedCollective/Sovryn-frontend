@@ -242,7 +242,7 @@
       },
       "mainScreen": {
         "title": "Withdraw <0/> to BTC Network",
-        "description": "Double check that you are entreing the correct withdrawal address."
+        "description": "Double check that you are entering the correct withdrawal address."
       },
       "withdrawDetails": {
         "title": "Withdraw Details",
