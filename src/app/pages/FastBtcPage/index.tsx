@@ -60,7 +60,6 @@ export function FastBtcPage() {
           'tw-flex tw-flex-row tw-justify-between tw-items-center md:tw-items-start tw-w-full tw-p-5 tw-bg-gray-4 tw-relative tw-text-sm',
           styles.page,
         )}
-        style={{ marginTop: '-4.4rem' }}
       >
         {type === FastBtcDirectionType.DEPOSIT && (
           <DepositContainer network={network} />
