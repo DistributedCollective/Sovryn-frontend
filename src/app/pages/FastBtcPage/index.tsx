@@ -12,7 +12,6 @@ import classNames from 'classnames';
 import styles from './fast-btc-page.module.css';
 import { FastBtcDirectionType } from './types';
 import { Chain } from 'types';
-import { AggregatorWithdrawContainer } from './containers/AggregatorWithdrawContainer';
 
 export function FastBtcPage() {
   const { t } = useTranslation();
@@ -60,16 +59,12 @@ export function FastBtcPage() {
           'tw-flex tw-flex-row tw-justify-between tw-items-center md:tw-items-start tw-w-full tw-p-5 tw-bg-gray-4 tw-relative tw-text-sm',
           styles.page,
         )}
-        style={{ marginTop: '-4.4rem' }}
       >
         {type === FastBtcDirectionType.DEPOSIT && (
           <DepositContainer network={network} />
         )}
         {type === FastBtcDirectionType.WITHDRAW && network === Chain.RSK && (
           <WithdrawContainer />
-        )}
-        {type === FastBtcDirectionType.WITHDRAW && network !== Chain.RSK && (
-          <AggregatorWithdrawContainer network={network} />
         )}
       </div>
     </>

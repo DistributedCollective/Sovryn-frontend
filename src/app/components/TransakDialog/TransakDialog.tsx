@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import { TransakScreen } from './TransakScreen';
 import styles from './index.module.scss';
+
 interface ITransakDialogProps {
   isOpen: boolean;
   onClose: () => void;
