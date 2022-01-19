@@ -1,4 +1,3 @@
-import { apolloClient } from '../../utils/graphQlHelpers';
 import {
   generateCandleQuery,
   generateFirstCandleQuery,
@@ -8,6 +7,7 @@ import {
 import { ABK64x64ToFloat } from '../../utils/contractUtils';
 import { BigNumber } from 'ethers';
 import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
+import { PERPETUAL_GRAPHQL_CLIENT } from '../../contexts/GraphQLProvider';
 
 // Supported configuration options can be found here:
 // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#onreadycallback
@@ -92,7 +92,7 @@ export const makeApiRequest = async (
     const query = isFirstRequest
       ? generateFirstCandleQuery(candleDuration, perpId, candleNumber)
       : generateCandleQuery(candleDuration, perpId, startTime);
-    const response = await apolloClient.query({
+    const response = await PERPETUAL_GRAPHQL_CLIENT.query({
       query,
     });
     const keys = Object.keys(response.data);
