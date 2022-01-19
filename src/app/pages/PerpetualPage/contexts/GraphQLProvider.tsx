@@ -128,9 +128,7 @@ const config: GraphQLEndpoint[] = [
   },
 ];
 
-export let PERPETUAL_GRAPHQL_CLIENT = createClient(config[0]);
-
-const RETRY_DELAY = 120 * 1000;
+const RETRY_DELAY = 2 * 60 * 1000;
 
 type GraphQLProvicerProps = {
   children: React.ReactNode;
@@ -141,7 +139,7 @@ export const GraphQLProvider: React.FC<GraphQLProvicerProps> = ({
 }) => {
   const [{ active, client, isInitialClient }, setState] = useState({
     active: 0,
-    client: PERPETUAL_GRAPHQL_CLIENT,
+    client: createClient(config[0]),
     isInitialClient: true,
   });
 
@@ -149,17 +147,17 @@ export const GraphQLProvider: React.FC<GraphQLProvicerProps> = ({
     const activeEndpoint = config[active];
     const evaluate = async () => {
       try {
-        let bestScore = await evaluateEndpoint(activeEndpoint);
+        let bestEvaluation = await evaluateEndpoint(activeEndpoint);
         let bestIndex = active;
 
-        if (bestScore.score === 1) {
+        if (bestEvaluation.score === 1) {
           console.info(
             `GraphQL endpoint is healthy and synced! Continuing to use "${activeEndpoint.graph}".`,
           );
           return;
         }
         console.info(
-          `GraphQL endpoint is lacking! ${JSON.stringify(bestScore)}`,
+          `GraphQL endpoint is lacking! ${JSON.stringify(bestEvaluation)}`,
           `Evaluating alternatives!`,
         );
 
@@ -169,16 +167,16 @@ export const GraphQLProvider: React.FC<GraphQLProvicerProps> = ({
           }
 
           const endpoint = config[index];
-          const score = await evaluateEndpoint(endpoint);
+          const evaluation = await evaluateEndpoint(endpoint);
 
           if (
-            score.score > bestScore.score ||
-            (endpoint.isFallback && score.isUp)
+            evaluation.score > bestEvaluation.score ||
+            (endpoint.isFallback && evaluation.isUp)
           ) {
-            bestScore = score;
+            bestEvaluation = evaluation;
             bestIndex = index;
           }
-          if (bestScore.score === 1) {
+          if (bestEvaluation.score === 1) {
             break;
           }
         }
@@ -189,7 +187,6 @@ export const GraphQLProvider: React.FC<GraphQLProvicerProps> = ({
           );
 
           const client = createClient(config[bestIndex]);
-          PERPETUAL_GRAPHQL_CLIENT = client;
           setState({ active: bestIndex, client, isInitialClient: false });
         }
       } catch (error) {

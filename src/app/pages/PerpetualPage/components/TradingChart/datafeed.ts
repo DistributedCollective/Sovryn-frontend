@@ -23,10 +23,11 @@ import {
   symbolMap,
   makeApiRequest,
 } from './helpers';
+import { ApolloClient } from '@apollo/client';
 
 const lastBarsCache = new Map<string, Bar>();
 
-const tradingChartDataFeeds = {
+const tradingChartDataFeeds = (graphqlClient: ApolloClient<any>) => ({
   // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#onreadycallback
   onReady: callback => setTimeout(() => callback(config)),
 
@@ -90,6 +91,7 @@ const tradingChartDataFeeds = {
     try {
       /** If first request then calculate number of bars and pass it in, else startTime */
       const data = await makeApiRequest(
+        graphqlClient,
         candleDuration,
         symbolMap[symbolInfo.name],
         startTime(),
@@ -170,6 +172,6 @@ const tradingChartDataFeeds = {
 
   // // // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#unsubscribebarssubscriberuid
   unsubscribeBars: subscriberUID => unsubscribeFromStream(subscriberUID),
-};
+});
 
 export default tradingChartDataFeeds;
