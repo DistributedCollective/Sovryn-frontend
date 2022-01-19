@@ -47,8 +47,6 @@ import {
 } from 'app/hooks/simulator/useFilterSimulatorResponseLogs';
 import { TradeEventData } from 'types/active-loan';
 import { useSimulator } from 'app/hooks/simulator/useSimulator';
-import { TradingTypes } from 'app/pages/SpotTradingPage/types';
-import { PricePrediction } from 'app/containers/MarginTradeForm/PricePrediction';
 
 interface ITradeDialogProps {
   slippage: number;
@@ -425,42 +423,16 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
           />
         }
         finalMessage={
-          <div className="tw-pt-3 tw-pb-2 tw-px-6 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
-            <div
-              className={cn(
-                'tw-text-center tw-font-medium tw-lowercase tw-text-xl',
-                {
-                  'tw-text-trade-short': position === TradingPosition.SHORT,
-                  'tw-text-trade-long': position === TradingPosition.LONG,
-                },
-              )}
-            >
-              {toNumberFormat(leverage) + 'x'} {orderTypeValue}{' '}
-              {position === TradingPosition.LONG
-                ? TradingTypes.BUY
-                : TradingTypes.SELL}
-            </div>
-            <div className="tw-text-center tw-my-1">{pair.chartSymbol}</div>
-            <div className="tw-flex tw-justify-center tw-items-center">
-              <LoadableValue
-                loading={false}
-                value={
-                  <div className="tw-mr-1">{weiToNumberFormat(amount, 4)}</div>
-                }
-                tooltip={fromWei(amount)}
-              />{' '}
-              <AssetRenderer asset={collateral} />
-              <div className="tw-px-1">&#64; &ge;</div>
-              <PricePrediction
-                position={position}
-                leverage={leverage}
-                loanToken={loanToken}
-                collateralToken={collateralToken}
-                useLoanTokens={useLoanTokens}
-                weiAmount={amount}
-              />
-            </div>
-          </div>
+          <TradeDialogInfo
+            position={position}
+            leverage={leverage}
+            orderTypeValue={orderTypeValue}
+            amount={amount}
+            collateral={collateral}
+            loanToken={loanToken}
+            collateralToken={collateralToken}
+            useLoanTokens={useLoanTokens}
+          />
         }
         onError={() => {
           Toast(
@@ -469,28 +441,6 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
               <p className="tw-mb-0 tw-mr-2">
                 <Trans
                   i18nKey={translations.transactionDialog.pendingUser.failed}
-                />
-              </p>
-              <TradeToastInfo
-                position={position}
-                leverage={leverage}
-                orderTypeValue={orderTypeValue}
-                amount={amount}
-                collateral={collateral}
-                loanToken={loanToken}
-                collateralToken={collateralToken}
-                useLoanTokens={useLoanTokens}
-              />
-            </div>,
-          );
-        }}
-        onSuccess={() => {
-          Toast(
-            'success',
-            <div className="tw-flex">
-              <p className="tw-mb-0 tw-mr-2">
-                <Trans
-                  i18nKey={translations.transactionDialog.txStatus.complete}
                 />
               </p>
               <TradeToastInfo
