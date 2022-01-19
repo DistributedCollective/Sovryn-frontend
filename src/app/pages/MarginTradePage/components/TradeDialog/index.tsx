@@ -456,6 +456,28 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
             </div>,
           );
         }}
+        onSuccess={() => {
+          Toast(
+            'success',
+            <div className="tw-flex">
+              <p className="tw-mb-0 tw-mr-2">
+                <Trans
+                  i18nKey={translations.transactionDialog.txStatus.complete}
+                />
+              </p>
+              <TradeToastInfo
+                position={position}
+                leverage={leverage}
+                orderTypeValue={orderTypeValue}
+                amount={amount}
+                collateral={collateral}
+                loanToken={loanToken}
+                collateralToken={collateralToken}
+                useLoanTokens={useLoanTokens}
+              />
+            </div>,
+          );
+        }}
       />
     </>
   );

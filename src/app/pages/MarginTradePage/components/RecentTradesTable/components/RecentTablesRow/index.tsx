@@ -66,6 +66,7 @@ export const RecentTradesTableRow: React.FC<RecentTradesTableRowProps> = ({
         className={classNames(
           'tw-pl-4 tw-py-1 tw-text-right',
           backgroundClassName,
+          priceColor,
         )}
       >
         <LoadableValue
@@ -78,6 +79,7 @@ export const RecentTradesTableRow: React.FC<RecentTradesTableRowProps> = ({
         className={classNames(
           'tw-px-4 tw-py-1 tw-text-right',
           backgroundClassName,
+          priceColor,
         )}
       >
         {dayjs(Number(row.timestamp) * 1e3).format('L')}
@@ -86,6 +88,7 @@ export const RecentTradesTableRow: React.FC<RecentTradesTableRowProps> = ({
         className={classNames(
           'tw-relative tw-pr-4 tw-pl-0 tw-py-1 tw-text-right tw-rounded-r',
           backgroundClassName,
+          priceColor,
         )}
       >
         {isLong ? 'L' : 'S'}
