@@ -2530,11 +2530,6 @@
             "type": "address"
           },
           {
-            "internalType": "address",
-            "name": "borrower",
-            "type": "address"
-          },
-          {
             "internalType": "uint256",
             "name": "principal",
             "type": "uint256"
@@ -2592,11 +2587,6 @@
           {
             "internalType": "uint256",
             "name": "maxSeizable",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "creationTimestamp",
             "type": "uint256"
           }
         ],
@@ -2978,11 +2968,6 @@
             "type": "address"
           },
           {
-            "internalType": "address",
-            "name": "borrower",
-            "type": "address"
-          },
-          {
             "internalType": "uint256",
             "name": "principal",
             "type": "uint256"
@@ -3040,11 +3025,6 @@
           {
             "internalType": "uint256",
             "name": "maxSeizable",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "creationTimestamp",
             "type": "uint256"
           }
         ],
@@ -3517,11 +3497,6 @@
             "type": "address"
           },
           {
-            "internalType": "address",
-            "name": "borrower",
-            "type": "address"
-          },
-          {
             "internalType": "uint256",
             "name": "principal",
             "type": "uint256"
@@ -3579,11 +3554,6 @@
           {
             "internalType": "uint256",
             "name": "maxSeizable",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "creationTimestamp",
             "type": "uint256"
           }
         ],
