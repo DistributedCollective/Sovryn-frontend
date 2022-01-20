@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { TradingPosition } from '../../../../../types/trading-position';
 import { leverageFromMargin } from '../../../../../utils/blockchain/leverage-from-start-margin';
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
@@ -103,7 +103,7 @@ export function AddToMarginDialog(props: IAddToMarginDialogProps) {
             <LabelValuePair
               label={t(translations.marginTradePage.tradeDialog.leverage)}
               value={<>{leverageFromMargin(props.item.startMargin)}x</>}
-              className={cn({
+              className={classNames({
                 'tw-text-trade-short': loanToken.asset !== pair.longAsset,
                 'tw-text-trade-long': loanToken.asset === pair.longAsset,
               })}
@@ -205,7 +205,7 @@ interface LabelValuePairProps {
 function LabelValuePair(props: LabelValuePairProps) {
   return (
     <div
-      className={cn(
+      className={classNames(
         'tw-flex tw-flex-row tw-mb-1 tw-justify-start tw-text-sov-white',
         props.className,
       )}

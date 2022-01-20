@@ -1,5 +1,5 @@
 import React from 'react';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { Asset } from 'types';
 import { fromWei } from 'utils/blockchain/math-helpers';
 import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
@@ -34,10 +34,13 @@ export const TradeDialogInfo: React.FC<ITradeDialogInfoProps> = ({
   return (
     <div className="tw-pt-3 tw-pb-2 tw-px-6 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
       <div
-        className={cn('tw-text-center tw-font-medium tw-lowercase tw-text-xl', {
-          'tw-text-trade-short': position === TradingPosition.SHORT,
-          'tw-text-trade-long': position === TradingPosition.LONG,
-        })}
+        className={classNames(
+          'tw-text-center tw-font-medium tw-lowercase tw-text-xl',
+          {
+            'tw-text-trade-short': position === TradingPosition.SHORT,
+            'tw-text-trade-long': position === TradingPosition.LONG,
+          },
+        )}
       >
         {toNumberFormat(leverage) + 'x'} {orderTypeValue}{' '}
         {position === TradingPosition.LONG

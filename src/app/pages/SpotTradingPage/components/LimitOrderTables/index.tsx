@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 import { useGetLimitOrders } from 'app/hooks/limitOrder/useGetLimitOrders';
 import { OpenPositionsTable } from '../OpenPositionsTable';
@@ -25,13 +25,13 @@ export function LimitOrderTables({ activeTab }: ILimitOrderTablesProps) {
 
   return (
     <>
-      <div className={cn({ 'tw-hidden': activeTab !== 1 })}>
+      <div className={classNames({ 'tw-hidden': activeTab !== 1 })}>
         <OpenPositionsTable
           orders={limitOrders.filter(item => item.filledAmount === '0')}
           loading={loading}
         />
       </div>
-      <div className={cn({ 'tw-hidden': activeTab !== 2 })}>
+      <div className={classNames({ 'tw-hidden': activeTab !== 2 })}>
         <LimitOrderHistory
           orders={limitOrders.filter(item => item.filledAmount !== '0')}
           loading={loading}

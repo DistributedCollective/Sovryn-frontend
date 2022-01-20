@@ -10,7 +10,7 @@ import { AssetDetails } from 'utils/models/asset-details';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { bignumber } from 'mathjs';
 import { TransactionDialog } from 'app/components/TransactionDialog';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
@@ -108,7 +108,7 @@ export function ClosePositionDialog({
               }
             />
             <LabelValuePair
-              className={cn({
+              className={classNames({
                 'tw-text-trade-short': tradeType === TradingTypes.SELL,
                 'tw-text-trade-long': tradeType === TradingTypes.BUY,
               })}

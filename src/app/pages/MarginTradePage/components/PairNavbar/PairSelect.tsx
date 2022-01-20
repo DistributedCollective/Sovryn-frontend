@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { Input } from 'app/components/Form/Input';
 import { IPairsData } from 'app/pages/LandingPage/components/CryptocurrencyPrices/types';
 import { selectMarginTradePage } from '../../selectors';
@@ -41,7 +41,7 @@ export const PairSelect: React.FC<IPairSelect> = ({
     <div ref={ref} className="tw-relative tw-w-64 tw-self-stretch tw-mr-2">
       <div
         onClick={() => setOpen(!open)}
-        className={cn(
+        className={classNames(
           { 'tw-rounded-b-lg': !open },
           'tw-flex tw-h-full tw-items-center tw-py-1 tw-bg-gray-2 tw-px-8 tw-rounded-t-lg tw-cursor-pointer tw-select-none tw-transition-opacity hover:tw-bg-opacity-75',
         )}
@@ -50,7 +50,7 @@ export const PairSelect: React.FC<IPairSelect> = ({
           <Pair pairType={pairType} />
         </div>
         <img
-          className={cn('tw-w-5 tw-transition-transform ', {
+          className={classNames('tw-w-5 tw-transition-transform ', {
             'tw-transform tw-rotate-180': open,
           })}
           src={arrowDownIcon}
@@ -59,14 +59,14 @@ export const PairSelect: React.FC<IPairSelect> = ({
       </div>
       {open && (
         <div
-          className={cn(
+          className={classNames(
             'tw-absolute tw-transform tw-translate-y-full tw-bottom-0 tw-left-0 tw-bg-gray-2 tw-py-7 tw-px-9 tw-rounded-b-lg tw-z-10',
             styles.pairsModal,
           )}
         >
           <Input
             value={search}
-            className={cn('tw-rounded-lg', styles.search)}
+            className={classNames('tw-rounded-lg', styles.search)}
             inputClassName="tw-ml-0"
             onChange={setSearch}
             placeholder={t(translations.spotTradingPage.pairNavbar.search)}

@@ -5,7 +5,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { prettyTx } from 'utils/helpers';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 export enum URIType {
   BITCOIN = 'bitcoin:',
@@ -23,7 +23,7 @@ const CopySuccess = ({ copied }) => {
 
   return (
     <div
-      className={cn(
+      className={classNames(
         'tw-absolute tw--bottom-2 tw-left-0 tw-transform tw-translate-y-full tw-border tw-border-secondary tw-text-sov-white tw-bg-secondary tw-bg-opacity-70 tw-px-6 tw-py-2 tw-text-center tw-w-full tw-transition-opacity tw-rounded-sm',
         {
           'tw-opacity-100': copied,

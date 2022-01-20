@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 import { Asset } from 'types/asset';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
@@ -16,7 +16,7 @@ interface CurrencyProps {
 }
 
 export function AssetRenderer(props: CurrencyProps) {
-  const classNames = useMemo(() => getSizeClass(props.imageSize), [
+  const className = useMemo(() => getSizeClass(props.imageSize), [
     props.imageSize,
   ]);
 
@@ -24,7 +24,7 @@ export function AssetRenderer(props: CurrencyProps) {
     <span className="tw-inline-flex tw-flex-row tw-justify-start tw-items-center tw-shrink-0 tw-grow-0 tw-space-x-2">
       {props.showImage && props.asset && (
         <img
-          className={cn('tw-object-contain', classNames)}
+          className={classNames('tw-object-contain', className)}
           src={AssetsDictionary.get(props.asset).logoSvg}
           alt={AssetsDictionary.get(props.asset).name}
         />

@@ -6,7 +6,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components/macro';
 import { Text } from '@blueprintjs/core';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 interface Props {
   label: React.ReactNode;
@@ -17,7 +17,7 @@ interface Props {
 
 export function FieldGroup(props: Props) {
   return (
-    <Div className={cn('tw-mb-4', props.className)}>
+    <Div className={classNames('tw-mb-4', props.className)}>
       <Label className="tw-mb-2 tw-text-sov-white" color={props.labelColor}>
         {props.label}
       </Label>

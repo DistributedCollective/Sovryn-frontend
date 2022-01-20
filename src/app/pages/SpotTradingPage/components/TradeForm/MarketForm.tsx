@@ -30,7 +30,7 @@ import { useAccount } from 'app/hooks/useAccount';
 import { useSwapsExternal_approveAndSwapExternal } from '../../../../hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
 import { useSwapNetwork_approveAndConvertByPath } from '../../../../hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
 import { useSwapNetwork_conversionPath } from 'app/hooks/swap-network/useSwapNetwork_conversionPath';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { Slider } from 'app/components/Form/Slider';
 import { TransactionDialog } from 'app/components/TransactionDialog';
 import { Toast } from 'app/components/Toast';
@@ -143,7 +143,7 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
   );
 
   return (
-    <div className={cn({ 'tw-hidden': hidden })}>
+    <div className={classNames({ 'tw-hidden': hidden })}>
       <TradeDialog
         onCloseModal={() => setIsTradingDialogOpen(false)}
         isOpen={isTradingDialogOpen}

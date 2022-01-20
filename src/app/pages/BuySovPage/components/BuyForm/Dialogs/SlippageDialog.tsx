@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { Dialog } from 'app/containers/Dialog';
 import { weiToNumberFormat } from 'utils/display-text/format';
 import { useSlippage } from '../useSlippage';
@@ -96,7 +96,7 @@ interface LabelValuePairProps {
 function LabelValuePair(props: LabelValuePairProps) {
   return (
     <div
-      className={cn(
+      className={classNames(
         'tw-flex tw-text-xs tw-flex-row tw-flex-wrap tw-justify-between tw-space-x-4 tw-mb-3',
         props.className,
       )}

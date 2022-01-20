@@ -1,4 +1,4 @@
-import cn from 'classnames';
+import classNames from 'classnames';
 import React, { useCallback } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { DialogButton } from 'app/components/Form/DialogButton';
@@ -220,7 +220,7 @@ export const OrderLabel: React.FC<OrderLabelProps> = ({
 
   return (
     <div
-      className={cn(className, {
+      className={classNames(className, {
         'tw-text-trade-short': tradeType === TradingTypes.SELL,
         'tw-text-trade-long': tradeType === TradingTypes.BUY,
       })}
@@ -267,7 +267,7 @@ interface LabelValuePairProps {
 export const LabelValuePair: React.FC<LabelValuePairProps> = props => {
   return (
     <div
-      className={cn(
+      className={classNames(
         'tw-flex tw-flex-row tw-mb-1 tw-justify-start tw-text-sov-white',
         props.className,
       )}

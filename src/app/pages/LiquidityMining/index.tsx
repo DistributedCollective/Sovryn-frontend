@@ -1,4 +1,4 @@
-import cn from 'classnames';
+import classNames from 'classnames';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Trans, useTranslation } from 'react-i18next';
@@ -144,7 +144,7 @@ export function LiquidityMining() {
           </div>
         )}
         <div
-          className={cn(
+          className={classNames(
             'tw-max-w-screen-2xl tw-mx-auto tw-mt-5 tw-mb-32',
             hasOldPools && 'tw-opacity-25 tw-pointer-events-none',
           )}

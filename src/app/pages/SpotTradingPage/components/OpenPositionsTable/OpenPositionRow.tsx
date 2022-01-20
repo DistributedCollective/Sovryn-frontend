@@ -12,7 +12,7 @@ import { translations } from 'locales/i18n';
 import { ClosePositionDialog } from '../ClosePositionDialog';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { bignumber } from 'mathjs';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { TableTransactionStatus } from 'app/components/FinanceV2Components/TableTransactionStatus';
 import { TxStatus } from 'store/global/transactions-store/types';
 // import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
@@ -76,7 +76,7 @@ export function OpenPositionRow({ item, pending }: IOpenPositionRowProps) {
         </div>
       </td>
       <td
-        className={cn('', {
+        className={classNames('', {
           'tw-text-trade-short': tradeType === TradingTypes.SELL,
           'tw-text-trade-long': tradeType === TradingTypes.BUY,
         })}

@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Input } from 'app/components/Form/Input';
@@ -91,7 +91,7 @@ export const ClaimForm: React.FC<IClaimFormProps> = ({
 
   return (
     <div
-      className={cn(
+      className={classNames(
         className,
         'tw-trading-form-card tw-bg-black tw-rounded-3xl tw-p-8 tw-mx-auto xl:tw-mx-0 tw-flex tw-flex-col',
       )}

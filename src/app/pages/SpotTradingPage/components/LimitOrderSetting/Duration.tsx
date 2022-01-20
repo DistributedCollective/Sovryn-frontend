@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { FormGroup } from 'app/components/Form/FormGroup';
 
 interface Props {
@@ -64,7 +64,7 @@ export function DurationButton(props: DurationButtonProps) {
   return (
     <button
       onClick={props.onClick}
-      className={cn(
+      className={classNames(
         'tw-h-8 tw-text-secondary tw-bg-secondary tw-font-medium tw-text-xs tw-leading-none tw-text-center tw-w-full tw-transition',
         {
           'tw-bg-opacity-50': props.active,

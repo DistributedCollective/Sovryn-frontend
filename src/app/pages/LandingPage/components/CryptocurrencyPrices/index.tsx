@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { translations } from 'locales/i18n';
 import { IPairs, IAssets, IAssetData } from './types';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
@@ -255,7 +255,7 @@ export const PriceChange: React.FC<IPriceChangeProps> = ({ value }) => {
 
   return (
     <div
-      className={cn('tw-inline-flex tw-items-center tw-ml-auto', {
+      className={classNames('tw-inline-flex tw-items-center tw-ml-auto', {
         'tw-text-trade-short': value < 0 && !noChange,
         'tw-text-trade-long': value > 0 && !noChange,
       })}

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { toNumberFormat } from 'utils/display-text/format';
 import { TradingPairs } from '../../types';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { backendUrl, currentChainId } from 'utils/classifiers';
 import axios from 'axios';
 import { LoadableValue } from 'app/components/LoadableValue';
@@ -134,7 +134,7 @@ export const PairStats: React.FC<IPairStatsProps> = ({ pair }) => {
       <div className="tw-flex tw-items-center tw-text-center tw-flex-col lg:tw-flex-row">
         {t(translations.spotTradingPage.pairNavbar.dayPercentChange)}{' '}
         <span
-          className={cn('tw-ml-2 tw-font-semibold tw-text-sm', {
+          className={classNames('tw-ml-2 tw-font-semibold tw-text-sm', {
             'tw-text-trade-long': percent > 0,
             'tw-text-trade-short': percent < 0,
           })}

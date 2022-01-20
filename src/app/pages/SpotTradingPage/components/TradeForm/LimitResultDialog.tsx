@@ -11,7 +11,7 @@ import { AssetRenderer } from 'app/components/AssetRenderer';
 import { stringToFixedPrecision } from 'utils/display-text/format';
 import { TxStatus } from 'store/global/transactions-store/types';
 import { getStatusImage } from 'app/components/TransactionDialog/utils';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { prettyTx } from 'utils/helpers';
 
@@ -54,7 +54,7 @@ export const LimitResultDialog: React.FC<ILimitResultDialogProps> = ({
         <div className={'tw-text-center tw-mx-auto tw-w-16 tw-mb-4'}>
           <img
             src={getStatusImage(status)}
-            className={cn('tw-w-16 tw-h-16', {
+            className={classNames('tw-w-16 tw-h-16', {
               'tw-animate-spin': status === TxStatus.PENDING,
             })}
             alt="Status"

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '../Button';
 import { TradingTypes } from '../../types';
 import { translations } from 'locales/i18n';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 interface Props {
   value: TradingTypes;
@@ -16,7 +16,7 @@ export function BuySell({ value, onChange }: Props) {
   return (
     <div className="tw-flex tw-items-center">
       <Button
-        className={cn(
+        className={classNames(
           'tw-mr-1 tw-btn-trade tw-h-8 tw-capitalize tw-flex tw-items-center tw-justify-center tw-py-0',
           {
             'tw-opacity-25': value !== TradingTypes.BUY,
@@ -29,7 +29,7 @@ export function BuySell({ value, onChange }: Props) {
         data-action-id="spot-buy"
       />
       <Button
-        className={cn(
+        className={classNames(
           'tw-ml-1 tw-btn-trade tw-h-8 tw-capitalize tw-flex tw-items-center tw-justify-center tw-py-0',
           {
             'tw-opacity-25': value !== TradingTypes.SELL,

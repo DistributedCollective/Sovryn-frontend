@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { InfoRow } from './InfoRow';
 import { CardImage } from './styled';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 interface IPreviousSalesCardProps {
   saleName: string;
@@ -35,7 +35,7 @@ export const PreviousSalesCard: React.FC<IPreviousSalesCardProps> = ({
   const { t } = useTranslation();
   return (
     <div
-      className={cn(
+      className={classNames(
         'tw-flex tw-min-w-100 tw-flex-col tw-items-center sm:tw-flex-row xl:tw-max-w-50 tw-mb-12',
         className,
       )}
@@ -43,11 +43,11 @@ export const PreviousSalesCard: React.FC<IPreviousSalesCardProps> = ({
       {backgroundImage && (
         <CardImage
           style={{ backgroundImage: `url(${backgroundImage})` }}
-          className={cn(cardClassName)}
+          className={classNames(cardClassName)}
         />
       )}
       {backgroundElem && (
-        <div className={cn(cardClassName)}>{backgroundElem}</div>
+        <div className={classNames(cardClassName)}>{backgroundElem}</div>
       )}
       <div className="tw-flex tw-flex-col tw-justify-center tw-ml-6 xl:tw-ml-4 2xl:tw-ml-11">
         <InfoRow

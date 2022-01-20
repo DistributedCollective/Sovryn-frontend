@@ -1,5 +1,5 @@
 import { Spinner } from '@blueprintjs/core/lib/esm/components/spinner/spinner';
-import cn from 'classnames';
+import classNames from 'classnames';
 import React from 'react';
 
 export type ButtonType = 'button' | 'submit' | 'reset';
@@ -27,14 +27,14 @@ export function ActionButton({
     <button
       {...props}
       onClick={onClick}
-      className={cn('tw-btn-action', className, {
+      className={classNames('tw-btn-action', className, {
         disabled: props.disabled,
         loading: loading,
       })}
     >
       <span className="tw-flex tw-flex-row tw-items-center tw-justify-center tw-truncate">
         <span
-          className={cn(
+          className={classNames(
             'tw-flex-shrink-0 tw-btn-loader__spinner tw-flex tw-flex-row tw-items-center tw-justify-start',
             {
               active: loading,
@@ -44,7 +44,7 @@ export function ActionButton({
           <Spinner size={20} className="tw-fill-current" />
         </span>
         <span
-          className={cn('tw-btn-loader__value', textClassName, {
+          className={classNames('tw-btn-loader__value', textClassName, {
             active: loading,
           })}
         >
@@ -68,11 +68,11 @@ export function ActionLink({ text, ...props }: LinkProps) {
   return (
     <a
       {...props}
-      className={cn(
+      className={classNames(
         'tw-btn-action tw-flex tw-flex-row tw-justify-center tw-items-center tw-no-underline hover:tw-no-underline',
       )}
     >
-      <span className={cn('tw-truncate')}>{text}</span>
+      <span className={classNames('tw-truncate')}>{text}</span>
     </a>
   );
 }

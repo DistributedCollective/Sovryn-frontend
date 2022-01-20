@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { bignumber } from 'mathjs';
 import { AmountInput } from 'app/components/Form/AmountInput';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
@@ -127,7 +127,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                 text={t(translations.marginTradePage.tradeForm.buttons.long)}
                 position={TradingPosition.LONG}
                 onClick={handlePositionLong}
-                className={cn('tw-capitalize tw-h-8 tw-opacity-50', {
+                className={classNames('tw-capitalize tw-h-8 tw-opacity-50', {
                   'tw-opacity-100': position === TradingPosition.LONG,
                 })}
                 data-action-id="margin-button-long"
@@ -138,7 +138,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                 text={t(translations.marginTradePage.tradeForm.buttons.short)}
                 position={TradingPosition.SHORT}
                 onClick={handlePositionShort}
-                className={cn('tw-capitalize tw-h-8 tw-opacity-50', {
+                className={classNames('tw-capitalize tw-h-8 tw-opacity-50', {
                   'tw-opacity-100': position === TradingPosition.SHORT,
                 })}
                 data-action-id="margin-button-short"
@@ -324,7 +324,7 @@ interface LabelValuePairProps {
 function LabelValuePair(props: LabelValuePairProps) {
   return (
     <div
-      className={cn(
+      className={classNames(
         'tw-flex tw-text-xs tw-flex-row tw-flex-wrap tw-justify-between tw-space-x-4 tw-mb-2',
         props.className,
       )}

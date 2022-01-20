@@ -1,6 +1,6 @@
 import React from 'react';
 import { Spinner as BPSpinner } from '@blueprintjs/core/lib/esm/components/spinner/spinner';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 interface Props {
   className?: string;
@@ -10,13 +10,13 @@ interface Props {
 export const Spinner: React.FC<Props> = ({ className, innerClassName }) => {
   return (
     <div
-      className={cn(
+      className={classNames(
         'tw-flex tw-flex-row tw-items-center tw-justify-center',
         className,
       )}
     >
       <span
-        className={cn(
+        className={classNames(
           'tw-w-min tw-btn-loader__spinner tw-flex tw-flex-row tw-items-center active',
           innerClassName,
         )}

@@ -9,7 +9,7 @@ import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/D
 import { translations } from 'locales/i18n';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { bignumber } from 'mathjs';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 interface ILimitOrderRowProps {
   item: LimitOrder;
@@ -67,7 +67,7 @@ export function LimitOrderRow({ item }: ILimitOrderRowProps) {
         </div>
       </td>
       <td
-        className={cn('', {
+        className={classNames('', {
           'tw-text-trade-short': tradeType === TradingTypes.SELL,
           'tw-text-trade-long': tradeType === TradingTypes.BUY,
         })}

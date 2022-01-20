@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { IPairs } from 'app/pages/LandingPage/components/CryptocurrencyPrices/types';
 
 interface IPairLabelsProps {
@@ -35,7 +35,7 @@ export const PairLabels: React.FC<IPairLabelsProps> = ({
         categories.map(currency => {
           return (
             <div
-              className={cn(
+              className={classNames(
                 'tw-mr-4 tw-cursor-pointer tw-font-semibold tw-transition-opacity hover:tw-text-opacity-75 hover:tw-text-primary',
                 {
                   'tw-text-primary':

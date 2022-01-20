@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 import { Button } from 'app/components/Button';
 import { Timer } from './components/Timer/index';
@@ -59,7 +59,7 @@ export const Banner: React.FC<IBannerProps> = ({
               </>
             )}
             {(isLive || isClosed) && (
-              <div className={cn(isClosed && 'tw-mt-10')}>
+              <div className={classNames(isClosed && 'tw-mt-10')}>
                 <div className="tw-bg-gray-1 tw-px-14 tw-py-5 tw-rounded-xl tw-text-3xl tw-font-semibold tw-text-center">
                   {isLive && !isClosed
                     ? t(translations.landingPage.banner.liveNow)
@@ -69,7 +69,7 @@ export const Banner: React.FC<IBannerProps> = ({
                 </div>
                 {isLive && !isClosed && (
                   <Link
-                    className={cn('tw-w-full tw-mt-4 tw-flex')}
+                    className={classNames('tw-w-full tw-mt-4 tw-flex')}
                     to={buyLink}
                   >
                     <Button

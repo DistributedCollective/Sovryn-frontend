@@ -8,7 +8,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 import { Tab } from '../../components/Tab';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
@@ -85,7 +85,7 @@ export function SpotTradingPage() {
             </div>
 
             <div className="tw-w-full sm:tw-px-5 tw-mb-10">
-              <div className={cn({ 'tw-hidden': activeTab !== 0 })}>
+              <div className={classNames({ 'tw-hidden': activeTab !== 0 })}>
                 <SpotHistory />
               </div>
               <LimitOrderTables activeTab={activeTab} />

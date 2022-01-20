@@ -20,7 +20,7 @@ import styles from './index.module.scss';
 import { Duration } from '../LimitOrderSetting/Duration';
 import { OrderLabel, TradeDialog } from '../TradeDialog';
 import { useLimitOrder } from 'app/hooks/limitOrder/useLimitOrder';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { useSwapsExternal_getSwapExpectedReturn } from 'app/hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
 import { toWei } from 'web3-utils';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
@@ -173,7 +173,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
   }, [createOrder]);
 
   return (
-    <div className={cn({ 'tw-hidden': hidden })}>
+    <div className={classNames({ 'tw-hidden': hidden })}>
       <TradeDialog
         onCloseModal={() => setTradeDialog(false)}
         isOpen={tradeDialog}
@@ -260,7 +260,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
             </span>
           </div>
           <div
-            className={cn('tw-text-sm tw-text-right', {
+            className={classNames('tw-text-sm tw-text-right', {
               'tw-text-trade-short': limitMarketChange < 0,
               'tw-text-trade-long': limitMarketChange > 0,
               'tw-invisible':

@@ -1,5 +1,5 @@
 import React from 'react';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { TradingTypes } from '../../types';
 
 interface Props {
@@ -26,7 +26,7 @@ export function Button({
     <button
       type="button"
       onClick={() => onClick(tradingType)}
-      className={cn(
+      className={classNames(
         'tw-text-sov-white tw-text-xl tw-font-bold tw-leading-none tw-font-body tw-rounded-lg tw-px-6 tw-transition tw-w-full',
         className,
         {

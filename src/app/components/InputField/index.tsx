@@ -1,6 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components/macro';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 interface Props {
   value: string;
@@ -20,7 +20,7 @@ export function InputField(props: Props) {
       <StyledWrapper
         invalid={props.invalid!}
         isOnDarkBackground={props.isOnDarkBackground}
-        className={cn(
+        className={classNames(
           'tw-flex tw-flex-row tw-w-full tw-border tw-rounded tw-px-2 tw-py-1 tw-m-0',
           props.wrapperClassName,
         )}

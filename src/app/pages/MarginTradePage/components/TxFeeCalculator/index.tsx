@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import type { TransactionConfig } from 'web3-core';
 import { translations } from 'locales/i18n';
 import { ContractName } from '../../../../../utils/types/contracts';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { TransactionFee } from './TransactionFee';
 import { Asset } from 'types';
 
@@ -31,7 +31,7 @@ export const TxFeeCalculator: React.FC<ITxFeeCalculator> = ({
   const { t } = useTranslation();
   return (
     <div
-      className={cn(
+      className={classNames(
         'tw-flex tw-flex-row tw-justify-between tw-text-sov-white tw-items-center',
         className,
       )}
@@ -40,7 +40,10 @@ export const TxFeeCalculator: React.FC<ITxFeeCalculator> = ({
         {t(translations.marginTradePage.tradeForm.labels.tradingFee)}
       </div>
       <div
-        className={cn('tw-w-1/2 tw-font-medium tw-text-right', textClassName)}
+        className={classNames(
+          'tw-w-1/2 tw-font-medium tw-text-right',
+          textClassName,
+        )}
         data-action-id="margin-reviewTransaction-txFeeCalculator"
       >
         <TransactionFee

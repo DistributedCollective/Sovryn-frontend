@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import blockies from 'ethereum-blockies';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { prettyTx } from 'utils/helpers';
 
 type UserWalletProps = {
@@ -25,7 +25,7 @@ const UserWallet: React.FC<UserWalletProps> = ({ address, className }) => {
 
   return (
     <div
-      className={cn(
+      className={classNames(
         'tw-max-w-60 tw-absolute tw-top-4 tw-right-4 tw-left-4 md:tw-left-auto engage-wallet tw-w-full md:tw-w-auto tw-flex tw-justify-center tw-items-center tw-px-4 tw-justify-between tw-truncate',
         className,
       )}

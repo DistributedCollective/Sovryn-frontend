@@ -1,6 +1,6 @@
 import React, { useContext, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { Dialog } from '../../../../../containers/Dialog';
 import { ResetTxResponseInterface } from '../../../../../hooks/useSendContractTx';
 import { TxStatus } from 'store/global/transactions-store/types';
@@ -203,7 +203,7 @@ function StatusComponent({ status }: { status: TxStatus }) {
     <StyledStatus>
       <img
         src={getStatusImage(status)}
-        className={cn(status === TxStatus.PENDING && 'tw-animate-spin')}
+        className={classNames(status === TxStatus.PENDING && 'tw-animate-spin')}
         alt="Status"
       />
       <p>{getStatus(status)}</p>

@@ -2,7 +2,7 @@ import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { IPairs } from 'app/pages/LandingPage/components/CryptocurrencyPrices/types';
 import { getFavoriteList, setFavoriteList } from 'utils/helpers';
 import { TradingPairs } from '../../types';
@@ -254,7 +254,7 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
                   {toNumberFormat(lastPrice, 6)}
                 </td>
                 <td
-                  className={cn('tw-text-right tw-pr-5', {
+                  className={classNames('tw-text-right tw-pr-5', {
                     'tw-text-trade-long': percent > 0,
                     'tw-text-trade-short': percent < 0,
                   })}

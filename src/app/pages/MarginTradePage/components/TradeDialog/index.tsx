@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { DialogButton } from 'app/components/Form/DialogButton';
@@ -275,7 +275,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
           <div className="tw-pt-3 tw-pb-2 tw-px-6 tw-bg-gray-5 tw-mb-4 tw-rounded-lg tw-text-xs tw-font-light">
             <LabelValuePair
               label={t(translations.marginTradePage.tradeDialog.positionSize)}
-              className={cn({
+              className={classNames({
                 'tw-text-trade-short': position === TradingPosition.SHORT,
                 'tw-text-trade-long': position === TradingPosition.LONG,
               })}
@@ -492,7 +492,7 @@ interface LabelValuePairProps {
 function LabelValuePair(props: LabelValuePairProps) {
   return (
     <div
-      className={cn(
+      className={classNames(
         'tw-flex tw-flex-row tw-mb-1 tw-justify-between tw-text-sov-white tw-items-center',
         props.className,
       )}

@@ -25,7 +25,7 @@ import './styles.scss';
 import { SidebarSteps } from './components/SidebarSteps';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
-import cn from 'classnames';
+import classNames from 'classnames';
 import UserWallet from './components/UserWallet';
 
 const dirtyDepositAsset = {
@@ -82,7 +82,7 @@ export const BridgeDepositPage: React.FC = () => {
       >
         <UserWallet address={receiver} />
         <div
-          className={cn(
+          className={classNames(
             'tw-relative tw-z-50 tw-h-full tw-flex tw-flex-col tw-items-start tw-justify-center tw-pl-8',
             { invisible: requestedReturnToPortfolio },
           )}

@@ -20,7 +20,7 @@ import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { numberToUSD, toNumberFormat } from 'utils/display-text/format';
 import arrowDownIcon from 'assets/images/swap/ic_arrow_down.svg';
 import iconSearch from 'assets/images/swap/ic_search.svg';
-import cn from 'classnames';
+import classNames from 'classnames';
 import styles from './index.module.scss';
 import { Input } from 'app/components/Form/Input';
 import { StarButton } from 'app/components/StarButton';
@@ -87,7 +87,7 @@ export const SwapSelector: React.FC<ISwapSelectorProps> = ({
             <AssetRenderer imageSize={6} asset={selectedAsset} showImage />
           </div>
           <img
-            className={cn('tw-w-5 tw-transition-transform ', {
+            className={classNames('tw-w-5 tw-transition-transform ', {
               'tw-transform tw-rotate-180': open,
             })}
             src={arrowDownIcon}
@@ -96,14 +96,14 @@ export const SwapSelector: React.FC<ISwapSelectorProps> = ({
         </div>
         {open && (
           <div
-            className={cn(
+            className={classNames(
               'tw-absolute tw-transform tw-translate-y-full tw-bottom-0 tw-left-0 tw-bg-gray-2 tw-py-4 tw-px-8 tw-rounded-lg tw-z-10',
               styles.pairsModal,
             )}
           >
             <Input
               value={search}
-              className={cn('tw-rounded-lg', styles.search)}
+              className={classNames('tw-rounded-lg', styles.search)}
               inputClassName="tw-ml-0 tw-pl-2"
               onChange={setSearch}
               placeholder={'Search'}
@@ -244,7 +244,7 @@ export const SwapAsset: React.FC<ISwapAssetProps> = ({
 
   return (
     <tr
-      className={cn(
+      className={classNames(
         'tw-text-xs tw-cursor-pointer tw-transition-opacity hover:tw-opacity-75',
         {
           'tw-pointer-events-none tw-cursor-not-allowed tw-opacity-25':
@@ -303,7 +303,7 @@ export const PriceChange: React.FC<IPriceChangeProps> = ({ value }) => {
 
   return (
     <div
-      className={cn('tw-inline-flex tw-items-center tw-ml-auto', {
+      className={classNames('tw-inline-flex tw-items-center tw-ml-auto', {
         'tw-text-trade-short': value < 0 && !noChange,
         'tw-text-trade-long': value > 0 && !noChange,
       })}

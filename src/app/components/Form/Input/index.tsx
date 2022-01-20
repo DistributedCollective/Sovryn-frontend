@@ -1,4 +1,4 @@
-import cn from 'classnames';
+import classNames from 'classnames';
 import React, { useCallback } from 'react';
 
 import { handleNumber } from 'utils/helpers';
@@ -50,13 +50,13 @@ export const Input: React.FC<InputProps> = ({
 
   return (
     <div
-      className={cn('tw-input-wrapper', className, {
+      className={classNames('tw-input-wrapper', className, {
         readonly: props.readOnly,
       })}
     >
       {prependElem && <div className="tw-input-prepend">{prependElem}</div>}
       <input
-        className={cn('tw-input', inputClassName)}
+        className={classNames('tw-input', inputClassName)}
         lang={navigator.language}
         value={value}
         onChange={e => handleChange(e.currentTarget.value)}
@@ -64,7 +64,7 @@ export const Input: React.FC<InputProps> = ({
         {...props}
       />
       {appendElem && (
-        <div className={cn('tw-input-append', appendClassName)}>
+        <div className={classNames('tw-input-append', appendClassName)}>
           {appendElem}
         </div>
       )}
@@ -93,11 +93,13 @@ export function DummyInput({
 }: DummyProps) {
   return (
     <div
-      className={cn('tw-input-wrapper', className, {
+      className={classNames('tw-input-wrapper', className, {
         readonly: props.readOnly,
       })}
     >
-      <div className={cn('tw-input tw-truncate tw-pr-0', inputClassName)}>
+      <div
+        className={classNames('tw-input tw-truncate tw-pr-0', inputClassName)}
+      >
         {value}
       </div>
       {appendElem && (

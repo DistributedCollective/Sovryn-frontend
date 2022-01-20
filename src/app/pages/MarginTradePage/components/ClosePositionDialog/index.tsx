@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { calculateProfit, weiToNumberFormat } from 'utils/display-text/format';
 import {
   toWei,
@@ -178,7 +178,7 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
             <LabelValuePair
               label={t(translations.closeTradingPositionHandler.marginType)}
               value={<>{leverage}x</>}
-              className={cn({
+              className={classNames({
                 'tw-text-trade-short': targetToken.asset !== pair.longAsset,
                 'tw-text-trade-long': targetToken.asset === pair.longAsset,
               })}
@@ -356,7 +356,7 @@ interface LabelValuePairProps {
 function LabelValuePair(props: LabelValuePairProps) {
   return (
     <div
-      className={cn(
+      className={classNames(
         'tw-flex tw-flex-row tw-mb-1 tw-justify-start tw-text-sov-white',
         props.className,
       )}

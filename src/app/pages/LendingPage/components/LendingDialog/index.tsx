@@ -26,7 +26,7 @@ import { fromWei } from 'web3-utils';
 import { weiToNumberFormat } from 'utils/display-text/format';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { Dialog } from 'app/containers/Dialog';
-import cn from 'classnames';
+import classNames from 'classnames';
 import {
   getLendingContractName,
   getTokenContract,
@@ -219,9 +219,12 @@ export function LendingDialog({
           <div className="tw-mb-4 tw-mt-2">
             {type === 'add' && (
               <div
-                className={cn('tw-text-warning tw-text-sm tw-text-center', {
-                  'tw-invisible tw-py-2 tw-mb-2': !errorMessage,
-                })}
+                className={classNames(
+                  'tw-text-warning tw-text-sm tw-text-center',
+                  {
+                    'tw-invisible tw-py-2 tw-mb-2': !errorMessage,
+                  },
+                )}
               >
                 {errorMessage}
               </div>
@@ -253,7 +256,7 @@ export function LendingDialog({
           {type === 'add' && (
             <>
               <div
-                className={cn('tw-text-center tw-mt-8 tw-mb-12', {
+                className={classNames('tw-text-center tw-mt-8 tw-mb-12', {
                   'tw-opacity-40': disabled(),
                 })}
               >

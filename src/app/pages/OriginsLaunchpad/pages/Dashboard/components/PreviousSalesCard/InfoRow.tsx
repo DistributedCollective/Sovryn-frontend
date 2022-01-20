@@ -1,5 +1,5 @@
 import React from 'react';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { InfoRowValue } from './styled';
 
 interface IInfoRowProps {
@@ -13,7 +13,7 @@ export const InfoRow: React.FC<IInfoRowProps> = ({
   value,
   className,
 }) => (
-  <div className={cn('tw-tracking-normal', className)}>
+  <div className={classNames('tw-tracking-normal', className)}>
     <div className="tw-text-sm tw-font-thin tw-tracking-normal tw-leading-tight">
       {label}:
     </div>

@@ -12,7 +12,7 @@ import { FastBtcDialogState, Step } from '../types';
 import { BTCButton } from './BTCButton';
 import { FiatDialogScreen } from './FiatDialogScreen';
 import { OpenTransak } from './transak';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 interface MainScreenProps {
   state: FastBtcDialogState;
@@ -82,7 +82,7 @@ export function MainScreen({ state, dispatch }: MainScreenProps) {
         </div>
 
         <div
-          className={cn(
+          className={classNames(
             'tw-w-1/2',
             state.step === Step.MAIN &&
               'tw-flex tw-items-center tw-justify-end',

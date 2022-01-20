@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import cn from 'classnames';
+import classNames from 'classnames';
 import {
   IPairs,
   IAssets,
@@ -125,7 +125,7 @@ export const PriceChange: React.FC<IPriceChangeProps> = ({ value }) => {
 
   return (
     <div
-      className={cn('tw-inline-flex tw-items-center tw-ml-auto', {
+      className={classNames('tw-inline-flex tw-items-center tw-ml-auto', {
         'tw-text-trade-short': value < 0 && !noChange,
         'tw-text-trade-long': value > 0 && !noChange,
       })}
