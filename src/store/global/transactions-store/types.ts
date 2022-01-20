@@ -57,6 +57,7 @@ export enum TxType {
 
 export enum TxStatus {
   NONE = 'none',
+  INITIALIZING_GSN = 'initializing_gsn',
   PENDING_FOR_USER = 'pending_for_user',
   PENDING = 'pending',
   CONFIRMED = 'confirmed',

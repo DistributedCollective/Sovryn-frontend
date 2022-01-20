@@ -5,6 +5,7 @@ import { walletService } from '@sovryn/react-wallet';
 import { ChainId } from 'types';
 import type { Contract } from 'web3-eth-contract';
 import type { TransactionConfig } from 'web3-core';
+import { gsnNetwork } from './GsnNetwork';
 
 const preferredRelays = {
   [ChainId.BSC_MAINNET]: ['https://bsc.relay.sovryn.app/gsn1'],
@@ -16,34 +17,54 @@ export interface GsnTransactionConfig extends TransactionConfig {
   useGSN?: boolean;
 }
 
-export class GsnWrapper {
-  private _isReady: boolean = false;
+export class GsnProvider {
+  private _isReady: boolean | Promise<boolean> = false;
+  private _isSupported = false;
 
   private _provider?: RelayProvider;
   private _web3?: Web3;
   private _contracts: Record<string, Contract> = {};
 
   public constructor(chainId: ChainId, paymasterAddress: string) {
-    RelayProvider.newProvider({
-      provider: window.ethereum,
-      config: {
-        paymasterAddress,
-        preferredRelays: preferredRelays[chainId],
-        loggerConfiguration: {
-          logLevel: 'debug',
+    this._isReady = new Promise((resolve, reject) => {
+      if (!gsnNetwork.isSupportedByConnectedWallet()) {
+        this._isReady = false;
+        this._isSupported = false;
+        return resolve(false);
+      }
+
+      this._isSupported = true;
+
+      RelayProvider.newProvider({
+        provider: window.ethereum,
+        config: {
+          paymasterAddress,
+          preferredRelays: preferredRelays[chainId],
+          loggerConfiguration: {
+            logLevel: 'debug',
+          },
         },
-      },
-    })
-      .init()
-      .then(result => {
-        this._provider = result;
-        this._web3 = new Web3(this._provider);
-        this._isReady = true;
-      });
+      })
+        .init()
+        .then(result => {
+          this._provider = result;
+          this._web3 = new Web3(this._provider);
+          this._isReady = true;
+          resolve(true);
+        })
+        .catch(error => {
+          console.error(error);
+          resolve(false);
+        });
+    });
   }
 
   public get isReady() {
     return this._isReady;
+  }
+
+  public get isSupported() {
+    return this._isSupported;
   }
 
   public send(
@@ -78,6 +99,9 @@ export class GsnWrapper {
   protected doCheck() {
     if (!this.isReady) {
       throw new Error('RelayProvider is not yet ready!');
+    }
+    if (!this.isSupported) {
+      throw new Error('RelayProvider is not supported by connected wallet!');
     }
   }
 

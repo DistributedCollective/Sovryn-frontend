@@ -1,17 +1,17 @@
 import { WalletContext } from '@sovryn/react-wallet';
 import { Button } from 'app/components/Button';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
-import { useSendToGsnContractAddressTx } from 'app/hooks/useSendToGsnContractAddressTx';
-import React, { useCallback, useContext, useEffect } from 'react';
+import { useGsnSendTx } from 'app/hooks/useGsnSendTx';
+import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { toWei } from 'utils/blockchain/math-helpers';
-import { GsnWrapper } from 'utils/gsn/GsnWrapper';
 import { useDispatch } from 'react-redux';
 import { gasLimit } from '../../../utils/classifiers';
 import { actions } from '../../containers/WalletProvider/slice';
 import { TxType } from '../../../store/global/transactions-store/types';
 import {
   PERPETUAL_GAS_PRICE_DEFAULT,
+  PERPETUAL_CHAIN,
   PERPETUAL_CHAIN_ID,
 } from '../PerpetualPage/types';
 import { useBridgeNetworkSendTx } from '../../hooks/useBridgeNetworkSendTx';
@@ -19,30 +19,32 @@ import { Chain } from '../../../types';
 import { bridgeNetwork } from '../BridgeDepositPage/utils/bridge-network';
 import { useAccount } from '../../hooks/useAccount';
 import { BigNumber } from 'ethers';
+import { gsnNetwork } from '../../../utils/gsn/GsnNetwork';
 
 const PAYMASTER_ADDRESS = '0xE948a50Fbfa6b6e05f1A76A2A37A3DF516e2D4B5'.toLowerCase();
 const TEST_TOKEN = getContract('PERPETUALS_token');
-
-const gsn = new GsnWrapper(PERPETUAL_CHAIN_ID, PAYMASTER_ADDRESS);
 
 export const SandboxPage: React.FC = () => {
   const dispatch = useDispatch();
   const { wallet, connect } = useContext(WalletContext);
   const account = useAccount();
-  // only using to get erc20 abi
+
+  const gsn = useMemo(
+    () => gsnNetwork.getProvider(PERPETUAL_CHAIN_ID, PAYMASTER_ADDRESS),
+    [],
+  );
 
   const { send: sendNormal, ...normalTx } = useBridgeNetworkSendTx(
-    Chain.BSC,
+    PERPETUAL_CHAIN,
     'PERPETUALS_token',
     'approve',
   );
 
-  const { send, ...tx } = useSendToGsnContractAddressTx(
-    PERPETUAL_CHAIN_ID,
-    PAYMASTER_ADDRESS,
-    TEST_TOKEN.address,
-    TEST_TOKEN.abi,
+  const { send, ...tx } = useGsnSendTx(
+    PERPETUAL_CHAIN,
+    'PERPETUALS_token',
     'approve',
+    PAYMASTER_ADDRESS,
   );
 
   const handleClickApprove = useCallback(() => {

@@ -1,17 +1,18 @@
 import { walletService } from '@sovryn/react-wallet';
 import type { JsonRpcPayload, JsonRpcResponse } from 'web3-core-helpers';
 import type { RequestPayload } from '@sovryn/wallet/interfaces/wallet.interface';
+import type { Web3ProviderBaseInterface } from '@opengsn/common/dist/types/Aliases';
 import { RpcNode } from 'utils/blockchain/rpc-node';
-
 type JsonRpcCallback = (error: Error | null, result?: JsonRpcResponse) => void;
 
-// todo: convert send and sendAsync responses to jsonrpc:
+// TODO: convert send and sendAsync responses to jsonrpc:
 // return {
 //   id: Number(payload.id || 0),
 //   jsonrpc: payload.jsonrpc,
 //   result: response,
 // };
-export class SovrynWalletGsnProvider {
+
+export class SovrynWalletGsnProvider implements Web3ProviderBaseInterface {
   public constructor(private node: RpcNode) {}
 
   public async request(payload: JsonRpcPayload): Promise<any> {
