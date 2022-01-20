@@ -38,7 +38,7 @@ export const ConfirmationScreens: React.FC<NetworkAwareComponentProps> = ({
 
   const [loading, setLoading] = useState(false);
 
-  const basset = getFastBTCWithdrawalContract(Chain.RSK, 'aggregatorBasset');
+  const basset = getFastBTCWithdrawalContract(network, 'aggregatorBasset');
   const token = getFastBTCWithdrawalContract(network, 'btcToken');
   const aggregator = getFastBTCWithdrawalContract(network, 'aggregator');
 

@@ -83,7 +83,7 @@ export const contracts: Record<
   },
   aggregatorBasset: {
     address: {
-      [Chain.RSK]: {
+      [Chain.BSC]: {
         [AppMode.MAINNET]: ethers.constants.AddressZero, // todo
         [AppMode.TESTNET]: '0xc41d41cb7a31c80662ac2d8ab7a7e5f5841eebc3',
       },

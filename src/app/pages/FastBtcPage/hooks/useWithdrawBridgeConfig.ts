@@ -88,7 +88,7 @@ export function useWithdrawBridgeConfig(network: Chain = Chain.RSK) {
         'aggregatorAllowTokens',
       );
       const basset = getFastBTCWithdrawalContract(
-        Chain.RSK,
+        Chain.BSC,
         'aggregatorBasset',
       );
 
