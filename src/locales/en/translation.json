@@ -1779,7 +1779,9 @@
         "leverage": "Leverage:",
         "entryPrice": "Entry Price:",
         "liquidationPrice": "Liquidation Price:",
-        "totalToReceive": "Total to Receive:"
+        "totalToReceive": "Total to Receive:",
+        "maxEntryPrice": "Max Entry Price:",
+        "minEntryPrice": "Min Entry Price:"
       },
       "confirm": "Confirm"
     },

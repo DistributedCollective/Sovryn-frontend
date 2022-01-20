@@ -276,27 +276,31 @@ export const EditMarginDialog: React.FC = () => {
               onChange={onChangeMargin}
             />
           </div>
-          <LeverageViewer
-            className="tw-mt-3 tw-mb-4"
-            label={t(translations.perpetualPage.tradeForm.labels.leverage)}
-            min={pair.config.leverage.min}
-            max={pair.config.leverage.max}
-            value={changedTrade?.leverage || 0}
-            valueLabel={
-              changedTrade && `${toNumberFormat(changedTrade.leverage, 2)}x`
-            }
-          />
-          <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1 tw-mb-4 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
-            <label>
-              {t(translations.perpetualPage.tradeForm.labels.liquidationPrice)}
-            </label>
-            <AssetValue
-              minDecimals={2}
-              maxDecimals={2}
-              mode={AssetValueMode.auto}
-              value={liquidationPrice}
-              assetString={pair.quoteAsset}
+          <div className="tw-flex tw-flex-col tw-justify-between tw-px-6 tw-py-1.5 tw-mb-4 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
+            <LeverageViewer
+              label={t(translations.perpetualPage.tradeForm.labels.leverage)}
+              min={pair.config.leverage.min}
+              max={pair.config.leverage.max}
+              value={changedTrade?.leverage || 0}
+              valueLabel={
+                changedTrade && `${toNumberFormat(changedTrade.leverage, 2)}x`
+              }
             />
+
+            <div className="tw-flex tw-justify-between tw-mt-1.5">
+              <label>
+                {t(
+                  translations.perpetualPage.tradeForm.labels.liquidationPrice,
+                )}
+              </label>
+              <AssetValue
+                minDecimals={2}
+                maxDecimals={2}
+                mode={AssetValueMode.auto}
+                value={liquidationPrice}
+                assetString={pair.quoteAsset}
+              />
+            </div>
           </div>
           {validation && !validation.valid && validation.errors.length > 0 && (
             <div className="tw-flex tw-flex-col tw-justify-between tw-px-6 tw-py-1 tw-mb-4 tw-text-warning tw-text-xs tw-font-medium tw-border tw-border-warning tw-rounded-lg">

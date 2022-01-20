@@ -46,7 +46,7 @@ import { PerpetualQueriesContextProvider } from './contexts/PerpetualQueriesCont
 import { PairSelector } from './components/PairSelector';
 import { ToastsWatcher } from './components/ToastsWatcher';
 
-export function PerpetualPageContainer() {
+export const PerpetualPageContainer: React.FC = () => {
   useInjectReducer({ key: sliceKey, reducer });
 
   const dispatch = useDispatch();
@@ -208,4 +208,4 @@ export function PerpetualPageContainer() {
       </PerpetualQueriesContextProvider>
     </RecentTradesContextProvider>
   );
-}
+};

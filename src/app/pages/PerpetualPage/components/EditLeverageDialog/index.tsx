@@ -240,27 +240,30 @@ export const EditLeverageDialog: React.FC = () => {
             value={leverage}
             onChange={onChangeLeverage}
           />
-          <div className="tw-flex tw-flex-row tw-justify-between tw-mb-4 tw-px-6 tw-py-1 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
-            <label>{t(translations.perpetualPage.editLeverage.margin)}</label>
-            <AssetValue
-              minDecimals={4}
-              maxDecimals={4}
-              mode={AssetValueMode.auto}
-              value={margin}
-              assetString={pair.baseAsset}
-            />
-          </div>
-          <div className="tw-flex tw-flex-row tw-justify-between tw-mb-4 tw-px-6 tw-py-1 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
-            <label>
-              {t(translations.perpetualPage.editLeverage.liquidation)}
-            </label>
-            <AssetValue
-              minDecimals={2}
-              maxDecimals={2}
-              mode={AssetValueMode.auto}
-              value={liquidationPrice}
-              assetString={pair.quoteAsset}
-            />
+          <div className="tw-flex tw-flex-col tw-justify-between tw-mb-4 tw-px-6 tw-py-1.5 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
+            <div className="tw-flex tw-justify-between">
+              <label>{t(translations.perpetualPage.editLeverage.margin)}</label>
+              <AssetValue
+                minDecimals={4}
+                maxDecimals={4}
+                mode={AssetValueMode.auto}
+                value={margin}
+                assetString={pair.baseAsset}
+              />
+            </div>
+
+            <div className="tw-flex tw-justify-between tw-mt-1.5">
+              <label>
+                {t(translations.perpetualPage.editLeverage.liquidation)}
+              </label>
+              <AssetValue
+                minDecimals={2}
+                maxDecimals={2}
+                mode={AssetValueMode.auto}
+                value={liquidationPrice}
+                assetString={pair.quoteAsset}
+              />
+            </div>
           </div>
           {!inMaintenance &&
             validation &&
