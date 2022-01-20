@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { TransactionConfig } from 'web3-core';
 import { useDispatch, useSelector } from 'react-redux';
+import type { ContractInterface } from 'ethers';
 import {
   selectLoadingTransaction,
   selectTransactions,
@@ -11,21 +12,20 @@ import {
   TxType,
 } from 'store/global/transactions-store/types';
 import { actions } from 'store/global/transactions-store/slice';
-import { ContractName } from 'utils/types/contracts';
 import { useAccount } from './useAccount';
 import { Chain } from 'types';
 import { gasLimit } from '../../utils/classifiers';
 import { bridgeNetwork } from '../pages/BridgeDepositPage/utils/bridge-network';
-import { getContract } from '../../utils/blockchain/contract-helpers';
 import { BridgeNetworkDictionary } from '../pages/BridgeDepositPage/dictionaries/bridge-network-dictionary';
 import {
   SendTxResponseInterface,
   TransactionOptions,
 } from './useSendContractTx';
 
-export function useBridgeNetworkSendTx(
+export function useChainToSendContractTx(
   chain: Chain,
-  contractName: ContractName,
+  contractAddress: string,
+  abi: ContractInterface,
   methodName: string,
 ): SendTxResponseInterface {
   const transactions = useSelector(selectTransactions);
@@ -42,7 +42,6 @@ export function useBridgeNetworkSendTx(
       options: TransactionOptions = {},
     ) => {
       const chainId = BridgeNetworkDictionary.get(chain)?.chainId;
-      const { address: contractAddress, abi } = getContract(contractName);
       const data = bridgeNetwork.encodeFunctionData(
         chain,
         contractAddress,
@@ -79,7 +78,7 @@ export function useBridgeNetworkSendTx(
             type: options?.type || TxType.OTHER,
             status: TxStatus.PENDING,
             loading: true,
-            to: contractName,
+            to: contractAddress,
             from: account.toLowerCase(),
             value: (config?.value as string) || '0',
             asset: options?.asset || null,
@@ -100,7 +99,7 @@ export function useBridgeNetworkSendTx(
           return false;
         });
     },
-    [chain, account, contractName, methodName, dispatch],
+    [chain, account, contractAddress, methodName, abi, dispatch],
   );
 
   const reset = useCallback(() => {

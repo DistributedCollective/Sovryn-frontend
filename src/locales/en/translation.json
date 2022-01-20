@@ -2130,7 +2130,7 @@
       "wrongNetwork": "We detected that you are on",
       "switch": "Please switch to {{network}} in your",
       "wallet": "wallet",
-      "howToConnect": "How to connect to"
+      "howToConnect": "How to connect to {{network}} with {{walletName}}"
     },
     "amountSelector": {
       "title": "Enter amount to deposit",

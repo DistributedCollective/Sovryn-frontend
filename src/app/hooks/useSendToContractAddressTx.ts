@@ -48,7 +48,7 @@ export function useSendToContractAddressTx(
       ) {
         config.gas = gasLimit[options.type];
       }
-      contractWriter
+      return contractWriter
         .sendByAddress(address, abi, methodName, args, config)
         .then(e => {
           const transactionHash = e as string;
@@ -69,11 +69,13 @@ export function useSendToContractAddressTx(
           );
           setTxId(transactionHash);
           dispatch(actions.closeTransactionRequestDialog());
+          return true;
         })
         .catch(e => {
           console.error(e.message);
           setTxId(TxStatus.FAILED);
           dispatch(actions.setTransactionRequestDialogError(e.message));
+          return false;
         });
     },
     [account, address, abi, methodName, chainId, dispatch],

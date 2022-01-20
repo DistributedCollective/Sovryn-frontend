@@ -56,8 +56,8 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
   }, [history]);
 
   const onOpenWithdraw = useCallback(() => {
-    dispatch(actions.setModal(PerpetualPageModals.FASTBTC_WITHDRAW));
-  }, [dispatch]);
+    history.push('/fast-btc/withdraw/bsc');
+  }, [history]);
 
   const onOpenTransfer = useCallback(() => {
     dispatch(actions.setModal(PerpetualPageModals.FASTBTC_TRANSFER));
@@ -190,11 +190,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
           {t(translations.perpetualPage.accountBalance.deposit)}
         </ActionButton>
 
-        <ActionButton
-          disabled
-          tooltip={t(translations.common.comingSoon)}
-          onClick={onOpenWithdraw}
-        >
+        <ActionButton onClick={onOpenWithdraw}>
           {t(translations.perpetualPage.accountBalance.withdraw)}
         </ActionButton>
 

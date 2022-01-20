@@ -1,5 +1,4 @@
 import React, { useCallback, useContext, useMemo } from 'react';
-import { useDispatch } from 'react-redux';
 import { WalletContext } from '@sovryn/react-wallet';
 
 import { useTranslation, Trans } from 'react-i18next';
@@ -22,12 +21,11 @@ import {
   metamaskDefaultChains,
   switchNetwork,
 } from 'utils/metamaskHelpers';
+import { noop } from 'app/constants';
 
 export const NetworkStep: React.FC<NetworkAwareComponentProps> = ({
   network,
 }) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const dispatch = useDispatch();
   const { chainId, disconnect } = useContext(WalletContext);
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
@@ -111,7 +109,7 @@ export const NetworkStep: React.FC<NetworkAwareComponentProps> = ({
               />
             )}
             <div className="tw-flex tw-flex-col tw-gap-2 tw-px-2 tw-items-center">
-              <SelectBox onClick={() => {}}>
+              <SelectBox onClick={noop}>
                 <img
                   className="tw-mb-5 tw-mt-2"
                   src={chain?.logo}
@@ -129,9 +127,16 @@ export const NetworkStep: React.FC<NetworkAwareComponentProps> = ({
                 rel="noopener noreferrer"
                 className="tw-cursor-pointer tw-font-light tw-text-primary tw-underline tw-my-2"
               >
-                {t(translations.BridgeDepositPage.walletSelector.howToConnect)}{' '}
-                <span className="tw-uppercase">{chain?.chain}</span> with{' '}
-                <span className="tw-capitalize">{walletName}</span>
+                <Trans
+                  i18nKey={
+                    translations.BridgeDepositPage.walletSelector.howToConnect
+                  }
+                  components={[
+                    <span className="tw-uppercase" />,
+                    <span className="tw-capitalize" />,
+                  ]}
+                  values={{ network: chain?.chain, walletName }}
+                />
               </a>
 
               {walletName === 'metamask' && (
@@ -146,7 +151,7 @@ export const NetworkStep: React.FC<NetworkAwareComponentProps> = ({
               )}
 
               <div
-                onClick={() => disconnect()}
+                onClick={disconnect}
                 className="tw-cursor-pointer tw-font-semibold tw-text-sov-white tw-underline tw-text-center tw-mt-8"
               >
                 {t(translations.BridgeDepositPage.changeWallet)}

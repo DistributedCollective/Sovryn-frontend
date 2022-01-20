@@ -2,7 +2,7 @@ import React, { useContext, useMemo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { translations } from 'locales/i18n';
-import { Asset } from 'types';
+import { Asset, Chain } from 'types';
 import {
   StepItem,
   Stepper,
@@ -16,6 +16,7 @@ import { prettyTx } from 'utils/helpers';
 import walletIcon from 'assets/images/fast-btc/wallet-icon.svg';
 import addressIcon from 'assets/images/fast-btc/address-icon.svg';
 import successIcon from 'assets/images/fast-btc/success-icon.svg';
+import { NetworkAwareComponentProps } from '../../types';
 
 const stepOrder = [
   WithdrawStep.AMOUNT,
@@ -30,7 +31,9 @@ const isBehindStep = (current: WithdrawStep, needed: WithdrawStep) => {
   return stepOrder.indexOf(current) > stepOrder.indexOf(needed);
 };
 
-export const SidebarStepsWithdraw: React.FC = () => {
+export const SidebarStepsWithdraw: React.FC<NetworkAwareComponentProps> = ({
+  network,
+}) => {
   const { t } = useTranslation();
   const { step, set, amount, address } = useContext(WithdrawContext);
 
@@ -162,10 +165,23 @@ export const SidebarStepsWithdraw: React.FC = () => {
     [canOpen, set],
   );
 
+  const backToUrl = useMemo(
+    () => (network === Chain.BSC ? '/perpetual' : '/wallet'),
+    [network],
+  );
+
+  const backToTitle = useMemo(
+    () =>
+      network === Chain.BSC
+        ? t(translations.fastBtcPage.backToPerpetuals)
+        : t(translations.fastBtcPage.backToPortfolio),
+    [network, t],
+  );
+
   return (
     <>
       <Link
-        to="/wallet"
+        to={backToUrl}
         className="tw-absolute tw--top-2 tw-left-0 tw-flex tw-items-center tw-font-semibold tw-text-2xl tw-cursor-pointer tw-select-none tw-text-white tw-whitespace-nowrap tw-no-underline"
       >
         <img
@@ -173,7 +189,7 @@ export const SidebarStepsWithdraw: React.FC = () => {
           src={ArrowBack}
           className="tw-w-4 tw-h-4 tw-mr-2"
         />
-        {t(translations.fastBtcPage.backToPortfolio)}
+        {backToTitle}
       </Link>
       {step !== WithdrawStep.MAIN && (
         <div className="tw-mt-24">
