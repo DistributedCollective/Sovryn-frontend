@@ -19,22 +19,13 @@ export interface GsnTransactionConfig extends TransactionConfig {
 
 export class GsnProvider {
   private _isReady: boolean | Promise<boolean> = false;
-  private _isSupported = false;
 
   private _provider?: RelayProvider;
   private _web3?: Web3;
   private _contracts: Record<string, Contract> = {};
 
-  public constructor(chainId: ChainId, paymasterAddress: string) {
+  public constructor(private chainId: ChainId, paymasterAddress: string) {
     this._isReady = new Promise((resolve, reject) => {
-      if (!gsnNetwork.isSupportedByConnectedWallet()) {
-        this._isReady = false;
-        this._isSupported = false;
-        return resolve(false);
-      }
-
-      this._isSupported = true;
-
       RelayProvider.newProvider({
         provider: window.ethereum,
         config: {
@@ -63,8 +54,12 @@ export class GsnProvider {
     return this._isReady;
   }
 
-  public get isSupported() {
-    return this._isSupported;
+  public isSupported() {
+    return (
+      walletService.connected &&
+      walletService.chainId === this.chainId &&
+      gsnNetwork.isSupportedByConnectedWallet()
+    );
   }
 
   public send(
@@ -100,8 +95,10 @@ export class GsnProvider {
     if (!this.isReady) {
       throw new Error('RelayProvider is not yet ready!');
     }
-    if (!this.isSupported) {
-      throw new Error('RelayProvider is not supported by connected wallet!');
+    if (!this.isSupported()) {
+      throw new Error(
+        'RelayProvider is not supported by connected wallet or wallet has wrong network selected!',
+      );
     }
   }
 

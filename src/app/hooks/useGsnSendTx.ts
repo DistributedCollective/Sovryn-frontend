@@ -53,8 +53,11 @@ export function useGsnSendTx(
   );
 
   const sendCombined = useMemo(() => {
-    if (useGSN && gsn?.isSupported) {
+    if (useGSN) {
       return async (args: any[], config: TransactionConfig = {}) => {
+        if (!gsn) {
+          throw Error("GSN couldn't be initialized yet");
+        }
         if (!gsn.isReady) {
           setTxId(TxStatus.INITIALIZING_GSN);
           await gsn.isReady;
@@ -100,13 +103,9 @@ export function useGsnSendTx(
         config.gas = gasLimit[options.type];
       }
       sendCombined(args, config)
-        .then(result => {
+        .then((result: string | { transactionHash: string }) => {
           const transactionHash =
-            typeof result === 'string'
-              ? result
-              : result && typeof result.hash === 'string'
-              ? (result.hash as string)
-              : '';
+            typeof result === 'string' ? result : result?.transactionHash;
           dispatch(
             actions.addTransaction({
               chainId,

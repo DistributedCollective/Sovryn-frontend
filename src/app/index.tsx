@@ -117,6 +117,7 @@ export function App() {
                 render={props => <EmailPage {...props} type="UNSUBSCRIBE" />}
               />
               <Route exact path="/perpetual" component={PerpetualPage} />
+              <Route exact path="/sandbox" component={SandboxPage} />
               <Route component={NotFoundPage} />
             </Switch>
             <ToastContainer className="tw-w-max" />
