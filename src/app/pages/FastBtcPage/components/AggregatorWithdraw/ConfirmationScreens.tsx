@@ -69,7 +69,7 @@ export const ConfirmationScreens: React.FC<NetworkAwareComponentProps> = ({
       transfer(
         [
           basset.address,
-          toWei(weiToFixed(toWei(amount), 9)), // make sure we are sending on 9 decimals places and rounding down.
+          toWei(weiToFixed(toWei(amount), 8)), // make sure we are sending on 9 decimals places and rounding down.
           getContract('fastBtcBridge').address,
           userData,
         ],
