@@ -1,6 +1,6 @@
 import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { bignumber } from 'mathjs';
+import { bignumber, max } from 'mathjs';
 import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
 import { Asset } from '../../../../../types';
 import { translations } from 'locales/i18n';
@@ -20,11 +20,12 @@ import {
 import { WithdrawDetails } from '../Withdraw/WithdrawDetails';
 import { AmountInput } from './AmountInput';
 import { useBridgeNetworkBalance } from 'app/hooks/useBridgeNetworkBalance';
+import { btcInSatoshis } from 'app/constants';
 
 export const AmountForm: React.FC<NetworkAwareComponentProps> = ({
   network,
 }) => {
-  const { amount, set } = useContext(WithdrawContext);
+  const { amount, set, limits, aggregatorLimits } = useContext(WithdrawContext);
   const { t } = useTranslation();
 
   const balance = useBridgeNetworkBalance(
@@ -40,10 +41,25 @@ export const AmountForm: React.FC<NetworkAwareComponentProps> = ({
       return true;
     }
 
+    if (
+      bignumber(weiAmount).lessThan(
+        max(
+          bignumber(aggregatorLimits.min),
+          bignumber(limits.min * btcInSatoshis),
+        ),
+      )
+    ) {
+      return true;
+    }
+
+    if (bignumber(weiAmount).greaterThan(limits.max * btcInSatoshis)) {
+      return true;
+    }
+
     return bignumber(weiAmount)
       .add(gasLimit[TxType.FAST_BTC_WITHDRAW])
       .greaterThan(balance.value || '0');
-  }, [value, balance.value]);
+  }, [value, balance.value, limits.min, limits.max, aggregatorLimits.min]);
 
   const onContinueClick = useCallback(
     () =>

@@ -7,7 +7,10 @@ import React, {
   useState,
 } from 'react';
 import { WithdrawContext, WithdrawStep } from '../../contexts/withdraw-context';
-import { toWei } from '../../../../../utils/blockchain/math-helpers';
+import {
+  toWei,
+  weiToFixed,
+} from '../../../../../utils/blockchain/math-helpers';
 import { gasLimit } from '../../../../../utils/classifiers';
 import {
   TxStatus,
@@ -66,7 +69,7 @@ export const ConfirmationScreens: React.FC<NetworkAwareComponentProps> = ({
       transfer(
         [
           basset.address,
-          toWei(amount),
+          toWei(weiToFixed(toWei(amount), 9)), // make sure we are sending on 9 decimals places and rounding down.
           getContract('fastBtcBridge').address,
           userData,
         ],

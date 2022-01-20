@@ -17,11 +17,12 @@ import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { NetworkAwareComponentProps } from '../../types';
 import { getBTCAssetForNetwork } from '../../helpers';
+import { btcInSatoshis } from 'app/constants';
 
 export const AmountForm: React.FC<NetworkAwareComponentProps> = ({
   network,
 }) => {
-  const { amount, set } = useContext(WithdrawContext);
+  const { amount, limits, set } = useContext(WithdrawContext);
   const { t } = useTranslation();
 
   const balance = useBalance();
@@ -34,10 +35,18 @@ export const AmountForm: React.FC<NetworkAwareComponentProps> = ({
       return true;
     }
 
+    if (bignumber(weiAmount).lessThan(limits.min * btcInSatoshis)) {
+      return true;
+    }
+
+    if (bignumber(weiAmount).greaterThan(limits.max * btcInSatoshis)) {
+      return true;
+    }
+
     return bignumber(weiAmount)
       .add(gasLimit[TxType.FAST_BTC_WITHDRAW])
       .greaterThan(balance.value || '0');
-  }, [value, balance.value]);
+  }, [value, balance.value, limits.min, limits.max]);
 
   const onContinueClick = useCallback(
     () =>
