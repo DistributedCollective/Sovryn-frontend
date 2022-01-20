@@ -52,9 +52,9 @@ export function useGsnSendTx(
     [chainId, paymaster],
   );
 
-  const sendCombined = useMemo(() => {
-    if (useGSN) {
-      return async (args: any[], config: TransactionConfig = {}) => {
+  const sendCombined = useCallback(
+    async (args: any[], config: TransactionConfig = {}) => {
+      if (useGSN) {
         if (!gsn) {
           throw Error("GSN couldn't be initialized yet");
         }
@@ -63,9 +63,7 @@ export function useGsnSendTx(
           await gsn.isReady;
         }
         return gsn.send(contractAddress, abi, methodName, args, config);
-      };
-    } else {
-      return (args: any[], config: TransactionConfig = {}) => {
+      } else {
         const data = bridgeNetwork.encodeFunctionData(
           chain,
           contractAddress,
@@ -83,9 +81,10 @@ export function useGsnSendTx(
           gasPrice: config.gasPrice?.toString(),
           nonce: config.nonce,
         });
-      };
-    }
-  }, [useGSN, gsn, chain, chainId, account, contractAddress, methodName, abi]);
+      }
+    },
+    [useGSN, gsn, chain, chainId, account, contractAddress, methodName, abi],
+  );
 
   const send = useCallback(
     (
