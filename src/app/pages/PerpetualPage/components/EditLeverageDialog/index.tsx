@@ -37,7 +37,6 @@ import {
 } from '../../utils/contractUtils';
 import { ActionDialogSubmitButton } from '../ActionDialogSubmitButton';
 import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';
-import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
 import { usePrevious } from '../../../../hooks/usePrevious';
 
 export const EditLeverageDialog: React.FC = () => {
@@ -56,6 +55,7 @@ export const EditLeverageDialog: React.FC = () => {
     ammState,
     traderState,
     perpetualParameters: perpParameters,
+    availableBalance,
   } = useContext(PerpetualQueriesContext);
 
   const trade = useMemo(
@@ -66,7 +66,6 @@ export const EditLeverageDialog: React.FC = () => {
     () => PerpetualPairDictionary.get(trade?.pairType || currentPairType),
     [trade, currentPairType],
   );
-  const { available } = usePerpetual_accountBalance(pair.pairType);
 
   const maxLeverage = useMemo(
     () =>
@@ -185,7 +184,7 @@ export const EditLeverageDialog: React.FC = () => {
       marginChange,
       changedTrade.leverage,
       changedTrade.slippage,
-      numberFromWei(available),
+      numberFromWei(availableBalance),
       traderState,
       perpParameters,
       ammState,
@@ -194,7 +193,7 @@ export const EditLeverageDialog: React.FC = () => {
   }, [
     changedTrade,
     margin,
-    available,
+    availableBalance,
     traderState,
     perpParameters,
     ammState,
@@ -241,27 +240,30 @@ export const EditLeverageDialog: React.FC = () => {
             value={leverage}
             onChange={onChangeLeverage}
           />
-          <div className="tw-flex tw-flex-row tw-justify-between tw-mb-4 tw-px-6 tw-py-1 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
-            <label>{t(translations.perpetualPage.editLeverage.margin)}</label>
-            <AssetValue
-              minDecimals={4}
-              maxDecimals={4}
-              mode={AssetValueMode.auto}
-              value={margin}
-              assetString={pair.baseAsset}
-            />
-          </div>
-          <div className="tw-flex tw-flex-row tw-justify-between tw-mb-4 tw-px-6 tw-py-1 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
-            <label>
-              {t(translations.perpetualPage.editLeverage.liquidation)}
-            </label>
-            <AssetValue
-              minDecimals={2}
-              maxDecimals={2}
-              mode={AssetValueMode.auto}
-              value={liquidationPrice}
-              assetString={pair.quoteAsset}
-            />
+          <div className="tw-flex tw-flex-col tw-justify-between tw-mb-4 tw-px-6 tw-py-1.5 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
+            <div className="tw-flex tw-justify-between">
+              <label>{t(translations.perpetualPage.editLeverage.margin)}</label>
+              <AssetValue
+                minDecimals={4}
+                maxDecimals={4}
+                mode={AssetValueMode.auto}
+                value={margin}
+                assetString={pair.baseAsset}
+              />
+            </div>
+
+            <div className="tw-flex tw-justify-between tw-mt-1.5">
+              <label>
+                {t(translations.perpetualPage.editLeverage.liquidation)}
+              </label>
+              <AssetValue
+                minDecimals={2}
+                maxDecimals={2}
+                mode={AssetValueMode.auto}
+                value={liquidationPrice}
+                assetString={pair.quoteAsset}
+              />
+            </div>
           </div>
           {!inMaintenance &&
             validation &&

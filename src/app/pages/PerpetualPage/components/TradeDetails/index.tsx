@@ -6,7 +6,6 @@ import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { PerpetualPair } from '../../../../../utils/models/perpetual-pair';
 import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
-import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
 import { PerpetualTrade } from '../../types';
 import { getSignedAmount } from '../../utils/contractUtils';
 import { getTraderPnLInBC } from '../../utils/perpUtils';
@@ -27,11 +26,12 @@ export const TradeDetails: React.FC<TradeDetailsProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const { ammState, perpetualParameters, traderState } = useContext(
-    PerpetualQueriesContext,
-  );
-
-  const { available } = usePerpetual_accountBalance(pair.pairType);
+  const {
+    ammState,
+    perpetualParameters,
+    traderState,
+    availableBalance,
+  } = useContext(PerpetualQueriesContext);
 
   const positionSize = useMemo(
     () => getSignedAmount(trade.position, trade.amount),
@@ -115,7 +115,7 @@ export const TradeDetails: React.FC<TradeDetailsProps> = ({
             minDecimals={3}
             maxDecimals={3}
             mode={AssetValueMode.auto}
-            value={available}
+            value={availableBalance}
             assetString={pair.baseAsset}
           />
         </div>

@@ -58,8 +58,13 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
   }, [onChange, min]);
   const onDisableManual = useCallback(() => {
     setManual(false);
-    if (!steps.includes(value)) {
-      onChange(steps[0]);
+    const nearestStepValue = steps.reduce((nearest, step) => {
+      const currentDifference = Math.abs(nearest - value);
+      const stepDifference = Math.abs(step - value);
+      return stepDifference <= currentDifference ? step : nearest;
+    }, steps[0]);
+    if (nearestStepValue !== value) {
+      onChange(nearestStepValue);
     }
   }, [onChange, steps, value]);
 

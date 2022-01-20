@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import { PerpetualPairDictionary } from 'utils/dictionaries/perpetual-pair-dictionary';
 import { ClosedPositionEntry } from '../../hooks/usePerpetual_ClosedPositions';
+import { getCollateralName } from '../../utils/renderUtils';
 
 type ClosedPositionRowProps = {
   item: ClosedPositionEntry;
@@ -16,6 +17,10 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
   const pair = useMemo(() => PerpetualPairDictionary.get(item.pairType), [
     item.pairType,
   ]);
+  const collateralAsset = useMemo(
+    () => getCollateralName(pair.collateralAsset),
+    [pair.collateralAsset],
+  );
 
   const sizeRange = useMemo(
     () => (
@@ -64,7 +69,7 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
         <DisplayDate timestamp={item.datetime} />
       </td>
       <td>{pair.name}</td>
-      <td>{pair.collateralAsset}</td>
+      <td>{collateralAsset}</td>
       <td>{sizeRange}</td>
       <td
         className={classNames(

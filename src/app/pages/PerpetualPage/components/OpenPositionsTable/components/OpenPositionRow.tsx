@@ -1,25 +1,25 @@
 import React, { useCallback, useMemo } from 'react';
 import { toNumberFormat } from 'utils/display-text/format';
-import { useMaintenance } from 'app/hooks/useMaintenance';
-import { OpenPositionEntry } from '../../hooks/usePerpetual_OpenPositions';
-import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
+import { OpenPositionEntry } from '../../../hooks/usePerpetual_OpenPositions';
+import { PerpetualPairDictionary } from '../../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import classNames from 'classnames';
-import { AssetValue } from '../../../../components/AssetValue';
-import { translations } from '../../../../../locales/i18n';
+import { AssetValue } from '../../../../../components/AssetValue';
+import { translations } from '../../../../../../locales/i18n';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { actions } from '../../slice';
+import { actions } from '../../../slice';
 import {
   PerpetualPageModals,
   PerpetualTrade,
   PERPETUAL_SLIPPAGE_DEFAULT,
   PerpetualTradeType,
-} from '../../types';
-import { TradingPosition } from '../../../../../types/trading-position';
-import { AssetValueMode } from '../../../../components/AssetValue/types';
-import { toWei } from '../../../../../utils/blockchain/math-helpers';
+} from '../../../types';
+import { TradingPosition } from '../../../../../../types/trading-position';
+import { AssetValueMode } from '../../../../../components/AssetValue/types';
+import { toWei } from '../../../../../../utils/blockchain/math-helpers';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';
+import { usePerpetual_isTradingInMaintenance } from '../../../hooks/usePerpetual_isTradingInMaintenance';
+import { RowAction } from './RowAction';
 
 type OpenPositionRowProps = {
   item: OpenPositionEntry;
@@ -202,38 +202,47 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
             />
           ) : (
             <>
-              <button
-                className="tw-mr-8 tw-text-primary tw-text-sm tw-font-medium"
+              <RowAction
+                label={t(
+                  translations.perpetualPage.openPositionsTable.editSize,
+                )}
+                tooltip={t(
+                  translations.perpetualPage.openPositionsTable.tooltips
+                    .editSize,
+                )}
                 onClick={onEditSize}
-              >
-                {t(translations.perpetualPage.openPositionsTable.editSize)}
-              </button>
-              <button
-                className={classNames(
-                  'tw-mr-8 tw-text-primary tw-text-sm tw-font-medium',
-                  isEmptyPosition && 'tw-opacity-25 tw-cursor-not-allowed',
+              />
+              <RowAction
+                label={t(
+                  translations.perpetualPage.openPositionsTable.editLeverage,
+                )}
+                tooltip={t(
+                  translations.perpetualPage.openPositionsTable.tooltips
+                    .editLeverage,
                 )}
                 onClick={onEditLeverage}
-                disabled={isEmptyPosition}
-              >
-                {t(translations.perpetualPage.openPositionsTable.editLeverage)}
-              </button>
-              <button
-                className={classNames(
-                  'tw-mr-8 tw-text-primary tw-text-sm tw-font-medium',
-                  isEmptyPosition && 'tw-opacity-25 tw-cursor-not-allowed',
+              />
+              <RowAction
+                label={t(
+                  translations.perpetualPage.openPositionsTable.editMargin,
+                )}
+                tooltip={t(
+                  translations.perpetualPage.openPositionsTable.tooltips
+                    .editMargin,
                 )}
                 onClick={onEditMargin}
-                disabled={isEmptyPosition}
-              >
-                {t(translations.perpetualPage.openPositionsTable.editMargin)}
-              </button>
-              <button
-                className="tw-mr-8 tw-text-primary tw-text-sm tw-font-medium"
+              />
+
+              <RowAction
+                label={t(
+                  translations.perpetualPage.openPositionsTable.editClose,
+                )}
+                tooltip={t(
+                  translations.perpetualPage.openPositionsTable.tooltips
+                    .editClose,
+                )}
                 onClick={onCloseTrade}
-              >
-                {t(translations.perpetualPage.openPositionsTable.editClose)}
-              </button>
+              />
             </>
           )}
         </div>

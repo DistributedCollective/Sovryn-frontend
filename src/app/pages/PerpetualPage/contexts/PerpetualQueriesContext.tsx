@@ -1,4 +1,10 @@
-import React, { createContext, useMemo, useEffect, useCallback } from 'react';
+import React, {
+  createContext,
+  useMemo,
+  useEffect,
+  useCallback,
+  useState,
+} from 'react';
 import {
   initialAmmState,
   usePerpetual_queryAmmState,
@@ -31,6 +37,10 @@ import {
 import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
 import debounce from 'lodash.debounce';
 import { useAccount } from '../../../hooks/useAccount';
+import { bridgeNetwork } from '../../BridgeDepositPage/utils/bridge-network';
+import { Chain } from '../../../../types';
+import marginTokenAbi from 'utils/blockchain/abi/MarginToken.json';
+import { usePerpetual_completedTransactions } from '../hooks/usePerpetual_completedTransactions';
 
 const THROTTLE_DELAY = 1000; // 1s
 const UPDATE_INTERVAL = 10000; // 10s
@@ -71,6 +81,7 @@ type PerpetualQueriesContextValue = {
   averagePrice: number;
   lotSize: number;
   lotPrecision: number;
+  availableBalance: string;
 };
 
 export const PerpetualQueriesContext = createContext<
@@ -84,6 +95,7 @@ export const PerpetualQueriesContext = createContext<
   averagePrice: 0,
   lotSize: 0.002,
   lotPrecision: 3,
+  availableBalance: '0',
 });
 
 const getAveragePrice = (depthMatrixEntries: any[][]): number => {
@@ -104,7 +116,10 @@ export const PerpetualQueriesContextProvider: React.FC<PerpetualQueriesContextPr
   pair,
   children,
 }) => {
-  const account = useAccount().toLowerCase();
+  const transactions = usePerpetual_completedTransactions();
+  const account = useAccount();
+
+  const [availableBalance, setAvailableBalance] = useState('0');
 
   const {
     result: ammState,
@@ -128,29 +143,26 @@ export const PerpetualQueriesContextProvider: React.FC<PerpetualQueriesContextPr
     [ammState, perpetualParameters],
   );
 
-  // throttle function prevents the exhaustive deps check
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const refetchContract = useCallback(
-    debounce(
-      () => {
-        refetchAmmState();
-        refetchPerpetualParameters();
-        refetchLiquidityPoolState();
-      },
-      THROTTLE_DELAY,
-      { leading: true, trailing: true, maxWait: THROTTLE_DELAY },
-    ),
+  const refetchContract = useMemo(
+    () =>
+      debounce(
+        () => {
+          refetchAmmState();
+          refetchPerpetualParameters();
+          refetchLiquidityPoolState();
+        },
+        THROTTLE_DELAY,
+        { leading: true, maxWait: THROTTLE_DELAY },
+      ),
     [refetchAmmState, refetchPerpetualParameters, refetchLiquidityPoolState],
   );
 
-  // throttle function prevents the exhaustive deps check
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const refetchUser = useCallback(
-    debounce(() => refetchTraderState(), THROTTLE_DELAY, {
-      leading: true,
-      trailing: true,
-      maxWait: THROTTLE_DELAY,
-    }),
+  const refetchUser = useMemo(
+    () =>
+      debounce(() => refetchTraderState(), THROTTLE_DELAY, {
+        leading: true,
+        maxWait: THROTTLE_DELAY,
+      }),
     [refetchTraderState],
   );
 
@@ -162,6 +174,26 @@ export const PerpetualQueriesContextProvider: React.FC<PerpetualQueriesContextPr
       }
     },
     [refetchContract, refetchUser],
+  );
+
+  const refetchBalance = useMemo(
+    () =>
+      debounce(
+        () =>
+          bridgeNetwork
+            .call(
+              Chain.BSC,
+              getContract('PERPETUALS_token').address,
+              marginTokenAbi,
+              'balanceOf',
+              [account],
+            )
+            .then(result => result && setAvailableBalance(String(result)))
+            .catch(console.error),
+        THROTTLE_DELAY,
+        { maxWait: THROTTLE_DELAY },
+      ),
+    [account],
   );
 
   const [lotSize, lotPrecision] = useMemo(() => {
@@ -181,6 +213,7 @@ export const PerpetualQueriesContextProvider: React.FC<PerpetualQueriesContextPr
       averagePrice: getAveragePrice(depthMatrixEntries),
       lotSize,
       lotPrecision,
+      availableBalance,
     }),
     [
       ammState,
@@ -190,11 +223,23 @@ export const PerpetualQueriesContextProvider: React.FC<PerpetualQueriesContextPr
       traderState,
       lotSize,
       lotPrecision,
+      availableBalance,
     ],
   );
 
   useEffect(() => {
-    const socket = initSocket({ update: refetch, account }, pair.id);
+    if (account) {
+      refetchBalance();
+    }
+
+    // transactions is required to refetch once new transactions complete
+  }, [transactions, account, refetchBalance]);
+
+  useEffect(() => {
+    const socket = initSocket(
+      { update: refetch, account: account?.toLowerCase() },
+      pair.id,
+    );
     const intervalId = setInterval(refetch, UPDATE_INTERVAL);
 
     return () => {
