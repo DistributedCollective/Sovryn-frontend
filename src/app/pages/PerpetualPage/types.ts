@@ -13,6 +13,10 @@ export const PERPETUAL_CHAIN = Chain.BSC;
 export const PERPETUAL_CHAIN_ID =
   getBridgeChainId(PERPETUAL_CHAIN) || ChainId.BSC_MAINNET;
 
+export const PERPETUAL_PAYMASTER = isMainnet
+  ? '' // TODO: add perpetual mainnet paymaster address
+  : '0x260373ec3d799047FDDD682cCb08A22FF53f227c'.toLowerCase();
+
 export const PERPETUAL_GAS_PRICE_DEFAULT = isMainnet
   ? undefined
   : toWei(10, 'gwei');

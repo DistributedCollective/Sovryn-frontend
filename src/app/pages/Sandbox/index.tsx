@@ -13,6 +13,7 @@ import {
   PERPETUAL_GAS_PRICE_DEFAULT,
   PERPETUAL_CHAIN,
   PERPETUAL_CHAIN_ID,
+  PERPETUAL_PAYMASTER,
 } from '../PerpetualPage/types';
 import { useBridgeNetworkSendTx } from '../../hooks/useBridgeNetworkSendTx';
 import { Chain } from '../../../types';
@@ -21,7 +22,7 @@ import { useAccount } from '../../hooks/useAccount';
 import { BigNumber } from 'ethers';
 import { gsnNetwork } from '../../../utils/gsn/GsnNetwork';
 
-const PAYMASTER_ADDRESS = '0x260373ec3d799047FDDD682cCb08A22FF53f227c'.toLowerCase();
+const PAYMASTER_ADDRESS = PERPETUAL_PAYMASTER;
 const TEST_TOKEN = getContract('PERPETUALS_token');
 
 export const SandboxPage: React.FC = () => {
