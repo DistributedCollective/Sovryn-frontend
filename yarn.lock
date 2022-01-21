@@ -197,6 +197,13 @@
     resolve "^1.14.2"
     semver "^6.1.2"
 
+"@babel/helper-environment-visitor@7.16.7":
+  version "7.16.7"
+  resolved "https://registry.npmjs.org/@babel/helper-environment-visitor/-/helper-environment-visitor-7.16.7.tgz#ff484094a839bde9d89cd63cba017d7aae80ecd7"
+  integrity sha512-SLLb0AAn6PkUeAfKJCCOl9e1R53pQlGAfc4y4XuMRZfqeMYLE0dM1LMhqbGAlGQY0lfw5/ohoYWAe9V1yibRag==
+  dependencies:
+    "@babel/types" "^7.16.7"
+
 "@babel/helper-explode-assignable-expression@^7.14.5":
   version "7.14.5"
   resolved "https://registry.yarnpkg.com/@babel/helper-explode-assignable-expression/-/helper-explode-assignable-expression-7.14.5.tgz#8aa72e708205c7bb643e45c73b4386cdf2a1f645"
@@ -316,6 +323,11 @@
   version "7.14.9"
   resolved "https://registry.yarnpkg.com/@babel/helper-validator-identifier/-/helper-validator-identifier-7.14.9.tgz#6654d171b2024f6d8ee151bf2509699919131d48"
   integrity sha512-pQYxPY0UP6IHISRitNe8bsijHex4TWZXi2HwKVsjPiltzlhse2znVcm9Ace510VT1kxIHjGJCZZQBX2gJDbo0g==
+
+"@babel/helper-validator-identifier@^7.16.7":
+  version "7.16.7"
+  resolved "https://registry.npmjs.org/@babel/helper-validator-identifier/-/helper-validator-identifier-7.16.7.tgz#e8c602438c4a8195751243da9031d1607d247cad"
+  integrity sha512-hsEnFemeiW4D08A5gUAZxLBTXpZ39P+a+DGDsHw1yxqyQ/jzFEnxf5uTEGp+3bzAbNOxU1paTgYS4ECU/IgfDw==
 
 "@babel/helper-validator-option@^7.12.1", "@babel/helper-validator-option@^7.14.5":
   version "7.14.5"
@@ -1505,6 +1517,14 @@
   integrity sha512-OBvfqnllOIdX4ojTHpwZbpvz4j3EWyjkZEdmjH0/cgsd6QOdSgU8rLSk6ard/pcW7rlmjdVSX/AWOaORR1uNOQ==
   dependencies:
     "@babel/helper-validator-identifier" "^7.14.9"
+    to-fast-properties "^2.0.0"
+
+"@babel/types@^7.16.7":
+  version "7.16.8"
+  resolved "https://registry.npmjs.org/@babel/types/-/types-7.16.8.tgz#0ba5da91dd71e0a4e7781a30f22770831062e3c1"
+  integrity sha512-smN2DQc5s4M7fntyjGtyIPbRJv6wW4rU/94fmYJ7PKQuZkC0qGMHXJbg6sNGt12JmVr4k5YaptI/XtiLJBnmIg==
+  dependencies:
+    "@babel/helper-validator-identifier" "^7.16.7"
     to-fast-properties "^2.0.0"
 
 "@base2/pretty-print-object@1.0.0":
@@ -4904,6 +4924,11 @@
   dependencies:
     "@types/prop-types" "*"
     csstype "^2.2.0"
+
+"@types/reactjs-localstorage@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/@types/reactjs-localstorage/-/reactjs-localstorage-1.0.0.tgz#10b2c562e0eb467d25b3adb8b4671ec8df0bfbec"
+  integrity sha512-0Y3f/vGR3yz46yfoqtyVljTfnKxYZVC87p2AXouO3Fc14/aBOUt8oKTLCDej8/sd5+yqx6WA2YBUsT2eSXx5cA==
 
 "@types/resolve@0.0.8":
   version "0.0.8"

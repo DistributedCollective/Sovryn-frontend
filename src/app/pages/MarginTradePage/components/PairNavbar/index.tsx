@@ -7,6 +7,7 @@ import React, {
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
+import { reactLocalStorage } from 'reactjs-localstorage';
 import { NotificationSettingsDialog } from 'app/pages/MarginTradePage/components/NotificationSettingsDialog';
 import { PairStats } from './PairStats';
 import { PairSelect } from './PairSelect';
@@ -17,17 +18,20 @@ import axios, { Canceler } from 'axios';
 import { backendUrl, currentChainId } from 'utils/classifiers';
 import { TradingPairType } from 'utils/dictionaries/trading-pair-dictionary';
 import { useIsConnected } from 'app/hooks/useAccount';
+import { useDispatch } from 'react-redux';
+import { actions } from '../../slice';
 
 export const PairNavbar: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
-
+  const dispatch = useDispatch();
   const [pairsLoading, setPairsLoading] = useState(false);
   const [pairsData, setPairsData] = useState<IPairsData>() as any;
   const cancelDataRequest = useRef<Canceler>();
   const cancelPairsDataRequest = useRef<Canceler>();
   const url = backendUrl[currentChainId];
   const connected = useIsConnected();
+  const isPairSelected = reactLocalStorage.getObject('selectedPair');
 
   const [
     showNotificationSettingsModal,
@@ -93,12 +97,48 @@ export const PairNavbar: React.FC = () => {
       }
   }, [list]);
 
+  const onPairChange = useCallback(pair => {
+    setPair(pair);
+    if (pair[1] !== pair[0])
+      reactLocalStorage.setObject('selectedPair', [
+        pair[0].base_symbol,
+        pair[1].base_symbol,
+      ]);
+    //filtering pairs for RBTC as target
+    if (pair[0].base_symbol === pair[1].base_symbol && !pair[2])
+      reactLocalStorage.setObject('selectedPair', [
+        pair[0].base_symbol,
+        pair[1].quote_symbol,
+      ]);
+    //filtering pairs for RBTC as source
+    if (pair[0].base_symbol === pair[1].base_symbol && pair[2])
+      reactLocalStorage.setObject('selectedPair', [
+        pair[0].quote_symbol,
+        pair[1].base_symbol,
+        pair[2],
+      ]);
+
+    reactLocalStorage.setObject('selectedPairStat', [
+      pair[0].trading_pairs,
+      pair[1].trading_pairs,
+    ]);
+  }, []);
+
+  useEffect(() => {
+    if (Object.keys(isPairSelected).length)
+      dispatch(
+        actions.setPairType(
+          TradingPairType[isPairSelected[0] + '_' + isPairSelected[1]],
+        ),
+      );
+  }, [dispatch, isPairSelected]);
+
   return (
     <div className="tw-bg-gray-3 tw-w-full">
       <div className="tw-flex tw-items-center tw-container twm-mr-2">
         <PairSelect
           storageKey={getStorageKey()}
-          onPairChange={pair => setPair(pair)}
+          onPairChange={onPairChange}
           pairsData={pairsData}
         />
 

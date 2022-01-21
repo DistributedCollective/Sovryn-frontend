@@ -5,7 +5,6 @@ import { TxStatus } from 'store/global/transactions-store/types';
 import { detectWeb3Wallet, prettyTx } from 'utils/helpers';
 import txFailed from 'assets/images/failed-tx.svg';
 import { LinkToExplorer } from '../LinkToExplorer';
-import { WalletContext } from '@sovryn/react-wallet';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { usePrevious } from '../../hooks/usePrevious';
@@ -14,6 +13,7 @@ import classNames from 'classnames';
 import { getStatusImage } from './utils';
 import { WalletLogo } from './WalletLogo';
 import { getWalletName } from '../UserAssets/TxDialog/WalletLogo';
+import { WalletContext } from '@sovryn/react-wallet';
 
 interface ITransactionDialogProps {
   tx: ResetTxResponseInterface;
@@ -36,7 +36,11 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
 }) => {
   const { t } = useTranslation();
   const { address } = useContext(WalletContext);
-  const onClose = useCallback(() => tx.reset(), [tx]);
+  const onClose = useCallback(() => {
+    tx.status === TxStatus.CONFIRMED && onSuccess && onSuccess();
+    tx.status === TxStatus.FAILED && onError && onError();
+    tx.reset();
+  }, [tx, onError, onSuccess]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const wallet = useMemo(() => detectWeb3Wallet(), [address]);
@@ -48,11 +52,6 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
       tx.status === TxStatus.PENDING &&
       onUserConfirmed?.();
   }, [oldStatus, tx.status, onUserConfirmed]);
-
-  useEffect(() => {
-    tx.status === TxStatus.CONFIRMED && onSuccess && onSuccess();
-    tx.status === TxStatus.FAILED && onError && onError();
-  }, [tx.status, oldStatus, onSuccess, onError]);
 
   return (
     <Dialog

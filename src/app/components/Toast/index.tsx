@@ -10,6 +10,7 @@ export function Toast(type: string, message: React.ReactNode) {
     delay: 500,
     hideProgressBar: true,
     icon: false,
+    autoClose: 5000,
   };
 
   switch (type) {
