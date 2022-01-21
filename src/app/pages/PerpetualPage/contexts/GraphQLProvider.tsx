@@ -54,12 +54,9 @@ type EvaluationResult = {
 };
 
 const evaluateEndpoint = async (endpoint: GraphQLEndpoint) => {
-  const tests = 3;
-  let score = 0;
-
   let result: EvaluationResult = {
     score: 0,
-    isUp: false,
+    isUp: undefined,
     isSynced: undefined,
     isHealthy: undefined,
   };
@@ -77,12 +74,11 @@ const evaluateEndpoint = async (endpoint: GraphQLEndpoint) => {
       return result;
     }
 
-    score++;
+    result.score++;
     result.isUp = true;
 
     if (!endpoint.index) {
       // endpoint can not be evaluated further
-      result.score = score / tests;
       return result;
     }
 
@@ -98,11 +94,11 @@ const evaluateEndpoint = async (endpoint: GraphQLEndpoint) => {
     if (statusResponse?.data?.indexingStatuses?.[0].subgraph) {
       const entry = statusResponse.data.indexingStatuses[0];
       if (entry.synced) {
-        score++;
+        result.score++;
         result.isSynced = true;
       }
       if (entry.health === 'healthy') {
-        score++;
+        result.score++;
         result.isHealthy = true;
       }
     }
@@ -110,7 +106,6 @@ const evaluateEndpoint = async (endpoint: GraphQLEndpoint) => {
     console.error('Failed to evaluate graph endpoint!', error);
   }
 
-  result.score = score / tests;
   return result;
 };
 
@@ -128,13 +123,14 @@ const config: GraphQLEndpoint[] = [
   },
 ];
 
-const RETRY_DELAY = 2 * 60 * 1000;
+const RETRY_DELAY = 2 * 60 * 1000; // 2 seconds
+const MAX_TEST_SCORE = 3; // number of tests, can change in future
 
-type GraphQLProvicerProps = {
+type GraphQLProviderProps = {
   children: React.ReactNode;
 };
 
-export const GraphQLProvider: React.FC<GraphQLProvicerProps> = ({
+export const GraphQLProvider: React.FC<GraphQLProviderProps> = ({
   children,
 }) => {
   const [{ active, client, isInitialClient }, setState] = useState({
@@ -150,7 +146,7 @@ export const GraphQLProvider: React.FC<GraphQLProvicerProps> = ({
         let bestEvaluation = await evaluateEndpoint(activeEndpoint);
         let bestIndex = active;
 
-        if (bestEvaluation.score === 1) {
+        if (bestEvaluation.score === MAX_TEST_SCORE) {
           console.info(
             `GraphQL endpoint is healthy and synced! Continuing to use "${activeEndpoint.graph}".`,
           );
@@ -176,7 +172,7 @@ export const GraphQLProvider: React.FC<GraphQLProvicerProps> = ({
             bestEvaluation = evaluation;
             bestIndex = index;
           }
-          if (bestEvaluation.score === 1) {
+          if (bestEvaluation.score === MAX_TEST_SCORE) {
             break;
           }
         }

@@ -52,7 +52,7 @@ export const usePerpetual_ContractDetails = (pairType: PerpetualPairType) => {
     get24hVolume().catch(console.error);
     const intervalId = setInterval(
       () => get24hVolume().catch(console.error),
-      5 * 60 * 1000,
+      5 * 60 * 1000, // 5 minutes
     );
 
     return () => clearInterval(intervalId);
