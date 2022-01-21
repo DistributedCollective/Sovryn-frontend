@@ -105,8 +105,9 @@ export function useSendContractTx(
   );
 
   const reset = useCallback(() => {
+    dispatch(actions.removeTransactions());
     setTxId(TxStatus.NONE);
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (txId && transactions.hasOwnProperty(txId)) {

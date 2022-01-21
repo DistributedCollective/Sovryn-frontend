@@ -22,11 +22,12 @@
     @apply tw-text-black;
     font: normal normal 600 16px/19px Montserrat;
     & > div {
-      @apply tw-flex tw-items-center;
+      @apply tw-flex tw-items-center tw-justify-center;
+      &:last-child {
+        @apply tw-justify-center tw-flex-auto;
+      }
       & > svg {
-        width: 30px;
-        height: 30px;
-        margin-right: 0.5rem;
+        @apply tw-mr-2;
       }
     }
 }
