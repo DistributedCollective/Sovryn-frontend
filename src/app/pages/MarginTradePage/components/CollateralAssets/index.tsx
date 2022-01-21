@@ -13,14 +13,19 @@ interface Items {
   name: string;
 }
 
-interface Props {
+interface ICollateralAssetsProps {
   value: Asset;
   onChange: (value: Asset) => void;
   options: Asset[];
   label?: React.ReactNode;
 }
 
-export function CollateralAssets({ value, onChange, options, label }: Props) {
+export const CollateralAssets = ({
+  value,
+  onChange,
+  options,
+  label,
+}: ICollateralAssetsProps) => {
   const { t } = useTranslation();
 
   const items: Items[] = useMemo(() => {
@@ -51,7 +56,7 @@ export function CollateralAssets({ value, onChange, options, label }: Props) {
           onChange={value => onChange(value as Asset)}
           className="tw-radio-group--secondary"
         >
-          {items.map((item, idx) => (
+          {items.map((item, index) => (
             <RadioGroup.Button
               key={item.value}
               value={item.value}
@@ -65,11 +70,11 @@ export function CollateralAssets({ value, onChange, options, label }: Props) {
                   <div
                     className="tw-truncate tw-uppercase"
                     data-action-id={`margin-radioGroupButton-collateral${
-                      idx + 1
+                      index + 1
                     }`}
                   >
                     <AssetRenderer
-                      asset={AssetsDictionary.get(options[idx]).asset}
+                      asset={AssetsDictionary.get(options[index]).asset}
                     />
                   </div>
                 </>
@@ -80,4 +85,4 @@ export function CollateralAssets({ value, onChange, options, label }: Props) {
       </FormGroup>
     </>
   );
-}
+};

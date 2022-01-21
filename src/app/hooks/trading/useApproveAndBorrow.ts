@@ -5,6 +5,7 @@ import {
   CheckAndApproveResult,
   contractWriter,
 } from '../../../utils/sovryn/contract-writer';
+import { newLoanId } from 'app/constants';
 
 export function useApproveAndBorrow(
   borrowToken: Asset,
@@ -18,7 +19,7 @@ export function useApproveAndBorrow(
 ) {
   const { borrow, ...txState } = useBorrow(
     borrowToken,
-    '0x0000000000000000000000000000000000000000000000000000000000000000', //0 if new loan
+    newLoanId, //0 if new loan
     withdrawAmount,
     initialLoanDuration,
     collateralTokenSent,

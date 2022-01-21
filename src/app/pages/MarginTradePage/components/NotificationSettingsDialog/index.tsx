@@ -6,8 +6,6 @@ import { Switch } from '@blueprintjs/core/lib/esm/components/forms/controls';
 import { Input } from 'app/components/Form/Input';
 import { FormGroup } from 'app/components/Form/FormGroup';
 import { DialogButton } from 'app/components/Form/DialogButton';
-import imgTelegram from 'assets/images/marginTrade/Telegram_logo.svg';
-import imgDiscord from 'assets/images/marginTrade/Discord-Logo-Color.svg';
 import imgEmail from 'assets/images/marginTrade/email.png';
 import axios from 'axios';
 import { useAccount } from 'app/hooks/useAccount';
@@ -17,6 +15,7 @@ import { selectMarginTradePage } from '../../selectors';
 import { parseJwt, validateEmail } from 'utils/helpers';
 import { walletService } from '@sovryn/react-wallet';
 import { Toast } from 'app/components/Toast';
+import { currentChainId, notificationServiceUrl } from 'utils/classifiers';
 
 interface INotificationSettingsDialogProps {
   isOpen: boolean;
@@ -27,8 +26,7 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
   isOpen,
   onClose,
 }) => {
-  // const url = backendUrl[currentChainId];
-  const url = 'https://notify.test.sovryn.app/';
+  const url = notificationServiceUrl[currentChainId];
   const { t } = useTranslation();
   const account = useAccount();
   const dispatch = useDispatch();
@@ -52,22 +50,8 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
     () => setIsEmailActive(prevValue => !prevValue),
     [],
   );
-  const onChangeTelegramSwitch = useCallback(
-    () => setIsTelegramActive(prevValue => !prevValue),
-    [],
-  );
-
-  const onChangeDiscordSwitch = useCallback(
-    () => setIsDiscordActive(prevValue => !prevValue),
-    [],
-  );
 
   useEffect(() => {
-    console.log(
-      'a:',
-      { account, notificationWallet },
-      account && notificationWallet !== account,
-    );
     if (account && notificationWallet !== account) {
       dispatch(actions.resetNotification());
     }
@@ -118,15 +102,9 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
               );
             }
           })
-          .catch(e => {
-            console.log(e);
-            onClose();
-          });
+          .catch(onClose);
       })
-      .catch(e => {
-        console.log(e);
-        onClose();
-      });
+      .catch(onClose);
   };
 
   const getUser = () => {
@@ -271,7 +249,8 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
           </FormGroup>
         </div>
 
-        <div className="tw-mb-8">
+        {/* This part is commented for now until the backend supports sending telegram and discord notification */}
+        {/* <div className="tw-mb-8">
           <div className="tw-flex tw-justify-between tw-mb-2">
             <div className="tw-flex tw-items-center">
               <img
@@ -355,7 +334,7 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
               disabled={loading || !notificationToken}
             />
           </FormGroup>
-        </div>
+        </div> */}
 
         <div className="tw-text-sm">
           {t(
@@ -386,7 +365,7 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
           confirmLabel={t(
             translations.marginTradePage.notificationSettingsDialog.submit,
           )}
-          onConfirm={() => updateUser()}
+          onConfirm={updateUser}
           disabled={loading || !notificationToken || !emailIsValid}
           className="tw-rounded-lg tw-mt-6"
         />

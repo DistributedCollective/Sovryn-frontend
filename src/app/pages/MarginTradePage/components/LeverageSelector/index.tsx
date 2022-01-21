@@ -1,6 +1,5 @@
 import React from 'react';
 import { Slider } from 'app/components/Form/Slider';
-import classNames from 'classnames';
 import styles from './index.module.scss';
 
 interface Props {
@@ -17,7 +16,7 @@ export function LeverageSelector(props: Props) {
       max={5}
       stepSize={1}
       labelRenderer={value => <>{value}x</>}
-      className={classNames(styles.colorized)}
+      className={styles.colorized}
       dataActionId="margin-position-leverage-bar"
     />
   );

@@ -11,37 +11,33 @@ import {
   IApiMarginLimitOrder,
 } from 'app/pages/MarginTradePage/types';
 
-function marginOrderParser(order: IApiMarginLimitOrder): MarginLimitOrder {
-  return {
-    ...order,
-    leverageAmount: BigNumber.from(order.leverageAmount.hex),
-    loanTokenSent: BigNumber.from(order.loanTokenSent.hex),
-    collateralTokenSent: BigNumber.from(order.collateralTokenSent.hex),
-    minReturn: BigNumber.from(order.minReturn.hex),
-    deadline: BigNumber.from(order.deadline.hex),
-    createdTimestamp: BigNumber.from(order.createdTimestamp.hex),
-    filled: BigNumber.from(order.filled.hex),
-    filledAmount: BigNumber.from(order.filled.hex).toString(),
-  };
-}
+const marginOrderParser = (order: IApiMarginLimitOrder): MarginLimitOrder => ({
+  ...order,
+  leverageAmount: BigNumber.from(order.leverageAmount.hex),
+  loanTokenSent: BigNumber.from(order.loanTokenSent.hex),
+  collateralTokenSent: BigNumber.from(order.collateralTokenSent.hex),
+  minReturn: BigNumber.from(order.minReturn.hex),
+  deadline: BigNumber.from(order.deadline.hex),
+  createdTimestamp: BigNumber.from(order.createdTimestamp.hex),
+  filled: BigNumber.from(order.filled.hex),
+  filledAmount: BigNumber.from(order.filled.hex).toString(),
+});
 
-export function orderParser(order: IApiLimitOrder): LimitOrder {
-  return {
-    ...order,
-    amountIn: BigNumber.from(order.amountIn.hex),
-    amountOutMin: BigNumber.from(order.amountOutMin.hex),
-    deadline: BigNumber.from(order.deadline.hex),
-    created: BigNumber.from(order.created.hex),
-    filledAmount: BigNumber.from(order.filled.hex).toString(),
-  };
-}
+export const orderParser = (order: IApiLimitOrder): LimitOrder => ({
+  ...order,
+  amountIn: BigNumber.from(order.amountIn.hex),
+  amountOutMin: BigNumber.from(order.amountOutMin.hex),
+  deadline: BigNumber.from(order.deadline.hex),
+  created: BigNumber.from(order.created.hex),
+  filledAmount: BigNumber.from(order.filled.hex).toString(),
+});
 
 const deadlinePassed = (date: number) => new Date(date * 1000) < new Date();
 
-export function useGetLimitOrders<T>(
+export const useGetLimitOrders = <T>(
   account: string,
   isMargin: boolean = false,
-) {
+) => {
   const [orders, setOrders] = useState<T[]>([]);
   const [loading, setLoading] = useState(true);
   const cancelDataRequest = useRef<Canceler>();
@@ -49,14 +45,16 @@ export function useGetLimitOrders<T>(
   const url = `${backendUrl[currentChainId]}/limitOrder/orders`;
 
   const getData = useCallback(async () => {
-    if (!account) return;
+    if (!account) {
+      return;
+    }
     const total = await contractReader.call<[string]>(
       isMargin ? 'orderBookMargin' : 'orderBook',
       'numberOfAllHashes',
       [],
     );
 
-    cancelDataRequest.current && cancelDataRequest.current();
+    cancelDataRequest.current?.();
     const cancelToken = new axios.CancelToken(c => {
       cancelDataRequest.current = c;
     });
@@ -90,4 +88,4 @@ export function useGetLimitOrders<T>(
     value: orders,
     loading,
   };
-}
+};

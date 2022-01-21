@@ -13,6 +13,7 @@ import { useAccount } from 'app/hooks/useAccount';
 import { backendUrl, currentChainId } from 'utils/classifiers';
 import { toWei } from 'utils/blockchain/math-helpers';
 import { TradingPair } from 'utils/models/trading-pair';
+import { btcInSatoshis } from 'app/constants';
 
 interface ITradeProfitProps {
   asset: Asset;
@@ -35,15 +36,10 @@ export const TradeProfit: React.FC<ITradeProfitProps> = ({
   const account = useAccount();
   const [profit, setProfit] = useState('');
   const [profitDirection, setProfitDirection] = useState(0);
-  const prettyPrice = amount => {
-    return loanToken !== pair.shortAsset
-      ? toWei(
-          bignumber(1)
-            .div(amount)
-            .mul(10 ** 8),
-        )
-      : toWei(bignumber(amount).div(10 ** 8));
-  };
+  const prettyPrice = amount =>
+    loanToken !== pair.shortAsset
+      ? toWei(bignumber(1).div(amount).mul(btcInSatoshis))
+      : toWei(bignumber(amount).div(btcInSatoshis));
 
   useEffect(() => {
     fetch(backendUrl[currentChainId] + '/events/trade/' + account)

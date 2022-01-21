@@ -50,8 +50,12 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
   }, [oldStatus, tx.status, onUserConfirmed]);
 
   useEffect(() => {
-    tx.status === TxStatus.CONFIRMED && onSuccess && onSuccess();
-    tx.status === TxStatus.FAILED && onError && onError();
+    if (tx.status === TxStatus.CONFIRMED) {
+      onSuccess?.();
+    }
+    if (tx.status === TxStatus.FAILED) {
+      onError?.();
+    }
   }, [tx.status, oldStatus, onSuccess, onError]);
 
   return (

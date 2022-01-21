@@ -18,33 +18,41 @@ interface Props {
   value: number;
   onChange: (value: number) => void;
   asset?: Asset;
-  dataActionId?: String;
+  dataActionId?: string;
 }
 
-export function SlippageDialog(props: Props) {
+export const SlippageDialog = ({
+  amount,
+  onClose,
+  onChange,
+  dataActionId,
+  isOpen,
+  asset,
+  ...props
+}: Props) => {
   const { t } = useTranslation();
   const [value, setValue] = useState(props.value);
-  const { minReturn } = useSlippage(props.amount, value);
+  const { minReturn } = useSlippage(amount, value);
 
   const handleChange = useCallback(
     (value: number) => {
       setValue(value);
-      props.onChange(value);
+      onChange(value);
     },
-    [props],
+    [onChange],
   );
 
   return (
     <Dialog
       isCloseButtonShown={false}
-      isOpen={props.isOpen}
-      onClose={() => props.onClose()}
+      isOpen={isOpen}
+      onClose={onClose}
       className={styles.dialog}
-      data-action-id={props.dataActionId}
+      data-action-id={dataActionId}
     >
       <button
         data-close=""
-        onClick={() => props.onClose()}
+        onClick={onClose}
         data-action-id="buySov-slippageDialog-button-close"
       >
         <span className="tw-sr-only">Close Dialog</span>
@@ -61,7 +69,7 @@ export function SlippageDialog(props: Props) {
           >
             <Slider
               value={value}
-              onChange={e => handleChange(e)}
+              onChange={handleChange}
               min={0.1}
               max={1}
               stepSize={0.05}
@@ -75,7 +83,7 @@ export function SlippageDialog(props: Props) {
               value={
                 <>
                   {weiToNumberFormat(minReturn, 4)}{' '}
-                  <AssetRenderer asset={props.asset || Asset.SOV} />
+                  <AssetRenderer asset={asset || Asset.SOV} />
                 </>
               }
               className="tw-mt-5"
@@ -85,24 +93,22 @@ export function SlippageDialog(props: Props) {
       </div>
     </Dialog>
   );
-}
+};
 
-interface LabelValuePairProps {
+interface ILabelValuePairProps {
   label: React.ReactNode;
   value: React.ReactNode;
   className?: string;
 }
 
-function LabelValuePair(props: LabelValuePairProps) {
-  return (
-    <div
-      className={classNames(
-        'tw-flex tw-text-xs tw-flex-row tw-flex-wrap tw-justify-between tw-space-x-4 tw-mb-3',
-        props.className,
-      )}
-    >
-      <div className="tw-truncate ">{props.label}</div>
-      <div className="tw-truncate tw-text-right">{props.value}</div>
-    </div>
-  );
-}
+const LabelValuePair = ({ className, label, value }: ILabelValuePairProps) => (
+  <div
+    className={classNames(
+      'tw-flex tw-text-xs tw-flex-row tw-flex-wrap tw-justify-between tw-space-x-4 tw-mb-3',
+      className,
+    )}
+  >
+    <div className="tw-truncate ">{label}</div>
+    <div className="tw-truncate tw-text-right">{value}</div>
+  </div>
+);

@@ -17,9 +17,11 @@ import {
 } from 'store/global/transactions-store/types';
 import { Dialog } from 'app/containers/Dialog';
 
-interface Props extends RequestDialogState {}
-
-export const TxRequestDialog: React.FC<Props> = ({ open, type, error }) => {
+export const TxRequestDialog: React.FC<RequestDialogState> = ({
+  open,
+  type,
+  error,
+}) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const { address } = useContext(WalletContext);

@@ -21,7 +21,7 @@ import { signTypeData } from './utils';
 import axios from 'axios';
 import { backendUrl, currentChainId } from 'utils/classifiers';
 
-export function useLimitOrder(
+export const useLimitOrder = (
   sourceToken: Asset,
   targetToken: Asset,
   amount: string,
@@ -30,7 +30,7 @@ export function useLimitOrder(
   onSuccess: Function,
   onError: Function,
   onStart: Function,
-) {
+) => {
   const account = useAccount();
   const { chainId } = useSelector(selectWalletProvider);
 
@@ -71,15 +71,9 @@ export function useLimitOrder(
         created.toString(),
       );
 
-      console.log({ order });
-
       const signature = await signTypeData(order, account, chainId);
 
-      console.log({ signature });
-
       const sig = ethers.utils.splitSignature(signature as SignatureLike);
-
-      console.log({ sig });
 
       const args = [
         order.maker,
@@ -98,8 +92,6 @@ export function useLimitOrder(
       const contract = getContract('orderBook');
 
       const populated = await contract.populateTransaction.createOrder(args);
-
-      console.log('populated: ', populated);
 
       onStart();
 
@@ -136,7 +128,6 @@ export function useLimitOrder(
         onError(data.error);
       }
     } catch (error) {
-      console.log('error', error);
       onError(error);
     }
   }, [
@@ -153,9 +144,9 @@ export function useLimitOrder(
   ]);
 
   return { createOrder, ...tx };
-}
+};
 
-export function useCancelLimitOrder(order: LimitOrder, sourceToken: Asset) {
+export const useCancelLimitOrder = (order: LimitOrder, sourceToken: Asset) => {
   const account = useAccount();
 
   const { send, ...tx } = useSendTx();
@@ -190,8 +181,6 @@ export function useCancelLimitOrder(order: LimitOrder, sourceToken: Asset) {
 
     const populated = await contract.populateTransaction.cancelOrder(args);
 
-    console.log({ populated });
-
     const nonce = await contractReader.nonce(account);
 
     send({
@@ -218,7 +207,7 @@ export function useCancelLimitOrder(order: LimitOrder, sourceToken: Asset) {
   ]);
 
   return { cancelOrder, ...tx };
-}
+};
 
 export const getDeadline = daysFromNow =>
   ethers.BigNumber.from(

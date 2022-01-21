@@ -315,13 +315,13 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   );
 };
 
-interface LabelValuePairProps {
+interface ILabelValuePairProps {
   label: React.ReactNode;
   value: React.ReactNode;
   className?: string;
 }
 
-function LabelValuePair(props: LabelValuePairProps) {
+function LabelValuePair(props: ILabelValuePairProps) {
   return (
     <div
       className={classNames(

@@ -19,7 +19,7 @@ import {
 } from './useSendContractTx';
 import { walletService } from '@sovryn/react-wallet';
 
-export interface RawTransactionData {
+export interface IRawTransactionData {
   to?: string;
   data?: string;
   chainId?: number;
@@ -33,7 +33,7 @@ export interface SendTxResponseInterface extends ResetTxResponseInterface {
   send: (config: TransactionConfig, options?: TransactionOptions) => void;
 }
 
-export function useSendTx(): SendTxResponseInterface {
+export const useSendTx = (): SendTxResponseInterface => {
   const transactions = useSelector(selectTransactions);
   const loading = useSelector(selectLoadingTransaction);
   const dispatch = useDispatch();
@@ -54,7 +54,7 @@ export function useSendTx(): SendTxResponseInterface {
       }
 
       walletService
-        .signTransaction(transaction as RawTransactionData)
+        .signTransaction(transaction as IRawTransactionData)
         .then(e => {
           const transactionHash = e as string;
           const txData = {
@@ -115,4 +115,4 @@ export function useSendTx(): SendTxResponseInterface {
       : TxStatus.PENDING,
     loading: loading,
   };
-}
+};

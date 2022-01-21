@@ -1,10 +1,10 @@
 import { Order } from 'app/pages/SpotTradingPage/helpers';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { walletService } from '@sovryn/react-wallet';
-import Web3 from 'web3';
+import { BigNumber } from 'ethers';
 
-export async function signTypeData(order: Order, account: string, chainId) {
-  const msgParams = JSON.stringify({
+export const signTypeData = async (order: Order, account: string, chainId) => {
+  const messageParameters = JSON.stringify({
     domain: {
       name: 'OrderBook',
       version: '1',
@@ -16,11 +16,11 @@ export async function signTypeData(order: Order, account: string, chainId) {
       maker: order.maker,
       fromToken: order.fromToken,
       toToken: order.toToken,
-      amountIn: Web3.utils.toBN(order.amountIn).toString(),
-      amountOutMin: Web3.utils.toBN(order.amountOutMin).toString(),
+      amountIn: BigNumber.from(order.amountIn).toString(),
+      amountOutMin: BigNumber.from(order.amountOutMin).toString(),
       recipient: order.recipient,
-      deadline: Web3.utils.toBN(order.deadline).toString(),
-      created: Web3.utils.toBN(order.created).toString(),
+      deadline: BigNumber.from(order.deadline).toString(),
+      created: BigNumber.from(order.created).toString(),
     },
     primaryType: 'Order',
     types: {
@@ -47,12 +47,11 @@ export async function signTypeData(order: Order, account: string, chainId) {
     walletService
       .request({
         method: 'eth_signTypedData_v4',
-        params: [account, msgParams],
+        params: [account, messageParameters],
       })
       .then(res => {
-        console.log('res: ', res);
         resolve(res);
       })
       .catch(err => reject(err));
   });
-}
+};

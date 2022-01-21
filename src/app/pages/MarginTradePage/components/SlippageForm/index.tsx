@@ -84,14 +84,14 @@ export function SlippageForm(props: Props) {
   );
 }
 
-interface LabelValuePairProps {
+interface ILabelValuePairProps {
   label: React.ReactNode;
   value: React.ReactNode;
   className?: string;
   dataActionId?: string;
 }
 
-function LabelValuePair(props: LabelValuePairProps) {
+function LabelValuePair(props: ILabelValuePairProps) {
   return (
     <div
       className={classNames(

@@ -25,14 +25,14 @@ interface IClosePositionDialogProps {
   tradeType: TradingTypes;
 }
 
-export function ClosePositionDialog({
+export const ClosePositionDialog = ({
   order,
   onCloseModal,
   showModal,
   fromToken,
   toToken,
   tradeType,
-}: IClosePositionDialogProps) {
+}: IClosePositionDialogProps) => {
   const { t } = useTranslation();
   const { cancelOrder, ...tx } = useCancelLimitOrder(order, fromToken.asset);
 
@@ -190,4 +190,4 @@ export function ClosePositionDialog({
       />
     </>
   );
-}
+};

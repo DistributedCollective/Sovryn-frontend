@@ -96,3 +96,8 @@ export const MAINTENANCE_MARGIN = 15000000000000000000;
 export const MIN_GAS = 40000;
 
 export const MILLION = 1000000;
+
+export const notificationServiceUrl = {
+  30: 'https://notify.sovryn.app/',
+  31: 'https://notify.test.sovryn.app/',
+};

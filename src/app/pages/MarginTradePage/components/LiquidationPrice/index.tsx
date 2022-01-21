@@ -16,7 +16,7 @@ interface ILiquidationPriceProps {
   position: TradingPosition;
 }
 
-export function LiquidationPrice(props: ILiquidationPriceProps) {
+export const LiquidationPrice = (props: ILiquidationPriceProps) => {
   const { value: price, loading: loadingPrice } = useBorrowAssetPrice(
     props.asset,
     props.assetLong,
@@ -45,4 +45,4 @@ export function LiquidationPrice(props: ILiquidationPriceProps) {
       loading={loadingPrice || loadingLiq || loadingLongToUsdPrice}
     />
   );
-}
+};

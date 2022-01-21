@@ -258,13 +258,13 @@ export const PairLabel: React.FC<PairLabelProps> = ({
   );
 };
 
-interface LabelValuePairProps {
+interface ILabelValuePairProps {
   label: React.ReactNode;
   value: React.ReactNode;
   className?: string;
 }
 
-export const LabelValuePair: React.FC<LabelValuePairProps> = props => {
+export const LabelValuePair: React.FC<ILabelValuePairProps> = props => {
   return (
     <div
       className={classNames(

@@ -60,32 +60,37 @@ const getOptions = (item: ActiveLoan) => {
   ];
 };
 
-export function ClosePositionDialog(props: IClosePositionDialogProps) {
+export const ClosePositionDialog = ({
+  item,
+  showModal,
+  onCloseModal,
+}: IClosePositionDialogProps) => {
   const receiver = useAccount();
-  const [amount, setAmount] = useState<string>('0');
+
+  const sourceToken = AssetsDictionary.getByTokenContractAddress(
+    item?.collateralToken || '',
+  );
+  const targetToken = AssetsDictionary.getByTokenContractAddress(
+    item?.loanToken || '',
+  );
+
+  const [amount, setAmount] = useState('0');
   const [collateral, setCollateral] = useState(
-    assetByTokenAddress(props.item.collateralToken),
+    assetByTokenAddress(item.collateralToken),
   );
   const [openSlippage, setOpenSlippage] = useState(false);
 
-  const sourceToken = AssetsDictionary.getByTokenContractAddress(
-    props.item?.collateralToken || '',
-  );
-  const targetToken = AssetsDictionary.getByTokenContractAddress(
-    props.item?.loanToken || '',
-  );
-
   useEffect(() => {
     setAmount('0');
-  }, [props.item.collateral]);
+  }, [item.collateral]);
 
-  const leverage = leverageFromMargin(props.item.startMargin);
-  const maxAmount = bignumber(props.item.collateral).div(leverage).toFixed(0);
+  const leverage = leverageFromMargin(item.startMargin);
+  const maxAmount = bignumber(item.collateral).div(leverage).toFixed(0);
 
-  const options = useMemo(() => getOptions(props.item), [props.item]);
+  const options = useMemo(() => getOptions(item), [item]);
   const isCollateral = useMemo(
-    () => collateral === assetByTokenAddress(props.item.collateralToken),
-    [collateral, props.item.collateralToken],
+    () => collateral === assetByTokenAddress(item.collateralToken),
+    [collateral, item.collateralToken],
   );
 
   const pair = TradingPairDictionary.findPair(
@@ -94,14 +99,11 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
   );
 
   const weiAmount = useWeiAmount(amount);
-  const handleConfirm = () => {
-    send();
-  };
 
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
   const closeTradesLocked = checkMaintenance(States.CLOSE_MARGIN_TRADES);
-  const args = [props.item.loanId, receiver, weiAmount, isCollateral, '0x'];
+  const args = [item.loanId, receiver, weiAmount, isCollateral, '0x'];
   const isLong = targetToken.asset === pair.longAsset;
 
   const { price: currentPriceSource, loading } = useCurrentPositionPrice(
@@ -112,10 +114,10 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
   );
 
   const { send, ...rest } = useCloseWithSwap(
-    props.item.loanId,
+    item.loanId,
     receiver,
     maxAmount === weiAmount
-      ? props.item.collateral
+      ? item.collateral
       : toWei(
           bignumber(amount || '0')
             .mul(leverage)
@@ -126,12 +128,12 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
   );
 
   const position =
-    pair?.longAsset === props.item.loanToken
+    pair?.longAsset === item.loanToken
       ? TradingPosition.LONG
       : TradingPosition.SHORT;
 
-  const entryPrice = useMemo(() => getEntryPrice(props.item, position), [
-    props.item,
+  const entryPrice = useMemo(() => getEntryPrice(item, position), [
+    item,
     position,
   ]);
 
@@ -142,7 +144,7 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
     weiAmount,
   );
 
-  const valid = useIsAmountWithinLimits(weiAmount, '1', props.item.collateral);
+  const valid = useIsAmountWithinLimits(weiAmount, '1', item.collateral);
   const [slippage, setSlippage] = useState(MARGIN_SLIPPAGE_DEFAULT);
   const totalAmount = Number(amount) + Number(fromWei(profit));
   const { minReturn } = useSlippage(toWei(totalAmount), slippage);
@@ -159,7 +161,7 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
 
   return (
     <>
-      <Dialog isOpen={props.showModal} onClose={() => props.onCloseModal()}>
+      <Dialog isOpen={showModal} onClose={onCloseModal}>
         <div className="tw-mw-340 tw-mx-auto">
           <h1 className="tw-text-sov-white tw-text-center">
             {t(translations.closeTradingPositionHandler.title)}
@@ -178,10 +180,11 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
             <LabelValuePair
               label={t(translations.closeTradingPositionHandler.marginType)}
               value={<>{leverage}x</>}
-              className={classNames({
-                'tw-text-trade-short': targetToken.asset !== pair.longAsset,
-                'tw-text-trade-long': targetToken.asset === pair.longAsset,
-              })}
+              className={
+                targetToken.asset === pair.longAsset
+                  ? 'tw-text-trade-long'
+                  : 'tw-text-trade-short'
+              }
             />
             <LabelValuePair
               label={t(translations.closeTradingPositionHandler.positionSize)}
@@ -189,8 +192,8 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
                 <>
                   <LoadableValue
                     loading={false}
-                    value={weiToNumberFormat(props.item.collateral, 4)}
-                    tooltip={fromWei(props.item.collateral)}
+                    value={weiToNumberFormat(item.collateral, 4)}
+                    tooltip={fromWei(item.collateral)}
                   />{' '}
                   <AssetRenderer asset={sourceToken.asset} />
                 </>
@@ -203,7 +206,7 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
                   loading={loading}
                   value={
                     <ProfitContainer
-                      item={props.item}
+                      item={item}
                       position={position}
                       entryPrice={entryPrice}
                       leverage={leverage}
@@ -217,7 +220,7 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
           <CollateralAssets
             label={t(translations.closeTradingPositionHandler.withdrawIn)}
             value={collateral}
-            onChange={value => setCollateral(value)}
+            onChange={setCollateral}
             options={options}
           />
 
@@ -227,7 +230,7 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
           >
             <AmountInput
               value={amount}
-              onChange={value => setAmount(value)}
+              onChange={setAmount}
               asset={sourceToken.asset}
               maxAmount={maxAmount}
             />
@@ -290,8 +293,8 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
               onClose={() => setOpenSlippage(false)}
               amount={toWei(totalAmount)}
               value={slippage}
-              asset={assetByTokenAddress(props.item.collateralToken)}
-              onChange={value => setSlippage(value)}
+              asset={assetByTokenAddress(item.collateralToken)}
+              onChange={setSlippage}
             />
           )}
 
@@ -318,10 +321,10 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
           )}
           <DialogButton
             confirmLabel={t(translations.common.confirm)}
-            onConfirm={() => handleConfirm()}
+            onConfirm={send}
             disabled={rest.loading || !valid || closeTradesLocked}
             cancelLabel={t(translations.common.cancel)}
-            onCancel={props.onCloseModal}
+            onCancel={onCloseModal}
           />
         </div>
       </Dialog>
@@ -335,41 +338,35 @@ export function ClosePositionDialog(props: IClosePositionDialogProps) {
           />
         }
         tx={rest}
-        onUserConfirmed={() => props.onCloseModal()}
+        onUserConfirmed={onCloseModal}
       />
     </>
   );
-}
-
-ClosePositionDialog.defaultProps = {
-  item: {
-    collateral: '0',
-  },
 };
 
-interface LabelValuePairProps {
+interface ILabelValuePairProps {
   label: React.ReactNode;
   value: React.ReactNode;
   className?: string;
 }
 
-function LabelValuePair(props: LabelValuePairProps) {
-  return (
-    <div
-      className={classNames(
-        'tw-flex tw-flex-row tw-mb-1 tw-justify-start tw-text-sov-white',
-        props.className,
-      )}
-    >
-      <div className="tw-w-1/2 tw-text-gray-10 sm:tw-ml-8 sm:tw-pl-2 tw-text-gray-10">
-        {props.label}
-      </div>
-      <div className="tw-w-1/2 tw-font-medium">{props.value}</div>
+const LabelValuePair = ({ label, value, className }: ILabelValuePairProps) => (
+  <div
+    className={classNames(
+      'tw-flex tw-flex-row tw-mb-1 tw-justify-start tw-text-sov-white',
+      className,
+    )}
+  >
+    <div className="tw-w-1/2 tw-text-gray-10 sm:tw-ml-8 sm:tw-pl-2 tw-text-gray-10">
+      {label}
     </div>
-  );
-}
+    <div className="tw-w-1/2 tw-font-medium">{value}</div>
+  </div>
+);
 
-function getEntryPrice(item: ActiveLoan, position: TradingPosition) {
-  if (position === TradingPosition.LONG) return Number(weiTo18(item.startRate));
+const getEntryPrice = (item: ActiveLoan, position: TradingPosition) => {
+  if (position === TradingPosition.LONG) {
+    return Number(weiTo18(item.startRate));
+  }
   return 1 / Number(weiTo18(item.startRate));
-}
+};

@@ -47,6 +47,7 @@ import {
 } from 'app/hooks/simulator/useFilterSimulatorResponseLogs';
 import { TradeEventData } from 'types/active-loan';
 import { useSimulator } from 'app/hooks/simulator/useSimulator';
+import { newLoanId } from 'app/constants';
 
 interface ITradeDialogProps {
   slippage: number;
@@ -182,7 +183,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
   );
 
   const txArgs = [
-    '0x0000000000000000000000000000000000000000000000000000000000000000', //0 if new loan
+    newLoanId, //0 if new loan
     toWei(String(leverage - 1), 'ether'),
     useLoanTokens ? amount : '0',
     useLoanTokens ? '0' : amount,
@@ -483,13 +484,13 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
   );
 };
 
-interface LabelValuePairProps {
+interface ILabelValuePairProps {
   label: React.ReactNode;
   value: React.ReactNode;
   className?: string;
 }
 
-function LabelValuePair(props: LabelValuePairProps) {
+function LabelValuePair(props: ILabelValuePairProps) {
   return (
     <div
       className={classNames(

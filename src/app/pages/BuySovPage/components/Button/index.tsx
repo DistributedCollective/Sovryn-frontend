@@ -1,12 +1,12 @@
 import React from 'react';
 import styled, { css } from 'styled-components/macro';
 
-interface BtnProps {
+interface IBtnProps {
   onClick: () => void;
   disabled?: boolean;
 }
 
-interface Props extends BtnProps {
+interface Props extends IBtnProps {
   text: React.ReactNode;
 }
 
@@ -29,7 +29,7 @@ const StyledButton = styled.button`
     background: rgba(254, 192, 4, 0.25);
   }
 
-  ${(props: BtnProps) =>
+  ${(props: IBtnProps) =>
     props.disabled &&
     css`
       opacity: 25%;
