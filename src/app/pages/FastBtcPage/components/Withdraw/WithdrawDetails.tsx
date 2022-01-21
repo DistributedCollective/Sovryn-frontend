@@ -22,7 +22,7 @@ export const WithdrawDetails: React.FC<NetworkAwareComponentProps> = ({
     if (!limits.dynamicFee) {
       return (
         <>
-          {toNumberFormat(limits.baseFee / btcInSatoshis, 5)}{' '}
+          {toNumberFormat(limits.baseFee / btcInSatoshis, 8)}{' '}
           <AssetSymbolRenderer asset={asset} />
         </>
       );
@@ -36,7 +36,7 @@ export const WithdrawDetails: React.FC<NetworkAwareComponentProps> = ({
 
     return (
       <>
-        {toNumberFormat(limits.baseFee / btcInSatoshis, 6)}{' '}
+        {toNumberFormat(limits.baseFee / btcInSatoshis, 8)}{' '}
         <AssetSymbolRenderer asset={asset} /> +{' '}
         {toNumberFormat(limits.dynamicFee / DYNAMIC_FEE_DIVISOR, 4)} %
       </>
@@ -54,7 +54,7 @@ export const WithdrawDetails: React.FC<NetworkAwareComponentProps> = ({
           <LoadableValue
             value={
               <>
-                {toNumberFormat(limits.min / btcInSatoshis, 5)}{' '}
+                {toNumberFormat(limits.min / btcInSatoshis, 8)}{' '}
                 <AssetSymbolRenderer asset={asset} />
               </>
             }

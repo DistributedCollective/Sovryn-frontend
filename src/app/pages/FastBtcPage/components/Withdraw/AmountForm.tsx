@@ -10,18 +10,18 @@ import { AmountInput } from '../../../../components/Form/AmountInput';
 import { FormGroup } from 'app/components/Form/FormGroup';
 import { gasLimit } from '../../../../../utils/classifiers';
 import { TxType } from '../../../../../store/global/transactions-store/types';
-import { toWei } from '../../../../../utils/blockchain/math-helpers';
 import { WithdrawDetails } from './WithdrawDetails';
 import { FastBtcButton } from '../FastBtcButton';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { NetworkAwareComponentProps } from '../../types';
 import { getBTCAssetForNetwork } from '../../helpers';
+import { btcInSatoshis } from 'app/constants';
 
 export const AmountForm: React.FC<NetworkAwareComponentProps> = ({
   network,
 }) => {
-  const { amount, set } = useContext(WithdrawContext);
+  const { amount, limits, set } = useContext(WithdrawContext);
   const { t } = useTranslation();
 
   const balance = useBalance();
@@ -29,15 +29,24 @@ export const AmountForm: React.FC<NetworkAwareComponentProps> = ({
   const [value, setValue] = useState(amount);
 
   const invalid = useMemo(() => {
-    const weiAmount = toWei(value || '0');
+    const amount = value || '0';
+    const weiAmount = Number(amount) * btcInSatoshis;
     if (bignumber(weiAmount).lessThanOrEqualTo(0)) {
+      return true;
+    }
+
+    if (bignumber(weiAmount).lessThan(limits.min)) {
+      return true;
+    }
+
+    if (bignumber(weiAmount).greaterThan(limits.max)) {
       return true;
     }
 
     return bignumber(weiAmount)
       .add(gasLimit[TxType.FAST_BTC_WITHDRAW])
       .greaterThan(balance.value || '0');
-  }, [value, balance.value]);
+  }, [value, balance.value, limits.min, limits.max]);
 
   const onContinueClick = useCallback(
     () =>
