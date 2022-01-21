@@ -24,6 +24,15 @@ import { BridgeNetworkDictionary } from '../pages/BridgeDepositPage/dictionaries
 import { getContract } from '../../utils/blockchain/contract-helpers';
 import { ContractName } from '../../utils/types/contracts';
 
+/**
+ * Call contracts using the Gas Station Network, allowing you to pay transactions fees with another token!
+ * Falls back to bridgeNetwork, when useGSN = false is passed to the hook.
+ * @param chain chain that the target contract is deployed on
+ * @param contractName
+ * @param methodName
+ * @param paymaster paymaster contract address
+ * @param useGSN flag for enabling or disabling GSN, will use bridgeNetwork otherwise
+ */
 export function useGsnSendTx(
   chain: Chain,
   contractName: ContractName,

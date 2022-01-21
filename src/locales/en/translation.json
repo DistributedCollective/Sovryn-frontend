@@ -1591,7 +1591,12 @@
       "description": "Trade with perpetuals"
     },
     "pairSelector": {
-      "useMetaTransaction": "GSN"
+      "gsn": "GSN",
+      "tooltips": {
+        "gsnEnabled": "Fees paid in BTC. With the Gas Station Network (GSN) you can pay gas fees in BTC",
+        "gsnDisabled": "Fees paid in BNB. With the Gas Station Network (GSN) you can pay gas fees in BTC",
+        "gsnUnsupported": "GSN is currently only supported for browser based wallets."
+      }
     },
     "toasts": {
       "market": "Market",
