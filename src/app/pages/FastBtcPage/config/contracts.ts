@@ -44,6 +44,7 @@ const aggregatorAbi = [
 
 export type FastBTCWithdrawContractName =
   | 'btcToken'
+  | 'btcWrapperToken'
   | 'aggregator'
   | 'aggregatorBasset'
   | 'aggregatorAllowTokens';
@@ -68,6 +69,15 @@ export const contracts: Record<
       [Chain.BSC]: {
         [AppMode.MAINNET]: ethers.constants.AddressZero, // todo
         [AppMode.TESTNET]: '0x0ed2a1edde92b25448db95e5aa9fe9e9bc0193bf',
+      },
+    },
+    abi: erc20TokenAbi,
+  },
+  btcWrapperToken: {
+    address: {
+      [Chain.RSK]: {
+        [AppMode.MAINNET]: ethers.constants.AddressZero, // todo
+        [AppMode.TESTNET]: '0xf629e5c7527ac7bc9ce26bdd6d66f0eb955ef3b2',
       },
     },
     abi: erc20TokenAbi,

@@ -20,12 +20,13 @@ export const WithdrawDetails: React.FC<NetworkAwareComponentProps> = ({
   const asset = getBTCAssetForNetwork(network);
 
   const renderFee = useMemo(() => {
-    const aggregatorFee = weiToFixed(aggregatorLimits.fee, btcInSatoshis);
+    const aggregatorFee = Number(weiToFixed(aggregatorLimits.fee, 8));
+    const baseFee = limits.baseFee / btcInSatoshis;
 
     if (!limits.dynamicFee) {
       return (
         <>
-          {toNumberFormat(limits.baseFee / btcInSatoshis + aggregatorFee, 6)}{' '}
+          {toNumberFormat(baseFee + aggregatorFee, 6)}{' '}
           <AssetSymbolRenderer asset={asset} />
         </>
       );
@@ -49,7 +50,7 @@ export const WithdrawDetails: React.FC<NetworkAwareComponentProps> = ({
 
     return (
       <>
-        {toNumberFormat(limits.baseFee / btcInSatoshis, 6)}{' '}
+        {toNumberFormat(baseFee + aggregatorFee, 6)}{' '}
         <AssetSymbolRenderer asset={asset} /> +{' '}
         {toNumberFormat(limits.dynamicFee / DYNAMIC_FEE_DIVISOR, 4)} %
       </>
@@ -57,10 +58,9 @@ export const WithdrawDetails: React.FC<NetworkAwareComponentProps> = ({
   }, [limits, asset, aggregatorLimits.fee]);
 
   const renderMinAmount = useMemo(() => {
-    return Math.max(
-      limits.min / btcInSatoshis,
-      Number(weiToFixed(aggregatorLimits.min, 5)),
-    );
+    const min1 = limits.min / btcInSatoshis;
+    const min2 = Number(weiToFixed(aggregatorLimits.min, 8));
+    return Math.max(min1, min2);
   }, [limits.min, aggregatorLimits.min]);
 
   return (

@@ -11,7 +11,7 @@ import {
   toWei,
   weiToFixed,
 } from '../../../../../utils/blockchain/math-helpers';
-import { gasLimit } from '../../../../../utils/classifiers';
+import { gasLimit, MILLION } from '../../../../../utils/classifiers';
 import {
   TxStatus,
   TxType,
@@ -25,7 +25,6 @@ import { useAccount } from 'app/hooks/useAccount';
 import { bignumber } from 'mathjs';
 import { useChainToSendContractTx } from 'app/hooks/useChainToSendContractTx';
 import { defaultAbiCoder } from 'ethers/lib/utils';
-import { Chain } from 'types';
 import { StatusScreen } from '../Withdraw/StatusScreen';
 
 const { abi: erc20Abi } = getContract('SOV_token');
@@ -85,8 +84,7 @@ export const ConfirmationScreens: React.FC<NetworkAwareComponentProps> = ({
   const handleApprove = useCallback(async () => {
     set(prevState => ({ ...prevState, step: WithdrawStep.CONFIRM }));
     const nonce = await bridgeNetwork.nonce(network);
-    // todo: change amount to MILLION
-    const result = await approve([aggregator.address, toWei(amount)], {
+    const result = await approve([aggregator.address, toWei(MILLION)], {
       gas: gasLimit[TxType.APPROVE],
       nonce,
     });
@@ -94,7 +92,7 @@ export const ConfirmationScreens: React.FC<NetworkAwareComponentProps> = ({
     if (result) {
       await handleTransfer(nonce + 1);
     }
-  }, [network, aggregator.address, amount, approve, handleTransfer, set]);
+  }, [network, aggregator.address, approve, handleTransfer, set]);
 
   const handleConfirm = useCallback(async () => {
     setLoading(true);
