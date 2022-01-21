@@ -123,7 +123,7 @@ const config: GraphQLEndpoint[] = [
   },
 ];
 
-const RETRY_DELAY = 2 * 60 * 1000; // 2 seconds
+const RETRY_DELAY = 2 * 60 * 1000; // 2 minutes
 const MAX_TEST_SCORE = 3; // number of tests, can change in future
 
 type GraphQLProviderProps = {
