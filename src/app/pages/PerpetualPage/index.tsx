@@ -1,12 +1,11 @@
 import React from 'react';
-import { ApolloProvider } from '@apollo/client';
 import { PerpetualPageContainer } from './PerpetualPageContainer';
-import { apolloClient } from './utils/graphQlHelpers';
+import { GraphQLProvider } from './contexts/GraphQLProvider';
 
 export const PerpetualPage: React.FC = () => {
   return (
-    <ApolloProvider client={apolloClient}>
+    <GraphQLProvider>
       <PerpetualPageContainer />
-    </ApolloProvider>
+    </GraphQLProvider>
   );
 };
