@@ -67,9 +67,9 @@ export function useGsnSendTx(
         if (!gsn) {
           throw Error("GSN couldn't be initialized yet");
         }
-        if (!gsn.isReady) {
-          setTxId(TxStatus.INITIALIZING_GSN);
-          await gsn.isReady;
+        setTxId(TxStatus.INITIALIZING_GSN);
+        if (!(await gsn.isReady)) {
+          throw Error('GSN failed to initialize!');
         }
         return gsn.send(contractAddress, abi, methodName, args, config);
       } else {

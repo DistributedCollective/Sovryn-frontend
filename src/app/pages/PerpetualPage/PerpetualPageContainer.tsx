@@ -46,11 +46,7 @@ import { PerpetualQueriesContextProvider } from './contexts/PerpetualQueriesCont
 import { PairSelector } from './components/PairSelector';
 import { ToastsWatcher } from './components/ToastsWatcher';
 import { gsnNetwork } from '../../../utils/gsn/GsnNetwork';
-import {
-  PERPETUAL_CHAIN,
-  PERPETUAL_CHAIN_ID,
-  PERPETUAL_PAYMASTER,
-} from './types';
+import { PERPETUAL_CHAIN_ID, PERPETUAL_PAYMASTER } from './types';
 
 export const PerpetualPageContainer: React.FC = () => {
   useInjectReducer({ key: sliceKey, reducer });
@@ -114,11 +110,12 @@ export const PerpetualPageContainer: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (useMetaTransactions) {
-      // warm up GsnProvider
-      gsnNetwork.getProvider(PERPETUAL_CHAIN_ID, PERPETUAL_PAYMASTER);
+    if (connected && useMetaTransactions) {
+      if (!gsnNetwork.isSupportedByConnectedWallet()) {
+        dispatch(actions.setUseMetaTransactions(false));
+      }
     }
-  }, [useMetaTransactions]);
+  }, [connected, useMetaTransactions, dispatch]);
 
   return (
     <RecentTradesContextProvider pair={pair}>
