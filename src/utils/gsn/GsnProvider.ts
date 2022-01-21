@@ -6,11 +6,15 @@ import { ChainId } from 'types';
 import type { Contract } from 'web3-eth-contract';
 import type { TransactionConfig } from 'web3-core';
 import { gsnNetwork } from './GsnNetwork';
+import { SovrynWalletGsnProvider } from './SovrynWalletGsnProvider';
+import { RpcNetwork } from 'utils/blockchain/rpc-network';
 
 const preferredRelays = {
   [ChainId.BSC_MAINNET]: ['https://bsc.relay.sovryn.app/gsn1'],
   [ChainId.BSC_TESTNET]: ['https://tbsc.relay.sovryn.app/gsn1'],
 };
+
+const MAX_EVENT_BLOCKS = 5000;
 
 export interface GsnTransactionConfig extends TransactionConfig {
   /** defaults to true when undefined */
@@ -27,10 +31,13 @@ export class GsnProvider {
   public constructor(private chainId: ChainId, paymasterAddress: string) {
     this._isReady = new Promise((resolve, reject) => {
       RelayProvider.newProvider({
-        provider: window.ethereum,
+        provider: new SovrynWalletGsnProvider(RpcNetwork.get(chainId)),
         config: {
           paymasterAddress,
           preferredRelays: preferredRelays[chainId],
+          relayLookupWindowBlocks: MAX_EVENT_BLOCKS,
+          relayRegistrationLookupBlocks: MAX_EVENT_BLOCKS,
+          pastEventsQueryMaxPageSize: MAX_EVENT_BLOCKS,
           loggerConfiguration: {
             logLevel: 'debug',
           },
