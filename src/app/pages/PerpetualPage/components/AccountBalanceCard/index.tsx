@@ -5,7 +5,6 @@ import { translations } from '../../../../../locales/i18n';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { actions } from '../../slice';
 import { PerpetualPageModals } from '../../types';
-import { Tooltip } from '@blueprintjs/core';
 import { selectPerpetualPage } from '../../selectors';
 import { getCollateralName } from '../../utils/renderUtils';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
@@ -25,10 +24,6 @@ export const AccountBalanceCard: React.FC = () => {
     [availableBalance],
   );
 
-  const onFundAccount = useCallback(
-    () => dispatch(actions.setModal(PerpetualPageModals.FASTBTC_DEPOSIT)),
-    [dispatch],
-  );
   const onViewAccount = useCallback(
     () => dispatch(actions.setModal(PerpetualPageModals.ACCOUNT_BALANCE)),
     [dispatch],
@@ -44,24 +39,14 @@ export const AccountBalanceCard: React.FC = () => {
           {weiToNumberFormat(availableBalance, 4)} {collateralAsset}
         </span>
       </div>
-      {hasBalance ? (
-        <button
-          className="tw-px-4 tw-py-2 tw-mt-1 tw-text-xs tw-font-medium tw-text-primary"
-          onClick={onViewAccount}
-        >
-          {t(translations.perpetualPage.accountBalance.viewAccount)}
-        </button>
-      ) : (
-        <Tooltip content={t(translations.common.comingSoon)}>
-          <button
-            className="tw-px-4 tw-py-2 tw-mt-1 tw-text-xs tw-font-medium tw-text-primary tw-cursor-not-allowed tw-opacity-25"
-            disabled={true}
-            onClick={onFundAccount}
-          >
-            {t(translations.perpetualPage.accountBalance.fundAccount)}
-          </button>
-        </Tooltip>
-      )}
+      <button
+        className="tw-px-4 tw-py-2 tw-mt-1 tw-text-xs tw-font-medium tw-text-primary"
+        onClick={onViewAccount}
+      >
+        {hasBalance
+          ? t(translations.perpetualPage.accountBalance.viewAccount)
+          : t(translations.perpetualPage.accountBalance.fundAccount)}
+      </button>
     </div>
   );
 };
