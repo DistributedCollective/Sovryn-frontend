@@ -21,7 +21,7 @@ import { useAccount } from '../../hooks/useAccount';
 import { BigNumber } from 'ethers';
 import { gsnNetwork } from '../../../utils/gsn/GsnNetwork';
 
-const PAYMASTER_ADDRESS = '0xE948a50Fbfa6b6e05f1A76A2A37A3DF516e2D4B5'.toLowerCase();
+const PAYMASTER_ADDRESS = '0x260373ec3d799047FDDD682cCb08A22FF53f227c'.toLowerCase();
 const TEST_TOKEN = getContract('PERPETUALS_token');
 
 export const SandboxPage: React.FC = () => {
@@ -68,16 +68,19 @@ export const SandboxPage: React.FC = () => {
 
   useEffect(() => {
     bridgeNetwork
-      .call(
-        Chain.BSC,
-        getContract('PERPETUALS_token').address,
-        TEST_TOKEN.abi,
-        'allowance',
-        [account, PAYMASTER_ADDRESS],
-      )
+      .call(Chain.BSC, TEST_TOKEN.address, TEST_TOKEN.abi, 'allowance', [
+        account,
+        PAYMASTER_ADDRESS,
+      ])
       .then(result =>
         console.log('approval', BigNumber.from(result).toString()),
       )
+      .catch(console.error);
+    bridgeNetwork
+      .call(Chain.BSC, TEST_TOKEN.address, TEST_TOKEN.abi, 'balanceOf', [
+        account,
+      ])
+      .then(result => console.log('balance', BigNumber.from(result).toString()))
       .catch(console.error);
   }, [account, normalTx.status]);
 
