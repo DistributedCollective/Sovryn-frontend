@@ -1,12 +1,11 @@
+import { useMaintenance } from 'app/hooks/useMaintenance';
 import { bignumber } from 'mathjs';
 import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
-import { toWei } from 'web3-utils';
+import { useDispatch, useSelector } from 'react-redux';
 import { translations } from '../../../../../locales/i18n';
 import { numberFromWei } from '../../../../../utils/blockchain/math-helpers';
-import { PerpetualPairType } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
-import { weiToNumberFormat } from '../../../../../utils/display-text/format';
+import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
@@ -16,18 +15,39 @@ import {
   BarCompositionChart,
   BarCompositionChartEntry,
 } from '../BarCompositionChart';
+import classNames from 'classnames';
+import { Tooltip } from '@blueprintjs/core';
+import { getCollateralName } from '../../utils/renderUtils';
+import { selectPerpetualPage } from '../../selectors';
 
 type AccountBalanceFormProps = {
-  pairType: PerpetualPairType;
   onOpenTransactionHistory: () => void;
 };
 
 export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
-  pairType,
   onOpenTransactionHistory,
 }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
+  const { collateral, pairType } = useSelector(selectPerpetualPage);
+
+  const collateralAsset = useMemo(() => getCollateralName(collateral), [
+    collateral,
+  ]);
+
+  const { checkMaintenance, States } = useMaintenance();
+  const fundAccountLocked =
+    checkMaintenance(States.PERPETUALS) ||
+    checkMaintenance(States.PERPETUALS_ACCOUNT_FUND);
+
+  const withdrawAccountLocked =
+    checkMaintenance(States.PERPETUALS) ||
+    checkMaintenance(States.PERPETUALS_ACCOUNT_WITHDRAW);
+
+  const transferAccountLocked =
+    checkMaintenance(States.PERPETUALS) ||
+    checkMaintenance(States.PERPETUALS_ACCOUNT_TRANSFER);
 
   const onOpenDeposit = useCallback(() => {
     dispatch(actions.setModal(PerpetualPageModals.FASTBTC_DEPOSIT));
@@ -46,7 +66,9 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
     available,
     inPositions,
     unrealized,
-  } = usePerpetual_accountBalance(pairType);
+  } = usePerpetual_accountBalance();
+
+  const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
 
   const chartEntries: BarCompositionChartEntry[] = useMemo(() => {
     const isUnrealizedNegative = bignumber(unrealized || '0').isNegative();
@@ -59,7 +81,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
         valueLabel: (
           <AssetValue
             value={available}
-            assetString="BTC"
+            assetString={collateralAsset}
             mode={AssetValueMode.auto}
             minDecimals={8}
             maxDecimals={8}
@@ -76,7 +98,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
         valueLabel: (
           <AssetValue
             value={inPositions}
-            assetString="BTC"
+            assetString={collateralAsset}
             mode={AssetValueMode.auto}
             minDecimals={3}
             maxDecimals={3}
@@ -101,7 +123,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
               value={bignumber(unrealized || '0')
                 .abs()
                 .toString()}
-              assetString="BTC"
+              assetString={collateralAsset}
               mode={AssetValueMode.auto}
               minDecimals={8}
               maxDecimals={8}
@@ -113,18 +135,31 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
         color: isUnrealizedNegative ? 'rgba(29, 127, 247, 0.25)' : undefined,
       },
     ];
-  }, [t, available, inPositions, unrealized]);
+  }, [unrealized, available, t, inPositions, collateralAsset]);
 
-  // TODO: implement useDollarValue for BTC
-  const totalUsd = 'USD not Implemented';
   const totalLabel = useMemo(
     () => (
       <div className="tw-flex tw-flex-row tw-items-center">
-        <span>{weiToNumberFormat(total, 8)} BTC</span>
-        <span className="tw-ml-2 tw-text-xs">≈ {totalUsd}</span>
+        <AssetValue
+          value={total.collateralValue}
+          assetString={collateralAsset}
+          mode={AssetValueMode.auto}
+          minDecimals={2}
+          maxDecimals={8}
+        />
+        <span className="tw-ml-2 tw-text-xs">
+          <AssetValue
+            value={total.quoteValue}
+            assetString={pair.quoteAsset}
+            mode={AssetValueMode.auto}
+            minDecimals={2}
+            maxDecimals={2}
+            isApproximation
+          />
+        </span>
       </div>
     ),
-    [total],
+    [pair.quoteAsset, total.collateralValue, total.quoteValue, collateralAsset],
   );
 
   // TODO: add pending transfer value to available balance
@@ -138,33 +173,72 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
         entries={chartEntries}
       />
       <div className="tw-mt-2 tw-text-right">
-        <button
-          className="tw-text-xs tw-font-medium tw-text-secondary tw-underline"
-          onClick={onOpenTransactionHistory}
-        >
-          {t(translations.perpetualPage.accountBalance.viewHistory)}
-        </button>
+        <Tooltip content={t(translations.common.comingSoon)}>
+          <button
+            className="tw-text-xs tw-font-medium tw-text-secondary tw-underline tw-opacity-50 tw-cursor-not-allowed"
+            disabled
+            onClick={onOpenTransactionHistory}
+          >
+            {t(translations.perpetualPage.accountBalance.viewHistory)}
+          </button>
+        </Tooltip>
       </div>
       <div className="tw-flex tw-flex-col md:tw-flex-row tw-justify-center tw-mx-auto tw-mt-16 tw-space-y-4 md:tw-space-y-0 md:tw-space-x-10">
-        <button
-          className="tw-min-w-40 tw-min-h-10 tw-p-2 tw-text-base tw-text-primary tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-duration-300 hover:tw-bg-primary-25"
+        <ActionButton
+          disabled
+          tooltip={t(translations.common.comingSoon)}
           onClick={onOpenDeposit}
         >
           {t(translations.perpetualPage.accountBalance.deposit)}
-        </button>
-        <button
-          className="tw-min-w-40 tw-min-h-10 tw-p-2 tw-text-base tw-text-primary tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-duration-300 hover:tw-bg-primary-25"
+        </ActionButton>
+
+        <ActionButton
+          disabled
+          tooltip={t(translations.common.comingSoon)}
           onClick={onOpenWithdraw}
         >
           {t(translations.perpetualPage.accountBalance.withdraw)}
-        </button>
-        <button
-          className="tw-min-w-40 tw-min-h-10 tw-p-2 tw-text-base tw-text-primary tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-duration-300 hover:tw-bg-primary-25"
+        </ActionButton>
+
+        <ActionButton
+          disabled
+          tooltip={t(translations.common.comingSoon)}
           onClick={onOpenTransfer}
         >
           {t(translations.perpetualPage.accountBalance.transfer)}
-        </button>
+        </ActionButton>
       </div>
     </div>
   );
+};
+
+type ActionButtonProps = {
+  onClick: () => void;
+  disabled?: boolean;
+  tooltip: string;
+  children: React.ReactNode;
+};
+
+const ActionButton: React.FC<ActionButtonProps> = ({
+  onClick,
+  disabled,
+  tooltip,
+  children,
+}) => {
+  const button = (
+    <button
+      className={classNames(
+        'tw-min-w-40 tw-min-h-10 tw-p-2 tw-text-base tw-text-primary tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-duration-300',
+        disabled
+          ? 'tw-opacity-25 tw-cursor-not-allowed'
+          : 'hover:tw-bg-primary-25 tw-cursor-pointer',
+      )}
+      disabled={disabled}
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  );
+
+  return tooltip ? <Tooltip content={tooltip}>{button}</Tooltip> : button;
 };

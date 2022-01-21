@@ -25,8 +25,6 @@ export enum TxType {
   LEND = 'lend',
   UNLEND = 'unlend',
   TRADE = 'trade',
-  PERPETUAL_OPEN = 'perpetual-open',
-  PERPETUAL_CLOSE = 'perpetual-close',
   CLOSE_WITH_DEPOSIT = 'close_with_deposit',
   CLOSE_WITH_SWAP = 'close_with_swap',
   BORROW = 'borrow',
@@ -70,6 +68,7 @@ export interface Transactions {
 }
 
 export interface Transaction {
+  chainId?: number;
   transactionHash: string;
   approveTransactionHash: Nullable<string>;
   type: TxType;
@@ -78,7 +77,7 @@ export interface Transaction {
   to: string;
   from: string;
   value: string;
-  asset: Nullable<Asset>;
+  asset: Nullable<Asset | string>;
   assetAmount: Nullable<string>;
   customData?: { [key: string]: any };
 }
@@ -86,7 +85,7 @@ export interface Transaction {
 export interface RequestDialogState {
   open: boolean;
   type: TxType;
-  asset: Nullable<Asset>;
+  asset: Nullable<Asset | string>;
   amount: string;
   error: Nullable<string>;
 }

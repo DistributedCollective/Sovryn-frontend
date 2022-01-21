@@ -7,6 +7,10 @@ import { translations } from '../../../../../locales/i18n';
 import { Input } from '../../../../components/Input';
 import { FormGroup } from '../../../../components/Form/FormGroup';
 import classNames from 'classnames';
+import { toNumberFormat } from '../../../../../utils/display-text/format';
+import { roundToSmaller } from '../../../../../utils/blockchain/math-helpers';
+
+const leverageStepDeviation = 0.05;
 
 type LeverageSelectorProps = {
   className?: string;
@@ -22,20 +26,45 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
   value,
   min,
   max,
-  steps,
+  steps: unfilteredSteps,
   onChange,
 }) => {
   const { t } = useTranslation();
   const [manual, setManual] = useState(false);
-  const onEnableManual = useCallback(() => setManual(true), []);
+
+  const steps = useMemo(() => {
+    const steps = unfilteredSteps.filter(
+      step =>
+        step - leverageStepDeviation >= min &&
+        step + leverageStepDeviation <= max,
+    );
+    if (unfilteredSteps[0] < min && steps[0] !== min) {
+      steps.unshift(min);
+    }
+    if (steps[steps.length - 1] !== max) {
+      steps.push(max);
+    }
+    return steps;
+  }, [min, max, unfilteredSteps]);
+
+  const onEnableManual = useCallback(() => {
+    setManual(true);
+    onChange(Number(roundToSmaller(value, 2)));
+  }, [value, onChange]);
+
   const onEnableManualMinimum = useCallback(() => {
     setManual(true);
     onChange(min);
   }, [onChange, min]);
   const onDisableManual = useCallback(() => {
     setManual(false);
-    if (!steps.includes(value)) {
-      onChange(steps[0]);
+    const nearestStepValue = steps.reduce((nearest, step) => {
+      const currentDifference = Math.abs(nearest - value);
+      const stepDifference = Math.abs(step - value);
+      return stepDifference <= currentDifference ? step : nearest;
+    }, steps[0]);
+    if (nearestStepValue !== value) {
+      onChange(nearestStepValue);
     }
   }, [onChange, steps, value]);
 
@@ -57,7 +86,7 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
     } else if (numberValue > max) {
       numberValue = max;
     }
-    onChange(numberValue);
+    onChange(Number(roundToSmaller(numberValue, 2)));
   }, [value, min, max, onChange]);
 
   return (
@@ -83,6 +112,7 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
               value={value}
               min={min}
               max={max}
+              step={0.01}
               onBlur={onInputBlur}
               onChange={onInputChange}
             />
@@ -103,7 +133,7 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
               min={0}
               max={steps.length - 1}
               stepSize={1}
-              labelRenderer={value => `${steps[value]}x`}
+              labelRenderer={value => `${toNumberFormat(steps[value], 1, 0)}x`}
               type={SliderType.gradient}
             />
             <button className="tw-text-secondary" onClick={onEnableManual}>

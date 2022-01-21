@@ -18,17 +18,22 @@ import {
 } from '../../types';
 import { TransitionSteps } from '../../../../containers/TransitionSteps';
 import { TransitionAnimation } from '../../../../containers/TransitionContainer';
-import { Asset, Nullable } from '../../../../../types';
+import { Asset } from '../../../../../types';
 import { NewPositionCardContextType, NewPositionCardStep } from './types';
 import { SlippageFormStep } from './components/SlippageFormStep';
 import { TradeFormStep } from './components/TradeFormStep';
 import { ConnectFormStep } from './components/ConnectFormStep';
 import { noop } from '../../../../constants';
 import { PERPETUAL_SLIPPAGE_DEFAULT } from '../../types';
+import { PerpetualTxMethods } from '../TradeDialog/types';
+import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
+import debounce from 'lodash.debounce';
 
 export const NewPositionCardContext = React.createContext<
   NewPositionCardContextType
 >({
+  hasEmptyBalance: true,
+  hasOpenPosition: false,
   trade: {
     pairType: PerpetualPairType.BTCUSD,
     collateral: Asset.PERPETUALS,
@@ -50,18 +55,34 @@ const StepComponents = {
   [NewPositionCardStep.slippage]: SlippageFormStep,
 };
 
-type NewPositionCardProps = {
-  /** balance as wei string */
-  balance: Nullable<string>;
-};
-
-export const NewPositionCard: React.FC<NewPositionCardProps> = ({
-  balance,
-}) => {
+export const NewPositionCard: React.FC = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { connected } = useWalletContext();
   const { pairType, collateral } = useSelector(selectPerpetualPage);
+
+  const {
+    available: availableBalance,
+    inPositions,
+  } = usePerpetual_accountBalance();
+
+  // handle flags in a throttled way to prevent flickering when updating
+  const [[hasOpenPosition, hasEmptyBalance], setFlags] = useState([
+    false,
+    true,
+  ]);
+
+  // throttle function prevents the exhaustive deps check
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const updateFlags = useCallback(
+    debounce(setFlags, 250, { leading: false, trailing: true, maxWait: 250 }),
+    [setFlags],
+  );
+
+  useEffect(() => {
+    updateFlags([inPositions !== '0', availableBalance === '0']);
+    return () => updateFlags.cancel();
+  }, [inPositions, availableBalance, updateFlags]);
 
   const [trade, setTrade] = useState<PerpetualTrade>({
     pairType,
@@ -75,10 +96,26 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
     entryPrice: 0,
   });
 
-  const onSubmit = useCallback(
-    () => dispatch(actions.setModal(PerpetualPageModals.TRADE_REVIEW, trade)),
-    [dispatch, trade],
-  );
+  const onSubmit = useCallback(() => {
+    dispatch(
+      actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
+        origin: PerpetualPageModals.NONE,
+        trade,
+        transactions: [
+          {
+            pair: pairType,
+            method: PerpetualTxMethods.trade,
+            amount: trade.amount,
+            tradingPosition: trade.position,
+            slippage: trade.slippage,
+            leverage: trade.leverage,
+            tx: null,
+            approvalTx: null,
+          },
+        ],
+      }),
+    );
+  }, [dispatch, trade, pairType]);
 
   const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
 
@@ -90,11 +127,13 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
 
   const stepProps: NewPositionCardContextType = useMemo(
     () => ({
+      hasOpenPosition,
+      hasEmptyBalance,
       trade,
       onSubmit,
       onChangeTrade: setTrade,
     }),
-    [trade, onSubmit],
+    [trade, onSubmit, hasOpenPosition, hasEmptyBalance],
   );
 
   return (
@@ -106,7 +145,7 @@ export const NewPositionCard: React.FC<NewPositionCardProps> = ({
       <NewPositionCardContext.Provider value={stepProps}>
         <TransitionSteps<NewPositionCardStep>
           classNameOuter="tw-h-full tw-min-h-max"
-          classNameInner="tw-p-4 tw-h-full tw-min-h-max"
+          classNameInner="tw-h-auto tw-min-h-96"
           active={
             connected
               ? NewPositionCardStep.trade

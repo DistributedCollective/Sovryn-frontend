@@ -1,110 +1,94 @@
 import { useAccount } from 'app/hooks/useAccount';
-import { useSendContractTx } from 'app/hooks/useSendContractTx';
-import { useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 import { TxType } from 'store/global/transactions-store/types';
 import { TradingPosition } from 'types/trading-position';
-import { fromWei } from 'utils/blockchain/math-helpers';
 import { ethGenesisAddress, gasLimit } from 'utils/classifiers';
-import { toWei } from 'web3-utils';
+import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
+import { floatToABK64x64, getSignedAmount } from '../utils/contractUtils';
+import { calculateSlippagePrice } from '../utils/perpUtils';
 import {
-  floatToABK64x64,
-  PERPETUAL_ID,
-  getTradeDirection,
-} from '../utils/contractUtils';
+  PERPETUAL_SLIPPAGE_DEFAULT,
+  PERPETUAL_GAS_PRICE_DEFAULT,
+} from '../types';
 import {
-  calculateSlippagePrice,
-  getRequiredMarginCollateral,
-  getMidPrice,
-} from '../utils/perpUtils';
-import { usePerpetual_depositMarginToken } from './usePerpetual_depositMarginToken';
-import { usePerpetual_marginAccountBalance } from './usePerpetual_marginAccountBalance';
-import { usePerpetual_queryAmmState } from './usePerpetual_queryAmmState';
-import { usePerpetual_queryPerpParameters } from './usePerpetual_queryPerpParameters';
-import { usePerpetual_queryTraderState } from './usePerpetual_queryTraderState';
+  PerpetualPairType,
+  PerpetualPairDictionary,
+} from '../../../../utils/dictionaries/perpetual-pair-dictionary';
+import { Asset, Chain } from '../../../../types';
+import { PerpetualTx } from '../components/TradeDialog/types';
+import { useBridgeNetworkSendTx } from '../../../hooks/useBridgeNetworkSendTx';
 
 const MASK_MARKET_ORDER = 0x40000000;
 const MASK_CLOSE_ONLY = 0x80000000;
 
-export const usePerpetual_openTrade = () => {
-  const address = useAccount();
-  const perpetualParameters = usePerpetual_queryPerpParameters();
-  const traderState = usePerpetual_queryTraderState();
-  const ammState = usePerpetual_queryAmmState();
-  const marginBalance = usePerpetual_marginAccountBalance();
-  const midPrice = useMemo(() => getMidPrice(perpetualParameters, ammState), [
-    perpetualParameters,
-    ammState,
+export const usePerpetual_openTrade = (pairType: PerpetualPairType) => {
+  const account = useAccount();
+  const perpetualId = useMemo(() => PerpetualPairDictionary.get(pairType)?.id, [
+    pairType,
   ]);
 
-  const { deposit } = usePerpetual_depositMarginToken();
-  const { send, ...rest } = useSendContractTx('perpetualManager', 'trade');
+  const { averagePrice } = useContext(PerpetualQueriesContext);
+
+  const { send, ...rest } = useBridgeNetworkSendTx(
+    Chain.BSC,
+    'perpetualManager',
+    'trade',
+  );
 
   return {
     trade: async (
       isClosePosition: boolean | undefined = false,
-      /** target amount as wei string */
+      /** amount as wei string */
       amount: string = '0',
       leverage: number | undefined = 1,
-      slippage: number | undefined = 0.5,
+      slippage: number | undefined = PERPETUAL_SLIPPAGE_DEFAULT,
       tradingPosition: TradingPosition | undefined = TradingPosition.LONG,
+      nonce?: number,
+      customData?: PerpetualTx,
     ) => {
-      let signedAmount;
-      if (isClosePosition) {
-        // 1.1 to prevent rounding issues, contract clamps CLOSE_ONLY trades to 0 either way
-        signedAmount = -1.1 * marginBalance.fPositionBC;
-      } else {
-        signedAmount =
-          getTradeDirection(tradingPosition) * Number(fromWei(amount));
-      }
+      const signedAmount = getSignedAmount(tradingPosition, amount);
 
       let tradeDirection = Math.sign(signedAmount);
 
       const limitPrice = calculateSlippagePrice(
-        midPrice,
+        averagePrice,
         slippage,
         tradeDirection,
       );
 
-      const marginCollateralAmount = getRequiredMarginCollateral(
-        leverage,
-        marginBalance.fPositionBC,
-        marginBalance.fPositionBC - signedAmount,
-        perpetualParameters,
-        ammState,
-      );
-
-      const marginRequired = Math.max(
-        0,
-        marginCollateralAmount - marginBalance.fCashCC,
-      );
-
-      if (!isClosePosition && marginRequired > 0) {
-        await deposit(toWei(marginRequired.toPrecision(8)));
-      }
-
       const deadline = Math.round(Date.now() / 1000) + 86400; // 1 day
       const timeNow = Math.round(Date.now() / 1000);
       const order = [
-        PERPETUAL_ID,
-        address,
+        perpetualId,
+        account,
         floatToABK64x64(signedAmount),
         floatToABK64x64(limitPrice),
         deadline,
         ethGenesisAddress,
         isClosePosition ? MASK_CLOSE_ONLY : MASK_MARKET_ORDER,
+        floatToABK64x64(leverage),
         timeNow,
       ];
 
       await send(
         [order],
         {
-          from: address,
+          from: account,
           gas: gasLimit[TxType.OPEN_PERPETUAL_TRADE],
-          gasPrice: 60,
+          gasPrice: PERPETUAL_GAS_PRICE_DEFAULT,
+          nonce,
         },
-        { type: TxType.OPEN_PERPETUAL_TRADE },
+        {
+          type: TxType.OPEN_PERPETUAL_TRADE,
+          asset: Asset.PERPETUALS,
+          customData,
+        },
       );
     },
-    ...rest,
+    txData: rest.txData,
+    txHash: rest.txHash,
+    loading: rest.loading,
+    status: rest.status,
+    reset: rest.reset,
   };
 };

@@ -1,92 +1,141 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { PerpetualPair } from '../../../../../utils/models/perpetual-pair';
 import { usePerpetual_ContractDetails } from '../../hooks/usePerpetual_ContractDetails';
-import {
-  numberToPercent,
-  toNumberFormat,
-} from '../../../../../utils/display-text/format';
-import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
+import { numberToPercent } from '../../../../../utils/display-text/format';
+import { AssetValue } from 'app/components/AssetValue';
+import { AssetValueMode } from 'app/components/AssetValue/types';
+import { getCollateralName } from '../../utils/renderUtils';
+import { Asset } from '../../../../../types';
+import { Tooltip } from '@blueprintjs/core';
 
 type ContractDetailsProps = {
   pair: PerpetualPair;
+  collateral: Asset;
 };
 
-export const ContractDetails: React.FC<ContractDetailsProps> = ({ pair }) => {
+export const ContractDetails: React.FC<ContractDetailsProps> = ({
+  pair,
+  collateral,
+}) => {
   const { t } = useTranslation();
-  const data = usePerpetual_ContractDetails(pair);
+  const data = usePerpetual_ContractDetails(pair.pairType);
+
+  const collateralAsset = useMemo(() => getCollateralName(collateral), [
+    collateral,
+  ]);
 
   return (
-    <div className="tw-w-full tw-bg-black tw-py-2">
-      <div className="tw-container tw-flex tw-flex-col sm:tw-flex-row tw-flex-wrap tw-items-start sm:tw-items-center">
+    <div className="tw-w-full tw-bg-black">
+      <div className="tw-container tw-flex tw-flex-col sm:tw-flex-row tw-flex-wrap tw-items-start sm:tw-items-center tw-px-8 tw-py-2">
         <h3 className="tw-mt-0.5 sm:tw-mr-5 tw-text-sm tw-font-semibold tw-normal-case">
           {t(translations.perpetualPage.contractDetails.title)}
         </h3>
         <ContractDetailEntry
           titleClassName="tw-font-medium"
           valueClassName="tw-text-primary tw-font-semibold"
+          title={t(translations.perpetualPage.contractDetails.markPrice)}
+          tooltip={t(
+            translations.perpetualPage.contractDetails.tooltips.markPrice,
+          )}
+          value={
+            <AssetValue
+              minDecimals={2}
+              maxDecimals={2}
+              mode={AssetValueMode.auto}
+              value={data?.markPrice || 0}
+              assetString={pair.quoteAsset}
+            />
+          }
+        />
+        <ContractDetailEntry
+          titleClassName="tw-font-medium"
+          valueClassName="tw-font-semibold"
           title={t(translations.perpetualPage.contractDetails.indexPrice)}
-          value={data?.indexPrice && toNumberFormat(data.indexPrice, 2)}
+          tooltip={t(
+            translations.perpetualPage.contractDetails.tooltips.indexPrice,
+          )}
+          value={
+            <AssetValue
+              minDecimals={2}
+              maxDecimals={2}
+              mode={AssetValueMode.auto}
+              value={data?.indexPrice || 0}
+              assetString={pair.quoteAsset}
+            />
+          }
         />
         <ContractDetailEntry
           title={t(translations.perpetualPage.contractDetails.volume24h)}
           value={
-            data?.volume24h && (
-              <>
-                {toNumberFormat(data.volume24h, 2)}{' '}
-                <AssetSymbolRenderer assetString={pair.quoteAsset} />
-              </>
-            )
+            <AssetValue
+              minDecimals={2}
+              maxDecimals={2}
+              mode={AssetValueMode.auto}
+              value={data?.volume24h || 0}
+              assetString={pair.baseAsset}
+            />
           }
         />
         <ContractDetailEntry
           title={t(translations.perpetualPage.contractDetails.openInterest)}
+          tooltip={t(
+            translations.perpetualPage.contractDetails.tooltips.openInterest,
+          )}
           value={
-            data?.openInterest && (
-              <>
-                {toNumberFormat(data.openInterest, 2)}{' '}
-                <AssetSymbolRenderer assetString={pair.quoteAsset} />
-              </>
-            )
+            <AssetValue
+              minDecimals={2}
+              maxDecimals={2}
+              mode={AssetValueMode.auto}
+              value={data?.openInterest || 0}
+              assetString={collateralAsset}
+            />
           }
         />
         <ContractDetailEntry
           title={t(translations.perpetualPage.contractDetails.fundingRate)}
+          tooltip={t(
+            translations.perpetualPage.contractDetails.tooltips.fundingRate,
+          )}
           value={
             <>
-              <span className="tw-text-sm tw-text-trade-short tw-font-medium">
-                {data?.fundingRate4h && numberToPercent(data.fundingRate4h, 4)}
-              </span>{' '}
-              {t(translations.perpetualPage.contractDetails.fundingRate4hr)}
+              <span
+                className={classNames('tw-text-sm tw-font-medium', {
+                  'tw-text-trade-short':
+                    data?.fundingRate && data.fundingRate < 0,
+                  'tw-text-trade-long':
+                    data?.fundingRate && data.fundingRate > 0,
+                })}
+              >
+                {data?.fundingRate && numberToPercent(data.fundingRate, 4)}
+              </span>
             </>
           }
         />
         <ContractDetailEntry
-          title={t(translations.perpetualPage.contractDetails.contractValue)}
-          value={
-            data?.contractValue && (
-              <>
-                {toNumberFormat(data.contractValue, 2)}{' '}
-                <AssetSymbolRenderer assetString={pair.quoteAsset} />
-              </>
-            )
-          }
-        />
-        <ContractDetailEntry
           title={t(translations.perpetualPage.contractDetails.lotSize)}
-          value={data?.lotSize && toNumberFormat(data.lotSize, 0)}
+          value={
+            <AssetValue
+              minDecimals={3}
+              maxDecimals={3}
+              mode={AssetValueMode.auto}
+              value={data?.lotSize || 0}
+              assetString={pair.baseAsset}
+            />
+          }
         />
         <ContractDetailEntry
           title={t(translations.perpetualPage.contractDetails.minTradeAmount)}
           value={
-            data?.minTradeAmount && (
-              <>
-                {toNumberFormat(data.minTradeAmount, 2)}{' '}
-                <AssetSymbolRenderer assetString={pair.quoteAsset} />
-              </>
-            )
+            <AssetValue
+              minDecimals={3}
+              maxDecimals={3}
+              mode={AssetValueMode.auto}
+              value={data?.minTradeAmount || 0}
+              assetString={pair.baseAsset}
+            />
           }
         />
       </div>
@@ -99,6 +148,7 @@ type ContractDetailEntryProps = {
   titleClassName?: string;
   valueClassName?: string;
   title: React.ReactNode;
+  tooltip?: React.ReactElement | string;
   value: React.ReactNode;
 };
 
@@ -107,12 +157,19 @@ const ContractDetailEntry: React.FC<ContractDetailEntryProps> = ({
   titleClassName,
   valueClassName,
   title,
+  tooltip,
   value,
 }) => (
   <div className={classNames('sm:tw-mr-8', className)}>
-    <span className={classNames('tw-mr-2.5 tw-text-xs', titleClassName)}>
-      {title}
-    </span>
+    <Tooltip
+      content={tooltip}
+      popoverClassName="tw-max-w-md tw-font-light"
+      position="bottom"
+    >
+      <span className={classNames('tw-mr-2.5 tw-text-xs', titleClassName)}>
+        {title}
+      </span>
+    </Tooltip>
     <span className={classNames('tw-text-sm tw-font-medium', valueClassName)}>
       {value}
     </span>

@@ -14,11 +14,15 @@ import { TxStatus, TxType } from '../../store/global/transactions-store/types';
 import { Asset } from '../../types';
 import {
   getContract,
+  getContractNameByAddress,
   getTokenContractName,
 } from '../blockchain/contract-helpers';
 import { Nullable } from '../../types';
 import { gas } from '../blockchain/gas-price';
 import { transferAmount } from '../blockchain/transfer-approve-amount';
+import { MIN_GAS } from 'utils/classifiers';
+
+import erc20Abi from 'utils/blockchain/abi/erc20.json';
 
 export interface CheckAndApproveResult {
   approveTx?: Nullable<string>;
@@ -53,14 +57,29 @@ class ContractWriter {
     amount: string | string[],
     asset: Asset,
   ): Promise<CheckAndApproveResult> {
+    return this.checkAndApproveAddresses(
+      getContract(contractName).address,
+      spenderAddress,
+      amount,
+      asset,
+    );
+  }
+
+  public async checkAndApproveAddresses(
+    token: string,
+    spenderAddress: string,
+    amount: string | string[],
+    asset?: Asset | string,
+  ) {
     const amounts = Array.isArray(amount) ? amount : [amount, amount];
     const address = walletService.address.toLowerCase();
     const dispatch = this.sovryn.store().dispatch;
     dispatch(txActions.setLoading(true));
     let nonce = await contractReader.nonce(address);
     try {
-      const allowance = await contractReader.call<string>(
-        contractName,
+      const allowance = await contractReader.callByAddress<string>(
+        token,
+        erc20Abi as AbiItem[],
         'allowance',
         [address, spenderAddress],
       );
@@ -74,8 +93,9 @@ class ContractWriter {
           }),
         );
         approveTx = await contractWriter
-          .send(
-            contractName,
+          .sendByAddress(
+            token,
+            erc20Abi,
             'approve',
             [spenderAddress, transferAmount.get(amounts[1])],
             {
@@ -91,10 +111,10 @@ class ContractWriter {
                 type: TxType.APPROVE,
                 status: TxStatus.PENDING,
                 loading: false,
-                to: contractName,
+                to: getContractNameByAddress(token) || token,
                 from: address,
                 value: '0',
-                asset,
+                asset: asset || null,
                 assetAmount: transferAmount.get(amounts[1]),
               }),
             );
@@ -159,13 +179,18 @@ class ContractWriter {
           options.nonce ||
           (await contractReader.nonce(walletService.address.toLowerCase()));
 
-        const gasLimit =
+        let gasLimit =
           options?.gas ||
           (await this.estimateCustomGas(address, abi, methodName, args, {
             value: options?.value,
             gasPrice: options?.gasPrice,
             nonce,
           }));
+        let gasPrice = options?.gasPrice || gas.get();
+
+        if (bignumber(gasLimit).lessThan(MIN_GAS)) {
+          gasLimit = MIN_GAS;
+        }
 
         try {
           const signedTxOrTransactionHash = await walletService.signTransaction(
@@ -173,7 +198,7 @@ class ContractWriter {
               to: address.toLowerCase(),
               value: String(options?.value || '0'),
               data: data,
-              gasPrice: gas.get(),
+              gasPrice: String(gasPrice),
               nonce,
               gasLimit: String(gasLimit),
               chainId: walletService.chainId,

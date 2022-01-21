@@ -7,6 +7,8 @@ export enum NewPositionCardStep {
 }
 
 export type NewPositionCardContextType = {
+  hasOpenPosition: boolean;
+  hasEmptyBalance: boolean;
   trade: PerpetualTrade;
   onChangeTrade: (trade: PerpetualTrade) => void;
   onSubmit: () => void;

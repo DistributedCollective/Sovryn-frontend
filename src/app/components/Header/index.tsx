@@ -191,7 +191,7 @@ export function Header() {
       [SECTION_TYPE.FINANCE]: ['/lend', '/yield-farm'],
       [SECTION_TYPE.BITOCRACY]: ['/stake'],
       [SECTION_TYPE.ORIGINS]: ['/origins', '/origins/claim'],
-      [SECTION_TYPE.LABS]: ['/perpetual'],
+      [SECTION_TYPE.LABS]: ['/labs', '/mynt-token'],
     };
     return section && paths[section].includes(location.pathname);
   };
@@ -426,6 +426,13 @@ export function Header() {
               <NavPopover
                 content={
                   <BPMenu>
+                    <MenuItem
+                      text={t(translations.mainMenu.myntToken)}
+                      className="bp3-popover-dismiss"
+                      href="/mynt-token"
+                      rel="noopener noreferrer"
+                      data-action-id="header-origins-link-launchpad"
+                    />
                     <MenuItem
                       text={t(translations.mainMenu.perpetual)}
                       className="bp3-popover-dismiss"

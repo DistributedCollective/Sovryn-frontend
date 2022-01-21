@@ -3,11 +3,10 @@ import { useAccount } from '../../../hooks/useAccount';
 import { useFetch } from '../../../hooks/useFetch';
 import {
   assetByTokenAddress,
-  getAmmContract,
   getTokenContract,
 } from '../../../../utils/blockchain/contract-helpers';
-import type { LiquidityPool } from '../../../../utils/models/liquidity-pool';
 import { backendUrl, currentChainId } from '../../../../utils/classifiers';
+import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
 
 interface Response {
   pool: string;
@@ -21,28 +20,38 @@ interface DataItem {
   removedMinusAdded: string;
 }
 
-export function useUserPoolData(pool: LiquidityPool) {
+export function useUserPoolData(pool: AmmLiquidityPool) {
   const address = useAccount();
 
   const { value, loading, error } = useFetch<Response>(
-    `${backendUrl[currentChainId]}/liquidity-page/${address}/${
-      getAmmContract(pool.poolAsset).address
-    }`,
+    `${backendUrl[currentChainId]}/liquidity-page/${address}/${pool.converter}`,
     {
-      pool: getAmmContract(pool.poolAsset).address,
-      data: pool.supplyAssets.map(item => ({
-        asset: getTokenContract(item.getAsset()).address,
-        totalAdded: '0',
-        totalRemoved: '0',
-        removedMinusAdded: '0',
-      })),
+      pool: pool.converter,
+      data: [
+        {
+          asset: getTokenContract(pool.assetA).address,
+          totalAdded: '0',
+          totalRemoved: '0',
+          removedMinusAdded: '0',
+        },
+        ...(pool.converterVersion === 2 && pool.assetB
+          ? [
+              {
+                asset: getTokenContract(pool.assetB).address,
+                totalAdded: '0',
+                totalRemoved: '0',
+                removedMinusAdded: '0',
+              },
+            ]
+          : []),
+      ],
     },
     !!address,
   );
 
   const data = useMemo(
     () => ({
-      pool: pool.poolAsset,
+      pool: pool.converter,
       data: value.data.map(item => ({
         ...item,
         asset: assetByTokenAddress(item.asset),

@@ -1,48 +1,76 @@
-import { useEffect, useState } from 'react';
-import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
+import { Bar } from 'app/components/TradingChart/datafeed';
+import { useContext, useEffect, useState, useMemo } from 'react';
+import { Nullable } from 'types';
 import { useBlockSync } from '../../../hooks/useAccount';
+import { makeApiRequest } from '../components/TradingChart/helpers';
+import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
+import { getIndexPrice, getMarkPrice } from '../utils/perpUtils';
+import { CandleDuration } from './graphql/useGetCandles';
+import {
+  PerpetualPairType,
+  PerpetualPairDictionary,
+} from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 
 export type PerpetualContractDetailsData = {
+  markPrice: number;
   indexPrice: number;
   volume24h: number;
   openInterest: number;
-  fundingRate4h: number;
-  contractValue: number;
+  fundingRate: number;
   lotSize: number;
   minTradeAmount: number;
 };
 
-const placeholderFetch = async (
-  pair: PerpetualPair,
-  blockId: number,
-): Promise<PerpetualContractDetailsData> => {
-  console.warn(
-    'PlaceholderFetch used by usePerpetual_ContractDetails! NOT IMPLEMENTED YET!',
-  );
-
-  return new Promise(resolve =>
-    resolve({
-      indexPrice: 40000,
-      volume24h: 16348900,
-      openInterest: 57466600,
-      fundingRate4h: 0.0001,
-      contractValue: 10,
-      lotSize: 100,
-      minTradeAmount: 100,
-    }),
-  );
-};
-
-export const usePerpetual_ContractDetails = (pair: PerpetualPair) => {
+export const usePerpetual_ContractDetails = (pairType: PerpetualPairType) => {
   const blockId = useBlockSync();
-  const [data, setData] = useState<PerpetualContractDetailsData | null>();
+  const [volume24h, setVolume24h] = useState(0);
+  const [data, setData] = useState<Nullable<PerpetualContractDetailsData>>();
+
+  const { ammState, perpetualParameters } = useContext(PerpetualQueriesContext);
+
+  const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
 
   useEffect(() => {
-    // TODO: implement ContractDetails data fetching
-    placeholderFetch(pair, blockId).then(data => {
-      setData(data);
-    });
-  }, [pair, blockId]);
+    const get24hVolume = async () => {
+      const timestampNow = new Date().getTime() / 1000;
+      const timestampYesterday = Math.ceil(timestampNow - 24 * 3600);
+
+      const data: Bar[] = await makeApiRequest(
+        CandleDuration.D_1,
+        pair.id,
+        timestampYesterday,
+        1,
+        true,
+      );
+
+      if (data && data[0]?.volume) {
+        setVolume24h(data[0]?.volume);
+      }
+    };
+
+    get24hVolume().catch(console.error);
+  }, [pair.id]);
+
+  useEffect(
+    () =>
+      setData({
+        markPrice: getMarkPrice(ammState),
+        indexPrice: getIndexPrice(ammState),
+        volume24h: volume24h,
+        openInterest: perpetualParameters.fOpenInterest,
+        fundingRate: perpetualParameters.fCurrentFundingRate,
+        lotSize: perpetualParameters.fLotSizeBC,
+        minTradeAmount: perpetualParameters.fLotSizeBC,
+      }),
+    [
+      blockId,
+      ammState,
+      perpetualParameters.fCurrentFundingRate,
+      perpetualParameters.fLotSizeBC,
+      perpetualParameters.fOpenInterest,
+      volume24h,
+    ],
+  );
 
   return data;
 };

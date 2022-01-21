@@ -29,6 +29,7 @@ import { discordInvite } from 'utils/classifiers';
 import { useSwapsExternal_getSwapExpectedReturn } from '../../../../hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
 import { useSwapNetwork_conversionPath } from 'app/hooks/swap-network/useSwapNetwork_conversionPath';
 import { useSwapNetwork_approveAndConvertByPath } from 'app/hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
+import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 
 const s = translations.swapTradeForm;
 
@@ -68,7 +69,10 @@ export function BuyForm() {
   //   '0x',
   // );
 
-  const { value: path } = useSwapNetwork_conversionPath(Asset.RBTC, Asset.SOV);
+  const { value: path } = useSwapNetwork_conversionPath(
+    AssetsDictionary.get(Asset.RBTC).getTokenContractAddress(),
+    AssetsDictionary.get(Asset.SOV).getTokenContractAddress(),
+  );
 
   const { send, ...tx } = useSwapNetwork_approveAndConvertByPath(
     path,

@@ -10,20 +10,24 @@
  * https://github.com/tradingview/charting_library/wiki/Breaking-Changes
  */
 
-import { weiTo2 } from 'utils/blockchain/math-helpers';
 import { Bar } from './helpers';
 import {
   subscription as bscSubscription,
-  decodeTradeLogs,
+  PerpetualManagerEventKeys,
+  decodePerpetualManagerLog,
 } from '../../utils/bscWebsocket';
 import { symbolMap } from './helpers';
 import { getContract } from 'utils/blockchain/contract-helpers';
+import { BigNumber } from 'ethers';
+import { ABK64x64ToFloat } from '../../utils/contractUtils';
 
 // const WebSocket = require('ws');
 // const url = 'ws://localhost:8080';
 
 const address = getContract('perpetualManager').address.toLowerCase();
-const subscription = bscSubscription(address, ['Trade']);
+const subscription = bscSubscription(address, [
+  PerpetualManagerEventKeys.Trade,
+]);
 // const subscription = new WebSocket(url);
 
 type SubItem = {
@@ -44,8 +48,13 @@ function getNextBarTime(barTime: number, resolution: number) {
 }
 
 subscription.on('data', data => {
-  const decoded = decodeTradeLogs(data.data, [data.topics[1]]);
-  const tradePrice = parseFloat(weiTo2(decoded.price));
+  const decoded = decodePerpetualManagerLog(data);
+  if (!decoded) {
+    return;
+  }
+
+  const tradePrice = ABK64x64ToFloat(BigNumber.from(decoded.price));
+  const tradeAmount = ABK64x64ToFloat(BigNumber.from(decoded.tradeAmountBC));
   const tradeTime = parseInt(decoded.blockTimestamp) * 1e3;
   const channelString = Object.keys(symbolMap).find(
     item => symbolMap[item].toLowerCase() === decoded.perpetualId.toLowerCase(),
@@ -69,7 +78,7 @@ subscription.on('data', data => {
           high: Math.max(lastBar.close, tradePrice),
           low: Math.min(lastBar.close, tradePrice),
           close: tradePrice,
-          volume: Math.abs(parseFloat(weiTo2(decoded.tradeAmount))),
+          volume: Math.abs(tradeAmount),
           time: new Date().getTime(),
         };
       } else {
@@ -79,8 +88,8 @@ subscription.on('data', data => {
           low: Math.min(lastBar.low, tradePrice),
           close: tradePrice,
           volume: lastBar.volume
-            ? lastBar.volume + Math.abs(parseFloat(weiTo2(decoded.tradeAmount)))
-            : Math.abs(parseFloat(weiTo2(decoded.tradeAmount))),
+            ? lastBar.volume + Math.abs(tradeAmount)
+            : Math.abs(tradeAmount),
         };
       }
       subscriptionItem.lastBar = bar;
@@ -90,12 +99,7 @@ subscription.on('data', data => {
         try {
           handler.callback(bar);
         } catch (e) {
-          const error = e as Error;
-          // This is a false positive due to using has_empty_bars. Not 100% sure about this, so if there are issues, this may be why
-          if (error.message.includes('time order violation')) {
-            return;
-          }
-          throw e;
+          console.error(e);
         }
       });
     }

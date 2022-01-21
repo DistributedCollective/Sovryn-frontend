@@ -1,17 +1,14 @@
 import { Asset } from 'types/asset';
-import {
-  getAmmContract,
-  getTokenContract,
-} from 'utils/blockchain/contract-helpers';
+import { getTokenContract } from 'utils/blockchain/contract-helpers';
 import { gasLimit } from 'utils/classifiers';
 import { TxType } from '../../../../store/global/transactions-store/types';
 import { useAccount } from '../../../hooks/useAccount';
 import { useSendContractTx } from 'app/hooks/useSendContractTx';
+import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
 
 export function useMining_RemoveLiquidityV1(
-  pool: Asset,
+  pool: AmmLiquidityPool,
   amount: string,
-  reserveTokens: Asset[],
   reserveMinReturnAmounts: string[],
 ) {
   const account = useAccount();
@@ -22,6 +19,7 @@ export function useMining_RemoveLiquidityV1(
 
   return {
     withdraw: (nonce?: number, approveTx?: string | null) => {
+      const reserveTokens = [pool.assetA, pool.assetB];
       const btcIndex = reserveTokens.indexOf(Asset.RBTC);
       if (btcIndex !== -1) {
         // making btc as first element
@@ -34,7 +32,7 @@ export function useMining_RemoveLiquidityV1(
       }
       return send(
         [
-          getAmmContract(pool).address,
+          pool.converter,
           amount,
           reserveTokens
             .filter(item => !!item)

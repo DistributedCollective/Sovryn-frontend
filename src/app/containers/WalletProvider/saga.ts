@@ -1,4 +1,4 @@
-import { END, eventChannel } from 'redux-saga';
+import { eventChannel } from 'redux-saga';
 import {
   call,
   put,
@@ -9,6 +9,7 @@ import {
 } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 import { TransactionReceipt } from 'web3-core';
+import { PollingBlockTracker } from 'eth-block-tracker';
 import { Sovryn } from 'utils/sovryn';
 import { selectWalletProvider } from './selectors';
 import { actions } from './slice';
@@ -20,37 +21,35 @@ import delay from '@redux-saga/delay-p';
 import axios from 'axios';
 import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { backendUrl, currentChainId } from '../../../utils/classifiers';
+import { bridgeNetwork } from '../../pages/BridgeDepositPage/utils/bridge-network';
+import { BridgeNetworkDictionary } from '../../pages/BridgeDepositPage/dictionaries/bridge-network-dictionary';
+import { Chain } from '../../../types';
 
-function createBlockChannels({ web3 }) {
+// start block watcher
+function createBlockPollChannel({ interval, web3 }) {
   return eventChannel(emit => {
-    const blockEvents = web3.eth
-      .subscribe('newBlockHeaders', (error, result) => {
-        if (error) {
-          emit(actions.blockFailed(error.message));
+    web3.currentProvider.sendAsync = web3.currentProvider.send;
+    const blockTracker = new PollingBlockTracker({
+      provider: web3.currentProvider,
+      pollingInterval: interval,
+    });
 
-          console.error('Error in block header subscription:');
-          console.error(error);
+    blockTracker.on('sync', ({ newBlock, oldBlock }) => {
+      emit(actions.blockReceived(Number(newBlock)));
+      if (oldBlock) {
+        emit(actions.blockReceived(Number(oldBlock)));
+      }
+    });
 
-          emit(END);
-        }
-      })
-      .on('data', blockHeader => {
-        emit(actions.blockReceived(blockHeader));
-      })
-      .on('error', error => {
-        emit(actions.blockFailed(error.message));
-        emit(END);
-      });
-
-    return () => {
-      blockEvents.unsubscribe((error, success) => {});
-    };
+    return () => {};
   });
 }
 
-function* callCreateBlockChannels() {
-  const web3 = Sovryn.getWeb3();
-  const blockChannel = yield call(createBlockChannels, { web3 });
+function* callCreateBlockPollChannel() {
+  const blockChannel = yield call(createBlockPollChannel, {
+    web3: Sovryn.getWeb3(),
+    interval: 10000,
+  });
 
   try {
     while (true) {
@@ -64,7 +63,7 @@ function* callCreateBlockChannels() {
 
 function* processBlockHeader(event) {
   const { address, processedBlocks } = yield select(selectWalletProvider);
-  const blockNumber = event.payload.number;
+  const blockNumber = event.payload;
   const web3 = Sovryn.getWeb3();
 
   try {
@@ -158,9 +157,12 @@ function* callTestTransactionsState() {
   let hasChanges = false;
   const transactions = yield select(selectTransactionArray);
   const txes = transactions.filter(item => item.status === TxStatus.PENDING);
+
   for (let tx of txes) {
     const receipt: TransactionReceipt = yield call(
-      [Sovryn, Sovryn.getWeb3().eth.getTransactionReceipt],
+      [bridgeNetwork, bridgeNetwork.receipt],
+      (tx.chainId && BridgeNetworkDictionary.getByChainId(tx.chainId)?.chain) ||
+        Chain.RSK,
       tx.transactionHash,
     );
     if (receipt === null) {
@@ -197,7 +199,7 @@ function* addVisitSaga({ payload }: PayloadAction<string>) {
 }
 
 export function* walletProviderSaga() {
-  yield takeLatest(actions.chainChanged.type, callCreateBlockChannels);
+  yield takeLatest(actions.chainChanged.type, callCreateBlockPollChannel);
   yield takeLatest(actions.connected.type, walletConnected);
   yield takeLatest(actions.disconnected.type, walletDisconnected);
   yield takeLatest(actions.testTransactions.type, testTransactionsPeriodically);

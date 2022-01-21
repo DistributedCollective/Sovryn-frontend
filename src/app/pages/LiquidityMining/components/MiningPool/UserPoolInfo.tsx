@@ -1,45 +1,38 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { bignumber } from 'mathjs';
-import {
-  LiquidityPool,
-  LiquidityPoolSupplyAsset,
-} from 'utils/models/liquidity-pool';
 import { contractReader } from '../../../../../utils/sovryn/contract-reader';
 import { useAccount } from '../../../../hooks/useAccount';
-import {
-  getAmmContract,
-  getAmmContractName,
-  getPoolTokenContractName,
-  getTokenContractName,
-} from '../../../../../utils/blockchain/contract-helpers';
+import { getTokenContractName } from '../../../../../utils/blockchain/contract-helpers';
 import { LiquidityMiningRowTable } from '../RowTable';
 import { useUserPoolData } from '../../hooks/useUserPoolData';
 import { Asset } from '../../../../../types';
 import { useCachedAssetRate } from '../../../../hooks/trading/useCachedAssetPrice';
 import { useLiquidityMining_getUserAccumulatedReward } from '../../hooks/useLiquidityMining_getUserAccumulatedReward';
 import { Balance, UserInfo } from './types';
+import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
 
-interface Props {
-  pool: LiquidityPool;
+import erc20Abi from 'utils/blockchain/abi/erc20.json';
+
+interface IUserPoolInfoProps {
+  pool: AmmLiquidityPool;
   onNonEmptyBalance: () => void;
   successfulTransactions: number;
 }
 
 // todo this needs refactoring to optimize blockchain reads, most of the
 //  calls to the node are also used in some of the child components
-export function UserPoolInfo({
+export const UserPoolInfo: React.FC<IUserPoolInfoProps> = ({
   pool,
   onNonEmptyBalance,
   successfulTransactions,
-}: Props) {
+}) => {
   const account = useAccount();
   const { value: poolData, loading: plnLoading } = useUserPoolData(pool);
 
-  const token1 = pool.supplyAssets[0];
-  const token2 = pool.supplyAssets[1];
+  const { assetA, assetB, poolTokenA, poolTokenB } = pool;
 
-  const { value: rate1 } = useCachedAssetRate(token1.asset, Asset.RBTC);
-  const { value: rate2 } = useCachedAssetRate(token2.asset, Asset.RBTC);
+  const { value: rate1 } = useCachedAssetRate(assetA, Asset.RBTC);
+  const { value: rate2 } = useCachedAssetRate(assetB, Asset.RBTC);
   const { value: sovRate } = useCachedAssetRate(Asset.SOV, Asset.RBTC);
 
   const [balance1, setBalance1] = useState('0');
@@ -50,11 +43,11 @@ export function UserPoolInfo({
   const [infoReward2, setInfoReward2] = useState('0');
 
   const { value: reward1 } = useLiquidityMining_getUserAccumulatedReward(
-    token1.getContractAddress(),
+    poolTokenA,
   );
 
   const { value: reward2 } = useLiquidityMining_getUserAccumulatedReward(
-    token2.getContractAddress(),
+    poolTokenB!,
   );
 
   const rewardI1 = useMemo(
@@ -69,11 +62,11 @@ export function UserPoolInfo({
 
   useEffect(() => {
     if (!account) return;
-    const getInfo = async (token: LiquidityPoolSupplyAsset) => {
+    const getInfo = async (token: string) => {
       const info = await contractReader.call<UserInfo>(
         'liquidityMiningProxy',
         'getUserInfo',
-        [token.getContractAddress(), account],
+        [token, account],
       );
 
       return {
@@ -82,24 +75,22 @@ export function UserPoolInfo({
       };
     };
 
-    const getBalance = async (
-      token: LiquidityPoolSupplyAsset,
-      amount: string,
-    ) => {
+    const getBalance = async (token: string, amount: string) => {
       const {
         0: balance,
         // 1: fee,
-      } = await contractReader.call<Balance>(
-        getAmmContractName(pool.poolAsset),
+      } = await contractReader.callByAddress<Balance>(
+        pool.converter,
+        pool.converterAbi,
         'removeLiquidityReturnAndFee',
-        [token.getContractAddress(), amount],
+        [token, amount],
       );
 
       return balance;
     };
 
     const retrieveV2Balance = async (
-      token: LiquidityPoolSupplyAsset,
+      token: string,
       setReward: (value: string) => void,
     ) => {
       const info = await getInfo(token);
@@ -108,24 +99,25 @@ export function UserPoolInfo({
     };
 
     const retrieveV1Balance = async () => {
-      const info = await getInfo(token1);
+      const info = await getInfo(poolTokenA);
       setInfoReward1(info.reward);
-      const supply = await contractReader.call<string>(
-        getPoolTokenContractName(pool.poolAsset, pool.poolAsset),
+      const supply = await contractReader.callByAddress<string>(
+        poolTokenA,
+        erc20Abi,
         'totalSupply',
         [],
       );
 
       const converterBalance1 = await contractReader.call<string>(
-        getTokenContractName(token1.asset),
+        getTokenContractName(assetA),
         'balanceOf',
-        [getAmmContract(pool.poolAsset).address],
+        [pool.converter],
       );
 
       const converterBalance2 = await contractReader.call<string>(
-        getTokenContractName(token2.asset),
+        getTokenContractName(assetB),
         'balanceOf',
-        [getAmmContract(pool.poolAsset).address],
+        [pool.converter],
       );
 
       const balance1 = bignumber(info.amount)
@@ -143,16 +135,16 @@ export function UserPoolInfo({
       };
     };
 
-    if (pool.version === 2) {
+    if (pool.converterVersion === 2 && poolTokenB) {
       setLoading1(true);
       setLoading2(true);
-      retrieveV2Balance(token1, setInfoReward1)
+      retrieveV2Balance(poolTokenA, setInfoReward1)
         .then(e => {
           setBalance1(e);
           setLoading1(false);
         })
         .catch(console.error);
-      retrieveV2Balance(token2, setInfoReward2)
+      retrieveV2Balance(poolTokenB, setInfoReward2)
         .then(e => {
           setBalance2(e);
           setLoading2(false);
@@ -170,11 +162,19 @@ export function UserPoolInfo({
         })
         .catch(console.error);
     }
-  }, [account, pool, token1, token2, successfulTransactions]);
+  }, [
+    account,
+    pool,
+    assetA,
+    assetB,
+    poolTokenA,
+    poolTokenB,
+    successfulTransactions,
+  ]);
 
   const pln = useMemo(() => {
-    const pl1 = poolData.data.find(item => item.asset === token1.asset);
-    const pl2 = poolData.data.find(item => item.asset === token2.asset);
+    const pl1 = poolData.data.find(item => item.asset === assetA);
+    const pl2 = poolData.data.find(item => item.asset === assetB);
     let pln1 = '0';
     let pln2 = '0';
 
@@ -194,14 +194,14 @@ export function UserPoolInfo({
       pl1: pln1,
       pl2: pln2,
     };
-  }, [poolData, token1, token2, balance1, balance2]);
+  }, [poolData, assetA, assetB, balance1, balance2]);
 
   const totalEarned = useMemo(() => {
     const p1 = bignumber(pln.pl1).mul(rate1.rate).div(rate1.precision);
     const p2 = bignumber(pln.pl2).mul(rate2.rate).div(rate2.precision);
     const r1 = bignumber(rewardI1).mul(sovRate.rate).div(sovRate.precision);
     const r2 =
-      pool.version === 1
+      pool.converterVersion === 1
         ? '0'
         : bignumber(rewardI2).mul(sovRate.rate).div(sovRate.precision);
 
@@ -218,7 +218,7 @@ export function UserPoolInfo({
     rewardI1,
     sovRate.rate,
     sovRate.precision,
-    pool.version,
+    pool.converterVersion,
     rewardI2,
   ]);
 
@@ -235,12 +235,12 @@ export function UserPoolInfo({
       loading1={loading1}
       balance2={balance2}
       loading2={loading2}
-      asset1={token1.asset}
-      asset2={token2.asset}
+      asset1={assetA}
+      asset2={assetB}
       pln1={pln.pl1}
       pln2={pln.pl2}
       plnLoading={plnLoading}
       totalEarned={totalEarned}
     />
   );
-}
+};

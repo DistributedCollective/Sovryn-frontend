@@ -1,7 +1,7 @@
 import { useQuery, gql } from '@apollo/client';
 
-/** Hook to get recents trades for right hand panel
- * Takes count as parameters: numbe of rows to return, perpetualId
+/** Hook to get recent trades for right hand panel
+ * Takes count as parameters: number of rows to return, perpetualId
  * Default is 20
  */
 
@@ -11,10 +11,18 @@ export function useGetRecentTrades(perpetualId: string, count: number = 20) {
       trades(
         first: ${count}
         where: {
-          perpetualId: "${perpetualId}"
+          perpetual: "${perpetualId}"
         }
+        orderBy: blockTimestamp
+        orderDirection: desc
       ) {
-        tradeAmount
+        trader {
+          id
+        }
+        perpetual {
+          id
+        }
+        tradeAmountBC
         price
         blockTimestamp
         transaction {

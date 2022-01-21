@@ -2,11 +2,11 @@ import { bridgeNetwork } from 'app/pages/BridgeDepositPage/utils/bridge-network'
 import { Chain } from 'types';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { AMMState } from '../utils/perpUtils';
-import { ABK64x64ToFloat, PERPETUAL_ID } from '../utils/contractUtils';
+import { ABK64x64ToFloat } from '../utils/contractUtils';
 import perpetualManagerAbi from 'utils/blockchain/abi/PerpetualManager.json';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 
-const initialAmmState: AMMState = {
+export const initialAmmState: AMMState = {
   L1: 0,
   K2: 0,
   M1: 0,
@@ -15,26 +15,38 @@ const initialAmmState: AMMState = {
   fCurrentTraderExposureEMA: 0,
   indexS2PriceData: 0,
   indexS3PriceData: 0,
-  currentPremiumEMA: 0,
-  currentPremium: 0,
+  indexS2PriceDataOracle: 0,
+  indexS3PriceDataOracle: 0,
+  currentMarkPremiumRate: 0,
+  currentPremiumRate: 0,
+  defFundToTargetRatio: 0,
 };
 
-export const usePerpetual_queryAmmState = (): AMMState => {
+export const usePerpetual_queryAmmState = (perpetualId: string) => {
   const [ammState, setAmmState] = useState(initialAmmState);
 
-  useEffect(() => {
+  const fetch = useCallback(() => {
     bridgeNetwork
       .call(
         Chain.BSC,
         getContract('perpetualManager').address,
         perpetualManagerAbi,
         'getAMMState',
-        [PERPETUAL_ID],
+        [perpetualId],
       )
-      .then(result => setAmmState(parseAmmState(result)));
-  }, []);
+      .then(result => setAmmState(parseAmmState(result)))
+      .catch(console.error);
+  }, [perpetualId]);
 
-  return ammState;
+  useEffect(fetch, [fetch]);
+
+  return useMemo(
+    () => ({
+      refetch: fetch,
+      result: ammState,
+    }),
+    [fetch, ammState],
+  );
 };
 
 const parseAmmState = (response: any): AMMState => ({
@@ -46,6 +58,9 @@ const parseAmmState = (response: any): AMMState => ({
   fCurrentTraderExposureEMA: ABK64x64ToFloat(response[5]),
   indexS2PriceData: ABK64x64ToFloat(response[6]),
   indexS3PriceData: ABK64x64ToFloat(response[7]),
-  currentPremiumEMA: ABK64x64ToFloat(response[8]),
-  currentPremium: ABK64x64ToFloat(response[9]),
+  currentMarkPremiumRate: ABK64x64ToFloat(response[8]),
+  currentPremiumRate: ABK64x64ToFloat(response[9]),
+  indexS2PriceDataOracle: ABK64x64ToFloat(response[10]),
+  indexS3PriceDataOracle: ABK64x64ToFloat(response[11]),
+  defFundToTargetRatio: response[12] && ABK64x64ToFloat(response[12]),
 });

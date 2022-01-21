@@ -1,31 +1,38 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useMemo, useCallback, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { translations } from '../../../../../locales/i18n';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { actions } from '../../slice';
 import { PerpetualPageModals } from '../../types';
+import { Tooltip } from '@blueprintjs/core';
+import { selectPerpetualPage } from '../../selectors';
+import { getCollateralName } from '../../utils/renderUtils';
+import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 
-type AccountBalanceCardProps = {
-  /** balance in wei */
-  balance: string | null;
-};
-
-export const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
-  balance,
-}) => {
+export const AccountBalanceCard: React.FC = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const { availableBalance } = useContext(PerpetualQueriesContext);
 
-  const hasBalance = useMemo(() => balance && balance !== '0', [balance]);
+  const { collateral } = useSelector(selectPerpetualPage);
+  const collateralAsset = useMemo(() => getCollateralName(collateral), [
+    collateral,
+  ]);
 
-  const onButtonClick = useCallback(() => {
-    if (hasBalance) {
-      dispatch(actions.setModal(PerpetualPageModals.ACCOUNT_BALANCE));
-    } else {
-      dispatch(actions.setModal(PerpetualPageModals.FASTBTC_DEPOSIT));
-    }
-  }, [dispatch, hasBalance]);
+  const hasBalance = useMemo(
+    () => availableBalance && availableBalance !== '0',
+    [availableBalance],
+  );
+
+  const onFundAccount = useCallback(
+    () => dispatch(actions.setModal(PerpetualPageModals.FASTBTC_DEPOSIT)),
+    [dispatch],
+  );
+  const onViewAccount = useCallback(
+    () => dispatch(actions.setModal(PerpetualPageModals.ACCOUNT_BALANCE)),
+    [dispatch],
+  );
 
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-h-24 tw-p-2.5 tw-bg-gray-4 tw-rounded-lg">
@@ -34,17 +41,27 @@ export const AccountBalanceCard: React.FC<AccountBalanceCardProps> = ({
           {t(translations.perpetualPage.accountBalance.availableBalance)}
         </span>
         <span className="tw-block tw-flex-grow tw-text-right">
-          {weiToNumberFormat(balance, 4)} BTC
+          {weiToNumberFormat(availableBalance, 4)} {collateralAsset}
         </span>
       </div>
-      <button
-        className="tw-px-4 tw-py-2 tw-mt-1 tw-text-xs tw-font-medium tw-text-primary"
-        onClick={onButtonClick}
-      >
-        {hasBalance
-          ? t(translations.perpetualPage.accountBalance.viewAccount)
-          : t(translations.perpetualPage.accountBalance.fundAccount)}
-      </button>
+      {hasBalance ? (
+        <button
+          className="tw-px-4 tw-py-2 tw-mt-1 tw-text-xs tw-font-medium tw-text-primary"
+          onClick={onViewAccount}
+        >
+          {t(translations.perpetualPage.accountBalance.viewAccount)}
+        </button>
+      ) : (
+        <Tooltip content={t(translations.common.comingSoon)}>
+          <button
+            className="tw-px-4 tw-py-2 tw-mt-1 tw-text-xs tw-font-medium tw-text-primary tw-cursor-not-allowed tw-opacity-25"
+            disabled={true}
+            onClick={onFundAccount}
+          >
+            {t(translations.perpetualPage.accountBalance.fundAccount)}
+          </button>
+        </Tooltip>
+      )}
     </div>
   );
 };

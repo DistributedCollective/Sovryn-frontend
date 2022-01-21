@@ -72,7 +72,13 @@
     "withdrawVests": "Sorry, withdrawing vests is currently under maintenance, please check our discord (link in footer) for updates.",
     "withdrawVestsModal": "Sorry, withdrawing vests is currently under maintenance, please check our <0>discord</0> for updates.",
     "claimRewards": "Sorry, claiming rewards is currently under maintenance, please check our <0>discord</0> for updates.",
-    "claimOrigins": "Sorry, origins claim is currently under maintenance, please check our <0>discord</0> for updates."
+    "claimOrigins": "Sorry, origins claim is currently under maintenance, please check our <0>discord</0> for updates.",
+
+    "perpetuals": "Sorry, perpetual swaps are currently under maintenance, please check our discord (link in footer) for updates.",
+    "perpetualsAccountFund": "Sorry, perpetual swap deposits are currently under maintenance, please check our discord (link in footer) for updates.",
+    "perpetualsAccountWithdraw": "Sorry, perpetual swap withdrawals are currently under maintenance, please check our discord (link in footer) for updates.",
+    "perpetualsAccountTransfer": "Sorry, perpetual swap transfers are currently under maintenance, please check our discord (link in footer) for updates.",
+    "perpetualsTrade": "Sorry, perpetual swap trades are currently under maintenance, please check our discord (link in footer) for updates."
   },
   "homePage": {
     "title": "Home Page",
@@ -292,6 +298,8 @@
     "claim": "Claim",
     "rewards": "Rewards",
     "labs": "Labs",
+    "myntToken": "MYNT Token",
+    "zero": "Zero",
     "perpetual": "Perpetual"
   },
   "originsLaunchpad": {
@@ -809,16 +817,16 @@
     "title": "Change to {{name}} Network",
     "networkAlert": "We detected that you are on {{name}} network.",
     "networkAlertUnknown": "We detected that you are on a different network.",
-    "walletAelrt": "Please switch to {{network}} in your {{wallet}} wallet.",
-    "networkSetting": {
-      "title": "RSK Mainnet Settings",
-      "networkName": "RSK Mainnet Settings",
-      "rpcUrl": "RSK Mainnet Settings",
-      "symbol": "RSK Mainnet Settings",
-      "explorerUrl": "RSK Mainnet Settings",
-      "chainId": "Chain Id"
+    "walletAlert": "Please switch to {{network}} in your {{wallet}} wallet.",
+    "tutorialGuide": "How to connect to {{network}} with {{wallet}}",
+    "settings": {
+      "title": "{{network}} Settings",
+      "name": "Network Name:",
+      "rpc": "New RPC Url:",
+      "chainId": "Chain Id:",
+      "symbol": "Symbol:",
+      "explorer": "Block Explorer URL:"
     },
-    "tutorialGuide": "How to connect to RSK Mainnet with {{wallet}}",
     "stepTitle": {
       "step1": "Step 01:",
       "step2": "Step 02:",
@@ -831,17 +839,17 @@
       "step1": "Open up Metamask in your browser",
       "step2": "Go to network dropdown",
       "step3": "Select Custom RPC",
-      "step4": "Input RSK Mainnet settings",
+      "step4": "Input {{network}} settings",
       "step5": "Click Save",
       "step6": "Click Add Network",
-      "connectButton": "Configure RSK in MetaMask"
+      "connectButton": "Configure {{network}} in MetaMask"
     },
     "liquality": {
       "step1": "Open up Liquality in your browser",
       "step2": "Go to dropdown",
       "step3": "Select Settings",
       "step4": "Go to network dropdown",
-      "step5": "Select RSK"
+      "step5": "Select {{network}}"
     },
     "nifty": {
       "step1": "Open up Nifty in your browser",
@@ -1582,6 +1590,19 @@
       "title": "Perpetual Trading",
       "description": "Trade with perpetuals"
     },
+    "toasts": {
+      "market": "Market",
+      "buy": "Buy",
+      "sell": "Sell",
+      "closePosition": "Close position",
+      "orderComplete": "Order complete",
+      "orderFailed": "Order failed",
+      "increaseMargin": "Increase margin",
+      "decreaseMargin": "Decrease margin",
+      "editLeverage": "Edit leverage to {{leverage}}x",
+      "approvalComplete": "Approval complete",
+      "approvalFailed": "Approval failed"
+    },
     "accountBalance": {
       "titleBalance": "Perpetual Account",
       "titleHistory": "Funding History",
@@ -1607,19 +1628,29 @@
       "price": "Price (<0/>)",
       "change": "% Change",
       "total": "Order Size (<0/>)",
-      "indexPrice": "Index Price:",
-      "markPrice": "Mark Price:"
+      "tooltips": {
+        "indexPrice": "Index Price: <0/>",
+        "markPrice": "Mark Price: <0/>",
+        "midPrice": "Mid Price: <0/>",
+        "change": "Change in price relative to Mid Price when trading the corresponding order size."
+      }
     },
     "contractDetails": {
       "title": "Contract Details:",
+      "markPrice": "Mark Price:",
       "indexPrice": "Index Price:",
       "volume24h": "24hr Volume:",
       "openInterest": "Open Interest:",
       "fundingRate": "Funding Rate: ",
-      "fundingRate4hr": "in 4hrs",
-      "contractValue": "ContractValue:",
       "lotSize": "Lot Size:",
-      "minTradeAmount": "Min Trade Amount:"
+      "minTradeAmount": "Min Trade Amount:",
+      "tooltips": {
+        "lastTradedPrice": "Last traded price.",
+        "markPrice": "Latest Mark Price for this contract. To prevent price manipulation, the Mark Price is used for unrealized PnL and margin calculations.",
+        "indexPrice": "The Index price consists of a bucket of Spot prices obtained via Chainlink oracle.",
+        "openInterest": "The total amount of contracts held by either the long or the short traders, whatever is larger.",
+        "fundingRate": "Funding rate paid from buyers to sellers. If negative, the sellers pay to the buyers. We scale the displayed rate to be an 8h-rate. The rate is refreshed with every smart contract interaction or at most with every block. The time-weighted average value is used to calculate the funding rate paid."
+      }
     },
     "recentTrades": {
       "price": "Price (<0/>)",
@@ -1668,6 +1699,16 @@
         "sellLimit": "Sell Limit",
         "minLeverage": "MIN",
         "slippageSettings": "Slippage Settings"
+      },
+      "disabledState": {
+        "emptyBalanceExplanation": "Fund your account to start trading",
+        "explanation1": "Only one position can be opened at a time",
+        "explanation2": "You can edit and close your position in the action section below"
+      },
+      "tooltips": {
+        "orderValue": "The notional amount for your position.",
+        "orderCost": "The approximate amount withdrawn from your wallet to pay for the trade. Consists of required margin and trading fee.",
+        "tradingFee": "The trading fee excluding blockchain transaction fees."
       }
     },
     "tradeDialog": {
@@ -1690,14 +1731,25 @@
       }
     },
     "reviewTrade": {
-      "title": "Review Order",
-      "closeTitle": "Review Close",
+      "titles": {
+        "close": "Review Close",
+        "newOrder": "Review Order",
+        "editSize": "Review Edit Size",
+        "editLeverage": "Review Edit Leverage",
+        "editMargin": "Review Edit Margin"
+      },
       "close": "Close",
-      "positionFullyClosed": "Position Fully Closed",
       "buy": "Buy",
       "sell": "Sell",
       "market": "Market",
       "limit": "Limit",
+      "deposit": "Deposit",
+      "withdraw": "Withdraw",
+      "leverage": "Leverage",
+      "margin": "Margin",
+      "increase": "Increase",
+      "decrease": "Decrease",
+      "positionFullyClosed": "Position Fully Closed",
       "positionDetailsTitle": "New Position Details",
       "labels": {
         "positionSize": "Position Size:",
@@ -1705,9 +1757,44 @@
         "leverage": "Leverage:",
         "entryPrice": "Entry Price:",
         "liquidationPrice": "Liquidation Price:",
-        "totalToReceive": "Total to Receive:"
+        "totalToReceive": "Total to Receive:",
+        "maxEntryPrice": "Max Entry Price:",
+        "minEntryPrice": "Min Entry Price:"
       },
       "confirm": "Confirm"
+    },
+    "processTrade": {
+      "titles": {
+        "approval": "Approve Order",
+        "approvalFailed": "Approval Failed",
+        "approvalRejected": "Approval Rejected",
+        "confirm": "Confirm Order",
+        "confirmRejected": "Confirm Rejected",
+        "confirmMulti": "Confirm {{current}} from {{count}}",
+        "confirmMultiRejected": "Confirm {{current}} from {{count}} Rejected",
+        "processing": "Order processing…",
+        "completed": "Order Completed",
+        "failed": "Order Failed"
+      },
+      "texts": {
+        "approval": "Please approve BTC to be spent by the Sovryn smart contracts in your {{wallet}} wallet",
+        "confirm": "Please confirm transaction in your {{wallet}} wallet",
+        "confirmMulit": "Please confirm transaction {{current}} of {{count}} in your {{wallet}} wallet",
+        "error": "Your transaction has failed due to <0>{{error}}</0> Your position has not been opened",
+        "rejected": "You have chosen to reject this transaction",
+        "rejectedMulti": "You have chosen to reject transaction {{current}} of {{count}}",
+        "cancelOrRetry": "Please cancel or retry your transaction"
+      },
+      "labels": {
+        "approvalTx": "Approval Tx ID:",
+        "marginTx": "Margin Tx ID:",
+        "tradeTx": "Trade Tx ID:",
+        "tx": "Tx ID:"
+      },
+      "buttons": {
+        "retry": "Retry",
+        "close": "Close"
+      }
     },
     "editPositionSize": {
       "title": "Edit Position Size"
@@ -1729,7 +1816,8 @@
     "closePosition": {
       "title": "Close Position",
       "amount": "Close Amount:",
-      "total": "Total to Receive:"
+      "total": "Total to Receive:",
+      "button": "Review"
     },
     "currentTrade": {
       "position": "Current Position:",
@@ -1740,6 +1828,7 @@
     "openPositions": "Positions",
     "closedPositions": "Closed Positions",
     "orderHistory": "Order History",
+    "fundingPayments": "Funding Payments",
     "openPositionsTable": {
       "pair": "Pair",
       "positionSize": "Position Size",
@@ -1748,13 +1837,68 @@
       "markPrice": "Mark Price",
       "liquidationPrice": "Liq. Price",
       "margin": "Margin",
-      "unrealized": "Unrealized P&L (ROE %)",
+      "unrealized": "Unrealized P&L",
       "realized": "Realized P&L",
       "actions": "Actions",
       "editSize": "Size",
       "editLeverage": "Leverage",
       "editMargin": "Margin",
-      "editClose": "Close"
+      "editClose": "Close",
+      "tooltips": {
+        "editSize": "Change the position size to the extent possible with your current margin.",
+        "editLeverage": "Change the leverage of your position. This action will either withdraw from your margin account or deposit to your margin account.",
+        "editMargin": "Deposit margin or withdraw margin. This action will change the leverage of your position.",
+        "editClose": "Close the entire open position or just partially.",
+        "positionSize": "The size of your position. Negative values denote short positions.",
+        "entryPrice": "The average price received when opening this position.",
+        "markPrice": "Latest Mark Price for this contract. To prevent price manipulation, the Mark Price is used for unrealized PnL and margin calculations.",
+        "liquidationPrice": "The liquidation price is the approximate price at which your position can be liquidated. To move your position away from the liquidation price, you can decrease your position size, add margin, or use the leverage action to reduce leverage.",
+        "margin": "The margin allocated to the position and leverage ratio in brackets. The lower the Leverage Ratio, the further away your liquidation price will be relative to your position entry price.",
+        "unrealized": "The unrealized P&L is calculated using the Mark Price. It also contains the accrued funding payments.",
+        "realized": "The realized P&L that was paid to your margin account."
+      }
+    },
+    "closedPositionsTable": {
+      "dateTime": "Date & Time",
+      "symbol": "Symbol",
+      "collateral": "Collateral",
+      "positionSize": "Position Size",
+      "realizedPnl": "Realized P&L",
+      "noData": "No data"
+    },
+    "orderHistoryTable": {
+      "dateTime": "Date & Time",
+      "symbol": "Symbol",
+      "orderType": "Order Type",
+      "orderState": "Order State",
+      "collateral": "Collateral",
+      "orderSize": "Order Size",
+      "limitPrice": "Limit Price",
+      "execSize": "Exec Size",
+      "execPrice": "Exec Price",
+      "orderId": "Order ID",
+      "tableData": {
+        "market": "Market",
+        "limit": "Limit",
+        "liquidation": "Liquidation",
+        "buy": "BUY",
+        "sell": "SELL"
+      },
+      "tooltips": {
+        "limitPrice": "The worst price that trader was willing to accept. Is set via slippage settings for market orders."
+      }
+    },
+    "fundingPaymentsTable": {
+      "dateTime": "Date & Time",
+      "symbol": "Symbol",
+      "collateral": "Collateral",
+      "received": "Received Funding",
+      "rate": "Rate",
+      "timeSinceLastPayment": "Time since last payment (DD:HH:MM:SS)",
+      "tooltips": {
+        "rate": "The time-averaged funding rate, scaled to be an 8h-rate.",
+        "timeSinceLastPayment": "The duration for which the funding payment applies to."
+      }
     },
     "notificationSettingsDialog": {
       "title": "Margin Trade notification settings",
@@ -1768,6 +1912,11 @@
         "2": "Liquidation"
       },
       "submit": "Confirm"
+    },
+    "warnings": {
+      "priceExceedsSlippage": "Trade is likely to fail, because the expected price exceeds limit price! Update slippage to at least {{slippage}}, to avoid transaction failure.",
+      "targetMarginUnsafe": "Transaction is likely to fail. The resulting position does not meet the required maintenance margin.",
+      "exceedsBalance": "Order cost exceeds total balance."
     }
   },
   "spotTradingPage": {
@@ -1883,7 +2032,7 @@
       "lend": "Lending Contract",
       "amm": "Amm Contract",
       "staked": "Bitocracy Staking Contract",
-      "subProtocol": "Subprotocols",
+      "subProtocol": "Subprotocol Bonding Curve Contracts",
       "subtotal": "Sub total",
       "total": "Total"
     },
@@ -2189,7 +2338,12 @@
       "increase": "Increase",
       "margin": "Margin",
       "close": "Close"
-    }
+    },
+    "explainers": {
+      "positionMargin": "The portion of your margin that is assigned to the initial margin requirements on your open positions. This is the entry value of all contracts you hold divided by the selected leverage, plus unrealised profit and loss.<br/><br/>If the current margin percentage drops to 15%, your position will be liquidated.",
+      "unrealizedPL": "Due to limitations of smart contracts, we only estimate profit between entry and current AMM prices without taking margin increases or partial position withdrawals into consideration.<br/>By hovering over a value, you will see the correct token amount you would receive if you decided to close the position now."
+    },
+    "profitTooltip": "Closing position would withdraw one of these:"
   },
   "claimOriginBanner": {
     "text": "Your SOV is ready to claim!",

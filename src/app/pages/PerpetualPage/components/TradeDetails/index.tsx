@@ -1,36 +1,46 @@
 import classNames from 'classnames';
-import React, { useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { PerpetualPair } from '../../../../../utils/models/perpetual-pair';
 import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
-import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
 import { PerpetualTrade } from '../../types';
-import { usePerpetual_queryTraderState } from '../../hooks/usePerpetual_queryTraderState';
-import { getTradeDirection } from '../../utils/contractUtils';
-import { fromWei } from 'web3-utils';
+import { getSignedAmount } from '../../utils/contractUtils';
+import { getTraderPnLInBC } from '../../utils/perpUtils';
+import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 
 type TradeDetailsProps = {
   className?: string;
   pair: PerpetualPair;
   trade: PerpetualTrade;
+  showUnrealizedPnL?: boolean;
 };
 
 export const TradeDetails: React.FC<TradeDetailsProps> = ({
   className,
   pair,
   trade,
+  showUnrealizedPnL = false,
 }) => {
   const { t } = useTranslation();
 
-  const traderState = usePerpetual_queryTraderState();
-  const { available } = usePerpetual_accountBalance(pair.pairType);
+  const {
+    ammState,
+    perpetualParameters,
+    traderState,
+    availableBalance,
+  } = useContext(PerpetualQueriesContext);
 
   const positionSize = useMemo(
-    () => getTradeDirection(trade.position) * Number(fromWei(trade.amount)),
+    () => getSignedAmount(trade.position, trade.amount),
     [trade.position, trade.amount],
+  );
+
+  const unrealized = useMemo(
+    () => getTraderPnLInBC(traderState, ammState, perpetualParameters),
+    [traderState, ammState, perpetualParameters],
   );
 
   return (
@@ -76,19 +86,40 @@ export const TradeDetails: React.FC<TradeDetailsProps> = ({
         </div>
       </div>
 
-      <div className="tw-flex tw-flex-row tw-items-center tw-text-xs">
-        <label className="tw-w-1/2 tw-mr-2">
-          {t(translations.perpetualPage.currentTrade.available)}
-        </label>
-        <AssetValue
-          className="tw-font-medium"
-          minDecimals={3}
-          maxDecimals={3}
-          mode={AssetValueMode.auto}
-          value={available}
-          assetString={pair.baseAsset}
-        />
-      </div>
+      {showUnrealizedPnL ? (
+        <div className="tw-flex tw-flex-row tw-items-center tw-text-xs">
+          <label className="tw-w-1/2 tw-mr-2">
+            {t(translations.perpetualPage.currentTrade.unrealizedPnL)}
+          </label>
+          <AssetValue
+            className={classNames(
+              'tw-font-medium',
+              unrealized > 0 ? 'tw-text-trade-long' : 'tw-text-trade-short',
+            )}
+            minDecimals={4}
+            maxDecimals={4}
+            mode={AssetValueMode.auto}
+            value={unrealized}
+            assetString={pair.baseAsset}
+            showPositiveSign
+            useTooltip
+          />
+        </div>
+      ) : (
+        <div className="tw-flex tw-flex-row tw-items-center tw-text-xs">
+          <label className="tw-w-1/2 tw-mr-2">
+            {t(translations.perpetualPage.currentTrade.available)}
+          </label>
+          <AssetValue
+            className="tw-font-medium"
+            minDecimals={3}
+            maxDecimals={3}
+            mode={AssetValueMode.auto}
+            value={availableBalance}
+            assetString={pair.baseAsset}
+          />
+        </div>
+      )}
     </div>
   );
 };

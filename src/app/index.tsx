@@ -9,8 +9,9 @@
 import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
-import { currentNetwork } from 'utils/classifiers';
+import { currentNetwork, isMainnet } from 'utils/classifiers';
 import { useAppTheme } from './hooks/app/useAppTheme';
 import { useMaintenance } from './hooks/useMaintenance';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
@@ -48,13 +49,11 @@ import { usePriceFeeds_tradingPairRates } from './hooks/price-feeds/usePriceFeed
 import { BridgeDepositPage } from './pages/BridgeDepositPage/Loadable';
 import { BridgeWithdrawPage } from './pages/BridgeWithdrawPage/Loadable';
 import { PerpetualPage } from './pages/PerpetualPage';
-
-import { ApolloProvider } from '@apollo/client';
-import { apolloClient } from './pages/PerpetualPage/utils/graphQlHelpers';
 import { SandboxPage } from './pages/Sandbox';
 
-const title =
-  currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
+import 'react-toastify/dist/ReactToastify.css';
+
+const title = !isMainnet ? `Sovryn ${currentNetwork}` : 'Sovryn';
 
 export function App() {
   useAppTheme();
@@ -86,9 +85,6 @@ export function App() {
               <Route exact path="/" component={LandingPage} />
               <Route exact path="/buy-sov" component={BuySovPage} />
               <Route exact path="/trade" component={MarginTradePage} />
-              <ApolloProvider client={apolloClient}>
-                <Route exact path="/perpetual" component={PerpetualPage} />
-              </ApolloProvider>
               <Route exact path="/swap" component={SwapPage} />
               <Route exact path="/spot" component={SpotTradingPage} />
               <Route exact path="/lend" component={LendingPage} />
@@ -120,8 +116,11 @@ export function App() {
                 path="/unsubscribe"
                 render={props => <EmailPage {...props} type="UNSUBSCRIBE" />}
               />
+              <Route exact path="/perpetual" component={PerpetualPage} />
+              <Route exact path="/sandbox" component={SandboxPage} />
               <Route component={NotFoundPage} />
             </Switch>
+            <ToastContainer className="tw-w-max" />
           </WalletProvider>
         </>
       )}

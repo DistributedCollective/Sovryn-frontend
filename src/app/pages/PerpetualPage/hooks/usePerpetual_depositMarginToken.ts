@@ -1,44 +1,56 @@
 import { useAccount } from 'app/hooks/useAccount';
-import { useSendContractTx } from 'app/hooks/useSendContractTx';
-import { Asset } from 'types';
-import { getContract } from 'utils/blockchain/contract-helpers';
 import { gasLimit } from 'utils/classifiers';
 import { TxType } from 'store/global/transactions-store/types';
+import { weiToABK64x64 } from '../utils/contractUtils';
 import {
-  PERPETUAL_ID,
-  floatToABK64x64,
-  checkAndApprove,
-} from '../utils/contractUtils';
-import { fromWei } from 'utils/blockchain/math-helpers';
+  PerpetualPairType,
+  PerpetualPairDictionary,
+} from '../../../../utils/dictionaries/perpetual-pair-dictionary';
+import { useMemo } from 'react';
+import { PERPETUAL_GAS_PRICE_DEFAULT } from '../types';
+import { Asset, Chain } from '../../../../types';
+import { PerpetualTx } from '../components/TradeDialog/types';
+import { useBridgeNetworkSendTx } from '../../../hooks/useBridgeNetworkSendTx';
 
-export const usePerpetual_depositMarginToken = () => {
+export const usePerpetual_depositMarginToken = (
+  pairType: PerpetualPairType,
+) => {
   const account = useAccount();
+  const perpetualId = useMemo(() => PerpetualPairDictionary.get(pairType)?.id, [
+    pairType,
+  ]);
 
-  const { send, ...rest } = useSendContractTx('perpetualManager', 'deposit');
+  const { send, ...rest } = useBridgeNetworkSendTx(
+    Chain.BSC,
+    'perpetualManager',
+    'deposit',
+  );
 
   return {
-    deposit: async (amount: string) => {
-      const tx = await checkAndApprove(
-        'PERPETUALS_token',
-        getContract('perpetualManager').address,
-        amount,
-        Asset.PERPETUALS,
-      );
-
-      if (tx.rejected) {
-        return;
-      }
-
+    deposit: async (
+      amount: string,
+      nonce?: number,
+      customData?: PerpetualTx,
+    ) => {
       await send(
-        [PERPETUAL_ID, floatToABK64x64(parseFloat(fromWei(amount)))],
+        [perpetualId, weiToABK64x64(amount)],
         {
           from: account,
           gas: gasLimit[TxType.DEPOSIT_COLLATERAL],
-          nonce: tx?.nonce,
+          gasPrice: PERPETUAL_GAS_PRICE_DEFAULT,
+          nonce: nonce,
         },
-        { type: TxType.DEPOSIT_COLLATERAL },
+        {
+          type: TxType.DEPOSIT_COLLATERAL,
+          asset: Asset.PERPETUALS,
+          customData,
+        },
       );
     },
-    ...rest,
+    txData: rest.txData,
+    txHash: rest.txHash,
+    loading: rest.loading,
+    status: rest.status,
+    reset: rest.reset,
   };
 };

@@ -1,13 +1,13 @@
 import { TraderState } from '../utils/perpUtils';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import perpetualManagerAbi from 'utils/blockchain/abi/PerpetualManager.json';
 import { bridgeNetwork } from 'app/pages/BridgeDepositPage/utils/bridge-network';
 import { Chain } from 'types';
 import { getContract } from 'utils/blockchain/contract-helpers';
-import { ABK64x64ToFloat, PERPETUAL_ID } from '../utils/contractUtils';
+import { ABK64x64ToFloat } from '../utils/contractUtils';
 import { useAccount } from 'app/hooks/useAccount';
 
-const initialTraderState: TraderState = {
+export const initialTraderState: TraderState = {
   marginBalanceCC: 0,
   availableMarginCC: 0,
   availableCashCC: 0,
@@ -17,24 +17,36 @@ const initialTraderState: TraderState = {
   fUnitAccumulatedFundingStart: 0,
 };
 
-export const usePerpetual_queryTraderState = (): TraderState => {
+export const usePerpetual_queryTraderState = (perpetualId: string) => {
   const [traderState, setTraderState] = useState(initialTraderState);
   const account = useAccount();
 
-  useEffect(() => {
+  const fetch = useCallback(() => {
+    if (!account) {
+      return;
+    }
+
     bridgeNetwork
       .call(
         Chain.BSC,
         getContract('perpetualManager').address,
         perpetualManagerAbi,
         'getTraderState',
-        [PERPETUAL_ID, account],
+        [perpetualId, account],
       )
-      .catch(e => console.error(e))
-      .then(result => result && setTraderState(parseTraderState(result)));
-  }, [account]);
+      .then(result => result && setTraderState(parseTraderState(result)))
+      .catch(console.error);
+  }, [perpetualId, account]);
 
-  return traderState;
+  useEffect(fetch, [fetch]);
+
+  return useMemo(
+    () => ({
+      refetch: fetch,
+      result: traderState,
+    }),
+    [fetch, traderState],
+  );
 };
 
 const parseTraderState = (response: any): TraderState => ({

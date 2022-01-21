@@ -3,21 +3,30 @@ import {
   PerpetualPairType,
   PerpetualPairDictionary,
 } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
-import { PerpetualTradeType, PerpetualTradeEvent } from '../types';
-import { Event, useGetTraderEvents } from './graphql/useGetTraderEvents';
-import { useMemo } from 'react';
+import {
+  PerpetualTradeType,
+  PerpetualTradeEvent,
+  PerpetualPositionEvent,
+} from '../types';
+import {
+  Event,
+  OrderDirection,
+  useGetTraderEvents,
+} from './graphql/useGetTraderEvents';
+import { useContext, useMemo, useEffect } from 'react';
 import { ABK64x64ToFloat } from '../utils/contractUtils';
 import { BigNumber } from 'ethers';
-import { usePerpetual_queryAmmState } from './usePerpetual_queryAmmState';
 import {
   calculateApproxLiquidationPrice,
   getMarkPrice,
   getTraderPnL,
+  getBase2CollateralFX,
   getBase2QuoteFX,
   getTraderLeverage,
 } from '../utils/perpUtils';
-import { usePerpetual_queryTraderState } from './usePerpetual_queryTraderState';
-import { usePerpetual_queryPerpParameters } from './usePerpetual_queryPerpParameters';
+import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
+import { RecentTradesContext } from '../contexts/RecentTradesContext';
+import debounce from 'lodash.debounce';
 
 export type OpenPositionEntry = {
   id: string;
@@ -30,7 +39,7 @@ export type OpenPositionEntry = {
   liquidationPrice?: number;
   margin: number;
   leverage?: number;
-  unrealized?: { baseValue: number; quoteValue: number; roe: number };
+  unrealized?: { baseValue: number; quoteValue: number };
   realized?: { baseValue: number; quoteValue: number };
 };
 
@@ -43,19 +52,46 @@ export const usePerpetual_OpenPosition = (
   address: string,
   pairType: PerpetualPairType.BTCUSD,
 ): OpenPositionHookResult => {
+  const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
+
+  const eventQuery = useMemo(
+    () => [
+      {
+        event: Event.TRADE,
+        orderBy: 'blockTimestamp',
+        orderDirection: OrderDirection.desc,
+        where: `perpetual: ${JSON.stringify(pair.id)}`,
+      },
+      {
+        event: Event.POSITION,
+        orderBy: 'startDate',
+        orderDirection: OrderDirection.desc,
+        where: `perpetual: ${JSON.stringify(pair.id)}`,
+      },
+    ],
+    [pair],
+  );
+
+  // TODO: only query latest trade per pair, for performance reasons
   const {
     data: tradeEvents,
     previousData: previousTradeEvents,
+    refetch,
     loading,
-  } = useGetTraderEvents([Event.TRADE], address.toLowerCase());
+  } = useGetTraderEvents(address.toLowerCase(), eventQuery);
 
-  const ammState = usePerpetual_queryAmmState();
-  const perpParameters = usePerpetual_queryPerpParameters();
-  const traderState = usePerpetual_queryTraderState();
+  const { latestTradeByUser } = useContext(RecentTradesContext);
+
+  const {
+    ammState,
+    traderState,
+    perpetualParameters: perpParameters,
+  } = useContext(PerpetualQueriesContext);
 
   const data = useMemo(() => {
     const markPrice = getMarkPrice(ammState);
     const base2quote = getBase2QuoteFX(ammState, true);
+    const base2collateral = getBase2CollateralFX(ammState, true);
     const pair = PerpetualPairDictionary.get(pairType);
 
     if (traderState.marginBalanceCC === 0 || !pair) {
@@ -76,35 +112,48 @@ export const usePerpetual_OpenPosition = (
 
     const currentTradeEvents: PerpetualTradeEvent[] | undefined =
       tradeEvents?.trader?.trades || previousTradeEvents?.trader?.trades;
-    const latestTrade = currentTradeEvents?.find(
-      (trade: PerpetualTradeEvent) => trade.perpetualId === pair.id,
+    const currentTrade = currentTradeEvents?.find(
+      (trade: PerpetualTradeEvent) =>
+        trade?.perpetual?.id === pair.id &&
+        ABK64x64ToFloat(BigNumber.from(trade.newPositionSizeBC)) ===
+          traderState.marginAccountPositionBC,
     );
 
-    const entryPrice = latestTrade?.price
-      ? ABK64x64ToFloat(BigNumber.from(latestTrade.price))
+    const currentPositions: PerpetualPositionEvent[] | undefined =
+      tradeEvents?.trader?.positions || previousTradeEvents?.trader?.positions;
+    const currentPosition = currentPositions?.find(
+      position =>
+        position?.perpetual?.id === pair.id &&
+        ABK64x64ToFloat(BigNumber.from(position.currentPositionSizeBC)) ===
+          traderState.marginAccountPositionBC,
+    );
+
+    const entryPrice = currentTrade?.price
+      ? ABK64x64ToFloat(BigNumber.from(currentTrade.price))
       : undefined;
 
     const liquidationPrice = calculateApproxLiquidationPrice(
       traderState,
       ammState,
       perpParameters,
-      tradeAmount,
+      0,
       0,
     );
 
     const leverage = getTraderLeverage(traderState, ammState);
 
-    const unrealizedQuote = getTraderPnL(traderState, ammState);
+    const unrealizedQuote = getTraderPnL(traderState, ammState, perpParameters);
     const unrealized: OpenPositionEntry['unrealized'] = {
       baseValue: unrealizedQuote / base2quote,
       quoteValue: unrealizedQuote,
-      roe: unrealizedQuote / base2quote / tradeAmount,
     };
 
-    // TODO: calculate Realized Profit and Loss
+    const totalPnLCC = currentPosition
+      ? ABK64x64ToFloat(BigNumber.from(currentPosition.totalPnLCC))
+      : 0;
     const realized: OpenPositionEntry['realized'] = {
-      baseValue: 0,
-      quoteValue: 0,
+      baseValue: totalPnLCC / base2collateral,
+      quoteValue: (totalPnLCC / base2collateral) * base2quote,
     };
 
     return {
@@ -129,6 +178,28 @@ export const usePerpetual_OpenPosition = (
     perpParameters,
     ammState,
   ]);
+
+  const refetchDebounced = useMemo(
+    () =>
+      debounce(refetch, 1000, {
+        leading: false,
+        trailing: true,
+        maxWait: 1000,
+      }),
+    [refetch],
+  );
+
+  useEffect(() => {
+    if (latestTradeByUser) {
+      refetchDebounced();
+    }
+  }, [latestTradeByUser, refetchDebounced]);
+
+  useEffect(() => {
+    if (data && data.entryPrice === undefined) {
+      refetchDebounced();
+    }
+  }, [data, refetchDebounced]);
 
   return { data, loading };
 };

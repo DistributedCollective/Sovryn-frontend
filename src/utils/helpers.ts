@@ -1,5 +1,6 @@
 import { utils } from '@rsksmart/rsk3';
 import { bignumber } from 'mathjs';
+import type { Decimal } from 'decimal.js';
 import { currentChainId } from './classifiers';
 import { gas } from './blockchain/gas-price';
 import { Asset } from '../types';
@@ -232,3 +233,10 @@ export const abbreviateNumber = (
 };
 
 export const isNullOrUndefined = val => val === undefined || val === null;
+
+// (b - a) / |a| * 100
+export const percentageChange = (a: Decimal.Value, b: Decimal.Value) =>
+  bignumber(bignumber(b).minus(a)).div(bignumber(a).abs()).mul(100).toString();
+
+export const capitalize = (val: string) =>
+  val && val.charAt(0).toLocaleUpperCase() + val.slice(1);

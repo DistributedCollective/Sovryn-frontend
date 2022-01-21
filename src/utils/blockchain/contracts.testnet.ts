@@ -1,21 +1,16 @@
-import tokenAbi from './abi/abiTestToken.json';
-import TestTokenABI from './abi/abiTestToken.json';
-import abiTestWBRTCToken from './abi/abiTestWBRTCToken.json';
 /**
  * Do not import this file directly.
  * Use getContract(contractName) helper
  * @example getContract('sovrynProtocol');
  */
+import erc20TokenAbi from './abi/abiTestToken.json';
+import WBRTCTokenABI from './abi/abiTestWBRTCToken.json';
 import ConverterRegistryABI from './abi/ConverterRegistry.json';
 import CrowdSaleAbi from './abi/CrowdSale.json';
-import CSOVTokenAbi from './abi/CSOVToken.json';
 import EscrowRewardsAbi from './abi/EscrowRewardsAbi.json';
 import feeSharingProxyAbi from './abi/FeeSharingProxy.json';
 import stakingRewardsProxyAbi from './abi/StakingRewards.json';
-import FISHTokenAbi from './abi/FISH.json';
 import LiquidityMiningAbi from './abi/LiquidityMining.json';
-import LiquidityPoolV1Converter from './abi/LiquidityPoolV1Converter.json';
-import LiquidityPoolV2Converter from './abi/LiquidityPoolV2Converter.json';
 import LoanTokenLogicStandard from './abi/LoanTokenLogicStandard.json';
 import LoanTokenLogicWrbtc from './abi/LoanTokenLogicWrbtc.json';
 import LockedFundAbi from './abi/LockedFund.json';
@@ -39,6 +34,7 @@ import MYNTPresaleAbi from './abi/MYNTPresale.json';
 import MYNTMarketMakerAbi from './abi/MYNTMarketMaker.json';
 import perpetualManagerAbi from './abi/PerpetualManager.json';
 import marginTokenAbi from './abi/MarginToken.json';
+import { ChainId } from '../../types';
 
 export const contracts = {
   sovrynProtocol: {
@@ -68,13 +64,13 @@ export const contracts = {
   },
   RBTC_token: {
     address: '0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab',
-    abi: abiTestWBRTCToken,
+    abi: WBRTCTokenABI,
     blockNumber: 1205599,
   },
   WRBTC_token: {
     // keep this after RBTC_token to prevent issues with RBTC tx's being picked up as WRBTC
     address: '0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab',
-    abi: abiTestWBRTCToken,
+    abi: WBRTCTokenABI,
     blockNumber: 1205599,
   },
   RBTC_lending: {
@@ -84,7 +80,7 @@ export const contracts = {
   },
   DOC_token: {
     address: '0xCB46c0ddc60D18eFEB0E586C17Af6ea36452Dae0',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 202559,
   },
   DOC_lending: {
@@ -92,49 +88,24 @@ export const contracts = {
     abi: LoanTokenLogicStandard,
     blockNumber: 1218721,
   },
-  DOC_amm: {
-    address: '0x497b0517dd24f66c456e93bc0adbb2a2bf159ec4',
-    abi: LiquidityPoolV2Converter,
-    blockNumber: 1218833,
-  },
   RDOC_token: {
     address: '0xc3de9f38581f83e281f260d0ddbaac0e102ff9f8',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 1764664,
   },
   MOC_token: {
     address: '0x45a97b54021a3f99827641afe1bfae574431e6ab',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 202559,
-  },
-  // MOC_lending: {
-  //   address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f',
-  //   abi: LoanTokenLogicStandard,
-  //   blockNumber: 1218721,
-  // },
-  MOC_amm: {
-    address: '0x478133b66B54e55bfA46b1182e274b5cCE47C60E',
-    abi: LiquidityPoolV1Converter,
-    blockNumber: 1218833,
   },
   RIF_token: {
     address: '0x19f64674d8a5b4e652319f5e239efd3bc969a1fe',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 1408174,
-  },
-  // RIF_lending: {
-  //   address: '',
-  //   abi: LoanTokenLogicStandard,
-  //   blockNumber: 1406290,
-  // },
-  RIF_amm: {
-    address: '0xA82881bceb367f8653559937A6eFBFffBF2E06DD',
-    abi: LiquidityPoolV1Converter,
-    blockNumber: 1218833,
   },
   USDT_token: {
     address: '0x4D5a316D23eBE168d8f887b4447bf8DbFA4901CC',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 1408174,
   },
   USDT_lending: {
@@ -142,14 +113,9 @@ export const contracts = {
     abi: LoanTokenLogicStandard,
     blockNumber: 1406290,
   },
-  USDT_amm: {
-    address: '0x133eBE9c8bA524C9B1B601E794dF527f390729bF',
-    abi: LiquidityPoolV2Converter,
-    blockNumber: 1218833,
-  },
   XUSD_token: {
     address: '0x74858FE37d391f81F89472e1D8BC8Ef9CF67B3b1',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 1408174,
   },
   XUSD_lending: {
@@ -157,14 +123,9 @@ export const contracts = {
     abi: LoanTokenLogicStandard,
     blockNumber: 1406290,
   },
-  XUSD_amm: {
-    address: '0x169B7A8Fc9615797e118B464b4fF1f594Dcad7a4',
-    abi: LiquidityPoolV1Converter,
-    blockNumber: 1218833,
-  },
   BPRO_token: {
     address: '0x4dA7997A819bb46B6758b9102234c289Dd2ad3bf',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 202562,
   },
   BPRO_lending: {
@@ -172,40 +133,15 @@ export const contracts = {
     abi: LoanTokenLogicStandard,
     blockNumber: 1218721,
   },
-  BPRO_amm: {
-    address: '0xe4E467D8B5f61b5C83048d857210678eB86730A4',
-    abi: LiquidityPoolV2Converter,
-    blockNumber: 1218833,
-  },
   ETH_token: {
     address: '0x0Fd0d8D78Ce9299Ee0e5676a8d51F938C234162c',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 1408174,
-  },
-  // ETH_lending: {
-  //   address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
-  //   abi: LoanTokenLogicStandard,
-  //   blockNumber: 1406290,
-  // },
-  ETH_amm: {
-    address: '0xf46DC974edD1754D4815AaE44Ab4542fF39B898D',
-    abi: LiquidityPoolV1Converter,
-    blockNumber: 1218833,
   },
   BNBS_token: {
     address: '0x801F223Def9A4e3a543eAcCEFB79dCE981Fa2Fb5',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 1408174,
-  },
-  // BNBS_lending: {
-  //   address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
-  //   abi: LoanTokenLogicStandard,
-  //   blockNumber: 1406290,
-  // },
-  BNBS_amm: {
-    address: '0x4F87d545B6E747433a80a6AA0dbEc962478aB271',
-    abi: LiquidityPoolV1Converter,
-    blockNumber: 1218833,
   },
   CrowdSale: {
     address: '0x62BDB11190f538274bD55A4DC74fA4665e7CB752',
@@ -263,12 +199,12 @@ export const contracts = {
   },
   CSOV_token: {
     address: '0x75bbf7f4d77777730eE35b94881B898113a93124',
-    abi: CSOVTokenAbi,
+    abi: erc20TokenAbi,
     blockNumber: 1218833,
   },
   CSOV2_token: {
     address: '0x1dA260149ffee6fD4443590ee58F65b8dC2106B9',
-    abi: CSOVTokenAbi,
+    abi: erc20TokenAbi,
     blockNumber: 1218833,
   },
   OriginInvestorsClaim: {
@@ -277,22 +213,12 @@ export const contracts = {
   },
   SOV_token: {
     address: '0x6a9A07972D07e58F0daf5122d11E069288A375fb',
-    abi: tokenAbi,
+    abi: erc20TokenAbi,
     blockNumber: 1606431,
   },
-  SOV_amm: {
-    address: '0x1Cecc8B488abcF9A0932E54328dD51980cbe86Ea',
-    abi: LiquidityPoolV1Converter,
-    blockNumber: 1218833,
-  },
-  // SOV_lending: {
-  //   address: '0x09c5faf7723b13434abdf1a65ab1b667bc02a902', // todo
-  //   abi: LoanTokenLogicStandard,
-  //   blockNumber: 1218742,
-  // },
   NFT_tier1: {
     address: '0xC5452Dbb2E3956C1161cB9C2d6DB53C2b60E7805',
-    abi: tokenAbi,
+    abi: erc20TokenAbi,
   },
   escrowRewards: {
     address: '0x8205153fA1492DFA191395bEABA3a210FeDf5A60',
@@ -320,11 +246,7 @@ export const contracts = {
   },
   FISH_token: {
     address: '0xaa7038D80521351F243168FefE0352194e3f83C3',
-    abi: FISHTokenAbi,
-  },
-  FISH_amm: {
-    address: '0x179caA42B5024ec1C3D8513A262fC9986F565295',
-    abi: LiquidityPoolV1Converter,
+    abi: erc20TokenAbi,
   },
   FISH_staking: {
     address: '0xc1fc98FEFA2130fC1CE352ec85f7aa61021eFE97',
@@ -369,12 +291,26 @@ export const contracts = {
     address: '0xf75170ce8d4060b8D5fc24E996FA00A94bb8A232',
     abi: MYNTMarketMakerAbi,
   },
+  // perpetualManager: {
+  //   address: '0x427cF4BdF9a6DCdc360625fC4295747b9D6796bA',
+  //   abi: perpetualManagerAbi,
+  //   chainId: ChainId.BSC_TESTNET,
+  // },
+  // PERPETUALS_token: {
+  //   address: '0x8389b185D40293b080e27794694704F98aD50f5A',
+  //   abi: marginTokenAbi,
+  //   chainId: ChainId.BSC_TESTNET,
+  // },
+
+  // TODO: These are competition contracts, don't use them once we have a subgraph for our regular contracts
   perpetualManager: {
-    address: '0x72442Df7DD04636474400e8635C31ef21017ac27',
+    address: '0x90e1346F0D29B54943a50c1994323c40e0ee80D5',
     abi: perpetualManagerAbi,
+    chainId: ChainId.BSC_TESTNET,
   },
   PERPETUALS_token: {
-    address: '0xDaF779963E49c081dB6cf3Cf60368B0075517010',
+    address: '0xDce6A00edd4637C49e3DeCFa56B7bfcBA414cbE1',
     abi: marginTokenAbi,
+    chainId: ChainId.BSC_TESTNET,
   },
 };

@@ -14,6 +14,7 @@ type AssetValueProps = {
   minDecimals?: number;
   maxDecimals?: number;
   className?: string;
+  assetClassName?: string;
   isApproximation?: boolean;
   showPositiveSign?: boolean;
 };
@@ -27,6 +28,7 @@ export const AssetValue: React.FC<AssetValueProps> = ({
   minDecimals = 0,
   maxDecimals = 6,
   className,
+  assetClassName,
   isApproximation = false,
   showPositiveSign = false,
 }) => {
@@ -85,7 +87,11 @@ export const AssetValue: React.FC<AssetValueProps> = ({
       {(asset || assetString) && (
         <>
           {' '}
-          <AssetSymbolRenderer asset={asset} assetString={assetString} />
+          <AssetSymbolRenderer
+            asset={asset}
+            assetString={assetString}
+            assetClassName={assetClassName}
+          />
         </>
       )}
     </span>
@@ -103,7 +109,11 @@ export const AssetValue: React.FC<AssetValueProps> = ({
             {(asset || assetString) && (
               <>
                 {' '}
-                <AssetSymbolRenderer asset={asset} assetString={assetString} />
+                <AssetSymbolRenderer
+                  asset={asset}
+                  assetString={assetString}
+                  assetClassName={assetClassName}
+                />
               </>
             )}
           </>

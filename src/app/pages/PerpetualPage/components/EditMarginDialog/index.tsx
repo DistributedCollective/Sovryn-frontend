@@ -1,8 +1,17 @@
-import React, { useCallback, useMemo, useState, useEffect } from 'react';
+import React, {
+  useCallback,
+  useMemo,
+  useState,
+  useEffect,
+  useContext,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { translations } from '../../../../../locales/i18n';
-import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
+import {
+  PerpetualPairDictionary,
+  PerpetualPairType,
+} from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { Dialog } from '../../../../containers/Dialog';
 import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
@@ -12,18 +21,24 @@ import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
 import {
   calculateApproxLiquidationPrice,
-  calculateLeverageForMargin,
+  calculateLeverage,
+  getMaximalMarginToWidthdraw,
 } from '../../utils/perpUtils';
-import { fromWei, toWei } from 'web3-utils';
-import { usePerpetual_queryPerpParameters } from '../../hooks/usePerpetual_queryPerpParameters';
-import { usePerpetual_queryAmmState } from '../../hooks/usePerpetual_queryAmmState';
+import { fromWei } from 'web3-utils';
 import classNames from 'classnames';
 import { LeverageViewer } from '../LeverageViewer';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { AmountInput } from '../../../../components/Form/AmountInput';
-import { usePerpetual_queryTraderState } from '../../hooks/usePerpetual_queryTraderState';
-import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
-import { calculateMaxMarginWithdrawal } from '../../utils/contractUtils';
+import { validatePositionChange } from '../../utils/contractUtils';
+import {
+  toWei,
+  numberFromWei,
+} from '../../../../../utils/blockchain/math-helpers';
+import { PerpetualTxMethods } from '../TradeDialog/types';
+import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
+import { ActionDialogSubmitButton } from '../ActionDialogSubmitButton';
+import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';
+import { getCollateralName } from '../../utils/renderUtils';
 
 enum EditMarginDialogMode {
   increase,
@@ -33,22 +48,34 @@ enum EditMarginDialogMode {
 export const EditMarginDialog: React.FC = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const { pairType: currentPairType, modal, modalOptions } = useSelector(
-    selectPerpetualPage,
-  );
-  const ammState = usePerpetual_queryAmmState();
-  const perpParameters = usePerpetual_queryPerpParameters();
-  const traderState = usePerpetual_queryTraderState();
+  const {
+    pairType: currentPairType,
+    collateral,
+    modal,
+    modalOptions,
+    useMetaTransactions,
+  } = useSelector(selectPerpetualPage);
+
+  const inMaintenance = usePerpetual_isTradingInMaintenance();
+
+  const {
+    ammState,
+    traderState,
+    perpetualParameters: perpParameters,
+    availableBalance,
+  } = useContext(PerpetualQueriesContext);
+
+  const collateralName = useMemo(() => getCollateralName(collateral), [
+    collateral,
+  ]);
+
   const trade = useMemo(
     () => (isPerpetualTrade(modalOptions) ? modalOptions : undefined),
     [modalOptions],
   );
   const pair = useMemo(
-    () => trade?.pairType && PerpetualPairDictionary.get(trade.pairType),
-    [trade],
-  );
-  const { available } = usePerpetual_accountBalance(
-    trade?.pairType || currentPairType,
+    () => PerpetualPairDictionary.get(trade?.pairType || currentPairType),
+    [trade, currentPairType],
   );
 
   const [mode, setMode] = useState(EditMarginDialogMode.increase);
@@ -71,26 +98,47 @@ export const EditMarginDialog: React.FC = () => {
 
   const onSubmit = useCallback(
     () =>
-      // TODO: implement review and excecution for EditMarginDialog
+      changedTrade &&
       dispatch(
-        actions.setModal(PerpetualPageModals.TRADE_REVIEW, changedTrade),
+        actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
+          origin: PerpetualPageModals.EDIT_MARGIN,
+          trade: changedTrade,
+          transactions: [
+            mode === EditMarginDialogMode.increase
+              ? {
+                  pair: pair?.pairType || PerpetualPairType.BTCUSD,
+                  method: PerpetualTxMethods.deposit,
+                  amount: toWei(margin),
+                  approvalTx: null,
+                  tx: null,
+                  origin: PerpetualPageModals.EDIT_MARGIN,
+                }
+              : {
+                  pair: pair?.pairType || PerpetualPairType.BTCUSD,
+                  method: PerpetualTxMethods.withdraw,
+                  amount: toWei(margin),
+                  tx: null,
+                  origin: PerpetualPageModals.EDIT_MARGIN,
+                },
+          ],
+        }),
       ),
-    [dispatch, changedTrade],
+    [dispatch, changedTrade, mode, margin, pair],
   );
 
   const [maxAmount, maxAmountWei] = useMemo(() => {
     if (mode === EditMarginDialogMode.increase) {
       // Fees don't need to be subtracted, since Collateral is not paid with the Network Token
-      return [Number(fromWei(available)), available];
+      return [Number(fromWei(availableBalance)), availableBalance];
     } else {
-      const maxAmount = calculateMaxMarginWithdrawal(
-        pair,
+      const maxAmount = getMaximalMarginToWidthdraw(
         traderState,
+        perpParameters,
         ammState,
       );
-      return [maxAmount, toWei(maxAmount.toPrecision(8))];
+      return [maxAmount, toWei(maxAmount)];
     }
-  }, [mode, available, pair, traderState, ammState]);
+  }, [mode, availableBalance, traderState, perpParameters, ammState]);
 
   const signedMargin = useMemo(
     () => (mode === EditMarginDialogMode.increase ? 1 : -1) * Number(margin),
@@ -98,14 +146,32 @@ export const EditMarginDialog: React.FC = () => {
   );
 
   const onChangeMargin = useCallback(
-    (margin?: string) =>
-      setMargin(currentMargin =>
-        Math.max(
-          0,
-          Math.min(maxAmount, margin ? Number(margin) : Number(currentMargin)),
-        ).toString(),
-      ),
-    [maxAmount],
+    (value?: string) => {
+      const clampedMargin = Math.max(
+        0,
+        Math.min(maxAmount, value ? Number(value) : Math.abs(signedMargin)),
+      );
+      setMargin(clampedMargin.toPrecision(8));
+
+      const newMargin = traderState.availableCashCC + signedMargin;
+      const leverage = calculateLeverage(
+        traderState.marginAccountPositionBC,
+        newMargin,
+        traderState,
+        ammState,
+        perpParameters,
+      );
+
+      setChangedTrade(
+        changedTrade =>
+          changedTrade && {
+            ...changedTrade,
+            leverage,
+            margin: toWei(newMargin),
+          },
+      );
+    },
+    [signedMargin, maxAmount, traderState, ammState, perpParameters],
   );
 
   const liquidationPrice = useMemo(
@@ -114,36 +180,55 @@ export const EditMarginDialog: React.FC = () => {
         traderState,
         ammState,
         perpParameters,
-        changedTrade ? Number(fromWei(changedTrade.amount)) : 0,
+        0,
         signedMargin,
       ),
-    [changedTrade, signedMargin, traderState, ammState, perpParameters],
+    [signedMargin, traderState, ammState, perpParameters],
+  );
+
+  const validation = useMemo(() => {
+    if (!changedTrade) {
+      return;
+    }
+    return validatePositionChange(
+      0,
+      signedMargin,
+      changedTrade.leverage,
+      changedTrade.slippage,
+      numberFromWei(availableBalance),
+      traderState,
+      perpParameters,
+      ammState,
+      useMetaTransactions,
+    );
+  }, [
+    changedTrade,
+    signedMargin,
+    availableBalance,
+    traderState,
+    perpParameters,
+    ammState,
+    useMetaTransactions,
+  ]);
+
+  const isButtonDisabled = useMemo(
+    () =>
+      Number(margin) === 0 ||
+      (validation && !validation.valid && !validation.isWarning),
+    [margin, validation],
   );
 
   useEffect(() => setChangedTrade(trade), [trade]);
 
+  // call onChangeMargin, when it's renewed to enforce maxAmount.
   useEffect(() => onChangeMargin(), [onChangeMargin]);
-
-  useEffect(() => {
-    const newMargin = traderState.availableCashCC + signedMargin;
-
-    const leverage = calculateLeverageForMargin(
-      newMargin,
-      traderState,
-      ammState,
-    );
-
-    setChangedTrade(
-      changedTrade => changedTrade && { ...changedTrade, leverage },
-    );
-  }, [signedMargin, traderState, ammState]);
 
   return (
     <Dialog
       isOpen={modal === PerpetualPageModals.EDIT_MARGIN}
       onClose={onClose}
     >
-      <h1>{t(translations.perpetualPage.editLeverage.title)}</h1>
+      <h1>{t(translations.perpetualPage.editMargin.title)}</h1>
       {trade && pair && (
         <div className="tw-mw-340 tw-mx-auto">
           <TradeDetails
@@ -185,40 +270,51 @@ export const EditMarginDialog: React.FC = () => {
             <AmountInput
               value={margin}
               maxAmount={maxAmountWei}
-              assetString="BTC"
+              assetString={collateralName}
               decimalPrecision={6}
               step={0.0001}
               onChange={onChangeMargin}
             />
           </div>
-          <LeverageViewer
-            className="tw-mt-3 tw-mb-4"
-            label={t(translations.perpetualPage.tradeForm.labels.leverage)}
-            min={pair.config.leverage.min}
-            max={pair.config.leverage.max}
-            value={changedTrade?.leverage || 0}
-            valueLabel={
-              changedTrade && `${toNumberFormat(changedTrade.leverage, 2)}x`
-            }
-          />
-          <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1 tw-mb-8 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
-            <label>
-              {t(translations.perpetualPage.tradeForm.labels.liquidationPrice)}
-            </label>
-            <AssetValue
-              minDecimals={2}
-              maxDecimals={2}
-              mode={AssetValueMode.auto}
-              value={liquidationPrice}
-              assetString={pair.quoteAsset}
+          <div className="tw-flex tw-flex-col tw-justify-between tw-px-6 tw-py-1.5 tw-mb-4 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
+            <LeverageViewer
+              label={t(translations.perpetualPage.tradeForm.labels.leverage)}
+              min={pair.config.leverage.min}
+              max={pair.config.leverage.max}
+              value={changedTrade?.leverage || 0}
+              valueLabel={
+                changedTrade && `${toNumberFormat(changedTrade.leverage, 2)}x`
+              }
             />
+
+            <div className="tw-flex tw-justify-between tw-mt-1.5">
+              <label>
+                {t(
+                  translations.perpetualPage.tradeForm.labels.liquidationPrice,
+                )}
+              </label>
+              <AssetValue
+                minDecimals={2}
+                maxDecimals={2}
+                mode={AssetValueMode.auto}
+                value={liquidationPrice}
+                assetString={pair.quoteAsset}
+              />
+            </div>
           </div>
-          <button
-            className="tw-w-full tw-min-h-10 tw-p-2 tw-text-lg tw-text-primary tw-font-medium tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-duration-300 hover:tw-bg-primary-25"
+          {validation && !validation.valid && validation.errors.length > 0 && (
+            <div className="tw-flex tw-flex-col tw-justify-between tw-px-6 tw-py-1 tw-mb-4 tw-text-warning tw-text-xs tw-font-medium tw-border tw-border-warning tw-rounded-lg">
+              {validation.errorMessages}
+            </div>
+          )}
+
+          <ActionDialogSubmitButton
+            inMaintenance={inMaintenance}
+            isDisabled={isButtonDisabled}
             onClick={onSubmit}
           >
             {t(translations.perpetualPage.editMargin.button)}
-          </button>
+          </ActionDialogSubmitButton>
         </div>
       )}
     </Dialog>

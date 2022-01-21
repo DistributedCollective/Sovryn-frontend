@@ -5,6 +5,8 @@ import {
   fromWei,
   roundToSmaller,
 } from '../blockchain/math-helpers';
+import { Asset } from 'types';
+import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 
 export function formatAsNumber(value, decimals): number {
   return parseFloat(weiToFixed(value, decimals).toLocaleString());
@@ -12,6 +14,20 @@ export function formatAsNumber(value, decimals): number {
 
 export function weiToNumberFormat(value: any, decimals: number = 0) {
   return toNumberFormat(Number(fromWei(value || '0')), decimals);
+}
+
+export function weiToAssetNumberFormat(value: any, asset: Asset) {
+  return weiToNumberFormat(
+    value,
+    AssetsDictionary.get(asset)?.displayDecimals || 8,
+  );
+}
+
+export function toAssetNumberFormat(value: number | string, asset: Asset) {
+  return toNumberFormat(
+    value,
+    AssetsDictionary.get(asset)?.displayDecimals || 8,
+  );
 }
 
 export function weiToUSD(
@@ -26,11 +42,15 @@ export function weiToUSD(
   );
 }
 
-export function toNumberFormat(value: number | string, decimals: number = 0) {
+export function toNumberFormat(
+  value: number | string,
+  decimals: number = 0,
+  minDecimals: number = decimals,
+) {
   if (isNaN(Number(value))) value = 0;
   return Number(value).toLocaleString(navigator.language, {
     maximumFractionDigits: decimals,
-    minimumFractionDigits: decimals,
+    minimumFractionDigits: minDecimals,
   });
 }
 

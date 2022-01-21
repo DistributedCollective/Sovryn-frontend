@@ -17,6 +17,7 @@ import { ContractName } from 'utils/types/contracts';
 import { useAccount } from './useAccount';
 import { Nullable } from 'types';
 import { gasLimit } from '../../utils/classifiers';
+import { selectWalletProvider } from '../containers/WalletProvider/selectors';
 
 export interface TransactionOptions {
   type?: TxType;
@@ -51,13 +52,14 @@ export function useSendContractTx(
 ): SendTxResponseInterface {
   const transactions = useSelector(selectTransactions);
   const loading = useSelector(selectLoadingTransaction);
+  const { chainId } = useSelector(selectWalletProvider);
   const dispatch = useDispatch();
   const account = useAccount();
   const [txId, setTxId] = useState<string | TxStatus>(TxStatus.NONE);
   const [tx, setTx] = useState<Transaction>();
 
   const send = useCallback(
-    (
+    async (
       args: any[],
       config: TransactionConfig = {},
       options: TransactionOptions = {},
@@ -72,7 +74,7 @@ export function useSendContractTx(
         config.gas = gasLimit[options.type];
       }
 
-      contractWriter
+      await contractWriter
         .send(contractName, methodName, args, config)
         .then(e => {
           const transactionHash = e as string;
@@ -88,6 +90,7 @@ export function useSendContractTx(
             asset: options?.asset || null,
             assetAmount: options?.assetAmount || null,
             customData: options?.customData || undefined,
+            chainId,
           };
           dispatch(actions.addTransaction(txData));
           setTx(txData);
@@ -100,11 +103,12 @@ export function useSendContractTx(
           dispatch(actions.setTransactionRequestDialogError(e.message));
         });
     },
-    [account, contractName, methodName, dispatch],
+    [account, contractName, methodName, chainId, dispatch],
   );
 
   const reset = useCallback(() => {
     setTxId(TxStatus.NONE);
+    setTx(undefined);
   }, []);
 
   useEffect(() => {

@@ -1,35 +1,66 @@
-import { useBlockSync } from 'app/hooks/useAccount';
-import { useEffect, useState } from 'react';
-import { toWei } from '../../../../utils/blockchain/math-helpers';
-import { PerpetualPairType } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
+import { useContext, useMemo } from 'react';
+import {
+  numberFromWei,
+  toWei,
+} from '../../../../utils/blockchain/math-helpers';
+import { getTraderPnLInCC, getQuote2CollateralFX } from '../utils/perpUtils';
+import { bignumber } from 'mathjs';
+import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 
 type AccountBalance = {
-  total: string;
+  total: {
+    collateralValue: string;
+    quoteValue: string;
+  };
   available: string;
   inPositions: string;
   unrealized: string;
 };
 
-export const usePerpetual_accountBalance = (pairType: PerpetualPairType) => {
-  const blockId = useBlockSync();
-  const [data, setData] = useState<AccountBalance>({
-    total: '',
-    available: '',
-    inPositions: '',
-    unrealized: '',
-  });
+export const usePerpetual_accountBalance = (): AccountBalance => {
+  const {
+    ammState,
+    traderState,
+    perpetualParameters,
+    availableBalance,
+  } = useContext(PerpetualQueriesContext);
 
-  // TODO: implement perpetual account Data fetching
+  const unrealizedPnl = useMemo(
+    () => getTraderPnLInCC(traderState, ammState, perpetualParameters),
+    [ammState, perpetualParameters, traderState],
+  );
 
-  useEffect(() => {
-    const unrealized = blockId % 2 === 0 ? 37.7331 : -37.7331;
-    setData({
-      total: toWei(1300 + unrealized),
-      available: toWei(500),
-      inPositions: toWei(700),
-      unrealized: toWei(unrealized),
-    });
-  }, [blockId]);
+  const inPosition = traderState.availableCashCC;
 
-  return data;
+  const totalCollateralValue = useMemo(
+    () => bignumber(availableBalance).add(toWei(inPosition)).toString(),
+    [availableBalance, inPosition],
+  );
+
+  const totalQuoteValue = useMemo(
+    () =>
+      toWei(
+        numberFromWei(totalCollateralValue) / getQuote2CollateralFX(ammState),
+      ),
+    [ammState, totalCollateralValue],
+  );
+
+  return useMemo(
+    () => ({
+      total: {
+        collateralValue: totalCollateralValue,
+        quoteValue: totalQuoteValue,
+      },
+      available: availableBalance,
+      inPositions: toWei(inPosition),
+      unrealized: toWei(unrealizedPnl),
+    }),
+    [
+      totalCollateralValue,
+      totalQuoteValue,
+      availableBalance,
+      inPosition,
+      unrealizedPnl,
+    ],
+  );
 };

@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import iconArrowForward from 'assets/images/arrow_forward.svg';
 import { translations } from '../../../../../locales/i18n';
-import { PerpetualPairType } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { Dialog, DialogSize } from '../../../../containers/Dialog';
 import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
@@ -16,17 +15,11 @@ enum AccountView {
   history,
 }
 
-type AccountDialogProps = {
-  pairType: PerpetualPairType;
-};
-
-export const AccountDialog: React.FC<AccountDialogProps> = ({ pairType }) => {
+export const AccountDialog: React.FC = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { modal } = useSelector(selectPerpetualPage);
-  const [accountView, setAccountView] = useState<AccountView>(
-    AccountView.balance,
-  );
+  const [accountView, setAccountView] = useState(AccountView.balance);
 
   const onClose = useCallback(() => {
     dispatch(actions.setModal(PerpetualPageModals.NONE));
@@ -71,14 +64,9 @@ export const AccountDialog: React.FC<AccountDialogProps> = ({ pairType }) => {
           : t(translations.perpetualPage.accountBalance.titleHistory)}
       </h1>
       {accountView === AccountView.balance && (
-        <AccountBalanceForm
-          pairType={pairType}
-          onOpenTransactionHistory={onOpenFundingHistory}
-        />
+        <AccountBalanceForm onOpenTransactionHistory={onOpenFundingHistory} />
       )}
-      {accountView === AccountView.history && (
-        <AccountFundingHistory pairType={pairType} />
-      )}
+      {accountView === AccountView.history && <AccountFundingHistory />}
     </Dialog>
   );
 };

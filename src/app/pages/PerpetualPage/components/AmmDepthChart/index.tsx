@@ -12,6 +12,9 @@ import {
 } from '../../hooks/usePerpetual_AmmDepthChart';
 import { Tooltip } from '@blueprintjs/core';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
+import { TradePriceChange } from '../RecentTradesTable/types';
+import { AssetValue } from '../../../../components/AssetValue';
+import { AssetValueMode } from '../../../../components/AssetValue/types';
 
 type AmmDepthChartProps = {
   pair: PerpetualPair;
@@ -32,14 +35,22 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
         max,
       );
       max = data.longs.reduce((acc, entry) => Math.max(acc, entry.amount), max);
-      if (data.trend > 0) {
-        trendImage = trendArrowUp;
-        trendText = 'trending upwards';
-        trendClass = 'tw-text-trade-long';
-      } else if (data.trend < 0) {
-        trendImage = trendArrowDown;
-        trendText = 'trending downwards';
-        trendClass = 'tw-text-trade-short';
+      switch (data.trend) {
+        case TradePriceChange.UP:
+          trendImage = trendArrowUp;
+          trendText = 'trending upwards';
+          trendClass = 'tw-text-trade-long';
+          break;
+        case TradePriceChange.DOWN:
+          trendImage = trendArrowDown;
+          trendText = 'trending downwards';
+          trendClass = 'tw-text-trade-short';
+          break;
+        case TradePriceChange.NO_CHANGE:
+          trendImage = undefined;
+          trendText = 'trend stable';
+          trendClass = 'tw-text-sov-white';
+          break;
       }
     }
 
@@ -47,7 +58,7 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
   }, [data]);
 
   return (
-    <table className="tw-w-full tw-h-full tw-text-xs tw-leading-tight">
+    <table className="tw-w-full tw-h-full tw-text-xs tw-leading-snug">
       <thead>
         <tr>
           <th className="tw-h-6 tw-w-4/12 tw-pr-4 tw-pb-1 tw-text-right tw-whitespace-nowrap">
@@ -59,7 +70,13 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
             />
           </th>
           <th className="tw-h-6 tw-w-4/12 tw-pr-4 tw-pb-1 tw-text-right tw-whitespace-nowrap">
-            <Trans i18nKey={translations.perpetualPage.ammDepth.change} />
+            <Tooltip
+              position="bottom"
+              popoverClassName="tw-max-w-md tw-font-light"
+              content={t(translations.perpetualPage.ammDepth.tooltips.change)}
+            >
+              <Trans i18nKey={translations.perpetualPage.ammDepth.change} />
+            </Tooltip>
           </th>
           <th className="tw-h-6 tw-pr-4 tw-pb-1 tw-text-right tw-whitespace-nowrap">
             <Trans
@@ -90,14 +107,21 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
               >
                 <Tooltip
                   position="bottom"
-                  hoverOpenDelay={0}
-                  hoverCloseDelay={0}
-                  interactionKind="hover"
                   content={
-                    <>
-                      {data.price}{' '}
-                      <AssetSymbolRenderer assetString={pair.quoteAsset} />
-                    </>
+                    <Trans
+                      i18nKey={
+                        translations.perpetualPage.ammDepth.tooltips.midPrice
+                      }
+                      components={[
+                        <AssetValue
+                          value={data.price}
+                          assetString={pair.quoteAsset}
+                          minDecimals={2}
+                          maxDecimals={4}
+                          mode={AssetValueMode.auto}
+                        />,
+                      ]}
+                    />
                   }
                 >
                   <div
@@ -106,7 +130,7 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
                       trendClass,
                     )}
                   >
-                    {data.price.toFixed(2)}
+                    {toNumberFormat(data.price, 2)}
                     {trendImage && (
                       <img
                         className="tw-inline-block tw-w-4 tw-ml-1"
@@ -116,39 +140,52 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
                     )}
                   </div>
                 </Tooltip>
-                <div className="">
+                <div>
                   <Tooltip
                     position="bottom"
-                    hoverOpenDelay={0}
-                    hoverCloseDelay={0}
-                    interactionKind="hover"
                     content={
-                      <>
-                        {t(translations.perpetualPage.ammDepth.indexPrice)}{' '}
-                        {data.indexPrice}{' '}
-                        <AssetSymbolRenderer assetString={pair.quoteAsset} />
-                      </>
+                      <Trans
+                        i18nKey={
+                          translations.perpetualPage.ammDepth.tooltips
+                            .indexPrice
+                        }
+                        components={[
+                          <AssetValue
+                            value={data.indexPrice}
+                            assetString={pair.quoteAsset}
+                            minDecimals={2}
+                            maxDecimals={4}
+                            mode={AssetValueMode.auto}
+                          />,
+                        ]}
+                      />
                     }
                   >
                     <span className="tw-opacity-50">
-                      {data.indexPrice.toFixed(2)}
+                      {toNumberFormat(data.indexPrice, 2)}
                     </span>
                   </Tooltip>
                   {' / '}
                   <Tooltip
                     position="bottom"
-                    hoverOpenDelay={0}
-                    hoverCloseDelay={0}
-                    interactionKind="hover"
                     content={
-                      <>
-                        {t(translations.perpetualPage.ammDepth.markPrice)}{' '}
-                        {data.markPrice}{' '}
-                        <AssetSymbolRenderer assetString={pair.quoteAsset} />
-                      </>
+                      <Trans
+                        i18nKey={
+                          translations.perpetualPage.ammDepth.tooltips.markPrice
+                        }
+                        components={[
+                          <AssetValue
+                            value={data.markPrice}
+                            assetString={pair.quoteAsset}
+                            minDecimals={2}
+                            maxDecimals={4}
+                            mode={AssetValueMode.auto}
+                          />,
+                        ]}
+                      />
                     }
                   >
-                    <span>{data.markPrice.toFixed(2)}</span>
+                    {toNumberFormat(data.markPrice, 2)}
                   </Tooltip>
                 </div>
               </td>
@@ -201,7 +238,7 @@ const AmmDepthChartRow: React.FC<AmmDepthChartRowProps> = ({
           backgroundClassName,
         )}
       >
-        {Math.abs(row.deviation).toPrecision(1)}%
+        {toNumberFormat(Math.abs(row.deviation), 2, 0)}%
       </td>
       <td
         className={classNames(

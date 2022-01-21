@@ -1,16 +1,13 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useAccount } from 'app/hooks/useAccount';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
-import { OpenPositionRow } from './OpenPositionRow';
-import { PendingPositionRow } from './PendingPositionRow';
+import { OpenPositionRow } from './components/OpenPositionRow';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
-import { Pagination } from '../../../../components/Pagination';
 import { useSelector } from 'react-redux';
-import { selectTransactionArray } from 'store/global/transactions-store/selectors';
-import { TxStatus, TxType } from 'store/global/transactions-store/types';
 import { usePerpetual_OpenPosition } from '../../hooks/usePerpetual_OpenPositions';
 import { selectPerpetualPage } from '../../selectors';
+import { Tooltip } from '@blueprintjs/core';
 
 interface IOpenPositionsTableProps {
   perPage: number;
@@ -18,40 +15,14 @@ interface IOpenPositionsTableProps {
 
 export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
   const { t } = useTranslation();
-  const [page, setPage] = useState(1);
-  const transactions = useSelector(selectTransactionArray);
   const { pairType } = useSelector(selectPerpetualPage);
 
   const { data, loading } = usePerpetual_OpenPosition(useAccount(), pairType);
 
   const items = useMemo(() => (data && data.margin > 0 ? [data] : []), [data]);
 
-  const onPageChanged = data => {
-    setPage(data.currentPage);
-  };
-
-  const onGoingTransactions = useMemo(() => {
-    const relevantTransactions = transactions
-      .filter(
-        tx =>
-          tx.type === TxType.PERPETUAL_OPEN &&
-          [TxStatus.FAILED, TxStatus.PENDING].includes(tx.status),
-      )
-      .reverse();
-
-    return (
-      relevantTransactions.length > 0 && (
-        <>
-          {relevantTransactions.map(item => (
-            <PendingPositionRow key={item.transactionHash} item={item} />
-          ))}
-        </>
-      )
-    );
-  }, [transactions]);
-
-  const isEmpty = !loading && !items.length && !onGoingTransactions;
-  const showLoading = loading && !items.length && !onGoingTransactions;
+  const isEmpty = !loading && !items.length;
+  const showLoading = loading && !items.length;
 
   return (
     <>
@@ -62,27 +33,90 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
               {t(translations.perpetualPage.openPositionsTable.pair)}
             </th>
             <th className="tw-text-right tw-text-sm">
-              {t(translations.perpetualPage.openPositionsTable.positionSize)}
+              <Tooltip
+                position="bottom"
+                popoverClassName="tw-max-w-md tw-font-light"
+                content={t(
+                  translations.perpetualPage.openPositionsTable.tooltips
+                    .positionSize,
+                )}
+              >
+                {t(translations.perpetualPage.openPositionsTable.positionSize)}
+              </Tooltip>
             </th>
             <th className="tw-hidden md:tw-table-cell tw-text-right tw-text-sm">
-              {t(translations.perpetualPage.openPositionsTable.entryPrice)}
+              <Tooltip
+                position="bottom"
+                popoverClassName="tw-max-w-md tw-font-light"
+                content={t(
+                  translations.perpetualPage.openPositionsTable.tooltips
+                    .entryPrice,
+                )}
+              >
+                {t(translations.perpetualPage.openPositionsTable.entryPrice)}
+              </Tooltip>
             </th>
             <th className="tw-hidden xl:tw-table-cell tw-text-right tw-text-sm">
-              {t(translations.perpetualPage.openPositionsTable.markPrice)}
+              <Tooltip
+                position="bottom"
+                popoverClassName="tw-max-w-md tw-font-light"
+                content={t(
+                  translations.perpetualPage.openPositionsTable.tooltips
+                    .markPrice,
+                )}
+              >
+                {t(translations.perpetualPage.openPositionsTable.markPrice)}
+              </Tooltip>
             </th>
             <th className="tw-hidden xl:tw-table-cell tw-text-right tw-text-sm">
-              {t(
-                translations.perpetualPage.openPositionsTable.liquidationPrice,
-              )}
+              <Tooltip
+                position="bottom"
+                popoverClassName="tw-max-w-md tw-font-light"
+                content={t(
+                  translations.perpetualPage.openPositionsTable.tooltips
+                    .liquidationPrice,
+                )}
+              >
+                {t(
+                  translations.perpetualPage.openPositionsTable
+                    .liquidationPrice,
+                )}
+              </Tooltip>
             </th>
             <th className="tw-text-right tw-text-sm">
-              {t(translations.perpetualPage.openPositionsTable.margin)}
+              <Tooltip
+                position="bottom"
+                popoverClassName="tw-max-w-md tw-font-light"
+                content={t(
+                  translations.perpetualPage.openPositionsTable.tooltips.margin,
+                )}
+              >
+                {t(translations.perpetualPage.openPositionsTable.margin)}
+              </Tooltip>
             </th>
             <th className="tw-text-sm">
-              {t(translations.perpetualPage.openPositionsTable.unrealized)}
+              <Tooltip
+                position="bottom"
+                popoverClassName="tw-max-w-md tw-font-light"
+                content={t(
+                  translations.perpetualPage.openPositionsTable.tooltips
+                    .unrealized,
+                )}
+              >
+                {t(translations.perpetualPage.openPositionsTable.unrealized)}
+              </Tooltip>
             </th>
             <th className="tw-text-sm tw-hidden 2xl:tw-table-cell ">
-              {t(translations.perpetualPage.openPositionsTable.realized)}
+              <Tooltip
+                position="bottom"
+                popoverClassName="tw-max-w-md tw-font-light"
+                content={t(
+                  translations.perpetualPage.openPositionsTable.tooltips
+                    .realized,
+                )}
+              >
+                {t(translations.perpetualPage.openPositionsTable.realized)}
+              </Tooltip>
             </th>
             <th className="tw-text-sm">
               {t(translations.perpetualPage.openPositionsTable.actions)}
@@ -95,8 +129,6 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
               <td colSpan={99}>{t(translations.openPositionTable.noData)}</td>
             </tr>
           )}
-          {onGoingTransactions}
-
           {showLoading && (
             <tr>
               <td colSpan={99}>
@@ -104,25 +136,11 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
               </td>
             </tr>
           )}
-
           {items.map(item => (
             <OpenPositionRow key={item.id} item={item} />
           ))}
         </tbody>
       </table>
-
-      {items.length > 0 && (
-        <Pagination
-          totalRecords={items.length}
-          pageLimit={perPage}
-          pageNeighbours={1}
-          onChange={onPageChanged}
-        />
-      )}
     </>
   );
 }
-
-OpenPositionsTable.defaultProps = {
-  perPage: 5,
-};

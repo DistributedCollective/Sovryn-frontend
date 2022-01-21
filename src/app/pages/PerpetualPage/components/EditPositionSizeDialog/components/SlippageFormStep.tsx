@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TransitionStep } from '../../../../../containers/TransitionSteps';
 import iconArrowForward from 'assets/images/arrow_forward.svg';
@@ -8,11 +8,23 @@ import { TransitionAnimation } from '../../../../../containers/TransitionContain
 import { translations } from '../../../../../../locales/i18n';
 import { EditPositionSizeDialogContext } from '..';
 import { PERPETUAL_SLIPPAGE_DEFAULT } from '../../../types';
+import { calculateSlippagePrice } from '../../../utils/perpUtils';
+import {
+  PerpetualPairType,
+  PerpetualPairDictionary,
+} from '../../../../../../utils/dictionaries/perpetual-pair-dictionary';
+import { getTradeDirection } from '../../../utils/contractUtils';
+import { AssetValue } from '../../../../../components/AssetValue';
+import { TradingPosition } from '../../../../../../types/trading-position';
+import { AssetValueMode } from '../../../../../components/AssetValue/types';
+import { PerpetualQueriesContext } from 'app/pages/PerpetualPage/contexts/PerpetualQueriesContext';
 
 export const SlippageFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
   changeTo,
 }) => {
   const { t } = useTranslation();
+
+  const { averagePrice } = useContext(PerpetualQueriesContext);
 
   const { changedTrade, onChange } = useContext(EditPositionSizeDialogContext);
 
@@ -24,6 +36,15 @@ export const SlippageFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
       ),
     [changeTo],
   );
+
+  const pair = useMemo(
+    () =>
+      PerpetualPairDictionary.get(
+        changedTrade?.pairType || PerpetualPairType.BTCUSD,
+      ),
+    [changedTrade?.pairType],
+  );
+
   const onChangeSlippage = useCallback(
     slippage =>
       changedTrade &&
@@ -32,6 +53,17 @@ export const SlippageFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
         slippage,
       }),
     [onChange, changedTrade],
+  );
+
+  const minEntryPrice = useMemo(
+    () =>
+      changedTrade &&
+      calculateSlippagePrice(
+        averagePrice,
+        changedTrade.slippage,
+        getTradeDirection(changedTrade.position),
+      ),
+    [averagePrice, changedTrade],
   );
 
   return (
@@ -54,6 +86,22 @@ export const SlippageFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
         slippage={changedTrade?.slippage || PERPETUAL_SLIPPAGE_DEFAULT}
         onChange={onChangeSlippage}
       />
+      <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-mt-6 tw-mb-1 tw-text-xs tw-font-medium">
+        <label>
+          {changedTrade?.position === TradingPosition.LONG
+            ? t(translations.perpetualPage.tradeForm.labels.maxEntryPrice)
+            : t(translations.perpetualPage.tradeForm.labels.minEntryPrice)}
+        </label>
+        {minEntryPrice && (
+          <AssetValue
+            minDecimals={2}
+            maxDecimals={2}
+            mode={AssetValueMode.auto}
+            value={minEntryPrice}
+            assetString={pair.quoteAsset}
+          />
+        )}
+      </div>
     </div>
   );
 };
