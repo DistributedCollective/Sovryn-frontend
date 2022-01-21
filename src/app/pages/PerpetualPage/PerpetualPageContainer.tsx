@@ -45,6 +45,12 @@ import { FundingPaymentsTable } from './components/FundingPaymentsTable/index';
 import { PerpetualQueriesContextProvider } from './contexts/PerpetualQueriesContext';
 import { PairSelector } from './components/PairSelector';
 import { ToastsWatcher } from './components/ToastsWatcher';
+import { gsnNetwork } from '../../../utils/gsn/GsnNetwork';
+import {
+  PERPETUAL_CHAIN,
+  PERPETUAL_CHAIN_ID,
+  PERPETUAL_PAYMASTER,
+} from './types';
 
 export const PerpetualPageContainer: React.FC = () => {
   useInjectReducer({ key: sliceKey, reducer });
@@ -57,7 +63,9 @@ export const PerpetualPageContainer: React.FC = () => {
     setShowNotificationSettingsModal,
   ] = useState(false);
 
-  const { pairType, collateral } = useSelector(selectPerpetualPage);
+  const { pairType, collateral, useMetaTransactions } = useSelector(
+    selectPerpetualPage,
+  );
   const { t } = useTranslation();
 
   const location = useLocation<IPromotionLinkState>();
@@ -104,6 +112,13 @@ export const PerpetualPageContainer: React.FC = () => {
     // only run once on mounting
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (useMetaTransactions) {
+      // warm up GsnProvider
+      gsnNetwork.getProvider(PERPETUAL_CHAIN_ID, PERPETUAL_PAYMASTER);
+    }
+  }, [useMetaTransactions]);
 
   return (
     <RecentTradesContextProvider pair={pair}>

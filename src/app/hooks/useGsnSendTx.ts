@@ -123,10 +123,11 @@ export function useGsnSendTx(
               status: TxStatus.PENDING,
               loading: true,
               to: contractAddress,
-              from: account,
+              from: account.toLowerCase(),
               value: config?.value?.toString() || '0',
               asset: options?.asset || null,
               assetAmount: options?.assetAmount || null,
+              customData: options?.customData || undefined,
             }),
           );
           setTxId(transactionHash);
