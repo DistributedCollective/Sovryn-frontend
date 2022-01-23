@@ -8,9 +8,8 @@ import React, {
 import {
   IAssets,
   IAssetData,
-  IPairs,
-  IPairData,
 } from 'app/pages/LandingPage/components/CryptocurrencyPrices/types';
+import { IPairs, IPairData } from 'types/trading-pairs';
 import arrowUp from 'assets/images/trend-arrow-up.svg';
 import arrowDown from 'assets/images/trend-arrow-down.svg';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';

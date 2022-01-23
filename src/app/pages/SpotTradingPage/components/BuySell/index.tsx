@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button } from '../Button';
+import { ButtonTrade } from 'app/components/ButtonTrade';
 import { TradingTypes } from '../../types';
 import { translations } from 'locales/i18n';
 import classNames from 'classnames';
@@ -14,28 +14,20 @@ export function BuySell({ value, onChange }: Props) {
   const { t } = useTranslation();
 
   return (
-    <div className="tw-flex tw-items-center">
-      <Button
-        className={classNames(
-          'tw-mr-1 tw-btn-trade tw-h-8 tw-capitalize tw-flex tw-items-center tw-justify-center tw-py-0',
-          {
-            'tw-opacity-25': value !== TradingTypes.BUY,
-          },
-        )}
-        small
+    <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mw-340 tw-mx-auto">
+      <ButtonTrade
+        className={classNames('tw-h-8 tw-capitalize', {
+          'tw-opacity-50': value !== TradingTypes.BUY,
+        })}
         text={t(translations.spotTradingPage.tradeForm.buy)}
         tradingType={TradingTypes.BUY}
         onClick={() => onChange(TradingTypes.BUY)}
         data-action-id="spot-buy"
       />
-      <Button
-        className={classNames(
-          'tw-ml-1 tw-btn-trade tw-h-8 tw-capitalize tw-flex tw-items-center tw-justify-center tw-py-0',
-          {
-            'tw-opacity-25': value !== TradingTypes.SELL,
-          },
-        )}
-        small
+      <ButtonTrade
+        className={classNames('tw-h-8 tw-capitalize', {
+          'tw-opacity-50': value !== TradingTypes.SELL,
+        })}
         text={t(translations.spotTradingPage.tradeForm.sell)}
         tradingType={TradingTypes.SELL}
         onClick={() => onChange(TradingTypes.SELL)}

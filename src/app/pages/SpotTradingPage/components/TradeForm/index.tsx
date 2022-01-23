@@ -39,7 +39,7 @@ export function TradeForm() {
 
   return (
     <>
-      <div className="tw-trading-form-card spot-form tw-bg-black tw-rounded-3xl tw-px-4 tw-py-6 tw-mx-auto xl:tw-mx-0">
+      <div className="tw-trading-form-card tw-bg-black tw-rounded-3xl tw-p-4 tw-mx-auto xl:tw-mx-0 tw-relative">
         <div className="tw-mx-auto">
           <BuySell value={tradeType} onChange={setTradeType} />
           <OrderTypeTitle

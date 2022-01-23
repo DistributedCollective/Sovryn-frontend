@@ -2,56 +2,59 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { toNumberFormat } from 'utils/display-text/format';
-import { TradingPairs } from '../../types';
+import { TradingPairs } from 'types/trading-pairs';
 import classNames from 'classnames';
 import { backendUrl, currentChainId } from 'utils/classifiers';
 import axios from 'axios';
 import { LoadableValue } from 'app/components/LoadableValue';
 
-interface IPairStatsProps {
+interface IPairNavbarInfoProps {
   pair: TradingPairs;
 }
 
-export const PairStats: React.FC<IPairStatsProps> = ({ pair }) => {
+interface ICandlesProps {
+  close: number;
+  high: number;
+  low: number;
+  open: number;
+  time: number;
+}
+
+export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
   const { t } = useTranslation();
-  const [candles, setCandels] = useState([]) as any;
+  const [candles, setCandels] = useState<ICandlesProps[]>();
   const [lowPrice, setLowPrice] = useState<number>(0);
   const [hightPrice, setHightPrice] = useState<number>(0);
   const [lastPrice, setLastPrice] = useState<number>(0);
   const [dayPrice, setDayPrice] = useState<number>(0);
   const [percent, setPercent] = useState<number>(0);
-  const [candlesLoading, setCandlesLoading] = useState(false);
-  const [symbolA, setSymbolA] = useState('');
-  const [symbolB, setSymbolB] = useState('');
-  const lowestPrice = candles.sort(function (a, b) {
-    return a.low - b.low;
-  });
-  const highestPrice = candles.sort(function (a, b) {
-    return a.high - b.high;
-  });
+  const [candlesLoading, setCandlesLoading] = useState<boolean>(false);
+  const [symbolA, setSymbolA] = useState<string>('');
+  const [symbolB, setSymbolB] = useState<string>('');
+  const url = backendUrl[currentChainId];
 
   const getPairsCandles = useCallback(() => {
     setCandlesLoading(true);
+    setCandels([]);
     //getting the current day and yesterday
     const dayBefore = new Date();
     const currentTime = new Date().getTime();
     dayBefore.setDate(dayBefore.getDate() - 1);
-    const pairs_api = `${
-      backendUrl[currentChainId]
-    }/datafeed/price/${symbolA}:${symbolB}?startTime=${dayBefore.getTime()}&endTime=${currentTime}`;
     axios
-      .get(pairs_api)
-      .then(res => {
-        setCandels(res.data.series);
+      .get(url + `/datafeed/price/${symbolA}:${symbolB}`, {
+        params: {
+          startTime: `${dayBefore.getTime()}`,
+          endTime: `${currentTime}`,
+        },
       })
+      .then(({ data }) => setCandels(data.series))
       .catch(e => console.error(e))
       .finally(() => {
         setCandlesLoading(false);
       });
-  }, [symbolA, symbolB]);
+  }, [symbolA, symbolB, url]);
 
   useEffect(() => {
-    setCandels(['']);
     setSymbolA(pair[0].base_symbol);
     setSymbolB(pair[1].base_symbol);
     if (pair[0] !== pair[1]) {
@@ -79,7 +82,7 @@ export const PairStats: React.FC<IPairStatsProps> = ({ pair }) => {
       //for pairs with RBTC as target
       if (pair[0] === pair[1] && !pair[2]) setDayPrice(pair[0].day_price);
 
-      //generating dayPrice for all pairs
+      //generating percent for all pairs
       //for pairs without RBTC
       if (pair[1] !== pair[0])
         if (lastPrice > dayPrice)
@@ -87,10 +90,17 @@ export const PairStats: React.FC<IPairStatsProps> = ({ pair }) => {
         else if (lastPrice < dayPrice)
           setPercent(((lastPrice - dayPrice) / lastPrice) * 100);
       //for pairs with RBTC as source
-      if (pair[2]) setPercent(-pair[0].price_change_percent_24h);
+      if (pair[2])
+        setPercent(
+          pair[0].price_change_percent_24h !== 0
+            ? -pair[0].price_change_percent_24h
+            : pair[0].price_change_percent_24h,
+        );
+
       //for pairs with RBTC as target
       if (pair[0] === pair[1] && !pair[2])
         setPercent(pair[0].price_change_percent_24h);
+
       //generating lowPrice
       // for pairs with RBTC as source
       if (pair[2]) setLowPrice(1 / pair[0].high_price_24h);
@@ -105,24 +115,11 @@ export const PairStats: React.FC<IPairStatsProps> = ({ pair }) => {
       if (pair[0] === pair[1] && !pair[2])
         setHightPrice(pair[0].high_price_24h);
     }
-
-    if (candles.length > 0 && pair[0] !== pair[1]) {
-      setLowPrice(lowestPrice[0].low);
-      setHightPrice(highestPrice[highestPrice.length - 1].high);
-    }
-  }, [
-    lastPrice,
-    pair,
-    candlesLoading,
-    candles,
-    highestPrice,
-    lowestPrice,
-    dayPrice,
-  ]);
+  }, [lastPrice, pair, candlesLoading, candles, dayPrice]);
 
   return (
-    <div className="tw-flex tw-items-center tw-justify-around tw-flex-1 tw-py-2 tw-text-xs">
-      <div className="tw-flex tw-items-center tw-text-center tw-flex-col lg:tw-flex-row">
+    <div className="tw-flex tw-items-center tw-justify-around tw-flex-1 tw-text-xs">
+      <div className="tw-flex tw-items-center tw-text-center tw-flex-col lg:tw-flex-row tw-py-2">
         {t(translations.spotTradingPage.pairNavbar.lastTradedPrice)}
         <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-primary">
           <LoadableValue
@@ -131,7 +128,7 @@ export const PairStats: React.FC<IPairStatsProps> = ({ pair }) => {
           />
         </span>
       </div>
-      <div className="tw-flex tw-items-center tw-text-center tw-flex-col lg:tw-flex-row">
+      <div className="tw-flex tw-items-center tw-text-center tw-flex-col lg:tw-flex-row tw-py-2">
         {t(translations.spotTradingPage.pairNavbar.dayPercentChange)}{' '}
         <span
           className={classNames('tw-ml-2 tw-font-semibold tw-text-sm', {
@@ -147,7 +144,7 @@ export const PairStats: React.FC<IPairStatsProps> = ({ pair }) => {
         </span>
       </div>
 
-      <div className="tw-flex tw-items-center tw-text-center tw-flex-col lg:tw-flex-row">
+      <div className="tw-flex tw-items-center tw-text-center tw-flex-col lg:tw-flex-row tw-py-2">
         {t(translations.spotTradingPage.pairNavbar.dayLow)}{' '}
         <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-trade-short">
           <LoadableValue
@@ -156,7 +153,7 @@ export const PairStats: React.FC<IPairStatsProps> = ({ pair }) => {
           />
         </span>
       </div>
-      <div className="tw-flex tw-items-center tw-text-center tw-flex-col lg:tw-flex-row">
+      <div className="tw-flex tw-items-center tw-text-center tw-flex-col lg:tw-flex-row tw-py-2">
         {t(translations.spotTradingPage.pairNavbar.dayHigh)}{' '}
         <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-trade-long">
           <LoadableValue

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import classNames from 'classnames';
 import { Input } from 'app/components/Form/Input';
-import { IPairsData } from 'app/pages/LandingPage/components/CryptocurrencyPrices/types';
+import { IPairsData } from 'types/trading-pairs';
 import { selectMarginTradePage } from '../../selectors';
 import { Pair } from './Pair';
 import { PairLabels } from './PairLabels';

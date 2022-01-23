@@ -1,8 +1,6 @@
 import React from 'react';
-import {
-  IPairsData,
-  IAssets,
-} from 'app/pages/LandingPage/components/CryptocurrencyPrices/types';
+import { IAssets } from 'app/pages/LandingPage/components/CryptocurrencyPrices/types';
+import { IPairsData } from 'types/trading-pairs';
 import { SwapStatsPrices } from './components/SwapStatsPrices';
 interface ISwapStatsProps {
   pairsData: IPairsData;

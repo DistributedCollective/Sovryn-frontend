@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
 import classNames from 'classnames';
 import {
-  IPairs,
   IAssets,
   IAssetData,
 } from 'app/pages/LandingPage/components/CryptocurrencyPrices/types';
+import { IPairs } from 'types/trading-pairs';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { numberToUSD, toNumberFormat } from 'utils/display-text/format';

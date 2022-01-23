@@ -3,7 +3,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { FormGroup } from 'app/components/Form/FormGroup';
 import { AmountInput } from 'app/components/Form/AmountInput';
-import { Button } from '../Button';
+import { ButtonTrade } from 'app/components/ButtonTrade';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
 import { bignumber } from 'mathjs';
@@ -279,7 +279,7 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
       </div>
       {!spotLocked && (
         <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mx-auto">
-          <Button
+          <ButtonTrade
             text={t(
               tradeType === TradingTypes.BUY
                 ? translations.spotTradingPage.tradeForm.buy_cta

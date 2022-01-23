@@ -5,10 +5,10 @@ import React, {
   useEffect,
   useMemo,
 } from 'react';
-import { PairStats } from './PairStats';
+import { PairNavbarInfo } from 'app/components/PairNavbarInfo';
 import { PairSelect } from './PairSelect';
 import { useLocation } from 'react-router-dom';
-import { IPairsData } from 'app/pages/LandingPage/components/CryptocurrencyPrices/types';
+import { IPairsData } from 'types/trading-pairs';
 import axios, { Canceler } from 'axios';
 import { backendUrl, currentChainId } from 'utils/classifiers';
 import { SpotPairType } from '../../types';
@@ -81,7 +81,7 @@ export const PairNavbar: React.FC = () => {
           pairsData={pairsData}
         />
 
-        {pair.length > 1 && !pairsLoading && <PairStats pair={pair} />}
+        {pair && pair.length && !pairsLoading && <PairNavbarInfo pair={pair} />}
       </div>
     </div>
   );

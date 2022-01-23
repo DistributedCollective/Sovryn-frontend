@@ -10,13 +10,10 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import classNames from 'classnames';
 import { Input } from 'app/components/Form/Input';
-import {
-  IPairs,
-  IPairsData,
-} from 'app/pages/LandingPage/components/CryptocurrencyPrices/types';
+import { IPairs, IPairsData, TradingPairs } from 'types/trading-pairs';
 import { getFavoriteList, setFavoriteList } from 'utils/helpers';
 import { selectSpotTradingPage } from '../../selectors';
-import { SpotPairType, TradingPairs } from '../../types';
+import { SpotPairType } from '../../types';
 import { toNumberFormat } from 'utils/display-text/format';
 import { Pair } from './Pair';
 import { PairLabels } from './PairLabels';

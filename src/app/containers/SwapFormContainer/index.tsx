@@ -34,10 +34,8 @@ import { useSwapNetwork_approveAndConvertByPath } from 'app/hooks/swap-network/u
 import { useSwapNetwork_conversionPath } from 'app/hooks/swap-network/useSwapNetwork_conversionPath';
 import { ReviewDialog } from './components/ReviewDialog';
 import axios, { Canceler } from 'axios';
-import {
-  IPairsData,
-  IAssets,
-} from 'app/pages/LandingPage/components/CryptocurrencyPrices/types';
+import { IAssets } from 'app/pages/LandingPage/components/CryptocurrencyPrices/types';
+import { IPairsData } from 'types/trading-pairs';
 import { useInterval } from 'app/hooks/useInterval';
 import { getFavoriteList } from 'utils/helpers';
 

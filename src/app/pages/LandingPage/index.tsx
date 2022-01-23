@@ -19,7 +19,8 @@ import { WelcomeTitle } from './styled';
 import { LendingStats } from 'app/containers/StatsPage/components/LendingStats';
 import { Footer } from 'app/components/Footer';
 import { CryptocurrencyPrices } from './components/CryptocurrencyPrices';
-import { IPairsData, IAssets } from './components/CryptocurrencyPrices/types';
+import { IAssets } from './components/CryptocurrencyPrices/types';
+import { IPairsData } from 'types/trading-pairs';
 
 const url = backendUrl[currentChainId];
 
@@ -145,9 +146,9 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
           </div>
 
           <div className="tw-w-full md:tw-w-5/12">
-            {/* 
+            {/*
               Should un comment this and remove Banner once the sale is over.
-              <ArbitrageOpportunity /> 
+              <ArbitrageOpportunity />
             */}
             {/* <Banner
               title={t(translations.landingPage.banner.originsFish)}

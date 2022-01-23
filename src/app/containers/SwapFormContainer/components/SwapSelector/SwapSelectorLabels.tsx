@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import classNames from 'classnames';
-import { IPairs } from 'app/pages/LandingPage/components/CryptocurrencyPrices/types';
+import { IPairs } from 'types/trading-pairs';
 
 interface ISwapSelectorLabelsProps {
   onChangeCategory: (value: string) => void;

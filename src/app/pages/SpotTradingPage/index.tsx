@@ -1,9 +1,3 @@
-/**
- *
- * SpotTradingPage
- *
- */
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
@@ -46,12 +40,14 @@ export function SpotTradingPage() {
         />
       </Helmet>
       <Header />
-      <PairNavbar />
-      <div className="tw-container tw-mt-9 tw-mx-auto tw-px-6">
-        <div className="tw-flex tw-flex-col xl:tw-flex-row xl:tw-justify-between">
+      <div className="tw-container tw-mx-auto tw-px-3">
+        <div className="tw-h-10 tw-flex tw-items-center tw--mx-3 tw-justify-between tw-bg-gray-3">
+          <PairNavbar />
+        </div>
+        <div className="tw-flex tw-mt-5 tw-flex-col xl:tw-flex-row xl:tw-justify-between tw-max-w-full">
           <div
             className={
-              'tw-flex-shrink tw-flex-grow tw-mb-12 xl:tw-pr-4 xl:tw-mb-0'
+              'tw-flex-shrink tw-flex-grow tw-mb-12 tw-max-w-none xl:tw-pr-4 xl:tw-mb-0'
             }
           >
             <TradingChart
@@ -59,9 +55,7 @@ export function SpotTradingPage() {
               theme={Theme.DARK}
             />
           </div>
-          <div>
-            <TradeForm />
-          </div>
+          <TradeForm />
         </div>
 
         {account && (

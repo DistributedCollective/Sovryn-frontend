@@ -2,7 +2,6 @@
 import { TradingPairType } from 'utils/dictionaries/trading-pair-dictionary';
 import { Asset } from 'types/asset';
 import { TradingPosition } from '../../../types/trading-position';
-import { IPairData } from '../LandingPage/components/CryptocurrencyPrices/types';
 import { BigNumber } from 'ethers';
 
 export const MARGIN_SLIPPAGE_DEFAULT = 0.5;
@@ -17,12 +16,6 @@ export interface MarginTradePageState {
   notificationWallet?: string;
   notificationToken?: string;
   notificationUser?: NotificationUser;
-}
-
-export interface TradingPairs {
-  [0]: IPairData;
-  [1]: IPairData;
-  RBTC_source?: string;
 }
 
 export type ContainerState = MarginTradePageState;

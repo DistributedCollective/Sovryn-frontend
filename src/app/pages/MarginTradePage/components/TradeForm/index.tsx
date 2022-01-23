@@ -23,7 +23,7 @@ import { useWeiAmount } from 'app/hooks/useWeiAmount';
 import { selectMarginTradePage } from '../../selectors';
 import { actions } from '../../slice';
 import { ActionButton } from 'app/components/Form/ActionButton';
-import { Button } from '../Button';
+import { ButtonTrade } from 'app/components/ButtonTrade';
 import { CollateralAssets } from '../CollateralAssets';
 import { LeverageSelector } from '../LeverageSelector';
 import { useGetEstimatedMarginDetails } from 'app/hooks/trading/useGetEstimatedMarginDetails';
@@ -123,7 +123,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
         {!openTradesLocked && (
           <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mw-340 tw-mx-auto">
             {pair.canOpenLong && (
-              <Button
+              <ButtonTrade
                 text={t(translations.marginTradePage.tradeForm.buttons.long)}
                 position={TradingPosition.LONG}
                 onClick={handlePositionLong}
@@ -134,7 +134,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
               />
             )}
             {pair.canOpenShort && (
-              <Button
+              <ButtonTrade
                 text={t(translations.marginTradePage.tradeForm.buttons.short)}
                 position={TradingPosition.SHORT}
                 onClick={handlePositionShort}
@@ -241,7 +241,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                 />
               </div>
 
-              <Button
+              <ButtonTrade
                 text={
                   position === TradingPosition.LONG ? (
                     <>

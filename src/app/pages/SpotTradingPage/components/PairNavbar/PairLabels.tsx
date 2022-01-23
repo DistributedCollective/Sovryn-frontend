@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import classNames from 'classnames';
-import { IPairs } from 'app/pages/LandingPage/components/CryptocurrencyPrices/types';
+import { IPairs } from 'types/trading-pairs';
 
 interface IPairLabelsProps {
   onChangeCategory: (value: string) => void;

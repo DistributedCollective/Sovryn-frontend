@@ -8,17 +8,17 @@ import React, {
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { reactLocalStorage } from 'reactjs-localstorage';
+import { useDispatch } from 'react-redux';
+import axios, { Canceler } from 'axios';
 import { NotificationSettingsDialog } from 'app/pages/MarginTradePage/components/NotificationSettingsDialog';
-import { PairStats } from './PairStats';
+import { PairNavbarInfo } from 'app/components/PairNavbarInfo';
 import { PairSelect } from './PairSelect';
 import { useLocation } from 'react-router-dom';
 import imgNotificationBell from 'assets/images/marginTrade/notifications.svg';
-import { IPairsData } from 'app/pages/LandingPage/components/CryptocurrencyPrices/types';
-import axios, { Canceler } from 'axios';
+import { IPairsData } from 'types/trading-pairs';
 import { backendUrl, currentChainId } from 'utils/classifiers';
 import { TradingPairType } from 'utils/dictionaries/trading-pair-dictionary';
 import { useIsConnected } from 'app/hooks/useAccount';
-import { useDispatch } from 'react-redux';
 import { actions } from '../../slice';
 
 export const PairNavbar: React.FC = () => {
@@ -142,7 +142,7 @@ export const PairNavbar: React.FC = () => {
           pairsData={pairsData}
         />
 
-        {pair.length && !pairsLoading && <PairStats pair={pair} />}
+        {pair && pair.length && !pairsLoading && <PairNavbarInfo pair={pair} />}
         {connected && (
           <div>
             <button

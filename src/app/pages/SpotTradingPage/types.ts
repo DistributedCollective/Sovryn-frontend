@@ -2,7 +2,6 @@ import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 /* --- STATE --- */
 import { Asset } from 'types/asset';
 import { BigNumber } from 'ethers';
-import { IPairData } from '../LandingPage/components/CryptocurrencyPrices/types';
 
 export enum SpotPairType {
   //SOV
@@ -144,12 +143,6 @@ export const pairList = Object.keys(pairs);
 export interface SpotTradingPageState {
   pairType: SpotPairType;
   pendingLimitOrders: IApiLimitOrder[];
-}
-
-export interface TradingPairs {
-  [0]: IPairData;
-  [1]: IPairData;
-  RBTC_source?: string;
 }
 
 export enum TradingTypes {

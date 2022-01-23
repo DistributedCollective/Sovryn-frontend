@@ -19,7 +19,6 @@ import { useIsConnected } from '../../hooks/useAccount';
 import { TradingHistory } from './components/TradingHistory';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
-import styles from './index.module.scss';
 import { PairNavbar } from './components/PairNavbar';
 
 export function MarginTradePage() {
@@ -61,7 +60,7 @@ export function MarginTradePage() {
       </Helmet>
       <Header />
       <div className="tw-container tw-mx-auto tw-px-3">
-        <div className={styles.overview}>
+        <div className="tw-h-10 tw-flex tw-items-center tw--mx-3 tw-justify-between tw-bg-gray-3">
           <PairNavbar />
         </div>
         <div className="tw-flex tw-mt-5 tw-flex-col xl:tw-flex-row xl:tw-justify-between tw-max-w-full">
