@@ -10,6 +10,7 @@ import { toNumberFormat } from 'utils/display-text/format';
 import { Pair } from './Pair';
 import { StarButton } from 'app/components/StarButton';
 import { actions } from '../../slice';
+import { usePairList } from 'app/hooks/trading/usePairList';
 
 const FAVORITE = 'FAVORITE';
 
@@ -31,17 +32,11 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
   onPairChange,
 }) => {
   const { t } = useTranslation();
-  const list = useMemo(() => {
-    if (!pairs) return [];
-    return Object.keys(pairs)
-      .map(key => pairs[key])
-      .filter(pair => pair);
-  }, [pairs]);
-
+  const list = usePairList(pairs);
   const [favList, setFavList] = useState(getFavoriteList(storageKey));
   const dispatch = useDispatch();
 
-  const handleFavClick = useCallback(
+  const handleFavouriteClick = useCallback(
     pair => {
       const index = favList.findIndex(
         (favorite: TradingPairs) =>
@@ -137,7 +132,9 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
     [closePairList, dispatch, onPairChange],
   );
 
-  if (!list.length) return null;
+  if (!list.length) {
+    return null;
+  }
 
   return (
     <div className="tw-max-h-96 tw-overflow-auto tw-w-full">
@@ -159,42 +156,54 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
             //generating lastPrice for all pairs
             let lastPrice = 0;
             //for pairs without RBTC
-            if (pair[1] !== pair[0])
+            if (pair[1] !== pair[0]) {
               lastPrice = pair[0].last_price / pair[1].last_price;
+            }
             //for pairs with RBTC as source
-            if (pair[2]) lastPrice = 1 / pair[0].last_price;
+            if (pair[2]) {
+              lastPrice = 1 / pair[0].last_price;
+            }
             //for pairs with RBTC as target
-            if (pair[0].base_symbol === pair[1].base_symbol && !pair[2])
+            if (pair[0].base_symbol === pair[1].base_symbol && !pair[2]) {
               lastPrice = pair[0].last_price;
+            }
 
             //generating dayPrice for all pairs
             let dayPrice = 0;
             //for pairs without RBTC
-            if (pair[1] !== pair[0])
+            if (pair[1] !== pair[0]) {
               dayPrice = pair[0].day_price / pair[1].day_price;
+            }
             //for pairs with RBTC as source
-            if (pair[2]) dayPrice = 1 / pair[0].day_price;
+            if (pair[2]) {
+              dayPrice = 1 / pair[0].day_price;
+            }
             //for pairs with RBTC as target
-            if (pair[0].base_symbol === pair[1].base_symbol && !pair[2])
+            if (pair[0].base_symbol === pair[1].base_symbol && !pair[2]) {
               dayPrice = pair[0].day_price;
+            }
 
             //generating dayPrice for all pairs
             let percent = 0;
             //for pairs without RBTC
-            if (pair[1] !== pair[0])
-              if (lastPrice > dayPrice)
+            if (pair[1] !== pair[0]) {
+              if (lastPrice > dayPrice) {
                 percent = ((lastPrice - dayPrice) / dayPrice) * 100;
-              else if (lastPrice < dayPrice)
+              } else if (lastPrice < dayPrice) {
                 percent = ((lastPrice - dayPrice) / lastPrice) * 100;
+              }
+            }
             //for pairs with RBTC as source
-            if (pair[2])
+            if (pair[2]) {
               percent =
                 pair[0].price_change_percent_24h !== 0
                   ? -pair[0].price_change_percent_24h
                   : pair[0].price_change_percent_24h;
+            }
             //for pairs with RBTC as target
-            if (pair[0].base_symbol === pair[1].base_symbol && !pair[2])
+            if (pair[0].base_symbol === pair[1].base_symbol && !pair[2]) {
               percent = pair[0].price_change_percent_24h;
+            }
 
             const isFavoriteActive = favList.some(
               (favorite: TradingPairs) =>
@@ -214,7 +223,7 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
                 <td>
                   <StarButton
                     active={isFavoriteActive}
-                    onClick={() => handleFavClick(pair)}
+                    onClick={() => handleFavouriteClick(pair)}
                   />
                 </td>
                 <td className="tw-py-2" onClick={() => selectPair(pair)}>

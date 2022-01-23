@@ -22,7 +22,7 @@ import { actions } from '../../slice';
 import useOnClickOutside from 'app/hooks/useOnClickOutside';
 import arrowDownIcon from 'assets/images/swap/ic_arrow_down.svg';
 import searchIcon from 'assets/images/search.svg';
-import styles from './index.module.scss';
+import { usePairList } from 'app/hooks/trading/usePairList';
 
 const FAVORITE = 'FAVORITE';
 
@@ -66,15 +66,10 @@ export const PairSelect: React.FC<IPairSelect> = ({
         />
       </div>
       {open && (
-        <div
-          className={classNames(
-            'tw-absolute tw-transform tw-translate-y-full tw-bottom-0 tw-left-0 tw-bg-gray-2 tw-py-7 tw-px-9 tw-rounded-b-lg tw-z-10',
-            styles.pairsModal,
-          )}
-        >
+        <div className="tw-absolute tw-transform tw-translate-y-full tw-bottom-0 tw-left-0 tw-bg-gray-2 tw-py-7 tw-px-9 tw-rounded-b-lg tw-z-10">
           <Input
             value={search}
-            className={classNames('tw-rounded-lg', styles.search)}
+            className="tw-rounded-lg search tw-max-w-full"
             inputClassName="tw-ml-0"
             onChange={setSearch}
             placeholder={'Search'}
@@ -134,12 +129,7 @@ export const CryptocurrencyPairs: React.FC<ICryptocurrencyPairsProps> = ({
   onPairChange,
 }) => {
   const { t } = useTranslation();
-  const list = useMemo(() => {
-    if (!pairs) return [];
-    return Object.keys(pairs)
-      .map(key => pairs[key])
-      .filter(pair => pair);
-  }, [pairs]);
+  const list = usePairList(pairs);
 
   const [favList, setFavList] = useState(getFavoriteList(storageKey));
   const dispatch = useDispatch();

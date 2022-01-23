@@ -19,11 +19,10 @@ import {
   getLendingContractName,
   getTokenContract,
 } from 'utils/blockchain/contract-helpers';
-import { fromWei, toWei, weiTo18 } from 'utils/blockchain/math-helpers';
+import { toWei } from 'utils/blockchain/math-helpers';
 import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
 import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
 import { TransactionDialog } from 'app/components/TransactionDialog';
-import { LoadableValue } from 'app/components/LoadableValue';
 import { Dialog } from 'app/containers/Dialog';
 import { useApproveAndTrade } from 'app/hooks/trading/useApproveAndTrade';
 import { useTrading_resolvePairTokens } from 'app/hooks/trading/useTrading_resolvePairTokens';
@@ -131,7 +130,12 @@ const TradeLogInputs = [
   },
 ];
 
-export const TradeDialog: React.FC<ITradeDialogProps> = props => {
+export const TradeDialog: React.FC<ITradeDialogProps> = ({
+  slippage,
+  isOpen,
+  onCloseModal,
+  orderType,
+}) => {
   const { t } = useTranslation();
   const account = useAccount();
   const { checkMaintenance, States } = useMaintenance();
@@ -139,7 +143,6 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
   const { position, amount, pairType, collateral, leverage } = useSelector(
     selectMarginTradePage,
   );
-  const orderTypeValue = props.orderType;
 
   const dispatch = useDispatch();
   const pair = useMemo(() => TradingPairDictionary.get(pairType), [pairType]);
@@ -168,10 +171,10 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
 
   const { minReturn: minReturnCollateral } = useSlippage(
     estimations.collateral,
-    props.slippage,
+    slippage,
   );
 
-  const { minReturn } = useSlippage(toWei(price), props.slippage);
+  const { minReturn } = useSlippage(toWei(price), slippage);
 
   const { trade, ...tx } = useApproveAndTrade(
     pair,
@@ -225,15 +228,15 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
       leverage,
       amount,
     });
-    props.onCloseModal();
+    onCloseModal();
   };
 
   return (
     <>
       <Dialog
         dataAttribute="margin-select-asset-review-order-close-button"
-        isOpen={props.isOpen}
-        onClose={() => props.onCloseModal()}
+        isOpen={isOpen}
+        onClose={onCloseModal}
       >
         <div className="tw-w-auto md:tw-mx-7 tw-mx-2">
           <h1 className="tw-text-sov-white tw-text-center">
@@ -242,7 +245,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
           <TradeDialogInfo
             position={position}
             leverage={leverage}
-            orderTypeValue={orderTypeValue}
+            orderTypeValue={orderType}
             amount={amount}
             collateral={collateral}
             loanToken={loanToken}
@@ -282,19 +285,10 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
               })}
               value={
                 <>
-                  <LoadableValue
-                    loading={false}
-                    value={weiToNumberFormat(
-                      bignumber(amount).mul(leverage).toFixed(0),
-                      4,
-                    )}
-                    tooltip={
-                      <>
-                        {fromWei(bignumber(amount).mul(leverage).toFixed(0))}{' '}
-                        <AssetRenderer asset={collateral} />
-                      </>
-                    }
-                  />{' '}
+                  {weiToNumberFormat(
+                    bignumber(amount).mul(leverage).toFixed(0),
+                    4,
+                  )}{' '}
                   <AssetRenderer asset={collateral} />
                 </>
               }
@@ -303,45 +297,20 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
               label={t(translations.marginTradePage.tradeDialog.margin)}
               value={
                 <>
-                  <LoadableValue
-                    loading={false}
-                    value={weiToNumberFormat(amount, 4)}
-                    tooltip={
-                      <>
-                        {fromWei(amount)} <AssetRenderer asset={collateral} />
-                      </>
-                    }
-                  />{' '}
+                  {weiToNumberFormat(amount, 4)}{' '}
                   <AssetRenderer asset={collateral} />
                 </>
               }
             />
             <LabelValuePair
               label={t(translations.marginTradePage.tradeDialog.leverage)}
-              value={
-                <>
-                  <LoadableValue
-                    loading={false}
-                    value={toNumberFormat(leverage) + 'x'}
-                    tooltip={position}
-                  />
-                </>
-              }
+              value={toNumberFormat(leverage) + 'x'}
             />
             <LabelValuePair
               label={t(translations.marginTradePage.tradeDialog.entryPrice)}
               value={
                 <>
-                  <LoadableValue
-                    loading={false}
-                    value={weiToNumberFormat(minReturn, 2)}
-                    tooltip={
-                      <>
-                        {weiTo18(minReturn)}{' '}
-                        <AssetRenderer asset={pair.longDetails.asset} />
-                      </>
-                    }
-                  />{' '}
+                  {weiToNumberFormat(minReturn, 2)}{' '}
                   <AssetRenderer asset={pair.longDetails.asset} />
                 </>
               }
@@ -401,7 +370,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
           <div className="tw-mw-340 tw-mx-auto">
             <DialogButton
               confirmLabel={t(translations.common.confirm)}
-              onConfirm={() => submit()}
+              onConfirm={submit}
               disabled={openTradesLocked}
               cancelLabel={t(translations.common.cancel)}
               onCancel={() => dispatch(actions.closeTradingModal(position))}
@@ -427,7 +396,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
           <TradeDialogInfo
             position={position}
             leverage={leverage}
-            orderTypeValue={orderTypeValue}
+            orderTypeValue={orderType}
             amount={amount}
             collateral={collateral}
             loanToken={loanToken}
@@ -447,7 +416,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
               <TradeToastInfo
                 position={position}
                 leverage={leverage}
-                orderTypeValue={orderTypeValue}
+                orderTypeValue={orderType}
                 amount={amount}
                 collateral={collateral}
                 loanToken={loanToken}
@@ -469,7 +438,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = props => {
               <TradeToastInfo
                 position={position}
                 leverage={leverage}
-                orderTypeValue={orderTypeValue}
+                orderTypeValue={orderType}
                 amount={amount}
                 collateral={collateral}
                 loanToken={loanToken}

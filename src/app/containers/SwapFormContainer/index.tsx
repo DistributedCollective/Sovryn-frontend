@@ -14,7 +14,7 @@ import { SlippageDialog } from 'app/pages/BuySovPage/components/BuyForm/Dialogs/
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
 import { BuyButton } from 'app/pages/BuySovPage/components/Button/buy';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
-import { SwapStats } from './components/SwapStats';
+import { SwapStatsPrices } from './components/SwapStatsPrices';
 import { bignumber } from 'mathjs';
 import { Input } from 'app/components/Form/Input';
 import { ActionButton } from 'app/components/Form/ActionButton';
@@ -42,7 +42,7 @@ import { getFavoriteList } from 'utils/helpers';
 const refreshInterval = 300000;
 const url = backendUrl[currentChainId];
 
-export function SwapFormContainer() {
+export const SwapFormContainer: React.FC = () => {
   const { t } = useTranslation();
   const isConnected = useCanInteract();
   const { checkMaintenance, States } = useMaintenance();
@@ -110,12 +110,10 @@ export function SwapFormContainer() {
   );
 
   const getStorageKey = () => {
-    switch (location.pathname) {
-      case '/swap':
-        return 'swap-asset';
-      default:
-        return '';
+    if (location.pathname === '/swap') {
+      return 'swap-asset';
     }
+    return '';
   };
 
   const [favList, setFavList] = useState(getFavoriteList(getStorageKey()));
@@ -129,8 +127,8 @@ export function SwapFormContainer() {
   const { minReturn } = useSlippage(rateByPath, slippage);
 
   const { value: path } = useSwapNetwork_conversionPath(
-    tokenAddress(sourceToken),
-    tokenAddress(targetToken),
+    AssetsDictionary.get(sourceToken).getTokenContractAddress(),
+    AssetsDictionary.get(targetToken).getTokenContractAddress(),
   );
 
   const { send: sendPath, ...txPath } = useSwapNetwork_approveAndConvertByPath(
@@ -138,20 +136,6 @@ export function SwapFormContainer() {
     weiAmount,
     minReturn,
   );
-
-  // const {
-  //   send: sendExternal,
-  //   ...txExternal
-  // } = useSwapsExternal_approveAndSwapExternal(
-  //   sourceToken,
-  //   targetToken,
-  //   account,
-  //   account,
-  //   weiAmount,
-  //   '0',
-  //   minReturn,
-  //   '0x',
-  // );
 
   const onSwapAssert = () => {
     const _sourceToken = sourceToken;
@@ -168,26 +152,7 @@ export function SwapFormContainer() {
     );
   }, [targetToken, sourceToken, minReturn, weiAmount]);
 
-  // const tx = useMemo(
-  //   () =>
-  //     targetToken === Asset.RBTC ||
-  //     [targetToken, sourceToken].includes(Asset.RIF)
-  //       ? txPath
-  //       : txExternal,
-  //   [targetToken, sourceToken, txExternal, txPath],
-  // );
-
   const tx = txPath;
-
-  // const send = useCallback(
-  //   () =>
-  //     targetToken === Asset.RBTC ||
-  //     [targetToken, sourceToken].includes(Asset.RIF)
-  //       ? sendPath()
-  //       : sendExternal(),
-  //   [targetToken, sourceToken, sendPath, sendExternal],
-  // );
-
   const send = useCallback(() => sendPath(), [sendPath]);
 
   const setSwapTokents = useCallback((source: Asset, target: Asset) => {
@@ -223,8 +188,8 @@ export function SwapFormContainer() {
 
       <div className="tw-bg-gray-3 tw-w-full tw-mb-10 tw-overflow-hidden">
         <div className={styles.statsContainer}>
-          {pairsData && assetData && (
-            <SwapStats pairsData={pairsData} assetData={assetData} />
+          {pairsData && pairsData.pairs && assetData && (
+            <SwapStatsPrices pairs={pairsData.pairs} assetData={assetData} />
           )}
 
           {pairsLoading && (
@@ -400,8 +365,4 @@ export function SwapFormContainer() {
       />
     </>
   );
-}
-
-function tokenAddress(asset: Asset) {
-  return AssetsDictionary.get(asset).getTokenContractAddress();
-}
+};

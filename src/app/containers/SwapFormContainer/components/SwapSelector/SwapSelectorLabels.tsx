@@ -1,6 +1,7 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import { IPairs } from 'types/trading-pairs';
+import { usePairList } from 'app/hooks/trading/usePairList';
 
 interface ISwapSelectorLabelsProps {
   onChangeCategory: (value: string) => void;
@@ -16,12 +17,7 @@ export const SwapSelectorLabels: React.FC<ISwapSelectorLabelsProps> = ({
   pairs,
 }) => {
   //getting a list with currency labels
-  const list = useMemo(() => {
-    if (!pairs) {
-      return [];
-    }
-    return Object.keys(pairs).map(key => pairs[key].base_symbol);
-  }, [pairs]);
+  const list = usePairList(pairs);
 
   const categories = [ALL];
   if (!list.length) {

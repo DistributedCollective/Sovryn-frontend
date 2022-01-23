@@ -12,11 +12,11 @@ interface ILimitOrderHistoryProps {
   loading: boolean;
 }
 
-export function LimitOrderHistory({
+export const LimitOrderHistory: React.FC<ILimitOrderHistoryProps> = ({
   perPage = 5,
   orders,
   loading,
-}: ILimitOrderHistoryProps) {
+}) => {
   const { t } = useTranslation();
   const trans = translations.spotTradingPage.openLimitOrders;
 
@@ -82,4 +82,4 @@ export function LimitOrderHistory({
       )}
     </>
   );
-}
+};

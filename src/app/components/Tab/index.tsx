@@ -2,19 +2,19 @@ import React from 'react';
 import styled, { css } from 'styled-components/macro';
 import { Text } from '@blueprintjs/core';
 
-interface Props {
+interface ITabProps {
   text: string;
   active: boolean;
   onClick: () => void;
 }
 
-export function Tab(props: Props) {
+export const Tab: React.FC<ITabProps> = ({ text, active, onClick }) => {
   return (
-    <StyledTab active={props.active} onClick={() => props.onClick()}>
-      <Text ellipsize>{props.text}</Text>
+    <StyledTab active={active} onClick={onClick}>
+      <Text ellipsize>{text}</Text>
     </StyledTab>
   );
-}
+};
 
 interface StyledProps {
   active: boolean;

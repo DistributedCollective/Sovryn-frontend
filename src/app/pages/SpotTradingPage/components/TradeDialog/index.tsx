@@ -14,7 +14,6 @@ import {
 import { Dialog } from 'app/containers/Dialog';
 import { TradingTypes } from '../../types';
 import { OrderType } from 'app/components/OrderTypeTitle/types';
-import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { useWalletContext } from '@sovryn/react-wallet';
@@ -58,7 +57,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
 
   return (
     <>
-      <Dialog isOpen={isOpen} onClose={() => onCloseModal()}>
+      <Dialog isOpen={isOpen} onClose={onCloseModal}>
         <div className="tw-mw-340 tw-mx-auto">
           <h1 className="tw-text-sov-white tw-text-center">
             {orderType === OrderType.LIMIT
@@ -179,10 +178,10 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
           </div>
           <DialogButton
             confirmLabel={t(translations.common.confirm)}
-            onConfirm={() => submit()}
+            onConfirm={submit}
             disabled={spotLocked || !connected}
             cancelLabel={t(translations.common.cancel)}
-            onCancel={() => onCloseModal()}
+            onCancel={onCloseModal}
             data-action-id="spot-reviewDialog-submit"
           />
         </div>
@@ -191,13 +190,13 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
   );
 };
 
-interface OrderLabelProps {
+interface IOrderLabelProps {
   orderType: React.ReactNode;
   tradeType: React.ReactNode;
   className?: string;
 }
 
-export const OrderLabel: React.FC<OrderLabelProps> = ({
+export const OrderLabel: React.FC<IOrderLabelProps> = ({
   orderType,
   tradeType,
   className,
@@ -230,14 +229,14 @@ export const OrderLabel: React.FC<OrderLabelProps> = ({
   );
 };
 
-interface PairLabelProps {
+interface IPairLabelProps {
   targetToken: Asset;
   sourceToken: Asset;
   tradeType: TradingTypes;
   className?: string;
 }
 
-export const PairLabel: React.FC<PairLabelProps> = ({
+export const PairLabel: React.FC<IPairLabelProps> = ({
   sourceToken,
   targetToken,
   tradeType,
@@ -279,7 +278,3 @@ export const LabelValuePair: React.FC<ILabelValuePairProps> = props => {
     </div>
   );
 };
-
-export function tokenAddress(asset: Asset) {
-  return AssetsDictionary.get(asset).getTokenContractAddress();
-}

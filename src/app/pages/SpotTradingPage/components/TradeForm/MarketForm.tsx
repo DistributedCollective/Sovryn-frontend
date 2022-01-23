@@ -22,10 +22,10 @@ import {
 import { AvailableBalance } from 'app/components/AvailableBalance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useMaintenance } from 'app/hooks/useMaintenance';
-import { discordInvite } from 'utils/classifiers';
+import { discordInvite, tradeFormsGasLimit } from 'utils/classifiers';
 import { useSwapsExternal_getSwapExpectedReturn } from '../../../../hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
 import styles from './index.module.scss';
-import { OrderLabel, tokenAddress, TradeDialog } from '../TradeDialog';
+import { OrderLabel, TradeDialog } from '../TradeDialog';
 import { useAccount } from 'app/hooks/useAccount';
 import { useSwapsExternal_approveAndSwapExternal } from '../../../../hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
 import { useSwapNetwork_approveAndConvertByPath } from '../../../../hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
@@ -38,6 +38,7 @@ import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalcu
 import { getTokenContract } from 'utils/blockchain/contract-helpers';
 import { toWei } from 'web3-utils';
 import { OrderView } from './OrderView';
+import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 
 export const MarketForm: React.FC<ITradeFormProps> = ({
   sourceToken,
@@ -51,11 +52,9 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
   const account = useAccount();
   const spotLocked = checkMaintenance(States.SPOT_TRADES);
 
-  const [isTradingDialogOpen, setIsTradingDialogOpen] = useState<boolean>(
-    false,
-  );
+  const [isTradingDialogOpen, setIsTradingDialogOpen] = useState(false);
   const [slippage, setSlippage] = useState(0.5);
-  const [amount, setAmount] = useState<string>('');
+  const [amount, setAmount] = useState('');
 
   const weiAmount = useWeiAmount(amount);
 
@@ -80,8 +79,8 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
   );
 
   const { value: path } = useSwapNetwork_conversionPath(
-    tokenAddress(sourceToken),
-    tokenAddress(targetToken),
+    AssetsDictionary.get(sourceToken).getTokenContractAddress(),
+    AssetsDictionary.get(targetToken).getTokenContractAddress(),
   );
 
   const { send: sendPath, ...txPath } = useSwapNetwork_approveAndConvertByPath(
@@ -91,14 +90,13 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
   );
 
   const { value: balance } = useAssetBalanceOf(sourceToken);
-  const gasLimit = 340000;
 
   const validate = useMemo(() => {
     return (
       bignumber(weiAmount).greaterThan(0) &&
       bignumber(minReturn).greaterThan(0) &&
       bignumber(weiAmount).lessThanOrEqualTo(
-        maxMinusFee(balance, sourceToken, gasLimit),
+        maxMinusFee(balance, sourceToken, tradeFormsGasLimit),
       )
     );
   }, [balance, minReturn, sourceToken, weiAmount]);
@@ -202,7 +200,7 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
       <div className="tw-mx-auto">
         <div className="tw-mb-2 tw-mt-2 tw-bg-gray-5 tw-py-2 tw-text-center tw-flex tw-items-center tw-justify-center tw-rounded-lg">
           <AvailableBalance
-            className={styles['available-balance']}
+            className="tw-mb-0 tw-justify-center"
             asset={sourceToken}
           />
         </div>

@@ -25,14 +25,14 @@ interface IClosePositionDialogProps {
   tradeType: TradingTypes;
 }
 
-export const ClosePositionDialog = ({
+export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
   order,
   onCloseModal,
   showModal,
   fromToken,
   toToken,
   tradeType,
-}: IClosePositionDialogProps) => {
+}) => {
   const { t } = useTranslation();
   const { cancelOrder, ...tx } = useCancelLimitOrder(order, fromToken.asset);
 
@@ -75,7 +75,7 @@ export const ClosePositionDialog = ({
 
   return (
     <>
-      <Dialog isOpen={showModal} onClose={() => onCloseModal()}>
+      <Dialog isOpen={showModal} onClose={onCloseModal}>
         <div className="tw-mw-340 tw-mx-auto">
           <h1 className="tw-text-sov-white tw-text-center">
             {t(translations.spotTradingPage.cancelDialog.title)}
@@ -163,7 +163,7 @@ export const ClosePositionDialog = ({
             confirmLabel={t(translations.spotTradingPage.cancelDialog.cta)}
             onConfirm={cancelOrder}
             cancelLabel={t(translations.common.cancel)}
-            onCancel={() => onCloseModal()}
+            onCancel={onCloseModal}
           />
         </div>
       </Dialog>

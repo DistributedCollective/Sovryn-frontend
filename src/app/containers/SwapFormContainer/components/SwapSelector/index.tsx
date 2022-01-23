@@ -15,12 +15,12 @@ import arrowDown from 'assets/images/trend-arrow-down.svg';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { Asset } from 'types';
 import { AssetDetails } from 'utils/models/asset-details';
+import { usePairList } from 'app/hooks/trading/usePairList';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { numberToUSD, toNumberFormat } from 'utils/display-text/format';
 import arrowDownIcon from 'assets/images/swap/ic_arrow_down.svg';
 import iconSearch from 'assets/images/swap/ic_search.svg';
 import classNames from 'classnames';
-import styles from './index.module.scss';
 import { Input } from 'app/components/Form/Input';
 import { StarButton } from 'app/components/StarButton';
 import { SwapSelectorLabels } from './SwapSelectorLabels';
@@ -59,14 +59,7 @@ export const SwapSelector: React.FC<ISwapSelectorProps> = ({
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('');
 
-  const list = useMemo(() => {
-    if (!pairs) return [];
-    return Object.keys(pairs)
-      .map(key => pairs[key])
-      .filter(pair => {
-        return pair;
-      });
-  }, [pairs]);
+  const list = usePairList(pairs);
 
   useOnClickOutside(ref, () => setOpen(false));
 
@@ -94,15 +87,10 @@ export const SwapSelector: React.FC<ISwapSelectorProps> = ({
           />
         </div>
         {open && (
-          <div
-            className={classNames(
-              'tw-absolute tw-transform tw-translate-y-full tw-bottom-0 tw-left-0 tw-bg-gray-2 tw-py-4 tw-px-8 tw-rounded-lg tw-z-10',
-              styles.pairsModal,
-            )}
-          >
+          <div className="tw-absolute tw-transform tw-translate-y-full tw-bottom-0 tw-left-0 tw-bg-gray-2 tw-py-4 tw-px-8 tw-rounded-lg tw-z-10">
             <Input
               value={search}
-              className={classNames('tw-rounded-lg', styles.search)}
+              className="tw-rounded-lg search"
               inputClassName="tw-ml-0 tw-pl-2"
               onChange={setSearch}
               placeholder={'Search'}
@@ -237,8 +225,9 @@ export const SwapAsset: React.FC<ISwapAssetProps> = ({
     isOpen(false);
   }, [handleClick, isOpen, assetDetails.asset]);
 
-  const isFavoriteActive = favList.some(
-    (favorite: string) => favorite === assetDetails.asset,
+  const isFavoriteActive = useMemo(
+    () => favList.some((favorite: string) => favorite === assetDetails.asset),
+    [assetDetails.asset, favList],
   );
 
   return (
@@ -263,8 +252,7 @@ export const SwapAsset: React.FC<ISwapAssetProps> = ({
         onClick={setAssetToken}
       >
         <img
-          className="tw-inline"
-          style={{ width: '30px' }}
+          className="tw-inline tw-w-7"
           src={assetDetails.logoSvg}
           alt={assetDetails.symbol}
         />

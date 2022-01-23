@@ -15,7 +15,7 @@ import { stringToFixedPrecision } from 'utils/display-text/format';
 import { AvailableBalance } from 'app/components/AvailableBalance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useMaintenance } from 'app/hooks/useMaintenance';
-import { discordInvite } from 'utils/classifiers';
+import { discordInvite, tradeFormsGasLimit } from 'utils/classifiers';
 import styles from './index.module.scss';
 import { Duration } from '../LimitOrderSetting/Duration';
 import { OrderLabel, TradeDialog } from '../TradeDialog';
@@ -45,13 +45,13 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
 
   const [tradeDialog, setTradeDialog] = useState(false);
 
-  const [orderStatus, setOrderStatus] = useState<TxStatus>(TxStatus.NONE);
-  const [txHash, setTxHash] = useState<string>('');
+  const [orderStatus, setOrderStatus] = useState(TxStatus.NONE);
+  const [txHash, setTxHash] = useState('');
 
-  const [amount, setAmount] = useState<string>('');
-  const [limitPrice, setLimitPrice] = useState<string>('');
+  const [amount, setAmount] = useState('');
+  const [limitPrice, setLimitPrice] = useState('');
 
-  const [duration, setDuration] = useState<number>(0);
+  const [duration, setDuration] = useState(0);
 
   const amountOut = useMemo(() => {
     if (!limitPrice || !amount || limitPrice === '0') return '0';
@@ -95,8 +95,6 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
     setLimitPrice('');
   }, [sourceToken, targetToken]);
 
-  const gasLimit = 340000;
-
   const validate = useMemo(() => {
     return (
       amount &&
@@ -104,7 +102,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
       bignumber(weiAmountOut).greaterThan(0) &&
       bignumber(weiAmount).greaterThan(0) &&
       bignumber(weiAmount).lessThanOrEqualTo(
-        maxMinusFee(balance, sourceToken, gasLimit),
+        maxMinusFee(balance, sourceToken, tradeFormsGasLimit),
       )
     );
   }, [amount, balance, limitPrice, sourceToken, weiAmount, weiAmountOut]);
@@ -138,12 +136,15 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
     [amount, sourceToken, tradeType],
   );
 
-  const onSuccess = (order: IApiLimitOrder, data) => {
-    setTxHash(data.hash);
-    setOrderStatus(TxStatus.CONFIRMED);
-    dispatch(actions.addPendingLimitOrders(order));
-    showToast('success');
-  };
+  const onSuccess = useCallback(
+    (order: IApiLimitOrder, data) => {
+      setTxHash(data.hash);
+      setOrderStatus(TxStatus.CONFIRMED);
+      dispatch(actions.addPendingLimitOrders(order));
+      showToast('success');
+    },
+    [dispatch, showToast],
+  );
 
   const onError = error => {
     setOrderStatus(TxStatus.FAILED);
@@ -203,7 +204,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
       <div className="tw-mx-auto">
         <div className="tw-mb-2 tw-mt-2 tw-bg-gray-5 tw-py-2 tw-text-center tw-flex tw-items-center tw-justify-center tw-rounded-lg">
           <AvailableBalance
-            className={styles['available-balance']}
+            className="tw-mb-0 tw-justify-center"
             asset={sourceToken}
           />
         </div>
@@ -212,7 +213,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
           <span className={styles.amountLabel + ' tw-mr-4'}>Amount:</span>
           <AmountInput
             value={amount}
-            onChange={value => setAmount(value)}
+            onChange={setAmount}
             asset={sourceToken}
             hideAmountSelector
             dataActionId="spot-limit-amountInput"
@@ -220,7 +221,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
         </div>
 
         <div className="tw-flex tw-relative tw-items-center tw-justify-between tw-mt-5">
-          <span className={styles.amountLabel + ' tw-mr-4'}>
+          <span className={styles.amountLabel}>
             {t(translations.spotTradingPage.tradeForm.limitPrice)}
           </span>
           <div className="tw-flex tw-items-center">
@@ -234,20 +235,9 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
               dataActionId="spot-limit-limitPrice"
             />
           </div>
-
-          {/* <div className="tw-text-sm tw-w-full tw-text-right tw-truncate tw-absolute tw-top-full tw-mt-1">
-            1 <AssetRenderer asset={sourceToken} /> ={' '}
-            {toNumberFormat(limitPrice, 6)}{' '}
-            <AssetRenderer asset={targetToken} />
-          </div> */}
         </div>
 
-        {/* <div className="tw-mt-2">
-          Market Price: 1 <AssetRenderer asset={sourceToken} /> ={' '}
-          {weiToFixed(marketPrice, 6)} <AssetRenderer asset={targetToken} />
-        </div> */}
-
-        <Duration value={duration} onChange={value => setDuration(value)} />
+        <Duration value={duration} onChange={setDuration} />
 
         <div className="swap-form__amount">
           <div className="tw-flex tw-items-center tw-justify-between tw-px-6 tw-py-2 tw-w-full tw-border tw-border-gray-5 tw-rounded-lg">

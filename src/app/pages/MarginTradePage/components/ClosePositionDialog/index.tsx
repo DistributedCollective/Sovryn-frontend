@@ -32,7 +32,7 @@ import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPri
 import type { ActiveLoan } from 'types/active-loan';
 import { TxFeeCalculator } from '../TxFeeCalculator';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import { useSlippage } from '../SlippageForm/useSlippage';
+import { calculateMinimumReturn } from '../SlippageForm/utils';
 import { SlippageForm } from '../SlippageForm';
 import settingIcon from 'assets/images/settings-blue.svg';
 import { ActionButton } from 'app/components/Form/ActionButton';
@@ -70,6 +70,7 @@ export const ClosePositionDialog = ({
   const sourceToken = AssetsDictionary.getByTokenContractAddress(
     item?.collateralToken || '',
   );
+
   const targetToken = AssetsDictionary.getByTokenContractAddress(
     item?.loanToken || '',
   );
@@ -88,10 +89,10 @@ export const ClosePositionDialog = ({
   const maxAmount = bignumber(item.collateral).div(leverage).toFixed(0);
 
   const options = useMemo(() => getOptions(item), [item]);
-  const isCollateral = useMemo(
-    () => collateral === assetByTokenAddress(item.collateralToken),
-    [collateral, item.collateralToken],
-  );
+  const isCollateral = useMemo(() => collateral === sourceToken.asset, [
+    collateral,
+    sourceToken.asset,
+  ]);
 
   const pair = TradingPairDictionary.findPair(
     sourceToken.asset,
@@ -147,7 +148,7 @@ export const ClosePositionDialog = ({
   const valid = useIsAmountWithinLimits(weiAmount, '1', item.collateral);
   const [slippage, setSlippage] = useState(MARGIN_SLIPPAGE_DEFAULT);
   const totalAmount = Number(amount) + Number(fromWei(profit));
-  const { minReturn } = useSlippage(toWei(totalAmount), slippage);
+  const { minReturn } = calculateMinimumReturn(toWei(totalAmount), slippage);
 
   const { error } = useCacheCallWithValue<{
     withdrawAmount: string;

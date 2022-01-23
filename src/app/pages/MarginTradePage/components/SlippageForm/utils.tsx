@@ -1,6 +1,6 @@
 import { bignumber } from 'mathjs';
 
-export function useSlippage(amount: string, slippage: number = 0.1) {
+export function calculateMinimumReturn(amount: string, slippage: number = 0.1) {
   return {
     amount,
     slippage,

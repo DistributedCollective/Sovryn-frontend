@@ -8,10 +8,10 @@ import { useInterval } from '../useInterval';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import {
   MarginLimitOrder,
-  IApiMarginLimitOrder,
+  ApiMarginLimitOrder,
 } from 'app/pages/MarginTradePage/types';
 
-const marginOrderParser = (order: IApiMarginLimitOrder): MarginLimitOrder => ({
+const marginOrderParser = (order: ApiMarginLimitOrder): MarginLimitOrder => ({
   ...order,
   leverageAmount: BigNumber.from(order.leverageAmount.hex),
   loanTokenSent: BigNumber.from(order.loanTokenSent.hex),

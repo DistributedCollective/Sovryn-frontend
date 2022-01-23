@@ -34,6 +34,7 @@ export const TradeProfit: React.FC<ITradeProfitProps> = ({
   asset,
 }) => {
   const account = useAccount();
+  const { t } = useTranslation();
   const [profit, setProfit] = useState('');
   const [profitDirection, setProfitDirection] = useState(0);
   const prettyPrice = amount =>
@@ -87,7 +88,28 @@ export const TradeProfit: React.FC<ITradeProfitProps> = ({
       <Tooltip
         content={
           <>
-            <Change profitDirection={Number(profitDirection)} />
+            {profitDirection > 0 ? (
+              <>
+                {t(translations.tradingHistoryPage.table.profitLabels.up)}
+                <span className="tw-text-success">
+                  {toNumberFormat(profitDirection, 2)}
+                </span>{' '}
+                %
+              </>
+            ) : (
+              <>
+                {t(translations.tradingHistoryPage.table.profitLabels.down)}
+                <span className="tw-text-warning">
+                  {toNumberFormat(Math.abs(profitDirection), 2)}
+                </span>{' '}
+                %
+              </>
+            )}
+            {profitDirection === 0 && (
+              <>
+                {t(translations.tradingHistoryPage.table.profitLabels.noChange)}
+              </>
+            )}
           </>
         }
       >
@@ -103,30 +125,3 @@ export const TradeProfit: React.FC<ITradeProfitProps> = ({
     </div>
   );
 };
-
-function Change({ profitDirection }: { profitDirection: number }) {
-  const { t } = useTranslation();
-  if (profitDirection > 0) {
-    return (
-      <>
-        {t(translations.tradingHistoryPage.table.profitLabels.up)}
-        <span className="tw-text-success">
-          {toNumberFormat(profitDirection, 2)}
-        </span>{' '}
-        %
-      </>
-    );
-  }
-  if (profitDirection < 0) {
-    return (
-      <>
-        {t(translations.tradingHistoryPage.table.profitLabels.down)}
-        <span className="tw-text-warning">
-          {toNumberFormat(Math.abs(profitDirection), 2)}
-        </span>{' '}
-        %
-      </>
-    );
-  }
-  return <>{t(translations.tradingHistoryPage.table.profitLabels.noChange)}</>;
-}

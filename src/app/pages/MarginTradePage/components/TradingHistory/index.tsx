@@ -21,7 +21,7 @@ import axios from 'axios';
 
 type EventType = 'buy' | 'sell';
 
-interface CustomEvent {
+interface ICustomEvent {
   loanId: string;
   loanToken: Asset;
   collateralToken: Asset;
@@ -37,13 +37,13 @@ interface CustomEvent {
   collateralToLoanRate: string;
 }
 
-interface EventData {
-  data: Array<CustomEvent>;
+interface IEventData {
+  data: Array<ICustomEvent>;
   isOpen: boolean;
   loanId: string;
 }
 
-export interface CalculatedEvent {
+export interface ICalculatedEvent {
   loanId: string;
   position: TradingPosition;
   loanToken: Asset;
@@ -59,9 +59,9 @@ export interface CalculatedEvent {
 }
 
 function normalizeEvent(
-  event: CustomEvent,
+  event: ICustomEvent,
   isOpen: boolean,
-): CustomEvent | undefined {
+): ICustomEvent | undefined {
   const loanToken = AssetsDictionary.getByTokenContractAddress(event.loanToken)
     .asset;
   const collateralToken = AssetsDictionary.getByTokenContractAddress(
@@ -76,7 +76,7 @@ function normalizeEvent(
   const position =
     pair.longAsset === loanToken ? TradingPosition.LONG : TradingPosition.SHORT;
 
-  const loanId = event.loanId;
+  const { loanId } = event;
 
   switch (event.event) {
     default:
@@ -115,7 +115,7 @@ function normalizeEvent(
   }
 }
 
-function calculateProfits(events: CustomEvent[]): CalculatedEvent | null {
+function calculateProfits(events: ICustomEvent[]): ICalculatedEvent | null {
   const opens = events.filter(item => item.type === 'buy');
   const closes = events.filter(item => item.type === 'sell');
   const positionSize = opens
@@ -172,11 +172,11 @@ function calculateProfits(events: CustomEvent[]): CalculatedEvent | null {
   };
 }
 
-export function TradingHistory() {
+export const TradingHistory: React.FC = () => {
   const { t } = useTranslation();
   const account = useAccount();
   const [loading, setLoading] = useState(false);
-  const [eventsHistory, setEventsHistory] = useState<EventData[]>([]);
+  const [eventsHistory, setEventsHistory] = useState<IEventData[]>([]);
 
   const getHistory = useCallback(() => {
     if (currentChainId) {
@@ -194,17 +194,17 @@ export function TradingHistory() {
     getHistory();
   }, [getHistory]);
 
-  const [events, setEvents] = useState<CalculatedEvent[]>([]);
+  const [events, setEvents] = useState<ICalculatedEvent[]>([]);
 
   const mergeEvents = useCallback(() => {
-    const items: { [key: string]: CustomEvent[] } = {};
+    const items: { [key: string]: ICustomEvent[] } = {};
     if (!loading) {
       eventsHistory.forEach(item => {
         const loanId = item.loanId.toLowerCase();
         if (!items.hasOwnProperty(loanId)) {
           items[loanId] = [];
         }
-        item.data.forEach((element: CustomEvent) => {
+        item.data.forEach((element: ICustomEvent) => {
           const event = normalizeEvent(element, false);
           if (event !== undefined) {
             items[loanId].push(event);
@@ -214,7 +214,7 @@ export function TradingHistory() {
     }
 
     const entries = Object.entries(items);
-    const closeEntries: CalculatedEvent[] = [];
+    const closeEntries: ICalculatedEvent[] = [];
     entries.forEach(([, events]) => {
       // exclude entries that does not have sell events
       if (events.filter(item => item.type === 'sell').length > 0) {
@@ -253,9 +253,9 @@ export function TradingHistory() {
       <HistoryTable items={events} />
     </>
   );
-}
+};
 
-function HistoryTable(props: { items: CalculatedEvent[] }) {
+function HistoryTable(props: { items: ICalculatedEvent[] }) {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const pageLimit = 5;

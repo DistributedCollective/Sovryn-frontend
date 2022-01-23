@@ -128,13 +128,7 @@ export function DialogContent(props: IDialogContentProps) {
             label={t(translations.closeTradingPositionHandler.withdrawAmount)}
           >
             <DummyInput
-              value={
-                <LoadableValue
-                  loading={loading}
-                  value={weiToAssetNumberFormat(value.withdrawAmount, token)}
-                  tooltip={weiToNumberFormat(value.withdrawAmount, 18)}
-                />
-              }
+              value={weiToAssetNumberFormat(value.withdrawAmount, token)}
               appendElem={<AssetSymbolRenderer asset={token} />}
             />
           </FormGroup>

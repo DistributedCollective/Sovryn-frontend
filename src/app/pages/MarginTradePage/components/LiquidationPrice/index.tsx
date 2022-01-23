@@ -16,22 +16,27 @@ interface ILiquidationPriceProps {
   position: TradingPosition;
 }
 
-export const LiquidationPrice = (props: ILiquidationPriceProps) => {
+export const LiquidationPrice: React.FC<ILiquidationPriceProps> = ({
+  asset,
+  assetLong,
+  leverage,
+  position,
+}) => {
   const { value: price, loading: loadingPrice } = useBorrowAssetPrice(
-    props.asset,
-    props.assetLong,
+    asset,
+    assetLong,
   );
 
   const {
     value: longToUsd,
     loading: loadingLongToUsdPrice,
-  } = useBorrowAssetPrice(props.assetLong, Asset.USDT);
+  } = useBorrowAssetPrice(assetLong, Asset.USDT);
 
   const { value, loading: loadingLiq } = useBorrowLiquidationPrice(
-    props.asset,
+    asset,
     bignumber(price).mul(bignumber(longToUsd).div(1e18)).toFixed(0),
-    props.leverage,
-    props.position,
+    leverage,
+    position,
   );
 
   return (
@@ -39,7 +44,7 @@ export const LiquidationPrice = (props: ILiquidationPriceProps) => {
       value={<>{weiToNumberFormat(value, 2)}</>}
       tooltip={
         <>
-          {fromWei(value)} <AssetRenderer asset={props.assetLong} />
+          {fromWei(value)} <AssetRenderer asset={assetLong} />
         </>
       }
       loading={loadingPrice || loadingLiq || loadingLongToUsdPrice}

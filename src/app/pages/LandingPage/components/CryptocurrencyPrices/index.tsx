@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 import { translations } from 'locales/i18n';
@@ -16,9 +16,10 @@ import { AssetDetails } from 'utils/models/asset-details';
 import { Icon, Popover } from '@blueprintjs/core';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { Trans } from 'react-i18next';
+import { usePairList } from 'app/hooks/trading/usePairList';
 
 interface ICryptocurrencyPricesProps {
-  pairs?: IPairs;
+  pairs: IPairs;
   isLoading: boolean;
   assetData?: IAssets;
   assetLoading: boolean;
@@ -32,12 +33,7 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const list = useMemo(() => {
-    if (!pairs) return [];
-    return Object.keys(pairs)
-      .map(key => pairs[key])
-      .filter(pair => pair);
-  }, [pairs]);
+  const list = usePairList(pairs);
 
   if (!isLoading && !list.length) return null;
 

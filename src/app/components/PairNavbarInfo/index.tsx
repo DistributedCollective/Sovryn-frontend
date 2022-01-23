@@ -22,24 +22,23 @@ interface ICandlesProps {
 
 export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
   const { t } = useTranslation();
-  const [candles, setCandels] = useState<ICandlesProps[]>();
-  const [lowPrice, setLowPrice] = useState<number>(0);
-  const [hightPrice, setHightPrice] = useState<number>(0);
-  const [lastPrice, setLastPrice] = useState<number>(0);
-  const [dayPrice, setDayPrice] = useState<number>(0);
-  const [percent, setPercent] = useState<number>(0);
-  const [candlesLoading, setCandlesLoading] = useState<boolean>(false);
-  const [symbolA, setSymbolA] = useState<string>('');
-  const [symbolB, setSymbolB] = useState<string>('');
+  const [candles, setCandles] = useState<ICandlesProps[]>();
+  const [lowPrice, setLowPrice] = useState(0);
+  const [hightPrice, setHightPrice] = useState(0);
+  const [lastPrice, setLastPrice] = useState(0);
+  const [dayPrice, setDayPrice] = useState(0);
+  const [percent, setPercent] = useState(0);
+  const [candlesLoading, setCandlesLoading] = useState(false);
+  const [symbolA, setSymbolA] = useState('');
+  const [symbolB, setSymbolB] = useState('');
   const url = backendUrl[currentChainId];
 
   const getPairsCandles = useCallback(() => {
     setCandlesLoading(true);
-    setCandels([]);
+    setCandles([]);
     //getting the current day and yesterday
-    const dayBefore = new Date();
+    const dayBefore = new Date(new Date().setDate(new Date().getDate() - 1));
     const currentTime = new Date().getTime();
-    dayBefore.setDate(dayBefore.getDate() - 1);
     axios
       .get(url + `/datafeed/price/${symbolA}:${symbolB}`, {
         params: {
@@ -47,7 +46,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
           endTime: `${currentTime}`,
         },
       })
-      .then(({ data }) => setCandels(data.series))
+      .then(({ data }) => setCandles(data.series))
       .catch(e => console.error(e))
       .finally(() => {
         setCandlesLoading(false);
@@ -66,54 +65,74 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
     if (!candlesLoading) {
       //generating lastPrice for all pairs
       // for pairs without RBTC
-      if (pair[1] !== pair[0])
+      if (pair[1] !== pair[0]) {
         setLastPrice(pair[0].last_price / pair[1].last_price);
+      }
       //for pairs with RBTC as source
-      if (pair[2]) setLastPrice(1 / pair[0].last_price);
+      if (pair[2]) {
+        setLastPrice(1 / pair[0].last_price);
+      }
       //for pairs with RBTC as target
-      if (pair[0] === pair[1] && !pair[2]) setLastPrice(pair[0].last_price);
+      if (pair[0] === pair[1] && !pair[2]) {
+        setLastPrice(pair[0].last_price);
+      }
 
       //generating dayPrice for all pairs
       //for pairs without RBTC
-      if (pair[1] !== pair[0])
+      if (pair[1] !== pair[0]) {
         setDayPrice(pair[0].day_price / pair[1].day_price);
+      }
       //for pairs with RBTC as source
-      if (pair[2]) setDayPrice(1 / pair[0].day_price);
+      if (pair[2]) {
+        setDayPrice(1 / pair[0].day_price);
+      }
       //for pairs with RBTC as target
-      if (pair[0] === pair[1] && !pair[2]) setDayPrice(pair[0].day_price);
+      if (pair[0] === pair[1] && !pair[2]) {
+        setDayPrice(pair[0].day_price);
+      }
 
       //generating percent for all pairs
       //for pairs without RBTC
-      if (pair[1] !== pair[0])
-        if (lastPrice > dayPrice)
+      if (pair[1] !== pair[0]) {
+        if (lastPrice > dayPrice) {
           setPercent(((lastPrice - dayPrice) / dayPrice) * 100);
-        else if (lastPrice < dayPrice)
+        } else if (lastPrice < dayPrice) {
           setPercent(((lastPrice - dayPrice) / lastPrice) * 100);
+        }
+      }
       //for pairs with RBTC as source
-      if (pair[2])
+      if (pair[2]) {
         setPercent(
           pair[0].price_change_percent_24h !== 0
             ? -pair[0].price_change_percent_24h
             : pair[0].price_change_percent_24h,
         );
+      }
 
       //for pairs with RBTC as target
-      if (pair[0] === pair[1] && !pair[2])
+      if (pair[0] === pair[1] && !pair[2]) {
         setPercent(pair[0].price_change_percent_24h);
+      }
 
       //generating lowPrice
       // for pairs with RBTC as source
-      if (pair[2]) setLowPrice(1 / pair[0].high_price_24h);
+      if (pair[2]) {
+        setLowPrice(1 / pair[0].high_price_24h);
+      }
       // for pairs with RBTC as target
-      if (pair[0] === pair[1] && !pair[2])
+      if (pair[0] === pair[1] && !pair[2]) {
         setLowPrice(pair[0].lowest_price_24h);
+      }
 
       // generating hightPrice
       // for pairs with RBTC as source
-      if (pair[2]) setHightPrice(1 / pair[0].lowest_price_24h);
+      if (pair[2]) {
+        setHightPrice(1 / pair[0].lowest_price_24h);
+      }
       // for pairs with RBTC as target
-      if (pair[0] === pair[1] && !pair[2])
+      if (pair[0] === pair[1] && !pair[2]) {
         setHightPrice(pair[0].high_price_24h);
+      }
     }
   }, [lastPrice, pair, candlesLoading, candles, dayPrice]);
 

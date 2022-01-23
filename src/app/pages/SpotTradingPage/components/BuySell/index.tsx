@@ -5,12 +5,12 @@ import { TradingTypes } from '../../types';
 import { translations } from 'locales/i18n';
 import classNames from 'classnames';
 
-interface Props {
+interface IBuySellProps {
   value: TradingTypes;
   onChange: (value: TradingTypes) => void;
 }
 
-export function BuySell({ value, onChange }: Props) {
+export const BuySell: React.FC<IBuySellProps> = ({ value, onChange }) => {
   const { t } = useTranslation();
 
   return (
@@ -35,4 +35,4 @@ export function BuySell({ value, onChange }: Props) {
       />
     </div>
   );
-}
+};

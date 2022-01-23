@@ -2,16 +2,18 @@ import React from 'react';
 import { Slider } from 'app/components/Form/Slider';
 import styles from './index.module.scss';
 
-interface Props {
+interface ILeverageSelectorProps {
   value: number;
   onChange: (value: number) => void;
 }
-
-export function LeverageSelector(props: Props) {
+export const LeverageSelector: React.FC<ILeverageSelectorProps> = ({
+  value,
+  onChange,
+}) => {
   return (
     <Slider
-      value={props.value}
-      onChange={value => props.onChange(value)}
+      value={value}
+      onChange={value => onChange(value)}
       min={2}
       max={5}
       stepSize={1}
@@ -20,4 +22,4 @@ export function LeverageSelector(props: Props) {
       dataActionId="margin-position-leverage-bar"
     />
   );
-}
+};

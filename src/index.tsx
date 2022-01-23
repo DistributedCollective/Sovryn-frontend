@@ -37,6 +37,7 @@ import { store } from './store/store';
 // Initialize languages
 import './locales/i18n';
 import './locales/dayjs';
+import { ToastContainer } from 'react-toastify';
 
 const MOUNT_NODE = document.getElementById('root') as HTMLElement;
 
@@ -54,6 +55,7 @@ const ConnectedApp = ({ Component }: Props) => {
       <ServiceWorkerToaster />
       <MobileBrowsersWarningDialog />
       <FirstVisitDisclaimerDialog />
+      <ToastContainer />
     </Provider>
   );
 };

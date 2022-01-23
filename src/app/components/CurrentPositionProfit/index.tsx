@@ -56,15 +56,7 @@ export const CurrentPositionProfit: React.FC<ICurrentPositionProfitProps> = ({
             >
               <div>
                 {diff > 0 && '+'}
-                <LoadableValue
-                  value={weiToNumberFormat(profit, 6)}
-                  loading={false}
-                  tooltip={
-                    <>
-                      {fromWei(profit)} <AssetRenderer asset={destination} />
-                    </>
-                  }
-                />{' '}
+                {weiToNumberFormat(profit, 6)}{' '}
                 <AssetRenderer asset={destination} />
               </div>
               ≈{' '}

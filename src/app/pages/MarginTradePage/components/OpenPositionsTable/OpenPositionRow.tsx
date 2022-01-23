@@ -97,21 +97,8 @@ const OpenPositionRowInner: React.FC<IOpenPositionRowInnerProps> = ({
         </td>
         <td className="tw-w-full tw-hidden xl:tw-table-cell">
           <div className="tw-whitespace-nowrap">
-            <LoadableValue
-              value={
-                <>
-                  {weiToAssetNumberFormat(item.collateral, collateralAsset)}{' '}
-                  <AssetRenderer asset={collateralAsset} /> ({leverage}x)
-                </>
-              }
-              loading={false}
-              tooltip={
-                <>
-                  {weiTo18(item.collateral)}{' '}
-                  <AssetRenderer asset={collateralAsset} /> ({leverage}x)
-                </>
-              }
-            />
+            {weiToAssetNumberFormat(item.collateral, collateralAsset)}{' '}
+            <AssetRenderer asset={collateralAsset} /> ({leverage}x)
           </div>
         </td>
         <td className="tw-w-full tw-hidden xl:tw-table-cell">

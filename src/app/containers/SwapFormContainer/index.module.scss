@@ -1,19 +1,15 @@
 // swap btn
 .swap-btn-container {
   max-width: 320px;
-  margin: auto;
-  margin-top: 20px;
+  @apply tw-m-auto tw-mt-0.5;
 }
 
 // swap form
 .swap-form-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  @apply tw-flex tw-flex-col tw-items-center tw-justify-center;
 
   @screen lg {
-    flex-direction: row;
+    @apply tw-flex-row;
   }
 
   .swap-btn-helper {
@@ -21,15 +17,12 @@
   }
 
   .swap-form {
-    @apply tw-bg-black tw-border-0 tw-rounded-lg;
-    letter-spacing: 0;
+    @apply tw-bg-black tw-border-0 tw-rounded-lg tw-tracking-normal tw-p-8;
     width: 387px;
     min-height: 302px;
-    padding: 2.1rem;
 
     .title {
-      @apply tw-mb-10 tw-text-2xl tw-text-sov-white tw-font-body tw-uppercase tw-font-semibold;
-      margin-bottom: 30px;
+      @apply tw-mb-10 tw-text-2xl tw-text-sov-white tw-font-body tw-uppercase tw-font-semibold tw-mb-7;
     }
 
     .available-balance {
@@ -42,44 +35,34 @@
   }
 
   .swap-revert-wrapper {
-    @apply tw-flex tw-items-center tw-justify-center tw-mx-3 tw-my-0;
-    width: 115px;
-    transform: rotate(90deg);
+    @apply tw-flex tw-items-center tw-justify-center tw-mx-3 tw-my-0 tw-rotate-90 tw-w-28;
 
     @screen lg {
-      transform: none;
+      @apply tw-rotate-0;
     }
 
     .swap-revert {
-      width: 170px;
-      height: 133px;
-      background: center center no-repeat;
-      background-size: 100% 100%;
-      cursor: pointer;
+      @apply tw-cursor-pointer tw-w-44 tw-h-32 tw-bg-contain;
     }
   }
 }
 
 .statsContainer {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  padding: 0.475rem;
-  font-size: 0.75rem;
+  @apply tw-flex tw-items-center tw-justify-around tw-text-xs tw-p-2;
   @media (max-width: 768px) {
-      flex-wrap: wrap;
+    @apply tw-flex-wrap;
   }
   & > div {
       &:nth-child(n + 6) {
-          display: none !important;
+        @apply tw-hidden;
       }
       @media (max-width: 1200px) {
           & > div:nth-child(2) {
-              display: none;
+            @apply tw-hidden;
           }
       }
       @media (max-width: 768px) {
-          margin: 2px 0;
+        @apply tw-mx-0 tw-my-0.5;
       }
   }
 }

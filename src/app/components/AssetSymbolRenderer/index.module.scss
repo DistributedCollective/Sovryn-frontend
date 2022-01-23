@@ -1,9 +1,7 @@
 .symbol {
-  font-weight: 500;
-}
-
-.symbol em {
-  font-size: 0.875em;
-  opacity:0.5!important;
-  font-style: inherit;
+  @apply tw-font-medium;
+  em {
+    @apply tw-opacity-50 tw-not-italic;
+    font-size: 0.75rem;
+  }
 }

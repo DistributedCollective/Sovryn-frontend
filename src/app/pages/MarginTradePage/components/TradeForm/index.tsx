@@ -47,7 +47,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   const { checkMaintenance, States } = useMaintenance();
   const openTradesLocked = checkMaintenance(States.OPEN_MARGIN_TRADES);
   const [openSlippage, setOpenSlippage] = useState(false);
-  const [tradeAmount, setTradeAmount] = useState<string>('');
+  const [tradeAmount, setTradeAmount] = useState('');
   const [slippage, setSlippage] = useState(MARGIN_SLIPPAGE_DEFAULT);
   const weiAmount = useWeiAmount(tradeAmount);
   const [orderType] = useState(OrderType.MARKET);
@@ -300,7 +300,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
             amount={toWei(price)}
             value={slippage}
             asset={collateralToken}
-            onChange={value => setSlippage(value)}
+            onChange={setSlippage}
             isTrade={true}
           />
         )}
@@ -321,16 +321,20 @@ interface ILabelValuePairProps {
   className?: string;
 }
 
-function LabelValuePair(props: ILabelValuePairProps) {
+export const LabelValuePair: React.FC<ILabelValuePairProps> = ({
+  label,
+  value,
+  className,
+}) => {
   return (
     <div
       className={classNames(
         'tw-flex tw-text-xs tw-flex-row tw-flex-wrap tw-justify-between tw-space-x-4 tw-mb-2',
-        props.className,
+        className,
       )}
     >
-      <div className="tw-truncate ">{props.label}</div>
-      <div className="tw-truncate tw-text-right">{props.value}</div>
+      <div className="tw-truncate ">{label}</div>
+      <div className="tw-truncate tw-text-right">{value}</div>
     </div>
   );
-}
+};

@@ -11,7 +11,9 @@ interface ILimitOrderTablesProps {
   activeTab: number;
 }
 
-export function LimitOrderTables({ activeTab }: ILimitOrderTablesProps) {
+export const LimitOrderTables: React.FC<ILimitOrderTablesProps> = ({
+  activeTab,
+}) => {
   const account = useAccount();
 
   const { value, loading } = useGetLimitOrders<LimitOrder>(account);
@@ -39,4 +41,4 @@ export function LimitOrderTables({ activeTab }: ILimitOrderTablesProps) {
       </div>
     </>
   );
-}
+};

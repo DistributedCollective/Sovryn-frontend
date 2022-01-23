@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import {
   IAssets,
@@ -12,9 +12,10 @@ import arrowUp from 'assets/images/trend-arrow-up.svg';
 import arrowDown from 'assets/images/trend-arrow-down.svg';
 import { Asset } from 'types';
 import { AssetDetails } from 'utils/models/asset-details';
+import { usePairList } from 'app/hooks/trading/usePairList';
 
 interface ISwapStatsPricesProps {
-  pairs?: IPairs;
+  pairs: IPairs;
   assetData?: IAssets;
 }
 
@@ -22,34 +23,29 @@ export const SwapStatsPrices: React.FC<ISwapStatsPricesProps> = ({
   pairs,
   assetData,
 }) => {
-  const list = useMemo(() => {
-    if (!pairs) return [];
-    return Object.keys(pairs)
-      .map(key => pairs[key])
-      .filter(pair => {
-        return pair;
-      });
-  }, [pairs]);
+  const list = usePairList(pairs);
 
-  if (!list.length) return null;
+  if (!list.length) {
+    return null;
+  }
 
   return (
     <>
-      {list.map(pair => {
+      {list.slice(0, 4).map(pair => {
         const assetDetails = AssetsDictionary.getByTokenContractAddress(
           pair.base_id,
         );
         if (!assetDetails) {
           return <></>;
         }
-        let rbtcDiv;
+        let rbtcItem;
 
         if (assetDetails.asset === Asset.USDT) {
           const rbtcDetails = AssetsDictionary.getByTokenContractAddress(
             pair.quote_id,
           );
-          rbtcDiv = (
-            <Div
+          rbtcItem = (
+            <StatsItem
               assetDetails={rbtcDetails}
               price24h={-pair.price_change_percent_24h}
               lastPrice={1 / pair.last_price}
@@ -60,8 +56,8 @@ export const SwapStatsPrices: React.FC<ISwapStatsPricesProps> = ({
 
         return (
           <React.Fragment key={pair.base_id}>
-            {rbtcDiv}
-            <Div
+            {rbtcItem}
+            <StatsItem
               assetDetails={assetDetails}
               price24h={pair.price_change_percent_24h_usd}
               lastPrice={pair.last_price_usd}
@@ -74,14 +70,14 @@ export const SwapStatsPrices: React.FC<ISwapStatsPricesProps> = ({
   );
 };
 
-interface IDivProps {
+interface IStatsItemProps {
   assetData?: IAssetData;
   assetDetails?: AssetDetails;
   price24h: number;
   lastPrice: number;
 }
 
-export const Div: React.FC<IDivProps> = ({
+export const StatsItem: React.FC<IStatsItemProps> = ({
   assetDetails,
   price24h,
   lastPrice,

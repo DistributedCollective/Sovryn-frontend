@@ -25,8 +25,11 @@ export const AvailableBalance: React.FC<IAvailableBalanceProps> = ({
   return (
     <div
       className={classNames(
-        'tw-truncate tw-text-xs tw-font-light tw-tracking-normal tw-flex tw-justify-between tw-mb-2 tw-w-full',
         className,
+        'tw-truncate tw-text-xs tw-font-light tw-tracking-normal tw-flex tw-w-full',
+        {
+          'tw-justify-between tw-mb-2': !className,
+        },
       )}
       data-action-id={dataAttribute}
     >

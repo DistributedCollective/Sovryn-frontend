@@ -206,12 +206,7 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
         <div className="tw-mb-8">
           <div className="tw-flex tw-justify-between tw-mb-2">
             <div className="tw-flex tw-items-center">
-              <img
-                src={imgEmail}
-                alt="Email"
-                width="24"
-                className="tw-mr-1.5 tw-w-5"
-              />
+              <img src={imgEmail} className="tw-mr-1.5 tw-w-5" alt="Email" />
               Email
             </div>
             <Switch

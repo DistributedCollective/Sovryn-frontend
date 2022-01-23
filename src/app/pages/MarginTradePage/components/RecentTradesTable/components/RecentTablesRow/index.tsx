@@ -4,28 +4,29 @@ import { weiToNumberFormat } from 'utils/display-text/format';
 import { RecentTradesDataEntry, TradePriceChange } from '../../types';
 import { getPriceChangeImage, getPriceColor } from './utils';
 import dayjs from 'dayjs';
-import { LoadableValue } from 'app/components/LoadableValue';
-import { weiTo18 } from 'utils/blockchain/math-helpers';
 
 type RecentTradesTableRowProps = {
   row: RecentTradesDataEntry;
   isOddRow: boolean;
   quoteToken: string;
-  priceChange: TradePriceChange;
+  currentPrice: TradePriceChange;
 };
 
 export const RecentTradesTableRow: React.FC<RecentTradesTableRowProps> = ({
   row,
   isOddRow,
   quoteToken,
-  priceChange,
+  currentPrice,
 }) => {
-  const priceChangeImage = useMemo(() => getPriceChangeImage(priceChange), [
-    priceChange,
+  const priceChangeIcon = useMemo(() => getPriceChangeImage(currentPrice), [
+    currentPrice,
   ]);
-  const priceColor = useMemo(() => getPriceColor(priceChange), [priceChange]);
+  const priceColor = useMemo(() => getPriceColor(currentPrice), [currentPrice]);
 
-  const backgroundClassName = isOddRow ? 'tw-bg-gray-3' : 'tw-bg-gray-1';
+  const backgroundClassName = useMemo(
+    () => (isOddRow ? 'tw-bg-gray-3' : 'tw-bg-gray-1'),
+    [isOddRow],
+  );
 
   const isLong = useMemo(() => row.loanToken === quoteToken, [
     row.loanToken,
@@ -47,20 +48,16 @@ export const RecentTradesTableRow: React.FC<RecentTradesTableRowProps> = ({
           priceColor,
         )}
       >
-        {priceChangeImage ? (
+        {priceChangeIcon ? (
           <img
             className="tw-inline-block tw-w-2.5 tw-mr-1"
-            src={priceChangeImage}
+            src={priceChangeIcon}
             alt="price change arrow"
           />
         ) : (
           <span className="tw-mr-3.5" />
         )}
-        <LoadableValue
-          loading={false}
-          value={weiToNumberFormat(row.entryPrice, 1)}
-          tooltip={weiTo18(row.entryPrice)}
-        />
+        {weiToNumberFormat(row.entryPrice, 1)}
       </td>
       <td
         className={classNames(
@@ -69,11 +66,7 @@ export const RecentTradesTableRow: React.FC<RecentTradesTableRowProps> = ({
           priceColor,
         )}
       >
-        <LoadableValue
-          loading={false}
-          value={weiToNumberFormat(row.positionSize, 3)}
-          tooltip={weiTo18(row.positionSize)}
-        />
+        {weiToNumberFormat(row.positionSize, 3)}
       </td>
       <td
         className={classNames(

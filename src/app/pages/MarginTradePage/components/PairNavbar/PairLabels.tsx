@@ -1,32 +1,27 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import classNames from 'classnames';
 import { IPairs } from 'types/trading-pairs';
+import { usePairList } from 'app/hooks/trading/usePairList';
+import classNames from 'classnames';
 
 interface IPairLabelsProps {
+  pairs: IPairs;
   onChangeCategory: (value: string) => void;
   category: string;
-  pairs: IPairs;
 }
 
 export const PairLabels: React.FC<IPairLabelsProps> = ({
+  pairs,
   onChangeCategory,
   category,
-  pairs,
 }) => {
   const { t } = useTranslation();
   //getting a list with currency labels
-  const list = useMemo(() => {
-    if (!pairs) return [];
-    return Object.keys(pairs)
-      .map(key => pairs[key].base_symbol)
-      .filter(pair => pair);
-  }, [pairs]);
-
+  const list = usePairList(pairs);
   const ALL = t(translations.spotTradingPage.pairNavbar.all);
-
   const categories = [ALL];
+
   if (!list.length) return null;
 
   return (

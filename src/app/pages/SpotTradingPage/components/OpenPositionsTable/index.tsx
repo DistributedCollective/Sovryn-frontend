@@ -15,11 +15,11 @@ interface IOpenPositionsTableProps {
   loading: boolean;
 }
 
-export function OpenPositionsTable({
+export const OpenPositionsTable: React.FC<IOpenPositionsTableProps> = ({
   perPage = 5,
   orders,
   loading,
-}: IOpenPositionsTableProps) {
+}) => {
   const { t } = useTranslation();
   const trans = translations.spotTradingPage.openLimitOrders;
   const { pendingLimitOrders } = useSelector(selectSpotTradingPage);
@@ -104,4 +104,4 @@ export function OpenPositionsTable({
       )}
     </>
   );
-}
+};

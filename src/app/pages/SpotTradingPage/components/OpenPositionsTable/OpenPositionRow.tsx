@@ -21,14 +21,23 @@ interface IOpenPositionRowProps {
   pending?: boolean;
 }
 
-export function OpenPositionRow({ item, pending }: IOpenPositionRowProps) {
+export const OpenPositionRow: React.FC<IOpenPositionRowProps> = ({
+  item,
+  pending,
+}) => {
   const { t } = useTranslation();
   const [showClosePosition, setShowClosePosition] = useState(false);
   const { checkMaintenances, States } = useMaintenance();
   const { [States.CLOSE_SPOT_LIMIT]: closeTradesLocked } = checkMaintenances();
 
-  const fromToken = getTokenFromAddress(item.fromToken);
-  const toToken = getTokenFromAddress(item.toToken);
+  const fromToken = useMemo(
+    () => AssetsDictionary.getByTokenContractAddress(item.fromToken),
+    [item.fromToken],
+  );
+  const toToken = useMemo(
+    () => AssetsDictionary.getByTokenContractAddress(item.toToken),
+    [item.toToken],
+  );
 
   const tradeType = useMemo(() => {
     return pairList.find(
@@ -146,8 +155,4 @@ export function OpenPositionRow({ item, pending }: IOpenPositionRowProps) {
       </td>
     </tr>
   );
-}
-
-function getTokenFromAddress(address: string) {
-  return AssetsDictionary.getByTokenContractAddress(address);
-}
+};

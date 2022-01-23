@@ -15,11 +15,17 @@ interface ILimitOrderRowProps {
   item: LimitOrder;
 }
 
-export function LimitOrderRow({ item }: ILimitOrderRowProps) {
+export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({ item }) => {
   const { t } = useTranslation();
 
-  const fromToken = getTokenFromAddress(item.fromToken);
-  const toToken = getTokenFromAddress(item.toToken);
+  const fromToken = useMemo(
+    () => AssetsDictionary.getByTokenContractAddress(item.fromToken),
+    [item.fromToken],
+  );
+  const toToken = useMemo(
+    () => AssetsDictionary.getByTokenContractAddress(item.toToken),
+    [item.toToken],
+  );
 
   const tradeType = useMemo(() => {
     return pairList.find(
@@ -101,8 +107,4 @@ export function LimitOrderRow({ item }: ILimitOrderRowProps) {
       </td>
     </tr>
   );
-}
-
-function getTokenFromAddress(address: string) {
-  return AssetsDictionary.getByTokenContractAddress(address);
-}
+};

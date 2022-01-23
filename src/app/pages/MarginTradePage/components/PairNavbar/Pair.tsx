@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   TradingPairType,
   pairs,
@@ -7,16 +7,28 @@ import { Asset } from 'types/asset';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 
-interface IPair {
+interface IPairProps {
   pairType: TradingPairType;
 }
 
-export const Pair: React.FC<IPair> = ({ pairType }) => {
+export const Pair: React.FC<IPairProps> = ({ pairType }) => {
   const pair = pairs[pairType];
-  if (!pairType) return null;
 
-  const sourceToken: Asset = pair[0];
-  const targetToken: Asset = pair[1];
+  const sourceToken = pair[0];
+  const targetToken = pair[1];
+
+  const sourceTokenLogo = useMemo(
+    () => AssetsDictionary.get(sourceToken).logoSvg,
+    [sourceToken],
+  );
+  const targetTokenLogo = useMemo(
+    () => AssetsDictionary.get(targetToken).logoSvg,
+    [targetToken],
+  );
+
+  if (!pairType) {
+    return null;
+  }
 
   return (
     <div className={'tw-flex tw-items-center tw-select-none'}>
@@ -24,14 +36,14 @@ export const Pair: React.FC<IPair> = ({ pairType }) => {
         <img
           className="tw-w-8 tw-h-8 tw-object-scale-down"
           alt={sourceToken}
-          src={AssetsDictionary.get(sourceToken).logoSvg}
+          src={sourceTokenLogo}
         />
       </div>
       <div className="tw-rounded-full tw--ml-3">
         <img
           className="tw-w-8 tw-h-8 tw-object-scale-down"
           alt={targetToken}
-          src={AssetsDictionary.get(targetToken).logoSvg}
+          src={targetTokenLogo}
         />
       </div>
 

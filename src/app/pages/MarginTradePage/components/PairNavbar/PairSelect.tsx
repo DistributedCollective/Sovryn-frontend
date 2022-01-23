@@ -12,7 +12,6 @@ import { StarButton } from 'app/components/StarButton';
 import useOnClickOutside from 'app/hooks/useOnClickOutside';
 import arrowDownIcon from 'assets/images/swap/ic_arrow_down.svg';
 import searchIcon from 'assets/images/search.svg';
-import styles from './index.module.scss';
 import { PairCryptocurrency } from './PairCryptocurrency';
 
 const FAVORITE = 'FAVORITE';
@@ -58,15 +57,10 @@ export const PairSelect: React.FC<IPairSelect> = ({
         />
       </div>
       {open && (
-        <div
-          className={classNames(
-            'tw-absolute tw-transform tw-translate-y-full tw-bottom-0 tw-left-0 tw-bg-gray-2 tw-py-7 tw-px-9 tw-rounded-b-lg tw-z-10',
-            styles.pairsModal,
-          )}
-        >
+        <div className="tw-absolute tw-transform tw-translate-y-full tw-bottom-0 tw-left-0 tw-bg-gray-2 tw-py-7 tw-px-9 tw-rounded-b-lg tw-z-10">
           <Input
             value={search}
-            className={classNames('tw-rounded-lg', styles.search)}
+            className="tw-rounded-lg search"
             inputClassName="tw-ml-0"
             onChange={setSearch}
             placeholder={t(translations.spotTradingPage.pairNavbar.search)}

@@ -1,9 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
 import { Asset } from 'types';
-import { fromWei } from 'utils/blockchain/math-helpers';
 import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
-import { LoadableValue } from 'app/components/LoadableValue';
 import { TradingPosition } from 'types/trading-position';
 import { PricePrediction } from 'app/containers/MarginTradeForm/PricePrediction';
 import { AssetRenderer } from 'app/components/AssetRenderer';
@@ -52,15 +50,7 @@ export const TradeDialogInfo: React.FC<ITradeDialogInfoProps> = ({
         <AssetRenderer asset={loanToken} />
       </div>
       <div className="tw-flex tw-justify-center tw-items-center">
-        <LoadableValue
-          loading={false}
-          value={<div className="tw-mr-1">{weiToNumberFormat(amount, 4)}</div>}
-          tooltip={
-            <>
-              {fromWei(amount)} <AssetRenderer asset={collateral} />
-            </>
-          }
-        />{' '}
+        {<div className="tw-mr-1">{weiToNumberFormat(amount, 4)}</div>}{' '}
         <AssetRenderer asset={collateral} />
         <div className="tw-px-1">&#64; &ge;</div>
         <PricePrediction

@@ -55,7 +55,7 @@ export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
     <div
       className={classNames(
         className,
-        'tw-trading-form-card tw-p-16 tw-mx-auto xl:tw-mx-0 tw-flex tw-flex-col',
+        'tw-trading-form-card tw-p-16 tw-px-10 tw-mx-auto xl:tw-mx-0 tw-flex tw-flex-col',
       )}
     >
       <div className="tw-text-sm">

@@ -101,3 +101,5 @@ export const notificationServiceUrl = {
   30: 'https://notify.sovryn.app/',
   31: 'https://notify.test.sovryn.app/',
 };
+
+export const tradeFormsGasLimit = 340000;

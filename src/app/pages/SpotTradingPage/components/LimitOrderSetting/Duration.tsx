@@ -4,7 +4,7 @@ import { translations } from 'locales/i18n';
 import classNames from 'classnames';
 import { FormGroup } from 'app/components/Form/FormGroup';
 
-interface Props {
+interface IDurationProps {
   value: number;
   onChange: (value: number) => void;
 }
@@ -34,7 +34,7 @@ const durationOptions = [
   },
 ];
 
-export function Duration({ onChange, value }: Props) {
+export const Duration: React.FC<IDurationProps> = ({ onChange, value }) => {
   const { t } = useTranslation();
 
   return (
@@ -51,30 +51,35 @@ export function Duration({ onChange, value }: Props) {
       </div>
     </FormGroup>
   );
-}
+};
 
-interface DurationButtonProps {
+interface IDurationButtonProps {
   text?: string;
   onClick?: () => void;
   active?: boolean;
   disabled?: boolean;
 }
 
-export function DurationButton(props: DurationButtonProps) {
+export const DurationButton: React.FC<IDurationButtonProps> = ({
+  text,
+  onClick,
+  active,
+  disabled,
+}) => {
   return (
     <button
-      onClick={props.onClick}
+      onClick={onClick}
       className={classNames(
         'tw-h-8 tw-text-secondary tw-bg-secondary tw-font-medium tw-text-xs tw-leading-none tw-text-center tw-w-full tw-transition',
         {
-          'tw-bg-opacity-50': props.active,
-          'tw-bg-opacity-0': !props.active,
-          'hover:tw-bg-opacity-25': !props.disabled && !props.active,
-          'tw-text-opacity-25': props.disabled && !props.active,
+          'tw-bg-opacity-50': active,
+          'tw-bg-opacity-0': !active,
+          'hover:tw-bg-opacity-25': !disabled && !active,
+          'tw-text-opacity-25': disabled && !active,
         },
       )}
     >
-      {props.text}
+      {text}
     </button>
   );
-}
+};

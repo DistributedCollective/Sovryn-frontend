@@ -24,10 +24,11 @@ export const PairLabels: React.FC<IPairLabelsProps> = ({
       .filter(pair => pair);
   }, [pairs]);
 
+  if (!list.length) return null;
+
   const ALL = t(translations.spotTradingPage.pairNavbar.all);
 
   const categories = [ALL, 'RBTC', ...list];
-  if (!list.length) return null;
 
   return (
     <>

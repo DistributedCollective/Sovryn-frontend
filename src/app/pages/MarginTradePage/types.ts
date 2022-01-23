@@ -6,7 +6,7 @@ import { BigNumber } from 'ethers';
 
 export const MARGIN_SLIPPAGE_DEFAULT = 0.5;
 
-export interface MarginTradePageState {
+export interface IMarginTradePageState {
   pairType: TradingPairType;
   collateral: Asset;
   amount: string;
@@ -18,9 +18,9 @@ export interface MarginTradePageState {
   notificationUser?: NotificationUser;
 }
 
-export type ContainerState = MarginTradePageState;
+export type ContainerState = IMarginTradePageState;
 
-type IApiBigNumber = {
+type ApiBigNumber = {
   hex: string;
 };
 
@@ -45,24 +45,24 @@ export type MarginLimitOrder = {
   filled?: BigNumber;
 };
 
-export type IApiMarginLimitOrder = {
+export type ApiMarginLimitOrder = {
   loanId: string;
-  leverageAmount: IApiBigNumber;
+  leverageAmount: ApiBigNumber;
   loanTokenAddress: string;
-  loanTokenSent: IApiBigNumber;
-  collateralTokenSent: IApiBigNumber;
+  loanTokenSent: ApiBigNumber;
+  collateralTokenSent: ApiBigNumber;
   collateralTokenAddress: string;
   trader: string;
-  minReturn: IApiBigNumber;
+  minReturn: ApiBigNumber;
   loanDataBytes: string;
-  deadline: IApiBigNumber;
-  createdTimestamp: IApiBigNumber;
+  deadline: ApiBigNumber;
+  createdTimestamp: ApiBigNumber;
   v: string;
   r: string;
   s: string;
   hash: string;
   canceled: boolean;
-  filled: IApiBigNumber;
+  filled: ApiBigNumber;
 };
 
 export type NotificationPayload = {

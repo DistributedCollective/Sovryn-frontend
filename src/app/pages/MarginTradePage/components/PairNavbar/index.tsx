@@ -39,12 +39,10 @@ export const PairNavbar: React.FC = () => {
   ] = useState(false);
 
   const getStorageKey = () => {
-    switch (location.pathname) {
-      case '/trade':
-        return 'trade-pairs';
-      default:
-        return '';
+    if (location.pathname === '/trade') {
+      return 'trade-pairs';
     }
+    return '';
   };
 
   const onNotificationSettingsClick = useCallback(
@@ -57,7 +55,7 @@ export const PairNavbar: React.FC = () => {
   //getting PAIRS DATA
   const getPairsData = useCallback(() => {
     setPairsLoading(true);
-    cancelPairsDataRequest.current && cancelPairsDataRequest.current();
+    cancelPairsDataRequest.current?.();
     const cancelToken = new axios.CancelToken(c => {
       cancelDataRequest.current = c;
     });

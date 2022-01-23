@@ -25,11 +25,6 @@ const symbolMap = {
       BNB<em>S</em>
     </>
   ),
-  [Asset.BNBS]: (
-    <>
-      BNB<em>S</em>
-    </>
-  ),
   [Asset.RDOC]: (
     <>
       <em>R</em>DOC

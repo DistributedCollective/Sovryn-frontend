@@ -25,15 +25,13 @@ import { useCanInteract } from '../../../../hooks/useCanInteract';
 import { AvailableBalance } from '../../../../components/AvailableBalance';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import { discordInvite } from 'utils/classifiers';
+import { discordInvite, tradeFormsGasLimit } from 'utils/classifiers';
 import { useSwapsExternal_getSwapExpectedReturn } from '../../../../hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
 import { useSwapNetwork_conversionPath } from 'app/hooks/swap-network/useSwapNetwork_conversionPath';
 import { useSwapNetwork_approveAndConvertByPath } from 'app/hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 
 const s = translations.swapTradeForm;
-
-const gasLimit = 340000;
 
 export function BuyForm() {
   const { t } = useTranslation();
@@ -85,14 +83,14 @@ export function BuyForm() {
       bignumber(weiAmount).greaterThan(0) &&
       bignumber(minReturn).greaterThan(0) &&
       bignumber(weiAmount).lessThanOrEqualTo(
-        maxMinusFee(balance, Asset.RBTC, gasLimit),
+        maxMinusFee(balance, Asset.RBTC, tradeFormsGasLimit),
       )
     );
   }, [balance, minReturn, weiAmount]);
 
   const changeAmount = value => {
     if (value === 100) {
-      setAmount(weiTo18(maxMinusFee(balance, Asset.RBTC, gasLimit)));
+      setAmount(weiTo18(maxMinusFee(balance, Asset.RBTC, tradeFormsGasLimit)));
     } else {
       setAmount(
         weiTo18(

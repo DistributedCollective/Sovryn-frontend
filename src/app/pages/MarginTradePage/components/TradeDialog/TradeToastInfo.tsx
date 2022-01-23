@@ -24,25 +24,23 @@ export const TradeToastInfo: React.FC<ITradeToastInfoProps> = ({
   loanToken,
   collateralToken,
   useLoanTokens,
-}) => {
-  return (
-    <div className="tw-text-xs tw-font-light">
-      <div className="tw-flex tw-items-center">
-        <div className="tw-lowercase tw-pr-1">
-          {orderTypeValue}{' '}
-          {position === TradingPosition.LONG
-            ? TradingTypes.BUY
-            : TradingTypes.SELL}
-        </div>
-        <PricePrediction
-          position={position}
-          leverage={leverage}
-          loanToken={loanToken}
-          collateralToken={collateralToken}
-          useLoanTokens={useLoanTokens}
-          weiAmount={amount}
-        />
+}) => (
+  <div className="tw-text-xs tw-font-light">
+    <div className="tw-flex tw-items-center">
+      <div className="tw-lowercase tw-pr-1">
+        {orderTypeValue}{' '}
+        {position === TradingPosition.LONG
+          ? TradingTypes.BUY
+          : TradingTypes.SELL}
       </div>
+      <PricePrediction
+        position={position}
+        leverage={leverage}
+        loanToken={loanToken}
+        collateralToken={collateralToken}
+        useLoanTokens={useLoanTokens}
+        weiAmount={amount}
+      />
     </div>
-  );
-};
+  </div>
+);
