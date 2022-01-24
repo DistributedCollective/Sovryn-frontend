@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import classNames from 'classnames';
 import { Input } from 'app/components/Form/Input';
-import { IPairs, IPairsData, TradingPairs } from 'types/trading-pairs';
+import { IPairs, IPairsData, ITradingPairs } from 'types/trading-pairs';
 import { getFavoriteList, setFavoriteList } from 'utils/helpers';
 import { selectSpotTradingPage } from '../../selectors';
 import { SpotPairType } from '../../types';
@@ -27,7 +27,7 @@ import { usePairList } from 'app/hooks/trading/usePairList';
 const FAVORITE = 'FAVORITE';
 
 interface IPairSelect {
-  onPairChange: ([TradingPairs]) => void;
+  onPairChange: ([ITradingPairs]) => void;
   storageKey: string;
   pairsData: IPairsData;
 }
@@ -117,7 +117,7 @@ interface ICryptocurrencyPairsProps {
   category: string;
   search: string;
   pairs: IPairs;
-  onPairChange: (value: [TradingPairs]) => void;
+  onPairChange: (value: [ITradingPairs]) => void;
 }
 
 export const CryptocurrencyPairs: React.FC<ICryptocurrencyPairsProps> = ({
@@ -137,7 +137,7 @@ export const CryptocurrencyPairs: React.FC<ICryptocurrencyPairsProps> = ({
   const handleFavClick = useCallback(
     pair => {
       const index = favList.findIndex(
-        (favorite: TradingPairs) =>
+        (favorite: ITradingPairs) =>
           (favorite[0].trading_pairs === pair[0].trading_pairs &&
             favorite[1].trading_pairs === pair[1].trading_pairs &&
             pair[2] === favorite[2]) ||
@@ -158,7 +158,7 @@ export const CryptocurrencyPairs: React.FC<ICryptocurrencyPairsProps> = ({
   );
 
   const filteredList = useMemo(() => {
-    const currencyList: [TradingPairs] = [] as any; //an Object with all possible pairs
+    const currencyList: [ITradingPairs] = [] as any; //an Object with all possible pairs
     //making a currencyList with all possible pairs
     for (let pair of list) {
       //first here we push only RBTC pair
@@ -251,7 +251,7 @@ export const CryptocurrencyPairs: React.FC<ICryptocurrencyPairsProps> = ({
           </tr>
         </thead>
         <tbody>
-          {filteredList.map((pair: TradingPairs) => {
+          {filteredList.map((pair: ITradingPairs) => {
             let isValidPair = false; //checking tradingPair, if this pair exist in SpotTradingType
             if (
               pair[0].base_symbol === pair[1].base_symbol &&
@@ -312,7 +312,7 @@ export const CryptocurrencyPairs: React.FC<ICryptocurrencyPairsProps> = ({
               percent = pair[0].price_change_percent_24h;
 
             const isFavoriteActive = favList.some(
-              (favorite: TradingPairs) =>
+              (favorite: ITradingPairs) =>
                 (favorite[0].trading_pairs === pair[0].trading_pairs &&
                   favorite[1].trading_pairs === pair[1].trading_pairs &&
                   pair[2] === favorite[2]) ||

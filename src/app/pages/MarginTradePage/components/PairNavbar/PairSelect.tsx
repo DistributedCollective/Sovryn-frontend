@@ -17,7 +17,7 @@ import { PairCryptocurrency } from './PairCryptocurrency';
 const FAVORITE = 'FAVORITE';
 
 interface IPairSelect {
-  onPairChange: ([TradingPairs]) => void;
+  onPairChange: ([ITradingPairs]) => void;
   storageKey: string;
   pairsData: IPairsData;
 }

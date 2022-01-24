@@ -28,7 +28,7 @@ export interface IPairData {
   day_price: number;
 }
 
-export interface TradingPairs {
+export interface ITradingPairs {
   [0]: IPairData;
   [1]: IPairData;
   RBTC_source?: string;

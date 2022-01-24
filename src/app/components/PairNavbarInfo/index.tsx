@@ -2,14 +2,14 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { toNumberFormat } from 'utils/display-text/format';
-import { TradingPairs } from 'types/trading-pairs';
+import { ITradingPairs } from 'types/trading-pairs';
 import classNames from 'classnames';
 import { backendUrl, currentChainId } from 'utils/classifiers';
 import axios from 'axios';
 import { LoadableValue } from 'app/components/LoadableValue';
 
 interface IPairNavbarInfoProps {
-  pair: TradingPairs;
+  pair: ITradingPairs;
 }
 
 interface ICandlesProps {

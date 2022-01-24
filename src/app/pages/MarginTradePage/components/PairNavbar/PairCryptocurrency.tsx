@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import classNames from 'classnames';
-import { IPairs, TradingPairs } from 'types/trading-pairs';
+import { IPairs, ITradingPairs } from 'types/trading-pairs';
 import { getFavoriteList, setFavoriteList } from 'utils/helpers';
 import { TradingPairType } from 'utils/dictionaries/trading-pair-dictionary';
 import { toNumberFormat } from 'utils/display-text/format';
@@ -20,7 +20,7 @@ interface IPairCryptocurrencyProps {
   category: string;
   search: string;
   pairs: IPairs;
-  onPairChange: (value: [TradingPairs]) => void;
+  onPairChange: (value: [ITradingPairs]) => void;
 }
 
 export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
@@ -39,7 +39,7 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
   const handleFavouriteClick = useCallback(
     pair => {
       const index = favList.findIndex(
-        (favorite: TradingPairs) =>
+        (favorite: ITradingPairs) =>
           (favorite[0].trading_pairs === pair[0].trading_pairs &&
             favorite[1].trading_pairs === pair[1].trading_pairs &&
             pair[2] === favorite[2]) ||
@@ -60,7 +60,7 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
   );
 
   const filteredList = useMemo(() => {
-    const currencyList: [TradingPairs] = [] as any; //an Object with all possible pairs
+    const currencyList: [ITradingPairs] = [] as any; //an Object with all possible pairs
     //making a currencyList with all possible pairs
     for (let pair of list) {
       //first here we push only RBTC pair
@@ -152,7 +152,7 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
           </tr>
         </thead>
         <tbody>
-          {filteredList.map((pair: TradingPairs) => {
+          {filteredList.map((pair: ITradingPairs) => {
             //generating lastPrice for all pairs
             let lastPrice = 0;
             //for pairs without RBTC
@@ -206,7 +206,7 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
             }
 
             const isFavoriteActive = favList.some(
-              (favorite: TradingPairs) =>
+              (favorite: ITradingPairs) =>
                 (favorite[0].trading_pairs === pair[0].trading_pairs &&
                   favorite[1].trading_pairs === pair[1].trading_pairs &&
                   pair[2] === favorite[2]) ||

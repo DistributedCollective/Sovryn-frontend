@@ -252,42 +252,29 @@ export const normalizeEvent = (
     pair.longAsset === loanToken ? TradingPosition.LONG : TradingPosition.SHORT;
 
   const { loanId } = event;
-
-  switch (event.event) {
-    default:
-    case 'Trade':
-      return {
-        loanId,
-        loanToken,
-        collateralToken,
-        position,
-        type: 'buy',
-        leverage: event.leverage + 1,
-        positionSize: event.positionSize,
-        price: event.collateralToLoanRate,
-        txHash: event.txHash,
-        isOpen: isOpen,
-        time: event.time,
-        event: event.event,
-        collateralToLoanRate: event.collateralToLoanRate,
-      };
-    case 'CloseWithSwap':
-      return {
-        loanId,
-        loanToken,
-        collateralToken,
-        position,
-        type: 'sell',
-        leverage: event.leverage + 1,
-        positionSize: event.positionSize,
-        price: event.collateralToLoanRate,
-        txHash: event.txHash,
-        isOpen: isOpen,
-        time: event.time,
-        event: event.event,
-        collateralToLoanRate: event.collateralToLoanRate,
-      };
+  let type;
+  if (event.event === 'Trade') {
+    type = 'buy';
   }
+  if (event.event === 'CloseWithSwap') {
+    type = 'sell';
+  }
+
+  return {
+    loanId,
+    loanToken,
+    collateralToken,
+    position,
+    type: type,
+    leverage: event.leverage + 1,
+    positionSize: event.positionSize,
+    price: event.collateralToLoanRate,
+    txHash: event.txHash,
+    isOpen: isOpen,
+    time: event.time,
+    event: event.event,
+    collateralToLoanRate: event.collateralToLoanRate,
+  };
 };
 
 export const calculateProfits = (
