@@ -77,12 +77,16 @@ export class GsnProvider {
     config: TransactionConfig = {},
   ) {
     this.doCheck();
-    return this.getContract(address, abi)
-      .methods[method](...args)
-      .send({
-        from: walletService.address.toLowerCase(),
-        ...config,
-      });
+    return new Promise((resolve, reject) => {
+      this.getContract(address, abi)
+        .methods[method](...args)
+        .send({
+          from: walletService.address.toLowerCase(),
+          ...config,
+        })
+        .once('transactionHash', resolve)
+        .catch(reject);
+    });
   }
 
   public call(
