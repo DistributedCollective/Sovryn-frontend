@@ -20,33 +20,24 @@ export const PairLabels: React.FC<IPairLabelsProps> = ({
   //getting a list with currency labels
   const list = usePairList(pairs);
   const ALL = t(translations.spotTradingPage.pairNavbar.all);
-  const categories = [ALL];
 
   if (!list.length) return null;
-
   return (
     <>
-      {list &&
-        categories.map(currency => {
-          return (
-            <div
-              className={classNames(
-                'tw-mr-4 tw-cursor-pointer tw-font-semibold tw-transition-opacity hover:tw-text-opacity-75 hover:tw-text-primary',
-                {
-                  'tw-text-primary':
-                    category === currency ||
-                    (category === '' && currency === ALL),
-                  'tw-text-opacity-25':
-                    category !== currency && currency !== ALL,
-                },
-              )}
-              key={currency}
-              onClick={() => onChangeCategory(currency === ALL ? '' : currency)}
-            >
-              {currency}
-            </div>
-          );
-        })}
+      {list && (
+        <div
+          className={classNames(
+            'tw-mr-4 tw-cursor-pointer tw-font-semibold tw-transition-opacity hover:tw-text-opacity-75 hover:tw-text-primary',
+            {
+              'tw-text-primary': category === '',
+            },
+          )}
+          key={ALL}
+          onClick={() => onChangeCategory(category !== ALL ? '' : ALL)}
+        >
+          {ALL}
+        </div>
+      )}
     </>
   );
 };
