@@ -51,7 +51,6 @@ import { PerpetualPage } from './pages/PerpetualPage';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { SandboxPage } from './pages/Sandbox';
 
 const title = !isMainnet ? `Sovryn ${currentNetwork}` : 'Sovryn';
 
@@ -117,7 +116,6 @@ export function App() {
                 render={props => <EmailPage {...props} type="UNSUBSCRIBE" />}
               />
               <Route exact path="/perpetual" component={PerpetualPage} />
-              <Route exact path="/sandbox" component={SandboxPage} />
               <Route component={NotFoundPage} />
             </Switch>
             <ToastContainer className="tw-w-max" />
