@@ -1,26 +1,18 @@
-import React, {
-  useState,
-  useCallback,
-  useRef,
-  useEffect,
-  useMemo,
-} from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { PairNavbarInfo } from 'app/components/PairNavbarInfo';
 import { PairSelect } from './PairSelect';
 import { useLocation } from 'react-router-dom';
-import { IPairsData } from 'types/trading-pairs';
-import axios, { Canceler } from 'axios';
-import { backendUrl, currentChainId } from 'utils/classifiers';
 import { SpotPairType } from '../../types';
+import { useGetCryptoPairs } from 'app/hooks/trading/useGetCryptoPairs';
+import { usePairList } from 'app/hooks/trading/usePairList';
+import { reactLocalStorage } from 'reactjs-localstorage';
+import { actions } from '../../slice';
+import { useDispatch } from 'react-redux';
 
 export const PairNavbar: React.FC = () => {
   const location = useLocation();
-
-  const [pairsLoading, setPairsLoading] = useState(false);
-  const [pairsData, setPairsData] = useState<IPairsData>() as any;
-  const cancelDataRequest = useRef<Canceler>();
-  const cancelPairsDataRequest = useRef<Canceler>();
-  const url = backendUrl[currentChainId];
+  const isPairSelected = reactLocalStorage.getObject('selectedSpotPair');
+  const dispatch = useDispatch();
 
   const getStorageKey = () => {
     switch (location.pathname) {
@@ -32,56 +24,63 @@ export const PairNavbar: React.FC = () => {
   };
 
   const [pair, setPair] = useState([]) as any;
-
-  //getting PAIRS DATA
-  const getPairsData = useCallback(() => {
-    setPairsLoading(true);
-    cancelPairsDataRequest.current && cancelPairsDataRequest.current();
-    const cancelToken = new axios.CancelToken(c => {
-      cancelDataRequest.current = c;
-    });
-    axios
-      .get(url + '/api/v1/trading-pairs/summary/?extra=true', {
-        cancelToken,
-      })
-      .then(res => {
-        setPairsData(res.data);
-      })
-      .catch(e => console.error(e))
-      .finally(() => {
-        setPairsLoading(false);
-      });
-  }, [url, setPairsData]);
+  const pairsData = useGetCryptoPairs();
+  const pairsArray = usePairList(pairsData?.pairs);
 
   useEffect(() => {
-    getPairsData();
-  }, [getPairsData]);
-
-  const list = useMemo(() => {
-    if (!pairsData) return [];
-    return Object.keys(pairsData.pairs)
-      .map(key => pairsData.pairs[key])
-      .filter(pair => pair);
-  }, [pairsData]);
-
-  useEffect(() => {
-    if (list)
+    if (pairsArray && !pair.length)
       // set SOV_RBTC by default
-      for (let pair of list) {
-        if (pair.trading_pairs === SpotPairType.SOV_RBTC) setPair([pair, pair]);
+      for (let item of pairsArray) {
+        if (item.trading_pairs === SpotPairType.SOV_RBTC) {
+          setPair([item, item]);
+        }
       }
-  }, [list]);
+  }, [pairsArray, pair]);
+
+  const onPairChange = useCallback(pair => {
+    setPair(pair);
+    if (pair[1] !== pair[0]) {
+      reactLocalStorage.setObject('selectedSpotPair', [
+        pair[0].base_symbol,
+        pair[1].base_symbol,
+      ]);
+    }
+    //filtering pairs for RBTC as target
+    if (pair[0].base_symbol === pair[1].base_symbol && !pair[2]) {
+      reactLocalStorage.setObject('selectedSpotPair', [
+        pair[0].base_symbol,
+        pair[1].quote_symbol,
+      ]);
+    }
+    //filtering pairs for RBTC as source
+    if (pair[0].base_symbol === pair[1].base_symbol && pair[2]) {
+      reactLocalStorage.setObject('selectedSpotPair', [
+        pair[0].quote_symbol,
+        pair[1].base_symbol,
+        pair[2],
+      ]);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (Object.keys(isPairSelected).length)
+      dispatch(
+        actions.setPairType(
+          SpotPairType[isPairSelected[0] + '_' + isPairSelected[1]],
+        ),
+      );
+  }, [dispatch, isPairSelected]);
 
   return (
     <div className="tw-bg-gray-3 tw-w-full">
       <div className="tw-flex tw-items-center tw-container twm-mr-2">
         <PairSelect
           storageKey={getStorageKey()}
-          onPairChange={pair => setPair(pair)}
+          onPairChange={onPairChange}
           pairsData={pairsData}
         />
 
-        {pair && pair.length && !pairsLoading && <PairNavbarInfo pair={pair} />}
+        {pair && pair.length && <PairNavbarInfo pair={pair} />}
       </div>
     </div>
   );

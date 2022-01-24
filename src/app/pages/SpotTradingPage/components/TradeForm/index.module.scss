@@ -2,6 +2,6 @@
   height: 43.81px;
 }
 .amountLabel {
-  min-width: 8.125rem;
-  margin-right: 1rem;
+  min-width: 5.125rem;
+  @apply tw-mr-3
 }

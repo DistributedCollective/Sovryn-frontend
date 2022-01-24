@@ -1,37 +1,25 @@
-import React, {
-  useState,
-  useCallback,
-  useRef,
-  useEffect,
-  useMemo,
-} from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { reactLocalStorage } from 'reactjs-localstorage';
 import { useDispatch } from 'react-redux';
-import axios, { Canceler } from 'axios';
 import { NotificationSettingsDialog } from 'app/pages/MarginTradePage/components/NotificationSettingsDialog';
 import { PairNavbarInfo } from 'app/components/PairNavbarInfo';
 import { PairSelect } from './PairSelect';
 import { useLocation } from 'react-router-dom';
 import imgNotificationBell from 'assets/images/marginTrade/notifications.svg';
-import { IPairsData } from 'types/trading-pairs';
-import { backendUrl, currentChainId } from 'utils/classifiers';
 import { TradingPairType } from 'utils/dictionaries/trading-pair-dictionary';
 import { useIsConnected } from 'app/hooks/useAccount';
+import { useGetCryptoPairs } from 'app/hooks/trading/useGetCryptoPairs';
 import { actions } from '../../slice';
+import { usePairList } from 'app/hooks/trading/usePairList';
 
 export const PairNavbar: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const dispatch = useDispatch();
-  const [pairsLoading, setPairsLoading] = useState(false);
-  const [pairsData, setPairsData] = useState<IPairsData>() as any;
-  const cancelDataRequest = useRef<Canceler>();
-  const cancelPairsDataRequest = useRef<Canceler>();
-  const url = backendUrl[currentChainId];
   const connected = useIsConnected();
-  const isPairSelected = reactLocalStorage.getObject('selectedPair');
+  const isPairSelected = reactLocalStorage.getObject('selectedMarginPair');
 
   const [
     showNotificationSettingsModal,
@@ -53,82 +41,53 @@ export const PairNavbar: React.FC = () => {
   const [pair, setPair] = useState([]) as any;
 
   //getting PAIRS DATA
-  const getPairsData = useCallback(() => {
-    setPairsLoading(true);
-    cancelPairsDataRequest.current?.();
-    const cancelToken = new axios.CancelToken(c => {
-      cancelDataRequest.current = c;
-    });
-    axios
-      .get(url + '/api/v1/trading-pairs/summary/', {
-        params: {
-          extra: true,
-        },
-        cancelToken,
-      })
-      .then(res => {
-        setPairsData(res.data);
-      })
-      .catch(e => console.error(e))
-      .finally(() => {
-        setPairsLoading(false);
-      });
-  }, [url, setPairsData]);
+  const pairsData = useGetCryptoPairs();
+
+  const pairsArray = usePairList(pairsData?.pairs);
 
   useEffect(() => {
-    getPairsData();
-  }, [getPairsData]);
-
-  const list = useMemo(() => {
-    if (!pairsData) return [];
-    return Object.keys(pairsData.pairs)
-      .map(key => pairsData.pairs[key])
-      .filter(pair => pair);
-  }, [pairsData]);
-
-  useEffect(() => {
-    if (list)
+    if (pairsArray && !pair.length)
       // set SOV_RBTC by default
-      for (let item of list) {
-        if (item.trading_pairs === TradingPairType.SOV_RBTC)
+      for (let item of pairsArray) {
+        if (item.trading_pairs === TradingPairType.SOV_RBTC) {
           setPair([item, item]);
+        }
       }
-  }, [list]);
+  }, [pairsArray, pair]);
 
   const onPairChange = useCallback(pair => {
     setPair(pair);
-    if (pair[1] !== pair[0])
-      reactLocalStorage.setObject('selectedPair', [
+    if (pair[1] !== pair[0]) {
+      reactLocalStorage.setObject('selectedMarginPair', [
         pair[0].base_symbol,
         pair[1].base_symbol,
       ]);
+    }
     //filtering pairs for RBTC as target
-    if (pair[0].base_symbol === pair[1].base_symbol && !pair[2])
-      reactLocalStorage.setObject('selectedPair', [
+    if (pair[0].base_symbol === pair[1].base_symbol && !pair[2]) {
+      reactLocalStorage.setObject('selectedMarginPair', [
         pair[0].base_symbol,
         pair[1].quote_symbol,
       ]);
+    }
     //filtering pairs for RBTC as source
-    if (pair[0].base_symbol === pair[1].base_symbol && pair[2])
-      reactLocalStorage.setObject('selectedPair', [
+    if (pair[0].base_symbol === pair[1].base_symbol && pair[2]) {
+      reactLocalStorage.setObject('selectedMarginPair', [
         pair[0].quote_symbol,
         pair[1].base_symbol,
         pair[2],
       ]);
-
-    reactLocalStorage.setObject('selectedPairStat', [
-      pair[0].trading_pairs,
-      pair[1].trading_pairs,
-    ]);
+    }
   }, []);
 
   useEffect(() => {
-    if (Object.keys(isPairSelected).length)
+    if (Object.keys(isPairSelected).length) {
       dispatch(
         actions.setPairType(
           TradingPairType[isPairSelected[0] + '_' + isPairSelected[1]],
         ),
       );
+    }
   }, [dispatch, isPairSelected]);
 
   return (
@@ -140,7 +99,7 @@ export const PairNavbar: React.FC = () => {
           pairsData={pairsData}
         />
 
-        {pair && pair.length && !pairsLoading && <PairNavbarInfo pair={pair} />}
+        {pair && pair.length && <PairNavbarInfo pair={pair} />}
         {connected && (
           <div>
             <button
