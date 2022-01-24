@@ -33,3 +33,8 @@ export interface ITradingPairs {
   [1]: IPairData;
   RBTC_source?: string;
 }
+
+export enum TradingType {
+  SPOT = 'spot',
+  MARGIN = 'margin',
+}

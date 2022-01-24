@@ -8,18 +8,32 @@ import { PairNavbarInfo } from 'app/components/PairNavbarInfo';
 import { PairSelect } from './PairSelect';
 import { useLocation } from 'react-router-dom';
 import imgNotificationBell from 'assets/images/marginTrade/notifications.svg';
+import { SpotPairType } from 'app/pages/SpotTradingPage/types';
 import { TradingPairType } from 'utils/dictionaries/trading-pair-dictionary';
 import { useIsConnected } from 'app/hooks/useAccount';
 import { useGetCryptoPairs } from 'app/hooks/trading/useGetCryptoPairs';
-import { actions } from '../../slice';
+import { actions as spotActions } from 'app/pages/SpotTradingPage/slice';
+import { actions as marginActions } from 'app/pages/MarginTradePage/slice';
 import { usePairList } from 'app/hooks/trading/usePairList';
+import { TradingType } from 'types/trading-pairs';
 
-export const PairNavbar: React.FC = () => {
+interface IPairNavbarProps {
+  type: string;
+}
+
+export const PairNavbar: React.FC<IPairNavbarProps> = ({ type }) => {
   const { t } = useTranslation();
   const location = useLocation();
   const dispatch = useDispatch();
   const connected = useIsConnected();
-  const isPairSelected = reactLocalStorage.getObject('selectedMarginPair');
+
+  const localStoreObject =
+    type === TradingType.SPOT ? 'selectedSpotPair' : 'selectedMarginPair';
+  const isPairSelected = reactLocalStorage.getObject(localStoreObject);
+  const dispatchAction: any =
+    type === TradingType.SPOT ? spotActions : marginActions;
+  const tradingType =
+    type === TradingType.SPOT ? SpotPairType : TradingPairType;
 
   const [
     showNotificationSettingsModal,
@@ -27,10 +41,14 @@ export const PairNavbar: React.FC = () => {
   ] = useState(false);
 
   const getStorageKey = () => {
-    if (location.pathname === '/trade') {
-      return 'trade-pairs';
+    switch (location.pathname) {
+      case '/spot':
+        return 'spot-pairs';
+      case '/trade':
+        return 'trade-pairs';
+      default:
+        return '';
     }
-    return '';
   };
 
   const onNotificationSettingsClick = useCallback(
@@ -49,46 +67,48 @@ export const PairNavbar: React.FC = () => {
     if (pairsArray && !pair.length)
       // set SOV_RBTC by default
       for (let item of pairsArray) {
-        if (item.trading_pairs === TradingPairType.SOV_RBTC) {
+        if (item.trading_pairs === tradingType.SOV_RBTC) {
           setPair([item, item]);
         }
       }
-  }, [pairsArray, pair]);
+  }, [pairsArray, pair, tradingType.SOV_RBTC]);
 
-  const onPairChange = useCallback(pair => {
-    setPair(pair);
-    if (pair[1] !== pair[0]) {
-      reactLocalStorage.setObject('selectedMarginPair', [
-        pair[0].base_symbol,
-        pair[1].base_symbol,
-      ]);
-    }
-    //filtering pairs for RBTC as target
-    if (pair[0].base_symbol === pair[1].base_symbol && !pair[2]) {
-      reactLocalStorage.setObject('selectedMarginPair', [
-        pair[0].base_symbol,
-        pair[1].quote_symbol,
-      ]);
-    }
-    //filtering pairs for RBTC as source
-    if (pair[0].base_symbol === pair[1].base_symbol && pair[2]) {
-      reactLocalStorage.setObject('selectedMarginPair', [
-        pair[0].quote_symbol,
-        pair[1].base_symbol,
-        pair[2],
-      ]);
-    }
-  }, []);
+  const onPairChange = useCallback(
+    pair => {
+      setPair(pair);
+      if (pair[1] !== pair[0]) {
+        reactLocalStorage.setObject(localStoreObject, [
+          pair[0].base_symbol,
+          pair[1].base_symbol,
+        ]);
+      }
+      //filtering pairs for RBTC as target
+      if (pair[0].base_symbol === pair[1].base_symbol && !pair[2]) {
+        reactLocalStorage.setObject(localStoreObject, [
+          pair[0].base_symbol,
+          pair[1].quote_symbol,
+        ]);
+      }
+      //filtering pairs for RBTC as source
+      if (pair[0].base_symbol === pair[1].base_symbol && pair[2]) {
+        reactLocalStorage.setObject(localStoreObject, [
+          pair[0].quote_symbol,
+          pair[1].base_symbol,
+          pair[2],
+        ]);
+      }
+    },
+    [localStoreObject],
+  );
 
   useEffect(() => {
-    if (Object.keys(isPairSelected).length) {
+    if (Object.keys(isPairSelected).length)
       dispatch(
-        actions.setPairType(
-          TradingPairType[isPairSelected[0] + '_' + isPairSelected[1]],
+        dispatchAction.setPairType(
+          tradingType[isPairSelected[0] + '_' + isPairSelected[1]],
         ),
       );
-    }
-  }, [dispatch, isPairSelected]);
+  }, [dispatch, isPairSelected, tradingType, dispatchAction]);
 
   return (
     <div className="tw-bg-gray-3 tw-w-full">
@@ -97,10 +117,11 @@ export const PairNavbar: React.FC = () => {
           storageKey={getStorageKey()}
           onPairChange={onPairChange}
           pairsData={pairsData}
+          type={type}
         />
 
         {pair && pair.length && <PairNavbarInfo pair={pair} />}
-        {connected && (
+        {connected && type === 'margin' && (
           <div>
             <button
               onClick={onNotificationSettingsClick}

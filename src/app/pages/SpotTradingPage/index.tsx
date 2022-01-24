@@ -16,7 +16,7 @@ import { Footer } from '../../components/Footer';
 import { Theme, TradingChart } from '../../components/TradingChart';
 import { TradeForm } from './components/TradeForm';
 import { useAccount } from 'app/hooks/useAccount';
-import { PairNavbar } from './components/PairNavbar';
+import { PairNavbar } from 'app/components/PairNavbar';
 import { LimitOrderTables } from './components/LimitOrderTables';
 import { SpotHistory } from './components/SpotHistory';
 
@@ -42,7 +42,7 @@ export function SpotTradingPage() {
       <Header />
       <div className="tw-container tw-mx-auto tw-px-3">
         <div className="tw-h-10 tw-flex tw-items-center tw--mx-3 tw-justify-between tw-bg-gray-3">
-          <PairNavbar />
+          <PairNavbar type="spot" />
         </div>
         <div className="tw-flex tw-mt-5 tw-flex-col xl:tw-flex-row xl:tw-justify-between tw-max-w-full">
           <div

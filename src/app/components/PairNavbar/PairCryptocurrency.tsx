@@ -1,138 +1,49 @@
-import React, {
-  useMemo,
-  useRef,
-  useState,
-  useEffect,
-  useCallback,
-} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useMemo, useState, useEffect, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import classNames from 'classnames';
-import { Input } from 'app/components/Form/Input';
-import { IPairs, IPairsData, ITradingPairs } from 'types/trading-pairs';
+import { IPairs, ITradingPairs, TradingType } from 'types/trading-pairs';
 import { getFavoriteList, setFavoriteList } from 'utils/helpers';
-import { selectSpotTradingPage } from '../../selectors';
-import { SpotPairType } from '../../types';
+import { SpotPairType } from 'app/pages/SpotTradingPage/types';
+import { TradingPairType } from 'utils/dictionaries/trading-pair-dictionary';
 import { toNumberFormat } from 'utils/display-text/format';
 import { Pair } from './Pair';
-import { PairLabels } from './PairLabels';
 import { StarButton } from 'app/components/StarButton';
-import { actions } from '../../slice';
-import useOnClickOutside from 'app/hooks/useOnClickOutside';
-import arrowDownIcon from 'assets/images/swap/ic_arrow_down.svg';
-import searchIcon from 'assets/images/search.svg';
+import { actions as spotActions } from 'app/pages/SpotTradingPage/slice';
+import { actions as marginActions } from 'app/pages/MarginTradePage/slice';
 import { usePairList } from 'app/hooks/trading/usePairList';
 
 const FAVORITE = 'FAVORITE';
 
-interface IPairSelect {
-  onPairChange: ([ITradingPairs]) => void;
-  storageKey: string;
-  pairsData: IPairsData;
-}
-
-export const PairSelect: React.FC<IPairSelect> = ({
-  storageKey,
-  onPairChange,
-  pairsData,
-}) => {
-  const ref = useRef(null);
-  const { pairType } = useSelector(selectSpotTradingPage);
-  const [open, setOpen] = useState(false);
-  const [search, setSearch] = useState('');
-  const [category, setCategory] = useState('');
-
-  useOnClickOutside(ref, () => setOpen(false));
-
-  return (
-    <div ref={ref} className="tw-relative tw-w-64 tw-self-stretch tw-mr-2">
-      <div
-        onClick={() => setOpen(!open)}
-        className={classNames(
-          { 'tw-rounded-b-lg': !open },
-          'tw-flex tw-h-full tw-items-center tw-py-1 tw-bg-gray-2 tw-px-8 tw-rounded-t-lg tw-cursor-pointer tw-select-none tw-transition-opacity hover:tw-bg-opacity-75',
-        )}
-      >
-        <div className="tw-flex-1">
-          <Pair pairType={pairType} />
-        </div>
-        <img
-          className={classNames('tw-w-5 tw-transition-transform ', {
-            'tw-transform tw-rotate-180': open,
-          })}
-          src={arrowDownIcon}
-          alt="Arrow"
-        />
-      </div>
-      {open && (
-        <div className="tw-absolute tw-transform tw-translate-y-full tw-bottom-0 tw-left-0 tw-bg-gray-2 tw-py-7 tw-px-9 tw-rounded-b-lg tw-z-10">
-          <Input
-            value={search}
-            className="tw-rounded-lg search tw-max-w-full"
-            inputClassName="tw-ml-0"
-            onChange={setSearch}
-            placeholder={'Search'}
-            prependElem={
-              <img className="tw-w-5" src={searchIcon} alt="Search" />
-            }
-            data-action-id="spot-select-searchbar"
-          />
-
-          <div className="tw-flex tw-items-center tw-mt-3">
-            <StarButton
-              className="tw-mr-4"
-              active={category === FAVORITE}
-              onClick={() => setCategory(FAVORITE)}
-            />
-            {pairsData && (
-              <PairLabels
-                pairs={pairsData.pairs}
-                onChangeCategory={e => setCategory(e)}
-                category={category}
-              />
-            )}
-          </div>
-          {pairsData && (
-            <div className="tw-mt-3">
-              <CryptocurrencyPairs
-                pairs={pairsData.pairs}
-                storageKey={storageKey}
-                category={category}
-                search={search}
-                closePairList={() => setOpen(false)}
-                onPairChange={onPairChange}
-              />
-            </div>
-          )}
-        </div>
-      )}
-    </div>
-  );
-};
-
-interface ICryptocurrencyPairsProps {
+interface IPairCryptocurrencyProps {
   closePairList: () => void;
   storageKey: string;
   category: string;
   search: string;
   pairs: IPairs;
   onPairChange: (value: [ITradingPairs]) => void;
+  type: string;
 }
 
-export const CryptocurrencyPairs: React.FC<ICryptocurrencyPairsProps> = ({
+export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
   closePairList,
   storageKey,
   category,
   search,
   pairs,
   onPairChange,
+  type,
 }) => {
   const { t } = useTranslation();
   const list = usePairList(pairs);
 
   const [favList, setFavList] = useState(getFavoriteList(storageKey));
   const dispatch = useDispatch();
+  const dispatchAction: any =
+    type === TradingType.SPOT ? spotActions : marginActions;
+  const tradingType =
+    type === TradingType.SPOT ? SpotPairType : TradingPairType;
 
   const handleFavClick = useCallback(
     pair => {
@@ -209,28 +120,28 @@ export const CryptocurrencyPairs: React.FC<ICryptocurrencyPairsProps> = ({
       //filtering pairs without RBTC
       if (pair[1] !== pair[0])
         dispatch(
-          actions.setPairType(
-            SpotPairType[pair[0].base_symbol + '_' + pair[1].base_symbol],
+          dispatchAction.setPairType(
+            tradingType[pair[0].base_symbol + '_' + pair[1].base_symbol],
           ),
         );
       //filtering pairs for RBTC as target
       if (pair[0].base_symbol === pair[1].base_symbol && !pair[2])
         dispatch(
-          actions.setPairType(
-            SpotPairType[pair[0].base_symbol + '_' + pair[0].quote_symbol],
+          dispatchAction.setPairType(
+            tradingType[pair[0].base_symbol + '_' + pair[0].quote_symbol],
           ),
         );
       //filtering pairs for RBTC as source
       if (pair[0].base_symbol === pair[1].base_symbol && pair[2])
         dispatch(
-          actions.setPairType(
-            SpotPairType[pair[0].quote_symbol + '_' + pair[0].base_symbol],
+          dispatchAction.setPairType(
+            tradingType[pair[0].quote_symbol + '_' + pair[0].base_symbol],
           ),
         );
       onPairChange(pair);
       closePairList();
     },
-    [closePairList, dispatch, onPairChange],
+    [closePairList, dispatch, onPairChange, dispatchAction, tradingType],
   );
 
   if (!list.length) return null;
@@ -252,23 +163,23 @@ export const CryptocurrencyPairs: React.FC<ICryptocurrencyPairsProps> = ({
         </thead>
         <tbody>
           {filteredList.map((pair: ITradingPairs) => {
-            let isValidPair = false; //checking tradingPair, if this pair exist in SpotTradingType
+            let isValidPair = false; //checking tradingPair, if this pair exist
             if (
               pair[0].base_symbol === pair[1].base_symbol &&
               !pair[2] &&
-              SpotPairType[pair[0].base_symbol + '_' + pair[0].quote_symbol]
+              tradingType[pair[0].base_symbol + '_' + pair[0].quote_symbol]
             ) {
               isValidPair = true;
             }
             if (
               pair[0].base_symbol === pair[1].base_symbol &&
               pair[2] &&
-              SpotPairType[pair[0].quote_symbol + '_' + pair[0].base_symbol]
+              tradingType[pair[0].quote_symbol + '_' + pair[0].base_symbol]
             ) {
               isValidPair = true;
             }
             if (
-              SpotPairType[pair[0].base_symbol + '_' + pair[1].base_symbol] &&
+              tradingType[pair[0].base_symbol + '_' + pair[1].base_symbol] &&
               !pair[2]
             ) {
               isValidPair = true;
@@ -336,12 +247,13 @@ export const CryptocurrencyPairs: React.FC<ICryptocurrencyPairsProps> = ({
                   {/* pairs with RBTC as target*/}
                   {pair[0].base_symbol === pair[1].base_symbol &&
                     !pair[2] &&
-                    SpotPairType[
+                    tradingType[
                       pair[0].base_symbol + '_' + pair[0].quote_symbol
                     ] && (
                       <Pair
+                        type={type}
                         pairType={
-                          SpotPairType[
+                          tradingType[
                             pair[0].base_symbol + '_' + pair[0].quote_symbol
                           ]
                         }
@@ -351,12 +263,13 @@ export const CryptocurrencyPairs: React.FC<ICryptocurrencyPairsProps> = ({
                   {/* pairs with RBTC as source */}
                   {pair[0].base_symbol === pair[1].base_symbol &&
                     pair[2] &&
-                    SpotPairType[
+                    tradingType[
                       pair[0].quote_symbol + '_' + pair[0].base_symbol
                     ] && (
                       <Pair
+                        type={type}
                         pairType={
-                          SpotPairType[
+                          tradingType[
                             pair[0].quote_symbol + '_' + pair[0].base_symbol
                           ]
                         }
@@ -364,13 +277,14 @@ export const CryptocurrencyPairs: React.FC<ICryptocurrencyPairsProps> = ({
                     )}
 
                   {/* pairs without RBTC */}
-                  {SpotPairType[
+                  {tradingType[
                     pair[0].base_symbol + '_' + pair[1].base_symbol
                   ] &&
                     !pair[2] && (
                       <Pair
+                        type={type}
                         pairType={
-                          SpotPairType[
+                          tradingType[
                             pair[0].base_symbol + '_' + pair[1].base_symbol
                           ]
                         }

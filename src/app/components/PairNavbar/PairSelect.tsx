@@ -1,11 +1,10 @@
 import React, { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { translations } from 'locales/i18n';
 import classNames from 'classnames';
 import { Input } from 'app/components/Form/Input';
-import { IPairsData } from 'types/trading-pairs';
-import { selectMarginTradePage } from '../../selectors';
+import { IPairsData, TradingType } from 'types/trading-pairs';
+import { selectSpotTradingPage } from 'app/pages/SpotTradingPage/selectors';
+import { selectMarginTradePage } from 'app/pages/MarginTradePage/selectors';
 import { Pair } from './Pair';
 import { PairLabels } from './PairLabels';
 import { StarButton } from 'app/components/StarButton';
@@ -20,16 +19,18 @@ interface IPairSelect {
   onPairChange: ([ITradingPairs]) => void;
   storageKey: string;
   pairsData: IPairsData;
+  type: string;
 }
 
 export const PairSelect: React.FC<IPairSelect> = ({
   storageKey,
   onPairChange,
   pairsData,
+  type,
 }) => {
-  const { t } = useTranslation();
   const ref = useRef(null);
-  const { pairType } = useSelector(selectMarginTradePage);
+  const { pairType: pairSpotType } = useSelector(selectSpotTradingPage);
+  const { pairType: pairMarginType } = useSelector(selectMarginTradePage);
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('');
@@ -46,7 +47,10 @@ export const PairSelect: React.FC<IPairSelect> = ({
         )}
       >
         <div className="tw-flex-1">
-          <Pair pairType={pairType} />
+          <Pair
+            type={type}
+            pairType={type === TradingType.SPOT ? pairSpotType : pairMarginType}
+          />
         </div>
         <img
           className={classNames('tw-w-5 tw-transition-transform ', {
@@ -60,14 +64,14 @@ export const PairSelect: React.FC<IPairSelect> = ({
         <div className="tw-absolute tw-transform tw-translate-y-full tw-bottom-0 tw-left-0 tw-bg-gray-2 tw-py-7 tw-px-9 tw-rounded-b-lg tw-z-10">
           <Input
             value={search}
-            className="tw-rounded-lg search"
+            className="tw-rounded-lg search tw-max-w-full"
             inputClassName="tw-ml-0"
             onChange={setSearch}
-            placeholder={t(translations.spotTradingPage.pairNavbar.search)}
+            placeholder={'Search'}
             prependElem={
               <img className="tw-w-5" src={searchIcon} alt="Search" />
             }
-            data-action-id="margin-select-searchbar"
+            data-action-id="spot-select-searchbar"
           />
 
           <div className="tw-flex tw-items-center tw-mt-3">
@@ -81,6 +85,7 @@ export const PairSelect: React.FC<IPairSelect> = ({
                 pairs={pairsData.pairs}
                 onChangeCategory={e => setCategory(e)}
                 category={category}
+                type={type}
               />
             )}
           </div>
@@ -93,6 +98,7 @@ export const PairSelect: React.FC<IPairSelect> = ({
                 search={search}
                 closePairList={() => setOpen(false)}
                 onPairChange={onPairChange}
+                type={type}
               />
             </div>
           )}

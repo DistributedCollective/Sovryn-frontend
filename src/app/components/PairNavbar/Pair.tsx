@@ -1,18 +1,25 @@
 import React, { useMemo } from 'react';
 import {
+  pairs as spotPairs,
+  SpotPairType,
+} from 'app/pages/SpotTradingPage/types';
+import {
+  pairs as marginPairs,
   TradingPairType,
-  pairs,
 } from 'utils/dictionaries/trading-pair-dictionary';
 import { Asset } from 'types/asset';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
+import { TradingType } from 'types/trading-pairs';
 
-interface IPairProps {
-  pairType: TradingPairType;
+interface IPair {
+  pairType: SpotPairType | TradingPairType;
+  type: string;
 }
 
-export const Pair: React.FC<IPairProps> = ({ pairType }) => {
-  const pair = pairs[pairType];
+export const Pair: React.FC<IPair> = ({ pairType, type }) => {
+  const pair =
+    type === TradingType.SPOT ? spotPairs[pairType] : marginPairs[pairType];
 
   const sourceToken = pair[0];
   const targetToken = pair[1];
@@ -31,7 +38,7 @@ export const Pair: React.FC<IPairProps> = ({ pairType }) => {
   }
 
   return (
-    <div className={'tw-flex tw-items-center tw-select-none'}>
+    <div className="tw-flex tw-items-center tw-select-none">
       <div className="tw-rounded-full tw-z-10">
         <img
           className="tw-w-8 tw-h-8 tw-object-scale-down"
@@ -49,13 +56,13 @@ export const Pair: React.FC<IPairProps> = ({ pairType }) => {
 
       <div
         className="tw-font-light text-white tw-ml-2.5 tw-flex"
-        data-action-id="margin-select-pair"
+        data-action-id="spot-select-pair"
       >
-        <div data-action-id="margin-select-asset-selector1">
+        <div data-action-id="spot-select-asset-selector1">
           <AssetSymbolRenderer asset={Asset[sourceToken]} />
         </div>
         /
-        <div data-action-id="margin-select-asset-selector2">
+        <div data-action-id="spot-select-asset-selector1">
           <AssetSymbolRenderer asset={Asset[targetToken]} />
         </div>
       </div>
