@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { AssetDetails } from 'utils/models/asset-details';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { Tooltip } from '@blueprintjs/core';
-import { weiTo4 } from 'utils/blockchain/math-helpers';
+import { weiTo18, weiTo4 } from 'utils/blockchain/math-helpers';
 import {
   staking_withdrawFee,
   staking_numTokenCheckpoints,
@@ -48,6 +48,7 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
     tokenAddress,
     useNewContract,
   );
+
   const dollarValue = useMemo(() => {
     if (currency.value === null) {
       return '';
@@ -106,11 +107,16 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
             </Tooltip>
           </div>
           <div className="tw-w-1/2 tw-mx-4">
-            {weiTo4(currency.value)} ≈{' '}
-            <LoadableValue
-              value={weiToUSD(dollarValue)}
-              loading={dollars.loading}
-            />
+            <Tooltip content={`${weiTo18(currency.value)}`}>
+              {weiTo4(currency.value)}
+            </Tooltip>{' '}
+            ≈{' '}
+            <Tooltip content={`${weiToUSD(dollarValue, 6)}`}>
+              <LoadableValue
+                value={weiToUSD(dollarValue)}
+                loading={dollars.loading}
+              />
+            </Tooltip>
           </div>
           <button
             onClick={handleWithdrawFee}
