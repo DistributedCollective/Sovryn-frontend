@@ -174,6 +174,13 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   const [amount, setAmount] = useState(
     Math.abs(numberFromWei(trade.amount)).toFixed(lotPrecision),
   );
+
+  useEffect(() => {
+    if (amount > maxTradeSize) {
+      setAmount(maxTradeSize);
+    }
+  }, [amount, maxTradeSize, trade.position]);
+
   const onChangeOrderAmount = useCallback(
     (amount: string) => {
       const roundedAmount = Number(
