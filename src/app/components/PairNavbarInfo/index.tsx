@@ -1,68 +1,36 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { toNumberFormat } from 'utils/display-text/format';
 import { ITradingPairs } from 'types/trading-pairs';
 import classNames from 'classnames';
-import { backendUrl, currentChainId } from 'utils/classifiers';
-import axios from 'axios';
 import { LoadableValue } from 'app/components/LoadableValue';
+import { useGetCandlesData } from 'app/hooks/trading/useGetCandlesData';
 
 interface IPairNavbarInfoProps {
   pair: ITradingPairs;
 }
 
-interface ICandlesProps {
-  close: number;
-  high: number;
-  low: number;
-  open: number;
-  time: number;
-}
-
 export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
   const { t } = useTranslation();
-  const [candles, setCandles] = useState<ICandlesProps[]>();
+  // const [candles, setCandles] = useState<ICandlesProps[]>();
   const [lowPrice, setLowPrice] = useState(0);
   const [hightPrice, setHightPrice] = useState(0);
   const [lastPrice, setLastPrice] = useState(0);
   const [dayPrice, setDayPrice] = useState(0);
   const [percent, setPercent] = useState(0);
-  const [candlesLoading, setCandlesLoading] = useState(false);
   const [symbolA, setSymbolA] = useState('');
   const [symbolB, setSymbolB] = useState('');
-  const url = backendUrl[currentChainId];
 
-  const getPairsCandles = useCallback(() => {
-    setCandlesLoading(true);
-    setCandles([]);
-    //getting the current day and yesterday
-    const dayBefore = new Date(new Date().setDate(new Date().getDate() - 1));
-    const currentTime = new Date().getTime();
-    axios
-      .get(url + `/datafeed/price/${symbolA}:${symbolB}`, {
-        params: {
-          startTime: `${dayBefore.getTime()}`,
-          endTime: `${currentTime}`,
-        },
-      })
-      .then(({ data }) => setCandles(data.series))
-      .catch(e => console.error(e))
-      .finally(() => {
-        setCandlesLoading(false);
-      });
-  }, [symbolA, symbolB, url]);
+  const { candles, loading } = useGetCandlesData(symbolA, symbolB);
 
   useEffect(() => {
     setSymbolA(pair[0].base_symbol);
     setSymbolB(pair[1].base_symbol);
-    if (pair[0] !== pair[1]) {
-      getPairsCandles();
-    }
-  }, [getPairsCandles, pair]);
+  }, [pair]);
 
   useEffect(() => {
-    if (!candlesLoading) {
+    if (!loading) {
       //generating lastPrice for all pairs
       // for pairs without RBTC
       if (pair[1] !== pair[0]) {
@@ -134,7 +102,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
         setHightPrice(pair[0].high_price_24h);
       }
     }
-  }, [lastPrice, pair, candlesLoading, candles, dayPrice]);
+  }, [lastPrice, pair, candles, loading, dayPrice]);
 
   return (
     <div className="tw-flex tw-items-center tw-justify-around tw-flex-1 tw-text-xs">
@@ -143,7 +111,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
         <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-primary">
           <LoadableValue
             value={toNumberFormat(lastPrice, 6)}
-            loading={candlesLoading}
+            // loading={candlesLoading}
           />
         </span>
       </div>
@@ -158,7 +126,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
           {percent > 0 && <>+</>}
           <LoadableValue
             value={<>{toNumberFormat(percent, percent !== 0 ? 6 : 0)}%</>}
-            loading={candlesLoading}
+            loading={loading}
           />
         </span>
       </div>
@@ -168,7 +136,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
         <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-trade-short">
           <LoadableValue
             value={toNumberFormat(lowPrice, 6)}
-            loading={candlesLoading}
+            loading={loading}
           />
         </span>
       </div>
@@ -177,7 +145,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
         <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-trade-long">
           <LoadableValue
             value={toNumberFormat(hightPrice, 6)}
-            loading={candlesLoading}
+            loading={loading}
           />
         </span>
       </div>
