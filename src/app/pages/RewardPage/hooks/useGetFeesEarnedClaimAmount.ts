@@ -1,5 +1,5 @@
-import { useEffect, useState, useMemo } from 'react';
-import { useAccount } from 'app/hooks/useAccount';
+import { useEffect, useState, useMemo, useCallback } from 'react';
+import { useAccount, useBlockSync } from 'app/hooks/useAccount';
 import { bridgeNetwork } from 'app/pages/BridgeDepositPage/utils/bridge-network';
 import { Asset, Chain } from 'types';
 import { getContract } from 'utils/blockchain/contract-helpers';
@@ -92,43 +92,49 @@ export const useGetFeesEarnedClaimAmount = () => {
 
 export const useGetFeesEarned = () => {
   const address = useAccount();
+  const blockSync = useBlockSync();
   const [loading, setLoading] = useState(false);
   const [earnedFees, setEarnedFees] = useState<IEarnedFee[]>(FEES);
   const feeSharingProxyContract = getContract('feeSharingProxy');
 
-  useEffect(() => {
-    const getFees = () => {
-      const callData = earnedFees.map(fee => ({
-        address: feeSharingProxyContract.address,
-        abi: feeSharingProxyContract.abi,
-        fnName: 'getAccumulatedFees',
-        args: [address, fee.contract],
-        key: fee.asset,
-        parser: value => value[0].toString(),
-      }));
+  const getAvailableFees = useCallback(() => {
+    const callData = earnedFees.map(fee => ({
+      address: feeSharingProxyContract.address,
+      abi: feeSharingProxyContract.abi,
+      fnName: 'getAccumulatedFees',
+      args: [address, fee.contract],
+      key: fee.asset,
+      parser: value => value[0].toString(),
+    }));
 
-      setLoading(true);
-      bridgeNetwork
-        .multiCall<IAccumulatedFeesData>(Chain.RSK, callData)
-        .then(result => {
-          if (result.returnData) {
-            const fees = earnedFees.map(fee => ({
-              ...fee,
-              value: result.returnData[fee.asset] || '',
-            }));
-            setEarnedFees(fees);
-          }
-        })
-        .catch(error => {
-          console.error('e', error);
-        })
-        .finally(() => setLoading(false));
-    };
+    setLoading(true);
+    bridgeNetwork
+      .multiCall<IAccumulatedFeesData>(Chain.RSK, callData)
+      .then(result => {
+        if (result.returnData) {
+          const fees = earnedFees.map(fee => ({
+            ...fee,
+            value: result.returnData[fee.asset] || '',
+          }));
+          setEarnedFees(fees);
+        }
+      })
+      .catch(error => {
+        console.error('e', error);
+      })
+      .finally(() => setLoading(false));
+  }, [
+    address,
+    earnedFees,
+    feeSharingProxyContract.abi,
+    feeSharingProxyContract.address,
+  ]);
+
+  useEffect(() => {
     if (address) {
-      getFees();
+      getAvailableFees();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [address]);
+  }, [address, getAvailableFees, blockSync]);
 
   return {
     loading,
