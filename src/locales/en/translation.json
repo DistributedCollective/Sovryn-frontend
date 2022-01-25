@@ -1463,7 +1463,10 @@
     },
     "feesEarnedClaimForm": {
       "note": "Claiming your rewards automatically adds them your <0/> portfolio balance.",
-      "learn": "Learn more"
+      "learn": "Learn more",
+      "asset": "Asset",
+      "amount": "Amount",
+      "rbtcValue": "RBTC Value"
     },
     "stakingForm": {
       "title": "Amount to claim:",

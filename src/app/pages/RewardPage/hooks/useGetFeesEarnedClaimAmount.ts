@@ -34,6 +34,13 @@ type IAccumulatedFeesData = {
   [key in Asset]: string;
 };
 
+export interface IEarnedFee {
+  asset: Asset;
+  contract: string;
+  value: string;
+  rbtcValue: string;
+}
+
 export const useGetFeesEarnedClaimAmount = () => {
   const { assetRates, assetRatesLoading, assetRatesLoaded } = useSelector(
     selectWalletProvider,
@@ -50,12 +57,17 @@ export const useGetFeesEarnedClaimAmount = () => {
         const rate = item ? fixNumber(item.value.rate) : '0';
         const token = AssetsDictionary.get(fee.asset);
 
+        const rbtcValue =
+          fee.asset === Asset.RBTC
+            ? bignumber(fee.value).toFixed(0)
+            : bignumber(fee.value)
+                .mul(rate)
+                .div(10 ** token.decimals)
+                .toFixed(0);
+
         return {
           ...fee,
-          rbtcValue: bignumber(fee.value)
-            .mul(rate)
-            .div(10 ** token.decimals)
-            .toFixed(0),
+          rbtcValue,
         };
       }),
 
@@ -81,13 +93,14 @@ export const useGetFeesEarnedClaimAmount = () => {
 export const useGetFeesEarned = () => {
   const address = useAccount();
   const [loading, setLoading] = useState(false);
-  const [earnedFees, setEarnedFees] = useState(FEES);
+  const [earnedFees, setEarnedFees] = useState<IEarnedFee[]>(FEES);
+  const feeSharingProxyContract = getContract('feeSharingProxy');
 
   useEffect(() => {
     const getFees = () => {
       const callData = earnedFees.map(fee => ({
-        address: getContract('feeSharingProxy').address,
-        abi: getContract('feeSharingProxy').abi,
+        address: feeSharingProxyContract.address,
+        abi: feeSharingProxyContract.abi,
         fnName: 'getAccumulatedFees',
         args: [address, fee.contract],
         key: fee.asset,
@@ -103,7 +116,6 @@ export const useGetFeesEarned = () => {
               ...fee,
               value: result.returnData[fee.asset] || '',
             }));
-            console.log('fees:', fees);
             setEarnedFees(fees);
           }
         })

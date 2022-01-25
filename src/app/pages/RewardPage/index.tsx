@@ -37,7 +37,7 @@ export function RewardPage() {
   } = useGetRewardSovClaimAmount();
 
   const liquidSovClaimAmount = useGetLiquidSovClaimAmount();
-  const { totalAmount } = useGetFeesEarnedClaimAmount();
+  const { totalAmount, earnedFees, loading } = useGetFeesEarnedClaimAmount();
 
   return (
     <>
@@ -100,7 +100,11 @@ export function RewardPage() {
                 <LiquidTab amountToClaim={liquidSovClaimAmount} />
               )}
               {activeTab === RewardTabType.FEES_EARNED && (
-                <FeesEarnedTab amountToClaim={totalAmount.toString()} />
+                <FeesEarnedTab
+                  amountToClaim={totalAmount.toString()}
+                  earnedFees={earnedFees}
+                  loading={loading}
+                />
               )}
             </div>
           </div>

@@ -4,21 +4,24 @@ import { translations } from 'locales/i18n';
 import styles from '../../index.module.scss';
 import { RewardsDetail, RewardsDetailColor } from '../RewardsDetail';
 import { getContract } from 'utils/blockchain/contract-helpers';
-import { FeesEarnedClaimForm } from '../ClaimForms/FeesEarnedClaimForm/index';
 import { useGetContractPastEvents } from 'app/hooks/useGetContractPastEvents';
 import { bignumber } from 'mathjs';
-import { PieChart } from '../../styled';
 import { Asset } from 'types';
 import imgNoClaim from 'assets/images/reward/ARMANDO__LENDING.svg';
 import { NoRewardInfo } from '../NoRewardInfo';
 import { AssetRenderer } from 'app/components/AssetRenderer';
+import { IEarnedFee } from '../../hooks/useGetFeesEarnedClaimAmount';
+import { FeesEarnedClaimRow } from '../ClaimForms/FeesEarnedClaimRow';
 
 interface IFeesEarnedTabProps {
   amountToClaim: string;
+  earnedFees: IEarnedFee[];
+  loading: boolean;
 }
 
 export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
   amountToClaim,
+  earnedFees,
 }) => {
   const { t } = useTranslation();
 
@@ -48,32 +51,37 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
         {bignumber(amountToClaim).equals(0) ? (
           <NoRewardInfo image={imgNoClaim} text={<NoRewardInfoText />} />
         ) : (
-          <>
-            <div className="tw-w-1/2 tw-flex tw-justify-center tw-align-center">
-              <FeesEarnedClaimForm amountToClaim={amountToClaim} />
-            </div>
-            <div className={styles.divider} />
-            <div className="tw-w-1/2">
-              <div className="tw-flex tw-items-center tw-justify-evenly">
-                <PieChart
-                  firstPercentage={0}
-                  secondPercentage={0}
-                  thirdPercentage={100}
-                />
-                <div>
-                  <div className="tw-text-xs mb-2 tw-flex tw-items-center tw-mb-5">
-                    <div className="tw-w-3 tw-h-3 tw-mr-4 tw-bg-primary"></div>
-                    100% {t(translations.rewardPage.fee.stakingFee)}
-                  </div>
-                  <div className="tw-text-xs mb-2 tw-flex tw-items-center tw-mb-5">
-                    <div className="tw-w-3 tw-h-3 tw-mr-4 tw-bg-white"></div>
-                    0% {t(translations.rewardPage.referralReward)} [
-                    {t(translations.rewardPage.comingSoon)}]
-                  </div>
-                </div>
-              </div>
-            </div>
-          </>
+          <div className="tw-table">
+            <table className="tw-mx-auto tw-my-4">
+              <thead>
+                <tr>
+                  <th>
+                    {t(translations.rewardPage.feesEarnedClaimForm.asset)}
+                  </th>
+                  <th>
+                    {t(translations.rewardPage.feesEarnedClaimForm.amount)}
+                  </th>
+                  <th>
+                    <div className="tw-flex tw-items-center">
+                      <div className="tw-w-2 tw-h-2 tw-mr-2 tw-bg-primary"></div>
+                      {t(translations.rewardPage.feesEarnedClaimForm.rbtcValue)}
+                    </div>
+                  </th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {earnedFees.map(earnedFee => (
+                  <FeesEarnedClaimRow
+                    amountToClaim={earnedFee.value}
+                    contract={earnedFee.contract}
+                    asset={earnedFee.asset}
+                    rbtcValue={earnedFee.rbtcValue}
+                  />
+                ))}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
 
