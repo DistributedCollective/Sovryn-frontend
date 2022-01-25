@@ -234,7 +234,7 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
         <div className={styles['market-gap']} />
 
         <div className="swap-form__amount">
-          <div className="tw-flex tw-items-center tw-justify-between tw-px-6 tw-py-2 tw-w-full tw-border tw-border-gray-5 tw-rounded-lg">
+          <div className="tw-flex tw-items-center tw-justify-between tw-px-3 tw-py-2 tw-w-full tw-border tw-border-gray-5 tw-rounded-lg">
             <span>
               {t(translations.spotTradingPage.tradeForm.amountReceived)}
             </span>
