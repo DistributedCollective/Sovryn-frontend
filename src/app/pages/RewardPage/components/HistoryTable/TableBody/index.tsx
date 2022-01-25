@@ -7,6 +7,7 @@ import { translations } from '../../../../../../locales/i18n';
 import { TableRow } from '../TableRow/index';
 import { Asset } from 'types';
 import { lendingPools } from 'app/pages/RewardPage/helpers';
+import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
 
 export interface RewardEvent {
   amount: string;
@@ -14,6 +15,7 @@ export interface RewardEvent {
   poolToken: string;
   timestamp: number;
   txHash: string;
+  token?: string;
 }
 
 export enum RewardEventType {
@@ -57,11 +59,12 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
     [t],
   );
 
-  const getEventAsset = useCallback(
-    type =>
-      type === RewardEventType.USER_FEE_WITHDRAWN ? Asset.RBTC : Asset.SOV,
-    [],
-  );
+  const getEventAsset = useCallback((type, token) => {
+    if (type !== RewardEventType.USER_FEE_WITHDRAWN) {
+      return Asset.SOV;
+    }
+    return assetByTokenAddress(token || '') || Asset.RBTC;
+  }, []);
 
   return (
     <tbody className="tw-mt-12">
@@ -72,7 +75,7 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
           txHash={item.txHash}
           amount={item.amount}
           type={getEventType(item)}
-          asset={getEventAsset(item.event)}
+          asset={getEventAsset(item.event, item.token)}
         />
       ))}
 
