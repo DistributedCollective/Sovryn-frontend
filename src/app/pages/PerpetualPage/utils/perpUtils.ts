@@ -1,6 +1,6 @@
 /*
  * https://github.com/DistributedCollective/sovryn-perpetual-swap/blob/dev/scripts/utils/perpUtils.ts
- * COMMIT: 6561e78d4e3b026f93becf6a9eb46b815e0c50d0
+ * COMMIT: 51e175ffd13db79d7a6fd97d7c23503a1a2fb8af
  * Helper-functions for frontend
  */
 
@@ -248,6 +248,7 @@ export function getMaxInitialLeverage(
 
 /**
  * Get minimal short or maximal long position for trader. Direction=-1 for short, 1 for long
+ * Assumes maximal leverage
  * This function calculates the largest position considering
  * - leverage constraints
  * - position size constraint by AMM
@@ -290,17 +291,33 @@ export function getSignedMaxAbsPositionForTrader(
   let beta = perpParams.fMarginRateBeta;
   let fee = getTradingFeeRate(perpParams);
   let S3 = 1 / getQuote2CollateralFX(ammData);
-  let cashBC =
-    (traderState.availableCashCC * S3) / ammData.indexS2PriceDataOracle;
-  let premiumRate = cdfNormalStd(perpParams.fAMMTargetDD_1);
-
-  let posMargin = getMaxLeveragePosition(cashBC, premiumRate, alpha, beta, fee);
-
-  if (direction < 0) {
-    return Math.max(-posMargin, maxSignedPos);
-  } else {
-    return Math.min(posMargin, maxSignedPos);
+  let S2 = ammData.indexS2PriceDataOracle;
+  let balanceCC = traderState.marginBalanceCC;
+  let cashCC = availableWalletBalance;
+  let maxmargin = perpParams.fInitialMarginRateCap;
+  let pos1 = ((cashCC + balanceCC) * S3) / (S2 * maxmargin + fee * S2);
+  if (getInitialMarginRate(pos1, perpParams) <= maxmargin) {
+    // quadratic equation
+    let a = S2 * beta;
+    let b = S2 * alpha + fee * S2;
+    let c = -cashCC * S3 - balanceCC * S3;
+    let d = Math.sqrt(b ** 2 - 4 * a * c);
+    if (d > 0) {
+      let x1 = (-b + d) / (2 * a);
+      let x2 = (-b + d) / (2 * a);
+      pos1 = Math.max(x1, x2);
+    } else {
+      pos1 = 0;
+    }
   }
+  let maxpos;
+  if (direction < 0) {
+    maxpos = Math.max(-pos1, maxSignedPos);
+  } else {
+    maxpos = Math.min(pos1, maxSignedPos);
+  }
+  maxpos = shrinkToLot(maxpos, perpParams.fLotSizeBC);
+  return maxpos;
 }
 
 /**
@@ -340,7 +357,7 @@ export function getMaximalTradeSizeInPerpetual(
     kStar = shrinkToLot(kStar, lotSize);
     let fundingRatio = liqPool.fDefaultFundCashCC / liqPool.fTargetDFSize;
     let scale: number;
-    if (direction === Math.sign(kStar)) {
+    if (Math.sign(direction) === Math.sign(kStar)) {
       scale = perpParams.fMaximalTradeSizeBumpUp;
     } else {
       // adverse direction
