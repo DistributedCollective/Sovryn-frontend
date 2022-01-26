@@ -276,7 +276,7 @@ export function getSignedMaxAbsPositionForTrader(
     currentPos +
     getMaximalTradeSizeInPerpetual(
       currentPos,
-      direction,
+      Math.sign(direction),
       ammData,
       poolData,
       perpParams,
@@ -292,11 +292,12 @@ export function getSignedMaxAbsPositionForTrader(
   let fee = getTradingFeeRate(perpParams);
   let S3 = 1 / getQuote2CollateralFX(ammData);
   let S2 = ammData.indexS2PriceDataOracle;
+  // let Sm = S2 * (1 + ammData.currentMarkPremiumRate);
   let balanceCC = traderState.marginBalanceCC;
   let cashCC = availableWalletBalance;
   let maxmargin = perpParams.fInitialMarginRateCap;
-  let pos1 = ((cashCC + balanceCC) * S3) / (S2 * maxmargin + fee * S2);
-  if (getInitialMarginRate(pos1, perpParams) <= maxmargin) {
+  let pos1 = ((cashCC + balanceCC) * S3) / (S2 * maxmargin + fee * S2); // or (Sm * maxmargin + fee * S2) ?
+  if (getInitialMarginRate(pos1, perpParams) < maxmargin) {
     // quadratic equation
     let a = S2 * beta;
     let b = S2 * alpha + fee * S2;
@@ -304,8 +305,7 @@ export function getSignedMaxAbsPositionForTrader(
     let d = Math.sqrt(b ** 2 - 4 * a * c);
     if (d > 0) {
       let x1 = (-b + d) / (2 * a);
-      let x2 = (-b + d) / (2 * a);
-      pos1 = Math.max(x1, x2);
+      pos1 = x1;
     } else {
       pos1 = 0;
     }
@@ -417,7 +417,7 @@ export function getMaximalTradeSizeInPerpetualWithCurrentMargin(
 ): number {
   let availableWalletBalance = 0;
   let maxPos = getSignedMaxAbsPositionForTrader(
-    direction,
+    Math.sign(direction),
     availableWalletBalance,
     perpParams,
     traderState,
@@ -999,8 +999,6 @@ function getPerpetualCollateralType(ammData: AMMState) {
   }
 }
 
-// CUSTOM FRONTEND UTILS =======================================================
-
 /**
  * calculate Leverage for new Margin and Position.
  * @param {number} targetPositionSizeBC - new target position size
@@ -1011,17 +1009,24 @@ function getPerpetualCollateralType(ammData: AMMState) {
  * @returns {number} current leverage for the trader
  */
 export function calculateLeverage(
-  targetPositionSizeBC: number,
+  targetPositionBC: number,
   targetMarginCC: number,
   traderState: TraderState,
   ammState: AMMState,
   perpParameters: PerpParameters,
 ): number {
-  return (
-    Math.abs(targetPositionSizeBC * getBase2CollateralFX(ammState, false)) /
-    (targetMarginCC + getTraderPnLInCC(traderState, ammState, perpParameters))
-  );
+  let numeratorQC =
+    Math.abs(targetPositionBC) * getBase2QuoteFX(ammState, false);
+  let deltaPosition = targetPositionBC - traderState.marginAccountPositionBC;
+  let denominatorQC =
+    targetMarginCC / getQuote2CollateralFX(ammState) +
+    getTraderPnL(traderState, ammState, perpParameters) -
+    getTradingFee(deltaPosition, perpParameters, ammState) /
+      getQuote2CollateralFX(ammState);
+  return numeratorQC / denominatorQC;
 }
+
+// CUSTOM FRONTEND UTILS =======================================================
 
 /**
  * Get the unrealized Profit/Loss of a trader using mark price as benchmark. Reported in Base currency.
