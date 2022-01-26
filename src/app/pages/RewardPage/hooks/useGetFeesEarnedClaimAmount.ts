@@ -8,32 +8,6 @@ import { selectWalletProvider } from 'app/containers/WalletProvider/selectors';
 import { fixNumber } from 'utils/helpers';
 import { bignumber } from 'mathjs';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
-
-const FEES = [
-  {
-    asset: Asset.RBTC,
-    contract: getContract('RBTC_lending').address,
-    value: '0',
-    rbtcValue: '',
-  },
-  {
-    asset: Asset.SOV,
-    contract: getContract('SOV_token').address,
-    value: '0',
-    rbtcValue: '',
-  },
-  {
-    asset: Asset.MYNT,
-    contract: getContract('MYNT_token').address,
-    value: '0',
-    rbtcValue: '',
-  },
-];
-
-type IAccumulatedFeesData = {
-  [key in Asset]: string;
-};
-
 export interface IEarnedFee {
   asset: Asset;
   contract: string;
@@ -90,11 +64,36 @@ export const useGetFeesEarnedClaimAmount = () => {
   };
 };
 
+const fees = [
+  {
+    asset: Asset.RBTC,
+    contract: getContract('RBTC_lending').address,
+    value: '0',
+    rbtcValue: '',
+  },
+  {
+    asset: Asset.SOV,
+    contract: getContract('SOV_token').address,
+    value: '0',
+    rbtcValue: '',
+  },
+  {
+    asset: Asset.MYNT,
+    contract: getContract('MYNT_token').address,
+    value: '0',
+    rbtcValue: '',
+  },
+];
+
+type IAccumulatedFeesData = {
+  [key in Asset]: string;
+};
+
 export const useGetFeesEarned = () => {
   const address = useAccount();
   const blockSync = useBlockSync();
   const [loading, setLoading] = useState(false);
-  const [earnedFees, setEarnedFees] = useState<IEarnedFee[]>(FEES);
+  const [earnedFees, setEarnedFees] = useState<IEarnedFee[]>(fees);
   const feeSharingProxyContract = getContract('feeSharingProxy');
 
   const getAvailableFees = useCallback(() => {

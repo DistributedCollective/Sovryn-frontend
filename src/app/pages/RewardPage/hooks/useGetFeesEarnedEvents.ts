@@ -13,7 +13,7 @@ export const useGetFeesEarnedEvents = () => {
     selectWalletProvider,
   );
 
-  const { events } = useGetContractPastEvents(
+  const { events, loading } = useGetContractPastEvents(
     'feeSharingProxy',
     'UserFeeWithdrawn',
   );
@@ -55,7 +55,7 @@ export const useGetFeesEarnedEvents = () => {
   );
 
   return {
-    loading: assetRatesLoading && !assetRatesLoaded,
+    loading: loading || (assetRatesLoading && !assetRatesLoaded),
     events: feesEarnedEvents,
     totalAmount,
   };

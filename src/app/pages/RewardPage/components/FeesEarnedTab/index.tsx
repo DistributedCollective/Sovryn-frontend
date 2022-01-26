@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { useTranslation, Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import styles from '../../index.module.scss';
 import { RewardsDetail, RewardsDetailColor } from '../RewardsDetail';
@@ -7,15 +7,14 @@ import { bignumber } from 'mathjs';
 import { Asset } from 'types';
 import imgNoClaim from 'assets/images/reward/ARMANDO__LENDING.svg';
 import { NoRewardInfo } from '../NoRewardInfo';
-import { AssetRenderer } from 'app/components/AssetRenderer';
 import { IEarnedFee } from '../../hooks/useGetFeesEarnedClaimAmount';
 import { FeesEarnedClaimRow } from '../ClaimForms/FeesEarnedClaimRow';
 import { useGetFeesEarnedEvents } from '../../hooks/useGetFeesEarnedEvents';
+import { AssetRenderer } from 'app/components/AssetRenderer';
 
 interface IFeesEarnedTabProps {
   amountToClaim: string;
   earnedFees: IEarnedFee[];
-  loading: boolean;
 }
 
 export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
@@ -24,7 +23,7 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const { totalAmount } = useGetFeesEarnedEvents();
+  const { totalAmount, loading } = useGetFeesEarnedEvents();
 
   const totalRewardsEarned = useMemo(
     () => totalAmount.add(amountToClaim).toString(),
@@ -50,7 +49,18 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
                   <th>
                     <div className="tw-flex tw-items-center">
                       <div className="tw-w-2 tw-h-2 tw-mr-2 tw-bg-primary"></div>
-                      {t(translations.rewardPage.feesEarnedClaimForm.rbtcValue)}
+
+                      <Trans
+                        i18nKey={
+                          translations.rewardPage.feesEarnedClaimForm.assetValue
+                        }
+                        components={[
+                          <AssetRenderer
+                            assetClassName="tw-mr-1"
+                            asset={Asset.RBTC}
+                          />,
+                        ]}
+                      />
                     </div>
                   </th>
                   <th></th>
@@ -78,6 +88,7 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
           availableAmount={amountToClaim}
           totalEarnedAmount={totalRewardsEarned}
           asset={Asset.RBTC}
+          loading={loading}
         />
         <RewardsDetail
           color={RewardsDetailColor.Grey}
@@ -98,25 +109,25 @@ const NoRewardInfoText: React.FC = () => {
   return (
     <>
       <div className="tw-text-xl tw-font-medium tw-mb-5 tw-tracking-normal">
-        <Trans
-          i18nKey={translations.rewardPage.noRewardInfoText.feesEarnedTab.title}
-          components={[<AssetRenderer asset={Asset.RBTC} />]}
-        />
+        {t(translations.rewardPage.noRewardInfoText.feesEarnedTab.title)}
       </div>
       <div className="tw-text-xs tw-tracking-normal tw-font-light tw-mb-5">
-        <Trans
-          i18nKey={
-            translations.rewardPage.noRewardInfoText.feesEarnedTab
-              .recommendationsTitle
-          }
-          components={[<AssetRenderer asset={Asset.RBTC} />]}
-        />
+        {t(
+          translations.rewardPage.noRewardInfoText.feesEarnedTab
+            .recommendationsTitle,
+        )}
       </div>
       <div className="tw-text-sm">
         <div className={styles.ul}>
           {t(
             translations.rewardPage.noRewardInfoText.feesEarnedTab
               .recommendation1,
+          )}
+        </div>
+        <div className={styles.ul}>
+          {t(
+            translations.rewardPage.noRewardInfoText.feesEarnedTab
+              .recommendation3,
           )}
         </div>
       </div>
