@@ -1,12 +1,11 @@
 import React from 'react';
-import { ApolloProvider } from '@apollo/client';
-import { apolloClient } from '../../utils/graphQlHelpers';
 import { CompetitionPageContainer } from './CompetitionPageContainer';
+import { GraphQLProvider } from '../../contexts/GraphQLProvider';
 
 export const CompetitionPage: React.FC = () => {
   return (
-    <ApolloProvider client={apolloClient}>
+    <GraphQLProvider>
       <CompetitionPageContainer />
-    </ApolloProvider>
+    </GraphQLProvider>
   );
 };
