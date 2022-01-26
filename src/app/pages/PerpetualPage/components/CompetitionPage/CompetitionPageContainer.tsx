@@ -142,34 +142,17 @@ export const CompetitionPageContainer: React.FC = () => {
               <div className="tw-text-2xl tw-font-bold tw-mb-6">
                 {t(translations.competitionPage.rules.title)}
               </div>
-              <div className="">
-                <ul className="tw-list-disc tw-mb-4">
-                  <li className="tw-mb-4">
-                    {t(translations.competitionPage.rules.line1)}
-                  </li>
-                  <li className="tw-mb-4">
-                    {t(translations.competitionPage.rules.line2)}
-                  </li>
-                  <li className="tw-mb-4">
-                    {t(translations.competitionPage.rules.line3)}
-                  </li>
-                  <li className="tw-mb-4">
-                    {t(translations.competitionPage.rules.line4)}
-                  </li>
-                  <li className="tw-mb-4">
-                    {t(translations.competitionPage.rules.line5)}
-                  </li>
-                </ul>
-                <div className="tw-my-8">
-                  <a
-                    href="https://docs.google.com/spreadsheets/d/1BXGuES87YXn8kXWaciY9FwSBOnS90jUtVwcVkj2tCtc/edit?usp=sharing"
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {t(translations.competitionPage.rules.reportBugs)}
-                  </a>
-                </div>
+
+              <div className="tw-mt-2 tw-mb-8">
+                <a
+                  href="https://forms.monday.com/forms/c3227cbc08a9075d3e326dc2dc07d24e"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {t(translations.competitionPage.rules.reportBugs)}
+                </a>
               </div>
+
               <div className="tw-w-6/12">
                 {!connected && (
                   <Button
