@@ -1,35 +1,35 @@
 import React, { useMemo, useState } from 'react';
-import styled from 'styled-components/macro';
-import { Card } from '../Card';
-import { useWeiAmount } from '../../../../hooks/useWeiAmount';
-import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
-import { Asset } from '../../../../../types';
-import { weiTo18 } from '../../../../../utils/blockchain/math-helpers';
-import { maxMinusFee } from '../../../../../utils/helpers';
-import { useMaintenance } from '../../../../hooks/useMaintenance';
-import { FieldGroup } from '../../../../components/FieldGroup';
-import { LoadableValue } from '../../../../components/LoadableValue';
 import { Trans, useTranslation } from 'react-i18next';
-import { translations } from '../../../../../locales/i18n';
+import { Card } from '../Card';
+import { useWeiAmount } from 'app/hooks/useWeiAmount';
+import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
+import { Asset } from 'types';
+import classNames from 'classnames';
+import { weiTo18 } from 'utils/blockchain/math-helpers';
+import { maxMinusFee } from 'utils/helpers';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { FieldGroup } from 'app/components/FieldGroup';
+import { LoadableValue } from 'app/components/LoadableValue';
+import { translations } from 'locales/i18n';
 import { useSlippage } from './useSlippage';
-import { weiToNumberFormat } from '../../../../../utils/display-text/format';
+import { weiToNumberFormat } from 'utils/display-text/format';
 import { SlippageDialog } from './Dialogs/SlippageDialog';
 import { TxDialog } from './Dialogs/TxDialog';
 import { bignumber } from 'mathjs';
 import { BuyButton } from '../Button/buy';
 import { ArrowDown } from '../ArrowStep/down';
-import slipImage from 'assets/images/settings-white.svg';
 import { Input } from '../Input';
 import { AmountButton } from '../AmountButton';
-import { useCanInteract } from '../../../../hooks/useCanInteract';
-import { AvailableBalance } from '../../../../components/AvailableBalance';
-import { AssetRenderer } from '../../../../components/AssetRenderer';
+import { useCanInteract } from 'app/hooks/useCanInteract';
+import { AvailableBalance } from 'app/components/AvailableBalance';
+import { AssetRenderer } from 'app/components/AssetRenderer';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite, tradeFormsGasLimit } from 'utils/classifiers';
-import { useSwapsExternal_getSwapExpectedReturn } from '../../../../hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
+import { useSwapsExternal_getSwapExpectedReturn } from 'app/hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
 import { useSwapNetwork_conversionPath } from 'app/hooks/swap-network/useSwapNetwork_conversionPath';
 import { useSwapNetwork_approveAndConvertByPath } from 'app/hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
+import styles from './index.module.scss';
 
 const s = translations.swapTradeForm;
 
@@ -44,7 +44,6 @@ export function BuyForm() {
   const [amount, setAmount] = useState('');
   const [slippage, setSlippage] = useState(0.5);
   const weiAmount = useWeiAmount(amount);
-  // const account = useAccount();
 
   const { value: balance } = useAssetBalanceOf(Asset.RBTC);
 
@@ -55,18 +54,6 @@ export function BuyForm() {
   );
 
   const { minReturn } = useSlippage(rateByPath, slippage);
-
-  // const { send, ...tx } = useSwapsExternal_approveAndSwapExternal(
-  //   Asset.RBTC,
-  //   Asset.SOV,
-  //   account,
-  //   account,
-  //   weiAmount,
-  //   '0',
-  //   minReturn,
-  //   '0x',
-  // );
-
   const { value: path } = useSwapNetwork_conversionPath(
     AssetsDictionary.get(Asset.RBTC).getTokenContractAddress(),
     AssetsDictionary.get(Asset.SOV).getTokenContractAddress(),
@@ -127,19 +114,19 @@ export function BuyForm() {
               rightElement={<AssetRenderer asset={Asset.RBTC} />}
               dataActionId="buySov-amountInput-source"
             />
-            <Slippage>
+            <div className="tw-font-normal tw-my-2.5 tw-text-xs">
               <AvailableBalance
                 asset={Asset.RBTC}
                 dataAttribute="buySov-label-availableBalance"
               />
-            </Slippage>
+            </div>
             <AmountButton onChange={changeAmount} dataActionId="buySov" />
           </FieldGroup>
 
           <ArrowDown />
 
           <FieldGroup label={t(s.fields.receive)} labelColor="#e8e8e8">
-            <Dummy className="tw-flex tw-justify-between tw-items-center">
+            <div className="tw-flex tw-justify-between tw-items-center tw-text-sov-white tw-leading-none tw-font-medium tw-border tw-border-gray-6 tw-rounded-lg tw-h-10 tw-py-2.5 tw-px-5">
               <div data-action-id="buySov-amountInput-receive">
                 <LoadableValue
                   value={<>{weiToNumberFormat(rateByPath, 4)}</>}
@@ -147,8 +134,8 @@ export function BuyForm() {
                 />
               </div>
               <div>SOV</div>
-            </Dummy>
-            <Slippage className="tw-flex tw-flex-row tw-justify-between tw-items-center">
+            </div>
+            <div className="tw-font-normal tw-my-2.5 tw-text-xs tw-flex tw-flex-row tw-justify-between tw-items-center">
               <div>
                 {t(translations.buySovPage.form.minimumReceived)}{' '}
                 <LoadableValue
@@ -158,13 +145,17 @@ export function BuyForm() {
                 />{' '}
                 SOV.
               </div>
-              <SlippageButton
+              <button
+                className={classNames(
+                  'tw-border-0 tw-w-6 tw-h-6',
+                  styles.slippageButton,
+                )}
                 onClick={() => setOpenSlippage(true)}
                 data-action-id="buySov-slippageButton"
               >
                 <span className="tw-sr-only">Slippage</span>
-              </SlippageButton>
-            </Slippage>
+              </button>
+            </div>
           </FieldGroup>
 
           {swapsLocked && (
@@ -211,28 +202,3 @@ export function BuyForm() {
     </>
   );
 }
-
-const Slippage = styled.div`
-  font-size: 0.75rem;
-  font-weight: 400;
-  margin-top: 10px;
-  margin-bottom: 10px;
-`;
-
-const SlippageButton = styled.button`
-  border: 0;
-  width: 24px;
-  height: 24px;
-  background: transparent url(${slipImage}) center center no-repeat;
-  background-size: 18px 18px;
-`;
-
-const Dummy = styled.div`
-  border: 1px solid #575757;
-  color: #e8e8e8;
-  height: 40px;
-  padding: 11px 21px;
-  font-weight: 500;
-  border-radius: 0.75rem;
-  line-height: 1;
-`;
