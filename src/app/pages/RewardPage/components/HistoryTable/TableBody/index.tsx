@@ -7,7 +7,7 @@ import { translations } from '../../../../../../locales/i18n';
 import { TableRow } from '../TableRow/index';
 import { Asset } from 'types';
 import { lendingPools } from 'app/pages/RewardPage/helpers';
-import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
+import { getFeesEarnedAsset } from 'app/pages/RewardPage/hooks/useGetFeesEarnedEvents';
 
 export interface RewardEvent {
   amount: string;
@@ -63,7 +63,7 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
     if (type !== RewardEventType.USER_FEE_WITHDRAWN) {
       return Asset.SOV;
     }
-    return assetByTokenAddress(token || '') || Asset.RBTC;
+    return getFeesEarnedAsset(token);
   }, []);
 
   return (

@@ -3,8 +3,6 @@ import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import styles from '../../index.module.scss';
 import { RewardsDetail, RewardsDetailColor } from '../RewardsDetail';
-import { getContract } from 'utils/blockchain/contract-helpers';
-import { useGetContractPastEvents } from 'app/hooks/useGetContractPastEvents';
 import { bignumber } from 'mathjs';
 import { Asset } from 'types';
 import imgNoClaim from 'assets/images/reward/ARMANDO__LENDING.svg';
@@ -12,6 +10,7 @@ import { NoRewardInfo } from '../NoRewardInfo';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { IEarnedFee } from '../../hooks/useGetFeesEarnedClaimAmount';
 import { FeesEarnedClaimRow } from '../ClaimForms/FeesEarnedClaimRow';
+import { useGetFeesEarnedEvents } from '../../hooks/useGetFeesEarnedEvents';
 
 interface IFeesEarnedTabProps {
   amountToClaim: string;
@@ -25,24 +24,11 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const { events: feesEarnedEvents } = useGetContractPastEvents(
-    'feeSharingProxy',
-    'UserFeeWithdrawn',
-  );
+  const { totalAmount } = useGetFeesEarnedEvents();
 
   const totalRewardsEarned = useMemo(
-    () =>
-      feesEarnedEvents
-        .filter(
-          item =>
-            item.returnValues.token === getContract('RBTC_lending').address,
-        )
-        .map(item => item.returnValues.amount)
-        .reduce(
-          (prevValue, curValue) => prevValue.add(curValue),
-          bignumber(amountToClaim),
-        ),
-    [amountToClaim, feesEarnedEvents],
+    () => totalAmount.add(amountToClaim).toString(),
+    [totalAmount, amountToClaim],
   );
 
   return (
