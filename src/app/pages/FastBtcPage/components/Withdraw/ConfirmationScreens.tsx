@@ -3,7 +3,10 @@ import { WithdrawContext, WithdrawStep } from '../../contexts/withdraw-context';
 import { ReviewScreen } from './ReviewScreen';
 import { StatusScreen } from './StatusScreen';
 import { useSendContractTx } from '../../../../hooks/useSendContractTx';
-import { toWei } from '../../../../../utils/blockchain/math-helpers';
+import {
+  toWei,
+  weiToFixed,
+} from '../../../../../utils/blockchain/math-helpers';
 import { gasLimit } from '../../../../../utils/classifiers';
 import {
   TxStatus,
@@ -23,7 +26,7 @@ export const ConfirmationScreens: React.FC<NetworkAwareComponentProps> = ({
   const handleConfirm = useCallback(() => {
     set(prevState => ({ ...prevState, step: WithdrawStep.CONFIRM }));
     send([address], {
-      value: toWei(amount),
+      value: toWei(weiToFixed(toWei(amount), 8)), // make sure we are sending on 8 decimals places and rounding down.,
       gas: gasLimit[TxType.FAST_BTC_WITHDRAW],
     });
   }, [set, send, address, amount]);
