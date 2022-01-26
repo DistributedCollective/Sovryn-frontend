@@ -1663,12 +1663,6 @@
         "welcome": "Welcome to Sovryn Perpetuals",
         "slippage": "Slippage Settings"
       },
-      "text": {
-        "welcome1": "This is a preview of our perpetuals dashboard.\n The market data to the side is live.",
-        "welcome2": "In order to start trading perpetuals on Sovryn you need to:",
-        "welcome3": "<0>Connect a Hardware, web or mobile wallet</0> <0>Be connected to the Polygon network</0> <0>Fund your account by depositing BTC</0>",
-        "welcome4": "New from Bitmex? <0>Read our getting started guide</0>"
-      },
       "labels": {
         "pair": "Pair:",
         "asset": "Asset to receive:",
