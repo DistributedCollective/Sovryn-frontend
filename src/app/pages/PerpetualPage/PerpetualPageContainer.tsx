@@ -46,7 +46,6 @@ import { PerpetualQueriesContextProvider } from './contexts/PerpetualQueriesCont
 import { PairSelector } from './components/PairSelector';
 import { ToastsWatcher } from './components/ToastsWatcher';
 import { gsnNetwork } from '../../../utils/gsn/GsnNetwork';
-import { PERPETUAL_CHAIN_ID, PERPETUAL_PAYMASTER } from './types';
 
 export const PerpetualPageContainer: React.FC = () => {
   useInjectReducer({ key: sliceKey, reducer });
@@ -113,6 +112,7 @@ export const PerpetualPageContainer: React.FC = () => {
     if (connected && useMetaTransactions) {
       if (!gsnNetwork.isSupportedByConnectedWallet()) {
         dispatch(actions.setUseMetaTransactions(false));
+        dispatch(walletProviderActions.setSignTypedRequired(false));
       }
     }
   }, [connected, useMetaTransactions, dispatch]);

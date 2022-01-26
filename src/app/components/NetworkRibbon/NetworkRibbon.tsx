@@ -23,13 +23,11 @@ export function NetworkRibbon(this: any) {
   const { t } = useTranslation();
 
   const isOpen = useMemo(() => {
-    console.log('bridgeChainId: ', bridgeChainId);
-    console.log('expectedChainId: ', expectedChainId);
-    console.log('currentChainId: ', chainId);
     if (
       !connected ||
       !isWeb3Wallet(wallet.providerType!) ||
-      location.pathname.startsWith('/cross-chain')
+      location.pathname.startsWith('/cross-chain') ||
+      location.pathname.startsWith('/perpetual')
     )
       return false;
 

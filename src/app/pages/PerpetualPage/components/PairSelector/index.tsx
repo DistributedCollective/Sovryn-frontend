@@ -18,6 +18,7 @@ import { getCollateralName, getCollateralLogo } from '../../utils/renderUtils';
 import { Asset } from '../../../../../types';
 import { gsnNetwork } from '../../../../../utils/gsn/GsnNetwork';
 import { useWalletContext } from '@sovryn/react-wallet';
+import { actions as walletProviderActions } from 'app/containers/WalletProvider/slice';
 
 type PairSelectorProps = {
   pair: PerpetualPair;
@@ -47,10 +48,10 @@ export const PairSelector: React.FC<PairSelectorProps> = ({
     [wallet.providerType],
   );
 
-  const onToggleMetaTransactions = useCallback(
-    () => dispatch(actions.setUseMetaTransactions(!useMetaTransactions)),
-    [dispatch, useMetaTransactions],
-  );
+  const onToggleMetaTransactions = useCallback(() => {
+    dispatch(walletProviderActions.setSignTypedRequired(!useMetaTransactions));
+    dispatch(actions.setUseMetaTransactions(!useMetaTransactions));
+  }, [dispatch, useMetaTransactions]);
 
   return (
     <div className="tw-w-full tw-bg-gray-3">

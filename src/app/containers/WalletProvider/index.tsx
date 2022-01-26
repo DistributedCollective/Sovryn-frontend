@@ -56,7 +56,9 @@ export function WalletProvider(props: Props) {
   useInjectSaga({ key: btcSlice, saga: fastBtcFormSaga });
 
   const requestDialog = useSelector(selectRequestDialogState);
-  const { bridgeChainId } = useSelector(selectWalletProvider);
+  const { bridgeChainId, signTypedRequired } = useSelector(
+    selectWalletProvider,
+  );
   const dispatch = useDispatch();
   const location = useLocation();
 
@@ -65,16 +67,19 @@ export function WalletProvider(props: Props) {
   }, [dispatch]);
 
   const options = useMemo(() => {
-    const isCrossChain = location.pathname.startsWith('/cross-chain');
+    const isCrossChain =
+      location.pathname.startsWith('/cross-chain') ||
+      location.pathname.startsWith('/perpetual');
     const customChain = bridgeChainId !== null && isCrossChain;
     return {
       showWrongNetworkRibbon: false,
       remember: !customChain,
       chainId: customChain ? bridgeChainId : currentChainId,
+      signTypedRequired,
       enableSoftwareWallet:
         process.env.REACT_APP_ENABLE_SOFTWARE_WALLET === 'true',
     };
-  }, [bridgeChainId, location]);
+  }, [bridgeChainId, location, signTypedRequired]);
 
   return (
     <SovrynWallet options={options}>
