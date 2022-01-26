@@ -84,7 +84,7 @@ export const CurrentStakes: React.FC<ICurrentStakesProps> = props => {
         {t(translations.stake.currentStakes.title)}
       </p>
       <div className="tw-bg-gray-1 tw-rounded-b tw-shadow">
-        <div className="tw-sovryn-table tw-relative tw-rounded-lg tw-border tw-pt-1 tw-pb-0 tw-pr-5 tw-pl-5 tw-mb-5 tw-max-h-96 tw-overflow-y-auto">
+        <div className="tw-sovryn-table tw-relative tw-rounded-lg tw-border tw-pt-1 tw-pr-5 tw-pl-5 tw-mb-5 tw-max-h-96 tw-overflow-y-auto tw-pb-4">
           {stakeLoad && (
             <Spinner
               size={20}

@@ -19,6 +19,7 @@ interface Props {
   tooltip?: string | JSX.Element;
   tooltipProps?: any;
   hideIt?: boolean;
+  dataActionId?: string;
 }
 
 export function TradeButton(props: Props) {
@@ -45,6 +46,7 @@ export function TradeButton(props: Props) {
         className="sovryn-border tw-flex-grow-0 tw-flex-shrink-0 tw-font-bold"
         textColor={props.textColor}
         onClick={handleClick}
+        data-action-id={props.dataActionId}
       >
         <Text
           ellipsize

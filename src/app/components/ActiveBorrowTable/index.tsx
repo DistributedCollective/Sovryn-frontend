@@ -110,6 +110,7 @@ export function ActiveBorrowTable(props: Props) {
                   type="button"
                   className="tw-w-20 tw-h-8 tw-bg-gray-1 tw-text-success tw-border-2 tw-border-success tw-rounded-lg"
                   onClick={() => dispatch(actions.openRepayModal(item.loanId))}
+                  data-action-id="borrow-repayButton"
                 >
                   {t(translations.activeBorrowTable.repayButton)}
                 </button>
