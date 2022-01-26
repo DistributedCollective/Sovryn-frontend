@@ -213,6 +213,7 @@ export function LendingDialog({
                   ? maxMinusFee(userBalance, currency, gasLimit)
                   : depositedAssetBalance
               }
+              dataActionId="lend"
             />
           </FormGroup>
 
@@ -283,6 +284,9 @@ export function LendingDialog({
             onConfirm={handleSubmit}
             disabled={disabled()}
             className="tw-rounded-lg"
+            data-action-id={`lend-${
+              type === 'add' ? 'deposit' : 'withdrawal'
+            }Button`}
           />
         </div>
       </Dialog>
