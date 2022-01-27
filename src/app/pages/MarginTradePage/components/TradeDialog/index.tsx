@@ -158,7 +158,9 @@ export function TradeDialog() {
     collateralToken,
   );
 
-  const { minReturn } = useSlippage(estimations.collateral, slippage);
+  // const { minReturn } = useSlippage(estimations.collateral, slippage);
+  // 1 btc / 37k xusd
+  const minReturn = ((1 / 37000) * 1e18).toFixed(0);
 
   const { trade, ...tx } = useApproveAndTrade(
     pair,
