@@ -15,15 +15,17 @@ import { AssetRenderer } from 'app/components/AssetRenderer';
 interface IFeesEarnedTabProps {
   amountToClaim: string;
   earnedFees: IEarnedFee[];
+  loading?: boolean;
 }
 
 export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
   amountToClaim,
   earnedFees,
+  loading = false,
 }) => {
   const { t } = useTranslation();
 
-  const { totalAmount, loading } = useGetFeesEarnedEvents();
+  const { totalAmount, loading: totalAmountLoading } = useGetFeesEarnedEvents();
 
   const totalRewardsEarned = useMemo(
     () => totalAmount.add(amountToClaim).toString(),
@@ -70,9 +72,11 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
                 {earnedFees.map(earnedFee => (
                   <FeesEarnedClaimRow
                     amountToClaim={earnedFee.value}
-                    contract={earnedFee.contract}
+                    contractAddress={earnedFee.contractAddress}
                     asset={earnedFee.asset}
                     rbtcValue={earnedFee.rbtcValue}
+                    loading={loading}
+                    key={earnedFee.contractAddress}
                   />
                 ))}
               </tbody>
@@ -88,7 +92,7 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
           availableAmount={amountToClaim}
           totalEarnedAmount={totalRewardsEarned}
           asset={Asset.RBTC}
-          loading={loading}
+          loading={totalAmountLoading}
         />
         <RewardsDetail
           color={RewardsDetailColor.Grey}

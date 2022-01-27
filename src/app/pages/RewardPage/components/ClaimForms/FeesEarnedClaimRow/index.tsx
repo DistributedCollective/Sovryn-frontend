@@ -17,18 +17,21 @@ import { Tooltip } from '@blueprintjs/core';
 import { bignumber } from 'mathjs';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import classNames from 'classnames';
+import { LoadableValue } from 'app/components/LoadableValue';
 
-interface IFeesEarnedClaimRow extends IClaimFormProps {
-  rbtcValue: string;
-  contract: string;
+interface IFeesEarnedClaimRowProps extends IClaimFormProps {
+  rbtcValue: number;
+  contractAddress: string;
   asset: Asset;
+  loading?: boolean;
 }
 
-export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRow> = ({
+export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
   amountToClaim,
-  contract,
+  contractAddress,
   asset,
   rbtcValue,
+  loading,
 }) => {
   const { t } = useTranslation();
   const address = useAccount();
@@ -39,7 +42,7 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRow> = ({
     'feeSharingProxy',
     'numTokenCheckpoints',
     100,
-    contract,
+    contractAddress,
   );
   const { send, ...tx } = useSendContractTx('feeSharingProxy', 'withdraw');
 
@@ -50,11 +53,11 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRow> = ({
 
   const onSubmit = useCallback(() => {
     send(
-      [contract, maxCheckpoints, address],
+      [contractAddress, maxCheckpoints, address],
       { from: address, gas: gasLimit[TxType.STAKING_REWARDS_CLAIM] },
       { type: TxType.STAKING_REWARDS_CLAIM },
     );
-  }, [address, contract, maxCheckpoints, send]);
+  }, [address, contractAddress, maxCheckpoints, send]);
 
   return (
     <tr
@@ -70,7 +73,10 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRow> = ({
       </td>
       <td>
         {'≈ '}
-        <FeeValue value={rbtcValue} asset={Asset.RBTC} />
+        <LoadableValue
+          value={<FeeValue value={rbtcValue} asset={Asset.RBTC} />}
+          loading={loading}
+        />
       </td>
       <td>
         <ActionButton
@@ -98,11 +104,11 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRow> = ({
     </tr>
   );
 };
-interface IFeesValue {
-  value: string;
+interface IFeeValueProps {
+  value: string | number;
   asset: Asset;
 }
-export const FeeValue: React.FC<IFeesValue> = ({ value, asset }) => (
+export const FeeValue: React.FC<IFeeValueProps> = ({ value, asset }) => (
   <>
     {bignumber(value).greaterThan(0) ? (
       <Tooltip content={`${weiTo18(value)} ${asset}`}>

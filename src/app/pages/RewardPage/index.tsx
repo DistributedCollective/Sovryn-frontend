@@ -40,6 +40,7 @@ export function RewardPage() {
   const {
     totalAmount: totalFeesEarned,
     earnedFees,
+    loading: feesLoading,
   } = useGetFeesEarnedClaimAmount();
 
   return (
@@ -86,6 +87,7 @@ export function RewardPage() {
                   onClick={() => setActiveTab(RewardTabType.FEES_EARNED)}
                   amountToClaim={totalFeesEarned.toString()}
                   asset={Asset.RBTC}
+                  loading={feesLoading}
                 />
               </div>
             </div>
@@ -106,6 +108,7 @@ export function RewardPage() {
                 <FeesEarnedTab
                   amountToClaim={totalFeesEarned.toString()}
                   earnedFees={earnedFees}
+                  loading={feesLoading}
                 />
               )}
             </div>

@@ -1,11 +1,10 @@
+import { calculateAssetValue } from './../../../../utils/helpers';
 import { useMemo } from 'react';
 import { Asset } from 'types';
 import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
 import { useSelector } from 'react-redux';
 import { selectWalletProvider } from 'app/containers/WalletProvider/selectors';
-import { fixNumber } from 'utils/helpers';
 import { bignumber } from 'mathjs';
-import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { useGetContractPastEvents } from 'app/hooks/useGetContractPastEvents';
 
 export const useGetFeesEarnedEvents = () => {
@@ -22,20 +21,12 @@ export const useGetFeesEarnedEvents = () => {
     () =>
       events.map(({ returnValues }) => {
         const asset = getFeesEarnedAsset(returnValues.token);
-        const assetDetails = AssetsDictionary.get(asset);
-        const item = assetRates.find(
-          item => item.source === asset && item.target === Asset.RBTC,
+        const rbtcValue = calculateAssetValue(
+          asset,
+          returnValues.amount,
+          Asset.RBTC,
+          assetRates,
         );
-        const rate = item ? fixNumber(item.value.rate) : '0';
-
-        const rbtcValue =
-          asset === Asset.RBTC
-            ? bignumber(returnValues.amount).toFixed(0)
-            : bignumber(returnValues.amount)
-                .mul(rate)
-                .div(10 ** assetDetails.decimals)
-                .toFixed(0);
-
         return {
           ...returnValues,
           rbtcValue,
