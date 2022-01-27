@@ -88,6 +88,7 @@ export function RewardPage() {
                   amountToClaim={totalFeesEarned.toString()}
                   asset={Asset.RBTC}
                   loading={feesLoading}
+                  showApproximateSign
                 />
               </div>
             </div>

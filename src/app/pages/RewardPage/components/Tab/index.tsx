@@ -16,6 +16,7 @@ interface ITabProps {
   onClick?: () => void;
   asset?: Asset;
   loading?: boolean;
+  showApproximateSign?: boolean;
 }
 
 export const Tab: React.FC<ITabProps> = ({
@@ -26,6 +27,7 @@ export const Tab: React.FC<ITabProps> = ({
   onClick,
   asset = Asset.SOV,
   loading = false,
+  showApproximateSign = false,
 }) => (
   <button
     type="button"
@@ -46,6 +48,7 @@ export const Tab: React.FC<ITabProps> = ({
               content={`${weiToNumberFormat(amountToClaim, 18)} ${asset}`}
             >
               <>
+                {showApproximateSign && '≈ '}
                 {weiToNumberFormat(amountToClaim, 6)}
                 <span className="tw-mr-2">...</span>
                 <AssetRenderer

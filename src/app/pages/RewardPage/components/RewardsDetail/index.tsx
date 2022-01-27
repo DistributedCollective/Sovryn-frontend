@@ -25,6 +25,7 @@ interface IRewardsDetailProps {
   isComingSoon?: boolean;
   asset?: Asset;
   loading?: boolean;
+  showApproximateSign?: boolean;
 }
 
 const getDetailColor = (color: RewardsDetailColor): string => {
@@ -49,6 +50,7 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
   isComingSoon,
   asset = Asset.SOV,
   loading = false,
+  showApproximateSign = false,
 }) => {
   const { t } = useTranslation();
 
@@ -84,6 +86,7 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
               bignumber(availableAmount).greaterThan(0) ? (
                 <Tooltip content={`${weiTo18(availableAmount)} ${asset}`}>
                   <>
+                    {showApproximateSign && '≈ '}
                     {weiToNumberFormat(availableAmount, 6)}
                     <span className="tw-mr-1">...</span> {asset}
                   </>

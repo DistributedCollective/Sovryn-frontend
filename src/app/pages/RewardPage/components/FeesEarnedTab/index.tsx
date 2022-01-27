@@ -93,6 +93,7 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
           totalEarnedAmount={totalRewardsEarned}
           asset={Asset.RBTC}
           loading={totalAmountLoading}
+          showApproximateSign
         />
         <RewardsDetail
           color={RewardsDetailColor.Grey}
