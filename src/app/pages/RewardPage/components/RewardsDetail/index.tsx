@@ -108,6 +108,7 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
             bignumber(totalEarnedAmount).greaterThan(0) ? (
               <Tooltip content={`${weiTo18(totalEarnedAmount)} ${asset}`}>
                 <>
+                  {showApproximateSign && '≈ '}
                   {weiToNumberFormat(totalEarnedAmount, 6)}
                   <span className="tw-mr-1">...</span> {asset}
                 </>
