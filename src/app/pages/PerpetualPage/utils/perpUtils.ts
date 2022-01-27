@@ -1,6 +1,6 @@
 /*
  * https://github.com/DistributedCollective/sovryn-perpetual-swap/blob/dev/scripts/utils/perpUtils.ts
- * COMMIT: 51e175ffd13db79d7a6fd97d7c23503a1a2fb8af
+ * COMMIT: 0e3ef67aba939917309de00d22953d87992764a1
  * Helper-functions for frontend
  */
 
@@ -21,9 +21,10 @@ import {
   COLLATERAL_CURRENCY_BASE,
   COLLATERAL_CURRENCY_QUANTO,
   getMarginBalanceCC,
+  roundToLot,
 } from './perpMath';
-import { numberFromWei } from '../../../../utils/blockchain/math-helpers';
-import { gasLimit } from '../../../../utils/classifiers';
+import { numberFromWei } from 'utils/blockchain/math-helpers';
+import { gasLimit } from 'utils/classifiers';
 
 /*---
 // Suffix CC/BC/QC:
@@ -291,19 +292,20 @@ export function getSignedMaxAbsPositionForTrader(
   let beta = perpParams.fMarginRateBeta;
   let fee = getTradingFeeRate(perpParams);
   let S3 = 1 / getQuote2CollateralFX(ammData);
-  let S2 = ammData.indexS2PriceDataOracle;
-  // let Sm = S2 * (1 + ammData.currentMarkPremiumRate);
+  let S2 = getIndexPrice(ammData); //ammData.indexS2PriceDataOracle;
+  let Sm = getMarkPrice(ammData); // S2 * (1 + ammData.currentMarkPremiumRate);
   let balanceCC = traderState.marginBalanceCC;
   let cashCC = availableWalletBalance;
   let maxmargin = perpParams.fInitialMarginRateCap;
-  let pos1 = ((cashCC + balanceCC) * S3) / (S2 * maxmargin + fee * S2); // or (Sm * maxmargin + fee * S2) ?
+  let pos1 = ((cashCC + balanceCC) * S3) / (Sm * maxmargin + fee * S2);
   if (getInitialMarginRate(pos1, perpParams) < maxmargin) {
     // quadratic equation
-    let a = S2 * beta;
-    let b = S2 * alpha + fee * S2;
-    let c = -cashCC * S3 - balanceCC * S3;
-    let d = Math.sqrt(b ** 2 - 4 * a * c);
+    let a = beta * Sm;
+    let b = alpha * Sm + fee * S2;
+    let c = -(cashCC + balanceCC) * S3;
+    let d = b ** 2 - 4 * a * c;
     if (d > 0) {
+      d = Math.sqrt(d);
       let x1 = (-b + d) / (2 * a);
       pos1 = x1;
     } else {
@@ -596,9 +598,9 @@ export function calculateApproxLiquidationPrice(
  * Considers the trading fees and the collateral already deposited.
  * @param {number} leverage - The leverage that the trader wants to achieve, given the position size
  * @param {number} targetPos  - The trader's (signed) target position in base currency
- * @param {number} base2collateral  - If the base currency is different than the collateral. If base is BTC, collateral is USD, this would be 100000 (the USD amount for 1 BTC)
  * @param {PerpParameters} perpParams - Contains parameter of the perpetual
  * @param {AMMState} ammData - AMM state
+ * @param {TraderState} traderState - Trader state
  * @param {number} slippagePercent - optional. Specify slippage compared to mid-price that the trader is willing to accept
  * @param {boolean} accountForExistingMargin - optional, default true. subtracts existing margin and clamp to 0
  * @returns {number} balance required to arrive at the perpetual contract to obtain requested leverage
@@ -615,7 +617,7 @@ export function getRequiredMarginCollateral(
   console.assert(leverage > 0);
   let currentPos = traderState.marginAccountPositionBC;
   let positionToTrade = targetPos - currentPos;
-  let feesBC = Math.abs(positionToTrade) * getTradingFeeRate(perpParams);
+  let feesBC = getTradingFee(positionToTrade, perpParams, ammData);
   let dir = Math.sign(positionToTrade);
   let slippagePrice = calculateSlippagePriceFromMidPrice(
     perpParams,
@@ -628,25 +630,23 @@ export function getRequiredMarginCollateral(
     dir > 0
       ? Math.max(tradeAmountPrice, slippagePrice)
       : Math.min(tradeAmountPrice, slippagePrice);
-  let base2collateral = getBase2CollateralFX(ammData, true);
   let quote2collateral = getQuote2CollateralFX(ammData);
-
-  // leverage = position/margincollateral
+  // leverage = position/margincollateral, where position is valued at mark, collateral at spot
   // Protocol fees are subtracted from the margincollateral
   // Hence: leverage = position/(margincollateral - fees)
   //   -> margincollateral =  position/leverage + pnl + fees
-  let Sm = getMarkPrice(ammData);
   let initialPnLQC =
     currentPos * getMarkPrice(ammData) -
     traderState.marginAccountLockedInValueQC;
-  let buffer = 1e-16;
-  let newPnLQC = positionToTrade * (Sm - tradeAmountPrice) - buffer;
-  let pnlCC = (initialPnLQC + newPnLQC) * quote2collateral;
+  let newPnLQC = positionToTrade * (getIndexPrice(ammData) - tradeAmountPrice);
 
   let collRequired =
-    (Math.abs(targetPos) * base2collateral) / leverage -
-    pnlCC +
-    feesBC * base2collateral;
+    ((Math.abs(targetPos) * getIndexPrice(ammData)) / leverage -
+      initialPnLQC -
+      newPnLQC +
+      feesBC * getIndexPrice(ammData)) *
+    quote2collateral;
+
   if (accountForExistingMargin) {
     // account for collateral already deposited
     return Math.max(0, collRequired - traderState.availableCashCC);
@@ -1001,28 +1001,31 @@ function getPerpetualCollateralType(ammData: AMMState) {
 
 /**
  * calculate Leverage for new Margin and Position.
- * @param {number} targetPositionSizeBC - new target position size
- * @param {number} targetMarginCC - new target margin
+ * @param {number} targetPosition - new target position size, in base currency
+ * @param {number} targetMargin - new target margin, in collateral currency
  * @param {TraderState} traderState
  * @param {AMMState} ammState
  * @param {PerpParameters} perpParameters
  * @returns {number} current leverage for the trader
  */
 export function calculateLeverage(
-  targetPositionBC: number,
-  targetMarginCC: number,
+  targetPosition: number,
+  targetMargin: number,
   traderState: TraderState,
   ammState: AMMState,
   perpParameters: PerpParameters,
 ): number {
-  let numeratorQC =
-    Math.abs(targetPositionBC) * getBase2QuoteFX(ammState, false);
-  let deltaPosition = targetPositionBC - traderState.marginAccountPositionBC;
+  let numeratorQC = Math.abs(targetPosition) * getBase2QuoteFX(ammState, false);
+  let S2 = getIndexPrice(ammState);
+  let currentPosition = traderState.marginAccountPositionBC;
+  let deltaPosition = targetPosition - currentPosition;
+  let lockedIn = traderState.marginAccountLockedInValueQC;
+  let price = getPrice(deltaPosition, perpParameters, ammState);
+  let initialPnL = currentPosition * getMarkPrice(ammState) - lockedIn;
+  let newPnL = deltaPosition * (S2 - price);
+  let fees = getTradingFee(deltaPosition, perpParameters, ammState) * S2;
   let denominatorQC =
-    targetMarginCC / getQuote2CollateralFX(ammState) +
-    getTraderPnL(traderState, ammState, perpParameters) -
-    getTradingFee(deltaPosition, perpParameters, ammState) /
-      getQuote2CollateralFX(ammState);
+    initialPnL + newPnL + targetMargin / getQuote2CollateralFX(ammState) - fees;
   return numeratorQC / denominatorQC;
 }
 
