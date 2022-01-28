@@ -108,7 +108,7 @@ interface IFeeValueProps {
   value: string | number;
   asset: Asset;
 }
-export const FeeValue: React.FC<IFeeValueProps> = ({ value, asset }) => (
+const FeeValue: React.FC<IFeeValueProps> = ({ value, asset }) => (
   <>
     {bignumber(value).greaterThan(0) ? (
       <Tooltip content={`${weiTo18(value)} ${asset}`}>

@@ -51,7 +51,7 @@ export const useGetFeesEarnedClaimAmount = () => {
   };
 };
 
-const defaultEarnedFees = [
+const defaultEarnedFees: IEarnedFee[] = [
   {
     asset: Asset.RBTC,
     contractAddress: getContract('RBTC_lending').address,
@@ -80,7 +80,7 @@ const useGetFeesEarned = () => {
   const address = useAccount();
   const blockSync = useBlockSync();
   const [loading, setLoading] = useState(false);
-  const [earnedFees, setEarnedFees] = useState<IEarnedFee[]>(defaultEarnedFees);
+  const [earnedFees, setEarnedFees] = useState(defaultEarnedFees);
   const feeSharingProxyContract = getContract('feeSharingProxy');
 
   const getAvailableFees = useCallback(() => {
