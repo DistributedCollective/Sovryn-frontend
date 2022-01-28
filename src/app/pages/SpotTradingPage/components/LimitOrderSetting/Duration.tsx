@@ -60,26 +60,24 @@ interface IDurationButtonProps {
   disabled?: boolean;
 }
 
-export const DurationButton: React.FC<IDurationButtonProps> = ({
+const DurationButton: React.FC<IDurationButtonProps> = ({
   text,
   onClick,
   active,
   disabled,
-}) => {
-  return (
-    <button
-      onClick={onClick}
-      className={classNames(
-        'tw-h-8 tw-text-secondary tw-bg-secondary tw-font-medium tw-text-xs tw-leading-none tw-text-center tw-w-full tw-transition',
-        {
-          'tw-bg-opacity-50': active,
-          'tw-bg-opacity-0': !active,
-          'hover:tw-bg-opacity-25': !disabled && !active,
-          'tw-text-opacity-25': disabled && !active,
-        },
-      )}
-    >
-      {text}
-    </button>
-  );
-};
+}) => (
+  <button
+    onClick={onClick}
+    className={classNames(
+      'tw-h-8 tw-text-secondary tw-bg-secondary tw-font-medium tw-text-xs tw-leading-none tw-text-center tw-w-full tw-transition',
+      {
+        'tw-bg-opacity-50': active,
+        'tw-bg-opacity-0': !active,
+        'hover:tw-bg-opacity-25': !disabled && !active,
+        'tw-text-opacity-25': disabled && !active,
+      },
+    )}
+  >
+    {text}
+  </button>
+);

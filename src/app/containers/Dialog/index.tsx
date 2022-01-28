@@ -16,17 +16,17 @@ interface IDialogProps {
 
 export const Dialog: React.FC<IDialogProps> = ({
   isOpen,
-  onClose = () => {},
   isCloseButtonShown = true,
   children,
   canEscapeKeyClose,
   canOutsideClickClose,
   className = styles.dialog,
   dataAttribute,
+  onClose,
 }) => (
   <BPDialog
     isOpen={isOpen}
-    onClose={() => onClose()}
+    onClose={onClose}
     canEscapeKeyClose={canEscapeKeyClose}
     canOutsideClickClose={canOutsideClickClose}
     className={className}

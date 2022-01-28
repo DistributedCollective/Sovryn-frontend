@@ -8,7 +8,7 @@ import { selectMarginTradePage } from 'app/pages/MarginTradePage/selectors';
 import { Pair } from './Pair';
 import { PairLabels } from './PairLabels';
 import { StarButton } from 'app/components/StarButton';
-import useOnClickOutside from 'app/hooks/useOnClickOutside';
+import { useOnClickOutside } from 'app/hooks/useOnClickOutside';
 import arrowDownIcon from 'assets/images/swap/ic_arrow_down.svg';
 import searchIcon from 'assets/images/search.svg';
 import { PairCryptocurrency } from './PairCryptocurrency';
@@ -49,7 +49,9 @@ export const PairSelect: React.FC<IPairSelect> = ({
         <div className="tw-flex-1">
           <Pair
             type={type}
-            pairType={type === TradingType.SPOT ? pairSpotType : pairMarginType}
+            tradingType={
+              type === TradingType.SPOT ? pairSpotType : pairMarginType
+            }
           />
         </div>
         <img

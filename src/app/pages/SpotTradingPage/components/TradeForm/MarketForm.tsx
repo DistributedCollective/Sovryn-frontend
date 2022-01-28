@@ -25,7 +25,8 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite, tradeFormsGasLimit } from 'utils/classifiers';
 import { useSwapsExternal_getSwapExpectedReturn } from '../../../../hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
 import styles from './index.module.scss';
-import { OrderLabel, TradeDialog } from '../TradeDialog';
+import { TradeDialog } from '../TradeDialog';
+import { OrderLabel } from '../OrderLabel';
 import { useAccount } from 'app/hooks/useAccount';
 import { useSwapsExternal_approveAndSwapExternal } from '../../../../hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
 import { useSwapNetwork_approveAndConvertByPath } from '../../../../hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
@@ -39,6 +40,7 @@ import { getTokenContract } from 'utils/blockchain/contract-helpers';
 import { toWei } from 'web3-utils';
 import { OrderView } from './OrderView';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
+import { sliderDefaultLabelValues } from 'app/components/Form/Slider/sliderDefaultLabelValues';
 
 export const MarketForm: React.FC<ITradeFormProps> = ({
   sourceToken,
@@ -208,7 +210,7 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
           <span className={styles.amountLabel + ' tw-mr-4'}>Amount:</span>
           <AmountInput
             value={amount}
-            onChange={value => setAmount(value)}
+            onChange={setAmount}
             asset={sourceToken}
             hideAmountSelector
             dataActionId="spot-market-amountInput"
@@ -222,11 +224,11 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
           <Slider
             value={slippage}
             onChange={setSlippage}
-            min={0.1}
-            max={1}
-            stepSize={0.05}
+            min={sliderDefaultLabelValues.min}
+            max={sliderDefaultLabelValues.max}
+            stepSize={sliderDefaultLabelValues.stepSize}
+            labelValues={sliderDefaultLabelValues.labelValues}
             labelRenderer={value => <>{value}%</>}
-            labelValues={[0.1, 0.25, 0.5, 0.75, 1]}
             dataActionId="spot-slider-slippageTolerance"
           />
         </FormGroup>

@@ -12,17 +12,18 @@ import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { TradingType } from 'types/trading-pairs';
 
-interface IPair {
-  pairType: SpotPairType | TradingPairType;
+interface IPairProps {
+  tradingType: SpotPairType | TradingPairType;
   type: string;
 }
 
-export const Pair: React.FC<IPair> = ({ pairType, type }) => {
+export const Pair: React.FC<IPairProps> = ({ tradingType, type }) => {
   const pair =
-    type === TradingType.SPOT ? spotPairs[pairType] : marginPairs[pairType];
+    type === TradingType.SPOT
+      ? spotPairs[tradingType]
+      : marginPairs[tradingType];
 
-  const sourceToken = pair[0];
-  const targetToken = pair[1];
+  const [sourceToken, targetToken] = pair;
 
   const sourceTokenLogo = useMemo(
     () => AssetsDictionary.get(sourceToken).logoSvg,
@@ -32,10 +33,6 @@ export const Pair: React.FC<IPair> = ({ pairType, type }) => {
     () => AssetsDictionary.get(targetToken).logoSvg,
     [targetToken],
   );
-
-  if (!pairType) {
-    return null;
-  }
 
   return (
     <div className="tw-flex tw-items-center tw-select-none">

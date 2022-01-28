@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { bignumber } from 'mathjs';
 import { Tooltip } from '@blueprintjs/core';
 import { useTranslation } from 'react-i18next';
@@ -37,10 +37,14 @@ export const TradeProfit: React.FC<ITradeProfitProps> = ({
   const { t } = useTranslation();
   const [profit, setProfit] = useState('');
   const [profitDirection, setProfitDirection] = useState(0);
-  const prettyPrice = amount =>
-    loanToken !== pair.shortAsset
-      ? toWei(bignumber(1).div(amount).mul(btcInSatoshis))
-      : toWei(bignumber(amount).div(btcInSatoshis));
+  const prettyPrice = useCallback(
+    amount => {
+      return loanToken !== pair.shortAsset
+        ? toWei(bignumber(1).div(amount).mul(btcInSatoshis))
+        : toWei(bignumber(amount).div(btcInSatoshis));
+    },
+    [loanToken, pair.shortAsset],
+  );
 
   useEffect(() => {
     fetch(backendUrl[currentChainId] + '/events/trade/' + account)

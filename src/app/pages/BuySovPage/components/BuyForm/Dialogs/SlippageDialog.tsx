@@ -10,8 +10,9 @@ import { Asset } from 'types/asset';
 import { FormGroup } from 'app/components/Form/FormGroup';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { Slider } from 'app/components/Form/Slider';
+import { sliderDefaultLabelValues } from 'app/components/Form/Slider/sliderDefaultLabelValues';
 
-interface Props {
+interface ISlippageDialogProps {
   isOpen: boolean;
   onClose: () => void;
   amount: string;
@@ -21,7 +22,7 @@ interface Props {
   dataActionId?: string;
 }
 
-export const SlippageDialog = ({
+export const SlippageDialog: React.FC<ISlippageDialogProps> = ({
   amount,
   onClose,
   onChange,
@@ -29,7 +30,7 @@ export const SlippageDialog = ({
   isOpen,
   asset,
   ...props
-}: Props) => {
+}) => {
   const { t } = useTranslation();
   const [value, setValue] = useState(props.value);
   const { minReturn } = useSlippage(amount, value);
@@ -70,11 +71,11 @@ export const SlippageDialog = ({
             <Slider
               value={value}
               onChange={handleChange}
-              min={0.1}
-              max={1}
-              stepSize={0.05}
+              min={sliderDefaultLabelValues.min}
+              max={sliderDefaultLabelValues.max}
+              stepSize={sliderDefaultLabelValues.stepSize}
+              labelValues={sliderDefaultLabelValues.labelValues}
               labelRenderer={value => <>{value}%</>}
-              labelValues={[0.1, 0.25, 0.5, 0.75, 1]}
               dataActionId="buySov-slippageDialog-slider"
             />
 
@@ -101,14 +102,18 @@ interface ILabelValuePairProps {
   className?: string;
 }
 
-const LabelValuePair = ({ className, label, value }: ILabelValuePairProps) => (
+export const LabelValuePair: React.FC<ILabelValuePairProps> = ({
+  className,
+  label,
+  value,
+}) => (
   <div
     className={classNames(
       'tw-flex tw-text-xs tw-flex-row tw-flex-wrap tw-justify-between tw-space-x-4 tw-mb-3',
       className,
     )}
   >
-    <div className="tw-truncate ">{label}</div>
+    <div className="tw-truncate">{label}</div>
     <div className="tw-truncate tw-text-right">{value}</div>
   </div>
 );

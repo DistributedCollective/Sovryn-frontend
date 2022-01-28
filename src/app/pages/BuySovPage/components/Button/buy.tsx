@@ -1,10 +1,6 @@
 import React from 'react';
 import styled, { css } from 'styled-components/macro';
-
-interface IBtnProps {
-  onClick: () => void;
-  disabled?: boolean;
-}
+import { IBtnProps } from './types';
 
 interface Props extends IBtnProps {
   text: React.ReactNode;

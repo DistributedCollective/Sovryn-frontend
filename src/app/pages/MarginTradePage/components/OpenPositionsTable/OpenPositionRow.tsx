@@ -241,15 +241,17 @@ export const OpenPositionRow: React.FC<IOpenPositionRowInnerProps> = ({
   }
 };
 
-function getEntryPrice(item: ActiveLoan, position: TradingPosition) {
-  if (position === TradingPosition.LONG) return Number(weiTo18(item.startRate));
+const getEntryPrice = (item: ActiveLoan, position: TradingPosition) => {
+  if (position === TradingPosition.LONG) {
+    return Number(weiTo18(item.startRate));
+  }
   return 1 / Number(weiTo18(item.startRate));
-}
+};
 
-function getInterestAPR(item: ActiveLoan) {
+const getInterestAPR = (item: ActiveLoan) => {
   return bignumber(item.interestOwedPerDay)
     .mul(365)
     .div(item.principal)
     .mul(100)
     .toNumber();
-}
+};

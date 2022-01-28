@@ -14,7 +14,9 @@ export const StarButton: React.FC<IStarButtonProps> = ({
   className,
 }) => (
   <div
-    className={classNames(styles.star, { active }, className)}
+    className={classNames(styles.star, className, {
+      active: active,
+    })}
     onClick={onClick}
   >
     <svg

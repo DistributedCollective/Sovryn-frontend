@@ -19,6 +19,7 @@ import { useAccount } from 'app/hooks/useAccount';
 import { PairNavbar } from 'app/components/PairNavbar';
 import { LimitOrderTables } from './components/LimitOrderTables';
 import { SpotHistory } from './components/SpotHistory';
+import { TradingType } from 'types/trading-pairs';
 
 export function SpotTradingPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -42,7 +43,7 @@ export function SpotTradingPage() {
       <Header />
       <div className="tw-container tw-mx-auto tw-px-3">
         <div className="tw-h-10 tw-flex tw-items-center tw--mx-3 tw-justify-between tw-bg-gray-3">
-          <PairNavbar type="spot" />
+          <PairNavbar type={TradingType.SPOT} />
         </div>
         <div className="tw-flex tw-mt-5 tw-flex-col xl:tw-flex-row xl:tw-justify-between tw-max-w-full">
           <div

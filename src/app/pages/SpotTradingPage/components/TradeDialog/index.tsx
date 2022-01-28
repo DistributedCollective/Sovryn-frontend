@@ -1,5 +1,4 @@
-import classNames from 'classnames';
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
@@ -11,12 +10,14 @@ import {
   stringToFixedPrecision,
   weiToNumberFormat,
 } from 'utils/display-text/format';
+import { PairLabel } from '../PairLabel';
 import { Dialog } from 'app/containers/Dialog';
+import { OrderLabel } from '../OrderLabel';
 import { TradingTypes } from '../../types';
 import { OrderType } from 'app/components/OrderTypeTitle/types';
-import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { useWalletContext } from '@sovryn/react-wallet';
+import { LabelValuePair } from 'app/components/LabelValuePair';
 
 interface ITradeDialogProps {
   isOpen: boolean;
@@ -187,94 +188,5 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
         </div>
       </Dialog>
     </>
-  );
-};
-
-interface IOrderLabelProps {
-  orderType: React.ReactNode;
-  tradeType: React.ReactNode;
-  className?: string;
-}
-
-export const OrderLabel: React.FC<IOrderLabelProps> = ({
-  orderType,
-  tradeType,
-  className,
-}) => {
-  const { t } = useTranslation();
-
-  const getOrderTypeLabel = useCallback(() => {
-    const orderLabel =
-      orderType === OrderType.LIMIT
-        ? t(translations.spotTradingPage.tradeForm.limit)
-        : t(translations.spotTradingPage.tradeForm.market);
-
-    const typeLabel =
-      tradeType === TradingTypes.BUY
-        ? t(translations.spotTradingPage.tradeForm.buy)
-        : t(translations.spotTradingPage.tradeForm.sell);
-
-    return `${orderLabel} ${typeLabel}`;
-  }, [orderType, t, tradeType]);
-
-  return (
-    <div
-      className={classNames(className, {
-        'tw-text-trade-short': tradeType === TradingTypes.SELL,
-        'tw-text-trade-long': tradeType === TradingTypes.BUY,
-      })}
-    >
-      {getOrderTypeLabel()}
-    </div>
-  );
-};
-
-interface IPairLabelProps {
-  targetToken: Asset;
-  sourceToken: Asset;
-  tradeType: TradingTypes;
-  className?: string;
-}
-
-export const PairLabel: React.FC<IPairLabelProps> = ({
-  sourceToken,
-  targetToken,
-  tradeType,
-  className,
-}) => {
-  return (
-    <>
-      <AssetSymbolRenderer
-        asset={tradeType === TradingTypes.SELL ? sourceToken : targetToken}
-        assetClassName={className}
-      />
-      /
-      <AssetSymbolRenderer
-        asset={tradeType === TradingTypes.BUY ? sourceToken : targetToken}
-        assetClassName={className}
-      />
-    </>
-  );
-};
-
-interface ILabelValuePairProps {
-  label: React.ReactNode;
-  value: React.ReactNode;
-  className?: string;
-}
-
-export const LabelValuePair: React.FC<ILabelValuePairProps> = props => {
-  return (
-    <div
-      className={classNames(
-        'tw-flex tw-flex-row tw-mb-1 tw-justify-start tw-text-sov-white',
-        props.className,
-      )}
-    >
-      <div className="tw-w-1/2 tw-text-gray-10 sm:tw-ml-8 sm:tw-pl-2 ">
-        {props.label}
-      </div>
-      <div className="tw-w-1/2 tw-font-medium">{props.value}</div>
-    </div>
   );
 };

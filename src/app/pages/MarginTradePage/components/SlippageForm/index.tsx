@@ -11,6 +11,7 @@ import { fromWei } from 'utils/blockchain/math-helpers';
 import { calculateMinimumReturn } from './utils';
 import styles from './dialog.module.scss';
 import { weiToNumberFormat } from 'utils/display-text/format';
+import { sliderDefaultLabelValues } from 'app/components/Form/Slider/sliderDefaultLabelValues';
 
 interface ISlippageFormProps {
   onClose: () => void;
@@ -50,11 +51,11 @@ export const SlippageForm: React.FC<ISlippageFormProps> = ({
           <Slider
             value={value}
             onChange={onChange}
-            min={0.1}
-            max={1}
-            stepSize={0.1}
+            min={sliderDefaultLabelValues.min}
+            max={sliderDefaultLabelValues.max}
+            stepSize={sliderDefaultLabelValues.stepSize}
             labelRenderer={value => <>{value}%</>}
-            labelValues={[0.1, 0.25, 0.5, 0.75, 1]}
+            labelValues={sliderDefaultLabelValues.labelValues}
             dataActionId="margin-slippage-tolerance-bar"
           />
         </FormGroup>

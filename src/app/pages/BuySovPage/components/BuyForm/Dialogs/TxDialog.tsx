@@ -211,30 +211,17 @@ function StatusComponent({ status }: { status: TxStatus }) {
   );
 }
 
-const WLContainer = styled.div`
-  width: 98px;
-  height: 98px;
-  border-radius: 1.25rem;
-  border: 1px solid #e8e8e8;
-  margin: 0 auto 35px;
-  div {
-    font-size: 0.75rem;
-  }
-`;
-const WLImage = styled.img`
-  width: 50px;
-  height: 50px;
-  margin-bottom: 10px;
-  object-fit: contain;
-`;
-
 function WalletLogo({ wallet }: { wallet: string }) {
   return (
-    <WLContainer className="tw-flex tw-flex-col tw-justify-center tw-items-center tw-overflow-hidden">
-      <WLImage src={getWalletImage(wallet)} alt="Wallet" />
-      <div className="tw-whitespace-nowrap tw-truncate">
+    <div className="tw-mx-auto tw-mb-8 tw-border-sov-white tw-border tw-rounded-2xl tw-w-24 tw-h-24 tw-flex tw-flex-col tw-justify-center tw-items-center tw-overflow-hidden">
+      <img
+        className="tw-w-14 tw-h-14 tw-mb-2.5 tw-object-contain"
+        src={getWalletImage(wallet)}
+        alt="Wallet"
+      />
+      <div className="tw-whitespace-nowrap tw-truncate tw-text-sm">
         {getWalletName(wallet)}
       </div>
-    </WLContainer>
+    </div>
   );
 }

@@ -85,7 +85,7 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
     return category === FAVORITE
       ? favList
       : currencyList.filter(item => {
-          if (item[0].base_symbol !== item[1].base_symbol)
+          if (item[0].base_symbol !== item[1].base_symbol) {
             //filtering pairs without RBTC as a source pair
             return (
               (item[0].base_symbol.includes(search.toUpperCase()) &&
@@ -93,7 +93,7 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
               (item[1].base_symbol.includes(search.toUpperCase()) &&
                 item[0].base_symbol.includes(category))
             );
-          else if (item[0].base_symbol === item[1].base_symbol && !item[2])
+          } else if (item[0].base_symbol === item[1].base_symbol && !item[2]) {
             //filtering pairs only for RBTC as target
             return (
               (item[0].base_symbol.includes(search.toUpperCase()) &&
@@ -101,12 +101,13 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
               (item[1].base_symbol.includes(search.toUpperCase()) &&
                 item[0].base_symbol.includes(category))
             );
-          else if (item[0].base_symbol === item[1].base_symbol && item[2])
+          } else if (item[0].base_symbol === item[1].base_symbol && item[2]) {
             //filtering pairs only for RBTC as source
             return (
               item[0].quote_symbol.includes(search.toUpperCase()) &&
               item[0].quote_symbol.includes(category)
             );
+          }
           return false;
         });
   }, [category, favList, search, list]);
@@ -121,21 +122,21 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
       if (pair[1] !== pair[0])
         dispatch(
           dispatchAction.setPairType(
-            tradingType[pair[0].base_symbol + '_' + pair[1].base_symbol],
+            tradingType[`${pair[0].base_symbol}_${pair[1].base_symbol}`],
           ),
         );
       //filtering pairs for RBTC as target
       if (pair[0].base_symbol === pair[1].base_symbol && !pair[2])
         dispatch(
           dispatchAction.setPairType(
-            tradingType[pair[0].base_symbol + '_' + pair[0].quote_symbol],
+            tradingType[`${pair[0].base_symbol}_${pair[0].quote_symbol}`],
           ),
         );
       //filtering pairs for RBTC as source
       if (pair[0].base_symbol === pair[1].base_symbol && pair[2])
         dispatch(
           dispatchAction.setPairType(
-            tradingType[pair[0].quote_symbol + '_' + pair[0].base_symbol],
+            tradingType[`${pair[0].quote_symbol}_${pair[0].base_symbol}`],
           ),
         );
       onPairChange(pair);
@@ -144,7 +145,9 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
     [closePairList, dispatch, onPairChange, dispatchAction, tradingType],
   );
 
-  if (!list.length) return null;
+  if (!list.length) {
+    return null;
+  }
 
   return (
     <div className="tw-max-h-96 tw-overflow-auto tw-w-full">
@@ -163,28 +166,30 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
         </thead>
         <tbody>
           {filteredList.map((pair: ITradingPairs) => {
-            let isValidPair = false; //checking tradingPair, if this pair exist
+            let isValidPair = false; // checking tradingPair, if the pair exists
             if (
               pair[0].base_symbol === pair[1].base_symbol &&
               !pair[2] &&
-              tradingType[pair[0].base_symbol + '_' + pair[0].quote_symbol]
+              tradingType[`${pair[0].base_symbol}_${pair[0].quote_symbol}`]
             ) {
               isValidPair = true;
             }
             if (
               pair[0].base_symbol === pair[1].base_symbol &&
               pair[2] &&
-              tradingType[pair[0].quote_symbol + '_' + pair[0].base_symbol]
+              tradingType[`${pair[0].quote_symbol}_${pair[0].base_symbol}`]
             ) {
               isValidPair = true;
             }
             if (
-              tradingType[pair[0].base_symbol + '_' + pair[1].base_symbol] &&
+              tradingType[`${pair[0].base_symbol}_${pair[1].base_symbol}`] &&
               !pair[2]
             ) {
               isValidPair = true;
             }
-            if (!isValidPair) return null;
+            if (!isValidPair) {
+              return null;
+            }
 
             //generating lastPrice for all pairs
             let lastPrice = 0;
@@ -248,13 +253,13 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
                   {pair[0].base_symbol === pair[1].base_symbol &&
                     !pair[2] &&
                     tradingType[
-                      pair[0].base_symbol + '_' + pair[0].quote_symbol
+                      `${pair[0].base_symbol}_${pair[0].quote_symbol}`
                     ] && (
                       <Pair
                         type={type}
-                        pairType={
+                        tradingType={
                           tradingType[
-                            pair[0].base_symbol + '_' + pair[0].quote_symbol
+                            `${pair[0].base_symbol}_${pair[0].quote_symbol}`
                           ]
                         }
                       />
@@ -264,13 +269,13 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
                   {pair[0].base_symbol === pair[1].base_symbol &&
                     pair[2] &&
                     tradingType[
-                      pair[0].quote_symbol + '_' + pair[0].base_symbol
+                      `${pair[0].quote_symbol}_${pair[0].base_symbol}`
                     ] && (
                       <Pair
                         type={type}
-                        pairType={
+                        tradingType={
                           tradingType[
-                            pair[0].quote_symbol + '_' + pair[0].base_symbol
+                            `${pair[0].quote_symbol}_${pair[0].base_symbol}`
                           ]
                         }
                       />
@@ -278,14 +283,14 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
 
                   {/* pairs without RBTC */}
                   {tradingType[
-                    pair[0].base_symbol + '_' + pair[1].base_symbol
+                    `${pair[0].base_symbol}_${pair[1].base_symbol}`
                   ] &&
                     !pair[2] && (
                       <Pair
                         type={type}
-                        pairType={
+                        tradingType={
                           tradingType[
-                            pair[0].base_symbol + '_' + pair[1].base_symbol
+                            `${pair[0].base_symbol}_${pair[1].base_symbol}`
                           ]
                         }
                       />

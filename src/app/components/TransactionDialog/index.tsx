@@ -153,7 +153,7 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
   );
 };
 
-export const getTransactionTitle = (tx: TxStatus, action: string = '') => {
+const getTransactionTitle = (tx: TxStatus, action: string = '') => {
   switch (tx) {
     case TxStatus.FAILED:
       return (

@@ -13,7 +13,7 @@ interface IButtonTradeProps {
   className?: string;
 }
 
-export function ButtonTrade({
+export const ButtonTrade: React.FC<IButtonTradeProps> = ({
   tradingType,
   position,
   onClick,
@@ -21,29 +21,26 @@ export function ButtonTrade({
   className,
   text,
   ...props
-}: IButtonTradeProps) {
-  return (
-    <button
-      type="button"
-      onClick={() => onClick()}
-      className={classNames(
-        'tw-btn-trade',
-        {
-          'tw-bg-trade-long':
-            position === TradingPosition.LONG ||
-            tradingType === TradingTypes.BUY,
-        },
-        {
-          'tw-bg-trade-short':
-            position === TradingPosition.SHORT ||
-            tradingType === TradingTypes.SELL,
-        },
-        { loading: loading },
-        className,
-      )}
-      {...props}
-    >
-      {text}
-    </button>
-  );
-}
+}) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className={classNames(
+      'tw-btn-trade',
+      {
+        'tw-bg-trade-long':
+          position === TradingPosition.LONG || tradingType === TradingTypes.BUY,
+      },
+      {
+        'tw-bg-trade-short':
+          position === TradingPosition.SHORT ||
+          tradingType === TradingTypes.SELL,
+      },
+      { loading: loading },
+      className,
+    )}
+    {...props}
+  >
+    {text}
+  </button>
+);

@@ -26,7 +26,7 @@ import { StarButton } from 'app/components/StarButton';
 import { SwapSelectorLabels } from './SwapSelectorLabels';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import useOnClickOutside from 'app/hooks/useOnClickOutside';
+import { useOnClickOutside } from 'app/hooks/useOnClickOutside';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { setFavoriteList } from 'utils/helpers';
 
@@ -107,7 +107,7 @@ export const SwapSelector: React.FC<ISwapSelectorProps> = ({
               {pairs && (
                 <SwapSelectorLabels
                   pairs={pairs}
-                  onChangeCategory={e => setCategory(e)}
+                  onChangeCategory={setCategory}
                   category={category}
                 />
               )}
@@ -153,12 +153,12 @@ export const SwapSelector: React.FC<ISwapSelectorProps> = ({
                           price24h={-pair.price_change_percent_24h}
                           lastPrice={1 / pair.last_price}
                           assetData={assetData && assetData[pair.quote_id]}
-                          handleClick={e => onChange(e)}
-                          isOpen={e => setOpen(e)}
+                          handleClick={onChange}
+                          isOpen={setOpen}
                           selectedReverse={selectedReverse}
                           category={category}
                           favList={favList}
-                          onChangeFavorite={e => onChangeFavorite(e)}
+                          onChangeFavorite={onChangeFavorite}
                         />
                       );
 
@@ -170,12 +170,12 @@ export const SwapSelector: React.FC<ISwapSelectorProps> = ({
                           price24h={pair.price_change_percent_24h_usd}
                           lastPrice={pair.last_price_usd}
                           assetData={assetData && assetData[pair.base_id]}
-                          handleClick={e => onChange(e)}
-                          isOpen={e => setOpen(e)}
+                          handleClick={onChange}
+                          isOpen={setOpen}
                           selectedReverse={selectedReverse}
                           category={category}
                           favList={favList}
-                          onChangeFavorite={e => onChangeFavorite(e)}
+                          onChangeFavorite={onChangeFavorite}
                         />
                       );
 
@@ -282,24 +282,19 @@ interface IPriceChangeProps {
   value: number;
 }
 
-export const PriceChange: React.FC<IPriceChangeProps> = ({ value }) => {
-  let numberString = toNumberFormat(value || 0, 2);
-  numberString =
-    numberString === '0.00' || numberString === '-0.00' ? '0' : numberString;
-  const noChange = numberString === '0';
+const PriceChange: React.FC<IPriceChangeProps> = ({ value }) => {
+  const numberString = value !== 0 ? toNumberFormat(value, 2) : '0';
 
   return (
     <div
       className={classNames('tw-inline-flex tw-items-center tw-ml-auto', {
-        'tw-text-trade-short': value < 0 && !noChange,
-        'tw-text-trade-long': value > 0 && !noChange,
+        'tw-text-trade-short': value < 0,
+        'tw-text-trade-long': value > 0,
       })}
     >
       {numberString}%
-      {value > 0 && !noChange && (
-        <img className="tw-w-3 tw-ml-2" src={arrowUp} alt={'up'} />
-      )}
-      {value < 0 && !noChange && (
+      {value > 0 && <img className="tw-w-3 tw-ml-2" src={arrowUp} alt={'up'} />}
+      {value < 0 && (
         <img className="tw-w-3 tw-ml-2" src={arrowDown} alt={'down'} />
       )}
     </div>

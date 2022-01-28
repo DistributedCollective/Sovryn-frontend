@@ -20,12 +20,12 @@ interface ICollateralAssetsProps {
   label?: React.ReactNode;
 }
 
-export const CollateralAssets = ({
+export const CollateralAssets: React.FC<ICollateralAssetsProps> = ({
   value,
   onChange,
   options,
   label,
-}: ICollateralAssetsProps) => {
+}) => {
   const { t } = useTranslation();
 
   const items: Items[] = useMemo(() => {

@@ -23,12 +23,11 @@ import { DialogButton } from 'app/components/Form/DialogButton';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import type { ActiveLoan } from 'types/active-loan';
 import { discordInvite } from 'utils/classifiers';
-import { LoadableValue } from 'app/components/LoadableValue';
 import { weiToNumberFormat } from 'utils/display-text/format';
-import { fromWei } from 'utils/blockchain/math-helpers';
 import { bignumber } from 'mathjs';
 import { usePositionLiquidationPrice } from '../../../../hooks/trading/usePositionLiquidationPrice';
 import { toAssetNumberFormat } from 'utils/display-text/format';
+import { LabelValuePair } from 'app/components/LabelValuePair';
 
 interface IAddToMarginDialogProps {
   item: ActiveLoan;
@@ -38,13 +37,13 @@ interface IAddToMarginDialogProps {
   positionSize?: string;
 }
 
-export const AddToMarginDialog = ({
+export const AddToMarginDialog: React.FC<IAddToMarginDialogProps> = ({
   item,
   showModal,
   onCloseModal,
   positionSize,
   ...props
-}: IAddToMarginDialogProps) => {
+}) => {
   const canInteract = useCanInteract();
   const tokenDetails = AssetsDictionary.getByTokenContractAddress(
     item?.collateralToken || '',
@@ -118,11 +117,7 @@ export const AddToMarginDialog = ({
               label={t(translations.closeTradingPositionHandler.positionSize)}
               value={
                 <>
-                  <LoadableValue
-                    loading={false}
-                    value={weiToNumberFormat(item.collateral, 4)}
-                    tooltip={fromWei(item.collateral)}
-                  />{' '}
+                  {weiToNumberFormat(item.collateral, 4)}{' '}
                   <AssetRenderer asset={tokenDetails.asset} />
                 </>
               }
@@ -199,27 +194,5 @@ export const AddToMarginDialog = ({
         onUserConfirmed={onCloseModal}
       />
     </>
-  );
-};
-
-interface ILabelValuePairProps {
-  label: React.ReactNode;
-  value: React.ReactNode;
-  className?: string;
-}
-
-const LabelValuePair = ({ className, label, value }: ILabelValuePairProps) => {
-  return (
-    <div
-      className={classNames(
-        'tw-flex tw-flex-row tw-mb-1 tw-justify-start tw-text-sov-white',
-        className,
-      )}
-    >
-      <div className="tw-w-1/2 tw-text-gray-10 sm:tw-ml-8 sm:tw-pl-2 tw-text-gray-10">
-        {label}
-      </div>
-      <div className="tw-w-1/2 tw-font-medium">{value}</div>
-    </div>
   );
 };

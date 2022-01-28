@@ -38,7 +38,7 @@ export const useSendTx = (): SendTxResponseInterface => {
   const loading = useSelector(selectLoadingTransaction);
   const dispatch = useDispatch();
   const account = useAccount();
-  const [txId, setTxId] = useState<string | null>(TxStatus.NONE);
+  const [txId, setTxId] = useState<string>(TxStatus.NONE);
   const [tx, setTx] = useState<Transaction>();
 
   const send = useCallback(

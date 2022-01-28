@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import { TransactionFee } from './TransactionFee';
 import { Asset } from 'types';
 
-interface ITxFeeCalculator {
+interface ITxFeeCalculatorProps {
   asset?: Asset;
   contractName: ContractName;
   methodName: string;
@@ -18,7 +18,7 @@ interface ITxFeeCalculator {
   textClassName?: string;
 }
 
-export const TxFeeCalculator: React.FC<ITxFeeCalculator> = ({
+export const TxFeeCalculator: React.FC<ITxFeeCalculatorProps> = ({
   asset = Asset.RBTC,
   contractName,
   methodName,

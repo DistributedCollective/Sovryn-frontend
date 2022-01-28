@@ -20,6 +20,7 @@ import { TradingHistory } from './components/TradingHistory';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
 import { PairNavbar } from 'app/components/PairNavbar';
+import { TradingType } from 'types/trading-pairs';
 
 export function MarginTradePage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -61,7 +62,7 @@ export function MarginTradePage() {
       <Header />
       <div className="tw-container tw-mx-auto tw-px-3">
         <div className="tw-h-10 tw-flex tw-items-center tw--mx-3 tw-justify-between tw-bg-gray-3">
-          <PairNavbar type="margin" />
+          <PairNavbar type={TradingType.MARGIN} />
         </div>
         <div className="tw-flex tw-mt-5 tw-flex-col xl:tw-flex-row xl:tw-justify-between tw-max-w-full">
           <div

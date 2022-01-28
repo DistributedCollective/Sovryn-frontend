@@ -48,8 +48,8 @@ export const SwapFormContainer: React.FC = () => {
   const { checkMaintenance, States } = useMaintenance();
   const swapLocked = checkMaintenance(States.SWAP_TRADES);
 
-  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
-  const [isReviewDialogOpen, setIsReviewDialogOpen] = useState<boolean>(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [isReviewDialogOpen, setIsReviewDialogOpen] = useState(false);
   const [amount, setAmount] = useState('');
   const [sourceToken, setSourceToken] = useState(Asset.RBTC);
   const [targetToken, setTargetToken] = useState(Asset.SOV);
@@ -109,14 +109,14 @@ export const SwapFormContainer: React.FC = () => {
     { immediate: true },
   );
 
-  const getStorageKey = () => {
+  const storageKey = useMemo(() => {
     if (location.pathname === '/swap') {
       return 'swap-asset';
     }
     return '';
-  };
+  }, [location.pathname]);
 
-  const [favList, setFavList] = useState(getFavoriteList(getStorageKey()));
+  const [favList, setFavList] = useState(getFavoriteList(storageKey));
 
   const { value: rateByPath } = useSwapsExternal_getSwapExpectedReturn(
     sourceToken,
@@ -155,7 +155,7 @@ export const SwapFormContainer: React.FC = () => {
   const tx = txPath;
   const send = useCallback(() => sendPath(), [sendPath]);
 
-  const setSwapTokents = useCallback((source: Asset, target: Asset) => {
+  const setSwapTokens = useCallback((source: Asset, target: Asset) => {
     setSourceToken(source);
     setTargetToken(target);
   }, []);
@@ -182,7 +182,7 @@ export const SwapFormContainer: React.FC = () => {
         value={slippage}
         asset={targetToken}
         onClose={() => setDialogOpen(false)}
-        onChange={value => setSlippage(value)}
+        onChange={setSlippage}
         dataActionId="swap-"
       />
 
@@ -200,7 +200,7 @@ export const SwapFormContainer: React.FC = () => {
         </div>
       </div>
 
-      <Arbitrage onClick={(source, target) => setSwapTokents(source, target)} />
+      <Arbitrage onClick={(source, target) => setSwapTokens(source, target)} />
 
       <div className={styles.swapFormContainer}>
         <div className={styles.swapForm}>
@@ -213,12 +213,12 @@ export const SwapFormContainer: React.FC = () => {
               <SwapSelector
                 pairs={pairsData.pairs}
                 assetData={assetData}
-                onChange={token => setSourceToken(token)}
+                onChange={setSourceToken}
                 selectedAsset={sourceToken}
                 selectedReverse={targetToken}
-                onChangeFavorite={e => handleFavClick(e)}
+                onChangeFavorite={handleFavClick}
                 favList={favList}
-                storageKey={getStorageKey()}
+                storageKey={storageKey}
               />
             )}
           </div>
@@ -234,7 +234,7 @@ export const SwapFormContainer: React.FC = () => {
           >
             <AmountInput
               value={amount}
-              onChange={value => setAmount(value)}
+              onChange={setAmount}
               asset={sourceToken}
               dataActionId="swap"
             />
@@ -258,12 +258,12 @@ export const SwapFormContainer: React.FC = () => {
               <SwapSelector
                 pairs={pairsData.pairs}
                 assetData={assetData}
-                onChange={token => setTargetToken(token)}
+                onChange={setTargetToken}
                 selectedAsset={targetToken}
                 selectedReverse={sourceToken}
-                onChangeFavorite={e => handleFavClick(e)}
+                onChangeFavorite={handleFavClick}
                 favList={favList}
-                storageKey={getStorageKey()}
+                storageKey={storageKey}
               />
             )}
           </div>
@@ -356,7 +356,7 @@ export const SwapFormContainer: React.FC = () => {
 
       <ReviewDialog
         isOpen={isReviewDialogOpen}
-        onConfirm={() => send()}
+        onConfirm={send}
         onClose={() => setIsReviewDialogOpen(!isReviewDialogOpen)}
         sourceToken={sourceToken}
         targetToken={targetToken}

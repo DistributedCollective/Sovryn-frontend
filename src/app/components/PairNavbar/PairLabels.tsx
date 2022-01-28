@@ -20,13 +20,17 @@ export const PairLabels: React.FC<IPairLabelsProps> = ({
   const { t } = useTranslation();
   //getting a list with currency labels
   const list = useMemo(() => {
-    if (!pairs) return [];
+    if (!pairs) {
+      return [];
+    }
     return Object.keys(pairs)
       .map(key => pairs[key].base_symbol)
       .filter(pair => pair);
   }, [pairs]);
 
-  if (!list.length) return null;
+  if (!list.length) {
+    return null;
+  }
 
   const ALL = t(translations.spotTradingPage.pairNavbar.all);
 

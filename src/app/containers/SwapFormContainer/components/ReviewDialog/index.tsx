@@ -7,7 +7,6 @@ import { Dialog } from 'app/containers/Dialog';
 import { FormGroup } from 'app/components/Form/FormGroup';
 import { DummyInput } from 'app/components/Form/Input';
 import { DialogButton } from 'app/components/Form/DialogButton';
-import { LoadableValue } from 'app/components/LoadableValue';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import { getTokenContract } from 'utils/blockchain/contract-helpers';
@@ -77,10 +76,7 @@ export const ReviewDialog: React.FC<IReviewDialogProps> = ({
                 {t(translations.swapTradeForm.minimumReceived)}
               </p>
               <div className="tw-font-semibold">
-                <LoadableValue
-                  loading={false}
-                  value={weiToFixed(amountReceived, 6)}
-                />{' '}
+                {weiToFixed(amountReceived, 6)}{' '}
                 <AssetRenderer asset={targetToken} />
               </div>
             </div>

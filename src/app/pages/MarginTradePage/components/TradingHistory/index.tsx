@@ -1,18 +1,19 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { useAccount } from '../../../../hooks/useAccount';
+import axios from 'axios';
+import { useAccount } from 'app/hooks/useAccount';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { backendUrl, currentChainId } from 'utils/classifiers';
-import axios from 'axios';
+import { HistoryTable } from './HistoryTable';
 import {
-  HistoryTable,
   normalizeEvent,
   calculateProfits,
   ICustomEvent,
   IEventData,
   ICalculatedEvent,
 } from './utils';
+import { EventType } from './types';
 
 export const TradingHistory: React.FC = () => {
   const { t } = useTranslation();
@@ -59,7 +60,7 @@ export const TradingHistory: React.FC = () => {
     const closeEntries: ICalculatedEvent[] = [];
     entries.forEach(([, events]) => {
       // exclude entries that does not have sell events
-      if (events.filter(item => item.type === 'sell').length > 0) {
+      if (events.filter(item => item.type === EventType.SELL).length > 0) {
         const calculation = calculateProfits(events);
         if (calculation) {
           closeEntries.push(calculation);

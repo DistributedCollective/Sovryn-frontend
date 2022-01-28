@@ -162,7 +162,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
           >
             <AmountInput
               value={tradeAmount}
-              onChange={value => setTradeAmount(value)}
+              onChange={setTradeAmount}
               asset={collateral}
               dataActionId="margin"
             />
@@ -325,16 +325,14 @@ export const LabelValuePair: React.FC<ILabelValuePairProps> = ({
   label,
   value,
   className,
-}) => {
-  return (
-    <div
-      className={classNames(
-        'tw-flex tw-text-xs tw-flex-row tw-flex-wrap tw-justify-between tw-space-x-4 tw-mb-2',
-        className,
-      )}
-    >
-      <div className="tw-truncate ">{label}</div>
-      <div className="tw-truncate tw-text-right">{value}</div>
-    </div>
-  );
-};
+}) => (
+  <div
+    className={classNames(
+      'tw-flex tw-text-xs tw-flex-row tw-flex-wrap tw-justify-between tw-space-x-4 tw-mb-2',
+      className,
+    )}
+  >
+    <div className="tw-truncate ">{label}</div>
+    <div className="tw-truncate tw-text-right">{value}</div>
+  </div>
+);

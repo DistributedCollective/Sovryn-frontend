@@ -459,18 +459,18 @@ interface ILabelValuePairProps {
   className?: string;
 }
 
-function LabelValuePair(props: ILabelValuePairProps) {
-  return (
-    <div
-      className={classNames(
-        'tw-flex tw-flex-row tw-mb-1 tw-justify-between tw-text-sov-white tw-items-center',
-        props.className,
-      )}
-    >
-      <div className="tw-w-1/2 tw-text-gray-10 tw-text-gray-10">
-        {props.label}
-      </div>
-      <div className="sm:tw-w-1/3 tw-w-1/2 tw-font-medium">{props.value}</div>
-    </div>
-  );
-}
+export const LabelValuePair: React.FC<ILabelValuePairProps> = ({
+  label,
+  value,
+  className,
+}) => (
+  <div
+    className={classNames(
+      'tw-flex tw-flex-row tw-mb-1 tw-justify-between tw-text-sov-white tw-items-center',
+      className,
+    )}
+  >
+    <div className="tw-w-1/2 tw-text-gray-10 tw-text-gray-10">{label}</div>
+    <div className="sm:tw-w-1/3 tw-w-1/2 tw-font-medium">{value}</div>
+  </div>
+);

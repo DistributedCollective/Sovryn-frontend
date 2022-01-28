@@ -77,19 +77,20 @@ interface IStatsItemProps {
   lastPrice: number;
 }
 
-export const StatsItem: React.FC<IStatsItemProps> = ({
+const StatsItem: React.FC<IStatsItemProps> = ({
   assetDetails,
   price24h,
   lastPrice,
 }) => {
-  if (!assetDetails) return <></>;
+  if (!assetDetails) {
+    return null;
+  }
 
   return (
     <div className="tw-flex tw-items-center tw-mx-2">
       <div className="tw-text-left tw-whitespace-nowrap tw-min-w-16 tw-mr-1">
         <img
-          className="tw-inline"
-          style={{ width: '24px' }}
+          className="tw-inline tw-w-6"
           src={assetDetails.logoSvg}
           alt={assetDetails.symbol}
         />
@@ -113,7 +114,7 @@ interface IPriceChangeProps {
   value: number;
 }
 
-export const PriceChange: React.FC<IPriceChangeProps> = ({ value }) => {
+const PriceChange: React.FC<IPriceChangeProps> = ({ value }) => {
   let numberString = toNumberFormat(value || 0, 2);
   numberString =
     numberString === '0.00' || numberString === '-0.00' ? '0' : numberString;

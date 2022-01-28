@@ -1,12 +1,8 @@
 import React from 'react';
 import styled, { css } from 'styled-components/macro';
+import { IBtnProps } from './types';
 
-interface IBtnProps {
-  onClick: () => void;
-  disabled?: boolean;
-}
-
-interface Props extends IBtnProps {
+interface IButtonProps extends IBtnProps {
   text: React.ReactNode;
 }
 
@@ -40,10 +36,10 @@ const StyledButton = styled.button`
     `}
 `;
 
-export function Button(props: Props) {
+export function Button({ text, onClick, disabled }: IButtonProps) {
   return (
-    <StyledButton onClick={props.onClick} disabled={props.disabled}>
-      {props.text}
+    <StyledButton onClick={onClick} disabled={disabled}>
+      {text}
     </StyledButton>
   );
 }

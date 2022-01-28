@@ -1,24 +1,20 @@
 import React from 'react';
 import classNames from 'classnames';
+import { IBtnProps } from './types';
 
-interface IBtnProps {
-  onClick: () => void;
-  disabled?: boolean;
-}
-
-interface Props extends IBtnProps {
+interface ICloseButtonProps extends IBtnProps {
   text: React.ReactNode;
   className?: string;
   dataActionId?: string;
 }
 
-export const CloseButton = ({
+export const CloseButton: React.FC<ICloseButtonProps> = ({
   onClick,
   disabled,
   className,
   dataActionId,
   text,
-}: Props) => (
+}) => (
   <button
     onClick={onClick}
     disabled={disabled}

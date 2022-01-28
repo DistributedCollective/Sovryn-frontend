@@ -23,8 +23,8 @@ export const getPriceColor = (priceChange: TradePriceChange) => {
     : 'tw-text-trade-short';
 };
 
-export const getPriceChange = (randomNumber: number) => {
-  switch (randomNumber) {
+export const getPriceChange = (priceDirection: number) => {
+  switch (priceDirection) {
     case 0:
       return TradePriceChange.DOWN;
     case 1:

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { reactLocalStorage } from 'reactjs-localstorage';
@@ -15,10 +15,10 @@ import { useGetCryptoPairs } from 'app/hooks/trading/useGetCryptoPairs';
 import { actions as spotActions } from 'app/pages/SpotTradingPage/slice';
 import { actions as marginActions } from 'app/pages/MarginTradePage/slice';
 import { usePairList } from 'app/hooks/trading/usePairList';
-import { TradingType } from 'types/trading-pairs';
+import { ITradingPairs, TradingType } from 'types/trading-pairs';
 
 interface IPairNavbarProps {
-  type: string;
+  type: TradingType;
 }
 
 export const PairNavbar: React.FC<IPairNavbarProps> = ({ type }) => {
@@ -26,10 +26,13 @@ export const PairNavbar: React.FC<IPairNavbarProps> = ({ type }) => {
   const location = useLocation();
   const dispatch = useDispatch();
   const connected = useIsConnected();
-
-  const localStoreObject =
-    type === TradingType.SPOT ? 'selectedSpotPair' : 'selectedMarginPair';
-  const isPairSelected = reactLocalStorage.getObject(localStoreObject);
+  const marginType = useMemo(() => {
+    return type === TradingType.MARGIN;
+  }, [type]);
+  const localStoreObject = !marginType
+    ? 'selectedSpotPair'
+    : 'selectedMarginPair';
+  const selectedPair = reactLocalStorage.getObject(localStoreObject);
   const dispatchAction: any =
     type === TradingType.SPOT ? spotActions : marginActions;
   const tradingType =
@@ -40,7 +43,7 @@ export const PairNavbar: React.FC<IPairNavbarProps> = ({ type }) => {
     setShowNotificationSettingsModal,
   ] = useState(false);
 
-  const getStorageKey = () => {
+  const storageKey = useMemo(() => {
     switch (location.pathname) {
       case '/spot':
         return 'spot-pairs';
@@ -49,14 +52,14 @@ export const PairNavbar: React.FC<IPairNavbarProps> = ({ type }) => {
       default:
         return '';
     }
-  };
+  }, [location.pathname]);
 
   const onNotificationSettingsClick = useCallback(
     () => setShowNotificationSettingsModal(true),
     [],
   );
 
-  const [pair, setPair] = useState([]) as any;
+  const [pair, setPair] = useState<ITradingPairs | undefined>(undefined);
 
   //getting PAIRS DATA
   const pairsData = useGetCryptoPairs();
@@ -64,7 +67,7 @@ export const PairNavbar: React.FC<IPairNavbarProps> = ({ type }) => {
   const pairsArray = usePairList(pairsData?.pairs);
 
   useEffect(() => {
-    if (pairsArray && !pair.length)
+    if (pairsArray && !pair)
       // set SOV_RBTC by default
       for (let item of pairsArray) {
         if (item.trading_pairs === tradingType.SOV_RBTC) {
@@ -102,26 +105,26 @@ export const PairNavbar: React.FC<IPairNavbarProps> = ({ type }) => {
   );
 
   useEffect(() => {
-    if (Object.keys(isPairSelected).length)
+    if (Object.keys(selectedPair).length)
       dispatch(
         dispatchAction.setPairType(
-          tradingType[isPairSelected[0] + '_' + isPairSelected[1]],
+          tradingType[`${selectedPair[0]}_${selectedPair[1]}`],
         ),
       );
-  }, [dispatch, isPairSelected, tradingType, dispatchAction]);
+  }, [dispatch, selectedPair, tradingType, dispatchAction]);
 
   return (
     <div className="tw-bg-gray-3 tw-w-full">
       <div className="tw-flex tw-items-center tw-container twm-mr-2">
         <PairSelect
-          storageKey={getStorageKey()}
+          storageKey={storageKey}
           onPairChange={onPairChange}
           pairsData={pairsData}
           type={type}
         />
 
-        {pair && pair.length && <PairNavbarInfo pair={pair} />}
-        {connected && type === 'margin' && (
+        {pair && <PairNavbarInfo pair={pair} />}
+        {connected && marginType && (
           <div>
             <button
               onClick={onNotificationSettingsClick}

@@ -6,9 +6,9 @@ import { useTranslation } from 'react-i18next';
 import { Asset } from 'types';
 import { stringToFixedPrecision } from 'utils/display-text/format';
 import { TradingTypes } from '../../types';
-import { OrderLabel } from '../TradeDialog';
+import { OrderLabel } from '../OrderLabel';
 import { translations } from 'locales/i18n';
-import { PairLabel } from '../TradeDialog';
+import { PairLabel } from '../PairLabel';
 
 interface IOrderViewProps {
   tradeType: TradingTypes;

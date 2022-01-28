@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import classNames from 'classnames';
 import { calculateProfit, weiToNumberFormat } from 'utils/display-text/format';
 import {
   toWei,
@@ -42,6 +41,7 @@ import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import { ProfitContainer } from '../OpenPositionsTable/ProfitContainer';
 import { TradingPosition } from 'types/trading-position';
 import { MARGIN_SLIPPAGE_DEFAULT } from '../../types';
+import { LabelValuePair } from 'app/components/LabelValuePair';
 
 interface IClosePositionDialogProps {
   item: ActiveLoan;
@@ -65,21 +65,17 @@ export const ClosePositionDialog = ({
   showModal,
   onCloseModal,
 }: IClosePositionDialogProps) => {
+  const { t } = useTranslation();
   const receiver = useAccount();
-
-  const sourceToken = AssetsDictionary.getByTokenContractAddress(
-    item?.collateralToken || '',
-  );
-
-  const targetToken = AssetsDictionary.getByTokenContractAddress(
-    item?.loanToken || '',
-  );
-
   const [amount, setAmount] = useState('0');
+  const [openSlippage, setOpenSlippage] = useState(false);
+  const weiAmount = useWeiAmount(amount);
+  const [slippage, setSlippage] = useState(MARGIN_SLIPPAGE_DEFAULT);
+  const { checkMaintenance, States } = useMaintenance();
+  const closeTradesLocked = checkMaintenance(States.CLOSE_MARGIN_TRADES);
   const [collateral, setCollateral] = useState(
     assetByTokenAddress(item.collateralToken),
   );
-  const [openSlippage, setOpenSlippage] = useState(false);
 
   useEffect(() => {
     setAmount('0');
@@ -87,7 +83,12 @@ export const ClosePositionDialog = ({
 
   const leverage = leverageFromMargin(item.startMargin);
   const maxAmount = bignumber(item.collateral).div(leverage).toFixed(0);
-
+  const sourceToken = AssetsDictionary.getByTokenContractAddress(
+    item?.collateralToken || '',
+  );
+  const targetToken = AssetsDictionary.getByTokenContractAddress(
+    item?.loanToken || '',
+  );
   const options = useMemo(() => getOptions(item), [item]);
   const isCollateral = useMemo(() => collateral === sourceToken.asset, [
     collateral,
@@ -99,11 +100,6 @@ export const ClosePositionDialog = ({
     targetToken.asset,
   );
 
-  const weiAmount = useWeiAmount(amount);
-
-  const { t } = useTranslation();
-  const { checkMaintenance, States } = useMaintenance();
-  const closeTradesLocked = checkMaintenance(States.CLOSE_MARGIN_TRADES);
   const args = [item.loanId, receiver, weiAmount, isCollateral, '0x'];
   const isLong = targetToken.asset === pair.longAsset;
 
@@ -146,7 +142,6 @@ export const ClosePositionDialog = ({
   );
 
   const valid = useIsAmountWithinLimits(weiAmount, '1', item.collateral);
-  const [slippage, setSlippage] = useState(MARGIN_SLIPPAGE_DEFAULT);
   const totalAmount = Number(amount) + Number(fromWei(profit));
   const { minReturn } = calculateMinimumReturn(toWei(totalAmount), slippage);
 
@@ -191,11 +186,7 @@ export const ClosePositionDialog = ({
               label={t(translations.closeTradingPositionHandler.positionSize)}
               value={
                 <>
-                  <LoadableValue
-                    loading={false}
-                    value={weiToNumberFormat(item.collateral, 4)}
-                    tooltip={fromWei(item.collateral)}
-                  />{' '}
+                  {weiToNumberFormat(item.collateral, 4)}{' '}
                   <AssetRenderer asset={sourceToken.asset} />
                 </>
               }
@@ -265,16 +256,7 @@ export const ClosePositionDialog = ({
                 {t(translations.closeTradingPositionHandler.minimumReceived)}
               </p>
               <div className="tw-font-semibold">
-                <LoadableValue
-                  loading={false}
-                  value={weiToFixed(minReturn, 6)}
-                  tooltip={
-                    <>
-                      {weiTo18(minReturn)}{' '}
-                      <AssetRenderer asset={sourceToken.asset} />
-                    </>
-                  }
-                />{' '}
+                {weiToFixed(minReturn, 6)}{' '}
                 <AssetRenderer asset={sourceToken.asset} />
               </div>
             </div>
@@ -344,26 +326,6 @@ export const ClosePositionDialog = ({
     </>
   );
 };
-
-interface ILabelValuePairProps {
-  label: React.ReactNode;
-  value: React.ReactNode;
-  className?: string;
-}
-
-const LabelValuePair = ({ label, value, className }: ILabelValuePairProps) => (
-  <div
-    className={classNames(
-      'tw-flex tw-flex-row tw-mb-1 tw-justify-start tw-text-sov-white',
-      className,
-    )}
-  >
-    <div className="tw-w-1/2 tw-text-gray-10 sm:tw-ml-8 sm:tw-pl-2 tw-text-gray-10">
-      {label}
-    </div>
-    <div className="tw-w-1/2 tw-font-medium">{value}</div>
-  </div>
-);
 
 const getEntryPrice = (item: ActiveLoan, position: TradingPosition) => {
   if (position === TradingPosition.LONG) {
