@@ -22,7 +22,7 @@ export const contracts: Record<
   fastBtcBridge: {
     address: {
       [Chain.RSK]: {
-        [AppMode.MAINNET]: ethers.constants.AddressZero, // todo
+        [AppMode.MAINNET]: '0x0D5006330289336ebdF9d0AC9E0674f91b4851eA',
         [AppMode.TESTNET]: '0x10C848e9495a32acA95F6c23C92eCA2b2bE9903A', // todo should be new?
       },
       [Chain.BSC]: {
