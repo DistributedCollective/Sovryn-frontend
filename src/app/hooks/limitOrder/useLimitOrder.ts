@@ -27,9 +27,9 @@ export const useLimitOrder = (
   amount: string,
   amountOutMin: string,
   duration: number = 365,
-  onSuccess: Function,
-  onError: Function,
-  onStart: Function,
+  onSuccess: (order: IApiLimitOrder, data) => void,
+  onError: () => void,
+  onStart: () => void,
 ) => {
   const account = useAccount();
   const { chainId } = useSelector(selectWalletProvider);
@@ -125,10 +125,10 @@ export const useLimitOrder = (
         };
         onSuccess(newOrder, data.data);
       } else {
-        onError(data.error);
+        onError();
       }
     } catch (error) {
-      onError(error);
+      onError();
     }
   }, [
     sourceToken,

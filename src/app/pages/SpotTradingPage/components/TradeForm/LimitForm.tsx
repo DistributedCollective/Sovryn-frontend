@@ -147,12 +147,12 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
     [dispatch, showToast],
   );
 
-  const onError = error => {
+  const onError = () => {
     setOrderStatus(TxStatus.FAILED);
     showToast('error');
   };
 
-  const onStart = error => {
+  const onStart = () => {
     setTradeDialog(false);
     setOrderStatus(TxStatus.PENDING);
   };
