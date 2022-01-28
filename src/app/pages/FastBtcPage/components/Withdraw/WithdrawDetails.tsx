@@ -8,8 +8,7 @@ import { LoadableValue } from '../../../../components/LoadableValue';
 import { btcInSatoshis } from 'app/constants';
 import { NetworkAwareComponentProps } from '../../types';
 import { getBTCAssetForNetwork } from '../../helpers';
-
-const DYNAMIC_FEE_DIVISOR = 10000;
+import { DYNAMIC_FEE_DIVISOR } from '../../constants';
 
 export const WithdrawDetails: React.FC<NetworkAwareComponentProps> = ({
   network,
@@ -30,7 +29,9 @@ export const WithdrawDetails: React.FC<NetworkAwareComponentProps> = ({
 
     if (!limits.baseFee) {
       return (
-        <>{toNumberFormat(limits.dynamicFee / DYNAMIC_FEE_DIVISOR, 5)} %</>
+        <>
+          {toNumberFormat((limits.dynamicFee / DYNAMIC_FEE_DIVISOR) * 100, 2)} %
+        </>
       );
     }
 
@@ -38,7 +39,7 @@ export const WithdrawDetails: React.FC<NetworkAwareComponentProps> = ({
       <>
         {toNumberFormat(limits.baseFee / btcInSatoshis, 8)}{' '}
         <AssetSymbolRenderer asset={asset} /> +{' '}
-        {toNumberFormat(limits.dynamicFee / DYNAMIC_FEE_DIVISOR, 4)} %
+        {toNumberFormat((limits.dynamicFee / DYNAMIC_FEE_DIVISOR) * 100, 2)} %
       </>
     );
   }, [limits, asset]);
