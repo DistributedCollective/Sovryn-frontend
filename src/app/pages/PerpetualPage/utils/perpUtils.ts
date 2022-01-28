@@ -1,6 +1,6 @@
 /*
  * https://github.com/DistributedCollective/sovryn-perpetual-swap/blob/dev/scripts/utils/perpUtils.ts
- * COMMIT: 0e3ef67aba939917309de00d22953d87992764a1
+ * COMMIT: 60e6b8b84c4c337d81c364d57b1df40cf1f8d29f
  * Helper-functions for frontend
  */
 
@@ -614,6 +614,9 @@ export function getRequiredMarginCollateral(
   slippagePercent = 0,
   accountForExistingMargin = true,
 ): number {
+  // master equation:
+  // |pos_new| * S2 / l + fee_BC * S2 = margin * S3 + pos_old * S2 - L + (pos_new - pos_old)*(S2 - entry price)
+  // entry price: AMM price for delta position, possibly with slippage
   console.assert(leverage > 0);
   let currentPos = traderState.marginAccountPositionBC;
   let positionToTrade = targetPos - currentPos;
@@ -631,7 +634,7 @@ export function getRequiredMarginCollateral(
       ? Math.max(tradeAmountPrice, slippagePrice)
       : Math.min(tradeAmountPrice, slippagePrice);
   let quote2collateral = getQuote2CollateralFX(ammData);
-  // leverage = position/margincollateral, where position is valued at mark, collateral at spot
+  // leverage = position/margincollateral, where position and collateral are valued at spot
   // Protocol fees are subtracted from the margincollateral
   // Hence: leverage = position/(margincollateral - fees)
   //   -> margincollateral =  position/leverage + pnl + fees
@@ -1014,16 +1017,36 @@ export function calculateLeverage(
   traderState: TraderState,
   ammState: AMMState,
   perpParameters: PerpParameters,
+  slippagePercent: number = 0,
 ): number {
-  let numeratorQC = Math.abs(targetPosition) * getBase2QuoteFX(ammState, false);
+  // master equation:
+  // |p_new| * S2 / l + fee_BC * S2 = m * S3 + p_old * Sm - L + (p_new - p_old)*(S2 - entry price)
+  // entry price: AMM price for delta position, possibly with slippage
+  console.assert(targetMargin > 0);
+  // pnl of existing position
   let S2 = getIndexPrice(ammState);
   let currentPosition = traderState.marginAccountPositionBC;
-  let deltaPosition = targetPosition - currentPosition;
   let lockedIn = traderState.marginAccountLockedInValueQC;
-  let price = getPrice(deltaPosition, perpParameters, ammState);
   let initialPnL = currentPosition * getMarkPrice(ammState) - lockedIn;
-  let newPnL = deltaPosition * (S2 - price);
+  // pnl of adjusting position
+  let deltaPosition = targetPosition - currentPosition;
+  let dir = Math.sign(deltaPosition);
+  let slippagePrice = calculateSlippagePriceFromMidPrice(
+    perpParameters,
+    ammState,
+    slippagePercent,
+    dir,
+  );
+  let tradeAmountPrice = getPrice(deltaPosition, perpParameters, ammState);
+  tradeAmountPrice =
+    dir > 0
+      ? Math.max(tradeAmountPrice, slippagePrice)
+      : Math.min(tradeAmountPrice, slippagePrice);
+  let newPnL = deltaPosition * (S2 - tradeAmountPrice);
+  // fees
   let fees = getTradingFee(deltaPosition, perpParameters, ammState) * S2;
+  // leverage = position / margin after fees and pnl
+  let numeratorQC = Math.abs(targetPosition) * getBase2QuoteFX(ammState, false);
   let denominatorQC =
     initialPnL + newPnL + targetMargin / getQuote2CollateralFX(ammState) - fees;
   return numeratorQC / denominatorQC;

@@ -1,6 +1,6 @@
 /*
  * https://github.com/DistributedCollective/sovryn-perpetual-swap/blob/dev/scripts/utils/perpMath.ts
- * COMMIT: cdbae294046aadcfc8a28a2aeccf0cd009b92c31
+ * COMMIT: 60e6b8b84c4c337d81c364d57b1df40cf1f8d29f
  */
 
 import console from 'console';
