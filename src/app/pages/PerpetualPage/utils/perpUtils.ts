@@ -1,6 +1,6 @@
 /*
  * https://github.com/DistributedCollective/sovryn-perpetual-swap/blob/dev/scripts/utils/perpUtils.ts
- * COMMIT: 60e6b8b84c4c337d81c364d57b1df40cf1f8d29f
+ * COMMIT: cf7609095bb35960cd323ab3c2635f0368048f7e
  * Helper-functions for frontend
  */
 
@@ -76,6 +76,8 @@ export interface PerpParameters {
   poolId: number;
   oracleS2Addr: string;
   oracleS3Addr: string;
+  // perpetual-wide hard-cap for position size
+  fMaxPositionBC: number;
 }
 
 export interface PerpCurrencySymbols {
@@ -248,7 +250,8 @@ export function getMaxInitialLeverage(
 }
 
 /**
- * Get minimal short or maximal long position for trader. Direction=-1 for short, 1 for long
+ * Get minimal short or maximal long position for a given trader. Assumes maximal leverage and no open positions for trader.
+ * Direction=-1 for short, 1 for long
  * Assumes maximal leverage
  * This function calculates the largest position considering
  * - leverage constraints
@@ -270,9 +273,14 @@ export function getSignedMaxAbsPositionForTrader(
   traderState: TraderState,
   ammData: AMMState,
   poolData: LiqPoolState,
+  slippagePercent: number = 0,
 ): number {
   // max position = min(current position + maximal trade size, max position allowed by leverage constraint)
   let currentPos = traderState.marginAccountPositionBC;
+  let fee = getTradingFeeRate(perpParams);
+  let S3 = 1 / getQuote2CollateralFX(ammData);
+  let S2 = getIndexPrice(ammData);
+  let Sm = getMarkPrice(ammData);
   let maxSignedPos =
     currentPos +
     getMaximalTradeSizeInPerpetual(
@@ -282,43 +290,68 @@ export function getSignedMaxAbsPositionForTrader(
       poolData,
       perpParams,
     );
-  let availableCollateral =
-    traderState.availableMarginCC + availableWalletBalance;
-  if (availableCollateral < 0) {
+  let traderPnL =
+    traderState.marginAccountPositionBC * Sm -
+    traderState.marginAccountLockedInValueQC;
+  let cashQC =
+    (availableWalletBalance + traderState.marginBalanceCC) * S3 + traderPnL;
+  if (cashQC <= 0) {
     return 0;
   }
 
-  let alpha = perpParams.fInitialMarginRateAlpha;
-  let beta = perpParams.fMarginRateBeta;
-  let fee = getTradingFeeRate(perpParams);
-  let S3 = 1 / getQuote2CollateralFX(ammData);
-  let S2 = getIndexPrice(ammData); //ammData.indexS2PriceDataOracle;
-  let Sm = getMarkPrice(ammData); // S2 * (1 + ammData.currentMarkPremiumRate);
-  let balanceCC = traderState.marginBalanceCC;
-  let cashCC = availableWalletBalance;
-  let maxmargin = perpParams.fInitialMarginRateCap;
-  let pos1 = ((cashCC + balanceCC) * S3) / (Sm * maxmargin + fee * S2);
-  if (getInitialMarginRate(pos1, perpParams) < maxmargin) {
-    // quadratic equation
-    let a = beta * Sm;
-    let b = alpha * Sm + fee * S2;
-    let c = -(cashCC + balanceCC) * S3;
-    let d = b ** 2 - 4 * a * c;
-    if (d > 0) {
-      d = Math.sqrt(d);
-      let x1 = (-b + d) / (2 * a);
-      pos1 = x1;
-    } else {
-      pos1 = 0;
-    }
+  // estimate pos at max leverage: it's a non-linear equation because of the entry price so we need to iterate.
+  // position_0 = one lot in given direction
+  // position_i+1 = max position where entry price is price(position_i)
+
+  let position = direction * perpParams.fLotSizeBC;
+  let denominator = 1;
+  let numIter = 0;
+
+  let slippagePrice = calculateSlippagePriceFromMidPrice(
+    perpParams,
+    ammData,
+    slippagePercent,
+    direction,
+  );
+  let tradeAmountPrice = slippagePrice;
+  let marginRate;
+  while (denominator > 0 && numIter < 20) {
+    position =
+      (cashQC - traderState.marginAccountPositionBC * (S2 - tradeAmountPrice)) /
+      denominator;
+    tradeAmountPrice = getPrice(
+      position - traderState.marginAccountPositionBC,
+      perpParams,
+      ammData,
+    );
+    tradeAmountPrice =
+      direction > 0
+        ? Math.max(tradeAmountPrice, slippagePrice)
+        : Math.min(tradeAmountPrice, slippagePrice);
+    marginRate = getInitialMarginRate(position, perpParams);
+    denominator =
+      S2 * marginRate + fee * S2 - direction * (S2 - tradeAmountPrice);
+    numIter += 1;
   }
   let maxpos;
   if (direction < 0) {
-    maxpos = Math.max(-pos1, maxSignedPos);
+    maxpos = Math.max(-position, maxSignedPos);
   } else {
-    maxpos = Math.min(pos1, maxSignedPos);
+    maxpos = Math.min(position, maxSignedPos);
   }
   maxpos = shrinkToLot(maxpos, perpParams.fLotSizeBC);
+  console.log('margin rate=', marginRate);
+  console.log(
+    'leverage =',
+    calculateLeverage(
+      maxpos,
+      cashQC / S3,
+      traderState,
+      ammData,
+      perpParams,
+      slippagePercent,
+    ),
+  );
   return maxpos;
 }
 

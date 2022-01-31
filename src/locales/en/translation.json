@@ -1701,8 +1701,8 @@
       },
       "tooltips": {
         "orderValue": "The notional amount for your position.",
-        "orderCost": "The approximate amount withdrawn from your wallet to pay for the trade. Consists of required margin and trading fee.",
-        "tradingFee": "The trading fee excluding blockchain transaction fees."
+        "orderCost": "The maximal amount withdrawn from your wallet to pay for the trade. Consists of required margin and trading fee. This value depends on your slippage settings.",
+        "tradingFee": "The trading fee. If fees are paid in BTC, this includes gas costs."
       }
     },
     "tradeDialog": {
@@ -1910,7 +1910,7 @@
     "warnings": {
       "priceExceedsSlippage": "Trade is likely to fail, because the expected price exceeds limit price! Update slippage to at least {{slippage}}, to avoid transaction failure.",
       "targetMarginUnsafe": "Transaction is likely to fail. The resulting position does not meet the required maintenance margin.",
-      "exceedsBalance": "Order cost exceeds total balance."
+      "exceedsBalance": "Order cost exceeds total balance, your trade could fail in case of high slippage."
     }
   },
   "spotTradingPage": {
