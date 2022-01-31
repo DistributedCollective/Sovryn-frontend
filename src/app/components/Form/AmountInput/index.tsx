@@ -67,7 +67,7 @@ export const AmountInput: React.FC<IAmountInputProps> = ({
         className="tw-rounded-lg tw-max-w-full"
         appendClassName={assetSelectable ? '' : 'tw-mr-5'}
         readOnly={readonly}
-        dataActionId={dataActionId}
+        dataActionId={`${dataActionId}-amountInput`}
       />
       {subText && (
         <div className="tw-text-xs tw-mt-1 tw-font-thin">{subText}</div>
@@ -78,6 +78,7 @@ export const AmountInput: React.FC<IAmountInputProps> = ({
           maxAmount={maxAmount}
           gasFee={gasFee}
           onChange={onChange}
+          dataActionId={dataActionId}
         />
       )}
     </>
@@ -91,6 +92,7 @@ interface IAmountSelectorProps {
   maxAmount?: string;
   gasFee?: string;
   onChange: (value: string, isTotal: boolean) => void;
+  dataActionId?: string;
 }
 
 const AmountSelector: React.FC<IAmountSelectorProps> = ({
@@ -98,6 +100,7 @@ const AmountSelector: React.FC<IAmountSelectorProps> = ({
   maxAmount,
   gasFee = '0',
   onChange,
+  dataActionId,
 }) => {
   const { t } = useTranslation();
   const { value } = useAssetBalanceOf(asset);
@@ -142,6 +145,7 @@ const AmountSelector: React.FC<IAmountSelectorProps> = ({
           key={value}
           text={value === 100 ? t(translations.common.max) : `${value}%`}
           onClick={() => handleChange(value)}
+          dataActionId={dataActionId}
         />
       ))}
     </div>
@@ -151,17 +155,19 @@ const AmountSelector: React.FC<IAmountSelectorProps> = ({
 interface IAmountButtonProps {
   text?: string;
   onClick?: () => void;
+  dataActionId?: string;
 }
 
 export const AmountSelectorButton: React.FC<IAmountButtonProps> = ({
   text,
   onClick,
+  dataActionId,
 }) => {
   return (
     <button
       onClick={onClick}
-      className="tw-text-secondary tw-bg-secondary tw-bg-opacity-0 tw-font-medium tw-text-xs tw-leading-none tw-px-4 tw-py-1 tw-text-center tw-w-full tw-transition hover:tw-bg-opacity-25 focus:tw-bg-opacity-50 tw-uppercase"
-      data-action-id={`swap-send-amountSelectorButton-${text}`}
+      className="tw-text-secondary tw-bg-secondary tw-bg-opacity-0 tw-font-medium tw-text-xs tw-leading-none tw-px-4 tw-py-1 tw-text-center tw-w-full tw-transition hover:tw-bg-opacity-25"
+      data-action-id={`${dataActionId}-amountSelectorButton-${text}`}
     >
       {text}
     </button>

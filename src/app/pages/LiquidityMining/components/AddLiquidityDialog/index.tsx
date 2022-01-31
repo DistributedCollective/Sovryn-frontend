@@ -97,6 +97,7 @@ export const AddLiquidityDialog: React.FC<IAddLiquidityDialogProps> = ({
                 translations.common.availableBalance,
               )} ${weiToNumberFormat(balance, 8)}`}
               asset={asset}
+              dataActionId="yieldFarm"
             />
           </FormGroup>
           <TxFeeCalculator
@@ -133,6 +134,7 @@ export const AddLiquidityDialog: React.FC<IAddLiquidityDialogProps> = ({
                 tx.loading || !valid || !canInteract || addliquidityLocked
               }
               className="tw-rounded-lg"
+              data-action-id="yieldFarm-liquidityModal-confirm"
             />
           )}
         </div>
