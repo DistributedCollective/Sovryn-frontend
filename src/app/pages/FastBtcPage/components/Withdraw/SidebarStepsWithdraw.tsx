@@ -26,9 +26,8 @@ const stepOrder = [
   WithdrawStep.COMPLETED,
 ];
 
-const isBehindStep = (current: WithdrawStep, needed: WithdrawStep) => {
-  return stepOrder.indexOf(current) > stepOrder.indexOf(needed);
-};
+const isBehindStep = (current: WithdrawStep, needed: WithdrawStep) =>
+  stepOrder.indexOf(current) > stepOrder.indexOf(needed);
 
 export const SidebarStepsWithdraw: React.FC = () => {
   const { t } = useTranslation();

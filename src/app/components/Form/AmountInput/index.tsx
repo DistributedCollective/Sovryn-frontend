@@ -74,7 +74,6 @@ export const AmountInput: React.FC<IAmountInputProps> = ({
       )}
       {!readonly && (asset || maxAmount !== undefined) && (
         <AmountSelector
-          parentValue={value}
           asset={asset}
           maxAmount={maxAmount}
           gasFee={gasFee}
@@ -88,14 +87,13 @@ export const AmountInput: React.FC<IAmountInputProps> = ({
 const amounts = [10, 25, 50, 75, 100];
 
 interface IAmountSelectorProps {
-  parentValue?: string;
   asset?: Asset;
   maxAmount?: string;
   gasFee?: string;
   onChange: (value: string, isTotal: boolean) => void;
 }
 
-export const AmountSelector: React.FC<IAmountSelectorProps> = ({
+const AmountSelector: React.FC<IAmountSelectorProps> = ({
   asset = Asset.RBTC,
   maxAmount,
   gasFee = '0',

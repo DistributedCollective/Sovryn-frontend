@@ -29,21 +29,17 @@ export const AmountForm: React.FC<NetworkAwareComponentProps> = ({
   const [value, setValue] = useState(amount);
 
   const invalid = useMemo(() => {
-    const amount = value || '0';
-    const weiAmount = Number(amount) * btcInSatoshis;
-    if (bignumber(weiAmount).lessThanOrEqualTo(0)) {
+    const amount = value;
+    const satoshiAmount = Number(amount) * btcInSatoshis;
+    if (
+      bignumber(satoshiAmount).lessThanOrEqualTo(0) ||
+      bignumber(satoshiAmount).lessThan(limits.min) ||
+      bignumber(satoshiAmount).greaterThan(limits.max)
+    ) {
       return true;
     }
 
-    if (bignumber(weiAmount).lessThan(limits.min)) {
-      return true;
-    }
-
-    if (bignumber(weiAmount).greaterThan(limits.max)) {
-      return true;
-    }
-
-    return bignumber(weiAmount)
+    return bignumber(satoshiAmount)
       .add(gasLimit[TxType.FAST_BTC_WITHDRAW])
       .greaterThan(balance.value || '0');
   }, [value, balance.value, limits.min, limits.max]);

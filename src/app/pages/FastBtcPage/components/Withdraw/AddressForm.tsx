@@ -26,9 +26,9 @@ export const AddressForm: React.FC = () => {
   const { address, set } = useContext(WithdrawContext);
   const { t } = useTranslation();
 
-  const [addressValidationState, setAddressValidationState] = useState<
-    AddressValidationState
-  >(AddressValidationState.NONE);
+  const [addressValidationState, setAddressValidationState] = useState(
+    AddressValidationState.NONE,
+  );
   const [value, setValue] = useState(address);
 
   const invalid = useMemo(

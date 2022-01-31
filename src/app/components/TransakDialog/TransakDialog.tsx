@@ -18,7 +18,7 @@ export const TransakDialog: React.FC<ITransakDialogProps> = ({
   return (
     <Overlay
       isOpen={isOpen}
-      onClose={() => onClose()}
+      onClose={onClose}
       className={Classes.OVERLAY_SCROLL_CONTAINER}
       hasBackdrop
       canEscapeKeyClose

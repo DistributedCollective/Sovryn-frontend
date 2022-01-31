@@ -174,7 +174,7 @@ export const UserAssets: React.FC = () => {
   );
 };
 
-interface IAssetProps {
+interface IAssetRowProps {
   item: AssetDetails;
   onTransack: () => void;
   onConvert: (asset: Asset) => void;
@@ -191,7 +191,7 @@ const XUSD_ASSETS: {
   { asset: CrossBridgeAsset.BUSD, image: busdIcon },
 ];
 
-const AssetRow: React.FC<IAssetProps> = ({
+const AssetRow: React.FC<IAssetRowProps> = ({
   item,
   onTransack,
   onConvert,
@@ -287,10 +287,7 @@ const AssetRow: React.FC<IAssetProps> = ({
               <Link to="/fast-btc/deposit">
                 <span>{t(translations.common.deposit)}</span>
               </Link>
-              <button
-                className={styles.actionLink}
-                onClick={() => onTransack()}
-              >
+              <button className={styles.actionLink} onClick={onTransack}>
                 {t(translations.userAssets.actions.buy)}
               </button>
               <Link to="/fast-btc/withdraw">
