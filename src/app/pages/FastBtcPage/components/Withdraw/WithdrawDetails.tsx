@@ -19,12 +19,7 @@ export const WithdrawDetails: React.FC<NetworkAwareComponentProps> = ({
 
   const renderFee = useMemo(() => {
     if (!limits.dynamicFee) {
-      return (
-        <>
-          {toNumberFormat(limits.baseFee / btcInSatoshis, 8)}{' '}
-          <AssetSymbolRenderer asset={asset} />
-        </>
-      );
+      return <>{toNumberFormat(limits.baseFee / btcInSatoshis, 8)} BTC</>;
     }
 
     if (!limits.baseFee) {
@@ -37,12 +32,11 @@ export const WithdrawDetails: React.FC<NetworkAwareComponentProps> = ({
 
     return (
       <>
-        {toNumberFormat(limits.baseFee / btcInSatoshis, 8)}{' '}
-        <AssetSymbolRenderer asset={asset} /> +{' '}
+        {toNumberFormat(limits.baseFee / btcInSatoshis, 8)} BTC +{' '}
         {toNumberFormat((limits.dynamicFee / DYNAMIC_FEE_DIVISOR) * 100, 2)} %
       </>
     );
-  }, [limits, asset]);
+  }, [limits]);
 
   return (
     <section className="tw-py-4 tw-px-8 tw-bg-gray-6 tw-text-white tw-rounded tw-mb-4">
