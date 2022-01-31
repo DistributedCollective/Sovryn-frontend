@@ -1707,8 +1707,8 @@
       },
       "tooltips": {
         "orderValue": "The notional amount for your position.",
-        "orderCost": "The approximate amount withdrawn from your wallet to pay for the trade. Consists of required margin and trading fee.",
-        "tradingFee": "The trading fee excluding blockchain transaction fees."
+        "orderCost": "The maximal amount withdrawn from your wallet to pay for the trade. Consists of required margin and trading fee. This value depends on your slippage settings.",
+        "tradingFee": "The trading fee. If fees are paid in BTC, this includes gas costs."
       }
     },
     "tradeDialog": {
@@ -1852,10 +1852,10 @@
         "positionSize": "The size of your position. Negative values denote short positions.",
         "entryPrice": "The average price received when opening this position.",
         "markPrice": "Latest Mark Price for this contract. To prevent price manipulation, the Mark Price is used for unrealized PnL and margin calculations.",
-        "liquidationPrice": "The liquidation price is the approximate price at which your position can be liquidated. To move your position away from the liquidation price, you can decrease your position size, add margin, or use the leverage action to reduce leverage.",
+        "liquidationPrice": "The liquidation price is the mark price at which your position can be liquidated. To move your position away from the liquidation price, you can decrease your position size, add margin, or use the leverage action to reduce leverage.",
         "margin": "The margin allocated to the position and leverage ratio in brackets. The lower the Leverage Ratio, the further away your liquidation price will be relative to your position entry price.",
         "unrealized": "The unrealized P&L is calculated using the Mark Price. It also contains the accrued funding payments.",
-        "realized": "The realized P&L that was paid to your margin account."
+        "realized": "The realized P&L that was paid to your margin account. This includes fees and slippage. Funding payments are reported separately."
       }
     },
     "closedPositionsTable": {
