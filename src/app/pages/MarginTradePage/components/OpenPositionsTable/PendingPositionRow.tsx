@@ -54,16 +54,27 @@ export function PendingPositionRow({ item }: IPendingPositionRow) {
                 <p className="tw-m-0">{t(translations.common.pending)}</p>
               )}
               <LinkToExplorer
+                startLength={6}
                 txHash={item.transactionHash}
                 className="tw-text-primary tw-font-normal tw-whitespace-nowrap"
               />
             </div>
             <div>
               {item.status === TxStatus.FAILED && (
-                <img src={iconRejected} title="Failed" alt="Failed" />
+                <img
+                  src={iconRejected}
+                  title="Failed"
+                  className="tw-min-w-6 tw-ml-1.5"
+                  alt="Failed"
+                />
               )}
               {item.status === TxStatus.PENDING && (
-                <img src={iconPending} title="Pending" alt="Pending" />
+                <img
+                  src={iconPending}
+                  title="Pending"
+                  className="tw-min-w-6 tw-ml-1.5 tw-animate-spin"
+                  alt="Pending"
+                />
               )}
             </div>
           </div>

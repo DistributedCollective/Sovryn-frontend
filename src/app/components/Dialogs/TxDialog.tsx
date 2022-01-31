@@ -15,7 +15,6 @@ import wLedger from 'assets/wallets/ledger.svg';
 import wTrezor from 'assets/wallets/trezor.svg';
 import wWalletConnect from 'assets/wallets/walletconnect.svg';
 import { LinkToExplorer } from '../LinkToExplorer';
-import styled from 'styled-components/macro';
 import styles from './dialog.module.scss';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -78,10 +77,7 @@ export const TxDialog: React.FC<ITxDialogProps> = ({
         <>
           <h1>{t(translations.buySovPage.txDialog.pendingUser.title)}</h1>
           <WalletLogo wallet={wallet} />
-          <p
-            className="tw-text-center tw-mx-auto tw-w-full"
-            style={{ maxWidth: 266 }}
-          >
+          <p className="tw-text-center tw-mx-auto tw-w-full tw-max-w-xs">
             {t(translations.buySovPage.txDialog.pendingUser.text, {
               walletName: getWalletName(wallet),
             })}
@@ -99,18 +95,21 @@ export const TxDialog: React.FC<ITxDialogProps> = ({
           <StatusComponent status={tx.status} />
 
           {!!tx.txHash && (
-            <StyledHashContainer>
-              <StyledHash>
-                <strong>Hash:</strong> {prettyTx(tx.txHash)}
-              </StyledHash>
-              <ExplorerLink>
+            <div className="tw-max-w-xs tw-w-full">
+              <div className="tw-text-center tw-text-sm tw-font-light tw-mb-9">
+                <strong className="tw-font-medium tw-mr-3.5 tw-inline-block">
+                  Hash:
+                </strong>{' '}
+                {prettyTx(tx.txHash)}
+              </div>
+              <div className="tw-text-secondary tw-text-center">
                 <LinkToExplorer
                   txHash={tx.txHash}
                   text={t(translations.buySovPage.txDialog.txStatus.cta)}
-                  className="tw-text-blue"
+                  className="tw-text-blue tw-font-medium tw-underline hover:tw-no-underline"
                 />
-              </ExplorerLink>
-            </StyledHashContainer>
+              </div>
+            </div>
           )}
 
           {!tx.txHash && tx.status === TxStatus.FAILED && (
@@ -138,7 +137,7 @@ export const TxDialog: React.FC<ITxDialogProps> = ({
   );
 };
 
-function getWalletName(wallet) {
+function getWalletName(wallet: string) {
   if (wallet === 'liquality') return 'Liquality';
   if (wallet === 'nifty') return 'Nifty';
   if (wallet === 'portis') return 'Portis';
@@ -148,7 +147,7 @@ function getWalletName(wallet) {
   return 'MetaMask';
 }
 
-function getWalletImage(wallet) {
+function getWalletImage(wallet: string) {
   if (wallet === 'liquality') return wLiquality;
   if (wallet === 'nifty') return wNifty;
   if (wallet === 'portis') return wPortis;
@@ -172,87 +171,30 @@ function getStatus(tx: TxStatus) {
   return <Trans i18nKey={translations.common.pending} />;
 }
 
-const StyledStatus = styled.div`
-  width: 100px;
-  margin: 0 auto;
-  text-align: center;
-  img {
-    width: 55px;
-    height: 55px;
-    margin: 0 auto;
-  }
-  p {
-    font-size: 1rem;
-    font-weight: 500;
-  }
-`;
-
-const StyledHashContainer = styled.div`
-  max-width: 215px;
-  width: 100%;
-  margin: 0 auto;
-`;
-
-const StyledHash = styled.div`
-  text-align: center;
-  font-size: 0.875rem;
-  font-weight: 300;
-  margin-bottom: 35px;
-  strong {
-    font-weight: 500;
-    margin-right: 14px;
-    display: inline-block;
-  }
-`;
-
-const ExplorerLink = styled.div.attrs(_ => ({
-  className: 'tw-text-secondary',
-}))`
-  text-align: center;
-  a {
-    text-decoration: underline !important;
-    font-weight: 500 !important;
-    &:hover {
-      text-decoration: none !important;
-    }
-  }
-`;
-
 function StatusComponent({ status }: { status: TxStatus }) {
   return (
-    <StyledStatus>
+    <div className="tw-mx-auto tw-text-center tw-w-24">
       <img
         src={getStatusImage(status)}
-        className={`${status === 'pending' && 'tw-animate-spin'}`}
+        className={`${
+          status === 'pending' && 'tw-animate-spin'
+        } tw-w-14 tw-h-14 tw-mx-auto`}
         alt="Status"
       />
-      <p>{getStatus(status)}</p>
-    </StyledStatus>
+      <p className="tw-text-base tw-font-medium">{getStatus(status)}</p>
+    </div>
   );
 }
 
-const WLContainer = styled.div`
-  width: 98px;
-  height: 98px;
-  border-radius: 1.25rem;
-  border: 1px solid #e8e8e8;
-  margin: 0 auto 35px;
-  div {
-    font-size: 0.75rem;
-  }
-`;
-const WLImage = styled.img`
-  width: 50px;
-  height: 50px;
-  margin-bottom: 10px;
-  object-fit: contain;
-`;
-
 function WalletLogo({ wallet }: { wallet: string }) {
   return (
-    <WLContainer className="tw-flex tw-flex-col tw-justify-center tw-items-center tw-overflow-hidden">
-      <WLImage src={getWalletImage(wallet)} alt="Wallet" />
-      <div className="tw-truncate">{getWalletName(wallet)}</div>
-    </WLContainer>
+    <div className="tw-flex tw-flex-col tw-justify-center tw-items-center tw-overflow-hidden tw-rounded-2xl tw-border tw-border-sov-white tw-w-24 tw-h-24 tw-mx-auto tw-mb-9">
+      <img
+        className="tw-w-12 tw-h-12 tw-mb-2.5 tw-object-contain"
+        src={getWalletImage(wallet)}
+        alt="Wallet"
+      />
+      <div className="tw-truncate tw-text-xs">{getWalletName(wallet)}</div>
+    </div>
   );
 }

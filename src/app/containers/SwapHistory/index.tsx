@@ -325,6 +325,7 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
             )}
             {data.status === TxStatus.PENDING && (
               <img
+                className="tw-animate-spin"
                 src={iconPending}
                 title={t(translations.common.pending)}
                 alt={t(translations.common.pending)}
