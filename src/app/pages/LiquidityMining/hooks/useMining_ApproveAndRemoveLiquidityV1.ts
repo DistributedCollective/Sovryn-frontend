@@ -1,4 +1,3 @@
-import { Asset } from 'types/asset';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import {
   CheckAndApproveResult,
@@ -6,18 +5,17 @@ import {
 } from 'utils/sovryn/contract-writer';
 import { toWei } from 'utils/blockchain/math-helpers';
 import { useMining_RemoveLiquidityV1 } from './useMining_RemoveLiquidityV1';
-import { ContractName } from 'utils/types/contracts';
+import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
+import { MILLION } from 'utils/classifiers';
 
 export function useMining_ApproveAndRemoveLiquidityV1(
-  pool: Asset,
+  pool: AmmLiquidityPool,
   amount: string,
-  reserveTokens: Asset[],
   reserveMinReturnAmounts: string[],
 ) {
   const { withdraw, ...txState } = useMining_RemoveLiquidityV1(
     pool,
     amount,
-    reserveTokens,
     reserveMinReturnAmounts,
   );
 
@@ -25,11 +23,11 @@ export function useMining_ApproveAndRemoveLiquidityV1(
     withdraw: async () => {
       let tx: CheckAndApproveResult = {};
 
-      tx = await contractWriter.checkAndApproveContract(
-        `${pool}_${pool}_poolToken` as ContractName,
+      tx = await contractWriter.checkAndApproveAddresses(
+        pool.poolTokenA,
         getContract('BTCWrapperProxy').address,
-        [amount, toWei('1000000000000000')],
-        pool,
+        [amount, toWei(MILLION)],
+        pool.converter,
       );
       if (tx.rejected) {
         return;

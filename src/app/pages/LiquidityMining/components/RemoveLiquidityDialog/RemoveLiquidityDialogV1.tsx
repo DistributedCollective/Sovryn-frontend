@@ -10,8 +10,7 @@ import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { useSlippage } from '../../../BuySovPage/components/BuyForm/useSlippage';
 import { bignumber } from 'mathjs';
 import {
-  getAmmContract,
-  getPoolTokenContractName,
+  getContract,
   getTokenContract,
   getTokenContractName,
 } from '../../../../../utils/blockchain/contract-helpers';
@@ -22,76 +21,61 @@ import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { TxFeeCalculator } from '../../../MarginTradePage/components/TxFeeCalculator';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { TxDialog } from '../../../../components/Dialogs/TxDialog';
-import { usePoolToken } from '../../../../hooks/amm/usePoolToken';
 import { LoadableValue } from '../../../../components/LoadableValue';
-import {
-  LiquidityPool,
-  LiquidityPoolSupplyAsset,
-} from '../../../../../utils/models/liquidity-pool';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { useLiquidityMining_getUserInfo } from '../../hooks/useLiquidityMining_getUserInfo';
 import { Asset } from '../../../../../types';
 import { contractReader } from '../../../../../utils/sovryn/contract-reader';
-import { useCacheCallWithValue } from '../../../../hooks/useCacheCallWithValue';
 import { useMining_ApproveAndRemoveLiquidityV1 } from '../../hooks/useMining_ApproveAndRemoveLiquidityV1';
 import { useLiquidityMining_getUserAccumulatedReward } from '../../hooks/useLiquidityMining_getUserAccumulatedReward';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
+import { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
 
-interface Props {
-  pool: LiquidityPool;
+import { useCacheCallToWithValue } from 'app/hooks/chain/useCacheCallToWithValue';
+
+interface IRemoveLiquidityDialogV1Props {
+  pool: AmmLiquidityPool;
   showModal: boolean;
   onCloseModal: () => void;
   onSuccess: () => void;
 }
 
-export function RemoveLiquidityDialogV1({ pool, ...props }: Props) {
+export const RemoveLiquidityDialogV1: React.FC<IRemoveLiquidityDialogV1Props> = ({
+  pool,
+  ...props
+}) => {
   const { t } = useTranslation();
 
   const canInteract = useCanInteract();
   const { checkMaintenance, States } = useMaintenance();
   const removeliquidityLocked = checkMaintenance(States.REMOVE_LIQUIDITY);
 
-  const mainToken = useMemo(
-    () =>
-      pool.supplyAssets.find(
-        item => item.asset === pool.poolAsset,
-      ) as LiquidityPoolSupplyAsset,
-    [pool],
-  );
-  const sideToken = useMemo(
-    () =>
-      pool.supplyAssets.find(
-        item => item.asset !== pool.poolAsset,
-      ) as LiquidityPoolSupplyAsset,
-    [pool],
-  );
-
   const [amount, setAmount] = useState('0');
   const [balance, setBalance] = useState('0');
   const [sideBalance, setSideBalance] = useState('0');
   const weiAmount = useWeiAmount(amount);
 
-  usePoolToken(pool.poolAsset, pool.poolAsset);
-
   const {
     value: { amount: poolTokenBalance, accumulatedReward },
     loading,
-  } = useLiquidityMining_getUserInfo(mainToken.getContractAddress());
+  } = useLiquidityMining_getUserInfo(pool.poolTokenA);
 
-  const { value: supply } = useCacheCallWithValue(
-    getPoolTokenContractName(pool.poolAsset, pool.poolAsset),
+  const { value: supply } = useCacheCallToWithValue(
+    pool.poolTokenA,
+    getContract('SOV_token').abi,
     'totalSupply',
     '0',
+    [],
   );
 
   useEffect(() => {
     const get = async () => {
       const converterBalance = await contractReader.call<string>(
-        getTokenContractName(mainToken.asset),
+        getTokenContractName(pool.assetA),
         'balanceOf',
-        [getAmmContract(pool.poolAsset).address],
+        [pool.converter],
       );
 
       return bignumber(poolTokenBalance)
@@ -103,14 +87,14 @@ export function RemoveLiquidityDialogV1({ pool, ...props }: Props) {
     get()
       .then(e => setBalance(e))
       .catch(console.error);
-  }, [supply, poolTokenBalance, pool.poolAsset, mainToken]);
+  }, [supply, poolTokenBalance, pool]);
 
   useEffect(() => {
     const get = async () => {
       const converterBalance = await contractReader.call<string>(
-        getTokenContractName(sideToken.asset),
+        getTokenContractName(pool.assetB),
         'balanceOf',
-        [getAmmContract(pool.poolAsset).address],
+        [pool.converter],
       );
 
       return bignumber(poolTokenBalance)
@@ -122,13 +106,7 @@ export function RemoveLiquidityDialogV1({ pool, ...props }: Props) {
     get()
       .then(e => setSideBalance(e))
       .catch(console.error);
-  }, [
-    supply,
-    poolTokenBalance,
-    pool.poolAsset,
-    pool.supplyAssets,
-    sideToken.asset,
-  ]);
+  }, [supply, poolTokenBalance, pool]);
 
   const poolWeiAmount = useMemo(
     () =>
@@ -151,9 +129,8 @@ export function RemoveLiquidityDialogV1({ pool, ...props }: Props) {
   const { minReturn: minReturn2 } = useSlippage(sideWeiAmount, 5);
 
   const { withdraw, ...tx } = useMining_ApproveAndRemoveLiquidityV1(
-    pool.poolAsset,
+    pool,
     poolWeiAmount,
-    [mainToken.asset, sideToken.asset],
     [minReturn1, minReturn2],
   );
 
@@ -166,26 +143,17 @@ export function RemoveLiquidityDialogV1({ pool, ...props }: Props) {
 
   const txFeeArgs = useMemo(() => {
     return [
-      getAmmContract(pool.poolAsset).address,
+      pool.converter,
       poolWeiAmount,
       [
-        getTokenContract(mainToken.asset).address,
-        getTokenContract(sideToken.asset).address,
+        getTokenContract(pool.assetA).address,
+        getTokenContract(pool.assetB).address,
       ],
       [minReturn1, minReturn2],
     ];
-  }, [
-    mainToken.asset,
-    minReturn1,
-    minReturn2,
-    pool.poolAsset,
-    poolWeiAmount,
-    sideToken.asset,
-  ]);
+  }, [minReturn1, minReturn2, pool, poolWeiAmount]);
 
-  const rewards = useLiquidityMining_getUserAccumulatedReward(
-    pool.supplyAssets[0].getContractAddress(),
-  );
+  const rewards = useLiquidityMining_getUserAccumulatedReward(pool.poolTokenA);
 
   const reward = useMemo(
     () => bignumber(rewards.value).add(accumulatedReward).toFixed(0),
@@ -208,16 +176,17 @@ export function RemoveLiquidityDialogV1({ pool, ...props }: Props) {
             <AmountInput
               onChange={value => setAmount(value)}
               value={amount}
-              asset={mainToken.asset}
+              asset={pool.assetA}
               subText={`${t(
                 translations.common.availableBalance,
               )} ${weiToNumberFormat(balance, 8)}`}
               maxAmount={balance}
+              dataActionId="yieldFarm"
             />
           </FormGroup>
           <DummyInput
             value={weiToNumberFormat(sideWeiAmount, 8)}
-            appendElem={<AssetRenderer asset={sideToken.asset} />}
+            appendElem={<AssetRenderer asset={pool.assetB} />}
             className="tw-mt-6 tw-h-9"
           />
           <div className="tw-text-xs tw-font-thin tw-mt-1">
@@ -274,6 +243,7 @@ export function RemoveLiquidityDialogV1({ pool, ...props }: Props) {
                 tx.loading || !valid || !canInteract || removeliquidityLocked
               }
               className="tw-rounded-lg"
+              data-action-id="yieldFarm-liquidityModal-confirm"
             />
           )}
         </div>
@@ -285,4 +255,4 @@ export function RemoveLiquidityDialogV1({ pool, ...props }: Props) {
       />
     </>
   );
-}
+};

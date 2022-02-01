@@ -1,13 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import type {
-  LiquidityPool,
-  LiquidityPoolSupplyAsset,
-} from 'utils/models/liquidity-pool';
+import React from 'react';
+import classNames from 'classnames';
 import { useCacheCallWithValue } from '../../../../hooks/useCacheCallWithValue';
 import { useReserveWeight } from '../../../../hooks/useReserveWeight';
 import {
-  getAmmContract,
-  getAmmContractName,
   getTokenContract,
   getTokenContractName,
 } from '../../../../../utils/blockchain/contract-helpers';
@@ -17,30 +12,28 @@ import {
   toNumberFormat,
   weiToNumberFormat,
 } from '../../../../../utils/display-text/format';
-import { contractReader } from '../../../../../utils/sovryn/contract-reader';
-import cn from 'classnames';
+import type { Asset } from 'types';
+import { useCacheCallToWithValue } from 'app/hooks/chain/useCacheCallToWithValue';
+import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
 
 interface Props {
-  pool: LiquidityPool;
-  supplyAsset: LiquidityPoolSupplyAsset;
+  pool: AmmLiquidityPool;
+  supplyAsset: Asset;
   className?: string;
 }
 
 export function PoolAssetInfo({ pool, supplyAsset, className }: Props) {
-  const weight = useReserveWeight(
-    getAmmContractName(pool.poolAsset),
-    getTokenContract(supplyAsset.asset).address,
-  );
+  const weight = useReserveWeight(pool, supplyAsset);
 
   return (
     <div
-      className={cn(
+      className={classNames(
         'tw-flex tw-flex-row tw-justify-between tw-items-center',
         className,
       )}
     >
       <div className="tw-flex tw-w-24 tw-mr-4 2xl:tw-mr-7">
-        <AssetRenderer asset={supplyAsset.asset} showImage />
+        <AssetRenderer asset={supplyAsset} showImage />
       </div>
       <div className="tw-w-20 tw-flex tw-flex-col tw-tracking-normal">
         <div className="tw-font-thin tw-text-base">
@@ -50,10 +43,10 @@ export function PoolAssetInfo({ pool, supplyAsset, className }: Props) {
           />
         </div>
         <div className="tw-text-xs">
-          {pool.version === 1 && (
+          {pool.converterVersion === 1 && (
             <ReserveStakedBalanceV1 pool={pool} supplyAsset={supplyAsset} />
           )}
-          {pool.version === 2 && (
+          {pool.converterVersion === 2 && (
             <ReserveStakedBalanceV2 pool={pool} supplyAsset={supplyAsset} />
           )}
         </div>
@@ -63,27 +56,12 @@ export function PoolAssetInfo({ pool, supplyAsset, className }: Props) {
 }
 
 function ReserveStakedBalanceV1({ pool, supplyAsset }: Props) {
-  const [balance, setBalance] = useState('0');
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const getBalance = async () => {
-      return await contractReader.call<string>(
-        getTokenContractName(supplyAsset.asset),
-        'balanceOf',
-        [getAmmContract(pool.poolAsset).address],
-      );
-    };
-
-    setLoading(true);
-    getBalance()
-      .then(e => {
-        setBalance(e);
-        setLoading(false);
-      })
-      .catch(console.error);
-  }, [pool, supplyAsset]);
-
+  const { value: balance, loading } = useCacheCallWithValue(
+    getTokenContractName(supplyAsset),
+    'balanceOf',
+    '0',
+    pool.converter,
+  );
   return (
     <LoadableValue
       loading={loading}
@@ -93,11 +71,12 @@ function ReserveStakedBalanceV1({ pool, supplyAsset }: Props) {
 }
 
 function ReserveStakedBalanceV2({ pool, supplyAsset }: Props) {
-  const balance = useCacheCallWithValue(
-    getAmmContractName(pool.poolAsset),
+  const balance = useCacheCallToWithValue(
+    pool.converter,
+    pool.converterAbi,
     'reserveStakedBalance',
     '0',
-    getTokenContract(supplyAsset.asset).address,
+    [getTokenContract(supplyAsset).address],
   );
   return (
     <LoadableValue

@@ -35,9 +35,9 @@ export const useGetAvailableLiquidityRewards = (): string => {
     );
     if (address !== '' && address !== ethGenesisAddress) {
       const pools = ammPools.flatMap(item =>
-        item.version === 1
-          ? [item.supplyAssets[0]]
-          : [item.supplyAssets[0], item.supplyAssets[1]],
+        item.converterVersion === 1
+          ? [item.poolTokenA]
+          : [item.poolTokenA, item.poolTokenB],
       );
       bridgeNetwork
         .multiCall<{ [key: string]: string }>(
@@ -48,8 +48,8 @@ export const useGetAvailableLiquidityRewards = (): string => {
                 address: getContract('liquidityMiningProxy').address,
                 abi: getContract('liquidityMiningProxy').abi,
                 fnName: 'getUserAccumulatedReward',
-                args: [item.getContractAddress(), address],
-                key: `getUserAccumulatedReward_${index}_${item.asset}`,
+                args: [item, address],
+                key: `getUserAccumulatedReward_${item}`,
                 parser: value => value[0].toString(),
               },
             ];
@@ -72,14 +72,14 @@ export const useGetAvailableLiquidityRewards = (): string => {
       bridgeNetwork
         .multiCall<{ [key: string]: string }>(
           Chain.RSK,
-          pools.flatMap((item, index) => {
+          pools.flatMap(item => {
             return [
               {
                 address: getContract('liquidityMiningProxy').address,
                 abi: getContract('liquidityMiningProxy').abi,
                 fnName: 'getUserInfo',
-                args: [item.getContractAddress(), address],
-                key: `getUserInfo_${index}_${item.asset}`,
+                args: [item, address],
+                key: `getUserInfo_${item}`,
                 parser: value => value[0].accumulatedReward.toString(),
               },
             ];

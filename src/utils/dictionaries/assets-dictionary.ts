@@ -151,13 +151,6 @@ export class AssetsDictionary {
     ) as AssetDetails;
   }
 
-  public static getByAmmContractAddress(address: string): AssetDetails {
-    return this.list().find(
-      item =>
-        item.ammContract?.address?.toLowerCase() === address.toLowerCase(),
-    ) as AssetDetails;
-  }
-
   public static list(): Array<AssetDetails> {
     return Array.from(this.assets.values());
   }

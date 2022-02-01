@@ -1,6 +1,6 @@
 import { bignumber } from 'mathjs';
 import React, { useMemo } from 'react';
-
+import { useTranslation } from 'react-i18next';
 import { Asset } from '../../../../types';
 import { fromWei } from '../../../../utils/blockchain/math-helpers';
 import { AssetRenderer } from '../../AssetRenderer';
@@ -11,8 +11,9 @@ import {
   stringToFixedPrecision,
   toNumberFormat,
 } from 'utils/display-text/format';
+import { translations } from 'locales/i18n';
 
-interface Props {
+interface IAmountInputProps {
   value: string;
   onChange: (value: string, isTotal?: boolean | undefined) => void;
   decimalPrecision?: number;
@@ -25,9 +26,10 @@ interface Props {
   maxAmount?: string;
   readonly?: boolean;
   dataActionId?: string;
+  gasFee?: string;
 }
 
-export function AmountInput({
+export const AmountInput: React.FC<IAmountInputProps> = ({
   value,
   onChange,
   placeholder = toNumberFormat(0, 6),
@@ -40,7 +42,8 @@ export function AmountInput({
   maxAmount,
   readonly,
   dataActionId,
-}: Props) {
+  gasFee,
+}) => {
   return (
     <>
       <Input
@@ -64,40 +67,49 @@ export function AmountInput({
         className="tw-rounded-lg tw-max-w-full"
         appendClassName={assetSelectable ? '' : 'tw-mr-5'}
         readOnly={readonly}
-        dataActionId={dataActionId}
+        dataActionId={`${dataActionId}-amountInput`}
       />
       {subText && (
         <div className="tw-text-xs tw-mt-1 tw-font-thin">{subText}</div>
       )}
       {!readonly && (asset || maxAmount !== undefined) && (
         <AmountSelector
-          parentValue={value}
           asset={asset}
           maxAmount={maxAmount}
+          gasFee={gasFee}
           onChange={onChange}
+          dataActionId={dataActionId}
         />
       )}
     </>
   );
-}
+};
 
 const amounts = [10, 25, 50, 75, 100];
 
-interface AmountSelectorProps {
-  parentValue?: string;
+interface IAmountSelectorProps {
   asset?: Asset;
   maxAmount?: string;
+  gasFee?: string;
   onChange: (value: string, isTotal: boolean) => void;
+  dataActionId?: string;
 }
 
-export function AmountSelector(props: AmountSelectorProps) {
-  const { value } = useAssetBalanceOf(props.asset || Asset.RBTC);
+const AmountSelector: React.FC<IAmountSelectorProps> = ({
+  asset = Asset.RBTC,
+  maxAmount,
+  gasFee = '0',
+  onChange,
+  dataActionId,
+}) => {
+  const { t } = useTranslation();
+  const { value } = useAssetBalanceOf(asset);
   const balance = useMemo(() => {
-    if (props.maxAmount !== undefined) {
-      return props.maxAmount;
+    if (maxAmount !== undefined) {
+      return maxAmount;
     }
     return value;
-  }, [props.maxAmount, value]);
+  }, [maxAmount, value]);
 
   const handleChange = (percent: number) => {
     let value = '0';
@@ -112,34 +124,52 @@ export function AmountSelector(props: AmountSelectorProps) {
         .mul(percent / 100)
         .toString();
     }
-    props.onChange(fromWei(value), isTotal);
+
+    if (
+      asset === Asset.RBTC &&
+      bignumber(value)
+        .add(gasFee || '0')
+        .greaterThan(balance)
+    ) {
+      value = bignumber(value)
+        .minus(gasFee || '0')
+        .toString();
+    }
+
+    onChange(fromWei(value), isTotal);
   };
   return (
     <div className="tw-mt-2.5 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded-md tw-divide-x tw-divide-secondary">
       {amounts.map(value => (
         <AmountSelectorButton
           key={value}
-          text={`${value}%`}
+          text={value === 100 ? t(translations.common.max) : `${value}%`}
           onClick={() => handleChange(value)}
+          dataActionId={dataActionId}
         />
       ))}
     </div>
   );
-}
+};
 
-interface AmountButtonProps {
+interface IAmountButtonProps {
   text?: string;
   onClick?: () => void;
+  dataActionId?: string;
 }
 
-export function AmountSelectorButton(props: AmountButtonProps) {
+export const AmountSelectorButton: React.FC<IAmountButtonProps> = ({
+  text,
+  onClick,
+  dataActionId,
+}) => {
   return (
     <button
-      onClick={props.onClick}
+      onClick={onClick}
       className="tw-text-secondary tw-bg-secondary tw-bg-opacity-0 tw-font-medium tw-text-xs tw-leading-none tw-px-4 tw-py-1 tw-text-center tw-w-full tw-transition hover:tw-bg-opacity-25"
-      data-action-id={`swap-send-amountSelectorButton-${props.text}`}
+      data-action-id={`${dataActionId}-amountSelectorButton-${text}`}
     >
-      {props.text}
+      {text}
     </button>
   );
-}
+};
