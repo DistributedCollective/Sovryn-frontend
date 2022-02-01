@@ -181,6 +181,7 @@ export const RemoveLiquidityDialogV1: React.FC<IRemoveLiquidityDialogV1Props> = 
                 translations.common.availableBalance,
               )} ${weiToNumberFormat(balance, 8)}`}
               maxAmount={balance}
+              dataActionId="yieldFarm"
             />
           </FormGroup>
           <DummyInput
@@ -242,6 +243,7 @@ export const RemoveLiquidityDialogV1: React.FC<IRemoveLiquidityDialogV1Props> = 
                 tx.loading || !valid || !canInteract || removeliquidityLocked
               }
               className="tw-rounded-lg"
+              data-action-id="yieldFarm-liquidityModal-confirm"
             />
           )}
         </div>

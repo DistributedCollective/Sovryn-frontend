@@ -6,6 +6,7 @@
     "close": "Close",
     "for": "for",
     "confirm": "Confirm",
+    "continue": "Continue",
     "cancel": "Cancel",
     "fee": "Tx Fee: {{amount}} (r)BTC",
     "pending": "Pending",
@@ -17,6 +18,7 @@
     "maintenance": "Under Maintenance",
     "next": "Next",
     "loading": "Loading...",
+    "retry": "Retry",
     "unit": {
       "day": "{{count}} day",
       "day_plural": "{{count}} days"
@@ -168,28 +170,122 @@
   "fastBtcPage": {
     "meta": {
       "title": "Fast-BTC",
+      "titleDeposit": "Deposit BTC",
+      "titleWithdraw": "Withdraw BTC",
       "description": "Move your Bitcoin to RSK network."
-    }
-  },
-  "fastBtcForm": {
-    "title": "Top-Up",
-    "history": {
-      "title": "BTC Deposit History",
-      "empty": "History is empty.",
-      "walletHistory": "Enter your RSK wallet address to see history.",
-      "loading": "Loading..."
     },
-    "connectWallet": "To use Top-Up you need to connect your wallet with the dapp.",
-    "connect": "Connect to your wallet or just enter wallet address above yourself.",
-    "depositAdress": "BTC Deposit Address",
-    "depositAddressCopied": "Your BTC deposit address copied to clipboard",
-    "toDepositWallet": "to deposit wallet",
-    "placeholder": "Your RSK Wallet",
-    "waitingForDeposit": "Waiting for deposit",
-    "exchanging": "We are exchanging to rBTC it now.",
-    "transfered": "was transfered to your RSK walllet",
-    "swapAgain": "Swap again",
-    "disabledText": "Top-up deposits have been temporarily disabled. We ask that you not send funds until re-enabled. Thank you!"
+    "backToPortfolio": "Back to portfolio",
+    "deposit": {
+      "sidebarSteps": {
+        "address": "Deposit Address",
+        "processing": "Processing",
+        "processingSteps": "Processing... ({{step}}/{{steps}})",
+        "completed": "Completed"
+      },
+      "mainScreen": {
+        "title": "Deposit BTC to Sovryn as <0/>",
+        "description": "Always generate a new deposit address and only use it once",
+        "cta": "Generate Deposit Address"
+      },
+      "depositDetails": {
+        "title": "Deposit details",
+        "min": "MIN:",
+        "max": "MAX:",
+        "fee": "Fee:"
+      },
+      "depositInstructions": {
+        "title": "Instructions:",
+        "line1": "Do not deposit any asset other than BTC.",
+        "line2": "Do not send less than the MIN limit.",
+        "line3": "Do not send more than the MAX limit.",
+        "line4": "Allow up to {{hours}} hrs to proccess.",
+        "line5": "If your transaction takes longer than {{hours}} hrs please <0>create a support ticket</0>."
+      },
+      "addressForm": {
+        "title": "BTC Deposit Address",
+        "description": "Send BTC to this address"
+      },
+      "statusScreen": {
+        "title": "BTC Deposit processing",
+        "titleCompleted": "BTC Deposit Complete",
+        "amount": "Deposit",
+        "fees": "Fees Paid:",
+        "received": "Receive Amount:",
+        "txHash": "Tx Hash:",
+        "txId": "Tx ID:",
+        "description": "Your deposit is being processed. If your transaction takes longer than {{hours}} hrs please <0>create a support ticket</0>.",
+        "cta": "Return to Portfolio"
+      },
+      "qr": {
+        "title": "Send BTC to this address:",
+        "generating": "Generating..."
+      }
+    },
+    "withdraw": {
+      "sidebarSteps": {
+        "amount": "Withdraw Amount",
+        "address": "Withdraw Address",
+        "review": "Review",
+        "confirm": "Confirm",
+        "processing": "Processing",
+        "processingProgress": "Processing...",
+        "completed": "Completed"
+      },
+      "mainScreen": {
+        "title": "Withdraw <0/> to BTC Network",
+        "description": "Double check that you are entering the correct withdrawal address."
+      },
+      "withdrawDetails": {
+        "title": "Withdraw Details",
+        "min": "MIN:",
+        "max": "MAX:",
+        "fee": "FEE:"
+      },
+      "withdrawInstructions": {
+        "title": "Instructions:",
+        "line1": "Please check and confirm the address you are sending to is a BTC address.",
+        "line2": "Do not send less than the MIN limit.",
+        "line3": "Do not send more than the MAX limit.",
+        "line4": "Allow up to {{hours}} hrs to process.",
+        "line5": "If your transaction takes longer than {{hours}} hrs please <0>create a support ticket</0>."
+      },
+      "amountForm": {
+        "title": "<0/> Withdraw Amount",
+        "withdrawAmount": "Withdraw Amount",
+        "availableBalance": "Available Balance: <0/> <1/>"
+      },
+      "addressForm": {
+        "title": "BTC Network Withdraw Address",
+        "address": "Withdraw BTC to this address",
+        "errorBECH32": "Please enter a valid BECH32 BTC address!",
+        "cta": "Review Withdraw"
+      },
+      "reviewScreen": {
+        "title": "Review <0/> Withdrawal",
+        "amount": "Withdraw",
+        "address": "BTC Network Receive Address",
+        "fees": "Fees Paid:",
+        "received": "Receive Amount:",
+        "tx": "Tx ID:",
+        "description": "Your withdrawal is being processed. If your transaction takes longer than {{hours}} hrs please <0>create a support ticket</0>"
+      },
+      "walletTxHelper": {
+        "confirm": "Please confirm the transaction in your {{wallet}} wallet",
+        "pending": "Please confirm the transaction in your {{wallet}} wallet",
+        "confirmed": "Please confirm the transaction in your {{wallet}} wallet",
+        "failed": "Your transaction has failed.",
+        "aborted": "You declined this transaction in your wallet."
+      },
+      "statusScreen": {
+        "titles": {
+          "pending_for_user": "Confirm <0/> Withdrawal",
+          "pending": "<0/> Withdraw processing...",
+          "confirmed": "Confirmed",
+          "failed": "Withdrawal failed"
+        },
+        "cta": "Return to Portfolio"
+      }
+    }
   },
   "tradeOrSwapTabs": {
     "tabs": {
@@ -967,39 +1063,6 @@
     "success": "Success!",
     "successText": "We will contact you as soon as Sovryn Mobile is live."
   },
-  "fastBTC": {
-    "screens": {
-      "1": {
-        "title": "You Are Connected!",
-        "p1": "In order to borrow/lend and trade on Sovryn, you must first enable your Bitcoin by transferring them to your rsk wallet.",
-        "p2": "You do this by creating a unique btc address that pegs to your RSK address, supercharging your BTC into RBTC.",
-        "createAddress": "Create Address"
-      },
-      "2": {
-        "p1": "Your unique BTC address has been created, transfer BTC to receive RBTC in your RSK wallet.",
-        "depositRequirements": "Deposit requirements",
-        "fee": "Fee",
-        "feeExplainer": "Deducted from transaction amount",
-        "important": "Important",
-        "important1": "Do not deposit any non - BTC assets to this address, otherwise your assets will be lost permanently",
-        "important2": "Please allow upto 15 mins for the transaction to process",
-        "contactUs": "For support please join us on",
-        "txDetected": "Transaction detected"
-      },
-      "3": {
-        "txDetails": "Transaction Details",
-        "txHash": "rBTC Tx hash",
-        "txId": " BTC Tx ID",
-        "from": "From wallet",
-        "to": "To wallet",
-        "amount": "Amount transacted",
-        "fee": "Fee",
-        "initiated": "Initiated",
-        "status": "Status",
-        "estimated": "Estimated Time"
-      }
-    }
-  },
   "walletProvider": {
     "txRequestDialog": {
       "closeButton": "Ok",
@@ -1354,54 +1417,12 @@
     "promotion1_3": "Ready to participate? Head over to the event page by clicking the button below!",
     "promotion1_cta": "Go to event"
   },
-  "fastBtcDialog": {
-    "title": "Top Up FastBTC",
-    "subtitle": "Deposit BTC to receive rBTC in your wallet",
-    "note": "Always be sure to check the BTC deposit address as FastBTC gets updated",
-    "limits": {
-      "title": "Deposit limits:",
-      "min": "MIN: {{amount}}",
-      "max": "MAX: {{amount}}",
-      "btc": "BTC"
-    },
-    "instructions": {
-      "title": "Instructions:",
-      "point1": "Do not deposit anything other than BTC",
-      "point2": "Do not send more BTC than the MAX limit",
-      "point3": "Allow up to 60 mins for the transaction to process",
-      "point4": "If rBTC is not visible on your wallet after 60 mins open a ",
-      "point4LinkText": "support ticket",
-      "chainId": "Make sure your wallet is set to correct network. Liquality Wallet requires dapp refresh to detect network change."
-    },
-    "fiatDialog": {
-      "title": "Buy <0>RBTC</0> with fiat",
-      "explanation1": "Transak allows you to buy BTC which is then converted to <0>RBTC</0> and sent to your wallet",
-      "explanation2": "Make sure you do not exceed Sovryn deposit limits as Transak allows purchases above our max deposit limits",
-      "instructions": {
-        "point1": "Do not buy more BTC than the MAX limit above",
-        "point2": "Allow  15 mins for the transaction to process",
-        "chainId": "Make sure your wallet is set to correct network. Liquality Wallet requires dapp refresh to detect network change."
-      }
-    },
-    "qr": {
-      "title": "Send BTC to this address:",
-      "generating": "Generating..."
-    },
-    "buttonBTC": "Generate deposit address",
-    "buttonFiat": "Get rBTC with fiat",
-    "transaction": {
-      "title": "Transaction Details",
-      "status": "Status {{status}}",
-      "from": "From:",
-      "to": "To:",
-      "fee": "Tx Fee:",
-      "hash": "Tx Hash:",
-      "close": "Close",
-      "address": "Address",
-      "pending": "pending",
-      "confirmed": "confirmed",
-      "sent": "sent"
-    }
+  "transakDialog": {
+    "title": "Buy <0>RBTC</0> with fiat",
+    "explanation1": "Transak allows you to buy <0>RBTC</0> with FIAT within minutes!",
+    "explanation2": "Transak may ask you to complete KYC form!",
+    "chainId": "Make sure your wallet is set to correct network. Liquality Wallet requires dapp refresh to detect network change.",
+    "cta": "Buy <0>RBTC</0> with fiat"
   },
   "onCopy": {
     "address": "Address was copied to clipboard."

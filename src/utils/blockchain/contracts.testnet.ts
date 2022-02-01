@@ -32,6 +32,7 @@ import MYNTControllerAbi from './abi/MYNTController.json';
 import MYNTTokenAbi from './abi/MYNT_token.json';
 import MYNTPresaleAbi from './abi/MYNTPresale.json';
 import MYNTMarketMakerAbi from './abi/MYNTMarketMaker.json';
+import fastBtcBridgeAbi from './abi/fastBtcBridge.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -287,5 +288,9 @@ export const contracts = {
   MYNTMarketMaker: {
     address: '0xf75170ce8d4060b8D5fc24E996FA00A94bb8A232',
     abi: MYNTMarketMakerAbi,
+  },
+  fastBtcBridge: {
+    address: '0x10C848e9495a32acA95F6c23C92eCA2b2bE9903A',
+    abi: fastBtcBridgeAbi,
   },
 };
