@@ -4,7 +4,6 @@
  * Helper-functions for frontend
  */
 
-import console from 'console';
 import {
   calcKStar,
   shrinkToLot,
@@ -340,18 +339,7 @@ export function getSignedMaxAbsPositionForTrader(
     maxpos = Math.min(position, maxSignedPos);
   }
   maxpos = shrinkToLot(maxpos, perpParams.fLotSizeBC);
-  console.log('margin rate=', marginRate);
-  console.log(
-    'leverage =',
-    calculateLeverage(
-      maxpos,
-      cashQC / S3,
-      traderState,
-      ammData,
-      perpParams,
-      slippagePercent,
-    ),
-  );
+
   return maxpos;
 }
 
@@ -474,8 +462,6 @@ export function calculateSlippagePrice(
   slippagePercent: number,
   direction: number,
 ) {
-  console.assert(slippagePercent < 0.1); //10% is unreasonably high slippage
-  console.assert(slippagePercent >= 0);
   return currentMidPrice * (1 + Math.sign(direction) * slippagePercent);
 }
 
@@ -650,7 +636,6 @@ export function getRequiredMarginCollateral(
   // master equation:
   // |pos_new| * S2 / l + fee_BC * S2 = margin * S3 + pos_old * S2 - L + (pos_new - pos_old)*(S2 - entry price)
   // entry price: AMM price for delta position, possibly with slippage
-  console.assert(leverage > 0);
   let currentPos = traderState.marginAccountPositionBC;
   let positionToTrade = targetPos - currentPos;
   let feesBC = getTradingFee(positionToTrade, perpParams, ammData);
@@ -1055,7 +1040,6 @@ export function calculateLeverage(
   // master equation:
   // |p_new| * S2 / l + fee_BC * S2 = m * S3 + p_old * Sm - L + (p_new - p_old)*(S2 - entry price)
   // entry price: AMM price for delta position, possibly with slippage
-  console.assert(targetMargin > 0);
   // pnl of existing position
   let S2 = getIndexPrice(ammState);
   let currentPosition = traderState.marginAccountPositionBC;
