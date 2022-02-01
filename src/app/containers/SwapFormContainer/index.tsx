@@ -296,7 +296,7 @@ export function SwapFormContainer() {
               value={amount}
               onChange={value => setAmount(value)}
               asset={sourceToken}
-              dataActionId="swap-send-amountInput"
+              dataActionId="swap-send"
             />
           </div>
         </div>

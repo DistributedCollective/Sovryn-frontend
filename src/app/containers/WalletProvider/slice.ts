@@ -26,6 +26,7 @@ export const initialState: ContainerState = {
   },
   assetRates: [],
   assetRatesLoading: true,
+  assetRatesLoaded: false,
   processedBlocks: [],
 };
 
@@ -88,9 +89,9 @@ const walletProviderSlice = createSlice({
     blockFailed(state, action: PayloadAction<string>) {
       console.error('block failed');
     },
-    blockReceived(state, action: PayloadAction<any>) {
-      if (action.payload.number > state.blockNumber) {
-        state.blockNumber = action.payload.number;
+    blockReceived(state, { payload }: PayloadAction<number>) {
+      if (payload > state.blockNumber) {
+        state.blockNumber = payload;
       }
     },
 
@@ -121,6 +122,7 @@ const walletProviderSlice = createSlice({
     setPrices(state, { payload }: PayloadAction<CachedAssetRate[]>) {
       state.assetRates = payload;
       state.assetRatesLoading = false;
+      state.assetRatesLoaded = true;
     },
     testTransactions() {},
   },

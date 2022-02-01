@@ -1,16 +1,13 @@
 import { Asset } from 'types/asset';
-import {
-  getAmmContract,
-  getTokenContract,
-} from 'utils/blockchain/contract-helpers';
+import { getTokenContract } from 'utils/blockchain/contract-helpers';
 import { gasLimit } from 'utils/classifiers';
 import { useAccount } from 'app/hooks/useAccount';
 import { useSendContractTx } from 'app/hooks/useSendContractTx';
 import { TxType } from '../../../../store/global/transactions-store/types';
+import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
 
 export function useMining_AddLiquidityV1(
-  pool: Asset,
-  reserveTokens: Asset[],
+  pool: AmmLiquidityPool,
   reserveAmounts: string[],
   minReturn: string,
 ) {
@@ -21,6 +18,7 @@ export function useMining_AddLiquidityV1(
   );
   return {
     deposit: (nonce?: number, approveTx?: string | null) => {
+      const reserveTokens = [pool.assetA, pool.assetB];
       const btcIndex = reserveTokens.indexOf(Asset.RBTC);
 
       if (btcIndex !== -1) {
@@ -35,7 +33,7 @@ export function useMining_AddLiquidityV1(
 
       return send(
         [
-          getAmmContract(pool).address,
+          pool.converter,
           reserveTokens
             .filter(item => !!item)
             .map(item => getTokenContract(item).address),
