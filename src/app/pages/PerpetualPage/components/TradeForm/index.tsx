@@ -26,7 +26,6 @@ import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
 import { LeverageViewer } from '../LeverageViewer';
 import {
-  getMaximalTradeSizeInPerpetual,
   getTradingFee,
   getQuote2CollateralFX,
   calculateApproxLiquidationPrice,
@@ -36,6 +35,7 @@ import {
   getMaximalTradeSizeInPerpetualWithCurrentMargin,
   getRequiredMarginCollateralWithGasFees,
   getPrice,
+  getSignedMaxAbsPositionForTrader,
 } from '../../utils/perpUtils';
 import { shrinkToLot } from '../../utils/perpMath';
 import {
@@ -96,12 +96,14 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     if (isNewTrade) {
       maxTradeSize = shrinkToLot(
         Math.abs(
-          getMaximalTradeSizeInPerpetual(
-            traderState.marginAccountPositionBC,
+          getSignedMaxAbsPositionForTrader(
             getTradeDirection(trade.position),
+            numberFromWei(availableBalance),
+            perpParameters,
+            traderState,
             ammState,
             liqPoolState,
-            perpParameters,
+            trade.slippage,
           ),
         ),
         lotSize,
@@ -125,10 +127,12 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   }, [
     isNewTrade,
     trade.position,
+    trade.slippage,
+    availableBalance,
+    perpParameters,
     traderState,
     ammState,
     liqPoolState,
-    perpParameters,
     lotSize,
   ]);
 
