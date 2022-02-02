@@ -45,7 +45,7 @@
     "addLiquidity": "Desculpe, a opção de adicionar liquidez está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
     "removeLiquidity": "Desculpe, a opção de retirar liquidez está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
     "liquidity": "Desculpe, a opção de adicionar liquidez está em manutenção, alguns recursos podem estar indisponíveis. Por favor verifique o nosso <0>discord</0> para atualizações.",
-    "fastBTC": "Desculpe, a opção de depósitos pela FastBTC está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
+    "fastBTC": "Desculpe, a opção de depósito BTC está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
     "transack": "Desculpe, a opção de depósitos pela Transak está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
 
     "bridge": "Desculpe, a opção de transferências de ativos entre diferentes redes está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
@@ -1010,7 +1010,7 @@
     },
     "actions": {
       "deposit": "Bridge",
-      "fastBtc": "FastBTC",
+      "fastBtc": "Depositar",
       "convert": "Converter para XUSD",
       "swap": "Trocar",
       "trade": "Margem",
@@ -1264,7 +1264,7 @@
     }
   },
   "fastBtcDialog": {
-    "title": "FastBTC",
+    "title": "Depositar BTC",
     "subtitle": "Deposite BTC para receber rBTC na sua carteira",
     "note": "Antes de enviar, sempre verifique se não houve mudança no endereço de depósito BTC",
     "limits": {
