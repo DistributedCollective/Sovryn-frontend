@@ -1,6 +1,6 @@
 /*
  * https://github.com/DistributedCollective/sovryn-perpetual-swap/blob/dev/scripts/utils/perpMath.ts
- * COMMIT: 2054666a4a876d7d1ee4cdbc05480ab41484b7d8
+ * COMMIT: 60e6b8b84c4c337d81c364d57b1df40cf1f8d29f
  */
 
 import console from 'console';
@@ -364,6 +364,7 @@ export function getBase2CollateralFX(
 export function findRoot(f: Function, x: number, doConsoleLog = false) {
   // TODO: lots of clean-up and this fails in corner cases
   let numIter = 100;
+  const dx = 1e-6;
   const fTol = 1e-10;
   let y = x + 0.001;
 
@@ -623,6 +624,7 @@ export function getTradeAmountFromPrice(
   doLog = false,
 ) {
   const numIter = 100;
+  const dk = 1e-8;
   const fTol = 1e-7;
 
   function getPrice(x: number) {
@@ -1125,6 +1127,19 @@ export function fromDec18(x: BigNumber) {
 export function toDec18(x: BigNumber) {
   return x.mul(DECIMALS).div(ONE_64x64);
 }
+
+/**
+ * Calculate maximal position that can be achieved with full leverage and under misterious mark-price assumptions
+ * Not considering position-size restrictions of AMM
+ * @param {number} cashBC - available collateral
+ * @param {number} targetPremiumRate - premium rate
+ * @param {number} alpha - parameter for initial margin
+ * @param {number} beta - parameter for initial margin
+ * @param {number} feeRate - total fee rate to be applied on position notional
+ * @param {number} slippageRate -
+ *
+ * @returns {number} position notional
+ */
 
 export function getMaxLeveragePosition(
   cashBC,
