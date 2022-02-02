@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { Select } from 'app/components/Form/Select';
@@ -52,7 +52,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
 
   const isSovPair = useMemo(() => pairType.includes(Asset.SOV), [pairType]);
 
-  const [amount, setAmount] = useState<string>('');
+  const [amount, setAmount] = useState('');
 
   const weiAmount = useWeiAmount(amount);
 
@@ -76,7 +76,9 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     }
   }, [dispatch, isSovPair]);
 
-  const submit = e => dispatch(actions.submit(e));
+  const submit = useCallback(order => dispatch(actions.submit(order)), [
+    dispatch,
+  ]);
 
   const { value: tokenBalance } = useAssetBalanceOf(collateral);
 
@@ -138,7 +140,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
           >
             <AmountInput
               value={amount}
-              onChange={value => setAmount(value)}
+              onChange={setAmount}
               asset={collateral}
             />
           </FormGroup>
