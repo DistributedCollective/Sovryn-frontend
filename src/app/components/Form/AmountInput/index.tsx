@@ -6,6 +6,7 @@ import { fromWei } from '../../../../utils/blockchain/math-helpers';
 import { AssetRenderer } from '../../AssetRenderer';
 import { AssetSelect } from 'app/components/AssetSelect';
 import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
+import { AvailableBalance } from 'app/components/AvailableBalance';
 import { Input } from '../Input';
 import {
   stringToFixedPrecision,
@@ -78,15 +79,19 @@ export const AmountInput: React.FC<IAmountInputProps> = ({
       {subText && (
         <div className="tw-text-xs tw-mt-1 tw-font-thin">{subText}</div>
       )}
-      {!readonly && (asset || maxAmount !== undefined) && (
-        <AmountSelector
-          asset={asset}
-          maxAmount={maxAmount}
-          gasFee={gasFee}
-          onChange={onChange}
-          dataActionId={dataActionId}
-        />
-      )}
+      {subElement && <>{subElement}</>}
+      {!readonly &&
+        !hideAmountSelector &&
+        (asset || maxAmount !== undefined) && (
+          <AmountSelector
+            asset={asset}
+            maxAmount={maxAmount}
+            gasFee={gasFee}
+            onChange={onChange}
+            dataActionId={dataActionId}
+            showBalance={showBalance}
+          />
+        )}
     </>
   );
 };
@@ -99,6 +104,7 @@ interface IAmountSelectorProps {
   gasFee?: string;
   onChange: (value: string, isTotal: boolean) => void;
   dataActionId?: string;
+  showBalance?: boolean;
 }
 
 const AmountSelector: React.FC<IAmountSelectorProps> = ({
@@ -107,6 +113,7 @@ const AmountSelector: React.FC<IAmountSelectorProps> = ({
   gasFee = '0',
   onChange,
   dataActionId,
+  showBalance,
 }) => {
   const { t } = useTranslation();
   const { value } = useAssetBalanceOf(asset);
@@ -145,16 +152,23 @@ const AmountSelector: React.FC<IAmountSelectorProps> = ({
     onChange(fromWei(value), isTotal);
   };
   return (
-    <div className="tw-h-5 tw-mt-1 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded-md tw-divide-x tw-divide-secondary">
-      {amounts.map(value => (
-        <AmountSelectorButton
-          key={value}
-          text={value === 100 ? t(translations.common.max) : `${value}%`}
-          onClick={() => handleChange(value)}
-          dataActionId={dataActionId}
-        />
-      ))}
-    </div>
+    <>
+      {showBalance && (
+        <div className="tw-mt-2">
+          <AvailableBalance asset={asset || Asset.RBTC} />
+        </div>
+      )}
+      <div className="tw-h-5 tw-mt-1 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded-md tw-divide-x tw-divide-secondary">
+        {amounts.map(value => (
+          <AmountSelectorButton
+            key={value}
+            text={value === 100 ? t(translations.common.max) : `${value}%`}
+            onClick={() => handleChange(value)}
+            dataActionId={dataActionId}
+          />
+        ))}
+      </div>
+    </>
   );
 };
 
