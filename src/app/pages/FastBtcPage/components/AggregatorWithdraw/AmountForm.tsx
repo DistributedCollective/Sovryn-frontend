@@ -37,22 +37,22 @@ export const AmountForm: React.FC<NetworkAwareComponentProps> = ({
 
   const invalid = useMemo(() => {
     const weiAmount = toWei(value || '0');
+    const weiMaxLimit = toWei(limits.max / btcInSatoshis);
+    const weiMinLimit = toWei(limits.min / btcInSatoshis);
+
     if (bignumber(weiAmount).lessThanOrEqualTo(0)) {
       return true;
     }
 
     if (
       bignumber(weiAmount).lessThan(
-        max(
-          bignumber(aggregatorLimits.min),
-          bignumber(limits.min * btcInSatoshis),
-        ),
+        max(bignumber(aggregatorLimits.min), bignumber(weiMinLimit)),
       )
     ) {
       return true;
     }
 
-    if (bignumber(weiAmount).greaterThan(limits.max * btcInSatoshis)) {
+    if (bignumber(weiAmount).greaterThan(weiMaxLimit)) {
       return true;
     }
 
