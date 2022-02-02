@@ -12,6 +12,7 @@ interface Props {
   isOnDarkBackground?: boolean;
   inputClassName?: string;
   wrapperClassName?: string;
+  dataActionId?: string;
 }
 
 export function InputField(props: Props) {
@@ -32,6 +33,7 @@ export function InputField(props: Props) {
             placeholder={props.placeholder}
             onChange={e => props.onChange(e)}
             className={props.inputClassName}
+            data-action-id={props.dataActionId}
           />
         </div>
         {props.rightElement && <>{props.rightElement}</>}

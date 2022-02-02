@@ -13,32 +13,32 @@ import { AmountInput } from 'app/components/Form/AmountInput';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { useCanInteract } from '../../../../hooks/useCanInteract';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
-import {
-  getAmmContract,
-  getTokenContract,
-} from '../../../../../utils/blockchain/contract-helpers';
+import { getTokenContract } from '../../../../../utils/blockchain/contract-helpers';
 import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 import { useMining_ApproveAndAddLiquidityV2 } from '../../hooks/useMining_ApproveAndAddLiquidityV2';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
-import { LiquidityPool } from '../../../../../utils/models/liquidity-pool';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
+import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
 
-interface Props {
-  pool: LiquidityPool;
+interface IAddLiquidityDialogProps {
+  pool: AmmLiquidityPool;
   showModal: boolean;
   onCloseModal: () => void;
   onSuccess: () => void;
 }
 
-export function AddLiquidityDialog({ pool, ...props }: Props) {
+export const AddLiquidityDialog: React.FC<IAddLiquidityDialogProps> = ({
+  pool,
+  ...props
+}: IAddLiquidityDialogProps) => {
   const { t } = useTranslation();
   const canInteract = useCanInteract();
   const { checkMaintenance, States } = useMaintenance();
   const addliquidityLocked = checkMaintenance(States.ADD_LIQUIDITY);
 
-  const [asset, setAsset] = useState(pool.poolAsset);
+  const [asset, setAsset] = useState(pool.assetA);
   const [amount, setAmount] = useState('0');
   const weiAmount = useWeiAmount(amount);
 
@@ -47,7 +47,7 @@ export function AddLiquidityDialog({ pool, ...props }: Props) {
   const { value: balance } = useAssetBalanceOf(asset);
 
   const { deposit, ...tx } = useMining_ApproveAndAddLiquidityV2(
-    pool.poolAsset,
+    pool,
     asset,
     weiAmount,
     minReturn,
@@ -62,7 +62,7 @@ export function AddLiquidityDialog({ pool, ...props }: Props) {
 
   const txFeeArgs = useMemo(() => {
     return [
-      getAmmContract(pool.poolAsset).address,
+      pool.converter,
       getTokenContract(asset).address,
       weiAmount,
       minReturn,
@@ -71,9 +71,7 @@ export function AddLiquidityDialog({ pool, ...props }: Props) {
 
   const handleConfirm = () => deposit();
 
-  const assets = useMemo(() => pool.supplyAssets.map(item => item.asset), [
-    pool.supplyAssets,
-  ]);
+  const assets = useMemo(() => [pool.assetA, pool.assetB], [pool]);
 
   return (
     <>
@@ -99,6 +97,7 @@ export function AddLiquidityDialog({ pool, ...props }: Props) {
                 translations.common.availableBalance,
               )} ${weiToNumberFormat(balance, 8)}`}
               asset={asset}
+              dataActionId="yieldFarm"
             />
           </FormGroup>
           <TxFeeCalculator
@@ -135,6 +134,7 @@ export function AddLiquidityDialog({ pool, ...props }: Props) {
                 tx.loading || !valid || !canInteract || addliquidityLocked
               }
               className="tw-rounded-lg"
+              data-action-id="yieldFarm-liquidityModal-confirm"
             />
           )}
         </div>
@@ -146,4 +146,4 @@ export function AddLiquidityDialog({ pool, ...props }: Props) {
       />
     </>
   );
-}
+};

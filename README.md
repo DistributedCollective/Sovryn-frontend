@@ -96,6 +96,12 @@ Any new Pull Requests should target the non-external versions of these branches 
   <img src="https://contrib.rocks/image?repo=DistributedCollective/Sovryn-frontend" />
 </a>
 
+### Guides
+
+Please read our docs page for step by step guides on how to add new tokens, amm pools and etc:
+
+- [Guides & Tutorials](./docs/README.md)
+
 ### Bug Reports
 
 To foster active collaboration, Sovryn strongly encourages the creation of pull requests rather than just bug reports. "Bug reports" may also be sent in the form of a pull request containing a failing test.
