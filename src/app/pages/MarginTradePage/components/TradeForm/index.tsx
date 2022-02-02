@@ -26,6 +26,7 @@ import { renderItemNH } from 'app/components/Form/Select/renderers';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
+import { Asset } from 'types';
 
 const pairs = TradingPairDictionary.entries()
   .filter(value => !value[1].deprecated)
@@ -33,6 +34,8 @@ const pairs = TradingPairDictionary.entries()
     key: type,
     label: item.name as string,
   }));
+
+const sovPairsLeverage = 2;
 
 interface ITradeFormProps {
   pairType: TradingPairType;
@@ -46,6 +49,8 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
 
   const { collateral, leverage } = useSelector(selectMarginTradePage);
   const dispatch = useDispatch();
+
+  const isSovPair = useMemo(() => pairType.includes(Asset.SOV), [pairType]);
 
   const [amount, setAmount] = useState<string>('');
 
@@ -64,6 +69,12 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
       dispatch(actions.setCollateral(pair.collaterals[0]));
     }
   }, [pair.collaterals, collateral, dispatch]);
+
+  useEffect(() => {
+    if (isSovPair) {
+      dispatch(actions.setLeverage(sovPairsLeverage));
+    }
+  }, [dispatch, isSovPair]);
 
   const submit = e => dispatch(actions.submit(e));
 
@@ -112,10 +123,14 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
             label={t(translations.marginTradePage.tradeForm.labels.leverage)}
             className="tw-mb-6"
           >
-            <LeverageSelector
-              value={leverage}
-              onChange={value => dispatch(actions.setLeverage(value))}
-            />
+            {isSovPair ? (
+              `${sovPairsLeverage}x`
+            ) : (
+              <LeverageSelector
+                value={leverage}
+                onChange={value => dispatch(actions.setLeverage(value))}
+              />
+            )}
           </FormGroup>
 
           <FormGroup
