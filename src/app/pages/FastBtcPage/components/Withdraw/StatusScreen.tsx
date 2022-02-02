@@ -21,6 +21,7 @@ import { StatusComponent } from '../../../../components/Dialogs/TxDialog';
 import { NetworkAwareComponentProps } from '../../types';
 import { getBridgeChainId } from 'app/pages/BridgeDepositPage/utils/helpers';
 import { getBTCAssetForNetwork } from '../../helpers';
+import { Chain } from 'types';
 
 type StatusScreenProps = {
   tx: SendTxResponse;
@@ -30,6 +31,19 @@ export const StatusScreen: React.FC<StatusScreenProps> = ({ tx, network }) => {
   const { set, amount, aggregatorLimits } = useContext(WithdrawContext);
   const { t } = useTranslation();
   const history = useHistory();
+
+  const backToUrl = useMemo(
+    () => (network === Chain.BSC ? '/perpetual' : '/wallet'),
+    [network],
+  );
+
+  const backToTitle = useMemo(
+    () =>
+      network === Chain.BSC
+        ? t(translations.fastBtcPage.backToPerpetuals)
+        : t(translations.fastBtcPage.backToPortfolio),
+    [network, t],
+  );
 
   const weiAmount = useWeiAmount(amount);
   const { value: calculateCurrentFeeWei, loading } = useCacheCallWithValue(
@@ -55,7 +69,8 @@ export const StatusScreen: React.FC<StatusScreenProps> = ({ tx, network }) => {
     [set],
   );
 
-  const onGoToPortfolio = useCallback(() => history.replace('/wallet'), [
+  const onGoToPortfolio = useCallback(() => history.replace(backToUrl), [
+    backToUrl,
     history,
   ]);
 
@@ -145,10 +160,7 @@ export const StatusScreen: React.FC<StatusScreenProps> = ({ tx, network }) => {
               </div>
 
               <div className="tw-px-8 tw-mt-8">
-                <FastBtcButton
-                  text={t(translations.fastBtcPage.withdraw.statusScreen.cta)}
-                  onClick={onGoToPortfolio}
-                />
+                <FastBtcButton text={backToTitle} onClick={onGoToPortfolio} />
               </div>
             </div>
           </>

@@ -56,9 +56,7 @@ export const AmountForm: React.FC<NetworkAwareComponentProps> = ({
       return true;
     }
 
-    return bignumber(weiAmount)
-      .add(gasLimit[TxType.FAST_BTC_WITHDRAW])
-      .greaterThan(balance.value || '0');
+    return bignumber(weiAmount).greaterThan(balance.value || '0');
   }, [value, balance.value, limits.min, limits.max, aggregatorLimits.min]);
 
   const onContinueClick = useCallback(
