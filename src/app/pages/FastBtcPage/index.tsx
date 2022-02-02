@@ -7,7 +7,7 @@ import { translations } from 'locales/i18n';
 import { useAccount } from '../../hooks/useAccount';
 import { WithdrawContainer } from './containers/WithdrawContainer';
 import { DepositContainer } from './containers/DepositContainer';
-import Header from './components/Header';
+import { Header } from './components/Header';
 import classNames from 'classnames';
 import styles from './fast-btc-page.module.css';
 import { FastBtcDirectionType } from './types';

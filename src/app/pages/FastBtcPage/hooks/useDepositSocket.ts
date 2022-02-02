@@ -2,6 +2,7 @@ import { useRef, useEffect, useCallback } from 'react';
 import { Socket, io } from 'socket.io-client';
 import { currentNetwork } from 'utils/classifiers';
 import { endpoints } from '../config/endpoints';
+import { DEPOSIT_FEE_SATS, DEPOSIT_FEE_DYNAMIC } from '../constants';
 
 type EventHandler = (event: string, value: any) => void;
 
@@ -96,9 +97,20 @@ export function useDepositSocket(eventHandler?: EventHandler) {
 
   const getTxAmount = useCallback(
     () =>
-      new Promise<{ min: number; max: number }>((resolve, reject) => {
+      new Promise<{
+        min: number;
+        max: number;
+        baseFee: number;
+        dynamicFee: number;
+      }>((resolve, reject) => {
         if (socket.current) {
-          socket.current.emit('txAmount', res => resolve(res));
+          socket.current.emit('txAmount', res =>
+            resolve({
+              ...res,
+              baseFee: DEPOSIT_FEE_SATS,
+              dynamicFee: DEPOSIT_FEE_DYNAMIC,
+            }),
+          );
         } else {
           reject(new Error('socket not connected'));
         }

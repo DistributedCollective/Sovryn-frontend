@@ -10,7 +10,6 @@ import { AmountInput } from '../../../../components/Form/AmountInput';
 import { FormGroup } from 'app/components/Form/FormGroup';
 import { gasLimit } from '../../../../../utils/classifiers';
 import { TxType } from '../../../../../store/global/transactions-store/types';
-import { toWei } from '../../../../../utils/blockchain/math-helpers';
 import { WithdrawDetails } from './WithdrawDetails';
 import { FastBtcButton } from '../FastBtcButton';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
@@ -30,20 +29,17 @@ export const AmountForm: React.FC<NetworkAwareComponentProps> = ({
   const [value, setValue] = useState(amount);
 
   const invalid = useMemo(() => {
-    const weiAmount = toWei(value || '0');
-    if (bignumber(weiAmount).lessThanOrEqualTo(0)) {
+    const amount = value;
+    const satoshiAmount = Number(amount) * btcInSatoshis;
+    if (
+      bignumber(satoshiAmount).lessThanOrEqualTo(0) ||
+      bignumber(satoshiAmount).lessThan(limits.min) ||
+      bignumber(satoshiAmount).greaterThan(limits.max)
+    ) {
       return true;
     }
 
-    if (bignumber(weiAmount).lessThan(limits.min * btcInSatoshis)) {
-      return true;
-    }
-
-    if (bignumber(weiAmount).greaterThan(limits.max * btcInSatoshis)) {
-      return true;
-    }
-
-    return bignumber(weiAmount)
+    return bignumber(satoshiAmount)
       .add(gasLimit[TxType.FAST_BTC_WITHDRAW])
       .greaterThan(balance.value || '0');
   }, [value, balance.value, limits.min, limits.max]);

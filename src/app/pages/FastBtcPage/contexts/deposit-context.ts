@@ -25,6 +25,8 @@ export type DepositContextStateType = {
 type DepositLimits = {
   min: number;
   max: number;
+  baseFee: number;
+  dynamicFee: number;
   loading: boolean;
 };
 
@@ -55,6 +57,8 @@ export const defaultValue: DepositContextType = {
   limits: {
     min: 0,
     max: 0,
+    baseFee: 0,
+    dynamicFee: 0,
     loading: true,
   },
   set: () => {

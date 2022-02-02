@@ -9,8 +9,7 @@ import { btcInSatoshis } from 'app/constants';
 import { NetworkAwareComponentProps } from '../../types';
 import { getBTCAssetForNetwork } from '../../helpers';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
-
-const DYNAMIC_FEE_DIVISOR = 10000;
+import { DYNAMIC_FEE_DIVISOR } from '../../constants';
 
 export const WithdrawDetails: React.FC<NetworkAwareComponentProps> = ({
   network,
@@ -24,38 +23,37 @@ export const WithdrawDetails: React.FC<NetworkAwareComponentProps> = ({
     const baseFee = limits.baseFee / btcInSatoshis;
 
     if (!limits.dynamicFee) {
-      return (
-        <>
-          {toNumberFormat(baseFee + aggregatorFee, 6)}{' '}
-          <AssetSymbolRenderer asset={asset} />
-        </>
-      );
+      return <>{toNumberFormat(baseFee + aggregatorFee, 6)} BTC</>;
     }
 
     if (!limits.baseFee) {
       if (aggregatorFee) {
         return (
           <>
-            {toNumberFormat(aggregatorFee, 6)}{' '}
-            <AssetSymbolRenderer asset={asset} /> +{' '}
-            {toNumberFormat(limits.dynamicFee / DYNAMIC_FEE_DIVISOR, 4)} %
+            {toNumberFormat(aggregatorFee, 6)} BTC
+            {toNumberFormat(
+              (limits.dynamicFee / DYNAMIC_FEE_DIVISOR) * 100,
+              2,
+            )}{' '}
+            %
           </>
         );
       }
 
       return (
-        <>{toNumberFormat(limits.dynamicFee / DYNAMIC_FEE_DIVISOR, 5)} %</>
+        <>
+          {toNumberFormat((limits.dynamicFee / DYNAMIC_FEE_DIVISOR) * 100, 2)} %
+        </>
       );
     }
 
     return (
       <>
-        {toNumberFormat(baseFee + aggregatorFee, 6)}{' '}
-        <AssetSymbolRenderer asset={asset} /> +{' '}
-        {toNumberFormat(limits.dynamicFee / DYNAMIC_FEE_DIVISOR, 4)} %
+        {toNumberFormat(baseFee + aggregatorFee, 6)} BTC +{' '}
+        {toNumberFormat((limits.dynamicFee / DYNAMIC_FEE_DIVISOR) * 100, 2)} %
       </>
     );
-  }, [limits, asset, aggregatorLimits.fee]);
+  }, [limits, aggregatorLimits.fee]);
 
   const renderMinAmount = useMemo(() => {
     const min1 = limits.min / btcInSatoshis;

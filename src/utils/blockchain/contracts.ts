@@ -310,7 +310,7 @@ export const contracts = {
     chainId: ChainId.BSC_MAINNET,
   },
   fastBtcBridge: {
-    address: '0x0000000000000000000000000000000000000000', // todo
+    address: '0x0D5006330289336ebdF9d0AC9E0674f91b4851eA',
     abi: fastBtcBridgeAbi,
   },
 };

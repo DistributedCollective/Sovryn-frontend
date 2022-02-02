@@ -4,6 +4,8 @@ import { translations } from 'locales/i18n';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { DepositContext } from '../../contexts/deposit-context';
+import { btcInSatoshis } from 'app/constants';
+import { DYNAMIC_FEE_DIVISOR } from '../../constants';
 
 export const DepositDetails: React.FC = () => {
   const { t } = useTranslation();
@@ -26,6 +28,22 @@ export const DepositDetails: React.FC = () => {
           {t(translations.fastBtcPage.deposit.depositDetails.max)}{' '}
           <LoadableValue
             value={<>{toNumberFormat(limits.max, 3)} BTC</>}
+            loading={limits.loading}
+          />
+        </li>
+        <li>
+          {t(translations.fastBtcPage.withdraw.withdrawDetails.fee)}{' '}
+          <LoadableValue
+            value={
+              <>
+                {toNumberFormat(limits.baseFee / btcInSatoshis, 8)} BTC +{' '}
+                {toNumberFormat(
+                  (limits.dynamicFee / DYNAMIC_FEE_DIVISOR) * 100,
+                  2,
+                )}{' '}
+                %
+              </>
+            }
             loading={limits.loading}
           />
         </li>

@@ -26,13 +26,13 @@ export const TransakScreen: React.FC = () => {
   const account = useAccount();
   const [open, setOpen] = useState(false);
 
-  const isWrongChainId = useMemo(() => {
-    return (
+  const isWrongChainId = useMemo(
+    () =>
       connected &&
       isWeb3Wallet(wallet.providerType!) &&
-      wallet.chainId !== currentChainId
-    );
-  }, [connected, wallet.chainId, wallet.providerType]);
+      wallet.chainId !== currentChainId,
+    [connected, wallet.chainId, wallet.providerType],
+  );
 
   useEffect(() => {
     if (open && account !== '') {

@@ -9,7 +9,7 @@ type HeaderProps = {
   address: string;
 };
 
-const Header: React.FC<HeaderProps> = ({ address }) => {
+export const Header: React.FC<HeaderProps> = ({ address }) => {
   const { t } = useTranslation();
   const blockieImage = useMemo(() => {
     return blockies
@@ -39,5 +39,3 @@ const Header: React.FC<HeaderProps> = ({ address }) => {
     </div>
   );
 };
-
-export default Header;

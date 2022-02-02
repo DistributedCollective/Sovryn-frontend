@@ -246,8 +246,8 @@
         "availableBalance": "Saldo disponível: <0/> <1/>"
       },
       "addressForm": {
-        "title": "Endereço de saque BTC",
-        "address": "Sacar BTC para o endereço:",
+        "title": "Endereço BTC",
+        "address": "Receber BTC no endereço:",
         "errorBECH32": "Insira um endereço BTC BECH32 válido!",
         "cta": "Revisar saque"
       },

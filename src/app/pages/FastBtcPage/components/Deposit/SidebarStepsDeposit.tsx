@@ -14,6 +14,7 @@ import successIcon from 'assets/images/fast-btc/success-icon.svg';
 import { DepositContext, DepositStep } from '../../contexts/deposit-context';
 import { NetworkAwareComponentProps } from '../../types';
 import { Chain } from 'types';
+import { TxStatus } from 'store/global/transactions-store/types';
 
 const stepOrder = [
   DepositStep.ADDRESS,
@@ -21,9 +22,8 @@ const stepOrder = [
   DepositStep.COMPLETED,
 ];
 
-const isBehindStep = (current: DepositStep, needed: DepositStep) => {
-  return stepOrder.indexOf(current) > stepOrder.indexOf(needed);
-};
+const isBehindStep = (current: DepositStep, needed: DepositStep) =>
+  stepOrder.indexOf(current) > stepOrder.indexOf(needed);
 
 export const SidebarStepsDeposit: React.FC<NetworkAwareComponentProps> = ({
   network,
@@ -73,7 +73,7 @@ export const SidebarStepsDeposit: React.FC<NetworkAwareComponentProps> = ({
         item => item.value === DepositStep.PROCESSING,
       );
       if (item) {
-        if (depositTx?.status === 'pending') {
+        if (depositTx?.status === TxStatus.PENDING) {
           item.title = t(
             translations.fastBtcPage.deposit.sidebarSteps.processingSteps,
             {
@@ -82,7 +82,7 @@ export const SidebarStepsDeposit: React.FC<NetworkAwareComponentProps> = ({
             },
           );
         }
-        if (depositTx?.status === 'confirmed') {
+        if (depositTx?.status === TxStatus.CONFIRMED) {
           item.title = t(
             translations.fastBtcPage.deposit.sidebarSteps.processingSteps,
             {
