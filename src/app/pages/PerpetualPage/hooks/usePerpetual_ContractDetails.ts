@@ -25,7 +25,9 @@ export const usePerpetual_ContractDetails = (pairType: PerpetualPairType) => {
   const [volume24h, setVolume24h] = useState(0);
   const [data, setData] = useState<Nullable<PerpetualContractDetailsData>>();
 
-  const { ammState, perpetualParameters } = useContext(PerpetualQueriesContext);
+  const { ammState, perpetualParameters, lotSize } = useContext(
+    PerpetualQueriesContext,
+  );
   const client = useApolloClient();
 
   const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
@@ -66,11 +68,12 @@ export const usePerpetual_ContractDetails = (pairType: PerpetualPairType) => {
         volume24h: volume24h,
         openInterest: perpetualParameters.fOpenInterest,
         fundingRate: perpetualParameters.fCurrentFundingRate,
-        lotSize: perpetualParameters.fLotSizeBC,
+        lotSize,
         minTradeAmount: perpetualParameters.fLotSizeBC,
       }),
     [
       ammState,
+      lotSize,
       perpetualParameters.fCurrentFundingRate,
       perpetualParameters.fLotSizeBC,
       perpetualParameters.fOpenInterest,
