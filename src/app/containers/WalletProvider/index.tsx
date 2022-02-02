@@ -25,18 +25,12 @@ import { transactionsStateSaga } from 'store/global/transactions-store/saga';
 import { reducer, sliceKey } from './slice';
 import { walletProviderSaga } from './saga';
 import { selectRequestDialogState } from '../../../store/global/transactions-store/selectors';
-import { FastBtcForm } from '../FastBtcForm/Loadable';
-import {
-  sliceKey as btcSlice,
-  reducer as btcReducer,
-} from '../FastBtcForm/slice';
-import { fastBtcFormSaga } from '../FastBtcForm/saga';
+import { TxRequestDialog } from 'app/components/TransactionDialog/TxRequestDialog';
 import { currentChainId } from '../../../utils/classifiers';
 import { actions } from './slice';
 import { useEvent } from 'app/hooks/useAnalytics';
 import { selectWalletProvider } from './selectors';
 import { useLocation } from 'react-router-dom';
-import { TxRequestDialog } from 'app/components/TransactionDialog/TxRequestDialog';
 
 interface Props {
   children: React.ReactNode;
@@ -51,9 +45,6 @@ export function WalletProvider(props: Props) {
 
   useInjectReducer({ key: transactionsSlice, reducer: transactionsReducer });
   useInjectSaga({ key: transactionsSlice, saga: transactionsStateSaga });
-
-  useInjectReducer({ key: btcSlice, reducer: btcReducer });
-  useInjectSaga({ key: btcSlice, saga: fastBtcFormSaga });
 
   const requestDialog = useSelector(selectRequestDialogState);
   const { bridgeChainId } = useSelector(selectWalletProvider);
@@ -81,7 +72,6 @@ export function WalletProvider(props: Props) {
       <WalletWatcher />
       <>{props.children}</>
       <TxRequestDialog {...requestDialog} />
-      <FastBtcForm />
     </SovrynWallet>
   );
 }

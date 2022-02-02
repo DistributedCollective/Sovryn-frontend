@@ -171,7 +171,15 @@ function getStatus(tx: TxStatus) {
   return <Trans i18nKey={translations.common.pending} />;
 }
 
-function StatusComponent({ status }: { status: TxStatus }) {
+type StatusComponentProps = {
+  status: TxStatus;
+  onlyImage?: boolean;
+};
+
+export const StatusComponent: React.FC<StatusComponentProps> = ({
+  status,
+  onlyImage = false,
+}) => {
   return (
     <div className="tw-mx-auto tw-text-center tw-w-24">
       <img
@@ -181,10 +189,12 @@ function StatusComponent({ status }: { status: TxStatus }) {
         } tw-w-14 tw-h-14 tw-mx-auto`}
         alt="Status"
       />
-      <p className="tw-text-base tw-font-medium">{getStatus(status)}</p>
+      {!onlyImage && (
+        <p className="tw-text-base tw-font-medium">{getStatus(status)}</p>
+      )}
     </div>
   );
-}
+};
 
 function WalletLogo({ wallet }: { wallet: string }) {
   return (

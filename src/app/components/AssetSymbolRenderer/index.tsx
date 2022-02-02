@@ -10,6 +10,16 @@ const symbolMap = {
       <em>R</em>BTC
     </>
   ),
+  [Asset.WRBTC]: (
+    <>
+      <em>WR</em>BTC
+    </>
+  ),
+  [Asset.BTCS]: (
+    <>
+      BTC<em>S</em>
+    </>
+  ),
   [Asset.USDT]: (
     <>
       <em>R</em>USDT
