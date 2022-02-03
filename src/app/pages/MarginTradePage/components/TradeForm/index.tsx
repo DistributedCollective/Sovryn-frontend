@@ -35,7 +35,7 @@ const pairs = TradingPairDictionary.entries()
     label: item.name as string,
   }));
 
-const sovPairsLeverage = 2;
+const SOV_PAIRS_LEVERAGE = 2; //only allow 2x leverage for SOV margin trades
 
 interface ITradeFormProps {
   pairType: TradingPairType;
@@ -72,7 +72,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
 
   useEffect(() => {
     if (isSovPair) {
-      dispatch(actions.setLeverage(sovPairsLeverage));
+      dispatch(actions.setLeverage(SOV_PAIRS_LEVERAGE));
     }
   }, [dispatch, isSovPair]);
 
@@ -126,7 +126,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
             className="tw-mb-6"
           >
             {isSovPair ? (
-              `${sovPairsLeverage}x`
+              `${SOV_PAIRS_LEVERAGE}x`
             ) : (
               <LeverageSelector
                 value={leverage}
