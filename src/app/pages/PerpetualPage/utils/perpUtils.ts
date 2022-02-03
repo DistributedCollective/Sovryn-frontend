@@ -1,10 +1,9 @@
 /*
  * https://github.com/DistributedCollective/sovryn-perpetual-swap/blob/dev/scripts/utils/perpUtils.ts
- * COMMIT: 6561e78d4e3b026f93becf6a9eb46b815e0c50d0
+ * COMMIT: cf7609095bb35960cd323ab3c2635f0368048f7e
  * Helper-functions for frontend
  */
 
-import console from 'console';
 import {
   calcKStar,
   shrinkToLot,
@@ -21,9 +20,10 @@ import {
   COLLATERAL_CURRENCY_BASE,
   COLLATERAL_CURRENCY_QUANTO,
   getMarginBalanceCC,
+  roundToLot,
 } from './perpMath';
-import { numberFromWei } from '../../../../utils/blockchain/math-helpers';
-import { gasLimit } from '../../../../utils/classifiers';
+import { numberFromWei } from 'utils/blockchain/math-helpers';
+import { gasLimit } from 'utils/classifiers';
 
 /*---
 // Suffix CC/BC/QC:
@@ -75,6 +75,8 @@ export interface PerpParameters {
   poolId: number;
   oracleS2Addr: string;
   oracleS3Addr: string;
+  // perpetual-wide hard-cap for position size
+  fMaxPositionBC: number;
 }
 
 export interface PerpCurrencySymbols {
@@ -247,7 +249,9 @@ export function getMaxInitialLeverage(
 }
 
 /**
- * Get minimal short or maximal long position for trader. Direction=-1 for short, 1 for long
+ * Get minimal short or maximal long position for a given trader. Assumes maximal leverage and no open positions for trader.
+ * Direction=-1 for short, 1 for long
+ * Assumes maximal leverage
  * This function calculates the largest position considering
  * - leverage constraints
  * - position size constraint by AMM
@@ -268,39 +272,75 @@ export function getSignedMaxAbsPositionForTrader(
   traderState: TraderState,
   ammData: AMMState,
   poolData: LiqPoolState,
+  slippagePercent: number = 0,
 ): number {
   // max position = min(current position + maximal trade size, max position allowed by leverage constraint)
   let currentPos = traderState.marginAccountPositionBC;
+  let fee = getTradingFeeRate(perpParams);
+  let S3 = 1 / getQuote2CollateralFX(ammData);
+  let S2 = getIndexPrice(ammData);
+  let Sm = getMarkPrice(ammData);
   let maxSignedPos =
     currentPos +
     getMaximalTradeSizeInPerpetual(
       currentPos,
-      direction,
+      Math.sign(direction),
       ammData,
       poolData,
       perpParams,
     );
-  let availableCollateral =
-    traderState.availableMarginCC + availableWalletBalance;
-  if (availableCollateral < 0) {
+  let traderPnL =
+    traderState.marginAccountPositionBC * Sm -
+    traderState.marginAccountLockedInValueQC;
+  let cashQC =
+    (availableWalletBalance + traderState.marginBalanceCC) * S3 + traderPnL;
+  if (cashQC <= 0) {
     return 0;
   }
 
-  let alpha = perpParams.fInitialMarginRateAlpha;
-  let beta = perpParams.fMarginRateBeta;
-  let fee = getTradingFeeRate(perpParams);
-  let S3 = 1 / getQuote2CollateralFX(ammData);
-  let cashBC =
-    (traderState.availableCashCC * S3) / ammData.indexS2PriceDataOracle;
-  let premiumRate = cdfNormalStd(perpParams.fAMMTargetDD_1);
+  // estimate pos at max leverage: it's a non-linear equation because of the entry price so we need to iterate.
+  // position_0 = one lot in given direction
+  // position_i+1 = max position where entry price is price(position_i)
 
-  let posMargin = getMaxLeveragePosition(cashBC, premiumRate, alpha, beta, fee);
+  let position = direction * perpParams.fLotSizeBC;
+  let denominator = 1;
+  let numIter = 0;
 
-  if (direction < 0) {
-    return Math.max(-posMargin, maxSignedPos);
-  } else {
-    return Math.min(posMargin, maxSignedPos);
+  let slippagePrice = calculateSlippagePriceFromMidPrice(
+    perpParams,
+    ammData,
+    slippagePercent,
+    direction,
+  );
+  let tradeAmountPrice = slippagePrice;
+  let marginRate;
+  while (denominator > 0 && numIter < 20) {
+    position =
+      (cashQC - traderState.marginAccountPositionBC * (S2 - tradeAmountPrice)) /
+      denominator;
+    tradeAmountPrice = getPrice(
+      position - traderState.marginAccountPositionBC,
+      perpParams,
+      ammData,
+    );
+    tradeAmountPrice =
+      direction > 0
+        ? Math.max(tradeAmountPrice, slippagePrice)
+        : Math.min(tradeAmountPrice, slippagePrice);
+    marginRate = getInitialMarginRate(position, perpParams);
+    denominator =
+      S2 * marginRate + fee * S2 - direction * (S2 - tradeAmountPrice);
+    numIter += 1;
   }
+  let maxpos;
+  if (direction < 0) {
+    maxpos = Math.max(-position, maxSignedPos);
+  } else {
+    maxpos = Math.min(position, maxSignedPos);
+  }
+  maxpos = shrinkToLot(maxpos, perpParams.fLotSizeBC);
+
+  return maxpos;
 }
 
 /**
@@ -340,7 +380,7 @@ export function getMaximalTradeSizeInPerpetual(
     kStar = shrinkToLot(kStar, lotSize);
     let fundingRatio = liqPool.fDefaultFundCashCC / liqPool.fTargetDFSize;
     let scale: number;
-    if (direction === Math.sign(kStar)) {
+    if (Math.sign(direction) === Math.sign(kStar)) {
       scale = perpParams.fMaximalTradeSizeBumpUp;
     } else {
       // adverse direction
@@ -400,7 +440,7 @@ export function getMaximalTradeSizeInPerpetualWithCurrentMargin(
 ): number {
   let availableWalletBalance = 0;
   let maxPos = getSignedMaxAbsPositionForTrader(
-    direction,
+    Math.sign(direction),
     availableWalletBalance,
     perpParams,
     traderState,
@@ -422,8 +462,6 @@ export function calculateSlippagePrice(
   slippagePercent: number,
   direction: number,
 ) {
-  console.assert(slippagePercent < 0.1); //10% is unreasonably high slippage
-  console.assert(slippagePercent >= 0);
   return currentMidPrice * (1 + Math.sign(direction) * slippagePercent);
 }
 
@@ -579,9 +617,9 @@ export function calculateApproxLiquidationPrice(
  * Considers the trading fees and the collateral already deposited.
  * @param {number} leverage - The leverage that the trader wants to achieve, given the position size
  * @param {number} targetPos  - The trader's (signed) target position in base currency
- * @param {number} base2collateral  - If the base currency is different than the collateral. If base is BTC, collateral is USD, this would be 100000 (the USD amount for 1 BTC)
  * @param {PerpParameters} perpParams - Contains parameter of the perpetual
  * @param {AMMState} ammData - AMM state
+ * @param {TraderState} traderState - Trader state
  * @param {number} slippagePercent - optional. Specify slippage compared to mid-price that the trader is willing to accept
  * @param {boolean} accountForExistingMargin - optional, default true. subtracts existing margin and clamp to 0
  * @returns {number} balance required to arrive at the perpetual contract to obtain requested leverage
@@ -595,10 +633,12 @@ export function getRequiredMarginCollateral(
   slippagePercent = 0,
   accountForExistingMargin = true,
 ): number {
-  console.assert(leverage > 0);
+  // master equation:
+  // |pos_new| * S2 / l + fee_BC * S2 = margin * S3 + pos_old * S2 - L + (pos_new - pos_old)*(S2 - entry price)
+  // entry price: AMM price for delta position, possibly with slippage
   let currentPos = traderState.marginAccountPositionBC;
   let positionToTrade = targetPos - currentPos;
-  let feesBC = Math.abs(positionToTrade) * getTradingFeeRate(perpParams);
+  let feesBC = getTradingFee(positionToTrade, perpParams, ammData);
   let dir = Math.sign(positionToTrade);
   let slippagePrice = calculateSlippagePriceFromMidPrice(
     perpParams,
@@ -611,25 +651,23 @@ export function getRequiredMarginCollateral(
     dir > 0
       ? Math.max(tradeAmountPrice, slippagePrice)
       : Math.min(tradeAmountPrice, slippagePrice);
-  let base2collateral = getBase2CollateralFX(ammData, true);
   let quote2collateral = getQuote2CollateralFX(ammData);
-
-  // leverage = position/margincollateral
+  // leverage = position/margincollateral, where position and collateral are valued at spot
   // Protocol fees are subtracted from the margincollateral
   // Hence: leverage = position/(margincollateral - fees)
   //   -> margincollateral =  position/leverage + pnl + fees
-  let Sm = getMarkPrice(ammData);
   let initialPnLQC =
     currentPos * getMarkPrice(ammData) -
     traderState.marginAccountLockedInValueQC;
-  let buffer = 1e-16;
-  let newPnLQC = positionToTrade * (Sm - tradeAmountPrice) - buffer;
-  let pnlCC = (initialPnLQC + newPnLQC) * quote2collateral;
+  let newPnLQC = positionToTrade * (getIndexPrice(ammData) - tradeAmountPrice);
 
   let collRequired =
-    (Math.abs(targetPos) * base2collateral) / leverage -
-    pnlCC +
-    feesBC * base2collateral;
+    ((Math.abs(targetPos) * getIndexPrice(ammData)) / leverage -
+      initialPnLQC -
+      newPnLQC +
+      feesBC * getIndexPrice(ammData)) *
+    quote2collateral;
+
   if (accountForExistingMargin) {
     // account for collateral already deposited
     return Math.max(0, collRequired - traderState.availableCashCC);
@@ -982,29 +1020,56 @@ function getPerpetualCollateralType(ammData: AMMState) {
   }
 }
 
-// CUSTOM FRONTEND UTILS =======================================================
-
 /**
  * calculate Leverage for new Margin and Position.
- * @param {number} targetPositionSizeBC - new target position size
- * @param {number} targetMarginCC - new target margin
+ * @param {number} targetPosition - new target position size, in base currency
+ * @param {number} targetMargin - new target margin, in collateral currency
  * @param {TraderState} traderState
  * @param {AMMState} ammState
  * @param {PerpParameters} perpParameters
  * @returns {number} current leverage for the trader
  */
 export function calculateLeverage(
-  targetPositionSizeBC: number,
-  targetMarginCC: number,
+  targetPosition: number,
+  targetMargin: number,
   traderState: TraderState,
   ammState: AMMState,
   perpParameters: PerpParameters,
+  slippagePercent: number = 0,
 ): number {
-  return (
-    Math.abs(targetPositionSizeBC * getBase2CollateralFX(ammState, false)) /
-    (targetMarginCC + getTraderPnLInCC(traderState, ammState, perpParameters))
+  // master equation:
+  // |p_new| * S2 / l + fee_BC * S2 = m * S3 + p_old * Sm - L + (p_new - p_old)*(S2 - entry price)
+  // entry price: AMM price for delta position, possibly with slippage
+  // pnl of existing position
+  let S2 = getIndexPrice(ammState);
+  let currentPosition = traderState.marginAccountPositionBC;
+  let lockedIn = traderState.marginAccountLockedInValueQC;
+  let initialPnL = currentPosition * getMarkPrice(ammState) - lockedIn;
+  // pnl of adjusting position
+  let deltaPosition = targetPosition - currentPosition;
+  let dir = Math.sign(deltaPosition);
+  let slippagePrice = calculateSlippagePriceFromMidPrice(
+    perpParameters,
+    ammState,
+    slippagePercent,
+    dir,
   );
+  let tradeAmountPrice = getPrice(deltaPosition, perpParameters, ammState);
+  tradeAmountPrice =
+    dir > 0
+      ? Math.max(tradeAmountPrice, slippagePrice)
+      : Math.min(tradeAmountPrice, slippagePrice);
+  let newPnL = deltaPosition * (S2 - tradeAmountPrice);
+  // fees
+  let fees = getTradingFee(deltaPosition, perpParameters, ammState) * S2;
+  // leverage = position / margin after fees and pnl
+  let numeratorQC = Math.abs(targetPosition) * getBase2QuoteFX(ammState, false);
+  let denominatorQC =
+    initialPnL + newPnL + targetMargin / getQuote2CollateralFX(ammState) - fees;
+  return numeratorQC / denominatorQC;
 }
+
+// CUSTOM FRONTEND UTILS =======================================================
 
 /**
  * Get the unrealized Profit/Loss of a trader using mark price as benchmark. Reported in Base currency.

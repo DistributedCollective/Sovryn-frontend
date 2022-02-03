@@ -49,7 +49,7 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
 
   const onEnableManual = useCallback(() => {
     setManual(true);
-    onChange(Number(roundToSmaller(value, 2)));
+    onChange(Number(roundToSmaller(value, 4)));
   }, [value, onChange]);
 
   const onEnableManualMinimum = useCallback(() => {
@@ -86,7 +86,8 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
     } else if (numberValue > max) {
       numberValue = max;
     }
-    onChange(Number(roundToSmaller(numberValue, 2)));
+
+    onChange(Number(roundToSmaller(numberValue, 4)));
   }, [value, min, max, onChange]);
 
   return (

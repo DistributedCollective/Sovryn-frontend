@@ -149,9 +149,7 @@ const PairSelectorButton: React.FC<PairSelectorButtonProps> = ({
       )}
       onClick={onClick}
     >
-      <span className="tw-font-medium tw-mr-2 tw-text-xs">
-        {pair.name} ({pair.config.leverage.max}x)
-      </span>
+      <span className="tw-font-medium tw-mr-2 tw-text-xs">{pair.name}</span>
       <span
         className={classNames(
           'tw-flex-auto tw-text-right tw-font-medium tw-text-base',

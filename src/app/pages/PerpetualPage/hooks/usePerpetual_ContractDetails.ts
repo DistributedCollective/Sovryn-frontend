@@ -1,7 +1,6 @@
 import { Bar } from 'app/components/TradingChart/datafeed';
 import { useContext, useEffect, useState, useMemo } from 'react';
 import { Nullable } from 'types';
-import { useBlockSync } from '../../../hooks/useAccount';
 import { makeApiRequest } from '../components/TradingChart/helpers';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import { getIndexPrice, getMarkPrice } from '../utils/perpUtils';
@@ -10,6 +9,7 @@ import {
   PerpetualPairType,
   PerpetualPairDictionary,
 } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
+import { useApolloClient } from '@apollo/client';
 
 export type PerpetualContractDetailsData = {
   markPrice: number;
@@ -22,11 +22,13 @@ export type PerpetualContractDetailsData = {
 };
 
 export const usePerpetual_ContractDetails = (pairType: PerpetualPairType) => {
-  const blockId = useBlockSync();
   const [volume24h, setVolume24h] = useState(0);
   const [data, setData] = useState<Nullable<PerpetualContractDetailsData>>();
 
-  const { ammState, perpetualParameters } = useContext(PerpetualQueriesContext);
+  const { ammState, perpetualParameters, lotSize } = useContext(
+    PerpetualQueriesContext,
+  );
+  const client = useApolloClient();
 
   const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
 
@@ -36,6 +38,7 @@ export const usePerpetual_ContractDetails = (pairType: PerpetualPairType) => {
       const timestampYesterday = Math.ceil(timestampNow - 24 * 3600);
 
       const data: Bar[] = await makeApiRequest(
+        client,
         CandleDuration.D_1,
         pair.id,
         timestampYesterday,
@@ -49,7 +52,13 @@ export const usePerpetual_ContractDetails = (pairType: PerpetualPairType) => {
     };
 
     get24hVolume().catch(console.error);
-  }, [pair.id]);
+    const intervalId = setInterval(
+      () => get24hVolume().catch(console.error),
+      5 * 60 * 1000, // 5 minutes
+    );
+
+    return () => clearInterval(intervalId);
+  }, [pair.id, client]);
 
   useEffect(
     () =>
@@ -59,12 +68,12 @@ export const usePerpetual_ContractDetails = (pairType: PerpetualPairType) => {
         volume24h: volume24h,
         openInterest: perpetualParameters.fOpenInterest,
         fundingRate: perpetualParameters.fCurrentFundingRate,
-        lotSize: perpetualParameters.fLotSizeBC,
+        lotSize,
         minTradeAmount: perpetualParameters.fLotSizeBC,
       }),
     [
-      blockId,
       ammState,
+      lotSize,
       perpetualParameters.fCurrentFundingRate,
       perpetualParameters.fLotSizeBC,
       perpetualParameters.fOpenInterest,

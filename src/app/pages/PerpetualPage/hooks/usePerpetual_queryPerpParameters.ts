@@ -45,6 +45,7 @@ export const initialPerpParameters: PerpParameters = {
   // funding state
   fCurrentFundingRate: 0,
   fUnitAccumulatedFunding: 0,
+  fMaxPositionBC: 0,
 };
 
 export const usePerpetual_queryPerpParameters = (perpetualId: string) => {
@@ -109,4 +110,5 @@ const parsePerpParameter = (response: any): PerpParameters => ({
   fAMMMinSizeCC: ABK64x64ToFloat(response[39]),
   fMinimalTraderExposureEMA: ABK64x64ToFloat(response[40]),
   fMaximalTradeSizeBumpUp: ABK64x64ToFloat(response[42]),
+  fMaxPositionBC: ABK64x64ToFloat(response[49]),
 });

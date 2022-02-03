@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
@@ -10,6 +10,7 @@ import { AssetValueMode } from 'app/components/AssetValue/types';
 import { getCollateralName } from '../../utils/renderUtils';
 import { Asset } from '../../../../../types';
 import { Tooltip } from '@blueprintjs/core';
+import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 
 type ContractDetailsProps = {
   pair: PerpetualPair;
@@ -22,6 +23,8 @@ export const ContractDetails: React.FC<ContractDetailsProps> = ({
 }) => {
   const { t } = useTranslation();
   const data = usePerpetual_ContractDetails(pair.pairType);
+
+  const { lotPrecision } = useContext(PerpetualQueriesContext);
 
   const collateralAsset = useMemo(() => getCollateralName(collateral), [
     collateral,
@@ -118,8 +121,8 @@ export const ContractDetails: React.FC<ContractDetailsProps> = ({
           title={t(translations.perpetualPage.contractDetails.lotSize)}
           value={
             <AssetValue
-              minDecimals={3}
-              maxDecimals={3}
+              minDecimals={lotPrecision}
+              maxDecimals={lotPrecision}
               mode={AssetValueMode.auto}
               value={data?.lotSize || 0}
               assetString={pair.baseAsset}
@@ -130,8 +133,8 @@ export const ContractDetails: React.FC<ContractDetailsProps> = ({
           title={t(translations.perpetualPage.contractDetails.minTradeAmount)}
           value={
             <AssetValue
-              minDecimals={3}
-              maxDecimals={3}
+              minDecimals={lotPrecision}
+              maxDecimals={lotPrecision}
               mode={AssetValueMode.auto}
               value={data?.minTradeAmount || 0}
               assetString={pair.baseAsset}

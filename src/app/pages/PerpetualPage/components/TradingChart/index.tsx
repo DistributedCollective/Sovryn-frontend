@@ -14,10 +14,11 @@ import {
 } from '@distributedcollective/charting-library/src/charting_library/charting_library.min';
 
 import { Skeleton } from '../../../../components/PageSkeleton';
-import Datafeed from './datafeed';
-import Storage from './storage';
+import datafeed from './datafeed';
+import storage from './storage';
 import { noop } from '../../../../constants';
 import { Nullable } from '../../../../../types';
+import { useApolloClient } from '@apollo/client';
 
 export enum Theme {
   LIGHT = 'Light',
@@ -37,6 +38,7 @@ export const TradingChart: React.FC<TradingChartProps> = ({
 }) => {
   const [hasCharts, setHasCharts] = useState(false);
   const [chart, setChart] = useState<Nullable<IChartingLibraryWidget>>(null);
+  const client = useApolloClient();
 
   useEffect(() => {
     try {
@@ -44,8 +46,8 @@ export const TradingChart: React.FC<TradingChartProps> = ({
       const widgetOptions: any = {
         debug: false,
         symbol,
-        datafeed: Datafeed,
-        save_load_adapter: Storage,
+        datafeed: datafeed(client),
+        save_load_adapter: storage,
         study_count_limit: 15, //max number of indicators that can be added to charts
         interval: '30', //default time interval
         timeframe: '3D', //default range
@@ -106,7 +108,7 @@ export const TradingChart: React.FC<TradingChartProps> = ({
 
     // run only once after mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [client]);
 
   useLayoutEffect(() => {
     if (chart && hasCharts) {

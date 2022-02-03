@@ -67,6 +67,12 @@
       {
         "indexed": false,
         "internalType": "int128",
+        "name": "liquidationPrice",
+        "type": "int128"
+      },
+      {
+        "indexed": false,
+        "internalType": "int128",
         "name": "newPositionSizeBC",
         "type": "int128"
       },
@@ -1562,6 +1568,11 @@
         "internalType": "int128",
         "name": "_fPnLparticipantWithdrawalMinAmountLimit",
         "type": "int128"
+      },
+      {
+        "internalType": "int128",
+        "name": "_fMaxTotalTraderFunds",
+        "type": "int128"
       }
     ],
     "name": "createLiquidityPool",
@@ -2144,6 +2155,11 @@
             "internalType": "uint256",
             "name": "iPerpetualCount",
             "type": "uint256"
+          },
+          {
+            "internalType": "int128",
+            "name": "fMaxTotalTraderFunds",
+            "type": "int128"
           }
         ],
         "internalType": "struct PerpStorage.LiquidityPoolData",
@@ -3096,19 +3112,6 @@
     "type": "function"
   },
   {
-    "inputs": [],
-    "name": "isMaxPositionActive",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
     "inputs": [
       {
         "internalType": "bytes32",
@@ -3371,19 +3374,6 @@
       }
     ],
     "name": "setMaxPosition",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "bool",
-        "name": "_flag",
-        "type": "bool"
-      }
-    ],
-    "name": "setMaxPositionActive",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
