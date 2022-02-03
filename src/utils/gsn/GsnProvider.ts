@@ -41,7 +41,7 @@ export class GsnProvider {
           pastEventsQueryMaxPageSize: MAX_EVENT_BLOCKS,
           maxViewableGasLimit: Math.max(...Object.values(gasLimit)),
           loggerConfiguration: {
-            logLevel: 'debug',
+            logLevel: process.env.NODE_ENV === 'development' ? 'debug' : 'warn',
           },
         },
       })
