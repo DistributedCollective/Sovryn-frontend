@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useCallback } from 'react';
+import React, { useContext, useMemo, useCallback, useEffect } from 'react';
 import { PerpetualPair } from '../../../../../utils/models/perpetual-pair';
 import {
   PerpetualPairDictionary,
@@ -19,6 +19,7 @@ import { Asset } from '../../../../../types';
 import { gsnNetwork } from '../../../../../utils/gsn/GsnNetwork';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { actions as walletProviderActions } from 'app/containers/WalletProvider/slice';
+import { useMaintenance } from '../../../../hooks/useMaintenance';
 
 type PairSelectorProps = {
   pair: PerpetualPair;
@@ -37,6 +38,14 @@ export const PairSelector: React.FC<PairSelectorProps> = ({
   const dispatch = useDispatch();
   const { useMetaTransactions } = useSelector(selectPerpetualPage);
   const { wallet } = useWalletContext();
+
+  const { checkMaintenance, States } = useMaintenance();
+  const isGsnInMaintenance = useMemo(
+    () =>
+      checkMaintenance(States.PERPETUALS) ||
+      checkMaintenance(States.PERPETUALS_GSN),
+    [checkMaintenance, States],
+  );
 
   const [collateralLogo, collateralName] = useMemo(
     () => [getCollateralLogo(collateral), getCollateralName(collateral)],
@@ -80,6 +89,11 @@ export const PairSelector: React.FC<PairSelectorProps> = ({
             position="bottom-left"
             content={
               <>
+                {isGsnInMaintenance && (
+                  <p className="tw-block tw-mb-2 tw-text-warning">
+                    {t(translations.common.maintenance)}
+                  </p>
+                )}
                 {!isGsnSupported && (
                   <p className="tw-block tw-mb-2 tw-text-warning">
                     {t(
@@ -102,7 +116,7 @@ export const PairSelector: React.FC<PairSelectorProps> = ({
               className="tw-mb-0"
               large
               label={t(translations.perpetualPage.pairSelector.gsn)}
-              disabled={!isGsnSupported}
+              disabled={isGsnInMaintenance || !isGsnSupported}
               checked={useMetaTransactions}
               onChange={onToggleMetaTransactions}
             />
