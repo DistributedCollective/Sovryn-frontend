@@ -13,7 +13,7 @@
     "@fortawesome/free-solid-svg-icons": "5.14.0",
     "@fortawesome/react-fontawesome": "0.1.11",
     "@hookstate/core": "3.0.6",
-    "@opengsn/provider": "2.2.4",
+    "@opengsn/provider": "2.2.5",
     "@redux-saga/delay-p": "1.1.2",
     "@reduxjs/toolkit": "1.5.1",
     "@rsksmart/rsk3": "0.3.4",

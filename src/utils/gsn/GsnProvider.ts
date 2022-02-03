@@ -8,6 +8,7 @@ import type { TransactionConfig } from 'web3-core';
 import { gsnNetwork } from './GsnNetwork';
 import { SovrynWalletGsnProvider } from './SovrynWalletGsnProvider';
 import { RpcNetwork } from 'utils/blockchain/rpc-network';
+import { gasLimit } from '../classifiers';
 
 const preferredRelays = {
   [ChainId.BSC_MAINNET]: ['https://bsc.relay.sovryn.app/gsn1'],
@@ -38,6 +39,7 @@ export class GsnProvider {
           relayLookupWindowBlocks: MAX_EVENT_BLOCKS,
           relayRegistrationLookupBlocks: MAX_EVENT_BLOCKS,
           pastEventsQueryMaxPageSize: MAX_EVENT_BLOCKS,
+          maxViewableGasLimit: Math.max(...Object.values(gasLimit)),
           loggerConfiguration: {
             logLevel: 'debug',
           },

@@ -3121,13 +3121,13 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@opengsn/common@^2.2.4":
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/@opengsn/common/-/common-2.2.4.tgz#1f75d24b1690e41dc01dc2d2e24f492379b46d55"
-  integrity sha512-kmvnvmHUyKfpcQNxSQVeHOIIKg5KQlnlCPQMa+yyokimqE8yQb6vL59o946PciwZ6ieNVVZoSFHPTYla03dZaQ==
+"@opengsn/common@^2.2.5":
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/@opengsn/common/-/common-2.2.5.tgz#bb1b59c09f94537ec1aee32e3dce5b9a800db986"
+  integrity sha512-/uVzrCTDftWctneAXLGxjQaRKzKY1cPg+CJZCQR28/Ndx3drIkNQD+DOMGQwXxa1T+Q03Uks47gzffvZTXD3Ng==
   dependencies:
     "@ethereumjs/tx" "^3.2.0"
-    "@opengsn/contracts" "^2.2.4"
+    "@opengsn/contracts" "^2.2.5"
     "@types/bn.js" "^5.1.0"
     "@types/eth-sig-util" "^2.1.0"
     "@types/semver" "^7.3.4"
@@ -3148,20 +3148,20 @@
     web3-eth-contract "1.2.6"
     web3-utils "1.2.6"
 
-"@opengsn/contracts@^2.2.4":
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/@opengsn/contracts/-/contracts-2.2.4.tgz#8b46baf2f1f86f30fbcffa1347df3fad2a24d55c"
-  integrity sha512-3FG8vqGSJSGYRmSeDHp9hUsVFAAL1fOu6UQ6yFUQFJzUYamimF/Ywelm8CtyTwpE54as2ZqnzTOFlDCJmZgXcg==
+"@opengsn/contracts@^2.2.5":
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/@opengsn/contracts/-/contracts-2.2.5.tgz#24a61799649548d2b356efcfe0cb6d0c307cb516"
+  integrity sha512-o0z8b1A7D0cYMQ+gIxM1YKJ2uV25jcrfItu7ABeQBwbaeG0NBEhXHM6Z+rnsqLJvl3RJcKmHfxaFNCk3b3bzOQ==
   dependencies:
     "@openzeppelin/contracts" "^4.2.0"
 
-"@opengsn/provider@2.2.4":
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/@opengsn/provider/-/provider-2.2.4.tgz#cbfd9b6b3cb3b7334d0beaeefbff6fff8bf15172"
-  integrity sha512-prep14pwOz13YTb97CWLfa9Ou3zdyM2YRRAIXXPyBfFY7LKf6Lm2rmAtjYLqqJwKHJW0FpyvIfXnHcUkKGP7BQ==
+"@opengsn/provider@2.2.5":
+  version "2.2.5"
+  resolved "https://registry.yarnpkg.com/@opengsn/provider/-/provider-2.2.5.tgz#7c361b7f8a31f2958f5b7c6cf75fe151d68477bc"
+  integrity sha512-Y1+DBvyH7McRaWSPxMTewn7skxwjhSAblqH1l1Y2ob9gy0AZp2IuoYlzjrdDzb3yiKtGElhfpF1aJJ+flbUbIg==
   dependencies:
     "@ethereumjs/tx" "^3.2.0"
-    "@opengsn/common" "^2.2.4"
+    "@opengsn/common" "^2.2.5"
     "@types/body-parser" "^1.19.0"
     "@types/eth-sig-util" "^2.1.0"
     "@types/express-serve-static-core" "^4.17.18"
