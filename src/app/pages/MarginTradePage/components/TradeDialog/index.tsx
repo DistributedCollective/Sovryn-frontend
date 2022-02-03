@@ -39,7 +39,6 @@ import { useTrading_resolvePairTokens } from '../../../../hooks/trading/useTradi
 import { useAccount } from '../../../../hooks/useAccount';
 import { TxFeeCalculator } from '../TxFeeCalculator';
 import { TradingPosition } from 'types/trading-position';
-import { useGetEstimatedMarginDetails } from '../../../../hooks/trading/useGetEstimatedMarginDetails';
 import { selectMarginTradePage } from '../../selectors';
 import { actions } from '../../slice';
 import { PricePrediction } from '../../../../containers/MarginTradeForm/PricePrediction';
@@ -53,6 +52,8 @@ import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer'
 import { bignumber } from 'mathjs';
 import { TradeEventData } from '../../../../../types/active-loan';
 import { usePositionLiquidationPrice } from '../../../../hooks/trading/usePositionLiquidationPrice';
+import { useSwapsExternal_getSwapExpectedReturn } from 'app/hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
+import { useWeiAmount } from 'app/hooks/useWeiAmount';
 
 const TradeLogInputs = [
   {
@@ -150,17 +151,13 @@ export function TradeDialog() {
   } = useTrading_resolvePairTokens(pair, position, collateral);
   const contractName = getLendingContractName(loanToken);
 
-  const { value: estimations } = useGetEstimatedMarginDetails(
+  const { value } = useSwapsExternal_getSwapExpectedReturn(
     loanToken,
-    leverage,
-    useLoanTokens ? amount : '0',
-    useLoanTokens ? '0' : amount,
     collateralToken,
+    useWeiAmount('1'),
   );
 
-  // const { minReturn } = useSlippage(estimations.collateral, slippage);
-  // 1 btc / 37k xusd
-  const minReturn = ((1 / 37000) * 1e18).toFixed(0);
+  const { minReturn } = useSlippage(value, slippage);
 
   const { trade, ...tx } = useApproveAndTrade(
     pair,
