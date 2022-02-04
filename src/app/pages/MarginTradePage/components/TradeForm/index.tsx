@@ -26,16 +26,14 @@ import { renderItemNH } from 'app/components/Form/Select/renderers';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
-import { Asset } from 'types';
 
 const pairs = TradingPairDictionary.entries()
   .filter(value => !value[1].deprecated)
   .map(([type, item]) => ({
     key: type,
     label: item.name as string,
+    leverage: item.leverage,
   }));
-
-const SOV_PAIRS_LEVERAGE = 2; //only allow 2x leverage for SOV margin trades
 
 interface ITradeFormProps {
   pairType: TradingPairType;
@@ -50,7 +48,9 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   const { collateral, leverage } = useSelector(selectMarginTradePage);
   const dispatch = useDispatch();
 
-  const isSovPair = useMemo(() => pairType.includes(Asset.SOV), [pairType]);
+  const pairInfo = useMemo(() => pairs.find(pair => pair.key === pairType), [
+    pairType,
+  ]);
 
   const [amount, setAmount] = useState('');
 
@@ -71,10 +71,10 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   }, [pair.collaterals, collateral, dispatch]);
 
   useEffect(() => {
-    if (isSovPair) {
-      dispatch(actions.setLeverage(SOV_PAIRS_LEVERAGE));
+    if (pairInfo && pairInfo.leverage) {
+      dispatch(actions.setLeverage(pairInfo.leverage));
     }
-  }, [dispatch, isSovPair]);
+  }, [dispatch, pairInfo]);
 
   const submit = useCallback(order => dispatch(actions.submit(order)), [
     dispatch,
@@ -125,8 +125,8 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
             label={t(translations.marginTradePage.tradeForm.labels.leverage)}
             className="tw-mb-6"
           >
-            {isSovPair ? (
-              `${SOV_PAIRS_LEVERAGE}x`
+            {pairInfo && pairInfo.leverage ? (
+              `${pairInfo.leverage}x`
             ) : (
               <LeverageSelector
                 value={leverage}
