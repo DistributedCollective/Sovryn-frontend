@@ -277,15 +277,15 @@ export const contracts = {
     abi: BabelfishAggregatorAbi,
   },
   orderBook: {
-    address: '0x7227a848f7992622cb4dBfe9A7a7575e0eF00d26',
+    address: '0x3aEAABbcc0b15d8Ad85dD6941AC86Fa8C97A00fa',
     abi: OrderBookAbi,
   },
   orderBookMargin: {
-    address: '0x36bD60ecc47F8976ec85873EB0f5cCCc78947921',
+    address: '0x8c10d2fB5BB144203751B496d6f7e746377cb50E',
     abi: OrderBookMarginAbi,
   },
   settlement: {
-    address: '0x71E3425573B1a7db133c985fD0418Bdc83A3c0C6',
+    address: '0xb80B8AbF3674F7ace310d1EFF9546abAC7Cee9a4',
     abi: SettlementAbi,
   },
   sovrynNFT: {

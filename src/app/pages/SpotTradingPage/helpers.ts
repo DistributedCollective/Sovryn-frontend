@@ -10,7 +10,7 @@ import { signData } from 'eth-permit/dist/rpc';
 
 export class Order {
   static ORDER_TYPEHASH =
-    '0x7c228c78bd055996a44b5046fb56fa7c28c66bce92d9dc584f742b2cd76a140f';
+    '0xd6dcdb8a8034d5997072fdf38e109521eb631713bc0470668aa787bb502b623c';
 
   readonly fromToken: string;
   readonly toToken: string;
