@@ -31,12 +31,14 @@ export const useGetRewardSovClaimAmount = (): RewardSovClaimData => {
       (
         Number(availableLendingRewards) +
         Number(availableLiquidityRewards) +
-        Number(availableTradingRewards)
+        Number(availableTradingRewards) +
+        Number(lockedBalance)
       ).toString(),
     [
       availableLendingRewards,
       availableLiquidityRewards,
       availableTradingRewards,
+      lockedBalance,
     ],
   );
   return {
