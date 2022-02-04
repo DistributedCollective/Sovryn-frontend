@@ -3,14 +3,14 @@ import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { LiquidityPool } from 'utils/models/liquidity-pool';
 import { TablePoolRenderer } from '../../../../../components/FinanceV2Components/TablePoolRenderer/index';
 import { TableTransactionStatus } from '../../../../../components/FinanceV2Components/TableTransactionStatus/index';
 import { TxStatus } from 'store/global/transactions-store/types';
 import { Asset } from 'types';
+import { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
 
 interface ITableRowProps {
-  pool: LiquidityPool;
+  pool: AmmLiquidityPool;
   time: number;
   type: string;
   amount: string;
@@ -28,16 +28,17 @@ export const TableRow: React.FC<ITableRowProps> = ({
 }) => {
   const { t } = useTranslation();
 
+  if (!pool) {
+    return <></>;
+  }
+
   return (
     <tr className="tw-text-xs">
       <td>
         <DisplayDate timestamp={new Date(time).getTime().toString()} />
       </td>
       <td>
-        <TablePoolRenderer
-          asset={pool?.supplyAssets[0]?.asset}
-          secondaryAsset={pool?.supplyAssets[1]?.asset}
-        />
+        <TablePoolRenderer asset={pool.assetA} secondaryAsset={pool.assetB} />
       </td>
       <td>
         {type === 'Added'

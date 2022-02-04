@@ -11,17 +11,12 @@ import { AmountInput } from 'app/components/Form/AmountInput';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { useCanInteract } from '../../../../hooks/useCanInteract';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
-import {
-  getAmmContract,
-  getTokenContract,
-} from '../../../../../utils/blockchain/contract-helpers';
+import { getTokenContract } from '../../../../../utils/blockchain/contract-helpers';
 import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
 import { DummyInput } from 'app/components/Form/Input';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { Asset } from '../../../../../types';
-import { LiquidityPool } from '../../../../../utils/models/liquidity-pool';
-import { usePoolToken } from '../../../../hooks/amm/usePoolToken';
 import {
   weiToAssetNumberFormat,
   weiToNumberFormat,
@@ -33,26 +28,28 @@ import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
+import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
 
-interface Props {
-  pool: LiquidityPool;
+interface IAddLiquidityDialogV1Props {
+  pool: AmmLiquidityPool;
   showModal: boolean;
   onCloseModal: () => void;
   onSuccess: () => void;
 }
 
-export function AddLiquidityDialogV1({ pool, ...props }: Props) {
+export const AddLiquidityDialogV1: React.FC<IAddLiquidityDialogV1Props> = ({
+  pool,
+  ...props
+}) => {
   const { t } = useTranslation();
-  usePoolToken(pool.poolAsset, pool.poolAsset);
   const canInteract = useCanInteract();
   const { checkMaintenance, States } = useMaintenance();
   const addliquidityLocked = checkMaintenance(States.ADD_LIQUIDITY);
 
-  const token1 = pool.supplyAssets[0].asset;
-  const token2 = pool.supplyAssets[1].asset;
+  const { assetA, assetB } = pool;
 
   const [amount1, setAmount1] = useState('0');
-  const weiAmount1 = useWeiAmount(amount1, token1);
+  const weiAmount1 = useWeiAmount(amount1, assetA);
 
   const { value: weiAmount2 } = useLiquidityMining_getExpectedV1TokenAmount(
     pool,
@@ -67,15 +64,15 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
   // We are hard-coding 1% slippage here
   const { minReturn } = useSlippage(poolWeiAmount, 1);
 
-  const { value: balance1 } = useAssetBalanceOf(token1);
-  const { value: balance2 } = useAssetBalanceOf(token2);
+  const { value: balance1 } = useAssetBalanceOf(assetA);
+  const { value: balance2 } = useAssetBalanceOf(assetB);
 
   const { deposit, ...tx } = useMining_ApproveAndAddLiquidityV1(
-    pool.poolAsset,
-    [token1, token2],
+    pool,
     [weiAmount1, weiAmount2],
     minReturn,
   );
+
   const hasSufficientBalance = useMemo(() => {
     return (
       bignumber(balance1).greaterThanOrEqualTo(weiAmount1) &&
@@ -93,17 +90,17 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
 
   const txFeeArgs = useMemo(() => {
     return [
-      getAmmContract(pool.poolAsset).address,
+      pool.converter,
       // Makes sure RBTC asset is first in the list.
-      token2 === Asset.RBTC
-        ? [getTokenContract(token2).address, getTokenContract(token1).address]
-        : [getTokenContract(token1).address, getTokenContract(token2).address],
-      token2 === Asset.RBTC
+      assetB === Asset.RBTC
+        ? [getTokenContract(assetB).address, getTokenContract(assetA).address]
+        : [getTokenContract(assetA).address, getTokenContract(assetB).address],
+      assetB === Asset.RBTC
         ? [weiAmount2, weiAmount1]
         : [weiAmount1, weiAmount2],
       minReturn,
     ];
-  }, [pool, weiAmount1, weiAmount2, minReturn, token1, token2]);
+  }, [pool, weiAmount1, weiAmount2, minReturn, assetA, assetB]);
 
   const handleConfirm = () => deposit();
 
@@ -124,24 +121,25 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
               value={amount1}
               subText={`${t(
                 translations.common.availableBalance,
-              )} ${weiToAssetNumberFormat(balance1, token1, 8)}`}
-              asset={token1}
+              )} ${weiToAssetNumberFormat(balance1, assetA, 8)}`}
+              asset={assetA}
+              dataActionId="yieldFarm"
             />
           </FormGroup>
           <DummyInput
             value={weiToNumberFormat(weiAmount2, 8)}
-            appendElem={<AssetRenderer asset={token2} />}
+            appendElem={<AssetRenderer asset={assetB} />}
             className="tw-mt-6 tw-h-9"
           />
           <div className="tw-text-xs tw-font-thin tw-mt-1">
             {`${t(
               translations.common.availableBalance,
-            )} ${weiToAssetNumberFormat(balance2, token2, 8)}`}
+            )} ${weiToAssetNumberFormat(balance2, assetB, 8)}`}
           </div>
           <TxFeeCalculator
             args={txFeeArgs}
             txConfig={{
-              value: token1 === Asset.RBTC ? weiAmount1 : weiAmount2,
+              value: assetA === Asset.RBTC ? weiAmount1 : weiAmount2,
             }}
             methodName="addLiquidityToV1"
             contractName="BTCWrapperProxy"
@@ -175,6 +173,7 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
                 tx.loading || !valid || !canInteract || addliquidityLocked
               }
               className="tw-rounded-lg"
+              data-action-id="yieldFarm-liquidityModal-confirm"
             />
           )}
         </div>
@@ -186,4 +185,4 @@ export function AddLiquidityDialogV1({ pool, ...props }: Props) {
       />
     </>
   );
-}
+};

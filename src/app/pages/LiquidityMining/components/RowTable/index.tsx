@@ -1,6 +1,5 @@
 import React from 'react';
 import { Asset } from '../../../../../types';
-import { LiquidityPool } from '../../../../../utils/models/liquidity-pool';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { weiToAssetNumberFormat } from '../../../../../utils/display-text/format';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
@@ -13,9 +12,10 @@ import {
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { PoolTokenRewards } from '../MiningPool/PoolTokenRewards';
+import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
 
 interface ILiquidityMiningRowTableProps {
-  pool: LiquidityPool;
+  pool: AmmLiquidityPool;
   balance1: string;
   loading1: boolean;
   balance2: string;

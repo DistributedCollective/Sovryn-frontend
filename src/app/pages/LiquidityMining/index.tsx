@@ -47,7 +47,7 @@ export function LiquidityMining() {
     setHasOldPools,
   ]);
 
-  const { value: ammData } = useFetch(
+  const { value: ammData, loading } = useFetch(
     `${backendUrl[currentChainId]}/amm/apy/all`,
   );
 
@@ -67,6 +67,17 @@ export function LiquidityMining() {
       <Header />
       <div className="tw-container tw-mt-12 tw-font-body">
         <LootDropSectionWrapper>
+          <LootDrop
+            title="15k SOV"
+            asset1={Asset.MYNT}
+            asset2={Asset.RBTC}
+            message={t(translations.liquidityMining.recalibration, {
+              date,
+            })}
+            linkUrl="https://www.sovryn.app/blog/sovryn-mynt-project-updates"
+            linkText={t(translations.liquidityMining.lootDropLink)}
+            highlightColor={LootDropColors.Orange}
+          />
           <LootDrop
             title="15k SOV"
             asset1={Asset.BNB}
@@ -140,12 +151,10 @@ export function LiquidityMining() {
         >
           {pools.map(item => (
             <MiningPool
-              key={item.poolAsset}
+              key={`${item.assetA}/${item.assetB}`}
               pool={item}
-              ammData={
-                ammData &&
-                ammData[item?.assetDetails?.ammContract?.address?.toLowerCase()]
-              }
+              ammData={ammData && ammData[item?.converter.toLowerCase()]}
+              ammDataLoading={loading}
               linkAsset={location.state?.asset}
             />
           ))}

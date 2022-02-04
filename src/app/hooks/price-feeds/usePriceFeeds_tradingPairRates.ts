@@ -19,6 +19,7 @@ const assetsWithoutOracle: Asset[] = [
   Asset.BNB,
   Asset.RIF,
   Asset.RDOC,
+  Asset.MYNT,
   Asset.BRZ,
 ];
 

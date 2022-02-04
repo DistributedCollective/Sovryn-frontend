@@ -6,6 +6,7 @@
     "close": "Fechar",
     "for": "por",
     "confirm": "Confirmar",
+    "continue": "Continuar",
     "cancel": "Cancelar",
     "fee": "Taxa: {{amount}} (r)BTC",
     "pending": "Pendente",
@@ -17,6 +18,7 @@
     "maintenance": "Em manutenção",
     "next": "Próximo",
     "loading": "Carregando...",
+    "retry": "Tentar novamente",
     "unit": {
       "day": "{{count}} dia",
       "day_plural": "{{count}} dias"
@@ -158,29 +160,123 @@
   },
   "fastBtcPage": {
     "meta": {
-      "title": "Depositar-BTC",
+      "title": "FastBTC",
+      "titleDeposit": "Depositar BTC",
+      "titleWithdraw": "Sacar BTC",
       "description": "Transfira seu Bitcoin para a rede RSK."
-    }
-  },
-  "fastBtcForm": {
-    "title": "Depositar-BTC",
-    "history": {
-      "title": "Histórico",
-      "empty": "Histórico vázio.",
-      "walletHistory": "Insira seu endereço da carteira RSK para ver o histórico.",
-      "loading": "Carregando..."
     },
-    "connectWallet": "Você precisa primeiro conectar sua carteira com o dapp.",
-    "connect": "Conecte sua carteira ou insira você mesmo um endereço no campo acima.",
-    "depositAdress": "Endereço de depósito BTC",
-    "depositAddressCopied": "Seu endereço BTC de depósito foi copiado para a área de transferência",
-    "toDepositWallet": "depositar carteira",
-    "placeholder": "Seu endereço da carteira RSK",
-    "waitingForDeposit": "Aguardando depósito",
-    "exchanging": "Nós estamos trocando seu BTC para rBTC.",
-    "transfered": "foi transferido para sua carteira RSK",
-    "swapAgain": "Realizar outra troca",
-    "disabledText": "Os depósitos foram temporariamente desativados. Pedimos que você não envie fundos até que seja reativado. Obrigado!"
+    "backToPortfolio": "Voltar ao portfólio",
+    "deposit": {
+      "sidebarSteps": {
+        "address": "Endereço de depósito",
+        "processing": "Processando",
+        "processingSteps": "Processando... ({{step}}/{{steps}})",
+        "completed": "Concluído"
+      },
+      "mainScreen": {
+        "title": "Depositar BTC e receber <0/>",
+        "description": "Sempre gere um novo endereço de depósito e use-o apenas uma vez",
+        "cta": "Gerar endereço de depósito"
+      },
+      "depositDetails": {
+        "title": "Limites e taxas",
+        "min": "MÍN:",
+        "max": "MÁX:",
+        "fee": "Taxa:"
+      },
+      "depositInstructions": {
+        "title": "Instruções:",
+        "line1": "Não deposite nenhum ativo que não seja BTC.",
+        "line2": "Não envie menos BTC do que o limite mínimo.",
+        "line3": "Não envie mais BTC do que o limite máximo.",
+        "line4": "Aguarde até {{hours}} horas para processar.",
+        "line5": "Se a transação não for concluída em {{hours}} horas <0>abra um ticket de suporte</0>."
+      },
+      "addressForm": {
+        "title": "Endereço de depósito BTC",
+        "description": "Envie BTC para este endereço"
+      },
+      "statusScreen": {
+        "title": "Processando depósito BTC",
+        "titleCompleted": "Depósito BTC concluído",
+        "amount": "Depósito",
+        "fees": "Taxas:",
+        "received": "Quantidade recebida:",
+        "txHash": "Hash da transação:",
+        "txId": "ID transação:",
+        "description": "O depósito está sendo processado. Se a transação não for concluída em {{hours}} horas <0>abra um ticket de suporte</0>.",
+        "cta": "Voltar ao portfólio"
+      },
+      "qr": {
+        "title": "Envie BTC para este endereço:",
+        "generating": "Gerando..."
+      }
+    },
+    "withdraw": {
+      "sidebarSteps": {
+        "amount": "Inserir quantidade",
+        "address": "Endereço de saque",
+        "review": "Revisar",
+        "confirm": "Confirmar",
+        "processing": "Processando",
+        "processingProgress": "Processando...",
+        "completed": "Concluído"
+      },
+      "mainScreen": {
+        "title": "Sacar <0/> para a rede BTC",
+        "description": "Sempre verifique se o endereço de saque está correto."
+      },
+      "withdrawDetails": {
+        "title": "Limites e taxas",
+        "min": "MÍN:",
+        "max": "MÁX:",
+        "fee": "TAXA:"
+      },
+      "withdrawInstructions": {
+        "title": "Instruções:",
+        "line1": "Verifique e confirme se o endereço que você está enviando é um endereço BTC.",
+        "line2": "Não envie menos BTC do que o limite mínimo.",
+        "line3": "Não envie mais BTC do que o limite máximo.",
+        "line4": "Aguarde até {{hours}} horas para processar.",
+        "line5": "Se a transação não for concluída em {{hours}} horas <0>abra um ticket de suporte</0>."
+      },
+      "amountForm": {
+        "title": "Sacar <0/>",
+        "withdrawAmount": "Quantidade",
+        "availableBalance": "Saldo disponível: <0/> <1/>"
+      },
+      "addressForm": {
+        "title": "Endereço BTC",
+        "address": "Receber BTC no endereço:",
+        "errorBECH32": "Insira um endereço BTC BECH32 válido!",
+        "cta": "Revisar saque"
+      },
+      "reviewScreen": {
+        "title": "Revisar saque <0/>",
+        "amount": "Quantidade",
+        "address": "Endereço BTC de recebimento",
+        "fees": "Taxas:",
+        "received": "Receber:",
+        "tx": "ID transação:",
+        "description": "O saque está sendo processado. Se a transação não for concluída em {{hours}} horas <0>abra um ticket de suporte</0>."
+      },
+      "walletTxHelper": {
+        "confirm": "Confirme a transação na sua carteira {{wallet}}",
+        "pending": "Confirme a transação na sua carteira {{wallet}}",
+        "confirmed": "Confirme a transação na sua carteira {{wallet}}",
+        "failed": "Transação falhou.",
+        "aborted": "Você recusou esta transação."
+      },
+      "statusScreen": {
+        "titles": {
+          "pending_for_user": "Confirmar saque <0/>",
+          "pending": "Processando saque <0/>.",
+          "confirmed": "Confirmado",
+          "failed": "Saque falhou"
+        },
+        "cta": "Voltar ao portfólio"
+      }
+    }
   },
   "tradeOrSwapTabs": {
     "tabs": {
@@ -236,14 +332,14 @@
     "title": "Dicas Sovryn"
   },
   "footer": {
-    "title": "Feito e disponibilizado por <0>Bitcoinheiros</0>",
+    "title": "Feito e disponibilizado por <0>Bitcoiners</0>",
     "notice_1": "Esteja ciente de que somente você possui controle e acesso ao seus ativos, qualquer ação que você realizar pode causar uma perda considerável de fundos.",
     "notice_2": "Sempre verifique as taxas de transação antes de realizar operações na SOVRYN. Algumas carteiras podem configurar automaticamente taxas muito altas.",
     "notice_3": "Visite nosso <0>FAQ</0> se tiver dúvidas.",
     "notice_4": "Se você é um usuário novato, veja nossa <0>Wiki</0> e aprenda a usar a SOVRYN.",
     "notice_5": "Para saber das últimas atualizações ou discussões, participe do nosso servidor da <0>Discord</0>.",
     "optOut": "Desativar o Google Analytics",
-    "buildID": "Build ID"
+    "buildID": "Versão"
   },
   "analyticsDialog": {
     "title": "Dados analíticos",
@@ -254,11 +350,11 @@
   "mainMenu": {
     "buySov": "Comprar SOV",
     "trade": "Negociar",
-    "swap": "Trocar criptos",
+    "swap": "Trocar cripto",
     "marginTrade": "Operar margem",
     "finance": "Finanças",
-    "lend": "Emprestar criptos",
-    "borrow": "Obter empréstimos",
+    "lend": "Emprestar cripto",
+    "borrow": "Obter empréstimo",
     "yieldFarm": "Minerar liquidez",
     "reward": "Bônus SOV",
     "staking": "Token SOV",
@@ -485,10 +581,10 @@
       "contractBalance": "Saldo do contrato",
       "imBalance": "Desequilíbrio"
     },
-    "asset": "Ativos",
+    "asset": "Ativo",
     "totalAssetSupplied": "Total",
-    "totalAssetBorrowed": "Emprestados",
-    "totalAvailable": "Disponíveis",
+    "totalAssetBorrowed": "Emprestado",
+    "totalAvailable": "Disponível",
     "supplyAPR": "Juros anual (credor)",
     "borrowAPR": "Juros anual (devedor)"
   },
@@ -514,7 +610,7 @@
     "addStake": "Novo investimento",
     "feeTitle": "Dividendos disponíveis",
     "noUnlockedSov": "Você não possui SOV disponíveis para investimento",
-    "txFee": "Taxa de transação",
+    "txFee": "Taxa de rede",
     "sov": "SOV",
     "days": "dias",
     "delegation": {
@@ -562,7 +658,7 @@
       "hash": "ID transação",
       "totalStaked": "Total investido",
       "viewHistory": "Ver histórico",
-      "status": "Status",
+      "status": "Status da transação",
       "actions": {
         "stake": "Novo investimento",
         "unstake": "Sacar investimento",
@@ -723,7 +819,7 @@
     },
     "borrowingContainer": {
       "amount": "Valor do empréstimo",
-      "tokenAssetCollateral": "Ativo a ser colaterizado e quantidade",
+      "tokenAssetCollateral": "Ativo de garantia e quantidade",
       "borrow": "Obter empréstimo",
       "chooseDays": "Quantidade de dias",
       "disabled": "Ativo não disponível para empréstimo."
@@ -731,7 +827,7 @@
   },
   "borrow": {
     "meta": {
-      "title": "Obter empréstimos"
+      "title": "Obter empréstimo"
     }
   },
   "activeUserBorrows": {
@@ -905,39 +1001,6 @@
     "success": "Sucesso!",
     "successText": "Entraremos em contato assim que a Sovryn estiver otimizada para celulares."
   },
-  "fastBTC": {
-    "screens": {
-      "1": {
-        "title": "You Are Connected!",
-        "p1": "In order to borrow/lend and trade on Sovryn, you must first enable your Bitcoin by transferring them to your rsk wallet.",
-        "p2": "You do this by creating a unique btc address that pegs to your RSK address, supercharging your BTC into RBTC.",
-        "createAddress": "Create Address"
-      },
-      "2": {
-        "p1": "Your unique BTC address has been created, transfer BTC to receive RBTC in your RSK wallet.",
-        "depositRequirements": "Deposit requirements",
-        "fee": "Fee",
-        "feeExplainer": "Deducted from transaction amount",
-        "important": "Important",
-        "important1": "Do not deposit any non - BTC assets to this address, otherwise your assets will be lost permanently",
-        "important2": "Please allow upto 15 mins for the transaction to process",
-        "contactUs": "For support please join us on",
-        "txDetected": "Transaction detected"
-      },
-      "3": {
-        "txDetails": "Detalhes da transação",
-        "txHash": "rBTC Tx hash",
-        "txId": " BTC Tx ID",
-        "from": "Da carteira",
-        "to": "Para carteira",
-        "amount": "Valor transacionado",
-        "fee": "Taxa",
-        "initiated": "Iniciado",
-        "status": "Status",
-        "estimated": "Tempo estimado"
-      }
-    }
-  },
   "walletProvider": {
     "txRequestDialog": {
       "closeButton": "Ok",
@@ -1010,7 +1073,7 @@
     },
     "actions": {
       "deposit": "Bridge",
-      "fastBtc": "FastBTC",
+      "fastBtc": "Depositar",
       "convert": "Converter para XUSD",
       "swap": "Trocar",
       "trade": "Margem",
@@ -1023,7 +1086,7 @@
       "title": "Converter",
       "from": "De",
       "to": "Para",
-      "txFee": "Taxa de transação",
+      "txFee": "Taxa de rede",
       "cta": "Converter para XUSD",
       "txDialog": {
         "titleInProgress": "Transação em andamento",
@@ -1046,7 +1109,7 @@
       "amountSent": "Quantidade enviada",
       "to": "Para",
       "amountReceived": "Quantidade recebida",
-      "status": "Status"
+      "status": "Status da transação"
     },
     "emptyState": "Histórico vázio."
   },
@@ -1057,7 +1120,7 @@
       "vestingSchedule": "Tipo",
       "amount": "Quantidade",
       "hash": "ID transação",
-      "status": "Status"
+      "status": "Status da transação"
     }
   },
   "spotHistory": {
@@ -1068,8 +1131,8 @@
       "orderType": "Tipo de ordem",
       "amountPaid": "Quantidade paga",
       "amountReceived": "Quantidade recebida",
-      "transactionFee": "Taxa de transação",
-      "status": "Status"
+      "transactionFee": "Taxa de rede",
+      "status": "Status da transação"
     },
     "emptyState": "Histórico vázio."
   },
@@ -1124,8 +1187,8 @@
     "poolChart": {
       "totalLiquidity": "Total",
       "apy": "{{asset}} Juros anual",
-      "available": "Disponíveis",
-      "borrowed": "Emprestados"
+      "available": "Disponível",
+      "borrowed": "Emprestado"
     },
     "rowTable": {
       "noLiquidityProvided": "Empreste {{asset}} e ganhe rendimentos",
@@ -1162,7 +1225,7 @@
         "asset": "Ativo",
         "lendingAmount": "Quantidade",
         "transactionHash": "ID transação",
-        "status": "Status"
+        "status": "Status da transação"
       }
     }
   },
@@ -1259,57 +1322,16 @@
     "acceptTerms": "Eu aceito os riscos e desejo acessar o dapp usando meu celular",
     "salesBtn": "Eu entendo",
     "content": {
-      "paragraph1": "Por razões de segurança, o dapp Sovryn ainda não é compatível com celulares.",
+      "paragraph1": "A Sovryn ainda não é totalmente compatível com celulares.",
       "paragraph2": "Que tal usar a versão para computadores?"
     }
   },
-  "fastBtcDialog": {
-    "title": "FastBTC",
-    "subtitle": "Deposite BTC para receber rBTC na sua carteira",
-    "note": "Antes de enviar, sempre verifique se não houve mudança no endereço de depósito BTC",
-    "limits": {
-      "title": "Limites:",
-      "min": "Mín: {{amount}}",
-      "max": "Máx: {{amount}}",
-      "btc": "BTC"
-    },
-    "instructions": {
-      "title": "Instruções:",
-      "point1": "Não deposite nenhum ativo que não seja BTC",
-      "point2": "Não envie mais BTC do que o limite máximo",
-      "point3": "Aguarde aproximandamente 60 minutos para que a transação seja processada",
-      "point4": "Se o rBTC não estiver visível na sua carteira após 60 minutos, abra um ",
-      "point4LinkText": "ticket de suporte",
-      "chainId": "Verifique se sua carteira está configurada para a rede correta. A carteira Liquality exige que a página do dapp seja atualizada para detectar a mudança de rede."
-    },
-    "fiatDialog": {
-      "title": "Comprar <0>RBTC</0>",
-      "explanation1": "O serviço Transak permite comprar BTC que será covertido para <0>RBTC</0> e enviado para sua carteira",
-      "explanation2": "Tome cuidado para não exceder o limite de depósito aceito pela Sovryn, pois a Transak permite compras acima dos nossos limites máximos de depósito",
-      "instructions": {
-        "point1": "Não compre mais BTC que o limite máximo mostrado acima",
-        "point2": "Aguarde 15 minutos para que a transação seja processada",
-        "chainId": "Verifique se sua carteira está configurada para a rede correta. A carteira Liquality exige que a página do dapp seja atualizada para detectar a mundaça da rede."
-      }
-    },
-    "qr": {
-      "title": "Envie BTC para este endereço:"
-    },
-    "buttonBTC": "Gerar endereço BTC",
-    "buttonFiat": "Comprar rBTC",
-    "transaction": {
-      "title": "Detalhes da transação",
-      "status": "Status {{status}}",
-      "from": "De:",
-      "to": "Para:",
-      "fee": "Taxa:",
-      "hash": "Hash:",
-      "close": "Fechar",
-      "address": "Endereço:",
-      "pending": "pendente",
-      "confirmed": "confirmada",
-      "sent": "enviada"
-    }
+  "transakDialog": {
+    "title": "Comprar <0>RBTC</0>",
+    "explanation1": "Use o serviço da Transak para comprar <0>RBTC</0> em minutos!",
+    "explanation2": "Para concluir a compra, seus dados pessoais podem ser exigidos pela Transak.",
+    "chainId": "Verifique se sua carteira está configurada para a rede correta. A carteira Liquality exige que a página do dapp seja atualizada para detectar a mundaça da rede.",
+    "cta": "Comprar <0>RBTC</0>"
   },
   "onCopy": {
     "address": "O endereço foi copiado para a área de transferência."
@@ -1348,8 +1370,8 @@
         "recommendation2": "Operando margem em criptos listadas na Sovryn"
       },
       "feesEarnedTab": {
-        "title": "Você não possui dividendos/comissão a receber",
-        "recommendationsTitle": "Ganhe dividendos/comissão em <0/> das seguintes formas:",
+        "title": "Você não possui Dividendos/Comissão a receber",
+        "recommendationsTitle": "Ganhe Dividendos/Comissão em <0/> das seguintes formas:",
         "recommendation1": "Investindo seus SOV",
         "recommendation2": "Quando usuários indicados por você realizam transações na Sovryn"
       }
@@ -1370,7 +1392,7 @@
       "learn": "Saiba mais"
     },
     "feesEarnedClaimForm": {
-      "note": "Ao reivindicar seus dividendos/comissão, eles automaticamente são adicionados no seu saldo <0/> no portfólio.",
+      "note": "Ao reivindicar seus Dividendos/Comissão, eles automaticamente são adicionados no seu saldo <0/> no portfólio.",
       "learn": "Saiba mais"
     },
     "stakingForm": {
@@ -1397,7 +1419,7 @@
         "type": "Tipo",
         "amount": "Quantidade",
         "transactionHash": "ID transação",
-        "status": "Status"
+        "status": "Status da transação"
       },
       "event": {
         "lendingReward": "Bônus de empréstimo",
@@ -1427,7 +1449,7 @@
         "leverage": "Alavancagem:",
         "amount": "Quantidade:",
         "balance": "Saldo disponível: <0/> <1/>",
-        "txFee": "Taxa de transação: <0/> {{symbol}}"
+        "txFee": "Taxa de rede: <0/> {{symbol}}"
       },
       "buttons": {
         "long": "Comprado",
@@ -1519,7 +1541,7 @@
         "asset": "Ativo",
         "liquidityAmount": "Quantidade",
         "transactionHash": "ID transação",
-        "status": "Status"
+        "status": "Status da transação"
       },
       "txType": {
         "added": "Adicionar liquidez",
@@ -1583,6 +1605,7 @@
       "lend": "Contrato de empréstimo",
       "amm": "Contrato Amm",
       "staked": "Contrato Bitocracia",
+      "subProtocol": "Subprotocolos",
       "subtotal": "Sub total",
       "total": "Total"
     },
@@ -1590,19 +1613,19 @@
       "title": "Promoções",
       "learnMore": "Saiba mais",
       "sections": {
-        "lending": "Emprestando criptos",
-        "borrowing": "Obtendo empréstimos",
+        "lending": "Emprestando cripto",
+        "borrowing": "Obtendo empréstimo",
         "yieldFarming": "Minerando liquidez",
         "marginTrading": "Operando margem",
-        "swap": "Trocando criptos",
+        "swap": "Trocando cripto",
         "spotTrading": "Operando spot"
       }
     },
-    "lendBorrow": "EMPRESTAR & OBTER EMPRÉSTIMOS DE ATIVOS",
+    "lendBorrow": "EMPRESTAR & OBTER EMPRÉSTIMO DE ATIVOS",
     "ammpool": {
       "title": "POOLS AMM",
-      "asset": "Ativos",
-      "pool": "Pools",
+      "asset": "Ativo",
+      "pool": "Pool",
       "stakedBalance": "Total",
       "contractBalance": "Saldo do contrato",
       "imBalance": "Desequilíbrio",
@@ -1623,7 +1646,7 @@
     },
     "cryptocurrencyPrices": {
       "title": "PREÇO DOS ATIVOS",
-      "asset": "Ativos",
+      "asset": "Ativo",
       "price": "Preço",
       "24h": "24h%",
       "7d": "7d%",
@@ -1690,9 +1713,9 @@
       "connectNetwork": "Conectar",
       "notConnected": "Para continuar você precisa conectar na sua",
       "wrongNetwork": "Para continuar mude novamente para a rede RSK na sua",
-      "switchNetwork": "Mudar rede",
+      "switchNetwork": "Alterar rede",
       "connected": "Tudo certo",
-      "return": "Voltar para o portfólio"
+      "return": "Voltar ao portfólio"
     },
     "tokenSelector": {
       "title": "Qual cripto você deseja depositar?",
@@ -1947,7 +1970,7 @@
       "sovAmount": "SOV Líquido ganho",
       "feesAmount": "Ganho",
       "hash": "ID transação",
-      "status": "Status"
+      "status": "Status da transação"
     },
     "tableEmpty": "Você ainda não indicou ninguém.",
     "referralFrom": "Indicação",

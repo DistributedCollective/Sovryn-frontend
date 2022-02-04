@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import { ContractName } from '../../utils/types/contracts';
 import { Nullable } from '../../types';
 
-export interface Response<T = string> {
+export interface CacheCallWithValueResponse<T = string> {
   value: T;
   loading: boolean;
   error: Nullable<string>;
@@ -14,7 +14,7 @@ export function useCacheCallWithValue<T = string>(
   methodName: string,
   defaultValue: T | string | any = '0',
   ...args: any
-): Response<T> {
+): CacheCallWithValueResponse<T> {
   const { value, loading, error } = useCacheCall<T>(
     contractName,
     methodName,

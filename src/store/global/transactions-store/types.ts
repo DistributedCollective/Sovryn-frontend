@@ -51,6 +51,7 @@ export enum TxType {
   UNWRAP_WRBTC = 'unwrap_wrbtc',
   CLAIM_VESTED_SOV_REWARDS = 'claim_vested_sov_rewards',
   SIMULATOR_REQUEST = 'simulator_request',
+  FAST_BTC_WITHDRAW = 'fast_btc_withdraw',
 }
 
 export enum TxStatus {
@@ -74,7 +75,7 @@ export interface Transaction {
   to: string;
   from: string;
   value: string;
-  asset: Nullable<Asset>;
+  asset: Nullable<Asset | string>;
   assetAmount: Nullable<string>;
   customData?: { [key: string]: any };
 }
@@ -82,7 +83,7 @@ export interface Transaction {
 export interface RequestDialogState {
   open: boolean;
   type: TxType;
-  asset: Nullable<Asset>;
+  asset: Nullable<Asset | string>;
   amount: string;
   error: Nullable<string>;
 }

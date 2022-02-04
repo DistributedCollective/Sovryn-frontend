@@ -2,6 +2,7 @@ export enum Asset {
   CSOV = 'CSOV',
   RBTC = 'RBTC',
   WRBTC = 'WRBTC',
+  BTCS = 'BTCS',
   ETH = 'ETH',
   DOC = 'DOC',
   RDOC = 'RDOC',

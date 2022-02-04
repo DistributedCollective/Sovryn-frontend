@@ -1,58 +1,48 @@
 import { Asset } from 'types/asset';
-import {
-  getAmmContract,
-  getAmmContractName,
-  getTokenContract,
-} from 'utils/blockchain/contract-helpers';
+import { getTokenContract } from 'utils/blockchain/contract-helpers';
 import { gasLimit } from 'utils/classifiers';
 import { useAccount } from 'app/hooks/useAccount';
 import { useSendContractTx } from 'app/hooks/useSendContractTx';
 import { TxType } from '../../../../store/global/transactions-store/types';
-import { useMemo } from 'react';
+import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
 
 export function useMining_AddLiquidityV1(
-  pool: Asset,
-  reserveTokens: Asset[],
+  pool: AmmLiquidityPool,
   reserveAmounts: string[],
   minReturn: string,
 ) {
   const account = useAccount();
-
-  const btcTokenIndex = useMemo(() => reserveTokens.indexOf(Asset.RBTC), [
-    reserveTokens,
-  ]);
-
   const { send, ...rest } = useSendContractTx(
-    btcTokenIndex !== -1 ? 'BTCWrapperProxy' : getAmmContractName(pool),
-    btcTokenIndex !== -1 ? 'addLiquidityToV1' : 'addLiquidity',
+    'BTCWrapperProxy',
+    'addLiquidityToV1',
   );
   return {
     deposit: (nonce?: number, approveTx?: string | null) => {
-      const params = [
-        reserveTokens
-          .filter(item => !!item)
-          .map(item => getTokenContract(item).address),
-        reserveAmounts.filter(item => !!item),
-        minReturn,
-      ];
+      const reserveTokens = [pool.assetA, pool.assetB];
+      const btcIndex = reserveTokens.indexOf(Asset.RBTC);
 
-      if (btcTokenIndex !== -1) {
+      if (btcIndex !== -1) {
         // making btc as first element
-        const btcToken = reserveTokens[btcTokenIndex];
-        const btcAmount = reserveAmounts[btcTokenIndex];
-        delete reserveTokens[btcTokenIndex];
-        delete reserveAmounts[btcTokenIndex];
+        const btcToken = reserveTokens[btcIndex];
+        const btcAmount = reserveAmounts[btcIndex];
+        delete reserveTokens[btcIndex];
+        delete reserveAmounts[btcIndex];
         reserveTokens.unshift(btcToken);
         reserveAmounts.unshift(btcAmount);
-        // add converter contract at the beginning of array
-        params.unshift(getAmmContract(pool).address);
       }
 
       return send(
-        params,
+        [
+          pool.converter,
+          reserveTokens
+            .filter(item => !!item)
+            .map(item => getTokenContract(item).address),
+          reserveAmounts.filter(item => !!item),
+          minReturn,
+        ],
         {
           from: account,
-          value: btcTokenIndex === -1 ? '0' : reserveAmounts[0],
+          value: btcIndex === -1 ? '0' : reserveAmounts[0],
           nonce,
           gas: gasLimit[TxType.ADD_LIQUIDITY],
         },

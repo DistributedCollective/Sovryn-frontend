@@ -7,7 +7,8 @@ import {
   assetFromWei,
 } from '../blockchain/math-helpers';
 import { bignumber } from 'mathjs';
-import type { Asset } from 'types';
+import { Asset } from 'types';
+import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 
 export function formatAsNumber(value, decimals): number {
   return parseFloat(weiToFixed(value, decimals).toLocaleString());
@@ -31,6 +32,13 @@ export function weiToAssetNumberFormat(
   decimals: number = 0,
 ) {
   return toNumberFormat(Number(assetFromWei(value || '0', asset)), decimals);
+}
+
+export function toAssetNumberFormat(value: number | string, asset: Asset) {
+  return toNumberFormat(
+    value,
+    AssetsDictionary.get(asset)?.displayDecimals || 8,
+  );
 }
 
 export function weiToUSD(
