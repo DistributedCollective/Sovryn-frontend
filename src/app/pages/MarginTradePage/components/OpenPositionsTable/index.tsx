@@ -1,46 +1,30 @@
-import React, { useMemo, useState } from 'react';
-import { useGetActiveLoans } from 'app/hooks/trading/useGetActiveLoans';
-import { useAccount } from 'app/hooks/useAccount';
+import React, { useCallback, useMemo, useState } from 'react';
+import { Popover } from '@blueprintjs/core/lib/esm/components/popover/popover';
+import { Icon } from '@blueprintjs/core/lib/esm/components/icon/icon';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { OpenPositionRow } from './OpenPositionRow';
 import { PendingPositionRow } from './PendingPositionRow';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { Pagination } from '../../../../components/Pagination';
+import { useMargin_OpenPositions } from '../../hooks/useMargin_OpenPositions';
 import { useSelector } from 'react-redux';
 import { selectTransactionArray } from 'store/global/transactions-store/selectors';
 import { TxStatus, TxType } from 'store/global/transactions-store/types';
-import { Popover } from '@blueprintjs/core/lib/esm/components/popover/popover';
-import { Icon } from '@blueprintjs/core/lib/esm/components/icon/icon';
 
-interface IOpenPositionsTableProps {
-  perPage: number;
-}
-
-export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
+export const OpenPositionsTable: React.FC = () => {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const transactions = useSelector(selectTransactionArray);
 
-  const { value, loading } = useGetActiveLoans(
-    useAccount(),
-    0,
-    100,
-    1,
-    false,
-    false,
+  const { events, loading, totalCount } = useMargin_OpenPositions(page);
+
+  const isEmpty = useMemo(
+    () => !loading && !events?.length && !transactions.length,
+    [loading, events, transactions],
   );
 
-  const items = useMemo(
-    () => value.slice(page * perPage - perPage, page * perPage),
-    [perPage, page, value],
-  );
-
-  const isEmpty = !loading && !items.length && !transactions.length;
-
-  const onPageChanged = data => {
-    setPage(data.currentPage);
-  };
+  const onPageChanged = useCallback(data => setPage(data.currentPage), []);
 
   const onGoingTransactions = useMemo(() => {
     return (
@@ -78,7 +62,7 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
             <th className="tw-w-full tw-hidden md:tw-table-cell">
               {t(translations.openPositionTable.liquidationPrice)}
             </th>
-            <th className="tw-w-full tw-hidden xl:tw-table-cell">
+            <th className="tw-w-full tw-hidden xl:tw-table-cell tw-whitespace-nowrap">
               {t(translations.openPositionTable.positionMargin)}
               <Popover
                 content={
@@ -119,6 +103,9 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
                 <Icon className="tw-cursor-pointer" icon="info-sign" />
               </Popover>
             </th>
+            <th className="tw-w-full tw-hidden 2xl:tw-table-cell">
+              {t(translations.openPositionTable.rolloverDate)}
+            </th>
             <th className="tw-w-full">
               {t(translations.openPositionTable.actions)}
             </th>
@@ -140,28 +127,28 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
             </tr>
           )}
 
-          {items.length > 0 && (
+          {totalCount > 0 && (
             <>
-              {items.map(item => (
-                <OpenPositionRow key={item.loanId} item={item} />
+              {events?.map(event => (
+                <OpenPositionRow
+                  key={event.loanId}
+                  item={event.data[0]}
+                  nextRollover={event.nextRollover}
+                />
               ))}
             </>
           )}
         </tbody>
       </table>
 
-      {value.length > 0 && (
+      {totalCount > 0 && (
         <Pagination
-          totalRecords={value.length}
-          pageLimit={perPage}
+          totalRecords={totalCount}
+          pageLimit={6}
           pageNeighbours={1}
           onChange={onPageChanged}
         />
       )}
     </>
   );
-}
-
-OpenPositionsTable.defaultProps = {
-  perPage: 5,
 };

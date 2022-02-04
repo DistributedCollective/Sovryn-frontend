@@ -10,7 +10,7 @@ export function PositionBlock({
   name: ReactNode;
 }) {
   return (
-    <div className="tw-w-full tw-flex tw-justify-start tw-items-center">
+    <div className="tw-w-full tw-flex tw-justify-start tw-items-center tw-whitespace-nowrap">
       <DirectionLabel position={position}>{name}</DirectionLabel>
     </div>
   );

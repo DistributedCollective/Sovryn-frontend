@@ -3,7 +3,6 @@ import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import classNames from 'classnames';
 import { TradingPosition } from '../../../../../types/trading-position';
-import { leverageFromMargin } from '../../../../../utils/blockchain/leverage-from-start-margin';
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading-pair-dictionary';
@@ -21,8 +20,8 @@ import { AmountInput } from 'app/components/Form/AmountInput';
 import { FormGroup } from 'app/components/Form/FormGroup';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import type { ActiveLoan } from 'types/active-loan';
-import { discordInvite } from 'utils/classifiers';
+import { OpenLoanType } from 'types/active-loan';
+import { discordInvite, MAINTENANCE_MARGIN } from 'utils/classifiers';
 import { weiToNumberFormat } from 'utils/display-text/format';
 import { bignumber } from 'mathjs';
 import { usePositionLiquidationPrice } from '../../../../hooks/trading/usePositionLiquidationPrice';
@@ -30,7 +29,7 @@ import { toAssetNumberFormat } from 'utils/display-text/format';
 import { LabelValuePair } from 'app/components/LabelValuePair';
 
 interface IAddToMarginDialogProps {
-  item: ActiveLoan;
+  item: OpenLoanType;
   showModal: boolean;
   onCloseModal: () => void;
   liquidationPrice?: React.ReactNode;
@@ -63,6 +62,8 @@ export const AddToMarginDialog: React.FC<IAddToMarginDialogProps> = ({
   const { checkMaintenance, States } = useMaintenance();
   const topupLocked = checkMaintenance(States.ADD_TO_MARGIN_TRADES);
 
+  const leverage = useMemo(() => item.leverage + 1, [item.leverage]);
+
   const handleConfirm = () => {
     send();
   };
@@ -81,10 +82,10 @@ export const AddToMarginDialog: React.FC<IAddToMarginDialogProps> = ({
   ]);
 
   const liquidationPrice = usePositionLiquidationPrice(
-    item.principal,
-    bignumber(item.collateral).add(weiAmount).toString(),
+    item.borrowedAmountChange,
+    bignumber(item.positionSizeChange).add(weiAmount).toString(),
     isLong ? TradingPosition.LONG : TradingPosition.SHORT,
-    item.maintenanceMargin,
+    MAINTENANCE_MARGIN,
   );
 
   return (
@@ -107,7 +108,7 @@ export const AddToMarginDialog: React.FC<IAddToMarginDialogProps> = ({
             />
             <LabelValuePair
               label={t(translations.marginTradePage.tradeDialog.leverage)}
-              value={<>{leverageFromMargin(item.startMargin)}x</>}
+              value={<>{leverage}x</>}
               className={classNames({
                 'tw-text-trade-short': loanToken.asset !== pair.longAsset,
                 'tw-text-trade-long': loanToken.asset === pair.longAsset,
@@ -117,7 +118,7 @@ export const AddToMarginDialog: React.FC<IAddToMarginDialogProps> = ({
               label={t(translations.closeTradingPositionHandler.positionSize)}
               value={
                 <>
-                  {weiToNumberFormat(item.collateral, 4)}{' '}
+                  {weiToNumberFormat(item.positionSizeChange, 4)}{' '}
                   <AssetRenderer asset={tokenDetails.asset} />
                 </>
               }

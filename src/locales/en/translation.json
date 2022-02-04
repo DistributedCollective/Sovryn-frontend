@@ -2144,6 +2144,7 @@
     "interestAPR": "Interest APY",
     "actions": "Actions",
     "noData": "No data",
+    "rolloverDate": "Rollover Date",
     "cta": {
       "increase": "Increase",
       "margin": "Margin",
