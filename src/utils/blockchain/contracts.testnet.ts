@@ -239,7 +239,7 @@ export const contracts = {
     abi: feeSharingProxyAbi,
   },
   stakingRewards: {
-    address: '0x7662E1cC98c9CB50eBc286ce8b124D61C7e2247E',
+    address: '0x18eF0ff12f1b4D30104B4680D485D026C26D164D',
     abi: stakingRewardsProxyAbi,
   },
   FISH_token: {
