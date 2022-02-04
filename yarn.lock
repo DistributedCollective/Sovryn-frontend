@@ -9672,6 +9672,11 @@ eslint-module-utils@^2.6.1, eslint-module-utils@^2.6.2:
     debug "^3.2.7"
     pkg-dir "^2.0.0"
 
+eslint-plugin-deprecate@0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-deprecate/-/eslint-plugin-deprecate-0.7.0.tgz#04805d2f2884800c580d59933b9c895f31b02437"
+  integrity sha512-MylhCqoH/SJ2MwzVgX0we6oE+lKPVwhOu9hAJ98vMCmbz3FNwqJ8XipdI23bCF7NHxUbhd6mdxFjywKE52pt7A==
+
 eslint-plugin-flowtype@5.8.0:
   version "5.8.0"
   resolved "https://registry.yarnpkg.com/eslint-plugin-flowtype/-/eslint-plugin-flowtype-5.8.0.tgz#35b55e4ce559b90efbe913ed33630e391e301481"

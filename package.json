@@ -66,6 +66,7 @@
     "eslint-plugin-react": "7.24.0",
     "eslint-plugin-react-hooks": "4.2.0",
     "eslint-webpack-plugin": "2.5.4",
+    "eslint-plugin-deprecate": "0.7.0",
     "eth-block-tracker": "5.0.1",
     "ethereum-blockies": "0.1.0",
     "ethers": "5.3.1",

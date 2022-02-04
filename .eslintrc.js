@@ -11,10 +11,11 @@ module.exports = {
     // react and @typescript-react are now merged into prettier
     'prettier',
   ],
-  plugins: ['prettier'],
+  plugins: ['prettier', 'deprecate'],
   rules: {
     'prettier/prettier': ['error', prettierOptions],
     '@typescript-eslint/ban-ts-comment': 'error',
+    'deprecate/import': ['warn', { nameRegExp: '@blueprintjs' }],
   },
   overrides: [
     {
