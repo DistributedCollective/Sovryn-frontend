@@ -110,7 +110,7 @@ export function useGsnSendTx(
       ) {
         config.gas = gasLimit[options.type];
       }
-      sendCombined(args, config)
+      return sendCombined(args, config)
         .then((result: string | { transactionHash: string }) => {
           const transactionHash =
             typeof result === 'string' ? result : result?.transactionHash;
@@ -132,6 +132,7 @@ export function useGsnSendTx(
           );
           setTxId(transactionHash);
           dispatch(actions.closeTransactionRequestDialog());
+          return transactionHash;
         })
         .catch(e => {
           console.error(e.message);

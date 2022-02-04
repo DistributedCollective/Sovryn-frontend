@@ -55,6 +55,7 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
         rejected || transactionStatus === TxStatus.FAILED,
         (currentTransaction?.index || 0) + 1,
         transactions.length,
+        useMetaTransactions,
       ),
     [
       t,
@@ -62,6 +63,7 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
       transactionStatus,
       transactions.length,
       currentTransaction?.index,
+      useMetaTransactions,
     ],
   );
 
@@ -174,6 +176,7 @@ const getTranslations = (
   rejected: boolean,
   current: number,
   count: number,
+  useMetaTransactions: boolean,
 ) => {
   if (rejected) {
     return {
@@ -213,6 +216,15 @@ const getTranslations = (
         count,
       },
     ),
-    text: <p>{t(translations.perpetualPage.processTrade.texts.confirm)}</p>,
+    text: (
+      <>
+        <p>{t(translations.perpetualPage.processTrade.texts.confirm)}</p>
+        {useMetaTransactions && (
+          <p>
+            {t(translations.perpetualPage.processTrade.texts.confirmGsnHint)}
+          </p>
+        )}
+      </>
+    ),
   };
 };

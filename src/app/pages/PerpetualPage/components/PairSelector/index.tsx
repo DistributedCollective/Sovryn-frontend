@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useCallback } from 'react';
+import React, { useContext, useMemo, useCallback, useEffect } from 'react';
 import { PerpetualPair } from '../../../../../utils/models/perpetual-pair';
 import {
   PerpetualPairDictionary,
@@ -15,11 +15,16 @@ import { actions } from '../../slice';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { getCollateralName, getCollateralLogo } from '../../utils/renderUtils';
-import { Asset } from '../../../../../types';
+import { Asset, Chain } from '../../../../../types';
 import { gsnNetwork } from '../../../../../utils/gsn/GsnNetwork';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { actions as walletProviderActions } from 'app/containers/WalletProvider/slice';
 import { useMaintenance } from '../../../../hooks/useMaintenance';
+import { useBridgeNetworkSendTx } from '../../../../hooks/useBridgeNetworkSendTx';
+import { getContract } from '../../../../../utils/blockchain/contract-helpers';
+import { PERPETUAL_PAYMASTER } from '../../types';
+import { bridgeNetwork } from '../../../BridgeDepositPage/utils/bridge-network';
+import { toWei } from '../../../../../utils/blockchain/math-helpers';
 
 type PairSelectorProps = {
   pair: PerpetualPair;
@@ -38,6 +43,42 @@ export const PairSelector: React.FC<PairSelectorProps> = ({
   const dispatch = useDispatch();
   const { useMetaTransactions } = useSelector(selectPerpetualPage);
   const { wallet } = useWalletContext();
+
+  // FIXME: REMOVE THIS SHITTY TESTING CODE vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+  const { send } = useBridgeNetworkSendTx(
+    Chain.BSC,
+    'PERPETUALS_token',
+    'approve',
+  );
+
+  const onReset = useCallback(async () => {
+    await send([getContract('perpetualManager').address, toWei(0)]);
+    await send([PERPETUAL_PAYMASTER, toWei(0)]);
+  }, [send]);
+
+  useEffect(() => {
+    bridgeNetwork
+      .call(
+        Chain.BSC,
+        getContract('PERPETUALS_token').address,
+        getContract('PERPETUALS_token').abi,
+        'allowance',
+        [wallet.address.toLowerCase(), getContract('perpetualManager').address],
+      )
+      .then(result => console.log('allowance manager' + result))
+      .catch(console.error);
+    bridgeNetwork
+      .call(
+        Chain.BSC,
+        getContract('PERPETUALS_token').address,
+        getContract('PERPETUALS_token').abi,
+        'allowance',
+        [wallet.address.toLowerCase(), PERPETUAL_PAYMASTER],
+      )
+      .then(result => console.log('allowance paymaster' + result))
+      .catch(console.error);
+  }, [useMetaTransactions]);
+  // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
   const { checkMaintenance, States } = useMaintenance();
   const isGsnInMaintenance = useMemo(
@@ -83,6 +124,7 @@ export const PairSelector: React.FC<PairSelectorProps> = ({
             />
           ))}
         </div>
+        <button onClick={onReset}>reset approval</button>
         <div className="tw-flex tw-flex-row tw-items-center tw-px-4">
           <Tooltip
             popoverClassName="tw-max-w-md tw-font-light"

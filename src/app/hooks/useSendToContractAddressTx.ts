@@ -48,7 +48,7 @@ export function useSendToContractAddressTx(
       ) {
         config.gas = gasLimit[options.type];
       }
-      contractWriter
+      return contractWriter
         .sendByAddress(address, abi, methodName, args, config)
         .then(e => {
           const transactionHash = e as string;
@@ -69,6 +69,7 @@ export function useSendToContractAddressTx(
           );
           setTxId(transactionHash);
           dispatch(actions.closeTransactionRequestDialog());
+          return transactionHash;
         })
         .catch(e => {
           console.error(e.message);
