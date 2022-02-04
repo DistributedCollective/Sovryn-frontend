@@ -26,12 +26,14 @@ export function NetworkRibbon(this: any) {
     if (
       !connected ||
       !isWeb3Wallet(wallet.providerType!) ||
-      location.pathname.startsWith('/cross-chain') ||
-      location.pathname.startsWith('/perpetual')
-    )
+      location.pathname.startsWith('/cross-chain')
+    ) {
       return false;
+    }
 
-    if (bridgeChainId) return chainId !== bridgeChainId;
+    if (bridgeChainId) {
+      return chainId !== bridgeChainId;
+    }
 
     return chainId !== expectedChainId;
   }, [

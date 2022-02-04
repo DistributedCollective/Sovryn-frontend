@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useCallback, useEffect } from 'react';
+import React, { useContext, useMemo, useCallback } from 'react';
 import { PerpetualPair } from '../../../../../utils/models/perpetual-pair';
 import {
   PerpetualPairDictionary,
