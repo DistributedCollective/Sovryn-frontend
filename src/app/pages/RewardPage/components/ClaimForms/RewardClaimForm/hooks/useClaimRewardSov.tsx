@@ -1,9 +1,7 @@
-import { contractReader } from 'utils/sovryn/contract-reader';
 import { useSendContractTx } from 'app/hooks/useSendContractTx';
 import { useAccount } from 'app/hooks/useAccount';
 import { ethGenesisAddress, gasLimit } from 'utils/classifiers';
-import { TxStatus, TxType } from 'store/global/transactions-store/types';
-import { useMemo } from 'react';
+import { TxType } from 'store/global/transactions-store/types';
 
 export const useClaimRewardSov = () => {
   const address = useAccount();
