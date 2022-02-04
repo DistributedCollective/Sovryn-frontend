@@ -67,9 +67,7 @@ export function WalletProvider(props: Props) {
   }, [dispatch]);
 
   const options = useMemo(() => {
-    const isCrossChain =
-      location.pathname.startsWith('/cross-chain') ||
-      location.pathname.startsWith('/perpetual');
+    const isCrossChain = location.pathname.startsWith('/cross-chain');
     const customChain = bridgeChainId !== null && isCrossChain;
     return {
       showWrongNetworkRibbon: false,
