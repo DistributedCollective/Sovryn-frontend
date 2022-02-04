@@ -241,7 +241,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
         <Duration value={duration} onChange={setDuration} />
 
         <div className="swap-form__amount">
-          <div className="tw-flex tw-items-center tw-justify-between tw-px-3 tw-py-2 tw-w-full tw-border tw-border-gray-5 tw-rounded-lg">
+          <div className="tw-text-sm tw-flex tw-items-center tw-justify-between tw-px-3 tw-py-2 tw-w-full tw-border tw-border-gray-5 tw-rounded-lg">
             <span>
               {t(translations.spotTradingPage.tradeForm.amountReceived)}
             </span>
