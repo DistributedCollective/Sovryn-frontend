@@ -1461,10 +1461,11 @@
         "recommendation2": "Margin trade any asset pair on Sovryn"
       },
       "feesEarnedTab": {
-        "title": "You have not earned any <0/>",
-        "recommendationsTitle": "In order to earn <0/> you will need to:",
+        "title": "You have not earned any fees",
+        "recommendationsTitle": "In order to earn fees you will need to:",
         "recommendation1": "Stake SOV",
-        "recommendation2": "Have active users use your affiliate link"
+        "recommendation2": "Have active users use your affiliate link",
+        "recommendation3": "You can also claim airdropped tokens here when distributed"
       }
     },
     "meta": {
@@ -1484,7 +1485,10 @@
     },
     "feesEarnedClaimForm": {
       "note": "Claiming your rewards automatically adds them your <0/> portfolio balance.",
-      "learn": "Learn more"
+      "learn": "Learn more",
+      "asset": "Asset",
+      "amount": "Amount",
+      "assetValue": "<0/> Value"
     },
     "stakingForm": {
       "title": "Amount to claim:",

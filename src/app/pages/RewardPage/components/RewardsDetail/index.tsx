@@ -8,6 +8,7 @@ import styles from './index.module.scss';
 import classNames from 'classnames';
 import { Asset } from 'types';
 import { bignumber } from 'mathjs';
+import { LoadableValue } from 'app/components/LoadableValue';
 
 export enum RewardsDetailColor {
   Grey = 'grey',
@@ -23,6 +24,8 @@ interface IRewardsDetailProps {
   isInMainSection?: boolean;
   isComingSoon?: boolean;
   asset?: Asset;
+  loading?: boolean;
+  showApproximateSign?: boolean;
 }
 
 const getDetailColor = (color: RewardsDetailColor): string => {
@@ -46,6 +49,8 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
   isInMainSection,
   isComingSoon,
   asset = Asset.SOV,
+  loading = false,
+  showApproximateSign = false,
 }) => {
   const { t } = useTranslation();
 
@@ -76,32 +81,44 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
           </div>
         </div>
         <div className="tw-ml-7 tw-text-xl tw-font-medium">
-          {bignumber(availableAmount).greaterThan(0) ? (
-            <Tooltip content={`${weiTo18(availableAmount)} ${asset}`}>
-              <>
-                {weiToNumberFormat(availableAmount, 6)}
-                <span className="tw-mr-1">...</span> {asset}
-              </>
-            </Tooltip>
-          ) : (
-            <>0 {asset}</>
-          )}
+          <LoadableValue
+            value={
+              bignumber(availableAmount).greaterThan(0) ? (
+                <Tooltip content={`${weiTo18(availableAmount)} ${asset}`}>
+                  <>
+                    {showApproximateSign && '≈ '}
+                    {weiToNumberFormat(availableAmount, 6)}
+                    <span className="tw-mr-1">...</span> {asset}
+                  </>
+                </Tooltip>
+              ) : (
+                <>0 {asset}</>
+              )
+            }
+            loading={loading}
+          />
         </div>
       </div>
       <div className="tw-ml-7 tw-text-gray-7">
         <div className={styles['secondary-title']}>
           {t(translations.rewardPage.totalRewards)}
         </div>
-        {bignumber(totalEarnedAmount).greaterThan(0) ? (
-          <Tooltip content={`${weiTo18(totalEarnedAmount)} ${asset}`}>
-            <>
-              {weiToNumberFormat(totalEarnedAmount, 6)}
-              <span className="tw-mr-1">...</span> {asset}
-            </>
-          </Tooltip>
-        ) : (
-          <>0 {asset}</>
-        )}
+        <LoadableValue
+          value={
+            bignumber(totalEarnedAmount).greaterThan(0) ? (
+              <Tooltip content={`${weiTo18(totalEarnedAmount)} ${asset}`}>
+                <>
+                  {showApproximateSign && '≈ '}
+                  {weiToNumberFormat(totalEarnedAmount, 6)}
+                  <span className="tw-mr-1">...</span> {asset}
+                </>
+              </Tooltip>
+            ) : (
+              <>0 {asset}</>
+            )
+          }
+          loading={loading}
+        />
       </div>
     </div>
   );
