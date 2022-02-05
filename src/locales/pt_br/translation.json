@@ -1909,7 +1909,7 @@
       "aborted": "Transação falhou. <br/>Cancele ou refaça a transação",
       "abortedLedger": "Make sure \"Contract data\" is set to \"Allowed\" in your Ledger app settings",
       "cta": "Ver na blockchain",
-      "processing": "{{action}} em processamento...",
+      "processing": "{{action}} Em processamento...",
       "complete": "{{action}} concluída",
       "submit": "{{action}} Inserida"
     }
