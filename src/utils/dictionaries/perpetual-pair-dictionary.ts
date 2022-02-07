@@ -32,7 +32,7 @@ export class PerpetualPairDictionary {
         'BTC/USD',
         'USD',
         'BTC',
-        Asset.PERPETUALS,
+        Asset.BTCS,
         {
           leverage: {
             min: 0.1,

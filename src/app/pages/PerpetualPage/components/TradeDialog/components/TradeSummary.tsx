@@ -18,18 +18,18 @@ import {
   TxStatus,
 } from '../../../../../../store/global/transactions-store/types';
 import { LinkToExplorer } from '../../../../../components/LinkToExplorer';
-import { TxStatusIcon } from '../../../../../components/Dialogs/TxDialog';
+import { StatusComponent } from '../../../../../components/Dialogs/TxDialog';
 import { RecentTradesContext } from '../../../contexts/RecentTradesContext';
 import { RecentTradesDataEntry } from '../../RecentTradesTable/types';
 import { TradeAnalysis } from '../types';
 
 const TxTypeLabels = {
   [TxType.APPROVE]: translations.perpetualPage.processTrade.labels.approvalTx,
-  [TxType.OPEN_PERPETUAL_TRADE]:
+  [TxType.PERPETUAL_TRADE]:
     translations.perpetualPage.processTrade.labels.tradeTx,
-  [TxType.DEPOSIT_COLLATERAL]:
+  [TxType.PERPETUAL_DEPOSIT_COLLATERAL]:
     translations.perpetualPage.processTrade.labels.marginTx,
-  [TxType.WITHDRAW_COLLATERAL]:
+  [TxType.PERPETUAL_WITHDRAW_COLLATERAL]:
     translations.perpetualPage.processTrade.labels.marginTx,
 };
 
@@ -283,7 +283,7 @@ const LabeledTransactionHash: React.FC<LabeledTransactionHashProps> = ({
       )}
     </span>
     {transaction.status !== TxStatus.NONE && (
-      <TxStatusIcon
+      <StatusComponent
         className="tw-ml-2 tw-w-6 tw-h-6"
         status={trade ? TxStatus.CONFIRMED : transaction.status}
         isInline

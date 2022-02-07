@@ -51,7 +51,7 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     'PERPETUALS_token',
     PERPETUAL_PAYMASTER,
     useMetaTransactions,
-    Asset.PERPETUALS,
+    Asset.BTCS,
   );
 
   const [result, setResult] = useState<CheckAndApproveResultWithError>();

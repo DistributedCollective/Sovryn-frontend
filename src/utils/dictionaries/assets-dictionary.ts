@@ -124,9 +124,9 @@ export class AssetsDictionary {
       ],
       // Uncomment if you want to test Deposit/Withdraw of margin tokens
       // [
-      //   Asset.PERPETUALS,
+      //   Asset.BTCS,
       //   new AssetDetails(
-      //     Asset.PERPETUALS,
+      //     Asset.BTCS,
       //     'PERPETUALS',
       //     'PERPETUALS',
       //     18,

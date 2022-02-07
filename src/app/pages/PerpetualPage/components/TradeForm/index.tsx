@@ -49,6 +49,7 @@ import { numberFromWei, toWei } from 'utils/blockchain/math-helpers';
 import { useSelector } from 'react-redux';
 import { selectPerpetualPage } from '../../selectors';
 import { getCollateralName } from '../../utils/renderUtils';
+import { TxType } from '../../../../../store/global/transactions-store/types';
 
 interface ITradeFormProps {
   trade: PerpetualTrade;
@@ -145,7 +146,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       getTradingFee(amountChange, perpParameters, ammState);
     if (useMetaTransactions) {
       possibleMargin -=
-        gasLimit.deposit_collateral + gasLimit.open_perpetual_trade;
+        gasLimit.deposit_collateral + gasLimit[TxType.PERPETUAL_TRADE];
     }
 
     const maxLeverage = getMaxInitialLeverage(amountTarget, perpParameters);
