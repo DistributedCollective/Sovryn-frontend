@@ -626,11 +626,14 @@
     "viewGovernance": "Governança",
     "addStake": "Novo investimento",
     "feeTitle": "Dividendos disponíveis",
+    "sentLendingPool": "{{asset}} será enviado para o pool de empréstimos.",
+    "convertedToRBTC": "{{asset}} será convertido em RBTC e enviado diretamente para sua carteira.",
     "noUnlockedSov": "Você não possui SOV disponíveis para investimento",
     "txFee": "Taxa de transação",
     "txId": "ID transação:",
     "sov": "SOV",
     "days": "dias",
+    "vestingFees": "Vested SOV",
     "delegation": {
       "delegateTo": "Delegar para",
       "delegatedTo": "Delegado para",
@@ -1397,9 +1400,10 @@
       },
       "feesEarnedTab": {
         "title": "Você não possui Dividendos/Comissão a receber",
-        "recommendationsTitle": "Ganhe Dividendos/Comissão em <0/> das seguintes formas:",
+        "recommendationsTitle": "Ganhe Dividendos/Comissão das seguintes formas:",
         "recommendation1": "Investindo seus SOV",
-        "recommendation2": "Quando usuários indicados por você realizam transações na Sovryn"
+        "recommendation2": "Quando usuários indicados por você realizam transações na Sovryn",
+        "recommendation3": "Você também pode reivindicar aqui os tokens lançados e distribuídos gratuitamente"
       }
     },
     "meta": {
@@ -1419,7 +1423,10 @@
     },
     "feesEarnedClaimForm": {
       "note": "Ao reivindicar seus Dividendos/Comissão, eles automaticamente são adicionados no seu saldo <0/> no portfólio.",
-      "learn": "Saiba mais"
+      "learn": "Saiba mais",
+      "asset": "Ativo",
+      "amount": "Quantidade",
+      "assetValue": "Valor em <0/>"
     },
     "stakingForm": {
       "title": "Quantidade:",

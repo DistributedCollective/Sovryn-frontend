@@ -235,6 +235,7 @@ export const contracts = {
     abi: LockedSovAbi,
   },
   feeSharingProxy_old: {
+    // retained for use with legacy staking fees
     address: '0xedD92fb7C556E4A4faf8c4f5A90f471aDCD018f4',
     abi: feeSharingProxyAbi,
   },
@@ -243,7 +244,7 @@ export const contracts = {
     abi: feeSharingProxyAbi,
   },
   stakingRewards: {
-    address: '0x7662E1cC98c9CB50eBc286ce8b124D61C7e2247E',
+    address: '0x18eF0ff12f1b4D30104B4680D485D026C26D164D',
     abi: stakingRewardsProxyAbi,
   },
   FISH_token: {

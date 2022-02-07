@@ -96,6 +96,16 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
 
   const { value: tokenBalance } = useAssetBalanceOf(collateral);
 
+  useEffect(() => {
+    if (pair && pair.leverage) {
+      dispatch(actions.setLeverage(pair.leverage));
+    }
+  }, [dispatch, pair]);
+
+  const submit = useCallback(order => dispatch(actions.submit(order)), [
+    dispatch,
+  ]);
+
   const validate = useMemo(() => {
     return (
       bignumber(weiAmount).greaterThan(0) &&
@@ -172,10 +182,14 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
             label={t(translations.marginTradePage.tradeForm.labels.leverage)}
             className="tw-mb-4 tw-mt-6 tw-w-full tw-bg-gray-4 tw-rounded-md tw-px-4 tw-py-2"
           >
-            <LeverageSelector
-              value={leverage}
-              onChange={value => dispatch(actions.setLeverage(value))}
-            />
+            {pair && pair.leverage ? (
+              `${pair.leverage}x`
+            ) : (
+              <LeverageSelector
+                value={leverage}
+                onChange={value => dispatch(actions.setLeverage(value))}
+              />
+            )}
           </FormGroup>
 
           {!openTradesLocked && (

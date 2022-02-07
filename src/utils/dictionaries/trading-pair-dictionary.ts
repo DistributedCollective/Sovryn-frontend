@@ -84,6 +84,7 @@ export class TradingPairDictionary {
         false,
         true,
         false,
+        2,
       ),
     ],
     [
@@ -98,6 +99,7 @@ export class TradingPairDictionary {
         false,
         true,
         false,
+        2,
       ),
     ],
     [
@@ -112,6 +114,7 @@ export class TradingPairDictionary {
         false,
         true,
         false,
+        2,
       ),
     ],
     [
@@ -126,6 +129,7 @@ export class TradingPairDictionary {
         false,
         true,
         false,
+        2,
       ),
     ],
     [
