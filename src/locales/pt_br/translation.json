@@ -1493,7 +1493,9 @@
       "price": "Preço (<0/>)",
       "size": "Tamanho (<0/>)",
       "time": "Horário",
-      "noTrades": "Sem negociações recentes"
+      "noTrades": "Sem negociações recentes",
+      "long": "C",
+      "short": "V"
     },
     "tradeDialog": {
       "title": "Revisar ordem",
@@ -1515,7 +1517,9 @@
         "long": "Comprado",
         "short": "Vendido"
       },
-      "newPositionDetails": "Detalhes"
+      "newPositionDetails": "Detalhes",
+      "buy": "compra",
+      "sell": "venda"
     },
     "openPositions": "Posições abertas",
     "tradingHistory": "Posições fechadas",
@@ -1553,7 +1557,8 @@
       "limit": "Limitada",
       "advancedSettings": "Configurações avançadas",
       "limitPrice": "Preço:",
-      "receive": "Receber:"
+      "receive": "Receber:",
+      "amount": "Quantidade:"
     },
     "priceHistory": {
       "turnover": "Volume de negociações",
@@ -1617,6 +1622,7 @@
     },
     "pairNavbar": {
       "pair": "Pares",
+      "asset": "Ativo",
       "lastTradedPrice": "Último preço",
       "dayChange": "24H oscilação",
       "dayPercentChange": "24hr % oscilação",
