@@ -34,6 +34,7 @@ import MYNTControllerAbi from './abi/MYNTController.json';
 import MYNTTokenAbi from './abi/MYNT_token.json';
 import MYNTPresaleAbi from './abi/MYNTPresale.json';
 import MYNTMarketMakerAbi from './abi/MYNTMarketMaker.json';
+import fastBtcBridgeAbi from './abi/fastBtcBridge.json';
 import perpetualManagerAbi from './abi/PerpetualManager.json';
 import marginTokenAbi from './abi/MarginToken.json';
 import { ChainId } from '../../types';
@@ -296,6 +297,10 @@ export const contracts = {
   MYNTMarketMaker: {
     address: '0x722935fF8A99D801D802bb3EE528408C11C18656',
     abi: MYNTMarketMakerAbi,
+  },
+  fastBtcBridge: {
+    address: '0x0D5006330289336ebdF9d0AC9E0674f91b4851eA',
+    abi: fastBtcBridgeAbi,
   },
   perpetualManager: {
     address: '0x15D155e8aDE68ED7f273770b47E2B2eA263861cF',

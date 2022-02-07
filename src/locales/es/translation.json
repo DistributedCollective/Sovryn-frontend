@@ -72,25 +72,6 @@
       "description": "Mueve tus Bitcoins a la red RSK."
     }
   },
-  "fastBtcForm": {
-    "title": "Recarga",
-    "history": {
-      "title": "Historial",
-      "empty": "Historial Vacío.",
-      "walletHistory": "Ingresa la dirección de tu cartera RSK para ver el historial.",
-      "loading": "Cargando..."
-    },
-    "connectWallet": "Para recargar, necesitas conectar tu cartera con la DApp.",
-    "connect": "Conecta tu cartera o solo ingresa la dirección de tu cartera arriba.",
-    "depositAdress": "Dirección a Depositar BTC",
-    "depositAddressCopied": "La dirección de depósito de BTC está copiada",
-    "toDepositWallet": "cartera a depositar",
-    "placeholder": "Tu Cartera RSK",
-    "waitingForDeposit": "Esperando tu depósito",
-    "exchanging": "Estamos procesando tus rBTC justo ahora.",
-    "transfered": "transferencia realizada a tu cartera RSK",
-    "swapAgain": "Canjear de nuevo"
-  },
   "tradeOrSwapTabs": {
     "tabs": {
       "trade": "Comerciar",
@@ -407,39 +388,6 @@
     "success": "¡Listo!",
     "successText": "Te contactaremos tan pronto como la versión móvil de Sovryn sea lanzada."
   },
-  "fastBTC": {
-    "screens": {
-      "1": {
-        "title": "¡Ya Estás Conectado!",
-        "p1": "Con el fin de invertir, comerciar y tomar préstamos en Sovryn, primero debes habilitar tus Bitcoins transfiriéndolos a tu cartera RSK.",
-        "p2": "Puedes hacer esto creando una dirección única de Bitcoin anclada a tu dirección RSK, super-potenciando tus BTC en forma de RBTC.",
-        "createAddress": "Crear Dirección"
-      },
-      "2": {
-        "p1": "Una dirección Bitcoin única ha sido creada para esta transacción, envía BTC a dicha dirección para que recibas RBTC en tu cartera RSK.",
-        "depositRequirements": "Requerimientos para el Depósito",
-        "fee": "Comisión",
-        "feeExplainer": "El deducible de esta transacción es",
-        "important": "Importante",
-        "important1": "Por Favor, no vayas a depositar ningún activo que no sea Bitcoin a esta dirección, o podrías perderlos permanentemente",
-        "important2": "Por favor, concédenos unos 15 minutos para que se procese la transacción",
-        "contactUs": "Para proveerte ayuda adicional contáctanos por",
-        "txDetected": "Transacción Detectada"
-      },
-      "3": {
-        "txDetails": "Detalles del Canje",
-        "txHash": "Hash de la Tx rBTC",
-        "txId": "ID de la Tx BTC",
-        "from": "Cartera de Origen",
-        "to": "Cartera de Destino",
-        "amount": "Cantidad transada",
-        "fee": "Comisión",
-        "initiated": "Inicializado",
-        "status": "Estatus",
-        "estimated": "Tiempo Estimado"
-      }
-    }
-  },
   "walletProvider": {
     "txRequestDialog": {
       "closeButton": "Ok",
@@ -641,41 +589,6 @@
     },
     "onCopy": {
       "address": "La dirección se ha copiado en el portapapeles"
-    }
-  },
-  "fastBtcDialog": {
-    "title": "Obtén rBTC",
-    "subtitle": "Deposita BTC o fiat para recibir rBTC en tu cartera",
-    "note": "Siempre asegúrese de verificar la dirección de depósito de BTC a medida que FastBTC se actualiza",
-    "limits": {
-      "title": "Límites:",
-      "min": "Mínimo: {{amount}} BTC",
-      "max": "Máximo: {{amount}} BTC"
-    },
-    "instructions": {
-      "title": "Instrucciones:",
-      "point1": "No deposites ningún activo que no sea BTC",
-      "point2": "No envíes más BTC del límite máximo",
-      "point3": "Espera 15 minutos para que la transacción sea procesada"
-    },
-    "fiatDialog": {
-      "title": "Comprar rBTC con fiat",
-      "explanation": "Haciendo clic en el botón de abajo, accederás a una rampa de pago en fiat. Asegúrate de que la dirección de BTC a la que estás enviando tus fondos es la misma que ésta. FastBTC hará la conversión a rBTC por ti en segundo plano, así que no necesitas hacer nada más. Ten en cuenta el límite de 0,01"
-    },
-    "qr": {
-      "title": "Envía BTC a esta dirección:"
-    },
-    "buttonBTC": "Obtén rBTC con BTC",
-    "buttonFiat": "Obtén rBTC con fiat",
-    "transaction": {
-      "title": "Detalles de la transacción",
-      "status": "Status {{status}}",
-      "from": "De:",
-      "to": "Para:",
-      "fee": "Comisión:",
-      "hash": "Hash:",
-      "close": "Cerrar",
-      "address": "Dirección:"
     }
   },
   "buySovPage": {

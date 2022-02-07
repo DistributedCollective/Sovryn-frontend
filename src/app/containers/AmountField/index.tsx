@@ -17,6 +17,7 @@ interface Props {
   allowNegative?: boolean;
   hideMaxButton?: boolean;
   rightElement?: React.ReactNode;
+  dataActionId?: string;
 }
 
 export function AmountField(props: Props) {
@@ -44,6 +45,7 @@ export function AmountField(props: Props) {
             {props.rightElement && <>{props.rightElement}</>}
           </>
         }
+        dataActionId={props.dataActionId}
       />
     </>
   );

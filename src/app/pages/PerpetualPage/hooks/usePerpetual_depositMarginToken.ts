@@ -36,12 +36,12 @@ export const usePerpetual_depositMarginToken = (
         [perpetualId, weiToABK64x64(amount)],
         {
           from: account,
-          gas: gasLimit[TxType.DEPOSIT_COLLATERAL],
+          gas: gasLimit[TxType.PERPETUAL_DEPOSIT_COLLATERAL],
           gasPrice: PERPETUAL_GAS_PRICE_DEFAULT,
           nonce: nonce,
         },
         {
-          type: TxType.DEPOSIT_COLLATERAL,
+          type: TxType.PERPETUAL_DEPOSIT_COLLATERAL,
           asset: Asset.PERPETUALS,
           customData,
         },

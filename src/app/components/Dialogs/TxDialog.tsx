@@ -222,4 +222,4 @@ function WalletLogo({ wallet }: { wallet: string }) {
       <div className="tw-text-xs tw-truncate">{getWalletName(wallet)}</div>
     </div>
   );
-}
+};

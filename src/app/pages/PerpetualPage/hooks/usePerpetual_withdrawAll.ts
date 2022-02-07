@@ -30,12 +30,12 @@ export const usePerpetual_withdrawAll = (pairType: PerpetualPairType) => {
           [perpetualId],
           {
             from: account,
-            gas: gasLimit[TxType.WITHDRAW_COLLATERAL],
+            gas: gasLimit[TxType.PERPETUAL_WITHDRAW_COLLATERAL],
             gasPrice: PERPETUAL_GAS_PRICE_DEFAULT,
             nonce,
           },
           {
-            type: TxType.WITHDRAW_COLLATERAL,
+            type: TxType.PERPETUAL_WITHDRAW_COLLATERAL,
             asset: Asset.PERPETUALS,
             customData,
           },

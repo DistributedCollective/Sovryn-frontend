@@ -184,6 +184,7 @@ const InnerBorrowContainer: React.FC<Props> = ({ currency }) => {
               {currency}
             </button>
           }
+          dataActionId="borrow-amountInput"
         />
       </FieldGroup>
       <div className="tw-grid tw-grid-cols-12">
@@ -216,7 +217,10 @@ const InnerBorrowContainer: React.FC<Props> = ({ currency }) => {
               }
             </div>
             <div className="tw-col-span-4 tw-px-4">
-              <FieldGroup label="">
+              <FieldGroup
+                dataActionId="borrow-assetToCollateralizeAmountDropDown"
+                label=""
+              >
                 <FormSelect
                   onChange={item => setTokenToCollarate(item.key)}
                   value={tokenToCollarate}
@@ -274,6 +278,7 @@ const InnerBorrowContainer: React.FC<Props> = ({ currency }) => {
               <>{t(translations.maintenance.startBorrow)}</>
             ) : undefined
           }
+          dataActionId="borrow-borrowButton"
         />
       </div>
     </>

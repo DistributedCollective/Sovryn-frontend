@@ -32,6 +32,7 @@ import MYNTControllerAbi from './abi/MYNTController.json';
 import MYNTTokenAbi from './abi/MYNT_token.json';
 import MYNTPresaleAbi from './abi/MYNTPresale.json';
 import MYNTMarketMakerAbi from './abi/MYNTMarketMaker.json';
+import fastBtcBridgeAbi from './abi/fastBtcBridge.json';
 import perpetualManagerAbi from './abi/PerpetualManager.json';
 import marginTokenAbi from './abi/MarginToken.json';
 import { ChainId } from '../../types';
@@ -241,7 +242,7 @@ export const contracts = {
     abi: feeSharingProxyAbi,
   },
   stakingRewards: {
-    address: '0x7662E1cC98c9CB50eBc286ce8b124D61C7e2247E',
+    address: '0x18eF0ff12f1b4D30104B4680D485D026C26D164D',
     abi: stakingRewardsProxyAbi,
   },
   FISH_token: {
@@ -290,6 +291,10 @@ export const contracts = {
   MYNTMarketMaker: {
     address: '0xf75170ce8d4060b8D5fc24E996FA00A94bb8A232',
     abi: MYNTMarketMakerAbi,
+  },
+  fastBtcBridge: {
+    address: '0x10C848e9495a32acA95F6c23C92eCA2b2bE9903A',
+    abi: fastBtcBridgeAbi,
   },
   // perpetualManager: {
   //   address: '0x427cF4BdF9a6DCdc360625fC4295747b9D6796bA',
