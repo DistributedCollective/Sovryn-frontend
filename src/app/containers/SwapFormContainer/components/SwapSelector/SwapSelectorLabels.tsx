@@ -1,4 +1,6 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 import classNames from 'classnames';
 import { IPairs } from 'types/trading-pairs';
 import { usePairList } from 'app/hooks/trading/usePairList';
@@ -9,13 +11,13 @@ interface ISwapSelectorLabelsProps {
   pairs: IPairs;
 }
 
-const ALL = 'ALL';
-
 export const SwapSelectorLabels: React.FC<ISwapSelectorLabelsProps> = ({
   onChangeCategory,
   category,
   pairs,
 }) => {
+  const { t } = useTranslation();
+  const ALL = t(translations.pairNavbar.asset);
   //getting a list with currency labels
   const list = usePairList(pairs);
   if (!list.length) {

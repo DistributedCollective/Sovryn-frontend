@@ -3,18 +3,18 @@ import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { translations } from 'locales/i18n';
 import { Trans, useTranslation } from 'react-i18next';
 import { useMargin_RecentTradesTable } from '../../hooks/useMargin_RecentTradesTable';
-import { RecentTradesTableRow } from './components/RecentTablesRow/index';
+import { RecentTradeRow } from './RecentTradeRow';
 import { TradingPair } from 'utils/models/trading-pair';
 import styles from './index.module.scss';
 import classNames from 'classnames';
 import { bignumber } from 'mathjs';
-import { getPriceChange } from './components/RecentTablesRow/utils';
+import { getPriceChange } from '../../utils/marginUtils';
 
-type RecentTradesTableProps = {
+interface IRecentTradesTableProps {
   pair: TradingPair;
-};
+}
 
-export const RecentTradesTable: React.FC<RecentTradesTableProps> = ({
+export const RecentTradesTable: React.FC<IRecentTradesTableProps> = ({
   pair,
 }) => {
   const data = useMargin_RecentTradesTable(pair);
@@ -77,7 +77,7 @@ export const RecentTradesTable: React.FC<RecentTradesTableProps> = ({
                 : 1;
               currentItemEntryPrice = item.entryPrice;
               return (
-                <RecentTradesTableRow
+                <RecentTradeRow
                   key={index}
                   row={item}
                   isOddRow={index % 2 === 0}

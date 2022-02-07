@@ -1,23 +1,26 @@
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
+import { translations } from 'locales/i18n';
+import { useTranslation } from 'react-i18next';
 import { weiToNumberFormat } from 'utils/display-text/format';
 import { RecentTradesDataEntry, TradePriceChange } from '../../types';
-import { getPriceChangeImage, getPriceColor } from './utils';
+import { getPriceChangeImage, getPriceColor } from '../../utils/marginUtils';
 import dayjs from 'dayjs';
 
-type RecentTradesTableRowProps = {
+type RecentTradeRowProps = {
   row: RecentTradesDataEntry;
   isOddRow: boolean;
   quoteToken: string;
   currentPrice: TradePriceChange;
 };
 
-export const RecentTradesTableRow: React.FC<RecentTradesTableRowProps> = ({
+export const RecentTradeRow: React.FC<RecentTradeRowProps> = ({
   row,
   isOddRow,
   quoteToken,
   currentPrice,
 }) => {
+  const { t } = useTranslation();
   const priceChangeIcon = useMemo(() => getPriceChangeImage(currentPrice), [
     currentPrice,
   ]);
@@ -84,7 +87,9 @@ export const RecentTradesTableRow: React.FC<RecentTradesTableRowProps> = ({
           priceColor,
         )}
       >
-        {isLong ? 'L' : 'S'}
+        {isLong
+          ? t(translations.marginTradePage.recentTrades.long)
+          : t(translations.marginTradePage.recentTrades.short)}
       </td>
     </tr>
   );

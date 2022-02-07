@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAccount } from 'app/hooks/useAccount';
 import { backendUrl, currentChainId } from 'utils/classifiers';
-import { OpenLoan } from 'types/active-loan';
+import { OpenLoan, OpenLoanType } from 'types/active-loan';
 
 const PAGE_SIZE = 6;
 
@@ -12,8 +12,9 @@ type ClosedPositionHookResult = {
   totalCount: number;
 };
 
-export const useMargin_OpenPositions = (
+export const useMargin_GetLoans = (
   page: number,
+  isOpen: boolean,
 ): ClosedPositionHookResult => {
   const account = useAccount();
   const url = backendUrl[currentChainId];
@@ -27,10 +28,15 @@ export const useMargin_OpenPositions = (
       axios
         .get(
           url +
-            `/events/trade/${account}?page=${page}&pageSize=${PAGE_SIZE}&isOpen=true`,
+            `/events/trade/${account}?page=${page}&pageSize=${PAGE_SIZE}&isOpen=${isOpen}`,
         )
         .then(({ data }) => {
-          setEvents(data.events);
+          const sortedEntries = data.events.sort(
+            (a: OpenLoanType, b: OpenLoanType) => {
+              return b.time - a.time;
+            },
+          );
+          setEvents(sortedEntries);
           setTotalCount(data.pagination.totalPages * PAGE_SIZE);
           setLoading(false);
         })
@@ -42,7 +48,7 @@ export const useMargin_OpenPositions = (
     if (account) {
       getOpenLoans();
     }
-  }, [account, page, url]);
+  }, [account, page, isOpen, url]);
 
   return {
     events,

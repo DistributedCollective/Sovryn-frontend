@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { backendUrl, currentChainId } from 'utils/classifiers';
-import { RecentTradesDataEntry } from '../components/RecentTradesTable/types';
+import { RecentTradesDataEntry } from '../types';
 import { TradingPair } from 'utils/models/trading-pair';
 
 export const useMargin_RecentTradesTable = (pair: TradingPair) => {

@@ -30,7 +30,7 @@ import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPri
 import type { OpenLoanType } from 'types/active-loan';
 import { TxFeeCalculator } from '../TxFeeCalculator';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import { calculateMinimumReturn } from '../SlippageForm/utils';
+import { calculateMinimumReturn } from '../../utils/marginUtils';
 import { SlippageForm } from '../SlippageForm';
 import settingIcon from 'assets/images/settings-blue.svg';
 import { ActionButton } from 'app/components/Form/ActionButton';

@@ -8,7 +8,7 @@ import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dicti
 import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { Transaction, TxStatus } from 'store/global/transactions-store/types';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
-import { PositionBlock } from './PositionBlock';
+import { PositionBlock } from '../PositionBlock';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 

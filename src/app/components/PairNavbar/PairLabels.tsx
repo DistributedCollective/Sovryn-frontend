@@ -18,6 +18,7 @@ export const PairLabels: React.FC<IPairLabelsProps> = ({
   type,
 }) => {
   const { t } = useTranslation();
+  const ALL = t(translations.pairNavbar.all);
   //getting a list with currency labels
   const list = useMemo(() => {
     if (!pairs) {
@@ -31,8 +32,6 @@ export const PairLabels: React.FC<IPairLabelsProps> = ({
   if (!list.length) {
     return null;
   }
-
-  const ALL = t(translations.spotTradingPage.pairNavbar.all);
 
   const categories = type === TradingType.SPOT ? [ALL, 'RBTC', ...list] : [ALL];
 

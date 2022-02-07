@@ -211,7 +211,9 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
         </div>
 
         <div className="tw-flex tw-items-center tw-justify-between tw-mt-5">
-          <span className={styles.amountLabel + ' tw-mr-4'}>Amount:</span>
+          <span className={styles.amountLabel + ' tw-mr-4'}>
+            {t(translations.spotTradingPage.tradeForm.amount)}
+          </span>
           <AmountInput
             value={amount}
             onChange={setAmount}

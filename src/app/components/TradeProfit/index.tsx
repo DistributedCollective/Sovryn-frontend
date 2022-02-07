@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { bignumber } from 'mathjs';
 import { Tooltip } from '@blueprintjs/core';
 import { useTranslation } from 'react-i18next';
@@ -7,85 +7,66 @@ import {
   toNumberFormat,
   weiToNumberFormat,
 } from '../../../utils/display-text/format';
-import { Asset } from '../../../types/asset';
 import { translations } from '../../../locales/i18n';
-import { useAccount } from 'app/hooks/useAccount';
-import { backendUrl, currentChainId } from 'utils/classifiers';
 import { toWei } from 'utils/blockchain/math-helpers';
-import { TradingPair } from 'utils/models/trading-pair';
-import { btcInSatoshis } from 'app/constants';
+import { OpenLoanType } from 'types/active-loan';
+import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
+import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
+import { getTradingPositionPrice } from 'app/pages/MarginTradePage/utils/marginUtils';
+import { AssetRenderer } from '../AssetRenderer';
 
 interface ITradeProfitProps {
-  asset: Asset;
-  entryPrice: string;
-  closePrice: string;
-  position: TradingPosition;
-  positionSize: string;
-  loanToken: string;
-  pair: TradingPair;
-  loanId: string;
+  closedItem: OpenLoanType;
+  openedItem: OpenLoanType;
 }
 
 export const TradeProfit: React.FC<ITradeProfitProps> = ({
-  loanToken,
-  pair,
-  loanId,
-  position,
-  asset,
+  closedItem,
+  openedItem,
 }) => {
-  const account = useAccount();
   const { t } = useTranslation();
   const [profit, setProfit] = useState('');
   const [profitDirection, setProfitDirection] = useState(0);
-  const prettyPrice = useCallback(
-    amount => {
-      return loanToken !== pair.shortAsset
-        ? toWei(bignumber(1).div(amount).mul(btcInSatoshis))
-        : toWei(bignumber(amount).div(btcInSatoshis));
-    },
-    [loanToken, pair.shortAsset],
+
+  const loanAsset = assetByTokenAddress(closedItem.loanToken);
+  const collateralAsset = assetByTokenAddress(closedItem.collateralToken);
+  const pair = TradingPairDictionary.findPair(loanAsset, collateralAsset);
+  const position =
+    pair?.longAsset === loanAsset
+      ? TradingPosition.LONG
+      : TradingPosition.SHORT;
+
+  const openPrice = useMemo(
+    () => getTradingPositionPrice(openedItem, position),
+    [openedItem, position],
+  );
+  const closePrice = useMemo(
+    () => getTradingPositionPrice(closedItem, position),
+    [closedItem, position],
   );
 
   useEffect(() => {
-    fetch(backendUrl[currentChainId] + '/events/trade/' + account)
-      .then(response => {
-        return response.json();
-      })
-      .then(loanEvents => {
-        loanEvents.events.forEach(events => {
-          if (events.loanId === loanId) {
-            const entryPrice = prettyPrice(events.data[0].collateralToLoanRate);
-            const closePrice = prettyPrice(
-              events.data.slice(-1).pop().collateralToLoanRate,
-            ); // getting the last element in data
-            const positionSize = events.data[0].positionSize;
+    //LONG position
+    let change = bignumber(bignumber(closePrice).minus(openPrice))
+      .div(openPrice)
+      .mul(100)
+      .toNumber();
 
-            //LONG position
-            let change = bignumber(bignumber(closePrice).minus(entryPrice))
-              .div(entryPrice)
-              .mul(100)
-              .toNumber();
-
-            //SHORT position
-            if (position === TradingPosition.SHORT) {
-              change = bignumber(bignumber(entryPrice).minus(closePrice))
-                .div(entryPrice)
-                .mul(100)
-                .toNumber();
-            }
-            setProfit(
-              bignumber(change)
-                .mul(bignumber(positionSize))
-                .div(100)
-                .toFixed(0),
-            );
-            setProfitDirection(change);
-          }
-        });
-      })
-      .catch(console.error);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    //SHORT position
+    if (position === TradingPosition.SHORT) {
+      change = bignumber(bignumber(toWei(openPrice)).minus(toWei(closePrice)))
+        .div(toWei(openPrice))
+        .mul(100)
+        .toNumber();
+    }
+    setProfit(
+      bignumber(change)
+        .mul(bignumber(openedItem.positionSizeChange))
+        .div(100)
+        .toFixed(0),
+    );
+    setProfitDirection(change);
+  }, [position, closePrice, openPrice, openedItem.positionSizeChange]);
 
   return (
     <div>
@@ -123,7 +104,8 @@ export const TradeProfit: React.FC<ITradeProfitProps> = ({
           }
         >
           {profitDirection > 0 && '+'}
-          {weiToNumberFormat(profit, 8)} {asset}
+          {weiToNumberFormat(profit, 8)}{' '}
+          <AssetRenderer asset={collateralAsset} />
         </span>
       </Tooltip>
     </div>

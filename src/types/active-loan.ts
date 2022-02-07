@@ -20,7 +20,7 @@ export interface OpenLoan {
   data: OpenLoanType;
   isOpen: boolean;
   loanId: string;
-  nextRollover: number;
+  nextRollover: number | null;
 }
 
 export interface OpenLoanType {

@@ -16,13 +16,9 @@ import { CollateralAssets } from '../CollateralAssets';
 
 import { ActiveLoan } from 'types/active-loan';
 import { TxFeeCalculator } from '../TxFeeCalculator';
-import {
-  weiToAssetNumberFormat,
-  weiToNumberFormat,
-} from '../../../../../utils/display-text/format';
+import { weiToAssetNumberFormat } from '../../../../../utils/display-text/format';
 import { DummyInput } from '../../../../components/Form/Input';
 import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
-import { LoadableValue } from '../../../../components/LoadableValue';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { TxDialog } from '../../../../components/Dialogs/TxDialog';

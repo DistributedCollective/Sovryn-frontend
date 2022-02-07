@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import classNames from 'classnames';
+import { translations } from 'locales/i18n';
+import { useTranslation } from 'react-i18next';
 import { Input } from 'app/components/Form/Input';
 import { IPairsData, TradingType } from 'types/trading-pairs';
 import { selectSpotTradingPage } from 'app/pages/SpotTradingPage/selectors';
@@ -28,6 +30,7 @@ export const PairSelect: React.FC<IPairSelect> = ({
   pairsData,
   type,
 }) => {
+  const { t } = useTranslation();
   const ref = useRef(null);
   const { pairType: pairSpotType } = useSelector(selectSpotTradingPage);
   const { pairType: pairMarginType } = useSelector(selectMarginTradePage);
@@ -69,7 +72,7 @@ export const PairSelect: React.FC<IPairSelect> = ({
             className="tw-rounded-lg search tw-max-w-full"
             inputClassName="tw-ml-0"
             onChange={setSearch}
-            placeholder={'Search'}
+            placeholder={t(translations.pairNavbar.search)}
             prependElem={
               <img className="tw-w-5" src={searchIcon} alt="Search" />
             }

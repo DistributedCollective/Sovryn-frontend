@@ -1,6 +1,6 @@
 import React, { useMemo, useState, useCallback } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { translations } from '../../../../../locales/i18n';
+import { translations } from 'locales/i18n';
 import { FormGroup } from 'app/components/Form/FormGroup';
 import { AmountInput } from 'app/components/Form/AmountInput';
 import { ButtonTrade } from 'app/components/ButtonTrade';
@@ -207,7 +207,9 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
           />
         </div>
         <div className="tw-flex tw-items-center tw-justify-between tw-mt-5">
-          <span className={styles.amountLabel + ' tw-mr-4'}>Amount:</span>
+          <span className={styles.amountLabel}>
+            {t(translations.spotTradingPage.tradeForm.amount)}
+          </span>
           <AmountInput
             value={amount}
             onChange={setAmount}

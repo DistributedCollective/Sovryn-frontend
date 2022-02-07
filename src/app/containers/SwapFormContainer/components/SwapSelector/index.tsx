@@ -118,15 +118,13 @@ export const SwapSelector: React.FC<ISwapSelectorProps> = ({
                   <tr>
                     <td className="tw-w-8"></td>
                     <td className="tw-pb-3">
-                      {t(translations.spotTradingPage.pairNavbar.pair)}
+                      {t(translations.pairNavbar.asset)}
                     </td>
                     <td className="tw-text-left tw-pb-3">
-                      {t(
-                        translations.spotTradingPage.pairNavbar.lastTradedPrice,
-                      )}
+                      {t(translations.pairNavbar.lastTradedPrice)}
                     </td>
                     <td className="tw-text-right tw-pl-5 tw-pb-3">
-                      {t(translations.spotTradingPage.pairNavbar.dayChange)}
+                      {t(translations.pairNavbar.dayChange)}
                     </td>
                   </tr>
                 </thead>

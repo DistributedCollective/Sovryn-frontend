@@ -16,7 +16,7 @@ import { TradeForm } from './components/TradeForm';
 import { Theme, TradingChart } from '../../components/TradingChart';
 import { OpenPositionsTable } from './components/OpenPositionsTable';
 import { useIsConnected } from '../../hooks/useAccount';
-import { TradingHistory } from './components/TradingHistory';
+import { ClosedPositionsTable } from './components/ClosedPositionsTable';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
 import { PairNavbar } from 'app/components/PairNavbar';
@@ -39,8 +39,7 @@ export function MarginTradePage() {
   useEffect(() => {
     setLinkPairType(location.state?.marginTradingPair);
     history.replace(location.pathname);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [history, location.pathname, location.state?.marginTradingPair]);
 
   const pair = useMemo(
     () => TradingPairDictionary.get(linkPairType || pairType),
@@ -95,7 +94,7 @@ export function MarginTradePage() {
 
             <div className="tw-w-full sm:tw-px-5">
               {activeTab === 0 && <OpenPositionsTable />}
-              {activeTab === 1 && <TradingHistory />}
+              {activeTab === 1 && <ClosedPositionsTable />}
             </div>
           </>
         )}

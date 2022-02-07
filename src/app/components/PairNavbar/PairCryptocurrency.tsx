@@ -155,12 +155,12 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
         <thead>
           <tr>
             <td className="tw-w-8"></td>
-            <td>{t(translations.spotTradingPage.pairNavbar.pair)}</td>
+            <td>{t(translations.pairNavbar.pair)}</td>
             <td className="tw-text-right">
-              {t(translations.spotTradingPage.pairNavbar.lastTradedPrice)}
+              {t(translations.pairNavbar.lastTradedPrice)}
             </td>
             <td className="tw-text-right tw-pr-5">
-              {t(translations.spotTradingPage.pairNavbar.dayChange)}
+              {t(translations.pairNavbar.dayChange)}
             </td>
           </tr>
         </thead>

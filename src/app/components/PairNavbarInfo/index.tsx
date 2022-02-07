@@ -107,7 +107,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
   return (
     <div className="tw-flex tw-items-center tw-justify-around tw-flex-1 tw-text-xs">
       <div className="tw-flex tw-items-center tw-text-center tw-flex-col lg:tw-flex-row tw-py-2">
-        {t(translations.spotTradingPage.pairNavbar.lastTradedPrice)}
+        {t(translations.pairNavbar.lastTradedPrice)}
         <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-primary">
           <LoadableValue
             value={toNumberFormat(lastPrice, 6)}
@@ -116,7 +116,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
         </span>
       </div>
       <div className="tw-flex tw-items-center tw-text-center tw-flex-col lg:tw-flex-row tw-py-2">
-        {t(translations.spotTradingPage.pairNavbar.dayPercentChange)}{' '}
+        {t(translations.pairNavbar.dayPercentChange)}{' '}
         <span
           className={classNames('tw-ml-2 tw-font-semibold tw-text-sm', {
             'tw-text-trade-long': percent > 0,
@@ -132,7 +132,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
       </div>
 
       <div className="tw-flex tw-items-center tw-text-center tw-flex-col lg:tw-flex-row tw-py-2">
-        {t(translations.spotTradingPage.pairNavbar.dayLow)}{' '}
+        {t(translations.pairNavbar.dayLow)}{' '}
         <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-trade-short">
           <LoadableValue
             value={toNumberFormat(lowPrice, 6)}
@@ -141,7 +141,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
         </span>
       </div>
       <div className="tw-flex tw-items-center tw-text-center tw-flex-col lg:tw-flex-row tw-py-2">
-        {t(translations.spotTradingPage.pairNavbar.dayHigh)}{' '}
+        {t(translations.pairNavbar.dayHigh)}{' '}
         <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-trade-long">
           <LoadableValue
             value={toNumberFormat(hightPrice, 6)}

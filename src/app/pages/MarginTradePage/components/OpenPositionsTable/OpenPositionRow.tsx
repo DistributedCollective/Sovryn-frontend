@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { bignumber } from 'mathjs';
+import dayjs from 'dayjs';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import type { OpenLoanType } from 'types/active-loan';
 import { translations } from 'locales/i18n';
@@ -13,27 +14,26 @@ import {
   weiToAssetNumberFormat,
   weiToNumberFormat,
 } from 'utils/display-text/format';
-import { weiTo18 } from 'utils/blockchain/math-helpers';
+import { getEntryPrice } from '../../utils/marginUtils';
 import { AddToMarginDialog } from '../AddToMarginDialog';
 import { ClosePositionDialog } from '../ClosePositionDialog';
-import { PositionBlock } from './PositionBlock';
+import { PositionBlock } from '../PositionBlock';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { useMaintenance } from 'app/hooks/useMaintenance';
-import { LoadableValue } from 'app/components/LoadableValue';
+import { Tooltip } from '@blueprintjs/core';
 import { formatNumber } from 'app/containers/StatsPage/utils';
 import { usePositionLiquidationPrice } from 'app/hooks/trading/usePositionLiquidationPrice';
 import { ProfitContainer } from './ProfitContainer';
-import { isLongTrade } from './helpers';
+import { isLongTrade } from '../../utils/marginUtils';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { MAINTENANCE_MARGIN } from 'utils/classifiers';
-import dayjs from 'dayjs';
 
-interface IOpenPositionRowInnerProps {
+type OpenPositionRowInnerProps = {
   item: OpenLoanType;
-  nextRollover: number;
-}
+  nextRollover: number | null;
+};
 
-const OpenPositionRowInner: React.FC<IOpenPositionRowInnerProps> = ({
+export const OpenPositionRow: React.FC<OpenPositionRowInnerProps> = ({
   item,
   nextRollover,
 }) => {
@@ -104,54 +104,46 @@ const OpenPositionRowInner: React.FC<IOpenPositionRowInnerProps> = ({
         </td>
         <td className="tw-w-full tw-hidden xl:tw-table-cell">
           <div className="tw-whitespace-nowrap">
-            <LoadableValue
-              value={
-                <>
-                  {toAssetNumberFormat(entryPrice, pair.longDetails.asset)}{' '}
-                  <AssetRenderer asset={pair.longDetails.asset} />
-                </>
-              }
-              tooltip={
+            <Tooltip
+              content={
                 <>
                   {toNumberFormat(entryPrice, 18)}{' '}
                   <AssetRenderer asset={pair.longDetails.asset} />
                 </>
               }
-            />
+            >
+              <>
+                {toAssetNumberFormat(entryPrice, pair.longDetails.asset)}{' '}
+                <AssetRenderer asset={pair.longDetails.asset} />
+              </>
+            </Tooltip>
           </div>
         </td>
         <td className="tw-w-full tw-hidden md:tw-table-cell">
           <div className="tw-whitespace-nowrap">
-            <LoadableValue
-              value={
-                <>
-                  {toAssetNumberFormat(
-                    liquidationPrice,
-                    pair.longDetails.asset,
-                  )}{' '}
-                  <AssetRenderer asset={pair.longDetails.asset} />
-                </>
-              }
-              tooltip={toNumberFormat(liquidationPrice, 18)}
-            />
+            <Tooltip content={<>{toNumberFormat(liquidationPrice, 18)}</>}>
+              <>
+                {toAssetNumberFormat(liquidationPrice, pair.longDetails.asset)}{' '}
+                <AssetRenderer asset={pair.longDetails.asset} />
+              </>
+            </Tooltip>
           </div>
         </td>
         <td className="tw-w-full tw-hidden xl:tw-table-cell">
           <div className="tw-truncate">
-            <LoadableValue
-              value={
-                <>
-                  {weiToAssetNumberFormat(positionMargin, positionMarginAsset)}{' '}
-                  <AssetSymbolRenderer asset={positionMarginAsset} />
-                </>
-              }
-              tooltip={
+            <Tooltip
+              content={
                 <>
                   {weiToNumberFormat(positionMargin, 18)}{' '}
                   <AssetSymbolRenderer asset={positionMarginAsset} />
                 </>
               }
-            />
+            >
+              <>
+                {weiToAssetNumberFormat(positionMargin, positionMarginAsset)}{' '}
+                <AssetSymbolRenderer asset={positionMarginAsset} />
+              </>
+            </Tooltip>
           </div>
         </td>
         <td className="tw-w-full tw-hidden sm:tw-table-cell">
@@ -168,7 +160,11 @@ const OpenPositionRowInner: React.FC<IOpenPositionRowInnerProps> = ({
           </div>
         </td>
         <td className="tw-w-full tw-hidden 2xl:tw-table-cell">
-          {dayjs(nextRollover * 1e3).format('DD/MM/YYYY')}
+          {nextRollover ? (
+            dayjs(nextRollover * 1e3).format('DD/MM/YYYY')
+          ) : (
+            <>-</>
+          )}
         </td>
         <td className="tw-w-full">
           <div className="tw-flex tw-items-center tw-justify-end xl:tw-justify-around 2xl:tw-justify-start">
@@ -229,28 +225,4 @@ const OpenPositionRowInner: React.FC<IOpenPositionRowInnerProps> = ({
       </tr>
     </>
   );
-};
-
-export const OpenPositionRow: React.FC<IOpenPositionRowInnerProps> = ({
-  item,
-  nextRollover,
-}) => {
-  try {
-    const loanAsset = assetByTokenAddress(item.loanToken);
-    const collateralAsset = assetByTokenAddress(item.collateralToken);
-    const pair = TradingPairDictionary.findPair(loanAsset, collateralAsset);
-    if (!loanAsset || !collateralAsset || !pair) return <></>;
-    return <OpenPositionRowInner nextRollover={nextRollover} item={item} />;
-  } catch (e) {
-    console.error(e);
-    console.info(item);
-    return <></>;
-  }
-};
-
-const getEntryPrice = (item: OpenLoanType, position: TradingPosition) => {
-  if (position === TradingPosition.LONG) {
-    return Number(weiTo18(item.collateralToLoanRate));
-  }
-  return 1 / Number(weiTo18(item.collateralToLoanRate));
 };

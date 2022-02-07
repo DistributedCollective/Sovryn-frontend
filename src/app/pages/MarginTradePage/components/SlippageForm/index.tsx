@@ -8,7 +8,7 @@ import { AssetRenderer } from 'app/components/AssetRenderer';
 import { Slider } from 'app/components/Form/Slider';
 import { DummyInput } from 'app/components/Form/Input';
 import { fromWei } from 'utils/blockchain/math-helpers';
-import { calculateMinimumReturn } from './utils';
+import { calculateMinimumReturn } from '../../utils/marginUtils';
 import styles from './dialog.module.scss';
 import { weiToNumberFormat } from 'utils/display-text/format';
 import { sliderDefaultLabelValues } from 'app/components/Form/Slider/sliderDefaultLabelValues';

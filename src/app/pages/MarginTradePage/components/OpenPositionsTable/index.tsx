@@ -7,25 +7,21 @@ import { PendingPositionRow } from './PendingPositionRow';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { Pagination } from '../../../../components/Pagination';
-import { useMargin_OpenPositions } from '../../hooks/useMargin_OpenPositions';
+import { useMargin_GetLoans } from '../../hooks/useMargin_GetLoans';
 import { useSelector } from 'react-redux';
 import { selectTransactionArray } from 'store/global/transactions-store/selectors';
 import { TxStatus, TxType } from 'store/global/transactions-store/types';
 
-export const OpenPositionsTable: React.FC = () => {
+export function OpenPositionsTable() {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const transactions = useSelector(selectTransactionArray);
-
-  const { events, loading, totalCount } = useMargin_OpenPositions(page);
-
+  const { events, loading, totalCount } = useMargin_GetLoans(page, true);
   const isEmpty = useMemo(
     () => !loading && !events?.length && !transactions.length,
     [loading, events, transactions],
   );
-
   const onPageChanged = useCallback(data => setPage(data.currentPage), []);
-
   const onGoingTransactions = useMemo(() => {
     return (
       transactions.length > 0 && (
@@ -114,7 +110,9 @@ export const OpenPositionsTable: React.FC = () => {
         <tbody>
           {isEmpty && (
             <tr>
-              <td colSpan={99}>{t(translations.openPositionTable.noData)}</td>
+              <td colSpan={99} className="tw-text-center">
+                {t(translations.openPositionTable.noData)}
+              </td>
             </tr>
           )}
           {onGoingTransactions}
@@ -151,4 +149,4 @@ export const OpenPositionsTable: React.FC = () => {
       )}
     </>
   );
-};
+}
