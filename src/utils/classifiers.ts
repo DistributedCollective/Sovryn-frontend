@@ -83,9 +83,9 @@ export const gasLimit = {
   [TxType.DEPOSIT_COLLATERAL]: 850000,
   [TxType.WITHDRAW_COLLATERAL]: 1400000,
   [TxType.FAST_BTC_WITHDRAW]: 300000,
-  [TxType.OPEN_PERPETUAL_TRADE]: 2200000,
-  //PERP: [TxType.DEPOSIT_COLLATERAL]: 850000,
-  //PERP: [TxType.WITHDRAW_COLLATERAL]: 1400000,
+  [TxType.PERPETUAL_TRADE]: 2200000,
+  [TxType.PERPETUAL_DEPOSIT_COLLATERAL]: 850000,
+  [TxType.PERPETUAL_WITHDRAW_COLLATERAL]: 1400000,
 };
 
 export const discordInvite = 'https://discord.gg/kBTNx4zjRf'; //unlimited use, no-expiry invite

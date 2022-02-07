@@ -74,12 +74,12 @@ export const usePerpetual_openTrade = (pairType: PerpetualPairType) => {
         [order],
         {
           from: account,
-          gas: gasLimit[TxType.OPEN_PERPETUAL_TRADE],
+          gas: gasLimit[TxType.PERPETUAL_TRADE],
           gasPrice: PERPETUAL_GAS_PRICE_DEFAULT,
           nonce,
         },
         {
-          type: TxType.OPEN_PERPETUAL_TRADE,
+          type: TxType.PERPETUAL_TRADE,
           asset: Asset.PERPETUALS,
           customData,
         },

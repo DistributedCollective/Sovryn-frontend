@@ -25,11 +25,11 @@ import { TradeAnalysis } from '../types';
 
 const TxTypeLabels = {
   [TxType.APPROVE]: translations.perpetualPage.processTrade.labels.approvalTx,
-  [TxType.OPEN_PERPETUAL_TRADE]:
+  [TxType.PERPETUAL_TRADE]:
     translations.perpetualPage.processTrade.labels.tradeTx,
-  [TxType.DEPOSIT_COLLATERAL]:
+  [TxType.PERPETUAL_DEPOSIT_COLLATERAL]:
     translations.perpetualPage.processTrade.labels.marginTx,
-  [TxType.WITHDRAW_COLLATERAL]:
+  [TxType.PERPETUAL_WITHDRAW_COLLATERAL]:
     translations.perpetualPage.processTrade.labels.marginTx,
 };
 
