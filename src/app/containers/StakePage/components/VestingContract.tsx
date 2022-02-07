@@ -7,7 +7,7 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import logoSvg from 'assets/images/tokens/sov.svg';
 import { translations } from 'locales/i18n';
 import { getContract } from 'utils/blockchain/contract-helpers';
-import { weiTo4 } from 'utils/blockchain/math-helpers';
+import { weiTo4, weiTo18 } from 'utils/blockchain/math-helpers';
 import {
   vesting_getEndDate,
   vesting_getStartDate,
@@ -235,7 +235,18 @@ export function VestingContract(props: Props) {
             </td>
             <td>
               ≈{' '}
-              <LoadableValue value={weiTo4(rbtcValue)} loading={rbtc.loading} />{' '}
+              <Tooltip
+                position="bottom"
+                hoverOpenDelay={0}
+                hoverCloseDelay={0}
+                interactionKind="hover"
+                content={<>≈ {weiTo18(rbtcValue)} RBTC</>}
+              >
+                <LoadableValue
+                  value={weiTo4(rbtcValue)}
+                  loading={rbtc.loading}
+                />
+              </Tooltip>{' '}
               RBTC
             </td>
             <td className="md:tw-text-left tw-hidden md:tw-table-cell">

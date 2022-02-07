@@ -32,12 +32,15 @@ export function RewardPage() {
     availableLendingRewards,
     availableTradingRewards,
     availableLiquidityRewards,
-    availableLockedSovBalance,
     amountToClaim: rewardSovClaimAmount,
   } = useGetRewardSovClaimAmount();
 
   const liquidSovClaimAmount = useGetLiquidSovClaimAmount();
-  const feesEarnedClaimAmount = useGetFeesEarnedClaimAmount();
+  const {
+    totalAmount: totalFeesEarned,
+    earnedFees,
+    loading: feesLoading,
+  } = useGetFeesEarnedClaimAmount();
 
   return (
     <>
@@ -81,8 +84,10 @@ export function RewardPage() {
                   text={t(translations.rewardPage.sov.fee)}
                   active={activeTab === RewardTabType.FEES_EARNED}
                   onClick={() => setActiveTab(RewardTabType.FEES_EARNED)}
-                  amountToClaim={feesEarnedClaimAmount}
+                  amountToClaim={totalFeesEarned.toString()}
                   asset={Asset.RBTC}
+                  loading={feesLoading}
+                  showApproximateSign
                 />
               </div>
             </div>
@@ -92,7 +97,6 @@ export function RewardPage() {
                   availableLendingRewards={availableLendingRewards}
                   availableLiquidityRewards={availableLiquidityRewards}
                   availableTradingRewards={availableTradingRewards}
-                  availableLockedSovBalance={availableLockedSovBalance}
                   amountToClaim={rewardSovClaimAmount}
                 />
               )}
@@ -100,7 +104,11 @@ export function RewardPage() {
                 <LiquidTab amountToClaim={liquidSovClaimAmount} />
               )}
               {activeTab === RewardTabType.FEES_EARNED && (
-                <FeesEarnedTab amountToClaim={feesEarnedClaimAmount} />
+                <FeesEarnedTab
+                  amountToClaim={totalFeesEarned.toString()}
+                  earnedFees={earnedFees}
+                  loading={feesLoading}
+                />
               )}
             </div>
           </div>
