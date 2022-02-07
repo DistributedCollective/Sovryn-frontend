@@ -1,4 +1,4 @@
-import { RelayProvider } from '@opengsn/provider';
+import { RelayProvider, BaseTransactionReceipt } from '@opengsn/provider';
 import { AbiItem } from 'web3-utils';
 import Web3 from 'web3';
 import { walletService } from '@sovryn/react-wallet';
@@ -102,6 +102,16 @@ export class GsnProvider {
     return this.getContract(address, abi)
       .methods[method](...args)
       .call({ from: walletService.address.toLowerCase(), ...config });
+  }
+
+  public translateReceipt<R extends BaseTransactionReceipt>(receipt: R): R {
+    this.doCheck();
+
+    const result = this._provider?._getTranslatedGsnResponseResult(receipt);
+    return {
+      ...receipt,
+      status: result?.status && Number(result.status) > 0,
+    };
   }
 
   protected doCheck() {

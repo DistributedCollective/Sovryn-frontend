@@ -117,6 +117,7 @@ export function useGsnSendTx(
           dispatch(
             actions.addTransaction({
               chainId,
+              gsnPaymaster: useGSN ? paymaster : undefined,
               transactionHash,
               approveTransactionHash: options?.approveTransactionHash || null,
               type: options?.type || TxType.OTHER,
@@ -140,7 +141,15 @@ export function useGsnSendTx(
           dispatch(actions.setTransactionRequestDialogError(e.message));
         });
     },
-    [chainId, sendCombined, account, contractAddress, dispatch],
+    [
+      chainId,
+      sendCombined,
+      account,
+      contractAddress,
+      dispatch,
+      useGSN,
+      paymaster,
+    ],
   );
 
   const reset = useCallback(() => {

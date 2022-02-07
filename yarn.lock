@@ -3488,7 +3488,7 @@
     web3 "^1.3.6"
     web3-core "^1.3.6"
 
-"@sovryn/wallet@2.1.2", "@sovryn/wallet@^2.1.2":
+"@sovryn/wallet@^2.1.2":
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/@sovryn/wallet/-/wallet-2.1.2.tgz#a80dc3d6caed214b878a69db1dac912cf0c5e151"
   integrity sha512-F6qHfdraS1x+hnZ3SQ2ZGDeYff1kgWirPWNlB8LifTeYyEzGgrRx1LZTxcMlY2FB8wGblrszEpeMmPosH3+Mag==
@@ -5088,6 +5088,11 @@
   integrity sha512-Da66lEIFeIz9ltsdMZcpQvmrmmoqrfju8pm1BH8WbYjZSwUgCwXLb9C+9XYogwBITnbsSaMdVPb2ekf7TV+03w==
   dependencies:
     "@types/node" "*"
+
+"@types/semver@^7.3.4":
+  version "7.3.9"
+  resolved "https://registry.yarnpkg.com/@types/semver/-/semver-7.3.9.tgz#152c6c20a7688c30b967ec1841d31ace569863fc"
+  integrity sha512-L/TMpyURfBkf+o/526Zb6kd/tchUP3iBDEPjqjb+U2MAJhVRxxrmr2fwpe08E7QsV7YLcpq0tUaQ9O9x97ZIxQ==
 
 "@types/source-list-map@*":
   version "0.1.2"

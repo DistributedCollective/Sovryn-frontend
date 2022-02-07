@@ -1808,7 +1808,6 @@
       "texts": {
         "approval": "Please approve BTC to be spent by the Sovryn smart contracts in your {{wallet}} wallet",
         "confirm": "Please confirm transaction in your {{wallet}} wallet",
-        "confirmGsnHint": "While using the GSN it may take some time before the signature request is shown, because the relayer has to be confirmed first.",
         "confirmMulit": "Please confirm transaction {{current}} of {{count}} in your {{wallet}} wallet",
         "error": "Your transaction has failed due to <0>{{error}}</0> Your position has not been opened",
         "rejected": "You have chosen to reject this transaction",

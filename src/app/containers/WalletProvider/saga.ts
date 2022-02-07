@@ -15,7 +15,10 @@ import { selectWalletProvider } from './selectors';
 import { actions } from './slice';
 import { selectTransactionArray } from '../../../store/global/transactions-store/selectors';
 import { actions as txActions } from '../../../store/global/transactions-store/slice';
-import { TxStatus } from '../../../store/global/transactions-store/types';
+import {
+  TxStatus,
+  Transaction,
+} from '../../../store/global/transactions-store/types';
 import { whitelist } from '../../../utils/whitelist';
 import delay from '@redux-saga/delay-p';
 import axios from 'axios';
@@ -23,7 +26,8 @@ import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { backendUrl, currentChainId } from '../../../utils/classifiers';
 import { bridgeNetwork } from '../../pages/BridgeDepositPage/utils/bridge-network';
 import { BridgeNetworkDictionary } from '../../pages/BridgeDepositPage/dictionaries/bridge-network-dictionary';
-import { Chain } from '../../../types';
+import { Chain, Nullable } from '../../../types';
+import { gsnNetwork } from '../../../utils/gsn/GsnNetwork';
 
 // start block watcher
 function createBlockPollChannel({ interval, web3 }) {
@@ -155,22 +159,37 @@ function* whitelistCheckSaga() {
 
 function* callTestTransactionsState() {
   let hasChanges = false;
-  const transactions = yield select(selectTransactionArray);
+  const transactions: Transaction[] = yield select(selectTransactionArray);
   const txes = transactions.filter(item => item.status === TxStatus.PENDING);
 
   for (let tx of txes) {
-    const receipt: TransactionReceipt = yield call(
+    let receipt: Nullable<TransactionReceipt> = yield call(
       [bridgeNetwork, bridgeNetwork.receipt],
       (tx.chainId && BridgeNetworkDictionary.getByChainId(tx.chainId)?.chain) ||
         Chain.RSK,
       tx.transactionHash,
     );
-    if (receipt === null) {
+
+    if (!receipt) {
       continue;
     }
+
+    if (tx.chainId && tx.gsnPaymaster) {
+      try {
+        console.log('receipt gsn pre', receipt);
+        receipt = gsnNetwork
+          .getProvider(tx.chainId, tx.gsnPaymaster)
+          .translateReceipt(receipt);
+        console.log('receipt gsn post', receipt);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
     if (receipt?.status) {
       hasChanges = true;
     }
+
     yield put(
       txActions.updateTransactionStatus({
         transactionHash: tx.transactionHash,

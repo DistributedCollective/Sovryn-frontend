@@ -72,7 +72,6 @@ export interface Transactions {
 }
 
 export interface Transaction {
-  chainId?: number;
   transactionHash: string;
   approveTransactionHash: Nullable<string>;
   type: TxType;
@@ -84,6 +83,8 @@ export interface Transaction {
   asset: Nullable<Asset | string>;
   assetAmount: Nullable<string>;
   customData?: { [key: string]: any };
+  chainId?: number;
+  gsnPaymaster?: string;
 }
 
 export interface RequestDialogState {
