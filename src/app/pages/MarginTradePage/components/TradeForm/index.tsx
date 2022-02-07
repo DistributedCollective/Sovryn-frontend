@@ -102,10 +102,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     }
   }, [dispatch, pair]);
 
-  const submit = useCallback(order => dispatch(actions.submit(order)), [
-    dispatch,
-  ]);
-
   const validate = useMemo(() => {
     return (
       bignumber(weiAmount).greaterThan(0) &&
