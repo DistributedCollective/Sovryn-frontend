@@ -6,6 +6,8 @@ import { gas } from './blockchain/gas-price';
 import { Asset } from '../types';
 import { ProviderType } from '@sovryn/wallet';
 import { walletService } from '@sovryn/react-wallet';
+import { CachedAssetRate } from 'app/containers/WalletProvider/types';
+import { numberFromWei } from './blockchain/math-helpers';
 
 export const isObjectEmpty = (obj: {}) => {
   return Object.keys(obj).length === 0 && obj.constructor === Object;
@@ -241,3 +243,22 @@ export const isNullOrUndefined = val => val === undefined || val === null;
 // (b - a) / |a| * 100
 export const percentageChange = (a: Decimal.Value, b: Decimal.Value) =>
   bignumber(bignumber(b).minus(a)).div(bignumber(a).abs()).mul(100).toString();
+
+export const calculateAssetValue = (
+  asset: Asset,
+  amount: string,
+  targetAsset: Asset = Asset.RBTC,
+  assetRates: CachedAssetRate[],
+) => {
+  if (asset === targetAsset) {
+    return Number(amount);
+  }
+
+  const rate = fixNumber(
+    assetRates.find(
+      assetRate =>
+        assetRate.source === asset && assetRate.target === targetAsset,
+    )?.value?.rate,
+  );
+  return numberFromWei(bignumber(amount).mul(rate));
+};
