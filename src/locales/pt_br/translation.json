@@ -609,10 +609,13 @@
     "viewGovernance": "Governança",
     "addStake": "Novo investimento",
     "feeTitle": "Dividendos disponíveis",
+    "sentLendingPool": "{{asset}} será enviado para o pool de empréstimos.",
+    "convertedToRBTC": "{{asset}} será convertido em RBTC e enviado diretamente para sua carteira.",
     "noUnlockedSov": "Você não possui SOV disponíveis para investimento",
     "txFee": "Taxa de rede",
     "sov": "SOV",
     "days": "dias",
+    "vestingFees": "Vested SOV",
     "delegation": {
       "delegateTo": "Delegar para",
       "delegatedTo": "Delegado para",
