@@ -46,11 +46,17 @@ const createClient = (endpoint: GraphQLEndpoint) =>
     }),
   });
 
+const MAX_ALLOWED_BLOCK_BEHIND = 15; // ~45 seconds
+const RETRY_DELAY = 2 * 60 * 1000; // 2 minutes
+const MAX_TEST_SCORE = 4; // number of tests, can change in future
+
 type EvaluationResult = {
   score: number;
   isUp?: boolean;
   isSynced?: boolean;
   isHealthy?: boolean;
+  isKeepingUp?: boolean;
+  blocksBehind?: number;
 };
 
 const evaluateEndpoint = async (endpoint: GraphQLEndpoint) => {
@@ -59,6 +65,7 @@ const evaluateEndpoint = async (endpoint: GraphQLEndpoint) => {
     isUp: undefined,
     isSynced: undefined,
     isHealthy: undefined,
+    isKeepingUp: undefined,
   };
 
   try {
@@ -101,6 +108,21 @@ const evaluateEndpoint = async (endpoint: GraphQLEndpoint) => {
         result.score++;
         result.isHealthy = true;
       }
+      if (
+        entry.chains?.[0]?.chainHeadBlock?.number &&
+        entry.chains?.[0]?.latestBlock?.number
+      ) {
+        const blocksBehind =
+          entry.chains[0].chainHeadBlock.number -
+          entry.chains[0].latestBlock.number;
+        if (blocksBehind > MAX_ALLOWED_BLOCK_BEHIND) {
+          result.isKeepingUp = false;
+        } else {
+          result.score += 1 - blocksBehind / (MAX_ALLOWED_BLOCK_BEHIND + 1);
+          result.isKeepingUp = true;
+        }
+        result.blocksBehind = blocksBehind;
+      }
     }
   } catch (error) {
     console.error('Failed to evaluate graph endpoint!', error);
@@ -110,6 +132,7 @@ const evaluateEndpoint = async (endpoint: GraphQLEndpoint) => {
 };
 
 // TODO: add Perpetual GraphQL mainnet urls
+// fallback endpoint has to always be the last entry.
 const config: GraphQLEndpoint[] = [
   {
     graph:
@@ -122,9 +145,6 @@ const config: GraphQLEndpoint[] = [
     isFallback: true,
   },
 ];
-
-const RETRY_DELAY = 2 * 60 * 1000; // 2 minutes
-const MAX_TEST_SCORE = 3; // number of tests, can change in future
 
 type GraphQLProviderProps = {
   children: React.ReactNode;
@@ -151,9 +171,14 @@ export const GraphQLProvider: React.FC<GraphQLProviderProps> = ({
             `GraphQL endpoint is healthy and synced! Continuing to use "${activeEndpoint.graph}".`,
           );
           return;
+        } else if (activeEndpoint.isFallback) {
+          // TODO: add index to private fallback graph to be able to properly evaluate it.
+          bestEvaluation.score = bestEvaluation.score > 0 ? MAX_TEST_SCORE : 0;
         }
         console.info(
-          `GraphQL endpoint is lacking! ${JSON.stringify(bestEvaluation)}`,
+          `GraphQL endpoint is ${
+            activeEndpoint.isFallback ? 'the fallback' : 'lacking'
+          }! ${JSON.stringify(bestEvaluation)}`,
           `Evaluating alternatives!`,
         );
 
@@ -166,7 +191,7 @@ export const GraphQLProvider: React.FC<GraphQLProviderProps> = ({
           const evaluation = await evaluateEndpoint(endpoint);
 
           if (
-            evaluation.score > bestEvaluation.score ||
+            evaluation.score >= bestEvaluation.score ||
             (endpoint.isFallback && evaluation.isUp)
           ) {
             bestEvaluation = evaluation;
