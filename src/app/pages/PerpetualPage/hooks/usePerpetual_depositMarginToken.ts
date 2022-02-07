@@ -42,7 +42,7 @@ export const usePerpetual_depositMarginToken = (
         },
         {
           type: TxType.PERPETUAL_DEPOSIT_COLLATERAL,
-          asset: Asset.PERPETUALS,
+          asset: Asset.BTCS,
           customData,
         },
       );

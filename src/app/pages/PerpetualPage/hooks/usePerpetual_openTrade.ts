@@ -80,7 +80,7 @@ export const usePerpetual_openTrade = (pairType: PerpetualPairType) => {
         },
         {
           type: TxType.PERPETUAL_TRADE,
-          asset: Asset.PERPETUALS,
+          asset: Asset.BTCS,
           customData,
         },
       );

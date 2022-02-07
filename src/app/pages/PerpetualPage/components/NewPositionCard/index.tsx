@@ -36,7 +36,7 @@ export const NewPositionCardContext = React.createContext<
   hasOpenPosition: false,
   trade: {
     pairType: PerpetualPairType.BTCUSD,
-    collateral: Asset.PERPETUALS,
+    collateral: Asset.BTCS,
     position: TradingPosition.LONG,
     tradeType: PerpetualTradeType.MARKET,
     amount: '0',

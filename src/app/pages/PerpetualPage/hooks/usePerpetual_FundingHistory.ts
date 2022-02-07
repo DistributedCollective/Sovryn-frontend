@@ -54,7 +54,7 @@ const placeholderFetch = async (
     entries.push({
       id: i.toString(16),
       amount,
-      asset: Asset.PERPETUALS,
+      asset: Asset.BTCS,
       time: new Date().toISOString(),
       action: actions[i % actions.length],
       status: statuses[i % statuses.length],

@@ -93,7 +93,7 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
         'PERPETUALS_token',
         getContract('perpetualManager').address,
         approvalAmount,
-        Asset.PERPETUALS,
+        Asset.BTCS,
         current,
       )
         .then(result => {

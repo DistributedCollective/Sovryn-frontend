@@ -36,7 +36,7 @@ export const usePerpetual_withdrawAll = (pairType: PerpetualPairType) => {
           },
           {
             type: TxType.PERPETUAL_WITHDRAW_COLLATERAL,
-            asset: Asset.PERPETUALS,
+            asset: Asset.BTCS,
             customData,
           },
         );
