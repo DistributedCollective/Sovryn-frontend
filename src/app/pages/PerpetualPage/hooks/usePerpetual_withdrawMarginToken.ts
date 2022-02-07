@@ -42,7 +42,7 @@ export const usePerpetual_withdrawMarginToken = (
         },
         {
           type: TxType.PERPETUAL_WITHDRAW_COLLATERAL,
-          asset: Asset.PERPETUALS,
+          asset: Asset.BTCS,
           customData,
         },
       );

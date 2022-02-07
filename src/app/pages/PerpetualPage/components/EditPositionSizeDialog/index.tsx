@@ -54,7 +54,7 @@ export const EditPositionSizeDialog: React.FC = () => {
   const [changedTrade, setChangedTrade] = useState<PerpetualTrade>({
     pairType: trade?.pairType || PerpetualPairType.BTCUSD,
     tradeType: trade?.tradeType || PerpetualTradeType.MARKET,
-    collateral: trade?.collateral || Asset.PERPETUALS,
+    collateral: trade?.collateral || Asset.BTCS,
     position: trade?.position || TradingPosition.LONG,
     slippage: trade?.slippage || PERPETUAL_SLIPPAGE_DEFAULT,
     leverage: trade?.leverage || 0,
@@ -83,7 +83,7 @@ export const EditPositionSizeDialog: React.FC = () => {
         ...changedTrade,
         pairType: trade?.pairType || PerpetualPairType.BTCUSD,
         tradeType: trade?.tradeType || PerpetualTradeType.MARKET,
-        collateral: trade?.collateral || Asset.PERPETUALS,
+        collateral: trade?.collateral || Asset.BTCS,
         position: trade?.position || TradingPosition.LONG,
         slippage: trade?.slippage || PERPETUAL_SLIPPAGE_DEFAULT,
         leverage: trade?.leverage || 0,

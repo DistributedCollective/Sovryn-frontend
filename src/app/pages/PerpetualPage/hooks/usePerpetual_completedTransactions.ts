@@ -23,7 +23,7 @@ export const usePerpetual_completedTransactions = () => {
           TxType.PERPETUAL_WITHDRAW_COLLATERAL,
           TxType.PERPETUAL_TRADE,
         ].includes(transaction.type) &&
-        transaction.asset === Asset.PERPETUALS &&
+        transaction.asset === Asset.BTCS &&
         [TxStatus.CONFIRMED, TxStatus.FAILED].includes(transaction.status) &&
         !completedTransactions[transaction.transactionHash],
     );

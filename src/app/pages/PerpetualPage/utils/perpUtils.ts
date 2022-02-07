@@ -13,17 +13,15 @@ import {
   calculateLiquidationPriceCollateralQuanto,
   calculateLiquidationPriceCollateralBase,
   getPricesAndTradesForPercentRage,
-  getMaxLeveragePosition,
   isTraderMarginSafe,
-  cdfNormalStd,
   COLLATERAL_CURRENCY_QUOTE,
   COLLATERAL_CURRENCY_BASE,
   COLLATERAL_CURRENCY_QUANTO,
   getMarginBalanceCC,
-  roundToLot,
 } from './perpMath';
 import { numberFromWei } from 'utils/blockchain/math-helpers';
 import { gasLimit } from 'utils/classifiers';
+import { TxType } from '../../../../store/global/transactions-store/types';
 
 /*---
 // Suffix CC/BC/QC:
@@ -1119,7 +1117,7 @@ export function getRequiredMarginCollateralWithGasFees(
   );
 
   if (useMetaTransactions) {
-    requiredCollateral += numberFromWei(gasLimit.open_perpetual_trade);
+    requiredCollateral += numberFromWei(gasLimit[TxType.PERPETUAL_TRADE]);
   }
 
   return requiredCollateral;

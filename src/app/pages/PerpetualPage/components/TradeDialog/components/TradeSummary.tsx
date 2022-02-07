@@ -18,7 +18,7 @@ import {
   TxStatus,
 } from '../../../../../../store/global/transactions-store/types';
 import { LinkToExplorer } from '../../../../../components/LinkToExplorer';
-import { TxStatusIcon } from '../../../../../components/Dialogs/TxDialog';
+import { StatusComponent } from '../../../../../components/Dialogs/TxDialog';
 import { RecentTradesContext } from '../../../contexts/RecentTradesContext';
 import { RecentTradesDataEntry } from '../../RecentTradesTable/types';
 import { TradeAnalysis } from '../types';
@@ -283,7 +283,7 @@ const LabeledTransactionHash: React.FC<LabeledTransactionHashProps> = ({
       )}
     </span>
     {transaction.status !== TxStatus.NONE && (
-      <TxStatusIcon
+      <StatusComponent
         className="tw-ml-2 tw-w-6 tw-h-6"
         status={trade ? TxStatus.CONFIRMED : transaction.status}
         isInline

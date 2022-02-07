@@ -71,7 +71,7 @@ export const StatusScreen: React.FC<StatusScreenProps> = ({ tx }) => {
         {expandedTxInfo ? (
           <>
             <div className="tw-w-full">
-              <StatusComponent status={tx.status} onlyImage />
+              <StatusComponent status={tx.status} showLabel={false} />
 
               <div className="tw-w-full tw-px-8 tw-py-4 tw-bg-gray-5 tw-text-center tw-mb-8 tw-rounded">
                 <div className="tw-mb-2 tw-text-lg">

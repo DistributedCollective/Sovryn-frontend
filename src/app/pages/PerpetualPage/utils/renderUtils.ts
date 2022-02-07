@@ -5,7 +5,7 @@ import unknown from 'assets/images/error_white.svg';
 
 export const getCollateralName = (collateral: Asset): string => {
   switch (collateral) {
-    case Asset.PERPETUALS:
+    case Asset.BTCS:
       return 'BTC';
     default:
       const assetDetails = AssetsDictionary.get(collateral);
@@ -15,7 +15,7 @@ export const getCollateralName = (collateral: Asset): string => {
 
 export const getCollateralLogo = (collateral: Asset): string => {
   switch (collateral) {
-    case Asset.PERPETUALS:
+    case Asset.BTCS:
       return perpetualLogo;
     default:
       const assetDetails = AssetsDictionary.get(collateral);
