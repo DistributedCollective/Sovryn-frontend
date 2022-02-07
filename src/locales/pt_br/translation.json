@@ -1619,18 +1619,18 @@
         "title": "Cancelar",
         "message": "Cancelar ordem {{tradeType}}"
       }
-    },
-    "pairNavbar": {
-      "pair": "Pares",
-      "asset": "Ativo",
-      "lastTradedPrice": "Último preço",
-      "dayChange": "24H oscilação",
-      "dayPercentChange": "24hr % oscilação",
-      "dayLow": "24hr baixa:",
-      "dayHigh": "24hr alta:",
-      "all": "TODOS",
-      "search": "Procurar"
     }
+  },
+  "pairNavbar": {
+    "pair": "Par",
+    "asset": "Ativo",
+    "lastTradedPrice": "Último preço",
+    "dayChange": "24H oscilação",
+    "dayPercentChange": "24hr % oscilação",
+    "dayLow": "24hr baixa:",
+    "dayHigh": "24hr alta:",
+    "all": "TUDO",
+    "search": "Procurar"
   },
   "form": {
     "select": {
