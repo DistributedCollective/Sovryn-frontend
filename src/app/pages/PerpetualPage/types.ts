@@ -11,7 +11,9 @@ import { toWei } from '../../../utils/blockchain/math-helpers';
 export const PERPETUAL_SLIPPAGE_DEFAULT = 0.005;
 export const PERPETUAL_CHAIN_ID =
   getBridgeChainId(Chain.BSC) || ChainId.BSC_MAINNET;
-export const PERPETUAL_PAYMASTER = '0xdD264d4AF1A045b9AC9E23e77CeA0D346dACD9aA';
+export const PERPETUAL_PAYMASTER = isMainnet
+  ? '' // TODO: add mainnet paymaster address
+  : '0x8ec68a63E34e94218088b42B784bB45d8c31c61A';
 
 export const PERPETUAL_GAS_PRICE_DEFAULT = isMainnet
   ? undefined

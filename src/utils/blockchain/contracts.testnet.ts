@@ -309,12 +309,12 @@ export const contracts = {
 
   // TODO: These are competition contracts, don't use them once we have a subgraph for our regular contracts
   perpetualManager: {
-    address: '0xE771Fcb6Ee52cB2B7f463e6E8C2fC48371B3E771',
+    address: '0xa098D388e01F27055c43c61F98f312777CD32E9C',
     abi: perpetualManagerAbi,
     chainId: ChainId.BSC_TESTNET,
   },
   PERPETUALS_token: {
-    address: '0xb6A15e9c511bD92C8Ff3795A0c3E7d6bB2231164',
+    address: '0x1fe93776aCB9F0f98718c7bF7ca2158Adc4b3337',
     abi: marginTokenAbi,
     chainId: ChainId.BSC_TESTNET,
   },
