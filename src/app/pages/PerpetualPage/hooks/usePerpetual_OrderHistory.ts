@@ -14,6 +14,7 @@ import {
   Event,
   useGetTraderEvents,
   OrderDirection,
+  EventQuery,
 } from './graphql/useGetTraderEvents';
 import { ABK64x64ToWei } from '../utils/contractUtils';
 import { BigNumber } from 'ethers';
@@ -61,22 +62,22 @@ export const usePerpetual_OrderHistory = (
   // page and per page is not used, as Trade and Liquidate Events are combined into one Paginated Table
   // According to Remy a backend solution is not possible, vasili decided to throw out queried pagination.
   const eventQuery = useMemo(
-    () => [
+    (): EventQuery[] => [
       {
         event: Event.TRADE,
         orderBy: 'blockTimestamp',
         orderDirection: OrderDirection.desc,
-        page: 0,
+        page: 1,
         perPage: 1000,
-        where: `perpetual: ${JSON.stringify(pair.id)}`,
+        whereCondition: `perpetual: ${JSON.stringify(pair.id)}`,
       },
       {
         event: Event.LIQUIDATE,
         orderBy: 'blockTimestamp',
         orderDirection: OrderDirection.desc,
-        page: 0,
+        page: 1,
         perPage: 1000,
-        where: `perpetual: ${JSON.stringify(pair.id)}`,
+        whereCondition: `perpetual: ${JSON.stringify(pair.id)}`,
       },
     ],
     [pair.id],

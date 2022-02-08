@@ -423,16 +423,16 @@ export function Header() {
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
                 </div>
               </NavPopover>
-              {/* <NavPopover
+              <NavPopover
                 content={
                   <BPMenu>
-                    <MenuItem
+                    {/* <MenuItem
                       text={t(translations.mainMenu.myntToken)}
                       className="bp3-popover-dismiss"
                       href="/mynt-token"
                       rel="noopener noreferrer"
                       data-action-id="header-origins-link-launchpad"
-                    />
+                    /> */}
                     <MenuItem
                       text={t(translations.mainMenu.perpetual)}
                       className="bp3-popover-dismiss"
@@ -455,7 +455,7 @@ export function Header() {
                   </span>
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
                 </div>
-              </NavPopover> */}
+              </NavPopover>
             </div>
           </div>
           <div className="tw-flex tw-justify-start tw-items-center">
