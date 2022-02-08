@@ -176,11 +176,9 @@ function* callTestTransactionsState() {
 
     if (tx.chainId && tx.gsnPaymaster) {
       try {
-        console.log('receipt gsn pre', receipt);
         receipt = gsnNetwork
           .getProvider(tx.chainId, tx.gsnPaymaster)
           .translateReceipt(receipt);
-        console.log('receipt gsn post', receipt);
       } catch (error) {
         console.error(error);
       }
