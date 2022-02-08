@@ -48,6 +48,7 @@ import { usePriceFeeds_tradingPairRates } from './hooks/price-feeds/usePriceFeed
 import { BridgeDepositPage } from './pages/BridgeDepositPage/Loadable';
 import { BridgeWithdrawPage } from './pages/BridgeWithdrawPage/Loadable';
 import { FastBtcPage } from './pages/FastBtcPage/Loadable';
+import { FAQ } from './components/FAQ';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -78,6 +79,7 @@ export function App() {
         <>
           <WalletProvider>
             <NetworkRibbon />
+            <FAQ />
             <Switch>
               <Route exact path="/" component={LandingPage} />
               <Route exact path="/buy-sov" component={BuySovPage} />
