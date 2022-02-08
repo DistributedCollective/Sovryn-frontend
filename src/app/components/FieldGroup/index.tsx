@@ -13,6 +13,7 @@ interface Props {
   children: React.ReactNode;
   labelColor?: string;
   className?: string;
+  dataActionId?: string;
 }
 
 export function FieldGroup(props: Props) {
@@ -21,7 +22,7 @@ export function FieldGroup(props: Props) {
       <Label className="tw-mb-2 tw-text-sov-white" color={props.labelColor}>
         {props.label}
       </Label>
-      <Content>{props.children}</Content>
+      <Content data-action-id={props.dataActionId}>{props.children}</Content>
     </Div>
   );
 }

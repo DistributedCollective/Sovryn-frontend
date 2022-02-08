@@ -71,6 +71,7 @@ export const MiningPool: React.FC<IMiningPoolProps> = ({
           className="tw-block tw-w-full tw-mb-3 tw-rounded-lg tw-bg-primary-25 hover:tw-opacity-75"
           textClassName="tw-text-base"
           disabled={!canInteract || addliquidityLocked}
+          data-action-id={`yieldFarm-depositButton-${pool.key}`}
         />
         <ActionButton
           text={t(translations.liquidityMining.withdraw)}
@@ -78,6 +79,7 @@ export const MiningPool: React.FC<IMiningPoolProps> = ({
           className="tw-block tw-w-full tw-rounded-lg"
           textClassName="tw-text-base"
           disabled={!canInteract || isEmptyBalance || removeliquidityLocked}
+          data-action-id={`yieldFarm-withdrawalButton-${pool.key}`}
         />
       </div>
     );

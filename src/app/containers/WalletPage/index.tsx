@@ -11,7 +11,7 @@ import { Tab } from '../../components/Tab';
 import { UserAssets } from '../../components/UserAssets';
 import { VestedAssets } from '../../components/UserAssets/VestedAssets';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
-import { TopUpHistory } from '../FastBtcDialog/components/TopUpHistory';
+import { TopUpHistory } from './components/TopUpHistory';
 import { SwapHistory } from '../SwapHistory';
 import { VestedHistory } from '../VestedHistory';
 import { OriginClaimBanner } from './components/OriginClaimBanner';
