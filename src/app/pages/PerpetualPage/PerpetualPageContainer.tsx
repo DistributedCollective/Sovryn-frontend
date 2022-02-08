@@ -5,10 +5,11 @@ import { Helmet } from 'react-helmet-async';
 import { Tab } from '../../components/Tab';
 import { actions as walletProviderActions } from 'app/containers/WalletProvider/slice';
 
-import { useInjectReducer } from 'utils/redux-injectors';
+import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import { translations } from 'locales/i18n';
 
 import { reducer, sliceKey, actions } from './slice';
+import { perpetualPageSaga } from './saga';
 import { HeaderLabs } from '../../components/HeaderLabs';
 import { Footer } from '../../components/Footer';
 import {
@@ -45,10 +46,10 @@ import { FundingPaymentsTable } from './components/FundingPaymentsTable/index';
 import { PerpetualQueriesContextProvider } from './contexts/PerpetualQueriesContext';
 import { PairSelector } from './components/PairSelector';
 import { ToastsWatcher } from './components/ToastsWatcher';
-import { gsnNetwork } from '../../../utils/gsn/GsnNetwork';
 
 export const PerpetualPageContainer: React.FC = () => {
   useInjectReducer({ key: sliceKey, reducer });
+  useInjectSaga({ key: sliceKey, saga: perpetualPageSaga });
 
   const dispatch = useDispatch();
   const walletContext = useWalletContext();
@@ -58,9 +59,7 @@ export const PerpetualPageContainer: React.FC = () => {
     setShowNotificationSettingsModal,
   ] = useState(false);
 
-  const { pairType, collateral, useMetaTransactions } = useSelector(
-    selectPerpetualPage,
-  );
+  const { pairType, collateral } = useSelector(selectPerpetualPage);
   const { t } = useTranslation();
 
   const location = useLocation<IPromotionLinkState>();
@@ -107,15 +106,6 @@ export const PerpetualPageContainer: React.FC = () => {
     // only run once on mounting
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    if (connected && useMetaTransactions) {
-      if (!gsnNetwork.isSupportedByConnectedWallet()) {
-        dispatch(actions.setUseMetaTransactions(false));
-        dispatch(walletProviderActions.setSignTypedRequired(false));
-      }
-    }
-  }, [connected, useMetaTransactions, dispatch]);
 
   return (
     <RecentTradesContextProvider pair={pair}>

@@ -8,18 +8,9 @@ import classNames from 'classnames';
 import { getPriceColor, getPriceChange } from '../RecentTradesTable/utils';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { RecentTradesContext } from '../../contexts/RecentTradesContext';
-import { Switch, Tooltip } from '@blueprintjs/core';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectPerpetualPage } from '../../selectors';
-import { actions } from '../../slice';
-import { useTranslation } from 'react-i18next';
-import { translations } from '../../../../../locales/i18n';
 import { getCollateralName, getCollateralLogo } from '../../utils/renderUtils';
 import { Asset } from '../../../../../types';
-import { gsnNetwork } from '../../../../../utils/gsn/GsnNetwork';
-import { useWalletContext } from '@sovryn/react-wallet';
-import { actions as walletProviderActions } from 'app/containers/WalletProvider/slice';
-import { useMaintenance } from '../../../../hooks/useMaintenance';
+import { GsnSwitch } from '../GsnSwitch/GsnSwitch';
 
 type PairSelectorProps = {
   pair: PerpetualPair;
@@ -34,33 +25,10 @@ export const PairSelector: React.FC<PairSelectorProps> = ({
   collateral,
   onChange,
 }) => {
-  const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const { useMetaTransactions } = useSelector(selectPerpetualPage);
-  const { wallet } = useWalletContext();
-
-  const { checkMaintenance, States } = useMaintenance();
-  const isGsnInMaintenance = useMemo(
-    () =>
-      checkMaintenance(States.PERPETUALS) ||
-      checkMaintenance(States.PERPETUALS_GSN),
-    [checkMaintenance, States],
-  );
-
   const [collateralLogo, collateralName] = useMemo(
     () => [getCollateralLogo(collateral), getCollateralName(collateral)],
     [collateral],
   );
-
-  const isGsnSupported = useMemo(
-    () => wallet.providerType && gsnNetwork.isSupportedByConnectedWallet(),
-    [wallet.providerType],
-  );
-
-  const onToggleMetaTransactions = useCallback(() => {
-    dispatch(walletProviderActions.setSignTypedRequired(!useMetaTransactions));
-    dispatch(actions.setUseMetaTransactions(!useMetaTransactions));
-  }, [dispatch, useMetaTransactions]);
 
   return (
     <div className="tw-w-full tw-bg-gray-3">
@@ -84,43 +52,7 @@ export const PairSelector: React.FC<PairSelectorProps> = ({
           ))}
         </div>
         <div className="tw-flex tw-flex-row tw-items-center tw-px-4">
-          <Tooltip
-            popoverClassName="tw-max-w-md tw-font-light"
-            position="bottom-left"
-            content={
-              <>
-                {isGsnInMaintenance && (
-                  <p className="tw-block tw-mb-2 tw-text-warning">
-                    {t(translations.common.maintenance)}
-                  </p>
-                )}
-                {!isGsnSupported && (
-                  <p className="tw-block tw-mb-2 tw-text-warning">
-                    {t(
-                      translations.perpetualPage.pairSelector.tooltips
-                        .gsnUnsupported,
-                    )}
-                  </p>
-                )}
-                {t(
-                  useMetaTransactions
-                    ? translations.perpetualPage.pairSelector.tooltips
-                        .gsnEnabled
-                    : translations.perpetualPage.pairSelector.tooltips
-                        .gsnDisabled,
-                )}
-              </>
-            }
-          >
-            <Switch
-              className="tw-mb-0"
-              large
-              label={t(translations.perpetualPage.pairSelector.gsn)}
-              disabled={isGsnInMaintenance || !isGsnSupported}
-              checked={useMetaTransactions}
-              onChange={onToggleMetaTransactions}
-            />
-          </Tooltip>
+          <GsnSwitch />
         </div>
       </div>
     </div>

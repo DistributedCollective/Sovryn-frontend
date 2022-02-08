@@ -80,7 +80,8 @@
     "perpetualsAccountFund": "Sorry, perpetual swap deposits are currently under maintenance, please check our discord (link in footer) for updates.",
     "perpetualsAccountWithdraw": "Sorry, perpetual swap withdrawals are currently under maintenance, please check our discord (link in footer) for updates.",
     "perpetualsAccountTransfer": "Sorry, perpetual swap transfers are currently under maintenance, please check our discord (link in footer) for updates.",
-    "perpetualsTrade": "Sorry, perpetual swap trades are currently under maintenance, please check our discord (link in footer) for updates."
+    "perpetualsTrade": "Sorry, perpetual swap trades are currently under maintenance, please check our discord (link in footer) for updates.",
+    "perpetualsGsn": "Sorry, perpetual swap GSN is currently under maintenance, please check our discord (link in footer) for updates. Transactions without GSN may still work."
   },
   "homePage": {
     "title": "Home Page",
