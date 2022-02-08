@@ -27,6 +27,7 @@ export const useGetLiquidSovClaimAmount = () => {
     let checks = 30;
     let amount = 0;
     let lastWithdrawalInterval = 0;
+    let restartTime = 0;
 
     // If lastWithdrawalInterval > 0 and amount = 0
     // call getStakerCurrentReward(True, lastWithdrawalInterval)
@@ -54,13 +55,17 @@ export const useGetLiquidSovClaimAmount = () => {
           amount: bignumber(response.amount).toNumber(),
         }));
 
+      if (result.amount > 0) {
+        restartTime = lastWithdrawalInterval;
+      }
+
       lastWithdrawalInterval = result.lastWithdrawalInterval;
       amount = result.amount;
       checks--;
     }
 
     return {
-      lastWithdrawalInterval,
+      lastWithdrawalInterval: restartTime,
       amount: bignumber(amount).toString(),
     };
   }, [address]);
