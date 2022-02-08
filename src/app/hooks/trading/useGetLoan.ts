@@ -2,6 +2,8 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Contract } from 'web3-eth-contract';
 import { getWeb3Contract } from 'utils/blockchain/contract-helpers';
 import { appContracts } from '../../../utils/blockchain/app-contracts';
+import { currentNetwork } from 'utils/classifiers';
+import { AppMode } from 'types';
 
 export interface ActiveLoan {
   collateral: string;
@@ -36,8 +38,11 @@ export function useGetLoan() {
 
   const fetch = useCallback(loanId => {
     setLoading(true);
-    web3ContractRef?.current?.methods
-      .getLoan(loanId)
+    // method available on testnet only until this PR is deployed to mainnet
+    // https://github.com/DistributedCollective/Sovryn-smart-contracts/pull/412
+    const getLoanFnName =
+      currentNetwork === AppMode.MAINNET ? 'getLoan' : 'getLoanV2';
+    web3ContractRef?.current?.methods[getLoanFnName](loanId)
       .call()
       .then(data => {
         setValue(data);

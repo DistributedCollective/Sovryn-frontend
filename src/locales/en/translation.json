@@ -884,7 +884,7 @@
     "title": "My Debts",
     "tabs": {
       "active": "Active",
-      "history": "Repaid"
+      "history": "History"
     },
     "walletNote": "Connect your wallet first!"
   },
