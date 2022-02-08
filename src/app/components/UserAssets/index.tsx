@@ -284,12 +284,12 @@ const AssetRow: React.FC<IAssetRowProps> = ({
         <div className="tw-w-full tw-flex tw-flex-row tw-space-x-4 tw-justify-end">
           {item.asset === Asset.RBTC && (
             <>
-              <Link to="/fast-btc/deposit">
-                <span>{t(translations.common.deposit)}</span>
-              </Link>
               <button className={styles.actionLink} onClick={onTransack}>
                 {t(translations.userAssets.actions.buy)}
               </button>
+              <Link to="/fast-btc/deposit">
+                <span>{t(translations.common.deposit)}</span>
+              </Link>
               <Link to="/fast-btc/withdraw">
                 <span>{t(translations.common.withdraw)}</span>
               </Link>
