@@ -37,7 +37,7 @@ export const LiquidatedPositionRow: React.FC<LiquidatedPositionRowProps> = ({
             liquidatedLoan.positionSizeChange,
             collateralAsset,
           )}{' '}
-          <AssetRenderer asset={collateralAsset} />
+          <AssetRenderer asset={loanAsset} />
         </div>
       </td>
       <td>
