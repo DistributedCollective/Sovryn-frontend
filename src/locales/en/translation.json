@@ -1852,7 +1852,7 @@
     "orderHistory": "Order History",
     "fundingPayments": "Funding Payments",
     "openPositionsTable": {
-      "pair": "Pair",
+      "pair": "Symbol",
       "positionSize": "Position Size",
       "value": "Value",
       "entryPrice": "Entry Price",
