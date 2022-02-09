@@ -19,6 +19,7 @@
     "next": "Next",
     "loading": "Loading...",
     "retry": "Retry",
+    "continueToFailure": "I understand the risks of transaction failure, allow me to continue",
     "unit": {
       "day": "{{count}} day",
       "day_plural": "{{count}} days"

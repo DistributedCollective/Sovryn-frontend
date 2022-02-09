@@ -1,8 +1,9 @@
 import cn from 'classnames';
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { toWei } from 'web3-utils';
+import { Checkbox } from '@blueprintjs/core';
 
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
@@ -53,7 +54,10 @@ import { bignumber } from 'mathjs';
 import { TradeEventData } from '../../../../../types/active-loan';
 import { usePositionLiquidationPrice } from '../../../../hooks/trading/usePositionLiquidationPrice';
 import { useSwapsExternal_getSwapExpectedReturn } from 'app/hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
-import { useWeiAmount } from 'app/hooks/useWeiAmount';
+import {
+  totalDeposit,
+  _getMarginBorrowAmountAndRate,
+} from './trading-dialog.helpers';
 
 const TradeLogInputs = [
   {
@@ -151,13 +155,42 @@ export function TradeDialog() {
   } = useTrading_resolvePairTokens(pair, position, collateral);
   const contractName = getLendingContractName(loanToken);
 
-  const { value } = useSwapsExternal_getSwapExpectedReturn(
+  const [borrowAmount, setBorrowAmount] = useState('0');
+
+  useEffect(() => {
+    const run = async () => {
+      const _totalDeposit = await totalDeposit(
+        getTokenContract(collateralToken).address,
+        getTokenContract(loanToken).address,
+        useLoanTokens ? '0' : amount,
+        useLoanTokens ? amount : '0',
+      );
+      const _marginBorrow = await _getMarginBorrowAmountAndRate(
+        loanToken,
+        leverage,
+        _totalDeposit,
+      );
+      return _marginBorrow.borrowAmount;
+    };
+    run().then(setBorrowAmount).catch(console.error);
+  }, [amount, collateralToken, leverage, loanToken, useLoanTokens]);
+
+  const {
+    value: collateralTokensReceived,
+  } = useSwapsExternal_getSwapExpectedReturn(
     loanToken,
     collateralToken,
-    useWeiAmount('1'),
+    borrowAmount,
   );
 
-  const { minReturn } = useSlippage(value, slippage);
+  const collateralTokenAmount = useMemo(() => {
+    return bignumber(collateralTokensReceived)
+      .mul(10 ** 18)
+      .div(borrowAmount)
+      .toFixed(0);
+  }, [borrowAmount, collateralTokensReceived]);
+
+  const { minReturn } = useSlippage(collateralTokenAmount, slippage);
 
   const { trade, ...tx } = useApproveAndTrade(
     pair,
@@ -235,6 +268,11 @@ export function TradeDialog() {
     position,
     MAINTENANCE_MARGIN,
   );
+
+  const [ignoreError, setIngoreError] = useState(false);
+  const disableButtonAfterSimulatorError = useMemo(() => {
+    return ignoreError ? false : simulator.status === SimulationStatus.FAILED;
+  }, [ignoreError, simulator.status]);
 
   return (
     <>
@@ -380,20 +418,27 @@ export function TradeDialog() {
 
             {useTenderlySimulator &&
               simulator.status === SimulationStatus.FAILED && (
-                <ErrorBadge
-                  content={t(
-                    translations.marginTradePage.tradeDialog
-                      .estimationErrorNote,
-                    { error: simulator.error },
-                  )}
-                />
+                <>
+                  <ErrorBadge
+                    content={t(
+                      translations.marginTradePage.tradeDialog
+                        .estimationErrorNote,
+                      { error: simulator.error },
+                    )}
+                  />
+                  <Checkbox
+                    checked={ignoreError}
+                    onChange={() => setIngoreError(!ignoreError)}
+                    label={t(translations.common.continueToFailure)}
+                  />
+                </>
               )}
           </div>
 
           <DialogButton
             confirmLabel={t(translations.common.confirm)}
             onConfirm={() => submit()}
-            disabled={openTradesLocked}
+            disabled={openTradesLocked || disableButtonAfterSimulatorError}
             cancelLabel={t(translations.common.cancel)}
             onCancel={() => dispatch(actions.closeTradingModal())}
           />
