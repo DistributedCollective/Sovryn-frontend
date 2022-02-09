@@ -418,7 +418,7 @@ export function Header() {
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
                 </div>
               </NavPopover>
-              <NavPopover
+              {/* <NavPopover
                 content={
                   <BPMenu>
                     <MenuItem
@@ -443,7 +443,7 @@ export function Header() {
                   </span>
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
                 </div>
-              </NavPopover>
+              </NavPopover> */}
             </div>
           </div>
           <div className="tw-flex tw-justify-start tw-items-center">

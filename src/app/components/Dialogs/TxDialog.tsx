@@ -216,7 +216,15 @@ const ExplorerLink = styled.div.attrs(_ => ({
   }
 `;
 
-function StatusComponent({ status }: { status: TxStatus }) {
+type StatusComponentProps = {
+  status: TxStatus;
+  onlyImage?: boolean;
+};
+
+export const StatusComponent: React.FC<StatusComponentProps> = ({
+  status,
+  onlyImage = false,
+}) => {
   return (
     <StyledStatus>
       <img
@@ -224,10 +232,10 @@ function StatusComponent({ status }: { status: TxStatus }) {
         className={`${status === 'pending' && 'tw-animate-spin'}`}
         alt="Status"
       />
-      <p>{getStatus(status)}</p>
+      {!onlyImage && <p>{getStatus(status)}</p>}
     </StyledStatus>
   );
-}
+};
 
 const WLContainer = styled.div`
   width: 98px;
@@ -246,11 +254,15 @@ const WLImage = styled.img`
   object-fit: contain;
 `;
 
-function WalletLogo({ wallet }: { wallet: string }) {
+type WalletLogoProps = {
+  wallet: string;
+};
+
+const WalletLogo: React.FC<WalletLogoProps> = ({ wallet }) => {
   return (
     <WLContainer className="tw-flex tw-flex-col tw-justify-center tw-items-center tw-overflow-hidden">
       <WLImage src={getWalletImage(wallet)} alt="Wallet" />
       <div className="tw-truncate">{getWalletName(wallet)}</div>
     </WLContainer>
   );
-}
+};

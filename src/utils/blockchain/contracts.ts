@@ -34,6 +34,7 @@ import MYNTControllerAbi from './abi/MYNTController.json';
 import MYNTTokenAbi from './abi/MYNT_token.json';
 import MYNTPresaleAbi from './abi/MYNTPresale.json';
 import MYNTMarketMakerAbi from './abi/MYNTMarketMaker.json';
+import fastBtcBridgeAbi from './abi/fastBtcBridge.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -237,6 +238,7 @@ export const contracts = {
     abi: LockedSovAbi,
   },
   feeSharingProxy_old: {
+    // retained for use with legacy staking fees
     address: '0x12B1B0C67d9A771EB5Db7726d23fdc6848fd93ef',
     abi: feeSharingProxyAbi,
   },
@@ -293,5 +295,9 @@ export const contracts = {
   MYNTMarketMaker: {
     address: '0x722935fF8A99D801D802bb3EE528408C11C18656',
     abi: MYNTMarketMakerAbi,
+  },
+  fastBtcBridge: {
+    address: '0x0D5006330289336ebdF9d0AC9E0674f91b4851eA',
+    abi: fastBtcBridgeAbi,
   },
 };

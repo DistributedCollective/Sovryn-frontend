@@ -6,6 +6,7 @@ import { weiToNumberFormat } from 'utils/display-text/format';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { bignumber } from 'mathjs';
 import { Tooltip } from '@blueprintjs/core';
+import { LoadableValue } from 'app/components/LoadableValue';
 
 interface ITabProps {
   text: string;
@@ -14,6 +15,8 @@ interface ITabProps {
   isDisabled?: boolean;
   onClick?: () => void;
   asset?: Asset;
+  loading?: boolean;
+  showApproximateSign?: boolean;
 }
 
 export const Tab: React.FC<ITabProps> = ({
@@ -23,6 +26,8 @@ export const Tab: React.FC<ITabProps> = ({
   isDisabled,
   onClick,
   asset = Asset.SOV,
+  loading = false,
+  showApproximateSign = false,
 }) => (
   <button
     type="button"
@@ -36,19 +41,31 @@ export const Tab: React.FC<ITabProps> = ({
   >
     <div className="tw-font-extralight">{text}</div>
     <div className="tw-text-2xl tw-font-semibold">
-      {bignumber(amountToClaim).greaterThan(0) ? (
-        <Tooltip content={`${weiToNumberFormat(amountToClaim, 18)} ${asset}`}>
-          <>
-            {weiToNumberFormat(amountToClaim, 6)}
-            <span className="tw-mr-2">...</span>
-            <AssetRenderer asset={asset} assetClassName="tw-font-semibold" />
-          </>
-        </Tooltip>
-      ) : (
-        <>
-          0 <AssetRenderer asset={asset} assetClassName="tw-font-semibold" />
-        </>
-      )}
+      <LoadableValue
+        value={
+          bignumber(amountToClaim).greaterThan(0) ? (
+            <Tooltip
+              content={`${weiToNumberFormat(amountToClaim, 18)} ${asset}`}
+            >
+              <>
+                {showApproximateSign && '≈ '}
+                {weiToNumberFormat(amountToClaim, 6)}
+                <span className="tw-mr-2">...</span>
+                <AssetRenderer
+                  asset={asset}
+                  assetClassName="tw-font-semibold"
+                />
+              </>
+            </Tooltip>
+          ) : (
+            <>
+              0{' '}
+              <AssetRenderer asset={asset} assetClassName="tw-font-semibold" />
+            </>
+          )
+        }
+        loading={loading}
+      />
     </div>
   </button>
 );

@@ -11,12 +11,12 @@ export enum URIType {
   BITCOIN = 'bitcoin:',
 }
 
-interface Props {
+type AddressQrCodeProps = {
   label?: string;
   address: string;
   uri?: URIType;
   hideClickToCopy?: boolean;
-}
+};
 
 const CopySuccess = ({ copied }) => {
   const { t } = useTranslation();
@@ -37,13 +37,18 @@ const CopySuccess = ({ copied }) => {
   );
 };
 
-export function AddressQrCode({ label, address, uri, hideClickToCopy }: Props) {
+export const AddressQrCode: React.FC<AddressQrCodeProps> = ({
+  label,
+  address,
+  uri,
+  hideClickToCopy,
+}) => {
   const { t } = useTranslation();
   const [copied, setCopied] = useState(false);
   return (
     <>
       <div className="tw-text-lg tw-text-sov-white tw-ml-8 tw-mb-2.5">
-        {t(translations.fastBtcDialog.qr.title)}
+        {t(translations.fastBtcPage.deposit.qr.title)}
       </div>
       <div className="tw-qrcode-container">
         {label && <div className="tw-qrcode-label">{label}</div>}
@@ -76,7 +81,7 @@ export function AddressQrCode({ label, address, uri, hideClickToCopy }: Props) {
                       {address.length > 0 ? (
                         <>{prettyTx(address, 15, 12)}</>
                       ) : (
-                        <>{t(translations.fastBtcDialog.qr.generating)}</>
+                        <>{t(translations.fastBtcPage.deposit.qr.generating)}</>
                       )}
                     </Text>
                   </div>
@@ -109,4 +114,4 @@ export function AddressQrCode({ label, address, uri, hideClickToCopy }: Props) {
       </div>
     </>
   );
-}
+};
