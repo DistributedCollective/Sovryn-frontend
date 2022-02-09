@@ -118,7 +118,7 @@ export const PerpetualPageContainer: React.FC = () => {
         </Helmet>
         <HeaderLabs
           menus={
-            <Link to="/perpetual/competition" className="tw-text-black">
+            <Link to="/perpetuals/competition" className="tw-text-black">
               <>Competition</>
             </Link>
           }

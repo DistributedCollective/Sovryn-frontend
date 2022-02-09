@@ -116,17 +116,9 @@ export const CompetitionPageContainer: React.FC = () => {
       </Helmet>
       <HeaderLabs
         menus={
-          <div className="tw-text-center" style={{ width: '300px' }}>
-            <Link to="/perpetual" className="tw-mr-4 tw-text-black">
-              {t(translations.competitionPage.nav.perpetualSwap)}
-            </Link>
-            <Link
-              to="/perpetual/competition"
-              className="tw-text-black hover:tw-no-underline"
-            >
-              {t(translations.competitionPage.nav.competition)}
-            </Link>
-          </div>
+          <Link to="/perpetuals" className="tw-mr-4 tw-text-black">
+            {t(translations.competitionPage.nav.perpetualSwap)}
+          </Link>
         }
       />
       <PerpetualQueriesContextProvider pair={pair} updateInterval={60000}>
