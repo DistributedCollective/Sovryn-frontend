@@ -69,7 +69,7 @@ export function Header() {
       dataActionId: 'header-trade-link-margin',
     },
     {
-      to: '/perpetual',
+      to: '/perpetuals',
       title: t(translations.mainMenu.perpetual),
       dataActionId: 'header-trade-link-perpetual',
     },
@@ -436,7 +436,7 @@ export function Header() {
                     <MenuItem
                       text={t(translations.mainMenu.perpetual)}
                       className="bp3-popover-dismiss"
-                      onClick={() => history.push('/perpetual')}
+                      onClick={() => history.push('/perpetuals')}
                       data-action-id="header-labs-link-perpetual"
                     />
                   </BPMenu>

@@ -76,11 +76,12 @@
     "claimRewards": "Sorry, claiming rewards is currently under maintenance, please check our <0>discord</0> for updates.",
     "claimOrigins": "Sorry, origins claim is currently under maintenance, please check our <0>discord</0> for updates.",
 
-    "perpetuals": "Sorry, perpetual swaps are currently under maintenance, please check our discord (link in footer) for updates.",
-    "perpetualsAccountFund": "Sorry, perpetual swap deposits are currently under maintenance, please check our discord (link in footer) for updates.",
-    "perpetualsAccountWithdraw": "Sorry, perpetual swap withdrawals are currently under maintenance, please check our discord (link in footer) for updates.",
-    "perpetualsAccountTransfer": "Sorry, perpetual swap transfers are currently under maintenance, please check our discord (link in footer) for updates.",
-    "perpetualsTrade": "Sorry, perpetual swap trades are currently under maintenance, please check our discord (link in footer) for updates."
+    "perpetuals": "Sorry, Perpetuals is currently under maintenance, please check our discord (link in footer) for updates.",
+    "perpetualsAccountFund": "Sorry, deposits on Perpetuals are currently under maintenance, please check our discord (link in footer) for updates.",
+    "perpetualsAccountWithdraw": "Sorry, withdrawals on Perpetuals are currently under maintenance, please check our discord (link in footer) for updates.",
+    "perpetualsAccountTransfer": "Sorry, transfers on Perpetuals are currently under maintenance, please check our discord (link in footer) for updates.",
+    "perpetualsTrade": "Sorry, trading on Perpetuals is currently under maintenance, please check our discord (link in footer) for updates.",
+    "perpetualsGsn": "Sorry, the GSN on Perpetuals is currently under maintenance, please check our discord (link in footer) for updates. Transactions without GSN may still work."
   },
   "homePage": {
     "title": "Home Page",
@@ -396,7 +397,7 @@
     "labs": "Labs",
     "myntToken": "MYNT Token",
     "zero": "Zero",
-    "perpetual": "Perpetual"
+    "perpetual": "Perpetuals"
   },
   "originsLaunchpad": {
     "upcomingSales": {
@@ -1608,8 +1609,8 @@
   },
   "perpetualPage": {
     "meta": {
-      "title": "Perpetual Trading",
-      "description": "Trade with perpetuals"
+      "title": "Perpetuals",
+      "description": "Trade with Sovryn's perpetual future contracts"
     },
     "toasts": {
       "market": "Market",
@@ -1625,7 +1626,7 @@
       "approvalFailed": "Approval failed"
     },
     "accountBalance": {
-      "titleBalance": "Perpetual Account",
+      "titleBalance": "Perpetuals Account",
       "titleHistory": "Funding History",
       "total": "Total Balance:",
       "pending": "Pending transfer…",
@@ -1685,7 +1686,7 @@
         "slippage": "Slippage Settings"
       },
       "labels": {
-        "pair": "Pair:",
+        "pair": "Symbol:",
         "asset": "Asset to receive:",
         "leverageSelector": "Position Leverage:",
         "leverage": "Leverage:",
