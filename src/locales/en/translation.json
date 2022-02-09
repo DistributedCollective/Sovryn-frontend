@@ -2158,10 +2158,17 @@
     "actions": "Actions",
     "noData": "No data",
     "rolloverDate": "Rollover Date",
+    "event": "Event",
+    "amountRepaid": "Amount Repaid",
+    "collateralWithdrawn": "Collateral Withdrawn",
+    "exitPrice": "Exit Price",
+    "timestamp": "Timestamp",
+    "txID": "TxID",
     "cta": {
       "increase": "Increase",
       "margin": "Margin",
-      "close": "Close"
+      "close": "Close",
+      "details": "Details"
     },
     "explainers": {
       "positionMargin": "The portion of your margin that is assigned to the initial margin requirements on your open positions. This is the entry value of all contracts you hold divided by the selected leverage, plus unrealised profit and loss.<br/><br/>If the current margin percentage drops to 15%, your position will be liquidated.",

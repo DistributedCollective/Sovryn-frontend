@@ -14,6 +14,7 @@ import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
 import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
 import { getTradingPositionPrice } from 'app/pages/MarginTradePage/utils/marginUtils';
 import { AssetRenderer } from '../AssetRenderer';
+import classNames from 'classnames';
 
 interface ITradeProfitProps {
   closedItem: OpenLoanType;
@@ -73,7 +74,7 @@ export const TradeProfit: React.FC<ITradeProfitProps> = ({
       <Tooltip
         content={
           <>
-            {profitDirection > 0 ? (
+            {profitDirection > 0 && (
               <>
                 {t(translations.tradingHistoryPage.table.profitLabels.up)}
                 <span className="tw-text-success">
@@ -81,7 +82,8 @@ export const TradeProfit: React.FC<ITradeProfitProps> = ({
                 </span>{' '}
                 %
               </>
-            ) : (
+            )}
+            {profitDirection < 0 && (
               <>
                 {t(translations.tradingHistoryPage.table.profitLabels.down)}
                 <span className="tw-text-warning">
@@ -99,9 +101,14 @@ export const TradeProfit: React.FC<ITradeProfitProps> = ({
         }
       >
         <span
-          className={
-            profitDirection < 0 ? 'tw-text-warning' : 'tw-text-success'
-          }
+          className={classNames(
+            {
+              'tw-text-warning': profitDirection < 0,
+            },
+            {
+              'tw-text-success': profitDirection > 0,
+            },
+          )}
         >
           {profitDirection > 0 && '+'}
           {weiToNumberFormat(profit, 8)}{' '}

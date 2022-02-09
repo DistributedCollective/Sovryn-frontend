@@ -17,7 +17,7 @@ export interface ActiveLoan {
 }
 
 export interface OpenLoan {
-  data: OpenLoanType;
+  data: OpenLoanType[];
   isOpen: boolean;
   loanId: string;
   nextRollover: number | null;
@@ -30,6 +30,7 @@ export interface OpenLoanType {
   event: string;
   interestRate: number;
   loanId: string;
+  margin: number;
   loanToken: string;
   leverage: number;
   positionSizeChange: string;

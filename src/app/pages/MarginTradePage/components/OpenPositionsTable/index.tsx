@@ -130,7 +130,7 @@ export function OpenPositionsTable() {
               {events?.map(event => (
                 <OpenPositionRow
                   key={event.loanId}
-                  item={event.data[0]}
+                  items={event.data}
                   nextRollover={event.nextRollover}
                 />
               ))}

@@ -17,6 +17,7 @@ import {
 import { getEntryPrice } from '../../utils/marginUtils';
 import { AddToMarginDialog } from '../AddToMarginDialog';
 import { ClosePositionDialog } from '../ClosePositionDialog';
+import { LiquidatedPositionsTable } from '../LiquidatedPositionsTable';
 import { PositionBlock } from '../PositionBlock';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { useMaintenance } from 'app/hooks/useMaintenance';
@@ -27,17 +28,22 @@ import { ProfitContainer } from './ProfitContainer';
 import { isLongTrade } from '../../utils/marginUtils';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { MAINTENANCE_MARGIN } from 'utils/classifiers';
+import { EventType } from '../../types';
 
 type OpenPositionRowInnerProps = {
-  item: OpenLoanType;
+  items: OpenLoanType[];
   nextRollover: number | null;
 };
 
 export const OpenPositionRow: React.FC<OpenPositionRowInnerProps> = ({
-  item,
+  items,
   nextRollover,
 }) => {
   const { t } = useTranslation();
+  const tradeLoan = items[0];
+  const liquidateLoans = items.filter(
+    loan => loan.event === EventType.LIQUIDATE,
+  );
   const { checkMaintenances, States } = useMaintenance();
   const {
     [States.CLOSE_MARGIN_TRADES]: closeTradesLocked,
@@ -46,9 +52,9 @@ export const OpenPositionRow: React.FC<OpenPositionRowInnerProps> = ({
 
   const [showAddToMargin, setShowAddToMargin] = useState(false);
   const [showClosePosition, setShowClosePosition] = useState(false);
-
-  const loanAsset = assetByTokenAddress(item.loanToken);
-  const collateralAsset = assetByTokenAddress(item.collateralToken);
+  const [showDetails, setShowDetails] = useState(false);
+  const loanAsset = assetByTokenAddress(tradeLoan.loanToken);
+  const collateralAsset = assetByTokenAddress(tradeLoan.collateralToken);
 
   const pair = TradingPairDictionary.findPair(loanAsset, collateralAsset);
 
@@ -59,31 +65,31 @@ export const OpenPositionRow: React.FC<OpenPositionRowInnerProps> = ({
 
   const isLong = useMemo(() => isLongTrade(position), [position]);
 
-  const leverage = useMemo(() => item.leverage + 1, [item.leverage]);
+  const leverage = useMemo(() => tradeLoan.leverage + 1, [tradeLoan.leverage]);
 
   const liquidationPrice = usePositionLiquidationPrice(
-    item.borrowedAmountChange,
-    item.positionSizeChange,
+    tradeLoan.borrowedAmountChange,
+    tradeLoan.positionSizeChange,
     position,
     MAINTENANCE_MARGIN,
   );
 
-  const entryPrice = useMemo(() => getEntryPrice(item, position), [
-    item,
+  const entryPrice = useMemo(() => getEntryPrice(tradeLoan, position), [
+    tradeLoan,
     position,
   ]);
 
   const positionMargin = useMemo(() => {
     if (isLong) {
       return bignumber(entryPrice)
-        .mul(bignumber(item.positionSizeChange).div(leverage))
+        .mul(bignumber(tradeLoan.positionSizeChange).div(leverage))
         .toString();
     }
     return bignumber(1)
       .div(entryPrice)
-      .mul(bignumber(item.positionSizeChange).div(leverage))
+      .mul(bignumber(tradeLoan.positionSizeChange).div(leverage))
       .toString();
-  }, [entryPrice, item.positionSizeChange, leverage, isLong]);
+  }, [entryPrice, tradeLoan.positionSizeChange, leverage, isLong]);
 
   const positionMarginAsset = useMemo(
     () => (isLong ? pair.longAsset : pair.shortAsset),
@@ -98,7 +104,10 @@ export const OpenPositionRow: React.FC<OpenPositionRowInnerProps> = ({
         </td>
         <td className="tw-w-full tw-hidden xl:tw-table-cell">
           <div className="tw-whitespace-nowrap">
-            {weiToAssetNumberFormat(item.positionSizeChange, collateralAsset)}{' '}
+            {weiToAssetNumberFormat(
+              tradeLoan.positionSizeChange,
+              collateralAsset,
+            )}{' '}
             <AssetRenderer asset={collateralAsset} /> ({leverage}x)
           </div>
         </td>
@@ -121,7 +130,14 @@ export const OpenPositionRow: React.FC<OpenPositionRowInnerProps> = ({
         </td>
         <td className="tw-w-full tw-hidden md:tw-table-cell">
           <div className="tw-whitespace-nowrap">
-            <Tooltip content={<>{toNumberFormat(liquidationPrice, 18)}</>}>
+            <Tooltip
+              content={
+                <>
+                  {toNumberFormat(liquidationPrice, 18)}{' '}
+                  <AssetRenderer asset={pair.longDetails.asset} />
+                </>
+              }
+            >
               <>
                 {toAssetNumberFormat(liquidationPrice, pair.longDetails.asset)}{' '}
                 <AssetRenderer asset={pair.longDetails.asset} />
@@ -148,7 +164,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowInnerProps> = ({
         </td>
         <td className="tw-w-full tw-hidden sm:tw-table-cell">
           <ProfitContainer
-            item={item}
+            item={tradeLoan}
             position={position}
             entryPrice={entryPrice}
             leverage={leverage}
@@ -156,7 +172,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowInnerProps> = ({
         </td>
         <td className="tw-w-full tw-hidden 2xl:tw-table-cell">
           <div className="tw-truncate">
-            {toNumberFormat(item.interestRate, 2)}%
+            {toNumberFormat(tradeLoan.interestRate, 2)}%
           </div>
         </td>
         <td className="tw-w-full tw-hidden 2xl:tw-table-cell">
@@ -171,11 +187,11 @@ export const OpenPositionRow: React.FC<OpenPositionRowInnerProps> = ({
             <ActionButton
               text={t(translations.openPositionTable.cta.margin)}
               onClick={() => setShowAddToMargin(true)}
-              className={`tw-border-none tw-px-4 xl:tw-px-2 2xl:tw-px-4 ${
+              className={`tw-border-none tw-px-4 xl:tw-px-2 ${
                 addToMarginLocked && 'tw-cursor-not-allowed'
               }`}
               textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
-              disabled={addToMarginLocked}
+              disabled={addToMarginLocked || tradeLoan.margin === 0}
               title={
                 (addToMarginLocked &&
                   t(translations.maintenance.addToMarginTrades).replace(
@@ -189,11 +205,11 @@ export const OpenPositionRow: React.FC<OpenPositionRowInnerProps> = ({
             <ActionButton
               text={t(translations.openPositionTable.cta.close)}
               onClick={() => setShowClosePosition(true)}
-              className={`tw-border-none tw-ml-0 tw-pl-4 xl:tw-pl-2 2xl:tw-pl-4 tw-pr-0 ${
+              className={`tw-border-none tw-px-4 xl:tw-px-2 ${
                 closeTradesLocked && 'tw-cursor-not-allowed'
               }`}
               textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
-              disabled={closeTradesLocked}
+              disabled={closeTradesLocked || tradeLoan.margin === 0}
               title={
                 (closeTradesLocked &&
                   t(translations.maintenance.closeMarginTrades).replace(
@@ -204,9 +220,17 @@ export const OpenPositionRow: React.FC<OpenPositionRowInnerProps> = ({
               }
               data-action-id="margin-openPositions-CloseButton"
             />
+            <ActionButton
+              text={t(translations.openPositionTable.cta.details)}
+              onClick={() => setShowDetails(!showDetails)}
+              className="tw-border-none tw-ml-0 tw-pl-4 xl:tw-pl-2 tw-pr-0"
+              textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
+              disabled={liquidateLoans.length === 0}
+              data-action-id="margin-openPositions-DetailsButton"
+            />
           </div>
           <AddToMarginDialog
-            item={item}
+            item={tradeLoan}
             liquidationPrice={
               <>
                 {formatNumber(Number(liquidationPrice), 2)}{' '}
@@ -217,12 +241,15 @@ export const OpenPositionRow: React.FC<OpenPositionRowInnerProps> = ({
             showModal={showAddToMargin}
           />
           <ClosePositionDialog
-            item={item}
+            item={tradeLoan}
             onCloseModal={() => setShowClosePosition(false)}
             showModal={showClosePosition}
           />
         </td>
       </tr>
+      {showDetails && liquidateLoans && (
+        <LiquidatedPositionsTable liquidateLoans={liquidateLoans} />
+      )}
     </>
   );
 };

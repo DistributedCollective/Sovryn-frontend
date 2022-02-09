@@ -61,7 +61,7 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
         <td className="tw-w-full tw-hidden xl:tw-table-cell">
           <div>{leverage}x</div>
         </td>
-        <td className="tw-w-full tw-hidden xl:tw-table-cell">
+        <td className="tw-w-full tw-hidden md:tw-table-cell">
           <div className="tw-whitespace-nowrap">
             <Tooltip
               content={
@@ -95,21 +95,10 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
             </Tooltip>
           </div>
         </td>
-        <td className="tw-w-full tw-hidden xl:tw-table-cell">
-          <TradeProfit
-            closedItem={closedItem}
-            openedItem={openedItem}
-            // positionSize={closedItem.positionSizeChange}
-            // pair={pair}
-            // loanId={closedItem.loanId}
-            // loanToken={closedItem.loanToken}
-            // closePrice={closePrice}
-            // entryPrice={openPrice}
-            // position={position}
-            // asset={collateralAsset}
-          />
+        <td className="tw-w-full">
+          <TradeProfit closedItem={closedItem} openedItem={openedItem} />
         </td>
-        <td className="tw-w-full tw-hidden 2xl:tw-table-cell">
+        <td className="tw-w-full tw-hidden xl:tw-table-cell">
           <LinkToExplorer
             txHash={openedItem.txHash}
             className="tw-text-primary tw-truncate"
@@ -117,7 +106,7 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
             endLength={5}
           />
         </td>
-        <td className="tw-w-full tw-hidden 2xl:tw-table-cell">
+        <td className="tw-w-full tw-hidden xl:tw-table-cell">
           <LinkToExplorer
             txHash={closedItem.txHash}
             className="tw-text-primary tw-truncate"

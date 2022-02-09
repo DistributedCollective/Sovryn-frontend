@@ -89,6 +89,7 @@ export type NotificationUser = {
 export enum EventType {
   CLOSED = 'CloseWithSwap',
   TRADE = 'Trade',
+  LIQUIDATE = 'Liquidate',
 }
 
 export enum TradePriceChange {

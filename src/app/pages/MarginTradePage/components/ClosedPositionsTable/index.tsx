@@ -10,7 +10,6 @@ export const ClosedPositionsTable: React.FC = () => {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const { events, loading, totalCount } = useMargin_GetLoans(page, false);
-
   const isEmpty = useMemo(() => !loading && !events, [loading, events]);
   const onPageChanged = useCallback(data => setPage(data.currentPage), []);
 
@@ -34,7 +33,7 @@ export const ClosedPositionsTable: React.FC = () => {
             <th className="tw-w-full tw-hidden md:tw-table-cell">
               {t(translations.tradingHistoryPage.table.closePrice)}
             </th>
-            <th className="tw-w-full tw-hidden sm:tw-table-cell">
+            <th className="tw-w-full">
               {t(translations.tradingHistoryPage.table.profit)}
             </th>
             <th className="tw-w-full tw-hidden xl:tw-table-cell">
@@ -64,13 +63,15 @@ export const ClosedPositionsTable: React.FC = () => {
 
           {totalCount > 0 && (
             <>
-              {events?.map(event => (
-                <ClosedPositionRow
-                  key={event.loanId}
-                  openedItem={event.data[0]}
-                  closedItem={event.data[1]}
-                />
-              ))}
+              {events?.map(event => {
+                return (
+                  <ClosedPositionRow
+                    key={event.loanId}
+                    openedItem={event.data[0]}
+                    closedItem={event.data[event.data.length - 1]}
+                  />
+                );
+              })}
             </>
           )}
         </tbody>

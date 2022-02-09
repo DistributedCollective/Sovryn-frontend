@@ -12,11 +12,11 @@ import { PositionBlock } from '../PositionBlock';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 
-interface IPendingPositionRow {
+type PendingPositionRowProps = {
   item: Transaction;
-}
+};
 
-export function PendingPositionRow({ item }: IPendingPositionRow) {
+export function PendingPositionRow({ item }: PendingPositionRowProps) {
   const { customData } = item;
   const { t } = useTranslation();
 
@@ -43,7 +43,8 @@ export function PendingPositionRow({ item }: IPendingPositionRow) {
         <td className="tw-w-full tw-hidden md:tw-table-cell">-</td>
         <td className="tw-w-full tw-hidden xl:tw-table-cell">-</td>
         <td className="tw-w-full tw-hidden sm:tw-table-cell">-</td>
-        <td className="tw-w-32 tw-hidden 2xl:tw-table-cell">-</td>
+        <td className="tw-w-full tw-hidden 2xl:tw-table-cell">-</td>
+        <td className="tw-w-full tw-hidden 2xl:tw-table-cell">-</td>
         <td className="tw-w-full">
           <div className="tw-flex tw-items-center tw-justify-between lg:tw-w-5/6 tw-p-0">
             <div>
