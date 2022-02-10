@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { Select } from 'app/components/Form/Select';
@@ -32,6 +32,7 @@ const pairs = TradingPairDictionary.entries()
   .map(([type, item]) => ({
     key: type,
     label: item.name as string,
+    leverage: item.leverage,
   }));
 
 interface ITradeFormProps {
@@ -47,7 +48,11 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   const { collateral, leverage } = useSelector(selectMarginTradePage);
   const dispatch = useDispatch();
 
-  const [amount, setAmount] = useState<string>('');
+  const pairInfo = useMemo(() => pairs.find(pair => pair.key === pairType), [
+    pairType,
+  ]);
+
+  const [amount, setAmount] = useState('');
 
   const weiAmount = useWeiAmount(amount);
 
@@ -65,7 +70,15 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     }
   }, [pair.collaterals, collateral, dispatch]);
 
-  const submit = e => dispatch(actions.submit(e));
+  useEffect(() => {
+    if (pairInfo && pairInfo.leverage) {
+      dispatch(actions.setLeverage(pairInfo.leverage));
+    }
+  }, [dispatch, pairInfo]);
+
+  const submit = useCallback(order => dispatch(actions.submit(order)), [
+    dispatch,
+  ]);
 
   const { value: tokenBalance } = useAssetBalanceOf(collateral);
 
@@ -112,10 +125,14 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
             label={t(translations.marginTradePage.tradeForm.labels.leverage)}
             className="tw-mb-6"
           >
-            <LeverageSelector
-              value={leverage}
-              onChange={value => dispatch(actions.setLeverage(value))}
-            />
+            {pairInfo && pairInfo.leverage ? (
+              `${pairInfo.leverage}x`
+            ) : (
+              <LeverageSelector
+                value={leverage}
+                onChange={value => dispatch(actions.setLeverage(value))}
+              />
+            )}
           </FormGroup>
 
           <FormGroup
@@ -123,7 +140,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
           >
             <AmountInput
               value={amount}
-              onChange={value => setAmount(value)}
+              onChange={setAmount}
               asset={collateral}
             />
           </FormGroup>

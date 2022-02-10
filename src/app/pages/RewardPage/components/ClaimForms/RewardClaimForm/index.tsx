@@ -4,18 +4,16 @@ import { Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { useClaimRewardSov } from './hooks/useClaimRewardSov';
 import { BaseClaimForm } from '../BaseClaimForm';
-import { IRewardClaimFormProps } from '../BaseClaimForm/types';
+import { IClaimFormProps } from '../BaseClaimForm/types';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 
-export const RewardClaimForm: React.FC<IRewardClaimFormProps> = ({
+export const RewardClaimForm: React.FC<IClaimFormProps> = ({
   className,
   amountToClaim,
-  hasLockedSov,
-  hasLMRewards,
 }) => {
   const { checkMaintenance, States } = useMaintenance();
   const claimRewardSovLocked = checkMaintenance(States.CLAIM_REWARD_SOV);
-  const { send, ...tx } = useClaimRewardSov(hasLockedSov, hasLMRewards);
+  const { send, ...tx } = useClaimRewardSov();
   return (
     <BaseClaimForm
       className={className}
