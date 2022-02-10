@@ -19,7 +19,7 @@ import { Order } from 'app/pages/SpotTradingPage/helpers';
 import { useSendTx } from '../useSendTx';
 import { signTypeData } from './utils';
 import axios from 'axios';
-import { backendUrl, currentChainId } from 'utils/classifiers';
+import { limitOrderUrl, currentChainId } from 'utils/classifiers';
 
 export const useLimitOrder = (
   sourceToken: Asset,
@@ -96,7 +96,7 @@ export const useLimitOrder = (
       onStart();
 
       const { data } = await axios.post(
-        backendUrl[currentChainId] + '/limitOrder/createOrder',
+        limitOrderUrl[currentChainId] + '/createOrder',
         {
           data: populated.data,
           from: account,

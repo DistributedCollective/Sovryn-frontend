@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { BigNumber } from 'ethers';
 import { LimitOrder, IApiLimitOrder } from 'app/pages/SpotTradingPage/types';
-import { backendUrl, currentChainId } from 'utils/classifiers';
+import { limitOrderUrl, currentChainId } from 'utils/classifiers';
 import axios, { Canceler } from 'axios';
 import { useCallback, useRef } from 'react';
 import { useInterval } from '../useInterval';
@@ -42,7 +42,7 @@ export const useGetLimitOrders = <T>(
   const [loading, setLoading] = useState(true);
   const cancelDataRequest = useRef<Canceler>();
 
-  const url = `${backendUrl[currentChainId]}/limitOrder/orders`;
+  const url = `${limitOrderUrl[currentChainId]}/orders`;
 
   const getData = useCallback(async () => {
     if (!account) {
