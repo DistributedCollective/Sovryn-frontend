@@ -19,7 +19,7 @@ export const RecentTradesTable: React.FC<RecentTradesTableProps> = ({
 
   return (
     <div className="tw-relative tw-w-full tw-min-w-80 tw-h-full">
-      <table className="tw-absolute tw-inset-0 tw-text-xs tw-leading-tight tw-overflow-y-scroll tw-block">
+      <table className="tw-scrollbars-thin tw-absolute tw-inset-0 tw-text-xs tw-leading-tight tw-overflow-y-scroll tw-block">
         <thead className="tw-bg-black tw-sticky tw-top-0 tw-z-10">
           <tr>
             <th className="tw-h-6 tw-w-4/12 tw-pr-4 tw-pb-1 tw-text-right">
