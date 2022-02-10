@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React from 'react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 interface IItems {
   question: string;
@@ -26,7 +27,21 @@ export const FAQCategory: React.FC<IFAQCategoryProps> = ({
         'tw-opacity-75': !active,
       })}
     >
-      {category}
+      <span>{category}</span>
+      <TransitionGroup component="ul">
+        {active &&
+          items.map((item, i) => (
+            <CSSTransition
+              in={active}
+              timeout={300}
+              key={i}
+              unmountOnExit
+              classNames="item"
+            >
+              <li>{item.question}</li>
+            </CSSTransition>
+          ))}
+      </TransitionGroup>
     </div>
   );
 };

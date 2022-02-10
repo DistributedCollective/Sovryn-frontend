@@ -1,6 +1,7 @@
 import { Dialog } from '@blueprintjs/core';
 import React, { useState } from 'react';
 import { FAQDialogContent } from './components/FAQDialogContent';
+import './style.scss';
 
 export const FAQ: React.FC = () => {
   const [isOpen, setIsOpen] = useState(true);
