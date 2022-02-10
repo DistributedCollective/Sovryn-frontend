@@ -33,13 +33,13 @@ import { ContractName } from '../../utils/types/contracts';
  * @param paymaster paymaster contract address
  * @param useGSN flag for enabling or disabling GSN, will use bridgeNetwork otherwise
  */
-export function useGsnSendTx(
+export const useGsnSendTx = (
   chain: Chain,
   contractName: ContractName,
   methodName: string,
   paymaster: string,
   useGSN: boolean = true,
-): SendTxResponseInterface {
+): SendTxResponseInterface => {
   const transactions = useSelector(selectTransactions);
   const loading = useSelector(selectLoadingTransaction);
   const dispatch = useDispatch();
@@ -172,4 +172,4 @@ export function useGsnSendTx(
     status: tx ? tx.status : txId,
     loading: loading,
   };
-}
+};

@@ -7,6 +7,7 @@ import { TxStatus, TxType } from '../../store/global/transactions-store/types';
 import { getContract } from '../../utils/blockchain/contract-helpers';
 import { useAccount } from './useAccount';
 import { BigNumber } from 'ethers';
+import { gasLimit } from '../../utils/classifiers';
 
 type CheckAndApproveResult = {
   nonce?: number;
@@ -17,13 +18,13 @@ type CheckAndApproveResult = {
   loading: boolean;
 };
 
-export function useGsnCheckAndApprove(
+export const useGsnCheckAndApprove = (
   chain: Chain,
   contractName: ContractName,
   paymaster: string,
   useGSN: boolean = true,
   asset?: Asset,
-) {
+) => {
   const address = useAccount();
   const { send, txHash, status, loading } = useGsnSendTx(
     chain,
@@ -81,7 +82,7 @@ export function useGsnCheckAndApprove(
               {
                 nonce,
                 from: address,
-                gas: 60000,
+                gas: gasLimit[TxType.APPROVE],
                 gasPrice: approveGasPrice,
               },
               {
@@ -117,7 +118,7 @@ export function useGsnCheckAndApprove(
       };
 
       const promise = checkAndApprove(spenderAddress, amountWei, customData);
-      promise.then(result => setResult(result));
+      promise.then(setResult);
       return promise;
     },
     [address, asset, chain, contractName, send],
@@ -132,4 +133,4 @@ export function useGsnCheckAndApprove(
     loading: loading,
     checkAndApprove,
   };
-}
+};
