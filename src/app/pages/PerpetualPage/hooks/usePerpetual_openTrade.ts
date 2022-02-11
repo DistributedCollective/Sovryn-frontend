@@ -9,19 +9,24 @@ import { calculateSlippagePrice } from '../utils/perpUtils';
 import {
   PERPETUAL_SLIPPAGE_DEFAULT,
   PERPETUAL_GAS_PRICE_DEFAULT,
+  PERPETUAL_CHAIN,
+  PERPETUAL_PAYMASTER,
 } from '../types';
 import {
   PerpetualPairType,
   PerpetualPairDictionary,
 } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
-import { Asset, Chain } from '../../../../types';
+import { Asset } from '../../../../types';
 import { PerpetualTx } from '../components/TradeDialog/types';
-import { useBridgeNetworkSendTx } from '../../../hooks/useBridgeNetworkSendTx';
+import { useGsnSendTx } from '../../../hooks/useGsnSendTx';
 
 const MASK_MARKET_ORDER = 0x40000000;
 const MASK_CLOSE_ONLY = 0x80000000;
 
-export const usePerpetual_openTrade = (pairType: PerpetualPairType) => {
+export const usePerpetual_openTrade = (
+  pairType: PerpetualPairType,
+  useGSN: boolean,
+) => {
   const account = useAccount();
   const perpetualId = useMemo(() => PerpetualPairDictionary.get(pairType)?.id, [
     pairType,
@@ -29,10 +34,12 @@ export const usePerpetual_openTrade = (pairType: PerpetualPairType) => {
 
   const { averagePrice } = useContext(PerpetualQueriesContext);
 
-  const { send, ...rest } = useBridgeNetworkSendTx(
-    Chain.BSC,
+  const { send, ...rest } = useGsnSendTx(
+    PERPETUAL_CHAIN,
     'perpetualManager',
     'trade',
+    PERPETUAL_PAYMASTER,
+    useGSN,
   );
 
   return {

@@ -75,7 +75,7 @@
     "withdrawVestsModal": "Sorry, withdrawing vests is currently under maintenance, please check our <0>discord</0> for updates.",
     "claimRewards": "Sorry, claiming rewards is currently under maintenance, please check our <0>discord</0> for updates.",
     "claimOrigins": "Sorry, origins claim is currently under maintenance, please check our <0>discord</0> for updates.",
-
+    
     "perpetuals": "Sorry, Perpetuals is currently under maintenance, please check our discord (link in footer) for updates.",
     "perpetualsAccountFund": "Sorry, deposits on Perpetuals are currently under maintenance, please check our discord (link in footer) for updates.",
     "perpetualsAccountWithdraw": "Sorry, withdrawals on Perpetuals are currently under maintenance, please check our discord (link in footer) for updates.",
@@ -1611,6 +1611,14 @@
     "meta": {
       "title": "Perpetuals",
       "description": "Trade with Sovryn's perpetual future contracts"
+    },
+    "pairSelector": {
+      "gsn": "GSN",
+      "tooltips": {
+        "gsnEnabled": "Fees paid in BTC. With the Gas Station Network (GSN) you can pay gas fees in BTC",
+        "gsnDisabled": "Fees paid in BNB. With the Gas Station Network (GSN) you can pay gas fees in BTC",
+        "gsnUnsupported": "GSN is currently only supported for browser based wallets."
+      }
     },
     "toasts": {
       "market": "Market",
