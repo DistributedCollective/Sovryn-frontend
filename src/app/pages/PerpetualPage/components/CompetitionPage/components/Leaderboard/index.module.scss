@@ -1,16 +1,3 @@
 .leaderboardContainer {
   max-height: 545px;
-
-  &::-webkit-scrollbar {
-    width: 5px;
-  }
-  &::-webkit-scrollbar-track {
-    background: #ffffff49;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: #ffffff;
-  }
-  &::-webkit-scrollbar-thumb:hover {
-    background: #aeaeae;
-  }
 }

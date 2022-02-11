@@ -220,7 +220,7 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
           </div>
         </div>
         <div
-          className={`${styles.leaderboardContainer} tw-overflow-y-auto tw-text-sm tw-align-middle`}
+          className={`${styles.leaderboardContainer} tw-scrollbars-thin tw-overflow-y-auto tw-text-sm tw-align-middle`}
         >
           {items.map(val => {
             const isUser = val.walletAddress === account?.toLowerCase();
