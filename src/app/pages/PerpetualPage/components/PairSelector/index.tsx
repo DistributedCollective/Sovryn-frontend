@@ -10,6 +10,7 @@ import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { RecentTradesContext } from '../../contexts/RecentTradesContext';
 import { getCollateralName, getCollateralLogo } from '../../utils/renderUtils';
 import { Asset } from '../../../../../types';
+import { GsnSwitch } from '../GsnSwitch/GsnSwitch';
 
 type PairSelectorProps = {
   pair: PerpetualPair;
@@ -40,14 +41,19 @@ export const PairSelector: React.FC<PairSelectorProps> = ({
           />
           <span className="tw-font-bold tw-text-sm">{collateralName}</span>
         </div>
-        {perpetualPairs.map(entry => (
-          <PairSelectorButton
-            key={entry.id}
-            pair={entry}
-            isSelected={pair.id === entry.id}
-            onSelect={onChange}
-          />
-        ))}
+        <div className="tw-flex tw-flex-row tw-items-center tw-flex-1">
+          {perpetualPairs.map(entry => (
+            <PairSelectorButton
+              key={entry.id}
+              pair={entry}
+              isSelected={pair.id === entry.id}
+              onSelect={onChange}
+            />
+          ))}
+        </div>
+        <div className="tw-flex tw-flex-row tw-items-center tw-px-4">
+          <GsnSwitch />
+        </div>
       </div>
     </div>
   );

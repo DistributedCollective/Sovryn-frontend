@@ -40,7 +40,9 @@ export function WalletProvider(props: Props) {
   useInjectSaga({ key: transactionsSlice, saga: transactionsStateSaga });
 
   const requestDialog = useSelector(selectRequestDialogState);
-  const { bridgeChainId } = useSelector(selectWalletProvider);
+  const { bridgeChainId, signTypedRequired } = useSelector(
+    selectWalletProvider,
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -53,6 +55,7 @@ export function WalletProvider(props: Props) {
       showWrongNetworkRibbon: false,
       remember: !customChain,
       chainId: customChain ? bridgeChainId : currentChainId,
+      signTypedRequired,
       enableSoftwareWallet:
         process.env.REACT_APP_ENABLE_SOFTWARE_WALLET === 'true',
     };

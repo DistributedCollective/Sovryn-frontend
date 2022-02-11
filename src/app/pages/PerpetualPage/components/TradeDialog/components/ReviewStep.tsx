@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from 'react';
+import React, { useContext, useCallback, useMemo } from 'react';
 import { TransitionStep } from '../../../../../containers/TransitionSteps';
 import { TradeDialogStep, PerpetualTxStage } from '../types';
 import { TradeDialogContext } from '../index';
@@ -15,6 +15,9 @@ import { PerpetualQueriesContext } from '../../../contexts/PerpetualQueriesConte
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
 import { usePerpetual_isTradingInMaintenance } from 'app/pages/PerpetualPage/hooks/usePerpetual_isTradingInMaintenance';
+import { useMaintenance } from '../../../../../hooks/useMaintenance';
+import { useSelector } from 'react-redux';
+import { selectPerpetualPage } from '../../../selectors';
 
 const titleMap = {
   [PerpetualPageModals.NONE]:
@@ -35,8 +38,16 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     TradeDialogContext,
   );
   const { lotSize, lotPrecision } = useContext(PerpetualQueriesContext);
+  const { useMetaTransactions } = useSelector(selectPerpetualPage);
 
-  const inMaintenance = usePerpetual_isTradingInMaintenance();
+  const { checkMaintenance, States } = useMaintenance();
+  const isGsnInMaintenance = useMemo(
+    () =>
+      checkMaintenance(States.PERPETUALS) ||
+      checkMaintenance(States.PERPETUALS_GSN),
+    [checkMaintenance, States],
+  );
+  const isTradingInMaintenance = usePerpetual_isTradingInMaintenance();
 
   const onSubmit = useCallback(async () => {
     let nonce = await bridgeNetwork.nonce(Chain.BSC);
@@ -73,11 +84,16 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
           analysis={analysis}
         />
         <div className="tw-flex tw-justify-center">
-          {inMaintenance ? (
+          {isTradingInMaintenance ||
+          (useMetaTransactions && isGsnInMaintenance) ? (
             <ErrorBadge
               content={
                 <Trans
-                  i18nKey={translations.maintenance.perpetualsTrade}
+                  i18nKey={
+                    isTradingInMaintenance
+                      ? translations.maintenance.perpetualsTrade
+                      : translations.maintenance.perpetualsGsn
+                  }
                   components={[
                     <a
                       href={discordInvite}
@@ -94,8 +110,8 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
           ) : (
             <button
               className={styles.confirmButton}
-              onClick={inMaintenance ? undefined : onSubmit}
-              disabled={inMaintenance}
+              onClick={isTradingInMaintenance ? undefined : onSubmit}
+              disabled={isTradingInMaintenance}
             >
               {t(translations.perpetualPage.reviewTrade.confirm)}
             </button>

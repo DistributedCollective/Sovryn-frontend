@@ -5,10 +5,11 @@ import { Helmet } from 'react-helmet-async';
 import { Tab } from '../../components/Tab';
 import { actions as walletProviderActions } from 'app/containers/WalletProvider/slice';
 
-import { useInjectReducer } from 'utils/redux-injectors';
+import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import { translations } from 'locales/i18n';
 
 import { reducer, sliceKey, actions } from './slice';
+import { perpetualPageSaga } from './saga';
 import { HeaderLabs } from '../../components/HeaderLabs';
 import { Footer } from '../../components/Footer';
 import {
@@ -48,6 +49,7 @@ import { ToastsWatcher } from './components/ToastsWatcher';
 
 export const PerpetualPageContainer: React.FC = () => {
   useInjectReducer({ key: sliceKey, reducer });
+  useInjectSaga({ key: sliceKey, saga: perpetualPageSaga });
 
   const dispatch = useDispatch();
   const walletContext = useWalletContext();

@@ -61,7 +61,7 @@ export function useBridgeNetworkSendTx(
         config.gas = gasLimit[options.type];
       }
 
-      bridgeNetwork
+      return bridgeNetwork
         .send(chain, {
           chainId,
           data,
@@ -81,7 +81,7 @@ export function useBridgeNetworkSendTx(
             loading: true,
             to: contractName,
             from: account.toLowerCase(),
-            value: (config?.value as string) || '0',
+            value: config?.value?.toString() || '0',
             asset: options?.asset || null,
             assetAmount: options?.assetAmount || null,
             customData: options?.customData || undefined,
@@ -91,6 +91,7 @@ export function useBridgeNetworkSendTx(
           setTx(txData);
           setTxId(transactionHash);
           dispatch(actions.closeTransactionRequestDialog());
+          return transactionHash;
         })
         .catch(e => {
           console.error(e.message);

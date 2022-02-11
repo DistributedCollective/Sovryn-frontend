@@ -15,18 +15,23 @@ import { PerpetualPairType } from '../../../../utils/dictionaries/perpetual-pair
 
 export const usePerpetual_executeTransaction = (
   pairType: PerpetualPairType,
+  useGSN: boolean,
 ) => {
   // TODO: find a nicer solution only this hooks should ever be used anyway
-  const { trade, ...tradeRest } = usePerpetual_openTrade(pairType);
+  const { trade, ...tradeRest } = usePerpetual_openTrade(pairType, useGSN);
   // const { trade, ...tradeRest } = usePerpetual_openTradeWithoutManualDeposit();
-  const { deposit, ...depositRest } = usePerpetual_depositMarginToken(pairType);
+  const { deposit, ...depositRest } = usePerpetual_depositMarginToken(
+    pairType,
+    useGSN,
+  );
   const { withdraw, ...withdrawRest } = usePerpetual_withdrawMarginToken(
     pairType,
+    useGSN,
   );
   const {
     withdraw: withdrawAll,
     ...withdrawAllRest
-  } = usePerpetual_withdrawAll(pairType);
+  } = usePerpetual_withdrawAll(pairType, useGSN);
 
   const [transaction, setTransaction] = useState<PerpetualTx>();
 
