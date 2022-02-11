@@ -1535,9 +1535,12 @@
       "title": "Configurações de notificação",
       "notifyVia": "Notificar via",
       "telegramHandle": "Insira seu nome de usuário do Telegram",
+      "emailHandle": "Insira seu email",
       "discordHandle": "Insira seu nome de usuário do Discord",
       "usernamePlaceholder": "@usuário",
-      "receiveNotificationTitle": "Você irá receber uma notificação quando ocorrer:",
+      "updateSuccess": "Configurações de notificação atualizadas",
+      "emailPlaceholder": "exemplo@dominio.com",
+      "receiveNotificationTitle": "Você irá receber uma notificação quando ocorrer",
       "notificationEvents": {
         "1": "25% margem",
         "2": "Liquidação"
