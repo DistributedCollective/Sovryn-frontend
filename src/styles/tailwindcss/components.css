@@ -1,6 +1,7 @@
 @layer components {
   .tw-scrollbars-thin {
     /* firefox scrollbars */
+    scrollbar-width: thin;
     scrollbar-color: theme('colors.gray-5') transparent;
   }
 
@@ -9,7 +10,7 @@
   }
 
   .tw-scrollbars-thin::-webkit-scrollbar {
-    @apply tw-w-3 tw-h-3 tw-bg-transparent;
+    @apply tw-w-2.5 tw-h-2.5 tw-bg-transparent;
   }
 
   .tw-scrollbars-thin::-webkit-scrollbar-thumb {
