@@ -53,23 +53,27 @@ export const _getMarginBorrowAmountAndRate = async (
   leverage: number,
   depositAmount: string,
 ) => {
-  const leverageAmount = toWei(leverage - 1, 'ether');
-  const loanSizeBeforeInterest = bignumber(depositAmount)
-    .mul(leverageAmount)
-    .div(10 ** 18)
-    .toFixed(0);
+  try {
+    const leverageAmount = toWei(leverage - 1, 'ether');
+    const loanSizeBeforeInterest = bignumber(depositAmount)
+      .mul(leverageAmount)
+      .div(10 ** 18)
+      .toFixed(0);
 
-  const interestRate = await contractReader.call<string>(
-    getLendingContractName(loanToken),
-    'nextBorrowInterestRate', // we should call _nextBorrowInterestRate2 but it's not public function :(
-    [loanSizeBeforeInterest],
-  );
-  const borrowAmount = adjustLoanSize(
-    interestRate,
-    28, //days
-    loanSizeBeforeInterest,
-  );
-  return { borrowAmount, interestRate };
+    const interestRate = await contractReader.call<string>(
+      getLendingContractName(loanToken),
+      'nextBorrowInterestRate', // we should call _nextBorrowInterestRate2 but it's not public function :(
+      [loanSizeBeforeInterest],
+    );
+    const borrowAmount = adjustLoanSize(
+      interestRate,
+      28, //days
+      loanSizeBeforeInterest,
+    );
+    return { borrowAmount, interestRate };
+  } catch (error) {
+    return { borrowAmount: '0', interestRate: '0' };
+  }
 };
 
 export const adjustLoanSize = (
