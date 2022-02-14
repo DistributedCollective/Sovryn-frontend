@@ -49,6 +49,7 @@ const createClient = (endpoint: GraphQLEndpoint) =>
 const MAX_ALLOWED_BLOCK_BEHIND = 15; // ~45 seconds
 const RETRY_DELAY = 2 * 60 * 1000; // 2 minutes
 const MAX_TEST_SCORE = 4; // number of tests, can change in future
+const LACKING_TEST_SCORE = MAX_TEST_SCORE - 1; // number of tests minus 1 for blocks behind, can change in future
 
 type EvaluationResult = {
   score: number;
@@ -166,19 +167,21 @@ export const GraphQLProvider: React.FC<GraphQLProviderProps> = ({
         let bestEvaluation = await evaluateEndpoint(activeEndpoint);
         let bestIndex = active;
 
-        if (bestEvaluation.score === MAX_TEST_SCORE) {
+        if (bestEvaluation.score > LACKING_TEST_SCORE) {
           console.info(
-            `GraphQL endpoint is healthy and synced! Continuing to use "${activeEndpoint.graph}".`,
+            `GraphQL endpoint is healthy and synced! [score:${bestEvaluation.score}] Continuing to use "${activeEndpoint.graph}".`,
           );
           return;
         } else if (activeEndpoint.isFallback) {
           // TODO: add index to private fallback graph to be able to properly evaluate it.
-          bestEvaluation.score = bestEvaluation.score > 0 ? MAX_TEST_SCORE : 0;
+          bestEvaluation.score =
+            bestEvaluation.score > 0 ? LACKING_TEST_SCORE : 0;
         }
         console.info(
           `GraphQL endpoint is ${
             activeEndpoint.isFallback ? 'the fallback' : 'lacking'
-          }! ${JSON.stringify(bestEvaluation)}`,
+          }!`,
+          JSON.stringify(bestEvaluation),
           `Evaluating alternatives!`,
         );
 
@@ -191,8 +194,10 @@ export const GraphQLProvider: React.FC<GraphQLProviderProps> = ({
           const evaluation = await evaluateEndpoint(endpoint);
 
           if (
-            evaluation.score >= bestEvaluation.score ||
-            (endpoint.isFallback && evaluation.isUp)
+            evaluation.score > bestEvaluation.score ||
+            (endpoint.isFallback &&
+              evaluation.isUp &&
+              bestEvaluation.score <= LACKING_TEST_SCORE)
           ) {
             bestEvaluation = evaluation;
             bestIndex = index;
