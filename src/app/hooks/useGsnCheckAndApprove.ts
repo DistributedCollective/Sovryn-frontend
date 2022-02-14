@@ -95,8 +95,8 @@ export const useGsnCheckAndApprove = (
             nonce += 1;
             return {
               loading: true,
-              rejected: false,
-              status: TxStatus.PENDING,
+              rejected: approveTxHash ? false : true,
+              status: approveTxHash ? TxStatus.PENDING : TxStatus.FAILED,
               approveTxHash: approveTxHash || undefined,
               nonce,
             };

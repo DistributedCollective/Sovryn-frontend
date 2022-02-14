@@ -188,15 +188,7 @@ const getTranslations = (
       ),
       text: (
         <p className="tw-text-warning">
-          {t(
-            count === 1
-              ? translations.perpetualPage.processTrade.texts.rejected
-              : translations.perpetualPage.processTrade.texts.rejectedMulti,
-            {
-              current,
-              count,
-            },
-          )}
+          {t(translations.perpetualPage.processTrade.texts.rejected)}
           <br />
           {t(translations.perpetualPage.processTrade.texts.cancelOrRetry)}
         </p>
