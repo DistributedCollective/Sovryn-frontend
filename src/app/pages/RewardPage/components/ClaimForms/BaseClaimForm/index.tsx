@@ -116,7 +116,7 @@ export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
           {!(rewardsLocked || claimLocked) && (
             <Tooltip
               position="bottom"
-              className="tw-max-w-lg"
+              className="tw-max-w-lg tw-block"
               disabled={isTokenBalance}
               interactionKind="hover"
               content={
