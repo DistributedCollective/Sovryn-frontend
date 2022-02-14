@@ -2431,7 +2431,8 @@
       "name": "Name / Wallet Address",
       "positions": "Positions opened",
       "trade": "Last trade",
-      "total": "Total P/L"
+      "total": "Total P/L",
+      "empty": "No one registered yet. You could be the first!"
     },
     "join": {
       "title": "Enter Competition",

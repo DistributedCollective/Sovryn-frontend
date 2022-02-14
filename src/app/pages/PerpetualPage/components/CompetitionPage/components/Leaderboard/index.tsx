@@ -60,7 +60,7 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
   const updateItems = useCallback(
     debounce(() => {
       if (
-        !data?.length ||
+        !data ||
         !perpetualParameters?.poolId ||
         !ammState ||
         leaderboardData === undefined
@@ -233,7 +233,12 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
               />
             );
           })}
-          {!loaded && (!items || items.length === 0) && <SkeletonRow />}
+          {(!data || (!loaded && !items?.length)) && <SkeletonRow />}
+          {loaded && items && items.length === 0 && (
+            <div className="tw-flex tw-flex-row tw-justify-center tw-py-5 tw-mb-2 tw-mr-4 tw-font-thin tw-bg-gray-3 tw-rounded tw-border tw-border-transparent">
+              {t(translations.competitionPage.table.empty)}
+            </div>
+          )}
         </div>
         <div
           className={classNames('tw-my-2 tw-h-16', {
