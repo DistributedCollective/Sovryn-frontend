@@ -34,20 +34,26 @@ export const usePerpetual_ContractDetails = (pairType: PerpetualPairType) => {
 
   useEffect(() => {
     const get24hVolume = async () => {
-      const timestampNow = new Date().getTime() / 1000;
-      const timestampYesterday = Math.ceil(timestampNow - 24 * 3600);
+      const timestampYesterday = Date.now() - 24 * 3600 * 1000;
 
       const data: Bar[] = await makeApiRequest(
         client,
-        CandleDuration.D_1,
+        CandleDuration.H_1,
         pair.id,
-        timestampYesterday,
-        1,
+        Math.ceil(timestampYesterday / 1000),
+        24,
         true,
       );
 
-      if (data && data[0]?.volume) {
-        setVolume24h(data[0]?.volume);
+      if (data) {
+        let total = 0;
+        for (let i = 0; i < data.length; i++) {
+          // make sure to only use candles that are within the last
+          if (data[i] && data[i].time > timestampYesterday) {
+            total += data[i].volume || 0;
+          }
+        }
+        setVolume24h(total);
       }
     };
 
