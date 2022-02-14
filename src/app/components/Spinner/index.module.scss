@@ -7,8 +7,7 @@
         max-height: 6.25rem;
         path {
             &:first-child {
-                @apply tw-opacity-25;
-                stroke: rgb(92, 112, 128);
+                @apply tw-opacity-10 tw-stroke-current;
             }
         }
     }
