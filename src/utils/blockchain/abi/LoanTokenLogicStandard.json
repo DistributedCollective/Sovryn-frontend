@@ -468,6 +468,37 @@
         "internalType": "uint256",
         "name": "burnAmount",
         "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "useLM",
+        "type": "bool"
+      }
+    ],
+    "name": "burn",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "redeemed",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "receiver",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "burnAmount",
+        "type": "uint256"
       }
     ],
     "name": "burn",
@@ -741,6 +772,26 @@
     ],
     "payable": false,
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [],
+    "name": "getListFunctionSignatures",
+    "outputs": [
+      {
+        "internalType": "bytes4[]",
+        "name": "functionSignatures",
+        "type": "bytes4[]"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "moduleName",
+        "type": "bytes32"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "pure",
     "type": "function"
   },
   {
@@ -1066,6 +1117,37 @@
       {
         "internalType": "uint256",
         "name": "mintAmount",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "receiver",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "depositAmount",
+        "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "useLM",
+        "type": "bool"
+      }
+    ],
+    "name": "mint",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "minted",
         "type": "uint256"
       }
     ],
