@@ -116,13 +116,15 @@ const evaluateEndpoint = async (endpoint: GraphQLEndpoint) => {
         const blocksBehind =
           entry.chains[0].chainHeadBlock.number -
           entry.chains[0].latestBlock.number;
-        if (blocksBehind > MAX_ALLOWED_BLOCK_BEHIND) {
-          result.isKeepingUp = false;
-        } else {
-          result.score += 1 - blocksBehind / (MAX_ALLOWED_BLOCK_BEHIND + 1);
-          result.isKeepingUp = true;
+        if (blocksBehind > 0) {
+          if (blocksBehind > MAX_ALLOWED_BLOCK_BEHIND) {
+            result.isKeepingUp = false;
+          } else {
+            result.score += 1 - blocksBehind / (MAX_ALLOWED_BLOCK_BEHIND + 1);
+            result.isKeepingUp = true;
+          }
+          result.blocksBehind = blocksBehind;
         }
-        result.blocksBehind = blocksBehind;
       }
     }
   } catch (error) {
