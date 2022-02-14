@@ -18,7 +18,6 @@ interface IRewardTabProps {
   availableTradingRewards: string;
   availableLiquidityRewards: string;
   availableLendingRewards: string;
-  availableLockedSovBalance: string;
   amountToClaim: string;
 }
 
@@ -26,7 +25,6 @@ export const RewardTab: React.FC<IRewardTabProps> = ({
   availableTradingRewards,
   availableLiquidityRewards,
   availableLendingRewards,
-  availableLockedSovBalance,
   amountToClaim,
 }) => {
   const { t } = useTranslation();
@@ -61,14 +59,7 @@ export const RewardTab: React.FC<IRewardTabProps> = ({
         ) : (
           <>
             <div className="tw-w-1/2 tw-flex tw-justify-center tw-align-center">
-              <RewardClaimForm
-                amountToClaim={amountToClaim}
-                hasLockedSov={bignumber(availableLockedSovBalance).gt(0)}
-                hasLMRewards={
-                  bignumber(availableLendingRewards).gt(0) ||
-                  bignumber(availableLiquidityRewards).gt(0)
-                }
-              />
+              <RewardClaimForm amountToClaim={amountToClaim} />
             </div>
             <div className={styles.divider} />
             <div className="tw-w-1/2">
