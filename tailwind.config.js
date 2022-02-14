@@ -123,6 +123,9 @@ module.exports = {
           '100%': { transform: 'rotate(-360deg)' },
         },
       },
+      animation: {
+        'spin-fast': 'spin .5s linear infinite',
+      },
     },
   },
   variants: {
