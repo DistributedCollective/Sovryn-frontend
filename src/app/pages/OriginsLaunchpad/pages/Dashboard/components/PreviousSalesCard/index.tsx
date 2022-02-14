@@ -2,8 +2,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { InfoRow } from './InfoRow';
-import { CardImage } from './styled';
-import cn from 'classnames';
+import classNames from 'classnames';
+import styles from './index.module.scss';
 
 interface IPreviousSalesCardProps {
   saleName: string;
@@ -33,22 +33,21 @@ export const PreviousSalesCard: React.FC<IPreviousSalesCardProps> = ({
   cardClassName,
 }) => {
   const { t } = useTranslation();
+
   return (
     <div
-      className={cn(
-        'tw-flex tw-min-w-100 tw-flex-col tw-items-center sm:tw-flex-row xl:tw-max-w-50 tw-mb-12',
+      className={classNames(
+        'tw-flex sm:tw-w-full xl:tw-w-1/2 3xl:tw-w-1/3 tw-flex-col tw-items-center sm:tw-flex-row',
         className,
       )}
     >
       {backgroundImage && (
-        <CardImage
+        <div
           style={{ backgroundImage: `url(${backgroundImage})` }}
-          className={cn(cardClassName)}
+          className={classNames(styles.cardImage, cardClassName)}
         />
       )}
-      {backgroundElem && (
-        <div className={cn(cardClassName)}>{backgroundElem}</div>
-      )}
+      {backgroundElem && <div className={cardClassName}>{backgroundElem}</div>}
       <div className="tw-flex tw-flex-col tw-justify-center tw-ml-6 xl:tw-ml-4 2xl:tw-ml-11">
         <InfoRow
           label={t(
