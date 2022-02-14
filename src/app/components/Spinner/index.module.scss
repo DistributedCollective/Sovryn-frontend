@@ -1,10 +1,10 @@
 .spinner {
     @apply tw-flex tw-items-center tw-justify-center tw-text-gray-7;
     svg {
-        min-width: 10px;
-        min-height: 10px;
-        max-width: 100px;
-        max-height: 100px;
+        min-width: 0.625rem;
+        min-height: 0.625rem;
+        max-width: 6.25rem;
+        max-height: 6.25rem;
         path {
             &:first-child {
                 @apply tw-opacity-25;
