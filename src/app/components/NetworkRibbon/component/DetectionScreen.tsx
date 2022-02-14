@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Icon } from '@blueprintjs/core';
 import { translations } from 'locales/i18n';
-import { useWalletContext } from '@sovryn/react-wallet';
+import { useWalletContext, WalletContext } from '@sovryn/react-wallet';
 import error_alert from '../../../../assets/images/error_outline-24px.svg';
 import liquality from '../../../../assets/wallet_icons/liquality.svg';
 import metamask from '../../../../assets/wallet_icons/Metamask.svg';
 import nifty from '../../../../assets/wallet_icons/nifty.svg';
 import netData from './network.json';
-import { currentNetwork } from 'utils/classifiers';
+import { currentChainId, currentNetwork } from 'utils/classifiers';
 import { addRskMainnet, addRskTestnet } from 'utils/metamaskHelpers';
 import { ActionButton } from 'app/components/Form/ActionButton';
 
 import styles from '../NetworkRibbon.module.scss';
+import { InjectedWalletProvider, isWeb3Wallet } from '@sovryn/wallet';
+import { providers } from 'ethers';
 
 const addNetworkCallback =
   currentNetwork === 'mainnet' ? addRskMainnet : addRskTestnet;
@@ -24,9 +26,22 @@ interface Props {
 
 export function DetectionScreen(props: Props) {
   var logo: any = null;
-  const { ethereum } = window;
   const { t } = useTranslation();
-  const chainId = parseInt(ethereum?.chainId as string);
+
+  const { wallet, expectedChainId } = useContext(WalletContext);
+
+  const chainId = useMemo(() => {
+    if (isWeb3Wallet(wallet.providerType!)) {
+      const provider = InjectedWalletProvider.getProvider(
+        expectedChainId || currentChainId,
+      );
+      if (providers) {
+        return parseInt(provider.chainId);
+      }
+    }
+    return parseInt(wallet?.chainId.toString());
+  }, [expectedChainId, wallet.providerType, wallet.chainId]);
+
   const walletName =
     props.walletType.charAt(0).toUpperCase() + props.walletType.slice(1);
   const netName = netData.find(item => item.chainId === chainId)?.chain;

@@ -4,7 +4,7 @@ import type { Decimal } from 'decimal.js';
 import { currentChainId } from './classifiers';
 import { gas } from './blockchain/gas-price';
 import { Asset } from '../types';
-import { ProviderType } from '@sovryn/wallet';
+import { ProviderType, InjectedWalletProvider } from '@sovryn/wallet';
 import { walletService } from '@sovryn/react-wallet';
 import { CachedAssetRate } from 'app/containers/WalletProvider/types';
 import { numberFromWei } from './blockchain/math-helpers';
@@ -174,7 +174,7 @@ export function detectWeb3Wallet() {
   switch (walletService.providerType) {
     default:
     case ProviderType.WEB3:
-      const { ethereum } = window;
+      const ethereum = InjectedWalletProvider.getProvider(currentChainId);
       if (ethereum) {
         if (ethereum.isLiquality) return 'liquality';
         if (ethereum.isNiftyWallet) return 'nifty';

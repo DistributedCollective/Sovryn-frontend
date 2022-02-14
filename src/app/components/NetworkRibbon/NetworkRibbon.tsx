@@ -2,7 +2,7 @@ import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import { isWeb3Wallet } from '@sovryn/wallet';
+import { isWeb3Wallet, InjectedWalletProvider } from '@sovryn/wallet';
 import { WalletContext } from '@sovryn/react-wallet';
 import { translations } from 'locales/i18n';
 
@@ -15,10 +15,22 @@ import { selectWalletProvider } from '../../containers/WalletProvider/selectors'
 
 export function NetworkRibbon(this: any) {
   const { bridgeChainId } = useSelector(selectWalletProvider);
-  const { connected, wallet } = useContext(WalletContext);
+  const { connected, wallet, expectedChainId } = useContext(WalletContext);
   const location = useLocation();
   const walletName = detectWeb3Wallet();
   const { t } = useTranslation();
+
+  const web3ChainId = useMemo(() => {
+    if (isWeb3Wallet(wallet.providerType!)) {
+      const provider = InjectedWalletProvider.getProvider(
+        bridgeChainId || expectedChainId,
+      );
+      if (provider?.isLiquality) {
+        return Number(provider.chainId);
+      }
+    }
+    return wallet.chainId;
+  }, [bridgeChainId, expectedChainId, wallet.providerType, wallet.chainId]);
 
   const isOpen = useMemo(() => {
     if (bridgeChainId !== null || location.pathname.startsWith('/cross-chain'))
@@ -26,14 +38,14 @@ export function NetworkRibbon(this: any) {
     return (
       connected &&
       isWeb3Wallet(wallet.providerType!) &&
-      wallet.chainId !== currentChainId
+      web3ChainId !== currentChainId
     );
   }, [
     bridgeChainId,
     location.pathname,
     connected,
+    web3ChainId,
     wallet.providerType,
-    wallet.chainId,
   ]);
 
   const [startTut, setStart] = useState(false);
