@@ -230,10 +230,10 @@ export const PerpetualQueriesContextProvider: React.FC<PerpetualQueriesContextPr
   useEffect(() => {
     if (account) {
       refetchBalance();
+      refetchUser();
     }
-
     // transactions is required to refetch once new transactions complete
-  }, [transactions, account, refetchBalance]);
+  }, [transactions, account, refetchBalance, refetchUser]);
 
   useEffect(() => {
     const socket = initSocket(
