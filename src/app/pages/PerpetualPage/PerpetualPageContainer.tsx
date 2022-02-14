@@ -119,6 +119,7 @@ export const PerpetualPageContainer: React.FC = () => {
           />
         </Helmet>
         <HeaderLabs
+          helpLink="https://wiki.sovryn.app/en/sovryn-dapp/perpetual-futures"
           menus={
             <Link to="/perpetuals/competition" className="tw-text-black">
               <>Competition</>
