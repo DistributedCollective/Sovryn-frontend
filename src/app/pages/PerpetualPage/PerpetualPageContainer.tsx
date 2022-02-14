@@ -117,7 +117,7 @@ export const PerpetualPageContainer: React.FC = () => {
             content={t(translations.perpetualPage.meta.description)}
           />
         </Helmet>
-        <HeaderLabs />
+        <HeaderLabs helpLink="https://wiki.sovryn.app/en/sovryn-dapp/perpetual-futures" />
         <div className="tw-relative tw--top-2.5 tw-w-full">
           <PairSelector
             pair={pair}
