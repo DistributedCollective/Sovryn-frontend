@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useWalletContext } from '@sovryn/react-wallet';
-import { isWeb3Wallet } from '@sovryn/wallet';
+import { isWeb3Wallet, InjectedWalletProvider } from '@sovryn/wallet';
 
 import { Chain } from 'types';
 import { actions } from '../../slice';
@@ -34,6 +34,16 @@ export const ReturnToPortfolio: React.FC = () => {
   }, [dispatch]);
 
   const { wallet, connected, connect } = useWalletContext();
+
+  const chainId = useMemo(() => {
+    if (isWeb3Wallet(wallet.providerType!)) {
+      const provider = InjectedWalletProvider.getProvider(currentChainId);
+      if (provider) {
+        return parseInt(provider.chainId);
+      }
+    }
+    return parseInt(wallet?.chainId.toString());
+  }, [wallet.providerType, wallet?.chainId]);
 
   const handleNetworkSwitch = useCallback(() => {
     dispatch(actions.selectSourceNetwork(Chain.RSK));
@@ -67,7 +77,7 @@ export const ReturnToPortfolio: React.FC = () => {
           />
         </>
       )}
-      {connected && wallet.chainId !== currentChainId && (
+      {connected && chainId !== currentChainId && (
         <>
           <SelectBox onClick={noop}>
             <img
@@ -98,7 +108,7 @@ export const ReturnToPortfolio: React.FC = () => {
         </>
       )}
 
-      {wallet.chainId === currentChainId && (
+      {chainId === currentChainId && (
         <>
           <SelectBox onClick={noop}>
             <img

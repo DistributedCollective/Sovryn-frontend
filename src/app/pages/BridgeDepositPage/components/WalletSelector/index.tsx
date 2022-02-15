@@ -1,7 +1,11 @@
 import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { WalletConnectionView, WalletContext } from '@sovryn/react-wallet';
-import { isWeb3Wallet, ProviderType } from '@sovryn/wallet';
+import {
+  isWeb3Wallet,
+  ProviderType,
+  InjectedWalletProvider,
+} from '@sovryn/wallet';
 
 import { Chain } from '../../../../../types';
 import { getBridgeChainId } from '../../utils/helpers';
@@ -35,11 +39,20 @@ export const WalletSelector: React.FC = () => {
   const bridgeLocked = checkMaintenance(States.BRIDGE);
 
   const dispatch = useDispatch();
-  const { ethereum } = window;
 
   const { bridgeChainId } = useSelector(selectWalletProvider);
+  const { wallet } = useContext(WalletContext);
   const { chain } = useSelector(selectBridgeDepositPage);
-  const chainId = parseInt(ethereum?.chainId as string);
+
+  const chainId = useMemo(() => {
+    if (isWeb3Wallet(wallet.providerType!)) {
+      const provider = InjectedWalletProvider.getProvider(bridgeChainId!);
+      if (provider) {
+        return parseInt(provider.chainId);
+      }
+    }
+    return parseInt(wallet?.chainId.toString());
+  }, [wallet.providerType, wallet?.chainId, bridgeChainId]);
 
   const walletName = detectWeb3Wallet();
 
@@ -66,12 +79,12 @@ export const WalletSelector: React.FC = () => {
       chain !== null &&
       isWeb3Wallet(walletContext.wallet.providerType as ProviderType) &&
       walletContext.wallet.isConnected() &&
-      walletContext.wallet.chainId !== getBridgeChainId(chain as Chain)
+      chainId !== getBridgeChainId(chain as Chain)
     ) {
       return 'wrong-network';
     }
     return 'choose-network';
-  }, [walletContext, chain]);
+  }, [chain, walletContext.wallet, chainId]);
 
   const network = useMemo(() => BridgeNetworkDictionary.get(chain as Chain), [
     chain,

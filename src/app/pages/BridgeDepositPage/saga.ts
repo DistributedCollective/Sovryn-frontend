@@ -169,6 +169,7 @@ function* approveTransfer() {
           nonce,
           data,
           gasLimit: useCustomGas ? 60000 : undefined,
+          chainId: Number(getBridgeChainId(payload.chain)),
         },
       );
 
@@ -271,6 +272,7 @@ function* confirmTransfer() {
             nonce !== undefined
               ? gasLimit[TxType.CROSS_CHAIN_DEPOSIT]
               : undefined,
+          chainId: Number(getBridgeChainId(payload.chain)),
         },
       );
 

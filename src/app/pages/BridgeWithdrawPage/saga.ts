@@ -24,6 +24,7 @@ import { BridgeModel } from '../BridgeDepositPage/types/bridge-model';
 import { AssetModel } from '../BridgeDepositPage/types/asset-model';
 import {
   getBridgeChain,
+  getBridgeChainId,
   getSupportedBridgeChainIds,
 } from '../BridgeDepositPage/utils/helpers';
 import { bridgeNetwork } from '../BridgeDepositPage/utils/bridge-network';
@@ -132,6 +133,7 @@ function* approveTransfer() {
           to: asset.tokenContractAddress,
           nonce,
           data,
+          chainId: Number(getBridgeChainId(payload.chain)),
         },
       );
 
@@ -236,6 +238,7 @@ function* confirmTransfer() {
             nonce !== undefined
               ? gasLimit[TxType.CROSS_CHAIN_WITHDRAW]
               : undefined,
+          chainId: Number(getBridgeChainId(payload.chain)),
         },
       );
 

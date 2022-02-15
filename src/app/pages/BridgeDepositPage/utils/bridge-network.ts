@@ -14,6 +14,7 @@ import erc20Abi from 'utils/blockchain/abi/erc20.json';
 import mAssetAbi from 'utils/blockchain/abi/BabelFish_MassetAbi.json';
 import bridgeAbi from 'utils/blockchain/abi/BridgeAbi.json';
 import { CrossBridgeAsset } from '../types/cross-bridge-asset';
+import { currentChainId } from 'utils/classifiers';
 
 interface MultiCallData {
   address: string;
@@ -198,7 +199,7 @@ export class BridgeNetwork {
       gasPrice: tx.gasPrice.toString(),
       nonce: Number(tx.nonce),
       gasLimit: tx.gasLimit.toString(),
-      chainId: walletService.chainId,
+      chainId: tx.chainId || currentChainId,
     });
 
     if (isWeb3Wallet(walletService.providerType as ProviderType)) {
