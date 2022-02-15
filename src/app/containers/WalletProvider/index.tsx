@@ -26,7 +26,7 @@ import { reducer, sliceKey } from './slice';
 import { walletProviderSaga } from './saga';
 import { selectRequestDialogState } from '../../../store/global/transactions-store/selectors';
 import { TxRequestDialog } from './components/TxRequestDialog';
-import { currentChainId } from '../../../utils/classifiers';
+import { currentChainId, currentNetwork } from '../../../utils/classifiers';
 import { actions } from './slice';
 import { useEvent } from 'app/hooks/useAnalytics';
 import { selectWalletProvider } from './selectors';
@@ -96,6 +96,8 @@ function WalletWatcher() {
       intercomUpdate({
         'Wallet address': address,
         'Wallet type': detectWeb3Wallet(),
+        'Wallet network': wallet?.wallet?.chainId?.toString() || 'unknown',
+        Environment: currentNetwork,
       });
     }
 
