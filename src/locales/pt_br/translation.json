@@ -595,7 +595,7 @@
   "swap": {
     "title": "Trocar",
     "meta": "Trocar",
-    "cta": "Revisar troca",
+    "cta": "Trocar",
     "minimumReceived": "Mínimo a receber:",
     "send": "Enviar",
     "receive": "Receber"
