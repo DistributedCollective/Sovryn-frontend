@@ -88,7 +88,7 @@ export const PairSelect: React.FC<IPairSelect> = ({
             {pairsData && (
               <PairLabels
                 pairs={pairsData.pairs}
-                onChangeCategory={e => setCategory(e)}
+                onChangeCategory={setCategory}
                 category={category}
                 type={type}
               />

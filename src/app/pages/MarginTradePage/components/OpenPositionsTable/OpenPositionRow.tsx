@@ -14,7 +14,7 @@ import {
   weiToAssetNumberFormat,
   weiToNumberFormat,
 } from 'utils/display-text/format';
-import { getEntryPrice } from '../../utils/marginUtils';
+import { getTradingPositionPrice } from '../../utils/marginUtils';
 import { AddToMarginDialog } from '../AddToMarginDialog';
 import { ClosePositionDialog } from '../ClosePositionDialog';
 import { LiquidatedPositionsTable } from '../LiquidatedPositionsTable';
@@ -40,9 +40,10 @@ export const OpenPositionRow: React.FC<OpenPositionRowInnerProps> = ({
   nextRollover,
 }) => {
   const { t } = useTranslation();
-  const tradeLoan = items[0];
-  const liquidateLoans = items.filter(
-    loan => loan.event === EventType.LIQUIDATE,
+  const tradeLoan = useMemo(() => items[0], [items]);
+  const liquidateLoans = useMemo(
+    () => items.filter(loan => loan.event === EventType.LIQUIDATE),
+    [items],
   );
   const { checkMaintenances, States } = useMaintenance();
   const {
@@ -74,10 +75,10 @@ export const OpenPositionRow: React.FC<OpenPositionRowInnerProps> = ({
     MAINTENANCE_MARGIN,
   );
 
-  const entryPrice = useMemo(() => getEntryPrice(tradeLoan, position), [
-    tradeLoan,
-    position,
-  ]);
+  const entryPrice = useMemo(
+    () => getTradingPositionPrice(tradeLoan, position),
+    [tradeLoan, position],
+  );
 
   const positionMargin = useMemo(() => {
     if (isLong) {

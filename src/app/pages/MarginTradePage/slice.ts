@@ -1,18 +1,21 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from 'utils/@reduxjs/toolkit';
-import { ContainerState, NotificationPayload, NotificationUser } from './types';
+import {
+  IMarginTradePageState,
+  NotificationPayload,
+  NotificationUser,
+} from './types';
 import { TradingPairType } from 'utils/dictionaries/trading-pair-dictionary';
 import { Asset } from 'types';
 import { TradingPosition } from 'types/trading-position';
 
 // The initial state of the MarginTradePage container
-export const initialState: ContainerState = {
+export const initialState: IMarginTradePageState = {
   pairType: TradingPairType.SOV_RBTC,
   collateral: Asset.RBTC,
   amount: '0',
   leverage: 2,
   position: TradingPosition.LONG,
-
   notificationWallet: '',
   notificationToken: '',
   notificationUser: undefined,

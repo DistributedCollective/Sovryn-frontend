@@ -6,18 +6,11 @@ import imgArrowUp from 'assets/images/trend-arrow-up.svg';
 import imgArrowDown from 'assets/images/trend-arrow-down.svg';
 import { TradePriceChange } from '../types';
 
-export function getEntryPrice(item: OpenLoanType, position: TradingPosition) {
-  if (position === TradingPosition.LONG) {
-    return Number(weiTo18(item.collateralToLoanRate));
-  }
-  return 1 / Number(weiTo18(item.collateralToLoanRate));
-}
-
-export function isLongTrade(position: TradingPosition) {
+export const isLongTrade = (position: TradingPosition) => {
   return position === TradingPosition.LONG;
-}
+};
 
-export function getPriceChangeImage(priceChange: TradePriceChange) {
+export const getPriceChangeImage = (priceChange: TradePriceChange) => {
   switch (priceChange) {
     case TradePriceChange.UP:
       return imgArrowUp;
@@ -26,9 +19,9 @@ export function getPriceChangeImage(priceChange: TradePriceChange) {
     default:
       return undefined;
   }
-}
+};
 
-export function getPriceColor(priceChange: TradePriceChange) {
+export const getPriceColor = (priceChange: TradePriceChange) => {
   if (priceChange === TradePriceChange.NO_CHANGE) {
     return undefined;
   }
@@ -36,9 +29,9 @@ export function getPriceColor(priceChange: TradePriceChange) {
   return priceChange === TradePriceChange.UP
     ? 'tw-text-trade-long'
     : 'tw-text-trade-short';
-}
+};
 
-export function getPriceChange(priceDirection: number) {
+export const getPriceChange = (priceDirection: number) => {
   switch (priceDirection) {
     case 0:
       return TradePriceChange.DOWN;
@@ -47,19 +40,22 @@ export function getPriceChange(priceDirection: number) {
     default:
       return TradePriceChange.NO_CHANGE;
   }
-}
+};
 
-export function getTradingPositionPrice(
+export const getTradingPositionPrice = (
   item: OpenLoanType,
   position: TradingPosition,
-) {
+) => {
   if (position === TradingPosition.LONG) {
     return Number(weiTo18(item.collateralToLoanRate));
   }
   return 1 / Number(weiTo18(item.collateralToLoanRate));
-}
+};
 
-export function calculateMinimumReturn(amount: string, slippage: number = 0.1) {
+export const calculateMinimumReturn = (
+  amount: string,
+  slippage: number = 0.1,
+) => {
   return {
     amount,
     slippage,
@@ -67,4 +63,4 @@ export function calculateMinimumReturn(amount: string, slippage: number = 0.1) {
       .sub(bignumber(amount).mul(slippage / 100))
       .toFixed(0),
   };
-}
+};

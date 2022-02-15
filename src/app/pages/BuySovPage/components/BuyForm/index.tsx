@@ -24,7 +24,7 @@ import { useCanInteract } from 'app/hooks/useCanInteract';
 import { AvailableBalance } from 'app/components/AvailableBalance';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import { discordInvite, tradeFormsGasLimit } from 'utils/classifiers';
+import { discordInvite, gasLimit } from 'utils/classifiers';
 import { useSwapsExternal_getSwapExpectedReturn } from 'app/hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
 import { useSwapNetwork_conversionPath } from 'app/hooks/swap-network/useSwapNetwork_conversionPath';
 import { useSwapNetwork_approveAndConvertByPath } from 'app/hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
@@ -70,14 +70,14 @@ export function BuyForm() {
       bignumber(weiAmount).greaterThan(0) &&
       bignumber(minReturn).greaterThan(0) &&
       bignumber(weiAmount).lessThanOrEqualTo(
-        maxMinusFee(balance, Asset.RBTC, tradeFormsGasLimit),
+        maxMinusFee(balance, Asset.RBTC, gasLimit.trade),
       )
     );
   }, [balance, minReturn, weiAmount]);
 
   const changeAmount = value => {
     if (value === 100) {
-      setAmount(weiTo18(maxMinusFee(balance, Asset.RBTC, tradeFormsGasLimit)));
+      setAmount(weiTo18(maxMinusFee(balance, Asset.RBTC, gasLimit.trade)));
     } else {
       setAmount(
         weiTo18(

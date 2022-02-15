@@ -19,7 +19,7 @@ import { Order } from 'app/pages/SpotTradingPage/helpers';
 import { useSendTx } from '../useSendTx';
 import { signTypeData } from './utils';
 import axios from 'axios';
-import { limitOrderUrl, currentChainId } from 'utils/classifiers';
+import { limitOrderUrl, currentChainId, gasLimit } from 'utils/classifiers';
 
 export const useLimitOrder = (
   sourceToken: Asset,
@@ -185,7 +185,7 @@ export const useCancelLimitOrder = (order: LimitOrder, sourceToken: Asset) => {
 
     send({
       ...populated,
-      gas: '600000',
+      gas: gasLimit.limit_order,
       gasPrice: gas.get(),
       nonce,
     } as TransactionConfig);

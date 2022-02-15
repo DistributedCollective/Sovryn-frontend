@@ -59,11 +59,11 @@ const getOptions = (item: OpenLoanType) => {
   ];
 };
 
-export const ClosePositionDialog = ({
+export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
   item,
   showModal,
   onCloseModal,
-}: IClosePositionDialogProps) => {
+}) => {
   const { t } = useTranslation();
   const receiver = useAccount();
   const [amount, setAmount] = useState('0');
@@ -99,8 +99,14 @@ export const ClosePositionDialog = ({
     targetToken.asset,
   );
 
-  const args = [item.loanId, receiver, weiAmount, isCollateral, '0x'];
-  const isLong = targetToken.asset === pair.longAsset;
+  const args = useMemo(
+    () => [item.loanId, receiver, weiAmount, isCollateral, '0x'],
+    [item.loanId, receiver, weiAmount, isCollateral],
+  );
+  const isLong = useMemo(() => targetToken.asset === pair.longAsset, [
+    targetToken.asset,
+    pair.longAsset,
+  ]);
 
   const { price: currentPriceSource, loading } = useCurrentPositionPrice(
     sourceToken.asset,
@@ -145,7 +151,10 @@ export const ClosePositionDialog = ({
     '1',
     item.positionSizeChange,
   );
-  const totalAmount = Number(amount) + Number(fromWei(profit));
+  const totalAmount = useMemo(() => Number(amount) + Number(fromWei(profit)), [
+    amount,
+    profit,
+  ]);
   const { minReturn } = calculateMinimumReturn(toWei(totalAmount), slippage);
 
   const { error } = useCacheCallWithValue<{

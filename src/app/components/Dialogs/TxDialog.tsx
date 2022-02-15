@@ -137,39 +137,65 @@ export const TxDialog: React.FC<ITxDialogProps> = ({
   );
 };
 
-function getWalletName(wallet: string) {
-  if (wallet === 'liquality') return 'Liquality';
-  if (wallet === 'nifty') return 'Nifty';
-  if (wallet === 'portis') return 'Portis';
-  if (wallet === 'ledger') return 'Ledger';
-  if (wallet === 'trezor') return 'Trezor';
-  if (wallet === 'wallet-connect') return 'Wallet Connect';
-  return 'MetaMask';
-}
+const getWalletName = (wallet: string) => {
+  switch (wallet) {
+    case 'liquality':
+      return 'Liquality';
+    case 'nifty':
+      return 'Nifty';
+    case 'portis':
+      return 'Portis';
+    case 'ledger':
+      return 'Ledger';
+    case 'trezor':
+      return 'Trezor';
+    case 'wallet-connect':
+      return 'Wallet Connect';
+    default:
+      return 'MetaMask';
+  }
+};
 
-function getWalletImage(wallet: string) {
-  if (wallet === 'liquality') return wLiquality;
-  if (wallet === 'nifty') return wNifty;
-  if (wallet === 'portis') return wPortis;
-  if (wallet === 'ledger') return wLedger;
-  if (wallet === 'trezor') return wTrezor;
-  if (wallet === 'wallet-connect') return wWalletConnect;
-  return wMetamask;
-}
+const getWalletImage = (wallet: string) => {
+  switch (wallet) {
+    case 'liquality':
+      return wLiquality;
+    case 'nifty':
+      return wNifty;
+    case 'portis':
+      return wPortis;
+    case 'ledger':
+      return wLedger;
+    case 'trezor':
+      return wTrezor;
+    case 'wallet-connect':
+      return wWalletConnect;
+    default:
+      return wMetamask;
+  }
+};
 
-function getStatusImage(tx: TxStatus) {
-  if (tx === TxStatus.FAILED) return txFailed;
-  if (tx === TxStatus.CONFIRMED) return txConfirm;
-  return txPending;
-}
+const getStatusImage = (tx: TxStatus) => {
+  switch (tx) {
+    case TxStatus.FAILED:
+      return txFailed;
+    case TxStatus.CONFIRMED:
+      return txConfirm;
+    default:
+      return txPending;
+  }
+};
 
-function getStatus(tx: TxStatus) {
-  if (tx === TxStatus.FAILED)
-    return <Trans i18nKey={translations.common.failed} />;
-  if (tx === TxStatus.CONFIRMED)
-    return <Trans i18nKey={translations.common.confirmed} />;
-  return <Trans i18nKey={translations.common.pending} />;
-}
+const getStatus = (tx: TxStatus) => {
+  switch (tx) {
+    case TxStatus.FAILED:
+      return <Trans i18nKey={translations.common.failed} />;
+    case TxStatus.CONFIRMED:
+      return <Trans i18nKey={translations.common.confirmed} />;
+    default:
+      return <Trans i18nKey={translations.common.pending} />;
+  }
+};
 
 type StatusComponentProps = {
   status: TxStatus;
@@ -179,32 +205,32 @@ type StatusComponentProps = {
 export const StatusComponent: React.FC<StatusComponentProps> = ({
   status,
   onlyImage = false,
-}) => {
-  return (
-    <div className="tw-mx-auto tw-text-center tw-w-24">
-      <img
-        src={getStatusImage(status)}
-        className={`${
-          status === 'pending' && 'tw-animate-spin'
-        } tw-w-14 tw-h-14 tw-mx-auto`}
-        alt="Status"
-      />
-      {!onlyImage && (
-        <p className="tw-text-base tw-font-medium">{getStatus(status)}</p>
-      )}
-    </div>
-  );
+}) => (
+  <div className="tw-mx-auto tw-text-center tw-w-24">
+    <img
+      src={getStatusImage(status)}
+      className={classNames('tw-w-14 tw-h-14 tw-mx-auto', {
+        'tw-animate-spin': status === TxStatus.PENDING,
+      })}
+      alt="Status"
+    />
+    {!onlyImage && (
+      <p className="tw-text-base tw-font-medium">{getStatus(status)}</p>
+    )}
+  </div>
+);
+
+type WalletLogoProps = {
+  wallet: string;
 };
 
-function WalletLogo({ wallet }: { wallet: string }) {
-  return (
-    <div className="tw-flex tw-flex-col tw-justify-center tw-items-center tw-overflow-hidden tw-rounded-2xl tw-border tw-border-sov-white tw-w-24 tw-h-24 tw-mx-auto tw-mb-9">
-      <img
-        className="tw-w-12 tw-h-12 tw-mb-2.5 tw-object-contain"
-        src={getWalletImage(wallet)}
-        alt="Wallet"
-      />
-      <div className="tw-truncate tw-text-xs">{getWalletName(wallet)}</div>
-    </div>
-  );
-}
+const WalletLogo: React.FC<WalletLogoProps> = ({ wallet }) => (
+  <div className="tw-flex tw-flex-col tw-justify-center tw-items-center tw-overflow-hidden tw-rounded-2xl tw-border tw-border-sov-white tw-w-24 tw-h-24 tw-mx-auto tw-mb-9">
+    <img
+      className="tw-w-12 tw-h-12 tw-mb-2.5 tw-object-contain"
+      src={getWalletImage(wallet)}
+      alt="Wallet"
+    />
+    <div className="tw-truncate tw-text-xs">{getWalletName(wallet)}</div>
+  </div>
+);

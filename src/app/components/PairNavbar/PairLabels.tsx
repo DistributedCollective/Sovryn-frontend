@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import classNames from 'classnames';
 import { IPairs, TradingType } from 'types/trading-pairs';
+import { Asset } from 'types';
 
 interface IPairLabelsProps {
   onChangeCategory: (value: string) => void;
@@ -33,7 +34,8 @@ export const PairLabels: React.FC<IPairLabelsProps> = ({
     return null;
   }
 
-  const categories = type === TradingType.SPOT ? [ALL, 'RBTC', ...list] : [ALL];
+  const categories =
+    type === TradingType.SPOT ? [ALL, Asset.RBTC, ...list] : [ALL];
 
   return (
     <>

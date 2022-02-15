@@ -2,19 +2,15 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { bignumber } from 'mathjs';
 import { Tooltip } from '@blueprintjs/core';
 import { useTranslation } from 'react-i18next';
-import { TradingPosition } from '../../../types/trading-position';
-import {
-  toNumberFormat,
-  weiToNumberFormat,
-} from '../../../utils/display-text/format';
-import { translations } from '../../../locales/i18n';
-import { toWei } from 'utils/blockchain/math-helpers';
+import classNames from 'classnames';
+import { TradingPosition } from 'types/trading-position';
+import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
+import { translations } from 'locales/i18n';
 import { OpenLoanType } from 'types/active-loan';
 import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
 import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
 import { getTradingPositionPrice } from 'app/pages/MarginTradePage/utils/marginUtils';
 import { AssetRenderer } from '../AssetRenderer';
-import classNames from 'classnames';
 
 interface ITradeProfitProps {
   closedItem: OpenLoanType;
@@ -48,15 +44,17 @@ export const TradeProfit: React.FC<ITradeProfitProps> = ({
 
   useEffect(() => {
     //LONG position
-    let change = bignumber(bignumber(closePrice).minus(openPrice))
+    let change = bignumber(closePrice)
+      .minus(openPrice)
       .div(openPrice)
       .mul(100)
       .toNumber();
 
     //SHORT position
     if (position === TradingPosition.SHORT) {
-      change = bignumber(bignumber(toWei(openPrice)).minus(toWei(closePrice)))
-        .div(toWei(openPrice))
+      change = bignumber(openPrice)
+        .minus(closePrice)
+        .div(openPrice)
         .mul(100)
         .toNumber();
     }

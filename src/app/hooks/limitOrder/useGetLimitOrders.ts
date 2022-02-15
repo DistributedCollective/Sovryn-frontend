@@ -33,6 +33,7 @@ export const orderParser = (order: IApiLimitOrder): LimitOrder => ({
 });
 
 const deadlinePassed = (date: number) => new Date(date * 1000) < new Date();
+const url = `${limitOrderUrl[currentChainId]}/orders`;
 
 export const useGetLimitOrders = <T>(
   account: string,
@@ -41,8 +42,6 @@ export const useGetLimitOrders = <T>(
   const [orders, setOrders] = useState<T[]>([]);
   const [loading, setLoading] = useState(true);
   const cancelDataRequest = useRef<Canceler>();
-
-  const url = `${limitOrderUrl[currentChainId]}/orders`;
 
   const getData = useCallback(async () => {
     if (!account) {
@@ -80,7 +79,7 @@ export const useGetLimitOrders = <T>(
         setLoading(false);
       })
       .catch(e => console.error(e));
-  }, [account, isMargin, url]);
+  }, [account, isMargin]);
 
   useInterval(getData, 30 * 1e3, { immediate: true });
 

@@ -2,6 +2,7 @@ import React, { Suspense } from 'react';
 import { Dialog as BPDialog } from '@blueprintjs/core';
 import { ComponentSkeleton } from '../../components/PageSkeleton';
 import styles from '../../components/Dialogs/dialog.module.scss';
+import classNames from 'classnames';
 
 interface IDialogProps {
   isOpen: boolean;
@@ -20,7 +21,7 @@ export const Dialog: React.FC<IDialogProps> = ({
   children,
   canEscapeKeyClose,
   canOutsideClickClose,
-  className = styles.dialog,
+  className,
   dataAttribute,
   onClose,
 }) => (
@@ -29,7 +30,7 @@ export const Dialog: React.FC<IDialogProps> = ({
     onClose={onClose}
     canEscapeKeyClose={canEscapeKeyClose}
     canOutsideClickClose={canOutsideClickClose}
-    className={className}
+    className={classNames(styles.dialog, className)}
   >
     {isCloseButtonShown && (
       <button

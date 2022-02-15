@@ -15,7 +15,7 @@ import { stringToFixedPrecision } from 'utils/display-text/format';
 import { AvailableBalance } from 'app/components/AvailableBalance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useMaintenance } from 'app/hooks/useMaintenance';
-import { discordInvite, tradeFormsGasLimit } from 'utils/classifiers';
+import { discordInvite } from 'utils/classifiers';
 import styles from './index.module.scss';
 import { Duration } from '../LimitOrderSetting/Duration';
 import { TradeDialog } from '../TradeDialog';
@@ -31,6 +31,7 @@ import { Toast } from 'app/components/Toast';
 import { TransactionDialog } from 'app/components/TransactionDialog';
 import { TxStatus } from 'store/global/transactions-store/types';
 import { LimitResultDialog } from './LimitResultDialog';
+import { gasLimit } from 'utils/classifiers';
 
 export const LimitForm: React.FC<ITradeFormProps> = ({
   sourceToken,
@@ -55,7 +56,9 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
   const [duration, setDuration] = useState(0);
 
   const amountOut = useMemo(() => {
-    if (!limitPrice || !amount || limitPrice === '0') return '0';
+    if (!limitPrice || !amount || limitPrice === '0') {
+      return '0';
+    }
 
     return bignumber(amount || '0')
       .times(limitPrice)
@@ -73,10 +76,12 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
   );
 
   const limitMarketChange = useMemo(() => {
-    if (!limitPrice || limitPrice === '0' || !marketPrice) return '';
+    if (!limitPrice || limitPrice === '0' || !marketPrice) {
+      return '';
+    }
 
     return bignumber(limitPrice)
-      .div(weiToFixed(marketPrice, 6))
+      .div(marketPrice)
       .mul(100)
       .minus(100)
       .toNumber();
@@ -103,7 +108,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
       bignumber(weiAmountOut).greaterThan(0) &&
       bignumber(weiAmount).greaterThan(0) &&
       bignumber(weiAmount).lessThanOrEqualTo(
-        maxMinusFee(balance, sourceToken, tradeFormsGasLimit),
+        maxMinusFee(balance, sourceToken, gasLimit.trade),
       )
     );
   }, [amount, balance, limitPrice, sourceToken, weiAmount, weiAmountOut]);

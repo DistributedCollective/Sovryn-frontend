@@ -52,6 +52,7 @@ export enum TxType {
   CLAIM_VESTED_SOV_REWARDS = 'claim_vested_sov_rewards',
   SIMULATOR_REQUEST = 'simulator_request',
   FAST_BTC_WITHDRAW = 'fast_btc_withdraw',
+  LIMIT_ORDER = 'limit_order',
 }
 
 export enum TxStatus {

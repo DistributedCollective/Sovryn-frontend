@@ -22,7 +22,7 @@ import {
 import { AvailableBalance } from 'app/components/AvailableBalance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useMaintenance } from 'app/hooks/useMaintenance';
-import { discordInvite, tradeFormsGasLimit } from 'utils/classifiers';
+import { discordInvite } from 'utils/classifiers';
 import { useSwapsExternal_getSwapExpectedReturn } from '../../../../hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
 import styles from './index.module.scss';
 import { TradeDialog } from '../TradeDialog';
@@ -41,6 +41,7 @@ import { toWei } from 'web3-utils';
 import { OrderView } from './OrderView';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { sliderDefaultLabelValues } from 'app/components/Form/Slider/sliderDefaultLabelValues';
+import { gasLimit } from 'utils/classifiers';
 
 export const MarketForm: React.FC<ITradeFormProps> = ({
   sourceToken,
@@ -98,7 +99,7 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
       bignumber(weiAmount).greaterThan(0) &&
       bignumber(minReturn).greaterThan(0) &&
       bignumber(weiAmount).lessThanOrEqualTo(
-        maxMinusFee(balance, sourceToken, tradeFormsGasLimit),
+        maxMinusFee(balance, sourceToken, gasLimit.trade),
       )
     );
   }, [balance, minReturn, sourceToken, weiAmount]);

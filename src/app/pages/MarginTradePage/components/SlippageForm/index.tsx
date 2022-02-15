@@ -104,17 +104,15 @@ export const LabelValuePair: React.FC<ILabelValuePairProps> = ({
   value,
   className,
   dataActionId,
-}) => {
-  return (
-    <div
-      className={classNames(
-        'tw-flex tw-text-xs tw-flex-row tw-flex-wrap tw-justify-between tw-space-x-4 tw-mb-3',
-        className,
-      )}
-      data-action-id={dataActionId}
-    >
-      <div className="tw-truncate ">{label}</div>
-      <div className="tw-truncate tw-text-right">{value}</div>
-    </div>
-  );
-};
+}) => (
+  <div
+    className={classNames(
+      'tw-flex tw-text-xs tw-flex-row tw-flex-wrap tw-justify-between tw-space-x-4 tw-mb-3',
+      className,
+    )}
+    data-action-id={dataActionId}
+  >
+    <div className="tw-truncate ">{label}</div>
+    <div className="tw-truncate tw-text-right">{value}</div>
+  </div>
+);

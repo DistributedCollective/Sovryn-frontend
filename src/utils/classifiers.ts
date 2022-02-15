@@ -76,6 +76,7 @@ export const gasLimit = {
   [TxType.SOV_WITHDRAW_VESTING]: 1900000,
   [TxType.SIMULATOR_REQUEST]: 6800000,
   [TxType.FAST_BTC_WITHDRAW]: 300000,
+  [TxType.LIMIT_ORDER]: 600000,
 };
 
 export const discordInvite = 'https://discord.gg/kBTNx4zjRf'; //unlimited use, no-expiry invite
@@ -105,5 +106,3 @@ export const limitOrderUrl = {
   30: 'https://orderbook.test.sovryn.app/limitOrder',
   31: 'https://orderbook.sovryn.app/limitOrder',
 };
-
-export const tradeFormsGasLimit = 340000;

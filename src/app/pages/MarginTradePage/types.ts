@@ -17,8 +17,6 @@ export interface IMarginTradePageState {
   notificationUser?: NotificationUser;
 }
 
-export type ContainerState = IMarginTradePageState;
-
 type ApiBigNumber = {
   hex: string;
 };

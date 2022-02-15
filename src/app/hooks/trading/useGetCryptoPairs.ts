@@ -3,13 +3,15 @@ import { useState, useEffect } from 'react';
 import { IPairsData } from 'types/trading-pairs';
 import { backendUrl, currentChainId } from 'utils/classifiers';
 
+const defaultPairsData = {
+  pairs: {},
+  total_volume_btc: 0,
+  total_volume_usd: 0,
+  updated_at: '',
+};
+
 export const useGetCryptoPairs = (): IPairsData => {
-  const [pairsData, setPairsData] = useState<IPairsData>({
-    pairs: {},
-    total_volume_btc: 0,
-    total_volume_usd: 0,
-    updated_at: '',
-  });
+  const [pairsData, setPairsData] = useState<IPairsData>(defaultPairsData);
   const url = backendUrl[currentChainId];
 
   useEffect(() => {
