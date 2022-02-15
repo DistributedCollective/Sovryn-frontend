@@ -1,11 +1,7 @@
 .dialog {
-  @apply tw-relative tw-font-body tw-bg-black tw-border-0 tw-rounded-3xl tw-max-w-full;
-  padding: 15px !important;
+  @apply tw-relative tw-font-body tw-bg-black tw-border-0 tw-rounded-3xl tw-max-w-full tw-p-4;
   h1 {
-    @apply tw-font-medium tw-text-center tw-normal-case;
-    margin-bottom: 1.5rem;
-    font-size: 1.375rem;
-    line-height: 1.813rem;
+    @apply tw-font-medium tw-text-center tw-normal-case tw-mb-6 tw-text-xl;
   }
   button[data-close] {
     @apply tw-cursor-pointer tw-border-0 tw-absolute tw--top-8 tw--right-8 tw-rounded-b-3xl tw-transition-opacity tw-duration-75;
@@ -23,7 +19,7 @@
 
 @screen sm {
   .dialog {
-    padding: 30px 0 40px 0 !important;
+    @apply tw-pt-7 tw-px-0 tw-pb-10;
     max-width: 468px;
   }
 }
