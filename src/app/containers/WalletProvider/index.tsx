@@ -31,6 +31,8 @@ import { actions } from './slice';
 import { useEvent } from 'app/hooks/useAnalytics';
 import { selectWalletProvider } from './selectors';
 import { useLocation } from 'react-router-dom';
+import { intercomUpdate } from 'utils/intercom';
+import { detectWeb3Wallet } from 'utils/helpers';
 
 interface Props {
   children: React.ReactNode;
@@ -90,7 +92,13 @@ function WalletWatcher() {
           wallet?.wallet?.getWalletType() || 'unknown'
         }:${crypto.createHash('md5').update(address).digest('hex')}`,
       });
+
+      intercomUpdate({
+        'Wallet address': address,
+        'Wallet type': detectWeb3Wallet(),
+      });
     }
+
     dispatch(actions.accountChanged(address || ''));
   }, [dispatch, address, setEvent, wallet?.wallet]);
 
