@@ -20,7 +20,7 @@ import {
 import { Nullable } from '../../types';
 import { gas } from '../blockchain/gas-price';
 import { transferAmount } from '../blockchain/transfer-approve-amount';
-import { MIN_GAS } from 'utils/classifiers';
+import { currentChainId, MIN_GAS } from 'utils/classifiers';
 
 import erc20Abi from 'utils/blockchain/abi/erc20.json';
 
@@ -200,7 +200,7 @@ class ContractWriter {
               gasPrice: gas.get(),
               nonce,
               gasLimit: String(gasLimit),
-              chainId: walletService.chainId,
+              chainId: options?.chainId || currentChainId,
             },
           );
 
