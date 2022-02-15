@@ -1534,10 +1534,19 @@
     "notificationSettingsDialog": {
       "title": "Configurações de notificação",
       "notifyVia": "Notificar via",
+      "marginCalls": "Chamadas de margem",
+      "liquidations": "Liquidações",
+      "filledLimitOrders": "Ordens a limite preenchidas",
+      "enterEmail": "Insira o endereço de e-mail",
+      "useRisk": "Use por sua conta e risco",
+      "riskDesc": "Esteja ciente de que este serviço de notificação por e-mail está hospedado em um servidor centralizado da AWS nos EUA.",
       "telegramHandle": "Insira seu nome de usuário do Telegram",
+      "emailHandle": "Insira seu e-mail",
       "discordHandle": "Insira seu nome de usuário do Discord",
       "usernamePlaceholder": "@usuário",
-      "receiveNotificationTitle": "Você irá receber uma notificação quando ocorrer:",
+      "updateSuccess": "Configurações de notificação atualizadas",
+      "emailPlaceholder": "exemplo@domínio.com",
+      "receiveNotificationTitle": "Você irá receber uma notificação quando ocorrer",
       "notificationEvents": {
         "1": "25% margem",
         "2": "Liquidação"
