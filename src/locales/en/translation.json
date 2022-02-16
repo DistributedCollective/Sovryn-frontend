@@ -163,6 +163,10 @@
       "profit": "Realized P&L",
       "entryTxHash": "Entry Transaction Hash",
       "closeTxHash": "Exit Transaction Hash",
+      "actions": "Actions",
+      "cta": {
+        "details": "Details"
+      },
       "profitLabels": {
         "up": "Up by ",
         "down": "Down by ",
@@ -2162,6 +2166,8 @@
     "amountRepaid": "Amount Repaid",
     "collateralWithdrawn": "Collateral Withdrawn",
     "exitPrice": "Exit Price",
+    "positionChange": "Position Change",
+    "closingPrice": "Closing Price",
     "timestamp": "Timestamp",
     "txID": "TxID",
     "cta": {
@@ -2172,7 +2178,8 @@
     },
     "explainers": {
       "positionMargin": "The portion of your margin that is assigned to the initial margin requirements on your open positions. This is the entry value of all contracts you hold divided by the selected leverage, plus unrealised profit and loss.<br/><br/>If the current margin percentage drops to 15%, your position will be liquidated.",
-      "unrealizedPL": "Due to limitations of smart contracts, we only estimate profit between entry and current AMM prices without taking margin increases or partial position withdrawals into consideration.<br/>By hovering over a value, you will see the correct token amount you would receive if you decided to close the position now."
+      "unrealizedPL": "Due to limitations of smart contracts, we only estimate profit between entry and current AMM prices without taking margin increases or partial position withdrawals into consideration.<br/>By hovering over a value, you will see the correct token amount you would receive if you decided to close the position now.",
+      "closingPrice": "The exit price is 95% of the value of the closing price shown. This difference is due to the discount applied as an incentive for liquidators."
     },
     "profitTooltip": "Closing position would withdraw one of these:"
   },

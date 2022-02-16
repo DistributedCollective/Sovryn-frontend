@@ -42,6 +42,9 @@ export const ClosedPositionsTable: React.FC = () => {
             <th className="tw-w-full tw-hidden xl:tw-table-cell">
               {t(translations.tradingHistoryPage.table.closeTxHash)}
             </th>
+            <th className="tw-w-full">
+              {t(translations.tradingHistoryPage.table.actions)}
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -65,11 +68,7 @@ export const ClosedPositionsTable: React.FC = () => {
             <>
               {events?.map(event => {
                 return (
-                  <ClosedPositionRow
-                    key={event.loanId}
-                    openedItem={event.data[0]}
-                    closedItem={event.data[event.data.length - 1]}
-                  />
+                  <ClosedPositionRow key={event.loanId} items={event.data} />
                 );
               })}
             </>

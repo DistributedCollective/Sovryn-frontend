@@ -5,15 +5,16 @@ import dayjs from 'dayjs';
 import { weiToAssetNumberFormat } from 'utils/display-text/format';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
-import { Tooltip } from '@blueprintjs/core';
 import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
 
 type LiquidatedPositionRowProps = {
   liquidatedLoan: OpenLoanType;
+  positionStatus: boolean;
 };
 
 export const LiquidatedPositionRow: React.FC<LiquidatedPositionRowProps> = ({
   liquidatedLoan,
+  positionStatus,
 }) => {
   const loanAsset = assetByTokenAddress(liquidatedLoan.loanToken);
   const collateralAsset = assetByTokenAddress(liquidatedLoan.collateralToken);
@@ -25,7 +26,9 @@ export const LiquidatedPositionRow: React.FC<LiquidatedPositionRowProps> = ({
       <td>
         <div className="tw-whitespace-nowrap">
           {weiToAssetNumberFormat(
-            liquidatedLoan.borrowedAmountChange,
+            positionStatus
+              ? liquidatedLoan.borrowedAmountChange
+              : liquidatedLoan.positionSizeChange,
             collateralAsset,
           )}{' '}
           <AssetRenderer asset={collateralAsset} />
@@ -34,33 +37,10 @@ export const LiquidatedPositionRow: React.FC<LiquidatedPositionRowProps> = ({
       <td>
         <div className="tw-whitespace-nowrap">
           {weiToAssetNumberFormat(
-            liquidatedLoan.positionSizeChange,
-            collateralAsset,
+            liquidatedLoan.collateralToLoanRate,
+            pair.longDetails.asset,
           )}{' '}
-          <AssetRenderer asset={loanAsset} />
-        </div>
-      </td>
-      <td>
-        <div className="tw-whitespace-nowrap">
-          <Tooltip
-            content={
-              <>
-                {weiToAssetNumberFormat(
-                  liquidatedLoan.collateralToLoanRate,
-                  pair.longDetails.asset,
-                )}{' '}
-                <AssetRenderer asset={pair.longDetails.asset} />
-              </>
-            }
-          >
-            <>
-              {weiToAssetNumberFormat(
-                liquidatedLoan.collateralToLoanRate,
-                pair.longDetails.asset,
-              )}{' '}
-              <AssetRenderer asset={pair.longDetails.asset} />
-            </>
-          </Tooltip>
+          <AssetRenderer asset={pair.longDetails.asset} />
         </div>
       </td>
       <td>{dayjs(liquidatedLoan.time * 1e3).format('DD/MM/YYYY')}</td>
