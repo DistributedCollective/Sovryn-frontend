@@ -50,7 +50,7 @@ const addSocketEventListeners = (
   /* This can be uncommented for testing */
   // socket.on('connected', () => {
   //   console.log('[recentTradesWs] bsc websocket connected');
-  // });
+  // });ss
 
   socket.on('data', data => {
     const decoded = decodePerpetualManagerLog(data);
