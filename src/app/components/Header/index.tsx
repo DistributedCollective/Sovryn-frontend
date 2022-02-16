@@ -463,7 +463,7 @@ export function Header() {
           <div className="tw-flex tw-justify-start tw-items-center">
             <Link
               className={classNames(
-                'tw-btn-action tw-hidden sm:tw-flex tw-mr-2 xl:tw-mr-4',
+                'tw-btn-action tw-hidden sm:tw-flex tw-mx-2 2xl:tw-mr-4',
                 {
                   'tw-hidden': !connected,
                 },
