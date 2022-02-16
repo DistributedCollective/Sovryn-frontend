@@ -1,11 +1,11 @@
 import React from 'react';
 import { DotProps } from 'react-multi-carousel';
-import { Dot } from './styled';
-import cn from 'classnames';
+import classNames from 'classnames';
+import styles from './index.module.scss';
 
 export const CustomDot: React.FC<DotProps> = ({ onClick, active }) => (
-  <Dot
+  <li
     onClick={() => onClick?.()}
-    className={cn('tw-cursor-pointer', { 'tw-bg-white': active })}
+    className={classNames(styles.dot, { 'tw-bg-white': active })}
   />
 );

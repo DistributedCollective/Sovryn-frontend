@@ -3,17 +3,19 @@ import { PromotionsCarousel } from './components/PromotionsCarousel';
 import { AppSection, PromotionColor } from './components/PromotionCard/types';
 import { PromotionCard } from './components/PromotionCard';
 import { Asset } from 'types';
-import { Title } from './styled';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { LiquidityPoolDictionary } from 'utils/dictionaries/liquidity-pool-dictionary';
+import styles from './index.module.scss';
 
 export const Promotions: React.FC = () => {
   const { t } = useTranslation();
 
   return (
     <div className="tw-my-14 tw-border-b tw-border-solid tw-border-sov-white">
-      <Title>{t(translations.landingPage.promotions.title)}</Title>
+      <div className={styles.title}>
+        {t(translations.landingPage.promotions.title)}
+      </div>
 
       <div className="tw-relative tw-mb-8">
         <PromotionsCarousel>

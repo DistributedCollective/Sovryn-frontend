@@ -3,14 +3,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Asset } from 'types';
 import { TradingPairType } from 'utils/dictionaries/trading-pair-dictionary';
-import {
-  AssetLogo,
-  CardImageSection,
-  CardItem,
-  CardTextSection,
-  CardTextTitle,
-  SectionTitle,
-} from './styled';
 import { AppSection, PromotionColor } from './types';
 import {
   getSectionTitle,
@@ -21,6 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import arrowForward from 'assets/images/arrow_forward.svg';
+import styles from './index.module.scss';
 
 interface IPromotionCardProps {
   appSection: AppSection;
@@ -57,7 +50,7 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
   const linkPathname = getLinkPathname(appSection);
 
   return (
-    <CardItem>
+    <div className={styles.cardItem}>
       <Link
         to={{
           pathname: `/${linkPathname}`,
@@ -70,7 +63,8 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
         }}
         className="tw-no-underline"
       >
-        <CardImageSection
+        <div
+          className={styles.cardImageSection}
           style={{
             backgroundImage: `url(${getBackgroundImageUrl(backgroundColor)})`,
           }}
@@ -79,20 +73,28 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
             <div className="tw-w-24">
               <div className="tw-flex tw-items-center">
                 <div className="tw-z-10">
-                  <AssetLogo src={AssetsDictionary.get(logoAsset1).logoSvg} />
+                  <img
+                    className={styles.assetLogo}
+                    src={AssetsDictionary.get(logoAsset1).logoSvg}
+                    alt="asset 1"
+                  />
                 </div>
                 {logoAsset2 && (
                   <div className="tw--ml-6">
-                    <AssetLogo src={AssetsDictionary.get(logoAsset2).logoSvg} />
+                    <img
+                      className={styles.assetLogo}
+                      src={AssetsDictionary.get(logoAsset2).logoSvg}
+                      alt="asset 2"
+                    />
                   </div>
                 )}
               </div>
             </div>
             <div className="tw-relative">
-              <SectionTitle>{sectionTitle}</SectionTitle>
+              <div className={styles.sectionTitle}>{sectionTitle}</div>
 
               <div className="tw-max-w-60">
-                <CardTextTitle>{title}</CardTextTitle>
+                <div className={styles.cardTextTitle}>{title}</div>
                 <div className="tw-text-xs tw-font-light tw-absolute tw-bottom-0">
                   {duration}
                 </div>
@@ -104,9 +106,9 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
             src={arrowForward}
             alt={title}
           />
-        </CardImageSection>
+        </div>
       </Link>
-      <CardTextSection>
+      <div className="tw-px-2.5 tw-text-xs tw-font-light tw-leading-5 tw-tracking-normal">
         {text}{' '}
         {learnMoreLink && (
           <a
@@ -118,7 +120,7 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
             {t(translations.landingPage.promotions.learnMore)}
           </a>
         )}
-      </CardTextSection>
-    </CardItem>
+      </div>
+    </div>
   );
 };
