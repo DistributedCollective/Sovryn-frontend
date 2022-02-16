@@ -17,7 +17,7 @@ const SIGNED_MSG_BASE = 'Login to backend on %%';
 
 interface IRegisterDialogProps {
   isOpen: boolean;
-  onClose: () => void;
+  onClose: (success: boolean) => void;
 }
 
 export const RegisterDialog: React.FC<IRegisterDialogProps> = ({
@@ -49,7 +49,7 @@ export const RegisterDialog: React.FC<IRegisterDialogProps> = ({
           .then(res => {
             if (res.status && res.status === 200) {
               setPseudonym('');
-              onClose();
+              onClose(true);
             }
           })
           .catch(e => {
@@ -66,7 +66,7 @@ export const RegisterDialog: React.FC<IRegisterDialogProps> = ({
       isOpen={isOpen}
       onClose={() => {
         setPseudonym('');
-        onClose();
+        onClose(false);
       }}
       size={DialogSize.md}
     >

@@ -4,7 +4,8 @@ import { LeaderboardData } from 'app/pages/PerpetualPage/components/CompetitionP
 import { prettyTx } from 'utils/helpers';
 import { toNumberFormat } from 'utils/display-text/format';
 import classNames from 'classnames';
-import { translations } from '../../../../../../../locales/i18n';
+import { LinkToExplorer } from '../../../../../../components/LinkToExplorer';
+import { PERPETUAL_CHAIN_ID } from '../../../../types';
 
 interface ITraderRowProps {
   data: LeaderboardData;
@@ -26,13 +27,20 @@ export const TraderRow = forwardRef<HTMLDivElement, ITraderRowProps>(
       >
         <div className="tw-pl-3 tw-pr-1 tw-w-1/12 tw-my-auto">{data.rank}</div>
         <div className="tw-pl-2 tw-pr-1 tw-w-3/12 tw-my-auto">
-          {isUser ? (
-            <div className="tw-inline-block tw-rounded tw-border tw-px-2 tw-py-1 tw-bg-gray-1 tw-border tw-border-opacity-25 tw-border-white">
-              {data.userName || prettyTx(data.walletAddress)}
-            </div>
-          ) : (
-            data.userName || prettyTx(data.walletAddress)
-          )}
+          <div
+            className={
+              isUser
+                ? 'tw-inline-block tw-rounded tw-border tw-px-2 tw-py-1 tw-bg-gray-1 tw-border tw-border-opacity-25 tw-border-white'
+                : ''
+            }
+          >
+            <LinkToExplorer
+              txHash={data.walletAddress.toLowerCase()}
+              chainId={PERPETUAL_CHAIN_ID}
+              text={data.userName || prettyTx(data.walletAddress)}
+              isAddress
+            />
+          </div>
         </div>
         <div
           className={classNames(

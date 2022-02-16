@@ -9,6 +9,7 @@ interface Props {
   chainId?: number;
   realBtc?: boolean;
   text?: string;
+  isAddress?: boolean;
 }
 
 export function LinkToExplorer(props: Props) {
@@ -31,7 +32,11 @@ export function LinkToExplorer(props: Props) {
   return (
     <a
       className={props.className}
-      href={`${url}/tx/${props.txHash}`}
+      href={
+        props.isAddress
+          ? `${url}/address/${props.txHash}`
+          : `${url}/tx/${props.txHash}`
+      }
       target="_blank"
       rel="noreferrer noopener"
     >

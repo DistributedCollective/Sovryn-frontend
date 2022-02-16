@@ -52,10 +52,14 @@ export const CompetitionPageContainer: React.FC = () => {
       });
   }, []);
 
-  const onClose = useCallback(() => {
-    setRegisterDialogOpen(false);
-    getRegisteredWallets();
-  }, [getRegisteredWallets]);
+  const onClose = useCallback(
+    (success: boolean) => {
+      setIsRegistered(success);
+      setRegisterDialogOpen(false);
+      getRegisteredWallets();
+    },
+    [getRegisteredWallets],
+  );
 
   useEffect(() => {
     getRegisteredWallets();
@@ -82,7 +86,7 @@ export const CompetitionPageContainer: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (!account || !connected) {
+    if (!account || !connected || isRegistered) {
       return;
     }
 
@@ -99,7 +103,7 @@ export const CompetitionPageContainer: React.FC = () => {
         console.error(e);
         setIsRegistered(false);
       });
-  }, [account, connected, registerDialogOpen]);
+  }, [account, connected, isRegistered]);
 
   const pair = useMemo(
     () => PerpetualPairDictionary.get(PerpetualPairType.BTCUSD),
