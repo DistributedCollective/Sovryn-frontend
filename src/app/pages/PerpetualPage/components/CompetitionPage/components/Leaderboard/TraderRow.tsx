@@ -4,6 +4,7 @@ import { LeaderboardData } from 'app/pages/PerpetualPage/components/CompetitionP
 import { prettyTx } from 'utils/helpers';
 import { toNumberFormat } from 'utils/display-text/format';
 import classNames from 'classnames';
+import { translations } from '../../../../../../../locales/i18n';
 
 interface ITraderRowProps {
   data: LeaderboardData;
@@ -27,7 +28,7 @@ export const TraderRow = forwardRef<HTMLDivElement, ITraderRowProps>(
         <div className="tw-pl-2 tw-pr-1 tw-w-3/12 tw-my-auto">
           {isUser ? (
             <div className="tw-inline-block tw-rounded tw-border tw-px-2 tw-py-1 tw-bg-gray-1 tw-border tw-border-opacity-25 tw-border-white">
-              Your position
+              {data.userName || prettyTx(data.walletAddress)}
             </div>
           ) : (
             data.userName || prettyTx(data.walletAddress)

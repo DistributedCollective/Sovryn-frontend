@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
 
 import { translations } from 'locales/i18n';
@@ -14,7 +14,7 @@ import { Leaderboard } from './components/Leaderboard';
 import { Footer } from 'app/components/Footer';
 import { useIsConnected, useAccount } from 'app/hooks/useAccount';
 import { RegisterDialog } from './components/RegisterDialog';
-import { isMainnet, notificationUrl } from 'utils/classifiers';
+import { isMainnet, notificationUrl, discordInvite } from 'utils/classifiers';
 import { ChainId } from 'types';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { ProviderType } from '@sovryn/wallet';
@@ -32,6 +32,7 @@ export const CompetitionPageContainer: React.FC = () => {
     RegisteredTraderData[]
   >([]);
 
+  const history = useHistory();
   const dispatch = useDispatch();
   const walletContext = useWalletContext();
   const account = useAccount();
@@ -159,6 +160,20 @@ export const CompetitionPageContainer: React.FC = () => {
                     text={t(translations.competitionPage.cta.enter)}
                     onClick={() => setRegisterDialogOpen(true)}
                   />
+                )}
+                {connected && isRegistered && (
+                  <>
+                    <p className="tw-mb-8">
+                      <Trans
+                        i18nKey={translations.competitionPage.registered}
+                        components={[<a href={discordInvite}>discord</a>]}
+                      />
+                    </p>
+                    <Button
+                      text={t(translations.competitionPage.cta.compete)}
+                      onClick={() => history.push('/perpetuals')}
+                    />
+                  </>
                 )}
               </div>
             </div>

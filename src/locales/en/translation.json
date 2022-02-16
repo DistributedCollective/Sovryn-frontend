@@ -76,7 +76,7 @@
     "withdrawVestsModal": "Sorry, withdrawing vests is currently under maintenance, please check our <0>discord</0> for updates.",
     "claimRewards": "Sorry, claiming rewards is currently under maintenance, please check our <0>discord</0> for updates.",
     "claimOrigins": "Sorry, origins claim is currently under maintenance, please check our <0>discord</0> for updates.",
-    
+
     "perpetuals": "Sorry, Perpetuals is currently under maintenance, please check our discord (link in footer) for updates.",
     "perpetualsAccountFund": "Sorry, deposits on Perpetuals are currently under maintenance, please check our discord (link in footer) for updates.",
     "perpetualsAccountWithdraw": "Sorry, withdrawals on Perpetuals are currently under maintenance, please check our discord (link in footer) for updates.",
@@ -2430,9 +2430,11 @@
       "title": "Trading Competition",
       "reportBugs": "Please report bugs and issues here!"
     },
+    "registered": "You are registered! If you require some help, please click on the help button in the top right or post a message on our <0>discord</0>.",
     "cta": {
       "connect": "Connect Wallet",
-      "enter": "Enter Contest"
+      "enter": "Enter Contest",
+      "compete": "Compete"
     },
     "table": {
       "rank": "Rank",

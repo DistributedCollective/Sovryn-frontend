@@ -16,7 +16,10 @@ export function useGetLeaderboardData(
   const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
   const TRADER_DATA_QUERY = gql`
   {
-    traders(where: { id_in: ${JSON.stringify(traderIDs)}}) {
+    traders(
+      where: {id_in: ${JSON.stringify(traderIDs)}}
+      first: ${traderIDs.length}
+    ){
       id
       totalPnLCC
       totalFundingPaymentCC
@@ -42,5 +45,6 @@ export function useGetLeaderboardData(
   }
   `;
   const traderDataQuery = useQuery(TRADER_DATA_QUERY);
+  console.log(traderDataQuery?.data);
   return traderDataQuery;
 }
