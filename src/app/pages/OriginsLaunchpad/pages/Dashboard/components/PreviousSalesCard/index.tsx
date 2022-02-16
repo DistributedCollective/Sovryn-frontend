@@ -48,7 +48,7 @@ export const PreviousSalesCard: React.FC<IPreviousSalesCardProps> = ({
         />
       )}
       {backgroundElem && <div className={cardClassName}>{backgroundElem}</div>}
-      <div className="tw-flex tw-flex-col tw-justify-center tw-ml-6 xl:tw-ml-4 2xl:tw-ml-11">
+      <div className="tw-flex tw-flex-col tw-justify-center tw-mr-4 tw-ml-6 tw-mt-2 sm:tw-mt-0 xl:tw-ml-4 2xl:tw-ml-11">
         <InfoRow
           label={t(
             translations.originsLaunchpad.previousSales.projectCard.date,
