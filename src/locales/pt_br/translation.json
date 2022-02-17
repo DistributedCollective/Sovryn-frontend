@@ -1484,7 +1484,7 @@
         "slippage": "Diferença máxima no preço:",
         "balance": "Saldo disponível: <0/> <1/>",
         "txFee": "Taxa de rede: <0/>",
-        "tradingFee": "Taxa de negociação:"
+        "tradingFee": "Taxa de rede:"
       },
       "buttons": {
         "long": "Comprado",
@@ -1532,16 +1532,18 @@
     "tradingHistory": "Posições fechadas",
     "openLimitOrders": "Ordens a limite abertas",
     "notificationSettingsDialog": {
-      "title": "Configurações de notificação",
-      "notifyVia": "Notificar via",
+      "title": "Configurações de notificação de margem",
+      "notifyVia": "Receba notificações por e-mail para ordens a limite executadas, chamadas de margem e liquidações. Detalhes <0>aqui</0>.",
       "marginCalls": "Chamadas de margem",
       "liquidations": "Liquidações",
+      "here": "aqui",
       "filledLimitOrders": "Ordens a limite preenchidas",
       "enterEmail": "Insira o endereço de e-mail",
+      "email": "E-mail",
       "useRisk": "Use por sua conta e risco",
       "riskDesc": "Esteja ciente de que este serviço de notificação por e-mail está hospedado em um servidor centralizado da AWS nos EUA.",
       "telegramHandle": "Insira seu nome de usuário do Telegram",
-      "emailHandle": "Insira seu e-mail",
+      "emailHandle": "Insira seu endereço de e-mail",
       "discordHandle": "Insira seu nome de usuário do Discord",
       "usernamePlaceholder": "@usuário",
       "updateSuccess": "Configurações de notificação atualizadas",
