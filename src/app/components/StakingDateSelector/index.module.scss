@@ -1,0 +1,9 @@
+.leftArrow {
+    @apply tw-absolute tw-top-0 tw-cursor-pointer;
+    left: -2rem;
+}
+
+.rightArrow {
+    @apply tw-absolute tw-top-0 tw-cursor-pointer;
+    right: -2rem;
+}
