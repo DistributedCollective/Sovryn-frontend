@@ -14,7 +14,6 @@ import { TradingPair } from '../../../utils/models/trading-pair';
 import { TradingPosition } from '../../../types/trading-position';
 import { useTrading_resolvePairTokens } from '../trading/useTrading_resolvePairTokens';
 import { toWei } from 'web3-utils';
-import { newLoanId } from 'app/constants';
 
 export const useMarginLimitOrder = (
   pair: TradingPair,
@@ -41,7 +40,7 @@ export const useMarginLimitOrder = (
 
     // collateral === Asset.RBTC ? collateralTokenSent : '0', // weiAmount
     const order = new MarginOrder(
-      newLoanId, // loanId
+      ethers.constants.HashZero, // loanId
       toWei(String(leverage - 1), 'ether'), // leverageAmount
       loanToken, //  asset: Asset,
       useLoanTokens ? collateralTokenSent : '0', //loanTokenSent

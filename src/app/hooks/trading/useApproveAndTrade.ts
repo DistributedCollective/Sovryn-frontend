@@ -1,3 +1,4 @@
+import { HashZero } from '@ethersproject/constants';
 import { toWei } from 'web3-utils';
 import { Asset } from 'types/asset';
 import { getLendingContract } from 'utils/blockchain/contract-helpers';
@@ -10,7 +11,6 @@ import {
 import { TradingPair } from '../../../utils/models/trading-pair';
 import { TradingPosition } from '../../../types/trading-position';
 import { useTrading_resolvePairTokens } from './useTrading_resolvePairTokens';
-import { newLoanId } from 'app/constants';
 
 export function useApproveAndTrade(
   pair: TradingPair,
@@ -19,9 +19,6 @@ export function useApproveAndTrade(
   leverage: number,
   collateralTokenSent: string,
   minReturn,
-  // loanId,
-  // loanTokenSent,
-  // collateralTokenAddress,
 ) {
   const {
     loanToken,
@@ -33,7 +30,7 @@ export function useApproveAndTrade(
 
   const { trade, ...rest } = useMarginTrade(
     loanToken,
-    newLoanId, //0 if new loan
+    HashZero, //0 if new loan
     toWei(String(leverage - 1), 'ether'),
     useLoanTokens ? collateralTokenSent : '0',
     useLoanTokens ? '0' : collateralTokenSent,

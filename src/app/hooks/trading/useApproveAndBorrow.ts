@@ -1,3 +1,4 @@
+import { HashZero } from '@ethersproject/constants';
 import { Asset } from 'types/asset';
 import { getLendingContract } from 'utils/blockchain/contract-helpers';
 import { useBorrow } from './useBorrow';
@@ -5,7 +6,6 @@ import {
   CheckAndApproveResult,
   contractWriter,
 } from '../../../utils/sovryn/contract-writer';
-import { newLoanId } from 'app/constants';
 
 export function useApproveAndBorrow(
   borrowToken: Asset,
@@ -13,13 +13,10 @@ export function useApproveAndBorrow(
   withdrawAmount: string,
   collateralTokenSent: string,
   initialLoanDuration: string,
-  // loanId,
-  // loanTokenSent,
-  // collateralTokenAddress,
 ) {
   const { borrow, ...txState } = useBorrow(
     borrowToken,
-    newLoanId, //0 if new loan
+    HashZero, //0 if new loan
     withdrawAmount,
     initialLoanDuration,
     collateralTokenSent,

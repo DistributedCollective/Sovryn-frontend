@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import classNames from 'classnames';
 import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
+import { HashZero } from '@ethersproject/constants';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
@@ -46,7 +47,6 @@ import {
 } from 'app/hooks/simulator/useFilterSimulatorResponseLogs';
 import { TradeEventData } from 'types/active-loan';
 import { useSimulator } from 'app/hooks/simulator/useSimulator';
-import { newLoanId } from 'app/constants';
 
 interface ITradeDialogProps {
   slippage: number;
@@ -186,7 +186,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
   );
 
   const txArgs = [
-    newLoanId, //0 if new loan
+    HashZero, //0 if new loan
     toWei(String(leverage - 1), 'ether'),
     useLoanTokens ? amount : '0',
     useLoanTokens ? '0' : amount,
