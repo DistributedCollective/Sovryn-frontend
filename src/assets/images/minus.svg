@@ -1,0 +1,11 @@
+<svg id="Component_6_44" data-name="Component 6 – 44" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <g id="Group_7001" data-name="Group 7001" transform="translate(-631 -546)" opacity="0.75">
+    <g id="Group_7000" data-name="Group 7000" transform="translate(637 552)">
+      <line id="Line_1765" data-name="Line 1765" x2="8" transform="translate(0 4)" fill="none" stroke="#fff" stroke-width="1"/>
+    </g>
+    <g id="Ellipse_1" data-name="Ellipse 1" transform="translate(631 546)" fill="none" stroke="#fff" stroke-width="1">
+      <circle cx="10" cy="10" r="10" stroke="none"/>
+      <circle cx="10" cy="10" r="9.5" fill="none"/>
+    </g>
+  </g>
+</svg>

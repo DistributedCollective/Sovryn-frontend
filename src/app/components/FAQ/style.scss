@@ -1,29 +1,8 @@
-.item-enter {
-  opacity: 0;
+.panel-collapse {
+  max-height: 500px;
+  overflow: hidden;
+  transition: max-height 0.2s ease;
 }
-.item-enter-active {
-  opacity: 1;
-  transition: opacity 500ms ease-in;
-}
-.item-exit {
-  opacity: 1;
-}
-.item-exit-active {
-  opacity: 0;
-  transition: opacity 500ms ease-in;
-}
-
-.faq-enter {
-  opacity: 0;
-}
-.faq-enter-active {
-  opacity: 1;
-  transition: opacity 200ms;
-}
-.faq-exit {
-  opacity: 1;
-}
-.faq-exit-active {
-  opacity: 0;
-  transition: opacity 200ms;
+.panel-close {
+  max-height: 0;
 }

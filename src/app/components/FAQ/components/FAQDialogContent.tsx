@@ -1,35 +1,98 @@
-import React, { useState } from 'react';
-import questions from '../questions.json';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import questions from '../questions';
 import { FAQCategory } from './FAQCategory';
+import debounce from 'lodash.debounce';
+
+import ReactMarkdown from 'react-markdown';
+import rehypeRaw from 'rehype-raw';
+import { FAQSearchResults } from './FAQSearchResults';
+import { FAQSearch } from './FAQSearch';
 
 export const FAQDialogContent: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState(0);
+  const [activeCategoryIndex, setActiveCategoryIndex] = useState(0);
+  const [activeQuestionIndex, setActiveQuestionIndex] = useState(0);
+  const [keyword, setKeyword] = useState('');
+  const [search, setSearch] = useState('');
+
+  const setKeywordDebounced = useRef(debounce(setKeyword, 300));
+
   const list = questions.marginTrade;
+
+  useEffect(() => {
+    setActiveQuestionIndex(0);
+  }, [activeCategoryIndex]);
+
+  const activeCategory = useMemo(() => {
+    return list[activeCategoryIndex];
+  }, [activeCategoryIndex, list]);
+
+  const activeQuestion = useMemo(() => {
+    return activeCategory.items[activeQuestionIndex];
+  }, [activeCategory, activeQuestionIndex]);
+
+  const handleChange = value => {
+    setSearch(value);
+    setKeywordDebounced.current(value);
+  };
+
   return (
-    <div>
+    <>
       <div className="tw-flex tw-justify-between tw-items-center tw-mb-12">
         <FAQTitle />
-        <div className="tw-border tw-border-white tw-px-4 tw-py-2 tw-rounded">
-          Search Bar
-        </div>
+        <FAQSearch value={search} onChange={handleChange} />
       </div>
-      <div className="tw-flex">
+      <div className="tw-flex" style={{ height: 400 }}>
         <div className="tw-w-1/3">
           {list.map((item, index) => (
             <FAQCategory
               key={item.category}
               category={item.category}
               items={item.items}
-              selectCategory={() => setActiveCategory(index)}
-              active={index === activeCategory}
+              selectCategory={() => setActiveCategoryIndex(index)}
+              selectQuestion={index => {
+                setActiveQuestionIndex(index);
+                setSearch('');
+                setKeyword('');
+              }}
+              active={index === activeCategoryIndex}
+              activeQuestionIndex={activeQuestionIndex}
             />
           ))}
         </div>
-        <div className="tw-w-2/3">
-          <p>Content</p>
+        <div className="tw-w-2/3 tw-overflow-auto tw-border-sov-white tw-border-opacity-40 tw-border-l tw-border-r tw-px-8">
+          {keyword.length < 3 && (
+            <ReactMarkdown
+              children={activeQuestion.answer}
+              rehypePlugins={[rehypeRaw]}
+            />
+          )}
+
+          {keyword.length > 2 && (
+            <FAQSearchResults
+              selectQuestion={(categoryIndex, questionIndex) => {
+                setActiveCategoryIndex(categoryIndex);
+                setActiveQuestionIndex(questionIndex);
+                setSearch('');
+                setKeyword('');
+              }}
+              keyword={keyword}
+              list={list}
+            />
+          )}
         </div>
       </div>
-    </div>
+      <p className="tw-absolute tw-right-10 tw-bottom-2 tw-text-tiny">
+        For an in-depth information please visit our{' '}
+        <a
+          className="tw-underline"
+          href="https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          wiki
+        </a>
+      </p>
+    </>
   );
 };
 

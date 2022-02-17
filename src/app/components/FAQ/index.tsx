@@ -8,7 +8,7 @@ export const FAQ: React.FC = () => {
   return (
     <>
       <Dialog
-        className="tw-w-full tw-max-w-4xl tw-p-16"
+        className="tw-w-full tw-max-w-4xl tw-p-16 tw-relative tw-bg-gray-4 tw-border-none"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
       >
