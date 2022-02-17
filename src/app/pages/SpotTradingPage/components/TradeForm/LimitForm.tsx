@@ -81,7 +81,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
     }
 
     return bignumber(limitPrice)
-      .div(marketPrice)
+      .div(weiToFixed(marketPrice, 6))
       .mul(100)
       .minus(100)
       .toNumber();

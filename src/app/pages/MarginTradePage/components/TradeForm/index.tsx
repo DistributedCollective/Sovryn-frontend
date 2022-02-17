@@ -176,10 +176,15 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
 
           <FormGroup
             label={t(translations.marginTradePage.tradeForm.labels.leverage)}
-            className="tw-mb-4 tw-mt-6 tw-w-full tw-bg-gray-4 tw-rounded-md tw-px-4 tw-py-2"
+            className={classNames(
+              'tw-mb-4 tw-mt-6 tw-w-full tw-bg-gray-4 tw-rounded-md tw-px-4 tw-py-2',
+              {
+                'tw-flex tw-pb-0': pair && pair.leverage,
+              },
+            )}
           >
             {pair && pair.leverage ? (
-              `${pair.leverage}x`
+              <span className="tw-ml-1">{pair.leverage}x</span>
             ) : (
               <LeverageSelector
                 value={leverage}
