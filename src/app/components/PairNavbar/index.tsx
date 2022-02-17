@@ -124,7 +124,7 @@ export const PairNavbar: React.FC<IPairNavbarProps> = ({ type }) => {
         />
 
         {pair && <PairNavbarInfo pair={pair} />}
-        {connected && marginType && (
+        {connected && (
           <div>
             <button
               onClick={onNotificationSettingsClick}

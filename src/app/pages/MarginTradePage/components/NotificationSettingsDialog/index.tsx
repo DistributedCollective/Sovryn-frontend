@@ -198,16 +198,33 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
           {t(translations.marginTradePage.notificationSettingsDialog.title)}
         </div>
 
-        <div className="tw-mb-6 tw-text-sm">
-          {t(translations.marginTradePage.notificationSettingsDialog.notifyVia)}
-          :
+        <div className="tw-mb-6 tw-text-xs">
+          <Trans
+            i18nKey={
+              translations.marginTradePage.notificationSettingsDialog.notifyVia
+            }
+            components={[
+              // eslint-disable-next-line jsx-a11y/anchor-has-content
+              <a
+                href="https://www.sovryn.app/"
+                target="_blank"
+                rel="noreferrer noopener"
+              />,
+            ]}
+          />
         </div>
 
         <div className="tw-mb-8">
           <div className="tw-flex tw-justify-between tw-mb-2">
             <div className="tw-flex tw-items-center">
-              <img src={imgEmail} className="tw-mr-1.5 tw-w-5" alt="Email" />
-              Email
+              <img
+                src={imgEmail}
+                className="tw-mr-1.5 tw-w-5"
+                alt={t(
+                  translations.marginTradePage.notificationSettingsDialog.email,
+                )}
+              />
+              {t(translations.marginTradePage.notificationSettingsDialog.email)}
             </div>
             <Switch
               checked={isEmailActive}
@@ -331,38 +348,13 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
           </FormGroup>
         </div> */}
 
-        <div className="tw-text-sm">
-          {t(
-            translations.marginTradePage.notificationSettingsDialog
-              .receiveNotificationTitle,
-          )}
-          :
-          <div className="tw-mt-3">
-            <div>
-              -{' '}
-              {t(
-                translations.marginTradePage.notificationSettingsDialog
-                  .notificationEvents[1],
-              )}
-            </div>
-
-            <div>
-              -{' '}
-              {t(
-                translations.marginTradePage.notificationSettingsDialog
-                  .notificationEvents[2],
-              )}
-            </div>
-          </div>
-        </div>
-
         <DialogButton
           confirmLabel={t(
             translations.marginTradePage.notificationSettingsDialog.submit,
           )}
           onConfirm={updateUser}
           disabled={loading || !notificationToken || !emailIsValid}
-          className="tw-rounded-lg tw-mt-6"
+          className="tw-rounded-lg"
         />
       </div>
     </Dialog>
