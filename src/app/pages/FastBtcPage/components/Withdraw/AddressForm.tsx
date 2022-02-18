@@ -14,7 +14,11 @@ import { Input } from '../../../../components/Form/Input';
 import { contractReader } from '../../../../../utils/sovryn/contract-reader';
 import { ErrorBadge } from '../../../../components/Form/ErrorBadge';
 import { FastBtcButton } from '../FastBtcButton';
-import { validate, getAddressInfo } from 'bitcoin-address-validation';
+import {
+  validate,
+  getAddressInfo,
+  AddressType,
+} from 'bitcoin-address-validation';
 import { currentNetwork } from 'utils/classifiers';
 
 enum AddressValidationState {
@@ -48,37 +52,32 @@ export const AddressForm: React.FC = () => {
     [set, value],
   );
 
-  const validateAddr = useCallback(async (adr: string) => {
-    let validationReport,
-      validAddressCheck = false,
-      result;
+  const validateAddress = useCallback(async (address: string) => {
     setAddressValidationState(AddressValidationState.LOADING);
-    const checkAddressValidity = validate(adr);
-    result = await contractReader.call('fastBtcBridge', 'isValidBtcAddress', [
-      adr,
+    let isValid = false;
+    const isValidBtcAddress = validate(address);
+    isValid = await contractReader.call('fastBtcBridge', 'isValidBtcAddress', [
+      address,
     ]);
-    if (checkAddressValidity && result) {
-      validationReport = getAddressInfo(adr);
+    if (isValidBtcAddress && isValid) {
+      const result = getAddressInfo(address);
       if (
-        validationReport.network.toLowerCase() ===
-          currentNetwork.toLowerCase() &&
-        validationReport.type.toLowerCase() !== 'p2tr'
+        result.network.toLowerCase() === currentNetwork.toLowerCase() &&
+        result.type.toLowerCase() !== AddressType.p2tr
       ) {
-        validAddressCheck = true;
+        isValid = true;
       }
     }
 
     setAddressValidationState(
-      validAddressCheck
-        ? AddressValidationState.VALID
-        : AddressValidationState.INVALID,
+      isValid ? AddressValidationState.VALID : AddressValidationState.INVALID,
     );
   }, []);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const delayedOnChange = useCallback(
-    debounce(adr => validateAddr(adr), 300),
-    [validateAddr],
+    debounce(adr => validateAddress(adr), 300),
+    [validateAddress],
   );
 
   useEffect(() => {
