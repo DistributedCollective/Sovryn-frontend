@@ -19,6 +19,7 @@
     "next": "Próximo",
     "loading": "Carregando...",
     "retry": "Tentar novamente",
+    "continueToFailure": "Eu entendo os riscos de a transação falhar, permita-me continuar",
     "unit": {
       "day": "{{count}} dia",
       "day_plural": "{{count}} dias"
@@ -1934,7 +1935,7 @@
       "abortedLedger": "Make sure \"Contract data\" is set to \"Allowed\" in your Ledger app settings",
       "cta": "Ver na blockchain",
       "processing": "{{action}} Em processamento...",
-      "complete": "{{action}} concluída",
+      "complete": "{{action}} Concluída",
       "submit": "{{action}} Inserida"
     }
   },
