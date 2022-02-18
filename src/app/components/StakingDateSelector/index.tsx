@@ -167,10 +167,9 @@ export function StakingDateSelector(props: Props) {
           );
         })}
       </div>
-      <div className="sliderMonth tw-mt-5 tw-pr-0 tw-relative">
+      <div className="tw-mt-5 tw-pr-0 tw-relative">
         <Carousel
           arrows={false}
-          partialVisible={false}
           responsive={{
             desktop: {
               breakpoint: { max: 4800, min: 0 },
@@ -194,6 +193,10 @@ export function StakingDateSelector(props: Props) {
                   {monthName}
                   {currentYearDates.map((item, i) => {
                     if (dayjs(item.date).format('MMM') === monthName) {
+                      const isDateSelected =
+                        selectedDay === dayjs(item.date).format('D') &&
+                        selectedMonth === dayjs(item.date).format('MMM');
+
                       return (
                         <div
                           key={i}
@@ -205,10 +208,7 @@ export function StakingDateSelector(props: Props) {
                           className={classNames(
                             'tw-flex tw-flex-col tw-items-center tw-justify-center tw-mr-1 tw-mb-1 tw-h-10 tw-leading-10 tw-rounded-lg tw-border tw-border-secondary tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-px-5 tw-py-0 tw-text-center tw-border-r tw-text-md tw-text-secondary tw-tracking-tighter',
                             {
-                              'tw-bg-opacity-30 tw-bg-secondary':
-                                selectedDay === dayjs(item.date).format('D') &&
-                                selectedMonth ===
-                                  dayjs(item.date).format('MMM'),
+                              'tw-bg-opacity-30 tw-bg-secondary': isDateSelected,
                             },
                           )}
                         >

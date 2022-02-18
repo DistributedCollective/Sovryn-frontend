@@ -1,33 +1,41 @@
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
-import { ButtonGroupProps } from 'react-multi-carousel';
+import { ButtonGroupProps, CarouselInternalState } from 'react-multi-carousel';
 import { ArrowType, CustomArrow } from './CustomArrow';
-import styles from './index.module.scss';
+
+const emptyCarouselState: CarouselInternalState = {
+  itemWidth: 0,
+  containerWidth: 0,
+  slidesToShow: 0,
+  currentSlide: 0,
+  totalItems: 0,
+  domLoaded: false,
+  deviceType: '',
+  transform: 0,
+};
 
 export const CustomButtonGroup = ({
   next,
   previous,
+  carouselState,
   ...rest
 }: ButtonGroupProps) => {
-  const { carouselState } = rest;
-  const totalItems = carouselState?.totalItems || 0;
+  const { totalItems, currentSlide, slidesToShow } =
+    carouselState || emptyCarouselState;
 
-  const isFirstSlide = useMemo(() => carouselState?.currentSlide === 0, [
-    carouselState?.currentSlide,
-  ]);
+  const isFirstSlide = useMemo(() => currentSlide === 0, [currentSlide]);
 
   const isLastSlide = useMemo(
-    () => carouselState?.slidesToShow === carouselState?.currentSlide,
-    [carouselState?.currentSlide, carouselState?.slidesToShow],
+    () => slidesToShow + currentSlide === totalItems,
+    [currentSlide, slidesToShow, totalItems],
   );
 
-  const isNotPaginated = useMemo(
-    () =>
-      carouselState && carouselState.slidesToShow > carouselState.totalItems,
-    [carouselState],
-  );
+  const isNotPaginated = useMemo(() => slidesToShow >= totalItems, [
+    slidesToShow,
+    totalItems,
+  ]);
 
-  if (totalItems === 0 || !next || !previous) {
+  if (totalItems === 0 || isNotPaginated || !next || !previous) {
     return null;
   }
 
@@ -35,16 +43,22 @@ export const CustomButtonGroup = ({
     <>
       <CustomArrow
         arrowType={ArrowType.LEFT}
-        className={classNames(styles.leftArrow, {
-          'tw-opacity-50 tw-cursor-not-allowed': isFirstSlide,
-        })}
+        className={classNames(
+          'tw-absolute tw-top-0 tw-cursor-pointer tw--left-8',
+          {
+            'tw-opacity-25 tw-cursor-not-allowed': isFirstSlide,
+          },
+        )}
         onClick={previous}
       />
       <CustomArrow
         arrowType={ArrowType.RIGHT}
-        className={classNames(styles.rightArrow, {
-          'tw-opacity-50 tw-cursor-not-allowed': isLastSlide || isNotPaginated,
-        })}
+        className={classNames(
+          'tw-absolute tw-top-0 tw-cursor-pointer tw--right-8',
+          {
+            'tw-opacity-25 tw-cursor-not-allowed': isLastSlide,
+          },
+        )}
         onClick={next}
       />
     </>
