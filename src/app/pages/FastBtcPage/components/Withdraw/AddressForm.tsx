@@ -60,10 +60,10 @@ export const AddressForm: React.FC = () => {
       address,
     ]);
     if (isValidBtcAddress && isValid) {
-      const result = getAddressInfo(address);
+      const { network, type } = getAddressInfo(address);
       if (
-        result.network.toLowerCase() === currentNetwork.toLowerCase() &&
-        result.type.toLowerCase() !== AddressType.p2tr
+        network.toLowerCase() === currentNetwork.toLowerCase() &&
+        type.toLowerCase() !== AddressType.p2tr
       ) {
         isValid = true;
       }
@@ -76,7 +76,7 @@ export const AddressForm: React.FC = () => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const delayedOnChange = useCallback(
-    debounce(adr => validateAddress(adr), 300),
+    debounce(addressToValidate => validateAddress(addressToValidate), 300),
     [validateAddress],
   );
 
