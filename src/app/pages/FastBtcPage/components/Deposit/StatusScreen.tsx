@@ -25,7 +25,7 @@ export const StatusScreen: React.FC<NetworkAwareComponentProps> = ({
   const history = useHistory();
 
   const backToUrl = useMemo(
-    () => (network === Chain.BSC ? '/perpetual' : '/wallet'),
+    () => (network === Chain.BSC ? '/perpetuals' : '/wallet'),
     [network],
   );
 
@@ -86,7 +86,7 @@ export const StatusScreen: React.FC<NetworkAwareComponentProps> = ({
                 ? TxStatus.PENDING
                 : TxStatus.CONFIRMED
             }
-            onlyImage
+            showLabel={false}
           />
 
           <div className="tw-w-full tw-px-8 tw-py-4 tw-bg-gray-5 tw-text-center tw-mb-8 tw-rounded">

@@ -18,8 +18,11 @@ import { translations } from '../../../../../../locales/i18n';
 import { useTranslation, Trans } from 'react-i18next';
 import { WalletLogo } from '../../../../../components/UserAssets/TxDialog/WalletLogo';
 import { useWalletContext } from '@sovryn/react-wallet';
-import { CheckAndApproveResultWithError } from '../../../types';
-import { checkAndApprove } from '../../../utils/contractUtils';
+import {
+  CheckAndApproveResultWithError,
+  PERPETUAL_CHAIN,
+  PERPETUAL_PAYMASTER,
+} from '../../../types';
 import { getContract } from '../../../../../../utils/blockchain/contract-helpers';
 import { TransitionAnimation } from '../../../../../containers/TransitionContainer';
 import { Asset } from '../../../../../../types';
@@ -28,6 +31,8 @@ import { useSelector } from 'react-redux';
 import { selectTransactions } from '../../../../../../store/global/transactions-store/selectors';
 import { TxStatus } from '../../../../../../store/global/transactions-store/types';
 import { toWei } from '../../../../../../utils/blockchain/math-helpers';
+import { useGsnCheckAndApprove } from '../../../../../hooks/useGsnCheckAndApprove';
+import { selectPerpetualPage } from '../../../selectors';
 
 export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
   const { t } = useTranslation();
@@ -40,6 +45,14 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
   } = useContext(TradeDialogContext);
   const { orderCost } = analysis;
   const { wallet } = useWalletContext();
+  const { useMetaTransactions } = useSelector(selectPerpetualPage);
+  const { checkAndApprove } = useGsnCheckAndApprove(
+    PERPETUAL_CHAIN,
+    'PERPETUALS_token',
+    PERPETUAL_PAYMASTER,
+    useMetaTransactions,
+    Asset.BTCS,
+  );
 
   const [result, setResult] = useState<CheckAndApproveResultWithError>();
   const transactionsMap = useSelector(selectTransactions);
@@ -90,10 +103,8 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
 
     if (currentTransaction?.stage === PerpetualTxStage.reviewed) {
       checkAndApprove(
-        'PERPETUALS_token',
         getContract('perpetualManager').address,
         approvalAmount,
-        Asset.PERPETUALS,
         current,
       )
         .then(result => {
@@ -107,7 +118,7 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
               transactions.map(tx => {
                 if (tx === current) {
                   let updatedTx = { ...current };
-                  updatedTx.approvalTx = result.approveTx || null;
+                  updatedTx.approvalTx = result.approveTxHash || null;
                   return updatedTx;
                 }
                 return tx;
@@ -129,6 +140,7 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     approvalAmount,
     currentTransaction,
     orderCost,
+    checkAndApprove,
     setCurrentTransaction,
     setTransactions,
     changeTo,

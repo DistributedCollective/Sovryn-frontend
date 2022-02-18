@@ -20,11 +20,13 @@ import { TxStatus } from '../../../../../../store/global/transactions-store/type
 import { useSelector } from 'react-redux';
 import { selectTransactions } from '../../../../../../store/global/transactions-store/selectors';
 import { TransitionAnimation } from '../../../../../containers/TransitionContainer';
+import { selectPerpetualPage } from '../../../selectors';
 
 export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
   changeTo,
 }) => {
   const { t } = useTranslation();
+  const { useMetaTransactions } = useSelector(selectPerpetualPage);
   const {
     pair,
     transactions,
@@ -35,6 +37,7 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
   const { wallet } = useWalletContext();
   const { execute, txHash, status, reset } = usePerpetual_executeTransaction(
     pair.pairType,
+    useMetaTransactions,
   );
 
   const transactionsMap = useSelector(selectTransactions);
@@ -185,15 +188,7 @@ const getTranslations = (
       ),
       text: (
         <p className="tw-text-warning">
-          {t(
-            count === 1
-              ? translations.perpetualPage.processTrade.texts.rejected
-              : translations.perpetualPage.processTrade.texts.rejectedMulti,
-            {
-              current,
-              count,
-            },
-          )}
+          {t(translations.perpetualPage.processTrade.texts.rejected)}
           <br />
           {t(translations.perpetualPage.processTrade.texts.cancelOrRetry)}
         </p>

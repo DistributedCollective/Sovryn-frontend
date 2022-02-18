@@ -10,7 +10,7 @@ import {
   TxStatus,
   Transaction,
 } from '../../../../../../store/global/transactions-store/types';
-import { TxStatusIcon } from '../../../../../components/Dialogs/TxDialog';
+import { StatusComponent } from '../../../../../components/Dialogs/TxDialog';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectTransactions } from '../../../../../../store/global/transactions-store/selectors';
 import { actions } from '../../../slice';
@@ -94,7 +94,7 @@ export const TransactionStep: TransitionStep<TradeDialogStep> = ({
     <>
       <h1 className="tw-font-semibold">{title}</h1>
       <div className={styles.contentWrapper}>
-        <TxStatusIcon status={currentTransactionStatus} />
+        <StatusComponent status={currentTransactionStatus} />
         <TradeSummary
           origin={origin}
           trade={trade}

@@ -28,7 +28,7 @@ export const rpcNodes = {
   30: 'https://mainnet.sovryn.app/rpc',
   31: 'https://testnet.sovryn.app/rpc',
   56: 'wss://bsc.sovryn.app/mainnet',
-  97: 'wss://bsc.sovryn.app/testnet',
+  97: 'wss://bsc-testnet.sovryn.app/websocket',
 };
 
 export const databaseRpcNodes = {
@@ -75,14 +75,18 @@ export const gasLimit = {
   [TxType.STAKING_EXTEND]: 450000,
   [TxType.STAKING_WITHDRAW]: 650000,
   [TxType.STAKING_REWARDS_CLAIM]: 3250000, //limit should be reduced once contract issue with claiming 0 values is resolved
-  [TxType.STAKING_LIQUID_SOV_CLAIM]: 1500000,
-  [TxType.DEPOSIT_COLLATERAL]: 850000,
-  [TxType.WITHDRAW_COLLATERAL]: 1400000,
+  [TxType.DEPOSIT_COLLATERAL]: 250000,
+  [TxType.STAKING_LIQUID_SOV_CLAIM]: 2500000,
+  [TxType.DEPOSIT_COLLATERAL]: 250000,
   [TxType.CLAIM_VESTED_SOV_REWARDS]: 6000000,
   [TxType.SOV_WITHDRAW_VESTING]: 1900000,
   [TxType.SIMULATOR_REQUEST]: 6800000,
-  [TxType.OPEN_PERPETUAL_TRADE]: 2200000,
+  [TxType.DEPOSIT_COLLATERAL]: 850000,
+  [TxType.WITHDRAW_COLLATERAL]: 1400000,
   [TxType.FAST_BTC_WITHDRAW]: 300000,
+  [TxType.PERPETUAL_TRADE]: 2200000,
+  [TxType.PERPETUAL_DEPOSIT_COLLATERAL]: 850000,
+  [TxType.PERPETUAL_WITHDRAW_COLLATERAL]: 1400000,
 };
 
 export const discordInvite = 'https://discord.gg/kBTNx4zjRf'; //unlimited use, no-expiry invite

@@ -5,10 +5,11 @@ import { Helmet } from 'react-helmet-async';
 import { Tab } from '../../components/Tab';
 import { actions as walletProviderActions } from 'app/containers/WalletProvider/slice';
 
-import { useInjectReducer } from 'utils/redux-injectors';
+import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import { translations } from 'locales/i18n';
 
 import { reducer, sliceKey, actions } from './slice';
+import { perpetualPageSaga } from './saga';
 import { HeaderLabs } from '../../components/HeaderLabs';
 import { Footer } from '../../components/Footer';
 import {
@@ -48,6 +49,7 @@ import { ToastsWatcher } from './components/ToastsWatcher';
 
 export const PerpetualPageContainer: React.FC = () => {
   useInjectReducer({ key: sliceKey, reducer });
+  useInjectSaga({ key: sliceKey, saga: perpetualPageSaga });
 
   const dispatch = useDispatch();
   const walletContext = useWalletContext();
@@ -115,7 +117,7 @@ export const PerpetualPageContainer: React.FC = () => {
             content={t(translations.perpetualPage.meta.description)}
           />
         </Helmet>
-        <HeaderLabs />
+        <HeaderLabs helpLink="https://wiki.sovryn.app/en/sovryn-dapp/perpetual-futures" />
         <div className="tw-relative tw--top-2.5 tw-w-full">
           <PairSelector
             pair={pair}

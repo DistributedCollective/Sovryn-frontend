@@ -27,10 +27,13 @@ export function NetworkRibbon(this: any) {
       !connected ||
       !isWeb3Wallet(wallet.providerType!) ||
       location.pathname.startsWith('/cross-chain')
-    )
+    ) {
       return false;
+    }
 
-    if (bridgeChainId) return chainId !== bridgeChainId;
+    if (bridgeChainId) {
+      return chainId !== bridgeChainId;
+    }
 
     return chainId !== expectedChainId;
   }, [

@@ -26,7 +26,6 @@ import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
 import { LeverageViewer } from '../LeverageViewer';
 import {
-  getMaximalTradeSizeInPerpetual,
   getTradingFee,
   getQuote2CollateralFX,
   calculateApproxLiquidationPrice,
@@ -36,6 +35,7 @@ import {
   getMaximalTradeSizeInPerpetualWithCurrentMargin,
   getRequiredMarginCollateralWithGasFees,
   getPrice,
+  getSignedMaxAbsPositionForTrader,
 } from '../../utils/perpUtils';
 import { shrinkToLot } from '../../utils/perpMath';
 import {
@@ -49,6 +49,7 @@ import { numberFromWei, toWei } from 'utils/blockchain/math-helpers';
 import { useSelector } from 'react-redux';
 import { selectPerpetualPage } from '../../selectors';
 import { getCollateralName } from '../../utils/renderUtils';
+import { TxType } from '../../../../../store/global/transactions-store/types';
 
 interface ITradeFormProps {
   trade: PerpetualTrade;
@@ -96,12 +97,14 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     if (isNewTrade) {
       maxTradeSize = shrinkToLot(
         Math.abs(
-          getMaximalTradeSizeInPerpetual(
-            traderState.marginAccountPositionBC,
+          getSignedMaxAbsPositionForTrader(
             getTradeDirection(trade.position),
+            numberFromWei(availableBalance),
+            perpParameters,
+            traderState,
             ammState,
             liqPoolState,
-            perpParameters,
+            trade.slippage,
           ),
         ),
         lotSize,
@@ -125,10 +128,12 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   }, [
     isNewTrade,
     trade.position,
+    trade.slippage,
+    availableBalance,
+    perpParameters,
     traderState,
     ammState,
     liqPoolState,
-    perpParameters,
     lotSize,
   ]);
 
@@ -141,7 +146,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       getTradingFee(amountChange, perpParameters, ammState);
     if (useMetaTransactions) {
       possibleMargin -=
-        gasLimit.deposit_collateral + gasLimit.open_perpetual_trade;
+        gasLimit.deposit_collateral + gasLimit[TxType.PERPETUAL_TRADE];
     }
 
     const maxLeverage = getMaxInitialLeverage(amountTarget, perpParameters);
@@ -174,6 +179,13 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   const [amount, setAmount] = useState(
     Math.abs(numberFromWei(trade.amount)).toFixed(lotPrecision),
   );
+
+  useEffect(() => {
+    if (amount > maxTradeSize) {
+      setAmount(maxTradeSize);
+    }
+  }, [amount, maxTradeSize, trade.position]);
+
   const onChangeOrderAmount = useCallback(
     (amount: string) => {
       const roundedAmount = Number(

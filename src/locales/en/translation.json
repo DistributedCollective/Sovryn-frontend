@@ -76,11 +76,12 @@
     "claimRewards": "Sorry, claiming rewards is currently under maintenance, please check our <0>discord</0> for updates.",
     "claimOrigins": "Sorry, origins claim is currently under maintenance, please check our <0>discord</0> for updates.",
 
-    "perpetuals": "Sorry, perpetual swaps are currently under maintenance, please check our discord (link in footer) for updates.",
-    "perpetualsAccountFund": "Sorry, perpetual swap deposits are currently under maintenance, please check our discord (link in footer) for updates.",
-    "perpetualsAccountWithdraw": "Sorry, perpetual swap withdrawals are currently under maintenance, please check our discord (link in footer) for updates.",
-    "perpetualsAccountTransfer": "Sorry, perpetual swap transfers are currently under maintenance, please check our discord (link in footer) for updates.",
-    "perpetualsTrade": "Sorry, perpetual swap trades are currently under maintenance, please check our discord (link in footer) for updates."
+    "perpetuals": "Sorry, Perpetuals is currently under maintenance, please check our discord (link in footer) for updates.",
+    "perpetualsAccountFund": "Sorry, deposits on Perpetuals are currently under maintenance, please check our discord (link in footer) for updates.",
+    "perpetualsAccountWithdraw": "Sorry, withdrawals on Perpetuals are currently under maintenance, please check our discord (link in footer) for updates.",
+    "perpetualsAccountTransfer": "Sorry, transfers on Perpetuals are currently under maintenance, please check our discord (link in footer) for updates.",
+    "perpetualsTrade": "Sorry, trading on Perpetuals is currently under maintenance, please check our discord (link in footer) for updates.",
+    "perpetualsGsn": "Sorry, the GSN on Perpetuals is currently under maintenance, please check our discord (link in footer) for updates. Transactions without GSN may still work."
   },
   "homePage": {
     "title": "Home Page",
@@ -397,7 +398,7 @@
     "labs": "Labs",
     "myntToken": "MYNT Token",
     "zero": "Zero",
-    "perpetual": "Perpetual"
+    "perpetual": "Perpetuals"
   },
   "originsLaunchpad": {
     "upcomingSales": {
@@ -639,10 +640,13 @@
     "viewGovernance": "View Governance",
     "addStake": "Add New Stake",
     "feeTitle": "Total earned fees Available",
+    "sentLendingPool": "{{asset}} will be sent to the lending pool.",
+    "convertedToRBTC": "{{asset}} will be converted to RBTC and sent directly to your wallet.",
     "noUnlockedSov": "You don't have unlocked SOV",
     "txFee": "Tx Fee",
     "sov": "SOV",
     "days": "days",
+    "vestingFees": "Vested SOV",
     "delegation": {
       "delegateTo": "Delegate To",
       "delegatedTo": "Delegated To",
@@ -1480,10 +1484,11 @@
         "recommendation2": "Margin trade any asset pair on Sovryn"
       },
       "feesEarnedTab": {
-        "title": "You have not earned any <0/>",
-        "recommendationsTitle": "In order to earn <0/> you will need to:",
+        "title": "You have not earned any fees",
+        "recommendationsTitle": "In order to earn fees you will need to:",
         "recommendation1": "Stake SOV",
-        "recommendation2": "Have active users use your affiliate link"
+        "recommendation2": "Have active users use your affiliate link",
+        "recommendation3": "You can also claim airdropped tokens here when distributed"
       }
     },
     "meta": {
@@ -1503,7 +1508,10 @@
     },
     "feesEarnedClaimForm": {
       "note": "Claiming your rewards automatically adds them your <0/> portfolio balance.",
-      "learn": "Learn more"
+      "learn": "Learn more",
+      "asset": "Asset",
+      "amount": "Amount",
+      "assetValue": "<0/> Value"
     },
     "stakingForm": {
       "title": "Amount to claim:",
@@ -1609,8 +1617,16 @@
   },
   "perpetualPage": {
     "meta": {
-      "title": "Perpetual Trading",
-      "description": "Trade with perpetuals"
+      "title": "Perpetuals",
+      "description": "Trade with Sovryn's perpetual future contracts"
+    },
+    "pairSelector": {
+      "gsn": "GSN",
+      "tooltips": {
+        "gsnEnabled": "Fees paid in BTC. With the Gas Station Network (GSN) you can pay gas fees in BTC",
+        "gsnDisabled": "Fees paid in BNB. With the Gas Station Network (GSN) you can pay gas fees in BTC",
+        "gsnUnsupported": "GSN is currently only supported for browser based wallets."
+      }
     },
     "toasts": {
       "market": "Market",
@@ -1626,7 +1642,7 @@
       "approvalFailed": "Approval failed"
     },
     "accountBalance": {
-      "titleBalance": "Perpetual Account",
+      "titleBalance": "Perpetuals Account",
       "titleHistory": "Funding History",
       "total": "Total Balance:",
       "pending": "Pending transfer…",
@@ -1692,7 +1708,7 @@
         "welcome4": "New from Bitmex? <0>Read our getting started guide</0>"
       },
       "labels": {
-        "pair": "Pair:",
+        "pair": "Symbol:",
         "asset": "Asset to receive:",
         "leverageSelector": "Position Leverage:",
         "leverage": "Leverage:",
@@ -1729,8 +1745,8 @@
       },
       "tooltips": {
         "orderValue": "The notional amount for your position.",
-        "orderCost": "The approximate amount withdrawn from your wallet to pay for the trade. Consists of required margin and trading fee.",
-        "tradingFee": "The trading fee excluding blockchain transaction fees."
+        "orderCost": "The maximal amount withdrawn from your wallet to pay for the trade. Consists of required margin and trading fee. This value depends on your slippage settings.",
+        "tradingFee": "The trading fee. If fees are paid in BTC, this includes gas costs."
       }
     },
     "tradeDialog": {
@@ -1803,8 +1819,7 @@
         "confirm": "Please confirm transaction in your {{wallet}} wallet",
         "confirmMulit": "Please confirm transaction {{current}} of {{count}} in your {{wallet}} wallet",
         "error": "Your transaction has failed due to <0>{{error}}</0> Your position has not been opened",
-        "rejected": "You have chosen to reject this transaction",
-        "rejectedMulti": "You have chosen to reject transaction {{current}} of {{count}}",
+        "rejected": "The transaction request was rejected",
         "cancelOrRetry": "Please cancel or retry your transaction"
       },
       "labels": {
@@ -1852,7 +1867,7 @@
     "orderHistory": "Order History",
     "fundingPayments": "Funding Payments",
     "openPositionsTable": {
-      "pair": "Pair",
+      "pair": "Symbol",
       "positionSize": "Position Size",
       "value": "Value",
       "entryPrice": "Entry Price",
@@ -1874,10 +1889,10 @@
         "positionSize": "The size of your position. Negative values denote short positions.",
         "entryPrice": "The average price received when opening this position.",
         "markPrice": "Latest Mark Price for this contract. To prevent price manipulation, the Mark Price is used for unrealized PnL and margin calculations.",
-        "liquidationPrice": "The liquidation price is the approximate price at which your position can be liquidated. To move your position away from the liquidation price, you can decrease your position size, add margin, or use the leverage action to reduce leverage.",
+        "liquidationPrice": "The liquidation price is the mark price at which your position can be liquidated. To move your position away from the liquidation price, you can decrease your position size, add margin, or use the leverage action to reduce leverage.",
         "margin": "The margin allocated to the position and leverage ratio in brackets. The lower the Leverage Ratio, the further away your liquidation price will be relative to your position entry price.",
         "unrealized": "The unrealized P&L is calculated using the Mark Price. It also contains the accrued funding payments.",
-        "realized": "The realized P&L that was paid to your margin account."
+        "realized": "The realized P&L that was paid to your margin account. This includes fees and slippage. Funding payments are reported separately."
       }
     },
     "closedPositionsTable": {
@@ -1938,7 +1953,7 @@
     "warnings": {
       "priceExceedsSlippage": "Trade is likely to fail, because the expected price exceeds limit price! Update slippage to at least {{slippage}}, to avoid transaction failure.",
       "targetMarginUnsafe": "Transaction is likely to fail. The resulting position does not meet the required maintenance margin.",
-      "exceedsBalance": "Order cost exceeds total balance."
+      "exceedsBalance": "Order cost exceeds total balance, your trade could fail in case of high slippage."
     }
   },
   "spotTradingPage": {

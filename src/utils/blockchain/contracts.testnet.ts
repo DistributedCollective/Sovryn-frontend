@@ -234,6 +234,7 @@ export const contracts = {
     abi: LockedSovAbi,
   },
   feeSharingProxy_old: {
+    // retained for use with legacy staking fees
     address: '0xedD92fb7C556E4A4faf8c4f5A90f471aDCD018f4',
     abi: feeSharingProxyAbi,
   },
@@ -242,7 +243,7 @@ export const contracts = {
     abi: feeSharingProxyAbi,
   },
   stakingRewards: {
-    address: '0x7662E1cC98c9CB50eBc286ce8b124D61C7e2247E',
+    address: '0x18eF0ff12f1b4D30104B4680D485D026C26D164D',
     abi: stakingRewardsProxyAbi,
   },
   FISH_token: {
@@ -292,6 +293,10 @@ export const contracts = {
     address: '0xf75170ce8d4060b8D5fc24E996FA00A94bb8A232',
     abi: MYNTMarketMakerAbi,
   },
+  fastBtcBridge: {
+    address: '0x10C848e9495a32acA95F6c23C92eCA2b2bE9903A',
+    abi: fastBtcBridgeAbi,
+  },
   // perpetualManager: {
   //   address: '0x427cF4BdF9a6DCdc360625fC4295747b9D6796bA',
   //   abi: perpetualManagerAbi,
@@ -305,17 +310,13 @@ export const contracts = {
 
   // TODO: These are competition contracts, don't use them once we have a subgraph for our regular contracts
   perpetualManager: {
-    address: '0x90e1346F0D29B54943a50c1994323c40e0ee80D5',
+    address: '0xa098D388e01F27055c43c61F98f312777CD32E9C',
     abi: perpetualManagerAbi,
     chainId: ChainId.BSC_TESTNET,
   },
   PERPETUALS_token: {
-    address: '0xDce6A00edd4637C49e3DeCFa56B7bfcBA414cbE1',
+    address: '0x1fe93776aCB9F0f98718c7bF7ca2158Adc4b3337',
     abi: marginTokenAbi,
     chainId: ChainId.BSC_TESTNET,
-  },
-  fastBtcBridge: {
-    address: '0x10C848e9495a32acA95F6c23C92eCA2b2bE9903A',
-    abi: fastBtcBridgeAbi,
   },
 };

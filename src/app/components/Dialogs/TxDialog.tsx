@@ -94,7 +94,7 @@ export const TxDialog: React.FC<ITxDialogProps> = ({
             <span className="tw-sr-only">Close Dialog</span>
           </button>
           <h1>{t(translations.buySovPage.txDialog.txStatus.title)}</h1>
-          <TxStatusIcon status={tx.status} showLabel />
+          <StatusComponent status={tx.status} showLabel />
 
           {!!tx.txHash && (
             <div className={styles.hashContainer}>
@@ -173,14 +173,14 @@ function getStatus(tx: TxStatus) {
   return <Trans i18nKey={translations.common.pending} />;
 }
 
-type TxStatusIconProps = {
+type StatusComponentProps = {
   status: TxStatus;
   className?: string;
   isInline?: boolean;
   showLabel?: boolean;
 };
 
-export const TxStatusIcon: React.FC<TxStatusIconProps> = ({
+export const StatusComponent: React.FC<StatusComponentProps> = ({
   status,
   className,
   isInline,
@@ -210,27 +210,6 @@ export const TxStatusIcon: React.FC<TxStatusIconProps> = ({
     )}
   </div>
 );
-
-type StatusComponentProps = {
-  status: TxStatus;
-  onlyImage?: boolean;
-};
-
-export const StatusComponent: React.FC<StatusComponentProps> = ({
-  status,
-  onlyImage = false,
-}) => {
-  return (
-    <div className={styles.wlContainer}>
-      <img
-        src={getStatusImage(status)}
-        className={`${status === TxStatus.PENDING && 'tw-animate-spin'}`}
-        alt="Status"
-      />
-      {!onlyImage && <p>{getStatus(status)}</p>}
-    </div>
-  );
-};
 
 type WalletLogoProps = {
   wallet: string;

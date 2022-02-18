@@ -8,6 +8,7 @@ export interface WalletProviderState {
   chainId?: number;
   networkId?: number;
   bridgeChainId: Nullable<number>;
+  signTypedRequired: boolean;
   connected: boolean;
   connecting: boolean;
   blockNumber: number;

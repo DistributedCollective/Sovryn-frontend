@@ -31,7 +31,6 @@ export enum TxType {
   ADD_LIQUIDITY = 'add_liquidity',
   REMOVE_LIQUIDITY = 'remove_liquidity',
   DEPOSIT_COLLATERAL = 'deposit_collateral',
-  OPEN_PERPETUAL_TRADE = 'open_perpetual_trade',
   WITHDRAW_COLLATERAL = 'withdraw_collateral',
   CONVERT_BY_PATH = 'convert_by_path', // swap
   SWAP_EXTERNAL = 'swap_external',
@@ -54,10 +53,14 @@ export enum TxType {
   CLAIM_VESTED_SOV_REWARDS = 'claim_vested_sov_rewards',
   SIMULATOR_REQUEST = 'simulator_request',
   FAST_BTC_WITHDRAW = 'fast_btc_withdraw',
+  PERPETUAL_DEPOSIT_COLLATERAL = 'perpetual_deposit_collateral',
+  PERPETUAL_WITHDRAW_COLLATERAL = 'perpetual_withdraw_collateral',
+  PERPETUAL_TRADE = 'perpetual_trade',
 }
 
 export enum TxStatus {
   NONE = 'none',
+  INITIALIZING_GSN = 'initializing_gsn',
   PENDING_FOR_USER = 'pending_for_user',
   PENDING = 'pending',
   CONFIRMED = 'confirmed',
@@ -69,7 +72,6 @@ export interface Transactions {
 }
 
 export interface Transaction {
-  chainId?: number;
   transactionHash: string;
   approveTransactionHash: Nullable<string>;
   type: TxType;
@@ -81,6 +83,8 @@ export interface Transaction {
   asset: Nullable<Asset | string>;
   assetAmount: Nullable<string>;
   customData?: { [key: string]: any };
+  chainId?: number;
+  gsnPaymaster?: string;
 }
 
 export interface RequestDialogState {

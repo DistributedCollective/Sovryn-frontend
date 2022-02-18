@@ -13,6 +13,7 @@ import {
   toNumberFormat,
 } from 'utils/display-text/format';
 import { translations } from 'locales/i18n';
+import classNames from 'classnames';
 
 export interface IAmountInputProps {
   value: string;
@@ -53,7 +54,6 @@ export const AmountInput: React.FC<IAmountInputProps> = ({
     <>
       <Input
         value={stringToFixedPrecision(value, decimalPrecision)}
-        onChange={onChange}
         type="number"
         placeholder={placeholder}
         appendElem={
@@ -71,22 +71,22 @@ export const AmountInput: React.FC<IAmountInputProps> = ({
         }
         className="tw-rounded-lg tw-max-w-full"
         appendClassName={assetSelectable ? '' : 'tw-mr-5'}
+        step={step}
         readOnly={readonly}
         dataActionId={`${dataActionId}-amountInput`}
-        step={step}
+        onChange={onChange}
       />
       {subText && (
         <div className="tw-text-xs tw-mt-1 tw-font-thin">{subText}</div>
       )}
       {!readonly && (asset || maxAmount !== undefined) && (
         <AmountSelector
-          parentValue={value}
           asset={asset}
           maxAmount={maxAmount}
           gasFee={gasFee}
-          onChange={onChange}
           showBalance={showBalance}
           dataActionId={dataActionId}
+          onChange={onChange}
         />
       )}
     </>
@@ -163,7 +163,12 @@ export const AmountSelectorInner: React.FC<IAmountSelectorProps> = ({
           <AvailableBalance asset={asset || Asset.RBTC} />
         </div>
       )}
-      <div className="tw-h-5 tw-mt-1 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded-md tw-divide-x tw-divide-secondary">
+      <div
+        className={classNames(
+          showBalance ? 'tw-mt-1' : 'tw-mt-2.5',
+          'tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded-md tw-divide-x tw-divide-secondary',
+        )}
+      >
         {amounts.map(value => (
           <AmountSelectorButton
             key={value}

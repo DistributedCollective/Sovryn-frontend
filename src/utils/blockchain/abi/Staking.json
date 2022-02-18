@@ -1319,21 +1319,6 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "_stakingRewardsProxy",
-        "type": "address"
-      }
-    ],
-    "name": "setStakingRewards",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "internalType": "address",
         "name": "_vestingRegistryProxy",
         "type": "address"
       }
@@ -1482,21 +1467,6 @@
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [],
-    "name": "stakingRewards",
-    "outputs": [
-      {
-        "internalType": "contract StakingRewards",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
     "type": "function"
   },
   {

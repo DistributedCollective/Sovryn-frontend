@@ -1,6 +1,7 @@
 export enum ChainId {
   ETH_MAINNET = 1,
   ETH_TESTNET = 3, // Ropsten
+  ETH_RINKEBY = 4,
   RSK_MAINNET = 30,
   RSK_TESTNET = 31,
   BSC_MAINNET = 56,

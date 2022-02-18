@@ -36,9 +36,9 @@ import MYNTControllerAbi from './abi/MYNTController.json';
 import MYNTTokenAbi from './abi/MYNT_token.json';
 import MYNTPresaleAbi from './abi/MYNTPresale.json';
 import MYNTMarketMakerAbi from './abi/MYNTMarketMaker.json';
+import fastBtcBridgeAbi from './abi/fastBtcBridge.json';
 import perpetualManagerAbi from './abi/PerpetualManager.json';
 import marginTokenAbi from './abi/MarginToken.json';
-import fastBtcBridgeAbi from './abi/fastBtcBridge.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -242,6 +242,7 @@ export const contracts = {
     abi: LockedSovAbi,
   },
   feeSharingProxy_old: {
+    // retained for use with legacy staking fees
     address: '0x12B1B0C67d9A771EB5Db7726d23fdc6848fd93ef',
     abi: feeSharingProxyAbi,
   },
@@ -299,6 +300,10 @@ export const contracts = {
     address: '0x722935fF8A99D801D802bb3EE528408C11C18656',
     abi: MYNTMarketMakerAbi,
   },
+  fastBtcBridge: {
+    address: '0x0D5006330289336ebdF9d0AC9E0674f91b4851eA',
+    abi: fastBtcBridgeAbi,
+  },
   perpetualManager: {
     address: '0x15D155e8aDE68ED7f273770b47E2B2eA263861cF',
     abi: perpetualManagerAbi,
@@ -308,9 +313,5 @@ export const contracts = {
     address: '0x1431Aa8f066795d3aB94F8516B74FdCC5fD7897F',
     abi: marginTokenAbi,
     chainId: ChainId.BSC_MAINNET,
-  },
-  fastBtcBridge: {
-    address: '0x0D5006330289336ebdF9d0AC9E0674f91b4851eA',
-    abi: fastBtcBridgeAbi,
   },
 };

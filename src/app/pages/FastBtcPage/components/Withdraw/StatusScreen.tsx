@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import { translations } from 'locales/i18n';
 import { WithdrawContext, WithdrawStep } from '../../contexts/withdraw-context';
 import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
+import { Asset } from '../../../../../types';
 import { SendTxResponse } from '../../../../hooks/useSendContractTx';
 import { WalletTxHelper } from './WalletTxHelper';
 import { TxStatus } from '../../../../../store/global/transactions-store/types';
@@ -33,7 +34,7 @@ export const StatusScreen: React.FC<StatusScreenProps> = ({ tx, network }) => {
   const history = useHistory();
 
   const backToUrl = useMemo(
-    () => (network === Chain.BSC ? '/perpetual' : '/wallet'),
+    () => (network === Chain.BSC ? '/perpetuals' : '/wallet'),
     [network],
   );
 
@@ -96,7 +97,7 @@ export const StatusScreen: React.FC<StatusScreenProps> = ({ tx, network }) => {
         {expandedTxInfo ? (
           <>
             <div className="tw-w-full">
-              <StatusComponent status={tx.status} onlyImage />
+              <StatusComponent status={tx.status} showLabel={false} />
 
               <div className="tw-w-full tw-px-8 tw-py-4 tw-bg-gray-5 tw-text-center tw-mb-8 tw-rounded">
                 <div className="tw-mb-2 tw-text-lg">

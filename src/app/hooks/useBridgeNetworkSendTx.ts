@@ -81,7 +81,7 @@ export function useBridgeNetworkSendTx(
             loading: true,
             to: contractName,
             from: account.toLowerCase(),
-            value: (config?.value as string) || '0',
+            value: config?.value?.toString() || '0',
             asset: options?.asset || null,
             assetAmount: options?.assetAmount || null,
             customData: options?.customData || undefined,

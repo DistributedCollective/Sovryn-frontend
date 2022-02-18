@@ -12,6 +12,7 @@ import {
   Event,
   OrderDirection,
   useGetTraderEvents,
+  EventQuery,
 } from './graphql/useGetTraderEvents';
 import { useContext, useMemo, useEffect } from 'react';
 import { ABK64x64ToFloat } from '../utils/contractUtils';
@@ -55,18 +56,22 @@ export const usePerpetual_OpenPosition = (
   const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
 
   const eventQuery = useMemo(
-    () => [
+    (): EventQuery[] => [
       {
         event: Event.TRADE,
         orderBy: 'blockTimestamp',
         orderDirection: OrderDirection.desc,
-        where: `perpetual: ${JSON.stringify(pair.id)}`,
+        whereCondition: `perpetual: ${JSON.stringify(pair.id)}`,
+        page: 1,
+        perPage: 1,
       },
       {
         event: Event.POSITION,
         orderBy: 'startDate',
         orderDirection: OrderDirection.desc,
-        where: `perpetual: ${JSON.stringify(pair.id)}`,
+        whereCondition: `perpetual: ${JSON.stringify(pair.id)}`,
+        page: 1,
+        perPage: 1,
       },
     ],
     [pair],
