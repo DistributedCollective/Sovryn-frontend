@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Icon } from '@blueprintjs/core';
 import { translations } from 'locales/i18n';
@@ -13,8 +13,7 @@ import { addRskMainnet, addRskTestnet } from 'utils/metamaskHelpers';
 import { ActionButton } from 'app/components/Form/ActionButton';
 
 import styles from '../NetworkRibbon.module.scss';
-import { InjectedWalletProvider, isWeb3Wallet } from '@sovryn/wallet';
-import { providers } from 'ethers';
+import { useDetectWeb3ChainId } from 'app/hooks/useDetectWeb3ChainId';
 
 const addNetworkCallback =
   currentNetwork === 'mainnet' ? addRskMainnet : addRskTestnet;
@@ -28,19 +27,9 @@ export function DetectionScreen(props: Props) {
   var logo: any = null;
   const { t } = useTranslation();
 
-  const { wallet, expectedChainId } = useContext(WalletContext);
+  const { expectedChainId } = useContext(WalletContext);
 
-  const chainId = useMemo(() => {
-    if (isWeb3Wallet(wallet.providerType!)) {
-      const provider = InjectedWalletProvider.getProvider(
-        expectedChainId || currentChainId,
-      );
-      if (providers) {
-        return parseInt(provider.chainId);
-      }
-    }
-    return parseInt(wallet?.chainId.toString());
-  }, [expectedChainId, wallet.providerType, wallet.chainId]);
+  const chainId = useDetectWeb3ChainId(expectedChainId || currentChainId);
 
   const walletName =
     props.walletType.charAt(0).toUpperCase() + props.walletType.slice(1);

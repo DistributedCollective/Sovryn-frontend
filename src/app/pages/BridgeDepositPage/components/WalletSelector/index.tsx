@@ -1,11 +1,7 @@
 import React, { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { WalletConnectionView, WalletContext } from '@sovryn/react-wallet';
-import {
-  isWeb3Wallet,
-  ProviderType,
-  InjectedWalletProvider,
-} from '@sovryn/wallet';
+import { isWeb3Wallet, ProviderType } from '@sovryn/wallet';
 
 import { Chain } from '../../../../../types';
 import { getBridgeChainId } from '../../utils/helpers';
@@ -32,6 +28,7 @@ import styles from './index.module.scss';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { noop } from 'app/constants';
+import { useDetectWeb3ChainId } from 'app/hooks/useDetectWeb3ChainId';
 
 export const WalletSelector: React.FC = () => {
   const { t } = useTranslation();
@@ -41,18 +38,9 @@ export const WalletSelector: React.FC = () => {
   const dispatch = useDispatch();
 
   const { bridgeChainId } = useSelector(selectWalletProvider);
-  const { wallet } = useContext(WalletContext);
   const { chain } = useSelector(selectBridgeDepositPage);
 
-  const chainId = useMemo(() => {
-    if (isWeb3Wallet(wallet.providerType!)) {
-      const provider = InjectedWalletProvider.getProvider(bridgeChainId!);
-      if (provider) {
-        return parseInt(provider.chainId);
-      }
-    }
-    return parseInt(wallet?.chainId.toString());
-  }, [wallet.providerType, wallet?.chainId, bridgeChainId]);
+  const chainId = useDetectWeb3ChainId(bridgeChainId!);
 
   const walletName = detectWeb3Wallet();
 

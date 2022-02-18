@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { useWalletContext } from '@sovryn/react-wallet';
-import { isWeb3Wallet, InjectedWalletProvider } from '@sovryn/wallet';
+import { isWeb3Wallet } from '@sovryn/wallet';
 
 import { Chain } from 'types';
 import { actions } from '../../slice';
@@ -18,6 +18,7 @@ import {
   getWalletName,
   getWalletImage,
 } from 'app/components/UserAssets/TxDialog/WalletLogo';
+import { useDetectWeb3ChainId } from 'app/hooks/useDetectWeb3ChainId';
 
 const addNetworkCallback =
   currentNetwork === 'mainnet' ? addRskMainnet : addRskTestnet;
@@ -35,15 +36,7 @@ export const ReturnToPortfolio: React.FC = () => {
 
   const { wallet, connected, connect } = useWalletContext();
 
-  const chainId = useMemo(() => {
-    if (isWeb3Wallet(wallet.providerType!)) {
-      const provider = InjectedWalletProvider.getProvider(currentChainId);
-      if (provider) {
-        return parseInt(provider.chainId);
-      }
-    }
-    return parseInt(wallet?.chainId.toString());
-  }, [wallet.providerType, wallet?.chainId]);
+  const chainId = useDetectWeb3ChainId(currentChainId);
 
   const handleNetworkSwitch = useCallback(() => {
     dispatch(actions.selectSourceNetwork(Chain.RSK));
