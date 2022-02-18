@@ -43,7 +43,7 @@ export interface SendTxResponseInterface extends ResetTxResponseInterface {
     args: any[],
     config?: TransactionConfig,
     options?: TransactionOptions,
-  ) => Promise<boolean>;
+  ) => Promise<string | void>;
 }
 
 export function useSendContractTx(
@@ -96,13 +96,12 @@ export function useSendContractTx(
           setTx(txData);
           setTxId(transactionHash);
           dispatch(actions.closeTransactionRequestDialog());
-          return true;
+          return transactionHash;
         })
         .catch(e => {
           console.error(e.message);
           setTxId(TxStatus.FAILED);
           dispatch(actions.setTransactionRequestDialogError(e.message));
-          return false;
         });
     },
     [account, contractName, methodName, chainId, dispatch],

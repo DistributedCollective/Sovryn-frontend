@@ -90,13 +90,12 @@ export function useChainToSendContractTx(
           setTx(txData);
           setTxId(transactionHash);
           dispatch(actions.closeTransactionRequestDialog());
-          return true;
+          return transactionHash;
         })
         .catch(e => {
           console.error(e.message);
           setTxId(TxStatus.FAILED);
           dispatch(actions.setTransactionRequestDialogError(e.message));
-          return false;
         });
     },
     [chain, account, contractAddress, methodName, abi, dispatch],

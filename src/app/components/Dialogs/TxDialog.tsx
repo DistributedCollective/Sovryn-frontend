@@ -199,7 +199,7 @@ export const TxStatusIcon: React.FC<TxStatusIconProps> = ({
       className={classNames(
         isInline ? 'tw-h-auto flex-initial' : 'tw-h-24 tw-w-24',
         isInline && showLabel && 'tw-mr-2',
-        status === 'pending' && 'tw-animate-spin',
+        status === TxStatus.PENDING && 'tw-animate-spin',
       )}
       alt="Status"
     />
@@ -224,7 +224,7 @@ export const StatusComponent: React.FC<StatusComponentProps> = ({
     <div className={styles.wlContainer}>
       <img
         src={getStatusImage(status)}
-        className={`${status === 'pending' && 'tw-animate-spin'}`}
+        className={`${status === TxStatus.PENDING && 'tw-animate-spin'}`}
         alt="Status"
       />
       {!onlyImage && <p>{getStatus(status)}</p>}
