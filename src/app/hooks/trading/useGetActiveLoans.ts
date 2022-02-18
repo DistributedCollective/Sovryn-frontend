@@ -1,6 +1,8 @@
 import { booleafy } from 'utils/helpers';
 import type { ActiveLoan } from 'types/active-loan';
 import { useCacheCallWithValue } from '../useCacheCallWithValue';
+import { currentNetwork } from 'utils/classifiers';
+import { AppMode } from 'types';
 
 export function useGetActiveLoans(
   account: string,
@@ -12,7 +14,9 @@ export function useGetActiveLoans(
 ) {
   return useCacheCallWithValue<Array<ActiveLoan>>(
     'sovrynProtocol',
-    'getUserLoans',
+    // method available on testnet only until this PR is deployed to mainnet
+    // https://github.com/DistributedCollective/Sovryn-smart-contracts/pull/412
+    currentNetwork === AppMode.MAINNET ? 'getUserLoans' : 'getUserLoansV2',
     [],
     account,
     from,
