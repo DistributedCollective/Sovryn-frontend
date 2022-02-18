@@ -7,10 +7,7 @@ import classNames from 'classnames';
 
 export const CustomLeftArrow: React.FC<ArrowProps> = ({ onClick }) => {
   return (
-    <div
-      className={classNames(styles.arrow, 'tw-left-4')}
-      onClick={() => onClick?.()}
-    >
+    <div className={classNames(styles.arrow, 'tw-left-4')} onClick={onClick}>
       <FontAwesomeIcon icon={faChevronLeft} size="2x" />
     </div>
   );

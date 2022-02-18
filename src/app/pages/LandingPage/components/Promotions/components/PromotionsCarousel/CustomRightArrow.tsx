@@ -7,10 +7,7 @@ import classNames from 'classnames';
 
 export const CustomRightArrow: React.FC<ArrowProps> = ({ onClick }) => {
   return (
-    <div
-      className={classNames(styles.arrow, 'tw-right-4')}
-      onClick={() => onClick?.()}
-    >
+    <div className={classNames(styles.arrow, 'tw-right-4')} onClick={onClick}>
       <FontAwesomeIcon icon={faChevronRight} size="2x" />
     </div>
   );
