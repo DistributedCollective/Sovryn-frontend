@@ -1280,7 +1280,7 @@
     "title": "Fechar posição",
     "withdrawIn": "Ativo:",
     "amountReceived": "Quantidade a receber:",
-    "marginType": "Margin Type:",
+    "marginType": "Margem:",
     "positionSize": "Tamanho da posição:",
     "minimumReceived": "Mínimo a receber:",
     "pl": "L/P:",
