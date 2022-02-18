@@ -76,7 +76,7 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
                   <img
                     className={styles.assetLogo}
                     src={AssetsDictionary.get(logoAsset1).logoSvg}
-                    alt="asset 1"
+                    alt={logoAsset1}
                   />
                 </div>
                 {logoAsset2 && (
@@ -84,7 +84,7 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
                     <img
                       className={styles.assetLogo}
                       src={AssetsDictionary.get(logoAsset2).logoSvg}
-                      alt="asset 2"
+                      alt={logoAsset2}
                     />
                   </div>
                 )}
