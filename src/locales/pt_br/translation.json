@@ -1938,7 +1938,7 @@
       "title": "Status da transação",
       "aborted": "Transação falhou. <br/>Cancele ou refaça a transação",
       "abortedLedger": "Make sure \"Contract data\" is set to \"Allowed\" in your Ledger app settings",
-      "cta": "Ver na blockchain",
+      "cta": "Abrir transação",
       "processing": "{{action}} Em processamento...",
       "complete": "{{action}} Concluída",
       "submit": "{{action}} Inserida"
@@ -1992,7 +1992,7 @@
         "title": "Status da transação",
         "aborted": "Você optou por rejeitar esta transação. Cancele ou refaça a transação",
         "abortedLedger": "Verifique se \"Contract data\" está configurado para \"Permitido\" no seu aplicativo Ledger",
-        "cta": "Ver na blockchain"
+        "cta": "Abrir transação"
       }
     },
     "promotions": {
