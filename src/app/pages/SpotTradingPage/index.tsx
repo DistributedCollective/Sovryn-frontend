@@ -20,6 +20,8 @@ import { PairNavbar } from 'app/components/PairNavbar';
 import { LimitOrderTables } from './components/LimitOrderTables';
 import { SpotHistory } from './components/SpotHistory';
 import { TradingType } from 'types/trading-pairs';
+import { RecentTrades } from 'app/components/RecentTrades';
+import { getSpotPairs } from './types';
 
 export function SpotTradingPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -45,15 +47,21 @@ export function SpotTradingPage() {
         <div className="tw-h-10 tw-flex tw-items-center tw--mx-3 tw-justify-between tw-bg-gray-3">
           <PairNavbar type={TradingType.SPOT} />
         </div>
-        <div className="tw-flex tw-mt-5 tw-flex-col xl:tw-flex-row xl:tw-justify-between tw-max-w-full">
+        <div className="tw-flex tw-mt-5 tw-flex-col md:tw-flex-row xl:tw-justify-between tw-max-w-full md:tw-flex-wrap">
           <div
             className={
-              'tw-flex-shrink tw-flex-grow tw-mb-12 tw-max-w-none xl:tw-pr-4 xl:tw-mb-0'
+              'tw-flex-shrink tw-flex-grow tw-mb-12 tw-max-w-none xl:tw-pr-4 xl:tw-mb-0 xl:tw-w-auto tw-w-full'
             }
           >
             <TradingChart
               symbol={`${pairType}`.replace('_', '/')}
               theme={Theme.DARK}
+            />
+          </div>
+          <div className="tw-trading-recent-trades-card tw-bg-black tw-rounded-2xl tw-px-4 tw-py-3 tw-mx-auto xl:tw-mr-2 tw-relative">
+            <RecentTrades
+              baseToken={getSpotPairs(pairType)[0]}
+              quoteToken={getSpotPairs(pairType)[1]}
             />
           </div>
           <TradeForm />

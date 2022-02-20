@@ -275,7 +275,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
     MAINTENANCE_MARGIN,
   );
 
-  const [ignoreError, setIngoreError] = useState(false);
+  const [ignoreError, setIgnoreError] = useState(false);
   const disableButtonAfterSimulatorError = useMemo(() => {
     return ignoreError ? false : simulator.status === SimulationStatus.FAILED;
   }, [ignoreError, simulator.status]);
@@ -429,8 +429,9 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
                   />
                   <Checkbox
                     checked={ignoreError}
-                    onChange={() => setIngoreError(!ignoreError)}
+                    onChange={() => setIgnoreError(!ignoreError)}
                     label={t(translations.common.continueToFailure)}
+                    data-action-id="accept-terms-checkbox"
                   />
                 </>
               )}

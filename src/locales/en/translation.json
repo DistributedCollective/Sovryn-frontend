@@ -310,7 +310,8 @@
       "slippageSettings": "Slippage Settings",
       "esEntryPrice": "Est Entry Price:",
       "esLiquidationPrice": "Est Liquidation Price:",
-      "interestAPY": "Interest APY:"
+      "interestAPY": "Interest APY:",
+      "interestAPR": "Interest APR:"
     },
     "buttons": {
       "submit": "Place Trade"
@@ -1596,8 +1597,8 @@
     },
     "recentTrades": {
       "title": "Recent Trades",
-      "price": "Price (<0/>)",
-      "size": "Size (<0/>)",
+      "price": "Price",
+      "size": "Size",
       "time": "Time",
       "noTrades": "No Recent Trades",
       "long": "L",

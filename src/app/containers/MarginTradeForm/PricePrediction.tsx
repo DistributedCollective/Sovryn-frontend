@@ -5,7 +5,6 @@ import { useGetEstimatedMarginDetails } from '../../hooks/trading/useGetEstimate
 import { useCurrentPositionPrice } from '../../hooks/trading/useCurrentPositionPrice';
 import { LoadableValue } from '../../components/LoadableValue';
 import { toNumberFormat } from '../../../utils/display-text/format';
-import { AssetRenderer } from 'app/components/AssetRenderer';
 
 interface IPricePredictionProps {
   position: TradingPosition;
@@ -51,16 +50,8 @@ export const PricePrediction: React.FC<IPricePredictionProps> = ({
   return (
     <LoadableValue
       loading={loading}
-      value={
-        <>
-          {toNumberFormat(price, 2)} <AssetRenderer asset={loanToken} />
-        </>
-      }
-      tooltip={
-        <>
-          {price} <AssetRenderer asset={loanToken} />
-        </>
-      }
+      value={toNumberFormat(price, 2)}
+      tooltip={price}
     />
   );
 };

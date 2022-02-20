@@ -3,37 +3,34 @@ import React, { useMemo } from 'react';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
 import { weiToNumberFormat } from 'utils/display-text/format';
-import { RecentTradesDataEntry, TradePriceChange } from '../../types';
-import { getPriceChangeImage, getPriceColor } from '../../utils/marginUtils';
+import { RecentTradesDataEntry } from 'types/trading-pairs';
 import dayjs from 'dayjs';
+import { weiTo18 } from 'utils/blockchain/math-helpers';
+import { Tooltip } from '@blueprintjs/core/lib/esm/components';
+import { Asset } from 'types';
+import { getTokenContract } from 'utils/blockchain/contract-helpers';
 
 type RecentTradeRowProps = {
   row: RecentTradesDataEntry;
   isOddRow: boolean;
-  quoteToken: string;
-  currentPrice: TradePriceChange;
+  quoteToken: Asset;
 };
 
 export const RecentTradeRow: React.FC<RecentTradeRowProps> = ({
   row,
   isOddRow,
   quoteToken,
-  currentPrice,
 }) => {
   const { t } = useTranslation();
-  const priceChangeIcon = useMemo(() => getPriceChangeImage(currentPrice), [
-    currentPrice,
-  ]);
-  const priceColor = useMemo(() => getPriceColor(currentPrice), [currentPrice]);
-
+  const quoteTokenAddress = getTokenContract(quoteToken).address;
   const backgroundClassName = useMemo(
     () => (isOddRow ? 'tw-bg-gray-3' : 'tw-bg-gray-1'),
     [isOddRow],
   );
 
-  const isLong = useMemo(() => row.loanToken === quoteToken, [
+  const isLong = useMemo(() => row.loanToken === quoteTokenAddress, [
     row.loanToken,
-    quoteToken,
+    quoteTokenAddress,
   ]);
 
   return (
@@ -48,34 +45,34 @@ export const RecentTradeRow: React.FC<RecentTradeRowProps> = ({
         className={classNames(
           'tw-pl-4 tw-py-1 tw-text-left tw-font-semibold tw-rounded-l tw-whitespace-nowrap',
           backgroundClassName,
-          priceColor,
         )}
       >
-        {priceChangeIcon ? (
-          <img
-            className="tw-inline-block tw-w-2.5 tw-mr-1"
-            src={priceChangeIcon}
-            alt="price change arrow"
-          />
-        ) : (
-          <span className="tw-mr-3.5" />
-        )}
-        {weiToNumberFormat(row.entryPrice, 1)}
+        <Tooltip
+          position="top"
+          interactionKind="hover"
+          content={<>{weiTo18(row.entryPrice)}</>}
+        >
+          {weiToNumberFormat(row.entryPrice, 3)}
+        </Tooltip>
       </td>
       <td
         className={classNames(
           'tw-pl-4 tw-py-1 tw-text-right',
           backgroundClassName,
-          priceColor,
         )}
       >
-        {weiToNumberFormat(row.positionSize, 3)}
+        <Tooltip
+          position="top"
+          interactionKind="hover"
+          content={<>{weiTo18(row.positionSize)}</>}
+        >
+          {weiToNumberFormat(row.positionSize, 3)}
+        </Tooltip>
       </td>
       <td
         className={classNames(
           'tw-px-4 tw-py-1 tw-text-right',
           backgroundClassName,
-          priceColor,
         )}
       >
         {dayjs(Number(row.timestamp) * 1e3).format('L')}
@@ -84,7 +81,6 @@ export const RecentTradeRow: React.FC<RecentTradeRowProps> = ({
         className={classNames(
           'tw-relative tw-pr-4 tw-pl-0 tw-py-1 tw-text-right tw-rounded-r',
           backgroundClassName,
-          priceColor,
         )}
       >
         {isLong

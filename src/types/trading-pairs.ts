@@ -38,3 +38,18 @@ export enum TradingType {
   SPOT = 'spot',
   MARGIN = 'margin',
 }
+
+export enum TradePriceChange {
+  'UP' = 'up',
+  'DOWN' = 'down',
+  'NO_CHANGE' = 'noChange',
+}
+
+export type RecentTradesDataEntry = {
+  collateralToken: string;
+  entryPrice: string;
+  loanToken: string;
+  positionSize: string;
+  timestamp: string;
+  priceChange: TradePriceChange;
+};

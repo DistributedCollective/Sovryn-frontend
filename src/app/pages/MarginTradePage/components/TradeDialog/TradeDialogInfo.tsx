@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import classNames from 'classnames';
 import { Asset } from 'types';
 import { useTranslation } from 'react-i18next';
@@ -8,6 +8,9 @@ import { TradingPosition } from 'types/trading-position';
 import { PricePrediction } from 'app/containers/MarginTradeForm/PricePrediction';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { OrderType } from 'app/components/OrderTypeTitle/types';
+import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
+import { useSelector } from 'react-redux';
+import { selectMarginTradePage } from '../../selectors';
 
 interface ITradeDialogInfoProps {
   position: TradingPosition;
@@ -31,6 +34,9 @@ export const TradeDialogInfo: React.FC<ITradeDialogInfoProps> = ({
   useLoanTokens,
 }) => {
   const { t } = useTranslation();
+  const { pairType } = useSelector(selectMarginTradePage);
+  const pair = useMemo(() => TradingPairDictionary.get(pairType), [pairType]);
+
   return (
     <div className="tw-pt-3 tw-pb-2 tw-px-6 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
       <div
@@ -48,13 +54,15 @@ export const TradeDialogInfo: React.FC<ITradeDialogInfoProps> = ({
           : t(translations.marginTradePage.tradeDialog.sell)}
       </div>
       <div className="tw-text-center tw-my-1">
-        <AssetRenderer asset={collateralToken} />/
-        <AssetRenderer asset={loanToken} />
+        <AssetRenderer asset={pair.collaterals[0]} />/
+        <AssetRenderer asset={pair.collaterals[1]} />
       </div>
       <div className="tw-flex tw-justify-center tw-items-center">
         {<div className="tw-mr-1">{weiToNumberFormat(amount, 4)}</div>}{' '}
         <AssetRenderer asset={collateral} />
-        <div className="tw-px-1">&#64; &ge;</div>
+        <div className="tw-px-1">
+          &#64; {position === TradingPosition.LONG ? <>&le;</> : <>&ge;</>}
+        </div>
         <PricePrediction
           position={position}
           leverage={leverage}
@@ -63,6 +71,9 @@ export const TradeDialogInfo: React.FC<ITradeDialogInfoProps> = ({
           useLoanTokens={useLoanTokens}
           weiAmount={amount}
         />
+        <div className="tw-ml-1.5">
+          <AssetRenderer asset={pair.longDetails.asset} />
+        </div>
       </div>
     </div>
   );

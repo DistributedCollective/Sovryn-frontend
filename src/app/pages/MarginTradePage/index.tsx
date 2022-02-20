@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet-async';
 import { Tab } from '../../components/Tab';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import { translations } from 'locales/i18n';
-import { RecentTradesTable } from './components/RecentTradesTable';
+import { RecentTrades } from 'app/components/RecentTrades';
 import { reducer, sliceKey } from './slice';
 import { selectMarginTradePage } from './selectors';
 import { marginTradePageSaga } from './saga';
@@ -63,16 +63,19 @@ export function MarginTradePage() {
         <div className="tw-h-10 tw-flex tw-items-center tw--mx-3 tw-justify-between tw-bg-gray-3">
           <PairNavbar type={TradingType.MARGIN} />
         </div>
-        <div className="tw-flex tw-mt-5 tw-flex-col xl:tw-flex-row xl:tw-justify-between tw-max-w-full">
+        <div className="tw-flex tw-mt-5 tw-flex-col md:tw-flex-row xl:tw-justify-between tw-max-w-full md:tw-flex-wrap">
           <div
             className={
-              'tw-flex-shrink tw-flex-grow tw-mb-12 tw-max-w-none xl:tw-pr-4 xl:tw-mb-0'
+              'tw-flex-shrink tw-flex-grow tw-mb-12 tw-max-w-none xl:tw-pr-4 xl:tw-mb-0 xl:tw-w-auto tw-w-full'
             }
           >
             <TradingChart symbol={pair.chartSymbol} theme={Theme.DARK} />
           </div>
           <div className="tw-trading-recent-trades-card tw-bg-black tw-rounded-2xl tw-px-4 tw-py-3 tw-mx-auto xl:tw-mr-2 tw-relative">
-            <RecentTradesTable pair={pair} />
+            <RecentTrades
+              baseToken={pair.collaterals[0]}
+              quoteToken={pair.collaterals[1]}
+            />
           </div>
           <TradeForm pairType={linkPairType || pairType} />
         </div>

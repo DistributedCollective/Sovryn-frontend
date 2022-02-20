@@ -176,6 +176,10 @@ export const getAmmSpotPairs = () => {
   });
 };
 
+export const getSpotPairs = (pair: SpotPairType) => {
+  return pairs[pair];
+};
+
 export type ContainerState = SpotTradingPageState;
 
 export type LimitOrder = {

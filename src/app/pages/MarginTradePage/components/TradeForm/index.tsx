@@ -233,7 +233,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                 }
               />
               <LabelValuePair
-                label={t(translations.marginTradeForm.fields.interestAPY)}
+                label={t(translations.marginTradeForm.fields.interestAPR)}
                 value={<>{weiToNumberFormat(estimations.interestRate, 2)} %</>}
               />
 

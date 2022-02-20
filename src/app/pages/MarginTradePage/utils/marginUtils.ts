@@ -4,7 +4,7 @@ import type { OpenLoanType } from 'types/active-loan';
 import { TradingPosition } from 'types/trading-position';
 import imgArrowUp from 'assets/images/trend-arrow-up.svg';
 import imgArrowDown from 'assets/images/trend-arrow-down.svg';
-import { TradePriceChange } from '../types';
+import { TradePriceChange } from 'types/trading-pairs';
 
 export const isLongTrade = (position: TradingPosition) => {
   return position === TradingPosition.LONG;
@@ -19,16 +19,6 @@ export const getPriceChangeImage = (priceChange: TradePriceChange) => {
     default:
       return undefined;
   }
-};
-
-export const getPriceColor = (priceChange: TradePriceChange) => {
-  if (priceChange === TradePriceChange.NO_CHANGE) {
-    return undefined;
-  }
-
-  return priceChange === TradePriceChange.UP
-    ? 'tw-text-trade-long'
-    : 'tw-text-trade-short';
 };
 
 export const getPriceChange = (priceDirection: number) => {

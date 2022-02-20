@@ -1497,8 +1497,8 @@
     },
     "recentTrades": {
       "title": "Negociações recentes",
-      "price": "Preço (<0/>)",
-      "size": "Tamanho (<0/>)",
+      "price": "Preço",
+      "size": "Tamanho",
       "time": "Horário",
       "noTrades": "Sem negociações recentes",
       "long": "C",
