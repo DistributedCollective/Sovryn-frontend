@@ -301,7 +301,8 @@
       "slippageSettings": "Configurações avançadas",
       "esEntryPrice": "Preço aprox de entrada:",
       "esLiquidationPrice": "Preço aprox de liquidação:",
-      "interestAPY": "Taxa anual:"
+      "interestAPY": "Interest APY:",
+      "interestAPR": "Taxa anual:"
     },
     "buttons": {
       "submit": "Realizar operação"
