@@ -15,11 +15,11 @@ import { backendUrl, currentChainId } from 'utils/classifiers';
 import { TvlData } from 'app/containers/StatsPage/types';
 import axios, { Canceler } from 'axios';
 import { useInterval } from 'app/hooks/useInterval';
-import { WelcomeTitle } from './styled';
 import { LendingStats } from 'app/containers/StatsPage/components/LendingStats';
 import { Footer } from 'app/components/Footer';
 import { CryptocurrencyPrices } from './components/CryptocurrencyPrices';
 import { IPairsData, IAssets } from './components/CryptocurrencyPrices/types';
+import styles from './index.module.scss';
 
 const url = backendUrl[currentChainId];
 
@@ -125,12 +125,12 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
       <Header />
       <div className="container tw-max-w-screen-2xl tw-mx-auto tw-mt-16 tw-px-4 2xl:tw-px-0 tw-w-full">
         <div className="tw-tracking-normal">
-          <WelcomeTitle>
+          <div className={styles.welcomeTitle}>
             {t(translations.landingPage.welcomeTitle)}
-          </WelcomeTitle>
+          </div>
         </div>
-        <div className="tw-flex tw-flex-col md:tw-flex-row">
-          <div className="tw-w-full md:tw-w-7/12 tw-mb-5 md:tw-mb-0">
+        <div className="tw-flex tw-flex-col xl:tw-flex-row">
+          <div className="tw-w-full xl:tw-w-7/12 tw-mb-5 xl:tw-mb-0">
             <div className="tw-text-base tw-capitalize tw-mt-4 tw-mb-10">
               {t(translations.landingPage.welcomeMessage)}
             </div>
@@ -144,7 +144,7 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
             />
           </div>
 
-          <div className="tw-w-full md:tw-w-5/12">
+          <div className="tw-mx-auto xl:tw-mx-0 xl:tw-w-5/12">
             {/* 
               Should un comment this and remove Banner once the sale is over.
               <ArbitrageOpportunity /> 
