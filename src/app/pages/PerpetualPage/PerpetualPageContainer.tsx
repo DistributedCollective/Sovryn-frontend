@@ -126,6 +126,15 @@ export const PerpetualPageContainer: React.FC = () => {
             </Link>
           }
         />
+        <div className="tw-fixed tw-inset-0 tw-z-50 tw-flex tw-items-center tw-justify-center tw-bg-gray-5 tw-bg-opacity-50 tw-blur">
+          <div className="tw-w-full tw-max-w-lg tw-bg-black tw-text-sov-white tw-p-8 tw-rounded-xl">
+            <h1 className="tw-mb-6">Competition Closed</h1>
+            <p>
+              Competition Closed test aakjshd laksjd aksjd lakjsd laslj dalks
+              jdlaksj dlkajs d
+            </p>
+          </div>
+        </div>
         <div className="tw-relative tw--top-2.5 tw-w-full">
           <PairSelector
             pair={pair}

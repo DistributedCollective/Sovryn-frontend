@@ -28,7 +28,7 @@ export const RegisterDialog: React.FC<IRegisterDialogProps> = ({
   const connected = useIsConnected();
   const { t } = useTranslation();
   // const { checkMaintenance, States } = useMaintenance();
-  // const openTradesLocked = checkMaintenance(States.OPEN_MARGIN_TRADES);
+  // const openTradesLocked = true;
 
   const [pseudonym, setPseudonym] = useState<string>('');
   const [termsChecked, setTermsChecked] = useState<boolean>(false);

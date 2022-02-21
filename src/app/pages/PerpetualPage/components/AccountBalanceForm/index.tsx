@@ -37,17 +37,11 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
   ]);
 
   const { checkMaintenance, States } = useMaintenance();
-  const fundAccountLocked =
-    checkMaintenance(States.PERPETUALS) ||
-    checkMaintenance(States.PERPETUALS_ACCOUNT_FUND);
+  const fundAccountLocked = true || true;
 
-  const withdrawAccountLocked =
-    checkMaintenance(States.PERPETUALS) ||
-    checkMaintenance(States.PERPETUALS_ACCOUNT_WITHDRAW);
+  const withdrawAccountLocked = true || true;
 
-  const transferAccountLocked =
-    checkMaintenance(States.PERPETUALS) ||
-    checkMaintenance(States.PERPETUALS_ACCOUNT_TRANSFER);
+  const transferAccountLocked = true || true;
 
   const onOpenDeposit = useCallback(() => {
     dispatch(actions.setModal(PerpetualPageModals.FASTBTC_DEPOSIT));

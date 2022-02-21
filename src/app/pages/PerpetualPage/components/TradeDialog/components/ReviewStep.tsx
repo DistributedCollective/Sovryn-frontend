@@ -43,8 +43,8 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
   const { checkMaintenance, States } = useMaintenance();
   const isGsnInMaintenance = useMemo(
     () =>
-      checkMaintenance(States.PERPETUALS) ||
-      checkMaintenance(States.PERPETUALS_GSN),
+      true ||
+      true,
     [checkMaintenance, States],
   );
   const isTradingInMaintenance = usePerpetual_isTradingInMaintenance();

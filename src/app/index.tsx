@@ -122,12 +122,7 @@ export function App() {
                 path="/fast-btc/:type/:network?"
                 component={FastBtcPage}
               />
-              <Route exact path="/perpetuals" component={PerpetualPage} />
-              <Route
-                exact
-                path="/perpetuals/competition"
-                component={CompetitionPage}
-              />
+              <Route path="/perpetuals" component={PerpetualPage} />
               <Route component={NotFoundPage} />
             </Switch>
             <ToastContainer className="tw-w-max" />
