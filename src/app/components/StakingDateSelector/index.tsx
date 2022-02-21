@@ -169,6 +169,7 @@ export function StakingDateSelector(props: Props) {
       </div>
       <div className="tw-mt-5 tw-pr-0 tw-relative">
         <Carousel
+          key={selectedYear}
           arrows={false}
           responsive={{
             desktop: {
