@@ -54,23 +54,25 @@ export const AddressForm: React.FC = () => {
 
   const validateAddress = useCallback(async (address: string) => {
     setAddressValidationState(AddressValidationState.LOADING);
-    let isValid = false;
+    let result = false;
     const isValidBtcAddress = validate(address);
-    isValid = await contractReader.call('fastBtcBridge', 'isValidBtcAddress', [
-      address,
-    ]);
+    const isValid = await contractReader.call(
+      'fastBtcBridge',
+      'isValidBtcAddress',
+      [address],
+    );
     if (isValidBtcAddress && isValid) {
       const { network, type } = getAddressInfo(address);
       if (
         network.toLowerCase() === currentNetwork.toLowerCase() &&
         type.toLowerCase() !== AddressType.p2tr
       ) {
-        isValid = true;
+        result = true;
       }
     }
 
     setAddressValidationState(
-      isValid ? AddressValidationState.VALID : AddressValidationState.INVALID,
+      result ? AddressValidationState.VALID : AddressValidationState.INVALID,
     );
   }, []);
 
