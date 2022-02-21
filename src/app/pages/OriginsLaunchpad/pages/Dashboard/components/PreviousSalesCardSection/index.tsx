@@ -1,16 +1,15 @@
 import React from 'react';
-import { PreviousSalesRow, PreviousSalesRowWrapper } from './styled';
 import { PreviousSalesCard } from '../PreviousSalesCard/index';
 import imgBabelfish from 'assets/origins_launchpad/BABELFISH_NFT.svg';
 import imgGenesis from 'assets/origins_launchpad/GEN-NFT-COMMUNITY.svg';
 import imgOrigins from 'assets/origins_launchpad/GURU_BADGER_NFT.svg';
 import imgMynt from 'assets/origins_launchpad/MYNT_NFT_Large.png';
 import { toNumberFormat } from 'utils/display-text/format';
-import './module.scss';
+import styles from './index.module.scss';
 
 export const PreviousSalesCardSection: React.FC = () => (
-  <PreviousSalesRowWrapper>
-    <PreviousSalesRow className="tw-flex tw-flex-wrap tw-items-stretch tw-justify-evenly 2xl:tw-justify-between">
+  <div className="tw-mt-10">
+    <div className="tw-flex tw-bg-gray-2 tw-rounded-xl tw-px-6 tw-py-4 tw-flex-col tw-flex-wrap tw-items-stretch tw-justify-evenly tw-gap-y-12 xl:tw-flex-row xl:tw-p-10 2xl:tw-justify-between">
       <PreviousSalesCard
         saleName="Mynt Origins Bootstrap Event"
         saleAllocation={`${toNumberFormat(37035000)} MYNT`}
@@ -19,11 +18,11 @@ export const PreviousSalesCardSection: React.FC = () => (
         participatingWallets="3348"
         date="8th - 15th Nov 2021"
         saleDuration="1 week"
-        cardClassName="mynt-image tw-flex tw-flex-col tw-justify-center"
+        cardClassName={styles.myntImage}
         backgroundElem={
           <img
             src={imgMynt}
-            className="tw-border-solid tw-border-4 tw-rounded-xl tw-border-gray-9"
+            className="tw-border-solid tw-border-6 tw-rounded-xl tw-border-white"
             alt="MYNT"
           />
         }
@@ -36,8 +35,6 @@ export const PreviousSalesCardSection: React.FC = () => (
         participatingWallets="1022"
         date="26th Aug 2021"
         saleDuration="Approx 30 minutes"
-        cardClassName="fish-card"
-        className="tw-pt-12 sm:tw-pt-8 xl:tw-pt-0"
         backgroundImage={imgBabelfish}
       />
       <PreviousSalesCard
@@ -48,7 +45,6 @@ export const PreviousSalesCardSection: React.FC = () => (
         participatingWallets="3267"
         date="10th - 13th Feb 2021"
         saleDuration="Approx 48Hr"
-        className="tw-pt-12 sm:tw-pt-8 xl:tw-pt-0"
         backgroundImage={imgOrigins}
       />
       <PreviousSalesCard
@@ -59,9 +55,8 @@ export const PreviousSalesCardSection: React.FC = () => (
         participatingWallets="~ 650"
         date="25 Jan 2021"
         saleDuration="27 minutes"
-        className="tw-pt-12 sm:tw-pt-8 xl:tw-pt-0"
         backgroundImage={imgGenesis}
       />
-    </PreviousSalesRow>
-  </PreviousSalesRowWrapper>
+    </div>
+  </div>
 );
