@@ -124,7 +124,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
                 </span>
               </div>
               <StyledButton className="xl:tw-hidden">
-                <Icon icon="user" />
+                <Icon icon="user" iconSize={24} />
               </StyledButton>
             </>
           </Popover>

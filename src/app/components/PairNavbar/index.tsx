@@ -115,7 +115,7 @@ export const PairNavbar: React.FC<IPairNavbarProps> = ({ type }) => {
 
   return (
     <div className="tw-bg-gray-3 tw-w-full">
-      <div className="tw-flex tw-items-center tw-container twm-mr-2">
+      <div className="tw-flex tw-items-center tw-container">
         <PairSelect
           storageKey={storageKey}
           onPairChange={onPairChange}

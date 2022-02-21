@@ -1,6 +1,5 @@
 import React from 'react';
 import classNames from 'classnames';
-import { InfoRowValue } from './styled';
 
 interface IInfoRowProps {
   label: string;
@@ -17,6 +16,8 @@ export const InfoRow: React.FC<IInfoRowProps> = ({
     <div className="tw-text-sm tw-font-thin tw-tracking-normal tw-leading-tight">
       {label}:
     </div>
-    <InfoRowValue>{value}</InfoRowValue>
+    <div className="tw-font-orbitron tw-text-sm tw-tracking-normal tw-leading-tight tw-mt-1 tw-font-medium">
+      {value}
+    </div>
   </div>
 );

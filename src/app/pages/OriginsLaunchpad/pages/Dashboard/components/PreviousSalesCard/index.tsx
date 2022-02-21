@@ -2,8 +2,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { InfoRow } from './InfoRow';
-import { CardImage } from './styled';
 import classNames from 'classnames';
+import styles from './index.module.scss';
 
 interface IPreviousSalesCardProps {
   saleName: string;
@@ -33,23 +33,22 @@ export const PreviousSalesCard: React.FC<IPreviousSalesCardProps> = ({
   cardClassName,
 }) => {
   const { t } = useTranslation();
+
   return (
     <div
       className={classNames(
-        'tw-flex tw-min-w-100 tw-flex-col tw-items-center sm:tw-flex-row xl:tw-max-w-50 tw-mb-12',
+        'tw-flex sm:tw-w-full xl:tw-w-1/2 3xl:tw-w-1/3 tw-flex-col tw-items-center sm:tw-flex-row',
         className,
       )}
     >
       {backgroundImage && (
-        <CardImage
+        <div
           style={{ backgroundImage: `url(${backgroundImage})` }}
-          className={classNames(cardClassName)}
+          className={classNames(styles.cardImage, cardClassName)}
         />
       )}
-      {backgroundElem && (
-        <div className={classNames(cardClassName)}>{backgroundElem}</div>
-      )}
-      <div className="tw-flex tw-flex-col tw-justify-center tw-ml-6 xl:tw-ml-4 2xl:tw-ml-11">
+      {backgroundElem && <div className={cardClassName}>{backgroundElem}</div>}
+      <div className="tw-flex tw-flex-col tw-justify-center tw-mr-4 tw-ml-6 tw-mt-2 sm:tw-mt-0 xl:tw-ml-4 2xl:tw-ml-11">
         <InfoRow
           label={t(
             translations.originsLaunchpad.previousSales.projectCard.date,
