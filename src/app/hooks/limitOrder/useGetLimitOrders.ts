@@ -16,7 +16,7 @@ const marginOrderParser = (order: ApiMarginLimitOrder): MarginLimitOrder => ({
   leverageAmount: BigNumber.from(order.leverageAmount.hex),
   loanTokenSent: BigNumber.from(order.loanTokenSent.hex),
   collateralTokenSent: BigNumber.from(order.collateralTokenSent.hex),
-  minReturn: BigNumber.from(order.minReturn.hex),
+  minEntryPrice: BigNumber.from(order.minEntryPrice.hex),
   deadline: BigNumber.from(order.deadline.hex),
   createdTimestamp: BigNumber.from(order.createdTimestamp.hex),
   filled: BigNumber.from(order.filled.hex),

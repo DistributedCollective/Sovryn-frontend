@@ -30,7 +30,7 @@ export type MarginLimitOrder = {
   collateralTokenSent: BigNumber;
   collateralTokenAddress: string;
   trader: string;
-  minReturn: BigNumber;
+  minEntryPrice: BigNumber;
   loanDataBytes: string;
   deadline: BigNumber;
   createdTimestamp: BigNumber;
@@ -50,7 +50,7 @@ export type ApiMarginLimitOrder = {
   collateralTokenSent: ApiBigNumber;
   collateralTokenAddress: string;
   trader: string;
-  minReturn: ApiBigNumber;
+  minEntryPrice: ApiBigNumber;
   loanDataBytes: string;
   deadline: ApiBigNumber;
   createdTimestamp: ApiBigNumber;

@@ -69,7 +69,7 @@ export const OpenPositionsTable: React.FC<IOpenPositionsTableProps> = ({
             </tr>
           )}
 
-          {loading && !items.length && (
+          {loading && !items.length && !pendingList.length && (
             <tr>
               <td colSpan={99}>
                 <SkeletonRow />

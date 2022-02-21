@@ -305,6 +305,7 @@
     "fields": {
       "currency": "Currency",
       "currency_placeholder": "Choose currency",
+      "limitSettings": "Limit Order Settings",
       "amount": "Amount",
       "startPrice": "Start Price",
       "slippageSettings": "Slippage Settings",

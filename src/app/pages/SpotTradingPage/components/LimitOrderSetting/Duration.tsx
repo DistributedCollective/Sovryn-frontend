@@ -11,7 +11,7 @@ interface IDurationProps {
 
 const trans = translations.spotTradingPage.limitOrderSetting;
 
-const durationOptions = [
+export const durationOptions = [
   {
     text: trans.day_one,
     value: 1,
