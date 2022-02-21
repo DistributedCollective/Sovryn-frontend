@@ -11,6 +11,7 @@ export const initialState: ContainerState = {
   useMetaTransactions: false,
   modal: PerpetualPageModals.NONE,
   modalOptions: undefined,
+  toastedTransactions: [],
 };
 
 const perpetualPageSlice = createSlice({
@@ -50,6 +51,9 @@ const perpetualPageSlice = createSlice({
     },
     reset(state) {
       state = initialState;
+    },
+    pushToastedTransaction(state, { payload }: PayloadAction<string>) {
+      state.toastedTransactions = [...state.toastedTransactions, payload];
     },
   },
 });

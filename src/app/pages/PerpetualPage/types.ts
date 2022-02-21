@@ -136,6 +136,7 @@ export type PerpetualPageState = {
   useMetaTransactions: boolean;
   modal: PerpetualPageModals;
   modalOptions?: PerpetualTrade | PerpetualTradeReview | PendingTransactions;
+  toastedTransactions: string[];
 };
 
 export type ContainerState = PerpetualPageState;

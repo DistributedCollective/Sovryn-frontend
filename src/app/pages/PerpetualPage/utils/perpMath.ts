@@ -205,7 +205,6 @@ export function calculateLiquidationAmount(
   S2: number,
   Sm: number,
 ) {
-  console.assert(mntncMarginRate < targetMarginRate);
   if (
     marginBalanceCC * S3 >
     mntncMarginRate * Math.abs(traderPositionBC) * S2
@@ -325,7 +324,6 @@ export function getQuote2CollateralFX(
     // base
     return 1 / indexS2;
   } else {
-    console.assert(collateralCurrencyIndex === COLLATERAL_CURRENCY_QUANTO);
     // quanto
     return 1 / indexS3;
   }
@@ -650,18 +648,6 @@ export function getTradeAmountFromPrice(
   if (Math.abs(midPrice - price) < fTol) {
     return 0;
   }
-  if (price < midPrice) {
-    console.assert(
-      price <= getPrice(-lotSize),
-      'below mid price but above 0-short price',
-    );
-  }
-  if (price > midPrice) {
-    console.assert(
-      price >= getPrice(lotSize),
-      'above mid price but below 0-long price',
-    );
-  }
   // set up initial interval
   let ku = price < midPrice ? -lotSize : 0.01;
   let kd = price < midPrice ? -0.01 : lotSize;
@@ -690,10 +676,6 @@ export function getTradeAmountFromPrice(
       getPrice(lotSize),
     );
   }
-  console.assert(
-    (getPrice(kd) - price) * (getPrice(ku) - price) < 0,
-    'valid interval not found',
-  );
 
   // bisection search
   let km = 0.5 * (ku + kd);
@@ -773,17 +755,6 @@ export function getPricesAndTradesForPercentRage(
       continue;
     }
     priceRange[i] = midPrice * (1 + pctRange[i] / 100);
-    if (pctRange[i] > 0) {
-      console.assert(
-        priceRange[i] > longPrice0,
-        'invalid percent range for minimal spread',
-      );
-    } else {
-      console.assert(
-        priceRange[i] < shortPrice0,
-        'invalid percent range for minimal spread',
-      );
-    }
     kRange[i] = getTradeAmountFromPrice(
       K2,
       priceRange[i],
@@ -901,7 +872,6 @@ export function calculateAMMTargetSize(
   } else if (collateralCCY === COLLATERAL_CURRENCY_QUOTE) {
     M = getTargetCollateralM1(K2, S2, L1, sigma2, DDTarget);
   } else {
-    console.assert(collateralCCY === COLLATERAL_CURRENCY_QUANTO);
     M = getTargetCollateralM3(
       K2,
       S2,
@@ -953,7 +923,6 @@ export function getDFTargetSize(
       loss_up / Math.exp(r2pair[1]),
     );
   } else {
-    console.assert(collateralCCY === COLLATERAL_CURRENCY_QUANTO);
     let m0 = loss_down / Math.exp(r3pair[0]);
     let m1 = loss_up / Math.exp(r3pair[1]);
     return (S2 / S3) * Math.max(m0, m1);
@@ -1079,7 +1048,6 @@ export function ABK64x64ToFloat(x: BigNumber) {
   let xDec = x.sub(xInt.mul(ONE_64x64));
   xDec = xDec.mul(dec18).div(ONE_64x64);
   let k = 18 - xDec.toString().length;
-  console.assert(k >= 0);
   let sPad = '0'.repeat(k);
   let NumberStr = xInt.toString() + '.' + sPad + xDec.toString();
   return parseFloat(NumberStr) * s;
