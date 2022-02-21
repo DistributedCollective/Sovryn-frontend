@@ -59,10 +59,10 @@ export function MarginTradePage() {
         />
       </Helmet>
       <Header />
-      <div className="tw-container tw-mx-auto tw-px-3">
-        <div className="tw-h-10 tw-flex tw-items-center tw--mx-3 tw-justify-between tw-bg-gray-3">
-          <PairNavbar type={TradingType.MARGIN} />
-        </div>
+      <div className="tw-h-10 tw-flex tw-items-center tw-justify-between tw-bg-gray-3">
+        <PairNavbar type={TradingType.MARGIN} />
+      </div>
+      <div className="tw-container tw-mx-auto">
         <div className="tw-flex tw-mt-5 tw-flex-col md:tw-flex-row xl:tw-justify-between tw-max-w-full md:tw-flex-wrap">
           <div
             className={
