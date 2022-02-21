@@ -25,7 +25,7 @@ import { selectMarginTradePage } from '../../selectors';
 import { actions } from '../../slice';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { ButtonTrade } from 'app/components/ButtonTrade';
-import { LimitOrderSetting } from '../LimitOrderSetting';
+import { LimitOrderSetting } from '../LimitOrder/LimitOrderSetting';
 import { CollateralAssets } from '../CollateralAssets';
 import { LeverageSelector } from '../LeverageSelector';
 import { useGetEstimatedMarginDetails } from 'app/hooks/trading/useGetEstimatedMarginDetails';

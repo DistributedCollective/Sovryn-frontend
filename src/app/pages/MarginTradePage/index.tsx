@@ -21,6 +21,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
 import { PairNavbar } from 'app/components/PairNavbar';
 import { TradingType } from 'types/trading-pairs';
+import { LimitOrderTables } from './components/LimitOrder/LimitOrderTables';
 
 export function MarginTradePage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -98,6 +99,8 @@ export function MarginTradePage() {
             <div className="tw-w-full sm:tw-px-5">
               {activeTab === 0 && <OpenPositionsTable />}
               {activeTab === 1 && <ClosedPositionsTable />}
+
+              <LimitOrderTables activeTab={activeTab} />
             </div>
           </>
         )}

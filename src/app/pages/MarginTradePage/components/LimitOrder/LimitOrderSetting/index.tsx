@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import styles from '../SlippageForm/dialog.module.scss';
+import styles from '../../SlippageForm/dialog.module.scss';
 import { Duration } from 'app/pages/SpotTradingPage/components/LimitOrderSetting/Duration';
 
 interface ILimitOrderSettingProps {
