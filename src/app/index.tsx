@@ -48,7 +48,7 @@ import { usePriceFeeds_tradingPairRates } from './hooks/price-feeds/usePriceFeed
 import { BridgeDepositPage } from './pages/BridgeDepositPage/Loadable';
 import { BridgeWithdrawPage } from './pages/BridgeWithdrawPage/Loadable';
 import { FastBtcPage } from './pages/FastBtcPage/Loadable';
-import { PerpetualPage } from './pages/PerpetualPage';
+import { PerpetualPageLoadable } from './pages/PerpetualPage/Loadable';
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -121,7 +121,11 @@ export function App() {
                 path="/fast-btc/:type/:network?"
                 component={FastBtcPage}
               />
-              <Route exact path="/perpetuals" component={PerpetualPage} />
+              <Route
+                exact
+                path="/perpetuals"
+                component={PerpetualPageLoadable}
+              />
               <Route component={NotFoundPage} />
             </Switch>
             <ToastContainer className="tw-w-max" />

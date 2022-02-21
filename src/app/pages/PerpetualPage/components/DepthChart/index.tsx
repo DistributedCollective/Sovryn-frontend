@@ -6,6 +6,8 @@ import HighchartsReact from 'highcharts-react-official';
 
 highchartsBoost(Highcharts);
 
+// May be used with the inception of limit orders.
+
 // TODO: Implement API call and fetch asks and bids dynamically
 
 const asks = [
