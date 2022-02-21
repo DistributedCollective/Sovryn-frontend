@@ -15,7 +15,7 @@ import {
 import { translations } from 'locales/i18n';
 import classNames from 'classnames';
 
-interface IAmountInputProps {
+export interface IAmountInputProps {
   value: string;
   onChange: (value: string, isTotal?: boolean | undefined) => void;
   decimalPrecision?: number;
@@ -96,6 +96,8 @@ export const AmountInput: React.FC<IAmountInputProps> = ({
 const amounts = [10, 25, 50, 75, 100];
 
 interface IAmountSelectorProps {
+  balance?: string;
+  parentValue?: string;
   asset?: Asset;
   maxAmount?: string;
   showBalance?: boolean;
@@ -104,16 +106,21 @@ interface IAmountSelectorProps {
   dataActionId?: string;
 }
 
-const AmountSelector: React.FC<IAmountSelectorProps> = ({
+export const AmountSelector: React.FC<IAmountSelectorProps> = props => {
+  const { value } = useAssetBalanceOf(props.asset || Asset.RBTC);
+  return <AmountSelectorInner {...props} balance={value} />;
+};
+
+export const AmountSelectorInner: React.FC<IAmountSelectorProps> = ({
   asset = Asset.RBTC,
   maxAmount,
-  showBalance,
   gasFee = '0',
+  balance: value = '0',
+  showBalance,
   onChange,
   dataActionId,
 }) => {
   const { t } = useTranslation();
-  const { value } = useAssetBalanceOf(asset);
   const balance = useMemo(() => {
     if (maxAmount !== undefined) {
       return maxAmount;
@@ -122,32 +129,33 @@ const AmountSelector: React.FC<IAmountSelectorProps> = ({
   }, [maxAmount, value]);
 
   const handleChange = (percent: number) => {
-    let value = '0';
+    let _value = '0';
     let isTotal = false;
     if (percent === 100) {
-      value = balance;
+      _value = balance;
       isTotal = true;
     } else if (percent === 0) {
-      value = '0';
+      _value = '0';
     } else {
-      value = bignumber(balance)
+      _value = bignumber(balance)
         .mul(percent / 100)
         .toString();
     }
 
     if (
       asset === Asset.RBTC &&
-      bignumber(value)
+      bignumber(_value)
         .add(gasFee || '0')
         .greaterThan(balance)
     ) {
-      value = bignumber(value)
+      _value = bignumber(_value)
         .minus(gasFee || '0')
         .toString();
     }
 
-    onChange(fromWei(value), isTotal);
+    onChange(fromWei(_value), isTotal);
   };
+
   return (
     <>
       {showBalance && (
@@ -165,8 +173,8 @@ const AmountSelector: React.FC<IAmountSelectorProps> = ({
           <AmountSelectorButton
             key={value}
             text={value === 100 ? t(translations.common.max) : `${value}%`}
-            dataActionId={dataActionId}
             onClick={() => handleChange(value)}
+            dataActionId={dataActionId}
           />
         ))}
       </div>

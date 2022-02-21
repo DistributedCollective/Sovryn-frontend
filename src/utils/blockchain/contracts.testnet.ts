@@ -3,6 +3,7 @@
  * Use getContract(contractName) helper
  * @example getContract('sovrynProtocol');
  */
+import { ChainId } from '../../types';
 import erc20TokenAbi from './abi/abiTestToken.json';
 import WBRTCTokenABI from './abi/abiTestWBRTCToken.json';
 import ConverterRegistryABI from './abi/ConverterRegistry.json';
@@ -32,10 +33,9 @@ import MYNTControllerAbi from './abi/MYNTController.json';
 import MYNTTokenAbi from './abi/MYNT_token.json';
 import MYNTPresaleAbi from './abi/MYNTPresale.json';
 import MYNTMarketMakerAbi from './abi/MYNTMarketMaker.json';
-import fastBtcBridgeAbi from './abi/fastBtcBridge.json';
 import perpetualManagerAbi from './abi/PerpetualManager.json';
 import marginTokenAbi from './abi/MarginToken.json';
-import { ChainId } from '../../types';
+import fastBtcBridgeAbi from './abi/fastBtcBridge.json';
 
 export const contracts = {
   sovrynProtocol: {

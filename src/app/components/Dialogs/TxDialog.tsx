@@ -199,7 +199,7 @@ export const StatusComponent: React.FC<StatusComponentProps> = ({
       className={classNames(
         isInline ? 'tw-h-auto flex-initial' : 'tw-h-24 tw-w-24',
         isInline && showLabel && 'tw-mr-2',
-        status === 'pending' && 'tw-animate-spin',
+        status === TxStatus.PENDING && 'tw-animate-spin',
       )}
       alt="Status"
     />
@@ -211,7 +211,11 @@ export const StatusComponent: React.FC<StatusComponentProps> = ({
   </div>
 );
 
-function WalletLogo({ wallet }: { wallet: string }) {
+type WalletLogoProps = {
+  wallet: string;
+};
+
+const WalletLogo: React.FC<WalletLogoProps> = ({ wallet }) => {
   return (
     <div className={styles.wlContainer}>
       <img

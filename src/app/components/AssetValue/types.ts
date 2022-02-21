@@ -5,6 +5,7 @@ export const AssetDecimals: { [key in Asset]: number } = {
   CSOV: 2,
   RBTC: 6,
   WRBTC: 6,
+  BTCS: 6,
   ETH: 5,
   DOC: 2,
   RDOC: 2,
@@ -15,7 +16,6 @@ export const AssetDecimals: { [key in Asset]: number } = {
   MOC: 1,
   BNBS: 4,
   FISH: 1,
-  BTCS: 6,
   RIF: 2,
   MYNT: 2,
 };

@@ -158,9 +158,16 @@ export const WalletSelector: React.FC = () => {
               rel="noopener noreferrer"
               className="tw-cursor-pointer tw-font-light tw-text-primary tw-underline tw-my-2"
             >
-              {t(translations.BridgeDepositPage.walletSelector.howToConnect)}{' '}
-              <span className="tw-uppercase">{network?.chain}</span> with{' '}
-              <span className="tw-capitalize">{walletName}</span>
+              <Trans
+                i18nKey={
+                  translations.BridgeDepositPage.walletSelector.howToConnect
+                }
+                components={[
+                  <span className="tw-uppercase" />,
+                  <span className="tw-capitalize" />,
+                ]}
+                values={{ network: network?.chain, walletName }}
+              />
             </a>
 
             {walletName === 'metamask' && (
