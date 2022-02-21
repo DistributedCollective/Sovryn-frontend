@@ -1,0 +1,13 @@
+.title {
+  @apply tw-text-center tw-grid tw-gap-5;
+
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: 13px 0;
+
+  &:after,
+  &:before {
+    @apply tw-block tw-border-b tw-border-solid tw-border-sov-white;
+
+    content: ' ';
+  }
+}

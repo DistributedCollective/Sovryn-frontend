@@ -1,0 +1,9 @@
+.arrow {
+  @apply tw-flex tw-items-center tw-justify-center tw-absolute tw-cursor-pointer;
+
+  background: rgba(255, 255, 255, 0.2);
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  top: 30%;
+}

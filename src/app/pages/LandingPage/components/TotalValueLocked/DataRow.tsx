@@ -1,6 +1,5 @@
 import React from 'react';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
-import { ContractName } from './styled';
 import classNames from 'classnames';
 
 interface IDataRowProps {
@@ -35,7 +34,9 @@ export const DataRow: React.FC<IDataRowProps> = ({
       className={classNames('tw-h-16 tw-font-extralight', className)}
       key={contractName}
     >
-      <ContractName className={contractClassName}>{contractName}</ContractName>
+      <td className={classNames('tw-text-white tw-pl-2.5', contractClassName)}>
+        {contractName}
+      </td>
       <td className={classNames(className, 'tw-text-right')}>
         {(!isNaN(btcValue) &&
           btcValue?.toLocaleString('en', {

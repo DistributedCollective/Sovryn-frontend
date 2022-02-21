@@ -265,7 +265,7 @@
       "addressForm": {
         "title": "BTC Network Withdraw Address",
         "address": "Withdraw BTC to this address",
-        "errorBECH32": "Please enter a valid BECH32 BTC address!",
+        "errorBECH32": "Please enter a valid BTC address. We do not support Taproot yet!",
         "cta": "Review Withdraw"
       },
       "reviewScreen": {
