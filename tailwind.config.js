@@ -117,6 +117,9 @@ module.exports = {
       borderRadius: {
         '3xl': '1.25rem', // instead of 1.5rem, keeps the .25rem steps
       },
+      borderWidth: {
+        '6': '6px',
+      },
       keyframes: {
         spin: {
           '0%': { transform: 'rotate(0deg)' },

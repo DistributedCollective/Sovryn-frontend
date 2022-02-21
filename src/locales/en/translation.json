@@ -19,6 +19,7 @@
     "next": "Next",
     "loading": "Loading...",
     "retry": "Retry",
+    "continueToFailure": "I understand the risks of transaction failure, allow me to continue",
     "unit": {
       "day": "{{count}} day",
       "day_plural": "{{count}} days"
@@ -257,7 +258,7 @@
       "addressForm": {
         "title": "BTC Network Withdraw Address",
         "address": "Withdraw BTC to this address",
-        "errorBECH32": "Please enter a valid BECH32 BTC address!",
+        "errorBECH32": "Please enter a valid BTC address. We do not support Taproot yet!",
         "cta": "Review Withdraw"
       },
       "reviewScreen": {
@@ -884,7 +885,7 @@
     "title": "My Debts",
     "tabs": {
       "active": "Active",
-      "history": "Repaid"
+      "history": "History"
     },
     "walletNote": "Connect your wallet first!"
   },
@@ -1480,7 +1481,8 @@
       "available": "Total Reward SOV Available:",
       "cta": "CLAIM",
       "note": "Claiming your rewards automatically vests them for 10 months with a 1 month cliff.",
-      "learn": "Learn more"
+      "learn": "Learn more",
+      "claimDisabled": "There is not enough SOV in the StakingRewardsProxy contract to facilitate a claim of rewards at this time. Therefore, to avoid a loss of gas fee by initiating a transaction that will inevitably fail, the CLAIM button has been disabled. Be assured that the team is aware and funds should be replenished shortly."
     },
     "liquidClaimForm": {
       "note": "Claiming your rewards automatically adds them your SOV portfolio balance.",
