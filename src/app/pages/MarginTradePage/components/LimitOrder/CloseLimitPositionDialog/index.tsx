@@ -91,7 +91,7 @@ export const CloseLimitPositionDialog: React.FC<IClosePositionDialogProps> = ({
         finalMessage={
           <div className="tw-text-center tw-text-lg tw-font-semibold">
             {t(translations.spotTradingPage.cancelDialog.tx.message, {
-              position,
+              tradeType: position,
             })}
           </div>
         }

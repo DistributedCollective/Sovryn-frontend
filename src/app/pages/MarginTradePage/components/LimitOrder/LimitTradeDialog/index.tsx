@@ -16,7 +16,6 @@ import { selectMarginTradePage } from '../../../selectors';
 import { actions } from '../../../slice';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { OrderType } from 'app/components/OrderTypeTitle/types';
-import { bignumber } from 'mathjs';
 
 import { useMarginLimitOrder } from 'app/hooks/limitOrder/useMarginLimitOrder';
 import { LabelValuePair } from '../../TradeDialog';
@@ -25,6 +24,7 @@ import { LimitResultDialog } from './LimitResultDialog';
 import { TradeDialogInfo } from '../../TradeDialog/TradeDialogInfo';
 import { useTrading_resolvePairTokens } from 'app/hooks/trading/useTrading_resolvePairTokens';
 import { IApiLimitMarginOrder } from 'app/hooks/limitOrder/types';
+import { bignumber } from 'mathjs';
 
 interface ITradeDialogProps {
   isOpen: boolean;
@@ -54,11 +54,6 @@ export const LimitTradeDialog: React.FC<ITradeDialogProps> = ({
   const dispatch = useDispatch();
   const pair = useMemo(() => TradingPairDictionary.get(pairType), [pairType]);
 
-  const borrowToken = useMemo(() => pair.getBorrowAssetForPosition(position), [
-    pair,
-    position,
-  ]);
-
   const {
     loanToken,
     collateralToken,
@@ -83,13 +78,21 @@ export const LimitTradeDialog: React.FC<ITradeDialogProps> = ({
     onCloseModal();
   };
 
+  const minEntry = useMemo(() => {
+    if (pair.longAsset === loanToken) {
+      if (!minEntryPrice || Number(minEntryPrice) === 0) return '';
+      return bignumber(1).div(minEntryPrice).toFixed(18);
+    }
+    return minEntryPrice;
+  }, [loanToken, minEntryPrice, pair.longAsset]);
+
   const { createOrder: createLimitOrder, ...tx } = useMarginLimitOrder(
     pair,
     position,
     collateral,
     leverage,
     amount,
-    minEntryPrice,
+    minEntry,
     duration,
     onSuccess,
     onError,
@@ -121,7 +124,6 @@ export const LimitTradeDialog: React.FC<ITradeDialogProps> = ({
             collateralToken={collateralToken}
             useLoanTokens={useLoanTokens}
             minEntryPrice={toNumberFormat(minEntryPrice, 4)}
-            borrowToken={borrowToken}
           />
           <div className="tw-pt-3 tw-pb-2 tw-px-6 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
             <LabelValuePair
@@ -169,8 +171,8 @@ export const LimitTradeDialog: React.FC<ITradeDialogProps> = ({
               label={t(translations.marginTradePage.tradeDialog.minEntry)}
               value={
                 <>
-                  {toNumberFormat(minEntryPrice, 6)}{' '}
-                  <AssetRenderer asset={borrowToken} />
+                  {toNumberFormat(minEntryPrice, 8)}{' '}
+                  <AssetRenderer asset={pair.longAsset} />
                 </>
               }
             />
@@ -215,9 +217,6 @@ export const LimitTradeDialog: React.FC<ITradeDialogProps> = ({
         isOpen={orderStatus !== TxStatus.NONE}
         onClose={() => setOrderStatus(TxStatus.NONE)}
         status={orderStatus}
-        position={position}
-        amount={amount}
-        minEntryPrice={minEntryPrice}
         txHash={txHash}
       >
         <TradeDialogInfo
@@ -229,8 +228,7 @@ export const LimitTradeDialog: React.FC<ITradeDialogProps> = ({
           loanToken={loanToken}
           collateralToken={collateralToken}
           useLoanTokens={useLoanTokens}
-          minEntryPrice={toNumberFormat(minEntryPrice, 4)}
-          borrowToken={borrowToken}
+          minEntryPrice={toNumberFormat(minEntryPrice, 8)}
         />
       </LimitResultDialog>
     </>

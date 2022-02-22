@@ -23,6 +23,7 @@ import { TxStatus } from 'store/global/transactions-store/types';
 import { CloseLimitPositionDialog } from '../CloseLimitPositionDialog';
 import { TradeDialogInfo } from '../../TradeDialog/TradeDialogInfo';
 import { OrderType } from 'app/components/OrderTypeTitle/types';
+import { bignumber } from 'mathjs';
 interface IOpenPositionRowProps {
   item: MarginLimitOrder;
   pending?: boolean;
@@ -52,10 +53,6 @@ export const OpenPositionRow: React.FC<IOpenPositionRowProps> = ({
     [item.leverageAmount],
   );
 
-  const entryPrice = useMemo(() => fromWei(item.minEntryPrice.toString()), [
-    item.minEntryPrice,
-  ]);
-
   const tradeAmount = useMemo(
     () =>
       item.loanTokenSent.toString() !== '0'
@@ -63,10 +60,21 @@ export const OpenPositionRow: React.FC<IOpenPositionRowProps> = ({
         : item.collateralTokenSent.toString(),
     [item.loanTokenSent, item.collateralTokenSent],
   );
+  const loanToken = pair.getAssetForPosition(position);
+
+  const entryPrice = useMemo(() => fromWei(item.minEntryPrice.toString()), [
+    item.minEntryPrice,
+  ]);
+
+  const minEntry = useMemo(() => {
+    if (pair?.longAsset === loanToken) {
+      if (!entryPrice || Number(entryPrice) === 0) return '';
+      return bignumber(1).div(entryPrice).toFixed(8);
+    }
+    return entryPrice;
+  }, [entryPrice, loanToken, pair?.longAsset]);
 
   if (!pair) return null;
-
-  const borrowToken = pair.getBorrowAssetForPosition(position);
 
   return (
     <tr>
@@ -86,14 +94,14 @@ export const OpenPositionRow: React.FC<IOpenPositionRowProps> = ({
           <Tooltip
             content={
               <>
-                {toNumberFormat(entryPrice, 18)}{' '}
-                <AssetRenderer asset={borrowToken} />
+                {toNumberFormat(minEntry, 18)}{' '}
+                <AssetRenderer asset={pair.longAsset} />
               </>
             }
           >
             <>
-              {toAssetNumberFormat(entryPrice, borrowToken)}{' '}
-              <AssetRenderer asset={borrowToken} />
+              {toAssetNumberFormat(minEntry, pair.longAsset)}{' '}
+              <AssetRenderer asset={pair.longAsset} />
             </>
           </Tooltip>
         </div>
@@ -149,8 +157,7 @@ export const OpenPositionRow: React.FC<IOpenPositionRowProps> = ({
             collateral={collateralAsset}
             loanToken={loanAsset}
             collateralToken={collateralAsset}
-            minEntryPrice={toNumberFormat(entryPrice, 4)}
-            borrowToken={borrowToken}
+            minEntryPrice={toNumberFormat(minEntry, 6)}
             useLoanTokens
           />
         </CloseLimitPositionDialog>

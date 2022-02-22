@@ -82,10 +82,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     useLoanTokens ? '0' : amount,
     collateralToken,
   );
-  const borrowToken = useMemo(() => pair.getBorrowAssetForPosition(position), [
-    pair,
-    position,
-  ]);
   const { price, loading: loadingPrice } = useCurrentPositionPrice(
     loanToken,
     collateralToken,
@@ -152,10 +148,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     }
   }, [orderType]);
 
-  useEffect(() => {
-    setLimitPrice('');
-  }, [position]);
-
   return (
     <>
       <div className="tw-trading-form-card tw-bg-black tw-rounded-3xl tw-p-4 tw-mx-auto xl:tw-mx-0 tw-relative">
@@ -219,10 +211,11 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                 </span>
                 <div className="tw-flex tw-items-center">
                   <div className="tw-mr-2">
-                    <AssetRenderer asset={borrowToken} />
+                    <AssetRenderer asset={pair.longAsset} />
                   </div>
                   <AmountInput
                     value={limitPrice}
+                    decimalPrecision={8}
                     onChange={setLimitPrice}
                     hideAmountSelector
                     dataActionId="margin-limit-limitPrice"

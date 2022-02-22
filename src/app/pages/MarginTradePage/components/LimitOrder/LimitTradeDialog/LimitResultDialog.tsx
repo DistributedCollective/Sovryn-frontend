@@ -9,15 +9,11 @@ import classNames from 'classnames';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { prettyTx } from 'utils/helpers';
 import { getTransactionTitle } from 'app/pages/SpotTradingPage/components/TradeForm/LimitResultDialog';
-import { TradingPosition } from 'types/trading-position';
 
 interface ILimitResultDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  position: TradingPosition;
   status: TxStatus;
-  amount: string;
-  minEntryPrice: string;
   txHash: string;
   children?: React.ReactNode;
 }
