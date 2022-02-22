@@ -23,10 +23,10 @@ import { TxStatus } from 'store/global/transactions-store/types';
 import { LimitResultDialog } from './LimitResultDialog';
 import { TradeDialogInfo } from '../../TradeDialog/TradeDialogInfo';
 import { useTrading_resolvePairTokens } from 'app/hooks/trading/useTrading_resolvePairTokens';
-import { IApiLimitMarginOrder } from 'app/hooks/limitOrder/types';
+import { ApiLimitMarginOrder } from 'app/hooks/limitOrder/types';
 import { bignumber } from 'mathjs';
 
-interface ITradeDialogProps {
+interface ILimitTradeDialogProps {
   isOpen: boolean;
   onCloseModal: () => void;
   orderType: OrderType;
@@ -34,7 +34,7 @@ interface ITradeDialogProps {
   minEntryPrice: string;
 }
 
-export const LimitTradeDialog: React.FC<ITradeDialogProps> = ({
+export const LimitTradeDialog: React.FC<ILimitTradeDialogProps> = ({
   isOpen,
   onCloseModal,
   orderType,
@@ -61,7 +61,7 @@ export const LimitTradeDialog: React.FC<ITradeDialogProps> = ({
   } = useTrading_resolvePairTokens(pair, position, collateral);
 
   const onSuccess = useCallback(
-    (order: IApiLimitMarginOrder, data) => {
+    (order: ApiLimitMarginOrder, data) => {
       setTxHash(data.hash);
       setOrderStatus(TxStatus.CONFIRMED);
       dispatch(actions.addPendingLimitOrders(order));
@@ -80,7 +80,9 @@ export const LimitTradeDialog: React.FC<ITradeDialogProps> = ({
 
   const minEntry = useMemo(() => {
     if (pair.longAsset === loanToken) {
-      if (!minEntryPrice || Number(minEntryPrice) === 0) return '';
+      if (!minEntryPrice || Number(minEntryPrice) === 0) {
+        return '';
+      }
       return bignumber(1).div(minEntryPrice).toFixed(18);
     }
     return minEntryPrice;
@@ -98,10 +100,6 @@ export const LimitTradeDialog: React.FC<ITradeDialogProps> = ({
     onError,
     onStart,
   );
-
-  const submit = () => {
-    createLimitOrder();
-  };
 
   return (
     <>
@@ -203,7 +201,7 @@ export const LimitTradeDialog: React.FC<ITradeDialogProps> = ({
           <div className="tw-mw-340 tw-mx-auto">
             <DialogButton
               confirmLabel={t(translations.common.confirm)}
-              onConfirm={submit}
+              onConfirm={createLimitOrder}
               disabled={openTradesLocked}
               cancelLabel={t(translations.common.cancel)}
               onCancel={() => dispatch(actions.closeTradingModal(position))}

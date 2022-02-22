@@ -1,29 +1,26 @@
+import { useCallback } from 'react';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { BigNumber, ethers } from 'ethers';
+import { SignatureLike } from 'ethers/node_modules/@ethersproject/bytes';
+import { toWei } from 'web3-utils';
+
 import { selectWalletProvider } from 'app/containers/WalletProvider/selectors';
 import { useAccount } from 'app/hooks/useAccount';
 import { Asset } from 'types';
-import { BigNumber, ethers } from 'ethers';
-import { useSelector } from 'react-redux';
-import { useCallback } from 'react';
 import { MarginOrder } from 'app/pages/MarginTradePage/helpers';
 import { useSendTx } from '../useSendTx';
 import { getContract, getDeadline } from './useLimitOrder';
 import { TradingPair } from '../../../utils/models/trading-pair';
 import { TradingPosition } from '../../../types/trading-position';
 import { useTrading_resolvePairTokens } from '../trading/useTrading_resolvePairTokens';
-import { toWei } from 'web3-utils';
-import { currentChainId, gasLimit, limitOrderUrl } from 'utils/classifiers';
-import axios from 'axios';
-import { SignatureLike } from 'ethers/node_modules/@ethersproject/bytes';
+import { currentChainId, limitOrderUrl } from 'utils/classifiers';
 import { signTypeMarginOrderData } from './utils';
 import {
   CheckAndApproveResult,
   contractWriter,
 } from 'utils/sovryn/contract-writer';
-import { MarginLimitOrder } from 'app/pages/MarginTradePage/types';
-import { contractReader } from 'utils/sovryn/contract-reader';
-import { gas } from 'utils/blockchain/gas-price';
-import { TransactionConfig } from 'web3-core';
-import { IApiLimitMarginOrder } from './types';
+import { ApiLimitMarginOrder } from './types';
 
 export const useMarginLimitOrder = (
   pair: TradingPair,
@@ -33,7 +30,7 @@ export const useMarginLimitOrder = (
   collateralTokenSent: string,
   minEntryPrice: string,
   duration: number = 365,
-  onSuccess: (order: IApiLimitMarginOrder, data) => void,
+  onSuccess: (order: ApiLimitMarginOrder, data) => void,
   onError: () => void,
   onStart: () => void,
 ) => {
@@ -90,7 +87,9 @@ export const useMarginLimitOrder = (
 
       const signature = await signTypeMarginOrderData(order, account, chainId);
 
-      const sig = ethers.utils.splitSignature(signature as SignatureLike);
+      const expandedSignature = ethers.utils.splitSignature(
+        signature as SignatureLike,
+      );
 
       const args = [
         order.loanId,
@@ -104,9 +103,9 @@ export const useMarginLimitOrder = (
         order.loanDataBytes,
         order.deadline,
         order.createdTimestamp,
-        sig.v,
-        sig.r,
-        sig.s,
+        expandedSignature.v,
+        expandedSignature.r,
+        expandedSignature.s,
       ];
 
       const contract = getContract('orderBookMargin');
@@ -115,7 +114,7 @@ export const useMarginLimitOrder = (
 
       onStart();
 
-      const { data } = await axios.post(
+      const { data: orderResult } = await axios.post(
         limitOrderUrl[currentChainId] + '/createMarginOrder',
         {
           data: populated.data,
@@ -123,8 +122,8 @@ export const useMarginLimitOrder = (
         },
       );
 
-      if (data.success) {
-        const newOrder: IApiLimitMarginOrder = {
+      if (orderResult.success) {
+        const newOrder: ApiLimitMarginOrder = {
           loanId: order.loanId,
           loanTokenAddress: order.loanTokenAddress,
           collateralTokenAddress: order.collateralTokenAddress,
@@ -148,12 +147,12 @@ export const useMarginLimitOrder = (
           },
           filled: { hex: BigNumber.from('0').toString() },
           canceled: false,
-          v: data?.data?.v,
-          r: data?.data?.r,
-          s: data?.data?.s,
-          hash: data?.data?.hash,
+          v: orderResult?.data?.v,
+          r: orderResult?.data?.r,
+          s: orderResult?.data?.s,
+          hash: orderResult?.data?.hash,
         };
-        onSuccess(newOrder, data.data);
+        onSuccess(newOrder, orderResult.data);
       } else {
         onError();
       }
@@ -176,63 +175,4 @@ export const useMarginLimitOrder = (
   ]);
 
   return { createOrder, ...tx };
-};
-
-export const useCancelMarginLimitOrder = (order: MarginLimitOrder) => {
-  const account = useAccount();
-
-  const { send, ...tx } = useSendTx();
-
-  const cancelOrder = useCallback(async () => {
-    const contract = getContract('settlement');
-
-    const args = [
-      order.loanId,
-      order.leverageAmount.toString(),
-      order.loanTokenAddress,
-      order.loanTokenSent.toString(),
-      order.collateralTokenSent.toString(),
-      order.collateralTokenAddress,
-      order.trader,
-      order.minEntryPrice.toString(),
-      order.loanDataBytes,
-      order.deadline.toString(),
-      order.createdTimestamp.toString(),
-      order.v,
-      order.r,
-      order.s,
-    ];
-
-    const populated = await contract.populateTransaction.cancelMarginOrder(
-      args,
-    );
-
-    const nonce = await contractReader.nonce(account);
-
-    send({
-      ...populated,
-      gas: gasLimit.limit_order,
-      gasPrice: gas.get(),
-      nonce,
-    } as TransactionConfig);
-  }, [
-    account,
-    order.collateralTokenAddress,
-    order.collateralTokenSent,
-    order.createdTimestamp,
-    order.deadline,
-    order.leverageAmount,
-    order.loanDataBytes,
-    order.loanId,
-    order.loanTokenAddress,
-    order.loanTokenSent,
-    order.minEntryPrice,
-    order.r,
-    order.s,
-    order.trader,
-    order.v,
-    send,
-  ]);
-
-  return { cancelOrder, ...tx };
 };

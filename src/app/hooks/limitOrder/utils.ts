@@ -62,7 +62,7 @@ export async function signTypeMarginOrderData(
   account: string,
   chainId,
 ) {
-  const msgParams = JSON.stringify({
+  const orderData = JSON.stringify({
     domain: {
       name: 'OrderBookMargin',
       version: '1',
@@ -111,10 +111,9 @@ export async function signTypeMarginOrderData(
     walletService
       .request({
         method: 'eth_signTypedData_v4',
-        params: [account, msgParams],
+        params: [account, orderData],
       })
       .then(res => {
-        console.log('res: ', res);
         resolve(res);
       })
       .catch(err => reject(err));

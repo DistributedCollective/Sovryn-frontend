@@ -7,11 +7,11 @@ import { Duration } from 'app/pages/SpotTradingPage/components/LimitOrderSetting
 interface ILimitOrderSettingProps {
   onClose: () => void;
   duration: number;
-  handleDuration: (value: number) => void;
+  onChangeDuration: (value: number) => void;
 }
 
 export const LimitOrderSetting: React.FC<ILimitOrderSettingProps> = ({
-  handleDuration,
+  onChangeDuration,
   duration,
   onClose,
 }) => {
@@ -24,7 +24,7 @@ export const LimitOrderSetting: React.FC<ILimitOrderSettingProps> = ({
         {t(translations.marginTradeForm.fields.limitSettings)}
       </div>
       <div className="tw-text-sm tw-font-light tw-tracking-normal">
-        <Duration onChange={handleDuration} value={duration} />
+        <Duration onChange={onChangeDuration} value={duration} />
       </div>
     </div>
   );

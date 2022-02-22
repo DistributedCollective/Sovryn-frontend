@@ -380,7 +380,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
           <LimitOrderSetting
             onClose={() => setOpenLimitSetting(false)}
             duration={duration}
-            handleDuration={value => setDuration(value)}
+            onChangeDuration={setDuration}
           />
         )}
 

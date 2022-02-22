@@ -216,8 +216,6 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
         amount,
       });
       onCloseModal();
-    } else {
-      //open limit order dialog
     }
   };
 

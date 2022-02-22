@@ -8,7 +8,7 @@ import {
 import { TradingPairType } from 'utils/dictionaries/trading-pair-dictionary';
 import { Asset } from 'types';
 import { TradingPosition } from 'types/trading-position';
-import { IApiLimitMarginOrder } from 'app/hooks/limitOrder/types';
+import { ApiLimitMarginOrder } from 'app/hooks/limitOrder/types';
 
 export const initialState: IMarginTradePageState = {
   pairType: TradingPairType.SOV_RBTC,
@@ -64,7 +64,7 @@ const marginTradePageSlice = createSlice({
     },
     addPendingLimitOrders(
       state,
-      { payload }: PayloadAction<IApiLimitMarginOrder>,
+      { payload }: PayloadAction<ApiLimitMarginOrder>,
     ) {
       state.pendingLimitOrders = [...state.pendingLimitOrders, payload];
     },

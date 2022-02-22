@@ -32,11 +32,11 @@ export const LimitResultDialog: React.FC<ILimitResultDialogProps> = ({
         <h1>
           {getTransactionTitle(
             status,
-            t(translations.spotTradingPage.tradeDialog.order),
+            t(translations.trading.limit.tradeDialog.order),
           )}
         </h1>
 
-        <div className={'tw-text-center tw-mx-auto tw-w-16 tw-mb-4'}>
+        <div className="tw-text-center tw-mx-auto tw-w-16 tw-mb-4">
           <img
             src={getStatusImage(status)}
             className={classNames('tw-w-16 tw-h-16', {
@@ -65,9 +65,7 @@ export const LimitResultDialog: React.FC<ILimitResultDialogProps> = ({
         <ActionButton
           onClick={onClose}
           text={t(translations.common.close)}
-          className={
-            'tw-max-w-7xl tw-flex tw-items-center tw-justify-center tw-h-12 tw-rounded-lg tw-w-80 tw-mx-auto tw-mt-14'
-          }
+          className="tw-max-w-7xl tw-flex tw-items-center tw-justify-center tw-h-12 tw-rounded-lg tw-w-80 tw-mx-auto tw-mt-14"
           textClassName="tw-inline-block tw-text-lg"
         />
       </div>
