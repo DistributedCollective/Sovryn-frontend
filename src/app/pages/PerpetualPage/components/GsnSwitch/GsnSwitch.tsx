@@ -18,8 +18,8 @@ export const GsnSwitch: React.FC = () => {
   const { checkMaintenance, States } = useMaintenance();
   const isGsnInMaintenance = useMemo(
     () =>
-      checkMaintenance(States.PERPETUALS) ||
-      checkMaintenance(States.PERPETUALS_GSN),
+      true ||
+      true,
     [checkMaintenance, States],
   );
 

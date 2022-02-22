@@ -51,7 +51,7 @@ export function AddToMarginDialog(props: IAddToMarginDialogProps) {
     weiAmount,
   );
   const { checkMaintenance, States } = useMaintenance();
-  const topupLocked = checkMaintenance(States.ADD_TO_MARGIN_TRADES);
+  const topupLocked = true;
 
   const handleConfirm = () => {
     send();
