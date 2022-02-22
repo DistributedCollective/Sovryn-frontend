@@ -2,23 +2,26 @@ import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
-import { weiToNumberFormat } from 'utils/display-text/format';
+import { weiToAssetNumberFormat } from 'utils/display-text/format';
 import { RecentTradesDataEntry } from 'types/trading-pairs';
 import dayjs from 'dayjs';
 import { weiTo18 } from 'utils/blockchain/math-helpers';
 import { Tooltip } from '@blueprintjs/core/lib/esm/components';
 import { Asset } from 'types';
 import { getTokenContract } from 'utils/blockchain/contract-helpers';
+import { bignumber } from 'mathjs';
 
 type RecentTradeRowProps = {
   row: RecentTradesDataEntry;
   isOddRow: boolean;
+  baseToken: Asset;
   quoteToken: Asset;
 };
 
 export const RecentTradeRow: React.FC<RecentTradeRowProps> = ({
   row,
   isOddRow,
+  baseToken,
   quoteToken,
 }) => {
   const { t } = useTranslation();
@@ -32,6 +35,22 @@ export const RecentTradeRow: React.FC<RecentTradeRowProps> = ({
     row.loanToken,
     quoteTokenAddress,
   ]);
+
+  const entryPrice = useMemo(() => {
+    return isLong
+      ? bignumber(1)
+          .div(row.entryPrice)
+          .mul(10 ** 36)
+      : row.entryPrice;
+  }, [isLong, row.entryPrice]);
+
+  const positionSize = useMemo(() => {
+    return isLong
+      ? row.positionSize
+      : bignumber(1)
+          .div(row.positionSize)
+          .mul(10 ** 36);
+  }, [isLong, row.positionSize]);
 
   return (
     <tr
@@ -50,9 +69,9 @@ export const RecentTradeRow: React.FC<RecentTradeRowProps> = ({
         <Tooltip
           position="top"
           interactionKind="hover"
-          content={<>{weiTo18(row.entryPrice)}</>}
+          content={<>{weiTo18(entryPrice)}</>}
         >
-          {weiToNumberFormat(row.entryPrice, 3)}
+          {weiToAssetNumberFormat(entryPrice, quoteToken)}
         </Tooltip>
       </td>
       <td
@@ -64,9 +83,9 @@ export const RecentTradeRow: React.FC<RecentTradeRowProps> = ({
         <Tooltip
           position="top"
           interactionKind="hover"
-          content={<>{weiTo18(row.positionSize)}</>}
+          content={<>{weiTo18(positionSize)}</>}
         >
-          {weiToNumberFormat(row.positionSize, 3)}
+          {weiToAssetNumberFormat(positionSize, baseToken)}
         </Tooltip>
       </td>
       <td

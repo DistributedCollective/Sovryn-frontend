@@ -61,6 +61,7 @@ export const RecentTrades: React.FC<IRecentTradesProps> = ({
                   key={index}
                   row={item}
                   isOddRow={index % 2 === 0}
+                  baseToken={baseToken}
                   quoteToken={quoteToken}
                 />
               );
