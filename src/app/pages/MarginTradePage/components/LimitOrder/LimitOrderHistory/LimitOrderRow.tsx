@@ -1,10 +1,6 @@
 import React, { useMemo } from 'react';
 
 import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
-import { MarginLimitOrder } from 'app/pages/MarginTradePage/types';
-import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
-import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
-import { TradingPosition } from 'types/trading-position';
 import { PositionBlock } from '../../PositionBlock';
 import {
   toAssetNumberFormat,
@@ -14,50 +10,48 @@ import {
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { Tooltip } from '@blueprintjs/core';
 import { fromWei } from 'web3-utils';
-interface IOpenPositionRowProps {
-  item: MarginLimitOrder;
-}
+import { MarginLimitOrderList } from '../LimitOrderTables';
+import { bignumber } from 'mathjs';
 
-export const LimitOrderRow: React.FC<IOpenPositionRowProps> = ({ item }) => {
-  const loanAsset = assetByTokenAddress(item.loanTokenAddress);
-  const collateralAsset = assetByTokenAddress(item.collateralTokenAddress);
+interface IOpenPositionRowProps extends MarginLimitOrderList {}
 
-  const pair = TradingPairDictionary.findPair(loanAsset, collateralAsset);
-
-  const position =
-    pair?.longAsset === loanAsset
-      ? TradingPosition.LONG
-      : TradingPosition.SHORT;
-
-  const leverage = useMemo(
-    () => Number(fromWei(item.leverageAmount.toString())) + 1,
-    [item.leverageAmount],
-  );
-
-  const entryPrice = useMemo(() => fromWei(item.minEntryPrice.toString()), [
-    item.minEntryPrice,
-  ]);
-
+export const LimitOrderRow: React.FC<IOpenPositionRowProps> = ({
+  collateralAsset,
+  pair,
+  position,
+  leverage,
+  loanTokenSent,
+  collateralTokenSent,
+  minEntryPrice,
+  createdTimestamp,
+  deadline,
+  filledAmount,
+}) => {
   const tradeAmount = useMemo(
     () =>
-      item.loanTokenSent.toString() !== '0'
-        ? item.loanTokenSent.toString()
-        : item.collateralTokenSent.toString(),
-    [item.loanTokenSent, item.collateralTokenSent],
+      loanTokenSent.toString() !== '0'
+        ? loanTokenSent.toString()
+        : collateralTokenSent.toString(),
+    [loanTokenSent, collateralTokenSent],
   );
+  const loanToken = pair?.getAssetForPosition(position);
 
-  if (!pair) return null;
+  const entryPrice = useMemo(() => fromWei(minEntryPrice.toString()), [
+    minEntryPrice,
+  ]);
 
-  const borrowToken = pair.getBorrowAssetForPosition(position);
+  const minEntry = useMemo(() => {
+    if (pair?.longAsset === loanToken) {
+      if (!entryPrice || Number(entryPrice) === 0) return '';
+      return bignumber(1).div(entryPrice).toFixed(8);
+    }
+    return entryPrice;
+  }, [entryPrice, loanToken, pair?.longAsset]);
 
   return (
     <tr>
       <td>
-        <DisplayDate
-          timestamp={new Date(item.createdTimestamp.toNumber())
-            .getTime()
-            .toString()}
-        />
+        <DisplayDate timestamp={createdTimestamp.getTime().toString()} />
       </td>
 
       <td className="tw-w-full">
@@ -68,14 +62,14 @@ export const LimitOrderRow: React.FC<IOpenPositionRowProps> = ({ item }) => {
           <Tooltip
             content={
               <>
-                {toNumberFormat(entryPrice, 18)}{' '}
-                <AssetRenderer asset={borrowToken} />
+                {toNumberFormat(minEntry, 18)}{' '}
+                <AssetRenderer asset={pair.longAsset} />
               </>
             }
           >
             <>
-              {toAssetNumberFormat(entryPrice, borrowToken)}{' '}
-              <AssetRenderer asset={borrowToken} />
+              {toAssetNumberFormat(minEntry, pair.longAsset)}{' '}
+              <AssetRenderer asset={pair.longAsset} />
             </>
           </Tooltip>
         </div>
@@ -87,12 +81,10 @@ export const LimitOrderRow: React.FC<IOpenPositionRowProps> = ({ item }) => {
       </td>
 
       <td>
-        <DisplayDate
-          timestamp={new Date(item.deadline.toNumber()).getTime().toString()}
-        />
+        <DisplayDate timestamp={deadline.getTime().toString()} />
       </td>
 
-      <td>{weiToNumberFormat(item.filledAmount, 6)}</td>
+      <td>{weiToNumberFormat(filledAmount, 6)}</td>
     </tr>
   );
 };

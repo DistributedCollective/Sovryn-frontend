@@ -3,10 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
-import { MarginLimitOrder } from 'app/pages/MarginTradePage/types';
-import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
-import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
-import { TradingPosition } from 'types/trading-position';
+
 import { PositionBlock } from '../../PositionBlock';
 import {
   toAssetNumberFormat,
@@ -24,46 +21,41 @@ import { CloseLimitPositionDialog } from '../CloseLimitPositionDialog';
 import { TradeDialogInfo } from '../../TradeDialog/TradeDialogInfo';
 import { OrderType } from 'app/components/OrderTypeTitle/types';
 import { bignumber } from 'mathjs';
-interface IOpenPositionRowProps {
-  item: MarginLimitOrder;
+import { MarginLimitOrderList } from '../LimitOrderTables';
+interface IOpenPositionRowProps extends MarginLimitOrderList {
   pending?: boolean;
 }
 
 export const OpenPositionRow: React.FC<IOpenPositionRowProps> = ({
-  item,
+  loanAsset,
+  collateralAsset,
+  pair,
+  position,
+  leverage,
+  loanTokenSent,
+  collateralTokenSent,
+  minEntryPrice,
+  createdTimestamp,
+  deadline,
   pending,
+  order,
 }) => {
   const { t } = useTranslation();
   const [showClosePosition, setShowClosePosition] = useState(false);
   const { checkMaintenances, States } = useMaintenance();
   const { [States.CLOSE_SPOT_LIMIT]: closeTradesLocked } = checkMaintenances();
 
-  const loanAsset = assetByTokenAddress(item.loanTokenAddress);
-  const collateralAsset = assetByTokenAddress(item.collateralTokenAddress);
-
-  const pair = TradingPairDictionary.findPair(loanAsset, collateralAsset);
-
-  const position =
-    pair?.longAsset === loanAsset
-      ? TradingPosition.LONG
-      : TradingPosition.SHORT;
-
-  const leverage = useMemo(
-    () => Number(fromWei(item.leverageAmount.toString())) + 1,
-    [item.leverageAmount],
-  );
-
   const tradeAmount = useMemo(
     () =>
-      item.loanTokenSent.toString() !== '0'
-        ? item.loanTokenSent.toString()
-        : item.collateralTokenSent.toString(),
-    [item.loanTokenSent, item.collateralTokenSent],
+      loanTokenSent.toString() !== '0'
+        ? loanTokenSent.toString()
+        : collateralTokenSent.toString(),
+    [loanTokenSent, collateralTokenSent],
   );
-  const loanToken = pair.getAssetForPosition(position);
+  const loanToken = pair?.getAssetForPosition(position);
 
-  const entryPrice = useMemo(() => fromWei(item.minEntryPrice.toString()), [
-    item.minEntryPrice,
+  const entryPrice = useMemo(() => fromWei(minEntryPrice.toString()), [
+    minEntryPrice,
   ]);
 
   const minEntry = useMemo(() => {
@@ -79,11 +71,7 @@ export const OpenPositionRow: React.FC<IOpenPositionRowProps> = ({
   return (
     <tr>
       <td>
-        <DisplayDate
-          timestamp={new Date(item.createdTimestamp.toNumber())
-            .getTime()
-            .toString()}
-        />
+        <DisplayDate timestamp={createdTimestamp.getTime().toString()} />
       </td>
 
       <td className="tw-w-full">
@@ -113,9 +101,7 @@ export const OpenPositionRow: React.FC<IOpenPositionRowProps> = ({
       </td>
 
       <td>
-        <DisplayDate
-          timestamp={new Date(item.deadline.toNumber()).getTime().toString()}
-        />
+        <DisplayDate timestamp={deadline.getTime().toString()} />
       </td>
 
       <td>
@@ -144,7 +130,7 @@ export const OpenPositionRow: React.FC<IOpenPositionRowProps> = ({
           )}
         </div>
         <CloseLimitPositionDialog
-          order={item}
+          order={order}
           onCloseModal={() => setShowClosePosition(false)}
           showModal={showClosePosition}
           position={position}

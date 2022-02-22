@@ -5,6 +5,7 @@ import { MarginLimitOrder } from './types';
 import {
   getContract,
   getTokenContract,
+  getTokenLendingContract,
 } from '../../../utils/blockchain/contract-helpers';
 import type { Asset } from '../../../types';
 
@@ -31,7 +32,7 @@ export class MarginOrder {
     readonly r?: string,
     readonly s?: string,
   ) {
-    this.loanTokenAddress = getTokenContract(loanToken).address;
+    this.loanTokenAddress = getTokenLendingContract(loanToken).address;
     this.collateralTokenAddress = getTokenContract(collateralToken).address;
   }
 

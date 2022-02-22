@@ -4,11 +4,11 @@ import { LimitOrderRow } from './LimitOrderRow';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Pagination } from 'app/components/Pagination';
-import { MarginLimitOrder } from 'app/pages/MarginTradePage/types';
+import { MarginLimitOrderList } from '../LimitOrderTables';
 
 interface ILimitOrderHistoryProps {
   perPage?: number;
-  orders: MarginLimitOrder[];
+  orders: MarginLimitOrderList[];
   loading: boolean;
 }
 
@@ -64,7 +64,7 @@ export const LimitOrderHistory: React.FC<ILimitOrderHistoryProps> = ({
           {items.length > 0 && (
             <>
               {items.map(item => (
-                <LimitOrderRow key={item.hash} item={item} />
+                <LimitOrderRow key={item.order.hash} {...item} />
               ))}
             </>
           )}

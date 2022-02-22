@@ -6,6 +6,15 @@ import { OpenPositionsTable } from '../OpenPositionsTable';
 import { LimitOrderHistory } from '../LimitOrderHistory';
 import { useAccount } from 'app/hooks/useAccount';
 import { MarginLimitOrder } from 'app/pages/MarginTradePage/types';
+import { Asset } from 'types';
+import { TradingPair } from 'utils/models/trading-pair';
+import { TradingPosition } from 'types/trading-position';
+import {
+  assetByLoanTokenAddress,
+  assetByTokenAddress,
+} from 'utils/blockchain/contract-helpers';
+import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
+import { fromWei } from 'web3-utils';
 
 interface ILimitOrderTablesProps {
   activeTab: number;
@@ -20,8 +29,11 @@ export const LimitOrderTables: React.FC<ILimitOrderTablesProps> = ({
   const limitOrders = useMemo(
     () =>
       value
-        .filter(order => !order.canceled)
-        .sort((o1, o2) => (o1.createdTimestamp > o2.createdTimestamp ? -1 : 1)),
+        .map(parseMarginOrder)
+        .filter(order => order.pair && !order.canceled)
+        .sort((o1, o2) =>
+          Number(o1.createdTimestamp) > Number(o2.createdTimestamp) ? -1 : 1,
+        ),
     [value],
   );
 
@@ -41,4 +53,52 @@ export const LimitOrderTables: React.FC<ILimitOrderTablesProps> = ({
       </div>
     </>
   );
+};
+
+export interface MarginLimitOrderList {
+  loanAsset: Asset;
+  collateralAsset: Asset;
+  pair: TradingPair;
+  position: TradingPosition;
+  leverage: number;
+  loanTokenSent: string;
+  collateralTokenSent: string;
+  minEntryPrice: string;
+  createdTimestamp: Date;
+  deadline: Date;
+  canceled?: boolean;
+  filledAmount?: string;
+  order: MarginLimitOrder;
+}
+
+export const parseMarginOrder = (
+  item: MarginLimitOrder,
+): MarginLimitOrderList => {
+  const loanAsset = assetByLoanTokenAddress(item.loanTokenAddress);
+  const collateralAsset = assetByTokenAddress(item.collateralTokenAddress);
+
+  const pair = TradingPairDictionary.findPair(loanAsset, collateralAsset);
+
+  const position =
+    pair?.longAsset === loanAsset
+      ? TradingPosition.LONG
+      : TradingPosition.SHORT;
+
+  const leverage = Number(fromWei(item.leverageAmount.toString())) + 1;
+
+  return {
+    loanAsset,
+    collateralAsset,
+    pair,
+    position,
+    leverage,
+    loanTokenSent: item.loanTokenSent.toString(),
+    collateralTokenSent: item.collateralTokenSent.toString(),
+    minEntryPrice: item.minEntryPrice.toString(),
+    createdTimestamp: new Date(item.createdTimestamp.toNumber()),
+    deadline: new Date(item.deadline.toNumber()),
+    canceled: item.canceled,
+    filledAmount: item.filledAmount,
+    order: item,
+  };
 };
