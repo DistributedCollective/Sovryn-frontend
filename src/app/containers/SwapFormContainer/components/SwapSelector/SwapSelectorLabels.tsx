@@ -2,13 +2,13 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import classNames from 'classnames';
-import { IPairs } from 'types/trading-pairs';
+import { IPairData } from 'types/trading-pairs';
 import { usePairList } from 'app/hooks/trading/usePairList';
 
 interface ISwapSelectorLabelsProps {
   onChangeCategory: (value: string) => void;
   category: string;
-  pairs: IPairs;
+  pairs: IPairData[];
 }
 
 export const SwapSelectorLabels: React.FC<ISwapSelectorLabelsProps> = ({

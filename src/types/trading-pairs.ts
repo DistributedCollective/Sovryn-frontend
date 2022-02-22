@@ -1,9 +1,5 @@
-export interface IPairs {
-  [key: string]: IPairData;
-}
-
 export type IPairsData = {
-  pairs: IPairs;
+  pairs: IPairData[];
   total_volume_btc: number;
   total_volume_usd: number;
   updated_at: string;

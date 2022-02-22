@@ -4,7 +4,7 @@ import {
   IAssets,
   IAssetData,
 } from 'app/pages/LandingPage/components/CryptocurrencyPrices/types';
-import { IPairs } from 'types/trading-pairs';
+import { IPairData } from 'types/trading-pairs';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { numberToUSD, toNumberFormat } from 'utils/display-text/format';
@@ -15,7 +15,7 @@ import { AssetDetails } from 'utils/models/asset-details';
 import { usePairList } from 'app/hooks/trading/usePairList';
 
 interface ISwapStatsPricesProps {
-  pairs: IPairs;
+  pairs: IPairData[];
   assetData?: IAssets;
 }
 

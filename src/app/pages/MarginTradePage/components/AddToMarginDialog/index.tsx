@@ -40,8 +40,6 @@ export const AddToMarginDialog: React.FC<IAddToMarginDialogProps> = ({
   item,
   showModal,
   onCloseModal,
-  positionSize,
-  ...props
 }) => {
   const canInteract = useCanInteract();
   const tokenDetails = AssetsDictionary.getByTokenContractAddress(
