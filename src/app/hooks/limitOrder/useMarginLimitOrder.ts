@@ -1,19 +1,26 @@
-import { contractReader } from 'utils/sovryn/contract-reader';
+import { useCallback } from 'react';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
+import { BigNumber, ethers } from 'ethers';
+import { SignatureLike } from 'ethers/node_modules/@ethersproject/bytes';
+import { toWei } from 'web3-utils';
+
 import { selectWalletProvider } from 'app/containers/WalletProvider/selectors';
 import { useAccount } from 'app/hooks/useAccount';
 import { Asset } from 'types';
-import { ethers } from 'ethers';
-import { useSelector } from 'react-redux';
-import { useCallback } from 'react';
-import { TransactionConfig } from 'web3-core';
-import { gas } from 'utils/blockchain/gas-price';
 import { MarginOrder } from 'app/pages/MarginTradePage/helpers';
 import { useSendTx } from '../useSendTx';
 import { getContract, getDeadline } from './useLimitOrder';
 import { TradingPair } from '../../../utils/models/trading-pair';
 import { TradingPosition } from '../../../types/trading-position';
 import { useTrading_resolvePairTokens } from '../trading/useTrading_resolvePairTokens';
-import { toWei } from 'web3-utils';
+import { currentChainId, limitOrderUrl } from 'utils/classifiers';
+import { signTypeMarginOrderData } from './utils';
+import {
+  CheckAndApproveResult,
+  contractWriter,
+} from 'utils/sovryn/contract-writer';
+import { ApiLimitMarginOrder } from './types';
 
 export const useMarginLimitOrder = (
   pair: TradingPair,
@@ -21,8 +28,11 @@ export const useMarginLimitOrder = (
   collateral: Asset,
   leverage: number,
   collateralTokenSent: string,
-  minReturn,
+  minEntryPrice: string,
   duration: number = 365,
+  onSuccess: (order: ApiLimitMarginOrder, data) => void,
+  onError: () => void,
+  onStart: () => void,
 ) => {
   const account = useAccount();
   const { chainId } = useSelector(selectWalletProvider);
@@ -36,38 +46,119 @@ export const useMarginLimitOrder = (
   const { send, ...tx } = useSendTx();
 
   const createOrder = useCallback(async () => {
-    const created = ethers.BigNumber.from(Math.floor(Date.now() / 1000));
+    try {
+      const created = ethers.BigNumber.from(Math.floor(Date.now() / 1000));
 
-    // collateral === Asset.RBTC ? collateralTokenSent : '0', // weiAmount
-    const order = new MarginOrder(
-      ethers.constants.HashZero, // loanId
-      toWei(String(leverage - 1), 'ether'), // leverageAmount
-      loanToken, //  asset: Asset,
-      useLoanTokens ? collateralTokenSent : '0', //loanTokenSent
-      useLoanTokens ? '0' : collateralTokenSent, //collateralTokenSent
-      collateralToken, //collateralToken
-      account, // trader
-      minReturn, //minReturn
-      '0x', //loanDataBytes
-      getDeadline(duration > 0 ? duration : 365).toString(),
-      created.toString(),
-    );
+      const order = new MarginOrder(
+        ethers.constants.HashZero, // loanId
+        toWei(String(leverage - 1), 'ether'), // leverageAmount
+        loanToken, //  asset: Asset,
+        useLoanTokens ? collateralTokenSent : '0', //loanTokenSent
+        useLoanTokens ? '0' : collateralTokenSent, //collateralTokenSent
+        collateralToken, //collateralToken
+        account, // trader
+        toWei(minEntryPrice), //minEntryPrice
+        ethers.constants.HashZero, //loanDataBytes
+        getDeadline(duration > 0 ? duration : 365).toString(),
+        created.toString(),
+      );
 
-    // todo: signing inside of order.toArgs works only for browser wallets :(
-    const args = await order.toArgs(chainId!);
+      let tx: CheckAndApproveResult = {};
+      if (Number(order.loanTokenSent) > 0) {
+        tx = await contractWriter.checkAndApprove(
+          loanToken,
+          getContract('settlement').address,
+          order.loanTokenSent,
+        );
+        if (tx.rejected) {
+          return;
+        }
+      }
+      if (Number(order.collateralTokenSent) > 0) {
+        tx = await contractWriter.checkAndApprove(
+          collateralToken,
+          getContract('settlement').address,
+          order.collateralTokenSent,
+        );
+        if (tx.rejected) {
+          return;
+        }
+      }
 
-    const contract = getContract('orderBook');
+      const signature = await signTypeMarginOrderData(order, account, chainId);
 
-    const populated = await contract.populateTransaction.createOrder(args);
+      const expandedSignature = ethers.utils.splitSignature(
+        signature as SignatureLike,
+      );
 
-    const nonce = await contractReader.nonce(account);
+      const args = [
+        order.loanId,
+        order.leverageAmount,
+        order.loanTokenAddress,
+        order.loanTokenSent,
+        order.collateralTokenSent,
+        order.collateralTokenAddress,
+        order.trader,
+        order.minEntryPrice,
+        order.loanDataBytes,
+        order.deadline,
+        order.createdTimestamp,
+        expandedSignature.v,
+        expandedSignature.r,
+        expandedSignature.s,
+      ];
 
-    send({
-      ...populated,
-      gas: '600000',
-      gasPrice: gas.get(),
-      nonce,
-    } as TransactionConfig);
+      const contract = getContract('orderBookMargin');
+
+      const populated = await contract.populateTransaction.createOrder(args);
+
+      onStart();
+
+      const { data: orderResult } = await axios.post(
+        limitOrderUrl[currentChainId] + '/createMarginOrder',
+        {
+          data: populated.data,
+          from: account,
+        },
+      );
+
+      if (orderResult.success) {
+        const newOrder: ApiLimitMarginOrder = {
+          loanId: order.loanId,
+          loanTokenAddress: order.loanTokenAddress,
+          collateralTokenAddress: order.collateralTokenAddress,
+          trader: order.trader,
+          loanDataBytes: order.loanDataBytes,
+          leverageAmount: {
+            hex: BigNumber.from(order.leverageAmount).toString(),
+          },
+          loanTokenSent: {
+            hex: BigNumber.from(order.loanTokenSent).toString(),
+          },
+          collateralTokenSent: {
+            hex: BigNumber.from(order.collateralTokenSent).toString(),
+          },
+          minEntryPrice: {
+            hex: BigNumber.from(order.minEntryPrice).toString(),
+          },
+          deadline: { hex: BigNumber.from(order.deadline).toString() },
+          createdTimestamp: {
+            hex: BigNumber.from(order.createdTimestamp).toString(),
+          },
+          filled: { hex: BigNumber.from('0').toString() },
+          canceled: false,
+          v: orderResult?.data?.v,
+          r: orderResult?.data?.r,
+          s: orderResult?.data?.s,
+          hash: orderResult?.data?.hash,
+        };
+        onSuccess(newOrder, orderResult.data);
+      } else {
+        onError();
+      }
+    } catch (e) {
+      onError();
+    }
   }, [
     leverage,
     loanToken,
@@ -75,10 +166,12 @@ export const useMarginLimitOrder = (
     collateralTokenSent,
     collateralToken,
     account,
-    minReturn,
+    minEntryPrice,
     duration,
     chainId,
-    send,
+    onStart,
+    onSuccess,
+    onError,
   ]);
 
   return { createOrder, ...tx };

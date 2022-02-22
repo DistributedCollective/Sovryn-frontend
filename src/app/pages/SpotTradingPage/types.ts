@@ -2,6 +2,7 @@ import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 /* --- STATE --- */
 import { Asset } from 'types/asset';
 import { BigNumber } from 'ethers';
+import { ApiBigNumber } from 'app/hooks/limitOrder/types';
 
 export enum SpotPairType {
   //SOV
@@ -199,25 +200,21 @@ export type LimitOrder = {
   filledAmount?: string;
 };
 
-type IApiBigNumber = {
-  hex: string;
-};
-
 export type IApiLimitOrder = {
   hash: string;
   maker: string;
   fromToken: string;
   toToken: string;
-  amountIn: IApiBigNumber;
-  amountOutMin: IApiBigNumber;
+  amountIn: ApiBigNumber;
+  amountOutMin: ApiBigNumber;
   recipient: string;
-  deadline: IApiBigNumber;
-  created: IApiBigNumber;
+  deadline: ApiBigNumber;
+  created: ApiBigNumber;
   v: string;
   r: string;
   s: string;
   canceled: boolean;
-  filled: IApiBigNumber;
+  filled: ApiBigNumber;
   filledAmount?: string;
 };
 export interface ITradeFormProps {

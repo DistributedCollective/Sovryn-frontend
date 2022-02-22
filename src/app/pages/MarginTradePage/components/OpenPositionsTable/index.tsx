@@ -22,8 +22,8 @@ export function OpenPositionsTable() {
     [loading, events, transactions],
   );
   const onPageChanged = useCallback(data => setPage(data.currentPage), []);
-  const onGoingTransactions = useMemo(() => {
-    return (
+  const onGoingTransactions = useMemo(
+    () =>
       transactions.length > 0 && (
         <>
           {transactions
@@ -37,9 +37,9 @@ export function OpenPositionsTable() {
               <PendingPositionRow key={item.transactionHash} item={item} />
             ))}
         </>
-      )
-    );
-  }, [transactions]);
+      ),
+    [transactions],
+  );
 
   return (
     <>

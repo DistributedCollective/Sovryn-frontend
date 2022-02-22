@@ -21,6 +21,7 @@ interface ITradeDialogInfoProps {
   loanToken: Asset;
   collateralToken: Asset;
   useLoanTokens: boolean;
+  minEntryPrice?: string;
 }
 
 export const TradeDialogInfo: React.FC<ITradeDialogInfoProps> = ({
@@ -32,6 +33,7 @@ export const TradeDialogInfo: React.FC<ITradeDialogInfoProps> = ({
   loanToken,
   collateralToken,
   useLoanTokens,
+  minEntryPrice,
 }) => {
   const { t } = useTranslation();
   const { pairType } = useSelector(selectMarginTradePage);
@@ -63,17 +65,27 @@ export const TradeDialogInfo: React.FC<ITradeDialogInfoProps> = ({
         <div className="tw-px-1">
           &#64; {position === TradingPosition.LONG ? <>&le;</> : <>&ge;</>}
         </div>
-        <PricePrediction
-          position={position}
-          leverage={leverage}
-          loanToken={loanToken}
-          collateralToken={collateralToken}
-          useLoanTokens={useLoanTokens}
-          weiAmount={amount}
-        />
-        <div className="tw-ml-1.5">
-          <AssetRenderer asset={pair.longDetails.asset} />
-        </div>
+        {!minEntryPrice ? (
+          <>
+            <PricePrediction
+              position={position}
+              leverage={leverage}
+              loanToken={loanToken}
+              collateralToken={collateralToken}
+              useLoanTokens={useLoanTokens}
+              weiAmount={amount}
+            />
+            <AssetRenderer
+              className="tw-ml-1.5"
+              asset={pair.longDetails.asset}
+            />
+          </>
+        ) : (
+          <>
+            {minEntryPrice}{' '}
+            <AssetRenderer className="tw-ml-1.5" asset={pair.longAsset} />
+          </>
+        )}
       </div>
     </div>
   );

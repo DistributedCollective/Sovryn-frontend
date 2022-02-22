@@ -12,6 +12,7 @@ import settingIcon from 'assets/images/settings-blue.svg';
 import { discordInvite } from 'utils/classifiers';
 import { translations } from 'locales/i18n';
 import { TradingPosition } from 'types/trading-position';
+import styles from './index.module.scss';
 import {
   TradingPairDictionary,
   TradingPairType,
@@ -24,6 +25,7 @@ import { selectMarginTradePage } from '../../selectors';
 import { actions } from '../../slice';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { ButtonTrade } from 'app/components/ButtonTrade';
+import { LimitOrderSetting } from '../LimitOrder/LimitOrderSetting';
 import { CollateralAssets } from '../CollateralAssets';
 import { LeverageSelector } from '../LeverageSelector';
 import { useGetEstimatedMarginDetails } from 'app/hooks/trading/useGetEstimatedMarginDetails';
@@ -37,6 +39,9 @@ import { OrderType } from 'app/components/OrderTypeTitle/types';
 import { MARGIN_SLIPPAGE_DEFAULT } from '../../types';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { LoadableValue } from 'app/components/LoadableValue';
+import { durationOptions } from 'app/pages/SpotTradingPage/components/LimitOrderSetting/Duration';
+import { OrderTypeTitle } from 'app/components/OrderTypeTitle';
+import { LimitTradeDialog } from '../LimitOrder/LimitTradeDialog';
 
 interface ITradeFormProps {
   pairType: TradingPairType;
@@ -50,7 +55,16 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   const [tradeAmount, setTradeAmount] = useState('');
   const [slippage, setSlippage] = useState(MARGIN_SLIPPAGE_DEFAULT);
   const weiAmount = useWeiAmount(tradeAmount);
-  const [orderType] = useState(OrderType.MARKET);
+
+  const [orderType, setOrderType] = useState(OrderType.MARKET);
+  const [limitPrice, setLimitPrice] = useState('');
+  const [openLimitSetting, setOpenLimitSetting] = useState(false);
+  const [duration, setDuration] = useState(0);
+  const durationLabel = useMemo(
+    () => durationOptions.find(item => item.value === duration)?.text || '',
+    [duration],
+  );
+
   const { position, amount, collateral, leverage } = useSelector(
     selectMarginTradePage,
   );
@@ -68,7 +82,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     useLoanTokens ? '0' : amount,
     collateralToken,
   );
-
   const { price, loading: loadingPrice } = useCurrentPositionPrice(
     loanToken,
     collateralToken,
@@ -105,11 +118,15 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   const validate = useMemo(() => {
     return (
       bignumber(weiAmount).greaterThan(0) &&
-      bignumber(weiAmount).lessThanOrEqualTo(tokenBalance)
+      bignumber(weiAmount).lessThanOrEqualTo(tokenBalance) &&
+      (orderType !== OrderType.LIMIT || limitPrice)
     );
-  }, [weiAmount, tokenBalance]);
+  }, [weiAmount, tokenBalance, orderType, limitPrice]);
 
   const [isTradingDialogOpen, setIsTradingDialogOpen] = useState(false);
+  const [isLimitTradingDialogOpen, setIsLimitTradingDialogOpen] = useState(
+    false,
+  );
 
   const handlePositionLong = useCallback(() => {
     dispatch(actions.submit(TradingPosition.LONG));
@@ -122,6 +139,14 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     () => !validate || !connected || openTradesLocked,
     [validate, connected, openTradesLocked],
   );
+
+  const openTradeDialog = useCallback(() => {
+    if (orderType === OrderType.MARKET) {
+      setIsTradingDialogOpen(true);
+    } else {
+      setIsLimitTradingDialogOpen(true);
+    }
+  }, [orderType]);
 
   return (
     <>
@@ -153,6 +178,11 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
           </div>
         )}
         <div className="tw-mw-340 tw-mx-auto tw-mt-3">
+          <OrderTypeTitle
+            value={orderType}
+            onChange={setOrderType}
+            dataActionId="margin"
+          />
           <CollateralAssets
             value={collateral}
             onChange={value => dispatch(actions.setCollateral(value))}
@@ -162,7 +192,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
             asset={collateral}
             dataAttribute="margin-label-availableBalance"
           />
-
           <FormGroup
             label={t(translations.marginTradePage.tradeForm.labels.amount)}
           >
@@ -173,6 +202,40 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
               dataActionId="margin"
             />
           </FormGroup>
+
+          {orderType === OrderType.LIMIT && (
+            <>
+              <div className="tw-flex tw-text-sm tw-relative tw-items-center tw-justify-between tw-mt-5">
+                <span className={styles.amountLabel}>
+                  {t(translations.spotTradingPage.tradeForm.limitPrice)}
+                </span>
+                <div className="tw-flex tw-items-center">
+                  <div className="tw-mr-2">
+                    <AssetRenderer asset={pair.longAsset} />
+                  </div>
+                  <AmountInput
+                    value={limitPrice}
+                    decimalPrecision={8}
+                    onChange={setLimitPrice}
+                    hideAmountSelector
+                    dataActionId="margin-limit-limitPrice"
+                  />
+                </div>
+              </div>
+              <div className="tw-flex tw-text-secondary tw-text-xs tw-relative tw-items-center tw-justify-between tw-mt-2">
+                <span className={'tw-mr-1'}>
+                  {t(translations.spotTradingPage.limitOrderSetting.duration)}
+                </span>
+                <span
+                  className="tw-flex tw-cursor-pointer"
+                  onClick={() => setOpenLimitSetting(true)}
+                >
+                  {t(durationLabel, { count: duration })}
+                  <img className="tw-ml-1" src={settingIcon} alt="setting" />
+                </span>
+              </div>
+            </>
+          )}
 
           <FormGroup
             label={t(translations.marginTradePage.tradeForm.labels.leverage)}
@@ -237,24 +300,28 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                 value={<>{weiToNumberFormat(estimations.interestRate, 2)} %</>}
               />
 
-              <div className="tw-mb-4 tw-text-secondary tw-text-xs tw-flex">
-                <ActionButton
-                  text={
-                    <div className="tw-flex">
-                      {t(translations.marginTradeForm.fields.slippageSettings)}
-                      <img
-                        className="tw-ml-1"
-                        src={settingIcon}
-                        alt="setting"
-                      />
-                    </div>
-                  }
-                  onClick={() => setOpenSlippage(true)}
-                  className="tw-border-none tw-ml-0 tw-p-0 tw-h-auto"
-                  textClassName="tw-text-xs tw-overflow-visible tw-text-secondary"
-                  data-action-id="margin-slippage-setting"
-                />
-              </div>
+              {orderType === OrderType.MARKET && (
+                <div className="tw-mb-4 tw-text-secondary tw-text-xs tw-flex">
+                  <ActionButton
+                    text={
+                      <div className="tw-flex">
+                        {t(
+                          translations.marginTradeForm.fields.slippageSettings,
+                        )}
+                        <img
+                          className="tw-ml-1"
+                          src={settingIcon}
+                          alt="setting"
+                        />
+                      </div>
+                    }
+                    onClick={() => setOpenSlippage(true)}
+                    className="tw-border-none tw-ml-0 tw-p-0 tw-h-auto"
+                    textClassName="tw-text-xs tw-overflow-visible tw-text-secondary"
+                    data-action-id="margin-slippage-setting"
+                  />
+                </div>
+              )}
 
               <ButtonTrade
                 text={
@@ -281,7 +348,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                   )
                 }
                 position={position}
-                onClick={() => setIsTradingDialogOpen(true)}
+                onClick={openTradeDialog}
                 disabled={buttonDisabled}
                 data-action-id="margin-reviewTransaction-button-placePosition"
               />
@@ -309,6 +376,14 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
           )}
         </div>
 
+        {openLimitSetting && (
+          <LimitOrderSetting
+            onClose={() => setOpenLimitSetting(false)}
+            duration={duration}
+            onChangeDuration={setDuration}
+          />
+        )}
+
         {openSlippage && (
           <SlippageForm
             onClose={() => setOpenSlippage(false)}
@@ -324,6 +399,13 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
           isOpen={isTradingDialogOpen}
           slippage={slippage}
           orderType={orderType}
+        />
+        <LimitTradeDialog
+          onCloseModal={() => setIsLimitTradingDialogOpen(false)}
+          isOpen={isLimitTradingDialogOpen}
+          orderType={orderType}
+          minEntryPrice={limitPrice}
+          duration={duration}
         />
       </div>
     </>
