@@ -1,10 +1,11 @@
 import { translations } from 'locales/i18n';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { TxStatus } from 'store/global/transactions-store/types';
 import { selectPerpetualPage } from '../../selectors';
+import { actions } from '../../slice';
 import { PerpetualPageModals } from '../../types';
 import { CustomToastContent, toastOptions } from '../CustomToastContent';
 import { ToastAdditionalInfo } from './components/ToastAdditionalInfo.tsx';
@@ -12,16 +13,16 @@ import { isPerpetualTx } from '../TradeDialog/types';
 import { usePerpetual_completedTransactions } from '../../hooks/usePerpetual_completedTransactions';
 
 export const ToastsWatcher: React.FC = () => {
-  const [toastedTransactions, setToastedTransactions] = useState({});
   const transactions = usePerpetual_completedTransactions();
+  const dispatch = useDispatch();
 
-  const { modal } = useSelector(selectPerpetualPage);
+  const { modal, toastedTransactions } = useSelector(selectPerpetualPage);
 
   const { t } = useTranslation();
 
   useEffect(() => {
     const toastTransactions = Object.values(transactions).filter(
-      transaction => !toastedTransactions[transaction.transactionHash],
+      transaction => !toastedTransactions.includes(transaction.transactionHash),
     );
 
     for (let transaction of toastTransactions) {
@@ -66,12 +67,10 @@ export const ToastsWatcher: React.FC = () => {
           );
         }
       }
-      setToastedTransactions(transactions => ({
-        ...transactions,
-        [transaction.transactionHash]: true,
-      }));
+
+      dispatch(actions.pushToastedTransaction(transaction.transactionHash));
     }
-  }, [modal, t, transactions, toastedTransactions]);
+  }, [modal, t, transactions, toastedTransactions, dispatch]);
 
   return null;
 };
