@@ -2,40 +2,55 @@ import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import classNames from 'classnames';
-import { IPairs, TradingType } from 'types/trading-pairs';
+import { IPairData, TradingType } from 'types/trading-pairs';
 import { Asset } from 'types';
+import { pairList, pairs } from 'app/pages/SpotTradingPage/types';
 
 interface IPairLabelsProps {
   onChangeCategory: (value: string) => void;
   category: string;
-  pairs: IPairs;
+  pairs: IPairData[];
   type: string;
 }
 
 export const PairLabels: React.FC<IPairLabelsProps> = ({
   onChangeCategory,
   category,
-  pairs,
+  pairs: spotPairs,
   type,
 }) => {
   const { t } = useTranslation();
   const ALL = t(translations.pairNavbar.all);
   //getting a list with currency labels
   const list = useMemo(() => {
-    if (!pairs) {
+    if (!spotPairs) {
       return [];
     }
-    return Object.keys(pairs)
-      .map(key => pairs[key].base_symbol)
+    return Object.keys(spotPairs)
+      .map(key => spotPairs[key].base_symbol)
       .filter(pair => pair);
-  }, [pairs]);
+  }, [spotPairs]);
 
   if (!list.length) {
     return null;
   }
 
+  const spotPairsList = pairList.map(item => {
+    const [assetA] = pairs[item];
+    return assetA;
+  });
+
+  const labelsList = list
+    .map(item => {
+      if (spotPairsList.includes(item)) {
+        return item;
+      }
+      return null;
+    })
+    .filter(item => item !== null);
+
   const categories =
-    type === TradingType.SPOT ? [ALL, Asset.RBTC, ...list] : [ALL];
+    type === TradingType.SPOT ? [ALL, Asset.RBTC, ...labelsList] : [ALL];
 
   return (
     <>

@@ -66,7 +66,7 @@ export const PairSelect: React.FC<IPairSelect> = ({
         />
       </div>
       {open && (
-        <div className="tw-absolute tw-transform tw-translate-y-full tw-bottom-0 tw-left-0 tw-bg-gray-2 tw-py-7 tw-px-9 tw-rounded-b-lg tw-z-10">
+        <div className="tw-absolute tw-transform tw-translate-y-full tw-bottom-0 tw-left-0 tw-bg-gray-2 tw-py-7 tw-px-9 tw-rounded-b-lg tw-z-20">
           <Input
             value={search}
             className="tw-rounded-lg search tw-max-w-full"

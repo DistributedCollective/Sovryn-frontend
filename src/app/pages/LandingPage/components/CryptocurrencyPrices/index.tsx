@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 import { translations } from 'locales/i18n';
 import { IAssets, IAssetData } from './types';
-import { IPairs } from 'types/trading-pairs';
+import { IPairData } from 'types/trading-pairs';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { numberToUSD, toNumberFormat } from 'utils/display-text/format';
@@ -19,7 +19,7 @@ import { Trans } from 'react-i18next';
 import { usePairList } from 'app/hooks/trading/usePairList';
 
 interface ICryptocurrencyPricesProps {
-  pairs: IPairs;
+  pairs: IPairData[];
   isLoading: boolean;
   assetData?: IAssets;
   assetLoading: boolean;

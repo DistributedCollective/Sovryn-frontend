@@ -4,7 +4,7 @@ import { IPairsData } from 'types/trading-pairs';
 import { backendUrl, currentChainId } from 'utils/classifiers';
 
 const defaultPairsData = {
-  pairs: {},
+  pairs: [],
   total_volume_btc: 0,
   total_volume_usd: 0,
   updated_at: '',

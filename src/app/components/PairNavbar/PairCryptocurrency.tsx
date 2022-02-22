@@ -3,15 +3,13 @@ import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import classNames from 'classnames';
-import {
-  IPairData,
-  IPairs,
-  ITradingPairs,
-  TradingType,
-} from 'types/trading-pairs';
+import { IPairData, ITradingPairs, TradingType } from 'types/trading-pairs';
 import { getFavoriteList, setFavoriteList } from 'utils/helpers';
 import { SpotPairType } from 'app/pages/SpotTradingPage/types';
-import { TradingPairType } from 'utils/dictionaries/trading-pair-dictionary';
+import {
+  TradingPairDictionary,
+  TradingPairType,
+} from 'utils/dictionaries/trading-pair-dictionary';
 import { toNumberFormat } from 'utils/display-text/format';
 import { Pair } from './Pair';
 import { StarButton } from 'app/components/StarButton';
@@ -27,7 +25,7 @@ interface IPairCryptocurrencyProps {
   storageKey: string;
   category: string;
   search: string;
-  pairs: IPairs;
+  pairs: IPairData[];
   onPairChange: (value: [ITradingPairs]) => void;
   type: string;
 }
@@ -43,7 +41,6 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
 }) => {
   const { t } = useTranslation();
   const list = usePairList(pairs);
-
   const [favList, setFavList] = useState(getFavoriteList(storageKey));
   const dispatch = useDispatch();
   const dispatchAction: any =
@@ -74,8 +71,12 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
     [favList],
   );
 
+  const tradingPairs = TradingPairDictionary.entries()
+    .filter(value => !value[1].deprecated)
+    .map(([type]) => type);
+
   const filteredList = useMemo(() => {
-    const currencyList: [ITradingPairs] = [] as any; //an Object with all possible pairs
+    const currencyList: ITradingPairs[] = []; //an Object with all possible pairs
     //making a currencyList with all possible pairs
     for (let pair of list) {
       //first here we push only RBTC pair
@@ -88,9 +89,27 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
       }
     }
 
+    const currencyListFiltered = currencyList.filter((pair: ITradingPairs) => {
+      if (type === TradingType.SPOT) {
+        return pair;
+      } else {
+        if (
+          tradingPairs.includes(
+            TradingPairType[`${pair[0].base_symbol}_${pair[1].quote_symbol}`],
+          ) ||
+          tradingPairs.includes(
+            TradingPairType[`${pair[0].quote_symbol}_${pair[1].base_symbol}`],
+          )
+        ) {
+          return pair;
+        }
+      }
+      return null;
+    });
+
     return category === FAVORITE
       ? favList
-      : currencyList.filter(item => {
+      : currencyListFiltered.filter(item => {
           if (item[0].base_symbol !== item[1].base_symbol) {
             //filtering pairs without RBTC as a source pair
             return (
@@ -116,7 +135,7 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
           }
           return false;
         });
-  }, [category, favList, search, list]);
+  }, [category, favList, search, list, tradingPairs, type]);
 
   useEffect(() => {
     setFavoriteList(storageKey, favList);

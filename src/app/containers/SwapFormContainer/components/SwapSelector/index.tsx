@@ -9,7 +9,7 @@ import {
   IAssets,
   IAssetData,
 } from 'app/pages/LandingPage/components/CryptocurrencyPrices/types';
-import { IPairs, IPairData } from 'types/trading-pairs';
+import { IPairData } from 'types/trading-pairs';
 import arrowUp from 'assets/images/trend-arrow-up.svg';
 import arrowDown from 'assets/images/trend-arrow-down.svg';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
@@ -33,7 +33,7 @@ import { setFavoriteList } from 'utils/helpers';
 const FAVORITE = 'FAVORITE';
 
 interface ISwapSelectorProps {
-  pairs: IPairs;
+  pairs: IPairData[];
   assetData: IAssets;
   onChange: (value: Asset) => void;
   selectedAsset: Asset;

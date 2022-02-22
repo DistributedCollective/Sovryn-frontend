@@ -1,12 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { calculateProfit, weiToNumberFormat } from 'utils/display-text/format';
 import {
-  toWei,
-  weiTo18,
-  fromWei,
-  weiToFixed,
-} from 'utils/blockchain/math-helpers';
+  calculateProfit,
+  weiToAssetNumberFormat,
+  weiToNumberFormat,
+} from 'utils/display-text/format';
+import { toWei, weiTo18, fromWei } from 'utils/blockchain/math-helpers';
 import { AmountInput } from 'app/components/Form/AmountInput';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { FormGroup } from 'app/components/Form/FormGroup';
@@ -155,9 +154,8 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
     amount,
     profit,
   ]);
-  const { minReturn } = calculateMinimumReturn(toWei(totalAmount), slippage);
 
-  const { error } = useCacheCallWithValue<{
+  const { value, loading: loadingValue, error } = useCacheCallWithValue<{
     withdrawAmount: string;
     withdrawToken: string;
   }>(
@@ -165,6 +163,13 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
     'closeWithSwap',
     { withdrawAmount: '0', withdrawToken: '' },
     ...args,
+  );
+
+  const { minReturn } = calculateMinimumReturn(value.withdrawAmount, slippage);
+
+  const token = useMemo(
+    () => assetByTokenAddress(value.withdrawToken) || collateral,
+    [collateral, value.withdrawToken],
   );
 
   return (
@@ -236,7 +241,7 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
               value={amount}
               onChange={setAmount}
               asset={sourceToken.asset}
-              maxAmount={maxAmount}
+              maxAmount={item.positionSizeChange}
             />
           </FormGroup>
 
@@ -254,25 +259,37 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
             />
           </div>
 
-          <FormGroup
-            label={t(translations.closeTradingPositionHandler.amountReceived)}
-            className="tw-mt-3"
-          >
-            <DummyInput
-              value={amount}
-              appendElem={<AssetRenderer asset={sourceToken.asset} />}
-              className="tw-h-10"
-            />
-            <div className="tw-truncate tw-text-xs tw-font-light tw-tracking-normal tw-flex tw-justify-between tw-mt-1">
-              <p>
-                {t(translations.closeTradingPositionHandler.minimumReceived)}
-              </p>
-              <div className="tw-font-semibold">
-                {weiToFixed(minReturn, 6)}{' '}
-                <AssetRenderer asset={sourceToken.asset} />
+          {value && (
+            <FormGroup
+              label={t(translations.closeTradingPositionHandler.amountReceived)}
+              className="tw-mt-3"
+            >
+              <DummyInput
+                value={
+                  <LoadableValue
+                    loading={loading}
+                    value={weiToAssetNumberFormat(value.withdrawAmount, token)}
+                    tooltip={weiToNumberFormat(value.withdrawAmount, 18)}
+                  />
+                }
+                className="tw-h-10"
+                appendElem={<AssetRenderer asset={token} />}
+              />
+              <div className="tw-truncate tw-text-xs tw-font-light tw-tracking-normal tw-flex tw-justify-between tw-mt-1">
+                <p>
+                  {t(translations.closeTradingPositionHandler.minimumReceived)}
+                </p>
+                <div className="tw-font-semibold">
+                  <LoadableValue
+                    loading={loading}
+                    value={weiToAssetNumberFormat(minReturn, token)}
+                    tooltip={weiToNumberFormat(minReturn, 18)}
+                  />{' '}
+                  <AssetRenderer asset={token} />
+                </div>
               </div>
-            </div>
-          </FormGroup>
+            </FormGroup>
+          )}
 
           <div className="tw-text-sm tw-mb-3">
             <TxFeeCalculator
@@ -317,7 +334,9 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
           <DialogButton
             confirmLabel={t(translations.common.confirm)}
             onConfirm={send}
-            disabled={rest.loading || !valid || closeTradesLocked}
+            disabled={
+              rest.loading || !valid || closeTradesLocked || loadingValue
+            }
             cancelLabel={t(translations.common.cancel)}
             onCancel={onCloseModal}
           />
