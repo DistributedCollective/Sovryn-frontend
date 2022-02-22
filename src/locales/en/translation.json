@@ -1724,6 +1724,7 @@
       "actions": "Action",
       "noData": "No Data",
       "filledAmount": "Filled Amount",
+      "leverage": "Leverage",
       "cta": {
         "edit": "Edit",
         "close": "Close"

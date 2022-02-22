@@ -8,8 +8,8 @@ import {
 import { TradingPairType } from 'utils/dictionaries/trading-pair-dictionary';
 import { Asset } from 'types';
 import { TradingPosition } from 'types/trading-position';
+import { IApiLimitMarginOrder } from 'app/hooks/limitOrder/types';
 
-// The initial state of the MarginTradePage container
 export const initialState: IMarginTradePageState = {
   pairType: TradingPairType.SOV_RBTC,
   collateral: Asset.RBTC,
@@ -19,6 +19,7 @@ export const initialState: IMarginTradePageState = {
   notificationWallet: '',
   notificationToken: '',
   notificationUser: undefined,
+  pendingLimitOrders: [],
 };
 
 const marginTradePageSlice = createSlice({
@@ -60,6 +61,12 @@ const marginTradePageSlice = createSlice({
       state.notificationToken = '';
       state.notificationWallet = '';
       state.notificationUser = undefined;
+    },
+    addPendingLimitOrders(
+      state,
+      { payload }: PayloadAction<IApiLimitMarginOrder>,
+    ) {
+      state.pendingLimitOrders = [...state.pendingLimitOrders, payload];
     },
   },
 });

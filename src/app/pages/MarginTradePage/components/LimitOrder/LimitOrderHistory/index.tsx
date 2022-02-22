@@ -4,11 +4,11 @@ import { LimitOrderRow } from './LimitOrderRow';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Pagination } from 'app/components/Pagination';
-import { LimitOrder } from 'app/pages/SpotTradingPage/types';
+import { MarginLimitOrder } from 'app/pages/MarginTradePage/types';
 
 interface ILimitOrderHistoryProps {
   perPage?: number;
-  orders: LimitOrder[];
+  orders: MarginLimitOrder[];
   loading: boolean;
 }
 
@@ -40,10 +40,9 @@ export const LimitOrderHistory: React.FC<ILimitOrderHistoryProps> = ({
           <tr>
             <th className="tw-w-full">{t(trans.dateTime)}</th>
             <th className="tw-w-full">{t(trans.pair)}</th>
-            <th className="tw-w-full">{t(trans.orderType)}</th>
-            <th className="tw-w-full">{t(trans.tradeAmount)}</th>
             <th className="tw-w-full">{t(trans.limitPrice)}</th>
-            <th className="tw-w-full">{t(trans.amountReceive)}</th>
+            <th className="tw-w-full">{t(trans.tradeAmount)}</th>
+            <th className="tw-w-full">{t(trans.deadline)}</th>
             <th className="tw-w-full">{t(trans.filledAmount)}</th>
           </tr>
         </thead>

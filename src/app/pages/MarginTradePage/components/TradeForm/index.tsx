@@ -32,11 +32,7 @@ import { useGetEstimatedMarginDetails } from 'app/hooks/trading/useGetEstimatedM
 import { TradeDialog } from '../TradeDialog';
 import { LiquidationPrice } from '../LiquidationPrice';
 import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
-import {
-  stringToFixedPrecision,
-  toNumberFormat,
-  weiToNumberFormat,
-} from 'utils/display-text/format';
+import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
 import { SlippageForm } from '../SlippageForm';
 import { toWei } from 'utils/blockchain/math-helpers';
 import { OrderType } from 'app/components/OrderTypeTitle/types';
@@ -45,6 +41,7 @@ import { AssetRenderer } from 'app/components/AssetRenderer';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { durationOptions } from 'app/pages/SpotTradingPage/components/LimitOrderSetting/Duration';
 import { OrderTypeTitle } from 'app/components/OrderTypeTitle';
+import { LimitTradeDialog } from '../LimitOrder/LimitTradeDialog';
 
 interface ITradeFormProps {
   pairType: TradingPairType;
@@ -125,11 +122,15 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   const validate = useMemo(() => {
     return (
       bignumber(weiAmount).greaterThan(0) &&
-      bignumber(weiAmount).lessThanOrEqualTo(tokenBalance)
+      bignumber(weiAmount).lessThanOrEqualTo(tokenBalance) &&
+      (orderType !== OrderType.LIMIT || limitPrice)
     );
-  }, [weiAmount, tokenBalance]);
+  }, [weiAmount, tokenBalance, orderType, limitPrice]);
 
   const [isTradingDialogOpen, setIsTradingDialogOpen] = useState(false);
+  const [isLimitTradingDialogOpen, setIsLimitTradingDialogOpen] = useState(
+    false,
+  );
 
   const handlePositionLong = useCallback(() => {
     dispatch(actions.submit(TradingPosition.LONG));
@@ -142,6 +143,18 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     () => !validate || !connected || openTradesLocked,
     [validate, connected, openTradesLocked],
   );
+
+  const openTradeDialog = useCallback(() => {
+    if (orderType === OrderType.MARKET) {
+      setIsTradingDialogOpen(true);
+    } else {
+      setIsLimitTradingDialogOpen(true);
+    }
+  }, [orderType]);
+
+  useEffect(() => {
+    setLimitPrice('');
+  }, [position]);
 
   return (
     <>
@@ -209,7 +222,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                     <AssetRenderer asset={borrowToken} />
                   </div>
                   <AmountInput
-                    value={stringToFixedPrecision(limitPrice, 6)}
+                    value={limitPrice}
                     onChange={setLimitPrice}
                     hideAmountSelector
                     dataActionId="margin-limit-limitPrice"
@@ -342,7 +355,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                   )
                 }
                 position={position}
-                onClick={() => setIsTradingDialogOpen(true)}
+                onClick={openTradeDialog}
                 disabled={buttonDisabled}
                 data-action-id="margin-reviewTransaction-button-placePosition"
               />
@@ -392,6 +405,11 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
           onCloseModal={() => setIsTradingDialogOpen(false)}
           isOpen={isTradingDialogOpen}
           slippage={slippage}
+          orderType={orderType}
+        />
+        <LimitTradeDialog
+          onCloseModal={() => setIsLimitTradingDialogOpen(false)}
+          isOpen={isLimitTradingDialogOpen}
           orderType={orderType}
           minEntryPrice={limitPrice}
           duration={duration}

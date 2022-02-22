@@ -1,18 +1,17 @@
 import React, { useMemo, useState } from 'react';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
-import { OpenPositionRow } from './OpenPositionRow';
 import { useTranslation } from 'react-i18next';
-// import { LimitOrder } from '../../types';
-// import { useSelector } from 'react-redux';
-// import { selectSpotTradingPage } from '../../selectors';
-import { orderParser } from 'app/hooks/limitOrder/useGetLimitOrders';
 import { translations } from 'locales/i18n';
 import { Pagination } from 'app/components/Pagination';
-import { LimitOrder } from 'app/pages/SpotTradingPage/types';
+import { MarginLimitOrder } from 'app/pages/MarginTradePage/types';
+import { OpenPositionRow } from './OpenPositionRow';
+import { selectMarginTradePage } from 'app/pages/MarginTradePage/selectors';
+import { useSelector } from 'react-redux';
+import { marginOrderParser } from 'app/hooks/limitOrder/useGetLimitOrders';
 
 interface IOpenPositionsTableProps {
   perPage?: number;
-  orders: LimitOrder[];
+  orders: MarginLimitOrder[];
   loading: boolean;
 }
 
@@ -23,8 +22,7 @@ export const OpenPositionsTable: React.FC<IOpenPositionsTableProps> = ({
 }) => {
   const { t } = useTranslation();
   const trans = translations.spotTradingPage.openLimitOrders;
-  // const { pendingLimitOrders } = useSelector(selectSpotTradingPage);
-  const [pendingLimitOrders] = useState([]);
+  const { pendingLimitOrders } = useSelector(selectMarginTradePage);
 
   const [page, setPage] = useState(1);
 
@@ -34,11 +32,13 @@ export const OpenPositionsTable: React.FC<IOpenPositionsTableProps> = ({
   );
   const pendingList = useMemo(() => {
     return pendingLimitOrders
-      .map(item => orderParser(item))
+      .map(item => marginOrderParser(item))
       .filter(
         item =>
           orders.findIndex(
-            order => order.created.toString() === item.created.toString(),
+            order =>
+              order.createdTimestamp.toString() ===
+              item.createdTimestamp.toString(),
           ) < 0,
       );
   }, [orders, pendingLimitOrders]);
@@ -56,10 +56,8 @@ export const OpenPositionsTable: React.FC<IOpenPositionsTableProps> = ({
           <tr>
             <th className="tw-w-full">{t(trans.dateTime)}</th>
             <th className="tw-w-full">{t(trans.pair)}</th>
-            <th className="tw-w-full">{t(trans.orderType)}</th>
-            <th className="tw-w-full">{t(trans.tradeAmount)}</th>
             <th className="tw-w-full">{t(trans.limitPrice)}</th>
-            <th className="tw-w-full">{t(trans.amountReceive)}</th>
+            <th className="tw-w-full">{t(trans.tradeAmount)}</th>
             <th className="tw-w-full">{t(trans.deadline)}</th>
             <th className="tw-w-full">{t(trans.actions)}</th>
           </tr>

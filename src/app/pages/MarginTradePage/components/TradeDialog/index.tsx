@@ -53,15 +53,12 @@ import {
 import { usePositionLiquidationPrice } from 'app/hooks/trading/usePositionLiquidationPrice';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { PricePrediction } from 'app/containers/MarginTradeForm/PricePrediction';
-import { useMarginLimitOrder } from 'app/hooks/limitOrder/useMarginLimitOrder';
 
 interface ITradeDialogProps {
   slippage: number;
   isOpen: boolean;
   onCloseModal: () => void;
   orderType: OrderType;
-  duration: number;
-  minEntryPrice: string;
 }
 
 const TradeLogInputs = [
@@ -144,8 +141,6 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
   isOpen,
   onCloseModal,
   orderType,
-  duration,
-  minEntryPrice,
 }) => {
   const { t } = useTranslation();
   const account = useAccount();
@@ -210,16 +205,6 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
     minReturn,
   );
 
-  const { createOrder: createLimitOrder } = useMarginLimitOrder(
-    pair,
-    position,
-    collateral,
-    leverage,
-    amount,
-    minEntryPrice,
-    duration,
-  );
-
   const submit = () => {
     if (orderType === OrderType.MARKET) {
       trade({
@@ -232,7 +217,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
       });
       onCloseModal();
     } else {
-      createLimitOrder();
+      //open limit order dialog
     }
   };
 

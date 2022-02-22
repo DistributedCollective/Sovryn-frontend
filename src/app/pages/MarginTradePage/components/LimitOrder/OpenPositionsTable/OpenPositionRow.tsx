@@ -2,26 +2,29 @@ import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useMaintenance } from 'app/hooks/useMaintenance';
-import {
-  LimitOrder,
-  pairList,
-  TradingTypes,
-} from 'app/pages/SpotTradingPage/types';
-import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
-import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
-import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
 import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
+import { MarginLimitOrder } from 'app/pages/MarginTradePage/types';
+import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
+import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
+import { TradingPosition } from 'types/trading-position';
+import { PositionBlock } from '../../PositionBlock';
+import {
+  toAssetNumberFormat,
+  toNumberFormat,
+  weiToNumberFormat,
+} from 'utils/display-text/format';
+import { AssetRenderer } from 'app/components/AssetRenderer';
+import { Tooltip } from '@blueprintjs/core';
+import { fromWei } from 'web3-utils';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { translations } from 'locales/i18n';
-import { CloseLimitPositionDialog } from '../CloseLimitPositionDialog';
-import { AssetRenderer } from 'app/components/AssetRenderer';
-import { bignumber } from 'mathjs';
-import classNames from 'classnames';
 import { TableTransactionStatus } from 'app/components/FinanceV2Components/TableTransactionStatus';
 import { TxStatus } from 'store/global/transactions-store/types';
-// import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
+import { CloseLimitPositionDialog } from '../CloseLimitPositionDialog';
+import { TradeDialogInfo } from '../../TradeDialog/TradeDialogInfo';
+import { OrderType } from 'app/components/OrderTypeTitle/types';
 interface IOpenPositionRowProps {
-  item: LimitOrder;
+  item: MarginLimitOrder;
   pending?: boolean;
 }
 
@@ -34,89 +37,73 @@ export const OpenPositionRow: React.FC<IOpenPositionRowProps> = ({
   const { checkMaintenances, States } = useMaintenance();
   const { [States.CLOSE_SPOT_LIMIT]: closeTradesLocked } = checkMaintenances();
 
-  const fromToken = useMemo(
-    () => AssetsDictionary.getByTokenContractAddress(item.fromToken),
-    [item.fromToken],
-  );
-  const toToken = useMemo(
-    () => AssetsDictionary.getByTokenContractAddress(item.toToken),
-    [item.toToken],
+  const loanAsset = assetByTokenAddress(item.loanTokenAddress);
+  const collateralAsset = assetByTokenAddress(item.collateralTokenAddress);
+
+  const pair = TradingPairDictionary.findPair(loanAsset, collateralAsset);
+
+  const position =
+    pair?.longAsset === loanAsset
+      ? TradingPosition.LONG
+      : TradingPosition.SHORT;
+
+  const leverage = useMemo(
+    () => Number(fromWei(item.leverageAmount.toString())) + 1,
+    [item.leverageAmount],
   );
 
-  const tradeType = useMemo(() => {
-    return pairList.find(
-      item => item === `${toToken?.asset}_${fromToken?.asset}`,
-    )
-      ? TradingTypes.BUY
-      : TradingTypes.SELL;
-  }, [fromToken, toToken]);
+  const entryPrice = useMemo(() => fromWei(item.minEntryPrice.toString()), [
+    item.minEntryPrice,
+  ]);
 
-  const pair = useMemo(() => {
-    return tradeType === TradingTypes.BUY
-      ? [toToken, fromToken]
-      : [fromToken, toToken];
-  }, [fromToken, toToken, tradeType]);
+  const tradeAmount = useMemo(
+    () =>
+      item.loanTokenSent.toString() !== '0'
+        ? item.loanTokenSent.toString()
+        : item.collateralTokenSent.toString(),
+    [item.loanTokenSent, item.collateralTokenSent],
+  );
+
+  if (!pair) return null;
+
+  const borrowToken = pair.getBorrowAssetForPosition(position);
 
   return (
     <tr>
       <td>
         <DisplayDate
-          timestamp={new Date(item.created.toNumber()).getTime().toString()}
+          timestamp={new Date(item.createdTimestamp.toNumber())
+            .getTime()
+            .toString()}
         />
       </td>
-      <td>
-        <div className={'tw-flex tw-items-center tw-select-none'}>
-          <div className="tw-rounded-full tw-z-10">
-            <img
-              className="tw-w-8 tw-h-8 tw-object-scale-down"
-              alt={pair[0]?.asset}
-              src={pair[0]?.logoSvg}
-            />
-          </div>
-          <div className="tw-rounded-full tw--ml-3">
-            <img
-              className="tw-w-8 tw-h-8 tw-object-scale-down"
-              alt={pair[1]?.asset}
-              src={pair[1]?.logoSvg}
-            />
-          </div>
 
-          <div className="tw-font-light text-white tw-ml-2.5">
-            <AssetSymbolRenderer asset={pair[0]?.asset} />
-            /
-            <AssetSymbolRenderer asset={pair[1]?.asset} />
-          </div>
+      <td className="tw-w-full">
+        <PositionBlock position={position} name={pair.name} />
+      </td>
+      <td className="tw-w-full tw-hidden xl:tw-table-cell">
+        <div className="tw-whitespace-nowrap">
+          <Tooltip
+            content={
+              <>
+                {toNumberFormat(entryPrice, 18)}{' '}
+                <AssetRenderer asset={borrowToken} />
+              </>
+            }
+          >
+            <>
+              {toAssetNumberFormat(entryPrice, borrowToken)}{' '}
+              <AssetRenderer asset={borrowToken} />
+            </>
+          </Tooltip>
         </div>
       </td>
-      <td
-        className={classNames('', {
-          'tw-text-trade-short': tradeType === TradingTypes.SELL,
-          'tw-text-trade-long': tradeType === TradingTypes.BUY,
-        })}
-      >
-        {t(translations.spotTradingPage.tradeForm.limit)}{' '}
-        {tradeType === TradingTypes.BUY
-          ? t(translations.spotTradingPage.tradeForm.buy)
-          : t(translations.spotTradingPage.tradeForm.sell)}
-      </td>
-      <td className="tw-hidden md:tw-table-cell">
-        {weiToNumberFormat(item.amountIn.toString(), 6)}{' '}
-        <AssetRenderer asset={fromToken.asset} />
+
+      <td className="tw-w-full">
+        {weiToNumberFormat(tradeAmount, 6)} ({leverage}x){' '}
+        <AssetRenderer asset={collateralAsset} />
       </td>
 
-      <td className="tw-hidden md:tw-table-cell">
-        {toNumberFormat(
-          bignumber(item.amountOutMin.toString())
-            .div(item.amountIn.toString())
-            .toString(),
-          6,
-        )}{' '}
-        <AssetRenderer asset={toToken.asset} />
-      </td>
-      <td>
-        {weiToNumberFormat(item.amountOutMin.toString(), 6)}{' '}
-        <AssetRenderer asset={toToken.asset} />
-      </td>
       <td>
         <DisplayDate
           timestamp={new Date(item.deadline.toNumber()).getTime().toString()}
@@ -152,10 +139,21 @@ export const OpenPositionRow: React.FC<IOpenPositionRowProps> = ({
           order={item}
           onCloseModal={() => setShowClosePosition(false)}
           showModal={showClosePosition}
-          fromToken={fromToken}
-          toToken={toToken}
-          tradeType={tradeType}
-        />
+          position={position}
+        >
+          <TradeDialogInfo
+            position={position}
+            leverage={leverage}
+            orderTypeValue={OrderType.LIMIT}
+            amount={tradeAmount}
+            collateral={collateralAsset}
+            loanToken={loanAsset}
+            collateralToken={collateralAsset}
+            minEntryPrice={toNumberFormat(entryPrice, 4)}
+            borrowToken={borrowToken}
+            useLoanTokens
+          />
+        </CloseLimitPositionDialog>
       </td>
     </tr>
   );

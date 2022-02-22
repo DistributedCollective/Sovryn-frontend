@@ -94,6 +94,16 @@ export function MarginTradePage() {
                 active={activeTab === 1}
                 onClick={() => setActiveTab(1)}
               />
+              <Tab
+                text={t(translations.spotTradingPage.history.openLimitOrders)}
+                active={activeTab === 2}
+                onClick={() => setActiveTab(2)}
+              />
+              <Tab
+                text={t(translations.spotTradingPage.history.limitOrderHistory)}
+                active={activeTab === 3}
+                onClick={() => setActiveTab(3)}
+              />
             </div>
 
             <div className="tw-w-full sm:tw-px-5">

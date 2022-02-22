@@ -121,7 +121,7 @@ export const LimitResultDialog: React.FC<ILimitResultDialogProps> = ({
   );
 };
 
-const getTransactionTitle = (tx: TxStatus, action: string = '') => {
+export const getTransactionTitle = (tx: TxStatus, action: string = '') => {
   switch (tx) {
     case TxStatus.FAILED:
       return (

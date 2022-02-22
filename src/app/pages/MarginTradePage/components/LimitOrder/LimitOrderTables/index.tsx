@@ -5,7 +5,7 @@ import { useGetLimitOrders } from 'app/hooks/limitOrder/useGetLimitOrders';
 import { OpenPositionsTable } from '../OpenPositionsTable';
 import { LimitOrderHistory } from '../LimitOrderHistory';
 import { useAccount } from 'app/hooks/useAccount';
-import { LimitOrder } from 'app/pages/SpotTradingPage/types';
+import { MarginLimitOrder } from 'app/pages/MarginTradePage/types';
 
 interface ILimitOrderTablesProps {
   activeTab: number;
@@ -16,12 +16,12 @@ export const LimitOrderTables: React.FC<ILimitOrderTablesProps> = ({
 }) => {
   const account = useAccount();
 
-  const { value, loading } = useGetLimitOrders<LimitOrder>(account);
+  const { value, loading } = useGetLimitOrders<MarginLimitOrder>(account, true);
   const limitOrders = useMemo(
     () =>
       value
         .filter(order => !order.canceled)
-        .sort((o1, o2) => (o1.created > o2.created ? -1 : 1)),
+        .sort((o1, o2) => (o1.createdTimestamp > o2.createdTimestamp ? -1 : 1)),
     [value],
   );
 

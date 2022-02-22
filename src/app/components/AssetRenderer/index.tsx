@@ -13,6 +13,7 @@ interface CurrencyProps {
   showImage?: boolean;
   imageSize?: ImageSizes;
   assetClassName?: string;
+  className?: string;
 }
 
 export function AssetRenderer(props: CurrencyProps) {
@@ -21,7 +22,12 @@ export function AssetRenderer(props: CurrencyProps) {
   ]);
 
   return (
-    <span className="tw-inline-flex tw-flex-row tw-justify-start tw-items-center tw-shrink-0 tw-grow-0 tw-space-x-2">
+    <span
+      className={classNames(
+        'tw-inline-flex tw-flex-row tw-justify-start tw-items-center tw-shrink-0 tw-grow-0 tw-space-x-2',
+        props.className,
+      )}
+    >
       {props.showImage && props.asset && (
         <img
           className={classNames('tw-object-contain', className)}

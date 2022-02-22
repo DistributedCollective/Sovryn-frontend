@@ -2,6 +2,7 @@ import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 /* --- STATE --- */
 import { Asset } from 'types/asset';
 import { BigNumber } from 'ethers';
+import { IApiBigNumber } from 'app/hooks/limitOrder/types';
 
 export enum SpotPairType {
   //SOV
@@ -197,10 +198,6 @@ export type LimitOrder = {
   s: string;
   canceled?: boolean;
   filledAmount?: string;
-};
-
-type IApiBigNumber = {
-  hex: string;
 };
 
 export type IApiLimitOrder = {
