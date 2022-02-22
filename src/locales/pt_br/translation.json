@@ -1939,9 +1939,9 @@
       "aborted": "Transação falhou. <br/>Cancele ou refaça a transação",
       "abortedLedger": "Make sure \"Contract data\" is set to \"Allowed\" in your Ledger app settings",
       "cta": "Abrir transação",
-      "processing": "{{action}} Em processamento...",
-      "complete": "{{action}} Concluída",
-      "submit": "{{action}} Inserida"
+      "processing": "{{action}} em processamento...",
+      "complete": "{{action}} concluída",
+      "submit": "{{action}} inserida"
     }
   },
   "buySovPage": {
