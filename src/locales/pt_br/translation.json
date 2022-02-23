@@ -296,6 +296,7 @@
     "fields": {
       "currency": "Ativo de garantia",
       "currency_placeholder": "Escolha o ativo",
+      "limitSettings": "Configurações ordem limitada",
       "amount": "Quantidade",
       "startPrice": "Preço de entrada",
       "slippageSettings": "Configurações avançadas",
