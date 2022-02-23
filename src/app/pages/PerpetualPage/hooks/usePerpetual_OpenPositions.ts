@@ -77,7 +77,6 @@ export const usePerpetual_OpenPosition = (
     [pair],
   );
 
-  // TODO: only query latest trade per pair, for performance reasons
   const {
     data: tradeEvents,
     previousData: previousTradeEvents,

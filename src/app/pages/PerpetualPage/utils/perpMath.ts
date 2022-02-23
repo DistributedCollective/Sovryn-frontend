@@ -360,7 +360,6 @@ export function getBase2CollateralFX(
 }
 
 export function findRoot(f: Function, x: number, doConsoleLog = false) {
-  // TODO: lots of clean-up and this fails in corner cases
   let numIter = 100;
   const dx = 1e-6;
   const fTol = 1e-10;

@@ -941,7 +941,6 @@ export function isTraderMaintenanceMarginSafe(
   );
 }
 
-// TODO: get max position size for given margin
 /**
  * Check whether trader is initial margin safe (i.e. can increase position or withdraw margin)
  *
