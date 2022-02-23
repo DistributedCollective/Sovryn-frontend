@@ -19,6 +19,7 @@
     "next": "Next",
     "loading": "Loading...",
     "retry": "Retry",
+    "continueToFailure": "I understand the risks of transaction failure, allow me to continue",
     "unit": {
       "day": "{{count}} day",
       "day_plural": "{{count}} days"
@@ -257,7 +258,7 @@
       "addressForm": {
         "title": "BTC Network Withdraw Address",
         "address": "Withdraw BTC to this address",
-        "errorBECH32": "Please enter a valid BECH32 BTC address!",
+        "errorBECH32": "Please enter a valid BTC address. We do not support Taproot yet!",
         "cta": "Review Withdraw"
       },
       "reviewScreen": {
@@ -366,7 +367,7 @@
     "lend": "Lend",
     "borrow": "Borrow",
     "yieldFarm": "Yield Farm",
-    "reward": "Reward SOV",
+    "reward": "Rewards",
     "staking": "Stake",
     "governance": "Governance",
     "forum": "Forum",
@@ -377,7 +378,7 @@
     "bitocracy": "Bitocracy",
     "spotTrade": "Spot",
     "origins": "Origins",
-    "originsClaim": "Origins Claim",
+    "originsClaim": "Claim",
     "launchpad": "Launchpad",
     "claim": "Claim",
     "rewards": "Rewards",
@@ -884,7 +885,7 @@
     "title": "My Debts",
     "tabs": {
       "active": "Active",
-      "history": "Repaid"
+      "history": "History"
     },
     "walletNote": "Connect your wallet first!"
   },
