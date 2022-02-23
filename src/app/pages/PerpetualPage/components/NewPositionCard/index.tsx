@@ -81,6 +81,7 @@ export const NewPositionCard: React.FC = () => {
 
   useEffect(() => {
     updateFlags([inPositions !== '0', availableBalance === '0']);
+
     return () => updateFlags.cancel();
   }, [inPositions, availableBalance, updateFlags]);
 

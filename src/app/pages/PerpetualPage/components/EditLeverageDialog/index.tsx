@@ -8,14 +8,15 @@ import React, {
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { translations } from '../../../../../locales/i18n';
-import {
-  PerpetualPairDictionary,
-  PerpetualPairType,
-} from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
+import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { Dialog } from '../../../../containers/Dialog';
 import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
-import { isPerpetualTrade, PerpetualPageModals } from '../../types';
+import {
+  isPerpetualTrade,
+  PerpetualPageModals,
+  PERPETUAL_MAX_LEVERAGE_DEFAULT,
+} from '../../types';
 import { TradeDetails } from '../TradeDetails';
 import { LeverageSelector } from '../LeverageSelector';
 import { AssetValue } from '../../../../components/AssetValue';
@@ -74,7 +75,7 @@ export const EditLeverageDialog: React.FC = () => {
             getSignedAmount(trade.position, trade.amount),
             perpParameters,
           )
-        : pair.config.leverage.max || 15,
+        : pair.config.leverage.max || PERPETUAL_MAX_LEVERAGE_DEFAULT,
     [trade, perpParameters, pair],
   );
 
@@ -86,8 +87,10 @@ export const EditLeverageDialog: React.FC = () => {
       if (!changedTrade) {
         return;
       }
+
       const roundedLeverage =
         leverage === maxLeverage ? leverage : Number(leverage.toFixed(2));
+
       setLeverage(roundedLeverage);
 
       const margin = getRequiredMarginCollateral(
@@ -99,7 +102,9 @@ export const EditLeverageDialog: React.FC = () => {
         changedTrade.slippage,
         false,
       );
+
       setMargin(margin);
+
       setChangedTrade({
         ...changedTrade,
         leverage,
@@ -141,7 +146,7 @@ export const EditLeverageDialog: React.FC = () => {
         transactions: [
           marginChange >= 0
             ? {
-                pair: pair.pairType || PerpetualPairType.BTCUSD,
+                pair: pair.pairType,
                 method: PerpetualTxMethods.deposit,
                 amount: toWei(marginChange),
                 target: {
@@ -152,7 +157,7 @@ export const EditLeverageDialog: React.FC = () => {
                 origin: PerpetualPageModals.EDIT_LEVERAGE,
               }
             : {
-                pair: pair.pairType || PerpetualPairType.BTCUSD,
+                pair: pair.pairType,
                 method: PerpetualTxMethods.withdraw,
                 amount: toWei(Math.abs(marginChange)),
                 target: {
@@ -225,7 +230,7 @@ export const EditLeverageDialog: React.FC = () => {
       onClose={onClose}
     >
       <h1>{t(translations.perpetualPage.editLeverage.title)}</h1>
-      {trade && pair && (
+      {trade && (
         <div className="tw-mw-340 tw-mx-auto">
           <TradeDetails
             className="tw-mw-340 tw-mx-auto tw-mb-4"

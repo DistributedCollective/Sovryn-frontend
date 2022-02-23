@@ -24,6 +24,7 @@ const steps = {
 export const ClosePositionDialogContext = React.createContext<
   ClosePositionDialogState
 >({ onChange: noop });
+
 export const ClosePositionDialog: React.FC = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();

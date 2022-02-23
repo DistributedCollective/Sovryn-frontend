@@ -10,6 +10,7 @@ export const TradeFormStep: TransitionStep<NewPositionCardStep> = ({
   changeTo,
 }) => {
   const { t } = useTranslation();
+
   const {
     hasEmptyBalance,
     hasOpenPosition,
@@ -17,6 +18,7 @@ export const TradeFormStep: TransitionStep<NewPositionCardStep> = ({
     onSubmit,
     onChangeTrade,
   } = useContext(NewPositionCardContext);
+
   const onOpenSlippage = useCallback(
     () => changeTo(NewPositionCardStep.slippage),
     [changeTo],

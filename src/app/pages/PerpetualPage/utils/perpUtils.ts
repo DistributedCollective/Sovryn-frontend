@@ -684,7 +684,7 @@ export function getRequiredMarginCollateral(
  * @returns An array containing [prices, % deviation from mid price ((price - mid-price)/mid-price), trade amounts]
  */
 
-export function getMaximalMarginToWidthdraw(
+export function getMaximalMarginToWithdraw(
   traderState: TraderState,
   perpParams: PerpParameters,
   ammData: AMMState,

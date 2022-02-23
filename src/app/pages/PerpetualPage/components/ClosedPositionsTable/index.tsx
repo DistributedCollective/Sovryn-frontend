@@ -25,9 +25,7 @@ export const ClosedPositionsTable: React.FC<IClosedPositionsTableProps> = ({
     perPage,
   );
 
-  const onPageChanged = useCallback(data => {
-    setPage(data.currentPage);
-  }, []);
+  const onPageChanged = useCallback(data => setPage(data.currentPage), []);
 
   const isEmpty = useMemo(() => !loading && !data?.length, [data, loading]);
   const showLoading = useMemo(() => loading && !data?.length, [data, loading]);

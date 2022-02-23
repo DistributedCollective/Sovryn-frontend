@@ -1,6 +1,7 @@
 import { Asset } from 'types/asset';
 import { PerpetualPair } from '../models/perpetual-pair';
 import { TradingPosition } from 'types/trading-position';
+import { PERPETUAL_MAX_LEVERAGE_DEFAULT } from 'app/pages/PerpetualPage/types';
 
 export enum PerpetualPairType {
   BTCUSD = 'BTCUSD',
@@ -36,7 +37,7 @@ export class PerpetualPairDictionary {
         {
           leverage: {
             min: 0.1,
-            max: 15,
+            max: PERPETUAL_MAX_LEVERAGE_DEFAULT,
             steps: [1, 2, 3, 5, 10, 15],
             default: 1,
           },

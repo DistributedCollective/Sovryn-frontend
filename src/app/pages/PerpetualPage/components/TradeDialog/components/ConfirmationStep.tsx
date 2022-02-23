@@ -41,6 +41,7 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
   );
 
   const transactionsMap = useSelector(selectTransactions);
+
   const transactionStatus = useMemo(
     () => (txHash ? transactionsMap[txHash]?.status : status),
     [txHash, transactionsMap, status],

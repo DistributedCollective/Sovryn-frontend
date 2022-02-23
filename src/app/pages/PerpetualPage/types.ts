@@ -9,6 +9,7 @@ import { isMainnet } from '../../../utils/classifiers';
 import { toWei } from '../../../utils/blockchain/math-helpers';
 
 export const PERPETUAL_SLIPPAGE_DEFAULT = 0.005;
+export const PERPETUAL_MAX_LEVERAGE_DEFAULT = 15;
 export const PERPETUAL_CHAIN = Chain.BSC;
 export const PERPETUAL_CHAIN_ID =
   getBridgeChainId(Chain.BSC) || ChainId.BSC_MAINNET;

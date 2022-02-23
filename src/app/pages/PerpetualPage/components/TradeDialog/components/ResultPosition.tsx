@@ -33,6 +33,7 @@ export const ResultPosition: React.FC<ResultPositionProps> = ({
     limitPrice,
     liquidationPrice,
   } = analysis;
+
   const { t } = useTranslation();
 
   if (
