@@ -6,17 +6,17 @@ import axios, { Canceler } from 'axios';
 import { useCallback, useRef } from 'react';
 import { useInterval } from '../useInterval';
 import { contractReader } from 'utils/sovryn/contract-reader';
-import {
-  MarginLimitOrder,
-  ApiMarginLimitOrder,
-} from 'app/pages/MarginTradePage/types';
+import { MarginLimitOrder } from 'app/pages/MarginTradePage/types';
+import { ApiLimitMarginOrder } from './types';
 
-const marginOrderParser = (order: ApiMarginLimitOrder): MarginLimitOrder => ({
+export const marginOrderParser = (
+  order: ApiLimitMarginOrder,
+): MarginLimitOrder => ({
   ...order,
   leverageAmount: BigNumber.from(order.leverageAmount.hex),
   loanTokenSent: BigNumber.from(order.loanTokenSent.hex),
   collateralTokenSent: BigNumber.from(order.collateralTokenSent.hex),
-  minReturn: BigNumber.from(order.minReturn.hex),
+  minEntryPrice: BigNumber.from(order.minEntryPrice.hex),
   deadline: BigNumber.from(order.deadline.hex),
   createdTimestamp: BigNumber.from(order.createdTimestamp.hex),
   filled: BigNumber.from(order.filled.hex),

@@ -221,15 +221,17 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
   );
 
   const submit = () => {
-    trade({
-      pair,
-      position,
-      collateralToken,
-      collateral,
-      leverage,
-      amount,
-    });
-    onCloseModal();
+    if (orderType === OrderType.MARKET) {
+      trade({
+        pair,
+        position,
+        collateralToken,
+        collateral,
+        leverage,
+        amount,
+      });
+      onCloseModal();
+    }
   };
 
   const txArgs = [

@@ -3,6 +3,7 @@ import { TradingPairType } from 'utils/dictionaries/trading-pair-dictionary';
 import { Asset } from 'types/asset';
 import { TradingPosition } from '../../../types/trading-position';
 import { BigNumber } from 'ethers';
+import { ApiLimitMarginOrder } from 'app/hooks/limitOrder/types';
 
 export const MARGIN_SLIPPAGE_DEFAULT = 0.5;
 
@@ -15,11 +16,8 @@ export interface IMarginTradePageState {
   notificationWallet?: string;
   notificationToken?: string;
   notificationUser?: NotificationUser;
+  pendingLimitOrders: ApiLimitMarginOrder[];
 }
-
-type ApiBigNumber = {
-  hex: string;
-};
 
 export type MarginLimitOrder = {
   hash?: string;
@@ -30,7 +28,7 @@ export type MarginLimitOrder = {
   collateralTokenSent: BigNumber;
   collateralTokenAddress: string;
   trader: string;
-  minReturn: BigNumber;
+  minEntryPrice: BigNumber;
   loanDataBytes: string;
   deadline: BigNumber;
   createdTimestamp: BigNumber;
@@ -40,26 +38,6 @@ export type MarginLimitOrder = {
   canceled?: boolean;
   filledAmount?: string;
   filled?: BigNumber;
-};
-
-export type ApiMarginLimitOrder = {
-  loanId: string;
-  leverageAmount: ApiBigNumber;
-  loanTokenAddress: string;
-  loanTokenSent: ApiBigNumber;
-  collateralTokenSent: ApiBigNumber;
-  collateralTokenAddress: string;
-  trader: string;
-  minReturn: ApiBigNumber;
-  loanDataBytes: string;
-  deadline: ApiBigNumber;
-  createdTimestamp: ApiBigNumber;
-  v: string;
-  r: string;
-  s: string;
-  hash: string;
-  canceled: boolean;
-  filled: ApiBigNumber;
 };
 
 export type NotificationPayload = {

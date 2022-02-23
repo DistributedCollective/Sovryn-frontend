@@ -5,12 +5,13 @@ import { MarginLimitOrder } from './types';
 import {
   getContract,
   getTokenContract,
+  getTokenLendingContract,
 } from '../../../utils/blockchain/contract-helpers';
 import type { Asset } from '../../../types';
 
 export class MarginOrder {
   static ORDER_TYPEHASH =
-    '0xe30dcb91507ed7c8a9a2019b56e407eee8294529022e84f18b5420374e178404';
+    '0x081065ed5fb223d1fbe21ab1bb041dfac552070112cff5e8d4be7dada1f96cd6';
 
   readonly loanTokenAddress: string;
   readonly collateralTokenAddress: string;
@@ -23,7 +24,7 @@ export class MarginOrder {
     readonly collateralTokenSent: string,
     collateralToken: Asset,
     readonly trader: string,
-    readonly minReturn: string,
+    readonly minEntryPrice: string,
     readonly loanDataBytes: string,
     readonly deadline: string,
     readonly createdTimestamp: string,
@@ -31,7 +32,7 @@ export class MarginOrder {
     readonly r?: string,
     readonly s?: string,
   ) {
-    this.loanTokenAddress = getTokenContract(loanToken).address;
+    this.loanTokenAddress = getTokenLendingContract(loanToken).address;
     this.collateralTokenAddress = getTokenContract(collateralToken).address;
   }
 
@@ -61,7 +62,7 @@ export class MarginOrder {
           overrides?.collateralTokenSent || this.collateralTokenSent,
           overrides?.collateralTokenAddress || this.collateralTokenAddress,
           overrides?.trader || this.trader,
-          overrides?.minReturn || this.minReturn,
+          overrides?.minEntryPrice || this.minEntryPrice,
           overrides?.loanDataBytes || this.loanDataBytes,
           overrides?.deadline || this.deadline,
           overrides?.createdTimestamp || this.createdTimestamp,
@@ -86,7 +87,7 @@ export class MarginOrder {
         { name: 'collateralTokenSent', type: 'uint256' },
         { name: 'collateralTokenAddress', type: 'address' },
         { name: 'trader', type: 'address' },
-        { name: 'minReturn', type: 'uint256' },
+        { name: 'minEntryPrice', type: 'uint256' },
         { name: 'loanDataBytes', type: 'bytes32' },
         { name: 'deadline', type: 'uint256' },
         { name: 'createdTimestamp', type: 'uint256' },
@@ -101,7 +102,7 @@ export class MarginOrder {
       collateralTokenSent: this.collateralTokenSent,
       collateralTokenAddress: this.collateralTokenAddress,
       trader: this.trader,
-      minReturn: this.minReturn,
+      minEntryPrice: this.minEntryPrice,
       loanDataBytes: this.loanDataBytes,
       deadline: this.deadline,
       createdTimestamp: this.createdTimestamp,
@@ -128,7 +129,7 @@ export class MarginOrder {
       this.collateralTokenSent,
       this.collateralTokenAddress,
       this.trader,
-      this.minReturn,
+      this.minEntryPrice,
       this.loanDataBytes,
       this.deadline,
       this.createdTimestamp,

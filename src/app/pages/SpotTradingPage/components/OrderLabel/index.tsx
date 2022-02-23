@@ -6,8 +6,8 @@ import { TradingTypes } from '../../types';
 import { OrderType } from 'app/components/OrderTypeTitle/types';
 
 interface IOrderLabelProps {
-  orderType: React.ReactNode;
-  tradeType: React.ReactNode;
+  orderType: OrderType;
+  tradeType: TradingTypes;
   className?: string;
 }
 

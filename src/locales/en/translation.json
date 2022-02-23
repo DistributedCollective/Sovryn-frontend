@@ -102,6 +102,33 @@
       "tradingHistory": "Closed"
     }
   },
+  "trading": {
+    "limit": {
+      "cancelDialog": {
+        "title": "Cancel Limit Order",
+        "cta": "Confirm",
+        "complete": "Cancel Complete",
+        "failed": "Cancel Failed",
+        "tx": {
+          "title": "Cancel",
+          "message": "Cancel Limit {{tradeType}}"
+        }
+      },
+      "tradeDialog": {
+        "marketTitle": "Review Order",
+        "limitTitle": "Review Order",
+        "tradingPair": "Trading Pair:",
+        "orderType": "Order Type:",
+        "tradeAmount": "Trade Amount:",
+        "limitPrice": "Limit Price:",
+        "duration": "Duration:",
+        "receiveAmount": "Receive Amount:",
+        "orderAmount": "Order Amount:",
+        "newOrderDetails": "New Order Details",
+        "order": "Order"
+      }
+    }
+  },
   "tradingPage": {
     "meta": {
       "title": "Trading",
@@ -305,6 +332,7 @@
     "fields": {
       "currency": "Currency",
       "currency_placeholder": "Choose currency",
+      "limitSettings": "Limit Order Settings",
       "amount": "Amount",
       "startPrice": "Start Price",
       "slippageSettings": "Slippage Settings",
@@ -1723,6 +1751,7 @@
       "actions": "Action",
       "noData": "No Data",
       "filledAmount": "Filled Amount",
+      "leverage": "Leverage",
       "cta": {
         "edit": "Edit",
         "close": "Close"

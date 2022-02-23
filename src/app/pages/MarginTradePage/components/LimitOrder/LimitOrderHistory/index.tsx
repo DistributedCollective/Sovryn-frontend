@@ -1,28 +1,25 @@
 import React, { useMemo, useState } from 'react';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
-import { OpenPositionRow } from './OpenPositionRow';
+import { LimitOrderRow } from './LimitOrderRow';
 import { useTranslation } from 'react-i18next';
-import { translations } from '../../../../../locales/i18n';
-import { Pagination } from '../../../../components/Pagination';
-import { LimitOrder } from '../../types';
-import { useSelector } from 'react-redux';
-import { selectSpotTradingPage } from '../../selectors';
-import { orderParser } from 'app/hooks/limitOrder/useGetLimitOrders';
+import { translations } from 'locales/i18n';
+import { Pagination } from 'app/components/Pagination';
+import { MarginLimitOrderList } from '../LimitOrderTables';
 
-interface IOpenPositionsTableProps {
+interface ILimitOrderHistoryProps {
   perPage?: number;
-  orders: LimitOrder[];
+  orders: MarginLimitOrderList[];
   loading: boolean;
 }
 
-export const OpenPositionsTable: React.FC<IOpenPositionsTableProps> = ({
+const trans = translations.spotTradingPage.openLimitOrders;
+
+export const LimitOrderHistory: React.FC<ILimitOrderHistoryProps> = ({
   perPage = 5,
   orders,
   loading,
 }) => {
   const { t } = useTranslation();
-  const trans = translations.spotTradingPage.openLimitOrders;
-  const { pendingLimitOrders } = useSelector(selectSpotTradingPage);
 
   const [page, setPage] = useState(1);
 
@@ -30,16 +27,6 @@ export const OpenPositionsTable: React.FC<IOpenPositionsTableProps> = ({
     () => orders.slice(page * perPage - perPage, page * perPage),
     [perPage, page, orders],
   );
-  const pendingList = useMemo(() => {
-    return pendingLimitOrders
-      .map(item => orderParser(item))
-      .filter(
-        item =>
-          orders.findIndex(
-            order => order.created.toString() === item.created.toString(),
-          ) < 0,
-      );
-  }, [orders, pendingLimitOrders]);
 
   const isEmpty = !loading && !items.length;
 
@@ -54,12 +41,10 @@ export const OpenPositionsTable: React.FC<IOpenPositionsTableProps> = ({
           <tr>
             <th className="tw-w-full">{t(trans.dateTime)}</th>
             <th className="tw-w-full">{t(trans.pair)}</th>
-            <th className="tw-w-full">{t(trans.orderType)}</th>
-            <th className="tw-w-full">{t(trans.tradeAmount)}</th>
             <th className="tw-w-full">{t(trans.limitPrice)}</th>
-            <th className="tw-w-full">{t(trans.amountReceive)}</th>
+            <th className="tw-w-full">{t(trans.tradeAmount)}</th>
             <th className="tw-w-full">{t(trans.deadline)}</th>
-            <th className="tw-w-full">{t(trans.actions)}</th>
+            <th className="tw-w-full">{t(trans.filledAmount)}</th>
           </tr>
         </thead>
         <tbody>
@@ -69,7 +54,7 @@ export const OpenPositionsTable: React.FC<IOpenPositionsTableProps> = ({
             </tr>
           )}
 
-          {loading && !items.length && !pendingList.length && (
+          {loading && !items.length && (
             <tr>
               <td colSpan={99}>
                 <SkeletonRow />
@@ -77,17 +62,10 @@ export const OpenPositionsTable: React.FC<IOpenPositionsTableProps> = ({
             </tr>
           )}
 
-          {pendingList.length > 0 && (
-            <>
-              {pendingList.map(item => (
-                <OpenPositionRow key={item.hash} item={item} pending={true} />
-              ))}
-            </>
-          )}
           {items.length > 0 && (
             <>
               {items.map(item => (
-                <OpenPositionRow key={item.hash} item={item} />
+                <LimitOrderRow key={item.order.hash} {...item} />
               ))}
             </>
           )}
