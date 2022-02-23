@@ -32,12 +32,14 @@ import { TransactionDialog } from 'app/components/TransactionDialog';
 import { TxStatus } from 'store/global/transactions-store/types';
 import { LimitResultDialog } from './LimitResultDialog';
 import { gasLimit } from 'utils/classifiers';
+import { formatNumber } from 'app/containers/StatsPage/utils';
 
 export const LimitForm: React.FC<ITradeFormProps> = ({
   sourceToken,
   targetToken,
   tradeType,
   hidden,
+  pair,
 }) => {
   const { t } = useTranslation();
   const { connected } = useWalletContext();
@@ -59,19 +61,24 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
     if (!limitPrice || !amount || limitPrice === '0') {
       return '0';
     }
+    if (tradeType === TradingTypes.BUY) {
+      return bignumber(amount || '0')
+        .div(limitPrice)
+        .toString();
+    }
 
     return bignumber(amount || '0')
       .times(limitPrice)
       .toString();
-  }, [limitPrice, amount]);
+  }, [limitPrice, amount, tradeType]);
 
   const weiAmount = useWeiAmount(amount);
   const weiAmountOut = useWeiAmount(amountOut);
 
   const { value: balance } = useAssetBalanceOf(sourceToken);
   const { value: marketPrice } = useSwapsExternal_getSwapExpectedReturn(
-    sourceToken,
-    targetToken,
+    pair[0],
+    pair[1],
     toWei('1'),
   );
 
@@ -98,8 +105,8 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
   }, [marketPrice]);
 
   useEffect(() => {
-    setLimitPrice('');
-  }, [sourceToken, targetToken]);
+    setAmount('');
+  }, [sourceToken]);
 
   const validate = useMemo(() => {
     return (
@@ -205,6 +212,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
         sourceToken={sourceToken}
         limitPrice={limitPrice}
         txHash={txHash}
+        pair={pair}
         expectedReturn={stringToFixedPrecision(amountOut, 6)}
       />
       <div className="tw-mx-auto">
@@ -234,7 +242,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
           </span>
           <div className="tw-flex tw-items-center">
             <div className="tw-mr-2">
-              <AssetRenderer asset={targetToken} />
+              <AssetRenderer asset={pair[1]} />
             </div>
             <AmountInput
               value={stringToFixedPrecision(limitPrice, 6)}
@@ -253,7 +261,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
               {t(translations.spotTradingPage.tradeForm.amountReceived)}
             </span>
             <span>
-              {stringToFixedPrecision(amountOut, 6)}{' '}
+              {formatNumber(Number(amountOut), 6)}{' '}
               <AssetRenderer asset={targetToken} />
             </span>
           </div>

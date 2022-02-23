@@ -27,6 +27,7 @@ interface ILimitResultDialogProps {
   status: TxStatus;
   limitPrice: string;
   txHash: string;
+  pair: Asset[];
 }
 export const LimitResultDialog: React.FC<ILimitResultDialogProps> = ({
   onClose,
@@ -39,6 +40,7 @@ export const LimitResultDialog: React.FC<ILimitResultDialogProps> = ({
   status,
   limitPrice,
   txHash,
+  pair,
 }) => {
   const { t } = useTranslation();
 
@@ -80,7 +82,7 @@ export const LimitResultDialog: React.FC<ILimitResultDialogProps> = ({
               <>
                 {' @ '}
                 {stringToFixedPrecision(limitPrice, 6)}{' '}
-                <AssetRenderer asset={targetToken} />
+                <AssetRenderer asset={pair[1]} />
               </>
             )}
           </div>

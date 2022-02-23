@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { translations } from 'locales/i18n';
 import { Dialog } from 'app/containers/Dialog/Loadable';
 import { LimitOrder, TradingTypes } from 'app/pages/SpotTradingPage/types';
@@ -6,13 +6,12 @@ import { Trans, useTranslation } from 'react-i18next';
 import { useCancelLimitOrder } from 'app/hooks/limitOrder/useLimitOrder';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { LabelValuePair } from 'app/components/LabelValuePair';
-import { OrderLabel } from '../OrderLabel';
+import { OrderLabel } from '../../OrderLabel';
 import { AssetDetails } from 'utils/models/asset-details';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
 import classNames from 'classnames';
-import { bignumber } from 'mathjs';
 import { TransactionDialog } from 'app/components/TransactionDialog';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import { Toast } from 'app/components/Toast';
@@ -24,6 +23,8 @@ interface IClosePositionDialogProps {
   fromToken: AssetDetails;
   toToken: AssetDetails;
   tradeType: TradingTypes;
+  limitPrice: string;
+  pair: AssetDetails[];
 }
 
 export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
@@ -33,15 +34,11 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
   fromToken,
   toToken,
   tradeType,
+  pair,
+  limitPrice,
 }) => {
   const { t } = useTranslation();
   const { cancelOrder, ...tx } = useCancelLimitOrder(order, fromToken.asset);
-
-  const pair = useMemo(() => {
-    return tradeType === TradingTypes.BUY
-      ? [toToken, fromToken]
-      : [fromToken, toToken];
-  }, [fromToken, toToken, tradeType]);
 
   const showToast = useCallback((status: string) => {
     Toast(
@@ -88,13 +85,8 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
               tradeType={tradeType}
             />
             <div>
-              {toNumberFormat(
-                bignumber(order.amountOutMin.toString())
-                  .div(order.amountIn.toString())
-                  .toString(),
-                4,
-              )}{' '}
-              <AssetRenderer asset={toToken.asset} />
+              {toNumberFormat(limitPrice, 6)}{' '}
+              <AssetRenderer asset={pair[1].asset} />
             </div>
           </div>
           <div className="tw-py-4 tw-px-1 tw-bg-gray-2 sm:tw--mx-11 tw-mb-16 tw-rounded-lg tw-text-sm tw-font-light">
@@ -148,13 +140,8 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
               label={t(translations.spotTradingPage.tradeDialog.limitPrice)}
               value={
                 <>
-                  {toNumberFormat(
-                    bignumber(order.amountOutMin.toString())
-                      .div(order.amountIn.toString())
-                      .toString(),
-                    4,
-                  )}{' '}
-                  <AssetRenderer asset={toToken.asset} />
+                  {toNumberFormat(limitPrice, 4)}{' '}
+                  <AssetRenderer asset={pair[1].asset} />
                 </>
               }
             />

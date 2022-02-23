@@ -15,8 +15,8 @@ export function TradeForm() {
   const [tradeType, setTradeType] = useState(TradingTypes.BUY);
   const [orderType, setOrderType] = useState(OrderType.MARKET);
 
-  const [sourceToken, setSourceToken] = useState(Asset.SOV);
-  const [targetToken, setTargetToken] = useState(Asset.RBTC);
+  const [sourceToken, setSourceToken] = useState<Asset | undefined>();
+  const [targetToken, setTargetToken] = useState<Asset | undefined>();
 
   const location = useLocation<IPromotionLinkState>();
   const history = useHistory<IPromotionLinkState>();
@@ -47,18 +47,24 @@ export function TradeForm() {
             onChange={setOrderType}
             dataActionId="spot"
           />
-          <LimitForm
-            sourceToken={sourceToken}
-            targetToken={targetToken}
-            tradeType={tradeType}
-            hidden={orderType !== OrderType.LIMIT}
-          />
-          <MarketForm
-            sourceToken={sourceToken}
-            targetToken={targetToken}
-            tradeType={tradeType}
-            hidden={orderType !== OrderType.MARKET}
-          />
+          {sourceToken && targetToken && (
+            <>
+              <LimitForm
+                sourceToken={sourceToken}
+                targetToken={targetToken}
+                tradeType={tradeType}
+                hidden={orderType !== OrderType.LIMIT}
+                pair={pairs[linkPairType || pairType]}
+              />
+              <MarketForm
+                sourceToken={sourceToken}
+                targetToken={targetToken}
+                tradeType={tradeType}
+                hidden={orderType !== OrderType.MARKET}
+                pair={pairs[linkPairType || pairType]}
+              />
+            </>
+          )}
         </div>
       </div>
     </>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
@@ -55,6 +55,14 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
   const { connected } = useWalletContext();
   const { checkMaintenance, States } = useMaintenance();
   const spotLocked = checkMaintenance(States.SPOT_TRADES);
+
+  const pair = useMemo(
+    () =>
+      tradeType === TradingTypes.BUY
+        ? [targetToken, sourceToken]
+        : [sourceToken, targetToken],
+    [sourceToken, targetToken, tradeType],
+  );
 
   return (
     <>
@@ -125,7 +133,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
                     value={
                       <>
                         {stringToFixedPrecision(limitPrice, 6)}{' '}
-                        <AssetRenderer asset={targetToken} />
+                        <AssetRenderer asset={pair[1]} />
                       </>
                     }
                   />

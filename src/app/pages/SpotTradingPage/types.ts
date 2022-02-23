@@ -222,4 +222,5 @@ export interface ITradeFormProps {
   targetToken: Asset;
   tradeType: TradingTypes;
   hidden: boolean;
+  pair: Asset[];
 }

@@ -2,8 +2,8 @@ import React, { useMemo } from 'react';
 import classNames from 'classnames';
 
 import { useGetLimitOrders } from 'app/hooks/limitOrder/useGetLimitOrders';
-import { OpenPositionsTable } from '../OpenPositionsTable';
-import { LimitOrderHistory } from '../LimitOrderHistory';
+import { OpenPositionsTable } from './OpenPositionsTable';
+import { LimitOrderHistory } from './LimitOrderHistory';
 import { useAccount } from 'app/hooks/useAccount';
 import { LimitOrder } from '../../types';
 

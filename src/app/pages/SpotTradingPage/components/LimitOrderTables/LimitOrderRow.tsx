@@ -9,19 +9,19 @@ import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
 import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { translations } from 'locales/i18n';
-import { ClosePositionDialog } from '../ClosePositionDialog';
+import { ClosePositionDialog } from './ClosePositionDialog';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { bignumber } from 'mathjs';
 import classNames from 'classnames';
 import { TableTransactionStatus } from 'app/components/FinanceV2Components/TableTransactionStatus';
 import { TxStatus } from 'store/global/transactions-store/types';
-// import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
-interface IOpenPositionRowProps {
+
+interface ILimitOrderRowProps {
   item: LimitOrder;
   pending?: boolean;
 }
 
-export const OpenPositionRow: React.FC<IOpenPositionRowProps> = ({
+export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
   item,
   pending,
 }) => {
@@ -29,6 +29,8 @@ export const OpenPositionRow: React.FC<IOpenPositionRowProps> = ({
   const [showClosePosition, setShowClosePosition] = useState(false);
   const { checkMaintenances, States } = useMaintenance();
   const { [States.CLOSE_SPOT_LIMIT]: closeTradesLocked } = checkMaintenances();
+
+  const isOpenPosition = item.filledAmount === '0';
 
   const fromToken = useMemo(
     () => AssetsDictionary.getByTokenContractAddress(item.fromToken),
@@ -52,6 +54,12 @@ export const OpenPositionRow: React.FC<IOpenPositionRowProps> = ({
       ? [toToken, fromToken]
       : [fromToken, toToken];
   }, [fromToken, toToken, tradeType]);
+
+  const limitPrice = useMemo(() => {
+    return tradeType === TradingTypes.BUY
+      ? bignumber(item.amountIn.toString()).div(item.amountOutMin.toString())
+      : bignumber(item.amountOutMin.toString()).div(item.amountIn.toString());
+  }, [item.amountIn, item.amountOutMin, tradeType]);
 
   return (
     <tr>
@@ -101,58 +109,67 @@ export const OpenPositionRow: React.FC<IOpenPositionRowProps> = ({
       </td>
 
       <td className="tw-hidden md:tw-table-cell">
-        {toNumberFormat(
-          bignumber(item.amountOutMin.toString())
-            .div(item.amountIn.toString())
-            .toString(),
-          6,
-        )}{' '}
-        <AssetRenderer asset={toToken.asset} />
+        {toNumberFormat(limitPrice.toString(), 6)}{' '}
+        <AssetRenderer asset={pair[1].asset} />
       </td>
       <td>
         {weiToNumberFormat(item.amountOutMin.toString(), 6)}{' '}
         <AssetRenderer asset={toToken.asset} />
       </td>
-      <td>
-        <DisplayDate
-          timestamp={new Date(item.deadline.toNumber()).getTime().toString()}
-        />
-      </td>
-
-      <td>
-        <div className="tw-flex tw-items-center">
-          {!pending && (
-            <ActionButton
-              text={t(translations.openPositionTable.cta.close)}
-              onClick={() => setShowClosePosition(true)}
-              className={`tw-border-none tw-ml-0 tw-pl-0 ${
-                closeTradesLocked && 'tw-cursor-not-allowed'
-              }`}
-              textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
-              disabled={closeTradesLocked}
-              title={
-                (closeTradesLocked &&
-                  t(translations.maintenance.closeMarginTrades).replace(
-                    /<\/?\d+>/g,
-                    '',
-                  )) ||
-                undefined
-              }
+      {!isOpenPosition && (
+        <td>
+          {weiToNumberFormat(item.filledAmount, 6)}{' '}
+          <AssetRenderer asset={fromToken.asset} />
+        </td>
+      )}
+      {isOpenPosition && (
+        <>
+          <td>
+            <DisplayDate
+              timestamp={new Date(item.deadline.toNumber())
+                .getTime()
+                .toString()}
             />
-          )}
-          {pending && (
-            <TableTransactionStatus transactionStatus={TxStatus.PENDING} />
-          )}
-        </div>
-        <ClosePositionDialog
-          order={item}
-          onCloseModal={() => setShowClosePosition(false)}
-          showModal={showClosePosition}
-          fromToken={fromToken}
-          toToken={toToken}
-          tradeType={tradeType}
-        />
-      </td>
+          </td>
+
+          <td>
+            <div className="tw-flex tw-items-center">
+              {!pending && (
+                <ActionButton
+                  text={t(translations.openPositionTable.cta.close)}
+                  onClick={() => setShowClosePosition(true)}
+                  className={`tw-border-none tw-ml-0 tw-pl-0 ${
+                    closeTradesLocked && 'tw-cursor-not-allowed'
+                  }`}
+                  textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
+                  disabled={closeTradesLocked}
+                  title={
+                    (closeTradesLocked &&
+                      t(translations.maintenance.closeMarginTrades).replace(
+                        /<\/?\d+>/g,
+                        '',
+                      )) ||
+                    undefined
+                  }
+                />
+              )}
+              {pending && (
+                <TableTransactionStatus transactionStatus={TxStatus.PENDING} />
+              )}
+            </div>
+            <ClosePositionDialog
+              order={item}
+              onCloseModal={() => setShowClosePosition(false)}
+              showModal={showClosePosition}
+              fromToken={fromToken}
+              toToken={toToken}
+              tradeType={tradeType}
+              limitPrice={limitPrice.toString()}
+              pair={pair}
+            />
+          </td>
+        </>
+      )}
     </tr>
   );
 };
