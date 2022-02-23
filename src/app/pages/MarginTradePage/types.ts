@@ -3,7 +3,7 @@ import { TradingPairType } from 'utils/dictionaries/trading-pair-dictionary';
 import { Asset } from 'types/asset';
 import { TradingPosition } from '../../../types/trading-position';
 import { BigNumber } from 'ethers';
-import { ApiLimitMarginOrder } from 'app/hooks/limitOrder/types';
+import { IApiLimitMarginOrder } from 'app/hooks/limitOrder/types';
 
 export const MARGIN_SLIPPAGE_DEFAULT = 0.5;
 
@@ -16,7 +16,7 @@ export interface IMarginTradePageState {
   notificationWallet?: string;
   notificationToken?: string;
   notificationUser?: NotificationUser;
-  pendingLimitOrders: ApiLimitMarginOrder[];
+  pendingLimitOrders: IApiLimitMarginOrder[];
 }
 
 export type MarginLimitOrder = {

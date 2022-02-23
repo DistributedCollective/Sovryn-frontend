@@ -20,7 +20,7 @@ import {
   CheckAndApproveResult,
   contractWriter,
 } from 'utils/sovryn/contract-writer';
-import { ApiLimitMarginOrder } from './types';
+import { IApiLimitMarginOrder } from './types';
 
 export const useMarginLimitOrder = (
   pair: TradingPair,
@@ -30,7 +30,7 @@ export const useMarginLimitOrder = (
   collateralTokenSent: string,
   minEntryPrice: string,
   duration: number = 365,
-  onSuccess: (order: ApiLimitMarginOrder, data) => void,
+  onSuccess: (order: IApiLimitMarginOrder, data) => void,
   onError: () => void,
   onStart: () => void,
 ) => {
@@ -123,7 +123,7 @@ export const useMarginLimitOrder = (
       );
 
       if (orderResult.success) {
-        const newOrder: ApiLimitMarginOrder = {
+        const newOrder: IApiLimitMarginOrder = {
           loanId: order.loanId,
           loanTokenAddress: order.loanTokenAddress,
           collateralTokenAddress: order.collateralTokenAddress,

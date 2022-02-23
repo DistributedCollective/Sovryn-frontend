@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
 import { PositionBlock } from '../../PositionBlock';
@@ -9,9 +9,8 @@ import {
 } from 'utils/display-text/format';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { Tooltip } from '@blueprintjs/core';
-import { fromWei } from 'web3-utils';
 import { MarginLimitOrderList } from '../LimitOrderTables';
-import { bignumber } from 'mathjs';
+import { useGetLimitOrderRow } from 'app/pages/MarginTradePage/hooks/useGetLimitOrderRow';
 
 interface IOpenPositionRowProps extends MarginLimitOrderList {}
 
@@ -27,26 +26,13 @@ export const LimitOrderRow: React.FC<IOpenPositionRowProps> = ({
   deadline,
   filledAmount,
 }) => {
-  const tradeAmount = useMemo(
-    () =>
-      loanTokenSent.toString() !== '0'
-        ? loanTokenSent.toString()
-        : collateralTokenSent.toString(),
-    [loanTokenSent, collateralTokenSent],
-  );
-  const loanToken = pair?.getAssetForPosition(position);
-
-  const entryPrice = useMemo(() => fromWei(minEntryPrice.toString()), [
+  const { tradeAmount, minEntry } = useGetLimitOrderRow(
+    pair,
+    position,
+    loanTokenSent,
+    collateralTokenSent,
     minEntryPrice,
-  ]);
-
-  const minEntry = useMemo(() => {
-    if (pair?.longAsset === loanToken) {
-      if (!entryPrice || Number(entryPrice) === 0) return '';
-      return bignumber(1).div(entryPrice).toFixed(8);
-    }
-    return entryPrice;
-  }, [entryPrice, loanToken, pair?.longAsset]);
+  );
 
   return (
     <tr>

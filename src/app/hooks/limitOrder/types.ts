@@ -1,24 +1,24 @@
-export type ApiBigNumber = {
+export type IApiBigNumber = {
   hex: string;
 };
 
-export type ApiLimitMarginOrder = {
+export type IApiLimitMarginOrder = {
   hash: string;
   loanId: string;
   loanTokenAddress: string;
   collateralTokenAddress: string;
   trader: string;
   loanDataBytes: string;
-  leverageAmount: ApiBigNumber;
-  loanTokenSent: ApiBigNumber;
-  collateralTokenSent: ApiBigNumber;
-  minEntryPrice: ApiBigNumber;
-  deadline: ApiBigNumber;
-  createdTimestamp: ApiBigNumber;
+  leverageAmount: IApiBigNumber;
+  loanTokenSent: IApiBigNumber;
+  collateralTokenSent: IApiBigNumber;
+  minEntryPrice: IApiBigNumber;
+  deadline: IApiBigNumber;
+  createdTimestamp: IApiBigNumber;
   v: string;
   r: string;
   s: string;
   canceled: boolean;
-  filled: ApiBigNumber;
+  filled: IApiBigNumber;
   filledAmount?: string;
 };

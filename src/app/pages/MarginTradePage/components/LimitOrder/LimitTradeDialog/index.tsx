@@ -23,7 +23,7 @@ import { TxStatus } from 'store/global/transactions-store/types';
 import { LimitResultDialog } from './LimitResultDialog';
 import { TradeDialogInfo } from '../../TradeDialog/TradeDialogInfo';
 import { useTrading_resolvePairTokens } from 'app/hooks/trading/useTrading_resolvePairTokens';
-import { ApiLimitMarginOrder } from 'app/hooks/limitOrder/types';
+import { IApiLimitMarginOrder } from 'app/hooks/limitOrder/types';
 import { bignumber } from 'mathjs';
 
 interface ILimitTradeDialogProps {
@@ -61,7 +61,7 @@ export const LimitTradeDialog: React.FC<ILimitTradeDialogProps> = ({
   } = useTrading_resolvePairTokens(pair, position, collateral);
 
   const onSuccess = useCallback(
-    (order: ApiLimitMarginOrder, data) => {
+    (order: IApiLimitMarginOrder, data) => {
       setTxHash(data.hash);
       setOrderStatus(TxStatus.CONFIRMED);
       dispatch(actions.addPendingLimitOrders(order));

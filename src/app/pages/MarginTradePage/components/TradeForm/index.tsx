@@ -125,9 +125,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   }, [weiAmount, tokenBalance, orderType, limitPrice]);
 
   const [isTradingDialogOpen, setIsTradingDialogOpen] = useState(false);
-  const [isLimitTradingDialogOpen, setIsLimitTradingDialogOpen] = useState(
-    false,
-  );
 
   const handlePositionLong = useCallback(() => {
     dispatch(actions.submit(TradingPosition.LONG));
@@ -140,14 +137,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     () => !validate || !connected || openTradesLocked,
     [validate, connected, openTradesLocked],
   );
-
-  const openTradeDialog = useCallback(() => {
-    if (orderType === OrderType.MARKET) {
-      setIsTradingDialogOpen(true);
-    } else {
-      setIsLimitTradingDialogOpen(true);
-    }
-  }, [orderType]);
 
   return (
     <>
@@ -357,7 +346,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                   )
                 }
                 position={position}
-                onClick={openTradeDialog}
+                onClick={() => setIsTradingDialogOpen(true)}
                 disabled={buttonDisabled}
                 data-action-id="margin-reviewTransaction-button-placePosition"
               />
@@ -405,13 +394,13 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
         )}
         <TradeDialog
           onCloseModal={() => setIsTradingDialogOpen(false)}
-          isOpen={isTradingDialogOpen}
+          isOpen={isTradingDialogOpen && orderType === OrderType.MARKET}
           slippage={slippage}
           orderType={orderType}
         />
         <LimitTradeDialog
-          onCloseModal={() => setIsLimitTradingDialogOpen(false)}
-          isOpen={isLimitTradingDialogOpen}
+          onCloseModal={() => setIsTradingDialogOpen(false)}
+          isOpen={isTradingDialogOpen && orderType === OrderType.LIMIT}
           orderType={orderType}
           minEntryPrice={limitPrice}
           duration={duration}
