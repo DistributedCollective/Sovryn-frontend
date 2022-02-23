@@ -102,6 +102,14 @@ export const PairNavbar: React.FC<IPairNavbarProps> = ({ type }) => {
             tradingType[`${selectedPair[0]}_${selectedPair[1]}`]
           ) {
             setPair(item);
+          } else if (
+            tradingType[`${item[0].trading_pairs}`] ===
+              tradingType[`${selectedPair[0]}_${selectedPair[1]}`] &&
+            tradingType[`${item[1].trading_pairs}`] ===
+              tradingType[`${selectedPair[0]}_${selectedPair[1]}`] &&
+            !item[2]
+          ) {
+            setPair(item);
           }
         }
       }

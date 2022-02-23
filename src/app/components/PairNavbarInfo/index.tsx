@@ -91,9 +91,28 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
 
       if (sortedLowPrice.length) {
         setLowPrice(sortedLowPrice[0].low);
+      } else {
+        // for pairs with RBTC as source
+        if (pair[2]) {
+          setLowPrice(1 / pair[0].high_price_24h);
+        }
+        // for pairs with RBTC as target
+        if (pair[0] === pair[1] && !pair[2]) {
+          setLowPrice(pair[0].lowest_price_24h);
+        }
       }
+
       if (sortedHightPrice.length) {
         setHightPrice(sortedHightPrice[0].high);
+      } else {
+        // for pairs with RBTC as source
+        if (pair[2]) {
+          setHightPrice(1 / pair[0].lowest_price_24h);
+        }
+        // for pairs with RBTC as target
+        if (pair[0] === pair[1] && !pair[2]) {
+          setHightPrice(pair[0].high_price_24h);
+        }
       }
     }
   }, [lastPrice, pair, candles, loading, dayPrice]);
