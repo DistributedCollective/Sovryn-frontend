@@ -297,25 +297,13 @@ export const contracts = {
     address: '0x10C848e9495a32acA95F6c23C92eCA2b2bE9903A',
     abi: fastBtcBridgeAbi,
   },
-  // perpetualManager: {
-  //   address: '0x427cF4BdF9a6DCdc360625fC4295747b9D6796bA',
-  //   abi: perpetualManagerAbi,
-  //   chainId: ChainId.BSC_TESTNET,
-  // },
-  // PERPETUALS_token: {
-  //   address: '0x8389b185D40293b080e27794694704F98aD50f5A',
-  //   abi: marginTokenAbi,
-  //   chainId: ChainId.BSC_TESTNET,
-  // },
-
-  // TODO: These are competition contracts, don't use them once we have a subgraph for our regular contracts
   perpetualManager: {
-    address: '0xa098D388e01F27055c43c61F98f312777CD32E9C',
+    address: '0x95e167Fa0b3AFe098399e5c4a41eb0d290c3d49e',
     abi: perpetualManagerAbi,
     chainId: ChainId.BSC_TESTNET,
   },
   PERPETUALS_token: {
-    address: '0x1fe93776aCB9F0f98718c7bF7ca2158Adc4b3337',
+    address: '0xbd30Df7e38087fd7Afb2dA9215B3f173D8DCbCa5',
     abi: marginTokenAbi,
     chainId: ChainId.BSC_TESTNET,
   },

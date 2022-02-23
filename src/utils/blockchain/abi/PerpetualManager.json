@@ -268,6 +268,31 @@
         "type": "address"
       },
       {
+        "indexed": false,
+        "internalType": "int128",
+        "name": "limitPrice",
+        "type": "int128"
+      }
+    ],
+    "name": "PerpetualLimitOrderCancelled",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "bytes32",
+        "name": "perpetualId",
+        "type": "bytes32"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "trader",
+        "type": "address"
+      },
+      {
         "indexed": true,
         "internalType": "bytes32",
         "name": "positionId",
@@ -1483,6 +1508,11 @@
             "type": "int128"
           },
           {
+            "internalType": "int128",
+            "name": "fTriggerPrice",
+            "type": "int128"
+          },
+          {
             "internalType": "uint256",
             "name": "iDeadline",
             "type": "uint256"
@@ -1511,6 +1541,11 @@
         "internalType": "struct IPerpetualOrder.Order",
         "name": "_order",
         "type": "tuple"
+      },
+      {
+        "internalType": "bytes",
+        "name": "signature",
+        "type": "bytes"
       }
     ],
     "name": "cancelOrder",
@@ -1679,6 +1714,11 @@
           {
             "internalType": "int128",
             "name": "fLimitPrice",
+            "type": "int128"
+          },
+          {
+            "internalType": "int128",
+            "name": "fTriggerPrice",
             "type": "int128"
           },
           {
@@ -3653,6 +3693,11 @@
             "type": "int128"
           },
           {
+            "internalType": "int128",
+            "name": "fTriggerPrice",
+            "type": "int128"
+          },
+          {
             "internalType": "uint256",
             "name": "iDeadline",
             "type": "uint256"
@@ -3716,6 +3761,11 @@
           {
             "internalType": "int128",
             "name": "fLimitPrice",
+            "type": "int128"
+          },
+          {
+            "internalType": "int128",
+            "name": "fTriggerPrice",
             "type": "int128"
           },
           {
@@ -3851,6 +3901,29 @@
     "name": "updateFundingAndPricesBefore",
     "outputs": [],
     "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bool",
+        "name": "_isLong",
+        "type": "bool"
+      },
+      {
+        "internalType": "int128",
+        "name": "_fMarkPrice",
+        "type": "int128"
+      },
+      {
+        "internalType": "int128",
+        "name": "_fTriggerPrice",
+        "type": "int128"
+      }
+    ],
+    "name": "validateStopPrice",
+    "outputs": [],
+    "stateMutability": "pure",
     "type": "function"
   },
   {

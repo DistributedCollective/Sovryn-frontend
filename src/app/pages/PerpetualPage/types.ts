@@ -14,7 +14,7 @@ export const PERPETUAL_CHAIN_ID =
   getBridgeChainId(Chain.BSC) || ChainId.BSC_MAINNET;
 export const PERPETUAL_PAYMASTER = isMainnet
   ? '' // TODO: add mainnet paymaster address
-  : '0x8ec68a63E34e94218088b42B784bB45d8c31c61A';
+  : '0x13a8Ed6A347733951Fef2b71b92AaefC4922710E';
 
 export const PERPETUAL_GAS_PRICE_DEFAULT = isMainnet
   ? undefined
