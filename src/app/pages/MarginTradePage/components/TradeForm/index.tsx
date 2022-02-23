@@ -9,7 +9,7 @@ import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { FormGroup } from 'app/components/Form/FormGroup';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import settingIcon from 'assets/images/settings-blue.svg';
-import { discordInvite } from 'utils/classifiers';
+import { discordInvite, useTenderlySimulator } from 'utils/classifiers';
 import { translations } from 'locales/i18n';
 import { TradingPosition } from 'types/trading-position';
 import {
@@ -30,13 +30,14 @@ import { useGetEstimatedMarginDetails } from 'app/hooks/trading/useGetEstimatedM
 import { TradeDialog } from '../TradeDialog';
 import { LiquidationPrice } from '../LiquidationPrice';
 import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
-import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
+import { weiToNumberFormat } from 'utils/display-text/format';
 import { SlippageForm } from '../SlippageForm';
 import { toWei } from 'utils/blockchain/math-helpers';
 import { OrderType } from 'app/components/OrderTypeTitle/types';
 import { MARGIN_SLIPPAGE_DEFAULT } from '../../types';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { LoadableValue } from 'app/components/LoadableValue';
+import { PricePrediction } from 'app/containers/MarginTradeForm/PricePrediction';
 
 interface ITradeFormProps {
   pairType: TradingPairType;
@@ -199,20 +200,28 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                 label={t(translations.marginTradeForm.fields.esEntryPrice)}
                 value={
                   <>
-                    <LoadableValue
-                      value={
-                        <>
-                          {toNumberFormat(price, 2)}{' '}
-                          <AssetRenderer asset={pair.longAsset} />
-                        </>
-                      }
-                      tooltip={
-                        <>
-                          {price} <AssetRenderer asset={pair.longAsset} />
-                        </>
-                      }
-                      loading={loadingPrice}
-                    />
+                    {useTenderlySimulator ? (
+                      <>
+                        <LoadableValue
+                          loading={loadingPrice}
+                          value={weiToNumberFormat(price, 2)}
+                          tooltip={weiToNumberFormat(price, 18)}
+                        />{' '}
+                        <AssetRenderer asset={pair.longAsset} />
+                      </>
+                    ) : (
+                      <>
+                        <PricePrediction
+                          position={position}
+                          leverage={leverage}
+                          loanToken={loanToken}
+                          collateralToken={collateralToken}
+                          useLoanTokens={useLoanTokens}
+                          weiAmount={amount}
+                        />{' '}
+                        <AssetRenderer asset={pair.longAsset} />
+                      </>
+                    )}
                   </>
                 }
               />

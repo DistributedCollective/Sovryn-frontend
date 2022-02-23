@@ -16,6 +16,7 @@ import { actions as spotActions } from 'app/pages/SpotTradingPage/slice';
 import { actions as marginActions } from 'app/pages/MarginTradePage/slice';
 import { usePairList } from 'app/hooks/trading/usePairList';
 import { ITradingPairs, TradingType } from 'types/trading-pairs';
+import { Asset } from 'types/asset';
 
 interface IPairNavbarProps {
   type: TradingType;
@@ -63,18 +64,56 @@ export const PairNavbar: React.FC<IPairNavbarProps> = ({ type }) => {
 
   //getting PAIRS DATA
   const pairsData = useGetCryptoPairs();
-
   const pairsArray = usePairList(pairsData?.pairs);
 
+  const filteredList = useMemo(() => {
+    const currencyList: ITradingPairs[] = []; //an Object with all possible pairs
+    //making a currencyList with all possible pairs
+    for (let pair of pairsArray) {
+      //first here we push only RBTC pair
+      currencyList.push([pair, pair]);
+      currencyList.push([pair, pair, Asset.RBTC]); //adding RBTC as key for RBTC as source
+      for (let pair2 of pairsArray) {
+        if (pair.base_symbol !== pair2.base_symbol)
+          // here we push to the currencyList all possible variants of currencies
+          currencyList.push([pair, pair2]);
+      }
+    }
+
+    return currencyList;
+  }, [pairsArray]);
+
   useEffect(() => {
-    if (pairsArray && !pair)
+    if (Object.keys(selectedPair).length && !pair) {
+      // set pairs from localStorage
+      for (let item of filteredList) {
+        if (selectedPair[2]) {
+          if (
+            tradingType[`${item[0].quote_symbol}_${item[0].base_symbol}`] ===
+              tradingType[`${selectedPair[0]}_${selectedPair[1]}`] &&
+            tradingType[`${item[1].quote_symbol}_${item[1].base_symbol}`] ===
+              tradingType[`${selectedPair[0]}_${selectedPair[1]}`]
+          ) {
+            setPair(item);
+          }
+        } else {
+          if (
+            tradingType[`${item[0].base_symbol}_${item[1].base_symbol}`] ===
+            tradingType[`${selectedPair[0]}_${selectedPair[1]}`]
+          ) {
+            setPair(item);
+          }
+        }
+      }
+    } else if (!Object.keys(selectedPair).length && !pair) {
       // set SOV_RBTC by default
       for (let item of pairsArray) {
         if (item.trading_pairs === tradingType.SOV_RBTC) {
           setPair([item, item]);
         }
       }
-  }, [pairsArray, pair, tradingType.SOV_RBTC]);
+    }
+  }, [selectedPair, filteredList, tradingType, pair, pairsArray]);
 
   const onPairChange = useCallback(
     pair => {

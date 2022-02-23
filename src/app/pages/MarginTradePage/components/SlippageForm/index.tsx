@@ -7,10 +7,9 @@ import { FormGroup } from 'app/components/Form/FormGroup';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { Slider } from 'app/components/Form/Slider';
 import { DummyInput } from 'app/components/Form/Input';
-import { fromWei } from 'utils/blockchain/math-helpers';
 import { calculateMinimumReturn } from '../../utils/marginUtils';
 import styles from './dialog.module.scss';
-import { weiToNumberFormat } from 'utils/display-text/format';
+import { weiToAssetNumberFormat } from 'utils/display-text/format';
 import { sliderDefaultLabelValues } from 'app/components/Form/Slider/sliderDefaultLabelValues';
 
 interface ISlippageFormProps {
@@ -66,7 +65,7 @@ export const SlippageForm: React.FC<ISlippageFormProps> = ({
               label={t(translations.marginTradePage.tradeDialog.minEntry)}
               value={
                 <>
-                  {weiToNumberFormat(minReturn, 2)}{' '}
+                  {weiToAssetNumberFormat(minReturn, asset || Asset.SOV)}{' '}
                   <AssetRenderer asset={asset || Asset.SOV} />
                 </>
               }
@@ -80,7 +79,9 @@ export const SlippageForm: React.FC<ISlippageFormProps> = ({
             className="tw-form-group tw-mt-8 tw-mx-auto tw-mw-340"
           >
             <DummyInput
-              value={<>{fromWei(minReturn)}</>}
+              value={
+                <>{weiToAssetNumberFormat(minReturn, asset || Asset.SOV)}</>
+              }
               appendElem={<AssetRenderer asset={asset || Asset.SOV} />}
               className="tw-h-10 tw-truncate"
               data-action-id="margin-reviewTransaction-minimumEntryPrice"

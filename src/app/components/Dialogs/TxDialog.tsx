@@ -95,7 +95,7 @@ export const TxDialog: React.FC<ITxDialogProps> = ({
           <StatusComponent status={tx.status} />
 
           {!!tx.txHash && (
-            <div className="tw-max-w-xs tw-w-full">
+            <div className="tw-max-w-xs tw-w-full tw-m-auto">
               <div className="tw-text-center tw-text-sm tw-font-light tw-mb-9">
                 <strong className="tw-font-medium tw-mr-3.5 tw-inline-block">
                   Hash:

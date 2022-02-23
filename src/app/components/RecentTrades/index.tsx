@@ -39,7 +39,7 @@ export const RecentTrades: React.FC<IRecentTradesProps> = ({
             </th>
           </tr>
           <tr>
-            <th className="tw-h-6 tw-w-4/12 tw-pl-4 tw-pb-1 tw-text-left tw-whitespace-nowrap">
+            <th className="tw-h-6 tw-w-4/12 tw-pl-2 tw-pb-1 tw-text-left tw-whitespace-nowrap">
               {t(translations.marginTradePage.recentTrades.price)} (
               <AssetRenderer asset={quoteToken} />)
             </th>

@@ -23,7 +23,11 @@ import {
 } from 'utils/blockchain/contract-helpers';
 import { toWei } from 'utils/blockchain/math-helpers';
 import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
-import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
+import {
+  toNumberFormat,
+  weiToAssetNumberFormat,
+  weiToNumberFormat,
+} from 'utils/display-text/format';
 import { TransactionDialog } from 'app/components/TransactionDialog';
 import { Dialog } from 'app/containers/Dialog';
 import { useApproveAndTrade } from 'app/hooks/trading/useApproveAndTrade';
@@ -53,6 +57,8 @@ import {
 import { usePositionLiquidationPrice } from 'app/hooks/trading/usePositionLiquidationPrice';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { PricePrediction } from 'app/containers/MarginTradeForm/PricePrediction';
+import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
+import { useGetEstimatedMarginDetails } from 'app/hooks/trading/useGetEstimatedMarginDetails';
 
 interface ITradeDialogProps {
   slippage: number;
@@ -160,6 +166,15 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
   const contractName = getLendingContractName(loanToken);
 
   const [borrowAmount, setBorrowAmount] = useState('0');
+
+  const collateralAmount = useMemo(() => (useLoanTokens ? '0' : amount), [
+    useLoanTokens,
+    amount,
+  ]);
+  const loanTokenAmount = useMemo(() => (useLoanTokens ? amount : '0'), [
+    useLoanTokens,
+    amount,
+  ]);
 
   useEffect(() => {
     const run = async () => {
@@ -280,6 +295,29 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
     return ignoreError ? false : simulator.status === SimulationStatus.FAILED;
   }, [ignoreError, simulator.status]);
 
+  const { value } = useGetEstimatedMarginDetails(
+    loanToken,
+    leverage,
+    loanTokenAmount,
+    collateralAmount,
+    collateralToken,
+  );
+
+  const { price } = useCurrentPositionPrice(
+    loanToken,
+    collateralToken,
+    value.principal,
+    position === TradingPosition.SHORT,
+  );
+
+  const positionSizeConverted = useMemo(() => {
+    if (useLoanTokens) {
+      return bignumber(amount).mul(leverage).div(price).toFixed(0);
+    } else {
+      return bignumber(amount).mul(leverage).mul(price).toFixed(0);
+    }
+  }, [amount, leverage, price, useLoanTokens]);
+
   return (
     <>
       <Dialog
@@ -330,11 +368,13 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
               })}
               value={
                 <>
-                  {weiToNumberFormat(
-                    bignumber(amount).mul(leverage).toFixed(0),
-                    4,
+                  {weiToAssetNumberFormat(
+                    positionSizeConverted,
+                    useLoanTokens ? collateralToken : loanToken,
                   )}{' '}
-                  <AssetRenderer asset={collateral} />
+                  <AssetRenderer
+                    asset={useLoanTokens ? collateralToken : loanToken}
+                  />
                 </>
               }
             />
@@ -356,20 +396,26 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
               value={
                 <>
                   {useTenderlySimulator ? (
-                    <LoadableValue
-                      loading={simulator.status === SimulationStatus.PENDING}
-                      value={weiToNumberFormat(entryPrice, 6)}
-                      tooltip={weiToNumberFormat(entryPrice, 18)}
-                    />
+                    <>
+                      <LoadableValue
+                        loading={simulator.status === SimulationStatus.PENDING}
+                        value={weiToNumberFormat(entryPrice, 6)}
+                        tooltip={weiToNumberFormat(entryPrice, 18)}
+                      />{' '}
+                      <AssetRenderer asset={pair.longAsset} />
+                    </>
                   ) : (
-                    <PricePrediction
-                      position={position}
-                      leverage={leverage}
-                      loanToken={loanToken}
-                      collateralToken={collateralToken}
-                      useLoanTokens={useLoanTokens}
-                      weiAmount={amount}
-                    />
+                    <>
+                      <PricePrediction
+                        position={position}
+                        leverage={leverage}
+                        loanToken={loanToken}
+                        collateralToken={collateralToken}
+                        useLoanTokens={useLoanTokens}
+                        weiAmount={amount}
+                      />{' '}
+                      <AssetRenderer asset={pair.longAsset} />
+                    </>
                   )}
                 </>
               }

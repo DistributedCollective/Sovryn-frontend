@@ -212,7 +212,7 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
               label={t(translations.closeTradingPositionHandler.pl)}
               value={
                 <LoadableValue
-                  loading={loading}
+                  loading={loading || loadingValue}
                   value={
                     <ProfitContainer
                       item={item}
@@ -267,7 +267,7 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
               <DummyInput
                 value={
                   <LoadableValue
-                    loading={loading}
+                    loading={loading || loadingValue}
                     value={weiToAssetNumberFormat(value.withdrawAmount, token)}
                     tooltip={weiToNumberFormat(value.withdrawAmount, 18)}
                   />
@@ -281,7 +281,7 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
                 </p>
                 <div className="tw-font-semibold">
                   <LoadableValue
-                    loading={loading}
+                    loading={loading || loadingValue}
                     value={weiToAssetNumberFormat(minReturn, token)}
                     tooltip={weiToNumberFormat(minReturn, 18)}
                   />{' '}

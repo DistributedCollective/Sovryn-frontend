@@ -41,10 +41,12 @@ export const OpenPositionRow: React.FC<OpenPositionRowInnerProps> = ({
 }) => {
   const { t } = useTranslation();
   const tradeLoan = useMemo(() => items[0], [items]);
+
   const liquidateLoans = useMemo(
     () => items.filter(loan => loan.event === EventType.LIQUIDATE),
     [items],
   );
+
   const { checkMaintenances, States } = useMaintenance();
   const {
     [States.CLOSE_MARGIN_TRADES]: closeTradesLocked,

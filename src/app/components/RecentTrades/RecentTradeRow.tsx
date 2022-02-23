@@ -76,7 +76,7 @@ export const RecentTradeRow: React.FC<RecentTradeRowProps> = ({
       </td>
       <td
         className={classNames(
-          'tw-pl-4 tw-py-1 tw-text-right',
+          'tw-pl-2 tw-py-1 tw-text-right',
           backgroundClassName,
         )}
       >

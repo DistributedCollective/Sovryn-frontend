@@ -13,7 +13,6 @@ interface IPairNavbarInfoProps {
 
 export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
   const { t } = useTranslation();
-  // const [candles, setCandles] = useState<ICandlesProps[]>();
   const [lowPrice, setLowPrice] = useState(0);
   const [hightPrice, setHightPrice] = useState(0);
   const [lastPrice, setLastPrice] = useState(0);
@@ -30,7 +29,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
   }, [pair]);
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && candles) {
       //generating lastPrice for all pairs
       // for pairs without RBTC
       if (pair[1] !== pair[0]) {
@@ -82,24 +81,19 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
         setPercent(pair[0].price_change_percent_24h);
       }
 
-      //generating lowPrice
-      // for pairs with RBTC as source
-      if (pair[2]) {
-        setLowPrice(1 / pair[0].high_price_24h);
-      }
-      // for pairs with RBTC as target
-      if (pair[0] === pair[1] && !pair[2]) {
-        setLowPrice(pair[0].lowest_price_24h);
-      }
+      const sortedLowPrice = candles.sort((a, b) => {
+        return a.low - b.low;
+      });
 
-      // generating hightPrice
-      // for pairs with RBTC as source
-      if (pair[2]) {
-        setHightPrice(1 / pair[0].lowest_price_24h);
+      const sortedHightPrice = candles.sort((a, b) => {
+        return b.high - a.high;
+      });
+
+      if (sortedLowPrice.length) {
+        setLowPrice(sortedLowPrice[0].low);
       }
-      // for pairs with RBTC as target
-      if (pair[0] === pair[1] && !pair[2]) {
-        setHightPrice(pair[0].high_price_24h);
+      if (sortedHightPrice.length) {
+        setHightPrice(sortedHightPrice[0].high);
       }
     }
   }, [lastPrice, pair, candles, loading, dayPrice]);
@@ -111,7 +105,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
         <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-primary">
           <LoadableValue
             value={toNumberFormat(lastPrice, 6)}
-            // loading={candlesLoading}
+            loading={loading}
           />
         </span>
       </div>
