@@ -73,7 +73,9 @@ export const useLimitOrder = (
 
       const signature = await signTypeData(order, account, chainId);
 
-      const sig = ethers.utils.splitSignature(signature as SignatureLike);
+      const expandedSignature = ethers.utils.splitSignature(
+        signature as SignatureLike,
+      );
 
       const args = [
         order.maker,
@@ -84,9 +86,9 @@ export const useLimitOrder = (
         order.recipient,
         order.deadline,
         order.created,
-        sig.v,
-        sig.r,
-        sig.s,
+        expandedSignature.v,
+        expandedSignature.r,
+        expandedSignature.s,
       ];
 
       const contract = getContract('orderBook');

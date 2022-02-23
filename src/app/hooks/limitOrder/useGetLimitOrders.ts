@@ -7,10 +7,10 @@ import { useCallback, useRef } from 'react';
 import { useInterval } from '../useInterval';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { MarginLimitOrder } from 'app/pages/MarginTradePage/types';
-import { ApiLimitMarginOrder } from './types';
+import { IApiLimitMarginOrder } from './types';
 
 export const marginOrderParser = (
-  order: ApiLimitMarginOrder,
+  order: IApiLimitMarginOrder,
 ): MarginLimitOrder => ({
   ...order,
   leverageAmount: BigNumber.from(order.leverageAmount.hex),

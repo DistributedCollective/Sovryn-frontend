@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useMaintenance } from 'app/hooks/useMaintenance';
@@ -12,7 +12,6 @@ import {
 } from 'utils/display-text/format';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { Tooltip } from '@blueprintjs/core';
-import { fromWei } from 'web3-utils';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { translations } from 'locales/i18n';
 import { TableTransactionStatus } from 'app/components/FinanceV2Components/TableTransactionStatus';
@@ -20,8 +19,8 @@ import { TxStatus } from 'store/global/transactions-store/types';
 import { CloseLimitPositionDialog } from '../CloseLimitPositionDialog';
 import { TradeDialogInfo } from '../../TradeDialog/TradeDialogInfo';
 import { OrderType } from 'app/components/OrderTypeTitle/types';
-import { bignumber } from 'mathjs';
 import { MarginLimitOrderList } from '../LimitOrderTables';
+import { useGetLimitOrderRow } from 'app/pages/MarginTradePage/hooks/useGetLimitOrderRow';
 interface IOpenPositionRowProps extends MarginLimitOrderList {
   pending?: boolean;
 }
@@ -44,29 +43,13 @@ export const OpenPositionRow: React.FC<IOpenPositionRowProps> = ({
   const [showClosePosition, setShowClosePosition] = useState(false);
   const { checkMaintenances, States } = useMaintenance();
   const { [States.CLOSE_SPOT_LIMIT]: closeTradesLocked } = checkMaintenances();
-
-  const tradeAmount = useMemo(
-    () =>
-      loanTokenSent.toString() !== '0'
-        ? loanTokenSent.toString()
-        : collateralTokenSent.toString(),
-    [loanTokenSent, collateralTokenSent],
-  );
-  const loanToken = pair?.getAssetForPosition(position);
-
-  const entryPrice = useMemo(() => fromWei(minEntryPrice.toString()), [
+  const { tradeAmount, minEntry } = useGetLimitOrderRow(
+    pair,
+    position,
+    loanTokenSent,
+    collateralTokenSent,
     minEntryPrice,
-  ]);
-
-  const minEntry = useMemo(() => {
-    if (pair?.longAsset === loanToken) {
-      if (!entryPrice || Number(entryPrice) === 0) return '';
-      return bignumber(1).div(entryPrice).toFixed(8);
-    }
-    return entryPrice;
-  }, [entryPrice, loanToken, pair?.longAsset]);
-
-  if (!pair) return null;
+  );
 
   return (
     <tr>
