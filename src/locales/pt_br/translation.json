@@ -93,6 +93,33 @@
       "tradingHistory": "Concluídas"
     }
   },
+  "trading": {
+    "limit": {
+      "cancelDialog": {
+        "title": "Cancelar ordem limitada",
+        "cta": "Confirmar",
+        "complete": "Cancelamento concluído",
+        "failed": "Cancelamento falhou",
+        "tx": {
+          "title": "Cancelar",
+          "message": "Cancelar {{tradeType}} limitada"
+        }
+      },
+      "tradeDialog": {
+        "marketTitle": "Revisar ordem",
+        "limitTitle": "Revisar ordem",
+        "tradingPair": "Par de negociação:",
+        "orderType": "Tipo de ordem:",
+        "tradeAmount": "Quantidade negociada:",
+        "limitPrice": "Preço:",
+        "duration": "Expira em:",
+        "receiveAmount": "Quantidade a receber:",
+        "orderAmount": "Quantidade negociada:",
+        "newOrderDetails": "Detalhes",
+        "order": "Ordem"
+      }
+    }
+  },
   "tradingPage": {
     "meta": {
       "title": "Operações",
