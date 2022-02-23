@@ -1625,7 +1625,7 @@
       "limitPrice": "Preço",
       "amountReceive": "Quantidade a receber",
       "duration": "Expira em",
-      "deadline": "Prazo",
+      "deadline": "Data limite",
       "actions": "Ação",
       "noData": "Sem dados",
       "filledAmount": "Quantidade inserida",
