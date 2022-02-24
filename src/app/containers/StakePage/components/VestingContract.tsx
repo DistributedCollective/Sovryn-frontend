@@ -168,7 +168,7 @@ export function VestingContract(props: Props) {
 
   return (
     <>
-      {vestLoading ? (
+      {vestLoading || getStakes.loading || lockedAmount.loading ? (
         <tr>
           <td colSpan={7} className="skeleton" />
         </tr>

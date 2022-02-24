@@ -16,8 +16,13 @@ export function useListOfUserVestings(asset?: Asset) {
     value: vestingsContracts,
   } = useVesting_getVestingsOf(account);
 
-  const { value: fishOrigins } = useVesting_getVestingFish(account);
-  const { value: fishAirdrop } = useVesting_getVestingFishAirdrop(account);
+  const { value: fishOrigins, loading: loading1 } = useVesting_getVestingFish(
+    account,
+  );
+  const {
+    value: fishAirdrop,
+    loading: loading2,
+  } = useVesting_getVestingFishAirdrop(account);
 
   useEffect(() => {
     async function getVestings() {
@@ -102,5 +107,5 @@ export function useListOfUserVestings(asset?: Asset) {
     fishOrigins,
   ]);
 
-  return { items, loading };
+  return { items, loading: loading || loading1 || loading2 };
 }

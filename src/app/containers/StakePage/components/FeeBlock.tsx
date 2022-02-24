@@ -88,7 +88,7 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
 
   return (
     <>
-      {Number(currency.value) > 0 && (
+      {(Number(currency.value) > 0 || isSovToken) && (
         <div className="tw-flex tw-justify-between tw-items-center tw-mb-1 tw-mt-1 tw-leading-6">
           <div className="tw-w-2/5">
             <Tooltip
@@ -106,25 +106,39 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
               {isSovToken ? <>{title || asset} (?)</> : <>i{asset} (?)</>}
             </Tooltip>
           </div>
-          <div className="tw-w-1/2 tw-mx-4">
-            <Tooltip content={`${weiTo18(currency.value)}`}>
-              {weiTo4(currency.value)}
-            </Tooltip>{' '}
-            ≈{' '}
-            <Tooltip content={`${weiToUSD(dollarValue, 6)}`}>
-              <LoadableValue
-                value={weiToUSD(dollarValue)}
-                loading={dollars.loading}
-              />
-            </Tooltip>
+          <div className="tw-w-1/2 tw-mx-4 tw-flex tw-flex-row tw-space-x-2">
+            <div>
+              <Tooltip content={`${weiTo18(currency.value)}`}>
+                <LoadableValue
+                  value={weiTo4(currency.value)}
+                  loading={currency.loading && currency.value === '0'}
+                  loaderContent="0.0000"
+                />
+              </Tooltip>{' '}
+              ≈{' '}
+            </div>
+            <div>
+              <Tooltip content={`${weiToUSD(dollarValue, 6)}`}>
+                <LoadableValue
+                  value={weiToUSD(dollarValue)}
+                  loading={
+                    (dollars.loading && currency.value !== '0') ||
+                    (currency.loading && currency.value === '0')
+                  }
+                  loaderContent="0.0000"
+                />
+              </Tooltip>
+            </div>
           </div>
-          <button
-            onClick={handleWithdrawFee}
-            type="button"
-            className="tw-text-primary hover:tw-text-primary tw-p-0 tw-text-normal tw-lowercase hover:tw-underline tw-font-medium tw-font-body tw-tracking-normal"
-          >
-            {t(translations.userAssets.actions.withdraw)}
-          </button>
+          {currency.value !== '0' && (
+            <button
+              onClick={handleWithdrawFee}
+              type="button"
+              className="tw-text-primary hover:tw-text-primary tw-p-0 tw-text-normal tw-lowercase hover:tw-underline tw-font-medium tw-font-body tw-tracking-normal"
+            >
+              {t(translations.userAssets.actions.withdraw)}
+            </button>
+          )}
         </div>
       )}
     </>
