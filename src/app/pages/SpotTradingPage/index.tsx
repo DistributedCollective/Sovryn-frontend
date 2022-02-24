@@ -7,6 +7,10 @@ import classNames from 'classnames';
 import { Tab } from '../../components/Tab';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import { reducer, sliceKey } from './slice';
+import {
+  reducer as marginReducer,
+  sliceKey as marginSliceKey,
+} from '../MarginTradePage/slice';
 import { selectSpotTradingPage } from './selectors';
 import { spotTradingPageSaga } from './saga';
 import { translations } from '../../../locales/i18n';
@@ -25,6 +29,7 @@ import { getSpotPairs } from './types';
 
 export function SpotTradingPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
+  useInjectReducer({ key: marginSliceKey, reducer: marginReducer });
   useInjectSaga({ key: sliceKey, saga: spotTradingPageSaga });
 
   const [activeTab, setActiveTab] = useState(0);
