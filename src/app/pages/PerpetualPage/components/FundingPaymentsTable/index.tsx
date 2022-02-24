@@ -27,9 +27,7 @@ export const FundingPaymentsTable: React.FC<IFundingPaymentsTable> = ({
     perPage,
   );
 
-  const onPageChanged = useCallback(data => {
-    setPage(data.currentPage);
-  }, []);
+  const onPageChanged = useCallback(data => setPage(data.currentPage), []);
 
   const isEmpty = useMemo(() => !loading && !data?.length, [data, loading]);
   const showLoading = useMemo(() => loading && !data?.length, [data, loading]);

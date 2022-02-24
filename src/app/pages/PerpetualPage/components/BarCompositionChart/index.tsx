@@ -76,7 +76,7 @@ const BarSegment: React.FC<BarSegmentProps> = ({
     <div
       className={classNames('tw-h-5', barClassName, colorClassName)}
       style={style}
-    ></div>
+    />
   );
 };
 

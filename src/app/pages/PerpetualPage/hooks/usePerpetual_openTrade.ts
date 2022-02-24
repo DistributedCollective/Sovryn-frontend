@@ -70,6 +70,7 @@ export const usePerpetual_openTrade = (
         account,
         floatToABK64x64(signedAmount),
         floatToABK64x64(limitPrice),
+        0, // TODO: this is fTriggerPrice, it will need to be adjusted once we have limit orders functionality, it's 0 for market orders
         deadline,
         ethGenesisAddress,
         isClosePosition ? MASK_CLOSE_ONLY : MASK_MARKET_ORDER,

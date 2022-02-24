@@ -26,13 +26,12 @@ export const ConnectFormStep: TransitionStep<NewPositionCardStep> = ({
         />
       </ul>
       <p className="tw-mb-11">
-        {/* TODO: add href to quickstart guide */}
         <Trans
           i18nKey={translations.perpetualPage.tradeForm.text.welcome4}
           components={[
             <a
               className="tw-text-secondary tw-underline"
-              href="https://wiki.sovryn.app/"
+              href="https://wiki.sovryn.app/en/sovryn-dapp/perpetual-futures#how-to-trade-perpetual-futures"
             >
               Quickstart Guide
             </a>,

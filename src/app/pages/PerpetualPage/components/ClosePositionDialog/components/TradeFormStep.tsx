@@ -263,7 +263,6 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
             trade.tradeType !== PerpetualTradeType.MARKET &&
               'tw-opacity-25 hover:tw-opacity-100 tw-transition-opacity tw-duration-300',
           )}
-          // disabled={!validate || !connected || openTradesLocked}
         >
           {t(translations.perpetualPage.tradeForm.buttons.market)}
         </button>

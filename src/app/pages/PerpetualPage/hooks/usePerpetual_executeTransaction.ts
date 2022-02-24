@@ -19,7 +19,6 @@ export const usePerpetual_executeTransaction = (
 ) => {
   // TODO: find a nicer solution only this hooks should ever be used anyway
   const { trade, ...tradeRest } = usePerpetual_openTrade(pairType, useGSN);
-  // const { trade, ...tradeRest } = usePerpetual_openTradeWithoutManualDeposit();
   const { deposit, ...depositRest } = usePerpetual_depositMarginToken(
     pairType,
     useGSN,

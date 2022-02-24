@@ -8,10 +8,7 @@ import React, {
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { translations } from '../../../../../locales/i18n';
-import {
-  PerpetualPairDictionary,
-  PerpetualPairType,
-} from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
+import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { Dialog } from '../../../../containers/Dialog';
 import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
@@ -22,7 +19,7 @@ import { AssetValueMode } from '../../../../components/AssetValue/types';
 import {
   calculateApproxLiquidationPrice,
   calculateLeverage,
-  getMaximalMarginToWidthdraw,
+  getMaximalMarginToWithdraw,
 } from '../../utils/perpUtils';
 import { fromWei } from 'web3-utils';
 import classNames from 'classnames';
@@ -106,7 +103,7 @@ export const EditMarginDialog: React.FC = () => {
           transactions: [
             mode === EditMarginDialogMode.increase
               ? {
-                  pair: pair?.pairType || PerpetualPairType.BTCUSD,
+                  pair: pair.pairType,
                   method: PerpetualTxMethods.deposit,
                   amount: toWei(margin),
                   approvalTx: null,
@@ -114,7 +111,7 @@ export const EditMarginDialog: React.FC = () => {
                   origin: PerpetualPageModals.EDIT_MARGIN,
                 }
               : {
-                  pair: pair?.pairType || PerpetualPairType.BTCUSD,
+                  pair: pair.pairType,
                   method: PerpetualTxMethods.withdraw,
                   amount: toWei(margin),
                   tx: null,
@@ -131,7 +128,7 @@ export const EditMarginDialog: React.FC = () => {
       // Fees don't need to be subtracted, since Collateral is not paid with the Network Token
       return [Number(fromWei(availableBalance)), availableBalance];
     } else {
-      const maxAmount = getMaximalMarginToWidthdraw(
+      const maxAmount = getMaximalMarginToWithdraw(
         traderState,
         perpParameters,
         ammState,
@@ -229,7 +226,7 @@ export const EditMarginDialog: React.FC = () => {
       onClose={onClose}
     >
       <h1>{t(translations.perpetualPage.editMargin.title)}</h1>
-      {trade && pair && (
+      {trade && (
         <div className="tw-mw-340 tw-mx-auto">
           <TradeDetails
             className="tw-mw-340 tw-mx-auto tw-mb-4"
@@ -245,7 +242,6 @@ export const EditMarginDialog: React.FC = () => {
                   : 'tw-text-gray-5 tw-bg-transparent hover:tw-text-white hover:tw-bg-secondary-50',
               )}
               onClick={onSelectIncrease}
-              // disabled={!validate || !connected || openTradesLocked}
             >
               {t(translations.perpetualPage.editMargin.increase)}
             </button>

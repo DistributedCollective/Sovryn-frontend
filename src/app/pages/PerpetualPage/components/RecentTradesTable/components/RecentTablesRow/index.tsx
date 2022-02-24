@@ -33,7 +33,10 @@ export const RecentTradesTableRow: React.FC<RecentTradesTableRowProps> = ({
     [row.type],
   );
 
-  const backgroundClassName = isOddRow ? 'tw-bg-gray-3' : 'tw-bg-gray-1';
+  const backgroundClassName = useMemo(
+    () => (isOddRow ? 'tw-bg-gray-3' : 'tw-bg-gray-1'),
+    [isOddRow],
+  );
 
   return (
     <tr key={row.price} className={classNames('tw-h-6', typeColor)}>

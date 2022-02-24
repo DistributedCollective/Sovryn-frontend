@@ -407,7 +407,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
               'tw-opacity-25 hover:tw-opacity-100 tw-transition-opacity tw-duration-300',
           )}
           onClick={bindSelectPosition(TradingPosition.LONG)}
-          // disabled={!validate || !connected || openTradesLocked}
         >
           {t(translations.perpetualPage.tradeForm.buttons.buy)}
         </button>
@@ -430,7 +429,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
               'tw-opacity-25 hover:tw-opacity-100 tw-transition-opacity tw-duration-300',
           )}
           onClick={bindSelectTradeType(PerpetualTradeType.MARKET)}
-          // disabled={!validate || !connected || openTradesLocked}
         >
           {t(translations.perpetualPage.tradeForm.buttons.market)}
         </button>

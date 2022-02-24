@@ -4,7 +4,7 @@ import { ContainerState, PerpetualPageModals } from './types';
 import { Asset } from '../../../types';
 import { PerpetualPairType } from '../../../utils/dictionaries/perpetual-pair-dictionary';
 
-// The initial state of the MarginTradePage container
+// The initial state of the PerpetualPage container
 export const initialState: ContainerState = {
   pairType: PerpetualPairType.BTCUSD,
   collateral: Asset.RBTC,

@@ -21,7 +21,6 @@ import { OpenPositionsTable } from './components/OpenPositionsTable';
 import { useIsConnected } from '../../hooks/useAccount';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
-import { NotificationSettingsDialog } from './components/NotificationSettingsDialog';
 import { selectPerpetualPage } from './selectors';
 import { DataCard } from './components/DataCard';
 import { AmmDepthChart } from './components/AmmDepthChart';
@@ -53,11 +52,6 @@ export const PerpetualPageContainer: React.FC = () => {
 
   const dispatch = useDispatch();
   const walletContext = useWalletContext();
-
-  const [
-    showNotificationSettingsModal,
-    setShowNotificationSettingsModal,
-  ] = useState(false);
 
   const { pairType, collateral } = useSelector(selectPerpetualPage);
   const { t } = useTranslation();
@@ -196,10 +190,6 @@ export const PerpetualPageContainer: React.FC = () => {
           )}
         </div>
         <Footer />
-        <NotificationSettingsDialog
-          isOpen={showNotificationSettingsModal}
-          onClose={() => setShowNotificationSettingsModal(false)}
-        />
         <AccountDialog />
         <TradeDialog />
         <EditPositionSizeDialog />

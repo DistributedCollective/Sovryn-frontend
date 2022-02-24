@@ -19,10 +19,9 @@ export const AccountBalanceCard: React.FC = () => {
     collateral,
   ]);
 
-  const hasBalance = useMemo(
-    () => availableBalance && availableBalance !== '0',
-    [availableBalance],
-  );
+  const hasBalance = useMemo(() => availableBalance !== '0', [
+    availableBalance,
+  ]);
 
   const onViewAccount = useCallback(
     () => dispatch(actions.setModal(PerpetualPageModals.ACCOUNT_BALANCE)),
