@@ -1610,7 +1610,8 @@
         "slippage": "Slippage Tolerance:",
         "balance": "Available Balance: <0/> <1/>",
         "txFee": "Tx Fee: <0/>",
-        "tradingFee": "Trading Fee:"
+        "tradingFee": "Trading Fee:",
+        "networkFee": "Network Fee:"
       },
       "buttons": {
         "long": "Long",

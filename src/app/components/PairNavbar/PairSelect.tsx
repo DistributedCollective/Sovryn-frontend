@@ -14,6 +14,8 @@ import { useOnClickOutside } from 'app/hooks/useOnClickOutside';
 import arrowDownIcon from 'assets/images/swap/ic_arrow_down.svg';
 import searchIcon from 'assets/images/search.svg';
 import { PairCryptocurrency } from './PairCryptocurrency';
+import { CSSTransition } from 'react-transition-group';
+import './styles.scss';
 
 const FAVORITE = 'FAVORITE';
 
@@ -37,6 +39,7 @@ export const PairSelect: React.FC<IPairSelect> = ({
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('');
+  const nodeRef = useRef<HTMLDivElement>(null);
 
   useOnClickOutside(ref, () => setOpen(false));
 
@@ -65,8 +68,18 @@ export const PairSelect: React.FC<IPairSelect> = ({
           alt="Arrow"
         />
       </div>
-      {open && (
-        <div className="tw-absolute tw-transform tw-translate-y-full tw-bottom-0 tw-left-0 tw-bg-gray-2 tw-py-7 tw-px-9 tw-rounded-b-lg tw-z-20">
+
+      <CSSTransition
+        unmountOnExit
+        classNames="dropdown"
+        in={open}
+        nodeRef={nodeRef}
+        timeout={200}
+      >
+        <div
+          ref={nodeRef}
+          className="tw-absolute tw-transform tw-translate-y-full tw-bottom-0 tw-left-0 tw-bg-gray-2 tw-py-7 tw-px-9 tw-rounded-b-lg tw-z-20"
+        >
           <Input
             value={search}
             className="tw-rounded-lg search tw-max-w-full"
@@ -108,7 +121,7 @@ export const PairSelect: React.FC<IPairSelect> = ({
             </div>
           )}
         </div>
-      )}
+      </CSSTransition>
     </div>
   );
 };
