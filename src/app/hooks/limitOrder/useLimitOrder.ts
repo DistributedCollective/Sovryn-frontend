@@ -127,10 +127,13 @@ export const useLimitOrder = (
         };
         onSuccess(newOrder, data.data);
       } else {
-        onError();
+        throw new Error();
       }
     } catch (error) {
       onError();
+      if (sourceToken === Asset.RBTC) {
+        await contractWriter.send('settlement', 'withdraw', [amount]);
+      }
     }
   }, [
     sourceToken,
