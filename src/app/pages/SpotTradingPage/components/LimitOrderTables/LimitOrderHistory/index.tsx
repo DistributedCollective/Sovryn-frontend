@@ -2,13 +2,13 @@ import React, { useMemo, useState } from 'react';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { LimitOrderRow } from '../LimitOrderRow';
 import { useTranslation } from 'react-i18next';
-import { LimitOrder } from 'app/pages/SpotTradingPage/types';
+import { ILimitOrder } from 'app/pages/SpotTradingPage/types';
 import { translations } from 'locales/i18n';
 import { Pagination } from 'app/components/Pagination';
 
 interface ILimitOrderHistoryProps {
   perPage?: number;
-  orders: LimitOrder[];
+  orders: ILimitOrder[];
   loading: boolean;
 }
 

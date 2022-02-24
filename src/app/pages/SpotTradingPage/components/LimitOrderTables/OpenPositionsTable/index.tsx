@@ -3,16 +3,15 @@ import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { LimitOrderRow } from '../LimitOrderRow';
 import { useTranslation } from 'react-i18next';
 
-import { LimitOrder } from 'app/pages/SpotTradingPage/types';
+import { ILimitOrder } from 'app/pages/SpotTradingPage/types';
 import { translations } from 'locales/i18n';
 import { useSelector } from 'react-redux';
 import { selectSpotTradingPage } from '../../../selectors';
-import { orderParser } from 'app/hooks/limitOrder/useGetLimitOrders';
 import { Pagination } from 'app/components/Pagination';
 
 interface IOpenPositionsTableProps {
   perPage?: number;
-  orders: LimitOrder[];
+  orders: ILimitOrder[];
   loading: boolean;
 }
 
@@ -32,14 +31,12 @@ export const OpenPositionsTable: React.FC<IOpenPositionsTableProps> = ({
     [perPage, page, orders],
   );
   const pendingList = useMemo(() => {
-    return pendingLimitOrders
-      .map(item => orderParser(item))
-      .filter(
-        item =>
-          orders.findIndex(
-            order => order.created.toString() === item.created.toString(),
-          ) < 0,
-      );
+    return pendingLimitOrders.filter(
+      item =>
+        orders.findIndex(
+          order => order.created.toString() === item.created.toString(),
+        ) < 0,
+    );
   }, [orders, pendingLimitOrders]);
 
   const isEmpty = !loading && !items.length;

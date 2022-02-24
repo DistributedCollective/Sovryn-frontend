@@ -2,13 +2,13 @@ import { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from 'utils/@reduxjs/toolkit';
 import {
   IMarginTradePageState,
+  MarginLimitOrder,
   NotificationPayload,
   NotificationUser,
 } from './types';
 import { TradingPairType } from 'utils/dictionaries/trading-pair-dictionary';
 import { Asset } from 'types';
 import { TradingPosition } from 'types/trading-position';
-import { IApiLimitMarginOrder } from 'app/hooks/limitOrder/types';
 
 export const initialState: IMarginTradePageState = {
   pairType: TradingPairType.SOV_RBTC,
@@ -62,10 +62,8 @@ const marginTradePageSlice = createSlice({
       state.notificationWallet = '';
       state.notificationUser = undefined;
     },
-    addPendingLimitOrders(
-      state,
-      { payload }: PayloadAction<IApiLimitMarginOrder>,
-    ) {
+    addPendingLimitOrders(state, { payload }: PayloadAction<MarginLimitOrder>) {
+      console.log('payload:', payload);
       state.pendingLimitOrders = [...state.pendingLimitOrders, payload];
     },
   },

@@ -5,7 +5,7 @@ import { useGetLimitOrders } from 'app/hooks/limitOrder/useGetLimitOrders';
 import { OpenPositionsTable } from './OpenPositionsTable';
 import { LimitOrderHistory } from './LimitOrderHistory';
 import { useAccount } from 'app/hooks/useAccount';
-import { LimitOrder } from '../../types';
+import { ILimitOrder } from '../../types';
 
 interface ILimitOrderTablesProps {
   activeTab: number;
@@ -16,7 +16,7 @@ export const LimitOrderTables: React.FC<ILimitOrderTablesProps> = ({
 }) => {
   const account = useAccount();
 
-  const { value, loading } = useGetLimitOrders<LimitOrder>(account);
+  const { value, loading } = useGetLimitOrders<ILimitOrder>(account);
   const limitOrders = useMemo(
     () =>
       value

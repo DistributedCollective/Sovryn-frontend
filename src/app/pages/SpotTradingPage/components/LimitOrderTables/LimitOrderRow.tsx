@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useMaintenance } from 'app/hooks/useMaintenance';
-import { LimitOrder, pairList, TradingTypes } from '../../types';
+import { ILimitOrder, pairList, TradingTypes } from '../../types';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
@@ -17,7 +17,7 @@ import { TableTransactionStatus } from 'app/components/FinanceV2Components/Table
 import { TxStatus } from 'store/global/transactions-store/types';
 
 interface ILimitOrderRowProps {
-  item: LimitOrder;
+  item: ILimitOrder;
   pending?: boolean;
 }
 
@@ -65,7 +65,9 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
     <tr>
       <td>
         <DisplayDate
-          timestamp={new Date(item.created.toNumber()).getTime().toString()}
+          timestamp={new Date(Number(item.created.toString()))
+            .getTime()
+            .toString()}
         />
       </td>
       <td>
@@ -126,7 +128,7 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
         <>
           <td>
             <DisplayDate
-              timestamp={new Date(item.deadline.toNumber())
+              timestamp={new Date(Number(item.deadline.toString()))
                 .getTime()
                 .toString()}
             />

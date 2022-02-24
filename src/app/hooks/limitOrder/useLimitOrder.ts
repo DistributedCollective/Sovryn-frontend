@@ -1,5 +1,4 @@
-import { IApiLimitOrder } from './../../pages/SpotTradingPage/types';
-import { LimitOrder } from 'app/pages/SpotTradingPage/types';
+import { ILimitOrder } from 'app/pages/SpotTradingPage/types';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { getContract as getContractData } from 'utils/blockchain/contract-helpers';
 import { selectWalletProvider } from 'app/containers/WalletProvider/selectors';
@@ -27,7 +26,7 @@ export const useLimitOrder = (
   amount: string,
   amountOutMin: string,
   duration: number = 365,
-  onSuccess: (order: IApiLimitOrder, data) => void,
+  onSuccess: (order: ILimitOrder, data) => void,
   onError: () => void,
   onStart: () => void,
 ) => {
@@ -105,20 +104,16 @@ export const useLimitOrder = (
         },
       );
       if (data.success) {
-        const newOrder: IApiLimitOrder = {
+        const newOrder: ILimitOrder = {
           maker: order.maker,
           fromToken: order.fromToken,
           toToken: order.toToken,
           recipient: order.recipient,
-          amountIn: {
-            hex: BigNumber.from(order.amountIn).toHexString(),
-          },
-          amountOutMin: {
-            hex: BigNumber.from(order.amountOutMin).toHexString(),
-          },
-          deadline: { hex: BigNumber.from(order.deadline).toHexString() },
-          created: { hex: BigNumber.from(order.created).toHexString() },
-          filled: { hex: BigNumber.from('0').toHexString() },
+          amountIn: order.amountIn,
+          amountOutMin: order.amountOutMin,
+          deadline: order.deadline,
+          created: order.created,
+          filled: '0',
           canceled: false,
           v: data?.data?.v,
           r: data?.data?.r,
@@ -151,7 +146,7 @@ export const useLimitOrder = (
   return { createOrder, ...tx };
 };
 
-export const useCancelLimitOrder = (order: LimitOrder, sourceToken: Asset) => {
+export const useCancelLimitOrder = (order: ILimitOrder, sourceToken: Asset) => {
   const account = useAccount();
 
   const { send, ...tx } = useSendTx();

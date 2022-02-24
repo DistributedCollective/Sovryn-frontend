@@ -3,7 +3,6 @@ import { TradingPairType } from 'utils/dictionaries/trading-pair-dictionary';
 import { Asset } from 'types/asset';
 import { TradingPosition } from '../../../types/trading-position';
 import { BigNumber } from 'ethers';
-import { IApiLimitMarginOrder } from 'app/hooks/limitOrder/types';
 
 export const MARGIN_SLIPPAGE_DEFAULT = 0.5;
 
@@ -16,28 +15,28 @@ export interface IMarginTradePageState {
   notificationWallet?: string;
   notificationToken?: string;
   notificationUser?: NotificationUser;
-  pendingLimitOrders: IApiLimitMarginOrder[];
+  pendingLimitOrders: MarginLimitOrder[];
 }
 
 export type MarginLimitOrder = {
   hash?: string;
   loanId: string;
-  leverageAmount: BigNumber;
+  leverageAmount: BigNumber | string;
   loanTokenAddress: string;
-  loanTokenSent: BigNumber;
-  collateralTokenSent: BigNumber;
+  loanTokenSent: BigNumber | string;
+  collateralTokenSent: BigNumber | string;
   collateralTokenAddress: string;
   trader: string;
-  minEntryPrice: BigNumber;
+  minEntryPrice: BigNumber | string;
   loanDataBytes: string;
-  deadline: BigNumber;
-  createdTimestamp: BigNumber;
+  deadline: BigNumber | string;
+  createdTimestamp: BigNumber | string;
   v: string;
   r: string;
   s: string;
   canceled?: boolean;
   filledAmount?: string;
-  filled?: BigNumber;
+  filled?: BigNumber | string;
 };
 
 export type NotificationPayload = {

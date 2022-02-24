@@ -3,10 +3,9 @@ import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Pagination } from 'app/components/Pagination';
-import { OpenPositionRow } from './OpenPositionRow';
+import { LimitOrderRow } from '../LimitOrderRow';
 import { selectMarginTradePage } from 'app/pages/MarginTradePage/selectors';
 import { useSelector } from 'react-redux';
-import { marginOrderParser } from 'app/hooks/limitOrder/useGetLimitOrders';
 import { MarginLimitOrderList, parseMarginOrder } from '../LimitOrderTables';
 
 interface IOpenPositionsTableProps {
@@ -32,14 +31,13 @@ export const OpenPositionsTable: React.FC<IOpenPositionsTableProps> = ({
   );
   const pendingList = useMemo(() => {
     return pendingLimitOrders
-      .map(item => marginOrderParser(item))
       .map(item => parseMarginOrder(item))
       .filter(
         item =>
           orders.findIndex(
             order =>
-              order.createdTimestamp.toString() ===
-              item.createdTimestamp.toString(),
+              order.createdTimestamp.getTime() ===
+              item.createdTimestamp.getTime(),
           ) < 0,
       );
   }, [orders, pendingLimitOrders]);
@@ -81,18 +79,14 @@ export const OpenPositionsTable: React.FC<IOpenPositionsTableProps> = ({
           {pendingList.length > 0 && (
             <>
               {pendingList.map(item => (
-                <OpenPositionRow
-                  key={item.order.hash}
-                  {...item}
-                  pending={true}
-                />
+                <LimitOrderRow key={item.order.hash} {...item} pending={true} />
               ))}
             </>
           )}
           {items.length > 0 && (
             <>
               {items.map(item => (
-                <OpenPositionRow key={item.order.hash} {...item} />
+                <LimitOrderRow key={item.order.hash} {...item} />
               ))}
             </>
           )}

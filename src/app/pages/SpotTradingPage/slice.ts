@@ -1,6 +1,6 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from 'utils/@reduxjs/toolkit';
-import { ContainerState, IApiLimitOrder, SpotPairType } from './types';
+import { ContainerState, ILimitOrder, SpotPairType } from './types';
 
 // The initial state of the SpotTradingPage container
 export const initialState: ContainerState = {
@@ -15,7 +15,7 @@ const spotTradingPageSlice = createSlice({
     setPairType(state, { payload }: PayloadAction<SpotPairType>) {
       state.pairType = payload;
     },
-    addPendingLimitOrders(state, { payload }: PayloadAction<IApiLimitOrder>) {
+    addPendingLimitOrders(state, { payload }: PayloadAction<ILimitOrder>) {
       state.pendingLimitOrders = [...state.pendingLimitOrders, payload];
     },
   },

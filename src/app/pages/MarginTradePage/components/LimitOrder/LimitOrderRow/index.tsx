@@ -21,11 +21,12 @@ import { TradeDialogInfo } from '../../TradeDialog/TradeDialogInfo';
 import { OrderType } from 'app/components/OrderTypeTitle/types';
 import { MarginLimitOrderList } from '../LimitOrderTables';
 import { useGetLimitOrderRow } from 'app/pages/MarginTradePage/hooks/useGetLimitOrderRow';
-interface IOpenPositionRowProps extends MarginLimitOrderList {
+
+interface ILimitOrderRowProps extends MarginLimitOrderList {
   pending?: boolean;
 }
 
-export const OpenPositionRow: React.FC<IOpenPositionRowProps> = ({
+export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
   loanAsset,
   collateralAsset,
   pair,
@@ -38,6 +39,7 @@ export const OpenPositionRow: React.FC<IOpenPositionRowProps> = ({
   deadline,
   pending,
   order,
+  filledAmount,
 }) => {
   const { t } = useTranslation();
   const [showClosePosition, setShowClosePosition] = useState(false);
@@ -50,6 +52,8 @@ export const OpenPositionRow: React.FC<IOpenPositionRowProps> = ({
     collateralTokenSent,
     minEntryPrice,
   );
+
+  const isOpenPosition = filledAmount === '0';
 
   return (
     <tr>
@@ -82,55 +86,67 @@ export const OpenPositionRow: React.FC<IOpenPositionRowProps> = ({
         {weiToNumberFormat(tradeAmount, 6)} ({leverage}x){' '}
         <AssetRenderer asset={collateralAsset} />
       </td>
+      {!isOpenPosition && (
+        <>
+          <td>
+            <DisplayDate timestamp={deadline.getTime().toString()} />
+          </td>
 
-      <td>
-        <DisplayDate timestamp={deadline.getTime().toString()} />
-      </td>
+          <td>{weiToNumberFormat(filledAmount, 6)}</td>
+        </>
+      )}
+      {isOpenPosition && (
+        <>
+          <td>
+            <DisplayDate timestamp={deadline.getTime().toString()} />
+          </td>
 
-      <td>
-        <div className="tw-flex tw-items-center">
-          {!pending && (
-            <ActionButton
-              text={t(translations.openPositionTable.cta.close)}
-              onClick={() => setShowClosePosition(true)}
-              className={`tw-border-none tw-ml-0 tw-pl-0 ${
-                closeTradesLocked && 'tw-cursor-not-allowed'
-              }`}
-              textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
-              disabled={closeTradesLocked}
-              title={
-                (closeTradesLocked &&
-                  t(translations.maintenance.closeMarginTrades).replace(
-                    /<\/?\d+>/g,
-                    '',
-                  )) ||
-                undefined
-              }
-            />
-          )}
-          {pending && (
-            <TableTransactionStatus transactionStatus={TxStatus.PENDING} />
-          )}
-        </div>
-        <CloseLimitPositionDialog
-          order={order}
-          onCloseModal={() => setShowClosePosition(false)}
-          showModal={showClosePosition}
-          position={position}
-        >
-          <TradeDialogInfo
-            position={position}
-            leverage={leverage}
-            orderTypeValue={OrderType.LIMIT}
-            amount={tradeAmount}
-            collateral={collateralAsset}
-            loanToken={loanAsset}
-            collateralToken={collateralAsset}
-            minEntryPrice={toNumberFormat(minEntry, 6)}
-            useLoanTokens
-          />
-        </CloseLimitPositionDialog>
-      </td>
+          <td>
+            <div className="tw-flex tw-items-center">
+              {!pending && (
+                <ActionButton
+                  text={t(translations.openPositionTable.cta.close)}
+                  onClick={() => setShowClosePosition(true)}
+                  className={`tw-border-none tw-ml-0 tw-pl-0 ${
+                    closeTradesLocked && 'tw-cursor-not-allowed'
+                  }`}
+                  textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
+                  disabled={closeTradesLocked}
+                  title={
+                    (closeTradesLocked &&
+                      t(translations.maintenance.closeMarginTrades).replace(
+                        /<\/?\d+>/g,
+                        '',
+                      )) ||
+                    undefined
+                  }
+                />
+              )}
+              {pending && (
+                <TableTransactionStatus transactionStatus={TxStatus.PENDING} />
+              )}
+            </div>
+            <CloseLimitPositionDialog
+              order={order}
+              onCloseModal={() => setShowClosePosition(false)}
+              showModal={showClosePosition}
+              position={position}
+            >
+              <TradeDialogInfo
+                position={position}
+                leverage={leverage}
+                orderTypeValue={OrderType.LIMIT}
+                amount={tradeAmount}
+                collateral={collateralAsset}
+                loanToken={loanAsset}
+                collateralToken={collateralAsset}
+                minEntryPrice={toNumberFormat(minEntry, 6)}
+                useLoanTokens
+              />
+            </CloseLimitPositionDialog>
+          </td>
+        </>
+      )}
     </tr>
   );
 };

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { BigNumber } from 'ethers';
-import { LimitOrder, IApiLimitOrder } from 'app/pages/SpotTradingPage/types';
+import { ILimitOrder, IApiLimitOrder } from 'app/pages/SpotTradingPage/types';
 import { limitOrderUrl, currentChainId } from 'utils/classifiers';
 import axios, { Canceler } from 'axios';
 import { useCallback, useRef } from 'react';
@@ -23,12 +23,13 @@ export const marginOrderParser = (
   filledAmount: BigNumber.from(order.filled.hex).toString(),
 });
 
-export const orderParser = (order: IApiLimitOrder): LimitOrder => ({
+export const orderParser = (order: IApiLimitOrder): ILimitOrder => ({
   ...order,
   amountIn: BigNumber.from(order.amountIn.hex),
   amountOutMin: BigNumber.from(order.amountOutMin.hex),
   deadline: BigNumber.from(order.deadline.hex),
   created: BigNumber.from(order.created.hex),
+  filled: BigNumber.from(order.filled.hex),
   filledAmount: BigNumber.from(order.filled.hex).toString(),
 });
 

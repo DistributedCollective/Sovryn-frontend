@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-import { BigNumber, ethers } from 'ethers';
+import { ethers } from 'ethers';
 import { SignatureLike } from 'ethers/node_modules/@ethersproject/bytes';
 import { toWei } from 'web3-utils';
 
@@ -20,7 +20,7 @@ import {
   CheckAndApproveResult,
   contractWriter,
 } from 'utils/sovryn/contract-writer';
-import { IApiLimitMarginOrder } from './types';
+import { MarginLimitOrder } from 'app/pages/MarginTradePage/types';
 
 export const useMarginLimitOrder = (
   pair: TradingPair,
@@ -30,7 +30,7 @@ export const useMarginLimitOrder = (
   collateralTokenSent: string,
   minEntryPrice: string,
   duration: number = 365,
-  onSuccess: (order: IApiLimitMarginOrder, data) => void,
+  onSuccess: (order: MarginLimitOrder, data) => void,
   onError: () => void,
   onStart: () => void,
 ) => {
@@ -123,29 +123,20 @@ export const useMarginLimitOrder = (
       );
 
       if (orderResult.success) {
-        const newOrder: IApiLimitMarginOrder = {
+        const newOrder: MarginLimitOrder = {
           loanId: order.loanId,
           loanTokenAddress: order.loanTokenAddress,
           collateralTokenAddress: order.collateralTokenAddress,
           trader: order.trader,
           loanDataBytes: order.loanDataBytes,
-          leverageAmount: {
-            hex: BigNumber.from(order.leverageAmount).toString(),
-          },
-          loanTokenSent: {
-            hex: BigNumber.from(order.loanTokenSent).toString(),
-          },
-          collateralTokenSent: {
-            hex: BigNumber.from(order.collateralTokenSent).toString(),
-          },
-          minEntryPrice: {
-            hex: BigNumber.from(order.minEntryPrice).toString(),
-          },
-          deadline: { hex: BigNumber.from(order.deadline).toString() },
-          createdTimestamp: {
-            hex: BigNumber.from(order.createdTimestamp).toString(),
-          },
-          filled: { hex: BigNumber.from('0').toString() },
+          leverageAmount: order.leverageAmount,
+          loanTokenSent: order.loanTokenSent,
+          collateralTokenSent: order.collateralTokenSent,
+          minEntryPrice: order.minEntryPrice,
+          deadline: order.deadline,
+          createdTimestamp: order.createdTimestamp,
+          filled: '0',
+          filledAmount: '0',
           canceled: false,
           v: orderResult?.data?.v,
           r: orderResult?.data?.r,

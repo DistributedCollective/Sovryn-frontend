@@ -7,7 +7,7 @@ import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
 import { bignumber } from 'mathjs';
 import { useWalletContext } from '@sovryn/react-wallet';
-import { TradingTypes, ITradeFormProps, IApiLimitOrder } from '../../types';
+import { TradingTypes, ITradeFormProps, ILimitOrder } from '../../types';
 import { OrderType } from 'app/components/OrderTypeTitle/types';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { maxMinusFee } from 'utils/helpers';
@@ -150,7 +150,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
   );
 
   const onSuccess = useCallback(
-    (order: IApiLimitOrder, data) => {
+    (order: ILimitOrder, data) => {
       setTxHash(data.hash);
       setOrderStatus(TxStatus.CONFIRMED);
       dispatch(actions.addPendingLimitOrders(order));

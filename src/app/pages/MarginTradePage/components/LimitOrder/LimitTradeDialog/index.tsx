@@ -23,8 +23,8 @@ import { TxStatus } from 'store/global/transactions-store/types';
 import { LimitResultDialog } from './LimitResultDialog';
 import { TradeDialogInfo } from '../../TradeDialog/TradeDialogInfo';
 import { useTrading_resolvePairTokens } from 'app/hooks/trading/useTrading_resolvePairTokens';
-import { IApiLimitMarginOrder } from 'app/hooks/limitOrder/types';
 import { bignumber } from 'mathjs';
+import { MarginLimitOrder } from 'app/pages/MarginTradePage/types';
 
 interface ILimitTradeDialogProps {
   isOpen: boolean;
@@ -61,7 +61,7 @@ export const LimitTradeDialog: React.FC<ILimitTradeDialogProps> = ({
   } = useTrading_resolvePairTokens(pair, position, collateral);
 
   const onSuccess = useCallback(
-    (order: IApiLimitMarginOrder, data) => {
+    (order: MarginLimitOrder, data) => {
       setTxHash(data.hash);
       setOrderStatus(TxStatus.CONFIRMED);
       dispatch(actions.addPendingLimitOrders(order));
@@ -121,7 +121,7 @@ export const LimitTradeDialog: React.FC<ILimitTradeDialogProps> = ({
             loanToken={loanToken}
             collateralToken={collateralToken}
             useLoanTokens={useLoanTokens}
-            minEntryPrice={toNumberFormat(minEntryPrice, 4)}
+            minEntryPrice={toNumberFormat(minEntryPrice, 6)}
           />
           <div className="tw-pt-3 tw-pb-2 tw-px-6 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
             <LabelValuePair

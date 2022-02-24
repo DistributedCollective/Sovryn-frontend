@@ -143,7 +143,7 @@ export const pairList = Object.keys(pairs);
 
 export interface SpotTradingPageState {
   pairType: SpotPairType;
-  pendingLimitOrders: IApiLimitOrder[];
+  pendingLimitOrders: ILimitOrder[];
 }
 
 export enum TradingTypes {
@@ -183,20 +183,21 @@ export const getSpotPairs = (pair: SpotPairType) => {
 
 export type ContainerState = SpotTradingPageState;
 
-export type LimitOrder = {
+export type ILimitOrder = {
   hash?: string;
   maker: string;
   fromToken: string;
   toToken: string;
-  amountIn: BigNumber;
-  amountOutMin: BigNumber;
+  amountIn: BigNumber | string;
+  amountOutMin: BigNumber | string;
   recipient: string;
-  deadline: BigNumber;
-  created: BigNumber;
+  deadline: BigNumber | string;
+  created: BigNumber | string;
   v: string;
   r: string;
   s: string;
   canceled?: boolean;
+  filled?: BigNumber | string;
   filledAmount?: string;
 };
 

@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { translations } from 'locales/i18n';
 import { Dialog } from 'app/containers/Dialog/Loadable';
-import { LimitOrder, TradingTypes } from 'app/pages/SpotTradingPage/types';
+import { ILimitOrder, TradingTypes } from 'app/pages/SpotTradingPage/types';
 import { Trans, useTranslation } from 'react-i18next';
 import { useCancelLimitOrder } from 'app/hooks/limitOrder/useLimitOrder';
 import { DialogButton } from 'app/components/Form/DialogButton';
@@ -17,7 +17,7 @@ import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalcu
 import { Toast } from 'app/components/Toast';
 import { OrderType } from 'app/components/OrderTypeTitle/types';
 interface IClosePositionDialogProps {
-  order: LimitOrder;
+  order: ILimitOrder;
   showModal: boolean;
   onCloseModal: () => void;
   fromToken: AssetDetails;
