@@ -530,6 +530,7 @@ const InnerStakePage: React.FC = () => {
           <TxDialog tx={withdrawTx} />
           <TxDialog tx={delegateTx} />
           <TxDialog tx={vestingDelegateTx} />
+
           <>
             {balanceOf.value !== '0' && (
               <>
