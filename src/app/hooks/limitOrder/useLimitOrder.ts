@@ -114,6 +114,7 @@ export const useLimitOrder = (
           deadline: order.deadline,
           created: order.created,
           filled: '0',
+          filledAmount: '0',
           canceled: false,
           v: data?.data?.v,
           r: data?.data?.r,
