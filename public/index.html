@@ -106,29 +106,6 @@
         text-decoration: none;
       }
     </style>
-
-    <% if (process.env.REACT_APP_NETWORK=='mainnet') { %>
-    <!-- Matomo -->
-    <script type="text/javascript">
-      var _paq = (window._paq = window._paq || []);
-      /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-      _paq.push(['trackPageView']);
-      _paq.push(['enableLinkTracking']);
-      (function () {
-        var u = 'https://sovrynapp.matomo.cloud/';
-        _paq.push(['setTrackerUrl', u + 'matomo.php']);
-        _paq.push(['setSiteId', '2']);
-        var d = document,
-          g = d.createElement('script'),
-          s = d.getElementsByTagName('script')[0];
-        g.type = 'text/javascript';
-        g.async = true;
-        g.src = '//cdn.matomo.cloud/sovrynapp.matomo.cloud/matomo.js';
-        s.parentNode.insertBefore(g, s);
-      })();
-    </script>
-    <!-- End Matomo Code -->
-    <% } %>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

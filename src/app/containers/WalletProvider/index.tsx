@@ -6,7 +6,6 @@
 
 import React, { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import crypto from 'crypto';
 import {
   useWalletContext,
   WalletProvider as SovrynWallet,
@@ -28,9 +27,10 @@ import { selectRequestDialogState } from '../../../store/global/transactions-sto
 import { TxRequestDialog } from './components/TxRequestDialog';
 import { currentChainId } from '../../../utils/classifiers';
 import { actions } from './slice';
-import { useEvent } from 'app/hooks/useAnalytics';
+import { setIdentity, useEvent } from 'app/hooks/useAnalytics';
 import { selectWalletProvider } from './selectors';
 import { useLocation } from 'react-router-dom';
+import { detectWeb3Wallet } from 'utils/helpers';
 
 interface Props {
   children: React.ReactNode;
@@ -83,13 +83,11 @@ function WalletWatcher() {
 
   useEffect(() => {
     if (address) {
-      setEvent({
-        category: 'Wallet',
-        action: 'Engaged',
-        label: `${
-          wallet?.wallet?.getWalletType() || 'unknown'
-        }:${crypto.createHash('md5').update(address).digest('hex')}`,
+      setEvent('Wallet Engaged', {
+        type: detectWeb3Wallet(),
+        network: wallet?.wallet?.chainId || 'unknown',
       });
+      setIdentity(address);
     }
     dispatch(actions.accountChanged(address || ''));
   }, [dispatch, address, setEvent, wallet?.wallet]);
