@@ -16,7 +16,7 @@ export function useMarginTrade(
   collateralTokenSent,
   collateralToken: Asset,
   trader,
-  minReturn,
+  minEntryPrice,
   loanDataBytes,
   weiAmount: string = '0',
 ) {
@@ -36,7 +36,7 @@ export function useMarginTrade(
           collateralTokenSent,
           getTokenContract(collateralToken).address,
           trader,
-          minReturn,
+          minEntryPrice,
           loanDataBytes,
         ],
         {

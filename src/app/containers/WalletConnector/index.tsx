@@ -129,6 +129,7 @@ const WalletConnectorContainer: React.FC<Props> = ({
               <StyledButton className="xl:tw-hidden">
                 <Icon
                   icon="user"
+                  iconSize={24}
                   className={classNames(lightMode && 'tw-text-black')}
                 />
               </StyledButton>
