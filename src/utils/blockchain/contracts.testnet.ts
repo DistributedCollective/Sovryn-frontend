@@ -298,12 +298,12 @@ export const contracts = {
     abi: fastBtcBridgeAbi,
   },
   perpetualManager: {
-    address: '0x95e167Fa0b3AFe098399e5c4a41eb0d290c3d49e',
+    address: '0x4ba52e04aa0669305311E96062E682664f1d3A39',
     abi: perpetualManagerAbi,
     chainId: ChainId.BSC_TESTNET,
   },
   PERPETUALS_token: {
-    address: '0xbd30Df7e38087fd7Afb2dA9215B3f173D8DCbCa5',
+    address: '0x18f41b0605f79a91A8d3D04290bbfbE35A157982',
     abi: marginTokenAbi,
     chainId: ChainId.BSC_TESTNET,
   },

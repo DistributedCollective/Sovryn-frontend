@@ -854,9 +854,33 @@
         "type": "bytes32"
       },
       {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "liquidityPoolId",
+        "type": "uint256"
+      },
+      {
         "indexed": false,
         "internalType": "int128",
-        "name": "fTargetAMMFundSize",
+        "name": "fAMMFundCashCCInPerpetual",
+        "type": "int128"
+      },
+      {
+        "indexed": false,
+        "internalType": "int128",
+        "name": "fTargetAMMFundSizeInPerpetual",
+        "type": "int128"
+      },
+      {
+        "indexed": false,
+        "internalType": "int128",
+        "name": "fAMMFundCashCCInPool",
+        "type": "int128"
+      },
+      {
+        "indexed": false,
+        "internalType": "int128",
+        "name": "fTargetAMMFundSizeInPool",
         "type": "int128"
       },
       {
@@ -908,6 +932,12 @@
         "internalType": "uint256",
         "name": "liquidityPoolId",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "int128",
+        "name": "fDefaultFundCashCC",
+        "type": "int128"
       },
       {
         "indexed": false,
