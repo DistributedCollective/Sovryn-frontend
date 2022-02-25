@@ -361,7 +361,6 @@ export function getBase2CollateralFX(
 
 export function findRoot(f: Function, x: number, doConsoleLog = false) {
   let numIter = 100;
-  const dx = 1e-6;
   const fTol = 1e-10;
   let y = x + 0.001;
 
@@ -621,7 +620,6 @@ export function getTradeAmountFromPrice(
   doLog = false,
 ) {
   const numIter = 100;
-  const dk = 1e-8;
   const fTol = 1e-7;
 
   function getPrice(x: number) {

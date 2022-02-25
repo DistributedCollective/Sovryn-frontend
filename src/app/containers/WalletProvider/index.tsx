@@ -59,7 +59,7 @@ export function WalletProvider(props: Props) {
       enableSoftwareWallet:
         process.env.REACT_APP_ENABLE_SOFTWARE_WALLET === 'true',
     };
-  }, [bridgeChainId]);
+  }, [signTypedRequired, bridgeChainId]);
 
   return (
     <SovrynWallet options={options}>

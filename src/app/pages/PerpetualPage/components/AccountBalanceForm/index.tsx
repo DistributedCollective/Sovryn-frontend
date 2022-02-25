@@ -186,11 +186,27 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
         </Tooltip>
       </div>
       <div className="tw-flex tw-flex-col md:tw-flex-row tw-justify-center tw-mx-auto tw-mt-16 tw-space-y-4 md:tw-space-y-0 md:tw-space-x-10">
-        <ActionButton onClick={onOpenDeposit}>
+        <ActionButton
+          onClick={onOpenDeposit}
+          disabled={fundAccountLocked}
+          tooltip={
+            fundAccountLocked
+              ? t(translations.maintenance.perpetualsAccountFund)
+              : undefined
+          }
+        >
           {t(translations.perpetualPage.accountBalance.deposit)}
         </ActionButton>
 
-        <ActionButton onClick={onOpenWithdraw}>
+        <ActionButton
+          onClick={onOpenWithdraw}
+          disabled={withdrawAccountLocked}
+          tooltip={
+            withdrawAccountLocked
+              ? t(translations.maintenance.perpetualsAccountWithdraw)
+              : undefined
+          }
+        >
           {t(translations.perpetualPage.accountBalance.withdraw)}
         </ActionButton>
 

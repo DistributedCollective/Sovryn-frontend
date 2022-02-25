@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 import { translations } from 'locales/i18n';
 import { WithdrawContext, WithdrawStep } from '../../contexts/withdraw-context';
 import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
-import { Asset } from '../../../../../types';
 import { SendTxResponse } from '../../../../hooks/useSendContractTx';
 import { WalletTxHelper } from './WalletTxHelper';
 import { TxStatus } from '../../../../../store/global/transactions-store/types';
