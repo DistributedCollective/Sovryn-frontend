@@ -588,7 +588,7 @@ export const LabelValuePair: React.FC<ILabelValuePairProps> = ({
       className,
     )}
   >
-    <div className="tw-w-1/2 tw-text-gray-10 tw-text-gray-10">{label}</div>
-    <div className="sm:tw-w-1/3 tw-w-1/2 tw-font-medium">{value}</div>
+    <div className="tw-w-1/2 tw-text-gray-10">{label}</div>
+    <div className="tw-pl-2 tw-w-1/2 tw-font-medium">{value}</div>
   </div>
 );
