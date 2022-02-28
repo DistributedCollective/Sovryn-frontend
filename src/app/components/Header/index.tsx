@@ -511,35 +511,35 @@ export function Header() {
               </NavPopover>
             </div>
           </div>
+        </div>
 
-          <div className="tw-flex tw-justify-start tw-items-center">
-            <Link
-              className={classNames(
-                'tw-btn-action tw-hidden sm:tw-flex tw-mx-2 2xl:tw-mr-4',
-                {
-                  'tw-hidden': !connected,
-                },
-              )}
-              to={{
-                pathname: '/wallet',
-              }}
-            >
-              <span>{t(translations.common.deposit)}</span>
-            </Link>
-            <a
-              href="https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="tw-header-link tw-hidden xl:tw-block xl:tw-mr-2"
-              data-action-id="header-link-help"
-            >
-              {t(translations.mainMenu.help)}
-            </a>
-            <div className="2xl:tw-mr-4">
-              <LanguageToggle />
-            </div>
-            <WalletConnector />
+        <div className="tw-flex tw-justify-start tw-items-center">
+          <Link
+            className={classNames(
+              'tw-btn-action tw-hidden sm:tw-flex tw-mx-2 2xl:tw-mr-4',
+              {
+                'tw-hidden': !connected,
+              },
+            )}
+            to={{
+              pathname: '/wallet',
+            }}
+          >
+            <span>{t(translations.common.deposit)}</span>
+          </Link>
+          <a
+            href="https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="tw-header-link tw-hidden xl:tw-block xl:tw-mr-2"
+            data-action-id="header-link-help"
+          >
+            {t(translations.mainMenu.help)}
+          </a>
+          <div className="2xl:tw-mr-4">
+            <LanguageToggle />
           </div>
+          <WalletConnector />
         </div>
       </div>
     </header>
