@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import styles from './index.module.scss';
 
 export enum CheckboxAlignment {
@@ -8,7 +8,7 @@ export enum CheckboxAlignment {
 }
 
 type CheckboxProps = {
-  label: string | React.ReactNode;
+  label: React.ReactNode;
   checked: boolean;
   onChange: () => void;
   disabled?: boolean;
@@ -26,14 +26,6 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   alignment = CheckboxAlignment.LEFT,
   className,
 }) => {
-  const onClick = useCallback(
-    e => {
-      e.preventDefault();
-      !disabled && onChange();
-    },
-    [disabled, onChange],
-  );
-
   const isRightAligned = useMemo(() => alignment === CheckboxAlignment.RIGHT, [
     alignment,
   ]);
@@ -49,21 +41,26 @@ export const Checkbox: React.FC<CheckboxProps> = ({
       )}
     >
       <label
-        className={classNames(styles.label, {
-          [styles.labelDisabled]: disabled,
-        })}
-        onClick={onClick}
+        className={classNames(
+          'tw-relative tw-cursor-pointer tw-flex tw-items-center tw-normal-case',
+          {
+            'tw-cursor-not-allowed tw-opacity-50': disabled,
+          },
+        )}
       >
-        <input type="checkbox" className="tw-hidden" />
+        <input
+          type="checkbox"
+          className={styles.hiddenInput}
+          checked={checked}
+          onChange={onChange}
+        />
         <span
-          className={classNames(
-            styles.checkbox,
-            checked && styles.checkboxChecked,
-            {
-              'tw-order-last tw-ml-2.5 tw-mr-0': isRightAligned,
-              [styles.checkboxDisabled]: disabled,
-            },
-          )}
+          className={classNames(styles.checkbox, {
+            [styles.checkboxChecked]: checked,
+            'tw-order-last tw-ml-2.5 tw-mr-0': isRightAligned,
+            'tw-opacity-50': disabled,
+          })}
+          aria-hidden="true"
         />
         {label}
       </label>
