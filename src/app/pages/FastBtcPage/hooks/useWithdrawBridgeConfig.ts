@@ -23,11 +23,7 @@ export function useWithdrawBridgeConfig(network: Chain = Chain.RSK) {
       .call(Chain.RSK, address, abi, 'currentFeeStructureIndex', [])
       .then(feeStructureIndex => {
         bridgeNetwork
-          .multiCall<{
-            minTransferSatoshi: number;
-            maxTransferSatoshi: number;
-            feeStructures: { baseFeeSatoshi: number; dynamicFee: number };
-          }>(Chain.RSK, [
+          .multiCall(Chain.RSK, [
             {
               address,
               abi,
@@ -90,10 +86,7 @@ export function useWithdrawBridgeConfig(network: Chain = Chain.RSK) {
       const basset = getFastBTCWithdrawalContract(Chain.RSK, 'btcWrapperToken');
 
       bridgeNetwork
-        .multiCall<{
-          getFeePerToken: number;
-          getMinPerToken: number;
-        }>(Chain.RSK, [
+        .multiCall(Chain.RSK, [
           {
             address: allowTokens.address,
             abi: allowTokens.abi,

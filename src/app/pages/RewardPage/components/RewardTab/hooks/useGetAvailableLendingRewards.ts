@@ -24,7 +24,7 @@ export const useGetAvailableLendingRewards = (): string => {
     );
 
     bridgeNetwork
-      .multiCall<{ [key: string]: string }>(
+      .multiCall(
         Chain.RSK,
         lendingPools.flatMap((item, index) => {
           return [
@@ -51,7 +51,7 @@ export const useGetAvailableLendingRewards = (): string => {
       });
 
     bridgeNetwork
-      .multiCall<{ [key: string]: string }>(
+      .multiCall(
         Chain.RSK,
         lendingPools.flatMap((item, index) => {
           return [

@@ -40,7 +40,7 @@ export const useGetAvailableLiquidityRewards = (): string => {
           : [item.poolTokenA, item.poolTokenB],
       );
       bridgeNetwork
-        .multiCall<{ [key: string]: string }>(
+        .multiCall(
           Chain.RSK,
           pools.flatMap((item, index) => {
             return [
@@ -70,7 +70,7 @@ export const useGetAvailableLiquidityRewards = (): string => {
         });
 
       bridgeNetwork
-        .multiCall<{ [key: string]: string }>(
+        .multiCall(
           Chain.RSK,
           pools.flatMap(item => {
             return [
