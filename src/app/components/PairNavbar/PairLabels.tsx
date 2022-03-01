@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { IPairData, TradingType } from 'types/trading-pairs';
 import { Asset } from 'types';
 import { pairList, pairs } from 'app/pages/SpotTradingPage/types';
+import { AssetSymbolRenderer } from '../AssetSymbolRenderer';
 
 interface IPairLabelsProps {
   onChangeCategory: (value: string) => void;
@@ -71,7 +72,7 @@ export const PairLabels: React.FC<IPairLabelsProps> = ({
               key={currency}
               onClick={() => onChangeCategory(currency === ALL ? '' : currency)}
             >
-              {currency}
+              <AssetSymbolRenderer asset={currency} />
             </div>
           );
         })}

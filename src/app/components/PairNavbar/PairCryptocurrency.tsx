@@ -110,27 +110,65 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
     return category === FAVORITE
       ? favList
       : currencyListFiltered.filter(item => {
+          let searchAsset = search;
+          if (searchAsset.toLowerCase() === 'eths') {
+            searchAsset = Asset.ETH;
+          } else if (searchAsset.toLowerCase() === 'bnbs') {
+            searchAsset = Asset.BNB;
+          }
+
+          if (search.length && category && category !== Asset.RBTC) {
+            return (
+              (item[0].base_symbol.includes(searchAsset.toUpperCase()) &&
+                item[0].base_symbol.includes(category)) ||
+              (item[1].base_symbol.includes(searchAsset.toUpperCase()) &&
+                item[1].base_symbol.includes(category)) ||
+              (item[0].quote_symbol.includes(searchAsset.toUpperCase()) &&
+                item[0].quote_symbol.includes(category)) ||
+              (item[1].quote_symbol.includes(searchAsset.toUpperCase()) &&
+                item[1].quote_symbol.includes(category)) ||
+              (item[0].base_symbol.includes(searchAsset.toUpperCase()) &&
+                item[1].base_symbol.includes(category)) ||
+              (item[1].base_symbol.includes(searchAsset.toUpperCase()) &&
+                item[0].base_symbol.includes(category)) ||
+              (item[0].quote_symbol.includes(searchAsset.toUpperCase()) &&
+                item[1].quote_symbol.includes(category)) ||
+              (item[1].quote_symbol.includes(searchAsset.toUpperCase()) &&
+                item[0].quote_symbol.includes(category)) ||
+              (item[0].quote_symbol.includes(searchAsset.toUpperCase()) &&
+                item[0].base_symbol.includes(category) &&
+                item[0].base_symbol === item[1].base_symbol)
+            );
+          }
+          if (
+            category === Asset.RBTC &&
+            item[0].base_symbol === item[1].base_symbol
+          ) {
+            return (
+              (item[0].base_symbol.includes(searchAsset.toUpperCase()) &&
+                item[0].quote_symbol.includes(category)) ||
+              (item[0].quote_symbol.includes(searchAsset.toUpperCase()) &&
+                item[0].base_symbol.includes(category)) ||
+              (item[0].quote_symbol.includes(searchAsset.toUpperCase()) &&
+                item[0].quote_symbol.includes(category))
+            );
+          }
           if (item[0].base_symbol !== item[1].base_symbol) {
             //filtering pairs without RBTC as a source pair
             return (
-              (item[0].base_symbol.includes(search.toUpperCase()) &&
+              (item[0].base_symbol.includes(searchAsset.toUpperCase()) &&
                 item[0].base_symbol.includes(category)) ||
-              (item[1].base_symbol.includes(search.toUpperCase()) &&
-                item[0].base_symbol.includes(category))
+              (item[1].base_symbol.includes(searchAsset.toUpperCase()) &&
+                item[1].base_symbol.includes(category))
             );
-          } else if (item[0].base_symbol === item[1].base_symbol && !item[2]) {
+          }
+          if (item[0].base_symbol === item[1].base_symbol) {
             //filtering pairs only for RBTC as target
             return (
-              (item[0].base_symbol.includes(search.toUpperCase()) &&
+              (item[0].base_symbol.includes(searchAsset.toUpperCase()) &&
                 item[0].base_symbol.includes(category)) ||
-              (item[1].base_symbol.includes(search.toUpperCase()) &&
-                item[0].base_symbol.includes(category))
-            );
-          } else if (item[0].base_symbol === item[1].base_symbol && item[2]) {
-            //filtering pairs only for RBTC as source
-            return (
-              item[0].quote_symbol.includes(search.toUpperCase()) &&
-              item[0].quote_symbol.includes(category)
+              (item[0].quote_symbol.includes(searchAsset.toUpperCase()) &&
+                item[0].quote_symbol.includes(category))
             );
           }
           return false;
