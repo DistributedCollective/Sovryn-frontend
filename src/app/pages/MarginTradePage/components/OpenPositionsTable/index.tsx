@@ -82,22 +82,6 @@ export function OpenPositionsTable() {
             </th>
             <th className="tw-w-full tw-hidden 2xl:tw-table-cell">
               {t(translations.openPositionTable.interestAPR)}
-              <Popover
-                content={
-                  <div className="tw-px-12 tw-py-8 tw-font-light">
-                    <Trans
-                      i18nKey={
-                        translations.openPositionTable.explainers.unrealizedPL
-                      }
-                      components={[<strong className="tw-font-bold" />]}
-                    />
-                  </div>
-                }
-                className="tw-pl-2"
-                popoverClassName={'tw-w-1/2 tw-transform tw-translate-x-full'}
-              >
-                <Icon className="tw-cursor-pointer" icon="info-sign" />
-              </Popover>
             </th>
             <th className="tw-w-full tw-hidden 2xl:tw-table-cell">
               {t(translations.openPositionTable.rolloverDate)}
