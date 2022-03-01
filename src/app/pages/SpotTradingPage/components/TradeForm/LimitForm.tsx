@@ -88,7 +88,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
     }
 
     return bignumber(limitPrice)
-      .div(weiToFixed(marketPrice, 6))
+      .div(weiToFixed(marketPrice, 8))
       .mul(100)
       .minus(100)
       .toNumber();
@@ -99,7 +99,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
       marketPrice !== '0' &&
       (limitPrice === '' || stringToFixedPrecision(limitPrice, 0) === '0')
     ) {
-      setLimitPrice(weiToFixed(marketPrice, 6));
+      setLimitPrice(weiToFixed(marketPrice, 8));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [marketPrice]);
@@ -229,6 +229,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
           </span>
           <AmountInput
             value={amount}
+            decimalPrecision={8}
             onChange={setAmount}
             asset={sourceToken}
             hideAmountSelector
@@ -245,7 +246,8 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
               <AssetRenderer asset={pair[1]} />
             </div>
             <AmountInput
-              value={stringToFixedPrecision(limitPrice, 6)}
+              value={stringToFixedPrecision(limitPrice, 8)}
+              decimalPrecision={8}
               onChange={setLimitPrice}
               hideAmountSelector
               dataActionId="spot-limit-limitPrice"

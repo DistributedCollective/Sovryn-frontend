@@ -146,7 +146,7 @@ export const LimitTradeDialog: React.FC<ILimitTradeDialogProps> = ({
                 <>
                   {weiToNumberFormat(
                     bignumber(amount).mul(leverage).toFixed(0),
-                    4,
+                    8,
                   )}{' '}
                   <AssetRenderer asset={collateral} />
                 </>
@@ -156,7 +156,7 @@ export const LimitTradeDialog: React.FC<ILimitTradeDialogProps> = ({
               label={t(translations.marginTradePage.tradeDialog.margin)}
               value={
                 <>
-                  {weiToNumberFormat(amount, 4)}{' '}
+                  {weiToNumberFormat(amount, 8)}{' '}
                   <AssetRenderer asset={collateral} />
                 </>
               }

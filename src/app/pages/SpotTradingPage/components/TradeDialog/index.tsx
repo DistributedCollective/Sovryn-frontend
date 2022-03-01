@@ -132,7 +132,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
                     )}
                     value={
                       <>
-                        {stringToFixedPrecision(limitPrice, 6)}{' '}
+                        {stringToFixedPrecision(limitPrice, 8)}{' '}
                         <AssetRenderer asset={pair[1]} />
                       </>
                     }
