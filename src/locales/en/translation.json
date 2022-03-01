@@ -596,7 +596,7 @@
       "positionSize": "Position Size",
       "profit": "Profit / Loss",
       "currentMargin": "Current Margin",
-      "interestApr": "Interest APY",
+      "interestApr": "Interest APR",
       "startPrice": "Start Price",
       "container": {
         "topUp": "Top-Up",
@@ -606,7 +606,7 @@
   },
   "expandedRowMobile": {
     "currentMargin": "Current Margin",
-    "interestAPR": "Interest APY",
+    "interestAPR": "Interest APR",
     "startPrice": "Start Price",
     "leverage": "Leverage",
     "startMargin": "Start Margin",
@@ -2193,7 +2193,7 @@
     "liquidationPrice": "Liquidation Price",
     "positionMargin": "Position Margin",
     "unrealizedPL": "Unrealized P&L",
-    "interestAPR": "Interest APY",
+    "interestAPR": "Interest APR",
     "actions": "Actions",
     "noData": "No data",
     "rolloverDate": "Rollover Date",

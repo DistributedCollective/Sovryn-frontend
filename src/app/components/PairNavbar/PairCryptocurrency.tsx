@@ -327,20 +327,20 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
 
   return (
     <div className="tw-max-h-96 tw-overflow-auto tw-w-full">
-      <table className="tw-w-full">
-        <thead>
+      <table className="tw-w-full tw-table-fixed">
+        <thead className="tw-sticky tw-top-0 tw-bg-gray-2 tw-z-20">
           <tr>
-            <td className="tw-w-8"></td>
-            <td>{t(translations.pairNavbar.pair)}</td>
-            <td className="tw-text-right">
+            <th className="tw-w-8"></th>
+            <th>{t(translations.pairNavbar.pair)}</th>
+            <th className="tw-text-right">
               {t(translations.pairNavbar.lastTradedPrice)}
-            </td>
-            <td className="tw-text-right tw-pr-5">
+            </th>
+            <th className="tw-text-right tw-pr-5">
               {t(translations.pairNavbar.dayChange)}
-            </td>
+            </th>
           </tr>
         </thead>
-        <tbody>
+        <tbody className="tw-overflow-auto tw-d-block">
           {filteredList.map((pair: ITradingPairs) => {
             if (!isValidPair(pair[0], pair[1], pair[2])) {
               return null;
@@ -348,7 +348,7 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
             return (
               <tr
                 key={pair[0].base_id + pair[1].base_id + pair[2]}
-                className="tw-text-sm tw-cursor-pointer tw-transition-opacity hover:tw-opacity-75"
+                className="tw-text-sm tw-cursor-pointer tw-transition-opacity hover:tw-opacity-75 tw-d-table tw-table-fixed"
               >
                 <td>
                   <StarButton

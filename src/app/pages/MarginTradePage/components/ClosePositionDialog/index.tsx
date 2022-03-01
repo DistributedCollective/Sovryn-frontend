@@ -349,6 +349,7 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
             methodName="closeWithSwap"
             contractName="sovrynProtocol"
             txConfig={{ gas: gasLimit[TxType.CLOSE_WITH_SWAP] }}
+            className="tw-text-right"
           />
         }
         tx={rest}

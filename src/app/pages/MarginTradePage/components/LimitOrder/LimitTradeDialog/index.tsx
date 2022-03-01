@@ -18,7 +18,7 @@ import { AssetRenderer } from 'app/components/AssetRenderer';
 import { OrderType } from 'app/components/OrderTypeTitle/types';
 
 import { useMarginLimitOrder } from 'app/hooks/limitOrder/useMarginLimitOrder';
-import { LabelValuePair } from '../../TradeDialog';
+import { LabelValuePair } from 'app/components/LabelValuePair';
 import { TxStatus } from 'store/global/transactions-store/types';
 import { LimitResultDialog } from './LimitResultDialog';
 import { TradeDialogInfo } from '../../TradeDialog/TradeDialogInfo';
