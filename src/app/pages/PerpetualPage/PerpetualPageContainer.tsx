@@ -16,7 +16,7 @@ import {
   PerpetualPairDictionary,
   PerpetualPairType,
 } from '../../../utils/dictionaries/perpetual-pair-dictionary';
-import { Theme, TradingChart } from './components/TradingChart';
+import { TradingChart } from './components/TradingChart';
 import { OpenPositionsTable } from './components/OpenPositionsTable';
 import { useIsConnected } from '../../hooks/useAccount';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -137,11 +137,7 @@ export const PerpetualPageContainer: React.FC = () => {
               className={'tw-max-w-full xl:tw-w-3/5 2xl:tw-w-2/5'}
               hasCustomHeight
             >
-              <TradingChart
-                symbol={pair.chartSymbol}
-                theme={Theme.DARK}
-                hasCustomDimensions
-              />
+              <TradingChart symbol={pair.chartSymbol} hasCustomDimensions />
             </DataCard>
             <DataCard
               className="xl:tw-hidden 2xl:tw-flex xl:tw-w-1/5"

@@ -24,15 +24,28 @@ import {
   makeApiRequest,
 } from './helpers';
 import { ApolloClient } from '@apollo/client';
+import {
+  ChartingLibraryWidgetOptions,
+  SearchSymbolsCallback,
+  LibrarySymbolInfo,
+} from '@distributedcollective/charting-library/src/charting_library/charting_library.min';
 
 const lastBarsCache = new Map<string, Bar>();
 
-const tradingChartDataFeeds = (graphqlClient: ApolloClient<any>) => ({
+const tradingChartDataFeeds = (
+  graphqlClient: ApolloClient<any>,
+): ChartingLibraryWidgetOptions['datafeed'] => ({
   // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#onreadycallback
   onReady: callback => setTimeout(() => callback(config)),
 
   // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#searchsymbolsuserinput-exchange-symboltype-onresultreadycallback
   // searchSymbols disabled via chart config in index.tsx
+  searchSymbols: (
+    userInput: string,
+    exchange: string,
+    symbolType: string,
+    onResult: SearchSymbolsCallback,
+  ) => {},
 
   // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#resolvesymbolsymbolname-onsymbolresolvedcallback-onresolveerrorcallback-extension
   resolveSymbol: async (
@@ -40,10 +53,14 @@ const tradingChartDataFeeds = (graphqlClient: ApolloClient<any>) => ({
     onSymbolResolvedCallback,
     onResolveErrorCallback,
   ) => {
-    const symbolInfo = {
+    const symbolInfo: LibrarySymbolInfo = {
       name: symbolName,
+      full_name: symbolName,
       description: '',
       type: 'crypto',
+      exchange: '',
+      listed_exchange: '',
+      format: 'price',
       session: '24x7',
       timezone: 'Etc/UTC',
       ticker: symbolName,
@@ -51,7 +68,7 @@ const tradingChartDataFeeds = (graphqlClient: ApolloClient<any>) => ({
       pricescale: 100,
       has_intraday: true,
       intraday_multipliers: ['1', '15', '60', '240'],
-      supported_resolution: supportedResolutions,
+      supported_resolutions: supportedResolutions,
       has_no_volume: false,
       has_empty_bars: false,
       has_daily: true,
@@ -82,7 +99,8 @@ const tradingChartDataFeeds = (graphqlClient: ApolloClient<any>) => ({
       }
     };
     const candleNumber = (): number => {
-      const candleSize = parseInt(resolution) > 0 ? resolution : 1440; //Resolution in minutes - if more than a day, use day
+      const resolutionNumber = parseInt(resolution);
+      const candleSize = resolutionNumber > 0 ? resolutionNumber : 1440; //Resolution in minutes - if more than a day, use day
       const timeSpanSeconds = to - from;
       const numOfCandles = Math.ceil(timeSpanSeconds / (candleSize * 60));
       return numOfCandles;
