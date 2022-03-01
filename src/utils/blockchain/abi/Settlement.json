@@ -63,12 +63,6 @@
         "internalType": "uint256",
         "name": "amount",
         "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "address",
-        "name": "token",
-        "type": "address"
       }
     ],
     "name": "FeeTransferred",
@@ -300,57 +294,7 @@
         "type": "uint256"
       }
     ],
-    "name": "SetMarginOrderGas",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "sender",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "oldValue",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "newValue",
-        "type": "uint256"
-      }
-    ],
-    "name": "SetMinMarginOrderSize",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "sender",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "oldValue",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "newValue",
-        "type": "uint256"
-      }
-    ],
-    "name": "SetMinSwapOrderSize",
+    "name": "SetMinFee",
     "type": "event"
   },
   {
@@ -376,31 +320,6 @@
       }
     ],
     "name": "SetRelayerFee",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "sender",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "oldValue",
-        "type": "uint256"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "newValue",
-        "type": "uint256"
-      }
-    ],
-    "name": "SetSwapOrderGas",
     "type": "event"
   },
   {
@@ -1284,46 +1203,7 @@
   },
   {
     "inputs": [],
-    "name": "marginOrderGas",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
     "name": "minFee",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "minMarginOrderSize",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "minSwapOrderSize",
     "outputs": [
       {
         "internalType": "uint256",
@@ -1390,37 +1270,11 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_newGas",
+        "name": "_minFee",
         "type": "uint256"
       }
     ],
-    "name": "setMarginOrderGas",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_minMarginOrderSize",
-        "type": "uint256"
-      }
-    ],
-    "name": "setMinMarginOrderSize",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_minSwapOrderSize",
-        "type": "uint256"
-      }
-    ],
-    "name": "setMinSwapOrderSize",
+    "name": "setMinFee",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -1439,19 +1293,6 @@
     "type": "function"
   },
   {
-    "inputs": [
-      {
-        "internalType": "uint256",
-        "name": "_newGas",
-        "type": "uint256"
-      }
-    ],
-    "name": "setSwapOrderGas",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
     "inputs": [],
     "name": "sovrynSwapNetwork",
     "outputs": [
@@ -1459,19 +1300,6 @@
         "internalType": "contract ISovrynSwapNetwork",
         "name": "",
         "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "swapOrderGas",
-    "outputs": [
-      {
-        "internalType": "uint256",
-        "name": "",
-        "type": "uint256"
       }
     ],
     "stateMutability": "view",

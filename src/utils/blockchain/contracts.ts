@@ -278,11 +278,11 @@ export const contracts = {
     abi: BabelfishAggregatorAbi,
   },
   orderBook: {
-    address: '0x3aEAABbcc0b15d8Ad85dD6941AC86Fa8C97A00fa',
+    address: '0x1B819cd8DC291c2788cF8a99Ba230ea074866Af1',
     abi: OrderBookAbi,
   },
   orderBookMargin: {
-    address: '0x8c10d2fB5BB144203751B496d6f7e746377cb50E',
+    address: '0xbA37D9382cEa314404d01E123c2e30730409e649',
     abi: OrderBookMarginAbi,
   },
   settlement: {
