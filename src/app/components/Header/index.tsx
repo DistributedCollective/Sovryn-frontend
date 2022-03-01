@@ -58,6 +58,11 @@ export function Header() {
 
   const pages = [
     {
+      to: '',
+      title: t(translations.mainMenu.trade),
+      dataActionId: 'header-link-trade',
+    },
+    {
       to: '/buy-sov',
       title: t(translations.mainMenu.buySov),
       exact: true,
@@ -79,6 +84,11 @@ export function Header() {
       dataActionId: 'header-trade-link-margin',
     },
     {
+      to: '',
+      title: t(translations.mainMenu.finance),
+      dataActionId: 'header-link-finance',
+    },
+    {
       to: '/lend',
       title: t(translations.mainMenu.lend),
       dataActionId: 'header-finance-link-lend',
@@ -94,14 +104,24 @@ export function Header() {
       dataActionId: 'header-finance-link-yieldFarm',
     },
     {
-      to: 'https://bitocracy.sovryn.app',
-      title: t(translations.mainMenu.governance),
-      dataActionId: 'header-bitocracy-link-governance',
+      to: '',
+      title: t(translations.mainMenu.bitocracy),
+      dataActionId: 'header-link-bitocracy',
     },
     {
       to: '/stake',
       title: t(translations.mainMenu.staking),
       dataActionId: 'header-bitocracy-link-stake',
+    },
+    {
+      to: 'https://bitocracy.sovryn.app',
+      title: t(translations.mainMenu.governance),
+      dataActionId: 'header-bitocracy-link-governance',
+    },
+    {
+      to: 'https://forum.sovryn.app',
+      title: t(translations.mainMenu.forum),
+      dataActionId: 'header-bitocracy-link-forum',
     },
     {
       to: '/reward',
@@ -114,8 +134,13 @@ export function Header() {
       dataActionId: 'header-link-portfolio',
     },
     {
-      to: '/origins',
+      to: '',
       title: t(translations.mainMenu.origins),
+      dataActionId: 'header-link-origins',
+    },
+    {
+      to: '/origins',
+      title: t(translations.mainMenu.launchpad),
       dataActionId: 'header-origins-link-launchpad',
     },
     {
@@ -138,6 +163,17 @@ export function Header() {
       beforeOpen?: () => void;
     } = item;
 
+    if (link.to === '') {
+      return (
+        <div
+          className={styles.mobileMenuSection}
+          data-action-id={link.dataActionId}
+        >
+          {link.title}
+        </div>
+      );
+    }
+
     if (link.to.startsWith('http')) {
       return (
         <MenuItem
@@ -147,6 +183,7 @@ export function Header() {
           target="_blank"
           rel="noreferrer noopener"
           data-action-id={link.dataActionId}
+          className="tw-leading-snug"
         />
       );
     }
@@ -161,6 +198,7 @@ export function Header() {
           setOpen(false);
         }}
         data-action-id={link.dataActionId}
+        className="tw-leading-snug"
       />
     );
   });
