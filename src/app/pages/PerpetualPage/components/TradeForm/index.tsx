@@ -37,7 +37,6 @@ import {
   getPrice,
   getSignedMaxAbsPositionForTrader,
 } from '../../utils/perpUtils';
-import { shrinkToLot } from '../../utils/perpMath';
 import {
   getSignedAmount,
   getTradeDirection,
@@ -50,6 +49,9 @@ import { useSelector } from 'react-redux';
 import { selectPerpetualPage } from '../../selectors';
 import { getCollateralName } from '../../utils/renderUtils';
 import { TxType } from '../../../../../store/global/transactions-store/types';
+import { perpMath } from '@sovryn/perpetual-swap';
+
+const { shrinkToLot } = perpMath;
 
 interface ITradeFormProps {
   trade: PerpetualTrade;

@@ -4,7 +4,12 @@
  * Helper-functions for frontend
  */
 
-import {
+import { numberFromWei } from 'utils/blockchain/math-helpers';
+import { gasLimit } from 'utils/classifiers';
+import { TxType } from '../../../../store/global/transactions-store/types';
+import { perpMath } from '@sovryn/perpetual-swap';
+
+const {
   calcKStar,
   shrinkToLot,
   calcPerpPrice,
@@ -18,11 +23,7 @@ import {
   COLLATERAL_CURRENCY_BASE,
   COLLATERAL_CURRENCY_QUANTO,
   getMarginBalanceCC,
-} from './perpMath';
-import { numberFromWei } from 'utils/blockchain/math-helpers';
-import { gasLimit } from 'utils/classifiers';
-import { TxType } from '../../../../store/global/transactions-store/types';
-
+} = perpMath;
 /*---
 // Suffix CC/BC/QC:
 // CC: collateral currency, BC: base currency, QC: quote currency

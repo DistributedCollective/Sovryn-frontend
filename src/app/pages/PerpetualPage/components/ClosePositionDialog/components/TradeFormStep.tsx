@@ -37,10 +37,12 @@ import {
 } from '../../../../../../utils/blockchain/math-helpers';
 import { PerpetualTxMethods, PerpetualTx } from '../../TradeDialog/types';
 import { PerpetualQueriesContext } from 'app/pages/PerpetualPage/contexts/PerpetualQueriesContext';
-import { roundToLot } from '../../../utils/perpMath';
 import { ActionDialogSubmitButton } from '../../ActionDialogSubmitButton';
 import { usePerpetual_isTradingInMaintenance } from 'app/pages/PerpetualPage/hooks/usePerpetual_isTradingInMaintenance';
 import { selectPerpetualPage } from '../../../selectors';
+import { perpMath } from '@sovryn/perpetual-swap';
+
+const { roundToLot } = perpMath;
 
 export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
   changeTo,
