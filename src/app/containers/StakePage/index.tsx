@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Rsk3 from '@rsksmart/rsk3';
-import { Spinner, Tooltip } from '@blueprintjs/core';
+import { Tooltip } from '@blueprintjs/core';
 import { bignumber } from 'mathjs';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -45,6 +45,7 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { AssetDetails } from 'utils/models/asset-details';
 import { getUSDSum } from '../../../utils/helpers';
 import { FeeBlock } from './components/FeeBlock';
+import { Spinner } from 'app/components/Spinner';
 
 const now = new Date();
 

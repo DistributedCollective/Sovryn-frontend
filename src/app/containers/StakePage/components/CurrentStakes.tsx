@@ -18,8 +18,9 @@ import { useStaking_WEIGHT_FACTOR } from '../../../hooks/staking/useStaking_WEIG
 import { weiTo4 } from 'utils/blockchain/math-helpers';
 import { useStaking_computeWeightByDate } from '../../../hooks/staking/useStaking_computeWeightByDate';
 import { useMaintenance } from 'app/hooks/useMaintenance';
-import { Tooltip, Spinner } from '@blueprintjs/core';
+import { Tooltip } from '@blueprintjs/core';
 import type { RevertInstructionError } from 'web3-core-helpers';
+import { Spinner } from 'app/components/Spinner';
 
 interface StakeItem {
   stakedAmount: string;
