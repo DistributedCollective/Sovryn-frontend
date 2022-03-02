@@ -89,25 +89,39 @@ const addSocketEventListeners = (
   });
 };
 
-const formatTradeData = (data: any[]): RecentTradesDataEntry[] => {
-  const parsedData: RecentTradesDataEntry[] = data.map((trade, index) => {
-    const prevTrade = index !== data.length - 1 ? data[index + 1] : data[index];
-    const prevPrice = ABK64x64ToFloat(BigNumber.from(prevTrade.price));
-    const price = ABK64x64ToFloat(BigNumber.from(trade.price));
-    const tradeAmount = ABK64x64ToFloat(BigNumber.from(trade.tradeAmountBC));
+const formatRecentTradesData = (data: { trades: any[]; liquidates: any[] }) =>
+  [
+    ...formatTradeOrLiquidate(data.trades),
+    ...formatTradeOrLiquidate(data.liquidates),
+  ]
+    .sort((a, b) => a.time.localeCompare(b.time))
+    .map((trade, index, array) => {
+      const prevTrade = index < array.length - 1 ? array[index + 1] : trade;
+      return {
+        ...trade,
+        priceChange: getPriceChange(prevTrade.price, trade.price),
+      };
+    });
+
+const formatTradeOrLiquidate = (data: any[]): RecentTradesDataEntry[] =>
+  data.map(trade => {
+    const price = ABK64x64ToFloat(
+      BigNumber.from(trade.price || trade.liquidationPrice),
+    );
+    const tradeAmount = ABK64x64ToFloat(
+      BigNumber.from(trade.tradeAmountBC || trade.amountLiquidatedBC),
+    );
     return {
       id: trade.transaction.id,
       trader: trade.trader?.id,
       price,
-      priceChange: getPriceChange(prevPrice, price),
+      priceChange: TradePriceChange.NO_CHANGE,
       size: Math.abs(tradeAmount),
       time: convertTimestampToTime(parseInt(trade.blockTimestamp) * 1e3),
       type: getTradeType(tradeAmount),
       fromSocket: false,
     };
   });
-  return parsedData;
-};
 
 const convertTimestampToTime = (timestamp: number): string =>
   dayjs(timestamp).utc().format('HH:mm:ss');
@@ -154,7 +168,7 @@ export const RecentTradesContextProvider = props => {
   useEffect(() => {
     if (data) {
       setValue(value => {
-        const trades = formatTradeData(data.trades);
+        const trades = formatRecentTradesData(data);
         const latestTradeByUser = trades.find(
           trade => trade.trader?.toLowerCase() === account,
         );
