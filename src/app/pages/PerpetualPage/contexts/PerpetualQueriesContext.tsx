@@ -1,4 +1,4 @@
-import React, { createContext, useMemo, useEffect, useCallback } from 'react';
+import React, { createContext, useMemo, useEffect, useState } from 'react';
 import {
   AMMState,
   getDepthMatrix,
@@ -11,6 +11,7 @@ import {
   subscription,
   PerpetualManagerEventKeys,
   decodePerpetualManagerLog,
+  getWeb3Socket,
 } from '../utils/bscWebsocket';
 import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
 import debounce from 'lodash.debounce';
@@ -58,7 +59,11 @@ const initSocket = (
       update(!!account && decoded.trader?.toLowerCase() === account);
     }
   });
-  return socket;
+
+  return {
+    socket,
+    web3: getWeb3Socket(),
+  };
 };
 
 type PerpetualQueriesContextValue = {
@@ -109,6 +114,7 @@ export const PerpetualQueriesContextProvider: React.FC<PerpetualQueriesContextPr
 }) => {
   const transactions = usePerpetual_completedTransactions();
   const account = useAccount();
+  const [disconnected, setDisconnected] = useState(false);
 
   const { result: poolId } = usePerpetual_queryLiqPoolId(pair.id);
 
@@ -200,11 +206,23 @@ export const PerpetualQueriesContextProvider: React.FC<PerpetualQueriesContextPr
   }, [transactions, account, refetchDebounced]);
 
   useEffect(() => {
-    const socket = initSocket(
-      { update: refetchDebounced, account: account?.toLowerCase() },
+    let { socket, web3 } = initSocket(
+      {
+        update: () => {
+          refetchDebounced();
+          setDisconnected(false);
+        },
+        account: account?.toLowerCase(),
+      },
       pair.id,
     );
-    const intervalId = setInterval(refetchDebounced, UPDATE_INTERVAL);
+
+    const intervalId = setInterval(() => {
+      if (!web3.currentProvider) {
+        return;
+      }
+      setDisconnected(!web3.currentProvider['connected']);
+    }, UPDATE_INTERVAL);
 
     return () => {
       clearInterval(intervalId);
@@ -216,6 +234,17 @@ export const PerpetualQueriesContextProvider: React.FC<PerpetualQueriesContextPr
       });
     };
   }, [refetchDebounced, account, pair.id]);
+
+  useEffect(() => {
+    const intervalId = setInterval(
+      refetchDebounced,
+      disconnected ? THROTTLE_DELAY : UPDATE_INTERVAL,
+    );
+    return () => {
+      clearInterval(intervalId);
+      refetchDebounced.cancel();
+    };
+  }, [disconnected, refetchDebounced]);
 
   return (
     <PerpetualQueriesContext.Provider value={value}>
