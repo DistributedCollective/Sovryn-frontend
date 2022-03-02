@@ -44,6 +44,7 @@ type ContractEvent = {
 export enum PerpetualManagerEventKeys {
   'Trade' = 'Trade',
   'UpdatePrice' = 'UpdatePrice',
+  'Liquidate' = 'Liquidate',
 }
 
 export const getPerpetualManagerEvent = (
@@ -65,6 +66,7 @@ const PerpetualManagerEvents: {
 } = {
   Trade: getPerpetualManagerEvent(PerpetualManagerEventKeys.Trade),
   UpdatePrice: getPerpetualManagerEvent(PerpetualManagerEventKeys.UpdatePrice),
+  Liquidate: getPerpetualManagerEvent(PerpetualManagerEventKeys.Liquidate),
 };
 
 const PerpetualManagerEventsByTopic: {

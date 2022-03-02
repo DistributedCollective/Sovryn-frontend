@@ -48,6 +48,7 @@ const initSocket = (
 ) => {
   const socket = subscription(address, [
     PerpetualManagerEventKeys.Trade,
+    PerpetualManagerEventKeys.Liquidate,
     PerpetualManagerEventKeys.UpdatePrice,
   ]);
   socket.on('data', data => {

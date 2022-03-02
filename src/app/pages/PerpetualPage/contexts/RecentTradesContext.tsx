@@ -36,7 +36,10 @@ type InitSocketParams = {
 };
 
 const initSockets = (socketParams: InitSocketParams, perpetualId: string) => {
-  const socket = subscription(address, [PerpetualManagerEventKeys.Trade]);
+  const socket = subscription(address, [
+    PerpetualManagerEventKeys.Trade,
+    PerpetualManagerEventKeys.Liquidate,
+  ]);
 
   addSocketEventListeners(socket, socketParams, perpetualId);
 
@@ -63,9 +66,12 @@ const addSocketEventListeners = (
     // console.log('[recentTradesWs] data received', data, decoded);
 
     if (decoded?.perpetualId?.toLowerCase() === perpetualId.toLowerCase()) {
-      const price = ABK64x64ToFloat(BigNumber.from(decoded.price));
+      // decoded could be a Trade or a Liquidate Event
+      const price = ABK64x64ToFloat(
+        BigNumber.from(decoded.price || decoded.liquidationPrice),
+      );
       const tradeAmount = ABK64x64ToFloat(
-        BigNumber.from(decoded.tradeAmountBC),
+        BigNumber.from(decoded.tradeAmountBC || decoded.amountLiquidatedBC),
       );
       const parsedTrade: RecentTradesDataEntry = {
         id: data.transactionHash,
