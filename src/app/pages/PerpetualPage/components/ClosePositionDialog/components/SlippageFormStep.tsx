@@ -8,7 +8,6 @@ import { TransitionAnimation } from '../../../../../containers/TransitionContain
 import { translations } from '../../../../../../locales/i18n';
 import { ClosePositionDialogContext } from '..';
 import { PERPETUAL_SLIPPAGE_DEFAULT } from '../../../types';
-import { calculateSlippagePrice } from '../../../utils/perpUtils';
 import { getTradeDirection } from '../../../utils/contractUtils';
 import { TradingPosition } from '../../../../../../types/trading-position';
 import { AssetValue } from '../../../../../components/AssetValue';
@@ -18,6 +17,9 @@ import {
   PerpetualPairType,
 } from '../../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { PerpetualQueriesContext } from 'app/pages/PerpetualPage/contexts/PerpetualQueriesContext';
+import { perpUtils } from '@sovryn/perpetual-swap';
+
+const { calculateSlippagePrice } = perpUtils;
 
 export const SlippageFormStep: TransitionStep<ClosePositionDialogStep> = ({
   changeTo,

@@ -13,14 +13,6 @@ import {
 import { useContext, useMemo, useEffect } from 'react';
 import { ABK64x64ToFloat } from '../utils/contractUtils';
 import { BigNumber } from 'ethers';
-import {
-  calculateApproxLiquidationPrice,
-  getMarkPrice,
-  getTraderPnL,
-  getBase2CollateralFX,
-  getBase2QuoteFX,
-  getTraderLeverage,
-} from '../utils/perpUtils';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import { RecentTradesContext } from '../contexts/RecentTradesContext';
 import debounce from 'lodash.debounce';
@@ -46,7 +38,15 @@ type OpenPositionHookResult = {
   data?: OpenPositionEntry;
 };
 
-const { getAverageEntryPrice } = perpUtils;
+const {
+  getAverageEntryPrice,
+  calculateApproxLiquidationPrice,
+  getMarkPrice,
+  getTraderPnL,
+  getBase2CollateralFX,
+  getBase2QuoteFX,
+  getTraderLeverage,
+} = perpUtils;
 
 export const usePerpetual_OpenPosition = (
   address: string,

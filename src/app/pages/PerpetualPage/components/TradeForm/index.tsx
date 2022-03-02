@@ -26,18 +26,6 @@ import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
 import { LeverageViewer } from '../LeverageViewer';
 import {
-  getTradingFee,
-  getQuote2CollateralFX,
-  calculateApproxLiquidationPrice,
-  calculateSlippagePrice,
-  calculateLeverage,
-  getMaxInitialLeverage,
-  getMaximalTradeSizeInPerpetualWithCurrentMargin,
-  getRequiredMarginCollateralWithGasFees,
-  getPrice,
-  getSignedMaxAbsPositionForTrader,
-} from '../../utils/perpUtils';
-import {
   getSignedAmount,
   getTradeDirection,
   validatePositionChange,
@@ -49,9 +37,21 @@ import { useSelector } from 'react-redux';
 import { selectPerpetualPage } from '../../selectors';
 import { getCollateralName } from '../../utils/renderUtils';
 import { TxType } from '../../../../../store/global/transactions-store/types';
-import { perpMath } from '@sovryn/perpetual-swap';
+import { perpMath, perpUtils } from '@sovryn/perpetual-swap';
+import { getRequiredMarginCollateralWithGasFees } from '../../utils/perpUtils';
 
 const { shrinkToLot } = perpMath;
+const {
+  getTradingFee,
+  getQuote2CollateralFX,
+  calculateApproxLiquidationPrice,
+  calculateSlippagePrice,
+  calculateLeverage,
+  getMaxInitialLeverage,
+  getMaximalTradeSizeInPerpetualWithCurrentMargin,
+  getPrice,
+  getSignedMaxAbsPositionForTrader,
+} = perpUtils;
 
 interface ITradeFormProps {
   trade: PerpetualTrade;

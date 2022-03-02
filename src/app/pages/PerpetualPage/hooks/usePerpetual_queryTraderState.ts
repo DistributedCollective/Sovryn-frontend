@@ -1,4 +1,4 @@
-import { TraderState } from '../utils/perpUtils';
+import { TraderState } from '@sovryn/perpetual-swap';
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import perpetualManagerAbi from 'utils/blockchain/abi/PerpetualManager.json';
 import { bridgeNetwork } from 'app/pages/BridgeDepositPage/utils/bridge-network';

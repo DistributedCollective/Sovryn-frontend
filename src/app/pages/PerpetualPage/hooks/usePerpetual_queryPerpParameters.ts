@@ -2,7 +2,7 @@ import { bridgeNetwork } from 'app/pages/BridgeDepositPage/utils/bridge-network'
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { Chain } from 'types';
 import { getContract } from 'utils/blockchain/contract-helpers';
-import { PerpParameters } from '../utils/perpUtils';
+import { PerpParameters } from '@sovryn/perpetual-swap';
 import { ABK64x64ToFloat } from '../utils/contractUtils';
 import perpetualManagerAbi from 'utils/blockchain/abi/PerpetualManager.json';
 import { BigNumber } from 'ethers';

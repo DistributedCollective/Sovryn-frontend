@@ -3,9 +3,11 @@ import {
   numberFromWei,
   toWei,
 } from '../../../../utils/blockchain/math-helpers';
-import { getTraderPnLInCC, getQuote2CollateralFX } from '../utils/perpUtils';
 import { bignumber } from 'mathjs';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
+import { perpUtils } from '@sovryn/perpetual-swap';
+
+const { getTraderPnLInCC, getQuote2CollateralFX } = perpUtils;
 
 type AccountBalance = {
   total: {

@@ -22,11 +22,6 @@ import { LeverageSelector } from '../LeverageSelector';
 import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
 import {
-  getRequiredMarginCollateral,
-  calculateApproxLiquidationPrice,
-  getMaxInitialLeverage,
-} from '../../utils/perpUtils';
-import {
   toWei,
   numberFromWei,
 } from '../../../../../utils/blockchain/math-helpers';
@@ -39,6 +34,13 @@ import {
 import { ActionDialogSubmitButton } from '../ActionDialogSubmitButton';
 import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';
 import { usePrevious } from '../../../../hooks/usePrevious';
+import { perpUtils } from '@sovryn/perpetual-swap';
+
+const {
+  getRequiredMarginCollateral,
+  calculateApproxLiquidationPrice,
+  getMaxInitialLeverage,
+} = perpUtils;
 
 export const EditLeverageDialog: React.FC = () => {
   const dispatch = useDispatch();
