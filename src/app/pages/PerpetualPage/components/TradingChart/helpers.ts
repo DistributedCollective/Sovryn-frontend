@@ -13,6 +13,7 @@ import { ApolloClient } from '@apollo/client';
 // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#onreadycallback
 export const supportedResolutions = [
   '1',
+  '5',
   '10',
   '15',
   '30',
@@ -131,6 +132,7 @@ export const symbolMap = PerpetualPairDictionary.list().reduce(
 
 export const resolutionMap: { [key: string]: CandleDuration } = {
   '1': CandleDuration.M_1,
+  '5': CandleDuration.M_1,
   '10': CandleDuration.M_1,
   '15': CandleDuration.M_15,
   '30': CandleDuration.M_15,
