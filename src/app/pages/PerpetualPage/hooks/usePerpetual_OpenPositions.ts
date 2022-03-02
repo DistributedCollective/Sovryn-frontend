@@ -3,11 +3,7 @@ import {
   PerpetualPairType,
   PerpetualPairDictionary,
 } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
-import {
-  PerpetualTradeType,
-  PerpetualTradeEvent,
-  PerpetualPositionEvent,
-} from '../types';
+import { PerpetualTradeType, PerpetualPositionEvent } from '../types';
 import {
   Event,
   OrderDirection,
@@ -28,6 +24,7 @@ import {
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import { RecentTradesContext } from '../contexts/RecentTradesContext';
 import debounce from 'lodash.debounce';
+import { perpUtils } from '@sovryn/perpetual-swap';
 
 export type OpenPositionEntry = {
   id: string;
@@ -48,6 +45,8 @@ type OpenPositionHookResult = {
   loading: boolean;
   data?: OpenPositionEntry;
 };
+
+const { getAverageEntryPrice } = perpUtils;
 
 export const usePerpetual_OpenPosition = (
   address: string,
@@ -114,15 +113,6 @@ export const usePerpetual_OpenPosition = (
 
     const tradeAmount = traderState.marginAccountPositionBC;
 
-    const currentTradeEvents: PerpetualTradeEvent[] | undefined =
-      tradeEvents?.trader?.trades || previousTradeEvents?.trader?.trades;
-    const currentTrade = currentTradeEvents?.find(
-      (trade: PerpetualTradeEvent) =>
-        trade?.perpetual?.id === pair.id &&
-        ABK64x64ToFloat(BigNumber.from(trade.newPositionSizeBC)) ===
-          traderState.marginAccountPositionBC,
-    );
-
     const currentPositions: PerpetualPositionEvent[] | undefined =
       tradeEvents?.trader?.positions || previousTradeEvents?.trader?.positions;
     const currentPosition = currentPositions?.find(
@@ -132,9 +122,7 @@ export const usePerpetual_OpenPosition = (
           traderState.marginAccountPositionBC,
     );
 
-    const entryPrice = currentTrade?.price
-      ? ABK64x64ToFloat(BigNumber.from(currentTrade.price))
-      : undefined;
+    const entryPrice = getAverageEntryPrice(traderState);
 
     const liquidationPrice = calculateApproxLiquidationPrice(
       traderState,
