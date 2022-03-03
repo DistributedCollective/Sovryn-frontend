@@ -1519,7 +1519,7 @@
         "balance": "Saldo disponível: <0/> <1/>",
         "txFee": "Taxa de rede: <0/>",
         "tradingFee": "Taxa de negociação:",
-        "networkFee": "Taxa de rede:"
+        "networkFee": "Taxa de rede (Aproximada):"
       },
       "buttons": {
         "long": "Comprado",
