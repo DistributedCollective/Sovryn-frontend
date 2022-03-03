@@ -19,6 +19,7 @@
     "next": "Próximo",
     "loading": "Carregando...",
     "retry": "Tentar novamente",
+    "continueToFailure": "Eu entendo os riscos de a transação falhar, permita-me continuar",
     "unit": {
       "day": "{{count}} dia",
       "day_plural": "{{count}} dias"
@@ -92,6 +93,33 @@
       "tradingHistory": "Concluídas"
     }
   },
+  "trading": {
+    "limit": {
+      "cancelDialog": {
+        "title": "Cancelar ordem limitada",
+        "cta": "Confirmar",
+        "complete": "Cancelamento concluído",
+        "failed": "Cancelamento falhou",
+        "tx": {
+          "title": "Cancelar",
+          "message": "Cancelar {{tradeType}} limitada"
+        }
+      },
+      "tradeDialog": {
+        "marketTitle": "Revisar ordem",
+        "limitTitle": "Revisar ordem",
+        "tradingPair": "Par de negociação:",
+        "orderType": "Tipo de ordem:",
+        "tradeAmount": "Quantidade negociada:",
+        "limitPrice": "Preço:",
+        "duration": "Expira em:",
+        "receiveAmount": "Quantidade a receber:",
+        "orderAmount": "Quantidade negociada:",
+        "newOrderDetails": "Detalhes",
+        "order": "Ordem"
+      }
+    }
+  },
   "tradingPage": {
     "meta": {
       "title": "Operações",
@@ -154,6 +182,10 @@
       "profit": "L&P realizado",
       "entryTxHash": "Transação de entrada",
       "closeTxHash": "Transação de fechamento",
+      "actions": "Ação",
+      "cta": {
+        "details": "Detalhes"
+      },
       "profitLabels": {
         "up": "Lucro de ",
         "down": "Prejuízo de ",
@@ -291,12 +323,14 @@
     "fields": {
       "currency": "Ativo de garantia",
       "currency_placeholder": "Escolha o ativo",
+      "limitSettings": "Configurações ordem limitada",
       "amount": "Quantidade",
       "startPrice": "Preço de entrada",
       "slippageSettings": "Configurações avançadas",
       "esEntryPrice": "Preço aprox de entrada:",
       "esLiquidationPrice": "Preço aprox de liquidação:",
-      "interestAPY": "Taxa anual:"
+      "interestAPY": "Interest APY:",
+      "interestAPR": "Taxa anual:"
     },
     "buttons": {
       "submit": "Realizar operação"
@@ -1275,7 +1309,7 @@
     "title": "Fechar posição",
     "withdrawIn": "Ativo:",
     "amountReceived": "Quantidade a receber:",
-    "marginType": "Margin Type:",
+    "marginType": "Margem:",
     "positionSize": "Tamanho da posição:",
     "minimumReceived": "Mínimo a receber:",
     "pl": "L/P:",
@@ -1484,7 +1518,8 @@
         "slippage": "Diferença máxima no preço:",
         "balance": "Saldo disponível: <0/> <1/>",
         "txFee": "Taxa de rede: <0/>",
-        "tradingFee": "Taxa de negociação:"
+        "tradingFee": "Taxa de negociação:",
+        "networkFee": "Taxa de rede (Aproximada):"
       },
       "buttons": {
         "long": "Comprado",
@@ -1532,16 +1567,18 @@
     "tradingHistory": "Posições fechadas",
     "openLimitOrders": "Ordens a limite abertas",
     "notificationSettingsDialog": {
-      "title": "Configurações de notificação",
-      "notifyVia": "Notificar via",
+      "title": "Configurações de notificação de margem",
+      "notifyVia": "Receba notificações por e-mail para ordens a limite executadas, chamadas de margem e liquidações. Detalhes <0>aqui</0>.",
       "marginCalls": "Chamadas de margem",
       "liquidations": "Liquidações",
+      "here": "aqui",
       "filledLimitOrders": "Ordens a limite preenchidas",
       "enterEmail": "Insira o endereço de e-mail",
+      "email": "E-mail",
       "useRisk": "Use por sua conta e risco",
       "riskDesc": "Esteja ciente de que este serviço de notificação por e-mail está hospedado em um servidor centralizado da AWS nos EUA.",
       "telegramHandle": "Insira seu nome de usuário do Telegram",
-      "emailHandle": "Insira seu e-mail",
+      "emailHandle": "Insira seu endereço de e-mail",
       "discordHandle": "Insira seu nome de usuário do Discord",
       "usernamePlaceholder": "@usuário",
       "updateSuccess": "Configurações de notificação atualizadas",
@@ -1617,7 +1654,7 @@
       "limitPrice": "Preço",
       "amountReceive": "Quantidade a receber",
       "duration": "Expira em",
-      "deadline": "Prazo",
+      "deadline": "Data limite",
       "actions": "Ação",
       "noData": "Sem dados",
       "filledAmount": "Quantidade inserida",
@@ -1930,10 +1967,10 @@
       "title": "Status da transação",
       "aborted": "Transação falhou. <br/>Cancele ou refaça a transação",
       "abortedLedger": "Make sure \"Contract data\" is set to \"Allowed\" in your Ledger app settings",
-      "cta": "Ver na blockchain",
-      "processing": "{{action}} Em processamento...",
+      "cta": "Abrir transação",
+      "processing": "{{action}} em processamento...",
       "complete": "{{action}} concluída",
-      "submit": "{{action}} Inserida"
+      "submit": "{{action}} inserida"
     }
   },
   "buySovPage": {
@@ -1984,7 +2021,7 @@
         "title": "Status da transação",
         "aborted": "Você optou por rejeitar esta transação. Cancele ou refaça a transação",
         "abortedLedger": "Verifique se \"Contract data\" está configurado para \"Permitido\" no seu aplicativo Ledger",
-        "cta": "Ver na blockchain"
+        "cta": "Abrir transação"
       }
     },
     "promotions": {
@@ -2065,8 +2102,15 @@
     "cta": {
       "increase": "Aumentar",
       "margin": "Margem",
-      "close": "Fechar"
-    }
+      "close": "Fechar",
+      "details": "Detalhes"
+   },   
+  "explainers": {
+      "positionMargin": "The portion of your margin that is assigned to the initial margin requirements on your open positions. This is the entry value of all contracts you hold divided by the selected leverage, plus unrealised profit and loss.<br/><br/>If the current margin percentage drops to 15%, your position will be liquidated.",
+      "unrealizedPL": "Due to limitations of smart contracts, we only estimate profit between entry and current AMM prices without taking margin increases or partial position withdrawals into consideration.<br/>By hovering over a value, you will see the correct token amount you would receive if you decided to close the position now.",
+      "closingPrice": "The exit price is 95% of the value of the closing price shown. This difference is due to the discount applied as an incentive for liquidators."
+    },
+    "profitTooltip": "Closing position would withdraw one of these:"
   },
   "claimOriginBanner": {
     "text": "Seu SOV está pronto para ser sacado!",
