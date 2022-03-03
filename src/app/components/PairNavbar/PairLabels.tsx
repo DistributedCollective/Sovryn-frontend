@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import uniq from 'lodash.uniq';
 import { translations } from 'locales/i18n';
 import classNames from 'classnames';
 import { IPairData, TradingType } from 'types/trading-pairs';
@@ -36,10 +37,12 @@ export const PairLabels: React.FC<IPairLabelsProps> = ({
     return null;
   }
 
-  const spotPairsList = pairList.map(item => {
-    const [assetA] = pairs[item];
-    return assetA;
-  });
+  const spotPairsList = uniq(
+    pairList.reduce((previous, current) => {
+      const [assetA, assetB] = pairs[current];
+      return [...previous, ...[assetA, assetB]];
+    }, [] as string[]),
+  );
 
   const labelsList = list
     .map(item => {
