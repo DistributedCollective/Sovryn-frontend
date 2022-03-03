@@ -59,13 +59,17 @@ import { usePositionLiquidationPrice } from 'app/hooks/trading/usePositionLiquid
 import { LoadableValue } from 'app/components/LoadableValue';
 import { PricePrediction } from 'app/containers/MarginTradeForm/PricePrediction';
 import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
-import { useGetEstimatedMarginDetails } from 'app/hooks/trading/useGetEstimatedMarginDetails';
+import {
+  MarginDetails,
+  useGetEstimatedMarginDetails,
+} from 'app/hooks/trading/useGetEstimatedMarginDetails';
 
 interface ITradeDialogProps {
   slippage: number;
   isOpen: boolean;
   onCloseModal: () => void;
   orderType: OrderType;
+  estimations: MarginDetails;
 }
 
 const TradeLogInputs = [
@@ -148,6 +152,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
   isOpen,
   onCloseModal,
   orderType,
+  estimations,
 }) => {
   const { t } = useTranslation();
   const account = useAccount();
@@ -356,6 +361,10 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
                 translations.marginTradePage.tradeDialog.maintananceMargin,
               )}
               value={<>{weiToNumberFormat(MAINTENANCE_MARGIN)} %</>}
+            />
+            <LabelValuePair
+              label={t(translations.marginTradePage.tradeDialog.interestAPR)}
+              value={<>{weiToNumberFormat(estimations.interestRate, 2)} %</>}
             />
           </div>
 

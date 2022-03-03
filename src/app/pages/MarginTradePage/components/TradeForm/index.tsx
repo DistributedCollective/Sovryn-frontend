@@ -397,6 +397,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
           isOpen={isTradingDialogOpen && orderType === OrderType.MARKET}
           slippage={slippage}
           orderType={orderType}
+          estimations={estimations}
         />
         <LimitTradeDialog
           onCloseModal={() => setIsTradingDialogOpen(false)}
