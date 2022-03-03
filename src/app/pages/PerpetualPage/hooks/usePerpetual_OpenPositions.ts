@@ -57,14 +57,6 @@ export const usePerpetual_OpenPosition = (
   const eventQuery = useMemo(
     (): EventQuery[] => [
       {
-        event: Event.TRADE,
-        orderBy: 'blockTimestamp',
-        orderDirection: OrderDirection.desc,
-        whereCondition: `perpetual: ${JSON.stringify(pair.id)}`,
-        page: 1,
-        perPage: 1,
-      },
-      {
         event: Event.POSITION,
         orderBy: 'startDate',
         orderDirection: OrderDirection.desc,
