@@ -3,8 +3,11 @@ import React, { useCallback, useContext, useMemo } from 'react';
 import { PerpetualPairType } from 'utils/dictionaries/perpetual-pair-dictionary';
 import { toNumberFormat } from 'utils/display-text/format';
 import { PerpetualPair } from 'utils/models/perpetual-pair';
+import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 import { RecentTradesContext } from '../../contexts/RecentTradesContext';
-import { getPriceColor, getPriceChange } from '../RecentTradesTable/utils';
+import { getMarkPrice } from '../../utils/perpUtils';
+import { TradePriceChange } from '../RecentTradesTable/types';
+import { getPriceColor } from '../RecentTradesTable/utils';
 
 type PairSelectorButtonProps = {
   pair: PerpetualPair;
@@ -18,13 +21,12 @@ export const PairSelectorButton: React.FC<PairSelectorButtonProps> = ({
   onSelect,
 }) => {
   const { trades } = useContext(RecentTradesContext);
-  const latestPrice = trades[0]?.price;
-  const previousPrice = trades[1]?.price;
-  const color = useMemo(
-    () =>
-      getPriceColor(getPriceChange(previousPrice || latestPrice, latestPrice)),
-    [previousPrice, latestPrice],
-  );
+  const { ammState } = useContext(PerpetualQueriesContext);
+
+  const markPrice = getMarkPrice(ammState);
+
+  const trend = trades[0]?.priceChange || TradePriceChange.NO_CHANGE;
+  const color = useMemo(() => getPriceColor(trend), [trend]);
 
   const onClick = useCallback(() => !isSelected && onSelect(pair.pairType), [
     onSelect,
@@ -49,7 +51,7 @@ export const PairSelectorButton: React.FC<PairSelectorButtonProps> = ({
           color,
         )}
       >
-        {toNumberFormat(latestPrice, 1)}
+        {toNumberFormat(markPrice, 2)}
       </span>
     </div>
   );

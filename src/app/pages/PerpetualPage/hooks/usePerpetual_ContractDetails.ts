@@ -3,7 +3,6 @@ import { useContext, useEffect, useState, useMemo } from 'react';
 import { Nullable } from 'types';
 import { makeApiRequest } from '../components/TradingChart/helpers';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
-import { getIndexPrice, getMarkPrice } from '../utils/perpUtils';
 import { CandleDuration } from './graphql/useGetCandles';
 import {
   PerpetualPairType,
@@ -12,8 +11,6 @@ import {
 import { useApolloClient } from '@apollo/client';
 
 export type PerpetualContractDetailsData = {
-  markPrice: number;
-  indexPrice: number;
   volume24h: number;
   openInterest: number;
   fundingRate: number;
@@ -69,8 +66,6 @@ export const usePerpetual_ContractDetails = (pairType: PerpetualPairType) => {
   useEffect(
     () =>
       setData({
-        markPrice: getMarkPrice(ammState),
-        indexPrice: getIndexPrice(ammState),
         volume24h: volume24h,
         openInterest: perpetualParameters.fOpenInterest,
         fundingRate: perpetualParameters.fCurrentFundingRate,

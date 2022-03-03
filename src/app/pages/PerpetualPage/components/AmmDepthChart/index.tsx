@@ -59,7 +59,7 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
     <table className="tw-w-full tw-h-full tw-text-xs tw-leading-snug">
       <thead>
         <tr>
-          <th className="tw-h-6 tw-w-4/12 tw-pr-4 tw-pb-1 tw-text-right tw-whitespace-nowrap">
+          <th className="tw-h-6 tw-w-4/12 tw-px-2 tw-pb-1 tw-text-right tw-whitespace-nowrap">
             <Trans
               i18nKey={translations.perpetualPage.ammDepth.price}
               components={[
@@ -67,7 +67,7 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
               ]}
             />
           </th>
-          <th className="tw-h-6 tw-w-4/12 tw-pr-4 tw-pb-1 tw-text-right tw-whitespace-nowrap">
+          <th className="tw-h-6 tw-w-4/12 tw-px-2 tw-pb-1 tw-text-right tw-whitespace-nowrap">
             <Tooltip
               position="bottom"
               popoverClassName="tw-max-w-md tw-font-light"
@@ -76,7 +76,7 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
               <Trans i18nKey={translations.perpetualPage.ammDepth.change} />
             </Tooltip>
           </th>
-          <th className="tw-h-6 tw-pr-4 tw-pb-1 tw-text-right tw-whitespace-nowrap">
+          <th className="tw-h-6 tw-px-2 tw-pb-1 tw-text-right tw-whitespace-nowrap">
             <Trans
               i18nKey={translations.perpetualPage.ammDepth.total}
               components={[
@@ -89,20 +89,16 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
       <tbody>
         {data && (
           <>
-            {data?.shorts?.map((entry, index) => (
+            {data?.shorts?.map(entry => (
               <AmmDepthChartRow
                 key={entry.id}
                 type="short"
                 row={entry}
                 maxTotal={maxTotal}
-                isOddRow={index % 2 === 0}
               />
             ))}
             <tr>
-              <td
-                colSpan={3}
-                className="tw-p-2 tw-text-center tw-bg-gray-2 tw-rounded tw-transition-colors tw-duration-300"
-              >
+              <td colSpan={3} className="tw-p-2 tw-text-center">
                 <Tooltip
                   position="bottom"
                   content={
@@ -188,13 +184,12 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
                 </div>
               </td>
             </tr>
-            {data?.longs?.map((entry, index) => (
+            {data?.longs?.map(entry => (
               <AmmDepthChartRow
                 key={entry.id}
                 type="long"
                 row={entry}
                 maxTotal={maxTotal}
-                isOddRow={index % 2 === 0}
               />
             ))}
           </>

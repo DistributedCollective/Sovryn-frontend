@@ -62,18 +62,6 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
                 popoverClassName="tw-max-w-md tw-font-light"
                 content={t(
                   translations.perpetualPage.openPositionsTable.tooltips
-                    .markPrice,
-                )}
-              >
-                {t(translations.perpetualPage.openPositionsTable.markPrice)}
-              </Tooltip>
-            </th>
-            <th className="tw-hidden xl:tw-table-cell tw-text-right tw-text-sm">
-              <Tooltip
-                position="bottom"
-                popoverClassName="tw-max-w-md tw-font-light"
-                content={t(
-                  translations.perpetualPage.openPositionsTable.tooltips
                     .liquidationPrice,
                 )}
               >

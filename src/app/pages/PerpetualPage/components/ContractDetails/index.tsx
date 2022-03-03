@@ -37,40 +37,6 @@ export const ContractDetails: React.FC<ContractDetailsProps> = ({
           {t(translations.perpetualPage.contractDetails.title)}
         </h3>
         <ContractDetailEntry
-          titleClassName="tw-font-medium"
-          valueClassName="tw-text-primary tw-font-semibold"
-          title={t(translations.perpetualPage.contractDetails.markPrice)}
-          tooltip={t(
-            translations.perpetualPage.contractDetails.tooltips.markPrice,
-          )}
-          value={
-            <AssetValue
-              minDecimals={2}
-              maxDecimals={2}
-              mode={AssetValueMode.auto}
-              value={data?.markPrice || 0}
-              assetString={pair.quoteAsset}
-            />
-          }
-        />
-        <ContractDetailEntry
-          titleClassName="tw-font-medium"
-          valueClassName="tw-font-semibold"
-          title={t(translations.perpetualPage.contractDetails.indexPrice)}
-          tooltip={t(
-            translations.perpetualPage.contractDetails.tooltips.indexPrice,
-          )}
-          value={
-            <AssetValue
-              minDecimals={2}
-              maxDecimals={2}
-              mode={AssetValueMode.auto}
-              value={data?.indexPrice || 0}
-              assetString={pair.quoteAsset}
-            />
-          }
-        />
-        <ContractDetailEntry
           title={t(translations.perpetualPage.contractDetails.volume24h)}
           value={
             <AssetValue

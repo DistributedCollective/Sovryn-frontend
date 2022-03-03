@@ -19,7 +19,6 @@ import { ABK64x64ToFloat } from '../utils/contractUtils';
 import { BigNumber } from 'ethers';
 import {
   calculateApproxLiquidationPrice,
-  getMarkPrice,
   getTraderPnL,
   getBase2CollateralFX,
   getBase2QuoteFX,
@@ -36,7 +35,6 @@ export type OpenPositionEntry = {
   position?: TradingPosition;
   amount?: number;
   entryPrice?: number;
-  markPrice?: number;
   liquidationPrice?: number;
   margin: number;
   leverage?: number;
@@ -93,7 +91,6 @@ export const usePerpetual_OpenPosition = (
   } = useContext(PerpetualQueriesContext);
 
   const data = useMemo(() => {
-    const markPrice = getMarkPrice(ammState);
     const base2quote = getBase2QuoteFX(ammState, true);
     const base2collateral = getBase2CollateralFX(ammState, true);
     const pair = PerpetualPairDictionary.get(pairType);
@@ -170,7 +167,6 @@ export const usePerpetual_OpenPosition = (
       liquidationPrice,
       leverage,
       margin,
-      markPrice,
       unrealized,
       realized,
     };

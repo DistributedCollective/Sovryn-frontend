@@ -1669,8 +1669,8 @@
       "change": "% Change",
       "total": "Order Size (<0/>)",
       "tooltips": {
-        "indexPrice": "Index Price: <0/>",
-        "markPrice": "Mark Price: <0/>",
+        "indexPrice": "Index Price: <0/> <br/><br/> The Index price consists of a bucket of Spot prices obtained via Chainlink oracle.",
+        "markPrice": "Mark Price: <0/> <br/><br/> Latest Mark Price for this contract. To prevent price manipulation, the Mark Price is used for unrealized PnL and margin calculations.",
         "midPrice": "Mid Price: <0/>",
         "change": "Change in price relative to Mid Price when trading the corresponding order size."
       }
@@ -1686,8 +1686,6 @@
       "minTradeAmount": "Min Trade Amount:",
       "tooltips": {
         "lastTradedPrice": "Last traded price.",
-        "markPrice": "Latest Mark Price for this contract. To prevent price manipulation, the Mark Price is used for unrealized PnL and margin calculations.",
-        "indexPrice": "The Index price consists of a bucket of Spot prices obtained via Chainlink oracle.",
         "openInterest": "The total amount of contracts held by either the long or the short traders, whatever is larger.",
         "fundingRate": "Funding rate paid from buyers to sellers. If negative, the sellers pay to the buyers. We scale the displayed rate to be an 8h-rate. The rate is refreshed with every smart contract interaction or at most with every block. The time-weighted average value is used to calculate the funding rate paid."
       }
@@ -1873,7 +1871,6 @@
       "positionSize": "Position Size",
       "value": "Value",
       "entryPrice": "Entry Price",
-      "markPrice": "Mark Price",
       "liquidationPrice": "Liq. Price",
       "margin": "Margin",
       "unrealized": "Unrealized P&L",
@@ -1884,7 +1881,7 @@
       "editMargin": "Margin",
       "editClose": "Close",
       "tooltips": {
-        "editSize": "Change the position size to the extent possible with your current margin.",
+        "editSize": "Change the position size to a value allowed by your current margin.",
         "editLeverage": "Change the leverage of your position. This action will either withdraw from your margin account or deposit to your margin account.",
         "editMargin": "Deposit margin or withdraw margin. This action will change the leverage of your position.",
         "editClose": "Close the entire open position or just partially.",
