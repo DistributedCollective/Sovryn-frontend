@@ -1,11 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import {
-  calculateProfit,
   weiToAssetNumberFormat,
   weiToNumberFormat,
 } from 'utils/display-text/format';
-import { toWei, weiTo18, fromWei } from 'utils/blockchain/math-helpers';
+import { toWei, weiTo18 } from 'utils/blockchain/math-helpers';
 import { AmountInput } from 'app/components/Form/AmountInput';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { FormGroup } from 'app/components/Form/FormGroup';
@@ -138,22 +137,11 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
     position,
   ]);
 
-  const [profit] = calculateProfit(
-    isLong,
-    currentPriceSource,
-    entryPrice,
-    weiAmount,
-  );
-
   const valid = useIsAmountWithinLimits(
     weiAmount,
     '1',
     item.positionSizeChange,
   );
-  const totalAmount = useMemo(() => Number(amount) + Number(fromWei(profit)), [
-    amount,
-    profit,
-  ]);
 
   const { value, loading: loadingValue, error } = useCacheCallWithValue<{
     withdrawAmount: string;
@@ -303,7 +291,7 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
           {openSlippage && (
             <SlippageForm
               onClose={() => setOpenSlippage(false)}
-              amount={toWei(totalAmount)}
+              amount={value.withdrawAmount}
               value={slippage}
               asset={assetByTokenAddress(item.collateralToken)}
               onChange={setSlippage}
