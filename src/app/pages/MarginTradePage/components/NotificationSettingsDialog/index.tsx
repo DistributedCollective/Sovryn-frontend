@@ -79,7 +79,7 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
   const getToken = async () => {
     if (!account) return;
     const timestamp = new Date();
-    const message = `Login to backend on ${timestamp}`;
+    const message = `Login to backend on: ${timestamp}`;
     const { data: alreadyUser } = await axios.get(
       url + 'user/isUser/' + account,
     );
