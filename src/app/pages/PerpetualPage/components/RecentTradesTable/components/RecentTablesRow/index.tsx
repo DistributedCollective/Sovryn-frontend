@@ -17,9 +17,6 @@ export const RecentTradesTableRow: React.FC<RecentTradesTableRowProps> = ({
   pricePrecision,
   sizePrecision,
 }) => {
-  const priceChangeImage = useMemo(() => getPriceChangeImage(row.priceChange), [
-    row.priceChange,
-  ]);
   const typeColor = useMemo(
     () =>
       row.type === TradeType.SELL
@@ -28,19 +25,16 @@ export const RecentTradesTableRow: React.FC<RecentTradesTableRowProps> = ({
     [row.type],
   );
 
+  const priceChangeImage = useMemo(
+    () => getPriceChangeImage(row.priceChange, typeColor),
+    [row.priceChange, typeColor],
+  );
+
   return (
     <tr key={row.price} className={classNames('tw-h-6', typeColor)}>
       <td className="tw-py-1 tw-text-right tw-rounded-l">
         <div className="tw-flex tw-flex-row tw-align-center tw-justify-between">
-          {priceChangeImage ? (
-            <img
-              className="tw-inline-block tw-w-2.5 tw-mr-1"
-              src={priceChangeImage}
-              alt="price change arrow"
-            />
-          ) : (
-            <span className="tw-mr-3.5" />
-          )}
+          {priceChangeImage ? priceChangeImage : <span className="tw-mr-3.5" />}
 
           <span>{toNumberFormat(row.price, pricePrecision)}</span>
         </div>

@@ -1,8 +1,8 @@
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import trendArrowUp from 'assets/images/trend-arrow-up.svg';
-import trendArrowDown from 'assets/images/trend-arrow-down.svg';
+import { ReactComponent as TrendArrowUp } from 'assets/images/trend-arrow-up.svg';
+import { ReactComponent as TrendArrowDown } from 'assets/images/trend-arrow-down.svg';
 import { translations } from '../../../../../locales/i18n';
 import { PerpetualPair } from '../../../../../utils/models/perpetual-pair';
 import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
@@ -21,10 +21,9 @@ type AmmDepthChartProps = {
 export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
   const { t } = useTranslation();
   const data = usePerpetual_AmmDepthChart(pair);
-  const { maxTotal, trendImage, trendText, trendClass } = useMemo(() => {
+  const { maxTotal, trendImage, trendClass } = useMemo(() => {
     let max = 0;
-    let trendImage: string | undefined = undefined;
-    let trendText: string | undefined = undefined;
+    let trendImage: JSX.Element | undefined = undefined;
     let trendClass: string = 'tw-text-sov-white';
 
     if (data) {
@@ -35,24 +34,31 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
       max = data.longs.reduce((acc, entry) => Math.max(acc, entry.amount), max);
       switch (data.trend) {
         case TradePriceChange.UP:
-          trendImage = trendArrowUp;
-          trendText = 'trending upwards';
+          trendImage = (
+            <TrendArrowUp
+              color="tw-text-trade-long"
+              className="tw-inline-block tw-w-4"
+            />
+          );
           trendClass = 'tw-text-trade-long';
           break;
         case TradePriceChange.DOWN:
-          trendImage = trendArrowDown;
-          trendText = 'trending downwards';
+          trendImage = (
+            <TrendArrowDown
+              color="tw-text-trade-short"
+              className="tw-inline-block tw-w-4"
+            />
+          );
           trendClass = 'tw-text-trade-short';
           break;
         case TradePriceChange.NO_CHANGE:
           trendImage = undefined;
-          trendText = 'trend stable';
           trendClass = 'tw-text-sov-white';
           break;
       }
     }
 
-    return { maxTotal: max, trendImage, trendText, trendClass };
+    return { maxTotal: max, trendImage, trendClass };
   }, [data]);
 
   return (
@@ -126,11 +132,9 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
                   >
                     {toNumberFormat(data.price, 2)}
                     {trendImage && (
-                      <img
-                        className="tw-inline-block tw-w-4 tw-ml-1"
-                        src={trendImage}
-                        alt={trendText}
-                      />
+                      <div className="tw-ml-1 tw-flex tw-items-center">
+                        {trendImage}
+                      </div>
                     )}
                   </div>
                 </Tooltip>
