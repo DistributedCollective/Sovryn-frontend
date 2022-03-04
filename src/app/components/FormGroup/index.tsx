@@ -41,19 +41,24 @@ export const FormGroup: React.FC<FormGroupProps> = ({
     >
       {label && (
         <div className="tw-flex">
-          <label htmlFor={labelFor} className="tw-block tw-mb-1.5">
+          <label
+            htmlFor={labelFor}
+            className="tw-block tw-mb-1.5 tw-text-sov-white"
+          >
             {label}
             {labelInfo && (
-              <span className="tw-ml-1.5 tw-text-gray-6">{labelInfo}</span>
+              <span className="tw-ml-1.5 tw-font-light">{labelInfo}</span>
             )}
           </label>
           {tooltipText && (
             <Tooltip
-              className={classNames('tw-ml-1.5', { 'tw-mr-2.5': inline })}
+              className={classNames('tw-ml-1.5 tw-leading-none', {
+                'tw-mr-2.5': inline,
+              })}
               content={<>{tooltipText}</>}
             >
-              <div className="tw-bg-gray-6 tw-w-6 tw-text-center tw-rounded-full">
-                i
+              <div className="tw-flex tw-items-center tw-justify-center tw-bg-sov-white tw-text-black tw-w-3.5 tw-h-3.5 tw-rounded-full">
+                <span className="tw-text-tiny">i</span>
               </div>
             </Tooltip>
           )}
@@ -61,9 +66,12 @@ export const FormGroup: React.FC<FormGroupProps> = ({
       )}
       {subLabel && (
         <div
-          className={classNames('tw-mb-1.5 tw-text-gray-6 tw-text-xs', {
-            'tw-mr-1.5': inline,
-          })}
+          className={classNames(
+            'tw-mb-4 tw-text-gray-8 tw-font-light tw-text-xs',
+            {
+              'tw-mr-1.5': inline,
+            },
+          )}
         >
           {subLabel}
         </div>
@@ -71,7 +79,7 @@ export const FormGroup: React.FC<FormGroupProps> = ({
       <div>
         {children}
         {helperText && (
-          <div className="tw-mt-1.5 tw-text-gray-6 tw-text-xs">
+          <div className="tw-mt-4 tw-text-primary tw-font-light tw-text-xs">
             {helperText}
           </div>
         )}

@@ -11,7 +11,7 @@ export default {
 
 const Template: Story<ComponentProps<typeof FormGroup>> = args => (
   <FormGroup {...args}>
-    <Input value="9000 BTC" />
+    <Input value="Input value" />
   </FormGroup>
 );
 
