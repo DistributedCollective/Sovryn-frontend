@@ -32,17 +32,17 @@ export const RecentTradesTableRow: React.FC<RecentTradesTableRowProps> = ({
 
   return (
     <tr key={row.price} className={classNames('tw-h-6', typeColor)}>
-      <td className="tw-py-1 tw-text-right tw-rounded-l">
+      <td className="tw-px-2 tw-py-1 tw-text-right tw-rounded-l">
         <div className="tw-flex tw-flex-row tw-align-center tw-justify-between">
           {priceChangeImage ? priceChangeImage : <span className="tw-mr-3.5" />}
 
           <span>{toNumberFormat(row.price, pricePrecision)}</span>
         </div>
       </td>
-      <td className="tw-pl-1 tw-py-1 tw-text-right">
+      <td className="tw-px-2 tw-py-1 tw-text-right">
         {toNumberFormat(row.size, sizePrecision)}
       </td>
-      <td className="tw-py-1 tw-text-right">
+      <td className="tw-px-2 tw-py-1 tw-text-right">
         <LinkToExplorer
           className={classNames(
             'tw-underline hover:tw-no-underline',

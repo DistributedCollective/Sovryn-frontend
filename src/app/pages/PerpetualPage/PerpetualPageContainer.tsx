@@ -127,25 +127,22 @@ export const PerpetualPageContainer: React.FC = () => {
             }
           >
             <DataCard
-              className="tw-w-72"
+              className="tw-min-w-72 tw-max-w-96 tw-"
               title={`AMM Depth (${pairType.toString()})`}
-              hasCustomHeight
             >
               <AmmDepthChart pair={pair} />
             </DataCard>
             <DataCard
+              className="tw-flex-1 tw-max-w-full tw-min-h-80"
+              contentClassName="tw-flex tw-flex-col"
               title={`Chart (${pairType.toString()})`}
-              className={'tw-max-w-full xl:tw-w-3/5 2xl:tw-w-2/5'}
-              hasCustomHeight
             >
               <TradingChart symbol={pair.chartSymbol} hasCustomDimensions />
             </DataCard>
             <DataCard
-              className="2xl:tw-flex tw-w-72 tw-min-w-72"
+              className="2xl:tw-flex tw-min-w-72 tw-max-w-96 tw-min-h-72"
               title={`Recent Trades (${pairType.toString()})`}
-              isFullWidth={false}
-              hasCustomHeight
-              hasCustomWidth
+              contentClassName="tw-flex tw-flex-col"
             >
               <RecentTradesTable pair={pair} />
             </DataCard>

@@ -1670,16 +1670,15 @@
       "change": "% Change",
       "total": "Order Size (<0/>)",
       "tooltips": {
-        "indexPrice": "Index Price: <0/> <br/><br/> The Index price consists of a bucket of Spot prices obtained via Chainlink oracle.",
-        "markPrice": "Mark Price: <0/> <br/><br/> Latest Mark Price for this contract. To prevent price manipulation, the Mark Price is used for unrealized PnL and margin calculations.",
+        "indexPrice": "Index Price: <0/>",
+        "indexPriceDescription": "The Index price consists of a bucket of Spot prices obtained via Chainlink oracle.",
+        "markPrice": "Mark Price: <0/>",
+        "markPriceDescription": "Latest Mark Price for this contract. To prevent price manipulation, the Mark Price is used for unrealized PnL and margin calculations.",
         "midPrice": "Mid Price: <0/>",
         "change": "Change in price relative to Mid Price when trading the corresponding order size."
       }
     },
     "contractDetails": {
-      "title": "Contract Details:",
-      "markPrice": "Mark Price:",
-      "indexPrice": "Index Price:",
       "volume24h": "24hr Volume:",
       "openInterest": "Open Interest:",
       "fundingRate": "Funding Rate: ",

@@ -140,23 +140,32 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
                 </Tooltip>
                 <div>
                   <Tooltip
+                    popoverClassName="tw-max-w-md tw-font-medium"
                     position="bottom"
                     content={
-                      <Trans
-                        i18nKey={
-                          translations.perpetualPage.ammDepth.tooltips
-                            .indexPrice
-                        }
-                        components={[
-                          <AssetValue
-                            value={data.indexPrice}
-                            assetString={pair.quoteAsset}
-                            minDecimals={2}
-                            maxDecimals={4}
-                            mode={AssetValueMode.auto}
-                          />,
-                        ]}
-                      />
+                      <>
+                        <Trans
+                          i18nKey={
+                            translations.perpetualPage.ammDepth.tooltips
+                              .indexPrice
+                          }
+                          components={[
+                            <AssetValue
+                              value={data.indexPrice}
+                              assetString={pair.quoteAsset}
+                              minDecimals={2}
+                              maxDecimals={4}
+                              mode={AssetValueMode.auto}
+                            />,
+                          ]}
+                        />
+                        <p className="tw-mt-4 tw-mb-0 tw-font-light">
+                          {t(
+                            translations.perpetualPage.ammDepth.tooltips
+                              .indexPriceDescription,
+                          )}
+                        </p>
+                      </>
                     }
                   >
                     <span className="tw-opacity-50">
@@ -165,22 +174,32 @@ export const AmmDepthChart: React.FC<AmmDepthChartProps> = ({ pair }) => {
                   </Tooltip>
                   {' / '}
                   <Tooltip
+                    popoverClassName="tw-max-w-md tw-font-medium"
                     position="bottom"
                     content={
-                      <Trans
-                        i18nKey={
-                          translations.perpetualPage.ammDepth.tooltips.markPrice
-                        }
-                        components={[
-                          <AssetValue
-                            value={data.markPrice}
-                            assetString={pair.quoteAsset}
-                            minDecimals={2}
-                            maxDecimals={4}
-                            mode={AssetValueMode.auto}
-                          />,
-                        ]}
-                      />
+                      <>
+                        <Trans
+                          i18nKey={
+                            translations.perpetualPage.ammDepth.tooltips
+                              .markPrice
+                          }
+                          components={[
+                            <AssetValue
+                              value={data.markPrice}
+                              assetString={pair.quoteAsset}
+                              minDecimals={2}
+                              maxDecimals={4}
+                              mode={AssetValueMode.auto}
+                            />,
+                          ]}
+                        />
+                        <p className="tw-mt-4 tw-mb-0 tw-font-light">
+                          {t(
+                            translations.perpetualPage.ammDepth.tooltips
+                              .markPriceDescription,
+                          )}
+                        </p>
+                      </>
                     }
                   >
                     {toNumberFormat(data.markPrice, 2)}

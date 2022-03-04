@@ -1,15 +1,21 @@
 import classNames from 'classnames';
 import { translations } from 'locales/i18n';
-import React, { useCallback, useContext, useMemo } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useMemo,
+  useEffect,
+  useState,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import { PerpetualPairType } from 'utils/dictionaries/perpetual-pair-dictionary';
 import { toNumberFormat } from 'utils/display-text/format';
 import { PerpetualPair } from 'utils/models/perpetual-pair';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
-import { RecentTradesContext } from '../../contexts/RecentTradesContext';
 import { getMarkPrice } from '../../utils/perpUtils';
 import { TradePriceChange } from '../RecentTradesTable/types';
-import { getPriceColor } from '../RecentTradesTable/utils';
+import { getPriceColor, getPriceChange } from '../RecentTradesTable/utils';
+import { usePrevious } from '../../../../hooks/usePrevious';
 
 type PairSelectorButtonProps = {
   pair: PerpetualPair;
@@ -23,12 +29,20 @@ export const PairSelectorButton: React.FC<PairSelectorButtonProps> = ({
   onSelect,
 }) => {
   const { t } = useTranslation();
-  const { trades } = useContext(RecentTradesContext);
   const { ammState } = useContext(PerpetualQueriesContext);
+  const [trend, setTrend] = useState<TradePriceChange>(
+    TradePriceChange.NO_CHANGE,
+  );
 
   const markPrice = getMarkPrice(ammState);
+  const previousMarkPrice = usePrevious(markPrice);
 
-  const trend = trades[0]?.priceChange || TradePriceChange.NO_CHANGE;
+  useEffect(() => {
+    if (previousMarkPrice !== markPrice) {
+      setTrend(getPriceChange(previousMarkPrice || markPrice, markPrice));
+    }
+  }, [previousMarkPrice, markPrice]);
+
   const color = useMemo(() => getPriceColor(trend), [trend]);
 
   const onClick = useCallback(() => !isSelected && onSelect(pair.pairType), [
@@ -47,12 +61,17 @@ export const PairSelectorButton: React.FC<PairSelectorButtonProps> = ({
       )}
       onClick={onClick}
     >
-      <span className="tw-font-medium tw-mr-2 tw-text-xs">{pair.name}</span>
-      <div className="tw-flex-auto tw-text-right">
-        <div className="tw-text-tiny tw-leading-none tw-text-gray-7">
+      <span className="tw-font-medium tw-mr-2 tw-text-base">{pair.name}</span>
+      <div className="tw-flex-auto tw-flex tw-flex-col tw-justify-center tw-py-0.5 tw-text-right">
+        <div className="tw-text-tiny tw-leading-none tw-text-gray-8 tw-font-thin">
           {t(translations.perpetualPage.pairSelector.markPrice)}
         </div>
-        <span className={classNames('tw-font-medium tw-text-base', color)}>
+        <span
+          className={classNames(
+            'tw-font-medium tw-text-sm tw-leading-none',
+            color,
+          )}
+        >
           {toNumberFormat(markPrice, 2)}
         </span>
       </div>

@@ -5,10 +5,10 @@ type DataCardProps = {
   title: string;
   hasCustomHeight?: boolean;
   hasCustomWidth?: boolean;
-  className?: String;
+  className?: string;
+  contentClassName?: string;
   children: React.ReactNode;
   hasPadding?: boolean;
-  isFullWidth?: boolean;
 };
 
 export const DataCard: React.FC<DataCardProps> = ({
@@ -16,15 +16,15 @@ export const DataCard: React.FC<DataCardProps> = ({
   hasCustomHeight,
   hasCustomWidth,
   className,
+  contentClassName,
   children,
   hasPadding = true,
-  isFullWidth = true,
 }) => (
   <div
     className={classNames(
       'tw-flex tw-flex-col tw-pt-1.5 tw-bg-gray-2.5 tw-rounded-xl',
       {
-        'tw-flex-1': !hasCustomHeight,
+        'tw-h-max': !hasCustomHeight,
         'tw-min-w-min': !hasCustomWidth,
       },
       className,
@@ -34,8 +34,7 @@ export const DataCard: React.FC<DataCardProps> = ({
       {title}
     </h2>
     <div
-      className={classNames('tw-h-full', {
-        'tw-w-full': isFullWidth,
+      className={classNames('tw-flex-auto tw-h-full', contentClassName, {
         'tw-p-4': hasPadding,
       })}
     >
