@@ -104,6 +104,8 @@ export const notificationServiceUrl = {
 };
 
 export const limitOrderUrl = {
-  30: 'https://orderbook.sovryn.app/limitOrder',
-  31: 'https://orderbook.test.sovryn.app/limitOrder',
+  // 30: 'https://orderbook.sovryn.app/limitOrder',
+  30: 'https://_ob.sovryn.app/mainnet/limitOrder',
+  // 31: 'https://orderbook.test.sovryn.app/limitOrder',
+  31: 'https://_ob.sovryn.app/testnet/limitOrder',
 };
