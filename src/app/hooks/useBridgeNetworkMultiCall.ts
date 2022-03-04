@@ -10,21 +10,18 @@ import {
  * Important: multiCallData must be static or generated with useMemo or similar, to prevent unnecessary calls.
  * Makes an aggregated RPC call and allows for refetching.
  */
-export const useBridgeNetworkMultiCall = <T>(
+export const useBridgeNetworkMultiCall = (
   chain: Chain,
   multiCallData: MultiCallData[],
   immediate: boolean = true,
 ) => {
   const [result, setResult] = useState<MultiCallResult>();
 
-  const fetch = useCallback(
-    async (args?: T) => {
-      const result = await bridgeNetwork.multiCall(chain, multiCallData);
-      setResult(result);
-      return result;
-    },
-    [chain, multiCallData],
-  );
+  const fetch = useCallback(async () => {
+    const result = await bridgeNetwork.multiCall(chain, multiCallData);
+    setResult(result);
+    return result;
+  }, [chain, multiCallData]);
 
   useEffect(() => {
     if (immediate) {
