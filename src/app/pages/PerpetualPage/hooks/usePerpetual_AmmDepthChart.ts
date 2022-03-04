@@ -1,9 +1,11 @@
 import { useMemo, useContext } from 'react';
 import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
-import { getIndexPrice, getMarkPrice } from '../utils/perpUtils';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import { RecentTradesContext } from '../contexts/RecentTradesContext';
 import { TradePriceChange } from '../components/RecentTradesTable/types';
+import { perpUtils } from '@sovryn/perpetual-swap';
+
+const { getIndexPrice, getMarkPrice } = perpUtils;
 
 export type AmmDepthChartDataEntry = {
   id: number;

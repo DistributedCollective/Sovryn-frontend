@@ -5,7 +5,6 @@ import { TradingPosition } from 'types/trading-position';
 import { ethGenesisAddress, gasLimit } from 'utils/classifiers';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import { floatToABK64x64, getSignedAmount } from '../utils/contractUtils';
-import { calculateSlippagePrice } from '../utils/perpUtils';
 import {
   PERPETUAL_SLIPPAGE_DEFAULT,
   PERPETUAL_GAS_PRICE_DEFAULT,
@@ -19,6 +18,9 @@ import {
 import { Asset } from '../../../../types';
 import { PerpetualTx } from '../components/TradeDialog/types';
 import { useGsnSendTx } from '../../../hooks/useGsnSendTx';
+import { perpUtils } from '@sovryn/perpetual-swap';
+
+const { calculateSlippagePrice } = perpUtils;
 
 const MASK_MARKET_ORDER = 0x40000000;
 const MASK_CLOSE_ONLY = 0x80000000;

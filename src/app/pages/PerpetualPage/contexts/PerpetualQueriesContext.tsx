@@ -1,11 +1,4 @@
 import React, { createContext, useMemo, useEffect, useState } from 'react';
-import {
-  AMMState,
-  getDepthMatrix,
-  LiqPoolState,
-  PerpParameters,
-  TraderState,
-} from '../utils/perpUtils';
 import { getContract } from '../../../../utils/blockchain/contract-helpers';
 import {
   subscription,
@@ -31,6 +24,15 @@ import {
 import { useBridgeNetworkMultiCall } from '../../../hooks/useBridgeNetworkMultiCall';
 import { PERPETUAL_CHAIN } from '../types';
 import { usePerpetual_queryLiqPoolId } from '../hooks/usePerpetual_queryLiqPoolId';
+import {
+  perpUtils,
+  AMMState,
+  LiqPoolState,
+  PerpParameters,
+  TraderState,
+} from '@sovryn/perpetual-swap';
+
+const { getDepthMatrix } = perpUtils;
 
 const THROTTLE_DELAY = 1000; // 1s
 const UPDATE_INTERVAL = 10000; // 10s

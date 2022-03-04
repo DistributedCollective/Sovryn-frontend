@@ -12,16 +12,18 @@ import { AssetValueMode } from '../../../../../components/AssetValue/types';
 import { PerpetualPairDictionary } from '../../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import styles from '../index.module.scss';
 import {
-  calculateSlippagePrice,
-  calculateApproxLiquidationPrice,
-  getRequiredMarginCollateral,
-} from 'app/pages/PerpetualPage/utils/perpUtils';
-import {
   getSignedAmount,
   getTradeDirection,
 } from 'app/pages/PerpetualPage/utils/contractUtils';
 import { TradingPosition } from '../../../../../../types/trading-position';
 import { PerpetualQueriesContext } from 'app/pages/PerpetualPage/contexts/PerpetualQueriesContext';
+import { perpUtils } from '@sovryn/perpetual-swap';
+
+const {
+  calculateSlippagePrice,
+  calculateApproxLiquidationPrice,
+  getRequiredMarginCollateral,
+} = perpUtils;
 
 export const SlippageFormStep: TransitionStep<NewPositionCardStep> = ({
   changeTo,

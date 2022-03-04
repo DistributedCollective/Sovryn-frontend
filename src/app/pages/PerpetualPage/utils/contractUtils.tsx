@@ -14,17 +14,14 @@ import {
 import { getContract } from 'utils/blockchain/contract-helpers';
 import marginTokenAbi from 'utils/blockchain/abi/MarginToken.json';
 import { TradingPosition } from 'types/trading-position';
+import { getRequiredMarginCollateralWithGasFees } from './perpUtils';
 import {
+  perpUtils,
   TraderState,
   AMMState,
   PerpParameters,
-  calculateSlippagePriceFromMidPrice,
-  getPrice,
-  getMidPrice,
-  isTraderInitialMarginSafe,
-  getRequiredMarginCollateralWithGasFees,
   LiqPoolState,
-} from './perpUtils';
+} from '@sovryn/perpetual-swap';
 import { fromWei } from '../../../../utils/blockchain/math-helpers';
 import { CheckAndApproveResultWithError } from '../types';
 import { BridgeNetworkDictionary } from '../../BridgeDepositPage/dictionaries/bridge-network-dictionary';
@@ -32,6 +29,13 @@ import { Trans } from 'react-i18next';
 import { translations } from '../../../../locales/i18n';
 import { numberToPercent } from '../../../../utils/display-text/format';
 import perpetualManagerAbi from 'utils/blockchain/abi/PerpetualManager.json';
+
+const {
+  calculateSlippagePriceFromMidPrice,
+  getPrice,
+  getMidPrice,
+  isTraderInitialMarginSafe,
+} = perpUtils;
 
 export const ONE_64x64 = BigNumber.from('0x10000000000000000');
 export const DEC_18 = BigNumber.from(10).pow(BigNumber.from(18));
