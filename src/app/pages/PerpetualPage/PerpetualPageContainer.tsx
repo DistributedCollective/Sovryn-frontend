@@ -120,12 +120,8 @@ export const PerpetualPageContainer: React.FC = () => {
           />
           <ContractDetails pair={pair} collateral={collateral} />
         </div>
-        <div className={'tw-container tw-mt-5'}>
-          <div
-            className={
-              'tw-flex tw-flex-col tw-mb-8 xl:tw-flex-row xl:tw-justify-stretch tw-space-y-2 xl:tw-space-y-0 xl:tw-space-x-2'
-            }
-          >
+        <div className="tw-container tw-mt-5 tw-flex-grow">
+          <div className="tw-flex tw-flex-col tw-mb-8 xl:tw-flex-row xl:tw-justify-stretch tw-space-y-2 xl:tw-space-y-0 xl:tw-space-x-2">
             <DataCard
               className="tw-min-w-72 tw-max-w-96 tw-"
               title={`AMM Depth (${pairType.toString()})`}
