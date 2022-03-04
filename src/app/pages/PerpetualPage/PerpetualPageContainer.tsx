@@ -120,28 +120,25 @@ export const PerpetualPageContainer: React.FC = () => {
           />
           <ContractDetails pair={pair} collateral={collateral} />
         </div>
-        <div className={'tw-container tw-mt-5'}>
-          <div
-            className={
-              'tw-flex tw-flex-col tw-mb-8 xl:tw-flex-row xl:tw-justify-stretch tw-space-y-2 xl:tw-space-y-0 xl:tw-space-x-2'
-            }
-          >
+        <div className="tw-container tw-mt-5 tw-flex-grow">
+          <div className="tw-flex tw-flex-col tw-mb-8 xl:tw-flex-row xl:tw-justify-stretch tw-space-y-2 xl:tw-space-y-0 xl:tw-space-x-2">
             <DataCard
-              className="xl:tw-w-1/5"
+              className="tw-min-w-72 tw-max-w-96 tw-"
               title={`AMM Depth (${pairType.toString()})`}
             >
               <AmmDepthChart pair={pair} />
             </DataCard>
             <DataCard
+              className="tw-flex-1 tw-max-w-full tw-min-h-80"
+              contentClassName="tw-flex tw-flex-col"
               title={`Chart (${pairType.toString()})`}
-              className={'tw-max-w-full xl:tw-w-3/5 2xl:tw-w-2/5'}
-              hasCustomHeight
             >
               <TradingChart symbol={pair.chartSymbol} hasCustomDimensions />
             </DataCard>
             <DataCard
-              className="xl:tw-hidden 2xl:tw-flex xl:tw-w-1/5"
+              className="2xl:tw-flex tw-min-w-72 tw-max-w-96 tw-min-h-72"
               title={`Recent Trades (${pairType.toString()})`}
+              contentClassName="tw-flex tw-flex-col"
             >
               <RecentTradesTable pair={pair} />
             </DataCard>

@@ -144,7 +144,7 @@ export const TradingChart: React.FC<TradingChartProps> = ({
 
   return (
     <div
-      className="tw-w-full tw-h-full tw-flex tw-rounded tw-overflow-hidden"
+      className="tw-flex-auto tw-w-full tw-h-full tw-flex tw-rounded tw-overflow-hidden"
       style={
         hasCustomDimensions ? undefined : { minWidth: 270, minHeight: 500 }
       }

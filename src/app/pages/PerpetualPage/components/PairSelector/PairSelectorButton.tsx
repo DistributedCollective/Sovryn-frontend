@@ -1,10 +1,23 @@
 import classNames from 'classnames';
-import React, { useCallback, useContext, useMemo } from 'react';
+import { translations } from 'locales/i18n';
+import React, {
+  useCallback,
+  useContext,
+  useMemo,
+  useEffect,
+  useState,
+} from 'react';
+import { useTranslation } from 'react-i18next';
 import { PerpetualPairType } from 'utils/dictionaries/perpetual-pair-dictionary';
 import { toNumberFormat } from 'utils/display-text/format';
 import { PerpetualPair } from 'utils/models/perpetual-pair';
-import { RecentTradesContext } from '../../contexts/RecentTradesContext';
+import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
+import { perpUtils } from '@sovryn/perpetual-swap';
+import { TradePriceChange } from '../RecentTradesTable/types';
 import { getPriceColor, getPriceChange } from '../RecentTradesTable/utils';
+import { usePrevious } from '../../../../hooks/usePrevious';
+
+const { getMarkPrice } = perpUtils;
 
 type PairSelectorButtonProps = {
   pair: PerpetualPair;
@@ -17,14 +30,22 @@ export const PairSelectorButton: React.FC<PairSelectorButtonProps> = ({
   isSelected,
   onSelect,
 }) => {
-  const { trades } = useContext(RecentTradesContext);
-  const latestPrice = trades[0]?.price;
-  const previousPrice = trades[1]?.price;
-  const color = useMemo(
-    () =>
-      getPriceColor(getPriceChange(previousPrice || latestPrice, latestPrice)),
-    [previousPrice, latestPrice],
+  const { t } = useTranslation();
+  const { ammState } = useContext(PerpetualQueriesContext);
+  const [trend, setTrend] = useState<TradePriceChange>(
+    TradePriceChange.NO_CHANGE,
   );
+
+  const markPrice = getMarkPrice(ammState);
+  const previousMarkPrice = usePrevious(markPrice);
+
+  useEffect(() => {
+    if (previousMarkPrice !== markPrice) {
+      setTrend(getPriceChange(previousMarkPrice || markPrice, markPrice));
+    }
+  }, [previousMarkPrice, markPrice]);
+
+  const color = useMemo(() => getPriceColor(trend), [trend]);
 
   const onClick = useCallback(() => !isSelected && onSelect(pair.pairType), [
     onSelect,
@@ -35,22 +56,27 @@ export const PairSelectorButton: React.FC<PairSelectorButtonProps> = ({
   return (
     <div
       className={classNames(
-        'tw-flex tw-flex-row tw-items-center tw-min-w-56 tw-px-3 tw-py-1.5 tw-mr-2 tw-rounded-lg tw-select-none tw-transition-colors tw-duration-300',
+        'tw-flex tw-flex-row tw-items-center tw-min-w-56 tw-px-3 tw-py-1 tw-my-1 tw-mr-2 tw-rounded-lg tw-select-none tw-transition-colors tw-duration-300',
         isSelected
           ? 'tw-bg-gray-5'
           : 'tw-bg-gray-4 tw-cursor-pointer hover:tw-bg-gray-5',
       )}
       onClick={onClick}
     >
-      <span className="tw-font-medium tw-mr-2 tw-text-xs">{pair.name}</span>
-      <span
-        className={classNames(
-          'tw-flex-auto tw-text-right tw-font-medium tw-text-base',
-          color,
-        )}
-      >
-        {toNumberFormat(latestPrice, 1)}
-      </span>
+      <span className="tw-font-medium tw-mr-2 tw-text-base">{pair.name}</span>
+      <div className="tw-flex-auto tw-flex tw-flex-col tw-justify-center tw-py-0.5 tw-text-right">
+        <div className="tw-text-tiny tw-leading-none tw-text-gray-8 tw-font-thin">
+          {t(translations.perpetualPage.pairSelector.markPrice)}
+        </div>
+        <span
+          className={classNames(
+            'tw-font-medium tw-text-sm tw-leading-none',
+            color,
+          )}
+        >
+          {toNumberFormat(markPrice, 2)}
+        </span>
+      </div>
     </div>
   );
 };

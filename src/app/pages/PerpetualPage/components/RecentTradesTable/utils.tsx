@@ -1,6 +1,7 @@
+import React from 'react';
 import { TradePriceChange, TradeType } from './types';
-import imgArrowUp from 'assets/images/trend-arrow-up.svg';
-import imgArrowDown from 'assets/images/trend-arrow-down.svg';
+import { ReactComponent as ImageArrowUp } from 'assets/images/trend-arrow-up.svg';
+import { ReactComponent as ImageArrowDown } from 'assets/images/trend-arrow-down.svg';
 
 export const getPriceChange = (
   previousPrice: number,
@@ -18,12 +19,25 @@ export const getPriceChange = (
 export const getTradeType = (tradeAmount: number): TradeType =>
   tradeAmount < 0 ? TradeType.SELL : TradeType.BUY;
 
-export const getPriceChangeImage = (priceChange: TradePriceChange) => {
+export const getPriceChangeImage = (
+  priceChange: TradePriceChange,
+  typeColor: string,
+) => {
   switch (priceChange) {
     case TradePriceChange.UP:
-      return imgArrowUp;
+      return (
+        <ImageArrowUp
+          className="tw-inline-block tw-w-2.5 tw-mr-1"
+          color={typeColor}
+        />
+      );
     case TradePriceChange.DOWN:
-      return imgArrowDown;
+      return (
+        <ImageArrowDown
+          className="tw-inline-block tw-w-2.5 tw-mr-1"
+          color={typeColor}
+        />
+      );
     default:
       return undefined;
   }

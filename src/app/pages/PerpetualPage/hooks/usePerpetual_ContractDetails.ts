@@ -9,13 +9,8 @@ import {
   PerpetualPairDictionary,
 } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { useApolloClient } from '@apollo/client';
-import { perpUtils } from '@sovryn/perpetual-swap';
-
-const { getIndexPrice, getMarkPrice } = perpUtils;
 
 export type PerpetualContractDetailsData = {
-  markPrice: number;
-  indexPrice: number;
   volume24h: number;
   openInterest: number;
   fundingRate: number;
@@ -71,8 +66,6 @@ export const usePerpetual_ContractDetails = (pairType: PerpetualPairType) => {
   useEffect(
     () =>
       setData({
-        markPrice: getMarkPrice(ammState),
-        indexPrice: getIndexPrice(ammState),
         volume24h: volume24h,
         openInterest: perpetualParameters.fOpenInterest,
         fundingRate: perpetualParameters.fCurrentFundingRate,

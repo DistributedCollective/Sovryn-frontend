@@ -140,7 +140,7 @@ export const NewPositionCard: React.FC = () => {
   return (
     <DataCard
       title={t(translations.perpetualPage.tradeForm.titles.order)}
-      className="tw-relative"
+      className="tw-relative tw-flex-1"
       hasPadding={false}
     >
       <NewPositionCardContext.Provider value={stepProps}>

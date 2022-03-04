@@ -6,8 +6,8 @@ import { IPairs, IAssets, IAssetData } from './types';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { numberToUSD, toNumberFormat } from 'utils/display-text/format';
-import arrowUp from 'assets/images/trend-arrow-up.svg';
-import arrowDown from 'assets/images/trend-arrow-down.svg';
+import { ReactComponent as ArrowUp } from 'assets/images/trend-arrow-up.svg';
+import { ReactComponent as ArrowDown } from 'assets/images/trend-arrow-down.svg';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { bignumber } from 'mathjs';
 import { Asset } from 'types';
@@ -262,10 +262,10 @@ export const PriceChange: React.FC<IPriceChangeProps> = ({ value }) => {
     >
       {numberString}%
       {value > 0 && !noChange && (
-        <img className="tw-w-3 tw-ml-2" src={arrowUp} alt={'up'} />
+        <ArrowUp color="tw-text-trade-long" className="tw-w-3 tw-ml-2" />
       )}
       {value < 0 && !noChange && (
-        <img className="tw-w-3 tw-ml-2" src={arrowDown} alt={'down'} />
+        <ArrowDown color="tw-text-trade-short" className="tw-w-3 tw-ml-2" />
       )}
     </div>
   );
