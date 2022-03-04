@@ -1623,6 +1623,7 @@
       "description": "Trade with Sovryn's perpetual future contracts"
     },
     "pairSelector": {
+      "markPrice": "Mark Price",
       "gsn": "GSN",
       "tooltips": {
         "gsnEnabled": "Fees paid in BTC. With the Gas Station Network (GSN) you can pay gas fees in BTC",
