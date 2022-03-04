@@ -12,7 +12,6 @@ import {
   widget,
   IChartingLibraryWidget,
   ChartingLibraryWidgetOptions,
-  Timezone,
 } from '@distributedcollective/charting-library/src/charting_library/charting_library.min';
 
 import { Skeleton } from '../../../../components/PageSkeleton';
@@ -21,7 +20,6 @@ import storage from './storage';
 import { noop } from '../../../../constants';
 import { Nullable } from '../../../../../types';
 import { useApolloClient } from '@apollo/client';
-import dayjs from 'dayjs';
 
 export type TradingChartColors = {
   text: string;

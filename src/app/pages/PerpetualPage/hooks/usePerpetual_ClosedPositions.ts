@@ -7,7 +7,6 @@ import {
 } from 'utils/dictionaries/perpetual-pair-dictionary';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import { ABK64x64ToFloat } from '../utils/contractUtils';
-import { getQuote2CollateralFX } from '../utils/perpUtils';
 import {
   Event,
   useGetTraderEvents,
@@ -15,6 +14,9 @@ import {
 } from './graphql/useGetTraderEvents';
 import { RecentTradesContext } from '../contexts/RecentTradesContext';
 import debounce from 'lodash.debounce';
+import { perpUtils } from '@sovryn/perpetual-swap';
+
+const { getQuote2CollateralFX } = perpUtils;
 
 export type ClosedPositionEntry = {
   id: string;

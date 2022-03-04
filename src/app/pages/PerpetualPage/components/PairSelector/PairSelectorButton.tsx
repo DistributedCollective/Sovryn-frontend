@@ -12,10 +12,12 @@ import { PerpetualPairType } from 'utils/dictionaries/perpetual-pair-dictionary'
 import { toNumberFormat } from 'utils/display-text/format';
 import { PerpetualPair } from 'utils/models/perpetual-pair';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
-import { getMarkPrice } from '../../utils/perpUtils';
+import { perpUtils } from '@sovryn/perpetual-swap';
 import { TradePriceChange } from '../RecentTradesTable/types';
 import { getPriceColor, getPriceChange } from '../RecentTradesTable/utils';
 import { usePrevious } from '../../../../hooks/usePrevious';
+
+const { getMarkPrice } = perpUtils;
 
 type PairSelectorButtonProps = {
   pair: PerpetualPair;
