@@ -8,9 +8,30 @@ import { isMainnet, rpcNodes } from '../../../../utils/classifiers';
 
 const chainId = isMainnet ? ChainId.BSC_MAINNET : ChainId.BSC_TESTNET;
 
-const web3Socket = new Web3(rpcNodes[chainId]);
+let web3Socket: Web3;
+export const getWeb3Socket = () => {
+  if (!web3Socket) {
+    const provider = new Web3.providers.WebsocketProvider(rpcNodes[chainId], {
+      timeout: 10000, // 10s
+      clientConfig: {
+        keepalive: true,
+        keepaliveInterval: -1, // indefinite
+      },
+      reconnect: {
+        auto: true,
+        delay: 10000, // 10s
+        maxAttempts: Number.POSITIVE_INFINITY,
+        onTimeout: false,
+      },
+    });
+    web3Socket = new Web3(provider);
+  }
+
+  return web3Socket;
+};
 
 const rpcAddress = BridgeNetworkDictionary.getByChainId(chainId)?.rpc;
+
 const web3Http = new Web3(rpcAddress || null);
 
 const PerpetualManager = IPerpetualManager as AbiItem[];
@@ -23,6 +44,7 @@ type ContractEvent = {
 export enum PerpetualManagerEventKeys {
   'Trade' = 'Trade',
   'UpdatePrice' = 'UpdatePrice',
+  'Liquidate' = 'Liquidate',
 }
 
 export const getPerpetualManagerEvent = (
@@ -44,6 +66,7 @@ const PerpetualManagerEvents: {
 } = {
   Trade: getPerpetualManagerEvent(PerpetualManagerEventKeys.Trade),
   UpdatePrice: getPerpetualManagerEvent(PerpetualManagerEventKeys.UpdatePrice),
+  Liquidate: getPerpetualManagerEvent(PerpetualManagerEventKeys.Liquidate),
 };
 
 const PerpetualManagerEventsByTopic: {
@@ -81,6 +104,7 @@ export const subscription = (
   events: PerpetualManagerEventKeys[],
   fromBlock?: number,
 ) => {
+  const web3 = getWeb3Socket();
   let options = {
     address: address,
     topics: [events.map(event => PerpetualManagerEvents[event]?.topic || '')],
@@ -89,7 +113,7 @@ export const subscription = (
   if (fromBlock) {
     options.fromBlock = fromBlock;
   }
-  return web3Socket.eth.subscribe('logs', options, (err, res) => {
+  return web3.eth.subscribe('logs', options, (err, res) => {
     if (err) {
       console.error(err);
     }

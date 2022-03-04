@@ -9,6 +9,7 @@ import {
   subscription,
   PerpetualManagerEventKeys,
   decodePerpetualManagerLog,
+  getWeb3Socket,
 } from 'app/pages/PerpetualPage/utils/bscWebsocket';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { useGetRecentTrades } from '../hooks/graphql/useGetRecentTrades';
@@ -27,7 +28,7 @@ export const RecentTradesContext = createContext<RecentTradesContextType>({
   latestTradeByUser: undefined,
 });
 
-const recentTradesMaxLength = 50;
+const RECENT_TRADES_MAX_LENGTH = 50;
 const address = getContract('perpetualManager').address.toLowerCase();
 
 type InitSocketParams = {
@@ -35,11 +36,17 @@ type InitSocketParams = {
 };
 
 const initSockets = (socketParams: InitSocketParams, perpetualId: string) => {
-  const socket = subscription(address, [PerpetualManagerEventKeys.Trade]);
+  const socket = subscription(address, [
+    PerpetualManagerEventKeys.Trade,
+    PerpetualManagerEventKeys.Liquidate,
+  ]);
 
   addSocketEventListeners(socket, socketParams, perpetualId);
 
-  return socket;
+  return {
+    socket,
+    web3: getWeb3Socket(),
+  };
 };
 
 const addSocketEventListeners = (
@@ -59,9 +66,12 @@ const addSocketEventListeners = (
     // console.log('[recentTradesWs] data received', data, decoded);
 
     if (decoded?.perpetualId?.toLowerCase() === perpetualId.toLowerCase()) {
-      const price = ABK64x64ToFloat(BigNumber.from(decoded.price));
+      // decoded could be a Trade or a Liquidate Event
+      const price = ABK64x64ToFloat(
+        BigNumber.from(decoded.price || decoded.liquidationPrice),
+      );
       const tradeAmount = ABK64x64ToFloat(
-        BigNumber.from(decoded.tradeAmountBC),
+        BigNumber.from(decoded.tradeAmountBC || decoded.amountLiquidatedBC),
       );
       const parsedTrade: RecentTradesDataEntry = {
         id: data.transactionHash,
@@ -79,30 +89,48 @@ const addSocketEventListeners = (
   });
 };
 
-const formatTradeData = (data: any[]): RecentTradesDataEntry[] => {
-  const parsedData: RecentTradesDataEntry[] = data.map((trade, index) => {
-    const prevTrade = index !== data.length - 1 ? data[index + 1] : data[index];
-    const prevPrice = ABK64x64ToFloat(BigNumber.from(prevTrade.price));
-    const price = ABK64x64ToFloat(BigNumber.from(trade.price));
-    const tradeAmount = ABK64x64ToFloat(BigNumber.from(trade.tradeAmountBC));
+const formatRecentTradesData = (data: { trades: any[]; liquidates: any[] }) =>
+  [
+    ...formatTradeOrLiquidate(data.trades),
+    ...formatTradeOrLiquidate(data.liquidates),
+  ]
+    .sort((a, b) => a.time.localeCompare(b.time))
+    .map((trade, index, array) => {
+      const prevTrade = index < array.length - 1 ? array[index + 1] : trade;
+      return {
+        ...trade,
+        priceChange: getPriceChange(prevTrade.price, trade.price),
+      };
+    });
+
+const formatTradeOrLiquidate = (data: any[]): RecentTradesDataEntry[] =>
+  data.map(trade => {
+    const price = ABK64x64ToFloat(
+      BigNumber.from(trade.price || trade.liquidationPrice),
+    );
+    const tradeAmount = ABK64x64ToFloat(
+      BigNumber.from(trade.tradeAmountBC || trade.amountLiquidatedBC),
+    );
     return {
       id: trade.transaction.id,
       trader: trade.trader?.id,
       price,
-      priceChange: getPriceChange(prevPrice, price),
+      priceChange: TradePriceChange.NO_CHANGE,
       size: Math.abs(tradeAmount),
       time: convertTimestampToTime(parseInt(trade.blockTimestamp) * 1e3),
       type: getTradeType(tradeAmount),
       fromSocket: false,
     };
   });
-  return parsedData;
-};
 
 const convertTimestampToTime = (timestamp: number): string =>
   dayjs(timestamp).utc().format('HH:mm:ss');
 
+const DISCONNECTION_CHECK_INTERVAL = 5000; // 5s
+const DISCONNECTED_UPDATE_INTERVAL = 5000; // 5s
+
 export const RecentTradesContextProvider = props => {
+  const [disconnected, setDisconnected] = useState(false);
   const [value, setValue] = useState<RecentTradesContextType>({
     trades: [],
     latestTradeByUser: undefined,
@@ -110,13 +138,14 @@ export const RecentTradesContextProvider = props => {
 
   const account = useAccount().toLowerCase();
 
-  const { data, error } = useGetRecentTrades(
+  const { data, error, refetch } = useGetRecentTrades(
     props.pair.id,
-    recentTradesMaxLength,
+    RECENT_TRADES_MAX_LENGTH,
   );
 
   const pushTrade = useCallback(
-    (trade: RecentTradesDataEntry) =>
+    (trade: RecentTradesDataEntry) => {
+      setDisconnected(false);
       setValue(state => {
         const prevPrice = state.trades[0].price;
         trade.priceChange = getPriceChange(prevPrice, trade.price);
@@ -126,37 +155,62 @@ export const RecentTradesContextProvider = props => {
             account && trade.trader?.toLowerCase() === account
               ? trade
               : state.latestTradeByUser,
-          trades: [trade, ...state.trades.slice(0, recentTradesMaxLength - 1)],
+          trades: [
+            trade,
+            ...state.trades.slice(0, RECENT_TRADES_MAX_LENGTH - 1),
+          ],
         };
-      }),
+      });
+    },
     [account],
   );
 
   useEffect(() => {
     if (data) {
-      const parsedData = formatTradeData(data.trades);
-      setValue({ trades: parsedData });
+      setValue(value => {
+        const trades = formatRecentTradesData(data);
+        const latestTradeByUser = trades.find(
+          trade => trade.trader?.toLowerCase() === account,
+        );
+        return {
+          latestTradeByUser: latestTradeByUser || value.latestTradeByUser,
+          trades,
+        };
+      });
     }
     if (error) {
       console.error(error);
     }
+  }, [account, data, error, props.pair.id]);
 
-    if (data || error) {
-      let socket = initSockets({ pushTrade }, props.pair.id);
-      return () => {
-        if (socket) {
-          socket.unsubscribe((error, success) => {
-            if (error) {
-              console.error(error);
-            }
-            if (success) {
-              return;
-            }
-          });
+  useEffect(() => {
+    let { socket, web3 } = initSockets({ pushTrade }, props.pair.id);
+
+    const intervalId = setInterval(() => {
+      if (!web3.currentProvider) {
+        return;
+      }
+      setDisconnected(!web3.currentProvider['connected']);
+    }, DISCONNECTION_CHECK_INTERVAL);
+
+    return () => {
+      clearImmediate(intervalId);
+      socket.unsubscribe((error, success) => {
+        if (error) {
+          console.error(error);
         }
+      });
+    };
+  }, [data, error, pushTrade, props.pair.id]);
+
+  useEffect(() => {
+    if (disconnected) {
+      const intervalId = setInterval(refetch, DISCONNECTED_UPDATE_INTERVAL);
+      return () => {
+        clearInterval(intervalId);
       };
     }
-  }, [data, error, pushTrade, props.pair.id]);
+  }, [disconnected, refetch]);
 
   return (
     <RecentTradesContext.Provider value={value}>
