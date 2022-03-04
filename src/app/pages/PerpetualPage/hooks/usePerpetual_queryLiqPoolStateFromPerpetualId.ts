@@ -1,4 +1,4 @@
-import { LiqPoolState } from '../utils/perpUtils';
+import { LiqPoolState } from '@sovryn/perpetual-swap';
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { ABK64x64ToFloat } from '../utils/contractUtils';
 import { bridgeNetwork } from 'app/pages/BridgeDepositPage/utils/bridge-network';

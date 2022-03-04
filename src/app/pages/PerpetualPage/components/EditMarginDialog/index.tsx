@@ -16,11 +16,6 @@ import { isPerpetualTrade, PerpetualPageModals } from '../../types';
 import { TradeDetails } from '../TradeDetails';
 import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
-import {
-  calculateApproxLiquidationPrice,
-  calculateLeverage,
-  getMaximalMarginToWithdraw,
-} from '../../utils/perpUtils';
 import { fromWei } from 'web3-utils';
 import classNames from 'classnames';
 import { LeverageViewer } from '../LeverageViewer';
@@ -36,6 +31,13 @@ import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext'
 import { ActionDialogSubmitButton } from '../ActionDialogSubmitButton';
 import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';
 import { getCollateralName } from '../../utils/renderUtils';
+import { perpUtils } from '@sovryn/perpetual-swap';
+
+const {
+  calculateApproxLiquidationPrice,
+  calculateLeverage,
+  getMaximalMarginToWidthdraw,
+} = perpUtils;
 
 enum EditMarginDialogMode {
   increase,
@@ -128,7 +130,7 @@ export const EditMarginDialog: React.FC = () => {
       // Fees don't need to be subtracted, since Collateral is not paid with the Network Token
       return [Number(fromWei(availableBalance)), availableBalance];
     } else {
-      const maxAmount = getMaximalMarginToWithdraw(
+      const maxAmount = getMaximalMarginToWidthdraw(
         traderState,
         perpParameters,
         ammState,

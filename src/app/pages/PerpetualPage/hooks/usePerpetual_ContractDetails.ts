@@ -3,13 +3,15 @@ import { useContext, useEffect, useState, useMemo } from 'react';
 import { Nullable } from 'types';
 import { makeApiRequest } from '../components/TradingChart/helpers';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
-import { getIndexPrice, getMarkPrice } from '../utils/perpUtils';
 import { CandleDuration } from './graphql/useGetCandles';
 import {
   PerpetualPairType,
   PerpetualPairDictionary,
 } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { useApolloClient } from '@apollo/client';
+import { perpUtils } from '@sovryn/perpetual-swap';
+
+const { getIndexPrice, getMarkPrice } = perpUtils;
 
 export type PerpetualContractDetailsData = {
   markPrice: number;

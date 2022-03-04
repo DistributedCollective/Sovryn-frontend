@@ -21,13 +21,6 @@ import {
   initialTraderState,
   usePerpetual_queryTraderState,
 } from '../hooks/usePerpetual_queryTraderState';
-import {
-  AMMState,
-  getDepthMatrix,
-  LiqPoolState,
-  PerpParameters,
-  TraderState,
-} from '../utils/perpUtils';
 import { getContract } from '../../../../utils/blockchain/contract-helpers';
 import {
   subscription,
@@ -41,6 +34,15 @@ import { bridgeNetwork } from '../../BridgeDepositPage/utils/bridge-network';
 import { Chain } from '../../../../types';
 import marginTokenAbi from 'utils/blockchain/abi/MarginToken.json';
 import { usePerpetual_completedTransactions } from '../hooks/usePerpetual_completedTransactions';
+import {
+  perpUtils,
+  AMMState,
+  LiqPoolState,
+  PerpParameters,
+  TraderState,
+} from '@sovryn/perpetual-swap';
+
+const { getDepthMatrix } = perpUtils;
 
 const THROTTLE_DELAY = 1000; // 1s
 const UPDATE_INTERVAL = 10000; // 10s

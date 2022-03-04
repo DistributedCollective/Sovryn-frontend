@@ -11,15 +11,6 @@ import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
 import { PerpetualPageModals, isPerpetualTradeReview } from '../../types';
 import {
-  calculateApproxLiquidationPrice,
-  getRequiredMarginCollateral,
-  getTradingFee,
-  getTraderPnLInCC,
-  calculateSlippagePriceFromMidPrice,
-  getPrice,
-  calculateLeverage,
-} from '../../utils/perpUtils';
-import {
   PerpetualPairDictionary,
   PerpetualPairType,
 } from 'utils/dictionaries/perpetual-pair-dictionary';
@@ -40,6 +31,17 @@ import { ConfirmationStep } from './components/ConfirmationStep';
 import { TransactionStep } from './components/TransactionStep';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 import { numberFromWei } from '../../../../../utils/blockchain/math-helpers';
+import { perpUtils } from '@sovryn/perpetual-swap';
+
+const {
+  calculateApproxLiquidationPrice,
+  getRequiredMarginCollateral,
+  getTradingFee,
+  getTraderPnLInCC,
+  calculateSlippagePriceFromMidPrice,
+  getPrice,
+  calculateLeverage,
+} = perpUtils;
 
 const tradeDialogContextDefault: TradeDialogContextType = {
   pair: PerpetualPairDictionary.get(PerpetualPairType.BTCUSD),
