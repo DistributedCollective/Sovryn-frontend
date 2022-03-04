@@ -78,7 +78,7 @@ export interface Transaction {
   value: string;
   asset: Nullable<Asset | string>;
   assetAmount: Nullable<string>;
-  customData?: { [key: string]: any };
+  customData?: Record<string, any>;
 }
 
 export interface RequestDialogState {

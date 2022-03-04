@@ -1,7 +1,7 @@
 import React from 'react';
 import iconRejected from 'assets/images/icon-rejected.svg';
 import iconPending from 'assets/images/icon-pending.svg';
-import { weiToNumberFormat } from '../../../../../utils/display-text/format';
+import { weiToAssetNumberFormat } from '../../../../../utils/display-text/format';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { Transaction, TxStatus } from 'store/global/transactions-store/types';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
@@ -28,7 +28,10 @@ export function PendingPositionRow({ item }: PendingPositionRowProps) {
         </td>
         <td className="tw-w-full tw-hidden xl:tw-table-cell">
           <div className="tw-truncate">
-            {weiToNumberFormat(customData?.amount, 4)}{' '}
+            {weiToAssetNumberFormat(
+              customData?.positionSize,
+              customData?.collateral,
+            )}{' '}
             <AssetRenderer asset={customData?.collateral} />
           </div>
         </td>

@@ -76,7 +76,10 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     collateralToken,
     useLoanTokens,
   } = useTrading_resolvePairTokens(pair, position, collateral);
-  const { value: estimations } = useGetEstimatedMarginDetails(
+  const {
+    value: estimations,
+    loading: estimationsLoading,
+  } = useGetEstimatedMarginDetails(
     loanToken,
     leverage,
     useLoanTokens ? amount : '0',
@@ -108,7 +111,10 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     setTradeAmount('0');
   }, [pair.collaterals, collateral, dispatch]);
 
-  const { value: tokenBalance } = useAssetBalanceOf(collateral);
+  const {
+    value: tokenBalance,
+    loading: tokenBalanceLoading,
+  } = useAssetBalanceOf(collateral);
 
   useEffect(() => {
     if (pair && pair.leverage) {
@@ -133,9 +139,14 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   const handlePositionShort = useCallback(() => {
     dispatch(actions.submit(TradingPosition.SHORT));
   }, [dispatch]);
+
+  const loadingState = useMemo(() => {
+    return estimationsLoading || tokenBalanceLoading || loadingPrice;
+  }, [estimationsLoading, loadingPrice, tokenBalanceLoading]);
+
   const buttonDisabled = useMemo(
-    () => !validate || !connected || openTradesLocked,
-    [validate, connected, openTradesLocked],
+    () => !validate || !connected || openTradesLocked || loadingState,
+    [validate, connected, openTradesLocked, loadingState],
   );
 
   return (
@@ -348,6 +359,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                 position={position}
                 onClick={() => setIsTradingDialogOpen(true)}
                 disabled={buttonDisabled}
+                loading={loadingState}
                 data-action-id="margin-reviewTransaction-button-placePosition"
               />
             </>

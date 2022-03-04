@@ -24,7 +24,6 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { useWeiAmount } from 'app/hooks/useWeiAmount';
 import { CollateralAssets } from '../CollateralAssets';
 import { AssetRenderer } from 'app/components/AssetRenderer';
-import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
 import type { OpenLoanType } from 'types/active-loan';
 import { TxFeeCalculator } from '../TxFeeCalculator';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
@@ -100,17 +99,6 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
   const args = useMemo(
     () => [item.loanId, receiver, weiAmount, isCollateral, '0x'],
     [item.loanId, receiver, weiAmount, isCollateral],
-  );
-  const isLong = useMemo(() => targetToken.asset === pair.longAsset, [
-    targetToken.asset,
-    pair.longAsset,
-  ]);
-
-  const { price: currentPriceSource, loading } = useCurrentPositionPrice(
-    sourceToken.asset,
-    targetToken.asset,
-    weiAmount,
-    isLong,
   );
 
   const { send, ...rest } = useCloseWithSwap(
@@ -200,7 +188,7 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
               label={t(translations.closeTradingPositionHandler.pl)}
               value={
                 <LoadableValue
-                  loading={loading || loadingValue}
+                  loading={loadingValue}
                   value={
                     <ProfitContainer
                       item={item}
@@ -255,7 +243,7 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
               <DummyInput
                 value={
                   <LoadableValue
-                    loading={loading || loadingValue}
+                    loading={loadingValue}
                     value={weiToAssetNumberFormat(value.withdrawAmount, token)}
                     tooltip={weiToNumberFormat(value.withdrawAmount, 18)}
                   />
@@ -269,7 +257,7 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
                 </p>
                 <div className="tw-font-semibold">
                   <LoadableValue
-                    loading={loading || loadingValue}
+                    loading={loadingValue}
                     value={weiToAssetNumberFormat(minReturn, token)}
                     tooltip={weiToNumberFormat(minReturn, 18)}
                   />{' '}

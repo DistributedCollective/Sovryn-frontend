@@ -2,6 +2,8 @@ import React from 'react';
 import classNames from 'classnames';
 import { TradingPosition } from 'types/trading-position';
 import { TradingTypes } from 'app/pages/SpotTradingPage/types';
+import { Spinner } from '../Spinner';
+import { SpinnerSizeType } from '../Spinner/types';
 
 interface IButtonTradeProps {
   position?: TradingPosition;
@@ -41,6 +43,27 @@ export const ButtonTrade: React.FC<IButtonTradeProps> = ({
     )}
     {...props}
   >
-    {text}
+    <span className="tw-flex tw-flex-row tw-items-center tw-justify-center tw-truncate">
+      <span
+        className={classNames(
+          'tw-flex-shrink-0 tw-btn-loader__spinner tw-flex tw-flex-row tw-items-center tw-justify-start',
+          {
+            active: loading,
+          },
+        )}
+      >
+        <Spinner
+          size={SpinnerSizeType.SMALL}
+          className="tw-fill-current tw-text-white"
+        />
+      </span>
+      <span
+        className={classNames('tw-truncate tw-btn-loader__value', {
+          active: loading,
+        })}
+      >
+        {text}
+      </span>
+    </span>
   </button>
 );
