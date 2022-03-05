@@ -1284,7 +1284,7 @@
     }
   },
   "notifyDialog": {
-    "heading": "Cuidado",
+    "heading": "Atenção",
     "acceptTerms": "Eu li e compreendi que somente eu tenho responsabilidade pelos meus atos",
     "salesBtn": "Eu entendo",
     "generalAlert": {
