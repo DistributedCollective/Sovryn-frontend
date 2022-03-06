@@ -27,7 +27,7 @@ export const RecentTrades: React.FC<IRecentTradesProps> = ({
         'tw-w-full tw-text-xs tw-leading-tight tw-overflow-y-auto tw-overflow-x-hidden',
       )}
     >
-      <table>
+      <table className="tw-w-full">
         <thead className="tw-bg-black tw-sticky tw-top-0 tw-z-10">
           <tr>
             <th colSpan={4}>

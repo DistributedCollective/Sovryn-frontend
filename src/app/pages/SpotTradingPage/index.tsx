@@ -63,7 +63,7 @@ export function SpotTradingPage() {
               theme={Theme.DARK}
             />
           </div>
-          <div className="tw-trading-recent-trades-card tw-bg-black tw-rounded-2xl tw-px-4 tw-py-3 tw-mx-auto xl:tw-mr-2 tw-relative">
+          <div className="tw-trading-form-card tw-bg-black tw-rounded-2xl tw-px-4 tw-py-3 tw-mx-auto md:tw-mb-0 tw-mb-4 xl:tw-mr-2 tw-relative">
             <RecentTrades
               baseToken={getSpotPairs(pairType)[0]}
               quoteToken={getSpotPairs(pairType)[1]}

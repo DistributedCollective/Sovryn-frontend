@@ -20,7 +20,6 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
   const [percent, setPercent] = useState(0);
   const [symbolA, setSymbolA] = useState('');
   const [symbolB, setSymbolB] = useState('');
-
   const { candles, loading } = useGetCandlesData(symbolA, symbolB);
 
   useEffect(() => {
@@ -60,6 +59,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
 
       //generating percent for all pairs
       //for pairs without RBTC
+      setPercent(0);
       if (pair[1] !== pair[0]) {
         if (lastPrice > dayPrice) {
           setPercent(((lastPrice - dayPrice) / dayPrice) * 100);
@@ -119,7 +119,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
 
   return (
     <div className="tw-flex tw-items-center tw-justify-around tw-flex-1 tw-text-xs">
-      <div className="tw-flex tw-items-center tw-text-center tw-flex-col lg:tw-flex-row tw-py-2">
+      <div className="tw-hidden sm:tw-flex tw-items-center tw-text-center tw-flex-row">
         {t(translations.pairNavbar.lastTradedPrice)}
         <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-primary">
           <LoadableValue
@@ -128,13 +128,16 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
           />
         </span>
       </div>
-      <div className="tw-flex tw-items-center tw-text-center tw-flex-col lg:tw-flex-row tw-py-2">
+      <div className="tw-hidden md:tw-flex tw-items-center tw-text-center tw-flex-row">
         {t(translations.pairNavbar.dayPercentChange)}{' '}
         <span
-          className={classNames('tw-ml-2 tw-font-semibold tw-text-sm', {
-            'tw-text-trade-long': percent > 0,
-            'tw-text-trade-short': percent < 0,
-          })}
+          className={classNames(
+            'tw-ml-2 tw-font-semibold tw-text-sm tw-whitespace-nowrap',
+            {
+              'tw-text-trade-long': percent > 0,
+              'tw-text-trade-short': percent < 0,
+            },
+          )}
         >
           {percent > 0 && <>+</>}
           <LoadableValue
@@ -143,8 +146,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
           />
         </span>
       </div>
-
-      <div className="tw-flex tw-items-center tw-text-center tw-flex-col lg:tw-flex-row tw-py-2">
+      <div className="tw-hidden lg:tw-flex tw-items-center tw-text-center tw-flex-row">
         {t(translations.pairNavbar.dayLow)}{' '}
         <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-trade-short">
           <LoadableValue
@@ -153,7 +155,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
           />
         </span>
       </div>
-      <div className="tw-flex tw-items-center tw-text-center tw-flex-col lg:tw-flex-row tw-py-2">
+      <div className="tw-hidden xl:tw-flex tw-items-center tw-text-center tw-flex-row">
         {t(translations.pairNavbar.dayHigh)}{' '}
         <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-trade-long">
           <LoadableValue

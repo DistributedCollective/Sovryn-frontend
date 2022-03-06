@@ -5,7 +5,7 @@
     height: 3.125rem;
     letter-spacing: 0;
     @apply tw-block tw-overflow-ellipsis tw-overflow-hidden tw-whitespace-nowrap;
-    @apply tw-px-6 tw-py-2;
+    @apply tw-px-6 tw-py-0;
     @apply tw-transition;
     @apply tw-border-0 tw-rounded-lg;
   }

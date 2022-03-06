@@ -153,7 +153,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     <>
       <div className="tw-trading-form-card tw-bg-black tw-rounded-3xl tw-p-4 tw-mx-auto xl:tw-mx-0 tw-relative">
         {!openTradesLocked && (
-          <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mw-340 tw-mx-auto">
+          <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mx-auto">
             {pair.canOpenLong && (
               <ButtonTrade
                 text={t(translations.marginTradePage.tradeForm.buttons.long)}
@@ -178,7 +178,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
             )}
           </div>
         )}
-        <div className="tw-mw-340 tw-mx-auto tw-mt-3">
+        <div className="tw-mx-auto tw-mt-3">
           <OrderTypeTitle
             value={orderType}
             onChange={setOrderType}

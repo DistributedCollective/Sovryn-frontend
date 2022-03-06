@@ -275,6 +275,7 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
   ) => {
     const lastPrice = getLastPrice(pair0, pair1, RBTC_source);
     const dayPrice = getDayPrice(pair0, pair1, RBTC_source);
+
     //generating dayPrice for all pairs
     let percent = 0;
     //for pairs without RBTC
@@ -284,6 +285,13 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
       } else if (lastPrice < dayPrice) {
         percent = ((lastPrice - dayPrice) / lastPrice) * 100;
       }
+    }
+    //for pairs with RBTC as source
+    if (RBTC_source) {
+      percent =
+        pair0.price_change_percent_24h !== 0
+          ? -pair0.price_change_percent_24h
+          : pair0.price_change_percent_24h;
     }
     //for pairs with RBTC as target
     if (pair0.base_symbol === pair1.base_symbol && !RBTC_source) {

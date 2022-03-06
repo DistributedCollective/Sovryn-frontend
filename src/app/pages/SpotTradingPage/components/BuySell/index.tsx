@@ -14,7 +14,7 @@ export const BuySell: React.FC<IBuySellProps> = ({ value, onChange }) => {
   const { t } = useTranslation();
 
   return (
-    <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mw-340 tw-mx-auto">
+    <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mx-auto">
       <ButtonTrade
         className={classNames('tw-h-8 tw-capitalize', {
           'tw-opacity-50': value !== TradingTypes.BUY,

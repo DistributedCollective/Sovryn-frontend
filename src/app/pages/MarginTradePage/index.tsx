@@ -72,7 +72,7 @@ export function MarginTradePage() {
           >
             <TradingChart symbol={pair.chartSymbol} theme={Theme.DARK} />
           </div>
-          <div className="tw-trading-recent-trades-card tw-bg-black tw-rounded-2xl tw-px-4 tw-py-3 tw-mx-auto xl:tw-mr-2 tw-relative">
+          <div className="tw-trading-form-card tw-bg-black tw-rounded-2xl tw-px-4 tw-py-3 tw-mx-auto md:tw-mb-0 tw-mb-4 xl:tw-mr-2 tw-relative">
             <RecentTrades
               baseToken={pair.collaterals[0]}
               quoteToken={pair.collaterals[1]}
