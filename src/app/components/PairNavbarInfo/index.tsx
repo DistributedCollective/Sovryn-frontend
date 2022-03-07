@@ -123,7 +123,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
         {t(translations.pairNavbar.lastTradedPrice)}
         <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-primary">
           <LoadableValue
-            value={toNumberFormat(lastPrice, 6)}
+            value={toNumberFormat(lastPrice, 8)}
             loading={loading}
           />
         </span>
@@ -150,7 +150,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
         {t(translations.pairNavbar.dayLow)}{' '}
         <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-trade-short">
           <LoadableValue
-            value={toNumberFormat(lowPrice, 6)}
+            value={toNumberFormat(lowPrice, 8)}
             loading={loading}
           />
         </span>
@@ -159,7 +159,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
         {t(translations.pairNavbar.dayHigh)}{' '}
         <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-trade-long">
           <LoadableValue
-            value={toNumberFormat(hightPrice, 6)}
+            value={toNumberFormat(hightPrice, 8)}
             loading={loading}
           />
         </span>
