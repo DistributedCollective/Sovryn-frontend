@@ -12,6 +12,11 @@ export const initialState: ContainerState = {
   modal: PerpetualPageModals.NONE,
   modalOptions: undefined,
   toastedTransactions: [],
+  showAmmDepth: true,
+  showChart: true,
+  showRecentTrades: true,
+  showTradeForm: true,
+  showTables: true,
 };
 
 const perpetualPageSlice = createSlice({
@@ -54,6 +59,21 @@ const perpetualPageSlice = createSlice({
     },
     pushToastedTransaction(state, { payload }: PayloadAction<string>) {
       state.toastedTransactions = [...state.toastedTransactions, payload];
+    },
+    setShowAmmDepth(state, { payload }: PayloadAction<boolean>) {
+      state.showAmmDepth = payload;
+    },
+    setShowChart(state, { payload }: PayloadAction<boolean>) {
+      state.showChart = payload;
+    },
+    setShowRecentTrades(state, { payload }: PayloadAction<boolean>) {
+      state.showRecentTrades = payload;
+    },
+    setShowTradeForm(state, { payload }: PayloadAction<boolean>) {
+      state.showTradeForm = payload;
+    },
+    setShowTables(state, { payload }: PayloadAction<boolean>) {
+      state.showTables = payload;
     },
   },
 });

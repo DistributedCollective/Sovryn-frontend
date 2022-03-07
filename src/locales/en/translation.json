@@ -1622,6 +1622,14 @@
       "title": "Perpetuals",
       "description": "Trade with Sovryn's perpetual future contracts"
     },
+    "layoutDialog": {
+      "title": "Customize layout",
+      "showAmmDepth": "Show AMM Depth",
+      "showChart": "Show Chart",
+      "showRecentTrades": "Show Recent Trades",
+      "showTradeForm": "Show Trade Form",
+      "showTables": "Show Tables"
+    },
     "pairSelector": {
       "markPrice": "Mark Price",
       "gsn": "GSN",

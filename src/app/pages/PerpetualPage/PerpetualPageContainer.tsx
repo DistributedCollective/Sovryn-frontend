@@ -55,11 +55,14 @@ export const PerpetualPageContainer: React.FC = () => {
   const walletContext = useWalletContext();
 
   const [isLayoutDialogOpen, setIsLayoutDialogOpen] = useState(false);
-  const [showAmm, setShowAmm] = useState(true);
-  const [showChart, setShowChart] = useState(true);
-  const [showRecentTrades, setShowRecentTrades] = useState(true);
-  const [showTables, setShowTables] = useState(true);
-  const [showTradeForm, setShowTradeForm] = useState(true);
+
+  const {
+    showAmmDepth,
+    showChart,
+    showRecentTrades,
+    showTables,
+    showTradeForm,
+  } = useSelector(selectPerpetualPage);
 
   const { pairType, collateral } = useSelector(selectPerpetualPage);
   const { t } = useTranslation();
@@ -131,11 +134,11 @@ export const PerpetualPageContainer: React.FC = () => {
         </div>
         <div className="tw-container tw-mt-5 tw-flex-grow">
           <div className="tw-flex tw-flex-col tw-mb-8 xl:tw-flex-row xl:tw-justify-stretch tw-space-y-2 xl:tw-space-y-0 xl:tw-space-x-2">
-            {showAmm && (
+            {showAmmDepth && (
               <DataCard
                 className="tw-min-w-72 tw-max-w-96 tw-"
                 title={`AMM Depth (${pairType.toString()})`}
-                onClose={() => setShowAmm(false)}
+                onClose={() => dispatch(actions.setShowAmmDepth(false))}
               >
                 <AmmDepthChart pair={pair} />
               </DataCard>
@@ -146,7 +149,7 @@ export const PerpetualPageContainer: React.FC = () => {
                 className="tw-flex-1 tw-max-w-full tw-min-h-80"
                 contentClassName="tw-flex tw-flex-col"
                 title={`Chart (${pairType.toString()})`}
-                onClose={() => setShowChart(false)}
+                onClose={() => dispatch(actions.setShowChart(false))}
               >
                 <TradingChart symbol={pair.chartSymbol} hasCustomDimensions />
               </DataCard>
@@ -157,7 +160,7 @@ export const PerpetualPageContainer: React.FC = () => {
                 className="2xl:tw-flex tw-min-w-72 tw-max-w-96 tw-min-h-72"
                 title={`Recent Trades (${pairType.toString()})`}
                 contentClassName="tw-flex tw-flex-col"
-                onClose={() => setShowRecentTrades(false)}
+                onClose={() => dispatch(actions.setShowRecentTrades(false))}
               >
                 <RecentTradesTable pair={pair} />
               </DataCard>
@@ -215,16 +218,6 @@ export const PerpetualPageContainer: React.FC = () => {
         <ToastsWatcher />
         <LayoutDialog
           isOpen={isLayoutDialogOpen}
-          showAmm={showAmm}
-          showChart={showChart}
-          showRecentTrades={showRecentTrades}
-          showTables={showTables}
-          showTradeForm={showTradeForm}
-          onShowAmm={() => setShowAmm(!showAmm)}
-          onShowChart={() => setShowChart(!showChart)}
-          onShowRecentTrades={() => setShowRecentTrades(!showRecentTrades)}
-          onShowTables={() => setShowTables(!showTables)}
-          onShowTradeForm={() => setShowTradeForm(!showTradeForm)}
           onClose={() => setIsLayoutDialogOpen(false)}
         />
       </PerpetualQueriesContextProvider>
