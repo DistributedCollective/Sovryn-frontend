@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import { Tooltip } from '@blueprintjs/core';
 import React from 'react';
+import infoIcon from 'assets/images/info_icon.svg';
 
 type FormGroupProps = {
   children: React.ReactNode;
@@ -43,11 +44,11 @@ export const FormGroup: React.FC<FormGroupProps> = ({
         <div className="tw-flex">
           <label
             htmlFor={labelFor}
-            className="tw-block tw-mb-1.5 tw-text-sov-white"
+            className="tw-block tw-mb-1.5 tw-text-sov-white tw-font-medium"
           >
             {label}
             {labelInfo && (
-              <span className="tw-ml-1.5 tw-font-light">{labelInfo}</span>
+              <span className="tw-ml-1.5 tw-font-normal">{labelInfo}</span>
             )}
           </label>
           {tooltipText && (
@@ -57,21 +58,16 @@ export const FormGroup: React.FC<FormGroupProps> = ({
               })}
               content={<>{tooltipText}</>}
             >
-              <div className="tw-flex tw-items-center tw-justify-center tw-bg-sov-white tw-text-black tw-w-3.5 tw-h-3.5 tw-rounded-full">
-                <span className="tw-text-tiny">i</span>
-              </div>
+              <img src={infoIcon} alt="info" />
             </Tooltip>
           )}
         </div>
       )}
       {subLabel && (
         <div
-          className={classNames(
-            'tw-mb-4 tw-text-gray-8 tw-font-light tw-text-xs',
-            {
-              'tw-mr-1.5': inline,
-            },
-          )}
+          className={classNames('tw-mb-4 tw-text-gray-8 tw-text-xs', {
+            'tw-mr-1.5': inline,
+          })}
         >
           {subLabel}
         </div>
@@ -79,9 +75,7 @@ export const FormGroup: React.FC<FormGroupProps> = ({
       <div>
         {children}
         {helperText && (
-          <div className="tw-mt-4 tw-text-primary tw-font-light tw-text-xs">
-            {helperText}
-          </div>
+          <div className="tw-mt-4 tw-text-primary tw-text-xs">{helperText}</div>
         )}
       </div>
     </div>
