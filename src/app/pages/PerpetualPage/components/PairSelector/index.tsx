@@ -8,11 +8,13 @@ import { getCollateralName, getCollateralLogo } from '../../utils/renderUtils';
 import { Asset } from '../../../../../types';
 import { GsnSwitch } from '../GsnSwitch/GsnSwitch';
 import { PairSelectorButton } from './PairSelectorButton';
+import iconSettings from 'assets/images/settings-white.svg';
 
 type PairSelectorProps = {
   pair: PerpetualPair;
   collateral: Asset;
   onChange: (pair: PerpetualPairType) => void;
+  layoutOnClick: () => void;
 };
 
 const perpetualPairs = PerpetualPairDictionary.list();
@@ -21,6 +23,7 @@ export const PairSelector: React.FC<PairSelectorProps> = ({
   pair,
   collateral,
   onChange,
+  layoutOnClick,
 }) => {
   const [collateralLogo, collateralName] = useMemo(
     () => [getCollateralLogo(collateral), getCollateralName(collateral)],
@@ -50,6 +53,9 @@ export const PairSelector: React.FC<PairSelectorProps> = ({
         </div>
         <div className="tw-flex tw-flex-row tw-items-center tw-px-4">
           <GsnSwitch />
+          <button onClick={layoutOnClick} className="tw-ml-8">
+            <img src={iconSettings} alt="layout menu dialog" />
+          </button>
         </div>
       </div>
     </div>
