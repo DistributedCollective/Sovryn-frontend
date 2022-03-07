@@ -128,15 +128,15 @@ export const PerpetualPageContainer: React.FC = () => {
             pair={pair}
             collateral={collateral}
             onChange={onChangePair}
-            layoutOnClick={() => setIsLayoutDialogOpen(true)}
+            onLayoutSettingsClick={() => setIsLayoutDialogOpen(true)}
           />
           <ContractDetails pair={pair} collateral={collateral} />
         </div>
         <div className="tw-container tw-mt-5 tw-flex-grow">
-          <div className="tw-flex tw-flex-col tw-mb-8 xl:tw-flex-row xl:tw-justify-stretch tw-space-y-2 xl:tw-space-y-0 xl:tw-space-x-2">
+          <div className="tw-flex tw-flex-col tw-mb-8 xl:tw-flex-row xl:tw-justify-end tw-space-y-2 xl:tw-space-y-0 xl:tw-space-x-2">
             {showAmmDepth && (
               <DataCard
-                className="tw-min-w-72 tw-max-w-96 tw-"
+                className="tw-min-w-72 tw-max-w-96"
                 title={`AMM Depth (${pairType.toString()})`}
                 onClose={() => dispatch(actions.setShowAmmDepth(false))}
               >

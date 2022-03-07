@@ -1628,7 +1628,12 @@
       "showChart": "Show Chart",
       "showRecentTrades": "Show Recent Trades",
       "showTradeForm": "Show Trade Form",
-      "showTables": "Show Tables"
+      "showTables": "Show Tables",
+      "hideAmmDepth": "Hide AMM Depth",
+      "hideChart": "Hide Chart",
+      "hideRecentTrades": "Hide Recent Trades",
+      "hideTradeForm": "Hide Trade Form",
+      "hideTables": "Hide Tables"
     },
     "pairSelector": {
       "markPrice": "Mark Price",

@@ -33,38 +33,60 @@ export const LayoutDialog: React.FC<LayoutDialogProps> = ({
         <h1 className="tw-text-sov-white tw-tracking-normal">
           {t(translations.perpetualPage.layoutDialog.title)}
         </h1>
-        <Switch
-          large
-          label={t(translations.perpetualPage.layoutDialog.showAmmDepth)}
-          checked={showAmmDepth}
-          onChange={() => dispatch(actions.setShowAmmDepth(!showAmmDepth))}
-        />
-        <Switch
-          large
-          label={t(translations.perpetualPage.layoutDialog.showChart)}
-          checked={showChart}
-          onChange={() => dispatch(actions.setShowChart(!showChart))}
-        />
-        <Switch
-          large
-          label={t(translations.perpetualPage.layoutDialog.showRecentTrades)}
-          checked={showRecentTrades}
-          onChange={() =>
-            dispatch(actions.setShowRecentTrades(!showRecentTrades))
-          }
-        />
-        <Switch
-          large
-          label={t(translations.perpetualPage.layoutDialog.showTradeForm)}
-          checked={showTradeForm}
-          onChange={() => dispatch(actions.setShowTradeForm(!showTradeForm))}
-        />
-        <Switch
-          large
-          label={t(translations.perpetualPage.layoutDialog.showTables)}
-          checked={showTables}
-          onChange={() => dispatch(actions.setShowTables(!showTables))}
-        />
+        <div className="tw-mt-8">
+          <Switch
+            large
+            label={t(
+              translations.perpetualPage.layoutDialog[
+                showAmmDepth ? 'hideAmmDepth' : 'showAmmDepth'
+              ],
+            )}
+            checked={showAmmDepth}
+            onChange={() => dispatch(actions.setShowAmmDepth(!showAmmDepth))}
+          />
+          <Switch
+            large
+            label={t(
+              translations.perpetualPage.layoutDialog[
+                showChart ? 'hideChart' : 'showChart'
+              ],
+            )}
+            checked={showChart}
+            onChange={() => dispatch(actions.setShowChart(!showChart))}
+          />
+          <Switch
+            large
+            label={t(
+              translations.perpetualPage.layoutDialog[
+                showRecentTrades ? 'hideRecentTrades' : 'showRecentTrades'
+              ],
+            )}
+            checked={showRecentTrades}
+            onChange={() =>
+              dispatch(actions.setShowRecentTrades(!showRecentTrades))
+            }
+          />
+          <Switch
+            large
+            label={t(
+              translations.perpetualPage.layoutDialog[
+                showTradeForm ? 'hideTradeForm' : 'showTradeForm'
+              ],
+            )}
+            checked={showTradeForm}
+            onChange={() => dispatch(actions.setShowTradeForm(!showTradeForm))}
+          />
+          <Switch
+            large
+            label={t(
+              translations.perpetualPage.layoutDialog[
+                showTables ? 'hideTables' : 'showTables'
+              ],
+            )}
+            checked={showTables}
+            onChange={() => dispatch(actions.setShowTables(!showTables))}
+          />
+        </div>
       </div>
     </Dialog>
   );
