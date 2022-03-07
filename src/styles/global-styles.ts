@@ -25,17 +25,6 @@ export const GlobalStyle = createGlobalStyle`
     `}
   }
 
-  #root {
-    min-height: 100vh;
-    overflow: auto;
-    padding-top: 4.4rem;
-    &.openedMenu {
-      overflow: hidden;
-      height: 0;
-      min-height: 0;
-    }
-  }
-
   p,
   label {
     font-family: inherit;
@@ -53,17 +42,6 @@ export const GlobalStyle = createGlobalStyle`
       border: none;
     }
   }
-  /* Chrome, Safari, Edge, Opera */
-  input::-webkit-outer-spin-button,
-  input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-
-/* Firefox */
-input[type=number] {
-  -moz-appearance: textfield;
-}
   h1, h2, h3, h4 {
     text-transform: uppercase;
   }
@@ -76,7 +54,7 @@ input[type=number] {
     font-weight: 600;
     font-size: 1.75rem;
     margin: 0;
-}
+  }
   h3 {
     font-size: 18px;
     font-weight: bold;

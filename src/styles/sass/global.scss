@@ -1,41 +1,38 @@
-// global-styles.tsx
 #root {
-  min-height: 100vh;
-  overflow: auto;
+  @apply tw-overflow-auto tw-flex tw-flex-col tw-justify-between tw-min-h-screen;
   padding-top: 4.4rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  &.openedMenu {
-    overflow: hidden;
-    height: 0;
-    min-height: 0;
-  }
+}
+.openedMenu {
+  @apply tw-overflow-hidden tw-h-0 tw-min-h-0;
 }
 
-#WEB3_CONNECT_MODAL_ID > div {
-  z-index: 30;
+#WEB3_CONNECT_MODAL_ID>div {
+  @apply tw-z-30;
 }
 
 .mw-tooltip {
   max-width: 250px;
 }
 
-@screen lg {
-  .mw-tooltip {
-    max-width: 600px;
-  }
+*::-webkit-scrollbar {
+  @apply tw-w-1;
 }
 
-*::-webkit-scrollbar {
-  width: 0.25em;
-}
- 
 *::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.3);
+  @apply tw-shadow-inner;
 }
- 
+
 *::-webkit-scrollbar-thumb {
-  background-color: darkgrey;
-  outline: 1px solid slategrey;
+  @apply tw-bg-gray-9;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  @apply tw-m-0 tw-appearance-none;
+}
+
+@screen lg {
+  .mw-tooltip {
+    @apply tw-max-w-xl;
+  }
 }
