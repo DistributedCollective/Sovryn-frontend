@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import { media } from '../../../styles/media';
-import { Spinner } from '../Spinner';
+import { Spinner, SpinnerSize } from '../Spinner';
 
 export const StyledButton = styled.button.attrs(_ => ({
   type: 'button',
@@ -64,7 +64,7 @@ export default function SalesButton({
   return (
     <StyledButton onClick={() => onClick()} disabled={disabled}>
       {text}
-      {loading && <Spinner size={20} className="tw-ml-2" />}
+      {loading && <Spinner size={SpinnerSize.SM} className="tw-ml-2" />}
     </StyledButton>
   );
 }

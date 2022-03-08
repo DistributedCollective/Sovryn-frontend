@@ -15,7 +15,7 @@ import { isMobile, isTablet, prettyTx } from 'utils/helpers';
 import { media } from '../../../styles/media';
 
 import styles from './index.module.scss';
-import { Spinner } from 'app/components/Spinner';
+import { Spinner, SpinnerSize } from 'app/components/Spinner';
 
 type Props = {
   simpleView: boolean;
@@ -64,7 +64,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
           onClick={() => connect()}
           className="tw-flex tw-justify-center tw-items-center tw-bg-primary-25 hover:tw-opacity-75"
         >
-          {connecting && <Spinner size={20} />}
+          {connecting && <Spinner size={SpinnerSize.SM} />}
           {!connecting && (
             <>
               <Icon icon="log-in" className="xl:tw-hidden" />

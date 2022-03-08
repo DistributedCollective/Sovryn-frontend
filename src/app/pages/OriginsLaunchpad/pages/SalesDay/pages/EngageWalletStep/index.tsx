@@ -5,7 +5,7 @@ import { translations } from 'locales/i18n';
 import { useWalletContext } from '@sovryn/react-wallet';
 import imgLargeNFT from 'assets/origins_launchpad/MYNT_NFT_Large.png';
 import styles from './index.module.scss';
-import { Spinner } from 'app/components/Spinner';
+import { Spinner, SpinnerSize } from 'app/components/Spinner';
 
 interface IEngageWalletStepProps {
   saleName: string;
@@ -43,7 +43,7 @@ export const EngageWalletStep: React.FC<IEngageWalletStepProps> = ({
               styles.engageButton,
             )}
           >
-            {connecting && <Spinner size={20} />}
+            {connecting && <Spinner size={SpinnerSize.SM} />}
             {!connecting && (
               <span className="xl:tw-inline tw-truncate">
                 {t(

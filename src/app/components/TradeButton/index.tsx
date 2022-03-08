@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components/macro';
 import { Text, Tooltip } from '@blueprintjs/core';
 import { media } from '../../../styles/media';
 import { ConditionalWrapper } from '../ConditionalWrapper';
-import { Spinner } from '../Spinner';
+import { Spinner, SpinnerSize } from '../Spinner';
 
 interface Props {
   text: React.ReactNode;
@@ -49,7 +49,9 @@ export function TradeButton(props: Props) {
           className="tw-flex tw-flex-row tw-items-center tw-justify-center"
           tagName="span"
         >
-          {props.loading && <Spinner className="tw-mr-1" size={20} />}
+          {props.loading && (
+            <Spinner className="tw-mr-1" size={SpinnerSize.SM} />
+          )}
           {props.text}
         </Text>
       </StyledButton>
