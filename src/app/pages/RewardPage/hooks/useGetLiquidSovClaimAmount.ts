@@ -40,28 +40,33 @@ export const useGetLiquidSovClaimAmount = () => {
         checks < 0
       )
     ) {
-      const result = await contractReader
-        .call<{
-          lastWithdrawalInterval: string;
-          amount: string;
-        }>(
-          'stakingRewards',
-          'getStakerCurrentReward',
-          [true, lastWithdrawalInterval],
-          address,
-        )
-        .then(response => ({
-          lastWithdrawalInterval: Number(response.lastWithdrawalInterval),
-          amount: bignumber(response.amount).toNumber(),
-        }));
+      try {
+        const result = await contractReader
+          .call<{
+            lastWithdrawalInterval: string;
+            amount: string;
+          }>(
+            'stakingRewards',
+            'getStakerCurrentReward',
+            [true, lastWithdrawalInterval],
+            address,
+          )
+          .then(response => ({
+            lastWithdrawalInterval: Number(response.lastWithdrawalInterval),
+            amount: bignumber(response.amount).toNumber(),
+          }));
 
-      if (result.amount > 0) {
-        restartTime = lastWithdrawalInterval;
+        if (result.amount > 0) {
+          restartTime = lastWithdrawalInterval;
+        }
+
+        lastWithdrawalInterval = result.lastWithdrawalInterval;
+        amount = result.amount;
+        checks--;
+      } catch (e) {
+        console.error(e);
+        break;
       }
-
-      lastWithdrawalInterval = result.lastWithdrawalInterval;
-      amount = result.amount;
-      checks--;
     }
 
     return {
