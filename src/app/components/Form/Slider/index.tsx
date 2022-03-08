@@ -1,6 +1,6 @@
 import React from 'react';
 import { Slider as BPSlider } from '@blueprintjs/core/lib/esm/components/slider/slider';
-import cn from 'classnames';
+import classNames from 'classnames';
 import styles from './index.module.scss';
 
 type LabelRendererFn = (value: number, opts?) => string | JSX.Element;
@@ -11,7 +11,7 @@ export enum SliderType {
   gradient = 'gradient',
 }
 
-type ISliderProps = {
+type SliderProps = {
   value: number;
   onChange?: (value: number) => void;
   onRelease?: (value: number) => void;
@@ -26,13 +26,13 @@ type ISliderProps = {
   type?: SliderType;
 };
 
-export const Slider: React.FC<ISliderProps> = ({
+export const Slider: React.FC<SliderProps> = ({
   className,
   type = SliderType.secondary,
   ...props
 }) => (
   <div
-    className={cn(styles.host, styles[type], className)}
+    className={classNames(styles.host, styles[type], className)}
     data-action-id={props.dataActionId}
   >
     <BPSlider {...props} />

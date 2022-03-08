@@ -1,12 +1,12 @@
 export enum TradePriceChange {
-  'UP' = 'up',
-  'DOWN' = 'down',
-  'NO_CHANGE' = 'noChange',
+  UP = 'up',
+  DOWN = 'down',
+  NO_CHANGE = 'noChange',
 }
 
 export enum TradeType {
-  'SELL' = 'sell',
-  'BUY' = 'buy',
+  SELL = 'sell',
+  BUY = 'buy',
 }
 
 export type RecentTradesDataEntry = {
