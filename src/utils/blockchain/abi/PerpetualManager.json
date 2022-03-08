@@ -258,20 +258,8 @@
       {
         "indexed": true,
         "internalType": "bytes32",
-        "name": "perpetualId",
+        "name": "orderHash",
         "type": "bytes32"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "trader",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "int128",
-        "name": "limitPrice",
-        "type": "int128"
       }
     ],
     "name": "PerpetualLimitOrderCancelled",
@@ -3152,6 +3140,30 @@
       }
     ],
     "name": "isActiveAccount",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "_iPerpetualID",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "address",
+        "name": "_account",
+        "type": "address"
+      }
+    ],
+    "name": "isAddrWhitelisted",
     "outputs": [
       {
         "internalType": "bool",

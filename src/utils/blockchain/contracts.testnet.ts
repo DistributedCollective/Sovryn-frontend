@@ -34,6 +34,7 @@ import MYNTTokenAbi from './abi/MYNT_token.json';
 import MYNTPresaleAbi from './abi/MYNTPresale.json';
 import MYNTMarketMakerAbi from './abi/MYNTMarketMaker.json';
 import perpetualManagerAbi from './abi/PerpetualManager.json';
+import perpetualLimitOrderBookAbi from './abi/PerpetualLimitOrderBook.json';
 import marginTokenAbi from './abi/MarginToken.json';
 import fastBtcBridgeAbi from './abi/fastBtcBridge.json';
 
@@ -298,12 +299,17 @@ export const contracts = {
     abi: fastBtcBridgeAbi,
   },
   perpetualManager: {
-    address: '0x4ba52e04aa0669305311E96062E682664f1d3A39',
+    address: '0x30151d8C833AC0E50DF5168a93A9633085721584',
     abi: perpetualManagerAbi,
     chainId: ChainId.BSC_TESTNET,
   },
+  perpetualLimitOrderBook: {
+    address: '0xaC4eFd35d52Bba2F8032a45Edd9ceA78fB5ae282',
+    abi: perpetualLimitOrderBookAbi,
+    chainId: ChainId.BSC_TESTNET,
+  },
   PERPETUALS_token: {
-    address: '0x18f41b0605f79a91A8d3D04290bbfbE35A157982',
+    address: '0xBB5b346844dF63C328AEC50bB0e663f783d88bcC',
     abi: marginTokenAbi,
     chainId: ChainId.BSC_TESTNET,
   },
