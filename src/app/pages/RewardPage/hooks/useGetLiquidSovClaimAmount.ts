@@ -1,9 +1,10 @@
 import { useAccount } from 'app/hooks/useAccount';
 import { bignumber } from 'mathjs';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { contractReader } from 'utils/sovryn/contract-reader';
 
 export const useGetLiquidSovClaimAmount = () => {
+  const timeoutRef = useRef<number>();
   const [value, setValue] = useState({
     lastWithdrawalInterval: 0,
     amount: '0',
@@ -75,16 +76,29 @@ export const useGetLiquidSovClaimAmount = () => {
     };
   }, [address]);
 
-  useEffect(() => {
+  const doJob = useCallback(() => {
     setValue(prevState => ({ ...prevState, loading: true }));
     searchForRewards()
-      .then(({ lastWithdrawalInterval, amount }) =>
-        setValue({ lastWithdrawalInterval, amount, loading: false }),
-      )
+      .then(({ lastWithdrawalInterval, amount }) => {
+        setValue({ lastWithdrawalInterval, amount, loading: false });
+        if (Number(amount) > 0) {
+          // make check again in a minute to update shown balance after user withdraws it
+          timeoutRef.current = setTimeout(doJob, 60_000);
+        }
+      })
       .catch(() =>
         setValue({ lastWithdrawalInterval: 0, amount: '0', loading: false }),
       );
   }, [searchForRewards]);
+
+  useEffect(() => {
+    doJob();
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [doJob]);
 
   return value;
 };
