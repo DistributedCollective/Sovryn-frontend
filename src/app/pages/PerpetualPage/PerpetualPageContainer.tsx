@@ -45,7 +45,6 @@ import { FundingPaymentsTable } from './components/FundingPaymentsTable/index';
 import { PerpetualQueriesContextProvider } from './contexts/PerpetualQueriesContext';
 import { PairSelector } from './components/PairSelector';
 import { ToastsWatcher } from './components/ToastsWatcher';
-import { LayoutDialog } from './components/LayoutDialog';
 
 export const PerpetualPageContainer: React.FC = () => {
   useInjectReducer({ key: sliceKey, reducer });
@@ -53,8 +52,6 @@ export const PerpetualPageContainer: React.FC = () => {
 
   const dispatch = useDispatch();
   const walletContext = useWalletContext();
-
-  const [isLayoutDialogOpen, setIsLayoutDialogOpen] = useState(false);
 
   const {
     showAmmDepth,
@@ -128,12 +125,11 @@ export const PerpetualPageContainer: React.FC = () => {
             pair={pair}
             collateral={collateral}
             onChange={onChangePair}
-            onLayoutSettingsClick={() => setIsLayoutDialogOpen(true)}
           />
           <ContractDetails pair={pair} collateral={collateral} />
         </div>
-        <div className="tw-container tw-mt-5 tw-flex-grow">
-          <div className="tw-flex tw-flex-col tw-mb-8 xl:tw-flex-row xl:tw-justify-end tw-space-y-2 xl:tw-space-y-0 xl:tw-space-x-2">
+        <div className="tw-container tw-flex tw-flex-col tw-mt-5 tw-flex-grow">
+          <div className="tw-flex tw-flex-col tw-mb-8 xl:tw-flex-row xl:tw-justify-start tw-items-stretch tw-flex-grow tw-h-full tw-space-y-2 xl:tw-space-y-0 xl:tw-space-x-2">
             {showAmmDepth && (
               <DataCard
                 className="tw-min-w-72 tw-max-w-96"
@@ -146,7 +142,7 @@ export const PerpetualPageContainer: React.FC = () => {
 
             {showChart && (
               <DataCard
-                className="tw-flex-1 tw-max-w-full tw-min-h-80"
+                className="tw-flex-1 tw-max-w-full tw-min-h-96"
                 contentClassName="tw-flex tw-flex-col"
                 title={`Chart (${pairType.toString()})`}
                 onClose={() => dispatch(actions.setShowChart(false))}
@@ -167,15 +163,15 @@ export const PerpetualPageContainer: React.FC = () => {
             )}
 
             {showTradeForm && (
-              <div className="tw-flex tw-flex-col xl:tw-min-w-80 xl:tw-w-1/5 tw-space-y-2">
+              <div className="tw-flex tw-flex-col tw-self-start tw-justify-start xl:tw-min-w-80 xl:tw-w-1/5 tw-space-y-2">
                 <AccountBalanceCard />
                 <NewPositionCard />
               </div>
             )}
           </div>
 
-          {connected && showTables && (
-            <>
+          {showTables && (
+            <div className="tw-p-4 tw-bg-gray-2.5 tw-rounded-xl tw-mb-12">
               <div className="tw-flex tw-items-center tw-text-sm">
                 <Tab
                   text={t(translations.perpetualPage.openPositions)}
@@ -199,13 +195,13 @@ export const PerpetualPageContainer: React.FC = () => {
                 />
               </div>
 
-              <div className="tw-w-full tw-mb-24">
+              <div className="tw-w-full">
                 {activeTab === 0 && <OpenPositionsTable perPage={5} />}
                 {activeTab === 1 && <ClosedPositionsTable perPage={5} />}
                 {activeTab === 2 && <OrderHistoryTable perPage={5} />}
                 {activeTab === 3 && <FundingPaymentsTable perPage={5} />}
               </div>
-            </>
+            </div>
           )}
         </div>
         <Footer />
@@ -216,10 +212,6 @@ export const PerpetualPageContainer: React.FC = () => {
         <EditMarginDialog />
         <ClosePositionDialog />
         <ToastsWatcher />
-        <LayoutDialog
-          isOpen={isLayoutDialogOpen}
-          onClose={() => setIsLayoutDialogOpen(false)}
-        />
       </PerpetualQueriesContextProvider>
     </RecentTradesContextProvider>
   );

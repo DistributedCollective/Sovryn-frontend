@@ -8,16 +8,11 @@ import { getCollateralName, getCollateralLogo } from '../../utils/renderUtils';
 import { Asset } from '../../../../../types';
 import { GsnSwitch } from '../GsnSwitch/GsnSwitch';
 import { PairSelectorButton } from './PairSelectorButton';
-import iconSettings from 'assets/images/settings-white.svg';
-import { Tooltip } from '@blueprintjs/core';
-import { useTranslation } from 'react-i18next';
-import { translations } from 'locales/i18n';
 
 type PairSelectorProps = {
   pair: PerpetualPair;
   collateral: Asset;
   onChange: (pair: PerpetualPairType) => void;
-  onLayoutSettingsClick: () => void;
 };
 
 const perpetualPairs = PerpetualPairDictionary.list();
@@ -26,9 +21,7 @@ export const PairSelector: React.FC<PairSelectorProps> = ({
   pair,
   collateral,
   onChange,
-  onLayoutSettingsClick,
 }) => {
-  const { t } = useTranslation();
   const [collateralLogo, collateralName] = useMemo(
     () => [getCollateralLogo(collateral), getCollateralName(collateral)],
     [collateral],
@@ -57,14 +50,6 @@ export const PairSelector: React.FC<PairSelectorProps> = ({
         </div>
         <div className="tw-flex tw-flex-row tw-items-center tw-px-4">
           <GsnSwitch />
-          <Tooltip
-            targetClassName="tw-flex"
-            content={t(translations.perpetualPage.layoutDialog.title)}
-          >
-            <button onClick={onLayoutSettingsClick} className="tw-ml-8">
-              <img src={iconSettings} alt="layout menu dialog" />
-            </button>
-          </Tooltip>
         </div>
       </div>
     </div>
