@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import { Tab } from '../Tab';
 
 interface ITabItem {
@@ -25,11 +25,16 @@ export const Tabs: React.FC<TabsProps> = ({
 }) => {
   const [activeTab, setActiveTab] = useState(initial);
 
-  const selectTab = (item: ITabItem) => {
-    if (item.disabled) return;
-    setActiveTab(item.id);
-    onChange?.(item.id);
-  };
+  const selectTab = useCallback(
+    (item: ITabItem) => {
+      if (item.disabled) {
+        return;
+      }
+      setActiveTab(item.id);
+      onChange?.(item.id);
+    },
+    [onChange],
+  );
 
   const content = useMemo(
     () => items.find(item => item.id === activeTab)?.content,
