@@ -54,6 +54,7 @@ export const OpenPositionsTable: React.FC<IOpenPositionsTableProps> = ({
         <thead>
           <tr>
             <th className="tw-w-full">{t(trans.dateTime)}</th>
+            <th className="tw-w-full">{t(translations.common.txHash)}</th>
             <th className="tw-w-full">{t(trans.pair)}</th>
             <th className="tw-w-full">{t(trans.limitPrice)}</th>
             <th className="tw-w-full">{t(trans.tradeAmount)}</th>

@@ -15,6 +15,7 @@ import { bignumber } from 'mathjs';
 import classNames from 'classnames';
 import { TableTransactionStatus } from 'app/components/FinanceV2Components/TableTransactionStatus';
 import { TxStatus } from 'store/global/transactions-store/types';
+import { LinkToExplorer } from 'app/components/LinkToExplorer';
 
 interface ILimitOrderRowProps {
   item: ILimitOrder;
@@ -70,6 +71,7 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
             .toString()}
         />
       </td>
+      <td>{item.hash ? <LinkToExplorer txHash={item.hash} /> : '-'}</td>
       <td>
         <div className={'tw-flex tw-items-center tw-select-none'}>
           <div className="tw-rounded-full tw-z-10">

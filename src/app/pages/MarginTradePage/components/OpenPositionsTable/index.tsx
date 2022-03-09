@@ -86,6 +86,9 @@ export function OpenPositionsTable() {
             <th className="tw-w-full tw-hidden 2xl:tw-table-cell">
               {t(translations.openPositionTable.rolloverDate)}
             </th>
+            <th className="tw-w-full tw-hidden 2xl:tw-table-cell">
+              {t(translations.common.txHash)}
+            </th>
             <th className="tw-w-full">
               {t(translations.openPositionTable.actions)}
             </th>
