@@ -5,7 +5,7 @@ import infoIcon from 'assets/images/info_icon.svg';
 
 type FormGroupProps = {
   children: React.ReactNode;
-  label?: React.ReactNode;
+  label: React.ReactNode;
   labelFor?: string;
   subLabel?: React.ReactNode;
   helperText?: React.ReactNode;
@@ -35,38 +35,41 @@ export const FormGroup: React.FC<FormGroupProps> = ({
         {
           'tw-flex-col': !inline,
           'tw-flex-row': inline,
-          'tw-opacity-50': disabled,
         },
         className,
       )}
     >
-      {label && (
-        <div className="tw-flex">
-          <label
-            htmlFor={labelFor}
-            className="tw-block tw-mb-1.5 tw-text-sov-white tw-font-medium"
-          >
-            {label}
-            {labelInfo && (
-              <span className="tw-ml-1.5 tw-font-normal">{labelInfo}</span>
-            )}
-          </label>
-          {tooltipText && (
-            <Tooltip
-              className={classNames('tw-ml-1.5 tw-leading-none', {
-                'tw-mr-2.5': inline,
-              })}
-              content={<>{tooltipText}</>}
-            >
-              <img src={infoIcon} alt="info" />
-            </Tooltip>
+      <div
+        className={classNames('tw-flex', {
+          'tw-opacity-50': disabled,
+        })}
+      >
+        <label
+          htmlFor={labelFor}
+          className="tw-block tw-mb-1.5 tw-text-sov-white tw-font-medium"
+        >
+          {label}
+          {labelInfo && (
+            <span className="tw-ml-1.5 tw-font-normal">{labelInfo}</span>
           )}
-        </div>
-      )}
+        </label>
+        {tooltipText && (
+          <Tooltip
+            className={classNames('tw-ml-1.5 tw-leading-none', {
+              'tw-mr-2.5': inline,
+            })}
+            content={<>{tooltipText}</>}
+          >
+            <img src={infoIcon} alt="info" />
+          </Tooltip>
+        )}
+      </div>
+
       {subLabel && (
         <div
           className={classNames('tw-mb-4 tw-text-gray-8 tw-text-xs', {
             'tw-mr-1.5': inline,
+            'tw-opacity-50': disabled,
           })}
         >
           {subLabel}
@@ -75,7 +78,13 @@ export const FormGroup: React.FC<FormGroupProps> = ({
       <div>
         {children}
         {helperText && (
-          <div className="tw-mt-4 tw-text-primary tw-text-xs">{helperText}</div>
+          <div
+            className={classNames('tw-mt-4 tw-text-primary tw-text-xs', {
+              'tw-opacity-50': disabled,
+            })}
+          >
+            {helperText}
+          </div>
         )}
       </div>
     </div>
