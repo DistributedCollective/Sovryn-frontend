@@ -41,6 +41,9 @@ export function PendingPositionRow({ item }: PendingPositionRowProps) {
         <td className="tw-w-full tw-hidden sm:tw-table-cell">-</td>
         <td className="tw-w-full tw-hidden 2xl:tw-table-cell">-</td>
         <td className="tw-w-full tw-hidden 2xl:tw-table-cell">-</td>
+        <td className="tw-w-full tw-hidden 2xl:tw-table-cell">
+          <LinkToExplorer txHash={item.transactionHash} />
+        </td>
         <td className="tw-w-full">
           <div className="tw-flex tw-items-center tw-justify-between lg:tw-w-5/6 tw-p-0">
             <div>

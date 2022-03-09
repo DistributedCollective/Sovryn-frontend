@@ -124,6 +124,19 @@ const walletProviderSlice = createSlice({
       state.assetRatesLoading = false;
       state.assetRatesLoaded = true;
     },
+    setPrice(state, { payload }: PayloadAction<CachedAssetRate>) {
+      let prevItems = state.assetRates;
+      const index = prevItems.findIndex(
+        item =>
+          item.source === payload.source && item.target === payload.target,
+      );
+      if (index !== -1) {
+        prevItems[index] = payload;
+      } else {
+        prevItems = [...prevItems, payload];
+      }
+      state.assetRates = prevItems;
+    },
     testTransactions() {},
   },
 });

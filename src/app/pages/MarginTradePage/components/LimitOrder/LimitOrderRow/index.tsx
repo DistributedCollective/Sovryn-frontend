@@ -21,6 +21,7 @@ import { TradeDialogInfo } from '../../TradeDialog/TradeDialogInfo';
 import { OrderType } from 'app/components/OrderTypeTitle/types';
 import { MarginLimitOrderList } from '../LimitOrderTables';
 import { useGetLimitOrderRow } from 'app/pages/MarginTradePage/hooks/useGetLimitOrderRow';
+import { LinkToExplorer } from 'app/components/LinkToExplorer';
 
 interface ILimitOrderRowProps extends MarginLimitOrderList {
   pending?: boolean;
@@ -60,7 +61,7 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
       <td>
         <DisplayDate timestamp={createdTimestamp.getTime().toString()} />
       </td>
-
+      <td>{order.hash ? <LinkToExplorer txHash={order.hash} /> : '-'}</td>
       <td className="tw-w-full">
         <PositionBlock position={position} name={pair.name} />
       </td>

@@ -26,7 +26,8 @@
     },
     "gasPrice": "gas price",
     "gasLimit": "gas limit",
-    "units": "units"
+    "units": "units",
+    "txHash": "Tx Hash"
   },
   "global": {
     "liquidationPrice": "Liquidation Price",
@@ -1706,7 +1707,10 @@
       "advancedSettings": "Advanced Settings",
       "limitPrice": "Limit Price:",
       "receive": "Receive:",
-      "amount": "Amount:"
+      "amount": "Amount:",
+      "errors": {
+        "minAmount": "Limit order trade size too low, please try again with a larger amount"
+      }
     },
     "priceHistory": {
       "turnover": "Turnover",

@@ -29,6 +29,7 @@ import { isLongTrade } from '../../utils/marginUtils';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { MAINTENANCE_MARGIN } from 'utils/classifiers';
 import { EventType } from '../../types';
+import { LinkToExplorer } from 'app/components/LinkToExplorer';
 
 type OpenPositionRowInnerProps = {
   items: OpenLoanType[];
@@ -184,6 +185,9 @@ export const OpenPositionRow: React.FC<OpenPositionRowInnerProps> = ({
           ) : (
             <>-</>
           )}
+        </td>
+        <td className="tw-w-full tw-hidden 2xl:tw-table-cell">
+          <LinkToExplorer txHash={tradeLoan.txHash} />
         </td>
         <td className="tw-w-full">
           <div className="tw-flex tw-items-center tw-justify-end xl:tw-justify-around 2xl:tw-justify-start">
