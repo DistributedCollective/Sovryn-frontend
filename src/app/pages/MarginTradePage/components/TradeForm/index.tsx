@@ -43,6 +43,7 @@ import { PricePrediction } from 'app/containers/MarginTradeForm/PricePrediction'
 import { durationOptions } from 'app/pages/SpotTradingPage/components/LimitOrderSetting/Duration';
 import { OrderTypeTitle } from 'app/components/OrderTypeTitle';
 import { LimitTradeDialog } from '../LimitOrder/LimitTradeDialog';
+import { useDenominateDollarToAssetAmount } from 'app/hooks/trading/useDenominateDollarToAssetAmount';
 
 interface ITradeFormProps {
   pairType: TradingPairType;
@@ -140,13 +141,48 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     dispatch(actions.submit(TradingPosition.SHORT));
   }, [dispatch]);
 
+  const {
+    value: minAmount,
+    loading: minAmountLoading,
+  } = useDenominateDollarToAssetAmount(collateral);
+
+  const isMinAmountValid = useMemo(() => {
+    if (bignumber(weiAmount).greaterThan(0)) {
+      return bignumber(weiAmount).greaterThanOrEqualTo(minAmount);
+    }
+    return true;
+  }, [minAmount, weiAmount]);
+
   const loadingState = useMemo(() => {
-    return estimationsLoading || tokenBalanceLoading || loadingPrice;
-  }, [estimationsLoading, loadingPrice, tokenBalanceLoading]);
+    return (
+      estimationsLoading ||
+      tokenBalanceLoading ||
+      loadingPrice ||
+      (orderType === OrderType.LIMIT && minAmountLoading)
+    );
+  }, [
+    estimationsLoading,
+    loadingPrice,
+    minAmountLoading,
+    orderType,
+    tokenBalanceLoading,
+  ]);
 
   const buttonDisabled = useMemo(
-    () => !validate || !connected || openTradesLocked || loadingState,
-    [validate, connected, openTradesLocked, loadingState],
+    () =>
+      !validate ||
+      !connected ||
+      openTradesLocked ||
+      loadingState ||
+      (orderType === OrderType.LIMIT && !isMinAmountValid),
+    [
+      validate,
+      connected,
+      openTradesLocked,
+      loadingState,
+      orderType,
+      isMinAmountValid,
+    ],
   );
 
   return (
@@ -223,6 +259,13 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                   />
                 </div>
               </div>
+              {!isMinAmountValid && (
+                <ErrorBadge
+                  content={t(
+                    translations.spotTradingPage.tradeForm.errors.minAmount,
+                  )}
+                />
+              )}
               <div className="tw-flex tw-text-secondary tw-text-xs tw-relative tw-items-center tw-justify-between tw-mt-2">
                 <span className={'tw-mr-1'}>
                   {t(translations.spotTradingPage.limitOrderSetting.duration)}

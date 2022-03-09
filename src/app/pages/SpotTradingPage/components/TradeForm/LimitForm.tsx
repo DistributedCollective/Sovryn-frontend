@@ -33,6 +33,7 @@ import { TxStatus } from 'store/global/transactions-store/types';
 import { LimitResultDialog } from './LimitResultDialog';
 import { gasLimit } from 'utils/classifiers';
 import { formatNumber } from 'app/containers/StatsPage/utils';
+import { useDenominateDollarToAssetAmount } from 'app/hooks/trading/useDenominateDollarToAssetAmount';
 
 export const LimitForm: React.FC<ITradeFormProps> = ({
   sourceToken,
@@ -75,6 +76,8 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
   const weiAmount = useWeiAmount(amount);
   const weiAmountOut = useWeiAmount(amountOut);
 
+  const { value: minAmount } = useDenominateDollarToAssetAmount(sourceToken);
+
   const { value: balance } = useAssetBalanceOf(sourceToken);
   const { value: marketPrice } = useSwapsExternal_getSwapExpectedReturn(
     pair[0],
@@ -108,6 +111,13 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
     setAmount('');
   }, [sourceToken]);
 
+  const isMinAmountValid = useMemo(() => {
+    if (bignumber(weiAmount).greaterThan(0)) {
+      return bignumber(weiAmount).greaterThanOrEqualTo(minAmount);
+    }
+    return true;
+  }, [minAmount, weiAmount]);
+
   const validate = useMemo(() => {
     return (
       amount &&
@@ -116,9 +126,18 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
       bignumber(weiAmount).greaterThan(0) &&
       bignumber(weiAmount).lessThanOrEqualTo(
         maxMinusFee(balance, sourceToken, gasLimit.trade),
-      )
+      ) &&
+      isMinAmountValid
     );
-  }, [amount, balance, limitPrice, sourceToken, weiAmount, weiAmountOut]);
+  }, [
+    amount,
+    balance,
+    isMinAmountValid,
+    limitPrice,
+    sourceToken,
+    weiAmount,
+    weiAmountOut,
+  ]);
 
   const showToast = useCallback(
     (status: string) => {
@@ -222,7 +241,6 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
             asset={sourceToken}
           />
         </div>
-
         <div className="tw-flex tw-items-center tw-justify-between tw-mt-5">
           <span className={styles.amountLabel}>
             {t(translations.spotTradingPage.tradeForm.amount)}
@@ -236,7 +254,11 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
             dataActionId="spot-limit-amountInput"
           />
         </div>
-
+        {!isMinAmountValid && (
+          <ErrorBadge
+            content={t(translations.spotTradingPage.tradeForm.errors.minAmount)}
+          />
+        )}
         <div className="tw-flex tw-relative tw-items-center tw-justify-between tw-mt-5">
           <span className={styles.amountLabel}>
             {t(translations.spotTradingPage.tradeForm.limitPrice)}
@@ -254,9 +276,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
             />
           </div>
         </div>
-
         <Duration value={duration} onChange={setDuration} />
-
         <div className="swap-form__amount">
           <div className="tw-text-sm tw-flex tw-items-center tw-justify-between tw-px-3 tw-py-2 tw-w-full tw-border tw-border-gray-5 tw-rounded-lg">
             <span>
