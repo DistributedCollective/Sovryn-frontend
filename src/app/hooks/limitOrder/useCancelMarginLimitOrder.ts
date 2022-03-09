@@ -8,6 +8,9 @@ import { getContract } from './useLimitOrder';
 import { gasLimit } from 'utils/classifiers';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { gas } from 'utils/blockchain/gas-price';
+import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
+import { contractWriter } from 'utils/sovryn/contract-writer';
+import { Asset } from 'types';
 
 export const useCancelMarginLimitOrder = (order: MarginLimitOrder) => {
   const account = useAccount();
@@ -16,6 +19,18 @@ export const useCancelMarginLimitOrder = (order: MarginLimitOrder) => {
 
   const cancelOrder = useCallback(async () => {
     const contract = getContract('settlement');
+
+    const collateralAsset = assetByTokenAddress(order.collateralTokenAddress);
+
+    try {
+      if (collateralAsset === Asset.RBTC) {
+        await contractWriter.send('settlement', 'withdraw', [
+          order.collateralTokenSent.toString(),
+        ]);
+      }
+    } catch (error) {
+      return;
+    }
 
     const args = [
       order.loanId,

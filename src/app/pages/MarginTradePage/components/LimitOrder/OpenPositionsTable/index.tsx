@@ -42,7 +42,7 @@ export const OpenPositionsTable: React.FC<IOpenPositionsTableProps> = ({
       );
   }, [orders, pendingLimitOrders]);
 
-  const isEmpty = !loading && !items.length;
+  const isEmpty = !loading && !items.length && !pendingLimitOrders.length;
 
   const onPageChanged = data => {
     setPage(data.currentPage);

@@ -65,23 +65,35 @@ export const useMarginLimitOrder = (
 
       let tx: CheckAndApproveResult = {};
       if (Number(order.loanTokenSent) > 0) {
-        tx = await contractWriter.checkAndApprove(
-          loanToken,
-          getContract('settlement').address,
-          order.loanTokenSent,
-        );
-        if (tx.rejected) {
-          return;
+        if (loanToken !== Asset.RBTC) {
+          tx = await contractWriter.checkAndApprove(
+            loanToken,
+            getContract('settlement').address,
+            order.loanTokenSent,
+          );
+          if (tx.rejected) {
+            return;
+          }
         }
       }
       if (Number(order.collateralTokenSent) > 0) {
-        tx = await contractWriter.checkAndApprove(
-          collateralToken,
-          getContract('settlement').address,
-          order.collateralTokenSent,
-        );
-        if (tx.rejected) {
-          return;
+        if (collateralToken !== Asset.RBTC) {
+          tx = await contractWriter.checkAndApprove(
+            collateralToken,
+            getContract('settlement').address,
+            order.collateralTokenSent,
+          );
+          if (tx.rejected) {
+            return;
+          }
+        } else {
+          try {
+            await contractWriter.send('settlement', 'deposit', [account], {
+              value: order.collateralTokenSent,
+            });
+          } catch (error) {
+            return;
+          }
         }
       }
 
