@@ -26,7 +26,8 @@
     },
     "gasPrice": "Preço gás",
     "gasLimit": "Limite gás",
-    "units": "unidades"
+    "units": "unidades",
+    "txHash": "Tx Hash"
   },
   "global": {
     "liquidationPrice": "Preço de liquidação",
@@ -1611,7 +1612,10 @@
       "advancedSettings": "Configurações avançadas",
       "limitPrice": "Preço:",
       "receive": "Receber:",
-      "amount": "Quantidade:"
+      "amount": "Quantidade:",
+      "errors": {
+        "minAmount": "Valor muito baixo, tente novamente com uma quantidade maior"
+      }
     },
     "priceHistory": {
       "turnover": "Volume de negociações",
