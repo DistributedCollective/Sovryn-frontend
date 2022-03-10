@@ -26,7 +26,8 @@
     },
     "gasPrice": "Preço gás",
     "gasLimit": "Limite gás",
-    "units": "unidades"
+    "units": "unidades",
+    "txHash": "Tx Hash"
   },
   "global": {
     "liquidationPrice": "Preço de liquidação",
@@ -643,7 +644,7 @@
   "swap": {
     "title": "Trocar",
     "meta": "Trocar",
-    "cta": "Revisar troca",
+    "cta": "Trocar",
     "minimumReceived": "Mínimo a receber:",
     "send": "Enviar",
     "receive": "Receber",
@@ -1526,9 +1527,11 @@
         "short": "Vendido"
       },
       "placePosition": {
-        "placeLong": "Revisar ordem a",
-        "placeShort": "Revisar ordem a"
-      }
+        "placeLong": "Inserir ordem",
+        "placeShort": "Inserir ordem"
+      },
+      "market": "",
+      "limit": ""
     },
     "recentTrades": {
       "title": "Negociações recentes",
@@ -1601,8 +1604,8 @@
       "description": "Operar spot"
     },
     "tradeForm": {
-      "buy_cta": "REVISAR ORDEM DE COMPRA",
-      "sell_cta": "REVISAR ORDEM DE VENDA",
+      "buy_cta": "INSERIR ORDEM",
+      "sell_cta": "INSERIR ORDEM",
       "amountReceived": "Receber",
       "buy": "Compra",
       "sell": "Venda",
@@ -1611,7 +1614,10 @@
       "advancedSettings": "Configurações avançadas",
       "limitPrice": "Preço:",
       "receive": "Receber:",
-      "amount": "Quantidade:"
+      "amount": "Quantidade:",
+      "errors": {
+        "minAmount": "Valor muito baixo, insira uma quantidade maior"
+      }
     },
     "priceHistory": {
       "turnover": "Volume de negociações",
@@ -1997,7 +2003,7 @@
     "topUp": {
       "title": "Adquirir <0>RBTC</0>",
       "line1": "Você irá precisar de <0>RBTC</0> na sua carteira para comprar SOV e pagar as taxas da rede RSK",
-      "line2": "Saiba mais sobre <0>RBTC</0>",
+      "line2": "Saiba mais sobre a RSK",
       "cta": "Carregar carteira"
     },
     "form": {
