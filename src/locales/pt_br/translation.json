@@ -644,7 +644,7 @@
   "swap": {
     "title": "Trocar",
     "meta": "Trocar",
-    "cta": "Revisar troca",
+    "cta": "Trocar",
     "minimumReceived": "Mínimo a receber:",
     "send": "Enviar",
     "receive": "Receber",
@@ -1527,9 +1527,11 @@
         "short": "Vendido"
       },
       "placePosition": {
-        "placeLong": "Revisar ordem a",
-        "placeShort": "Revisar ordem a"
-      }
+        "placeLong": "Inserir ordem de compra a",
+        "placeShort": "Inserir ordem de venda a"
+      },
+      "market": "Mercado",
+      "limit": "Limite"
     },
     "recentTrades": {
       "title": "Negociações recentes",
@@ -1602,8 +1604,8 @@
       "description": "Operar spot"
     },
     "tradeForm": {
-      "buy_cta": "REVISAR ORDEM DE COMPRA",
-      "sell_cta": "REVISAR ORDEM DE VENDA",
+      "buy_cta": "INSERIR ORDEM DE COMPRA",
+      "sell_cta": "INSERIR ORDEM DE VENDA",
       "amountReceived": "Receber",
       "buy": "Compra",
       "sell": "Venda",
