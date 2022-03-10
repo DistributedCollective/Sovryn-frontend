@@ -7,10 +7,7 @@ import { Asset } from 'types';
 import { ethers, BigNumber } from 'ethers';
 import { SignatureLike } from '@ethersproject/bytes';
 import { useSelector } from 'react-redux';
-import {
-  CheckAndApproveResult,
-  contractWriter,
-} from 'utils/sovryn/contract-writer';
+import { contractWriter } from 'utils/sovryn/contract-writer';
 import { useCallback } from 'react';
 import { TransactionConfig } from 'web3-core';
 import { gas } from 'utils/blockchain/gas-price';
@@ -19,6 +16,7 @@ import { useSendTx } from '../useSendTx';
 import { signTypeData } from './utils';
 import axios from 'axios';
 import { limitOrderUrl, currentChainId, gasLimit } from 'utils/classifiers';
+import { approveSettlement } from './useMarginLimitOrder';
 
 export const useLimitOrder = (
   sourceToken: Asset,
@@ -36,24 +34,10 @@ export const useLimitOrder = (
   const { send, ...tx } = useSendTx();
 
   const createOrder = useCallback(async () => {
-    let tx: CheckAndApproveResult = {};
-    if (sourceToken !== Asset.RBTC) {
-      tx = await contractWriter.checkAndApprove(
-        sourceToken,
-        getContract('settlement').address,
-        amount,
-      );
-      if (tx.rejected) {
-        return;
-      }
-    } else {
-      try {
-        await contractWriter.send('settlement', 'deposit', [account], {
-          value: amount,
-        });
-      } catch (error) {
-        return;
-      }
+    try {
+      await approveSettlement(sourceToken, amount, account);
+    } catch {
+      return;
     }
 
     try {

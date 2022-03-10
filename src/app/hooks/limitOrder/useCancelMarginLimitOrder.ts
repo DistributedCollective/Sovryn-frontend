@@ -1,3 +1,4 @@
+import { assetByLoanTokenAddress } from './../../../utils/blockchain/contract-helpers';
 import { useCallback } from 'react';
 import { TransactionConfig } from 'web3-core';
 
@@ -20,12 +21,18 @@ export const useCancelMarginLimitOrder = (order: MarginLimitOrder) => {
   const cancelOrder = useCallback(async () => {
     const contract = getContract('settlement');
 
+    const loanAsset = assetByLoanTokenAddress(order.loanTokenAddress);
     const collateralAsset = assetByTokenAddress(order.collateralTokenAddress);
 
     try {
       if (collateralAsset === Asset.RBTC) {
         await contractWriter.send('settlement', 'withdraw', [
           order.collateralTokenSent.toString(),
+        ]);
+      }
+      if (loanAsset === Asset.RBTC) {
+        await contractWriter.send('settlement', 'withdraw', [
+          order.loanTokenSent.toString(),
         ]);
       }
     } catch (error) {
