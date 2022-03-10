@@ -39,7 +39,7 @@ export const DataCard: React.FC<DataCardProps> = ({
       </h2>
       {onClose && (
         <div
-          className="tw-w-4 tw-h-4 tw-p-1 tw-bg-gray-5 hover:tw-bg-gray-6 tw-text-sm tw-text-sov-white tw-rounded-sm tw-cursor-pointer"
+          className="tw-w-4 tw-h-4 tw-p-1 tw-bg-gray-6 hover:tw-bg-gray-5 tw-text-sm tw-text-sov-white tw-rounded-sm tw-cursor-pointer"
           onClick={onClose}
         >
           <Xmark className="tw-w-2 tw-h-2" />
