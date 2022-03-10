@@ -1528,7 +1528,7 @@
       },
       "placePosition": {
         "placeLong": "Inserir ordem comprado a",
-        "placeShort": "Inserir ordem de venda a"
+        "placeShort": "Inserir ordem vendido a"
       },
       "market": "Mercado",
       "limit": "Limite"
