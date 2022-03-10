@@ -35,7 +35,11 @@ export function RewardPage() {
     amountToClaim: rewardSovClaimAmount,
   } = useGetRewardSovClaimAmount();
 
-  const liquidSovClaimAmount = useGetLiquidSovClaimAmount();
+  const {
+    amount: liquidSovClaimAmount,
+    lastWithdrawalInterval,
+  } = useGetLiquidSovClaimAmount();
+
   const {
     totalAmount: totalFeesEarned,
     earnedFees,
@@ -101,7 +105,10 @@ export function RewardPage() {
                 />
               )}
               {activeTab === RewardTabType.LIQUID_SOV && (
-                <LiquidTab amountToClaim={liquidSovClaimAmount} />
+                <LiquidTab
+                  amountToClaim={liquidSovClaimAmount}
+                  lastWithdrawalInterval={lastWithdrawalInterval}
+                />
               )}
               {activeTab === RewardTabType.FEES_EARNED && (
                 <FeesEarnedTab

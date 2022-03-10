@@ -12,9 +12,13 @@ import { NoRewardInfo } from '../NoRewardInfo';
 
 interface ILiquidTabProps {
   amountToClaim: string;
+  lastWithdrawalInterval: number;
 }
 
-export const LiquidTab: React.FC<ILiquidTabProps> = ({ amountToClaim }) => {
+export const LiquidTab: React.FC<ILiquidTabProps> = ({
+  amountToClaim,
+  lastWithdrawalInterval,
+}) => {
   const { t } = useTranslation();
 
   const { events: stakingRewardEvents } = useGetContractPastEvents(
@@ -38,7 +42,10 @@ export const LiquidTab: React.FC<ILiquidTabProps> = ({ amountToClaim }) => {
         ) : (
           <>
             <div className="tw-w-1/2 tw-flex tw-justify-center tw-align-center">
-              <LiquidClaimForm amountToClaim={amountToClaim} />
+              <LiquidClaimForm
+                amountToClaim={amountToClaim}
+                lastWithdrawalInterval={lastWithdrawalInterval}
+              />
             </div>
             <div className={styles.divider} />
             <div className="tw-w-1/2">
