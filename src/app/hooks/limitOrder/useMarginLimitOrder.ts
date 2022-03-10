@@ -63,37 +63,22 @@ export const useMarginLimitOrder = (
         created.toString(),
       );
 
-      let tx: CheckAndApproveResult = {};
       if (Number(order.loanTokenSent) > 0) {
-        if (loanToken !== Asset.RBTC) {
-          tx = await contractWriter.checkAndApprove(
-            loanToken,
-            getContract('settlement').address,
-            order.loanTokenSent,
-          );
-          if (tx.rejected) {
-            return;
-          }
+        try {
+          await approveSettlement(loanToken, order.loanTokenSent, account);
+        } catch {
+          return;
         }
       }
       if (Number(order.collateralTokenSent) > 0) {
-        if (collateralToken !== Asset.RBTC) {
-          tx = await contractWriter.checkAndApprove(
+        try {
+          await approveSettlement(
             collateralToken,
-            getContract('settlement').address,
             order.collateralTokenSent,
+            account,
           );
-          if (tx.rejected) {
-            return;
-          }
-        } else {
-          try {
-            await contractWriter.send('settlement', 'deposit', [account], {
-              value: order.collateralTokenSent,
-            });
-          } catch (error) {
-            return;
-          }
+        } catch {
+          return;
         }
       }
 
@@ -178,4 +163,26 @@ export const useMarginLimitOrder = (
   ]);
 
   return { createOrder, ...tx };
+};
+
+export const approveSettlement = async (
+  token: Asset,
+  amount: string,
+  account: string,
+) => {
+  let tx: CheckAndApproveResult = {};
+  if (token !== Asset.RBTC) {
+    tx = await contractWriter.checkAndApprove(
+      token,
+      getContract('settlement').address,
+      amount,
+    );
+    if (tx.rejected) {
+      throw new Error();
+    }
+  } else {
+    await contractWriter.send('settlement', 'deposit', [account], {
+      value: amount,
+    });
+  }
 };
