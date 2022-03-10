@@ -1614,7 +1614,7 @@
       "receive": "Receber:",
       "amount": "Quantidade:",
       "errors": {
-        "minAmount": "Valor muito baixo, tente novamente com uma quantidade maior"
+        "minAmount": "Valor muito baixo, insira uma quantidade maior"
       }
     },
     "priceHistory": {
