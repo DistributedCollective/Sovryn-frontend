@@ -15,6 +15,8 @@ import { SidebarStepsDeposit } from '../components/Deposit/SidebarStepsDeposit';
 import { useDepositSocket } from '../hooks/useDepositSocket';
 import { StatusScreen } from '../components/Deposit/StatusScreen';
 import { NetworkAwareComponentProps } from '../types';
+import { Signature } from '../contexts/deposit-context';
+import { SignatureValidation } from '../components/Deposit/SignatureValidation';
 
 export const DepositContainer: React.FC<NetworkAwareComponentProps> = ({
   network,
@@ -60,7 +62,8 @@ export const DepositContainer: React.FC<NetworkAwareComponentProps> = ({
             ...prevState,
             addressLoading: false,
             address: response.btcadr,
-            step: DepositStep.ADDRESS,
+            step: DepositStep.VALIDATION,
+            signatures: response.signatures as Signature[],
           }));
         })
         .catch(error => {
@@ -75,6 +78,13 @@ export const DepositContainer: React.FC<NetworkAwareComponentProps> = ({
     },
     [getDepositAddress],
   );
+
+  const handleValidation = useCallback(() => {
+    setState(prevState => ({
+      ...prevState,
+      step: DepositStep.ADDRESS,
+    }));
+  }, []);
 
   const value = useMemo(
     () => ({
@@ -128,6 +138,9 @@ export const DepositContainer: React.FC<NetworkAwareComponentProps> = ({
         >
           <div className={styles.container}>
             {step === DepositStep.MAIN && <MainScreen network={network} />}
+            {step === DepositStep.VALIDATION && (
+              <SignatureValidation onClick={handleValidation} />
+            )}
             {step === DepositStep.ADDRESS && <AddressForm />}
             {[DepositStep.PROCESSING, DepositStep.COMPLETED].includes(step) && (
               <StatusScreen network={network} />

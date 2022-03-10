@@ -1,0 +1,14 @@
+.title {
+  @apply tw-font-semibold tw-tracking-normal tw-mb-8;
+  font-size: 1.375rem;
+  color: #e9eae9;
+  line-height: 1.6875rem;
+}
+.description {
+  @apply tw-mb-11 tw-text-gray-8 tw-text-center;
+}
+
+.status {
+  @apply tw-mb-24 tw-text-center;
+  color: #e9eae9;
+}

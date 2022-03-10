@@ -178,6 +178,7 @@
     "backToPortfolio": "Back to portfolio",
     "deposit": {
       "sidebarSteps": {
+        "validation": "Validation",
         "address": "Deposit Address",
         "processing": "Processing",
         "processingSteps": "Processing... ({{step}}/{{steps}})",
@@ -202,6 +203,14 @@
         "line4": "Only send BTC to the deposit address generated for you.",
         "line5": "Allow up to {{hours}} hrs to proccess.",
         "line6": "If your transaction takes longer than {{hours}} hrs please <0>create a support ticket</0>."
+      },
+      "validationScreen": {
+        "title": "Verifying FastBTC Federators",
+        "description": "As an additional layer of security, we are verifying the signatures from the FastBTC federator node. Please wait until this is completed",
+        "cta": "Click to continue",
+        "validationTextLoading": "Verifying Signatures...",
+        "validationTextSuccess": "Verifying Complete",
+        "validationTextError": "Verifying Failed"
       },
       "addressForm": {
         "title": "BTC Deposit Address",

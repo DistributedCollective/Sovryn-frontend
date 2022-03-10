@@ -65,10 +65,13 @@ export function useDepositSocket(eventHandler?: EventHandler) {
         id: number;
         label: string;
         web3adr: string;
+        signatures: Array<Object>;
       }>((resolve, reject) => {
         if (socket.current) {
           socket.current.emit('getDepositAddress', address, (err, res) => {
             if (res) {
+              console.log(res);
+              console.log(typeof res.signatures);
               resolve(res);
             } else {
               reject(new Error(err?.error || err));
