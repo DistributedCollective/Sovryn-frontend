@@ -199,7 +199,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowInnerProps> = ({
             <ActionButton
               text={t(translations.openPositionTable.cta.margin)}
               onClick={() => setShowAddToMargin(true)}
-              className={`tw-border-none tw-px-4 xl:tw-px-2 ${
+              className={`tw-border-none tw-px-1 sm:tw-px-4 xl:tw-px-2 ${
                 addToMarginLocked && 'tw-cursor-not-allowed'
               }`}
               textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
@@ -217,7 +217,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowInnerProps> = ({
             <ActionButton
               text={t(translations.openPositionTable.cta.close)}
               onClick={() => setShowClosePosition(true)}
-              className={`tw-border-none tw-px-4 xl:tw-px-2 ${
+              className={`tw-border-none tw-px-1 sm:tw-px-4 xl:tw-px-2 ${
                 closeTradesLocked && 'tw-cursor-not-allowed'
               }`}
               textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
@@ -235,7 +235,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowInnerProps> = ({
             <ActionButton
               text={t(translations.openPositionTable.cta.details)}
               onClick={() => setShowDetails(!showDetails)}
-              className="tw-border-none tw-ml-0 tw-pl-4 xl:tw-pl-2 tw-pr-0"
+              className="tw-border-none tw-ml-0 tw-pl-1 sm:tw-p-4 xl:tw-pl-2 tw-pr-0"
               textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
               disabled={liquidateLoans.length === 0}
               data-action-id="margin-openPositions-DetailsButton"
