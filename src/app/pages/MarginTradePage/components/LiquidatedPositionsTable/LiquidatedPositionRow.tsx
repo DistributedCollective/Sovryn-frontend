@@ -23,7 +23,7 @@ export const LiquidatedPositionRow: React.FC<LiquidatedPositionRowProps> = ({
   return (
     <tr>
       <td>{liquidatedLoan.event}</td>
-      <td>
+      <td className="tw-hidden md:tw-table-cell">
         <div className="tw-whitespace-nowrap">
           {weiToAssetNumberFormat(
             positionStatus
@@ -43,11 +43,13 @@ export const LiquidatedPositionRow: React.FC<LiquidatedPositionRowProps> = ({
           <AssetRenderer asset={pair.longDetails.asset} />
         </div>
       </td>
-      <td>{dayjs(liquidatedLoan.time * 1e3).format('DD/MM/YYYY')}</td>
-      <td>
+      <td className="tw-hidden md:tw-table-cell">
+        {dayjs(liquidatedLoan.time * 1e3).format('DD/MM/YYYY')}
+      </td>
+      <td className="tw-hidden sm:tw-table-cell">
         <LinkToExplorer
           txHash={liquidatedLoan.txHash}
-          className="tw-text-primary tw-truncate"
+          className="tw-text-primary tw-truncate tw-m-0"
           startLength={5}
           endLength={5}
         />

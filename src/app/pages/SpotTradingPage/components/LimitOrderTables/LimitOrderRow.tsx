@@ -71,7 +71,18 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
             .toString()}
         />
       </td>
-      <td>{item.hash ? <LinkToExplorer txHash={item.hash} /> : '-'}</td>
+      <td>
+        {item.hash ? (
+          <LinkToExplorer
+            className="tw-m-0"
+            txHash={item.hash}
+            startLength={5}
+            endLength={5}
+          />
+        ) : (
+          '-'
+        )}
+      </td>
       <td>
         <div className={'tw-flex tw-items-center tw-select-none'}>
           <div className="tw-rounded-full tw-z-10">

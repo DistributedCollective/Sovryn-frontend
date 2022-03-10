@@ -64,14 +64,25 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
 
   return (
     <tr>
-      <td>
+      <td className="tw-hidden md:tw-table-cell">
         <DisplayDate timestamp={createdTimestamp.getTime().toString()} />
       </td>
-      <td>{order.hash ? <LinkToExplorer txHash={order.hash} /> : '-'}</td>
-      <td className="tw-w-full">
+      <td className="tw-hidden xl:tw-table-cell">
+        {order.hash ? (
+          <LinkToExplorer
+            className="tw-m-0"
+            txHash={order.hash}
+            startLength={5}
+            endLength={5}
+          />
+        ) : (
+          '-'
+        )}
+      </td>
+      <td>
         <PositionBlock position={position} name={pair.name} />
       </td>
-      <td className="tw-w-full tw-hidden xl:tw-table-cell">
+      <td className="tw-hidden xl:tw-table-cell">
         <div className="tw-whitespace-nowrap">
           <Tooltip
             content={
@@ -89,13 +100,13 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
         </div>
       </td>
 
-      <td className="tw-w-full">
+      <td className="tw-hidden md:tw-table-cell">
         {weiToNumberFormat(tradeAmount, 6)} ({leverage}x){' '}
         <AssetRenderer asset={depositAsset} />
       </td>
       {!isOpenPosition && (
         <>
-          <td>
+          <td className="tw-hidden sm:tw-table-cell">
             <DisplayDate timestamp={deadline.getTime().toString()} />
           </td>
 
@@ -104,7 +115,7 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
       )}
       {isOpenPosition && (
         <>
-          <td>
+          <td className="tw-hidden sm:tw-table-cell">
             <DisplayDate timestamp={deadline.getTime().toString()} />
           </td>
 

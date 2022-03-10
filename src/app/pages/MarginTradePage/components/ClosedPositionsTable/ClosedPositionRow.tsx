@@ -57,10 +57,10 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
   return (
     <>
       <tr>
-        <td className="tw-w-full">
+        <td>
           <PositionBlock position={position} name={pair.name} />
         </td>
-        <td className="tw-w-full tw-hidden xl:tw-table-cell">
+        <td className="tw-hidden xl:tw-table-cell">
           <div className="tw-whitespace-nowrap">
             {weiToAssetNumberFormat(
               closedItem.positionSizeChange,
@@ -69,10 +69,10 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
             <AssetRenderer asset={collateralAsset} />
           </div>
         </td>
-        <td className="tw-w-full tw-hidden xl:tw-table-cell">
+        <td className="tw-hidden xl:tw-table-cell">
           <div>{leverage}x</div>
         </td>
-        <td className="tw-w-full tw-hidden md:tw-table-cell">
+        <td className="tw-hidden md:tw-table-cell">
           <div className="tw-whitespace-nowrap">
             <Tooltip
               content={
@@ -89,7 +89,7 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
             </Tooltip>
           </div>
         </td>
-        <td className="tw-w-full tw-hidden md:tw-table-cell">
+        <td className="tw-hidden md:tw-table-cell">
           <div className="tw-whitespace-nowrap">
             <Tooltip
               content={
@@ -106,26 +106,26 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
             </Tooltip>
           </div>
         </td>
-        <td className="tw-w-full">
+        <td>
           <TradeProfit closedItem={closedItem} openedItem={openedItem} />
         </td>
-        <td className="tw-w-full tw-hidden xl:tw-table-cell">
+        <td className="tw-hidden xl:tw-table-cell">
           <LinkToExplorer
+            className="tw-text-primary tw-truncate tw-m-0"
             txHash={openedItem.txHash}
-            className="tw-text-primary tw-truncate"
             startLength={5}
             endLength={5}
           />
         </td>
-        <td className="tw-w-full tw-hidden xl:tw-table-cell">
+        <td className="tw-hidden xl:tw-table-cell">
           <LinkToExplorer
+            className="tw-text-primary tw-truncate tw-m-0"
             txHash={closedItem.txHash}
-            className="tw-text-primary tw-truncate"
             startLength={5}
             endLength={5}
           />
         </td>
-        <td className="tw-w-full">
+        <td>
           <div className="tw-flex tw-items-center tw-justify-end xl:tw-justify-around 2xl:tw-justify-start">
             <ActionButton
               text={t(translations.tradingHistoryPage.table.cta.details)}

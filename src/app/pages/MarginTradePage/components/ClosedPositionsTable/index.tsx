@@ -15,36 +15,30 @@ export const ClosedPositionsTable: React.FC = () => {
 
   return (
     <>
-      <table className="tw-table">
+      <table className="tw-table tw-table-auto">
         <thead>
           <tr>
-            <th className="tw-w-full">
-              {t(translations.tradingHistoryPage.table.direction)}
-            </th>
-            <th className="tw-w-full tw-hidden xl:tw-table-cell">
+            <th>{t(translations.tradingHistoryPage.table.direction)}</th>
+            <th className="tw-hidden xl:tw-table-cell">
               {t(translations.tradingHistoryPage.table.positionSize)}
             </th>
-            <th className="tw-w-full tw-hidden xl:tw-table-cell">
+            <th className="tw-hidden xl:tw-table-cell">
               {t(translations.tradingHistoryPage.table.leverage)}
             </th>
-            <th className="tw-w-full tw-hidden md:tw-table-cell">
+            <th className="tw-hidden md:tw-table-cell">
               {t(translations.tradingHistoryPage.table.openPrice)}
             </th>
-            <th className="tw-w-full tw-hidden md:tw-table-cell">
+            <th className="tw-hidden md:tw-table-cell">
               {t(translations.tradingHistoryPage.table.closePrice)}
             </th>
-            <th className="tw-w-full">
-              {t(translations.tradingHistoryPage.table.profit)}
-            </th>
-            <th className="tw-w-full tw-hidden xl:tw-table-cell">
+            <th>{t(translations.tradingHistoryPage.table.profit)}</th>
+            <th className="tw-hidden xl:tw-table-cell">
               {t(translations.tradingHistoryPage.table.entryTxHash)}
             </th>
-            <th className="tw-w-full tw-hidden xl:tw-table-cell">
+            <th className="tw-hidden xl:tw-table-cell">
               {t(translations.tradingHistoryPage.table.closeTxHash)}
             </th>
-            <th className="tw-w-full">
-              {t(translations.tradingHistoryPage.table.actions)}
-            </th>
+            <th>{t(translations.tradingHistoryPage.table.actions)}</th>
           </tr>
         </thead>
         <tbody>

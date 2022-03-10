@@ -18,14 +18,16 @@ export const LiquidatedPositionsTable: React.FC<ILiquidatedPositionsTableProps> 
     <>
       <tr>
         <td
-          colSpan={9}
+          colSpan={10}
           className="tw-p-2 tw-border tw-border-gray tw-rounded-2xl"
         >
-          <table className="tw-table">
+          <table className="tw-table tw-table-auto">
             <thead>
               <tr className="tw-bg-transparent">
                 <th>{t(translations.openPositionTable.event)}</th>
-                <th>{t(translations.openPositionTable.positionChange)}</th>
+                <th className="tw-hidden md:tw-table-cell">
+                  {t(translations.openPositionTable.positionChange)}
+                </th>
                 <th>
                   {t(translations.openPositionTable.closingPrice)}
                   <Popover
@@ -45,8 +47,12 @@ export const LiquidatedPositionsTable: React.FC<ILiquidatedPositionsTableProps> 
                     <Icon className="tw-cursor-pointer" icon="info-sign" />
                   </Popover>
                 </th>
-                <th>{t(translations.openPositionTable.timestamp)}</th>
-                <th>{t(translations.openPositionTable.txID)}</th>
+                <th className="tw-hidden md:tw-table-cell">
+                  {t(translations.openPositionTable.timestamp)}
+                </th>
+                <th className="tw-hidden sm:tw-table-cell">
+                  {t(translations.openPositionTable.txID)}
+                </th>
               </tr>
             </thead>
             <tbody>

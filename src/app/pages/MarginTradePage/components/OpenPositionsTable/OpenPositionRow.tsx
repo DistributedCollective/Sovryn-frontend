@@ -103,10 +103,10 @@ export const OpenPositionRow: React.FC<OpenPositionRowInnerProps> = ({
   return (
     <>
       <tr>
-        <td className="tw-w-full">
+        <td>
           <PositionBlock position={position} name={pair.name} />
         </td>
-        <td className="tw-w-full tw-hidden xl:tw-table-cell">
+        <td className="tw-hidden xl:tw-table-cell">
           <div className="tw-whitespace-nowrap">
             {weiToAssetNumberFormat(
               tradeLoan.positionSizeChange,
@@ -115,7 +115,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowInnerProps> = ({
             <AssetRenderer asset={collateralAsset} /> ({leverage}x)
           </div>
         </td>
-        <td className="tw-w-full tw-hidden xl:tw-table-cell">
+        <td className="tw-hidden xl:tw-table-cell">
           <div className="tw-whitespace-nowrap">
             <Tooltip
               content={
@@ -132,7 +132,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowInnerProps> = ({
             </Tooltip>
           </div>
         </td>
-        <td className="tw-w-full tw-hidden md:tw-table-cell">
+        <td className="tw-hidden md:tw-table-cell">
           <div className="tw-whitespace-nowrap">
             <Tooltip
               content={
@@ -149,7 +149,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowInnerProps> = ({
             </Tooltip>
           </div>
         </td>
-        <td className="tw-w-full tw-hidden xl:tw-table-cell">
+        <td className="tw-hidden xl:tw-table-cell">
           <div className="tw-truncate">
             <Tooltip
               content={
@@ -166,7 +166,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowInnerProps> = ({
             </Tooltip>
           </div>
         </td>
-        <td className="tw-w-full tw-hidden sm:tw-table-cell">
+        <td className="tw-hidden sm:tw-table-cell">
           <ProfitContainer
             item={tradeLoan}
             position={position}
@@ -174,22 +174,27 @@ export const OpenPositionRow: React.FC<OpenPositionRowInnerProps> = ({
             leverage={leverage}
           />
         </td>
-        <td className="tw-w-full tw-hidden 2xl:tw-table-cell">
+        <td className="tw-hidden 2xl:tw-table-cell">
           <div className="tw-truncate">
             {toNumberFormat(tradeLoan.interestRate, 2)}%
           </div>
         </td>
-        <td className="tw-w-full tw-hidden 2xl:tw-table-cell">
+        <td className="tw-hidden 2xl:tw-table-cell">
           {nextRollover ? (
             dayjs(nextRollover * 1e3).format('DD/MM/YYYY')
           ) : (
             <>-</>
           )}
         </td>
-        <td className="tw-w-full tw-hidden 2xl:tw-table-cell">
-          <LinkToExplorer txHash={tradeLoan.txHash} />
+        <td className="tw-hidden 2xl:tw-table-cell">
+          <LinkToExplorer
+            className="tw-m-0 tw-whitespace-nowrap"
+            txHash={tradeLoan.txHash}
+            startLength={5}
+            endLength={5}
+          />
         </td>
-        <td className="tw-w-full">
+        <td>
           <div className="tw-flex tw-items-center tw-justify-end xl:tw-justify-around 2xl:tw-justify-start">
             <ActionButton
               text={t(translations.openPositionTable.cta.margin)}

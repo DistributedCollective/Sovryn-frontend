@@ -43,22 +43,20 @@ export function OpenPositionsTable() {
 
   return (
     <>
-      <table className="tw-table">
+      <table className="tw-table tw-table-auto">
         <thead>
           <tr>
-            <th className="tw-w-full">
-              {t(translations.openPositionTable.direction)}
-            </th>
-            <th className="tw-w-full tw-hidden xl:tw-table-cell">
+            <th>{t(translations.openPositionTable.direction)}</th>
+            <th className="tw-hidden xl:tw-table-cell">
               {t(translations.openPositionTable.positionSize)}
             </th>
-            <th className="tw-w-full tw-hidden xl:tw-table-cell">
+            <th className="tw-hidden xl:tw-table-cell">
               {t(translations.openPositionTable.entryPrice)}
             </th>
-            <th className="tw-w-full tw-hidden md:tw-table-cell">
+            <th className="tw-hidden md:tw-table-cell">
               {t(translations.openPositionTable.liquidationPrice)}
             </th>
-            <th className="tw-w-full tw-hidden xl:tw-table-cell tw-whitespace-nowrap">
+            <th className="tw-hidden xl:tw-table-cell tw-whitespace-nowrap">
               {t(translations.openPositionTable.positionMargin)}
               <Popover
                 content={
@@ -77,21 +75,19 @@ export function OpenPositionsTable() {
                 <Icon className="tw-cursor-pointer" icon="info-sign" />
               </Popover>
             </th>
-            <th className="tw-w-full tw-hidden sm:tw-table-cell">
+            <th className="tw-hidden sm:tw-table-cell">
               {t(translations.openPositionTable.unrealizedPL)}
             </th>
-            <th className="tw-w-full tw-hidden 2xl:tw-table-cell">
+            <th className="tw-hidden 2xl:tw-table-cell">
               {t(translations.openPositionTable.interestAPR)}
             </th>
-            <th className="tw-w-full tw-hidden 2xl:tw-table-cell">
+            <th className="tw-hidden 2xl:tw-table-cell">
               {t(translations.openPositionTable.rolloverDate)}
             </th>
-            <th className="tw-w-full tw-hidden 2xl:tw-table-cell">
+            <th className="tw-hidden 2xl:tw-table-cell">
               {t(translations.common.txHash)}
             </th>
-            <th className="tw-w-full">
-              {t(translations.openPositionTable.actions)}
-            </th>
+            <th>{t(translations.openPositionTable.actions)}</th>
           </tr>
         </thead>
         <tbody>

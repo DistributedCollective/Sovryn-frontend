@@ -95,8 +95,8 @@ export const AssetRow: React.FC<IAssetRowProps> = ({
               <p className="tw-m-0">{t(translations.common.pending)}</p>
             )}
             <LinkToExplorer
-              txHash={data.transaction_hash}
               className="tw-text-primary tw-font-normal tw-whitespace-nowrap"
+              txHash={data.transaction_hash}
               startLength={5}
               endLength={5}
             />

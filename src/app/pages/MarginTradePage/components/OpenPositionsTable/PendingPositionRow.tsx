@@ -20,13 +20,13 @@ export function PendingPositionRow({ item }: PendingPositionRowProps) {
   return (
     <>
       <tr>
-        <td className="tw-w-full">
+        <td>
           <PositionBlock
             position={customData?.position}
             name={customData?.pair.name}
           />
         </td>
-        <td className="tw-w-full tw-hidden xl:tw-table-cell">
+        <td className="tw-hidden xl:tw-table-cell">
           <div className="tw-truncate">
             {weiToAssetNumberFormat(
               customData?.positionSize,
@@ -35,18 +35,23 @@ export function PendingPositionRow({ item }: PendingPositionRowProps) {
             <AssetRenderer asset={customData?.collateral} />
           </div>
         </td>
-        <td className="tw-w-full tw-hidden xl:tw-table-cell">-</td>
-        <td className="tw-w-full tw-hidden md:tw-table-cell">-</td>
-        <td className="tw-w-full tw-hidden xl:tw-table-cell">-</td>
-        <td className="tw-w-full tw-hidden sm:tw-table-cell">-</td>
-        <td className="tw-w-full tw-hidden 2xl:tw-table-cell">-</td>
-        <td className="tw-w-full tw-hidden 2xl:tw-table-cell">-</td>
-        <td className="tw-w-full tw-hidden 2xl:tw-table-cell">
-          <LinkToExplorer txHash={item.transactionHash} />
+        <td className="tw-hidden xl:tw-table-cell">-</td>
+        <td className="tw-hidden md:tw-table-cell">-</td>
+        <td className="tw-hidden xl:tw-table-cell">-</td>
+        <td className="tw-hidden sm:tw-table-cell">-</td>
+        <td className="tw-hidden 2xl:tw-table-cell">-</td>
+        <td className="tw-hidden 2xl:tw-table-cell">-</td>
+        <td className="tw-hidden 2xl:tw-table-cell">
+          <LinkToExplorer
+            className="tw-m-0 tw-whitespace-nowrap"
+            txHash={item.transactionHash}
+            startLength={5}
+            endLength={5}
+          />
         </td>
-        <td className="tw-w-full">
-          <div className="tw-flex tw-items-center tw-justify-between lg:tw-w-5/6 tw-p-0">
-            <div>
+        <td>
+          <div className="tw-flex tw-items-center tw-justify-end xl:tw-justify-around 2xl:tw-justify-start">
+            <div className="tw-px-4 xl:tw-px-2">
               {item.status === TxStatus.FAILED && (
                 <p className="tw-m-0">{t(translations.common.failed)}</p>
               )}
@@ -54,9 +59,10 @@ export function PendingPositionRow({ item }: PendingPositionRowProps) {
                 <p className="tw-m-0">{t(translations.common.pending)}</p>
               )}
               <LinkToExplorer
-                startLength={6}
+                className="tw-text-primary tw-font-normal tw-whitespace-nowrap tw-m-0"
+                startLength={5}
+                endLength={5}
                 txHash={item.transactionHash}
-                className="tw-text-primary tw-font-normal tw-whitespace-nowrap"
               />
             </div>
             <div>

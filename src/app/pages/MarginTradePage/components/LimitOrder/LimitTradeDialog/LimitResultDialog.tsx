@@ -54,9 +54,11 @@ export const LimitResultDialog: React.FC<ILimitResultDialogProps> = ({
               </div>
               <div className="tw-font-medium">
                 <LinkToExplorer
+                  className="tw-text-blue tw-underline tw-m-0"
                   txHash={txHash}
                   text={prettyTx(txHash)}
-                  className="tw-text-blue tw-underline"
+                  startLength={5}
+                  endLength={5}
                 />
               </div>
             </div>
