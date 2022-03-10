@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { useMaintenance } from 'app/hooks/useMaintenance';
@@ -56,6 +56,12 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
 
   const isOpenPosition = filledAmount === '0';
 
+  const depositAsset = useMemo(
+    () =>
+      order.loanTokenSent.toString() !== '0' ? loanAsset : collateralAsset,
+    [collateralAsset, loanAsset, order.loanTokenSent],
+  );
+
   return (
     <tr>
       <td>
@@ -85,7 +91,7 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
 
       <td className="tw-w-full">
         {weiToNumberFormat(tradeAmount, 6)} ({leverage}x){' '}
-        <AssetRenderer asset={collateralAsset} />
+        <AssetRenderer asset={depositAsset} />
       </td>
       {!isOpenPosition && (
         <>
