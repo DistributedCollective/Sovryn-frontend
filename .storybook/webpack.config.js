@@ -1,4 +1,5 @@
 const postcssNormalize = require('postcss-normalize');
+const path = require('path');
 
 const upgradePostCssLoaderEntry = entry => {
   if (entry && typeof entry === 'object') {
