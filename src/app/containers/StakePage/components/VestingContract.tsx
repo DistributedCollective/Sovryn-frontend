@@ -1,7 +1,7 @@
 import { Tooltip } from '@blueprintjs/core';
 import { bignumber } from 'mathjs';
 import dayjs from 'dayjs';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import logoSvg from 'assets/images/tokens/sov.svg';
@@ -12,7 +12,7 @@ import {
   vesting_getEndDate,
   vesting_getStartDate,
 } from 'utils/blockchain/requests/vesting';
-import { ethGenesisAddress } from 'utils/classifiers';
+import { ethGenesisAddress, gasLimit } from 'utils/classifiers';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { weiToNumberFormat, weiToUSD } from 'utils/display-text/format';
 import { contractReader } from 'utils/sovryn/contract-reader';
@@ -27,6 +27,11 @@ import { useCachedAssetPrice } from 'app/hooks/trading/useCachedAssetPrice';
 import { useAccount } from 'app/hooks/useAccount';
 import { WithdrawVesting } from './WithdrawVesting';
 import { VestGroup } from 'app/components/UserAssets/Vesting/types';
+import { TxDialog } from 'app/components/Dialogs/TxDialog';
+import { useSendToContractAddressTx } from 'app/hooks/useSendToContractAddressTx';
+import VestingABI from 'utils/blockchain/abi/Vesting.json';
+import { AbiItem } from 'web3-utils';
+import { TxType } from 'store/global/transactions-store/types';
 
 interface Props {
   vestingAddress: string;
@@ -165,6 +170,21 @@ export function VestingContract(props: Props) {
     delegate,
     getStakes.value,
   ]);
+
+  const { send, ...tx } = useSendToContractAddressTx(
+    props.vestingAddress.toLowerCase(),
+    VestingABI as AbiItem[],
+    'withdrawTokens',
+  );
+
+  const handleWithdraw = useCallback(
+    (receiver: string) => {
+      send([receiver], {
+        gas: gasLimit[TxType.SOV_WITHDRAW_VESTING],
+      });
+    },
+    [send],
+  );
 
   return (
     <>
@@ -314,10 +334,12 @@ export function VestingContract(props: Props) {
             <WithdrawVesting
               vesting={props.vestingAddress}
               onCloseModal={() => setShowWithdraw(false)}
+              onWithdraw={handleWithdraw}
             />
           </>
         }
       />
+      <TxDialog tx={tx} onUserConfirmed={() => setShowWithdraw(false)} />
     </>
   );
 }
