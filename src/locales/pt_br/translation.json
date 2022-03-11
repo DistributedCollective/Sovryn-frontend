@@ -1188,7 +1188,7 @@
       "time": "Data e hora",
       "pair": "Par",
       "orderType": "Tipo de ordem",
-      "amountPaid": "Quantidade paga",
+      "amountPaid": "Quantidade enviada",
       "amountReceived": "Quantidade recebida",
       "transactionFee": "Taxa de rede",
       "status": "Status da transação"
