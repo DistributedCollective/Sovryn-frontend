@@ -81,7 +81,6 @@ export const AssetRow: React.FC<IAssetRowProps> = ({
         <div>{numberFromWei(data.returnVal._toAmount)}</div>≈{' '}
         <LoadableValue value={weiToUSD(dollarValue)} loading={dollarsLoading} />
       </td>
-
       <td>
         <div className="tw-flex tw-items-center tw-p-0">
           <div className="tw-w-32">

@@ -64,14 +64,14 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
 
   return (
     <tr>
-      <td>
+      <td className="tw-hidden xl:tw-table-cell">
         <DisplayDate
           timestamp={new Date(Number(item.created.toString()))
             .getTime()
             .toString()}
         />
       </td>
-      <td>
+      <td className="tw-hidden xl:tw-table-cell">
         {item.hash ? (
           <LinkToExplorer
             className="tw-m-0"
@@ -108,7 +108,7 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
         </div>
       </td>
       <td
-        className={classNames('', {
+        className={classNames('tw-hidden md:tw-table-cell', {
           'tw-text-trade-short': tradeType === TradingTypes.SELL,
           'tw-text-trade-long': tradeType === TradingTypes.BUY,
         })}
@@ -122,7 +122,6 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
         {weiToNumberFormat(item.amountIn.toString(), 6)}{' '}
         <AssetRenderer asset={fromToken.asset} />
       </td>
-
       <td className="tw-hidden md:tw-table-cell">
         {toNumberFormat(limitPrice.toString(), 6)}{' '}
         <AssetRenderer asset={pair[1].asset} />
@@ -132,21 +131,20 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
         <AssetRenderer asset={toToken.asset} />
       </td>
       {!isOpenPosition && (
-        <td>
+        <td className="tw-hidden sm:tw-table-cell">
           {weiToNumberFormat(item.filledAmount, 6)}{' '}
           <AssetRenderer asset={fromToken.asset} />
         </td>
       )}
       {isOpenPosition && (
         <>
-          <td>
+          <td className="tw-hidden sm:tw-table-cell">
             <DisplayDate
               timestamp={new Date(Number(item.deadline.toString()))
                 .getTime()
                 .toString()}
             />
           </td>
-
           <td>
             <div className="tw-flex tw-items-center">
               {!pending && (

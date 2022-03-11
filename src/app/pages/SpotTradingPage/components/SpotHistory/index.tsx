@@ -144,8 +144,8 @@ export const SpotHistory: React.FC = () => {
 
   return (
     <section>
-      <div className="tw-table tw-mb-12">
-        <table className="tw-w-full">
+      <div className="tw-mb-12">
+        <table className="tw-table tw-table-auto">
           <thead>
             <tr>
               <th className="tw-hidden lg:tw-table-cell">

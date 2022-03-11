@@ -47,24 +47,32 @@ export const OpenPositionsTable: React.FC<IOpenPositionsTableProps> = ({
 
   return (
     <>
-      <table className="tw-table">
+      <table className="tw-table tw-table-auto">
         <thead>
           <tr>
-            <th className="tw-w-full">{t(trans.dateTime)}</th>
-            <th className="tw-w-full">{t(translations.common.txHash)}</th>
-            <th className="tw-w-full">{t(trans.pair)}</th>
-            <th className="tw-w-full">{t(trans.orderType)}</th>
-            <th className="tw-w-full">{t(trans.tradeAmount)}</th>
-            <th className="tw-w-full">{t(trans.limitPrice)}</th>
-            <th className="tw-w-full">{t(trans.amountReceive)}</th>
-            <th className="tw-w-full">{t(trans.deadline)}</th>
-            <th className="tw-w-full">{t(trans.actions)}</th>
+            <th className="tw-hidden xl:tw-table-cell">{t(trans.dateTime)}</th>
+            <th className="tw-hidden xl:tw-table-cell">
+              {t(translations.common.txHash)}
+            </th>
+            <th>{t(trans.pair)}</th>
+            <th className="tw-hidden md:tw-table-cell">{t(trans.orderType)}</th>
+            <th>{t(trans.tradeAmount)}</th>
+            <th className="tw-hidden md:tw-table-cell">
+              {t(trans.limitPrice)}
+            </th>
+            <th className="tw-hidden lg:tw-table-cell">
+              {t(trans.amountReceive)}
+            </th>
+            <th className="tw-hidden sm:tw-table-cell">{t(trans.deadline)}</th>
+            <th>{t(trans.actions)}</th>
           </tr>
         </thead>
         <tbody>
           {isEmpty && (
             <tr>
-              <td colSpan={99}>{t(trans.noData)}</td>
+              <td colSpan={99} className="tw-text-center">
+                {t(trans.noData)}
+              </td>
             </tr>
           )}
 
