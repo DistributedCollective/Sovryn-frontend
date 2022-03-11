@@ -2,8 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 import { TradingPosition } from 'types/trading-position';
 import { TradingTypes } from 'app/pages/SpotTradingPage/types';
-import { Spinner } from '../Spinner';
-import { SpinnerSizeType } from '../Spinner/types';
+import { Spinner, SpinnerSize } from '../Spinner';
 
 interface IButtonTradeProps {
   position?: TradingPosition;
@@ -53,7 +52,7 @@ export const ButtonTrade: React.FC<IButtonTradeProps> = ({
         )}
       >
         <Spinner
-          size={SpinnerSizeType.SMALL}
+          size={SpinnerSize.SM}
           className="tw-fill-current tw-text-white"
         />
       </span>
