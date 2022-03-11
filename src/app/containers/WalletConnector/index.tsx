@@ -1,4 +1,4 @@
-import { Icon, Menu, MenuItem, Popover, Spinner } from '@blueprintjs/core';
+import { Icon, Menu, MenuItem, Popover } from '@blueprintjs/core';
 import { ProviderType } from '@sovryn/wallet';
 import { WalletContext } from '@sovryn/react-wallet';
 import blockies from 'ethereum-blockies';
@@ -15,6 +15,7 @@ import { isMobile, isTablet, prettyTx } from 'utils/helpers';
 import { media } from '../../../styles/media';
 
 import styles from './index.module.scss';
+import { Spinner, SpinnerSize } from 'app/components/Spinner';
 
 type Props = {
   simpleView: boolean;
@@ -64,7 +65,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
           className="tw-flex tw-justify-center tw-items-center tw-bg-primary-25 hover:tw-opacity-75"
           data-action-id="connect-wallet-button"
         >
-          {connecting && <Spinner size={22} />}
+          {connecting && <Spinner size={SpinnerSize.SM} />}
           {!connecting && (
             <>
               <Icon icon="log-in" className="xl:tw-hidden" />

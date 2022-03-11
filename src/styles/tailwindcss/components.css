@@ -43,14 +43,6 @@
     @apply tw-opacity-75 tw-bg-opacity-25 tw-cursor-wait;
   }
 
-  .tw-btn .bp3-spinner .bp3-spinner-head {
-    stroke: theme('colors.primary');
-  }
-
-  .tw-btn .bp3-spinner .bp3-spinner-track {
-    stroke: rgba(255, 255, 255, 0.2);
-  }
-
   /* inverted btn styles */
   .tw-btn-inverted {
     @apply tw-btn;
@@ -65,14 +57,6 @@
   .tw-btn-inverted.loading,
   .tw-btn-inverted.loading:disabled {
     @apply tw-opacity-75 tw-bg-opacity-75 tw-cursor-wait;
-  }
-
-  .tw-btn-inverted .bp3-spinner .bp3-spinner-head {
-    stroke: theme('colors.black');
-  }
-
-  .tw-btn-inverted .bp3-spinner .bp3-spinner-track {
-    stroke: rgba(0, 0, 0, 0.1);
   }
 
   .tw-trading-form-card.spot-form {
