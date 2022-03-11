@@ -1186,9 +1186,9 @@
     "title": "Histórico",
     "tableHeaders": {
       "time": "Data e hora",
-      "pair": "Par negociado",
+      "pair": "Par",
       "orderType": "Tipo de ordem",
-      "amountPaid": "Quantidade paga",
+      "amountPaid": "Quantidade enviada",
       "amountReceived": "Quantidade recebida",
       "transactionFee": "Taxa de rede",
       "status": "Status da transação"
@@ -1624,9 +1624,9 @@
       "lastTradedPrice": "Último preço"
     },
     "history": {
-      "marketOrder": "Histórico de ordens a mercado",
+      "marketOrder": "Ordens a mercado executadas",
       "openLimitOrders": "Ordens a limite abertas",
-      "limitOrderHistory": "Histórico de ordens a limite"
+      "limitOrderHistory": "Ordens a limite executadas"
     },
     "tradeDialog": {
       "marketTitle": "Revisar ordem",
