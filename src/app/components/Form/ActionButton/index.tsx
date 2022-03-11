@@ -1,6 +1,6 @@
-import { Spinner } from '@blueprintjs/core/lib/esm/components/spinner/spinner';
 import cn from 'classnames';
 import React from 'react';
+import { Spinner, SpinnerSize } from 'app/components/Spinner';
 
 export type ButtonType = 'button' | 'submit' | 'reset';
 
@@ -41,7 +41,7 @@ export function ActionButton({
             },
           )}
         >
-          <Spinner size={20} className="tw-fill-current" />
+          <Spinner size={SpinnerSize.SM} className="tw-fill-current" />
         </span>
         <span
           className={cn('tw-btn-loader__value', textClassName, {

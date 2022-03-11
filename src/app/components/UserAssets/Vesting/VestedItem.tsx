@@ -79,6 +79,7 @@ export const VestedItem: React.FC<VestedItemProps> = ({
             text={t(translations.userAssets.actions.withdraw)}
             onClick={handleOnWithdraw}
             disabled={loading}
+            loading={loading}
           />
         )}
       </td>

@@ -18,8 +18,9 @@ import { useStaking_WEIGHT_FACTOR } from '../../../hooks/staking/useStaking_WEIG
 import { weiTo4 } from 'utils/blockchain/math-helpers';
 import { useStaking_computeWeightByDate } from '../../../hooks/staking/useStaking_computeWeightByDate';
 import { useMaintenance } from 'app/hooks/useMaintenance';
-import { Tooltip, Spinner } from '@blueprintjs/core';
+import { Tooltip } from '@blueprintjs/core';
 import type { RevertInstructionError } from 'web3-core-helpers';
+import { Spinner, SpinnerSize } from 'app/components/Spinner';
 
 interface StakeItem {
   stakedAmount: string;
@@ -87,7 +88,7 @@ export const CurrentStakes: React.FC<ICurrentStakesProps> = props => {
         <div className="tw-sovryn-table tw-relative tw-rounded-lg tw-border tw-pt-1 tw-pr-5 tw-pl-5 tw-mb-5 tw-max-h-96 tw-overflow-y-auto tw-pb-4">
           {stakeLoad && (
             <Spinner
-              size={20}
+              size={SpinnerSize.SM}
               className="tw-absolute tw-top-4 tw-right-8 tw-text-white tw-z-index-100"
             />
           )}
