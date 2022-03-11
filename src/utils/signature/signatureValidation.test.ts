@@ -1,8 +1,13 @@
-export {};
-// NOTE!! This test fails to pass due to some misconfiguration in jest.
-// import { assert } from 'console';
+import { assert } from 'console';
 // import { __validateSignatures } from './signatureValidation';
 
+// TODO: remove stub once jest issues resolved
+test('sucessful validate signatures', () => {
+  assert(true);
+});
+
+// NOTE!! This test fails to pass due to some misconfiguration in jest.
+// TODO: resolve jest errors
 // test('sucessful validate signatures', () => {
 //   const signatures = [
 //     {

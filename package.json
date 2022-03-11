@@ -192,8 +192,7 @@
     "storybook:build": "build-storybook -s public -o build/storybook",
     "changelog": "bash ./bin/changelog",
     "preinstall": "bash ./bin/gh-pack && echo \"Running normally.\" || yarn install",
-    "build:with-storybook": "node scripts/build.js && yarn storybook:build",
-    "test": "jest"
+    "build:with-storybook": "node scripts/build.js && yarn storybook:build"
   },
   "browserslist": [
     "last 10 chrome version",
