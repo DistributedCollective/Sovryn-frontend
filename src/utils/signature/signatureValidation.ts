@@ -44,7 +44,7 @@ export const __validateSignatures = async (
 ) => {
   const addressMappingSigner = new AddressMappingSigner();
   let verified: number = 0;
-
+  console.log(JSON.stringify(currentFederators));
   for (let i = 0; i < signatures.length; i++) {
     let signature = signatures[i];
     const signingAddress = await addressMappingSigner.getSigningAddress(
@@ -54,6 +54,7 @@ export const __validateSignatures = async (
       chainId,
       multisigAddress,
     );
+
     if (signature.signer === signingAddress) {
       for (let i = 0; i < currentFederators.length; i++) {
         if (currentFederators[i].toLowerCase() === signingAddress) {
@@ -62,5 +63,5 @@ export const __validateSignatures = async (
       }
     }
   }
-  return verified > requiredValidSignatures;
+  return verified >= requiredValidSignatures;
 };
