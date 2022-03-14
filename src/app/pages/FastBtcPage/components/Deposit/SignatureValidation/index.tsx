@@ -1,4 +1,4 @@
-import React, { isValidElement, useContext } from 'react';
+import React, { useContext } from 'react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
