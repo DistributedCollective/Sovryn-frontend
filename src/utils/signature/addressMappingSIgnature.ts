@@ -1,4 +1,3 @@
-import { ChainId } from './../../types/chain-id';
 import { ethers } from 'ethers';
 import { TypedDataUtils } from 'ethers-eip712';
 
