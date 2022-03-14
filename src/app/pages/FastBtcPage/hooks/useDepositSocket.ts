@@ -70,8 +70,6 @@ export function useDepositSocket(eventHandler?: EventHandler) {
         if (socket.current) {
           socket.current.emit('getDepositAddress', address, (err, res) => {
             if (res) {
-              console.log(res);
-              console.log(typeof res.signatures);
               resolve(res);
             } else {
               reject(new Error(err?.error || err));
