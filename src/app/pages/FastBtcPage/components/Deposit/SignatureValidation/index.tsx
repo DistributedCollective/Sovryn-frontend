@@ -12,6 +12,8 @@ import { StatusComponent } from 'app/components/Dialogs/TxDialog';
 import { TxStatus } from 'store/global/transactions-store/types';
 import styles from './index.module.scss';
 
+const multisigAddress = getContract('fastBtcMultisig').address;
+
 interface ISignatureValidationProps {
   onClick: () => void;
 }
@@ -23,7 +25,7 @@ export const SignatureValidation: React.FC<ISignatureValidationProps> = ({
   const { t } = useTranslation();
   const account = useAccount();
   const { chainId } = useContext(WalletContext);
-  const multisigAddress = getContract('fastBtcMultisig').address;
+
   const [isSignatureValid, setIsSignatureValid] = useState(false);
   const [loading, setLoading] = useState(true);
   const [pageStatus, setPageStatus] = useState(TxStatus.PENDING);
@@ -38,22 +40,20 @@ export const SignatureValidation: React.FC<ISignatureValidationProps> = ({
     chainId,
     multisigAddress,
   ).then(valid => {
-    setSignatureValid(valid);
+    setIsSignatureValid(valid);
     setLoading(false);
     setPageStatus(valid ? TxStatus.CONFIRMED : TxStatus.FAILED);
-    valid
-      ? setStatusText(
-          t(
+    setStatusText(
+      valid
+        ? t(
             translations.fastBtcPage.deposit.validationScreen
               .validationTextSuccess,
-          ),
-        )
-      : setStatusText(
-          t(
+          )
+        : t(
             translations.fastBtcPage.deposit.validationScreen
               .validationTextError,
           ),
-        );
+    );
   });
 
   return (
@@ -61,7 +61,7 @@ export const SignatureValidation: React.FC<ISignatureValidationProps> = ({
       <div className={styles.title}>
         {t(translations.fastBtcPage.deposit.validationScreen.title)}
       </div>
-      <div className={styles.description}>
+      <div className="tw-mb-11 tw-text-gray-8 tw-text-center">
         {t(translations.fastBtcPage.deposit.validationScreen.description)}
       </div>
       <div className="tw-full">
