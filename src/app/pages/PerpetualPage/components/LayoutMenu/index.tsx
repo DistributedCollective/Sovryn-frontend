@@ -7,9 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import arrowDownIcon from 'assets/images/swap/ic_arrow_down.svg';
 
-type LayoutMenuProps = {};
-
-export const LayoutMenu: React.FC<LayoutMenuProps> = () => {
+export const LayoutMenu: React.FC = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
@@ -86,11 +84,7 @@ export const LayoutMenu: React.FC<LayoutMenuProps> = () => {
         <div className="tw-flex tw-flex-row tw-justify-start tw-items-center tw-flex-shrink-0 tw-flex-grow tw-mr-4">
           {t(translations.perpetualPage.layout.button)}
         </div>
-        <img
-          className={'tw-w-3 tw-ml-2'}
-          src={arrowDownIcon}
-          alt="Arrow Down"
-        />
+        <img className="tw-w-3 tw-ml-2" src={arrowDownIcon} alt="Arrow Down" />
       </button>
     </Popover>
   );

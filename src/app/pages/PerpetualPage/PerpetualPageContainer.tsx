@@ -18,7 +18,6 @@ import {
 } from '../../../utils/dictionaries/perpetual-pair-dictionary';
 import { TradingChart } from './components/TradingChart';
 import { OpenPositionsTable } from './components/OpenPositionsTable';
-import { useIsConnected } from '../../hooks/useAccount';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
 import { selectPerpetualPage } from './selectors';
@@ -76,7 +75,6 @@ export const PerpetualPageContainer: React.FC = () => {
     [linkPairType, pairType],
   );
 
-  const connected = useIsConnected();
   const [activeTab, setActiveTab] = useState(0);
 
   const onChangePair = useCallback(
