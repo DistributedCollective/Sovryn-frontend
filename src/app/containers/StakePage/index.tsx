@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Rsk3 from '@rsksmart/rsk3';
-import { Spinner, Tooltip } from '@blueprintjs/core';
+import { Tooltip } from '@blueprintjs/core';
 import { bignumber } from 'mathjs';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -45,6 +45,7 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { AssetDetails } from 'utils/models/asset-details';
 import { getUSDSum } from '../../../utils/helpers';
 import { FeeBlock } from './components/FeeBlock';
+import { Spinner, SpinnerSize } from 'app/components/Spinner';
 
 const now = new Date();
 
@@ -386,7 +387,10 @@ const InnerStakePage: React.FC = () => {
                 <div className="xl:tw-text-4xl tw-text-3xl tw-mt-2 tw-mb-6">
                   {weiTo4(balanceOf.value)} SOV
                   {balanceOf.loading && (
-                    <Spinner size={20} className="tw-inline-block tw-m-2" />
+                    <Spinner
+                      size={SpinnerSize.SM}
+                      className="tw-inline-block tw-m-2"
+                    />
                   )}
                 </div>
                 <Modal
@@ -478,7 +482,10 @@ const InnerStakePage: React.FC = () => {
                 <div className="xl:tw-text-4xl tw-text-3xl tw-mt-2 tw-mb-6">
                   {weiTo4(voteBalance.value)}
                   {voteBalance.loading && (
-                    <Spinner size={20} className="tw-inline-block tw-m-2" />
+                    <Spinner
+                      size={SpinnerSize.SM}
+                      className="tw-inline-block tw-m-2"
+                    />
                   )}
                 </div>
                 <div className="tw-flex tw-flex-col tw-items-start">
@@ -530,6 +537,7 @@ const InnerStakePage: React.FC = () => {
           <TxDialog tx={withdrawTx} />
           <TxDialog tx={delegateTx} />
           <TxDialog tx={vestingDelegateTx} />
+
           <>
             {balanceOf.value !== '0' && (
               <>

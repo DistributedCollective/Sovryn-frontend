@@ -7,8 +7,8 @@ import { getContract } from 'utils/blockchain/contract-helpers';
 import { Tooltip } from '@blueprintjs/core';
 import { weiTo18, weiTo4 } from 'utils/blockchain/math-helpers';
 import {
-  staking_withdrawFee,
   staking_numTokenCheckpoints,
+  getFeeSharingProxyContractName,
 } from 'utils/blockchain/requests/staking';
 import { useStaking_getAccumulatedFees } from 'app/hooks/staking/useStaking_getAccumulatedFees';
 import { translations } from 'locales/i18n';
@@ -16,6 +16,8 @@ import { LoadableValue } from 'app/components/LoadableValue';
 import { bignumber } from 'mathjs';
 import { Asset } from 'types';
 import { weiToUSD } from 'utils/display-text/format';
+import { useSendContractTx } from 'app/hooks/useSendContractTx';
+import { TxDialog } from 'app/components/Dialogs/TxDialog';
 
 interface IFeeBlockProps {
   contractToken: AssetDetails;
@@ -59,6 +61,11 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
       .toFixed(0);
   }, [dollars.value, currency.value, contractToken.decimals]);
 
+  const { send, ...tx } = useSendContractTx(
+    getFeeSharingProxyContractName(useNewContract),
+    'withdraw',
+  );
+
   const handleWithdrawFee = useCallback(
     async e => {
       e.preventDefault();
@@ -67,17 +74,12 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
           tokenAddress,
           useNewContract,
         )) as string;
-        await staking_withdrawFee(
-          tokenAddress,
-          numTokenCheckpoints,
-          account,
-          useNewContract,
-        );
+        send([tokenAddress, numTokenCheckpoints, account]);
       } catch (e) {
         console.error(e);
       }
     },
-    [tokenAddress, account, useNewContract],
+    [tokenAddress, useNewContract, send, account],
   );
 
   useEffect(() => updateUsdTotal(contractToken, Number(weiTo4(dollarValue))), [
@@ -141,6 +143,7 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
           )}
         </div>
       )}
+      <TxDialog tx={tx} />
     </>
   );
 };

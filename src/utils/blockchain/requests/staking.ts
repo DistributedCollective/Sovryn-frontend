@@ -28,18 +28,6 @@ export function staking_getPriorUserStakeByDate(
   ]);
 }
 
-export function staking_withdrawFee(
-  tokenAddress: string,
-  processedCheckpoints: string,
-  account: string,
-  useNewContract = false,
-) {
-  return contractWriter.send(
-    getFeeSharingProxyContractName(useNewContract),
-    'withdraw',
-    [tokenAddress, processedCheckpoints, account],
-  );
-}
 export function staking_processedCheckpoints(
   account: string,
   tokenAddress: string,
