@@ -62,6 +62,5 @@ export const __validateSignatures = async (
       }
     }
   }
-  if (verified > requiredValidSignatures) return true;
-  return false;
+  return verified > requiredValidSignatures;
 };
