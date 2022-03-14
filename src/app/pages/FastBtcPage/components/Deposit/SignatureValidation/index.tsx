@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { DepositDetails } from '../DepositDetails';
-import { AddressQrCode, URIType } from 'app/components/Form/AddressQrCode';
 import { DepositContext } from '../../../contexts/deposit-context';
 import { validateSignatures } from '../../../../../../utils/signature/signatureValidation';
 import { useAccount } from 'app/hooks/useAccount';
