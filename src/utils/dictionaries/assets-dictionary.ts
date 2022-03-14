@@ -10,6 +10,9 @@ import ethIcon from 'assets/images/tokens/eth.svg';
 import bnbIcon from 'assets/images/tokens/bnb.svg';
 import mocIcon from 'assets/images/tokens/moc.svg';
 import fishIcon from 'assets/images/tokens/babelfish.svg';
+import rdoc from 'assets/images/tokens/rifd.svg';
+import rifToken from 'assets/images/tokens/rif.svg';
+import mintIcon from 'assets/images/tokens/mint.svg';
 
 import { AssetDetails } from '../models/asset-details';
 
@@ -18,31 +21,60 @@ export class AssetsDictionary {
     [
       [
         Asset.RBTC,
-        new AssetDetails(Asset.RBTC, 'rBTC', 'Bitcoin', 18, rbtcIcon, true),
+        new AssetDetails(Asset.RBTC, 'rBTC', 'Bitcoin', 18, 8, rbtcIcon, true),
+      ],
+      [
+        Asset.WRBTC,
+        new AssetDetails(
+          Asset.WRBTC,
+          'WRBTC',
+          'Wrapped Bitcoin',
+          18,
+          8,
+          rbtcIcon,
+          false,
+          true,
+        ),
       ],
       [
         Asset.SOV,
-        new AssetDetails(Asset.SOV, 'SOV', 'Sovryn', 18, sovIcon, true),
+        new AssetDetails(Asset.SOV, 'SOV', 'Sovryn', 18, 3, sovIcon, true),
       ],
       [
         Asset.XUSD,
-        new AssetDetails(Asset.XUSD, 'XUSD', 'XUSD', 18, xusdIcon, true),
+        new AssetDetails(Asset.XUSD, 'XUSD', 'XUSD', 18, 3, xusdIcon, true),
       ],
       [
         Asset.ETH,
-        new AssetDetails(Asset.ETH, 'ETH', 'Ethereum', 18, ethIcon, true),
+        new AssetDetails(Asset.ETH, 'ETH', 'Ethereum', 18, 6, ethIcon, true),
       ],
       [
         Asset.BNB,
-        new AssetDetails(Asset.BNB, 'BNB', 'Binance Coin', 18, bnbIcon, true),
+        new AssetDetails(
+          Asset.BNB,
+          'BNB',
+          'Binance Coin',
+          18,
+          6,
+          bnbIcon,
+          true,
+        ),
       ],
       [
         Asset.USDT,
-        new AssetDetails(Asset.USDT, 'USDT', 'USDT', 18, usdtIcon, true),
+        new AssetDetails(Asset.USDT, 'USDT', 'USDT', 18, 3, usdtIcon, true),
       ],
       [
         Asset.MOC,
-        new AssetDetails(Asset.MOC, 'MoC', 'Money on Chain', 18, mocIcon, true),
+        new AssetDetails(
+          Asset.MOC,
+          'MoC',
+          'Money on Chain',
+          18,
+          3,
+          mocIcon,
+          true,
+        ),
       ],
       [
         Asset.DOC,
@@ -51,21 +83,52 @@ export class AssetsDictionary {
           'DoC',
           'Dollar on Chain',
           18,
+          3,
           docIcon,
           true,
         ),
       ],
       [
+        Asset.RDOC,
+        new AssetDetails(
+          Asset.RDOC,
+          'RDOC',
+          'RIF Dollar on Chain',
+          18,
+          3,
+          rdoc,
+          false,
+          true,
+        ),
+      ],
+      [
         Asset.BPRO,
-        new AssetDetails(Asset.BPRO, 'BPRO', 'BitPro', 18, bproIcon, true),
+        new AssetDetails(Asset.BPRO, 'BPRO', 'BitPro', 18, 8, bproIcon, true),
       ],
       [
         Asset.CSOV,
-        new AssetDetails(Asset.CSOV, 'C-SOV', 'C-Sovryn', 18, sovIcon, false),
+        new AssetDetails(
+          Asset.CSOV,
+          'C-SOV',
+          'C-Sovryn',
+          18,
+          3,
+          sovIcon,
+          false,
+          true,
+        ),
       ],
       [
         Asset.FISH,
-        new AssetDetails(Asset.FISH, 'FISH', 'FISH', 18, fishIcon, true),
+        new AssetDetails(Asset.FISH, 'FISH', 'FISH', 18, 3, fishIcon, true),
+      ],
+      [
+        Asset.RIF,
+        new AssetDetails(Asset.RIF, 'RIF', 'RIF', 18, 3, rifToken, true),
+      ],
+      [
+        Asset.MYNT,
+        new AssetDetails(Asset.MYNT, 'MYNT', 'MYNT', 18, 3, mintIcon, true),
       ],
     ],
   );
@@ -85,13 +148,6 @@ export class AssetsDictionary {
     return this.list().find(
       item =>
         item.tokenContract.address.toLowerCase() === address.toLowerCase(),
-    ) as AssetDetails;
-  }
-
-  public static getByAmmContractAddress(address: string): AssetDetails {
-    return this.list().find(
-      item =>
-        item.ammContract?.address?.toLowerCase() === address.toLowerCase(),
     ) as AssetDetails;
   }
 

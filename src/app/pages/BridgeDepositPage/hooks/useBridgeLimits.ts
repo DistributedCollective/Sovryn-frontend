@@ -1,14 +1,15 @@
 import { useEffect, useState } from 'react';
-import { Chain } from 'types';
-import bridgeAbi from 'utils/blockchain/abi/BridgeAbi.json';
-import allowTokensAbi from 'utils/blockchain/abi/AllowTokensAbi.json';
 
-import { AssetModel } from '../types/asset-model';
-import { useAccount } from '../../../hooks/useAccount';
-import { bridgeNetwork } from '../utils/bridge-network';
+import { Chain } from 'types';
+import allowTokensAbi from 'utils/blockchain/abi/AllowTokensAbi.json';
+import bridgeAbi from 'utils/blockchain/abi/BridgeAbi.json';
+
 import { LoadingValueState } from '../../../../types/loading-value-state';
+import { useAccount } from '../../../hooks/useAccount';
 import { BridgeDictionary } from '../dictionaries/bridge-dictionary';
+import { AssetModel } from '../types/asset-model';
 import { BridgeModel } from '../types/bridge-model';
+import { bridgeNetwork } from '../utils/bridge-network';
 
 interface Result {
   blockNumber: number;

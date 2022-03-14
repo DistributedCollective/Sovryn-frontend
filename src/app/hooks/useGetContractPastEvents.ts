@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { EventData } from 'web3-eth-contract';
+
+import { getContract } from '../../utils/blockchain/contract-helpers';
+import { eventReader } from '../../utils/sovryn/event-reader';
 import { ContractName } from '../../utils/types/contracts';
 import { selectWalletProvider } from '../containers/WalletProvider/selectors';
-import { eventReader } from '../../utils/sovryn/event-reader';
-import { getContract } from '../../utils/blockchain/contract-helpers';
 
 const filtersEventKeyMap = {
   Mint: 'minter',
@@ -13,6 +14,11 @@ const filtersEventKeyMap = {
   Borrow: 'user',
   CloseWithSwap: 'user',
   CloseWithDeposit: 'user',
+  RewardClaimed: 'user',
+  EarnReward: 'receiver',
+  Deposited: '_userAddress',
+  RewardWithdrawn: 'receiver',
+  UserFeeWithdrawn: 'sender',
 };
 
 export function useGetContractPastEvents(

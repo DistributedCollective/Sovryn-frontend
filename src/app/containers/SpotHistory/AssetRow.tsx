@@ -8,8 +8,8 @@ import { translations } from 'locales/i18n';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { TxStatus } from 'store/global/transactions-store/types';
-import { numberFromWei, weiToFixed } from 'utils/blockchain/math-helpers';
-import { numberToUSD } from 'utils/display-text/format';
+import { numberFromWei } from 'utils/blockchain/math-helpers';
+import { weiToUSD } from 'utils/display-text/format';
 import { AssetDetails } from 'utils/models/asset-details';
 import iconSuccess from 'assets/images/icon-success.svg';
 import iconRejected from 'assets/images/icon-rejected.svg';
@@ -79,10 +79,7 @@ export const AssetRow: React.FC<IAssetRowProps> = ({
       </td>
       <td className="tw-hidden lg:tw-table-cell">
         <div>{numberFromWei(data.returnVal._toAmount)}</div>≈{' '}
-        <LoadableValue
-          value={numberToUSD(Number(weiToFixed(dollarValue, 4)), 4)}
-          loading={dollarsLoading}
-        />
+        <LoadableValue value={weiToUSD(dollarValue)} loading={dollarsLoading} />
       </td>
 
       <td>

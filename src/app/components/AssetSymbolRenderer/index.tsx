@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import React from 'react';
 import { Asset } from '../../../types';
 import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
@@ -7,6 +8,16 @@ const symbolMap = {
   [Asset.RBTC]: (
     <>
       <em>R</em>BTC
+    </>
+  ),
+  [Asset.WRBTC]: (
+    <>
+      <em>WR</em>BTC
+    </>
+  ),
+  [Asset.BTCS]: (
+    <>
+      BTC<em>S</em>
     </>
   ),
   [Asset.USDT]: (
@@ -24,6 +35,11 @@ const symbolMap = {
       BNB<em>S</em>
     </>
   ),
+  [Asset.RDOC]: (
+    <>
+      <em>R</em>DOC
+    </>
+  ),
 };
 
 export function getAssetSymbol(asset: Asset) {
@@ -36,13 +52,15 @@ export function getAssetSymbol(asset: Asset) {
 interface IAssetSymbolRenderer {
   asset?: Asset;
   assetString?: string;
+  assetClassName?: string;
 }
 
 export const AssetSymbolRenderer: React.FC<IAssetSymbolRenderer> = ({
   asset,
   assetString,
+  assetClassName,
 }) => (
-  <span className={styles.symbol}>
+  <span className={classNames(styles.symbol, assetClassName)}>
     {asset ? getAssetSymbol(asset) : assetString}
   </span>
 );

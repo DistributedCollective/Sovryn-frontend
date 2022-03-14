@@ -8,15 +8,18 @@ type InputType = 'text' | 'email' | 'password' | 'number';
 interface InputProps {
   value: string;
   onChange?: (value: string) => void;
+  onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   appendElem?: React.ReactNode;
   type?: InputType;
   className?: string;
   inputClassName?: string;
+  appendClassName?: string;
   readOnly?: boolean;
   placeholder?: string;
   min?: number;
   max?: number;
   step?: number;
+  dataActionId?: string;
 }
 
 export function Input({
@@ -25,6 +28,8 @@ export function Input({
   className,
   inputClassName,
   appendElem,
+  appendClassName = 'tw-mr-5',
+  dataActionId,
   ...props
 }: InputProps) {
   const handleChange = useCallback(
@@ -51,9 +56,14 @@ export function Input({
         lang={navigator.language}
         value={value}
         onChange={e => handleChange(e.currentTarget.value)}
+        data-action-id={dataActionId}
         {...props}
       />
-      {appendElem && <div className="tw-input-append">{appendElem}</div>}
+      {appendElem && (
+        <div className={cn('tw-input-append', appendClassName)}>
+          {appendElem}
+        </div>
+      )}
     </div>
   );
 }
@@ -84,7 +94,9 @@ export function DummyInput({
       })}
     >
       <div className={cn('tw-input', inputClassName)}>{value}</div>
-      {appendElem && <div className="tw-input-append">{appendElem}</div>}
+      {appendElem && (
+        <div className="tw-input-append tw-pr-5">{appendElem}</div>
+      )}
     </div>
   );
 }

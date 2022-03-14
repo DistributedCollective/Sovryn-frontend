@@ -8,13 +8,12 @@ import iconSuccess from 'assets/images/icon-success.svg';
 import iconRejected from 'assets/images/icon-rejected.svg';
 import iconPending from 'assets/images/icon-pending.svg';
 import { Pagination } from '../../../components/Pagination';
-import { Asset } from '../../../../types/asset';
+import { Asset } from '../../../../types';
 import { useCachedAssetPrice } from '../../../hooks/trading/useCachedAssetPrice';
-import { numberToUSD } from 'utils/display-text/format';
+import { weiToUSD } from 'utils/display-text/format';
 import { bignumber } from 'mathjs';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { LoadableValue } from '../../../components/LoadableValue';
-import { weiTo4 } from 'utils/blockchain/math-helpers';
 import { numberFromWei } from 'utils/blockchain/math-helpers';
 import { StyledTable } from './StyledTable';
 import { LinkToExplorer } from '../../../components/LinkToExplorer';
@@ -190,7 +189,7 @@ const HistoryTableAsset: React.FC<HistoryAsset> = ({ item }) => {
             {numberFromWei(item.amount)} SOV
             <br />≈{' '}
             <LoadableValue
-              value={numberToUSD(Number(weiTo4(dollarValue)), 4)}
+              value={weiToUSD(dollarValue)}
               loading={dollars.loading}
             />
           </>

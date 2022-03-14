@@ -9,6 +9,7 @@ interface BtnProps {
 interface Props extends BtnProps {
   text: React.ReactNode;
   className?: string;
+  dataActionId?: string;
 }
 
 const StyledButton = styled.button`
@@ -43,6 +44,7 @@ export function CloseButton(props: Props) {
       onClick={props.onClick}
       disabled={props.disabled}
       className={props.className}
+      data-action-id={props.dataActionId}
     >
       {props.text}
     </StyledButton>

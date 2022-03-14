@@ -1,13 +1,15 @@
 import { useEffect, useState } from 'react';
-import { ContractName } from 'utils/types/contracts';
+
 import { contractReader } from 'utils/sovryn/contract-reader';
+import { ContractName } from 'utils/types/contracts';
+
 import { Nullable } from '../../types';
 import { useAccount, useBlockSync } from './useAccount';
 
 export interface CacheCallResponse<T = string> {
   value: Nullable<T>;
   loading: boolean;
-  error: string | null;
+  error: Nullable<string>;
 }
 
 /**
@@ -55,7 +57,7 @@ export function useCacheCall<T = any>(
             ...prevState,
             loading: false,
             value: null,
-            error,
+            error: error.message || error,
           }));
         });
     } catch (error) {
@@ -64,7 +66,7 @@ export function useCacheCall<T = any>(
         ...prevState,
         loading: false,
         value: null,
-        error,
+        error: (error as Error).message || error,
       }));
     }
 

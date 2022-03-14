@@ -7,9 +7,12 @@ import { CacheCallResponse } from 'app/hooks/useCacheCall';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import { StakingDateSelector } from 'app/components/StakingDateSelector';
 import { useAccount } from 'app/hooks/useAccount';
-import { ethGenesisAddress, discordInvite } from 'utils/classifiers';
+import { ethGenesisAddress, discordInvite, gasLimit } from 'utils/classifiers';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { AvailableBalance } from '../../../components/AvailableBalance';
+import { Asset } from 'types/asset';
+import { TxType } from 'store/global/transactions-store/types';
 
 interface Props {
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
@@ -30,9 +33,8 @@ export function StakeForm(props: Props) {
   const account = useAccount();
   const { checkMaintenance, States } = useMaintenance();
   const stakingLocked = checkMaintenance(States.STAKING);
-
   const txConf = {
-    gas: 450000,
+    gas: gasLimit[TxType.STAKING_STAKE],
   };
 
   return (
@@ -50,18 +52,18 @@ export function StakeForm(props: Props) {
           </label>
           <div className="tw-flex tw-space-x-4 tw-relative">
             <input
-              className="tw-appearance-none tw-border tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-14 tw-bg-sov-white tw-text-black tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
+              className="tw-appearance-none tw-border tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-pr-12 tw-pl-8 tw-bg-sov-white tw-text-black tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
               id="amount"
               type="text"
               value={props.amount}
               placeholder={t(translations.stake.staking.amountPlaceholder)}
               onChange={e => props.onChangeAmount(handleNumberInput(e))}
             />
-            <span className="tw-text-black tw-text-md tw-font-semibold tw-absolute tw-top-3 tw-right-5 tw-leading-4">
+            <span className="tw-text-black tw-text-md tw-font-semibold tw-absolute tw-top-3 tw-right-3 tw-leading-4">
               {t(translations.stake.sov)}
             </span>
           </div>
-          <div className="tw-flex tw-rounded tw-border tw-border-secondary tw-mt-4">
+          <div className="tw-flex tw-rounded tw-border tw-border-secondary tw-mt-4 tw-mb-2">
             <div
               onClick={() =>
                 props.onChangeAmount(fromWei(Number(props.sovBalance) / 10))
@@ -103,6 +105,10 @@ export function StakeForm(props: Props) {
               100%
             </div>
           </div>
+          <div className="tw-flex tw-text-xs">
+            <AvailableBalance asset={Asset.SOV} />
+            <div className="tw-ml-1">{t(translations.stake.sov)}</div>
+          </div>
 
           <StakingDateSelector
             title="Select new date"
@@ -130,7 +136,7 @@ export function StakeForm(props: Props) {
           </div>
           <TxFeeCalculator
             args={[
-              Number(props.amount).toFixed(0).toString(),
+              Math.floor(Number(props.amount)).toFixed(0).toString(),
               props.timestamp,
               account,
               ethGenesisAddress,

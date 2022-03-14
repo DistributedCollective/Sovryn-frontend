@@ -26,7 +26,7 @@ export function DetectionScreen(props: Props) {
   var logo: any = null;
   const { ethereum } = window;
   const { t } = useTranslation();
-  const chainId = parseInt(ethereum.chainId as string);
+  const chainId = parseInt(ethereum?.chainId as string);
   const walletName =
     props.walletType.charAt(0).toUpperCase() + props.walletType.slice(1);
   const netName = netData.find(item => item.chainId === chainId)?.chain;

@@ -125,7 +125,7 @@ export class BridgeNetwork {
     ]);
   }
 
-  public async multiCall(chain: Chain, callData: MultiCallData[]) {
+  public async multiCall<T = any>(chain: Chain, callData: MultiCallData[]) {
     const network = BridgeNetworkDictionary.get(chain) as NetworkModel;
     const data = callData.map(item => ({
       target: item.address,
@@ -145,7 +145,7 @@ export class BridgeNetwork {
       'aggregate',
       [data],
     ).then(({ blockNumber, returnData }) => {
-      const data = {};
+      const data: T = {} as any;
       callData.forEach((item, index) => {
         const value = this.decodeFunctionResult(
           chain,
@@ -204,7 +204,9 @@ export class BridgeNetwork {
     if (isWeb3Wallet(walletService.providerType as ProviderType)) {
       return signedTxOrTransactionHash;
     } else {
-      return this.getProvider(chain).sendTransaction(signedTxOrTransactionHash);
+      return await this.getProvider(chain)
+        .sendTransaction(signedTxOrTransactionHash)
+        .then(response => response.hash);
     }
   }
 

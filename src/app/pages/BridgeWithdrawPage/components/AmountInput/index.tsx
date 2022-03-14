@@ -8,7 +8,7 @@ import { Input } from '../../../../components/Form/Input';
 import { AssetModel } from '../../../BridgeDepositPage/types/asset-model';
 import { AmountSelectorButton } from '../../../../components/Form/AmountInput';
 
-interface Props {
+interface IAmountInputProps {
   value: string;
   onChange: (value: string) => void;
   decimalPrecision?: number;
@@ -18,7 +18,7 @@ interface Props {
   maxAmount?: string;
 }
 
-export function AmountInput({
+export const AmountInput: React.FC<IAmountInputProps> = ({
   value,
   onChange,
   placeholder = toNumberFormat(0, 6),
@@ -26,7 +26,7 @@ export function AmountInput({
   asset,
   subText,
   maxAmount,
-}: Props) {
+}) => {
   return (
     <>
       <Input
@@ -48,7 +48,7 @@ export function AmountInput({
       )}
     </>
   );
-}
+};
 
 const amounts = [10, 25, 50, 75, 100];
 
@@ -83,7 +83,12 @@ export function AmountSelector(props: AmountSelectorProps) {
     [balance, props],
   );
   return (
-    <div className="tw-mt-1 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded tw-divide-x tw-divide-secondary">
+    <div
+      className="tw-mt-1 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded tw-divide-x tw-divide-secondary"
+      style={{
+        maxWidth: '340px',
+      }}
+    >
       {amounts.map(value => (
         <AmountSelectorButton
           key={value}

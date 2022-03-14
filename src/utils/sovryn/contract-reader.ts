@@ -4,6 +4,9 @@ import type { AbiItem } from 'web3-utils';
 import { SovrynNetwork } from './sovryn-network';
 import { Sovryn } from './index';
 import { ContractName } from '../types/contracts';
+import { debug } from '../debug';
+
+const { error } = debug('reader');
 
 class ContractReader {
   private sovryn: SovrynNetwork;
@@ -13,11 +16,23 @@ class ContractReader {
   }
 
   public async nonce(address: string) {
-    return this.sovryn.getWeb3().eth.getTransactionCount(address, 'pending');
+    return this.sovryn
+      .getWeb3()
+      .eth.getTransactionCount(address, 'pending')
+      .catch(e => {
+        error('nonce', e);
+        throw e;
+      });
   }
 
   public async blockNumber() {
-    return this.sovryn.getWeb3().eth.getBlockNumber();
+    return this.sovryn
+      .getWeb3()
+      .eth.getBlockNumber()
+      .catch(e => {
+        error('blockNumber', e);
+        throw e;
+      });
   }
 
   /**
@@ -25,6 +40,7 @@ class ContractReader {
    * @param contractName
    * @param methodName
    * @param args
+   * @param account
    */
   public async call<T = string | RevertInstructionError>(
     contractName: ContractName,
@@ -32,9 +48,26 @@ class ContractReader {
     args: Array<any>,
     account?: string,
   ): Promise<T> {
-    return this.sovryn.contracts[contractName].methods[methodName](
-      ...args,
-    ).call({ from: account });
+    return this.sovryn.contracts[contractName].methods[methodName](...args)
+      .call({ from: account })
+      .catch(e => {
+        error('call', { contractName, methodName, args }, e);
+        throw e;
+      });
+  }
+
+  public async callAsync<T = string | RevertInstructionError>(
+    contractName: ContractName,
+    methodName: string,
+    args: Array<any>,
+    account?: string,
+  ): Promise<T> {
+    return this.sovryn.contracts[contractName].methods[methodName](...args)
+      .callAsync({ from: account })
+      .catch(e => {
+        error('callAsync', { contractName, methodName, args }, e);
+        throw e;
+      });
   }
 
   public async callByAddress<T = string | RevertInstructionError>(
@@ -46,7 +79,12 @@ class ContractReader {
     const Contract = this.sovryn.getWeb3().eth.Contract;
     if (!this.sovryn.getWeb3()) return '' as any;
     const contract = new Contract(abi, address);
-    return contract.methods[methodName](...args).call();
+    return contract.methods[methodName](...args)
+      .call()
+      .catch(e => {
+        error('callByAddresss', { address, methodName, args }, e);
+        throw e;
+      });
   }
 
   public async estimateGas(
@@ -59,7 +97,12 @@ class ContractReader {
     const Contract = this.sovryn.getWeb3().eth.Contract;
     if (!this.sovryn.getWeb3()) return '' as any;
     const contract = new Contract(abi, address);
-    return contract.methods[methodName](...args).estimateGas(config);
+    return contract.methods[methodName](...args)
+      .estimateGas(config)
+      .catch(e => {
+        error('estimateGas', { address, methodName, args }, e);
+        throw e;
+      });
   }
 }
 

@@ -1,14 +1,34 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
-import { backendUrl, currentChainId } from 'utils/classifiers';
+import axios from 'axios';
+import React, { useCallback, useEffect, useState } from 'react';
+
+import { Pagination } from 'app/components/Pagination';
 import { useAccount, useBlockSync } from 'app/hooks/useAccount';
+import { backendUrl, currentChainId } from 'utils/classifiers';
+
 import { RewardEvent, TableBody } from './TableBody';
 import { TableHeader } from './TableHeader';
-import { Pagination } from 'app/components/Pagination';
-import axios, { CancelTokenSource } from 'axios';
+import { RewardTabType } from '../../types';
 
 const pageSize = 6;
 
-export const HistoryTable: React.FC = () => {
+const getHistoryEndpoint = (activeTab: RewardTabType) => {
+  switch (activeTab) {
+    case RewardTabType.REWARD_SOV:
+      return 'rewardsNew';
+    case RewardTabType.LIQUID_SOV:
+      return 'liquidSov';
+    case RewardTabType.FEES_EARNED:
+      return 'feesEarned';
+    default:
+      return 'rewardsNew';
+  }
+};
+
+interface IHistoryTableProps {
+  activeTab: RewardTabType;
+}
+
+export const HistoryTable: React.FC<IHistoryTableProps> = ({ activeTab }) => {
   const account = useAccount();
   const url = backendUrl[currentChainId];
   const [history, setHistory] = useState<RewardEvent[]>([]);
@@ -16,19 +36,16 @@ export const HistoryTable: React.FC = () => {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const blockSync = useBlockSync();
-  const cancelTokenSource = useRef<CancelTokenSource>();
 
-  const getData = useCallback(() => {
-    if (cancelTokenSource.current) {
-      cancelTokenSource.current.cancel();
-    }
-    cancelTokenSource.current = axios.CancelToken.source();
+  const getHistory = useCallback(() => {
+    setLoading(true);
+    setHistory([]);
+
+    const historyEndpoint = getHistoryEndpoint(activeTab);
+
     axios
       .get(
-        `${url}/events/rewards/${account}?page=${page}&pageSize=${pageSize}`,
-        {
-          cancelToken: cancelTokenSource.current.token,
-        },
+        `${url}/v1/event-history/${historyEndpoint}/${account}?page=${page}&pageSize=${pageSize}`,
       )
       .then(res => {
         const { events, pagination } = res.data;
@@ -38,17 +55,9 @@ export const HistoryTable: React.FC = () => {
       })
       .catch(e => {
         console.log(e);
-        setHistory([]);
         setLoading(false);
       });
-  }, [url, account, page]);
-
-  const getHistory = useCallback(() => {
-    setLoading(true);
-    setHistory([]);
-
-    getData();
-  }, [setHistory, getData]);
+  }, [activeTab, url, account, page]);
 
   useEffect(() => {
     if (account) {
@@ -56,10 +65,7 @@ export const HistoryTable: React.FC = () => {
     }
   }, [account, getHistory, blockSync]);
 
-  const onPageChanged = useCallback(data => {
-    const { currentPage } = data;
-    setPage(currentPage);
-  }, []);
+  const onPageChanged = useCallback(data => setPage(data.currentPage), []);
 
   return (
     <section>

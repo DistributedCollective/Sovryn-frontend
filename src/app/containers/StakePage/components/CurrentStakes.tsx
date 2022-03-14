@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { bignumber } from 'mathjs';
-import { Asset } from '../../../../types/asset';
+import { Asset } from '../../../../types';
 import dayjs from 'dayjs';
 import logoSvg from 'assets/images/tokens/sov.svg';
 import { useAccount } from '../../../hooks/useAccount';
-import { numberToUSD } from 'utils/display-text/format';
+import { weiToUSD } from 'utils/display-text/format';
 import { StyledTable } from './StyledTable';
 import { translations } from 'locales/i18n';
 import { AddressBadge } from '../../../components/AddressBadge';
@@ -18,8 +18,9 @@ import { useStaking_WEIGHT_FACTOR } from '../../../hooks/staking/useStaking_WEIG
 import { weiTo4 } from 'utils/blockchain/math-helpers';
 import { useStaking_computeWeightByDate } from '../../../hooks/staking/useStaking_computeWeightByDate';
 import { useMaintenance } from 'app/hooks/useMaintenance';
-import { Tooltip, Spinner } from '@blueprintjs/core';
+import { Tooltip } from '@blueprintjs/core';
 import type { RevertInstructionError } from 'web3-core-helpers';
+import { Spinner, SpinnerSize } from 'app/components/Spinner';
 
 interface StakeItem {
   stakedAmount: string;
@@ -30,7 +31,7 @@ interface StakeItem {
 interface ICurrentStakesProps {
   onIncrease: (a: number, b: number) => void;
   onExtend: (a: number, b: number) => void;
-  onUnstake: (a: number, b: number) => void;
+  onUnstake: (a: string, b: number) => void;
   onDelegate: (a: number, b: number) => void;
 }
 
@@ -84,10 +85,10 @@ export const CurrentStakes: React.FC<ICurrentStakesProps> = props => {
         {t(translations.stake.currentStakes.title)}
       </p>
       <div className="tw-bg-gray-1 tw-rounded-b tw-shadow">
-        <div className="tw-sovryn-table tw-relative tw-rounded-lg tw-border tw-pt-1 tw-pb-0 tw-pr-5 tw-pl-5 tw-mb-5 tw-max-h-96 tw-overflow-y-auto">
+        <div className="tw-sovryn-table tw-relative tw-rounded-lg tw-border tw-pt-1 tw-pr-5 tw-pl-5 tw-mb-5 tw-max-h-96 tw-overflow-y-auto tw-pb-4">
           {stakeLoad && (
             <Spinner
-              size={20}
+              size={SpinnerSize.SM}
               className="tw-absolute tw-top-4 tw-right-8 tw-text-white tw-z-index-100"
             />
           )}
@@ -149,7 +150,7 @@ interface IAssetRowProps {
   item: StakeItem;
   onIncrease: (a: number, b: number) => void;
   onExtend: (a: number, b: number) => void;
-  onUnstake: (a: number, b: number) => void;
+  onUnstake: (a: string, b: number) => void;
   onDelegate: (a: number, b: number) => void;
 }
 
@@ -185,7 +186,8 @@ const AssetRow: React.FC<IAssetRowProps> = ({
   const dollars = useCachedAssetPrice(Asset.SOV, Asset.USDT);
   const dollarValue = bignumber(Number(item.stakedAmount))
     .mul(dollars.value)
-    .div(10 ** SOV.decimals);
+    .div(10 ** SOV.decimals)
+    .toFixed(0);
   useEffect(() => {
     setWeight(getWeight.value);
     if (Number(WEIGHT_FACTOR.value) && Number(weight)) {
@@ -212,7 +214,7 @@ const AssetRow: React.FC<IAssetRowProps> = ({
         {weiTo4(item.stakedAmount)} {t(translations.stake.sov)}
         <br />≈{' '}
         <LoadableValue
-          value={numberToUSD(Number(weiTo4(dollarValue)), 4)}
+          value={weiToUSD(dollarValue)}
           loading={dollars.loading}
         />
       </td>
@@ -324,7 +326,7 @@ const AssetRow: React.FC<IAssetRowProps> = ({
               type="button"
               className="tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat"
               onClick={() =>
-                onUnstake(Number(item.stakedAmount), Number(item.unlockDate))
+                onUnstake(item.stakedAmount, Number(item.unlockDate))
               }
             >
               {t(translations.stake.actions.unstake)}

@@ -40,7 +40,11 @@ const slice = createSlice({
       state,
       {
         payload,
-      }: PayloadAction<{ type: TxType; amount?: string; asset?: Asset }>,
+      }: PayloadAction<{
+        type: TxType;
+        amount?: string;
+        asset?: Asset | string;
+      }>,
     ) {
       state.requestDialog.open = true;
       state.requestDialog.type = payload.type;

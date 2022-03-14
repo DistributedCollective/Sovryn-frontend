@@ -11,6 +11,7 @@ import { AssetRenderer } from '../AssetRenderer';
 
 interface Props {
   asset: Asset;
+  dataAttribute?: string;
 }
 
 export function AvailableBalance(props: Props) {
@@ -22,7 +23,11 @@ export function AvailableBalance(props: Props) {
         i18nKey={translations.marginTradePage.tradeForm.labels.balance}
         components={[
           <LoadableValue
-            value={weiToNumberFormat(value, 6)}
+            value={
+              <div data-action-id={props.dataAttribute}>
+                {weiToNumberFormat(value, 6)}
+              </div>
+            }
             loading={loading}
             tooltip={
               <>

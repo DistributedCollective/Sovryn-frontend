@@ -15,11 +15,14 @@ import { AssetModel } from '../../../BridgeDepositPage/types/asset-model';
 import { useTokenBalance } from '../../../BridgeDepositPage/hooks/useTokenBalance';
 import { useBridgeLimits } from '../../../BridgeDepositPage/hooks/useBridgeLimits';
 import { prettyTx } from '../../../../../utils/helpers';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Table } from '../styled';
+import { useIsBridgeWithdrawLocked } from 'app/pages/BridgeWithdrawPage/hooks/useIsBridgeWithdrawLocked';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { discordInvite } from 'utils/classifiers';
 
-export function ReviewStep() {
+export const ReviewStep: React.FC = () => {
   const {
     amount,
     chain,
@@ -101,6 +104,11 @@ export function ReviewStep() {
     limitsLoading,
   ]);
 
+  const bridgeWithdrawLocked = useIsBridgeWithdrawLocked(
+    sourceAsset,
+    targetChain,
+  );
+
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
       <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
@@ -166,14 +174,33 @@ export function ReviewStep() {
         </Table>
 
         <Button
+          className="tw-mt-20 tw-w-80"
           text={t(translations.BridgeWithdrawPage.reviewStep.confirm)}
-          className="tw-mt-20 tw-w-80 "
           size={ButtonSize.lg}
-          disabled={!isValid || tx.loading}
+          disabled={bridgeWithdrawLocked || !isValid || tx.loading}
           loading={tx.loading}
           onClick={handleSubmit}
         />
+        {bridgeWithdrawLocked && (
+          <ErrorBadge
+            content={
+              <Trans
+                i18nKey={translations.maintenance.bridgeSteps}
+                components={[
+                  <a
+                    href={discordInvite}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                  >
+                    x
+                  </a>,
+                ]}
+              />
+            }
+          />
+        )}
       </div>
     </div>
   );
-}
+};

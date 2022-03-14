@@ -1,8 +1,9 @@
+import { toWei } from 'web3-utils';
 import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
-import { Asset } from '../../../types/asset';
-import { toWei } from 'web3-utils';
+import { Asset } from '../../../types';
 import { TxType } from '../../../store/global/transactions-store/types';
+import { gasLimit } from '../../../utils/classifiers';
 
 export function useDepositCollateral(
   collateralToken: Asset,
@@ -22,6 +23,7 @@ export function useDepositCollateral(
         {
           from: account,
           value: collateralToken === Asset.RBTC ? depositAmount : toWei('0'),
+          gas: gasLimit[TxType.DEPOSIT_COLLATERAL],
           nonce,
         },
         { approveTransactionHash: approveTx, type: TxType.DEPOSIT_COLLATERAL },

@@ -7,15 +7,18 @@ import { selectBridgeDepositPage } from '../../selectors';
 import { BridgeDictionary } from '../../dictionaries/bridge-dictionary';
 import { CrossBridgeAsset } from '../../types/cross-bridge-asset';
 import { bridgeNetwork } from '../../utils/bridge-network';
+import { discordInvite } from 'utils/classifiers';
 import erc20Abi from '../../../../../utils/blockchain/abi/erc20.json';
 import { DepositStep } from '../../types';
 import { BridgeNetworkDictionary } from '../../dictionaries/bridge-network-dictionary';
 import { TokenItem } from './TokenItem';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { useWalletContext } from '@sovryn/react-wallet';
+import { useIsBridgeDepositLocked } from 'app/pages/BridgeDepositPage/hooks/useIsBridgeDepositLocked';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 
-export function TokenSelector() {
+export const TokenSelector: React.FC = () => {
   const { chain, targetChain, targetAsset } = useSelector(
     selectBridgeDepositPage,
   );
@@ -47,7 +50,9 @@ export function TokenSelector() {
       (
         BridgeDictionary.get(chain as Chain, targetChain)?.assets || []
       ).filter(item =>
-        item.aggregatedTokens.includes(targetAsset as CrossBridgeAsset),
+        item.usesAggregator
+          ? item.aggregatedTokens.includes(targetAsset as CrossBridgeAsset)
+          : item.group === targetAsset,
       ),
     [chain, targetAsset, targetChain],
   );
@@ -85,6 +90,8 @@ export function TokenSelector() {
     chain,
   ]);
 
+  const bridgeDepositLocked = useIsBridgeDepositLocked(targetAsset, chain);
+
   return (
     <div>
       <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
@@ -100,6 +107,7 @@ export function TokenSelector() {
                 image={item.image}
                 symbol={item.symbol}
                 onClick={() => selectSourceAsset(item.asset)}
+                disabled={bridgeDepositLocked}
               />
             );
           })}
@@ -112,7 +120,25 @@ export function TokenSelector() {
           })}
         </p>
       )}
-
+      {bridgeDepositLocked && (
+        <ErrorBadge
+          content={
+            <Trans
+              i18nKey={translations.maintenance.bridgeSteps}
+              components={[
+                <a
+                  href={discordInvite}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                >
+                  x
+                </a>,
+              ]}
+            />
+          }
+        />
+      )}
       <div
         onClick={() => disconnect()}
         className="tw-cursor-pointer tw-font-semibold tw-text-sov-white tw-underline tw-text-center tw-mt-20"
@@ -121,4 +147,4 @@ export function TokenSelector() {
       </div>
     </div>
   );
-}
+};

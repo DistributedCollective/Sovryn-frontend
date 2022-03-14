@@ -1,0 +1,24 @@
+.tab-button {
+  @apply tw-flex tw-flex-col tw-items-center tw-justify-center tw-w-full tw-h-20;
+
+  padding: 5px 10px;
+  background-color: rgba(34, 34, 34, 0.5);
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+
+  &:hover {
+    @apply tw-text-white;
+  }
+
+  &:disabled {
+    background-color: grey;
+    cursor: not-allowed;
+  }
+}
+
+.tab-button--active {
+  background-color: #222222;
+  &:hover {
+    @apply tw-text-white;
+  }
+}

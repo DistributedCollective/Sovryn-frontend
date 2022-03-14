@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Chain } from 'types';
 import { translations } from 'locales/i18n';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 
 import { actions } from '../../slice';
 import { selectBridgeWithdrawPage } from '../../selectors';
@@ -14,10 +14,15 @@ import { bridgeNetwork } from 'app/pages/BridgeDepositPage/utils/bridge-network'
 import { BridgeNetworkDictionary } from 'app/pages/BridgeDepositPage/dictionaries/bridge-network-dictionary';
 import { AssetModel } from '../../../BridgeDepositPage/types/asset-model';
 import { TokenItem } from './TokenItem';
+import { useAccount } from '../../../../hooks/useAccount';
+import { discordInvite } from 'utils/classifiers';
+import { useIsBridgeWithdrawLocked } from 'app/pages/BridgeWithdrawPage/hooks/useIsBridgeWithdrawLocked';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 
-export function TokenSelector() {
+export const TokenSelector: React.FC = () => {
   const { t } = useTranslation();
 
+  const account = useAccount();
   const { chain, targetChain, targetAsset, sourceAsset } = useSelector(
     selectBridgeWithdrawPage,
   );
@@ -64,8 +69,10 @@ export function TokenSelector() {
         ).toLowerCase(),
         abi: erc20Abi,
         fnName: 'balanceOf',
-        args: [currentAsset.aggregatorContractAddress?.toLowerCase()],
-        key: item.symbol,
+        args: [
+          currentAsset.aggregatorContractAddress?.toLowerCase() || account,
+        ],
+        key: item.asset,
       };
     });
 
@@ -86,15 +93,23 @@ export function TokenSelector() {
           setBalances([]);
         });
     }
-  }, [chain, targetChain, targetAsset, targetAssets, currentAsset]);
+  }, [chain, targetChain, targetAsset, targetAssets, currentAsset, account]);
 
   const network = useMemo(
     () => BridgeNetworkDictionary.get(targetChain as Chain),
     [targetChain],
   );
 
-  const getBalance = (asset: CrossBridgeAsset) =>
-    balances.find(item => item.key === asset)?.value || '0';
+  const getBalance = useCallback(
+    (asset: CrossBridgeAsset) =>
+      balances.find(item => item.key === asset)?.value || '0',
+    [balances],
+  );
+
+  const bridgeWithdrawLocked = useIsBridgeWithdrawLocked(
+    sourceAsset,
+    targetChain,
+  );
 
   return (
     <div>
@@ -111,7 +126,9 @@ export function TokenSelector() {
                 image={item.image}
                 symbol={item.symbol}
                 balance={getBalance(item.asset)}
+                loading={!balances.length}
                 onClick={() => selectTargetAsset(item.asset)}
+                disabled={bridgeWithdrawLocked}
               />
             );
           })}
@@ -124,6 +141,25 @@ export function TokenSelector() {
           })}
         </p>
       )}
+      {bridgeWithdrawLocked && (
+        <ErrorBadge
+          content={
+            <Trans
+              i18nKey={translations.maintenance.bridgeSteps}
+              components={[
+                <a
+                  href={discordInvite}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                >
+                  x
+                </a>,
+              ]}
+            />
+          }
+        />
+      )}
     </div>
   );
-}
+};

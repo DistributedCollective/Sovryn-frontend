@@ -28,6 +28,9 @@ import { AssetModel } from './types/asset-model';
 import { bridgeNetwork } from './utils/bridge-network';
 import { bignumber } from 'mathjs';
 import { ethers } from 'ethers';
+import { TxType } from 'store/global/transactions-store/types';
+import { gasLimit } from 'utils/classifiers';
+import { CrossBridgeAsset } from './types/cross-bridge-asset';
 
 const { log } = debug('bridge/saga.ts');
 
@@ -111,20 +114,46 @@ function* approveTransfer() {
     yield take(actions.approveTokens.type);
     const payload = yield select(selectBridgeDepositPage);
 
-    const nonce = yield call(
-      [bridgeNetwork, bridgeNetwork.nonce],
-      payload.chain,
-    );
+    let nonce = yield call([bridgeNetwork, bridgeNetwork.nonce], payload.chain);
 
     const bridge = BridgeDictionary.get(
       payload.chain as any,
       payload.targetChain,
     ) as BridgeModel;
     const asset = bridge.getAsset(payload.sourceAsset as any) as AssetModel;
-
-    console.log('approveTransfer: asset is', asset);
-
+    let useCustomGas = false;
     try {
+      // Tether (USDT) on ETH requires allowance to be set to 0 before adding more allowance:
+      if (
+        payload.chain === Chain.ETH &&
+        payload.sourceAsset === CrossBridgeAsset.USDT
+      ) {
+        const allowance = yield call(
+          [bridgeNetwork, bridgeNetwork.allowance],
+          payload.chain as any,
+          asset,
+          getSpenderAddress(payload.chain as any, bridge, asset) ||
+            bridge.bridgeContractAddress,
+        );
+
+        if (allowance !== '0') {
+          const data = bridgeNetwork.approveData(
+            payload.chain,
+            asset,
+            getSpenderAddress(payload.chain as any, bridge, asset) ||
+              bridge.bridgeContractAddress,
+            '0',
+          );
+          yield call([bridgeNetwork, bridgeNetwork.send], payload.chain, {
+            to: asset.tokenContractAddress,
+            nonce,
+            data,
+          });
+          nonce += 1;
+          useCustomGas = true;
+        }
+      }
+
       const data = bridgeNetwork.approveData(
         payload.chain,
         asset,
@@ -139,6 +168,7 @@ function* approveTransfer() {
           to: asset.tokenContractAddress,
           nonce,
           data,
+          gasLimit: useCustomGas ? 60000 : undefined,
         },
       );
 
@@ -237,7 +267,10 @@ function* confirmTransfer() {
           nonce,
           data: txData,
           value: nativeValue,
-          gasLimit: nonce !== undefined ? 250000 : undefined,
+          gasLimit:
+            nonce !== undefined
+              ? gasLimit[TxType.CROSS_CHAIN_DEPOSIT]
+              : undefined,
         },
       );
 

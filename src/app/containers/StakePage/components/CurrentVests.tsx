@@ -1,21 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { StyledTable } from './StyledTable';
-import { useAccount } from '../../../hooks/useAccount';
-import { ethGenesisAddress } from 'utils/classifiers';
-import { contractReader } from 'utils/sovryn/contract-reader';
 import { VestingContract } from './VestingContract';
-
-export type VestGroup = 'genesis' | 'origin' | 'team' | 'reward' | 'fish';
+import { useListOfUserVestings } from '../../../components/UserAssets/Vesting/useListOfUserVestings';
 
 interface Props {
   onDelegate: (timestamp: number, vestingAddress: string) => void;
 }
 
 export function CurrentVests(props: Props) {
-  const { items, loading, error } = useGetItems();
   const { t } = useTranslation();
+  const { loading, items } = useListOfUserVestings();
 
   return (
     <>
@@ -23,7 +19,7 @@ export function CurrentVests(props: Props) {
         {t(translations.stake.currentVests.title)}
       </p>
       <div className="tw-bg-gray-1 tw-rounded-b tw-shadow">
-        <div className="tw-rounded-lg tw-border sovryn-table tw-pt-1 tw-pb-0 tw-pr-5 tw-pl-5 tw-mb-5 max-h-96 tw-overflow-y-auto">
+        <div className="tw-rounded-lg tw-border sovryn-table tw-pt-1 tw-pr-5 tw-pl-5 tw-mb-5 max-h-96 tw-overflow-y-auto tw-pb-4">
           <StyledTable className="tw-w-full">
             <thead>
               <tr>
@@ -65,20 +61,13 @@ export function CurrentVests(props: Props) {
                   </td>
                 </tr>
               )}
-              {!!error && (
-                <tr>
-                  <td colSpan={99} className="tw-text-center tw-font-normal">
-                    {error}
-                  </td>
-                </tr>
-              )}
               {items.map(item => (
                 <VestingContract
-                  key={item.address}
-                  vestingAddress={item.address}
+                  key={item.vestingContract}
+                  vestingAddress={item.vestingContract}
                   type={item.type}
                   onDelegate={timestamp =>
-                    props.onDelegate(timestamp, item.address)
+                    props.onDelegate(timestamp, item.vestingContract)
                   }
                 />
               ))}
@@ -88,103 +77,4 @@ export function CurrentVests(props: Props) {
       </div>
     </>
   );
-}
-
-function useGetItems() {
-  const account = useAccount();
-  const [state, setState] = useState<{
-    items: {
-      address: string;
-      type: VestGroup;
-    }[];
-    error: string;
-    loading: boolean;
-  }>({
-    items: [],
-    error: '',
-    loading: false,
-  });
-
-  useEffect(() => {
-    const run = () =>
-      new Promise(async (resolve, reject) => {
-        try {
-          const items: {
-            address: string;
-            type: VestGroup;
-          }[] = [];
-          const vesting1 = (await contractReader.call(
-            'vestingRegistry',
-            'getVesting',
-            [account],
-          )) as string;
-          if (vesting1 && vesting1 !== ethGenesisAddress) {
-            items.push({ address: vesting1, type: 'genesis' });
-          }
-
-          setState(prevState => ({ ...prevState, items }));
-
-          const vesting2 = (await contractReader.call(
-            'vestingRegistry',
-            'getTeamVesting',
-            [account],
-          )) as string;
-          if (vesting2 && vesting2 !== ethGenesisAddress) {
-            items.push({ address: vesting2, type: 'team' });
-            setState(prevState => ({ ...prevState, items }));
-          }
-
-          const vesting3 = (await contractReader.call(
-            'vestingRegistryOrigin',
-            'getVesting',
-            [account],
-          )) as string;
-          if (vesting3 && vesting3 !== ethGenesisAddress) {
-            items.push({ address: vesting3, type: 'origin' });
-            setState(prevState => ({ ...prevState, items }));
-          }
-
-          const vesting4 = (await contractReader.call(
-            'vestingRegistry3',
-            'getVesting',
-            [account],
-          )) as string;
-          if (vesting4 && vesting4 !== ethGenesisAddress) {
-            items.push({ address: vesting4, type: 'reward' });
-            setState(prevState => ({ ...prevState, items }));
-          }
-
-          const vesting5 = (await contractReader.call(
-            'vestingRegistryFISH',
-            'getVesting',
-            [account],
-          )) as string;
-          if (vesting5 && vesting5 !== ethGenesisAddress) {
-            items.push({ address: vesting5, type: 'fish' });
-            setState(prevState => ({ ...prevState, items }));
-          }
-
-          resolve(items);
-        } catch (e) {
-          reject(e);
-        }
-      });
-
-    if (account && account !== ethGenesisAddress) {
-      setState({ items: [], loading: true, error: '' });
-      run()
-        .then((value: any) => {
-          setState({ items: value, loading: false, error: '' });
-        })
-        .catch(e => {
-          setState(prevState => ({
-            ...prevState,
-            loading: false,
-            error: e.message,
-          }));
-        });
-    }
-  }, [account]);
-
-  return state;
 }

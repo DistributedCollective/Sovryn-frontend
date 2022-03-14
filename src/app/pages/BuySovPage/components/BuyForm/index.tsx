@@ -3,21 +3,17 @@ import styled from 'styled-components/macro';
 import { Card } from '../Card';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
-import { Asset } from '../../../../../types/asset';
+import { Asset } from '../../../../../types';
 import { weiTo18 } from '../../../../../utils/blockchain/math-helpers';
 import { maxMinusFee } from '../../../../../utils/helpers';
 import { useMaintenance } from '../../../../hooks/useMaintenance';
 import { FieldGroup } from '../../../../components/FieldGroup';
 import { LoadableValue } from '../../../../components/LoadableValue';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
-import { useSwapNetwork_conversionPath } from '../../../../hooks/swap-network/useSwapNetwork_conversionPath';
-import { useSwapNetwork_rateByPath } from '../../../../hooks/swap-network/useSwapNetwork_rateByPath';
-import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
 import { useSlippage } from './useSlippage';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { SlippageDialog } from './Dialogs/SlippageDialog';
-import { useSwapNetwork_approveAndConvertByPath } from '../../../../hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
 import { TxDialog } from './Dialogs/TxDialog';
 import { bignumber } from 'mathjs';
 import { BuyButton } from '../Button/buy';
@@ -27,10 +23,13 @@ import { Input } from '../Input';
 import { AmountButton } from '../AmountButton';
 import { useCanInteract } from '../../../../hooks/useCanInteract';
 import { AvailableBalance } from '../../../../components/AvailableBalance';
-import { Trans } from 'react-i18next';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
+import { useSwapsExternal_getSwapExpectedReturn } from '../../../../hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
+import { useSwapNetwork_conversionPath } from 'app/hooks/swap-network/useSwapNetwork_conversionPath';
+import { useSwapNetwork_approveAndConvertByPath } from 'app/hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
+import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 
 const s = translations.swapTradeForm;
 
@@ -47,20 +46,33 @@ export function BuyForm() {
   const [amount, setAmount] = useState('');
   const [slippage, setSlippage] = useState(0.5);
   const weiAmount = useWeiAmount(amount);
+  // const account = useAccount();
 
   const { value: balance } = useAssetBalanceOf(Asset.RBTC);
 
-  const { value: path } = useSwapNetwork_conversionPath(
-    tokenAddress(Asset.RBTC),
-    tokenAddress(Asset.SOV),
-  );
-
-  const { value: rateByPath, loading } = useSwapNetwork_rateByPath(
-    path,
+  const { value: rateByPath, loading } = useSwapsExternal_getSwapExpectedReturn(
+    Asset.RBTC,
+    Asset.SOV,
     weiAmount,
   );
 
   const { minReturn } = useSlippage(rateByPath, slippage);
+
+  // const { send, ...tx } = useSwapsExternal_approveAndSwapExternal(
+  //   Asset.RBTC,
+  //   Asset.SOV,
+  //   account,
+  //   account,
+  //   weiAmount,
+  //   '0',
+  //   minReturn,
+  //   '0x',
+  // );
+
+  const { value: path } = useSwapNetwork_conversionPath(
+    AssetsDictionary.get(Asset.RBTC).getTokenContractAddress(),
+    AssetsDictionary.get(Asset.SOV).getTokenContractAddress(),
+  );
 
   const { send, ...tx } = useSwapNetwork_approveAndConvertByPath(
     path,
@@ -115,18 +127,22 @@ export function BuyForm() {
               onChange={value => setAmount(value)}
               placeholder="0.0000"
               rightElement={<AssetRenderer asset={Asset.RBTC} />}
+              dataActionId="buySov-amountInput-source"
             />
             <Slippage>
-              <AvailableBalance asset={Asset.RBTC} />
+              <AvailableBalance
+                asset={Asset.RBTC}
+                dataAttribute="buySov-label-availableBalance"
+              />
             </Slippage>
-            <AmountButton onChange={changeAmount} />
+            <AmountButton onChange={changeAmount} dataActionId="buySov" />
           </FieldGroup>
 
           <ArrowDown />
 
           <FieldGroup label={t(s.fields.receive)} labelColor="#e8e8e8">
             <Dummy className="tw-flex tw-justify-between tw-items-center">
-              <div>
+              <div data-action-id="buySov-amountInput-receive">
                 <LoadableValue
                   value={<>{weiToNumberFormat(rateByPath, 4)}</>}
                   loading={loading}
@@ -144,7 +160,10 @@ export function BuyForm() {
                 />{' '}
                 SOV.
               </div>
-              <SlippageButton onClick={() => setOpenSlippage(true)}>
+              <SlippageButton
+                onClick={() => setOpenSlippage(true)}
+                data-action-id="buySov-slippageButton"
+              >
                 <span className="tw-sr-only">Slippage</span>
               </SlippageButton>
             </Slippage>
@@ -175,6 +194,7 @@ export function BuyForm() {
               disabled={tx.loading || !validate || !connected || swapsLocked}
               onClick={() => send()}
               text={t(translations.buySovPage.form.cta)}
+              dataActionId="buySov-button-buy"
             />
           )}
         </div>
@@ -186,15 +206,12 @@ export function BuyForm() {
         amount={rateByPath}
         value={slippage}
         onChange={value => setSlippage(value)}
+        dataActionId="buySov-"
       />
 
       <TxDialog tx={tx} />
     </>
   );
-}
-
-function tokenAddress(asset: Asset) {
-  return AssetsDictionary.get(asset).getTokenContractAddress();
 }
 
 const Slippage = styled.div`

@@ -1,10 +1,9 @@
 import Web3 from 'web3';
-import { WebsocketProvider } from 'web3-core';
 import { Contract } from 'web3-eth-contract';
 import { bignumber } from 'mathjs';
 import { AbiItem } from 'web3-utils';
 import { store } from 'store/store';
-import { currentChainId, readNodes, databaseRpcNodes } from '../classifiers';
+import { currentChainId, rpcNodes, databaseRpcNodes } from '../classifiers';
 import { appContracts } from '../blockchain/app-contracts';
 import { gas } from '../blockchain/gas-price';
 
@@ -156,38 +155,30 @@ export class SovrynNetwork {
         !this._readWeb3 ||
         (this._readWeb3 && (await this._readWeb3.eth.getChainId()) !== chainId)
       ) {
-        const nodeUrl = readNodes[chainId];
-        let web3Provider;
-        let isWebsocket = false;
-        if (nodeUrl.startsWith('http')) {
-          web3Provider = new Web3.providers.HttpProvider(nodeUrl, {
-            keepAlive: true,
-          });
-        } else {
-          web3Provider = new Web3.providers.WebsocketProvider(nodeUrl, {
-            reconnectDelay: 10,
-          });
-          isWebsocket = true;
-        }
+        const nodeUrl = rpcNodes[chainId];
+        const web3Provider = new Web3.providers.HttpProvider(nodeUrl, {
+          keepAlive: true,
+        });
 
         this._readWeb3 = new Web3(web3Provider);
+        this._readWeb3.eth.handleRevert = true;
 
         Array.from(Object.keys(appContracts)).forEach(key => {
           this.addReadContract(key, appContracts[key]);
         });
 
-        if (isWebsocket) {
-          const provider: WebsocketProvider = (this._readWeb3
-            .currentProvider as unknown) as WebsocketProvider;
+        // if (isWebsocket) {
+        //   const provider: WebsocketProvider = (this._readWeb3
+        //     .currentProvider as unknown) as WebsocketProvider;
 
-          provider.on('end', () => {
-            provider.removeAllListeners('end');
-            this.contracts = {};
-            this.contractList = [];
-            this._readWeb3 = undefined as any;
-            this.initReadWeb3(chainId);
-          });
-        }
+        //   provider.on('end', () => {
+        //     provider.removeAllListeners('end');
+        //     this.contracts = {};
+        //     this.contractList = [];
+        //     this._readWeb3 = undefined as any;
+        //     this.initReadWeb3(chainId);
+        //   });
+        // }
       }
       this.initDatabaseWeb3(chainId);
     } catch (e) {

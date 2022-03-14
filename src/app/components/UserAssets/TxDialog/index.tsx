@@ -15,7 +15,7 @@ import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
 import { CloseButton } from './styled';
 import { Status } from './Status';
-import { WalletLogo, getWalletName } from './WalletLogo';
+import { getWalletName, WalletLogo } from './WalletLogo';
 import { Asset } from 'types';
 import { Title } from './Title';
 import babelfishLogo from 'assets/images/tokens/babelfish.svg';
@@ -116,7 +116,9 @@ export const TxDialog: React.FC<ITxDialogProps> = ({ tx, onUserConfirmed }) => {
 
                   <div className="tw-mb-3.5">
                     {weiToFixed(txData?.assetAmount, 6)}{' '}
-                    <AssetSymbolRenderer asset={Asset.USDT} />
+                    <AssetSymbolRenderer
+                      assetString={txData?.asset || Asset.USDT}
+                    />
                   </div>
 
                   <div className="tw-mb-3.5">

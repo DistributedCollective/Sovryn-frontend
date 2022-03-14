@@ -17,6 +17,9 @@ export enum TxType {
   STAKING_EXTEND = 'staking-extend',
   STAKING_DELEGATE = 'staking-delegate',
   VESTING_DELEGATE = 'vesting-delegate',
+  STAKING_INCREASE_STAKE = 'staking',
+  STAKING_REWARDS_CLAIM = 'staking_rewards_claim',
+  STAKING_LIQUID_SOV_CLAIM = 'staking_liquid_sov_claim',
   NONE = 'none',
   APPROVE = 'approve',
   LEND = 'lend',
@@ -29,6 +32,7 @@ export enum TxType {
   REMOVE_LIQUIDITY = 'remove_liquidity',
   DEPOSIT_COLLATERAL = 'deposit_collateral',
   CONVERT_BY_PATH = 'convert_by_path', // swap
+  SWAP_EXTERNAL = 'swap_external',
   OTHER = 'other',
   SALE_BUY_SOV = 'sale_buy_sov',
   SOV_REIMBURSE = 'sov_reimburse',
@@ -38,11 +42,16 @@ export enum TxType {
   ESCROW_SOV_DEPOSIT = 'escrow_sov_deposit',
   LM_DEPOSIT = 'lm_deposit',
   LOCKED_SOV_CLAIM = 'locked_sov_claim',
-  STAKING_REWARDS_CLAIM = 'staking_rewards_claim',
   ORIGINS_SALE_BUY = 'origins_sale_buy',
   CONVERT_RUSDT_TO_XUSD = 'convert_rusdt_to_xusd',
   LOCKED_FUND_WAITED_CLAIM = 'locked_fund_waited_claim',
   LOCKED_FUND_CREATE_STAKE = 'locked_fund_create_stake',
+  CROSS_CHAIN_DEPOSIT = 'cross_chain_deposit',
+  CROSS_CHAIN_WITHDRAW = 'cross_chain_withdraw',
+  UNWRAP_WRBTC = 'unwrap_wrbtc',
+  CLAIM_VESTED_SOV_REWARDS = 'claim_vested_sov_rewards',
+  SIMULATOR_REQUEST = 'simulator_request',
+  FAST_BTC_WITHDRAW = 'fast_btc_withdraw',
 }
 
 export enum TxStatus {
@@ -66,7 +75,7 @@ export interface Transaction {
   to: string;
   from: string;
   value: string;
-  asset: Nullable<Asset>;
+  asset: Nullable<Asset | string>;
   assetAmount: Nullable<string>;
   customData?: { [key: string]: any };
 }
@@ -74,7 +83,7 @@ export interface Transaction {
 export interface RequestDialogState {
   open: boolean;
   type: TxType;
-  asset: Nullable<Asset>;
+  asset: Nullable<Asset | string>;
   amount: string;
   error: Nullable<string>;
 }

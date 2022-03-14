@@ -1,9 +1,11 @@
+import { bignumber } from 'mathjs';
+
 export function leverageFromMargin(startMargin: string) {
-  const leverage: { [key: string]: number } = {
-    1: 2,
-    5: 3,
-    3: 4,
-    2: 5,
-  };
-  return leverage[startMargin[0]];
+  return Number(
+    bignumber(10 ** 38)
+      .div(bignumber(startMargin).times(10 ** 18))
+      .plus(1)
+      .toDP(0, 4)
+      .toString(),
+  );
 }

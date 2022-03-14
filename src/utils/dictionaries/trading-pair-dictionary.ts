@@ -1,24 +1,21 @@
 import { Asset } from 'types/asset';
 import { TradingPair } from '../models/trading-pair';
-import { TradingPosition } from 'types/trading-position';
 import { RenderTradingPairName } from '../../app/components/Helpers';
 
 export enum TradingPairType {
   RBTC_XUSD = 'RBTC_XUSD',
   RBTC_DOC = 'RBTC_DOC',
   RBTC_USDT = 'RBTC_USDT',
-  RBTC_SOV = 'RBTC_SOV',
   BPRO_XUSD = 'BPRO_XUSD',
   BPRO_USDT = 'BPRO_USDT',
   BPRO_DOC = 'BPRO_DOC',
+  SOV_RBTC = 'SOV_RBTC',
+  SOV_XUSD = 'SOV_XUSD',
+  SOV_BPRO = 'SOV_BPRO',
+  SOV_DOC = 'SOV_DOC',
 }
 
 export class TradingPairDictionary {
-  /**
-   * @deprecated
-   */
-  public static longPositionTokens = [Asset.DOC, Asset.USDT, Asset.XUSD];
-
   // Note: do not remove pairs from the list, set them as deprecated (last property in TradingPair constructor)
   // if trading should be halted for them.
   // Removing will break histories and open positions for that pair.
@@ -50,17 +47,6 @@ export class TradingPairDictionary {
         true,
       ),
     ],
-    // [
-    //   TradingPairType.RBTC_SOV,
-    //   new TradingPair(
-    //     TradingPairType.RBTC_DOC,
-    //     RenderTradingPairName(Asset.RBTC, Asset.SOV),
-    //     'RBTC/SOV',
-    //     Asset.SOV,
-    //     Asset.RBTC,
-    //     [Asset.RBTC, Asset.SOV],
-    //   ),
-    // ],
     [
       TradingPairType.RBTC_DOC,
       new TradingPair(
@@ -71,6 +57,66 @@ export class TradingPairDictionary {
         Asset.RBTC,
         [Asset.RBTC, Asset.DOC],
         false,
+      ),
+    ],
+    [
+      TradingPairType.SOV_RBTC,
+      new TradingPair(
+        TradingPairType.SOV_RBTC,
+        RenderTradingPairName(Asset.SOV, Asset.RBTC),
+        'SOV/RBTC',
+        Asset.RBTC,
+        Asset.SOV,
+        [Asset.SOV, Asset.RBTC],
+        false,
+        true,
+        false,
+        2,
+      ),
+    ],
+    [
+      TradingPairType.SOV_XUSD,
+      new TradingPair(
+        TradingPairType.SOV_XUSD,
+        RenderTradingPairName(Asset.SOV, Asset.XUSD),
+        'SOV/XUSD',
+        Asset.XUSD,
+        Asset.SOV,
+        [Asset.SOV, Asset.XUSD],
+        false,
+        true,
+        false,
+        2,
+      ),
+    ],
+    [
+      TradingPairType.SOV_BPRO,
+      new TradingPair(
+        TradingPairType.SOV_BPRO,
+        RenderTradingPairName(Asset.SOV, Asset.BPRO),
+        'SOV/BPRO',
+        Asset.BPRO,
+        Asset.SOV,
+        [Asset.SOV, Asset.BPRO],
+        false,
+        true,
+        false,
+        2,
+      ),
+    ],
+    [
+      TradingPairType.SOV_DOC,
+      new TradingPair(
+        TradingPairType.SOV_DOC,
+        RenderTradingPairName(Asset.SOV, Asset.DOC),
+        'SOV/DOC',
+        Asset.DOC,
+        Asset.SOV,
+        [Asset.SOV, Asset.DOC],
+        false,
+        true,
+        false,
+        2,
       ),
     ],
     [
@@ -118,10 +164,6 @@ export class TradingPairDictionary {
     return Array.from(this.pairs.values());
   }
 
-  public static pairTypeList(): Array<TradingPairType> {
-    return Array.from(this.pairs.keys());
-  }
-
   public static find(pairs: Array<TradingPairType>): Array<TradingPair> {
     return pairs.map(asset => this.get(asset));
   }
@@ -136,14 +178,5 @@ export class TradingPairDictionary {
         (item.longAsset === loanToken && item.shortAsset === collateral) ||
         (item.shortAsset === loanToken && item.longAsset === collateral),
     ) as TradingPair;
-  }
-
-  public static getPositionByPair(loanToken: Asset, collateral: Asset) {
-    const pair = this.findPair(loanToken, collateral);
-    if (!pair) {
-      return undefined;
-    }
-    if (pair.longAsset === loanToken) return TradingPosition.LONG;
-    return TradingPosition.SHORT;
   }
 }

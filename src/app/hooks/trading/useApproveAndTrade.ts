@@ -17,6 +17,7 @@ export function useApproveAndTrade(
   collateral: Asset,
   leverage: number,
   collateralTokenSent: string,
+  minEntryPrice,
   // loanId,
   // loanTokenSent,
   // collateralTokenAddress,
@@ -37,6 +38,7 @@ export function useApproveAndTrade(
     useLoanTokens ? '0' : collateralTokenSent,
     collateralToken,
     account, // trader
+    minEntryPrice,
     '0x',
     collateral === Asset.RBTC ? collateralTokenSent : '0',
   );

@@ -3,7 +3,7 @@ import cn from 'classnames';
 
 import { Asset } from 'types/asset';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
-import { AssetSymbolRenderer } from '../AssetSymbolRenderer/index';
+import { AssetSymbolRenderer } from '../AssetSymbolRenderer';
 
 type ImageSizes = 4 | 5 | 6 | 8 | 12;
 
@@ -12,6 +12,7 @@ interface CurrencyProps {
   assetString?: string;
   showImage?: boolean;
   imageSize?: ImageSizes;
+  assetClassName?: string;
 }
 
 export function AssetRenderer(props: CurrencyProps) {
@@ -31,6 +32,7 @@ export function AssetRenderer(props: CurrencyProps) {
       <AssetSymbolRenderer
         asset={props.asset}
         assetString={props.assetString}
+        assetClassName={props.assetClassName}
       />
     </span>
   );

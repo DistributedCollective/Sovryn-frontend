@@ -16,6 +16,7 @@ import {
 import { Skeleton } from '../PageSkeleton';
 import Datafeed from './datafeed';
 import Storage from './storage';
+import { noop } from '../../constants';
 
 export enum Theme {
   LIGHT = 'Light',
@@ -91,9 +92,7 @@ export function TradingChart(props: ChartContainerProps) {
 
   useLayoutEffect(() => {
     if (chart && hasCharts) {
-      chart.chart().setSymbol(props.symbol, () => {
-        console.log('changed symbol');
-      });
+      chart.chart().setSymbol(props.symbol, noop);
     }
   }, [chart, hasCharts, props.symbol]);
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
-import { ContractName } from './styled';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 interface IDataRowProps {
   contractName: string;
@@ -20,11 +19,8 @@ export const DataRow: React.FC<IDataRowProps> = ({
   className,
   contractClassName,
 }) => {
-  if (!loading && (!btcValue || !usdValue)) return null;
-
-  return loading ||
-    !(btcValue && Number(btcValue) > 0 && usdValue && Number(usdValue) > 0) ? (
-    <tr className={cn('tw-h-16', className)} key={contractName}>
+  return loading ? (
+    <tr className={classNames('tw-h-16', className)} key={contractName}>
       <td className={className}>{contractName}</td>
       <td className={className}>
         <SkeletonRow />
@@ -35,21 +31,25 @@ export const DataRow: React.FC<IDataRowProps> = ({
     </tr>
   ) : (
     <tr
-      className={cn('tw-h-16 tw-font-extralight', className)}
+      className={classNames('tw-h-16 tw-font-extralight', className)}
       key={contractName}
     >
-      <ContractName className={contractClassName}>{contractName}</ContractName>
-      <td className={cn(className, 'tw-text-right')}>
-        {btcValue?.toLocaleString('en', {
-          maximumFractionDigits: 4,
-          minimumFractionDigits: 4,
-        }) || <div className="bp3-skeleton">&nbsp;</div>}
+      <td className={classNames('tw-text-white tw-pl-2.5', contractClassName)}>
+        {contractName}
       </td>
-      <td className={cn('tw-text-right', className)}>
-        {usdValue?.toLocaleString('en', {
-          maximumFractionDigits: 2,
-          minimumFractionDigits: 2,
-        }) || <div className="bp3-skeleton">&nbsp;</div>}
+      <td className={classNames(className, 'tw-text-right')}>
+        {(!isNaN(btcValue) &&
+          btcValue?.toLocaleString('en', {
+            maximumFractionDigits: 4,
+            minimumFractionDigits: 4,
+          })) || <div className="bp3-skeleton">&nbsp;</div>}
+      </td>
+      <td className={classNames('tw-text-right', className)}>
+        {(!isNaN(usdValue) &&
+          usdValue?.toLocaleString('en', {
+            maximumFractionDigits: 2,
+            minimumFractionDigits: 2,
+          })) || <div className="bp3-skeleton">&nbsp;</div>}
       </td>
     </tr>
   );

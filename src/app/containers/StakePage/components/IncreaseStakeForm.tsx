@@ -1,13 +1,17 @@
-import React, { FormEvent } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { handleNumberInput } from 'utils/helpers';
-import { numberFromWei } from 'utils/blockchain/math-helpers';
+import { numberFromWei, toWei, fromWei } from 'utils/blockchain/math-helpers';
+import { weiToNumberFormat } from 'utils/display-text/format';
 import { CacheCallResponse } from 'app/hooks/useCacheCall';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import { useAccount } from 'app/hooks/useAccount';
-import { ethGenesisAddress, discordInvite } from 'utils/classifiers';
+import { TxType } from 'store/global/transactions-store/types';
+import { ethGenesisAddress, discordInvite, gasLimit } from 'utils/classifiers';
 import { useMaintenance } from 'app/hooks/useMaintenance';
+import { AvailableBalance } from '../../../components/AvailableBalance';
+import { Asset } from 'types/asset';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 
 interface Props {
@@ -27,9 +31,16 @@ export function IncreaseStakeForm(props: Props) {
   const account = useAccount();
   const { checkMaintenance, States } = useMaintenance();
   const stakingLocked = checkMaintenance(States.STAKING);
+  const [initialStep, setInitialStep] = useState(true);
   const txConf = {
-    gas: 450000,
+    gas: gasLimit[TxType.STAKING_INCREASE_STAKE],
   };
+
+  useEffect(() => {
+    //setting the max value for staking by default
+    if (initialStep) props.onChangeAmount(fromWei(props.sovBalance));
+    setInitialStep(false);
+  }, [props, initialStep]);
 
   return (
     <>
@@ -47,12 +58,12 @@ export function IncreaseStakeForm(props: Props) {
           <div className="tw-flex tw-space-x-4 tw-relative">
             <input
               readOnly
-              className="tw-appearance-none tw-border tw-border-sov-white tw-border-solid tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-14 tw-bg-black tw-text-sov-white tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
+              className="tw-appearance-none tw-border tw-border-sov-white tw-border-solid tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-pr-12 tw-pl-8 tw-bg-black tw-text-sov-white tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
               id="amount"
               type="text"
-              defaultValue={props.amount}
+              defaultValue={weiToNumberFormat(toWei(props.amount), 6)}
             />
-            <span className="tw-text-sov-white tw-text-md tw-font-semibold tw-absolute tw-top-3 tw-right-5 tw-leading-4">
+            <span className="tw-text-sov-white tw-text-md tw-font-semibold tw-absolute tw-top-3 tw-right-3 tw-leading-4">
               {t(translations.stake.sov)}
             </span>
           </div>
@@ -65,23 +76,21 @@ export function IncreaseStakeForm(props: Props) {
           </label>
           <div className="tw-flex tw-space-x-4 tw-relative">
             <input
-              className="tw-appearance-none tw-border tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-px-14 tw-bg-sov-white tw-text-black tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
+              className="tw-appearance-none tw-border tw-text-md tw-font-semibold tw-text-center tw-h-10 tw-rounded-lg tw-w-full tw-py-2 tw-pr-12 tw-pl-8 tw-bg-sov-white tw-text-black tw-tracking-normal focus:tw-outline-none focus:tw-shadow-outline"
               id="amountAdd"
               type="text"
-              placeholder="Enter amount"
+              placeholder={t(translations.stake.staking.amountPlaceholder)}
               value={props.amount}
               onChange={e => props.onChangeAmount(handleNumberInput(e))}
             />
-            <span className="tw-text-black tw-text-md tw-font-semibold tw-absolute tw-top-3 tw-right-5 tw-leading-4">
+            <span className="tw-text-black tw-text-md tw-font-semibold tw-absolute tw-top-3 tw-right-3 tw-leading-4">
               {t(translations.stake.sov)}
             </span>
           </div>
-          <div className="tw-flex tw-rounded tw-border tw-border-secondary tw-mt-4">
+          <div className="tw-flex tw-rounded tw-border tw-border-secondary tw-mt-4 tw-mb-2">
             <div
               onClick={() =>
-                props.onChangeAmount(
-                  (numberFromWei(Number(props.sovBalance)) * 0.1).toString(),
-                )
+                props.onChangeAmount(fromWei(Number(props.sovBalance) / 10))
               }
               className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-secondary tw-tracking-tighter tw-border-secondary"
             >
@@ -89,9 +98,7 @@ export function IncreaseStakeForm(props: Props) {
             </div>
             <div
               onClick={() =>
-                props.onChangeAmount(
-                  (numberFromWei(Number(props.sovBalance)) * 0.25).toString(),
-                )
+                props.onChangeAmount(fromWei(Number(props.sovBalance) / 4))
               }
               className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-secondary tw-tracking-tighter tw-border-secondary"
             >
@@ -99,9 +106,7 @@ export function IncreaseStakeForm(props: Props) {
             </div>
             <div
               onClick={() =>
-                props.onChangeAmount(
-                  (numberFromWei(Number(props.sovBalance)) * 0.5).toString(),
-                )
+                props.onChangeAmount(fromWei(Number(props.sovBalance) / 2))
               }
               className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-secondary tw-tracking-tighter tw-border-secondary"
             >
@@ -110,7 +115,7 @@ export function IncreaseStakeForm(props: Props) {
             <div
               onClick={() =>
                 props.onChangeAmount(
-                  (numberFromWei(Number(props.sovBalance)) * 0.75).toString(),
+                  fromWei((Number(props.sovBalance) / 4) * 3),
                 )
               }
               className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-border-r tw-text-sm tw-text-secondary tw-tracking-tighter tw-border-secondary"
@@ -118,14 +123,18 @@ export function IncreaseStakeForm(props: Props) {
               75%
             </div>
             <div
-              onClick={() =>
-                props.onChangeAmount(numberFromWei(props.sovBalance).toString())
-              }
+              onClick={() => props.onChangeAmount(fromWei(props.sovBalance))}
               className="tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-w-1/5 tw-py-1 tw-text-center tw-text-sm tw-text-secondary tw-tracking-tighter"
             >
               100%
             </div>
           </div>
+
+          <div className="tw-flex tw-text-xs">
+            <AvailableBalance asset={Asset.SOV} />
+            <div className="tw-ml-1">{t(translations.stake.sov)}</div>
+          </div>
+
           <label
             className="tw-block tw-text-sov-white tw-text-md tw-font-medium tw-mb-2 tw-mt-8"
             htmlFor="voting-power"

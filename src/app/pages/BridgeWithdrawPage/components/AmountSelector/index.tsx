@@ -18,9 +18,14 @@ import { useBridgeLimits } from '../../../BridgeDepositPage/hooks/useBridgeLimit
 import { useBridgeTokenBalance } from '../../../BridgeDepositPage/hooks/useBridgeTokenBalance';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { translations } from 'locales/i18n';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
+import styles from './index.module.scss';
+import cn from 'classnames';
+import { discordInvite } from 'utils/classifiers';
+import { useIsBridgeWithdrawLocked } from 'app/pages/BridgeWithdrawPage/hooks/useIsBridgeWithdrawLocked';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 
-export function AmountSelector() {
+export const AmountSelector: React.FC = () => {
   const { amount, chain, targetChain, sourceAsset, targetAsset } = useSelector(
     selectBridgeWithdrawPage,
   );
@@ -108,6 +113,11 @@ export function AmountSelector() {
     checkSpentToday,
   ]);
 
+  const bridgeWithdrawLocked = useIsBridgeWithdrawLocked(
+    sourceAsset,
+    targetChain,
+  );
+
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-w-96">
       <div className="tw-flex tw-flex-col tw-items-center tw-w-96">
@@ -131,7 +141,12 @@ export function AmountSelector() {
               )}{' '}
               {currentAsset.symbol}
               {(!checkBridgeBalance || !checkSpentToday) && (
-                <div className="tw-absolute tw-b-0 tw-l-0 tw-text-Red">
+                <div
+                  className={cn(
+                    styles.warning,
+                    'tw-absolute tw-b-0 tw-l-0 tw-text-Red',
+                  )}
+                >
                   {!checkBridgeBalance
                     ? t(trans.insufficientAggregator)
                     : t(trans.insufficientDaily)}
@@ -141,7 +156,6 @@ export function AmountSelector() {
           </FormGroup>
         </div>
         <div className="text-center tw-mt-4 tw-mb-2">
-          {' '}
           {t(trans.dailyBridgeLimits)}
         </div>
         <Table>
@@ -226,13 +240,33 @@ export function AmountSelector() {
         <ActionButton
           className="tw-mt-10 tw-w-96 tw-font-semibold tw-rounded-xl"
           text={t(translations.common.next)}
-          disabled={!isValid}
+          disabled={bridgeWithdrawLocked || !isValid}
           onClick={selectAmount}
         />
+
+        {bridgeWithdrawLocked && (
+          <ErrorBadge
+            content={
+              <Trans
+                i18nKey={translations.maintenance.bridgeSteps}
+                components={[
+                  <a
+                    href={discordInvite}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                  >
+                    x
+                  </a>,
+                ]}
+              />
+            }
+          />
+        )}
       </div>
     </div>
   );
-}
+};
 
 const Table = styled.table`
   td {

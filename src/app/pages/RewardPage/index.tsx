@@ -1,24 +1,46 @@
-/**
- *
- * RewardPage
- *
- */
-
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { translations } from 'locales/i18n';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Header } from '../../components/Header';
-import { Footer } from '../../components/Footer';
-import { ClaimForm } from './components/ClaimForm';
-import { useAccount } from 'app/hooks/useAccount';
-import { HistoryTable } from './components/HistoryTable';
+import { useTranslation } from 'react-i18next';
+
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
-import { StakingRewardsClaimForm } from './components/StakingRewardsClaimForm';
+import { translations } from 'locales/i18n';
+
+import { Footer } from '../../components/Footer';
+import { Header } from '../../components/Header';
+import { HistoryTable } from './components/HistoryTable';
+import { LiquidTab } from './components/LiquidTab';
+import { RewardTab } from './components/RewardTab';
+import { Tab } from './components/Tab';
+import { RewardTabType } from './types';
+
+import imgSov from 'assets/images/reward/sov.svg';
+import imgBtc from 'assets/images/reward/Bitcoin.svg';
+import styles from './index.module.scss';
+import { FeesEarnedTab } from './components/FeesEarnedTab';
+import { Asset } from 'types';
+import { useGetLiquidSovClaimAmount } from './hooks/useGetLiquidSovClaimAmount';
+import { useGetRewardSovClaimAmount } from './hooks/useGetRewardSovClaimAmount';
+import { useGetFeesEarnedClaimAmount } from './hooks/useGetFeesEarnedClaimAmount';
+import { useAccount } from 'app/hooks/useAccount';
 
 export function RewardPage() {
   const { t } = useTranslation();
-  const userAddress = useAccount();
+  const [activeTab, setActiveTab] = useState(RewardTabType.REWARD_SOV);
+  const address = useAccount();
+
+  const {
+    availableLendingRewards,
+    availableTradingRewards,
+    availableLiquidityRewards,
+    amountToClaim: rewardSovClaimAmount,
+  } = useGetRewardSovClaimAmount();
+
+  const liquidSovClaimAmount = useGetLiquidSovClaimAmount();
+  const {
+    totalAmount: totalFeesEarned,
+    earnedFees,
+    loading: feesLoading,
+  } = useGetFeesEarnedClaimAmount();
 
   return (
     <>
@@ -32,17 +54,71 @@ export function RewardPage() {
 
       <Header />
 
-      <div className="tw-container tw-mt-9 tw-mx-auto tw-px-6">
+      <div className={styles['background-image-wrapper']}>
+        <img className={styles['background-image']} src={imgSov} alt="SOV" />
+        <img className={styles['background-image']} src={imgBtc} alt="BTC" />
+      </div>
+
+      <div className="tw-container tw-mt-9 tw-mx-auto tw-px-6 tw-relative">
         <div className="tw-mt-4 tw-items-center tw-flex tw-flex-col">
-          <div className="tw-w-full tw-items-center tw-justify-center tw-flex tw-flex-col tw-space-y-8 lg:tw-flex-row lg:tw-space-x-8 lg:tw-space-y-0">
-            <ClaimForm address={userAddress} />
-            <StakingRewardsClaimForm address={userAddress} />
+          <div className={styles['page-main-section']}>
+            <div className="tw-flex tw-flex-row tw-items-center tw-justify-start tw-mt-24">
+              <div className="tw-w-full">
+                <Tab
+                  text={t(translations.rewardPage.sov.reward)}
+                  amountToClaim={rewardSovClaimAmount}
+                  active={activeTab === RewardTabType.REWARD_SOV}
+                  onClick={() => setActiveTab(RewardTabType.REWARD_SOV)}
+                />
+              </div>
+              <div className="tw-w-full">
+                <Tab
+                  text={t(translations.rewardPage.sov.liquid)}
+                  active={activeTab === RewardTabType.LIQUID_SOV}
+                  onClick={() => setActiveTab(RewardTabType.LIQUID_SOV)}
+                  amountToClaim={liquidSovClaimAmount}
+                />
+              </div>
+              <div className="tw-w-full">
+                <Tab
+                  text={t(translations.rewardPage.sov.fee)}
+                  active={activeTab === RewardTabType.FEES_EARNED}
+                  onClick={() => setActiveTab(RewardTabType.FEES_EARNED)}
+                  amountToClaim={totalFeesEarned.toString()}
+                  asset={Asset.RBTC}
+                  loading={feesLoading}
+                  showApproximateSign
+                />
+              </div>
+            </div>
+            <div className="tw-flex-1 tw-flex tw-justify-center tw-align-center">
+              {activeTab === RewardTabType.REWARD_SOV && (
+                <RewardTab
+                  availableLendingRewards={availableLendingRewards}
+                  availableLiquidityRewards={availableLiquidityRewards}
+                  availableTradingRewards={availableTradingRewards}
+                  amountToClaim={rewardSovClaimAmount}
+                />
+              )}
+              {activeTab === RewardTabType.LIQUID_SOV && (
+                <LiquidTab amountToClaim={liquidSovClaimAmount} />
+              )}
+              {activeTab === RewardTabType.FEES_EARNED && (
+                <FeesEarnedTab
+                  amountToClaim={totalFeesEarned.toString()}
+                  earnedFees={earnedFees}
+                  loading={feesLoading}
+                />
+              )}
+            </div>
           </div>
           <div className="tw-flex-1 tw-mt-12 tw-w-full">
             <div className="tw-px-3 tw-text-lg">
-              {t(translations.rewardPage.historyTable.title)}
+              {activeTab === RewardTabType.FEES_EARNED
+                ? t(translations.rewardPage.historyTable.titleFeesEarned)
+                : t(translations.rewardPage.historyTable.title)}
             </div>
-            {!userAddress ? (
+            {!address ? (
               <SkeletonRow
                 loadingText={t(
                   translations.rewardPage.historyTable.walletHistory,
@@ -50,7 +126,7 @@ export function RewardPage() {
                 className="tw-mt-2"
               />
             ) : (
-              <HistoryTable />
+              <HistoryTable activeTab={activeTab} />
             )}
           </div>
         </div>

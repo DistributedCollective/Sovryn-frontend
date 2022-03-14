@@ -15,12 +15,20 @@ import { useBridgeLimits } from '../../hooks/useBridgeLimits';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { NetworkModel } from '../../types/network-model';
 import { translations } from 'locales/i18n';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
+import { useIsBridgeDepositLocked } from 'app/pages/BridgeDepositPage/hooks/useIsBridgeDepositLocked';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { discordInvite } from 'utils/classifiers';
 
-export function ReviewStep() {
-  const { amount, chain, targetChain, sourceAsset, tx } = useSelector(
-    selectBridgeDepositPage,
-  );
+export const ReviewStep: React.FC = () => {
+  const {
+    amount,
+    chain,
+    targetChain,
+    sourceAsset,
+    targetAsset,
+    tx,
+  } = useSelector(selectBridgeDepositPage);
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const trans = translations.BridgeDepositPage.reviewStep;
@@ -78,6 +86,8 @@ export function ReviewStep() {
     limitsLoading,
   ]);
 
+  const bridgeDepositLocked = useIsBridgeDepositLocked(targetAsset, chain);
+
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
       <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
@@ -118,14 +128,33 @@ export function ReviewStep() {
         </Table>
 
         <Button
-          text={t(trans.confirmDeposit)}
           className="tw-mt-20 tw-w-80"
+          text={t(trans.confirmDeposit)}
           size={ButtonSize.lg}
-          disabled={!isValid || tx.loading}
+          disabled={bridgeDepositLocked || !isValid || tx.loading}
           loading={tx.loading}
           onClick={handleSubmit}
         />
+        {bridgeDepositLocked && (
+          <ErrorBadge
+            content={
+              <Trans
+                i18nKey={translations.maintenance.bridgeSteps}
+                components={[
+                  <a
+                    href={discordInvite}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                  >
+                    x
+                  </a>,
+                ]}
+              />
+            }
+          />
+        )}
       </div>
     </div>
   );
-}
+};

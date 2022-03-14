@@ -1,8 +1,8 @@
-import { bignumber } from 'mathjs';
 import { useSendContractTx } from '../useSendContractTx';
 import { useAccount } from '../useAccount';
-import { Asset } from '../../../types/asset';
+import { Asset } from '../../../types';
 import { TxType } from '../../../store/global/transactions-store/types';
+import { gasLimit } from '../../../utils/classifiers';
 
 export function useSwapNetwork_convertByPath(
   sourceToken: Asset,
@@ -20,15 +20,12 @@ export function useSwapNetwork_convertByPath(
   );
   return {
     send: (nonce?: number, approveTx?: string | null) => {
-      let args = [
-        path,
-        amount,
-        bignumber(minReturn).minus(bignumber(minReturn).mul(0.005)).toFixed(0), // removes 0.5%
-      ];
+      let args = [path, amount, minReturn];
 
       let config: any = {
         from: account,
         value: sourceToken === Asset.RBTC ? amount : '0',
+        gas: gasLimit[TxType.CONVERT_BY_PATH],
         nonce,
       };
 
@@ -36,9 +33,7 @@ export function useSwapNetwork_convertByPath(
         args = [
           path,
           amount,
-          bignumber(minReturn)
-            .minus(bignumber(minReturn).mul(0.005))
-            .toFixed(0), // removes 0.5%
+          minReturn,
           account,
           '0x0000000000000000000000000000000000000000',
           '0',
@@ -46,9 +41,11 @@ export function useSwapNetwork_convertByPath(
 
         config = {
           from: account,
+          gas: gasLimit[TxType.CONVERT_BY_PATH],
           nonce,
         };
       }
+
       return send(args, config, {
         type: TxType.CONVERT_BY_PATH,
         approveTransactionHash: approveTx,

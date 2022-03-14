@@ -15,7 +15,7 @@
       tw-text-center;
   }
   .tw-qrcode-wrapper svg {
-    @apply tw-w-10 tw-h-full tw-py-6 tw-mx-20 tw-mt-0 tw-mb-6
+    @apply tw-h-full tw-py-6 tw-mx-20 tw-mt-0 tw-mb-6
       tw-rounded-xl;
   }
   .tw-qrcode-wrapper path:first-child {

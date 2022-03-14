@@ -1,10 +1,11 @@
 import React, { useCallback } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import classNames from 'classnames';
 import { translations } from 'locales/i18n';
 import { useWalletContext } from '@sovryn/react-wallet';
-import { DialogTitle, EngageButton, EngageWalletDialogWrapper } from './styled';
-import imgLargeNFT from 'assets/images/OriginsLaunchpad/FishSale/large_NFT.svg';
-import { Spinner } from '@blueprintjs/core';
+import imgLargeNFT from 'assets/origins_launchpad/MYNT_NFT_Large.png';
+import styles from './index.module.scss';
+import { Spinner, SpinnerSize } from 'app/components/Spinner';
 
 interface IEngageWalletStepProps {
   saleName: string;
@@ -20,22 +21,29 @@ export const EngageWalletStep: React.FC<IEngageWalletStepProps> = ({
 
   return (
     <>
-      <img src={imgLargeNFT} alt="Dialog NFT" />
-      <EngageWalletDialogWrapper>
+      <img
+        src={imgLargeNFT}
+        alt="Dialog NFT"
+        className="tw-my-auto tw-border-solid tw-border-8 tw-border-gray-9 tw-rounded-3xl"
+      />
+      <div className={styles.engageWalletDialogWrapper}>
         <div>
-          <DialogTitle>
+          <div className={styles.dialogTitle}>
             {t(
               translations.originsLaunchpad.saleDay.engageWalletScreen
                 .dialogTitle,
               { token: saleName },
             )}
-          </DialogTitle>
+          </div>
 
-          <EngageButton
+          <button
             onClick={onEngageClick}
-            className="tw-flex tw-justify-center tw-items-center"
+            className={classNames(
+              'tw-flex tw-justify-center tw-items-center',
+              styles.engageButton,
+            )}
           >
-            {connecting && <Spinner size={22} />}
+            {connecting && <Spinner size={SpinnerSize.SM} />}
             {!connecting && (
               <span className="xl:tw-inline tw-truncate">
                 {t(
@@ -44,10 +52,10 @@ export const EngageWalletStep: React.FC<IEngageWalletStepProps> = ({
                 )}
               </span>
             )}
-          </EngageButton>
+          </button>
         </div>
 
-        <div className="tw-max-w-md">
+        <div className="tw-max-w-md tw-mx-auto">
           <div>
             <Trans
               i18nKey={
@@ -86,7 +94,7 @@ export const EngageWalletStep: React.FC<IEngageWalletStepProps> = ({
             />
           </div>
         </div>
-      </EngageWalletDialogWrapper>
+      </div>
     </>
   );
 };

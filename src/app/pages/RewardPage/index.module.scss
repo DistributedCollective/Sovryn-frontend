@@ -1,0 +1,32 @@
+.page-main-section {
+  width: 57.5rem;
+}
+
+.background-image-wrapper {
+  @apply tw-absolute tw-top-0 tw-left-0 tw-z-0 tw-opacity-25 tw-flex tw-justify-between tw-w-full;
+  max-height: 43rem;
+}
+
+.background-image {
+  max-width: 50%;
+}
+
+.tab-main-section {
+  @apply tw-w-full tw-flex tw-flex-row tw-justify-center tw-items-center;
+  background-color: #222222;
+}
+
+.divider {
+  @apply tw-w-0 tw-border tw-border-sov-white;
+  height: 9.375rem;
+}
+
+.ul {
+  @apply tw-relative;
+
+  &:before {
+    @apply tw-absolute tw-inline-block tw--left-4 tw-w-1.5 tw-h-1.5 tw-mr-2 tw-bg-sov-white tw-rounded-full;
+    content: '';
+    top: 0.45rem;
+  }
+}

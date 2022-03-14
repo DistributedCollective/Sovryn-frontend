@@ -1,13 +1,9 @@
-/**
- *
- * TradeButton
- *
- */
 import React from 'react';
 import styled, { css } from 'styled-components/macro';
-import { Spinner, Text, Tooltip } from '@blueprintjs/core';
+import { Text, Tooltip } from '@blueprintjs/core';
 import { media } from '../../../styles/media';
 import { ConditionalWrapper } from '../ConditionalWrapper';
+import { Spinner, SpinnerSize } from '../Spinner';
 
 interface Props {
   text: React.ReactNode;
@@ -19,6 +15,7 @@ interface Props {
   tooltip?: string | JSX.Element;
   tooltipProps?: any;
   hideIt?: boolean;
+  dataActionId?: string;
 }
 
 export function TradeButton(props: Props) {
@@ -45,13 +42,16 @@ export function TradeButton(props: Props) {
         className="sovryn-border tw-flex-grow-0 tw-flex-shrink-0 tw-font-bold"
         textColor={props.textColor}
         onClick={handleClick}
+        data-action-id={props.dataActionId}
       >
         <Text
           ellipsize
           className="tw-flex tw-flex-row tw-items-center tw-justify-center"
           tagName="span"
         >
-          {props.loading && <Spinner className="tw-mr-1" size={17} />}
+          {props.loading && (
+            <Spinner className="tw-mr-1" size={SpinnerSize.SM} />
+          )}
           {props.text}
         </Text>
       </StyledButton>

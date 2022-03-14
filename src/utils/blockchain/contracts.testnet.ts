@@ -3,41 +3,41 @@
  * Use getContract(contractName) helper
  * @example getContract('sovrynProtocol');
  */
-
-import bzxAbi from './abi/bzxAbi.json';
-import priceFeedsAbi from './abi/priceFeedAbi.json';
-import LiquidityPoolV1Converter from './abi/LiquidityPoolV1Converter.json';
-import LiquidityPoolV2Converter from './abi/LiquidityPoolV2Converter.json';
-import RBTCWrapperProxy from './abi/RBTCWrapperProxy.json';
-import tokenAbi from './abi/abiTestToken.json';
-import TestTokenABI from './abi/abiTestToken.json';
-import abiTestWBRTCToken from './abi/abiTestWBRTCToken.json';
-import LoanTokenLogicWrbtc from './abi/LoanTokenLogicWrbtc.json';
-import LoanTokenLogicStandard from './abi/LoanTokenLogicStandard.json';
-import SwapNetworkABI from './abi/SovrynSwapNetwork.json';
+import erc20TokenAbi from './abi/abiTestToken.json';
+import WBRTCTokenABI from './abi/abiTestWBRTCToken.json';
 import ConverterRegistryABI from './abi/ConverterRegistry.json';
 import CrowdSaleAbi from './abi/CrowdSale.json';
+import EscrowRewardsAbi from './abi/EscrowRewardsAbi.json';
+import feeSharingProxyAbi from './abi/FeeSharingProxy.json';
+import stakingRewardsProxyAbi from './abi/StakingRewards.json';
+import LiquidityMiningAbi from './abi/LiquidityMining.json';
+import LoanTokenLogicStandard from './abi/LoanTokenLogicStandard.json';
+import LoanTokenLogicWrbtc from './abi/LoanTokenLogicWrbtc.json';
+import LockedFundAbi from './abi/LockedFund.json';
+import LockedSovAbi from './abi/LockedSOV.json';
+import OriginClaimAbi from './abi/OriginInvestorsClaim.json';
+import OriginsBaseAbi from './abi/OriginsBase.json';
+import priceFeedsAbi from './abi/priceFeedAbi.json';
+import RBTCWrapperProxy from './abi/RBTCWrapperProxy.json';
 import SovrynNFTAbi from './abi/SovrynNFT.json';
-import CSOVTokenAbi from './abi/CSOVToken.json';
+import SwapNetworkABI from './abi/SovrynSwapNetwork.json';
+import StakingAbi from './abi/Staking.json';
 import VestingAbi from './abi/Vesting.json';
 import VestingRegistryAbi from './abi/VestingRegistry.json';
 import VestingRegistryOriginAbi from './abi/VestingRegistryOrigin.json';
-import StakingAbi from './abi/Staking.json';
-import OriginClaimAbi from './abi/OriginInvestorsClaim.json';
-import EscrowRewardsAbi from './abi/EscrowRewardsAbi.json';
-import LiquidityMiningAbi from './abi/LiquidityMining.json';
-import LockedSovAbi from './abi/LockedSOV.json';
-import feeSharingProxyAbi from './abi/FeeSharingProxy.json';
-import stakingRewardsProxyAbi from './abi/StakingRewards.json';
-import FISHTokenAbi from './abi/FISH.json';
-import OriginsBaseAbi from './abi/OriginsBase.json';
-import LockedFundAbi from './abi/LockedFund.json';
+import SovrynProtocolAbi from './abi/sovrynProtocol.json';
 import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
+import nftAbi from './abi/nftAbi.json';
+import MYNTControllerAbi from './abi/MYNTController.json';
+import MYNTTokenAbi from './abi/MYNT_token.json';
+import MYNTPresaleAbi from './abi/MYNTPresale.json';
+import MYNTMarketMakerAbi from './abi/MYNTMarketMaker.json';
+import fastBtcBridgeAbi from './abi/fastBtcBridge.json';
 
 export const contracts = {
   sovrynProtocol: {
     address: '0x25380305f223B32FDB844152abD2E82BC5Ad99c3',
-    abi: bzxAbi,
+    abi: SovrynProtocolAbi,
     blockNumber: 1218686,
   },
   BTCWrapperProxy: {
@@ -62,7 +62,13 @@ export const contracts = {
   },
   RBTC_token: {
     address: '0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab',
-    abi: abiTestWBRTCToken,
+    abi: WBRTCTokenABI,
+    blockNumber: 1205599,
+  },
+  WRBTC_token: {
+    // keep this after RBTC_token to prevent issues with RBTC tx's being picked up as WRBTC
+    address: '0x69FE5cEC81D5eF92600c1A0dB1F11986AB3758Ab',
+    abi: WBRTCTokenABI,
     blockNumber: 1205599,
   },
   RBTC_lending: {
@@ -72,7 +78,7 @@ export const contracts = {
   },
   DOC_token: {
     address: '0xCB46c0ddc60D18eFEB0E586C17Af6ea36452Dae0',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 202559,
   },
   DOC_lending: {
@@ -80,29 +86,24 @@ export const contracts = {
     abi: LoanTokenLogicStandard,
     blockNumber: 1218721,
   },
-  DOC_amm: {
-    address: '0x497b0517dd24f66c456e93bc0adbb2a2bf159ec4',
-    abi: LiquidityPoolV2Converter,
-    blockNumber: 1218833,
+  RDOC_token: {
+    address: '0xc3de9f38581f83e281f260d0ddbaac0e102ff9f8',
+    abi: erc20TokenAbi,
+    blockNumber: 1764664,
   },
   MOC_token: {
     address: '0x45a97b54021a3f99827641afe1bfae574431e6ab',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 202559,
   },
-  // MOC_lending: {
-  //   address: '0x74e00A8CeDdC752074aad367785bFae7034ed89f',
-  //   abi: LoanTokenLogicStandard,
-  //   blockNumber: 1218721,
-  // },
-  MOC_amm: {
-    address: '0x478133b66B54e55bfA46b1182e274b5cCE47C60E',
-    abi: LiquidityPoolV1Converter,
-    blockNumber: 1218833,
+  RIF_token: {
+    address: '0x19f64674d8a5b4e652319f5e239efd3bc969a1fe',
+    abi: erc20TokenAbi,
+    blockNumber: 1408174,
   },
   USDT_token: {
     address: '0x4D5a316D23eBE168d8f887b4447bf8DbFA4901CC',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 1408174,
   },
   USDT_lending: {
@@ -110,14 +111,9 @@ export const contracts = {
     abi: LoanTokenLogicStandard,
     blockNumber: 1406290,
   },
-  USDT_amm: {
-    address: '0x133eBE9c8bA524C9B1B601E794dF527f390729bF',
-    abi: LiquidityPoolV2Converter,
-    blockNumber: 1218833,
-  },
   XUSD_token: {
     address: '0x74858FE37d391f81F89472e1D8BC8Ef9CF67B3b1',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 1408174,
   },
   XUSD_lending: {
@@ -125,14 +121,9 @@ export const contracts = {
     abi: LoanTokenLogicStandard,
     blockNumber: 1406290,
   },
-  XUSD_amm: {
-    address: '0x169B7A8Fc9615797e118B464b4fF1f594Dcad7a4',
-    abi: LiquidityPoolV1Converter,
-    blockNumber: 1218833,
-  },
   BPRO_token: {
     address: '0x4dA7997A819bb46B6758b9102234c289Dd2ad3bf',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 202562,
   },
   BPRO_lending: {
@@ -140,40 +131,15 @@ export const contracts = {
     abi: LoanTokenLogicStandard,
     blockNumber: 1218721,
   },
-  BPRO_amm: {
-    address: '0xe4E467D8B5f61b5C83048d857210678eB86730A4',
-    abi: LiquidityPoolV2Converter,
-    blockNumber: 1218833,
-  },
   ETH_token: {
     address: '0x0Fd0d8D78Ce9299Ee0e5676a8d51F938C234162c',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 1408174,
-  },
-  // ETH_lending: {
-  //   address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
-  //   abi: LoanTokenLogicStandard,
-  //   blockNumber: 1406290,
-  // },
-  ETH_amm: {
-    address: '0xf46DC974edD1754D4815AaE44Ab4542fF39B898D',
-    abi: LiquidityPoolV1Converter,
-    blockNumber: 1218833,
   },
   BNBS_token: {
     address: '0x801F223Def9A4e3a543eAcCEFB79dCE981Fa2Fb5',
-    abi: TestTokenABI,
+    abi: erc20TokenAbi,
     blockNumber: 1408174,
-  },
-  // BNBS_lending: {
-  //   address: '0xd1f225BEAE98ccc51c468d1E92d0331c4f93e566',
-  //   abi: LoanTokenLogicStandard,
-  //   blockNumber: 1406290,
-  // },
-  BNBS_amm: {
-    address: '0x4F87d545B6E747433a80a6AA0dbEc962478aB271',
-    abi: LiquidityPoolV1Converter,
-    blockNumber: 1218833,
   },
   CrowdSale: {
     address: '0x62BDB11190f538274bD55A4DC74fA4665e7CB752',
@@ -206,7 +172,7 @@ export const contracts = {
     blockNumber: 1218836,
   },
   vestingRegistry: {
-    address: '0x80ec7ADd6CC1003BBEa89527ce93722e1DaD5c2a',
+    address: '0x09e8659B6d204C6b1bED2BFF8E3F43F834A5Bbc4',
     abi: VestingRegistryAbi,
     blockNumber: 1218836,
   },
@@ -231,12 +197,12 @@ export const contracts = {
   },
   CSOV_token: {
     address: '0x75bbf7f4d77777730eE35b94881B898113a93124',
-    abi: CSOVTokenAbi,
+    abi: erc20TokenAbi,
     blockNumber: 1218833,
   },
   CSOV2_token: {
     address: '0x1dA260149ffee6fD4443590ee58F65b8dC2106B9',
-    abi: CSOVTokenAbi,
+    abi: erc20TokenAbi,
     blockNumber: 1218833,
   },
   OriginInvestorsClaim: {
@@ -245,22 +211,12 @@ export const contracts = {
   },
   SOV_token: {
     address: '0x6a9A07972D07e58F0daf5122d11E069288A375fb',
-    abi: tokenAbi,
+    abi: erc20TokenAbi,
     blockNumber: 1606431,
   },
-  SOV_amm: {
-    address: '0x1Cecc8B488abcF9A0932E54328dD51980cbe86Ea',
-    abi: LiquidityPoolV1Converter,
-    blockNumber: 1218833,
-  },
-  // SOV_lending: {
-  //   address: '0x09c5faf7723b13434abdf1a65ab1b667bc02a902', // todo
-  //   abi: LoanTokenLogicStandard,
-  //   blockNumber: 1218742,
-  // },
   NFT_tier1: {
     address: '0xC5452Dbb2E3956C1161cB9C2d6DB53C2b60E7805',
-    abi: tokenAbi,
+    abi: erc20TokenAbi,
   },
   escrowRewards: {
     address: '0x8205153fA1492DFA191395bEABA3a210FeDf5A60',
@@ -271,11 +227,16 @@ export const contracts = {
     abi: LiquidityMiningAbi,
   },
   lockedSov: {
-    address: '0xC59a6aEF32b4C76c8CA989498eD230043f3D9ec0',
+    address: '0x6B94DA2d05039173d017359553D685aCfBaa782f',
     abi: LockedSovAbi,
   },
+  feeSharingProxy_old: {
+    // retained for use with legacy staking fees
+    address: '0xedD92fb7C556E4A4faf8c4f5A90f471aDCD018f4',
+    abi: feeSharingProxyAbi,
+  },
   feeSharingProxy: {
-    address: '0x740E6f892C0132D659Abcd2B6146D237A4B6b653',
+    address: '0xedD92fb7C556E4A4faf8c4f5A90f471aDCD018f4',
     abi: feeSharingProxyAbi,
   },
   stakingRewards: {
@@ -284,11 +245,7 @@ export const contracts = {
   },
   FISH_token: {
     address: '0xaa7038D80521351F243168FefE0352194e3f83C3',
-    abi: FISHTokenAbi,
-  },
-  FISH_amm: {
-    address: '0x179caA42B5024ec1C3D8513A262fC9986F565295',
-    abi: LiquidityPoolV1Converter,
+    abi: erc20TokenAbi,
   },
   FISH_staking: {
     address: '0xc1fc98FEFA2130fC1CE352ec85f7aa61021eFE97',
@@ -308,7 +265,33 @@ export const contracts = {
     abi: VestingRegistryAbi,
   },
   babelfishAggregator: {
-    address: '0xca8b437d9d586b938CE000e765476A0594856b51',
+    address: '0x1572D7E4a78A8AD14AE722E6fE5f5600a2c7A149',
     abi: BabelfishAggregatorAbi,
+  },
+  sovrynNFT: {
+    address: '0x576ae218aecfd4cbd2dbe07250b47e26060932b1', // todo
+    abi: nftAbi,
+  },
+  MYNT_ctrl: {
+    address: '0x6F62D2F571BcE7187CdFDD4b1E5E53cfD7d14dd2',
+    abi: MYNTControllerAbi,
+    blockNumber: 2267574,
+  },
+  MYNT_token: {
+    address: '0x139483e22575826183F5b56dd242f8f2C1AEf327',
+    abi: MYNTTokenAbi,
+    blockNumber: 2267574,
+  },
+  MYNTPresale: {
+    address: '0xc89E1ef68f406bf2F5337d2Aad0a99a023c1697c',
+    abi: MYNTPresaleAbi,
+  },
+  MYNTMarketMaker: {
+    address: '0xf75170ce8d4060b8D5fc24E996FA00A94bb8A232',
+    abi: MYNTMarketMakerAbi,
+  },
+  fastBtcBridge: {
+    address: '0x10C848e9495a32acA95F6c23C92eCA2b2bE9903A',
+    abi: fastBtcBridgeAbi,
   },
 };

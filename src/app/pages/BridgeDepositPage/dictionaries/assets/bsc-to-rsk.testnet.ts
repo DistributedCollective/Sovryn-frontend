@@ -1,4 +1,4 @@
-import sovIcon from './icons/sov.svg';
+// import sovIcon from './icons/sov.svg';
 import bnbIcon from './icons/bnb.svg';
 import ethIcon from './icons/eth.svg';
 import usdtIcon from './icons/usdt.svg';
@@ -12,17 +12,17 @@ import { ethsAggregatorRSK, xusdAggregatorRSK } from './eth-to-rsk.testnet';
 export const bnbsAggregatorRSK = '0x790C4451c2e8e4cDC50cEdEC22756DaC993e93eb';
 
 const bscToRskTestnetAssets = [
-  new AssetModel(
-    CrossBridgeAsset.BSOV,
-    'bSOV',
-    sovIcon,
-    18,
-    4,
-    '0x6b8daa42b8ac9a0d826981a9990248bef60e2d4c',
-    false,
-    CrossBridgeAsset.SOV,
-    false,
-  ),
+  // new AssetModel(
+  //   CrossBridgeAsset.BSOV,
+  //   'bSOV',
+  //   sovIcon,
+  //   18,
+  //   4,
+  //   '0x6b8daa42b8ac9a0d826981a9990248bef60e2d4c',
+  //   false,
+  //   CrossBridgeAsset.SOV,
+  //   false,
+  // ),
   new AssetModel(
     CrossBridgeAsset.BNB,
     'BNB',
@@ -49,7 +49,7 @@ const bscToRskTestnetAssets = [
     CrossBridgeAsset.XUSD,
     true,
     true,
-    ethsAggregatorRSK,
+    xusdAggregatorRSK,
     undefined, // undefined means same as tokenContractAddress param
     [CrossBridgeAsset.XUSD],
   ),

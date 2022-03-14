@@ -18,14 +18,34 @@ enum States {
   REMOVE_LIQUIDITY = 'removeLiquidity',
   FASTBTC = 'fastBTC',
   TRANSACK = 'transack',
-  //bridge states not needed in dapp
+
+  BRIDGE = 'bridge',
+  ETH_BRIDGE = 'ethBridge',
+  BSC_BRIDGE = 'bscBridge',
+  ETH_BRIDGE_DEPOSIT = 'ethBridgeDeposit',
+  ETH_BRIDGE_WITHDRAW = 'ethBridgeWithdraw',
+  BSC_BRIDGE_DEPOSIT = 'bscBridgeDeposit',
+  BSC_BRIDGE_WITHDRAW = 'bscBridgeWithdraw',
+  BRIDGE_SOV_DEPOSIT = 'bridgeSOVDeposit',
+  BRIDGE_SOV_WITHDRAW = 'bridgeSOVWithdraw',
+  BRIDGE_XUSD_DEPOSIT = 'bridgeXUSDDeposit',
+  BRIDGE_XUSD_WITHDRAW = 'bridgeXUSDWithdraw',
+  BRIDGE_ETH_DEPOSIT = 'bridgeETHDeposit',
+  BRIDGE_ETH_WITHDRAW = 'bridgeETHWithdraw',
+  BRIDGE_BNB_DEPOSIT = 'bridgeBNBDeposit',
+  BRIDGE_BNB_WITHDRAW = 'bridgeBNBWithdraw',
+
   STAKING = 'staking',
   UNSTAKING = 'unstaking',
   WITHDRAW_FEES = 'withdrawEarnedFees',
   DELEGATE_STAKES = 'delegateStakes',
   DELEGATE_VESTS = 'delegateVests',
   WITHDRAW_VESTS = 'withdrawVests',
+
   CLAIM_REWARDS = 'claimRewards',
+  CLAIM_REWARD_SOV = 'claimRewardSov',
+  CLAIM_LIQUID_SOV = 'claimLiquidSov',
+  CLAIM_FEES_EARNED = 'claimFeesEarned',
 }
 
 type MaintenanceResult = {

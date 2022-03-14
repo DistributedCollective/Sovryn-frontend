@@ -1,34 +1,37 @@
 import { Tooltip } from '@blueprintjs/core';
 import { bignumber } from 'mathjs';
 import dayjs from 'dayjs';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import logoSvg from 'assets/images/tokens/sov.svg';
 import { translations } from 'locales/i18n';
 import { getContract } from 'utils/blockchain/contract-helpers';
-import { weiTo4 } from 'utils/blockchain/math-helpers';
+import { weiTo4, weiTo18 } from 'utils/blockchain/math-helpers';
 import {
   vesting_getEndDate,
   vesting_getStartDate,
 } from 'utils/blockchain/requests/vesting';
-import { ethGenesisAddress } from 'utils/classifiers';
+import { ethGenesisAddress, gasLimit } from 'utils/classifiers';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
-import { numberToUSD, weiToNumberFormat } from 'utils/display-text/format';
+import { weiToNumberFormat, weiToUSD } from 'utils/display-text/format';
 import { contractReader } from 'utils/sovryn/contract-reader';
-
-import { Asset } from '../../../../types/asset';
-import { AddressBadge } from '../../../components/AddressBadge';
-import { LoadableValue } from '../../../components/LoadableValue';
-import { Modal } from '../../../components/Modal';
-import { useStaking_balanceOf } from '../../../hooks/staking/useStaking_balanceOf';
-import { useStaking_getAccumulatedFees } from '../../../hooks/staking/useStaking_getAccumulatedFees';
-import { useStaking_getStakes } from '../../../hooks/staking/useStaking_getStakes';
-import { useCachedAssetPrice } from '../../../hooks/trading/useCachedAssetPrice';
-import { useAccount } from '../../../hooks/useAccount';
+import { Asset } from 'types';
+import { AddressBadge } from 'app/components/AddressBadge';
+import { LoadableValue } from 'app/components/LoadableValue';
+import { Modal } from 'app/components/Modal';
+import { useStaking_balanceOf } from 'app/hooks/staking/useStaking_balanceOf';
+import { useStaking_getAccumulatedFees } from 'app/hooks/staking/useStaking_getAccumulatedFees';
+import { useStaking_getStakes } from 'app/hooks/staking/useStaking_getStakes';
+import { useCachedAssetPrice } from 'app/hooks/trading/useCachedAssetPrice';
+import { useAccount } from 'app/hooks/useAccount';
 import { WithdrawVesting } from './WithdrawVesting';
-import { VestGroup } from './CurrentVests';
+import { VestGroup } from 'app/components/UserAssets/Vesting/types';
+import { TxDialog } from 'app/components/Dialogs/TxDialog';
+import { useSendToContractAddressTx } from 'app/hooks/useSendToContractAddressTx';
+import VestingABI from 'utils/blockchain/abi/Vesting.json';
+import { AbiItem } from 'web3-utils';
+import { TxType } from 'store/global/transactions-store/types';
 
 interface Props {
   vestingAddress: string;
@@ -156,7 +159,7 @@ export function VestingContract(props: Props) {
         setDelegateLoading(false);
       }
     }
-    if (unlockDate && !vestLoading && getStakes.value['dates'].length > 0) {
+    if (unlockDate && !vestLoading && getStakes.value?.dates?.length > 0) {
       getDelegate();
       setLocked(Number(unlockDate) > Math.round(new Date().getTime() / 1e3));
     }
@@ -167,6 +170,21 @@ export function VestingContract(props: Props) {
     delegate,
     getStakes.value,
   ]);
+
+  const { send, ...tx } = useSendToContractAddressTx(
+    props.vestingAddress.toLowerCase(),
+    VestingABI as AbiItem[],
+    'withdrawTokens',
+  );
+
+  const handleWithdraw = useCallback(
+    (receiver: string) => {
+      send([receiver], {
+        gas: gasLimit[TxType.SOV_WITHDRAW_VESTING],
+      });
+    },
+    [send],
+  );
 
   return (
     <>
@@ -194,7 +212,7 @@ export function VestingContract(props: Props) {
                     {weiTo4(lockedAmount.value)} {t(translations.stake.sov)}
                     <br />≈{' '}
                     <LoadableValue
-                      value={numberToUSD(Number(weiTo4(dollarValue)), 4)}
+                      value={weiToUSD(dollarValue)}
                       loading={dollars.loading}
                     />
                   </>
@@ -237,7 +255,18 @@ export function VestingContract(props: Props) {
             </td>
             <td>
               ≈{' '}
-              <LoadableValue value={weiTo4(rbtcValue)} loading={rbtc.loading} />{' '}
+              <Tooltip
+                position="bottom"
+                hoverOpenDelay={0}
+                hoverCloseDelay={0}
+                interactionKind="hover"
+                content={<>≈ {weiTo18(rbtcValue)} RBTC</>}
+              >
+                <LoadableValue
+                  value={weiTo4(rbtcValue)}
+                  loading={rbtc.loading}
+                />
+              </Tooltip>{' '}
               RBTC
             </td>
             <td className="md:tw-text-left tw-hidden md:tw-table-cell">
@@ -305,10 +334,12 @@ export function VestingContract(props: Props) {
             <WithdrawVesting
               vesting={props.vestingAddress}
               onCloseModal={() => setShowWithdraw(false)}
+              onWithdraw={handleWithdraw}
             />
           </>
         }
       />
+      <TxDialog tx={tx} onUserConfirmed={() => setShowWithdraw(false)} />
     </>
   );
 }

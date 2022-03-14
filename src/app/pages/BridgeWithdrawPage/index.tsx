@@ -30,7 +30,7 @@ const dirtyWithdrawAssets = {
   [Asset.ETH]: CrossBridgeAsset.ETHS,
 };
 
-export function BridgeWithdrawPage() {
+export const BridgeWithdrawPage: React.FC = () => {
   useInjectReducer({ key: sliceKey, reducer: reducer });
   useInjectSaga({ key: sliceKey, saga: bridgeWithdrawPageSaga });
 
@@ -102,7 +102,7 @@ export function BridgeWithdrawPage() {
                 {step === WithdrawStep.TOKEN_SELECTOR && <TokenSelector />}
                 {step === WithdrawStep.AMOUNT_SELECTOR && <AmountSelector />}
                 {step === WithdrawStep.RECEIVER_SELECTOR && (
-                  <ReceiverSelector />
+                  <ReceiverSelector address={account} />
                 )}
                 {step === WithdrawStep.REVIEW && <ReviewStep />}
                 {[
@@ -123,4 +123,4 @@ export function BridgeWithdrawPage() {
       </div>
     </>
   );
-}
+};

@@ -11,7 +11,7 @@ import { Tab } from '../../components/Tab';
 import { UserAssets } from '../../components/UserAssets';
 import { VestedAssets } from '../../components/UserAssets/VestedAssets';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
-import { TopUpHistory } from '../FastBtcDialog/components/TopUpHistory';
+import { TopUpHistory } from './components/TopUpHistory';
 import { SwapHistory } from '../SwapHistory';
 import { VestedHistory } from '../VestedHistory';
 import { OriginClaimBanner } from './components/OriginClaimBanner';
@@ -91,7 +91,7 @@ export function WalletPage() {
         )}
       </div>
       {connected && account && (
-        <div className="tw-container tw-max-w-none tw-mt-12">
+        <div className="tw-container tw-mt-12">
           <div className="tw-flex tw-flex-row tw-items-center tw-justify-start">
             <div className="tw-mr-2 tw-ml-2">
               <Tab

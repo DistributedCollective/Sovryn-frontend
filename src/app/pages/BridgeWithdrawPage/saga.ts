@@ -29,6 +29,8 @@ import {
 import { bridgeNetwork } from '../BridgeDepositPage/utils/bridge-network';
 import { BridgeDictionary } from '../BridgeDepositPage/dictionaries/bridge-dictionary';
 import { TxStep } from '../BridgeDepositPage/types';
+import { TxType } from 'store/global/transactions-store/types';
+import { gasLimit } from 'utils/classifiers';
 
 const { log } = debug('bridge.withdraw/saga.ts');
 
@@ -230,7 +232,10 @@ function* confirmTransfer() {
           nonce,
           data: txData,
           value: nativeValue,
-          gasLimit: nonce !== undefined ? 250000 : undefined,
+          gasLimit:
+            nonce !== undefined
+              ? gasLimit[TxType.CROSS_CHAIN_WITHDRAW]
+              : undefined,
         },
       );
 

@@ -16,11 +16,15 @@ interface Props {
   labelRenderer?: boolean | LabelRendererFn;
   className?: string;
   labelValues?: number[];
+  dataActionId?: string;
 }
 
 export function Slider({ className, ...props }: Props) {
   return (
-    <div className={cn(styles.host, className)}>
+    <div
+      className={cn(styles.host, className)}
+      data-action-id={props.dataActionId}
+    >
       <BPSlider {...props} />
     </div>
   );

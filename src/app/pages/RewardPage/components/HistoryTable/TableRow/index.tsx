@@ -1,16 +1,21 @@
-import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
-import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import React from 'react';
-import { TableTransactionStatus } from '../../../../../components/FinanceV2Components/TableTransactionStatus/index';
-import { TxStatus } from 'store/global/transactions-store/types';
+
+import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
+import { LinkToExplorer } from 'app/components/LinkToExplorer';
+import { TxStatus } from 'store/global/transactions-store/types';
 import { Asset } from 'types';
+
+import { TableTransactionStatus } from '../../../../../components/FinanceV2Components/TableTransactionStatus/index';
+import { Tooltip } from '@blueprintjs/core';
+import { weiTo18, weiToFixed } from 'utils/blockchain/math-helpers';
 
 interface ITableRowProps {
   time: number;
   type: string;
   amount: string;
   txHash: string;
+  asset: Asset;
 }
 
 export const TableRow: React.FC<ITableRowProps> = ({
@@ -18,15 +23,22 @@ export const TableRow: React.FC<ITableRowProps> = ({
   type,
   amount,
   txHash,
+  asset,
 }) => {
   return (
     <tr className="tw-text-xs">
       <td>
-        <DisplayDate timestamp={new Date(time).getTime().toString()} />
+        <DisplayDate timestamp={new Date(Number(time)).getTime().toString()} />
       </td>
       <td>{type}</td>
       <td>
-        {amount} <AssetSymbolRenderer asset={Asset.SOV} />
+        <Tooltip content={`${weiTo18(amount)} ${asset}`}>
+          <>
+            {weiToFixed(amount, 8)}
+            <span className="tw-mr-1">...</span>{' '}
+            <AssetSymbolRenderer asset={asset} />
+          </>
+        </Tooltip>
       </td>
       <td>
         <LinkToExplorer

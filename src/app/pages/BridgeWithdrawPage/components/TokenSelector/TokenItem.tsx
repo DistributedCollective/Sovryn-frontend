@@ -13,7 +13,15 @@ import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 
-export function TokenItem({ sourceAsset, balance, image, symbol, onClick }) {
+export function TokenItem({
+  sourceAsset,
+  balance,
+  loading = false,
+  image,
+  symbol,
+  onClick,
+  disabled,
+}) {
   const { t } = useTranslation();
   const { chain, targetChain } = useSelector(selectBridgeWithdrawPage);
   const asset = useMemo(
@@ -24,9 +32,10 @@ export function TokenItem({ sourceAsset, balance, image, symbol, onClick }) {
     [chain, sourceAsset, targetChain],
   );
 
-  const isDisabled = useMemo(() => !bignumber(balance).greaterThan(0), [
-    balance,
-  ]);
+  const isDisabled = useMemo(
+    () => disabled || !bignumber(balance).greaterThan(0),
+    [balance, disabled],
+  );
 
   return (
     <div>
@@ -45,7 +54,7 @@ export function TokenItem({ sourceAsset, balance, image, symbol, onClick }) {
           value={`${toNumberFormat(balance, asset.minDecimals)} ${
             asset.symbol
           }`}
-          loading={balance.loading}
+          loading={loading}
         />
       </div>
     </div>

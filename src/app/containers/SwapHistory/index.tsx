@@ -17,15 +17,14 @@ import iconSuccess from 'assets/images/icon-success.svg';
 import { selectTransactionArray } from 'store/global/transactions-store/selectors';
 import { TxStatus, TxType } from 'store/global/transactions-store/types';
 import { getContractNameByAddress } from 'utils/blockchain/contract-helpers';
-import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { numberFromWei } from 'utils/blockchain/math-helpers';
 import { backendUrl, currentChainId } from 'utils/classifiers';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
-import { numberToUSD } from 'utils/display-text/format';
+import { weiToUSD } from 'utils/display-text/format';
 import { AssetDetails } from 'utils/models/asset-details';
 
 import { translations } from '../../../locales/i18n';
-import { Asset } from '../../../types/asset';
+import { Asset } from '../../../types';
 import { DisplayDate } from '../../components/ActiveUserLoanContainer/components/DisplayDate';
 import { AssetRenderer } from '../../components/AssetRenderer';
 import { LoadableValue } from '../../components/LoadableValue';
@@ -274,10 +273,7 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
       <td className="tw-hidden lg:tw-table-cell">
         <div>{numberFromWei(data.returnVal._toAmount)}</div>≈{' '}
         <LoadableValue
-          value={numberToUSD(
-            Number(weiToFixed(Number(dollarValue) || 0, 4)),
-            4,
-          )}
+          value={weiToUSD(dollarValue || '0')}
           loading={dollars.loading}
         />
       </td>
