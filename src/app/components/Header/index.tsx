@@ -21,6 +21,7 @@ import {
 import { LanguageToggle } from '../LanguageToggle';
 import styles from './index.module.scss';
 import { ReactComponent as SovLogo } from '../../../assets/images/sovryn-logo-alpha.svg';
+import { isMainnet } from '../../../utils/classifiers';
 
 export function Header() {
   const { t } = useTranslation();
@@ -153,17 +154,23 @@ export function Header() {
       title: t(translations.mainMenu.help),
       dataActionId: 'header-link-help',
     },
-    {
-      to: '',
-      title: t(translations.mainMenu.labs),
-      dataActionId: 'header-link-labs',
-    },
-    {
-      to: '/perpetuals',
-      title: t(translations.mainMenu.perpetual),
-      dataActionId: 'header-trade-link-perpetual',
-    },
   ];
+
+  if (!isMainnet) {
+    pages.push(
+      {
+        to: '',
+        title: t(translations.mainMenu.labs),
+        dataActionId: 'header-link-labs',
+      },
+      {
+        to: '/perpetuals',
+        title: t(translations.mainMenu.perpetual),
+        dataActionId: 'header-trade-link-perpetual',
+      },
+    );
+  }
+
   const menuItems = pages.map((item, index) => {
     let link: {
       to: string;
@@ -476,39 +483,41 @@ export function Header() {
                   <FontAwesomeIcon icon={faChevronDown} size="xs" />
                 </div>
               </NavPopover>
-              <NavPopover
-                content={
-                  <BPMenu>
-                    {/* <MenuItem
+              {!isMainnet && (
+                <NavPopover
+                  content={
+                    <BPMenu>
+                      {/* <MenuItem
                       text={t(translations.mainMenu.myntToken)}
                       className="bp3-popover-dismiss"
                       href="/mynt-token"
                       rel="noopener noreferrer"
                       data-action-id="header-origins-link-launchpad"
                     /> */}
-                    <MenuItem
-                      text={t(translations.mainMenu.perpetual)}
-                      className="bp3-popover-dismiss"
-                      onClick={() => history.push('/perpetuals')}
-                      data-action-id="header-labs-link-perpetual"
-                    />
-                  </BPMenu>
-                }
-              >
-                <div
-                  className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
-                    isSectionOpen(SECTION_TYPE.LABS) && 'tw-font-bold'
-                  }`}
+                      <MenuItem
+                        text={t(translations.mainMenu.perpetual)}
+                        className="bp3-popover-dismiss"
+                        onClick={() => history.push('/perpetuals')}
+                        data-action-id="header-labs-link-perpetual"
+                      />
+                    </BPMenu>
+                  }
                 >
-                  <span
-                    className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
-                    data-action-id="header-link-labs"
+                  <div
+                    className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
+                      isSectionOpen(SECTION_TYPE.LABS) && 'tw-font-bold'
+                    }`}
                   >
-                    {t(translations.mainMenu.labs)}
-                  </span>
-                  <FontAwesomeIcon icon={faChevronDown} size="xs" />
-                </div>
-              </NavPopover>
+                    <span
+                      className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
+                      data-action-id="header-link-labs"
+                    >
+                      {t(translations.mainMenu.labs)}
+                    </span>
+                    <FontAwesomeIcon icon={faChevronDown} size="xs" />
+                  </div>
+                </NavPopover>
+              )}
             </div>
           </div>
         </div>
