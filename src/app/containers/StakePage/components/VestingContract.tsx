@@ -3,6 +3,7 @@ import { bignumber } from 'mathjs';
 import dayjs from 'dayjs';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import classNames from 'classnames';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import logoSvg from 'assets/images/tokens/sov.svg';
 import { translations } from 'locales/i18n';
@@ -200,7 +201,11 @@ export function VestingContract(props: Props) {
           </div>
         </td>
         <td className="tw-text-left tw-font-normal">
-          <p className={`tw-m-0 ${lockedAmount.loading && 'tw-skeleton'}`}>
+          <p
+            className={classNames('tw-m-0', {
+              'tw-skeleton': lockedAmount.loading,
+            })}
+          >
             {lockedAmount.value && (
               <>
                 {weiTo4(lockedAmount.value)} {t(translations.stake.sov)}
@@ -214,15 +219,22 @@ export function VestingContract(props: Props) {
           </p>
         </td>
         <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
-          <p className={`tw-m-0 ${delegateLoading && 'tw-skeleton'}`}>
+          <p
+            className={classNames('tw-m-0', {
+              'tw-skeleton': delegateLoading,
+            })}
+          >
             {delegate.length > 0 && (
               <>
                 <AddressBadge
                   txHash={delegate}
                   startLength={6}
-                  className={`tw-text-secondary hover:tw-underline ${
-                    delegateLoading && 'tw-skeleton'
-                  }`}
+                  className={classNames(
+                    'tw-text-secondary hover:tw-underline',
+                    {
+                      'tw-skeleton': delegateLoading,
+                    },
+                  )}
                 />
               </>
             )}
@@ -233,14 +245,22 @@ export function VestingContract(props: Props) {
         </td>
         <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
           {locked && (
-            <p className={`tw-m-0 ${!unlockDate && 'tw-skeleton'}`}>
+            <p
+              className={classNames('tw-m-0', {
+                'tw-skeleton': !unlockDate,
+              })}
+            >
               {Math.abs(dayjs().diff(parseInt(unlockDate) * 1e3, 'days'))}{' '}
               {t(translations.stake.days)}
             </p>
           )}
         </td>
         <td className="tw-text-left tw-hidden lg:tw-table-cell tw-font-normal">
-          <p className={`tw-m-0 ${!stakingPeriodStart && 'tw-skeleton'}`}>
+          <p
+            className={classNames('tw-m-0', {
+              'tw-skeleton': !stakingPeriodStart,
+            })}
+          >
             {dayjs
               .tz(parseInt(unlockDate) * 1e3, 'UTC')
               .tz(dayjs.tz.guess())
