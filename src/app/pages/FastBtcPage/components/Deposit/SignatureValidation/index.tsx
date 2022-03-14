@@ -41,7 +41,7 @@ export const SignatureValidation: React.FC<ISignatureValidationProps> = ({
   ).then(valid => {
     setSignatureValid(valid);
     setLoading(false);
-    valid ? setPageStatus(TxStatus.CONFIRMED) : setPageStatus(TxStatus.FAILED);
+    setPageStatus(valid ? TxStatus.CONFIRMED : TxStatus.FAILED);
     valid
       ? setStatusText(
           t(
