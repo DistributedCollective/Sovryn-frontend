@@ -21,7 +21,7 @@ export function Feature(props: Props) {
         } tw-order-1`}
       >
         <h3>{props.title}</h3>
-        <div className="content tw-font-thin tw-leading-snug">
+        <div className="content tw-font-extralight tw-leading-snug">
           {props.content}
         </div>
         {props.href.startsWith('http') ? (

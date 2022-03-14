@@ -138,7 +138,7 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
         {balance === '0' && !profitLoading && !balanceLoading && (
           <td
             colSpan={3}
-            className="tw-text-xs tw-italic tw-font-extralight tw-text-center"
+            className="tw-text-xs tw-italic tw-font-light tw-text-center"
           >
             {t(translations.lendingPage.rowTable.noLiquidityProvided, {
               asset,

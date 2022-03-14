@@ -159,7 +159,7 @@ export const WalletSelector: React.FC = () => {
               href="https://wiki.sovryn.app/en/getting-started/wallet-setup"
               target="_blank"
               rel="noopener noreferrer"
-              className="tw-cursor-pointer tw-font-light tw-text-primary tw-underline tw-my-2"
+              className="tw-cursor-pointer tw-font-normal tw-text-primary tw-underline tw-my-2"
             >
               {t(translations.BridgeDepositPage.walletSelector.howToConnect)}{' '}
               <span className="tw-uppercase">{network?.chain}</span> with{' '}

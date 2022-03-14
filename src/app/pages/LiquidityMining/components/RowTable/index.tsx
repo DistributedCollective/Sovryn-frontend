@@ -60,7 +60,7 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
         {balance1 === '0' && balance2 === '0' ? (
           <td
             colSpan={4}
-            className="tw-text-xs tw-italic tw-font-extralight tw-text-center"
+            className="tw-text-xs tw-italic tw-font-light tw-text-center"
           >
             {t(translations.liquidityMining.rowTable.noLiquidityProvided)}
           </td>

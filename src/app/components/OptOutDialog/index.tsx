@@ -40,7 +40,7 @@ export default function OptOutDialog(props: OptOutProps) {
           <h1 className="tw-mb-6 tw-text-sov-white tw-text-center">
             {t(translations.analyticsDialog.title)}
           </h1>
-          <div className="tw-text-sm tw-font-light tw-tracking-normal">
+          <div className="tw-text-sm tw-font-normal tw-tracking-normal">
             <div className="tw-mb-6">
               {t(translations.analyticsDialog.message_1)}
             </div>
