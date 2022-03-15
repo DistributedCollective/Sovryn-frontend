@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
 import { CSSTransition, SwitchTransition } from 'react-transition-group';
@@ -27,12 +27,15 @@ import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
 import UserWallet from './components/UserWallet';
+import { usePageActions } from 'app/containers/PageContainer';
 
 const dirtyDepositAsset = {
   [Asset.ETH]: CrossBridgeAsset.ETHS,
 };
 
 export const BridgeDepositPage: React.FC = () => {
+  const page = usePageActions();
+
   useInjectReducer({ key: sliceKey, reducer: reducer });
   useInjectSaga({ key: sliceKey, saga: bridgeDepositPageSaga });
 
@@ -42,6 +45,14 @@ export const BridgeDepositPage: React.FC = () => {
     targetAsset,
     receiver,
   } = useSelector(selectBridgeDepositPage);
+
+  useLayoutEffect(() => {
+    page.setOptions({
+      header: () => <UserWallet address={receiver} />,
+      footerShown: false,
+    });
+  }, [receiver, page]);
+
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -80,7 +91,6 @@ export const BridgeDepositPage: React.FC = () => {
         className="tw-flex tw-flex-row tw-justify-between tw-items-start tw-w-full tw-p-5 tw-bg-gray-4 tw-relative"
         style={{ marginTop: '-4.4rem' }}
       >
-        <UserWallet address={receiver} />
         <div
           className={cn(
             'tw-relative tw-z-50 tw-h-full tw-flex tw-flex-col tw-items-start tw-justify-center tw-pl-8',
