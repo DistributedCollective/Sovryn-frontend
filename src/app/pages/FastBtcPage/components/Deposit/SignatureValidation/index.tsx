@@ -11,7 +11,6 @@ import { FastBtcButton } from '../../FastBtcButton';
 import { StatusComponent } from 'app/components/Dialogs/TxDialog';
 import { TxStatus } from 'store/global/transactions-store/types';
 import styles from './index.module.scss';
-import { InputField } from 'app/components/InputField';
 
 const multisigAddress = getContract('fastBtcMultisig').address;
 
