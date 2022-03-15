@@ -281,7 +281,7 @@ export const contracts = {
     abi: OrderBookMarginAbi,
   },
   settlement: {
-    address: '0xE97539b54a8a71597A0313c0cfE2CE7672d18eF8',
+    address: '0x91f906ad688D28E5A4cF70b722a696e4c394eD86',
     abi: SettlementAbi,
   },
   sovrynNFT: {
