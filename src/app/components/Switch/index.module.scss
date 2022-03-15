@@ -1,7 +1,7 @@
 .switch {
     @apply tw-flex tw-items-center;
     label {
-        @apply tw-inline-flex tw-items-center tw-cursor-pointer tw-relative;
+        @apply tw-inline-flex tw-items-center tw-cursor-pointer tw-relative tw-select-none;
 
         p {
             @apply tw-m-0 tw-text-sm tw-leading-4;
