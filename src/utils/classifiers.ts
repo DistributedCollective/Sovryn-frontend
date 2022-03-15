@@ -28,7 +28,7 @@ export const rpcNodes = {
   30: 'https://mainnet.sovryn.app/rpc',
   31: 'https://testnet.sovryn.app/rpc',
   56: 'wss://bsc.sovryn.app/mainnet',
-  97: 'wss://bsc-testnet.sovryn.app/websocket',
+  97: 'wss://bsctestnet.sovryn.app/websocket',
 };
 
 export const databaseRpcNodes = {
