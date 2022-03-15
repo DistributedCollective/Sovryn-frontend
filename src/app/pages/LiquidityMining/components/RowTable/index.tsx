@@ -5,10 +5,6 @@ import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { RowTable } from '../../../../components/FinanceV2Components/RowTable';
 import { TableBody } from '../../../../components/FinanceV2Components/RowTable/TableBody';
-import {
-  TableBodyData,
-  TableHeader,
-} from 'app/components/FinanceV2Components/RowTable/styled';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { PoolTokenRewards } from '../MiningPool/PoolTokenRewards';
@@ -47,26 +43,23 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
     <RowTable className="tw-w-full tw-max-w-80 2xl:tw-max-w-96 ">
       <thead className="tw-text-sm tw-tracking-normal">
         <tr>
-          <TableHeader>
+          <th className="tw-pb-2 tw-font-light">
             {t(translations.liquidityMining.rowTable.tableHeaders.balance)}
-          </TableHeader>
-          <TableHeader>
+          </th>
+          <th className="tw-pb-2 tw-font-light">
             {t(translations.liquidityMining.rowTable.tableHeaders.rewards)}
-          </TableHeader>
+          </th>
         </tr>
       </thead>
 
       <TableBody>
         {balance1 === '0' && balance2 === '0' ? (
-          <td
-            colSpan={4}
-            className="tw-text-xs tw-italic tw-font-light tw-text-center"
-          >
+          <td colSpan={4} className="tw-italic tw-font-light tw-text-center">
             {t(translations.liquidityMining.rowTable.noLiquidityProvided)}
           </td>
         ) : (
           <>
-            <TableBodyData>
+            <td>
               <div>
                 <LoadableValue
                   loading={loading1}
@@ -89,10 +82,10 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
                   }
                 />
               </div>
-            </TableBodyData>
-            <TableBodyData>
+            </td>
+            <td>
               <PoolTokenRewards pool={pool} />
-            </TableBodyData>
+            </td>
           </>
         )}
       </TableBody>
