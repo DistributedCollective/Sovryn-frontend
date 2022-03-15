@@ -11,6 +11,7 @@ import { FastBtcButton } from '../../FastBtcButton';
 import { StatusComponent } from 'app/components/Dialogs/TxDialog';
 import { TxStatus } from 'store/global/transactions-store/types';
 import styles from './index.module.scss';
+import { InputField } from 'app/components/InputField';
 
 const multisigAddress = getContract('fastBtcMultisig').address;
 
@@ -32,6 +33,14 @@ export const SignatureValidation: React.FC<ISignatureValidationProps> = ({
   const [statusText, setStatusText] = useState(
     t(translations.fastBtcPage.deposit.validationScreen.validationTextLoading),
   );
+
+  var downloadData =
+    'data:text/json;charset=utf-8,' +
+    encodeURIComponent(
+      JSON.stringify({
+        signatures: signatures,
+      }),
+    );
 
   validateSignatures(
     signatures,
@@ -67,6 +76,15 @@ export const SignatureValidation: React.FC<ISignatureValidationProps> = ({
       <div className="tw-full">
         <StatusComponent status={pageStatus} onlyImage={true} />
         <div className={styles.status}>{statusText}</div>
+        <div className={styles.download}>
+          <a
+            className={styles.linkText}
+            href={downloadData}
+            download="verification_details.json"
+          >
+            Click to download verification details
+          </a>
+        </div>
         <FastBtcButton
           text={t(translations.fastBtcPage.deposit.validationScreen.cta)}
           disabled={!isSignatureValid || loading}
