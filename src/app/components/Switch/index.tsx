@@ -36,15 +36,13 @@ export const Switch: React.FC<ISwitchProps> = ({
 
   return (
     <div
-      className={classNames(className, {
-        'tw-inline-block tw-align-middle': inline,
+      className={classNames(className, styles.switch, {
+        'tw-inline-flex': inline,
       })}
     >
       <label
         className={classNames(
-          styles.switch,
-
-          { 'tw-cursor-not-allowed tw-opacity-30': disabled },
+          { 'tw-cursor-not-allowed tw-opacity-50': disabled },
           { 'tw-flex-row-reverse': isRightAligned },
         )}
       >

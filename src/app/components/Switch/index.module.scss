@@ -1,36 +1,39 @@
 .switch {
-    @apply tw-inline-flex tw-items-center tw-cursor-pointer tw-relative;
+    @apply tw-flex tw-items-center;
+    label {
+        @apply tw-inline-flex tw-items-center tw-cursor-pointer tw-relative;
 
-    p {
-        @apply tw-m-0 tw-text-sm tw-leading-4;
-    }
-
-    input {
-        @apply tw-left-0 tw-opacity-0 tw-absolute tw-top-0;
-        z-index: -1;
-
-        ~.indicator {
-            @apply tw-bg-gray-6;
+        p {
+            @apply tw-m-0 tw-text-sm tw-leading-4;
         }
 
-        &:checked {
+        input {
+            @apply tw-left-0 tw-opacity-0 tw-absolute tw-top-0;
+            z-index: -1;
+
             ~.indicator {
-                @apply tw-bg-blue-2;
+                @apply tw-bg-gray-6;
+            }
 
-                &:before {
-                    left: calc(100% - 1rem);
-                    @screen lg {
+            &:checked {
+                ~.indicator {
+                    @apply tw-bg-blue-2;
+
+                    &:before {
                         left: calc(100% - 1rem);
-                    }
-                }
-
-                div {
-                    &:first-child {
-                        @apply tw-block;
+                        @screen lg {
+                            left: calc(100% - 1rem);
+                        }
                     }
 
-                    &:last-child {
-                        @apply tw-hidden;
+                    div {
+                        &:first-child {
+                            @apply tw-inline-block;
+                        }
+
+                        &:last-child {
+                            @apply tw-hidden;
+                        }
                     }
                 }
             }
@@ -50,13 +53,13 @@
         }
 
         &:last-child {
-            @apply tw-block tw-mr-2 tw-ml-5;
+            @apply tw-inline-block tw-mr-2 tw-ml-5;
         }
     }
 
     &:before {
         content: "";
-        @apply tw-absolute tw-rounded-full tw-block tw-h-3 tw-w-3 tw-bg-white tw-left-0 tw-m-0.5;
+        @apply tw-absolute tw-rounded-full tw-block tw-h-3 tw-w-3 tw-bg-white tw-left-0 tw-m-0.5 tw-top-0 ;
         transition: left .1s cubic-bezier(.4, 1, .75, .9);
     }
 }
