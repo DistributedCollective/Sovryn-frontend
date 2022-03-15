@@ -16,7 +16,7 @@ export type RecentTradesDataEntry = {
   priceChange: TradePriceChange;
   price: number;
   size: number;
-  time: string;
+  time: number;
   fromSocket?: boolean;
 };
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { TradePriceChange, TradeType } from './types';
 import { ReactComponent as ImageArrowUp } from 'assets/images/trend-arrow-up.svg';
 import { ReactComponent as ImageArrowDown } from 'assets/images/trend-arrow-down.svg';
+import dayjs from 'dayjs';
 
 export const getPriceChange = (
   previousPrice: number,
@@ -51,3 +52,6 @@ export const getPriceColor = (priceChange: TradePriceChange) => {
     ? 'tw-text-trade-long'
     : 'tw-text-trade-short';
 };
+
+export const convertTimestampToTime = (timestamp: number): string =>
+  dayjs(timestamp).utc().format('HH:mm:ss');

@@ -20,7 +20,6 @@ import {
   getPriceChange,
   getTradeType,
 } from '../components/RecentTradesTable/utils';
-import dayjs from 'dayjs';
 import { useAccount } from '../../../hooks/useAccount';
 
 export const RecentTradesContext = createContext<RecentTradesContextType>({
@@ -78,7 +77,7 @@ const addSocketEventListeners = (
         trader: decoded.trader,
         price,
         size: Math.abs(tradeAmount),
-        time: convertTimestampToTime(parseInt(decoded.blockTimestamp) * 1e3),
+        time: parseInt(decoded.blockTimestamp) * 1e3,
         type: getTradeType(tradeAmount),
         priceChange: TradePriceChange.NO_CHANGE,
         fromSocket: true,
@@ -94,8 +93,9 @@ const formatRecentTradesData = (data: { trades: any[]; liquidates: any[] }) =>
     ...formatTradeOrLiquidate(data.trades),
     ...formatTradeOrLiquidate(data.liquidates),
   ]
-    .sort((a, b) => a.time.localeCompare(b.time))
+    .sort((a, b) => b.time - a.time)
     .map((trade, index, array) => {
+      console.log(trade.time);
       const prevTrade = index < array.length - 1 ? array[index + 1] : trade;
       return {
         ...trade,
@@ -117,14 +117,11 @@ const formatTradeOrLiquidate = (data: any[]): RecentTradesDataEntry[] =>
       price,
       priceChange: TradePriceChange.NO_CHANGE,
       size: Math.abs(tradeAmount),
-      time: convertTimestampToTime(parseInt(trade.blockTimestamp) * 1e3),
+      time: parseInt(trade.blockTimestamp) * 1e3,
       type: getTradeType(tradeAmount),
       fromSocket: false,
     };
   });
-
-const convertTimestampToTime = (timestamp: number): string =>
-  dayjs(timestamp).utc().format('HH:mm:ss');
 
 const DISCONNECTION_CHECK_INTERVAL = 5000; // 5s
 const DISCONNECTED_UPDATE_INTERVAL = 5000; // 5s

@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import { RecentTradesDataEntry, TradeType } from '../../types';
-import { getPriceChangeImage } from '../../utils';
+import { getPriceChangeImage, convertTimestampToTime } from '../../utils';
 import { LinkToExplorer } from '../../../../../../components/LinkToExplorer';
 import { PERPETUAL_CHAIN_ID } from '../../../../types';
 import { toNumberFormat } from '../../../../../../../utils/display-text/format';
@@ -30,6 +30,8 @@ export const RecentTradesTableRow: React.FC<RecentTradesTableRowProps> = ({
     [row.priceChange, typeColor],
   );
 
+  const time = useMemo(() => convertTimestampToTime(row.time), [row.time]);
+
   return (
     <tr key={row.price} className={classNames('tw-h-6', typeColor)}>
       <td className="tw-px-2 tw-py-1 tw-text-right tw-rounded-l">
@@ -49,7 +51,7 @@ export const RecentTradesTableRow: React.FC<RecentTradesTableRowProps> = ({
             typeColor,
           )}
           txHash={row.id}
-          text={row.time}
+          text={time}
           chainId={PERPETUAL_CHAIN_ID}
         />
       </td>
