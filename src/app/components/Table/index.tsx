@@ -2,26 +2,13 @@ import classNames from 'classnames';
 import React, { ReactNode, useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
-import detailsIcon from 'assets/images/ellipsis-h.svg';
 import styles from './index.module.scss';
 import { Dialog } from '../../containers/Dialog';
-import { Breakpoint, BreakpointOrder, Align } from '../../../types';
+import { BreakpointOrder } from '../../../types';
+import { ColumnOptions, RowObject } from './types';
+import { TableRow } from './components/TableRow';
 
-type RowObject = { [param: string]: any };
-
-type ColumnOptions<RowType extends RowObject> = {
-  id: keyof RowType | string;
-  title?: ReactNode;
-  align?: Align;
-  className?: string;
-  hideBelow?: true | Breakpoint;
-  cellRenderer?: (
-    row: RowType,
-    columnId: ColumnOptions<RowType>['id'],
-  ) => ReactNode;
-};
-
-type ITableProps<RowType extends RowObject> = {
+type TableProps<RowType extends RowObject> = {
   className?: string;
   columns: ColumnOptions<RowType>[];
   rows?: RowType[];
@@ -42,12 +29,17 @@ export const Table = <RowType extends RowObject>({
   showDetails,
   detailsTitle,
   detailsModal,
-}: ITableProps<RowType>) => {
+}: TableProps<RowType>) => {
   const { t } = useTranslation();
   const [openRow, setOpenRow] = useState<RowType>();
-  const onShowDetails = useCallback(row => showDetails && setOpenRow(row), [
-    showDetails,
-  ]);
+  const onShowDetails = useCallback(
+    row => {
+      if (showDetails) {
+        setOpenRow(row);
+      }
+    },
+    [showDetails],
+  );
   const onHideDetails = useCallback(() => setOpenRow(undefined), []);
 
   const showDetailsBelow = useMemo(() => {
@@ -171,72 +163,4 @@ export const Table = <RowType extends RowObject>({
         ))}
     </div>
   );
-};
-
-type ITableRowProps<RowType extends RowObject> = {
-  columns: ITableProps<RowType>['columns'];
-  row: RowType;
-  index: number;
-  showDetailsBelow?: true | Breakpoint;
-  onShowDetails?: (row: RowType) => void;
-};
-
-const TableRow = <RowType extends RowObject>({
-  columns,
-  row,
-  index,
-  showDetailsBelow,
-  onShowDetails,
-}: ITableRowProps<RowType>) => {
-  const onShowDetailsWrapped = useCallback(() => onShowDetails?.(row), [
-    onShowDetails,
-    row,
-  ]);
-
-  const onRowClick = useCallback(
-    (event: React.MouseEvent) => {
-      if (showDetailsBelow && window.innerWidth < 576) {
-        onShowDetailsWrapped();
-      }
-    },
-    [showDetailsBelow, onShowDetailsWrapped],
-  );
-
-  const rowElement = (
-    <tr className={classNames(styles.row)} onClick={onRowClick}>
-      {columns.map(column =>
-        column.hideBelow === true ? null : (
-          <td
-            key={column.id.toString()}
-            className={classNames(
-              'tw-relative tw-px-4 tw-py-4',
-              column.hideBelow && `tw-hidden ${column.hideBelow}:tw-table-cell`,
-              column.align && `tw-text-${column.align}`,
-            )}
-          >
-            {column.cellRenderer
-              ? column.cellRenderer(row, column.id)
-              : row[column.id]}
-          </td>
-        ),
-      )}
-      {showDetailsBelow && (
-        <td
-          className={classNames(
-            'tw-hidden sm:tw-table-cell tw-text-right',
-            showDetailsBelow !== true && `${showDetailsBelow}:tw-hidden`,
-          )}
-        >
-          <button
-            className="tw-relative tw-px-4 tw-py-4"
-            onClick={onShowDetailsWrapped}
-          >
-            <img src={detailsIcon} alt="show details" />
-          </button>
-        </td>
-      )}
-    </tr>
-  );
-
-  return rowElement;
 };

@@ -16,6 +16,15 @@ export const BreakpointOrder: Breakpoint[] = [
   Breakpoint._3xl,
 ];
 
+export const BreakpointWidths: { [key in Breakpoint]: number } = {
+  [Breakpoint.sm]: 576,
+  [Breakpoint.md]: 768,
+  [Breakpoint.lg]: 992,
+  [Breakpoint.xl]: 1200,
+  [Breakpoint._2xl]: 1536,
+  [Breakpoint._3xl]: 1854,
+};
+
 export enum Align {
   left = 'left',
   center = 'center',
