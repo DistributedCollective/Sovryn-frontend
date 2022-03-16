@@ -296,7 +296,7 @@ const AssetRow: React.FC<IAssetRowProps> = ({
                   hoverOpenDelay={0}
                   hoverCloseDelay={0}
                   interactionKind="hover"
-                  content={<>{t(translations.maintenance.fastBTC)}</>}
+                  content={<>{t(translations.maintenance.fastBTCPortfolio)}</>}
                 >
                   <div className="tw-cursor-not-allowed tw-opacity-25">
                     {t(translations.common.deposit)}
@@ -313,7 +313,7 @@ const AssetRow: React.FC<IAssetRowProps> = ({
                   hoverOpenDelay={0}
                   hoverCloseDelay={0}
                   interactionKind="hover"
-                  content={<>{t(translations.maintenance.fastBTC)}</>}
+                  content={<>{t(translations.maintenance.fastBTCPortfolio)}</>}
                 >
                   <div className="tw-cursor-not-allowed tw-opacity-25">
                     {t(translations.common.withdraw)}
