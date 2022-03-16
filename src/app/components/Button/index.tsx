@@ -19,9 +19,13 @@ export enum ButtonColor {
 }
 
 export enum ButtonSize {
+  /** Inline/Minor buttons, height 30px */
   sm = 'sm',
+  /** Standard buttons, height 40px */
   md = 'md',
+  /** Minor CTA buttons, height 50px */
   lg = 'lg',
+  /** Major CTA buttons, height 50px */
   xl = 'xl',
 }
 
@@ -82,6 +86,8 @@ export const Button: React.FC<IButtonProps> = ({
         <a
           className={classNameComplete}
           href={href}
+          target="_blank"
+          rel="noreferrer"
           onClick={onClickWhenAllowed}
         >
           {text}
