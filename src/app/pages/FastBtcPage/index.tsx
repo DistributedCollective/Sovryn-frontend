@@ -7,7 +7,6 @@ import { translations } from 'locales/i18n';
 import { useAccount } from '../../hooks/useAccount';
 import { WithdrawContainer } from './containers/WithdrawContainer';
 import { DepositContainer } from './containers/DepositContainer';
-import { Header } from './components/Header';
 import classNames from 'classnames';
 import styles from './fast-btc-page.module.css';
 import { FastBtcDirectionType } from './types';
@@ -20,8 +19,7 @@ export const FastBtcPage: React.FC = () => {
 
   useLayoutEffect(() => {
     page.setOptions({
-      header: () => <Header address={account} />,
-      footerShown: false,
+      headerProps: { address: account },
     });
   }, [account, page]);
 

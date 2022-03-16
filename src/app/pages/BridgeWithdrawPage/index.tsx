@@ -23,7 +23,6 @@ import { CrossBridgeAsset } from '../BridgeDepositPage/types/cross-bridge-asset'
 import { ReceiverSelector } from './components/ReceiverSelector';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
-import UserWallet from '../BridgeDepositPage/components/UserWallet';
 import { useAccount } from '../../hooks/useAccount';
 import { usePageActions } from 'app/containers/PageContainer';
 
@@ -37,8 +36,7 @@ export const BridgeWithdrawPage: React.FC = () => {
 
   useLayoutEffect(() => {
     page.setOptions({
-      header: () => <UserWallet address={account} />,
-      footerShown: false,
+      headerProps: { address: account },
     });
   }, [account, page]);
 

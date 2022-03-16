@@ -26,7 +26,6 @@ import { SidebarSteps } from './components/SidebarSteps';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
 import cn from 'classnames';
-import UserWallet from './components/UserWallet';
 import { usePageActions } from 'app/containers/PageContainer';
 
 const dirtyDepositAsset = {
@@ -48,8 +47,7 @@ export const BridgeDepositPage: React.FC = () => {
 
   useLayoutEffect(() => {
     page.setOptions({
-      header: () => <UserWallet address={receiver} />,
-      footerShown: false,
+      headerProps: { address: receiver },
     });
   }, [receiver, page]);
 

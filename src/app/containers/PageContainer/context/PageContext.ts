@@ -1,10 +1,15 @@
 import { createContext } from 'react';
-import type { PageContextState, PageContextType } from '../types';
+import {
+  PageContextState,
+  PageContextType,
+  HeaderTypes,
+  FooterTypes,
+} from '../types';
 
 export const initialState: PageContextState = {
   options: {
-    headerShown: true,
-    footerShown: true,
+    header: HeaderTypes.DEFAULT,
+    footer: FooterTypes.DEFAULT,
   },
 };
 

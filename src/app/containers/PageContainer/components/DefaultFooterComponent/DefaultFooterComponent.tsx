@@ -6,9 +6,8 @@ import { discordInvite } from 'utils/classifiers';
 
 import OptOutDialog from 'app/components/OptOutDialog';
 import footerLogo from 'assets/images/footer-logo.svg';
-import { PageContextType } from '../../types';
 
-export const Footer: React.FC<PageContextType> = () => {
+export const Footer: React.FC = () => {
   const { t } = useTranslation();
   const commitHash = process.env.REACT_APP_GIT_COMMIT_ID || '';
   const [optDialogOpen, setOptDialogOpen] = useState<boolean>(false);

@@ -20,11 +20,10 @@ import {
 import { LanguageToggle } from '../../../../components/LanguageToggle';
 import styles from './index.module.scss';
 import { ReactComponent as SovLogo } from 'assets/images/sovryn-logo-alpha.svg';
-import { PageContextType } from '../../types';
 import { currentNetwork } from 'utils/classifiers';
 import { AppMode } from 'types';
 
-export const DefaultHeaderComponent: React.FC<PageContextType> = () => {
+export const DefaultHeaderComponent: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const location = useLocation();

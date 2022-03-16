@@ -1,5 +1,18 @@
-import React from 'react';
 import type { useActions } from './context/actions';
+
+export enum HeaderTypes {
+  NONE,
+  DEFAULT,
+  FAST_BTC,
+  CROSS_CHAIN,
+  LABS,
+  PERPETUALS,
+}
+
+export enum FooterTypes {
+  NONE,
+  DEFAULT,
+}
 
 export type PageContextState = {
   options: Partial<PageOptions>;
@@ -16,12 +29,10 @@ export enum PageContextActionType {
 }
 
 export type PageOptions = {
-  headerShown?: boolean;
-  // render custom header
-  header?: (props: PageContextType) => React.ReactNode;
-  footerShown?: boolean;
-  // render custom footer
-  footer?: (props: PageContextType) => React.ReactNode;
+  header: HeaderTypes;
+  headerProps: Record<string, any>;
+  footer: FooterTypes;
+  footerProps: Record<string, any>;
 };
 
 export type PageContextAction =

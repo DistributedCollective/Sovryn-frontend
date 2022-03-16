@@ -9,7 +9,7 @@ type HeaderProps = {
   address: string;
 };
 
-export const Header: React.FC<HeaderProps> = ({ address }) => {
+export const FastBtcHeader: React.FC<HeaderProps> = ({ address }) => {
   const { t } = useTranslation();
   const blockieImage = useMemo(() => {
     return blockies
