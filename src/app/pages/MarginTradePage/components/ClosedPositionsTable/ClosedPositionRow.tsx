@@ -142,6 +142,7 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
         <LiquidatedPositionsTable
           isOpenPosition={false}
           liquidateLoans={liquidateLoans}
+          isLong={position === TradingPosition.LONG}
         />
       )}
     </>

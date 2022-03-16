@@ -7,11 +7,13 @@ import { Icon, Popover } from '@blueprintjs/core';
 interface ILiquidatedPositionsTableProps {
   liquidateLoans: OpenLoanType[];
   isOpenPosition: boolean;
+  isLong: boolean;
 }
 
 export const LiquidatedPositionsTable: React.FC<ILiquidatedPositionsTableProps> = ({
   liquidateLoans,
   isOpenPosition,
+  isLong,
 }) => {
   const { t } = useTranslation();
   return (
@@ -60,6 +62,7 @@ export const LiquidatedPositionsTable: React.FC<ILiquidatedPositionsTableProps> 
                 <LiquidatedPositionRow
                   positionStatus={isOpenPosition}
                   liquidatedLoan={item}
+                  isLong={isLong}
                 />
               ))}
             </tbody>

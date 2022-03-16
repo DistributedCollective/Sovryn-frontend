@@ -263,6 +263,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowInnerProps> = ({
         <LiquidatedPositionsTable
           isOpenPosition={true}
           liquidateLoans={liquidateLoans}
+          isLong={isLong}
         />
       )}
     </>
