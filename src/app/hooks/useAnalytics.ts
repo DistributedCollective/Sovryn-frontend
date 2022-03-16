@@ -1,19 +1,19 @@
-import { useCallback, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import ReactGA from 'react-ga';
+import { useCallback } from 'react';
+// import { useLocation } from 'react-router-dom';
+// import ReactGA from 'react-ga';
 
-import { getCookie } from 'app/hooks/useCookie';
-import { sovAnalyticsCookie } from 'utils/classifiers';
+// import { getCookie } from 'app/hooks/useCookie';
+// import { sovAnalyticsCookie } from 'utils/classifiers';
 
-const analyticsAllowed = () =>
-  process.env.REACT_APP_GOOGLE_ANALYTICS &&
-  !(getCookie(sovAnalyticsCookie.name) === sovAnalyticsCookie.value);
+// const analyticsAllowed = () =>
+//   process.env.REACT_APP_GOOGLE_ANALYTICS &&
+//   !(getCookie(sovAnalyticsCookie.name) === sovAnalyticsCookie.value);
 
-const initGA = () => {
-  if (!window.hasOwnProperty('ga') || !window.hasOwnProperty('gtag')) {
-    ReactGA.initialize(String(process.env.REACT_APP_GOOGLE_ANALYTICS));
-  }
-};
+// const initGA = () => {
+//   if (!window.hasOwnProperty('ga') || !window.hasOwnProperty('gtag')) {
+//     ReactGA.initialize(String(process.env.REACT_APP_GOOGLE_ANALYTICS));
+//   }
+// };
 
 /**
  * All ReactGA methods are described in api docs:
@@ -21,31 +21,30 @@ const initGA = () => {
  */
 
 export function usePageViews() {
-  const location = useLocation();
-
-  useEffect(() => {
-    if (analyticsAllowed()) {
-      initGA();
-      ReactGA.set({ page: location.pathname });
-      ReactGA.pageview(location.pathname);
-    }
-  }, [location]);
+  // const location = useLocation();
+  // useEffect(() => {
+  //   if (analyticsAllowed()) {
+  //     initGA();
+  //     ReactGA.set({ page: location.pathname });
+  //     ReactGA.pageview(location.pathname);
+  //   }
+  // }, [location]);
 }
 
 export function useEvent() {
-  return useCallback((options: ReactGA.EventArgs) => {
-    if (analyticsAllowed()) {
-      initGA();
-      ReactGA.event(options);
-    }
+  return useCallback(options => {
+    // if (analyticsAllowed()) {
+    //   initGA();
+    //   ReactGA.event(options);
+    // }
   }, []);
 }
 
 export function useTiming() {
-  return useCallback((options: ReactGA.TimingArgs) => {
-    if (analyticsAllowed()) {
-      initGA();
-      ReactGA.timing(options);
-    }
+  return useCallback(options => {
+    // if (analyticsAllowed()) {
+    //   initGA();
+    //   ReactGA.timing(options);
+    // }
   }, []);
 }
