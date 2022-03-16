@@ -3,6 +3,7 @@ import { Story } from '@storybook/react';
 
 import { Table } from './index';
 import { LinkToExplorer } from '../LinkToExplorer';
+import { Align, Breakpoint } from '../../../types';
 
 export default {
   title: 'Atoms/Table',
@@ -51,7 +52,7 @@ Basic.args = {
     {
       id: 'key',
       title: 'Key',
-      align: 'right',
+      align: Align.right,
       className: 'tw-w-10',
     },
     {
@@ -117,7 +118,7 @@ Full.args = {
     {
       id: 'progress',
       title: 'Progress',
-      align: 'right',
+      align: Align.right,
       cellRenderer: row => Number(row.progress * 100).toPrecision(3) + '%',
     },
     {
@@ -148,7 +149,7 @@ Responsive.args = {
     {
       id: 'key',
       title: 'Key',
-      hideBelow: 'sm',
+      hideBelow: Breakpoint.sm,
     },
     {
       id: 'name',
@@ -163,7 +164,7 @@ Responsive.args = {
           className="tw-text-secondary tw-font-normal tw-whitespace-nowrap"
         />
       ),
-      hideBelow: 'xl',
+      hideBelow: Breakpoint.xl,
     },
     {
       id: 'target',
@@ -174,14 +175,14 @@ Responsive.args = {
           className="tw-text-primary tw-font-normal tw-whitespace-nowrap"
         />
       ),
-      hideBelow: 'xl',
+      hideBelow: Breakpoint.xl,
     },
     {
       id: 'progress',
       title: 'Progress',
-      align: 'right',
+      align: Align.right,
       cellRenderer: row => Number(row.progress * 100).toPrecision(3) + '%',
-      hideBelow: '2xl',
+      hideBelow: Breakpoint._2xl,
     },
     {
       id: 'flag',
@@ -189,7 +190,7 @@ Responsive.args = {
       cellRenderer: row => (
         <input type="checkbox" checked={row.flag} disabled />
       ),
-      hideBelow: '2xl',
+      hideBelow: Breakpoint._2xl,
     },
     {
       id: 'actions',

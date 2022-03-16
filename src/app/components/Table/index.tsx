@@ -5,26 +5,16 @@ import { translations } from '../../../locales/i18n';
 import detailsIcon from 'assets/images/ellipsis-h.svg';
 import styles from './index.module.scss';
 import { Dialog } from '../../containers/Dialog';
-
-type Breakpoint = 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | 'any';
-const BREAKPOINTS_ORDER: Breakpoint[] = [
-  'sm',
-  'md',
-  'lg',
-  'xl',
-  '2xl',
-  '3xl',
-  'any',
-];
+import { Breakpoint, BreakpointOrder, Align } from '../../../types';
 
 type RowObject = { [param: string]: any };
 
 type ColumnOptions<RowType extends RowObject> = {
   id: keyof RowType | string;
   title?: ReactNode;
-  align?: 'left' | 'center' | 'right';
+  align?: Align;
   className?: string;
-  hideBelow?: null | Breakpoint;
+  hideBelow?: true | Breakpoint;
   cellRenderer?: (
     row: RowType,
     columnId: ColumnOptions<RowType>['id'],
@@ -64,14 +54,20 @@ export const Table = <RowType extends RowObject>({
     if (showDetails) {
       const highestBreakpointIndex = columns.reduce(
         (acc, column) =>
-          Math.max(
-            acc,
-            column.hideBelow ? BREAKPOINTS_ORDER.indexOf(column.hideBelow) : -1,
-          ),
+          column.hideBelow === true
+            ? Infinity
+            : Math.max(
+                acc,
+                column.hideBelow
+                  ? BreakpointOrder.indexOf(column.hideBelow)
+                  : -1,
+              ),
         -1,
       );
 
-      return BREAKPOINTS_ORDER[highestBreakpointIndex];
+      return highestBreakpointIndex === Infinity
+        ? true
+        : BreakpointOrder[highestBreakpointIndex];
     }
   }, [showDetails, columns]);
 
@@ -87,13 +83,12 @@ export const Table = <RowType extends RowObject>({
           <thead>
             <tr className={styles.headRow}>
               {columns.map(column =>
-                column.hideBelow === 'any' ? null : (
+                column.hideBelow === true ? null : (
                   <th
                     key={column.id.toString()}
                     className={classNames(
                       'tw-sticky tw-top-0 tw-z-10 tw-px-4 tw-pb-2.5 tw-bg-gray-1',
                       column.hideBelow &&
-                        column.hideBelow &&
                         `tw-hidden ${column.hideBelow}:tw-table-cell`,
                       column.align && `tw-text-${column.align}`,
                       column.className,
@@ -108,8 +103,8 @@ export const Table = <RowType extends RowObject>({
                   className={classNames(
                     'tw-sticky tw-top-0 tw-z-10 tw-w-16 tw-px-4 tw-pb-2.5 tw-bg-gray-1',
                     'tw-hidden sm:tw-table-cell',
-                    showDetailsBelow !== 'any' &&
-                      `${showDetailsBelow}:tw-hidden ${showDetailsBelow}:tw-hidden`,
+                    showDetailsBelow !== true &&
+                      `${showDetailsBelow}:tw-hidden`,
                   )}
                 ></th>
               )}
@@ -182,7 +177,7 @@ type ITableRowProps<RowType extends RowObject> = {
   columns: ITableProps<RowType>['columns'];
   row: RowType;
   index: number;
-  showDetailsBelow?: Breakpoint;
+  showDetailsBelow?: true | Breakpoint;
   onShowDetails?: (row: RowType) => void;
 };
 
@@ -210,7 +205,7 @@ const TableRow = <RowType extends RowObject>({
   const rowElement = (
     <tr className={classNames(styles.row)} onClick={onRowClick}>
       {columns.map(column =>
-        column.hideBelow === 'any' ? null : (
+        column.hideBelow === true ? null : (
           <td
             key={column.id.toString()}
             className={classNames(
@@ -229,8 +224,7 @@ const TableRow = <RowType extends RowObject>({
         <td
           className={classNames(
             'tw-hidden sm:tw-table-cell tw-text-right',
-            showDetailsBelow !== 'any' &&
-              `${showDetailsBelow}:tw-hidden ${showDetailsBelow}:tw-hidden`,
+            showDetailsBelow !== true && `${showDetailsBelow}:tw-hidden`,
           )}
         >
           <button
