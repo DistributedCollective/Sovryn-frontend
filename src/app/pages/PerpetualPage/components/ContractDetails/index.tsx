@@ -11,6 +11,7 @@ import { getCollateralName } from '../../utils/renderUtils';
 import { Asset } from '../../../../../types';
 import { Tooltip } from '@blueprintjs/core';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
+import { LayoutMenu } from '../LayoutMenu';
 
 type ContractDetailsProps = {
   pair: PerpetualPair;
@@ -32,78 +33,83 @@ export const ContractDetails: React.FC<ContractDetailsProps> = ({
 
   return (
     <div className="tw-w-full tw-bg-black">
-      <div className="tw-container tw-flex tw-flex-col sm:tw-flex-row tw-flex-wrap tw-items-start sm:tw-items-center tw-px-8 tw-py-2">
-        <ContractDetailEntry
-          title={t(translations.perpetualPage.contractDetails.volume24h)}
-          value={
-            <AssetValue
-              minDecimals={2}
-              maxDecimals={2}
-              mode={AssetValueMode.auto}
-              value={data?.volume24h || 0}
-              assetString={pair.baseAsset}
-            />
-          }
-        />
-        <ContractDetailEntry
-          title={t(translations.perpetualPage.contractDetails.openInterest)}
-          tooltip={t(
-            translations.perpetualPage.contractDetails.tooltips.openInterest,
-          )}
-          value={
-            <AssetValue
-              minDecimals={2}
-              maxDecimals={2}
-              mode={AssetValueMode.auto}
-              value={data?.openInterest || 0}
-              assetString={collateralAsset}
-            />
-          }
-        />
-        <ContractDetailEntry
-          title={t(translations.perpetualPage.contractDetails.fundingRate)}
-          tooltip={t(
-            translations.perpetualPage.contractDetails.tooltips.fundingRate,
-          )}
-          value={
-            <>
-              <span
-                className={classNames('tw-text-sm tw-font-medium', {
-                  'tw-text-trade-short':
-                    data?.fundingRate && data.fundingRate < 0,
-                  'tw-text-trade-long':
-                    data?.fundingRate && data.fundingRate > 0,
-                })}
-              >
-                {data?.fundingRate && numberToPercent(data.fundingRate, 4)}
-              </span>
-            </>
-          }
-        />
-        <ContractDetailEntry
-          title={t(translations.perpetualPage.contractDetails.lotSize)}
-          value={
-            <AssetValue
-              minDecimals={lotPrecision}
-              maxDecimals={lotPrecision}
-              mode={AssetValueMode.auto}
-              value={data?.lotSize || 0}
-              assetString={pair.baseAsset}
-            />
-          }
-        />
-        <ContractDetailEntry
-          title={t(translations.perpetualPage.contractDetails.minTradeAmount)}
-          value={
-            <AssetValue
-              minDecimals={lotPrecision}
-              maxDecimals={lotPrecision}
-              mode={AssetValueMode.auto}
-              value={data?.minTradeAmount || 0}
-              assetString={pair.baseAsset}
-            />
-          }
-        />
+      <div className="tw-container tw-flex tw-flex-col sm:tw-flex-row tw-justify-between tw-px-8">
+        <div className="tw-flex tw-flex-col sm:tw-flex-row tw-flex-wrap tw-items-start sm:tw-items-center tw-py-2">
+          <ContractDetailEntry
+            title={t(translations.perpetualPage.contractDetails.volume24h)}
+            value={
+              <AssetValue
+                minDecimals={2}
+                maxDecimals={2}
+                mode={AssetValueMode.auto}
+                value={data?.volume24h || 0}
+                assetString={pair.baseAsset}
+              />
+            }
+          />
+          <ContractDetailEntry
+            title={t(translations.perpetualPage.contractDetails.openInterest)}
+            tooltip={t(
+              translations.perpetualPage.contractDetails.tooltips.openInterest,
+            )}
+            value={
+              <AssetValue
+                minDecimals={2}
+                maxDecimals={2}
+                mode={AssetValueMode.auto}
+                value={data?.openInterest || 0}
+                assetString={collateralAsset}
+              />
+            }
+          />
+          <ContractDetailEntry
+            title={t(translations.perpetualPage.contractDetails.fundingRate)}
+            tooltip={t(
+              translations.perpetualPage.contractDetails.tooltips.fundingRate,
+            )}
+            value={
+              <>
+                <span
+                  className={classNames('tw-text-sm tw-font-medium', {
+                    'tw-text-trade-short':
+                      data?.fundingRate && data.fundingRate < 0,
+                    'tw-text-trade-long':
+                      data?.fundingRate && data.fundingRate > 0,
+                  })}
+                >
+                  {data?.fundingRate && numberToPercent(data.fundingRate, 4)}
+                </span>
+              </>
+            }
+          />
+          <ContractDetailEntry
+            title={t(translations.perpetualPage.contractDetails.lotSize)}
+            value={
+              <AssetValue
+                minDecimals={lotPrecision}
+                maxDecimals={lotPrecision}
+                mode={AssetValueMode.auto}
+                value={data?.lotSize || 0}
+                assetString={pair.baseAsset}
+              />
+            }
+          />
+          <ContractDetailEntry
+            title={t(translations.perpetualPage.contractDetails.minTradeAmount)}
+            value={
+              <AssetValue
+                minDecimals={lotPrecision}
+                maxDecimals={lotPrecision}
+                mode={AssetValueMode.auto}
+                value={data?.minTradeAmount || 0}
+                assetString={pair.baseAsset}
+              />
+            }
+          />
+        </div>
+        <div className="tw-flex-none tw-py-2">
+          <LayoutMenu />
+        </div>
       </div>
     </div>
   );

@@ -138,6 +138,11 @@ export type PerpetualPageState = {
   modal: PerpetualPageModals;
   modalOptions?: PerpetualTrade | PerpetualTradeReview | PendingTransactions;
   toastedTransactions: string[];
+  showAmmDepth: boolean;
+  showChart: boolean;
+  showRecentTrades: boolean;
+  showTradeForm: boolean;
+  showTables: boolean;
 };
 
 export type ContainerState = PerpetualPageState;

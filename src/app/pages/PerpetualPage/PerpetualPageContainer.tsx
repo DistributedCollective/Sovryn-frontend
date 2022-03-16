@@ -18,7 +18,6 @@ import {
 } from '../../../utils/dictionaries/perpetual-pair-dictionary';
 import { TradingChart } from './components/TradingChart';
 import { OpenPositionsTable } from './components/OpenPositionsTable';
-import { useIsConnected } from '../../hooks/useAccount';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
 import { selectPerpetualPage } from './selectors';
@@ -53,6 +52,14 @@ export const PerpetualPageContainer: React.FC = () => {
   const dispatch = useDispatch();
   const walletContext = useWalletContext();
 
+  const {
+    showAmmDepth,
+    showChart,
+    showRecentTrades,
+    showTables,
+    showTradeForm,
+  } = useSelector(selectPerpetualPage);
+
   const { pairType, collateral } = useSelector(selectPerpetualPage);
   const { t } = useTranslation();
 
@@ -68,7 +75,6 @@ export const PerpetualPageContainer: React.FC = () => {
     [linkPairType, pairType],
   );
 
-  const connected = useIsConnected();
   const [activeTab, setActiveTab] = useState(0);
 
   const onChangePair = useCallback(
@@ -120,36 +126,50 @@ export const PerpetualPageContainer: React.FC = () => {
           />
           <ContractDetails pair={pair} collateral={collateral} />
         </div>
-        <div className="tw-container tw-mt-5 tw-flex-grow">
-          <div className="tw-flex tw-flex-col tw-mb-8 xl:tw-flex-row xl:tw-justify-stretch tw-space-y-2 xl:tw-space-y-0 xl:tw-space-x-2">
-            <DataCard
-              className="tw-min-w-72 tw-max-w-96 tw-"
-              title={`AMM Depth (${pairType.toString()})`}
-            >
-              <AmmDepthChart pair={pair} />
-            </DataCard>
-            <DataCard
-              className="tw-flex-1 tw-max-w-full tw-min-h-80"
-              contentClassName="tw-flex tw-flex-col"
-              title={`Chart (${pairType.toString()})`}
-            >
-              <TradingChart symbol={pair.chartSymbol} hasCustomDimensions />
-            </DataCard>
-            <DataCard
-              className="2xl:tw-flex tw-min-w-72 tw-max-w-96 tw-min-h-72"
-              title={`Recent Trades (${pairType.toString()})`}
-              contentClassName="tw-flex tw-flex-col"
-            >
-              <RecentTradesTable pair={pair} />
-            </DataCard>
-            <div className="tw-flex tw-flex-col xl:tw-min-w-80 xl:tw-w-1/5 tw-space-y-2">
-              <AccountBalanceCard />
-              <NewPositionCard />
-            </div>
+        <div className="tw-container tw-flex tw-flex-col tw-mt-5 tw-flex-grow">
+          <div className="tw-flex tw-flex-col tw-mb-8 xl:tw-flex-row xl:tw-justify-start tw-items-stretch tw-flex-grow tw-h-full tw-space-y-2 xl:tw-space-y-0 xl:tw-space-x-2">
+            {showAmmDepth && (
+              <DataCard
+                className="tw-min-w-72 tw-max-w-96"
+                title={`AMM Depth (${pairType.toString()})`}
+                onClose={() => dispatch(actions.setShowAmmDepth(false))}
+              >
+                <AmmDepthChart pair={pair} />
+              </DataCard>
+            )}
+
+            {showChart && (
+              <DataCard
+                className="tw-flex-1 tw-max-w-full tw-min-h-96"
+                contentClassName="tw-flex tw-flex-col"
+                title={`Chart (${pairType.toString()})`}
+                onClose={() => dispatch(actions.setShowChart(false))}
+              >
+                <TradingChart symbol={pair.chartSymbol} hasCustomDimensions />
+              </DataCard>
+            )}
+
+            {showRecentTrades && (
+              <DataCard
+                className="2xl:tw-flex tw-min-w-72 tw-max-w-96 tw-min-h-72"
+                title={`Recent Trades (${pairType.toString()})`}
+                contentClassName="tw-flex tw-flex-col"
+                onClose={() => dispatch(actions.setShowRecentTrades(false))}
+              >
+                <RecentTradesTable pair={pair} />
+              </DataCard>
+            )}
+
+            {showTradeForm && (
+              <div className="tw-flex tw-flex-col tw-self-start tw-justify-start xl:tw-min-w-80 xl:tw-w-1/5 tw-space-y-2">
+                <AccountBalanceCard />
+                <NewPositionCard />
+              </div>
+            )}
           </div>
 
-          {connected && (
-            <>
+          {showTables && (
+            <div className="tw-p-4 tw-bg-gray-2.5 tw-rounded-xl tw-mb-12">
               <div className="tw-flex tw-items-center tw-text-sm">
                 <Tab
                   text={t(translations.perpetualPage.openPositions)}
@@ -173,13 +193,13 @@ export const PerpetualPageContainer: React.FC = () => {
                 />
               </div>
 
-              <div className="tw-w-full tw-mb-24">
+              <div className="tw-w-full">
                 {activeTab === 0 && <OpenPositionsTable perPage={5} />}
                 {activeTab === 1 && <ClosedPositionsTable perPage={5} />}
                 {activeTab === 2 && <OrderHistoryTable perPage={5} />}
                 {activeTab === 3 && <FundingPaymentsTable perPage={5} />}
               </div>
-            </>
+            </div>
           )}
         </div>
         <Footer />
