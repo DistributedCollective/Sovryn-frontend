@@ -3,6 +3,7 @@ import { getContract } from 'utils/blockchain/contract-helpers';
 import { walletService } from '@sovryn/react-wallet';
 import { BigNumber } from 'ethers';
 import { MarginOrder } from 'app/pages/MarginTradePage/helpers';
+import { bignumber, max } from 'mathjs';
 
 export const signTypeData = async (order: Order, account: string, chainId) => {
   const messageParameters = JSON.stringify({
@@ -119,3 +120,7 @@ export async function signTypeMarginOrderData(
       .catch(err => reject(err));
   });
 }
+
+// max(minSwapOrderTxFee, 0.2% of amountIn)
+export const getRelayerFee = (minSwapOrderTxFee: string, amountIn: string) =>
+  max(bignumber(minSwapOrderTxFee), bignumber(0.002).mul(amountIn)).toString();
