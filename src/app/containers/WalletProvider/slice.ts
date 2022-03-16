@@ -58,6 +58,8 @@ const walletProviderSlice = createSlice({
       state.networkId = action.payload.networkId;
     },
 
+    connectionError() {},
+
     disconnect() {},
 
     disconnected(state) {
