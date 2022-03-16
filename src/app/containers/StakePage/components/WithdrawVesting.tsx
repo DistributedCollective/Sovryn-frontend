@@ -5,7 +5,6 @@ import { translations } from 'locales/i18n';
 import { numberFromWei } from 'utils/blockchain/math-helpers';
 import { useAccount } from 'app/hooks/useAccount';
 import { useGetUnlockedVesting } from '../../../hooks/staking/useGetUnlockedVesting';
-import { vesting_withdraw } from 'utils/blockchain/requests/vesting';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import { discordInvite } from 'utils/classifiers';
 import { useMaintenance } from 'app/hooks/useMaintenance';
@@ -14,37 +13,27 @@ import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 interface Props {
   vesting: string;
   onCloseModal: () => void;
+  onWithdraw: (receiver: string) => void;
 }
 
-export function WithdrawVesting({ vesting, onCloseModal }: Props) {
+export function WithdrawVesting({ vesting, onCloseModal, onWithdraw }: Props) {
   const { t } = useTranslation();
   const account = useAccount();
   const { checkMaintenance, States } = useMaintenance();
   const withdrawVestsLocked = checkMaintenance(States.WITHDRAW_VESTS);
   const [address, setAddress] = useState(account);
-  const [sending, setSending] = useState(false);
   const { value, loading } = useGetUnlockedVesting('staking', vesting);
 
   const validate = () => {
-    return (
-      !loading && !sending && value !== '0' && isAddress(address.toLowerCase())
-    );
+    return !loading && value !== '0' && isAddress(address.toLowerCase());
   };
 
   const submitForm = useCallback(
     async e => {
       e.preventDefault();
-      setSending(true);
-      try {
-        await vesting_withdraw(vesting.toLowerCase(), address.toLowerCase());
-        onCloseModal();
-        setSending(false);
-      } catch (e) {
-        console.error(e);
-        setSending(false);
-      }
+      onWithdraw(address.toLowerCase());
     },
-    [address, vesting, onCloseModal],
+    [onWithdraw, address],
   );
 
   return (
