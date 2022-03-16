@@ -58,13 +58,15 @@ const renderButton = (
   style: ButtonStyle,
   size: ButtonSize,
 ) => (
-  <Button
-    {...props}
-    color={color}
-    style={style}
-    size={size}
-    text={[color, style, size].join(' ')}
-  />
+  <div className="tw-flex-grow tw-w-1/5 tw-text-center">
+    <Button
+      {...props}
+      color={color}
+      style={style}
+      size={size}
+      text={[color, style, size].join(' ')}
+    />
+  </div>
 );
 
 const Variations = ({ color, ...props }) => (
