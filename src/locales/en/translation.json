@@ -48,7 +48,8 @@
     "addLiquidity": "Sorry, adding liquidity is currently under maintenance, please check our <0>discord</0> for updates.",
     "removeLiquidity": "Sorry, removing liquidity is currently under maintenance, please check our <0>discord</0> for updates.",
     "liquidity": "Sorry, liquidity providing is currently under maintenance, some features may be unavailable. Please check our <0>discord</0> for updates.",
-    "fastBTC": "Sorry, FastBTC deposits are currently under maintenance, please check our <0>discord</0> for updates.",
+    "fastBTC": "Sorry, FastBTC transfers are currently under maintenance, please check our <0>discord</0> for updates.",
+    "fastBTCPortfolio": "Sorry, FastBTC transfers are currently under maintenance, please check our discord (link in footer) for updates.",
     "transack": "Sorry, Transack deposits are currently under maintenance, please check our <0>discord</0> for updates.",
 
     "bridge": "Sorry, cross-chain transfers are currently under maintenance, please check our discord (link in footer) for updates.",

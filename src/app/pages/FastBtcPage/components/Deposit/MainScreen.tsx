@@ -12,6 +12,8 @@ import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { NetworkAwareComponentProps } from '../../types';
 import { currentNetwork } from 'utils/classifiers';
 import { getBTCAssetForNetwork } from '../../helpers';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { discordInvite } from 'utils/classifiers';
 
 export const MainScreen: React.FC<NetworkAwareComponentProps> = ({
   network,
@@ -24,6 +26,9 @@ export const MainScreen: React.FC<NetworkAwareComponentProps> = ({
     addressError,
   } = useContext(DepositContext);
   const { t } = useTranslation();
+
+  const { checkMaintenance, States } = useMaintenance();
+  const fastBtcLocked = checkMaintenance(States.FASTBTC);
 
   const prefix = useMemo(() => {
     if (network === Chain.BSC) {
@@ -57,10 +62,29 @@ export const MainScreen: React.FC<NetworkAwareComponentProps> = ({
         <div className="tw-px-8">
           <FastBtcButton
             text={t(translations.fastBtcPage.deposit.mainScreen.cta)}
-            disabled={!ready || addressLoading}
+            disabled={!ready || addressLoading || fastBtcLocked}
             loading={addressLoading}
             onClick={onContinueClick}
           />
+          {fastBtcLocked && (
+            <ErrorBadge
+              content={
+                <Trans
+                  i18nKey={translations.maintenance.fastBTC}
+                  components={[
+                    <a
+                      href={discordInvite}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                    >
+                      x
+                    </a>,
+                  ]}
+                />
+              }
+            />
+          )}
         </div>
       </div>
     </>
