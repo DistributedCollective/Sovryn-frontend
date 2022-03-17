@@ -299,17 +299,17 @@ export const contracts = {
     abi: fastBtcBridgeAbi,
   },
   perpetualManager: {
-    address: '0x30151d8C833AC0E50DF5168a93A9633085721584',
+    address: '0xe9cF7184c1C41a1B08f38A4eF98fffC99988855E',
     abi: perpetualManagerAbi,
     chainId: ChainId.BSC_TESTNET,
   },
   perpetualLimitOrderBook: {
-    address: '0xaC4eFd35d52Bba2F8032a45Edd9ceA78fB5ae282',
+    address: '0xEb49e9785509BA3A07F854CaFCE6c75f9C9A0D24',
     abi: perpetualLimitOrderBookAbi,
     chainId: ChainId.BSC_TESTNET,
   },
   PERPETUALS_token: {
-    address: '0xBB5b346844dF63C328AEC50bB0e663f783d88bcC',
+    address: '0xe763A9Fcf1c8eb1432A518F0523D0Bfa51eF5050',
     abi: marginTokenAbi,
     chainId: ChainId.BSC_TESTNET,
   },

@@ -77,7 +77,7 @@ const addSocketEventListeners = (
         trader: decoded.trader,
         price,
         size: Math.abs(tradeAmount),
-        time: parseInt(decoded.blockTimestamp) * 1e3,
+        time: Date.now(),
         type: getTradeType(tradeAmount),
         priceChange: TradePriceChange.NO_CHANGE,
         fromSocket: true,

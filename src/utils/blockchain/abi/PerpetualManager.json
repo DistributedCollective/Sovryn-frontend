@@ -291,12 +291,6 @@
         "internalType": "int128",
         "name": "pnlCC",
         "type": "int128"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "blockTimestamp",
-        "type": "uint256"
       }
     ],
     "name": "RealizedPnL",
@@ -670,6 +664,12 @@
       },
       {
         "indexed": false,
+        "internalType": "bytes32",
+        "name": "orderDigest",
+        "type": "bytes32"
+      },
+      {
+        "indexed": false,
         "internalType": "uint32",
         "name": "orderFlags",
         "type": "uint32"
@@ -697,18 +697,6 @@
         "internalType": "int128",
         "name": "limitPrice",
         "type": "int128"
-      },
-      {
-        "indexed": false,
-        "internalType": "bool",
-        "name": "isClose",
-        "type": "bool"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "blockTimestamp",
-        "type": "uint256"
       }
     ],
     "name": "Trade",
@@ -1771,7 +1759,13 @@
       }
     ],
     "name": "depositMarginForNewLeveragedTrade",
-    "outputs": [],
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "function"
   },
