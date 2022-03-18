@@ -1,3 +1,15 @@
-.label {
-  @apply tw-flex-grow tw-ml-2 tw-text-gray-8 tw-text-right tw-text-xs tw-pointer-events-none;
+.host {
+  @apply tw-list-none;
+
+  .button {
+    @apply tw-flex tw-items-center tw-w-full tw-px-4 tw-py-2 tw-text-sov-white tw-text-left tw-no-underline hover:tw-bg-gray-3;
+
+    &.disabled {
+      @apply tw-opacity-50 tw-cursor-not-allowed;
+    }
+
+    .label {
+      @apply tw-flex-grow tw-ml-2 tw-text-gray-8 tw-text-right tw-text-xs tw-pointer-events-none;
+    }
+  }
 }

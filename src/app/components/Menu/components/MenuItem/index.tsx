@@ -37,27 +37,20 @@ export const MenuItem: React.FC<MenuItemProps> = ({
     (event: MouseEvent) => {
       if (onClick && !disabled) {
         onClick(event);
+      } else {
+        event.preventDefault();
+        event.stopPropagation();
       }
     },
     [onClick, disabled],
   );
 
-  const classNameComplete = useMemo(
-    () =>
-      classNames(
-        'tw-flex tw-items-center tw-w-full tw-px-4 tw-py-2 tw-text-sov-white tw-text-left tw-no-underline',
-        disabled ? 'tw-opacity-50 tw-cursor-not-allowed' : 'hover:tw-bg-gray-4',
-        className,
-      ),
-    [disabled, className],
-  );
-
-  const item = useMemo(() => {
+  const button = useMemo(() => {
     if (href) {
       if (hrefExternal) {
         return (
           <a
-            className={classNameComplete}
+            className={classNames(styles.button, disabled && styles.disabled)}
             href={href}
             target="_blank"
             rel="noreferrer"
@@ -72,7 +65,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
         return (
           <Link
             to={href}
-            className={classNameComplete}
+            className={classNames(styles.button, disabled && styles.disabled)}
             onClick={onClickWhenAllowed}
           >
             {icon && <FontAwesomeIcon icon={icon} className="tw-mr-2" />}
@@ -86,7 +79,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
         <button
           type="button"
           disabled={disabled}
-          className={classNameComplete}
+          className={classNames(styles.button, disabled && styles.disabled)}
           onClick={onClickWhenAllowed}
         >
           {icon && <FontAwesomeIcon icon={icon} className="tw-mr-2" />}
@@ -95,16 +88,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
         </button>
       );
     }
-  }, [
-    disabled,
-    href,
-    hrefExternal,
-    classNameComplete,
-    onClickWhenAllowed,
-    icon,
-    text,
-    label,
-  ]);
+  }, [disabled, href, hrefExternal, onClickWhenAllowed, icon, text, label]);
 
-  return <li className={classNames('tw-relative', className)}>{item}</li>;
+  return <li className={classNames(styles.host, className)}>{button}</li>;
 };
