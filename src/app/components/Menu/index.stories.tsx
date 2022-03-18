@@ -4,6 +4,7 @@ import { Story } from '@storybook/react';
 import { Menu } from './index';
 import { MenuItem } from './components/MenuItem';
 import { faArchway } from '@fortawesome/free-solid-svg-icons';
+import { MenuSeparator } from './components/MenuSeparator';
 
 export default {
   title: 'Atoms/Menu',
@@ -24,9 +25,10 @@ Basic.args = {
       hrefExternal
     />,
     <MenuItem text="Gamma" label="with icon and label" icon={faArchway} />,
+    <MenuSeparator />,
     <MenuItem text="Delta" />,
     <MenuItem text="Epsilon" />,
-    <MenuItem text="Zeta" />,
+    <MenuSeparator text="Zeta" />,
     <MenuItem text="Eta" />,
     <MenuItem text="Theta" />,
   ],

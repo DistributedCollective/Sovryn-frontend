@@ -12,8 +12,8 @@ import styles from './index.module.scss';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 
 type MenuItemProps = {
-  //TODO: use IconComponents enum here instead, requires Icon Component to be done
   className?: string;
+  //TODO: use IconComponents enum here instead, requires Icon Component to be done
   icon?: IconProp;
   text: ReactNode;
   label?: ReactNode;
@@ -75,7 +75,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
             className={classNameComplete}
             onClick={onClickWhenAllowed}
           >
-            {icon && <FontAwesomeIcon icon={icon} className="tw-ltw-mr-2" />}
+            {icon && <FontAwesomeIcon icon={icon} className="tw-mr-2" />}
             {text}
             {label && <span className={styles.label}>{label}</span>}
           </Link>
