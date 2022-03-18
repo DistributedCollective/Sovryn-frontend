@@ -17,6 +17,7 @@ import { Chain } from 'types';
 import { TxStatus } from 'store/global/transactions-store/types';
 
 const stepOrder = [
+  DepositStep.VALIDATION,
   DepositStep.ADDRESS,
   DepositStep.PROCESSING,
   DepositStep.COMPLETED,
@@ -33,6 +34,10 @@ export const SidebarStepsDeposit: React.FC<NetworkAwareComponentProps> = ({
 
   const initialSteps: StepItem[] = useMemo(
     () => [
+      {
+        stepTitle: t(translations.fastBtcPage.deposit.sidebarSteps.validation),
+        value: DepositStep.VALIDATION,
+      },
       {
         stepTitle: t(translations.fastBtcPage.deposit.sidebarSteps.address),
         value: DepositStep.ADDRESS,

@@ -1330,7 +1330,7 @@
     }
   },
   "notifyDialog": {
-    "heading": "Cuidado",
+    "heading": "Atenção",
     "acceptTerms": "Eu li e compreendi que somente eu tenho responsabilidade pelos meus atos",
     "salesBtn": "Eu entendo",
     "generalAlert": {
@@ -1434,7 +1434,7 @@
       "title": "Quantidade:",
       "availble": "Total de SOV disponíveis:",
       "cta": "REIVINDICAR",
-      "note": "Ao reivindicar seus SOV Recompensa, eles ficam bloqueados por 10 meses. A cada mês é liberada uma quantidade.",
+      "note": "Ao reivindicar seus SOV Recompensa, eles ficam bloqueados por 10 meses. A cada mês uma quantidade é liberada.",
       "learn": "Saiba mais"
     },
     "liquidClaimForm": {
@@ -1968,7 +1968,7 @@
     "topUp": {
       "title": "Adquirir <0>RBTC</0>",
       "line1": "Você irá precisar de <0>RBTC</0> na sua carteira para comprar SOV e pagar as taxas da rede RSK",
-      "line2": "Saiba mais sobre <0>RBTC</0> na RSK",
+      "line2": "Saiba mais sobre <0>RBTC</0>",
       "cta": "Carregar carteira"
     },
     "form": {

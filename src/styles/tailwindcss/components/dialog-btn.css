@@ -27,14 +27,6 @@
     @apply tw-opacity-75 tw-bg-opacity-100 tw-cursor-wait;
   }
 
-  .tw-btn-dialog .bp3-spinner .bp3-spinner-head {
-    stroke: theme('colors.sov-white');
-  }
-
-  .tw-btn-dialog .bp3-spinner .bp3-spinner-track {
-    stroke: rgba(255, 255, 255, 0.2);
-  }
-
   .tw-btn-loader__spinner {
     @apply tw-block tw-overflow-hidden tw-text-left;
     transition: width 150ms, opacity 100ms;

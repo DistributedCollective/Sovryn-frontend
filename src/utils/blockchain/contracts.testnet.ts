@@ -37,6 +37,7 @@ import perpetualManagerAbi from './abi/PerpetualManager.json';
 import perpetualLimitOrderBookAbi from './abi/PerpetualLimitOrderBook.json';
 import marginTokenAbi from './abi/MarginToken.json';
 import fastBtcBridgeAbi from './abi/fastBtcBridge.json';
+import fastBtcMultisigAbi from './abi/fastBtcMultisig.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -297,6 +298,10 @@ export const contracts = {
   fastBtcBridge: {
     address: '0x10C848e9495a32acA95F6c23C92eCA2b2bE9903A',
     abi: fastBtcBridgeAbi,
+  },
+  fastBtcMultisig: {
+    address: '0x1D67BDA1144CacDbEFF1782f0E5B43D7B50bbFe0',
+    abi: fastBtcMultisigAbi,
   },
   perpetualManager: {
     address: '0xe9cF7184c1C41a1B08f38A4eF98fffC99988855E',

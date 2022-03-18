@@ -1,16 +1,21 @@
 import React from 'react';
 import classNames from 'classnames';
-import { SpinnerSizeType } from './types';
 import styles from './index.module.scss';
+
+export enum SpinnerSize {
+  SM = 20,
+  MD = 50,
+  LG = 100,
+}
 
 interface ISpinnerProps {
   className?: string;
-  size?: SpinnerSizeType;
+  size?: SpinnerSize;
 }
 
 export const Spinner: React.FC<ISpinnerProps> = ({
   className,
-  size = SpinnerSizeType.STANDARD,
+  size = SpinnerSize.MD,
 }) => (
   <div className={classNames(styles.spinner, className)}>
     <svg
