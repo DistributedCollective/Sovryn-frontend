@@ -39,7 +39,6 @@ import { gasLimit } from 'utils/classifiers';
 import { formatNumber } from 'app/containers/StatsPage/utils';
 import { useDenominateDollarToAssetAmount } from 'app/hooks/trading/useDenominateDollarToAssetAmount';
 import { getSwapOrderFeeOut } from 'app/hooks/limitOrder/utils';
-import { contractReader } from 'utils/sovryn/contract-reader';
 
 export const LimitForm: React.FC<ITradeFormProps> = ({
   sourceToken,
@@ -62,29 +61,16 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
   const [amount, setAmount] = useState('');
   const [limitPrice, setLimitPrice] = useState('');
 
-  const [minFeeOut, setMinFeeOut] = useState<string>();
   const [feeOut, setFeeOut] = useState('0');
 
   useEffect(() => {
-    contractReader
-      .call<string>('settlement', 'minSwapOrderTxFee', [])
-      .then(setMinFeeOut)
+    getSwapOrderFeeOut(sourceToken, targetToken, amount || '0')
+      .then(setFeeOut)
       .catch(e => {
-        setMinFeeOut('0');
+        setFeeOut('0');
         console.error(e);
       });
-  }, []);
-
-  useEffect(() => {
-    if (minFeeOut !== undefined) {
-      getSwapOrderFeeOut(sourceToken, targetToken, amount || '0', minFeeOut)
-        .then(setFeeOut)
-        .catch(e => {
-          setFeeOut('0');
-          console.error(e);
-        });
-    }
-  }, [sourceToken, targetToken, feeOut, amount, minFeeOut]);
+  }, [sourceToken, targetToken, feeOut, amount]);
 
   const [duration, setDuration] = useState(0);
 
@@ -319,17 +305,6 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
             <span>
               {formatNumber(Number(fromWei(weiAmountOut)), 6)}{' '}
               <AssetRenderer asset={targetToken} />
-            </span>
-          </div>
-          <div className="swap-btn-helper tw-flex tw-items-center tw-justify-betweenS tw-mt-2">
-            <span className="tw-w-full tw-flex tw-items-center tw-justify-between tw-text-xs tw-whitespace-nowrap">
-              <span>
-                {t(translations.spotTradingPage.tradeForm.relayerFee)}
-              </span>
-              <span>
-                {formatNumber(Number(fromWei(feeOut)), 6)}{' '}
-                <AssetRenderer asset={targetToken} />
-              </span>
             </span>
           </div>
           <div

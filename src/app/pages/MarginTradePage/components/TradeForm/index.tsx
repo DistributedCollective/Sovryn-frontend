@@ -34,7 +34,7 @@ import { LiquidationPrice } from '../LiquidationPrice';
 import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
 import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
 import { SlippageForm } from '../SlippageForm';
-import { toWei } from 'utils/blockchain/math-helpers';
+import { fromWei, toWei } from 'utils/blockchain/math-helpers';
 import { OrderType } from 'app/components/OrderTypeTitle/types';
 import { MARGIN_SLIPPAGE_DEFAULT } from '../../types';
 import { AssetRenderer } from 'app/components/AssetRenderer';
@@ -44,6 +44,7 @@ import { durationOptions } from 'app/pages/SpotTradingPage/components/LimitOrder
 import { OrderTypeTitle } from 'app/components/OrderTypeTitle';
 import { LimitTradeDialog } from '../LimitOrder/LimitTradeDialog';
 import { useDenominateDollarToAssetAmount } from 'app/hooks/trading/useDenominateDollarToAssetAmount';
+import { getPriceAmm } from 'utils/blockchain/requests/amm';
 
 interface ITradeFormProps {
   pairType: TradingPairType;
@@ -184,6 +185,13 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
       isMinAmountValid,
     ],
   );
+
+  useEffect(() => {
+    getPriceAmm(pair.shortAsset, pair.longAsset, toWei('0.01'))
+      .then(response => bignumber(response).mul(100))
+      .then(fromWei)
+      .then(setLimitPrice);
+  }, [pair.longAsset, pair.shortAsset]);
 
   return (
     <>

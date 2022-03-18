@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 import { ethers } from 'ethers';
@@ -43,9 +43,11 @@ export const useMarginLimitOrder = (
     useLoanTokens,
   } = useTrading_resolvePairTokens(pair, position, collateral);
 
-  const { send, ...tx } = useSendTx();
+  const { send, loading, ...tx } = useSendTx();
+  const [preparing, setPreparing] = useState(false);
 
   const createOrder = useCallback(async () => {
+    setPreparing(true);
     try {
       const created = ethers.BigNumber.from(Math.floor(Date.now() / 1000));
 
@@ -146,6 +148,8 @@ export const useMarginLimitOrder = (
       }
     } catch (e) {
       onError();
+    } finally {
+      setPreparing(false);
     }
   }, [
     leverage,
@@ -162,7 +166,7 @@ export const useMarginLimitOrder = (
     onError,
   ]);
 
-  return { createOrder, ...tx };
+  return { createOrder, loading: loading || preparing, ...tx };
 };
 
 export const approveSettlement = async (
@@ -178,7 +182,7 @@ export const approveSettlement = async (
       amount,
     );
     if (tx.rejected) {
-      throw new Error();
+      throw new Error('User rejected transaction');
     }
   } else {
     await contractWriter.send('settlement', 'deposit', [account], {

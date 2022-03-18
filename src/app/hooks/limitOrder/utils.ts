@@ -8,6 +8,13 @@ import { Asset } from 'types/asset';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { getPriceAmm } from 'utils/blockchain/requests/amm';
 
+enum CacheKey {
+  SPOT_TRADE_FEE,
+  MARGIN_TRADE_FEE,
+}
+
+const cache: Partial<Record<CacheKey, string>> = {};
+
 export const signTypeData = async (order: Order, account: string, chainId) => {
   const messageParameters = JSON.stringify({
     domain: {
@@ -128,21 +135,63 @@ export async function signTypeMarginOrderData(
 export const getRelayerFee = (minSwapOrderTxFee: string, amountIn: string) =>
   max(bignumber(minSwapOrderTxFee), bignumber(0.002).mul(amountIn)).toString();
 
+export const getMinSwapOrderTxFee = async () => {
+  if (cache.hasOwnProperty(CacheKey.SPOT_TRADE_FEE)) {
+    return cache[CacheKey.SPOT_TRADE_FEE];
+  }
+  return contractReader
+    .call<string>('settlement', 'minSwapOrderTxFee', [])
+    .then(result => {
+      cache[CacheKey.SPOT_TRADE_FEE] = result;
+      return result;
+    });
+};
+
+export const getMinMarginOrderFee = async () => {
+  if (cache.hasOwnProperty(CacheKey.MARGIN_TRADE_FEE)) {
+    return cache[CacheKey.MARGIN_TRADE_FEE];
+  }
+  return contractReader
+    .call<string>('settlement', 'minMarginOrderTxFee', [])
+    .then(result => {
+      cache[CacheKey.MARGIN_TRADE_FEE] = result;
+      return result;
+    });
+};
+
 export const getSwapOrderFeeOut = async (
   sourceAsset: Asset,
   targetAsset: Asset,
   weiAmountIn: string,
-  _minFeeAmount?: string,
 ) => {
   const orderSize = bignumber(weiAmountIn);
   let orderFee = orderSize.mul(2).div(1000); //-0.2% relayer fee
 
-  let minFeeAmount = bignumber(_minFeeAmount || '0');
-  if (_minFeeAmount === undefined) {
-    minFeeAmount = await contractReader
-      .call<string>('settlement', 'minSwapOrderTxFee', [])
-      .then(bignumber);
+  let minFeeAmount = await getMinSwapOrderTxFee().then(bignumber);
+
+  let minFeeInToken = minFeeAmount;
+  if (sourceAsset !== Asset.RBTC) {
+    minFeeInToken = await getPriceAmm(
+      Asset.RBTC,
+      sourceAsset,
+      minFeeAmount.toString(),
+    ).then(bignumber);
   }
+
+  if (orderFee.lt(minFeeInToken)) orderFee = minFeeInToken;
+
+  return getPriceAmm(sourceAsset, targetAsset, orderFee.toString());
+};
+
+export const getMarginOrderFeeOut = async (
+  sourceAsset: Asset,
+  targetAsset: Asset,
+  weiAmountIn: string,
+) => {
+  const orderSize = bignumber(weiAmountIn);
+  let orderFee = orderSize.mul(2).div(1000); //-0.2% relayer fee
+
+  let minFeeAmount = await getMinMarginOrderFee().then(bignumber);
 
   let minFeeInToken = minFeeAmount;
   if (sourceAsset !== Asset.RBTC) {

@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useMemo, useState, useCallback, useEffect } from 'react';
 import classNames from 'classnames';
 import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -25,6 +25,7 @@ import { TradeDialogInfo } from '../../TradeDialog/TradeDialogInfo';
 import { useTrading_resolvePairTokens } from 'app/hooks/trading/useTrading_resolvePairTokens';
 import { bignumber } from 'mathjs';
 import { MarginLimitOrder } from 'app/pages/MarginTradePage/types';
+import { getMarginOrderFeeOut } from 'app/hooks/limitOrder/utils';
 
 interface ILimitTradeDialogProps {
   isOpen: boolean;
@@ -43,14 +44,18 @@ export const LimitTradeDialog: React.FC<ILimitTradeDialogProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const [orderStatus, setOrderStatus] = useState(TxStatus.NONE);
-  const [txHash, setTxHash] = useState('');
-
-  const { checkMaintenance, States } = useMaintenance();
-  const openTradesLocked = checkMaintenance(States.OPEN_MARGIN_TRADES);
   const { position, amount, pairType, collateral, leverage } = useSelector(
     selectMarginTradePage,
   );
+
+  const [orderStatus, setOrderStatus] = useState(TxStatus.NONE);
+  const [txHash, setTxHash] = useState('');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [feeOut, setFeeOut] = useState('0');
+
+  const { checkMaintenance, States } = useMaintenance();
+  const openTradesLocked = checkMaintenance(States.OPEN_MARGIN_TRADES);
+
   const dispatch = useDispatch();
   const pair = useMemo(() => TradingPairDictionary.get(pairType), [pairType]);
 
@@ -77,6 +82,19 @@ export const LimitTradeDialog: React.FC<ILimitTradeDialogProps> = ({
     setOrderStatus(TxStatus.PENDING);
     onCloseModal();
   };
+
+  useEffect(() => {
+    if (useLoanTokens) {
+      getMarginOrderFeeOut(loanToken, collateralToken, amount).then(setFeeOut);
+    } else {
+      getMarginOrderFeeOut(collateralToken, loanToken, amount).then(setFeeOut);
+    }
+  }, [amount, collateralToken, loanToken, useLoanTokens]);
+
+  const positionSize = useMemo(
+    () => bignumber(amount).mul(leverage).toFixed(0),
+    [amount, leverage],
+  );
 
   const minEntry = useMemo(() => {
     if (pair.longAsset === loanToken) {
@@ -144,10 +162,7 @@ export const LimitTradeDialog: React.FC<ILimitTradeDialogProps> = ({
               })}
               value={
                 <>
-                  {weiToNumberFormat(
-                    bignumber(amount).mul(leverage).toFixed(0),
-                    8,
-                  )}{' '}
+                  {weiToNumberFormat(positionSize, 8)}{' '}
                   <AssetRenderer asset={collateral} />
                 </>
               }
