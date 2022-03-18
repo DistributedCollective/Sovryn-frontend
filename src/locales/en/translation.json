@@ -52,7 +52,8 @@
     "addLiquidity": "Sorry, adding liquidity is currently under maintenance, please check our <0>discord</0> for updates.",
     "removeLiquidity": "Sorry, removing liquidity is currently under maintenance, please check our <0>discord</0> for updates.",
     "liquidity": "Sorry, liquidity providing is currently under maintenance, some features may be unavailable. Please check our <0>discord</0> for updates.",
-    "fastBTC": "Sorry, FastBTC deposits are currently under maintenance, please check our <0>discord</0> for updates.",
+    "fastBTC": "Sorry, FastBTC transfers are currently under maintenance, please check our <0>discord</0> for updates.",
+    "fastBTCPortfolio": "Sorry, FastBTC transfers are currently under maintenance, please check our discord (link in footer) for updates.",
     "transack": "Sorry, Transack deposits are currently under maintenance, please check our <0>discord</0> for updates.",
 
     "bridge": "Sorry, cross-chain transfers are currently under maintenance, please check our discord (link in footer) for updates.",
@@ -213,6 +214,7 @@
     "backToPortfolio": "Back to portfolio",
     "deposit": {
       "sidebarSteps": {
+        "validation": "Validation",
         "address": "Deposit Address",
         "processing": "Processing",
         "processingSteps": "Processing... ({{step}}/{{steps}})",
@@ -237,6 +239,14 @@
         "line4": "Only send BTC to the deposit address generated for you.",
         "line5": "Allow up to {{hours}} hrs to proccess.",
         "line6": "If your transaction takes longer than {{hours}} hrs please <0>create a support ticket</0>."
+      },
+      "validationScreen": {
+        "title": "Verifying FastBTC Federators",
+        "description": "As an additional layer of security, we are verifying the signatures from the FastBTC federator node. Please wait until this is completed",
+        "cta": "Click to continue",
+        "validationTextLoading": "Verifying Signatures...",
+        "validationTextSuccess": "Verifying Complete",
+        "validationTextError": "Verifying Failed"
       },
       "addressForm": {
         "title": "BTC Deposit Address",
