@@ -27,35 +27,9 @@
 
     NOTE: Alternatively, You can use the NVM tool that is easy to use and allows you to switch between the installed node versions. For more information, see the [NVM](https://github.com/nvm-sh/nvm) guide.
 
-- Generate the GitHub Personal Access Token (PAT) and copy the token code:
-
-  1. Using your GitHub profile Drop-down menu, navigate to **Settings -> Developer settings**.
-  2. Select the **Personal access tokens** option and click the **Generate new token** button.
-  3. Fill in the token information as follows:
-
-     a) Describe the token using the **Note** field.
-
-     b) Set expiration to **_No expiration_**.
-
-     c) Select the all **_repo_** and **_write:packages_** options, including the **_read:packages_**.
-
-  4. Click the **Generate Token** button at the bottom of the page.
-  5. Copy your generated token code for later.
-
 ### Procedure
 
-1. Create the `~/.npmrc` file in your home dirrectory. In a case you already have one, just add the line in the next step.
-
-2. Add the following content to the `~/.npmrc` file and replace the _<Your-GitHub-token-here>_ field with your PAT value copied from GitHub:
-
-   ```shell
-   @distributedcollective:registry=https://npm.pkg.github.com
-   //npm.pkg.github.com/:_authToken=<Your-GitHub-token-here>
-   ```
-
-3. Save the file and restart your terminal.
-
-4. Navigate to your cloned repository and install the `yarn` tool:
+1. Navigate to your cloned repository and install the `yarn` tool:
 
    ```shell
    yarn install
@@ -63,7 +37,7 @@
 
    Yarn dependecies packages will be downloaded.
 
-5. Start DApp server:
+2. Start DApp server:
 
 - For development testnet:
 
@@ -81,14 +55,6 @@
   ```shell
   yarn build
   ```
-
-NOTE: If you are using a Windows machine then you may receive errors when running this command, related to shell scripts in `/bin` not including the `.sh` file extension. To avoid this please run `yarn --ignore-scripts` instead, and execute the `gh-pack` script manually as needed.
-
-#### External Contributors
-
-Due to the terms of our licensing agreement with TradingView, we cannot grant access to the charting-library repository to external contributors. To allow running this repository locally, we have set up the `development_external` and `master_external` branches that exclude this dependency and are synced to the latest changes from `development`/`master` branches.
-
-Any new Pull Requests should target the non-external versions of these branches as outlined in the "Which Branch?" section below.
 
 ## Contributing
 
