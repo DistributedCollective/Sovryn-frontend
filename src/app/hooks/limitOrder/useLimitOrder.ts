@@ -1,14 +1,12 @@
 import { ILimitOrder } from 'app/pages/SpotTradingPage/types';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { getContract as getContractData } from 'utils/blockchain/contract-helpers';
-import { selectWalletProvider } from 'app/containers/WalletProvider/selectors';
 import { useAccount } from 'app/hooks/useAccount';
 import { Asset } from 'types';
 import { ethers, BigNumber } from 'ethers';
 import { SignatureLike } from '@ethersproject/bytes';
-import { useSelector } from 'react-redux';
 import { contractWriter } from 'utils/sovryn/contract-writer';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { TransactionConfig } from 'web3-core';
 import { gas } from 'utils/blockchain/gas-price';
 import { Order } from 'app/pages/SpotTradingPage/helpers';
@@ -29,91 +27,103 @@ export const useLimitOrder = (
   onStart: () => void,
 ) => {
   const account = useAccount();
-  const { chainId } = useSelector(selectWalletProvider);
+  const chainId = currentChainId;
 
-  const { send, ...tx } = useSendTx();
+  const [preparing, setPreparing] = useState(false);
+  const { send, loading, ...tx } = useSendTx();
 
   const createOrder = useCallback(async () => {
+    setPreparing(true);
     try {
-      await approveSettlement(sourceToken, amount, account);
-    } catch {
-      return;
-    }
-
-    try {
-      const created = BigNumber.from(Math.floor(Date.now() / 1000));
-
-      const order = new Order(
-        account,
-        sourceToken,
-        targetToken,
-        amount,
-        amountOutMin,
-        account,
-        getDeadline(duration > 0 ? duration : 365).toString(),
-        created.toString(),
-      );
-
-      const signature = await signTypeData(order, account, chainId);
-
-      const expandedSignature = ethers.utils.splitSignature(
-        signature as SignatureLike,
-      );
-
-      const args = [
-        order.maker,
-        order.fromToken,
-        order.toToken,
-        order.amountIn,
-        order.amountOutMin,
-        order.recipient,
-        order.deadline,
-        order.created,
-        expandedSignature.v,
-        expandedSignature.r,
-        expandedSignature.s,
-      ];
-
-      const contract = getContract('orderBook');
-
-      const populated = await contract.populateTransaction.createOrder(args);
-
-      onStart();
-
-      const { data } = await axios.post(
-        limitOrderUrl[currentChainId] + '/createOrder',
-        {
-          data: populated.data,
-          from: account,
-        },
-      );
-      if (data.success) {
-        const newOrder: ILimitOrder = {
-          maker: order.maker,
-          fromToken: order.fromToken,
-          toToken: order.toToken,
-          recipient: order.recipient,
-          amountIn: order.amountIn,
-          amountOutMin: order.amountOutMin,
-          deadline: order.deadline,
-          created: order.created,
-          filled: '0',
-          filledAmount: '0',
-          canceled: false,
-          v: data?.data?.v,
-          r: data?.data?.r,
-          s: data?.data?.s,
-          hash: data?.data?.hash,
-        };
-        onSuccess(newOrder, data.data);
-      } else {
-        throw new Error();
+      try {
+        await approveSettlement(sourceToken, amount, account);
+      } catch {
+        throw Error('approve settlement failed');
       }
-    } catch (error) {
-      onError();
-      if (sourceToken === Asset.RBTC) {
-        await contractWriter.send('settlement', 'withdraw', [amount]);
+
+      try {
+        const created = BigNumber.from(Math.floor(Date.now() / 1000));
+
+        const order = new Order(
+          account,
+          sourceToken,
+          targetToken,
+          amount,
+          amountOutMin,
+          account,
+          getDeadline(duration > 0 ? duration : 365).toString(),
+          created.toString(),
+        );
+
+        const signature = await signTypeData(order, account, chainId);
+
+        const expandedSignature = ethers.utils.splitSignature(
+          signature as SignatureLike,
+        );
+
+        const args = [
+          order.maker,
+          order.fromToken,
+          order.toToken,
+          order.amountIn,
+          order.amountOutMin,
+          order.recipient,
+          order.deadline,
+          order.created,
+          expandedSignature.v,
+          expandedSignature.r,
+          expandedSignature.s,
+        ];
+
+        const contract = getContract('orderBook');
+
+        const encodedData = contract.interface.encodeFunctionData(
+          'createOrder',
+          [args],
+        );
+
+        onStart();
+
+        const { data } = await axios.post(
+          limitOrderUrl[currentChainId] + '/createOrder',
+          {
+            data: encodedData,
+            from: account,
+          },
+        );
+        if (data.success) {
+          const newOrder: ILimitOrder = {
+            maker: order.maker,
+            fromToken: order.fromToken,
+            toToken: order.toToken,
+            recipient: order.recipient,
+            amountIn: order.amountIn,
+            amountOutMin: order.amountOutMin,
+            deadline: order.deadline,
+            created: order.created,
+            filled: '0',
+            filledAmount: '0',
+            canceled: false,
+            v: data?.data?.v,
+            r: data?.data?.r,
+            s: data?.data?.s,
+            hash: data?.data?.hash,
+          };
+          onSuccess(newOrder, data.data);
+        } else {
+          throw new Error('Failed to submit order.');
+        }
+      } catch (error) {
+        console.error('got error?', error);
+        onError();
+        if (sourceToken === Asset.RBTC) {
+          await contractWriter.send('settlement', 'withdraw', [amount]);
+        }
       }
+    } catch (e) {
+      console.error('create order failed', e);
+    } finally {
+      setPreparing(false);
     }
   }, [
     sourceToken,
@@ -128,7 +138,7 @@ export const useLimitOrder = (
     onError,
   ]);
 
-  return { createOrder, ...tx };
+  return { createOrder, loading: loading || preparing, ...tx };
 };
 
 export const useCancelLimitOrder = (order: ILimitOrder, sourceToken: Asset) => {

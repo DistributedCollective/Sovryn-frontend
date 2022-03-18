@@ -34,6 +34,7 @@ interface ITradeDialogProps {
   limitPrice?: string;
   duration?: number;
   fee?: React.ReactNode;
+  buttonLoading?: boolean;
 }
 
 export const TradeDialog: React.FC<ITradeDialogProps> = ({
@@ -50,6 +51,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
   sourceToken,
   duration,
   fee,
+  buttonLoading,
 }) => {
   const { t } = useTranslation();
   const { connected } = useWalletContext();
@@ -188,7 +190,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
           <DialogButton
             confirmLabel={t(translations.common.confirm)}
             onConfirm={submit}
-            disabled={spotLocked || !connected}
+            disabled={spotLocked || !connected || buttonLoading}
             cancelLabel={t(translations.common.cancel)}
             onCancel={onCloseModal}
             data-action-id="spot-reviewDialog-submit"

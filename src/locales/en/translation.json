@@ -1700,6 +1700,7 @@
       "buy_cta": "PLACE BUY ORDER",
       "sell_cta": "PLACE SELL ORDER",
       "amountReceived": "Amount Received",
+      "relayerFee": "Relayer Fee",
       "buy": "Buy",
       "sell": "Sell",
       "market": "Market",

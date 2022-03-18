@@ -24,7 +24,11 @@ import { useLimitOrder } from 'app/hooks/limitOrder/useLimitOrder';
 import classNames from 'classnames';
 import { useSwapsExternal_getSwapExpectedReturn } from 'app/hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
 import { toWei } from 'web3-utils';
-import { fromWei, weiToFixed } from 'utils/blockchain/math-helpers';
+import {
+  fromWei,
+  isValidNumerishValue,
+  weiToFixed,
+} from 'utils/blockchain/math-helpers';
 import { actions } from '../../slice';
 import { useDispatch } from 'react-redux';
 import { Toast } from 'app/components/Toast';
@@ -34,10 +38,8 @@ import { LimitResultDialog } from './LimitResultDialog';
 import { gasLimit } from 'utils/classifiers';
 import { formatNumber } from 'app/containers/StatsPage/utils';
 import { useDenominateDollarToAssetAmount } from 'app/hooks/trading/useDenominateDollarToAssetAmount';
-import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
-import { useDenominateAssetAmount } from 'app/hooks/trading/useDenominateAssetAmount';
-import { Asset } from 'types';
-import { getRelayerFee } from 'app/hooks/limitOrder/utils';
+import { getSwapOrderFeeOut } from 'app/hooks/limitOrder/utils';
+import { contractReader } from 'utils/sovryn/contract-reader';
 
 export const LimitForm: React.FC<ITradeFormProps> = ({
   sourceToken,
@@ -60,37 +62,52 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
   const [amount, setAmount] = useState('');
   const [limitPrice, setLimitPrice] = useState('');
 
-  const { value: minSwapOrderTxFeeInRBTC } = useCacheCallWithValue(
-    'settlement',
-    'minSwapOrderTxFee',
-    '0',
-  );
+  const [minFeeOut, setMinFeeOut] = useState<string>();
+  const [feeOut, setFeeOut] = useState('0');
 
-  const { value: minSwapOrderTxFee } = useDenominateAssetAmount(
-    Asset.RBTC,
-    sourceToken,
-    minSwapOrderTxFeeInRBTC,
-  );
+  useEffect(() => {
+    contractReader
+      .call<string>('settlement', 'minSwapOrderTxFee', [])
+      .then(setMinFeeOut)
+      .catch(e => {
+        setMinFeeOut('0');
+        console.error(e);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (minFeeOut !== undefined) {
+      getSwapOrderFeeOut(sourceToken, targetToken, amount || '0', minFeeOut)
+        .then(setFeeOut)
+        .catch(e => {
+          setFeeOut('0');
+          console.error(e);
+        });
+    }
+  }, [sourceToken, targetToken, feeOut, amount, minFeeOut]);
 
   const [duration, setDuration] = useState(0);
 
   const weiAmount = useWeiAmount(amount);
 
   const weiAmountOut = useMemo(() => {
-    if (!limitPrice || !amount || limitPrice === '0') {
+    if (![limitPrice, amount, limitPrice].every(isValidNumerishValue)) {
       return '0';
     }
 
-    const relayerFee = getRelayerFee(minSwapOrderTxFee, weiAmount);
-    const price =
-      tradeType === TradingTypes.SELL
-        ? limitPrice
-        : bignumber(1).div(limitPrice || '0');
-    return bignumber(weiAmount)
-      .minus(relayerFee)
-      .mul(price || '0')
-      .toFixed(0);
-  }, [amount, limitPrice, minSwapOrderTxFee, tradeType, weiAmount]);
+    const price = (tradeType === TradingTypes.SELL
+      ? limitPrice
+      : bignumber(1).div(limitPrice || '0')
+    ).toString();
+
+    if (bignumber(weiAmount).lt(0)) {
+      return '0';
+    }
+
+    const outAmount = bignumber(weiAmount).mul(price || '0');
+
+    return outAmount.minus(feeOut).toFixed(0);
+  }, [amount, feeOut, limitPrice, tradeType, weiAmount]);
 
   const { value: minAmount } = useDenominateDollarToAssetAmount(sourceToken);
 
@@ -235,6 +252,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
         limitPrice={limitPrice}
         duration={duration}
         submit={submit}
+        buttonLoading={tx.loading}
       />
       <TransactionDialog tx={tx} />
       <LimitResultDialog
@@ -301,6 +319,17 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
             <span>
               {formatNumber(Number(fromWei(weiAmountOut)), 6)}{' '}
               <AssetRenderer asset={targetToken} />
+            </span>
+          </div>
+          <div className="swap-btn-helper tw-flex tw-items-center tw-justify-betweenS tw-mt-2">
+            <span className="tw-w-full tw-flex tw-items-center tw-justify-between tw-text-xs tw-whitespace-nowrap">
+              <span>
+                {t(translations.spotTradingPage.tradeForm.relayerFee)}
+              </span>
+              <span>
+                {formatNumber(Number(fromWei(feeOut)), 6)}{' '}
+                <AssetRenderer asset={targetToken} />
+              </span>
             </span>
           </div>
           <div

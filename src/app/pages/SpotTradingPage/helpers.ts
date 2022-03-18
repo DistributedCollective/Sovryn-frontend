@@ -1,6 +1,6 @@
 import { ILimitOrder } from 'app/pages/SpotTradingPage/types';
 import { utils } from 'ethers';
-import { _TypedDataEncoder } from 'ethers/lib/utils';
+import { _TypedDataEncoder } from '@ethersproject/hash';
 import {
   getContract,
   getTokenContract,
@@ -59,6 +59,41 @@ export class Order {
         ],
       ),
     );
+  }
+
+  messageHash(chainId: number) {
+    const domain = {
+      name: 'OrderBook',
+      version: '1',
+      chainId,
+      verifyingContract: getContract('orderBook').address,
+    };
+    const types = {
+      Order: [
+        { name: 'maker', type: 'address' },
+        { name: 'fromToken', type: 'address' },
+        { name: 'toToken', type: 'address' },
+        { name: 'amountIn', type: 'uint256' },
+        { name: 'amountOutMin', type: 'uint256' },
+        { name: 'recipient', type: 'address' },
+        { name: 'deadline', type: 'uint256' },
+        { name: 'created', type: 'uint256' },
+      ],
+    };
+    const value = {
+      maker: this.maker,
+      fromToken: this.fromToken,
+      toToken: this.toToken,
+      amountIn: this.amountIn,
+      amountOutMin: this.amountOutMin,
+      recipient: this.recipient,
+      deadline: this.deadline,
+      created: this.created,
+    };
+
+    console.log({ domain, types, value });
+
+    return _TypedDataEncoder.hash(domain, types, value);
   }
 
   async sign(chainId: number) {

@@ -4,14 +4,17 @@ import { walletService } from '@sovryn/react-wallet';
 import { BigNumber } from 'ethers';
 import { MarginOrder } from 'app/pages/MarginTradePage/helpers';
 import { bignumber, max } from 'mathjs';
+import { Asset } from 'types/asset';
+import { contractReader } from 'utils/sovryn/contract-reader';
+import { getPriceAmm } from 'utils/blockchain/requests/amm';
 
 export const signTypeData = async (order: Order, account: string, chainId) => {
   const messageParameters = JSON.stringify({
     domain: {
-      name: 'OrderBook',
-      version: '1',
       chainId,
+      name: 'OrderBook',
       verifyingContract: getContract('orderBook').address,
+      version: '1',
     },
 
     message: {
@@ -124,3 +127,33 @@ export async function signTypeMarginOrderData(
 // max(minSwapOrderTxFee, 0.2% of amountIn)
 export const getRelayerFee = (minSwapOrderTxFee: string, amountIn: string) =>
   max(bignumber(minSwapOrderTxFee), bignumber(0.002).mul(amountIn)).toString();
+
+export const getSwapOrderFeeOut = async (
+  sourceAsset: Asset,
+  targetAsset: Asset,
+  weiAmountIn: string,
+  _minFeeAmount?: string,
+) => {
+  const orderSize = bignumber(weiAmountIn);
+  let orderFee = orderSize.mul(2).div(1000); //-0.2% relayer fee
+
+  let minFeeAmount = bignumber(_minFeeAmount || '0');
+  if (_minFeeAmount === undefined) {
+    minFeeAmount = await contractReader
+      .call<string>('settlement', 'minSwapOrderTxFee', [])
+      .then(bignumber);
+  }
+
+  let minFeeInToken = minFeeAmount;
+  if (sourceAsset !== Asset.RBTC) {
+    minFeeInToken = await getPriceAmm(
+      Asset.RBTC,
+      sourceAsset,
+      minFeeAmount.toString(),
+    ).then(bignumber);
+  }
+
+  if (orderFee.lt(minFeeInToken)) orderFee = minFeeInToken;
+
+  return getPriceAmm(sourceAsset, targetAsset, orderFee.toString());
+};
