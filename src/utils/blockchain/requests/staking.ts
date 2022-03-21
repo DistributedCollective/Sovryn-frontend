@@ -28,28 +28,27 @@ export function staking_getPriorUserStakeByDate(
   ]);
 }
 
-export function staking_withdrawFee(
-  tokenAddress: string,
-  processedCheckpoints: string,
-  account: string,
-) {
-  return contractWriter.send('feeSharingProxy_old', 'withdraw', [
-    tokenAddress,
-    processedCheckpoints,
-    account,
-  ]);
-}
 export function staking_processedCheckpoints(
   account: string,
   tokenAddress: string,
+  useNewContract = false,
 ) {
-  return contractReader.call('feeSharingProxy_old', 'processedCheckpoints', [
-    account,
-    tokenAddress,
-  ]);
+  return contractReader.call(
+    getFeeSharingProxyContractName(useNewContract),
+    'processedCheckpoints',
+    [account, tokenAddress, (useNewContract = false)],
+  );
 }
-export function staking_numTokenCheckpoints(tokenAddress: string) {
-  return contractReader.call('feeSharingProxy_old', 'numTokenCheckpoints', [
-    tokenAddress,
-  ]);
+export function staking_numTokenCheckpoints(
+  tokenAddress: string,
+  useNewContract = false,
+) {
+  return contractReader.call(
+    getFeeSharingProxyContractName(useNewContract),
+    'numTokenCheckpoints',
+    [tokenAddress],
+  );
 }
+
+export const getFeeSharingProxyContractName = (useNewContract: boolean) =>
+  useNewContract ? 'feeSharingProxy' : 'feeSharingProxy_old';

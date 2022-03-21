@@ -23,10 +23,6 @@ export const GlobalStyle = createGlobalStyle`
     ${media.lg`
     font-size: 16px;
     `}
-
-    &.originsLaunchpad {
-      background-color: #282828 !important;
-    }
   }
 
   #root {

@@ -19,6 +19,7 @@
     "next": "Next",
     "loading": "Loading...",
     "retry": "Retry",
+    "continueToFailure": "I understand the risks of transaction failure, allow me to continue",
     "unit": {
       "day": "{{count}} day",
       "day_plural": "{{count}} days"
@@ -47,7 +48,8 @@
     "addLiquidity": "Sorry, adding liquidity is currently under maintenance, please check our <0>discord</0> for updates.",
     "removeLiquidity": "Sorry, removing liquidity is currently under maintenance, please check our <0>discord</0> for updates.",
     "liquidity": "Sorry, liquidity providing is currently under maintenance, some features may be unavailable. Please check our <0>discord</0> for updates.",
-    "fastBTC": "Sorry, FastBTC deposits are currently under maintenance, please check our <0>discord</0> for updates.",
+    "fastBTC": "Sorry, FastBTC transfers are currently under maintenance, please check our <0>discord</0> for updates.",
+    "fastBTCPortfolio": "Sorry, FastBTC transfers are currently under maintenance, please check our discord (link in footer) for updates.",
     "transack": "Sorry, Transack deposits are currently under maintenance, please check our <0>discord</0> for updates.",
 
     "bridge": "Sorry, cross-chain transfers are currently under maintenance, please check our discord (link in footer) for updates.",
@@ -82,7 +84,7 @@
   },
   "hintHowToConnect": {
     "hintOne": "Before you can trade and lend with Sovryn, you need to connect to the RSK network.",
-    "hintTwo": "Get instructions on how to connect with <0>Metamask</0> or <1>Nifty</1> and then connect your wallet:"
+    "hintTwo": "Get instructions on how to connect with <0>MetaMask</0> or <1>Nifty</1> and then connect your wallet:"
   },
   "serviceWorkerToaster": {
     "title": "Sovryn has been updated to <br/> <0>Build ID:</0> <1>{{buildId}}</1>",
@@ -177,6 +179,7 @@
     "backToPortfolio": "Back to portfolio",
     "deposit": {
       "sidebarSteps": {
+        "validation": "Validation",
         "address": "Deposit Address",
         "processing": "Processing",
         "processingSteps": "Processing... ({{step}}/{{steps}})",
@@ -198,8 +201,17 @@
         "line1": "Do not deposit any asset other than BTC.",
         "line2": "Do not send less than the MIN limit.",
         "line3": "Do not send more than the MAX limit.",
-        "line4": "Allow up to {{hours}} hrs to proccess.",
-        "line5": "If your transaction takes longer than {{hours}} hrs please <0>create a support ticket</0>."
+        "line4": "Only send BTC to the deposit address generated for you.",
+        "line5": "Allow up to {{hours}} hrs to proccess.",
+        "line6": "If your transaction takes longer than {{hours}} hrs please <0>create a support ticket</0>."
+      },
+      "validationScreen": {
+        "title": "Verifying FastBTC Federators",
+        "description": "As an additional layer of security, we are verifying the signatures from the FastBTC federator node. Please wait until this is completed",
+        "cta": "Click to continue",
+        "validationTextLoading": "Verifying Signatures...",
+        "validationTextSuccess": "Verifying Complete",
+        "validationTextError": "Verifying Failed"
       },
       "addressForm": {
         "title": "BTC Deposit Address",
@@ -257,7 +269,7 @@
       "addressForm": {
         "title": "BTC Network Withdraw Address",
         "address": "Withdraw BTC to this address",
-        "errorBECH32": "Please enter a valid BECH32 BTC address!",
+        "errorBECH32": "Please enter a supported BTC address. All BTC addresses except Taproot addresses are supported.",
         "cta": "Review Withdraw"
       },
       "reviewScreen": {
@@ -279,7 +291,7 @@
       "statusScreen": {
         "titles": {
           "pending_for_user": "Confirm <0/> Withdrawal",
-          "pending": "<0/> Withdraw processing...",
+          "pending": "<0/> Withdrawal processing...",
           "confirmed": "Confirmed",
           "failed": "Withdrawal failed"
         },
@@ -366,7 +378,7 @@
     "lend": "Lend",
     "borrow": "Borrow",
     "yieldFarm": "Yield Farm",
-    "reward": "Reward SOV",
+    "reward": "Rewards",
     "staking": "Stake",
     "governance": "Governance",
     "forum": "Forum",
@@ -377,7 +389,7 @@
     "bitocracy": "Bitocracy",
     "spotTrade": "Spot",
     "origins": "Origins",
-    "originsClaim": "Origins Claim",
+    "originsClaim": "Claim",
     "launchpad": "Launchpad",
     "claim": "Claim",
     "rewards": "Rewards",
@@ -625,10 +637,13 @@
     "viewGovernance": "View Governance",
     "addStake": "Add New Stake",
     "feeTitle": "Total earned fees Available",
+    "sentLendingPool": "{{asset}} will be sent to the lending pool.",
+    "convertedToRBTC": "{{asset}} will be converted to RBTC and sent directly to your wallet.",
     "noUnlockedSov": "You don't have unlocked SOV",
     "txFee": "Tx Fee",
     "sov": "SOV",
     "days": "days",
+    "vestingFees": "Vested SOV",
     "delegation": {
       "delegateTo": "Delegate To",
       "delegatedTo": "Delegated To",
@@ -881,7 +896,7 @@
     "title": "My Debts",
     "tabs": {
       "active": "Active",
-      "history": "Repaid"
+      "history": "History"
     },
     "walletNote": "Connect your wallet first!"
   },
@@ -919,7 +934,7 @@
       "step6": "Step 06:"
     },
     "metamask": {
-      "step1": "Open up Metamask in your browser",
+      "step1": "Open up MetaMask in your browser",
       "step2": "Go to network dropdown",
       "step3": "Select Custom RPC",
       "step4": "Input RSK Mainnet settings",
@@ -1049,7 +1064,7 @@
         "banner": "For any assistance, reach out to the community"
       },
       "4": {
-        "title": "How to connect SOV to your Metamask wallet",
+        "title": "How to connect SOV to your MetaMask wallet",
         "banner": "For any assistance, reach out to the community"
       }
     }
@@ -1142,7 +1157,7 @@
       "trade": "Margin Trade",
       "buy": "Buy",
       "claimSov": "Claim SOV",
-      "redeemRBTC": "Redeem rBTC",
+      "redeemRBTC": "Redeem RBTC",
       "withdraw": "Withdraw"
     },
     "convertDialog": {
@@ -1429,7 +1444,7 @@
   },
   "vestingDialog": {
     "title": "Withdraw Vesting",
-    "subtitle": "This transaction requires rBTC for gas.",
+    "subtitle": "This transaction requires RBTC for gas.",
     "amount": "Amount to Withdraw:",
     "receiver": "Receive {{asset}} to:",
     "calculating": "Calculating...",
@@ -1461,10 +1476,11 @@
         "recommendation2": "Margin trade any asset pair on Sovryn"
       },
       "feesEarnedTab": {
-        "title": "You have not earned any <0/>",
-        "recommendationsTitle": "In order to earn <0/> you will need to:",
+        "title": "You have not earned any fees",
+        "recommendationsTitle": "In order to earn fees you will need to:",
         "recommendation1": "Stake SOV",
-        "recommendation2": "Have active users use your affiliate link"
+        "recommendation2": "Have active users use your affiliate link",
+        "recommendation3": "You can also claim airdropped tokens here when distributed"
       }
     },
     "meta": {
@@ -1476,7 +1492,8 @@
       "available": "Total Reward SOV Available:",
       "cta": "CLAIM",
       "note": "Claiming your rewards automatically vests them for 10 months with a 1 month cliff.",
-      "learn": "Learn more"
+      "learn": "Learn more",
+      "claimDisabled": "There is not enough SOV in the StakingRewardsProxy contract to facilitate a claim of rewards at this time. Therefore, to avoid a loss of gas fee by initiating a transaction that will inevitably fail, the CLAIM button has been disabled. Be assured that the team is aware and funds should be replenished shortly."
     },
     "liquidClaimForm": {
       "note": "Claiming your rewards automatically adds them your SOV portfolio balance.",
@@ -1484,7 +1501,10 @@
     },
     "feesEarnedClaimForm": {
       "note": "Claiming your rewards automatically adds them your <0/> portfolio balance.",
-      "learn": "Learn more"
+      "learn": "Learn more",
+      "asset": "Asset",
+      "amount": "Amount",
+      "assetValue": "<0/> Value"
     },
     "stakingForm": {
       "title": "Amount to claim:",
@@ -1725,7 +1745,7 @@
       "24h": "24h%",
       "7d": "7d%",
       "marketCap": "Market Cap",
-      "marketCapTooltip": "Market cap is calculated as circulating supply * current USD price. <br /> <br /> For SOV, circulating supply = total supply (100m) - tokens in vesting contracts, <0>not including </0> tokens in adoption and development fund contracts. <br /> <br /> For rBTC, circulating supply = BTC locked in the RSK 2 Way Peg <br /> <br /> For all other tokens, circulating supply = total supply <br /> <br /> For tokens that have come across a bridge from another chain, the circulating supply is the supply of that token on the RSK chain. For example, the circulating supply of ETHs is not equal to the circulating supply of ETH on ethereum.",
+      "marketCapTooltip": "Market cap is calculated as circulating supply * current USD price. <br /> <br /> For SOV, circulating supply = total supply (100m) - tokens in vesting contracts, <0>not including </0> tokens in adoption and development fund contracts. <br /> <br /> For RBTC, circulating supply = BTC locked in the RSK 2 Way Peg <br /> <br /> For all other tokens, circulating supply = total supply <br /> <br /> For tokens that have come across a bridge from another chain, the circulating supply is the supply of that token on the RSK chain. For example, the circulating supply of ETHs is not equal to the circulating supply of ETH on ethereum.",
       "circulatingSupply": "Circulating Supply",
       "circulatingSupplyTooltip": "We have updated the circulation supply formula to be showing the amount of liquid SOV token in line with market standards. SOV that has been unlocked from the adoption and development funds is now counted as circulating, and SOV that has been staked (either through vesting or voluntary staking) is not counted as circulating. <br /> <br />There is no change to your funds with this change. Just a standardisation of the displayed Circulating Supply."
     }
@@ -1833,7 +1853,7 @@
       "pleaseWait": "Please wait",
       "preparingTransaction": "Preparing transaction",
       "allowTransaction": "Allow Transaction",
-      "approve": "Please approve {{from}} {{symbol}} to be spent by Sovryn smart-contracts in your {{providerType}} wallet.",
+      "approve": "Please approve {{from}} {{symbol}} to be spent by Sovryn smart contracts in your {{providerType}} wallet.",
       "confirmTransaction": "Confirm Transaction",
       "confirm": "Please confirm the trade transaction in your {{providerType}} wallet.",
       "withdrawInProgress": "Withdraw in Progress",
