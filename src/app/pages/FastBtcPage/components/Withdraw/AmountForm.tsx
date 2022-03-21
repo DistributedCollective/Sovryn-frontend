@@ -17,12 +17,17 @@ import { LoadableValue } from '../../../../components/LoadableValue';
 import { NetworkAwareComponentProps } from '../../types';
 import { getBTCAssetForNetwork } from '../../helpers';
 import { btcInSatoshis } from 'app/constants';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { discordInvite } from 'utils/classifiers';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 
 export const AmountForm: React.FC<NetworkAwareComponentProps> = ({
   network,
 }) => {
   const { amount, limits, set } = useContext(WithdrawContext);
   const { t } = useTranslation();
+  const { checkMaintenance, States } = useMaintenance();
+  const fastBtcLocked = checkMaintenance(States.FASTBTC);
 
   const balance = useBalance();
 
@@ -98,8 +103,27 @@ export const AmountForm: React.FC<NetworkAwareComponentProps> = ({
           <FastBtcButton
             text={t(translations.common.continue)}
             onClick={onContinueClick}
-            disabled={invalid}
+            disabled={invalid || fastBtcLocked}
           />
+          {fastBtcLocked && (
+            <ErrorBadge
+              content={
+                <Trans
+                  i18nKey={translations.maintenance.fastBTC}
+                  components={[
+                    <a
+                      href={discordInvite}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                    >
+                      x
+                    </a>,
+                  ]}
+                />
+              }
+            />
+          )}
         </div>
       </div>
     </>

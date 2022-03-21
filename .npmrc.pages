@@ -1,4 +1,0 @@
-save-exact = true
-@distributedcollective:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=${GPR_ACCESS_TOKEN}
-always-auth=true
