@@ -1,9 +1,4 @@
-import React, {
-  useCallback,
-  useLayoutEffect,
-  useMemo,
-  useReducer,
-} from 'react';
+import React, { useCallback, useEffect, useMemo, useReducer } from 'react';
 import merge from 'lodash.merge';
 import cloneDeep from 'lodash.clonedeep';
 import { useHistory } from 'react-router-dom';
@@ -59,22 +54,19 @@ export const PageContainer: React.FC<Partial<HeaderContainerProps>> = ({
         initialOptions.header = HeaderTypes.DEFAULT;
         initialOptions.footer = FooterTypes.DEFAULT;
       }
-      actions.clearOptions(initialOptions);
+      actions.setOptions(initialOptions);
     },
     [actions, pageOptions],
   );
 
   // reset options to default when route changes
-  useLayoutEffect(() => {
+  useEffect(() => {
     resolveOptions(history.location.pathname);
     return history.listen(route => resolveOptions(route.pathname));
   }, [history, actions, pageOptions, resolveOptions]);
 
   const maybeRenderHeader = useMemo(() => {
     switch (options.header) {
-      default:
-      case HeaderTypes.NONE:
-        return null;
       case HeaderTypes.DEFAULT:
         return <DefaultHeaderComponent {...options.headerProps} />;
       case HeaderTypes.FAST_BTC:
@@ -83,6 +75,8 @@ export const PageContainer: React.FC<Partial<HeaderContainerProps>> = ({
         return <UserWallet address={options.headerProps?.address} />;
       case HeaderTypes.LABS:
         return <></>; // todo
+      default:
+        return null;
     }
   }, [options.header, options.headerProps]);
 
@@ -91,7 +85,6 @@ export const PageContainer: React.FC<Partial<HeaderContainerProps>> = ({
       case FooterTypes.DEFAULT:
         return <Footer {...options.footerProps} />;
       default:
-      case FooterTypes.NONE:
         return null;
     }
   }, [options.footer, options.footerProps]);

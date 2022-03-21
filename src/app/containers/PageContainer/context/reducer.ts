@@ -12,12 +12,12 @@ export const reducer = (
   action: PageContextAction,
 ) => {
   switch (action.type) {
-    case PageContextActionType.SET_OPTIONS:
+    case PageContextActionType.UPDATE_OPTIONS:
       return {
         ...prevState,
         options: merge(cloneDeep(prevState.options), action.value),
       };
-    case PageContextActionType.CLEAR_OPTIONS:
+    case PageContextActionType.SET_OPTIONS:
       return { ...prevState, options: action.value };
     default:
       return prevState;

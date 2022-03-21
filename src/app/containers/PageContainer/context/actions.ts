@@ -9,11 +9,14 @@ import { initialState } from './PageContext';
 export const useActions = (dispatch: Dispatch<PageContextAction>) => {
   const memoized = useMemo(
     () => ({
-      setOptions: (options: Partial<PageOptions>) =>
-        dispatch({ type: PageContextActionType.SET_OPTIONS, value: options }),
-      clearOptions: (options: Partial<PageOptions> = initialState.options) =>
+      updateOptions: (options: Partial<PageOptions>) =>
         dispatch({
-          type: PageContextActionType.CLEAR_OPTIONS,
+          type: PageContextActionType.UPDATE_OPTIONS,
+          value: options,
+        }),
+      setOptions: (options: Partial<PageOptions> = initialState.options) =>
+        dispatch({
+          type: PageContextActionType.SET_OPTIONS,
           value: options,
         }),
     }),

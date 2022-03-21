@@ -24,8 +24,8 @@ export type PageContextType = {
 };
 
 export enum PageContextActionType {
+  UPDATE_OPTIONS,
   SET_OPTIONS,
-  CLEAR_OPTIONS,
 }
 
 export type PageOptions = {
@@ -37,10 +37,10 @@ export type PageOptions = {
 
 export type PageContextAction =
   | {
-      type: PageContextActionType.SET_OPTIONS;
+      type: PageContextActionType.UPDATE_OPTIONS;
       value: Partial<PageOptions>;
     }
   | {
-      type: PageContextActionType.CLEAR_OPTIONS;
-      value: Partial<PageOptions>;
+      type: PageContextActionType.SET_OPTIONS;
+      value: PageOptions;
     };
