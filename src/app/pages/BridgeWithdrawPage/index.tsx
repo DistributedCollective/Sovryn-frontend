@@ -35,7 +35,7 @@ export const BridgeWithdrawPage: React.FC = () => {
   const account = useAccount();
 
   useLayoutEffect(() => {
-    page.setOptions({
+    page.updateOptions({
       headerProps: { address: account },
     });
   }, [account, page]);

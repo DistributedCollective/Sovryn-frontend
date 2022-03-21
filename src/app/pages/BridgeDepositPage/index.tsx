@@ -46,7 +46,7 @@ export const BridgeDepositPage: React.FC = () => {
   } = useSelector(selectBridgeDepositPage);
 
   useLayoutEffect(() => {
-    page.setOptions({
+    page.updateOptions({
       headerProps: { address: receiver },
     });
   }, [receiver, page]);

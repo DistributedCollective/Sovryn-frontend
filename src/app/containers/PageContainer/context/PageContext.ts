@@ -10,6 +10,8 @@ export const initialState: PageContextState = {
   options: {
     header: HeaderTypes.DEFAULT,
     footer: FooterTypes.DEFAULT,
+    headerProps: {},
+    footerProps: {},
   },
 };
 

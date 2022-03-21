@@ -18,7 +18,7 @@ export const FastBtcPage: React.FC = () => {
   const page = usePageActions();
 
   useLayoutEffect(() => {
-    page.setOptions({
+    page.updateOptions({
       headerProps: { address: account },
     });
   }, [account, page]);

@@ -14,7 +14,7 @@ export const useActions = (dispatch: Dispatch<PageContextAction>) => {
           type: PageContextActionType.UPDATE_OPTIONS,
           value: options,
         }),
-      setOptions: (options: Partial<PageOptions> = initialState.options) =>
+      setOptions: (options: PageOptions = initialState.options) =>
         dispatch({
           type: PageContextActionType.SET_OPTIONS,
           value: options,

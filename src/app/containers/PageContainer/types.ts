@@ -15,7 +15,7 @@ export enum FooterTypes {
 }
 
 export type PageContextState = {
-  options: Partial<PageOptions>;
+  options: PageOptions;
 };
 
 export type PageContextType = {
