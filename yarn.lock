@@ -1627,11 +1627,6 @@
     enabled "2.0.x"
     kuler "^2.0.0"
 
-"@distributedcollective/charting-library@1.0.0":
-  version "1.0.0"
-  resolved "https://npm.pkg.github.com/download/@distributedcollective/charting-library/1.0.0/3b497dc55b52c548d26828bdc0666cdeef5184da00dbb404885b38dcf8738b2b#871a48be5471854f4a1f3ba9ffcd810e94d489ca"
-  integrity sha512-fUy5wL9Vz/2Ey4b03OJrVirn+/wK0VT5EeKmoSZEZDItdXQIkGKjxrEkDAYjtfVfG1NKaY76v+dvVe4yxOvJEQ==
-
 "@emotion/cache@^10.0.27":
   version "10.0.29"
   resolved "https://registry.yarnpkg.com/@emotion/cache/-/cache-10.0.29.tgz#87e7e64f412c060102d589fe7c6dc042e6f9d1e0"
@@ -3865,6 +3860,11 @@
   integrity sha512-MZPUxrmFubI36XS1DI3qmI0YdN1gks62JtFZvxR67ljjSNCeK6U08Zx4msEWOXuofgqUt6zPHSi1H9fbjR/NRA==
   dependencies:
     "@sinonjs/commons" "^1.7.0"
+
+"@sovryn/charting-library@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@sovryn/charting-library/-/charting-library-1.0.0.tgz#96e5846feae39cd06b28e3cdf8233fa2e0928d43"
+  integrity sha512-5PkZ29YC4YeAh8tOmGMs71rp7UPzTu28EuVp+O5Y2DwO1c/Eqfh6wVP0W7dd2Bg8oscyN5W3cAz9y9L620JnvA==
 
 "@sovryn/common@^2.1.1":
   version "2.1.1"
@@ -11306,6 +11306,11 @@ ethereumjs-wallet@^0.6.5:
     utf8 "^3.0.0"
     uuid "^3.3.2"
 
+ethers-eip712@0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/ethers-eip712/-/ethers-eip712-0.2.0.tgz#52973b3a9a22638f7357283bf66624994c6e91ed"
+  integrity sha512-fgS196gCIXeiLwhsWycJJuxI9nL/AoUPGSQ+yvd+8wdWR+43G+J1n69LmWVWvAON0M6qNaf2BF4/M159U8fujQ==
+
 ethers@4.0.0-beta.3:
   version "4.0.0-beta.3"
   resolved "https://registry.yarnpkg.com/ethers/-/ethers-4.0.0-beta.3.tgz#15bef14e57e94ecbeb7f9b39dd0a4bd435bc9066"
@@ -11321,11 +11326,6 @@ ethers@4.0.0-beta.3:
     setimmediate "1.0.4"
     uuid "2.0.1"
     xmlhttprequest "1.8.0"
-
-ethers-eip712@0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/ethers-eip712/-/ethers-eip712-0.2.0.tgz#52973b3a9a22638f7357283bf66624994c6e91ed"
-  integrity sha512-fgS196gCIXeiLwhsWycJJuxI9nL/AoUPGSQ+yvd+8wdWR+43G+J1n69LmWVWvAON0M6qNaf2BF4/M159U8fujQ==
 
 ethers@5.3.1:
   version "5.3.1"

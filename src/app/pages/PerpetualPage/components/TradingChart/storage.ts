@@ -9,7 +9,7 @@
 import { v4 as uuid } from 'uuid';
 import { local } from 'utils/storage';
 import { chartStorageKey } from 'utils/classifiers';
-import { IExternalSaveLoadAdapter } from '@distributedcollective/charting-library/src/charting_library/charting_library.min';
+import { IExternalSaveLoadAdapter } from '@sovryn/charting-library/src/charting_library/charting_library.min';
 
 type StoredCharts = {
   [id: string]: ChartData;

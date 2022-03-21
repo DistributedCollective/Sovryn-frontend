@@ -28,7 +28,7 @@ import {
   ChartingLibraryWidgetOptions,
   SearchSymbolsCallback,
   LibrarySymbolInfo,
-} from '@distributedcollective/charting-library/src/charting_library/charting_library.min';
+} from '@sovryn/charting-library/src/charting_library/charting_library.min';
 
 const lastBarsCache = new Map<string, Bar>();
 
