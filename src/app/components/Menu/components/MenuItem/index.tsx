@@ -21,6 +21,7 @@ type MenuItemProps = {
   href?: string;
   hrefExternal?: boolean;
   onClick?: MouseEventHandler;
+  dataActionId?: string;
 };
 
 export const MenuItem: React.FC<MenuItemProps> = ({
@@ -32,6 +33,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
   href,
   hrefExternal,
   onClick,
+  dataActionId,
 }) => {
   const onClickWhenAllowed = useCallback(
     (event: MouseEvent) => {
@@ -55,6 +57,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
             target="_blank"
             rel="noreferrer"
             onClick={onClickWhenAllowed}
+            data-action-id={dataActionId}
           >
             {icon && <FontAwesomeIcon icon={icon} className="tw-mr-2" />}
             {text}
@@ -67,6 +70,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
             to={href}
             className={classNames(styles.button, disabled && styles.disabled)}
             onClick={onClickWhenAllowed}
+            data-action-id={dataActionId}
           >
             {icon && <FontAwesomeIcon icon={icon} className="tw-mr-2" />}
             {text}
@@ -81,6 +85,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
           disabled={disabled}
           className={classNames(styles.button, disabled && styles.disabled)}
           onClick={onClickWhenAllowed}
+          data-action-id={dataActionId}
         >
           {icon && <FontAwesomeIcon icon={icon} className="tw-mr-2" />}
           {text}
@@ -88,7 +93,16 @@ export const MenuItem: React.FC<MenuItemProps> = ({
         </button>
       );
     }
-  }, [disabled, href, hrefExternal, onClickWhenAllowed, icon, text, label]);
+  }, [
+    disabled,
+    href,
+    hrefExternal,
+    onClickWhenAllowed,
+    icon,
+    text,
+    label,
+    dataActionId,
+  ]);
 
   return <li className={classNames(styles.host, className)}>{button}</li>;
 };
