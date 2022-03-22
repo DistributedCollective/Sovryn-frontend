@@ -77,7 +77,7 @@ export const TxDialog: React.FC<ITxDialogProps> = ({ tx, onUserConfirmed }) => {
           <StatusComponent status={tx.status} />
 
           {!!tx.txHash && (
-            <div className="tw-w-full tw-flex tw-justify-between tw-text-sm tw-font-extralight tw-tracking-normal">
+            <div className="tw-w-full tw-flex tw-justify-between tw-text-sm tw-font-light tw-tracking-normal">
               <div>
                 <div className="tw-mb-3.5">
                   {t(translations.originsLaunchpad.saleDay.txDialog.dateTime)}:

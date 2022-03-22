@@ -40,12 +40,12 @@
 
 .subexp1 {
   @apply tw-w-full tw-mb-2.5
-    tw-text-base tw-leading-normal tw-font-light tw-font-body tw-text-left tw-normal-case;
+    tw-text-base tw-leading-normal tw-font-normal tw-font-body tw-text-left tw-normal-case;
 }
 
 .subexp2 {
   @apply tw-w-full tw-mb-9
-    tw-text-base tw-leading-normal tw-font-thin tw-font-body tw-text-left tw-normal-case;
+    tw-text-base tw-leading-normal tw-font-extralight tw-font-body tw-text-left tw-normal-case;
 }
 .limitsTitle {
   @apply tw-mb-2.5
@@ -69,7 +69,7 @@
 }
 
 .instructionsValue {
-  @apply tw-mb-9 tw-text-sm tw-leading-relaxed tw-font-thin tw-text-sov-white;
+  @apply tw-mb-9 tw-text-sm tw-leading-relaxed tw-font-extralight tw-text-sov-white;
 }
 
 .buttons {

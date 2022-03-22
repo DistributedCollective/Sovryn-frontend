@@ -194,7 +194,7 @@ const StyledHashContainer = styled.div`
 const StyledHash = styled.div`
   text-align: center;
   font-size: 0.875rem;
-  font-weight: 300;
+  font-weight: 400;
   margin-bottom: 35px;
   strong {
     font-weight: 500;
