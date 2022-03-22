@@ -45,6 +45,7 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { AssetDetails } from 'utils/models/asset-details';
 import { getUSDSum } from '../../../utils/helpers';
 import { FeeBlock } from './components/FeeBlock';
+import { useContractPauseState } from 'app/hooks/useContractPauseState';
 
 const now = new Date();
 
@@ -81,6 +82,7 @@ export const StakePage: React.FC = () => {
 
 const InnerStakePage: React.FC = () => {
   const { t } = useTranslation();
+  const { value: status } = useContractPauseState('staking');
   const account = useAccount();
   const [amount, setAmount] = useState('');
   const weiAmount = useWeiAmount(amount);
@@ -373,6 +375,7 @@ const InnerStakePage: React.FC = () => {
       </Helmet>
       <Header />
       <main>
+        {status ? 'paused' : 'not paused'}
         <div className="tw-bg-gray-1 tw-tracking-normal">
           <div className="tw-container tw-mx-auto tw-px-6">
             <h2 className="tw-text-sov-white tw-pt-8 tw-pb-5 tw-pl-10">
