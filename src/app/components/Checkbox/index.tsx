@@ -15,6 +15,7 @@ type CheckboxProps = {
   inline?: boolean;
   alignment?: CheckboxAlignment;
   className?: string;
+  dataActionId?: string;
 };
 
 export const Checkbox: React.FC<CheckboxProps> = ({
@@ -25,6 +26,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   inline = false,
   alignment = CheckboxAlignment.LEFT,
   className,
+  dataActionId,
 }) => {
   const isRightAligned = useMemo(() => alignment === CheckboxAlignment.RIGHT, [
     alignment,
@@ -53,6 +55,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
           className={styles.hiddenInput}
           checked={checked}
           onChange={onChange}
+          data-action-id={dataActionId}
         />
         <span
           className={classNames(styles.checkbox, {

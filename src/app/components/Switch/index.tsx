@@ -17,6 +17,7 @@ interface ISwitchProps {
   alignment?: SwitchAlignment;
   innerLabel?: ReactNode;
   innerLabelChecked?: ReactNode;
+  dataActionId?: string;
 }
 
 export const Switch: React.FC<ISwitchProps> = ({
@@ -29,6 +30,7 @@ export const Switch: React.FC<ISwitchProps> = ({
   onChange,
   innerLabel,
   innerLabelChecked,
+  dataActionId,
 }) => {
   const isRightAligned = useMemo(() => alignment === SwitchAlignment.RIGHT, [
     alignment,
@@ -51,6 +53,7 @@ export const Switch: React.FC<ISwitchProps> = ({
           checked={checked}
           disabled={disabled}
           onChange={onChange}
+          data-action-id={dataActionId}
         />
         <div
           className={classNames(styles.indicator, {
