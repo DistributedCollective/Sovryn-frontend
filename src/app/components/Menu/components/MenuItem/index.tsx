@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './index.module.scss';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
+import iconNewTab from 'assets/images/iconNewTab.svg';
 
 type MenuItemProps = {
   className?: string;
@@ -37,11 +38,11 @@ export const MenuItem: React.FC<MenuItemProps> = ({
 }) => {
   const onClickWhenAllowed = useCallback(
     (event: MouseEvent) => {
-      if (onClick && !disabled) {
-        onClick(event);
-      } else {
+      if (disabled) {
         event.preventDefault();
         event.stopPropagation();
+      } else if (onClick) {
+        onClick(event);
       }
     },
     [onClick, disabled],
@@ -61,6 +62,11 @@ export const MenuItem: React.FC<MenuItemProps> = ({
           >
             {icon && <FontAwesomeIcon icon={icon} className="tw-mr-2" />}
             {text}
+            <img
+              src={iconNewTab}
+              className="tw-ml-2 tw-h-5"
+              alt="external link"
+            />
             {label && <span className={styles.label}>{label}</span>}
           </a>
         );
