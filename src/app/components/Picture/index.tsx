@@ -1,48 +1,65 @@
-import classNames from 'classnames';
 import React, { useMemo } from 'react';
-import styles from './index.module.scss';
 import { Breakpoint, BreakpointWidths } from 'types/tailwind';
 
+type SourceProps = {
+  imageSrc: string;
+  density?: number;
+  width?: Breakpoint;
+};
+
 type Sources = {
-  src: string;
-  media: Breakpoint;
+  src: string | SourceProps[];
+  media?: Breakpoint;
 };
 
 type PictureProps = {
   src: string;
   srcSet?: Sources[];
-  title?: string;
+  alt?: string;
   className?: string;
 };
 
 export const Picture: React.FC<PictureProps> = ({
   src,
   srcSet,
-  title = 'image',
+  alt = 'image',
   className,
 }) => {
   const renderSources = useMemo(() => {
     if (!srcSet) {
-      return <source srcSet={src} />;
+      return null;
     }
     const mappedSources = srcSet.map((source, index) => {
+      if (typeof source.src !== 'string') {
+        const sourceArray = source.src.map(
+          source =>
+            `${source.imageSrc} ${
+              source.width
+                ? `${BreakpointWidths[source.width]}w`
+                : `${source.density}x`
+            }`,
+        );
+        return <source srcSet={`${sourceArray.join(', ')}`} />;
+      }
       return (
         <source
           key={`source-${index}`}
-          srcSet={source.src}
-          media={`(max-width: ${BreakpointWidths[source.media]}px)`}
+          srcSet={`${source.src}`}
+          media={
+            source.media && `(max-width: ${BreakpointWidths[source.media]}px)`
+          }
         />
       );
     });
 
     return mappedSources;
-  }, [srcSet, src]);
+  }, [srcSet]);
 
   return (
-    <div className={classNames(styles.picture, className)}>
+    <div className={className}>
       <picture>
         {renderSources}
-        <img src={src} alt={title} />
+        <img className="tw-max-w-full" src={src} alt={alt} />
       </picture>
     </div>
   );
