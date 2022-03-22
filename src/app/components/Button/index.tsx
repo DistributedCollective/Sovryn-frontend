@@ -49,6 +49,7 @@ interface IButtonProps {
   disabled?: boolean;
   loading?: boolean;
   className?: string;
+  dataActionId?: string;
 }
 
 export const Button: React.FC<IButtonProps> = ({
@@ -63,6 +64,7 @@ export const Button: React.FC<IButtonProps> = ({
   loading,
   disabled,
   className,
+  dataActionId,
 }) => {
   const classNameComplete = useMemo(
     () =>
@@ -89,6 +91,7 @@ export const Button: React.FC<IButtonProps> = ({
           target="_blank"
           rel="noreferrer"
           onClick={onClickWhenAllowed}
+          data-action-id={dataActionId}
         >
           {text}
         </a>
@@ -99,6 +102,7 @@ export const Button: React.FC<IButtonProps> = ({
           to={href}
           className={classNameComplete}
           onClick={onClickWhenAllowed}
+          data-action-id={dataActionId}
         >
           {text}
         </Link>
@@ -111,6 +115,7 @@ export const Button: React.FC<IButtonProps> = ({
         disabled={disabled}
         className={classNameComplete}
         onClick={onClickWhenAllowed}
+        data-action-id={dataActionId}
       >
         {text}
       </button>
