@@ -43,7 +43,6 @@ type OverlayProps = {
   portalTarget?: string;
   zIndex?: number;
   fixed?: boolean;
-  isClickThrough?: boolean;
   isOpen?: boolean;
   align?: Align;
   alignVertical?: AlignVertical;
