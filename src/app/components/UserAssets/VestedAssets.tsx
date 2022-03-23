@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { Skeleton } from '../PageSkeleton';
@@ -8,9 +8,13 @@ import { FullVesting } from './Vesting/types';
 import { VestedItem } from './Vesting/VestedItem';
 import { VestingWithdrawDialog } from './Vesting/VestingWithdrawDialog';
 import type { Nullable } from 'types';
+import { useContractPauseState } from 'app/hooks/useContractPauseState';
+import { AlertBadge } from '../AlertBadge/AlertBadge';
+import { discordInvite } from 'utils/classifiers';
 
 export function VestedAssets() {
   const { t } = useTranslation();
+  const { frozen } = useContractPauseState('staking');
   const connected = useIsConnected();
   const account = useAccount();
 
@@ -36,6 +40,21 @@ export function VestedAssets() {
 
   return (
     <>
+      {frozen && (
+        <AlertBadge>
+          <Trans
+            i18nKey={translations.stake.paused}
+            components={[
+              // eslint-disable-next-line jsx-a11y/anchor-has-content
+              <a
+                href={discordInvite}
+                target="_blank"
+                rel="noreferrer nofollow"
+              />,
+            ]}
+          />
+        </AlertBadge>
+      )}
       <div className="sovryn-border sovryn-table tw-pt-1 tw-pb-4 tw-pr-4 tw-pl-4 tw-mb-12">
         <table className="tw-w-full">
           <thead>
@@ -79,6 +98,7 @@ export function VestedAssets() {
                         key={item.vestingContract}
                         vesting={item}
                         onWithdraw={onWithdraw}
+                        frozen={frozen}
                       />
                     ))}
                   </>
