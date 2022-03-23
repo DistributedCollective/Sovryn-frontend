@@ -80,7 +80,7 @@ export const TxDialog: React.FC<ITxDialogProps> = ({ tx, onUserConfirmed }) => {
 
           <div className="tw-w-80 tw-mx-auto">
             {!!tx.txHash && (
-              <div className="tw-w-full tw-flex tw-justify-between tw-text-sm tw-font-extralight tw-tracking-normal">
+              <div className="tw-w-full tw-flex tw-justify-between tw-text-sm tw-font-light tw-tracking-normal">
                 <div>
                   <div className="tw-mb-3.5">
                     {t(translations.userAssets.convertDialog.txDialog.dateTime)}
@@ -165,7 +165,7 @@ export const TxDialog: React.FC<ITxDialogProps> = ({ tx, onUserConfirmed }) => {
                   className="tw-mx-auto"
                 />
               </div>
-              <div className="tw-font-thin tw-text-sm tw-mx-auto tw-mt-1">
+              <div className="tw-font-extralight tw-text-sm tw-mx-auto tw-mt-1">
                 {t(translations.BridgeDepositPage.poweredBy)}
               </div>
             </div>

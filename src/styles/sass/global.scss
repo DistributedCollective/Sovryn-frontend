@@ -1,16 +1,16 @@
 // global-styles.tsx
 #root {
-  min-height: 100vh;
-  overflow: auto;
+  @apply tw-flex tw-flex-col tw-justify-between tw-min-h-screen tw-overflow-auto;
   padding-top: 4.4rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+
   &.openedMenu {
-    overflow: hidden;
-    height: 0;
-    min-height: 0;
+    @apply tw-h-0 tw-min-h-0 tw-overflow-hidden;
   }
+}
+
+// clear root styling for storybook
+.sb-show-main #root {
+  @apply tw-relative tw-block tw-p-4;
 }
 
 #WEB3_CONNECT_MODAL_ID > div {

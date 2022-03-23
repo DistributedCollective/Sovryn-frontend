@@ -99,7 +99,7 @@ export function Arbitrage() {
             </span>
             <Popover
               content={
-                <div className="tw-px-12 tw-py-8 tw-font-light">
+                <div className="tw-px-12 tw-py-8 tw-font-normal">
                   <p>
                     {t(s.arbitrage.popover_p1, {
                       fromAmount: toNumberFormat(opportunity.fromAmount, 6),

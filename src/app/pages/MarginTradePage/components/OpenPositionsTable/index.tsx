@@ -82,7 +82,7 @@ export function OpenPositionsTable({ perPage }: Props) {
               {t(translations.openPositionTable.positionMargin)}
               <Popover
                 content={
-                  <div className="tw-px-12 tw-py-8 tw-font-light">
+                  <div className="tw-px-12 tw-py-8 tw-font-normal">
                     <Trans
                       i18nKey={
                         translations.openPositionTable.explainers.positionMargin
@@ -101,7 +101,7 @@ export function OpenPositionsTable({ perPage }: Props) {
               {t(translations.openPositionTable.unrealizedPL)}
               <Popover
                 content={
-                  <div className="tw-px-12 tw-py-8 tw-font-light">
+                  <div className="tw-px-12 tw-py-8 tw-font-normal">
                     <Trans
                       i18nKey={
                         translations.openPositionTable.explainers.unrealizedPL

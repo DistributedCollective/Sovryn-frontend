@@ -36,7 +36,7 @@ export function PoolAssetInfo({ pool, supplyAsset, className }: Props) {
         <AssetRenderer asset={supplyAsset} showImage />
       </div>
       <div className="tw-w-20 tw-flex tw-flex-col tw-tracking-normal">
-        <div className="tw-font-thin tw-text-base">
+        <div className="tw-font-extralight tw-text-base">
           <LoadableValue
             loading={weight.loading}
             value={<>{toNumberFormat(Number(weight.value) / 1e4, 1)}%</>}
