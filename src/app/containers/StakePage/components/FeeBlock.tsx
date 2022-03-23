@@ -16,12 +16,14 @@ import { LoadableValue } from 'app/components/LoadableValue';
 import { bignumber } from 'mathjs';
 import { Asset } from 'types';
 import { weiToUSD } from 'utils/display-text/format';
+import classNames from 'classnames';
 
 interface IFeeBlockProps {
   contractToken: AssetDetails;
   updateUsdTotal: (asset: AssetDetails, value: number) => void;
   useNewContract?: boolean;
   title?: string;
+  frozen?: boolean;
 }
 
 export const FeeBlock: React.FC<IFeeBlockProps> = ({
@@ -29,6 +31,7 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
   updateUsdTotal,
   useNewContract = false,
   title,
+  frozen,
 }) => {
   const account = useAccount();
   const { asset } = contractToken;
@@ -121,7 +124,11 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
           <button
             onClick={handleWithdrawFee}
             type="button"
-            className="tw-text-primary hover:tw-text-primary tw-p-0 tw-text-normal tw-lowercase hover:tw-underline tw-font-medium tw-font-body tw-tracking-normal"
+            disabled={frozen}
+            className={classNames(
+              'tw-text-primary hover:tw-text-primary tw-p-0 tw-text-normal tw-lowercase hover:tw-underline tw-font-medium tw-font-body tw-tracking-normal',
+              frozen && 'tw-opacity-50 tw-cursor-not-allowed',
+            )}
           >
             {t(translations.userAssets.actions.withdraw)}
           </button>

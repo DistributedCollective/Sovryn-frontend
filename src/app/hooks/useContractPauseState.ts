@@ -12,7 +12,7 @@ export enum ContractPauseState {
 }
 
 type ContractPauseStateValue = {
-  value: ContractPauseState;
+  state: ContractPauseState;
   loading: boolean;
   error?: Error;
 };
@@ -20,7 +20,7 @@ type ContractPauseStateValue = {
 export const useContractPauseState = (contractName: ContractName) => {
   const isMounted = useIsMounted();
   const [state, setState] = useState<ContractPauseStateValue>({
-    value: ContractPauseState.NONE,
+    state: ContractPauseState.NONE,
     loading: true,
   });
 
@@ -47,7 +47,6 @@ export const useContractPauseState = (contractName: ContractName) => {
         },
       ])
       .then(({ returnData }) => {
-        console.log('returnData', returnData);
         if (isMounted()) {
           let status = ContractPauseState.NONE;
           if (returnData.paused) {
@@ -58,16 +57,22 @@ export const useContractPauseState = (contractName: ContractName) => {
             status = ContractPauseState.FROZEN;
           }
 
-          setState({ value: status, loading: false });
+          setState({ state: status, loading: false });
         }
       })
       .catch(error => {
         console.error('useContractPauseState failed.', error);
         if (isMounted()) {
-          setState({ value: ContractPauseState.NONE, loading: false, error });
+          setState({ state: ContractPauseState.NONE, loading: false, error });
         }
       });
   }, [contractName, isMounted]);
 
-  return state;
+  return {
+    ...state,
+    paused: [ContractPauseState.PAUSED, ContractPauseState.FROZEN].includes(
+      state.state,
+    ),
+    frozen: state.state === ContractPauseState.FROZEN,
+  };
 };
