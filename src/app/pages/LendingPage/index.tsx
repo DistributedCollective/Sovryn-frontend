@@ -5,11 +5,9 @@ import { useTranslation } from 'react-i18next';
 import { LootDrop } from 'app/components/FinanceV2Components/LootDrop';
 import { LootDropSectionWrapper } from 'app/components/FinanceV2Components/LootDrop/LootDropSectionWrapper';
 import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
-import { Header } from 'app/components/Header';
 import { translations } from 'locales/i18n';
 import { Asset } from 'types';
 
-import { Footer } from '../../components/Footer';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { useAccount } from '../../hooks/useAccount';
 import CurrencyContainer from './components/CurrencyContainer';
@@ -31,7 +29,6 @@ const LendingPage: React.FC = () => {
           content={t(translations.lendingPage.meta.description)}
         />
       </Helmet>
-      <Header />
       <div className="tw-container tw-mt-12 tw-font-body">
         <LootDropSectionWrapper>
           <LootDrop
@@ -64,8 +61,6 @@ const LendingPage: React.FC = () => {
           )}
         </div>
       </div>
-
-      <Footer />
     </>
   );
 };

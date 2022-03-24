@@ -24,9 +24,9 @@ const UserWallet: React.FC<UserWalletProps> = ({ address, className }) => {
   }, [address]);
 
   return (
-    <div
+    <header
       className={cn(
-        'tw-max-w-60 tw-absolute tw-top-4 tw-right-4 tw-left-4 md:tw-left-auto engage-wallet tw-w-full md:tw-w-auto tw-flex tw-justify-center tw-items-center tw-px-4 tw-justify-between tw-truncate',
+        'tw-max-w-60 tw-absolute tw-top-4 tw-right-4 tw-left-4 md:tw-left-auto engage-wallet tw-w-full md:tw-w-auto tw-flex tw-justify-center tw-items-center tw-px-4 tw-justify-between tw-truncate tw-z-10',
         className,
       )}
     >
@@ -34,7 +34,7 @@ const UserWallet: React.FC<UserWalletProps> = ({ address, className }) => {
       <span className="tw-pl-2">
         <img className="tw-rounded" src={blockieImage} alt="wallet address" />
       </span>
-    </div>
+    </header>
   );
 };
 
