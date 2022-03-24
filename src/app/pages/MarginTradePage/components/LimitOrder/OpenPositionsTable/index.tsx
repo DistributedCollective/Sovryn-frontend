@@ -7,10 +7,12 @@ import { LimitOrderRow } from '../LimitOrderRow';
 import { selectMarginTradePage } from 'app/pages/MarginTradePage/selectors';
 import { useSelector } from 'react-redux';
 import { MarginLimitOrderList, parseMarginOrder } from '../LimitOrderTables';
+import { EventData } from 'web3-eth-contract';
 
 interface IOpenPositionsTableProps {
   perPage?: number;
   orders: MarginLimitOrderList[];
+  orderFilledEvents: EventData[];
   loading: boolean;
 }
 

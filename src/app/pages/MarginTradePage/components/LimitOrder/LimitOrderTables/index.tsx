@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import classNames from 'classnames';
 
 import { useGetLimitOrders } from 'app/hooks/limitOrder/useGetLimitOrders';
@@ -15,6 +15,8 @@ import {
 } from 'utils/blockchain/contract-helpers';
 import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
 import { fromWei } from 'web3-utils';
+import { useGetContractPastEvents } from 'app/hooks/useGetContractPastEvents';
+import { useLog } from 'app/hooks/useDebug';
 
 interface ILimitOrderTablesProps {
   activeTab: number;
@@ -37,17 +39,25 @@ export const LimitOrderTables: React.FC<ILimitOrderTablesProps> = ({
     [value],
   );
 
+  const { events } = useGetContractPastEvents('settlement', 'OrderFilled', {
+    0: account,
+  });
+
+  useLog('@LimitOrderTables', events);
+
   return (
     <>
       <div className={classNames({ 'tw-hidden': activeTab !== 2 })}>
         <OpenPositionsTable
           orders={limitOrders.filter(item => item.filledAmount === '0')}
+          orderFilledEvents={events}
           loading={loading}
         />
       </div>
       <div className={classNames({ 'tw-hidden': activeTab !== 3 })}>
         <LimitOrderHistory
           orders={limitOrders.filter(item => item.filledAmount !== '0')}
+          orderFilledEvents={events}
           loading={loading}
         />
       </div>

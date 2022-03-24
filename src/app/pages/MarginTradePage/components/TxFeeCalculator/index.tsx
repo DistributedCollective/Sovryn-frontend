@@ -37,10 +37,13 @@ export const TxFeeCalculator: React.FC<ITxFeeCalculatorProps> = ({
       )}
     >
       <div className="tw-w-1/2 tw-text-gray-10">
-        {t(translations.marginTradePage.tradeForm.labels.networkFee)}
+        {t(translations.marginTradePage.tradeForm.labels.estimatedNetworkFee)}
       </div>
       <div
-        className={classNames('tw-w-1/2 tw-font-medium tw-pl-2', textClassName)}
+        className={classNames(
+          'tw-w-1/2 tw-font-medium tw-pl-2 tw-text-right',
+          textClassName,
+        )}
         data-action-id="margin-reviewTransaction-txFeeCalculator"
       >
         <TransactionFee

@@ -5,10 +5,12 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Pagination } from 'app/components/Pagination';
 import { MarginLimitOrderList } from '../LimitOrderTables';
+import { EventData } from 'web3-eth-contract';
 
 interface ILimitOrderHistoryProps {
   perPage?: number;
   orders: MarginLimitOrderList[];
+  orderFilledEvents: EventData[];
   loading: boolean;
 }
 

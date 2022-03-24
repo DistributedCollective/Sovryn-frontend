@@ -1623,7 +1623,8 @@
         "balance": "Available Balance: <0/> <1/>",
         "txFee": "Tx Fee: <0/>",
         "tradingFee": "Trading Fee:",
-        "networkFee": "Network Fee (Estimated):"
+        "networkFee": "Network Fee:",
+        "estimatedNetworkFee": "Network Fee (Estimated):"
       },
       "buttons": {
         "long": "Long",
