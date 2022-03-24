@@ -111,7 +111,7 @@ export const AddLiquidityDialogV1: React.FC<IAddLiquidityDialogV1Props> = ({
 
           <FormGroup
             label={t(translations.liquidityMining.modals.deposit.amount)}
-            className="tw-mt-5 tw-font-thin"
+            className="tw-mt-5 tw-font-extralight"
           >
             <AmountInput
               onChange={value => setAmount1(value)}
@@ -128,7 +128,7 @@ export const AddLiquidityDialogV1: React.FC<IAddLiquidityDialogV1Props> = ({
             appendElem={<AssetRenderer asset={assetB} />}
             className="tw-mt-6 tw-h-9"
           />
-          <div className="tw-text-xs tw-font-thin tw-mt-1">
+          <div className="tw-text-xs tw-font-extralight tw-mt-1">
             {`${t(translations.common.availableBalance)} ${weiToNumberFormat(
               balance2,
               8,

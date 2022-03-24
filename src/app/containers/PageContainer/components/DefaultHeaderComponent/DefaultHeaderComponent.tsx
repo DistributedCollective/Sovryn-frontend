@@ -6,24 +6,23 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
 
-import { usePageViews } from 'app/hooks/useAnalytics';
 import iconNewTab from 'assets/images/iconNewTab.svg';
 import { translations } from 'locales/i18n';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import { useIsConnected } from 'app/hooks/useAccount';
 
-import WalletConnector from '../../containers/WalletConnector';
-import { lendBorrowSovrynSaga } from '../../pages/BorrowPage/saga';
+import WalletConnector from '../../../WalletConnector';
+import { lendBorrowSovrynSaga } from '../../../../pages/BorrowPage/saga';
 import {
   reducer as lendBorrowReducer,
   sliceKey as lendBorrowSlice,
-} from '../../pages/BorrowPage/slice';
-import { LanguageToggle } from '../LanguageToggle';
+} from '../../../../pages/BorrowPage/slice';
+import { LanguageToggle } from '../../../../components/LanguageToggle';
 import styles from './index.module.scss';
-import { ReactComponent as SovLogo } from '../../../assets/images/sovryn-logo-alpha.svg';
-import { isMainnet } from '../../../utils/classifiers';
+import { ReactComponent as SovLogo } from 'assets/images/sovryn-logo-alpha.svg';
+import { isMainnet } from 'utils/classifiers';
 
-export function Header() {
+export const DefaultHeaderComponent: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
   const location = useLocation();
@@ -31,7 +30,6 @@ export function Header() {
   const node = useRef(null);
   const connected = useIsConnected();
 
-  usePageViews();
   useInjectReducer({ key: lendBorrowSlice, reducer: lendBorrowReducer });
   useInjectSaga({ key: lendBorrowSlice, saga: lendBorrowSovrynSaga });
 
@@ -183,6 +181,7 @@ export function Header() {
     if (link.to === '') {
       return (
         <div
+          key={index}
           className={styles.mobileMenuSection}
           data-action-id={link.dataActionId}
         >
@@ -553,4 +552,4 @@ export function Header() {
       </div>
     </header>
   );
-}
+};

@@ -36,7 +36,7 @@ export const FirstVisitDisclaimerDialog: React.FC = () => {
       canEscapeKeyClose={false}
       className="tw-w-full tw-max-w-4xl tw-p-6"
     >
-      <div className="tw-font-light tw-text-center tw-w-full tw-max-w-2xl tw-mx-auto">
+      <div className="tw-font-normal tw-text-center tw-w-full tw-max-w-2xl tw-mx-auto">
         <img src={logo} alt="Sovryn Logo" className="tw-mb-4" />
         <div
           className="tw-font-bold tw-text-center tw-mb-6"
@@ -79,7 +79,7 @@ const GeneralAlert: React.FC = () => {
           {t(translations.notifyDialog.generalAlert.p4_1)}
           <a
             href="https://wiki.sovryn.app/en/getting-started/faq-general"
-            className="tw-font-light tw-text-primary"
+            className="tw-font-normal tw-text-primary"
             target="_blank"
             rel="noreferrer noopener"
           >
@@ -91,7 +91,7 @@ const GeneralAlert: React.FC = () => {
           {t(translations.notifyDialog.generalAlert.p5_1)}
           <a
             href="https://wiki.sovryn.app/en/getting-started/wallet-setup"
-            className="tw-font-light tw-text-primary"
+            className="tw-font-normal tw-text-primary"
             target="_blank"
             rel="noreferrer noopener"
           >

@@ -133,7 +133,7 @@ export const StatusScreen: React.FC<StatusScreenProps> = ({ tx, network }) => {
                 </div>
                 <div className="tw-flex tw-flex-row tw-mb-2 tw-justify-start tw-items-center">
                   <div className="tw-w-1/2">
-                    {t(translations.fastBtcPage.withdraw.reviewScreen.tx)}
+                    {t(translations.fastBtcPage.withdraw.reviewScreen.tx)}ya
                   </div>
                   <div className="tw-font-semibold">
                     <LinkToExplorer
