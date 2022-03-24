@@ -59,7 +59,7 @@ export const AccessCodeVerificationStep: React.FC<IAccessCodeVerificationStepPro
               { token: saleName },
             )}
           </div>
-          <div className="tw-text-xl tw-font-extralight tw-mb-32">
+          <div className="tw-text-xl tw-font-light tw-mb-32">
             {t(
               translations.originsLaunchpad.saleDay.accessCodeVerificationStep
                 .alert[camelCase(saleStatus)],

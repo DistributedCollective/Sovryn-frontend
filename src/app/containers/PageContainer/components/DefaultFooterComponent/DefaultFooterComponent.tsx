@@ -23,7 +23,7 @@ export const Footer: React.FC = () => {
       <div className="tw-flex tw-flex-col md:tw-flex-row tw-container tw-pb-10 tw-mx-auto tw-px-4 tw-mt-5">
         <div className="tw-flex-1">
           <div className="tw-flex tw-flex-col tw-justify-center tw-items-start tw-text-sov-white">
-            <div className="tw-font-light tw-text-xs">
+            <div className="tw-font-normal tw-text-xs">
               <p className="tw-mb-0">
                 <Trans i18nKey={translations.footer.notice_1} />
               </p>
@@ -53,7 +53,7 @@ export const Footer: React.FC = () => {
                       href="https://wiki.sovryn.app/en/getting-started/wallet-setup"
                       target="_blank"
                       rel="noreferrer noopener"
-                      className="tw-font-light tw-text-secondary tw-underline"
+                      className="tw-font-normal tw-text-secondary tw-underline"
                     >
                       x
                     </a>,
@@ -68,7 +68,7 @@ export const Footer: React.FC = () => {
                       href={discordInvite}
                       target="_blank"
                       rel="noreferrer noopener"
-                      className="tw-font-light tw-text-secondary tw-underline"
+                      className="tw-font-normal tw-text-secondary tw-underline"
                     >
                       x
                     </a>,
