@@ -10,7 +10,6 @@ import { translations } from 'locales/i18n';
 
 import { reducer, sliceKey, actions } from './slice';
 import { perpetualPageSaga } from './saga';
-import { HeaderLabs } from '../../components/HeaderLabs';
 import {
   PerpetualPairDictionary,
   PerpetualPairType,
@@ -43,10 +42,21 @@ import { FundingPaymentsTable } from './components/FundingPaymentsTable/index';
 import { PerpetualQueriesContextProvider } from './contexts/PerpetualQueriesContext';
 import { PairSelector } from './components/PairSelector';
 import { ToastsWatcher } from './components/ToastsWatcher';
+import { usePageActions } from 'app/containers/PageContainer';
 
 export const PerpetualPageContainer: React.FC = () => {
   useInjectReducer({ key: sliceKey, reducer });
   useInjectSaga({ key: sliceKey, saga: perpetualPageSaga });
+
+  const page = usePageActions();
+
+  useEffect(() => {
+    page.updateOptions({
+      headerProps: {
+        helpLink: 'https://wiki.sovryn.app/en/sovryn-dapp/perpetual-futures',
+      },
+    });
+  }, [page]);
 
   const dispatch = useDispatch();
   const walletContext = useWalletContext();
@@ -116,7 +126,6 @@ export const PerpetualPageContainer: React.FC = () => {
             content={t(translations.perpetualPage.meta.description)}
           />
         </Helmet>
-        <HeaderLabs helpLink="https://wiki.sovryn.app/en/sovryn-dapp/perpetual-futures" />
         <div className="tw-relative tw--top-2.5 tw-w-full">
           <PairSelector
             pair={pair}

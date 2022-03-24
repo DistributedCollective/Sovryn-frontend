@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useMemo, useReducer } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+} from 'react';
 import merge from 'lodash.merge';
 import cloneDeep from 'lodash.clonedeep';
 import { useHistory } from 'react-router-dom';
@@ -16,6 +22,7 @@ import { DefaultHeaderComponent } from './components/DefaultHeaderComponent/Defa
 import { Footer } from './components/DefaultFooterComponent/DefaultFooterComponent';
 import { FastBtcHeader } from 'app/pages/FastBtcPage/components/FastBtcHeader';
 import UserWallet from 'app/pages/BridgeDepositPage/components/UserWallet';
+import { HeaderLabs } from 'app/components/HeaderLabs';
 
 type HeaderContainerProps = {
   pageOptions: PageOptions;
@@ -29,11 +36,13 @@ export const PageContainer: React.FC<Partial<HeaderContainerProps>> = ({
     reducer,
     merge(cloneDeep(initialState), { options: pageOptions }),
   );
+
   const actions = useActions(dispatch);
   const memoizedState = useMemo(() => state as PageContextState, [state]);
   const { options } = memoizedState;
 
   const history = useHistory();
+  const previousPathname = useRef<string>(history.location.pathname);
 
   const resolveOptions = useCallback(
     (pathname: string) => {
@@ -62,7 +71,12 @@ export const PageContainer: React.FC<Partial<HeaderContainerProps>> = ({
   // reset options to default when route changes
   useEffect(() => {
     resolveOptions(history.location.pathname);
-    return history.listen(route => resolveOptions(route.pathname));
+    return history.listen(route => {
+      if (route.pathname !== previousPathname.current) {
+        previousPathname.current = route.pathname;
+        resolveOptions(route.pathname);
+      }
+    });
   }, [history, actions, pageOptions, resolveOptions]);
 
   const maybeRenderHeader = useMemo(() => {
@@ -74,7 +88,7 @@ export const PageContainer: React.FC<Partial<HeaderContainerProps>> = ({
       case HeaderTypes.CROSS_CHAIN:
         return <UserWallet address={options.headerProps?.address} />;
       case HeaderTypes.LABS:
-        return <></>; // todo
+        return <HeaderLabs helpLink={options.headerProps?.helpLink} />;
       default:
         return null;
     }
