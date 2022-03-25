@@ -20,6 +20,7 @@ export const LimitOrderHistory: React.FC<ILimitOrderHistoryProps> = ({
   perPage = 5,
   orders,
   loading,
+  orderFilledEvents,
 }) => {
   const { t } = useTranslation();
 
@@ -54,6 +55,7 @@ export const LimitOrderHistory: React.FC<ILimitOrderHistoryProps> = ({
             </th>
             <th className="tw-hidden sm:tw-table-cell">{t(trans.deadline)}</th>
             <th>{t(trans.filledAmount)}</th>
+            <th>{t(trans.filledPrice)}</th>
           </tr>
         </thead>
         <tbody>
@@ -76,7 +78,11 @@ export const LimitOrderHistory: React.FC<ILimitOrderHistoryProps> = ({
           {items.length > 0 && (
             <>
               {items.map(item => (
-                <LimitOrderRow key={item.order.hash} {...item} />
+                <LimitOrderRow
+                  key={item.order.hash}
+                  {...item}
+                  orderFilledEvents={orderFilledEvents}
+                />
               ))}
             </>
           )}

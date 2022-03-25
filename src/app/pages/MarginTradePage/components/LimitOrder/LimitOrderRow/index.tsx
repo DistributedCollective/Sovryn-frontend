@@ -22,9 +22,17 @@ import { OrderType } from 'app/components/OrderTypeTitle/types';
 import { MarginLimitOrderList } from '../LimitOrderTables';
 import { useGetLimitOrderRow } from 'app/pages/MarginTradePage/hooks/useGetLimitOrderRow';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
+import { EventData } from 'web3-eth-contract';
+import { TradingPosition } from 'types/trading-position';
+import { bignumber } from 'mathjs';
+import {
+  assetByLoanTokenAddress,
+  assetByTokenAddress,
+} from 'utils/blockchain/contract-helpers';
 
 interface ILimitOrderRowProps extends MarginLimitOrderList {
   pending?: boolean;
+  orderFilledEvents?: EventData[];
 }
 
 export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
@@ -41,6 +49,7 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
   pending,
   order,
   filledAmount,
+  orderFilledEvents,
 }) => {
   const { t } = useTranslation();
   const [showClosePosition, setShowClosePosition] = useState(false);
@@ -60,6 +69,40 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
     () =>
       order.loanTokenSent.toString() !== '0' ? loanAsset : collateralAsset,
     [collateralAsset, loanAsset, order.loanTokenSent],
+  );
+
+  const filledToken = useMemo(() => {
+    const event = orderFilledEvents?.find(
+      item => item.returnValues.hash === order.hash,
+    )?.returnValues;
+    if (!event) {
+      return undefined;
+    }
+
+    return assetByLoanTokenAddress(event.loanTokenAddress);
+  }, [order.hash, orderFilledEvents]);
+
+  const filledPrice = useMemo(
+    () => {
+      const price = orderFilledEvents?.find(
+        item => item.returnValues.hash === order.hash,
+      )?.returnValues?.filledPrice;
+
+      if (!price) {
+        return undefined;
+      }
+
+      if (position === TradingPosition.LONG) {
+        return bignumber(1)
+          .div(price)
+          .mul(10 ** 36)
+          .toFixed(0);
+      }
+
+      return price;
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [order.hash, JSON.stringify(orderFilledEvents)],
   );
 
   return (
@@ -110,7 +153,20 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
             <DisplayDate timestamp={deadline.getTime().toString()} />
           </td>
 
-          <td>{weiToNumberFormat(filledAmount, 6)}</td>
+          <td>
+            {weiToNumberFormat(filledAmount, 6)}{' '}
+            <AssetRenderer asset={depositAsset} />
+          </td>
+          <td>
+            {filledToken && filledPrice ? (
+              <>
+                {weiToNumberFormat(filledPrice, 6)}{' '}
+                <AssetRenderer asset={filledToken} />
+              </>
+            ) : (
+              '-'
+            )}
+          </td>
         </>
       )}
       {isOpenPosition && (

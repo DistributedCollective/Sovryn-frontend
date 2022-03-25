@@ -39,11 +39,12 @@ export const LimitOrderTables: React.FC<ILimitOrderTablesProps> = ({
     [value],
   );
 
-  const { events } = useGetContractPastEvents('settlement', 'OrderFilled', {
-    0: account,
-  });
+  const { events } = useGetContractPastEvents(
+    'settlement',
+    'MarginOrderFilled',
+  );
 
-  useLog('@LimitOrderTables', events);
+  useLog('LimitOrderTables', events);
 
   return (
     <>

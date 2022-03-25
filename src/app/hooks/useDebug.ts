@@ -2,7 +2,7 @@ import { debug } from '@sovryn/common';
 import { useEffect, useRef } from 'react';
 
 export const useDebug = (namespace: string) => {
-  const logger = useRef(debug(namespace));
+  const logger = useRef(debug(`@sovryn:${namespace}`));
   return logger.current;
 };
 
