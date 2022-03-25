@@ -5,17 +5,20 @@ import { useTranslation } from 'react-i18next';
 import { ILimitOrder } from 'app/pages/SpotTradingPage/types';
 import { translations } from 'locales/i18n';
 import { Pagination } from 'app/components/Pagination';
+import { EventData } from 'web3-eth-contract';
 
 interface ILimitOrderHistoryProps {
   perPage?: number;
   orders: ILimitOrder[];
   loading: boolean;
+  orderFilledEvents?: EventData[];
 }
 
 export const LimitOrderHistory: React.FC<ILimitOrderHistoryProps> = ({
   perPage = 5,
   orders,
   loading,
+  orderFilledEvents,
 }) => {
   const { t } = useTranslation();
   const trans = translations.spotTradingPage.openLimitOrders;
@@ -54,6 +57,9 @@ export const LimitOrderHistory: React.FC<ILimitOrderHistoryProps> = ({
             <th className="tw-hidden sm:tw-table-cell">
               {t(trans.filledAmount)}
             </th>
+            <th className="tw-hidden sm:tw-table-cell">
+              {t(trans.filledPrice)}
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -76,7 +82,11 @@ export const LimitOrderHistory: React.FC<ILimitOrderHistoryProps> = ({
           {items.length > 0 && (
             <>
               {items.map(item => (
-                <LimitOrderRow key={item.hash} item={item} />
+                <LimitOrderRow
+                  key={item.hash}
+                  item={item}
+                  orderFilledEvents={orderFilledEvents}
+                />
               ))}
             </>
           )}

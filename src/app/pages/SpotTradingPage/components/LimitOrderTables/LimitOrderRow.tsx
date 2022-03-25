@@ -16,15 +16,20 @@ import classNames from 'classnames';
 import { TableTransactionStatus } from 'app/components/FinanceV2Components/TableTransactionStatus';
 import { TxStatus } from 'store/global/transactions-store/types';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
+import { EventData } from 'web3-eth-contract';
+import { useLog } from 'app/hooks/useDebug';
+import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
 
 interface ILimitOrderRowProps {
   item: ILimitOrder;
   pending?: boolean;
+  orderFilledEvents?: EventData[];
 }
 
 export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
   item,
   pending,
+  orderFilledEvents,
 }) => {
   const { t } = useTranslation();
   const [showClosePosition, setShowClosePosition] = useState(false);
@@ -61,6 +66,46 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
       ? bignumber(item.amountIn.toString()).div(item.amountOutMin.toString())
       : bignumber(item.amountOutMin.toString()).div(item.amountIn.toString());
   }, [item.amountIn, item.amountOutMin, tradeType]);
+
+  useLog('LimitOrderRow', item);
+
+  const filledToken = useMemo(() => {
+    const event = orderFilledEvents?.find(
+      e => e.returnValues.hash === item?.hash,
+    )?.returnValues;
+    if (!event) {
+      return undefined;
+    }
+
+    if (tradeType === TradingTypes.SELL) {
+      return assetByTokenAddress(event.toToken);
+    }
+
+    return assetByTokenAddress(event.fromToken);
+  }, [item?.hash, orderFilledEvents, tradeType]);
+
+  const filledPrice = useMemo(
+    () => {
+      const price = orderFilledEvents?.find(
+        e => e.returnValues.hash === item.hash,
+      )?.returnValues?.filledPrice;
+
+      if (!price) {
+        return undefined;
+      }
+
+      if (tradeType === TradingTypes.BUY) {
+        return bignumber(1)
+          .div(price)
+          .mul(10 ** 36)
+          .toFixed(0);
+      }
+
+      return price;
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [item?.hash, JSON.stringify(orderFilledEvents)],
+  );
 
   return (
     <tr>
@@ -131,10 +176,22 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
         <AssetRenderer asset={toToken.asset} />
       </td>
       {!isOpenPosition && (
-        <td className="tw-hidden sm:tw-table-cell">
-          {weiToNumberFormat(item.filledAmount, 6)}{' '}
-          <AssetRenderer asset={fromToken.asset} />
-        </td>
+        <>
+          <td className="tw-hidden sm:tw-table-cell">
+            {weiToNumberFormat(item.filledAmount, 6)}{' '}
+            <AssetRenderer asset={fromToken.asset} />
+          </td>
+          <td className="tw-hidden sm:tw-table-cell">
+            {filledToken && filledPrice ? (
+              <>
+                {weiToNumberFormat(filledPrice, 6)}{' '}
+                <AssetRenderer asset={filledToken} />
+              </>
+            ) : (
+              '-'
+            )}
+          </td>
+        </>
       )}
       {isOpenPosition && (
         <>

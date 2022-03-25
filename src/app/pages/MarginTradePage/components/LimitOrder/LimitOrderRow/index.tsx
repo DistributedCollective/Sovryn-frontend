@@ -25,10 +25,7 @@ import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { EventData } from 'web3-eth-contract';
 import { TradingPosition } from 'types/trading-position';
 import { bignumber } from 'mathjs';
-import {
-  assetByLoanTokenAddress,
-  assetByTokenAddress,
-} from 'utils/blockchain/contract-helpers';
+import { assetByLoanTokenAddress } from 'utils/blockchain/contract-helpers';
 
 interface ILimitOrderRowProps extends MarginLimitOrderList {
   pending?: boolean;

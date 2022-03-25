@@ -6,6 +6,8 @@ import { OpenPositionsTable } from './OpenPositionsTable';
 import { LimitOrderHistory } from './LimitOrderHistory';
 import { useAccount } from 'app/hooks/useAccount';
 import { ILimitOrder } from '../../types';
+import { useGetContractPastEvents } from 'app/hooks/useGetContractPastEvents';
+import { useLog } from 'app/hooks/useDebug';
 
 interface ILimitOrderTablesProps {
   activeTab: number;
@@ -25,6 +27,13 @@ export const LimitOrderTables: React.FC<ILimitOrderTablesProps> = ({
     [value],
   );
 
+  const orderFilledEvents = useGetContractPastEvents(
+    'settlement',
+    'OrderFilled',
+  );
+
+  useLog('LimitOrderTables', orderFilledEvents.events);
+
   return (
     <>
       <div className={classNames({ 'tw-hidden': activeTab !== 1 })}>
@@ -37,6 +46,7 @@ export const LimitOrderTables: React.FC<ILimitOrderTablesProps> = ({
         <LimitOrderHistory
           orders={limitOrders.filter(item => item.filledAmount !== '0')}
           loading={loading}
+          orderFilledEvents={orderFilledEvents.events}
         />
       </div>
     </>

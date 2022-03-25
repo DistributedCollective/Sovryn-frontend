@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import classNames from 'classnames';
 
 import { useGetLimitOrders } from 'app/hooks/limitOrder/useGetLimitOrders';
