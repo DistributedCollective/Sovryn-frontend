@@ -90,7 +90,7 @@ export const Arbitrage: React.FC<IArbitrageProps> = ({ onClick }) => {
     <>
       {opportunity !== null && (
         <div className="tw-my-3">
-          <div className="tw-flex tw-items-center tw-m-auto tw-w-full tw-max-w-3xl tw-mb-3">
+          <div className="tw-text-sov-white tw-mb-12 tw-p-4 tw-rounded tw-border tw-border-primary">
             <p className="tw-m-0 tw-whitespace-nowrap tw-mr-8">
               {t(s.arbitrage.best_rate)}
             </p>
@@ -101,7 +101,7 @@ export const Arbitrage: React.FC<IArbitrageProps> = ({ onClick }) => {
               <Trans
                 i18nKey={s.arbitrage.text}
                 components={[
-                  <span className="tw-text-success tw-font-semibold"></span>,
+                  <span className="tw-text-success tw-font-normal"></span>,
                   <AssetSymbolRenderer asset={opportunity.fromToken} />,
                   <AssetSymbolRenderer asset={opportunity.toToken} />,
                 ]}
@@ -121,7 +121,7 @@ export const Arbitrage: React.FC<IArbitrageProps> = ({ onClick }) => {
               <div className="tw-relative">
                 <Popover
                   content={
-                    <div className="tw-p-5 tw-font-light">
+                    <div className="tw-p-5 tw-font-normal">
                       <p>
                         {t(s.arbitrage.popover_p1, {
                           fromAmount: toNumberFormat(opportunity.fromAmount, 6),

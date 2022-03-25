@@ -144,7 +144,7 @@ export const ClaimForm: React.FC<IClaimFormProps> = ({
             />
           )}
 
-          <div className="tw-text-tiny tw-font-thin">
+          <div className="tw-text-tiny tw-font-extralight">
             {t(translations.originsClaim.claimForm.note, {
               date: new Date(unlockTime).toLocaleString(),
             })}

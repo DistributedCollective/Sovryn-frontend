@@ -65,7 +65,7 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
 
                 <Popover
                   content={
-                    <div className="tw-px-12 tw-py-8 tw-font-light">
+                    <div className="tw-px-12 tw-py-8 tw-font-normal">
                       <Trans
                         i18nKey={
                           translations.landingPage.cryptocurrencyPrices
@@ -89,7 +89,7 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
               )}
               <Popover
                 content={
-                  <div className="tw-px-12 tw-py-8 tw-font-light">
+                  <div className="tw-px-12 tw-py-8 tw-font-normal">
                     <Trans
                       i18nKey={
                         translations.landingPage.cryptocurrencyPrices

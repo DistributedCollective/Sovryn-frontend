@@ -56,7 +56,7 @@ const Container = styled.article`
   a {
     font-size: 1rem;
     color: #2274a5;
-    font-weight: 300;
+    font-weight: 400;
     text-decoration: underline;
     &:hover {
       color: #2274a5;

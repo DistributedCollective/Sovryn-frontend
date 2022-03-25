@@ -77,7 +77,7 @@ export const AmountInput: React.FC<IAmountInputProps> = ({
         dataActionId={`${dataActionId}-amountInput`}
       />
       {subText && (
-        <div className="tw-text-xs tw-mt-1 tw-font-thin">{subText}</div>
+        <div className="tw-text-xs tw-mt-1 tw-font-extralight">{subText}</div>
       )}
       {subElement && <>{subElement}</>}
       {!readonly &&
