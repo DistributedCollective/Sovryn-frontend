@@ -31,8 +31,22 @@ input::-webkit-inner-spin-button {
   @apply tw-m-0 tw-appearance-none;
 }
 
+.popover-mw {
+  max-width: 270px;
+}
+
+.popover-content {
+  @apply tw-p-4 tw-font-light;
+}
+
 @screen lg {
   .mw-tooltip {
     @apply tw-max-w-xl;
+  }
+  .popover-mw {
+    max-width: 720px;
+  }
+  .popover-content {
+    @apply tw-px-8 tw-py-4;
   }
 }

@@ -45,6 +45,7 @@ import { OrderTypeTitle } from 'app/components/OrderTypeTitle';
 import { LimitTradeDialog } from '../LimitOrder/LimitTradeDialog';
 import { useDenominateDollarToAssetAmount } from 'app/hooks/trading/useDenominateDollarToAssetAmount';
 import { getPriceAmm } from 'utils/blockchain/requests/amm';
+import { HelpBadge } from 'app/components/HelpBadge/HelpBadge';
 
 interface ITradeFormProps {
   pairType: TradingPairType;
@@ -252,7 +253,13 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
             <>
               <div className="tw-flex tw-text-sm tw-relative tw-items-center tw-justify-between tw-mt-5">
                 <span className={styles.amountLabel}>
-                  {t(translations.spotTradingPage.tradeForm.limitPrice)}
+                  <HelpBadge
+                    tooltip={t(
+                      translations.spotTradingPage.tradeForm.limitPriceTooltip,
+                    )}
+                  >
+                    {t(translations.spotTradingPage.tradeForm.limitPrice)}
+                  </HelpBadge>
                 </span>
                 <div className="tw-flex tw-items-center">
                   <div className="tw-mr-2">

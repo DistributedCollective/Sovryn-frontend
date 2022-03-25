@@ -21,7 +21,6 @@ import { TradeDialogInfo } from '../../TradeDialog/TradeDialogInfo';
 import { OrderType } from 'app/components/OrderTypeTitle/types';
 import { MarginLimitOrderList } from '../LimitOrderTables';
 import { useGetLimitOrderRow } from 'app/pages/MarginTradePage/hooks/useGetLimitOrderRow';
-import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { EventData } from 'web3-eth-contract';
 import { TradingPosition } from 'types/trading-position';
 import { bignumber } from 'mathjs';
@@ -106,18 +105,6 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
     <tr>
       <td className="tw-hidden md:tw-table-cell">
         <DisplayDate timestamp={createdTimestamp.getTime().toString()} />
-      </td>
-      <td className="tw-hidden xl:tw-table-cell">
-        {order.hash ? (
-          <LinkToExplorer
-            className="tw-m-0"
-            txHash={order.hash}
-            startLength={5}
-            endLength={5}
-          />
-        ) : (
-          '-'
-        )}
       </td>
       <td>
         <PositionBlock position={position} name={pair.name} />

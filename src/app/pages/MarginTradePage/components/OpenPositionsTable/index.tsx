@@ -1,6 +1,4 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { Popover } from '@blueprintjs/core/lib/esm/components/popover/popover';
-import { Icon } from '@blueprintjs/core/lib/esm/components/icon/icon';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { OpenPositionRow } from './OpenPositionRow';
 import { PendingPositionRow } from './PendingPositionRow';
@@ -11,6 +9,7 @@ import { useMargin_GetLoans } from '../../hooks/useMargin_GetLoans';
 import { useSelector } from 'react-redux';
 import { selectTransactionArray } from 'store/global/transactions-store/selectors';
 import { TxStatus, TxType } from 'store/global/transactions-store/types';
+import { HelpBadge } from 'app/components/HelpBadge/HelpBadge';
 
 export function OpenPositionsTable() {
   const { t } = useTranslation();
@@ -57,23 +56,18 @@ export function OpenPositionsTable() {
               {t(translations.openPositionTable.liquidationPrice)}
             </th>
             <th className="tw-hidden xl:tw-table-cell tw-whitespace-nowrap">
-              {t(translations.openPositionTable.positionMargin)}
-              <Popover
-                content={
-                  <div className="tw-px-12 tw-py-8 tw-font-light">
-                    <Trans
-                      i18nKey={
-                        translations.openPositionTable.explainers.positionMargin
-                      }
-                      components={[<strong className="tw-font-bold" />]}
-                    />
-                  </div>
+              <HelpBadge
+                tooltip={
+                  <Trans
+                    i18nKey={
+                      translations.openPositionTable.explainers.positionMargin
+                    }
+                    components={[<strong className="tw-font-bold" />]}
+                  />
                 }
-                className="tw-pl-2"
-                popoverClassName={'tw-w-1/2 tw-transform tw-translate-x-full'}
               >
-                <Icon className="tw-cursor-pointer" icon="info-sign" />
-              </Popover>
+                {t(translations.openPositionTable.positionMargin)}
+              </HelpBadge>
             </th>
             <th className="tw-hidden sm:tw-table-cell">
               {t(translations.openPositionTable.unrealizedPL)}

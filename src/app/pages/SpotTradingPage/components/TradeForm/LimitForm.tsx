@@ -23,10 +23,10 @@ import { OrderLabel } from '../OrderLabel';
 import { useLimitOrder } from 'app/hooks/limitOrder/useLimitOrder';
 import classNames from 'classnames';
 import { useSwapsExternal_getSwapExpectedReturn } from 'app/hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
-import { toWei } from 'web3-utils';
 import {
   fromWei,
   isValidNumerishValue,
+  toWei,
   weiToFixed,
 } from 'utils/blockchain/math-helpers';
 import { actions } from '../../slice';
@@ -39,6 +39,7 @@ import { gasLimit } from 'utils/classifiers';
 import { formatNumber } from 'app/containers/StatsPage/utils';
 import { useDenominateDollarToAssetAmount } from 'app/hooks/trading/useDenominateDollarToAssetAmount';
 import { getSwapOrderFeeOut } from 'app/hooks/limitOrder/utils';
+import { HelpBadge } from 'app/components/HelpBadge/HelpBadge';
 
 export const LimitForm: React.FC<ITradeFormProps> = ({
   sourceToken,
@@ -109,8 +110,8 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
       return '';
     }
 
-    return bignumber(limitPrice)
-      .div(weiToFixed(marketPrice, 8))
+    return bignumber(toWei(limitPrice))
+      .div(marketPrice)
       .mul(100)
       .minus(100)
       .toNumber();
@@ -281,7 +282,13 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
         )}
         <div className="tw-flex tw-relative tw-items-center tw-justify-between tw-mt-5">
           <span className={styles.amountLabel}>
-            {t(translations.spotTradingPage.tradeForm.limitPrice)}
+            <HelpBadge
+              tooltip={t(
+                translations.spotTradingPage.tradeForm.limitPriceTooltip,
+              )}
+            >
+              {t(translations.spotTradingPage.tradeForm.limitPrice)}
+            </HelpBadge>
           </span>
           <div className="tw-flex tw-items-center">
             <div className="tw-mr-2">

@@ -6,6 +6,7 @@ import { translations } from 'locales/i18n';
 import { Pagination } from 'app/components/Pagination';
 import { MarginLimitOrderList } from '../LimitOrderTables';
 import { EventData } from 'web3-eth-contract';
+import { HelpBadge } from 'app/components/HelpBadge/HelpBadge';
 
 interface ILimitOrderHistoryProps {
   perPage?: number;
@@ -43,12 +44,11 @@ export const LimitOrderHistory: React.FC<ILimitOrderHistoryProps> = ({
         <thead>
           <tr>
             <th className="tw-hidden md:tw-table-cell">{t(trans.dateTime)}</th>
-            <th className="tw-hidden xl:tw-table-cell">
-              {t(translations.common.txHash)}
-            </th>
             <th>{t(trans.pair)}</th>
-            <th className="tw-hidden xl:tw-table-cell">
-              {t(trans.limitPrice)}
+            <th className="tw-hidden md:tw-table-cell">
+              <HelpBadge tooltip={t(trans.limitPriceTooltip)}>
+                {t(trans.limitPrice)}
+              </HelpBadge>
             </th>
             <th className="tw-hidden md:tw-table-cell">
               {t(trans.tradeAmount)}

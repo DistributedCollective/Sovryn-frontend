@@ -1717,6 +1717,7 @@
       "limit": "Limit",
       "advancedSettings": "Advanced Settings",
       "limitPrice": "Limit Price:",
+      "limitPriceTooltip": "Final execution price of Limit Orders is impacted by cost of relayer fee and slippage, please note this will not match price entered here exactly.",
       "receive": "Receive:",
       "amount": "Amount:",
       "errors": {
@@ -1762,6 +1763,7 @@
       "orderType": "Order Type",
       "tradeAmount": "Trade Amount",
       "limitPrice": "Limit Price",
+      "limitPriceTooltip": "Limit Price is impacted by trading fees and slippage, please note this will not match exactly the Limit Price entered when placing the order.",
       "amountReceive": "Amount to Receive",
       "duration": "Duration",
       "deadline": "Deadline",
