@@ -232,7 +232,7 @@ export function LendingDialog({
             )}
 
             {type === 'remove' && (
-              <div className="tw-mb-10 tw-truncate tw-text-xs tw-font-light tw-tracking-normal">
+              <div className="tw-mb-10 tw-truncate tw-text-xs tw-font-normal tw-tracking-normal">
                 <Trans
                   i18nKey={
                     translations.lendingPage.modal.withdraw.depositBalance

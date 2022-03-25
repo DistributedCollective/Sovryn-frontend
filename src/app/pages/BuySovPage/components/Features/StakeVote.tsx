@@ -14,7 +14,7 @@ export function StakeVote() {
         {t(translations.buySovPage.features.stake.title)}
       </h2>
       <Banner src={banner} alt="Banner" />
-      <div className="content tw-font-thin tw-leading-snug">
+      <div className="content tw-font-extralight tw-leading-snug">
         {t(translations.buySovPage.features.stake.text)}{' '}
         <a
           href="https://wiki.sovryn.app/en/governance/staking-vesting-voting#staking-sov"

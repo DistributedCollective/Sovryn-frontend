@@ -1,6 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Header } from 'app/components/Header';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { TradingVolume } from './components/TradingVolume';
@@ -16,7 +15,6 @@ import { TvlData } from 'app/containers/StatsPage/types';
 import axios, { Canceler } from 'axios';
 import { useInterval } from 'app/hooks/useInterval';
 import { LendingStats } from 'app/containers/StatsPage/components/LendingStats';
-import { Footer } from 'app/components/Footer';
 import { CryptocurrencyPrices } from './components/CryptocurrencyPrices';
 import { IAssets } from './components/CryptocurrencyPrices/types';
 import styles from './index.module.scss';
@@ -123,7 +121,6 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
           content={t(translations.landingPage.meta.description)}
         />
       </Helmet>
-      <Header />
       <div className="container tw-max-w-screen-2xl tw-mx-auto tw-mt-16 tw-px-4 2xl:tw-px-0 tw-w-full">
         <div className="tw-tracking-normal">
           <div className={styles.welcomeTitle}>
@@ -191,7 +188,6 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

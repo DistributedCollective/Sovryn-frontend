@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo } from 'react';
 import { useHistory, useParams } from 'react-router';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
@@ -7,15 +7,23 @@ import { translations } from 'locales/i18n';
 import { useAccount } from '../../hooks/useAccount';
 import { WithdrawContainer } from './containers/WithdrawContainer';
 import { DepositContainer } from './containers/DepositContainer';
-import { Header } from './components/Header';
 import classNames from 'classnames';
 import styles from './fast-btc-page.module.css';
 import { FastBtcDirectionType } from './types';
 import { Chain } from 'types';
+import { usePageActions } from 'app/containers/PageContainer';
 
-export function FastBtcPage() {
-  const { t } = useTranslation();
+export const FastBtcPage: React.FC = () => {
   const account = useAccount();
+  const page = usePageActions();
+
+  useLayoutEffect(() => {
+    page.updateOptions({
+      headerProps: { address: account },
+    });
+  }, [account, page]);
+
+  const { t } = useTranslation();
 
   const { type, network = Chain.RSK } = useParams<{
     type: FastBtcDirectionType;
@@ -53,7 +61,6 @@ export function FastBtcPage() {
           content={t(translations.fastBtcPage.meta.description)}
         />
       </Helmet>
-      <Header address={account} />
       <div
         className={classNames(
           'tw-flex tw-flex-row tw-justify-between tw-items-center md:tw-items-start tw-w-full tw-p-5 tw-bg-gray-4 tw-relative tw-text-sm',
@@ -69,4 +76,4 @@ export function FastBtcPage() {
       </div>
     </>
   );
-}
+};

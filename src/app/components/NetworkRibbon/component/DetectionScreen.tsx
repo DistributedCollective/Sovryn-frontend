@@ -44,7 +44,7 @@ export function DetectionScreen(props: Props) {
         <div className="tw-mr-2">
           <img src={error_alert} alt="1" />
         </div>
-        <div className="tw-w-full tw-max-w-5/12 tw-text-warning tw-font-light tw-text-sm tw-leading-snug tw-normal-case tw-text-left">
+        <div className="tw-w-full tw-max-w-5/12 tw-text-warning tw-font-normal tw-text-sm tw-leading-snug tw-normal-case tw-text-left">
           {netName
             ? t(translations.wrongNetworkDialog.networkAlert, {
                 name: netName,
