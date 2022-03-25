@@ -26,7 +26,6 @@ import { SidebarSteps } from './components/SidebarSteps';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
-import UserWallet from './components/UserWallet';
 import { usePageActions } from 'app/containers/PageContainer';
 
 const dirtyDepositAsset = {
