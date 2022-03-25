@@ -39,7 +39,7 @@ export const Tab: React.FC<ITabProps> = ({
     onClick={onClick}
     disabled={isDisabled}
   >
-    <div className="tw-font-extralight">{text}</div>
+    <div className="tw-font-light">{text}</div>
     <div className="tw-text-2xl tw-font-semibold">
       <LoadableValue
         value={

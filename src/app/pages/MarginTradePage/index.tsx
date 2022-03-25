@@ -9,8 +9,6 @@ import { RecentTrades } from 'app/components/RecentTrades';
 import { reducer, sliceKey } from './slice';
 import { selectMarginTradePage } from './selectors';
 import { marginTradePageSaga } from './saga';
-import { Header } from '../../components/Header';
-import { Footer } from '../../components/Footer';
 import { TradingPairDictionary } from '../../../utils/dictionaries/trading-pair-dictionary';
 import { TradeForm } from './components/TradeForm';
 import { Theme, TradingChart } from '../../components/TradingChart';
@@ -59,7 +57,6 @@ export function MarginTradePage() {
           content={t(translations.marginTradePage.meta.description)}
         />
       </Helmet>
-      <Header />
       <div className="tw-h-10 tw-flex tw-items-center tw-justify-between tw-bg-gray-3">
         <PairNavbar type={TradingType.MARGIN} />
       </div>
@@ -115,7 +112,6 @@ export function MarginTradePage() {
           </>
         )}
       </div>
-      <Footer />
     </>
   );
 }

@@ -15,8 +15,6 @@ import {
 } from 'utils/blockchain/requests/staking';
 import { Asset } from '../../../types';
 import { Modal } from '../../components/Modal';
-import { Header } from '../../components/Header';
-import { Footer } from '../../components/Footer';
 import { CurrentVests } from './components/CurrentVests';
 import { CurrentStakes } from './components/CurrentStakes';
 import { DelegateForm } from './components/DelegateForm';
@@ -62,7 +60,6 @@ export const StakePage: React.FC = () => {
         <title>{t(translations.stake.title)}</title>
         <meta name="description" content={t(translations.stake.meta)} />
       </Helmet>
-      <Header />
       <main>
         <div className="tw-bg-gray-1 tw-tracking-normal">
           <div className="tw-container tw-mx-auto tw-px-6">
@@ -75,7 +72,6 @@ export const StakePage: React.FC = () => {
           </div>
         </div>
       </main>
-      <Footer />
     </>
   );
 };
@@ -372,7 +368,6 @@ const InnerStakePage: React.FC = () => {
       <Helmet>
         <title>{t(translations.stake.title)}</title>
       </Helmet>
-      <Header />
       <main>
         <div className="tw-bg-gray-1 tw-tracking-normal">
           <div className="tw-container tw-mx-auto tw-px-6">
@@ -611,7 +606,6 @@ const InnerStakePage: React.FC = () => {
           </>
         </div>
       </main>
-      <Footer />
     </>
   );
 };

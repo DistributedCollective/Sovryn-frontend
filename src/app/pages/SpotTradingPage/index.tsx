@@ -15,8 +15,6 @@ import { selectSpotTradingPage } from './selectors';
 import { spotTradingPageSaga } from './saga';
 import { translations } from '../../../locales/i18n';
 
-import { Header } from '../../components/Header';
-import { Footer } from '../../components/Footer';
 import { Theme, TradingChart } from '../../components/TradingChart';
 import { TradeForm } from './components/TradeForm';
 import { useAccount } from 'app/hooks/useAccount';
@@ -47,7 +45,6 @@ export function SpotTradingPage() {
           content={t(translations.spotTradingPage.meta.description)}
         />
       </Helmet>
-      <Header />
       <div className="tw-h-10 tw-flex tw-items-center tw-justify-between tw-bg-gray-3">
         <PairNavbar type={TradingType.SPOT} />
       </div>
@@ -101,7 +98,6 @@ export function SpotTradingPage() {
           </div>
         )}
       </div>
-      <Footer />
     </>
   );
 }

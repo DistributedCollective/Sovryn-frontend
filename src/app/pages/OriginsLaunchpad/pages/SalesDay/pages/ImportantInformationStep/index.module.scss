@@ -11,7 +11,7 @@
 }
 
 .listItem {
-  @apply tw-relative tw-flex tw-items-center tw-text-sm tw-leading-5 tw-tracking-normal tw-font-thin tw-mb-4;
+  @apply tw-relative tw-flex tw-items-center tw-text-sm tw-leading-5 tw-tracking-normal tw-font-extralight tw-mb-4;
 
   &:before {
     @apply tw-absolute tw--left-4 tw-top-1 tw-block;
