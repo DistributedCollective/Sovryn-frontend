@@ -50,7 +50,7 @@ export const EmailSubscribeSection: React.FC = () => {
     <div className="tw-max-w-84 tw-mx-auto">
       <FieldGroup
         label={`${t(translations.originsLaunchpad.upcomingSales.inputLabel)}:`}
-        className="tw-text-sm tw-tracking-normal tw-font-thin"
+        className="tw-text-sm tw-tracking-normal tw-font-extralight"
       >
         <InputField
           type="email"
@@ -65,7 +65,7 @@ export const EmailSubscribeSection: React.FC = () => {
         label={`${t(
           translations.originsLaunchpad.upcomingSales.inputLabelName,
         )}:`}
-        className="tw-text-sm tw-tracking-normal tw-font-thin"
+        className="tw-text-sm tw-tracking-normal tw-font-extralight"
       >
         <InputField
           onChange={event => updateForm('name', event.target.value)}

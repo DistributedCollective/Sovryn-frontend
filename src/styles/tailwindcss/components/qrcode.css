@@ -34,7 +34,7 @@
     @apply tw-rounded-lg;
     @apply tw-border tw-border-gray-6 tw-border-solid;
     @apply tw-bg-gray-1;
-    @apply tw-text-sm tw-font-extralight;
+    @apply tw-text-sm tw-font-light;
   }
   .tw-qrcode-clipboard .tw-qrcode-address-wrapper svg path:nth-child(2) {
     @apply tw-fill-current tw-text-secondary;

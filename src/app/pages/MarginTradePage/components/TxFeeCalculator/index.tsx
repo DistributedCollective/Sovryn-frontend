@@ -43,7 +43,7 @@ export function TxFeeCalculator(props: Props) {
   return (
     <div
       className={cn(
-        'tw-mb-10 tw-truncate tw-text-base tw-font-thin tw-tracking-normal',
+        'tw-mb-10 tw-truncate tw-text-base tw-font-extralight tw-tracking-normal',
         props.className,
       )}
     >

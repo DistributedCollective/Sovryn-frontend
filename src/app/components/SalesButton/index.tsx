@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import { media } from '../../../styles/media';
-import { Spinner } from '@blueprintjs/core';
+import { Spinner, SpinnerSize } from '../Spinner';
 
 export const StyledButton = styled.button.attrs(_ => ({
   type: 'button',
@@ -14,7 +14,7 @@ export const StyledButton = styled.button.attrs(_ => ({
   min-width: 48px;
   height: 48px;
   font-family: 'Montserrat';
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: 0px;
   font-size: 1.125rem;
   text-align: center;
@@ -64,7 +64,7 @@ export default function SalesButton({
   return (
     <StyledButton onClick={() => onClick()} disabled={disabled}>
       {text}
-      {loading && <Spinner size={18} className="tw-ml-2" />}
+      {loading && <Spinner size={SpinnerSize.SM} className="tw-ml-2" />}
     </StyledButton>
   );
 }

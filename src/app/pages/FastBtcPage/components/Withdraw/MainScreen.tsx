@@ -8,12 +8,17 @@ import { WithdrawInstructions } from './WithdrawInstructions';
 import { FastBtcButton } from '../FastBtcButton';
 import { NetworkAwareComponentProps } from '../../types';
 import { getBTCAssetForNetwork } from '../../helpers';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { discordInvite } from 'utils/classifiers';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 
 export const MainScreen: React.FC<NetworkAwareComponentProps> = ({
   network,
 }) => {
   const { set } = useContext(WithdrawContext);
   const { t } = useTranslation();
+  const { checkMaintenance, States } = useMaintenance();
+  const fastBtcLocked = checkMaintenance(States.FASTBTC);
 
   const onContinueClick = useCallback(
     () => set(prevState => ({ ...prevState, step: WithdrawStep.AMOUNT })),
@@ -40,7 +45,27 @@ export const MainScreen: React.FC<NetworkAwareComponentProps> = ({
           <FastBtcButton
             text={t(translations.common.continue)}
             onClick={onContinueClick}
+            disabled={fastBtcLocked}
           />
+          {fastBtcLocked && (
+            <ErrorBadge
+              content={
+                <Trans
+                  i18nKey={translations.maintenance.fastBTC}
+                  components={[
+                    <a
+                      href={discordInvite}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                    >
+                      x
+                    </a>,
+                  ]}
+                />
+              }
+            />
+          )}
         </div>
       </div>
     </>

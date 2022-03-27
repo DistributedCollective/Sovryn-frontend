@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Rsk3 from '@rsksmart/rsk3';
-import { Spinner, Tooltip } from '@blueprintjs/core';
+import { Tooltip } from '@blueprintjs/core';
 import { bignumber } from 'mathjs';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -15,8 +15,6 @@ import {
 } from 'utils/blockchain/requests/staking';
 import { Asset } from '../../../types';
 import { Modal } from '../../components/Modal';
-import { Header } from '../../components/Header';
-import { Footer } from '../../components/Footer';
 import { CurrentVests } from './components/CurrentVests';
 import { CurrentStakes } from './components/CurrentStakes';
 import { DelegateForm } from './components/DelegateForm';
@@ -45,6 +43,7 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { AssetDetails } from 'utils/models/asset-details';
 import { getUSDSum } from '../../../utils/helpers';
 import { FeeBlock } from './components/FeeBlock';
+import { Spinner, SpinnerSize } from 'app/components/Spinner';
 
 const now = new Date();
 
@@ -61,7 +60,6 @@ export const StakePage: React.FC = () => {
         <title>{t(translations.stake.title)}</title>
         <meta name="description" content={t(translations.stake.meta)} />
       </Helmet>
-      <Header />
       <main>
         <div className="tw-bg-gray-1 tw-tracking-normal">
           <div className="tw-container tw-mx-auto tw-px-6">
@@ -74,7 +72,6 @@ export const StakePage: React.FC = () => {
           </div>
         </div>
       </main>
-      <Footer />
     </>
   );
 };
@@ -371,7 +368,6 @@ const InnerStakePage: React.FC = () => {
       <Helmet>
         <title>{t(translations.stake.title)}</title>
       </Helmet>
-      <Header />
       <main>
         <div className="tw-bg-gray-1 tw-tracking-normal">
           <div className="tw-container tw-mx-auto tw-px-6">
@@ -386,7 +382,10 @@ const InnerStakePage: React.FC = () => {
                 <div className="xl:tw-text-4xl tw-text-3xl tw-mt-2 tw-mb-6">
                   {weiTo4(balanceOf.value)} SOV
                   {balanceOf.loading && (
-                    <Spinner size={20} className="tw-inline-block tw-m-2" />
+                    <Spinner
+                      size={SpinnerSize.SM}
+                      className="tw-inline-block tw-m-2"
+                    />
                   )}
                 </div>
                 <Modal
@@ -478,7 +477,10 @@ const InnerStakePage: React.FC = () => {
                 <div className="xl:tw-text-4xl tw-text-3xl tw-mt-2 tw-mb-6">
                   {weiTo4(voteBalance.value)}
                   {voteBalance.loading && (
-                    <Spinner size={20} className="tw-inline-block tw-m-2" />
+                    <Spinner
+                      size={SpinnerSize.SM}
+                      className="tw-inline-block tw-m-2"
+                    />
                   )}
                 </div>
                 <div className="tw-flex tw-flex-col tw-items-start">
@@ -530,6 +532,7 @@ const InnerStakePage: React.FC = () => {
           <TxDialog tx={withdrawTx} />
           <TxDialog tx={delegateTx} />
           <TxDialog tx={vestingDelegateTx} />
+
           <>
             {balanceOf.value !== '0' && (
               <>
@@ -603,7 +606,6 @@ const InnerStakePage: React.FC = () => {
           </>
         </div>
       </main>
-      <Footer />
     </>
   );
 };

@@ -1,7 +1,7 @@
 @import '../../../styles/sass/custom-variables';
 
 .nav-item {
-  @apply tw-text-white tw-font-thin tw-font-body;
+  @apply tw-text-white tw-font-extralight tw-font-body;
 
   &.active {
     @apply tw-font-semibold tw-no-underline;
@@ -67,7 +67,7 @@
 
 .currency-title {
   & h3 {
-    @apply tw-text-3xl tw-font-light;
+    @apply tw-text-3xl tw-font-normal;
   }
 }
 
