@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import Rsk3 from '@rsksmart/rsk3';
 import { Spinner, Tooltip } from '@blueprintjs/core';
 import { bignumber } from 'mathjs';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { weiTo4, toWei, fromWei } from 'utils/blockchain/math-helpers';
 import { numberToUSD } from 'utils/display-text/format';
@@ -45,6 +45,10 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { AssetDetails } from 'utils/models/asset-details';
 import { getUSDSum } from '../../../utils/helpers';
 import { FeeBlock } from './components/FeeBlock';
+import { useContractPauseState } from 'app/hooks/useContractPauseState';
+import { AlertBadge } from 'app/components/AlertBadge/AlertBadge';
+import { discordInvite } from 'utils/classifiers';
+import { Button } from 'app/components/Button';
 
 const now = new Date();
 
@@ -81,6 +85,7 @@ export const StakePage: React.FC = () => {
 
 const InnerStakePage: React.FC = () => {
   const { t } = useTranslation();
+  const { paused, frozen } = useContractPauseState('staking');
   const account = useAccount();
   const [amount, setAmount] = useState('');
   const weiAmount = useWeiAmount(amount);
@@ -410,9 +415,7 @@ const InnerStakePage: React.FC = () => {
                   }
                 />
                 {sovBalance !== '0' && !stakingLocked ? (
-                  <button
-                    type="button"
-                    className="tw-bg-primary tw-font-normal tw-bg-opacity-10 hover:tw-text-primary focus:tw-outline-none focus:tw-bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-text-lg tw-text-primary tw-py-3 tw-px-8 tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-primary tw-rounded-xl"
+                  <Button
                     onClick={() => {
                       setTimestamp(0);
                       setAmount('');
@@ -421,9 +424,11 @@ const InnerStakePage: React.FC = () => {
                       setIncreaseForm(false);
                       setWithdrawForm(false);
                     }}
-                  >
-                    {t(translations.stake.addStake)}
-                  </button>
+                    text={t(translations.stake.addStake)}
+                    type="button"
+                    disabled={paused}
+                    className="tw-font-normal tw-text-primary tw-bg-primary tw-bg-opacity-10 hover:tw-text-primary hover:tw-bg-opacity-40"
+                  />
                 ) : (
                   <Tooltip
                     position="bottom"
@@ -438,12 +443,12 @@ const InnerStakePage: React.FC = () => {
                       </>
                     }
                   >
-                    <button
+                    <Button
+                      text={t(translations.stake.addStake)}
                       type="button"
-                      className="tw-bg-primary tw-font-normal tw-bg-opacity-10 hover:tw-text-primary tw-transition tw-duration-500 tw-ease-in-out tw-text-lg tw-text-primary tw-py-3 tw-px-8 tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-primary tw-rounded-xl tw-bg-transparent tw-opacity-50 tw-cursor-not-allowed"
-                    >
-                      {t(translations.stake.addStake)}
-                    </button>
+                      disabled
+                      className="tw-font-normal tw-text-primary tw-bg-primary tw-bg-opacity-10 hover:tw-text-primary hover:tw-bg-opacity-40"
+                    />
                   </Tooltip>
                 )}
               </div>
@@ -461,6 +466,7 @@ const InnerStakePage: React.FC = () => {
                       updateUsdTotal={updateUsdTotal}
                       key={item.asset}
                       contractToken={item}
+                      frozen={frozen}
                     />
                   );
                 })}
@@ -469,6 +475,7 @@ const InnerStakePage: React.FC = () => {
                   contractToken={AssetsDictionary.get(Asset.SOV)}
                   title={t(translations.stake.vestingFees)}
                   useNewContract
+                  frozen={frozen}
                 />
               </div>
               <div className="tw-staking-box tw-bg-gray-3 tw-p-8 tw-pb-6 tw-mb-5 tw-rounded-2xl lg:tw-w-1/3 lg:tw-mx-2 lg:tw-mb-0 2xl:tw-w-1/4">
@@ -495,6 +502,23 @@ const InnerStakePage: React.FC = () => {
                 </div>
               </div>
             </div>
+
+            {paused && (
+              <AlertBadge>
+                <Trans
+                  i18nKey={translations.stake.paused}
+                  components={[
+                    // eslint-disable-next-line jsx-a11y/anchor-has-content
+                    <a
+                      href={discordInvite}
+                      target="_blank"
+                      rel="noreferrer nofollow"
+                    />,
+                  ]}
+                />
+              </AlertBadge>
+            )}
+
             <Modal
               show={delegateForm}
               content={
@@ -520,8 +544,14 @@ const InnerStakePage: React.FC = () => {
               onExtend={onExtend}
               onIncrease={onIncrease}
               onUnstake={onUnstake}
+              paused={paused}
+              frozen={frozen}
             />
-            <CurrentVests onDelegate={onDelegateVest} />
+            <CurrentVests
+              onDelegate={onDelegateVest}
+              paused={paused}
+              frozen={frozen}
+            />
             <HistoryEventsTable />
           </div>
           <TxDialog tx={increaseTx} />

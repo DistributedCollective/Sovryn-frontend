@@ -619,6 +619,7 @@
   "stake": {
     "title": "Staking/Vesting",
     "meta": "Staking/Vesting",
+    "paused": "Staking functionality is currently paused by Sovryn Governance, please try again later or check our <0>Discord</0> for more details.",
     "connect": "Please connect with your wallet to use staking.",
     "total": "Total staked SOV",
     "votingPower": "Combined Voting Power",
