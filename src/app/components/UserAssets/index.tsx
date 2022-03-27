@@ -144,7 +144,7 @@ export const UserAssets: React.FC = () => {
           <h1 className="tw-mb-6 tw-text-sov-white tw-text-center">
             {t(translations.common.maintenance)}
           </h1>
-          <div className="tw-text-sm tw-font-light tw-tracking-normal tw-text-center">
+          <div className="tw-text-sm tw-font-normal tw-tracking-normal tw-text-center">
             <Trans
               i18nKey={translations.maintenance.transack}
               components={[

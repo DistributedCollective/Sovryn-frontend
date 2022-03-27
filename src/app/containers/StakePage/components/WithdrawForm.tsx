@@ -198,7 +198,7 @@ export function WithdrawForm(props: Props) {
                 </>
               )}
 
-              <div className="tw-block tw-text-sov-white tw-text-md tw-font-light tw-mb-2 tw-mt-7">
+              <div className="tw-block tw-text-sov-white tw-text-md tw-font-normal tw-mb-2 tw-mt-7">
                 <TxFeeCalculator
                   args={[
                     toWei(props.withdrawAmount),

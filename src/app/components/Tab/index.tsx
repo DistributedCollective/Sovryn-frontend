@@ -27,7 +27,7 @@ const StyledTab = styled.button.attrs(_ => ({
   padding: 5px 10px;
   background: transparent;
   font-size: 1.125rem;
-  font-weight: 100;
+  font-weight: 200;
   font-family: Montserrat;
   text-transform: none;
   ${(props: StyledProps) =>
