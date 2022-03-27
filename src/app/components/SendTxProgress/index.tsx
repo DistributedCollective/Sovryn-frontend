@@ -135,7 +135,7 @@ export function SendTxProgress(props: Props) {
             <div className={classNames('tw-uppercase tw-font-bold', color)}>
               {t(translations.sendTxProgress.pending_for_user.title)}
             </div>
-            <div className="tw-font-light">
+            <div className="tw-font-normal">
               {t(translations.sendTxProgress.pending_for_user.text)}
             </div>
           </div>
@@ -165,7 +165,7 @@ export function SendTxProgress(props: Props) {
             <div className={classNames('tw-uppercase tw-font-bold', color)}>
               {mainText}
             </div>
-            <div className="tw-font-light">
+            <div className="tw-font-normal">
               {tx?.transactionHash ? (
                 <>
                   {subText && <p className="tw-mb-1">{subText}</p>}
@@ -217,7 +217,7 @@ export function SendTxProgress(props: Props) {
             <div className={classNames('tw-uppercase tw-font-bold', color)}>
               {mainText}
             </div>
-            <div className="tw-font-light">{subText}</div>
+            <div className="tw-font-normal">{subText}</div>
           </div>
         </>
       )}

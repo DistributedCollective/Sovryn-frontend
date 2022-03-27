@@ -15,6 +15,9 @@ import { useCacheCallWithValue } from '../../../../hooks/useCacheCallWithValue';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { NetworkAwareComponentProps } from '../../types';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { discordInvite } from 'utils/classifiers';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 
 type ReviewScreenProps = {
   onConfirm: () => void;
@@ -26,6 +29,8 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
 }) => {
   const { amount, address } = useContext(WithdrawContext);
   const { t } = useTranslation();
+  const { checkMaintenance, States } = useMaintenance();
+  const fastBtcLocked = checkMaintenance(States.FASTBTC);
 
   const weiAmount = useWeiAmount(amount);
   const { value: feesPaid, loading } = useCacheCallWithValue(
@@ -98,7 +103,27 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
           <FastBtcButton
             text={t(translations.common.confirm)}
             onClick={onConfirm}
+            disabled={fastBtcLocked}
           />
+          {fastBtcLocked && (
+            <ErrorBadge
+              content={
+                <Trans
+                  i18nKey={translations.maintenance.fastBTC}
+                  components={[
+                    <a
+                      href={discordInvite}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                    >
+                      x
+                    </a>,
+                  ]}
+                />
+              }
+            />
+          )}
         </div>
       </div>
     </>

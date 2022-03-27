@@ -24,7 +24,7 @@ export const UpcomingSalesCard: React.FC<IUpcomingSalesCardProps> = ({
       <CardImage style={{ backgroundImage: `url(${backgroundImage})` }} />
       <div className="tw-relative">
         <div className="tw-mb-4 tw-tracking-normal">
-          <div className="tw-text-sm tw-font-thin tw-leading-5">
+          <div className="tw-text-sm tw-font-extralight tw-leading-5">
             {t(
               translations.originsLaunchpad.upcomingSales.projectCard.saleToken,
             )}
@@ -36,7 +36,7 @@ export const UpcomingSalesCard: React.FC<IUpcomingSalesCardProps> = ({
         </div>
 
         <div className="tw-mb-12 tw-tracking-normal">
-          <div className="tw-text-sm tw-font-thin tw-leading-5">
+          <div className="tw-text-sm tw-font-extralight tw-leading-5">
             {t(translations.originsLaunchpad.upcomingSales.projectCard.project)}
             :
           </div>
@@ -46,7 +46,7 @@ export const UpcomingSalesCard: React.FC<IUpcomingSalesCardProps> = ({
         </div>
 
         <div className="tw-mb-4 tw-tracking-normal">
-          <div className="tw-text-sm tw-font-thin tw-leading-5">
+          <div className="tw-text-sm tw-font-extralight tw-leading-5">
             {t(
               translations.originsLaunchpad.upcomingSales.projectCard.startDate,
             )}
@@ -56,7 +56,7 @@ export const UpcomingSalesCard: React.FC<IUpcomingSalesCardProps> = ({
         </div>
 
         <div className="tw-tracking-normal">
-          <div className="tw-text-sm tw-font-thin tw-leading-5">
+          <div className="tw-text-sm tw-font-extralight tw-leading-5">
             {t(
               translations.originsLaunchpad.upcomingSales.projectCard
                 .startPrice,

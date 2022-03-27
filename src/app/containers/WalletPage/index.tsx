@@ -3,8 +3,6 @@ import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
 import { translations } from '../../../locales/i18n';
-import { Footer } from '../../components/Footer';
-import { Header } from '../../components/Header';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { SovGenerationNFTS } from '../../components/SovGenerationNFTS';
 import { Tab } from '../../components/Tab';
@@ -24,6 +22,7 @@ export function WalletPage() {
   const [activeHistory, setActiveHistory] = useState(0);
   const connected = useIsConnected();
   const account = useAccount();
+
   return (
     <>
       <Helmet>
@@ -33,7 +32,6 @@ export function WalletPage() {
           content={t(translations.walletPage.meta.description)}
         />
       </Helmet>
-      <Header />
 
       <div className="tw-container tw-mx-auto tw-px-4 tw-mt-4">
         <OriginClaimBanner />
@@ -122,7 +120,6 @@ export function WalletPage() {
           </div>
         </div>
       )}
-      <Footer />
     </>
   );
 }

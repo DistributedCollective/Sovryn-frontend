@@ -2,7 +2,7 @@ import styled from 'styled-components/macro';
 import { media } from '../../../../styles/media';
 
 export const StyledTable = styled.table`
-  font-weight: 100;
+  font-weight: 200;
   width: 100%;
   font-size: 0.875rem;
 
@@ -10,7 +10,7 @@ export const StyledTable = styled.table`
     font-size: 0.75rem;
   }
   .table-header div {
-    font-weight: 300;
+    font-weight: 400;
     color: white;
     font-size: 1rem;
     padding: 0 22px;
@@ -20,7 +20,7 @@ export const StyledTable = styled.table`
   .table-header:not(.sub-header) {
     height: 40px;
     th {
-      font-weight: 300;
+      font-weight: 400;
       color: white;
       font-size: 0.875rem;
       padding: 0 5px;
@@ -97,7 +97,7 @@ export const StyledTable = styled.table`
       height: 60%;
 
       > td {
-        font-weight: 300;
+        font-weight: 400;
         color: white;
         font-size: 1rem;
         height: 45px;

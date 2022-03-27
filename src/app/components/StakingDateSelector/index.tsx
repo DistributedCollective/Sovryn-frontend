@@ -190,7 +190,7 @@ export function StakingDateSelector(props: Props) {
           {availableMonth.map((monthName: React.ReactNode, i) => {
             return (
               <div key={i}>
-                <div className="tw-mb-1 tw-font-light tw-text-sm tw-text-center tw-text-sov-white">
+                <div className="tw-mb-1 tw-font-normal tw-text-sm tw-text-center tw-text-sov-white">
                   {monthName}
                   {currentYearDates.map((item, i) => {
                     if (dayjs(item.date).format('MMM') === monthName) {
