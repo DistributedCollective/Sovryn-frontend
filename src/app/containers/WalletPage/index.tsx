@@ -84,6 +84,7 @@ export const WalletPage: React.FC = () => {
             items={walletTabs}
             initial={walletTabs[0].id}
             contentClassName="tw-col-span-12 tw-mt-2"
+            dataActionId="portfolio-assets"
           />
         ) : (
           <div className="tw-grid tw-gap-8 tw-grid-cols-12">
@@ -102,6 +103,7 @@ export const WalletPage: React.FC = () => {
           initial={historyTabs[0].id}
           className="tw-container tw-mt-12"
           contentClassName="tw-overflow-auto"
+          dataActionId="portfolio-history"
         />
       )}
     </>

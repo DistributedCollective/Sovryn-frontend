@@ -14,6 +14,7 @@ type TabsProps = {
   initial: string;
   items: ITabItem[];
   onChange?: (id: string) => void;
+  dataActionId?: string;
 };
 
 export const Tabs: React.FC<TabsProps> = ({
@@ -22,6 +23,7 @@ export const Tabs: React.FC<TabsProps> = ({
   onChange,
   className,
   contentClassName,
+  dataActionId,
 }) => {
   const [activeTab, setActiveTab] = useState(initial);
 
@@ -51,7 +53,8 @@ export const Tabs: React.FC<TabsProps> = ({
             disabled={item.disabled}
             onClick={() => selectTab(item)}
             text={item.label}
-            className="tw-mr-2"
+            className="tw-mx-2"
+            dataActionId={`${dataActionId || 'tabs'}-${item.id}`}
           />
         ))}
       </div>
