@@ -40,7 +40,7 @@ export const PromotionModal: React.FC = () => {
       canEscapeKeyClose={true}
       className={classNames('tw-w-full tw-max-w-6xl tw-p-6', styles.dialog)}
     >
-      <div className="tw-font-light tw-text-center tw-w-full tw-mx-auto">
+      <div className="tw-font-normal tw-text-center tw-w-full tw-mx-auto">
         <div className={promotionModalStyles.title}>
           {t(translations.promotionsDialog.title)}
         </div>

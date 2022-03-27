@@ -3,8 +3,6 @@ import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
 import { translations } from '../../../locales/i18n';
-import { Footer } from '../../components/Footer';
-import { Header } from '../../components/Header';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { SovGenerationNFTS } from '../../components/SovGenerationNFTS';
 import { UserAssets } from '../../components/UserAssets';
@@ -67,7 +65,6 @@ export const WalletPage: React.FC = () => {
           content={t(translations.walletPage.meta.description)}
         />
       </Helmet>
-      <Header />
 
       <div className="tw-container tw-mx-auto tw-px-4 tw-mt-4">
         <OriginClaimBanner />
@@ -107,7 +104,6 @@ export const WalletPage: React.FC = () => {
           contentClassName="tw-overflow-auto"
         />
       )}
-      <Footer />
     </>
   );
 };

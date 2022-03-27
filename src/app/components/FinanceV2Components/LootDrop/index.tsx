@@ -42,7 +42,7 @@ export const LootDrop: React.FC<ILootDropProps> = ({
           )}
         </div>
       </div>
-      <div className="tw-text-xs tw-tracking-normal tw-font-thin tw-mb-3 tw-text-center">
+      <div className="tw-text-xs tw-tracking-normal tw-font-extralight tw-mb-3 tw-text-center">
         {!!startDate && !!endDate && `${startDate} - ${endDate}`}
         {!!message && message}
       </div>

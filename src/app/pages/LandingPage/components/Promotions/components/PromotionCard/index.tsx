@@ -95,7 +95,7 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
 
               <div className="tw-max-w-60">
                 <div className={styles.cardTextTitle}>{title}</div>
-                <div className="tw-text-xs tw-font-light tw-absolute tw-bottom-0">
+                <div className="tw-text-xs tw-font-normal tw-absolute tw-bottom-0">
                   {duration}
                 </div>
               </div>
@@ -108,7 +108,7 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
           />
         </div>
       </Link>
-      <div className="tw-px-2.5 tw-text-xs tw-font-light tw-leading-5 tw-tracking-normal">
+      <div className="tw-px-2.5 tw-text-xs tw-font-normal tw-leading-5 tw-tracking-normal">
         {text}{' '}
         {learnMoreLink && (
           <a

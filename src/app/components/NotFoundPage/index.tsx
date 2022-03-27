@@ -2,13 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import styled from 'styled-components/macro';
-import { P } from './P';
 import { Helmet } from 'react-helmet-async';
-import { Header } from '../Header';
-import { Footer } from '../Footer';
 
-export function NotFoundPage() {
+export const NotFoundPage: React.FC = () => {
   const { t } = useTranslation();
   return (
     <>
@@ -16,38 +12,17 @@ export function NotFoundPage() {
         <title>404 {t(translations.pageNotFound.text)}</title>
         <meta name="description" content={t(translations.pageNotFound.text)} />
       </Helmet>
-      <Header />
-      <Wrapper>
-        <Title>
+      <main className="tw-container tw-flex tw-flex-1 tw-flex-col tw-justify-center tw-items-center">
+        <h1 className="tw-font-bold">
           4
           <span role="img" aria-label="Crying Face">
             😢
           </span>
           4
-        </Title>
-        <P>{t(translations.pageNotFound.text)}</P>
+        </h1>
+        <p>{t(translations.pageNotFound.text)}</p>
         <Link to={'/'}>{t(translations.pageNotFound.backHome)}</Link>
-      </Wrapper>
-      <Footer />
+      </main>
     </>
   );
-}
-
-const Wrapper = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  min-height: 320px;
-  color: var(--white);
-`;
-
-const Title = styled.div`
-  margin-top: -8vh;
-  font-weight: bold;
-  font-size: 3.25rem;
-
-  span {
-    font-size: 3.25rem;
-  }
-`;
+};

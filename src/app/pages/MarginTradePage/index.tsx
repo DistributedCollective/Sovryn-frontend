@@ -9,8 +9,6 @@ import { translations } from 'locales/i18n';
 import { reducer, sliceKey } from './slice';
 import { selectMarginTradePage } from './selectors';
 import { marginTradePageSaga } from './saga';
-import { Header } from '../../components/Header';
-import { Footer } from '../../components/Footer';
 import { TradingPairDictionary } from '../../../utils/dictionaries/trading-pair-dictionary';
 
 import { TradeForm } from './components/TradeForm';
@@ -58,7 +56,6 @@ export function MarginTradePage() {
           content={t(translations.marginTradePage.meta.description)}
         />
       </Helmet>
-      <Header />
       <div className="tw-container tw-mt-9 tw-mx-auto tw-px-6">
         <div className="tw-flex tw-flex-col xl:tw-flex-row xl:tw-justify-between tw-max-w-full">
           <div
@@ -92,7 +89,6 @@ export function MarginTradePage() {
           </>
         )}
       </div>
-      <Footer />
     </>
   );
 }
