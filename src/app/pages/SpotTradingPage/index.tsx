@@ -16,8 +16,6 @@ import { selectSpotTradingPage } from './selectors';
 import { spotTradingPageSaga } from './saga';
 import { translations } from '../../../locales/i18n';
 
-import { Header } from '../../components/Header';
-import { Footer } from '../../components/Footer';
 import { Theme, TradingChart } from '../../components/TradingChart';
 import { TradeForm } from './components/TradeForm';
 import { SpotHistory } from 'app/containers/SpotHistory';
@@ -42,7 +40,6 @@ export function SpotTradingPage() {
           content={t(translations.spotTradingPage.meta.description)}
         />
       </Helmet>
-      <Header />
       <div
         className={cn('tw-container tw-mt-9 tw-mx-auto tw-px-6', {
           'tw-hidden': !pairType.includes('SOV'),
@@ -78,7 +75,6 @@ export function SpotTradingPage() {
           )}
         </div>
       </div>
-      <Footer />
     </>
   );
 }

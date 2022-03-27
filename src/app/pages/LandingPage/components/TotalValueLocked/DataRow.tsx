@@ -31,7 +31,7 @@ export const DataRow: React.FC<IDataRowProps> = ({
     </tr>
   ) : (
     <tr
-      className={classNames('tw-h-16 tw-font-extralight', className)}
+      className={classNames('tw-h-16 tw-font-light', className)}
       key={contractName}
     >
       <td className={classNames('tw-text-white tw-pl-2.5', contractClassName)}>
