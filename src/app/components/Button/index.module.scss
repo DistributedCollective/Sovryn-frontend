@@ -1,29 +1,187 @@
 .button {
-  @apply tw-text-xl tw-leading-6 tw-text-black tw-font-bold
+  @apply tw-inline-flex tw-box-border tw-items-center tw-justify-center
+    tw-text-center tw-text-sov-white tw-font-bold tw-no-underline
     tw-bg-primary tw-border tw-border-primary tw-rounded-xl
     tw-cursor-pointer;
-  transition: background-color 0.3s, color 0.3s, border 0.3s;
-  height: 50px;
-  padding: 0 25px;
+  transition: background-color 0.3s, color 0.3s, border 0.3s, opacity 0.3s;
 }
 
-.button:hover {
-  background: rgba(254, 192, 4, 0.8);
-}
-
-.button.inverted {
-  @apply tw-text-primary tw-bg-black;
-}
-
-.button.inverted:hover {
-  background: rgba(254, 192, 4, 0.25);
-}
-
-.button.inverted:active {
-  background: rgba(254, 192, 4, 0.5);
+.button:hover,
+.button:focus,
+.button:active {
+  @apply tw-no-underline;
 }
 
 .button.disabled,
 .button:disabled {
   @apply tw-opacity-25 tw-cursor-not-allowed;
+}
+
+// SIZES ==================================================================
+
+.button.sm {
+  @apply tw-px-4 tw-py-1 
+    tw-text-sm tw-leading-none tw-font-light;
+  min-height: 30px;
+}
+
+.button.md {
+  @apply tw-px-4 tw-py-2 tw-min-h-10 
+    tw-text-base tw-leading-none tw-font-normal;
+}
+
+.button.lg {
+  @apply tw-px-6 tw-py-3 
+    tw-text-lg tw-leading-none;
+  min-height: 50px;
+}
+.button.xl {
+  @apply tw-px-8 tw-py-4 
+    tw-text-xl tw-leading-none;
+  min-height: 60px;
+}
+
+// COLORS ==================================================================
+
+.button.primary {
+  @apply tw-text-primary tw-bg-primary tw-border-primary;
+}
+
+.button.secondary {
+  @apply tw-text-secondary tw-bg-secondary tw-border-secondary;
+}
+
+.button.tradeLong {
+  @apply tw-text-trade-long tw-bg-trade-long tw-border-trade-long;
+}
+
+.button.tradeShort {
+  @apply tw-text-trade-short tw-bg-trade-short tw-border-trade-short;
+}
+
+.button.success {
+  @apply tw-text-success tw-bg-success tw-border-success;
+}
+
+.button.warning {
+  @apply tw-text-warning tw-bg-warning tw-border-warning;
+}
+
+// STYLES ==================================================================
+
+.button.normal {
+  @apply tw-rounded-lg tw-border-0;
+
+  &.sm {
+    @apply tw-font-normal;
+  }
+
+  &.md {
+    @apply tw-font-semibold;
+  }
+
+  &.lg,
+  &.xl {
+    @apply tw-uppercase;
+  }
+
+  &.primary,
+  &.secondary {
+    @apply tw-text-black;
+  }
+
+  &.tradeLong,
+  &.tradeShort,
+  &.success,
+  &.warning {
+    @apply tw-text-sov-white;
+  }
+
+  &.loading {
+    @apply tw-opacity-75 tw-cursor-wait;
+  }
+
+  &:not(.disabled):not(:disabled):not(.loading) {
+    &:hover,
+    &:focus,
+    &:active {
+      @apply tw-opacity-75;
+    }
+  }
+}
+
+.button.inverted {
+  @apply tw-bg-gray-1 tw-border tw-rounded-lg;
+
+  &.lg,
+  &.xl {
+    @apply tw-uppercase;
+  }
+
+  &.loading {
+    @apply tw-opacity-75 tw-cursor-wait;
+  }
+
+  &:not(.disabled):not(:disabled):not(.loading) {
+    &:hover,
+    &:focus,
+    &:active {
+      @apply tw-opacity-75;
+    }
+  }
+}
+
+.button.transparent {
+  @apply tw-bg-opacity-0;
+
+  &.sm {
+    @apply tw-rounded-full;
+  }
+
+  &.loading {
+    @apply tw-opacity-75 tw-cursor-wait;
+  }
+
+  &:not(.disabled):not(:disabled):not(.loading) {
+    &:hover,
+    &:focus,
+    &:active {
+      @apply tw-opacity-100 tw-bg-opacity-25;
+    }
+  }
+}
+
+.button.frosted {
+  @apply tw-bg-opacity-10;
+
+  &.sm {
+    @apply tw-rounded-full;
+  }
+
+  &.loading {
+    @apply tw-opacity-75 tw-cursor-wait;
+  }
+
+  &:not(.disabled):not(:disabled):not(.loading) {
+    &:hover,
+    &:focus,
+    &:active {
+      @apply tw-opacity-100 tw-bg-opacity-25;
+    }
+  }
+}
+
+.button.link {
+  @apply tw-h-auto tw-p-0 tw-bg-transparent tw-border-0 tw-font-bold;
+
+  &.loading {
+    @apply tw-opacity-75 tw-cursor-wait;
+  }
+
+  &:not(.disabled):not(:disabled):not(.loading) {
+    &:hover,
+    &:focus {
+      @apply tw-underline;
+    }
+  }
 }

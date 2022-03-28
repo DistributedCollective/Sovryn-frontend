@@ -15,7 +15,7 @@ import { weiTo4 } from '../../../../utils/blockchain/math-helpers';
 import classNames from 'classnames';
 import arrowDown from '../../../containers/WalletPage/components/arrow-down.svg';
 import { InputField } from '../../InputField';
-import { Button } from '../../Button';
+import { Button, ButtonStyle, ButtonSize } from '../../Button';
 import { AssetSymbolRenderer } from '../../AssetSymbolRenderer';
 import { VestingUnlockScheduleDialog } from './VestingUnlockScheduleDialog';
 import { TxDialog } from '../../Dialogs/TxDialog';
@@ -131,7 +131,8 @@ export const VestingWithdrawForm: React.FC<VestingWithdrawFormProps> = ({
           />
           <Button
             text={t(translations.common.cancel)}
-            inverted
+            style={ButtonStyle.inverted}
+            size={ButtonSize.lg}
             onClick={onClose}
             className="tw-ml-4 tw-w-full"
           />
