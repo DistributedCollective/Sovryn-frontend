@@ -5,7 +5,7 @@ import { translations } from 'locales/i18n';
 import { Input } from 'app/components/Form/Input';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { Asset } from 'types';
-import { Button } from 'app/components/Button';
+import { Button, ButtonSize } from 'app/components/Button';
 import { useSendContractTx } from '../../../../hooks/useSendContractTx';
 import { TxType } from 'store/global/transactions-store/types';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
@@ -132,6 +132,9 @@ export const ClaimForm: React.FC<IClaimFormProps> = ({
           )}
           {!rewardsLocked && (
             <Button
+              text={t(translations.originsClaim.claimForm.cta)}
+              className="tw-w-full tw-mb-4"
+              size={ButtonSize.lg}
               disabled={
                 parseFloat(balance) === 0 ||
                 !balance ||
@@ -139,8 +142,6 @@ export const ClaimForm: React.FC<IClaimFormProps> = ({
                 new Date().getTime() < unlockTime
               }
               onClick={handleSubmit}
-              className="tw-w-full tw-mb-4"
-              text={t(translations.originsClaim.claimForm.cta)}
             />
           )}
 

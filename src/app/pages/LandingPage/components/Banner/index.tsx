@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import cn from 'classnames';
 
-import { Button } from 'app/components/Button';
+import { Button, ButtonSize } from 'app/components/Button';
 import { Timer } from './components/Timer/index';
 import styles from './index.module.scss';
 
@@ -45,17 +44,13 @@ export const Banner: React.FC<IBannerProps> = ({
                   onExpire={() => setIsLive(true)}
                 />
 
-                <a
-                  className="tw-w-full tw-mt-4 tw-flex tw-no-underline"
+                <Button
+                  className="tw-flex tw-w-full tw-mt-4"
+                  text={t(translations.landingPage.banner.learnMore)}
+                  size={ButtonSize.lg}
                   href={learnLink}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  <Button
-                    className="tw-w-full"
-                    text={t(translations.landingPage.banner.learnMore)}
-                  />
-                </a>
+                  hrefExternal
+                />
               </>
             )}
             {(isLive || isClosed) && (
@@ -68,16 +63,12 @@ export const Banner: React.FC<IBannerProps> = ({
                     : ''}
                 </div>
                 {isLive && !isClosed && (
-                  <Link
-                    className={cn('tw-w-full tw-mt-4 tw-flex')}
-                    to={buyLink}
-                  >
-                    <Button
-                      className="tw-w-full"
-                      text={t(translations.landingPage.banner.buyNow)}
-                      onClick={() => {}}
-                    />
-                  </Link>
+                  <Button
+                    className="tw-flex tw-w-full tw-mt-4"
+                    text={t(translations.landingPage.banner.buyNow)}
+                    size={ButtonSize.lg}
+                    href={buyLink}
+                  />
                 )}
               </div>
             )}

@@ -24,7 +24,7 @@ import { AssetRenderer } from '../AssetRenderer/';
 import { Sovryn } from '../../../utils/sovryn';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { Dialog } from '../../containers/Dialog';
-import { Button } from '../Button';
+import { Button, ButtonSize, ButtonStyle } from '../Button';
 import { discordInvite } from 'utils/classifiers';
 import { ConversionDialog } from './ConversionDialog';
 import { BridgeLink } from './BridgeLink';
@@ -162,7 +162,8 @@ export const UserAssets: React.FC = () => {
           <div className="tw-text-center tw-mt-5">
             <Button
               text={t(translations.modal.close)}
-              inverted
+              size={ButtonSize.lg}
+              style={ButtonStyle.inverted}
               onClick={() => {
                 setTransack(false);
               }}
