@@ -27,20 +27,17 @@ export function BorrowActivity(props: Props) {
         </h3>
 
         <div className="tw-flex tw-flex-row tw-items-center tw-justify-start md:justify-content-end">
-          <div className="tw-mr-4">
-            <Tab
-              text={t(translations.borrowActivity.tabs.active)}
-              active={activeBorrows}
-              onClick={() => setActiveBorrows(true)}
-            />
-          </div>
-          <div>
-            <Tab
-              text={t(translations.borrowActivity.tabs.history)}
-              active={!activeBorrows}
-              onClick={() => setActiveBorrows(false)}
-            />
-          </div>
+          <Tab
+            text={t(translations.borrowActivity.tabs.active)}
+            active={activeBorrows}
+            onClick={() => setActiveBorrows(true)}
+            className="tw-mr-4"
+          />
+          <Tab
+            text={t(translations.borrowActivity.tabs.history)}
+            active={!activeBorrows}
+            onClick={() => setActiveBorrows(false)}
+          />
         </div>
       </div>
       <div className="tw-grid tw-gap-8 tw-grid-cols-12">
