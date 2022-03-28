@@ -116,7 +116,7 @@ export const Table = <RowType extends RowObject>({
                 />
               ))
             ) : (
-              <tr className={styles.row}>
+              <tr className={rowStyles.row}>
                 <td
                   className="tw-relative tw-px-4 tw-py-4 tw-text-center"
                   colSpan={999}
