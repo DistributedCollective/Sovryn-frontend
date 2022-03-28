@@ -1,10 +1,14 @@
 .dialog {
   @apply tw-relative
+    tw-max-w-10/12
     tw-font-body
     tw-bg-black tw-border-0 tw-rounded-3xl;
 
   padding: 30px 0 50px 0 !important;
-  max-width: 468px;
+
+  @screen sm {
+    max-width: 468px;
+  }
 }
 
 .dialog h1 {

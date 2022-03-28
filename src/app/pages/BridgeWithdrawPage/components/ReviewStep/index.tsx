@@ -2,8 +2,8 @@ import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { bignumber } from 'mathjs';
 
-import { Chain } from 'types';
-import { Button } from 'app/components/Button';
+import type { Chain } from 'types';
+import { Button, ButtonSize } from 'app/components/Button';
 
 import { actions } from '../../slice';
 import { selectBridgeWithdrawPage } from '../../selectors';
@@ -174,8 +174,9 @@ export const ReviewStep: React.FC = () => {
         </Table>
 
         <Button
-          className="tw-mt-20 tw-w-80 "
+          className="tw-mt-20 tw-w-80"
           text={t(translations.BridgeWithdrawPage.reviewStep.confirm)}
+          size={ButtonSize.lg}
           disabled={bridgeWithdrawLocked || !isValid || tx.loading}
           loading={tx.loading}
           onClick={handleSubmit}
