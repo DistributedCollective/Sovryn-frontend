@@ -26,28 +26,28 @@ PictureWithObjects.args = {
     {
       src: [
         {
-          imageSrc: 'https://placehold.co/576x300.png',
-          width: Breakpoint.sm,
+          imageSrc: 'https://placehold.co/600x300.png',
+          width: 600,
         },
         {
-          imageSrc: 'https://placehold.co/768x300.png',
-          width: Breakpoint.md,
+          imageSrc: 'https://placehold.co/700x300.png',
+          width: 700,
         },
         {
-          imageSrc: 'https://placehold.co/992x300.png',
-          width: Breakpoint.lg,
+          imageSrc: 'https://placehold.co/900x300.png',
+          width: 900,
         },
         {
           imageSrc: 'https://placehold.co/1200x300.png',
-          width: Breakpoint.xl,
+          width: 1200,
         },
         {
-          imageSrc: 'https://placehold.co/1536x300.png',
-          width: Breakpoint._2xl,
+          imageSrc: 'https://placehold.co/1500x300.png',
+          width: 1500,
         },
         {
-          imageSrc: 'https://placehold.co/1854x300.png',
-          width: Breakpoint._3xl,
+          imageSrc: 'https://placehold.co/1800x300.png',
+          width: 1800,
         },
       ],
     },
@@ -62,12 +62,20 @@ PictureWithDensityAndWidth.args = {
     {
       src: [
         {
-          imageSrc: 'https://placehold.co/768x300.png',
-          width: Breakpoint.md,
+          imageSrc: 'https://placehold.co/900x300.png',
+          width: 900,
         },
         {
           imageSrc: 'https://placehold.co/1536x300@2x.png?text=1536x300+2x',
           density: 2,
+        },
+        {
+          imageSrc: 'https://placehold.co/1536x300@2x.png?text=1536x300+3x',
+          density: 3,
+        },
+        {
+          imageSrc: 'https://placehold.co/1536x300@2x.png?text=1536x300+4x',
+          density: 4,
         },
       ],
     },

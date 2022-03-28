@@ -4,7 +4,7 @@ import { Breakpoint, BreakpointWidths } from 'types/tailwind';
 type SourceProps = {
   imageSrc: string;
   density?: number;
-  width?: Breakpoint;
+  width?: number;
 };
 
 type Sources = {
@@ -30,21 +30,20 @@ export const Picture: React.FC<PictureProps> = ({
       return null;
     }
     const mappedSources = srcSet.map((source, index) => {
-      if (typeof source.src !== 'string') {
-        const sourceArray = source.src.map(
+      let src = source.src;
+      if (typeof src !== 'string') {
+        const sourceArray = src.map(
           source =>
             `${source.imageSrc} ${
-              source.width
-                ? `${BreakpointWidths[source.width]}w`
-                : `${source.density}x`
+              source.width ? `${source.width}w` : `${source.density}x`
             }`,
         );
-        return <source srcSet={`${sourceArray.join(', ')}`} />;
+        src = sourceArray.join(', ');
       }
       return (
         <source
           key={`source-${index}`}
-          srcSet={`${source.src}`}
+          srcSet={src}
           media={
             source.media && `(max-width: ${BreakpointWidths[source.media]}px)`
           }
