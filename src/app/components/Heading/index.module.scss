@@ -1,0 +1,34 @@
+
+.h1, .h2, .h3, .h4, .h5, .h6, .label {
+  @apply tw-block tw-m-0 tw-mb-4 
+    tw-font-body tw-normal-case tw-text-sov-white;
+}
+
+.h1 {
+  @apply tw-text-4xl tw-font-semibold;
+}
+
+.h2 {
+  @apply tw-text-3xl tw-font-semibold;
+}
+
+.h3 {
+  @apply tw-text-base tw-font-semibold;
+}
+
+.h4 {
+  @apply tw-text-base tw-font-medium;
+}
+
+.h5 {
+  @apply tw-text-sm tw-font-medium;
+}
+
+.h6 {
+  @apply tw-text-sm tw-font-normal;
+}
+
+.label {
+  @apply tw-mb-2 
+    tw-text-sm tw-font-medium;
+}
