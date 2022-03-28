@@ -54,7 +54,9 @@ export const Tabs: React.FC<TabsProps> = ({
             onClick={() => selectTab(item)}
             text={item.label}
             className="tw-mx-2"
-            dataActionId={`${dataActionId || 'tabs'}-${item.id}`}
+            dataActionId={
+              dataActionId ? `${dataActionId}-${item.id}` : undefined
+            }
           />
         ))}
       </div>
