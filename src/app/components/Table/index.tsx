@@ -3,6 +3,7 @@ import React, { ReactNode, useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
 import styles from './index.module.scss';
+import rowStyles from './components/TableRow/index.module.scss';
 import { Dialog } from '../../containers/Dialog';
 import { BreakpointOrder } from '../../../types';
 import { ColumnOptions, RowObject } from './types';
