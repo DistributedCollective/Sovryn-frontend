@@ -1,6 +1,6 @@
 import { Tooltip } from '@blueprintjs/core';
 import { AssetRenderer } from 'app/components/AssetRenderer';
-import { Button } from 'app/components/Button';
+import { Button, ButtonSize } from 'app/components/Button';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { Input } from 'app/components/Form/Input';
@@ -127,6 +127,7 @@ export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
                 disabled={isDisabled || !isTokenBalance}
                 onClick={onSubmit}
                 className="tw-w-full tw-mb-4 tw-mt-16"
+                size={ButtonSize.lg}
                 text={t(translations.rewardPage.claimForm.cta)}
               />
             </Tooltip>

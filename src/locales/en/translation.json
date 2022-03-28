@@ -18,6 +18,7 @@
     "maintenance": "Under Maintenance",
     "next": "Next",
     "loading": "Loading...",
+    "noData": "No data",
     "retry": "Retry",
     "continueToFailure": "I understand the risks of transaction failure, allow me to continue",
     "unit": {
