@@ -107,6 +107,20 @@ Ask in the #sorcery channel of the Sovryn Discord server when unsure if the feat
 
 All UI designs used for this repository should be available publically in [Google Drive folder as Adobe XD files](https://drive.google.com/drive/folders/1e_VljWpANJe0o4VmIkKU5Ewo56l9iMaM?usp=sharing)
 
+### Storybook
+
+We use Storybook to provide API style docs and examples for our UI components. Any new components should have stories added to them that include all available properties that can be passed in, and some specific examples for major common variations. For specific implementation examples, you can search the codebase for files named `index.stories.tsx`.
+
+To test components via Storybook on your local machine:
+
+- run `yarn install` on your working branch
+- run `yarn storybook` to load the development server
+- access Storybook dev server on `localhost:6006`
+- if the docs fail to load and you see an error `cannot read properties of undefined (reading 'storyStore')`, the package installation is likely broken and you will need to clear `node_modules` folder and follow first two steps again
+- changes can now be made to `index.stories.tsx` files and the development server will hot-reload automatically
+
+To test components on a deployed PR link, simply append `/storybook` to the end of the deployed URL.
+
 ## Security Vulnerabilities
 
 If you discover a security vulnerability within DApp, please submit your bug report to [Immunefi](https://immunefi.com/bounty/sovryn/) (there are bounty rewards). All security vulnerabilities will be promptly addressed.

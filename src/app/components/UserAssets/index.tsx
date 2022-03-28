@@ -24,7 +24,7 @@ import { AssetRenderer } from '../AssetRenderer/';
 import { Sovryn } from '../../../utils/sovryn';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { Dialog } from '../../containers/Dialog';
-import { Button } from '../Button';
+import { Button, ButtonSize, ButtonStyle } from '../Button';
 import { discordInvite } from 'utils/classifiers';
 import { ConversionDialog } from './ConversionDialog';
 import { BridgeLink } from './BridgeLink';
@@ -75,7 +75,7 @@ export const UserAssets: React.FC = () => {
 
   return (
     <>
-      <div className="sovryn-border sovryn-table tw-pt-1 tw-pb-4 tw-pr-4 tw-pl-4 tw-mb-12">
+      <div className="sovryn-border sovryn-table tw-pt-1 tw-pb-4 tw-pr-4 tw-pl-4 tw-mb-12 tw-overflow-auto">
         <table className="tw-w-full">
           <thead>
             <tr>
@@ -162,7 +162,8 @@ export const UserAssets: React.FC = () => {
           <div className="tw-text-center tw-mt-5">
             <Button
               text={t(translations.modal.close)}
-              inverted
+              size={ButtonSize.lg}
+              style={ButtonStyle.inverted}
               onClick={() => {
                 setTransack(false);
               }}

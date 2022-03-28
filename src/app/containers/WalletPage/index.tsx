@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 
 import { translations } from '../../../locales/i18n';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { SovGenerationNFTS } from '../../components/SovGenerationNFTS';
-import { Tab } from '../../components/Tab';
 import { UserAssets } from '../../components/UserAssets';
 import { VestedAssets } from '../../components/UserAssets/VestedAssets';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
@@ -15,14 +14,48 @@ import { VestedHistory } from '../VestedHistory';
 import { OriginClaimBanner } from './components/OriginClaimBanner';
 
 import './_overlay.scss';
+import { Tabs } from 'app/components/Tabs';
 
-export function WalletPage() {
+export const WalletPage: React.FC = () => {
   const { t } = useTranslation();
-  const [activeAssets, setActiveAssets] = useState(0);
-  const [activeHistory, setActiveHistory] = useState(0);
   const connected = useIsConnected();
   const account = useAccount();
 
+  const historyTabs = [
+    {
+      id: 'topUpHistory',
+      label: t(translations.topUpHistory.meta.title),
+      content: <TopUpHistory />,
+    },
+    {
+      id: 'swapHistory',
+      label: t(translations.swapHistory.title),
+      content: <SwapHistory />,
+    },
+    {
+      id: 'vestedHistory',
+      label: t(translations.vestedHistory.title),
+      content: <VestedHistory />,
+    },
+  ];
+
+  const walletTabs = [
+    {
+      id: 'userAssets',
+      label: t(translations.walletPage.tabs.userAssets),
+      content: <UserAssets />,
+    },
+    {
+      id: 'vestedAssets',
+      label: t(translations.walletPage.tabs.vestedAssets),
+      content: <VestedAssets />,
+    },
+    {
+      id: 'userNFTS',
+      label: t(translations.walletPage.tabs.userNFTS),
+      content: <SovGenerationNFTS />,
+    },
+  ];
   return (
     <>
       <Helmet>
@@ -46,37 +79,13 @@ export function WalletPage() {
             {t(translations.userAssets.meta.title)}
           </h2>
         </div>
-        <div className="tw-flex tw-flex-row tw-items-center tw-justify-start">
-          <div className="tw-mr-2 tw-ml-2">
-            <Tab
-              text={t(translations.walletPage.tabs.userAssets)}
-              active={activeAssets === 0}
-              onClick={() => setActiveAssets(0)}
-            />
-          </div>
-          <div className="tw-mr-2 tw-ml-2">
-            <Tab
-              text={t(translations.walletPage.tabs.vestedAssets)}
-              active={activeAssets === 1}
-              onClick={() => setActiveAssets(1)}
-            />
-          </div>
-          <div>
-            <Tab
-              text={t(translations.walletPage.tabs.userNFTS)}
-              active={activeAssets === 2}
-              onClick={() => setActiveAssets(2)}
-            />
-          </div>
-        </div>
         {connected && account ? (
-          <div className="tw-grid tw-gap-8 tw-grid-cols-12">
-            <div className="tw-col-span-12 tw-mt-2">
-              {activeAssets === 0 && <UserAssets />}
-              {activeAssets === 1 && <VestedAssets />}
-              {activeAssets === 2 && <SovGenerationNFTS />}
-            </div>
-          </div>
+          <Tabs
+            items={walletTabs}
+            initial={walletTabs[0].id}
+            contentClassName="tw-col-span-12 tw-mt-2"
+            dataActionId="portfolio-assets"
+          />
         ) : (
           <div className="tw-grid tw-gap-8 tw-grid-cols-12">
             <div className="tw-col-span-12">
@@ -89,37 +98,14 @@ export function WalletPage() {
         )}
       </div>
       {connected && account && (
-        <div className="tw-container tw-mt-12">
-          <div className="tw-flex tw-flex-row tw-items-center tw-justify-start">
-            <div className="tw-mr-2 tw-ml-2">
-              <Tab
-                text={t(translations.topUpHistory.meta.title)}
-                active={activeHistory === 0}
-                onClick={() => setActiveHistory(0)}
-              />
-            </div>
-            <div className="tw-mr-2 tw-ml-2">
-              <Tab
-                text={t(translations.swapHistory.title)}
-                active={activeHistory === 1}
-                onClick={() => setActiveHistory(1)}
-              />
-            </div>
-            <div className="tw-mr-2 tw-ml-2">
-              <Tab
-                text={t(translations.vestedHistory.title)}
-                active={activeHistory === 2}
-                onClick={() => setActiveHistory(2)}
-              />
-            </div>
-          </div>
-          <div className="tw-w-full">
-            {activeHistory === 0 && <TopUpHistory />}
-            {activeHistory === 1 && <SwapHistory />}
-            {activeHistory === 2 && <VestedHistory />}
-          </div>
-        </div>
+        <Tabs
+          items={historyTabs}
+          initial={historyTabs[0].id}
+          className="tw-container tw-mt-12"
+          contentClassName="tw-overflow-auto"
+          dataActionId="portfolio-history"
+        />
       )}
     </>
   );
-}
+};

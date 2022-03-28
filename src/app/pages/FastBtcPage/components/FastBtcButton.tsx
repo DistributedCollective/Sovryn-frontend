@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '../../../components/Button';
+import { Button, ButtonStyle, ButtonSize } from '../../../components/Button';
 
 type FastBtcButtonProps = {
   text: React.ReactNode;
@@ -16,7 +16,9 @@ export const FastBtcButton: React.FC<FastBtcButtonProps> = ({
 }) => {
   return (
     <Button
-      className="tw-w-full tw-h-14 tw-bg-primary tw-bg-opacity-5 tw-text-primary tw-border-primary tw-border-2 tw-font-semibold hover:tw-bg-opacity-25"
+      className="tw-w-full"
+      style={ButtonStyle.frosted}
+      size={ButtonSize.lg}
       text={text}
       disabled={disabled}
       loading={loading}
