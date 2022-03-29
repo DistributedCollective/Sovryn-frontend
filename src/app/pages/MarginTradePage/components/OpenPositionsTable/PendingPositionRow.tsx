@@ -12,11 +12,11 @@ import { PositionBlock } from './PositionBlock';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 
-interface IPendingPositionRow {
+interface Props {
   item: Transaction;
 }
 
-export function PendingPositionRow({ item }: IPendingPositionRow) {
+export function PendingPositionRow({ item }: Props) {
   const { customData } = item;
   const { t } = useTranslation();
 

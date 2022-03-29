@@ -13,11 +13,11 @@ import { TxStatus, TxType } from 'store/global/transactions-store/types';
 import { Popover } from '@blueprintjs/core/lib/esm/components/popover/popover';
 import { Icon } from '@blueprintjs/core/lib/esm/components/icon/icon';
 
-interface IOpenPositionsTableProps {
+interface Props {
   perPage: number;
 }
 
-export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
+export function OpenPositionsTable({ perPage }: Props) {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const transactions = useSelector(selectTransactionArray);
@@ -69,13 +69,13 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
             <th className="tw-w-full">
               {t(translations.openPositionTable.direction)}
             </th>
-            <th className="tw-w-full tw-hidden xl:tw-table-cell">
+            <th className="tw-w-full">
               {t(translations.openPositionTable.positionSize)}
             </th>
             <th className="tw-w-full tw-hidden xl:tw-table-cell">
               {t(translations.openPositionTable.entryPrice)}
             </th>
-            <th className="tw-w-full tw-hidden md:tw-table-cell">
+            <th className="tw-w-full tw-hidden xl:tw-table-cell">
               {t(translations.openPositionTable.liquidationPrice)}
             </th>
             <th className="tw-w-full tw-hidden xl:tw-table-cell">
@@ -97,7 +97,7 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
                 <Icon className="tw-cursor-pointer" icon="info-sign" />
               </Popover>
             </th>
-            <th className="tw-w-full tw-hidden sm:tw-table-cell">
+            <th className="tw-w-full">
               {t(translations.openPositionTable.unrealizedPL)}
               <Popover
                 content={

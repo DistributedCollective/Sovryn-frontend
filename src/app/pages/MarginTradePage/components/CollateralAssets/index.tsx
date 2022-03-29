@@ -59,7 +59,7 @@ export function CollateralAssets({ value, onChange, options, label }: Props) {
                   <img
                     src={item.image}
                     alt={item.name}
-                    className="tw-mr-1 tw-w-5 tw-h-5 tw-object-fit"
+                    className="tw-mr-1 tw-w-6 tw-h-6 tw-object-fit"
                   />
                   <div className="tw-truncate tw-uppercase">
                     <AssetRenderer
