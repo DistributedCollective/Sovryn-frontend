@@ -1,7 +1,7 @@
 import { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-import { ethers } from 'ethers';
+import { ethers, constants } from 'ethers';
 import { SignatureLike } from 'ethers/node_modules/@ethersproject/bytes';
 import { toWei } from 'web3-utils';
 
@@ -179,7 +179,7 @@ export const approveSettlement = async (
     tx = await contractWriter.checkAndApprove(
       token,
       getContract('settlement').address,
-      amount,
+      constants.MaxUint256.toString(),
     );
     if (tx.rejected) {
       throw new Error('User rejected transaction');
