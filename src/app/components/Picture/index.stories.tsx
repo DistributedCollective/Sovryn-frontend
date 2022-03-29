@@ -1,4 +1,4 @@
-import React, { ComponentProps, useCallback, useState } from 'react';
+import React, { ComponentProps } from 'react';
 import { Story } from '@storybook/react';
 
 import { Picture } from './index';
@@ -21,7 +21,7 @@ PictureWithString.args = {
 
 export const PictureWithObjects = Template.bind({});
 PictureWithObjects.args = {
-  src: 'https://via.placehold.co/1300x300.png',
+  src: 'https://placehold.co/1300x300.png',
   srcSet: [
     {
       src: [
