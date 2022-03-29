@@ -131,9 +131,7 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
           }
           setResult(result);
         })
-        .catch(error => {
-          console.error(error);
-        });
+        .catch(console.error);
     }
   }, [
     current,

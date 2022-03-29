@@ -1,8 +1,10 @@
 import { DependencyList, EffectCallback, useEffect, useRef } from 'react';
 
-// This hook will perform the effect only if the state hasn't been updated for the duration of the delay
-// set runOnMount (4th) parameter to false if hook should skip first running and run only
-//   when props are changed for second time.
+/**
+ * This hook will perform the effect only if the state hasn't been updated for the duration of the delay
+ * set runOnMount parameter to false if hook should skip first running and run only
+ * when props are changed for second time.
+ */
 export function useDebouncedEffect(
   effect: EffectCallback,
   deps: DependencyList,

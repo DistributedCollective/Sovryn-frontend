@@ -25,7 +25,7 @@ export const Basic = ({ animateHeight = true, animation }) => {
             >
               Alpha
             </button>
-            <p>TransitionContainer itself does not incude the background.</p>
+            <p>TransitionContainer itself does not include the background.</p>
           </div>
         )}
         {active === 1 && (
@@ -73,7 +73,7 @@ export const AllTransitions = ({ animateHeight = true }) => {
             >
               Alpha
             </button>
-            <p>TransitionContainer itself does not incude the background.</p>
+            <p>TransitionContainer itself does not include the background.</p>
           </div>
         )}
         {active === 1 && (

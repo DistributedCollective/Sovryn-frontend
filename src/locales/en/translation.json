@@ -1690,6 +1690,7 @@
       "transactionId": "Transaction ID"
     },
     "ammDepth": {
+      "title": "AMM Depth (<0/>)",
       "price": "Price (<0/>)",
       "change": "% Change",
       "total": "Order Size (<0/>)",
@@ -1701,6 +1702,9 @@
         "midPrice": "Mid Price: <0/>",
         "change": "Change in price relative to Mid Price when trading the corresponding order size."
       }
+    },
+    "chart": {
+      "title": "Chart (<0/>)"
     },
     "contractDetails": {
       "volume24h": "24hr Volume:",
@@ -1715,6 +1719,7 @@
       }
     },
     "recentTrades": {
+      "title": "Recent Trades (<0/>)",
       "price": "Price (<0/>)",
       "size": "Size (<0/>)",
       "time": "Time"

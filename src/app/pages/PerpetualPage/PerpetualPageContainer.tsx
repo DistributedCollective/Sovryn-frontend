@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { Tab } from '../../components/Tab';
@@ -131,7 +131,12 @@ export const PerpetualPageContainer: React.FC = () => {
             {showAmmDepth && (
               <DataCard
                 className="tw-min-w-72 tw-max-w-96"
-                title={`AMM Depth (${pairType.toString()})`}
+                title={
+                  <Trans
+                    i18nKey={translations.perpetualPage.ammDepth.title}
+                    components={[pairType.toString()]}
+                  />
+                }
                 onClose={() => dispatch(actions.setShowAmmDepth(false))}
               >
                 <AmmDepthChart pair={pair} />
@@ -142,7 +147,12 @@ export const PerpetualPageContainer: React.FC = () => {
               <DataCard
                 className="tw-flex-1 tw-max-w-full tw-min-h-96"
                 contentClassName="tw-flex tw-flex-col"
-                title={`Chart (${pairType.toString()})`}
+                title={
+                  <Trans
+                    i18nKey={translations.perpetualPage.chart.title}
+                    components={[pairType.toString()]}
+                  />
+                }
                 onClose={() => dispatch(actions.setShowChart(false))}
               >
                 <TradingChart symbol={pair.chartSymbol} hasCustomDimensions />
@@ -152,7 +162,12 @@ export const PerpetualPageContainer: React.FC = () => {
             {showRecentTrades && (
               <DataCard
                 className="2xl:tw-flex tw-min-w-72 tw-max-w-96 tw-min-h-72"
-                title={`Recent Trades (${pairType.toString()})`}
+                title={
+                  <Trans
+                    i18nKey={translations.perpetualPage.recentTrades.title}
+                    components={[pairType.toString()]}
+                  />
+                }
                 contentClassName="tw-flex tw-flex-col"
                 onClose={() => dispatch(actions.setShowRecentTrades(false))}
               >

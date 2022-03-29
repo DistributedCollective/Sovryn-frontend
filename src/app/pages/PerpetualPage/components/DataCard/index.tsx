@@ -1,9 +1,9 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { ReactComponent as Xmark } from 'assets/images/xmark.svg';
 
 type DataCardProps = {
-  title: string;
+  title: ReactNode;
   hasCustomHeight?: boolean;
   hasCustomWidth?: boolean;
   className?: string;

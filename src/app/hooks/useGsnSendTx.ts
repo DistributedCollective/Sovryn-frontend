@@ -17,7 +17,7 @@ import {
   SendTxResponseInterface,
   TransactionOptions,
 } from './useSendContractTx';
-import { Chain } from 'types';
+import { Chain, Nullable } from 'types';
 import { gsnNetwork } from '../../utils/gsn/GsnNetwork';
 import { bridgeNetwork } from '../pages/BridgeDepositPage/utils/bridge-network';
 import { BridgeNetworkDictionary } from '../pages/BridgeDepositPage/dictionaries/bridge-network-dictionary';
@@ -45,7 +45,7 @@ export const useGsnSendTx = (
   const dispatch = useDispatch();
   const account = useAccount();
   const [txId, setTxId] = useState<string | TxStatus>(TxStatus.NONE);
-  const [tx, setTx] = useState<Transaction>();
+  const [tx, setTx] = useState<Nullable<Transaction>>(null);
 
   const chainId = useMemo(() => BridgeNetworkDictionary.get(chain)?.chainId, [
     chain,
@@ -154,20 +154,21 @@ export const useGsnSendTx = (
 
   const reset = useCallback(() => {
     setTxId(TxStatus.NONE);
+    setTx(null);
   }, []);
 
   useEffect(() => {
     if (txId && transactions.hasOwnProperty(txId)) {
       setTx(transactions[txId]);
     } else {
-      setTx(undefined);
+      setTx(null);
     }
   }, [txId, transactions]);
 
   return {
     send,
     reset,
-    txData: tx || null,
+    txData: tx,
     txHash: tx?.transactionHash || '',
     status: tx ? tx.status : txId,
     loading: loading,

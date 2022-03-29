@@ -13,7 +13,7 @@ import {
 } from 'store/global/transactions-store/types';
 import { actions } from 'store/global/transactions-store/slice';
 import { useAccount } from './useAccount';
-import { Chain } from 'types';
+import { Chain, Nullable } from 'types';
 import { gasLimit } from '../../utils/classifiers';
 import { bridgeNetwork } from '../pages/BridgeDepositPage/utils/bridge-network';
 import { BridgeNetworkDictionary } from '../pages/BridgeDepositPage/dictionaries/bridge-network-dictionary';
@@ -33,7 +33,7 @@ export function useChainToSendContractTx(
   const dispatch = useDispatch();
   const account = useAccount();
   const [txId, setTxId] = useState<string | TxStatus>(TxStatus.NONE);
-  const [tx, setTx] = useState<Transaction>();
+  const [tx, setTx] = useState<Nullable<Transaction>>(null);
 
   const send = useCallback(
     (
@@ -103,21 +103,21 @@ export function useChainToSendContractTx(
 
   const reset = useCallback(() => {
     setTxId(TxStatus.NONE);
-    setTx(undefined);
+    setTx(null);
   }, []);
 
   useEffect(() => {
     if (txId && transactions.hasOwnProperty(txId)) {
       setTx(transactions[txId]);
     } else {
-      setTx(undefined);
+      setTx(null);
     }
   }, [txId, transactions]);
 
   return {
     send,
     reset,
-    txData: tx || null,
+    txData: tx,
     txHash: tx?.transactionHash || '',
     status: tx
       ? tx.status

@@ -1,6 +1,8 @@
 import { useQuery, gql } from '@apollo/client';
 import { DocumentNode } from 'graphql';
 
+const MAX_CANDLE_COUNT = 500;
+
 /**
  * Hook to return candlesticks for chart
  * Takes as input:
@@ -11,12 +13,10 @@ import { DocumentNode } from 'graphql';
  * Returns as output:
  * open, high, low, close, volume, startTime
  */
-
 export function useGetCandles(
   candleDuration: CandleDuration,
   perpetualId: string,
   startTime: number,
-  endTime?: number,
 ) {
   const CANDLE_QUERY = generateCandleQuery(
     candleDuration,
@@ -31,7 +31,6 @@ export const generateCandleQuery = (
   candleDuration: CandleDuration,
   perpetualId: string,
   startTime: number,
-  endTime?: number,
 ): DocumentNode => {
   const candleDetails = CandleDictionary.get(candleDuration);
   return gql`
@@ -43,7 +42,7 @@ export const generateCandleQuery = (
         }
         orderBy: periodStartUnix
         orderDirection: asc
-        first: 500
+        first: ${MAX_CANDLE_COUNT}
       ) {
         perpetualId
         open
@@ -71,7 +70,7 @@ export const generateFirstCandleQuery = (
         }
         orderBy: periodStartUnix
         orderDirection: asc
-        first: ${candleNumber < 500 ? candleNumber : 500}
+        first: ${Math.max(candleNumber, MAX_CANDLE_COUNT)}
       ) {
         perpetualId
         open

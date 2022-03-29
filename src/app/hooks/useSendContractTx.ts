@@ -56,7 +56,7 @@ export function useSendContractTx(
   const dispatch = useDispatch();
   const account = useAccount();
   const [txId, setTxId] = useState<string | TxStatus>(TxStatus.NONE);
-  const [tx, setTx] = useState<Transaction>();
+  const [tx, setTx] = useState<Nullable<Transaction>>(null);
 
   const send = useCallback(
     async (
@@ -109,21 +109,21 @@ export function useSendContractTx(
 
   const reset = useCallback(() => {
     setTxId(TxStatus.NONE);
-    setTx(undefined);
+    setTx(null);
   }, []);
 
   useEffect(() => {
     if (txId && transactions.hasOwnProperty(txId)) {
       setTx(transactions[txId]);
     } else {
-      setTx(undefined);
+      setTx(null);
     }
   }, [txId, transactions]);
 
   return {
     send,
     reset,
-    txData: tx || null,
+    txData: tx,
     txHash: tx?.transactionHash || '',
     status: tx
       ? tx.status
