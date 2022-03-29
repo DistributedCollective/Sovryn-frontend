@@ -1,4 +1,4 @@
-import { eventChannel } from 'redux-saga';
+import { eventChannel, END } from 'redux-saga';
 import {
   call,
   put,
@@ -23,11 +23,14 @@ import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { backendUrl, currentChainId } from '../../../utils/classifiers';
 
 // start block watcher
-function createBlockPollChannel({ interval, web3 }) {
+function createBlockPollChannel({ interval }) {
   return eventChannel(emit => {
-    web3.currentProvider.sendAsync = web3.currentProvider.send;
+    const web3 = Sovryn.getWeb3();
+    const provider = web3.currentProvider as any;
+    provider.sendAsync = provider.send;
+
     const blockTracker = new PollingBlockTracker({
-      provider: web3.currentProvider,
+      provider,
       pollingInterval: interval,
     });
 
@@ -38,13 +41,32 @@ function createBlockPollChannel({ interval, web3 }) {
       }
     });
 
-    return () => {};
+    let ended = false;
+    const cleanup = () => {
+      if (!ended) {
+        ended = true;
+
+        Sovryn.removeConnectCallback(cleanup);
+
+        // Restart block tracker
+        blockTracker.removeAllListeners('');
+        emit(actions.connectionError());
+
+        // End this block tracker channel
+        emit(END);
+      }
+    };
+
+    // Restart on error or new connection
+    blockTracker.on('error', () => setTimeout(cleanup, 30000));
+    Sovryn.addConnectCallback(cleanup);
+
+    return cleanup;
   });
 }
 
 function* callCreateBlockPollChannel() {
   const blockChannel = yield call(createBlockPollChannel, {
-    web3: Sovryn.getWeb3(),
     interval: 10000,
   });
 
@@ -194,6 +216,7 @@ function* addVisitSaga({ payload }: PayloadAction<string>) {
 
 export function* walletProviderSaga() {
   yield takeLatest(actions.chainChanged.type, callCreateBlockPollChannel);
+  yield takeLatest(actions.connectionError.type, callCreateBlockPollChannel);
   yield takeLatest(actions.connected.type, walletConnected);
   yield takeLatest(actions.disconnected.type, walletDisconnected);
   yield takeLatest(actions.testTransactions.type, testTransactionsPeriodically);
