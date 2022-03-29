@@ -6,6 +6,7 @@ import { store } from 'store/store';
 import { currentChainId, rpcNodes, databaseRpcNodes } from '../classifiers';
 import { appContracts } from '../blockchain/app-contracts';
 import { gas } from '../blockchain/gas-price';
+import { actions } from '../../app/containers/WalletProvider/slice';
 
 export class SovrynNetwork {
   private static _instance?: SovrynNetwork;
@@ -15,7 +16,6 @@ export class SovrynNetwork {
   private _writeWeb3: Web3 = null as any;
   private _readWeb3: Web3 = null as any;
   private _databaseWeb3: Web3 = null as any;
-  private _connectCallback: Function[] = [];
   private _connected = false;
   public contracts: { [key: string]: Contract } = {};
   public contractList: Contract[] = [];
@@ -38,12 +38,12 @@ export class SovrynNetwork {
         this.refreshGasPrice();
 
         this._connected = true;
-        this._connectCallback.forEach(fun => fun());
+        this._store.dispatch(actions.sovrynNetworkReady());
       })
       .catch(error => {
         console.error(error);
-
-        setTimeout(() => this.init(), 1000);
+        setTimeout(() => this.init(), 5000);
+        this._store.dispatch(actions.sovrynNetworkError);
       });
   }
 
@@ -52,21 +52,6 @@ export class SovrynNetwork {
       this._instance = new SovrynNetwork();
     }
     return this._instance;
-  }
-
-  /**
-   * Callbacks will be called after next successful connection is established.
-   */
-  public addConnectCallback(cb: Function) {
-    this._connectCallback.push(cb);
-  }
-
-  public removeConnectCallback(cb) {
-    const idx = this._connectCallback.indexOf(cb);
-
-    if (idx !== -1) {
-      this._connectCallback.splice(idx, 1);
-    }
   }
 
   public store() {
@@ -245,7 +230,8 @@ export class SovrynNetwork {
         gas.set(gasPrice);
         this.refreshGasPrice();
       } catch (e) {
-        console.error('gas price update', e);
+        console.error('gas price update failed.', e);
+        this._store.dispatch(actions.sovrynNetworkError());
         await this.init(); // Connection aborted, try to reconnect
       }
     }, [35e3]); // updates price in 35s intervals (roughly for each block)

@@ -25,6 +25,7 @@ import { backendUrl, currentChainId } from '../../../utils/classifiers';
 // start block watcher
 function createBlockPollChannel({ interval }) {
   return eventChannel(emit => {
+    const stamp = Date.now().toString(16).slice(-3);
     const web3 = Sovryn.getWeb3();
     const provider = web3.currentProvider as any;
     provider.sendAsync = provider.send;
@@ -34,23 +35,21 @@ function createBlockPollChannel({ interval }) {
       pollingInterval: interval,
     });
 
-    blockTracker.on('sync', ({ newBlock, oldBlock }) => {
+    blockTracker.on('sync', ({ newBlock }) => {
       emit(actions.blockReceived(Number(newBlock)));
-      if (oldBlock) {
-        emit(actions.blockReceived(Number(oldBlock)));
-      }
     });
 
     let ended = false;
-    const cleanup = () => {
+    const cleanup = (afterError: boolean = false) => {
       if (!ended) {
         ended = true;
 
-        Sovryn.removeConnectCallback(cleanup);
-
         // Restart block tracker
         blockTracker.removeAllListeners('');
-        emit(actions.connectionError());
+
+        if (afterError) {
+          emit(actions.connectionError());
+        }
 
         // End this block tracker channel
         emit(END);
@@ -58,9 +57,7 @@ function createBlockPollChannel({ interval }) {
     };
 
     // Restart on error or new connection
-    blockTracker.on('error', () => setTimeout(cleanup, 30000));
-    Sovryn.addConnectCallback(cleanup);
-
+    blockTracker.on('error', () => setTimeout(() => cleanup(true), 15000));
     return cleanup;
   });
 }
@@ -215,8 +212,14 @@ function* addVisitSaga({ payload }: PayloadAction<string>) {
 }
 
 export function* walletProviderSaga() {
-  yield takeLatest(actions.chainChanged.type, callCreateBlockPollChannel);
-  yield takeLatest(actions.connectionError.type, callCreateBlockPollChannel);
+  yield takeLatest(
+    [
+      actions.chainChanged.type,
+      actions.connectionError.type,
+      actions.sovrynNetworkReady.type,
+    ],
+    callCreateBlockPollChannel,
+  );
   yield takeLatest(actions.connected.type, walletConnected);
   yield takeLatest(actions.disconnected.type, walletDisconnected);
   yield takeLatest(actions.testTransactions.type, testTransactionsPeriodically);

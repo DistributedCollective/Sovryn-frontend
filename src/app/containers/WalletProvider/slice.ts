@@ -127,6 +127,8 @@ const walletProviderSlice = createSlice({
       state.assetRatesLoaded = true;
     },
     testTransactions() {},
+    sovrynNetworkReady() {},
+    sovrynNetworkError() {},
   },
 });
 
