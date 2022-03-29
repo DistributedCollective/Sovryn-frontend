@@ -3,7 +3,7 @@
   }
 
   .tw-form-group-label {
-    @apply tw-text-sov-white tw-font-normal tw-text-sm tw-tracking-normal;
+    @apply tw-text-sov-white tw-font-extralight tw-text-base tw-tracking-normal;
     @apply tw-block;
     @apply tw-mb-1;
   }

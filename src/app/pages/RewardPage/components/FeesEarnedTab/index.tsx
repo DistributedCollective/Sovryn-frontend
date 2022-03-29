@@ -116,7 +116,7 @@ const NoRewardInfoText: React.FC = () => {
       <div className="tw-text-xl tw-font-medium tw-mb-5 tw-tracking-normal">
         {t(translations.rewardPage.noRewardInfoText.feesEarnedTab.title)}
       </div>
-      <div className="tw-text-xs tw-tracking-normal tw-font-light tw-mb-5">
+      <div className="tw-text-xs tw-tracking-normal tw-font-normal tw-mb-5">
         {t(
           translations.rewardPage.noRewardInfoText.feesEarnedTab
             .recommendationsTitle,

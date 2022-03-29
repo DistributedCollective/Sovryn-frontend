@@ -121,7 +121,7 @@ export const BuySection: React.FC<IBuySectionProps> = ({
         <div>
           <BalanceOfAsset className="" asset={sourceToken} />
           <div className="tw-mt-12">
-            <div className="tw-text-sm tw-text-left tw-font-extralight tw-mb-2 tw-text-gray-9">
+            <div className="tw-text-sm tw-text-left tw-font-light tw-mb-2 tw-text-gray-9">
               {t(
                 translations.originsLaunchpad.saleDay.buyStep.buyDialog
                   .enterAmount,
@@ -163,7 +163,7 @@ export const BuySection: React.FC<IBuySectionProps> = ({
           </button>
         </div>
 
-        <div className="tw-text-sm tw-text-center tw-font-extralight tw-text-gray-9 tw-mt-14">
+        <div className="tw-text-sm tw-text-center tw-font-light tw-text-gray-9 tw-mt-14">
           {t(
             translations.originsLaunchpad.saleDay.buyStep.buyDialog
               .yourTotalDeposit,

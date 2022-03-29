@@ -48,10 +48,10 @@ import { usePriceFeeds_tradingPairRates } from './hooks/price-feeds/usePriceFeed
 import { BridgeDepositPage } from './pages/BridgeDepositPage/Loadable';
 import { BridgeWithdrawPage } from './pages/BridgeWithdrawPage/Loadable';
 import { FastBtcPage } from './pages/FastBtcPage/Loadable';
-import { PerpetualPageLoadable } from './pages/PerpetualPage/Loadable';
-
+import { PageContainer } from './containers/PageContainer';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { PerpetualPageLoadable } from './pages/PerpetualPage/Loadable';
 
 const title = !isMainnet ? `Sovryn ${currentNetwork}` : 'Sovryn';
 
@@ -80,56 +80,66 @@ export function App() {
       ) : (
         <>
           <WalletProvider>
-            <NetworkRibbon />
-            <Switch>
-              <Route exact path="/" component={LandingPage} />
-              <Route exact path="/buy-sov" component={BuySovPage} />
-              <Route exact path="/trade" component={MarginTradePage} />
-              <Route exact path="/swap" component={SwapPage} />
-              <Route exact path="/spot" component={SpotTradingPage} />
-              <Route exact path="/lend" component={LendingPage} />
-              <Route exact path="/borrow" component={BorrowPage} />
-              <Route exact path="/stake" component={StakePage} />
-              <Redirect exact from="/liquidity" to="/yield-farm" />
-              <Route exact path="/yield-farm" component={LiquidityMiningPage} />
-              <Route exact path="/reward" component={RewardPage} />
-              <Route exact path="/wallet" component={WalletPage} />
-              <Route exact path="/origins" component={OriginsLaunchpadPage} />
-              <Route exact path="/origins/claim" component={OriginsClaimPage} />
-              <Route
-                exact
-                path="/cross-chain/deposit"
-                component={BridgeDepositPage}
-              />
-              <Route
-                exact
-                path="/cross-chain/withdraw"
-                component={BridgeWithdrawPage}
-              />
-              <Route
-                exact
-                path="/optin-success"
-                render={props => <EmailPage {...props} type="OPTIN" />}
-              />
-              <Route
-                exact
-                path="/unsubscribe"
-                render={props => <EmailPage {...props} type="UNSUBSCRIBE" />}
-              />
-              <Route
-                exact
-                path="/fast-btc/:type/:network?"
-                component={FastBtcPage}
-              />
-              {!isMainnet && (
+            <PageContainer>
+              <NetworkRibbon />
+              <Switch>
+                <Route exact path="/" component={LandingPage} />
+                <Route exact path="/buy-sov" component={BuySovPage} />
+                <Route exact path="/trade" component={MarginTradePage} />
+                <Route exact path="/swap" component={SwapPage} />
+                <Route exact path="/spot" component={SpotTradingPage} />
+                <Route exact path="/lend" component={LendingPage} />
+                <Route exact path="/borrow" component={BorrowPage} />
+                <Route exact path="/stake" component={StakePage} />
+                <Redirect exact from="/liquidity" to="/yield-farm" />
                 <Route
                   exact
-                  path="/perpetuals"
-                  component={PerpetualPageLoadable}
+                  path="/yield-farm"
+                  component={LiquidityMiningPage}
                 />
-              )}
-              <Route component={NotFoundPage} />
-            </Switch>
+                <Route exact path="/reward" component={RewardPage} />
+                <Route exact path="/wallet" component={WalletPage} />
+                <Route exact path="/origins" component={OriginsLaunchpadPage} />
+                <Route
+                  exact
+                  path="/origins/claim"
+                  component={OriginsClaimPage}
+                />
+                <Route
+                  exact
+                  path="/cross-chain/deposit"
+                  component={BridgeDepositPage}
+                />
+                <Route
+                  exact
+                  path="/cross-chain/withdraw"
+                  component={BridgeWithdrawPage}
+                />
+                <Route
+                  exact
+                  path="/optin-success"
+                  render={props => <EmailPage {...props} type="OPTIN" />}
+                />
+                <Route
+                  exact
+                  path="/unsubscribe"
+                  render={props => <EmailPage {...props} type="UNSUBSCRIBE" />}
+                />
+                <Route
+                  exact
+                  path="/fast-btc/:type/:network?"
+                  component={FastBtcPage}
+                />
+                {!isMainnet && (
+                  <Route
+                    exact
+                    path="/perpetuals"
+                    component={PerpetualPageLoadable}
+                  />
+                )}
+                <Route component={NotFoundPage} />
+              </Switch>
+            </PageContainer>
             <ToastContainer className="tw-w-max" />
           </WalletProvider>
         </>

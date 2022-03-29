@@ -14,7 +14,7 @@ export const StyledButton = styled.button.attrs(_ => ({
   min-width: 48px;
   height: 48px;
   font-family: 'Montserrat';
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: 0px;
   font-size: 1.125rem;
   text-align: center;

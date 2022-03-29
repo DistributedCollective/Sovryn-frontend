@@ -36,7 +36,7 @@ export function VestedAssets() {
 
   return (
     <>
-      <div className="sovryn-border sovryn-table tw-pt-1 tw-pb-4 tw-pr-4 tw-pl-4 tw-mb-12">
+      <div className="sovryn-border sovryn-table tw-pt-1 tw-pb-4 tw-pr-4 tw-pl-4 tw-mb-12 tw-overflow-auto">
         <table className="tw-w-full">
           <thead>
             <tr>

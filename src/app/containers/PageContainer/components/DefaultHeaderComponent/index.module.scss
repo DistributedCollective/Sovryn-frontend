@@ -11,7 +11,7 @@
   }
 
   select {
-    @apply tw-text-base tw-font-body tw-font-thin 
+    @apply tw-text-base tw-font-body tw-font-extralight 
       tw-bg-transparent;
   }
 }
@@ -39,7 +39,7 @@
 }
 
 .mobileMenuSection {
-  @apply tw-flex tw-flex-row tw-self-center tw-w-1/2 tw-text-lg tw-px-0 tw-font-thin tw-text-white tw-text-center tw-tracking-wider tw-text-center tw-mt-4;
+  @apply tw-flex tw-flex-row tw-self-center tw-w-1/2 tw-text-lg tw-px-0 tw-font-extralight tw-text-white tw-text-center tw-tracking-wider tw-text-center tw-mt-4;
 
   &:after,
   &:before {

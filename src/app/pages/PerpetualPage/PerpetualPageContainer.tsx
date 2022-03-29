@@ -11,7 +11,6 @@ import { translations } from 'locales/i18n';
 import { reducer, sliceKey, actions } from './slice';
 import { perpetualPageSaga } from './saga';
 import { HeaderLabs } from '../../components/HeaderLabs';
-import { Footer } from '../../components/Footer';
 import {
   PerpetualPairDictionary,
   PerpetualPairType,
@@ -217,7 +216,6 @@ export const PerpetualPageContainer: React.FC = () => {
             </div>
           )}
         </div>
-        <Footer />
         <AccountDialog />
         <TradeDialog />
         <EditPositionSizeDialog />
