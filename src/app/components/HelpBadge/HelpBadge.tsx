@@ -12,8 +12,8 @@ export const HelpBadge: React.FC<HelpBadgeProps> = ({ children, tooltip }) => {
       <span className="tw-flex-shrink tw-truncate">{children}</span>
       <span className="tw-ml-1 tw-flex-shrink tw-flex-grow-0">
         <Popover
-          content={<div className="popover-content">{tooltip}</div>}
-          popoverClassName="popover-mw"
+          content={<div className="mw-content">{tooltip}</div>}
+          popoverClassName="mw-tooltip"
           target={<Icon className="tw-cursor-pointer" icon="info-sign" />}
         />
       </span>
