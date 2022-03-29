@@ -73,7 +73,9 @@ export const OpenPositionsTable: React.FC<IOpenPositionsTableProps> = ({
         <tbody>
           {isEmpty && (
             <tr>
-              <td colSpan={99}>{t(trans.noData)}</td>
+              <td colSpan={99} className="tw-text-center">
+                {t(trans.noData)}
+              </td>
             </tr>
           )}
 

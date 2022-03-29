@@ -4,7 +4,10 @@ import { Tooltip } from '@blueprintjs/core';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 import { TradingPosition } from 'types/trading-position';
-import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
+import {
+  toNumberFormat,
+  weiToAssetNumberFormat,
+} from 'utils/display-text/format';
 import { translations } from 'locales/i18n';
 import { OpenLoanType } from 'types/active-loan';
 import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
@@ -22,7 +25,7 @@ export const TradeProfit: React.FC<ITradeProfitProps> = ({
   openedItem,
 }) => {
   const { t } = useTranslation();
-  const [profit, setProfit] = useState('');
+  const [profit, setProfit] = useState(0);
   const [profitDirection, setProfitDirection] = useState(0);
 
   const loanAsset = assetByTokenAddress(closedItem.loanToken);
@@ -59,10 +62,12 @@ export const TradeProfit: React.FC<ITradeProfitProps> = ({
         .toNumber();
     }
     setProfit(
-      bignumber(change)
-        .mul(bignumber(openedItem.positionSizeChange))
-        .div(100)
-        .toFixed(0),
+      Math.abs(
+        bignumber(change)
+          .mul(bignumber(openedItem.positionSizeChange))
+          .div(100)
+          .toNumber(),
+      ),
     );
     setProfitDirection(change);
   }, [position, closePrice, openPrice, openedItem.positionSizeChange]);
@@ -109,7 +114,8 @@ export const TradeProfit: React.FC<ITradeProfitProps> = ({
           )}
         >
           {profitDirection > 0 && '+'}
-          {weiToNumberFormat(profit, 8)}{' '}
+          {profitDirection < 0 && '-'}
+          {weiToAssetNumberFormat(profit, collateralAsset)}{' '}
           <AssetRenderer asset={collateralAsset} />
         </span>
       </Tooltip>
