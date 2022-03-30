@@ -96,7 +96,10 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
     return outAmount.minus(feeOut).toFixed(0);
   }, [amount, feeOut, limitPrice, tradeType, weiAmount]);
 
-  const { value: minAmount } = useDenominateDollarToAssetAmount(sourceToken);
+  const { value: minAmount } = useDenominateDollarToAssetAmount(
+    sourceToken,
+    toWei(100),
+  );
 
   const { value: balance } = useAssetBalanceOf(sourceToken);
   const { value: marketPrice } = useSwapsExternal_getSwapExpectedReturn(

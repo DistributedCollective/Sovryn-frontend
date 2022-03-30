@@ -146,7 +146,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   const {
     value: minAmount,
     loading: minAmountLoading,
-  } = useDenominateDollarToAssetAmount(collateral);
+  } = useDenominateDollarToAssetAmount(collateral, toWei(200));
 
   const isMinAmountValid = useMemo(() => {
     if (bignumber(weiAmount).greaterThan(0)) {
