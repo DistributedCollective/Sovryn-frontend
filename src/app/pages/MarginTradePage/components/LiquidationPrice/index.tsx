@@ -6,10 +6,7 @@ import { fromWei } from 'utils/blockchain/math-helpers';
 import { useBorrowLiquidationPrice } from 'app/hooks/trading/useBorrowLiquidationPrice';
 import { bignumber } from 'mathjs';
 import { LoadableValue } from '../../../../components/LoadableValue';
-import {
-  weiToAssetNumberFormat,
-  weiToNumberFormat,
-} from '../../../../../utils/display-text/format';
+import { weiToAssetNumberFormat } from '../../../../../utils/display-text/format';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 
 interface ILiquidationPriceProps {

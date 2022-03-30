@@ -5,7 +5,10 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ILimitOrder, pairList, TradingTypes } from '../../types';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
-import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
+import {
+  toAssetNumberFormat,
+  weiToAssetNumberFormat,
+} from 'utils/display-text/format';
 import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { translations } from 'locales/i18n';
@@ -117,10 +120,10 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
         />
       </td>
       <td className="tw-hidden xl:tw-table-cell">
-        {item.hash ? (
+        {item.txHash ? (
           <LinkToExplorer
             className="tw-m-0"
-            txHash={item.hash}
+            txHash={item.txHash}
             startLength={5}
             endLength={5}
           />
@@ -164,27 +167,27 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
           : t(translations.spotTradingPage.tradeForm.sell)}
       </td>
       <td className="tw-hidden md:tw-table-cell">
-        {weiToNumberFormat(item.amountIn.toString(), 6)}{' '}
+        {weiToAssetNumberFormat(item.amountIn.toString(), fromToken.asset)}{' '}
         <AssetRenderer asset={fromToken.asset} />
       </td>
       <td className="tw-hidden md:tw-table-cell">
-        {toNumberFormat(limitPrice.toString(), 6)}{' '}
+        {toAssetNumberFormat(limitPrice.toString(), pair[1].asset)}{' '}
         <AssetRenderer asset={pair[1].asset} />
       </td>
       <td>
-        {weiToNumberFormat(item.amountOutMin.toString(), 6)}{' '}
+        {weiToAssetNumberFormat(item.amountOutMin.toString(), toToken.asset)}{' '}
         <AssetRenderer asset={toToken.asset} />
       </td>
       {!isOpenPosition && (
         <>
           <td className="tw-hidden sm:tw-table-cell">
-            {weiToNumberFormat(item.filledAmount, 6)}{' '}
+            {weiToAssetNumberFormat(item.filledAmount, fromToken.asset)}{' '}
             <AssetRenderer asset={fromToken.asset} />
           </td>
           <td className="tw-hidden sm:tw-table-cell">
             {filledToken && filledPrice ? (
               <>
-                {weiToNumberFormat(filledPrice, 6)}{' '}
+                {weiToAssetNumberFormat(filledPrice, filledToken)}{' '}
                 <AssetRenderer asset={filledToken} />
               </>
             ) : (

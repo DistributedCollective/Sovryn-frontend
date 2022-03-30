@@ -57,6 +57,9 @@ export const OpenPositionsTable: React.FC<IOpenPositionsTableProps> = ({
         <thead>
           <tr>
             <th className="tw-hidden md:tw-table-cell">{t(trans.dateTime)}</th>
+            <th className="tw-hidden xl:tw-table-cell">
+              {t(translations.common.txHash)}
+            </th>
             <th>{t(trans.pair)}</th>
             <th className="tw-hidden md:tw-table-cell">
               <HelpBadge tooltip={t(trans.limitPriceTooltip)}>

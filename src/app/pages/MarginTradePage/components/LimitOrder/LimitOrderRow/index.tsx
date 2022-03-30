@@ -25,6 +25,7 @@ import { EventData } from 'web3-eth-contract';
 import { TradingPosition } from 'types/trading-position';
 import { bignumber } from 'mathjs';
 import { assetByLoanTokenAddress } from 'utils/blockchain/contract-helpers';
+import { LinkToExplorer } from 'app/components/LinkToExplorer';
 
 interface ILimitOrderRowProps extends MarginLimitOrderList {
   pending?: boolean;
@@ -105,6 +106,9 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
     <tr>
       <td className="tw-hidden md:tw-table-cell">
         <DisplayDate timestamp={createdTimestamp.getTime().toString()} />
+      </td>
+      <td className="tw-hidden xl:tw-table-cell">
+        {order.txHash ? <LinkToExplorer txHash={order.txHash} /> : '-'}
       </td>
       <td>
         <PositionBlock position={position} name={pair.name} />

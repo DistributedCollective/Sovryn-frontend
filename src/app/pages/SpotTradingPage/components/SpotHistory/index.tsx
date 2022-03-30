@@ -22,8 +22,10 @@ import { useAccount } from 'app/hooks/useAccount';
 import { translations } from 'locales/i18n';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { Pagination } from 'app/components/Pagination';
+import { useDebug } from 'app/hooks/useDebug';
 
 export const SpotHistory: React.FC = () => {
+  const { log, error } = useDebug('SpotHistory');
   const transactions = useSelector(selectTransactionArray);
   const account = useAccount();
   const url = backendUrl[currentChainId];
@@ -35,18 +37,22 @@ export const SpotHistory: React.FC = () => {
   const retry = useTradeHistoryRetry();
 
   const cancelTokenSource = useRef<CancelTokenSource>();
+  const currentlyLoading = useRef<boolean>(false);
 
-  const getData = useCallback(() => {
+  const getHistory = useCallback(() => {
+    currentlyLoading.current = true;
+    setLoading(true);
     if (cancelTokenSource.current) {
       cancelTokenSource.current.cancel();
     }
     cancelTokenSource.current = axios.CancelToken.source();
-
+    log('start loading');
     axios
       .get(`${url}/events/conversion-swap/${account}`, {
         cancelToken: cancelTokenSource.current.token,
       })
       .then(res => {
+        log('data returned', res.data);
         setHistory(
           res.data
             .sort(
@@ -74,26 +80,23 @@ export const SpotHistory: React.FC = () => {
         setLoading(false);
       })
       .catch(e => {
-        setHistory([]);
-        setCurrentHistory([]);
-        setLoading(false);
-      });
-  }, [account, url]);
-
-  const getHistory = useCallback(() => {
-    setLoading(true);
-    setHistory([]);
-    setCurrentHistory([]);
-
-    getData();
-  }, [getData]);
+        if (!axios.isCancel(e)) {
+          error('loading failed', e);
+          setHistory([]);
+          setCurrentHistory([]);
+          setLoading(false);
+        }
+      })
+      .finally(() => (currentlyLoading.current = false));
+  }, [account, error, log, url]);
 
   //GET HISTORY
   useEffect(() => {
-    if (account) {
+    // load only if it's not already loading
+    if (account && !currentlyLoading.current) {
       getHistory();
     }
-  }, [account, getHistory, retry]);
+  }, [account, getHistory, log, retry]);
 
   const onPageChanged = useCallback(
     data => {

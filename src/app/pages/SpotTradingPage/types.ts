@@ -185,6 +185,7 @@ export type ContainerState = SpotTradingPageState;
 
 export type ILimitOrder = {
   hash?: string;
+  txHash?: string;
   maker: string;
   fromToken: string;
   toToken: string;
