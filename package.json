@@ -6,7 +6,7 @@
     "@babel/core": "7.9.0",
     "@blueprintjs/core": "3.42.0",
     "@blueprintjs/select": "3.13.7",
-    "@distributedcollective/charting-library": "1.0.0",
+    "@sovryn/charting-library": "1.0.0",
     "@fortawesome/fontawesome-svg-core": "1.2.30",
     "@fortawesome/free-solid-svg-icons": "5.14.0",
     "@fortawesome/react-fontawesome": "0.1.11",
@@ -166,8 +166,7 @@
     "yarn": "1.22.10"
   },
   "bin": {
-    "changelog": "./bin/changelog",
-    "gh-pack": "./bin/gh-pack"
+    "changelog": "./bin/changelog"
   },
   "scripts": {
     "start": "node scripts/start.js",
@@ -190,7 +189,6 @@
     "storybook": "start-storybook -p 6006 -s public",
     "storybook:build": "build-storybook -s public -o build/storybook",
     "changelog": "bash ./bin/changelog",
-    "preinstall": "bash ./bin/gh-pack && echo \"Running normally.\" || yarn install",
     "build:with-storybook": "node scripts/build.js && yarn storybook:build"
   },
   "browserslist": [
