@@ -191,8 +191,6 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
             confirmLabel={t(translations.common.confirm)}
             onConfirm={submit}
             disabled={spotLocked || !connected || buttonLoading}
-            cancelLabel={t(translations.common.cancel)}
-            onCancel={onCloseModal}
             data-action-id="spot-reviewDialog-submit"
           />
         </div>

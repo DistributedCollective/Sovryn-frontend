@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { Trans, useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { HashZero } from '@ethersproject/constants';
 import { Checkbox } from '@blueprintjs/core';
 import { DialogButton } from 'app/components/Form/DialogButton';
@@ -34,7 +34,6 @@ import { useAccount } from 'app/hooks/useAccount';
 import { TxFeeCalculator } from '../TxFeeCalculator';
 import { TradingPosition } from 'types/trading-position';
 import { selectMarginTradePage } from '../../selectors';
-import { actions } from '../../slice';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { OrderType } from 'app/components/OrderTypeTitle/types';
 import { TradeDialogInfo } from './TradeDialogInfo';
@@ -150,7 +149,6 @@ export const TradeDialogContent: React.FC<ITradeDialogContentProps> = ({
   const { position, amount, pairType, collateral, leverage } = useSelector(
     selectMarginTradePage,
   );
-  const dispatch = useDispatch();
   const pair = useMemo(() => TradingPairDictionary.get(pairType), [pairType]);
 
   const {
@@ -420,8 +418,6 @@ export const TradeDialogContent: React.FC<ITradeDialogContentProps> = ({
           confirmLabel={t(translations.common.confirm)}
           onConfirm={onSubmit}
           disabled={openTradesLocked || disableButtonAfterSimulatorError}
-          cancelLabel={t(translations.common.cancel)}
-          onCancel={() => dispatch(actions.closeTradingModal(position))}
           data-action-id="margin-reviewTransaction-button-confirm"
         />
       </div>
