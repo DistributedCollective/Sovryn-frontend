@@ -20,7 +20,7 @@ export const Borders = () => (
     <H2>Width</H2>
     <div className="tw-flex tw-flex-row tw-flex-wrap tw-mb-12">
       {Object.entries<string>(config.theme.borderWidth)
-        .sort((a, b) => parseInt(String(a[1])) - parseInt(String(b[1])))
+        .sort((a, b) => parseInt(a[1]) - parseInt(b[1]))
         .map(([key, value]) => (
           <StorybookSwatch
             label={key}
@@ -33,7 +33,7 @@ export const Borders = () => (
     <H2>Radius</H2>
     <div className="tw-flex tw-flex-row tw-flex-wrap tw-mb-12">
       {Object.entries<string>(config.theme.borderRadius)
-        .sort((a, b) => parseInt(String(a[1])) - parseInt(String(b[1])))
+        .sort((a, b) => parseInt(a[1]) - parseInt(b[1]))
         .map(([key, value]) => (
           <StorybookSwatch
             label={key}

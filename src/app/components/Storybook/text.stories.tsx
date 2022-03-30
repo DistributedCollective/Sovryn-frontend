@@ -22,7 +22,7 @@ export const Text = () => {
       <H2>Font Family</H2>
       <div className="tw-flex tw-flex-row tw-flex-wrap tw-mb-12">
         {Object.entries<string>(config.theme.fontFamily)
-          .sort((a, b) => parseInt(String(a[1])) - parseInt(String(b[1])))
+          .sort((a, b) => parseInt(a[1]) - parseInt(b[1]))
           .map(([key, value]) => (
             <div
               className={classNames(
@@ -43,7 +43,7 @@ export const Text = () => {
       <H2>Font Size</H2>
       <div className="tw-flex tw-flex-col tw-mb-12">
         {Object.entries<string>(config.theme.fontSize)
-          .sort((a, b) => parseInt(String(a[1])) - parseInt(String(b[1])))
+          .sort((a, b) => parseInt(a[1]) - parseInt(b[1]))
           .map(([key, value]) => (
             <StorybookTextSample
               className="tw-w-full"
@@ -56,7 +56,7 @@ export const Text = () => {
       <H2>Font Weight</H2>
       <div className="tw-flex tw-flex-row tw-flex-wrap tw-mb-12">
         {Object.entries<string>(config.theme.fontWeight)
-          .sort((a, b) => parseInt(String(a[1])) - parseInt(String(b[1])))
+          .sort((a, b) => parseInt(a[1]) - parseInt(b[1]))
           .map(([key, value]) => (
             <StorybookTextSample
               className="tw-w-1/3"
@@ -69,7 +69,7 @@ export const Text = () => {
       <H2>Tracking</H2>
       <div className="tw-flex tw-flex-row tw-flex-wrap tw-mb-12">
         {Object.entries<string>(config.theme.letterSpacing)
-          .sort((a, b) => parseInt(String(a[1])) - parseInt(String(b[1])))
+          .sort((a, b) => parseInt(a[1]) - parseInt(b[1]))
           .map(([key, value]) => (
             <StorybookTextSample
               className="tw-w-1/3"

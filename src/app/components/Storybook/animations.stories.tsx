@@ -17,7 +17,7 @@ export const Animations = () => (
     <H1>Animations</H1>
     <div className="tw-flex tw-flex-row tw-flex-wrap tw-mb-12">
       {Object.entries<string>(config.theme.animation)
-        .sort((a, b) => parseInt(String(a[1])) - parseInt(String(b[1])))
+        .sort((a, b) => parseInt(a[1]) - parseInt(b[1]))
         .map(([key, value]) => (
           <StorybookAnimatedBox
             label={key}

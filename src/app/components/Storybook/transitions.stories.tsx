@@ -18,7 +18,7 @@ export const Transitions = () => (
     <H2>Duration</H2>
     <div className="tw-flex tw-flex-row tw-flex-wrap tw-mb-12">
       {Object.entries<string>(config.theme.transitionDuration)
-        .sort((a, b) => parseInt(String(a[1])) - parseInt(String(b[1])))
+        .sort((a, b) => parseInt(a[1]) - parseInt(b[1]))
         .map(([key, value]) => (
           <StorybookSwatch
             label={key}
@@ -30,7 +30,7 @@ export const Transitions = () => (
     <H2>Function</H2>
     <div className="tw-flex tw-flex-row tw-flex-wrap tw-mb-12">
       {Object.entries<string>(config.theme.transitionTimingFunction)
-        .sort((a, b) => parseInt(String(a[1])) - parseInt(String(b[1])))
+        .sort((a, b) => parseInt(a[1]) - parseInt(b[1]))
         .map(([key, value]) => (
           <StorybookSwatch
             label={key}
