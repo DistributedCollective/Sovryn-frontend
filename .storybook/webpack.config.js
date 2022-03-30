@@ -59,7 +59,9 @@ const upgradePostCssLoader = rules =>
 const dumpStorybookConfigWithClassNames = config => {
   const replacer = (key, value) =>
     typeof value === 'object' &&
-    value?.constructor?.name &&
+    value &&
+    value.constructor &&
+    value.constructor.name &&
     !['Array', 'Object'].includes(value.constructor.name)
       ? { __class: value.constructor.name, ...value }
       : value;
@@ -76,7 +78,10 @@ module.exports = async ({ config }) => {
 
   // add tailwind.config.js to the allowed imports list
   const moduleScopePlugin = config.resolve.plugins.find(
-    plugin => plugin?.constructor?.name === 'ModuleScopePlugin',
+    plugin =>
+      plugin &&
+      plugin.constructor &&
+      plugin.constructor.name === 'ModuleScopePlugin',
   );
 
   moduleScopePlugin.allowedFiles.add(
