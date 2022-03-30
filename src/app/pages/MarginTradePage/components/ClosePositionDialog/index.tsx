@@ -313,8 +313,6 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
             disabled={
               rest.loading || !valid || closeTradesLocked || loadingValue
             }
-            cancelLabel={t(translations.common.cancel)}
-            onCancel={onCloseModal}
           />
         </div>
       </Dialog>

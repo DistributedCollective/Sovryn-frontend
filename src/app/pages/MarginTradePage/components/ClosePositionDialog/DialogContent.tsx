@@ -142,8 +142,6 @@ export function DialogContent(props: IDialogContentProps) {
           confirmLabel={t(translations.common.confirm)}
           onConfirm={handleConfirmSwap}
           disabled={rest.loading || !valid || closeTradesLocked || loading}
-          cancelLabel={t(translations.common.cancel)}
-          onCancel={props.onCloseModal}
         />
       </div>
       <TxDialog tx={rest} onClose={props.onCloseModal} />

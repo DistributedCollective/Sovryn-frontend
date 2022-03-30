@@ -176,8 +176,6 @@ export const AddToMarginDialog: React.FC<IAddToMarginDialogProps> = ({
             confirmLabel={t(translations.common.confirm)}
             onConfirm={handleConfirm}
             disabled={topupLocked || tx.loading || !valid || !canInteract}
-            cancelLabel={t(translations.common.cancel)}
-            onCancel={onCloseModal}
           />
         </div>
       </Dialog>

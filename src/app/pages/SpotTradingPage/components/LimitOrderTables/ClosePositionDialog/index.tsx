@@ -150,8 +150,6 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
           <DialogButton
             confirmLabel={t(translations.spotTradingPage.cancelDialog.cta)}
             onConfirm={cancelOrder}
-            cancelLabel={t(translations.common.cancel)}
-            onCancel={onCloseModal}
           />
         </div>
       </Dialog>

@@ -76,8 +76,6 @@ export const CloseLimitPositionDialog: React.FC<IClosePositionDialogProps> = ({
             <DialogButton
               confirmLabel={t(translations.trading.limit.cancelDialog.cta)}
               onConfirm={cancelOrder}
-              cancelLabel={t(translations.common.cancel)}
-              onCancel={onCloseModal}
             />
           </div>
         </div>
