@@ -74,11 +74,9 @@ export const TradeDialogInfo: React.FC<ITradeDialogInfoProps> = ({
               collateralToken={collateralToken}
               useLoanTokens={useLoanTokens}
               weiAmount={amount}
+              asset={pair.longAsset}
             />
-            <AssetRenderer
-              className="tw-ml-1.5"
-              asset={pair.longDetails.asset}
-            />
+            <AssetRenderer className="tw-ml-1.5" asset={pair.longAsset} />
           </>
         ) : (
           <>

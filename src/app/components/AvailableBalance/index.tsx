@@ -1,14 +1,15 @@
 import React, { useMemo } from 'react';
 import { Trans } from 'react-i18next';
+import classNames from 'classnames';
 import { Asset } from 'types/asset';
 import { translations } from 'locales/i18n';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { fromWei } from 'utils/blockchain/math-helpers';
-import { weiToNumberFormat } from 'utils/display-text/format';
+import { weiToAssetNumberFormat } from 'utils/display-text/format';
 import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
 import { LoadableValue } from '../LoadableValue';
 import { AssetRenderer } from '../AssetRenderer';
-import classNames from 'classnames';
+
 interface IAvailableBalanceProps {
   asset: Asset;
   className?: string;
@@ -42,7 +43,7 @@ export const AvailableBalance: React.FC<IAvailableBalanceProps> = ({
                 data-action-id={dataAttribute}
                 className="tw-font-semibold tw-ml-1"
               >
-                {weiToNumberFormat(value, 6)}{' '}
+                {weiToAssetNumberFormat(value, assetDetails.asset)}{' '}
                 <AssetRenderer asset={assetDetails.asset} />
               </span>
             }

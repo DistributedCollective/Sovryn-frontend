@@ -282,15 +282,17 @@ export const TradeDialogContent: React.FC<ITradeDialogContentProps> = ({
           methodName="marginTrade"
           contractName={contractName}
           condition={true}
-          textClassName={'tw-text-gray-10 tw-text-gray-10 tw-pr-2'}
+          textClassName={'tw-text-gray-10 tw-text-gray-10'}
         />
         <LabelValuePair
           label={t(translations.marginTradePage.tradeDialog.maintananceMargin)}
           value={<>{weiToNumberFormat(MAINTENANCE_MARGIN)} %</>}
+          valueClassName="tw-text-right"
         />
         <LabelValuePair
           label={t(translations.marginTradePage.tradeDialog.interestAPR)}
           value={<>{weiToNumberFormat(estimations.interestRate, 2)} %</>}
+          valueClassName="tw-text-right"
         />
       </div>
 
@@ -315,7 +317,7 @@ export const TradeDialogContent: React.FC<ITradeDialogContentProps> = ({
           label={t(translations.marginTradePage.tradeDialog.margin)}
           value={
             <>
-              {weiToNumberFormat(amount, 4)}{' '}
+              {weiToAssetNumberFormat(amount, collateral)}{' '}
               <AssetRenderer asset={collateral} />
             </>
           }
@@ -332,7 +334,7 @@ export const TradeDialogContent: React.FC<ITradeDialogContentProps> = ({
                 <>
                   <LoadableValue
                     loading={simulator.status === SimulationStatus.PENDING}
-                    value={weiToNumberFormat(entryPrice, 6)}
+                    value={weiToAssetNumberFormat(entryPrice, pair.longAsset)}
                     tooltip={weiToNumberFormat(entryPrice, 18)}
                   />{' '}
                   <AssetRenderer asset={pair.longAsset} />
@@ -346,6 +348,7 @@ export const TradeDialogContent: React.FC<ITradeDialogContentProps> = ({
                     collateralToken={collateralToken}
                     useLoanTokens={useLoanTokens}
                     weiAmount={amount}
+                    asset={pair.longAsset}
                   />{' '}
                   <AssetRenderer asset={pair.longAsset} />
                 </>
@@ -362,8 +365,8 @@ export const TradeDialogContent: React.FC<ITradeDialogContentProps> = ({
                   loading={simulator.status === SimulationStatus.PENDING}
                   value={
                     <>
-                      {toNumberFormat(liquidationPrice, 4)}{' '}
-                      {pair.longDetails.symbol}
+                      {weiToAssetNumberFormat(liquidationPrice, pair.longAsset)}{' '}
+                      <AssetRenderer asset={pair.longAsset} />
                     </>
                   }
                 />

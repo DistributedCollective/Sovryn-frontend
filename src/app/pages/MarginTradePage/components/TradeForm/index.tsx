@@ -32,7 +32,11 @@ import { useGetEstimatedMarginDetails } from 'app/hooks/trading/useGetEstimatedM
 import { TradeDialog } from '../TradeDialog';
 import { LiquidationPrice } from '../LiquidationPrice';
 import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
-import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
+import {
+  toAssetNumberFormat,
+  toNumberFormat,
+  weiToNumberFormat,
+} from 'utils/display-text/format';
 import { SlippageForm } from '../SlippageForm';
 import { fromWei, toWei } from 'utils/blockchain/math-helpers';
 import { OrderType } from 'app/components/OrderTypeTitle/types';
@@ -325,7 +329,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                       <>
                         <LoadableValue
                           loading={loadingPrice}
-                          value={toNumberFormat(price, 2)}
+                          value={toAssetNumberFormat(price, pair.longAsset)}
                           tooltip={toNumberFormat(price, 18)}
                         />{' '}
                         <AssetRenderer asset={pair.longAsset} />
@@ -339,6 +343,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                           collateralToken={collateralToken}
                           useLoanTokens={useLoanTokens}
                           weiAmount={amount}
+                          asset={pair.longAsset}
                         />{' '}
                         <AssetRenderer asset={pair.longAsset} />
                       </>

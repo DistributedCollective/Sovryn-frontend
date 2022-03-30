@@ -40,6 +40,7 @@ export const TradeToastInfo: React.FC<ITradeToastInfoProps> = ({
         collateralToken={collateralToken}
         useLoanTokens={useLoanTokens}
         weiAmount={amount}
+        asset={collateralToken}
       />
     </div>
   </div>

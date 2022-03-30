@@ -4,7 +4,7 @@ import { Asset } from '../../../types';
 import { useGetEstimatedMarginDetails } from '../../hooks/trading/useGetEstimatedMarginDetails';
 import { useCurrentPositionPrice } from '../../hooks/trading/useCurrentPositionPrice';
 import { LoadableValue } from '../../components/LoadableValue';
-import { toNumberFormat } from '../../../utils/display-text/format';
+import { toAssetNumberFormat } from '../../../utils/display-text/format';
 
 interface IPricePredictionProps {
   position: TradingPosition;
@@ -13,6 +13,7 @@ interface IPricePredictionProps {
   collateralToken: Asset;
   useLoanTokens: boolean;
   weiAmount: string;
+  asset: Asset;
 }
 
 export const PricePrediction: React.FC<IPricePredictionProps> = ({
@@ -21,6 +22,7 @@ export const PricePrediction: React.FC<IPricePredictionProps> = ({
   useLoanTokens,
   weiAmount,
   leverage,
+  asset,
   ...props
 }) => {
   const collateralAmount = useMemo(() => (useLoanTokens ? '0' : weiAmount), [
@@ -50,7 +52,7 @@ export const PricePrediction: React.FC<IPricePredictionProps> = ({
   return (
     <LoadableValue
       loading={loading}
-      value={toNumberFormat(price, 2)}
+      value={toAssetNumberFormat(price, asset)}
       tooltip={price}
     />
   );
