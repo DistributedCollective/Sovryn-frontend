@@ -1,14 +1,14 @@
 import React from 'react';
 import classNames from 'classnames';
 
-type AnimatedBoxProps = {
+type StorybookAnimatedBoxProps = {
   className?: string;
   boxClassName: string;
   label: string;
   value: number | string;
 };
 
-export const AnimatedBox: React.FC<AnimatedBoxProps> = ({
+export const StorybookAnimatedBox: React.FC<StorybookAnimatedBoxProps> = ({
   label,
   value,
   boxClassName,

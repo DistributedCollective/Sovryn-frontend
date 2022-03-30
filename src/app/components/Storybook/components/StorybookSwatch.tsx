@@ -1,14 +1,14 @@
 import React from 'react';
 import classNames from 'classnames';
 
-type SwatchProps = {
+type StorybookSwatchProps = {
   style?: any;
   className?: string;
   label: string;
   value: number | string;
 };
 
-export const Swatch: React.FC<SwatchProps> = ({
+export const StorybookSwatch: React.FC<StorybookSwatchProps> = ({
   label,
   value,
   style,

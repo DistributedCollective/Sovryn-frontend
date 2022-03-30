@@ -4,7 +4,7 @@ import resolveConfig from 'tailwindcss/resolveConfig';
 import tailwindConfig from '../../../../tailwind.config.js';
 import { Meta } from '@storybook/react';
 import { H1, H2 } from '../Heading';
-import { Swatch } from './components/Swatch';
+import { StorybookSwatch } from './components/StorybookSwatch';
 
 export default {
   title: 'Design Guide/Colors',
@@ -27,11 +27,11 @@ export const Colors = () => (
         return acc;
       }, [])
       .map(({ name, entries }) => (
-        <div key={name} className="tw-mb-6">
+        <div key={name} className="tw-mb-12">
           <H2>{name}</H2>
           <div className="tw-flex tw-flex-row tw-flex-wrap">
             {entries.map(([key, value]) => (
-              <Swatch
+              <StorybookSwatch
                 label={key}
                 value={value}
                 style={{ backgroundColor: value }}

@@ -2,7 +2,7 @@ import React from 'react';
 import { H3 } from '../../Heading';
 import classNames from 'classnames';
 
-type TextSampleProps = {
+type StorybookTextSampleProps = {
   className?: string;
   sampleClassName?: string;
   label?: string;
@@ -13,7 +13,7 @@ type TextSampleProps = {
 const lorem =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer consequat, odio vel convallis cursus, massa tellus tincidunt dui, eget sollicitudin odio purus sed magna. Quisque tempus tortor in porttitor cursus. Vestibulum non dui feugiat, dictum nisl vel, bibendum nunc. Sed eu risus maximus, consectetur nisi eu, rhoncus risus. Donec facilisis ipsum in tempor placerat. Mauris pulvinar diam at nulla hendrerit tempus. Vivamus eu vulputate nibh. Nullam elementum massa enim. Sed porttitor, ipsum et laoreet vestibulum, ante ipsum faucibus quam, vel ultrices leo tortor sit amet purus. Nam dignissim mi a lectus feugiat, sit amet auctor elit porttitor. Pellentesque ut lectus viverra, faucibus dolor dignissim, bibendum turpis. Pellentesque malesuada pharetra justo sed finibus. Sed porttitor leo eu dapibus commodo. Cras in suscipit est, a varius nisl.';
 
-export const TextSample: React.FC<TextSampleProps> = ({
+export const StorybookTextSample: React.FC<StorybookTextSampleProps> = ({
   className,
   sampleClassName: textClassName,
   label,
