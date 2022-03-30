@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback, useEffect } from 'react';
+import React, { useMemo, useState, useCallback } from 'react';
 import classNames from 'classnames';
 import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
@@ -25,7 +25,6 @@ import { TradeDialogInfo } from '../../TradeDialog/TradeDialogInfo';
 import { useTrading_resolvePairTokens } from 'app/hooks/trading/useTrading_resolvePairTokens';
 import { bignumber } from 'mathjs';
 import { MarginLimitOrder } from 'app/pages/MarginTradePage/types';
-import { getMarginOrderFeeOut } from 'app/hooks/limitOrder/utils';
 
 interface ILimitTradeDialogProps {
   isOpen: boolean;
@@ -50,8 +49,6 @@ export const LimitTradeDialog: React.FC<ILimitTradeDialogProps> = ({
 
   const [orderStatus, setOrderStatus] = useState(TxStatus.NONE);
   const [txHash, setTxHash] = useState('');
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [feeOut, setFeeOut] = useState('0');
 
   const { checkMaintenance, States } = useMaintenance();
   const openTradesLocked = checkMaintenance(States.OPEN_MARGIN_TRADES);
@@ -82,14 +79,6 @@ export const LimitTradeDialog: React.FC<ILimitTradeDialogProps> = ({
     setOrderStatus(TxStatus.PENDING);
     onCloseModal();
   };
-
-  useEffect(() => {
-    if (useLoanTokens) {
-      getMarginOrderFeeOut(loanToken, collateralToken, amount).then(setFeeOut);
-    } else {
-      getMarginOrderFeeOut(collateralToken, loanToken, amount).then(setFeeOut);
-    }
-  }, [amount, collateralToken, loanToken, useLoanTokens]);
 
   const positionSize = useMemo(
     () => bignumber(amount).mul(leverage).toFixed(0),
