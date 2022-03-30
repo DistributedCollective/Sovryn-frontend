@@ -4,6 +4,8 @@ import { Chain } from './chain';
 import { Asset } from './asset';
 import { AppMode } from './app-mode';
 
+export * from './tailwind';
+
 export type Nullable<T = any> = T | null;
 
 export type { RootState };

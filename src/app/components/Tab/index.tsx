@@ -1,26 +1,37 @@
 import React from 'react';
-import { Text } from '@blueprintjs/core';
 import classNames from 'classnames';
 
-interface ITabProps {
-  text: string;
+type TabProps = {
+  text: React.ReactNode;
   active: boolean;
+  disabled?: boolean;
   onClick: () => void;
-}
-
-export const Tab: React.FC<ITabProps> = ({ text, active, onClick }) => {
-  return (
-    <button
-      type="button"
-      className={classNames(
-        'btn hover:tw-text-gray-9 tw-text-sov-white tw-opacity-25 tw-bg-none tw-text-base tw-normal-case tw-font-semibold tw-mr-2.5 tw-leading-7 tw-py-1.5 tw-px-2.5 hover:tw-opacity-75',
-        {
-          'tw-opacity-100 hover:tw-opacity-100': active,
-        },
-      )}
-      onClick={onClick}
-    >
-      <Text ellipsize>{text}</Text>
-    </button>
-  );
+  className?: string;
+  dataActionId?: string;
 };
+
+export const Tab: React.FC<TabProps> = ({
+  text,
+  active,
+  onClick,
+  disabled,
+  className,
+  dataActionId,
+}) => (
+  <button
+    type="button"
+    className={classNames(
+      'tw-text-sov-white tw-px-2.5 tw-py-2 tw-text-lg tw-font-thin tw-whitespace-nowrap',
+      {
+        'tw-text-white tw-font-normal': active,
+        'tw-cursor-pointer hover:tw-text-gray-9': !disabled,
+        'tw-opacity-50 tw-cursor-not-allowed': disabled,
+      },
+      className,
+    )}
+    onClick={onClick}
+    data-action-id={dataActionId}
+  >
+    {text}
+  </button>
+);

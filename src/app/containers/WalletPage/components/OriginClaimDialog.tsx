@@ -6,7 +6,7 @@ import styles from './dialog.module.scss';
 import arrowDown from './arrow-down.svg';
 import { FieldGroup } from '../../../components/FieldGroup';
 import { DummyField } from '../../../components/DummyField';
-import { Button } from '../../../components/Button';
+import { Button, ButtonSize, ButtonStyle } from '../../../components/Button';
 import { useAccount } from '../../../hooks/useAccount';
 import { useCacheCallWithValue } from '../../../hooks/useCacheCallWithValue';
 import { useSendContractTx } from '../../../hooks/useSendContractTx';
@@ -120,8 +120,9 @@ export function OriginClaimDialog(props: Props) {
                   <div className="tw-mt-12 tw-w-full tw-text-center">
                     <Button
                       text="Check SOV"
-                      onClick={() => props.onClose()}
                       className="tw-mx-auto"
+                      size={ButtonSize.lg}
+                      onClick={() => props.onClose()}
                     />
                   </div>
                 </>
@@ -187,8 +188,8 @@ export function OriginClaimDialog(props: Props) {
                   <div className="tw-flex tw-flex-row tw-justify-between tw-items-center">
                     <Button
                       text="Confirm"
-                      onClick={() => handleSubmit()}
                       className="tw-mr-4 tw-w-full"
+                      size={ButtonSize.lg}
                       loading={tx.loading || loading}
                       disabled={
                         tx.loading ||
@@ -198,12 +199,14 @@ export function OriginClaimDialog(props: Props) {
                         loading ||
                         !Number(sovAmount)
                       }
+                      onClick={() => handleSubmit()}
                     />
                     <Button
                       text="Cancel"
-                      inverted
-                      onClick={() => props.onClose()}
                       className="tw-ml-4 tw-w-full"
+                      size={ButtonSize.lg}
+                      style={ButtonStyle.inverted}
+                      onClick={() => props.onClose()}
                     />
                   </div>
                 </>
