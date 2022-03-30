@@ -1572,7 +1572,7 @@
     "openLimitOrders": "Ordens a limite abertas",
     "notificationSettingsDialog": {
       "title": "Configurações de notificação de margem",
-      "notifyVia": "Receba notificações por e-mail para ordens a limite executadas, chamadas de margem e liquidações. Detalhes <0>aqui</0>.",
+      "notifyVia": "Receba notificações por e-mail para ordens a limite executadas, chamadas de margem e liquidações.",
       "marginCalls": "Chamadas de margem",
       "liquidations": "Liquidações",
       "here": "aqui",

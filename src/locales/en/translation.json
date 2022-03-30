@@ -1676,7 +1676,7 @@
     "openLimitOrders": "Open limit orders",
     "notificationSettingsDialog": {
       "title": "Notification Settings",
-      "notifyVia": "Receive email notifications for limit order fills, margin calls, and liquidations. Details <0>here</0>.",
+      "notifyVia": "Receive email notifications for limit order fills, margin calls, and liquidations.",
       "marginCalls": "Margin Calls",
       "liquidations": "Liquidations",
       "here": "here",
