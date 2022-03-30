@@ -1649,8 +1649,6 @@
       "day_one": "{{count}} dia",
       "day_other": "{{count}} dias",
       "partialFilled": "Permitir ordem parcialmente executada:",
-      "aboveMarket": "acima do preço de mercado",
-      "belowMarket": "abaixo do preço de mercado",
       "infinity": "∞"
     },
     "openLimitOrders": {

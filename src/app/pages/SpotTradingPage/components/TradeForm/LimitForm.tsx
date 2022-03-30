@@ -78,7 +78,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
   const weiAmount = useWeiAmount(amount);
 
   const weiAmountOut = useMemo(() => {
-    if (![limitPrice, amount, limitPrice].every(isValidNumerishValue)) {
+    if (![limitPrice, amount].every(isValidNumerishValue)) {
       return '0';
     }
 
@@ -104,18 +104,6 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
     pair[1],
     toWei('1'),
   );
-
-  const limitMarketChange = useMemo(() => {
-    if (!limitPrice || limitPrice === '0' || !marketPrice) {
-      return '';
-    }
-
-    return bignumber(toWei(limitPrice))
-      .div(marketPrice)
-      .mul(100)
-      .minus(100)
-      .toNumber();
-  }, [limitPrice, marketPrice]);
 
   useEffect(() => {
     if (
@@ -313,22 +301,6 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
               {formatNumber(Number(fromWei(weiAmountOut)), 6)}{' '}
               <AssetRenderer asset={targetToken} />
             </span>
-          </div>
-          <div
-            className={classNames('tw-text-sm tw-text-right', {
-              'tw-text-trade-short': limitMarketChange < 0,
-              'tw-text-trade-long': limitMarketChange > 0,
-              'tw-invisible':
-                limitMarketChange === '' ||
-                +stringToFixedPrecision(`${limitMarketChange}`, 2) === 0,
-            })}
-          >
-            {t(translations.spotTradingPage.tradeForm.buy)}{' '}
-            <AssetRenderer asset={targetToken} />{' '}
-            {stringToFixedPrecision(`${limitMarketChange}`, 2)}%{' '}
-            {limitMarketChange > 0
-              ? t(translations.spotTradingPage.limitOrderSetting.aboveMarket)
-              : t(translations.spotTradingPage.limitOrderSetting.belowMarket)}
           </div>
         </div>
       </div>
