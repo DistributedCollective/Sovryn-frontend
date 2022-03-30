@@ -8,7 +8,6 @@ import { selectMarginTradePage } from 'app/pages/MarginTradePage/selectors';
 import { useSelector } from 'react-redux';
 import { MarginLimitOrderList, parseMarginOrder } from '../LimitOrderTables';
 import { EventData } from 'web3-eth-contract';
-import { HelpBadge } from 'app/components/HelpBadge/HelpBadge';
 
 interface IOpenPositionsTableProps {
   perPage?: number;
@@ -62,9 +61,7 @@ export const OpenPositionsTable: React.FC<IOpenPositionsTableProps> = ({
             </th>
             <th>{t(trans.pair)}</th>
             <th className="tw-hidden md:tw-table-cell">
-              <HelpBadge tooltip={t(trans.limitPriceTooltip)}>
-                {t(trans.limitPrice)}
-              </HelpBadge>
+              {t(trans.limitPrice)}
             </th>
             <th className="tw-hidden md:tw-table-cell">
               {t(trans.tradeAmount)}

@@ -6,7 +6,6 @@ import { ILimitOrder } from 'app/pages/SpotTradingPage/types';
 import { translations } from 'locales/i18n';
 import { Pagination } from 'app/components/Pagination';
 import { EventData } from 'web3-eth-contract';
-import { HelpBadge } from 'app/components/HelpBadge/HelpBadge';
 
 interface ILimitOrderHistoryProps {
   perPage?: number;
@@ -52,9 +51,7 @@ export const LimitOrderHistory: React.FC<ILimitOrderHistoryProps> = ({
               {t(trans.tradeAmount)}
             </th>
             <th className="tw-hidden md:tw-table-cell">
-              <HelpBadge tooltip={t(trans.limitPriceTooltip)}>
-                {t(trans.limitPrice)}
-              </HelpBadge>
+              {t(trans.executionPrice)}
             </th>
             <th>{t(trans.amountReceive)}</th>
             <th className="tw-hidden sm:tw-table-cell">

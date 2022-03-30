@@ -8,7 +8,6 @@ import { translations } from 'locales/i18n';
 import { useSelector } from 'react-redux';
 import { selectSpotTradingPage } from '../../../selectors';
 import { Pagination } from 'app/components/Pagination';
-import { HelpBadge } from 'app/components/HelpBadge/HelpBadge';
 
 interface IOpenPositionsTableProps {
   perPage?: number;
@@ -59,9 +58,7 @@ export const OpenPositionsTable: React.FC<IOpenPositionsTableProps> = ({
             <th className="tw-hidden md:tw-table-cell">{t(trans.orderType)}</th>
             <th>{t(trans.tradeAmount)}</th>
             <th className="tw-hidden md:tw-table-cell">
-              <HelpBadge tooltip={t(trans.limitPriceTooltip)}>
-                {t(trans.limitPrice)}
-              </HelpBadge>
+              {t(trans.executionPrice)}
             </th>
             <th className="tw-hidden lg:tw-table-cell">
               {t(trans.amountReceive)}

@@ -1762,7 +1762,7 @@
       "orderType": "Order Type",
       "tradeAmount": "Trade Amount",
       "limitPrice": "Limit Price",
-      "limitPriceTooltip": "Limit Price is impacted by trading fees and slippage, please note this will not match exactly the Limit Price entered when placing the order.",
+      "executionPrice": "Execution Price",
       "amountReceive": "Amount to Receive",
       "duration": "Duration",
       "deadline": "Deadline",
