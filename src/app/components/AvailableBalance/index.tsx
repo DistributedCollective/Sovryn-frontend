@@ -9,6 +9,7 @@ import { weiToAssetNumberFormat } from 'utils/display-text/format';
 import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
 import { LoadableValue } from '../LoadableValue';
 import { AssetRenderer } from '../AssetRenderer';
+import styles from './index.module.scss';
 
 interface IAvailableBalanceProps {
   asset: Asset;
@@ -25,13 +26,7 @@ export const AvailableBalance: React.FC<IAvailableBalanceProps> = ({
   const assetDetails = useMemo(() => AssetsDictionary.get(asset), [asset]);
   return (
     <div
-      className={classNames(
-        className,
-        'tw-truncate tw-text-xs tw-font-light tw-tracking-normal tw-flex tw-w-full',
-        {
-          'tw-justify-between tw-mb-2': !className,
-        },
-      )}
+      className={classNames(styles.balance, className)}
       data-action-id={dataAttribute}
     >
       <Trans
