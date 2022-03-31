@@ -187,7 +187,7 @@ export const PairNavbar: React.FC<IPairNavbarProps> = ({ type }) => {
           pairsData={pairsData}
           type={type}
           isOpen={isOpen}
-          onPairClick={() => setIsOpen(!isOpen)}
+          onPairClick={() => setIsOpen(value => !value)}
         />
 
         {pair && <PairNavbarInfo pair={pair} />}
