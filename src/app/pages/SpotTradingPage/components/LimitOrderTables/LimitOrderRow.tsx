@@ -140,7 +140,7 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
               src={pair[0]?.logoSvg}
             />
           </div>
-          <div className="tw-rounded-full tw--ml-3">
+          <div className="tw-rounded-full">
             <img
               className="tw-w-8 tw-h-8 tw-object-scale-down"
               alt={pair[1]?.asset}

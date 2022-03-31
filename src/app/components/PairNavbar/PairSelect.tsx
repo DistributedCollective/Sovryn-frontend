@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
 import { Input } from 'app/components/Form/Input';
-import { IPairsData, TradingType } from 'types/trading-pairs';
+import { IPairsData, ITradingPairs, TradingType } from 'types/trading-pairs';
 import { selectSpotTradingPage } from 'app/pages/SpotTradingPage/selectors';
 import { selectMarginTradePage } from 'app/pages/MarginTradePage/selectors';
 import { Pair } from './Pair';
@@ -15,15 +15,16 @@ import arrowDownIcon from 'assets/images/swap/ic_arrow_down.svg';
 import searchIcon from 'assets/images/search.svg';
 import { PairCryptocurrency } from './PairCryptocurrency';
 import { CSSTransition } from 'react-transition-group';
-import './styles.scss';
 
 const FAVORITE = 'FAVORITE';
 
 interface IPairSelect {
-  onPairChange: ([ITradingPairs]) => void;
+  onPairChange: (value: ITradingPairs) => void;
+  onPairClick: () => void;
   storageKey: string;
   pairsData: IPairsData;
   type: string;
+  isOpen: boolean;
 }
 
 export const PairSelect: React.FC<IPairSelect> = ({
@@ -31,17 +32,18 @@ export const PairSelect: React.FC<IPairSelect> = ({
   onPairChange,
   pairsData,
   type,
+  isOpen,
+  onPairClick,
 }) => {
   const { t } = useTranslation();
   const ref = useRef(null);
   const { pairType: pairSpotType } = useSelector(selectSpotTradingPage);
   const { pairType: pairMarginType } = useSelector(selectMarginTradePage);
-  const [open, setOpen] = useState(false);
   const [search, setSearch] = useState('');
   const [category, setCategory] = useState('');
   const nodeRef = useRef<HTMLDivElement>(null);
 
-  useOnClickOutside(ref, () => setOpen(false));
+  useOnClickOutside(ref, () => onPairClick());
 
   return (
     <div
@@ -49,9 +51,9 @@ export const PairSelect: React.FC<IPairSelect> = ({
       className="tw-relative lg:tw-w-64 tw-w-56 tw-self-stretch tw-mr-2"
     >
       <div
-        onClick={() => setOpen(!open)}
+        onClick={() => onPairClick()}
         className={classNames(
-          { 'tw-rounded-b-lg': !open },
+          { 'tw-rounded-b-lg': !isOpen },
           'tw-flex tw-h-full tw-items-center tw-py-1 tw-bg-gray-2 lg:tw-px-8 tw-px-4 tw-rounded-t-lg tw-cursor-pointer tw-select-none tw-transition-opacity hover:tw-bg-opacity-75',
         )}
       >
@@ -65,7 +67,7 @@ export const PairSelect: React.FC<IPairSelect> = ({
         </div>
         <img
           className={classNames('tw-w-5 tw-transition-transform ', {
-            'tw-transform tw-rotate-180': open,
+            'tw-transform tw-rotate-180': isOpen,
           })}
           src={arrowDownIcon}
           alt="Arrow"
@@ -75,13 +77,13 @@ export const PairSelect: React.FC<IPairSelect> = ({
       <CSSTransition
         unmountOnExit
         classNames="dropdown"
-        in={open}
+        in={isOpen}
         nodeRef={nodeRef}
         timeout={200}
       >
         <div
           ref={nodeRef}
-          className="tw-absolute tw-transform tw-translate-y-full tw-bottom-0 tw-left-0 tw-bg-gray-2 tw-py-7 tw-px-9 tw-rounded-b-lg tw-z-20"
+          className="tw-absolute tw-transform tw-translate-y-full tw-bottom-0 tw-left-0 tw-bg-gray-2 tw-py-7 tw-px-9 tw-rounded-b-lg"
         >
           <Input
             value={search}
@@ -117,7 +119,6 @@ export const PairSelect: React.FC<IPairSelect> = ({
                 storageKey={storageKey}
                 category={category}
                 search={search}
-                closePairList={() => setOpen(false)}
                 onPairChange={onPairChange}
                 type={type}
               />

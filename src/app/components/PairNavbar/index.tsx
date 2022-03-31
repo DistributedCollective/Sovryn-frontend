@@ -34,8 +34,6 @@ export const PairNavbar: React.FC<IPairNavbarProps> = ({ type }) => {
     ? 'selectedSpotPair'
     : 'selectedMarginPair';
   const selectedPair = reactLocalStorage.getObject(localStoreObject);
-  const dispatchAction: any =
-    type === TradingType.SPOT ? spotActions : marginActions;
   const tradingType =
     type === TradingType.SPOT ? SpotPairType : TradingPairType;
 
@@ -43,6 +41,8 @@ export const PairNavbar: React.FC<IPairNavbarProps> = ({ type }) => {
     showNotificationSettingsModal,
     setShowNotificationSettingsModal,
   ] = useState(false);
+
+  const [isOpen, setIsOpen] = useState(false);
 
   const storageKey = useMemo(() => {
     switch (location.pathname) {
@@ -123,6 +123,17 @@ export const PairNavbar: React.FC<IPairNavbarProps> = ({ type }) => {
     }
   }, [selectedPair, filteredList, tradingType, pair, pairsArray]);
 
+  const dispatchAction = useCallback(
+    pair => {
+      if (type === TradingType.SPOT) {
+        dispatch(spotActions.setPairType(pair));
+      } else {
+        dispatch(marginActions.setPairType(pair));
+      }
+    },
+    [dispatch, type],
+  );
+
   const onPairChange = useCallback(
     pair => {
       setPair(pair);
@@ -131,6 +142,9 @@ export const PairNavbar: React.FC<IPairNavbarProps> = ({ type }) => {
           pair[0].base_symbol,
           pair[1].base_symbol,
         ]);
+        dispatchAction(
+          tradingType[`${pair[0].base_symbol}_${pair[1].base_symbol}`],
+        );
       }
       //filtering pairs for RBTC as target
       if (pair[0].base_symbol === pair[1].base_symbol && !pair[2]) {
@@ -138,6 +152,9 @@ export const PairNavbar: React.FC<IPairNavbarProps> = ({ type }) => {
           pair[0].base_symbol,
           pair[1].quote_symbol,
         ]);
+        dispatchAction(
+          tradingType[`${pair[0].base_symbol}_${pair[0].quote_symbol}`],
+        );
       }
       //filtering pairs for RBTC as source
       if (pair[0].base_symbol === pair[1].base_symbol && pair[2]) {
@@ -146,19 +163,20 @@ export const PairNavbar: React.FC<IPairNavbarProps> = ({ type }) => {
           pair[1].base_symbol,
           pair[2],
         ]);
+        dispatchAction(
+          tradingType[`${pair[0].quote_symbol}_${pair[0].base_symbol}`],
+        );
       }
+      setIsOpen(false);
     },
-    [localStoreObject],
+    [localStoreObject, dispatchAction, tradingType],
   );
 
   useEffect(() => {
-    if (Object.keys(selectedPair).length)
-      dispatch(
-        dispatchAction.setPairType(
-          tradingType[`${selectedPair[0]}_${selectedPair[1]}`],
-        ),
-      );
-  }, [dispatch, selectedPair, tradingType, dispatchAction]);
+    if (Object.keys(selectedPair).length) {
+      dispatchAction(tradingType[`${selectedPair[0]}_${selectedPair[1]}`]);
+    }
+  }, [selectedPair, tradingType, dispatchAction]);
 
   return (
     <div className="tw-bg-gray-3 tw-w-full">
@@ -168,6 +186,8 @@ export const PairNavbar: React.FC<IPairNavbarProps> = ({ type }) => {
           onPairChange={onPairChange}
           pairsData={pairsData}
           type={type}
+          isOpen={isOpen}
+          onPairClick={() => setIsOpen(!isOpen)}
         />
 
         {pair && <PairNavbarInfo pair={pair} />}

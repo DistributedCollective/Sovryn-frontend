@@ -1,5 +1,4 @@
 import React, { useMemo, useState, useEffect, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import classNames from 'classnames';
@@ -13,25 +12,21 @@ import {
 import { toNumberFormat } from 'utils/display-text/format';
 import { Pair } from './Pair';
 import { StarButton } from 'app/components/StarButton';
-import { actions as spotActions } from 'app/pages/SpotTradingPage/slice';
-import { actions as marginActions } from 'app/pages/MarginTradePage/slice';
 import { usePairList } from 'app/hooks/trading/usePairList';
 import { Asset } from 'types';
 
 const FAVORITE = 'FAVORITE';
 
 interface IPairCryptocurrencyProps {
-  closePairList: () => void;
   storageKey: string;
   category: string;
   search: string;
   pairs: IPairData[];
-  onPairChange: (value: [ITradingPairs]) => void;
+  onPairChange: (value: ITradingPairs) => void;
   type: string;
 }
 
 export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
-  closePairList,
   storageKey,
   category,
   search,
@@ -42,9 +37,6 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
   const { t } = useTranslation();
   const list = usePairList(pairs);
   const [favList, setFavList] = useState(getFavoriteList(storageKey));
-  const dispatch = useDispatch();
-  const dispatchAction: any =
-    type === TradingType.SPOT ? spotActions : marginActions;
   const tradingType =
     type === TradingType.SPOT ? SpotPairType : TradingPairType;
 
@@ -178,35 +170,6 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
   useEffect(() => {
     setFavoriteList(storageKey, favList);
   }, [storageKey, favList]);
-
-  const selectPair = useCallback(
-    pair => {
-      //filtering pairs without RBTC
-      if (pair[1] !== pair[0])
-        dispatch(
-          dispatchAction.setPairType(
-            tradingType[`${pair[0].base_symbol}_${pair[1].base_symbol}`],
-          ),
-        );
-      //filtering pairs for RBTC as target
-      if (pair[0].base_symbol === pair[1].base_symbol && !pair[2])
-        dispatch(
-          dispatchAction.setPairType(
-            tradingType[`${pair[0].base_symbol}_${pair[0].quote_symbol}`],
-          ),
-        );
-      //filtering pairs for RBTC as source
-      if (pair[0].base_symbol === pair[1].base_symbol && pair[2])
-        dispatch(
-          dispatchAction.setPairType(
-            tradingType[`${pair[0].quote_symbol}_${pair[0].base_symbol}`],
-          ),
-        );
-      onPairChange(pair);
-      closePairList();
-    },
-    [closePairList, dispatch, onPairChange, dispatchAction, tradingType],
-  );
 
   const isFavoriteActive = (
     pair0: IPairData,
@@ -364,7 +327,7 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
                     onClick={() => handleFavClick(pair)}
                   />
                 </td>
-                <td className="tw-py-2" onClick={() => selectPair(pair)}>
+                <td className="tw-py-2" onClick={() => onPairChange(pair)}>
                   {/* pairs with RBTC as target*/}
                   {pair[0].base_symbol === pair[1].base_symbol &&
                     !pair[2] &&
@@ -412,7 +375,10 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
                       />
                     )}
                 </td>
-                <td className="tw-text-right" onClick={() => selectPair(pair)}>
+                <td
+                  className="tw-text-right"
+                  onClick={() => onPairChange(pair)}
+                >
                   {toNumberFormat(getLastPrice(pair[0], pair[1], pair[2]), 6)}
                 </td>
                 <td
@@ -422,7 +388,7 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
                     'tw-text-trade-short':
                       getPercent(pair[0], pair[1], pair[2]) < 0,
                   })}
-                  onClick={() => selectPair(pair)}
+                  onClick={() => onPairChange(pair)}
                 >
                   {getPercent(pair[0], pair[1], pair[2]) > 0 && <>+</>}
                   {toNumberFormat(

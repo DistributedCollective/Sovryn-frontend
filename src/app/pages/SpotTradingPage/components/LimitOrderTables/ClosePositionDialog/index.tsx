@@ -78,7 +78,7 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
           <h1 className="tw-text-sov-white tw-text-center">
             {t(translations.spotTradingPage.cancelDialog.title)}
           </h1>
-          <div className="tw-py-4 tw-px-1 tw-bg-gray-2 sm:tw--mx-11 tw-mb-4 tw-rounded-lg tw-text-center">
+          <div className="tw-py-4 tw-px-1 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-center">
             <OrderLabel
               className="tw-text-lg tw-font-semibold tw-mb-1"
               orderType={OrderType.LIMIT}
@@ -89,7 +89,7 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
               <AssetRenderer asset={pair[1].asset} />
             </div>
           </div>
-          <div className="tw-py-4 tw-px-1 tw-bg-gray-2 sm:tw--mx-11 tw-mb-16 tw-rounded-lg tw-text-sm tw-font-light">
+          <div className="tw-py-4 tw-px-1 tw-bg-gray-2 tw-mb-16 tw-rounded-lg tw-text-sm tw-font-light">
             <LabelValuePair
               label={t(translations.spotTradingPage.tradeDialog.tradingPair)}
               value={

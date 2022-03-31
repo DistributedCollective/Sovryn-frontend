@@ -156,7 +156,7 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
             {t(translations.closeTradingPositionHandler.title)}
           </h1>
 
-          <div className="tw-py-4 tw-px-4 tw-bg-gray-2 sm:tw--mx-11 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
+          <div className="tw-py-4 tw-px-4 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
             <LabelValuePair
               label={t(translations.marginTradePage.tradeDialog.pair)}
               value={

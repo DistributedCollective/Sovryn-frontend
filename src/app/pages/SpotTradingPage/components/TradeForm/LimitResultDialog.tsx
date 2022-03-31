@@ -63,7 +63,7 @@ export const LimitResultDialog: React.FC<ILimitResultDialogProps> = ({
             alt="Status"
           />
         </div>
-        <div className="tw-py-4 tw-px-4 tw-bg-gray-2 sm:tw--mx-11 tw-mb-4 tw-rounded-lg tw-text-center">
+        <div className="tw-py-4 tw-px-4 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-center">
           <OrderLabel
             className="tw-text-lg tw-font-semibold tw-mb-1"
             orderType={OrderType.LIMIT}
@@ -95,7 +95,7 @@ export const LimitResultDialog: React.FC<ILimitResultDialogProps> = ({
         </div>
 
         {txHash && (
-          <div className="tw-pt-3 tw-pb-2 tw-px-6 tw-bg-gray-2 sm:tw--mx-11 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
+          <div className="tw-pt-3 tw-pb-2 tw-px-6 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
             <div className="tw-flex tw-flex-row tw-mb-1 tw-justify-between tw-text-sov-white tw-items-center">
               <div className="tw-w-1/2 tw-text-gray-10">
                 {t(translations.stake.txId)}

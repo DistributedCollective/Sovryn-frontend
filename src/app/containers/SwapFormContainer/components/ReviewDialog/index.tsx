@@ -50,7 +50,7 @@ export const ReviewDialog: React.FC<IReviewDialogProps> = ({
           <h1 className="tw-text-sov-white tw-text-center">
             {t(translations.swapTradeForm.reviewSwap)}
           </h1>
-          <div className="tw-py-4 tw-px-16 tw-bg-gray-2 sm:tw--mx-11 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
+          <div className="tw-py-4 tw-px-16 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
             <LabelValuePair
               label={t(translations.swapTradeForm.swapAsset)}
               value={<AssetRenderer asset={sourceToken} />}
