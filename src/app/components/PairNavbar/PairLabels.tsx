@@ -5,6 +5,7 @@ import { translations } from 'locales/i18n';
 import classNames from 'classnames';
 import { IPairData, TradingType } from 'types/trading-pairs';
 import { Asset } from 'types';
+import { Button, ButtonSize, ButtonStyle } from 'app/components/Button';
 import { pairList, pairs } from 'app/pages/SpotTradingPage/types';
 import { AssetSymbolRenderer } from '../AssetSymbolRenderer';
 
@@ -22,7 +23,7 @@ export const PairLabels: React.FC<IPairLabelsProps> = ({
   type,
 }) => {
   const { t } = useTranslation();
-  const ALL = t(translations.pairNavbar.all);
+
   //getting a list with currency labels
   const list = useMemo(() => {
     if (!spotPairs) {
@@ -54,29 +55,34 @@ export const PairLabels: React.FC<IPairLabelsProps> = ({
     .filter(item => item !== null);
 
   const categories =
-    type === TradingType.SPOT ? [ALL, Asset.RBTC, ...labelsList] : [ALL];
+    type === TradingType.SPOT ? [Asset.RBTC, ...labelsList] : null;
 
   return (
     <>
-      {list &&
+      <Button
+        text={t(translations.pairNavbar.all)}
+        className={classNames('tw-mr-4 tw-no-underline', {
+          'tw-text-primary': category === '',
+          'tw-text-sov-white': category !== '',
+        })}
+        size={ButtonSize.sm}
+        style={ButtonStyle.link}
+        onClick={() => onChangeCategory('')}
+      />
+      {categories &&
         categories.map(currency => {
           return (
-            <div
-              className={classNames(
-                'tw-mr-4 tw-cursor-pointer tw-font-semibold tw-transition-opacity hover:tw-text-opacity-75 hover:tw-text-primary',
-                {
-                  'tw-text-primary':
-                    category === currency ||
-                    (category === '' && currency === ALL),
-                  'tw-text-opacity-25':
-                    category !== currency && currency !== ALL,
-                },
-              )}
+            <Button
+              text={<AssetSymbolRenderer asset={currency} />}
+              className={classNames('tw-mr-4 tw-no-underline', {
+                'tw-text-primary': category === currency,
+                'tw-text-sov-white': category !== currency,
+              })}
+              size={ButtonSize.sm}
+              style={ButtonStyle.link}
               key={currency}
-              onClick={() => onChangeCategory(currency === ALL ? '' : currency)}
-            >
-              <AssetSymbolRenderer asset={currency} />
-            </div>
+              onClick={() => onChangeCategory(currency)}
+            />
           );
         })}
     </>

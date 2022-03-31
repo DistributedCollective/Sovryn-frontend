@@ -75,7 +75,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
               ? t(translations.spotTradingPage.tradeDialog.limitTitle)
               : t(translations.spotTradingPage.tradeDialog.marketTitle)}
           </h1>
-          <div className="tw-py-4 tw-px-4 tw-bg-gray-2 sm:tw--mx-11 tw-mb-4 tw-rounded-lg tw-text-center">
+          <div className="tw-py-4 tw-px-4 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-center">
             <OrderLabel
               className="tw-text-lg tw-font-semibold tw-mb-1"
               orderType={orderType}
@@ -88,14 +88,14 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
             />
           </div>
           {fee && (
-            <div className="tw-py-3 tw-px-4 tw-bg-gray-2 sm:tw--mx-11 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
+            <div className="tw-py-3 tw-px-4 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
               {fee}
             </div>
           )}
           <div className="tw-text-center tw-mt-1 tw-mb-2">
             {t(translations.spotTradingPage.tradeDialog.newOrderDetails)}
           </div>
-          <div className="tw-py-2 tw-px-4 tw-bg-gray-5 sm:tw--mx-11 tw-mb-16 tw-rounded-lg tw-text-sm tw-font-light">
+          <div className="tw-py-2 tw-px-4 tw-bg-gray-5 tw-mb-16 tw-rounded-lg tw-text-sm tw-font-light">
             <LabelValuePair
               label={t(translations.spotTradingPage.tradeDialog.orderAmount)}
               value={
