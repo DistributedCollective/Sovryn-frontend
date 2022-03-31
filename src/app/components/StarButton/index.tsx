@@ -20,7 +20,7 @@ export const StarButton: React.FC<IStarButtonProps> = ({
     onClick={onClick}
   >
     <svg
-      className="tw-w-5 tw-h-5 fill-current"
+      className="tw-w-5 tw-h-5"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 20 20"
     >

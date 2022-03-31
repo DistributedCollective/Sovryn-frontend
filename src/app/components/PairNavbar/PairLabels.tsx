@@ -23,7 +23,7 @@ export const PairLabels: React.FC<IPairLabelsProps> = ({
   type,
 }) => {
   const { t } = useTranslation();
-  const ALL = t(translations.pairNavbar.all);
+
   //getting a list with currency labels
   const list = useMemo(() => {
     if (!spotPairs) {
@@ -60,10 +60,10 @@ export const PairLabels: React.FC<IPairLabelsProps> = ({
   return (
     <>
       <Button
-        text={ALL}
+        text={t(translations.pairNavbar.all)}
         className={classNames('tw-mr-4 tw-no-underline', {
-          'tw-text-primary': category === ALL || category === '',
-          'tw-text-sov-white': category !== ALL && category !== '',
+          'tw-text-primary': category === '',
+          'tw-text-sov-white': category !== '',
         })}
         size={ButtonSize.sm}
         style={ButtonStyle.link}
@@ -81,7 +81,7 @@ export const PairLabels: React.FC<IPairLabelsProps> = ({
               size={ButtonSize.sm}
               style={ButtonStyle.link}
               key={currency}
-              onClick={() => onChangeCategory(currency === ALL ? '' : currency)}
+              onClick={() => onChangeCategory(currency)}
             />
           );
         })}
