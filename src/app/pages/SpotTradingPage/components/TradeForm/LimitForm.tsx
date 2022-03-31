@@ -15,7 +15,7 @@ import { stringToFixedPrecision } from 'utils/display-text/format';
 import { AvailableBalance } from 'app/components/AvailableBalance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useMaintenance } from 'app/hooks/useMaintenance';
-import { discordInvite } from 'utils/classifiers';
+import { discordInvite, WIKI_LIMIT_ORDER_LIMITS_LINK } from 'utils/classifiers';
 import styles from './index.module.scss';
 import { Duration } from '../LimitOrderSetting/Duration';
 import { TradeDialog } from '../TradeDialog';
@@ -40,6 +40,8 @@ import { formatNumber } from 'app/containers/StatsPage/utils';
 import { useDenominateDollarToAssetAmount } from 'app/hooks/trading/useDenominateDollarToAssetAmount';
 import { getSwapOrderFeeOut } from 'app/hooks/limitOrder/utils';
 import { HelpBadge } from 'app/components/HelpBadge/HelpBadge';
+import { useDenominateAssetAmount } from 'app/hooks/trading/useDenominateAssetAmount';
+import { Asset } from 'types';
 
 export const LimitForm: React.FC<ITradeFormProps> = ({
   sourceToken,
@@ -101,6 +103,12 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
     toWei(100),
   );
 
+  const { value: maxAmount } = useDenominateAssetAmount(
+    Asset.RBTC,
+    sourceToken,
+    toWei('1'),
+  );
+
   const { value: balance } = useAssetBalanceOf(sourceToken);
   const { value: marketPrice } = useSwapsExternal_getSwapExpectedReturn(
     pair[0],
@@ -129,6 +137,11 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
     return true;
   }, [minAmount, weiAmount]);
 
+  const isMaxAmountValid = useMemo(
+    () => bignumber(weiAmount).lessThanOrEqualTo(maxAmount),
+    [maxAmount, weiAmount],
+  );
+
   const validate = useMemo(() => {
     return (
       amount &&
@@ -138,11 +151,13 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
       bignumber(weiAmount).lessThanOrEqualTo(
         maxMinusFee(balance, sourceToken, gasLimit.trade),
       ) &&
-      isMinAmountValid
+      isMinAmountValid &&
+      isMaxAmountValid
     );
   }, [
     amount,
     balance,
+    isMaxAmountValid,
     isMinAmountValid,
     limitPrice,
     sourceToken,
@@ -269,6 +284,26 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
         {!isMinAmountValid && (
           <ErrorBadge
             content={t(translations.spotTradingPage.tradeForm.errors.minAmount)}
+          />
+        )}
+        {!isMaxAmountValid && (
+          <ErrorBadge
+            content={
+              <Trans
+                i18nKey={
+                  translations.spotTradingPage.tradeForm.errors.maxAmount
+                }
+                components={[
+                  <a
+                    href={WIKI_LIMIT_ORDER_LIMITS_LINK}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    wiki
+                  </a>,
+                ]}
+              />
+            }
           />
         )}
         <div className="tw-flex tw-relative tw-items-center tw-justify-between tw-mt-5">

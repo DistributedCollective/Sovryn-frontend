@@ -1728,7 +1728,8 @@
       "receive": "Receive:",
       "amount": "Amount:",
       "errors": {
-        "minAmount": "Limit order trade size too low, please try again with a larger amount"
+        "minAmount": "Limit order trade size too low, please try again with a larger amount",
+        "maxAmount": "Maximum Limit Order trade size reached, please see our <0>wiki</0> for more details"
       }
     },
     "priceHistory": {

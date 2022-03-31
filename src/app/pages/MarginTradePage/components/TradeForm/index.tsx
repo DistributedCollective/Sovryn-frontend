@@ -9,7 +9,11 @@ import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { FormGroup } from 'app/components/Form/FormGroup';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import settingIcon from 'assets/images/settings-blue.svg';
-import { discordInvite, useTenderlySimulator } from 'utils/classifiers';
+import {
+  discordInvite,
+  useTenderlySimulator,
+  WIKI_LIMIT_ORDER_LIMITS_LINK,
+} from 'utils/classifiers';
 import { translations } from 'locales/i18n';
 import { TradingPosition } from 'types/trading-position';
 import styles from './index.module.scss';
@@ -50,6 +54,8 @@ import { LimitTradeDialog } from '../LimitOrder/LimitTradeDialog';
 import { useDenominateDollarToAssetAmount } from 'app/hooks/trading/useDenominateDollarToAssetAmount';
 import { getPriceAmm } from 'utils/blockchain/requests/amm';
 import { HelpBadge } from 'app/components/HelpBadge/HelpBadge';
+import { useDenominateAssetAmount } from 'app/hooks/trading/useDenominateAssetAmount';
+import { Asset } from 'types';
 
 interface ITradeFormProps {
   pairType: TradingPairType;
@@ -152,6 +158,11 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     loading: minAmountLoading,
   } = useDenominateDollarToAssetAmount(collateral, toWei(200));
 
+  const {
+    value: maxAmount,
+    loading: maxAmountLoading,
+  } = useDenominateAssetAmount(Asset.RBTC, collateral, toWei(1));
+
   const isMinAmountValid = useMemo(() => {
     if (bignumber(weiAmount).greaterThan(0)) {
       return bignumber(weiAmount).greaterThanOrEqualTo(minAmount);
@@ -159,16 +170,23 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     return true;
   }, [minAmount, weiAmount]);
 
+  const isMaxAmountValid = useMemo(
+    () => bignumber(weiAmount).lessThanOrEqualTo(maxAmount),
+    [maxAmount, weiAmount],
+  );
+
   const loadingState = useMemo(() => {
     return (
       estimationsLoading ||
       tokenBalanceLoading ||
       loadingPrice ||
-      (orderType === OrderType.LIMIT && minAmountLoading)
+      (orderType === OrderType.LIMIT && minAmountLoading) ||
+      (orderType === OrderType.LIMIT && maxAmountLoading)
     );
   }, [
     estimationsLoading,
     loadingPrice,
+    maxAmountLoading,
     minAmountLoading,
     orderType,
     tokenBalanceLoading,
@@ -180,7 +198,8 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
       !connected ||
       openTradesLocked ||
       loadingState ||
-      (orderType === OrderType.LIMIT && !isMinAmountValid),
+      (orderType === OrderType.LIMIT && !isMinAmountValid) ||
+      (orderType === OrderType.LIMIT && !isMaxAmountValid),
     [
       validate,
       connected,
@@ -188,6 +207,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
       loadingState,
       orderType,
       isMinAmountValid,
+      isMaxAmountValid,
     ],
   );
 
@@ -283,6 +303,26 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
                   content={t(
                     translations.spotTradingPage.tradeForm.errors.minAmount,
                   )}
+                />
+              )}
+              {!isMaxAmountValid && (
+                <ErrorBadge
+                  content={
+                    <Trans
+                      i18nKey={
+                        translations.spotTradingPage.tradeForm.errors.maxAmount
+                      }
+                      components={[
+                        <a
+                          href={WIKI_LIMIT_ORDER_LIMITS_LINK}
+                          target="_blank"
+                          rel="noreferrer noopener"
+                        >
+                          wiki
+                        </a>,
+                      ]}
+                    />
+                  }
                 />
               )}
               <div className="tw-flex tw-text-secondary tw-text-xs tw-relative tw-items-center tw-justify-between tw-mt-2">
