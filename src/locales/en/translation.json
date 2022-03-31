@@ -30,6 +30,12 @@
     "units": "units",
     "txHash": "Tx Hash"
   },
+  "tradeEvents": {
+    "CloseWithSwap": "Withdraw",
+    "Trade": "Open Position",
+    "Liquidate": "Liquidate",
+    "DepositCollateral": "Add Collateral"
+  },
   "global": {
     "liquidationPrice": "Liquidation Price",
     "interestApr": "Interest APY"

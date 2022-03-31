@@ -1,25 +1,38 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
-import { OpenPositionRow } from './OpenPositionRow';
-import { PendingPositionRow } from './PendingPositionRow';
+import { useSelector } from 'react-redux';
 import { Trans, useTranslation } from 'react-i18next';
+import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
+import { PendingPositionRow } from './PendingPositionRow';
 import { translations } from '../../../../../locales/i18n';
 import { Pagination } from '../../../../components/Pagination';
-import { useMargin_GetLoans } from '../../hooks/useMargin_GetLoans';
-import { useSelector } from 'react-redux';
 import { selectTransactionArray } from 'store/global/transactions-store/selectors';
 import { TxStatus, TxType } from 'store/global/transactions-store/types';
 import { HelpBadge } from 'app/components/HelpBadge/HelpBadge';
+import { useAccount } from 'app/hooks/useAccount';
+import { useMargin_getActiveLoans } from './hooks/useMargin_getActiveLoans';
+import { PositionRow } from './PositionRow';
 
-export function OpenPositionsTable() {
+const PER_PAGE = 6;
+
+export const OpenPositionsTable = () => {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const transactions = useSelector(selectTransactionArray);
-  const { events, loading, totalCount } = useMargin_GetLoans(page, true);
-  const isEmpty = useMemo(
-    () => !loading && !events?.length && !transactions.length,
-    [loading, events, transactions],
+
+  const account = useAccount();
+
+  const { items: _items, loading } = useMargin_getActiveLoans(account);
+
+  const items = useMemo(
+    () => _items.slice(page * PER_PAGE - PER_PAGE, page * PER_PAGE),
+    [_items, page],
   );
+
+  const isEmpty = useMemo(
+    () => !loading && !_items?.length && !transactions.length,
+    [loading, _items, transactions],
+  );
+
   const onPageChanged = useCallback(data => setPage(data.currentPage), []);
   const onGoingTransactions = useMemo(
     () =>
@@ -81,7 +94,9 @@ export function OpenPositionsTable() {
             <th className="tw-hidden 2xl:tw-table-cell">
               {t(translations.common.txHash)}
             </th>
-            <th>{t(translations.openPositionTable.actions)}</th>
+            <th className="tw-text-right">
+              {t(translations.openPositionTable.actions)}
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -102,23 +117,19 @@ export function OpenPositionsTable() {
             </tr>
           )}
 
-          {totalCount > 0 && (
+          {items.length > 0 && (
             <>
-              {events?.map(event => (
-                <OpenPositionRow
-                  key={event.loanId}
-                  items={event.data}
-                  nextRollover={event.nextRollover}
-                />
+              {items?.map(event => (
+                <PositionRow key={event.loanId} data={event} />
               ))}
             </>
           )}
         </tbody>
       </table>
 
-      {totalCount > 0 && (
+      {_items.length > 0 && (
         <Pagination
-          totalRecords={totalCount}
+          totalRecords={_items.length}
           pageLimit={6}
           pageNeighbours={1}
           onChange={onPageChanged}
@@ -126,4 +137,4 @@ export function OpenPositionsTable() {
       )}
     </>
   );
-}
+};

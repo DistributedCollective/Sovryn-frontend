@@ -20,30 +20,6 @@ export interface ActiveLoan {
   creationTimestamp: string;
 }
 
-export interface OpenLoan {
-  data: OpenLoanType[];
-  isOpen: boolean;
-  loanId: string;
-  nextRollover: number | null;
-}
-
-export interface OpenLoanType {
-  borrowedAmountChange: string;
-  collateralToLoanRate: string;
-  collateralToken: string;
-  event: string;
-  interestRate: number;
-  loanId: string;
-  margin: number;
-  loanToken: string;
-  leverage: number;
-  positionSizeChange: string;
-  settlementDate: number;
-  time: number;
-  txHash: string;
-  user: string;
-}
-
 export interface TradeEventData {
   borrowedAmount: string;
   collateralToken: string;

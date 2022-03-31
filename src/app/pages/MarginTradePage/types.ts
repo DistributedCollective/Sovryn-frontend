@@ -66,6 +66,7 @@ export enum EventType {
   CLOSED = 'CloseWithSwap',
   TRADE = 'Trade',
   LIQUIDATE = 'Liquidate',
+  DEPOSIT = 'DepositCollateral',
 }
 
 export enum TradeType {

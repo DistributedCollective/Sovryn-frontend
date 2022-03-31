@@ -1,10 +1,10 @@
 import { weiTo18 } from 'utils/blockchain/math-helpers';
 import { bignumber } from 'mathjs';
-import type { OpenLoanType } from 'types/active-loan';
 import { TradingPosition } from 'types/trading-position';
 import imgArrowUp from 'assets/images/trend-arrow-up.svg';
 import imgArrowDown from 'assets/images/trend-arrow-down.svg';
 import { TradePriceChange } from 'types/trading-pairs';
+import { LoanEvent } from '../components/OpenPositionsTable/hooks/useMargin_getLoanEvents';
 
 export const isLongTrade = (position: TradingPosition) => {
   return position === TradingPosition.LONG;
@@ -33,7 +33,7 @@ export const getPriceChange = (priceDirection: number) => {
 };
 
 export const getTradingPositionPrice = (
-  item: OpenLoanType,
+  item: LoanEvent,
   position: TradingPosition,
 ) => {
   if (position === TradingPosition.LONG) {

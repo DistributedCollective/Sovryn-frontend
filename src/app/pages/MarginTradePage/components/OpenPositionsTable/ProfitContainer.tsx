@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { bignumber } from 'mathjs';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { OpenLoanType } from 'types/active-loan';
+import { ActiveLoan } from 'types/active-loan';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { usePriceFeeds_QueryRate } from 'app/hooks/price-feeds/useQueryRate';
 import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
@@ -19,7 +19,7 @@ import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { isLongTrade } from '../../utils/marginUtils';
 
 type ProfitContainerProps = {
-  item: OpenLoanType;
+  item: ActiveLoan;
   position: TradingPosition;
   entryPrice: number;
   leverage: number;
@@ -82,7 +82,7 @@ export const ProfitContainer: React.FC<ProfitContainerProps> = ({
     { loanCloseAmount: '0', withdrawAmount: '0', withdrawToken: '' },
     item.loanId,
     useAccount(),
-    item.positionSizeChange,
+    item.collateral,
     true,
     '0x',
   );
@@ -97,7 +97,7 @@ export const ProfitContainer: React.FC<ProfitContainerProps> = ({
     { loanCloseAmount: '0', withdrawAmount: '0', withdrawToken: '' },
     item.loanId,
     useAccount(),
-    item.positionSizeChange,
+    item.collateral,
     false,
     '0x',
   );

@@ -1,5 +1,4 @@
 import React, { useMemo, useState } from 'react';
-import type { OpenLoanType } from 'types/active-loan';
 import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
 import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
 import { TradingPosition } from 'types/trading-position';
@@ -16,12 +15,12 @@ import { TradeProfit } from 'app/components/TradeProfit';
 import { getTradingPositionPrice } from '../../utils/marginUtils';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { useTranslation } from 'react-i18next';
-import { LiquidatedPositionsTable } from '../LiquidatedPositionsTable';
+import { PositionEventsTable } from '../PositionEventsTable';
 import { translations } from 'locales/i18n';
-import { EventType } from '../../types';
+import { LoanEvent } from '../OpenPositionsTable/hooks/useMargin_getLoanEvents';
 
 type ClosedPositionRowProps = {
-  items: OpenLoanType[];
+  items: LoanEvent[];
 };
 
 export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
@@ -29,10 +28,6 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
 }) => {
   const { t } = useTranslation();
   const [showDetails, setShowDetails] = useState(false);
-  const liquidateLoans = useMemo(
-    () => items.filter(loan => loan.event === EventType.LIQUIDATE),
-    [items],
-  );
   const closedItem = useMemo(() => items[items.length - 1], [items]);
   const openedItem = useMemo(() => items[0], [items]);
   const loanAsset = assetByTokenAddress(closedItem.loanToken);
@@ -132,16 +127,16 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
               onClick={() => setShowDetails(!showDetails)}
               className="tw-border-none tw-ml-0 tw-pl-4 xl:tw-pl-2 tw-pr-0"
               textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
-              disabled={liquidateLoans.length === 0}
+              disabled={items.length === 0}
               data-action-id="margin-openPositions-DetailsButton"
             />
           </div>
         </td>
       </tr>
-      {showDetails && liquidateLoans && (
-        <LiquidatedPositionsTable
+      {showDetails && (
+        <PositionEventsTable
           isOpenPosition={false}
-          liquidateLoans={liquidateLoans}
+          events={items}
           isLong={position === TradingPosition.LONG}
         />
       )}

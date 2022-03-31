@@ -12,7 +12,6 @@ import { marginTradePageSaga } from './saga';
 import { TradingPairDictionary } from '../../../utils/dictionaries/trading-pair-dictionary';
 import { TradeForm } from './components/TradeForm';
 import { Theme, TradingChart } from '../../components/TradingChart';
-import { OpenPositionsTable } from './components/OpenPositionsTable';
 import { useIsConnected } from '../../hooks/useAccount';
 import { ClosedPositionsTable } from './components/ClosedPositionsTable';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -20,6 +19,7 @@ import { IPromotionLinkState } from '../LandingPage/components/Promotions/compon
 import { PairNavbar } from 'app/components/PairNavbar';
 import { TradingType } from 'types/trading-pairs';
 import { LimitOrderTables } from './components/LimitOrder/LimitOrderTables';
+import { OpenPositionsTable } from './components/OpenPositionsTable/OpenPositionsTable';
 
 export function MarginTradePage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });

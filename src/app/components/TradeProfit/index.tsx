@@ -9,15 +9,15 @@ import {
   weiToAssetNumberFormat,
 } from 'utils/display-text/format';
 import { translations } from 'locales/i18n';
-import { OpenLoanType } from 'types/active-loan';
 import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
 import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
 import { getTradingPositionPrice } from 'app/pages/MarginTradePage/utils/marginUtils';
 import { AssetRenderer } from '../AssetRenderer';
+import { LoanEvent } from 'app/pages/MarginTradePage/components/OpenPositionsTable/hooks/useMargin_getLoanEvents';
 
 interface ITradeProfitProps {
-  closedItem: OpenLoanType;
-  openedItem: OpenLoanType;
+  closedItem: LoanEvent;
+  openedItem: LoanEvent;
 }
 
 export const TradeProfit: React.FC<ITradeProfitProps> = ({

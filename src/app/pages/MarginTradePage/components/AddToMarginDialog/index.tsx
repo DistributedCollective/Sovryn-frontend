@@ -20,16 +20,17 @@ import { AmountInput } from 'app/components/Form/AmountInput';
 import { FormGroup } from 'app/components/Form/FormGroup';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import { OpenLoanType } from 'types/active-loan';
+import { ActiveLoan } from 'types/active-loan';
 import { discordInvite, MAINTENANCE_MARGIN } from 'utils/classifiers';
 import { weiToNumberFormat } from 'utils/display-text/format';
 import { bignumber } from 'mathjs';
 import { usePositionLiquidationPrice } from '../../../../hooks/trading/usePositionLiquidationPrice';
 import { toAssetNumberFormat } from 'utils/display-text/format';
 import { LabelValuePair } from 'app/components/LabelValuePair';
+import { leverageFromMargin } from 'utils/blockchain/leverage-from-start-margin';
 
 interface IAddToMarginDialogProps {
-  item: OpenLoanType;
+  item: ActiveLoan;
   showModal: boolean;
   onCloseModal: () => void;
   liquidationPrice?: React.ReactNode;
@@ -60,7 +61,9 @@ export const AddToMarginDialog: React.FC<IAddToMarginDialogProps> = ({
   const { checkMaintenance, States } = useMaintenance();
   const topupLocked = checkMaintenance(States.ADD_TO_MARGIN_TRADES);
 
-  const leverage = useMemo(() => item.leverage + 1, [item.leverage]);
+  const leverage = useMemo(() => leverageFromMargin(item.startMargin), [
+    item.startMargin,
+  ]);
 
   const handleConfirm = () => {
     send();
@@ -80,8 +83,8 @@ export const AddToMarginDialog: React.FC<IAddToMarginDialogProps> = ({
   ]);
 
   const liquidationPrice = usePositionLiquidationPrice(
-    item.borrowedAmountChange,
-    bignumber(item.positionSizeChange).add(weiAmount).toString(),
+    item.principal,
+    bignumber(item.collateral).add(weiAmount).toString(),
     isLong ? TradingPosition.LONG : TradingPosition.SHORT,
     MAINTENANCE_MARGIN,
   );
@@ -116,7 +119,7 @@ export const AddToMarginDialog: React.FC<IAddToMarginDialogProps> = ({
               label={t(translations.closeTradingPositionHandler.positionSize)}
               value={
                 <>
-                  {weiToNumberFormat(item.positionSizeChange, 4)}{' '}
+                  {weiToNumberFormat(item.collateral, 4)}{' '}
                   <AssetRenderer asset={tokenDetails.asset} />
                 </>
               }
