@@ -28,7 +28,8 @@
     "gasPrice": "gas price",
     "gasLimit": "gas limit",
     "units": "units",
-    "txHash": "Tx Hash"
+    "txHash": "Tx Hash",
+    "walletCompatibility": "Wallet Compatibility"
   },
   "tradeEvents": {
     "CloseWithSwap": "Withdraw",

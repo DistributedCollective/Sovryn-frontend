@@ -97,6 +97,7 @@ export const CREATE_TICKET_LINK =
   'https://sovryn.freshdesk.com/support/tickets/new';
 
 export const WIKI_LIMIT_ORDER_LIMITS_LINK = 'https://wiki.sovryn.app';
+export const WIKI_LIMIT_ORDER_WALLETS_LINK = 'https://wiki.sovryn.app';
 
 export const MILLION = 1000000;
 

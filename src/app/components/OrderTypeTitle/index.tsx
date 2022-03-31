@@ -1,8 +1,9 @@
 import React from 'react';
+import classNames from 'classnames';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { OrderType } from './types';
-import classNames from 'classnames';
+import { WIKI_LIMIT_ORDER_WALLETS_LINK } from 'utils/classifiers';
 
 interface IOrderTypeProps {
   value: OrderType;
@@ -18,7 +19,7 @@ export const OrderTypeTitle: React.FC<IOrderTypeProps> = ({
   const { t } = useTranslation();
 
   return (
-    <div className="tw-flex tw-items-center tw-my-3">
+    <div className="tw-flex tw-items-center tw-my-3 tw-space-x-2">
       <div
         className={classNames(
           'tw-cursor-pointer tw-py-1 tw-px-2 tw-rounded-lg tw-bg-gray-7 hover:tw-opacity-100 tw-transition-opacity tw-duration-300 tw-text-sm',
@@ -43,6 +44,18 @@ export const OrderTypeTitle: React.FC<IOrderTypeProps> = ({
       >
         {t(translations.spotTradingPage.tradeForm.limit)}
       </div>
+      {value === OrderType.LIMIT && (
+        <div>
+          <a
+            href={WIKI_LIMIT_ORDER_WALLETS_LINK}
+            target="_blank"
+            rel="noreferrer noopener"
+            className="tw-text-xs tw-text-blue-2"
+          >
+            {t(translations.common.walletCompatibility)}
+          </a>
+        </div>
+      )}
     </div>
   );
 };
