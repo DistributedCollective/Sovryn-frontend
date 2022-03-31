@@ -400,6 +400,13 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
               </tr>
             );
           })}
+          {filteredList.length === 0 && (
+            <tr>
+              <td className="tw-text-center tw-pt-4" colSpan={4}>
+                {t(translations.common.noData)}
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

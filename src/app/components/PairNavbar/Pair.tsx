@@ -43,7 +43,7 @@ export const Pair: React.FC<IPairProps> = ({ tradingType, type }) => {
           src={sourceTokenLogo}
         />
       </div>
-      <div className="tw-rounded-full">
+      <div className="tw-rounded-full tw--ml-3">
         <img
           className="tw-w-8 tw-h-8 tw-object-scale-down"
           alt={targetToken}
