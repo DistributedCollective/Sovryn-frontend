@@ -1,7 +1,6 @@
 import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import classNames from 'classnames';
 import { IPairData, ITradingPairs, TradingType } from 'types/trading-pairs';
 import { getFavoriteList, setFavoriteList } from 'utils/helpers';
 import { SpotPairType } from 'app/pages/SpotTradingPage/types';
@@ -14,6 +13,8 @@ import { Pair } from './Pair';
 import { StarButton } from 'app/components/StarButton';
 import { usePairList } from 'app/hooks/trading/usePairList';
 import { Asset } from 'types';
+import { getLastPrice } from './utils';
+import { RenderPercentageColumn } from './RenderPercentageColumn';
 
 const FAVORITE = 'FAVORITE';
 
@@ -187,82 +188,6 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
           !favorite[2]),
     );
 
-  const getLastPrice = (
-    pair0: IPairData,
-    pair1: IPairData,
-    RBTC_source: string,
-  ) => {
-    //generating lastPrice for all pairs
-    let lastPrice = 0;
-    //for pairs without RBTC
-    if (pair1 !== pair0) {
-      lastPrice = pair0.last_price / pair1.last_price;
-    }
-    //for pairs with RBTC as source
-    if (RBTC_source) {
-      lastPrice = 1 / pair0.last_price;
-    }
-    //for pairs with RBTC as target
-    if (pair0.base_symbol === pair1.base_symbol && !RBTC_source) {
-      lastPrice = pair0.last_price;
-    }
-    return lastPrice;
-  };
-
-  const getDayPrice = (
-    pair0: IPairData,
-    pair1: IPairData,
-    RBTC_source: string,
-  ) => {
-    //generating dayPrice for all pairs
-    let dayPrice = 0;
-    //for pairs without RBTC
-    if (pair1 !== pair0) {
-      dayPrice = pair0.day_price / pair1.day_price;
-    }
-    //for pairs with RBTC as source
-    if (RBTC_source) {
-      dayPrice = 1 / pair0.day_price;
-    }
-    //for pairs with RBTC as target
-    if (pair0.base_symbol === pair1.base_symbol && !RBTC_source) {
-      dayPrice = pair0.day_price;
-    }
-    return dayPrice;
-  };
-
-  const getPercent = (
-    pair0: IPairData,
-    pair1: IPairData,
-    RBTC_source: string,
-  ) => {
-    const lastPrice = getLastPrice(pair0, pair1, RBTC_source);
-    const dayPrice = getDayPrice(pair0, pair1, RBTC_source);
-
-    //generating dayPrice for all pairs
-    let percent = 0;
-    //for pairs without RBTC
-    if (pair1 !== pair0) {
-      if (lastPrice > dayPrice) {
-        percent = ((lastPrice - dayPrice) / dayPrice) * 100;
-      } else if (lastPrice < dayPrice) {
-        percent = ((lastPrice - dayPrice) / lastPrice) * 100;
-      }
-    }
-    //for pairs with RBTC as source
-    if (RBTC_source) {
-      percent =
-        pair0.price_change_percent_24h !== 0
-          ? -pair0.price_change_percent_24h
-          : pair0.price_change_percent_24h;
-    }
-    //for pairs with RBTC as target
-    if (pair0.base_symbol === pair1.base_symbol && !RBTC_source) {
-      percent = pair0.price_change_percent_24h;
-    }
-    return percent;
-  };
-
   const isValidPair = (
     pair0: IPairData,
     pair1: IPairData,
@@ -381,22 +306,10 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
                 >
                   {toNumberFormat(getLastPrice(pair[0], pair[1], pair[2]), 6)}
                 </td>
-                <td
-                  className={classNames('tw-text-right tw-pr-5', {
-                    'tw-text-trade-long':
-                      getPercent(pair[0], pair[1], pair[2]) > 0,
-                    'tw-text-trade-short':
-                      getPercent(pair[0], pair[1], pair[2]) < 0,
-                  })}
-                  onClick={() => onPairChange(pair)}
-                >
-                  {getPercent(pair[0], pair[1], pair[2]) > 0 && <>+</>}
-                  {toNumberFormat(
-                    getPercent(pair[0], pair[1], pair[2]),
-                    getPercent(pair[0], pair[1], pair[2]) !== 0 ? 6 : 0,
-                  )}
-                  %
-                </td>
+                <RenderPercentageColumn
+                  pair={pair}
+                  onPairChange={onPairChange}
+                />
               </tr>
             );
           })}
