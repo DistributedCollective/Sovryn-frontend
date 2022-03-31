@@ -23,7 +23,8 @@ export const Transitions = () => (
           <StorybookSwatch
             label={key}
             value={value}
-            className={`tw-m-2 tw-transition-all tw-duration-${key} tw-bg-gray-4 tw-transform hover:tw-z-50 hover:tw-bg-sov-white hover:tw-scale-125`}
+            className="tw-m-2 tw-bg-gray-4 tw-transform hover:tw-z-50 hover:tw-bg-sov-white hover:tw-scale-125"
+            style={{ transitionDuration: value }}
           />
         ))}
     </div>
@@ -35,7 +36,8 @@ export const Transitions = () => (
           <StorybookSwatch
             label={key}
             value={value}
-            className={`tw-m-2 tw-transition-all tw-ease-${key} tw-duration-1000 tw-bg-gray-4 tw-transform hover:tw-z-50 hover:tw-bg-sov-white hover:tw-scale-125`}
+            className="tw-m-2 tw-duration-1000 tw-bg-gray-4 tw-transform hover:tw-z-50 hover:tw-bg-sov-white hover:tw-scale-125"
+            style={{ transitionTimingFunction: value }}
           />
         ))}
     </div>

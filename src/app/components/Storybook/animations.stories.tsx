@@ -22,7 +22,8 @@ export const Animations = () => (
           <StorybookAnimatedBox
             label={key}
             value={value}
-            boxClassName={`tw-animate-${key}`}
+            // need to prefix with tw-, because the tailwind animations are prefixed as well, but value isn't
+            boxStyle={{ animation: `tw-${value}` }}
           />
         ))}
     </div>

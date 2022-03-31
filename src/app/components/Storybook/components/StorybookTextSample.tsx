@@ -5,6 +5,7 @@ import classNames from 'classnames';
 type StorybookTextSampleProps = {
   className?: string;
   sampleClassName?: string;
+  sampleStyle?: React.CSSProperties;
   label?: string;
   value?: number | string;
   textLength?: number;
@@ -16,6 +17,7 @@ const lorem =
 export const StorybookTextSample: React.FC<StorybookTextSampleProps> = ({
   className,
   sampleClassName: textClassName,
+  sampleStyle,
   label,
   value,
   textLength = 50,
@@ -24,7 +26,7 @@ export const StorybookTextSample: React.FC<StorybookTextSampleProps> = ({
     <H3>
       {label} – <em>{value}</em>
     </H3>
-    <p className={classNames('tw-mr-8', textClassName)}>
+    <p className={classNames('tw-mr-8', textClassName)} style={sampleStyle}>
       {lorem.slice(0, textLength)}
     </p>
   </div>

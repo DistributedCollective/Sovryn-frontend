@@ -12,8 +12,6 @@ export default {
 
 const config = resolveConfig(tailwindConfig);
 
-console.log(config);
-
 export const Borders = () => (
   <div>
     <H1>Borders</H1>

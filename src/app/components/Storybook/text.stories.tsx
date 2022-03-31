@@ -14,7 +14,7 @@ export default {
 const config = resolveConfig(tailwindConfig);
 
 export const Text = () => {
-  const [font, setFont] = useState('tw-font-body');
+  const [font, setFont] = useState('body');
 
   return (
     <div>
@@ -29,13 +29,14 @@ export const Text = () => {
                 'tw-box-border tw-w-1/3 tw-p-4 tw-cursor-pointer tw-duration-300 hover:tw-bg-gray-3',
                 font.endsWith(key) && 'tw-bg-gray-3',
               )}
-              onClick={() => setFont(`tw-font-${key}`)}
+              onClick={() => setFont(key)}
             >
               <StorybookTextSample
                 className="tw-mb-auto"
                 label={key}
                 value={value}
-                sampleClassName={`tw-mb-0 tw-text-base tw-font-${key}`}
+                sampleClassName="tw-mb-0 tw-text-base"
+                sampleStyle={{ fontFamily: key }}
               />
             </div>
           ))}
@@ -49,7 +50,8 @@ export const Text = () => {
               className="tw-w-full"
               label={key}
               value={value}
-              sampleClassName={classNames(`tw-text-${key}`, font)}
+              sampleClassName={font}
+              sampleStyle={{ fontSize: value }}
             />
           ))}
       </div>
@@ -62,7 +64,11 @@ export const Text = () => {
               className="tw-w-1/3"
               label={key}
               value={value}
-              sampleClassName={classNames(`tw-text-base tw-font-${key}`, font)}
+              sampleClassName={classNames('tw-text-base', font)}
+              sampleStyle={{
+                // value is just a string but fontWeight has specific definitions
+                fontWeight: value as React.CSSProperties['fontWeight'],
+              }}
             />
           ))}
       </div>
@@ -75,10 +81,10 @@ export const Text = () => {
               className="tw-w-1/3"
               label={key}
               value={value}
-              sampleClassName={classNames(
-                `tw-text-base tw-tracking-${key}`,
-                font,
-              )}
+              sampleClassName={classNames('tw-text-base', font)}
+              sampleStyle={{
+                letterSpacing: value,
+              }}
             />
           ))}
       </div>
@@ -101,10 +107,10 @@ export const Text = () => {
               className="tw-w-1/3"
               label={key}
               value={value}
-              sampleClassName={classNames(
-                `tw-text-base tw-leading-${key}`,
-                font,
-              )}
+              sampleClassName={classNames('tw-text-base', font)}
+              sampleStyle={{
+                lineHeight: value,
+              }}
               textLength={200}
             />
           ))}

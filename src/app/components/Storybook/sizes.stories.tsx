@@ -7,6 +7,7 @@ import { H1, H2 } from '../Heading';
 import { Table } from '../Table';
 import { ColumnOptions } from '../Table/types';
 import { Align } from '../../../types/index';
+import classNames from 'classnames';
 
 export default {
   title: 'Design Guide/Sizes',
@@ -31,22 +32,22 @@ const sortByPx = (a, b) => {
 };
 
 const percentageRows = [
-  ['full'],
-  ['1/2', '1/2'],
-  ['1/3', '2/3'],
-  ['1/4', '3/4'],
-  ['2/4', '2/4'],
-  ['1/5', '4/5'],
-  ['2/5', '3/5'],
-  ['1/6', '5/6'],
-  ['2/6', '4/6'],
-  ['3/6', '3/6'],
-  ['1/12', '11/12'],
-  ['2/12', '10/12'],
-  ['3/12', '9/12'],
-  ['4/12', '8/12'],
-  ['5/12', '7/12'],
-  ['6/12', '6/12'],
+  ['tw-w-full'],
+  ['tw-w-1/2', 'tw-w-1/2'],
+  ['tw-w-1/3', 'tw-w-2/3'],
+  ['tw-w-1/4', 'tw-w-3/4'],
+  ['tw-w-2/4', 'tw-w-2/4'],
+  ['tw-w-1/5', 'tw-w-4/5'],
+  ['tw-w-2/5', 'tw-w-3/5'],
+  ['tw-w-1/6', 'tw-w-5/6'],
+  ['tw-w-2/6', 'tw-w-4/6'],
+  ['tw-w-3/6', 'tw-w-3/6'],
+  ['tw-w-1/12', 'tw-w-11/12'],
+  ['tw-w-2/12', 'tw-w-10/12'],
+  ['tw-w-3/12', 'tw-w-9/12'],
+  ['tw-w-4/12', 'tw-w-8/12'],
+  ['tw-w-5/12', 'tw-w-7/12'],
+  ['tw-w-6/12', 'tw-w-6/12'],
 ];
 
 type BreakpointRowEntry = [string, string];
@@ -165,11 +166,14 @@ export const Sizes = () => (
     <div className="tw-max-w-3xl tw-mb-12">
       {percentageRows.map(row => (
         <div className="tw-flex tw-flex-row tw-mb-2 tw-gap-2">
-          {row.map(percentage => (
+          {row.map(className => (
             <div
-              className={`tw-box-border tw-px-2 tw-bg-gray-4 tw-w-${percentage}`}
+              className={classNames(
+                'tw-box-border tw-px-2 tw-bg-gray-4',
+                className,
+              )}
             >
-              {percentage}
+              {className.replace('tw-w-', '')}
             </div>
           ))}
         </div>

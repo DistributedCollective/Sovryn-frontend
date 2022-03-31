@@ -2,7 +2,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 type StorybookSwatchProps = {
-  style?: any;
+  style?: React.CSSProperties;
   className?: string;
   label: string;
   value: number | string;
