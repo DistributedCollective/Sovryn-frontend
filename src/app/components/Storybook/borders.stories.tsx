@@ -12,6 +12,9 @@ export default {
 
 const config = resolveConfig(tailwindConfig);
 
+const addPxValue = (value: string) =>
+  value.endsWith('rem') ? `${value} (${parseFloat(value) * 16}px)` : value;
+
 export const Borders = () => (
   <div>
     <H1>Borders</H1>
@@ -35,7 +38,7 @@ export const Borders = () => (
         .map(([key, value]) => (
           <StorybookSwatch
             label={key}
-            value={value}
+            value={addPxValue(value)}
             className="tw-m-1 tw-bg-gray-4"
             style={{
               borderRadius: value,

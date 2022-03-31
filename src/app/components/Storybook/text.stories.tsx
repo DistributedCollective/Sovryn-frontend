@@ -13,13 +13,31 @@ export default {
 
 const config = resolveConfig(tailwindConfig);
 
+// this is required to not loose the classes to the tailwind class cleanup.
+const fonts = {
+  body: 'tw-font-body',
+  orbitron: 'tw-font-orbitron',
+};
+
+const fontsMissing = !Object.keys(config.theme.fontFamily).every(
+  key => fonts[key],
+);
+
+const addPxValue = (value: string) =>
+  value.endsWith('rem') ? `${value} (${parseFloat(value) * 16}px)` : value;
+
 export const Text = () => {
-  const [font, setFont] = useState('body');
+  const [font, setFont] = useState(fonts.body);
 
   return (
     <div>
       <H1>Text</H1>
       <H2>Font Family</H2>
+      {fontsMissing && (
+        <p className="tw-text-warning tw-font-bold tw-text-xl">
+          A font is missing! Tell a dev!
+        </p>
+      )}
       <div className="tw-flex tw-flex-row tw-flex-wrap tw-mb-12">
         {Object.entries<string>(config.theme.fontFamily)
           .sort((a, b) => parseInt(a[1]) - parseInt(b[1]))
@@ -27,16 +45,15 @@ export const Text = () => {
             <div
               className={classNames(
                 'tw-box-border tw-w-1/3 tw-p-4 tw-cursor-pointer tw-duration-300 hover:tw-bg-gray-3',
-                font.endsWith(key) && 'tw-bg-gray-3',
+                font === fonts[key] && 'tw-bg-gray-3',
               )}
-              onClick={() => setFont(key)}
+              onClick={() => setFont(fonts[key])}
             >
               <StorybookTextSample
                 className="tw-mb-auto"
                 label={key}
                 value={value}
-                sampleClassName="tw-mb-0 tw-text-base"
-                sampleStyle={{ fontFamily: key }}
+                sampleClassName={classNames('tw-mb-0 tw-text-base', fonts[key])}
               />
             </div>
           ))}
@@ -49,7 +66,7 @@ export const Text = () => {
             <StorybookTextSample
               className="tw-w-full"
               label={key}
-              value={value}
+              value={addPxValue(value)}
               sampleClassName={font}
               sampleStyle={{ fontSize: value }}
             />
@@ -106,7 +123,7 @@ export const Text = () => {
             <StorybookTextSample
               className="tw-w-1/3"
               label={key}
-              value={value}
+              value={addPxValue(value)}
               sampleClassName={classNames('tw-text-base', font)}
               sampleStyle={{
                 lineHeight: value,
