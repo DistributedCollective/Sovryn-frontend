@@ -6,7 +6,6 @@ import { LoadableValue } from 'app/components/LoadableValue';
 import { usePositionLiquidationPrice } from 'app/hooks/trading/usePositionLiquidationPrice';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import classNames from 'classnames';
-import dayjs from 'dayjs';
 import { translations } from 'locales/i18n';
 import { bignumber } from 'mathjs';
 import React, { useMemo, useState } from 'react';
@@ -31,6 +30,7 @@ import { PositionEventsTable } from '../PositionEventsTable';
 import { PositionBlock } from '../PositionBlock';
 import { useMargin_getLoanEvents } from './hooks/useMargin_getLoanEvents';
 import { ProfitContainer } from './ProfitContainer';
+import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
 
 type PositionRowProps = {
   data: ActiveLoan;
@@ -98,6 +98,11 @@ export const PositionRow: React.FC<PositionRowProps> = ({ data: item }) => {
 
   const tradeEvent = useMemo(
     () => events.data.find(item => item.event === EventType.TRADE),
+    [events],
+  );
+
+  const rolloverDate = useMemo(
+    () => new Date(events.nextRollover).getTime().toString(),
     [events],
   );
 
@@ -196,7 +201,7 @@ export const PositionRow: React.FC<PositionRowProps> = ({ data: item }) => {
             className={classNames('tw-min-w-6', { 'bp3-skeleton': loading })}
           >
             {events.nextRollover ? (
-              dayjs(events.nextRollover * 1e3).format('DD/MM/YYYY')
+              <DisplayDate timestamp={rolloverDate} />
             ) : (
               <>-</>
             )}
