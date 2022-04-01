@@ -3147,11 +3147,6 @@
   {
     "inputs": [
       {
-        "internalType": "bytes32",
-        "name": "_iPerpetualID",
-        "type": "bytes32"
-      },
-      {
         "internalType": "address",
         "name": "_account",
         "type": "address"
@@ -3344,6 +3339,29 @@
       }
     ],
     "name": "rebalance",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "_iPerpetualId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "address",
+        "name": "_traderAddr",
+        "type": "address"
+      },
+      {
+        "internalType": "int128",
+        "name": "_fAmountToWithdraw",
+        "type": "int128"
+      }
+    ],
+    "name": "reduceMarginCollateral",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -3765,13 +3783,7 @@
       }
     ],
     "name": "trade",
-    "outputs": [
-      {
-        "internalType": "int128",
-        "name": "",
-        "type": "int128"
-      }
-    ],
+    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
@@ -3841,13 +3853,7 @@
       }
     ],
     "name": "tradeBySig",
-    "outputs": [
-      {
-        "internalType": "int128",
-        "name": "",
-        "type": "int128"
-      }
-    ],
+    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   },
