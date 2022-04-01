@@ -20,7 +20,7 @@ export interface IMarginTradePageState {
 
 export type MarginLimitOrder = {
   hash?: string;
-  txHash?: string;
+  transactionHash?: string;
   loanId: string;
   leverageAmount: BigNumber | string;
   loanTokenAddress: string;

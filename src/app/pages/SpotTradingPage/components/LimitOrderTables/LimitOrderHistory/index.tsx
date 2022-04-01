@@ -83,7 +83,7 @@ export const LimitOrderHistory: React.FC<ILimitOrderHistoryProps> = ({
             <>
               {items.map(item => (
                 <LimitOrderRow
-                  key={item.hash}
+                  key={item.transactionHash}
                   item={item}
                   orderFilledEvents={orderFilledEvents}
                 />

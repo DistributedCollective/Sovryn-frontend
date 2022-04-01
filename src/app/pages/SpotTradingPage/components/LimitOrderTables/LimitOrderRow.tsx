@@ -120,10 +120,10 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
         />
       </td>
       <td className="tw-hidden xl:tw-table-cell">
-        {item.txHash ? (
+        {item.transactionHash ? (
           <LinkToExplorer
             className="tw-m-0"
-            txHash={item.txHash}
+            txHash={item.transactionHash}
             startLength={5}
             endLength={5}
           />

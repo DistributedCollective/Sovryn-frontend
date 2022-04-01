@@ -108,7 +108,14 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
         <DisplayDate timestamp={createdTimestamp.getTime().toString()} />
       </td>
       <td className="tw-hidden xl:tw-table-cell">
-        {order.txHash ? <LinkToExplorer txHash={order.txHash} /> : '-'}
+        {order.transactionHash ? (
+          <LinkToExplorer
+            txHash={order.transactionHash}
+            className="tw-truncate"
+          />
+        ) : (
+          '-'
+        )}
       </td>
       <td>
         <PositionBlock position={position} name={pair.name} />

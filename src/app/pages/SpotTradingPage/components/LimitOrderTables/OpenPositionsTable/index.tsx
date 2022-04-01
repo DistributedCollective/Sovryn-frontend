@@ -38,7 +38,7 @@ export const OpenPositionsTable: React.FC<IOpenPositionsTableProps> = ({
             order => order.created.toString() === item.created.toString(),
           ) < 0,
       )
-      .map(item => ({ ...item, txHash: item.hash }));
+      .map(item => ({ ...item, transactionHash: item.hash }));
   }, [orders, pendingLimitOrders]);
 
   const isEmpty = !loading && !items.length && !pendingLimitOrders.length;
@@ -89,14 +89,18 @@ export const OpenPositionsTable: React.FC<IOpenPositionsTableProps> = ({
           {pendingList.length > 0 && (
             <>
               {pendingList.map(item => (
-                <LimitOrderRow key={item.txHash} item={item} pending={true} />
+                <LimitOrderRow
+                  key={item.transactionHash}
+                  item={item}
+                  pending={true}
+                />
               ))}
             </>
           )}
           {items.length > 0 && (
             <>
               {items.map(item => (
-                <LimitOrderRow key={item.txHash} item={item} />
+                <LimitOrderRow key={item.transactionHash} item={item} />
               ))}
             </>
           )}
