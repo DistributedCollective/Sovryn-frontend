@@ -20,7 +20,7 @@ import {
 import { LanguageToggle } from '../../../../components/LanguageToggle';
 import styles from './index.module.scss';
 import { ReactComponent as SovLogo } from 'assets/images/sovryn-logo-alpha.svg';
-import { currentNetwork } from 'utils/classifiers';
+import { currentNetwork, isMainnet } from 'utils/classifiers';
 import { AppMode } from 'types';
 
 export const DefaultHeaderComponent: React.FC = () => {
@@ -153,7 +153,25 @@ export const DefaultHeaderComponent: React.FC = () => {
       title: t(translations.mainMenu.help),
       dataActionId: 'header-link-help',
     },
+    {
+      to: '',
+      title: t(translations.mainMenu.labs),
+      dataActionId: 'header-link-lab',
+    },
+    {
+      to: '/mynt-token',
+      title: t(translations.mainMenu.myntToken),
+      dataActionId: 'header-link-lab-mynt-token',
+    },
   ];
+
+  if (!isMainnet) {
+    pages.push({
+      to: '/perpetuals',
+      title: t(translations.mainMenu.perpetuals),
+      dataActionId: 'header-link-lab-perpetuals',
+    });
+  }
 
   const menuItems = pages.map((item, index) => {
     let link: {
@@ -236,7 +254,7 @@ export const DefaultHeaderComponent: React.FC = () => {
       [SECTION_TYPE.FINANCE]: ['/lend', '/yield-farm'],
       [SECTION_TYPE.BITOCRACY]: ['/stake'],
       [SECTION_TYPE.ORIGINS]: ['/origins', '/origins/claim'],
-      [SECTION_TYPE.LABS]: ['/labs', '/mynt-token'],
+      [SECTION_TYPE.LABS]: ['/labs', '/mynt-token', '/perpetuals'],
     };
     return section && paths[section].includes(location.pathname);
   };
@@ -480,6 +498,14 @@ export const DefaultHeaderComponent: React.FC = () => {
                           href="/mynt-token"
                           data-action-id="header-lab-mynt-token"
                         />
+                        {!isMainnet && (
+                          <MenuItem
+                            text={t(translations.mainMenu.perpetuals)}
+                            className="bp3-popover-dismiss"
+                            href="/perpetuals"
+                            data-action-id="header-lab-perpetuals"
+                          />
+                        )}
                       </BPMenu>
                     }
                   >
