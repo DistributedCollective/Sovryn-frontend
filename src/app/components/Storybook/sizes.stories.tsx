@@ -8,6 +8,7 @@ import { Table } from '../Table';
 import { ColumnOptions } from '../Table/types';
 import { Align } from '../../../types/index';
 import classNames from 'classnames';
+import { StorybookTailwindUsage } from './components/StorybookTailwindUsage';
 
 export default {
   title: 'Design Guide/Sizes',
@@ -61,6 +62,8 @@ const breakpointRows: BreakpointRowEntry[] = [
   ['xs', '0px'],
   ...Object.entries<string>(config.theme.screens),
 ];
+
+const breakpointUnionString = Object.keys(config.theme.screens).join('|');
 
 type SizeRowEntry = {
   name: string;
@@ -153,6 +156,13 @@ export const Sizes = () => (
       These are the defined breakpoints used within the DApp. The minimal viable
       screen width is 320px.
     </p>
+    <StorybookTailwindUsage
+      text={[
+        `[${breakpointUnionString}]:tw-{className}`,
+        `@screen [${breakpointUnionString}] {}`,
+      ]}
+      documentationHref="https://tailwindcss.com/docs/responsive-design"
+    />
     <Table
       className="tw-max-w-3xl tw-max-h-96 tw-mb-12 tw-overflow-auto"
       columns={breakpointRow}
@@ -163,6 +173,10 @@ export const Sizes = () => (
       Usable values for both widths and heights as min, max or explicitly. These
       are always relative to it's parent container.
     </p>
+    <StorybookTailwindUsage
+      text={['tw-[w|min-w|max-w]-{value}', 'tw-[h|min-h|max-h]-{value}']}
+      documentationHref="https://tailwindcss.com/docs/width"
+    />
     <div className="tw-max-w-3xl tw-mb-12">
       {percentageRows.map(row => (
         <div className="tw-flex tw-flex-row tw-mb-2 tw-gap-2">
@@ -184,6 +198,10 @@ export const Sizes = () => (
       Usable values for both widths and heights as min, max or explicitly.
       Exceptions are marked in the <em>usable with</em> column
     </p>
+    <StorybookTailwindUsage
+      text={['tw-[w|min-w|max-w]-{value}', 'tw-[h|min-h|max-h]-{value}']}
+      documentationHref="https://tailwindcss.com/docs/width"
+    />
     <Table
       className="tw-max-w-3xl tw-max-h-96 tw-mb-12 tw-overflow-auto"
       columns={sizeColumns}
@@ -194,6 +212,15 @@ export const Sizes = () => (
       Usable values for padding, margin, space and gap. Exceptions are marked in
       the <em>usable with</em> column
     </p>
+    <StorybookTailwindUsage
+      text={[
+        'tw-[p|px|py|pt|pb|pl|pr]-{value}',
+        'tw-[m|mx|my|mt|mb|ml|mr]-{value}',
+        'tw-[gap|gap-x|gap-y]-{value}',
+        'tw-[space|space-x|space-y]-{value}',
+      ]}
+      documentationHref="https://tailwindcss.com/docs/padding"
+    />
     <Table
       className="tw-max-w-3xl tw-max-h-96 tw-mb-12 tw-overflow-auto"
       columns={sizeColumns}

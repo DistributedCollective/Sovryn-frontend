@@ -5,6 +5,7 @@ import tailwindConfig from '../../../../tailwind.config.js';
 import { Meta } from '@storybook/react';
 import { H1, H2 } from '../Heading';
 import { StorybookSwatch } from './components/StorybookSwatch';
+import { StorybookTailwindUsage } from './components/StorybookTailwindUsage';
 
 export default {
   title: 'Design Guide/Colors',
@@ -15,6 +16,17 @@ const config = resolveConfig(tailwindConfig);
 export const Colors = () => (
   <div>
     <H1>Colors</H1>
+    <StorybookTailwindUsage
+      text={[
+        'tw-text-{value}',
+        'tw-bg-{value}',
+        'tw-border-{value}',
+        'tw-stroke-{value}',
+        'tw-fill-{value}',
+        'etc.',
+      ]}
+      documentationHref="https://tailwindcss.com/docs/text-color"
+    />
     {Object.entries<string>(config.theme.colors)
       .reduce<any[]>((acc, [key, value]) => {
         const groupName = key.replace(/-\d+$/i, '');

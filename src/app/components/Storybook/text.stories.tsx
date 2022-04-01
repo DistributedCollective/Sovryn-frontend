@@ -6,6 +6,7 @@ import { Meta } from '@storybook/react';
 import { H1, H2 } from '../Heading';
 import { StorybookTextSample } from './components/StorybookTextSample';
 import classNames from 'classnames';
+import { StorybookTailwindUsage } from './components/StorybookTailwindUsage';
 
 export default {
   title: 'Design Guide/Text',
@@ -38,6 +39,10 @@ export const Text = () => {
           A font is missing! Tell a dev!
         </p>
       )}
+      <StorybookTailwindUsage
+        text="tw-font-{value}"
+        documentationHref="https://tailwindcss.com/docs/font-family"
+      />
       <div className="tw-flex tw-flex-row tw-flex-wrap tw-mb-12">
         {Object.entries<string>(config.theme.fontFamily)
           .sort((a, b) => parseInt(a[1]) - parseInt(b[1]))
@@ -59,6 +64,10 @@ export const Text = () => {
           ))}
       </div>
       <H2>Font Size</H2>
+      <StorybookTailwindUsage
+        text="tw-text-{value}"
+        documentationHref="https://tailwindcss.com/docs/font-size"
+      />
       <div className="tw-flex tw-flex-col tw-mb-12">
         {Object.entries<string>(config.theme.fontSize)
           .sort((a, b) => parseInt(a[1]) - parseInt(b[1]))
@@ -73,6 +82,10 @@ export const Text = () => {
           ))}
       </div>
       <H2>Font Weight</H2>
+      <StorybookTailwindUsage
+        text="tw-font-{value}"
+        documentationHref="https://tailwindcss.com/docs/font-weight"
+      />
       <div className="tw-flex tw-flex-row tw-flex-wrap tw-mb-12">
         {Object.entries<string>(config.theme.fontWeight)
           .sort((a, b) => parseInt(a[1]) - parseInt(b[1]))
@@ -90,6 +103,10 @@ export const Text = () => {
           ))}
       </div>
       <H2>Tracking</H2>
+      <StorybookTailwindUsage
+        text="tw-tracking-{value}"
+        documentationHref="https://tailwindcss.com/docs/letter-spacing"
+      />
       <div className="tw-flex tw-flex-row tw-flex-wrap tw-mb-12">
         {Object.entries<string>(config.theme.letterSpacing)
           .sort((a, b) => parseInt(a[1]) - parseInt(b[1]))
@@ -106,6 +123,10 @@ export const Text = () => {
           ))}
       </div>
       <H2>Leading</H2>
+      <StorybookTailwindUsage
+        text="tw-leading-{value}"
+        documentationHref="https://tailwindcss.com/docs/line-height"
+      />
       <div className="tw-flex tw-flex-row tw-flex-wrap tw-mb-12">
         {Object.entries<string>(config.theme.lineHeight)
           .sort((a, b) => {
