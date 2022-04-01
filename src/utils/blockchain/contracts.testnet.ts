@@ -304,17 +304,17 @@ export const contracts = {
     abi: fastBtcMultisigAbi,
   },
   perpetualManager: {
-    address: '0xe9cF7184c1C41a1B08f38A4eF98fffC99988855E',
+    address: '0x16106ADFeEe3aC73dC82E17D97a6232a322C823E',
     abi: perpetualManagerAbi,
     chainId: ChainId.BSC_TESTNET,
   },
   perpetualLimitOrderBook: {
-    address: '0xEb49e9785509BA3A07F854CaFCE6c75f9C9A0D24',
+    address: '0x7F6581BE4e0b7e83C74FB43a71995CCD7d93B2A6',
     abi: perpetualLimitOrderBookAbi,
     chainId: ChainId.BSC_TESTNET,
   },
   PERPETUALS_token: {
-    address: '0xe763A9Fcf1c8eb1432A518F0523D0Bfa51eF5050',
+    address: '0xaD884Eef9fE43b1FD735b40fe9e5e7D5eFb21E39',
     abi: marginTokenAbi,
     chainId: ChainId.BSC_TESTNET,
   },
