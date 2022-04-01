@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import dayjs from 'dayjs';
 import { translations } from 'locales/i18n';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { weiToAssetNumberFormat } from 'utils/display-text/format';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { PositionEvent } from '.';
+import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
 
 type LiquidatedPositionRowProps = {
   event: PositionEvent;
@@ -17,6 +17,10 @@ export const PositionEventRow: React.FC<LiquidatedPositionRowProps> = ({
   event,
 }) => {
   const { t } = useTranslation();
+  const timestamp = useMemo(() => new Date(event.time).getTime().toString(), [
+    event,
+  ]);
+
   return (
     <tr>
       <td>{t(translations.tradeEvents[event.event])}</td>
@@ -43,7 +47,7 @@ export const PositionEventRow: React.FC<LiquidatedPositionRowProps> = ({
         </div>
       </td>
       <td className="tw-hidden md:tw-table-cell">
-        {dayjs(event.time * 1e3).format('DD/MM/YYYY')}
+        <DisplayDate timestamp={timestamp} />
       </td>
       <td className="tw-hidden sm:tw-table-cell">
         <LinkToExplorer
