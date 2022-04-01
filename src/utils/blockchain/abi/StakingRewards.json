@@ -156,7 +156,13 @@
   },
   {
     "constant": false,
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "restartTime",
+        "type": "uint256"
+      }
+    ],
     "name": "collectReward",
     "outputs": [],
     "payable": false,
@@ -185,6 +191,11 @@
         "internalType": "bool",
         "name": "considerMaxDuration",
         "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "restartTime",
+        "type": "uint256"
       }
     ],
     "name": "getStakerCurrentReward",
