@@ -67,7 +67,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
   const [feeOut, setFeeOut] = useState('0');
 
   useEffect(() => {
-    getSwapOrderFeeOut(sourceToken, targetToken, amount || '0')
+    getSwapOrderFeeOut(sourceToken, amount || '0')
       .then(setFeeOut)
       .catch(e => {
         setFeeOut('0');
@@ -93,10 +93,14 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
       return '0';
     }
 
-    const outAmount = bignumber(weiAmount).mul(price || '0');
+    const _weiAmount = bignumber(weiAmount).minus(price || '0');
 
-    return outAmount.minus(feeOut).toFixed(0);
-  }, [amount, feeOut, limitPrice, tradeType, weiAmount]);
+    if (_weiAmount.lt(0)) {
+      return '0';
+    }
+
+    return _weiAmount.mul(price || '0').toFixed(0);
+  }, [limitPrice, tradeType, weiAmount, amount]);
 
   const { value: minAmount } = useDenominateDollarToAssetAmount(
     sourceToken,

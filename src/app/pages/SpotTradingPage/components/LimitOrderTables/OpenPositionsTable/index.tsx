@@ -60,7 +60,7 @@ export const OpenPositionsTable: React.FC<IOpenPositionsTableProps> = ({
             <th className="tw-hidden md:tw-table-cell">{t(trans.orderType)}</th>
             <th>{t(trans.tradeAmount)}</th>
             <th className="tw-hidden md:tw-table-cell">
-              {t(trans.executionPrice)}
+              {t(trans.limitPrice)}
             </th>
             <th className="tw-hidden lg:tw-table-cell">
               {t(trans.amountReceive)}

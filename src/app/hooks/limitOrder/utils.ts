@@ -161,7 +161,6 @@ export const getMinMarginOrderFee = async () => {
 
 export const getSwapOrderFeeOut = async (
   sourceAsset: Asset,
-  targetAsset: Asset,
   weiAmountIn: string,
 ) => {
   const orderSize = bignumber(weiAmountIn);
@@ -180,7 +179,7 @@ export const getSwapOrderFeeOut = async (
 
   if (orderFee.lt(minFeeInToken)) orderFee = minFeeInToken;
 
-  return getPriceAmm(sourceAsset, targetAsset, orderFee.toString());
+  return minFeeInToken.toFixed(0);
 };
 
 export const getMarginOrderFeeOut = async (
