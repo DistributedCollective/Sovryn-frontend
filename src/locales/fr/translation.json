@@ -427,33 +427,6 @@
   "modal": {
     "close": "Fermer "
   },
-  "notificationFormContainer": {
-    "dialog": {
-      "error": "Une erreur s'est produite lors de la soumission de votre formulaire",
-      "form": {
-        "email": {
-          "info": "(obligatoire)",
-          "label": "Adresse e-mail",
-          "placeholder": "email@email.com"
-        },
-        "name": {
-          "info": "(obligatoire)",
-          "label": "Nom / Pseudonyme",
-          "placeholder": "nom / pseudonyme"
-        }
-      },
-      "title": "Notifications par email",
-      "updateBtn": "mettre à jour",
-      "wantBtn": "Envoyer"
-    },
-    "emailSettingsBtn_get": "Recevez des notifications par e-mail",
-    "emailSettingsBtn_update": "Mettre à jour les paramètres d'email",
-    "receive": "Je souhaite recevoir des e-mails sur les mises à jour et les nouvelles fonctionnalités de Sovryn",
-    "update": "Mettez à jour le nom ou l'adresse e-mail associé à cette adresse de portefeuille.",
-    "updated_success": "Vous recevrez désormais des notifications par e-mail concernant les appels de marge et les positions liquidées.",
-    "updated_success_user": "Vos détails ont été mis à jour.",
-    "want": "Vous souhaitez recevoir des notifications par e-mail sur les appels de marge et les positions liquidées?"
-  },
   "notifyDialog": {
     "acceptTerms": "J'ai lu et je comprends que je suis responsable de ma propre souveraineté",
     "generalAlert": {

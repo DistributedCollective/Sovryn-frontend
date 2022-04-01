@@ -6,6 +6,7 @@ import { useClaimRewardSov } from './hooks/useClaimRewardSov';
 import { BaseClaimForm } from '../BaseClaimForm';
 import { IClaimFormProps } from '../BaseClaimForm/types';
 import { useMaintenance } from 'app/hooks/useMaintenance';
+import { useContractPauseState } from 'app/hooks/useContractPauseState';
 
 export const RewardClaimForm: React.FC<IClaimFormProps> = ({
   className,
@@ -14,15 +15,18 @@ export const RewardClaimForm: React.FC<IClaimFormProps> = ({
   const { checkMaintenance, States } = useMaintenance();
   const claimRewardSovLocked = checkMaintenance(States.CLAIM_REWARD_SOV);
   const { send, ...tx } = useClaimRewardSov();
+  const { paused, frozen } = useContractPauseState('staking'); // underlying Reward SOV claiming contract uses staking contract so must be disabled
   return (
-    <BaseClaimForm
-      className={className}
-      amountToClaim={amountToClaim}
-      tx={tx}
-      footer={<Footer />}
-      onSubmit={send}
-      claimLocked={claimRewardSovLocked}
-    />
+    <>
+      <BaseClaimForm
+        className={className}
+        amountToClaim={amountToClaim}
+        tx={tx}
+        footer={<Footer />}
+        onSubmit={send}
+        claimLocked={claimRewardSovLocked || paused || frozen}
+      />
+    </>
   );
 };
 
