@@ -49,7 +49,7 @@ type OrderHistoryHookResult = {
 };
 
 export const usePerpetual_OrderHistory = (
-  pairType: PerpetualPairType.BTCUSD,
+  pairType: PerpetualPairType,
   page: number,
   perPage: number,
 ): OrderHistoryHookResult => {

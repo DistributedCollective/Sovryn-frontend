@@ -5,6 +5,7 @@ import { PERPETUAL_MAX_LEVERAGE_DEFAULT } from 'app/pages/PerpetualPage/types';
 
 export enum PerpetualPairType {
   BTCUSD = 'BTCUSD',
+  BNBUSD = 'BNBUSD',
 }
 
 export type PerpetualPairConfig = {
@@ -31,6 +32,27 @@ export class PerpetualPairDictionary {
         PerpetualPairType.BTCUSD,
         'BTC/USD',
         'BTC/USD',
+        'USD',
+        'BTC',
+        Asset.BTCS,
+        {
+          leverage: {
+            min: 0.1,
+            max: PERPETUAL_MAX_LEVERAGE_DEFAULT,
+            steps: [1, 2, 3, 5, 10, 15],
+            default: 1,
+          },
+        },
+        false,
+      ),
+    ],
+    [
+      PerpetualPairType.BNBUSD,
+      new PerpetualPair(
+        '0xe90b7bceb6e7df5418fb78d8ee546e97c83a08bbccc01a0644d599ccd2a7c2e0',
+        PerpetualPairType.BNBUSD,
+        'BNB/USD',
+        'BNB/USD',
         'USD',
         'BTC',
         Asset.BTCS,

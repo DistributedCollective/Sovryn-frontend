@@ -48,7 +48,7 @@ const {
 
 export const usePerpetual_OpenPosition = (
   address: string,
-  pairType: PerpetualPairType.BTCUSD,
+  pairType: PerpetualPairType,
 ): OpenPositionHookResult => {
   const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
 

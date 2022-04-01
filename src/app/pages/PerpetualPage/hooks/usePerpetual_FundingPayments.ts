@@ -1,7 +1,10 @@
 import { useAccount } from 'app/hooks/useAccount';
 import { BigNumber } from 'ethers';
 import { useMemo, useContext, useEffect } from 'react';
-import { PerpetualPairType } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
+import {
+  PerpetualPairType,
+  PerpetualPairDictionary,
+} from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { ABK64x64ToFloat } from '../utils/contractUtils';
 import {
   Event,
@@ -27,13 +30,14 @@ type FundingPaymentsHookResult = {
 };
 
 export const usePerpetual_FundingPayments = (
-  pairType: PerpetualPairType.BTCUSD,
+  pairType: PerpetualPairType,
   page: number,
   perPage: number,
 ): FundingPaymentsHookResult => {
   const address = useAccount();
 
   const { latestTradeByUser } = useContext(RecentTradesContext);
+  const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
 
   const eventQuery = useMemo(
     () => [
@@ -43,10 +47,12 @@ export const usePerpetual_FundingPayments = (
         orderDirection: OrderDirection.desc,
         page,
         perPage,
-        whereCondition: `fundingTime_not: "0"`,
+        whereCondition: `perpetual: ${JSON.stringify(
+          pair.id,
+        )}, fundingTime_not: "0"`,
       },
     ],
-    [page, perPage],
+    [page, perPage, pair],
   );
 
   const {
