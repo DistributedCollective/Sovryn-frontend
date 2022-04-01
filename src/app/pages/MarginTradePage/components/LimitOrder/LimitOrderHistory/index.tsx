@@ -55,7 +55,6 @@ export const LimitOrderHistory: React.FC<ILimitOrderHistoryProps> = ({
             </th>
             <th className="tw-hidden sm:tw-table-cell">{t(trans.deadline)}</th>
             <th>{t(trans.filledAmount)}</th>
-            <th>{t(trans.filledPrice)}</th>
           </tr>
         </thead>
         <tbody>

@@ -27,12 +27,14 @@ interface ILimitOrderRowProps {
   item: ILimitOrder;
   pending?: boolean;
   orderFilledEvents?: EventData[];
+  orderCreatedEvents?: EventData[];
 }
 
 export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
   item,
   pending,
   orderFilledEvents,
+  orderCreatedEvents,
 }) => {
   const { t } = useTranslation();
   const [showClosePosition, setShowClosePosition] = useState(false);
@@ -65,10 +67,25 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
   }, [fromToken, toToken, tradeType]);
 
   const limitPrice = useMemo(() => {
-    return tradeType === TradingTypes.BUY
-      ? bignumber(item.amountIn.toString()).div(item.amountOutMin.toString())
-      : bignumber(item.amountOutMin.toString()).div(item.amountIn.toString());
-  }, [item.amountIn, item.amountOutMin, tradeType]);
+    const price = orderCreatedEvents?.find(
+      e => e.returnValues.order.hash === item.hash,
+    )?.returnValues?.limitPrice;
+
+    if (pending || !price) {
+      return tradeType === TradingTypes.BUY
+        ? bignumber(item.amountIn.toString()).div(item.amountOutMin.toString())
+        : bignumber(item.amountOutMin.toString()).div(item.amountIn.toString());
+    }
+
+    return price;
+  }, [
+    item.amountIn,
+    item.amountOutMin,
+    item.hash,
+    orderCreatedEvents,
+    pending,
+    tradeType,
+  ]);
 
   useLog('LimitOrderRow', item);
 

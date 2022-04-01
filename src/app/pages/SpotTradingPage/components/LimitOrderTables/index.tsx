@@ -32,7 +32,13 @@ export const LimitOrderTables: React.FC<ILimitOrderTablesProps> = ({
     'OrderFilled',
   );
 
-  useLog('LimitOrderTables', orderFilledEvents.events);
+  const orderCreatedEvents = useGetContractPastEvents(
+    'orderBook',
+    'OrderCreated',
+  );
+
+  useLog('LimitOrderTables', 'OrderFilled', orderFilledEvents.events);
+  useLog('LimitOrderTables', 'OrderCreated', orderCreatedEvents.events);
 
   return (
     <>
@@ -40,6 +46,7 @@ export const LimitOrderTables: React.FC<ILimitOrderTablesProps> = ({
         <OpenPositionsTable
           orders={limitOrders.filter(item => item.filledAmount === '0')}
           loading={loading}
+          orderCreatedEvents={orderCreatedEvents.events}
         />
       </div>
       <div className={classNames({ 'tw-hidden': activeTab !== 2 })}>
@@ -47,6 +54,7 @@ export const LimitOrderTables: React.FC<ILimitOrderTablesProps> = ({
           orders={limitOrders.filter(item => item.filledAmount !== '0')}
           loading={loading}
           orderFilledEvents={orderFilledEvents.events}
+          orderCreatedEvents={orderCreatedEvents.events}
         />
       </div>
     </>

@@ -12,6 +12,7 @@ interface ILimitOrderHistoryProps {
   orders: ILimitOrder[];
   loading: boolean;
   orderFilledEvents?: EventData[];
+  orderCreatedEvents?: EventData[];
 }
 
 export const LimitOrderHistory: React.FC<ILimitOrderHistoryProps> = ({
@@ -19,6 +20,7 @@ export const LimitOrderHistory: React.FC<ILimitOrderHistoryProps> = ({
   orders,
   loading,
   orderFilledEvents,
+  orderCreatedEvents,
 }) => {
   const { t } = useTranslation();
   const trans = translations.spotTradingPage.openLimitOrders;
@@ -86,6 +88,7 @@ export const LimitOrderHistory: React.FC<ILimitOrderHistoryProps> = ({
                   key={item.transactionHash}
                   item={item}
                   orderFilledEvents={orderFilledEvents}
+                  orderCreatedEvents={orderCreatedEvents}
                 />
               ))}
             </>
