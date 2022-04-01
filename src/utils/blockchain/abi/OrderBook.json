@@ -70,6 +70,12 @@
         "internalType": "struct Orders.Order",
         "name": "order",
         "type": "tuple"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "limitPrice",
+        "type": "uint256"
       }
     ],
     "name": "OrderCreated",
@@ -181,6 +187,11 @@
         "internalType": "struct Orders.Order",
         "name": "order",
         "type": "tuple"
+      },
+      {
+        "internalType": "uint256",
+        "name": "limitPrice",
+        "type": "uint256"
       }
     ],
     "name": "createOrder",

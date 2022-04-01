@@ -22,6 +22,7 @@ export const useLimitOrder = (
   amount: string,
   amountOutMin: string,
   duration: number = 365,
+  limitPrice: string,
   onSuccess: (order: ILimitOrder, data) => void,
   onError: () => void,
   onStart: () => void,
@@ -79,7 +80,7 @@ export const useLimitOrder = (
 
         const encodedData = contract.interface.encodeFunctionData(
           'createOrder',
-          [args],
+          [args, limitPrice],
         );
 
         onStart();

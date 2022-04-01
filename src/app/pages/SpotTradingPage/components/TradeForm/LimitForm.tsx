@@ -224,6 +224,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
     weiAmount,
     weiAmountOut,
     duration,
+    toWei(limitPrice || '0'),
     onSuccess,
     onError,
     onStart,
