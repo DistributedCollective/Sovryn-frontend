@@ -68,7 +68,7 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
 
   const limitPrice = useMemo(() => {
     const price = orderCreatedEvents?.find(
-      e => e.returnValues.order.hash === item.hash,
+      e => e.returnValues.hash === item.hash,
     )?.returnValues?.limitPrice;
 
     if (pending || !price) {
