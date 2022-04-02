@@ -63,8 +63,11 @@ interface ITradeFormProps {
 export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   const { t } = useTranslation();
   const { connected } = useWalletContext();
-  const { checkMaintenance, States } = useMaintenance();
-  const openTradesLocked = checkMaintenance(States.OPEN_MARGIN_TRADES);
+  const { checkMaintenances, States } = useMaintenance();
+  const {
+    [States.OPEN_MARGIN_TRADES]: openTradesLocked,
+    [States.MARGIN_LIMIT]: openLimitTradeLocked,
+  } = checkMaintenances();
   const [openSlippage, setOpenSlippage] = useState(false);
   const [tradeAmount, setTradeAmount] = useState('');
   const [slippage, setSlippage] = useState(MARGIN_SLIPPAGE_DEFAULT);
@@ -199,13 +202,15 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
       openTradesLocked ||
       loadingState ||
       (orderType === OrderType.LIMIT && !isMinAmountValid) ||
-      (orderType === OrderType.LIMIT && !isMaxAmountValid),
+      (orderType === OrderType.LIMIT && !isMaxAmountValid) ||
+      (orderType === OrderType.LIMIT && openLimitTradeLocked),
     [
       validate,
       connected,
       openTradesLocked,
       loadingState,
       orderType,
+      openLimitTradeLocked,
       isMinAmountValid,
       isMaxAmountValid,
     ],

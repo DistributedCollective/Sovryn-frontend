@@ -48,7 +48,10 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
   const { t } = useTranslation();
   const [showClosePosition, setShowClosePosition] = useState(false);
   const { checkMaintenances, States } = useMaintenance();
-  const { [States.CLOSE_SPOT_LIMIT]: closeTradesLocked } = checkMaintenances();
+  const {
+    [States.CLOSE_SPOT_LIMIT]: closeTradesLocked,
+    [States.CLOSE_MARGIN_LIMIT]: closeLimitTradeLocked,
+  } = checkMaintenances();
   const { tradeAmount, minEntry } = useGetLimitOrderRow(
     pair,
     position,
@@ -130,12 +133,13 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
                   text={t(translations.openPositionTable.cta.close)}
                   onClick={() => setShowClosePosition(true)}
                   className={`tw-border-none tw-ml-0 tw-pl-0 ${
-                    closeTradesLocked && 'tw-cursor-not-allowed'
+                    (closeTradesLocked || closeLimitTradeLocked) &&
+                    'tw-cursor-not-allowed'
                   }`}
                   textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
-                  disabled={closeTradesLocked}
+                  disabled={closeTradesLocked || closeLimitTradeLocked}
                   title={
-                    (closeTradesLocked &&
+                    ((closeTradesLocked || closeLimitTradeLocked) &&
                       t(translations.maintenance.closeMarginTrades).replace(
                         /<\/?\d+>/g,
                         '',

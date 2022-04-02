@@ -38,8 +38,8 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
 }) => {
   const { t } = useTranslation();
   const [showClosePosition, setShowClosePosition] = useState(false);
-  const { checkMaintenances, States } = useMaintenance();
-  const { [States.CLOSE_SPOT_LIMIT]: closeTradesLocked } = checkMaintenances();
+  const { checkMaintenance, States } = useMaintenance();
+  const closeTradesLocked = checkMaintenance(States.CLOSE_SPOT_LIMIT);
 
   const isOpenPosition = item.filledAmount === '0';
 

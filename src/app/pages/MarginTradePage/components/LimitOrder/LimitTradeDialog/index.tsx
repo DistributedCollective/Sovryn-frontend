@@ -50,8 +50,11 @@ export const LimitTradeDialog: React.FC<ILimitTradeDialogProps> = ({
   const [orderStatus, setOrderStatus] = useState(TxStatus.NONE);
   const [txHash, setTxHash] = useState('');
 
-  const { checkMaintenance, States } = useMaintenance();
-  const openTradesLocked = checkMaintenance(States.OPEN_MARGIN_TRADES);
+  const { checkMaintenances, States } = useMaintenance();
+  const {
+    [States.OPEN_MARGIN_TRADES]: openTradesLocked,
+    [States.MARGIN_LIMIT]: openLimitTradeLocked,
+  } = checkMaintenances();
 
   const dispatch = useDispatch();
   const pair = useMemo(() => TradingPairDictionary.get(pairType), [pairType]);
@@ -181,7 +184,7 @@ export const LimitTradeDialog: React.FC<ILimitTradeDialogProps> = ({
           </div>
 
           <div className="tw-mt-4">
-            {openTradesLocked && (
+            {(openTradesLocked || openLimitTradeLocked) && (
               <ErrorBadge
                 content={
                   <Trans
@@ -206,7 +209,7 @@ export const LimitTradeDialog: React.FC<ILimitTradeDialogProps> = ({
             <DialogButton
               confirmLabel={t(translations.common.confirm)}
               onConfirm={createLimitOrder}
-              disabled={openTradesLocked}
+              disabled={openTradesLocked || openLimitTradeLocked}
               data-action-id="margin-reviewTransaction-button-confirm"
             />
           </div>
