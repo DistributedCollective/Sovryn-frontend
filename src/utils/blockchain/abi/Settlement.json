@@ -149,12 +149,6 @@
         "internalType": "address",
         "name": "collateralTokenAddress",
         "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "filledPrice",
-        "type": "uint256"
       }
     ],
     "name": "MarginOrderFilled",
@@ -401,6 +395,31 @@
       },
       {
         "indexed": false,
+        "internalType": "address",
+        "name": "oldValue",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "newValue",
+        "type": "address"
+      }
+    ],
+    "name": "SetPriceFeeds",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      },
+      {
+        "indexed": false,
         "internalType": "uint256",
         "name": "oldValue",
         "type": "uint256"
@@ -492,19 +511,6 @@
         "internalType": "bytes32",
         "name": "",
         "type": "bytes32"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "RBTC_ADDRESS",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
       }
     ],
     "stateMutability": "view",
@@ -1279,8 +1285,13 @@
         "type": "address"
       },
       {
-        "internalType": "contract ISovrynSwapNetwork",
+        "internalType": "address",
         "name": "_sovrynSwapNetwork",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_priceFeeds",
         "type": "address"
       },
       {
@@ -1400,6 +1411,19 @@
   },
   {
     "inputs": [],
+    "name": "priceFeeds",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
     "name": "relayerFeePercent",
     "outputs": [
       {
@@ -1466,6 +1490,19 @@
   {
     "inputs": [
       {
+        "internalType": "address",
+        "name": "_priceFeeds",
+        "type": "address"
+      }
+    ],
+    "name": "setPriceFeeds",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "uint256",
         "name": "_relayerFeePercent",
         "type": "uint256"
@@ -1481,7 +1518,7 @@
     "name": "sovrynSwapNetwork",
     "outputs": [
       {
-        "internalType": "contract ISovrynSwapNetwork",
+        "internalType": "address",
         "name": "",
         "type": "address"
       }

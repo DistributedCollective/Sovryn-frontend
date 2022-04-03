@@ -12,8 +12,8 @@ export class SovrynNetwork {
   private _store = store;
 
   private _writeWeb3: Web3 = null as any;
-  private _readWeb3: Web3 = null as any;
-  private _databaseWeb3: Web3 = null as any;
+  private _readWeb3: Record<number, Web3> = {};
+  private _databaseWeb3: Record<number, Web3> = {};
   public contracts: { [key: string]: Contract } = {};
   public contractList: Contract[] = [];
   public writeContracts: { [key: string]: Contract } = {};
@@ -43,7 +43,7 @@ export class SovrynNetwork {
   }
 
   public async getOnChainGasPrice() {
-    const gasPrice = await this._readWeb3.eth.getGasPrice();
+    const gasPrice = await this._readWeb3[currentChainId].eth.getGasPrice();
     // add 1% to retrieved gas to confirm transactions faster.
     return bignumber(gasPrice).mul(1.01).toFixed(0);
   }
@@ -59,7 +59,7 @@ export class SovrynNetwork {
    * TODO: deprecate this
    */
   public getWeb3() {
-    return this._readWeb3;
+    return this._readWeb3[currentChainId];
   }
 
   /**
@@ -72,12 +72,17 @@ export class SovrynNetwork {
     contractConfig: {
       address: string;
       abi: AbiItem | AbiItem[];
+      chainId?: number;
     },
   ) {
-    if (!this._writeWeb3) {
+    const chainId = contractConfig.chainId || currentChainId;
+    if (!this._writeWeb3[chainId]) {
       return;
     }
-    const contract = this.makeContract(this._writeWeb3, contractConfig);
+    const contract = this.makeContract(
+      this._writeWeb3[chainId],
+      contractConfig,
+    );
     this.writeContracts[contractName] = contract;
     this.writeContractList.push(contract);
   }
@@ -87,12 +92,20 @@ export class SovrynNetwork {
     contractConfig: {
       address: string;
       abi: AbiItem | AbiItem[];
+      chainId?: number;
     },
   ) {
-    if (!this._readWeb3) {
-      return;
+    const chainId = contractConfig.chainId || currentChainId;
+    if (!this._readWeb3[chainId]) {
+      const nodeUrl = rpcNodes[chainId];
+      const web3Provider = new Web3.providers.HttpProvider(nodeUrl, {
+        keepAlive: true,
+      });
+
+      this._readWeb3[chainId] = new Web3(web3Provider);
+      this._readWeb3[chainId].eth.handleRevert = true;
     }
-    const contract = this.makeContract(this._readWeb3, contractConfig);
+    const contract = this.makeContract(this._readWeb3[chainId], contractConfig);
     this.contracts[contractName] = contract;
     this.contractList.push(contract);
   }
@@ -102,12 +115,23 @@ export class SovrynNetwork {
     contractConfig: {
       address: string;
       abi: AbiItem | AbiItem[];
+      chainId?: number;
     },
   ) {
-    if (!this._databaseWeb3) {
-      return;
+    const chainId = contractConfig.chainId || currentChainId;
+
+    if (!this._databaseWeb3[chainId]) {
+      const nodeUrl = databaseRpcNodes[chainId];
+      const web3Provider = new Web3.providers.HttpProvider(nodeUrl, {
+        keepAlive: true,
+      });
+      this._databaseWeb3[chainId] = new Web3(web3Provider);
     }
-    const contract = this.makeContract(this._databaseWeb3, contractConfig);
+
+    const contract = this.makeContract(
+      this._databaseWeb3[chainId],
+      contractConfig,
+    );
     this.databaseContracts[contractName] = contract;
     this.databaseContractList.push(contract);
   }
@@ -140,8 +164,10 @@ export class SovrynNetwork {
         ],
       });
 
-      Array.from(Object.keys(appContracts)).forEach(key => {
-        this.addWriteContract(key, appContracts[key]);
+      Object.keys(appContracts).forEach(key => {
+        if (appContracts[key].chainId === currentChainId) {
+          this.addWriteContract(key, appContracts[key]);
+        }
       });
     } catch (e) {
       console.error('init write web3 fails');
@@ -152,33 +178,13 @@ export class SovrynNetwork {
   protected async initReadWeb3(chainId: number) {
     try {
       if (
-        !this._readWeb3 ||
-        (this._readWeb3 && (await this._readWeb3.eth.getChainId()) !== chainId)
+        !this._readWeb3[chainId] ||
+        (this._readWeb3[chainId] &&
+          (await this._readWeb3[chainId].eth.getChainId()) !== chainId)
       ) {
-        const nodeUrl = rpcNodes[chainId];
-        const web3Provider = new Web3.providers.HttpProvider(nodeUrl, {
-          keepAlive: true,
-        });
-
-        this._readWeb3 = new Web3(web3Provider);
-        this._readWeb3.eth.handleRevert = true;
-
-        Array.from(Object.keys(appContracts)).forEach(key => {
+        Object.keys(appContracts).forEach(key => {
           this.addReadContract(key, appContracts[key]);
         });
-
-        // if (isWebsocket) {
-        //   const provider: WebsocketProvider = (this._readWeb3
-        //     .currentProvider as unknown) as WebsocketProvider;
-
-        //   provider.on('end', () => {
-        //     provider.removeAllListeners('end');
-        //     this.contracts = {};
-        //     this.contractList = [];
-        //     this._readWeb3 = undefined as any;
-        //     this.initReadWeb3(chainId);
-        //   });
-        // }
       }
       this.initDatabaseWeb3(chainId);
     } catch (e) {
@@ -189,12 +195,7 @@ export class SovrynNetwork {
 
   protected async initDatabaseWeb3(chainId: number) {
     try {
-      const nodeUrl = databaseRpcNodes[chainId];
-      const web3Provider = new Web3.providers.HttpProvider(nodeUrl, {
-        keepAlive: true,
-      });
-      this._databaseWeb3 = new Web3(web3Provider);
-      Array.from(Object.keys(appContracts)).forEach(key => {
+      Object.keys(appContracts).forEach(key => {
         this.addDatabaseContract(key, appContracts[key]);
       });
     } catch (e) {
@@ -206,7 +207,7 @@ export class SovrynNetwork {
   private refreshGasPrice() {
     setTimeout(async () => {
       try {
-        const gasPrice = await this._readWeb3.eth.getGasPrice();
+        const gasPrice = await this._readWeb3[currentChainId].eth.getGasPrice();
         gas.set(gasPrice);
         this.refreshGasPrice();
       } catch (e) {

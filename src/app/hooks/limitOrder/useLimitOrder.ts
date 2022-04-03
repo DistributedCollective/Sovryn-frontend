@@ -3,7 +3,7 @@ import { contractReader } from 'utils/sovryn/contract-reader';
 import { getContract as getContractData } from 'utils/blockchain/contract-helpers';
 import { useAccount } from 'app/hooks/useAccount';
 import { Asset } from 'types';
-import { ethers, BigNumber } from 'ethers';
+import { ethers, BigNumber, providers } from 'ethers';
 import { SignatureLike } from '@ethersproject/bytes';
 import { contractWriter } from 'utils/sovryn/contract-writer';
 import { useCallback, useState } from 'react';
@@ -15,6 +15,7 @@ import { signTypeData } from './utils';
 import axios from 'axios';
 import { limitOrderUrl, currentChainId, gasLimit } from 'utils/classifiers';
 import { approveSettlement } from './useMarginLimitOrder';
+import { ContractName } from 'utils/types/contracts';
 
 export const useLimitOrder = (
   sourceToken: Asset,
@@ -22,6 +23,7 @@ export const useLimitOrder = (
   amount: string,
   amountOutMin: string,
   duration: number = 365,
+  limitPrice: string,
   onSuccess: (order: ILimitOrder, data) => void,
   onError: () => void,
   onStart: () => void,
@@ -79,7 +81,7 @@ export const useLimitOrder = (
 
         const encodedData = contract.interface.encodeFunctionData(
           'createOrder',
-          [args],
+          [args, limitPrice],
         );
 
         onStart();
@@ -133,6 +135,7 @@ export const useLimitOrder = (
     amountOutMin,
     duration,
     chainId,
+    limitPrice,
     onStart,
     onSuccess,
     onError,
@@ -209,7 +212,10 @@ export const getDeadline = daysFromNow =>
     Math.floor(Date.now() / 1000 + daysFromNow * 24 * 3600),
   );
 
-export const getContract = contract => {
+export const getContract = (
+  contract: ContractName,
+  provider?: providers.Provider,
+) => {
   const { address, abi } = getContractData(contract);
-  return new ethers.Contract(address, abi);
+  return new ethers.Contract(address, abi, provider);
 };

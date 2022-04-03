@@ -8,17 +8,20 @@ import { translations } from 'locales/i18n';
 import { useSelector } from 'react-redux';
 import { selectSpotTradingPage } from '../../../selectors';
 import { Pagination } from 'app/components/Pagination';
+import { EventData } from 'web3-eth-contract';
 
 interface IOpenPositionsTableProps {
   perPage?: number;
   orders: ILimitOrder[];
   loading: boolean;
+  orderCreatedEvents?: EventData[];
 }
 
 export const OpenPositionsTable: React.FC<IOpenPositionsTableProps> = ({
   perPage = 5,
   orders,
   loading,
+  orderCreatedEvents,
 }) => {
   const { t } = useTranslation();
   const trans = translations.spotTradingPage.openLimitOrders;
@@ -100,7 +103,11 @@ export const OpenPositionsTable: React.FC<IOpenPositionsTableProps> = ({
           {items.length > 0 && (
             <>
               {items.map(item => (
-                <LimitOrderRow key={item.transactionHash} item={item} />
+                <LimitOrderRow
+                  key={item.transactionHash}
+                  item={item}
+                  orderCreatedEvents={orderCreatedEvents}
+                />
               ))}
             </>
           )}

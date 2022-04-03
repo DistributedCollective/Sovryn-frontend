@@ -9,6 +9,7 @@ import { Toast } from 'app/components/Toast';
 import { useCancelMarginLimitOrder } from 'app/hooks/limitOrder/useCancelMarginLimitOrder';
 import { MarginLimitOrder } from 'app/pages/MarginTradePage/types';
 import { TradingPosition } from 'types/trading-position';
+import { useMaintenance } from 'app/hooks/useMaintenance';
 
 const showToast = (status: string) => {
   Toast(
@@ -44,6 +45,8 @@ export const CloseLimitPositionDialog: React.FC<IClosePositionDialogProps> = ({
 }) => {
   const { t } = useTranslation();
   const { cancelOrder, ...tx } = useCancelMarginLimitOrder(order);
+  const { checkMaintenance, States } = useMaintenance();
+  const closeLimitTradeLocked = checkMaintenance(States.CLOSE_MARGIN_LIMIT);
 
   const txArgs = [
     order.loanId,
@@ -76,6 +79,7 @@ export const CloseLimitPositionDialog: React.FC<IClosePositionDialogProps> = ({
             <DialogButton
               confirmLabel={t(translations.trading.limit.cancelDialog.cta)}
               onConfirm={cancelOrder}
+              disabled={closeLimitTradeLocked}
             />
           </div>
         </div>
