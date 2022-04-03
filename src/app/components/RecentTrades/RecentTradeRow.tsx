@@ -90,11 +90,11 @@ export const RecentTradeRow: React.FC<RecentTradeRowProps> = ({
       </td>
       <td
         className={classNames(
-          'tw-px-4 tw-py-1 tw-text-right',
+          'tw-px-4 tw-pt-1 tw-text-right tw-text-tiny',
           backgroundClassName,
         )}
       >
-        {dayjs(Number(row.timestamp) * 1e3).format('L')}
+        {dayjs(Number(row.timestamp) * 1e3).format('YY/MM/DD HH:mm')}
       </td>
       <td
         className={classNames(
