@@ -67,11 +67,11 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
   }, [fromToken, toToken, tradeType]);
 
   const limitPrice = useMemo(() => {
-    const price = orderCreatedEvents?.find(
-      e => e.returnValues.hash === item.hash,
-    )?.returnValues?.limitPrice;
+    let price = orderCreatedEvents?.find(e => e.returnValues.hash === item.hash)
+      ?.returnValues?.limitPrice;
+    if (price) price = bignumber(price.toString()).div(10 ** pair[1].decimals);
 
-    if (pending || !price) {
+    if (pending || !price || !pair) {
       return tradeType === TradingTypes.BUY
         ? bignumber(item.amountIn.toString()).div(item.amountOutMin.toString())
         : bignumber(item.amountOutMin.toString()).div(item.amountIn.toString());
@@ -84,6 +84,7 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
     item.hash,
     orderCreatedEvents,
     pending,
+    pair,
     tradeType,
   ]);
 
