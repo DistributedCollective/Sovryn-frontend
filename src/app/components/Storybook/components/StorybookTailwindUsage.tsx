@@ -20,7 +20,12 @@ export const StorybookTailwindUsage: React.FC<StorybookTailwindUsageProps> = ({
     ) : (
       <span style={{ fontFamily: 'monospace' }}>{text}</span>
     )}{' '}
-    <a href={documentationHref} className="tw-text-secondary">
+    <a
+      href={documentationHref}
+      className="tw-text-secondary"
+      target="_blank"
+      rel="noreferrer"
+    >
       docs
     </a>
   </p>
