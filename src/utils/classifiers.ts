@@ -28,7 +28,7 @@ export const rpcNodes = {
 };
 
 export const bitocracyUrl =
-  currentNetwork === 'mainnet'
+  currentNetwork === AppMode.MAINNET
     ? 'https://bitocracy.sovryn.app'
     : 'https://bitocracy.test.sovryn.app';
 
