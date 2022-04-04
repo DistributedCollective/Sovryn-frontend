@@ -46,7 +46,7 @@ import { FeeBlock } from './components/FeeBlock';
 import { Spinner, SpinnerSize } from 'app/components/Spinner';
 import { useContractPauseState } from 'app/hooks/useContractPauseState';
 import { AlertBadge } from 'app/components/AlertBadge/AlertBadge';
-import { discordInvite } from 'utils/classifiers';
+import { discordInvite, bitocracyUrl } from 'utils/classifiers';
 import { Button, ButtonType } from 'app/components/Button';
 
 const now = new Date();
@@ -493,7 +493,7 @@ const InnerStakePage: React.FC = () => {
                 <div className="tw-flex tw-flex-col tw-items-start">
                   <div className="tw-bg-primary tw-font-normal tw-bg-opacity-10 tw-hover:text-primary tw-focus:outline-none tw-focus:bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-px-8 tw-py-3 tw-text-lg tw-text-primary tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-primary tw-rounded-xl hover:tw-no-underline tw-no-underline tw-inline-block">
                     <a
-                      href="https://bitocracy.sovryn.app/"
+                      href={bitocracyUrl}
                       rel="noopener noreferrer"
                       target="_blank"
                       className="hover:tw-no-underline"
