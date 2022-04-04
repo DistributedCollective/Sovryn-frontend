@@ -27,6 +27,11 @@ export const rpcNodes = {
   31: 'https://testnet.sovryn.app/rpc',
 };
 
+export const bitocracyUrl =
+  currentNetwork === 'mainnet'
+    ? 'https://bitocracy.sovryn.app'
+    : 'https://bitocracy.test.sovryn.app';
+
 export const databaseRpcNodes = {
   30: 'https://backend.sovryn.app/rpc',
   31: 'https://api.test.sovryn.app/rpc',
