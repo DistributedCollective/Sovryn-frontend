@@ -78,6 +78,7 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
           <LinkToExplorer
             txHash={order.transactionHash}
             className="tw-truncate"
+            chainId={31}
           />
         ) : (
           '-'

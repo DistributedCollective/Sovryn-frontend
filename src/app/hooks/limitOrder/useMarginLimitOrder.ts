@@ -21,6 +21,8 @@ import {
   contractWriter,
 } from 'utils/sovryn/contract-writer';
 import { MarginLimitOrder } from 'app/pages/MarginTradePage/types';
+import { contractReader } from 'utils/sovryn/contract-reader';
+import { bignumber } from 'mathjs';
 
 export const useMarginLimitOrder = (
   pair: TradingPair,
@@ -185,8 +187,16 @@ export const approveSettlement = async (
       throw new Error('User rejected transaction');
     }
   } else {
-    await contractWriter.send('settlement', 'deposit', [account], {
-      value: amount,
-    });
+    const balance = await contractReader.call<string>(
+      'settlement',
+      'balanceOf',
+      [account],
+    );
+    console.log('balance', balance);
+    if (bignumber(balance).lt(amount)) {
+      await contractWriter.send('settlement', 'deposit', [account], {
+        value: amount,
+      });
+    }
   }
 };

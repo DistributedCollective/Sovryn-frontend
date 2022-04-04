@@ -63,8 +63,8 @@ export const TradeProfit: React.FC<ITradeProfitProps> = ({
     }
     setProfit(
       Math.abs(
-        bignumber(change)
-          .mul(bignumber(openedItem.positionSizeChange))
+        bignumber(change || '0')
+          .mul(bignumber(openedItem.positionSizeChange || '0'))
           .div(100)
           .toNumber(),
       ),

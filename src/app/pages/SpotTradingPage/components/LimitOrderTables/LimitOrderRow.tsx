@@ -142,6 +142,7 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
           <LinkToExplorer
             className="tw-m-0"
             txHash={item.transactionHash}
+            chainId={31}
             startLength={5}
             endLength={5}
           />
