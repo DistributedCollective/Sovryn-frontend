@@ -54,7 +54,7 @@ export class PerpetualPairDictionary {
         'BNB/USD',
         'BNB/USD',
         'USD',
-        'BTC',
+        'BNB',
         Asset.BTCS,
         {
           leverage: {
