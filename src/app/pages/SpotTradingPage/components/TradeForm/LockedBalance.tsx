@@ -37,14 +37,18 @@ export const LockedBalance: React.FC = () => {
           className="tw-truncate tw-text-xs tw-font-light tw-tracking-normal tw-w-full tw-flex tw-justify-between tw-mt-1 tw-text-primary hover:tw-opacity-75 hover:tw-underline"
           onClick={handleClick}
         >
-          {t(translations.common.unusedBalance)}&nbsp;
-          <strong>
-            <Tooltip content={t(translations.common.unusedBalanceTooltip)}>
-              {weiToAssetNumberFormat(value, Asset.RBTC)}
-            </Tooltip>
-          </strong>
-          &nbsp;
-          <AssetRenderer asset={Asset.RBTC} />
+          <Tooltip
+            content={
+              <>
+                {t(translations.common.unusedBalanceTooltip)}&nbsp;
+                <strong>{weiToAssetNumberFormat(value, Asset.RBTC)}</strong>
+                &nbsp;
+                <AssetRenderer asset={Asset.RBTC} />
+              </>
+            }
+          >
+            {t(translations.common.unusedBalance)}
+          </Tooltip>
         </button>
       )}
       <TxDialog tx={tx} />
