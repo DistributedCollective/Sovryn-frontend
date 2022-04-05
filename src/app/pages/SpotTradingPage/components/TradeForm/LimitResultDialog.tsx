@@ -107,6 +107,7 @@ export const LimitResultDialog: React.FC<ILimitResultDialogProps> = ({
                   text={prettyTx(txHash)}
                   startLength={5}
                   endLength={5}
+                  chainId={31}
                 />
               </div>
             </div>
