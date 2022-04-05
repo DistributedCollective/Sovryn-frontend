@@ -72,6 +72,8 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
 }) => {
   const { t } = useTranslation();
 
+  const { pairType, collateral } = useSelector(selectPerpetualPage);
+
   const inMaintenance = usePerpetual_isTradingInMaintenance();
 
   const { useMetaTransactions } = useSelector(selectPerpetualPage);
@@ -87,11 +89,9 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     availableBalance,
   } = useContext(PerpetualQueriesContext);
 
-  const pair = useMemo(() => PerpetualPairDictionary.get(trade.pairType), [
-    trade.pairType,
-  ]);
-  const collateralName = useMemo(() => getCollateralName(trade.collateral), [
-    trade.collateral,
+  const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
+  const collateralName = useMemo(() => getCollateralName(collateral), [
+    collateral,
   ]);
 
   const maxTradeSize = useMemo(() => {
