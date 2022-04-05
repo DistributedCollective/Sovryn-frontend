@@ -42,6 +42,7 @@ import { getSwapOrderFeeOut } from 'app/hooks/limitOrder/utils';
 import { HelpBadge } from 'app/components/HelpBadge/HelpBadge';
 import { useDenominateAssetAmount } from 'app/hooks/trading/useDenominateAssetAmount';
 import { Asset } from 'types';
+import { LockedBalance } from './LockedBalance';
 
 export const LimitForm: React.FC<ITradeFormProps> = ({
   sourceToken,
@@ -267,11 +268,12 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
         expectedReturn={stringToFixedPrecision(fromWei(weiAmountOut), 6)}
       />
       <div className="tw-mx-auto">
-        <div className="tw-mb-2 tw-mt-2 tw-bg-gray-5 tw-py-2 tw-text-center tw-flex tw-items-center tw-justify-center tw-rounded-lg">
+        <div className="tw-mb-2 tw-mt-2 tw-bg-gray-5 tw-py-2 tw-text-center tw-flex tw-flex-col tw-items-center tw-justify-center tw-rounded-lg">
           <AvailableBalance
             className="tw-mb-0 tw-justify-center"
             asset={sourceToken}
           />
+          <LockedBalance />
         </div>
         <div className="tw-flex tw-items-center tw-justify-between tw-mt-5">
           <span className={styles.amountLabel}>

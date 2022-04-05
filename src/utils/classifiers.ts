@@ -1,5 +1,6 @@
 import { TxType } from '../store/global/transactions-store/types';
 import { AppMode } from '../types';
+import { toWei } from './blockchain/math-helpers';
 
 export const chains = {
   mainnet: 30,
@@ -102,6 +103,10 @@ export const WIKI_LIMIT_ORDER_WALLETS_LINK =
   'https://wiki.sovryn.app/en/sovryn-dapp/limit-order-limitations#wallet-compatibility';
 
 export const MILLION = 1000000;
+
+// most wallets considers 546 sats as minimum amount user needs to have in wallet to use network.
+// i'm putting it as 10 sats for now.
+export const DUST_AMOUNT = toWei(0.0000001);
 
 export const notificationServiceUrl = {
   30: 'https://notify.sovryn.app/',
