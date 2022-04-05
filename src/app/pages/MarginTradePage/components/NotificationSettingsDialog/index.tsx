@@ -199,7 +199,19 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
         </div>
 
         <div className="tw-mb-6 tw-text-xs">
-          {t(translations.marginTradePage.notificationSettingsDialog.notifyVia)}
+          <Trans
+            i18nKey={
+              translations.marginTradePage.notificationSettingsDialog.notifyVia
+            }
+            components={[
+              // eslint-disable-next-line jsx-a11y/anchor-has-content
+              <a
+                href="https://wiki.sovryn.app/en/sovryn-dapp/trade-notifications"
+                target="_blank"
+                rel="noreferrer noopener"
+              />,
+            ]}
+          />
         </div>
 
         <div className="tw-mb-8">
