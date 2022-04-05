@@ -120,7 +120,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
           minDecimals={2}
           maxDecimals={6}
           value={item.margin}
-          assetString={pair.baseAsset}
+          assetString={pair.collateralAsset}
           mode={AssetValueMode.auto}
         />
         {item.leverage ? ` (${toNumberFormat(item.leverage, 2)}x)` : null}
