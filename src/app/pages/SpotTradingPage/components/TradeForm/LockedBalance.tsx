@@ -12,7 +12,13 @@ import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { useSendContractTx } from 'app/hooks/useSendContractTx';
 import { Tooltip } from '@blueprintjs/core';
 
-export const LockedBalance: React.FC = () => {
+type LockedBalanceProps = {
+  hasPendingOrders?: boolean;
+};
+
+export const LockedBalance: React.FC<LockedBalanceProps> = ({
+  hasPendingOrders,
+}) => {
   const { t } = useTranslation();
   const account = useAccount();
   const { loading, value } = useCacheCallWithValue(
@@ -25,8 +31,8 @@ export const LockedBalance: React.FC = () => {
   const { send, ...tx } = useSendContractTx('settlement', 'withdraw');
 
   const canWithdraw = useMemo(() => {
-    return bignumber(value).gt(DUST_AMOUNT);
-  }, [value]);
+    return bignumber(value).gt(DUST_AMOUNT) && !hasPendingOrders;
+  }, [hasPendingOrders, value]);
 
   const handleClick = useCallback(() => send([value]), [value, send]);
 

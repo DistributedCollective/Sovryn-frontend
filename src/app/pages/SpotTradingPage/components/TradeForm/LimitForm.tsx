@@ -30,7 +30,7 @@ import {
   weiToFixed,
 } from 'utils/blockchain/math-helpers';
 import { actions } from '../../slice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Toast } from 'app/components/Toast';
 import { TransactionDialog } from 'app/components/TransactionDialog';
 import { TxStatus } from 'store/global/transactions-store/types';
@@ -43,6 +43,7 @@ import { HelpBadge } from 'app/components/HelpBadge/HelpBadge';
 import { useDenominateAssetAmount } from 'app/hooks/trading/useDenominateAssetAmount';
 import { Asset } from 'types';
 import { LockedBalance } from './LockedBalance';
+import { selectSpotTradingPage } from '../../selectors';
 
 export const LimitForm: React.FC<ITradeFormProps> = ({
   sourceToken,
@@ -56,6 +57,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
   const { checkMaintenance, States } = useMaintenance();
   const spotLocked = checkMaintenance(States.SPOT_LIMIT);
   const dispatch = useDispatch();
+  const { pendingLimitOrders } = useSelector(selectSpotTradingPage);
 
   const [tradeDialog, setTradeDialog] = useState(false);
 
@@ -237,6 +239,10 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
     createOrder();
   }, [createOrder]);
 
+  const hasPendingLimitOrders = useMemo(() => pendingLimitOrders.length > 0, [
+    pendingLimitOrders,
+  ]);
+
   return (
     <div className={classNames({ 'tw-hidden': hidden })}>
       <TradeDialog
@@ -273,7 +279,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
             className="tw-mb-0 tw-justify-center"
             asset={sourceToken}
           />
-          <LockedBalance />
+          <LockedBalance hasPendingOrders={hasPendingLimitOrders} />
         </div>
         <div className="tw-flex tw-items-center tw-justify-between tw-mt-5">
           <span className={styles.amountLabel}>

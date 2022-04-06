@@ -56,6 +56,7 @@ import { getPriceAmm } from 'utils/blockchain/requests/amm';
 import { HelpBadge } from 'app/components/HelpBadge/HelpBadge';
 import { useDenominateAssetAmount } from 'app/hooks/trading/useDenominateAssetAmount';
 import { Asset } from 'types';
+import { LockedBalance } from 'app/pages/SpotTradingPage/components/TradeForm/LockedBalance';
 
 interface ITradeFormProps {
   pairType: TradingPairType;
@@ -82,9 +83,13 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     [duration],
   );
 
-  const { position, amount, collateral, leverage } = useSelector(
-    selectMarginTradePage,
-  );
+  const {
+    position,
+    amount,
+    collateral,
+    leverage,
+    pendingLimitOrders,
+  } = useSelector(selectMarginTradePage);
   const dispatch = useDispatch();
   const pair = useMemo(() => TradingPairDictionary.get(pairType), [pairType]);
   const {
@@ -223,6 +228,10 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
       .then(setLimitPrice);
   }, [pair.longAsset, pair.shortAsset]);
 
+  const hasPendingLimitOrders = useMemo(() => pendingLimitOrders.length > 0, [
+    pendingLimitOrders,
+  ]);
+
   return (
     <>
       <div className="tw-trading-form-card tw-bg-black tw-rounded-3xl tw-p-4 tw-mx-auto xl:tw-mx-0 tw-relative">
@@ -267,6 +276,11 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
             asset={collateral}
             dataAttribute="margin-label-availableBalance"
           />
+          {orderType === OrderType.LIMIT && (
+            <div className="tw-mb-2 tw--mt-2">
+              <LockedBalance hasPendingOrders={hasPendingLimitOrders} />
+            </div>
+          )}
           <FormGroup
             label={t(translations.marginTradePage.tradeForm.labels.amount)}
           >
