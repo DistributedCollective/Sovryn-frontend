@@ -19,6 +19,7 @@ import { getCollateralName } from '../../utils/renderUtils';
 import { selectPerpetualPage } from '../../selectors';
 import { currentNetwork } from 'utils/classifiers';
 import { AppMode } from 'types';
+import { useMaintenance } from 'app/hooks/useMaintenance';
 
 type AccountBalanceFormProps = {
   onOpenTransactionHistory: () => void;
@@ -29,6 +30,13 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
 }) => {
   const { t } = useTranslation();
   const history = useHistory();
+
+  const { checkMaintenance, States } = useMaintenance();
+
+  const bridgeLocked =
+    checkMaintenance(States.BRIDGE) || checkMaintenance(States.BSC_BRIDGE);
+
+  const fastBtcLocked = checkMaintenance(States.FASTBTC) || bridgeLocked;
 
   const { collateral, pairType } = useSelector(selectPerpetualPage);
 
@@ -176,15 +184,15 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
         </Tooltip>
       </div>
       <div className="tw-flex tw-flex-col md:tw-flex-row tw-justify-center tw-mx-auto tw-mt-16 tw-space-y-4 md:tw-space-y-0 md:tw-space-x-10">
-        <ActionButton onClick={onOpenBtcDeposit}>
+        <ActionButton onClick={onOpenBtcDeposit} disabled={fastBtcLocked}>
           {t(translations.perpetualPage.accountBalance.deposit)}
         </ActionButton>
 
-        <ActionButton onClick={onOpenBtcWithdraw}>
+        <ActionButton onClick={onOpenBtcWithdraw} disabled={fastBtcLocked}>
           {t(translations.perpetualPage.accountBalance.withdraw)}
         </ActionButton>
 
-        <ActionButton onClick={onOpenTransfer}>
+        <ActionButton onClick={onOpenTransfer} disabled={bridgeLocked}>
           {t(translations.perpetualPage.accountBalance.transfer)}
         </ActionButton>
       </div>
