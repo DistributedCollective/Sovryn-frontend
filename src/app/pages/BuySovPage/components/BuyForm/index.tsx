@@ -14,7 +14,6 @@ import { translations } from 'locales/i18n';
 import { useSlippage } from './useSlippage';
 import { weiToNumberFormat } from 'utils/display-text/format';
 import { SlippageDialog } from './Dialogs/SlippageDialog';
-import { TxDialog } from './Dialogs/TxDialog';
 import { bignumber } from 'mathjs';
 import { BuyButton } from '../Button/buy';
 import { ArrowDown } from '../ArrowStep/down';
@@ -30,10 +29,11 @@ import { useSwapNetwork_conversionPath } from 'app/hooks/swap-network/useSwapNet
 import { useSwapNetwork_approveAndConvertByPath } from 'app/hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import styles from './index.module.scss';
+import { TransactionDialog } from 'app/components/TransactionDialog';
 
 const s = translations.swapTradeForm;
 
-export function BuyForm() {
+export const BuyForm: React.FC = () => {
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
   const swapsLocked = checkMaintenance(States.SWAP_TRADES);
@@ -198,7 +198,7 @@ export function BuyForm() {
         dataActionId="buySov-"
       />
 
-      <TxDialog tx={tx} />
+      <TransactionDialog tx={tx} />
     </>
   );
-}
+};

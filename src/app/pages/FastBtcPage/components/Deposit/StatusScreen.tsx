@@ -8,7 +8,7 @@ import { FastBtcButton } from '../FastBtcButton';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { bignumber } from 'mathjs';
 import { LinkToExplorer } from '../../../../components/LinkToExplorer';
-import { StatusComponent } from '../../../../components/Dialogs/TxDialog';
+import { StatusComponent } from '../../../../components/Dialogs/StatusComponent';
 import { DepositContext, DepositStep } from '../../contexts/deposit-context';
 import { DEPOSIT_FEE_SATS } from '../../constants';
 import { CREATE_TICKET_LINK } from 'utils/classifiers';

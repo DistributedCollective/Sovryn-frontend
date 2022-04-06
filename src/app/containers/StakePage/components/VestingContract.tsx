@@ -27,12 +27,12 @@ import { useCachedAssetPrice } from 'app/hooks/trading/useCachedAssetPrice';
 import { useAccount } from 'app/hooks/useAccount';
 import { WithdrawVesting } from './WithdrawVesting';
 import { VestGroup } from 'app/components/UserAssets/Vesting/types';
-import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { useSendToContractAddressTx } from 'app/hooks/useSendToContractAddressTx';
 import VestingABI from 'utils/blockchain/abi/Vesting.json';
 import { AbiItem } from 'web3-utils';
 import { TxType } from 'store/global/transactions-store/types';
 import classNames from 'classnames';
+import { TransactionDialog } from 'app/components/TransactionDialog';
 
 interface Props {
   vestingAddress: string;
@@ -352,7 +352,10 @@ export function VestingContract(props: Props) {
           </>
         }
       />
-      <TxDialog tx={tx} onUserConfirmed={() => setShowWithdraw(false)} />
+      <TransactionDialog
+        tx={tx}
+        onUserConfirmed={() => setShowWithdraw(false)}
+      />
     </>
   );
 }

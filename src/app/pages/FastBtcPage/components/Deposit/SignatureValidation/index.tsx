@@ -8,7 +8,7 @@ import { useAccount } from 'app/hooks/useAccount';
 import { WalletContext } from '@sovryn/react-wallet';
 import { getContract } from '../../../../../../utils/blockchain/contract-helpers';
 import { FastBtcButton } from '../../FastBtcButton';
-import { StatusComponent } from 'app/components/Dialogs/TxDialog';
+import { StatusComponent } from 'app/components/Dialogs/StatusComponent';
 import { TxStatus } from 'store/global/transactions-store/types';
 import styles from './index.module.scss';
 

@@ -19,7 +19,6 @@ import { useWeiAmount } from 'app/hooks/useWeiAmount';
 import { bignumber } from 'mathjs';
 import { maxMinusFee } from 'utils/helpers';
 import { useLending_assetBalanceOf } from 'app/hooks/lending/useLending_assetBalanceOf';
-import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { NextSupplyInterestRate } from 'app/components/NextSupplyInterestRate';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { fromWei } from 'web3-utils';
@@ -33,23 +32,24 @@ import {
 } from 'utils/blockchain/contract-helpers';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import { LendingPoolDictionary } from 'utils/dictionaries/lending-pool-dictionary';
+import { TransactionDialog } from 'app/components/TransactionDialog';
 
-interface Props {
+type LendingDialogProps = {
   currency: Asset;
   showModal: boolean;
   onCloseModal: () => void;
   type: DialogType;
   lendingAmount: string;
-}
+};
 
 const gasLimit = 340000;
 
-export function LendingDialog({
+export const LendingDialog: React.FC<LendingDialogProps> = ({
   currency,
   type,
   lendingAmount,
   ...props
-}: Props) {
+}) => {
   const { t } = useTranslation();
   const modalTranslation =
     translations.lendingPage.modal[type === 'add' ? 'deposit' : 'withdraw'];
@@ -290,8 +290,10 @@ export function LendingDialog({
           />
         </div>
       </Dialog>
-      {type === 'add' && <TxDialog tx={lendTx} onSuccess={() => {}} />}
-      {type === 'remove' && <TxDialog tx={unlendTx} onSuccess={() => {}} />}
+      {type === 'add' && <TransactionDialog tx={lendTx} onSuccess={() => {}} />}
+      {type === 'remove' && (
+        <TransactionDialog tx={unlendTx} onSuccess={() => {}} />
+      )}
     </>
   );
-}
+};

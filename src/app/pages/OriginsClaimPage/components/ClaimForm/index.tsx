@@ -9,12 +9,12 @@ import { Button, ButtonSize } from 'app/components/Button';
 import { useSendContractTx } from '../../../../hooks/useSendContractTx';
 import { TxType } from 'store/global/transactions-store/types';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
-import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite, gasLimit } from 'utils/classifiers';
 import { bignumber } from 'mathjs';
+import { TransactionDialog } from 'app/components/TransactionDialog';
 
 interface IClaimFormProps {
   address: string;
@@ -166,7 +166,7 @@ export const ClaimForm: React.FC<IClaimFormProps> = ({
           </div>
         </div>
       </div>
-      <TxDialog tx={tx} />
+      <TransactionDialog tx={tx} />
     </div>
   );
 };
