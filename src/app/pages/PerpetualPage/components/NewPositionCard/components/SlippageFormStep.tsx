@@ -18,6 +18,7 @@ import {
 import { TradingPosition } from '../../../../../../types/trading-position';
 import { PerpetualQueriesContext } from 'app/pages/PerpetualPage/contexts/PerpetualQueriesContext';
 import { perpUtils } from '@sovryn/perpetual-swap';
+import { usePerpetual_getCurrentPairId } from 'app/pages/PerpetualPage/hooks/usePerpetual_getCurrentPairId';
 
 const {
   calculateSlippagePrice,
@@ -30,12 +31,14 @@ export const SlippageFormStep: TransitionStep<NewPositionCardStep> = ({
 }) => {
   const { t } = useTranslation();
 
+  const currentPairId = usePerpetual_getCurrentPairId();
+  const { perpetuals } = useContext(PerpetualQueriesContext);
   const {
     ammState,
     traderState,
     perpetualParameters: perpParameters,
     averagePrice,
-  } = useContext(PerpetualQueriesContext);
+  } = perpetuals[currentPairId];
 
   const { trade, onChangeTrade } = useContext(NewPositionCardContext);
 

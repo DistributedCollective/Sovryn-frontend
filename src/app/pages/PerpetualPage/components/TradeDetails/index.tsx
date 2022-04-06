@@ -10,6 +10,7 @@ import { PerpetualTrade } from '../../types';
 import { getSignedAmount } from '../../utils/contractUtils';
 import { getTraderPnLInBC } from '../../utils/perpUtils';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
+import { usePerpetual_getCurrentPairId } from '../../hooks/usePerpetual_getCurrentPairId';
 
 type TradeDetailsProps = {
   className?: string;
@@ -26,12 +27,14 @@ export const TradeDetails: React.FC<TradeDetailsProps> = ({
 }) => {
   const { t } = useTranslation();
 
+  const currentPairId = usePerpetual_getCurrentPairId();
+  const { perpetuals } = useContext(PerpetualQueriesContext);
   const {
     ammState,
     perpetualParameters,
     traderState,
     availableBalance,
-  } = useContext(PerpetualQueriesContext);
+  } = perpetuals[currentPairId];
 
   const positionSize = useMemo(
     () => getSignedAmount(trade.position, trade.amount),

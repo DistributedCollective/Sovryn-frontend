@@ -1,4 +1,10 @@
-import React, { createContext, useMemo, useEffect, useState } from 'react';
+import React, {
+  createContext,
+  useMemo,
+  useEffect,
+  useState,
+  useCallback,
+} from 'react';
 import { getContract } from '../../../../utils/blockchain/contract-helpers';
 import {
   subscription,
@@ -31,6 +37,7 @@ import {
   PerpParameters,
   TraderState,
 } from '@sovryn/perpetual-swap';
+import { PerpetualPairDictionary } from 'utils/dictionaries/perpetual-pair-dictionary';
 
 const { getDepthMatrix } = perpUtils;
 
@@ -38,6 +45,7 @@ const THROTTLE_DELAY = 1000; // 1s
 const UPDATE_INTERVAL = 10000; // 10s
 
 const address = getContract('perpetualManager').address.toLowerCase();
+const pairIds = PerpetualPairDictionary.list().map(item => item.id);
 
 type InitSocketParams = {
   update: (isEventByTrader: boolean) => void;
@@ -69,19 +77,25 @@ const initSocket = (
   };
 };
 
-type PerpetualQueriesContextValue = {
-  ammState: AMMState;
-  perpetualParameters: PerpParameters;
-  traderState: TraderState;
-  liquidityPoolState: LiqPoolState;
-  depthMatrixEntries: any[][];
-  averagePrice: number;
-  lotSize: number;
-  lotPrecision: number;
-  availableBalance: string;
+type PerpetualValue = {
+  [key: string]: {
+    ammState: AMMState;
+    perpetualParameters: PerpParameters;
+    traderState: TraderState;
+    liquidityPoolState: LiqPoolState;
+    depthMatrixEntries: any[][];
+    averagePrice: number;
+    lotSize: number;
+    lotPrecision: number;
+    availableBalance: string;
+  };
 };
 
-const initialContext = {
+type PerpetualQueriesContextValue = {
+  perpetuals: PerpetualValue;
+};
+
+const initialPerpetualValue = {
   ammState: initialAmmState,
   perpetualParameters: initialPerpetualParameters,
   traderState: initialTraderState,
@@ -91,6 +105,12 @@ const initialContext = {
   lotSize: 0.002,
   lotPrecision: 3,
   availableBalance: '0',
+};
+
+const initialContext = {
+  perpetuals: {
+    '0': initialPerpetualValue,
+  },
 };
 
 export const PerpetualQueriesContext = createContext<
@@ -119,47 +139,147 @@ export const PerpetualQueriesContextProvider: React.FC<PerpetualQueriesContextPr
   const account = useAccount();
   const [disconnected, setDisconnected] = useState(false);
 
-  const { result: poolId } = usePerpetual_queryLiqPoolId(pair.id);
+  // TODO: Temporary solution, hook adjustment will be necessary
+  const { result: firstPoolId } = usePerpetual_queryLiqPoolId(pairIds[0]);
+  const { result: secondPoolId } = usePerpetual_queryLiqPoolId(pairIds[1]);
 
-  const multiCallData = useMemo(() => {
+  const multiCallDataFirstPair = useMemo(() => {
     const calls = [
-      ammStateCallData(pair.id),
-      perpetualParametersCallData(pair.id),
+      ammStateCallData(pairIds[0]),
+      perpetualParametersCallData(pairIds[0]),
     ];
-    if (poolId) {
-      calls.push(liquidityPoolStateCallData(poolId));
+    if (firstPoolId) {
+      calls.push(liquidityPoolStateCallData(firstPoolId));
     }
     if (account) {
-      calls.push(traderStateCallData(pair.id, account));
+      calls.push(traderStateCallData(pairIds[0], account));
       calls.push(
         balanceCallData('PERPETUALS_token', account, 'availableBalance'),
       );
     }
     return calls;
-  }, [pair, poolId, account]);
+  }, [firstPoolId, account]);
 
-  const { result, refetch } = useBridgeNetworkMultiCall(
-    PERPETUAL_CHAIN,
-    multiCallData,
+  const {
+    result: firstResult,
+    refetch: firstRefetch,
+  } = useBridgeNetworkMultiCall(PERPETUAL_CHAIN, multiCallDataFirstPair);
+
+  const multiCallDataSecondPair = useMemo(() => {
+    const calls = [
+      ammStateCallData(pairIds[1]),
+      perpetualParametersCallData(pairIds[1]),
+    ];
+    if (secondPoolId) {
+      calls.push(liquidityPoolStateCallData(secondPoolId));
+    }
+    if (account) {
+      calls.push(traderStateCallData(pairIds[1], account));
+      calls.push(
+        balanceCallData('PERPETUALS_token', account, 'availableBalance'),
+      );
+    }
+    return calls;
+  }, [secondPoolId, account]);
+
+  const {
+    result: secondResult,
+    refetch: secondRefetch,
+  } = useBridgeNetworkMultiCall(PERPETUAL_CHAIN, multiCallDataSecondPair);
+
+  const {
+    ammState: ammStateFirstResult,
+    perpetualParameters: perpetualParametersFirstResult,
+    liquidityPoolState: liquidityPoolStateFirstResult,
+    traderState: traderStateFirstResult,
+    availableBalance: availableBalanceFirstResult,
+  } = useMemo(
+    () => ({ ...initialPerpetualValue, ...(firstResult?.returnData || {}) }),
+    [firstResult?.returnData],
   );
 
   const {
-    ammState,
-    perpetualParameters,
-    liquidityPoolState,
-    traderState,
-    availableBalance,
-  } = useMemo(() => ({ ...initialContext, ...(result?.returnData || {}) }), [
-    result?.returnData,
-  ]);
-
-  const depthMatrixEntries = useMemo(
-    () =>
-      perpetualParameters &&
-      ammState &&
-      getDepthMatrix(perpetualParameters, ammState),
-    [ammState, perpetualParameters],
+    ammState: ammStateSecondResult,
+    perpetualParameters: perpetualParametersSecondResult,
+    liquidityPoolState: liquidityPoolStateSecondResult,
+    traderState: traderStateSecondResult,
+    availableBalance: availableBalanceSecondResult,
+  } = useMemo(
+    () => ({ ...initialPerpetualValue, ...(secondResult?.returnData || {}) }),
+    [secondResult?.returnData],
   );
+
+  const {
+    depthMatrixEntries: depthMatrixEntriesFirstResult,
+    lotSize: lotSizeFirstResult,
+    lotPrecision: lotPrecisionFirstResult,
+  } = useMemo(
+    () =>
+      getAdditionalInfo(perpetualParametersFirstResult, ammStateFirstResult),
+    [ammStateFirstResult, perpetualParametersFirstResult],
+  );
+
+  const {
+    depthMatrixEntries: depthMatrixEntriesSecondResult,
+    lotSize: lotSizeSecondResult,
+    lotPrecision: lotPrecisionSecondResult,
+  } = useMemo(
+    () =>
+      getAdditionalInfo(perpetualParametersSecondResult, ammStateSecondResult),
+    [ammStateSecondResult, perpetualParametersSecondResult],
+  );
+
+  const value: PerpetualQueriesContextValue = useMemo(
+    () => ({
+      perpetuals: {
+        [pairIds[0]]: {
+          ammState: ammStateFirstResult,
+          perpetualParameters: perpetualParametersFirstResult,
+          liquidityPoolState: liquidityPoolStateFirstResult,
+          traderState: traderStateFirstResult,
+          availableBalance: availableBalanceFirstResult,
+          depthMatrixEntries: depthMatrixEntriesFirstResult,
+          averagePrice: getAveragePrice(depthMatrixEntriesFirstResult),
+          lotPrecision: lotPrecisionFirstResult,
+          lotSize: lotSizeFirstResult,
+        },
+        [pairIds[1]]: {
+          ammState: ammStateSecondResult,
+          perpetualParameters: perpetualParametersSecondResult,
+          liquidityPoolState: liquidityPoolStateSecondResult,
+          traderState: traderStateSecondResult,
+          availableBalance: availableBalanceSecondResult,
+          depthMatrixEntries: depthMatrixEntriesSecondResult,
+          averagePrice: getAveragePrice(depthMatrixEntriesSecondResult),
+          lotPrecision: lotPrecisionSecondResult,
+          lotSize: lotSizeSecondResult,
+        },
+      },
+    }),
+    [
+      ammStateFirstResult,
+      ammStateSecondResult,
+      availableBalanceFirstResult,
+      availableBalanceSecondResult,
+      depthMatrixEntriesFirstResult,
+      depthMatrixEntriesSecondResult,
+      liquidityPoolStateFirstResult,
+      liquidityPoolStateSecondResult,
+      lotPrecisionFirstResult,
+      lotPrecisionSecondResult,
+      lotSizeFirstResult,
+      lotSizeSecondResult,
+      perpetualParametersFirstResult,
+      perpetualParametersSecondResult,
+      traderStateFirstResult,
+      traderStateSecondResult,
+    ],
+  );
+
+  const refetch = useCallback(() => {
+    firstRefetch();
+    secondRefetch();
+  }, [firstRefetch, secondRefetch]);
 
   const refetchDebounced = useMemo(
     () =>
@@ -168,37 +288,6 @@ export const PerpetualQueriesContextProvider: React.FC<PerpetualQueriesContextPr
         maxWait: THROTTLE_DELAY,
       }),
     [refetch],
-  );
-
-  const [lotSize, lotPrecision] = useMemo(() => {
-    // Round lotSize since ABK64x64 to float leads to period 9 decimals.
-    const lotSize = Number(perpetualParameters.fLotSizeBC.toPrecision(8));
-    const lotPrecision = lotSize.toString().split(/[,.]/)[1]?.length || 1;
-    return [lotSize, lotPrecision];
-  }, [perpetualParameters.fLotSizeBC]);
-
-  const value = useMemo(
-    () => ({
-      ammState,
-      perpetualParameters,
-      traderState,
-      liquidityPoolState,
-      depthMatrixEntries,
-      averagePrice: getAveragePrice(depthMatrixEntries),
-      lotSize,
-      lotPrecision,
-      availableBalance,
-    }),
-    [
-      ammState,
-      depthMatrixEntries,
-      liquidityPoolState,
-      perpetualParameters,
-      traderState,
-      lotSize,
-      lotPrecision,
-      availableBalance,
-    ],
   );
 
   useEffect(() => {
@@ -254,4 +343,23 @@ export const PerpetualQueriesContextProvider: React.FC<PerpetualQueriesContextPr
       {children}
     </PerpetualQueriesContext.Provider>
   );
+};
+
+const getAdditionalInfo = (
+  perpetualParameters: perpUtils.PerpParameters,
+  ammState: perpUtils.AMMState,
+): { depthMatrixEntries: any[][]; lotSize: number; lotPrecision: number } => {
+  const depthMatrixEntries =
+    perpetualParameters &&
+    ammState &&
+    getDepthMatrix(perpetualParameters, ammState);
+
+  const lotSize = Number(perpetualParameters.fLotSizeBC.toPrecision(8));
+  const lotPrecision = lotSize.toString().split(/[,.]/)[1]?.length || 1;
+
+  return {
+    depthMatrixEntries,
+    lotSize,
+    lotPrecision,
+  };
 };

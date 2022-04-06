@@ -35,6 +35,7 @@ import { ActionDialogSubmitButton } from '../ActionDialogSubmitButton';
 import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';
 import { usePrevious } from '../../../../hooks/usePrevious';
 import { perpUtils } from '@sovryn/perpetual-swap';
+import { usePerpetual_getCurrentPairId } from '../../hooks/usePerpetual_getCurrentPairId';
 
 const {
   getRequiredMarginCollateral,
@@ -54,12 +55,14 @@ export const EditLeverageDialog: React.FC = () => {
 
   const inMaintenance = usePerpetual_isTradingInMaintenance();
 
+  const currentPairId = usePerpetual_getCurrentPairId();
+  const { perpetuals } = useContext(PerpetualQueriesContext);
   const {
     ammState,
     traderState,
     perpetualParameters: perpParameters,
     availableBalance,
-  } = useContext(PerpetualQueriesContext);
+  } = perpetuals[currentPairId];
 
   const trade = useMemo(
     () => (isPerpetualTrade(modalOptions) ? modalOptions : undefined),

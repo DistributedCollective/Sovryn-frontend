@@ -11,12 +11,16 @@ import { TradingPosition } from '../../../../../../types/trading-position';
 import { PerpetualTxMethods } from '../../TradeDialog/types';
 import { PerpetualQueriesContext } from 'app/pages/PerpetualPage/contexts/PerpetualQueriesContext';
 import { toWei } from '../../../../../../utils/blockchain/math-helpers';
+import { usePerpetual_getCurrentPairId } from 'app/pages/PerpetualPage/hooks/usePerpetual_getCurrentPairId';
 
 export const TradeFormStep: TransitionStep<EditPositionSizeDialogStep> = ({
   changeTo,
 }) => {
   const dispatch = useDispatch();
-  const { traderState } = useContext(PerpetualQueriesContext);
+
+  const currentPairId = usePerpetual_getCurrentPairId();
+  const { perpetuals } = useContext(PerpetualQueriesContext);
+  const { traderState } = perpetuals[currentPairId];
 
   const { pairType, trade, changedTrade, onChange } = useContext(
     EditPositionSizeDialogContext,

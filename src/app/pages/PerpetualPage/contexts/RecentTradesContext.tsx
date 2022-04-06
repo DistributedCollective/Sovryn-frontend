@@ -95,7 +95,7 @@ const formatRecentTradesData = (data: { trades: any[]; liquidates: any[] }) =>
   ]
     .sort((a, b) => b.time - a.time)
     .map((trade, index, array) => {
-      console.log(trade.time);
+      //console.log(trade.time);
       const prevTrade = index < array.length - 1 ? array[index + 1] : trade;
       return {
         ...trade,

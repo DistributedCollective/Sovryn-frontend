@@ -8,11 +8,15 @@ import { PerpetualPageModals } from '../../types';
 import { selectPerpetualPage } from '../../selectors';
 import { getCollateralName } from '../../utils/renderUtils';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
+import { usePerpetual_getCurrentPairId } from '../../hooks/usePerpetual_getCurrentPairId';
 
 export const AccountBalanceCard: React.FC = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { availableBalance } = useContext(PerpetualQueriesContext);
+
+  const currentPairId = usePerpetual_getCurrentPairId();
+  const { perpetuals } = useContext(PerpetualQueriesContext);
+  const { availableBalance } = perpetuals[currentPairId];
 
   const { collateral } = useSelector(selectPerpetualPage);
   const collateralAsset = useMemo(() => getCollateralName(collateral), [

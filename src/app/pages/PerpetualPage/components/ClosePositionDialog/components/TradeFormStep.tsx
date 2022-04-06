@@ -37,6 +37,7 @@ import { ActionDialogSubmitButton } from '../../ActionDialogSubmitButton';
 import { usePerpetual_isTradingInMaintenance } from 'app/pages/PerpetualPage/hooks/usePerpetual_isTradingInMaintenance';
 import { selectPerpetualPage } from '../../../selectors';
 import { perpMath, perpUtils } from '@sovryn/perpetual-swap';
+import { usePerpetual_getCurrentPairId } from 'app/pages/PerpetualPage/hooks/usePerpetual_getCurrentPairId';
 
 const { roundToLot } = perpMath;
 const { getTraderPnLInCC, calculateSlippagePrice } = perpUtils;
@@ -47,6 +48,9 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
+  const currentPairId = usePerpetual_getCurrentPairId();
+  const { perpetuals } = useContext(PerpetualQueriesContext);
+
   const {
     ammState,
     traderState,
@@ -55,7 +59,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     lotSize,
     lotPrecision,
     availableBalance,
-  } = useContext(PerpetualQueriesContext);
+  } = perpetuals[currentPairId];
 
   const { useMetaTransactions } = useSelector(selectPerpetualPage);
 

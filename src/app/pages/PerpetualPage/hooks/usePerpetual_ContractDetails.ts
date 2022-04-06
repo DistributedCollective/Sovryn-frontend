@@ -9,6 +9,7 @@ import {
   PerpetualPairDictionary,
 } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { useApolloClient } from '@apollo/client';
+import { usePerpetual_getCurrentPairId } from './usePerpetual_getCurrentPairId';
 
 export type PerpetualContractDetailsData = {
   volume24h: number;
@@ -22,9 +23,9 @@ export const usePerpetual_ContractDetails = (pairType: PerpetualPairType) => {
   const [volume24h, setVolume24h] = useState(0);
   const [data, setData] = useState<Nullable<PerpetualContractDetailsData>>();
 
-  const { ammState, perpetualParameters, lotSize } = useContext(
-    PerpetualQueriesContext,
-  );
+  const currentPairId = usePerpetual_getCurrentPairId();
+  const { perpetuals } = useContext(PerpetualQueriesContext);
+  const { ammState, perpetualParameters, lotSize } = perpetuals[currentPairId];
   const client = useApolloClient();
 
   const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
