@@ -16,12 +16,14 @@ import { RecentTradesContext } from '../contexts/RecentTradesContext';
 import debounce from 'lodash.debounce';
 import { perpUtils } from '@sovryn/perpetual-swap';
 import { usePerpetual_getCurrentPairId } from './usePerpetual_getCurrentPairId';
+import { PerpetualPair } from 'utils/models/perpetual-pair';
 
 const { getQuote2CollateralFX } = perpUtils;
 
 export type ClosedPositionEntry = {
   id: string;
   pairType: PerpetualPairType;
+  pair: PerpetualPair;
   datetime: string;
   positionSizeMin: number;
   positionSizeMax: number;
@@ -35,7 +37,6 @@ type ClosedPositionHookResult = {
 };
 
 export const usePerpetual_ClosedPositions = (
-  pairType: PerpetualPairType,
   page: number,
   perPage: number,
 ): ClosedPositionHookResult => {
@@ -47,7 +48,10 @@ export const usePerpetual_ClosedPositions = (
 
   const { latestTradeByUser } = useContext(RecentTradesContext);
 
-  const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
+  const perpIds = useMemo(
+    () => PerpetualPairDictionary.list().map(pair => pair.id),
+    [],
+  );
 
   const eventQuery = useMemo(
     () => [
@@ -57,11 +61,18 @@ export const usePerpetual_ClosedPositions = (
         orderDirection: OrderDirection.desc,
         page,
         perPage,
-        whereCondition: `perpetual: ${JSON.stringify(pair.id)}, isClosed: true`,
+        whereCondition: `perpetual_in: ${JSON.stringify(
+          perpIds,
+        )}, isClosed: true`,
       },
     ],
-    [page, perPage, pair],
+    [page, perPage, perpIds],
   );
+
+  const getPairByPerpId = perpId =>
+    PerpetualPairDictionary.list().find(
+      pair => pair.id.toLowerCase() === perpId.toLowerCase(),
+    );
 
   const {
     data: positions,
@@ -82,7 +93,7 @@ export const usePerpetual_ClosedPositions = (
 
         return {
           id: item.id,
-          pairType,
+          pair: getPairByPerpId(item?.perpetual?.id),
           datetime: item.endDate,
           positionSizeMin: ABK64x64ToFloat(BigNumber.from(item.lowestSizeBC)),
           positionSizeMax: ABK64x64ToFloat(BigNumber.from(item.highestSizeBC)),
@@ -96,7 +107,6 @@ export const usePerpetual_ClosedPositions = (
     return data;
   }, [
     ammState,
-    pairType,
     positions?.trader?.positions,
     previousPositions?.trader?.positions,
   ]);
