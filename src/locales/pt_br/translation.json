@@ -762,34 +762,6 @@
     "hintTwo": "Carregue sua carteira na",
     "hintThree": "e comece a usar!"
   },
-  "notificationFormContainer": {
-    "want": "Deseja receber notificações por e-mail sobre chamadas de margem e posições liquidadas?",
-    "update": "Atualize o nome ou endereço de e-mail associado a este endereço de carteira.",
-    "receive": "Eu gostaria de receber e-mails sobre atualizações e novos recursos da Sovryn",
-    "emailSettingsBtn_update": "Configurações de e-mail",
-    "emailSettingsBtn_get": "Receba notificações por e-mail",
-    "dialog": {
-      "title": "Notificações",
-      "want": "Receba notificações por e-mail de chamadas de margem e posições liquidadas",
-      "form": {
-        "name": {
-          "label": "Nome / Apelido",
-          "info": "(obrigatório)",
-          "placeholder": "nome / apelido"
-        },
-        "email": {
-          "label": "Endereço de e-mail",
-          "info": "(obrigatório)",
-          "placeholder": "email@email.com"
-        }
-      },
-      "wantBtn": "enviar",
-      "updateBtn": "atualizar",
-      "error": "Ocorreu um erro ao enviar os dados"
-    },
-    "updated_success": "Você será notificado por e-mail sobre chamadas de margem e posições liquidadas.",
-    "updated_success_user": "Seus dados foram atualizados."
-  },
   "whiteListedNotification": {
     "text": "Sua carteira ainda não está autorizada para usar a Sovryn. Obtendo o token SOV sua carteira é automaticamente liberada (SOV em status reservado ou investido). A documentação sobre a Sovryn está disponível em <0>wiki</0>."
   },
