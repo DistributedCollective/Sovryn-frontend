@@ -18,6 +18,7 @@ import { Asset } from 'types';
 import { weiToUSD } from 'utils/display-text/format';
 import { useSendContractTx } from 'app/hooks/useSendContractTx';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
+import classNames from 'classnames';
 
 interface IFeeBlockProps {
   contractToken: AssetDetails;
@@ -132,15 +133,17 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
               </Tooltip>
             </div>
           </div>
-          {currency.value !== '0' && (
-            <button
-              onClick={handleWithdrawFee}
-              type="button"
-              className="tw-text-primary hover:tw-text-primary tw-p-0 tw-text-normal tw-lowercase hover:tw-underline tw-font-medium tw-font-body tw-tracking-normal"
-            >
-              {t(translations.userAssets.actions.withdraw)}
-            </button>
-          )}
+          <button
+            onClick={handleWithdrawFee}
+            type="button"
+            disabled={currency.value === '0'}
+            className={classNames(
+              'tw-text-primary hover:tw-text-primary tw-p-0 tw-text-normal tw-lowercase hover:tw-underline tw-font-medium tw-font-body tw-tracking-normal',
+              currency.value === '0' && 'tw-opacity-50 hover:tw-no-underline',
+            )}
+          >
+            {t(translations.userAssets.actions.withdraw)}
+          </button>
         </div>
       )}
       <TxDialog tx={tx} />
