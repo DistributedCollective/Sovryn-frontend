@@ -33,14 +33,12 @@ export const PairSelectorButton: React.FC<PairSelectorButtonProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const currentPairId = usePerpetual_getCurrentPairId();
   const { perpetuals } = useContext(PerpetualQueriesContext);
-  const { ammState } = perpetuals[currentPairId];
+  const { ammState } = perpetuals[pair.id];
 
   const [trend, setTrend] = useState<TradePriceChange>(
     TradePriceChange.NO_CHANGE,
   );
-
   const markPrice = getMarkPrice(ammState);
   const previousMarkPrice = usePrevious(markPrice);
 
