@@ -172,6 +172,7 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
             />
           </div>,
         );
+        onClose();
       })
       .catch(error => {
         console.log(error);
