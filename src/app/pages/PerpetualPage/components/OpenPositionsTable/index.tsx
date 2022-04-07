@@ -5,7 +5,7 @@ import { OpenPositionRow } from './components/OpenPositionRow';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { useSelector } from 'react-redux';
-import { usePerpetual_OpenPosition } from '../../hooks/usePerpetual_OpenPositions';
+import { usePerpetual_OpenPositions } from '../../hooks/usePerpetual_OpenPositions';
 import { selectPerpetualPage } from '../../selectors';
 import { Tooltip } from '@blueprintjs/core';
 
@@ -17,9 +17,9 @@ export function OpenPositionsTable({ perPage }: IOpenPositionsTableProps) {
   const { t } = useTranslation();
   const { pairType } = useSelector(selectPerpetualPage);
 
-  const { data, loading } = usePerpetual_OpenPosition(useAccount(), pairType);
+  const { data, loading } = usePerpetual_OpenPositions(useAccount(), pairType);
 
-  const items = useMemo(() => (data && data.margin > 0 ? [data] : []), [data]);
+  const items = useMemo(() => data || [], [data]);
 
   const isEmpty = !loading && !items.length;
   const showLoading = loading && !items.length;
