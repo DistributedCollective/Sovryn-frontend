@@ -79,7 +79,7 @@ export const usePerpetual_ClosedPositions = (
 
         return {
           id: item.id,
-          pair: getPairByPerpId(item?.perpetual?.id),
+          pair: PerpetualPairDictionary.getById(item?.perpetual?.id),
           datetime: item.endDate,
           positionSizeMin: ABK64x64ToFloat(BigNumber.from(item.lowestSizeBC)),
           positionSizeMax: ABK64x64ToFloat(BigNumber.from(item.highestSizeBC)),
