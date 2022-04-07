@@ -16,5 +16,4 @@ export enum Asset {
   FISH = 'FISH',
   RIF = 'RIF',
   MYNT = 'MYNT',
-  UND = 'UNDEFINED',
 }
