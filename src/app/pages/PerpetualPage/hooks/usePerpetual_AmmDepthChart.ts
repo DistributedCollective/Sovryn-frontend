@@ -4,6 +4,7 @@ import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import { RecentTradesContext } from '../contexts/RecentTradesContext';
 import { TradePriceChange } from '../components/RecentTradesTable/types';
 import { perpUtils } from '@sovryn/perpetual-swap';
+import { usePerpetual_getCurrentPairId } from './usePerpetual_getCurrentPairId';
 
 const { getIndexPrice, getMarkPrice } = perpUtils;
 
@@ -26,9 +27,12 @@ export type AmmDepthChartData = {
 export const usePerpetual_AmmDepthChart = (
   pair: PerpetualPair,
 ): AmmDepthChartData => {
-  const { ammState, depthMatrixEntries: entries, averagePrice } = useContext(
-    PerpetualQueriesContext,
-  );
+  const currentPairId = usePerpetual_getCurrentPairId();
+  const { perpetuals } = useContext(PerpetualQueriesContext);
+  const { ammState, depthMatrixEntries: entries, averagePrice } = perpetuals[
+    currentPairId
+  ];
+
   const { trades } = useContext(RecentTradesContext);
 
   const data = useMemo(() => {

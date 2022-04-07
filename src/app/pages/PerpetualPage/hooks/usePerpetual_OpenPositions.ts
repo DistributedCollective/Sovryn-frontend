@@ -17,6 +17,7 @@ import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import { RecentTradesContext } from '../contexts/RecentTradesContext';
 import debounce from 'lodash.debounce';
 import { perpUtils } from '@sovryn/perpetual-swap';
+import { usePerpetual_getCurrentPairId } from './usePerpetual_getCurrentPairId';
 
 export type OpenPositionEntry = {
   id: string;
@@ -75,11 +76,14 @@ export const usePerpetual_OpenPosition = (
 
   const { latestTradeByUser } = useContext(RecentTradesContext);
 
+  const currentPairId = usePerpetual_getCurrentPairId();
+  const { perpetuals } = useContext(PerpetualQueriesContext);
+
   const {
     ammState,
     traderState,
     perpetualParameters: perpParameters,
-  } = useContext(PerpetualQueriesContext);
+  } = perpetuals[currentPairId];
 
   const data = useMemo(() => {
     const base2quote = getBase2QuoteFX(ammState, true);

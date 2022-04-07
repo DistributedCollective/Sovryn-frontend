@@ -19,6 +19,7 @@ import { Asset } from '../../../../types';
 import { PerpetualTx } from '../components/TradeDialog/types';
 import { useGsnSendTx } from '../../../hooks/useGsnSendTx';
 import { perpUtils } from '@sovryn/perpetual-swap';
+import { usePerpetual_getCurrentPairId } from './usePerpetual_getCurrentPairId';
 
 const { calculateSlippagePrice } = perpUtils;
 
@@ -34,7 +35,9 @@ export const usePerpetual_openTrade = (
     pairType,
   ]);
 
-  const { averagePrice } = useContext(PerpetualQueriesContext);
+  const currentPairId = usePerpetual_getCurrentPairId();
+  const { perpetuals } = useContext(PerpetualQueriesContext);
+  const { averagePrice } = perpetuals[currentPairId];
 
   const { send, ...rest } = useGsnSendTx(
     PERPETUAL_CHAIN,

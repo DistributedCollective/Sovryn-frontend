@@ -32,6 +32,7 @@ import { TransactionStep } from './components/TransactionStep';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 import { numberFromWei } from '../../../../../utils/blockchain/math-helpers';
 import { perpUtils } from '@sovryn/perpetual-swap';
+import { usePerpetual_getCurrentPairId } from '../../hooks/usePerpetual_getCurrentPairId';
 
 const {
   calculateApproxLiquidationPrice,
@@ -79,11 +80,13 @@ export const TradeDialog: React.FC = () => {
   const dispatch = useDispatch();
   const { modal, modalOptions } = useSelector(selectPerpetualPage);
 
+  const currentPairId = usePerpetual_getCurrentPairId();
+  const { perpetuals } = useContext(PerpetualQueriesContext);
   const {
     ammState,
     traderState,
     perpetualParameters: perpParameters,
-  } = useContext(PerpetualQueriesContext);
+  } = perpetuals[currentPairId];
 
   const { origin, trade, transactions: requestedTransactions } = useMemo(
     () =>

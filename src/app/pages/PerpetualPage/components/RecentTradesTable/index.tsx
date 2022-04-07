@@ -6,6 +6,7 @@ import { PerpetualPair } from 'utils/models/perpetual-pair';
 import { RecentTradesTableRow } from './components/RecentTablesRow/index';
 import { RecentTradesContext } from '../../contexts/RecentTradesContext';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
+import { usePerpetual_getCurrentPairId } from '../../hooks/usePerpetual_getCurrentPairId';
 
 type RecentTradesTableProps = {
   pair: PerpetualPair;
@@ -15,7 +16,11 @@ export const RecentTradesTable: React.FC<RecentTradesTableProps> = ({
   pair,
 }) => {
   const { trades } = useContext(RecentTradesContext);
-  const { lotPrecision } = useContext(PerpetualQueriesContext);
+
+  const currentPairId = usePerpetual_getCurrentPairId();
+  const { perpetuals } = useContext(PerpetualQueriesContext);
+  const { lotPrecision } = perpetuals[currentPairId];
+
   const [style, setStyle] = useState<{ width: number }>();
 
   const ref = useRef<HTMLTableElement>(null);

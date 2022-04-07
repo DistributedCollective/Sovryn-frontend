@@ -39,6 +39,7 @@ import { getCollateralName } from '../../utils/renderUtils';
 import { TxType } from '../../../../../store/global/transactions-store/types';
 import { perpMath, perpUtils } from '@sovryn/perpetual-swap';
 import { getRequiredMarginCollateralWithGasFees } from '../../utils/perpUtils';
+import { usePerpetual_getCurrentPairId } from '../../hooks/usePerpetual_getCurrentPairId';
 
 const { shrinkToLot } = perpMath;
 const {
@@ -78,6 +79,8 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
 
   const { useMetaTransactions } = useSelector(selectPerpetualPage);
 
+  const currentPairId = usePerpetual_getCurrentPairId();
+  const { perpetuals } = useContext(PerpetualQueriesContext);
   const {
     ammState,
     traderState,
@@ -87,7 +90,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     lotSize,
     lotPrecision,
     availableBalance,
-  } = useContext(PerpetualQueriesContext);
+  } = perpetuals[currentPairId];
 
   const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
   const collateralName = useMemo(() => getCollateralName(collateral), [

@@ -12,6 +12,7 @@ import { Asset } from '../../../../../types';
 import { Tooltip } from '@blueprintjs/core';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 import { LayoutMenu } from '../LayoutMenu';
+import { usePerpetual_getCurrentPairId } from '../../hooks/usePerpetual_getCurrentPairId';
 
 type ContractDetailsProps = {
   pair: PerpetualPair;
@@ -25,7 +26,9 @@ export const ContractDetails: React.FC<ContractDetailsProps> = ({
   const { t } = useTranslation();
   const data = usePerpetual_ContractDetails(pair.pairType);
 
-  const { lotPrecision } = useContext(PerpetualQueriesContext);
+  const currentPairId = usePerpetual_getCurrentPairId();
+  const { perpetuals } = useContext(PerpetualQueriesContext);
+  const { lotPrecision } = perpetuals[currentPairId];
 
   const collateralAsset = useMemo(() => getCollateralName(collateral), [
     collateral,

@@ -18,6 +18,7 @@ import {
 } from '../../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { PerpetualQueriesContext } from 'app/pages/PerpetualPage/contexts/PerpetualQueriesContext';
 import { perpUtils } from '@sovryn/perpetual-swap';
+import { usePerpetual_getCurrentPairId } from 'app/pages/PerpetualPage/hooks/usePerpetual_getCurrentPairId';
 
 const { calculateSlippagePrice } = perpUtils;
 
@@ -26,7 +27,9 @@ export const SlippageFormStep: TransitionStep<ClosePositionDialogStep> = ({
 }) => {
   const { t } = useTranslation();
 
-  const { averagePrice } = useContext(PerpetualQueriesContext);
+  const currentPairId = usePerpetual_getCurrentPairId();
+  const { perpetuals } = useContext(PerpetualQueriesContext);
+  const { averagePrice } = perpetuals[currentPairId];
 
   const { changedTrade, onChange } = useContext(ClosePositionDialogContext);
 

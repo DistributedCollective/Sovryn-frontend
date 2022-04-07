@@ -15,6 +15,7 @@ import {
 import { RecentTradesContext } from '../contexts/RecentTradesContext';
 import debounce from 'lodash.debounce';
 import { perpUtils } from '@sovryn/perpetual-swap';
+import { usePerpetual_getCurrentPairId } from './usePerpetual_getCurrentPairId';
 
 const { getQuote2CollateralFX } = perpUtils;
 
@@ -40,7 +41,10 @@ export const usePerpetual_ClosedPositions = (
 ): ClosedPositionHookResult => {
   const address = useAccount();
 
-  const { ammState } = useContext(PerpetualQueriesContext);
+  const currentPairId = usePerpetual_getCurrentPairId();
+  const { perpetuals } = useContext(PerpetualQueriesContext);
+  const { ammState } = perpetuals[currentPairId];
+
   const { latestTradeByUser } = useContext(RecentTradesContext);
 
   const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);

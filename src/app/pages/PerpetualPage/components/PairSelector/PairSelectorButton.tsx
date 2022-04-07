@@ -16,6 +16,7 @@ import { perpUtils } from '@sovryn/perpetual-swap';
 import { TradePriceChange } from '../RecentTradesTable/types';
 import { getPriceColor, getPriceChange } from '../RecentTradesTable/utils';
 import { usePrevious } from '../../../../hooks/usePrevious';
+import { usePerpetual_getCurrentPairId } from '../../hooks/usePerpetual_getCurrentPairId';
 
 const { getMarkPrice } = perpUtils;
 
@@ -31,11 +32,13 @@ export const PairSelectorButton: React.FC<PairSelectorButtonProps> = ({
   onSelect,
 }) => {
   const { t } = useTranslation();
-  const { ammState } = useContext(PerpetualQueriesContext);
+
+  const { perpetuals } = useContext(PerpetualQueriesContext);
+  const { ammState } = perpetuals[pair.id];
+
   const [trend, setTrend] = useState<TradePriceChange>(
     TradePriceChange.NO_CHANGE,
   );
-
   const markPrice = getMarkPrice(ammState);
   const previousMarkPrice = usePrevious(markPrice);
 

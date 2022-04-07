@@ -6,6 +6,7 @@ import {
 import { bignumber } from 'mathjs';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import { perpUtils } from '@sovryn/perpetual-swap';
+import { usePerpetual_getCurrentPairId } from './usePerpetual_getCurrentPairId';
 
 const { getTraderPnLInCC, getQuote2CollateralFX } = perpUtils;
 
@@ -20,12 +21,14 @@ type AccountBalance = {
 };
 
 export const usePerpetual_accountBalance = (): AccountBalance => {
+  const currentPairId = usePerpetual_getCurrentPairId();
+  const { perpetuals } = useContext(PerpetualQueriesContext);
   const {
     ammState,
     traderState,
     perpetualParameters,
     availableBalance,
-  } = useContext(PerpetualQueriesContext);
+  } = perpetuals[currentPairId];
 
   const unrealizedPnl = useMemo(
     () => getTraderPnLInCC(traderState, ammState, perpetualParameters),

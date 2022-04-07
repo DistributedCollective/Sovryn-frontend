@@ -32,6 +32,7 @@ import { ActionDialogSubmitButton } from '../ActionDialogSubmitButton';
 import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';
 import { getCollateralName } from '../../utils/renderUtils';
 import { perpUtils } from '@sovryn/perpetual-swap';
+import { usePerpetual_getCurrentPairId } from '../../hooks/usePerpetual_getCurrentPairId';
 
 const {
   calculateApproxLiquidationPrice,
@@ -57,12 +58,14 @@ export const EditMarginDialog: React.FC = () => {
 
   const inMaintenance = usePerpetual_isTradingInMaintenance();
 
+  const currentPairId = usePerpetual_getCurrentPairId();
+  const { perpetuals } = useContext(PerpetualQueriesContext);
   const {
     ammState,
     traderState,
     perpetualParameters: perpParameters,
     availableBalance,
-  } = useContext(PerpetualQueriesContext);
+  } = perpetuals[currentPairId];
 
   const collateralName = useMemo(() => getCollateralName(collateral), [
     collateral,
