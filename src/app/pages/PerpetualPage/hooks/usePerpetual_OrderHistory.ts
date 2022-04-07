@@ -129,7 +129,7 @@ export const usePerpetual_OrderHistory = (
             );
             return {
               id: item.id,
-              pair: getPairByPerpId(item?.perpetual?.id),
+              pair: PerpetualPairDictionary.getById(item?.perpetual?.id),
               datetime: item.blockTimestamp,
               position: undefined,
               tradeType: PerpetualTradeType.LIQUIDATION,
