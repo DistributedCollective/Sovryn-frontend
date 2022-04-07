@@ -64,7 +64,6 @@ export const usePerpetual_OrderHistory = (
         orderDirection: OrderDirection.desc,
         page: 1,
         perPage: 1000,
-        whereCondition: `perpetual_in: ${JSON.stringify(perpIds)}`,
       },
       {
         event: Event.LIQUIDATE,
