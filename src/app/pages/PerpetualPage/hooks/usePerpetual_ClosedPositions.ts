@@ -52,9 +52,7 @@ export const usePerpetual_ClosedPositions = (
         orderDirection: OrderDirection.desc,
         page,
         perPage,
-        whereCondition: `perpetual_in: ${JSON.stringify(
-          perpIds,
-        )}, isClosed: true`,
+        whereCondition: 'isClosed: true',
       },
     ],
     [page, perPage],
