@@ -12,6 +12,7 @@ import { AssetValueMode } from 'app/components/AssetValue/types';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { prettyTx } from 'utils/helpers';
 import { getCollateralName } from '../../utils/renderUtils';
+import { Asset } from 'types';
 
 const tradeTypeTranslations: { [key in PerpetualTradeType]: string } = {
   [PerpetualTradeType.MARKET]:
@@ -36,14 +37,6 @@ type OrderHistoryRowProps = {
 export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({ item }) => {
   const { t } = useTranslation();
 
-  const pair = useMemo(() => PerpetualPairDictionary.get(item.pairType), [
-    item.pairType,
-  ]);
-  const collateralAsset = useMemo(
-    () => getCollateralName(pair.collateralAsset),
-    [pair.collateralAsset],
-  );
-
   const typeText = useMemo(() => {
     if (item.position === undefined) {
       return t(tradeTypeTranslations[item.tradeType]);
@@ -59,7 +52,7 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({ item }) => {
       <td>
         <DisplayDate timestamp={item.datetime} />
       </td>
-      <td>{pair.name}</td>
+      <td>{item?.pair?.name}</td>
       <td
         className={classNames({
           'tw-text-trade-long': item.position === TradingPosition.LONG,
@@ -69,11 +62,11 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({ item }) => {
         {typeText}
       </td>
       <td>{item.orderState}</td>
-      <td>{collateralAsset}</td>
+      <td>{getCollateralName(item?.pair?.collateralAsset || Asset.UND)}</td>
       <td>
         <AssetValue
           value={item.orderSize}
-          assetString={pair.baseAsset}
+          assetString={item?.pair?.baseAsset}
           mode={AssetValueMode.auto}
         />
       </td>
@@ -83,7 +76,7 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({ item }) => {
             minDecimals={0}
             maxDecimals={2}
             value={item.limitPrice}
-            assetString={pair.quoteAsset}
+            assetString={item?.pair?.quoteAsset}
             mode={AssetValueMode.auto}
           />
         )}
@@ -91,7 +84,7 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({ item }) => {
       <td>
         <AssetValue
           value={item.execSize}
-          assetString={pair.baseAsset}
+          assetString={item?.pair?.baseAsset}
           mode={AssetValueMode.auto}
         />
       </td>
@@ -101,7 +94,7 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({ item }) => {
             minDecimals={0}
             maxDecimals={2}
             value={item.execPrice}
-            assetString={pair.quoteAsset}
+            assetString={item?.pair?.quoteAsset}
             mode={AssetValueMode.auto}
           />
         )}

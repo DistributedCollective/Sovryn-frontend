@@ -1,10 +1,6 @@
 import { useAccount } from 'app/hooks/useAccount';
 import { BigNumber } from 'ethers';
 import { useContext, useMemo, useEffect } from 'react';
-import {
-  PerpetualPairType,
-  PerpetualPairDictionary,
-} from 'utils/dictionaries/perpetual-pair-dictionary';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import { ABK64x64ToFloat } from '../utils/contractUtils';
 import {
@@ -17,12 +13,12 @@ import debounce from 'lodash.debounce';
 import { perpUtils } from '@sovryn/perpetual-swap';
 import { usePerpetual_getCurrentPairId } from './usePerpetual_getCurrentPairId';
 import { PerpetualPair } from 'utils/models/perpetual-pair';
+import { perpIds, getPairByPerpId } from '../utils/pairsUtils';
 
 const { getQuote2CollateralFX } = perpUtils;
 
 export type ClosedPositionEntry = {
   id: string;
-  pairType: PerpetualPairType;
   pair: PerpetualPair;
   datetime: string;
   positionSizeMin: number;
@@ -48,11 +44,6 @@ export const usePerpetual_ClosedPositions = (
 
   const { latestTradeByUser } = useContext(RecentTradesContext);
 
-  const perpIds = useMemo(
-    () => PerpetualPairDictionary.list().map(pair => pair.id),
-    [],
-  );
-
   const eventQuery = useMemo(
     () => [
       {
@@ -66,13 +57,8 @@ export const usePerpetual_ClosedPositions = (
         )}, isClosed: true`,
       },
     ],
-    [page, perPage, perpIds],
+    [page, perPage],
   );
-
-  const getPairByPerpId = perpId =>
-    PerpetualPairDictionary.list().find(
-      pair => pair.id.toLowerCase() === perpId.toLowerCase(),
-    );
 
   const {
     data: positions,

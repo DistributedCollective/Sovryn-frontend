@@ -21,7 +21,6 @@ export const OrderHistoryTable: React.FC<IOrderHistoryTableProps> = ({
 
   const { pairType } = useSelector(selectPerpetualPage);
   const { data, loading, totalCount } = usePerpetual_OrderHistory(
-    pairType,
     page,
     perPage,
   );
