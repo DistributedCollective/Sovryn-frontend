@@ -101,7 +101,7 @@ export const usePerpetual_OrderHistory = (
         const tradeAmountWei = ABK64x64ToWei(tradeAmount);
         return {
           id: item.id,
-          pair: getPairByPerpId(item?.perpetual?.id),
+          pair: PerpetualPairDictionary.getById(item?.perpetual?.id),
           datetime: item.blockTimestamp,
           position: tradeAmount.isNegative()
             ? TradingPosition.SHORT
