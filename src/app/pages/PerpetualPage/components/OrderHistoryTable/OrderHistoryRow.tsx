@@ -1,5 +1,4 @@
 import React, { useMemo } from 'react';
-import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { OrderHistoryEntry } from '../../hooks/usePerpetual_OrderHistory';
 import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
 import classNames from 'classnames';
@@ -62,7 +61,7 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({ item }) => {
         {typeText}
       </td>
       <td>{item.orderState}</td>
-      <td>{getCollateralName(item?.pair?.collateralAsset || Asset.UND)}</td>
+      <td>{getCollateralName(item?.pair?.collateralAsset || Asset.BTCS)}</td>
       <td>
         <AssetValue
           value={item.orderSize}

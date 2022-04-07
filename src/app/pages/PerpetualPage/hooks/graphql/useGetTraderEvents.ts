@@ -52,12 +52,6 @@ function generateQuery(user: string, events: EventQuery[]): DocumentNode {
         ? `where: {${whereCondition}}`
         : '';
 
-      const qry = `${eventDetails.entityName} ${
-        isOrdered || hasPagination || whereCondition
-          ? `(${orderFilterString} ${paginationFilterString} ${whereConditionString})`
-          : ''
-      } { ${eventDetails.fields.toString()} }`;
-
       return `${eventDetails.entityName} ${
         isOrdered || hasPagination || whereCondition
           ? `(${orderFilterString} ${paginationFilterString} ${whereConditionString})`

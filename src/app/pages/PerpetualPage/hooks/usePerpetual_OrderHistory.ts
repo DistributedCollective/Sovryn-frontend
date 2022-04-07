@@ -16,8 +16,8 @@ import { ABK64x64ToWei } from '../utils/contractUtils';
 import { BigNumber } from 'ethers';
 import { RecentTradesContext } from '../contexts/RecentTradesContext';
 import debounce from 'lodash.debounce';
-import { perpIds, getPairByPerpId } from '../utils/pairsUtils';
 import { PerpetualPair } from 'utils/models/perpetual-pair';
+import { PerpetualPairDictionary } from 'utils/dictionaries/perpetual-pair-dictionary';
 
 // TODO: Finalize this enum once we know what possible order states we can have
 enum OrderState {

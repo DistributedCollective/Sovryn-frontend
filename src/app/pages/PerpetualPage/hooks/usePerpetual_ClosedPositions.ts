@@ -13,7 +13,7 @@ import debounce from 'lodash.debounce';
 import { perpUtils } from '@sovryn/perpetual-swap';
 import { usePerpetual_getCurrentPairId } from './usePerpetual_getCurrentPairId';
 import { PerpetualPair } from 'utils/models/perpetual-pair';
-import { perpIds, getPairByPerpId } from '../utils/pairsUtils';
+import { PerpetualPairDictionary } from 'utils/dictionaries/perpetual-pair-dictionary';
 
 const { getQuote2CollateralFX } = perpUtils;
 
