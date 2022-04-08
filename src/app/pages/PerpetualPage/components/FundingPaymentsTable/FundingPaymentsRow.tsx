@@ -29,12 +29,9 @@ const formatTimestampDifference = (timestamp: number) => {
 export const FundingPaymentsRow: React.FC<FundingPaymentsRowProps> = ({
   item,
 }) => {
-  const pair = useMemo(() => PerpetualPairDictionary.get(item.pairType), [
-    item.pairType,
-  ]);
   const collateralAsset = useMemo(
-    () => getCollateralName(pair.collateralAsset),
-    [pair.collateralAsset],
+    () => getCollateralName(item.pair.collateralAsset),
+    [item.pair.collateralAsset],
   );
 
   return (
@@ -42,7 +39,7 @@ export const FundingPaymentsRow: React.FC<FundingPaymentsRowProps> = ({
       <td>
         <DisplayDate timestamp={item.datetime} />
       </td>
-      <td>{pair.name}</td>
+      <td>{item.pair.name}</td>
       <td>{collateralAsset}</td>
       <td
         className={classNames(
@@ -55,7 +52,7 @@ export const FundingPaymentsRow: React.FC<FundingPaymentsRowProps> = ({
           value={item.received}
           minDecimals={2}
           maxDecimals={10}
-          assetString={pair.baseAsset}
+          assetString={collateralAsset}
           mode={AssetValueMode.auto}
           showPositiveSign
         />
