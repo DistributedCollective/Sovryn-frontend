@@ -33,77 +33,90 @@ type OrderHistoryRowProps = {
   item: OrderHistoryEntry;
 };
 
-export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({ item }) => {
+export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({
+  item: {
+    position,
+    tradeType,
+    datetime,
+    pair,
+    execSize,
+    execPrice,
+    orderId,
+    orderSize,
+    orderState,
+    limitPrice,
+  },
+}) => {
   const { t } = useTranslation();
 
   const typeText = useMemo(() => {
-    if (item.position === undefined) {
-      return t(tradeTypeTranslations[item.tradeType]);
+    if (position === undefined) {
+      return t(tradeTypeTranslations[tradeType]);
     }
 
-    return `${t(tradeTypeTranslations[item.tradeType])} ${t(
-      tradingPositionTranslations[item.position],
+    return `${t(tradeTypeTranslations[tradeType])} ${t(
+      tradingPositionTranslations[position],
     )}`;
-  }, [t, item.tradeType, item.position]);
+  }, [t, tradeType, position]);
 
   return (
     <tr>
       <td>
-        <DisplayDate timestamp={item.datetime} />
+        <DisplayDate timestamp={datetime} />
       </td>
-      <td>{item?.pair?.name}</td>
+      <td>{pair?.name}</td>
       <td
         className={classNames({
-          'tw-text-trade-long': item.position === TradingPosition.LONG,
-          'tw-text-trade-short': item.position === TradingPosition.SHORT,
+          'tw-text-trade-long': position === TradingPosition.LONG,
+          'tw-text-trade-short': position === TradingPosition.SHORT,
         })}
       >
         {typeText}
       </td>
-      <td>{item.orderState}</td>
-      <td>{getCollateralName(item?.pair?.collateralAsset || Asset.BTCS)}</td>
+      <td>{orderState}</td>
+      <td>{getCollateralName(pair?.collateralAsset || Asset.BTCS)}</td>
       <td>
         <AssetValue
-          value={item.orderSize}
-          assetString={item?.pair?.baseAsset}
+          value={orderSize}
+          assetString={pair?.baseAsset}
           mode={AssetValueMode.auto}
         />
       </td>
       <td>
-        {item.limitPrice && (
+        {limitPrice && (
           <AssetValue
             minDecimals={0}
             maxDecimals={2}
-            value={item.limitPrice}
-            assetString={item?.pair?.quoteAsset}
+            value={limitPrice}
+            assetString={pair?.quoteAsset}
             mode={AssetValueMode.auto}
           />
         )}
       </td>
       <td>
         <AssetValue
-          value={item.execSize}
-          assetString={item?.pair?.baseAsset}
+          value={execSize}
+          assetString={pair?.baseAsset}
           mode={AssetValueMode.auto}
         />
       </td>
       <td>
-        {item.execPrice && (
+        {execPrice && (
           <AssetValue
             minDecimals={0}
             maxDecimals={2}
-            value={item.execPrice}
-            assetString={item?.pair?.quoteAsset}
+            value={execPrice}
+            assetString={pair?.quoteAsset}
             mode={AssetValueMode.auto}
           />
         )}
       </td>
       <td>
-        {item.orderId && (
+        {orderId && (
           <LinkToExplorer
             className="tw-text-sov-white tw-underline"
-            txHash={item.orderId}
-            text={prettyTx(item.orderId)}
+            txHash={orderId}
+            text={prettyTx(orderId)}
             chainId={PERPETUAL_CHAIN_ID}
           />
         )}

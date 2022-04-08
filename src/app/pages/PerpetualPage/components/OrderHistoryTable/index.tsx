@@ -3,9 +3,7 @@ import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { translations } from 'locales/i18n';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
 import { usePerpetual_OrderHistory } from '../../hooks/usePerpetual_OrderHistory';
-import { selectPerpetualPage } from '../../selectors';
 import { OrderHistoryRow } from './OrderHistoryRow';
 import { Tooltip } from '@blueprintjs/core';
 
@@ -19,7 +17,6 @@ export const OrderHistoryTable: React.FC<IOrderHistoryTableProps> = ({
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
 
-  const { pairType } = useSelector(selectPerpetualPage);
   const { data, loading, totalCount } = usePerpetual_OrderHistory(
     page,
     perPage,

@@ -1,10 +1,7 @@
 import { useAccount } from 'app/hooks/useAccount';
 import { BigNumber } from 'ethers';
 import { useMemo, useContext, useEffect } from 'react';
-import {
-  PerpetualPairType,
-  PerpetualPairDictionary,
-} from '../../../../utils/dictionaries/perpetual-pair-dictionary';
+import { PerpetualPairDictionary } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { ABK64x64ToFloat } from '../utils/contractUtils';
 import {
   Event,
@@ -31,7 +28,6 @@ type FundingPaymentsHookResult = {
 };
 
 export const usePerpetual_FundingPayments = (
-  pairType: PerpetualPairType,
   page: number,
   perPage: number,
 ): FundingPaymentsHookResult => {

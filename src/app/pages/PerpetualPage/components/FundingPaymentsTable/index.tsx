@@ -1,7 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
-import { selectPerpetualPage } from '../../selectors';
 import { usePerpetual_FundingPayments } from '../../hooks/usePerpetual_FundingPayments';
 import { translations } from 'locales/i18n';
 import React from 'react';
@@ -20,9 +18,7 @@ export const FundingPaymentsTable: React.FC<IFundingPaymentsTable> = ({
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
 
-  const { pairType } = useSelector(selectPerpetualPage);
   const { data, loading, totalCount } = usePerpetual_FundingPayments(
-    pairType,
     page,
     perPage,
   );

@@ -4,7 +4,6 @@ import { AssetValueMode } from 'app/components/AssetValue/types';
 import classNames from 'classnames';
 import { bignumber } from 'mathjs';
 import React, { useMemo } from 'react';
-import { PerpetualPairDictionary } from 'utils/dictionaries/perpetual-pair-dictionary';
 import { numberToPercent } from 'utils/display-text/format';
 import { FundingPaymentsEntry } from '../../hooks/usePerpetual_FundingPayments';
 import { getCollateralName } from '../../utils/renderUtils';

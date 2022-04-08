@@ -195,7 +195,7 @@ class EventDictionary {
           'rate8h',
           'blockTimestamp',
           'deltaTime',
-          'fundingPayment{ position{ perpetual{ id } } }', //TODO: modify the graph to extract the perpId more straight forward
+          'fundingPayment{ position{ perpetual{ id } } }',
         ]),
       ],
     ],
