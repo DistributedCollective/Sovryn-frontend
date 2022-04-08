@@ -1,9 +1,3 @@
-/**
- *
- * SwapPage
- *
- */
-
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
@@ -11,8 +5,6 @@ import classNames from 'classnames';
 
 import { translations } from 'locales/i18n';
 
-import { Header } from '../../components/Header';
-import { Footer } from '../../components/Footer';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { useAccount } from '../../hooks/useAccount';
 import { SwapFormContainer } from '../SwapFormContainer';
@@ -32,7 +24,6 @@ export function SwapPage(props: Props) {
         <title>{t(translations.swap.title)}</title>
         <meta name="description" content={t(translations.swap.meta)} />
       </Helmet>
-      <Header />
       <div className={classNames(styles.swapPage, 'tw-container')}>
         <div>
           <SwapFormContainer />
@@ -50,7 +41,6 @@ export function SwapPage(props: Props) {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 }

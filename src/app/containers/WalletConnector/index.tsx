@@ -152,7 +152,7 @@ const StyledButton = styled.button.attrs(({ className }) => ({
     margin: 0;
     height: 40px;
     padding: 5px 26px;
-    font-weight: 100;
+    font-weight: 200;
     font-size: 1.125rem;
     font-family: 'Montserrat';
     letter-spacing: -1px;

@@ -55,7 +55,7 @@ export const TokenItem: React.FC<ITokenItemProps> = ({
           'tw-opacity-25': isDisabled() && !balance.loading,
         })}
       >
-        <span className="tw-text-sm tw-font-light tw-mb-1">
+        <span className="tw-text-sm tw-font-normal tw-mb-1">
           {t(translations.common.availableBalance)}
         </span>
         <LoadableValue

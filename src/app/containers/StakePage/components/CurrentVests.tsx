@@ -7,6 +7,8 @@ import { useListOfUserVestings } from '../../../components/UserAssets/Vesting/us
 
 interface Props {
   onDelegate: (timestamp: number, vestingAddress: string) => void;
+  paused?: boolean;
+  frozen?: boolean;
 }
 
 export function CurrentVests(props: Props) {
@@ -69,6 +71,8 @@ export function CurrentVests(props: Props) {
                   onDelegate={timestamp =>
                     props.onDelegate(timestamp, item.vestingContract)
                   }
+                  paused={props.paused}
+                  frozen={props.frozen}
                 />
               ))}
             </tbody>

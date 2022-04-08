@@ -3,6 +3,7 @@ import { Nullable } from 'types';
 
 export enum DepositStep {
   MAIN,
+  VALIDATION,
   AMOUNT,
   ADDRESS,
   REVIEW,
@@ -20,6 +21,7 @@ export type DepositContextStateType = {
   depositTx: Nullable<TxData>;
   transferTx: Nullable<TxData>;
   limits: DepositLimits;
+  signatures: Signature[];
 };
 
 type DepositLimits = {
@@ -34,6 +36,11 @@ export type TxData = {
   txHash: string;
   value: number;
   status: TxStatus;
+};
+
+export type Signature = {
+  signer: string;
+  signature: number;
 };
 
 type TxStatus = 'pending' | 'confirmed' | string;
@@ -61,6 +68,7 @@ export const defaultValue: DepositContextType = {
     dynamicFee: 0,
     loading: true,
   },
+  signatures: [],
   set: () => {
     throw new Error('set() has not been defined.');
   },

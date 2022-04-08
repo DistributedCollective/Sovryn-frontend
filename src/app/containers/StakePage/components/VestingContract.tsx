@@ -38,6 +38,8 @@ interface Props {
   vestingAddress: string;
   type: VestGroup;
   onDelegate: (a: number) => void;
+  paused?: boolean;
+  frozen?: boolean;
 }
 
 const getAssetByVestingType = (type: VestGroup) => {
@@ -299,8 +301,13 @@ export function VestingContract(props: Props) {
               </Tooltip>
             ) : (
               <button
-                className="tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat"
+                className={classNames(
+                  'tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat',
+                  props.paused &&
+                    'tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent',
+                )}
                 onClick={() => props.onDelegate(Number(unlockDate))}
+                disabled={props.paused}
               >
                 {t(translations.stake.actions.delegate)}
               </button>
@@ -323,11 +330,16 @@ export function VestingContract(props: Props) {
             ) : (
               <button
                 type="button"
-                className="tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat"
+                className={classNames(
+                  'tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat',
+                  props.frozen &&
+                    'tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent',
+                )}
                 onClick={() => setShowWithdraw(true)}
                 disabled={
                   !props.vestingAddress ||
-                  props.vestingAddress === ethGenesisAddress
+                  props.vestingAddress === ethGenesisAddress ||
+                  props.frozen
                 }
               >
                 {t(translations.stake.actions.withdraw)}

@@ -25,6 +25,7 @@ interface IFeeBlockProps {
   updateUsdTotal: (asset: AssetDetails, value: number) => void;
   useNewContract?: boolean;
   title?: string;
+  frozen?: boolean;
 }
 
 export const FeeBlock: React.FC<IFeeBlockProps> = ({
@@ -32,6 +33,7 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
   updateUsdTotal,
   useNewContract = false,
   title,
+  frozen,
 }) => {
   const account = useAccount();
   const { asset } = contractToken;
@@ -136,10 +138,11 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
           <button
             onClick={handleWithdrawFee}
             type="button"
-            disabled={currency.value === '0'}
+            disabled={frozen || currency.value === '0'}
             className={classNames(
               'tw-text-primary hover:tw-text-primary tw-p-0 tw-text-normal tw-lowercase hover:tw-underline tw-font-medium tw-font-body tw-tracking-normal',
-              currency.value === '0' && 'tw-opacity-50 hover:tw-no-underline',
+              (frozen || currency.value === '0') &&
+                'tw-opacity-50 tw-cursor-not-allowed',
             )}
           >
             {t(translations.userAssets.actions.withdraw)}

@@ -5,8 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { translations } from 'locales/i18n';
 
-import { Footer } from '../../components/Footer';
-import { Header } from '../../components/Header';
 import { HistoryTable } from './components/HistoryTable';
 import { LiquidTab } from './components/LiquidTab';
 import { RewardTab } from './components/RewardTab';
@@ -35,7 +33,11 @@ export function RewardPage() {
     amountToClaim: rewardSovClaimAmount,
   } = useGetRewardSovClaimAmount();
 
-  const liquidSovClaimAmount = useGetLiquidSovClaimAmount();
+  const {
+    amount: liquidSovClaimAmount,
+    lastWithdrawalInterval,
+  } = useGetLiquidSovClaimAmount();
+
   const {
     totalAmount: totalFeesEarned,
     earnedFees,
@@ -51,8 +53,6 @@ export function RewardPage() {
           content={t(translations.rewardPage.meta.description)}
         />
       </Helmet>
-
-      <Header />
 
       <div className={styles['background-image-wrapper']}>
         <img className={styles['background-image']} src={imgSov} alt="SOV" />
@@ -101,7 +101,10 @@ export function RewardPage() {
                 />
               )}
               {activeTab === RewardTabType.LIQUID_SOV && (
-                <LiquidTab amountToClaim={liquidSovClaimAmount} />
+                <LiquidTab
+                  amountToClaim={liquidSovClaimAmount}
+                  lastWithdrawalInterval={lastWithdrawalInterval}
+                />
               )}
               {activeTab === RewardTabType.FEES_EARNED && (
                 <FeesEarnedTab
@@ -131,7 +134,6 @@ export function RewardPage() {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 }
