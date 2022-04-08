@@ -4,6 +4,7 @@ import { AssetValueMode } from 'app/components/AssetValue/types';
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
 import { ClosedPositionEntry } from '../../hooks/usePerpetual_ClosedPositions';
+import { getCollateralName } from '../../utils/renderUtils';
 
 type ClosedPositionRowProps = {
   item: ClosedPositionEntry;
@@ -53,13 +54,18 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
     [item?.pair?.baseAsset, item.positionSizeMin, item.positionSizeMax],
   );
 
+  const collateralName = useMemo(
+    () => getCollateralName(item.pair.collateralAsset),
+    [item.pair.collateralAsset],
+  );
+
   return (
     <tr>
       <td>
         <DisplayDate timestamp={item.datetime} />
       </td>
       <td>{item?.pair?.name}</td>
-      <td>{item?.pair?.collateralAsset}</td>
+      <td>{collateralName}</td>
       <td>{sizeRange}</td>
       <td
         className={classNames(
