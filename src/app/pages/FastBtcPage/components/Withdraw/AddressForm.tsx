@@ -14,6 +14,12 @@ import { Input } from '../../../../components/Form/Input';
 import { contractReader } from '../../../../../utils/sovryn/contract-reader';
 import { ErrorBadge } from '../../../../components/Form/ErrorBadge';
 import { FastBtcButton } from '../FastBtcButton';
+import {
+  validate,
+  getAddressInfo,
+  AddressType,
+} from 'bitcoin-address-validation';
+import { currentNetwork } from 'utils/classifiers';
 
 enum AddressValidationState {
   NONE,
@@ -46,22 +52,32 @@ export const AddressForm: React.FC = () => {
     [set, value],
   );
 
-  const validate = useCallback(async (adr: string) => {
+  const validateAddress = useCallback(async (address: string) => {
     setAddressValidationState(AddressValidationState.LOADING);
-    const result = await contractReader.call(
-      'fastBtcBridge',
-      'isValidBtcAddress',
-      [adr],
-    );
+    let isValid = false;
+    const isValidBtcAddress = validate(address);
+    isValid = await contractReader.call('fastBtcBridge', 'isValidBtcAddress', [
+      address,
+    ]);
+    if (isValidBtcAddress && isValid) {
+      const { network, type } = getAddressInfo(address);
+      if (
+        network.toLowerCase() === currentNetwork.toLowerCase() &&
+        type.toLowerCase() !== AddressType.p2tr
+      ) {
+        isValid = true;
+      }
+    }
+
     setAddressValidationState(
-      result ? AddressValidationState.VALID : AddressValidationState.INVALID,
+      isValid ? AddressValidationState.VALID : AddressValidationState.INVALID,
     );
   }, []);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const delayedOnChange = useCallback(
-    debounce(adr => validate(adr), 300),
-    [validate],
+    debounce(addressToValidate => validateAddress(addressToValidate), 300),
+    [validateAddress],
   );
 
   useEffect(() => {

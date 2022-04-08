@@ -1,8 +1,7 @@
-import { useMaintenance } from 'app/hooks/useMaintenance';
 import { bignumber } from 'mathjs';
 import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { translations } from '../../../../../locales/i18n';
 import { numberFromWei } from '../../../../../utils/blockchain/math-helpers';
@@ -10,8 +9,6 @@ import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpe
 import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
-import { actions } from '../../slice';
-import { PerpetualPageModals } from '../../types';
 import {
   BarCompositionChart,
   BarCompositionChartEntry,
@@ -20,6 +17,9 @@ import classNames from 'classnames';
 import { Tooltip } from '@blueprintjs/core';
 import { getCollateralName } from '../../utils/renderUtils';
 import { selectPerpetualPage } from '../../selectors';
+import { currentNetwork } from 'utils/classifiers';
+import { AppMode } from 'types';
+import { useMaintenance } from 'app/hooks/useMaintenance';
 
 type AccountBalanceFormProps = {
   onOpenTransactionHistory: () => void;
@@ -29,8 +29,14 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
   onOpenTransactionHistory,
 }) => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const history = useHistory();
+
+  const { checkMaintenance, States } = useMaintenance();
+
+  const bridgeLocked =
+    checkMaintenance(States.BRIDGE) || checkMaintenance(States.BSC_BRIDGE);
+
+  const fastBtcLocked = checkMaintenance(States.FASTBTC) || bridgeLocked;
 
   const { collateral, pairType } = useSelector(selectPerpetualPage);
 
@@ -38,30 +44,22 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
     collateral,
   ]);
 
-  const { checkMaintenance, States } = useMaintenance();
-  const fundAccountLocked =
-    checkMaintenance(States.PERPETUALS) ||
-    checkMaintenance(States.PERPETUALS_ACCOUNT_FUND);
-
-  const withdrawAccountLocked =
-    checkMaintenance(States.PERPETUALS) ||
-    checkMaintenance(States.PERPETUALS_ACCOUNT_WITHDRAW);
-
-  const transferAccountLocked =
-    checkMaintenance(States.PERPETUALS) ||
-    checkMaintenance(States.PERPETUALS_ACCOUNT_TRANSFER);
-
-  const onOpenDeposit = useCallback(() => {
+  const onOpenBtcDeposit = useCallback(() => {
     history.push('/fast-btc/deposit/bsc');
   }, [history]);
 
-  const onOpenWithdraw = useCallback(() => {
+  const onOpenBtcWithdraw = useCallback(() => {
     history.push('/fast-btc/withdraw/bsc');
   }, [history]);
 
   const onOpenTransfer = useCallback(() => {
-    dispatch(actions.setModal(PerpetualPageModals.FASTBTC_TRANSFER));
-  }, [dispatch]);
+    window.open(
+      currentNetwork === AppMode.MAINNET
+        ? 'https://bridge.sovryn.app'
+        : 'https://bridge.test.sovryn.app',
+      '_blank',
+    );
+  }, []);
 
   const {
     total,
@@ -186,19 +184,15 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
         </Tooltip>
       </div>
       <div className="tw-flex tw-flex-col md:tw-flex-row tw-justify-center tw-mx-auto tw-mt-16 tw-space-y-4 md:tw-space-y-0 md:tw-space-x-10">
-        <ActionButton onClick={onOpenDeposit}>
+        <ActionButton onClick={onOpenBtcDeposit} disabled={fastBtcLocked}>
           {t(translations.perpetualPage.accountBalance.deposit)}
         </ActionButton>
 
-        <ActionButton onClick={onOpenWithdraw}>
+        <ActionButton onClick={onOpenBtcWithdraw} disabled={fastBtcLocked}>
           {t(translations.perpetualPage.accountBalance.withdraw)}
         </ActionButton>
 
-        <ActionButton
-          disabled
-          tooltip={t(translations.common.comingSoon)}
-          onClick={onOpenTransfer}
-        >
+        <ActionButton onClick={onOpenTransfer} disabled={bridgeLocked}>
           {t(translations.perpetualPage.accountBalance.transfer)}
         </ActionButton>
       </div>
