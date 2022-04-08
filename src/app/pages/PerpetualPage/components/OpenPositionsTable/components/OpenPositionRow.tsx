@@ -36,7 +36,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
     item.pairType,
   ]);
 
-  const collateralAsset = useMemo(
+  const collateralName = useMemo(
     () => getCollateralName(pair.collateralAsset),
     [pair.collateralAsset],
   );
@@ -126,7 +126,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
           minDecimals={2}
           maxDecimals={6}
           value={item.margin}
-          assetString={collateralAsset}
+          assetString={collateralName}
           mode={AssetValueMode.auto}
         />
         {item.leverage ? ` (${toNumberFormat(item.leverage, 2)}x)` : null}
