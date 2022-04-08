@@ -66,17 +66,14 @@ export const useGetLimitOrders = <T>(
         { cancelToken },
       )
       .then(res => {
-        setOrders(
-          res.data.data
-            .map(item =>
-              isMargin ? marginOrderParser(item) : orderParser(item),
-            )
-            .filter(
-              item =>
-                item.filledAmount !== '0' ||
-                !deadlinePassed(item.deadline.toNumber()),
-            ),
-        );
+        const items = res.data.data
+          .map(item => (isMargin ? marginOrderParser(item) : orderParser(item)))
+          .filter(
+            item =>
+              item.filledAmount !== '0' ||
+              !deadlinePassed(item.deadline.toNumber()),
+          );
+        setOrders(items);
         setLoading(false);
       })
       .catch(e => console.error(e));

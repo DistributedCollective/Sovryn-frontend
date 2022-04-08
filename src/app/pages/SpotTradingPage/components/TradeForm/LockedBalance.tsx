@@ -11,6 +11,7 @@ import { translations } from 'locales/i18n';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { useSendContractTx } from 'app/hooks/useSendContractTx';
 import { Tooltip } from '@blueprintjs/core';
+import { TxType } from 'store/global/transactions-store/types';
 
 type LockedBalanceProps = {
   hasPendingOrders?: boolean;
@@ -34,7 +35,10 @@ export const LockedBalance: React.FC<LockedBalanceProps> = ({
     return bignumber(value).gt(DUST_AMOUNT) && !hasPendingOrders;
   }, [hasPendingOrders, value]);
 
-  const handleClick = useCallback(() => send([value]), [value, send]);
+  const handleClick = useCallback(
+    () => send([value], undefined, { type: TxType.SETTLEMENT_WITDHRAW }),
+    [value, send],
+  );
 
   return (
     <div>

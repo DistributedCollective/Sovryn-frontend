@@ -53,6 +53,7 @@ export enum TxType {
   SIMULATOR_REQUEST = 'simulator_request',
   FAST_BTC_WITHDRAW = 'fast_btc_withdraw',
   LIMIT_ORDER = 'limit_order',
+  SETTLEMENT_WITDHRAW = 'settlement_withdraw',
 }
 
 export enum TxStatus {

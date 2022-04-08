@@ -5,6 +5,7 @@ import { useAccount } from 'app/hooks/useAccount';
 import { Asset } from 'types';
 import { ethers, BigNumber, providers } from 'ethers';
 import { SignatureLike } from '@ethersproject/bytes';
+import { Transaction } from '@ethersproject/transactions';
 import { contractWriter } from 'utils/sovryn/contract-writer';
 import { useCallback, useState } from 'react';
 import { TransactionConfig } from 'web3-core';
@@ -16,6 +17,7 @@ import axios from 'axios';
 import { limitOrderUrl, currentChainId, gasLimit } from 'utils/classifiers';
 import { approveSettlement } from './useMarginLimitOrder';
 import { ContractName } from 'utils/types/contracts';
+import { TxType } from 'store/global/transactions-store/types';
 
 export const useLimitOrder = (
   sourceToken: Asset,
@@ -24,7 +26,7 @@ export const useLimitOrder = (
   amountOutMin: string,
   duration: number = 365,
   limitPrice: string,
-  onSuccess: (order: ILimitOrder, data) => void,
+  onSuccess: (order: ILimitOrder, data: Transaction) => void,
   onError: () => void,
   onStart: () => void,
 ) => {
@@ -110,6 +112,7 @@ export const useLimitOrder = (
             r: data?.data?.r,
             s: data?.data?.s,
             hash: data?.data?.hash,
+            limitPrice,
           };
           onSuccess(newOrder, data.data);
         } else {
@@ -119,7 +122,9 @@ export const useLimitOrder = (
         console.error('got error?', error);
         onError();
         if (sourceToken === Asset.RBTC) {
-          await contractWriter.send('settlement', 'withdraw', [amount]);
+          await contractWriter.send('settlement', 'withdraw', [amount], {
+            gas: gasLimit[TxType.SETTLEMENT_WITDHRAW],
+          });
         }
       }
     } catch (e) {
@@ -154,9 +159,12 @@ export const useCancelLimitOrder = (order: ILimitOrder, sourceToken: Asset) => {
 
     try {
       if (sourceToken === Asset.RBTC) {
-        await contractWriter.send('settlement', 'withdraw', [
-          order.amountIn.toString(),
-        ]);
+        await contractWriter.send(
+          'settlement',
+          'withdraw',
+          [order.amountIn.toString()],
+          { gas: gasLimit[TxType.SETTLEMENT_WITDHRAW] },
+        );
       }
     } catch (error) {
       console.error('error', error);

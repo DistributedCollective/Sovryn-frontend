@@ -79,6 +79,7 @@ export const gasLimit = {
   [TxType.SIMULATOR_REQUEST]: 6800000,
   [TxType.FAST_BTC_WITHDRAW]: 300000,
   [TxType.LIMIT_ORDER]: 3000000,
+  [TxType.SETTLEMENT_WITDHRAW]: 70000,
 };
 
 export const discordInvite = 'https://discord.gg/kBTNx4zjRf'; //unlimited use, no-expiry invite

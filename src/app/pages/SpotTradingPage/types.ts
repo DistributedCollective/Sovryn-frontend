@@ -200,6 +200,7 @@ export type ILimitOrder = {
   canceled?: boolean;
   filled?: BigNumber | string;
   filledAmount?: string;
+  limitPrice?: string;
 };
 
 export type IApiLimitOrder = {

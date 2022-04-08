@@ -12,6 +12,7 @@ import { gas } from 'utils/blockchain/gas-price';
 import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
 import { contractWriter } from 'utils/sovryn/contract-writer';
 import { Asset } from 'types';
+import { TxType } from 'store/global/transactions-store/types';
 
 export const useCancelMarginLimitOrder = (order: MarginLimitOrder) => {
   const account = useAccount();
@@ -26,14 +27,20 @@ export const useCancelMarginLimitOrder = (order: MarginLimitOrder) => {
 
     try {
       if (collateralAsset === Asset.RBTC) {
-        await contractWriter.send('settlement', 'withdraw', [
-          order.collateralTokenSent.toString(),
-        ]);
+        await contractWriter.send(
+          'settlement',
+          'withdraw',
+          [order.collateralTokenSent.toString()],
+          { gas: gasLimit[TxType.SETTLEMENT_WITDHRAW] },
+        );
       }
       if (loanAsset === Asset.RBTC) {
-        await contractWriter.send('settlement', 'withdraw', [
-          order.loanTokenSent.toString(),
-        ]);
+        await contractWriter.send(
+          'settlement',
+          'withdraw',
+          [order.loanTokenSent.toString()],
+          { gas: gasLimit[TxType.SETTLEMENT_WITDHRAW] },
+        );
       }
     } catch (error) {
       return;
