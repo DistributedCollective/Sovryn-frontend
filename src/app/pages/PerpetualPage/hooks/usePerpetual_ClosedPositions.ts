@@ -1,10 +1,6 @@
 import { useAccount } from 'app/hooks/useAccount';
 import { BigNumber } from 'ethers';
 import { useContext, useMemo, useEffect } from 'react';
-import {
-  PerpetualPairType,
-  PerpetualPairDictionary,
-} from 'utils/dictionaries/perpetual-pair-dictionary';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import { ABK64x64ToFloat } from '../utils/contractUtils';
 import {
@@ -16,12 +12,14 @@ import { RecentTradesContext } from '../contexts/RecentTradesContext';
 import debounce from 'lodash.debounce';
 import { perpUtils } from '@sovryn/perpetual-swap';
 import { usePerpetual_getCurrentPairId } from './usePerpetual_getCurrentPairId';
+import { PerpetualPair } from 'utils/models/perpetual-pair';
+import { PerpetualPairDictionary } from 'utils/dictionaries/perpetual-pair-dictionary';
 
 const { getQuote2CollateralFX } = perpUtils;
 
 export type ClosedPositionEntry = {
   id: string;
-  pairType: PerpetualPairType;
+  pair: PerpetualPair;
   datetime: string;
   positionSizeMin: number;
   positionSizeMax: number;
@@ -35,7 +33,6 @@ type ClosedPositionHookResult = {
 };
 
 export const usePerpetual_ClosedPositions = (
-  pairType: PerpetualPairType,
   page: number,
   perPage: number,
 ): ClosedPositionHookResult => {
@@ -47,8 +44,6 @@ export const usePerpetual_ClosedPositions = (
 
   const { latestTradeByUser } = useContext(RecentTradesContext);
 
-  const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
-
   const eventQuery = useMemo(
     () => [
       {
@@ -57,10 +52,10 @@ export const usePerpetual_ClosedPositions = (
         orderDirection: OrderDirection.desc,
         page,
         perPage,
-        whereCondition: `perpetual: ${JSON.stringify(pair.id)}, isClosed: true`,
+        whereCondition: 'isClosed: true',
       },
     ],
-    [page, perPage, pair],
+    [page, perPage],
   );
 
   const {
@@ -82,7 +77,7 @@ export const usePerpetual_ClosedPositions = (
 
         return {
           id: item.id,
-          pairType,
+          pair: PerpetualPairDictionary.getById(item?.perpetual?.id),
           datetime: item.endDate,
           positionSizeMin: ABK64x64ToFloat(BigNumber.from(item.lowestSizeBC)),
           positionSizeMax: ABK64x64ToFloat(BigNumber.from(item.highestSizeBC)),
@@ -96,7 +91,6 @@ export const usePerpetual_ClosedPositions = (
     return data;
   }, [
     ammState,
-    pairType,
     positions?.trader?.positions,
     previousPositions?.trader?.positions,
   ]);

@@ -7,10 +7,6 @@ import {
   PerpetualLiquidationEvent,
 } from '../types';
 import {
-  PerpetualPairType,
-  PerpetualPairDictionary,
-} from '../../../../utils/dictionaries/perpetual-pair-dictionary';
-import {
   Event,
   useGetTraderEvents,
   OrderDirection,
@@ -20,6 +16,8 @@ import { ABK64x64ToWei } from '../utils/contractUtils';
 import { BigNumber } from 'ethers';
 import { RecentTradesContext } from '../contexts/RecentTradesContext';
 import debounce from 'lodash.debounce';
+import { PerpetualPair } from 'utils/models/perpetual-pair';
+import { PerpetualPairDictionary } from 'utils/dictionaries/perpetual-pair-dictionary';
 
 // TODO: Finalize this enum once we know what possible order states we can have
 enum OrderState {
@@ -30,7 +28,7 @@ enum OrderState {
 
 export type OrderHistoryEntry = {
   id: string;
-  pairType: PerpetualPairType;
+  pair?: PerpetualPair;
   datetime: string;
   position?: TradingPosition;
   tradeType: PerpetualTradeType;
@@ -49,15 +47,12 @@ type OrderHistoryHookResult = {
 };
 
 export const usePerpetual_OrderHistory = (
-  pairType: PerpetualPairType,
   page: number,
   perPage: number,
 ): OrderHistoryHookResult => {
   const account = useAccount();
 
   const { latestTradeByUser } = useContext(RecentTradesContext);
-
-  const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
 
   // page and per page is not used, as Trade and Liquidate Events are combined into one Paginated Table
   // According to Remy a backend solution is not possible, vasili decided to throw out queried pagination.
@@ -69,7 +64,6 @@ export const usePerpetual_OrderHistory = (
         orderDirection: OrderDirection.desc,
         page: 1,
         perPage: 1000,
-        whereCondition: `perpetual: ${JSON.stringify(pair.id)}`,
       },
       {
         event: Event.LIQUIDATE,
@@ -77,10 +71,9 @@ export const usePerpetual_OrderHistory = (
         orderDirection: OrderDirection.desc,
         page: 1,
         perPage: 1000,
-        whereCondition: `perpetual: ${JSON.stringify(pair.id)}`,
       },
     ],
-    [pair.id],
+    [],
   );
 
   const {
@@ -106,7 +99,7 @@ export const usePerpetual_OrderHistory = (
         const tradeAmountWei = ABK64x64ToWei(tradeAmount);
         return {
           id: item.id,
-          pairType: pairType,
+          pair: PerpetualPairDictionary.getById(item?.perpetual?.id),
           datetime: item.blockTimestamp,
           position: tradeAmount.isNegative()
             ? TradingPosition.SHORT
@@ -134,7 +127,7 @@ export const usePerpetual_OrderHistory = (
             );
             return {
               id: item.id,
-              pairType: pairType,
+              pair: PerpetualPairDictionary.getById(item?.perpetual?.id),
               datetime: item.blockTimestamp,
               position: undefined,
               tradeType: PerpetualTradeType.LIQUIDATION,
@@ -151,7 +144,6 @@ export const usePerpetual_OrderHistory = (
     }
     return entries;
   }, [
-    pairType,
     previousTradeEvents?.trader?.trades,
     tradeEvents?.trader?.trades,
     previousTradeEvents?.trader?.liquidates,

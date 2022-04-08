@@ -1,10 +1,7 @@
 import { useAccount } from 'app/hooks/useAccount';
 import { BigNumber } from 'ethers';
 import { useMemo, useContext, useEffect } from 'react';
-import {
-  PerpetualPairType,
-  PerpetualPairDictionary,
-} from '../../../../utils/dictionaries/perpetual-pair-dictionary';
+import { PerpetualPairDictionary } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { ABK64x64ToFloat } from '../utils/contractUtils';
 import {
   Event,
@@ -13,10 +10,11 @@ import {
 } from './graphql/useGetTraderEvents';
 import { RecentTradesContext } from '../contexts/RecentTradesContext';
 import debounce from 'lodash.debounce';
+import { PerpetualPair } from 'utils/models/perpetual-pair';
 
 export type FundingPaymentsEntry = {
   id: string;
-  pairType: PerpetualPairType;
+  pair: PerpetualPair;
   datetime: string;
   received: string;
   rate: number;
@@ -30,15 +28,12 @@ type FundingPaymentsHookResult = {
 };
 
 export const usePerpetual_FundingPayments = (
-  pairType: PerpetualPairType,
   page: number,
   perPage: number,
 ): FundingPaymentsHookResult => {
   const address = useAccount();
 
   const { latestTradeByUser } = useContext(RecentTradesContext);
-  const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
-
   const eventQuery = useMemo(
     () => [
       {
@@ -47,12 +42,10 @@ export const usePerpetual_FundingPayments = (
         orderDirection: OrderDirection.desc,
         page,
         perPage,
-        whereCondition: `perpetual: ${JSON.stringify(
-          pair.id,
-        )}, fundingTime_not: "0"`,
+        whereCondition: `fundingTime_not: "0"`,
       },
     ],
-    [page, perPage, pair],
+    [page, perPage],
   );
 
   const {
@@ -74,7 +67,9 @@ export const usePerpetual_FundingPayments = (
         if (item) {
           acc.push({
             id: item.id,
-            pairType: pairType,
+            pair: PerpetualPairDictionary.getById(
+              item.fundingPayment.position.perpetual.id,
+            ),
             datetime: item.blockTimestamp,
             received:
               -1 * ABK64x64ToFloat(BigNumber.from(item.fFundingPaymentCC)),
@@ -90,7 +85,6 @@ export const usePerpetual_FundingPayments = (
     return data;
   }, [
     fundingEvents?.trader?.fundingRates,
-    pairType,
     previousFundingEvents?.trader?.fundingRates,
   ]);
 

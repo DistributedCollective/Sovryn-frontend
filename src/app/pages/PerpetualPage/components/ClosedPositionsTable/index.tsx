@@ -1,7 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
-import { selectPerpetualPage } from '../../selectors';
 import { usePerpetual_ClosedPositions } from '../../hooks/usePerpetual_ClosedPositions';
 import { translations } from 'locales/i18n';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
@@ -18,9 +16,7 @@ export const ClosedPositionsTable: React.FC<IClosedPositionsTableProps> = ({
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
 
-  const { pairType } = useSelector(selectPerpetualPage);
   const { data, loading, totalCount } = usePerpetual_ClosedPositions(
-    pairType,
     page,
     perPage,
   );

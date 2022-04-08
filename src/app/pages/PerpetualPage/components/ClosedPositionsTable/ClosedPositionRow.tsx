@@ -3,9 +3,7 @@ import { AssetValue } from 'app/components/AssetValue';
 import { AssetValueMode } from 'app/components/AssetValue/types';
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
-import { PerpetualPairDictionary } from 'utils/dictionaries/perpetual-pair-dictionary';
 import { ClosedPositionEntry } from '../../hooks/usePerpetual_ClosedPositions';
-import { getCollateralName } from '../../utils/renderUtils';
 
 type ClosedPositionRowProps = {
   item: ClosedPositionEntry;
@@ -14,14 +12,6 @@ type ClosedPositionRowProps = {
 export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
   item,
 }) => {
-  const pair = useMemo(() => PerpetualPairDictionary.get(item.pairType), [
-    item.pairType,
-  ]);
-  const collateralAsset = useMemo(
-    () => getCollateralName(pair.collateralAsset),
-    [pair.collateralAsset],
-  );
-
   const sizeRange = useMemo(
     () => (
       <>
@@ -33,7 +23,7 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
                 : 'tw-text-trade-long'
             }
             value={item.positionSizeMin}
-            assetString={pair.baseAsset}
+            assetString={item?.pair?.baseAsset}
             minDecimals={0}
             maxDecimals={6}
             mode={AssetValueMode.auto}
@@ -51,7 +41,7 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
                 : 'tw-text-trade-long'
             }
             value={item.positionSizeMax}
-            assetString={pair.baseAsset}
+            assetString={item?.pair?.baseAsset}
             minDecimals={0}
             maxDecimals={6}
             mode={AssetValueMode.auto}
@@ -60,7 +50,7 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
         )}
       </>
     ),
-    [pair.baseAsset, item.positionSizeMin, item.positionSizeMax],
+    [item?.pair?.baseAsset, item.positionSizeMin, item.positionSizeMax],
   );
 
   return (
@@ -68,8 +58,8 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
       <td>
         <DisplayDate timestamp={item.datetime} />
       </td>
-      <td>{pair.name}</td>
-      <td>{collateralAsset}</td>
+      <td>{item?.pair?.name}</td>
+      <td>{item?.pair?.collateralAsset}</td>
       <td>{sizeRange}</td>
       <td
         className={classNames(
@@ -84,14 +74,14 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
             maxDecimals={6}
             className="tw-block"
             value={item.realizedPnl.baseValue}
-            assetString={pair.baseAsset}
+            assetString={item?.pair?.baseAsset}
             mode={AssetValueMode.auto}
             showPositiveSign
           />
           <AssetValue
             className="tw-block"
             value={item.realizedPnl.quoteValue}
-            assetString={pair.quoteAsset}
+            assetString={item?.pair?.quoteAsset}
             isApproximation
             showPositiveSign
           />

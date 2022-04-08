@@ -137,6 +137,7 @@ class EventDictionary {
       [
         Event.LIQUIDATE,
         new EventDetails('liquidates', [
+          'perpetual { id }',
           'amountLiquidatedBC',
           'newPositionSizeBC',
           'liquidationPrice',
@@ -194,6 +195,7 @@ class EventDictionary {
           'rate8h',
           'blockTimestamp',
           'deltaTime',
+          'fundingPayment{ position{ perpetual{ id } } }',
         ]),
       ],
     ],
