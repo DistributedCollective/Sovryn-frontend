@@ -20,6 +20,7 @@ import { toWei } from '../../../../../../utils/blockchain/math-helpers';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { usePerpetual_isTradingInMaintenance } from '../../../hooks/usePerpetual_isTradingInMaintenance';
 import { RowAction } from './RowAction';
+import { getCollateralName } from 'app/pages/PerpetualPage/utils/renderUtils';
 
 type OpenPositionRowProps = {
   item: OpenPositionEntry;
@@ -34,6 +35,11 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
   const pair = useMemo(() => PerpetualPairDictionary.get(item.pairType), [
     item.pairType,
   ]);
+
+  const collateralName = useMemo(
+    () => getCollateralName(pair.collateralAsset),
+    [pair.collateralAsset],
+  );
 
   const onOpenTradeModal = useCallback(
     (modal: PerpetualPageModals) => {
@@ -120,7 +126,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
           minDecimals={2}
           maxDecimals={6}
           value={item.margin}
-          assetString={pair.collateralAsset}
+          assetString={collateralName}
           mode={AssetValueMode.auto}
         />
         {item.leverage ? ` (${toNumberFormat(item.leverage, 2)}x)` : null}
