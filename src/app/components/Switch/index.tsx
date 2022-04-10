@@ -17,6 +17,7 @@ interface ISwitchProps {
   alignment?: SwitchAlignment;
   innerLabel?: ReactNode;
   innerLabelChecked?: ReactNode;
+  dataActionId?: string;
 }
 
 export const Switch: React.FC<ISwitchProps> = ({
@@ -29,6 +30,7 @@ export const Switch: React.FC<ISwitchProps> = ({
   onChange,
   innerLabel,
   innerLabelChecked,
+  dataActionId,
 }) => {
   const isRightAligned = useMemo(() => alignment === SwitchAlignment.RIGHT, [
     alignment,
@@ -36,12 +38,13 @@ export const Switch: React.FC<ISwitchProps> = ({
 
   return (
     <div
-      className={classNames(className, styles.switch, {
-        'tw-inline-flex': inline,
+      className={classNames(className, {
+        'tw-inline-block': inline,
       })}
     >
       <label
         className={classNames(
+          styles.switchLabel,
           { 'tw-cursor-not-allowed tw-opacity-50': disabled },
           { 'tw-flex-row-reverse': isRightAligned },
         )}
@@ -51,16 +54,17 @@ export const Switch: React.FC<ISwitchProps> = ({
           checked={checked}
           disabled={disabled}
           onChange={onChange}
+          data-action-id={dataActionId}
         />
-        <div
+        <span
           className={classNames(styles.indicator, {
             'tw-ml-2.5': isRightAligned,
           })}
         >
-          {innerLabelChecked && <div>{innerLabelChecked}</div>}
-          {innerLabel && <div>{innerLabel}</div>}
-        </div>
-        <p>{label}</p>
+          {innerLabelChecked && <span>{innerLabelChecked}</span>}
+          {innerLabel && <span>{innerLabel}</span>}
+        </span>
+        {label}
       </label>
     </div>
   );
