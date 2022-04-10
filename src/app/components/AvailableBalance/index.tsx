@@ -14,20 +14,20 @@ import styles from './index.module.scss';
 interface IAvailableBalanceProps {
   asset: Asset;
   className?: string;
-  dataAttribute?: string;
+  dataActionId?: string;
 }
 
 export const AvailableBalance: React.FC<IAvailableBalanceProps> = ({
   asset,
   className,
-  dataAttribute,
+  dataActionId,
 }) => {
   const { value, loading } = useAssetBalanceOf(asset);
   const assetDetails = useMemo(() => AssetsDictionary.get(asset), [asset]);
   return (
     <div
       className={classNames(styles.balance, className)}
-      data-action-id={dataAttribute}
+      data-action-id={dataActionId}
     >
       <Trans
         i18nKey={translations.marginTradePage.tradeForm.labels.balance}
@@ -35,7 +35,7 @@ export const AvailableBalance: React.FC<IAvailableBalanceProps> = ({
           <LoadableValue
             value={
               <span
-                data-action-id={dataAttribute}
+                data-action-id={dataActionId}
                 className="tw-font-semibold tw-ml-1"
               >
                 {weiToAssetNumberFormat(value, assetDetails.asset)}{' '}

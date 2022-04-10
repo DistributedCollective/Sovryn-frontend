@@ -225,7 +225,7 @@ export const SwapFormContainer: React.FC = () => {
           <div className={styles.availableBalance}>
             <AvailableBalance
               asset={sourceToken}
-              dataAttribute="swap-send-availableBalance"
+              dataActionId="swap-send-availableBalance"
             />
           </div>
           <FormGroup
@@ -270,7 +270,7 @@ export const SwapFormContainer: React.FC = () => {
           <div className={styles.availableBalance}>
             <AvailableBalance
               asset={targetToken}
-              dataAttribute="swap-receive-availableBalance"
+              dataActionId="swap-receive-availableBalance"
             />
           </div>
           <FormGroup

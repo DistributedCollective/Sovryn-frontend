@@ -274,7 +274,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
           />
           <AvailableBalance
             asset={collateral}
-            dataAttribute="margin-label-availableBalance"
+            dataActionId="margin-label-availableBalance"
           />
           {orderType === OrderType.LIMIT && (
             <div className="tw-mb-2 tw--mt-2">

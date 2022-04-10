@@ -60,19 +60,17 @@ export const SlippageForm: React.FC<ISlippageFormProps> = ({
         </FormGroup>
 
         {isTrade ? (
-          <>
-            <LabelValuePair
-              label={t(translations.marginTradePage.tradeDialog.minEntry)}
-              value={
-                <>
-                  {weiToAssetNumberFormat(minReturn, asset || Asset.SOV)}{' '}
-                  <AssetRenderer asset={asset || Asset.SOV} />
-                </>
-              }
-              className="tw-mt-5"
-              dataActionId="margin-reviewTransaction-minimumEntryPrice"
-            />
-          </>
+          <LabelValuePair
+            label={t(translations.marginTradePage.tradeDialog.minEntry)}
+            value={
+              <>
+                {weiToAssetNumberFormat(minReturn, asset || Asset.SOV)}{' '}
+                <AssetRenderer asset={asset || Asset.SOV} />
+              </>
+            }
+            className="tw-mt-5"
+            dataActionId="margin-reviewTransaction-minimumEntryPrice"
+          />
         ) : (
           <FormGroup
             label={t(translations.buySovPage.slippageDialog.minimumReceived)}

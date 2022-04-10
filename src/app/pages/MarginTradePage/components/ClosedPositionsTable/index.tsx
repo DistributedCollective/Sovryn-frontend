@@ -58,15 +58,12 @@ export const ClosedPositionsTable: React.FC = () => {
             </tr>
           )}
 
-          {totalCount > 0 && (
-            <>
-              {events?.map(event => {
-                return (
-                  <ClosedPositionRow key={event.loanId} items={event.data} />
-                );
-              })}
-            </>
-          )}
+          {totalCount > 0 &&
+            events?.map(event => {
+              return (
+                <ClosedPositionRow key={event.loanId} items={event.data} />
+              );
+            })}
         </tbody>
       </table>
 

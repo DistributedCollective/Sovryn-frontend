@@ -63,7 +63,7 @@ export const TradeDialogInfo: React.FC<ITradeDialogInfoProps> = ({
         {<div className="tw-mr-1">{weiToNumberFormat(amount, 4)}</div>}{' '}
         <AssetRenderer asset={collateral} />
         <div className="tw-px-1">
-          &#64; {position === TradingPosition.LONG ? <>&le;</> : <>&ge;</>}
+          @ {position === TradingPosition.LONG ? '≤' : '≥'}
         </div>
         {!minEntryPrice ? (
           <>

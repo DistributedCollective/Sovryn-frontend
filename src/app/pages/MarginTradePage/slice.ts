@@ -63,7 +63,6 @@ const marginTradePageSlice = createSlice({
       state.notificationUser = undefined;
     },
     addPendingLimitOrders(state, { payload }: PayloadAction<MarginLimitOrder>) {
-      console.log('payload:', payload);
       state.pendingLimitOrders = [...state.pendingLimitOrders, payload];
     },
   },

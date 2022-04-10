@@ -117,7 +117,7 @@ export function BuyForm() {
             <div className="tw-font-normal tw-my-2.5 tw-text-xs">
               <AvailableBalance
                 asset={Asset.RBTC}
-                dataAttribute="buySov-label-availableBalance"
+                dataActionId="buySov-label-availableBalance"
               />
             </div>
             <AmountButton onChange={changeAmount} dataActionId="buySov" />

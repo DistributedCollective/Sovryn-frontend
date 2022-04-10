@@ -145,7 +145,7 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
                   value={
                     <>
                       {!duration ? (
-                        <span>&#8734;</span>
+                        <span>∞</span>
                       ) : duration === 1 ? (
                         t(
                           translations.spotTradingPage.limitOrderSetting

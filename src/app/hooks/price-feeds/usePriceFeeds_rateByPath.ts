@@ -14,10 +14,6 @@ export function usePriceFeeds_rateByPath() {
   const dispatch = useDispatch();
 
   const getRate = useCallback(async (sourceAsset: Asset, destAsset: Asset) => {
-    // const path = await contractReader.call('swapNetwork', 'conversionPath', [
-    //   getTokenContract(sourceAsset).address,
-    //   getTokenContract(destAsset).address,
-    // ]);
     const rate = await contractReader.call(
       'sovrynProtocol',
       'getSwapExpectedReturn',

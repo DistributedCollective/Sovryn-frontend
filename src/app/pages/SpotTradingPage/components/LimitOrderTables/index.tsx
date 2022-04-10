@@ -7,7 +7,6 @@ import { LimitOrderHistory } from './LimitOrderHistory';
 import { useAccount } from 'app/hooks/useAccount';
 import { ILimitOrder } from '../../types';
 import { useGetContractPastEvents } from 'app/hooks/useGetContractPastEvents';
-import { useLog } from 'app/hooks/useDebug';
 
 interface ILimitOrderTablesProps {
   activeTab: number;
@@ -36,9 +35,6 @@ export const LimitOrderTables: React.FC<ILimitOrderTablesProps> = ({
     'orderBook',
     'OrderCreated',
   );
-
-  useLog('LimitOrderTables', 'OrderFilled', orderFilledEvents.events);
-  useLog('LimitOrderTables', 'OrderCreated', orderCreatedEvents.events);
 
   return (
     <>

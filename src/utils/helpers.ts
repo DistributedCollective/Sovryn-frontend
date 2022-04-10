@@ -248,8 +248,7 @@ export const getFavoriteList = key => {
 export const setFavoriteList = (key: string, list) => {
   return localStorage.setItem(key, JSON.stringify(list));
 };
-export const isString = value =>
-  typeof value === 'string' || value instanceof String;
+
 // (b - a) / |a| * 100
 export const percentageChange = (a: Decimal.Value, b: Decimal.Value) =>
   bignumber(bignumber(b).minus(a)).div(bignumber(a).abs()).mul(100).toString();
