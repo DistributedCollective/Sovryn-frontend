@@ -37,7 +37,7 @@ import { usePerpetual_getCurrentPairId } from '../../hooks/usePerpetual_getCurre
 const {
   calculateApproxLiquidationPrice,
   calculateLeverage,
-  getMaximalMarginToWidthdraw,
+  getMaximalMarginToWithdraw,
 } = perpUtils;
 
 enum EditMarginDialogMode {
@@ -133,7 +133,7 @@ export const EditMarginDialog: React.FC = () => {
       // Fees don't need to be subtracted, since Collateral is not paid with the Network Token
       return [Number(fromWei(availableBalance)), availableBalance];
     } else {
-      const maxAmount = getMaximalMarginToWidthdraw(
+      const maxAmount = getMaximalMarginToWithdraw(
         traderState,
         perpParameters,
         ammState,
