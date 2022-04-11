@@ -34,7 +34,7 @@
     "CloseWithSwap": "Saída de posição",
     "Trade": "Abertura de posição",
     "Liquidate": "Posição liquidada",
-    "DepositCollateral": "Adicionar colateral"
+    "DepositCollateral": "Colateral depositado"
   },
   "global": {
     "liquidationPrice": "Preço de liquidação",
