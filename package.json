@@ -18,7 +18,7 @@
     "@reduxjs/toolkit": "1.5.1",
     "@rsksmart/rsk3": "0.3.4",
     "@sovryn/react-wallet": "2.1.4",
-    "@sovryn/perpetual-swap": "2.0.0",
+    "@sovryn/perpetual-swap": "2.0.4",
     "@svgr/webpack": "4.3.3",
     "@testing-library/jest-dom": "5.1.1",
     "@testing-library/react": "10.0.1",
