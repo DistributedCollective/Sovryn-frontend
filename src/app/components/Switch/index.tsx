@@ -44,7 +44,7 @@ export const Switch: React.FC<ISwitchProps> = ({
     >
       <label
         className={classNames(
-          styles.switchLabel,
+          styles.label,
           { 'tw-cursor-not-allowed tw-opacity-50': disabled },
           { 'tw-flex-row-reverse': isRightAligned },
         )}
