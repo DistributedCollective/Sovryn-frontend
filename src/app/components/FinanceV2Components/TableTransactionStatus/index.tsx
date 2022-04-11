@@ -5,7 +5,7 @@ import iconSuccess from '../../../../assets/images/icon-success.svg';
 import iconRejected from '../../../../assets/images/icon-rejected.svg';
 import iconPending from '../../../../assets/images/icon-pending.svg';
 import { TxStatus } from 'store/global/transactions-store/types';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 interface ITableTransactionStatusProps {
   transactionStatus: TxStatus;
@@ -64,13 +64,13 @@ export const TableTransactionStatus: React.FC<ITableTransactionStatusProps> = ({
 
   return (
     <div
-      className={cn(
+      className={classNames(
         'tw-flex tw-items-center tw-justify-start tw-gap-4 md:tw-w-full tw-p-0',
         wrapperClassName,
       )}
     >
       <div>
-        <p className={cn('tw-m-0 tw-text-xs', textClassName)}>{text}</p>
+        <p className={classNames('tw-m-0 tw-text-xs', textClassName)}>{text}</p>
       </div>
       <div className={iconClassName}>{icon}</div>
     </div>

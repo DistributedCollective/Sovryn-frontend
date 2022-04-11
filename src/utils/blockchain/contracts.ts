@@ -29,6 +29,9 @@ import LockedFundAbi from './abi/LockedFund.json';
 import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
 import SwapsExternalAbi from './abi/SwapsExternalAbi.json';
 import stakingRewardsProxyAbi from './abi/StakingRewards.json';
+import SettlementAbi from './abi/Settlement.json';
+import OrderBookAbi from './abi/OrderBook.json';
+import OrderBookMarginAbi from './abi/OrderBookMargin.json';
 import nftAbi from './abi/nftAbi.json';
 import MYNTControllerAbi from './abi/MYNTController.json';
 import MYNTTokenAbi from './abi/MYNT_token.json';
@@ -274,6 +277,22 @@ export const contracts = {
   babelfishAggregator: {
     address: '0x1440d19436bEeaF8517896bffB957a88EC95a00F',
     abi: BabelfishAggregatorAbi,
+  },
+  // orderbook contract is on testnet
+  orderBook: {
+    address: '0x1c910918d6D05feC83e2376D57226d1b08324028',
+    abi: OrderBookAbi,
+    chainId: 31,
+  },
+  // orderbook contract is on testnet
+  orderBookMargin: {
+    address: '0x3677e8a679536d80F0b33ED2d1d0bC01a6634a4D',
+    abi: OrderBookMarginAbi,
+    chainId: 31,
+  },
+  settlement: {
+    address: '0x823e55322a395516ac3930F4C1ad9C7c2Fe2EACd',
+    abi: SettlementAbi,
   },
   sovrynNFT: {
     address: '0x576ae218aecfd4cbd2dbe07250b47e26060932b1',

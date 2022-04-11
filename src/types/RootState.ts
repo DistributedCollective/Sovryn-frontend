@@ -3,7 +3,7 @@ import { LendBorrowSovrynState } from 'app/pages/BorrowPage/types';
 import { EventsStoreState } from '../store/global/events-store/types';
 import { TransactionsStoreState } from '../store/global/transactions-store/types';
 import { MaintenanceStoreState } from '../store/global/maintenance-store/types';
-import { MarginTradePageState } from 'app/pages/MarginTradePage/types';
+import { IMarginTradePageState } from 'app/pages/MarginTradePage/types';
 import { SpotTradingPageState } from 'app/pages/SpotTradingPage/types';
 import { BridgeDepositPageState } from 'app/pages/BridgeDepositPage/types';
 import { BridgeWithdrawPageState } from 'app/pages/BridgeWithdrawPage/types';
@@ -19,7 +19,7 @@ export interface RootState {
   eventsState?: EventsStoreState;
   transactionsState?: TransactionsStoreState;
   maintenanceState?: MaintenanceStoreState;
-  marginTradePage?: MarginTradePageState;
+  marginTradePage?: IMarginTradePageState;
   spotTradingPage?: SpotTradingPageState;
   bridgeDepositPage?: BridgeDepositPageState;
   bridgeWithdrawPage?: BridgeWithdrawPageState;

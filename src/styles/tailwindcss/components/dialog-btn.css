@@ -3,11 +3,11 @@
   .tw-btn-dialog {
     width: 100%;
     height: 3.125rem;
-    letter-spacing: 0.1rem;
-    font-size: 1.25rem;
-    @apply tw-uppercase tw-border tw-rounded tw-bg-primary tw-border-primary tw-text-black;
-    @apply tw-text-black tw-uppercase tw-font-extrabold tw-leading-none tw-font-body;
-    @apply tw-px-6 tw-py-2 tw-transition;
+    letter-spacing: 0;
+    font-size: 1.125rem;
+    @apply tw-border tw-capitalize tw-rounded-lg tw-bg-primary tw-border-primary tw-text-black;
+    @apply tw-text-black tw-font-medium tw-leading-none tw-font-body;
+    @apply tw-px-6 tw-py-2 tw-transition tw-opacity-80;
   }
 
   .tw-btn-dialog__secondary {
@@ -15,7 +15,7 @@
   }
 
   .tw-btn-dialog:hover {
-    @apply tw-opacity-75;
+    @apply tw-opacity-100;
   }
 
   .tw-btn-dialog:disabled {

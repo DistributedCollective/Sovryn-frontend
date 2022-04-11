@@ -1,20 +1,22 @@
 import { PayloadAction } from '@reduxjs/toolkit';
 import { createSlice } from 'utils/@reduxjs/toolkit';
-import { ContainerState, SpotPairType } from './types';
+import { ContainerState, ILimitOrder, SpotPairType } from './types';
 
 // The initial state of the SpotTradingPage container
 export const initialState: ContainerState = {
   pairType: SpotPairType.SOV_RBTC,
-  amount: '0',
+  pendingLimitOrders: [],
 };
 
 const spotTradingPageSlice = createSlice({
   name: 'spotTradingPage',
   initialState,
   reducers: {
-    someAction(state, action: PayloadAction<any>) {},
     setPairType(state, { payload }: PayloadAction<SpotPairType>) {
       state.pairType = payload;
+    },
+    addPendingLimitOrders(state, { payload }: PayloadAction<ILimitOrder>) {
+      state.pendingLimitOrders = [...state.pendingLimitOrders, payload];
     },
   },
 });

@@ -35,6 +35,7 @@ export interface SendTxResponse {
 
 export interface ResetTxResponseInterface extends SendTxResponse {
   reset: () => void;
+  retry?: () => void;
 }
 
 export interface SendTxResponseInterface extends ResetTxResponseInterface {
@@ -104,8 +105,9 @@ export function useSendContractTx(
   );
 
   const reset = useCallback(() => {
+    dispatch(actions.removeTransactions());
     setTxId(TxStatus.NONE);
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (txId && transactions.hasOwnProperty(txId)) {

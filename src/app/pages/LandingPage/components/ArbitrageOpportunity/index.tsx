@@ -18,7 +18,7 @@ import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { useHistory } from 'react-router-dom';
 import { isValidArbitrage } from 'app/components/Arbitrage/Arbitrage';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 export const ArbitrageOpportunity: React.FC = () => {
   const { t } = useTranslation();
@@ -95,7 +95,7 @@ export const ArbitrageOpportunity: React.FC = () => {
                   <td>
                     <div
                       key={opportunity.fromToken + opportunity.toToken}
-                      className={cn('tw-flex tw-items-center')}
+                      className={classNames('tw-flex tw-items-center')}
                     >
                       <div className="tw-rounded-full tw-z-10">
                         <img
