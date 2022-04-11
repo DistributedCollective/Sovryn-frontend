@@ -27,7 +27,14 @@
     "gasPrice": "Preço gás",
     "gasLimit": "Limite gás",
     "units": "unidades",
-    "txHash": "Tx Hash"
+    "txHash": "Tx Hash",
+    "walletCompatibility": "Carteiras compatíveis"
+  },
+  "tradeEvents": {
+    "CloseWithSwap": "Saída de posição",
+    "Trade": "Abertura de posição",
+    "Liquidate": "Liquidar",
+    "DepositCollateral": "Adicionar colateral"
   },
   "global": {
     "liquidationPrice": "Preço de liquidação",
@@ -1628,13 +1635,15 @@
       "pair": "Par",
       "orderType": "Tipo de ordem",
       "tradeAmount": "Quantidade negociada",
-      "limitPrice": "Preço",
+      "limitPrice": "Preço limite",
       "amountReceive": "Quantidade a receber",
       "duration": "Expira em",
-      "deadline": "Data limite",
+      "deadline": "Validade",
       "actions": "Ação",
       "noData": "Sem dados",
       "filledAmount": "Quantidade inserida",
+      "filledPrice": "Preço de execução",
+      "leverage": "Alavancagem",
       "cta": {
         "edit": "Editar",
         "close": "Fechar"
@@ -2076,6 +2085,15 @@
     "interestAPR": "Juros anual",
     "actions": "Ação",
     "noData": "Sem dados",
+    "rolloverDate": "Rollover Date",
+    "event": "Evento",
+    "amountRepaid": "Amount Repaid",
+    "collateralWithdrawn": "Collateral Withdrawn",
+    "exitPrice": "Exit Price",
+    "positionChange": "Position Change",
+    "closingPrice": "Preço de fechamento",
+    "timestamp": "Data e hora",
+    "txID": "TxID",
     "cta": {
       "increase": "Aumentar",
       "margin": "Margem",
