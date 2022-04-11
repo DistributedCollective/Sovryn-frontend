@@ -11,6 +11,7 @@ import { getSignedAmount } from '../../utils/contractUtils';
 import { getTraderPnLInBC } from '../../utils/perpUtils';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 import { usePerpetual_getCurrentPairId } from '../../hooks/usePerpetual_getCurrentPairId';
+import { getCollateralName } from '../../utils/renderUtils';
 
 type TradeDetailsProps = {
   className?: string;
@@ -44,6 +45,11 @@ export const TradeDetails: React.FC<TradeDetailsProps> = ({
   const unrealized = useMemo(
     () => getTraderPnLInBC(traderState, ammState, perpetualParameters),
     [traderState, ammState, perpetualParameters],
+  );
+
+  const collateralName = useMemo(
+    () => getCollateralName(pair.collateralAsset),
+    [pair.collateralAsset],
   );
 
   return (
@@ -81,7 +87,7 @@ export const TradeDetails: React.FC<TradeDetailsProps> = ({
             maxDecimals={4}
             mode={AssetValueMode.auto}
             value={traderState.availableCashCC}
-            assetString={pair.baseAsset}
+            assetString={collateralName}
           />
           <span className="tw-font-medium tw-ml-1">
             ({toNumberFormat(trade.leverage, 2)}x)
@@ -103,7 +109,7 @@ export const TradeDetails: React.FC<TradeDetailsProps> = ({
             maxDecimals={4}
             mode={AssetValueMode.auto}
             value={unrealized}
-            assetString={pair.baseAsset}
+            assetString={collateralName}
             showPositiveSign
             useTooltip
           />
@@ -119,7 +125,7 @@ export const TradeDetails: React.FC<TradeDetailsProps> = ({
             maxDecimals={3}
             mode={AssetValueMode.auto}
             value={availableBalance}
-            assetString={pair.baseAsset}
+            assetString={collateralName}
           />
         </div>
       )}
