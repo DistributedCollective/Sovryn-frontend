@@ -18,7 +18,10 @@ import { usePerpetual_isTradingInMaintenance } from 'app/pages/PerpetualPage/hoo
 import { useMaintenance } from '../../../../../hooks/useMaintenance';
 import { useSelector } from 'react-redux';
 import { selectPerpetualPage } from '../../../selectors';
-import { usePerpetual_getCurrentPairId } from 'app/pages/PerpetualPage/hooks/usePerpetual_getCurrentPairId';
+import {
+  PerpetualPairDictionary,
+  PerpetualPairType,
+} from 'utils/dictionaries/perpetual-pair-dictionary';
 
 const titleMap = {
   [PerpetualPageModals.NONE]:
@@ -39,7 +42,10 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     TradeDialogContext,
   );
 
-  const currentPairId = usePerpetual_getCurrentPairId();
+  const tradePair = PerpetualPairDictionary.get(
+    trade?.pairType || PerpetualPairType.BTCUSD,
+  );
+  const currentPairId = tradePair.id;
   const { perpetuals } = useContext(PerpetualQueriesContext);
   const { lotSize, lotPrecision } = perpetuals[currentPairId];
 
@@ -77,13 +83,13 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
       <div className={styles.contentWrapper}>
         <TradeSummary
           origin={origin}
-          pair={pair}
+          pair={tradePair}
           trade={trade}
           analysis={analysis}
         />
         <ResultPosition
           origin={origin}
-          pair={pair}
+          pair={tradePair}
           lotPrecision={lotPrecision}
           lotSize={lotSize}
           analysis={analysis}

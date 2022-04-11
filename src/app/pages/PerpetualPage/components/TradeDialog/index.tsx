@@ -80,14 +80,7 @@ export const TradeDialog: React.FC = () => {
   const dispatch = useDispatch();
   const { modal, modalOptions } = useSelector(selectPerpetualPage);
 
-  const currentPairId = usePerpetual_getCurrentPairId();
   const { perpetuals } = useContext(PerpetualQueriesContext);
-  const {
-    ammState,
-    traderState,
-    perpetualParameters: perpParameters,
-  } = perpetuals[currentPairId];
-
   const { origin, trade, transactions: requestedTransactions } = useMemo(
     () =>
       isPerpetualTradeReview(modalOptions)
@@ -95,6 +88,15 @@ export const TradeDialog: React.FC = () => {
         : { origin: undefined, trade: undefined, transactions: [] },
     [modalOptions],
   );
+  const tradePair = PerpetualPairDictionary.get(
+    trade?.pairType || PerpetualPairType.BTCUSD,
+  );
+  const currentPairId = tradePair.id;
+  const {
+    ammState,
+    traderState,
+    perpetualParameters: perpParameters,
+  } = perpetuals[currentPairId];
 
   const [transactions, setTransactions] = useState<PerpetualTx[]>(
     requestedTransactions,
