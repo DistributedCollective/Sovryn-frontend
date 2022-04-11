@@ -2093,7 +2093,7 @@
     "positionChange": "Position Change",
     "closingPrice": "Preço de fechamento",
     "timestamp": "Data e hora",
-    "txID": "TxID",
+    "txID": "ID transação",
     "cta": {
       "increase": "Aumentar",
       "margin": "Margem",
