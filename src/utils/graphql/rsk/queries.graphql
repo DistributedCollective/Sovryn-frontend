@@ -1,0 +1,20 @@
+# How to use:
+# Implement your graphql query here with typed call parameters and expected data
+# run: yarn generate:graphql
+# The matching apollo hooks get created with types and everything in the ./generated.tsx
+
+# test query, feel free to change or remove
+query users($where: User_filter) {
+  users(subgraphError: allow, where: $where) {
+    id
+    userTotals {
+      totalMarginTradeVolumeUsd
+      totalAmmVolumeUsd
+      totalLendVolumeUsd
+      totalUnlendVolumeUsd
+      totalBorrowVolumeUsd
+      totalLiquidateVolumeUsd
+      totalCloseWithDepositVolumeUsd
+    }
+  }
+}

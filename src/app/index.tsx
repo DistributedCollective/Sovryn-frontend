@@ -49,6 +49,7 @@ import { BridgeDepositPage } from './pages/BridgeDepositPage/Loadable';
 import { BridgeWithdrawPage } from './pages/BridgeWithdrawPage/Loadable';
 import { FastBtcPage } from './pages/FastBtcPage/Loadable';
 import { PageContainer } from './containers/PageContainer';
+import { useUsersQuery } from '../utils/graphql/rsk/generated';
 
 const title =
   currentNetwork !== 'mainnet' ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -67,6 +68,10 @@ export function App() {
   useEffect(() => {
     dispatch(maintenanceActions.fetchMaintenance());
   }, [dispatch]);
+
+  const { data } = useUsersQuery();
+
+  useEffect(() => console.log(data), [data]);
 
   return (
     <BrowserRouter>

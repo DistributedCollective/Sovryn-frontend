@@ -1,6 +1,8 @@
 import { TxType } from '../store/global/transactions-store/types';
 import { AppMode } from '../types';
 
+export const isMainnet = process.env.NODE_ENV === 'production';
+
 export const chains = {
   mainnet: 30,
   testnet: 31,
@@ -41,6 +43,10 @@ export const backendUrl = {
   30: 'https://backend.sovryn.app',
   31: 'https://api.test.sovryn.app',
 };
+
+export const graphRskUrl = isMainnet
+  ? 'https://graph.sovryn.app'
+  : 'https://graphql-sov-v0-0-6-test-1570131985.us-east-2.elb.amazonaws.com/subgraphs/name/DistributedCollective/sovryn-subgraph';
 
 export const ethGenesisAddress = '0x0000000000000000000000000000000000000000';
 
