@@ -18,7 +18,6 @@ import { usePerpetual_isTradingInMaintenance } from 'app/pages/PerpetualPage/hoo
 import { useMaintenance } from '../../../../../hooks/useMaintenance';
 import { useSelector } from 'react-redux';
 import { selectPerpetualPage } from '../../../selectors';
-import { usePerpetual_getCurrentPairId } from 'app/pages/PerpetualPage/hooks/usePerpetual_getCurrentPairId';
 
 const titleMap = {
   [PerpetualPageModals.NONE]:
@@ -39,9 +38,8 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     TradeDialogContext,
   );
 
-  const currentPairId = usePerpetual_getCurrentPairId();
   const { perpetuals } = useContext(PerpetualQueriesContext);
-  const { lotSize, lotPrecision } = perpetuals[currentPairId];
+  const { lotSize, lotPrecision } = perpetuals[pair.id];
 
   const { useMetaTransactions } = useSelector(selectPerpetualPage);
 

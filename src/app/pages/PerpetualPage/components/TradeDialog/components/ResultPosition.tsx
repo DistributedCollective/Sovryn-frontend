@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { AssetValue } from '../../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../../components/AssetValue/types';
 import classNames from 'classnames';
@@ -9,6 +9,7 @@ import { toNumberFormat } from '../../../../../../utils/display-text/format';
 import { PerpetualPair } from '../../../../../../utils/models/perpetual-pair';
 import { PerpetualPageModals } from '../../../types';
 import { TradeAnalysis } from '../types';
+import { getCollateralName } from 'app/pages/PerpetualPage/utils/renderUtils';
 
 type ResultPositionProps = {
   origin?: PerpetualPageModals;
@@ -35,6 +36,11 @@ export const ResultPosition: React.FC<ResultPositionProps> = ({
   } = analysis;
 
   const { t } = useTranslation();
+
+  const collateralName = useMemo(
+    () => getCollateralName(pair.collateralAsset),
+    [pair.collateralAsset],
+  );
 
   if (
     origin === PerpetualPageModals.CLOSE_POSITION &&
@@ -86,7 +92,7 @@ export const ResultPosition: React.FC<ResultPositionProps> = ({
               maxDecimals={4}
               mode={AssetValueMode.auto}
               value={marginTarget}
-              assetString={pair.baseAsset}
+              assetString={collateralName}
             />
           </span>
         </div>
