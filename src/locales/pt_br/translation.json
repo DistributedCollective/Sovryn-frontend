@@ -33,7 +33,7 @@
   "tradeEvents": {
     "CloseWithSwap": "Saída de posição",
     "Trade": "Abertura de posição",
-    "Liquidate": "Liquidar",
+    "Liquidate": "Posição liquidada",
     "DepositCollateral": "Adicionar colateral"
   },
   "global": {
