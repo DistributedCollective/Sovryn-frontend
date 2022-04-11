@@ -22,6 +22,7 @@ import { StatusComponent } from '../../../../../components/Dialogs/TxDialog';
 import { RecentTradesContext } from '../../../contexts/RecentTradesContext';
 import { RecentTradesDataEntry } from '../../RecentTradesTable/types';
 import { TradeAnalysis } from '../types';
+import { getCollateralName } from 'app/pages/PerpetualPage/utils/renderUtils';
 
 const TxTypeLabels = {
   [TxType.APPROVE]: translations.perpetualPage.processTrade.labels.approvalTx,
@@ -61,6 +62,11 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
 
   const { t } = useTranslation();
   const { trades } = useContext(RecentTradesContext);
+
+  const collateralName = useMemo(
+    () => getCollateralName(pair.collateralAsset),
+    [pair.collateralAsset],
+  );
 
   const {
     title,
@@ -148,7 +154,7 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
             {marginChange > 0
               ? t(translations.perpetualPage.reviewTrade.deposit)
               : t(translations.perpetualPage.reviewTrade.withdraw)}{' '}
-            {toNumberFormat(Math.abs(marginChange), 4)} {pair.baseAsset}
+            {toNumberFormat(Math.abs(marginChange), 4)} {collateralName}
           </div>
         )}
         {showAmountText && (
@@ -220,7 +226,7 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
               maxDecimals={6}
               mode={AssetValueMode.auto}
               value={tradingFee}
-              assetString={pair.baseAsset}
+              assetString={collateralName}
             />
           </span>
         </div>
@@ -235,7 +241,7 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
                 maxDecimals={6}
                 mode={AssetValueMode.auto}
                 value={orderCost}
-                assetString={pair.baseAsset}
+                assetString={collateralName}
               />
             </span>
           </div>
