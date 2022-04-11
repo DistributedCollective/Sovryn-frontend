@@ -35,7 +35,7 @@ import { ActionDialogSubmitButton } from '../ActionDialogSubmitButton';
 import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';
 import { usePrevious } from '../../../../hooks/usePrevious';
 import { perpUtils } from '@sovryn/perpetual-swap';
-import { usePerpetual_getCurrentPairId } from '../../hooks/usePerpetual_getCurrentPairId';
+import { getCollateralName } from '../../utils/renderUtils';
 
 const {
   getRequiredMarginCollateral,
@@ -55,14 +55,7 @@ export const EditLeverageDialog: React.FC = () => {
 
   const inMaintenance = usePerpetual_isTradingInMaintenance();
 
-  const currentPairId = usePerpetual_getCurrentPairId();
   const { perpetuals } = useContext(PerpetualQueriesContext);
-  const {
-    ammState,
-    traderState,
-    perpetualParameters: perpParameters,
-    availableBalance,
-  } = perpetuals[currentPairId];
 
   const trade = useMemo(
     () => (isPerpetualTrade(modalOptions) ? modalOptions : undefined),
@@ -71,6 +64,18 @@ export const EditLeverageDialog: React.FC = () => {
   const pair = useMemo(
     () => PerpetualPairDictionary.get(trade?.pairType || currentPairType),
     [trade, currentPairType],
+  );
+
+  const {
+    ammState,
+    traderState,
+    perpetualParameters: perpParameters,
+    availableBalance,
+  } = perpetuals[pair.id];
+
+  const collateralName = useMemo(
+    () => getCollateralName(pair.collateralAsset),
+    [pair.collateralAsset],
   );
 
   const maxLeverage = useMemo(
@@ -131,7 +136,7 @@ export const EditLeverageDialog: React.FC = () => {
       0,
       margin - traderState.availableCashCC,
     );
-  }, [changedTrade, margin, traderState, ammState, perpParameters]);
+  }, [changedTrade, traderState, ammState, perpParameters, margin]);
 
   const onClose = useCallback(
     () => dispatch(actions.setModal(PerpetualPageModals.NONE)),
@@ -258,7 +263,7 @@ export const EditLeverageDialog: React.FC = () => {
                 maxDecimals={4}
                 mode={AssetValueMode.auto}
                 value={margin}
-                assetString={pair.baseAsset}
+                assetString={collateralName}
               />
             </div>
 
