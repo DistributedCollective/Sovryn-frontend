@@ -2089,7 +2089,7 @@
     "event": "Evento",
     "amountRepaid": "Amount Repaid",
     "collateralWithdrawn": "Collateral Withdrawn",
-    "exitPrice": "Exit Price",
+    "exitPrice": "Preço de saída",
     "positionChange": "Position Change",
     "closingPrice": "Preço de fechamento",
     "timestamp": "Data e hora",
