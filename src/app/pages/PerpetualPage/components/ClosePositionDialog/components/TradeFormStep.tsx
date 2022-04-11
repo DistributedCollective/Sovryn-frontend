@@ -37,7 +37,7 @@ import { ActionDialogSubmitButton } from '../../ActionDialogSubmitButton';
 import { usePerpetual_isTradingInMaintenance } from 'app/pages/PerpetualPage/hooks/usePerpetual_isTradingInMaintenance';
 import { selectPerpetualPage } from '../../../selectors';
 import { perpMath, perpUtils } from '@sovryn/perpetual-swap';
-import { usePerpetual_getCurrentPairId } from 'app/pages/PerpetualPage/hooks/usePerpetual_getCurrentPairId';
+import { getCollateralName } from 'app/pages/PerpetualPage/utils/renderUtils';
 
 const { roundToLot } = perpMath;
 const { getTraderPnLInCC, calculateSlippagePrice } = perpUtils;
@@ -48,7 +48,18 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  const currentPairId = usePerpetual_getCurrentPairId();
+  const { useMetaTransactions } = useSelector(selectPerpetualPage);
+
+  const inMaintenance = usePerpetual_isTradingInMaintenance();
+
+  const { changedTrade, trade, onChange } = useContext(
+    ClosePositionDialogContext,
+  );
+
+  const tradePair = PerpetualPairDictionary.get(
+    trade?.pairType || PerpetualPairType.BTCUSD,
+  );
+  const currentPairId = tradePair.id;
   const { perpetuals } = useContext(PerpetualQueriesContext);
 
   const {
@@ -61,20 +72,17 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     availableBalance,
   } = perpetuals[currentPairId];
 
-  const { useMetaTransactions } = useSelector(selectPerpetualPage);
-
-  const inMaintenance = usePerpetual_isTradingInMaintenance();
-
-  const { changedTrade, trade, onChange } = useContext(
-    ClosePositionDialogContext,
-  );
-
   const pair = useMemo(
     () =>
       PerpetualPairDictionary.get(
         changedTrade?.pairType || PerpetualPairType.BTCUSD,
       ),
     [changedTrade?.pairType],
+  );
+
+  const collateralName = useMemo(
+    () => getCollateralName(pair.collateralAsset),
+    [pair.collateralAsset],
   );
 
   const {
@@ -315,7 +323,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
             maxDecimals={4}
             mode={AssetValueMode.auto}
             value={totalToReceive}
-            assetString={pair.baseAsset}
+            assetString={collateralName}
             showPositiveSign
             useTooltip
           />
