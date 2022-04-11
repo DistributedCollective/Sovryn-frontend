@@ -90,68 +90,73 @@ export const Arbitrage: React.FC<IArbitrageProps> = ({ onClick }) => {
     <>
       {opportunity !== null && (
         <div className="tw-my-3">
-          <div className="tw-text-sov-white tw-mb-12 tw-p-4 tw-rounded tw-border tw-border-primary">
-            <p className="tw-m-0 tw-whitespace-nowrap tw-mr-8">
-              {t(s.arbitrage.best_rate)}
-            </p>
-            <div className="tw-border-t tw-border-sov-white tw-w-full"></div>
-          </div>
-          <div className="tw-bg-gray-5 tw-rounded-lg tw-py-3 tw-px-5 tw-m-auto tw-w-full tw-max-w-3xl tw-mb-11 tw-flex tw-items-center tw-justify-between">
-            <p className="tw-font-light tw-m-0 tw-text-sov-white tw-text-sm tw-mr-3">
-              <Trans
-                i18nKey={s.arbitrage.text}
-                components={[
-                  <span className="tw-text-success tw-font-normal"></span>,
-                  <AssetSymbolRenderer asset={opportunity.fromToken} />,
-                  <AssetSymbolRenderer asset={opportunity.toToken} />,
-                ]}
-                values={{
-                  percent:
-                    '+' +
-                    toNumberFormat(
-                      (opportunity.earn /
-                        (opportunity.toAmount - opportunity.earn)) *
-                        100,
-                      2,
-                    ),
-                }}
-              />
-            </p>
-            <div className="tw-flex tw-items-center">
-              <div className="tw-relative">
-                <Popover
-                  content={
-                    <div className="tw-p-5 tw-font-normal">
-                      <p>
-                        {t(s.arbitrage.popover_p1, {
-                          fromAmount: toNumberFormat(opportunity.fromAmount, 6),
-                          fromToken: opportunity.fromToken,
-                          toAmount: toNumberFormat(opportunity.toAmount, 6),
-                          toToken: opportunity.toToken,
-                        })}
-                      </p>
-                      <p>
-                        {t(s.arbitrage.popover_p2, {
-                          toToken: opportunity.toToken,
-                          earn: toNumberFormat(opportunity.earn, 6),
-                        })}
-                      </p>
-                    </div>
+          <div className="tw-bg-gray-5 tw-rounded-lg tw-py-3 tw-px-5 tw-m-auto tw-w-full tw-max-w-3xl tw-mb-11 tw-flex tw-items-center tw-justify-between tw-flex-col">
+            <div className="tw-text-sov-white tw-pt-1 tw-pb-3 tw-w-full">
+              <p className="tw-m-0 tw-whitespace-nowrap tw-mr-8 tw-mb-2">
+                {t(s.arbitrage.best_rate)}
+              </p>
+              <div className="tw-border-t tw-border-sov-white tw-w-full"></div>
+            </div>
+            <div className="tw-flex tw-items-center tw-justify-between">
+              <p className="tw-font-light tw-m-0 tw-text-sov-white tw-text-sm tw-mr-3">
+                <Trans
+                  i18nKey={s.arbitrage.text}
+                  components={[
+                    <span className="tw-text-success tw-font-normal"></span>,
+                    <AssetSymbolRenderer asset={opportunity.fromToken} />,
+                    <AssetSymbolRenderer asset={opportunity.toToken} />,
+                  ]}
+                  values={{
+                    percent:
+                      '+' +
+                      toNumberFormat(
+                        (opportunity.earn /
+                          (opportunity.toAmount - opportunity.earn)) *
+                          100,
+                        2,
+                      ),
+                  }}
+                />
+              </p>
+              <div className="tw-flex tw-items-center">
+                <div className="tw-relative">
+                  <Popover
+                    content={
+                      <div className="tw-p-5 tw-font-normal">
+                        <p>
+                          {t(s.arbitrage.popover_p1, {
+                            fromAmount: toNumberFormat(
+                              opportunity.fromAmount,
+                              6,
+                            ),
+                            fromToken: opportunity.fromToken,
+                            toAmount: toNumberFormat(opportunity.toAmount, 6),
+                            toToken: opportunity.toToken,
+                          })}
+                        </p>
+                        <p>
+                          {t(s.arbitrage.popover_p2, {
+                            toToken: opportunity.toToken,
+                            earn: toNumberFormat(opportunity.earn, 6),
+                          })}
+                        </p>
+                      </div>
+                    }
+                    className="tw-pl-4"
+                    popoverClassName={'tw-mw-340'}
+                  >
+                    <Icon icon="info-sign" className="tw-cursor-pointer" />
+                  </Popover>
+                </div>
+                <ActionButton
+                  text={t(translations.mainMenu.swap)}
+                  className="tw-block tw-rounded-50 tw-uppercase tw-bg-primary-25 hover:tw-opacity-75 tw-ml-4"
+                  textClassName="tw-text-base"
+                  onClick={() =>
+                    onClick(opportunity.fromToken, opportunity.toToken)
                   }
-                  className="tw-pl-4"
-                  popoverClassName={'tw-mw-340'}
-                >
-                  <Icon icon="info-sign" className="tw-cursor-pointer" />
-                </Popover>
+                />
               </div>
-              <ActionButton
-                text={t(translations.mainMenu.swap)}
-                className="tw-block tw-rounded-50 tw-uppercase tw-bg-primary-25 hover:tw-opacity-75 tw-ml-4"
-                textClassName="tw-text-base"
-                onClick={() =>
-                  onClick(opportunity.fromToken, opportunity.toToken)
-                }
-              />
             </div>
           </div>
         </div>
