@@ -120,7 +120,7 @@ export const ArbitrageOpportunity: React.FC = () => {
                         />
                       </div>
 
-                      <div className="tw-font-light text-sov-white tw-ml-2.5 tw-flex-1">
+                      <div className="tw-font-normal text-sov-white tw-ml-2.5 tw-flex-1">
                         {t(
                           translations.landingPage.arbitrageOpportunity.swapUp,
                         )}{' '}
@@ -137,7 +137,7 @@ export const ArbitrageOpportunity: React.FC = () => {
                       <div className="tw-flex tw-items-center">
                         <Popover
                           content={
-                            <div className="tw-px-5 tw-py-4 tw-font-light">
+                            <div className="tw-px-5 tw-py-4 tw-font-normal">
                               <p>
                                 {t(
                                   translations.swapTradeForm.arbitrage

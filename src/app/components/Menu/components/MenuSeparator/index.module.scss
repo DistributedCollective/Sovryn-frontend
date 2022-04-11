@@ -1,0 +1,23 @@
+.host {
+  @apply tw-flex tw-flex-row tw-self-center tw-w-full tw-text-sm tw-leading-snug tw-px-0 tw-font-extralight tw-text-center tw-mt-2 tw-list-none;
+
+  &:after,
+  &:before {
+    @apply tw-flex-1 tw-border-b tw-border-solid tw-border-current tw-m-auto;
+
+    content: '';
+  }
+
+  &:not(:empty) {
+    &:before {
+      @apply tw-mr-2.5;
+    }
+    &:after {
+      @apply tw-ml-2.5;
+    }
+  }
+
+  &:empty {
+    @apply tw-mb-2;
+  }
+}

@@ -9,8 +9,6 @@ import { translations } from 'locales/i18n';
 import { reducer, sliceKey } from './slice';
 import { selectMarginTradePage } from './selectors';
 import { marginTradePageSaga } from './saga';
-import { Header } from '../../components/Header';
-import { Footer } from '../../components/Footer';
 import { TradingPairDictionary } from '../../../utils/dictionaries/trading-pair-dictionary';
 
 import { TradeForm } from './components/TradeForm';
@@ -18,7 +16,6 @@ import { Theme, TradingChart } from '../../components/TradingChart';
 import { OpenPositionsTable } from './components/OpenPositionsTable';
 import { useIsConnected } from '../../hooks/useAccount';
 import { TradingHistory } from './components/TradingHistory';
-import { NotificationForm } from '../../components/NotificationForm/NotificationFormContainer';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
 
@@ -58,7 +55,6 @@ export function MarginTradePage() {
           content={t(translations.marginTradePage.meta.description)}
         />
       </Helmet>
-      <Header />
       <div className="tw-container tw-mt-9 tw-mx-auto tw-px-6">
         <div className="tw-flex tw-flex-col xl:tw-flex-row xl:tw-justify-between tw-max-w-full">
           <div
@@ -76,7 +72,6 @@ export function MarginTradePage() {
             <article className="tw-w-full tw-mt-10">
               <h1 className="tw-text-base tw-normal-case tw-font-normal tw-mb-2 tw-pl-5">
                 {t(translations.marginTradePage.openPositions)}
-                <NotificationForm className="tw-ml-2 tw-inline-block" />
               </h1>
               <div className="tw-px-5 tw-pb-5 tw-border tw-border-sov-white tw-rounded-lg">
                 <OpenPositionsTable />
@@ -92,7 +87,6 @@ export function MarginTradePage() {
           </>
         )}
       </div>
-      <Footer />
     </>
   );
 }

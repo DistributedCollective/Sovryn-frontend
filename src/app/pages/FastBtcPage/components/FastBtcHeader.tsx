@@ -9,7 +9,7 @@ type HeaderProps = {
   address: string;
 };
 
-export const Header: React.FC<HeaderProps> = ({ address }) => {
+export const FastBtcHeader: React.FC<HeaderProps> = ({ address }) => {
   const { t } = useTranslation();
   const blockieImage = useMemo(() => {
     return blockies
@@ -26,7 +26,7 @@ export const Header: React.FC<HeaderProps> = ({ address }) => {
   }, [address]);
 
   return (
-    <div className="tw-absolute tw-whitespace-nowrap tw-top-2 md:tw-top-4 tw-right-4 tw-left-4 tw-z-50 tw-flex tw-flex-row tw-items-center tw-justify-between md:tw-justify-end tw-space-x-4">
+    <header className="tw-absolute tw-whitespace-nowrap tw-top-2 md:tw-top-4 tw-right-4 tw-left-4 tw-z-50 tw-flex tw-flex-row tw-items-center tw-justify-between md:tw-justify-end tw-space-x-4">
       <div className="tw-truncate md:tw-hidden">
         <Link to="/wallet">{t(translations.common.back)}</Link>
       </div>
@@ -36,6 +36,6 @@ export const Header: React.FC<HeaderProps> = ({ address }) => {
           <img className="tw-rounded" src={blockieImage} alt="wallet address" />
         </span>
       </div>
-    </div>
+    </header>
   );
 };
