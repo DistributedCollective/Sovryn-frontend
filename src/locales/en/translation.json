@@ -2194,7 +2194,12 @@
     "collateralBalance": "Collateral Balance",
     "liquidationPrice": "Liquidation Price",
     "collateralRatio": "Collateral Ratio",
-    "amount": "Increase collateral by:"
+    "amount": "Increase collateral by:",
+    "newInfo": "New details:",
+    "review": "Review Transaction",
+    "errors": {
+      "balance": "Please enter an amount equal to or less than the balance of {{asset}} in your address."
+    }
   },
   "openPositionTable": {
     "direction": "Direction",

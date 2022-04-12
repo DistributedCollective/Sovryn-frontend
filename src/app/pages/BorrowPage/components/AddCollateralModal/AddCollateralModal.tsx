@@ -1,12 +1,10 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { bignumber } from 'mathjs';
 import { translations } from 'locales/i18n';
-import { TradingPosition } from '../../../../../types/trading-position';
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { TransactionDialog } from 'app/components/TransactionDialog';
-import { DummyField } from '../../../../components/DummyField';
 import { useApproveAndAddMargin } from '../../../../hooks/trading/useApproveAndAndMargin';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
 import { useCanInteract } from '../../../../hooks/useCanInteract';
@@ -17,10 +15,8 @@ import { AmountInput } from 'app/components/Form/AmountInput';
 import { FormGroup } from 'app/components/Form/FormGroup';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import { discordInvite, MAINTENANCE_MARGIN } from 'utils/classifiers';
+import { discordInvite } from 'utils/classifiers';
 import { weiToAssetNumberFormat } from 'utils/display-text/format';
-import { usePositionLiquidationPrice } from '../../../../hooks/trading/usePositionLiquidationPrice';
-import { toAssetNumberFormat } from 'utils/display-text/format';
 import { LabelValuePair } from 'app/components/LabelValuePair';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import { ActiveLoan } from 'app/hooks/trading/useGetLoan';
@@ -34,12 +30,14 @@ type AddCollateralModalProps = {
   positionSize?: string;
 };
 
+enum Step {
+  FORM,
+  REVIEW,
+}
+
 export const AddCollateralModal: React.FC<AddCollateralModalProps> = ({
   loan: item,
-  onCloseModal,
 }) => {
-  console.log('loan', item);
-
   const canInteract = useCanInteract();
   const tokenDetails = AssetsDictionary.getByTokenContractAddress(
     item?.collateralToken || '',
@@ -48,6 +46,7 @@ export const AddCollateralModal: React.FC<AddCollateralModalProps> = ({
     item?.loanToken || '',
   );
   const [amount, setAmount] = useState('');
+  const [step, setStep] = useState(Step.FORM);
   const { value: balance } = useAssetBalanceOf(tokenDetails.asset);
   const weiAmount = useWeiAmount(amount);
 
@@ -62,19 +61,7 @@ export const AddCollateralModal: React.FC<AddCollateralModalProps> = ({
   const valid = useIsAmountWithinLimits(weiAmount, '1', balance);
   const { t } = useTranslation();
 
-  const currentLiquidationPrice = usePositionLiquidationPrice(
-    item.principal,
-    bignumber(item.collateral).toString(),
-    TradingPosition.SHORT,
-    MAINTENANCE_MARGIN,
-  );
-
-  const liquidationPrice = usePositionLiquidationPrice(
-    item.principal,
-    bignumber(item.collateral).add(weiAmount).toString(),
-    TradingPosition.SHORT,
-    MAINTENANCE_MARGIN,
-  );
+  const currentLiquidationPrice = useMemo(() => '0', []);
 
   const {
     value: principalAsCollateral,
@@ -85,107 +72,246 @@ export const AddCollateralModal: React.FC<AddCollateralModalProps> = ({
     item.principal,
   );
 
-  const collateralRatio = useMemo(
+  const currentCollateralRatio = useMemo(
     () =>
-      bignumber(principalAsCollateral).div(item.collateral).mul(100).toFixed(3),
+      bignumber(item.collateral).div(principalAsCollateral).mul(100).toFixed(3),
     [item.collateral, principalAsCollateral],
   );
 
+  const newCollateralAmount = useMemo(
+    () => bignumber(item.collateral).add(weiAmount).toFixed(0),
+    [item.collateral, weiAmount],
+  );
+
+  const newLiquidationPrice = useMemo(() => '0', []);
+  const newCollateralRatio = useMemo(
+    () =>
+      bignumber(bignumber(item.collateral).add(weiAmount))
+        .div(principalAsCollateral)
+        .mul(100)
+        .toFixed(3),
+    [item.collateral, principalAsCollateral, weiAmount],
+  );
+
+  const handleNextStep = useCallback(() => setStep(Step.REVIEW), []);
+
   return (
     <>
-      <div className="tw-mw-340 tw-mx-auto">
-        <h1 className="tw-text-sov-white tw-text-center">
-          {t(translations.addCollateral.title)}
-        </h1>
+      <div className="tw-w-auto md:tw-mx-7 tw-mx-2">
+        {step === Step.FORM && (
+          <>
+            <h1 className="tw-text-sov-white tw-text-center">
+              {t(translations.addCollateral.title)}
+            </h1>
 
-        <div className="tw-py-4 tw-px-4 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
-          <LabelValuePair
-            label={t(translations.addCollateral.collateralBalance)}
-            value={
-              <>
-                {weiToAssetNumberFormat(item.collateral, tokenDetails.asset)}{' '}
-                <AssetRenderer asset={tokenDetails.asset} />
-              </>
-            }
-          />
-          <LabelValuePair
-            label={t(translations.addCollateral.liquidationPrice)}
-            value={
-              <>
-                {weiToAssetNumberFormat(
-                  currentLiquidationPrice,
-                  tokenDetails.asset,
-                )}{' '}
-                <AssetRenderer asset={tokenDetails.asset} />
-              </>
-            }
-          />
-          <LabelValuePair
-            label={t(translations.addCollateral.collateralRatio)}
-            value={
-              <LoadableValue
-                loading={loadingRate}
-                value={<>{collateralRatio} %</>}
+            <div className="tw-py-4 tw-px-4 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
+              <LabelValuePair
+                label={t(translations.addCollateral.collateralBalance)}
+                value={
+                  <>
+                    {weiToAssetNumberFormat(
+                      item.collateral,
+                      tokenDetails.asset,
+                    )}{' '}
+                    <AssetRenderer asset={tokenDetails.asset} />
+                  </>
+                }
               />
-            }
-          />
-        </div>
-
-        <FormGroup
-          label={t(translations.addCollateral.amount)}
-          className="tw-mb-6"
-        >
-          <AmountInput
-            onChange={setAmount}
-            value={amount}
-            asset={tokenDetails.asset}
-            showBalance={true}
-          />
-        </FormGroup>
-
-        <FormGroup
-          label={t(translations.addToMargin.liquidationPrice)}
-          className="tw-mb-5"
-        >
-          <DummyField>
-            {toAssetNumberFormat(liquidationPrice, tokenDetails.asset)}{' '}
-            <AssetRenderer asset={tokenDetails.asset} />
-          </DummyField>
-        </FormGroup>
-
-        <div className="tw-text-sm tw-mb-3">
-          <TxFeeCalculator
-            args={[item.loanId, weiAmount]}
-            methodName="depositCollateral"
-            contractName="sovrynProtocol"
-          />
-        </div>
-
-        {topupLocked && (
-          <ErrorBadge
-            content={
-              <Trans
-                i18nKey={translations.maintenance.addToMarginTrades}
-                components={[
-                  <a
-                    href={discordInvite}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
-                  >
-                    x
-                  </a>,
-                ]}
+              <LabelValuePair
+                label={'Amount:'}
+                value={
+                  <>
+                    {weiToAssetNumberFormat(
+                      principalAsCollateral,
+                      tokenDetails.asset,
+                    )}{' '}
+                    <AssetRenderer asset={tokenDetails.asset} />
+                  </>
+                }
               />
-            }
-          />
+              <LabelValuePair
+                label={t(translations.addCollateral.liquidationPrice)}
+                value={
+                  <>
+                    {weiToAssetNumberFormat(
+                      currentLiquidationPrice,
+                      tokenDetails.asset,
+                    )}{' '}
+                    <AssetRenderer asset={tokenDetails.asset} />
+                  </>
+                }
+              />
+              <LabelValuePair
+                label={t(translations.addCollateral.collateralRatio)}
+                value={
+                  <LoadableValue
+                    loading={loadingRate}
+                    value={<>{currentCollateralRatio} %</>}
+                  />
+                }
+              />
+            </div>
+
+            <FormGroup
+              label={t(translations.addCollateral.amount)}
+              className="tw-mb-6"
+            >
+              <AmountInput
+                onChange={setAmount}
+                value={amount}
+                asset={tokenDetails.asset}
+                showBalance={true}
+              />
+            </FormGroup>
+
+            {!valid && Number(weiAmount) > 0 && (
+              <ErrorBadge
+                content={t(translations.addCollateral.errors.balance, {
+                  asset: tokenDetails.asset,
+                })}
+              />
+            )}
+
+            <FormGroup
+              label={t(translations.addCollateral.newInfo)}
+              className="tw-mb-6"
+            >
+              <div className="tw-py-4 tw-px-4 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
+                <LabelValuePair
+                  label={t(translations.addCollateral.collateralBalance)}
+                  value={
+                    <>
+                      {weiToAssetNumberFormat(
+                        newCollateralAmount,
+                        tokenDetails.asset,
+                      )}{' '}
+                      <AssetRenderer asset={tokenDetails.asset} />
+                    </>
+                  }
+                />
+                <LabelValuePair
+                  label={t(translations.addCollateral.liquidationPrice)}
+                  value={
+                    <>
+                      {weiToAssetNumberFormat(
+                        newLiquidationPrice,
+                        tokenDetails.asset,
+                      )}{' '}
+                      <AssetRenderer asset={tokenDetails.asset} />
+                    </>
+                  }
+                />
+                <LabelValuePair
+                  label={t(translations.addCollateral.collateralRatio)}
+                  value={
+                    <LoadableValue
+                      loading={loadingRate}
+                      value={<>{newCollateralRatio} %</>}
+                    />
+                  }
+                />
+              </div>
+            </FormGroup>
+
+            <div className="tw-text-sm tw-mb-3">
+              <TxFeeCalculator
+                args={[item.loanId, weiAmount]}
+                methodName="depositCollateral"
+                contractName="sovrynProtocol"
+              />
+            </div>
+
+            {topupLocked && (
+              <ErrorBadge
+                content={
+                  <Trans
+                    i18nKey={translations.maintenance.addToMarginTrades}
+                    components={[
+                      <a
+                        href={discordInvite}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                      >
+                        x
+                      </a>,
+                    ]}
+                  />
+                }
+              />
+            )}
+            <DialogButton
+              confirmLabel={t(translations.common.continue)}
+              onConfirm={handleNextStep}
+              disabled={topupLocked || tx.loading || !valid || !canInteract}
+            />
+          </>
         )}
-        <DialogButton
-          confirmLabel={t(translations.common.confirm)}
-          onConfirm={send}
-          disabled={topupLocked || tx.loading || !valid || !canInteract}
-        />
+
+        {step === Step.REVIEW && (
+          <>
+            <h1 className="tw-text-sov-white tw-text-center">
+              {t(translations.addCollateral.review)}
+            </h1>
+            <div className="tw-pt-3 tw-pb-2 tw-px-6 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
+              <TxFeeCalculator
+                args={[item.loanId, weiAmount]}
+                methodName="depositCollateral"
+                contractName="sovrynProtocol"
+                condition={true}
+                textClassName={'tw-text-gray-10 tw-text-gray-10'}
+              />
+            </div>
+            <p className="tw-text-center tw-text-sm tw-mt-3 tw-mb-2">
+              {t(translations.addCollateral.newInfo)}
+            </p>
+            <div className="tw-py-4 tw-px-4 tw-bg-gray-5 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
+              <LabelValuePair
+                label={t(translations.addCollateral.collateralBalance)}
+                valueClassName="tw-text-right"
+                value={
+                  <>
+                    {weiToAssetNumberFormat(
+                      newCollateralAmount,
+                      tokenDetails.asset,
+                    )}{' '}
+                    <AssetRenderer asset={tokenDetails.asset} />
+                  </>
+                }
+              />
+              <LabelValuePair
+                label={t(translations.addCollateral.liquidationPrice)}
+                valueClassName="tw-text-right"
+                value={
+                  <>
+                    {weiToAssetNumberFormat(
+                      newLiquidationPrice,
+                      tokenDetails.asset,
+                    )}{' '}
+                    <AssetRenderer asset={tokenDetails.asset} />
+                  </>
+                }
+              />
+              <LabelValuePair
+                label={t(translations.addCollateral.collateralRatio)}
+                valueClassName="tw-text-right"
+                value={
+                  <LoadableValue
+                    loading={loadingRate}
+                    value={<>{newCollateralRatio} %</>}
+                  />
+                }
+              />
+            </div>
+            <DialogButton
+              confirmLabel={t(translations.common.confirm)}
+              onConfirm={send}
+              disabled={topupLocked || tx.loading || !valid || !canInteract}
+            />
+          </>
+        )}
       </div>
+
       <TransactionDialog
         fee={
           <TxFeeCalculator
@@ -195,7 +321,6 @@ export const AddCollateralModal: React.FC<AddCollateralModalProps> = ({
           />
         }
         tx={tx}
-        onUserConfirmed={onCloseModal}
       />
     </>
   );
