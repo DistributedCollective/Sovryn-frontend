@@ -59,6 +59,7 @@
     "withdrawLend": "Sorry, lending withdrawals are currently under maintenance, please check our discord (link in footer) for updates.",
     "startBorrow": "Sorry, loan opening is currently under maintenance, please check our discord (link in footer) for updates.",
     "stopBorrow": "Sorry, loan closing is currently under maintenance, please check our discord (link in footer) for updates.",
+    "addCollateralBorrow": "Sorry, adding collateral is currently under maintenance, please check our <0>discord</0> for updates.",
     "addLiquidity": "Sorry, adding liquidity is currently under maintenance, please check our <0>discord</0> for updates.",
     "removeLiquidity": "Sorry, removing liquidity is currently under maintenance, please check our <0>discord</0> for updates.",
     "liquidity": "Sorry, liquidity providing is currently under maintenance, some features may be unavailable. Please check our <0>discord</0> for updates.",
@@ -1372,7 +1373,8 @@
       "interestAPR": "Interest APY",
       "endTimestamp": "Payback until"
     },
-    "repayButton": "Repay"
+    "repayButton": "Repay",
+    "addCollateralButton": "Add collateral"
   },
   "repayPositionForm": {
     "title": "Repay Loan",
@@ -2186,6 +2188,13 @@
     "title": "Add to Margin",
     "amount": "Increase margin by:",
     "liquidationPrice": "Estimated Liquidation price:"
+  },
+  "addCollateral": {
+    "title": "Add Collateral",
+    "collateralBalance": "Collateral Balance",
+    "liquidationPrice": "Liquidation Price",
+    "collateralRatio": "Collateral Ratio",
+    "amount": "Increase collateral by:"
   },
   "openPositionTable": {
     "direction": "Direction",
