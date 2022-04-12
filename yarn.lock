@@ -3873,10 +3873,10 @@
   dependencies:
     debug "^4.3.1"
 
-"@sovryn/perpetual-swap@2.0.4":
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/@sovryn/perpetual-swap/-/perpetual-swap-2.0.4.tgz#320f49daf2063b8a464833ddd517bfa44119b037"
-  integrity sha512-X8DfU8da3rEy57ifbybpCucjW8WOMaL0imvKDfhEbI/2gVVAZgz6o7jxOdWyNntaowj1xpyHwPcSfysLbGNVoQ==
+"@sovryn/perpetual-swap@2.0.5":
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/@sovryn/perpetual-swap/-/perpetual-swap-2.0.5.tgz#790e855a286e48815cbbbc6591880c0e231ebfae"
+  integrity sha512-JDvxZ8L8ENbq4iSsF8axw2kN0h7aYVhJGNQiYVozLK6O520Uv3v/CdslhyHr4k3ZV1PXePd+dizSawa59rVdLg==
   dependencies:
     "@opengsn/provider" "^2.2.4"
     "@openzeppelin/contracts" "3.4.0"
