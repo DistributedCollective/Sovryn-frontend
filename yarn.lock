@@ -3347,14 +3347,14 @@
   dependencies:
     debug "^4.3.1"
 
-"@sovryn/react-wallet@2.1.2":
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/@sovryn/react-wallet/-/react-wallet-2.1.2.tgz#17384b4332b9922468c0e4a9ed6ee0acfa0643d6"
-  integrity sha512-Igx0uMffjHvCaoASBcGG7o1LwGRF/AZkc729yrAvGJWzR2M34MxdksQiiCL8dZnDseD67PII1HRanL01kQa1vQ==
+"@sovryn/react-wallet@2.2.2":
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/@sovryn/react-wallet/-/react-wallet-2.2.2.tgz#0049f746f5ee62d7dd37972b5a39b7a9d184e21c"
+  integrity sha512-zPWFd39HsjDRBVpdgHLv/aIJv3lP+AYWPP1y19zxBm1WxeTCCnlZ0nZgR0+VWYlbr1n0j0dOrg7VwmZodQfaqw==
   dependencies:
     "@blueprintjs/core" "^3.44.2"
     "@hookstate/core" "^3.0.6"
-    "@sovryn/wallet" "^2.1.2"
+    "@sovryn/wallet" "^2.2.1"
     "@types/classnames" "^2.2.11"
     "@types/react-copy-to-clipboard" "^5.0.0"
     caniuse-lite "^1.0.30001287"
@@ -3371,10 +3371,10 @@
     web3 "^1.3.6"
     web3-core "^1.3.6"
 
-"@sovryn/wallet@^2.1.2":
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/@sovryn/wallet/-/wallet-2.1.2.tgz#a80dc3d6caed214b878a69db1dac912cf0c5e151"
-  integrity sha512-F6qHfdraS1x+hnZ3SQ2ZGDeYff1kgWirPWNlB8LifTeYyEzGgrRx1LZTxcMlY2FB8wGblrszEpeMmPosH3+Mag==
+"@sovryn/wallet@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@sovryn/wallet/-/wallet-2.2.1.tgz#c6bc2eeffcd70e7f4b26a7a4c66fd65664b48b64"
+  integrity sha512-tYA6PnQg0kMLDDN0KuOTeK4mJeBoCJjy2sK8zU//vkhMUs5R2lrqf2855kRGvtx/Z/lBwYKmdJLrJG78q5wj0g==
   dependencies:
     "@ledgerhq/hw-app-eth" "^5.53.0"
     "@ledgerhq/hw-transport" "^5.51.1"
@@ -7394,9 +7394,9 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30000981, caniuse-lite@^1.0.30001109, caniuse-lite@^1.0.30001125, caniuse-lite@^1.0.30001181, caniuse-lite@^1.0.30001248, caniuse-lite@^1.0.30001287:
-  version "1.0.30001309"
-  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001309.tgz"
-  integrity sha512-Pl8vfigmBXXq+/yUz1jUwULeq9xhMJznzdc/xwl4WclDAuebcTHVefpz8lE/bMI+UN7TOkSSe7B7RnZd6+dzjA==
+  version "1.0.30001319"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001319.tgz"
+  integrity sha512-xjlIAFHucBRSMUo1kb5D4LYgcN1M45qdKP++lhqowDpwJwGkpIRTt5qQqnhxjj1vHcI7nrJxWhCC1ATrCEBTcw==
 
 capture-exit@^2.0.0:
   version "2.0.0"

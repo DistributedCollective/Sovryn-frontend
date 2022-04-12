@@ -65,4 +65,17 @@ export const parameters = {
     })),
   },
   layout: 'fullscreen',
+
+  options: {
+    storySort: {
+      order: [
+        'Design Guide',
+        'Atoms',
+        'Molecules',
+        'Organisms',
+        'Views',
+        'Pages',
+      ],
+    },
+  },
 };
