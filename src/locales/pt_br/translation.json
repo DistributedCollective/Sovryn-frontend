@@ -27,7 +27,14 @@
     "gasPrice": "Preço gás",
     "gasLimit": "Limite gás",
     "units": "unidades",
-    "txHash": "Tx Hash"
+    "txHash": "Tx Hash",
+    "walletCompatibility": "Carteiras compatíveis"
+  },
+  "tradeEvents": {
+    "CloseWithSwap": "Saída de posição",
+    "Trade": "Abertura de posição",
+    "Liquidate": "Posição liquidada",
+    "DepositCollateral": "Margem aumentada"
   },
   "global": {
     "liquidationPrice": "Preço de liquidação",
@@ -1510,7 +1517,7 @@
       "title": "Negociações recentes",
       "price": "Preço",
       "size": "Tamanho",
-      "time": "Horário",
+      "time": "Data e hora",
       "noTrades": "Sem negociações recentes",
       "long": "C",
       "short": "V"
@@ -1628,13 +1635,15 @@
       "pair": "Par",
       "orderType": "Tipo de ordem",
       "tradeAmount": "Quantidade negociada",
-      "limitPrice": "Preço",
+      "limitPrice": "Preço limite",
       "amountReceive": "Quantidade a receber",
       "duration": "Expira em",
-      "deadline": "Data limite",
+      "deadline": "Validade",
       "actions": "Ação",
       "noData": "Sem dados",
       "filledAmount": "Quantidade inserida",
+      "filledPrice": "Preço de execução",
+      "leverage": "Alavancagem",
       "cta": {
         "edit": "Editar",
         "close": "Fechar"
@@ -2076,6 +2085,15 @@
     "interestAPR": "Juros anual",
     "actions": "Ação",
     "noData": "Sem dados",
+    "rolloverDate": "Rollover Date",
+    "event": "Evento",
+    "amountRepaid": "Amount Repaid",
+    "collateralWithdrawn": "Collateral Withdrawn",
+    "exitPrice": "Preço de saída",
+    "positionChange": "Position Change",
+    "closingPrice": "Preço de fechamento",
+    "timestamp": "Data e hora",
+    "txID": "ID transação",
     "cta": {
       "increase": "Aumentar",
       "margin": "Margem",
@@ -2085,9 +2103,9 @@
     "explainers": {
       "positionMargin": "The portion of your margin that is assigned to the initial margin requirements on your open positions. This is the entry value of all contracts you hold divided by the selected leverage, plus unrealised profit and loss.<br/><br/>If the current margin percentage drops to 15%, your position will be liquidated.",
       "unrealizedPL": "Due to limitations of smart contracts, we only estimate profit between entry and current AMM prices without taking margin increases or partial position withdrawals into consideration.<br/>By hovering over a value, you will see the correct token amount you would receive if you decided to close the position now.",
-      "closingPrice": "The exit price is 95% of the value of the closing price shown. This difference is due to the discount applied as an incentive for liquidators."
+      "closingPrice": "O preço de saída é 95% do valor do preço de fechamento. Esta diferença ocorre devido ao desconto aplicado como incentivo aos liquidatários."
     },
-    "profitTooltip": "Closing position would withdraw one of these:"
+    "profitTooltip": "Ao fechar a posição você pode escolher receber o valor nos ativos abaixo:"
   },
   "claimOriginBanner": {
     "text": "Seu SOV está pronto para ser sacado!",
