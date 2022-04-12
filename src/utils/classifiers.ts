@@ -23,8 +23,8 @@ export const blockExplorers = {
 };
 
 export const rpcNodes = {
-  30: 'https://mainnet.sovryn.app/rpc',
-  31: 'https://testnet.sovryn.app/rpc',
+  30: ['https://mainnet.sovryn.app/rpc', 'https://public-node.rsk.co/'],
+  31: ['https://testnet.sovryn.app/rpc', 'https://public-node.testnet.rsk.co/'],
 };
 
 export const bitocracyUrl =

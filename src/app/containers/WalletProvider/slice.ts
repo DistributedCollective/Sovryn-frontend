@@ -58,6 +58,8 @@ const walletProviderSlice = createSlice({
       state.networkId = action.payload.networkId;
     },
 
+    connectionError() {},
+
     disconnect() {},
 
     disconnected(state) {
@@ -125,6 +127,8 @@ const walletProviderSlice = createSlice({
       state.assetRatesLoaded = true;
     },
     testTransactions() {},
+    sovrynNetworkReady() {},
+    sovrynNetworkError() {},
   },
 });
 

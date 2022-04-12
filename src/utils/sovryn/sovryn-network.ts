@@ -6,14 +6,17 @@ import { store } from 'store/store';
 import { currentChainId, rpcNodes, databaseRpcNodes } from '../classifiers';
 import { appContracts } from '../blockchain/app-contracts';
 import { gas } from '../blockchain/gas-price';
+import { actions } from '../../app/containers/WalletProvider/slice';
 
 export class SovrynNetwork {
   private static _instance?: SovrynNetwork;
   private _store = store;
+  private _retryCount = 0;
 
   private _writeWeb3: Web3 = null as any;
   private _readWeb3: Web3 = null as any;
   private _databaseWeb3: Web3 = null as any;
+  private _connected = false;
   public contracts: { [key: string]: Contract } = {};
   public contractList: Contract[] = [];
   public writeContracts: { [key: string]: Contract } = {};
@@ -22,13 +25,26 @@ export class SovrynNetwork {
   public databaseContractList: Contract[] = [];
 
   constructor() {
+    this.init();
+  }
+
+  private init() {
+    this._connected = false;
+
     this.initReadWeb3(currentChainId)
       .then(async () => {
         const gasPrice = await this.getOnChainGasPrice();
         gas.set(gasPrice);
         this.refreshGasPrice();
+
+        this._connected = true;
+        this._store.dispatch(actions.sovrynNetworkReady());
       })
-      .catch();
+      .catch(error => {
+        console.error(error);
+        setTimeout(() => this.init(), 5000);
+        this._store.dispatch(actions.sovrynNetworkError);
+      });
   }
 
   public static Instance() {
@@ -151,21 +167,15 @@ export class SovrynNetwork {
 
   protected async initReadWeb3(chainId: number) {
     try {
-      if (
-        !this._readWeb3 ||
-        (this._readWeb3 && (await this._readWeb3.eth.getChainId()) !== chainId)
-      ) {
-        const nodeUrl = rpcNodes[chainId];
-        const web3Provider = new Web3.providers.HttpProvider(nodeUrl, {
-          keepAlive: true,
-        });
+      const retry = this._retryCount++;
+      const nodeUrl = rpcNodes[chainId]?.[retry % rpcNodes[chainId].length];
+      const web3Provider = new Web3.providers.HttpProvider(nodeUrl, {
+        keepAlive: true,
+      });
 
+      if (!this._readWeb3) {
         this._readWeb3 = new Web3(web3Provider);
         this._readWeb3.eth.handleRevert = true;
-
-        Array.from(Object.keys(appContracts)).forEach(key => {
-          this.addReadContract(key, appContracts[key]);
-        });
 
         // if (isWebsocket) {
         //   const provider: WebsocketProvider = (this._readWeb3
@@ -179,11 +189,21 @@ export class SovrynNetwork {
         //     this.initReadWeb3(chainId);
         //   });
         // }
+      } else {
+        this._readWeb3.setProvider(web3Provider);
+
+        this.contracts = {};
+        this.contractList = [];
       }
-      this.initDatabaseWeb3(chainId);
-    } catch (e) {
-      console.error('init read web3 fails.');
-      console.error(e);
+
+      Array.from(Object.keys(appContracts)).forEach(key => {
+        this.addReadContract(key, appContracts[key]);
+      });
+
+      await this.initDatabaseWeb3(chainId);
+    } catch (error) {
+      console.error('init read web3 failed.');
+      throw error;
     }
   }
 
@@ -210,7 +230,9 @@ export class SovrynNetwork {
         gas.set(gasPrice);
         this.refreshGasPrice();
       } catch (e) {
-        console.error('gas price update', e);
+        console.error('gas price update failed.', e);
+        this._store.dispatch(actions.sovrynNetworkError());
+        await this.init(); // Connection aborted, try to reconnect
       }
     }, [35e3]); // updates price in 35s intervals (roughly for each block)
   }
