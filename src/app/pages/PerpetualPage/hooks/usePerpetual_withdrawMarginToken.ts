@@ -6,7 +6,6 @@ import {
   PerpetualPairType,
   PerpetualPairDictionary,
 } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
-import { useMemo } from 'react';
 import {
   PERPETUAL_GAS_PRICE_DEFAULT,
   PERPETUAL_CHAIN,
@@ -16,14 +15,8 @@ import { Asset } from '../../../../types';
 import { PerpetualTx } from '../components/TradeDialog/types';
 import { useGsnSendTx } from '../../../hooks/useGsnSendTx';
 
-export const usePerpetual_withdrawMarginToken = (
-  pairType: PerpetualPairType,
-  useGSN: boolean,
-) => {
+export const usePerpetual_withdrawMarginToken = (useGSN: boolean) => {
   const account = useAccount();
-  const perpetualId = useMemo(() => PerpetualPairDictionary.get(pairType)?.id, [
-    pairType,
-  ]);
 
   const { send, ...rest } = useGsnSendTx(
     PERPETUAL_CHAIN,
@@ -39,6 +32,9 @@ export const usePerpetual_withdrawMarginToken = (
       nonce?: number,
       customData?: PerpetualTx,
     ) => {
+      const perpetualId = PerpetualPairDictionary.get(
+        customData?.pair || PerpetualPairType.BTCUSD,
+      )?.id;
       send(
         [perpetualId, weiToABK64x64(amount)],
         {

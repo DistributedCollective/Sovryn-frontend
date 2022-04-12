@@ -26,13 +26,13 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
   changeTo,
 }) => {
   const { t } = useTranslation();
-  const { useMetaTransactions, pairType } = useSelector(selectPerpetualPage);
   const {
     transactions,
     currentTransaction,
     setTransactions,
     setCurrentTransaction,
   } = useContext(TradeDialogContext);
+  const { useMetaTransactions, pairType } = useSelector(selectPerpetualPage);
   const { wallet } = useWalletContext();
   const { execute, txHash, status, reset } = usePerpetual_executeTransaction(
     pairType,
