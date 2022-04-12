@@ -6,8 +6,3 @@
 2. Write your qraphql query/subscription/mutation
    a. make sure to include all required query variables. https://graphql.org/learn/queries/#variables
 3. run `yarn generate:graphql` or `yarn generate:graphql --watch`
-
-## updating the schema
-
-1. run `yarn fetch:graphql`
-2. run `yarn generate:graphql`
