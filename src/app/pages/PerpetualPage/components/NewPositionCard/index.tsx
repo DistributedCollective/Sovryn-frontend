@@ -126,6 +126,12 @@ export const NewPositionCard: React.FC = () => {
     }
   }, [pair.collateralAsset, collateral, dispatch]);
 
+  useEffect(() => {
+    if (pairType !== trade.pairType) {
+      dispatch(actions.setPairType(pairType));
+    }
+  }, [dispatch, pairType, trade.pairType]);
+
   const stepProps: NewPositionCardContextType = useMemo(
     () => ({
       hasOpenPosition,

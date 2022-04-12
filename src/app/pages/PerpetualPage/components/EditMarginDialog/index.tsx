@@ -32,7 +32,6 @@ import { ActionDialogSubmitButton } from '../ActionDialogSubmitButton';
 import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';
 import { getCollateralName } from '../../utils/renderUtils';
 import { perpUtils } from '@sovryn/perpetual-swap';
-import { usePerpetual_getCurrentPairId } from '../../hooks/usePerpetual_getCurrentPairId';
 
 const {
   calculateApproxLiquidationPrice,
@@ -58,14 +57,7 @@ export const EditMarginDialog: React.FC = () => {
 
   const inMaintenance = usePerpetual_isTradingInMaintenance();
 
-  const currentPairId = usePerpetual_getCurrentPairId();
   const { perpetuals } = useContext(PerpetualQueriesContext);
-  const {
-    ammState,
-    traderState,
-    perpetualParameters: perpParameters,
-    availableBalance,
-  } = perpetuals[currentPairId];
 
   const collateralName = useMemo(() => getCollateralName(collateral), [
     collateral,
@@ -79,6 +71,13 @@ export const EditMarginDialog: React.FC = () => {
     () => PerpetualPairDictionary.get(trade?.pairType || currentPairType),
     [trade, currentPairType],
   );
+
+  const {
+    ammState,
+    traderState,
+    perpetualParameters: perpParameters,
+    availableBalance,
+  } = perpetuals[pair.id];
 
   const [mode, setMode] = useState(EditMarginDialogMode.increase);
   const onSelectIncrease = useCallback(
