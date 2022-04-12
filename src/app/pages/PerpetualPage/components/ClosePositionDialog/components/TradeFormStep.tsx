@@ -15,10 +15,7 @@ import { Tooltip, PopoverPosition } from '@blueprintjs/core';
 import { AmountInput } from '../../../../../components/Form/AmountInput';
 import { ClosePositionDialogStep } from '../types';
 import { ClosePositionDialogContext } from '..';
-import {
-  PerpetualPairDictionary,
-  PerpetualPairType,
-} from '../../../../../../utils/dictionaries/perpetual-pair-dictionary';
+import { PerpetualPairDictionary } from '../../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { AssetValue } from '../../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../../components/AssetValue/types';
 import {
@@ -62,9 +59,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
 
   const pair = useMemo(
     () =>
-      PerpetualPairDictionary.get(
-        changedTrade?.pairType || currentPairType || PerpetualPairType.BTCUSD,
-      ),
+      PerpetualPairDictionary.get(changedTrade?.pairType || currentPairType),
     [changedTrade?.pairType, currentPairType],
   );
 

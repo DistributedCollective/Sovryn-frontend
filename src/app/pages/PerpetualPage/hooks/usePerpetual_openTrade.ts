@@ -15,7 +15,6 @@ import {
   PerpetualPairType,
   PerpetualPairDictionary,
 } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
-import { Asset } from '../../../../types';
 import { PerpetualTx } from '../components/TradeDialog/types';
 import { useGsnSendTx } from '../../../hooks/useGsnSendTx';
 import { perpUtils } from '@sovryn/perpetual-swap';
@@ -51,11 +50,11 @@ export const usePerpetual_openTrade = (useGSN: boolean) => {
     ) => {
       const signedAmount = getSignedAmount(tradingPosition, amount);
 
-      const perpetualId = PerpetualPairDictionary.get(
+      const pair = PerpetualPairDictionary.get(
         customData?.pair || PerpetualPairType.BTCUSD,
-      )?.id;
+      );
 
-      const { averagePrice } = perpetuals[perpetualId];
+      const { averagePrice } = perpetuals[pair.id];
 
       let tradeDirection = Math.sign(signedAmount);
 
@@ -68,7 +67,7 @@ export const usePerpetual_openTrade = (useGSN: boolean) => {
       const deadline = Math.round(Date.now() / 1000) + 86400; // 1 day
       const timeNow = Math.round(Date.now() / 1000);
       const order = [
-        perpetualId,
+        pair.id,
         account,
         floatToABK64x64(signedAmount),
         floatToABK64x64(limitPrice),
@@ -90,7 +89,7 @@ export const usePerpetual_openTrade = (useGSN: boolean) => {
         },
         {
           type: TxType.PERPETUAL_TRADE,
-          asset: Asset.BTCS,
+          asset: pair.collateralAsset,
           customData,
         },
       );

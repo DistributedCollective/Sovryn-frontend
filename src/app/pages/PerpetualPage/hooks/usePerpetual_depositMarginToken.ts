@@ -11,7 +11,6 @@ import {
   PERPETUAL_PAYMASTER,
   PERPETUAL_CHAIN,
 } from '../types';
-import { Asset } from '../../../../types';
 import { PerpetualTx } from '../components/TradeDialog/types';
 import { useGsnSendTx } from '../../../hooks/useGsnSendTx';
 
@@ -32,11 +31,11 @@ export const usePerpetual_depositMarginToken = (useGSN: boolean) => {
       nonce?: number,
       customData?: PerpetualTx,
     ) => {
-      const perpetualId = PerpetualPairDictionary.get(
+      const pair = PerpetualPairDictionary.get(
         customData?.pair || PerpetualPairType.BTCUSD,
-      )?.id;
+      );
       await send(
-        [perpetualId, weiToABK64x64(amount)],
+        [pair.id, weiToABK64x64(amount)],
         {
           from: account,
           gas: gasLimit[TxType.PERPETUAL_DEPOSIT_COLLATERAL],
@@ -45,7 +44,7 @@ export const usePerpetual_depositMarginToken = (useGSN: boolean) => {
         },
         {
           type: TxType.PERPETUAL_DEPOSIT_COLLATERAL,
-          asset: Asset.BTCS,
+          asset: pair.collateralAsset,
           customData,
         },
       );

@@ -11,7 +11,6 @@ import {
   PERPETUAL_CHAIN,
   PERPETUAL_PAYMASTER,
 } from '../types';
-import { Asset } from '../../../../types';
 import { PerpetualTx } from '../components/TradeDialog/types';
 import { useGsnSendTx } from '../../../hooks/useGsnSendTx';
 
@@ -42,7 +41,7 @@ export const usePerpetual_withdrawAll = (useGSN: boolean) => {
           },
           {
             type: TxType.PERPETUAL_WITHDRAW_COLLATERAL,
-            asset: Asset.BTCS,
+            asset: pair.collateralAsset,
             customData,
           },
         );

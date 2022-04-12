@@ -11,7 +11,6 @@ import {
   PerpetualTxMethods,
 } from '../components/TradeDialog/types';
 import { ResetTxResponseInterface } from '../../../hooks/useSendContractTx';
-import { PerpetualPairType } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 
 export const usePerpetual_executeTransaction = (useGSN: boolean) => {
   // TODO: find a nicer solution only this hooks should ever be used anyway
