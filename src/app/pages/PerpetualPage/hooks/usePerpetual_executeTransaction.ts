@@ -11,26 +11,18 @@ import {
   PerpetualTxMethods,
 } from '../components/TradeDialog/types';
 import { ResetTxResponseInterface } from '../../../hooks/useSendContractTx';
-import { PerpetualPairType } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 
-export const usePerpetual_executeTransaction = (
-  pairType: PerpetualPairType,
-  useGSN: boolean,
-) => {
+export const usePerpetual_executeTransaction = (useGSN: boolean) => {
   // TODO: find a nicer solution only this hooks should ever be used anyway
-  const { trade, ...tradeRest } = usePerpetual_openTrade(pairType, useGSN);
-  const { deposit, ...depositRest } = usePerpetual_depositMarginToken(
-    pairType,
-    useGSN,
-  );
+  const { trade, ...tradeRest } = usePerpetual_openTrade(useGSN);
+  const { deposit, ...depositRest } = usePerpetual_depositMarginToken(useGSN);
   const { withdraw, ...withdrawRest } = usePerpetual_withdrawMarginToken(
-    pairType,
     useGSN,
   );
   const {
     withdraw: withdrawAll,
     ...withdrawAllRest
-  } = usePerpetual_withdrawAll(pairType, useGSN);
+  } = usePerpetual_withdrawAll(useGSN);
 
   const [transaction, setTransaction] = useState<PerpetualTx>();
 

@@ -11,18 +11,11 @@ import {
   PERPETUAL_CHAIN,
   PERPETUAL_PAYMASTER,
 } from '../types';
-import { Asset } from '../../../../types';
 import { PerpetualTx } from '../components/TradeDialog/types';
 import { useGsnSendTx } from '../../../hooks/useGsnSendTx';
 
-export const usePerpetual_withdrawAll = (
-  pairType: PerpetualPairType,
-  useGSN: boolean,
-) => {
+export const usePerpetual_withdrawAll = (useGSN: boolean) => {
   const account = useAccount();
-  const perpetualId = useMemo(() => PerpetualPairDictionary.get(pairType)?.id, [
-    pairType,
-  ]);
 
   const { send, ...rest } = useGsnSendTx(
     PERPETUAL_CHAIN,
@@ -35,8 +28,11 @@ export const usePerpetual_withdrawAll = (
   return useMemo(
     () => ({
       withdraw: async (nonce?: number, customData?: PerpetualTx) => {
+        const pair = PerpetualPairDictionary.get(
+          customData?.pair || PerpetualPairType.BTCUSD,
+        );
         send(
-          [perpetualId],
+          [pair.id],
           {
             from: account,
             gas: gasLimit[TxType.PERPETUAL_WITHDRAW_COLLATERAL],
@@ -45,7 +41,7 @@ export const usePerpetual_withdrawAll = (
           },
           {
             type: TxType.PERPETUAL_WITHDRAW_COLLATERAL,
-            asset: Asset.BTCS,
+            asset: pair.collateralAsset,
             customData,
           },
         );
@@ -56,6 +52,6 @@ export const usePerpetual_withdrawAll = (
       status: rest.status,
       reset: rest.reset,
     }),
-    [perpetualId, account, send, rest],
+    [account, send, rest],
   );
 };

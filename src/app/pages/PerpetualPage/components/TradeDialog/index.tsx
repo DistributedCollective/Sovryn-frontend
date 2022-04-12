@@ -80,7 +80,6 @@ export const TradeDialog: React.FC = () => {
   const { modal, modalOptions } = useSelector(selectPerpetualPage);
 
   const { perpetuals } = useContext(PerpetualQueriesContext);
-
   const { origin, trade, transactions: requestedTransactions } = useMemo(
     () =>
       isPerpetualTradeReview(modalOptions)

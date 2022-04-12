@@ -74,7 +74,8 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
 
     if (current?.method === PerpetualTxMethods.deposit) {
       return [current, current.amount];
-    } else if (current?.method === PerpetualTxMethods.trade) {
+    }
+    if (current?.method === PerpetualTxMethods.trade) {
       return [current, toWei(orderCost * 1.1)]; // add 10% to allow for market deviation
     }
     return [undefined, '0'];
