@@ -25,7 +25,6 @@ import { backendUrl, currentChainId } from '../../../utils/classifiers';
 // start block watcher
 function createBlockPollChannel({ interval }) {
   return eventChannel(emit => {
-    const stamp = Date.now().toString(16).slice(-3);
     const web3 = Sovryn.getWeb3();
     const provider = web3.currentProvider as any;
     provider.sendAsync = provider.send;
