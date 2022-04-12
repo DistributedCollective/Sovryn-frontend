@@ -48,7 +48,9 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  const { useMetaTransactions } = useSelector(selectPerpetualPage);
+  const { useMetaTransactions, pairType: currentPairType } = useSelector(
+    selectPerpetualPage,
+  );
 
   const inMaintenance = usePerpetual_isTradingInMaintenance();
 
@@ -56,11 +58,15 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     ClosePositionDialogContext,
   );
 
-  const tradePair = PerpetualPairDictionary.get(
-    trade?.pairType || PerpetualPairType.BTCUSD,
-  );
-  const currentPairId = tradePair.id;
   const { perpetuals } = useContext(PerpetualQueriesContext);
+
+  const pair = useMemo(
+    () =>
+      PerpetualPairDictionary.get(
+        changedTrade?.pairType || currentPairType || PerpetualPairType.BTCUSD,
+      ),
+    [changedTrade?.pairType, currentPairType],
+  );
 
   const {
     ammState,
@@ -70,15 +76,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     lotSize,
     lotPrecision,
     availableBalance,
-  } = perpetuals[currentPairId];
-
-  const pair = useMemo(
-    () =>
-      PerpetualPairDictionary.get(
-        changedTrade?.pairType || PerpetualPairType.BTCUSD,
-      ),
-    [changedTrade?.pairType],
-  );
+  } = perpetuals[pair.id];
 
   const collateralName = useMemo(
     () => getCollateralName(pair.collateralAsset),
