@@ -16,12 +16,16 @@ import { FormGroup } from 'app/components/Form/FormGroup';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
-import { weiToAssetNumberFormat } from 'utils/display-text/format';
+import {
+  toAssetNumberFormat,
+  weiToAssetNumberFormat,
+} from 'utils/display-text/format';
 import { LabelValuePair } from 'app/components/LabelValuePair';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import { ActiveLoan } from 'app/hooks/trading/useGetLoan';
 import { useDenominateAssetAmount } from 'app/hooks/trading/useDenominateAssetAmount';
 import { LoadableValue } from 'app/components/LoadableValue';
+import { calculateLiquidationPrice } from './utils';
 
 type AddCollateralModalProps = {
   loan: ActiveLoan;
@@ -61,8 +65,6 @@ export const AddCollateralModal: React.FC<AddCollateralModalProps> = ({
   const valid = useIsAmountWithinLimits(weiAmount, '1', balance);
   const { t } = useTranslation();
 
-  const currentLiquidationPrice = useMemo(() => '0', []);
-
   const {
     value: principalAsCollateral,
     loading: loadingRate,
@@ -78,12 +80,31 @@ export const AddCollateralModal: React.FC<AddCollateralModalProps> = ({
     [item.collateral, principalAsCollateral],
   );
 
+  const currentLiquidationPrice = useMemo(
+    () =>
+      calculateLiquidationPrice(
+        item.principal,
+        item.collateral,
+        currentCollateralRatio,
+      ),
+    [currentCollateralRatio, item.collateral, item.principal],
+  );
+
   const newCollateralAmount = useMemo(
     () => bignumber(item.collateral).add(weiAmount).toFixed(0),
     [item.collateral, weiAmount],
   );
 
-  const newLiquidationPrice = useMemo(() => '0', []);
+  const newLiquidationPrice = useMemo(
+    () =>
+      calculateLiquidationPrice(
+        item.principal,
+        bignumber(item.collateral).add(weiAmount).toString(),
+        currentCollateralRatio,
+      ),
+    [currentCollateralRatio, item.collateral, item.principal, weiAmount],
+  );
+
   const newCollateralRatio = useMemo(
     () =>
       bignumber(bignumber(item.collateral).add(weiAmount))
@@ -133,11 +154,11 @@ export const AddCollateralModal: React.FC<AddCollateralModalProps> = ({
                 label={t(translations.addCollateral.liquidationPrice)}
                 value={
                   <>
-                    {weiToAssetNumberFormat(
+                    {toAssetNumberFormat(
                       currentLiquidationPrice,
-                      tokenDetails.asset,
+                      loanToken.asset,
                     )}{' '}
-                    <AssetRenderer asset={tokenDetails.asset} />
+                    <AssetRenderer asset={loanToken.asset} />
                   </>
                 }
               />
@@ -193,11 +214,11 @@ export const AddCollateralModal: React.FC<AddCollateralModalProps> = ({
                   label={t(translations.addCollateral.liquidationPrice)}
                   value={
                     <>
-                      {weiToAssetNumberFormat(
+                      {toAssetNumberFormat(
                         newLiquidationPrice,
-                        tokenDetails.asset,
+                        loanToken.asset,
                       )}{' '}
-                      <AssetRenderer asset={tokenDetails.asset} />
+                      <AssetRenderer asset={loanToken.asset} />
                     </>
                   }
                 />
@@ -284,11 +305,8 @@ export const AddCollateralModal: React.FC<AddCollateralModalProps> = ({
                 valueClassName="tw-text-right"
                 value={
                   <>
-                    {weiToAssetNumberFormat(
-                      newLiquidationPrice,
-                      tokenDetails.asset,
-                    )}{' '}
-                    <AssetRenderer asset={tokenDetails.asset} />
+                    {toAssetNumberFormat(newLiquidationPrice, loanToken.asset)}{' '}
+                    <AssetRenderer asset={loanToken.asset} />
                   </>
                 }
               />
