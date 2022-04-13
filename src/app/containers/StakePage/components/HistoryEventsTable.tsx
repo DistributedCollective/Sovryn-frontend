@@ -60,11 +60,11 @@ export function HistoryEventsTable() {
 
   return (
     <>
-      <div className="history-table tw-bg-gray-1 tw-rounded-b tw-mb-10">
-        <p className="tw-font-normal tw-text-lg tw-ml-6 tw-mb-1 tw-mt-16">
-          {t(translations.stake.history.title)}
-        </p>
-        <div className="tw-rounded-lg tw-sovryn-table tw-pt-1 tw-pb-0 tw-pr-5 tw-pl-5 tw-mb-5">
+      <p className="tw-font-semibold tw-text-lg tw-mb-4 tw-mt-6">
+        {t(translations.stake.history.title)}
+      </p>
+      <div className="tw-bg-gray-1 tw-rounded-b tw-shadow">
+        <div className="tw-rounded-lg sovryn-table tw-pt-1 tw-mb-5 max-h-96 tw-overflow-y-auto tw-pb-4">
           <StyledTable className="tw-w-full">
             <thead>
               <tr>

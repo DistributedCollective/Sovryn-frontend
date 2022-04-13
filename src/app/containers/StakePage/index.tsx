@@ -376,10 +376,10 @@ const InnerStakePage: React.FC = () => {
       <main>
         <div className="tw-bg-gray-1 tw-tracking-normal">
           <div className="tw-container tw-mx-auto tw-px-6">
-            <h2 className="tw-text-sov-white tw-pt-8 tw-pb-5 tw-pl-10">
+            <h2 className="tw-text-sov-white tw-pt-8 tw-pb-5">
               {t(translations.stake.title)}
             </h2>
-            <div className="lg:tw-flex tw-items-stretch tw-justify-around tw-mt-2">
+            <div className="lg:tw-flex tw-items-stretch tw-justify-between tw-mt-2">
               <div className="tw-staking-box tw-bg-gray-3 tw-p-8 tw-pb-6 tw-mb-5 tw-rounded-2xl lg:tw-w-1/3 lg:tw-mx-2 lg:tw-mb-0 2xl:tw-w-1/4">
                 <p className="tw-text-lg tw--mt-1">
                   {t(translations.stake.total)}
