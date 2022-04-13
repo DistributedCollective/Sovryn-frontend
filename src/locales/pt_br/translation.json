@@ -1592,7 +1592,7 @@
       "market": "Mercado",
       "limit": "Limitada",
       "advancedSettings": "Configurações avançadas",
-      "limitPrice": "Preço máximo:",
+      "limitPrice": "Preço limite:",
       "limitPriceTooltip": "O preço final de ordens limitadas é impactado por alguns fatores que fazem com que o preço não reflita exatamente ao preço inserido.",
       "receive": "Receber:",
       "amount": "Quantidade:",
