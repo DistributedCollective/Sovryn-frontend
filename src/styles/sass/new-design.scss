@@ -66,7 +66,7 @@
     }
 
     &:first-of-type {
-      @apply tw-border-t-0
+      @apply tw-border-t-0;
     }
 
     &.table-header {

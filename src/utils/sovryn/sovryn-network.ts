@@ -6,14 +6,18 @@ import { store } from 'store/store';
 import { currentChainId, rpcNodes, databaseRpcNodes } from '../classifiers';
 import { appContracts } from '../blockchain/app-contracts';
 import { gas } from '../blockchain/gas-price';
+import { actions } from '../../app/containers/WalletProvider/slice';
 
 export class SovrynNetwork {
   private static _instance?: SovrynNetwork;
   private _store = store;
+  private _retryCount = 0;
 
   private _writeWeb3: Web3 = null as any;
   private _readWeb3: Record<number, Web3> = {};
   private _databaseWeb3: Record<number, Web3> = {};
+  private _connected = false;
+
   public contracts: { [key: string]: Contract } = {};
   public contractList: Contract[] = [];
   public writeContracts: { [key: string]: Contract } = {};
@@ -22,13 +26,26 @@ export class SovrynNetwork {
   public databaseContractList: Contract[] = [];
 
   constructor() {
+    this.init();
+  }
+
+  private init() {
+    this._connected = false;
+
     this.initReadWeb3(currentChainId)
       .then(async () => {
         const gasPrice = await this.getOnChainGasPrice();
         gas.set(gasPrice);
         this.refreshGasPrice();
+
+        this._connected = true;
+        this._store.dispatch(actions.sovrynNetworkReady());
       })
-      .catch();
+      .catch(error => {
+        console.error(error);
+        setTimeout(() => this.init(), 5000);
+        this._store.dispatch(actions.sovrynNetworkError);
+      });
   }
 
   public static Instance() {
@@ -97,7 +114,7 @@ export class SovrynNetwork {
   ) {
     const chainId = contractConfig.chainId || currentChainId;
     if (!this._readWeb3[chainId]) {
-      const nodeUrl = rpcNodes[chainId];
+      const nodeUrl = this.getNodeUrl(chainId);
       const web3Provider = new Web3.providers.HttpProvider(nodeUrl, {
         keepAlive: true,
       });
@@ -177,19 +194,41 @@ export class SovrynNetwork {
 
   protected async initReadWeb3(chainId: number) {
     try {
-      if (
-        !this._readWeb3[chainId] ||
-        (this._readWeb3[chainId] &&
-          (await this._readWeb3[chainId].eth.getChainId()) !== chainId)
-      ) {
-        Object.keys(appContracts).forEach(key => {
-          this.addReadContract(key, appContracts[key]);
-        });
+      const nodeUrl = this.getNodeUrl(chainId);
+      const web3Provider = new Web3.providers.HttpProvider(nodeUrl, {
+        keepAlive: true,
+      });
+
+      if (!this._readWeb3[chainId]) {
+        this._readWeb3[chainId] = new Web3(web3Provider);
+        this._readWeb3[chainId].eth.handleRevert = true;
+        // if (isWebsocket) {
+        //   const provider: WebsocketProvider = (this._readWeb3
+        //     .currentProvider as unknown) as WebsocketProvider;
+
+        //   provider.on('end', () => {
+        //     provider.removeAllListeners('end');
+        //     this.contracts = {};
+        //     this.contractList = [];
+        //     this._readWeb3 = undefined as any;
+        //     this.initReadWeb3(chainId);
+        //   });
+        // }
+      } else {
+        this._readWeb3[chainId].setProvider(web3Provider);
+
+        this.contracts = {};
+        this.contractList = [];
       }
-      this.initDatabaseWeb3(chainId);
-    } catch (e) {
-      console.error('init read web3 fails.');
-      console.error(e);
+
+      Array.from(Object.keys(appContracts)).forEach(key => {
+        this.addReadContract(key, appContracts[key]);
+      });
+
+      await this.initDatabaseWeb3(chainId);
+    } catch (error) {
+      console.error('init read web3 failed.');
+      throw error;
     }
   }
 
@@ -211,8 +250,15 @@ export class SovrynNetwork {
         gas.set(gasPrice);
         this.refreshGasPrice();
       } catch (e) {
-        console.error('gas price update', e);
+        console.error('gas price update failed.', e);
+        this._store.dispatch(actions.sovrynNetworkError());
+        await this.init(); // Connection aborted, try to reconnect
       }
     }, [35e3]); // updates price in 35s intervals (roughly for each block)
+  }
+
+  private getNodeUrl(chainId: number) {
+    const retry = this._retryCount++;
+    return rpcNodes[chainId]?.[retry % rpcNodes[chainId].length];
   }
 }

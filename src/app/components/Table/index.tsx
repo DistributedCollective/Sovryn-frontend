@@ -87,7 +87,7 @@ export const Table = <RowType extends RowObject>({
                       column.className,
                     )}
                   >
-                    {column.title}
+                    {column.title || column.id}
                   </th>
                 ),
               )}

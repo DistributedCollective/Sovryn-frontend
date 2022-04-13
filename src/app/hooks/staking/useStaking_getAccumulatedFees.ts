@@ -10,7 +10,7 @@ export function useStaking_getAccumulatedFees(
   return useCacheCallWithValue(
     getFeeSharingProxyContractName(useNewContract),
     'getAccumulatedFees',
-    !!address && address !== ethGenesisAddress,
+    '0',
     address || ethGenesisAddress,
     token || ethGenesisAddress,
   );

@@ -17,7 +17,7 @@ export class MarginPair {
     public readonly collateralAsset: Asset,
     public readonly config: MarginPairConfig,
     public readonly deprecated: boolean = false,
-  ) { }
+  ) {}
 
   public getContractForPosition(position: TradingPosition) {
     return position === TradingPosition.LONG ? this.quoteAsset : this.baseAsset;
