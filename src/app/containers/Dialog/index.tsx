@@ -4,12 +4,6 @@ import { ComponentSkeleton } from '../../components/PageSkeleton';
 import styles from './dialog.module.scss';
 import classNames from 'classnames';
 
-export enum DialogSize {
-  sm = 'sm',
-  md = 'md',
-  lg = 'lg',
-}
-
 type DialogProps = {
   isOpen: boolean;
   onClose: () => void;
@@ -18,38 +12,36 @@ type DialogProps = {
   canEscapeKeyClose?: boolean;
   canOutsideClickClose?: boolean;
   className?: string;
-  size?: DialogSize;
+  dataAttribute?: string;
 };
 
 export const Dialog: React.FC<DialogProps> = ({
   isOpen,
   onClose,
-  isCloseButtonShown,
+  isCloseButtonShown = true,
   children,
   canEscapeKeyClose,
   canOutsideClickClose,
-  className,
-  size = DialogSize.sm,
+  className = styles.dialog,
+  dataAttribute,
 }) => (
   <BPDialog
     isOpen={isOpen}
     onClose={onClose}
     canEscapeKeyClose={canEscapeKeyClose}
     canOutsideClickClose={canOutsideClickClose}
-    className={classNames(className, styles[size])}
+    className={classNames(styles.dialog, className)}
   >
     {isCloseButtonShown && (
-      <button data-close="" className="dialog-close" onClick={onClose}>
+      <button
+        data-action-id={dataAttribute}
+        data-close
+        className="dialog-close"
+        onClick={onClose}
+      >
         <span className="tw-sr-only">Close Dialog</span>
       </button>
     )}
     <Suspense fallback={<ComponentSkeleton lines={4} />}>{children}</Suspense>
   </BPDialog>
 );
-
-Dialog.defaultProps = {
-  className: styles.dialog,
-  size: DialogSize.sm,
-  isCloseButtonShown: true,
-  onClose: () => {},
-};

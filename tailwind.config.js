@@ -134,7 +134,8 @@ module.exports = {
     },
   },
   variants: {
-    opacity: ['responsive', 'hover'],
+    opacity: ['responsive', 'hover', 'active', 'focus'],
+    zIndex: ['hover', 'active', 'focus'],
     extend: {},
   },
   corePlugins: {

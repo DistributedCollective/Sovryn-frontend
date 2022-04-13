@@ -221,33 +221,6 @@
     "hintTwo": "Recarga tu cartera con",
     "hintThree": "¡y empieza!"
   },
-  "notificationFormContainer": {
-    "want": "¿Deseas recibir notificaciones por correo sobre alertas de tus posiciones de margen y posiciones liquidadas?",
-    "update": "Actualiza el nombre o la dirección de correo asociados con esta dirección de cartera.",
-    "receive": "Me gustaría recibir correos sobre actualizaciones y nuevas características de Sovryn",
-    "emailSettingsBtn_update": "Update email settings",
-    "emailSettingsBtn_get": "Get email notifications",
-    "dialog": {
-      "title": "Email Notifications",
-      "form": {
-        "name": {
-          "label": "Name / Pseudonym",
-          "info": "(required)",
-          "placeholder": "name / pseudonym"
-        },
-        "email": {
-          "label": "Email Address",
-          "info": "(required)",
-          "placeholder": "email@email.com"
-        }
-      },
-      "wantBtn": "submit",
-      "updateBtn": "update",
-      "error": "There was an error submitting your form"
-    },
-    "updated_success": "You will now receive email notifications about margin calls and liquidated positions.",
-    "updated_success_user": "Your details have been updated."
-  },
   "whiteListedNotification": {
     "text": "Your wallet is not authorised to use the Sovryn Dapp. All interactions are disabled until you switch to an authorised wallet or authorise this wallet. Wallets are automatically authorised if they contain SOV (including vested or staked SOV). Documentation about the Sovryn dapp is available at the <0>wiki</0>."
   },

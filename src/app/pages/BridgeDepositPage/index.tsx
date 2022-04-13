@@ -25,7 +25,7 @@ import './styles.scss';
 import { SidebarSteps } from './components/SidebarSteps';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { usePageActions } from 'app/containers/PageContainer';
 
 const dirtyDepositAsset = {
@@ -90,7 +90,7 @@ export const BridgeDepositPage: React.FC = () => {
         style={{ marginTop: '-4.4rem' }}
       >
         <div
-          className={cn(
+          className={classNames(
             'tw-relative tw-z-50 tw-h-full tw-flex tw-flex-col tw-items-start tw-justify-center tw-pl-8',
             { invisible: requestedReturnToPortfolio },
           )}

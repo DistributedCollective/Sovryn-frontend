@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import dayjs from 'dayjs';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { FullVesting } from './types';
 import { weiToNumberFormat } from '../../../../utils/display-text/format';
 import { AssetSymbolRenderer } from '../../AssetSymbolRenderer';
@@ -34,7 +34,7 @@ export const VestingUnlockScheduleDialog: React.FC<VestingUnlockScheduleDialogPr
           {schedule.map((item, index) => (
             <div
               key={item.date}
-              className={cn(
+              className={classNames(
                 'tw-mt-2 tw-flex tw-flex-row tw-justify-between tw-items-center tw-space-x-4 tw-text-xs',
                 item.unlocked && 'tw-line-through',
               )}

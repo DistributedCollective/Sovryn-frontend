@@ -28,6 +28,9 @@ import VestingRegistryAbi from './abi/VestingRegistry.json';
 import VestingRegistryOriginAbi from './abi/VestingRegistryOrigin.json';
 import SovrynProtocolAbi from './abi/sovrynProtocol.json';
 import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
+import SettlementAbi from './abi/Settlement.json';
+import OrderBookAbi from './abi/OrderBook.json';
+import OrderBookMarginAbi from './abi/OrderBookMargin.json';
 import nftAbi from './abi/nftAbi.json';
 import MYNTControllerAbi from './abi/MYNTController.json';
 import MYNTTokenAbi from './abi/MYNT_token.json';
@@ -272,6 +275,18 @@ export const contracts = {
   babelfishAggregator: {
     address: '0x1572D7E4a78A8AD14AE722E6fE5f5600a2c7A149',
     abi: BabelfishAggregatorAbi,
+  },
+  orderBook: {
+    address: '0xfD4D1FBFC652f5b3D98881b9346635399F1e6254',
+    abi: OrderBookAbi,
+  },
+  orderBookMargin: {
+    address: '0x1213B6D3552DA46dF4767EeD8cb2d0BD7D8e913d',
+    abi: OrderBookMarginAbi,
+  },
+  settlement: {
+    address: '0x4dfb9ab1653Eb5A295109E02e37fc222D85fdA74',
+    abi: SettlementAbi,
   },
   sovrynNFT: {
     address: '0x576ae218aecfd4cbd2dbe07250b47e26060932b1', // todo

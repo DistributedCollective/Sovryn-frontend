@@ -56,6 +56,8 @@ export enum TxType {
   PERPETUAL_DEPOSIT_COLLATERAL = 'perpetual_deposit_collateral',
   PERPETUAL_WITHDRAW_COLLATERAL = 'perpetual_withdraw_collateral',
   PERPETUAL_TRADE = 'perpetual_trade',
+  LIMIT_ORDER = 'limit_order',
+  SETTLEMENT_WITDHRAW = 'settlement_withdraw',
 }
 
 export enum TxStatus {

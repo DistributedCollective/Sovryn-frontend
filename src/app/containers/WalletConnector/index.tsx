@@ -124,6 +124,7 @@ const WalletConnectorContainer: React.FC<Props> = ({
                     icon="log-out"
                     className={styles.logout}
                     onClick={() => disconnect()}
+                    data-action-id="logout-button"
                   />
                 </span>
               </div>

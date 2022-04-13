@@ -24,6 +24,10 @@ const slice = createSlice({
       state.transactionStack.push(payload.transactionHash);
       state.transactions[payload.transactionHash] = payload;
     },
+    removeTransactions(state) {
+      state.transactionStack = [];
+      state.transactions = {};
+    },
     updateTransactionStatus(
       state,
       { payload }: PayloadAction<{ transactionHash: string; status: TxStatus }>,

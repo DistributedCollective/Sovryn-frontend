@@ -1,42 +1,56 @@
 import React, { useMemo } from 'react';
 import { Trans } from 'react-i18next';
+import classNames from 'classnames';
 import { Asset } from 'types/asset';
 import { translations } from 'locales/i18n';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { fromWei } from 'utils/blockchain/math-helpers';
-import { weiToNumberFormat } from 'utils/display-text/format';
+import { weiToAssetNumberFormat } from 'utils/display-text/format';
 import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
 import { LoadableValue } from '../LoadableValue';
 import { AssetRenderer } from '../AssetRenderer';
+import styles from './index.module.scss';
 
-interface Props {
+interface IAvailableBalanceProps {
   asset: Asset;
-  dataAttribute?: string;
+  className?: string;
+  dataActionId?: string;
 }
 
-export function AvailableBalance(props: Props) {
-  const { value, loading } = useAssetBalanceOf(props.asset);
-  const asset = useMemo(() => AssetsDictionary.get(props.asset), [props.asset]);
+export const AvailableBalance: React.FC<IAvailableBalanceProps> = ({
+  asset,
+  className,
+  dataActionId,
+}) => {
+  const { value, loading } = useAssetBalanceOf(asset);
+  const assetDetails = useMemo(() => AssetsDictionary.get(asset), [asset]);
   return (
-    <div className="tw-mb-8 tw-truncate tw-text-xs tw-font-normal tw-tracking-normal">
+    <div
+      className={classNames(styles.balance, className)}
+      data-action-id={dataActionId}
+    >
       <Trans
         i18nKey={translations.marginTradePage.tradeForm.labels.balance}
         components={[
           <LoadableValue
             value={
-              <div data-action-id={props.dataAttribute}>
-                {weiToNumberFormat(value, 6)}
-              </div>
+              <span
+                data-action-id={dataActionId}
+                className="tw-font-semibold tw-ml-1"
+              >
+                {weiToAssetNumberFormat(value, assetDetails.asset)}{' '}
+                <AssetRenderer asset={assetDetails.asset} />
+              </span>
             }
             loading={loading}
             tooltip={
-              <>
-                {fromWei(value)} <AssetRenderer asset={asset.asset} />
-              </>
+              <div className="tw-font-semibold">
+                {fromWei(value)} <AssetRenderer asset={assetDetails.asset} />
+              </div>
             }
           />,
         ]}
       />
     </div>
   );
-}
+};

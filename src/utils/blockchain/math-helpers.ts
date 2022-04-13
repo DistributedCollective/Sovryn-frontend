@@ -25,26 +25,30 @@ export const weiToBigInt = (amount: any) => {
 };
 
 export const roundToSmaller = (amount: any, decimals: number): string => {
-  if (amount === Infinity) {
-    amount = '0';
-  }
-  const bn = bignumber(amount || '0');
-  let [integer, decimal] = bn.toFixed(128).split('.');
+  try {
+    amount = toValidNumberishValue(amount);
+    const bn = bignumber(amount);
+    let [integer, decimal] = bn.toFixed(128).split('.');
 
-  if (decimal && decimal.length) {
-    decimal = decimal.substr(0, decimals);
-  } else {
-    decimal = '0'.repeat(decimals);
-  }
+    if (decimal && decimal.length) {
+      decimal = decimal.substr(0, decimals);
+    } else {
+      decimal = '0'.repeat(decimals);
+    }
 
-  if (decimal.length < decimals) {
-    decimal = decimal + '0'.repeat(decimals - decimal.length);
-  }
+    if (decimal.length < decimals) {
+      decimal = decimal + '0'.repeat(decimals - decimal.length);
+    }
 
-  if (decimal !== '') {
-    return `${integer}.${decimal}`;
+    if (decimal !== '') {
+      return `${integer}.${decimal}`;
+    }
+    return `${integer}`;
+  } catch (e) {
+    throw new Error(
+      `roundToSmaller crashed with amount: ${amount} and decimals: ${decimals}`,
+    );
   }
-  return `${integer}`;
 };
 
 export const fromWei = (amount: any, unit: Unit = 'ether') => {
@@ -60,7 +64,10 @@ export const fromWei = (amount: any, unit: Unit = 'ether') => {
       throw new Error('Unsupported unit (custom fromWei helper)');
   }
 
-  return roundToSmaller(bignumber(amount || '0').div(10 ** decimals), decimals);
+  return roundToSmaller(
+    bignumber(toValidNumberishValue(amount)).div(10 ** decimals),
+    decimals,
+  );
 };
 
 export const numberFromWei = (amount: any, unit: Unit = 'ether') => {
@@ -80,9 +87,28 @@ export const toWei = (amount: any, unit: Unit = 'ether') => {
       throw new Error('Unsupported unit (custom toWei helper)');
   }
 
-  return roundToSmaller(bignumber(amount || '0').mul(10 ** decimals), 0);
+  return roundToSmaller(
+    bignumber(toValidNumberishValue(amount)).mul(10 ** decimals),
+    0,
+  );
 };
 
 export const trimZero = (amount: string) => {
   return amount.replace(/([0-9]+(\.[0-9]+[1-9])?)(\.?0+$)/, '$1');
 };
+
+export const isValidNumerishValue = (value: any) => {
+  if (
+    value === Infinity ||
+    Number(value) <= 0 ||
+    isNaN(Number(value)) ||
+    value === undefined ||
+    value === null
+  ) {
+    return false;
+  }
+  return true;
+};
+
+export const toValidNumberishValue = (value: any): string =>
+  isValidNumerishValue(value) ? bignumber(value).toString() : '0';

@@ -6,14 +6,13 @@ import { fromWei } from '../../../../utils/blockchain/math-helpers';
 import { AssetRenderer } from '../../AssetRenderer';
 import { AssetSelect } from 'app/components/AssetSelect';
 import { useAssetBalanceOf } from '../../../hooks/useAssetBalanceOf';
-import { AvailableBalance } from '../../../components/AvailableBalance';
+import { AvailableBalance } from 'app/components/AvailableBalance';
 import { Input } from '../Input';
 import {
   stringToFixedPrecision,
   toNumberFormat,
 } from 'utils/display-text/format';
 import { translations } from 'locales/i18n';
-import classNames from 'classnames';
 
 export interface IAmountInputProps {
   value: string;
@@ -25,10 +24,12 @@ export interface IAmountInputProps {
   assetSelectable?: boolean;
   onSelectAsset?: (asset: Asset) => void;
   subText?: string;
+  subElement?: React.ReactNode;
   placeholder?: string;
   maxAmount?: string;
   readonly?: boolean;
   showBalance?: boolean;
+  hideAmountSelector?: boolean;
   dataActionId?: string;
   gasFee?: string;
 }
@@ -44,9 +45,11 @@ export const AmountInput: React.FC<IAmountInputProps> = ({
   assetSelectable,
   onSelectAsset,
   subText,
+  subElement,
   maxAmount,
   readonly,
   showBalance,
+  hideAmountSelector,
   dataActionId,
   gasFee,
 }) => {
@@ -79,16 +82,19 @@ export const AmountInput: React.FC<IAmountInputProps> = ({
       {subText && (
         <div className="tw-text-xs tw-mt-1 tw-font-extralight">{subText}</div>
       )}
-      {!readonly && (asset || maxAmount !== undefined) && (
-        <AmountSelector
-          asset={asset}
-          maxAmount={maxAmount}
-          gasFee={gasFee}
-          showBalance={showBalance}
-          dataActionId={dataActionId}
-          onChange={onChange}
-        />
-      )}
+      {subElement && <>{subElement}</>}
+      {!readonly &&
+        !hideAmountSelector &&
+        (asset || maxAmount !== undefined) && (
+          <AmountSelector
+            asset={asset}
+            maxAmount={maxAmount}
+            gasFee={gasFee}
+            onChange={onChange}
+            dataActionId={dataActionId}
+            showBalance={showBalance}
+          />
+        )}
     </>
   );
 };
@@ -100,10 +106,10 @@ interface IAmountSelectorProps {
   parentValue?: string;
   asset?: Asset;
   maxAmount?: string;
-  showBalance?: boolean;
   gasFee?: string;
   onChange: (value: string, isTotal: boolean) => void;
   dataActionId?: string;
+  showBalance?: boolean;
 }
 
 export const AmountSelector: React.FC<IAmountSelectorProps> = props => {
@@ -116,9 +122,9 @@ export const AmountSelectorInner: React.FC<IAmountSelectorProps> = ({
   maxAmount,
   gasFee = '0',
   balance: value = '0',
-  showBalance,
   onChange,
   dataActionId,
+  showBalance,
 }) => {
   const { t } = useTranslation();
   const balance = useMemo(() => {
@@ -163,12 +169,7 @@ export const AmountSelectorInner: React.FC<IAmountSelectorProps> = ({
           <AvailableBalance asset={asset || Asset.RBTC} />
         </div>
       )}
-      <div
-        className={classNames(
-          showBalance ? 'tw-mt-1' : 'tw-mt-2.5',
-          'tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded-md tw-divide-x tw-divide-secondary',
-        )}
-      >
+      <div className="tw-h-5 tw-mt-1 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded-md tw-divide-x tw-divide-secondary">
         {amounts.map(value => (
           <AmountSelectorButton
             key={value}

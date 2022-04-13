@@ -31,4 +31,9 @@ export class TradingPair {
   public getAssetForPosition(position: TradingPosition) {
     return position === TradingPosition.LONG ? this.longAsset : this.shortAsset;
   }
+  public getBorrowAssetForPosition(position: TradingPosition) {
+    return position === TradingPosition.SHORT
+      ? this.longAsset
+      : this.shortAsset;
+  }
 }

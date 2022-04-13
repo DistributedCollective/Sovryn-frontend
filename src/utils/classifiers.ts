@@ -1,5 +1,6 @@
 import { TxType } from '../store/global/transactions-store/types';
 import { AppMode } from '../types';
+import { toWei } from './blockchain/math-helpers';
 
 export const chains = {
   mainnet: 30,
@@ -25,11 +26,16 @@ export const blockExplorers = {
 };
 
 export const rpcNodes = {
-  30: 'https://mainnet.sovryn.app/rpc',
-  31: 'https://testnet.sovryn.app/rpc',
+  30: ['https://mainnet.sovryn.app/rpc', 'https://public-node.rsk.co/'],
+  31: ['https://testnet.sovryn.app/rpc', 'https://public-node.testnet.rsk.co/'],
   56: 'wss://bsc.sovryn.app/mainnet',
   97: 'wss://bsctestnet.sovryn.app/websocket',
 };
+
+export const bitocracyUrl =
+  currentNetwork === AppMode.MAINNET
+    ? 'https://bitocracy.sovryn.app'
+    : 'https://bitocracy.test.sovryn.app';
 
 export const databaseRpcNodes = {
   30: 'https://backend.sovryn.app/rpc',
@@ -88,6 +94,8 @@ export const gasLimit = {
   [TxType.PERPETUAL_TRADE]: 3000000,
   [TxType.PERPETUAL_DEPOSIT_COLLATERAL]: 1700000,
   [TxType.PERPETUAL_WITHDRAW_COLLATERAL]: 2400000,
+  [TxType.LIMIT_ORDER]: 3000000,
+  [TxType.SETTLEMENT_WITDHRAW]: 70000,
 };
 
 export const discordInvite = 'https://discord.gg/kBTNx4zjRf'; //unlimited use, no-expiry invite
@@ -106,4 +114,25 @@ export const MIN_GAS = 40000;
 export const CREATE_TICKET_LINK =
   'https://sovryn.freshdesk.com/support/tickets/new';
 
+export const WIKI_LIMIT_ORDER_LIMITS_LINK =
+  'https://wiki.sovryn.app/en/sovryn-dapp/limit-order-limitations';
+export const WIKI_LIMIT_ORDER_WALLETS_LINK =
+  'https://wiki.sovryn.app/en/sovryn-dapp/limit-order-limitations#wallet-compatibility';
+
 export const MILLION = 1000000;
+
+// most wallets considers 546 sats as minimum amount user needs to have in wallet to use network.
+// i'm putting it as 10 sats for now.
+export const DUST_AMOUNT = toWei(0.0000001);
+
+export const notificationServiceUrl = {
+  30: 'https://notify.sovryn.app/',
+  31: 'https://notify.test.sovryn.app/',
+};
+
+export const limitOrderUrl = {
+  // 30: 'https://orderbook.sovryn.app/limitOrder',
+  30: 'https://_ob.sovryn.app/mainnet/api',
+  // 31: 'https://orderbook.test.sovryn.app/limitOrder',
+  31: 'https://_ob.sovryn.app/testnet/api',
+};

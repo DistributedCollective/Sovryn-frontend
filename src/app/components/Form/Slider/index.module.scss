@@ -15,6 +15,8 @@
   &.host :global(.bp3-slider-progress):global(.bp3-intent-primary) {
     @apply tw-bg-primary;
   }
+.host :global(.bp3-slider-track) {
+  @apply tw-h-2.5 tw-rounded-xl;
 }
 
 .secondary {
@@ -56,16 +58,14 @@
 }
 
 .host :global(.bp3-slider-axis) {
-  width: calc(100% - 0.75rem);
+  width: calc(100% - 1.75rem);
   position: relative;
   margin-left: auto;
   margin-right: auto;
 }
 
 .host :global(.bp3-slider-label) {
-  @apply tw-top-2.5 
-    tw-bg-transparent
-    tw-font-black tw-text-white;
+  @apply tw-text-white tw-text-sm tw-font-semibold tw-top-2.5;
 }
 
 .host :global(.bp3-slider-handle) :global(.bp3-slider-label) {
