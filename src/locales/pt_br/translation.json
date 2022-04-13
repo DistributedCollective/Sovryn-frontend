@@ -15,9 +15,12 @@
     "deposit": "Depositar",
     "withdraw": "Sacar",
     "availableBalance": "Saldo disponível:",
+    "unusedBalance": "Recuperar fundos não utilizados",
+    "unusedBalanceTooltip": "Saldo não utilizado:",
     "maintenance": "Em manutenção",
     "next": "Próximo",
     "loading": "Carregando...",
+    "noData": "Sem dados",
     "retry": "Tentar novamente",
     "continueToFailure": "Eu entendo os riscos de a transação falhar, permita-me continuar",
     "unit": {
