@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import iconArrowForward from 'assets/images/arrow_forward.svg';
 import { translations } from '../../../../../locales/i18n';
-import { Dialog, DialogSize } from '../../../../containers/Dialog';
+import { Dialog } from '../../../../containers/Dialog';
 import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
 import { PerpetualPageModals } from '../../types';
@@ -43,7 +43,6 @@ export const AccountDialog: React.FC = () => {
     <Dialog
       isOpen={modal === PerpetualPageModals.ACCOUNT_BALANCE}
       onClose={onClose}
-      size={DialogSize.lg}
     >
       <h1 className="tw-relative">
         {accountView !== AccountView.balance && (
