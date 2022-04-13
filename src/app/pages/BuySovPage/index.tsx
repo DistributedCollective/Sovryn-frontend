@@ -28,7 +28,7 @@ export function BuySovPage() {
       <div className="tw-container tw-pt-5 tw-font-body">
         <InfoBar />
 
-        <Onboarding className="tw-w-full tw-max-w-full tw-flex-row xl:tw-flex tw-justify-center">
+        <Onboarding className="tw-w-full tw-max-w-full tw-flex-row xl:tw-flex tw-justify-center tw-items-start">
           <div className="tw-flex-shrink-0 tw-flex-grow-1">
             <div className="tw-w-full md:tw-flex tw-flex-row tw-justify-center tw-items-center">
               <EngageWalletStep />

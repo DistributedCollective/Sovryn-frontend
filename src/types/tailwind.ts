@@ -31,6 +31,12 @@ export enum Align {
   right = 'right',
 }
 
+export enum AlignVertical {
+  top = 'top',
+  center = 'center',
+  bottom = 'bottom',
+}
+
 export enum Color {
   primary = 'primary',
   secondary = 'secondary',

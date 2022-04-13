@@ -1,28 +1,24 @@
 import React from 'react';
 import styled, { css } from 'styled-components/macro';
+import { IBtnProps } from './types';
 
-interface BtnProps {
-  onClick: () => void;
-  disabled?: boolean;
-}
-
-interface Props extends BtnProps {
+interface Props extends IBtnProps {
   text: React.ReactNode;
   className?: string;
   dataActionId?: string;
 }
 
 const StyledButton = styled.button`
-  height: 60px;
   width: 100%;
   margin-top: 20px;
-  border: 1px solid #17c3b2;
+  border: 0;
+  height: 3.125rem;
   color: #ffffff;
-  padding: 11px;
-  font-size: 1.5rem;
-  font-weight: 800;
+  padding: 0.5rem 1.5rem;
+  font-size: 1.25rem;
+  font-weight: 600;
   background: #17c3b2;
-  border-radius: 0.75rem;
+  border-radius: 0.5rem;
   text-transform: none;
   line-height: 1;
   transition: opacity 0.3s;
@@ -32,7 +28,7 @@ const StyledButton = styled.button`
     opacity: 75%;
   }
 
-  ${(props: BtnProps) =>
+  ${(props: IBtnProps) =>
     props.disabled &&
     css`
       cursor: not-allowed;

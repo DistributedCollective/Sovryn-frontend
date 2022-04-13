@@ -1,6 +1,6 @@
-import React, { useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { useHistory } from 'react-router-dom';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { Dialog } from '../../../../../containers/Dialog';
 import { ResetTxResponseInterface } from '../../../../../hooks/useSendContractTx';
 import { TxStatus } from 'store/global/transactions-store/types';
@@ -19,7 +19,7 @@ import { LinkToExplorer } from '../../../../../components/LinkToExplorer';
 import styled from 'styled-components/macro';
 import styles from './dialog.module.scss';
 import { ConfirmButton } from '../../Button/confirm';
-import { useWalletContext } from '@sovryn/react-wallet';
+import { WalletContext } from '@sovryn/react-wallet';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 
@@ -30,7 +30,7 @@ interface Props {
 export function TxDialog(props: Props) {
   const { t } = useTranslation();
   const history = useHistory();
-  const { address } = useWalletContext();
+  const { address } = useContext(WalletContext);
   const close = () => {
     props.tx && props.tx.reset();
   };
@@ -98,13 +98,13 @@ export function TxDialog(props: Props) {
 
           {!props.tx.txHash && props.tx.status === TxStatus.FAILED && (
             <>
-              <p className="tw-text-center">
+              <p className="tw-text-center tw-px-3 tw-text-warning">
                 {t(translations.buySovPage.txDialog.txStatus.aborted)}
               </p>
             </>
           )}
 
-          <div style={{ maxWidth: 200 }} className="tw-mx-auto tw-w-full">
+          <div className="tw-mx-auto tw-w-full tw-mw-340">
             <ConfirmButton
               onClick={() =>
                 props.tx.status === TxStatus.CONFIRMED ? confirm() : close()
@@ -154,11 +154,12 @@ function getStatus(tx: TxStatus) {
 
 const StyledStatus = styled.div`
   width: 100px;
-  margin: 0 auto 35px;
+  margin: 0 auto;
   text-align: center;
   img {
-    width: 100px;
-    height: 100px;
+    width: 65px;
+    height: 65px;
+    margin: 0 auto;
   }
   p {
     font-size: 1rem;
@@ -202,7 +203,7 @@ function StatusComponent({ status }: { status: TxStatus }) {
     <StyledStatus>
       <img
         src={getStatusImage(status)}
-        className={cn(status === TxStatus.PENDING && 'tw-animate-spin')}
+        className={classNames(status === TxStatus.PENDING && 'tw-animate-spin')}
         alt="Status"
       />
       <p>{getStatus(status)}</p>
@@ -210,30 +211,17 @@ function StatusComponent({ status }: { status: TxStatus }) {
   );
 }
 
-const WLContainer = styled.div`
-  width: 98px;
-  height: 98px;
-  border-radius: 1.25rem;
-  border: 1px solid #e8e8e8;
-  margin: 0 auto 35px;
-  div {
-    font-size: 0.75rem;
-  }
-`;
-const WLImage = styled.img`
-  width: 50px;
-  height: 50px;
-  margin-bottom: 10px;
-  object-fit: contain;
-`;
-
 function WalletLogo({ wallet }: { wallet: string }) {
   return (
-    <WLContainer className="tw-flex tw-flex-col tw-justify-center tw-items-center tw-overflow-hidden">
-      <WLImage src={getWalletImage(wallet)} alt="Wallet" />
-      <div className="tw-whitespace-nowrap tw-truncate">
+    <div className="tw-mx-auto tw-mb-8 tw-border-sov-white tw-border tw-rounded-2xl tw-w-24 tw-h-24 tw-flex tw-flex-col tw-justify-center tw-items-center tw-overflow-hidden">
+      <img
+        className="tw-w-14 tw-h-14 tw-mb-2.5 tw-object-contain"
+        src={getWalletImage(wallet)}
+        alt="Wallet"
+      />
+      <div className="tw-whitespace-nowrap tw-truncate tw-text-sm">
         {getWalletName(wallet)}
       </div>
-    </WLContainer>
+    </div>
   );
 }

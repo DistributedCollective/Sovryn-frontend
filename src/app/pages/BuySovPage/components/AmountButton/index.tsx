@@ -27,8 +27,8 @@ export function AmountButton(props: Props) {
 const Container = styled.div``;
 const Button = styled.button`
   height: 30px;
-  border: 1px solid #2274a5;
-  color: #2274a5;
+  border: 1px solid #0392e8;
+  color: #0392e8;
   background: transparent;
   width: 100%;
   border-right: 0;
@@ -36,7 +36,7 @@ const Button = styled.button`
   font-size: 0.875rem;
   font-weight: 500;
   &:last-of-type {
-    border-right: 1px solid #2274a5;
+    border-right: 1px solid #0392e8;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
   }

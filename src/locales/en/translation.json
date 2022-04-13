@@ -15,6 +15,8 @@
     "deposit": "Deposit",
     "withdraw": "Withdraw",
     "availableBalance": "Available Balance:",
+    "unusedBalance": "Reclaim Unused Funds",
+    "unusedBalanceTooltip": "Unused balance:",
     "maintenance": "Under Maintenance",
     "next": "Next",
     "loading": "Loading...",
@@ -24,7 +26,18 @@
     "unit": {
       "day": "{{count}} day",
       "day_plural": "{{count}} days"
-    }
+    },
+    "gasPrice": "gas price",
+    "gasLimit": "gas limit",
+    "units": "units",
+    "txHash": "Tx Hash",
+    "walletCompatibility": "Wallet Compatibility"
+  },
+  "tradeEvents": {
+    "CloseWithSwap": "Withdraw",
+    "Trade": "Open Position",
+    "Liquidate": "Liquidate",
+    "DepositCollateral": "Add Collateral"
   },
   "global": {
     "liquidationPrice": "Liquidation Price",
@@ -101,6 +114,33 @@
       "tradingHistory": "Closed"
     }
   },
+  "trading": {
+    "limit": {
+      "cancelDialog": {
+        "title": "Cancel Limit Order",
+        "cta": "Confirm",
+        "complete": "Cancel Complete",
+        "failed": "Cancel Failed",
+        "tx": {
+          "title": "Cancel",
+          "message": "Cancel Limit {{tradeType}}"
+        }
+      },
+      "tradeDialog": {
+        "marketTitle": "Review Order",
+        "limitTitle": "Review Order",
+        "tradingPair": "Trading Pair:",
+        "orderType": "Order Type:",
+        "tradeAmount": "Trade Amount:",
+        "limitPrice": "Limit Price:",
+        "duration": "Duration:",
+        "receiveAmount": "Receive Amount:",
+        "orderAmount": "Order Amount:",
+        "newOrderDetails": "New Order Details",
+        "order": "Order"
+      }
+    }
+  },
   "tradingPage": {
     "meta": {
       "title": "Trading",
@@ -163,6 +203,10 @@
       "profit": "Realized P&L",
       "entryTxHash": "Entry Transaction Hash",
       "closeTxHash": "Exit Transaction Hash",
+      "actions": "Actions",
+      "cta": {
+        "details": "Details"
+      },
       "profitLabels": {
         "up": "Up by ",
         "down": "Down by ",
@@ -310,8 +354,14 @@
     "fields": {
       "currency": "Currency",
       "currency_placeholder": "Choose currency",
+      "limitSettings": "Limit Order Settings",
       "amount": "Amount",
-      "startPrice": "Start Price"
+      "startPrice": "Start Price",
+      "slippageSettings": "Slippage Settings",
+      "esEntryPrice": "Est Entry Price:",
+      "esLiquidationPrice": "Est Liquidation Price:",
+      "interestAPY": "Interest APY:",
+      "interestAPR": "Interest APR:"
     },
     "buttons": {
       "submit": "Place Trade"
@@ -332,11 +382,18 @@
       "switchAssets": "Switch Assets"
     },
     "arbitrage": {
-      "best_rate": "Arbitrage opportunity: swap up to",
-      "for": "for up to",
+      "best_rate": "Arbitrage opportunity",
+      "for": "for",
+      "text": "Earn <0>{{percent}}</0> above the market on swapping <1></1> for <2></2>",
       "popover_p1": "Users can help balance the Sovryn AMM (automated market maker) when arbitrage opportunities arise. Currently, up to {{fromAmount}} {{fromToken}} can be swapped for up to {{toAmount}} {{toToken}}.",
       "popover_p2": "This is {{earn}} {{toToken}} more than the market price."
-    }
+    },
+    "reviewSwap": "Review Swap",
+    "swapAsset": "Swap Asset:",
+    "amount": "Amount:",
+    "amountReceived": "Amount Received:",
+    "receiveAsset": "Receive Asset:",
+    "minimumReceived": "Minimum Received:"
   },
   "amountField": {
     "placeholder": "Enter amount",
@@ -561,7 +618,7 @@
       "positionSize": "Position Size",
       "profit": "Profit / Loss",
       "currentMargin": "Current Margin",
-      "interestApr": "Interest APY",
+      "interestApr": "Interest APR",
       "startPrice": "Start Price",
       "container": {
         "topUp": "Top-Up",
@@ -571,7 +628,7 @@
   },
   "expandedRowMobile": {
     "currentMargin": "Current Margin",
-    "interestAPR": "Interest APY",
+    "interestAPR": "Interest APR",
     "startPrice": "Start Price",
     "leverage": "Leverage",
     "startMargin": "Start Margin",
@@ -626,8 +683,11 @@
     "meta": "Swap",
     "cta": "Swap",
     "minimumReceived": "Minimum received:",
-    "send": "Send",
-    "receive": "Receive"
+    "send": "Token to swap",
+    "receive": "Token to receive",
+    "receiveAmount": "Amount to Receive",
+    "tradeAmount": "Trade Amount",
+    "advancedSettings": "Advanced Settings"
   },
   "stake": {
     "title": "Staking/Vesting",
@@ -643,6 +703,7 @@
     "convertedToRBTC": "{{asset}} will be converted to RBTC and sent directly to your wallet.",
     "noUnlockedSov": "You don't have unlocked SOV",
     "txFee": "Tx Fee",
+    "txId": "Tx ID:",
     "sov": "SOV",
     "days": "days",
     "vestingFees": "Vested SOV",
@@ -1173,13 +1234,16 @@
     "title": "Swap History",
     "tableHeaders": {
       "time": "Date/Time",
-      "from": "From",
+      "from": "Sending Asset",
       "amountSent": "Amount Sent",
-      "to": "To",
+      "to": "Receiving Asset",
       "amountReceived": "Amount Received",
-      "status": "Status"
+      "status": "Status",
+      "transactionFee": "Transaction Fee",
+      "gasFee": "Gas Fee"
     },
-    "emptyState": "History is empty."
+    "emptyState": "History is empty.",
+    "recentSwapHistory": "Recent Swap History"
   },
   "vestedHistory": {
     "title": "Vested History",
@@ -1321,7 +1385,12 @@
   },
   "closeTradingPositionHandler": {
     "title": "Close Position",
-    "withdrawIn": "Asset:",
+    "withdrawIn": "Asset to receive:",
+    "amountReceived": "Amount received:",
+    "marginType": "Margin Type:",
+    "positionSize": "Position Size:",
+    "minimumReceived": "Minimum Received:",
+    "pl": "P/L:",
     "amountToClose": "Position amount to close:",
     "withdrawAmount": "You will get:",
     "simulationFailed": "Transaction will not close: {{error}}",
@@ -1530,34 +1599,91 @@
     "tradeForm": {
       "labels": {
         "pair": "Pair:",
-        "asset": "Collateral:",
-        "leverage": "Leverage:",
+        "asset": "Asset:",
+        "leverage": "Position Leverage:",
         "amount": "Amount:",
+        "slippage": "Slippage Tolerance:",
         "balance": "Available Balance: <0/> <1/>",
-        "txFee": "Tx Fee: <0/> {{symbol}}"
+        "txFee": "Tx Fee: <0/>",
+        "tradingFee": "Trading Fee:",
+        "networkFee": "Network Fee:",
+        "estimatedNetworkFee": "Network Fee (Estimated):"
       },
       "buttons": {
         "long": "Long",
         "short": "Short"
-      }
+      },
+      "placePosition": {
+        "placeLong": " Place Long",
+        "placeShort": "Place Short"
+      },
+      "market": "Market",
+      "limit": "Limit"
+    },
+    "recentTrades": {
+      "title": "Recent Trades",
+      "price": "Price",
+      "size": "Size",
+      "time": "Time",
+      "noTrades": "No Recent Trades",
+      "long": "L",
+      "short": "S"
     },
     "tradeDialog": {
-      "title": "Review Transaction",
+      "title": "Review Order",
       "pair": "Trading Pair:",
       "leverage": "Leverage:",
       "asset": "Collateral:",
-      "direction": "Direction:",
+      "margin": "Margin:",
+      "direction": "Pair:",
+      "positionSize": "Position Size",
       "maintananceMargin": "Maintenance Margin:",
+      "minEntry": "Minimum Entry Price: ",
+      "minLiq": "Minimum Liquidation Price: ",
+      "interestAPR": "Interest APY",
+      "renewalDate": "Renewal Date:",
       "liquidationPrice": "Est. Liquidation Price:",
-      "entryPrice": "Approx. Position Entry Price:",
+      "entryPrice": "Est Entry Price:",
       "estimationErrorNote": "Opening position will fail: {{error}}",
       "position": {
         "long": "Long",
         "short": "Short"
-      }
+      },
+      "newPositionDetails": "New Position Details",
+      "buy": "buy",
+      "sell": "sell"
     },
-    "openPositions": "Open Positions",
-    "tradingHistory": "Trading History"
+    "openPositions": "Open positions",
+    "tradingHistory": "Margin order history",
+    "openLimitOrders": "Open limit orders",
+    "notificationSettingsDialog": {
+      "title": "Notification Settings",
+      "notifyVia": "Receive email notifications for limit order fills, margin calls, and liquidations. Details <0>here</0>.",
+      "marginCalls": "Margin Calls",
+      "liquidations": "Liquidations",
+      "here": "here",
+      "filledLimitOrders": "Filled limit orders",
+      "enterEmail": "Enter Email Address",
+      "email": "Email",
+      "useRisk": "Use at your own risk",
+      "riskDesc": "Please be aware that this opt-in email notification service is hosted on a centralized AWS instance in the USA.",
+      "telegramHandle": "Enter Telegram handle",
+      "emailHandle": "Enter Email Address",
+      "discordHandle": "Enter Discord handle",
+      "usernamePlaceholder": "username",
+      "updateSuccess": "Notification settings updated",
+      "emailPlaceholder": "example@domain.com",
+      "receiveNotificationTitle": "You will receive a notification at",
+      "notificationEvents": {
+        "1": "25% margin",
+        "2": "Liquidation"
+      },
+      "submit": "Confirm"
+    },
+    "notificationsButton": {
+      "enable": "Notification",
+      "enabled": "Notifications enabled"
+    }
   },
   "spotTradingPage": {
     "meta": {
@@ -1565,16 +1691,95 @@
       "description": "Spot trading"
     },
     "tradeForm": {
-      "buy_cta": "PLACE BUY",
-      "sell_cta": "PLACE SELL",
+      "buy_cta": "PLACE BUY ORDER",
+      "sell_cta": "PLACE SELL ORDER",
       "amountReceived": "Amount Received",
-      "buy": "BUY",
-      "sell": "SELL"
+      "buy": "Buy",
+      "sell": "Sell",
+      "market": "Market",
+      "limit": "Limit",
+      "advancedSettings": "Advanced Settings",
+      "limitPrice": "Limit Price:",
+      "limitPriceTooltip": "Final execution price of Limit Orders is impacted by cost of relayer fee and slippage, please note this will not match price entered here exactly.",
+      "receive": "Receive:",
+      "amount": "Amount:",
+      "errors": {
+        "minAmount": "Limit order trade size too low, please try again with a larger amount",
+        "maxAmount": "Maximum Limit Order trade size reached, please see our <0>wiki</0> for more details"
+      }
     },
     "priceHistory": {
       "turnover": "Turnover",
       "lastTradedPrice": "Last traded price"
+    },
+    "history": {
+      "marketOrder": "Market order history",
+      "openLimitOrders": "Open limit orders",
+      "limitOrderHistory": "Limit order history"
+    },
+    "tradeDialog": {
+      "marketTitle": "Review Order",
+      "limitTitle": "Review Order",
+      "tradingPair": "Trading Pair:",
+      "orderType": "Order Type:",
+      "tradeAmount": "Trade Amount:",
+      "limitPrice": "Limit Price:",
+      "duration": "Duration:",
+      "receiveAmount": "Receive Amount:",
+      "orderAmount": "Order Amount:",
+      "newOrderDetails": "New Order Details",
+      "order": "Order"
+    },
+    "limitOrderSetting": {
+      "title": "Advanced Settings",
+      "duration": "Duration:",
+      "untilCancelled": "Until cancelled",
+      "day_one": "{{count}} day",
+      "day_other": "{{count}} days",
+      "partialFilled": "Allow partial filled order:",
+      "infinity": "∞"
+    },
+    "openLimitOrders": {
+      "dateTime": "Date/Time",
+      "pair": "Pair",
+      "orderType": "Order Type",
+      "tradeAmount": "Trade Amount",
+      "limitPrice": "Limit Price",
+      "executionPrice": "Execution Price",
+      "amountReceive": "Amount to Receive",
+      "duration": "Duration",
+      "deadline": "Deadline",
+      "actions": "Action",
+      "noData": "No Data",
+      "filledAmount": "Filled Amount",
+      "filledPrice": "Filled Price",
+      "leverage": "Leverage",
+      "cta": {
+        "edit": "Edit",
+        "close": "Close"
+      }
+    },
+    "cancelDialog": {
+      "title": "Cancel Limit Order",
+      "cta": "Confirm",
+      "complete": "Cancel Complete",
+      "failed": "Cancel Failed",
+      "tx": {
+        "title": "Cancel",
+        "message": "Cancel Limit {{tradeType}}"
+      }
     }
+  },
+  "pairNavbar": {
+    "pair": "Pair",
+    "asset": "Asset",
+    "lastTradedPrice": "Last traded price",
+    "dayChange": "24H change",
+    "dayPercentChange": "24hr % Change",
+    "dayLow": "24hr Low:",
+    "dayHigh": "24hr High:",
+    "all": "ALL",
+    "search": "Search"
   },
   "form": {
     "select": {
@@ -1848,6 +2053,23 @@
       "maxWithdrawal": "Max Withdrawal:"
     }
   },
+  "transactionDialog": {
+    "pendingUser": {
+      "title": "Confirm {{action}}",
+      "text": "Please confirm the transaction in your {{walletName}} wallet",
+      "failed": "Confirm Failed",
+      "retry": "Retry"
+    },
+    "txStatus": {
+      "title": "Transaction Status",
+      "aborted": "Your transaction has failed. <br/>Please cancel or retry your transaction",
+      "abortedLedger": "Make sure \"Contract data\" is set to \"Allowed\" in your Ledger app settings",
+      "cta": "View in Tracker",
+      "processing": "{{action}} processing...",
+      "complete": "{{action}} Complete",
+      "submit": "{{action}} Submitted"
+    }
+  },
   "buySovPage": {
     "meta": {
       "title": "SOV trading is now live!",
@@ -1883,9 +2105,10 @@
       "cta": "Buy SOV"
     },
     "slippageDialog": {
-      "title": "Adjust Slippage",
+      "title": "Advanced Settings",
       "tolerance": "Slippage Tolerance:",
-      "minimumReceived": "Minimum Received"
+      "minimumReceived": "Minimum Received",
+      "minEntryPrice": "Minimum Entry Price"
     },
     "txDialog": {
       "pendingUser": {
@@ -1894,7 +2117,7 @@
       },
       "txStatus": {
         "title": "Transaction Status",
-        "aborted": "Transaction was aborted by user.",
+        "aborted": "You have chosen to reject this transaction. Please cancel or retry your transaction",
         "abortedLedger": "Make sure \"Contract data\" is set to \"Allowed\" in your Ledger app settings",
         "cta": "View in Tracker"
       }
@@ -1961,8 +2184,8 @@
   },
   "addToMargin": {
     "title": "Add to Margin",
-    "amount": "Amount to Add:",
-    "liquidationPrice": "Liquidation Price:"
+    "amount": "Increase margin by:",
+    "liquidationPrice": "Estimated Liquidation price:"
   },
   "openPositionTable": {
     "direction": "Direction",
@@ -1971,16 +2194,28 @@
     "liquidationPrice": "Liquidation Price",
     "positionMargin": "Position Margin",
     "unrealizedPL": "Unrealized P&L",
-    "interestAPR": "Interest APY",
+    "interestAPR": "Interest APR",
     "actions": "Actions",
     "noData": "No data",
+    "rolloverDate": "Rollover Date",
+    "event": "Event",
+    "amountRepaid": "Amount Repaid",
+    "collateralWithdrawn": "Collateral Withdrawn",
+    "exitPrice": "Exit Price",
+    "positionChange": "Position Change",
+    "closingPrice": "Closing Price",
+    "timestamp": "Timestamp",
+    "txID": "TxID",
     "cta": {
-      "margin": "Add to Margin",
-      "close": "Close"
+      "increase": "Increase",
+      "margin": "Margin",
+      "close": "Close",
+      "details": "Details"
     },
     "explainers": {
       "positionMargin": "The portion of your margin that is assigned to the initial margin requirements on your open positions. This is the entry value of all contracts you hold divided by the selected leverage, plus unrealised profit and loss.<br/><br/>If the current margin percentage drops to 15%, your position will be liquidated.",
-      "unrealizedPL": "Due to limitations of smart contracts, we only estimate profit between entry and current AMM prices without taking margin increases or partial position withdrawals into consideration.<br/>By hovering over a value, you will see the correct token amount you would receive if you decided to close the position now."
+      "unrealizedPL": "Due to limitations of smart contracts, we only estimate profit between entry and current AMM prices without taking margin increases or partial position withdrawals into consideration.<br/>By hovering over a value, you will see the correct token amount you would receive if you decided to close the position now.",
+      "closingPrice": "The exit price is 95% of the value of the closing price shown. This difference is due to the discount applied as an incentive for liquidators."
     },
     "profitTooltip": "Closing position would withdraw one of these:"
   },

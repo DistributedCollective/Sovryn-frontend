@@ -1,8 +1,8 @@
 @layer components {
   .tw-input-wrapper {
-    height: 2.5rem;
-    max-width: 340px;
-    @apply tw-bg-sov-white tw-flex tw-flex-row tw-justify-center tw-items-center tw-space-x-4 tw-rounded;
+    height: 1.875rem;
+    max-width: 320px;
+    @apply tw-bg-sov-white tw-flex tw-flex-row tw-justify-center tw-items-center tw-space-x-4 tw-rounded-md;
     @apply tw-font-semibold tw-font-body tw-text-black;
     @apply tw-w-full;
   }
@@ -21,14 +21,21 @@
     @apply tw-text-black;
     /* @apply tw-mr-5 !important; */
   }
+  .tw-input-prepend {
+    @apply tw-text-black;
+    @apply tw-ml-5 !important;
+  }
 
   .tw-input-wrapper.readonly {
-    @apply tw-bg-transparent tw-text-sov-white tw-border tw-border-gray-6;
+    @apply tw-bg-transparent tw-text-sov-white tw-border tw-border-gray-6 tw-rounded-lg;
   }
   .tw-input-wrapper.readonly .tw-input {
     @apply tw-text-sov-white;
   }
   .tw-input-wrapper.readonly .tw-input-append {
     @apply tw-text-sov-white;
+  }
+  .tw-input-wrapper.readonly .tw-input-prepend {
+    @apply tw-text-white;
   }
 }

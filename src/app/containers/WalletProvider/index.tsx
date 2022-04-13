@@ -25,7 +25,7 @@ import { transactionsStateSaga } from 'store/global/transactions-store/saga';
 import { reducer, sliceKey } from './slice';
 import { walletProviderSaga } from './saga';
 import { selectRequestDialogState } from '../../../store/global/transactions-store/selectors';
-import { TxRequestDialog } from './components/TxRequestDialog';
+import { TxRequestDialog } from 'app/components/TransactionDialog/TxRequestDialog';
 import { currentChainId } from '../../../utils/classifiers';
 import { actions } from './slice';
 import { useEvent } from 'app/hooks/useAnalytics';

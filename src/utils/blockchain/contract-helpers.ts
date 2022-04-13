@@ -13,6 +13,9 @@ export const getLendingContractName = (asset: Asset) =>
 export const getTokenContract = (asset: Asset) =>
   AssetsDictionary.get(asset).tokenContract;
 
+export const getTokenLendingContract = (asset: Asset) =>
+  AssetsDictionary.get(asset).lendingContract;
+
 export const getTokenContractName = (asset: Asset) =>
   AssetsDictionary.get(asset).getTokenContractName();
 
@@ -38,4 +41,8 @@ export const symbolByTokenAddress = (address: string) => {
 
 export const assetByTokenAddress = (address: string): Asset => {
   return AssetsDictionary.getByTokenContractAddress(address)?.asset;
+};
+
+export const assetByLoanTokenAddress = (address: string): Asset => {
+  return AssetsDictionary.getByLoanContractAddress(address)?.asset;
 };
