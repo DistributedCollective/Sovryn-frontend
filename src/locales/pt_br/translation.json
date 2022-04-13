@@ -119,7 +119,7 @@
         "tradingPair": "Par de negociação:",
         "orderType": "Tipo de ordem:",
         "tradeAmount": "Quantidade negociada:",
-        "limitPrice": "Preço:",
+        "limitPrice": "Preço limite:",
         "duration": "Expira em:",
         "receiveAmount": "Quantidade a receber:",
         "orderAmount": "Quantidade negociada:",
@@ -1592,11 +1592,13 @@
       "market": "Mercado",
       "limit": "Limitada",
       "advancedSettings": "Configurações avançadas",
-      "limitPrice": "Preço:",
+      "limitPrice": "Preço limite:",
+      "limitPriceTooltip": "O preço final de ordens limitadas é impactado por alguns fatores que fazem com que o preço não reflita exatamente ao preço inserido.",
       "receive": "Receber:",
       "amount": "Quantidade:",
       "errors": {
-        "minAmount": "Valor muito baixo, insira uma quantidade maior"
+        "minAmount": "Valor muito baixo, insira uma quantidade maior",
+        "maxAmount": "Quantidade acima do permitido para ordens limitadas, consulte a <0>wiki</0> para mais detalhes"
       }
     },
     "priceHistory": {
@@ -2090,7 +2092,7 @@
     "amountRepaid": "Amount Repaid",
     "collateralWithdrawn": "Collateral Withdrawn",
     "exitPrice": "Preço de saída",
-    "positionChange": "Position Change",
+    "positionChange": "Posição",
     "closingPrice": "Preço de fechamento",
     "timestamp": "Data e hora",
     "txID": "ID transação",
