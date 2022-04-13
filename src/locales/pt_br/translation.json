@@ -119,7 +119,7 @@
         "tradingPair": "Par de negociação:",
         "orderType": "Tipo de ordem:",
         "tradeAmount": "Quantidade negociada:",
-        "limitPrice": "Preço limite:",
+        "limitPrice": "Preço máximo:",
         "duration": "Expira em:",
         "receiveAmount": "Quantidade a receber:",
         "orderAmount": "Quantidade negociada:",
