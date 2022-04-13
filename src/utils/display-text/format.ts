@@ -1,10 +1,11 @@
+import { bignumber } from 'mathjs';
 import {
   weiToFixed,
   weiTo18,
   fromWei,
   roundToSmaller,
 } from '../blockchain/math-helpers';
-import { bignumber } from 'mathjs';
+
 import { Asset } from 'types';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 
@@ -130,21 +131,22 @@ export function calculateLiquidation(
 }
 
 export function calculateProfit(
-  collateralStr: string,
-  startRateStr: string,
-  currentPriceBTC: number,
   isLong: boolean,
-): number {
-  const positionSize: number = parseFloat(weiTo18(collateralStr));
-  const startPrice: number = parseFloat(weiTo18(startRateStr));
-  const currentPriceUSD: number = 1 / currentPriceBTC;
+  currentPrice: number,
+  startPrice: number,
+  amount: string,
+): [string, number] {
+  let profit = '0';
+  let diff = 1;
+  if (isLong) {
+    diff = (currentPrice - startPrice) / currentPrice;
+    profit = bignumber(amount).mul(diff).toFixed(0);
+  } else {
+    diff = (startPrice - currentPrice) / startPrice;
+    profit = bignumber(amount).mul(diff).toFixed(0);
+  }
 
-  const profitLong = positionSize * currentPriceBTC - positionSize * startPrice;
-  const profitShort =
-    (positionSize * currentPriceUSD - positionSize * startPrice) *
-    currentPriceBTC;
-
-  return isLong ? profitLong : profitShort;
+  return [profit, diff];
 }
 
 const decimalPartLength = value => {

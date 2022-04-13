@@ -28,7 +28,7 @@ export const MobileBrowsersWarningDialog: React.FC = () => {
       isCloseButtonShown={false}
       className="tw-w-auto tw-text-center"
     >
-      <WarningContainer className="tw-pt-2 tw-px-8 tw-text-center">
+      <WarningContainer className="tw-pt-2 sm:tw-px-8 tw-text-center">
         <img src={logo} alt="Sovryn" className="tw-mx-auto tw-mb-12" />
 
         <WarningTextContent>

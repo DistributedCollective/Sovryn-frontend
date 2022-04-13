@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 import { Item } from './styled';
 
@@ -24,7 +24,7 @@ export const SelectBox: React.FC<ISelectBoxProps> = ({
     <>
       <Item
         onClick={handleClick}
-        className={cn(
+        className={classNames(
           'tw-py-4 tw-text-md tw-flex tw-flex-col tw-items-center tw-justify-center tw-transition tw-duration-700 tw-ease-in-out tw-mx-5',
           { 'tw-opacity-25': disabled },
           className,

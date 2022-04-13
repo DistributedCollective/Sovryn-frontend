@@ -41,7 +41,10 @@ interface ICurrentStakesProps {
 export const CurrentStakes: React.FC<ICurrentStakesProps> = props => {
   const { t } = useTranslation();
   const account = useAccount();
-  const { dates, stakes } = useStaking_getStakes(account).value;
+  const {
+    value: { dates, stakes },
+    loading,
+  } = useStaking_getStakes(account);
   const [stakesArray, setStakesArray] = useState<StakeItem[]>();
   const [stakeLoad, setStakeLoad] = useState(false);
 
@@ -84,12 +87,12 @@ export const CurrentStakes: React.FC<ICurrentStakesProps> = props => {
 
   return (
     <>
-      <p className="tw-font-semibold tw-text-lg tw-ml-6 tw-mb-4 tw-mt-6">
+      <p className="tw-font-semibold tw-text-lg tw-mb-4 tw-mt-6">
         {t(translations.stake.currentStakes.title)}
       </p>
       <div className="tw-bg-gray-1 tw-rounded-b tw-shadow">
-        <div className="tw-sovryn-table tw-relative tw-rounded-lg tw-border tw-pt-1 tw-pr-5 tw-pl-5 tw-mb-5 tw-max-h-96 tw-overflow-y-auto tw-pb-4">
-          {stakeLoad && (
+        <div className="tw-rounded-lg sovryn-table tw-pt-1 tw-mb-5 max-h-96 tw-overflow-y-auto tw-pb-4">
+          {(stakeLoad || loading) && (
             <Spinner
               size={SpinnerSize.SM}
               className="tw-absolute tw-top-4 tw-right-8 tw-text-white tw-z-index-100"
@@ -122,7 +125,14 @@ export const CurrentStakes: React.FC<ICurrentStakesProps> = props => {
               </tr>
             </thead>
             <tbody className="tw-mt-5 tw-font-montserrat tw-text-xs">
-              {!stakesArray?.length && (
+              {(loading || stakeLoad) && !stakesArray?.length && (
+                <tr>
+                  <td colSpan={99} className="tw-text-center tw-font-normal">
+                    {t(translations.stake.loading)}
+                  </td>
+                </tr>
+              )}
+              {!loading && !stakeLoad && !stakesArray?.length && (
                 <tr key="empty">
                   <td colSpan={99} className="tw-text-center tw-font-normal">
                     {t(translations.stake.nostake)}

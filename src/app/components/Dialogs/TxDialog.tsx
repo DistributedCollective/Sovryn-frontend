@@ -15,12 +15,12 @@ import wLedger from 'assets/wallets/ledger.svg';
 import wTrezor from 'assets/wallets/trezor.svg';
 import wWalletConnect from 'assets/wallets/walletconnect.svg';
 import { LinkToExplorer } from '../LinkToExplorer';
-import styled from 'styled-components/macro';
 import styles from './dialog.module.scss';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { ConfirmButton } from 'app/pages/BuySovPage/components/Button/confirm';
 import { usePrevious } from '../../hooks/usePrevious';
+import classNames from 'classnames';
 
 type ITxDialogProps = {
   tx: ResetTxResponseInterface;
@@ -71,16 +71,13 @@ export const TxDialog: React.FC<ITxDialogProps> = ({
       isCloseButtonShown={false}
       isOpen={tx.status !== TxStatus.NONE}
       onClose={close}
-      className={styles.dialog}
+      className={classNames('tw-m-3.5', styles.dialog)}
     >
       {tx.status === TxStatus.PENDING_FOR_USER && (
         <>
           <h1>{t(translations.buySovPage.txDialog.pendingUser.title)}</h1>
           <WalletLogo wallet={wallet} />
-          <p
-            className="tw-text-center tw-mx-auto tw-w-full"
-            style={{ maxWidth: 266 }}
-          >
+          <p className="tw-text-center tw-mx-auto tw-w-full tw-max-w-xs">
             {t(translations.buySovPage.txDialog.pendingUser.text, {
               walletName: getWalletName(wallet),
             })}
@@ -98,34 +95,37 @@ export const TxDialog: React.FC<ITxDialogProps> = ({
           <StatusComponent status={tx.status} />
 
           {!!tx.txHash && (
-            <StyledHashContainer>
-              <StyledHash>
-                <strong>Hash:</strong> {prettyTx(tx.txHash)}
-              </StyledHash>
-              <ExplorerLink>
+            <div className="tw-max-w-xs tw-w-full tw-m-auto">
+              <div className="tw-text-center tw-text-sm tw-font-light tw-mb-9">
+                <strong className="tw-font-medium tw-mr-3.5 tw-inline-block">
+                  Hash:
+                </strong>{' '}
+                {prettyTx(tx.txHash)}
+              </div>
+              <div className="tw-text-secondary tw-text-center">
                 <LinkToExplorer
                   txHash={tx.txHash}
                   text={t(translations.buySovPage.txDialog.txStatus.cta)}
-                  className="tw-text-blue"
+                  className="tw-text-blue tw-font-medium tw-underline hover:tw-no-underline"
                 />
-              </ExplorerLink>
-            </StyledHashContainer>
+              </div>
+            </div>
           )}
 
           {!tx.txHash && tx.status === TxStatus.FAILED && (
             <>
-              <p className="tw-text-center">
+              <p className="tw-text-center tw-px-3 tw-text-warning">
                 {t(translations.buySovPage.txDialog.txStatus.aborted)}
               </p>
               {wallet === 'ledger' && (
-                <p className="tw-text-center">
+                <p className="tw-text-center tw-px-3 tw-text-warning">
                   {t(translations.buySovPage.txDialog.txStatus.abortedLedger)}
                 </p>
               )}
             </>
           )}
 
-          <div style={{ maxWidth: 200 }} className="tw-mx-auto tw-w-full">
+          <div className="tw-mx-auto tw-w-full tw-mw-340 tw-mt-10">
             <ConfirmButton
               onClick={close}
               text={t(translations.common.close)}
@@ -137,84 +137,65 @@ export const TxDialog: React.FC<ITxDialogProps> = ({
   );
 };
 
-function getWalletName(wallet) {
-  if (wallet === 'liquality') return 'Liquality';
-  if (wallet === 'nifty') return 'Nifty';
-  if (wallet === 'portis') return 'Portis';
-  if (wallet === 'ledger') return 'Ledger';
-  if (wallet === 'trezor') return 'Trezor';
-  if (wallet === 'wallet-connect') return 'Wallet Connect';
-  return 'MetaMask';
-}
-
-function getWalletImage(wallet) {
-  if (wallet === 'liquality') return wLiquality;
-  if (wallet === 'nifty') return wNifty;
-  if (wallet === 'portis') return wPortis;
-  if (wallet === 'ledger') return wLedger;
-  if (wallet === 'trezor') return wTrezor;
-  if (wallet === 'wallet-connect') return wWalletConnect;
-  return wMetamask;
-}
-
-function getStatusImage(tx: TxStatus) {
-  if (tx === TxStatus.FAILED) return txFailed;
-  if (tx === TxStatus.CONFIRMED) return txConfirm;
-  return txPending;
-}
-
-function getStatus(tx: TxStatus) {
-  if (tx === TxStatus.FAILED)
-    return <Trans i18nKey={translations.common.failed} />;
-  if (tx === TxStatus.CONFIRMED)
-    return <Trans i18nKey={translations.common.confirmed} />;
-  return <Trans i18nKey={translations.common.pending} />;
-}
-
-const StyledStatus = styled.div`
-  width: 100px;
-  margin: 0 auto 35px;
-  text-align: center;
-  img {
-    width: 100px;
-    height: 100px;
+const getWalletName = (wallet: string) => {
+  switch (wallet) {
+    case 'liquality':
+      return 'Liquality';
+    case 'nifty':
+      return 'Nifty';
+    case 'portis':
+      return 'Portis';
+    case 'ledger':
+      return 'Ledger';
+    case 'trezor':
+      return 'Trezor';
+    case 'wallet-connect':
+      return 'Wallet Connect';
+    default:
+      return 'MetaMask';
   }
-  p {
-    font-size: 1rem;
-    font-weight: 500;
-  }
-`;
+};
 
-const StyledHashContainer = styled.div`
-  max-width: 215px;
-  width: 100%;
-  margin: 0 auto;
-`;
-
-const StyledHash = styled.div`
-  text-align: center;
-  font-size: 0.875rem;
-  font-weight: 400;
-  margin-bottom: 35px;
-  strong {
-    font-weight: 500;
-    margin-right: 14px;
-    display: inline-block;
+const getWalletImage = (wallet: string) => {
+  switch (wallet) {
+    case 'liquality':
+      return wLiquality;
+    case 'nifty':
+      return wNifty;
+    case 'portis':
+      return wPortis;
+    case 'ledger':
+      return wLedger;
+    case 'trezor':
+      return wTrezor;
+    case 'wallet-connect':
+      return wWalletConnect;
+    default:
+      return wMetamask;
   }
-`;
+};
 
-const ExplorerLink = styled.div.attrs(_ => ({
-  className: 'tw-text-secondary',
-}))`
-  text-align: center;
-  a {
-    text-decoration: underline !important;
-    font-weight: 500 !important;
-    &:hover {
-      text-decoration: none !important;
-    }
+const getStatusImage = (tx: TxStatus) => {
+  switch (tx) {
+    case TxStatus.FAILED:
+      return txFailed;
+    case TxStatus.CONFIRMED:
+      return txConfirm;
+    default:
+      return txPending;
   }
-`;
+};
+
+const getStatus = (tx: TxStatus) => {
+  switch (tx) {
+    case TxStatus.FAILED:
+      return <Trans i18nKey={translations.common.failed} />;
+    case TxStatus.CONFIRMED:
+      return <Trans i18nKey={translations.common.confirmed} />;
+    default:
+      return <Trans i18nKey={translations.common.pending} />;
+  }
+};
 
 type StatusComponentProps = {
   status: TxStatus;
@@ -224,45 +205,32 @@ type StatusComponentProps = {
 export const StatusComponent: React.FC<StatusComponentProps> = ({
   status,
   onlyImage = false,
-}) => {
-  return (
-    <StyledStatus>
-      <img
-        src={getStatusImage(status)}
-        className={`${status === 'pending' && 'tw-animate-spin'}`}
-        alt="Status"
-      />
-      {!onlyImage && <p>{getStatus(status)}</p>}
-    </StyledStatus>
-  );
-};
-
-const WLContainer = styled.div`
-  width: 98px;
-  height: 98px;
-  border-radius: 1.25rem;
-  border: 1px solid #e8e8e8;
-  margin: 0 auto 35px;
-  div {
-    font-size: 0.75rem;
-  }
-`;
-const WLImage = styled.img`
-  width: 50px;
-  height: 50px;
-  margin-bottom: 10px;
-  object-fit: contain;
-`;
+}) => (
+  <div className="tw-mx-auto tw-text-center tw-w-24">
+    <img
+      src={getStatusImage(status)}
+      className={classNames('tw-w-14 tw-h-14 tw-mx-auto', {
+        'tw-animate-spin': status === TxStatus.PENDING,
+      })}
+      alt="Status"
+    />
+    {!onlyImage && (
+      <p className="tw-text-base tw-font-medium">{getStatus(status)}</p>
+    )}
+  </div>
+);
 
 type WalletLogoProps = {
   wallet: string;
 };
 
-const WalletLogo: React.FC<WalletLogoProps> = ({ wallet }) => {
-  return (
-    <WLContainer className="tw-flex tw-flex-col tw-justify-center tw-items-center tw-overflow-hidden">
-      <WLImage src={getWalletImage(wallet)} alt="Wallet" />
-      <div className="tw-truncate">{getWalletName(wallet)}</div>
-    </WLContainer>
-  );
-};
+const WalletLogo: React.FC<WalletLogoProps> = ({ wallet }) => (
+  <div className="tw-flex tw-flex-col tw-justify-center tw-items-center tw-overflow-hidden tw-rounded-2xl tw-border tw-border-sov-white tw-w-24 tw-h-24 tw-mx-auto tw-mb-9">
+    <img
+      className="tw-w-12 tw-h-12 tw-mb-2.5 tw-object-contain"
+      src={getWalletImage(wallet)}
+      alt="Wallet"
+    />
+    <div className="tw-truncate tw-text-xs">{getWalletName(wallet)}</div>
+  </div>
+);

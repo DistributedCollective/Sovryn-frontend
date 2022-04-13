@@ -1,4 +1,4 @@
-import cn from 'classnames';
+import classNames from 'classnames';
 import React from 'react';
 
 interface Props {
@@ -8,7 +8,7 @@ interface Props {
 
 export function SkeletonRow({ loadingText, className }: Props) {
   return (
-    <div className={cn('tw-relative', className)}>
+    <div className={classNames('tw-relative', className)}>
       <div className="tw-grid tw-gap-8 tw-grid-cols-4 tw-mt-0">
         <div className="tw-col-span-1">
           <div className="bp3-skeleton">&nbsp;</div>

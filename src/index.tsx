@@ -39,6 +39,7 @@ import './locales/i18n';
 import './locales/dayjs';
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
 import { graphRskUrl } from './utils/classifiers';
+import { ToastContainer } from 'react-toastify';
 
 const MOUNT_NODE = document.getElementById('root') as HTMLElement;
 
@@ -64,6 +65,7 @@ const ConnectedApp = ({ Component }: Props) => {
         <ServiceWorkerToaster />
         <MobileBrowsersWarningDialog />
         <FirstVisitDisclaimerDialog />
+        <ToastContainer />
       </ApolloProvider>
     </Provider>
   );
