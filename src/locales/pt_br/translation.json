@@ -1637,7 +1637,7 @@
       "pair": "Par",
       "orderType": "Tipo de ordem",
       "tradeAmount": "Quantidade negociada",
-      "limitPrice": "Preço limite",
+      "limitPrice": "Preço máximo",
       "amountReceive": "Quantidade a receber",
       "duration": "Expira em",
       "deadline": "Validade",
