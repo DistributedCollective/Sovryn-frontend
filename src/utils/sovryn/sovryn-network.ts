@@ -3,10 +3,10 @@ import { Contract } from 'web3-eth-contract';
 import { bignumber } from 'mathjs';
 import { AbiItem } from 'web3-utils';
 import { store } from 'store/store';
-import { currentChainId, rpcNodes, databaseRpcNodes } from 'utils/classifiers';
-import { appContracts } from 'utils/blockchain/app-contracts';
-import { gas } from 'utils/blockchain/gas-price';
-import { actions } from 'app/containers/WalletProvider/slice';
+import { currentChainId, rpcNodes, databaseRpcNodes } from '../classifiers';
+import { appContracts } from '../blockchain/app-contracts';
+import { gas } from '../blockchain/gas-price';
+import { actions } from '../../app/containers/WalletProvider/slice';
 
 export class SovrynNetwork {
   private static _instance?: SovrynNetwork;
