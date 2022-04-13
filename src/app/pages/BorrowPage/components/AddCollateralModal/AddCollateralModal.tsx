@@ -25,7 +25,7 @@ import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalcu
 import { ActiveLoan } from 'app/hooks/trading/useGetLoan';
 import { useDenominateAssetAmount } from 'app/hooks/trading/useDenominateAssetAmount';
 import { LoadableValue } from 'app/components/LoadableValue';
-import { calculateLiquidationPrice } from './utils';
+import { calculateCollateralRatio, calculateLiquidationPrice } from './utils';
 
 type AddCollateralModalProps = {
   loan: ActiveLoan;
@@ -75,8 +75,7 @@ export const AddCollateralModal: React.FC<AddCollateralModalProps> = ({
   );
 
   const currentCollateralRatio = useMemo(
-    () =>
-      bignumber(item.collateral).div(principalAsCollateral).mul(100).toFixed(3),
+    () => calculateCollateralRatio(principalAsCollateral, item.collateral),
     [item.collateral, principalAsCollateral],
   );
 
@@ -107,10 +106,10 @@ export const AddCollateralModal: React.FC<AddCollateralModalProps> = ({
 
   const newCollateralRatio = useMemo(
     () =>
-      bignumber(bignumber(item.collateral).add(weiAmount))
-        .div(principalAsCollateral)
-        .mul(100)
-        .toFixed(3),
+      calculateCollateralRatio(
+        principalAsCollateral,
+        bignumber(item.collateral).add(weiAmount).toString(),
+      ),
     [item.collateral, principalAsCollateral, weiAmount],
   );
 
