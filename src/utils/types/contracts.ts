@@ -7,4 +7,5 @@ export type ContractItemData = {
   address: string;
   abi: AbiItem | AbiItem[] | any;
   blockNumber: number;
+  chainId?: number;
 };

@@ -1,6 +1,6 @@
 import { contracts } from 'utils/blockchain/contracts';
 
-import { currentNetwork } from 'utils/classifiers';
+import { currentChainId, currentNetwork } from 'utils/classifiers';
 import { toChecksumAddress } from '../helpers';
 import { ContractData } from '../types/contracts';
 
@@ -11,10 +11,15 @@ const fixContracts = () => {
   keys.forEach(key => {
     if (contracts.hasOwnProperty(key)) {
       const item = contracts[key];
+      const chainId = item.chainId || currentChainId;
+      const isRSK = chainId === currentChainId;
       newObj[key] = {
-        address: toChecksumAddress(item.address),
+        address: isRSK
+          ? toChecksumAddress(item.address)
+          : item.address.toLowerCase(),
         abi: item.abi,
         blockNumber: item.blockNumber || FIRST_BLOCK,
+        chainId,
       };
     }
   });

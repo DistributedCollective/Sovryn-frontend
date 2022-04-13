@@ -16,8 +16,9 @@ import axios, { Canceler } from 'axios';
 import { useInterval } from 'app/hooks/useInterval';
 import { LendingStats } from 'app/containers/StatsPage/components/LendingStats';
 import { CryptocurrencyPrices } from './components/CryptocurrencyPrices';
-import { IPairsData, IAssets } from './components/CryptocurrencyPrices/types';
+import { IAssets } from './components/CryptocurrencyPrices/types';
 import styles from './index.module.scss';
+import { IPairsData } from 'types/trading-pairs';
 
 const url = backendUrl[currentChainId];
 
@@ -142,9 +143,9 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
           </div>
 
           <div className="tw-mx-auto xl:tw-mx-0 xl:tw-w-5/12">
-            {/* 
+            {/*
               Should un comment this and remove Banner once the sale is over.
-              <ArbitrageOpportunity /> 
+              <ArbitrageOpportunity />
             */}
             {/* <Banner
               title={t(translations.landingPage.banner.originsFish)}
@@ -162,12 +163,14 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
         <Promotions />
         <div className="tw-max-w-screen-xl tw-mx-auto">
           <div className="tw-w-full tw-overflow-auto">
-            <CryptocurrencyPrices
-              pairs={pairsData?.pairs}
-              isLoading={pairsLoading}
-              assetData={assetData}
-              assetLoading={assetLoading}
-            />
+            {pairsData && pairsData.pairs && (
+              <CryptocurrencyPrices
+                pairs={pairsData.pairs}
+                isLoading={pairsLoading}
+                assetData={assetData}
+                assetLoading={assetLoading}
+              />
+            )}
           </div>
 
           <div className="tw-font-semibold tw-mb-8 tw-mt-24">

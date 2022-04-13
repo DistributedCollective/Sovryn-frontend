@@ -19,10 +19,22 @@
     "next": "Próximo",
     "loading": "Carregando...",
     "retry": "Tentar novamente",
+    "continueToFailure": "Eu entendo os riscos de a transação falhar, permita-me continuar",
     "unit": {
       "day": "{{count}} dia",
       "day_plural": "{{count}} dias"
-    }
+    },
+    "gasPrice": "Preço gás",
+    "gasLimit": "Limite gás",
+    "units": "unidades",
+    "txHash": "Tx Hash",
+    "walletCompatibility": "Carteiras compatíveis"
+  },
+  "tradeEvents": {
+    "CloseWithSwap": "Saída de posição",
+    "Trade": "Abertura de posição",
+    "Liquidate": "Posição liquidada",
+    "DepositCollateral": "Margem aumentada"
   },
   "global": {
     "liquidationPrice": "Preço de liquidação",
@@ -89,6 +101,33 @@
       "tradingHistory": "Concluídas"
     }
   },
+  "trading": {
+    "limit": {
+      "cancelDialog": {
+        "title": "Cancelar ordem limitada",
+        "cta": "Confirmar",
+        "complete": "Cancelamento concluído",
+        "failed": "Cancelamento falhou",
+        "tx": {
+          "title": "Cancelar",
+          "message": "Cancelar {{tradeType}} limitada"
+        }
+      },
+      "tradeDialog": {
+        "marketTitle": "Revisar ordem",
+        "limitTitle": "Revisar ordem",
+        "tradingPair": "Par de negociação:",
+        "orderType": "Tipo de ordem:",
+        "tradeAmount": "Quantidade negociada:",
+        "limitPrice": "Preço:",
+        "duration": "Expira em:",
+        "receiveAmount": "Quantidade a receber:",
+        "orderAmount": "Quantidade negociada:",
+        "newOrderDetails": "Detalhes",
+        "order": "Ordem"
+      }
+    }
+  },
   "tradingPage": {
     "meta": {
       "title": "Operações",
@@ -151,6 +190,10 @@
       "profit": "L&P realizado",
       "entryTxHash": "Transação de entrada",
       "closeTxHash": "Transação de fechamento",
+      "actions": "Ação",
+      "cta": {
+        "details": "Detalhes"
+      },
       "profitLabels": {
         "up": "Lucro de ",
         "down": "Prejuízo de ",
@@ -286,10 +329,16 @@
   },
   "marginTradeForm": {
     "fields": {
-      "currency": "Ativo",
+      "currency": "Ativo de garantia",
       "currency_placeholder": "Escolha o ativo",
+      "limitSettings": "Configurações ordem limitada",
       "amount": "Quantidade",
-      "startPrice": "Preço de entrada"
+      "startPrice": "Preço de entrada",
+      "slippageSettings": "Configurações avançadas",
+      "esEntryPrice": "Preço aprox de entrada:",
+      "esLiquidationPrice": "Preço aprox de liquidação:",
+      "interestAPY": "Interest APY:",
+      "interestAPR": "Taxa anual:"
     },
     "buttons": {
       "submit": "Realizar operação"
@@ -310,11 +359,18 @@
       "switchAssets": "Alternar ativos"
     },
     "arbitrage": {
-      "best_rate": "Oportunidade de arbitragem trocando até ",
-      "for": "por até",
+      "best_rate": "Oportunidade de arbitragem",
+      "for": "por",
+      "text": "Troque <1></1> por <2></2> e receba <0>{{percent}}</0> a mais do que o preço de mercado",
       "popover_p1": "Você pode ajudar a manter o sistema em equilíbrio trocando {{fromAmount}} {{fromToken}} por {{toAmount}} {{toToken}}.",
       "popover_p2": "Isso é {{earn}} {{toToken}} a mais do que o preço de mercado."
-    }
+    },
+    "reviewSwap": "Revisar troca",
+    "swapAsset": "Enviar:",
+    "amount": "Quantidade:",
+    "amountReceived": "Quantidade a receber:",
+    "receiveAsset": "Receber:",
+    "minimumReceived": "Mínimo a receber:"
   },
   "amountField": {
     "placeholder": "Insira a quantidade",
@@ -595,10 +651,13 @@
   "swap": {
     "title": "Trocar",
     "meta": "Trocar",
-    "cta": "Revisar troca",
+    "cta": "Trocar",
     "minimumReceived": "Mínimo a receber:",
     "send": "Enviar",
-    "receive": "Receber"
+    "receive": "Receber",
+    "receiveAmount": "Quantidade",
+    "tradeAmount": "Quantidade",
+    "advancedSettings": "Configurações avançadas"
   },
   "stake": {
     "title": "SOV investidos/reservados",
@@ -612,7 +671,8 @@
     "sentLendingPool": "{{asset}} será enviado para o pool de empréstimos.",
     "convertedToRBTC": "{{asset}} será convertido em RBTC e enviado diretamente para sua carteira.",
     "noUnlockedSov": "Você não possui SOV disponíveis para investimento",
-    "txFee": "Taxa de rede",
+    "txFee": "Taxa de transação",
+    "txId": "ID transação:",
     "sov": "SOV",
     "days": "dias",
     "vestingFees": "Vested SOV",
@@ -1084,9 +1144,12 @@
       "amountSent": "Quantidade enviada",
       "to": "Para",
       "amountReceived": "Quantidade recebida",
+      "transactionFee": "Taxa de transação",
+      "gasFee": "Gás",
       "status": "Status da transação"
     },
-    "emptyState": "Histórico vázio."
+    "emptyState": "Histórico vázio.",
+    "recentSwapHistory": "Histórico"
   },
   "vestedHistory": {
     "title": "SOV",
@@ -1102,9 +1165,9 @@
     "title": "Histórico",
     "tableHeaders": {
       "time": "Data e hora",
-      "pair": "Par negociado",
+      "pair": "Par",
       "orderType": "Tipo de ordem",
-      "amountPaid": "Quantidade paga",
+      "amountPaid": "Quantidade enviada",
       "amountReceived": "Quantidade recebida",
       "transactionFee": "Taxa de rede",
       "status": "Status da transação"
@@ -1225,6 +1288,11 @@
   "closeTradingPositionHandler": {
     "title": "Fechar posição",
     "withdrawIn": "Ativo:",
+    "amountReceived": "Quantidade a receber:",
+    "marginType": "Margem:",
+    "positionSize": "Tamanho da posição:",
+    "minimumReceived": "Mínimo a receber:",
+    "pl": "L/P:",
     "amountToClose": "Quantidade:",
     "withdrawAmount": "Você vai receber:",
     "simulationFailed": "A transação não vai fechar: {{error}}",
@@ -1424,41 +1492,81 @@
     "tradeForm": {
       "labels": {
         "pair": "Par de negociação:",
-        "asset": "Ativo:",
+        "asset": "Ativo de garantia:",
         "leverage": "Alavancagem:",
         "amount": "Quantidade:",
+        "slippage": "Diferença máxima no preço:",
         "balance": "Saldo disponível: <0/> <1/>",
-        "txFee": "Taxa de rede: <0/> {{symbol}}"
+        "txFee": "Taxa de rede: <0/>",
+        "tradingFee": "Taxa de negociação:",
+        "networkFee": "Taxa de rede:",
+        "estimatedNetworkFee": "Taxa de rede (Aproximada):"
       },
       "buttons": {
         "long": "Comprado",
         "short": "Vendido"
-      }
+      },
+      "placePosition": {
+        "placeLong": "Inserir ordem",
+        "placeShort": "Inserir ordem"
+      },
+      "market": "",
+      "limit": ""
+    },
+    "recentTrades": {
+      "title": "Negociações recentes",
+      "price": "Preço",
+      "size": "Tamanho",
+      "time": "Data e hora",
+      "noTrades": "Sem negociações recentes",
+      "long": "C",
+      "short": "V"
     },
     "tradeDialog": {
-      "title": "Revisar transação",
+      "title": "Revisar ordem",
       "pair": "Par de negociação:",
       "leverage": "Alavancagem:",
       "asset": "Ativo de garantia:",
-      "direction": "Direção:",
+      "margin": "Margem:",
+      "direction": "Par de negociação:",
+      "positionSize": "Tamanho da posição",
       "maintananceMargin": "Margem de manutenção:",
-      "liquidationPrice": "Preço estimado de liquidação:",
-      "entryPrice": "Preço aproximado de entrada:",
+      "liquidationPrice": "Preço aprox de liquidação:",
+      "minEntry": "Preço mín de entrada:",
+      "minLiq": "Preço mín de liquidação:",
+      "interestAPR": "Taxa anual",
+      "renewalDate": "Data de renovação:",
+      "entryPrice": "Preço aprox de entrada:",
       "estimationErrorNote": "A posição de abertura irá falhar: {{error}}",
       "position": {
         "long": "Comprado",
         "short": "Vendido"
-      }
+      },
+      "newPositionDetails": "Detalhes",
+      "buy": "compra",
+      "sell": "venda"
     },
     "openPositions": "Posições abertas",
     "tradingHistory": "Posições fechadas",
+    "openLimitOrders": "Ordens a limite abertas",
     "notificationSettingsDialog": {
-      "title": "Configurações de notificação",
-      "notifyVia": "Notificar via",
+      "title": "Configurações de notificação de margem",
+      "notifyVia": "Receba notificações por e-mail para ordens a limite executadas, chamadas de margem e liquidações. Detalhes <0>aqui</0>.",
+      "marginCalls": "Chamadas de margem",
+      "liquidations": "Liquidações",
+      "here": "aqui",
+      "filledLimitOrders": "Ordens a limite preenchidas",
+      "enterEmail": "Insira o endereço de e-mail",
+      "email": "E-mail",
+      "useRisk": "Use por sua conta e risco",
+      "riskDesc": "Esteja ciente de que este serviço de notificação por e-mail está hospedado em um servidor centralizado da AWS nos EUA.",
       "telegramHandle": "Insira seu nome de usuário do Telegram",
+      "emailHandle": "Insira seu endereço de e-mail",
       "discordHandle": "Insira seu nome de usuário do Discord",
       "usernamePlaceholder": "@usuário",
-      "receiveNotificationTitle": "Você irá receber uma notificação quando ocorrer:",
+      "updateSuccess": "Configurações de notificação atualizadas",
+      "emailPlaceholder": "exemplo@domínio.com",
+      "receiveNotificationTitle": "Você irá receber uma notificação quando ocorrer",
       "notificationEvents": {
         "1": "25% margem",
         "2": "Liquidação"
@@ -1476,16 +1584,92 @@
       "description": "Operar spot"
     },
     "tradeForm": {
-      "buy_cta": "COMPRAR",
-      "sell_cta": "VENDER",
+      "buy_cta": "INSERIR ORDEM",
+      "sell_cta": "INSERIR ORDEM",
       "amountReceived": "Receber",
-      "buy": "COMPRA",
-      "sell": "VENDA"
+      "buy": "Compra",
+      "sell": "Venda",
+      "market": "Mercado",
+      "limit": "Limitada",
+      "advancedSettings": "Configurações avançadas",
+      "limitPrice": "Preço:",
+      "receive": "Receber:",
+      "amount": "Quantidade:",
+      "errors": {
+        "minAmount": "Valor muito baixo, insira uma quantidade maior"
+      }
     },
     "priceHistory": {
       "turnover": "Volume de negociações",
       "lastTradedPrice": "Último preço"
+    },
+    "history": {
+      "marketOrder": "Ordens a mercado executadas",
+      "openLimitOrders": "Ordens a limite abertas",
+      "limitOrderHistory": "Ordens a limite executadas"
+    },
+    "tradeDialog": {
+      "marketTitle": "Revisar ordem",
+      "limitTitle": "Revisar ordem",
+      "tradingPair": "Par de negociação:",
+      "orderType": "Tipo de ordem:",
+      "tradeAmount": "Quantidade negociada:",
+      "limitPrice": "Preço:",
+      "duration": "Expira em:",
+      "receiveAmount": "Quantidade a receber:",
+      "orderAmount": "Quantidade negociada:",
+      "newOrderDetails": "Detalhes",
+      "order": "Ordem"
+    },
+    "limitOrderSetting": {
+      "title": "Configurações avançadas",
+      "duration": "Expira em:",
+      "untilCancelled": "Até cancelar",
+      "day_one": "{{count}} dia",
+      "day_other": "{{count}} dias",
+      "partialFilled": "Permitir ordem parcialmente executada:",
+      "infinity": "∞"
+    },
+    "openLimitOrders": {
+      "dateTime": "Data e hora",
+      "pair": "Par",
+      "orderType": "Tipo de ordem",
+      "tradeAmount": "Quantidade negociada",
+      "limitPrice": "Preço limite",
+      "amountReceive": "Quantidade a receber",
+      "duration": "Expira em",
+      "deadline": "Validade",
+      "actions": "Ação",
+      "noData": "Sem dados",
+      "filledAmount": "Quantidade inserida",
+      "filledPrice": "Preço de execução",
+      "leverage": "Alavancagem",
+      "cta": {
+        "edit": "Editar",
+        "close": "Fechar"
+      }
+    },
+    "cancelDialog": {
+      "title": "Cancelar ordem limitada",
+      "cta": "Confirmar",
+      "complete": "Cancelada com sucesso",
+      "failed": "Falha ao cancelar",
+      "tx": {
+        "title": "Cancelar",
+        "message": "Cancelar ordem {{tradeType}}"
+      }
     }
+  },
+  "pairNavbar": {
+    "pair": "Par",
+    "asset": "Ativo",
+    "lastTradedPrice": "Último preço",
+    "dayChange": "24H oscilação",
+    "dayPercentChange": "24hr % oscilação",
+    "dayLow": "24hr baixa:",
+    "dayHigh": "24hr alta:",
+    "all": "TUDO",
+    "search": "Procurar"
   },
   "form": {
     "select": {
@@ -1758,6 +1942,23 @@
       "maxWithdrawal": "Máximo permitido:"
     }
   },
+  "transactionDialog": {
+    "pendingUser": {
+      "title": "Confirmar {{action}}",
+      "text": "Confirme a transação na sua carteira {{walletName}}",
+      "failed": "Falhou",
+      "retry": "Tentar novamente"
+    },
+    "txStatus": {
+      "title": "Status da transação",
+      "aborted": "Transação falhou. <br/>Cancele ou refaça a transação",
+      "abortedLedger": "Make sure \"Contract data\" is set to \"Allowed\" in your Ledger app settings",
+      "cta": "Abrir transação",
+      "processing": "{{action}} em processamento...",
+      "complete": "{{action}} concluída",
+      "submit": "{{action}} inserida"
+    }
+  },
   "buySovPage": {
     "meta": {
       "title": "Negociações com SOV estão abertas!",
@@ -1782,7 +1983,7 @@
     "topUp": {
       "title": "Adquirir <0>RBTC</0>",
       "line1": "Você irá precisar de <0>RBTC</0> na sua carteira para comprar SOV e pagar as taxas da rede RSK",
-      "line2": "Saiba mais sobre <0>RBTC</0>",
+      "line2": "Saiba mais sobre a RSK",
       "cta": "Carregar carteira"
     },
     "form": {
@@ -1804,9 +2005,9 @@
       },
       "txStatus": {
         "title": "Status da transação",
-        "aborted": "Transação abortada pelo usuário.",
+        "aborted": "Você optou por rejeitar esta transação. Cancele ou refaça a transação",
         "abortedLedger": "Verifique se \"Contract data\" está configurado para \"Permitido\" no seu aplicativo Ledger",
-        "cta": "Ver na blockchain"
+        "cta": "Abrir transação"
       }
     },
     "promotions": {
@@ -1870,9 +2071,9 @@
     "earn": "Ganhe com a Sovryn"
   },
   "addToMargin": {
-    "title": "Depositar",
-    "amount": "Quantidade:",
-    "liquidationPrice": "Preço de liquidação:"
+    "title": "Adicionar margem",
+    "amount": "Aumentar margem em:",
+    "liquidationPrice": "Preço aprox de liquidação:"
   },
   "openPositionTable": {
     "direction": "Direção",
@@ -1884,10 +2085,27 @@
     "interestAPR": "Juros anual",
     "actions": "Ação",
     "noData": "Sem dados",
+    "rolloverDate": "Rollover Date",
+    "event": "Evento",
+    "amountRepaid": "Amount Repaid",
+    "collateralWithdrawn": "Collateral Withdrawn",
+    "exitPrice": "Preço de saída",
+    "positionChange": "Position Change",
+    "closingPrice": "Preço de fechamento",
+    "timestamp": "Data e hora",
+    "txID": "ID transação",
     "cta": {
-      "margin": "Adicionar margem",
-      "close": "Fechar"
-    }
+      "increase": "Aumentar",
+      "margin": "Margem",
+      "close": "Fechar",
+      "details": "Detalhes"
+    },
+    "explainers": {
+      "positionMargin": "The portion of your margin that is assigned to the initial margin requirements on your open positions. This is the entry value of all contracts you hold divided by the selected leverage, plus unrealised profit and loss.<br/><br/>If the current margin percentage drops to 15%, your position will be liquidated.",
+      "unrealizedPL": "Due to limitations of smart contracts, we only estimate profit between entry and current AMM prices without taking margin increases or partial position withdrawals into consideration.<br/>By hovering over a value, you will see the correct token amount you would receive if you decided to close the position now.",
+      "closingPrice": "O preço de saída é 95% do valor do preço de fechamento. Esta diferença ocorre devido ao desconto aplicado como incentivo aos liquidatários."
+    },
+    "profitTooltip": "Ao fechar a posição você pode escolher receber o valor nos ativos abaixo:"
   },
   "claimOriginBanner": {
     "text": "Seu SOV está pronto para ser sacado!",

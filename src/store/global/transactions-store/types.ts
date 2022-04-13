@@ -52,6 +52,8 @@ export enum TxType {
   CLAIM_VESTED_SOV_REWARDS = 'claim_vested_sov_rewards',
   SIMULATOR_REQUEST = 'simulator_request',
   FAST_BTC_WITHDRAW = 'fast_btc_withdraw',
+  LIMIT_ORDER = 'limit_order',
+  SETTLEMENT_WITDHRAW = 'settlement_withdraw',
 }
 
 export enum TxStatus {
@@ -77,7 +79,7 @@ export interface Transaction {
   value: string;
   asset: Nullable<Asset | string>;
   assetAmount: Nullable<string>;
-  customData?: { [key: string]: any };
+  customData?: Record<string, any>;
 }
 
 export interface RequestDialogState {

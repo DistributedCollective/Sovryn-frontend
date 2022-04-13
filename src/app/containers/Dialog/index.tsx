@@ -2,8 +2,9 @@ import React, { Suspense } from 'react';
 import { Dialog as BPDialog } from '@blueprintjs/core';
 import { ComponentSkeleton } from '../../components/PageSkeleton';
 import styles from '../../components/Dialogs/dialog.module.scss';
+import classNames from 'classnames';
 
-interface Props {
+interface IDialogProps {
   isOpen: boolean;
   onClose: () => void;
   isCloseButtonShown?: boolean;
@@ -11,31 +12,36 @@ interface Props {
   canEscapeKeyClose?: boolean;
   canOutsideClickClose?: boolean;
   className?: string;
+  dataAttribute?: string;
 }
 
-export function Dialog(props: Props) {
-  return (
-    <BPDialog
-      isOpen={props.isOpen}
-      onClose={() => props.onClose()}
-      canEscapeKeyClose={props.canEscapeKeyClose}
-      canOutsideClickClose={props.canOutsideClickClose}
-      className={props.className}
-    >
-      {props.isCloseButtonShown && (
-        <button data-close="" className="dialog-close" onClick={props.onClose}>
-          <span className="tw-sr-only">Close Dialog</span>
-        </button>
-      )}
-      <Suspense fallback={<ComponentSkeleton lines={4} />}>
-        {props.children}
-      </Suspense>
-    </BPDialog>
-  );
-}
-
-Dialog.defaultProps = {
-  className: styles.dialog,
-  isCloseButtonShown: true,
-  onClose: () => {},
-};
+export const Dialog: React.FC<IDialogProps> = ({
+  isOpen,
+  isCloseButtonShown = true,
+  children,
+  canEscapeKeyClose,
+  canOutsideClickClose,
+  className,
+  dataAttribute,
+  onClose,
+}) => (
+  <BPDialog
+    isOpen={isOpen}
+    onClose={onClose}
+    canEscapeKeyClose={canEscapeKeyClose}
+    canOutsideClickClose={canOutsideClickClose}
+    className={classNames(styles.dialog, className)}
+  >
+    {isCloseButtonShown && (
+      <button
+        data-action-id={dataAttribute}
+        data-close
+        className="dialog-close"
+        onClick={onClose}
+      >
+        <span className="tw-sr-only">Close Dialog</span>
+      </button>
+    )}
+    <Suspense fallback={<ComponentSkeleton lines={4} />}>{children}</Suspense>
+  </BPDialog>
+);

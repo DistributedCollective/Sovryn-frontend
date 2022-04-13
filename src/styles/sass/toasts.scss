@@ -1,0 +1,33 @@
+@import '~react-toastify/dist/ReactToastify.min.css';
+
+/** Used to define the position of the ToastContainer **/
+.Toastify__toast-container--top-center {
+    top: 68px;
+}
+
+.Toastify__toast-container {
+  width: auto;
+  max-width: 450px;
+}
+
+/** Classes for the displayed toast **/
+.Toastify__toast {
+    min-width: 385px;
+    min-height: 72px;
+    background: #EAEAEA 0% 0% no-repeat padding-box;
+    border-radius: 8px;
+    opacity: 1;
+}
+.Toastify__toast-body {
+    @apply tw-text-black;
+    font: normal normal 600 16px/19px Montserrat;
+    & > div {
+      @apply tw-flex tw-items-center tw-justify-center;
+      &:last-child {
+        @apply tw-justify-center tw-flex-auto;
+      }
+      & > svg {
+        @apply tw-mr-2;
+      }
+    }
+}

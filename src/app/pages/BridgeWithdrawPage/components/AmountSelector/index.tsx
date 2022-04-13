@@ -20,7 +20,7 @@ import { ActionButton } from 'app/components/Form/ActionButton';
 import { translations } from 'locales/i18n';
 import { useTranslation, Trans } from 'react-i18next';
 import styles from './index.module.scss';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { discordInvite } from 'utils/classifiers';
 import { useIsBridgeWithdrawLocked } from 'app/pages/BridgeWithdrawPage/hooks/useIsBridgeWithdrawLocked';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
@@ -142,7 +142,7 @@ export const AmountSelector: React.FC = () => {
               {currentAsset.symbol}
               {(!checkBridgeBalance || !checkSpentToday) && (
                 <div
-                  className={cn(
+                  className={classNames(
                     styles.warning,
                     'tw-absolute tw-b-0 tw-l-0 tw-text-Red',
                   )}

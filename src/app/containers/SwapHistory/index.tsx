@@ -146,24 +146,29 @@ export function SwapHistory() {
 
   return (
     <section>
-      <div className="sovryn-table tw-p-4 tw-mb-12">
-        <table className="tw-w-full">
-          <thead>
-            <tr>
-              <th className="tw-hidden lg:tw-table-cell">
-                {t(translations.swapHistory.tableHeaders.time)}
-              </th>
-              <th className="tw-hidden lg:tw-table-cell">
-                {t(translations.swapHistory.tableHeaders.from)}
-              </th>
-              <th>{t(translations.swapHistory.tableHeaders.amountSent)}</th>
-              <th>{t(translations.swapHistory.tableHeaders.to)}</th>
-              <th className="tw-hidden lg:tw-table-cell">
-                {t(translations.swapHistory.tableHeaders.amountReceived)}
-              </th>
-              <th>{t(translations.swapHistory.tableHeaders.status)}</th>
-            </tr>
-          </thead>
+      <p className="tw-font-normal tw-m-0 tw-px-4">
+        {t(translations.swapHistory.recentSwapHistory)}
+      </p>
+      <div className="tw-p-4 tw-pt-0 tw-mb-12">
+        <table className="tw-table tw-w-full">
+          {history.length !== 0 && !loading && (
+            <thead>
+              <tr className="tw-mt-5">
+                <th className="tw-hidden lg:tw-table-cell">
+                  {t(translations.swapHistory.tableHeaders.time)}
+                </th>
+                <th className="tw-hidden lg:tw-table-cell">
+                  {t(translations.swapHistory.tableHeaders.from)}
+                </th>
+                <th>{t(translations.swapHistory.tableHeaders.amountSent)}</th>
+                <th>{t(translations.swapHistory.tableHeaders.to)}</th>
+                <th className="tw-hidden lg:tw-table-cell">
+                  {t(translations.swapHistory.tableHeaders.amountReceived)}
+                </th>
+                <th>{t(translations.swapHistory.tableHeaders.status)}</th>
+              </tr>
+            </thead>
+          )}
           <tbody className="tw-mt-12">
             {loading && (
               <tr key={'loading'}>
@@ -253,31 +258,38 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
       </td>
       <td className="tw-hidden lg:tw-table-cell">
         <img
-          className="tw-hidden lg:tw-inline tw-mr-2"
-          style={{ height: '40px' }}
+          className="tw-hidden lg:tw-inline tw-mr-1"
+          style={{ height: '29px' }}
           src={itemFrom.logoSvg}
           alt={itemFrom.asset}
         />{' '}
         <AssetRenderer asset={itemFrom.asset} />
       </td>
-      <td>{numberFromWei(data.returnVal._fromAmount)}</td>
+      <td>
+        {numberFromWei(data.returnVal._fromAmount)}{' '}
+        <AssetRenderer asset={itemFrom.asset} />
+      </td>
       <td>
         <img
-          className="tw-joddem lg:tw-inline tw-mr-2"
-          style={{ height: '40px' }}
+          className="lg:tw-inline tw-mr-1"
+          style={{ height: '29px' }}
           src={itemTo.logoSvg}
           alt={itemTo.asset}
         />{' '}
         <AssetRenderer asset={itemTo.asset} />
       </td>
       <td className="tw-hidden lg:tw-table-cell">
-        <div>{numberFromWei(data.returnVal._toAmount)}</div>≈{' '}
+        <div>
+          {numberFromWei(data.returnVal._toAmount)}{' '}
+          <AssetRenderer asset={itemTo.asset} />
+        </div>
+        ≈{' '}
         <LoadableValue
           value={weiToUSD(dollarValue || '0')}
           loading={dollars.loading}
         />
       </td>
-      <td>
+      <td className="sm:tw-w-48">
         <div className="tw-flex tw-items-center tw-justify-between tw-p-0">
           <div>
             {!data.status && (
@@ -292,17 +304,32 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
             <LinkToExplorer
               txHash={data.transaction_hash}
               className="tw-text-primary tw-font-normal tw-whitespace-nowrap"
+              startLength={5}
+              endLength={5}
             />
           </div>
           <div className="tw-hidden sm:tw-block lg:tw-hidden xl:tw-block">
             {!data.status && (
-              <img src={iconSuccess} title="Confirmed" alt="Confirmed" />
+              <img
+                src={iconSuccess}
+                title={t(translations.common.confirmed)}
+                alt={t(translations.common.confirmed)}
+              />
             )}
             {data.status === TxStatus.FAILED && (
-              <img src={iconRejected} title="Failed" alt="Failed" />
+              <img
+                src={iconRejected}
+                title={t(translations.common.failed)}
+                alt={t(translations.common.failed)}
+              />
             )}
             {data.status === TxStatus.PENDING && (
-              <img src={iconPending} title="Pending" alt="Pending" />
+              <img
+                className="tw-animate-spin"
+                src={iconPending}
+                title={t(translations.common.pending)}
+                alt={t(translations.common.pending)}
+              />
             )}
           </div>
         </div>

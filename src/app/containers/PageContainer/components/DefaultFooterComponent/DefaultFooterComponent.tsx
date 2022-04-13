@@ -3,7 +3,6 @@ import { Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
 import { discordInvite } from 'utils/classifiers';
-
 import OptOutDialog from 'app/components/OptOutDialog';
 import footerLogo from 'assets/images/footer-logo.svg';
 
