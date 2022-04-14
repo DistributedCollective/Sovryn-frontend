@@ -25,7 +25,11 @@ import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalcu
 import { ActiveLoan } from 'app/hooks/trading/useGetLoan';
 import { useDenominateAssetAmount } from 'app/hooks/trading/useDenominateAssetAmount';
 import { LoadableValue } from 'app/components/LoadableValue';
-import { calculateCollateralRatio, calculateLiquidationPrice } from './utils';
+import {
+  BORROW_MAINTENANCE_RATIO,
+  calculateCollateralRatio,
+  calculateLiquidationPrice,
+} from './utils';
 
 type AddCollateralModalProps = {
   loan: ActiveLoan;
@@ -84,9 +88,9 @@ export const AddCollateralModal: React.FC<AddCollateralModalProps> = ({
       calculateLiquidationPrice(
         item.principal,
         item.collateral,
-        currentCollateralRatio,
+        BORROW_MAINTENANCE_RATIO,
       ),
-    [currentCollateralRatio, item.collateral, item.principal],
+    [item.collateral, item.principal],
   );
 
   const newCollateralAmount = useMemo(
@@ -99,9 +103,9 @@ export const AddCollateralModal: React.FC<AddCollateralModalProps> = ({
       calculateLiquidationPrice(
         item.principal,
         bignumber(item.collateral).add(weiAmount).toString(),
-        currentCollateralRatio,
+        BORROW_MAINTENANCE_RATIO,
       ),
-    [currentCollateralRatio, item.collateral, item.principal, weiAmount],
+    [item.collateral, item.principal, weiAmount],
   );
 
   const newCollateralRatio = useMemo(
@@ -131,18 +135,6 @@ export const AddCollateralModal: React.FC<AddCollateralModalProps> = ({
                   <>
                     {weiToAssetNumberFormat(
                       item.collateral,
-                      tokenDetails.asset,
-                    )}{' '}
-                    <AssetRenderer asset={tokenDetails.asset} />
-                  </>
-                }
-              />
-              <LabelValuePair
-                label={'Amount:'}
-                value={
-                  <>
-                    {weiToAssetNumberFormat(
-                      principalAsCollateral,
                       tokenDetails.asset,
                     )}{' '}
                     <AssetRenderer asset={tokenDetails.asset} />

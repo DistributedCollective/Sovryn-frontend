@@ -1,5 +1,7 @@
 import { bignumber } from 'mathjs';
 
+export const BORROW_MAINTENANCE_RATIO = '115';
+
 export const calculateLiquidationPrice = (
   principal: string,
   collateral: string,
