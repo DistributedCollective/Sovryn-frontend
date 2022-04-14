@@ -97,17 +97,10 @@ export const trimZero = (amount: string) => {
   return amount.replace(/([0-9]+(\.[0-9]+[1-9])?)(\.?0+$)/, '$1');
 };
 
-export const isValidNumerishValue = (value: any) => {
-  if (
-    value === Infinity ||
-    isNaN(Number(value)) ||
-    value === undefined ||
-    value === null
-  ) {
-    return false;
-  }
-  return true;
-};
+export const isValidNumerishValue = (value: any) =>
+  ['string', 'number'].includes(typeof value) &&
+  value !== '' &&
+  Number.isFinite(Number(value));
 
 export const toValidNumberishValue = (value: any): string =>
   isValidNumerishValue(value) ? bignumber(value).toString() : '0';
