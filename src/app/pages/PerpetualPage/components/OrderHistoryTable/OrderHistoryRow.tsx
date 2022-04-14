@@ -1,6 +1,9 @@
 import React, { useMemo } from 'react';
 import { OrderHistoryEntry } from '../../hooks/usePerpetual_OrderHistory';
-import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
+import {
+  DisplayDate,
+  SeparatorType,
+} from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
 import classNames from 'classnames';
 import { TradingPosition } from 'types/trading-position';
 import { PerpetualTradeType, PERPETUAL_CHAIN_ID } from '../../types';
@@ -62,7 +65,7 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({
   return (
     <tr>
       <td>
-        <DisplayDate timestamp={datetime} />
+        <DisplayDate timestamp={datetime} separator={SeparatorType.Dash} />
       </td>
       <td>{pair?.name}</td>
       <td

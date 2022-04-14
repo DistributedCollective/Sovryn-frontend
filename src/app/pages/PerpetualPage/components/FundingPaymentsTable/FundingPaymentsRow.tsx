@@ -1,4 +1,7 @@
-import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
+import {
+  DisplayDate,
+  SeparatorType,
+} from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
 import { AssetValue } from 'app/components/AssetValue';
 import { AssetValueMode } from 'app/components/AssetValue/types';
 import classNames from 'classnames';
@@ -36,7 +39,7 @@ export const FundingPaymentsRow: React.FC<FundingPaymentsRowProps> = ({
   return (
     <tr>
       <td>
-        <DisplayDate timestamp={item.datetime} />
+        <DisplayDate timestamp={item.datetime} separator={SeparatorType.Dash} />
       </td>
       <td>{item.pair.name}</td>
       <td>{collateralAsset}</td>
