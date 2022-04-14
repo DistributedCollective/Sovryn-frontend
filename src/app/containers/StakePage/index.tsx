@@ -48,6 +48,7 @@ import { useContractPauseState } from 'app/hooks/useContractPauseState';
 import { AlertBadge } from 'app/components/AlertBadge/AlertBadge';
 import { discordInvite, bitocracyUrl } from 'utils/classifiers';
 import { Button, ButtonType } from 'app/components/Button';
+import { useStaking_timestampToLockDate } from 'app/hooks/staking/useStaking_timestampToLockDate';
 
 const now = new Date();
 
@@ -111,9 +112,14 @@ const InnerStakePage: React.FC = () => {
   const [prevTimestamp, setPrevTimestamp] = useState<number | undefined>(
     undefined,
   );
+
+  const currentLockDate = useStaking_timestampToLockDate(
+    Math.round(now.getTime() / 1e3),
+  );
+
   const getWeight = useStaking_computeWeightByDate(
     Number(lockDate),
-    Math.round(now.getTime() / 1e3),
+    Number(currentLockDate.value),
   );
   const [assetsUsd, setAssetsUsd] = useState<{
     [assets: string]: number;
