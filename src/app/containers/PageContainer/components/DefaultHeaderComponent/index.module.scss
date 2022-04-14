@@ -98,7 +98,7 @@
     font-family: Orbitron-Medium, Orbitron;
   }
 
-  @media (min-width: theme('screens.xl')) {
+  @screen xl {
     height: 53px;
   }
 }

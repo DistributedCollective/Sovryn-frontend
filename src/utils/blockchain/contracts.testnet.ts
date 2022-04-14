@@ -3,6 +3,7 @@
  * Use getContract(contractName) helper
  * @example getContract('sovrynProtocol');
  */
+import { ChainId } from '../../types';
 import erc20TokenAbi from './abi/abiTestToken.json';
 import WBRTCTokenABI from './abi/abiTestWBRTCToken.json';
 import ConverterRegistryABI from './abi/ConverterRegistry.json';
@@ -35,6 +36,9 @@ import MYNTControllerAbi from './abi/MYNTController.json';
 import MYNTTokenAbi from './abi/MYNT_token.json';
 import MYNTPresaleAbi from './abi/MYNTPresale.json';
 import MYNTMarketMakerAbi from './abi/MYNTMarketMaker.json';
+import perpetualManagerAbi from './abi/PerpetualManager.json';
+import perpetualLimitOrderBookAbi from './abi/PerpetualLimitOrderBook.json';
+import marginTokenAbi from './abi/MarginToken.json';
 import fastBtcBridgeAbi from './abi/fastBtcBridge.json';
 import fastBtcMultisigAbi from './abi/fastBtcMultisig.json';
 
@@ -313,5 +317,20 @@ export const contracts = {
   fastBtcMultisig: {
     address: '0x1D67BDA1144CacDbEFF1782f0E5B43D7B50bbFe0',
     abi: fastBtcMultisigAbi,
+  },
+  perpetualManager: {
+    address: '0x16106ADFeEe3aC73dC82E17D97a6232a322C823E',
+    abi: perpetualManagerAbi,
+    chainId: ChainId.BSC_TESTNET,
+  },
+  perpetualLimitOrderBook: {
+    address: '0x7F6581BE4e0b7e83C74FB43a71995CCD7d93B2A6',
+    abi: perpetualLimitOrderBookAbi,
+    chainId: ChainId.BSC_TESTNET,
+  },
+  PERPETUALS_token: {
+    address: '0xaD884Eef9fE43b1FD735b40fe9e5e7D5eFb21E39',
+    abi: marginTokenAbi,
+    chainId: ChainId.BSC_TESTNET,
   },
 };

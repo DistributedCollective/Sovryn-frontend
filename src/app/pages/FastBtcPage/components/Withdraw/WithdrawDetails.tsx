@@ -8,21 +8,38 @@ import { LoadableValue } from '../../../../components/LoadableValue';
 import { btcInSatoshis } from 'app/constants';
 import { NetworkAwareComponentProps } from '../../types';
 import { getBTCAssetForNetwork } from '../../helpers';
+import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { DYNAMIC_FEE_DIVISOR } from '../../constants';
 
 export const WithdrawDetails: React.FC<NetworkAwareComponentProps> = ({
   network,
 }) => {
   const { t } = useTranslation();
-  const { limits } = useContext(WithdrawContext);
+  const { limits, aggregatorLimits } = useContext(WithdrawContext);
   const asset = getBTCAssetForNetwork(network);
 
   const renderFee = useMemo(() => {
+    const aggregatorFee = Number(weiToFixed(aggregatorLimits.fee, 8));
+    const baseFee = limits.baseFee / btcInSatoshis;
+
     if (!limits.dynamicFee) {
-      return <>{toNumberFormat(limits.baseFee / btcInSatoshis, 8)} BTC</>;
+      return <>{toNumberFormat(baseFee + aggregatorFee, 6)} BTC</>;
     }
 
     if (!limits.baseFee) {
+      if (aggregatorFee) {
+        return (
+          <>
+            {toNumberFormat(aggregatorFee, 6)} BTC
+            {toNumberFormat(
+              (limits.dynamicFee / DYNAMIC_FEE_DIVISOR) * 100,
+              2,
+            )}{' '}
+            %
+          </>
+        );
+      }
+
       return (
         <>
           {toNumberFormat((limits.dynamicFee / DYNAMIC_FEE_DIVISOR) * 100, 2)} %
@@ -32,11 +49,17 @@ export const WithdrawDetails: React.FC<NetworkAwareComponentProps> = ({
 
     return (
       <>
-        {toNumberFormat(limits.baseFee / btcInSatoshis, 8)} BTC +{' '}
+        {toNumberFormat(baseFee + aggregatorFee, 6)} BTC +{' '}
         {toNumberFormat((limits.dynamicFee / DYNAMIC_FEE_DIVISOR) * 100, 2)} %
       </>
     );
-  }, [limits]);
+  }, [limits, aggregatorLimits.fee]);
+
+  const renderMinAmount = useMemo(() => {
+    const min1 = limits.min / btcInSatoshis;
+    const min2 = Number(weiToFixed(aggregatorLimits.min, 8));
+    return Math.max(min1, min2);
+  }, [limits.min, aggregatorLimits.min]);
 
   return (
     <section className="tw-py-4 tw-px-8 tw-bg-gray-6 tw-text-white tw-rounded tw-mb-4">
@@ -49,7 +72,7 @@ export const WithdrawDetails: React.FC<NetworkAwareComponentProps> = ({
           <LoadableValue
             value={
               <>
-                {toNumberFormat(limits.min / btcInSatoshis, 8)}{' '}
+                {toNumberFormat(renderMinAmount, 5)}{' '}
                 <AssetSymbolRenderer asset={asset} />
               </>
             }

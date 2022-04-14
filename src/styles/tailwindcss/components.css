@@ -1,4 +1,37 @@
 @layer components {
+  .tw-scrollbars-thin {
+    /* firefox scrollbars */
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.gray-5') transparent;
+  }
+
+  .tw-scrollbars-thin::-webkit-scrollbar-track {
+    @apply tw-bg-transparent;
+  }
+
+  .tw-scrollbars-thin::-webkit-scrollbar {
+    @apply tw-w-2.5 tw-h-2.5 tw-bg-transparent;
+  }
+
+  .tw-scrollbars-thin::-webkit-scrollbar-thumb {
+    @apply tw-rounded-full tw-bg-gray-6 
+      tw-border-solid tw-border-transparent tw-bg-clip-padding;
+    border-width: 3px;
+  }
+
+  .tw-scrollbars-thin::-webkit-scrollbar-thumb:hover {
+    @apply tw-bg-gray-5;
+  }
+
+  .tw-scrollbars-thin::-webkit-scrollbar-thumb:active {
+    @apply tw-bg-gray-7;
+  }
+
+  .tw-scrollbars-thin::-webkit-scrollbar-corner {
+    @apply tw-bg-transparent;
+  }
+
+
   .tw-link {
     @apply tw-text-primary tw-no-underline tw-font-normal;
   }

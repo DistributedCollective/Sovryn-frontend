@@ -15,6 +15,7 @@ export type WithdrawContextStateType = {
   amount: string;
   address: string;
   limits: WithdrawLimits;
+  aggregatorLimits: AggregatorLimits;
 };
 
 type WithdrawLimits = {
@@ -22,6 +23,12 @@ type WithdrawLimits = {
   max: number;
   baseFee: number;
   dynamicFee: number;
+  loading: boolean;
+};
+
+type AggregatorLimits = {
+  fee: number;
+  min: number;
   loading: boolean;
 };
 
@@ -42,6 +49,11 @@ export const defaultValue: WithdrawContextType = {
     baseFee: 0,
     dynamicFee: 0,
     loading: true,
+  },
+  aggregatorLimits: {
+    fee: 0,
+    min: 0,
+    loading: false,
   },
   set: () => {
     throw new Error('set() has not been defined.');

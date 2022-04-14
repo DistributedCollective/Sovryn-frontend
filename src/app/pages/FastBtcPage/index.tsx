@@ -11,6 +11,7 @@ import classNames from 'classnames';
 import styles from './fast-btc-page.module.css';
 import { FastBtcDirectionType } from './types';
 import { Chain } from 'types';
+import { AggregatorWithdrawContainer } from './containers/AggregatorWithdrawContainer';
 import { usePageActions } from 'app/containers/PageContainer';
 
 export const FastBtcPage: React.FC = () => {
@@ -72,6 +73,9 @@ export const FastBtcPage: React.FC = () => {
         )}
         {type === FastBtcDirectionType.WITHDRAW && network === Chain.RSK && (
           <WithdrawContainer />
+        )}
+        {type === FastBtcDirectionType.WITHDRAW && network !== Chain.RSK && (
+          <AggregatorWithdrawContainer network={network} />
         )}
       </div>
     </>

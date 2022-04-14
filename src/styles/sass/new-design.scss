@@ -28,13 +28,15 @@
   }
   thead tr,
   .table-header:not(.sub-header) {
-    height: 40px;
+   @apply tw-h-10;
     th {
       @include table-header;
     }
   }
   tbody {
     tr {
+      @apply tw-h-20;
+
       &:nth-child(odd) {
         td {
           @apply tw-bg-gray-3;

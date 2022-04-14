@@ -428,7 +428,9 @@
     "origins": "Origens",
     "launchpad": "Lançamentos",
     "claim": "Reinvindicar",
-    "rewards": "Recompensas"
+    "rewards": "Recompensas",
+    "labs": "Labs",
+    "perpetuals": "Operar perpétuo"
   },
   "originsLaunchpad": {
     "upcomingSales": {
@@ -915,6 +917,50 @@
       }
     },
     "no_items": "Histórico vázio."
+  },
+  "wrongNetworkDialog": {
+    "title": "Mude para a rede {{name}}",
+    "networkAlert": "Detectamos que você está conectado na rede {{name}}.",
+    "networkAlertUnknown": "Detectamos que você está conectado em uma outra rede.",
+    "walletAlert": "Por favor mude para a rede {{network}} na sua carteira {{wallet}}.",
+    "settings": {
+      "title": "{{network}} Settings",
+      "name": "Network Name:",
+      "rpc": "New RPC Url:",
+      "chainId": "Chain Id:",
+      "symbol": "Symbol:",
+      "explorer": "Block Explorer URL:"
+    },
+    "tutorialGuide": "Veja como conectar a carteira {{wallet}} na rede principal da RSK",
+    "stepTitle": {
+      "step1": "Passo 01:",
+      "step2": "Passo 02:",
+      "step3": "Passo 03:",
+      "step4": "Passo 04:",
+      "step5": "Passo 05:",
+      "step6": "Passo 06:"
+    },
+    "metamask": {
+      "step1": "Open up Metamask in your browser",
+      "step2": "Go to network dropdown",
+      "step3": "Select Custom RPC",
+      "step4": "Input {{network}} settings",
+      "step5": "Click Save",
+      "step6": "Click Add Network",
+      "connectButton": "Configure {{network}} in MetaMask"
+    },
+    "liquality": {
+      "step1": "Open up Liquality in your browser",
+      "step2": "Go to dropdown",
+      "step3": "Select Settings",
+      "step4": "Go to network dropdown",
+      "step5": "Select {{network}}"
+    },
+    "nifty": {
+      "step1": "Open up Nifty in your browser",
+      "step2": "Go to dropdown",
+      "step3": "Select Settings"
+    }
   },
   "rskConnectTutorial": {
     "browser_wallet": "Carteira de computador",
@@ -1579,6 +1625,118 @@
     "notificationsButton": {
       "enable": "Ativar notificações",
       "enabled": "Notificações habilitadas"
+    }
+  },
+  "perpetualPage": {
+    "meta": {
+      "title": "Operar perpétuos",
+      "description": "Operar perpétuos"
+    },
+    "ammDepth": {
+      "price": "Preço (<0/>)",
+      "size": "Tamanho (<0/>)",
+      "total": "Total (<0/>)",
+      "indexPrice": "Preço de índice:",
+      "markPrice": "Preço real:"
+    },
+    "contractDetails": {
+      "title": "Detalhes do contrato:",
+      "indexPrice": "Preço de índice:",
+      "volume24h": "24h volume:",
+      "openInterest": "Interesse aberto:",
+      "fundingRate": "Taxa de financiamento: ",
+      "fundingRate4hr": "em 4h",
+      "contractValue": "Valor do contrato:",
+      "lotSize": "Tamanho do lote:",
+      "minTradeAmount": "Valor mínimo de negociação:"
+    },
+    "recentTrades": {
+      "price": "Preço (<0/>)",
+      "size": "Tamanho (<0/>)",
+      "time": "Hora"
+    },
+    "tradeForm": {
+      "titles": {
+        "order": "Inserir nova ordem",
+        "welcome": "Operar perpétuos na Sovryn"
+      },
+      "text": {
+        "welcome1": "Esta é uma prévia do painel de perpétuos.\n Os dados de mercado ao lado são reais.",
+        "welcome2": "Para começar a operar perpétuos na Sovryn, você precisa:",
+        "welcome3": "<0>Conectar uma carteira</0> <0>Estar conectado à rede Polygon</0> <0>Adicionar fundos à sua conta depositando BTC</0>",
+        "welcome4": "Novo na Sovryn? <0>Leia nosso guia de primeiros passos</0>"
+      },
+      "labels": {
+        "pair": "Par de negociação:",
+        "asset": "Ativo:",
+        "leverage": "Alavancagem:",
+        "orderValue": "Valor da ordem:",
+        "limitPrice": "Preço máximo:",
+        "slippage": "Diferença máxima no preço:",
+        "balance": "Saldo disponível: <0/> <1/>",
+        "txFee": "Taxa de transação: <0/> {{symbol}}"
+      },
+      "buttons": {
+        "buy": "Compra",
+        "sell": "Venda",
+        "connect": "Conectar Carteira",
+        "market": "Mercado",
+        "limit": "Limitada",
+        "buyMarket": "Comprar a mercado",
+        "buyLimit": "Comprar a limite",
+        "sellMarket": "Vender a mercado",
+        "sellLimit": "Vender a limite"
+      }
+    },
+    "tradeDialog": {
+      "title": "Revisar transação",
+      "pair": "Par de negociação:",
+      "leverage": "Alavancagem:",
+      "asset": "Ativo:",
+      "direction": "Par:",
+      "positionSize": "Tamanho da posição",
+      "maintananceMargin": "Margem de manutenção:",
+      "liquidationPrice": "Preço estimado de liquidação:",
+      "entryPrice": "Preço de entrada na posição:",
+      "minEntry": "Preço mínimo de entrada: ",
+      "minLiq": "Preço mínimo de liquidação: ",
+      "interestAPR": "Juros anual",
+      "renewalDate": "Data de renovação:",
+      "position": {
+        "long": "Comprado",
+        "short": "Vendido"
+      }
+    },
+    "reviewTrade": {
+      "title": "Revisar ordem"
+    },
+    "openPositions": "Posições",
+    "closedPositions": "Posições fechadas",
+    "orderHistory": "Histórico de ordens",
+    "openPositionsTable": {
+      "pair": "Par",
+      "positionSize": "Tamanho da posição",
+      "value": "Valor",
+      "entryPrice": "Preço de entrada",
+      "markPrice": "Preço real",
+      "liquidationPrice": "Preço de liquidação",
+      "margin": "Margem",
+      "unrealized": "L&P não realizado",
+      "realized": "L&P realizado",
+      "actions": "Ação"
+    },
+    "notificationSettingsDialog": {
+      "title": "Configurações de notificação",
+      "notifyVia": "Notificar via",
+      "telegramHandle": "Insira seu nome de usuário do Telegram",
+      "discordHandle": "Insira seu nome de usuário do Discord",
+      "usernamePlaceholder": "@usuário",
+      "receiveNotificationTitle": "Você irá receber uma notificação quando ocorrer:",
+      "notificationEvents": {
+        "1": "25% margem",
+        "2": "Liquidação"
+      },
+      "submit": "Confirmar"
     }
   },
   "spotTradingPage": {

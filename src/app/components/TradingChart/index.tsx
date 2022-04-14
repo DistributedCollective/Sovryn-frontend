@@ -26,6 +26,7 @@ export enum Theme {
 export interface ChartContainerProps {
   symbol: string;
   theme?: Theme;
+  hasCustomDimensions?: boolean;
 }
 
 export function TradingChart(props: ChartContainerProps) {
@@ -102,7 +103,11 @@ export function TradingChart(props: ChartContainerProps) {
         'tw-w-full tw-h-full tw-flex tw-rounded tw-overflow-hidden',
         hasCharts && 'tw-border',
       )}
-      style={{ minWidth: 270, minHeight: 500 }}
+      style={
+        props.hasCustomDimensions
+          ? undefined
+          : { minWidth: 270, minHeight: 500 }
+      }
     >
       <>
         <div
