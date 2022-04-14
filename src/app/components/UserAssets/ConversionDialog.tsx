@@ -2,7 +2,6 @@ import React from 'react';
 import { Dialog } from 'app/containers/Dialog';
 import { Asset } from 'types';
 import { TxDialog } from './TxDialog';
-import styles from 'app/components/Dialogs/dialog.module.scss';
 import { useConvertToXUSD } from 'app/hooks/portfolio/useConvertToXUSD';
 import { ConversionDialogContent } from './ConversionDialogContent';
 
@@ -21,12 +20,7 @@ export const ConversionDialog: React.FC<IConversionDialogProps> = ({
 
   return (
     <>
-      <Dialog
-        isOpen={isOpen}
-        isCloseButtonShown={true}
-        onClose={onClose}
-        className={styles.dialog}
-      >
+      <Dialog isOpen={isOpen} isCloseButtonShown={true} onClose={onClose}>
         {asset && (
           <ConversionDialogContent
             asset={asset}

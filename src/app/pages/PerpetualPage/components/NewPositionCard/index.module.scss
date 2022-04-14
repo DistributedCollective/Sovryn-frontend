@@ -1,0 +1,6 @@
+.slippageValue {
+  @apply tw-font-bold;
+  & > span {
+    @apply tw-font-bold;
+  }
+}

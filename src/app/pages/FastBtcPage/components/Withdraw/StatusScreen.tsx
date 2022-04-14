@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 import { translations } from 'locales/i18n';
 import { WithdrawContext, WithdrawStep } from '../../contexts/withdraw-context';
 import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
-import { Asset } from '../../../../../types';
 import { SendTxResponse } from '../../../../hooks/useSendContractTx';
 import { WalletTxHelper } from './WalletTxHelper';
 import { TxStatus } from '../../../../../store/global/transactions-store/types';
@@ -20,22 +19,44 @@ import { bignumber } from 'mathjs';
 import { LinkToExplorer } from '../../../../components/LinkToExplorer';
 import { StatusComponent } from '../../../../components/Dialogs/TxDialog';
 import { NetworkAwareComponentProps } from '../../types';
+import { getBridgeChainId } from 'app/pages/BridgeDepositPage/utils/helpers';
+import { getBTCAssetForNetwork } from '../../helpers';
+import { Chain } from 'types';
 
 type StatusScreenProps = {
   tx: SendTxResponse;
 } & NetworkAwareComponentProps;
 
-export const StatusScreen: React.FC<StatusScreenProps> = ({ tx }) => {
-  const { set, amount } = useContext(WithdrawContext);
+export const StatusScreen: React.FC<StatusScreenProps> = ({ tx, network }) => {
+  const { set, amount, aggregatorLimits } = useContext(WithdrawContext);
   const { t } = useTranslation();
   const history = useHistory();
 
+  const backToUrl = useMemo(
+    () => (network === Chain.BSC ? '/perpetuals' : '/wallet'),
+    [network],
+  );
+
+  const backToTitle = useMemo(
+    () =>
+      network === Chain.BSC
+        ? t(translations.fastBtcPage.backToPerpetuals)
+        : t(translations.fastBtcPage.backToPortfolio),
+    [network, t],
+  );
+
   const weiAmount = useWeiAmount(amount);
-  const { value: feesPaid, loading } = useCacheCallWithValue(
+  const { value: calculateCurrentFeeWei, loading } = useCacheCallWithValue(
     'fastBtcBridge',
     'calculateCurrentFeeWei',
     '0',
     weiAmount,
+  );
+
+  const feesPaid = useMemo(
+    () =>
+      bignumber(calculateCurrentFeeWei).add(aggregatorLimits.fee).toString(),
+    [calculateCurrentFeeWei, aggregatorLimits.fee],
   );
 
   const receiveAmount = useMemo(
@@ -48,7 +69,8 @@ export const StatusScreen: React.FC<StatusScreenProps> = ({ tx }) => {
     [set],
   );
 
-  const onGoToPortfolio = useCallback(() => history.replace('/wallet'), [
+  const onGoToPortfolio = useCallback(() => history.replace(backToUrl), [
+    backToUrl,
     history,
   ]);
 
@@ -57,6 +79,9 @@ export const StatusScreen: React.FC<StatusScreenProps> = ({ tx }) => {
     [tx.status],
   );
 
+  const chainId = getBridgeChainId(network);
+  const asset = getBTCAssetForNetwork(network);
+
   return (
     <>
       <div className="tw-mb-6 tw-text-2xl tw-text-center tw-font-semibold">
@@ -64,14 +89,14 @@ export const StatusScreen: React.FC<StatusScreenProps> = ({ tx }) => {
           i18nKey={
             translations.fastBtcPage.withdraw.statusScreen.titles[tx.status]
           }
-          components={[<AssetSymbolRenderer asset={Asset.RBTC} />]}
+          components={[<AssetSymbolRenderer asset={asset} />]}
         />
       </div>
       <div className="tw-w-full">
         {expandedTxInfo ? (
           <>
             <div className="tw-w-full">
-              <StatusComponent status={tx.status} onlyImage />
+              <StatusComponent status={tx.status} showLabel={false} />
 
               <div className="tw-w-full tw-px-8 tw-py-4 tw-bg-gray-5 tw-text-center tw-mb-8 tw-rounded">
                 <div className="tw-mb-2 tw-text-lg">
@@ -79,7 +104,7 @@ export const StatusScreen: React.FC<StatusScreenProps> = ({ tx }) => {
                 </div>
                 <div>
                   {toNumberFormat(amount, 8)}{' '}
-                  <AssetSymbolRenderer asset={Asset.RBTC} />
+                  <AssetSymbolRenderer asset={asset} />
                 </div>
               </div>
 
@@ -112,6 +137,7 @@ export const StatusScreen: React.FC<StatusScreenProps> = ({ tx }) => {
                   </div>
                   <div className="tw-font-semibold">
                     <LinkToExplorer
+                      chainId={chainId || undefined}
                       txHash={tx.txHash}
                       className="tw-text-primary tw-underline"
                     />
@@ -134,10 +160,7 @@ export const StatusScreen: React.FC<StatusScreenProps> = ({ tx }) => {
               </div>
 
               <div className="tw-px-8 tw-mt-8">
-                <FastBtcButton
-                  text={t(translations.fastBtcPage.withdraw.statusScreen.cta)}
-                  onClick={onGoToPortfolio}
-                />
+                <FastBtcButton text={backToTitle} onClick={onGoToPortfolio} />
               </div>
             </div>
           </>

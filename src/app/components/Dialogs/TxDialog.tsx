@@ -15,12 +15,12 @@ import wLedger from 'assets/wallets/ledger.svg';
 import wTrezor from 'assets/wallets/trezor.svg';
 import wWalletConnect from 'assets/wallets/walletconnect.svg';
 import { LinkToExplorer } from '../LinkToExplorer';
-import styles from './dialog.module.scss';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { ConfirmButton } from 'app/pages/BuySovPage/components/Button/confirm';
 import { usePrevious } from '../../hooks/usePrevious';
 import classNames from 'classnames';
+import styles from './TxDialog.module.scss';
 
 type ITxDialogProps = {
   tx: ResetTxResponseInterface;
@@ -71,7 +71,6 @@ export const TxDialog: React.FC<ITxDialogProps> = ({
       isCloseButtonShown={false}
       isOpen={tx.status !== TxStatus.NONE}
       onClose={close}
-      className={classNames('tw-m-3.5', styles.dialog)}
     >
       {tx.status === TxStatus.PENDING_FOR_USER && (
         <>
@@ -92,21 +91,21 @@ export const TxDialog: React.FC<ITxDialogProps> = ({
             <span className="tw-sr-only">Close Dialog</span>
           </button>
           <h1>{t(translations.buySovPage.txDialog.txStatus.title)}</h1>
-          <StatusComponent status={tx.status} />
+          <StatusComponent status={tx.status} showLabel />
 
           {!!tx.txHash && (
-            <div className="tw-max-w-xs tw-w-full tw-m-auto">
-              <div className="tw-text-center tw-text-sm tw-font-light tw-mb-9">
-                <strong className="tw-font-medium tw-mr-3.5 tw-inline-block">
+            <div className={styles.hashContainer}>
+              <div className="tw-mb-9 tw-text-center tw-font-sm tw-font-light">
+                <strong className="tw-inline-block tw-mr-3.5 tw-font-medium">
                   Hash:
-                </strong>{' '}
+                </strong>
                 {prettyTx(tx.txHash)}
               </div>
-              <div className="tw-text-secondary tw-text-center">
+              <div className="tw-text-center">
                 <LinkToExplorer
+                  className="tw-text-blue tw-font-medium tw-underline hover:tw-no-underline"
                   txHash={tx.txHash}
                   text={t(translations.buySovPage.txDialog.txStatus.cta)}
-                  className="tw-text-blue tw-font-medium tw-underline hover:tw-no-underline"
                 />
               </div>
             </div>
@@ -186,36 +185,48 @@ const getStatusImage = (tx: TxStatus) => {
   }
 };
 
-const getStatus = (tx: TxStatus) => {
-  switch (tx) {
-    case TxStatus.FAILED:
-      return <Trans i18nKey={translations.common.failed} />;
-    case TxStatus.CONFIRMED:
-      return <Trans i18nKey={translations.common.confirmed} />;
-    default:
-      return <Trans i18nKey={translations.common.pending} />;
-  }
-};
+function getStatus(tx: TxStatus) {
+  if (tx === TxStatus.FAILED)
+    return <Trans i18nKey={translations.common.failed} />;
+  if (tx === TxStatus.CONFIRMED)
+    return <Trans i18nKey={translations.common.confirmed} />;
+  return <Trans i18nKey={translations.common.pending} />;
+}
 
 type StatusComponentProps = {
   status: TxStatus;
-  onlyImage?: boolean;
+  className?: string;
+  isInline?: boolean;
+  showLabel?: boolean;
 };
 
 export const StatusComponent: React.FC<StatusComponentProps> = ({
   status,
-  onlyImage = false,
+  className,
+  isInline,
+  showLabel,
 }) => (
-  <div className="tw-mx-auto tw-text-center tw-w-24">
+  <div
+    className={classNames(
+      isInline
+        ? 'tw-inline-flex tw-flex-row tw-max-h-full'
+        : 'tw-w-24 tw-mx-auto tw-mb-8 tw-text-center',
+      className,
+    )}
+  >
     <img
       src={getStatusImage(status)}
-      className={classNames('tw-w-14 tw-h-14 tw-mx-auto', {
-        'tw-animate-spin': status === TxStatus.PENDING,
-      })}
+      className={classNames(
+        isInline ? 'tw-h-auto flex-initial' : 'tw-h-24 tw-w-24',
+        isInline && showLabel && 'tw-mr-2',
+        status === TxStatus.PENDING && 'tw-animate-spin',
+      )}
       alt="Status"
     />
-    {!onlyImage && (
-      <p className="tw-text-base tw-font-medium">{getStatus(status)}</p>
+    {showLabel && (
+      <p className={!isInline ? 'tw-text-base tw-font-medium' : ''}>
+        {getStatus(status)}
+      </p>
     )}
   </div>
 );
@@ -224,13 +235,15 @@ type WalletLogoProps = {
   wallet: string;
 };
 
-const WalletLogo: React.FC<WalletLogoProps> = ({ wallet }) => (
-  <div className="tw-flex tw-flex-col tw-justify-center tw-items-center tw-overflow-hidden tw-rounded-2xl tw-border tw-border-sov-white tw-w-24 tw-h-24 tw-mx-auto tw-mb-9">
-    <img
-      className="tw-w-12 tw-h-12 tw-mb-2.5 tw-object-contain"
-      src={getWalletImage(wallet)}
-      alt="Wallet"
-    />
-    <div className="tw-truncate tw-text-xs">{getWalletName(wallet)}</div>
-  </div>
-);
+const WalletLogo: React.FC<WalletLogoProps> = ({ wallet }) => {
+  return (
+    <div className={styles.wlContainer}>
+      <img
+        className={styles.wlImage}
+        src={getWalletImage(wallet)}
+        alt="Wallet"
+      />
+      <div className="tw-text-xs tw-truncate">{getWalletName(wallet)}</div>
+    </div>
+  );
+};

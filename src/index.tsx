@@ -10,6 +10,7 @@ import 'core-js/es/set';
 import 'raf/polyfill';
 import 'react-app-polyfill/ie11';
 import 'react-app-polyfill/stable';
+import 'console';
 
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';

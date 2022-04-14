@@ -1,19 +1,17 @@
 import { contracts } from 'utils/blockchain/contracts';
 
-import { currentChainId, currentNetwork } from 'utils/classifiers';
+import { isMainnet, currentChainId } from 'utils/classifiers';
 import { toChecksumAddress } from '../helpers';
 import { ContractData } from '../types/contracts';
 
-const FIRST_BLOCK = currentNetwork === 'mainnet' ? 2758025 : 1000000;
+const FIRST_BLOCK = isMainnet ? 2758025 : 1000000;
 const fixContracts = () => {
-  const newObj = {};
-  const keys = Object.keys(contracts);
-  keys.forEach(key => {
+  return Object.keys(contracts).reduce<ContractData>((acc, key) => {
     if (contracts.hasOwnProperty(key)) {
       const item = contracts[key];
       const chainId = item.chainId || currentChainId;
       const isRSK = chainId === currentChainId;
-      newObj[key] = {
+      acc[key] = {
         address: isRSK
           ? toChecksumAddress(item.address)
           : item.address.toLowerCase(),
@@ -22,8 +20,8 @@ const fixContracts = () => {
         chainId,
       };
     }
-  });
-  return newObj;
+    return acc;
+  }, {});
 };
 
 export const appContracts: ContractData = fixContracts();

@@ -43,11 +43,15 @@ export function weiToUSD(
   );
 }
 
-export function toNumberFormat(value: number | string, decimals: number = 0) {
+export function toNumberFormat(
+  value: number | string,
+  decimals: number = 0,
+  minDecimals: number = decimals,
+) {
   if (isNaN(Number(value))) value = 0;
   return Number(value).toLocaleString(navigator.language, {
     maximumFractionDigits: decimals,
-    minimumFractionDigits: decimals,
+    minimumFractionDigits: minDecimals,
   });
 }
 
@@ -69,12 +73,11 @@ export function numberToUSD(
 }
 
 export function numberToPercent(value: number, decimals: number) {
-  return (
-    value.toLocaleString(navigator.language, {
-      maximumFractionDigits: decimals,
-      minimumFractionDigits: decimals,
-    }) + ' %'
-  );
+  return value.toLocaleString(navigator.language, {
+    style: 'percent',
+    maximumFractionDigits: decimals,
+    minimumFractionDigits: decimals,
+  });
 }
 
 export function formatAsBTCPrice(value, isLongPosition: boolean): number {
