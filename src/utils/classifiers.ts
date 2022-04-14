@@ -45,9 +45,7 @@ export const backendUrl = {
   31: 'https://api.test.sovryn.app',
 };
 
-export const graphRskUrl = isMainnet
-  ? 'https://graph.sovryn.app'
-  : 'https://graphql-sov-v0-0-6-test-1570131985.us-east-2.elb.amazonaws.com/subgraphs/name/DistributedCollective/sovryn-subgraph';
+export const graphRskUrl = process.env.REACT_APP_GRAPH_RSK;
 
 export const ethGenesisAddress = '0x0000000000000000000000000000000000000000';
 

@@ -1,8 +1,6 @@
 generates:
   ./src/utils/graphql/rsk/generated.tsx:
     schema:
-      # loading from running graph will only work once it has been deployed on a *.sovryn.app domain
-      # - 'https://graphql-sov-v0-0-6-test-1570131985.us-east-2.elb.amazonaws.com/subgraphs/name/DistributedCollective/sovryn-subgraph/graphql'
       - './src/utils/graphql/rsk/schema.graphql'
     documents:
       - './src/utils/graphql/rsk/operations/*.graphql'

@@ -1,0 +1,6 @@
+generates:
+  ./src/utils/graphql/rsk/schema.graphql:
+    schema:
+      - ${REACT_APP_GRAPH_RSK}
+    plugins:
+      - schema-ast
