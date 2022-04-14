@@ -90,8 +90,8 @@ const Article = styled.article`
   .button {
     width: 200px;
     height: 40px;
-    background: #2274a5;
-    border: 1px solid #2274a5;
+    background: #2a8fcc;
+    border: 1px solid #2a8fcc;
     color: #e8e8e8;
     font-size: 1rem;
     line-height: 1;
