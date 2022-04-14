@@ -20,6 +20,7 @@ interface ITransactionDialogProps {
   onUserConfirmed?: () => void;
   onSuccess?: () => void;
   onError?: () => void;
+  onClose?: () => void;
   action?: string;
   fee?: React.ReactNode;
   finalMessage?: React.ReactNode;
@@ -30,6 +31,7 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
   onUserConfirmed,
   onSuccess,
   onError,
+  onClose: _onClose,
   action,
   fee,
   finalMessage,
@@ -37,6 +39,7 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
   const { t } = useTranslation();
   const { address } = useContext(WalletContext);
   const onClose = useCallback(() => {
+    _onClose?.();
     if (tx.status === TxStatus.CONFIRMED) {
       onSuccess?.();
     }
@@ -44,7 +47,7 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
       onError?.();
     }
     tx.reset();
-  }, [tx, onError, onSuccess]);
+  }, [_onClose, tx, onSuccess, onError]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const wallet = useMemo(() => detectWeb3Wallet(), [address]);

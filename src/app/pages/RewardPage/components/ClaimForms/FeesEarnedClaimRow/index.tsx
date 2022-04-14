@@ -15,9 +15,9 @@ import { ActionButton } from 'app/components/Form/ActionButton';
 import { weiTo18 } from 'utils/blockchain/math-helpers';
 import { Tooltip } from '@blueprintjs/core';
 import { bignumber } from 'mathjs';
-import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import classNames from 'classnames';
 import { LoadableValue } from 'app/components/LoadableValue';
+import { TransactionDialog } from 'app/components/TransactionDialog';
 
 interface IFeesEarnedClaimRowProps extends IClaimFormProps {
   rbtcValue: number;
@@ -99,7 +99,7 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
             undefined
           }
         />
-        <TxDialog tx={tx} />
+        <TransactionDialog tx={tx} />
       </td>
     </tr>
   );

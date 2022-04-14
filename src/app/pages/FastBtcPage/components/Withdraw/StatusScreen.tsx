@@ -18,8 +18,8 @@ import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { useCacheCallWithValue } from '../../../../hooks/useCacheCallWithValue';
 import { bignumber } from 'mathjs';
 import { LinkToExplorer } from '../../../../components/LinkToExplorer';
-import { StatusComponent } from '../../../../components/Dialogs/TxDialog';
 import { NetworkAwareComponentProps } from '../../types';
+import { StatusComponent } from 'app/components/Dialogs/StatusComponent';
 
 type StatusScreenProps = {
   tx: SendTxResponse;

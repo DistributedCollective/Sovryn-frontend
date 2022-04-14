@@ -8,13 +8,13 @@ import { FastBtcButton } from '../FastBtcButton';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { bignumber } from 'mathjs';
 import { LinkToExplorer } from '../../../../components/LinkToExplorer';
-import { StatusComponent } from '../../../../components/Dialogs/TxDialog';
 import { DepositContext, DepositStep } from '../../contexts/deposit-context';
 import { DEPOSIT_FEE_SATS } from '../../constants';
 import { CREATE_TICKET_LINK } from 'utils/classifiers';
 import { btcInSatoshis } from 'app/constants';
 import { getBTCAssetForNetwork } from '../../helpers';
 import { NetworkAwareComponentProps } from '../../types';
+import { StatusComponent } from 'app/components/Dialogs/StatusComponent';
 
 export const StatusScreen: React.FC<NetworkAwareComponentProps> = ({
   network,

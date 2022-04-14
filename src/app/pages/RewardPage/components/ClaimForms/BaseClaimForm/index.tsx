@@ -1,9 +1,9 @@
 import { Tooltip } from '@blueprintjs/core';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { Button, ButtonSize } from 'app/components/Button';
-import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { Input } from 'app/components/Form/Input';
+import { TransactionDialog } from 'app/components/TransactionDialog';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ResetTxResponseInterface } from 'app/hooks/useSendContractTx';
@@ -136,7 +136,7 @@ export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
           <div className="tw-text-xs">{footer}</div>
         </>
       </div>
-      <TxDialog tx={tx} />
+      <TransactionDialog tx={tx} />
     </div>
   );
 };

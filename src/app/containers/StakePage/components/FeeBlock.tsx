@@ -17,8 +17,8 @@ import { bignumber } from 'mathjs';
 import { Asset } from 'types';
 import { weiToUSD } from 'utils/display-text/format';
 import { useSendContractTx } from 'app/hooks/useSendContractTx';
-import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import classNames from 'classnames';
+import { TransactionDialog } from 'app/components/TransactionDialog';
 
 interface IFeeBlockProps {
   contractToken: AssetDetails;
@@ -149,7 +149,7 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
           </button>
         </div>
       )}
-      <TxDialog tx={tx} />
+      <TransactionDialog tx={tx} />
     </>
   );
 };
