@@ -100,7 +100,6 @@ export const trimZero = (amount: string) => {
 export const isValidNumerishValue = (value: any) => {
   if (
     value === Infinity ||
-    Number(value) <= 0 ||
     isNaN(Number(value)) ||
     value === undefined ||
     value === null
