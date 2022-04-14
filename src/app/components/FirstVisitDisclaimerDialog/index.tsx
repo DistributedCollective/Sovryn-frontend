@@ -52,12 +52,14 @@ export const FirstVisitDisclaimerDialog: React.FC = () => {
           checked={checked}
           onChange={() => setChecked(!checked)}
           label={t(translations.notifyDialog.acceptTerms)}
+          data-action-id="accept-terms-checkbox"
         />
         <div className="tw-mt-6">
           <SalesButton
             text={t(translations.notifyDialog.salesBtn)}
             onClick={handleClose}
             disabled={!checked}
+            data-action-id="accept-terms-submit-button"
           />
         </div>
       </div>

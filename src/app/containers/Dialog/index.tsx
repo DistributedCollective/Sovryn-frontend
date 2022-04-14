@@ -18,6 +18,7 @@ type DialogProps = {
   canEscapeKeyClose?: boolean;
   canOutsideClickClose?: boolean;
   className?: string;
+  dataAttribute?: string;
   size?: DialogSize;
 };
 
@@ -29,6 +30,7 @@ export const Dialog: React.FC<DialogProps> = ({
   canEscapeKeyClose,
   canOutsideClickClose,
   className,
+  dataAttribute,
   size = DialogSize.sm,
 }) => (
   <BPDialog

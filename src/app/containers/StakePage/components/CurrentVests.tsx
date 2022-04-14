@@ -7,6 +7,8 @@ import { useListOfUserVestings } from '../../../components/UserAssets/Vesting/us
 
 interface Props {
   onDelegate: (timestamp: number, vestingAddress: string) => void;
+  paused?: boolean;
+  frozen?: boolean;
 }
 
 export function CurrentVests(props: Props) {
@@ -15,11 +17,11 @@ export function CurrentVests(props: Props) {
 
   return (
     <>
-      <p className="tw-font-semibold tw-text-lg tw-ml-6 tw-mb-4 tw-mt-6">
+      <p className="tw-font-semibold tw-text-lg tw-mb-4 tw-mt-6">
         {t(translations.stake.currentVests.title)}
       </p>
       <div className="tw-bg-gray-1 tw-rounded-b tw-shadow">
-        <div className="tw-rounded-lg tw-border sovryn-table tw-pt-1 tw-pr-5 tw-pl-5 tw-mb-5 max-h-96 tw-overflow-y-auto tw-pb-4">
+        <div className="tw-rounded-lg sovryn-table tw-pt-1 tw-mb-5 max-h-96 tw-overflow-y-auto tw-pb-4">
           <StyledTable className="tw-w-full">
             <thead>
               <tr>
@@ -69,6 +71,8 @@ export function CurrentVests(props: Props) {
                   onDelegate={timestamp =>
                     props.onDelegate(timestamp, item.vestingContract)
                   }
+                  paused={props.paused}
+                  frozen={props.frozen}
                 />
               ))}
             </tbody>

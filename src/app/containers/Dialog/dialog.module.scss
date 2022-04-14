@@ -11,11 +11,11 @@
   .dialog {
     padding: 30px 0 50px 0 !important;
     max-width: 468px;
-    
+
     &.md {
       @apply tw-max-w-3xl tw-w-full;
     }
-  
+
     &.lg {
       @apply tw-max-w-5xl tw-w-full;
     }
@@ -45,7 +45,4 @@
   background-size: 38px 38px;
   transition: opacity;
   will-change: opacity;
-}
-.dialog button[data-close]:hover {
-  opacity: 0.8;
 }

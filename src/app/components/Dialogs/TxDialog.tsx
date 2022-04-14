@@ -76,10 +76,7 @@ export const TxDialog: React.FC<ITxDialogProps> = ({
         <>
           <h1>{t(translations.buySovPage.txDialog.pendingUser.title)}</h1>
           <WalletLogo wallet={wallet} />
-          <p
-            className="tw-text-center tw-mx-auto tw-w-full"
-            style={{ maxWidth: 266 }}
-          >
+          <p className="tw-text-center tw-mx-auto tw-w-full tw-max-w-xs">
             {t(translations.buySovPage.txDialog.pendingUser.text, {
               walletName: getWalletName(wallet),
             })}
@@ -116,18 +113,18 @@ export const TxDialog: React.FC<ITxDialogProps> = ({
 
           {!tx.txHash && tx.status === TxStatus.FAILED && (
             <>
-              <p className="tw-text-center">
+              <p className="tw-text-center tw-px-3 tw-text-warning">
                 {t(translations.buySovPage.txDialog.txStatus.aborted)}
               </p>
               {wallet === 'ledger' && (
-                <p className="tw-text-center">
+                <p className="tw-text-center tw-px-3 tw-text-warning">
                   {t(translations.buySovPage.txDialog.txStatus.abortedLedger)}
                 </p>
               )}
             </>
           )}
 
-          <div style={{ maxWidth: 200 }} className="tw-mx-auto tw-w-full">
+          <div className="tw-mx-auto tw-w-full tw-mw-340 tw-mt-10">
             <ConfirmButton
               onClick={close}
               text={t(translations.common.close)}
@@ -139,31 +136,54 @@ export const TxDialog: React.FC<ITxDialogProps> = ({
   );
 };
 
-function getWalletName(wallet) {
-  if (wallet === 'liquality') return 'Liquality';
-  if (wallet === 'nifty') return 'Nifty';
-  if (wallet === 'portis') return 'Portis';
-  if (wallet === 'ledger') return 'Ledger';
-  if (wallet === 'trezor') return 'Trezor';
-  if (wallet === 'wallet-connect') return 'Wallet Connect';
-  return 'MetaMask';
-}
+const getWalletName = (wallet: string) => {
+  switch (wallet) {
+    case 'liquality':
+      return 'Liquality';
+    case 'nifty':
+      return 'Nifty';
+    case 'portis':
+      return 'Portis';
+    case 'ledger':
+      return 'Ledger';
+    case 'trezor':
+      return 'Trezor';
+    case 'wallet-connect':
+      return 'Wallet Connect';
+    default:
+      return 'MetaMask';
+  }
+};
 
-function getWalletImage(wallet) {
-  if (wallet === 'liquality') return wLiquality;
-  if (wallet === 'nifty') return wNifty;
-  if (wallet === 'portis') return wPortis;
-  if (wallet === 'ledger') return wLedger;
-  if (wallet === 'trezor') return wTrezor;
-  if (wallet === 'wallet-connect') return wWalletConnect;
-  return wMetamask;
-}
+const getWalletImage = (wallet: string) => {
+  switch (wallet) {
+    case 'liquality':
+      return wLiquality;
+    case 'nifty':
+      return wNifty;
+    case 'portis':
+      return wPortis;
+    case 'ledger':
+      return wLedger;
+    case 'trezor':
+      return wTrezor;
+    case 'wallet-connect':
+      return wWalletConnect;
+    default:
+      return wMetamask;
+  }
+};
 
-function getStatusImage(tx: TxStatus) {
-  if (tx === TxStatus.FAILED) return txFailed;
-  if (tx === TxStatus.CONFIRMED) return txConfirm;
-  return txPending;
-}
+const getStatusImage = (tx: TxStatus) => {
+  switch (tx) {
+    case TxStatus.FAILED:
+      return txFailed;
+    case TxStatus.CONFIRMED:
+      return txConfirm;
+    default:
+      return txPending;
+  }
+};
 
 function getStatus(tx: TxStatus) {
   if (tx === TxStatus.FAILED)

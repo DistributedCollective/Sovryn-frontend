@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 export const RadioContext = createContext<any>(null);
 
@@ -34,7 +34,10 @@ function RadioGroup({ children, value, onChange, className }: Props) {
 
   return (
     <RadioContext.Provider value={[state, handleOnChange]}>
-      <div role="radiogroup" className={cn('tw-radio-group', className)}>
+      <div
+        role="radiogroup"
+        className={classNames('tw-radio-group', className)}
+      >
         {children}
       </div>
     </RadioContext.Provider>
@@ -52,7 +55,7 @@ function Button({ value, text, className }: ButtonProps) {
   const checked = value === state;
   return (
     <label
-      className={cn(
+      className={classNames(
         'tw-radio-group__label',
         {
           'tw-radio-group__label--active': checked,
@@ -68,7 +71,7 @@ function Button({ value, text, className }: ButtonProps) {
         onChange={({ target }) => onChange(target.value)}
       />
       <div
-        className={cn('tw-radio-group__label-content', {
+        className={classNames('tw-radio-group__label-content', {
           'tw-radio-group__label-content--active': checked,
         })}
       >

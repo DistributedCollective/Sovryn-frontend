@@ -1,5 +1,5 @@
 import React from 'react';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 import Chart, { ChartProps } from './Chart';
 import { abbreviateNumber } from 'utils/helpers';
@@ -78,7 +78,7 @@ export default function ComparisonChart(props: ComparisonProps) {
   };
   return (
     <div
-      className={cn(
+      className={classNames(
         'tw-relative tw-rounded-lg tw-overflow-hidden',
         props.className,
       )}

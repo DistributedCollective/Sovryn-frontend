@@ -102,11 +102,11 @@ export function StakingDateSelector(props: Props) {
         contractOffset,
         'hour',
       ); // get contract date in UTC-0
-      let userDateUTC = dayjs(currentDate).add(currentUserOffset, 'hour'); //get user offset
+      let userDateUTC = dayjs(currentDate).add(currentUserOffset, 'hour'); // get user offset
 
       const dates: Date[] = [];
       const datesFutured: Date[] = [];
-      //getting the last posible date in the contract that low then current date
+      // getting the last possible date in the contract that low then current date
       for (let i = 1; contractDateDeployed.unix() < userDateUTC.unix(); i++) {
         const intervalDate = contractDateDeployed.add(2, 'week');
         contractDateDeployed = intervalDate;

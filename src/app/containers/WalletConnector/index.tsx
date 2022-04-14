@@ -67,6 +67,7 @@ const WalletConnectorContainer: React.FC<Props> = ({
           <StyledButton
             onClick={() => connect()}
             className="tw-flex tw-justify-center tw-items-center tw-bg-primary-25 hover:tw-opacity-75"
+            data-action-id="connect-wallet-button"
           >
             {connecting && <Spinner size={SpinnerSize.SM} />}
             {!connecting && (
@@ -124,6 +125,7 @@ const WalletConnectorContainer: React.FC<Props> = ({
                     icon="log-out"
                     className={styles.logout}
                     onClick={() => disconnect()}
+                    data-action-id="logout-button"
                   />
                 </span>
               </div>

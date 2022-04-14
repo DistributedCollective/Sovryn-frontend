@@ -1,6 +1,4 @@
 import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { translations } from 'locales/i18n';
 import { Asset } from 'types/asset';
 import {
   calculateProfit,
@@ -12,8 +10,10 @@ import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPri
 import { LoadableValue } from '../LoadableValue';
 import { AssetRenderer } from '../AssetRenderer';
 import { useGetProfitDollarValue } from 'app/hooks/trading/useGetProfitDollarValue';
+import { fromWei } from 'utils/blockchain/math-helpers';
+import classNames from 'classnames';
 
-interface Props {
+interface ICurrentPositionProfitProps {
   source: Asset;
   destination: Asset;
   amount: string;
@@ -21,14 +21,13 @@ interface Props {
   isLong: boolean;
 }
 
-export function CurrentPositionProfit({
+export const CurrentPositionProfit: React.FC<ICurrentPositionProfitProps> = ({
   source,
   destination,
   amount,
   startPrice,
   isLong,
-}: Props) {
-  const { t } = useTranslation();
+}) => {
   const { loading, price } = useCurrentPositionPrice(
     destination,
     source,
@@ -43,33 +42,6 @@ export function CurrentPositionProfit({
     profit,
   );
 
-  function Change() {
-    if (diff > 0) {
-      return (
-        <>
-          {t(translations.tradingHistoryPage.table.profitLabels.up)}
-          <span className="tw-text-trade-long">
-            {toNumberFormat(diff * 100, 2)}
-          </span>
-          %
-        </>
-      );
-    }
-    if (diff < 0) {
-      return (
-        <>
-          {t(translations.tradingHistoryPage.table.profitLabels.down)}
-          <span className="tw-text-trade-short">
-            {toNumberFormat(Math.abs(diff * 100), 2)}
-          </span>
-          %
-        </>
-      );
-    }
-    return (
-      <>{t(translations.tradingHistoryPage.table.profitLabels.noChange)}</>
-    );
-  }
   return (
     <>
       <LoadableValue
@@ -77,9 +49,10 @@ export function CurrentPositionProfit({
         value={
           <div className="tw-flex tw-items-center">
             <span
-              className={
-                diff < 0 ? 'tw-text-trade-short' : 'tw-text-trade-long'
-              }
+              className={classNames({
+                'tw-text-trade-short': diff < 0,
+                'tw-text-trade-long': diff > 0,
+              })}
             >
               <div>
                 {diff > 0 && '+'}
@@ -92,21 +65,20 @@ export function CurrentPositionProfit({
                 loading={dollarsLoading}
               />
             </span>
-            <div>
+            <div className="tw-hidden 2xl:tw-table">
               {diff > 0 ? (
                 <span className="tw-text-trade-long tw-ml-2">
                   (+{toNumberFormat(diff * 100, 2)}%)
                 </span>
               ) : (
                 <span className="tw-text-trade-short tw-ml-2">
-                  ({toNumberFormat(Math.abs(diff * 100), 2)}%)
+                  (-{toNumberFormat(Math.abs(diff * 100), 2)}%)
                 </span>
               )}
             </div>
           </div>
         }
-        tooltip={<Change />}
       />
     </>
   );
-}
+};

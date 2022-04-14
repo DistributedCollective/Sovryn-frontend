@@ -20,7 +20,7 @@ import {
 import { LanguageToggle } from '../../../../components/LanguageToggle';
 import styles from './index.module.scss';
 import { ReactComponent as SovLogo } from 'assets/images/sovryn-logo-alpha.svg';
-import { currentNetwork, isMainnet } from 'utils/classifiers';
+import { bitocracyUrl, currentNetwork, isMainnet } from 'utils/classifiers';
 import { AppMode } from 'types';
 
 export const DefaultHeaderComponent: React.FC = () => {
@@ -114,7 +114,7 @@ export const DefaultHeaderComponent: React.FC = () => {
       dataActionId: 'header-bitocracy-link-stake',
     },
     {
-      to: 'https://bitocracy.sovryn.app',
+      to: bitocracyUrl,
       title: t(translations.mainMenu.governance),
       dataActionId: 'header-bitocracy-link-governance',
     },
@@ -403,7 +403,7 @@ export const DefaultHeaderComponent: React.FC = () => {
                             className="tw-w-4 tw-h-4"
                           />
                         }
-                        href="https://bitocracy.sovryn.app/"
+                        href={bitocracyUrl}
                         target="_blank"
                         text={t(translations.mainMenu.governance)}
                         className="bp3-popover-dismiss"

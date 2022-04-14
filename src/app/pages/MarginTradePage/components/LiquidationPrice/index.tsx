@@ -1,8 +1,3 @@
-/**
- *
- * BorrowLiquidationPrice
- *
- */
 import React from 'react';
 import { Asset } from 'types/asset';
 import { TradingPosition } from 'types/trading-position';
@@ -11,38 +6,48 @@ import { fromWei } from 'utils/blockchain/math-helpers';
 import { useBorrowLiquidationPrice } from 'app/hooks/trading/useBorrowLiquidationPrice';
 import { bignumber } from 'mathjs';
 import { LoadableValue } from '../../../../components/LoadableValue';
-import { weiToNumberFormat } from '../../../../../utils/display-text/format';
+import { weiToAssetNumberFormat } from 'utils/display-text/format';
+import { AssetRenderer } from 'app/components/AssetRenderer';
 
-interface Props {
+interface ILiquidationPriceProps {
   asset: Asset;
   assetLong: Asset;
   leverage: number;
   position: TradingPosition;
 }
 
-export function LiquidationPrice(props: Props) {
+export const LiquidationPrice: React.FC<ILiquidationPriceProps> = ({
+  asset,
+  assetLong,
+  leverage,
+  position,
+}) => {
   const { value: price, loading: loadingPrice } = useBorrowAssetPrice(
-    props.asset,
-    props.assetLong,
+    asset,
+    assetLong,
   );
 
   const {
     value: longToUsd,
     loading: loadingLongToUsdPrice,
-  } = useBorrowAssetPrice(props.assetLong, Asset.USDT);
+  } = useBorrowAssetPrice(assetLong, Asset.USDT);
 
   const { value, loading: loadingLiq } = useBorrowLiquidationPrice(
-    props.asset,
+    asset,
     bignumber(price).mul(bignumber(longToUsd).div(1e18)).toFixed(0),
-    props.leverage,
-    props.position,
+    leverage,
+    position,
   );
 
   return (
     <LoadableValue
-      value={<>{weiToNumberFormat(value, 2)}</>}
-      tooltip={fromWei(value)}
+      value={<>{weiToAssetNumberFormat(value, assetLong)}</>}
+      tooltip={
+        <>
+          {fromWei(value)} <AssetRenderer asset={assetLong} />
+        </>
+      }
       loading={loadingPrice || loadingLiq || loadingLongToUsdPrice}
     />
   );
-}
+};

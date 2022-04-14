@@ -21,14 +21,21 @@
     @apply tw-text-black;
     /* @apply tw-mr-5 !important; */
   }
+  .tw-input-prepend {
+    @apply tw-text-black;
+    @apply tw-ml-5 !important;
+  }
 
   .tw-input-wrapper.readonly {
-    @apply tw-bg-transparent tw-text-sov-white tw-border tw-border-gray-6;
+    @apply tw-bg-transparent tw-text-sov-white tw-border tw-border-gray-6 tw-rounded-lg;
   }
   .tw-input-wrapper.readonly .tw-input {
     @apply tw-text-sov-white;
   }
   .tw-input-wrapper.readonly .tw-input-append {
     @apply tw-text-sov-white;
+  }
+  .tw-input-wrapper.readonly .tw-input-prepend {
+    @apply tw-text-white;
   }
 }

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 import { Asset } from 'types/asset';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
@@ -13,30 +13,41 @@ interface CurrencyProps {
   showImage?: boolean;
   imageSize?: ImageSizes;
   assetClassName?: string;
+  className?: string;
 }
 
-export function AssetRenderer(props: CurrencyProps) {
-  const classNames = useMemo(() => getSizeClass(props.imageSize), [
-    props.imageSize,
-  ]);
+export const AssetRenderer: React.FC<CurrencyProps> = ({
+  asset,
+  assetString,
+  showImage,
+  imageSize,
+  assetClassName,
+  className,
+}) => {
+  const sizeClassName = useMemo(() => getSizeClass(imageSize), [imageSize]);
 
   return (
-    <span className="tw-inline-flex tw-flex-row tw-justify-start tw-items-center tw-shrink-0 tw-grow-0 tw-space-x-2">
-      {props.showImage && props.asset && (
+    <span
+      className={classNames(
+        'tw-inline-flex tw-flex-row tw-justify-start tw-items-center tw-shrink-0 tw-grow-0 tw-space-x-2',
+        className,
+      )}
+    >
+      {showImage && asset && (
         <img
-          className={cn('tw-object-contain', classNames)}
-          src={AssetsDictionary.get(props.asset).logoSvg}
-          alt={AssetsDictionary.get(props.asset).name}
+          className={classNames('tw-object-contain', sizeClassName)}
+          src={AssetsDictionary.get(asset).logoSvg}
+          alt={AssetsDictionary.get(asset).name}
         />
       )}
       <AssetSymbolRenderer
-        asset={props.asset}
-        assetString={props.assetString}
-        assetClassName={props.assetClassName}
+        asset={asset}
+        assetString={assetString}
+        assetClassName={assetClassName}
       />
     </span>
   );
-}
+};
 
 AssetRenderer.defaultProps = {
   imageSize: 8,

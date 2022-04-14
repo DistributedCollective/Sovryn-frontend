@@ -96,7 +96,6 @@
     min-width: 452px;
   }
   .tw-trading-form-card {
-    max-width: 452px;
     width: 100%;
   }
 
@@ -116,4 +115,9 @@
 
 .assets {
   min-width: 115px;
+}
+@screen md {
+  .tw-trading-form-card {
+    max-width: 369px;
+  }
 }

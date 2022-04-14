@@ -3,7 +3,15 @@ import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { Asset } from '../../../types/asset';
 import { AssetRenderer } from '../AssetRenderer';
 
-export function RenderTradingPairName(asset1: Asset, asset2: Asset) {
+interface IRenderTradingPairNameProps {
+  asset1: Asset;
+  asset2: Asset;
+}
+
+export const RenderTradingPairName: React.FC<IRenderTradingPairNameProps> = ({
+  asset1,
+  asset2,
+}) => {
   const assetPair1 = AssetsDictionary.get(asset1).logoSvg;
   const assetPair2 = AssetsDictionary.get(asset2).logoSvg;
   return (
@@ -27,4 +35,4 @@ export function RenderTradingPairName(asset1: Asset, asset2: Asset) {
       </div>
     </>
   );
-}
+};

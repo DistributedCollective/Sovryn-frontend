@@ -18,6 +18,7 @@ export const AssetDecimals: { [key in Asset]: number } = {
   FISH: 1,
   RIF: 2,
   MYNT: 2,
+  TRADING: 1,
 };
 
 export enum AssetValueMode {

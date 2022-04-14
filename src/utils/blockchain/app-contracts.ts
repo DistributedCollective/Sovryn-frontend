@@ -11,9 +11,10 @@ const fixContracts = () => {
       const item = contracts[key];
       const chainId = item.chainId || currentChainId;
       const isRSK = chainId === currentChainId;
-
       acc[key] = {
-        address: isRSK ? toChecksumAddress(item.address) : item.address,
+        address: isRSK
+          ? toChecksumAddress(item.address)
+          : item.address.toLowerCase(),
         abi: item.abi,
         blockNumber: item.blockNumber || FIRST_BLOCK,
         chainId,
