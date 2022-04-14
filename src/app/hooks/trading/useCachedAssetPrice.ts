@@ -74,6 +74,7 @@ export const useCachedAssetRate = (sourceAsset: Asset, destAsset: Asset) => {
             }),
           ),
         )
+        .catch(console.error)
         .finally(() => setLoading(false));
     }
   }, [item, assetRatesLoaded, getRate, sourceAsset, destAsset, dispatch]);
