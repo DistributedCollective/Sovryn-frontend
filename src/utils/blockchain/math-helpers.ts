@@ -102,7 +102,8 @@ export const isValidNumerishValue = (value: any) => {
     value === Infinity ||
     isNaN(Number(value)) ||
     value === undefined ||
-    value === null
+    value === null ||
+    value === ''
   ) {
     return false;
   }
