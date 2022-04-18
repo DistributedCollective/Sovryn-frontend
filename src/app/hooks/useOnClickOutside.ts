@@ -1,31 +1,32 @@
 import { RefObject, useEffect } from 'react';
 
-type AnyEvent = MouseEvent | TouchEvent;
-
-export const useOnClickOutside = <T extends HTMLElement = HTMLElement>(
-  ref: RefObject<T>,
-  handler: (event: AnyEvent) => void,
-): void => {
+type ClickOutsideHandler = MouseEvent | TouchEvent;
+/**
+ * This hook will detect click outside of the target(s) elements.
+ * @param ignoreClicksInsideRefs RefObjects to the target(s) elements.
+ * @param callback Callback function to be called when the click is outside of the target elements.
+ */
+export function useOnClickOutside(
+  ignoreClicksInsideRefs: ReadonlyArray<RefObject<HTMLElement>>,
+  callback: (event: ClickOutsideHandler) => void,
+) {
   useEffect(() => {
-    const listener = (event: AnyEvent) => {
-      const el = ref?.current;
+    const handleClick = (event: ClickOutsideHandler) => {
+      const { target } = event;
+      if (target && target instanceof HTMLElement) {
+        const shouldIgnoreByRef = ignoreClicksInsideRefs.some(ref =>
+          ref.current?.contains(target),
+        );
 
-      // Do nothing if clicking ref's element or descendent elements
-      if (!el || el.contains(event.target as Node)) {
-        return;
+        !shouldIgnoreByRef && callback(event);
       }
-
-      handler(event);
     };
-
-    document.addEventListener('mousedown', listener);
-    document.addEventListener('touchstart', listener);
+    document.addEventListener('mousedown', handleClick);
+    document.addEventListener('touchstart', handleClick);
 
     return () => {
-      document.removeEventListener('mousedown', listener);
-      document.removeEventListener('touchstart', listener);
+      document.removeEventListener('mousedown', handleClick);
+      document.removeEventListener('touchstart', handleClick);
     };
-
-    // Reload only if ref or handler changes
-  }, [ref, handler]);
-};
+  }, [ignoreClicksInsideRefs, callback]);
+}

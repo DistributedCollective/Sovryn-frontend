@@ -43,7 +43,7 @@ export const PairSelect: React.FC<IPairSelect> = ({
   const [category, setCategory] = useState('');
   const nodeRef = useRef<HTMLDivElement>(null);
 
-  useOnClickOutside(ref, () => isOpen && onPairClick());
+  useOnClickOutside([ref], () => isOpen && onPairClick());
 
   return (
     <div
