@@ -11,7 +11,7 @@
     }
 }
 .dropdown {
-    @apply tw-absolute tw-rounded-b-lg tw-min-h-8 tw-py-2 tw-px-4 tw-z-30;
+    @apply tw-absolute tw-overflow-x-auto tw-rounded-b-lg tw-min-h-8 tw-py-2 tw-px-4;
 }
 .gray2 {
     @apply tw-bg-gray-2;

@@ -27,8 +27,10 @@ export enum DropdownColor {
 type DropdownCoords = {
   top: number;
   left: number;
-  width: number;
-  widthContainer: number;
+  right: number;
+  buttonWidth: number;
+  windowWidth: number;
+  widthDropdown: number;
 };
 
 interface IDropdownProps {
@@ -64,17 +66,18 @@ export const Dropdown: React.FC<IDropdownProps> = ({
 
   const getCoords = useCallback(() => {
     const button = buttonRef.current?.getBoundingClientRect();
-    const dropdown = dropdownRef.current?.getBoundingClientRect();
+    const widthDropdown = dropdownRef.current?.getBoundingClientRect().width;
+    const windowWidth = document.body.getBoundingClientRect().width;
     const scrollOffset = window.scrollY;
-
-    if (button && dropdown) {
-      const { width: widthContainer } = dropdown;
-      const { top, left, width, height } = button;
+    if (button && widthDropdown) {
+      const { top, left, right, width, height } = button;
       return {
         top: top + height + scrollOffset,
         left: left,
-        width: width,
-        widthContainer: widthContainer,
+        right: right,
+        buttonWidth: width,
+        windowWidth: windowWidth,
+        widthDropdown: widthDropdown,
       };
     }
     return null;
@@ -82,23 +85,50 @@ export const Dropdown: React.FC<IDropdownProps> = ({
 
   const dropdownStyles = useMemo(() => {
     if (!coords) return;
+    const {
+      top,
+      left,
+      right,
+      buttonWidth,
+      windowWidth,
+      widthDropdown,
+    } = coords;
 
-    const { top, left, width, widthContainer } = coords;
+    //getting the max width for the dropdown according to the button width
+    // and to prevent it from going out of the screen
+    const rightButtonOffset = windowWidth - (left + buttonWidth);
+    let maxCenterWidthDropdown: number;
+
+    if (rightButtonOffset > left) {
+      maxCenterWidthDropdown = left * 2 + buttonWidth;
+    } else if (rightButtonOffset < left) {
+      maxCenterWidthDropdown = right * 2 + buttonWidth;
+    } else {
+      maxCenterWidthDropdown = windowWidth;
+    }
+
+    const centerWidthDropdown =
+      widthDropdown > maxCenterWidthDropdown
+        ? maxCenterWidthDropdown
+        : widthDropdown;
+
     const DropdownPosition = {
       left: {
         left: `${left}px`,
+        maxWidth: `${windowWidth - left}px`,
       },
       right: {
-        left: `${left + width}px`,
+        left: `${left + buttonWidth}px`,
+        maxWidth: `${left + buttonWidth}px`,
         transform: 'translateX(-100%)',
       },
       center: {
-        left: `${left - (widthContainer - width) / 2}px`,
+        left: `${left - (centerWidthDropdown - buttonWidth) / 2}px`,
+        maxWidth: `${maxCenterWidthDropdown}px`,
       },
       sameWidth: {
         left: `${left}px`,
-        width: `${width}px`,
-        overflowX: 'auto',
+        width: `${buttonWidth}px`,
       },
     };
 
