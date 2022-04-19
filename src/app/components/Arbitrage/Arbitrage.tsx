@@ -150,7 +150,7 @@ export const Arbitrage: React.FC<IArbitrageProps> = ({ onClick }) => {
                 </div>
                 <ActionButton
                   text={t(translations.mainMenu.swap)}
-                  className="tw-block tw-rounded-50 tw-uppercase tw-bg-primary-25 hover:tw-opacity-75 tw-ml-4"
+                  className="tw-block tw-rounded-50 tw-uppercase tw-bg-primary-10 hover:tw-opacity-75 tw-ml-4"
                   textClassName="tw-text-base"
                   onClick={() =>
                     onClick(opportunity.fromToken, opportunity.toToken)
