@@ -10,28 +10,9 @@ import classNames from 'classnames';
 import { Portal } from '../Portal';
 import styles from './index.module.scss';
 import { useOnClickOutside } from 'app/hooks/useOnClickOutside';
-
-export enum DropdownMode {
-  left = 'left',
-  right = 'right',
-  center = 'center',
-  sameWidth = 'sameWidth',
-}
-
-export enum DropdownColor {
-  gray2 = 'gray2',
-  gray3 = 'gray3',
-  gray4 = 'gray4',
-}
-
-type DropdownCoords = {
-  top: number;
-  left: number;
-  right: number;
-  buttonWidth: number;
-  windowWidth: number;
-  widthDropdown: number;
-};
+import { Nullable } from 'types';
+import { DropdownColor, DropdownCoords, DropdownMode } from './types';
+import { getDropdownPositionStyles } from './utils';
 
 interface IDropdownProps {
   text: ReactNode;
@@ -59,17 +40,17 @@ export const Dropdown: React.FC<IDropdownProps> = ({
   const buttonRef = useRef<HTMLButtonElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [isOpen, setOpen] = useState(false);
-  const [coords, setCoords] = useState<DropdownCoords | null>(null);
+  const [coords, setCoords] = useState<Nullable<DropdownCoords>>(null);
   const onButtonClick = useCallback(() => setOpen(prevValue => !prevValue), [
     setOpen,
   ]);
 
   const getCoords = useCallback(() => {
     const button = buttonRef.current?.getBoundingClientRect();
-    const widthDropdown = dropdownRef.current?.getBoundingClientRect().width;
+    const dropdownWidth = dropdownRef.current?.getBoundingClientRect().width;
     const windowWidth = document.body.getBoundingClientRect().width;
     const scrollOffset = window.scrollY;
-    if (button && widthDropdown) {
+    if (button && dropdownWidth) {
       const { top, left, right, width, height } = button;
       return {
         top: top + height + scrollOffset,
@@ -77,82 +58,22 @@ export const Dropdown: React.FC<IDropdownProps> = ({
         right: right,
         buttonWidth: width,
         windowWidth: windowWidth,
-        widthDropdown: widthDropdown,
+        dropdownWidth: dropdownWidth,
       };
     }
     return null;
   }, []);
 
   const dropdownStyles = useMemo(() => {
-    if (!coords) return;
-    const {
-      top,
-      left,
-      right,
-      buttonWidth,
-      windowWidth,
-      widthDropdown,
-    } = coords;
-
-    //getting the max width for the dropdown according to the button width
-    // and to prevent it from going out of the screen
-    const rightButtonOffset = windowWidth - (left + buttonWidth);
-    let maxCenterWidthDropdown: number;
-
-    if (rightButtonOffset > left) {
-      maxCenterWidthDropdown = left * 2 + buttonWidth;
-    } else if (rightButtonOffset < left) {
-      maxCenterWidthDropdown = right * 2 + buttonWidth;
-    } else {
-      maxCenterWidthDropdown = windowWidth;
+    if (!coords) {
+      return;
     }
-
-    const centerWidthDropdown =
-      widthDropdown > maxCenterWidthDropdown
-        ? maxCenterWidthDropdown
-        : widthDropdown;
-
-    const DropdownPosition = {
-      left: {
-        left: `${left}px`,
-        maxWidth: `${windowWidth - left}px`,
-      },
-      right: {
-        left: `${left + buttonWidth}px`,
-        maxWidth: `${left + buttonWidth}px`,
-        transform: 'translateX(-100%)',
-      },
-      center: {
-        left: `${left - (centerWidthDropdown - buttonWidth) / 2}px`,
-        maxWidth: `${maxCenterWidthDropdown}px`,
-      },
-      sameWidth: {
-        left: `${left}px`,
-        width: `${buttonWidth}px`,
-      },
-    };
-
-    const DropdownPositionTop = {
-      top: `${top}px`,
-    };
-
-    const DropdownPositionStyles = {
-      ...DropdownPosition[mode],
-      ...DropdownPositionTop,
-    };
-
-    return DropdownPositionStyles;
+    return getDropdownPositionStyles(coords, mode);
   }, [coords, mode]);
 
   const classNameComplete = useMemo(
-    () =>
-      classNames(
-        styles.button,
-        isOpen && styles.isOpen,
-        color && styles[color],
-        className,
-      ),
-    [color, className, isOpen],
+    () => classNames(styles.button, color, className),
+    [color, className],
   );
 
   const useClickedOutside = useCallback(() => {
@@ -165,7 +86,9 @@ export const Dropdown: React.FC<IDropdownProps> = ({
   useOnClickOutside([buttonRef, dropdownRef], useClickedOutside);
 
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen) {
+      return;
+    }
     const coords = getCoords();
     setCoords(coords);
 
@@ -186,7 +109,7 @@ export const Dropdown: React.FC<IDropdownProps> = ({
         {text}
         <span
           className={classNames(styles.iconArrow, {
-            'tw-transform tw-rotate-180': isOpen,
+            'tw-transform tw-rotate-180 tw-rounded-b-none': isOpen,
           })}
         ></span>
       </button>
@@ -195,9 +118,9 @@ export const Dropdown: React.FC<IDropdownProps> = ({
         <Portal target="body">
           <div
             className={classNames(
-              styles.dropdown,
+              'tw-absolute tw-overflow-x-auto tw-rounded-b-lg tw-min-h-8 tw-py-2 tw-px-4',
               dropdownClassName,
-              color && styles[color],
+              color,
             )}
             style={dropdownStyles}
             ref={dropdownRef}

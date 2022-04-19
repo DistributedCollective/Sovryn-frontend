@@ -18,7 +18,9 @@ export function useOnClickOutside(
           ref.current?.contains(target),
         );
 
-        !shouldIgnoreByRef && callback(event);
+        if (!shouldIgnoreByRef) {
+          callback(event);
+        }
       }
     };
     document.addEventListener('mousedown', handleClick);

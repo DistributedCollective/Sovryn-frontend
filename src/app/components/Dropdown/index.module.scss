@@ -1,24 +1,8 @@
 .button {
     @apply tw-flex tw-items-center tw-justify-between tw-relative tw-h-full tw-min-h-8 tw-min-w-32 tw-rounded-lg tw-text-base tw-leading-none tw-py-1 tw-px-4 tw-cursor-pointer tw-select-none tw-transition-opacity hover:tw-bg-opacity-50;
 
-    &.isOpen {
-        @apply tw-rounded-b-none;
-    }
-
     & .iconArrow {
         @apply tw-w-4 tw-h-4 tw-ml-2 tw-transition-transform tw-bg-contain tw-bg-center tw-bg-no-repeat;
         background-image: url("data:image/svg+xml,%3Csvg width='23' height='15' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:svgjs='http://svgjs.com/svgjs' viewBox='0 0.399 23 14.203' fill='%23e8e8e8'%3E%3Csvg xmlns='http://www.w3.org/2000/svg' width='23' height='15' viewBox='0.75 0.837 21.5 13.276'%3E%3Cpath paint-order='stroke fill markers' fill-rule='evenodd' d='M19.724.837L11.5 9.043 3.276.837.75 3.363l10.75 10.75 10.75-10.75L19.724.837z'/%3E%3C/svg%3E%3C/svg%3E");
     }
-}
-.dropdown {
-    @apply tw-absolute tw-overflow-x-auto tw-rounded-b-lg tw-min-h-8 tw-py-2 tw-px-4;
-}
-.gray2 {
-    @apply tw-bg-gray-2;
-}
-.gray3 {
-    @apply tw-bg-gray-3;
-}
-.gray4 {
-    @apply tw-bg-gray-4;
 }
