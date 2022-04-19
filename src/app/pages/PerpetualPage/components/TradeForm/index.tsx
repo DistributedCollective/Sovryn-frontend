@@ -24,7 +24,6 @@ import { Input } from '../../../../components/Input';
 import { PopoverPosition, Tooltip } from '@blueprintjs/core';
 import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
-import { LeverageViewer } from '../LeverageViewer';
 import {
   getSignedAmount,
   getTradeDirection,
@@ -40,23 +39,21 @@ import { TxType } from '../../../../../store/global/transactions-store/types';
 import { perpMath, perpUtils } from '@sovryn/perpetual-swap';
 import { getRequiredMarginCollateralWithGasFees } from '../../utils/perpUtils';
 import { usePerpetual_getCurrentPairId } from '../../hooks/usePerpetual_getCurrentPairId';
+import { bignumber } from 'mathjs';
 
 const { shrinkToLot } = perpMath;
 const {
   getTradingFee,
   getQuote2CollateralFX,
-  calculateApproxLiquidationPrice,
   calculateSlippagePrice,
   calculateLeverage,
   getMaxInitialLeverage,
-  getMaximalTradeSizeInPerpetualWithCurrentMargin,
   getPrice,
   getSignedMaxAbsPositionForTrader,
 } = perpUtils;
 
 interface ITradeFormProps {
   trade: PerpetualTrade;
-  isNewTrade?: boolean;
   disabled?: boolean;
   onChange: (trade: PerpetualTrade) => void;
   onSubmit: () => void;
@@ -65,7 +62,6 @@ interface ITradeFormProps {
 
 export const TradeForm: React.FC<ITradeFormProps> = ({
   trade,
-  isNewTrade,
   disabled,
   onChange,
   onSubmit,
@@ -98,40 +94,23 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   ]);
 
   const maxTradeSize = useMemo(() => {
-    let maxTradeSize;
-    if (isNewTrade) {
-      maxTradeSize = shrinkToLot(
-        Math.abs(
-          getSignedMaxAbsPositionForTrader(
-            getTradeDirection(trade.position),
-            numberFromWei(availableBalance),
-            perpParameters,
-            traderState,
-            ammState,
-            liqPoolState,
-            trade.slippage,
-          ),
+    const maxTradeSize = shrinkToLot(
+      Math.abs(
+        getSignedMaxAbsPositionForTrader(
+          getTradeDirection(trade.position),
+          numberFromWei(availableBalance),
+          perpParameters,
+          traderState,
+          ammState,
+          liqPoolState,
+          trade.slippage,
         ),
-        lotSize,
-      );
-    } else {
-      maxTradeSize = shrinkToLot(
-        Math.abs(
-          getMaximalTradeSizeInPerpetualWithCurrentMargin(
-            getTradeDirection(trade.position),
-            perpParameters,
-            traderState,
-            ammState,
-            liqPoolState,
-          ),
-        ),
-        lotSize,
-      );
-    }
+      ),
+      lotSize,
+    );
 
     return Number.isFinite(maxTradeSize) ? maxTradeSize : 0;
   }, [
-    isNewTrade,
     trade.position,
     trade.slippage,
     availableBalance,
@@ -186,8 +165,8 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   );
 
   useEffect(() => {
-    if (amount > maxTradeSize) {
-      setAmount(maxTradeSize);
+    if (bignumber(amount).greaterThan(maxTradeSize)) {
+      setAmount(String(maxTradeSize));
     }
   }, [amount, maxTradeSize, trade.position]);
 
@@ -200,25 +179,13 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         ).toFixed(lotPrecision),
       );
       setAmount(amount);
-      const amountChange = roundedAmount * getTradeDirection(trade.position);
-      const targetAmount = traderState.marginAccountPositionBC + amountChange;
 
       let newTrade = { ...trade, amount: toWei(roundedAmount) };
 
-      if (isNewTrade) {
-        newTrade.leverage = Math.max(
-          minLeverage,
-          Math.min(maxLeverage, newTrade.leverage),
-        );
-      } else {
-        newTrade.leverage = calculateLeverage(
-          targetAmount,
-          traderState.availableCashCC,
-          traderState,
-          ammState,
-          perpParameters,
-        );
-      }
+      newTrade.leverage = Math.max(
+        minLeverage,
+        Math.min(maxLeverage, newTrade.leverage),
+      );
 
       onChange(newTrade);
     },
@@ -230,10 +197,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       maxTradeSize,
       minLeverage,
       maxLeverage,
-      isNewTrade,
-      traderState,
-      ammState,
-      perpParameters,
     ],
   );
 
@@ -301,25 +264,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     [trade.amount, perpParameters, ammState],
   );
 
-  const liquidationPrice = useMemo(
-    () =>
-      calculateApproxLiquidationPrice(
-        traderState,
-        ammState,
-        perpParameters,
-        Number(amount) * getTradeDirection(trade.position),
-        requiredCollateral,
-      ),
-    [
-      amount,
-      trade.position,
-      traderState,
-      ammState,
-      perpParameters,
-      requiredCollateral,
-    ],
-  );
-
   const limitPrice = useMemo(
     () =>
       calculateSlippagePrice(
@@ -342,7 +286,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
 
   const validation = useMemo(() => {
     const signedAmount = getSignedAmount(trade.position, trade.amount);
-    const marginChange = isNewTrade ? requiredCollateral : 0;
+    const marginChange = requiredCollateral;
     return signedAmount !== 0 || marginChange !== 0
       ? validatePositionChange(
           signedAmount,
@@ -357,7 +301,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         )
       : undefined;
   }, [
-    isNewTrade,
     trade,
     requiredCollateral,
     availableBalance,
@@ -383,19 +326,17 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
 
   // clamp leverage
   useEffect(() => {
-    if (isNewTrade) {
-      const leverage = Math.max(
-        minLeverage,
-        Math.min(maxLeverage, trade.leverage || 1),
-      );
-      if (Number.isFinite(leverage) && trade.leverage !== leverage) {
-        onChange({
-          ...trade,
-          leverage,
-        });
-      }
+    const leverage = Math.max(
+      minLeverage,
+      Math.min(maxLeverage, trade.leverage || 1),
+    );
+    if (Number.isFinite(leverage) && trade.leverage !== leverage) {
+      onChange({
+        ...trade,
+        leverage,
+      });
     }
-  }, [isNewTrade, trade, minLeverage, maxLeverage, onChange]);
+  }, [trade, minLeverage, maxLeverage, onChange]);
 
   return (
     <div
@@ -595,16 +536,16 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           />
         </Tooltip>
       </div>
-      {isNewTrade && (
-        <LeverageSelector
-          className="tw-mb-2"
-          value={trade.leverage}
-          min={minLeverage}
-          max={maxLeverage}
-          steps={pair.config.leverage.steps}
-          onChange={onChangeLeverage}
-        />
-      )}
+
+      <LeverageSelector
+        className="tw-mb-2"
+        value={trade.leverage}
+        min={minLeverage}
+        max={maxLeverage}
+        steps={pair.config.leverage.steps}
+        onChange={onChangeLeverage}
+      />
+
       <div className="tw-my-2 tw-text-secondary tw-text-xs">
         <button className="tw-flex tw-flex-row" onClick={onOpenSlippage}>
           <Trans
@@ -615,69 +556,26 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           <img className="tw-ml-2" alt="setting" src={settingImg} />
         </button>
       </div>
-      {isNewTrade && (
-        <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1.5 tw-mt-4 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
-          <label>
-            {t(
-              translations.perpetualPage.tradeForm.labels[
-                trade.position === TradingPosition.LONG
-                  ? 'maxEntryPrice'
-                  : 'minEntryPrice'
-              ],
-            )}
-          </label>
-          <AssetValue
-            minDecimals={2}
-            maxDecimals={2}
-            mode={AssetValueMode.auto}
-            value={limitPrice}
-            assetString={pair.quoteAsset}
-          />
-        </div>
-      )}
-      {!isNewTrade && (
-        <div className="tw-flex tw-flex-col tw-justify-between tw-px-6 tw-py-1.5 tw-mt-4 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
-          <LeverageViewer
-            label={t(translations.perpetualPage.tradeForm.labels.leverage)}
-            min={pair.config.leverage.min}
-            max={maxLeverage}
-            value={trade.leverage}
-            valueLabel={`${toNumberFormat(trade.leverage, 2)}x`}
-          />
 
-          <div className="tw-flex tw-justify-between tw-mt-1.5">
-            <label>
-              {t(translations.perpetualPage.tradeForm.labels.liquidationPrice)}
-            </label>
-            <AssetValue
-              minDecimals={2}
-              maxDecimals={2}
-              mode={AssetValueMode.auto}
-              value={liquidationPrice}
-              assetString={pair.quoteAsset}
-            />
-          </div>
+      <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1.5 tw-mt-4 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
+        <label>
+          {t(
+            translations.perpetualPage.tradeForm.labels[
+              trade.position === TradingPosition.LONG
+                ? 'maxEntryPrice'
+                : 'minEntryPrice'
+            ],
+          )}
+        </label>
+        <AssetValue
+          minDecimals={2}
+          maxDecimals={2}
+          mode={AssetValueMode.auto}
+          value={limitPrice}
+          assetString={pair.quoteAsset}
+        />
+      </div>
 
-          <div className="tw-flex tw-justify-between tw-mt-1.5">
-            <label>
-              {t(
-                translations.perpetualPage.tradeForm.labels[
-                  trade.position === TradingPosition.LONG
-                    ? 'maxEntryPrice'
-                    : 'minEntryPrice'
-                ],
-              )}
-            </label>
-            <AssetValue
-              minDecimals={2}
-              maxDecimals={2}
-              mode={AssetValueMode.auto}
-              value={limitPrice}
-              assetString={pair.quoteAsset}
-            />
-          </div>
-        </div>
-      )}
       {validation && !validation.valid && validation.errors.length > 0 && (
         <div className="tw-flex tw-flex-col tw-justify-between tw-px-6 tw-py-1 tw-mt-4 tw-text-warning tw-text-xs tw-font-medium tw-border tw-border-warning tw-rounded-lg">
           {validation.errorMessages}

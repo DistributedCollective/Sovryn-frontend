@@ -32,7 +32,6 @@ import { AccountBalanceCard } from './components/AccountBalanceCard';
 import { AccountDialog } from './components/AccountDialog';
 import { NewPositionCard } from './components/NewPositionCard';
 import { TradeDialog } from './components/TradeDialog';
-import { EditPositionSizeDialog } from './components/EditPositionSizeDialog';
 import { EditLeverageDialog } from './components/EditLeverageDialog';
 import { EditMarginDialog } from './components/EditMarginDialog';
 import { RecentTradesContextProvider } from './contexts/RecentTradesContext';
@@ -218,7 +217,6 @@ export const PerpetualPageContainer: React.FC = () => {
         </div>
         <AccountDialog />
         <TradeDialog />
-        <EditPositionSizeDialog />
         <EditLeverageDialog />
         <EditMarginDialog />
         <ClosePositionDialog />
