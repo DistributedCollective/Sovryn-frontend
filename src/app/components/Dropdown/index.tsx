@@ -72,8 +72,8 @@ export const Dropdown: React.FC<IDropdownProps> = ({
   }, [coords, mode]);
 
   const classNameComplete = useMemo(
-    () => classNames(styles.button, color, className),
-    [color, className],
+    () => classNames(styles.button, color, className, isOpen && styles.isOpen),
+    [color, className, isOpen],
   );
 
   const useClickedOutside = useCallback(() => {
@@ -117,11 +117,7 @@ export const Dropdown: React.FC<IDropdownProps> = ({
       {isOpen && (
         <Portal target="body">
           <div
-            className={classNames(
-              'tw-absolute tw-overflow-x-auto tw-rounded-b-lg tw-min-h-8 tw-py-2 tw-px-4',
-              dropdownClassName,
-              color,
-            )}
+            className={classNames(styles.dropdown, dropdownClassName, color)}
             style={dropdownStyles}
             ref={dropdownRef}
           >
