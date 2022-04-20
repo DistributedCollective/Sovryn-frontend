@@ -73,7 +73,7 @@ export const SignatureValidation: React.FC<ISignatureValidationProps> = ({
         {t(translations.fastBtcPage.deposit.validationScreen.description)}
       </div>
       <div className="tw-full">
-        <StatusComponent status={pageStatus} onlyImage={true} />
+        <StatusComponent status={pageStatus} showLabel={false} />
         <div className={styles.status}>{statusText}</div>
         <div className={styles.download}>
           <a

@@ -40,12 +40,8 @@ export const handleNumber = (value, onlyPositive = true) => {
 
   let number = value.replace(',', '.').replace(/[^\d.-]/g, '');
 
-  if (onlyPositive) {
-    number = number.replace('-', '');
-  }
-
   if (onlyPositive && Number(number) < 0) {
-    return Math.abs(number).toString();
+    return '0';
   }
 
   if (number.length === 1 && number === '.') {
@@ -286,3 +282,6 @@ export const calculateAssetValue = (
   );
   return numberFromWei(bignumber(amount).mul(rate));
 };
+
+export const capitalize = (val: string) =>
+  val && val.charAt(0).toLocaleUpperCase() + val.slice(1);

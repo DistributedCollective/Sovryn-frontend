@@ -15,6 +15,7 @@ import { btcInSatoshis } from 'app/constants';
 import { getBTCAssetForNetwork } from '../../helpers';
 import { NetworkAwareComponentProps } from '../../types';
 import { StatusComponent } from 'app/components/Dialogs/StatusComponent';
+import { Chain } from 'types';
 
 export const StatusScreen: React.FC<NetworkAwareComponentProps> = ({
   network,
@@ -23,7 +24,21 @@ export const StatusScreen: React.FC<NetworkAwareComponentProps> = ({
   const { t } = useTranslation();
   const history = useHistory();
 
-  const onGoToPortfolio = useCallback(() => history.replace('/wallet'), [
+  const backToUrl = useMemo(
+    () => (network === Chain.BSC ? '/perpetuals' : '/wallet'),
+    [network],
+  );
+
+  const backToTitle = useMemo(
+    () =>
+      network === Chain.BSC
+        ? t(translations.fastBtcPage.backToPerpetuals)
+        : t(translations.fastBtcPage.backToPortfolio),
+    [network, t],
+  );
+
+  const onGoToPortfolio = useCallback(() => history.replace(backToUrl), [
+    backToUrl,
     history,
   ]);
 
@@ -71,7 +86,7 @@ export const StatusScreen: React.FC<NetworkAwareComponentProps> = ({
                 ? TxStatus.PENDING
                 : TxStatus.CONFIRMED
             }
-            onlyImage
+            showLabel={false}
           />
 
           <div className="tw-w-full tw-px-8 tw-py-4 tw-bg-gray-5 tw-text-center tw-mb-8 tw-rounded">
@@ -148,10 +163,7 @@ export const StatusScreen: React.FC<NetworkAwareComponentProps> = ({
           </div>
 
           <div className="tw-px-8 tw-mt-8">
-            <FastBtcButton
-              text={t(translations.fastBtcPage.deposit.statusScreen.cta)}
-              onClick={onGoToPortfolio}
-            />
+            <FastBtcButton text={backToTitle} onClick={onGoToPortfolio} />
           </div>
         </div>
       </div>

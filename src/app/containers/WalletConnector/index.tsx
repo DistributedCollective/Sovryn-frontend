@@ -18,10 +18,14 @@ import styles from './index.module.scss';
 import { Spinner, SpinnerSize } from 'app/components/Spinner';
 
 type Props = {
-  simpleView: boolean;
+  lightMode?: boolean;
+  hideConnectButton?: boolean;
 };
 
-const WalletConnectorContainer: React.FC<Props> = props => {
+const WalletConnectorContainer: React.FC<Props> = ({
+  lightMode,
+  hideConnectButton,
+}) => {
   const {
     connected,
     address,
@@ -31,8 +35,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
     unlockWeb3Wallet,
   } = useContext(WalletContext);
   const { t } = useTranslation();
-  const simpleView = props.simpleView;
-  const simpleViewClass = simpleView ? styles.simpleView : '';
+  const connectedWrapperClassName = lightMode ? styles.lightMode : '';
 
   const getWalletAddrBlockieImg = (): string => {
     return blockies
@@ -60,23 +63,25 @@ const WalletConnectorContainer: React.FC<Props> = props => {
   return (
     <div className="tw-justify-center tw-items-center">
       {!connected && !address ? (
-        <StyledButton
-          onClick={() => connect()}
-          className="tw-flex tw-justify-center tw-items-center tw-bg-primary-25 hover:tw-opacity-75"
-          data-action-id="connect-wallet-button"
-        >
-          {connecting && <Spinner size={SpinnerSize.SM} />}
-          {!connecting && (
-            <>
-              <Icon icon="log-in" className="xl:tw-hidden" />
-              <span className="tw-hidden xl:tw-inline tw-truncate">
-                {t(translations.wallet.connect_btn)}
-              </span>
-            </>
-          )}
-        </StyledButton>
+        hideConnectButton ? null : (
+          <StyledButton
+            onClick={() => connect()}
+            className="tw-flex tw-justify-center tw-items-center tw-bg-primary-25 hover:tw-opacity-75"
+            data-action-id="connect-wallet-button"
+          >
+            {connecting && <Spinner size={SpinnerSize.SM} />}
+            {!connecting && (
+              <>
+                <Icon icon="log-in" className="xl:tw-hidden" />
+                <span className="tw-hidden xl:tw-inline tw-truncate">
+                  {t(translations.wallet.connect_btn)}
+                </span>
+              </>
+            )}
+          </StyledButton>
+        )
       ) : (
-        <div className={simpleViewClass}>
+        <div className={connectedWrapperClassName}>
           <Popover
             placement={'bottom'}
             content={
@@ -109,7 +114,7 @@ const WalletConnectorContainer: React.FC<Props> = props => {
               <div className={styles.engageWallet}>
                 <span className="tw-flex tw-flex-nowrap tw-flex-row tw-items-center tw-w-full tw-justify-between tw-truncate">
                   <span>{prettyTx(address || '', 4, 4)}</span>
-                  <span className="tw-pl-2">
+                  <span className={styles.addressImage}>
                     <img
                       className="tw-rounded"
                       src={getWalletAddrBlockieImg()}
@@ -125,7 +130,11 @@ const WalletConnectorContainer: React.FC<Props> = props => {
                 </span>
               </div>
               <StyledButton className="xl:tw-hidden">
-                <Icon icon="user" iconSize={24} />
+                <Icon
+                  icon="user"
+                  iconSize={24}
+                  className={classNames(lightMode && 'tw-text-black')}
+                />
               </StyledButton>
             </>
           </Popover>

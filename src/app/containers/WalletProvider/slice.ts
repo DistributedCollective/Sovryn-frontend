@@ -10,6 +10,7 @@ export const initialState: ContainerState = {
   chainId: currentChainId,
   networkId: currentChainId,
   bridgeChainId: null,
+  signTypedRequired: false,
   connected: false,
   connecting: false,
   blockNumber: 0,
@@ -48,6 +49,10 @@ const walletProviderSlice = createSlice({
 
     setBridgeChainId(state, { payload }: PayloadAction<Nullable<number>>) {
       state.bridgeChainId = payload;
+    },
+
+    setSignTypedRequired(state, { payload }: PayloadAction<boolean>) {
+      state.signTypedRequired = payload;
     },
 
     chainChanged(
