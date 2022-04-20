@@ -540,7 +540,7 @@ export const DefaultHeaderComponent: React.FC = () => {
                 pathname: '/wallet',
               }}
             >
-              <span>{t(translations.common.deposit)}</span>
+              <span>{t(translations.defaultHeader.fundWallet)}</span>
             </Link>
             <a
               href="https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp"

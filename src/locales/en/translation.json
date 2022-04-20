@@ -99,6 +99,9 @@
     "perpetualsTrade": "Sorry, trading on Perpetuals is currently under maintenance, please check our discord (link in footer) for updates.",
     "perpetualsGsn": "Sorry, the GSN on Perpetuals is currently under maintenance, please check our discord (link in footer) for updates. Transactions without GSN may still work."
   },
+  "defaultHeader": {
+    "fundWallet": "Fund wallet"
+  },
   "homePage": {
     "title": "Home Page",
     "meta": "Sovryn Homepage",
@@ -1168,8 +1171,8 @@
   },
   "walletPage": {
     "meta": {
-      "title": "My Wallet",
-      "description": "Information about connected wallet"
+      "title": "Portfolio",
+      "description": "Manage supported assets in your connected wallet"
     },
     "tabs": {
       "userAssets": "Assets",
