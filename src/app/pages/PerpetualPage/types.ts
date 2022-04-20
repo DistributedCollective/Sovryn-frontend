@@ -100,6 +100,8 @@ export type PerpetualTrade = {
   /** wei string */
   limit?: string;
   /** wei string */
+  triggerPrice?: string;
+  /** wei string */
   margin?: string;
   leverage: number;
   slippage: number;

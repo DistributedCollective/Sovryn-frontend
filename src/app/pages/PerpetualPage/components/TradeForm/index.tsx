@@ -204,6 +204,16 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     setAmount(numberFromWei(trade.amount).toFixed(lotPrecision));
   }, [lotPrecision, trade.amount]);
 
+  const entryPrice = useMemo(
+    () =>
+      getPrice(
+        getSignedAmount(trade.position, trade.amount),
+        perpParameters,
+        ammState,
+      ),
+    [trade.position, trade.amount, perpParameters, ammState],
+  );
+
   const [limit, setLimit] = useState(trade.limit);
   const onChangeOrderLimit = useCallback(
     (limit: string) => {
@@ -212,6 +222,27 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     },
     [onChange, trade],
   );
+
+  useEffect(() => {
+    if (!limit || bignumber(limit).lessThan(1)) {
+      setLimit(String(Math.floor(entryPrice)));
+    }
+  }, [entryPrice, limit]);
+
+  const [triggerPrice, setTriggerPrice] = useState(trade.triggerPrice);
+  const onChangeTriggerPrice = useCallback(
+    (triggerPrice: string) => {
+      setTriggerPrice(triggerPrice);
+      onChange({ ...trade, triggerPrice: toWei(triggerPrice) });
+    },
+    [onChange, trade],
+  );
+
+  useEffect(() => {
+    if (!triggerPrice || bignumber(triggerPrice).lessThan(1)) {
+      setTriggerPrice(String(Math.floor(entryPrice)));
+    }
+  }, [entryPrice, triggerPrice]);
 
   const onChangeLeverage = useCallback(
     (leverage: number) => {
@@ -273,16 +304,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         getTradeDirection(trade.position),
       ),
     [averagePrice, trade.slippage, trade.position],
-  );
-
-  const entryPrice = useMemo(
-    () =>
-      getPrice(
-        getSignedAmount(trade.position, trade.amount),
-        perpParameters,
-        ammState,
-      ),
-    [trade.position, trade.amount, perpParameters, ammState],
   );
 
   const validation = useMemo(() => {
@@ -401,19 +422,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         >
           {t(translations.perpetualPage.tradeForm.buttons.stop)}
         </button>
-
-        <div className="tw-flex tw-flex-row tw-items-between tw-justify-between tw-flex-1 tw-ml-2 tw-text-xs">
-          <label className="tw-mr-1">
-            {t(translations.perpetualPage.tradeForm.labels.maxTradeSize)}
-          </label>
-          <AssetValue
-            minDecimals={0}
-            maxDecimals={6}
-            mode={AssetValueMode.auto}
-            value={maxTradeSize}
-            assetString={pair.baseAsset}
-          />
-        </div>
       </div>
       <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-sm">
         <Tooltip
@@ -428,6 +436,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         <div className="tw-flex-1 tw-mx-4 tw-text-right">
           <AssetSymbolRenderer assetString={pair.baseAsset} />
         </div>
+
         <Input
           className="tw-w-2/5"
           type="number"
@@ -439,10 +448,49 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           onBlur={onBlurOrderAmount}
         />
       </div>
+
+      <div className="tw-flex tw-justify-end tw-flex-1 tw--mt-3 tw-mb-4 tw-text-xs">
+        <label className="tw-mr-1">
+          {t(translations.perpetualPage.tradeForm.labels.maxTradeSize)}
+        </label>
+        <AssetValue
+          minDecimals={0}
+          maxDecimals={6}
+          mode={AssetValueMode.auto}
+          value={maxTradeSize}
+          assetString={pair.baseAsset}
+        />
+      </div>
+
       <div
         className={classNames(
           'tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-sm',
-          trade.tradeType !== PerpetualTradeType.LIMIT && 'tw-hidden',
+          trade.tradeType !== PerpetualTradeType.STOP && 'tw-hidden',
+        )}
+      >
+        <label>
+          {t(translations.perpetualPage.tradeForm.labels.triggerPrice)}
+        </label>
+        <div className="tw-flex-1 tw-mx-4 tw-text-right">
+          <AssetSymbolRenderer assetString={pair.quoteAsset} />
+        </div>
+        <Input
+          className="tw-w-2/5"
+          type="number"
+          value={triggerPrice}
+          step={1}
+          min={0}
+          onChange={onChangeTriggerPrice}
+        />
+      </div>
+      <div
+        className={classNames(
+          'tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-sm',
+          {
+            'tw-hidden':
+              trade.tradeType === PerpetualTradeType.MARKET ||
+              trade.tradeType === PerpetualTradeType.LIQUIDATION,
+          },
         )}
       >
         <label>
@@ -455,7 +503,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           className="tw-w-2/5"
           type="number"
           value={limit}
-          step={0.1}
+          step={1}
           min={0}
           onChange={onChangeOrderLimit}
         />
@@ -503,7 +551,14 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           />
         </Tooltip>
       </div>
-      <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-xs tw-font-medium">
+      <div
+        className={classNames(
+          'tw-flex tw-flex-row tw-items-center tw-justify-between tw-text-xs tw-font-medium',
+          {
+            'tw-mb-4': trade.tradeType === PerpetualTradeType.MARKET,
+          },
+        )}
+      >
         <Tooltip
           position="bottom"
           popoverClassName="tw-max-w-md tw-font-light"
@@ -547,6 +602,57 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         </Tooltip>
       </div>
 
+      {(trade.tradeType === PerpetualTradeType.LIMIT ||
+        trade.tradeType === PerpetualTradeType.STOP) && (
+        <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-xs tw-font-medium">
+          <Tooltip
+            position="bottom"
+            popoverClassName="tw-max-w-md tw-font-light"
+            content={t(
+              translations.perpetualPage.tradeForm.tooltips.relayerFee,
+            )}
+          >
+            <label>
+              {t(translations.perpetualPage.tradeForm.labels.relayerFee)}
+            </label>
+          </Tooltip>
+          <Tooltip
+            position={'auto-start'}
+            content={
+              <>
+                <AssetValue
+                  className="tw-block tw-text-right"
+                  minDecimals={8}
+                  maxDecimals={8}
+                  mode={AssetValueMode.auto}
+                  value={perpParameters.fReferralRebateCC}
+                  assetString={collateralName}
+                />
+                <AssetValue
+                  className="tw-block tw-text-right"
+                  minDecimals={2}
+                  maxDecimals={2}
+                  mode={AssetValueMode.auto}
+                  value={
+                    perpParameters.fReferralRebateCC / quoteToCollateralFactor
+                  }
+                  assetString={pair.quoteAsset}
+                  isApproximation
+                />
+              </>
+            }
+          >
+            <AssetValue
+              minDecimals={4}
+              maxDecimals={4}
+              mode={AssetValueMode.auto}
+              value={perpParameters.fReferralRebateCC}
+              assetString={collateralName}
+            />
+          </Tooltip>
+        </div>
+      )}
+
       <LeverageSelector
         className="tw-mb-2"
         value={trade.leverage}
@@ -556,35 +662,39 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         onChange={onChangeLeverage}
       />
 
-      <div className="tw-my-2 tw-text-secondary tw-text-xs">
-        <button className="tw-flex tw-flex-row" onClick={onOpenSlippage}>
-          <Trans
-            i18nKey={
-              translations.perpetualPage.tradeForm.buttons.slippageSettings
-            }
-          />
-          <img className="tw-ml-2" alt="setting" src={settingImg} />
-        </button>
-      </div>
+      {trade.tradeType === PerpetualTradeType.MARKET && (
+        <>
+          <div className="tw-my-2 tw-text-secondary tw-text-xs">
+            <button className="tw-flex tw-flex-row" onClick={onOpenSlippage}>
+              <Trans
+                i18nKey={
+                  translations.perpetualPage.tradeForm.buttons.slippageSettings
+                }
+              />
+              <img className="tw-ml-2" alt="setting" src={settingImg} />
+            </button>
+          </div>
 
-      <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1.5 tw-mt-4 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
-        <label>
-          {t(
-            translations.perpetualPage.tradeForm.labels[
-              trade.position === TradingPosition.LONG
-                ? 'maxEntryPrice'
-                : 'minEntryPrice'
-            ],
-          )}
-        </label>
-        <AssetValue
-          minDecimals={2}
-          maxDecimals={2}
-          mode={AssetValueMode.auto}
-          value={limitPrice}
-          assetString={pair.quoteAsset}
-        />
-      </div>
+          <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1.5 tw-mt-4 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
+            <label>
+              {t(
+                translations.perpetualPage.tradeForm.labels[
+                  trade.position === TradingPosition.LONG
+                    ? 'maxEntryPrice'
+                    : 'minEntryPrice'
+                ],
+              )}
+            </label>
+            <AssetValue
+              minDecimals={2}
+              maxDecimals={2}
+              mode={AssetValueMode.auto}
+              value={limitPrice}
+              assetString={pair.quoteAsset}
+            />
+          </div>
+        </>
+      )}
 
       {validation && !validation.valid && validation.errors.length > 0 && (
         <div className="tw-flex tw-flex-col tw-justify-between tw-px-6 tw-py-1 tw-mt-4 tw-text-warning tw-text-xs tw-font-medium tw-border tw-border-warning tw-rounded-lg">
