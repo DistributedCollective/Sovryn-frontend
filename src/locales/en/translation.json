@@ -1893,6 +1893,7 @@
       "unrealizedPnL": "Unrealized P/L:"
     },
     "openPositions": "Positions",
+    "openOrders": "Open Orders",
     "closedPositions": "Closed Positions",
     "orderHistory": "Order History",
     "fundingPayments": "Funding Payments",
@@ -1924,6 +1925,38 @@
         "realized": "The realized P&L that was paid to your margin account. This includes fees and slippage. Funding payments are reported separately."
       }
     },
+    "openOrdersTable": {
+      "dateTime": "Date & Time",
+      "symbol": "Symbol",
+      "orderType": "Order Type",
+      "orderState": "Order State",
+      "collateral": "Collateral",
+      "orderSize": "Order Size",
+      "limitPrice": "Limit Price",
+      "triggerPrice": "Trigger Price",
+      "orderTypes": {
+        "limit": "Limit",
+        "stop": "Stop",
+        "buy": "Buy",
+        "sell": "Sell",
+        "order": "Order"
+      },
+      "tableData": {
+        "market": "Market",
+        "limit": "Limit",
+        "stopLoss": "Stop Loss",
+        "liquidation": "Liquidation",
+        "buy": "BUY",
+        "sell": "SELL"
+      },
+      "tooltips": {
+        "orderType": "Limit Buy Order, Limit Sell Order, Stop Buy Order or Stop Sell Order",
+        "collateral": "Currency of the margin collateral",
+        "orderSize": "Notional of the order followed by base currency",
+        "limitPrice": "Limit price in quote currency of the order",
+        "triggerPrice": "Either empty (\"-\"), or a price in quote currency"
+      }
+    },
     "closedPositionsTable": {
       "dateTime": "Date & Time",
       "symbol": "Symbol",
@@ -1946,6 +1979,7 @@
       "tableData": {
         "market": "Market",
         "limit": "Limit",
+        "stopLoss": "Stop Loss",
         "liquidation": "Liquidation",
         "buy": "BUY",
         "sell": "SELL"

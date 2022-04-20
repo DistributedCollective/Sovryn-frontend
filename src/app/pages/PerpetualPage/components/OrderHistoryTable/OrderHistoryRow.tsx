@@ -18,6 +18,8 @@ const tradeTypeTranslations: { [key in PerpetualTradeType]: string } = {
     translations.perpetualPage.orderHistoryTable.tableData.market,
   [PerpetualTradeType.LIMIT]:
     translations.perpetualPage.orderHistoryTable.tableData.limit,
+  [PerpetualTradeType.STOP_LOSS]:
+    translations.perpetualPage.orderHistoryTable.tableData.stopLoss,
   [PerpetualTradeType.LIQUIDATION]:
     translations.perpetualPage.orderHistoryTable.tableData.liquidation,
 };

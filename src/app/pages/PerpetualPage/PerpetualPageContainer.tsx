@@ -43,6 +43,7 @@ import { FundingPaymentsTable } from './components/FundingPaymentsTable/index';
 import { PerpetualQueriesContextProvider } from './contexts/PerpetualQueriesContext';
 import { PairSelector } from './components/PairSelector';
 import { ToastsWatcher } from './components/ToastsWatcher';
+import { OpenOrdersTable } from './components/OpenOrders';
 
 export const PerpetualPageContainer: React.FC = () => {
   useInjectReducer({ key: sliceKey, reducer });
@@ -191,27 +192,33 @@ export const PerpetualPageContainer: React.FC = () => {
                   onClick={() => setActiveTab(0)}
                 />
                 <Tab
-                  text={t(translations.perpetualPage.closedPositions)}
+                  text={t(translations.perpetualPage.openOrders)}
                   active={activeTab === 1}
                   onClick={() => setActiveTab(1)}
                 />
                 <Tab
-                  text={t(translations.perpetualPage.orderHistory)}
+                  text={t(translations.perpetualPage.closedPositions)}
                   active={activeTab === 2}
                   onClick={() => setActiveTab(2)}
                 />
                 <Tab
-                  text={t(translations.perpetualPage.fundingPayments)}
+                  text={t(translations.perpetualPage.orderHistory)}
                   active={activeTab === 3}
                   onClick={() => setActiveTab(3)}
+                />
+                <Tab
+                  text={t(translations.perpetualPage.fundingPayments)}
+                  active={activeTab === 4}
+                  onClick={() => setActiveTab(4)}
                 />
               </div>
 
               <div className="tw-w-full">
                 {activeTab === 0 && <OpenPositionsTable perPage={5} />}
-                {activeTab === 1 && <ClosedPositionsTable perPage={5} />}
-                {activeTab === 2 && <OrderHistoryTable perPage={5} />}
-                {activeTab === 3 && <FundingPaymentsTable perPage={5} />}
+                {activeTab === 1 && <OpenOrdersTable perPage={5} />}
+                {activeTab === 2 && <ClosedPositionsTable perPage={5} />}
+                {activeTab === 3 && <OrderHistoryTable perPage={5} />}
+                {activeTab === 4 && <FundingPaymentsTable perPage={5} />}
               </div>
             </div>
           )}
