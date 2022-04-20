@@ -31,15 +31,15 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
   onUserConfirmed,
   onSuccess,
   onError,
-  onClose: _onClose,
+  onClose,
   action,
   fee,
   finalMessage,
 }) => {
   const { t } = useTranslation();
   const { address } = useContext(WalletContext);
-  const onClose = useCallback(() => {
-    _onClose?.();
+  const onCloseHandler = useCallback(() => {
+    onClose?.();
     if (tx.status === TxStatus.CONFIRMED) {
       onSuccess?.();
     }
@@ -47,7 +47,7 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
       onError?.();
     }
     tx.reset();
-  }, [_onClose, tx, onSuccess, onError]);
+  }, [onClose, tx, onSuccess, onError]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const wallet = useMemo(() => detectWeb3Wallet(), [address]);
@@ -63,7 +63,7 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
   return (
     <Dialog
       isOpen={tx.status !== TxStatus.NONE}
-      onClose={onClose}
+      onClose={onCloseHandler}
       dataAttribute="transaction-dialog"
     >
       {tx.status === TxStatus.PENDING_FOR_USER && (
@@ -144,7 +144,7 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
           </div>
 
           <ActionButton
-            onClick={onClose}
+            onClick={onCloseHandler}
             text={t(translations.common.close)}
             className="tw-max-w-7xl tw-flex tw-items-center tw-justify-center tw-h-12 tw-rounded-lg tw-w-80 tw-mx-auto tw-mt-14"
             textClassName="tw-inline-block tw-text-lg"

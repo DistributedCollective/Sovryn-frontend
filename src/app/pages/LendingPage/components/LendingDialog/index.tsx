@@ -290,10 +290,8 @@ export function LendingDialog({
           />
         </div>
       </Dialog>
-      {type === 'add' && <TransactionDialog tx={lendTx} onSuccess={() => {}} />}
-      {type === 'remove' && (
-        <TransactionDialog tx={unlendTx} onSuccess={() => {}} />
-      )}
+      {type === 'add' && <TransactionDialog tx={lendTx} />}
+      {type === 'remove' && <TransactionDialog tx={unlendTx} />}
     </>
   );
 }
