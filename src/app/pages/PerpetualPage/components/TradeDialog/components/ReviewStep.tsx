@@ -22,8 +22,6 @@ import { selectPerpetualPage } from '../../../selectors';
 const titleMap = {
   [PerpetualPageModals.NONE]:
     translations.perpetualPage.reviewTrade.titles.newOrder,
-  [PerpetualPageModals.EDIT_POSITION_SIZE]:
-    translations.perpetualPage.reviewTrade.titles.newOrder,
   [PerpetualPageModals.EDIT_LEVERAGE]:
     translations.perpetualPage.reviewTrade.titles.editLeverage,
   [PerpetualPageModals.EDIT_MARGIN]:
