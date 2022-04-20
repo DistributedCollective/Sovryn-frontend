@@ -2193,15 +2193,17 @@
         "orderSize": "Order Size:",
         "limitPrice": "Limit Price:",
         "orderCost": "Order Cost:",
-        "maxTradeSize": "Max Trade Size:",
+        "maxTradeSize": "Max:",
         "minEntryPrice": "Min Entry Price:",
         "maxEntryPrice": "Max Entry Price:",
         "minLiquidationPrice": "Min Liquidation Price:",
         "liquidationPrice": "Liquidation Price:",
         "tradingFee": "Trading Fee:",
+        "relayerFee": "Relayer Fee:",
         "slippage": "Slippage Tolerance:",
         "balance": "Available Balance: <0/> <1/>",
-        "txFee": "Tx Fee: <0/> {{symbol}}"
+        "txFee": "Tx Fee: <0/> {{symbol}}",
+        "triggerPrice": "Trigger Price:"
       },
       "buttons": {
         "buy": "Buy",
@@ -2223,7 +2225,8 @@
       "tooltips": {
         "orderSize": "The notional amount for your position.",
         "orderCost": "The maximal amount withdrawn from your wallet to pay for the trade. Consists of required margin and trading fee. This value depends on your slippage settings.",
-        "tradingFee": "The trading fee. If fees are paid in BTC, this includes gas costs."
+        "tradingFee": "The trading fee. If fees are paid in BTC, this includes gas costs.",
+        "relayerFee": "Limit/Stop orders are processed with the assistance of a referrer. The referrer is compensated with the relayer fee."
       }
     },
     "reviewTrade": {
