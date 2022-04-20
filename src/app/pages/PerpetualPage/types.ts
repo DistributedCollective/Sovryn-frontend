@@ -24,6 +24,7 @@ export const PERPETUAL_GAS_PRICE_DEFAULT = isMainnet
 export enum PerpetualTradeType {
   MARKET = 'MARKET',
   LIMIT = 'LIMIT',
+  STOP = 'STOP',
   LIQUIDATION = 'LIQUIDATION',
 }
 

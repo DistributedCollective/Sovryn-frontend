@@ -21,6 +21,8 @@ const tradeTypeTranslations: { [key in PerpetualTradeType]: string } = {
     translations.perpetualPage.orderHistoryTable.tableData.market,
   [PerpetualTradeType.LIMIT]:
     translations.perpetualPage.orderHistoryTable.tableData.limit,
+  [PerpetualTradeType.STOP]:
+    translations.perpetualPage.orderHistoryTable.tableData.stop,
   [PerpetualTradeType.LIQUIDATION]:
     translations.perpetualPage.orderHistoryTable.tableData.liquidation,
 };
