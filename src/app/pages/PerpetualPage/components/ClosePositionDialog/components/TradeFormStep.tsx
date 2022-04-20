@@ -270,20 +270,6 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
         >
           {t(translations.perpetualPage.tradeForm.buttons.market)}
         </button>
-        <Tooltip
-          hoverOpenDelay={0}
-          hoverCloseDelay={0}
-          interactionKind="hover"
-          position={PopoverPosition.BOTTOM_LEFT}
-          content={t(translations.common.comingSoon)}
-        >
-          <button
-            className="tw-h-8 tw-px-3 tw-py-1 tw-font-semibold tw-text-sm tw-text-sov-white tw-bg-gray-7 tw-rounded-lg tw-opacity-25 tw-cursor-not-allowed"
-            disabled
-          >
-            {t(translations.perpetualPage.tradeForm.buttons.limit)}
-          </button>
-        </Tooltip>
       </div>
       <div className="tw-mb-4 tw-text-sm">
         <label>{t(translations.perpetualPage.closePosition.amount)}</label>

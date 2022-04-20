@@ -2209,6 +2209,7 @@
         "connect": "Connect Wallet",
         "market": "Market",
         "limit": "Limit",
+        "stop": "Stop",
         "buyMarket": "Buy Market",
         "buyLimit": "Buy Limit",
         "sellMarket": "Sell Market",
@@ -2342,6 +2343,7 @@
       "tableData": {
         "market": "Market",
         "limit": "Limit",
+        "stop": "Stop",
         "liquidation": "Liquidation",
         "buy": "BUY",
         "sell": "SELL"

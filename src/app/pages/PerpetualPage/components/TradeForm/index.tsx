@@ -21,7 +21,7 @@ import classNames from 'classnames';
 import { PerpetualTrade, PerpetualTradeType } from '../../types';
 import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
 import { Input } from '../../../../components/Input';
-import { PopoverPosition, Tooltip } from '@blueprintjs/core';
+import { Tooltip } from '@blueprintjs/core';
 import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
 import {
@@ -226,8 +226,9 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   );
 
   const bindSelectTradeType = useCallback(
-    (tradeType: PerpetualTradeType) => () => onChange({ ...trade, tradeType }),
-    [trade, onChange],
+    (tradeType: PerpetualTradeType) => () =>
+      onChange({ ...trade, tradeType: tradeType }),
+    [onChange, trade],
   );
 
   const tradeButtonLabel = useMemo(() => {
@@ -378,20 +379,29 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         >
           {t(translations.perpetualPage.tradeForm.buttons.market)}
         </button>
-        <Tooltip
-          hoverOpenDelay={0}
-          hoverCloseDelay={0}
-          interactionKind="hover"
-          position={PopoverPosition.BOTTOM_LEFT}
-          content={t(translations.common.comingSoon)}
+
+        <button
+          className={classNames(
+            'tw-h-8 tw-px-3 tw-py-1 tw-font-semibold tw-text-sm tw-text-sov-white tw-bg-gray-7 tw-rounded-lg',
+            trade.tradeType !== PerpetualTradeType.LIMIT &&
+              'tw-opacity-25 hover:tw-opacity-100 tw-transition-opacity tw-duration-300',
+          )}
+          onClick={bindSelectTradeType(PerpetualTradeType.LIMIT)}
         >
-          <button
-            className="tw-h-8 tw-px-3 tw-py-1 tw-font-semibold tw-text-sm tw-text-sov-white tw-bg-gray-7 tw-rounded-lg tw-opacity-25 tw-cursor-not-allowed"
-            disabled
-          >
-            {t(translations.perpetualPage.tradeForm.buttons.limit)}
-          </button>
-        </Tooltip>
+          {t(translations.perpetualPage.tradeForm.buttons.limit)}
+        </button>
+
+        <button
+          className={classNames(
+            'tw-h-8 tw-px-3 tw-py-1 tw-font-semibold tw-text-sm tw-text-sov-white tw-bg-gray-7 tw-rounded-lg',
+            trade.tradeType !== PerpetualTradeType.STOP &&
+              'tw-opacity-25 hover:tw-opacity-100 tw-transition-opacity tw-duration-300',
+          )}
+          onClick={bindSelectTradeType(PerpetualTradeType.STOP)}
+        >
+          {t(translations.perpetualPage.tradeForm.buttons.stop)}
+        </button>
+
         <div className="tw-flex tw-flex-row tw-items-between tw-justify-between tw-flex-1 tw-ml-2 tw-text-xs">
           <label className="tw-mr-1">
             {t(translations.perpetualPage.tradeForm.labels.maxTradeSize)}
