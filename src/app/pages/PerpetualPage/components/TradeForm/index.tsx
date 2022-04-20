@@ -409,10 +409,10 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         <Tooltip
           position="bottom"
           popoverClassName="tw-max-w-md tw-font-light"
-          content={t(translations.perpetualPage.tradeForm.tooltips.orderValue)}
+          content={t(translations.perpetualPage.tradeForm.tooltips.orderSize)}
         >
           <label>
-            {t(translations.perpetualPage.tradeForm.labels.orderValue)}
+            {t(translations.perpetualPage.tradeForm.labels.orderSize)}
           </label>
         </Tooltip>
         <div className="tw-flex-1 tw-mx-4 tw-text-right">

@@ -2066,12 +2066,10 @@
       "unrealized": "Unrealized P&L",
       "realized": "Realized P&L",
       "actions": "Actions",
-      "editSize": "Size",
       "editLeverage": "Leverage",
       "editMargin": "Margin",
       "editClose": "Close",
       "tooltips": {
-        "editSize": "Change the position size to a value allowed by your current margin.",
         "editLeverage": "Change the leverage of your position. This action will either withdraw from your margin account or deposit to your margin account.",
         "editMargin": "Deposit margin or withdraw margin. This action will change the leverage of your position.",
         "editClose": "Close the entire open position or just partially.",
@@ -2190,9 +2188,9 @@
       "labels": {
         "pair": "Symbol:",
         "asset": "Asset to receive:",
-        "leverageSelector": "Position Leverage:",
+        "leverageSelector": "Trade Leverage:",
         "leverage": "Leverage:",
-        "orderValue": "Order Value:",
+        "orderSize": "Order Size:",
         "limitPrice": "Limit Price:",
         "orderCost": "Order Cost:",
         "maxTradeSize": "Max Trade Size:",
@@ -2222,7 +2220,7 @@
         "emptyBalanceExplanation": "Fund your account to start trading"
       },
       "tooltips": {
-        "orderValue": "The notional amount for your position.",
+        "orderSize": "The notional amount for your position.",
         "orderCost": "The maximal amount withdrawn from your wallet to pay for the trade. Consists of required margin and trading fee. This value depends on your slippage settings.",
         "tradingFee": "The trading fee. If fees are paid in BTC, this includes gas costs."
       }
@@ -2291,9 +2289,6 @@
         "retry": "Retry",
         "close": "Close"
       }
-    },
-    "editPositionSize": {
-      "title": "Edit Position Size"
     },
     "editMargin": {
       "title": "Edit Margin",
