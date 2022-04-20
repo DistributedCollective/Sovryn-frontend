@@ -36,7 +36,7 @@ export function TxDialog(props: Props) {
   };
   const confirm = () => {
     props.tx.reset();
-    history.push('/wallet');
+    history.push('/portfolio');
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps

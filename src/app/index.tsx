@@ -98,7 +98,8 @@ export function App() {
                   component={LiquidityMiningPage}
                 />
                 <Route exact path="/reward" component={RewardPage} />
-                <Route exact path="/wallet" component={WalletPage} />
+                <Redirect exact path="/wallet" to="/portfolio" />
+                <Route exact path="/portfolio" component={WalletPage} />
                 <Route exact path="/origins" component={OriginsLaunchpadPage} />
                 <Route
                   exact

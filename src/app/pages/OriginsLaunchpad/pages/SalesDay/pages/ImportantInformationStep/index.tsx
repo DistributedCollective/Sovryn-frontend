@@ -90,7 +90,7 @@ export const ImportantInformationStep: React.FC<IImportantInformationStepProps> 
                   i18nKey={baseTranslations.information[7]}
                   values={{ token: saleName }}
                   components={[
-                    <Link to="/wallet" className="tw-underline">
+                    <Link to="/portfolio" className="tw-underline">
                       x
                     </Link>,
                   ]}

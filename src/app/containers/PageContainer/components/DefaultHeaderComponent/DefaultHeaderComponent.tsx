@@ -129,7 +129,7 @@ export const DefaultHeaderComponent: React.FC = () => {
       dataActionId: 'header-link-rewards',
     },
     {
-      to: '/wallet',
+      to: '/portfolio',
       title: t(translations.mainMenu.wallet),
       dataActionId: 'header-link-portfolio',
     },
@@ -451,7 +451,7 @@ export const DefaultHeaderComponent: React.FC = () => {
 
                 <NavLink
                   className="tw-header-link tw-mr-2 2xl:tw-mr-3"
-                  to="/wallet"
+                  to="/portfolio"
                   data-action-id="header-link-portfolio"
                 >
                   {t(translations.mainMenu.wallet)}
@@ -537,7 +537,7 @@ export const DefaultHeaderComponent: React.FC = () => {
                 },
               )}
               to={{
-                pathname: '/wallet',
+                pathname: '/portfolio',
               }}
             >
               <span>{t(translations.defaultHeader.fundWallet)}</span>
