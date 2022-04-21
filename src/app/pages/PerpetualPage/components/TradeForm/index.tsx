@@ -136,7 +136,12 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         gasLimit.deposit_collateral + gasLimit[TxType.PERPETUAL_TRADE];
     }
 
-    const maxLeverage = getMaxInitialLeverage(amountTarget, perpParameters);
+    // max leverage for limit and stop orders should equal to max leverage for huge positions and not the actual target amount so we don't allow users to place multiple high leverage small positions
+    const position =
+      trade.tradeType === PerpetualTradeType.MARKET ? amountTarget : 1000000000;
+
+    const maxLeverage = getMaxInitialLeverage(position, perpParameters);
+
     const minLeverage = Math.min(
       maxLeverage,
       Math.max(
@@ -155,12 +160,13 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   }, [
     trade.position,
     trade.amount,
-    pair,
-    availableBalance,
-    useMetaTransactions,
+    trade.tradeType,
     traderState,
+    availableBalance,
     perpParameters,
     ammState,
+    useMetaTransactions,
+    pair.config.leverage.min,
   ]);
 
   const [amount, setAmount] = useState(
