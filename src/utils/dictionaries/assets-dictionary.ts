@@ -142,6 +142,14 @@ export class AssetsDictionary {
         Asset.MYNT,
         new AssetDetails(Asset.MYNT, 'MYNT', 'MYNT', 18, 3, mintIcon, true),
       ],
+      [
+        Asset.ZUSD,
+        new AssetDetails(Asset.ZUSD, 'ZUSD', 'ZUSD', 18, 2, mintIcon, true), // TODO: add ZUSD icon
+      ],
+      [
+        Asset.NUE,
+        new AssetDetails(Asset.NUE, 'NUE', 'NUE', 18, 2, mintIcon, true), // TODO: add ZUSD icon
+      ],
     ],
   );
 

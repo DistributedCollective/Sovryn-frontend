@@ -44,6 +44,7 @@ import fastBtcMultisigAbi from './abi/fastBtcMultisig.json';
 import perpetualManagerAbi from './abi/PerpetualManager.json';
 import perpetualLimitOrderBookAbi from './abi/PerpetualLimitOrderBook.json';
 import marginTokenAbi from './abi/MarginToken.json';
+import ZUSDAbi from './abi/ZUSDToken.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -344,5 +345,15 @@ export const contracts = {
     address: '0x1431Aa8f066795d3aB94F8516B74FdCC5fD7897F',
     abi: marginTokenAbi,
     chainId: ChainId.BSC_MAINNET,
+  },
+
+  // TODO: add ZUSD and NUE mainnet contract addresses
+  ZUSD_token: {
+    address: '0x4a0741FA749eD6b1F810224D09f1f511952e67de',
+    abi: ZUSDAbi,
+  },
+  NUE_token: {
+    address: '0xE0A574a940f9f2F7aE730a2DfB667B70dB989CaB',
+    abi: erc20TokenAbi,
   },
 };
