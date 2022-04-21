@@ -10,10 +10,7 @@ import { AssetDetails } from '../../../utils/models/asset-details';
 import { LoadableValue } from '../LoadableValue';
 import { Asset } from '../../../types';
 import { Skeleton } from '../PageSkeleton';
-import {
-  weiToNumberFormat,
-  weiToUSD,
-} from '../../../utils/display-text/format';
+import { weiToNumberFormat } from '../../../utils/display-text/format';
 import { contractReader } from '../../../utils/sovryn/contract-reader';
 import {
   useAccount,
@@ -40,6 +37,7 @@ import daiIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/dai.s
 import { Link } from 'react-router-dom';
 import { TransakDialog } from '../TransakDialog/TransakDialog';
 import { AssetValue } from '../AssetValue';
+import classNames from 'classnames';
 
 export const UserAssets: React.FC = () => {
   const { t } = useTranslation();
@@ -322,7 +320,13 @@ const AssetRow: React.FC<IAssetRowProps> = ({
                   </div>
                 </Tooltip>
               ) : (
-                <Link to="/fast-btc/withdraw">
+                <Link
+                  to="/fast-btc/withdraw"
+                  className={classNames(
+                    styles.actionLink,
+                    tokens === '0' && styles.disabled,
+                  )}
+                >
                   <span>{t(translations.common.withdraw)}</span>
                 </Link>
               )}
@@ -332,15 +336,22 @@ const AssetRow: React.FC<IAssetRowProps> = ({
             <button
               className={styles.actionLink}
               onClick={() => onConvert(item.asset)}
+              disabled={tokens === '0'}
             >
               {t(translations.userAssets.actions.convert)}
             </button>
           )}
           {[Asset.SOV, Asset.ETH, Asset.XUSD, Asset.BNB].includes(
             item.asset,
-          ) && <BridgeLink asset={item.asset} />}
+          ) && (
+            <BridgeLink asset={item.asset} disableWithdrawal={tokens === '0'} />
+          )}
           {item.asset === Asset.WRBTC && (
-            <button className={styles.actionLink} onClick={onUnWrap}>
+            <button
+              className={styles.actionLink}
+              onClick={onUnWrap}
+              disabled={tokens === '0'}
+            >
               {t(translations.userAssets.actions.unwrap)}
             </button>
           )}

@@ -8,9 +8,12 @@ import { useAccount } from 'app/hooks/useAccount';
 import { Asset } from 'types';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { useIsBridgeLinkLocked } from './hooks/useIsBridgeLinkLocked';
+import classNames from 'classnames';
+import styles from './index.module.scss';
 
 interface IBridgeLinkProps {
   asset: Asset;
+  disableWithdrawal?: boolean;
 }
 
 enum CROSSCHAIN_TYPE {
@@ -18,7 +21,10 @@ enum CROSSCHAIN_TYPE {
   WITHDRAW = 'withdraw',
 }
 
-export const BridgeLink: React.FC<IBridgeLinkProps> = ({ asset }) => {
+export const BridgeLink: React.FC<IBridgeLinkProps> = ({
+  asset,
+  disableWithdrawal,
+}) => {
   const receiver = useAccount();
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
@@ -80,6 +86,7 @@ export const BridgeLink: React.FC<IBridgeLinkProps> = ({ asset }) => {
             pathname: '/cross-chain/deposit',
             state: { receiver, asset },
           }}
+          className={styles.actionLink}
         >
           <span>{t(translations.common.deposit)}</span>
         </Link>
@@ -104,6 +111,10 @@ export const BridgeLink: React.FC<IBridgeLinkProps> = ({ asset }) => {
             pathname: '/cross-chain/withdraw',
             state: { receiver, asset },
           }}
+          className={classNames(
+            styles.actionLink,
+            disableWithdrawal && styles.disabled,
+          )}
         >
           <span>{t(translations.common.withdraw)}</span>
         </Link>
