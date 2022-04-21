@@ -1176,8 +1176,8 @@
     },
     "tabs": {
       "userAssets": "Assets",
-      "vestedAssets": "Vested Assets",
-      "userNFTS": "NFTS"
+      "vestedAssets": "Vesting",
+      "userNFTS": "Gallery"
     }
   },
   "salesPage": {
@@ -1188,13 +1188,14 @@
   },
   "userAssets": {
     "meta": {
-      "title": "Connected Wallet"
+      "title": "Portfolio",
+      "description": "Manage supported assets in your connected wallet"
     },
-    "emptyVestTable": "You don't have any current vest",
+    "emptyVestTable": "You don’t have any vesting contracts",
     "tableHeaders": {
       "asset": "Asset",
-      "totalBalance": "Total Balance",
-      "dollarBalance": "Dollar Balance",
+      "balance": "Balance",
+      "dollarBalance": "XUSD Value",
       "lockedAmount": "Locked Amount",
       "action": "Action"
     },
@@ -1245,6 +1246,13 @@
       }
     }
   },
+  "sovGenerationNFTS": {
+    "genesisPreOrder": "SOV Genesis Pre-Order",
+    "purchaseLimit": "Purchase Limit:",
+    "tier": "Tier",
+    "tierSovOG": "SOV-OG",
+    "emptyMessage": "Your connected wallet does not currently have any supported NFTs. Join the <0>Sovryn community</0> for opportunities to earn NFT rewards."
+  },
   "swapHistory": {
     "title": "Swap History",
     "tableHeaders": {
@@ -1261,7 +1269,7 @@
     "recentSwapHistory": "Recent Swap History"
   },
   "vestedHistory": {
-    "title": "Vested History",
+    "title": "Vesting History",
     "tableHeaders": {
       "time": "Date/Time",
       "vestingSchedule": "Type",

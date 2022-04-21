@@ -404,7 +404,7 @@
     },
     "tableHeaders": {
       "asset": "Asset",
-      "totalBalance": "Total Balance",
+      "balance": "Balance",
       "dollarBalance": "Dollar Balance",
       "action": "Action"
     },

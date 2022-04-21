@@ -39,6 +39,7 @@ import usdcIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/usdc
 import daiIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/dai.svg';
 import { Link } from 'react-router-dom';
 import { TransakDialog } from '../TransakDialog/TransakDialog';
+import { AssetValue } from '../AssetValue';
 
 export const UserAssets: React.FC = () => {
   const { t } = useTranslation();
@@ -81,7 +82,7 @@ export const UserAssets: React.FC = () => {
             <tr>
               <th>{t(translations.userAssets.tableHeaders.asset)}</th>
               <th className="tw-text-right">
-                {t(translations.userAssets.tableHeaders.totalBalance)}
+                {t(translations.userAssets.tableHeaders.balance)}
               </th>
               <th className="tw-text-right tw-hidden md:tw-table-cell">
                 {t(translations.userAssets.tableHeaders.dollarBalance)}
@@ -93,22 +94,20 @@ export const UserAssets: React.FC = () => {
           </thead>
           <tbody className="tw-mt-12">
             {!connected && (
-              <>
-                <tr>
-                  <td>
-                    <Skeleton />
-                  </td>
-                  <td>
-                    <Skeleton />
-                  </td>
-                  <td className="tw-hidden md:tw-table-cell">
-                    <Skeleton />
-                  </td>
-                  <td className="tw-hidden md:tw-table-cell">
-                    <Skeleton />
-                  </td>
-                </tr>
-              </>
+              <tr>
+                <td>
+                  <Skeleton />
+                </td>
+                <td>
+                  <Skeleton />
+                </td>
+                <td className="tw-hidden md:tw-table-cell">
+                  <Skeleton />
+                </td>
+                <td className="tw-hidden md:tw-table-cell">
+                  <Skeleton />
+                </td>
+              </tr>
             )}
             {connected &&
               account &&
@@ -280,7 +279,9 @@ const AssetRow: React.FC<IAssetRowProps> = ({
       </td>
       <td className="tw-text-right tw-hidden md:tw-table-cell">
         <LoadableValue
-          value={weiToUSD(assetDollarValue.value)}
+          value={
+            <AssetValue value={assetDollarValue.value} asset={Asset.XUSD} />
+          }
           loading={assetDollarValue.loading}
         />
       </td>

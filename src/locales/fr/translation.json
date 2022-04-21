@@ -815,7 +815,7 @@
       "asset": "Actif",
       "dollarBalance": "Solde en dollars",
       "lockedAmount": "Montant bloqué",
-      "totalBalance": "Solde total"
+      "balance": "Solde"
     }
   },
   "vestingDialog": {

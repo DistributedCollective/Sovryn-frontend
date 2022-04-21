@@ -1150,8 +1150,8 @@
     "emptyVestTable": "Não existem SOV reservados para você",
     "tableHeaders": {
       "asset": "Ativo",
-      "totalBalance": "Saldo total",
-      "dollarBalance": "Saldo em dólar",
+      "balance": "Saldo",
+      "dollarBalance": "Valor XUSD",
       "lockedAmount": "Quantidade bloqueada",
       "action": "Ação"
     },

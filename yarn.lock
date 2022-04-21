@@ -3895,7 +3895,7 @@
     node-fetch "^2.6.6"
     web3 "^1.6.0"
 
-"@sovryn/react-wallet@2.2.4":
+"@sovryn/react-wallet@2.2.2":
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/@sovryn/react-wallet/-/react-wallet-2.2.2.tgz#0049f746f5ee62d7dd37972b5a39b7a9d184e21c"
   integrity sha512-zPWFd39HsjDRBVpdgHLv/aIJv3lP+AYWPP1y19zxBm1WxeTCCnlZ0nZgR0+VWYlbr1n0j0dOrg7VwmZodQfaqw==
