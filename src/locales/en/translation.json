@@ -2216,8 +2216,10 @@
         "stop": "Stop",
         "buyMarket": "Buy Market",
         "buyLimit": "Buy Limit",
+        "buyStop": "Buy Stop",
         "sellMarket": "Sell Market",
         "sellLimit": "Sell Limit",
+        "sellStop": "Sell Stop",
         "minLeverage": "MIN",
         "slippageSettings": "Slippage Settings"
       },

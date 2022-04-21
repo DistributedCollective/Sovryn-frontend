@@ -278,8 +278,10 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     const i18nKey = {
       LONG_LIMIT: translations.perpetualPage.tradeForm.buttons.buyLimit,
       LONG_MARKET: translations.perpetualPage.tradeForm.buttons.buyMarket,
+      LONG_STOP: translations.perpetualPage.tradeForm.buttons.buyStop,
       SHORT_LIMIT: translations.perpetualPage.tradeForm.buttons.sellLimit,
       SHORT_MARKET: translations.perpetualPage.tradeForm.buttons.sellMarket,
+      SHORT_STOP: translations.perpetualPage.tradeForm.buttons.sellStop,
     }[`${trade.position}_${trade.tradeType}`];
 
     return i18nKey && t(i18nKey);
@@ -739,7 +741,9 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
             <span className="tw-mr-2">{tradeButtonLabel}</span>
             <span>
               {weiToNumberFormat(trade.amount, lotPrecision)} @{' '}
-              {toNumberFormat(entryPrice, 2)}
+              {trade.tradeType === PerpetualTradeType.MARKET
+                ? toNumberFormat(entryPrice, 2)
+                : limit}
             </span>
           </button>
         ) : (
