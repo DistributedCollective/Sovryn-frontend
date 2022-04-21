@@ -103,6 +103,7 @@ export type PerpetualTrade = {
   triggerPrice?: string;
   /** wei string */
   margin?: string;
+  expiry?: string;
   leverage: number;
   slippage: number;
   entryPrice: number;

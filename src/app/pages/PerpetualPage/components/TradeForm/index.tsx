@@ -40,6 +40,9 @@ import { perpMath, perpUtils } from '@sovryn/perpetual-swap';
 import { getRequiredMarginCollateralWithGasFees } from '../../utils/perpUtils';
 import { usePerpetual_getCurrentPairId } from '../../hooks/usePerpetual_getCurrentPairId';
 import { bignumber } from 'mathjs';
+import { ExpiryDateInput } from './components/ExpiryDateInput';
+
+const DEFAULT_EXPIRY_VALUE = '90'; // days
 
 const { shrinkToLot } = perpMath;
 const {
@@ -243,6 +246,15 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       setTriggerPrice(String(Math.floor(entryPrice)));
     }
   }, [entryPrice, triggerPrice]);
+
+  const [expiry, setExpiry] = useState(DEFAULT_EXPIRY_VALUE);
+  const onChangeExpiry = useCallback(
+    (expiry: string) => {
+      setExpiry(expiry);
+      onChange({ ...trade, expiry: expiry });
+    },
+    [onChange, trade],
+  );
 
   const onChangeLeverage = useCallback(
     (leverage: number) => {
@@ -483,31 +495,39 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           onChange={onChangeTriggerPrice}
         />
       </div>
-      <div
-        className={classNames(
-          'tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-sm',
-          {
-            'tw-hidden':
-              trade.tradeType === PerpetualTradeType.MARKET ||
-              trade.tradeType === PerpetualTradeType.LIQUIDATION,
-          },
-        )}
-      >
-        <label>
-          {t(translations.perpetualPage.tradeForm.labels.limitPrice)}
-        </label>
-        <div className="tw-flex-1 tw-mx-4 tw-text-right">
-          <AssetSymbolRenderer assetString={pair.quoteAsset} />
-        </div>
-        <Input
-          className="tw-w-2/5"
-          type="number"
-          value={limit}
-          step={1}
-          min={0}
-          onChange={onChangeOrderLimit}
-        />
-      </div>
+
+      {(trade.tradeType === PerpetualTradeType.LIMIT ||
+        trade.tradeType === PerpetualTradeType.STOP) && (
+        <>
+          <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-sm">
+            <label>
+              {t(translations.perpetualPage.tradeForm.labels.limitPrice)}
+            </label>
+            <div className="tw-flex-1 tw-mx-4 tw-text-right">
+              <AssetSymbolRenderer assetString={pair.quoteAsset} />
+            </div>
+            <Input
+              className="tw-w-2/5"
+              type="number"
+              value={limit}
+              step={1}
+              min={0}
+              onChange={onChangeOrderLimit}
+            />
+          </div>
+
+          <div className="tw-flex tw-flex-row tw-justify-between tw-mb-4 tw-text-sm">
+            <label className="tw-mt-1.5">
+              {t(translations.perpetualPage.tradeForm.labels.expiry)}
+            </label>
+            <span className="tw-flex-1 tw-mt-1.5 tw-mx-4 tw-text-right tw-font-medium">
+              {t(translations.perpetualPage.tradeForm.labels.days)}
+            </span>
+            <ExpiryDateInput value={expiry} onChange={onChangeExpiry} />
+          </div>
+        </>
+      )}
+
       <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-text-xs tw-font-medium">
         <Tooltip
           position="bottom"
