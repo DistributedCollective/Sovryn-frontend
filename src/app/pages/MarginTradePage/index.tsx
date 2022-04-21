@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
-import { Tab } from '../../components/Tab';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import { translations } from 'locales/i18n';
 import { RecentTrades } from 'app/components/RecentTrades';
@@ -20,6 +19,7 @@ import { PairNavbar } from 'app/components/PairNavbar';
 import { TradingType } from 'types/trading-pairs';
 import { LimitOrderTables } from './components/LimitOrder/LimitOrderTables';
 import { OpenPositionsTable } from './components/OpenPositionsTable/OpenPositionsTable';
+import { Tabs } from 'app/components/Tabs';
 
 export function MarginTradePage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -46,7 +46,32 @@ export function MarginTradePage() {
   );
 
   const connected = useIsConnected();
-  const [activeTab, setActiveTab] = useState(0);
+
+  const tabs = useMemo(
+    () => [
+      {
+        id: 'openPositions',
+        label: t(translations.marginTradePage.openPositions),
+        content: <OpenPositionsTable />,
+      },
+      {
+        id: 'tradingHistory',
+        label: t(translations.marginTradePage.tradingHistory),
+        content: <ClosedPositionsTable />,
+      },
+      {
+        id: 'limitOrders',
+        label: t(translations.spotTradingPage.history.openLimitOrders),
+        content: <LimitOrderTables activeTab={2} />,
+      },
+      {
+        id: 'limitOrderHistory',
+        label: t(translations.spotTradingPage.history.limitOrderHistory),
+        content: <LimitOrderTables activeTab={3} />,
+      },
+    ],
+    [t],
+  );
 
   return (
     <>
@@ -79,37 +104,12 @@ export function MarginTradePage() {
         </div>
 
         {connected && (
-          <>
-            <div className="sm:tw-flex tw-items-center tw-mt-3 tw-text-sm sm:tw-text-left tw-text-center">
-              <Tab
-                text={t(translations.marginTradePage.openPositions)}
-                active={activeTab === 0}
-                onClick={() => setActiveTab(0)}
-              />
-              <Tab
-                text={t(translations.marginTradePage.tradingHistory)}
-                active={activeTab === 1}
-                onClick={() => setActiveTab(1)}
-              />
-              <Tab
-                text={t(translations.spotTradingPage.history.openLimitOrders)}
-                active={activeTab === 2}
-                onClick={() => setActiveTab(2)}
-              />
-              <Tab
-                text={t(translations.spotTradingPage.history.limitOrderHistory)}
-                active={activeTab === 3}
-                onClick={() => setActiveTab(3)}
-              />
-            </div>
-
-            <div className="tw-w-full sm:tw-px-5">
-              {activeTab === 0 && <OpenPositionsTable />}
-              {activeTab === 1 && <ClosedPositionsTable />}
-
-              <LimitOrderTables activeTab={activeTab} />
-            </div>
-          </>
+          <Tabs
+            items={tabs}
+            initial={tabs[0].id}
+            className="tw-mt-3"
+            dataActionId="margin-history"
+          />
         )}
       </div>
     </>
