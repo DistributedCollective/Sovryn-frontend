@@ -62,32 +62,42 @@ export const RadioButton: React.FC<RadioButtonProps> = ({
       })}
       role="radiogroup"
     >
-      {entries.map(({ value, text, color, dataActionId }) => (
-        <label
-          key={value}
-          className={classNames(
-            classNameComplete,
-            color && styles[color],
-            value === selected && styles.selected,
-            {
-              'tw-opacity-100': value === isSelected && !disabled,
-            },
-          )}
-        >
-          <input
-            className="tw-absolute tw-invisible tw-w-0 tw-h-0"
-            type="radio"
-            value={value}
-            checked={isSelected === value}
-            disabled={disabled}
-            onChange={({ target }) => handleOnChange(target.value)}
-            data-action-id={dataActionId}
-          />
-          <span className="tw-flex tw-items-center tw-justify-center tw-capitalize">
-            {text}
-          </span>
-        </label>
-      ))}
+      {entries.map(
+        ({
+          value,
+          text,
+          color: colorButton,
+          disabled: disabledButton,
+          dataActionId,
+        }) => (
+          <label
+            key={value}
+            className={classNames(
+              classNameComplete,
+              colorButton && styles[colorButton],
+              disabledButton && styles.disabled,
+              value === selected && styles.selected,
+              {
+                'tw-opacity-100':
+                  value === isSelected && !disabled && !disabledButton,
+              },
+            )}
+          >
+            <input
+              className="tw-absolute tw-invisible tw-w-0 tw-h-0"
+              type="radio"
+              value={value}
+              checked={isSelected === value}
+              disabled={disabled || disabledButton}
+              onChange={({ target }) => handleOnChange(target.value)}
+              data-action-id={dataActionId}
+            />
+            <span className="tw-flex tw-items-center tw-justify-center tw-capitalize">
+              {text}
+            </span>
+          </label>
+        ),
+      )}
     </div>
   );
 };

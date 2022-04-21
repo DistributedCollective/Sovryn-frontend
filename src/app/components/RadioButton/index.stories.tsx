@@ -24,6 +24,20 @@ const DiffColorsTemplate: Story<ComponentProps<typeof RadioButton>> = args => {
   );
 };
 
+const OneButtonDisabledTemplate: Story<ComponentProps<
+  typeof RadioButton
+>> = args => {
+  const [isSelected, setIsSelected] = useState('long');
+  const onChange = useCallback(value => setIsSelected(value), [setIsSelected]);
+  return (
+    <RadioButton
+      {...args}
+      selected={isSelected}
+      onChange={value => onChange(value)}
+    />
+  );
+};
+
 const FullWidthTemplate: Story<ComponentProps<typeof RadioButton>> = args => {
   const [isSelected, setIsSelected] = useState('50');
   const onChange = useCallback(value => setIsSelected(value), [setIsSelected]);
@@ -38,7 +52,7 @@ const FullWidthTemplate: Story<ComponentProps<typeof RadioButton>> = args => {
 
 export const Default = Template.bind({});
 Default.args = {
-  color: RadioButtonColor.tradeLong,
+  color: RadioButtonColor.secondary,
   entries: [
     {
       value: 'sov',
@@ -63,6 +77,23 @@ DiffColors.args = {
       value: 'short',
       text: 'short',
       color: RadioButtonColor.tradeShort,
+    },
+  ],
+};
+
+export const OneButtonDisabled = OneButtonDisabledTemplate.bind({});
+OneButtonDisabled.args = {
+  entries: [
+    {
+      value: 'long',
+      text: 'long',
+      color: RadioButtonColor.tradeLong,
+    },
+    {
+      value: 'short',
+      text: 'short',
+      color: RadioButtonColor.tradeShort,
+      disabled: true,
     },
   ],
 };
