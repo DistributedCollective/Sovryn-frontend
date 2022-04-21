@@ -3,6 +3,7 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
+  MouseEvent,
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
@@ -64,6 +65,10 @@ export const Dialog: DialogFunctionComponent<DialogProps> = ({
     }
   }, [onClose]);
 
+  const handleChildElementClick = useCallback((event: MouseEvent) => {
+    event.stopPropagation();
+  }, []);
+
   useEffect(() => {
     // make sure that multiple dialogs opened showing up in correct order.
     Dialog.index++;
@@ -81,7 +86,10 @@ export const Dialog: DialogFunctionComponent<DialogProps> = ({
     >
       <div className={styles.dialog_wrapper} data-action-id={dataActionId}>
         <div className={styles.dialog_container}>
-          <div className={classNames(styles.dialog, sizeClassNames, className)}>
+          <div
+            className={classNames(styles.dialog, sizeClassNames, className)}
+            onClick={handleChildElementClick}
+          >
             {onClose && (
               <button
                 className={styles.close_button}
