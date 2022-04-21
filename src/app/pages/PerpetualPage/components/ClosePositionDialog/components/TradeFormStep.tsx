@@ -260,18 +260,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
 
   return (
     <div className="tw-relative tw-mw-340 tw-min-h-96 tw-h-full tw-pb-12 tw-mx-auto">
-      <div className="tw-flex tw-flex-row tw-items-center tw-mb-6">
-        <button
-          className={classNames(
-            'tw-h-8 tw-px-3 tw-py-1 tw-font-semibold tw-text-sm tw-text-sov-white tw-bg-gray-7 tw-rounded-lg',
-            trade.tradeType !== PerpetualTradeType.MARKET &&
-              'tw-opacity-25 hover:tw-opacity-100 tw-transition-opacity tw-duration-300',
-          )}
-        >
-          {t(translations.perpetualPage.tradeForm.buttons.market)}
-        </button>
-      </div>
-      <div className="tw-mb-4 tw-text-sm">
+      <div className="tw-mb-4 tw-pt-12 tw-text-sm">
         <label>{t(translations.perpetualPage.closePosition.amount)}</label>
         <AmountInput
           value={Math.abs(amountChange).toFixed(lotPrecision)}
