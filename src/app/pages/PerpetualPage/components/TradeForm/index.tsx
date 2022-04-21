@@ -41,6 +41,7 @@ import { getRequiredMarginCollateralWithGasFees } from '../../utils/perpUtils';
 import { usePerpetual_getCurrentPairId } from '../../hooks/usePerpetual_getCurrentPairId';
 import { bignumber } from 'mathjs';
 import { ExpiryDateInput } from './components/ExpiryDateInput';
+import { ResultingPosition } from './components/ResultingPosition';
 
 const DEFAULT_EXPIRY_VALUE = '90'; // days
 
@@ -302,14 +303,23 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     const amount = getSignedAmount(trade.position, trade.amount);
     return getRequiredMarginCollateralWithGasFees(
       trade.leverage,
-      traderState.marginAccountPositionBC + amount,
+      Number(amount),
       perpParameters,
       ammState,
       traderState,
       trade.slippage,
       useMetaTransactions,
     );
-  }, [perpParameters, ammState, traderState, trade, useMetaTransactions]);
+  }, [
+    trade.position,
+    trade.amount,
+    trade.leverage,
+    trade.slippage,
+    traderState,
+    perpParameters,
+    ammState,
+    useMetaTransactions,
+  ]);
 
   const tradingFee = useMemo(
     () => getTradingFee(numberFromWei(trade.amount), perpParameters, ammState),
@@ -703,24 +713,12 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
             </button>
           </div>
 
-          <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1.5 tw-mt-4 tw-text-xs tw-font-medium tw-border tw-border-gray-5 tw-rounded-lg">
-            <label>
-              {t(
-                translations.perpetualPage.tradeForm.labels[
-                  trade.position === TradingPosition.LONG
-                    ? 'maxEntryPrice'
-                    : 'minEntryPrice'
-                ],
-              )}
-            </label>
-            <AssetValue
-              minDecimals={2}
-              maxDecimals={2}
-              mode={AssetValueMode.auto}
-              value={limitPrice}
-              assetString={pair.quoteAsset}
-            />
-          </div>
+          <ResultingPosition
+            trade={trade}
+            minLeverage={minLeverage}
+            maxLeverage={maxLeverage}
+            limitOrderPrice={limitPrice}
+          />
         </>
       )}
 

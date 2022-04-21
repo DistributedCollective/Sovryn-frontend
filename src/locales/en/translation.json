@@ -2205,7 +2205,8 @@
         "slippage": "Slippage Tolerance:",
         "balance": "Available Balance: <0/> <1/>",
         "txFee": "Tx Fee: <0/> {{symbol}}",
-        "triggerPrice": "Trigger Price:"
+        "triggerPrice": "Trigger Price:",
+        "resultingPosition": "Resulting Position"
       },
       "buttons": {
         "buy": "Buy",
