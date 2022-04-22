@@ -1,7 +1,7 @@
 @layer base {
   html,
   body {
-    @apply tw-h-full tw-w-full tw-font-normal;
+    @apply tw-h-full tw-w-full tw-font-normal tw-scrollbars-wide;
   }
 
   body {
@@ -18,7 +18,7 @@
   }
 
   * {
-    @apply tw-font-body;
+    @apply tw-font-body tw-scrollbars-wide;
   }
 
   *:focus {
