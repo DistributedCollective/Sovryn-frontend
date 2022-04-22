@@ -190,15 +190,14 @@ export const AmountSelectorInner: React.FC<IAmountSelectorProps> = ({
 };
 
 export enum AmountSelectorButtonPadding {
-  Normal = 'tw-px-4',
-  Small = 'tw-px-2',
+  md = 'tw-px-4',
+  sm = 'tw-px-2',
 }
 
 interface IAmountButtonProps {
   text?: string;
   onClick?: () => void;
   dataActionId?: string;
-  appendText?: string;
   padding?: AmountSelectorButtonPadding;
 }
 
@@ -206,8 +205,7 @@ export const AmountSelectorButton: React.FC<IAmountButtonProps> = ({
   text,
   onClick,
   dataActionId,
-  appendText = '',
-  padding = AmountSelectorButtonPadding.Normal,
+  padding = AmountSelectorButtonPadding.md,
 }) => {
   return (
     <button
@@ -218,7 +216,7 @@ export const AmountSelectorButton: React.FC<IAmountButtonProps> = ({
       )}
       data-action-id={`${dataActionId}-amountSelectorButton-${text}`}
     >
-      {`${text}${appendText}`}
+      {text}
     </button>
   );
 };

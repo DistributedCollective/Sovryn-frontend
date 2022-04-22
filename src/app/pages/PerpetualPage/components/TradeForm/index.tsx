@@ -43,7 +43,7 @@ import { bignumber } from 'mathjs';
 import { ExpiryDateInput } from './components/ExpiryDateInput';
 import { ResultingPosition } from './components/ResultingPosition';
 
-const DEFAULT_EXPIRY_VALUE = '90'; // days
+const DEFAULT_EXPIRY_VALUE = '30'; // days
 
 const { shrinkToLot } = perpMath;
 const {
@@ -234,7 +234,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   );
 
   useEffect(() => {
-    if (!limit || bignumber(limit).lessThan(1)) {
+    if (!limit || bignumber(limit).lessThanOrEqualTo(0)) {
       setLimit(String(Math.floor(entryPrice)));
     }
   }, [entryPrice, limit]);
@@ -249,7 +249,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   );
 
   useEffect(() => {
-    if (!triggerPrice || bignumber(triggerPrice).lessThan(1)) {
+    if (!triggerPrice || bignumber(triggerPrice).lessThanOrEqualTo(0)) {
       setTriggerPrice(String(Math.floor(entryPrice)));
     }
   }, [entryPrice, triggerPrice]);

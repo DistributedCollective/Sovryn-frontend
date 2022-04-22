@@ -37,10 +37,9 @@ export const ExpiryDateInput: React.FC<ExpiryDateInputProps> = ({
         {buttonValues.map(buttonValue => (
           <AmountSelectorButton
             key={buttonValue}
-            text={String(buttonValue)}
+            text={`${String(buttonValue)}D`}
             onClick={() => onChange(String(buttonValue))}
-            padding={AmountSelectorButtonPadding.Small}
-            appendText="D"
+            padding={AmountSelectorButtonPadding.sm}
             dataActionId="perpetuals-expiryDate"
           />
         ))}
