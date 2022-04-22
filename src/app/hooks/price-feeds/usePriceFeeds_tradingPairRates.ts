@@ -22,7 +22,6 @@ const assetsWithoutOracle: Asset[] = [
   Asset.RDOC,
   Asset.MYNT,
   Asset.ZUSD,
-  Asset.NUE,
 ];
 
 const excludeAssets: Asset[] = [Asset.CSOV, Asset.RDOC, Asset.MYNT];
