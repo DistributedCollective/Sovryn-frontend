@@ -40,6 +40,7 @@ export function getTraderPnLInBC(
  * @param {AMMState} ammData - AMM state
  * @param {number} slippagePercent - optional. Specify slippage compared to mid-price that the trader is willing to accept
  * @param {boolean} useMetaTransactions - optional, default false. Adds gas fees to the total
+ * @param {boolean} accountForExistingMargin - optional, default false. Set to trie if you want to take into account existing margin in positions
  * @returns {number} balance required to arrive at the perpetual contract to obtain requested leverage
  */
 export function getRequiredMarginCollateralWithGasFees(
@@ -50,6 +51,7 @@ export function getRequiredMarginCollateralWithGasFees(
   traderState: TraderState,
   slippagePercent: number = 0,
   useMetaTransactions: boolean = false,
+  accountForExistingMargin: boolean = false,
 ) {
   let requiredCollateral = getRequiredMarginCollateral(
     leverage,
@@ -58,7 +60,7 @@ export function getRequiredMarginCollateralWithGasFees(
     ammData,
     traderState,
     slippagePercent,
-    false,
+    accountForExistingMargin,
   );
 
   if (useMetaTransactions) {

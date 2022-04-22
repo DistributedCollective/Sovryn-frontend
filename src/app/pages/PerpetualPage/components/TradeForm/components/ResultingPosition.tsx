@@ -68,6 +68,7 @@ export const ResultingPosition: React.FC<ResultingPositionProps> = ({
       traderState,
       trade.slippage,
       useMetaTransactions,
+      true,
     );
 
     return calculateApproxLiquidationPrice(
