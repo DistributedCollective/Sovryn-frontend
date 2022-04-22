@@ -24,6 +24,7 @@ export const PERPETUAL_GAS_PRICE_DEFAULT = isMainnet
 export enum PerpetualTradeType {
   MARKET = 'MARKET',
   LIMIT = 'LIMIT',
+  STOP = 'STOP',
   LIQUIDATION = 'LIQUIDATION',
 }
 
@@ -34,7 +35,6 @@ export enum PerpetualPageModals {
   FASTBTC_WITHDRAW = 'FASTBTC_WITHDRAW',
   FASTBTC_TRANSFER = 'FASTBTC_TRANSFER',
   TRADE_REVIEW = 'TRADE_REVIEW',
-  EDIT_POSITION_SIZE = 'EDIT_POSITION_SIZE',
   EDIT_LEVERAGE = 'EDIT_LEVERAGE',
   EDIT_MARGIN = 'EDIT_MARGIN',
   CLOSE_POSITION = 'CLOSE_POSITION',
@@ -100,7 +100,10 @@ export type PerpetualTrade = {
   /** wei string */
   limit?: string;
   /** wei string */
+  triggerPrice?: string;
+  /** wei string */
   margin?: string;
+  expiry?: string;
   leverage: number;
   slippage: number;
   entryPrice: number;

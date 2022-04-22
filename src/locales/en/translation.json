@@ -2066,12 +2066,10 @@
       "unrealized": "Unrealized P&L",
       "realized": "Realized P&L",
       "actions": "Actions",
-      "editSize": "Size",
       "editLeverage": "Leverage",
       "editMargin": "Margin",
       "editClose": "Close",
       "tooltips": {
-        "editSize": "Change the position size to a value allowed by your current margin.",
         "editLeverage": "Change the leverage of your position. This action will either withdraw from your margin account or deposit to your margin account.",
         "editMargin": "Deposit margin or withdraw margin. This action will change the leverage of your position.",
         "editClose": "Close the entire open position or just partially.",
@@ -2190,20 +2188,25 @@
       "labels": {
         "pair": "Symbol:",
         "asset": "Asset to receive:",
-        "leverageSelector": "Position Leverage:",
+        "leverageSelector": "Trade Leverage:",
         "leverage": "Leverage:",
-        "orderValue": "Order Value:",
+        "orderSize": "Order Size:",
         "limitPrice": "Limit Price:",
+        "expiry": "Expiry:",
+        "days": "Days",
         "orderCost": "Order Cost:",
-        "maxTradeSize": "Max Trade Size:",
+        "maxTradeSize": "Max:",
         "minEntryPrice": "Min Entry Price:",
         "maxEntryPrice": "Max Entry Price:",
         "minLiquidationPrice": "Min Liquidation Price:",
         "liquidationPrice": "Liquidation Price:",
         "tradingFee": "Trading Fee:",
+        "relayerFee": "Relayer Fee:",
         "slippage": "Slippage Tolerance:",
         "balance": "Available Balance: <0/> <1/>",
-        "txFee": "Tx Fee: <0/> {{symbol}}"
+        "txFee": "Tx Fee: <0/> {{symbol}}",
+        "triggerPrice": "Trigger Price:",
+        "resultingPosition": "Resulting Position"
       },
       "buttons": {
         "buy": "Buy",
@@ -2211,22 +2214,24 @@
         "connect": "Connect Wallet",
         "market": "Market",
         "limit": "Limit",
+        "stop": "Stop",
         "buyMarket": "Buy Market",
         "buyLimit": "Buy Limit",
+        "buyStop": "Buy Stop",
         "sellMarket": "Sell Market",
         "sellLimit": "Sell Limit",
+        "sellStop": "Sell Stop",
         "minLeverage": "MIN",
         "slippageSettings": "Slippage Settings"
       },
       "disabledState": {
-        "emptyBalanceExplanation": "Fund your account to start trading",
-        "explanation1": "Only one position can be opened at a time",
-        "explanation2": "You can edit and close your position in the action section below"
+        "emptyBalanceExplanation": "Fund your account to start trading"
       },
       "tooltips": {
-        "orderValue": "The notional amount for your position.",
+        "orderSize": "The notional amount for your position.",
         "orderCost": "The maximal amount withdrawn from your wallet to pay for the trade. Consists of required margin and trading fee. This value depends on your slippage settings.",
-        "tradingFee": "The trading fee. If fees are paid in BTC, this includes gas costs."
+        "tradingFee": "The trading fee. If fees are paid in BTC, this includes gas costs.",
+        "relayerFee": "Limit/Stop orders are processed with the assistance of a referrer. The referrer is compensated with the relayer fee."
       }
     },
     "reviewTrade": {
@@ -2294,9 +2299,6 @@
         "close": "Close"
       }
     },
-    "editPositionSize": {
-      "title": "Edit Position Size"
-    },
     "editMargin": {
       "title": "Edit Margin",
       "increase": "Increase",
@@ -2349,6 +2351,7 @@
       "tableData": {
         "market": "Market",
         "limit": "Limit",
+        "stop": "Stop",
         "liquidation": "Liquidation",
         "buy": "BUY",
         "sell": "SELL"

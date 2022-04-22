@@ -59,11 +59,6 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
     [item, pair, dispatch],
   );
 
-  const onEditSize = useCallback(
-    () => onOpenTradeModal(PerpetualPageModals.EDIT_POSITION_SIZE),
-    [onOpenTradeModal],
-  );
-
   const onEditLeverage = useCallback(
     () => onOpenTradeModal(PerpetualPageModals.EDIT_LEVERAGE),
     [onOpenTradeModal],
@@ -203,16 +198,6 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
             />
           ) : (
             <>
-              <RowAction
-                label={t(
-                  translations.perpetualPage.openPositionsTable.editSize,
-                )}
-                tooltip={t(
-                  translations.perpetualPage.openPositionsTable.tooltips
-                    .editSize,
-                )}
-                onClick={onEditSize}
-              />
               <RowAction
                 label={t(
                   translations.perpetualPage.openPositionsTable.editLeverage,

@@ -105,20 +105,6 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
           showMarginText: true,
           isBuy: marginChange > 0,
         };
-      case PerpetualPageModals.EDIT_POSITION_SIZE:
-        return {
-          title: `${
-            trade?.tradeType === PerpetualTradeType.MARKET
-              ? t(translations.perpetualPage.reviewTrade.market)
-              : t(translations.perpetualPage.reviewTrade.limit)
-          } ${
-            amountChange > 0
-              ? t(translations.perpetualPage.reviewTrade.buy)
-              : t(translations.perpetualPage.reviewTrade.sell)
-          }`,
-          showAmountText: true,
-          isBuy: amountChange > 0,
-        };
       default:
         return {
           title: `${toNumberFormat(leverageTarget, 2)}x ${
