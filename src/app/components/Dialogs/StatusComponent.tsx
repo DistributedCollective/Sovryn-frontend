@@ -54,8 +54,10 @@ export const StatusComponent: React.FC<StatusComponentProps> = ({
       src={getStatusImage(status)}
       className={classNames(
         isInline ? 'tw-h-auto flex-initial' : 'tw-h-24 tw-w-24',
-        isInline && showLabel && 'tw-mr-2',
-        status === TxStatus.PENDING && 'tw-animate-spin',
+        {
+          'tw-mr-2': isInline && showLabel,
+          'tw-animate-spin': status === TxStatus.PENDING,
+        },
       )}
       alt="Status"
     />
