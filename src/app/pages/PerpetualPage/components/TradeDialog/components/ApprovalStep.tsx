@@ -7,11 +7,7 @@ import React, {
 } from 'react';
 import txFailed from 'assets/images/failed-tx.svg';
 import { TransitionStep } from '../../../../../containers/TransitionSteps';
-import {
-  TradeDialogStep,
-  PerpetualTxStage,
-  PerpetualTxMethods,
-} from '../types';
+import { TradeDialogStep, PerpetualTxStage, PerpetualTxMethod } from '../types';
 import { TradeDialogContext } from '../index';
 import styles from '../index.module.scss';
 import { translations } from '../../../../../../locales/i18n';
@@ -72,10 +68,10 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
         ? transactions[currentTransaction?.index]
         : undefined;
 
-    if (current?.method === PerpetualTxMethods.deposit) {
+    if (current?.method === PerpetualTxMethod.deposit) {
       return [current, current.amount];
     }
-    if (current?.method === PerpetualTxMethods.trade) {
+    if (current?.method === PerpetualTxMethod.trade) {
       return [current, toWei(orderCost * 1.1)]; // add 10% to allow for market deviation
     }
     return [undefined, '0'];

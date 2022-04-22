@@ -78,7 +78,7 @@ const initSocket = (
   };
 };
 
-type PerpetualValue = {
+export type PerpetualValue = {
   ammState: AMMState;
   perpetualParameters: PerpParameters;
   traderState: TraderState;
@@ -90,7 +90,7 @@ type PerpetualValue = {
   availableBalance: string;
 };
 
-type PerpetualQueriesContextValue = {
+export type PerpetualQueriesContextValue = {
   perpetuals: {
     [key: string]: PerpetualValue;
   };

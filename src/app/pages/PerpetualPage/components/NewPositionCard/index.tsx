@@ -25,7 +25,7 @@ import { TradeFormStep } from './components/TradeFormStep';
 import { ConnectFormStep } from './components/ConnectFormStep';
 import { noop } from '../../../../constants';
 import { PERPETUAL_SLIPPAGE_DEFAULT } from '../../types';
-import { PerpetualTxMethods } from '../TradeDialog/types';
+import { PerpetualTxMethod } from '../TradeDialog/types';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
 import debounce from 'lodash.debounce';
 
@@ -103,7 +103,7 @@ export const NewPositionCard: React.FC = () => {
         transactions: [
           {
             pair: pairType,
-            method: PerpetualTxMethods.trade,
+            method: PerpetualTxMethod.trade,
             amount: trade.amount,
             tradingPosition: trade.position,
             slippage: trade.slippage,

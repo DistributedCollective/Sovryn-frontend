@@ -26,7 +26,7 @@ import {
   toWei,
   numberFromWei,
 } from '../../../../../utils/blockchain/math-helpers';
-import { PerpetualTxMethods } from '../TradeDialog/types';
+import { PerpetualTxMethod } from '../TradeDialog/types';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 import { ActionDialogSubmitButton } from '../ActionDialogSubmitButton';
 import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';
@@ -108,7 +108,7 @@ export const EditMarginDialog: React.FC = () => {
             mode === EditMarginDialogMode.increase
               ? {
                   pair: pair.pairType,
-                  method: PerpetualTxMethods.deposit,
+                  method: PerpetualTxMethod.deposit,
                   amount: toWei(margin),
                   approvalTx: null,
                   tx: null,
@@ -116,7 +116,7 @@ export const EditMarginDialog: React.FC = () => {
                 }
               : {
                   pair: pair.pairType,
-                  method: PerpetualTxMethods.withdraw,
+                  method: PerpetualTxMethod.withdraw,
                   amount: toWei(margin),
                   tx: null,
                   origin: PerpetualPageModals.EDIT_MARGIN,

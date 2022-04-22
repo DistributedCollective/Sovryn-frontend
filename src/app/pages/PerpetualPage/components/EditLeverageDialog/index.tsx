@@ -25,7 +25,7 @@ import {
   toWei,
   numberFromWei,
 } from '../../../../../utils/blockchain/math-helpers';
-import { PerpetualTxMethods } from '../TradeDialog/types';
+import { PerpetualTxMethod } from '../TradeDialog/types';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 import {
   getSignedAmount,
@@ -157,7 +157,7 @@ export const EditLeverageDialog: React.FC = () => {
           marginChange >= 0
             ? {
                 pair: pair.pairType,
-                method: PerpetualTxMethods.deposit,
+                method: PerpetualTxMethod.deposit,
                 amount: toWei(marginChange),
                 target: {
                   leverage: changedTrade.leverage,
@@ -168,7 +168,7 @@ export const EditLeverageDialog: React.FC = () => {
               }
             : {
                 pair: pair.pairType,
-                method: PerpetualTxMethods.withdraw,
+                method: PerpetualTxMethod.withdraw,
                 amount: toWei(Math.abs(marginChange)),
                 target: {
                   leverage: changedTrade.leverage,

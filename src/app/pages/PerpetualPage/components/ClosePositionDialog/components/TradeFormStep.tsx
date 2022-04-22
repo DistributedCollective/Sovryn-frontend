@@ -1,17 +1,14 @@
 import React, { useCallback, useContext, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import settingImg from 'assets/images/settings-blue.svg';
-import classNames from 'classnames';
 import { TransitionStep } from '../../../../../containers/TransitionSteps';
 import { actions } from '../../../slice';
 import {
   PerpetualPageModals,
-  PerpetualTradeType,
   PERPETUAL_SLIPPAGE_DEFAULT,
 } from '../../../types';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from '../../../../../../locales/i18n';
-import { Tooltip, PopoverPosition } from '@blueprintjs/core';
 import { AmountInput } from '../../../../../components/Form/AmountInput';
 import { ClosePositionDialogStep } from '../types';
 import { ClosePositionDialogContext } from '..';
@@ -28,7 +25,7 @@ import {
   fromWei,
   numberFromWei,
 } from '../../../../../../utils/blockchain/math-helpers';
-import { PerpetualTxMethods, PerpetualTx } from '../../TradeDialog/types';
+import { PerpetualTxMethod, PerpetualTx } from '../../TradeDialog/types';
 import { PerpetualQueriesContext } from 'app/pages/PerpetualPage/contexts/PerpetualQueriesContext';
 import { ActionDialogSubmitButton } from '../../ActionDialogSubmitButton';
 import { usePerpetual_isTradingInMaintenance } from 'app/pages/PerpetualPage/hooks/usePerpetual_isTradingInMaintenance';
@@ -144,7 +141,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     if (!Number.isNaN(marginTarget)) {
       transactions.push({
         pair: pair.pairType,
-        method: PerpetualTxMethods.trade,
+        method: PerpetualTxMethod.trade,
         isClosePosition: true,
         amount: toWei(amountChange),
         slippage: changedTrade?.slippage,
@@ -154,7 +151,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
       if (Math.abs(amountTarget) >= lotSize) {
         transactions.push({
           pair: pair.pairType,
-          method: PerpetualTxMethods.withdraw,
+          method: PerpetualTxMethod.withdraw,
           amount: toWei(Math.abs(totalToReceive)),
           tx: null,
         });
@@ -163,7 +160,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
       // marginTarget is NaN in case we don't have a position but we successfully deposited a margin: [
       transactions.push({
         pair: pair.pairType,
-        method: PerpetualTxMethods.withdrawAll,
+        method: PerpetualTxMethod.withdrawAll,
         tx: null,
       });
     }

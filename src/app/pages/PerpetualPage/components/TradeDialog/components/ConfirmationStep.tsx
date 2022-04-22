@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { WalletLogo } from '../../../../../components/UserAssets/TxDialog/WalletLogo';
 import { useWalletContext } from '@sovryn/react-wallet';
 import classNames from 'classnames';
-import { usePerpetual_executeTransaction } from '../../../hooks/usePerpetual_executeTransaction';
+import { usePerpetual_transaction } from '../../../hooks/usePerpetual_executeTransaction';
 import { TxStatus } from '../../../../../../store/global/transactions-store/types';
 import { useSelector } from 'react-redux';
 import { selectTransactions } from '../../../../../../store/global/transactions-store/selectors';
@@ -32,9 +32,11 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
     setTransactions,
     setCurrentTransaction,
   } = useContext(TradeDialogContext);
+
   const { useMetaTransactions } = useSelector(selectPerpetualPage);
   const { wallet } = useWalletContext();
-  const { execute, txHash, status, reset } = usePerpetual_executeTransaction(
+  const { execute, txHash, status, reset } = usePerpetual_transaction(
+    currentTransaction ? transactions[currentTransaction.index] : undefined,
     useMetaTransactions,
   );
 
@@ -93,8 +95,7 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
       transactions[currentTransaction.index] &&
       !transactions[currentTransaction.index].tx
     ) {
-      const current = transactions[currentTransaction.index];
-      execute(current, currentTransaction.nonce).catch(() => {
+      execute(currentTransaction.nonce).catch(() => {
         setRejected(true);
       });
     }

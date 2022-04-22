@@ -1,89 +1,91 @@
-import { usePerpetual_openTrade } from './usePerpetual_openTrade';
-import { usePerpetual_depositMarginToken } from './usePerpetual_depositMarginToken';
-import { usePerpetual_withdrawAll } from './usePerpetual_withdrawAll';
-import { usePerpetual_withdrawMarginToken } from './usePerpetual_withdrawMarginToken';
-import { useMemo, useState } from 'react';
+import { useMemo, useContext, useCallback } from 'react';
 import {
   PerpetualTx,
-  PerpetualTxTrade,
-  PerpetualTxDepositMargin,
-  PerpetualTxWithdrawMargin,
-  PerpetualTxMethods,
+  PerpetualTxMethod,
 } from '../components/TradeDialog/types';
-import { ResetTxResponseInterface } from '../../../hooks/useSendContractTx';
+import { useGsnSendTx } from '../../../hooks/useGsnSendTx';
+import {
+  PerpetualPairDictionary,
+  PerpetualPairType,
+} from '../../../../utils/dictionaries/perpetual-pair-dictionary';
+import {
+  PERPETUAL_CHAIN,
+  PERPETUAL_PAYMASTER,
+  PERPETUAL_GAS_PRICE_DEFAULT,
+} from '../types';
+import { perpetualTransactionArgs } from '../utils/contractUtils';
+import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
+import { useAccount } from '../../../hooks/useAccount';
+import { TxType } from '../../../../store/global/transactions-store/types';
+import { gasLimit } from '../../../../utils/classifiers';
 
-export const usePerpetual_executeTransaction = (useGSN: boolean) => {
-  // TODO: find a nicer solution only this hooks should ever be used anyway
-  const { trade, ...tradeRest } = usePerpetual_openTrade(useGSN);
-  const { deposit, ...depositRest } = usePerpetual_depositMarginToken(useGSN);
-  const { withdraw, ...withdrawRest } = usePerpetual_withdrawMarginToken(
+const PerpetualTxMethodMap: { [key in PerpetualTxMethod]: string } = {
+  [PerpetualTxMethod.trade]: 'trade',
+  [PerpetualTxMethod.deposit]: 'deposit',
+  [PerpetualTxMethod.withdraw]: 'withdraw',
+  [PerpetualTxMethod.withdrawAll]: 'withdrawAll',
+};
+
+const PerpetualTxMethodTypeMap: { [key in PerpetualTxMethod]: TxType } = {
+  [PerpetualTxMethod.trade]: TxType.PERPETUAL_TRADE,
+  [PerpetualTxMethod.deposit]: TxType.PERPETUAL_DEPOSIT_COLLATERAL,
+  [PerpetualTxMethod.withdraw]: TxType.PERPETUAL_WITHDRAW_COLLATERAL,
+  [PerpetualTxMethod.withdrawAll]: TxType.PERPETUAL_WITHDRAW_COLLATERAL,
+};
+
+export const usePerpetual_transaction = (
+  transaction: PerpetualTx | undefined,
+  useGSN: boolean,
+) => {
+  const account = useAccount();
+  const perpetualsContext = useContext(PerpetualQueriesContext);
+
+  const pair = useMemo(
+    () =>
+      PerpetualPairDictionary.get(
+        transaction?.pair || PerpetualPairType.BTCUSD,
+      ),
+    [transaction?.pair],
+  );
+
+  const { send, ...rest } = useGsnSendTx(
+    PERPETUAL_CHAIN,
+    'perpetualManager',
+    transaction ? PerpetualTxMethodMap[transaction.method] : '',
+    PERPETUAL_PAYMASTER,
     useGSN,
   );
-  const {
-    withdraw: withdrawAll,
-    ...withdrawAllRest
-  } = usePerpetual_withdrawAll(useGSN);
 
-  const [transaction, setTransaction] = useState<PerpetualTx>();
+  const execute = useCallback(
+    async (nonce?: number) => {
+      if (!transaction) {
+        throw Error('No transaction given to execute!');
+      }
+
+      let txType: TxType = PerpetualTxMethodTypeMap[transaction.method];
+
+      return send(
+        perpetualTransactionArgs(perpetualsContext, pair, account, transaction),
+        {
+          from: account,
+          gas: gasLimit[txType],
+          gasPrice: PERPETUAL_GAS_PRICE_DEFAULT,
+          nonce: nonce,
+        },
+        {
+          type: txType,
+          asset: pair.collateralAsset,
+          customData: transaction,
+        },
+      );
+    },
+    [transaction, account, perpetualsContext, pair, send],
+  );
 
   return useMemo(() => {
-    let rest: ResetTxResponseInterface | undefined;
-
-    switch (transaction?.method) {
-      case PerpetualTxMethods.trade:
-        rest = tradeRest;
-        break;
-      case PerpetualTxMethods.deposit:
-        rest = depositRest;
-        break;
-      case PerpetualTxMethods.withdraw:
-        rest = withdrawRest;
-        break;
-      case PerpetualTxMethods.withdrawAll:
-        rest = withdrawAllRest;
-        break;
-    }
-
     return {
-      execute: (transaction: PerpetualTx, nonce?: number) => {
-        setTransaction(transaction);
-        switch (transaction?.method) {
-          case PerpetualTxMethods.trade:
-            const tradeTx: PerpetualTxTrade = transaction;
-            return trade(
-              tradeTx.isClosePosition,
-              tradeTx.amount,
-              tradeTx.leverage,
-              tradeTx.slippage,
-              tradeTx.tradingPosition,
-              nonce,
-              transaction,
-            );
-          case PerpetualTxMethods.deposit:
-            const depositTx: PerpetualTxDepositMargin = transaction;
-            return deposit(depositTx.amount, nonce, transaction);
-          case PerpetualTxMethods.withdraw:
-            const withdrawTx: PerpetualTxWithdrawMargin = transaction;
-            return withdraw(withdrawTx.amount, nonce, transaction);
-          case PerpetualTxMethods.withdrawAll:
-            return withdrawAll(nonce, transaction);
-        }
-      },
-      txData: rest?.txData,
-      txHash: rest?.txHash,
-      loading: rest?.loading,
-      status: rest?.status,
-      reset: rest?.reset,
+      execute,
+      ...rest,
     };
-  }, [
-    trade,
-    tradeRest,
-    deposit,
-    depositRest,
-    withdraw,
-    withdrawRest,
-    withdrawAll,
-    withdrawAllRest,
-    transaction,
-  ]);
+  }, [execute, rest]);
 };

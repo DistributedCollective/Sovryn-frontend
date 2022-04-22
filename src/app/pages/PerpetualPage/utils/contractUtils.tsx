@@ -23,15 +23,30 @@ import {
   LiqPoolState,
 } from '@sovryn/perpetual-swap';
 import { fromWei } from '../../../../utils/blockchain/math-helpers';
-import { CheckAndApproveResultWithError } from '../types';
+import {
+  CheckAndApproveResultWithError,
+  PERPETUAL_SLIPPAGE_DEFAULT,
+} from '../types';
 import { BridgeNetworkDictionary } from '../../BridgeDepositPage/dictionaries/bridge-network-dictionary';
 import { Trans } from 'react-i18next';
 import { translations } from '../../../../locales/i18n';
 import { numberToPercent } from '../../../../utils/display-text/format';
 import perpetualManagerAbi from 'utils/blockchain/abi/PerpetualManager.json';
+import {
+  PerpetualTx,
+  PerpetualTxMethod,
+  PerpetualTxTrade,
+  PerpetualTxDepositMargin,
+  PerpetualTxWithdrawMargin,
+} from '../components/TradeDialog/types';
+import { PerpetualQueriesContextValue } from '../contexts/PerpetualQueriesContext';
+import { ethGenesisAddress } from '../../../../utils/classifiers';
+import { SendTxResponseInterface } from '../../../hooks/useSendContractTx';
+import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
 
 const {
   calculateSlippagePriceFromMidPrice,
+  calculateSlippagePrice,
   getPrice,
   getMidPrice,
   isTraderInitialMarginSafe,
@@ -505,4 +520,78 @@ export const balanceCallData = (
     args: [walletAddress],
     parser: value => (value?.[0] ? String(value[0]) : '0'),
   };
+};
+
+const MASK_MARKET_ORDER = 0x40000000;
+const MASK_CLOSE_ONLY = 0x80000000;
+
+export const perpetualOpenTradeArgs = (
+  perpetuals: PerpetualQueriesContextValue,
+  pair: PerpetualPair,
+  account: string,
+  isClosePosition: boolean | undefined = false,
+  /** amount as wei string */
+  amount: string = '0',
+  leverage: number | undefined = 1,
+  slippage: number | undefined = PERPETUAL_SLIPPAGE_DEFAULT,
+  tradingPosition: TradingPosition | undefined = TradingPosition.LONG,
+): Parameters<SendTxResponseInterface['send']>[0] => {
+  const signedAmount = getSignedAmount(tradingPosition, amount);
+
+  const { averagePrice } = perpetuals[pair.id];
+
+  let tradeDirection = Math.sign(signedAmount);
+
+  const limitPrice = calculateSlippagePrice(
+    averagePrice,
+    slippage,
+    tradeDirection,
+  );
+
+  const deadline = Math.round(Date.now() / 1000) + 86400; // 1 day
+  const timeNow = Math.round(Date.now() / 1000);
+  const order = [
+    pair.id,
+    account,
+    floatToABK64x64(signedAmount),
+    floatToABK64x64(limitPrice),
+    0, // TODO: this is fTriggerPrice, it will need to be adjusted once we have limit orders functionality, it's 0 for market orders
+    deadline,
+    ethGenesisAddress,
+    isClosePosition ? MASK_CLOSE_ONLY : MASK_MARKET_ORDER,
+    floatToABK64x64(leverage),
+    timeNow,
+  ];
+
+  return [order];
+};
+
+export const perpetualTransactionArgs = (
+  perpetuals: PerpetualQueriesContextValue,
+  pair: PerpetualPair,
+  account: string,
+  transaction: PerpetualTx,
+): Parameters<SendTxResponseInterface['send']>[0] => {
+  switch (transaction.method) {
+    case PerpetualTxMethod.trade:
+      const tradeTx: PerpetualTxTrade = transaction;
+      return perpetualOpenTradeArgs(
+        perpetuals,
+        pair,
+        account,
+        tradeTx.isClosePosition,
+        tradeTx.amount,
+        tradeTx.leverage,
+        tradeTx.slippage,
+        tradeTx.tradingPosition,
+      );
+    case PerpetualTxMethod.deposit:
+      const depositTx: PerpetualTxDepositMargin = transaction;
+      return [pair.id, weiToABK64x64(depositTx.amount)];
+    case PerpetualTxMethod.withdraw:
+      const withdrawTx: PerpetualTxWithdrawMargin = transaction;
+      return [pair.id, weiToABK64x64(withdrawTx.amount)];
+    case PerpetualTxMethod.withdrawAll:
+      return [pair.id];
+  }
 };
