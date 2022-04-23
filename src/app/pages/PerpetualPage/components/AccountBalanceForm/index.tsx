@@ -47,10 +47,6 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
     checkMaintenance(States.PERPETUALS) ||
     checkMaintenance(States.PERPETUALS_ACCOUNT_WITHDRAW);
 
-  const transferAccountLocked =
-    checkMaintenance(States.PERPETUALS) ||
-    checkMaintenance(States.PERPETUALS_ACCOUNT_TRANSFER);
-
   const onOpenDeposit = useCallback(() => {
     history.push('/fast-btc/deposit/bsc');
   }, [history]);
