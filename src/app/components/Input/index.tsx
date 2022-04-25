@@ -1,79 +1,63 @@
-import { HTMLInputProps } from '@blueprintjs/core';
+import React, { useCallback, useImperativeHandle, useRef } from 'react';
 import classNames from 'classnames';
-import React, { useCallback, useRef } from 'react';
+import { InputBase, InputBaseProps } from './InputBase';
 import styles from './index.module.scss';
 
-type InputProps = Partial<
-  Pick<
-    HTMLInputProps,
-    'value' | 'type' | 'placeholder' | 'min' | 'max' | 'step' | 'onBlur'
-  >
-> & {
-  disabled?: boolean;
-  readOnly?: boolean;
-  className?: string;
+type InputProps = InputBaseProps & {
   classNameInput?: string;
-  dataActionId?: string;
-  onChange: (value: string) => void;
 };
 
-export const Input: React.FC<InputProps> = ({
-  className,
-  classNameInput,
-  type,
-  step,
-  dataActionId,
-  onChange,
-  ...rest
-}) => {
-  const inputRef = useRef<HTMLInputElement>(null);
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  ({ className, classNameInput, type, ...rest }, ref) => {
+    const inputRef = useRef<HTMLInputElement>() as React.MutableRefObject<
+      HTMLInputElement
+    >;
 
-  const onChangeWrapper = useCallback(event => onChange(event.target.value), [
-    onChange,
-  ]);
+    useImperativeHandle(ref, () => inputRef.current);
 
-  const onStepUp = useCallback(
-    event => {
-      inputRef.current?.stepUp();
-      onChange(inputRef.current?.value || '');
-    },
-    [onChange],
-  );
-  const onStepDown = useCallback(
-    event => {
-      inputRef.current?.stepDown();
-      onChange(inputRef.current?.value || '');
-    },
-    [onChange],
-  );
+    const onStepUp = useCallback(
+      event => {
+        inputRef.current?.stepUp();
+        rest.onChangeText?.(inputRef.current?.value || '');
+        rest.onChange?.(event);
+      },
+      [rest],
+    );
 
-  return (
-    <div className={classNames('tw-relative', className)}>
-      <input
-        ref={inputRef}
-        className={classNames(styles.input, classNameInput)}
-        type={type}
-        step={step}
-        data-action-id={dataActionId}
-        onChange={onChangeWrapper}
-        {...rest}
-      />
-      {type === 'number' && step ? (
-        <>
-          <button
-            className={classNames(styles.stepButton, styles.up)}
-            onClick={onStepUp}
-          >
-            <span />
-          </button>
-          <button
-            className={classNames(styles.stepButton, styles.down)}
-            onClick={onStepDown}
-          >
-            <span />
-          </button>
-        </>
-      ) : null}
-    </div>
-  );
-};
+    const onStepDown = useCallback(
+      event => {
+        inputRef.current?.stepDown();
+        rest.onChangeText?.(inputRef.current?.value || '');
+        rest.onChange?.(event);
+      },
+      [rest],
+    );
+
+    return (
+      <div className={classNames('tw-relative', className)}>
+        <InputBase
+          ref={inputRef as any}
+          className={classNames(styles.input, classNameInput)}
+          type={type}
+          {...rest}
+        />
+        {type === 'number' && rest.step ? (
+          <>
+            <button
+              className={classNames(styles.stepButton, styles.up)}
+              onClick={onStepUp}
+            >
+              <span />
+            </button>
+            <button
+              className={classNames(styles.stepButton, styles.down)}
+              onClick={onStepDown}
+            >
+              <span />
+            </button>
+          </>
+        ) : null}
+      </div>
+    );
+  },
+);
