@@ -1,0 +1,15 @@
+# test query, feel free to change or remove
+query users($where: User_filter) {
+  users(subgraphError: allow, where: $where) {
+    id
+    userTotals {
+      totalMarginTradeVolumeUsd
+      totalAmmVolumeUsd
+      totalLendVolumeUsd
+      totalUnlendVolumeUsd
+      totalBorrowVolumeUsd
+      totalLiquidateVolumeUsd
+      totalCloseWithDepositVolumeUsd
+    }
+  }
+}
