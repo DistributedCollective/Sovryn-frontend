@@ -41,18 +41,57 @@ export const RadioButton: React.FC<RadioButtonProps> = ({
     [onChange],
   );
 
+  const colorClassMap: Record<RadioButtonColor, string> = useMemo(() => {
+    return {
+      tradeShort: styles.tradeShort,
+      secondary: styles.secondary,
+      tradeLong: styles.tradeLong,
+      success: styles.success,
+      warning: styles.warning,
+      primary: styles.primary,
+      gray: styles.gray,
+    };
+  }, []);
+
+  const sizeClassMap: Record<RadioButtonSize, string> = useMemo(() => {
+    return {
+      sm: styles.sm,
+      md: styles.md,
+      lg: styles.lg,
+      xl: styles.xl,
+    };
+  }, []);
+
+  const styleClassMap: Record<RadioButtonStyle, string> = useMemo(() => {
+    return {
+      transparent: styles.transparent,
+      frosted: styles.frosted,
+      normal: styles.normal,
+    };
+  }, []);
+
   const classNameComplete = useMemo(
     () =>
       classNames(
         styles.button,
-        size && styles[size],
-        color && styles[color],
-        style && styles[style],
+        sizeClassMap[size],
+        styleClassMap[style],
+        colorClassMap[color],
         merged && styles.merged,
         disabled && styles.disabled,
         fullWidth && 'tw-w-full',
       ),
-    [color, size, style, disabled, merged, fullWidth],
+    [
+      colorClassMap,
+      styleClassMap,
+      sizeClassMap,
+      fullWidth,
+      disabled,
+      merged,
+      color,
+      style,
+      size,
+    ],
   );
 
   return (
