@@ -1,0 +1,177 @@
+.button {
+    @apply tw-inline-flex tw-box-border tw-items-center tw-justify-center tw-text-center tw-text-sov-white tw-font-bold tw-no-underline tw-bg-primary tw-border tw-border-primary tw-rounded-xl tw-cursor-pointer tw-opacity-50;
+    transition: background-color 0.3s, color 0.3s, border 0.3s, opacity 0.3s;
+
+    &:hover,
+    &:focus,
+    &:active {
+        @apply tw-no-underline;
+    }
+
+    &.disabled,
+    &:disabled {
+        @apply tw-opacity-25 tw-cursor-not-allowed;
+    }
+
+    // COLORS ==================================================================
+    &.primary {
+        @apply tw-text-primary tw-bg-primary tw-border-primary;
+    }
+
+    &.secondary {
+        @apply tw-text-secondary tw-bg-secondary tw-border-secondary;
+    }
+
+    &.tradeLong {
+        @apply tw-text-trade-long tw-bg-trade-long tw-border-trade-long;
+    }
+
+    &.tradeShort {
+        @apply tw-text-trade-short tw-bg-trade-short tw-border-trade-short;
+    }
+
+    &.success {
+        @apply tw-text-success tw-bg-success tw-border-success;
+    }
+
+    &.warning {
+        @apply tw-text-warning tw-bg-warning tw-border-warning;
+    }
+
+    &.gray {
+        @apply tw-text-gray-7 tw-bg-gray-7 tw-border-gray-7;
+    }
+
+    // SIZES ==================================================================
+
+    &.sm {
+        @apply tw-px-4 tw-py-1 tw-text-sm tw-leading-none tw-font-light;
+        min-height: 30px;
+    }
+
+    &.md {
+        @apply tw-px-4 tw-py-2 tw-min-h-10 tw-text-base tw-leading-none tw-font-normal;
+    }
+
+    &.lg {
+        @apply tw-px-6 tw-py-3 tw-text-lg tw-leading-none;
+        min-height: 50px;
+    }
+
+    &.xl {
+        @apply tw-px-8 tw-py-4 tw-text-xl tw-leading-none;
+        min-height: 60px;
+    }
+
+    // STYLES ==================================================================
+
+    &.normal {
+        @apply tw-rounded-lg tw-border-0;
+
+        &.sm {
+            @apply tw-font-normal;
+        }
+
+        &.md {
+            @apply tw-font-semibold;
+        }
+
+        &.lg,
+        &.xl {
+            @apply tw-uppercase;
+        }
+
+        &.primary,
+        &.secondary {
+            @apply tw-text-black;
+        }
+
+        &.tradeLong,
+        &.tradeShort,
+        &.success,
+        &.warning,
+        &.gray {
+            @apply tw-text-sov-white;
+        }
+
+        &:not(.disabled):not(:disabled) {
+
+            &:hover,
+            &:focus,
+            &:active {
+                @apply tw-opacity-75;
+            }
+        }
+    }
+
+    &.transparent {
+        @apply tw-rounded-lg tw-bg-opacity-0;
+
+        &.selected:not(.disabled) {
+            @apply tw-bg-opacity-50;
+        }
+
+        &:not(.disabled):not(:disabled) {
+            @apply tw-opacity-100;
+
+            &:hover,
+            &:focus,
+            &:active {
+                @apply tw-opacity-100 tw-bg-opacity-25;
+            }
+        }
+
+        &.merged {
+            @apply tw-rounded-none;
+
+            &:first-child {
+                @apply tw-rounded-l-lg;
+            }
+
+            &:last-child {
+                @apply tw-rounded-r-lg;
+            }
+        }
+    }
+
+    &.frosted {
+        @apply tw-rounded-lg tw-bg-opacity-10 tw-opacity-100;
+
+        &.selected {
+            @apply tw-bg-opacity-50;
+        }
+
+        &:not(.disabled):not(:disabled) {
+
+            &:hover,
+            &:focus,
+            &:active {
+                @apply tw-opacity-100 tw-bg-opacity-25;
+            }
+        }
+
+        &.merged {
+            @apply tw-rounded-none;
+
+            &:first-child {
+                @apply tw-rounded-l-lg;
+            }
+
+            &:last-child {
+                @apply tw-rounded-r-lg;
+            }
+        }
+    }
+
+    &.merged {
+
+        &:first-child,
+        &:nth-child(n + 1) {
+            @apply tw-border-r-0;
+        }
+
+        &:last-child {
+            @apply tw-border-r;
+        }
+    }
+}
