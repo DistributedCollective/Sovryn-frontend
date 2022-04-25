@@ -1,41 +1,10 @@
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useMemo,
-  MouseEvent,
-} from 'react';
+import React, { useCallback, useEffect, useMemo, MouseEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 import { translations } from 'locales/i18n';
 import { Overlay, OverlayProps } from '../Overlay';
 import styles from './index.module.scss';
-
-interface DialogFunctionComponent<T = {}> extends FunctionComponent<T> {
-  index: number;
-}
-
-export enum DialogSize {
-  xs,
-  sm,
-  md,
-  lg,
-  xl,
-  xl2,
-  xl3,
-  full,
-}
-
-const sizeMap: Record<DialogSize, string> = {
-  [DialogSize.xs]: 'tw-w-full sm:tw-max-w-xs',
-  [DialogSize.sm]: 'tw-w-full sm:tw-max-w-sm',
-  [DialogSize.md]: 'tw-w-full sm:tw-max-w-md',
-  [DialogSize.lg]: 'tw-max-w-lg',
-  [DialogSize.xl]: 'tw-max-w-xl',
-  [DialogSize.xl2]: 'tw-max-w-2xl',
-  [DialogSize.xl3]: 'tw-max-w-3xl',
-  [DialogSize.full]: 'tw-w-full',
-};
+import { DialogSize, dialogSizeMap, IDialogFunctionComponent } from './types';
 
 type DialogProps = {
   isOpen: boolean;
@@ -47,7 +16,7 @@ type DialogProps = {
   onClose?: () => void;
 };
 
-export const Dialog: DialogFunctionComponent<DialogProps> = ({
+export const Dialog: IDialogFunctionComponent<DialogProps> = ({
   isOpen,
   children,
   className,
@@ -57,12 +26,10 @@ export const Dialog: DialogFunctionComponent<DialogProps> = ({
   onClose,
 }) => {
   const { t } = useTranslation();
-  const sizeClassNames = useMemo(() => sizeMap[width], [width]);
+  const sizeClassNames = useMemo(() => dialogSizeMap[width], [width]);
 
   const handleClose = useCallback(() => {
-    if (onClose) {
-      onClose();
-    }
+    onClose?.();
   }, [onClose]);
 
   const handleChildElementClick = useCallback((event: MouseEvent) => {
@@ -84,15 +51,15 @@ export const Dialog: DialogFunctionComponent<DialogProps> = ({
       onBlur={handleClose}
       {...overlayProps}
     >
-      <div className={styles.dialog_wrapper} data-action-id={dataActionId}>
-        <div className={styles.dialog_container}>
+      <div className={styles.wrapper} data-action-id={dataActionId}>
+        <div className={styles.container}>
           <div
             className={classNames(styles.dialog, sizeClassNames, className)}
             onClick={handleChildElementClick}
           >
             {onClose && (
               <button
-                className={styles.close_button}
+                className={styles.closeButton}
                 onClick={handleClose}
                 data-action-id={`close-${dataActionId || 'dialog'}`}
               >

@@ -1,9 +1,8 @@
-.dialog_wrapper {
-    @apply tw-fixed tw-inset-0;
-    @apply tw-flex tw-flex-col tw-justify-center tw-items-center;
+.wrapper {
+    @apply tw-fixed tw-inset-0 tw-flex tw-flex-col tw-justify-center tw-items-center;
 }
 
-.dialog_container {
+.container {
     @apply tw-overflow-y-auto tw-overflow-x-hidden tw-w-full tw-min-h-full tw-p-0;
     @screen sm {
         @apply tw-min-h-0 tw-p-4;
@@ -17,7 +16,7 @@
     }
 }
 
-.close_button {
+.closeButton {
     @apply tw-w-6 tw-h-6 tw-rounded-full tw-border-0 tw-absolute
         tw-right-2 tw-top-2 tw-duration-300 hover:tw-opacity-75;
     background: transparent
