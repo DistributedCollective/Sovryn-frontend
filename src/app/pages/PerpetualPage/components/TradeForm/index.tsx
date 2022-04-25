@@ -21,7 +21,7 @@ import classNames from 'classnames';
 import { PerpetualTrade, PerpetualTradeType } from '../../types';
 import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
 import { Input } from '../../../../components/Input';
-import { Tooltip } from '@blueprintjs/core';
+import { PopoverPosition, Tooltip } from '@blueprintjs/core';
 import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
 import {
@@ -42,6 +42,7 @@ import { usePerpetual_getCurrentPairId } from '../../hooks/usePerpetual_getCurre
 import { bignumber } from 'mathjs';
 import { ExpiryDateInput } from './components/ExpiryDateInput';
 import { ResultingPosition } from './components/ResultingPosition';
+import { Checkbox } from 'app/components/Checkbox';
 
 const DEFAULT_EXPIRY_VALUE = '30'; // days
 
@@ -390,6 +391,50 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     }
   }, [trade, minLeverage, maxLeverage, onChange]);
 
+  const signedAmount = useMemo(
+    () => getSignedAmount(trade.position, trade.amount),
+    [trade.amount, trade.position],
+  );
+
+  const resultingPositionSize = useMemo(
+    () => traderState.marginAccountPositionBC + signedAmount,
+    [signedAmount, traderState.marginAccountPositionBC],
+  );
+
+  const isLeverageDisabled = useMemo(
+    () =>
+      Number(amount) !== 0 &&
+      (resultingPositionSize === 0 ||
+        Math.sign(resultingPositionSize) !== Math.sign(signedAmount)),
+    [amount, resultingPositionSize, signedAmount],
+  );
+
+  const [keepPositionLeverage, setKeepPositionLeverage] = useState(false);
+
+  const onChangeKeepPositionLeverage = useCallback(
+    (keepPositionLeverage: boolean) => {
+      setKeepPositionLeverage(keepPositionLeverage);
+      onChange({ ...trade, keepPositionLeverage: keepPositionLeverage });
+    },
+    [onChange, trade],
+  );
+
+  useEffect(() => {
+    // resets trade.keepPositionLeverage in case we flip the sign
+    if (
+      trade.tradeType === PerpetualTradeType.MARKET &&
+      !isLeverageDisabled &&
+      keepPositionLeverage
+    ) {
+      onChangeKeepPositionLeverage(false);
+    }
+  }, [
+    isLeverageDisabled,
+    keepPositionLeverage,
+    onChangeKeepPositionLeverage,
+    trade.tradeType,
+  ]);
+
   return (
     <div
       className={classNames(
@@ -698,10 +743,33 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         max={maxLeverage}
         steps={pair.config.leverage.steps}
         onChange={onChangeLeverage}
+        disabled={isLeverageDisabled}
       />
 
       {trade.tradeType === PerpetualTradeType.MARKET && (
         <>
+          {isLeverageDisabled && (
+            <Tooltip
+              content={t(
+                translations.perpetualPage.tradeForm.tooltips
+                  .keepPositionLeverage,
+              )}
+              position={PopoverPosition.TOP}
+            >
+              <Checkbox
+                checked={keepPositionLeverage}
+                onChange={() =>
+                  onChangeKeepPositionLeverage(!keepPositionLeverage)
+                }
+                label={t(
+                  translations.perpetualPage.tradeForm.labels
+                    .keepPositionLeverage,
+                )}
+                data-action-id="keep-position-leverage"
+                className="tw-text-sm"
+              />
+            </Tooltip>
+          )}
           <div className="tw-my-2 tw-text-secondary tw-text-xs">
             <button className="tw-flex tw-flex-row" onClick={onOpenSlippage}>
               <Trans
@@ -718,6 +786,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
             minLeverage={minLeverage}
             maxLeverage={maxLeverage}
             limitOrderPrice={limitPrice}
+            keepPositionLeverage={keepPositionLeverage}
           />
         </>
       )}
