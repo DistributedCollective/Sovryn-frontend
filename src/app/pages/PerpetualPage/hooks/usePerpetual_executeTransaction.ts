@@ -18,9 +18,11 @@ import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import { useAccount } from '../../../hooks/useAccount';
 import { TxType } from '../../../../store/global/transactions-store/types';
 import { gasLimit } from '../../../../utils/classifiers';
+import { ContractName } from '../../../../utils/types/contracts';
 
 const PerpetualTxMethodMap: { [key in PerpetualTxMethod]: string } = {
   [PerpetualTxMethod.trade]: 'trade',
+  [PerpetualTxMethod.limitOrder]: 'createLimitOrder',
   [PerpetualTxMethod.deposit]: 'deposit',
   [PerpetualTxMethod.withdraw]: 'withdraw',
   [PerpetualTxMethod.withdrawAll]: 'withdrawAll',
@@ -28,9 +30,20 @@ const PerpetualTxMethodMap: { [key in PerpetualTxMethod]: string } = {
 
 const PerpetualTxMethodTypeMap: { [key in PerpetualTxMethod]: TxType } = {
   [PerpetualTxMethod.trade]: TxType.PERPETUAL_TRADE,
+  [PerpetualTxMethod.limitOrder]: TxType.PERPETUAL_LIMIT_ORDER,
   [PerpetualTxMethod.deposit]: TxType.PERPETUAL_DEPOSIT_COLLATERAL,
   [PerpetualTxMethod.withdraw]: TxType.PERPETUAL_WITHDRAW_COLLATERAL,
   [PerpetualTxMethod.withdrawAll]: TxType.PERPETUAL_WITHDRAW_COLLATERAL,
+};
+
+const PerpetualTxMethodContractMap: {
+  [key in PerpetualTxMethod]: ContractName;
+} = {
+  [PerpetualTxMethod.trade]: 'perpetualManager',
+  [PerpetualTxMethod.limitOrder]: 'perpetualLimitOrderBook',
+  [PerpetualTxMethod.deposit]: 'perpetualManager',
+  [PerpetualTxMethod.withdraw]: 'perpetualManager',
+  [PerpetualTxMethod.withdrawAll]: 'perpetualManager',
 };
 
 export const usePerpetual_transaction = (
@@ -50,7 +63,9 @@ export const usePerpetual_transaction = (
 
   const { send, ...rest } = useGsnSendTx(
     PERPETUAL_CHAIN,
-    'perpetualManager',
+    transaction
+      ? PerpetualTxMethodContractMap[transaction.method]
+      : 'perpetualManager',
     transaction ? PerpetualTxMethodMap[transaction.method] : '',
     PERPETUAL_PAYMASTER,
     useGSN,
@@ -65,7 +80,12 @@ export const usePerpetual_transaction = (
       let txType: TxType = PerpetualTxMethodTypeMap[transaction.method];
 
       return send(
-        perpetualTransactionArgs(perpetualsContext, pair, account, transaction),
+        await perpetualTransactionArgs(
+          perpetualsContext,
+          pair,
+          account,
+          transaction,
+        ),
         {
           from: account,
           gas: gasLimit[txType],

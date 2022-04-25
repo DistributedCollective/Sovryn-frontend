@@ -28,6 +28,7 @@ export type TradeAnalysis = {
 
 export enum PerpetualTxMethod {
   trade = 'trade',
+  limitOrder = 'limitOrder',
   deposit = 'deposit',
   withdraw = 'withdraw',
   withdrawAll = 'withdrawAll',
@@ -57,6 +58,22 @@ export interface PerpetualTxTrade extends PerpetualTxBase {
   approvalTx: Nullable<string>;
 }
 
+export interface PerpetualTxLimitOrder extends PerpetualTxBase {
+  method: PerpetualTxMethod.limitOrder;
+  /** amount as wei string */
+  amount: string;
+  /** limit as wei string */
+  limit: string;
+  /** trigger as wei string */
+  trigger: string;
+  expiry: number;
+  leverage?: number;
+  tradingPosition?: TradingPosition;
+  isNewOrder?: boolean;
+
+  approvalTx: Nullable<string>;
+}
+
 export interface PerpetualTxDepositMargin extends PerpetualTxBase {
   method: PerpetualTxMethod.deposit;
   /** amount as wei string */
@@ -77,6 +94,7 @@ export interface PerpetualTxWithdrawAllMargin extends PerpetualTxBase {
 
 export type PerpetualTx =
   | PerpetualTxTrade
+  | PerpetualTxLimitOrder
   | PerpetualTxDepositMargin
   | PerpetualTxWithdrawMargin
   | PerpetualTxWithdrawAllMargin;

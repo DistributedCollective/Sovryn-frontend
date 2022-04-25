@@ -11,6 +11,7 @@ import {
   PerpParameters,
   perpUtils,
 } from '@sovryn/perpetual-swap';
+import { keccak256, defaultAbiCoder } from 'ethers/lib/utils';
 
 const { getTraderPnL, getMarkPrice, getRequiredMarginCollateral } = perpUtils;
 
@@ -66,4 +67,71 @@ export function getRequiredMarginCollateralWithGasFees(
   }
 
   return requiredCollateral;
+}
+
+// FIXME: remove this, update to latest @sovryn/perppetual-swap
+/**
+ * Returns a digest for a limit or stop order (or its cancelation), that is to be signed.
+ * @param {Order} order             order-struct to be signed
+ * @param {boolean} isNewOrder      true for order placement, fals for order cancellation
+ * @param {string} managerAddress   address of perpetual-manager
+ * @param {number} chainId          Chain ID for current network
+ * @returns {Promise<Buffer>} signed order or signed cancelation of order
+ */
+export async function createOrderDigest(
+  order: any,
+  isNewOrder: boolean,
+  managerAddress: string,
+  chainId: number,
+): Promise<string> {
+  const NAME = 'Perpetual Trade Manager';
+  const DOMAIN_TYPEHASH = keccak256(
+    'EIP712Domain(string name,uint256 chainId,address verifyingContract)',
+  );
+  let domainSeparator = keccak256(
+    defaultAbiCoder.encode(
+      ['bytes32', 'bytes32', 'uint256', 'address'],
+      [DOMAIN_TYPEHASH, keccak256(NAME), chainId, managerAddress],
+    ),
+  );
+  const TRADE_ORDER_TYPEHASH = keccak256(
+    'Order(bytes32 iPerpetualId,address traderAddr,int128 fAmount,int128 fLimitPrice,int128 fTriggerPrice,uint256 iDeadline,address referrerAddr,uint32 flags,int128 fLeverage,uint256 createdTimestamp)',
+  );
+  let structHash = keccak256(
+    defaultAbiCoder.encode(
+      [
+        'bytes32',
+        'bytes32',
+        'address',
+        'int128',
+        'int128',
+        'int128',
+        'uint256',
+        'address',
+        'uint32',
+        'int128',
+        'uint256',
+      ],
+      [
+        TRADE_ORDER_TYPEHASH,
+        order.iPerpetualId,
+        order.traderAddr,
+        order.fAmount,
+        order.fLimitPrice,
+        order.fTriggerPrice,
+        order.iDeadline,
+        order.referrerAddr,
+        order.flags,
+        order.fLeverage,
+        order.createdTimestamp,
+      ],
+    ),
+  );
+  let digest = keccak256(
+    defaultAbiCoder.encode(
+      ['bytes32', 'bytes32', 'bool'],
+      [domainSeparator, structHash, isNewOrder],
+    ),
+  );
+  return digest;
 }

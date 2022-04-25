@@ -1,6 +1,6 @@
 import React from 'react';
-import { walletService } from '@sovryn/react-wallet';
-import { BigNumber } from 'ethers';
+import { walletService, WalletProvider } from '@sovryn/react-wallet';
+import { BigNumber, Signer } from 'ethers';
 import { Asset, Chain } from 'types';
 import { Sovryn } from 'utils/sovryn';
 import { contractWriter } from 'utils/sovryn/contract-writer';
@@ -14,7 +14,10 @@ import {
 import { getContract } from 'utils/blockchain/contract-helpers';
 import marginTokenAbi from 'utils/blockchain/abi/MarginToken.json';
 import { TradingPosition } from 'types/trading-position';
-import { getRequiredMarginCollateralWithGasFees } from './perpUtils';
+import {
+  getRequiredMarginCollateralWithGasFees,
+  createOrderDigest,
+} from './perpUtils';
 import {
   perpUtils,
   TraderState,
@@ -22,10 +25,16 @@ import {
   PerpParameters,
   LiqPoolState,
 } from '@sovryn/perpetual-swap';
-import { fromWei } from '../../../../utils/blockchain/math-helpers';
+import {
+  fromWei,
+  numberFromWei,
+} from '../../../../utils/blockchain/math-helpers';
 import {
   CheckAndApproveResultWithError,
   PERPETUAL_SLIPPAGE_DEFAULT,
+  PERPETUAL_CHAIN_ID,
+  PERPETUAL_PAYMASTER,
+  PERPETUAL_CHAIN,
 } from '../types';
 import { BridgeNetworkDictionary } from '../../BridgeDepositPage/dictionaries/bridge-network-dictionary';
 import { Trans } from 'react-i18next';
@@ -33,9 +42,10 @@ import { translations } from '../../../../locales/i18n';
 import { numberToPercent } from '../../../../utils/display-text/format';
 import perpetualManagerAbi from 'utils/blockchain/abi/PerpetualManager.json';
 import {
-  PerpetualTx,
   PerpetualTxMethod,
+  PerpetualTx,
   PerpetualTxTrade,
+  PerpetualTxLimitOrder,
   PerpetualTxDepositMargin,
   PerpetualTxWithdrawMargin,
 } from '../components/TradeDialog/types';
@@ -43,6 +53,14 @@ import { PerpetualQueriesContextValue } from '../contexts/PerpetualQueriesContex
 import { ethGenesisAddress } from '../../../../utils/classifiers';
 import { SendTxResponseInterface } from '../../../hooks/useSendContractTx';
 import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
+import {
+  createSignature,
+  getRequiredMarginCollateral,
+  getEstimatedMarginCollateralForLimitOrder,
+} from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
+import { gsnNetwork } from '../../../../utils/gsn/GsnNetwork';
+import { SovrynNetwork } from '../../../../utils/sovryn/sovryn-network';
+import { PerpetualPairDictionary } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 
 const {
   calculateSlippagePriceFromMidPrice,
@@ -522,25 +540,31 @@ export const balanceCallData = (
   };
 };
 
-const MASK_MARKET_ORDER = 0x40000000;
 const MASK_CLOSE_ONLY = 0x80000000;
+const MASK_MARKET_ORDER = 0x40000000;
+const MASK_STOP_LOSS_ORDER = 0x20000000;
+const MASK_TAKE_PROFIT_ORDER = 0x10000000;
+const MASK_USE_TARGET_LEVERAGE = 0x08000000;
 
-export const perpetualOpenTradeArgs = (
-  perpetuals: PerpetualQueriesContextValue,
-  pair: PerpetualPair,
+const perpetualTradeArgs = (
+  context: PerpetualQueriesContextValue,
   account: string,
-  isClosePosition: boolean | undefined = false,
-  /** amount as wei string */
-  amount: string = '0',
-  leverage: number | undefined = 1,
-  slippage: number | undefined = PERPETUAL_SLIPPAGE_DEFAULT,
-  tradingPosition: TradingPosition | undefined = TradingPosition.LONG,
+  transaction: PerpetualTxTrade,
 ): Parameters<SendTxResponseInterface['send']>[0] => {
+  const {
+    isClosePosition = false,
+    /** amount as wei string */
+    amount = '0',
+    leverage = 1,
+    slippage = PERPETUAL_SLIPPAGE_DEFAULT,
+    tradingPosition = TradingPosition.LONG,
+    pair: pairType,
+  } = transaction;
+  const pair = PerpetualPairDictionary.get(pairType);
   const signedAmount = getSignedAmount(tradingPosition, amount);
+  const tradeDirection = Math.sign(signedAmount);
 
-  const { averagePrice } = perpetuals[pair.id];
-
-  let tradeDirection = Math.sign(signedAmount);
+  const { averagePrice } = context.perpetuals[pairType];
 
   const limitPrice = calculateSlippagePrice(
     averagePrice,
@@ -566,25 +590,70 @@ export const perpetualOpenTradeArgs = (
   return [order];
 };
 
-export const perpetualTransactionArgs = (
+const perpetualLimitTradeArgs = async (
+  context: PerpetualQueriesContextValue,
+  account: string,
+  transaction: PerpetualTxLimitOrder,
+): Promise<Parameters<SendTxResponseInterface['send']>[0]> => {
+  const {
+    isNewOrder,
+    tradingPosition = TradingPosition.LONG,
+    amount,
+    limit,
+    trigger,
+    expiry,
+    leverage = 1,
+    pair: pairType,
+  } = transaction;
+  const pair = PerpetualPairDictionary.get(pairType);
+
+  const signedAmount = getSignedAmount(tradingPosition, amount);
+
+  const order = {
+    iPerpetualId: pair.id,
+    traderAddr: account,
+    fAmount: signedAmount,
+    fLimitPrice: numberFromWei(limit),
+    fTriggerPrice: numberFromWei(trigger),
+    iDeadline: expiry,
+    referrerAddr: ethGenesisAddress,
+    flags: 0,
+    fLeverage: leverage,
+    createdTimestamp: Date.now(),
+  };
+
+  const allowance = getEstimatedMarginCollateralForLimitOrder(
+    context.perpetuals[pair.pairType].perpetualParameters,
+    context.perpetuals[pair.pairType].ammState,
+    order.fLeverage,
+    order.fAmount,
+    order.fLimitPrice,
+    order.fTriggerPrice,
+  );
+
+  const digest = await createOrderDigest(
+    order,
+    isNewOrder || false,
+    getContract('perpetualManager').address,
+    PERPETUAL_CHAIN_ID,
+  );
+  const signature = walletService.signMessage(digest);
+  return [order, signature, allowance];
+};
+
+export const perpetualTransactionArgs = async (
   perpetuals: PerpetualQueriesContextValue,
   pair: PerpetualPair,
   account: string,
   transaction: PerpetualTx,
-): Parameters<SendTxResponseInterface['send']>[0] => {
+): Promise<Parameters<SendTxResponseInterface['send']>[0]> => {
   switch (transaction.method) {
     case PerpetualTxMethod.trade:
       const tradeTx: PerpetualTxTrade = transaction;
-      return perpetualOpenTradeArgs(
-        perpetuals,
-        pair,
-        account,
-        tradeTx.isClosePosition,
-        tradeTx.amount,
-        tradeTx.leverage,
-        tradeTx.slippage,
-        tradeTx.tradingPosition,
-      );
+      return perpetualTradeArgs(perpetuals, account, tradeTx);
+    case PerpetualTxMethod.limitOrder:
+      const limitTx: PerpetualTxLimitOrder = transaction;
+      return await perpetualLimitTradeArgs(perpetuals, account, limitTx);
     case PerpetualTxMethod.deposit:
       const depositTx: PerpetualTxDepositMargin = transaction;
       return [pair.id, weiToABK64x64(depositTx.amount)];
