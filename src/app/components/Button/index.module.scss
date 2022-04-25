@@ -105,7 +105,26 @@
     &:hover,
     &:focus,
     &:active {
-      @apply tw-opacity-75;
+      @apply tw-opacity-100;
+
+      &.primary {
+        @apply tw-bg-primary-75;
+      }
+      &.secondary {
+        @apply tw-bg-secondary-75;
+      }
+      &.button.tradeShort {
+        @apply tw-bg-trade-short-75;
+      }
+      &.button.tradeLong {
+        @apply tw-bg-trade-long-75;
+      }
+      &.button.success {
+        @apply tw-bg-success-75;
+      }
+      &.button.warning {
+        @apply tw-bg-warning-75;
+      }
     }
   }
 }
@@ -126,7 +145,26 @@
     &:hover,
     &:focus,
     &:active {
-      @apply tw-opacity-75;
+      @apply tw-opacity-100;
+
+      &.primary {
+        @apply tw-border-primary-75 tw-text-primary-75;
+      }
+      &.secondary {
+        @apply tw-border-secondary-75 tw-text-secondary-75;
+      }
+      &.button.tradeShort {
+        @apply tw-border-trade-short-75 tw-text-trade-short-75;
+      }
+      &.button.tradeLong {
+        @apply tw-border-trade-long-75 tw-text-trade-long-75;
+      }
+      &.button.success {
+        @apply tw-border-success-75 tw-text-success-75;
+      }
+      &.button.warning {
+        @apply tw-border-warning-75 tw-text-warning-75;
+      }
     }
   }
 }
@@ -146,13 +184,49 @@
     &:hover,
     &:focus,
     &:active {
-      @apply tw-opacity-100 tw-bg-opacity-25;
+      @apply tw-opacity-100;
+
+      &.primary {
+        @apply tw-bg-primary-25;
+      }
+      &.secondary {
+        @apply tw-bg-secondary-25;
+      }
+      &.button.tradeShort {
+        @apply tw-bg-trade-short-25;
+      }
+      &.button.tradeLong {
+        @apply tw-bg-trade-long-25;
+      }
+      &.button.success {
+        @apply tw-bg-success-25;
+      }
+      &.button.warning {
+        @apply tw-bg-warning-25;
+      }
     }
   }
 }
 
 .button.frosted {
-  @apply tw-bg-opacity-10;
+  &.primary {
+    @apply tw-bg-primary-10;
+  }
+  &.secondary {
+    @apply tw-bg-secondary-10;
+  }
+  &.button.tradeShort {
+    @apply tw-bg-trade-short-10;
+  }
+  &.button.tradeLong {
+    @apply tw-bg-trade-long-10;
+  }
+  &.button.success {
+    @apply tw-bg-success-10;
+  }
+  &.button.warning {
+    @apply tw-bg-warning-10;
+  }
 
   &.sm {
     @apply tw-rounded-full;
@@ -166,7 +240,26 @@
     &:hover,
     &:focus,
     &:active {
-      @apply tw-opacity-100 tw-bg-opacity-25;
+      @apply tw-opacity-100;
+
+      &.primary {
+        @apply tw-bg-primary-25;
+      }
+      &.secondary {
+        @apply tw-bg-secondary-25;
+      }
+      &.button.tradeShort {
+        @apply tw-bg-trade-short-25;
+      }
+      &.button.tradeLong {
+        @apply tw-bg-trade-long-25;
+      }
+      &.button.success {
+        @apply tw-bg-success-25;
+      }
+      &.button.warning {
+        @apply tw-bg-warning-25;
+      }
     }
   }
 }
