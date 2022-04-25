@@ -107,6 +107,7 @@ export type PerpetualTrade = {
   leverage: number;
   slippage: number;
   entryPrice: number;
+  keepPositionLeverage?: boolean;
 };
 
 export type PerpetualTradeReview = {

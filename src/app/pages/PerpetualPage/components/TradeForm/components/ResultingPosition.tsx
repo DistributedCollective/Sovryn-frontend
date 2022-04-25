@@ -1,6 +1,7 @@
 import {
   calculateApproxLiquidationPrice,
   calculateLeverage,
+  getTraderLeverage,
 } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
 import { AssetValue } from 'app/components/AssetValue';
 import { AssetValueMode } from 'app/components/AssetValue/types';
@@ -24,6 +25,7 @@ type ResultingPositionProps = {
   minLeverage: number;
   maxLeverage: number;
   limitOrderPrice: number;
+  keepPositionLeverage?: boolean;
 };
 
 export const ResultingPosition: React.FC<ResultingPositionProps> = ({
@@ -31,6 +33,7 @@ export const ResultingPosition: React.FC<ResultingPositionProps> = ({
   minLeverage,
   maxLeverage,
   limitOrderPrice,
+  keepPositionLeverage = false,
 }) => {
   const { t } = useTranslation();
 
@@ -47,6 +50,15 @@ export const ResultingPosition: React.FC<ResultingPositionProps> = ({
   } = perpetuals[pair.id];
 
   const leverage = useMemo(() => {
+    // trader doesn't have an open position
+    if (!traderState.marginAccountPositionBC) {
+      return trade.leverage;
+    }
+
+    if (keepPositionLeverage) {
+      return getTraderLeverage(traderState, ammState);
+    }
+
     const amountChange = Number(amount) * getTradeDirection(trade.position);
     const targetAmount = traderState.marginAccountPositionBC + amountChange;
 
@@ -57,7 +69,15 @@ export const ResultingPosition: React.FC<ResultingPositionProps> = ({
       ammState,
       perpParameters,
     );
-  }, [ammState, amount, perpParameters, trade.position, traderState]);
+  }, [
+    ammState,
+    amount,
+    keepPositionLeverage,
+    perpParameters,
+    trade.leverage,
+    trade.position,
+    traderState,
+  ]);
 
   const liquidationPrice = useMemo(() => {
     const requiredCollateral = getRequiredMarginCollateralWithGasFees(
