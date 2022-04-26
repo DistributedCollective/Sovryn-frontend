@@ -21,6 +21,9 @@ import delay from '@redux-saga/delay-p';
 import axios from 'axios';
 import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { backendUrl, currentChainId } from '../../../utils/classifiers';
+import { debug } from 'utils/debug';
+
+const log = debug('WalletProvider');
 
 // start block watcher
 function createBlockPollChannel({ interval }) {
@@ -93,8 +96,7 @@ function* processBlockHeader(event) {
       yield call(processBlock, { block, address });
     }
   } catch (error) {
-    console.error('Error in block processing:');
-    console.error(error);
+    log.error('Error in block processing:', error);
   }
 }
 
@@ -103,7 +105,7 @@ function* processBlock({ block, address }) {
     const user = address.toLowerCase();
 
     if (!block) {
-      console.log('no block?');
+      log.log('no block?');
       return;
     }
 
@@ -135,8 +137,7 @@ function* processBlock({ block, address }) {
       yield put(actions.reSync(block.number));
     }
   } catch (error) {
-    console.error('Error in block processing:');
-    console.error(error);
+    log.error('Error in block processing:', error);
   }
 }
 
@@ -191,7 +192,7 @@ function* callTestTransactionsState() {
         }),
       );
     } catch (e) {
-      console.error('failed to get receipt', e);
+      log.error('failed to get receipt', e);
     }
   }
 
@@ -209,9 +210,13 @@ function* testTransactionsPeriodically() {
 }
 
 function* addVisitSaga({ payload }: PayloadAction<string>) {
-  yield call([axios, axios.post], backendUrl[currentChainId] + '/addVisit', {
-    walletAddress: payload,
-  });
+  try {
+    yield call([axios, axios.post], backendUrl[currentChainId] + '/addVisit', {
+      walletAddress: payload,
+    });
+  } catch (error) {
+    log.error('failed to log visit', error);
+  }
 }
 
 export function* walletProviderSaga() {
