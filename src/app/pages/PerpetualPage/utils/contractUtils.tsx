@@ -1,6 +1,6 @@
 import React from 'react';
-import { walletService, WalletProvider } from '@sovryn/react-wallet';
-import { BigNumber, Signer } from 'ethers';
+import { walletService } from '@sovryn/react-wallet';
+import { BigNumber } from 'ethers';
 import { Asset, Chain } from 'types';
 import { Sovryn } from 'utils/sovryn';
 import { contractWriter } from 'utils/sovryn/contract-writer';
@@ -16,7 +16,8 @@ import marginTokenAbi from 'utils/blockchain/abi/MarginToken.json';
 import { TradingPosition } from 'types/trading-position';
 import {
   getRequiredMarginCollateralWithGasFees,
-  createOrderDigest,
+  MASK_CLOSE_ONLY,
+  MASK_MARKET_ORDER,
 } from './perpUtils';
 import {
   perpUtils,
@@ -33,8 +34,6 @@ import {
   CheckAndApproveResultWithError,
   PERPETUAL_SLIPPAGE_DEFAULT,
   PERPETUAL_CHAIN_ID,
-  PERPETUAL_PAYMASTER,
-  PERPETUAL_CHAIN,
 } from '../types';
 import { BridgeNetworkDictionary } from '../../BridgeDepositPage/dictionaries/bridge-network-dictionary';
 import { Trans } from 'react-i18next';
@@ -53,13 +52,7 @@ import { PerpetualQueriesContextValue } from '../contexts/PerpetualQueriesContex
 import { ethGenesisAddress } from '../../../../utils/classifiers';
 import { SendTxResponseInterface } from '../../../hooks/useSendContractTx';
 import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
-import {
-  createSignature,
-  getRequiredMarginCollateral,
-  getEstimatedMarginCollateralForLimitOrder,
-} from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
-import { gsnNetwork } from '../../../../utils/gsn/GsnNetwork';
-import { SovrynNetwork } from '../../../../utils/sovryn/sovryn-network';
+import { getEstimatedMarginCollateralForLimitOrder } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
 import { PerpetualPairDictionary } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 
 const {
@@ -68,6 +61,7 @@ const {
   getPrice,
   getMidPrice,
   isTraderInitialMarginSafe,
+  createOrderDigest,
 } = perpUtils;
 
 export const ONE_64x64 = BigNumber.from('0x10000000000000000');
@@ -539,12 +533,6 @@ export const balanceCallData = (
     parser: value => (value?.[0] ? String(value[0]) : '0'),
   };
 };
-
-const MASK_CLOSE_ONLY = 0x80000000;
-const MASK_MARKET_ORDER = 0x40000000;
-const MASK_STOP_LOSS_ORDER = 0x20000000;
-const MASK_TAKE_PROFIT_ORDER = 0x10000000;
-const MASK_USE_TARGET_LEVERAGE = 0x08000000;
 
 const perpetualTradeArgs = (
   context: PerpetualQueriesContextValue,
