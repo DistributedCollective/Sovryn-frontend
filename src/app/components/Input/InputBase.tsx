@@ -8,7 +8,7 @@ import React, {
 } from 'react';
 import debounceCallback from 'lodash.debounce';
 
-export type InputBaseProps = HTMLProps<HTMLInputElement> & {
+export type InputBaseProps = Omit<HTMLProps<HTMLInputElement>, 'ref'> & {
   debounce?: number;
   dataActionId?: string;
   onChangeText?: (value: string) => void;
