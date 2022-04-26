@@ -61,7 +61,7 @@ export const SwapSelector: React.FC<ISwapSelectorProps> = ({
 
   const list = usePairList(pairs);
 
-  useOnClickOutside(ref, () => setOpen(false));
+  useOnClickOutside([ref], () => setOpen(false));
 
   useEffect(() => {
     setFavoriteList(storageKey, favList);
