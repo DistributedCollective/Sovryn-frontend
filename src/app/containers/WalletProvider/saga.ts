@@ -173,22 +173,26 @@ function* callTestTransactionsState() {
   const transactions = yield select(selectTransactionArray);
   const txes = transactions.filter(item => item.status === TxStatus.PENDING);
   for (let tx of txes) {
-    const receipt: TransactionReceipt = yield call(
-      [Sovryn, Sovryn.getWeb3().eth.getTransactionReceipt],
-      tx.transactionHash,
-    );
-    if (receipt === null) {
-      continue;
+    try {
+      const receipt: TransactionReceipt = yield call(
+        [Sovryn, Sovryn.getWeb3().eth.getTransactionReceipt],
+        tx.transactionHash,
+      );
+      if (receipt === null) {
+        continue;
+      }
+      if (receipt?.status) {
+        hasChanges = true;
+      }
+      yield put(
+        txActions.updateTransactionStatus({
+          transactionHash: tx.transactionHash,
+          status: receipt?.status ? TxStatus.CONFIRMED : TxStatus.FAILED,
+        }),
+      );
+    } catch (e) {
+      console.error('failed to get receipt', e);
     }
-    if (receipt?.status) {
-      hasChanges = true;
-    }
-    yield put(
-      txActions.updateTransactionStatus({
-        transactionHash: tx.transactionHash,
-        status: receipt?.status ? TxStatus.CONFIRMED : TxStatus.FAILED,
-      }),
-    );
   }
 
   if (hasChanges) {
