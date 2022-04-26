@@ -10,6 +10,7 @@ export const initialState: ContainerState = {
   chainId: currentChainId,
   networkId: currentChainId,
   bridgeChainId: null,
+  signTypedRequired: false,
   connected: false,
   connecting: false,
   blockNumber: 0,
@@ -50,6 +51,10 @@ const walletProviderSlice = createSlice({
       state.bridgeChainId = payload;
     },
 
+    setSignTypedRequired(state, { payload }: PayloadAction<boolean>) {
+      state.signTypedRequired = payload;
+    },
+
     chainChanged(
       state,
       action: PayloadAction<{ chainId?: number; networkId?: number }>,
@@ -57,6 +62,8 @@ const walletProviderSlice = createSlice({
       state.chainId = action.payload.chainId;
       state.networkId = action.payload.networkId;
     },
+
+    connectionError() {},
 
     disconnect() {},
 
@@ -124,7 +131,22 @@ const walletProviderSlice = createSlice({
       state.assetRatesLoading = false;
       state.assetRatesLoaded = true;
     },
+    setPrice(state, { payload }: PayloadAction<CachedAssetRate>) {
+      let prevItems = state.assetRates;
+      const index = prevItems.findIndex(
+        item =>
+          item.source === payload.source && item.target === payload.target,
+      );
+      if (index !== -1) {
+        prevItems[index] = payload;
+      } else {
+        prevItems = [...prevItems, payload];
+      }
+      state.assetRates = prevItems;
+    },
     testTransactions() {},
+    sovrynNetworkReady() {},
+    sovrynNetworkError() {},
   },
 });
 

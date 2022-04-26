@@ -1,102 +1,21 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React from 'react';
 import classNames from 'classnames';
 import { AmountForm } from '../components/Withdraw/AmountForm';
-import {
-  defaultValue,
-  WithdrawContext,
-  WithdrawContextStateType,
-  WithdrawStep,
-} from '../contexts/withdraw-context';
+import { WithdrawContext, WithdrawStep } from '../contexts/withdraw-context';
 import { MainScreen } from '../components/Withdraw/MainScreen';
 import { AddressForm } from '../components/Withdraw/AddressForm';
 import { ConfirmationScreens } from '../components/Withdraw/ConfirmationScreens';
-import { bridgeNetwork } from '../../BridgeDepositPage/utils/bridge-network';
 import { SidebarStepsWithdraw } from '../components/Withdraw/SidebarStepsWithdraw';
 
 import styles from '../fast-btc-page.module.css';
-import { contractReader } from 'utils/sovryn/contract-reader';
-import { getContract } from 'utils/blockchain/contract-helpers';
 import { Chain } from 'types';
+import { useWithdrawBridgeConfig } from '../hooks/useWithdrawBridgeConfig';
 
 export const WithdrawContainer: React.FC = () => {
   const network = Chain.RSK;
-  const [state, setState] = useState<WithdrawContextStateType>(defaultValue);
-  const { step } = state;
 
-  const value = useMemo(
-    () => ({
-      ...state,
-      set: setState,
-    }),
-    [state, setState],
-  );
-
-  useEffect(() => {
-    setState(prevState => ({
-      ...prevState,
-      limits: { ...prevState.limits, loading: true },
-    }));
-
-    const { address, abi } = getContract('fastBtcBridge');
-
-    contractReader
-      .call('fastBtcBridge', 'currentFeeStructureIndex', [])
-      .then(feeStructureIndex => {
-        bridgeNetwork
-          .multiCall<{
-            minTransferSatoshi: number;
-            maxTransferSatoshi: number;
-            feeStructures: { baseFeeSatoshi: number; dynamicFee: number };
-          }>(Chain.RSK, [
-            {
-              address,
-              abi,
-              fnName: 'minTransferSatoshi',
-              key: 'minTransferSatoshi',
-              args: [],
-              parser: value => value[0],
-            },
-            {
-              address,
-              abi,
-              fnName: 'maxTransferSatoshi',
-              key: 'maxTransferSatoshi',
-              args: [],
-              parser: value => value[0],
-            },
-            {
-              address,
-              abi,
-              fnName: 'feeStructures',
-              key: 'feeStructures',
-              args: [feeStructureIndex],
-              parser: ({ baseFeeSatoshi, dynamicFee }) => ({
-                baseFeeSatoshi,
-                dynamicFee,
-              }),
-            },
-          ])
-          .then(({ returnData }) => {
-            setState(prevState => ({
-              ...prevState,
-              limits: {
-                min: returnData.minTransferSatoshi,
-                max: returnData.maxTransferSatoshi,
-                baseFee: returnData.feeStructures.baseFeeSatoshi,
-                dynamicFee: returnData.feeStructures.dynamicFee,
-                loading: false,
-              },
-            }));
-          });
-      })
-      .catch(error => {
-        console.error(error);
-        setState(prevState => ({
-          ...prevState,
-          limits: { ...prevState.limits, loading: false },
-        }));
-      });
-  }, []);
+  const value = useWithdrawBridgeConfig();
+  const { step } = value;
 
   return (
     <WithdrawContext.Provider value={value}>
@@ -107,7 +26,7 @@ export const WithdrawContainer: React.FC = () => {
             styles.wrapper,
           )}
         >
-          <SidebarStepsWithdraw />
+          <SidebarStepsWithdraw network={network} />
         </div>
         <div
           className={classNames(

@@ -1,4 +1,4 @@
-import { eventChannel } from 'redux-saga';
+import { eventChannel, END } from 'redux-saga';
 import {
   call,
   put,
@@ -15,36 +15,61 @@ import { selectWalletProvider } from './selectors';
 import { actions } from './slice';
 import { selectTransactionArray } from '../../../store/global/transactions-store/selectors';
 import { actions as txActions } from '../../../store/global/transactions-store/slice';
-import { TxStatus } from '../../../store/global/transactions-store/types';
+import {
+  TxStatus,
+  Transaction,
+} from '../../../store/global/transactions-store/types';
 import { whitelist } from '../../../utils/whitelist';
 import delay from '@redux-saga/delay-p';
 import axios from 'axios';
 import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { backendUrl, currentChainId } from '../../../utils/classifiers';
+import { bridgeNetwork } from '../../pages/BridgeDepositPage/utils/bridge-network';
+import { BridgeNetworkDictionary } from '../../pages/BridgeDepositPage/dictionaries/bridge-network-dictionary';
+import { Chain, Nullable } from '../../../types';
+import { gsnNetwork } from '../../../utils/gsn/GsnNetwork';
 
 // start block watcher
-function createBlockPollChannel({ interval, web3 }) {
+function createBlockPollChannel({ interval }) {
   return eventChannel(emit => {
-    web3.currentProvider.sendAsync = web3.currentProvider.send;
+    const web3 = Sovryn.getWeb3();
+    const provider = web3.currentProvider as any;
+    provider.sendAsync = provider.send;
+
     const blockTracker = new PollingBlockTracker({
-      provider: web3.currentProvider,
+      provider,
       pollingInterval: interval,
     });
 
-    blockTracker.on('sync', ({ newBlock, oldBlock }) => {
+    blockTracker.on('sync', ({ newBlock }) => {
       emit(actions.blockReceived(Number(newBlock)));
-      if (oldBlock) {
-        emit(actions.blockReceived(Number(oldBlock)));
-      }
     });
 
-    return () => {};
+    let ended = false;
+    const cleanup = (afterError: boolean = false) => {
+      if (!ended) {
+        ended = true;
+
+        // Restart block tracker
+        blockTracker.removeAllListeners('');
+
+        if (afterError) {
+          emit(actions.connectionError());
+        }
+
+        // End this block tracker channel
+        emit(END);
+      }
+    };
+
+    // Restart on error or new connection
+    blockTracker.on('error', () => setTimeout(() => cleanup(true), 15000));
+    return cleanup;
   });
 }
 
 function* callCreateBlockPollChannel() {
   const blockChannel = yield call(createBlockPollChannel, {
-    web3: Sovryn.getWeb3(),
     interval: 10000,
   });
 
@@ -152,19 +177,35 @@ function* whitelistCheckSaga() {
 
 function* callTestTransactionsState() {
   let hasChanges = false;
-  const transactions = yield select(selectTransactionArray);
+  const transactions: Transaction[] = yield select(selectTransactionArray);
   const txes = transactions.filter(item => item.status === TxStatus.PENDING);
+
   for (let tx of txes) {
-    const receipt: TransactionReceipt = yield call(
-      [Sovryn, Sovryn.getWeb3().eth.getTransactionReceipt],
+    let receipt: Nullable<TransactionReceipt> = yield call(
+      [bridgeNetwork, bridgeNetwork.receipt],
+      (tx.chainId && BridgeNetworkDictionary.getByChainId(tx.chainId)?.chain) ||
+        Chain.RSK,
       tx.transactionHash,
     );
-    if (receipt === null) {
+
+    if (!receipt) {
       continue;
     }
+
+    if (tx.chainId && tx.gsnPaymaster) {
+      try {
+        receipt = gsnNetwork
+          .getProvider(tx.chainId, tx.gsnPaymaster)
+          .translateReceipt(receipt);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
     if (receipt?.status) {
       hasChanges = true;
     }
+
     yield put(
       txActions.updateTransactionStatus({
         transactionHash: tx.transactionHash,
@@ -193,7 +234,14 @@ function* addVisitSaga({ payload }: PayloadAction<string>) {
 }
 
 export function* walletProviderSaga() {
-  yield takeLatest(actions.chainChanged.type, callCreateBlockPollChannel);
+  yield takeLatest(
+    [
+      actions.chainChanged.type,
+      actions.connectionError.type,
+      actions.sovrynNetworkReady.type,
+    ],
+    callCreateBlockPollChannel,
+  );
   yield takeLatest(actions.connected.type, walletConnected);
   yield takeLatest(actions.disconnected.type, walletDisconnected);
   yield takeLatest(actions.testTransactions.type, testTransactionsPeriodically);

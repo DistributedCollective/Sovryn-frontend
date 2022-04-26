@@ -3,6 +3,7 @@
  * Use getContract(contractName) helper
  * @example getContract('sovrynProtocol');
  */
+import { ChainId } from '../../types';
 import erc20TokenAbi from './abi/abiTestToken.json';
 import WBRTCTokenABI from './abi/abiTestWBRTCToken.json';
 import ConverterRegistryABI from './abi/ConverterRegistry.json';
@@ -27,12 +28,19 @@ import VestingRegistryAbi from './abi/VestingRegistry.json';
 import VestingRegistryOriginAbi from './abi/VestingRegistryOrigin.json';
 import SovrynProtocolAbi from './abi/sovrynProtocol.json';
 import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
+import SettlementAbi from './abi/Settlement.json';
+import OrderBookAbi from './abi/OrderBook.json';
+import OrderBookMarginAbi from './abi/OrderBookMargin.json';
 import nftAbi from './abi/nftAbi.json';
 import MYNTControllerAbi from './abi/MYNTController.json';
 import MYNTTokenAbi from './abi/MYNT_token.json';
 import MYNTPresaleAbi from './abi/MYNTPresale.json';
 import MYNTMarketMakerAbi from './abi/MYNTMarketMaker.json';
+import perpetualManagerAbi from './abi/PerpetualManager.json';
+import perpetualLimitOrderBookAbi from './abi/PerpetualLimitOrderBook.json';
+import marginTokenAbi from './abi/MarginToken.json';
 import fastBtcBridgeAbi from './abi/fastBtcBridge.json';
+import fastBtcMultisigAbi from './abi/fastBtcMultisig.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -240,7 +248,7 @@ export const contracts = {
     abi: feeSharingProxyAbi,
   },
   stakingRewards: {
-    address: '0x7662E1cC98c9CB50eBc286ce8b124D61C7e2247E',
+    address: '0x18eF0ff12f1b4D30104B4680D485D026C26D164D',
     abi: stakingRewardsProxyAbi,
   },
   FISH_token: {
@@ -268,6 +276,18 @@ export const contracts = {
     address: '0x1572D7E4a78A8AD14AE722E6fE5f5600a2c7A149',
     abi: BabelfishAggregatorAbi,
   },
+  orderBook: {
+    address: '0xfD4D1FBFC652f5b3D98881b9346635399F1e6254',
+    abi: OrderBookAbi,
+  },
+  orderBookMargin: {
+    address: '0x1213B6D3552DA46dF4767EeD8cb2d0BD7D8e913d',
+    abi: OrderBookMarginAbi,
+  },
+  settlement: {
+    address: '0x4dfb9ab1653Eb5A295109E02e37fc222D85fdA74',
+    abi: SettlementAbi,
+  },
   sovrynNFT: {
     address: '0x576ae218aecfd4cbd2dbe07250b47e26060932b1', // todo
     abi: nftAbi,
@@ -293,5 +313,24 @@ export const contracts = {
   fastBtcBridge: {
     address: '0x10C848e9495a32acA95F6c23C92eCA2b2bE9903A',
     abi: fastBtcBridgeAbi,
+  },
+  fastBtcMultisig: {
+    address: '0x1D67BDA1144CacDbEFF1782f0E5B43D7B50bbFe0',
+    abi: fastBtcMultisigAbi,
+  },
+  perpetualManager: {
+    address: '0x16106ADFeEe3aC73dC82E17D97a6232a322C823E',
+    abi: perpetualManagerAbi,
+    chainId: ChainId.BSC_TESTNET,
+  },
+  perpetualLimitOrderBook: {
+    address: '0x7F6581BE4e0b7e83C74FB43a71995CCD7d93B2A6',
+    abi: perpetualLimitOrderBookAbi,
+    chainId: ChainId.BSC_TESTNET,
+  },
+  PERPETUALS_token: {
+    address: '0xaD884Eef9fE43b1FD735b40fe9e5e7D5eFb21E39',
+    abi: marginTokenAbi,
+    chainId: ChainId.BSC_TESTNET,
   },
 };

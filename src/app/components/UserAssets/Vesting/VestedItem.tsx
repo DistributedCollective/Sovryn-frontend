@@ -17,11 +17,13 @@ import { useGetVesting } from './useGetVesting';
 type VestedItemProps = {
   vesting: FullVesting;
   onWithdraw: (vesting: FullVesting) => void;
+  frozen?: boolean;
 };
 
 export const VestedItem: React.FC<VestedItemProps> = ({
   vesting,
   onWithdraw,
+  frozen,
 }) => {
   const { value, loading } = useGetVesting(vesting);
 
@@ -78,7 +80,8 @@ export const VestedItem: React.FC<VestedItemProps> = ({
             className="tw-inline-block"
             text={t(translations.userAssets.actions.withdraw)}
             onClick={handleOnWithdraw}
-            disabled={loading}
+            disabled={loading || frozen}
+            loading={loading}
           />
         )}
       </td>

@@ -7,7 +7,7 @@ import { CrossBridgeAsset } from '../../../BridgeDepositPage/types/cross-bridge-
 import { AssetModel } from '../../../BridgeDepositPage/types/asset-model';
 import { bignumber } from 'mathjs';
 import { SelectBox } from '../../../BridgeDepositPage/components/SelectBox';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { useTranslation } from 'react-i18next';
@@ -43,11 +43,11 @@ export function TokenItem({
         <img src={image} alt={symbol} className="tw-w-16 tw-h-16" />
       </SelectBox>
       <div
-        className={cn('tw-flex tw-flex-col tw-items-center tw-mt-2', {
+        className={classNames('tw-flex tw-flex-col tw-items-center tw-mt-2', {
           'tw-opacity-25': isDisabled && !balance.loading,
         })}
       >
-        <span className="tw-text-sm tw-font-light tw-mb-1">
+        <span className="tw-text-sm tw-font-normal tw-mb-1">
           {t(translations.BridgeWithdrawPage.tokenSelector.maxWithdrawal)}
         </span>
         <LoadableValue

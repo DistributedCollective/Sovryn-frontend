@@ -16,7 +16,7 @@ import { percentageChange } from 'utils/helpers';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import { useAccount } from 'app/hooks/useAccount';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
-import { isLongTrade } from './helpers';
+import { isLongTrade } from '../../utils/marginUtils';
 
 type ProfitContainerProps = {
   item: ActiveLoan;

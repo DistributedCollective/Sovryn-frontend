@@ -3,13 +3,13 @@
   }
 
   .tw-form-group-label {
-    @apply tw-text-sov-white tw-font-thin tw-text-base tw-tracking-normal;
+    @apply tw-text-sov-white tw-font-extralight tw-text-base tw-tracking-normal;
     @apply tw-block;
     @apply tw-mb-1;
   }
 
   .tw-form-group-content {
-    @apply tw-text-sov-white tw-font-medium tw-text-base;
+    @apply tw-text-sov-white tw-font-medium tw-text-base tw-tracking-normal;
     @apply tw-mb-2.5;
     @apply tw-block;
   }

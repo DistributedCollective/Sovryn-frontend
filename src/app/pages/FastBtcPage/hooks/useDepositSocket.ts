@@ -65,6 +65,7 @@ export function useDepositSocket(eventHandler?: EventHandler) {
         id: number;
         label: string;
         web3adr: string;
+        signatures: Array<Object>;
       }>((resolve, reject) => {
         if (socket.current) {
           socket.current.emit('getDepositAddress', address, (err, res) => {

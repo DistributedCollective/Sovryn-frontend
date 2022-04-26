@@ -7,12 +7,10 @@ import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 
 import CurrencyContainer from './components/CurrencyContainer';
 import CurrencyDetails from './components/CurrencyDetails';
-import { Header } from 'app/components/Header';
 import { lendBorrowSovrynSaga } from './saga';
 import { actions, reducer, sliceKey } from './slice';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectLendBorrowSovryn } from './selectors';
-import { Footer } from '../../components/Footer';
 import { RepayPositionHandler } from 'app/containers/RepayPositionHandler/Loadable';
 import { BorrowActivity } from '../../components/BorrowActivity/Loadable';
 import { useHistory, useLocation } from 'react-router-dom';
@@ -39,7 +37,6 @@ const BorrowPage: React.FC = () => {
 
   return (
     <>
-      <Header />
       <Helmet>
         <title>{t(translations.borrow.meta.title)}</title>
       </Helmet>
@@ -60,7 +57,6 @@ const BorrowPage: React.FC = () => {
         <BorrowActivity />
         <RepayPositionHandler />
       </div>
-      <Footer />
     </>
   );
 };

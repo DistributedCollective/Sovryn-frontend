@@ -2,17 +2,50 @@
   @apply tw-w-full tw-h-12;
 }
 
-.host :global(.bp3-slider-track) {
-  border-radius: 5px;
-  height: 10px;
+.primary {
+  .host :global(.bp3-slider-track) {
+    @apply tw-h-2.5 tw-rounded-xl;
+  }
+
+  &.host :global(.bp3-slider-progress) {
+    @apply tw-h-2.5 tw-bg-gray-6;
+  }
+
+  &.host :global(.bp3-slider-progress):global(.bp3-intent-primary) {
+    @apply tw-bg-primary;
+  }
 }
 
-.host :global(.bp3-slider-progress) {
-  @apply tw-h-2.5 tw-bg-gray-6;
+.secondary {
+  &.host :global(.bp3-slider-track) {
+    border-radius: 5px;
+    height: 10px;
+  }
+
+  &.host :global(.bp3-slider-progress) {
+    @apply tw-h-2.5 tw-bg-gray-6;
+  }
+
+  &.host :global(.bp3-slider-progress):global(.bp3-intent-primary) {
+    @apply tw-bg-secondary;
+  }
 }
 
-.host :global(.bp3-slider-progress):global(.bp3-intent-primary) {
-  @apply tw-bg-secondary;
+.gradient {
+  &.host :global(.bp3-slider-track) {
+    @apply tw-h-2.5;
+    border-radius: 5px;
+    background: transparent linear-gradient(90deg, #5bfd04 0%, #fe0000 100%) 0%
+      0% no-repeat padding-box;
+  }
+
+  &.host :global(.bp3-slider-progress) {
+    @apply tw-h-2.5 tw-bg-gray-2 tw-opacity-75;
+  }
+
+  &.host :global(.bp3-slider-progress):global(.bp3-intent-primary) {
+    @apply tw-bg-transparent;
+  }
 }
 
 .host :global(.bp3-slider-handle) {
@@ -22,7 +55,7 @@
 }
 
 .host :global(.bp3-slider-axis) {
-  width: calc(100% - 0.75rem);
+  width: calc(100% - 1.75rem);
   position: relative;
   margin-left: auto;
   margin-right: auto;

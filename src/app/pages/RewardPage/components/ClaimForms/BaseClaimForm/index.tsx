@@ -1,9 +1,10 @@
 import { Tooltip } from '@blueprintjs/core';
 import { AssetRenderer } from 'app/components/AssetRenderer';
-import { Button } from 'app/components/Button';
+import { Button, ButtonSize } from 'app/components/Button';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { Input } from 'app/components/Form/Input';
+import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ResetTxResponseInterface } from 'app/hooks/useSendContractTx';
 import classNames from 'classnames';
@@ -13,6 +14,7 @@ import React, { useMemo } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { TxStatus } from 'store/global/transactions-store/types';
 import { Asset } from 'types';
+import { getContract } from 'utils/blockchain/contract-helpers';
 import { weiTo18 } from 'utils/blockchain/math-helpers';
 import { discordInvite } from 'utils/classifiers';
 import { weiToNumberFormat } from 'utils/display-text/format';
@@ -39,6 +41,17 @@ export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
   const rewardsLocked = checkMaintenance(States.CLAIM_REWARDS);
+  const { address } = getContract('stakingRewards');
+  const { value: tokenBalance } = useCacheCallWithValue(
+    'SOV_token',
+    'balanceOf',
+    '0',
+    address,
+  );
+
+  const isTokenBalance = useMemo(() => {
+    return bignumber(tokenBalance).greaterThanOrEqualTo(amountToClaim);
+  }, [amountToClaim, tokenBalance]);
 
   const isDisabled = useMemo(
     () =>
@@ -55,7 +68,7 @@ export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
     <div
       className={classNames(
         className,
-        'tw-trading-form-card tw-p-16 tw-mx-auto xl:tw-mx-0 tw-flex tw-flex-col',
+        'tw-trading-form-card tw-p-16 tw-px-10 tw-mx-auto xl:tw-mx-0 tw-flex tw-flex-col',
       )}
     >
       <div className="tw-text-sm">
@@ -101,12 +114,23 @@ export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
             />
           )}
           {!(rewardsLocked || claimLocked) && (
-            <Button
-              disabled={isDisabled}
-              onClick={onSubmit}
-              className="tw-w-full tw-mb-4 tw-mt-16"
-              text={t(translations.rewardPage.claimForm.cta)}
-            />
+            <Tooltip
+              position="bottom"
+              className="tw-max-w-lg tw-block"
+              disabled={isTokenBalance}
+              interactionKind="hover"
+              content={
+                <>{t(translations.rewardPage.claimForm.claimDisabled)}</>
+              }
+            >
+              <Button
+                disabled={isDisabled || !isTokenBalance}
+                onClick={onSubmit}
+                className="tw-w-full tw-mb-4 tw-mt-16"
+                size={ButtonSize.lg}
+                text={t(translations.rewardPage.claimForm.cta)}
+              />
+            </Tooltip>
           )}
 
           <div className="tw-text-xs">{footer}</div>

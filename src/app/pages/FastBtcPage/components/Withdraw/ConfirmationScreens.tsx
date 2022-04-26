@@ -28,7 +28,7 @@ export const ConfirmationScreens: React.FC<NetworkAwareComponentProps> = ({
     send([address], {
       value: toWei(weiToFixed(toWei(amount), 8)), // make sure we are sending on 8 decimals places and rounding down.,
       gas: gasLimit[TxType.FAST_BTC_WITHDRAW],
-    });
+    }).catch(console.error);
   }, [set, send, address, amount]);
 
   useEffect(() => {

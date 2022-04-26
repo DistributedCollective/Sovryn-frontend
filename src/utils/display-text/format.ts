@@ -1,10 +1,11 @@
+import { bignumber } from 'mathjs';
 import {
   weiToFixed,
   weiTo18,
   fromWei,
   roundToSmaller,
 } from '../blockchain/math-helpers';
-import { bignumber } from 'mathjs';
+
 import { Asset } from 'types';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 
@@ -42,11 +43,15 @@ export function weiToUSD(
   );
 }
 
-export function toNumberFormat(value: number | string, decimals: number = 0) {
+export function toNumberFormat(
+  value: number | string,
+  decimals: number = 0,
+  minDecimals: number = decimals,
+) {
   if (isNaN(Number(value))) value = 0;
   return Number(value).toLocaleString(navigator.language, {
     maximumFractionDigits: decimals,
-    minimumFractionDigits: decimals,
+    minimumFractionDigits: minDecimals,
   });
 }
 
@@ -68,12 +73,11 @@ export function numberToUSD(
 }
 
 export function numberToPercent(value: number, decimals: number) {
-  return (
-    value.toLocaleString(navigator.language, {
-      maximumFractionDigits: decimals,
-      minimumFractionDigits: decimals,
-    }) + ' %'
-  );
+  return value.toLocaleString(navigator.language, {
+    style: 'percent',
+    maximumFractionDigits: decimals,
+    minimumFractionDigits: decimals,
+  });
 }
 
 export function formatAsBTCPrice(value, isLongPosition: boolean): number {
@@ -130,21 +134,22 @@ export function calculateLiquidation(
 }
 
 export function calculateProfit(
-  collateralStr: string,
-  startRateStr: string,
-  currentPriceBTC: number,
   isLong: boolean,
-): number {
-  const positionSize: number = parseFloat(weiTo18(collateralStr));
-  const startPrice: number = parseFloat(weiTo18(startRateStr));
-  const currentPriceUSD: number = 1 / currentPriceBTC;
+  currentPrice: number,
+  startPrice: number,
+  amount: string,
+): [string, number] {
+  let profit = '0';
+  let diff = 1;
+  if (isLong) {
+    diff = (currentPrice - startPrice) / currentPrice;
+    profit = bignumber(amount).mul(diff).toFixed(0);
+  } else {
+    diff = (startPrice - currentPrice) / startPrice;
+    profit = bignumber(amount).mul(diff).toFixed(0);
+  }
 
-  const profitLong = positionSize * currentPriceBTC - positionSize * startPrice;
-  const profitShort =
-    (positionSize * currentPriceUSD - positionSize * startPrice) *
-    currentPriceBTC;
-
-  return isLong ? profitLong : profitShort;
+  return [profit, diff];
 }
 
 const decimalPartLength = value => {

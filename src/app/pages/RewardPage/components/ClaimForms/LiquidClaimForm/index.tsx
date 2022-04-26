@@ -13,6 +13,7 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 export const LiquidClaimForm: React.FC<IClaimFormProps> = ({
   className,
   amountToClaim,
+  lastWithdrawalInterval,
 }) => {
   const address = useAccount();
   const { checkMaintenance, States } = useMaintenance();
@@ -21,7 +22,7 @@ export const LiquidClaimForm: React.FC<IClaimFormProps> = ({
 
   const onSubmit = useCallback(() => {
     send(
-      [],
+      [lastWithdrawalInterval],
       {
         from: address,
         gas: gasLimit[TxType.STAKING_LIQUID_SOV_CLAIM],
@@ -30,7 +31,7 @@ export const LiquidClaimForm: React.FC<IClaimFormProps> = ({
         type: TxType.STAKING_LIQUID_SOV_CLAIM,
       },
     );
-  }, [address, send]);
+  }, [address, lastWithdrawalInterval, send]);
 
   return (
     <BaseClaimForm

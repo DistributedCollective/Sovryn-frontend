@@ -19,6 +19,7 @@ import {
   SendTxResponseInterface,
   TransactionOptions,
 } from './useSendContractTx';
+import { selectWalletProvider } from '../containers/WalletProvider/selectors';
 
 export function useSendToContractAddressTx(
   address: string,
@@ -27,6 +28,7 @@ export function useSendToContractAddressTx(
 ): SendTxResponseInterface {
   const transactions = useSelector(selectTransactions);
   const loading = useSelector(selectLoadingTransaction);
+  const { chainId } = useSelector(selectWalletProvider);
   const dispatch = useDispatch();
   const account = useAccount();
   const [txId, setTxId] = useState<string | TxStatus>(TxStatus.NONE);
@@ -46,7 +48,7 @@ export function useSendToContractAddressTx(
       ) {
         config.gas = gasLimit[options.type];
       }
-      contractWriter
+      return contractWriter
         .sendByAddress(address, abi, methodName, args, config)
         .then(e => {
           const transactionHash = e as string;
@@ -62,10 +64,12 @@ export function useSendToContractAddressTx(
               value: (config?.value as string) || '0',
               asset: options?.asset || null,
               assetAmount: options?.assetAmount || null,
+              chainId,
             }),
           );
           setTxId(transactionHash);
           dispatch(actions.closeTransactionRequestDialog());
+          return transactionHash;
         })
         .catch(e => {
           console.error(e.message);
@@ -73,7 +77,7 @@ export function useSendToContractAddressTx(
           dispatch(actions.setTransactionRequestDialogError(e.message));
         });
     },
-    [account, address, abi, methodName, dispatch],
+    [account, address, abi, methodName, chainId, dispatch],
   );
 
   const reset = useCallback(() => {

@@ -1,13 +1,16 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import Slider from 'react-slick';
 import dayjs from 'dayjs';
-import { Icon } from '@blueprintjs/core';
 import { Text } from '@blueprintjs/core/lib/esm/components/text/text';
 import { MenuItem } from '@blueprintjs/core/lib/esm/components/menu/menuItem';
 import { ItemRenderer } from '@blueprintjs/select/lib/esm/common/itemRenderer';
 import { ItemPredicate } from '@blueprintjs/select/lib/esm/common/predicate';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
+import Carousel from 'react-multi-carousel';
+import { CustomDot } from 'app/pages/LandingPage/components/Promotions/components/PromotionsCarousel/CustomDot';
+import classNames from 'classnames';
+import 'react-multi-carousel/lib/styles.css';
+import { CustomButtonGroup } from './CustomButtonGroup';
 
 interface DateItem {
   key: number;
@@ -99,11 +102,11 @@ export function StakingDateSelector(props: Props) {
         contractOffset,
         'hour',
       ); // get contract date in UTC-0
-      let userDateUTC = dayjs(currentDate).add(currentUserOffset, 'hour'); //get user offset
+      let userDateUTC = dayjs(currentDate).add(currentUserOffset, 'hour'); // get user offset
 
       const dates: Date[] = [];
       const datesFutured: Date[] = [];
-      //getting the last posible date in the contract that low then current date
+      // getting the last possible date in the contract that low then current date
       for (let i = 1; contractDateDeployed.unix() < userDateUTC.unix(); i++) {
         const intervalDate = contractDateDeployed.add(2, 'week');
         contractDateDeployed = intervalDate;
@@ -135,35 +138,6 @@ export function StakingDateSelector(props: Props) {
     }
   }, [props.kickoffTs, props.value, props.prevExtend, currentDate]);
 
-  const SampleNextArrow = props => {
-    const { className, style, onClick } = props;
-    return (
-      <div className={className} style={{ ...style }} onClick={onClick}>
-        <Icon icon="chevron-right" iconSize={25} color="white" />
-      </div>
-    );
-  };
-
-  const SamplePrevArrow = props => {
-    const { className, style, onClick } = props;
-    return (
-      <div className={className} style={{ ...style }} onClick={onClick}>
-        <Icon icon="chevron-left" iconSize={25} color="white" />
-      </div>
-    );
-  };
-
-  const settingsSliderMonth = {
-    dots: true,
-    infinite: false,
-    speed: 500,
-    slidesToShow: 6,
-    slidesToScroll: 6,
-    initialSlide: 0,
-    nextArrow: <SampleNextArrow />,
-    prevArrow: <SamplePrevArrow />,
-  };
-
   return (
     <>
       {availableYears.length > 0 && (
@@ -193,15 +167,37 @@ export function StakingDateSelector(props: Props) {
           );
         })}
       </div>
-      <div className="sliderMonth tw-mt-5 tw-pr-0">
-        <Slider {...settingsSliderMonth}>
+      <div className="tw-mt-5 tw-pr-0 tw-relative">
+        <Carousel
+          key={selectedYear}
+          arrows={false}
+          responsive={{
+            desktop: {
+              breakpoint: { max: 4800, min: 0 },
+              items: 6,
+              slidesToSlide: 6,
+            },
+          }}
+          draggable
+          focusOnSelect={false}
+          minimumTouchDrag={80}
+          customDot={<CustomDot />}
+          showDots
+          customButtonGroup={<CustomButtonGroup />}
+          renderButtonGroupOutside
+          swipeable
+        >
           {availableMonth.map((monthName: React.ReactNode, i) => {
             return (
               <div key={i}>
-                <div className="tw-mb-1 tw-font-light tw-text-sm tw-text-center tw-text-sov-white">
+                <div className="tw-mb-1 tw-font-normal tw-text-sm tw-text-center tw-text-sov-white">
                   {monthName}
                   {currentYearDates.map((item, i) => {
                     if (dayjs(item.date).format('MMM') === monthName) {
+                      const isDateSelected =
+                        selectedDay === dayjs(item.date).format('D') &&
+                        selectedMonth === dayjs(item.date).format('MMM');
+
                       return (
                         <div
                           key={i}
@@ -210,11 +206,12 @@ export function StakingDateSelector(props: Props) {
                             setSelectedDay(dayjs(item.date).format('D'));
                             setSelectedMonth(dayjs(item.date).format('MMM'));
                           }}
-                          className={`tw-flex tw-items-center tw-justify-center tw-mr-1 tw-mb-1 tw-h-10 tw-leading-10 tw-rounded-lg tw-border tw-border-secondary tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-px-5 tw-py-0 tw-text-center tw-border-r tw-text-md tw-text-secondary tw-tracking-tighter ${
-                            selectedDay === dayjs(item.date).format('D') &&
-                            selectedMonth === dayjs(item.date).format('MMM') &&
-                            'tw-bg-opacity-30 tw-bg-secondary'
-                          }`}
+                          className={classNames(
+                            'tw-flex tw-flex-col tw-items-center tw-justify-center tw-mr-1 tw-mb-1 tw-h-10 tw-leading-10 tw-rounded-lg tw-border tw-border-secondary tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 tw-px-5 tw-py-0 tw-text-center tw-border-r tw-text-md tw-text-secondary tw-tracking-tighter',
+                            {
+                              'tw-bg-opacity-30 tw-bg-secondary': isDateSelected,
+                            },
+                          )}
                         >
                           {dayjs(item.date)
                             .subtract(currentUserOffset, 'hour')
@@ -229,7 +226,7 @@ export function StakingDateSelector(props: Props) {
               </div>
             );
           })}
-        </Slider>
+        </Carousel>
       </div>
       {availableYears.length <= 0 && (
         <p className="tw-block tw-mt-4 tw-text-warning tw-text-sm tw-font-medium tw-mb-2">

@@ -18,7 +18,7 @@ import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { useHistory } from 'react-router-dom';
 import { isValidArbitrage } from 'app/components/Arbitrage/Arbitrage';
-import cn from 'classnames';
+import classNames from 'classnames';
 
 export const ArbitrageOpportunity: React.FC = () => {
   const { t } = useTranslation();
@@ -95,7 +95,7 @@ export const ArbitrageOpportunity: React.FC = () => {
                   <td>
                     <div
                       key={opportunity.fromToken + opportunity.toToken}
-                      className={cn('tw-flex tw-items-center')}
+                      className={classNames('tw-flex tw-items-center')}
                     >
                       <div className="tw-rounded-full tw-z-10">
                         <img
@@ -120,7 +120,7 @@ export const ArbitrageOpportunity: React.FC = () => {
                         />
                       </div>
 
-                      <div className="tw-font-light text-sov-white tw-ml-2.5 tw-flex-1">
+                      <div className="tw-font-normal text-sov-white tw-ml-2.5 tw-flex-1">
                         {t(
                           translations.landingPage.arbitrageOpportunity.swapUp,
                         )}{' '}
@@ -137,7 +137,7 @@ export const ArbitrageOpportunity: React.FC = () => {
                       <div className="tw-flex tw-items-center">
                         <Popover
                           content={
-                            <div className="tw-px-5 tw-py-4 tw-font-light">
+                            <div className="tw-px-5 tw-py-4 tw-font-normal">
                               <p>
                                 {t(
                                   translations.swapTradeForm.arbitrage

@@ -1,0 +1,53 @@
+.header {
+  @apply tw-fixed tw-top-0 tw-left-0 tw-right-0 tw-z-20
+    tw-bg-sov-white;
+
+  & > div:first-child {
+    height: 3.75rem;
+  }
+
+  &.open {
+    @apply tw-h-screen;
+  }
+
+  select {
+    @apply tw-text-base tw-font-body tw-font-thin 
+      tw-bg-transparent;
+  }
+}
+
+.backArrow {
+  @apply tw-w-10 tw-h-10 tw-p-2
+    tw-text-black 
+    tw-transition-opacity tw-duration-300 hover:tw-opacity-75;
+
+  path {
+    @apply tw-fill-current;
+  }
+}
+
+.logo {
+  width: auto;
+  height: 35px;
+  margin: 0 0 0 1rem;
+
+  @screen xl {
+    width: 216px;
+    height: 53px;
+    margin: 0;
+  }
+}
+
+// blueprintjs override
+:global(.bp3-popover).header-nav-popover :global(.bp3-popover-content) {
+  @apply tw-bg-black tw-border-0 
+    tw-overflow-hidden;
+
+  & :global(.bp3-menu) {
+    @apply tw-p-0;
+
+    & a {
+      @apply tw-font-normal;
+    }
+  }
+}

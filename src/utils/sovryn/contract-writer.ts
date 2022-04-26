@@ -175,17 +175,30 @@ class ContractWriter {
           .methods[methodName](...args)
           .encodeABI();
 
-        const nonce =
-          options.nonce ||
-          (await contractReader.nonce(walletService.address.toLowerCase()));
+        if (options.nonce === undefined) {
+          options.nonce = await contractReader.nonce(
+            walletService.address.toLowerCase(),
+          );
+        }
 
-        let gasLimit =
-          options?.gas ||
-          (await this.estimateCustomGas(address, abi, methodName, args, {
-            value: options?.value,
-            gasPrice: options?.gasPrice,
-            nonce,
-          }));
+        if (options.gas === undefined) {
+          options.gas = await this.estimateCustomGas(
+            address,
+            abi,
+            methodName,
+            args,
+            {
+              value: options?.value,
+              gasPrice: options?.gasPrice,
+              nonce: options.nonce,
+            },
+          );
+          options.gas = (Number(options.gas) * 1.2).toFixed(0);
+        }
+
+        const nonce = options.nonce;
+        let gasLimit = options.gas;
+        let gasPrice = options?.gasPrice || gas.get();
 
         if (bignumber(gasLimit).lessThan(MIN_GAS)) {
           gasLimit = MIN_GAS;
@@ -197,7 +210,7 @@ class ContractWriter {
               to: address.toLowerCase(),
               value: String(options?.value || '0'),
               data: data,
-              gasPrice: gas.get(),
+              gasPrice: String(gasPrice),
               nonce,
               gasLimit: String(gasLimit),
               chainId: walletService.chainId,

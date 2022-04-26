@@ -17,6 +17,7 @@ import { ContractName } from 'utils/types/contracts';
 import { useAccount } from './useAccount';
 import { Nullable } from 'types';
 import { gasLimit } from '../../utils/classifiers';
+import { selectWalletProvider } from '../containers/WalletProvider/selectors';
 
 export interface TransactionOptions {
   type?: TxType;
@@ -35,6 +36,7 @@ export interface SendTxResponse {
 
 export interface ResetTxResponseInterface extends SendTxResponse {
   reset: () => void;
+  retry?: () => void;
 }
 
 export interface SendTxResponseInterface extends ResetTxResponseInterface {
@@ -42,7 +44,7 @@ export interface SendTxResponseInterface extends ResetTxResponseInterface {
     args: any[],
     config?: TransactionConfig,
     options?: TransactionOptions,
-  ) => void;
+  ) => Promise<string | void>;
 }
 
 export function useSendContractTx(
@@ -51,10 +53,11 @@ export function useSendContractTx(
 ): SendTxResponseInterface {
   const transactions = useSelector(selectTransactions);
   const loading = useSelector(selectLoadingTransaction);
+  const { chainId } = useSelector(selectWalletProvider);
   const dispatch = useDispatch();
   const account = useAccount();
   const [txId, setTxId] = useState<string | TxStatus>(TxStatus.NONE);
-  const [tx, setTx] = useState<Transaction>();
+  const [tx, setTx] = useState<Nullable<Transaction>>(null);
 
   const send = useCallback(
     async (
@@ -72,7 +75,7 @@ export function useSendContractTx(
         config.gas = gasLimit[options.type];
       }
 
-      await contractWriter
+      return await contractWriter
         .send(contractName, methodName, args, config)
         .then(e => {
           const transactionHash = e as string;
@@ -88,11 +91,13 @@ export function useSendContractTx(
             asset: options?.asset || null,
             assetAmount: options?.assetAmount || null,
             customData: options?.customData || undefined,
+            chainId,
           };
           dispatch(actions.addTransaction(txData));
           setTx(txData);
           setTxId(transactionHash);
           dispatch(actions.closeTransactionRequestDialog());
+          return transactionHash;
         })
         .catch(e => {
           console.error(e.message);
@@ -100,25 +105,27 @@ export function useSendContractTx(
           dispatch(actions.setTransactionRequestDialogError(e.message));
         });
     },
-    [account, contractName, methodName, dispatch],
+    [account, contractName, methodName, chainId, dispatch],
   );
 
   const reset = useCallback(() => {
+    dispatch(actions.removeTransactions());
     setTxId(TxStatus.NONE);
-  }, []);
+    setTx(null);
+  }, [dispatch]);
 
   useEffect(() => {
     if (txId && transactions.hasOwnProperty(txId)) {
       setTx(transactions[txId]);
     } else {
-      setTx(undefined);
+      setTx(null);
     }
   }, [txId, transactions]);
 
   return {
     send,
     reset,
-    txData: tx || null,
+    txData: tx,
     txHash: tx?.transactionHash || '',
     status: tx
       ? tx.status

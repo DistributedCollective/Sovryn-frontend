@@ -10,7 +10,7 @@
 // To learn more about the benefits of this model and instructions on how to
 // opt-in, read https://bit.ly/CRA-PWA
 
-import { currentNetwork } from './utils/classifiers';
+import { isMainnet } from './utils/classifiers';
 
 const isLocalhost = Boolean(
   window.location.hostname === 'localhost' ||
@@ -30,7 +30,7 @@ type Config = {
 export function register(config?: Config) {
   if (
     process.env.NODE_ENV === 'production' &&
-    currentNetwork === 'mainnet' &&
+    isMainnet &&
     'serviceWorker' in navigator
   ) {
     // The URL constructor is available in all browsers that support SW.
@@ -63,7 +63,7 @@ export function register(config?: Config) {
       }
     });
   }
-  if (currentNetwork !== 'mainnet') {
+  if (!isMainnet) {
     unregister();
   }
 }

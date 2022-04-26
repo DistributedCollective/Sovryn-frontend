@@ -2,8 +2,6 @@ import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import styled from 'styled-components/macro';
 
-import { Header } from 'app/components/Header';
-import { Footer } from 'app/components/Footer';
 import { ArrowStep } from './components/ArrowStep';
 import { EngageWalletStep } from './components/EngageWallet';
 import { TopUpWallet } from './components/TopUpWallet';
@@ -27,11 +25,10 @@ export function BuySovPage() {
           content={t(translations.buySovPage.meta.description)}
         />
       </Helmet>
-      <Header />
       <div className="tw-container tw-pt-5 tw-font-body">
         <InfoBar />
 
-        <Onboarding className="tw-w-full tw-max-w-full tw-flex-row xl:tw-flex tw-justify-center">
+        <Onboarding className="tw-w-full tw-max-w-full tw-flex-row xl:tw-flex tw-justify-center tw-items-start">
           <div className="tw-flex-shrink-0 tw-flex-grow-1">
             <div className="tw-w-full md:tw-flex tw-flex-row tw-justify-center tw-items-center">
               <EngageWalletStep />
@@ -55,7 +52,6 @@ export function BuySovPage() {
 
         <Features />
       </div>
-      <Footer />
     </>
   );
 }

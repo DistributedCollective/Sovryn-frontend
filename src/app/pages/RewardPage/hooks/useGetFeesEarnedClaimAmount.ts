@@ -72,10 +72,6 @@ const defaultEarnedFees: IEarnedFee[] = [
   },
 ];
 
-type AccumulatedFeesData = {
-  [key in Asset]: string;
-};
-
 const useGetFeesEarned = () => {
   const address = useAccount();
   const blockSync = useBlockSync();
@@ -95,7 +91,7 @@ const useGetFeesEarned = () => {
 
     setLoading(true);
     bridgeNetwork
-      .multiCall<AccumulatedFeesData>(Chain.RSK, callData)
+      .multiCall(Chain.RSK, callData)
       .then(result => {
         if (result.returnData) {
           const fees = earnedFees.map(fee => ({

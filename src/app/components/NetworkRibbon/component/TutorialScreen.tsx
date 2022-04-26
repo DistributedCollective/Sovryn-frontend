@@ -1,8 +1,5 @@
 import { Icon } from '@blueprintjs/core';
-import React, { useState } from 'react';
-import styled, { css } from 'styled-components/macro';
-
-import { media } from 'styles/media';
+import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { translations } from 'locales/i18n';
@@ -21,104 +18,116 @@ import nifty01 from '../../../../assets/wallet_tutorials/nifty/nifty_01.svg';
 import nifty02 from '../../../../assets/wallet_tutorials/nifty/nifty_02.svg';
 import nifty03 from '../../../../assets/wallet_tutorials/nifty/nifty_03.svg';
 import { BackButton } from '../../../components/BackButton';
+import { capitalize } from '../../../../utils/helpers';
+import styles from '../NetworkRibbon.module.scss';
+import classNames from 'classnames';
+import { Network } from '../../../../utils/blockchain/networks';
 
-interface Props {
-  walletType: string;
-  onBack: () => void;
-}
-interface IStep {
+type Step = {
   title: string;
   image: any;
   step: string;
-}
+};
 
-export function TutorialScreen(props: Props) {
+const liqualitySteps: Step[] = [
+  {
+    step: translations.wrongNetworkDialog.stepTitle.step1,
+    title: translations.wrongNetworkDialog.liquality.step1,
+    image: liquality01,
+  },
+  {
+    step: translations.wrongNetworkDialog.stepTitle.step2,
+    title: translations.wrongNetworkDialog.liquality.step2,
+    image: liquality02,
+  },
+  {
+    step: translations.wrongNetworkDialog.stepTitle.step3,
+    title: translations.wrongNetworkDialog.liquality.step3,
+    image: liquality03,
+  },
+  {
+    step: translations.wrongNetworkDialog.stepTitle.step4,
+    title: translations.wrongNetworkDialog.liquality.step4,
+    image: liquality04,
+  },
+  {
+    step: translations.wrongNetworkDialog.stepTitle.step5,
+    title: translations.wrongNetworkDialog.liquality.step5,
+    image: liquality05,
+  },
+];
+const metamaskSteps: Step[] = [
+  {
+    step: translations.wrongNetworkDialog.stepTitle.step1,
+    title: translations.wrongNetworkDialog.metamask.step1,
+    image: metamask01,
+  },
+  {
+    step: translations.wrongNetworkDialog.stepTitle.step2,
+    title: translations.wrongNetworkDialog.metamask.step2,
+    image: metamask02,
+  },
+  {
+    step: translations.wrongNetworkDialog.stepTitle.step3,
+    title: translations.wrongNetworkDialog.metamask.step3,
+    image: metamask03,
+  },
+  {
+    step: translations.wrongNetworkDialog.stepTitle.step4,
+    title: translations.wrongNetworkDialog.metamask.step4,
+    image: metamask04,
+  },
+  {
+    step: translations.wrongNetworkDialog.stepTitle.step5,
+    title: translations.wrongNetworkDialog.metamask.step5,
+    image: metamask05,
+  },
+  {
+    step: translations.wrongNetworkDialog.stepTitle.step6,
+    title: translations.wrongNetworkDialog.metamask.step6,
+    image: metamask06,
+  },
+];
+const niftySteps: Step[] = [
+  {
+    step: translations.wrongNetworkDialog.stepTitle.step1,
+    title: translations.wrongNetworkDialog.nifty.step1,
+    image: nifty01,
+  },
+  {
+    step: translations.wrongNetworkDialog.stepTitle.step2,
+    title: translations.wrongNetworkDialog.nifty.step2,
+    image: nifty02,
+  },
+  {
+    step: translations.wrongNetworkDialog.stepTitle.step3,
+    title: translations.wrongNetworkDialog.nifty.step3,
+    image: nifty03,
+  },
+];
+
+const stepsMap = {
+  metamask: metamaskSteps,
+  liquality: liqualitySteps,
+  nifty: niftySteps,
+};
+
+type TutorialScreenProps = {
+  walletType: string;
+  network?: Network;
+  onBack: () => void;
+};
+
+export const TutorialScreen: React.FC<TutorialScreenProps> = ({
+  walletType,
+  network,
+  onBack,
+}) => {
   const [step, setStep] = useState(0);
   const { t } = useTranslation();
-  const liqSteps: IStep[] = [
-    {
-      step: t(translations.wrongNetworkDialog.stepTitle.step1),
-      title: t(translations.wrongNetworkDialog.liquality.step1),
-      image: liquality01,
-    },
-    {
-      step: t(translations.wrongNetworkDialog.stepTitle.step2),
-      title: t(translations.wrongNetworkDialog.liquality.step2),
-      image: liquality02,
-    },
-    {
-      step: t(translations.wrongNetworkDialog.stepTitle.step3),
-      title: t(translations.wrongNetworkDialog.liquality.step3),
-      image: liquality03,
-    },
-    {
-      step: t(translations.wrongNetworkDialog.stepTitle.step4),
-      title: t(translations.wrongNetworkDialog.liquality.step4),
-      image: liquality04,
-    },
-    {
-      step: t(translations.wrongNetworkDialog.stepTitle.step5),
-      title: t(translations.wrongNetworkDialog.liquality.step5),
-      image: liquality05,
-    },
-  ];
-  const metaSteps: IStep[] = [
-    {
-      step: t(translations.wrongNetworkDialog.stepTitle.step1),
-      title: t(translations.wrongNetworkDialog.metamask.step1),
-      image: metamask01,
-    },
-    {
-      step: t(translations.wrongNetworkDialog.stepTitle.step2),
-      title: t(translations.wrongNetworkDialog.metamask.step2),
-      image: metamask02,
-    },
-    {
-      step: t(translations.wrongNetworkDialog.stepTitle.step3),
-      title: t(translations.wrongNetworkDialog.metamask.step3),
-      image: metamask03,
-    },
-    {
-      step: t(translations.wrongNetworkDialog.stepTitle.step4),
-      title: t(translations.wrongNetworkDialog.metamask.step4),
-      image: metamask04,
-    },
-    {
-      step: t(translations.wrongNetworkDialog.stepTitle.step5),
-      title: t(translations.wrongNetworkDialog.metamask.step5),
-      image: metamask05,
-    },
-    {
-      step: t(translations.wrongNetworkDialog.stepTitle.step6),
-      title: t(translations.wrongNetworkDialog.metamask.step6),
-      image: metamask06,
-    },
-  ];
-  const niftySteps: IStep[] = [
-    {
-      step: t(translations.wrongNetworkDialog.stepTitle.step1),
-      title: t(translations.wrongNetworkDialog.nifty.step1),
-      image: nifty01,
-    },
-    {
-      step: t(translations.wrongNetworkDialog.stepTitle.step2),
-      title: t(translations.wrongNetworkDialog.nifty.step2),
-      image: nifty02,
-    },
-    {
-      step: t(translations.wrongNetworkDialog.stepTitle.step3),
-      title: t(translations.wrongNetworkDialog.nifty.step3),
-      image: nifty03,
-    },
-  ];
-  var steps: IStep[] = [];
-  if (props.walletType === 'metamask') {
-    steps = metaSteps;
-  } else if (props.walletType === 'liquality') {
-    steps = liqSteps;
-  } else if (props.walletType === 'nifty') {
-    steps = niftySteps;
-  }
+
+  var steps = stepsMap[walletType];
+
   const handleBack = () => {
     let next = step - 1;
     if (next < 0) {
@@ -134,170 +143,125 @@ export function TutorialScreen(props: Props) {
     setStep(next);
   };
 
+  const translationOptions = useMemo(
+    () =>
+      network && {
+        name: network.name,
+        chain: network.chain,
+        network: `${network.chain} ${capitalize(network.network)}`,
+      },
+    [network],
+  );
+
+  if (!network && !steps?.[step]) {
+    return null;
+  }
+
   return (
     <>
-      <BackButton onClick={props.onBack} />
+      <BackButton onClick={onBack} />
       <div className="tw-flex tw-flex-row tw-justify-center tw-items-center tw-my-8 tw-py-4">
-        <LeftBlock>
+        <div className="tw-w-1/4 lg:tw-w-2/5 tw-mr-8">
           <div className="tw-rounded tw-p-4 tw-text-center">
             <img
               key={step}
               src={steps[step].image}
-              alt={steps[step].title}
-              className="tw-mx-auto tutorial-image"
+              alt={t(steps[step].title, translationOptions)}
+              className={styles.tutorialImage}
             />
           </div>
           <div className="tw-flex tw-flex-row tw-justify-center tw-items-center tw-mt-1">
-            <NavBtn onClick={handleBack}>
-              <Icon
-                icon="caret-left"
-                iconSize={24}
-                className="tw-text-sov-white"
-              />
-            </NavBtn>
+            <button
+              className={styles.navArrow}
+              type="button"
+              onClick={handleBack}
+            >
+              <Icon icon="caret-left" iconSize={24} />
+            </button>
             {steps.map((_, i) => (
-              <NavRound
-                onClick={() => setStep(i)}
-                active={i === step}
+              <button
                 key={i}
+                className={classNames(
+                  styles.navRound,
+                  i === step && 'tw-bg-white',
+                )}
+                type="button"
+                onClick={() => setStep(i)}
               />
             ))}
-            <NavBtn onClick={handleNext}>
-              <Icon
-                icon="caret-right"
-                iconSize={24}
-                className="tw-text-sov-white"
-              />
-            </NavBtn>
+            <button
+              className={styles.navArrow}
+              type="button"
+              onClick={handleNext}
+            >
+              <Icon icon="caret-right" iconSize={24} />
+            </button>
           </div>
-        </LeftBlock>
-        <RightBlock>
-          <StepTitle>{steps[step].step}</StepTitle>
-          <SettingsTitle className="tw-mt-4">{steps[step].title}</SettingsTitle>
-          {step === 3 && props.walletType === 'metamask' && (
+        </div>
+        <div className="tw-w-3/4 lg:tw-w-3/5">
+          <div className="tw-text-left tw-text-3xl tw-font-medium tw-text-white">
+            {t(steps[step].step, translationOptions)}
+          </div>
+          <div className="tw-text-left tw-text-base tw-font-medium tw-text-white tw-mt-4">
+            {t(steps[step].title, translationOptions)}
+          </div>
+          {step === 3 && walletType === 'metamask' && (
             <>
-              <SettingsTitle className="tw-mt-12">
-                RSK Mainnet Settings
-              </SettingsTitle>
-              <Details>
-                <SubDetails>
-                  <DetailTitle className="tw-mt-4">Network Name:</DetailTitle>
-                  <DetailTitle className="tw-mt-4">New RPC Url:</DetailTitle>
-                  <DetailTitle className="tw-mt-4">Chain Id:</DetailTitle>
-                  <DetailTitle className="tw-mt-4">Symbol:</DetailTitle>
-                  <DetailTitle className="tw-mt-4">
-                    Block Explorer URL:
-                  </DetailTitle>
-                </SubDetails>
-                <SubDetails>
-                  <DetailTitle className="tw-mt-4">RSK Mainnet</DetailTitle>
-                  <DetailTitle className="tw-mt-4">
-                    https://public-node.rsk.co
-                  </DetailTitle>
-                  <DetailTitle className="tw-mt-4">30</DetailTitle>
-                  <DetailTitle className="tw-mt-4">RBTC</DetailTitle>
-                  <DetailTitle className="tw-mt-4">
-                    https://explorer.rsk.co
-                  </DetailTitle>
-                </SubDetails>
-              </Details>
+              <div className="tw-text-left tw-text-base tw-font-medium tw-text-white tw-mt-12">
+                {t(
+                  translations.wrongNetworkDialog.settings.title,
+                  translationOptions,
+                )}
+              </div>
+              <div className={styles.subDetails}>
+                <div>
+                  {t(
+                    translations.wrongNetworkDialog.settings.name,
+                    translationOptions,
+                  )}
+                </div>
+                <div>{translationOptions?.network || ''}</div>
+              </div>
+              <div className={styles.subDetails}>
+                <div>
+                  {t(
+                    translations.wrongNetworkDialog.settings.rpc,
+                    translationOptions,
+                  )}
+                </div>
+                <div>{network?.rpc[0] || ''}</div>
+              </div>
+              <div className={styles.subDetails}>
+                <div>
+                  {t(
+                    translations.wrongNetworkDialog.settings.chainId,
+                    translationOptions,
+                  )}
+                </div>
+                <div>{network?.chainId || ''}</div>
+              </div>
+              <div className={styles.subDetails}>
+                <div>
+                  {t(
+                    translations.wrongNetworkDialog.settings.symbol,
+                    translationOptions,
+                  )}
+                </div>
+                <div>{network?.nativeCurrency.symbol || ''}</div>
+              </div>
+              <div className={styles.subDetails}>
+                <div>
+                  {t(
+                    translations.wrongNetworkDialog.settings.explorer,
+                    translationOptions,
+                  )}
+                </div>
+                <div>{network?.explorers[0]?.url || ''}</div>
+              </div>
             </>
           )}
-        </RightBlock>
+        </div>
       </div>
     </>
   );
-}
-
-const Details = styled.div`
-  width: 70%;
-  display: flex;
-  flex-direction: row;
-  /* justify-content: start; */
-`;
-const SubDetails = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  /* justify-content: start; */
-`;
-const SettingsTitle = styled.div`
-  font-size: 1rem;
-  font-weight: 500;
-  text-align: left;
-  color: white;
-`;
-const StepTitle = styled.div`
-  font-size: 1.75rem;
-  font-weight: 500;
-  text-align: left;
-  color: white;
-`;
-const DetailTitle = styled.div`
-  font-size: 0.75rem;
-  font-weight: 400;
-  text-align: left;
-  color: white;
-`;
-const LeftBlock = styled.div`
-  width: 50%;
-  /* max-width: 312px; */
-  margin-right: 30px;
-
-  .tutorial-image {
-    animation: fadeIn 1s ease-in;
-    width: 350px;
-    height: 350px;
-  }
-
-  @keyframes fadeIn {
-    0% {
-      opacity: 0.5;
-    }
-
-    100% {
-      opacity: 1;
-    }
-  }
-`;
-
-const RightBlock = styled.div`
-  width: 100%;
-  ${media.lg`
-    width: 485px;
-  `}
-`;
-const NavRound = styled.button.attrs(_ => ({
-  type: 'button',
-  className: 'tw-flex-grow-0 tw-flex-shrink-0',
-}))`
-  border: none;
-  margin: 0 5px;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background-color: #b1b1b1;
-  transition: background-color 0.5s;
-  will-change: background-color;
-  padding: 0;
-  &:hover {
-    background-color: #fff;
-  }
-  ${(props: { active?: boolean }) =>
-    props.active &&
-    css`
-      background-color: #ffff;
-    `}
-`;
-
-const NavBtn = styled.button.attrs(_ => ({
-  type: 'button',
-  className: 'tw-flex-grow-0 tw-flex-shrink-0 tw-flex tw-items-center',
-}))`
-  border: none;
-  margin: 0 5px;
-  width: 20px;
-  height: 20px;
-  padding: 0;
-  background: none;
-`;
+};

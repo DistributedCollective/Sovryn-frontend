@@ -1,11 +1,9 @@
-import cn from 'classnames';
+import classNames from 'classnames';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Trans, useTranslation } from 'react-i18next';
 
 import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
-import { Footer } from 'app/components/Footer';
-import { Header } from 'app/components/Header';
 import { LocalSharedArrayBuffer } from 'app/components/LocalSharedArrayBuffer';
 import { useFetch } from 'app/hooks/useFetch';
 import { useMaintenance } from 'app/hooks/useMaintenance';
@@ -64,7 +62,6 @@ export function LiquidityMining() {
       <Helmet>
         <title>{t(translations.liquidityMining.meta.title)}</title>
       </Helmet>
-      <Header />
       <div className="tw-container tw-mt-12 tw-font-body">
         <LootDropSectionWrapper>
           <LootDrop
@@ -144,7 +141,7 @@ export function LiquidityMining() {
           </div>
         )}
         <div
-          className={cn(
+          className={classNames(
             'tw-max-w-screen-2xl tw-mx-auto tw-mt-5 tw-mb-32',
             hasOldPools && 'tw-opacity-25 tw-pointer-events-none',
           )}
@@ -174,7 +171,6 @@ export function LiquidityMining() {
           )}
         </div>
       </div>
-      <Footer />
     </>
   );
 }

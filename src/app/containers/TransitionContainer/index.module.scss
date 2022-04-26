@@ -1,0 +1,91 @@
+.animating {
+  user-select: none;
+  pointer-events: none;
+  transition: all 500ms ease-in-out 0ms;
+}
+
+// FADE ============================
+.fadeEnter {
+  opacity: 0;
+}
+
+.fadeEnterActive,
+.fadeEnterDone,
+.fadeExit {
+  opacity: 1;
+}
+
+.fadeExitActive,
+.fadeExitDone {
+  opacity: 0;
+}
+
+// SLIDE LEFT =======================
+.slideLeftEnter {
+  transform: translateX(100%);
+}
+
+.slideLeftEnterActive,
+.slideLeftEnterDone,
+.slideLeftExit {
+  transform: translateX(0);
+}
+
+.slideLeftExitActive,
+.slideLeftExitDone {
+  transform: translateX(-100%);
+}
+
+// SLIDE RIGHT ======================
+.slideRightEnter {
+  transform: translateX(-100%);
+}
+
+.slideRightEnterActive,
+.slideRightEnterDone,
+.slideRightExit {
+  transform: translateX(0);
+}
+
+.slideRightExitActive,
+.slideRightExitDone {
+  transform: translateX(100%);
+}
+
+// SLIDE UP =========================
+.slideUpEnter {
+  bottom: -100%;
+  transform: translateY(100%);
+}
+
+.slideUpEnterActive,
+.slideUpEnterDone,
+.slideUpExit {
+  bottom: 0;
+  transform: translateY(0);
+}
+
+.slideUpExitActive,
+.slideUpExitDone {
+  bottom: 100%;
+  transform: translateY(-100%);
+}
+
+// SLIDE DOWN =======================
+.slideDownEnter {
+  top: -100%;
+  transform: translateY(-100%);
+}
+
+.slideDownEnterActive,
+.slideDownEnterDone,
+.slideDownExit {
+  top: 0;
+  transform: translateY(0);
+}
+
+.slideDownExitActive,
+.slideDownExitDone {
+  top: 100%;
+  transform: translateY(100%);
+}
