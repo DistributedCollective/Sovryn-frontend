@@ -1,24 +1,28 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { bignumber } from 'mathjs';
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
-import { TransactionDialog } from 'app/components/TransactionDialog';
 import { useApproveAndAddMargin } from '../../../../hooks/trading/useApproveAndAndMargin';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
 import { useCanInteract } from '../../../../hooks/useCanInteract';
 import { useIsAmountWithinLimits } from '../../../../hooks/useIsAmountWithinLimits';
 import { useMaintenance } from '../../../../hooks/useMaintenance';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
-import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import { ActiveLoan } from 'app/hooks/trading/useGetLoan';
 import { useDenominateAssetAmount } from 'app/hooks/trading/useDenominateAssetAmount';
 import { calculateCollateralRatio, calculateLiquidationPrice } from './utils';
 import { CollateralForm } from './CollateralForm';
 import { ReviewStep } from './ReviewStep';
 import { fromWei } from 'utils/blockchain/math-helpers';
+import { Asset } from 'types';
 
 type AddCollateralModalProps = {
   loan: ActiveLoan;
   onCloseModal: () => void;
+  onSubmit: (
+    collateralToken: Asset,
+    loanId: string,
+    depositAmount: string,
+  ) => void;
   liquidationPrice?: React.ReactNode;
   positionSize?: string;
 };
@@ -30,6 +34,7 @@ enum Step {
 
 export const AddCollateralModal: React.FC<AddCollateralModalProps> = ({
   loan: item,
+  onSubmit,
 }) => {
   const canInteract = useCanInteract();
   const tokenDetails = useMemo(
@@ -116,6 +121,11 @@ export const AddCollateralModal: React.FC<AddCollateralModalProps> = ({
     [canInteract, topupLocked, tx.loading, valid],
   );
 
+  const handleSubmit = useCallback(
+    () => onSubmit(tokenDetails.asset, item.loanId, weiAmount),
+    [item.loanId, onSubmit, tokenDetails.asset, weiAmount],
+  );
+
   return (
     <>
       <div className="tw-w-auto md:tw-mx-7 tw-mx-2">
@@ -150,21 +160,10 @@ export const AddCollateralModal: React.FC<AddCollateralModalProps> = ({
             newLiquidationPrice={newLiquidationPrice}
             loadingRate={loadingRate}
             canSubmit={canSubmit}
-            onSubmit={send}
+            onSubmit={handleSubmit}
           />
         )}
       </div>
-
-      <TransactionDialog
-        fee={
-          <TxFeeCalculator
-            args={[item.loanId, weiAmount]}
-            methodName="depositCollateral"
-            contractName="sovrynProtocol"
-          />
-        }
-        tx={tx}
-      />
     </>
   );
 };
