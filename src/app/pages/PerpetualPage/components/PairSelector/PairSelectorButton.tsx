@@ -16,7 +16,6 @@ import { perpUtils } from '@sovryn/perpetual-swap';
 import { TradePriceChange } from '../RecentTradesTable/types';
 import { getPriceColor, getPriceChange } from '../RecentTradesTable/utils';
 import { usePrevious } from '../../../../hooks/usePrevious';
-import { usePerpetual_getCurrentPairId } from '../../hooks/usePerpetual_getCurrentPairId';
 
 const { getMarkPrice } = perpUtils;
 
@@ -68,7 +67,7 @@ export const PairSelectorButton: React.FC<PairSelectorButtonProps> = ({
     >
       <span className="tw-font-medium tw-mr-2 tw-text-base">{pair.name}</span>
       <div className="tw-flex-auto tw-flex tw-flex-col tw-justify-center tw-py-0.5 tw-text-right">
-        <div className="tw-text-tiny tw-leading-none tw-text-gray-8 tw-font-thin">
+        <div className="tw-text-tiny tw-leading-none tw-text-gray-9 tw-font-light">
           {t(translations.perpetualPage.pairSelector.markPrice)}
         </div>
         <span
