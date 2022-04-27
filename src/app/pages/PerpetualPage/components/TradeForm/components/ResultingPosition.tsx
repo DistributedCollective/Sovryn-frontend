@@ -1,24 +1,16 @@
-import {
-  calculateApproxLiquidationPrice,
-  calculateLeverage,
-  getTraderLeverage,
-} from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
 import { AssetValue } from 'app/components/AssetValue';
 import { AssetValueMode } from 'app/components/AssetValue/types';
-import { PerpetualQueriesContext } from 'app/pages/PerpetualPage/contexts/PerpetualQueriesContext';
 import { selectPerpetualPage } from 'app/pages/PerpetualPage/selectors';
 import { PerpetualTrade } from 'app/pages/PerpetualPage/types';
-import { getTradeDirection } from 'app/pages/PerpetualPage/utils/contractUtils';
-import { getRequiredMarginCollateralWithGasFees } from 'app/pages/PerpetualPage/utils/perpUtils';
 import { translations } from 'locales/i18n';
-import React, { useContext, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { TradingPosition } from 'types/trading-position';
 import { PerpetualPairDictionary } from 'utils/dictionaries/perpetual-pair-dictionary';
 import { toNumberFormat } from 'utils/display-text/format';
-import { fromWei } from 'web3-utils';
 import { LeverageViewer } from '../../LeverageViewer';
+import { usePerpetual_calculateResultingPosition } from '../../../hooks/usePerpetual_calculateResultingPosition';
 
 type ResultingPositionProps = {
   trade: PerpetualTrade;
@@ -37,76 +29,13 @@ export const ResultingPosition: React.FC<ResultingPositionProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const { pairType, useMetaTransactions } = useSelector(selectPerpetualPage);
-  const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
-
-  const amount = useMemo(() => fromWei(trade.amount), [trade.amount]);
-
-  const { perpetuals } = useContext(PerpetualQueriesContext);
   const {
-    ammState,
-    traderState,
-    perpetualParameters: perpParameters,
-  } = perpetuals[pair.id];
-
-  const leverage = useMemo(() => {
-    // trader doesn't have an open position
-    if (!traderState.marginAccountPositionBC) {
-      return trade.leverage;
-    }
-
-    if (keepPositionLeverage) {
-      return getTraderLeverage(traderState, ammState);
-    }
-
-    const amountChange = Number(amount) * getTradeDirection(trade.position);
-    const targetAmount = traderState.marginAccountPositionBC + amountChange;
-
-    return calculateLeverage(
-      targetAmount,
-      traderState.availableCashCC,
-      traderState,
-      ammState,
-      perpParameters,
-    );
-  }, [
-    ammState,
-    amount,
-    keepPositionLeverage,
-    perpParameters,
-    trade.leverage,
-    trade.position,
-    traderState,
-  ]);
-
-  const liquidationPrice = useMemo(() => {
-    const requiredCollateral = getRequiredMarginCollateralWithGasFees(
-      leverage,
-      Number(amount),
-      perpParameters,
-      ammState,
-      traderState,
-      trade.slippage,
-      useMetaTransactions,
-      true,
-    );
-
-    return calculateApproxLiquidationPrice(
-      traderState,
-      ammState,
-      perpParameters,
-      Number(amount),
-      requiredCollateral,
-    );
-  }, [
-    ammState,
-    amount,
+    liquidationPrice,
     leverage,
-    perpParameters,
-    trade.slippage,
-    traderState,
-    useMetaTransactions,
-  ]);
+  } = usePerpetual_calculateResultingPosition(trade, keepPositionLeverage);
+
+  const { pairType } = useSelector(selectPerpetualPage);
+  const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
 
   return (
     <>

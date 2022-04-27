@@ -9,7 +9,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Dialog } from '../../../../containers/Dialog';
 import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
-import { PerpetualPageModals, isPerpetualTradeReview } from '../../types';
+import {
+  PerpetualPageModals,
+  isPerpetualTradeReview,
+  PerpetualTrade,
+  PerpetualTradeType,
+  PERPETUAL_SLIPPAGE_DEFAULT,
+} from '../../types';
 import {
   PerpetualPairDictionary,
   PerpetualPairType,
@@ -30,8 +36,14 @@ import { ApprovalStep } from './components/ApprovalStep';
 import { ConfirmationStep } from './components/ConfirmationStep';
 import { TransactionStep } from './components/TransactionStep';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
-import { numberFromWei } from '../../../../../utils/blockchain/math-helpers';
+import {
+  numberFromWei,
+  toWei,
+} from '../../../../../utils/blockchain/math-helpers';
 import { perpUtils } from '@sovryn/perpetual-swap';
+import { usePerpetual_calculateResultingPosition } from '../../hooks/usePerpetual_calculateResultingPosition';
+import { Asset } from 'types';
+import { TradingPosition } from 'types/trading-position';
 
 const {
   calculateApproxLiquidationPrice,
@@ -42,6 +54,17 @@ const {
   getPrice,
   calculateLeverage,
 } = perpUtils;
+
+const EMPTY_TRADE: PerpetualTrade = {
+  pairType: PerpetualPairType.BTCUSD,
+  collateral: Asset.BTCS,
+  tradeType: PerpetualTradeType.MARKET,
+  position: TradingPosition.LONG,
+  amount: toWei(0),
+  leverage: 0,
+  slippage: PERPETUAL_SLIPPAGE_DEFAULT,
+  entryPrice: 0,
+};
 
 const tradeDialogContextDefault: TradeDialogContextType = {
   pair: PerpetualPairDictionary.get(PerpetualPairType.BTCUSD),
@@ -137,6 +160,15 @@ export const TradeDialog: React.FC = () => {
     setTransactions(requestedTransactions);
   }, [origin, requestedTransactions]);
 
+  // TODO: Use it to display the correct information in dialogs
+  const {
+    liquidationPrice,
+    leverage,
+  } = usePerpetual_calculateResultingPosition(
+    trade || EMPTY_TRADE,
+    trade?.keepPositionLeverage,
+  );
+
   useEffect(() => {
     if (!trade) {
       setAnalysis(tradeDialogContextDefault.analysis);
@@ -169,7 +201,8 @@ export const TradeDialog: React.FC = () => {
       ammState,
       traderState,
       trade.slippage,
-      true,
+      false,
+      false,
     );
 
     const marginChange = marginTarget - traderState.availableCashCC;
