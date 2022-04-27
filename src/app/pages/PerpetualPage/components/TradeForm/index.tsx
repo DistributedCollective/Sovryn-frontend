@@ -310,6 +310,8 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       traderState,
       trade.slippage,
       useMetaTransactions,
+      false,
+      false,
     );
   }, [
     trade.position,
