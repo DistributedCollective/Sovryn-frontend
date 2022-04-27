@@ -67,6 +67,7 @@ export interface PerpetualTxLimitOrder extends PerpetualTxBase {
   /** trigger as wei string */
   trigger: string;
   expiry: number;
+  created: number;
   leverage?: number;
   tradingPosition?: TradingPosition;
   isNewOrder?: boolean;

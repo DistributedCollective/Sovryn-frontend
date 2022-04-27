@@ -18,7 +18,11 @@ import {
   toNumberFormat,
 } from '../../../../../utils/display-text/format';
 import classNames from 'classnames';
-import { PerpetualTrade, PerpetualTradeType } from '../../types';
+import {
+  PerpetualTrade,
+  PerpetualTradeType,
+  PERPETUAL_EXPIRY_DEFAULT,
+} from '../../types';
 import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
 import { Input } from '../../../../components/Input';
 import { Tooltip } from '@blueprintjs/core';
@@ -42,8 +46,6 @@ import { usePerpetual_getCurrentPairId } from '../../hooks/usePerpetual_getCurre
 import { bignumber } from 'mathjs';
 import { ExpiryDateInput } from './components/ExpiryDateInput';
 import { ResultingPosition } from './components/ResultingPosition';
-
-const DEFAULT_EXPIRY_VALUE = '30'; // days
 
 const { shrinkToLot } = perpMath;
 const {
@@ -239,11 +241,11 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     }
   }, [entryPrice, limit]);
 
-  const [triggerPrice, setTriggerPrice] = useState(trade.triggerPrice);
+  const [triggerPrice, setTriggerPrice] = useState(trade.trigger);
   const onChangeTriggerPrice = useCallback(
     (triggerPrice: string) => {
       setTriggerPrice(triggerPrice);
-      onChange({ ...trade, triggerPrice: toWei(triggerPrice) });
+      onChange({ ...trade, trigger: toWei(triggerPrice) });
     },
     [onChange, trade],
   );
@@ -254,11 +256,11 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     }
   }, [entryPrice, triggerPrice]);
 
-  const [expiry, setExpiry] = useState(DEFAULT_EXPIRY_VALUE);
+  const [expiry, setExpiry] = useState(String(PERPETUAL_EXPIRY_DEFAULT));
   const onChangeExpiry = useCallback(
     (expiry: string) => {
       setExpiry(expiry);
-      onChange({ ...trade, expiry: expiry });
+      onChange({ ...trade, expiry: Number(expiry) });
     },
     [onChange, trade],
   );

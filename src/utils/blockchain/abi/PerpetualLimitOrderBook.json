@@ -160,11 +160,6 @@
         "internalType": "bytes",
         "name": "signature",
         "type": "bytes"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_allowance",
-        "type": "uint256"
       }
     ],
     "name": "createLimitOrder",
@@ -257,6 +252,19 @@
       }
     ],
     "name": "executeLimitOrder",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "_digest",
+        "type": "bytes32"
+      }
+    ],
+    "name": "executeLimitOrderByDigest",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -435,19 +443,6 @@
         "internalType": "bytes32[]",
         "name": "",
         "type": "bytes32[]"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "marginToken",
-    "outputs": [
-      {
-        "internalType": "contract IERC20Upgradeable",
-        "name": "",
-        "type": "address"
       }
     ],
     "stateMutability": "view",

@@ -18,6 +18,9 @@ import {
   getRequiredMarginCollateralWithGasFees,
   MASK_CLOSE_ONLY,
   MASK_MARKET_ORDER,
+  createOrderDigest,
+  MASK_USE_TARGET_LEVERAGE,
+  MASK_LIMIT_ORDER,
 } from './perpUtils';
 import {
   perpUtils,
@@ -29,6 +32,7 @@ import {
 import {
   fromWei,
   numberFromWei,
+  toWei,
 } from '../../../../utils/blockchain/math-helpers';
 import {
   CheckAndApproveResultWithError,
@@ -61,7 +65,6 @@ const {
   getPrice,
   getMidPrice,
   isTraderInitialMarginSafe,
-  createOrderDigest,
 } = perpUtils;
 
 export const ONE_64x64 = BigNumber.from('0x10000000000000000');
@@ -590,6 +593,7 @@ const perpetualLimitTradeArgs = async (
     limit,
     trigger,
     expiry,
+    created,
     leverage = 1,
     pair: pairType,
   } = transaction;
@@ -597,27 +601,21 @@ const perpetualLimitTradeArgs = async (
 
   const signedAmount = getSignedAmount(tradingPosition, amount);
 
+  const createdSeconds = Math.floor(created / 1000);
+  const deadlineSeconds = createdSeconds + expiry * 24 * 60 * 60;
+
   const order = {
     iPerpetualId: pair.id,
     traderAddr: account,
-    fAmount: signedAmount,
-    fLimitPrice: numberFromWei(limit),
-    fTriggerPrice: numberFromWei(trigger),
-    iDeadline: expiry,
+    fAmount: floatToABK64x64(signedAmount).toString(),
+    fLimitPrice: weiToABK64x64(limit).toString(),
+    fTriggerPrice: weiToABK64x64(trigger).toString(),
+    iDeadline: deadlineSeconds,
     referrerAddr: ethGenesisAddress,
-    flags: 0,
-    fLeverage: leverage,
-    createdTimestamp: Date.now(),
+    flags: MASK_LIMIT_ORDER,
+    fLeverage: leverage.toString(),
+    createdTimestamp: createdSeconds,
   };
-
-  const allowance = getEstimatedMarginCollateralForLimitOrder(
-    context.perpetuals[pair.pairType].perpetualParameters,
-    context.perpetuals[pair.pairType].ammState,
-    order.fLeverage,
-    order.fAmount,
-    order.fLimitPrice,
-    order.fTriggerPrice,
-  );
 
   const digest = await createOrderDigest(
     order,
@@ -625,8 +623,8 @@ const perpetualLimitTradeArgs = async (
     getContract('perpetualManager').address,
     PERPETUAL_CHAIN_ID,
   );
-  const signature = walletService.signMessage(digest);
-  return [order, signature, allowance];
+  const signature = await walletService.signMessage(digest);
+  return [order, signature];
 };
 
 export const perpetualTransactionArgs = async (

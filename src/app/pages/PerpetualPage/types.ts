@@ -9,6 +9,7 @@ import { isMainnet } from '../../../utils/classifiers';
 import { toWei } from '../../../utils/blockchain/math-helpers';
 
 export const PERPETUAL_SLIPPAGE_DEFAULT = 0.005;
+export const PERPETUAL_EXPIRY_DEFAULT = 30;
 export const PERPETUAL_MAX_LEVERAGE_DEFAULT = 15;
 export const PERPETUAL_CHAIN = Chain.BSC;
 export const PERPETUAL_CHAIN_ID =
@@ -95,15 +96,15 @@ export type PerpetualTrade = {
   collateral: Asset;
   tradeType: PerpetualTradeType;
   position: TradingPosition;
-  /** wei string */
+  /** base value wei string */
   amount: string;
-  /** wei string */
+  /** limit quote price as wei string */
   limit?: string;
-  /** wei string */
-  triggerPrice?: string;
-  /** wei string */
+  /** trigger quote trigger wei string */
+  trigger?: string;
+  /** collateral value wei string */
   margin?: string;
-  expiry?: string;
+  expiry?: number;
   leverage: number;
   slippage: number;
   entryPrice: number;
@@ -129,6 +130,7 @@ export const isPerpetualTrade = (x: any): x is PerpetualTrade =>
   typeof x.slippage === 'number' &&
   typeof x.entryPrice === 'number' &&
   (x.limit === undefined || typeof x.limit === 'string') &&
+  (x.trigger === undefined || typeof x.trigger === 'string') &&
   (x.margin === undefined || typeof x.margin === 'string');
 
 export const isPerpetualTradeReview = (x: any): x is PerpetualTradeReview =>

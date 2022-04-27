@@ -25,7 +25,7 @@ import { TradeFormStep } from './components/TradeFormStep';
 import { ConnectFormStep } from './components/ConnectFormStep';
 import { noop } from '../../../../constants';
 import { PERPETUAL_SLIPPAGE_DEFAULT } from '../../types';
-import { PerpetualTxMethod } from '../TradeDialog/types';
+import { PerpetualTxMethod, PerpetualTx } from '../TradeDialog/types';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
 import debounce from 'lodash.debounce';
 
@@ -96,22 +96,39 @@ export const NewPositionCard: React.FC = () => {
   });
 
   const onSubmit = useCallback(() => {
+    const transactions: PerpetualTx[] = [];
+    if (trade.tradeType === PerpetualTradeType.MARKET) {
+      transactions.push({
+        method: PerpetualTxMethod.trade,
+        pair: pairType,
+        amount: trade.amount,
+        tradingPosition: trade.position,
+        slippage: trade.slippage,
+        leverage: trade.leverage,
+        tx: null,
+        approvalTx: null,
+      });
+    } else {
+      transactions.push({
+        method: PerpetualTxMethod.limitOrder,
+        pair: pairType,
+        amount: trade.amount,
+        tradingPosition: trade.position,
+        leverage: trade.leverage,
+        limit: trade.limit || '0',
+        trigger: trade.trigger || '0',
+        expiry: trade.expiry || 30,
+        created: Date.now(),
+        tx: null,
+        approvalTx: null,
+      });
+    }
+
     dispatch(
       actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
         origin: PerpetualPageModals.NONE,
         trade,
-        transactions: [
-          {
-            pair: pairType,
-            method: PerpetualTxMethod.trade,
-            amount: trade.amount,
-            tradingPosition: trade.position,
-            slippage: trade.slippage,
-            leverage: trade.leverage,
-            tx: null,
-            approvalTx: null,
-          },
-        ],
+        transactions: transactions,
       }),
     );
   }, [dispatch, trade, pairType]);

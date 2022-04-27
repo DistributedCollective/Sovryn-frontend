@@ -95,7 +95,8 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
       transactions[currentTransaction.index] &&
       !transactions[currentTransaction.index].tx
     ) {
-      execute(currentTransaction.nonce).catch(() => {
+      execute(currentTransaction.nonce).catch(error => {
+        console.error(error);
         setRejected(true);
       });
     }
