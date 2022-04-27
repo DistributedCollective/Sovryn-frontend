@@ -19,7 +19,7 @@ export const Footer: React.FC = () => {
           components={[<strong></strong>]}
         />
       </h6>
-      <div className="tw-flex tw-flex-col md:tw-flex-row tw-container tw-pb-10 tw-mx-auto tw-px-4 tw-mt-5">
+      <div className="tw-flex tw-flex-col md:tw-flex-row tw-container tw-pb-10 tw-mx-auto tw-mt-5">
         <div className="tw-flex-1">
           <div className="tw-flex tw-flex-col tw-justify-center tw-items-start tw-text-sov-white">
             <div className="tw-font-normal tw-text-xs">

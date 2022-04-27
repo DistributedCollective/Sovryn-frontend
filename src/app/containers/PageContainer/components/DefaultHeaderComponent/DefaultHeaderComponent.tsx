@@ -279,7 +279,7 @@ export const DefaultHeaderComponent: React.FC = () => {
   return (
     <>
       <header className={classNames(styles.header, open && styles.open)}>
-        <div className="tw-container tw-flex tw-justify-between tw-items-center tw-pt-2 tw-pb-2 tw-px-4 tw-mx-auto">
+        <div className="tw-container tw-flex tw-justify-between tw-items-center tw-pt-2 tw-pb-2 tw-mx-auto">
           <div className="tw-flex tw-items-center">
             <div className="xl:tw-hidden">
               <div ref={node}>

@@ -1,7 +1,7 @@
 @layer base {
   html,
   body {
-    @apply tw-h-full tw-w-full tw-font-normal tw-scrollbars-wide;
+    @apply tw-h-full tw-w-full tw-font-normal;
   }
 
   body {
@@ -9,6 +9,7 @@
     font-variant-numeric: tabular-nums;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow: overlay;
   }
 
   @screen lg {
