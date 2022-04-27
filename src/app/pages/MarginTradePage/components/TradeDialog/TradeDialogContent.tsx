@@ -1,9 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { Trans, useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { HashZero } from '@ethersproject/constants';
-import { Checkbox } from '@blueprintjs/core';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
@@ -53,6 +52,7 @@ import { usePositionLiquidationPrice } from 'app/hooks/trading/usePositionLiquid
 import { LoadableValue } from 'app/components/LoadableValue';
 import { PricePrediction } from 'app/containers/MarginTradeForm/PricePrediction';
 import { MarginDetails } from 'app/hooks/trading/useGetEstimatedMarginDetails';
+import { Checkbox } from 'app/components/Checkbox';
 
 interface ITradeDialogContentProps {
   slippage: number;
@@ -258,6 +258,10 @@ export const TradeDialogContent: React.FC<ITradeDialogContentProps> = ({
     return ignoreError ? false : simulator.status === SimulationStatus.FAILED;
   }, [ignoreError, simulator.status]);
 
+  const handleIgnoreError = useCallback(() => setIgnoreError(!ignoreError), [
+    ignoreError,
+  ]);
+
   return (
     <div className="tw-w-auto md:tw-mx-7 tw-mx-2">
       <h1 className="tw-text-sov-white tw-text-center">
@@ -405,7 +409,7 @@ export const TradeDialogContent: React.FC<ITradeDialogContentProps> = ({
             />
             <Checkbox
               checked={ignoreError}
-              onChange={() => setIgnoreError(!ignoreError)}
+              onChange={handleIgnoreError}
               label={t(translations.common.continueToFailure)}
               data-action-id="accept-terms-checkbox"
             />
