@@ -19,7 +19,6 @@ import {
   MASK_CLOSE_ONLY,
   MASK_MARKET_ORDER,
   createOrderDigest,
-  MASK_USE_TARGET_LEVERAGE,
   MASK_LIMIT_ORDER,
 } from './perpUtils';
 import {
@@ -29,15 +28,12 @@ import {
   PerpParameters,
   LiqPoolState,
 } from '@sovryn/perpetual-swap';
-import {
-  fromWei,
-  numberFromWei,
-  toWei,
-} from '../../../../utils/blockchain/math-helpers';
+import { fromWei } from '../../../../utils/blockchain/math-helpers';
 import {
   CheckAndApproveResultWithError,
   PERPETUAL_SLIPPAGE_DEFAULT,
   PERPETUAL_CHAIN_ID,
+  PERPETUAL_CHAIN,
 } from '../types';
 import { BridgeNetworkDictionary } from '../../BridgeDepositPage/dictionaries/bridge-network-dictionary';
 import { Trans } from 'react-i18next';
@@ -48,7 +44,8 @@ import {
   PerpetualTxMethod,
   PerpetualTx,
   PerpetualTxTrade,
-  PerpetualTxLimitOrder,
+  PerpetualTxCreateLimitOrder,
+  PerpetualTxCancelLimitOrder,
   PerpetualTxDepositMargin,
   PerpetualTxWithdrawMargin,
 } from '../components/TradeDialog/types';
@@ -56,7 +53,6 @@ import { PerpetualQueriesContextValue } from '../contexts/PerpetualQueriesContex
 import { ethGenesisAddress } from '../../../../utils/classifiers';
 import { SendTxResponseInterface } from '../../../hooks/useSendContractTx';
 import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
-import { getEstimatedMarginCollateralForLimitOrder } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
 import { PerpetualPairDictionary } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 
 const {
@@ -555,7 +551,7 @@ const perpetualTradeArgs = (
   const signedAmount = getSignedAmount(tradingPosition, amount);
   const tradeDirection = Math.sign(signedAmount);
 
-  const { averagePrice } = context.perpetuals[pairType];
+  const { averagePrice } = context.perpetuals[pair.id];
 
   const limitPrice = calculateSlippagePrice(
     averagePrice,
@@ -581,13 +577,12 @@ const perpetualTradeArgs = (
   return [order];
 };
 
-const perpetualLimitTradeArgs = async (
+const perpetualCreateLimitTradeArgs = async (
   context: PerpetualQueriesContextValue,
   account: string,
-  transaction: PerpetualTxLimitOrder,
+  transaction: PerpetualTxCreateLimitOrder,
 ): Promise<Parameters<SendTxResponseInterface['send']>[0]> => {
   const {
-    isNewOrder,
     tradingPosition = TradingPosition.LONG,
     amount,
     limit,
@@ -619,12 +614,47 @@ const perpetualLimitTradeArgs = async (
 
   const digest = await createOrderDigest(
     order,
-    isNewOrder || false,
+    true,
     getContract('perpetualManager').address,
     PERPETUAL_CHAIN_ID,
   );
-  const signature = await walletService.signMessage(digest);
+
+  const signature = await walletService.request({
+    method: 'personal_sign',
+    params: [digest, walletService.address.toLowerCase()],
+  });
+
   return [order, signature];
+};
+
+const perpetualCancelLimitTradeArgs = async (
+  context: PerpetualQueriesContextValue,
+  account: string,
+  transaction: PerpetualTxCancelLimitOrder,
+): Promise<Parameters<SendTxResponseInterface['send']>[0]> => {
+  const { digest } = transaction;
+
+  const order = await bridgeNetwork.call(
+    PERPETUAL_CHAIN,
+    getContract('perpetualLimitOrderBook').address,
+    getContract('perpetualLimitOrderBook').abi,
+    'orderOfDigest',
+    [digest],
+  );
+
+  const cancelDigest = await createOrderDigest(
+    order,
+    false,
+    getContract('perpetualManager').address,
+    PERPETUAL_CHAIN_ID,
+  );
+
+  const signature = await walletService.request({
+    method: 'personal_sign',
+    params: [cancelDigest, walletService.address.toLowerCase()],
+  });
+
+  return [digest, signature];
 };
 
 export const perpetualTransactionArgs = async (
@@ -637,9 +667,20 @@ export const perpetualTransactionArgs = async (
     case PerpetualTxMethod.trade:
       const tradeTx: PerpetualTxTrade = transaction;
       return perpetualTradeArgs(perpetuals, account, tradeTx);
-    case PerpetualTxMethod.limitOrder:
-      const limitTx: PerpetualTxLimitOrder = transaction;
-      return await perpetualLimitTradeArgs(perpetuals, account, limitTx);
+    case PerpetualTxMethod.createLimitOrder:
+      const createLimitTx: PerpetualTxCreateLimitOrder = transaction;
+      return await perpetualCreateLimitTradeArgs(
+        perpetuals,
+        account,
+        createLimitTx,
+      );
+    case PerpetualTxMethod.cancelLimitOrder:
+      const cancelLimitTx: PerpetualTxCancelLimitOrder = transaction;
+      return await perpetualCancelLimitTradeArgs(
+        perpetuals,
+        account,
+        cancelLimitTx,
+      );
     case PerpetualTxMethod.deposit:
       const depositTx: PerpetualTxDepositMargin = transaction;
       return [pair.id, weiToABK64x64(depositTx.amount)];

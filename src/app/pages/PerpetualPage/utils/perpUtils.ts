@@ -77,6 +77,7 @@ export const MASK_TAKE_PROFIT_ORDER = 0x10000000;
 export const MASK_USE_TARGET_LEVERAGE = 0x08000000;
 export const MASK_LIMIT_ORDER = 0x04000000;
 
+// FIXME: move to @sovryn/perpetual-swap
 export async function createOrderDigest(
   order: any,
   isNewOrder: boolean,
@@ -100,7 +101,6 @@ export async function createOrderDigest(
       'Order(bytes32 iPerpetualId,address traderAddr,int128 fAmount,int128 fLimitPrice,int128 fTriggerPrice,uint256 iDeadline,address referrerAddr,uint32 flags,int128 fLeverage,uint256 createdTimestamp)',
     ),
   );
-  console.log(TRADE_ORDER_TYPEHASH);
   let structHash = keccak256(
     defaultAbiCoder.encode(
       [

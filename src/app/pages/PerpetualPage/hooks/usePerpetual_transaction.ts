@@ -1,4 +1,4 @@
-import { useMemo, useContext, useCallback } from 'react';
+import { useMemo, useContext, useCallback, useState } from 'react';
 import {
   PerpetualTx,
   PerpetualTxMethod,
@@ -22,7 +22,8 @@ import { ContractName } from '../../../../utils/types/contracts';
 
 const PerpetualTxMethodMap: { [key in PerpetualTxMethod]: string } = {
   [PerpetualTxMethod.trade]: 'trade',
-  [PerpetualTxMethod.limitOrder]: 'createLimitOrder',
+  [PerpetualTxMethod.createLimitOrder]: 'createLimitOrder',
+  [PerpetualTxMethod.cancelLimitOrder]: 'cancelLimitOrder',
   [PerpetualTxMethod.deposit]: 'deposit',
   [PerpetualTxMethod.withdraw]: 'withdraw',
   [PerpetualTxMethod.withdrawAll]: 'withdrawAll',
@@ -30,7 +31,8 @@ const PerpetualTxMethodMap: { [key in PerpetualTxMethod]: string } = {
 
 const PerpetualTxMethodTypeMap: { [key in PerpetualTxMethod]: TxType } = {
   [PerpetualTxMethod.trade]: TxType.PERPETUAL_TRADE,
-  [PerpetualTxMethod.limitOrder]: TxType.PERPETUAL_LIMIT_ORDER,
+  [PerpetualTxMethod.createLimitOrder]: TxType.PERPETUAL_CREATE_LIMIT_ORDER,
+  [PerpetualTxMethod.cancelLimitOrder]: TxType.PERPETUAL_CREATE_LIMIT_ORDER,
   [PerpetualTxMethod.deposit]: TxType.PERPETUAL_DEPOSIT_COLLATERAL,
   [PerpetualTxMethod.withdraw]: TxType.PERPETUAL_WITHDRAW_COLLATERAL,
   [PerpetualTxMethod.withdrawAll]: TxType.PERPETUAL_WITHDRAW_COLLATERAL,
@@ -40,7 +42,8 @@ const PerpetualTxMethodContractMap: {
   [key in PerpetualTxMethod]: ContractName;
 } = {
   [PerpetualTxMethod.trade]: 'perpetualManager',
-  [PerpetualTxMethod.limitOrder]: 'perpetualLimitOrderBook',
+  [PerpetualTxMethod.createLimitOrder]: 'perpetualLimitOrderBook',
+  [PerpetualTxMethod.cancelLimitOrder]: 'perpetualLimitOrderBook',
   [PerpetualTxMethod.deposit]: 'perpetualManager',
   [PerpetualTxMethod.withdraw]: 'perpetualManager',
   [PerpetualTxMethod.withdrawAll]: 'perpetualManager',
@@ -71,11 +74,15 @@ export const usePerpetual_transaction = (
     useGSN,
   );
 
+  const [sending, setSending] = useState(false);
+
   const execute = useCallback(
     async (nonce?: number) => {
       if (!transaction) {
         throw Error('No transaction given to execute!');
       }
+
+      setSending(true);
 
       let txType: TxType = PerpetualTxMethodTypeMap[transaction.method];
 
@@ -97,7 +104,7 @@ export const usePerpetual_transaction = (
           asset: pair.collateralAsset,
           customData: transaction,
         },
-      );
+      ).finally(() => setSending(false));
     },
     [transaction, account, perpetualsContext, pair, send],
   );
@@ -105,7 +112,8 @@ export const usePerpetual_transaction = (
   return useMemo(() => {
     return {
       execute,
+      loading: rest.loading || sending,
       ...rest,
     };
-  }, [execute, rest]);
+  }, [execute, rest, sending]);
 };

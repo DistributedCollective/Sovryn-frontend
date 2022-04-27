@@ -28,7 +28,8 @@ export type TradeAnalysis = {
 
 export enum PerpetualTxMethod {
   trade = 'trade',
-  limitOrder = 'limitOrder',
+  createLimitOrder = 'createLimitOrder',
+  cancelLimitOrder = 'cancelLimitOrder',
   deposit = 'deposit',
   withdraw = 'withdraw',
   withdrawAll = 'withdrawAll',
@@ -58,8 +59,8 @@ export interface PerpetualTxTrade extends PerpetualTxBase {
   approvalTx: Nullable<string>;
 }
 
-export interface PerpetualTxLimitOrder extends PerpetualTxBase {
-  method: PerpetualTxMethod.limitOrder;
+export interface PerpetualTxCreateLimitOrder extends PerpetualTxBase {
+  method: PerpetualTxMethod.createLimitOrder;
   /** amount as wei string */
   amount: string;
   /** limit as wei string */
@@ -70,9 +71,14 @@ export interface PerpetualTxLimitOrder extends PerpetualTxBase {
   created: number;
   leverage?: number;
   tradingPosition?: TradingPosition;
-  isNewOrder?: boolean;
 
   approvalTx: Nullable<string>;
+}
+
+export interface PerpetualTxCancelLimitOrder extends PerpetualTxBase {
+  method: PerpetualTxMethod.cancelLimitOrder;
+  /** LimitOrder digest/id */
+  digest: string;
 }
 
 export interface PerpetualTxDepositMargin extends PerpetualTxBase {
@@ -95,7 +101,8 @@ export interface PerpetualTxWithdrawAllMargin extends PerpetualTxBase {
 
 export type PerpetualTx =
   | PerpetualTxTrade
-  | PerpetualTxLimitOrder
+  | PerpetualTxCreateLimitOrder
+  | PerpetualTxCancelLimitOrder
   | PerpetualTxDepositMargin
   | PerpetualTxWithdrawMargin
   | PerpetualTxWithdrawAllMargin;

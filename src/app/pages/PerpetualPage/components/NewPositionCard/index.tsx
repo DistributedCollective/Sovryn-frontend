@@ -110,7 +110,7 @@ export const NewPositionCard: React.FC = () => {
       });
     } else {
       transactions.push({
-        method: PerpetualTxMethod.limitOrder,
+        method: PerpetualTxMethod.createLimitOrder,
         pair: pairType,
         amount: trade.amount,
         tradingPosition: trade.position,
