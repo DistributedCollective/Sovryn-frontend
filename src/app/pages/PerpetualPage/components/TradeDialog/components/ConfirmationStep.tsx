@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { WalletLogo } from '../../../../../components/UserAssets/TxDialog/WalletLogo';
 import { useWalletContext } from '@sovryn/react-wallet';
 import classNames from 'classnames';
-import { usePerpetual_transaction } from '../../../hooks/usePerpetual_executeTransaction';
+import { usePerpetual_transaction } from '../../../hooks/usePerpetual_transaction';
 import { TxStatus } from '../../../../../../store/global/transactions-store/types';
 import { useSelector } from 'react-redux';
 import { selectTransactions } from '../../../../../../store/global/transactions-store/selectors';
