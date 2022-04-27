@@ -96,7 +96,7 @@ export function VestedHistory() {
           .then(res => {
             const newRes = res.map(v => ({
               ...v,
-              type: 'Genesis/Four-Year SOV',
+              type: 'Genesis SOV',
             }));
             setEventsHistoryVesting(newRes);
           });
@@ -122,7 +122,6 @@ export function VestedHistory() {
           });
       }
       if (vestingFourYear.value !== ethGenesisAddress) {
-        console.log('vfy', vestingFourYear.value);
         fouryear = await eventReader
           .getPastEvents('staking', 'TokensStaked', {
             staker: vestingFourYear.value,
@@ -194,6 +193,7 @@ export function VestedHistory() {
             eventsHistoryVesting.length === 0 &&
             eventsHistoryVestingTeam.length === 0 &&
             eventsHistoryVestingOrigin.length === 0 &&
+            eventsHistoryVestingFourYear.length === 0 &&
             !loading && (
               <tr key={'empty'}>
                 <td className="tw-text-center" colSpan={99}>
@@ -214,7 +214,8 @@ export function VestedHistory() {
             eventsHistoryRewards.length +
             eventsHistoryVesting.length +
             eventsHistoryVestingTeam.length +
-            eventsHistoryVestingOrigin.length
+            eventsHistoryVestingOrigin.length +
+            eventsHistoryVestingFourYear.length
           }
           pageLimit={6}
           pageNeighbours={1}
