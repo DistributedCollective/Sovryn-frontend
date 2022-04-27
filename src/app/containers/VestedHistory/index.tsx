@@ -26,6 +26,7 @@ import { useVesting_getOriginVesting } from '../../hooks/staking/useVesting_getO
 import { useVesting_getRewards } from '../../hooks/staking/useVesting_getRewards';
 import { useVesting_getTeamVesting } from '../../hooks/staking/useVesting_getTeamVesting';
 import { useVesting_getVesting } from '../../hooks/staking/useVesting_getVesting';
+import { useVesting_getFourYearVesting } from '../../hooks/staking/useVesting_getFourYearVesting';
 import { useAccount } from '../../hooks/useAccount';
 
 export function VestedHistory() {
@@ -37,6 +38,7 @@ export function VestedHistory() {
   const rewards = useVesting_getRewards(account);
   const vestingTeam = useVesting_getTeamVesting(account);
   const vestingOrigin = useVesting_getOriginVesting(account);
+  const vestingFourYear = useVesting_getFourYearVesting(account);
   const [eventsHistoryVesting, setEventsHistoryVesting] = useState<any>([]);
   const [eventsHistoryRewards, setEventsHistoryRewards] = useState([]) as any;
   const [eventsHistoryVestingTeam, setEventsHistoryVestingTeam] = useState<any>(
@@ -45,6 +47,10 @@ export function VestedHistory() {
   const [eventsHistoryVestingOrigin, setEventsHistoryVestingOrigin] = useState<
     any
   >([]);
+  const [
+    eventsHistoryVestingFourYear,
+    setEventsHistoryVestingFourYear,
+  ] = useState<any>([]);
   const [currentHistory, setCurrentHistory] = useState([]) as any;
 
   const onPageChanged = data => {
@@ -56,6 +62,7 @@ export function VestedHistory() {
         ...eventsHistoryVestingOrigin,
         ...eventsHistoryVestingTeam,
         ...eventsHistoryRewards,
+        ...eventsHistoryVestingFourYear,
       ]
         .sort(
           (x, y) => dayjs(y.eventDate).valueOf() - dayjs(x.eventDate).valueOf(),
@@ -67,7 +74,7 @@ export function VestedHistory() {
   useEffect(() => {
     async function getHistory() {
       setLoading(true);
-      let reward: void, genesis: void, team: void, origin: void;
+      let reward: void, genesis: void, team: void, origin: void, fouryear: void;
       if (rewards.value !== ethGenesisAddress) {
         reward = await eventReader
           .getPastEvents('staking', 'TokensStaked', {
@@ -87,7 +94,10 @@ export function VestedHistory() {
             staker: vesting.value,
           })
           .then(res => {
-            const newRes = res.map(v => ({ ...v, type: 'Genesis SOV' }));
+            const newRes = res.map(v => ({
+              ...v,
+              type: 'Genesis/Four-Year SOV',
+            }));
             setEventsHistoryVesting(newRes);
           });
       }
@@ -111,8 +121,22 @@ export function VestedHistory() {
             setEventsHistoryVestingOrigin(newRes);
           });
       }
+      if (vestingFourYear.value !== ethGenesisAddress) {
+        console.log('vfy', vestingFourYear.value);
+        fouryear = await eventReader
+          .getPastEvents('staking', 'TokensStaked', {
+            staker: vestingFourYear.value,
+          })
+          .then(res => {
+            const newRes = res.map(v => ({
+              ...v,
+              type: t(translations.stake.currentVests.assetType.fouryear),
+            }));
+            setEventsHistoryVestingFourYear(newRes);
+          });
+      }
       try {
-        Promise.all([reward, genesis, team, origin]).then(_ =>
+        Promise.all([reward, genesis, team, origin, fouryear]).then(_ =>
           setLoading(false),
         );
       } catch (e) {
@@ -128,6 +152,7 @@ export function VestedHistory() {
     vestingOrigin.value,
     vesting.value,
     rewards.value,
+    vestingFourYear.value,
     getStakes.value,
     setEventsHistoryRewards,
     t,
