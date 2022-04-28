@@ -27,6 +27,7 @@ interface Props {
   onChange: (customer: SelectItem) => void;
   inputFocus?: boolean;
   isItemDisabled?: string;
+  dataActionId?: string;
 }
 
 export function FormSelect(props: Props) {
@@ -80,7 +81,11 @@ export function FormSelect(props: Props) {
         targetTagName: 'div',
       }}
     >
-      <StyledSelection active={!!selected} className={props.innerClasses}>
+      <StyledSelection
+        data-action-id={props.dataActionId}
+        active={!!selected}
+        className={props.innerClasses}
+      >
         <Text ellipsize>{selected ? selected.label : props.placeholder}</Text>
         <Icon icon="caret-down" />
       </StyledSelection>
@@ -135,6 +140,7 @@ export const renderItem: ItemRenderer<SelectItem> = (
       disabled={modifiers.disabled}
       key={item.key}
       onClick={handleClick}
+      data-action-id={item.key}
       text={<Text ellipsize>{highlightText(item.label, query)}</Text>}
     />
   );
