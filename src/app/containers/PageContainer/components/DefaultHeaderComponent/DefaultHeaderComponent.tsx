@@ -456,38 +456,6 @@ export const DefaultHeaderComponent: React.FC = () => {
                 >
                   {t(translations.mainMenu.wallet)}
                 </NavLink>
-                <NavPopover
-                  content={
-                    <BPMenu>
-                      <MenuItem
-                        text={t(translations.mainMenu.launchpad)}
-                        className="bp3-popover-dismiss"
-                        onClick={() => history.push('/origins')}
-                        data-action-id="header-origins-link-launchpad"
-                      />
-                      <MenuItem
-                        text={t(translations.mainMenu.claim)}
-                        className="bp3-popover-dismiss"
-                        onClick={() => history.push('/origins/claim')}
-                        data-action-id="header-origins-link-claim"
-                      />
-                    </BPMenu>
-                  }
-                >
-                  <div
-                    className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
-                      isSectionOpen(SECTION_TYPE.ORIGINS) && 'tw-font-bold'
-                    }`}
-                  >
-                    <span
-                      className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
-                      data-action-id="header-link-origins"
-                    >
-                      {t(translations.mainMenu.origins)}
-                    </span>
-                    <FontAwesomeIcon icon={faChevronDown} size="xs" />
-                  </div>
-                </NavPopover>
                 {currentNetwork === AppMode.TESTNET && (
                   <NavPopover
                     content={
@@ -506,6 +474,21 @@ export const DefaultHeaderComponent: React.FC = () => {
                             data-action-id="header-lab-perpetuals"
                           />
                         )}
+                        <span className={styles.host}>
+                          {t(translations.mainMenu.origins)}
+                        </span>
+                        <MenuItem
+                          text={t(translations.mainMenu.launchpad)}
+                          className="bp3-popover-dismiss"
+                          onClick={() => history.push('/origins')}
+                          data-action-id="header-origins-link-launchpad"
+                        />
+                        <MenuItem
+                          text={t(translations.mainMenu.claim)}
+                          className="bp3-popover-dismiss"
+                          onClick={() => history.push('/origins/claim')}
+                          data-action-id="header-origins-link-claim"
+                        />
                       </BPMenu>
                     }
                   >
