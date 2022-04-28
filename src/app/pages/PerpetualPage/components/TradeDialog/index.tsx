@@ -44,10 +44,10 @@ import { perpUtils } from '@sovryn/perpetual-swap';
 import { usePerpetual_calculateResultingPosition } from '../../hooks/usePerpetual_calculateResultingPosition';
 import { Asset } from 'types';
 import { TradingPosition } from 'types/trading-position';
-import { getRequiredMarginCollateralWithGasFees } from '../../utils/perpUtils';
 
 const {
   calculateApproxLiquidationPrice,
+  getRequiredMarginCollateral,
   getTradingFee,
   getTraderPnLInCC,
   calculateSlippagePriceFromMidPrice,
@@ -161,14 +161,19 @@ export const TradeDialog: React.FC = () => {
     setTransactions(requestedTransactions);
   }, [origin, requestedTransactions]);
 
-  // TODO: Use it to display the correct information in dialogs
   const {
-    liquidationPrice,
-    leverage,
+    liquidationPrice: resultingLiquidationPrice,
+    leverage: resultingLeverage,
+    size: resultingSize,
+    margin: resultingMargin,
   } = usePerpetual_calculateResultingPosition(
     trade || EMPTY_TRADE,
     trade?.keepPositionLeverage,
   );
+
+  const isNewTradeForm = useMemo(() => origin === PerpetualPageModals.NONE, [
+    origin,
+  ]);
 
   useEffect(() => {
     if (!trade) {
@@ -183,26 +188,30 @@ export const TradeDialog: React.FC = () => {
     const amountTarget = getSignedAmount(trade.position, trade.amount);
     const amountChange = amountTarget - traderState.marginAccountPositionBC;
 
-    const entryPrice = getPrice(amountChange, perpParameters, ammState);
+    const entryPrice = getPrice(
+      isNewTradeForm ? amountTarget : amountChange,
+      perpParameters,
+      ammState,
+    );
+
     const limitPrice = calculateSlippagePriceFromMidPrice(
       perpParameters,
       ammState,
       trade.slippage,
-      Math.sign(amountChange),
+      Math.sign(isNewTradeForm ? amountTarget : amountChange),
     );
 
     const marginTarget = trade.margin
       ? numberFromWei(trade.margin)
       : Math.abs(amountTarget) / trade.leverage;
 
-    const orderCost = getRequiredMarginCollateralWithGasFees(
+    const orderCost = getRequiredMarginCollateral(
       trade.leverage,
       amountTarget,
       perpParameters,
       ammState,
       traderState,
       trade.slippage,
-      useMetaTransactions,
       false,
       false,
     );
@@ -222,7 +231,7 @@ export const TradeDialog: React.FC = () => {
     );
 
     const tradingFee = getTradingFee(
-      Math.abs(amountChange),
+      Math.abs(isNewTradeForm ? amountTarget : amountChange),
       perpParameters,
       ammState,
     );
@@ -236,13 +245,15 @@ export const TradeDialog: React.FC = () => {
     );
 
     setAnalysis({
-      amountChange,
-      amountTarget,
+      amountChange: isNewTradeForm ? amountTarget : amountChange,
+      amountTarget: isNewTradeForm ? resultingSize : amountTarget,
       marginChange,
       partialUnrealizedPnL,
-      marginTarget,
-      leverageTarget,
-      liquidationPrice,
+      marginTarget: isNewTradeForm ? resultingMargin : marginTarget,
+      leverageTarget: isNewTradeForm ? resultingLeverage : leverageTarget,
+      liquidationPrice: isNewTradeForm
+        ? resultingLiquidationPrice
+        : liquidationPrice,
       entryPrice,
       limitPrice,
       orderCost,
@@ -255,6 +266,12 @@ export const TradeDialog: React.FC = () => {
     perpParameters,
     ammState,
     useMetaTransactions,
+    origin,
+    resultingSize,
+    resultingLeverage,
+    resultingLiquidationPrice,
+    isNewTradeForm,
+    resultingMargin,
   ]);
 
   if (!trade) {

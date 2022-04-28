@@ -5,6 +5,7 @@ import {
 } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
 import { useContext, useMemo } from 'react';
 import { useSelector } from 'react-redux';
+import { numberFromWei } from 'utils/blockchain/math-helpers';
 import { PerpetualPairDictionary } from 'utils/dictionaries/perpetual-pair-dictionary';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import { selectPerpetualPage } from '../selectors';
@@ -16,6 +17,7 @@ type ResultingPositionData = {
   leverage: number;
   liquidationPrice: number;
   size: number;
+  margin: number;
 };
 
 export const usePerpetual_calculateResultingPosition = (
@@ -101,9 +103,18 @@ export const usePerpetual_calculateResultingPosition = (
     [signedOrderSize, traderState.marginAccountPositionBC],
   );
 
+  const margin = useMemo(() => {
+    const tradeMargin = trade.margin
+      ? numberFromWei(trade.margin)
+      : Math.abs(numberFromWei(trade.amount)) / trade.leverage;
+
+    return tradeMargin + traderState.availableCashCC;
+  }, [trade.amount, trade.leverage, trade.margin, traderState.availableCashCC]);
+
   return {
-    leverage: leverage,
-    liquidationPrice: liquidationPrice,
-    size: size,
+    leverage,
+    liquidationPrice,
+    size,
+    margin,
   };
 };
