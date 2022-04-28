@@ -44,10 +44,10 @@ import { perpUtils } from '@sovryn/perpetual-swap';
 import { usePerpetual_calculateResultingPosition } from '../../hooks/usePerpetual_calculateResultingPosition';
 import { Asset } from 'types';
 import { TradingPosition } from 'types/trading-position';
+import { getRequiredMarginCollateralWithGasFees } from '../../utils/perpUtils';
 
 const {
   calculateApproxLiquidationPrice,
-  getRequiredMarginCollateral,
   getTradingFee,
   getTraderPnLInCC,
   calculateSlippagePriceFromMidPrice,
@@ -100,7 +100,9 @@ const TradeDialogStepComponents = {
 
 export const TradeDialog: React.FC = () => {
   const dispatch = useDispatch();
-  const { modal, modalOptions } = useSelector(selectPerpetualPage);
+  const { modal, modalOptions, useMetaTransactions, pairType } = useSelector(
+    selectPerpetualPage,
+  );
 
   const { perpetuals } = useContext(PerpetualQueriesContext);
   const { origin, trade, transactions: requestedTransactions } = useMemo(
@@ -120,9 +122,8 @@ export const TradeDialog: React.FC = () => {
   >();
 
   const pair = useMemo(
-    () =>
-      PerpetualPairDictionary.get(trade?.pairType || PerpetualPairType.BTCUSD),
-    [trade],
+    () => PerpetualPairDictionary.get(trade?.pairType || pairType),
+    [pairType, trade?.pairType],
   );
 
   const {
@@ -194,13 +195,14 @@ export const TradeDialog: React.FC = () => {
       ? numberFromWei(trade.margin)
       : Math.abs(amountTarget) / trade.leverage;
 
-    const orderCost = getRequiredMarginCollateral(
+    const orderCost = getRequiredMarginCollateralWithGasFees(
       trade.leverage,
       amountTarget,
       perpParameters,
       ammState,
       traderState,
       trade.slippage,
+      useMetaTransactions,
       false,
       false,
     );
@@ -246,7 +248,14 @@ export const TradeDialog: React.FC = () => {
       orderCost,
       tradingFee,
     });
-  }, [currentTransaction, trade, traderState, perpParameters, ammState]);
+  }, [
+    currentTransaction,
+    trade,
+    traderState,
+    perpParameters,
+    ammState,
+    useMetaTransactions,
+  ]);
 
   if (!trade) {
     return null;
