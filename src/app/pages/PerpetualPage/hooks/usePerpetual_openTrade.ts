@@ -23,6 +23,7 @@ const { calculateSlippagePrice } = perpUtils;
 
 const MASK_MARKET_ORDER = 0x40000000;
 const MASK_CLOSE_ONLY = 0x80000000;
+const MASK_KEEP_POS_LEVERAGE = 0x08000000;
 
 export const usePerpetual_openTrade = (useGSN: boolean) => {
   const account = useAccount();
@@ -40,6 +41,7 @@ export const usePerpetual_openTrade = (useGSN: boolean) => {
   return {
     trade: async (
       isClosePosition: boolean | undefined = false,
+      keepPositionLeverage: boolean | undefined = false,
       /** amount as wei string */
       amount: string = '0',
       leverage: number | undefined = 1,
@@ -74,7 +76,7 @@ export const usePerpetual_openTrade = (useGSN: boolean) => {
         0, // TODO: this is fTriggerPrice, it will need to be adjusted once we have limit orders functionality, it's 0 for market orders
         deadline,
         ethGenesisAddress,
-        isClosePosition ? MASK_CLOSE_ONLY : MASK_MARKET_ORDER,
+        getTradeMask(isClosePosition, keepPositionLeverage),
         floatToABK64x64(leverage),
         timeNow,
       ];
@@ -100,4 +102,19 @@ export const usePerpetual_openTrade = (useGSN: boolean) => {
     status: rest.status,
     reset: rest.reset,
   };
+};
+
+const getTradeMask = (
+  isClosePosition?: boolean,
+  keepPositionLeverage?: boolean,
+) => {
+  if (isClosePosition) {
+    return MASK_CLOSE_ONLY;
+  }
+
+  if (keepPositionLeverage) {
+    return MASK_KEEP_POS_LEVERAGE;
+  }
+
+  return MASK_MARKET_ORDER;
 };

@@ -304,7 +304,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     const amount = getSignedAmount(trade.position, trade.amount);
     return getRequiredMarginCollateralWithGasFees(
       trade.leverage,
-      Number(amount),
+      amount,
       perpParameters,
       ammState,
       traderState,
