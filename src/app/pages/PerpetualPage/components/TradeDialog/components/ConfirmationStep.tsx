@@ -204,6 +204,12 @@ const getTranslations = (
         count,
       },
     ),
-    text: <p>{t(translations.perpetualPage.processTrade.texts.confirm)}</p>,
+    text: (
+      <p>
+        {t(translations.perpetualPage.processTrade.texts.confirm, {
+          wallet: '',
+        })}
+      </p>
+    ),
   };
 };
