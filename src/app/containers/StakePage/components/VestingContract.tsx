@@ -31,6 +31,7 @@ import { VestGroup } from 'app/components/UserAssets/Vesting/types';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { useSendToContractAddressTx } from 'app/hooks/useSendToContractAddressTx';
 import VestingABI from 'utils/blockchain/abi/Vesting.json';
+import FourYearVestingABI from 'utils/blockchain/abi/FourYearVesting.json';
 import { AbiItem } from 'web3-utils';
 import { TxType } from 'store/global/transactions-store/types';
 
@@ -118,10 +119,10 @@ export function VestingContract(props: Props) {
       try {
         setVestLoading(true);
         Promise.all([
-          vesting_getStartDate(props.vestingAddress).then(
+          vesting_getStartDate(props.vestingAddress, props.type).then(
             res => typeof res === 'string' && setStakingPeriodStart(res),
           ),
-          vesting_getEndDate(props.vestingAddress).then(
+          vesting_getEndDate(props.vestingAddress, props.type).then(
             res => typeof res === 'string' && setUnlockDate(res),
           ),
         ]).then(_ => setVestLoading(false));
@@ -135,7 +136,7 @@ export function VestingContract(props: Props) {
     if (props.vestingAddress !== ethGenesisAddress) {
       getVestsList().catch(console.error);
     }
-  }, [props.vestingAddress, account]);
+  }, [props.vestingAddress, props.type, account]);
 
   useEffect(() => {
     async function getDelegate() {
@@ -176,7 +177,7 @@ export function VestingContract(props: Props) {
 
   const { send, ...tx } = useSendToContractAddressTx(
     props.vestingAddress.toLowerCase(),
-    VestingABI as AbiItem[],
+    (props.type === 'fouryear' ? FourYearVestingABI : VestingABI) as AbiItem[],
     'withdrawTokens',
   );
 
@@ -354,6 +355,7 @@ export function VestingContract(props: Props) {
           <>
             <WithdrawVesting
               vesting={props.vestingAddress}
+              vestingType={props.type}
               onCloseModal={() => setShowWithdraw(false)}
               onWithdraw={handleWithdraw}
             />

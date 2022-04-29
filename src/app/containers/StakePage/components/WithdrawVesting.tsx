@@ -9,20 +9,31 @@ import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalcu
 import { discordInvite } from 'utils/classifiers';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { VestGroup } from 'app/components/UserAssets/Vesting/types';
 
 interface Props {
   vesting: string;
+  vestingType: VestGroup;
   onCloseModal: () => void;
   onWithdraw: (receiver: string) => void;
 }
 
-export function WithdrawVesting({ vesting, onCloseModal, onWithdraw }: Props) {
+export function WithdrawVesting({
+  vesting,
+  vestingType,
+  onCloseModal,
+  onWithdraw,
+}: Props) {
   const { t } = useTranslation();
   const account = useAccount();
   const { checkMaintenance, States } = useMaintenance();
   const withdrawVestsLocked = checkMaintenance(States.WITHDRAW_VESTS);
   const [address, setAddress] = useState(account);
-  const { value, loading } = useGetUnlockedVesting('staking', vesting);
+  const { value, loading } = useGetUnlockedVesting(
+    'staking',
+    vesting,
+    vestingType,
+  );
 
   const validate = () => {
     return !loading && value !== '0' && isAddress(address.toLowerCase());

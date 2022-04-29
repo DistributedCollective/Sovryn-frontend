@@ -4,9 +4,14 @@ import { translations } from 'locales/i18n';
 import { StyledTable } from './StyledTable';
 import { VestingContract } from './VestingContract';
 import { useListOfUserVestings } from '../../../components/UserAssets/Vesting/useListOfUserVestings';
+import { VestGroup } from 'app/components/UserAssets/Vesting/types';
 
 interface Props {
-  onDelegate: (timestamp: number, vestingAddress: string) => void;
+  onDelegate: (
+    timestamp: number,
+    vestingAddress: string,
+    vestingType: VestGroup,
+  ) => void;
   paused?: boolean;
   frozen?: boolean;
 }
@@ -69,7 +74,7 @@ export function CurrentVests(props: Props) {
                   vestingAddress={item.vestingContract}
                   type={item.type}
                   onDelegate={timestamp =>
-                    props.onDelegate(timestamp, item.vestingContract)
+                    props.onDelegate(timestamp, item.vestingContract, item.type)
                   }
                   paused={props.paused}
                   frozen={props.frozen}

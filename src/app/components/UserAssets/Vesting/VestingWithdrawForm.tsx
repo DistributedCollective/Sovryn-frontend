@@ -4,6 +4,7 @@ import { useAccount } from '../../../hooks/useAccount';
 import { useGetUnlockedVesting } from '../../../hooks/staking/useGetUnlockedVesting';
 import { useSendToContractAddressTx } from '../../../hooks/useSendToContractAddressTx';
 import VestingAbi from '../../../../utils/blockchain/abi/Vesting.json';
+import FourYearVestingAbi from '../../../../utils/blockchain/abi/FourYearVesting.json';
 import { AbiItem } from 'web3-utils';
 import { TxType } from '../../../../store/global/transactions-store/types';
 import { FullVesting } from './types';
@@ -35,12 +36,15 @@ export const VestingWithdrawForm: React.FC<VestingWithdrawFormProps> = ({
   const { value, loading } = useGetUnlockedVesting(
     vesting.staking,
     vesting.vestingContract,
+    vesting.type,
   );
   const [address, setAddress] = useState(account);
 
   const { send, ...tx } = useSendToContractAddressTx(
     vesting.vestingContract,
-    VestingAbi as AbiItem[],
+    (vesting.type === 'fouryear'
+      ? FourYearVestingAbi
+      : VestingAbi) as AbiItem[],
     'withdrawTokens',
   );
   const handleSubmit = useCallback(() => {

@@ -105,6 +105,7 @@ const InnerStakePage: React.FC = () => {
   const [lockDate, setLockDate] = useState(0);
   const [timestamp, setTimestamp] = useState(0);
   const [vestingContractAddress, setVestingContractAddress] = useState('');
+  const [vestingContractType, setVestingContractType] = useState('');
   const [votingPower, setVotingPower] = useState(0);
   const [withdrawAmount, setWithdrawAmount] = useState('0');
   const weiWithdrawAmount = useWeiAmount(withdrawAmount);
@@ -133,7 +134,7 @@ const InnerStakePage: React.FC = () => {
   const {
     delegate: vestingDelegate,
     ...vestingDelegateTx
-  } = useVestingDelegate(vestingContractAddress);
+  } = useVestingDelegate(vestingContractAddress, vestingContractType);
 
   const { checkMaintenance, States } = useMaintenance();
   const stakingLocked = checkMaintenance(States.STAKING);
@@ -361,12 +362,16 @@ const InnerStakePage: React.FC = () => {
     setWithdrawForm(true);
   }, []);
 
-  const onDelegateVest = useCallback((timestamp, contractAddress) => {
-    setTimestamp(timestamp);
-    setIsStakeDelegate(false);
-    setVestingContractAddress(contractAddress);
-    setDelegateForm(delegateForm => !delegateForm);
-  }, []);
+  const onDelegateVest = useCallback(
+    (timestamp, contractAddress, contractType) => {
+      setTimestamp(timestamp);
+      setIsStakeDelegate(false);
+      setVestingContractAddress(contractAddress);
+      setVestingContractType(contractType);
+      setDelegateForm(delegateForm => !delegateForm);
+    },
+    [],
+  );
 
   return (
     <>

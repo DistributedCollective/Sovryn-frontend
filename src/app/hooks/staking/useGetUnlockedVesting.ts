@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { bignumber } from 'mathjs';
 import VestingABI from 'utils/blockchain/abi/Vesting.json';
+import FourYearVestingABI from 'utils/blockchain/abi/FourYearVesting.json';
+import { VestGroup } from 'app/components/UserAssets/Vesting/types';
 import { useAccount, useBlockSync } from '../useAccount';
 import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { Sovryn } from '../../../utils/sovryn';
@@ -13,12 +15,16 @@ const TWO_WEEKS = 1209600;
 export function useGetUnlockedVesting(
   stakingContractName: ContractName,
   vestingAddress: string,
+  vestingType: VestGroup,
 ) {
   const account = useAccount();
   const syncBlock = useBlockSync();
   const [loading, setLoading] = useState(false);
   const [amount, setAmount] = useState('0');
   const [err, setError] = useState<Nullable<string>>(null);
+  const isFourYearVest = vestingType === 'fouryear';
+  const vestABI = isFourYearVest ? FourYearVestingABI : VestingABI;
+
   useEffect(() => {
     const run = async () => {
       let value = '0';
@@ -27,7 +33,7 @@ export function useGetUnlockedVesting(
         const startDate = Number(
           await contractReader.callByAddress(
             vestingAddress,
-            VestingABI,
+            vestABI,
             'startDate',
             [],
           ),
@@ -35,8 +41,8 @@ export function useGetUnlockedVesting(
         const cliff = Number(
           await contractReader.callByAddress(
             vestingAddress,
-            VestingABI,
-            'cliff',
+            vestABI,
+            isFourYearVest ? 'CLIFF' : 'cliff',
             [],
           ),
         );
@@ -52,7 +58,7 @@ export function useGetUnlockedVesting(
           end = Number(
             await contractReader.callByAddress(
               vestingAddress,
-              VestingABI,
+              vestABI,
               'endDate',
               [],
             ),
@@ -88,7 +94,14 @@ export function useGetUnlockedVesting(
         })
         .finally(() => setLoading(false));
     }
-  }, [account, vestingAddress, syncBlock, stakingContractName]);
+  }, [
+    account,
+    vestingAddress,
+    syncBlock,
+    stakingContractName,
+    isFourYearVest,
+    vestABI,
+  ]);
 
   return { value: amount, loading, error: err };
 }
