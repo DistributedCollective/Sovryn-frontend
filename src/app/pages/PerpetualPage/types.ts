@@ -25,7 +25,6 @@ export enum PerpetualTradeType {
   MARKET = 'MARKET',
   LIMIT = 'LIMIT',
   STOP = 'STOP',
-  STOP_LOSS = 'STOP_LOSS',
   LIQUIDATION = 'LIQUIDATION',
 }
 

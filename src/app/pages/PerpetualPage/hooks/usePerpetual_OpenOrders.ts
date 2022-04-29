@@ -18,12 +18,11 @@ import {
 export type OpenOrderEntry = {
   id: string;
   pairType: PerpetualPairType;
-  type?: PerpetualTradeType;
+  orderType: PerpetualTradeType;
   limitPrice: number;
   triggerPrice: number;
-
   createdAt?: string;
-  positionSize: number;
+  orderSize: number;
   expiry: number;
 };
 
@@ -74,13 +73,13 @@ export const usePerpetual_OpenOrders = (
         acc.push({
           id: position.id,
           pairType: pair?.pairType,
-          type:
+          orderType:
             triggerPrice > 0
-              ? PerpetualTradeType.STOP_LOSS
+              ? PerpetualTradeType.STOP
               : PerpetualTradeType.LIMIT,
           triggerPrice,
           limitPrice: ABK64x64ToFloat(BigNumber.from(position.limitPrice)),
-          positionSize: 100,
+          orderSize: 100,
           expiry: 30,
         });
 

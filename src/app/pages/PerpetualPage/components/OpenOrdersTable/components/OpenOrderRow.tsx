@@ -10,7 +10,10 @@ import {
   DisplayDate,
   SeparatorType,
 } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
-import { PERPETUAL_CHAIN_ID } from 'app/pages/PerpetualPage/types';
+import {
+  PerpetualTradeType,
+  PERPETUAL_CHAIN_ID,
+} from 'app/pages/PerpetualPage/types';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { prettyTx } from 'utils/helpers';
 import { translations } from 'locales/i18n';
@@ -35,27 +38,23 @@ export const OpenOrderRow: React.FC<OpenOrderRowProps> = ({ item }) => {
   // TODO: Will be adjusted in https://sovryn.monday.com/boards/2218344956/pulses/2382474482
   const onCancelOrder = useCallback(() => console.log(item.id), [item.id]);
 
-  const orderType = useMemo(() => {
-    let res = [];
-    res.push(
-      item.triggerPrice > 0
-        ? t('perpetualPage.openOrdersTable.orderTypes.stop')
-        : t('perpetualPage.openOrdersTable.orderTypes.limit'),
+  const orderTypeTranslation = useMemo(() => {
+    const tradeDirection = t(
+      translations.perpetualPage.openOrdersTable.orderTypes[
+        item?.orderSize > 0 ? 'buy' : 'sell'
+      ],
     );
 
-    res.push(
-      (item?.positionSize || 0) > 0
-        ? t('perpetualPage.openOrdersTable.orderTypes.buy')
-        : t('perpetualPage.openOrdersTable.orderTypes.sell'),
-    );
-    res.push(t('perpetualPage.openOrdersTable.orderTypes.order'));
+    if (item.orderType === PerpetualTradeType.STOP) {
+      return `${t(
+        translations.perpetualPage.openOrdersTable.orderTypes.stop,
+      )} ${tradeDirection}`;
+    }
 
-    return res.join(' ');
+    return `${t(
+      translations.perpetualPage.openOrdersTable.orderTypes.limit,
+    )} ${tradeDirection}`;
   }, [item, t]);
-
-  if (pair === undefined) {
-    return null;
-  }
 
   return (
     <tr>
@@ -65,52 +64,54 @@ export const OpenOrderRow: React.FC<OpenOrderRowProps> = ({ item }) => {
           separator={SeparatorType.Dash}
         />
       </td>
-      <td className={'tw-text-right'}>{pair.name}</td>
+      <td>{pair.name}</td>
       <td
-        className={classNames(
-          'tw-text-right',
-          item.positionSize || 1 > 0
-            ? 'tw-text-trade-long'
-            : 'tw-text-trade-short',
-        )}
+        className={classNames({
+          'tw-text-trade-long': item.orderSize > 0,
+          'tw-text-trade-short': item.orderSize < 0,
+        })}
       >
-        {orderType}
+        {orderTypeTranslation}
       </td>
-      <td className={'tw-text-right'}>{collateralName}</td>
-      <td className="tw-text-right">
+      <td>{collateralName}</td>
+      <td>
         <AssetValue
           minDecimals={2}
           maxDecimals={6}
-          value={item.positionSize || 0}
-          assetString={collateralName}
+          value={item.orderSize}
+          assetString={pair.baseAsset}
           mode={AssetValueMode.auto}
         />
       </td>
-      <td className="tw-text-left">
+      <td>
         <AssetValue
           minDecimals={2}
-          maxDecimals={6}
-          value={item.limitPrice || 0}
+          maxDecimals={2}
+          value={item.limitPrice}
           assetString={pair.quoteAsset}
           mode={AssetValueMode.auto}
         />
       </td>
 
-      <td className="tw-text-left">
+      <td>
         <AssetValue
           minDecimals={2}
-          maxDecimals={6}
+          maxDecimals={2}
           value={item.triggerPrice}
           assetString={pair.quoteAsset}
           mode={AssetValueMode.auto}
         />
       </td>
-      <td className="tw-text-left">
+      <td>
         <AssetValue
           minDecimals={0}
           maxDecimals={2}
           value={item.expiry}
-          assetString={item.expiry <= 1 ? 'day' : 'days'}
+          assetString={t(
+            translations.perpetualPage.openOrdersTable.tableData[
+              item.expiry <= 1 ? 'day' : 'days'
+            ],
+          )}
           mode={AssetValueMode.auto}
         />
       </td>
