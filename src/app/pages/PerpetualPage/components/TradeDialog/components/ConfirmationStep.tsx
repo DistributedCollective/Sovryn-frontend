@@ -12,7 +12,10 @@ import { TradeDialogContext } from '../index';
 import styles from '../index.module.scss';
 import { translations } from '../../../../../../locales/i18n';
 import { useTranslation } from 'react-i18next';
-import { WalletLogo } from '../../../../../components/UserAssets/TxDialog/WalletLogo';
+import {
+  getWalletName,
+  WalletLogo,
+} from '../../../../../components/UserAssets/TxDialog/WalletLogo';
 import { useWalletContext } from '@sovryn/react-wallet';
 import classNames from 'classnames';
 import { usePerpetual_executeTransaction } from '../../../hooks/usePerpetual_executeTransaction';
@@ -21,6 +24,7 @@ import { useSelector } from 'react-redux';
 import { selectTransactions } from '../../../../../../store/global/transactions-store/selectors';
 import { TransitionAnimation } from '../../../../../containers/TransitionContainer';
 import { selectPerpetualPage } from '../../../selectors';
+import { detectWeb3Wallet } from 'utils/helpers';
 
 export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
   changeTo,
@@ -174,6 +178,8 @@ const getTranslations = (
   current: number,
   count: number,
 ) => {
+  const wallet = detectWeb3Wallet();
+
   if (rejected) {
     return {
       title: t(
@@ -207,7 +213,7 @@ const getTranslations = (
     text: (
       <p>
         {t(translations.perpetualPage.processTrade.texts.confirm, {
-          wallet: '',
+          wallet: getWalletName(wallet),
         })}
       </p>
     ),
