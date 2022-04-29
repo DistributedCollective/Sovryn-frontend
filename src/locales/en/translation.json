@@ -2092,6 +2092,9 @@
       "orderSize": "Order Size",
       "limitPrice": "Limit Price",
       "triggerPrice": "Trigger Price",
+      "transactionId": "Transaction ID",
+      "timeInForce": "Time in force",
+      "cancel": "Cancel",
       "orderTypes": {
         "limit": "Limit",
         "stop": "Stop",
@@ -2112,7 +2115,8 @@
         "collateral": "Currency of the margin collateral",
         "orderSize": "Notional of the order followed by base currency",
         "limitPrice": "Limit price in quote currency of the order",
-        "triggerPrice": "Either empty (\"-\"), or a price in quote currency"
+        "triggerPrice": "Either empty (\"-\"), or a price in quote currency",
+        "cancel": "Cancel the order"
       }
     },
     "layout": {

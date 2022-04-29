@@ -19,7 +19,8 @@ export type OpenOrderEntry = {
   triggerPrice: number;
 
   createdAt?: string;
-  positionSize?: number;
+  positionSize: number;
+  expiry: number;
 };
 
 type OpenOrdersHookResult = {
@@ -58,7 +59,8 @@ export const usePerpetual_OpenOrders = (
               : PerpetualTradeType.LIMIT,
           triggerPrice: ABK64x64ToFloat(BigNumber.from(position.triggerPrice)),
           limitPrice: ABK64x64ToFloat(BigNumber.from(position.limitPrice)),
-          positionSize: 5,
+          positionSize: 100,
+          expiry: 30,
         });
 
         return acc;

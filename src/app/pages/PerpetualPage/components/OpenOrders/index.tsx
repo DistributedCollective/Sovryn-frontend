@@ -90,6 +90,12 @@ export function OpenOrdersTable({ perPage }: IOpenOrdersTableProps) {
                 {t(translations.perpetualPage.openOrdersTable.triggerPrice)}
               </Tooltip>
             </th>
+            <th className="tw-text-sm">
+              {t(translations.perpetualPage.openOrdersTable.timeInForce)}
+            </th>
+            <th className="tw-text-sm">
+              {t(translations.perpetualPage.openOrdersTable.transactionId)}
+            </th>
           </tr>
         </thead>
         <tbody className="tw-text-xs">
