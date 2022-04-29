@@ -7,9 +7,13 @@ import { PerpetualTradeType, LimitOrderType } from '../types';
 import { useMemo, useEffect } from 'react';
 
 import debounce from 'lodash.debounce';
-import { useGetOpenOrders } from './graphql/useGetOpenOrders';
 import { ABK64x64ToFloat } from '@sovryn/perpetual-swap/dist/scripts/utils/perpMath';
 import { BigNumber } from 'ethers';
+import {
+  Event,
+  EventQuery,
+  useGetTraderEvents,
+} from './graphql/useGetTraderEvents';
 
 export type OpenOrderEntry = {
   id: string;
@@ -31,16 +35,29 @@ type OpenOrdersHookResult = {
 export const usePerpetual_OpenOrders = (
   address: string,
 ): OpenOrdersHookResult => {
+  const eventQuery = useMemo(
+    (): EventQuery[] => [
+      {
+        event: Event.LIMIT_ORDER,
+        whereCondition: `state: Active`,
+        page: 1, // TODO: Add a proper pagination once we have a total limit orders field in the subgraph
+        perPage: 10,
+      },
+    ],
+    [],
+  );
+
   const {
-    data: gqlResult,
-    previousData: previousLimitOrders,
+    data: tradeEvents,
+    previousData: previousTradeEvents,
     refetch,
     loading,
-  } = useGetOpenOrders(address.toLowerCase(), 50, 0);
+  } = useGetTraderEvents(address.toLowerCase(), eventQuery);
 
   const data = useMemo(() => {
     const currentPositions: LimitOrderType[] | undefined =
-      gqlResult?.limitOrders || previousLimitOrders?.limitOrders;
+      tradeEvents?.trader?.limitOrders ||
+      previousTradeEvents?.trader?.limitOrders;
 
     if (!currentPositions) {
       return;
@@ -50,14 +67,18 @@ export const usePerpetual_OpenOrders = (
       (acc, position) => {
         const pair = PerpetualPairDictionary.getById(position.perpetual.id);
 
+        const triggerPrice = ABK64x64ToFloat(
+          BigNumber.from(position.triggerPrice),
+        );
+
         acc.push({
           id: position.id,
           pairType: pair?.pairType,
           type:
-            position.triggerPrice > 0
+            triggerPrice > 0
               ? PerpetualTradeType.STOP_LOSS
               : PerpetualTradeType.LIMIT,
-          triggerPrice: ABK64x64ToFloat(BigNumber.from(position.triggerPrice)),
+          triggerPrice,
           limitPrice: ABK64x64ToFloat(BigNumber.from(position.limitPrice)),
           positionSize: 100,
           expiry: 30,
@@ -69,7 +90,10 @@ export const usePerpetual_OpenOrders = (
     );
 
     return result;
-  }, [gqlResult?.limitOrders, previousLimitOrders?.limitOrders]);
+  }, [
+    previousTradeEvents?.trader?.limitOrders,
+    tradeEvents?.trader?.limitOrders,
+  ]);
 
   const refetchDebounced = useMemo(
     () =>
