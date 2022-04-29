@@ -14,7 +14,7 @@ import { PERPETUAL_CHAIN_ID } from 'app/pages/PerpetualPage/types';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { prettyTx } from 'utils/helpers';
 import { translations } from 'locales/i18n';
-import { RowAction } from './RowAction';
+import { TableRowAction } from '../../TableRowAction';
 
 type OpenOrderRowProps = {
   item: OpenOrderEntry;
@@ -123,7 +123,7 @@ export const OpenOrderRow: React.FC<OpenOrderRowProps> = ({ item }) => {
         />
       </td>
       <td>
-        <RowAction
+        <TableRowAction
           label={t(translations.perpetualPage.openOrdersTable.cancel)}
           tooltip={t(
             translations.perpetualPage.openOrdersTable.tooltips.cancel,
