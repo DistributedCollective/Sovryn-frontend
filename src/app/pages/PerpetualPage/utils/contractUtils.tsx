@@ -608,7 +608,7 @@ const perpetualCreateLimitTradeArgs = async (
     iDeadline: deadlineSeconds,
     referrerAddr: ethGenesisAddress,
     flags: MASK_LIMIT_ORDER,
-    fLeverage: leverage.toString(),
+    fLeverage: floatToABK64x64(leverage).toString(),
     createdTimestamp: createdSeconds,
   };
 

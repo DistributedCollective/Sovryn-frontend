@@ -129,7 +129,7 @@ export const isPerpetualTrade = (x: any): x is PerpetualTrade =>
   typeof x.amount === 'string' &&
   typeof x.leverage === 'number' &&
   typeof x.slippage === 'number' &&
-  typeof x.entryPrice === 'number' &&
+  typeof x.entryPrice === 'string' &&
   (x.limit === undefined || typeof x.limit === 'string') &&
   (x.trigger === undefined || typeof x.trigger === 'string') &&
   (x.margin === undefined || typeof x.margin === 'string');
