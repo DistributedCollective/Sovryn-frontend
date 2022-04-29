@@ -9,7 +9,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Dialog } from '../../../../containers/Dialog';
 import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
-import { PerpetualPageModals, isPerpetualTradeReview } from '../../types';
+import {
+  PerpetualPageModals,
+  isPerpetualTradeReview,
+  PerpetualTrade,
+  PerpetualTradeType,
+  PERPETUAL_SLIPPAGE_DEFAULT,
+} from '../../types';
 import {
   PerpetualPairDictionary,
   PerpetualPairType,
@@ -30,8 +36,14 @@ import { ApprovalStep } from './components/ApprovalStep';
 import { ConfirmationStep } from './components/ConfirmationStep';
 import { TransactionStep } from './components/TransactionStep';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
-import { numberFromWei } from '../../../../../utils/blockchain/math-helpers';
+import {
+  numberFromWei,
+  toWei,
+} from '../../../../../utils/blockchain/math-helpers';
 import { perpUtils } from '@sovryn/perpetual-swap';
+import { usePerpetual_calculateResultingPosition } from '../../hooks/usePerpetual_calculateResultingPosition';
+import { Asset } from 'types';
+import { TradingPosition } from 'types/trading-position';
 
 const {
   calculateApproxLiquidationPrice,
@@ -42,6 +54,17 @@ const {
   getPrice,
   calculateLeverage,
 } = perpUtils;
+
+const EMPTY_TRADE: PerpetualTrade = {
+  pairType: PerpetualPairType.BTCUSD,
+  collateral: Asset.BTCS,
+  tradeType: PerpetualTradeType.MARKET,
+  position: TradingPosition.LONG,
+  amount: toWei(0),
+  leverage: 0,
+  slippage: PERPETUAL_SLIPPAGE_DEFAULT,
+  entryPrice: 0,
+};
 
 const tradeDialogContextDefault: TradeDialogContextType = {
   pair: PerpetualPairDictionary.get(PerpetualPairType.BTCUSD),
@@ -77,7 +100,9 @@ const TradeDialogStepComponents = {
 
 export const TradeDialog: React.FC = () => {
   const dispatch = useDispatch();
-  const { modal, modalOptions } = useSelector(selectPerpetualPage);
+  const { modal, modalOptions, useMetaTransactions, pairType } = useSelector(
+    selectPerpetualPage,
+  );
 
   const { perpetuals } = useContext(PerpetualQueriesContext);
   const { origin, trade, transactions: requestedTransactions } = useMemo(
@@ -97,9 +122,8 @@ export const TradeDialog: React.FC = () => {
   >();
 
   const pair = useMemo(
-    () =>
-      PerpetualPairDictionary.get(trade?.pairType || PerpetualPairType.BTCUSD),
-    [trade],
+    () => PerpetualPairDictionary.get(trade?.pairType || pairType),
+    [pairType, trade?.pairType],
   );
 
   const {
@@ -137,6 +161,20 @@ export const TradeDialog: React.FC = () => {
     setTransactions(requestedTransactions);
   }, [origin, requestedTransactions]);
 
+  const {
+    liquidationPrice: resultingLiquidationPrice,
+    leverage: resultingLeverage,
+    size: resultingSize,
+    margin: resultingMargin,
+  } = usePerpetual_calculateResultingPosition(
+    trade || EMPTY_TRADE,
+    trade?.keepPositionLeverage,
+  );
+
+  const isNewTradeForm = useMemo(() => origin === PerpetualPageModals.NONE, [
+    origin,
+  ]);
+
   useEffect(() => {
     if (!trade) {
       setAnalysis(tradeDialogContextDefault.analysis);
@@ -150,12 +188,17 @@ export const TradeDialog: React.FC = () => {
     const amountTarget = getSignedAmount(trade.position, trade.amount);
     const amountChange = amountTarget - traderState.marginAccountPositionBC;
 
-    const entryPrice = getPrice(amountChange, perpParameters, ammState);
+    const entryPrice = getPrice(
+      isNewTradeForm ? amountTarget : amountChange,
+      perpParameters,
+      ammState,
+    );
+
     const limitPrice = calculateSlippagePriceFromMidPrice(
       perpParameters,
       ammState,
       trade.slippage,
-      Math.sign(amountChange),
+      Math.sign(isNewTradeForm ? amountTarget : amountChange),
     );
 
     const marginTarget = trade.margin
@@ -169,7 +212,8 @@ export const TradeDialog: React.FC = () => {
       ammState,
       traderState,
       trade.slippage,
-      true,
+      false,
+      false,
     );
 
     const marginChange = marginTarget - traderState.availableCashCC;
@@ -187,7 +231,7 @@ export const TradeDialog: React.FC = () => {
     );
 
     const tradingFee = getTradingFee(
-      Math.abs(amountChange),
+      Math.abs(isNewTradeForm ? amountTarget : amountChange),
       perpParameters,
       ammState,
     );
@@ -201,19 +245,34 @@ export const TradeDialog: React.FC = () => {
     );
 
     setAnalysis({
-      amountChange,
-      amountTarget,
+      amountChange: isNewTradeForm ? amountTarget : amountChange,
+      amountTarget: isNewTradeForm ? resultingSize : amountTarget,
       marginChange,
       partialUnrealizedPnL,
-      marginTarget,
-      leverageTarget,
-      liquidationPrice,
+      marginTarget: isNewTradeForm ? resultingMargin : marginTarget,
+      leverageTarget: isNewTradeForm ? resultingLeverage : leverageTarget,
+      liquidationPrice: isNewTradeForm
+        ? resultingLiquidationPrice
+        : liquidationPrice,
       entryPrice,
       limitPrice,
       orderCost,
       tradingFee,
     });
-  }, [currentTransaction, trade, traderState, perpParameters, ammState]);
+  }, [
+    currentTransaction,
+    trade,
+    traderState,
+    perpParameters,
+    ammState,
+    useMetaTransactions,
+    origin,
+    resultingSize,
+    resultingLeverage,
+    resultingLiquidationPrice,
+    isNewTradeForm,
+    resultingMargin,
+  ]);
 
   if (!trade) {
     return null;

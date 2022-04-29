@@ -90,7 +90,7 @@ export const EditLeverageDialog: React.FC = () => {
   );
 
   const [changedTrade, setChangedTrade] = useState(trade);
-  const [margin, setMargin] = useState(0);
+  const [margin, setMargin] = useState(traderState.availableCashCC || 0);
   const [leverage, setLeverage] = useState(Number(trade?.leverage.toFixed(2)));
   const onChangeLeverage = useCallback(
     leverage => {
@@ -111,6 +111,7 @@ export const EditLeverageDialog: React.FC = () => {
         traderState,
         changedTrade.slippage,
         false,
+        true,
       );
 
       setMargin(margin);

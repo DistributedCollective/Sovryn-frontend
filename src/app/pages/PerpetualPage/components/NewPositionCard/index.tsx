@@ -106,6 +106,7 @@ export const NewPositionCard: React.FC = () => {
             method: PerpetualTxMethods.trade,
             amount: trade.amount,
             tradingPosition: trade.position,
+            keepPositionLeverage: trade.keepPositionLeverage,
             slippage: trade.slippage,
             leverage: trade.leverage,
             tx: null,

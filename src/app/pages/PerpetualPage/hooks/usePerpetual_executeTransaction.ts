@@ -52,6 +52,7 @@ export const usePerpetual_executeTransaction = (useGSN: boolean) => {
             const tradeTx: PerpetualTxTrade = transaction;
             return trade(
               tradeTx.isClosePosition,
+              tradeTx.keepPositionLeverage,
               tradeTx.amount,
               tradeTx.leverage,
               tradeTx.slippage,
