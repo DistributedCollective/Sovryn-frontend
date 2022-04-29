@@ -104,10 +104,11 @@ export type PerpetualTrade = {
   trigger?: string;
   /** collateral value wei string */
   margin?: string;
+  /** expected entry price as wei string */
+  entryPrice: string;
   expiry?: number;
   leverage: number;
   slippage: number;
-  entryPrice: number;
 };
 
 export type PerpetualTradeReview = {

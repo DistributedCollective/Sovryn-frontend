@@ -236,10 +236,10 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   );
 
   useEffect(() => {
-    if (!limit || bignumber(limit).lessThanOrEqualTo(0)) {
+    if (!trade.limit || bignumber(trade.limit).lessThanOrEqualTo(0)) {
       setLimit(String(Math.floor(entryPrice)));
     }
-  }, [entryPrice, limit]);
+  }, [entryPrice, trade.limit]);
 
   const [triggerPrice, setTriggerPrice] = useState(trade.trigger);
   const onChangeTriggerPrice = useCallback(
@@ -251,10 +251,10 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   );
 
   useEffect(() => {
-    if (!triggerPrice || bignumber(triggerPrice).lessThanOrEqualTo(0)) {
+    if (!trade.trigger || bignumber(trade.trigger).lessThanOrEqualTo(0)) {
       setTriggerPrice(String(Math.floor(entryPrice)));
     }
-  }, [entryPrice, triggerPrice]);
+  }, [entryPrice, trade.trigger]);
 
   const [expiry, setExpiry] = useState(String(PERPETUAL_EXPIRY_DEFAULT));
   const onChangeExpiry = useCallback(
@@ -373,7 +373,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   );
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => onChange({ ...trade, entryPrice: averagePrice }), [
+  useEffect(() => onChange({ ...trade, entryPrice: toWei(averagePrice) }), [
     averagePrice,
     onChange,
   ]);

@@ -6,6 +6,7 @@ import { actions } from '../../../slice';
 import {
   PerpetualPageModals,
   PERPETUAL_SLIPPAGE_DEFAULT,
+  PerpetualTrade,
 } from '../../../types';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from '../../../../../../locales/i18n';
@@ -128,13 +129,13 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
       return;
     }
 
-    const targetTrade = {
+    const targetTrade: PerpetualTrade = {
       ...changedTrade,
       amount: toWei(Math.abs(amountTarget)),
       margin: toWei(Number.isNaN(marginTarget) ? 0 : marginTarget), // marginTarget is NaN in case we don't have a position but we successfully deposited a margin
       position:
         amountTarget >= 0 ? TradingPosition.LONG : TradingPosition.SHORT,
-      entryPrice: averagePrice,
+      entryPrice: toWei(averagePrice),
     };
 
     let transactions: PerpetualTx[] = [];
