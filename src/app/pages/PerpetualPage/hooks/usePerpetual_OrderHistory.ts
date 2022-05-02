@@ -34,6 +34,7 @@ export type OrderHistoryEntry = {
   tradeType: PerpetualTradeType;
   orderState: OrderState;
   orderSize: string;
+  triggerPrice?: string;
   limitPrice?: string;
   execPrice?: string;
   orderId?: string;

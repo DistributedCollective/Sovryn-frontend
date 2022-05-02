@@ -2392,6 +2392,7 @@
       "orderState": "State",
       "collateral": "Collateral",
       "orderSize": "Size",
+      "triggerPrice": "Trigger Price",
       "limitPrice": "Limit Price",
       "execPrice": "Exec Price",
       "orderId": "ID",

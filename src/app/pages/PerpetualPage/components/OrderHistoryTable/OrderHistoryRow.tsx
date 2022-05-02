@@ -48,6 +48,7 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({
     orderId,
     orderSize,
     orderState,
+    triggerPrice,
     limitPrice,
   },
 }) => {
@@ -85,6 +86,17 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({
           assetString={pair?.baseAsset}
           mode={AssetValueMode.auto}
         />
+      </td>
+      <td className="tw-text-center">
+        {triggerPrice ? (
+          <AssetValue
+            value={orderSize}
+            assetString={pair?.baseAsset}
+            mode={AssetValueMode.auto}
+          />
+        ) : (
+          <span className="tw-text-2xl">-</span>
+        )}
       </td>
       <td>
         {limitPrice && (
