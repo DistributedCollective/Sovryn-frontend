@@ -95,6 +95,10 @@ export type LimitOrderType = {
   perpetual: { id: string };
   triggerPrice: string;
   limitPrice: string;
+  tradeAmount: string;
+  state: string;
+  deadline: string;
+  createdTimestamp: string;
 };
 
 export type PerpetualTrade = {
