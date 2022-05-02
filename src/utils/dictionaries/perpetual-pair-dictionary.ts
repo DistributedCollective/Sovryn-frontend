@@ -49,7 +49,7 @@ export class PerpetualPairDictionary {
     [
       PerpetualPairType.BNBUSD,
       new PerpetualPair(
-        '0xe90b7bceb6e7df5418fb78d8ee546e97c83a08bbccc01a0644d599ccd2a7c2e0',
+        '0xcc69885fda6bcc1a4ace058b4a62bf5e179ea78fd58a1ccd71c22cc9b688792f',
         PerpetualPairType.BNBUSD,
         'BNB/USD',
         'BNB/USD',
