@@ -60,19 +60,6 @@ export const contracts: Record<
   FastBTCWithdrawContractName,
   ChainToContractsMap
 > = {
-  // fastBtcBridge: {
-  //   address: {
-  //     [Chain.RSK]: {
-  //       [AppMode.MAINNET]: '0x0D5006330289336ebdF9d0AC9E0674f91b4851eA',
-  //       [AppMode.TESTNET]: '0x10C848e9495a32acA95F6c23C92eCA2b2bE9903A', // todo should be new?
-  //     },
-  //     [Chain.BSC]: {
-  //       [AppMode.MAINNET]: ethers.constants.AddressZero, // todo
-  //       [AppMode.TESTNET]: '0x10C848e9495a32acA95F6c23C92eCA2b2bE9903A',
-  //     },
-  //   },
-  //   abi: fastBtcBridgeAbi,
-  // },
   btcToken: {
     address: {
       [Chain.RSK]: {
@@ -80,7 +67,7 @@ export const contracts: Record<
         [AppMode.TESTNET]: ethers.constants.AddressZero,
       },
       [Chain.BSC]: {
-        [AppMode.MAINNET]: ethers.constants.AddressZero, // todo
+        [AppMode.MAINNET]: '0x2591c762e8C9Fe28A03B035b380110dD599aE987',
         [AppMode.TESTNET]: '0x0ed2a1edde92b25448db95e5aa9fe9e9bc0193bf',
       },
     },
@@ -89,7 +76,7 @@ export const contracts: Record<
   btcWrapperToken: {
     address: {
       [Chain.RSK]: {
-        [AppMode.MAINNET]: ethers.constants.AddressZero, // todo
+        [AppMode.MAINNET]: '0xa233108b33dc77f1eee9d183ee1dc9725e76d475',
         [AppMode.TESTNET]: '0xf629e5c7527ac7bc9ce26bdd6d66f0eb955ef3b2',
       },
     },
@@ -98,7 +85,7 @@ export const contracts: Record<
   aggregator: {
     address: {
       [Chain.BSC]: {
-        [AppMode.MAINNET]: ethers.constants.AddressZero, // todo
+        [AppMode.MAINNET]: '0x769C0B52c83d335705Fb10b7b78b0C7637c3A6E0',
         [AppMode.TESTNET]: '0xe2C2fbAa4407fa8BB0Dbb7a6a32aD36f8bA484aE',
       },
     },
@@ -107,7 +94,7 @@ export const contracts: Record<
   aggregatorBasset: {
     address: {
       [Chain.BSC]: {
-        [AppMode.MAINNET]: ethers.constants.AddressZero, // todo
+        [AppMode.MAINNET]: '0x68e75416a99f61a8ef3186b3bee41dbf2a3fd4e8',
         [AppMode.TESTNET]: '0xc41d41cb7a31c80662ac2d8ab7a7e5f5841eebc3',
       },
     },
@@ -116,7 +103,7 @@ export const contracts: Record<
   aggregatorAllowTokens: {
     address: {
       [Chain.RSK]: {
-        [AppMode.MAINNET]: ethers.constants.AddressZero, // todo
+        [AppMode.MAINNET]: '0xa2f50a2c699c1aa3b9089f6b565d4999d45d8983',
         [AppMode.TESTNET]: '0xa9f2ccb27fe01479a1f21f3a236989c614f801bc',
       },
     },
