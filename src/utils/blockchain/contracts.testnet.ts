@@ -324,7 +324,7 @@ export const contracts = {
     chainId: ChainId.BSC_TESTNET,
   },
   perpetualLimitOrderBook: {
-    address: '0x7F6581BE4e0b7e83C74FB43a71995CCD7d93B2A6',
+    address: '0xF683eED9590E2f90fe991E9e5A736f8BEDEa84Cd',
     abi: perpetualLimitOrderBookAbi,
     chainId: ChainId.BSC_TESTNET,
   },
