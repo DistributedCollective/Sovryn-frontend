@@ -11,7 +11,7 @@
   }
 
   select {
-    @apply tw-text-base tw-font-body tw-font-extralight 
+    @apply tw-text-base tw-font-body tw-font-extralight
       tw-bg-transparent;
   }
 }
@@ -26,8 +26,8 @@
     @apply tw-list-none;
   }
 
-  a {
-    @apply tw-text-xl tw-px-0 tw-font-medium tw-text-white tw-text-center tw-tracking-wider tw-py-4;
+  a, button {
+    @apply tw-text-xl tw-px-0 tw-my-1 tw-font-medium tw-tracking-wider tw-justify-center;
 
     text-decoration: none;
     transition: color 0.3s linear;
@@ -105,7 +105,7 @@
 
 // blueprintjs override
 :global(.bp3-popover).header-nav-popover :global(.bp3-popover-content) {
-  @apply tw-bg-black tw-border-0 
+  @apply tw-bg-black tw-border-0
     tw-overflow-hidden;
 
   & :global(.bp3-menu) {
