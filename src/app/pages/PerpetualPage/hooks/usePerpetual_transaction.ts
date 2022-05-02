@@ -13,12 +13,14 @@ import {
   PERPETUAL_PAYMASTER,
   PERPETUAL_GAS_PRICE_DEFAULT,
 } from '../types';
-import { perpetualTransactionArgs } from '../utils/contractUtils';
+import {
+  perpetualTransactionArgs,
+  getPerpetualTxContractName,
+} from '../utils/contractUtils';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import { useAccount } from '../../../hooks/useAccount';
 import { TxType } from '../../../../store/global/transactions-store/types';
 import { gasLimit } from '../../../../utils/classifiers';
-import { ContractName } from '../../../../utils/types/contracts';
 
 const PerpetualTxMethodMap: { [key in PerpetualTxMethod]: string } = {
   [PerpetualTxMethod.trade]: 'trade',
@@ -38,17 +40,6 @@ const PerpetualTxMethodTypeMap: { [key in PerpetualTxMethod]: TxType } = {
   [PerpetualTxMethod.withdrawAll]: TxType.PERPETUAL_WITHDRAW_COLLATERAL,
 };
 
-const PerpetualTxMethodContractMap: {
-  [key in PerpetualTxMethod]: ContractName;
-} = {
-  [PerpetualTxMethod.trade]: 'perpetualManager',
-  [PerpetualTxMethod.createLimitOrder]: 'perpetualLimitOrderBook',
-  [PerpetualTxMethod.cancelLimitOrder]: 'perpetualLimitOrderBook',
-  [PerpetualTxMethod.deposit]: 'perpetualManager',
-  [PerpetualTxMethod.withdraw]: 'perpetualManager',
-  [PerpetualTxMethod.withdrawAll]: 'perpetualManager',
-};
-
 export const usePerpetual_transaction = (
   transaction: PerpetualTx | undefined,
   useGSN: boolean,
@@ -66,9 +57,7 @@ export const usePerpetual_transaction = (
 
   const { send, ...rest } = useGsnSendTx(
     PERPETUAL_CHAIN,
-    transaction
-      ? PerpetualTxMethodContractMap[transaction.method]
-      : 'perpetualManager',
+    getPerpetualTxContractName(transaction),
     transaction ? PerpetualTxMethodMap[transaction.method] : '',
     PERPETUAL_PAYMASTER,
     useGSN,

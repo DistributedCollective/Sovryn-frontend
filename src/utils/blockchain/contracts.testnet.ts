@@ -323,14 +323,19 @@ export const contracts = {
     abi: perpetualManagerAbi,
     chainId: ChainId.BSC_TESTNET,
   },
-  perpetualLimitOrderBook: {
+  PERPETUALS_token: {
+    address: '0xdcDB8E69e200040433d078ebdc1C36479E0d5e81',
+    abi: marginTokenAbi,
+    chainId: ChainId.BSC_TESTNET,
+  },
+  perpetualLimitOrderBookBTCUSD: {
     address: '0xF683eED9590E2f90fe991E9e5A736f8BEDEa84Cd',
     abi: perpetualLimitOrderBookAbi,
     chainId: ChainId.BSC_TESTNET,
   },
-  PERPETUALS_token: {
-    address: '0xdcDB8E69e200040433d078ebdc1C36479E0d5e81',
-    abi: marginTokenAbi,
+  perpetualLimitOrderBookBNBUSD: {
+    address: '0xA9a91c803a994332c1020D2DACFEBbfC53D65533',
+    abi: perpetualLimitOrderBookAbi,
     chainId: ChainId.BSC_TESTNET,
   },
 };

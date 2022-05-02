@@ -533,6 +533,25 @@ export const balanceCallData = (
   };
 };
 
+export const getPerpetualTxContractName = (
+  transaction?: PerpetualTx,
+): ContractName => {
+  if (!transaction) {
+    return 'perpetualManager';
+  }
+
+  switch (transaction.method) {
+    case PerpetualTxMethod.trade:
+    case PerpetualTxMethod.deposit:
+    case PerpetualTxMethod.withdraw:
+    case PerpetualTxMethod.withdrawAll:
+      return 'perpetualManager';
+    case PerpetualTxMethod.createLimitOrder:
+    case PerpetualTxMethod.cancelLimitOrder:
+      return PerpetualPairDictionary.get(transaction.pair).limitOrderBook;
+  }
+};
+
 const perpetualTradeArgs = (
   context: PerpetualQueriesContextValue,
   account: string,
@@ -634,10 +653,11 @@ const perpetualCancelLimitTradeArgs = async (
 ): Promise<Parameters<SendTxResponseInterface['send']>[0]> => {
   const { digest } = transaction;
 
+  const contract = getContract(getPerpetualTxContractName(transaction));
   const order = await bridgeNetwork.call(
     PERPETUAL_CHAIN,
-    getContract('perpetualLimitOrderBook').address,
-    getContract('perpetualLimitOrderBook').abi,
+    contract.address,
+    contract.abi,
     'orderOfDigest',
     [digest],
   );
