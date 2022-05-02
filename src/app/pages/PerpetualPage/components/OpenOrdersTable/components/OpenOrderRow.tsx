@@ -103,16 +103,9 @@ export const OpenOrderRow: React.FC<OpenOrderRowProps> = ({ item }) => {
         />
       </td>
       <td>
-        <AssetValue
-          minDecimals={0}
-          maxDecimals={2}
-          value={item.expiry}
-          assetString={t(
-            translations.perpetualPage.openOrdersTable.tableData[
-              item.expiry <= 1 ? 'day' : 'days'
-            ],
-          )}
-          mode={AssetValueMode.auto}
+        <DisplayDate
+          timestamp={item.expiry || Math.floor(Date.now() / 1e3).toString()}
+          separator={SeparatorType.Dash}
         />
       </td>
       <td>
