@@ -1,13 +1,13 @@
 import React, { MouseEventHandler, ReactElement } from 'react';
 import { Tooltip } from '@blueprintjs/core';
 
-type RowActionProps = {
+type TableRowActionProps = {
   tooltip: ReactElement | string;
   label: ReactElement | string;
   onClick: MouseEventHandler;
 };
 
-export const RowAction: React.FC<RowActionProps> = ({
+export const TableRowAction: React.FC<TableRowActionProps> = ({
   tooltip,
   label,
   onClick,

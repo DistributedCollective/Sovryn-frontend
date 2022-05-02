@@ -2090,6 +2090,44 @@
         "realized": "The realized P&L that was paid to your margin account. This includes fees and slippage. Funding payments are reported separately."
       }
     },
+    "openOrders": "Open Orders",
+    "openOrdersTable": {
+      "dateTime": "Date & Time",
+      "symbol": "Symbol",
+      "orderType": "Order Type",
+      "orderState": "Order State",
+      "collateral": "Collateral",
+      "orderSize": "Order Size",
+      "limitPrice": "Limit Price",
+      "triggerPrice": "Trigger Price",
+      "transactionId": "Transaction ID",
+      "timeInForce": "Time in force",
+      "cancel": "Cancel",
+      "orderTypes": {
+        "limit": "Limit",
+        "stop": "Stop",
+        "buy": "Buy",
+        "sell": "Sell"
+      },
+      "tableData": {
+        "market": "Market",
+        "limit": "Limit",
+        "stopLoss": "Stop Loss",
+        "liquidation": "Liquidation",
+        "buy": "BUY",
+        "sell": "SELL",
+        "day": "day",
+        "days": "days"
+      },
+      "tooltips": {
+        "orderType": "Limit Buy Order, Limit Sell Order, Stop Buy Order or Stop Sell Order",
+        "collateral": "Currency of the margin collateral",
+        "orderSize": "Notional of the order followed by base currency",
+        "limitPrice": "Limit price in quote currency of the order",
+        "triggerPrice": "Either empty (\"-\"), or a price in quote currency",
+        "cancel": "Cancel the order"
+      }
+    },
     "layout": {
       "button": "Customize layout",
       "showAmmDepth": "Show AMM Depth",

@@ -89,6 +89,13 @@ export type PerpetualPositionEvent = {
   tradesCount?: number;
 };
 
+export type LimitOrderType = {
+  id: string;
+  perpetual: { id: string };
+  triggerPrice: string;
+  limitPrice: string;
+};
+
 export type PerpetualTrade = {
   id?: string;
   pairType: PerpetualPairType;
