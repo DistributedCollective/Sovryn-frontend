@@ -17,11 +17,12 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
 import { PairNavbar } from 'app/components/PairNavbar';
 import { TradingType } from 'types/trading-pairs';
-import { LimitOrderTables } from './components/LimitOrder/LimitOrderTables';
 import { OpenPositionsTable } from './components/OpenPositionsTable/OpenPositionsTable';
 import { Tabs } from 'app/components/Tabs';
+import { OpenLimitOrdersPositionsTable } from './components/LimitOrder/OpenLimitOrdersPositionsTable';
+import { LimitOrderHistory } from './components/LimitOrder/LimitOrderHistory';
 
-export function MarginTradePage() {
+export const MarginTradePage: React.FC = () => {
   useInjectReducer({ key: sliceKey, reducer: reducer });
   useInjectSaga({ key: sliceKey, saga: marginTradePageSaga });
 
@@ -62,12 +63,12 @@ export function MarginTradePage() {
       {
         id: 'limitOrders',
         label: t(translations.spotTradingPage.history.openLimitOrders),
-        content: <LimitOrderTables activeTab={2} />,
+        content: <OpenLimitOrdersPositionsTable />,
       },
       {
         id: 'limitOrderHistory',
         label: t(translations.spotTradingPage.history.limitOrderHistory),
-        content: <LimitOrderTables activeTab={3} />,
+        content: <LimitOrderHistory />,
       },
     ],
     [t],
@@ -114,4 +115,4 @@ export function MarginTradePage() {
       </div>
     </>
   );
-}
+};
