@@ -28,6 +28,8 @@ const titleMap = {
     translations.perpetualPage.reviewTrade.titles.editMargin,
   [PerpetualPageModals.CLOSE_POSITION]:
     translations.perpetualPage.reviewTrade.titles.close,
+  [PerpetualPageModals.CANCEL_ORDER]:
+    translations.perpetualPage.reviewTrade.titles.cancelOrder,
 };
 
 export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {

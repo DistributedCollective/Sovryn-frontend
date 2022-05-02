@@ -96,29 +96,43 @@ export const NewPositionCard: React.FC = () => {
   });
 
   const onSubmit = useCallback(() => {
+    const completeTrade = {
+      ...trade,
+    };
+
     const transactions: PerpetualTx[] = [];
     if (trade.tradeType === PerpetualTradeType.MARKET) {
       transactions.push({
         method: PerpetualTxMethod.trade,
         pair: pairType,
-        amount: trade.amount,
-        tradingPosition: trade.position,
-        slippage: trade.slippage,
-        leverage: trade.leverage,
-        keepPositionLeverage: trade.keepPositionLeverage,
+        amount: completeTrade.amount,
+        tradingPosition: completeTrade.position,
+        slippage: completeTrade.slippage,
+        leverage: completeTrade.leverage,
+        keepPositionLeverage: completeTrade.keepPositionLeverage,
         tx: null,
         approvalTx: null,
       });
     } else {
+      if (!completeTrade.limit) {
+        completeTrade.limit = completeTrade.entryPrice || '0';
+      }
+      if (
+        completeTrade.tradeType === PerpetualTradeType.STOP &&
+        !completeTrade.trigger
+      ) {
+        completeTrade.trigger = completeTrade.trigger || '0';
+      }
+
       transactions.push({
         method: PerpetualTxMethod.createLimitOrder,
         pair: pairType,
-        amount: trade.amount,
-        tradingPosition: trade.position,
-        leverage: trade.leverage,
-        limit: trade.limit || trade.entryPrice || '0',
-        trigger: trade.trigger || trade.entryPrice || '0',
-        expiry: trade.expiry || 30,
+        amount: completeTrade.amount,
+        tradingPosition: completeTrade.position,
+        leverage: completeTrade.leverage,
+        limit: completeTrade.limit,
+        trigger: completeTrade.trigger || '0',
+        expiry: completeTrade.expiry || 30,
         created: Date.now(),
         tx: null,
         approvalTx: null,
@@ -128,7 +142,7 @@ export const NewPositionCard: React.FC = () => {
     dispatch(
       actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
         origin: PerpetualPageModals.NONE,
-        trade,
+        trade: completeTrade,
         transactions: transactions,
       }),
     );
@@ -144,7 +158,7 @@ export const NewPositionCard: React.FC = () => {
 
   useEffect(() => {
     if (pairType !== trade.pairType) {
-      dispatch(actions.setPairType(pairType));
+      setTrade(trade => ({ ...trade, pairType }));
     }
   }, [dispatch, pairType, trade.pairType]);
 

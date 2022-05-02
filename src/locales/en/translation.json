@@ -2288,13 +2288,16 @@
         "newOrder": "Review Order",
         "editSize": "Review Edit Size",
         "editLeverage": "Review Edit Leverage",
-        "editMargin": "Review Edit Margin"
+        "editMargin": "Review Edit Margin",
+        "cancelOrder": "Cancel Order"
       },
       "close": "Close",
       "buy": "Buy",
       "sell": "Sell",
       "market": "Market",
       "limit": "Limit",
+      "stop": "Stop",
+      "cancel": "Cancel",
       "deposit": "Deposit",
       "withdraw": "Withdraw",
       "leverage": "Leverage",
@@ -2311,7 +2314,10 @@
         "liquidationPrice": "Liquidation Price:",
         "totalToReceive": "Total to Receive:",
         "maxEntryPrice": "Max Entry Price:",
-        "minEntryPrice": "Min Entry Price:"
+        "minEntryPrice": "Min Entry Price:",
+        "limitPrice": "Limit Price:",
+        "triggerPrice": "Trigger Price:",
+        "OrderSize": "Order Size:"
       },
       "confirm": "Confirm"
     },
