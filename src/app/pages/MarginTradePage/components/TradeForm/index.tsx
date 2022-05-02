@@ -297,9 +297,23 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
               <div className="tw-flex tw-text-sm tw-relative tw-items-center tw-justify-between tw-mt-5">
                 <span className={styles.amountLabel}>
                   <HelpBadge
-                    tooltip={t(
-                      translations.spotTradingPage.tradeForm.limitPriceTooltip,
-                    )}
+                    tooltip={
+                      <Trans
+                        i18nKey={
+                          translations.spotTradingPage.tradeForm
+                            .limitPriceTooltip
+                        }
+                        components={[
+                          <a
+                            target="_blank"
+                            href="https://wiki.sovryn.app/en/sovryn-dapp/limit-order-limitations#limit-order-execution"
+                            rel="noopener noreferrer"
+                          >
+                            x
+                          </a>,
+                        ]}
+                      />
+                    }
                   >
                     {t(translations.spotTradingPage.tradeForm.limitPrice)}
                   </HelpBadge>
@@ -380,36 +394,39 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
 
           {!openTradesLocked && (
             <>
-              <LabelValuePair
-                label={t(translations.marginTradeForm.fields.esEntryPrice)}
-                value={
-                  <>
-                    {useTenderlySimulator ? (
-                      <>
-                        <LoadableValue
-                          loading={loadingPrice}
-                          value={toAssetNumberFormat(price, pair.longAsset)}
-                          tooltip={toNumberFormat(price, 18)}
-                        />{' '}
-                        <AssetRenderer asset={pair.longAsset} />
-                      </>
-                    ) : (
-                      <>
-                        <PricePrediction
-                          position={position}
-                          leverage={leverage}
-                          loanToken={loanToken}
-                          collateralToken={collateralToken}
-                          useLoanTokens={useLoanTokens}
-                          weiAmount={amount}
-                          asset={pair.longAsset}
-                        />{' '}
-                        <AssetRenderer asset={pair.longAsset} />
-                      </>
-                    )}
-                  </>
-                }
-              />
+              {orderType !== OrderType.LIMIT && (
+                <LabelValuePair
+                  label={t(translations.marginTradeForm.fields.esEntryPrice)}
+                  value={
+                    <>
+                      {useTenderlySimulator ? (
+                        <>
+                          <LoadableValue
+                            loading={loadingPrice}
+                            value={toAssetNumberFormat(price, pair.longAsset)}
+                            tooltip={toNumberFormat(price, 18)}
+                          />{' '}
+                          <AssetRenderer asset={pair.longAsset} />
+                        </>
+                      ) : (
+                        <>
+                          <PricePrediction
+                            position={position}
+                            leverage={leverage}
+                            loanToken={loanToken}
+                            collateralToken={collateralToken}
+                            useLoanTokens={useLoanTokens}
+                            weiAmount={amount}
+                            asset={pair.longAsset}
+                          />{' '}
+                          <AssetRenderer asset={pair.longAsset} />
+                        </>
+                      )}
+                    </>
+                  }
+                />
+              )}
+
               <LabelValuePair
                 label={t(
                   translations.marginTradeForm.fields.esLiquidationPrice,
