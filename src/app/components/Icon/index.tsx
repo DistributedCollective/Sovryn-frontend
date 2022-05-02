@@ -1,9 +1,14 @@
 import React, { useMemo } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { IconProp, SizeProp } from '@fortawesome/fontawesome-svg-core';
+import classNames from 'classnames';
 import styles from './index.module.scss';
 import { IconSvgPaths } from './iconSvgPaths';
-import { IconType, IconSize, ViewBoxSize } from './types';
+import { IconType, ViewBoxSize } from './types';
+
+const STANDARD = 16;
+const INLINE = '1em';
+const SM = 'sm';
 
 type IconProps = {
   /**
@@ -13,9 +18,9 @@ type IconProps = {
   icon: IconType;
   /**
    * Size of the icon, in pixels or in scale (1x, 2x, 3x ...) for the Fontawesome icons.
-   * @default IconSize.STANDARD = 16
+   * @default STANDARD = 16
    */
-  size?: number | string;
+  size?: number | SizeProp;
   /**
    * Inline sets size to 1em.
    */
@@ -28,7 +33,7 @@ type IconProps = {
 
 export const Icon: React.FC<IconProps> = ({
   icon,
-  size = IconSize.STANDARD,
+  size = STANDARD,
   inline,
   className,
 }) => {
@@ -41,19 +46,23 @@ export const Icon: React.FC<IconProps> = ({
 
   const iconFaSize = useMemo(() => {
     if (inline) {
-      return IconSize.SM;
+      return SM;
     } else {
       return size as SizeProp;
     }
   }, [inline, size]);
 
+  const inlineBlock = useMemo(() => {
+    return inline ? 'tw-inline-block' : 'tw-block';
+  }, [inline]);
+
   const renderIcon = useMemo(() => {
-    const iconSize = inline ? IconSize.INLINE : size;
+    const iconSize = inline ? INLINE : size;
     //checking if we trying to show a custom icon
     if (typeof icon !== 'string') {
       return (
         <div
-          className={styles.customIcon}
+          className={classNames(className, styles.customIcon, inlineBlock)}
           style={{ width: iconSize, height: iconSize }}
         >
           {icon}
@@ -66,26 +75,29 @@ export const Icon: React.FC<IconProps> = ({
       <path key={i} d={path} clipRule="evenodd" fillRule="evenodd" />
     ));
     return (
-      <>
-        <svg
-          viewBox={ViewBoxSize.DEFAULT}
-          height={iconSize}
-          width={iconSize}
-          fill="currentColor"
-        >
-          {paths}
-        </svg>
-      </>
+      <svg
+        viewBox={ViewBoxSize.DEFAULT}
+        height={iconSize}
+        width={iconSize}
+        fill="currentColor"
+        className={classNames(className, inlineBlock)}
+      >
+        {paths}
+      </svg>
     );
-  }, [icon, inline, size]);
+  }, [icon, inline, size, inlineBlock, className]);
 
   return (
-    <div className={className}>
+    <>
       {isFaIcon ? (
-        <FontAwesomeIcon size={iconFaSize} icon={icon as IconProp} />
+        <FontAwesomeIcon
+          className={classNames(className, inlineBlock)}
+          size={iconFaSize}
+          icon={icon as IconProp}
+        />
       ) : (
         renderIcon
       )}
-    </div>
+    </>
   );
 };

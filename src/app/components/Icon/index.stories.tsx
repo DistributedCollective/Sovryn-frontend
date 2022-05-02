@@ -25,15 +25,20 @@ const CustomIconTemplate: Story<ComponentProps<typeof Icon>> = args => {
   );
 
   return (
-    <div className="tw-flex tw-items-center tw-pt-4">
+    <div className="tw-pt-4">
       <Icon {...args} icon={customIcon} />
-      <h3>Custom Icon</h3>
+      <span className="tw-text-lg">Custom Icon</span>
     </div>
   );
 };
 
 const FontAwesomeIconTemplate: Story<ComponentProps<typeof Icon>> = args => {
-  return <Icon {...args} />;
+  return (
+    <div className="tw-pt-4">
+      <Icon {...args} />
+      <span className="tw-text-lg">FontAwesome Icon</span>
+    </div>
+  );
 };
 
 const AllIconsTemplate: Story<ComponentProps<typeof Icon>> = () => {
@@ -75,12 +80,12 @@ export const FontAwesomeIcon = FontAwesomeIconTemplate.bind({});
 FontAwesomeIcon.args = {
   icon: faBacterium,
   size: '3x',
-  className: 'tw-text-success',
+  className: 'tw-text-success tw-mr-2',
 };
 
 export const CustomIcon = CustomIconTemplate.bind({});
 CustomIcon.args = {
   size: 30,
-  className: 'tw-text-yellow-1 tw-mr-4',
+  className: 'tw-text-yellow-1 tw-mr-2',
 };
 export const AllIcons = AllIconsTemplate.bind({});
