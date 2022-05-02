@@ -322,9 +322,22 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
         <div className="tw-flex tw-relative tw-items-center tw-justify-between tw-mt-5">
           <span className={styles.amountLabel}>
             <HelpBadge
-              tooltip={t(
-                translations.spotTradingPage.tradeForm.limitPriceTooltip,
-              )}
+              tooltip={
+                <Trans
+                  i18nKey={
+                    translations.spotTradingPage.tradeForm.limitPriceTooltip
+                  }
+                  components={[
+                    <a
+                      target="_blank"
+                      href="https://wiki.sovryn.app/en/sovryn-dapp/limit-order-limitations#limit-order-execution"
+                      rel="noopener noreferrer"
+                    >
+                      x
+                    </a>,
+                  ]}
+                />
+              }
             >
               {t(translations.spotTradingPage.tradeForm.limitPrice)}
             </HelpBadge>
