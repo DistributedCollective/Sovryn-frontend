@@ -55,6 +55,7 @@ export interface PerpetualTxTrade extends PerpetualTxBase {
   slippage?: number;
   tradingPosition?: TradingPosition;
   isClosePosition?: boolean;
+  keepPositionLeverage?: boolean;
 
   approvalTx: Nullable<string>;
 }

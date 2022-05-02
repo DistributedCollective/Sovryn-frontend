@@ -170,22 +170,22 @@ export const GraphQLProvider: React.FC<GraphQLProviderProps> = ({
         let bestIndex = active;
 
         if (bestEvaluation.score > LACKING_TEST_SCORE) {
-          console.info(
-            `GraphQL endpoint is healthy and synced! [score:${bestEvaluation.score}] Continuing to use "${activeEndpoint.graph}".`,
-          );
+          // console.info(
+          //   `GraphQL endpoint is healthy and synced! [score:${bestEvaluation.score}] Continuing to use "${activeEndpoint.graph}".`,
+          // );
           return;
         } else if (activeEndpoint.isFallback) {
           // TODO: add index to private fallback graph to be able to properly evaluate it.
           bestEvaluation.score =
             bestEvaluation.score > 0 ? LACKING_TEST_SCORE : 0;
         }
-        console.info(
-          `GraphQL endpoint is ${
-            activeEndpoint.isFallback ? 'the fallback' : 'lacking'
-          }!`,
-          JSON.stringify(bestEvaluation),
-          `Evaluating alternatives!`,
-        );
+        // console.info(
+        //   `GraphQL endpoint is ${
+        //     activeEndpoint.isFallback ? 'the fallback' : 'lacking'
+        //   }!`,
+        //   JSON.stringify(bestEvaluation),
+        //   `Evaluating alternatives!`,
+        // );
 
         for (let index = 0; index < config.length; index++) {
           if (index === active) {
