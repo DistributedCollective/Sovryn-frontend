@@ -18,8 +18,7 @@ import {
 import { LanguageToggle } from '../../../../components/LanguageToggle';
 import styles from './index.module.scss';
 import { ReactComponent as SovLogo } from 'assets/images/sovryn-logo-alpha.svg';
-import { bitocracyUrl, currentNetwork, isMainnet } from 'utils/classifiers';
-import { AppMode } from 'types';
+import { bitocracyUrl, isMainnet } from 'utils/classifiers';
 import { Menu } from 'app/components/Menu';
 import { MenuItem } from 'app/components/Menu/components/MenuItem';
 import { MenuSeparator } from 'app/components/Menu/components/MenuSeparator';
@@ -181,29 +180,31 @@ export const DefaultHeaderComponent: React.FC = () => {
     },
   ];
 
-  const menuItems = pages.map((item, index) => {
-    let link: {
-      to: string;
-      title: string;
-      dataActionId: string;
-      hrefExternal?: boolean;
-    } = item;
+  const menuItems = pages
+    .filter(page => page.title !== '')
+    .map((item, index) => {
+      let link: {
+        to: string;
+        title: string;
+        dataActionId: string;
+        hrefExternal?: boolean;
+      } = item;
 
-    if (link.to === '') {
-      return <MenuSeparator key={index} text={link.title} />;
-    }
+      if (link.to === '') {
+        return <MenuSeparator key={index} text={link.title} />;
+      }
 
-    return (
-      <MenuItem
-        key={index}
-        href={link.to}
-        text={link.title}
-        hrefExternal={link.hrefExternal}
-        data-action-id={link.dataActionId}
-        className="tw-leading-snug"
-      />
-    );
-  });
+      return (
+        <MenuItem
+          key={index}
+          href={link.to}
+          text={link.title}
+          hrefExternal={link.hrefExternal}
+          data-action-id={link.dataActionId}
+          className="tw-leading-snug"
+        />
+      );
+    });
 
   const NavPopover = ({ content, children }) => {
     return (
@@ -266,265 +267,260 @@ export const DefaultHeaderComponent: React.FC = () => {
   }, [open]);
 
   return (
-    <>
-      <header className={classNames(styles.header, open && styles.open)}>
-        <div className="tw-container tw-flex tw-justify-between tw-items-center tw-pt-2 tw-pb-2 tw-px-4 tw-mx-auto">
-          <div className="tw-flex tw-items-center">
-            <div className="xl:tw-hidden">
-              <div ref={node}>
-                <Burger />
-                <MenuMobile />
-              </div>
-            </div>
-            <div className="xl:tw-flex tw-flex-row tw-items-center">
-              <div className="tw-mr-5 2xl:tw-mr-20">
-                <Link to="/">
-                  <SovLogo className={styles.logo} />
-                </Link>
-              </div>
-              <Menu className="tw-hidden xl:tw-flex tw-flex-row tw-flex-nowrap tw-space-x-4">
-                <MenuItem
-                  text={
-                    <NavPopover
-                      content={
-                        <>
-                          <MenuItem
-                            text={t(translations.mainMenu.buySov)}
-                            onClick={() => {
-                              history.push('/buy-sov');
-                            }}
-                            data-action-id="header-trade-link-buySov"
-                          />
-                          <MenuItem
-                            text={t(translations.mainMenu.swap)}
-                            onClick={() => {
-                              history.push('/swap');
-                            }}
-                            data-action-id="header-trade-link-swap"
-                          />
-                          <MenuItem
-                            text={t(translations.mainMenu.spotTrade)}
-                            onClick={() => {
-                              history.push('/spot');
-                            }}
-                            data-action-id="header-trade-link-spot"
-                          />
-                          <MenuItem
-                            text={t(translations.mainMenu.marginTrade)}
-                            onClick={() => {
-                              history.push('/trade');
-                            }}
-                            data-action-id="header-trade-link-margin"
-                          />
-                        </>
-                      }
-                    >
-                      <span
-                        className={`tw-flex tw-flex-row tw-items-center ${
-                          isSectionOpen(SECTION_TYPE.TRADE) && 'tw-font-bold'
-                        }`}
-                      >
-                        <span
-                          className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
-                          data-action-id="header-link-trade"
-                        >
-                          {t(translations.mainMenu.trade)}
-                        </span>
-                        <FontAwesomeIcon icon={faChevronDown} size="xs" />
-                      </span>
-                    </NavPopover>
-                  }
-                />
-                <MenuItem
-                  text={
-                    <NavPopover
-                      content={
-                        <Menu>
-                          <MenuItem
-                            text={t(translations.mainMenu.lend)}
-                            onClick={() => history.push('/lend')}
-                            data-action-id="header-finance-link-lend"
-                          />
-                          <MenuItem
-                            text={t(translations.mainMenu.borrow)}
-                            onClick={() => history.push('/borrow')}
-                            data-action-id="header-finance-link-borrow"
-                          />
-                          <MenuItem
-                            text={t(translations.mainMenu.yieldFarm)}
-                            onClick={() => history.push('/yield-farm')}
-                            data-action-id="header-finance-link-yieldFarm"
-                          />
-                        </Menu>
-                      }
-                    >
-                      <span
-                        className={`tw-flex tw-flex-row tw-items-center ${
-                          isSectionOpen(SECTION_TYPE.FINANCE) && 'tw-font-bold'
-                        }`}
-                      >
-                        <span
-                          className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
-                          data-action-id="header-link-finance"
-                        >
-                          {t(translations.mainMenu.finance)}
-                        </span>
-                        <FontAwesomeIcon icon={faChevronDown} size="xs" />
-                      </span>
-                    </NavPopover>
-                  }
-                />
-                <MenuItem
-                  text={
-                    <NavPopover
-                      content={
-                        <Menu>
-                          <MenuItem
-                            text={t(translations.mainMenu.staking)}
-                            onClick={() => {
-                              history.push('/stake');
-                            }}
-                            data-action-id="header-bitocracy-link-stake"
-                          />
-                          <MenuItem
-                            href={bitocracyUrl}
-                            hrefExternal
-                            text={t(translations.mainMenu.governance)}
-                            data-action-id="header-bitocracy-link-governance"
-                          />
-                          <MenuItem
-                            href="https://forum.sovryn.app/"
-                            hrefExternal
-                            text={t(translations.mainMenu.forum)}
-                            data-action-id="header-bitocracy-link-forum"
-                          />
-                        </Menu>
-                      }
-                    >
-                      <span
-                        className={`tw-flex tw-flex-row tw-items-center ${
-                          isSectionOpen(SECTION_TYPE.BITOCRACY) &&
-                          'tw-font-bold'
-                        }`}
-                      >
-                        <span
-                          className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
-                          data-action-id="header-link-bitocracy"
-                        >
-                          {t(translations.mainMenu.bitocracy)}
-                        </span>
-                        <FontAwesomeIcon icon={faChevronDown} size="xs" />
-                      </span>
-                    </NavPopover>
-                  }
-                />
-                <MenuItem
-                  onClick={() => {
-                    history.push('/reward');
-                  }}
-                  text={t(translations.mainMenu.rewards)}
-                  data-action-id="header-link-rewards"
-                  className={`${
-                    isSectionOpen(SECTION_TYPE.REWARDS) && 'tw-font-bold'
-                  }`}
-                />
-                <MenuItem
-                  onClick={() => {
-                    history.push('/wallet');
-                  }}
-                  text={t(translations.mainMenu.wallet)}
-                  data-action-id="header-link-portfolio"
-                  className={`tw-flex tw-flex-row tw-items-center ${
-                    isSectionOpen(SECTION_TYPE.PORTFOLIO) && 'tw-font-bold'
-                  }`}
-                />
-                {currentNetwork === AppMode.TESTNET && (
-                  <MenuItem
-                    text={
-                      <NavPopover
-                        content={
-                          <Menu>
-                            <MenuItem
-                              text={t(translations.mainMenu.myntToken)}
-                              href="/mynt-token"
-                              data-action-id="header-lab-mynt-token"
-                            />
-                            {!isMainnet && (
-                              <MenuItem
-                                text={t(translations.mainMenu.perpetuals)}
-                                href="/perpetuals"
-                                data-action-id="header-lab-perpetuals"
-                              />
-                            )}
-                            <MenuSeparator
-                              text={t(translations.mainMenu.origins)}
-                            />
-                            <MenuItem
-                              text={t(translations.mainMenu.launchpad)}
-                              onClick={() => history.push('/origins')}
-                              data-action-id="header-origins-link-launchpad"
-                            />
-                            <MenuItem
-                              text={t(translations.mainMenu.claim)}
-                              onClick={() => history.push('/origins/claim')}
-                              data-action-id="header-origins-link-claim"
-                            />
-                          </Menu>
-                        }
-                      >
-                        <span
-                          className={`tw-flex tw-flex-row tw-items-center ${
-                            isSectionOpen(SECTION_TYPE.LABS) && 'tw-font-bold'
-                          }`}
-                        >
-                          <span
-                            className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
-                            data-action-id="header-link-origins"
-                          >
-                            {t(translations.mainMenu.labs)}
-                          </span>
-                          <FontAwesomeIcon icon={faChevronDown} size="xs" />
-                        </span>
-                      </NavPopover>
-                    }
-                  />
-                )}
-              </Menu>
+    <header className={classNames(styles.header, open && styles.open)}>
+      <div className="tw-container tw-flex tw-justify-between tw-items-center tw-pt-2 tw-pb-2 tw-px-4 tw-mx-auto">
+        <div className="tw-flex tw-items-center">
+          <div className="xl:tw-hidden">
+            <div ref={node}>
+              <Burger />
+              <MenuMobile />
             </div>
           </div>
-
-          <Menu className="tw-flex tw-justify-start tw-items-center">
-            <li>
-              <Link
-                to={{
-                  pathname: '/wallet',
-                }}
-                className={classNames(
-                  'tw-btn-action tw-text-primary hover:tw-bg-transparent tw-hidden sm:tw-flex tw-mx-2 2xl:tw-mr-4',
-                  {
-                    'tw-hidden': !connected,
-                  },
-                )}
-              >
-                {t(translations.common.deposit)}
+          <div className="xl:tw-flex tw-flex-row tw-items-center">
+            <div className="tw-mr-5 2xl:tw-mr-20">
+              <Link to="/">
+                <SovLogo className={styles.logo} />
               </Link>
-            </li>
-            <MenuItem
-              href="https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp"
-              hrefExternal
-              text={t(translations.mainMenu.help)}
-              className="tw-header-link tw-hidden xl:tw-block xl:tw-mr-2"
-              data-action-id="header-link-help"
-            />
-            <li className="2xl:tw-mr-4">
-              <LanguageToggle />
-            </li>
-            <li>
-              <WalletConnector />
-            </li>
-          </Menu>
+            </div>
+            <Menu className="tw-hidden xl:tw-flex tw-flex-row tw-flex-nowrap tw-space-x-4">
+              <MenuItem
+                text={
+                  <NavPopover
+                    content={
+                      <>
+                        <MenuItem
+                          text={t(translations.mainMenu.buySov)}
+                          onClick={() => {
+                            history.push('/buy-sov');
+                          }}
+                          data-action-id="header-trade-link-buySov"
+                        />
+                        <MenuItem
+                          text={t(translations.mainMenu.swap)}
+                          onClick={() => {
+                            history.push('/swap');
+                          }}
+                          data-action-id="header-trade-link-swap"
+                        />
+                        <MenuItem
+                          text={t(translations.mainMenu.spotTrade)}
+                          onClick={() => {
+                            history.push('/spot');
+                          }}
+                          data-action-id="header-trade-link-spot"
+                        />
+                        <MenuItem
+                          text={t(translations.mainMenu.marginTrade)}
+                          onClick={() => {
+                            history.push('/trade');
+                          }}
+                          data-action-id="header-trade-link-margin"
+                        />
+                      </>
+                    }
+                  >
+                    <span
+                      className={`tw-flex tw-flex-row tw-items-center ${
+                        isSectionOpen(SECTION_TYPE.TRADE) && 'tw-font-bold'
+                      }`}
+                    >
+                      <span
+                        className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
+                        data-action-id="header-link-trade"
+                      >
+                        {t(translations.mainMenu.trade)}
+                      </span>
+                      <FontAwesomeIcon icon={faChevronDown} size="xs" />
+                    </span>
+                  </NavPopover>
+                }
+              />
+              <MenuItem
+                text={
+                  <NavPopover
+                    content={
+                      <Menu>
+                        <MenuItem
+                          text={t(translations.mainMenu.lend)}
+                          onClick={() => history.push('/lend')}
+                          data-action-id="header-finance-link-lend"
+                        />
+                        <MenuItem
+                          text={t(translations.mainMenu.borrow)}
+                          onClick={() => history.push('/borrow')}
+                          data-action-id="header-finance-link-borrow"
+                        />
+                        <MenuItem
+                          text={t(translations.mainMenu.yieldFarm)}
+                          onClick={() => history.push('/yield-farm')}
+                          data-action-id="header-finance-link-yieldFarm"
+                        />
+                      </Menu>
+                    }
+                  >
+                    <span
+                      className={`tw-flex tw-flex-row tw-items-center ${
+                        isSectionOpen(SECTION_TYPE.FINANCE) && 'tw-font-bold'
+                      }`}
+                    >
+                      <span
+                        className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
+                        data-action-id="header-link-finance"
+                      >
+                        {t(translations.mainMenu.finance)}
+                      </span>
+                      <FontAwesomeIcon icon={faChevronDown} size="xs" />
+                    </span>
+                  </NavPopover>
+                }
+              />
+              <MenuItem
+                text={
+                  <NavPopover
+                    content={
+                      <Menu>
+                        <MenuItem
+                          text={t(translations.mainMenu.staking)}
+                          onClick={() => {
+                            history.push('/stake');
+                          }}
+                          data-action-id="header-bitocracy-link-stake"
+                        />
+                        <MenuItem
+                          href={bitocracyUrl}
+                          hrefExternal
+                          text={t(translations.mainMenu.governance)}
+                          data-action-id="header-bitocracy-link-governance"
+                        />
+                        <MenuItem
+                          href="https://forum.sovryn.app/"
+                          hrefExternal
+                          text={t(translations.mainMenu.forum)}
+                          data-action-id="header-bitocracy-link-forum"
+                        />
+                      </Menu>
+                    }
+                  >
+                    <span
+                      className={`tw-flex tw-flex-row tw-items-center ${
+                        isSectionOpen(SECTION_TYPE.BITOCRACY) && 'tw-font-bold'
+                      }`}
+                    >
+                      <span
+                        className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
+                        data-action-id="header-link-bitocracy"
+                      >
+                        {t(translations.mainMenu.bitocracy)}
+                      </span>
+                      <FontAwesomeIcon icon={faChevronDown} size="xs" />
+                    </span>
+                  </NavPopover>
+                }
+              />
+              <MenuItem
+                onClick={() => {
+                  history.push('/reward');
+                }}
+                text={t(translations.mainMenu.rewards)}
+                data-action-id="header-link-rewards"
+                className={`${
+                  isSectionOpen(SECTION_TYPE.REWARDS) && 'tw-font-bold'
+                }`}
+              />
+              <MenuItem
+                onClick={() => {
+                  history.push('/wallet');
+                }}
+                text={t(translations.mainMenu.wallet)}
+                data-action-id="header-link-portfolio"
+                className={`tw-flex tw-flex-row tw-items-center ${
+                  isSectionOpen(SECTION_TYPE.PORTFOLIO) && 'tw-font-bold'
+                }`}
+              />
+              <MenuItem
+                text={
+                  <NavPopover
+                    content={
+                      <Menu>
+                        <MenuItem
+                          text={t(translations.mainMenu.myntToken)}
+                          href="/mynt-token"
+                          data-action-id="header-lab-mynt-token"
+                        />
+                        {!isMainnet && (
+                          <MenuItem
+                            text={t(translations.mainMenu.perpetuals)}
+                            href="/perpetuals"
+                            data-action-id="header-lab-perpetuals"
+                          />
+                        )}
+                        <MenuSeparator
+                          text={t(translations.mainMenu.origins)}
+                        />
+                        <MenuItem
+                          text={t(translations.mainMenu.launchpad)}
+                          onClick={() => history.push('/origins')}
+                          data-action-id="header-origins-link-launchpad"
+                        />
+                        <MenuItem
+                          text={t(translations.mainMenu.claim)}
+                          onClick={() => history.push('/origins/claim')}
+                          data-action-id="header-origins-link-claim"
+                        />
+                      </Menu>
+                    }
+                  >
+                    <span
+                      className={`tw-flex tw-flex-row tw-items-center ${
+                        isSectionOpen(SECTION_TYPE.LABS) && 'tw-font-bold'
+                      }`}
+                    >
+                      <span
+                        className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
+                        data-action-id="header-link-origins"
+                      >
+                        {t(translations.mainMenu.labs)}
+                      </span>
+                      <FontAwesomeIcon icon={faChevronDown} size="xs" />
+                    </span>
+                  </NavPopover>
+                }
+              />
+            </Menu>
+          </div>
         </div>
-      </header>
-    </>
+
+        <Menu className="tw-flex tw-justify-start tw-items-center">
+          <li>
+            <Link
+              to={{
+                pathname: '/wallet',
+              }}
+              className={classNames(
+                'tw-btn-action tw-text-primary hover:tw-bg-transparent tw-hidden sm:tw-flex tw-mx-2 2xl:tw-mr-4',
+                {
+                  'tw-hidden': !connected,
+                },
+              )}
+            >
+              {t(translations.common.deposit)}
+            </Link>
+          </li>
+          <MenuItem
+            href="https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp"
+            hrefExternal
+            text={t(translations.mainMenu.help)}
+            className="tw-header-link tw-hidden xl:tw-block xl:tw-mr-2"
+            data-action-id="header-link-help"
+          />
+          <li className="2xl:tw-mr-4">
+            <LanguageToggle />
+          </li>
+          <li>
+            <WalletConnector />
+          </li>
+        </Menu>
+      </div>
+    </header>
   );
 };
