@@ -5,6 +5,7 @@ import {
   PerpetualTradeType,
   PerpetualTradeEvent,
   PerpetualLiquidationEvent,
+  LimitOrderType,
 } from '../types';
 import {
   Event,
@@ -23,7 +24,7 @@ import { PerpetualPairDictionary } from 'utils/dictionaries/perpetual-pair-dicti
 enum OrderState {
   Filled = 'Filled',
   Open = 'Open',
-  Failed = 'Failed',
+  Cancelled = 'Cancelled',
 }
 
 export type OrderHistoryEntry = {
@@ -72,6 +73,13 @@ export const usePerpetual_OrderHistory = (
         page: 1,
         perPage: 1000,
       },
+      {
+        event: Event.LIMIT_ORDER,
+        orderBy: 'createdTimestamp',
+        orderDirection: OrderDirection.desc,
+        page: 1,
+        perPage: 1000,
+      },
     ],
     [],
   );
@@ -87,10 +95,17 @@ export const usePerpetual_OrderHistory = (
     const currentTradeEvents: PerpetualTradeEvent[] =
       tradeEvents?.trader?.trades || previousTradeEvents?.trader?.trades || [];
     const currentTradeEventsLength = currentTradeEvents.length;
+
     const currentLiquidationEvents: PerpetualLiquidationEvent[] =
       tradeEvents?.trader?.liquidates ||
       previousTradeEvents?.trader?.liquidates ||
       [];
+
+    const currentLimitOrderEvents: LimitOrderType[] =
+      tradeEvents?.trader?.limitOrders ||
+      previousTradeEvents?.trader?.limitOrders ||
+      [];
+
     let entries: OrderHistoryEntry[] = [];
 
     if (currentTradeEventsLength > 0) {
@@ -140,12 +155,47 @@ export const usePerpetual_OrderHistory = (
       );
       entries.sort((a, b) => Number(b.datetime) - Number(a.datetime));
     }
+
+    if (currentLimitOrderEvents.length > 0) {
+      entries.push(
+        ...currentLimitOrderEvents.map(item => {
+          const tradeAmount = BigNumber.from(item.tradeAmount);
+          const tradeAmountWei = ABK64x64ToWei(tradeAmount);
+          const triggerPrice = BigNumber.from(item.triggerPrice);
+          const triggerPriceWei = ABK64x64ToWei(triggerPrice);
+          const limitPrice = ABK64x64ToWei(BigNumber.from(item.limitPrice));
+
+          return {
+            id: item.id,
+            pair: PerpetualPairDictionary.getById(item?.perpetual?.id),
+            datetime: item.createdTimestamp,
+            position: tradeAmount.isNegative()
+              ? TradingPosition.SHORT
+              : TradingPosition.LONG,
+            tradeType: triggerPrice.gt(0)
+              ? PerpetualTradeType.STOP
+              : PerpetualTradeType.LIMIT,
+            orderState: getLimitOrderState(item.state),
+            triggerPrice: triggerPriceWei,
+            orderSize: tradeAmountWei,
+            limitPrice: limitPrice,
+            execPrice: limitPrice,
+            orderId: item.id,
+          };
+        }),
+      );
+
+      entries.sort((a, b) => Number(b.datetime) - Number(a.datetime));
+    }
+
     return entries;
   }, [
-    previousTradeEvents?.trader?.trades,
     tradeEvents?.trader?.trades,
-    previousTradeEvents?.trader?.liquidates,
     tradeEvents?.trader?.liquidates,
+    tradeEvents?.trader?.limitOrders,
+    previousTradeEvents?.trader?.trades,
+    previousTradeEvents?.trader?.liquidates,
+    previousTradeEvents?.trader?.limitOrders,
   ]);
 
   const paginatedData = useMemo(
@@ -174,4 +224,15 @@ export const usePerpetual_OrderHistory = (
     loading,
     totalCount: data.length,
   };
+};
+
+const getLimitOrderState = (state: string): OrderState => {
+  switch (state) {
+    case 'Active':
+      return OrderState.Open;
+    case 'Cancelled':
+      return OrderState.Cancelled;
+    default:
+      return OrderState.Filled;
+  }
 };
