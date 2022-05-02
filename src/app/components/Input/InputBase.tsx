@@ -5,6 +5,7 @@ import React, {
   useEffect,
   ChangeEvent,
   ChangeEventHandler,
+  useMemo,
 } from 'react';
 import debounceCallback from 'lodash.debounce';
 
@@ -25,19 +26,18 @@ export const InputBase = React.forwardRef<HTMLInputElement, InputBaseProps>(
       string | string[] | number | undefined
     >(value);
 
-    // inter wants to have debounceCallback as dependency, but it would create memory leaks
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    const debouncedOnChangeHandler = useCallback(
-      debounceCallback((event: ChangeEvent<HTMLInputElement>) => {
-        // some inputs may depend on currentTarget, but it may be nullified when debouncing completes
-        // assigning event.target for backwards compability.
-        if (event.currentTarget === null) {
-          event.currentTarget = event.target;
-        }
-        onChangeText?.(event.currentTarget.value);
-        onChange?.(event);
-      }, debounce),
-      [debounce, onChange],
+    const debouncedOnChangeHandler = useMemo(
+      () =>
+        debounceCallback((event: ChangeEvent<HTMLInputElement>) => {
+          // some inputs may depend on currentTarget, but it may be nullified when debouncing completes
+          // assigning event.target for backwards compability.
+          if (event.currentTarget === null) {
+            event.currentTarget = event.target;
+          }
+          onChangeText?.(event.currentTarget.value);
+          onChange?.(event);
+        }, debounce),
+      [debounce, onChange, onChangeText],
     );
 
     const handleChange = useCallback(

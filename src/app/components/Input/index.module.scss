@@ -1,3 +1,7 @@
+.wrapper {
+  @apply tw-w-full tw-rounded-lg tw-max-w-xs tw-border tw-flex tw-flex-row tw-justify-between tw-items-center;
+}
+
 .input {
   @apply tw-w-full tw-h-8 tw-py-2 tw-px-3 tw-leading-none tw-text-base tw-font-semibold tw-text-gray-1 tw-bg-sov-white tw-duration-300 hover:tw-bg-gray-10;
 
@@ -5,7 +9,7 @@
     @apply tw-text-gray-8;
   }
 
-  &[value=''], &:not([value]) {
+  &[value='']:not(:focus), &:not([value]):not(:focus) {
     @apply tw-bg-gray-9;
   }
 

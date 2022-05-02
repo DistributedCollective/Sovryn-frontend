@@ -51,13 +51,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     }, [invalid, rest.readOnly]);
 
     return (
-      <div
-        className={classNames(
-          'tw-w-full tw-rounded-lg tw-max-w-xs tw-border tw-flex tw-flex-row tw-justify-between tw-items-center',
-          wrapperClasses,
-          className,
-        )}
-      >
+      <div className={classNames(styles.wrapper, wrapperClasses, className)}>
         <div className="tw-relative tw-flex-grow">
           <InputBase
             ref={inputRef}
