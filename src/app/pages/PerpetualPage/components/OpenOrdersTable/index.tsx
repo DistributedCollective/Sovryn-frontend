@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useAccount } from 'app/hooks/useAccount';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { OpenOrderRow } from './components/OpenOrderRow';
@@ -16,12 +16,10 @@ export const OpenOrdersTable: React.FC<OpenOrdersTableProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const { data, loading } = usePerpetual_OpenOrders(useAccount());
+  const { data: items, loading } = usePerpetual_OpenOrders(useAccount());
 
-  const items = useMemo(() => data || [], [data]);
-
-  const isEmpty = !loading && !items.length;
-  const showLoading = loading && !items.length;
+  const isEmpty = !loading && !items?.length;
+  const showLoading = loading && !items?.length;
 
   return (
     <table className="sovryn-table tw-table-auto">
@@ -110,7 +108,7 @@ export const OpenOrdersTable: React.FC<OpenOrdersTableProps> = ({
             </td>
           </tr>
         )}
-        {items.map(item => (
+        {items?.map(item => (
           <OpenOrderRow key={item.id} item={item} />
         ))}
       </tbody>
