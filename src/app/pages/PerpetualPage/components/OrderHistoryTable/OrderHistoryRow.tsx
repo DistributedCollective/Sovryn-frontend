@@ -44,7 +44,6 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({
     tradeType,
     datetime,
     pair,
-    execSize,
     execPrice,
     orderId,
     orderSize,
@@ -97,13 +96,6 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({
             mode={AssetValueMode.auto}
           />
         )}
-      </td>
-      <td>
-        <AssetValue
-          value={execSize}
-          assetString={pair?.baseAsset}
-          mode={AssetValueMode.auto}
-        />
       </td>
       <td>
         {execPrice && (

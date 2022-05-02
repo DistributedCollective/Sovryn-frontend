@@ -65,9 +65,6 @@ export const OrderHistoryTable: React.FC<IOrderHistoryTableProps> = ({
               </Tooltip>
             </th>
             <th className="tw-text-sm">
-              {t(translations.perpetualPage.orderHistoryTable.execSize)}
-            </th>
-            <th className="tw-text-sm">
               {t(translations.perpetualPage.orderHistoryTable.execPrice)}
             </th>
             <th className="tw-text-sm">

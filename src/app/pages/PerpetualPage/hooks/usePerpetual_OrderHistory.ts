@@ -35,7 +35,6 @@ export type OrderHistoryEntry = {
   orderState: OrderState;
   orderSize: string;
   limitPrice?: string;
-  execSize: string;
   execPrice?: string;
   orderId?: string;
 };
@@ -108,7 +107,6 @@ export const usePerpetual_OrderHistory = (
           orderState: OrderState.Filled,
           orderSize: tradeAmountWei,
           limitPrice: ABK64x64ToWei(BigNumber.from(item.limitPrice)),
-          execSize: tradeAmountWei,
           execPrice: ABK64x64ToWei(BigNumber.from(item.price)),
           orderId: item.transaction.id,
         };
@@ -134,7 +132,6 @@ export const usePerpetual_OrderHistory = (
               orderState: OrderState.Filled,
               orderSize: tradeAmountWei,
               limitPrice: undefined,
-              execSize: tradeAmountWei,
               execPrice: ABK64x64ToWei(BigNumber.from(item.liquidationPrice)),
               orderId: item.transaction.id,
             };
