@@ -1930,7 +1930,7 @@
       "aborted": "Your transaction has failed. <br/>Please cancel or retry your transaction",
       "abortedLedger": "Make sure \"Contract data\" is set to \"Allowed\" in your Ledger app settings",
       "cta": "View in Tracker",
-      "processing": "{{action}} processing...",
+      "processing": "{{action}} Processing...",
       "complete": "{{action}} Complete",
       "submit": "{{action}} Submitted"
     }
