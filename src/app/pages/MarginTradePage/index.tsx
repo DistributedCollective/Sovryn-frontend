@@ -13,7 +13,7 @@ import { TradingPairDictionary } from '../../../utils/dictionaries/trading-pair-
 import { TradeForm } from './components/TradeForm';
 import { Theme, TradingChart } from '../../components/TradingChart';
 import { useIsConnected } from '../../hooks/useAccount';
-// import { ClosedPositionsTable } from './components/ClosedPositionsTable';
+import { ClosedPositionsTable } from './components/ClosedPositionsTable';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
 import { PairNavbar } from 'app/components/PairNavbar';
@@ -105,7 +105,7 @@ export function MarginTradePage() {
 
             <div className="tw-w-full sm:tw-px-5">
               {activeTab === 0 && <OpenPositionsTable />}
-              {/* {activeTab === 1 && <ClosedPositionsTable />} */}
+              {activeTab === 1 && <ClosedPositionsTable />}
 
               {/* <LimitOrderTables activeTab={activeTab} /> */}
             </div>
