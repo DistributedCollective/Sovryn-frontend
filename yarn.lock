@@ -4408,15 +4408,15 @@
     loglevel "^1.7.1"
     winston "^3.3.3"
 
-"@openzeppelin/contracts-upgradeable@3.4.0":
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts-upgradeable/-/contracts-upgradeable-3.4.0.tgz#7674c73c643a509f1b90c509e3e72fe9aae02aeb"
-  integrity sha512-7wBcbukDqWZt/B1zjb7zyeWq+AC7rx7nGln7/hPxHdKd8PAiiteXd51Cp2KmGP8qaY0/TXh/fQLsA082LWp8Zw==
+"@openzeppelin/contracts-upgradeable@4.5.2":
+  version "4.5.2"
+  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts-upgradeable/-/contracts-upgradeable-4.5.2.tgz#90d9e47bacfd8693bfad0ac8a394645575528d05"
+  integrity sha512-xgWZYaPlrEOQo3cBj97Ufiuv79SPd8Brh4GcFYhPgb6WvAq4ppz8dWKL6h+jLAK01rUqMRp/TS9AdXgAeNvCLA==
 
-"@openzeppelin/contracts@3.4.0":
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-3.4.0.tgz#9a1669ad5f9fdfb6e273bb5a4fed10cb4cc35eb0"
-  integrity sha512-qh+EiHWzfY/9CORr+eRUkeEUP1WiFUcq3974bLHwyYzLBUtK6HPaMkIUHi74S1rDTZ0sNz42DwPc5A4IJvN3rg==
+"@openzeppelin/contracts@4.5.0":
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-4.5.0.tgz#3fd75d57de172b3743cdfc1206883f56430409cc"
+  integrity sha512-fdkzKPYMjrRiPK6K4y64e6GzULR7R7RwxSigHS8DDp7aWDeoReqsQI+cxHV1UuhAqX69L1lAaWDxenfP+xiqzA==
 
 "@openzeppelin/contracts@^4.2.0":
   version "4.3.3"
@@ -4714,14 +4714,14 @@
   dependencies:
     debug "^4.3.1"
 
-"@sovryn/perpetual-swap@2.0.5":
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/@sovryn/perpetual-swap/-/perpetual-swap-2.0.5.tgz#790e855a286e48815cbbbc6591880c0e231ebfae"
-  integrity sha512-JDvxZ8L8ENbq4iSsF8axw2kN0h7aYVhJGNQiYVozLK6O520Uv3v/CdslhyHr4k3ZV1PXePd+dizSawa59rVdLg==
+"@sovryn/perpetual-swap@3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@sovryn/perpetual-swap/-/perpetual-swap-3.0.0.tgz#778a1993960fc346226b3d43f16cd1940a9fc15b"
+  integrity sha512-Opu5Q2Bp1FOOq4OPp3ne/AS3q1WKyIyL3+ngjXZaceVdfUddqbb80fqTk1jjxDmEndwhKHQv6GWnL6yOLfnhMw==
   dependencies:
     "@opengsn/provider" "^2.2.4"
-    "@openzeppelin/contracts" "3.4.0"
-    "@openzeppelin/contracts-upgradeable" "3.4.0"
+    "@openzeppelin/contracts" "4.5.0"
+    "@openzeppelin/contracts-upgradeable" "4.5.2"
     "@uniswap/lib" "^2.0.6"
     "@uniswap/v2-core" "^1.0.1"
     bignumber.js "^9.0.1"

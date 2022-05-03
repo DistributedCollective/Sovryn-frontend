@@ -31,6 +31,7 @@ import {
 } from './trading-dialog.helpers';
 import { MarginDetails } from 'app/hooks/trading/useGetEstimatedMarginDetails';
 import { TradeDialogContent } from './TradeDialogContent';
+import { useLog } from 'app/hooks/useDebug';
 
 interface ITradeDialogProps {
   slippage: number;
@@ -97,6 +98,13 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
   }, [borrowAmount, collateralTokensReceived]);
 
   const { minReturn } = useSlippage(collateralTokenAmount, slippage);
+
+  useLog('min return', {
+    collateralTokensReceived,
+    borrowAmount,
+    collateralTokenAmount,
+    minReturn,
+  });
 
   const { trade, ...tx } = useApproveAndTrade(
     pair,
