@@ -50,7 +50,10 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
   const linkPathname = getLinkPathname(appSection);
 
   return (
-    <div data-action-id="landing-promo-banner" className={styles.cardItem}>
+    <div
+      data-action-id={`landing-promo-banner-${linkPathname}`}
+      className={styles.cardItem}
+    >
       <Link
         to={{
           pathname: `/${linkPathname}`,
