@@ -24,6 +24,7 @@ import {
 import { toWei } from 'utils/blockchain/math-helpers';
 import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
 import {
+  toAssetNumberFormat,
   toNumberFormat,
   weiToAssetNumberFormat,
   weiToNumberFormat,
@@ -193,7 +194,18 @@ export const TradeDialogContent: React.FC<ITradeDialogContentProps> = ({
       .toFixed(0);
   }, [borrowAmount, collateralTokensReceived]);
 
-  const { minReturn } = useSlippage(collateralTokenAmount, slippage);
+  const { minReturn: _minReturn } = useSlippage(
+    collateralTokenAmount,
+    slippage,
+  );
+
+  // calculations are off for SOV/RBTC pair causing txes to fail, ignoring slippage settings as quick fix
+  const minReturn = useMemo(() => {
+    if (pair.longAsset === Asset.RBTC && pair.shortAsset === Asset.SOV) {
+      return '1';
+    }
+    return _minReturn;
+  }, [_minReturn, pair.longAsset, pair.shortAsset]);
 
   const txArgs = [
     HashZero, //0 if new loan
@@ -332,10 +344,14 @@ export const TradeDialogContent: React.FC<ITradeDialogContentProps> = ({
                 <>
                   <LoadableValue
                     loading={simulator.status === SimulationStatus.PENDING}
-                    value={weiToAssetNumberFormat(entryPrice, pair.longAsset)}
+                    value={
+                      <>
+                        {weiToAssetNumberFormat(entryPrice, pair.longAsset)}{' '}
+                        <AssetRenderer asset={pair.longAsset} />
+                      </>
+                    }
                     tooltip={weiToNumberFormat(entryPrice, 18)}
-                  />{' '}
-                  <AssetRenderer asset={pair.longAsset} />
+                  />
                 </>
               ) : (
                 <>
@@ -361,9 +377,10 @@ export const TradeDialogContent: React.FC<ITradeDialogContentProps> = ({
               <>
                 <LoadableValue
                   loading={simulator.status === SimulationStatus.PENDING}
+                  tooltip={toNumberFormat(liquidationPrice, 18)}
                   value={
                     <>
-                      {weiToAssetNumberFormat(liquidationPrice, pair.longAsset)}{' '}
+                      {toAssetNumberFormat(liquidationPrice, pair.longAsset)}{' '}
                       <AssetRenderer asset={pair.longAsset} />
                     </>
                   }
