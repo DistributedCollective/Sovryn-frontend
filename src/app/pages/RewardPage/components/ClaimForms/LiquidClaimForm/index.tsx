@@ -53,6 +53,7 @@ const Footer: React.FC = () => (
       target="_blank"
       rel="noreferrer noopener"
       className="tw-text-secondary tw-underline"
+      data-action-id="rewards-liquid-learnmore"
     >
       <Trans i18nKey={translations.rewardPage.liquidClaimForm.learn} />
     </a>
