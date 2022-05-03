@@ -52,7 +52,7 @@ export const OrderHistoryTable: React.FC<IOrderHistoryTableProps> = ({
             <th className="tw-text-sm">
               {t(translations.perpetualPage.orderHistoryTable.orderSize)}
             </th>
-            <th className="tw-text-sm tw-text-center">
+            <th className="tw-text-sm">
               {t(translations.perpetualPage.orderHistoryTable.triggerPrice)}
             </th>
             <th className="tw-text-sm">

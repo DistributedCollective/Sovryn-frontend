@@ -89,13 +89,19 @@ export type PerpetualPositionEvent = {
   tradesCount?: number;
 };
 
-export type LimitOrderType = {
+export enum LimitOrderState {
+  ACTIVE = 'Active',
+  CANCELLED = 'Cancelled',
+  FILLED = 'Filled',
+}
+
+export type LimitOrderEvent = {
   id: string;
   perpetual: { id: string };
   triggerPrice: string;
   limitPrice: string;
   tradeAmount: string;
-  state: string;
+  state: LimitOrderState;
   deadline: string;
   createdTimestamp: string;
 };

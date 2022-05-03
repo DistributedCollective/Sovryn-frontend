@@ -2094,10 +2094,10 @@
     "openOrdersTable": {
       "dateTime": "Date & Time",
       "symbol": "Symbol",
-      "orderType": "Order Type",
-      "orderState": "Order State",
+      "orderType": "Type",
+      "orderState": "State",
       "collateral": "Collateral",
-      "orderSize": "Order Size",
+      "orderSize": "Size",
       "limitPrice": "Limit Price",
       "triggerPrice": "Trigger Price",
       "transactionId": "Transaction ID",

@@ -1,5 +1,8 @@
 import React, { useMemo } from 'react';
-import { OrderHistoryEntry } from '../../hooks/usePerpetual_OrderHistory';
+import {
+  OrderHistoryEntry,
+  OrderState,
+} from '../../hooks/usePerpetual_OrderHistory';
 import {
   DisplayDate,
   SeparatorType,
@@ -87,11 +90,11 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({
           mode={AssetValueMode.auto}
         />
       </td>
-      <td className="tw-text-center">
+      <td>
         {triggerPrice ? (
           <AssetValue
-            value={orderSize}
-            assetString={pair?.baseAsset}
+            value={triggerPrice}
+            assetString={pair?.quoteAsset}
             mode={AssetValueMode.auto}
           />
         ) : (
@@ -110,7 +113,12 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({
         )}
       </td>
       <td>
-        {execPrice && (
+        {((tradeType === PerpetualTradeType.LIMIT ||
+          tradeType === PerpetualTradeType.STOP) &&
+          orderState === OrderState.Open) ||
+        !execPrice ? (
+          <span className="tw-text-2xl">-</span>
+        ) : (
           <AssetValue
             minDecimals={0}
             maxDecimals={2}

@@ -5,7 +5,8 @@ import {
   PerpetualTradeType,
   PerpetualTradeEvent,
   PerpetualLiquidationEvent,
-  LimitOrderType,
+  LimitOrderEvent,
+  LimitOrderState,
 } from '../types';
 import {
   Event,
@@ -20,8 +21,7 @@ import debounce from 'lodash.debounce';
 import { PerpetualPair } from 'utils/models/perpetual-pair';
 import { PerpetualPairDictionary } from 'utils/dictionaries/perpetual-pair-dictionary';
 
-// TODO: Finalize this enum once we know what possible order states we can have
-enum OrderState {
+export enum OrderState {
   Filled = 'Filled',
   Open = 'Open',
   Cancelled = 'Cancelled',
@@ -101,7 +101,7 @@ export const usePerpetual_OrderHistory = (
       previousTradeEvents?.trader?.liquidates ||
       [];
 
-    const currentLimitOrderEvents: LimitOrderType[] =
+    const currentLimitOrderEvents: LimitOrderEvent[] =
       tradeEvents?.trader?.limitOrders ||
       previousTradeEvents?.trader?.limitOrders ||
       [];
@@ -153,7 +153,6 @@ export const usePerpetual_OrderHistory = (
             };
           }),
       );
-      entries.sort((a, b) => Number(b.datetime) - Number(a.datetime));
     }
 
     if (currentLimitOrderEvents.length > 0) {
@@ -164,6 +163,7 @@ export const usePerpetual_OrderHistory = (
           const triggerPrice = BigNumber.from(item.triggerPrice);
           const triggerPriceWei = ABK64x64ToWei(triggerPrice);
           const limitPrice = ABK64x64ToWei(BigNumber.from(item.limitPrice));
+          const orderState = getOrderState(item.state);
 
           return {
             id: item.id,
@@ -175,7 +175,7 @@ export const usePerpetual_OrderHistory = (
             tradeType: triggerPrice.gt(0)
               ? PerpetualTradeType.STOP
               : PerpetualTradeType.LIMIT,
-            orderState: getLimitOrderState(item.state),
+            orderState,
             triggerPrice: triggerPriceWei,
             orderSize: tradeAmountWei,
             limitPrice: limitPrice,
@@ -184,7 +184,9 @@ export const usePerpetual_OrderHistory = (
           };
         }),
       );
+    }
 
+    if (entries.length > 1) {
       entries.sort((a, b) => Number(b.datetime) - Number(a.datetime));
     }
 
@@ -226,11 +228,11 @@ export const usePerpetual_OrderHistory = (
   };
 };
 
-const getLimitOrderState = (state: string): OrderState => {
+const getOrderState = (state: LimitOrderState): OrderState => {
   switch (state) {
-    case 'Active':
+    case LimitOrderState.ACTIVE:
       return OrderState.Open;
-    case 'Cancelled':
+    case LimitOrderState.CANCELLED:
       return OrderState.Cancelled;
     default:
       return OrderState.Filled;
