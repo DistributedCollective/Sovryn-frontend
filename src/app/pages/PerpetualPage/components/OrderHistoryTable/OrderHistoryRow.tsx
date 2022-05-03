@@ -115,7 +115,7 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({
       <td>
         {((tradeType === PerpetualTradeType.LIMIT ||
           tradeType === PerpetualTradeType.STOP) &&
-          orderState === OrderState.Open) ||
+          orderState === OrderState.Opened) ||
         !execPrice ? (
           <span className="tw-text-2xl">-</span>
         ) : (

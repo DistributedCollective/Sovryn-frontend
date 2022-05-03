@@ -152,7 +152,7 @@ export const PerpetualPageContainer: React.FC = () => {
             collateral={collateral}
             onChange={onChangePair}
           />
-          <ContractDetails pair={pair} collateral={collateral} />
+          <ContractDetails pair={pair} />
         </div>
         <div className="tw-container tw-flex tw-flex-col tw-mt-5 tw-flex-grow">
           <div className="tw-flex tw-flex-col tw-mb-8 xl:tw-flex-row xl:tw-justify-start tw-items-stretch tw-flex-grow tw-h-full tw-space-y-2 xl:tw-space-y-0 xl:tw-space-x-2">

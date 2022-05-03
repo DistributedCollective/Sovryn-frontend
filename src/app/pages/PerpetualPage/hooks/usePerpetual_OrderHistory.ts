@@ -23,7 +23,7 @@ import { PerpetualPairDictionary } from 'utils/dictionaries/perpetual-pair-dicti
 
 export enum OrderState {
   Filled = 'Filled',
-  Open = 'Open',
+  Opened = 'Opened',
   Cancelled = 'Cancelled',
 }
 
@@ -112,6 +112,7 @@ export const usePerpetual_OrderHistory = (
       entries = currentTradeEvents.map(item => {
         const tradeAmount = BigNumber.from(item.tradeAmountBC);
         const tradeAmountWei = ABK64x64ToWei(tradeAmount);
+
         return {
           id: item.id,
           pair: PerpetualPairDictionary.getById(item?.perpetual?.id),
@@ -119,7 +120,10 @@ export const usePerpetual_OrderHistory = (
           position: tradeAmount.isNegative()
             ? TradingPosition.SHORT
             : TradingPosition.LONG,
-          tradeType: PerpetualTradeType.MARKET,
+          tradeType: getFilledOrderTradeType(
+            item.orderDigest,
+            currentLimitOrderEvents,
+          ),
           orderState: OrderState.Filled,
           orderSize: tradeAmountWei,
           limitPrice: ABK64x64ToWei(BigNumber.from(item.limitPrice)),
@@ -231,10 +235,26 @@ export const usePerpetual_OrderHistory = (
 const getOrderState = (state: LimitOrderState): OrderState => {
   switch (state) {
     case LimitOrderState.ACTIVE:
-      return OrderState.Open;
-    case LimitOrderState.CANCELLED:
-      return OrderState.Cancelled;
+    case LimitOrderState.FILLED:
+      return OrderState.Opened;
     default:
-      return OrderState.Filled;
+      return OrderState.Cancelled;
   }
+};
+
+const getFilledOrderTradeType = (
+  orderDigest: string | undefined,
+  limitOrders: LimitOrderEvent[],
+): PerpetualTradeType => {
+  const limitOrder = limitOrders.find(item => item.id === orderDigest);
+
+  if (!orderDigest || !limitOrder) {
+    return PerpetualTradeType.MARKET;
+  }
+
+  if (!limitOrder.triggerPrice) {
+    return PerpetualTradeType.LIMIT;
+  }
+
+  return PerpetualTradeType.STOP;
 };
