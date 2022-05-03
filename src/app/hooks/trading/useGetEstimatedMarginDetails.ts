@@ -6,7 +6,7 @@ import {
 } from 'utils/blockchain/contract-helpers';
 import { useCacheCallWithValue } from '../useCacheCallWithValue';
 
-interface MarginDetails {
+export interface MarginDetails {
   principal: string;
   collateral: string;
   interestRate: string;

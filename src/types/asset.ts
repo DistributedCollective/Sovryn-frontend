@@ -2,6 +2,7 @@ export enum Asset {
   CSOV = 'CSOV',
   RBTC = 'RBTC',
   WRBTC = 'WRBTC',
+  /** Sovryn BSC Network BTC wrapper for Perpetuals */
   BTCS = 'BTCS',
   ETH = 'ETH',
   DOC = 'DOC',
@@ -12,7 +13,9 @@ export enum Asset {
   SOV = 'SOV',
   MOC = 'MOC',
   BNB = 'BNBS',
+  BNBS = 'BNBS',
   FISH = 'FISH',
+  TRADING = 'TRADING',
   RIF = 'RIF',
   MYNT = 'MYNT',
 }

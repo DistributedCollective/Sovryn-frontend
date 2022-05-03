@@ -1,0 +1,8 @@
+.star {
+  @apply tw-px-0 tw-py-0.5 tw-text-2xl tw-cursor-pointer tw-transition hover:tw-opacity-75;
+  fill: theme('colors.gray-6');
+}
+.star:global(.active),
+.star:hover {
+  fill: theme('colors.primary');
+}

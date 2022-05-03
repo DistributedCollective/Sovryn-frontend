@@ -1,20 +1,26 @@
 import React from 'react';
 import { Slider } from 'app/components/Form/Slider';
+import styles from './index.module.scss';
+import { sliderMarginLeverageValues } from 'app/components/Form/Slider/sliderDefaultLabelValues';
 
-interface Props {
+interface ILeverageSelectorProps {
   value: number;
   onChange: (value: number) => void;
 }
-
-export function LeverageSelector(props: Props) {
+export const LeverageSelector: React.FC<ILeverageSelectorProps> = ({
+  value,
+  onChange,
+}) => {
   return (
     <Slider
-      value={props.value}
-      onChange={value => props.onChange(value)}
-      min={2}
-      max={5}
-      stepSize={1}
+      value={value}
+      onChange={onChange}
+      min={sliderMarginLeverageValues.min}
+      max={sliderMarginLeverageValues.max}
+      stepSize={sliderMarginLeverageValues.stepSize}
       labelRenderer={value => <>{value}x</>}
+      className={styles.colorized}
+      dataActionId="margin-position-leverage-bar"
     />
   );
-}
+};

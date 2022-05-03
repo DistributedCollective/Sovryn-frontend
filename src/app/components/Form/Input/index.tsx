@@ -1,4 +1,4 @@
-import cn from 'classnames';
+import classNames from 'classnames';
 import React, { useCallback } from 'react';
 
 import { handleNumber } from 'utils/helpers';
@@ -10,6 +10,7 @@ interface InputProps {
   onChange?: (value: string) => void;
   onFocus?: (e: React.FocusEvent<HTMLInputElement>) => void;
   appendElem?: React.ReactNode;
+  prependElem?: React.ReactNode;
   type?: InputType;
   className?: string;
   inputClassName?: string;
@@ -20,18 +21,20 @@ interface InputProps {
   max?: number;
   step?: number;
   dataActionId?: string;
+  disabled?: boolean;
 }
 
-export function Input({
+export const Input: React.FC<InputProps> = ({
   value,
   onChange,
   className,
   inputClassName,
   appendElem,
+  prependElem,
   appendClassName = 'tw-mr-5',
   dataActionId,
   ...props
-}: InputProps) {
+}) => {
   const handleChange = useCallback(
     (newValue: string) => {
       if (onChange) {
@@ -47,12 +50,13 @@ export function Input({
 
   return (
     <div
-      className={cn('tw-input-wrapper', className, {
+      className={classNames('tw-input-wrapper', className, {
         readonly: props.readOnly,
       })}
     >
+      {prependElem && <div className="tw-input-prepend">{prependElem}</div>}
       <input
-        className={cn('tw-input', inputClassName)}
+        className={classNames('tw-input', inputClassName)}
         lang={navigator.language}
         value={value}
         onChange={e => handleChange(e.currentTarget.value)}
@@ -60,13 +64,13 @@ export function Input({
         {...props}
       />
       {appendElem && (
-        <div className={cn('tw-input-append', appendClassName)}>
+        <div className={classNames('tw-input-append', appendClassName)}>
           {appendElem}
         </div>
       )}
     </div>
   );
-}
+};
 
 Input.defaultProps = {
   inputClassName: 'tw-text-left',
@@ -89,13 +93,17 @@ export function DummyInput({
 }: DummyProps) {
   return (
     <div
-      className={cn('tw-input-wrapper', className, {
+      className={classNames('tw-input-wrapper', className, {
         readonly: props.readOnly,
       })}
     >
-      <div className={cn('tw-input', inputClassName)}>{value}</div>
+      <div
+        className={classNames('tw-input tw-truncate tw-pr-0', inputClassName)}
+      >
+        {value}
+      </div>
       {appendElem && (
-        <div className="tw-input-append tw-pr-5">{appendElem}</div>
+        <div className="tw-input-append tw-mr-2">{appendElem}</div>
       )}
     </div>
   );

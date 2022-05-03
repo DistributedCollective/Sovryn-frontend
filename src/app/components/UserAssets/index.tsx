@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { bignumber } from 'mathjs';
-import { Icon } from '@blueprintjs/core';
+import { Icon, Tooltip } from '@blueprintjs/core';
 
 import { translations } from '../../../locales/i18n';
 import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
@@ -24,7 +24,7 @@ import { AssetRenderer } from '../AssetRenderer/';
 import { Sovryn } from '../../../utils/sovryn';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { Dialog } from '../../containers/Dialog';
-import { Button } from '../Button';
+import { Button, ButtonSize, ButtonStyle } from '../Button';
 import { discordInvite } from 'utils/classifiers';
 import { ConversionDialog } from './ConversionDialog';
 import { BridgeLink } from './BridgeLink';
@@ -75,7 +75,7 @@ export const UserAssets: React.FC = () => {
 
   return (
     <>
-      <div className="sovryn-border sovryn-table tw-pt-1 tw-pb-4 tw-pr-4 tw-pl-4 tw-mb-12">
+      <div className="sovryn-border sovryn-table tw-pt-1 tw-pb-4 tw-pr-4 tw-pl-4 tw-mb-12 tw-overflow-auto">
         <table className="tw-w-full">
           <thead>
             <tr>
@@ -144,7 +144,7 @@ export const UserAssets: React.FC = () => {
           <h1 className="tw-mb-6 tw-text-sov-white tw-text-center">
             {t(translations.common.maintenance)}
           </h1>
-          <div className="tw-text-sm tw-font-light tw-tracking-normal tw-text-center">
+          <div className="tw-text-sm tw-font-normal tw-tracking-normal tw-text-center">
             <Trans
               i18nKey={translations.maintenance.transack}
               components={[
@@ -162,7 +162,8 @@ export const UserAssets: React.FC = () => {
           <div className="tw-text-center tw-mt-5">
             <Button
               text={t(translations.modal.close)}
-              inverted
+              size={ButtonSize.lg}
+              style={ButtonStyle.inverted}
               onClick={() => {
                 setTransack(false);
               }}
@@ -202,6 +203,9 @@ const AssetRow: React.FC<IAssetRowProps> = ({
   const [loading, setLoading] = useState(true);
   const [tokens, setTokens] = useState('0');
   const blockSync = useBlockSync();
+
+  const { checkMaintenance, States } = useMaintenance();
+  const fastBtcLocked = checkMaintenance(States.FASTBTC);
 
   useEffect(() => {
     const get = async () => {
@@ -287,12 +291,40 @@ const AssetRow: React.FC<IAssetRowProps> = ({
               <button className={styles.actionLink} onClick={onTransack}>
                 {t(translations.userAssets.actions.buy)}
               </button>
-              <Link to="/fast-btc/deposit">
-                <span>{t(translations.common.deposit)}</span>
-              </Link>
-              <Link to="/fast-btc/withdraw">
-                <span>{t(translations.common.withdraw)}</span>
-              </Link>
+              {fastBtcLocked ? (
+                <Tooltip
+                  position="bottom"
+                  hoverOpenDelay={0}
+                  hoverCloseDelay={0}
+                  interactionKind="hover"
+                  content={<>{t(translations.maintenance.fastBTCPortfolio)}</>}
+                >
+                  <div className="tw-cursor-not-allowed tw-opacity-25">
+                    {t(translations.common.deposit)}
+                  </div>
+                </Tooltip>
+              ) : (
+                <Link to="/fast-btc/deposit">
+                  <span>{t(translations.common.deposit)}</span>
+                </Link>
+              )}
+              {fastBtcLocked ? (
+                <Tooltip
+                  position="bottom"
+                  hoverOpenDelay={0}
+                  hoverCloseDelay={0}
+                  interactionKind="hover"
+                  content={<>{t(translations.maintenance.fastBTCPortfolio)}</>}
+                >
+                  <div className="tw-cursor-not-allowed tw-opacity-25">
+                    {t(translations.common.withdraw)}
+                  </div>
+                </Tooltip>
+              ) : (
+                <Link to="/fast-btc/withdraw">
+                  <span>{t(translations.common.withdraw)}</span>
+                </Link>
+              )}
             </>
           )}
           {[Asset.USDT, Asset.RDOC].includes(item.asset) && (

@@ -1,5 +1,5 @@
 import React from 'react';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { Button, ButtonProps } from '../Button';
 import { TradingPosition } from '../../../../types/trading-position';
 
@@ -10,7 +10,7 @@ interface Props extends ButtonProps {
 export function TradeButton({ className, position, ...props }: Props) {
   return (
     <Button
-      className={cn(
+      className={classNames(
         'tw-btn tw-btn-trade',
         className,
         { 'tw-bg-trade-long': position === TradingPosition.LONG },

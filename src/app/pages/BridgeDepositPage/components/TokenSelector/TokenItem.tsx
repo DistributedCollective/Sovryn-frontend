@@ -8,7 +8,7 @@ import { AssetModel } from '../../types/asset-model';
 import { useTokenBalance } from '../../hooks/useTokenBalance';
 import { bignumber } from 'mathjs';
 import { SelectBox } from '../SelectBox';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { translations } from 'locales/i18n';
@@ -51,11 +51,11 @@ export const TokenItem: React.FC<ITokenItemProps> = ({
         <img src={image} alt={symbol} className="tw-w-16 tw-h-16" />
       </SelectBox>
       <div
-        className={cn('tw-flex tw-flex-col tw-items-center tw-mt-2', {
+        className={classNames('tw-flex tw-flex-col tw-items-center tw-mt-2', {
           'tw-opacity-25': isDisabled() && !balance.loading,
         })}
       >
-        <span className="tw-text-sm tw-font-light tw-mb-1">
+        <span className="tw-text-sm tw-font-normal tw-mb-1">
           {t(translations.common.availableBalance)}
         </span>
         <LoadableValue

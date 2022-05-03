@@ -15,14 +15,19 @@ import mAssetAbi from 'utils/blockchain/abi/BabelFish_MassetAbi.json';
 import bridgeAbi from 'utils/blockchain/abi/BridgeAbi.json';
 import { CrossBridgeAsset } from '../types/cross-bridge-asset';
 
-interface MultiCallData {
+export type MultiCallData = {
   address: string;
   abi: ethers.ContractInterface;
   fnName: string;
   args: any[];
   key: string;
   parser?: (val: any) => any;
-}
+};
+
+export type MultiCallResult = {
+  blockNumber: number;
+  returnData: { [key: string]: any };
+};
 
 export class BridgeNetwork {
   public readonly contracts: Map<Chain, Map<string, ethers.Contract>> = new Map<
@@ -125,7 +130,10 @@ export class BridgeNetwork {
     ]);
   }
 
-  public async multiCall<T = any>(chain: Chain, callData: MultiCallData[]) {
+  public async multiCall(
+    chain: Chain,
+    callData: MultiCallData[],
+  ): Promise<MultiCallResult> {
     const network = BridgeNetworkDictionary.get(chain) as NetworkModel;
     const data = callData.map(item => ({
       target: item.address,
@@ -145,7 +153,7 @@ export class BridgeNetwork {
       'aggregate',
       [data],
     ).then(({ blockNumber, returnData }) => {
-      const data: T = {} as any;
+      const data = {};
       callData.forEach((item, index) => {
         const value = this.decodeFunctionResult(
           chain,

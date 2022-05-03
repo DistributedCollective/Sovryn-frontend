@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Dialog } from '../../containers/Dialog';
 import { FormGroup } from 'app/components/Form/FormGroup';
-import { Checkbox } from '@blueprintjs/core';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { translations } from '../../../locales/i18n';
 import { useTranslation } from 'react-i18next';
 import { useCookie } from 'app/hooks/useCookie';
 import { sovAnalyticsCookie } from 'utils/classifiers';
+import { Checkbox } from '../Checkbox';
 
 export interface OptOutProps {
   open: boolean;
@@ -33,6 +33,8 @@ export default function OptOutDialog(props: OptOutProps) {
       setOptIn(!(get(sovAnalyticsCookie.name) === sovAnalyticsCookie.value));
   }, [props.open, get]);
 
+  const handleChange = useCallback(() => setOptIn(!!!optIn), [optIn]);
+
   return (
     <>
       <Dialog isOpen={props.open} onClose={props.onClose}>
@@ -40,19 +42,17 @@ export default function OptOutDialog(props: OptOutProps) {
           <h1 className="tw-mb-6 tw-text-sov-white tw-text-center">
             {t(translations.analyticsDialog.title)}
           </h1>
-          <div className="tw-text-sm tw-font-light tw-tracking-normal">
+          <div className="tw-text-sm tw-font-normal tw-tracking-normal">
             <div className="tw-mb-6">
               {t(translations.analyticsDialog.message_1)}
             </div>
             <FormGroup className="tw-mb-6">
               <Checkbox
-                name="analytics"
+                label={t(translations.analyticsDialog.option)}
                 checked={optIn}
-                onChange={e => setOptIn(!!!optIn)}
+                onChange={handleChange}
                 className="tw-text-sm md:tw-col-span-8 sm:tw-col-span-12"
-              >
-                {t(translations.analyticsDialog.option)}
-              </Checkbox>
+              />
             </FormGroup>
             <div className="tw-mb-6">
               {t(translations.analyticsDialog.message_2)}

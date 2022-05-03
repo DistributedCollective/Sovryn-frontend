@@ -5,7 +5,7 @@ import React, {
   useState,
   useEffect,
 } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import debounce from 'lodash.debounce';
 import { translations } from 'locales/i18n';
 import { WithdrawContext, WithdrawStep } from '../../contexts/withdraw-context';
@@ -14,6 +14,14 @@ import { Input } from '../../../../components/Form/Input';
 import { contractReader } from '../../../../../utils/sovryn/contract-reader';
 import { ErrorBadge } from '../../../../components/Form/ErrorBadge';
 import { FastBtcButton } from '../FastBtcButton';
+import {
+  validate,
+  getAddressInfo,
+  AddressType,
+} from 'bitcoin-address-validation';
+import { currentNetwork } from 'utils/classifiers';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { discordInvite } from 'utils/classifiers';
 
 enum AddressValidationState {
   NONE,
@@ -25,6 +33,8 @@ enum AddressValidationState {
 export const AddressForm: React.FC = () => {
   const { address, set } = useContext(WithdrawContext);
   const { t } = useTranslation();
+  const { checkMaintenance, States } = useMaintenance();
+  const fastBtcLocked = checkMaintenance(States.FASTBTC);
 
   const [addressValidationState, setAddressValidationState] = useState(
     AddressValidationState.NONE,
@@ -46,13 +56,25 @@ export const AddressForm: React.FC = () => {
     [set, value],
   );
 
-  const validate = useCallback(async (adr: string) => {
+  const validateAddress = useCallback(async (address: string) => {
     setAddressValidationState(AddressValidationState.LOADING);
-    const result = await contractReader.call(
+    let result = false;
+    const isValidBtcAddress = validate(address);
+    const isValid = await contractReader.call(
       'fastBtcBridge',
       'isValidBtcAddress',
-      [adr],
+      [address],
     );
+    if (isValidBtcAddress && isValid) {
+      const { network, type } = getAddressInfo(address);
+      if (
+        network.toLowerCase() === currentNetwork.toLowerCase() &&
+        type.toLowerCase() !== AddressType.p2tr
+      ) {
+        result = true;
+      }
+    }
+
     setAddressValidationState(
       result ? AddressValidationState.VALID : AddressValidationState.INVALID,
     );
@@ -60,8 +82,8 @@ export const AddressForm: React.FC = () => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const delayedOnChange = useCallback(
-    debounce(adr => validate(adr), 300),
-    [validate],
+    debounce(addressToValidate => validateAddress(addressToValidate), 300),
+    [validateAddress],
   );
 
   useEffect(() => {
@@ -95,9 +117,31 @@ export const AddressForm: React.FC = () => {
           <FastBtcButton
             text={t(translations.fastBtcPage.withdraw.addressForm.cta)}
             onClick={onContinueClick}
-            disabled={addressValidationState !== AddressValidationState.VALID}
+            disabled={
+              addressValidationState !== AddressValidationState.VALID ||
+              fastBtcLocked
+            }
             loading={addressValidationState === AddressValidationState.LOADING}
           />
+          {fastBtcLocked && (
+            <ErrorBadge
+              content={
+                <Trans
+                  i18nKey={translations.maintenance.fastBTC}
+                  components={[
+                    <a
+                      href={discordInvite}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                    >
+                      x
+                    </a>,
+                  ]}
+                />
+              }
+            />
+          )}
         </div>
       </div>
     </>

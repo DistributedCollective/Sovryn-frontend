@@ -1,13 +1,11 @@
-import { Checkbox } from '@blueprintjs/core';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
 import { isMobile } from 'utils/helpers';
-
 import { translations } from '../../../locales/i18n';
 import { local } from '../../../utils/storage';
 import { Dialog } from '../../containers/Dialog/Loadable';
 import SalesButton from '../SalesButton';
+import { Checkbox } from '../Checkbox';
 import logo from 'assets/images/sovryn-logo-white.svg';
 
 // previously MetaMask disclaimer, 'mm-…' remains to not annoy users.
@@ -36,7 +34,7 @@ export const FirstVisitDisclaimerDialog: React.FC = () => {
       canEscapeKeyClose={false}
       className="tw-w-full tw-max-w-4xl tw-p-6"
     >
-      <div className="tw-font-light tw-text-center tw-w-full tw-max-w-2xl tw-mx-auto">
+      <div className="tw-font-normal tw-text-center tw-w-full tw-max-w-2xl tw-mx-auto">
         <img src={logo} alt="Sovryn Logo" className="tw-mb-4" />
         <div
           className="tw-font-bold tw-text-center tw-mb-6"
@@ -52,12 +50,14 @@ export const FirstVisitDisclaimerDialog: React.FC = () => {
           checked={checked}
           onChange={() => setChecked(!checked)}
           label={t(translations.notifyDialog.acceptTerms)}
+          data-action-id="accept-terms-checkbox"
         />
         <div className="tw-mt-6">
           <SalesButton
             text={t(translations.notifyDialog.salesBtn)}
             onClick={handleClose}
             disabled={!checked}
+            data-action-id="accept-terms-submit-button"
           />
         </div>
       </div>
@@ -79,7 +79,7 @@ const GeneralAlert: React.FC = () => {
           {t(translations.notifyDialog.generalAlert.p4_1)}
           <a
             href="https://wiki.sovryn.app/en/getting-started/faq-general"
-            className="tw-font-light tw-text-primary"
+            className="tw-font-normal tw-text-primary"
             target="_blank"
             rel="noreferrer noopener"
           >
@@ -91,7 +91,7 @@ const GeneralAlert: React.FC = () => {
           {t(translations.notifyDialog.generalAlert.p5_1)}
           <a
             href="https://wiki.sovryn.app/en/getting-started/wallet-setup"
-            className="tw-font-light tw-text-primary"
+            className="tw-font-normal tw-text-primary"
             target="_blank"
             rel="noreferrer noopener"
           >

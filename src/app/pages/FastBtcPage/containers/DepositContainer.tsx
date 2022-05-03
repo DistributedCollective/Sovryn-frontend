@@ -1,6 +1,9 @@
 import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import classNames from 'classnames';
-// import { CSSTransition, SwitchTransition } from 'react-transition-group';
+import { useDispatch } from 'react-redux';
+import { useWalletContext } from '@sovryn/react-wallet';
+import { ProviderType } from '@sovryn/wallet';
+import { actions as walletProviderActions } from 'app/containers/WalletProvider/slice';
 import {
   defaultValue,
   DepositContext,
@@ -15,12 +18,41 @@ import { SidebarStepsDeposit } from '../components/Deposit/SidebarStepsDeposit';
 import { useDepositSocket } from '../hooks/useDepositSocket';
 import { StatusScreen } from '../components/Deposit/StatusScreen';
 import { NetworkAwareComponentProps } from '../types';
+import { Signature } from '../contexts/deposit-context';
+import { SignatureValidation } from '../components/Deposit/SignatureValidation';
+import { isMainnet } from 'utils/classifiers';
+import { Chain, ChainId } from 'types';
 
 export const DepositContainer: React.FC<NetworkAwareComponentProps> = ({
   network,
 }) => {
   const [state, setState] = useState<DepositContextStateType>(defaultValue);
   const { step } = state;
+
+  const dispatch = useDispatch();
+  const walletContext = useWalletContext();
+
+  useEffect(() => {
+    if (network === Chain.BSC) {
+      if (walletContext.provider !== ProviderType.WEB3) {
+        walletContext.disconnect();
+      }
+
+      //set the bridge chain id to BSC
+      dispatch(
+        walletProviderActions.setBridgeChainId(
+          isMainnet ? ChainId.BSC_MAINNET : ChainId.BSC_TESTNET,
+        ),
+      );
+
+      return () => {
+        // Unset bridge settings
+        dispatch(walletProviderActions.setBridgeChainId(null));
+      };
+    }
+    // only run once on mounting
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleEvents = useCallback((type: string, value: any) => {
     switch (type) {
@@ -60,7 +92,8 @@ export const DepositContainer: React.FC<NetworkAwareComponentProps> = ({
             ...prevState,
             addressLoading: false,
             address: response.btcadr,
-            step: DepositStep.ADDRESS,
+            step: DepositStep.VALIDATION,
+            signatures: response.signatures as Signature[],
           }));
         })
         .catch(error => {
@@ -75,6 +108,13 @@ export const DepositContainer: React.FC<NetworkAwareComponentProps> = ({
     },
     [getDepositAddress],
   );
+
+  const handleValidation = useCallback(() => {
+    setState(prevState => ({
+      ...prevState,
+      step: DepositStep.ADDRESS,
+    }));
+  }, []);
 
   const value = useMemo(
     () => ({
@@ -118,7 +158,7 @@ export const DepositContainer: React.FC<NetworkAwareComponentProps> = ({
             styles.wrapper,
           )}
         >
-          <SidebarStepsDeposit />
+          <SidebarStepsDeposit network={network} />
         </div>
         <div
           className={classNames(
@@ -128,6 +168,9 @@ export const DepositContainer: React.FC<NetworkAwareComponentProps> = ({
         >
           <div className={styles.container}>
             {step === DepositStep.MAIN && <MainScreen network={network} />}
+            {step === DepositStep.VALIDATION && (
+              <SignatureValidation onClick={handleValidation} />
+            )}
             {step === DepositStep.ADDRESS && <AddressForm />}
             {[DepositStep.PROCESSING, DepositStep.COMPLETED].includes(step) && (
               <StatusScreen network={network} />

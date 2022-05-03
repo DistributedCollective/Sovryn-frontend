@@ -3,11 +3,11 @@ import { Dialog } from '../../containers/Dialog/Loadable';
 import logo from 'assets/images/sovryn-logo-horz-white.png';
 import { isMobile } from 'utils/helpers';
 import { noop } from '../../constants';
-import { Checkbox } from '@blueprintjs/core';
 import SalesButton from '../SalesButton';
 import { WarningContainer, WarningTextContent } from './styled';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
+import { Checkbox } from '../Checkbox';
 
 export const MobileBrowsersWarningDialog: React.FC = () => {
   const { t } = useTranslation();
@@ -28,7 +28,7 @@ export const MobileBrowsersWarningDialog: React.FC = () => {
       isCloseButtonShown={false}
       className="tw-w-auto tw-text-center"
     >
-      <WarningContainer className="tw-pt-2 tw-px-8 tw-text-center">
+      <WarningContainer className="tw-pt-2 sm:tw-px-8 tw-text-center">
         <img src={logo} alt="Sovryn" className="tw-mx-auto tw-mb-12" />
 
         <WarningTextContent>

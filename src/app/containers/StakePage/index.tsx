@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Rsk3 from '@rsksmart/rsk3';
-import { Spinner, Tooltip } from '@blueprintjs/core';
+import { Tooltip } from '@blueprintjs/core';
 import { bignumber } from 'mathjs';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -15,8 +15,6 @@ import {
 } from 'utils/blockchain/requests/staking';
 import { Asset } from '../../../types';
 import { Modal } from '../../components/Modal';
-import { Header } from '../../components/Header';
-import { Footer } from '../../components/Footer';
 import { CurrentVests } from './components/CurrentVests';
 import { CurrentStakes } from './components/CurrentStakes';
 import { DelegateForm } from './components/DelegateForm';
@@ -45,10 +43,11 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { AssetDetails } from 'utils/models/asset-details';
 import { getUSDSum } from '../../../utils/helpers';
 import { FeeBlock } from './components/FeeBlock';
+import { Spinner, SpinnerSize } from 'app/components/Spinner';
 import { useContractPauseState } from 'app/hooks/useContractPauseState';
 import { AlertBadge } from 'app/components/AlertBadge/AlertBadge';
-import { discordInvite } from 'utils/classifiers';
-import { Button } from 'app/components/Button';
+import { discordInvite, bitocracyUrl } from 'utils/classifiers';
+import { Button, ButtonType } from 'app/components/Button';
 
 const now = new Date();
 
@@ -65,7 +64,6 @@ export const StakePage: React.FC = () => {
         <title>{t(translations.stake.title)}</title>
         <meta name="description" content={t(translations.stake.meta)} />
       </Helmet>
-      <Header />
       <main>
         <div className="tw-bg-gray-1 tw-tracking-normal">
           <div className="tw-container tw-mx-auto tw-px-6">
@@ -78,7 +76,6 @@ export const StakePage: React.FC = () => {
           </div>
         </div>
       </main>
-      <Footer />
     </>
   );
 };
@@ -376,14 +373,13 @@ const InnerStakePage: React.FC = () => {
       <Helmet>
         <title>{t(translations.stake.title)}</title>
       </Helmet>
-      <Header />
       <main>
         <div className="tw-bg-gray-1 tw-tracking-normal">
           <div className="tw-container tw-mx-auto tw-px-6">
-            <h2 className="tw-text-sov-white tw-pt-8 tw-pb-5 tw-pl-10">
+            <h2 className="tw-text-sov-white tw-pt-8 tw-pb-5">
               {t(translations.stake.title)}
             </h2>
-            <div className="lg:tw-flex tw-items-stretch tw-justify-around tw-mt-2">
+            <div className="lg:tw-flex tw-items-stretch tw-justify-between tw-mt-2">
               <div className="tw-staking-box tw-bg-gray-3 tw-p-8 tw-pb-6 tw-mb-5 tw-rounded-2xl lg:tw-w-1/3 lg:tw-mx-2 lg:tw-mb-0 2xl:tw-w-1/4">
                 <p className="tw-text-lg tw--mt-1">
                   {t(translations.stake.total)}
@@ -391,7 +387,10 @@ const InnerStakePage: React.FC = () => {
                 <div className="xl:tw-text-4xl tw-text-3xl tw-mt-2 tw-mb-6">
                   {weiTo4(balanceOf.value)} SOV
                   {balanceOf.loading && (
-                    <Spinner size={20} className="tw-inline-block tw-m-2" />
+                    <Spinner
+                      size={SpinnerSize.SM}
+                      className="tw-inline-block tw-m-2"
+                    />
                   )}
                 </div>
                 <Modal
@@ -425,7 +424,7 @@ const InnerStakePage: React.FC = () => {
                       setWithdrawForm(false);
                     }}
                     text={t(translations.stake.addStake)}
-                    type="button"
+                    type={ButtonType.button}
                     disabled={paused}
                     className="tw-font-normal tw-text-primary tw-bg-primary tw-bg-opacity-10 hover:tw-text-primary hover:tw-bg-opacity-40"
                   />
@@ -445,7 +444,7 @@ const InnerStakePage: React.FC = () => {
                   >
                     <Button
                       text={t(translations.stake.addStake)}
-                      type="button"
+                      type={ButtonType.button}
                       disabled
                       className="tw-font-normal tw-text-primary tw-bg-primary tw-bg-opacity-10 hover:tw-text-primary hover:tw-bg-opacity-40"
                     />
@@ -485,13 +484,16 @@ const InnerStakePage: React.FC = () => {
                 <div className="xl:tw-text-4xl tw-text-3xl tw-mt-2 tw-mb-6">
                   {weiTo4(voteBalance.value)}
                   {voteBalance.loading && (
-                    <Spinner size={20} className="tw-inline-block tw-m-2" />
+                    <Spinner
+                      size={SpinnerSize.SM}
+                      className="tw-inline-block tw-m-2"
+                    />
                   )}
                 </div>
                 <div className="tw-flex tw-flex-col tw-items-start">
                   <div className="tw-bg-primary tw-font-normal tw-bg-opacity-10 tw-hover:text-primary tw-focus:outline-none tw-focus:bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-px-8 tw-py-3 tw-text-lg tw-text-primary tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-primary tw-rounded-xl hover:tw-no-underline tw-no-underline tw-inline-block">
                     <a
-                      href="https://bitocracy.sovryn.app/"
+                      href={bitocracyUrl}
                       rel="noopener noreferrer"
                       target="_blank"
                       className="hover:tw-no-underline"
@@ -560,6 +562,7 @@ const InnerStakePage: React.FC = () => {
           <TxDialog tx={withdrawTx} />
           <TxDialog tx={delegateTx} />
           <TxDialog tx={vestingDelegateTx} />
+
           <>
             {balanceOf.value !== '0' && (
               <>
@@ -633,7 +636,6 @@ const InnerStakePage: React.FC = () => {
           </>
         </div>
       </main>
-      <Footer />
     </>
   );
 };

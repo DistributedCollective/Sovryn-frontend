@@ -1,35 +1,38 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import RadioGroup from 'app/components/Form/RadioGroup';
+import { ButtonTrade } from 'app/components/ButtonTrade';
 import { TradingTypes } from '../../types';
 import { translations } from 'locales/i18n';
+import classNames from 'classnames';
 
-interface Props {
-  value: string;
+interface IBuySellProps {
+  value: TradingTypes;
   onChange: (value: TradingTypes) => void;
 }
 
-export function BuySell({ value, onChange }: Props) {
+export const BuySell: React.FC<IBuySellProps> = ({ value, onChange }) => {
   const { t } = useTranslation();
 
   return (
-    <>
-      <RadioGroup
-        value={value}
-        onChange={value => onChange(value as TradingTypes)}
-        className="tw-radio-group--primary"
-      >
-        <RadioGroup.Button
-          className="tw-bg-trade-long tw-btn-trade-content"
-          value={TradingTypes.BUY}
-          text={t(translations.spotTradingPage.tradeForm.buy)}
-        />
-        <RadioGroup.Button
-          className="tw-bg-trade-short tw-btn-trade-content"
-          value={TradingTypes.SELL}
-          text={t(translations.spotTradingPage.tradeForm.sell)}
-        />
-      </RadioGroup>
-    </>
+    <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-4 tw-mx-auto">
+      <ButtonTrade
+        className={classNames('tw-h-8 tw-capitalize', {
+          'tw-opacity-50': value !== TradingTypes.BUY,
+        })}
+        text={t(translations.spotTradingPage.tradeForm.buy)}
+        tradingType={TradingTypes.BUY}
+        onClick={() => onChange(TradingTypes.BUY)}
+        data-action-id="spot-buy"
+      />
+      <ButtonTrade
+        className={classNames('tw-h-8 tw-capitalize', {
+          'tw-opacity-50': value !== TradingTypes.SELL,
+        })}
+        text={t(translations.spotTradingPage.tradeForm.sell)}
+        tradingType={TradingTypes.SELL}
+        onClick={() => onChange(TradingTypes.SELL)}
+        data-action-id="spot-sell"
+      />
+    </div>
   );
-}
+};

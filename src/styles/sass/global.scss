@@ -1,32 +1,56 @@
 // global-styles.tsx
-body.originsLaunchpad {
-  @apply tw-bg-gray-3;
-}
-
 #root {
-  min-height: 100vh;
-  overflow: auto;
+  @apply tw-flex tw-flex-col tw-justify-between tw-min-h-screen tw-overflow-auto;
   padding-top: 4.4rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+
   &.openedMenu {
-    overflow: hidden;
-    height: 0;
-    min-height: 0;
+    @apply tw-h-0 tw-min-h-0 tw-overflow-hidden;
   }
 }
 
-#WEB3_CONNECT_MODAL_ID > div {
-  z-index: 30;
+// clear root styling for storybook
+.sb-show-main #root {
+  @apply tw-relative tw-block tw-p-4;
+}
+
+#WEB3_CONNECT_MODAL_ID>div {
+  @apply tw-z-30;
 }
 
 .mw-tooltip {
   max-width: 250px;
 }
 
+*::-webkit-scrollbar {
+  @apply tw-w-1;
+}
+
+*::-webkit-scrollbar-track {
+  @apply tw-shadow-inner;
+}
+
+*::-webkit-scrollbar-thumb {
+  @apply tw-bg-gray-9;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  @apply tw-m-0 tw-appearance-none;
+}
+
+.mw-tooltip {
+  max-width: 250px;
+}
+
+.popover-content {
+  @apply tw-p-4 tw-font-light;
+}
+
 @screen lg {
   .mw-tooltip {
     max-width: 600px;
+  }
+  .mw-content {
+    @apply tw-px-8 tw-py-4;
   }
 }

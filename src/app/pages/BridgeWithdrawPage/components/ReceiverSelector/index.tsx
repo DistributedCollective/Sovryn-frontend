@@ -5,7 +5,6 @@ import { Chain } from 'types';
 import { actions } from '../../slice';
 import { selectBridgeWithdrawPage } from '../../selectors';
 import { FormGroup } from '../../../../components/Form/FormGroup';
-import networkList from '../../../../components/NetworkRibbon/component/network.json';
 import { BridgeNetworkDictionary } from '../../../BridgeDepositPage/dictionaries/bridge-network-dictionary';
 import { Input } from '../../../../components/Form/Input';
 import { ActionButton } from 'app/components/Form/ActionButton';
@@ -19,6 +18,7 @@ import imgWarning from 'assets/images/warning_black_24dp.svg';
 import classNames from 'classnames';
 import { useIsBridgeWithdrawLocked } from 'app/pages/BridgeWithdrawPage/hooks/useIsBridgeWithdrawLocked';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { getNetworkByChainId } from '../../../../../utils/blockchain/networks';
 
 interface IReceiverSelectorProps {
   address: string;
@@ -41,7 +41,7 @@ export const ReceiverSelector: React.FC<IReceiverSelectorProps> = ({
   );
 
   const currentNetwork =
-    networkList.find(item => item.chainId === network?.chainId)?.name ||
+    (network?.chainId && getNetworkByChainId(network.chainId)?.name) ||
     network?.name;
 
   const [value, setValue] = useState(receiver);

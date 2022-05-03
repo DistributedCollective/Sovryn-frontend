@@ -1,6 +1,7 @@
 import { SpotPairType } from 'app/pages/SpotTradingPage/types';
 import { Asset } from 'types';
 import { TradingPairType } from 'utils/dictionaries/trading-pair-dictionary';
+import { PerpetualPairType } from 'utils/dictionaries/perpetual-pair-dictionary';
 
 export enum AppSection {
   Lend = 'lend',
@@ -30,4 +31,5 @@ export interface IPromotionLinkState {
   target?: Asset;
   marginTradingPair?: TradingPairType;
   spotTradingPair?: SpotPairType;
+  perpetualPair?: PerpetualPairType;
 }

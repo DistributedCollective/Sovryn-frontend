@@ -5,8 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { translations } from 'locales/i18n';
 
-import { Footer } from '../../components/Footer';
-import { Header } from '../../components/Header';
 import { HistoryTable } from './components/HistoryTable';
 import { LiquidTab } from './components/LiquidTab';
 import { RewardTab } from './components/RewardTab';
@@ -55,8 +53,6 @@ export function RewardPage() {
           content={t(translations.rewardPage.meta.description)}
         />
       </Helmet>
-
-      <Header />
 
       <div className={styles['background-image-wrapper']}>
         <img className={styles['background-image']} src={imgSov} alt="SOV" />
@@ -138,7 +134,6 @@ export function RewardPage() {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 }

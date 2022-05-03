@@ -4,7 +4,6 @@ import { bignumber } from 'mathjs';
 import { translations } from 'locales/i18n';
 import { FastBtcButton } from '../FastBtcButton';
 import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
-import { Asset } from '../../../../../types';
 import { WithdrawContext } from '../../contexts/withdraw-context';
 import {
   toNumberFormat,
@@ -15,24 +14,37 @@ import { useCacheCallWithValue } from '../../../../hooks/useCacheCallWithValue';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { NetworkAwareComponentProps } from '../../types';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { discordInvite } from 'utils/classifiers';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { getBTCAssetForNetwork } from '../../helpers';
 
 type ReviewScreenProps = {
   onConfirm: () => void;
+  loading?: boolean;
 } & NetworkAwareComponentProps;
 
 export const ReviewScreen: React.FC<ReviewScreenProps> = ({
   onConfirm,
   network,
 }) => {
-  const { amount, address } = useContext(WithdrawContext);
+  const { amount, address, aggregatorLimits } = useContext(WithdrawContext);
   const { t } = useTranslation();
+  const { checkMaintenance, States } = useMaintenance();
+  const fastBtcLocked = checkMaintenance(States.FASTBTC);
 
   const weiAmount = useWeiAmount(amount);
-  const { value: feesPaid, loading } = useCacheCallWithValue(
+  const { value: calculateCurrentFeeWei, loading } = useCacheCallWithValue(
     'fastBtcBridge',
     'calculateCurrentFeeWei',
     '0',
     weiAmount,
+  );
+
+  const feesPaid = useMemo(
+    () =>
+      bignumber(calculateCurrentFeeWei).add(aggregatorLimits.fee).toString(),
+    [calculateCurrentFeeWei, aggregatorLimits.fee],
   );
 
   const receiveAmount = useMemo(
@@ -40,12 +52,14 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
     [weiAmount, feesPaid],
   );
 
+  const asset = getBTCAssetForNetwork(network);
+
   return (
     <>
       <div className="tw-mb-6 tw-text-2xl tw-text-center tw-font-semibold">
         <Trans
           i18nKey={translations.fastBtcPage.withdraw.reviewScreen.title}
-          components={[<AssetSymbolRenderer asset={Asset.RBTC} />]}
+          components={[<AssetSymbolRenderer asset={asset} />]}
         />
       </div>
 
@@ -55,8 +69,7 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
             {t(translations.fastBtcPage.withdraw.reviewScreen.amount)}
           </div>
           <div>
-            {toNumberFormat(amount, 8)}{' '}
-            <AssetSymbolRenderer asset={Asset.RBTC} />
+            {toNumberFormat(amount, 8)} <AssetSymbolRenderer asset={asset} />
           </div>
         </div>
 
@@ -98,7 +111,27 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
           <FastBtcButton
             text={t(translations.common.confirm)}
             onClick={onConfirm}
+            disabled={fastBtcLocked || loading}
           />
+          {fastBtcLocked && (
+            <ErrorBadge
+              content={
+                <Trans
+                  i18nKey={translations.maintenance.fastBTC}
+                  components={[
+                    <a
+                      href={discordInvite}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                    >
+                      x
+                    </a>,
+                  ]}
+                />
+              }
+            />
+          )}
         </div>
       </div>
     </>

@@ -3,6 +3,7 @@ declare global {
     ethereum: any;
     opera?: any;
     web3?: any;
+    ResizeObserver: ResizeObserver;
   }
 }
 

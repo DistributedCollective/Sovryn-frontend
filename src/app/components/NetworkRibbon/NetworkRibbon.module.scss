@@ -1,4 +1,3 @@
-
 .linkButton {
   @apply tw-flex tw-items-center tw-justify-center
     tw-min-w-80 tw-p-0 tw-mb-4
@@ -7,4 +6,47 @@
   &:hover {
     @apply tw-text-primary tw-no-underline;
   }
+}
+
+.subDetails {
+  @apply tw-flex tw-flex-row 
+    tw-w-full tw-mt-4
+    tw-text-left tw-text-xs tw-font-normal tw-text-white;
+
+  & > :first-child {
+    @apply tw-max-w-32 tw-w-1/2 tw-mr-4;
+  }
+}
+
+.tutorialImage {
+  @apply tw-mx-auto;
+  width: 350px;
+  height: 350px;
+  animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0.5;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.navRound {
+  @apply tw-flex-grow-0 tw-flex-shrink-0
+    tw-w-5 tw-h-5 tw-p-0 tw-mx-1 tw-my-0
+    tw-bg-gray-8 tw-border-0 tw-rounded-full
+    tw-transition-colors tw-duration-500 
+    hover:tw-bg-white;
+}
+
+.navArrow {
+  @apply tw-flex-grow-0 tw-flex-shrink-0 tw-flex tw-items-center
+    tw-w-5 tw-h-5 tw-p-0 tw-mx-1 tw-my-0
+    tw-text-gray-8 tw-bg-transparent tw-border-0
+    tw-transition-colors tw-duration-500 
+    hover:tw-text-white;
 }

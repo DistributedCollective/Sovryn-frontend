@@ -40,6 +40,11 @@ const symbolMap = {
       <em>R</em>DOC
     </>
   ),
+  [Asset.WRBTC]: (
+    <>
+      <em>W</em>RBTC
+    </>
+  ),
 };
 
 export function getAssetSymbol(asset: Asset) {
