@@ -41,7 +41,7 @@ export const LiquidClaimForm: React.FC<IClaimFormProps> = ({
       onSubmit={onSubmit}
       footer={<Footer />}
       claimLocked={claimLiquidSovLocked}
-      dataActionId="liquid"
+      dataActionId="liquidButton"
     />
   );
 };
