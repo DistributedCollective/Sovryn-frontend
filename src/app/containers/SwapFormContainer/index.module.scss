@@ -53,16 +53,16 @@
     @apply tw-flex-wrap;
   }
   & > div {
-      &:nth-child(n + 6) {
+    &:nth-child(n + 6) {
+      @apply tw-hidden;
+    }
+    @media (max-width: 1200px) {
+      & > div:nth-child(2) {
         @apply tw-hidden;
       }
-      @media (max-width: 1200px) {
-          & > div:nth-child(2) {
-            @apply tw-hidden;
-          }
-      }
-      @media (max-width: 768px) {
-        @apply tw-mx-0 tw-my-0.5;
-      }
+    }
+    @media (max-width: 768px) {
+      @apply tw-mx-0 tw-my-0.5;
+    }
   }
 }
