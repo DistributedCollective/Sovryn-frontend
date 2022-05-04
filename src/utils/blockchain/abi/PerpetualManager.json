@@ -3403,11 +3403,6 @@
         "internalType": "int128",
         "name": "_fShareAmount",
         "type": "int128"
-      },
-      {
-        "internalType": "int128",
-        "name": "_fMinTokenAmount",
-        "type": "int128"
       }
     ],
     "name": "removeLiquidity",

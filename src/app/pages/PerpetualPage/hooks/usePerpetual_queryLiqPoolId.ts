@@ -3,6 +3,7 @@ import { bridgeNetwork } from 'app/pages/BridgeDepositPage/utils/bridge-network'
 import { Chain } from 'types';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import perpetualManagerAbi from 'utils/blockchain/abi/PerpetualManager.json';
+import { BigNumber } from 'ethers';
 
 export const usePerpetual_queryLiqPoolId = (perpetualId: string) => {
   const [poolId, setPoolId] = useState<string>();
@@ -16,7 +17,7 @@ export const usePerpetual_queryLiqPoolId = (perpetualId: string) => {
         'getPoolIdByPerpetualId',
         [perpetualId],
       )
-      .then(setPoolId);
+      .then(id => id && setPoolId(BigNumber.from(id).toString()));
   }, [perpetualId]);
 
   useEffect(fetch, [fetch]);
