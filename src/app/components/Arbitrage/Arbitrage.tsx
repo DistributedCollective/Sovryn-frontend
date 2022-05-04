@@ -156,7 +156,7 @@ export const Arbitrage: React.FC<IArbitrageProps> = ({ onClick }) => {
                     onClick(opportunity.fromToken, opportunity.toToken)
                   }
                   className="tw-ml-4"
-                  dataActionId="swap-button"
+                  dataActionId="swap-arbitrage-submit-button"
                 />
               </div>
             </div>
