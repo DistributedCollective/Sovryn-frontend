@@ -163,9 +163,19 @@ export function VestingContract(props: Props) {
         setDelegateLoading(false);
       }
     }
-    if (unlockDate && !vestLoading && getStakes.value?.dates?.length > 0) {
+    if (
+      unlockDate &&
+      !vestLoading &&
+      stakingPeriodStart &&
+      getStakes.value?.dates?.length > 0
+    ) {
       getDelegate();
-      setLocked(Number(unlockDate) > Math.round(new Date().getTime() / 1e3));
+      setLocked(
+        Number(unlockDate) > Math.round(new Date().getTime() / 1e3) ||
+          (props.type === 'fouryear' &&
+            Math.round(new Date().getTime() / 1e3) <=
+              Number(stakingPeriodStart) + 7257600),
+      ); //7257600 = 52 weeks in seconds
     }
   }, [
     props.vestingAddress,
@@ -173,6 +183,8 @@ export function VestingContract(props: Props) {
     unlockDate,
     delegate,
     getStakes.value,
+    stakingPeriodStart,
+    props.type,
   ]);
 
   const { send, ...tx } = useSendToContractAddressTx(
