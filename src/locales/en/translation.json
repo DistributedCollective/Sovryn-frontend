@@ -402,7 +402,7 @@
     "reviewSwap": "Review Swap",
     "swapAsset": "Swap Asset:",
     "amount": "Amount:",
-    "amountReceived": "Amount Received:",
+    "amountReceived": "Amount To Receive:",
     "receiveAsset": "Receive Asset:",
     "minimumReceived": "Minimum Received:"
   },

@@ -11,8 +11,10 @@ interface CurrencyProps {
   asset?: Asset;
   assetString?: string;
   showImage?: boolean;
+  showLabel?: boolean;
   imageSize?: ImageSizes;
   assetClassName?: string;
+  assetImageClassName?: string;
   className?: string;
 }
 
@@ -20,8 +22,10 @@ export const AssetRenderer: React.FC<CurrencyProps> = ({
   asset,
   assetString,
   showImage,
+  showLabel,
   imageSize,
   assetClassName,
+  assetImageClassName,
   className,
 }) => {
   const sizeClassName = useMemo(() => getSizeClass(imageSize), [imageSize]);
@@ -35,22 +39,29 @@ export const AssetRenderer: React.FC<CurrencyProps> = ({
     >
       {showImage && asset && (
         <img
-          className={classNames('tw-object-contain', sizeClassName)}
+          className={classNames(
+            'tw-object-contain',
+            sizeClassName,
+            assetImageClassName,
+          )}
           src={AssetsDictionary.get(asset).logoSvg}
           alt={AssetsDictionary.get(asset).name}
         />
       )}
-      <AssetSymbolRenderer
-        asset={asset}
-        assetString={assetString}
-        assetClassName={assetClassName}
-      />
+      {showLabel && asset && (
+        <AssetSymbolRenderer
+          asset={asset}
+          assetString={assetString}
+          assetClassName={assetClassName}
+        />
+      )}
     </span>
   );
 };
 
 AssetRenderer.defaultProps = {
   imageSize: 8,
+  showLabel: true,
 };
 
 // Full class names are required to be here so css purger would not remove "unused" classes.
