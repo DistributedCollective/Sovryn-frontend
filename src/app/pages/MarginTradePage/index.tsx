@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet-async';
 import { Tab } from '../../components/Tab';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import { translations } from 'locales/i18n';
-import { RecentTrades, RecentTradeTypes } from 'app/components/RecentTrades';
+import { RecentTrades, RecentTradeType } from 'app/components/RecentTrades';
 import { reducer, sliceKey } from './slice';
 import { selectMarginTradePage } from './selectors';
 import { marginTradePageSaga } from './saga';
@@ -73,7 +73,7 @@ export function MarginTradePage() {
             <RecentTrades
               baseToken={pair.collaterals[0]}
               quoteToken={pair.collaterals[1]}
-              type={RecentTradeTypes.MARGIN}
+              type={RecentTradeType.MARGIN}
             />
           </div>
           <TradeForm pairType={linkPairType || pairType} />

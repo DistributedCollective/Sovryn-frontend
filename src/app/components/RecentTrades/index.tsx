@@ -5,7 +5,7 @@ import { Asset } from 'types';
 import { MarginTrades } from './MarginTrades';
 import { SwapTrades } from './SwapTrades';
 
-export enum RecentTradeTypes {
+export enum RecentTradeType {
   MARGIN = 'margin',
   SWAP = 'swap',
 }
@@ -13,14 +13,18 @@ export enum RecentTradeTypes {
 interface IRecentTradesProps {
   baseToken: Asset;
   quoteToken: Asset;
-  type?: RecentTradeTypes;
+  type?: RecentTradeType;
 }
 
-const getDisplay = (type: RecentTradeTypes, baseToken, quoteToken) => {
+const getRecentTradesComponent = (
+  type: RecentTradeType,
+  baseToken,
+  quoteToken,
+) => {
   switch (type) {
-    case RecentTradeTypes.SWAP:
+    case RecentTradeType.SWAP:
       return <SwapTrades baseToken={baseToken} quoteToken={quoteToken} />;
-    case RecentTradeTypes.MARGIN:
+    case RecentTradeType.MARGIN:
       return <MarginTrades baseToken={baseToken} quoteToken={quoteToken} />;
     default:
       return <SwapTrades baseToken={baseToken} quoteToken={quoteToken} />;
@@ -30,13 +34,12 @@ const getDisplay = (type: RecentTradeTypes, baseToken, quoteToken) => {
 export const RecentTrades: React.FC<IRecentTradesProps> = ({
   baseToken,
   quoteToken,
-  type = RecentTradeTypes.SWAP,
+  type = RecentTradeType.SWAP,
 }) => {
-  const tradeDisplay = useMemo(() => getDisplay(type, baseToken, quoteToken), [
-    type,
-    baseToken,
-    quoteToken,
-  ]);
+  const tradeComponent = useMemo(
+    () => getRecentTradesComponent(type, baseToken, quoteToken),
+    [type, baseToken, quoteToken],
+  );
   return (
     <div
       className={classNames(
@@ -44,7 +47,7 @@ export const RecentTrades: React.FC<IRecentTradesProps> = ({
         'tw-w-full tw-text-xs tw-leading-tight tw-overflow-y-auto tw-overflow-x-hidden',
       )}
     >
-      {tradeDisplay}
+      {tradeComponent}
     </div>
   );
 };
