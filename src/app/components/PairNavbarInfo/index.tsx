@@ -36,7 +36,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
       }
       //for pairs with RBTC as source
       if (pair[2]) {
-        setLastPrice(1 / pair[0].last_price);
+        setLastPrice(pair[0].inverse_price);
       }
       //for pairs with RBTC as target
       if (pair[0] === pair[1] && !pair[2]) {

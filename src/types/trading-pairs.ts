@@ -13,6 +13,7 @@ export interface IPairData {
   quote_id: string;
   last_price: number;
   last_price_usd: number;
+  inverse_price: number;
   high_price_24h: number;
   lowest_price_24h: number;
   base_volume: number;
