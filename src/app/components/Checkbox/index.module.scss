@@ -6,7 +6,7 @@
 }
 
 .checkbox {
-  @apply tw-bg-sov-white tw-mr-2.5 tw-inline-block tw-h-4 tw-w-4 tw-rounded;
+  @apply tw-bg-sov-white tw-mr-2.5 tw-inline-block tw-h-4 tw-w-4 tw-rounded tw-flex-shrink-0;
 }
 
 .checkboxChecked {

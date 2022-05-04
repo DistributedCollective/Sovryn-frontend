@@ -1668,6 +1668,10 @@
       "sell": "sell"
     },
     "tradingHistory": "Margin order history",
+    "limitOrderHistory": {
+      "limitPriceHelper": "Final execution price of Limit Orders is impacted by cost of relayer fees and slippage at the time of execution. For further details see the <0>wiki</0>.",
+      "filledPriceHelper": "Final execution price of Limit Orders is impacted by cost of relayer fees and slippage at the time of execution, therefore this will not match the defined limit price exactly. For further details see the <0>wiki</0>."
+    },
     "notificationSettingsDialog": {
       "title": "Notification Settings",
       "notifyVia": "Receive email notifications for limit order fills, margin calls, and liquidations. Details <0>here</0>.",
@@ -1830,12 +1834,12 @@
       "limit": "Limit",
       "advancedSettings": "Advanced Settings",
       "limitPrice": "Limit Price:",
-      "limitPriceTooltip": "Final execution price of Limit Orders is impacted by cost of relayer fee and slippage, please note this will not match price entered here exactly.",
+      "limitPriceTooltip": "Final execution price of Limit Orders is impacted by cost of relayer fee and slippage, please note this will not match price entered here exactly. For further details see the <0>wiki</0>.",
       "receive": "Receive:",
       "amount": "Amount:",
       "errors": {
-        "minAmount": "Limit order trade size too low, please try again with a larger amount",
-        "maxAmount": "Maximum Limit Order trade size reached, please see our <0>wiki</0> for more details"
+        "minAmount": "Limit order trade size too low, please try again with a larger amount.",
+        "maxAmount": "Maximum Limit Order trade size reached, please see our <0>wiki</0> for more details."
       }
     },
     "priceHistory": {
@@ -1875,6 +1879,7 @@
       "orderType": "Order Type",
       "tradeAmount": "Trade Amount",
       "limitPrice": "Limit Price",
+      "limitPriceHelper": "Final execution price of Limit Orders is impacted by cost of relayer fees and slippage at the time of execution, for further details see the <0>wiki</0>.",
       "executionPrice": "Execution Price",
       "amountReceive": "Amount to Receive",
       "duration": "Duration",
@@ -1888,6 +1893,9 @@
         "edit": "Edit",
         "close": "Close"
       }
+    },
+    "limitOrderHistory": {
+      "limitPriceHelper": "Final execution price of Limit Orders is impacted by cost of relayer fees and slippage at the time of execution, please check the Open positions/Margin order history tables for the actual execution price. For further details see the <0>wiki</0>."
     },
     "cancelDialog": {
       "title": "Cancel Limit Order",
@@ -1923,7 +1931,7 @@
       "aborted": "Your transaction has failed. <br/>Please cancel or retry your transaction",
       "abortedLedger": "Make sure \"Contract data\" is set to \"Allowed\" in your Ledger app settings",
       "cta": "View in Tracker",
-      "processing": "{{action}} processing...",
+      "processing": "{{action}} Processing...",
       "complete": "{{action}} Complete",
       "submit": "{{action}} Submitted"
     }
