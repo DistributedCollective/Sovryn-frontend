@@ -219,6 +219,7 @@ export const SwapFormContainer: React.FC = () => {
                 onChangeFavorite={handleFavClick}
                 favList={favList}
                 storageKey={storageKey}
+                dataActionId="send"
               />
             )}
           </div>
@@ -264,6 +265,7 @@ export const SwapFormContainer: React.FC = () => {
                 onChangeFavorite={handleFavClick}
                 favList={favList}
                 storageKey={storageKey}
+                dataActionId="receive"
               />
             )}
           </div>
