@@ -8,6 +8,6 @@ export function useSlippage(amount: string, slippage: number = 0.1) {
   return {
     amount,
     slippage,
-    minReturn: minReturn === 'NaN' ? '0' : minReturn,
+    minReturn: minReturn === 'NaN' ? '1' : minReturn,
   };
 }

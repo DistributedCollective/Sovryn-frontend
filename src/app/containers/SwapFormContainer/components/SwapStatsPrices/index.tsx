@@ -8,11 +8,12 @@ import { IPairData } from 'types/trading-pairs';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { numberToUSD, toNumberFormat } from 'utils/display-text/format';
-import arrowUp from 'assets/images/trend-arrow-up.svg';
-import arrowDown from 'assets/images/trend-arrow-down.svg';
+import { ReactComponent as ArrowUp } from 'assets/images/trend-arrow-up.svg';
+import { ReactComponent as ArrowDown } from 'assets/images/trend-arrow-down.svg';
 import { Asset } from 'types';
 import { AssetDetails } from 'utils/models/asset-details';
 import { usePairList } from 'app/hooks/trading/usePairList';
+import styles from './index.module.scss';
 
 interface ISwapStatsPricesProps {
   pairs: IPairData[];
@@ -129,10 +130,10 @@ const PriceChange: React.FC<IPriceChangeProps> = ({ value }) => {
     >
       {numberString}%
       {value > 0 && !noChange && (
-        <img className="tw-w-3 tw-ml-2" src={arrowUp} alt={'up'} />
+        <ArrowUp className={classNames('tw-w-3 tw-ml-2', styles.priceUp)} />
       )}
       {value < 0 && !noChange && (
-        <img className="tw-w-3 tw-ml-2" src={arrowDown} alt={'down'} />
+        <ArrowDown className={classNames('tw-w-3 tw-ml-2', styles.priceDown)} />
       )}
     </div>
   );
