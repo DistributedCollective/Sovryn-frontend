@@ -9,7 +9,11 @@ import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { FormGroup } from 'app/components/Form/FormGroup';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import settingIcon from 'assets/images/settings-blue.svg';
-import { discordInvite, WIKI_LIMIT_ORDER_LIMITS_LINK } from 'utils/classifiers';
+import {
+  discordInvite,
+  useTenderlySimulator,
+  WIKI_LIMIT_ORDER_LIMITS_LINK,
+} from 'utils/classifiers';
 import { translations } from 'locales/i18n';
 import { TradingPosition } from 'types/trading-position';
 import styles from './index.module.scss';
@@ -31,7 +35,12 @@ import { LeverageSelector } from '../LeverageSelector';
 import { useGetEstimatedMarginDetails } from 'app/hooks/trading/useGetEstimatedMarginDetails';
 import { TradeDialog } from '../TradeDialog';
 import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
-import { weiToNumberFormat } from 'utils/display-text/format';
+import {
+  toAssetNumberFormat,
+  toNumberFormat,
+  weiToAssetNumberFormat,
+  weiToNumberFormat,
+} from 'utils/display-text/format';
 import { SlippageForm } from '../SlippageForm';
 import { fromWei, toWei } from 'utils/blockchain/math-helpers';
 import { OrderType } from 'app/components/OrderTypeTitle/types';
@@ -46,6 +55,18 @@ import { HelpBadge } from 'app/components/HelpBadge/HelpBadge';
 import { useDenominateAssetAmount } from 'app/hooks/trading/useDenominateAssetAmount';
 import { Asset } from 'types';
 import { LockedBalance } from 'app/pages/SpotTradingPage/components/TradeForm/LockedBalance';
+import { LoadableValue } from 'app/components/LoadableValue';
+import { useSimulatedTrade } from '../../hooks/useSimulatedTrade';
+import { SimulationStatus } from 'app/hooks/simulator/useFilterSimulatorResponseLogs';
+import { getTokenContract } from 'utils/blockchain/contract-helpers';
+import { ethers } from 'ethers';
+import { useAccount } from 'app/hooks/useAccount';
+import {
+  totalDeposit,
+  _getMarginBorrowAmountAndRate,
+} from '../TradeDialog/trading-dialog.helpers';
+import { useSwapsExternal_getSwapExpectedReturn } from 'app/hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
+import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
 
 interface ITradeFormProps {
   pairType: TradingPairType;
@@ -54,6 +75,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
   const { t } = useTranslation();
   const { connected } = useWalletContext();
   const { checkMaintenances, States } = useMaintenance();
+  const account = useAccount();
   const {
     [States.OPEN_MARGIN_TRADES]: openTradesLocked,
     [States.MARGIN_LIMIT]: openLimitTradeLocked,
@@ -221,6 +243,62 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     pendingLimitOrders,
   ]);
 
+  const [borrowAmount, setBorrowAmount] = useState('0');
+
+  useEffect(() => {
+    const run = async () => {
+      const _totalDeposit = await totalDeposit(
+        getTokenContract(collateralToken).address,
+        getTokenContract(loanToken).address,
+        useLoanTokens ? '0' : amount,
+        useLoanTokens ? amount : '0',
+      );
+      const _marginBorrow = await _getMarginBorrowAmountAndRate(
+        loanToken,
+        leverage,
+        _totalDeposit,
+      );
+      return _marginBorrow.borrowAmount;
+    };
+    run().then(setBorrowAmount).catch(console.error);
+  }, [amount, collateralToken, leverage, loanToken, useLoanTokens]);
+
+  const {
+    value: collateralTokensReceived,
+  } = useSwapsExternal_getSwapExpectedReturn(
+    loanToken,
+    collateralToken,
+    borrowAmount,
+  );
+
+  const collateralTokenAmount = useMemo(() => {
+    return bignumber(collateralTokensReceived)
+      .mul(10 ** 18)
+      .div(borrowAmount)
+      .toFixed(0);
+  }, [borrowAmount, collateralTokensReceived]);
+
+  const { minReturn } = useSlippage(collateralTokenAmount, slippage);
+
+  const txArgs = [
+    ethers.constants.HashZero, //0 if new loan
+    toWei(String(leverage - 1), 'ether'),
+    useLoanTokens ? amount : '0',
+    useLoanTokens ? '0' : amount,
+    getTokenContract(collateralToken).address,
+    account, // trader
+    minReturn,
+    '0x',
+  ];
+
+  const { simulator, entryPrice, liquidationPrice } = useSimulatedTrade(
+    loanToken,
+    collateral,
+    txArgs,
+    position,
+    amount,
+  );
+
   return (
     <>
       <div className="tw-trading-form-card tw-bg-black tw-rounded-3xl tw-p-4 tw-mx-auto xl:tw-mx-0 tw-relative">
@@ -384,6 +462,51 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
 
           {!openTradesLocked && (
             <>
+              {orderType !== OrderType.LIMIT && useTenderlySimulator && (
+                <LabelValuePair
+                  label={t(translations.marginTradeForm.fields.esEntryPrice)}
+                  value={
+                    <LoadableValue
+                      loading={simulator.status === SimulationStatus.PENDING}
+                      value={
+                        <>
+                          {entryPrice !== '0'
+                            ? weiToAssetNumberFormat(entryPrice, pair.longAsset)
+                            : '-'}{' '}
+                          <AssetRenderer asset={pair.longAsset} />
+                        </>
+                      }
+                      tooltip={weiToNumberFormat(entryPrice, 18)}
+                    />
+                  }
+                />
+              )}
+
+              {useTenderlySimulator && (
+                <LabelValuePair
+                  label={t(
+                    translations.marginTradeForm.fields.esLiquidationPrice,
+                  )}
+                  value={
+                    <LoadableValue
+                      loading={simulator.status === SimulationStatus.PENDING}
+                      tooltip={toNumberFormat(liquidationPrice, 18)}
+                      value={
+                        <>
+                          {liquidationPrice !== '0'
+                            ? toAssetNumberFormat(
+                                liquidationPrice,
+                                pair.longAsset,
+                              )
+                            : '-'}{' '}
+                          <AssetRenderer asset={pair.longAsset} />
+                        </>
+                      }
+                    />
+                  }
+                />
+              )}
+
               <LabelValuePair
                 label={t(translations.marginTradeForm.fields.interestAPR)}
                 value={<>{weiToNumberFormat(estimations.interestRate, 2)} %</>}
@@ -487,9 +610,13 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
         <TradeDialog
           onCloseModal={() => setIsTradingDialogOpen(false)}
           isOpen={isTradingDialogOpen && orderType === OrderType.MARKET}
-          slippage={slippage}
           orderType={orderType}
           estimations={estimations}
+          simulatorStatus={simulator.status}
+          simulatorError={simulator.error}
+          entryPrice={entryPrice}
+          liquidationPrice={liquidationPrice}
+          minReturn={minReturn}
         />
         <LimitTradeDialog
           onCloseModal={() => setIsTradingDialogOpen(false)}

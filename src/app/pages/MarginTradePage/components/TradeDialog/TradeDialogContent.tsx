@@ -1,22 +1,19 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { Trans, useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { HashZero } from '@ethersproject/constants';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import {
   discordInvite,
-  TRADE_LOG_SIGNATURE_HASH,
   useTenderlySimulator,
   MAINTENANCE_MARGIN,
 } from 'utils/classifiers';
 import { translations } from 'locales/i18n';
-import { Asset } from 'types';
+import { Asset, Nullable } from 'types';
 import {
-  getContract,
   getLendingContractName,
   getTokenContract,
 } from 'utils/blockchain/contract-helpers';
@@ -37,111 +34,32 @@ import { selectMarginTradePage } from '../../selectors';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { OrderType } from 'app/components/OrderTypeTitle/types';
 import { TradeDialogInfo } from './TradeDialogInfo';
-import {
-  SimulationStatus,
-  useFilterSimulatorResponseLogs,
-} from 'app/hooks/simulator/useFilterSimulatorResponseLogs';
-import { TradeEventData } from 'types/active-loan';
-import { useSimulator } from 'app/hooks/simulator/useSimulator';
-import { bignumber } from 'mathjs';
-import { useSwapsExternal_getSwapExpectedReturn } from 'app/hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
-import {
-  totalDeposit,
-  _getMarginBorrowAmountAndRate,
-} from './trading-dialog.helpers';
-import { usePositionLiquidationPrice } from 'app/hooks/trading/usePositionLiquidationPrice';
+import { SimulationStatus } from 'app/hooks/simulator/useFilterSimulatorResponseLogs';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { PricePrediction } from 'app/containers/MarginTradeForm/PricePrediction';
 import { MarginDetails } from 'app/hooks/trading/useGetEstimatedMarginDetails';
 import { Checkbox } from 'app/components/Checkbox';
 
 interface ITradeDialogContentProps {
-  slippage: number;
   onSubmit: () => void;
   orderType: OrderType;
   estimations: MarginDetails;
+  simulatorStatus: SimulationStatus;
+  simulatorError: Nullable<string>;
+  entryPrice: string;
+  liquidationPrice: string;
+  minReturn: string;
 }
 
-const TradeLogInputs = [
-  {
-    indexed: true,
-    internalType: 'address',
-    name: 'user',
-    type: 'address',
-  },
-  {
-    indexed: true,
-    internalType: 'address',
-    name: 'lender',
-    type: 'address',
-  },
-  {
-    indexed: true,
-    internalType: 'bytes32',
-    name: 'loanId',
-    type: 'bytes32',
-  },
-  {
-    indexed: false,
-    internalType: 'address',
-    name: 'collateralToken',
-    type: 'address',
-  },
-  {
-    indexed: false,
-    internalType: 'address',
-    name: 'loanToken',
-    type: 'address',
-  },
-  {
-    indexed: false,
-    internalType: 'uint256',
-    name: 'positionSize',
-    type: 'uint256',
-  },
-  {
-    indexed: false,
-    internalType: 'uint256',
-    name: 'borrowedAmount',
-    type: 'uint256',
-  },
-  {
-    indexed: false,
-    internalType: 'uint256',
-    name: 'interestRate',
-    type: 'uint256',
-  },
-  {
-    indexed: false,
-    internalType: 'uint256',
-    name: 'settlementDate',
-    type: 'uint256',
-  },
-  {
-    indexed: false,
-    internalType: 'uint256',
-    name: 'entryPrice',
-    type: 'uint256',
-  },
-  {
-    indexed: false,
-    internalType: 'uint256',
-    name: 'entryLeverage',
-    type: 'uint256',
-  },
-  {
-    indexed: false,
-    internalType: 'uint256',
-    name: 'currentLeverage',
-    type: 'uint256',
-  },
-];
-
 export const TradeDialogContent: React.FC<ITradeDialogContentProps> = ({
-  slippage,
   onSubmit,
   orderType,
   estimations,
+  simulatorStatus,
+  simulatorError,
+  entryPrice,
+  liquidationPrice,
+  minReturn,
 }) => {
   const { t } = useTranslation();
   const account = useAccount();
@@ -159,54 +77,6 @@ export const TradeDialogContent: React.FC<ITradeDialogContentProps> = ({
   } = useTrading_resolvePairTokens(pair, position, collateral);
   const contractName = getLendingContractName(loanToken);
 
-  const [borrowAmount, setBorrowAmount] = useState('0');
-
-  useEffect(() => {
-    const run = async () => {
-      const _totalDeposit = await totalDeposit(
-        getTokenContract(collateralToken).address,
-        getTokenContract(loanToken).address,
-        useLoanTokens ? '0' : amount,
-        useLoanTokens ? amount : '0',
-      );
-      const _marginBorrow = await _getMarginBorrowAmountAndRate(
-        loanToken,
-        leverage,
-        _totalDeposit,
-      );
-      return _marginBorrow.borrowAmount;
-    };
-    run().then(setBorrowAmount).catch(console.error);
-  }, [amount, collateralToken, leverage, loanToken, useLoanTokens]);
-
-  const {
-    value: collateralTokensReceived,
-  } = useSwapsExternal_getSwapExpectedReturn(
-    loanToken,
-    collateralToken,
-    borrowAmount,
-  );
-
-  const collateralTokenAmount = useMemo(() => {
-    return bignumber(collateralTokensReceived)
-      .mul(10 ** 18)
-      .div(borrowAmount)
-      .toFixed(0);
-  }, [borrowAmount, collateralTokensReceived]);
-
-  const { minReturn: _minReturn } = useSlippage(
-    collateralTokenAmount,
-    slippage,
-  );
-
-  // calculations are off for SOV/RBTC pair causing txes to fail, ignoring slippage settings as quick fix
-  const minReturn = useMemo(() => {
-    if (pair.longAsset === Asset.RBTC && pair.shortAsset === Asset.SOV) {
-      return '1';
-    }
-    return _minReturn;
-  }, [_minReturn, pair.longAsset, pair.shortAsset]);
-
   const txArgs = [
     HashZero, //0 if new loan
     toWei(String(leverage - 1), 'ether'),
@@ -222,53 +92,10 @@ export const TradeDialogContent: React.FC<ITradeDialogContentProps> = ({
     value: collateral === Asset.RBTC ? amount : '0',
   };
 
-  const simulator = useFilterSimulatorResponseLogs<TradeEventData>(
-    useSimulator(
-      contractName,
-      'marginTrade',
-      txArgs,
-      collateral === Asset.RBTC ? amount : '0',
-      amount !== '0' && !!contractName && !!position,
-      collateral !== Asset.WRBTC && contractName && position
-        ? {
-            asset: collateral,
-            spender: getContract(contractName).address,
-            amount,
-          }
-        : undefined,
-    ),
-    TRADE_LOG_SIGNATURE_HASH,
-    TradeLogInputs,
-  );
-
-  const { entryPrice, positionSize, borrowedAmount } = useMemo(() => {
-    const log: TradeEventData | undefined = simulator.logs.shift()?.decoded;
-    const price = log?.entryPrice || '0';
-    const entryPrice =
-      position === TradingPosition.LONG
-        ? bignumber(1)
-            .div(price)
-            .mul(10 ** 36)
-            .toFixed(0)
-        : price;
-    return {
-      entryPrice,
-      positionSize: log?.positionSize || '0',
-      borrowedAmount: log?.borrowedAmount || '0',
-    };
-  }, [simulator.logs, position]);
-
-  const liquidationPrice = usePositionLiquidationPrice(
-    borrowedAmount,
-    positionSize,
-    position,
-    MAINTENANCE_MARGIN,
-  );
-
   const [ignoreError, setIgnoreError] = useState(false);
   const disableButtonAfterSimulatorError = useMemo(() => {
-    return ignoreError ? false : simulator.status === SimulationStatus.FAILED;
-  }, [ignoreError, simulator.status]);
+    return ignoreError ? false : simulatorStatus === SimulationStatus.FAILED;
+  }, [ignoreError, simulatorStatus]);
 
   const handleIgnoreError = useCallback(() => setIgnoreError(!ignoreError), [
     ignoreError,
@@ -347,7 +174,7 @@ export const TradeDialogContent: React.FC<ITradeDialogContentProps> = ({
               {useTenderlySimulator ? (
                 <>
                   <LoadableValue
-                    loading={simulator.status === SimulationStatus.PENDING}
+                    loading={simulatorStatus === SimulationStatus.PENDING}
                     value={
                       <>
                         {weiToAssetNumberFormat(entryPrice, pair.longAsset)}{' '}
@@ -380,7 +207,7 @@ export const TradeDialogContent: React.FC<ITradeDialogContentProps> = ({
             value={
               <>
                 <LoadableValue
-                  loading={simulator.status === SimulationStatus.PENDING}
+                  loading={simulatorStatus === SimulationStatus.PENDING}
                   tooltip={toNumberFormat(liquidationPrice, 18)}
                   value={
                     <>
@@ -416,12 +243,12 @@ export const TradeDialogContent: React.FC<ITradeDialogContentProps> = ({
           />
         )}
 
-        {useTenderlySimulator && simulator.status === SimulationStatus.FAILED && (
+        {useTenderlySimulator && simulatorStatus === SimulationStatus.FAILED && (
           <>
             <ErrorBadge
               content={t(
                 translations.marginTradePage.tradeDialog.estimationErrorNote,
-                { error: simulator.error },
+                { error: simulatorError },
               )}
             />
             <Checkbox

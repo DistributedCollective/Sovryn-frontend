@@ -1,10 +1,9 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { Trans } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { HashZero } from '@ethersproject/constants';
-import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
 import { translations } from 'locales/i18n';
-import { Asset } from 'types';
+import { Asset, Nullable } from 'types';
 import {
   getLendingContractName,
   getTokenContract,
@@ -23,30 +22,32 @@ import { OrderType } from 'app/components/OrderTypeTitle/types';
 import { TradeDialogInfo } from './TradeDialogInfo';
 import { TradeToastInfo } from './TradeToastInfo';
 import { Toast } from 'app/components/Toast';
-import { bignumber } from 'mathjs';
-import { useSwapsExternal_getSwapExpectedReturn } from 'app/hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
-import {
-  totalDeposit,
-  _getMarginBorrowAmountAndRate,
-} from './trading-dialog.helpers';
 import { MarginDetails } from 'app/hooks/trading/useGetEstimatedMarginDetails';
 import { TradeDialogContent } from './TradeDialogContent';
-import { useLog } from 'app/hooks/useDebug';
+import { SimulationStatus } from 'app/hooks/simulator/useFilterSimulatorResponseLogs';
 
 interface ITradeDialogProps {
-  slippage: number;
   isOpen: boolean;
   onCloseModal: () => void;
   orderType: OrderType;
   estimations: MarginDetails;
+  simulatorStatus: SimulationStatus;
+  simulatorError: Nullable<string>;
+  entryPrice: string;
+  liquidationPrice: string;
+  minReturn: string;
 }
 
 export const TradeDialog: React.FC<ITradeDialogProps> = ({
-  slippage,
   isOpen,
   onCloseModal,
   orderType,
   estimations,
+  simulatorStatus,
+  simulatorError,
+  entryPrice,
+  liquidationPrice,
+  minReturn,
 }) => {
   const account = useAccount();
   const { position, amount, pairType, collateral, leverage } = useSelector(
@@ -61,50 +62,6 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
     useLoanTokens,
   } = useTrading_resolvePairTokens(pair, position, collateral);
   const contractName = getLendingContractName(loanToken);
-
-  const [borrowAmount, setBorrowAmount] = useState('0');
-
-  useEffect(() => {
-    const run = async () => {
-      const _totalDeposit = await totalDeposit(
-        getTokenContract(collateralToken).address,
-        getTokenContract(loanToken).address,
-        useLoanTokens ? '0' : amount,
-        useLoanTokens ? amount : '0',
-      );
-      const _marginBorrow = await _getMarginBorrowAmountAndRate(
-        loanToken,
-        leverage,
-        _totalDeposit,
-      );
-      return _marginBorrow.borrowAmount;
-    };
-    run().then(setBorrowAmount).catch(console.error);
-  }, [amount, collateralToken, leverage, loanToken, useLoanTokens]);
-
-  const {
-    value: collateralTokensReceived,
-  } = useSwapsExternal_getSwapExpectedReturn(
-    loanToken,
-    collateralToken,
-    borrowAmount,
-  );
-
-  const collateralTokenAmount = useMemo(() => {
-    return bignumber(collateralTokensReceived)
-      .mul(10 ** 18)
-      .div(borrowAmount)
-      .toFixed(0);
-  }, [borrowAmount, collateralTokensReceived]);
-
-  const { minReturn } = useSlippage(collateralTokenAmount, slippage);
-
-  useLog('min return', {
-    collateralTokensReceived,
-    borrowAmount,
-    collateralTokenAmount,
-    minReturn,
-  });
 
   const { trade, ...tx } = useApproveAndTrade(
     pair,
@@ -155,9 +112,13 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
         {isOpen && (
           <TradeDialogContent
             onSubmit={submit}
-            slippage={slippage}
             orderType={orderType}
             estimations={estimations}
+            simulatorStatus={simulatorStatus}
+            simulatorError={simulatorError}
+            entryPrice={entryPrice}
+            liquidationPrice={liquidationPrice}
+            minReturn={minReturn}
           />
         )}
       </Dialog>
