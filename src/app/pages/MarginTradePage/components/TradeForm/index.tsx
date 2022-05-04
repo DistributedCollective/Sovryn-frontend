@@ -254,6 +254,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
           <OrderTypeTitle
             value={orderType}
             onChange={setOrderType}
+            showLimit={false}
             dataActionId="margin"
           />
           <CollateralAssets
