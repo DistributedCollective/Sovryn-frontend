@@ -67,6 +67,15 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({
     )}`;
   }, [t, tradeType, position]);
 
+  const shouldHideExecPrice = useMemo(
+    () =>
+      ((tradeType === PerpetualTradeType.LIMIT ||
+        tradeType === PerpetualTradeType.STOP) &&
+        orderState === OrderState.Opened) ||
+      !execPrice,
+    [execPrice, orderState, tradeType],
+  );
+
   return (
     <tr>
       <td>
@@ -98,7 +107,7 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({
             mode={AssetValueMode.auto}
           />
         ) : (
-          <span className="tw-text-2xl">-</span>
+          <span>–</span>
         )}
       </td>
       <td>
@@ -113,16 +122,13 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({
         )}
       </td>
       <td>
-        {((tradeType === PerpetualTradeType.LIMIT ||
-          tradeType === PerpetualTradeType.STOP) &&
-          orderState === OrderState.Opened) ||
-        !execPrice ? (
-          <span className="tw-text-2xl">-</span>
+        {shouldHideExecPrice ? (
+          <span>–</span>
         ) : (
           <AssetValue
             minDecimals={0}
             maxDecimals={2}
-            value={execPrice}
+            value={execPrice!} // shouldHideExecPrice checks if execPrice exists so this is safe
             assetString={pair?.quoteAsset}
             mode={AssetValueMode.auto}
           />
