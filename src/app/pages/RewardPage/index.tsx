@@ -69,7 +69,6 @@ export function RewardPage() {
                   amountToClaim={rewardSovClaimAmount}
                   active={activeTab === RewardTabType.REWARD_SOV}
                   onClick={() => setActiveTab(RewardTabType.REWARD_SOV)}
-                  dataActionId="rewards-claim-rewardsov"
                 />
               </div>
               <div className="tw-w-full">
@@ -78,7 +77,6 @@ export function RewardPage() {
                   active={activeTab === RewardTabType.LIQUID_SOV}
                   onClick={() => setActiveTab(RewardTabType.LIQUID_SOV)}
                   amountToClaim={liquidSovClaimAmount}
-                  dataActionId="rewards-claim-liquid"
                 />
               </div>
               <div className="tw-w-full">
@@ -90,7 +88,6 @@ export function RewardPage() {
                   asset={Asset.RBTC}
                   loading={feesLoading}
                   showApproximateSign
-                  dataActionId="rewards-claim-feesearned"
                 />
               </div>
             </div>

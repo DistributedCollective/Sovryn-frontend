@@ -25,6 +25,7 @@ export const RewardClaimForm: React.FC<IClaimFormProps> = ({
         footer={<Footer />}
         onSubmit={send}
         claimLocked={claimRewardSovLocked || paused || frozen}
+        dataActionId="revardsov"
       />
     </>
   );
