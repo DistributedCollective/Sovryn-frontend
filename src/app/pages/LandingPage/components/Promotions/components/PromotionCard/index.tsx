@@ -51,7 +51,9 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
 
   return (
     <div
-      data-action-id={`landing-promo-banner-${linkPathname}`}
+      data-action-id={`landing-promo-banner-${linkPathname}-${logoAsset1}${
+        logoAsset2 ? `-${logoAsset2}` : ''
+      }`}
       className={styles.cardItem}
     >
       <Link
