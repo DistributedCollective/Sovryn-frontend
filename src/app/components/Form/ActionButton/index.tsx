@@ -13,6 +13,7 @@ export interface ButtonProps {
   loading?: boolean;
   disabled?: boolean;
   onClick?: () => void;
+  dataActionId?: string;
 }
 
 export function ActionButton({
@@ -21,6 +22,7 @@ export function ActionButton({
   onClick,
   className,
   textClassName,
+  dataActionId,
   ...props
 }: ButtonProps) {
   return (
@@ -31,6 +33,7 @@ export function ActionButton({
         disabled: props.disabled,
         loading: loading,
       })}
+      data-action-id={dataActionId}
     >
       <span className="tw-flex tw-flex-row tw-items-center tw-justify-center tw-truncate">
         <span
