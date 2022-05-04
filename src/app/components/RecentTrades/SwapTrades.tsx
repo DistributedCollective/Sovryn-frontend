@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { translations } from 'locales/i18n';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { Tooltip } from '@blueprintjs/core/lib/esm/components';
 import { useSwap_RecentTrades } from 'app/hooks/trading/useSwap_RecentTrades';
 import { RecentSwapRow } from './RecentSwapRow';
@@ -46,7 +46,7 @@ export const SwapTrades: React.FC<ISwapTradesProps> = ({
             <div className="tw-mb-3 tw-font-medium tw-w-full tw-text-sm tw-px-4 tw-pb-0 tw-border-b tw-border-sov-white">
               {assets.isPool && (
                 <>
-                  {`${t(translations.marginTradePage.recentTrades.title)} `}
+                  {`${t(translations.spotTradingPage.recentTrades.title)} `}
                   (<AssetRenderer asset={assets.base} />/
                   <AssetRenderer asset={assets.quote} />)
                 </>
@@ -57,17 +57,20 @@ export const SwapTrades: React.FC<ISwapTradesProps> = ({
                   interactionKind="hover"
                   content={
                     <>
-                      Please note that as there is no AMM pool for this trading
-                      pair, we can only show the trades made on underlying AMM
-                      pool for this asset - e.g. trades between{' '}
-                      <AssetRenderer asset={assets.base} />
-                      {' and '}
-                      <AssetRenderer asset={assets.quote} />
+                      <Trans
+                        i18nKey={
+                          translations.spotTradingPage.recentTrades.titleAMMInfo
+                        }
+                        components={[
+                          <AssetRenderer asset={assets.base} />,
+                          <AssetRenderer asset={assets.quote} />,
+                        ]}
+                      />
                     </>
                   }
                 >
                   <>
-                    {`${t(translations.marginTradePage.recentTrades.title)} `}
+                    {`${t(translations.spotTradingPage.recentTrades.title)} `}
                     (<AssetRenderer asset={assets.base} />/
                     <AssetRenderer asset={assets.quote} />
                     )*
@@ -79,15 +82,15 @@ export const SwapTrades: React.FC<ISwapTradesProps> = ({
         </tr>
         <tr>
           <th className="tw-h-6 tw-w-4/12 tw-pl-2 tw-pb-1 tw-text-left tw-whitespace-nowrap">
-            {t(translations.marginTradePage.recentTrades.price)} (
+            {t(translations.spotTradingPage.recentTrades.price)} (
             <AssetRenderer asset={assets.quote} />)
           </th>
           <th className="tw-h-6 tw-w-4/12 tw-pr-0 tw-pb-1 tw-text-right tw-whitespace-nowrap">
-            {t(translations.marginTradePage.recentTrades.size)} (
+            {t(translations.spotTradingPage.recentTrades.size)} (
             <AssetRenderer asset={assets.base} />)
           </th>
           <th className="tw-h-6 tw-pr-4 tw-pb-1 tw-text-right">
-            {t(translations.marginTradePage.recentTrades.time)}
+            {t(translations.spotTradingPage.recentTrades.time)}
           </th>
         </tr>
       </thead>
@@ -110,7 +113,7 @@ export const SwapTrades: React.FC<ISwapTradesProps> = ({
             <tr>
               <td colSpan={4}>
                 <p className="tw-p-4">
-                  {t(translations.marginTradePage.recentTrades.noTrades)}
+                  {t(translations.spotTradingPage.recentTrades.noTrades)}
                 </p>
               </td>
             </tr>
