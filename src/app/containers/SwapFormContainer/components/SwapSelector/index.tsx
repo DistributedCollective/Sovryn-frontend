@@ -99,6 +99,7 @@ export const SwapSelector: React.FC<ISwapSelectorProps> = ({
               prependElem={
                 <img className="tw-w-6" src={iconSearch} alt="Search" />
               }
+              data-action-id={`${dataActionId}-search-bar`}
             />
             <div className="tw-flex tw-items-center tw-my-3">
               <StarButton
