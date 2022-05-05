@@ -25,6 +25,7 @@ export function EngageWalletStep() {
                 href="https://rsk.co"
                 target="_blank"
                 rel="noreferrer noopener"
+                data-action-id="buySov-link-rsk"
               >
                 RSK Mainnet
               </a>,
@@ -39,6 +40,7 @@ export function EngageWalletStep() {
                 href="https://liquality.io/atomic-swap-wallet.html"
                 target="_blank"
                 rel="noreferrer noopener"
+                data-action-id="buySov-link-liquality"
               >
                 Liquality wallet
               </a>,
@@ -50,6 +52,7 @@ export function EngageWalletStep() {
         text={t(translations.buySovPage.engage.cta)}
         disabled={connected}
         onClick={() => connect()}
+        dataActionId="buySov-connect-walletButton"
       />
     </Card>
   );

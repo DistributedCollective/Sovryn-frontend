@@ -1,10 +1,8 @@
-import React, { useState } from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
-import classNames from 'classnames';
 
-import { Tab } from '../../components/Tab';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import { reducer, sliceKey } from './slice';
 import {
@@ -24,17 +22,37 @@ import { SpotHistory } from './components/SpotHistory';
 import { TradingType } from 'types/trading-pairs';
 import { RecentTrades } from 'app/components/RecentTrades';
 import { getSpotPairs } from './types';
+import { Tabs } from 'app/components/Tabs';
 
 export function SpotTradingPage() {
   useInjectReducer({ key: sliceKey, reducer: reducer });
   useInjectReducer({ key: marginSliceKey, reducer: marginReducer });
   useInjectSaga({ key: sliceKey, saga: spotTradingPageSaga });
 
-  const [activeTab, setActiveTab] = useState(0);
-
   const { t } = useTranslation();
   const { pairType } = useSelector(selectSpotTradingPage);
   const account = useAccount();
+
+  const tabs = useMemo(
+    () => [
+      {
+        id: 'marketOrder',
+        label: t(translations.spotTradingPage.history.marketOrder),
+        content: <SpotHistory />,
+      },
+      {
+        id: 'limitOrders',
+        label: t(translations.spotTradingPage.history.openLimitOrders),
+        content: <LimitOrderTables activeTab={1} />,
+      },
+      {
+        id: 'limitOrderHistory',
+        label: t(translations.spotTradingPage.history.limitOrderHistory),
+        content: <LimitOrderTables activeTab={2} />,
+      },
+    ],
+    [t],
+  );
 
   return (
     <>
@@ -70,32 +88,12 @@ export function SpotTradingPage() {
         </div>
 
         {account && (
-          <div className="tw-mt-10">
-            <div className="sm:tw-flex tw-items-center tw-mt-3 tw-text-sm sm:tw-text-left tw-text-center">
-              <Tab
-                text={t(translations.spotTradingPage.history.marketOrder)}
-                active={activeTab === 0}
-                onClick={() => setActiveTab(0)}
-              />
-              <Tab
-                text={t(translations.spotTradingPage.history.openLimitOrders)}
-                active={activeTab === 1}
-                onClick={() => setActiveTab(1)}
-              />
-              <Tab
-                text={t(translations.spotTradingPage.history.limitOrderHistory)}
-                active={activeTab === 2}
-                onClick={() => setActiveTab(2)}
-              />
-            </div>
-
-            <div className="tw-w-full sm:tw-px-5 tw-mb-10">
-              <div className={classNames({ 'tw-hidden': activeTab !== 0 })}>
-                <SpotHistory />
-              </div>
-              <LimitOrderTables activeTab={activeTab} />
-            </div>
-          </div>
+          <Tabs
+            items={tabs}
+            initial={tabs[0].id}
+            className="tw-mt-10"
+            dataActionId="spot-history"
+          />
         )}
       </div>
     </>

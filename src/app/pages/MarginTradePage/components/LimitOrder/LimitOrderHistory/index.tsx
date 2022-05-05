@@ -4,25 +4,25 @@ import { LimitOrderRow } from '../LimitOrderRow';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Pagination } from 'app/components/Pagination';
-import { MarginLimitOrderList } from '../LimitOrderTables';
-import { EventData } from 'web3-eth-contract';
+import { useGetLimitOrderEvents } from 'app/pages/MarginTradePage/hooks/useGetLimitOrderEvents';
 import { HelpBadge } from 'app/components/HelpBadge/HelpBadge';
 
 interface ILimitOrderHistoryProps {
   perPage?: number;
-  orders: MarginLimitOrderList[];
-  orderFilledEvents: EventData[];
-  loading: boolean;
 }
 
 const trans = translations.spotTradingPage.openLimitOrders;
 
 export const LimitOrderHistory: React.FC<ILimitOrderHistoryProps> = ({
   perPage = 5,
-  orders,
-  loading,
-  orderFilledEvents,
 }) => {
+  const { limitOrders, loading, events } = useGetLimitOrderEvents();
+
+  const orders = useMemo(
+    () => limitOrders.filter(item => item.filledAmount !== '0'),
+    [limitOrders],
+  );
+
   const { t } = useTranslation();
 
   const [page, setPage] = useState(1);
@@ -101,7 +101,7 @@ export const LimitOrderHistory: React.FC<ILimitOrderHistoryProps> = ({
                 <LimitOrderRow
                   key={item.order.transactionHash}
                   {...item}
-                  orderFilledEvents={orderFilledEvents}
+                  orderFilledEvents={events}
                 />
               ))}
             </>
