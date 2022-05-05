@@ -17,6 +17,12 @@
       {
         "indexed": false,
         "internalType": "int128",
+        "name": "tradeAmount",
+        "type": "int128"
+      },
+      {
+        "indexed": false,
+        "internalType": "int128",
         "name": "limitPrice",
         "type": "int128"
       },
@@ -25,6 +31,36 @@
         "internalType": "int128",
         "name": "triggerPrice",
         "type": "int128"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "deadline",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "referrerAddr",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint32",
+        "name": "flags",
+        "type": "uint32"
+      },
+      {
+        "indexed": false,
+        "internalType": "int128",
+        "name": "leverage",
+        "type": "int128"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "createdTimestamp",
+        "type": "uint256"
       },
       {
         "indexed": false,
