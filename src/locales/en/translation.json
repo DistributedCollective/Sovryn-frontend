@@ -940,7 +940,6 @@
     "btn": "Withdraw"
   },
   "borrowActivity": {
-    "title": "My Debts",
     "tabs": {
       "active": "Active",
       "history": "History"
