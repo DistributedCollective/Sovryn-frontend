@@ -1,8 +1,8 @@
 import { toWei } from 'web3-utils';
-import { currentNetwork } from '../classifiers';
+import { isMainnet } from '../classifiers';
 
 class TransferApproveAmount {
-  private isUnlimited: boolean = currentNetwork === 'mainnet';
+  private isUnlimited: boolean = isMainnet;
   public set(unlimited: boolean): void {
     this.isUnlimited = unlimited;
   }

@@ -8,6 +8,9 @@
     .tw-table th, .tw-table td {
         @apply tw-px-5 tw-py-3;
     }
+    .tw-table td img {
+        @apply tw-max-w-none;
+    }
 
     .tw-table tbody tr:nth-child(even) {
       @apply tw-bg-gray-1;

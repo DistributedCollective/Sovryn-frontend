@@ -3,6 +3,8 @@
  * Use getContract(contractName) helper
  * @example getContract('sovrynProtocol');
  */
+
+import { ChainId } from '../../types';
 import bzxAbi from './abi/bzxAbi.json';
 import priceFeedsAbi from './abi/priceFeedAbi.json';
 import WBRTCTokenABI from './abi/abiTestWBRTCToken.json';
@@ -29,12 +31,19 @@ import LockedFundAbi from './abi/LockedFund.json';
 import BabelfishAggregatorAbi from './abi/BabelfishAggregator.json';
 import SwapsExternalAbi from './abi/SwapsExternalAbi.json';
 import stakingRewardsProxyAbi from './abi/StakingRewards.json';
+import SettlementAbi from './abi/Settlement.json';
+import OrderBookAbi from './abi/OrderBook.json';
+import OrderBookMarginAbi from './abi/OrderBookMargin.json';
 import nftAbi from './abi/nftAbi.json';
 import MYNTControllerAbi from './abi/MYNTController.json';
 import MYNTTokenAbi from './abi/MYNT_token.json';
 import MYNTPresaleAbi from './abi/MYNTPresale.json';
 import MYNTMarketMakerAbi from './abi/MYNTMarketMaker.json';
 import fastBtcBridgeAbi from './abi/fastBtcBridge.json';
+import fastBtcMultisigAbi from './abi/fastBtcMultisig.json';
+import perpetualManagerAbi from './abi/PerpetualManager.json';
+import perpetualLimitOrderBookAbi from './abi/PerpetualLimitOrderBook.json';
+import marginTokenAbi from './abi/MarginToken.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -274,6 +283,22 @@ export const contracts = {
     address: '0x1440d19436bEeaF8517896bffB957a88EC95a00F',
     abi: BabelfishAggregatorAbi,
   },
+  // orderbook contract is on testnet
+  orderBook: {
+    address: '0x1c910918d6D05feC83e2376D57226d1b08324028',
+    abi: OrderBookAbi,
+    chainId: 31,
+  },
+  // orderbook contract is on testnet
+  orderBookMargin: {
+    address: '0x3677e8a679536d80F0b33ED2d1d0bC01a6634a4D',
+    abi: OrderBookMarginAbi,
+    chainId: 31,
+  },
+  settlement: {
+    address: '0x823e55322a395516ac3930F4C1ad9C7c2Fe2EACd',
+    abi: SettlementAbi,
+  },
   sovrynNFT: {
     address: '0x576ae218aecfd4cbd2dbe07250b47e26060932b1',
     abi: nftAbi,
@@ -299,5 +324,25 @@ export const contracts = {
   fastBtcBridge: {
     address: '0x0D5006330289336ebdF9d0AC9E0674f91b4851eA',
     abi: fastBtcBridgeAbi,
+  },
+  fastBtcMultisig: {
+    address: '0x0f279e810B95E0d425622b9b40D7bCD0B5C4B19d',
+    abi: fastBtcMultisigAbi,
+  },
+  // TODO: add perpetual mainnet contracts
+  perpetualManager: {
+    address: '0x15D155e8aDE68ED7f273770b47E2B2eA263861cF',
+    abi: perpetualManagerAbi,
+    chainId: ChainId.BSC_MAINNET,
+  },
+  perpetualLimitOrderBook: {
+    address: '0xaC4eFd35d52Bba2F8032a45Edd9ceA78fB5ae282',
+    abi: perpetualLimitOrderBookAbi,
+    chainId: ChainId.BSC_TESTNET,
+  },
+  PERPETUALS_token: {
+    address: '0x1431Aa8f066795d3aB94F8516B74FdCC5fD7897F',
+    abi: marginTokenAbi,
+    chainId: ChainId.BSC_MAINNET,
   },
 };

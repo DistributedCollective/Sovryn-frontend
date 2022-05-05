@@ -58,6 +58,7 @@ module.exports = {
       black: '#000000',
       'gray-1': '#161616',
       'gray-2': '#1f1f1f',
+      'gray-2.5': '#222222',
       'gray-3': '#2c2c2c',
       'gray-4': '#343434',
       'gray-5': '#484848',
@@ -65,6 +66,7 @@ module.exports = {
       'gray-7': '#8e8e8e',
       'gray-8': '#a2a2a2',
       'gray-9': '#c4c4c4',
+      'gray-10': '#d9d9d9',
       'sov-white': '#e8e8e8',
       white: '#ffffff',
 
@@ -117,16 +119,23 @@ module.exports = {
       borderRadius: {
         '3xl': '1.25rem', // instead of 1.5rem, keeps the .25rem steps
       },
+      borderWidth: {
+        '6': '6px',
+      },
       keyframes: {
         spin: {
           '0%': { transform: 'rotate(0deg)' },
           '100%': { transform: 'rotate(-360deg)' },
         },
       },
+      animation: {
+        'spin-fast': 'spin .5s linear infinite',
+      },
     },
   },
   variants: {
-    opacity: ['responsive', 'hover'],
+    opacity: ['responsive', 'hover', 'active', 'focus'],
+    zIndex: ['hover', 'active', 'focus'],
     extend: {},
   },
   corePlugins: {

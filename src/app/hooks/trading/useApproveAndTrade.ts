@@ -1,3 +1,4 @@
+import { HashZero } from '@ethersproject/constants';
 import { toWei } from 'web3-utils';
 import { Asset } from 'types/asset';
 import { getLendingContract } from 'utils/blockchain/contract-helpers';
@@ -17,7 +18,7 @@ export function useApproveAndTrade(
   collateral: Asset,
   leverage: number,
   collateralTokenSent: string,
-  minReturn,
+  minEntryPrice,
   // loanId,
   // loanTokenSent,
   // collateralTokenAddress,
@@ -32,13 +33,13 @@ export function useApproveAndTrade(
 
   const { trade, ...rest } = useMarginTrade(
     loanToken,
-    '0x0000000000000000000000000000000000000000000000000000000000000000', //0 if new loan
+    HashZero, //0 if new loan
     toWei(String(leverage - 1), 'ether'),
     useLoanTokens ? collateralTokenSent : '0',
     useLoanTokens ? '0' : collateralTokenSent,
     collateralToken,
     account, // trader
-    minReturn,
+    minEntryPrice,
     '0x',
     collateral === Asset.RBTC ? collateralTokenSent : '0',
   );

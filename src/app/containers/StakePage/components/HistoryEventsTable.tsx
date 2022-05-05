@@ -60,11 +60,11 @@ export function HistoryEventsTable() {
 
   return (
     <>
-      <div className="history-table tw-bg-gray-1 tw-rounded-b tw-mb-10">
-        <p className="tw-font-normal tw-text-lg tw-ml-6 tw-mb-1 tw-mt-16">
-          {t(translations.stake.history.title)}
-        </p>
-        <div className="tw-rounded-lg tw-sovryn-table tw-pt-1 tw-pb-0 tw-pr-5 tw-pl-5 tw-mb-5">
+      <p className="tw-font-semibold tw-text-lg tw-mb-4 tw-mt-6">
+        {t(translations.stake.history.title)}
+      </p>
+      <div className="tw-bg-gray-1 tw-rounded-b tw-shadow">
+        <div className="tw-rounded-lg sovryn-table tw-pt-1 tw-mb-5 max-h-96 tw-overflow-y-auto tw-pb-4">
           <StyledTable className="tw-w-full">
             <thead>
               <tr>
@@ -111,8 +111,9 @@ export function HistoryEventsTable() {
                       <td colSpan={5} className="tw-text-center tw-font-normal">
                         <button
                           type="button"
-                          className="tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-no-underline hover:tw-bg-primary hover:tw-bg-opacity-30 tw-mr-1 xl:tw-mr-7 tw-px-4 tw-py-2 tw-transition tw-duration-500 tw-ease-in-out tw-rounded-full tw-border tw-border-primary tw-text-sm tw-font-light tw-font-body"
+                          className="tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-no-underline hover:tw-bg-primary hover:tw-bg-opacity-30 tw-mr-1 xl:tw-mr-7 tw-px-4 tw-py-2 tw-transition tw-duration-500 tw-ease-in-out tw-rounded-full tw-border tw-border-primary tw-text-sm tw-font-normal tw-font-body"
                           onClick={getHistory}
+                          data-action-id="staking-viewhistoryButton"
                         >
                           {t(translations.stake.history.viewHistory)}
                         </button>

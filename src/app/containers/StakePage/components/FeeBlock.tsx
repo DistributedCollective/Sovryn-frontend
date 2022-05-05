@@ -7,8 +7,8 @@ import { getContract } from 'utils/blockchain/contract-helpers';
 import { Tooltip } from '@blueprintjs/core';
 import { weiTo18, weiTo4 } from 'utils/blockchain/math-helpers';
 import {
-  staking_withdrawFee,
   staking_numTokenCheckpoints,
+  getFeeSharingProxyContractName,
 } from 'utils/blockchain/requests/staking';
 import { useStaking_getAccumulatedFees } from 'app/hooks/staking/useStaking_getAccumulatedFees';
 import { translations } from 'locales/i18n';
@@ -16,6 +16,8 @@ import { LoadableValue } from 'app/components/LoadableValue';
 import { bignumber } from 'mathjs';
 import { Asset } from 'types';
 import { weiToUSD } from 'utils/display-text/format';
+import { useSendContractTx } from 'app/hooks/useSendContractTx';
+import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import classNames from 'classnames';
 
 interface IFeeBlockProps {
@@ -62,6 +64,11 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
       .toFixed(0);
   }, [dollars.value, currency.value, contractToken.decimals]);
 
+  const { send, ...tx } = useSendContractTx(
+    getFeeSharingProxyContractName(useNewContract),
+    'withdraw',
+  );
+
   const handleWithdrawFee = useCallback(
     async e => {
       e.preventDefault();
@@ -70,17 +77,12 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
           tokenAddress,
           useNewContract,
         )) as string;
-        await staking_withdrawFee(
-          tokenAddress,
-          numTokenCheckpoints,
-          account,
-          useNewContract,
-        );
+        send([tokenAddress, numTokenCheckpoints, account]);
       } catch (e) {
         console.error(e);
       }
     },
-    [tokenAddress, account, useNewContract],
+    [tokenAddress, useNewContract, send, account],
   );
 
   useEffect(() => updateUsdTotal(contractToken, Number(weiTo4(dollarValue))), [
@@ -91,7 +93,7 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
 
   return (
     <>
-      {Number(currency.value) > 0 && (
+      {(Number(currency.value) > 0 || isSovToken) && (
         <div className="tw-flex tw-justify-between tw-items-center tw-mb-1 tw-mt-1 tw-leading-6">
           <div className="tw-w-2/5">
             <Tooltip
@@ -109,31 +111,45 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
               {isSovToken ? <>{title || asset} (?)</> : <>i{asset} (?)</>}
             </Tooltip>
           </div>
-          <div className="tw-w-1/2 tw-mx-4">
-            <Tooltip content={`${weiTo18(currency.value)}`}>
-              {weiTo4(currency.value)}
-            </Tooltip>{' '}
-            ≈{' '}
-            <Tooltip content={`${weiToUSD(dollarValue, 6)}`}>
-              <LoadableValue
-                value={weiToUSD(dollarValue)}
-                loading={dollars.loading}
-              />
-            </Tooltip>
+          <div className="tw-w-1/2 tw-mx-4 tw-flex tw-flex-row tw-space-x-2">
+            <div>
+              <Tooltip content={`${weiTo18(currency.value)}`}>
+                <LoadableValue
+                  value={weiTo4(currency.value)}
+                  loading={currency.loading && currency.value === '0'}
+                  loaderContent="0.0000"
+                />
+              </Tooltip>{' '}
+              ≈{' '}
+            </div>
+            <div>
+              <Tooltip content={`${weiToUSD(dollarValue, 6)}`}>
+                <LoadableValue
+                  value={weiToUSD(dollarValue)}
+                  loading={
+                    (dollars.loading && currency.value !== '0') ||
+                    (currency.loading && currency.value === '0')
+                  }
+                  loaderContent="0.0000"
+                />
+              </Tooltip>
+            </div>
           </div>
           <button
             onClick={handleWithdrawFee}
             type="button"
-            disabled={frozen}
+            disabled={frozen || currency.value === '0'}
             className={classNames(
               'tw-text-primary hover:tw-text-primary tw-p-0 tw-text-normal tw-lowercase hover:tw-underline tw-font-medium tw-font-body tw-tracking-normal',
-              frozen && 'tw-opacity-50 tw-cursor-not-allowed',
+              (frozen || currency.value === '0') &&
+                'tw-opacity-50 tw-cursor-not-allowed',
             )}
           >
             {t(translations.userAssets.actions.withdraw)}
           </button>
         </div>
       )}
+      <TxDialog tx={tx} />
     </>
   );
 };

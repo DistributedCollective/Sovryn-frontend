@@ -1,3 +1,4 @@
+import { HashZero } from '@ethersproject/constants';
 import { Asset } from 'types/asset';
 import { getLendingContract } from 'utils/blockchain/contract-helpers';
 import { useBorrow } from './useBorrow';
@@ -12,13 +13,10 @@ export function useApproveAndBorrow(
   withdrawAmount: string,
   collateralTokenSent: string,
   initialLoanDuration: string,
-  // loanId,
-  // loanTokenSent,
-  // collateralTokenAddress,
 ) {
   const { borrow, ...txState } = useBorrow(
     borrowToken,
-    '0x0000000000000000000000000000000000000000000000000000000000000000', //0 if new loan
+    HashZero, //0 if new loan
     withdrawAmount,
     initialLoanDuration,
     collateralTokenSent,

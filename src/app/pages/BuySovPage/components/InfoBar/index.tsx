@@ -130,7 +130,7 @@ const StyledInfoBar = styled.div.attrs(() => ({
 
     p {
       font-size: 0.75rem;
-      font-weight: 300;
+      font-weight: 400;
       margin-bottom: 0;
 
       &:first-child {
@@ -150,7 +150,7 @@ const StyledInfoBar = styled.div.attrs(() => ({
     &.last {
       color: #fec004;
       & .title {
-        font-weight: 300;
+        font-weight: 400;
         letter-spacing: 0.6px;
       }
       & .value {

@@ -189,7 +189,7 @@ export const RemoveLiquidityDialogV1: React.FC<IRemoveLiquidityDialogV1Props> = 
             appendElem={<AssetRenderer asset={pool.assetB} />}
             className="tw-mt-6 tw-h-9"
           />
-          <div className="tw-text-xs tw-font-thin tw-mt-1">
+          <div className="tw-text-xs tw-font-extralight tw-mt-1">
             {`${t(translations.common.availableBalance)} ${weiToNumberFormat(
               sideBalance,
               8,

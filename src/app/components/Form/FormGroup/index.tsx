@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { makeId } from 'utils/helpers';
 
 interface FormGroupProps {
@@ -26,18 +26,23 @@ export function FormGroup({
   }, [props.id]);
 
   return (
-    <div className={cn('tw-form-group', className)}>
+    <div className={classNames('tw-form-group', className)}>
       {props.label && (
         <label
           htmlFor={id}
-          className={cn('tw-form-group-label', labelClassName)}
+          className={classNames('tw-form-group-label', labelClassName)}
         >
           {props.label}
         </label>
       )}
       <PassPropsToChildren id={id}>{children}</PassPropsToChildren>
       {describe && (
-        <div className={cn('tw-form-group-describe', props.describeClassName)}>
+        <div
+          className={classNames(
+            'tw-form-group-describe',
+            props.describeClassName,
+          )}
+        >
           {describe}
         </div>
       )}

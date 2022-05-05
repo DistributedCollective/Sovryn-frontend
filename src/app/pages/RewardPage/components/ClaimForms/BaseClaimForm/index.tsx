@@ -1,6 +1,6 @@
 import { Tooltip } from '@blueprintjs/core';
 import { AssetRenderer } from 'app/components/AssetRenderer';
-import { Button } from 'app/components/Button';
+import { Button, ButtonSize } from 'app/components/Button';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { Input } from 'app/components/Form/Input';
@@ -27,6 +27,7 @@ interface IBaseClaimFormProps {
   onSubmit: () => void;
   claimAsset?: Asset;
   claimLocked?: boolean;
+  dataActionId?: string;
 }
 
 export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
@@ -37,6 +38,7 @@ export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
   onSubmit,
   claimLocked,
   claimAsset = Asset.SOV,
+  dataActionId,
 }) => {
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
@@ -68,7 +70,7 @@ export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
     <div
       className={classNames(
         className,
-        'tw-trading-form-card tw-p-16 tw-mx-auto xl:tw-mx-0 tw-flex tw-flex-col',
+        'tw-trading-form-card tw-p-16 tw-px-10 tw-mx-auto xl:tw-mx-0 tw-flex tw-flex-col',
       )}
     >
       <div className="tw-text-sm">
@@ -127,7 +129,9 @@ export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
                 disabled={isDisabled || !isTokenBalance}
                 onClick={onSubmit}
                 className="tw-w-full tw-mb-4 tw-mt-16"
+                size={ButtonSize.lg}
                 text={t(translations.rewardPage.claimForm.cta)}
+                dataActionId={`rewards-claim-${dataActionId}`}
               />
             </Tooltip>
           )}

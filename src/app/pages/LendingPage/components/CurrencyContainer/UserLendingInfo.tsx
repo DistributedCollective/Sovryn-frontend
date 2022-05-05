@@ -4,10 +4,6 @@ import { useTranslation } from 'react-i18next';
 
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { ProfitLossRenderer } from 'app/components/FinanceV2Components/RowTable/ProfitLossRenderer';
-import {
-  TableBodyData,
-  TableHeader,
-} from 'app/components/FinanceV2Components/RowTable/styled';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { NextSupplyInterestRate } from 'app/components/NextSupplyInterestRate';
 import { useLending_assetBalanceOf } from 'app/hooks/lending/useLending_assetBalanceOf';
@@ -112,34 +108,31 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
     <RowTable className="tw-w-full tw-max-w-lg">
       <thead className="tw-text-sm tw-tracking-normal">
         <tr>
-          <TableHeader>
+          <th className="tw-pb-2 tw-font-light">
             {t(translations.lendingPage.rowTable.tableHeaders.apy)}
-          </TableHeader>
-          <TableHeader>
+          </th>
+          <th className="tw-pb-2 tw-font-light">
             {t(translations.lendingPage.rowTable.tableHeaders.yourDeposit)}
-          </TableHeader>
-          <TableHeader>
+          </th>
+          <th className="tw-pb-2 tw-font-light">
             {t(translations.lendingPage.rowTable.tableHeaders.myProfit)}
-          </TableHeader>
-          <TableHeader>
+          </th>
+          <th className="tw-pb-2 tw-font-light">
             {t(translations.lendingPage.rowTable.tableHeaders.rewards)}
-          </TableHeader>
+          </th>
         </tr>
       </thead>
 
       <TableBody>
-        <TableBodyData>
+        <td>
           <NextSupplyInterestRate
             asset={lendingPool.getAsset()}
             weiAmount={lendingAmount}
             className="tw-text-base"
           />
-        </TableBodyData>
+        </td>
         {balance === '0' && !profitLoading && !balanceLoading && (
-          <td
-            colSpan={3}
-            className="tw-text-xs tw-italic tw-font-extralight tw-text-center"
-          >
+          <td colSpan={3} className="tw-italic tw-text-center">
             {t(translations.lendingPage.rowTable.noLiquidityProvided, {
               asset,
             })}
@@ -147,7 +140,7 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
         )}
         {(balance !== '0' || profitLoading || balanceLoading) && (
           <>
-            <TableBodyData>
+            <td>
               <LoadableValue
                 loading={profitLoading || balanceLoading}
                 value={
@@ -157,8 +150,8 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
                 }
                 tooltip={<>{weiTo18(balance)}</>}
               />
-            </TableBodyData>
-            <TableBodyData>
+            </td>
+            <td>
               <LoadableValue
                 loading={
                   profitLoading ||
@@ -175,8 +168,8 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
                 }
                 tooltip={<>{weiTo18(poolProfit)}</>}
               />
-            </TableBodyData>
-            <TableBodyData>
+            </td>
+            <td>
               <LoadableValue
                 loading={rewardsLoading}
                 value={
@@ -189,7 +182,7 @@ export const UserLendingInfo: React.FC<IUserLendingInfoProps> = ({
                   <>{weiTo18(bignumber(rewards).add(recentRewardSOV))}</>
                 }
               />
-            </TableBodyData>
+            </td>
           </>
         )}
       </TableBody>

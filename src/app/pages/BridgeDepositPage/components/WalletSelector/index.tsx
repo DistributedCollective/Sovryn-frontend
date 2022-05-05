@@ -8,7 +8,6 @@ import { getBridgeChainId } from '../../utils/helpers';
 import { selectWalletProvider } from '../../../../containers/WalletProvider/selectors';
 import { selectBridgeDepositPage } from '../../selectors';
 import { BridgeNetworkDictionary } from '../../dictionaries/bridge-network-dictionary';
-import networkList from '../../../../components/NetworkRibbon/component/network.json';
 import error_alert from 'assets/images/error_outline-24px.svg';
 import { detectWeb3Wallet } from 'utils/helpers';
 import { SelectBox } from '../SelectBox';
@@ -28,6 +27,7 @@ import styles from './index.module.scss';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { noop } from 'app/constants';
+import { getNetworkByChainId } from '../../../../../utils/blockchain/networks';
 
 export const WalletSelector: React.FC = () => {
   const { t } = useTranslation();
@@ -35,17 +35,14 @@ export const WalletSelector: React.FC = () => {
   const bridgeLocked = checkMaintenance(States.BRIDGE);
 
   const dispatch = useDispatch();
-  const { ethereum } = window;
 
-  const { bridgeChainId } = useSelector(selectWalletProvider);
+  const { bridgeChainId, chainId } = useSelector(selectWalletProvider);
   const { chain } = useSelector(selectBridgeDepositPage);
-  const chainId = parseInt(ethereum?.chainId as string);
 
   const walletName = detectWeb3Wallet();
 
   const walletContext = useContext(WalletContext);
-  const currentNetwork =
-    networkList.find(item => item.chainId === chainId)?.chain || 0;
+  const currentNetwork = (chainId && getNetworkByChainId(chainId)?.chain) || 0;
 
   useEffect(() => {
     // Keep injected web3 wallet connected, disconnect all other wallet providers.
@@ -159,11 +156,18 @@ export const WalletSelector: React.FC = () => {
               href="https://wiki.sovryn.app/en/getting-started/wallet-setup"
               target="_blank"
               rel="noopener noreferrer"
-              className="tw-cursor-pointer tw-font-light tw-text-primary tw-underline tw-my-2"
+              className="tw-cursor-pointer tw-font-normal tw-text-primary tw-underline tw-my-2"
             >
-              {t(translations.BridgeDepositPage.walletSelector.howToConnect)}{' '}
-              <span className="tw-uppercase">{network?.chain}</span> with{' '}
-              <span className="tw-capitalize">{walletName}</span>
+              <Trans
+                i18nKey={
+                  translations.BridgeDepositPage.walletSelector.howToConnect
+                }
+                components={[
+                  <span className="tw-uppercase" />,
+                  <span className="tw-capitalize" />,
+                ]}
+                values={{ network: network?.chain, walletName }}
+              />
             </a>
 
             {walletName === 'metamask' && (

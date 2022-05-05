@@ -14,14 +14,15 @@ export function usePriceFeeds_rateByPath() {
   const dispatch = useDispatch();
 
   const getRate = useCallback(async (sourceAsset: Asset, destAsset: Asset) => {
-    const path = await contractReader.call('swapNetwork', 'conversionPath', [
-      getTokenContract(sourceAsset).address,
-      getTokenContract(destAsset).address,
-    ]);
-    const rate = await contractReader.call('swapNetwork', 'rateByPath', [
-      path,
-      toWei(0.01),
-    ]);
+    const rate = await contractReader.call(
+      'sovrynProtocol',
+      'getSwapExpectedReturn',
+      [
+        getTokenContract(sourceAsset).address,
+        getTokenContract(destAsset).address,
+        toWei(0.01),
+      ],
+    );
     const price = typeof rate == 'string' ? parseInt(rate) * 100 : '0';
     return {
       precision: '1000000000000000000',

@@ -1,4 +1,6 @@
 const postcssNormalize = require('postcss-normalize');
+const path = require('path');
+const fs = require('fs');
 
 const upgradePostCssLoaderEntry = entry => {
   if (entry && typeof entry === 'object') {
@@ -50,10 +52,44 @@ const upgradePostCssLoader = rules =>
     })
     .filter(Boolean);
 
+/**
+ * dumps the config with Class names into storybook.config.json in the project directory
+ * for debug purposes only
+ */
+const dumpStorybookConfigWithClassNames = config => {
+  const replacer = (key, value) =>
+    typeof value === 'object' &&
+    value &&
+    value.constructor &&
+    value.constructor.name &&
+    !['Array', 'Object'].includes(value.constructor.name)
+      ? { __class: value.constructor.name, ...value }
+      : value;
+  fs.writeFileSync(
+    './storybook.config.json',
+    JSON.stringify(config, replacer, 2),
+  );
+};
+
 module.exports = async ({ config }) => {
   // Upgrades postcss-loader from react-scripts to the newest version, to enable postcss 8.
   // Also enforces the same postcss plugins as in the app.
   config.module.rules = upgradePostCssLoader(config.module.rules);
+
+  // add tailwind.config.js to the allowed imports list
+  const moduleScopePlugin = config.resolve.plugins.find(
+    plugin =>
+      plugin &&
+      plugin.constructor &&
+      plugin.constructor.name === 'ModuleScopePlugin',
+  );
+
+  moduleScopePlugin.allowedFiles.add(
+    path.join(__dirname, '../tailwind.config.js'),
+  );
+
+  // Use this in case you need to adjust the storybook config in the future
+  // dumpStorybookConfigWithClassNames(config);
 
   return config;
 };

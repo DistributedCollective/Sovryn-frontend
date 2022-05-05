@@ -1,11 +1,11 @@
 import React, { useCallback, useMemo } from 'react';
-import cn from 'classnames';
+import classNames from 'classnames';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Input } from 'app/components/Form/Input';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { Asset } from 'types';
-import { Button } from 'app/components/Button';
+import { Button, ButtonSize } from 'app/components/Button';
 import { useSendContractTx } from '../../../../hooks/useSendContractTx';
 import { TxType } from 'store/global/transactions-store/types';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
@@ -91,7 +91,7 @@ export const ClaimForm: React.FC<IClaimFormProps> = ({
 
   return (
     <div
-      className={cn(
+      className={classNames(
         className,
         'tw-trading-form-card tw-bg-black tw-rounded-3xl tw-p-8 tw-mx-auto xl:tw-mx-0 tw-flex tw-flex-col',
       )}
@@ -132,6 +132,9 @@ export const ClaimForm: React.FC<IClaimFormProps> = ({
           )}
           {!rewardsLocked && (
             <Button
+              text={t(translations.originsClaim.claimForm.cta)}
+              className="tw-w-full tw-mb-4"
+              size={ButtonSize.lg}
               disabled={
                 parseFloat(balance) === 0 ||
                 !balance ||
@@ -139,12 +142,11 @@ export const ClaimForm: React.FC<IClaimFormProps> = ({
                 new Date().getTime() < unlockTime
               }
               onClick={handleSubmit}
-              className="tw-w-full tw-mb-4"
-              text={t(translations.originsClaim.claimForm.cta)}
+              dataActionId="origins-claimButton"
             />
           )}
 
-          <div className="tw-text-tiny tw-font-thin">
+          <div className="tw-text-tiny tw-font-extralight">
             {t(translations.originsClaim.claimForm.note, {
               date: new Date(unlockTime).toLocaleString(),
             })}

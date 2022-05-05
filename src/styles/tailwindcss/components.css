@@ -1,4 +1,37 @@
 @layer components {
+  .tw-scrollbars-thin {
+    /* firefox scrollbars */
+    scrollbar-width: thin;
+    scrollbar-color: theme('colors.gray-5') transparent;
+  }
+
+  .tw-scrollbars-thin::-webkit-scrollbar-track {
+    @apply tw-bg-transparent;
+  }
+
+  .tw-scrollbars-thin::-webkit-scrollbar {
+    @apply tw-w-2.5 tw-h-2.5 tw-bg-transparent;
+  }
+
+  .tw-scrollbars-thin::-webkit-scrollbar-thumb {
+    @apply tw-rounded-full tw-bg-gray-6 
+      tw-border-solid tw-border-transparent tw-bg-clip-padding;
+    border-width: 3px;
+  }
+
+  .tw-scrollbars-thin::-webkit-scrollbar-thumb:hover {
+    @apply tw-bg-gray-5;
+  }
+
+  .tw-scrollbars-thin::-webkit-scrollbar-thumb:active {
+    @apply tw-bg-gray-7;
+  }
+
+  .tw-scrollbars-thin::-webkit-scrollbar-corner {
+    @apply tw-bg-transparent;
+  }
+
+
   .tw-link {
     @apply tw-text-primary tw-no-underline tw-font-normal;
   }
@@ -43,14 +76,6 @@
     @apply tw-opacity-75 tw-bg-opacity-25 tw-cursor-wait;
   }
 
-  .tw-btn .bp3-spinner .bp3-spinner-head {
-    stroke: theme('colors.primary');
-  }
-
-  .tw-btn .bp3-spinner .bp3-spinner-track {
-    stroke: rgba(255, 255, 255, 0.2);
-  }
-
   /* inverted btn styles */
   .tw-btn-inverted {
     @apply tw-btn;
@@ -67,25 +92,16 @@
     @apply tw-opacity-75 tw-bg-opacity-75 tw-cursor-wait;
   }
 
-  .tw-btn-inverted .bp3-spinner .bp3-spinner-head {
-    stroke: theme('colors.black');
-  }
-
-  .tw-btn-inverted .bp3-spinner .bp3-spinner-track {
-    stroke: rgba(0, 0, 0, 0.1);
-  }
-
   .tw-trading-form-card.spot-form {
     min-width: 452px;
   }
   .tw-trading-form-card {
-    max-width: 452px;
     width: 100%;
   }
 
   .tw-mw-340 {
     @apply tw-w-full;
-    max-width: 340px;
+    max-width: 320px;
   }
 }
 
@@ -97,134 +113,11 @@
   background: transparent !important;
 }
 
-.slick-slider {
-  box-sizing: border-box;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  -webkit-touch-callout: none;
-  -khtml-user-select: none;
-  -ms-touch-action: pan-y;
-  touch-action: pan-y;
-  -webkit-tap-highlight-color: transparent;
-}
-.slick-prev {
-  left: -25px;
-}
-.slick-next {
-  right: -25px;
-}
-.slick-next,
-.slick-prev {
-  font-size: 0;
-  line-height: 0;
-  position: absolute;
-  top: 50%;
-  display: block;
-  width: 20px;
-  height: 25px;
-  padding: 0;
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-  cursor: pointer;
-  border: none;
-}
-.sliderMonth {
-  padding-left: 0.15rem;
-}
-.sliderMonth .slick-next,
-.sliderMonth .slick-prev {
-  top: 10px;
-}
-.sliderMonth .slick-list {
-  margin-right: 0.25rem;
-}
-.slick-arrow.slick-disabled svg {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-.slick-next:before,
-.slick-prev:before {
-  font-family: slick;
-  font-size: 1.25rem;
-  line-height: 1;
-  opacity: 0.75;
-  color: theme('colors.sov-white');
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-.slick-slider .slick-list,
-.slick-slider .slick-track {
-  -ms-transform: translateZ(0);
-  transform: translateZ(0);
-}
-
-.slick-list {
-  overflow: hidden;
-  margin: 0;
-  padding: 0;
-}
-.slick-list,
-.slick-slider {
-  position: relative;
-  display: block;
-}
-.slick-slider .slick-list,
-.slick-slider .slick-track {
-  -ms-transform: translateZ(0);
-  transform: translateZ(0);
-}
-
-.slick-track {
-  position: relative;
-  top: 0;
-  left: 0;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-.slick-initialized .slick-slide {
-  display: block;
-}
-.slick-slide {
-  display: none;
-  float: left;
-  height: 100%;
-  min-height: 1px;
-}
-.slick-slide div:focus {
-  outline: 0;
-  outline-offset: 0;
-}
-.slick-slide:hover,
-.slick-slide:focus,
-.slick-slide:active {
-  border: none;
-  outline: none;
-}
-.slick-dots {
-  display: flex !important;
-  justify-content: center;
-}
-.slick-dots li {
-  margin: 0 2px;
-  list-style: none;
-}
-.slick-dots li button {
-  @apply tw-w-2.5 tw-h-2.5
-    tw-bg-secondary tw-rounded-full
-    tw-cursor-pointer tw-bg-sov-white;
-  font-size: 0;
-  transition: background 0.3s;
-}
-.slick-dots li:not(.slick-active) button:hover {
-  @apply tw-opacity-70;
-}
-
-.slick-dots li.slick-active button {
-  @apply tw-bg-secondary;
-}
 .assets {
   min-width: 115px;
+}
+@screen md {
+  .tw-trading-form-card {
+    max-width: 369px;
+  }
 }

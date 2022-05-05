@@ -1,168 +1,122 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { translations } from 'locales/i18n';
 import { AssetRenderer } from 'app/components/AssetRenderer';
-import { fromWei, weiToFixed } from '../../../utils/blockchain/math-helpers';
-import { Asset } from '../../../types';
-import { useWeiAmount } from '../../hooks/useWeiAmount';
-import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
-import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
-import { useCanInteract } from '../../hooks/useCanInteract';
-import { SwapAssetSelector } from './components/SwapAssetSelector/Loadable';
+import { fromWei, weiToFixed } from 'utils/blockchain/math-helpers';
+import { Asset } from 'types';
+import { useWeiAmount } from 'app/hooks/useWeiAmount';
+import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
+import { useCanInteract } from 'app/hooks/useCanInteract';
+import { SwapSelector } from './components/SwapSelector/Loadable';
 import { AmountInput } from 'app/components/Form/AmountInput';
-import swapIcon from '../../../assets/images/swap/swap_horizontal.svg';
-import settingIcon from '../../../assets/images/swap/ic_setting.svg';
 import { SlippageDialog } from 'app/pages/BuySovPage/components/BuyForm/Dialogs/SlippageDialog';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
-import { weiToNumberFormat } from 'utils/display-text/format';
 import { BuyButton } from 'app/pages/BuySovPage/components/Button/buy';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
+import { SwapStatsPrices } from './components/SwapStatsPrices';
 import { bignumber } from 'mathjs';
 import { Input } from 'app/components/Form/Input';
-import { AvailableBalance } from '../../components/AvailableBalance';
-import { Arbitrage } from '../../components/Arbitrage/Arbitrage';
-import { useAccount } from '../../hooks/useAccount';
-import { getTokenContractName } from '../../../utils/blockchain/contract-helpers';
-import { Sovryn } from '../../../utils/sovryn';
-import { contractReader } from '../../../utils/sovryn/contract-reader';
+import { ActionButton } from 'app/components/Form/ActionButton';
+import { weiToNumberFormat } from 'utils/display-text/format';
+import { AvailableBalance } from 'app/components/AvailableBalance';
+import { Arbitrage } from 'app/components/Arbitrage/Arbitrage';
+import { FormGroup } from 'app/components/Form/FormGroup';
+import swapIcon from '../../../assets/images/swap/swap_horizontal.svg';
+import settingIcon from 'assets/images/settings-blue.svg';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useMaintenance } from 'app/hooks/useMaintenance';
-import { discordInvite } from 'utils/classifiers';
-import { useSwapsExternal_getSwapExpectedReturn } from '../../hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
+import { backendUrl, currentChainId, discordInvite } from 'utils/classifiers';
+import { useSwapsExternal_getSwapExpectedReturn } from 'app/hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
 import { IPromotionLinkState } from 'app/pages/LandingPage/components/Promotions/components/PromotionCard/types';
-
 import styles from './index.module.scss';
-import { useSwapNetwork_approveAndConvertByPath } from '../../hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
-import { useSwapNetwork_conversionPath } from '../../hooks/swap-network/useSwapNetwork_conversionPath';
+import { useSwapNetwork_approveAndConvertByPath } from 'app/hooks/swap-network/useSwapNetwork_approveAndConvertByPath';
+import { useSwapNetwork_conversionPath } from 'app/hooks/swap-network/useSwapNetwork_conversionPath';
+import { ReviewDialog } from './components/ReviewDialog';
+import axios, { Canceler } from 'axios';
+import { IAssets } from 'app/pages/LandingPage/components/CryptocurrencyPrices/types';
+import { IPairsData } from 'types/trading-pairs';
+import { useInterval } from 'app/hooks/useInterval';
+import { getFavoriteList } from 'utils/helpers';
 
-const s = translations.swapTradeForm;
+const refreshInterval = 300000;
+const url = backendUrl[currentChainId];
 
-interface Option {
-  key: Asset;
-  label: string;
-}
-
-const xusdExcludes = [Asset.USDT, Asset.DOC];
-
-export function SwapFormContainer() {
+export const SwapFormContainer: React.FC = () => {
   const { t } = useTranslation();
   const isConnected = useCanInteract();
   const { checkMaintenance, States } = useMaintenance();
   const swapLocked = checkMaintenance(States.SWAP_TRADES);
 
-  const [dialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [isReviewDialogOpen, setIsReviewDialogOpen] = useState(false);
   const [amount, setAmount] = useState('');
   const [sourceToken, setSourceToken] = useState(Asset.RBTC);
   const [targetToken, setTargetToken] = useState(Asset.SOV);
-  const [sourceOptions, setSourceOptions] = useState<any[]>([]);
-  const [targetOptions, setTargetOptions] = useState<any[]>([]);
   const [slippage, setSlippage] = useState(0.5);
-  const account = useAccount();
   const weiAmount = useWeiAmount(amount);
-  const { value: tokens } = useCacheCallWithValue<string[]>(
-    'converterRegistry',
-    'getConvertibleTokens',
-    [],
-  );
-  const [tokenBalance, setTokenBalance] = useState<any[]>([]);
 
-  useEffect(() => {
-    async function getOptions() {
-      try {
-        Promise.all(
-          tokens.map(async item => {
-            const asset = AssetsDictionary.getByTokenContractAddress(item);
-            if (!asset || !asset.hasAMM) {
-              return null;
-            }
-            let token: string = '';
-            if (account) {
-              if (asset.asset === Asset.RBTC) {
-                token = await Sovryn.getWeb3().eth.getBalance(account);
-              } else {
-                token = await contractReader.call(
-                  getTokenContractName(asset.asset),
-                  'balanceOf',
-                  [account],
-                );
-              }
-            }
-            return {
-              key: asset.asset,
-              label: asset.symbol,
-              value: token,
-            };
-          }),
-        ).then(result => {
-          setTokenBalance(result.filter(item => item !== null) as Option[]);
-        });
-      } catch (e) {
-        console.error(e);
-      }
-    }
-    if (tokens.length > 0) getOptions();
-  }, [account, tokens]);
+  const [pairsLoading, setPairsLoading] = useState(false);
+  const [pairsData, setPairsData] = useState<IPairsData>();
+  const cancelAssetDataRequest = useRef<Canceler>();
+  const cancelDataRequest = useRef<Canceler>();
+  const cancelPairsDataRequest = useRef<Canceler>();
+  const [assetData, setAssetData] = useState<IAssets>();
+  const location = useLocation<IPromotionLinkState>();
 
-  useEffect(() => {
-    const newOptions = tokenBalance;
-    if (newOptions) {
-      setSourceOptions(newOptions);
-    }
+  const getPairsData = useCallback(() => {
+    setPairsLoading(true);
+    cancelPairsDataRequest.current && cancelPairsDataRequest.current();
 
-    if (
-      !newOptions.find(item => item.key === sourceToken) &&
-      newOptions.length
-    ) {
-      setSourceToken(newOptions[0].key);
-    }
-  }, [tokens, targetToken, sourceToken, tokenBalance]);
-
-  useEffect(() => {
-    const newOptions = tokenBalance;
-
-    if (newOptions) {
-      const filteredOptions = newOptions.filter(option => {
-        if (sourceToken === Asset.XUSD && xusdExcludes.includes(option.key))
-          return false;
-        if (xusdExcludes.includes(sourceToken) && option.key === Asset.XUSD)
-          return false;
-        return option.key !== sourceToken;
+    const cancelToken = new axios.CancelToken(c => {
+      cancelDataRequest.current = c;
+    });
+    axios
+      .get(url + '/api/v1/trading-pairs/summary', {
+        cancelToken,
+      })
+      .then(res => {
+        setPairsData(res.data);
+      })
+      .catch(e => console.error(e))
+      .finally(() => {
+        setPairsLoading(false);
       });
-      if (filteredOptions.length > 0) setTargetOptions(filteredOptions);
-    }
+  }, []);
 
-    let defaultTo: Asset | null = null;
-    if (sourceToken === targetToken) {
-      switch (targetToken) {
-        case Asset.RBTC: {
-          defaultTo = Asset.SOV;
-          break;
-        }
-        case Asset.SOV:
-        default: {
-          defaultTo = Asset.RBTC;
-          break;
-        }
-      }
-    }
+  const getAssetData = useCallback(() => {
+    cancelAssetDataRequest.current && cancelAssetDataRequest.current();
 
-    if (defaultTo && newOptions.find(item => item.key === defaultTo)) {
-      setTargetToken(defaultTo);
-    } else if (
-      //default to RBTC if invalid XUSD pair used
-      ((sourceToken === Asset.XUSD && xusdExcludes.includes(targetToken)) ||
-        (xusdExcludes.includes(sourceToken) && targetToken === Asset.XUSD)) &&
-      newOptions.find(item => item.key === Asset.RBTC)
-    ) {
-      setTargetToken(Asset.RBTC);
-    } else if (
-      !newOptions.find(item => item.key === targetToken) &&
-      newOptions.length
-    ) {
-      setTargetToken(newOptions[0].key);
+    const cancelToken = new axios.CancelToken(c => {
+      cancelDataRequest.current = c;
+    });
+    axios
+      .get(url + '/api/v1/trading-pairs/assets', {
+        cancelToken,
+      })
+      .then(res => {
+        setAssetData(res.data);
+      })
+      .catch(e => console.error(e));
+  }, []);
+
+  useInterval(
+    () => {
+      getPairsData();
+      getAssetData();
+    },
+    refreshInterval,
+    { immediate: true },
+  );
+
+  const storageKey = useMemo(() => {
+    if (location.pathname === '/swap') {
+      return 'swap-asset';
     }
-  }, [tokens, sourceToken, targetToken, tokenBalance]);
+    return '';
+  }, [location.pathname]);
+
+  const [favList, setFavList] = useState(getFavoriteList(storageKey));
 
   const { value: rateByPath } = useSwapsExternal_getSwapExpectedReturn(
     sourceToken,
@@ -173,8 +127,8 @@ export function SwapFormContainer() {
   const { minReturn } = useSlippage(rateByPath, slippage);
 
   const { value: path } = useSwapNetwork_conversionPath(
-    tokenAddress(sourceToken),
-    tokenAddress(targetToken),
+    AssetsDictionary.get(sourceToken).getTokenContractAddress(),
+    AssetsDictionary.get(targetToken).getTokenContractAddress(),
   );
 
   const { send: sendPath, ...txPath } = useSwapNetwork_approveAndConvertByPath(
@@ -182,43 +136,6 @@ export function SwapFormContainer() {
     weiAmount,
     minReturn,
   );
-
-  // const {
-  //   send: sendExternal,
-  //   ...txExternal
-  // } = useSwapsExternal_approveAndSwapExternal(
-  //   sourceToken,
-  //   targetToken,
-  //   account,
-  //   account,
-  //   weiAmount,
-  //   '0',
-  //   minReturn,
-  //   '0x',
-  // );
-
-  const location = useLocation<IPromotionLinkState>();
-  const history = useHistory<IPromotionLinkState>();
-
-  useEffect(() => {
-    if (location.state?.asset) {
-      const item = tokenBalance.find(
-        item => item.key === location.state?.asset,
-      );
-      if (item) {
-        setSourceToken(item.key);
-      }
-    }
-    if (location.state?.target) {
-      const item = tokenBalance.find(
-        item => item.key === location.state?.target,
-      );
-      if (item) {
-        setTargetToken(item.key);
-        history.replace(location.pathname);
-      }
-    }
-  }, [tokens, tokenBalance, location.state, location.pathname, history]);
 
   const onSwapAssert = () => {
     const _sourceToken = sourceToken;
@@ -235,27 +152,27 @@ export function SwapFormContainer() {
     );
   }, [targetToken, sourceToken, minReturn, weiAmount]);
 
-  // const tx = useMemo(
-  //   () =>
-  //     targetToken === Asset.RBTC ||
-  //     [targetToken, sourceToken].includes(Asset.RIF)
-  //       ? txPath
-  //       : txExternal,
-  //   [targetToken, sourceToken, txExternal, txPath],
-  // );
-
   const tx = txPath;
-
-  // const send = useCallback(
-  //   () =>
-  //     targetToken === Asset.RBTC ||
-  //     [targetToken, sourceToken].includes(Asset.RIF)
-  //       ? sendPath()
-  //       : sendExternal(),
-  //   [targetToken, sourceToken, sendPath, sendExternal],
-  // );
-
   const send = useCallback(() => sendPath(), [sendPath]);
+
+  const setSwapTokens = useCallback((source: Asset, target: Asset) => {
+    setSourceToken(source);
+    setTargetToken(target);
+  }, []);
+
+  const handleFavClick = useCallback(
+    asset => {
+      const index = favList.findIndex((favorite: Asset) => favorite === asset);
+      const list = [...favList];
+      if (index > -1) {
+        list.splice(index, 1);
+      } else {
+        list.push(asset);
+      }
+      setFavList(list);
+    },
+    [favList],
+  );
 
   return (
     <>
@@ -265,11 +182,25 @@ export function SwapFormContainer() {
         value={slippage}
         asset={targetToken}
         onClose={() => setDialogOpen(false)}
-        onChange={value => setSlippage(value)}
+        onChange={setSlippage}
         dataActionId="swap-"
       />
 
-      <Arbitrage />
+      <div className="tw-bg-gray-3 tw-w-full tw-mb-10 tw-overflow-hidden">
+        <div className={styles.statsContainer}>
+          {pairsData && pairsData.pairs && assetData && (
+            <SwapStatsPrices pairs={pairsData.pairs} assetData={assetData} />
+          )}
+
+          {pairsLoading && (
+            <div className="tw-skeleton tw-w-full" key={'loading'}>
+              {t(translations.topUpHistory.loading)}
+            </div>
+          )}
+        </div>
+      </div>
+
+      <Arbitrage onClick={(source, target) => setSwapTokens(source, target)} />
 
       <div className={styles.swapFormContainer}>
         <div className={styles.swapForm}>
@@ -278,27 +209,37 @@ export function SwapFormContainer() {
             className={styles.currency}
             data-action-id="swap-send-swapAssetSelector"
           >
-            <SwapAssetSelector
-              value={sourceToken}
-              items={sourceOptions}
-              placeholder={t(s.fields.currency_placeholder)}
-              onChange={value => setSourceToken(value.key)}
-            />
+            {pairsData && assetData && (
+              <SwapSelector
+                pairs={pairsData.pairs}
+                assetData={assetData}
+                onChange={setSourceToken}
+                selectedAsset={sourceToken}
+                selectedReverse={targetToken}
+                onChangeFavorite={handleFavClick}
+                favList={favList}
+                storageKey={storageKey}
+                dataActionId="send"
+              />
+            )}
           </div>
           <div className={styles.availableBalance}>
             <AvailableBalance
               asset={sourceToken}
-              dataAttribute="swap-send-availableBalance"
+              dataActionId="swap-send-availableBalance"
             />
           </div>
-          <div className={styles.amount}>
+          <FormGroup
+            label={t(translations.swap.tradeAmount)}
+            className="tw-mt-3"
+          >
             <AmountInput
               value={amount}
-              onChange={value => setAmount(value)}
+              onChange={setAmount}
               asset={sourceToken}
-              dataActionId="swap-send"
+              dataActionId="swap"
             />
-          </div>
+          </FormGroup>
         </div>
         <div className={styles.swapRevertWrapper}>
           <div
@@ -311,23 +252,33 @@ export function SwapFormContainer() {
         <div className={styles.swapForm}>
           <div className={styles.title}>{t(translations.swap.receive)}</div>
           <div
-            data-action-id="swap-receive-swapAssetSelector"
             className={styles.currency}
+            data-action-id="swap-receive-swapAssetSelector"
           >
-            <SwapAssetSelector
-              value={targetToken}
-              items={targetOptions}
-              placeholder={t(s.fields.currency_placeholder)}
-              onChange={value => setTargetToken(value.key)}
-            />
+            {pairsData && assetData && targetToken && (
+              <SwapSelector
+                pairs={pairsData.pairs}
+                assetData={assetData}
+                onChange={setTargetToken}
+                selectedAsset={targetToken}
+                selectedReverse={sourceToken}
+                onChangeFavorite={handleFavClick}
+                favList={favList}
+                storageKey={storageKey}
+                dataActionId="receive"
+              />
+            )}
           </div>
           <div className={styles.availableBalance}>
             <AvailableBalance
               asset={targetToken}
-              dataAttribute="swap-receive-availableBalance"
+              dataActionId="swap-receive-availableBalance"
             />
           </div>
-          <div className={styles.amount}>
+          <FormGroup
+            label={t(translations.swap.receiveAmount)}
+            className="tw-mt-3"
+          >
             <Input
               value={weiToFixed(rateByPath, 6)}
               onChange={value => setAmount(value)}
@@ -335,21 +286,40 @@ export function SwapFormContainer() {
               appendElem={<AssetRenderer asset={targetToken} />}
               dataActionId="swap-receive-amount"
             />
-          </div>
+            <div className={styles.swapBtnHelper}>
+              <div>{t(translations.swap.minimumReceived)}</div>
+              <div>
+                {weiToNumberFormat(minReturn, 6)}{' '}
+                <AssetRenderer asset={targetToken} />
+              </div>
+            </div>
+          </FormGroup>
         </div>
       </div>
 
       <div className={styles.swapBtnContainer}>
-        <div className={styles.swapBtnHelper}>
-          <span>
-            {t(translations.swap.minimumReceived)}{' '}
-            {weiToNumberFormat(minReturn, 6)}
-          </span>
-          <img
-            src={settingIcon}
-            alt="settings"
-            data-action-id="swap-receive-availableBalance"
+        <div className="tw-my-0 tw-text-secondary tw-text-xs tw-flex tw-justify-center">
+          <ActionButton
+            text={
+              <div className="tw-flex">
+                {t(translations.swap.advancedSettings)}
+                <img
+                  data-action-id="slippage-setting-button"
+                  className="tw-ml-1"
+                  src={settingIcon}
+                  alt="setting"
+                />
+              </div>
+            }
             onClick={() => setDialogOpen(true)}
+            className="tw-border-none tw-ml-0 tw-p-0 tw-h-auto"
+            textClassName="tw-text-xs tw-overflow-visible tw-text-secondary"
+            disabled={
+              tx.loading ||
+              !isConnected ||
+              (!validate && isConnected) ||
+              swapLocked
+            }
           />
         </div>
         {swapLocked && (
@@ -378,17 +348,23 @@ export function SwapFormContainer() {
             (!validate && isConnected) ||
             swapLocked
           }
-          onClick={send}
+          onClick={() => setIsReviewDialogOpen(true)}
           text={t(translations.swap.cta)}
           dataActionId="swap-confirmButton"
         />
       </div>
 
       <TxDialog tx={tx} />
+
+      <ReviewDialog
+        isOpen={isReviewDialogOpen}
+        onConfirm={send}
+        onClose={() => setIsReviewDialogOpen(!isReviewDialogOpen)}
+        sourceToken={sourceToken}
+        targetToken={targetToken}
+        amount={amount}
+        amountReceived={rateByPath}
+      />
     </>
   );
-}
-
-function tokenAddress(asset: Asset) {
-  return AssetsDictionary.get(asset).getTokenContractAddress();
-}
+};

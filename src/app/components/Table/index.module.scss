@@ -1,0 +1,8 @@
+.headRow {
+  // Using ::before and ::after to enable border radii on odd rows, even when the first-/last-child is hidden
+  &::before,
+  &::after {
+    @apply tw-table-cell tw-sticky tw-top-0 tw-z-10 tw-w-2 tw-bg-gray-1;
+    content: '';
+  }
+}

@@ -1,0 +1,22 @@
+.row {
+  @apply tw-cursor-pointer sm:tw-cursor-auto;
+
+  // Using ::before and ::after to enable border radii on odd rows, even when the first-/last-child is hidden
+  &::before {
+    @apply tw-table-cell tw-w-2 tw-rounded-l-lg;
+    content: '';
+  }
+
+  &::after {
+    @apply tw-table-cell tw-w-2 tw-rounded-r-lg;
+    content: '';
+  }
+
+  &:nth-child(odd) {
+    & > *,
+    &::before,
+    &::after {
+      @apply tw-bg-gray-2;
+    }
+  }
+}

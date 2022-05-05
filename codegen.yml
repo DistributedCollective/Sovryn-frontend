@@ -1,0 +1,19 @@
+generates:
+  ./src/utils/graphql/rsk/generated.tsx:
+    schema:
+      - './src/utils/graphql/rsk/schema.graphql'
+    documents:
+      - './src/utils/graphql/rsk/operations/*.graphql'
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-react-apollo
+    config:
+      withHooks: true
+      scalars:
+        Bytes: string
+        BigInt: string
+        BigDecimal: string
+hooks:
+  afterAllFileWrite:
+    - prettier ./src/utils/graphql --write

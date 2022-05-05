@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { bignumber } from 'mathjs';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Icon, Popover } from '@blueprintjs/core';
 import { useSelector } from 'react-redux';
@@ -14,9 +14,9 @@ import { AssetSymbolRenderer } from '../AssetSymbolRenderer';
 import { toNumberFormat } from '../../../utils/display-text/format';
 import type { PoolData } from './models/pool-data';
 import type { Opportunity } from './models/opportunity';
+import { Button, ButtonSize, ButtonStyle } from '../Button';
 
 const s = translations.swapTradeForm;
-
 const minUsdForOpportunity = 10;
 
 export const isValidArbitrage = arbitrage => {
@@ -30,7 +30,11 @@ export const isValidArbitrage = arbitrage => {
   );
 };
 
-export function Arbitrage() {
+interface IArbitrageProps {
+  onClick: (source: Asset, target: Asset) => void;
+}
+
+export const Arbitrage: React.FC<IArbitrageProps> = ({ onClick }) => {
   const { t } = useTranslation();
   const { assetRates } = useSelector(selectWalletProvider);
 
@@ -86,44 +90,79 @@ export function Arbitrage() {
     <>
       {opportunity !== null && (
         <div className="tw-my-3">
-          <div className="tw-text-sov-white tw-mb-12 tw-p-4 tw-rounded tw-border tw-border-primary">
-            {t(s.arbitrage.best_rate)}{' '}
-            <span className="tw-text-primary">
-              {toNumberFormat(opportunity.fromAmount, 6)}{' '}
-              <AssetSymbolRenderer asset={opportunity.fromToken} />
-            </span>{' '}
-            {t(s.arbitrage.for)}{' '}
-            <span className="tw-text-primary">
-              {toNumberFormat(opportunity.toAmount, 6)}{' '}
-              <AssetSymbolRenderer asset={opportunity.toToken} />
-            </span>
-            <Popover
-              content={
-                <div className="tw-px-12 tw-py-8 tw-font-light">
-                  <p>
-                    {t(s.arbitrage.popover_p1, {
-                      fromAmount: toNumberFormat(opportunity.fromAmount, 6),
-                      fromToken: opportunity.fromToken,
-                      toAmount: toNumberFormat(opportunity.toAmount, 6),
-                      toToken: opportunity.toToken,
-                    })}
-                  </p>
-                  <p>
-                    {t(s.arbitrage.popover_p2, {
-                      toToken: opportunity.toToken,
-                      earn: toNumberFormat(opportunity.earn, 6),
-                    })}
-                  </p>
+          <div className="tw-bg-gray-5 tw-rounded-lg tw-py-3 tw-px-5 tw-m-auto tw-w-full tw-max-w-3xl tw-mb-11 tw-flex tw-items-center tw-justify-between tw-flex-col">
+            <div className="tw-text-sov-white tw-pt-1 tw-pb-3 tw-w-full">
+              <p className="tw-m-0 tw-whitespace-nowrap tw-mr-8 tw-mb-2">
+                {t(s.arbitrage.best_rate)}
+              </p>
+              <div className="tw-border-t tw-border-sov-white tw-w-full"></div>
+            </div>
+            <div className="tw-flex tw-items-center tw-justify-between">
+              <p className="tw-font-light tw-m-0 tw-text-sov-white tw-text-sm tw-mr-3">
+                <Trans
+                  i18nKey={s.arbitrage.text}
+                  components={[
+                    <span className="tw-text-success tw-font-normal"></span>,
+                    <AssetSymbolRenderer asset={opportunity.fromToken} />,
+                    <AssetSymbolRenderer asset={opportunity.toToken} />,
+                  ]}
+                  values={{
+                    percent:
+                      '+' +
+                      toNumberFormat(
+                        (opportunity.earn /
+                          (opportunity.toAmount - opportunity.earn)) *
+                          100,
+                        2,
+                      ),
+                  }}
+                />
+              </p>
+              <div className="tw-flex tw-items-center">
+                <div className="tw-relative">
+                  <Popover
+                    content={
+                      <div className="tw-p-5 tw-font-normal">
+                        <p>
+                          {t(s.arbitrage.popover_p1, {
+                            fromAmount: toNumberFormat(
+                              opportunity.fromAmount,
+                              6,
+                            ),
+                            fromToken: opportunity.fromToken,
+                            toAmount: toNumberFormat(opportunity.toAmount, 6),
+                            toToken: opportunity.toToken,
+                          })}
+                        </p>
+                        <p>
+                          {t(s.arbitrage.popover_p2, {
+                            toToken: opportunity.toToken,
+                            earn: toNumberFormat(opportunity.earn, 6),
+                          })}
+                        </p>
+                      </div>
+                    }
+                    className="tw-pl-4"
+                    popoverClassName={'tw-mw-340'}
+                  >
+                    <Icon icon="info-sign" className="tw-cursor-pointer" />
+                  </Popover>
                 </div>
-              }
-              className="tw-pl-4"
-              popoverClassName={'tw-w-1/2 tw-mx-1'}
-            >
-              <Icon icon={'info-sign'} />
-            </Popover>
+                <Button
+                  text={t(translations.mainMenu.swap)}
+                  size={ButtonSize.md}
+                  style={ButtonStyle.frosted}
+                  onClick={() =>
+                    onClick(opportunity.fromToken, opportunity.toToken)
+                  }
+                  className="tw-ml-4"
+                  dataActionId="swap-arbitrage-submit-button"
+                />
+              </div>
+            </div>
           </div>
         </div>
       )}
     </>
   );
-}
+};

@@ -28,13 +28,15 @@
   }
   thead tr,
   .table-header:not(.sub-header) {
-    height: 40px;
+   @apply tw-h-10;
     th {
       @include table-header;
     }
   }
   tbody {
     tr {
+      @apply tw-h-20;
+
       &:nth-child(odd) {
         td {
           @apply tw-bg-gray-3;
@@ -57,10 +59,8 @@
 
   tbody tr,
   div.mobile-row {
-    @apply tw-h-20;
-
     td {
-      @apply tw-px-5 tw-py-0
+      @apply tw-px-5 tw-py-3
         tw-text-sov-white;
       @media (max-width: 441px) {
         @apply tw-px-4;
@@ -68,7 +68,7 @@
     }
 
     &:first-of-type {
-      @apply tw-border-t-0
+      @apply tw-border-t-0;
     }
 
     &.table-header {
@@ -100,7 +100,7 @@
 button.button-round {
   @apply tw-px-5 tw-py-2 tw-ml-4
     tw-border tw-rounded-3xl
-    tw-text-sm tw-font-thin tw-font-body tw-normal-case;
+    tw-text-sm tw-font-extralight tw-font-body tw-normal-case;
 
   transition: background 0.3s;
 
@@ -238,4 +238,8 @@ button.button-width {
 .history-table {
   max-width: 1544px;
   margin: auto;
+}
+
+.search {
+  min-width: 31.3rem;
 }

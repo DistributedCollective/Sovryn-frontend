@@ -5,8 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { translations } from 'locales/i18n';
 
-import { Footer } from '../../components/Footer';
-import { Header } from '../../components/Header';
 import { HistoryTable } from './components/HistoryTable';
 import { LiquidTab } from './components/LiquidTab';
 import { RewardTab } from './components/RewardTab';
@@ -56,8 +54,6 @@ export function RewardPage() {
         />
       </Helmet>
 
-      <Header />
-
       <div className={styles['background-image-wrapper']}>
         <img className={styles['background-image']} src={imgSov} alt="SOV" />
         <img className={styles['background-image']} src={imgBtc} alt="BTC" />
@@ -73,6 +69,7 @@ export function RewardPage() {
                   amountToClaim={rewardSovClaimAmount}
                   active={activeTab === RewardTabType.REWARD_SOV}
                   onClick={() => setActiveTab(RewardTabType.REWARD_SOV)}
+                  dataActionId="rewards-claim-rewardsov"
                 />
               </div>
               <div className="tw-w-full">
@@ -81,6 +78,7 @@ export function RewardPage() {
                   active={activeTab === RewardTabType.LIQUID_SOV}
                   onClick={() => setActiveTab(RewardTabType.LIQUID_SOV)}
                   amountToClaim={liquidSovClaimAmount}
+                  dataActionId="rewards-claim-liquid"
                 />
               </div>
               <div className="tw-w-full">
@@ -92,6 +90,7 @@ export function RewardPage() {
                   asset={Asset.RBTC}
                   loading={feesLoading}
                   showApproximateSign
+                  dataActionId="rewards-claim-feesearned"
                 />
               </div>
             </div>
@@ -138,7 +137,6 @@ export function RewardPage() {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 }
