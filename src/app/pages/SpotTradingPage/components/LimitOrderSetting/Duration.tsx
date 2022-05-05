@@ -36,7 +36,6 @@ export const durationOptions = [
 
 export const Duration: React.FC<IDurationProps> = ({ onChange, value }) => {
   const { t } = useTranslation();
-
   return (
     <FormGroup className="tw-mt-8" label={t(trans.duration)}>
       <div className="tw-mt-1 tw-flex tw-flex-row tw-items-center tw-justify-between tw-border tw-border-secondary tw-rounded-md tw-divide-x tw-divide-secondary">
@@ -46,6 +45,7 @@ export const Duration: React.FC<IDurationProps> = ({ onChange, value }) => {
             text={t(option.text, { count: option.value })}
             active={value === option.value}
             onClick={() => onChange(option.value)}
+            value={option.value}
           />
         ))}
       </div>
@@ -58,6 +58,7 @@ interface IDurationButtonProps {
   onClick?: () => void;
   active?: boolean;
   disabled?: boolean;
+  value?: number;
 }
 
 const DurationButton: React.FC<IDurationButtonProps> = ({
@@ -65,19 +66,24 @@ const DurationButton: React.FC<IDurationButtonProps> = ({
   onClick,
   active,
   disabled,
-}) => (
-  <button
-    onClick={onClick}
-    className={classNames(
-      'tw-h-8 tw-text-secondary tw-bg-secondary tw-font-medium tw-text-xs tw-leading-none tw-text-center tw-w-full tw-transition',
-      {
-        'tw-bg-opacity-50': active,
-        'tw-bg-opacity-0': !active,
-        'hover:tw-bg-opacity-25': !disabled && !active,
-        'tw-text-opacity-25': disabled && !active,
-      },
-    )}
-  >
-    {text}
-  </button>
-);
+  value,
+}) => {
+  const dataActionId = value === 0 ? 'max' : `${value}day`;
+  return (
+    <button
+      onClick={onClick}
+      className={classNames(
+        'tw-h-8 tw-text-secondary tw-bg-secondary tw-font-medium tw-text-xs tw-leading-none tw-text-center tw-w-full tw-transition',
+        {
+          'tw-bg-opacity-50': active,
+          'tw-bg-opacity-0': !active,
+          'hover:tw-bg-opacity-25': !disabled && !active,
+          'tw-text-opacity-25': disabled && !active,
+        },
+      )}
+      data-action-id={`spot-limit-duration-${dataActionId}`}
+    >
+      {text}
+    </button>
+  );
+};

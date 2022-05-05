@@ -76,16 +76,19 @@ export function SpotTradingPage() {
                 text={t(translations.spotTradingPage.history.marketOrder)}
                 active={activeTab === 0}
                 onClick={() => setActiveTab(0)}
+                dataActionId="spot-history-market"
               />
               <Tab
                 text={t(translations.spotTradingPage.history.openLimitOrders)}
                 active={activeTab === 1}
                 onClick={() => setActiveTab(1)}
+                dataActionId="spot-history-openlimit"
               />
               <Tab
                 text={t(translations.spotTradingPage.history.limitOrderHistory)}
                 active={activeTab === 2}
                 onClick={() => setActiveTab(2)}
+                dataActionId="spot-history-closedlimit"
               />
             </div>
 
