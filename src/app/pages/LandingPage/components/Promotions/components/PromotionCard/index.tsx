@@ -50,12 +50,7 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
   const linkPathname = getLinkPathname(appSection);
 
   return (
-    <div
-      data-action-id={`landing-promo-banner-${linkPathname}-${logoAsset1}${
-        logoAsset2 ? `-${logoAsset2}` : ''
-      }`}
-      className={styles.cardItem}
-    >
+    <div className={styles.cardItem}>
       <Link
         to={{
           pathname: `/${linkPathname}`,
@@ -73,6 +68,9 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
           style={{
             backgroundImage: `url(${getBackgroundImageUrl(backgroundColor)})`,
           }}
+          data-action-id={`landing-promo-banner-${linkPathname}-${logoAsset1}${
+            logoAsset2 ? `-${logoAsset2}` : ''
+          }`}
         >
           <div className="tw-flex tw-justify-between tw-h-full">
             <div className="tw-w-24">
