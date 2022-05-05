@@ -2094,10 +2094,10 @@
     "openOrdersTable": {
       "dateTime": "Date & Time",
       "symbol": "Symbol",
-      "orderType": "Order Type",
-      "orderState": "Order State",
+      "orderType": "Type",
+      "orderState": "State",
       "collateral": "Collateral",
-      "orderSize": "Order Size",
+      "orderSize": "Size",
       "limitPrice": "Limit Price",
       "triggerPrice": "Trigger Price",
       "transactionId": "Transaction ID",
@@ -2226,10 +2226,10 @@
         "slippage": "Slippage Settings"
       },
       "text": {
-        "welcome1": "This is a preview of our perpetuals dashboard.\n The market data to the side is live.",
-        "welcome2": "In order to start trading perpetuals on Sovryn you need to:",
-        "welcome3": "<0>Connect a Hardware, web or mobile wallet</0> <0>Be connected to the Polygon network</0> <0>Fund your account by depositing BTC</0>",
-        "welcome4": "New from Bitmex? <0>Read our getting started guide</0>"
+        "welcome1": "To start trading:",
+        "welcome2": "<0>Fund your wallet</0>",
+        "welcome3": "Navigate back to this page and connect your wallet via button below",
+        "welcome4": "New to perpetuals? <0>Read our getting started guide</0>"
       },
       "labels": {
         "pair": "Symbol:",
@@ -2388,14 +2388,14 @@
     "orderHistoryTable": {
       "dateTime": "Date & Time",
       "symbol": "Symbol",
-      "orderType": "Order Type",
-      "orderState": "Order State",
+      "orderType": "Type",
+      "orderState": "State",
       "collateral": "Collateral",
-      "orderSize": "Order Size",
+      "orderSize": "Size",
+      "triggerPrice": "Trigger Price",
       "limitPrice": "Limit Price",
-      "execSize": "Exec Size",
       "execPrice": "Exec Price",
-      "orderId": "Order ID",
+      "orderId": "ID",
       "tableData": {
         "market": "Market",
         "limit": "Limit",

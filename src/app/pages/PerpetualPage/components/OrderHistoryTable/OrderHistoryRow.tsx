@@ -1,5 +1,8 @@
 import React, { useMemo } from 'react';
-import { OrderHistoryEntry } from '../../hooks/usePerpetual_OrderHistory';
+import {
+  OrderHistoryEntry,
+  OrderState,
+} from '../../hooks/usePerpetual_OrderHistory';
 import {
   DisplayDate,
   SeparatorType,
@@ -44,11 +47,11 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({
     tradeType,
     datetime,
     pair,
-    execSize,
     execPrice,
     orderId,
     orderSize,
     orderState,
+    triggerPrice,
     limitPrice,
   },
 }) => {
@@ -63,6 +66,15 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({
       tradingPositionTranslations[position],
     )}`;
   }, [t, tradeType, position]);
+
+  const shouldHideExecPrice = useMemo(
+    () =>
+      ((tradeType === PerpetualTradeType.LIMIT ||
+        tradeType === PerpetualTradeType.STOP) &&
+        orderState === OrderState.Opened) ||
+      !execPrice,
+    [execPrice, orderState, tradeType],
+  );
 
   return (
     <tr>
@@ -88,6 +100,17 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({
         />
       </td>
       <td>
+        {triggerPrice ? (
+          <AssetValue
+            value={triggerPrice}
+            assetString={pair?.quoteAsset}
+            mode={AssetValueMode.auto}
+          />
+        ) : (
+          <span>–</span>
+        )}
+      </td>
+      <td>
         {limitPrice && (
           <AssetValue
             minDecimals={0}
@@ -99,18 +122,13 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({
         )}
       </td>
       <td>
-        <AssetValue
-          value={execSize}
-          assetString={pair?.baseAsset}
-          mode={AssetValueMode.auto}
-        />
-      </td>
-      <td>
-        {execPrice && (
+        {shouldHideExecPrice ? (
+          <span>–</span>
+        ) : (
           <AssetValue
             minDecimals={0}
             maxDecimals={2}
-            value={execPrice}
+            value={execPrice!} // shouldHideExecPrice checks if execPrice exists so this is safe
             assetString={pair?.quoteAsset}
             mode={AssetValueMode.auto}
           />
