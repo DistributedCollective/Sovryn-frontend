@@ -7,6 +7,7 @@ import { RecentSwapRow } from './RecentSwapRow';
 import { Asset } from 'types';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
+import styles from './index.module.scss';
 
 interface ISwapTradesProps {
   baseToken: Asset;
@@ -56,7 +57,7 @@ export const SwapTrades: React.FC<ISwapTradesProps> = ({
                   position="top"
                   interactionKind="hover"
                   content={
-                    <>
+                    <div className={styles.tooltipWidth}>
                       <Trans
                         i18nKey={
                           translations.spotTradingPage.recentTrades.titleAMMInfo
@@ -66,7 +67,7 @@ export const SwapTrades: React.FC<ISwapTradesProps> = ({
                           <AssetRenderer asset={assets.quote} />,
                         ]}
                       />
-                    </>
+                    </div>
                   }
                 >
                   <>
