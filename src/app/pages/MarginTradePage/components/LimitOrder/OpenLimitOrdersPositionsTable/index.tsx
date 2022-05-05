@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Pagination } from 'app/components/Pagination';
 import { LimitOrderRow } from '../LimitOrderRow';
@@ -10,6 +10,7 @@ import {
   parseMarginOrder,
   useGetLimitOrderEvents,
 } from 'app/pages/MarginTradePage/hooks/useGetLimitOrderEvents';
+import { HelpBadge } from 'app/components/HelpBadge/HelpBadge';
 
 interface IOpenPositionsTableProps {
   perPage?: number;
@@ -69,7 +70,27 @@ export const OpenLimitOrdersPositionsTable: React.FC<IOpenPositionsTableProps> =
             </th>
             <th>{t(trans.pair)}</th>
             <th className="tw-hidden md:tw-table-cell">
-              {t(trans.limitPrice)}
+              <HelpBadge
+                tooltip={
+                  <Trans
+                    i18nKey={
+                      translations.spotTradingPage.openLimitOrders
+                        .limitPriceHelper
+                    }
+                    components={[
+                      <a
+                        target="_blank"
+                        href="https://wiki.sovryn.app/en/sovryn-dapp/limit-order-limitations#limit-order-execution"
+                        rel="noopener noreferrer"
+                      >
+                        x
+                      </a>,
+                    ]}
+                  />
+                }
+              >
+                {t(trans.limitPrice)}
+              </HelpBadge>
             </th>
             <th className="tw-hidden md:tw-table-cell">
               {t(trans.tradeAmount)}

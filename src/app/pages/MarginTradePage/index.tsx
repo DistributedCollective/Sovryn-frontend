@@ -17,10 +17,10 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
 import { PairNavbar } from 'app/components/PairNavbar';
 import { TradingType } from 'types/trading-pairs';
-import { OpenPositionsTable } from './components/OpenPositionsTable/OpenPositionsTable';
 import { Tabs } from 'app/components/Tabs';
-import { OpenLimitOrdersPositionsTable } from './components/LimitOrder/OpenLimitOrdersPositionsTable';
-import { LimitOrderHistory } from './components/LimitOrder/LimitOrderHistory';
+import { OpenPositionsTable } from './components/OpenPositionsTable/OpenPositionsTable';
+// import { OpenLimitOrdersPositionsTable } from './components/LimitOrder/OpenLimitOrdersPositionsTable';
+// import { LimitOrderHistory } from './components/LimitOrder/LimitOrderHistory';
 
 export const MarginTradePage: React.FC = () => {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -60,16 +60,16 @@ export const MarginTradePage: React.FC = () => {
         label: t(translations.marginTradePage.tradingHistory),
         content: <ClosedPositionsTable />,
       },
-      {
-        id: 'limitOrders',
-        label: t(translations.spotTradingPage.history.openLimitOrders),
-        content: <OpenLimitOrdersPositionsTable />,
-      },
-      {
-        id: 'limitOrderHistory',
-        label: t(translations.spotTradingPage.history.limitOrderHistory),
-        content: <LimitOrderHistory />,
-      },
+      // {
+      //   id: 'limitOrders',
+      //   label: t(translations.spotTradingPage.history.openLimitOrders),
+      //   content: <OpenLimitOrdersPositionsTable />,
+      // },
+      // {
+      //   id: 'limitOrderHistory',
+      //   label: t(translations.spotTradingPage.history.limitOrderHistory),
+      //   content: <LimitOrderHistory />,
+      // },
     ],
     [t],
   );

@@ -25,6 +25,7 @@ export const RewardClaimForm: React.FC<IClaimFormProps> = ({
         footer={<Footer />}
         onSubmit={send}
         claimLocked={claimRewardSovLocked || paused || frozen}
+        dataActionId="revardsovButton"
       />
     </>
   );
@@ -38,6 +39,7 @@ const Footer: React.FC = () => (
       target="_blank"
       rel="noreferrer noopener"
       className="tw-text-secondary tw-underline"
+      data-action-id="rewards-rewardsov-learnmore"
     >
       <Trans i18nKey={translations.rewardPage.claimForm.learn} />
     </a>

@@ -17,6 +17,7 @@ interface ITabProps {
   asset?: Asset;
   loading?: boolean;
   showApproximateSign?: boolean;
+  dataActionId?: string;
 }
 
 export const Tab: React.FC<ITabProps> = ({
@@ -28,6 +29,7 @@ export const Tab: React.FC<ITabProps> = ({
   asset = Asset.SOV,
   loading = false,
   showApproximateSign = false,
+  dataActionId,
 }) => (
   <button
     type="button"
@@ -38,6 +40,7 @@ export const Tab: React.FC<ITabProps> = ({
     )}
     onClick={onClick}
     disabled={isDisabled}
+    data-action-id={dataActionId}
   >
     <div className="tw-font-light">{text}</div>
     <div className="tw-text-2xl tw-font-semibold">

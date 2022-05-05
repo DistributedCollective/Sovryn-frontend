@@ -9,11 +9,7 @@ import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { FormGroup } from 'app/components/Form/FormGroup';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import settingIcon from 'assets/images/settings-blue.svg';
-import {
-  discordInvite,
-  useTenderlySimulator,
-  WIKI_LIMIT_ORDER_LIMITS_LINK,
-} from 'utils/classifiers';
+import { discordInvite, WIKI_LIMIT_ORDER_LIMITS_LINK } from 'utils/classifiers';
 import { translations } from 'locales/i18n';
 import { TradingPosition } from 'types/trading-position';
 import styles from './index.module.scss';
@@ -34,20 +30,13 @@ import { CollateralAssets } from '../CollateralAssets';
 import { LeverageSelector } from '../LeverageSelector';
 import { useGetEstimatedMarginDetails } from 'app/hooks/trading/useGetEstimatedMarginDetails';
 import { TradeDialog } from '../TradeDialog';
-import { LiquidationPrice } from '../LiquidationPrice';
 import { useCurrentPositionPrice } from 'app/hooks/trading/useCurrentPositionPrice';
-import {
-  toAssetNumberFormat,
-  toNumberFormat,
-  weiToNumberFormat,
-} from 'utils/display-text/format';
+import { weiToNumberFormat } from 'utils/display-text/format';
 import { SlippageForm } from '../SlippageForm';
 import { fromWei, toWei } from 'utils/blockchain/math-helpers';
 import { OrderType } from 'app/components/OrderTypeTitle/types';
 import { MARGIN_SLIPPAGE_DEFAULT } from '../../types';
 import { AssetRenderer } from 'app/components/AssetRenderer';
-import { LoadableValue } from 'app/components/LoadableValue';
-import { PricePrediction } from 'app/containers/MarginTradeForm/PricePrediction';
 import { durationOptions } from 'app/pages/SpotTradingPage/components/LimitOrderSetting/Duration';
 import { OrderTypeTitle } from 'app/components/OrderTypeTitle';
 import { LimitTradeDialog } from '../LimitOrder/LimitTradeDialog';
@@ -265,6 +254,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
           <OrderTypeTitle
             value={orderType}
             onChange={setOrderType}
+            showLimit={false}
             dataActionId="margin"
           />
           <CollateralAssets
@@ -297,9 +287,23 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
               <div className="tw-flex tw-text-sm tw-relative tw-items-center tw-justify-between tw-mt-5">
                 <span className={styles.amountLabel}>
                   <HelpBadge
-                    tooltip={t(
-                      translations.spotTradingPage.tradeForm.limitPriceTooltip,
-                    )}
+                    tooltip={
+                      <Trans
+                        i18nKey={
+                          translations.spotTradingPage.tradeForm
+                            .limitPriceTooltip
+                        }
+                        components={[
+                          <a
+                            target="_blank"
+                            href="https://wiki.sovryn.app/en/sovryn-dapp/limit-order-limitations#limit-order-execution"
+                            rel="noopener noreferrer"
+                          >
+                            x
+                          </a>,
+                        ]}
+                      />
+                    }
                   >
                     {t(translations.spotTradingPage.tradeForm.limitPrice)}
                   </HelpBadge>
@@ -380,52 +384,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
 
           {!openTradesLocked && (
             <>
-              <LabelValuePair
-                label={t(translations.marginTradeForm.fields.esEntryPrice)}
-                value={
-                  <>
-                    {useTenderlySimulator ? (
-                      <>
-                        <LoadableValue
-                          loading={loadingPrice}
-                          value={toAssetNumberFormat(price, pair.longAsset)}
-                          tooltip={toNumberFormat(price, 18)}
-                        />{' '}
-                        <AssetRenderer asset={pair.longAsset} />
-                      </>
-                    ) : (
-                      <>
-                        <PricePrediction
-                          position={position}
-                          leverage={leverage}
-                          loanToken={loanToken}
-                          collateralToken={collateralToken}
-                          useLoanTokens={useLoanTokens}
-                          weiAmount={amount}
-                          asset={pair.longAsset}
-                        />{' '}
-                        <AssetRenderer asset={pair.longAsset} />
-                      </>
-                    )}
-                  </>
-                }
-              />
-              <LabelValuePair
-                label={t(
-                  translations.marginTradeForm.fields.esLiquidationPrice,
-                )}
-                value={
-                  <>
-                    <LiquidationPrice
-                      asset={pair.shortAsset}
-                      assetLong={pair.longAsset}
-                      leverage={leverage}
-                      position={position}
-                    />{' '}
-                    <AssetRenderer asset={pair.longAsset} />
-                  </>
-                }
-              />
               <LabelValuePair
                 label={t(translations.marginTradeForm.fields.interestAPR)}
                 value={<>{weiToNumberFormat(estimations.interestRate, 2)} %</>}

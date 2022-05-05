@@ -295,6 +295,7 @@ export function VestingContract(props: Props) {
                 <button
                   type="button"
                   className="tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent"
+                  data-action-id="staking-vest-delegateButton"
                 >
                   {t(translations.stake.actions.delegate)}
                 </button>
@@ -308,6 +309,7 @@ export function VestingContract(props: Props) {
                 )}
                 onClick={() => props.onDelegate(Number(unlockDate))}
                 disabled={props.paused}
+                data-action-id="staking-vest-delegateButton"
               >
                 {t(translations.stake.actions.delegate)}
               </button>
@@ -323,6 +325,7 @@ export function VestingContract(props: Props) {
                 <button
                   type="button"
                   className="tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent"
+                  data-action-id="staking-vest-withdrawButton"
                 >
                   {t(translations.stake.actions.withdraw)}
                 </button>
@@ -341,6 +344,7 @@ export function VestingContract(props: Props) {
                   props.vestingAddress === ethGenesisAddress ||
                   props.frozen
                 }
+                data-action-id="staking-vest-withdrawButton"
               >
                 {t(translations.stake.actions.withdraw)}
               </button>

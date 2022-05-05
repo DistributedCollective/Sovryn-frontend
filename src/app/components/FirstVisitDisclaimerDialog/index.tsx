@@ -1,13 +1,11 @@
-import { Checkbox } from '@blueprintjs/core';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
 import { isMobile } from 'utils/helpers';
-
 import { translations } from '../../../locales/i18n';
 import { local } from '../../../utils/storage';
 import { Dialog } from '../../containers/Dialog/Loadable';
 import SalesButton from '../SalesButton';
+import { Checkbox } from '../Checkbox';
 import logo from 'assets/images/sovryn-logo-white.svg';
 
 // previously MetaMask disclaimer, 'mm-…' remains to not annoy users.
