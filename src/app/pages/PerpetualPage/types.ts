@@ -162,6 +162,7 @@ export type PerpetualPageState = {
   showRecentTrades: boolean;
   showTradeForm: boolean;
   showTables: boolean;
+  isAddressWhitelisted: boolean;
 };
 
 export type ContainerState = PerpetualPageState;
