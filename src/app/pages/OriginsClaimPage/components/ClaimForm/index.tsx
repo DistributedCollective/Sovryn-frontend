@@ -142,6 +142,7 @@ export const ClaimForm: React.FC<IClaimFormProps> = ({
                 new Date().getTime() < unlockTime
               }
               onClick={handleSubmit}
+              dataActionId="origins-claimButton"
             />
           )}
 
