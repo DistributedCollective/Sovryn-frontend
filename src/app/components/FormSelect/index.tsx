@@ -12,7 +12,12 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { isMobile } from '../../../utils/helpers';
 
-export type SelectItem = { key: any; label: any; [key: string]: any };
+export type SelectItem = {
+  key: any;
+  label: any;
+  [key: string]: any;
+  dataActionId?: string;
+};
 
 const Selector = Select.ofType<SelectItem>();
 
@@ -140,7 +145,9 @@ export const renderItem: ItemRenderer<SelectItem> = (
       disabled={modifiers.disabled}
       key={item.key}
       onClick={handleClick}
-      data-action-id={item.key}
+      data-action-id={
+        item.dataActionId ? `${item.dataActionId}-${item.key}` : item.key
+      }
       text={<Text ellipsize>{highlightText(item.label, query)}</Text>}
     />
   );
