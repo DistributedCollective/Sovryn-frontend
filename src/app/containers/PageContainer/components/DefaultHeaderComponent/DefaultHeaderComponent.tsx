@@ -522,6 +522,7 @@ export const DefaultHeaderComponent: React.FC = () => {
               to={{
                 pathname: '/wallet',
               }}
+              data-action-id="header-link-deposit"
             >
               <span>{t(translations.common.deposit)}</span>
             </Link>

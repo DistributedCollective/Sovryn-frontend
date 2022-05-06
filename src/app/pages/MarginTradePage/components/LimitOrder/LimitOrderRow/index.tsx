@@ -19,10 +19,10 @@ import { TxStatus } from 'store/global/transactions-store/types';
 import { CloseLimitPositionDialog } from '../CloseLimitPositionDialog';
 import { TradeDialogInfo } from '../../TradeDialog/TradeDialogInfo';
 import { OrderType } from 'app/components/OrderTypeTitle/types';
-import { MarginLimitOrderList } from '../LimitOrderTables';
 import { useGetLimitOrderRow } from 'app/pages/MarginTradePage/hooks/useGetLimitOrderRow';
 import { EventData } from 'web3-eth-contract';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
+import { MarginLimitOrderList } from 'app/pages/MarginTradePage/hooks/useGetLimitOrderEvents';
 
 interface ILimitOrderRowProps extends MarginLimitOrderList {
   pending?: boolean;

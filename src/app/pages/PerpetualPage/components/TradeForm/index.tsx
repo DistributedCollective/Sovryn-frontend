@@ -484,7 +484,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           step={lotSize}
           min={0}
           max={maxTradeSize}
-          onChange={onChangeOrderAmount}
+          onChangeText={onChangeOrderAmount}
           onBlur={onBlurOrderAmount}
         />
       </div>
@@ -506,7 +506,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           value={limit}
           step={0.1}
           min={0}
-          onChange={onChangeOrderLimit}
+          onChangeText={onChangeOrderLimit}
         />
       </div>
       <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-text-xs tw-font-medium">
