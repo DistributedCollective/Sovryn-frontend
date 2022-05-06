@@ -23,7 +23,9 @@ export type TradeAnalysis = {
   limitPrice: number;
   liquidationPrice: number;
   orderCost: number;
+  requiredAllowance: number;
   tradingFee: number;
+  loading: boolean;
 };
 
 export enum PerpetualTxMethod {

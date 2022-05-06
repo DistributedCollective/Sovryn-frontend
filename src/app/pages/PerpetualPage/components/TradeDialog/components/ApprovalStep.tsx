@@ -39,7 +39,7 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     setTransactions,
     setCurrentTransaction,
   } = useContext(TradeDialogContext);
-  const { orderCost } = analysis;
+  const { requiredAllowance } = analysis;
   const { wallet } = useWalletContext();
   const { useMetaTransactions } = useSelector(selectPerpetualPage);
   const { checkAndApprove } = useGsnCheckAndApprove(
@@ -68,14 +68,17 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
         ? transactions[currentTransaction?.index]
         : undefined;
 
-    if (current?.method === PerpetualTxMethod.deposit) {
-      return [current, current.amount];
+    switch (current?.method) {
+      case PerpetualTxMethod.deposit:
+        return [current, current.amount];
+      case PerpetualTxMethod.trade:
+        return [current, toWei(requiredAllowance)];
+      case PerpetualTxMethod.createLimitOrder:
+        return [current, toWei(requiredAllowance)];
+      default:
+        return [undefined, '0'];
     }
-    if (current?.method === PerpetualTxMethod.trade) {
-      return [current, toWei(orderCost * 1.1)]; // add 10% to allow for market deviation
-    }
-    return [undefined, '0'];
-  }, [transactions, currentTransaction, orderCost]);
+  }, [transactions, currentTransaction, requiredAllowance]);
 
   const onRetry = useCallback(() => {
     if (!currentTransaction) {
@@ -134,7 +137,6 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     current,
     approvalAmount,
     currentTransaction,
-    orderCost,
     checkAndApprove,
     setCurrentTransaction,
     setTransactions,

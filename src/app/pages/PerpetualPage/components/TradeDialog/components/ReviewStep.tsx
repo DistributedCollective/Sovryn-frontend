@@ -62,12 +62,12 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     });
 
     changeTo(
-      analysis.marginChange > 0
+      analysis.requiredAllowance > 0
         ? TradeDialogStep.approval
         : TradeDialogStep.confirmation,
       TransitionAnimation.slideLeft,
     );
-  }, [analysis.marginChange, setCurrentTransaction, changeTo]);
+  }, [analysis.requiredAllowance, setCurrentTransaction, changeTo]);
 
   return (
     <>
@@ -114,7 +114,7 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
             <button
               className={styles.confirmButton}
               onClick={isTradingInMaintenance ? undefined : onSubmit}
-              disabled={isTradingInMaintenance}
+              disabled={isTradingInMaintenance && analysis.loading}
             >
               {t(translations.perpetualPage.reviewTrade.confirm)}
             </button>
