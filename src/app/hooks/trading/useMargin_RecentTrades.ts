@@ -28,9 +28,6 @@ export const useMargin_RecentTrades = (baseToken: Asset, quoteToken: Asset) => {
       .then(res => {
         setData(res.data);
       })
-      .catch(e => {
-        console.log(e);
-      })
       .finally(() => setLoading(false));
   }, [baseTokenAddress, quoteTokenAddress]);
 
