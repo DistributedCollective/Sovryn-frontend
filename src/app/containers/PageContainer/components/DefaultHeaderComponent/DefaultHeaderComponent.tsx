@@ -502,6 +502,7 @@ export const DefaultHeaderComponent: React.FC = () => {
                   'tw-hidden': !connected,
                 },
               )}
+              data-action-id="header-link-deposit"
             >
               {t(translations.common.deposit)}
             </Link>
