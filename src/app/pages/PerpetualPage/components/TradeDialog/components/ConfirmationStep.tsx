@@ -39,7 +39,7 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
 
   const { useMetaTransactions } = useSelector(selectPerpetualPage);
   const { wallet } = useWalletContext();
-  const { execute, txHash, status, reset } = usePerpetual_transaction(
+  const { execute, txHash, status, loading, reset } = usePerpetual_transaction(
     currentTransaction ? transactions[currentTransaction.index] : undefined,
     useMetaTransactions,
   );
@@ -94,6 +94,8 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
 
   useEffect(() => {
     if (
+      !loading &&
+      !rejected &&
       (status === undefined || status === TxStatus.NONE) &&
       currentTransaction &&
       transactions[currentTransaction.index] &&
@@ -104,7 +106,7 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
         setRejected(true);
       });
     }
-  }, [status, currentTransaction, transactions, execute]);
+  }, [loading, rejected, status, currentTransaction, transactions, execute]);
 
   useEffect(() => {
     if (!currentTransaction || !txHash) {

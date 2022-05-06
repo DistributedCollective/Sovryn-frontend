@@ -4,6 +4,7 @@ import React, {
   useState,
   useEffect,
   useContext,
+  useRef,
 } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dialog } from '../../../../containers/Dialog';
@@ -47,7 +48,6 @@ import { getContract } from '../../../../../utils/blockchain/contract-helpers';
 import { useAccount } from '../../../../hooks/useAccount';
 import { BigNumber } from 'ethers';
 import { ABK64x64ToFloat } from '@sovryn/perpetual-swap/dist/scripts/utils/perpMath';
-import { valid } from 'semver';
 
 const {
   calculateApproxLiquidationPrice,
@@ -109,6 +109,8 @@ export const TradeDialog: React.FC = () => {
   const dispatch = useDispatch();
   const account = useAccount();
 
+  const openOrders = useRef<any[]>();
+
   const { modal, modalOptions, useMetaTransactions, pairType } = useSelector(
     selectPerpetualPage,
   );
@@ -150,6 +152,10 @@ export const TradeDialog: React.FC = () => {
     [dispatch],
   );
 
+  const isNewTradeForm = useMemo(() => origin === PerpetualPageModals.NONE, [
+    origin,
+  ]);
+
   const context: TradeDialogContextType = useMemo(
     () => ({
       origin,
@@ -165,11 +171,6 @@ export const TradeDialog: React.FC = () => {
     [origin, pair, trade, analysis, transactions, currentTransaction, onClose],
   );
 
-  useEffect(() => {
-    setCurrentTransaction(undefined);
-    setTransactions(requestedTransactions);
-  }, [origin, requestedTransactions]);
-
   const {
     liquidationPrice: resultingLiquidationPrice,
     leverage: resultingLeverage,
@@ -180,11 +181,19 @@ export const TradeDialog: React.FC = () => {
     trade?.keepPositionLeverage,
   );
 
-  const isNewTradeForm = useMemo(() => origin === PerpetualPageModals.NONE, [
-    origin,
-  ]);
+  useEffect(() => {
+    // reset cached orders result
+    openOrders.current = undefined;
+  }, [account, origin, requestedTransactions]);
 
   useEffect(() => {
+    // reset current transaction state when model is closed or called again
+    setCurrentTransaction(undefined);
+    setTransactions(requestedTransactions);
+  }, [origin, requestedTransactions]);
+
+  useEffect(() => {
+    // update trade analysis
     if (!trade || !account) {
       return setAnalysis(tradeDialogContextDefault.analysis);
     }
@@ -255,41 +264,36 @@ export const TradeDialog: React.FC = () => {
 
     const fetchRequiredAllowance = async () => {
       const contract = getContract(pair.limitOrderBook);
-      let orders = await bridgeNetwork.call(
-        PERPETUAL_CHAIN,
-        contract.address,
-        contract.abi,
-        'getOrders',
-        [account.toLowerCase(), 0, 1000],
-      );
 
-      orders = Array.isArray(orders)
-        ? orders
-            // filter empty placeholders
-            .filter(entry => entry?.traderAddr === account)
-            // resolve all BigNumber objects to float
-            .map(entry =>
-              Object.entries(entry).reduce((acc, [key, value]) => {
-                acc[key] =
-                  typeof value === 'object'
-                    ? (acc[key] = ABK64x64ToFloat(BigNumber.from(value)))
-                    : value;
-                return acc;
-              }, {}),
-            )
-        : [];
+      let orders: any[];
+      if (openOrders.current) {
+        orders = openOrders.current;
+      } else {
+        orders = await bridgeNetwork.call(
+          PERPETUAL_CHAIN,
+          contract.address,
+          contract.abi,
+          'getOrders',
+          [account.toLowerCase(), 0, 1000],
+        );
+        orders = Array.isArray(orders)
+          ? orders
+              // filter empty placeholders
+              .filter(entry => entry?.traderAddr === account)
+              // resolve all BigNumber objects to float
+              .map(entry =>
+                Object.entries(entry).reduce((acc, [key, value]) => {
+                  acc[key] =
+                    typeof value === 'object'
+                      ? (acc[key] = ABK64x64ToFloat(BigNumber.from(value)))
+                      : value;
+                  return acc;
+                }, {}),
+              )
+          : [];
+        openOrders.current = orders;
+      }
 
-      console.log({
-        orders,
-        amountTarget,
-        leverage: trade.leverage,
-        perpParameters,
-        ammState,
-        traderState,
-        slippage: trade.slippage,
-        limit: trade.limit ? numberFromWei(trade.limit) : null,
-        trigger: trade.trigger ? numberFromWei(trade.trigger) : null,
-      });
       return getEstimatedMarginCollateralForTrader(
         amountTarget,
         trade.leverage,
@@ -327,7 +331,7 @@ export const TradeDialog: React.FC = () => {
         .catch(console.error);
     }
 
-    setAnalysis(analysis => ({
+    setAnalysis({
       amountChange: isNewTradeForm ? amountTarget : amountChange,
       amountTarget: isNewTradeForm ? resultingSize : amountTarget,
       marginChange,
@@ -343,7 +347,7 @@ export const TradeDialog: React.FC = () => {
       tradingFee,
       requiredAllowance: 0,
       loading: requiresApproval,
-    }));
+    });
 
     return () => {
       cancelled = true;
