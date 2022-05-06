@@ -20,6 +20,7 @@ export function StakeVote() {
           href="https://wiki.sovryn.app/en/governance/staking-vesting-voting#staking-sov"
           target="_blank"
           rel="noreferrer noopener"
+          data-action-id="buySov-link-stake-learnmore"
         >
           {t(translations.buySovPage.features.learnMore)}
         </a>
@@ -30,6 +31,7 @@ export function StakeVote() {
           className="button"
           target="_blank"
           rel="noreferrer noopener"
+          data-action-id="buySov-ctaButton-stake"
         >
           {t(translations.buySovPage.features.stake.cta)}
         </a>

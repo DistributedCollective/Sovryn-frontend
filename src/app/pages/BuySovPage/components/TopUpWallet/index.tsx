@@ -36,7 +36,12 @@ export const TopUpWallet: React.FC = () => {
         </p>
         <p>
           <br />
-          <a href="https://rsk.co" target="_blank" rel="noreferrer noopener">
+          <a
+            data-action-id="buySov-link-rbtc-learnmore"
+            href="https://rsk.co"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
             <Trans
               i18nKey={translations.buySovPage.topUp.line2}
               components={[<AssetRenderer asset={Asset.RBTC} />]}
@@ -48,6 +53,7 @@ export const TopUpWallet: React.FC = () => {
         text={t(translations.buySovPage.topUp.cta)}
         disabled={!connected}
         onClick={() => setOpen(true)}
+        dataActionId="buySov-topup-walletButton"
       />
       <TransakDialog isOpen={open} onClose={() => setOpen(false)} />
     </Card>

@@ -38,8 +38,13 @@ export const LanguageToggle: React.FC<LanguageToggleProps> = ({
         changeLanguage(value.key);
       }}
       value={currentLang}
-      items={options.map(item => ({ key: item.value, label: item.lang }))}
+      items={options.map(item => ({
+        key: item.value,
+        label: item.lang,
+        dataActionId: 'header-langselect-lang',
+      }))}
       innerClasses={innerClasses}
+      dataActionId="header-langselect-button"
     />
   );
 };
