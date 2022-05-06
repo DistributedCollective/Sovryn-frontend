@@ -18,7 +18,7 @@ export const RecentTrades: React.FC<IRecentTradesProps> = ({
   quoteToken,
 }) => {
   const { t } = useTranslation();
-  const data = useMargin_RecentTrades(baseToken, quoteToken);
+  const { data, loading } = useMargin_RecentTrades(baseToken, quoteToken);
 
   return (
     <div
@@ -54,7 +54,8 @@ export const RecentTrades: React.FC<IRecentTradesProps> = ({
           </tr>
         </thead>
         <tbody>
-          {data &&
+          {!loading &&
+            data &&
             data.map((item, index) => {
               return (
                 <RecentTradeRow
@@ -67,16 +68,25 @@ export const RecentTrades: React.FC<IRecentTradesProps> = ({
               );
             })}
 
-          {!data ||
-            (data.length === 0 && (
-              <tr>
-                <td colSpan={4}>
-                  <p className="tw-p-4">
-                    {t(translations.marginTradePage.recentTrades.noTrades)}
-                  </p>
-                </td>
-              </tr>
-            ))}
+          {!loading && data && data.length === 0 && (
+            <tr>
+              <td colSpan={4}>
+                <p className="tw-p-4">
+                  {t(translations.marginTradePage.recentTrades.noTrades)}
+                </p>
+              </td>
+            </tr>
+          )}
+
+          {loading && (
+            <tr>
+              <td colSpan={4}>
+                <p className="tw-p-4">
+                  {t(translations.marginTradePage.recentTrades.loading)}
+                </p>
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>

@@ -1640,7 +1640,8 @@
       "time": "Time",
       "noTrades": "No Recent Trades",
       "long": "L",
-      "short": "S"
+      "short": "S",
+      "loading": "Loading..."
     },
     "tradeDialog": {
       "title": "Review Transaction",
