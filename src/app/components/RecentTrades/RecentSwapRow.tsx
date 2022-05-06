@@ -66,7 +66,9 @@ export const RecentSwapRow: React.FC<RecentSwapRowProps> = ({
           backgroundClassName,
         )}
       >
-        {dayjs(Number(row.timestamp) * 1e3).format('YY/MM/DD HH:mm')}
+        {dayjs(Number(row.timestamp) * 1e3)
+          .utc()
+          .format('YY/MM/DD HH:mm')}
       </td>
     </tr>
   );
