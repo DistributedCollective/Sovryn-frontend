@@ -1874,7 +1874,7 @@
     },
     "recentTrades": {
       "title": "Recent Trades",
-      "titleAMMInfo": "Please note that as there is no AMM pool for this trading pair, we can only show the trades made on underlying AMM pool for this asset - e.g. trades between <0></0> and <1></1>",
+      "titleAMMInfo": "Please note that since there is no AMM pool for this trading pair, we can only show trades made on the underlying AMM pool of the base asset - e.g. trades between <0></0> and <1></1>.",
       "price": "Price",
       "size": "Size",
       "time": "Time",
