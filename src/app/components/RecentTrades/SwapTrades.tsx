@@ -125,7 +125,7 @@ export const SwapTrades: React.FC<ISwapTradesProps> = ({
           <>
             {Array(10)
               .fill(1)
-              .map(index => (
+              .map((val, index) => (
                 <tr className="tw-h-6" key={index}>
                   <td colSpan={4}>
                     <p className="tw-skeleton-wrapper bp3-skeleton tw-m-0 tw-p-3"></p>
