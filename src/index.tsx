@@ -67,7 +67,7 @@ const ConnectedApp = ({ Component }: Props) => {
         <ServiceWorkerToaster />
         <MobileBrowsersWarningDialog />
         <FirstVisitDisclaimerDialog />
-        <ToastContainer />
+        <ToastContainer className="tw-w-max" />
       </ApolloProvider>
     </Provider>
   );
