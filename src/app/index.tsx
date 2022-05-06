@@ -140,7 +140,6 @@ export function App() {
                 <Route component={NotFoundPage} />
               </Switch>
             </PageContainer>
-            <ToastContainer className="tw-w-max" />
           </WalletProvider>
         </>
       )}
