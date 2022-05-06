@@ -402,7 +402,7 @@
     "reviewSwap": "Review Swap",
     "swapAsset": "Swap Asset:",
     "amount": "Amount:",
-    "amountReceived": "Amount Received:",
+    "amountReceived": "Amount To Receive:",
     "receiveAsset": "Receive Asset:",
     "minimumReceived": "Minimum Received:"
   },
@@ -1871,6 +1871,14 @@
       "day_other": "{{count}} days",
       "partialFilled": "Allow partial filled order:",
       "infinity": "∞"
+    },
+    "recentTrades": {
+      "title": "Recent Trades",
+      "titleAMMInfo": "Please note that as there is no AMM pool for this trading pair, we can only show the trades made on underlying AMM pool for this asset - e.g. trades between <0></0> and <1></1>",
+      "price": "Price",
+      "size": "Size",
+      "time": "Time",
+      "noTrades": "No Recent Trades"
     },
     "openLimitOrders": {
       "dateTime": "Date/Time",

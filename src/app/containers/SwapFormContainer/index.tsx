@@ -219,6 +219,7 @@ export const SwapFormContainer: React.FC = () => {
                 onChangeFavorite={handleFavClick}
                 favList={favList}
                 storageKey={storageKey}
+                dataActionId="send"
               />
             )}
           </div>
@@ -264,6 +265,7 @@ export const SwapFormContainer: React.FC = () => {
                 onChangeFavorite={handleFavClick}
                 favList={favList}
                 storageKey={storageKey}
+                dataActionId="receive"
               />
             )}
           </div>
@@ -361,7 +363,8 @@ export const SwapFormContainer: React.FC = () => {
         sourceToken={sourceToken}
         targetToken={targetToken}
         amount={amount}
-        amountReceived={rateByPath}
+        expectedReturn={rateByPath}
+        amountReceived={minReturn}
       />
     </>
   );

@@ -23,6 +23,7 @@ interface IReviewDialogProps {
   sourceToken: Asset;
   targetToken: Asset;
   amount: string;
+  expectedReturn: string;
   amountReceived: string;
 }
 export const ReviewDialog: React.FC<IReviewDialogProps> = ({
@@ -32,6 +33,7 @@ export const ReviewDialog: React.FC<IReviewDialogProps> = ({
   sourceToken,
   targetToken,
   amount,
+  expectedReturn,
   amountReceived,
 }) => {
   const { t } = useTranslation();
@@ -67,7 +69,7 @@ export const ReviewDialog: React.FC<IReviewDialogProps> = ({
 
           <FormGroup label={t(translations.swapTradeForm.amountReceived)}>
             <DummyInput
-              value={<>{weiToFixed(amountReceived, 6)}</>}
+              value={<>{weiToFixed(expectedReturn, 6)}</>}
               appendElem={<AssetRenderer asset={targetToken} />}
               className="tw-h-10 tw-truncate"
             />
