@@ -18,7 +18,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
 import { PairNavbar } from 'app/components/PairNavbar';
 import { TradingType } from 'types/trading-pairs';
-// import { LimitOrderTables } from './components/LimitOrder/LimitOrderTables';
+import { LimitOrderTables } from './components/LimitOrder/LimitOrderTables';
 import { OpenPositionsTable } from './components/OpenPositionsTable/OpenPositionsTable';
 
 export function MarginTradePage() {
@@ -92,23 +92,23 @@ export function MarginTradePage() {
                 active={activeTab === 1}
                 onClick={() => setActiveTab(1)}
               />
-              {/* <Tab
+              <Tab
                 text={t(translations.spotTradingPage.history.openLimitOrders)}
                 active={activeTab === 2}
                 onClick={() => setActiveTab(2)}
-              /> */}
-              {/* <Tab
+              />
+              <Tab
                 text={t(translations.spotTradingPage.history.limitOrderHistory)}
                 active={activeTab === 3}
                 onClick={() => setActiveTab(3)}
-              /> */}
+              />
             </div>
 
             <div className="tw-w-full sm:tw-px-5">
               {activeTab === 0 && <OpenPositionsTable />}
               {activeTab === 1 && <ClosedPositionsTable />}
 
-              {/* <LimitOrderTables activeTab={activeTab} /> */}
+              <LimitOrderTables activeTab={activeTab} />
             </div>
           </>
         )}
