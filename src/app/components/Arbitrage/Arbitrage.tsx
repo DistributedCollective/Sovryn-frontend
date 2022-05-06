@@ -14,7 +14,7 @@ import { AssetSymbolRenderer } from '../AssetSymbolRenderer';
 import { toNumberFormat } from '../../../utils/display-text/format';
 import type { PoolData } from './models/pool-data';
 import type { Opportunity } from './models/opportunity';
-import { ActionButton } from '../Form/ActionButton';
+import { Button, ButtonSize, ButtonStyle } from '../Button';
 
 const s = translations.swapTradeForm;
 const minUsdForOpportunity = 10;
@@ -148,13 +148,15 @@ export const Arbitrage: React.FC<IArbitrageProps> = ({ onClick }) => {
                     <Icon icon="info-sign" className="tw-cursor-pointer" />
                   </Popover>
                 </div>
-                <ActionButton
+                <Button
                   text={t(translations.mainMenu.swap)}
-                  className="tw-block tw-rounded-50 tw-uppercase tw-bg-primary-10 hover:tw-opacity-75 tw-ml-4"
-                  textClassName="tw-text-base"
+                  size={ButtonSize.md}
+                  style={ButtonStyle.frosted}
                   onClick={() =>
                     onClick(opportunity.fromToken, opportunity.toToken)
                   }
+                  className="tw-ml-4"
+                  dataActionId="swap-arbitrage-submit-button"
                 />
               </div>
             </div>

@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { bignumber } from 'mathjs';
 
-import type { Chain } from 'types';
+import { Chain } from 'types';
 import { Button, ButtonSize } from 'app/components/Button';
 
 import { actions } from '../../slice';
@@ -21,6 +21,7 @@ import { Table } from '../styled';
 import { useIsBridgeWithdrawLocked } from 'app/pages/BridgeWithdrawPage/hooks/useIsBridgeWithdrawLocked';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
+import { Icon, Popover } from '@blueprintjs/core';
 
 export const ReviewStep: React.FC = () => {
   const {
@@ -163,11 +164,33 @@ export const ReviewStep: React.FC = () => {
                 {t(translations.BridgeWithdrawPage.reviewStep.bridgeFee)}:
               </td>
               <td>
-                {toNumberFormat(
-                  currentAsset.fromWei(limits.returnData.getFeePerToken),
-                  currentAsset.minDecimals,
-                )}{' '}
-                {currentAsset.symbol}
+                <div className="tw-flex tw-items-center">
+                  {toNumberFormat(
+                    currentAsset.fromWei(limits.returnData.getFeePerToken),
+                    currentAsset.minDecimals,
+                  )}{' '}
+                  {currentAsset.symbol}
+                  {targetChain === Chain.ETH && (
+                    <Popover
+                      content={
+                        <div className="tw-max-w-80 tw-px-4 tw-py-2">
+                          <Trans
+                            i18nKey={
+                              translations.BridgeWithdrawPage.reviewStep
+                                .bridgeFeeWarning
+                            }
+                            components={[<strong className="tw-font-bold" />]}
+                          />
+                        </div>
+                      }
+                    >
+                      <Icon
+                        className="tw-cursor-pointer tw-pt-1 tw-ml-2 tw-flex tw-items-center tw-text-warning"
+                        icon={'info-sign'}
+                      />
+                    </Popover>
+                  )}
+                </div>
               </td>
             </tr>
           </tbody>

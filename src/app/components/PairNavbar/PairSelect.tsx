@@ -83,7 +83,7 @@ export const PairSelect: React.FC<IPairSelect> = ({
       >
         <div
           ref={nodeRef}
-          className="tw-absolute tw-transform tw-translate-y-full tw-bottom-0 tw-left-0 tw-bg-gray-2 tw-py-7 tw-px-9 tw-rounded-b-lg"
+          className="tw-absolute tw-transform tw-translate-y-full tw-bottom-0 tw-left-0 tw-bg-gray-2 tw-py-7 tw-px-9 tw-rounded-b-lg tw-z-50"
         >
           <Input
             value={search}

@@ -10,43 +10,54 @@ interface Props {
   imageStyle?: React.StyleHTMLAttributes<any>;
   cta: string;
   href: string;
+  ctaDataActionId?: string;
 }
 
-export function Feature(props: Props) {
+export function Feature({
+  ctaDataActionId,
+  reverse,
+  title,
+  content,
+  image,
+  imageStyle,
+  cta,
+  href,
+}: Props) {
   return (
     <Article className="tw-flex tw-w-full tw-flex-col tw-justify-start tw-items-start lg:tw-flex-row lg:tw-justify-between lg:tw-items-center">
       <div
-        className={`${
-          props.reverse ? 'lg:tw-order-1' : 'lg:tw-order-0'
-        } tw-order-1`}
+        className={`${reverse ? 'lg:tw-order-1' : 'lg:tw-order-0'} tw-order-1`}
       >
-        <h3>{props.title}</h3>
+        <h3>{title}</h3>
         <div className="content tw-font-extralight tw-leading-snug">
-          {props.content}
+          {content}
         </div>
-        {props.href.startsWith('http') ? (
+        {href.startsWith('http') ? (
           <a
-            href={props.href}
+            href={href}
             className="button"
             target="_blank"
             rel="noreferrer noopener"
+            data-action-id={ctaDataActionId}
           >
-            {props.cta}
+            {cta}
           </a>
         ) : (
-          <NavLink to={props.href} className="button">
-            {props.cta}
+          <NavLink
+            to={href}
+            className="button"
+            data-action-id={ctaDataActionId}
+          >
+            {cta}
           </NavLink>
         )}
       </div>
       <Img
-        src={props.image}
+        src={image}
         alt="Item"
-        style={props.imageStyle}
+        style={imageStyle}
         className={`${
-          props.reverse
-            ? 'lg:tw-order-0 img-reverse'
-            : 'lg:tw-order-1 img-normal'
+          reverse ? 'lg:tw-order-0 img-reverse' : 'lg:tw-order-1 img-normal'
         } tw-order-0`}
       />
     </Article>
