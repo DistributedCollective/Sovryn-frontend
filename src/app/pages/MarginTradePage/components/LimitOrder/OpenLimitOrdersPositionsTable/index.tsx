@@ -6,22 +6,26 @@ import { Pagination } from 'app/components/Pagination';
 import { LimitOrderRow } from '../LimitOrderRow';
 import { selectMarginTradePage } from 'app/pages/MarginTradePage/selectors';
 import { useSelector } from 'react-redux';
-import { MarginLimitOrderList, parseMarginOrder } from '../LimitOrderTables';
-import { EventData } from 'web3-eth-contract';
+import {
+  parseMarginOrder,
+  useGetLimitOrderEvents,
+} from 'app/pages/MarginTradePage/hooks/useGetLimitOrderEvents';
 import { HelpBadge } from 'app/components/HelpBadge/HelpBadge';
 
 interface IOpenPositionsTableProps {
   perPage?: number;
-  orders: MarginLimitOrderList[];
-  orderFilledEvents: EventData[];
-  loading: boolean;
 }
 
-export const OpenPositionsTable: React.FC<IOpenPositionsTableProps> = ({
+export const OpenLimitOrdersPositionsTable: React.FC<IOpenPositionsTableProps> = ({
   perPage = 5,
-  orders,
-  loading,
 }) => {
+  const { limitOrders, loading } = useGetLimitOrderEvents();
+
+  const orders = useMemo(
+    () => limitOrders.filter(item => item.filledAmount === '0'),
+    [limitOrders],
+  );
+
   const { t } = useTranslation();
   const trans = translations.spotTradingPage.openLimitOrders;
   const { pendingLimitOrders } = useSelector(selectMarginTradePage);

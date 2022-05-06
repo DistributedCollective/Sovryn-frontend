@@ -710,7 +710,7 @@
     "votingPower": "Combined Voting Power",
     "viewGovernance": "View Governance",
     "addStake": "Add New Stake",
-    "feeTitle": "Total earned fees Available",
+    "feeTitle": "Total earned fees available",
     "sentLendingPool": "{{asset}} will be sent to the lending pool.",
     "convertedToRBTC": "{{asset}} will be converted to RBTC and sent directly to your wallet.",
     "noUnlockedSov": "You don't have unlocked SOV",
@@ -782,17 +782,17 @@
       "newVotingPower": "New Voting Power"
     },
     "currentStakes": {
-      "title": "Current Stakes",
+      "title": "Staking contracts",
       "asset": "Asset",
       "lockedAmount": "Locked Amount",
-      "votingPower": "Voting power",
+      "votingPower": "Voting Power",
       "votingDelegation": "Voting Delegation",
       "stakingPeriod": "Staking Period",
       "unlockDate": "Unlock Date"
     },
     "currentVests": {
-      "title": "Current Vests",
-      "asset": "Vested Asset",
+      "title": "Vesting contracts",
+      "asset": "Asset",
       "lockedAmount": "Locked Amount",
       "votingPower": "Voting Delegation",
       "stakingDate": "End Date",
@@ -940,7 +940,6 @@
     "btn": "Withdraw"
   },
   "borrowActivity": {
-    "title": "My Debts",
     "tabs": {
       "active": "Active",
       "history": "History"
@@ -2025,6 +2024,7 @@
       "amount": "Amount",
       "receiver": "Receiver",
       "bridgeFee": "Bridge Fee",
+      "bridgeFeeWarning": "WARNING: HIGH FEE. The cost of gas on Ethereum is significantly higher than it is on BSC or RSK.",
       "tx": "Tx",
       "confirm": "Confirm Withdraw"
     },

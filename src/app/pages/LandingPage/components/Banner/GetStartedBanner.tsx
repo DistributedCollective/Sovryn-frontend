@@ -19,6 +19,7 @@ export const GetStartedBanner: React.FC = () => {
         text={t(translations.landingPage.banner.getStarted)}
         href="/buy-sov"
         size={ButtonSize.lg}
+        dataActionId="landing-getstarted-button"
       />
     </div>
   );
