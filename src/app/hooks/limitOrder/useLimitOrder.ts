@@ -18,6 +18,7 @@ import { limitOrderUrl, currentChainId, gasLimit } from 'utils/classifiers';
 import { approveSettlement } from './useMarginLimitOrder';
 import { ContractName } from 'utils/types/contracts';
 import { TxType } from 'store/global/transactions-store/types';
+import { walletService } from '@sovryn/react-wallet';
 
 export const useLimitOrder = (
   sourceToken: Asset,
@@ -157,20 +158,6 @@ export const useCancelLimitOrder = (order: ILimitOrder, sourceToken: Asset) => {
   const cancelOrder = useCallback(async () => {
     const contract = getContract('settlement');
 
-    try {
-      if (sourceToken === Asset.RBTC) {
-        await contractWriter.send(
-          'settlement',
-          'withdraw',
-          [order.amountIn.toString()],
-          { gas: gasLimit[TxType.SETTLEMENT_WITDHRAW] },
-        );
-      }
-    } catch (error) {
-      console.error('error', error);
-      return;
-    }
-
     const args = [
       order.maker,
       order.fromToken,
@@ -191,9 +178,11 @@ export const useCancelLimitOrder = (order: ILimitOrder, sourceToken: Asset) => {
 
     send({
       ...populated,
+      chainId: walletService.chainId,
       gas: gasLimit.limit_order,
       gasPrice: gas.get(),
       nonce,
+      value: 0,
     } as TransactionConfig);
   }, [
     account,
@@ -209,7 +198,6 @@ export const useCancelLimitOrder = (order: ILimitOrder, sourceToken: Asset) => {
     order.toToken,
     order.v,
     send,
-    sourceToken,
   ]);
 
   return { cancelOrder, ...tx };

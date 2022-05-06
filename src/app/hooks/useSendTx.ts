@@ -18,6 +18,8 @@ import {
   TransactionOptions,
 } from './useSendContractTx';
 import { walletService } from '@sovryn/react-wallet';
+import { isWeb3Wallet, ProviderType } from '@sovryn/wallet';
+import { Sovryn } from 'utils/sovryn';
 
 export interface IRawTransactionData {
   to?: string;
@@ -44,6 +46,7 @@ export const useSendTx = (): SendTxResponseInterface => {
   const send = useCallback(
     (transaction: TransactionConfig = {}, options: TransactionOptions = {}) => {
       setTxId(TxStatus.PENDING_FOR_USER);
+
       if (
         !transaction.hasOwnProperty('gas') &&
         options.approveTransactionHash &&
@@ -54,7 +57,29 @@ export const useSendTx = (): SendTxResponseInterface => {
       }
 
       walletService
-        .signTransaction(transaction as IRawTransactionData)
+        .signTransaction({
+          to: transaction.to,
+          value: String(transaction.value || '0'),
+          data: transaction.data,
+          gasPrice: String(transaction.gasPrice),
+          nonce: Number(transaction.nonce),
+          gasLimit: String(transaction.gas),
+          chainId: transaction.chainId,
+        })
+        .then(signedTxOrTransactionHash => {
+          // Browser wallets (extensions) signs and broadcasts transactions themselves
+          if (isWeb3Wallet(walletService.providerType as ProviderType)) {
+            return signedTxOrTransactionHash;
+          } else {
+            // Broadcast signed transaction and retrieve txHash.
+            return new Promise((resolve, reject) => {
+              Sovryn.getWeb3()
+                .eth.sendSignedTransaction(signedTxOrTransactionHash)
+                .once('transactionHash', tx => resolve(tx))
+                .catch(e => reject(e));
+            });
+          }
+        })
         .then(e => {
           const transactionHash = e as string;
           const txData = {
