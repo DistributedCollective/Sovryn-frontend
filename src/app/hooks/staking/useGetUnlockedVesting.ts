@@ -75,12 +75,17 @@ export function useGetUnlockedVesting(
           )) as string;
           value = bignumber(value).add(stake).toFixed(0);
         }
+        if (
+          isFourYearVest &&
+          Math.round(Date.now() / 1e3) <= Number(startDate) + 31449600 // four year vests locked with 1 year cliff. 31449600 = 52 weeks in seconds
+        ) {
+          value = '0';
+        }
       } catch (e) {
         setAmount('0');
         setLoading(false);
         setError(e.message);
       }
-
       return value;
     };
 
