@@ -18,7 +18,7 @@ export const StorybookAnimatedBox: React.FC<StorybookAnimatedBoxProps> = ({
 }) => (
   <div
     className={classNames(
-      'tw-flex tw-flex-col tw-items-center tw-inline-block tw-w-48',
+      'tw-flex tw-flex-col tw-items-center tw-w-48',
       className,
     )}
   >
