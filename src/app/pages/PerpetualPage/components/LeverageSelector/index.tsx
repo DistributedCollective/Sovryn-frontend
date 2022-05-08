@@ -118,7 +118,7 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
               max={max}
               step={0.01}
               onBlur={onInputBlur}
-              onChange={onInputChange}
+              onChangeText={onInputChange}
             />
             <span className="tw-w-1/6" />
           </>

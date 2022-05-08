@@ -298,6 +298,7 @@ export const VestingContract: React.FC<IVestingContractProps> = ({
                 <button
                   type="button"
                   className="tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent"
+                  data-action-id="staking-vest-delegateButton"
                 >
                   {t(translations.stake.actions.delegate)}
                 </button>
@@ -311,6 +312,7 @@ export const VestingContract: React.FC<IVestingContractProps> = ({
                 )}
                 onClick={() => onDelegate(Number(unlockDate))}
                 disabled={paused}
+                data-action-id="staking-vest-delegateButton"
               >
                 {t(translations.stake.actions.delegate)}
               </button>
@@ -326,6 +328,7 @@ export const VestingContract: React.FC<IVestingContractProps> = ({
                 <button
                   type="button"
                   className="tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent"
+                  data-action-id="staking-vest-withdrawButton"
                 >
                   {t(translations.stake.actions.withdraw)}
                 </button>
@@ -344,6 +347,7 @@ export const VestingContract: React.FC<IVestingContractProps> = ({
                   vestingAddress === ethGenesisAddress ||
                   frozen
                 }
+                data-action-id="staking-vest-withdrawButton"
               >
                 {t(translations.stake.actions.withdraw)}
               </button>
