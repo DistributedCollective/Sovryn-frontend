@@ -5,14 +5,14 @@ export interface IDialogFunctionComponent<T = {}> extends FunctionComponent<T> {
 }
 
 export enum DialogSize {
-  xs,
-  sm,
-  md,
-  lg,
-  xl,
-  xl2,
-  xl3,
-  full,
+  xs = 'xs',
+  sm = 'sm',
+  md = 'md',
+  lg = 'lg',
+  xl = 'xl',
+  xl2 = 'xl2',
+  xl3 = 'xl3',
+  full = 'full',
 }
 
 export const dialogSizeMap: Record<DialogSize, string> = {
