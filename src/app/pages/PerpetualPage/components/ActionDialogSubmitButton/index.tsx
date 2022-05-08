@@ -26,10 +26,10 @@ export const ActionDialogSubmitButton: React.FC<ActionDialogSubmitButtonProps> =
     {!inMaintenance ? (
       <button
         className={classNames(
-          'tw-w-full tw-min-h-10 tw-p-2 tw-mt-4 tw-text-lg tw-text-primary tw-font-medium tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-transition-opacity tw-duration-300',
+          'tw-w-full tw-min-h-10 tw-p-2 tw-mt-4 tw-text-lg tw-text-primary tw-font-medium tw-border tw-border-primary tw-bg-transparent tw-rounded-lg tw-transition-colors tw-transition-opacity tw-duration-300',
           isDisabled
             ? 'tw-opacity-25 tw-cursor-not-allowed'
-            : 'tw-opacity-100 hover:tw-bg-primary-25',
+            : 'tw-opacity-100 hover:tw-bg-primary-10',
           className,
         )}
         disabled={isDisabled}

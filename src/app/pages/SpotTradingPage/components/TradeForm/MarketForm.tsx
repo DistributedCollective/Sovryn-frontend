@@ -208,16 +208,14 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
           />
         </div>
         <div className="tw-flex tw-items-center tw-justify-between tw-mt-5">
-          <span className={styles.amountLabel}>
-            {t(translations.spotTradingPage.tradeForm.amount)}
-          </span>
-          <AmountInput
-            value={amount}
-            onChange={setAmount}
-            asset={sourceToken}
-            hideAmountSelector
-            dataActionId="spot-market-amountInput"
-          />
+          <FormGroup label={t(translations.spotTradingPage.tradeForm.amount)}>
+            <AmountInput
+              value={amount}
+              onChange={setAmount}
+              asset={sourceToken}
+              dataActionId="spot-market-amountInput"
+            />
+          </FormGroup>
         </div>
 
         <FormGroup

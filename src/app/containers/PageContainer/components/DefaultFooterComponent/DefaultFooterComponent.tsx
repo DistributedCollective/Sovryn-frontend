@@ -38,6 +38,7 @@ export const Footer: React.FC = () => {
                       href="https://wiki.sovryn.app/en/getting-started/faq-general"
                       target="_blank"
                       rel="noreferrer noopener"
+                      data-action-id="footer-link-faq"
                     >
                       x
                     </a>,
@@ -53,6 +54,7 @@ export const Footer: React.FC = () => {
                       target="_blank"
                       rel="noreferrer noopener"
                       className="tw-font-normal tw-text-secondary tw-underline"
+                      data-action-id="footer-link-wiki"
                     >
                       x
                     </a>,
@@ -68,6 +70,7 @@ export const Footer: React.FC = () => {
                       target="_blank"
                       rel="noreferrer noopener"
                       className="tw-font-normal tw-text-secondary tw-underline"
+                      data-action-id="footer-link-discord"
                     >
                       x
                     </a>,
@@ -80,6 +83,7 @@ export const Footer: React.FC = () => {
             <div
               className="tw-cursor-pointer hover:tw-underline tw-font-base tw-text-primary tw-underline tw-mt-3 md:tw-mt-6 tw-mb-3 md:tw-mb-0"
               onClick={e => setOptDialogOpen(true)}
+              data-action-id="footer-analytics-optout"
             >
               {t(translations.footer.optOut)}
             </div>

@@ -39,9 +39,18 @@ import { store } from './store/store';
 // Initialize languages
 import './locales/i18n';
 import './locales/dayjs';
+import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
+import { graphRskUrl } from './utils/classifiers';
 import { ToastContainer } from 'react-toastify';
 
 const MOUNT_NODE = document.getElementById('root') as HTMLElement;
+
+const rskClient = new ApolloClient({
+  uri: graphRskUrl,
+  cache: new InMemoryCache({
+    resultCaching: false,
+  }),
+});
 
 interface Props {
   Component: typeof App;
@@ -49,15 +58,17 @@ interface Props {
 const ConnectedApp = ({ Component }: Props) => {
   return (
     <Provider store={store}>
-      <HelmetProvider>
-        {/*<React.StrictMode>*/}
-        <Component />
-        {/*</React.StrictMode>*/}
-      </HelmetProvider>
-      <ServiceWorkerToaster />
-      <MobileBrowsersWarningDialog />
-      <FirstVisitDisclaimerDialog />
-      <ToastContainer />
+      <ApolloProvider client={rskClient}>
+        <HelmetProvider>
+          {/*<React.StrictMode>*/}
+          <Component />
+          {/*</React.StrictMode>*/}
+        </HelmetProvider>
+        <ServiceWorkerToaster />
+        <MobileBrowsersWarningDialog />
+        <FirstVisitDisclaimerDialog />
+        <ToastContainer />
+      </ApolloProvider>
     </Provider>
   );
 };
