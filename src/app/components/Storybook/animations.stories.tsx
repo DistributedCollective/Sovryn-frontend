@@ -25,6 +25,7 @@ export const Animations = () => (
         .sort((a, b) => parseInt(a[1]) - parseInt(b[1]))
         .map(([key, value]) => (
           <StorybookAnimatedBox
+            key={key}
             label={key}
             value={value}
             // need to prefix with tw-, because the tailwind animations are prefixed as well, but value isn't

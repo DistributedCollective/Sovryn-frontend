@@ -12,8 +12,7 @@
 }
 
 .tab-main-section {
-  @apply tw-w-full tw-flex tw-flex-row tw-justify-center tw-items-center;
-  background-color: #222222;
+  @apply tw-w-full tw-flex tw-flex-row tw-justify-center tw-items-center tw-bg-gray-2.5;
 
   span {
     display: block;

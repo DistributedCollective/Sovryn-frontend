@@ -38,7 +38,7 @@ export const TRADING_CHART_DEFAULT_COLORS: TradingChartColors = {
   linesY: '#343434', // gray-4
   crosshair: '#5c5c5c', // gray-5
   long: '#17C3B2', // trade-long
-  short: '#D74E09', // trade-short
+  short: '#E75E19', // trade-short
 };
 
 export type TradingChartProps = {

@@ -20,6 +20,7 @@ export function StakeVote() {
           href="https://wiki.sovryn.app/en/governance/staking-vesting-voting#staking-sov"
           target="_blank"
           rel="noreferrer noopener"
+          data-action-id="buySov-link-stake-learnmore"
         >
           {t(translations.buySovPage.features.learnMore)}
         </a>
@@ -30,6 +31,7 @@ export function StakeVote() {
           className="button"
           target="_blank"
           rel="noreferrer noopener"
+          data-action-id="buySov-ctaButton-stake"
         >
           {t(translations.buySovPage.features.stake.cta)}
         </a>
@@ -59,8 +61,8 @@ const Article = styled.article`
   .button {
     width: 200px;
     height: 40px;
-    background: #2274a5;
-    border: 1px solid #2274a5;
+    background: #2a8fcc;
+    border: 1px solid #2a8fcc;
     color: #e8e8e8;
     font-size: 1rem;
     line-height: 1;

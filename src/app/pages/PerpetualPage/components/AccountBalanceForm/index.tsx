@@ -47,10 +47,6 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
     checkMaintenance(States.PERPETUALS) ||
     checkMaintenance(States.PERPETUALS_ACCOUNT_WITHDRAW);
 
-  const transferAccountLocked =
-    checkMaintenance(States.PERPETUALS) ||
-    checkMaintenance(States.PERPETUALS_ACCOUNT_TRANSFER);
-
   const onOpenDeposit = useCallback(() => {
     history.push('/fast-btc/deposit/bsc');
   }, [history]);
@@ -238,10 +234,10 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   const button = (
     <button
       className={classNames(
-        'tw-min-w-40 tw-min-h-10 tw-p-2 tw-text-base tw-text-primary tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-duration-300',
+        'tw-min-w-40 tw-min-h-10 tw-p-2 tw-text-base tw-text-primary tw-border tw-border-primary tw-bg-transparent tw-rounded-lg tw-transition-colors tw-duration-300',
         disabled
           ? 'tw-opacity-25 tw-cursor-not-allowed'
-          : 'hover:tw-bg-primary-25 tw-cursor-pointer',
+          : 'hover:tw-bg-primary-10 tw-cursor-pointer',
       )}
       disabled={disabled}
       onClick={onClick}
