@@ -48,6 +48,7 @@ import { useContractPauseState } from 'app/hooks/useContractPauseState';
 import { AlertBadge } from 'app/components/AlertBadge/AlertBadge';
 import { discordInvite, bitocracyUrl } from 'utils/classifiers';
 import { Button, ButtonType } from 'app/components/Button';
+import { VestGroup } from 'app/components/UserAssets/Vesting/types';
 
 const now = new Date();
 
@@ -134,7 +135,10 @@ const InnerStakePage: React.FC = () => {
   const {
     delegate: vestingDelegate,
     ...vestingDelegateTx
-  } = useVestingDelegate(vestingContractAddress, vestingContractType);
+  } = useVestingDelegate(
+    vestingContractAddress,
+    vestingContractType as VestGroup,
+  );
 
   const { checkMaintenance, States } = useMaintenance();
   const stakingLocked = checkMaintenance(States.STAKING);

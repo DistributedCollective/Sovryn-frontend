@@ -74,74 +74,70 @@ export function VestedHistory() {
   useEffect(() => {
     async function getHistory() {
       setLoading(true);
-      let reward: void, genesis: void, team: void, origin: void, fouryear: void;
-      if (rewards.value !== ethGenesisAddress) {
-        reward = await eventReader
-          .getPastEvents('staking', 'TokensStaked', {
-            staker: rewards.value,
-          })
-          .then(res => {
-            const newRes = res.map(v => ({
-              ...v,
-              type: t(translations.stake.currentVests.assetType.reward),
-            }));
-            setEventsHistoryRewards(newRes);
-          });
-      }
-      if (vesting.value !== ethGenesisAddress) {
-        genesis = await eventReader
-          .getPastEvents('staking', 'TokensStaked', {
-            staker: vesting.value,
-          })
-          .then(res => {
-            const newRes = res.map(v => ({
-              ...v,
-              type: 'Genesis SOV',
-            }));
-            setEventsHistoryVesting(newRes);
-          });
-      }
-      if (vestingTeam.value !== ethGenesisAddress) {
-        team = await eventReader
-          .getPastEvents('staking', 'TokensStaked', {
-            staker: vestingTeam.value,
-          })
-          .then(res => {
-            const newRes = res.map(v => ({ ...v, type: 'Team SOV' }));
-            setEventsHistoryVestingTeam(newRes);
-          });
-      }
-      if (vestingOrigin.value !== ethGenesisAddress) {
-        origin = await eventReader
-          .getPastEvents('staking', 'TokensStaked', {
-            staker: vestingOrigin.value,
-          })
-          .then(res => {
-            const newRes = res.map(v => ({ ...v, type: 'Origin SOV' }));
-            setEventsHistoryVestingOrigin(newRes);
-          });
-      }
-      if (vestingFourYear.value !== ethGenesisAddress) {
-        fouryear = await eventReader
-          .getPastEvents('staking', 'TokensStaked', {
-            staker: vestingFourYear.value,
-          })
-          .then(res => {
-            const newRes = res.map(v => ({
-              ...v,
-              type: t(translations.stake.currentVests.assetType.fouryear),
-            }));
-            setEventsHistoryVestingFourYear(newRes);
-          });
-      }
       try {
-        Promise.all([reward, genesis, team, origin, fouryear]).then(_ =>
-          setLoading(false),
-        );
+        if (rewards.value !== ethGenesisAddress) {
+          await eventReader
+            .getPastEvents('staking', 'TokensStaked', {
+              staker: rewards.value,
+            })
+            .then(res => {
+              const newRes = res.map(v => ({
+                ...v,
+                type: t(translations.stake.currentVests.assetType.reward),
+              }));
+              setEventsHistoryRewards(newRes);
+            });
+        }
+        if (vesting.value !== ethGenesisAddress) {
+          await eventReader
+            .getPastEvents('staking', 'TokensStaked', {
+              staker: vesting.value,
+            })
+            .then(res => {
+              const newRes = res.map(v => ({
+                ...v,
+                type: 'Genesis SOV',
+              }));
+              setEventsHistoryVesting(newRes);
+            });
+        }
+        if (vestingTeam.value !== ethGenesisAddress) {
+          await eventReader
+            .getPastEvents('staking', 'TokensStaked', {
+              staker: vestingTeam.value,
+            })
+            .then(res => {
+              const newRes = res.map(v => ({ ...v, type: 'Team SOV' }));
+              setEventsHistoryVestingTeam(newRes);
+            });
+        }
+        if (vestingOrigin.value !== ethGenesisAddress) {
+          await eventReader
+            .getPastEvents('staking', 'TokensStaked', {
+              staker: vestingOrigin.value,
+            })
+            .then(res => {
+              const newRes = res.map(v => ({ ...v, type: 'Origin SOV' }));
+              setEventsHistoryVestingOrigin(newRes);
+            });
+        }
+        if (vestingFourYear.value !== ethGenesisAddress) {
+          await eventReader
+            .getPastEvents('staking', 'TokensStaked', {
+              staker: vestingFourYear.value,
+            })
+            .then(res => {
+              const newRes = res.map(v => ({
+                ...v,
+                type: t(translations.stake.currentVests.assetType.fouryear),
+              }));
+              setEventsHistoryVestingFourYear(newRes);
+            });
+        }
       } catch (e) {
         console.error(e);
-        setLoading(false);
       }
+      setLoading(false);
     }
 
     getHistory();

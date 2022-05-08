@@ -30,12 +30,11 @@ import { WithdrawVesting } from './WithdrawVesting';
 import { VestGroup } from 'app/components/UserAssets/Vesting/types';
 import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { useSendToContractAddressTx } from 'app/hooks/useSendToContractAddressTx';
-import VestingABI from 'utils/blockchain/abi/Vesting.json';
-import FourYearVestingABI from 'utils/blockchain/abi/FourYearVesting.json';
+import { getVestingAbi } from 'utils/blockchain/requests/vesting';
 import { AbiItem } from 'web3-utils';
 import { TxType } from 'store/global/transactions-store/types';
 
-interface Props {
+interface IVestingContractProps {
   vestingAddress: string;
   type: VestGroup;
   onDelegate: (a: number) => void;
@@ -65,7 +64,13 @@ const getTokenContractNameByVestingType = (type: VestGroup) => {
   }
 };
 
-export function VestingContract(props: Props) {
+export const VestingContract: React.FC<IVestingContractProps> = ({
+  vestingAddress,
+  type,
+  onDelegate,
+  paused,
+  frozen,
+}) => {
   const { t } = useTranslation();
   const { checkMaintenances, States } = useMaintenance();
   const {
@@ -74,8 +79,8 @@ export function VestingContract(props: Props) {
   } = checkMaintenances();
 
   const account = useAccount();
-  const getStakes = useStaking_getStakes(props.vestingAddress);
-  const lockedAmount = useStaking_balanceOf(props.vestingAddress);
+  const getStakes = useStaking_getStakes(vestingAddress);
+  const lockedAmount = useStaking_balanceOf(vestingAddress);
   const [stakingPeriodStart, setStakingPeriodStart] = useState('');
   const [unlockDate, setUnlockDate] = useState('');
   const [vestLoading, setVestLoading] = useState(false);
@@ -86,10 +91,7 @@ export function VestingContract(props: Props) {
   const SOV = AssetsDictionary.get(Asset.SOV);
   const CSOV = AssetsDictionary.get(Asset.SOV);
   const dollars = useCachedAssetPrice(Asset.SOV, Asset.USDT);
-  const rbtc = useCachedAssetPrice(
-    getAssetByVestingType(props.type),
-    Asset.RBTC,
-  );
+  const rbtc = useCachedAssetPrice(getAssetByVestingType(type), Asset.RBTC);
   const dollarValue = useMemo(() => {
     if (lockedAmount === null) return '';
     return bignumber(lockedAmount.value)
@@ -98,31 +100,27 @@ export function VestingContract(props: Props) {
       .toFixed(0);
   }, [dollars.value, lockedAmount, SOV.decimals]);
 
-  const tokenAddress = getContract(
-    getTokenContractNameByVestingType(props.type),
-  ).address;
-  const currency = useStaking_getAccumulatedFees(
-    props.vestingAddress,
-    tokenAddress,
-  );
+  const tokenAddress = getContract(getTokenContractNameByVestingType(type))
+    .address;
+  const currency = useStaking_getAccumulatedFees(vestingAddress, tokenAddress);
 
   const rbtcValue = useMemo(() => {
     if (currency === null) return '';
     return bignumber(currency.value)
       .mul(rbtc.value)
-      .div(10 ** (props.type === 'genesis' ? CSOV.decimals : SOV.decimals))
+      .div(10 ** (type === 'genesis' ? CSOV.decimals : SOV.decimals))
       .toFixed(0);
-  }, [currency, CSOV.decimals, SOV.decimals, props.type, rbtc.value]);
+  }, [currency, CSOV.decimals, SOV.decimals, type, rbtc.value]);
 
   useEffect(() => {
     async function getVestsList() {
       try {
         setVestLoading(true);
         Promise.all([
-          vesting_getStartDate(props.vestingAddress, props.type).then(
+          vesting_getStartDate(vestingAddress, type).then(
             res => typeof res === 'string' && setStakingPeriodStart(res),
           ),
-          vesting_getEndDate(props.vestingAddress, props.type).then(
+          vesting_getEndDate(vestingAddress, type).then(
             res => typeof res === 'string' && setUnlockDate(res),
           ),
         ]).then(_ => setVestLoading(false));
@@ -133,10 +131,10 @@ export function VestingContract(props: Props) {
       }
     }
     setVestLoading(false);
-    if (props.vestingAddress !== ethGenesisAddress) {
+    if (vestingAddress !== ethGenesisAddress) {
       getVestsList().catch(console.error);
     }
-  }, [props.vestingAddress, props.type, account]);
+  }, [vestingAddress, type, account]);
 
   useEffect(() => {
     async function getDelegate() {
@@ -145,15 +143,12 @@ export function VestingContract(props: Props) {
       try {
         await contractReader
           .call('staking', 'delegates', [
-            props.vestingAddress,
+            vestingAddress,
             getStakes.value['dates'][datesLength - 2],
           ])
           .then(res => {
             setDelegateLoading(false);
-            if (
-              res.toString().toLowerCase() !==
-              props.vestingAddress.toLowerCase()
-            ) {
+            if (res.toString().toLowerCase() !== vestingAddress.toLowerCase()) {
               setDelegate(res);
             }
             return false;
@@ -173,18 +168,18 @@ export function VestingContract(props: Props) {
       setLocked(Number(unlockDate) > Math.round(new Date().getTime() / 1e3));
     }
   }, [
-    props.vestingAddress,
+    vestingAddress,
     vestLoading,
     unlockDate,
     delegate,
     getStakes.value,
     stakingPeriodStart,
-    props.type,
+    type,
   ]);
 
   const { send, ...tx } = useSendToContractAddressTx(
-    props.vestingAddress.toLowerCase(),
-    (props.type === 'fouryear' ? FourYearVestingABI : VestingABI) as AbiItem[],
+    vestingAddress.toLowerCase(),
+    getVestingAbi(type) as AbiItem[],
     'withdrawTokens',
   );
 
@@ -206,7 +201,7 @@ export function VestingContract(props: Props) {
               <img src={logoSvg} className="tw-ml-3 tw-mr-3" alt="sov" />
             </div>
             <div className="tw-text-sm tw-font-normal tw-hidden xl:tw-block tw-pl-3">
-              {t(translations.stake.currentVests.assetType[props.type])}
+              {t(translations.stake.currentVests.assetType[type])}
             </div>
           </div>
         </td>
@@ -311,11 +306,11 @@ export function VestingContract(props: Props) {
               <button
                 className={classNames(
                   'tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat',
-                  props.paused &&
+                  paused &&
                     'tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent',
                 )}
-                onClick={() => props.onDelegate(Number(unlockDate))}
-                disabled={props.paused}
+                onClick={() => onDelegate(Number(unlockDate))}
+                disabled={paused}
               >
                 {t(translations.stake.actions.delegate)}
               </button>
@@ -340,14 +335,14 @@ export function VestingContract(props: Props) {
                 type="button"
                 className={classNames(
                   'tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat',
-                  props.frozen &&
+                  frozen &&
                     'tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent',
                 )}
                 onClick={() => setShowWithdraw(true)}
                 disabled={
-                  !props.vestingAddress ||
-                  props.vestingAddress === ethGenesisAddress ||
-                  props.frozen
+                  !vestingAddress ||
+                  vestingAddress === ethGenesisAddress ||
+                  frozen
                 }
               >
                 {t(translations.stake.actions.withdraw)}
@@ -361,8 +356,8 @@ export function VestingContract(props: Props) {
         content={
           <>
             <WithdrawVesting
-              vesting={props.vestingAddress}
-              vestingType={props.type}
+              vesting={vestingAddress}
+              vestingType={type}
               onCloseModal={() => setShowWithdraw(false)}
               onWithdraw={handleWithdraw}
             />
@@ -372,4 +367,4 @@ export function VestingContract(props: Props) {
       <TxDialog tx={tx} onUserConfirmed={() => setShowWithdraw(false)} />
     </>
   );
-}
+};

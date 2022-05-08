@@ -1,7 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { bignumber } from 'mathjs';
-import VestingABI from 'utils/blockchain/abi/Vesting.json';
-import FourYearVestingABI from 'utils/blockchain/abi/FourYearVesting.json';
 import { VestGroup } from 'app/components/UserAssets/Vesting/types';
 import { useAccount, useBlockSync } from '../useAccount';
 import { contractReader } from '../../../utils/sovryn/contract-reader';
@@ -9,6 +7,7 @@ import { Sovryn } from '../../../utils/sovryn';
 import { ethGenesisAddress } from '../../../utils/classifiers';
 import { Nullable } from 'types';
 import { ContractName } from '../../../utils/types/contracts';
+import { getVestingAbi } from 'utils/blockchain/requests/vesting';
 
 const TWO_WEEKS = 1209600;
 
@@ -22,8 +21,10 @@ export function useGetUnlockedVesting(
   const [loading, setLoading] = useState(false);
   const [amount, setAmount] = useState('0');
   const [err, setError] = useState<Nullable<string>>(null);
-  const isFourYearVest = vestingType === 'fouryear';
-  const vestABI = isFourYearVest ? FourYearVestingABI : VestingABI;
+  const isFourYearVest = useMemo(() => vestingType === 'fouryear', [
+    vestingType,
+  ]);
+  const vestABI = useMemo(() => getVestingAbi(vestingType), [vestingType]);
 
   useEffect(() => {
     const run = async () => {

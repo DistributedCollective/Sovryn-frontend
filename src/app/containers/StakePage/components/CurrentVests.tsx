@@ -6,7 +6,7 @@ import { VestingContract } from './VestingContract';
 import { useListOfUserVestings } from '../../../components/UserAssets/Vesting/useListOfUserVestings';
 import { VestGroup } from 'app/components/UserAssets/Vesting/types';
 
-interface Props {
+interface ICurrentVestsProps {
   onDelegate: (
     timestamp: number,
     vestingAddress: string,
@@ -16,7 +16,11 @@ interface Props {
   frozen?: boolean;
 }
 
-export function CurrentVests(props: Props) {
+export const CurrentVests: React.FC<ICurrentVestsProps> = ({
+  onDelegate,
+  paused,
+  frozen,
+}) => {
   const { t } = useTranslation();
   const { loading, items } = useListOfUserVestings();
 
@@ -74,10 +78,10 @@ export function CurrentVests(props: Props) {
                   vestingAddress={item.vestingContract}
                   type={item.type}
                   onDelegate={timestamp =>
-                    props.onDelegate(timestamp, item.vestingContract, item.type)
+                    onDelegate(timestamp, item.vestingContract, item.type)
                   }
-                  paused={props.paused}
-                  frozen={props.frozen}
+                  paused={paused}
+                  frozen={frozen}
                 />
               ))}
             </tbody>
@@ -86,4 +90,4 @@ export function CurrentVests(props: Props) {
       </div>
     </>
   );
-}
+};

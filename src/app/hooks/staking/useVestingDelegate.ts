@@ -1,19 +1,19 @@
 import { useAccount } from '../useAccount';
 import { TxType } from '../../../store/global/transactions-store/types';
 import { useSendToContractAddressTx } from '../useSendToContractAddressTx';
-import VestingABI from 'utils/blockchain/abi/Vesting.json';
-import FourYearVestingABI from 'utils/blockchain/abi/FourYearVesting.json';
+import { getVestingAbi } from 'utils/blockchain/requests/vesting';
 import { AbiItem } from 'web3-utils';
+import { VestGroup } from 'app/components/UserAssets/Vesting/types';
 
 export function useVestingDelegate(
   contractAddress: string,
-  vestingType: string,
+  vestingType: VestGroup,
 ) {
   const account = useAccount();
 
   const { send, ...rest } = useSendToContractAddressTx(
     contractAddress,
-    (vestingType === 'fouryear' ? FourYearVestingABI : VestingABI) as AbiItem[],
+    getVestingAbi(vestingType) as AbiItem[],
     'delegate',
   );
   return {

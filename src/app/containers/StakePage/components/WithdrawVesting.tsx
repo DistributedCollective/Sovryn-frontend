@@ -11,19 +11,19 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { VestGroup } from 'app/components/UserAssets/Vesting/types';
 
-interface Props {
+interface IWithdrawVestingProps {
   vesting: string;
   vestingType: VestGroup;
   onCloseModal: () => void;
   onWithdraw: (receiver: string) => void;
 }
 
-export function WithdrawVesting({
+export const WithdrawVesting: React.FC<IWithdrawVestingProps> = ({
   vesting,
   vestingType,
   onCloseModal,
   onWithdraw,
-}: Props) {
+}) => {
   const { t } = useTranslation();
   const account = useAccount();
   const { checkMaintenance, States } = useMaintenance();
@@ -131,4 +131,4 @@ export function WithdrawVesting({
       </form>
     </>
   );
-}
+};

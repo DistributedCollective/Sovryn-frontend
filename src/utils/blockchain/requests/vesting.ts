@@ -10,7 +10,7 @@ export function vesting_getStartDate(
 ) {
   return contractReader.callByAddress(
     vestingAddress,
-    vestingType === 'fouryear' ? FourYearVestingABI : VestingABI,
+    getVestingAbi(vestingType),
     'startDate',
     [],
   );
@@ -22,8 +22,12 @@ export function vesting_getEndDate(
 ) {
   return contractReader.callByAddress(
     vestingAddress,
-    vestingType === 'fouryear' ? FourYearVestingABI : VestingABI,
+    getVestingAbi(vestingType),
     'endDate',
     [],
   );
+}
+
+export function getVestingAbi(vestingType: VestGroup) {
+  return vestingType === 'fouryear' ? FourYearVestingABI : VestingABI;
 }

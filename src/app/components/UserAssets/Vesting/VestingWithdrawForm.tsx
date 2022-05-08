@@ -3,8 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { useAccount } from '../../../hooks/useAccount';
 import { useGetUnlockedVesting } from '../../../hooks/staking/useGetUnlockedVesting';
 import { useSendToContractAddressTx } from '../../../hooks/useSendToContractAddressTx';
-import VestingAbi from '../../../../utils/blockchain/abi/Vesting.json';
-import FourYearVestingAbi from '../../../../utils/blockchain/abi/FourYearVesting.json';
 import { AbiItem } from 'web3-utils';
 import { TxType } from '../../../../store/global/transactions-store/types';
 import { FullVesting } from './types';
@@ -13,6 +11,7 @@ import { translations } from '../../../../locales/i18n';
 import { FieldGroup } from '../../FieldGroup';
 import { DummyField } from '../../DummyField';
 import { weiTo4 } from '../../../../utils/blockchain/math-helpers';
+import { getVestingAbi } from 'utils/blockchain/requests/vesting';
 import classNames from 'classnames';
 import arrowDown from '../../../containers/WalletPage/components/arrow-down.svg';
 import { InputField } from '../../InputField';
@@ -42,9 +41,7 @@ export const VestingWithdrawForm: React.FC<VestingWithdrawFormProps> = ({
 
   const { send, ...tx } = useSendToContractAddressTx(
     vesting.vestingContract,
-    (vesting.type === 'fouryear'
-      ? FourYearVestingAbi
-      : VestingAbi) as AbiItem[],
+    getVestingAbi(vesting.type) as AbiItem[],
     'withdrawTokens',
   );
   const handleSubmit = useCallback(() => {
