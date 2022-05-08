@@ -146,12 +146,7 @@ export const DefaultHeaderComponent: React.FC = () => {
     {
       to: '/origins/claim',
       title: t(translations.mainMenu.originsClaim),
-      dataActionId: 'header-link-portfolio',
-    },
-    {
-      to: 'https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp',
-      title: t(translations.mainMenu.help),
-      dataActionId: 'header-link-help',
+      dataActionId: 'header-origins-link-claim',
     },
     {
       to: '',
@@ -161,7 +156,7 @@ export const DefaultHeaderComponent: React.FC = () => {
     {
       to: '/mynt-token',
       title: t(translations.mainMenu.myntToken),
-      dataActionId: 'header-link-lab-mynt-token',
+      dataActionId: 'header-lab-link-mynt-token',
     },
   ];
 
@@ -169,9 +164,22 @@ export const DefaultHeaderComponent: React.FC = () => {
     pages.push({
       to: '/perpetuals',
       title: t(translations.mainMenu.perpetuals),
-      dataActionId: 'header-link-lab-perpetuals',
+      dataActionId: 'header-lab-link-perpetuals',
     });
   }
+
+  pages.push(
+    {
+      to: '',
+      title: '',
+      dataActionId: 'header-link-resources',
+    },
+    {
+      to: 'https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp',
+      title: t(translations.mainMenu.help),
+      dataActionId: 'header-resources-link-help',
+    },
+  );
 
   const menuItems = pages.map((item, index) => {
     let link: {
