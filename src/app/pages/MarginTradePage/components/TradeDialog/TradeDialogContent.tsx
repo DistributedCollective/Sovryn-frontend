@@ -1,9 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { Trans, useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { HashZero } from '@ethersproject/constants';
-import { Checkbox } from '@blueprintjs/core';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
@@ -24,6 +23,7 @@ import {
 import { toWei } from 'utils/blockchain/math-helpers';
 import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
 import {
+  toAssetNumberFormat,
   toNumberFormat,
   weiToAssetNumberFormat,
   weiToNumberFormat,
@@ -53,6 +53,7 @@ import { usePositionLiquidationPrice } from 'app/hooks/trading/usePositionLiquid
 import { LoadableValue } from 'app/components/LoadableValue';
 import { PricePrediction } from 'app/containers/MarginTradeForm/PricePrediction';
 import { MarginDetails } from 'app/hooks/trading/useGetEstimatedMarginDetails';
+import { Checkbox } from 'app/components/Checkbox';
 
 interface ITradeDialogContentProps {
   slippage: number;
@@ -193,7 +194,18 @@ export const TradeDialogContent: React.FC<ITradeDialogContentProps> = ({
       .toFixed(0);
   }, [borrowAmount, collateralTokensReceived]);
 
-  const { minReturn } = useSlippage(collateralTokenAmount, slippage);
+  const { minReturn: _minReturn } = useSlippage(
+    collateralTokenAmount,
+    slippage,
+  );
+
+  // calculations are off for SOV/RBTC pair causing txes to fail, ignoring slippage settings as quick fix
+  const minReturn = useMemo(() => {
+    if (pair.longAsset === Asset.RBTC && pair.shortAsset === Asset.SOV) {
+      return '1';
+    }
+    return _minReturn;
+  }, [_minReturn, pair.longAsset, pair.shortAsset]);
 
   const txArgs = [
     HashZero, //0 if new loan
@@ -257,6 +269,10 @@ export const TradeDialogContent: React.FC<ITradeDialogContentProps> = ({
   const disableButtonAfterSimulatorError = useMemo(() => {
     return ignoreError ? false : simulator.status === SimulationStatus.FAILED;
   }, [ignoreError, simulator.status]);
+
+  const handleIgnoreError = useCallback(() => setIgnoreError(!ignoreError), [
+    ignoreError,
+  ]);
 
   return (
     <div className="tw-w-auto md:tw-mx-7 tw-mx-2">
@@ -332,10 +348,14 @@ export const TradeDialogContent: React.FC<ITradeDialogContentProps> = ({
                 <>
                   <LoadableValue
                     loading={simulator.status === SimulationStatus.PENDING}
-                    value={weiToAssetNumberFormat(entryPrice, pair.longAsset)}
+                    value={
+                      <>
+                        {weiToAssetNumberFormat(entryPrice, pair.longAsset)}{' '}
+                        <AssetRenderer asset={pair.longAsset} />
+                      </>
+                    }
                     tooltip={weiToNumberFormat(entryPrice, 18)}
-                  />{' '}
-                  <AssetRenderer asset={pair.longAsset} />
+                  />
                 </>
               ) : (
                 <>
@@ -361,9 +381,10 @@ export const TradeDialogContent: React.FC<ITradeDialogContentProps> = ({
               <>
                 <LoadableValue
                   loading={simulator.status === SimulationStatus.PENDING}
+                  tooltip={toNumberFormat(liquidationPrice, 18)}
                   value={
                     <>
-                      {weiToAssetNumberFormat(liquidationPrice, pair.longAsset)}{' '}
+                      {toAssetNumberFormat(liquidationPrice, pair.longAsset)}{' '}
                       <AssetRenderer asset={pair.longAsset} />
                     </>
                   }
@@ -405,7 +426,7 @@ export const TradeDialogContent: React.FC<ITradeDialogContentProps> = ({
             />
             <Checkbox
               checked={ignoreError}
-              onChange={() => setIgnoreError(!ignoreError)}
+              onChange={handleIgnoreError}
               label={t(translations.common.continueToFailure)}
               data-action-id="accept-terms-checkbox"
             />

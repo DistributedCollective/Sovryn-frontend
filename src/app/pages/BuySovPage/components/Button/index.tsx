@@ -4,9 +4,15 @@ import { IBtnProps } from './types';
 
 interface IButtonProps extends IBtnProps {
   text: React.ReactNode;
+  dataActionId?: string;
 }
 
-export const Button: React.FC<IButtonProps> = ({ text, onClick, disabled }) => (
+export const Button: React.FC<IButtonProps> = ({
+  text,
+  onClick,
+  disabled,
+  dataActionId,
+}) => (
   <button
     onClick={onClick}
     disabled={disabled}
@@ -16,6 +22,7 @@ export const Button: React.FC<IButtonProps> = ({ text, onClick, disabled }) => (
         'tw-opacity-25 tw-cursor-not-allowed hover:tw-bg-transparent': disabled,
       },
     )}
+    data-action-id={dataActionId}
   >
     {text}
   </button>
