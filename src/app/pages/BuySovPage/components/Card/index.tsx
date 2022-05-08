@@ -55,11 +55,11 @@ const Container = styled.article`
   }
   a {
     font-size: 1rem;
-    color: #2274a5;
+    color: #2a8fcc;
     font-weight: 400;
     text-decoration: underline;
     &:hover {
-      color: #2274a5;
+      color: #2a8fcc;
       text-decoration: none;
     }
   }

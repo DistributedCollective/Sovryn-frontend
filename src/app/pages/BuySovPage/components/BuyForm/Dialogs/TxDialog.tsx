@@ -188,11 +188,11 @@ const StyledHash = styled.div`
 const ExplorerLink = styled.div`
   text-align: center;
   a {
-    color: #2274a5 !important;
+    color: #2a8fcc !important;
     text-decoration: underline !important;
     font-weight: 500 !important;
     &:hover {
-      color: #2274a5 !important;
+      color: #2a8fcc !important;
       text-decoration: none !important;
     }
   }
