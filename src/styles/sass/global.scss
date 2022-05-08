@@ -21,18 +21,6 @@
   max-width: 250px;
 }
 
-*::-webkit-scrollbar {
-  @apply tw-w-1;
-}
-
-*::-webkit-scrollbar-track {
-  @apply tw-shadow-inner;
-}
-
-*::-webkit-scrollbar-thumb {
-  @apply tw-bg-gray-9;
-}
-
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   @apply tw-m-0 tw-appearance-none;
