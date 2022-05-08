@@ -2,6 +2,8 @@ module.exports = {
   prefix: 'tw-',
   important: true,
   purge: [
+    './public/index.html',
+    './public/maintenance.html',
     './src/app/components/**/*.{ts,tsx}',
     './src/app/containers/**/*.{ts,tsx}',
     './src/app/pages/**/*.{ts,tsx}',
@@ -13,7 +15,7 @@ module.exports = {
   theme: {
     container: {
       center: true,
-      padding: '1rem',
+      padding: '1.25rem',
     },
     screens: {
       sm: '576px',
