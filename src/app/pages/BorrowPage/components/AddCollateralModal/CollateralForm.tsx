@@ -24,12 +24,12 @@ type CollateralFormType = {
   loanToken: AssetDetails;
   currentLiquidationPrice: string;
   currentCollateralRatio: string;
-  loadingRate: boolean;
+  loading: boolean;
   newCollateralAmount: string;
   newCollateralRatio: string;
   newLiquidationPrice: string;
   amount: string;
-  canSubmit: boolean;
+  formDisabled: boolean;
   topupLocked: boolean;
   valid: boolean;
   onAmountChange: (value: string) => void;
@@ -41,7 +41,7 @@ export const CollateralForm: React.FC<CollateralFormType> = ({
   tokenDetails,
   loanToken,
   currentLiquidationPrice,
-  loadingRate,
+  loading,
   currentCollateralRatio,
   newCollateralAmount,
   newCollateralRatio,
@@ -49,7 +49,7 @@ export const CollateralForm: React.FC<CollateralFormType> = ({
   amount,
   topupLocked,
   valid,
-  canSubmit,
+  formDisabled,
   onAmountChange,
   onSubmit,
 }) => {
@@ -84,7 +84,7 @@ export const CollateralForm: React.FC<CollateralFormType> = ({
           label={t(translations.addCollateral.collateralRatio)}
           value={
             <LoadableValue
-              loading={loadingRate}
+              loading={loading}
               value={<>{currentCollateralRatio} %</>}
             />
           }
@@ -141,7 +141,7 @@ export const CollateralForm: React.FC<CollateralFormType> = ({
             label={t(translations.addCollateral.collateralRatio)}
             value={
               <LoadableValue
-                loading={loadingRate}
+                loading={loading}
                 value={<>{newCollateralRatio} %</>}
               />
             }
@@ -179,7 +179,7 @@ export const CollateralForm: React.FC<CollateralFormType> = ({
       <DialogButton
         confirmLabel={t(translations.common.continue)}
         onConfirm={onSubmit}
-        disabled={canSubmit}
+        disabled={formDisabled}
       />
     </>
   );

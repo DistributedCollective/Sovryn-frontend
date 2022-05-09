@@ -22,8 +22,8 @@ type ReviewStepProps = {
   newLiquidationPrice: string;
   tokenDetails: AssetDetails;
   loanToken: AssetDetails;
-  loadingRate: boolean;
-  canSubmit: boolean;
+  loading: boolean;
+  formDisabled: boolean;
   onSubmit: () => void;
 };
 
@@ -35,8 +35,8 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
   newLiquidationPrice,
   tokenDetails,
   loanToken,
-  loadingRate,
-  canSubmit,
+  loading,
+  formDisabled,
   onSubmit,
 }) => {
   const weiAmount = useWeiAmount(amount);
@@ -51,8 +51,8 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
           args={[item.loanId, weiAmount]}
           methodName="depositCollateral"
           contractName="sovrynProtocol"
-          condition={true}
-          textClassName={'tw-text-gray-10 tw-text-gray-10'}
+          condition
+          textClassName="tw-text-gray-10"
         />
       </div>
       <p className="tw-text-center tw-text-sm tw-mt-3 tw-mb-2">
@@ -84,7 +84,7 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
           valueClassName="tw-text-right"
           value={
             <LoadableValue
-              loading={loadingRate}
+              loading={loading}
               value={<>{newCollateralRatio} %</>}
             />
           }
@@ -93,7 +93,7 @@ export const ReviewStep: React.FC<ReviewStepProps> = ({
       <DialogButton
         confirmLabel={t(translations.common.confirm)}
         onConfirm={onSubmit}
-        disabled={canSubmit}
+        disabled={formDisabled}
       />
     </>
   );

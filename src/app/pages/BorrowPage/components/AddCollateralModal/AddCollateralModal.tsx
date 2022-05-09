@@ -116,7 +116,7 @@ export const AddCollateralModal: React.FC<AddCollateralModalProps> = ({
 
   const handleNextStep = useCallback(() => setStep(Step.REVIEW), []);
 
-  const canSubmit = useMemo(
+  const formDisabled = useMemo(
     () => topupLocked || tx.loading || !valid || !canInteract,
     [canInteract, topupLocked, tx.loading, valid],
   );
@@ -136,14 +136,14 @@ export const AddCollateralModal: React.FC<AddCollateralModalProps> = ({
             loanToken={loanToken}
             currentCollateralRatio={currentCollateralRatio}
             currentLiquidationPrice={currentLiquidationPrice}
-            loadingRate={loadingRate}
+            loading={loadingRate}
             newCollateralAmount={newCollateralAmount}
             newCollateralRatio={newCollateralRatio}
             newLiquidationPrice={newLiquidationPrice}
             amount={amount}
             topupLocked={topupLocked}
             valid={valid}
-            canSubmit={canSubmit}
+            formDisabled={formDisabled}
             onAmountChange={setAmount}
             onSubmit={handleNextStep}
           />
@@ -158,8 +158,8 @@ export const AddCollateralModal: React.FC<AddCollateralModalProps> = ({
             newCollateralAmount={newCollateralAmount}
             newCollateralRatio={newCollateralRatio}
             newLiquidationPrice={newLiquidationPrice}
-            loadingRate={loadingRate}
-            canSubmit={canSubmit}
+            loading={loadingRate}
+            formDisabled={formDisabled}
             onSubmit={handleSubmit}
           />
         )}
