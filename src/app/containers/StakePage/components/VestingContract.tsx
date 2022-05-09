@@ -100,8 +100,10 @@ export const VestingContract: React.FC<IVestingContractProps> = ({
       .toFixed(0);
   }, [dollars.value, lockedAmount, SOV.decimals]);
 
-  const tokenAddress = getContract(getTokenContractNameByVestingType(type))
-    .address;
+  const tokenAddress = useMemo(
+    () => getContract(getTokenContractNameByVestingType(type)).address,
+    [type],
+  );
   const currency = useStaking_getAccumulatedFees(vestingAddress, tokenAddress);
 
   const rbtcValue = useMemo(() => {

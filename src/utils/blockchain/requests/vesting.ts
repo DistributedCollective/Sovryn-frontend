@@ -4,30 +4,30 @@ import VestingABI from '../abi/Vesting.json';
 import FourYearVestingABI from '../abi/FourYearVesting.json';
 import { VestGroup } from 'app/components/UserAssets/Vesting/types';
 
-export function vesting_getStartDate(
+export const vesting_getStartDate = (
   vestingAddress: string,
   vestingType: VestGroup,
-) {
+) => {
   return contractReader.callByAddress(
     vestingAddress,
     getVestingAbi(vestingType),
     'startDate',
     [],
   );
-}
+};
 
-export function vesting_getEndDate(
+export const vesting_getEndDate = (
   vestingAddress: string,
   vestingType: VestGroup,
-) {
+) => {
   return contractReader.callByAddress(
     vestingAddress,
     getVestingAbi(vestingType),
     'endDate',
     [],
   );
-}
+};
 
-export function getVestingAbi(vestingType: VestGroup) {
+export const getVestingAbi = (vestingType: VestGroup) => {
   return vestingType === 'fouryear' ? FourYearVestingABI : VestingABI;
-}
+};
