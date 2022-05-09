@@ -16,7 +16,7 @@ import {
 } from '../../../utils/dictionaries/perpetual-pair-dictionary';
 import { TradingChart } from './components/TradingChart';
 import { OpenPositionsTable } from './components/OpenPositionsTable';
-import { useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
 import { selectPerpetualPage } from './selectors';
 import { DataCard } from './components/DataCard';
@@ -152,7 +152,17 @@ export const PerpetualPageContainer: React.FC = () => {
             content={t(translations.perpetualPage.meta.description)}
           />
         </Helmet>
-        <HeaderLabs helpLink="https://wiki.sovryn.app/en/sovryn-dapp/perpetual-futures" />
+        <HeaderLabs
+          helpLink="https://wiki.sovryn.app/en/sovryn-dapp/perpetual-futures"
+          menus={
+            <Link
+              to="/perpetuals/competition"
+              className="tw-mr-4 tw-text-black"
+            >
+              {t(translations.competitionPage.nav.competition)}
+            </Link>
+          }
+        />
         <div className="tw-relative tw--top-2.5 tw-w-full">
           <PairSelector
             pair={pair}

@@ -13,9 +13,10 @@ import { translations } from '../../../locales/i18n';
 
 export type HeaderLabsProps = {
   helpLink?: string;
+  menus?: React.ReactNode;
 };
 
-export const HeaderLabs: React.FC<HeaderLabsProps> = ({ helpLink }) => {
+export const HeaderLabs: React.FC<HeaderLabsProps> = ({ menus, helpLink }) => {
   const { t } = useTranslation();
   usePageViews();
 
@@ -32,6 +33,7 @@ export const HeaderLabs: React.FC<HeaderLabsProps> = ({ helpLink }) => {
             <SovLogo className={styles.logo} />
           </div>
         </div>
+        <div>{menus}</div>
         <div className="tw-w-1/4 tw-flex tw-justify-end tw-items-center">
           {helpLink && (
             <a
