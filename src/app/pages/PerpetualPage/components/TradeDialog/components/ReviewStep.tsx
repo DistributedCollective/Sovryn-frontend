@@ -64,7 +64,7 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     changeTo(
       analysis.requiredAllowance > 0
         ? TradeDialogStep.approval
-        : TradeDialogStep.confirmation,
+        : TradeDialogStep.confirmationEven,
       TransitionAnimation.slideLeft,
     );
   }, [analysis.requiredAllowance, setCurrentTransaction, changeTo]);

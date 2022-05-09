@@ -102,7 +102,8 @@ export const TradeDialogContext = React.createContext<TradeDialogContextType>(
 const TradeDialogStepComponents = {
   [TradeDialogStep.review]: ReviewStep,
   [TradeDialogStep.approval]: ApprovalStep,
-  [TradeDialogStep.confirmation]: ConfirmationStep,
+  [TradeDialogStep.confirmationEven]: ConfirmationStep,
+  [TradeDialogStep.confirmationOdd]: ConfirmationStep,
   [TradeDialogStep.transaction]: TransactionStep,
 };
 

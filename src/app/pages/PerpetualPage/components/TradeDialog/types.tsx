@@ -8,7 +8,8 @@ import { PerpetualPairType } from '../../../../../utils/dictionaries/perpetual-p
 export enum TradeDialogStep {
   review = 'review',
   approval = 'approval',
-  confirmation = 'confirmation',
+  confirmationEven = 'confirmationEven',
+  confirmationOdd = 'confirmationOdd',
   transaction = 'transaction',
 }
 

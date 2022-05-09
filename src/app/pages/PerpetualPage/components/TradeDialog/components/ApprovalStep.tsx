@@ -96,7 +96,10 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     if (!current || approvalAmount === '0') {
       setTimeout(
         () =>
-          changeTo(TradeDialogStep.confirmation, TransitionAnimation.slideLeft),
+          changeTo(
+            TradeDialogStep.confirmationEven,
+            TransitionAnimation.slideLeft,
+          ),
         500,
       );
     }
@@ -125,7 +128,9 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
               }),
             );
             changeTo(
-              TradeDialogStep.confirmation,
+              currentTransaction.index % 2 === 0
+                ? TradeDialogStep.confirmationEven
+                : TradeDialogStep.confirmationOdd,
               TransitionAnimation.slideLeft,
             );
           }
