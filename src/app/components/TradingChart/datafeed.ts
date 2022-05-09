@@ -9,10 +9,9 @@
  * this directory. Refer to:
  * https://github.com/tradingview/charting_library/wiki/Breaking-Changes
  */
-import { backendUrl, currentChainId } from 'utils/classifiers';
+import { Bar, fetchCandleSticks } from './graph';
 import { stream } from './streaming';
 
-export const api_root = `${backendUrl[currentChainId]}/datafeed/price/`;
 export const supportedResolutions = [
   '10',
   '20',
@@ -39,24 +38,6 @@ const config = {
   symbols_types: [],
   supported_resolutions: supportedResolutions,
   supports_time: false,
-};
-
-const makeApiRequest = async path => {
-  try {
-    const response = await fetch(`${api_root}${path}`);
-    return response.json();
-  } catch (error) {
-    throw new Error(`Request error: ${error.status}`);
-  }
-};
-
-export type Bar = {
-  time: number;
-  low: number;
-  high: number;
-  open: number;
-  close: number;
-  volume?: number;
 };
 
 const tradingChartDataFeeds = {
@@ -114,35 +95,14 @@ const tradingChartDataFeeds = {
     firstDataRequest,
   ) => {
     var split_symbol = symbolInfo.name.split('/');
-    const url = split_symbol[0] + ':' + split_symbol[1];
-    const urlParameters = {
-      startTime: from * 1e3,
-      endTime: to * 1e3,
-    };
-    const query = Object.keys(urlParameters)
-      .map(name => `${name}=${encodeURIComponent(urlParameters[name])}`)
-      .join('&');
     try {
-      const data = await makeApiRequest(`${url}?${query}`);
-      let bars: Bar[] = [];
-      if (data && data.series) {
-        data.series.forEach(bar => {
-          if (bar.time >= from && bar.time <= to) {
-            bars = [
-              ...bars,
-              {
-                time: bar.time * 1e3,
-                low: bar.low,
-                high: bar.high,
-                open: bar.open,
-                close: bar.close,
-              },
-            ];
-          }
-        });
-      } else {
-        bars = [];
-      }
+      const bars = await fetchCandleSticks(
+        split_symbol[0],
+        split_symbol[1],
+        resolution,
+        from,
+        to,
+      );
 
       if (!bars.length) {
         onHistoryCallback([], {

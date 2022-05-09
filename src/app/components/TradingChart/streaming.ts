@@ -9,9 +9,7 @@
  * this directory. Refer to:
  * https://github.com/tradingview/charting_library/wiki/Breaking-Changes
  */
-import axios, { CancelTokenSource } from 'axios';
-
-import { Bar, api_root } from './datafeed';
+import { Bar, fetchCandleSticks } from './graph';
 
 type SubItem = {
   symbolInfo: any;
@@ -26,63 +24,76 @@ const REFRESH_RATE = 15 * 1e3;
 
 export class Streaming {
   private subscriptions = new Map<string, SubItem>();
-  private cancelTokenSource: CancelTokenSource | null = null;
+  private abortControllerSource: AbortController | null = null;
 
   private onUpdate(subscriptionItem: SubItem) {
+    console.log('on update?', subscriptionItem);
+
     if (!subscriptionItem?.symbolInfo?.name) {
       console.log('error in symbol info', subscriptionItem);
       return;
     }
 
-    if (typeof document?.hasFocus === 'function' && !document.hasFocus())
+    if (typeof document?.hasFocus === 'function' && !document.hasFocus()) {
+      console.log(
+        typeof document?.hasFocus === 'function',
+        !document.hasFocus(),
+      );
       return;
-    if (this.cancelTokenSource) this.cancelTokenSource.cancel();
-    this.cancelTokenSource = axios.CancelToken.source();
-    axios
-      .get(`${api_root}${subscriptionItem.symbolInfo.name.replace('/', ':')}`, {
-        cancelToken: this.cancelTokenSource.token,
-        params: {
-          startTime: subscriptionItem?.lastBar?.time || Date.now(),
-        },
+    }
+    if (this.abortControllerSource) this.abortControllerSource.abort();
+    this.abortControllerSource = new AbortController();
+
+    const assets = subscriptionItem.symbolInfo.name.split('/');
+
+    console.log(
+      assets,
+      new Date(
+        Math.ceil(subscriptionItem?.lastBar?.time || Date.now()),
+      ).toString(),
+    );
+
+    fetchCandleSticks(
+      assets[0],
+      assets[1],
+      'interval',
+      Math.ceil((subscriptionItem?.lastBar?.time || Date.now()) / 1000),
+      Math.ceil(Date.now() / 1000),
+      this.abortControllerSource.signal,
+    )
+      .then(bars => {
+        console.log('update result', bars);
+
+        bars.forEach(item => {
+          let bar;
+          if (
+            !subscriptionItem.lastBar ||
+            item.time > subscriptionItem.lastBar.time
+          ) {
+            console.log('dd', item.time, subscriptionItem.lastBar.time);
+            // generate new bar
+            bar = {
+              ...item,
+              time: item.time,
+            };
+          } else if (
+            subscriptionItem.lastBar &&
+            item.time === subscriptionItem.lastBar.time
+          ) {
+            // update last bar
+            bar = {
+              ...subscriptionItem.lastBar,
+              high: Math.max(subscriptionItem.lastBar.high, item.high),
+              low: Math.min(subscriptionItem.lastBar.low, item.low),
+              close: item.close,
+            };
+          }
+          // update last bar cache and execute chart callback
+          subscriptionItem.lastBar = bar;
+          subscriptionItem.handler(bar);
+        });
       })
-      .then(response => {
-        if (
-          response.data &&
-          response.data.series &&
-          response.data.series.length > 0
-        ) {
-          response.data.series.forEach(item => {
-            let bar;
-            if (
-              !subscriptionItem.lastBar ||
-              item.time * 1e3 > subscriptionItem.lastBar.time
-            ) {
-              // generate new bar
-              bar = {
-                ...item,
-                time: item.time * 1e3,
-              };
-            } else if (
-              subscriptionItem.lastBar &&
-              item.time * 1e3 === subscriptionItem.lastBar.time
-            ) {
-              // update last bar
-              bar = {
-                ...subscriptionItem.lastBar,
-                high: Math.max(subscriptionItem.lastBar.high, item.high),
-                low: Math.min(subscriptionItem.lastBar.low, item.low),
-                close: item.close,
-              };
-            }
-            // update last bar cache and execute chart callback
-            subscriptionItem.lastBar = bar;
-            subscriptionItem.handler(bar);
-          });
-        }
-      })
-      .catch(error => {
-        console.log(error);
-      });
+      .catch(console.error);
   }
 
   private addSubscription(subItem) {
