@@ -342,7 +342,6 @@ export const TradeDialog: React.FC = () => {
             requiredAllowance: requiredAllowance * 1.1,
             loading: false,
           }));
-          console.log('requiredAllowance', requiredAllowance);
         })
         .catch(console.error);
     }
