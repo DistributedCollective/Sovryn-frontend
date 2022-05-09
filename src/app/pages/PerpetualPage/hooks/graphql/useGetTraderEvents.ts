@@ -116,6 +116,7 @@ class EventDictionary {
           'price',
           'limitPrice',
           'isClose',
+          'orderDigest',
           ...genericFields,
         ]),
       ],

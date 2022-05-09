@@ -2,7 +2,7 @@ import {
   PerpetualPairType,
   PerpetualPairDictionary,
 } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
-import { PerpetualTradeType, LimitOrderType } from '../types';
+import { PerpetualTradeType, LimitOrderEvent } from '../types';
 
 import { useMemo, useEffect, useContext } from 'react';
 
@@ -74,7 +74,7 @@ export const usePerpetual_OpenOrders = (
   } = useGetTraderEvents(address.toLowerCase(), eventQuery);
 
   const data = useMemo(() => {
-    const currentPositions: LimitOrderType[] | undefined =
+    const currentPositions: LimitOrderEvent[] | undefined =
       tradeEvents?.trader?.limitOrders ||
       previousTradeEvents?.trader?.limitOrders;
 
