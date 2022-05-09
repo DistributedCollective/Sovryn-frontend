@@ -98,6 +98,7 @@ export const FeesEarnedClaimRow: React.FC<IFeesEarnedClaimRowProps> = ({
               )) ||
             undefined
           }
+          dataActionId={`rewards-claim-feesearned-${asset}`}
         />
         <TxDialog tx={tx} />
       </td>
