@@ -213,7 +213,7 @@ export const MarketForm: React.FC<ITradeFormProps> = ({
               value={amount}
               onChange={setAmount}
               asset={sourceToken}
-              dataActionId="spot-market-amountInput"
+              dataActionId="spot-market"
             />
           </FormGroup>
         </div>

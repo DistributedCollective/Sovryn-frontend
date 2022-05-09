@@ -289,7 +289,7 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
               decimalPrecision={8}
               onChange={setAmount}
               asset={sourceToken}
-              dataActionId="spot-limit-amountInput"
+              dataActionId="spot-limit"
             />
           </FormGroup>
         </div>

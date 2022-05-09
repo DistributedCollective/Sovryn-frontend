@@ -21,7 +21,7 @@ export class AssetsDictionary {
     [
       [
         Asset.RBTC,
-        new AssetDetails(Asset.RBTC, 'rBTC', 'Bitcoin', 18, 8, rbtcIcon, true),
+        new AssetDetails(Asset.RBTC, 'RBTC', 'Bitcoin', 18, 8, rbtcIcon, true),
       ],
       [
         Asset.WRBTC,
