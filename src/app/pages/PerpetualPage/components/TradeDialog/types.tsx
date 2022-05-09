@@ -159,3 +159,13 @@ export const isWithdrawAllMargin = (
   transaction: PerpetualTx,
 ): transaction is PerpetualTxWithdrawAllMargin =>
   transaction.method === PerpetualTxMethod.withdrawAll;
+
+export const isCreateLimitOrder = (
+  transaction: PerpetualTx,
+): transaction is PerpetualTxCreateLimitOrder =>
+  transaction.method === PerpetualTxMethod.createLimitOrder;
+
+export const isCancelLimitOrder = (
+  transaction: PerpetualTx,
+): transaction is PerpetualTxCancelLimitOrder =>
+  transaction.method === PerpetualTxMethod.cancelLimitOrder;

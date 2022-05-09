@@ -2159,6 +2159,8 @@
       "orderFailed": "Order failed",
       "increaseMargin": "Increase margin",
       "decreaseMargin": "Decrease margin",
+      "createLimitOrder": "Create limit order",
+      "cancelLimitOrder": "Cancel limit order",
       "editLeverage": "Edit leverage to {{leverage}}x",
       "approvalComplete": "Approval complete",
       "approvalFailed": "Approval failed"
