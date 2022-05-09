@@ -2582,7 +2582,7 @@
     "newInfo": "New details:",
     "review": "Review Transaction",
     "errors": {
-      "balance": "Please enter an amount equal to or less than your {{asset}} balance."
+      "balance": "Please enter an amount equal to or less than the balance of {{asset}} in your address."
     }
   },
   "openPositionTable": {
