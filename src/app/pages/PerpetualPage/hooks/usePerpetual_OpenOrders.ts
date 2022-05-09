@@ -4,7 +4,7 @@ import {
 } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { PerpetualTradeType, LimitOrderType } from '../types';
 
-import { useMemo, useEffect } from 'react';
+import { useMemo, useEffect, useContext } from 'react';
 
 import debounce from 'lodash.debounce';
 import { ABK64x64ToFloat } from '@sovryn/perpetual-swap/dist/scripts/utils/perpMath';
@@ -14,6 +14,9 @@ import {
   EventQuery,
   useGetTraderEvents,
 } from './graphql/useGetTraderEvents';
+import { usePerpetual_completedTransactions } from './usePerpetual_completedTransactions';
+import { TxType } from '../../../../store/global/transactions-store/types';
+import { RecentTradesContext } from '../contexts/RecentTradesContext';
 
 export type OpenOrderEntry = {
   id: string;
@@ -34,6 +37,23 @@ type OpenOrdersHookResult = {
 export const usePerpetual_OpenOrders = (
   address: string,
 ): OpenOrdersHookResult => {
+  const completedTransactions = usePerpetual_completedTransactions();
+  const completeLimitOrderTxCount = useMemo(
+    () =>
+      Object.values(completedTransactions).reduce(
+        (count, transaction) =>
+          [
+            TxType.PERPETUAL_CREATE_LIMIT_ORDER,
+            TxType.PERPETUAL_CANCEL_LIMIT_ORDER,
+          ].includes(transaction.type)
+            ? count + 1
+            : count,
+        0,
+      ),
+    [completedTransactions],
+  );
+  const { latestTradeByUser } = useContext(RecentTradesContext);
+
   const eventQuery = useMemo(
     (): EventQuery[] => [
       {
@@ -107,7 +127,7 @@ export const usePerpetual_OpenOrders = (
 
   useEffect(() => {
     refetchDebounced();
-  }, [refetchDebounced]);
+  }, [refetchDebounced, completeLimitOrderTxCount, latestTradeByUser]);
 
   return { data, loading };
 };
