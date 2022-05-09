@@ -36,17 +36,17 @@ export function SpotTradingPage() {
   const tabs = useMemo(
     () => [
       {
-        id: 'marketOrder',
+        id: 'market',
         label: t(translations.spotTradingPage.history.marketOrder),
         content: <SpotHistory />,
       },
       {
-        id: 'limitOrders',
+        id: 'openlimit',
         label: t(translations.spotTradingPage.history.openLimitOrders),
         content: <LimitOrderTables activeTab={1} />,
       },
       {
-        id: 'limitOrderHistory',
+        id: 'closedlimit',
         label: t(translations.spotTradingPage.history.limitOrderHistory),
         content: <LimitOrderTables activeTab={2} />,
       },

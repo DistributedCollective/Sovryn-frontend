@@ -217,6 +217,35 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
     return isValidPair;
   };
 
+  const pairTradingType = useCallback(
+    (pair: ITradingPairs) => {
+      /* pairs with RBTC as target*/
+      if (
+        pair[0].base_symbol === pair[1].base_symbol &&
+        !pair[2] &&
+        tradingType[`${pair[0].base_symbol}_${pair[0].quote_symbol}`]
+      ) {
+        return tradingType[`${pair[0].base_symbol}_${pair[0].quote_symbol}`];
+      }
+      /* pairs with RBTC as source*/
+      if (
+        pair[0].base_symbol === pair[1].base_symbol &&
+        pair[2] &&
+        tradingType[`${pair[0].quote_symbol}_${pair[0].base_symbol}`]
+      ) {
+        return tradingType[`${pair[0].quote_symbol}_${pair[0].base_symbol}`];
+      }
+      /* pairs without RBTC*/
+      if (
+        tradingType[`${pair[0].base_symbol}_${pair[1].base_symbol}`] &&
+        !pair[2]
+      ) {
+        return tradingType[`${pair[0].base_symbol}_${pair[1].base_symbol}`];
+      }
+    },
+    [tradingType],
+  );
+
   if (!list.length) {
     return null;
   }
@@ -245,6 +274,7 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
               <tr
                 key={pair[0].base_id + pair[1].base_id + pair[2]}
                 className="tw-text-sm tw-cursor-pointer tw-transition-opacity hover:tw-opacity-75 tw-d-table tw-table-fixed"
+                data-action-id={`${type}-pairselect-${pairTradingType(pair)}`}
               >
                 <td>
                   <StarButton
@@ -253,52 +283,7 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
                   />
                 </td>
                 <td className="tw-py-2" onClick={() => onPairChange(pair)}>
-                  {/* pairs with RBTC as target*/}
-                  {pair[0].base_symbol === pair[1].base_symbol &&
-                    !pair[2] &&
-                    tradingType[
-                      `${pair[0].base_symbol}_${pair[0].quote_symbol}`
-                    ] && (
-                      <Pair
-                        type={type}
-                        tradingType={
-                          tradingType[
-                            `${pair[0].base_symbol}_${pair[0].quote_symbol}`
-                          ]
-                        }
-                      />
-                    )}
-
-                  {/* pairs with RBTC as source */}
-                  {pair[0].base_symbol === pair[1].base_symbol &&
-                    pair[2] &&
-                    tradingType[
-                      `${pair[0].quote_symbol}_${pair[0].base_symbol}`
-                    ] && (
-                      <Pair
-                        type={type}
-                        tradingType={
-                          tradingType[
-                            `${pair[0].quote_symbol}_${pair[0].base_symbol}`
-                          ]
-                        }
-                      />
-                    )}
-
-                  {/* pairs without RBTC */}
-                  {tradingType[
-                    `${pair[0].base_symbol}_${pair[1].base_symbol}`
-                  ] &&
-                    !pair[2] && (
-                      <Pair
-                        type={type}
-                        tradingType={
-                          tradingType[
-                            `${pair[0].base_symbol}_${pair[1].base_symbol}`
-                          ]
-                        }
-                      />
-                    )}
+                  <Pair type={type} tradingType={pairTradingType(pair)} />
                 </td>
                 <td
                   className="tw-text-right"
