@@ -97,7 +97,9 @@ export const useSimulatedTrade = (
   position: TradingPosition,
   amount: string,
 ) => {
-  const contractName = getLendingContractName(loanToken);
+  const contractName = useMemo(() => getLendingContractName(loanToken), [
+    loanToken,
+  ]);
 
   const simulator = useFilterSimulatorResponseLogs<TradeEventData>(
     useSimulator(
@@ -105,11 +107,8 @@ export const useSimulatedTrade = (
       'marginTrade',
       txArgs,
       collateral === Asset.RBTC ? amount : '0',
-      amount !== '0' &&
-        !!contractName &&
-        !!position &&
-        !txArgs.filter(item => item === '').length,
-      collateral !== Asset.WRBTC && contractName && position
+      amount !== '0' && !txArgs.includes(''),
+      collateral !== Asset.WRBTC
         ? {
             asset: collateral,
             spender: getContract(contractName).address,
