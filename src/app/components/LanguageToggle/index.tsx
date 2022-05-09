@@ -9,7 +9,13 @@ import {
   walletLanguageLocalStorageKey,
 } from '../../../locales/i18n';
 
-export function LanguageToggle() {
+type LanguageToggleProps = {
+  innerClasses?: string;
+};
+
+export const LanguageToggle: React.FC<LanguageToggleProps> = ({
+  innerClasses = '',
+}) => {
   const [currentLang, setCurrentLang] = useState(
     i18next.language || reactLocalStorage.get('i18nextLng'),
   );
@@ -32,8 +38,13 @@ export function LanguageToggle() {
         changeLanguage(value.key);
       }}
       value={currentLang}
-      items={options.map(item => ({ key: item.value, label: item.lang }))}
-      innerClasses=""
+      items={options.map(item => ({
+        key: item.value,
+        label: item.lang,
+        dataActionId: 'header-langselect-lang',
+      }))}
+      innerClasses={innerClasses}
+      dataActionId="header-langselect-button"
     />
   );
-}
+};

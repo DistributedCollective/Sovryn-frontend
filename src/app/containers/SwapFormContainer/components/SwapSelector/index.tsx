@@ -41,6 +41,7 @@ interface ISwapSelectorProps {
   favList: string[];
   storageKey: string;
   onChangeFavorite: (value: string) => void;
+  dataActionId?: string;
 }
 
 export const SwapSelector: React.FC<ISwapSelectorProps> = ({
@@ -52,6 +53,7 @@ export const SwapSelector: React.FC<ISwapSelectorProps> = ({
   favList,
   onChangeFavorite,
   storageKey,
+  dataActionId,
 }) => {
   const { t } = useTranslation();
   const ref = useRef(null);
@@ -61,7 +63,7 @@ export const SwapSelector: React.FC<ISwapSelectorProps> = ({
 
   const list = usePairList(pairs);
 
-  useOnClickOutside(ref, () => setOpen(false));
+  useOnClickOutside([ref], () => setOpen(false));
 
   useEffect(() => {
     setFavoriteList(storageKey, favList);
@@ -97,6 +99,7 @@ export const SwapSelector: React.FC<ISwapSelectorProps> = ({
               prependElem={
                 <img className="tw-w-6" src={iconSearch} alt="Search" />
               }
+              data-action-id={`swap-${dataActionId}-search-input`}
             />
             <div className="tw-flex tw-items-center tw-my-3">
               <StarButton
@@ -157,6 +160,7 @@ export const SwapSelector: React.FC<ISwapSelectorProps> = ({
                           category={category}
                           favList={favList}
                           onChangeFavorite={onChangeFavorite}
+                          dataActionId={dataActionId}
                         />
                       );
 
@@ -174,6 +178,7 @@ export const SwapSelector: React.FC<ISwapSelectorProps> = ({
                           category={category}
                           favList={favList}
                           onChangeFavorite={onChangeFavorite}
+                          dataActionId={dataActionId}
                         />
                       );
 
@@ -205,6 +210,7 @@ interface ISwapAssetProps {
   category: string;
   favList: string[];
   onChangeFavorite: (value: string) => void;
+  dataActionId?: string;
 }
 
 export const SwapAsset: React.FC<ISwapAssetProps> = ({
@@ -217,6 +223,7 @@ export const SwapAsset: React.FC<ISwapAssetProps> = ({
   category,
   favList,
   onChangeFavorite,
+  dataActionId,
 }) => {
   const setAssetToken = useCallback(() => {
     handleClick(assetDetails.asset);
@@ -238,6 +245,7 @@ export const SwapAsset: React.FC<ISwapAssetProps> = ({
           'tw-hidden': category === FAVORITE && !isFavoriteActive,
         },
       )}
+      data-action-id={`swap-${dataActionId}-swapAssetSelector-${assetDetails.asset}`}
     >
       <td className="tw-pt-1 tw-pb-2">
         <StarButton

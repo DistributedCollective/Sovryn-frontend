@@ -1,10 +1,16 @@
 import React, { Suspense } from 'react';
 import { Dialog as BPDialog } from '@blueprintjs/core';
 import { ComponentSkeleton } from '../../components/PageSkeleton';
-import styles from '../../components/Dialogs/dialog.module.scss';
+import styles from './dialog.module.scss';
 import classNames from 'classnames';
 
-interface IDialogProps {
+export enum DialogSize {
+  sm = 'sm',
+  md = 'md',
+  lg = 'lg',
+}
+
+type DialogProps = {
   isOpen: boolean;
   onClose: () => void;
   isCloseButtonShown?: boolean;
@@ -13,35 +19,39 @@ interface IDialogProps {
   canOutsideClickClose?: boolean;
   className?: string;
   dataAttribute?: string;
-}
+  size?: DialogSize;
+};
 
-export const Dialog: React.FC<IDialogProps> = ({
+export const Dialog: React.FC<DialogProps> = ({
   isOpen,
-  isCloseButtonShown = true,
+  onClose,
+  isCloseButtonShown,
   children,
   canEscapeKeyClose,
   canOutsideClickClose,
   className,
   dataAttribute,
-  onClose,
+  size = DialogSize.sm,
 }) => (
   <BPDialog
     isOpen={isOpen}
     onClose={onClose}
     canEscapeKeyClose={canEscapeKeyClose}
     canOutsideClickClose={canOutsideClickClose}
-    className={classNames(styles.dialog, className)}
+    className={classNames(className, styles[size])}
   >
     {isCloseButtonShown && (
-      <button
-        data-action-id={dataAttribute}
-        data-close
-        className="dialog-close"
-        onClick={onClose}
-      >
+      <button data-close="" className="dialog-close" onClick={onClose}>
         <span className="tw-sr-only">Close Dialog</span>
       </button>
     )}
     <Suspense fallback={<ComponentSkeleton lines={4} />}>{children}</Suspense>
   </BPDialog>
 );
+
+Dialog.defaultProps = {
+  className: styles.dialog,
+  size: DialogSize.sm,
+  isCloseButtonShown: true,
+  onClose: () => {},
+};

@@ -1,18 +1,20 @@
-.simpleView {
+.lightMode {
   .engage-wallet {
-    @apply tw-px-0.5 tw-pt-0 tw-pb-2.5
-      tw-text-2xl;
-    height: 50px;
+    @apply tw-h-8 tw-py-0.5 tw-pr-0 tw-pl-2.5 
+      tw-text-black tw-bg-gray-9;
 
-    span {
-      & > span:first-child {
-        min-width: 250px;
+
+    .addressImage {
+      @apply tw-pl-3;
+
+      > img {
+        @apply tw-h-5;
       }
     }
 
     .logout {
-      height: 50px;
-      padding: 17px 12px;
+      @apply tw-h-8 tw-p-2
+        tw-bg-gray-7 hover:tw-bg-gray-6;
     }
   }
 }
@@ -25,6 +27,10 @@
     tw-cursor-pointer;
 
   min-width: 165px;
+
+  .addressImage {
+    @apply tw-pl-2;
+  }
 
   .logout {
     @apply tw-h-10 tw-p-3 

@@ -21,7 +21,7 @@ export class AssetsDictionary {
     [
       [
         Asset.RBTC,
-        new AssetDetails(Asset.RBTC, 'rBTC', 'Bitcoin', 18, 8, rbtcIcon, true),
+        new AssetDetails(Asset.RBTC, 'RBTC', 'Bitcoin', 18, 8, rbtcIcon, true),
       ],
       [
         Asset.WRBTC,
@@ -122,6 +122,18 @@ export class AssetsDictionary {
         Asset.FISH,
         new AssetDetails(Asset.FISH, 'FISH', 'FISH', 18, 3, fishIcon, true),
       ],
+      // Uncomment if you want to test Deposit/Withdraw of margin tokens
+      // [
+      //   Asset.BTCS,
+      //   new AssetDetails(
+      //     Asset.BTCS,
+      //     'PERPETUALS',
+      //     'PERPETUALS',
+      //     18,
+      //     fishIcon,
+      //     true,
+      //   ),
+      // ],
       [
         Asset.RIF,
         new AssetDetails(Asset.RIF, 'RIF', 'RIF', 18, 3, rifToken, true),

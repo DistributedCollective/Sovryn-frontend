@@ -11,7 +11,7 @@
   }
 
   select {
-    @apply tw-text-base tw-font-body tw-font-extralight 
+    @apply tw-text-base tw-font-body tw-font-extralight
       tw-bg-transparent;
   }
 }
@@ -98,14 +98,14 @@
     font-family: Orbitron-Medium, Orbitron;
   }
 
-  @media (min-width: theme('screens.xl')) {
+  @screen xl {
     height: 53px;
   }
 }
 
 // blueprintjs override
 :global(.bp3-popover).header-nav-popover :global(.bp3-popover-content) {
-  @apply tw-bg-black tw-border-0 
+  @apply tw-bg-black tw-border-0
     tw-overflow-hidden;
 
   & :global(.bp3-menu) {
@@ -114,5 +114,29 @@
     & a {
       @apply tw-font-normal;
     }
+  }
+}
+
+.host {
+  @apply tw-flex tw-flex-row tw-self-center tw-w-full tw-text-sov-white tw-text-sm tw-leading-snug tw-px-0 tw-font-extralight tw-text-center tw-mt-2 tw-list-none;
+
+  &:after,
+  &:before {
+    @apply tw-flex-1 tw-border-b tw-border-solid tw-border-current tw-m-auto;
+
+    content: '';
+  }
+
+  &:not(:empty) {
+    &:before {
+      @apply tw-mr-2.5;
+    }
+    &:after {
+      @apply tw-ml-2.5;
+    }
+  }
+
+  &:empty {
+    @apply tw-mb-2;
   }
 }

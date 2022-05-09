@@ -4,10 +4,9 @@ import { useHistory } from 'react-router-dom';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { isWeb3Wallet } from '@sovryn/wallet';
 
-import { Chain } from 'types';
+import { Chain, ChainId } from 'types';
 import { actions } from '../../slice';
-import { currentChainId, currentNetwork } from 'utils/classifiers';
-import { addRskMainnet, addRskTestnet } from 'utils/metamaskHelpers';
+import { currentChainId, isMainnet } from 'utils/classifiers';
 import { SelectBox } from '../SelectBox';
 import { detectWeb3Wallet } from 'utils/helpers';
 import { noop } from '../../../../constants';
@@ -18,9 +17,9 @@ import {
   getWalletName,
   getWalletImage,
 } from 'app/components/UserAssets/TxDialog/WalletLogo';
+import { addNetworkByChainId } from '../../../../../utils/metamaskHelpers';
 
-const addNetworkCallback =
-  currentNetwork === 'mainnet' ? addRskMainnet : addRskTestnet;
+const chainId = isMainnet ? ChainId.RSK_MAINNET : ChainId.RSK_TESTNET;
 
 export const ReturnToPortfolio: React.FC = () => {
   const { t } = useTranslation();
@@ -39,6 +38,11 @@ export const ReturnToPortfolio: React.FC = () => {
     dispatch(actions.selectSourceNetwork(Chain.RSK));
     history.push('/wallet');
   }, [dispatch, history]);
+
+  const addNetworkCallback = useCallback(
+    () => addNetworkByChainId(chainId),
+    [],
+  );
 
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-w-80">

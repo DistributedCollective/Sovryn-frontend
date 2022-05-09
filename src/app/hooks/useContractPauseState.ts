@@ -28,7 +28,7 @@ export const useContractPauseState = (contractName: ContractName) => {
     setState(prevState => ({ ...prevState, loading: true, error: undefined }));
     const { address, abi } = getContract(contractName);
     bridgeNetwork
-      .multiCall<{ paused: boolean; frozen: boolean }>(Chain.RSK, [
+      .multiCall(Chain.RSK, [
         {
           key: 'frozen',
           address,

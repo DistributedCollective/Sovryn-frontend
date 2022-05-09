@@ -33,6 +33,22 @@ const upgradePostCssLoaderEntry = entry => {
     if (entry.includes('postcss-loader')) {
       return require.resolve('postcss-loader');
     }
+    if (entry.includes('file-loader')) {
+      // Add SVGR Loader
+      // ========================================================
+      const assetRule = config.module.rules.find(({ test }) => test.test(".svg"));
+
+      const assetLoader = {
+        loader: assetRule.loader,
+        options: assetRule.options || assetRule.query
+      };
+
+      // Merge our rule with existing assetLoader rules
+      config.module.rules.add({
+        test: /\.svg$/,
+        use: ["@svgr/webpack", assetLoader],
+      });
+    }
   }
   return entry;
 };
@@ -87,7 +103,6 @@ module.exports = async ({ config }) => {
   moduleScopePlugin.allowedFiles.add(
     path.join(__dirname, '../tailwind.config.js'),
   );
-
   // Use this in case you need to adjust the storybook config in the future
   // dumpStorybookConfigWithClassNames(config);
 

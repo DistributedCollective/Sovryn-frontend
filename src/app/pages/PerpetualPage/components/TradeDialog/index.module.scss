@@ -1,0 +1,41 @@
+.contentWrapper {
+  padding: 1.5rem 1.875rem 0 1.875rem;
+}
+
+.orderActionBuy {
+  @apply tw-text-trade-long;
+}
+
+.orderActionSell {
+  @apply tw-text-trade-short;
+}
+
+.positionInfoRow {
+  @apply tw-flex tw-justify-between tw-w-full tw-text-xs tw-leading-none;
+}
+
+.confirmButton {
+  @apply tw-w-80 tw-p-3 tw-mt-16
+    tw-text-black tw-text-lg tw-font-semibold 
+    tw-bg-primary tw-rounded-lg 
+    tw-transition-colors tw-duration-300 
+    hover:tw-bg-primary-75;
+  min-height: 3.125rem;
+}
+
+.ghostButton {
+  @apply tw-w-80 tw-p-3 tw-mt-8
+    tw-text-primary tw-text-lg tw-font-semibold 
+    tw-bg-primary-10 tw-border-2 tw-border-primary tw-rounded-lg 
+    tw-transition-colors tw-duration-300 
+    hover:tw-bg-primary-25;
+  min-height: 3.125rem;
+}
+
+.positionSizeBuy {
+  @apply tw-font-medium tw-text-trade-long;
+}
+
+.positionSizeSell {
+  @apply tw-font-medium tw-text-trade-long;
+}

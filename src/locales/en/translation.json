@@ -10,6 +10,7 @@
     "cancel": "Cancel",
     "fee": "Tx Fee: {{amount}} (r)BTC",
     "pending": "Pending",
+    "complete": "Complete",
     "confirmed": "Confirmed",
     "failed": "Failed",
     "deposit": "Deposit",
@@ -18,6 +19,7 @@
     "unusedBalance": "Reclaim Unused Funds",
     "unusedBalanceTooltip": "Unused balance:",
     "maintenance": "Under Maintenance",
+    "comingSoon": "Coming Soon",
     "next": "Next",
     "loading": "Loading...",
     "noData": "No data",
@@ -89,7 +91,14 @@
     "withdrawVests": "Sorry, withdrawing vests is currently under maintenance, please check our discord (link in footer) for updates.",
     "withdrawVestsModal": "Sorry, withdrawing vests is currently under maintenance, please check our <0>discord</0> for updates.",
     "claimRewards": "Sorry, claiming rewards is currently under maintenance, please check our <0>discord</0> for updates.",
-    "claimOrigins": "Sorry, origins claim is currently under maintenance, please check our <0>discord</0> for updates."
+    "claimOrigins": "Sorry, origins claim is currently under maintenance, please check our <0>discord</0> for updates.",
+
+    "perpetuals": "Sorry, Perpetuals is currently under maintenance, please check our discord (link in footer) for updates.",
+    "perpetualsAccountFund": "Sorry, deposits on Perpetuals are currently under maintenance, please check our discord (link in footer) for updates.",
+    "perpetualsAccountWithdraw": "Sorry, withdrawals on Perpetuals are currently under maintenance, please check our discord (link in footer) for updates.",
+    "perpetualsAccountTransfer": "Sorry, transfers on Perpetuals are currently under maintenance, please check our discord (link in footer) for updates.",
+    "perpetualsTrade": "Sorry, trading on Perpetuals is currently under maintenance, please check our discord (link in footer) for updates.",
+    "perpetualsGsn": "Sorry, the GSN on Perpetuals is currently under maintenance, please check our discord (link in footer) for updates. Transactions without GSN may still work."
   },
   "homePage": {
     "title": "Home Page",
@@ -223,6 +232,7 @@
       "description": "Move your Bitcoin to RSK network."
     },
     "backToPortfolio": "Back to portfolio",
+    "backToPerpetuals": "Back to perpetuals",
     "deposit": {
       "sidebarSteps": {
         "validation": "Validation",
@@ -358,10 +368,11 @@
       "limitSettings": "Limit Order Settings",
       "amount": "Amount",
       "startPrice": "Start Price",
-      "slippageSettings": "Slippage Settings",
-      "esEntryPrice": "Est Entry Price:",
-      "esLiquidationPrice": "Est Liquidation Price:",
+      "advancedSettings": "Advanced Settings",
+      "esEntryPrice": "Estimated Entry Price:",
+      "esLiquidationPrice": "Estimated Liquidation Price:",
       "interestAPY": "Interest APY:",
+      "slippageSettings": "Slippage Settings",
       "interestAPR": "Interest APR:"
     },
     "buttons": {
@@ -454,7 +465,8 @@
     "rewards": "Rewards",
     "labs": "Labs",
     "myntToken": "MYNT Token",
-    "zero": "Zero"
+    "zero": "Zero",
+    "perpetuals": "Perpetuals"
   },
   "originsLaunchpad": {
     "upcomingSales": {
@@ -699,7 +711,7 @@
     "votingPower": "Combined Voting Power",
     "viewGovernance": "View Governance",
     "addStake": "Add New Stake",
-    "feeTitle": "Total earned fees Available",
+    "feeTitle": "Total earned fees available",
     "sentLendingPool": "{{asset}} will be sent to the lending pool.",
     "convertedToRBTC": "{{asset}} will be converted to RBTC and sent directly to your wallet.",
     "noUnlockedSov": "You don't have unlocked SOV",
@@ -771,17 +783,17 @@
       "newVotingPower": "New Voting Power"
     },
     "currentStakes": {
-      "title": "Current Stakes",
+      "title": "Staking contracts",
       "asset": "Asset",
       "lockedAmount": "Locked Amount",
-      "votingPower": "Voting power",
+      "votingPower": "Voting Power",
       "votingDelegation": "Voting Delegation",
       "stakingPeriod": "Staking Period",
       "unlockDate": "Unlock Date"
     },
     "currentVests": {
-      "title": "Current Vests",
-      "asset": "Vested Asset",
+      "title": "Vesting contracts",
+      "asset": "Asset",
       "lockedAmount": "Locked Amount",
       "votingPower": "Voting Delegation",
       "stakingDate": "End Date",
@@ -929,7 +941,6 @@
     "btn": "Withdraw"
   },
   "borrowActivity": {
-    "title": "My Debts",
     "tabs": {
       "active": "Active",
       "history": "History"
@@ -948,19 +959,19 @@
     "no_items": "Your borrow history is empty."
   },
   "wrongNetworkDialog": {
-    "title": "Change to RSK Network",
+    "title": "Change to {{name}} Network",
     "networkAlert": "We detected that you are on {{name}} network.",
     "networkAlertUnknown": "We detected that you are on a different network.",
-    "walletAelrt": "Please switch to RSK Mainnet in your {{string}} wallet.",
-    "networkSetting": {
-      "title": "RSK Mainnet Settings",
-      "networkName": "RSK Mainnet Settings",
-      "rpcUrl": "RSK Mainnet Settings",
-      "symbol": "RSK Mainnet Settings",
-      "explorerUrl": "RSK Mainnet Settings",
-      "chainId": "Chain Id"
+    "walletAlert": "Please switch to {{network}} in your {{wallet}} wallet.",
+    "tutorialGuide": "How to connect to {{network}} with {{wallet}}",
+    "settings": {
+      "title": "{{network}} Settings",
+      "name": "Network Name:",
+      "rpc": "New RPC Url:",
+      "chainId": "Chain Id:",
+      "symbol": "Symbol:",
+      "explorer": "Block Explorer URL:"
     },
-    "tutorialGuide": "How to connect to RSK Mainnet with {{wallet}}",
     "stepTitle": {
       "step1": "Step 01:",
       "step2": "Step 02:",
@@ -973,17 +984,17 @@
       "step1": "Open up MetaMask in your browser",
       "step2": "Go to network dropdown",
       "step3": "Select Custom RPC",
-      "step4": "Input RSK Mainnet settings",
+      "step4": "Input {{network}} settings",
       "step5": "Click Save",
       "step6": "Click Add Network",
-      "connectButton": "Configure RSK in MetaMask"
+      "connectButton": "Configure {{network}} in MetaMask"
     },
     "liquality": {
       "step1": "Open up Liquality in your browser",
       "step2": "Go to dropdown",
       "step3": "Select Settings",
       "step4": "Go to network dropdown",
-      "step5": "Select RSK"
+      "step5": "Select {{network}}"
     },
     "nifty": {
       "step1": "Open up Nifty in your browser",
@@ -1536,7 +1547,7 @@
       "title": "Amount to claim:",
       "available": "Total Reward SOV Available:",
       "cta": "CLAIM",
-      "note": "Claiming your rewards automatically vests them for 10 months with a 1 month cliff.",
+      "note": "Claiming your rewards automatically starts a vesting period of 40 weeks with a maximum 4-week cliff.",
       "learn": "Learn more",
       "claimDisabled": "There is not enough SOV in the StakingRewardsProxy contract to facilitate a claim of rewards at this time. Therefore, to avoid a loss of gas fee by initiating a transaction that will inevitably fail, the CLAIM button has been disabled. Be assured that the team is aware and funds should be replenished shortly."
     },
@@ -1594,6 +1605,7 @@
     }
   },
   "marginTradePage": {
+    "openPositions": "Open positions",
     "meta": {
       "title": "Margin Trade",
       "description": "Trade with margin"
@@ -1632,21 +1644,21 @@
       "short": "S"
     },
     "tradeDialog": {
-      "title": "Review Order",
+      "title": "Review Transaction",
       "pair": "Trading Pair:",
-      "leverage": "Leverage:",
+      "leverage": "Position Leverage:",
       "asset": "Collateral:",
       "margin": "Margin:",
       "direction": "Pair:",
       "positionSize": "Position Size",
       "maintananceMargin": "Maintenance Margin:",
+      "estimationErrorNote": "Opening position will fail: {{error}}",
+      "liquidationPrice": "Est. Liquidation price:",
+      "entryPrice": "Position Entry Price:",
       "minEntry": "Minimum Entry Price: ",
       "minLiq": "Minimum Liquidation Price: ",
       "interestAPR": "Interest APY",
       "renewalDate": "Renewal Date:",
-      "liquidationPrice": "Est. Liquidation Price:",
-      "entryPrice": "Est Entry Price:",
-      "estimationErrorNote": "Opening position will fail: {{error}}",
       "position": {
         "long": "Long",
         "short": "Short"
@@ -1655,9 +1667,11 @@
       "buy": "buy",
       "sell": "sell"
     },
-    "openPositions": "Open positions",
     "tradingHistory": "Margin order history",
-    "openLimitOrders": "Open limit orders",
+    "limitOrderHistory": {
+      "limitPriceHelper": "Final execution price of Limit Orders is impacted by cost of relayer fees and slippage at the time of execution. For further details see the <0>wiki</0>.",
+      "filledPriceHelper": "Final execution price of Limit Orders is impacted by cost of relayer fees and slippage at the time of execution, therefore this will not match the defined limit price exactly. For further details see the <0>wiki</0>."
+    },
     "notificationSettingsDialog": {
       "title": "Notification Settings",
       "notifyVia": "Receive email notifications for limit order fills, margin calls, and liquidations. Details <0>here</0>.",
@@ -1683,393 +1697,14 @@
       "submit": "Confirm"
     },
     "notificationsButton": {
-      "enable": "Notification",
+      "enable": "Enable notifications",
       "enabled": "Notifications enabled"
     }
-  },
-  "spotTradingPage": {
-    "meta": {
-      "title": "Spot Trading",
-      "description": "Spot trading"
-    },
-    "tradeForm": {
-      "buy_cta": "PLACE BUY ORDER",
-      "sell_cta": "PLACE SELL ORDER",
-      "amountReceived": "Amount Received",
-      "buy": "Buy",
-      "sell": "Sell",
-      "market": "Market",
-      "limit": "Limit",
-      "advancedSettings": "Advanced Settings",
-      "limitPrice": "Limit Price:",
-      "limitPriceTooltip": "Final execution price of Limit Orders is impacted by cost of relayer fee and slippage, please note this will not match price entered here exactly.",
-      "receive": "Receive:",
-      "amount": "Amount:",
-      "errors": {
-        "minAmount": "Limit order trade size too low, please try again with a larger amount",
-        "maxAmount": "Maximum Limit Order trade size reached, please see our <0>wiki</0> for more details"
-      }
-    },
-    "priceHistory": {
-      "turnover": "Turnover",
-      "lastTradedPrice": "Last traded price"
-    },
-    "history": {
-      "marketOrder": "Market order history",
-      "openLimitOrders": "Open limit orders",
-      "limitOrderHistory": "Limit order history"
-    },
-    "tradeDialog": {
-      "marketTitle": "Review Order",
-      "limitTitle": "Review Order",
-      "tradingPair": "Trading Pair:",
-      "orderType": "Order Type:",
-      "tradeAmount": "Trade Amount:",
-      "limitPrice": "Limit Price:",
-      "duration": "Duration:",
-      "receiveAmount": "Receive Amount:",
-      "orderAmount": "Order Amount:",
-      "newOrderDetails": "New Order Details",
-      "order": "Order"
-    },
-    "limitOrderSetting": {
-      "title": "Advanced Settings",
-      "duration": "Duration:",
-      "untilCancelled": "Until cancelled",
-      "day_one": "{{count}} day",
-      "day_other": "{{count}} days",
-      "partialFilled": "Allow partial filled order:",
-      "infinity": "∞"
-    },
-    "openLimitOrders": {
-      "dateTime": "Date/Time",
-      "pair": "Pair",
-      "orderType": "Order Type",
-      "tradeAmount": "Trade Amount",
-      "limitPrice": "Limit Price",
-      "executionPrice": "Execution Price",
-      "amountReceive": "Amount to Receive",
-      "duration": "Duration",
-      "deadline": "Deadline",
-      "actions": "Action",
-      "noData": "No Data",
-      "filledAmount": "Filled Amount",
-      "filledPrice": "Filled Price",
-      "leverage": "Leverage",
-      "cta": {
-        "edit": "Edit",
-        "close": "Close"
-      }
-    },
-    "cancelDialog": {
-      "title": "Cancel Limit Order",
-      "cta": "Confirm",
-      "complete": "Cancel Complete",
-      "failed": "Cancel Failed",
-      "tx": {
-        "title": "Cancel",
-        "message": "Cancel Limit {{tradeType}}"
-      }
-    }
-  },
-  "pairNavbar": {
-    "pair": "Pair",
-    "asset": "Asset",
-    "lastTradedPrice": "Last traded price",
-    "dayChange": "24H change",
-    "dayPercentChange": "24hr % Change",
-    "dayLow": "24hr Low:",
-    "dayHigh": "24hr High:",
-    "all": "ALL",
-    "search": "Search"
   },
   "form": {
     "select": {
       "noResults": "No results",
       "placeholder": "Select item"
-    }
-  },
-  "liquidityMining": {
-    "deposit": "Deposit",
-    "withdraw": "Withdraw",
-    "meta": {
-      "title": "Yield Farm"
-    },
-    "explainer": {
-      "earnSOV": "Earn SOV by depositing liquidity into the USDT/BTC liquidity pool",
-      "startDate": "Start date: 1st April 2021, 12.00 UTC",
-      "endDate": "End date: 1st May 2021, 12.00 UTC",
-      "rewardPoolUSDT": "Reward pool for depositing USDT: 25,000 SOV",
-      "rewardPoolRBTC": "Reward pool for depositing RBTC: 25,000 SOV",
-      "yourShare": "Your share of the pool is calculated by:",
-      "yourShare_N": "liquidity added by you * number of blocks held",
-      "yourShare_D": "total liquidity added * number of blocks held",
-      "airDrop": "Rewards will be deposited into liquidity providers' wallets on or before 8th May 2021",
-      "comingSoon": "Coming Soon"
-    },
-    "historyTable": {
-      "title": "Liquidity History",
-      "emptyState": "History is empty.",
-      "tableHeaders": {
-        "time": "Date/Time",
-        "pool": "Pool",
-        "action": "Action",
-        "asset": "Asset",
-        "liquidityAmount": "Liquidity Amount",
-        "transactionHash": "Transaction Hash",
-        "status": "Status"
-      },
-      "txType": {
-        "added": "Added",
-        "removed": "Removed"
-      }
-    },
-    "rowTable": {
-      "noLiquidityProvided": "Add liquidity and earn income",
-      "tableHeaders": {
-        "totalEarned": "Total Earned",
-        "balance": "Balance",
-        "pl": "P/L",
-        "rewards": "Rewards"
-      }
-    },
-    "modals": {
-      "deposit": {
-        "title": "Deposit Liquidity",
-        "cta": "Deposit",
-        "amount": "Amount:"
-      },
-      "withdraw": {
-        "title": "Withdraw Liquidity",
-        "cta": "Withdraw",
-        "amount": "Amount:",
-        "reward": "Reward:"
-      }
-    },
-    "lootDropLink": "Learn more",
-    "chartOverlayText": "APY% Coming Soon!",
-    "recalibration": "Next recalibration on {{date}}"
-  },
-  "landingPage": {
-    "meta": {
-      "title": "Welcome to Sovryn",
-      "description": "The Decentralized Bitcoin Trading And Lending Platform"
-    },
-    "welcomeTitle": "Welcome to Sovryn",
-    "welcomeMessage": "The decentralized bitcoin trading and lending platform",
-    "tradingVolume": {
-      "dayVolumeTitle": "24 Hour Volume",
-      "tvlTitle": "Total Value Locked",
-      "btc": "BTC",
-      "usd": "USD"
-    },
-    "arbitrageOpportunity": {
-      "title": "Arbitrage opportunity",
-      "swap": "swap",
-      "swapUp": "Swap up to ",
-      "for": "for up to ",
-      "noArbitrage": "There are currently no arbitrage opportunities…"
-    },
-    "tvl": {
-      "title": "Total value locked",
-      "type": "Contract Type",
-      "btc": "Value (BTC)",
-      "usd": "Value (USD)",
-      "protocol": "Protocol Contract",
-      "lend": "Lending Contract",
-      "amm": "Amm Contract",
-      "staked": "Bitocracy Staking Contract",
-      "subProtocol": "Subprotocol Bonding Curve Contracts",
-      "subtotal": "Sub total",
-      "total": "Total"
-    },
-    "promotions": {
-      "title": "Promotions",
-      "learnMore": "Learn more",
-      "sections": {
-        "lending": "Lending",
-        "borrowing": "Borrowing",
-        "yieldFarming": "Yield Farming",
-        "marginTrading": "Margin Trading",
-        "swap": "Swap",
-        "spotTrading": "Spot Trading"
-      }
-    },
-    "lendBorrow": "LEND & BORROW ASSETS",
-    "ammpool": {
-      "title": "AMM Pools",
-      "asset": "Asset",
-      "pool": "Pool",
-      "stakedBalance": "Staked Balance",
-      "contractBalance": "Contract Balance",
-      "imBalance": "Imbalance",
-      "apy": "APY"
-    },
-    "banner": {
-      "originsFish": "Origins FISH token pre-sale",
-      "liveNow": "LIVE NOW!",
-      "buyNow": "Buy Now",
-      "soldOut": "SOLD OUT!",
-      "learnMore": "Learn More",
-      "getStarted": "Get Started",
-      "timer": {
-        "days": "DAYS",
-        "hours": "HOURS",
-        "mins": "MINS",
-        "secs": "SECS"
-      }
-    },
-    "cryptocurrencyPrices": {
-      "title": "CRYPTOCURRENCY PRICES BY 24H CHANGE",
-      "asset": "Asset",
-      "price": "Price",
-      "24h": "24h%",
-      "7d": "7d%",
-      "marketCap": "Market Cap",
-      "marketCapTooltip": "Market cap is calculated as circulating supply * current USD price. <br /> <br /> For SOV, circulating supply = total supply (100m) - tokens in vesting contracts, <0>not including </0> tokens in adoption and development fund contracts. <br /> <br /> For RBTC, circulating supply = BTC locked in the RSK 2 Way Peg <br /> <br /> For all other tokens, circulating supply = total supply <br /> <br /> For tokens that have come across a bridge from another chain, the circulating supply is the supply of that token on the RSK chain. For example, the circulating supply of ETHs is not equal to the circulating supply of ETH on ethereum.",
-      "circulatingSupply": "Circulating Supply",
-      "circulatingSupplyTooltip": "We have updated the circulation supply formula to be showing the amount of liquid SOV token in line with market standards. SOV that has been unlocked from the adoption and development funds is now counted as circulating, and SOV that has been staked (either through vesting or voluntary staking) is not counted as circulating. <br /> <br />There is no change to your funds with this change. Just a standardisation of the displayed Circulating Supply."
-    }
-  },
-  "BridgeDepositPage": {
-    "poweredBy": "Powered by babelFish",
-    "network": "Network",
-    "changeWallet": "Want to use a different wallet?",
-    "chainSelector": {
-      "wrongNetwork": {
-        "title": "Change to {{network}}"
-      },
-      "chooseNetwork": {
-        "title": "Select Network to deposit from"
-      }
-    },
-    "reviewStep": {
-      "title": "Review Deposit",
-      "dateTime": "Date/Time",
-      "from": "From",
-      "token": "Token",
-      "amount": "Amount",
-      "bridgeFee": "Bridge Fee",
-      "tx": "Tx",
-      "confirmDeposit": "Confirm Deposit"
-    },
-    "walletSelector": {
-      "wrongNetwork": "We detected that you are on",
-      "switch": "Please switch to {{network}} in your",
-      "wallet": "wallet",
-      "howToConnect": "How to connect to"
-    },
-    "amountSelector": {
-      "title": "Enter amount to deposit",
-      "balance": "Balance",
-      "dailyDepositLimits": "Daily deposit limits",
-      "minAmount": "Min Amount",
-      "maxAmount": "Max Amount",
-      "dailyLimit": "Daily Limit",
-      "dailyLimitSpent": "Daily Limit Spent",
-      "fee": "Fee",
-      "aggregatorBalance": "Aggregator Balance",
-      "depositAmount": "Deposit Amount"
-    },
-    "confirmStep": {
-      "pleaseWait": "Please wait",
-      "preparingTransaction": "Preparing transaction",
-      "allowTransaction": "Allow Transaction",
-      "approve": "Please approve {{from}} {{symbol}} to be spent by Sovryn smart-contracts in your {{providerType}} wallet.",
-      "confirmTransaction": "Confirm Transaction",
-      "confirm": "Please confirm the trade transaction in your {{providerType}} wallet.",
-      "depositInProgress": "Deposit in Progress",
-      "depositComplete": "Deposit Complete",
-      "depositFailed": "Deposit Failed",
-      "transactionDenied": "Transaction denied",
-      "rejectedByUser": "Rejected by user"
-    },
-    "returnToPortfolio": {
-      "title": "Connect to RSK",
-      "connectNetwork": "Connect Network",
-      "notConnected": "To continue you need to connect to your",
-      "wrongNetwork": "To continue switch back to the RSK network in your",
-      "switchNetwork": "Switch Network",
-      "connected": "All Set",
-      "return": "Return to Portfolio"
-    },
-    "tokenSelector": {
-      "title": "Select coin to deposit",
-      "notSupported": "Sorry, no supported deposit tokens for {{targetAsset}} on{{network}} network. Try choosing another network or token."
-    }
-  },
-  "BridgeWithdrawPage": {
-    "chainSelector": {
-      "chooseNetwork": {
-        "title": "Select Network to withdraw {{asset}} to"
-      }
-    },
-    "reviewStep": {
-      "title": "Review {{symbol}} Withdraw",
-      "dateTime": "Date/Time",
-      "from": "From",
-      "to": "To",
-      "token": "Token",
-      "amount": "Amount",
-      "receiver": "Receiver",
-      "bridgeFee": "Bridge Fee",
-      "tx": "Tx",
-      "confirm": "Confirm Withdraw"
-    },
-    "amountSelector": {
-      "title": "Enter amount to withdraw",
-      "balance": "Balance",
-      "dailyBridgeLimits": "Daily bridge limits",
-      "minAmount": "Min Amount",
-      "maxAmount": "Max Amount",
-      "dailyLimit": "Daily Limit",
-      "dailyLimitSpent": "Daily Limit Spent",
-      "fee": "Fee",
-      "aggregatorBalance": "Aggregator Balance",
-      "withdrawAmount": "Withdraw Amount",
-      "insufficientAggregator": "Insufficient aggregator balance to withdraw.",
-      "insufficientDaily": "Daily limit exceeded."
-    },
-    "confirmStep": {
-      "pleaseWait": "Please wait",
-      "preparingTransaction": "Preparing transaction",
-      "allowTransaction": "Allow Transaction",
-      "approve": "Please approve {{from}} {{symbol}} to be spent by Sovryn smart contracts in your {{providerType}} wallet.",
-      "confirmTransaction": "Confirm Transaction",
-      "confirm": "Please confirm the trade transaction in your {{providerType}} wallet.",
-      "withdrawInProgress": "Withdraw in Progress",
-      "withdrawComplete": "Withdraw Complete",
-      "withdrawFailed": "Withdraw Failed",
-      "transactionDenied": "Transaction denied",
-      "rejectedByUser": "Rejected by user"
-    },
-    "receiverSelector": {
-      "title": "Enter receiving {{currentNetwork}} wallet address",
-      "confirm": "Please check and confirm",
-      "withdrawWarning": "Do not send to exchange addresses!",
-      "withdrawDisclaimer": "Withdrawals directly to exchange addresses are not advised due to lack of support by exchanges (e.g. Binance), we are not responsible for any loss of funds in these cases. Please only send funds to wallet addresses that you control exclusively (EOA)."
-    },
-    "tokenSelector": {
-      "title": "Select coin to withdraw to",
-      "notSupported": "Sorry, no supported deposit tokens for {{sourceAsset}} on{{network}} network. Try choosing another network or token.",
-      "maxWithdrawal": "Max Withdrawal:"
-    }
-  },
-  "transactionDialog": {
-    "pendingUser": {
-      "title": "Confirm {{action}}",
-      "text": "Please confirm the transaction in your {{walletName}} wallet",
-      "failed": "Confirm Failed",
-      "retry": "Retry"
-    },
-    "txStatus": {
-      "title": "Transaction Status",
-      "aborted": "Your transaction has failed. <br/>Please cancel or retry your transaction",
-      "abortedLedger": "Make sure \"Contract data\" is set to \"Allowed\" in your Ledger app settings",
-      "cta": "View in Tracker",
-      "processing": "{{action}} processing...",
-      "complete": "{{action}} Complete",
-      "submit": "{{action}} Submitted"
     }
   },
   "buySovPage": {
@@ -2184,6 +1819,755 @@
     "title": "Buy SOV exclusively on Sovryn!",
     "earn": "Earning with Sovryn"
   },
+  "spotTradingPage": {
+    "meta": {
+      "title": "Spot Trading",
+      "description": "Spot trading"
+    },
+    "tradeForm": {
+      "buy_cta": "PLACE BUY ORDER",
+      "sell_cta": "PLACE SELL ORDER",
+      "amountReceived": "Amount Received",
+      "buy": "Buy",
+      "sell": "Sell",
+      "market": "Market",
+      "limit": "Limit",
+      "advancedSettings": "Advanced Settings",
+      "limitPrice": "Limit Price:",
+      "limitPriceTooltip": "Final execution price of Limit Orders is impacted by cost of relayer fee and slippage, please note this will not match price entered here exactly. For further details see the <0>wiki</0>.",
+      "receive": "Receive:",
+      "amount": "Amount:",
+      "errors": {
+        "minAmount": "Limit order trade size too low, please try again with a larger amount.",
+        "maxAmount": "Maximum Limit Order trade size reached, please see our <0>wiki</0> for more details."
+      }
+    },
+    "priceHistory": {
+      "turnover": "Turnover",
+      "lastTradedPrice": "Last traded price"
+    },
+    "history": {
+      "marketOrder": "Market order history",
+      "openLimitOrders": "Open limit orders",
+      "limitOrderHistory": "Limit order history"
+    },
+    "tradeDialog": {
+      "marketTitle": "Review Order",
+      "limitTitle": "Review Order",
+      "tradingPair": "Trading Pair:",
+      "orderType": "Order Type:",
+      "tradeAmount": "Trade Amount:",
+      "limitPrice": "Limit Price:",
+      "duration": "Duration:",
+      "receiveAmount": "Receive Amount:",
+      "orderAmount": "Order Amount:",
+      "newOrderDetails": "New Order Details",
+      "order": "Order"
+    },
+    "limitOrderSetting": {
+      "title": "Advanced Settings",
+      "duration": "Duration:",
+      "untilCancelled": "Until cancelled",
+      "day_one": "{{count}} day",
+      "day_other": "{{count}} days",
+      "partialFilled": "Allow partial filled order:",
+      "infinity": "∞"
+    },
+    "openLimitOrders": {
+      "dateTime": "Date/Time",
+      "pair": "Pair",
+      "orderType": "Order Type",
+      "tradeAmount": "Trade Amount",
+      "limitPrice": "Limit Price",
+      "limitPriceHelper": "Final execution price of Limit Orders is impacted by cost of relayer fees and slippage at the time of execution, for further details see the <0>wiki</0>.",
+      "executionPrice": "Execution Price",
+      "amountReceive": "Amount to Receive",
+      "duration": "Duration",
+      "deadline": "Deadline",
+      "actions": "Action",
+      "noData": "No Data",
+      "filledAmount": "Filled Amount",
+      "filledPrice": "Filled Price",
+      "leverage": "Leverage",
+      "cta": {
+        "edit": "Edit",
+        "close": "Close"
+      }
+    },
+    "limitOrderHistory": {
+      "limitPriceHelper": "Final execution price of Limit Orders is impacted by cost of relayer fees and slippage at the time of execution, please check the Open positions/Margin order history tables for the actual execution price. For further details see the <0>wiki</0>."
+    },
+    "cancelDialog": {
+      "title": "Cancel Limit Order",
+      "cta": "Confirm",
+      "complete": "Cancel Complete",
+      "failed": "Cancel Failed",
+      "tx": {
+        "title": "Cancel",
+        "message": "Cancel Limit {{tradeType}}"
+      }
+    }
+  },
+  "pairNavbar": {
+    "pair": "Pair",
+    "asset": "Asset",
+    "lastTradedPrice": "Last traded price",
+    "dayChange": "24H change",
+    "dayPercentChange": "24hr % Change",
+    "dayLow": "24hr Low:",
+    "dayHigh": "24hr High:",
+    "all": "ALL",
+    "search": "Search"
+  },
+  "transactionDialog": {
+    "pendingUser": {
+      "title": "Confirm {{action}}",
+      "text": "Please confirm the transaction in your {{walletName}} wallet",
+      "failed": "Confirm Failed",
+      "retry": "Retry"
+    },
+    "txStatus": {
+      "title": "Transaction Status",
+      "aborted": "Your transaction has failed. <br/>Please cancel or retry your transaction",
+      "abortedLedger": "Make sure \"Contract data\" is set to \"Allowed\" in your Ledger app settings",
+      "cta": "View in Tracker",
+      "processing": "{{action}} Processing...",
+      "complete": "{{action}} Complete",
+      "submit": "{{action}} Submitted"
+    }
+  },
+  "BridgeDepositPage": {
+    "poweredBy": "Powered by babelFish",
+    "network": "Network",
+    "changeWallet": "Want to use a different wallet?",
+    "chainSelector": {
+      "wrongNetwork": {
+        "title": "Change to {{network}}"
+      },
+      "chooseNetwork": {
+        "title": "Select Network to deposit from"
+      }
+    },
+    "reviewStep": {
+      "title": "Review Deposit",
+      "dateTime": "Date/Time",
+      "from": "From",
+      "token": "Token",
+      "amount": "Amount",
+      "bridgeFee": "Bridge Fee",
+      "tx": "Tx",
+      "confirmDeposit": "Confirm Deposit"
+    },
+    "walletSelector": {
+      "wrongNetwork": "We detected that you are on",
+      "switch": "Please switch to {{network}} in your",
+      "wallet": "wallet",
+      "howToConnect": "How to connect to {{network}} with {{walletName}}"
+    },
+    "amountSelector": {
+      "title": "Enter amount to deposit",
+      "balance": "Balance",
+      "dailyDepositLimits": "Daily deposit limits",
+      "minAmount": "Min Amount",
+      "maxAmount": "Max Amount",
+      "dailyLimit": "Daily Limit",
+      "dailyLimitSpent": "Daily Limit Spent",
+      "fee": "Fee",
+      "aggregatorBalance": "Aggregator Balance",
+      "depositAmount": "Deposit Amount"
+    },
+    "confirmStep": {
+      "pleaseWait": "Please wait",
+      "preparingTransaction": "Preparing transaction",
+      "allowTransaction": "Allow Transaction",
+      "approve": "Please approve {{from}} {{symbol}} to be spent by Sovryn smart-contracts in your {{providerType}} wallet.",
+      "confirmTransaction": "Confirm Transaction",
+      "confirm": "Please confirm the trade transaction in your {{providerType}} wallet.",
+      "depositInProgress": "Deposit in Progress",
+      "depositComplete": "Deposit Complete",
+      "depositFailed": "Deposit Failed",
+      "transactionDenied": "Transaction denied",
+      "rejectedByUser": "Rejected by user"
+    },
+    "returnToPortfolio": {
+      "title": "Connect to RSK",
+      "connectNetwork": "Connect Network",
+      "notConnected": "To continue you need to connect to your",
+      "wrongNetwork": "To continue switch back to the RSK network in your",
+      "switchNetwork": "Switch Network",
+      "connected": "All Set",
+      "return": "Return to Portfolio"
+    },
+    "tokenSelector": {
+      "title": "Select coin to deposit",
+      "notSupported": "Sorry, no supported deposit tokens for {{targetAsset}} on{{network}} network. Try choosing another network or token."
+    }
+  },
+  "BridgeWithdrawPage": {
+    "chainSelector": {
+      "chooseNetwork": {
+        "title": "Select Network to withdraw {{asset}} to"
+      }
+    },
+    "reviewStep": {
+      "title": "Review {{symbol}} Withdraw",
+      "dateTime": "Date/Time",
+      "from": "From",
+      "to": "To",
+      "token": "Token",
+      "amount": "Amount",
+      "receiver": "Receiver",
+      "bridgeFee": "Bridge Fee",
+      "bridgeFeeWarning": "WARNING: HIGH FEE. The cost of gas on Ethereum is significantly higher than it is on BSC or RSK.",
+      "tx": "Tx",
+      "confirm": "Confirm Withdraw"
+    },
+    "amountSelector": {
+      "title": "Enter amount to withdraw",
+      "balance": "Balance",
+      "dailyBridgeLimits": "Daily bridge limits",
+      "minAmount": "Min Amount",
+      "maxAmount": "Max Amount",
+      "dailyLimit": "Daily Limit",
+      "dailyLimitSpent": "Daily Limit Spent",
+      "fee": "Fee",
+      "aggregatorBalance": "Aggregator Balance",
+      "withdrawAmount": "Withdraw Amount",
+      "insufficientAggregator": "Insufficient aggregator balance to withdraw.",
+      "insufficientDaily": "Daily limit exceeded."
+    },
+    "confirmStep": {
+      "pleaseWait": "Please wait",
+      "preparingTransaction": "Preparing transaction",
+      "allowTransaction": "Allow Transaction",
+      "approve": "Please approve {{from}} {{symbol}} to be spent by Sovryn smart contracts in your {{providerType}} wallet.",
+      "confirmTransaction": "Confirm Transaction",
+      "confirm": "Please confirm the trade transaction in your {{providerType}} wallet.",
+      "withdrawInProgress": "Withdraw in Progress",
+      "withdrawComplete": "Withdraw Complete",
+      "withdrawFailed": "Withdraw Failed",
+      "transactionDenied": "Transaction denied",
+      "rejectedByUser": "Rejected by user"
+    },
+    "receiverSelector": {
+      "title": "Enter receiving {{currentNetwork}} wallet address",
+      "confirm": "Please check and confirm",
+      "withdrawWarning": "Do not send to exchange addresses!",
+      "withdrawDisclaimer": "Withdrawals directly to exchange addresses are not advised due to lack of support by exchanges (e.g. Binance), we are not responsible for any loss of funds in these cases. Please only send funds to wallet addresses that you control exclusively (EOA)."
+    },
+    "tokenSelector": {
+      "title": "Select coin to withdraw to",
+      "notSupported": "Sorry, no supported deposit tokens for {{sourceAsset}} on{{network}} network. Try choosing another network or token.",
+      "maxWithdrawal": "Max Withdrawal:"
+    }
+  },
+  "perpetualPage": {
+    "meta": {
+      "title": "Perpetuals",
+      "description": "Trade with Sovryn's perpetual future contracts"
+    },
+    "openPositionsTable": {
+      "pair": "Symbol",
+      "positionSize": "Position Size",
+      "value": "Value",
+      "entryPrice": "Entry Price",
+      "liquidationPrice": "Liq. Price",
+      "margin": "Margin",
+      "unrealized": "Unrealized P&L",
+      "realized": "Realized P&L",
+      "actions": "Actions",
+      "editSize": "Size",
+      "editLeverage": "Leverage",
+      "editMargin": "Margin",
+      "editClose": "Close",
+      "tooltips": {
+        "editSize": "Change the position size to a value allowed by your current margin.",
+        "editLeverage": "Change the leverage of your position. This action will either withdraw from your margin account or deposit to your margin account.",
+        "editMargin": "Deposit margin or withdraw margin. This action will change the leverage of your position.",
+        "editClose": "Close the entire open position or just partially.",
+        "positionSize": "The size of your position. Negative values denote short positions.",
+        "entryPrice": "The average price received when opening this position.",
+        "markPrice": "Latest Mark Price for this contract. To prevent price manipulation, the Mark Price is used for unrealized PnL and margin calculations.",
+        "liquidationPrice": "The liquidation price is the mark price at which your position can be liquidated. To move your position away from the liquidation price, you can decrease your position size, add margin, or use the leverage action to reduce leverage.",
+        "margin": "The margin allocated to the position and leverage ratio in brackets. The lower the Leverage Ratio, the further away your liquidation price will be relative to your position entry price.",
+        "unrealized": "The unrealized P&L is calculated using the Mark Price. It also contains the accrued funding payments.",
+        "realized": "The realized P&L that was paid to your margin account. This includes fees and slippage. Funding payments are reported separately."
+      }
+    },
+    "layout": {
+      "button": "Customize layout",
+      "showAmmDepth": "Show AMM Depth",
+      "showChart": "Show Chart",
+      "showRecentTrades": "Show Recent Trades",
+      "showTradeForm": "Show Trade Form",
+      "showTables": "Show Tables",
+      "hideAmmDepth": "Hide AMM Depth",
+      "hideChart": "Hide Chart",
+      "hideRecentTrades": "Hide Recent Trades",
+      "hideTradeForm": "Hide Trade Form",
+      "hideTables": "Hide Tables"
+    },
+    "pairSelector": {
+      "markPrice": "Mark Price",
+      "gsn": "GSN",
+      "tooltips": {
+        "gsnEnabled": "Fees paid in BTC. With the Gas Station Network (GSN) you can pay gas fees in BTC",
+        "gsnDisabled": "Fees paid in BNB. With the Gas Station Network (GSN) you can pay gas fees in BTC",
+        "gsnUnsupported": "GSN is currently only supported for browser based wallets."
+      }
+    },
+    "toasts": {
+      "market": "Market",
+      "buy": "Buy",
+      "sell": "Sell",
+      "closePosition": "Close position",
+      "orderComplete": "Order complete",
+      "orderFailed": "Order failed",
+      "increaseMargin": "Increase margin",
+      "decreaseMargin": "Decrease margin",
+      "editLeverage": "Edit leverage to {{leverage}}x",
+      "approvalComplete": "Approval complete",
+      "approvalFailed": "Approval failed"
+    },
+    "accountBalance": {
+      "titleBalance": "Perpetuals Account",
+      "titleHistory": "Funding History",
+      "total": "Total Balance:",
+      "pending": "Pending transfer…",
+      "available": "Available Balance",
+      "inPositions": "In positions",
+      "unrealized": "Unrealized P&L",
+      "viewHistory": "View Transaction History",
+      "deposit": "BTC Deposit",
+      "withdraw": "BTC Withdraw",
+      "transfer": "RSK Transfer",
+      "availableBalance": "Available Balance:",
+      "fundAccount": "Fund Account",
+      "viewAccount": "View Account",
+      "action": "Action",
+      "time": "Date/Time",
+      "amount": "Amount",
+      "status": "Status",
+      "transactionId": "Transaction ID"
+    },
+    "ammDepth": {
+      "title": "AMM Depth (<0/>)",
+      "price": "Price (<0/>)",
+      "change": "% Change",
+      "total": "Order Size (<0/>)",
+      "tooltips": {
+        "indexPrice": "Index Price: <0/>",
+        "indexPriceDescription": "The Index price consists of a bucket of Spot prices obtained via Chainlink oracle.",
+        "markPrice": "Mark Price: <0/>",
+        "markPriceDescription": "Latest Mark Price for this contract. To prevent price manipulation, the Mark Price is used for unrealized PnL and margin calculations.",
+        "midPrice": "Mid Price: <0/>",
+        "change": "Change in price relative to Mid Price when trading the corresponding order size."
+      }
+    },
+    "chart": {
+      "title": "Chart (<0/>)"
+    },
+    "contractDetails": {
+      "volume24h": "24hr Volume:",
+      "openInterest": "Open Interest:",
+      "fundingRate": "Funding Rate: ",
+      "lotSize": "Lot Size:",
+      "minTradeAmount": "Min Trade Amount:",
+      "tooltips": {
+        "lastTradedPrice": "Last traded price.",
+        "openInterest": "The total amount of contracts held by either the long or the short traders, whatever is larger.",
+        "fundingRate": "Funding rate paid from buyers to sellers. If negative, the sellers pay to the buyers. We scale the displayed rate to be an 8h-rate. The rate is refreshed with every smart contract interaction or at most with every block. The time-weighted average value is used to calculate the funding rate paid."
+      }
+    },
+    "recentTrades": {
+      "title": "Recent Trades (<0/>)",
+      "price": "Price (<0/>)",
+      "size": "Size (<0/>)",
+      "time": "Time"
+    },
+    "tradeForm": {
+      "titles": {
+        "order": "Place New Order",
+        "welcome": "Welcome to Sovryn Perpetuals",
+        "slippage": "Slippage Settings"
+      },
+      "text": {
+        "welcome1": "This is a preview of our perpetuals dashboard.\n The market data to the side is live.",
+        "welcome2": "In order to start trading perpetuals on Sovryn you need to:",
+        "welcome3": "<0>Connect a Hardware, web or mobile wallet</0> <0>Be connected to the Polygon network</0> <0>Fund your account by depositing BTC</0>",
+        "welcome4": "New from Bitmex? <0>Read our getting started guide</0>"
+      },
+      "labels": {
+        "pair": "Symbol:",
+        "asset": "Asset to receive:",
+        "leverageSelector": "Position Leverage:",
+        "leverage": "Leverage:",
+        "orderValue": "Order Value:",
+        "limitPrice": "Limit Price:",
+        "orderCost": "Order Cost:",
+        "maxTradeSize": "Max Trade Size:",
+        "minEntryPrice": "Min Entry Price:",
+        "maxEntryPrice": "Max Entry Price:",
+        "minLiquidationPrice": "Min Liquidation Price:",
+        "liquidationPrice": "Liquidation Price:",
+        "tradingFee": "Trading Fee:",
+        "slippage": "Slippage Tolerance:",
+        "balance": "Available Balance: <0/> <1/>",
+        "txFee": "Tx Fee: <0/> {{symbol}}"
+      },
+      "buttons": {
+        "buy": "Buy",
+        "sell": "Sell",
+        "connect": "Connect Wallet",
+        "market": "Market",
+        "limit": "Limit",
+        "buyMarket": "Buy Market",
+        "buyLimit": "Buy Limit",
+        "sellMarket": "Sell Market",
+        "sellLimit": "Sell Limit",
+        "minLeverage": "MIN",
+        "slippageSettings": "Slippage Settings"
+      },
+      "disabledState": {
+        "emptyBalanceExplanation": "Fund your account to start trading",
+        "explanation1": "Only one position can be opened at a time",
+        "explanation2": "You can edit and close your position in the action section below"
+      },
+      "tooltips": {
+        "orderValue": "The notional amount for your position.",
+        "orderCost": "The maximal amount withdrawn from your wallet to pay for the trade. Consists of required margin and trading fee. This value depends on your slippage settings.",
+        "tradingFee": "The trading fee. If fees are paid in BTC, this includes gas costs."
+      }
+    },
+    "reviewTrade": {
+      "titles": {
+        "close": "Review Close",
+        "newOrder": "Review Order",
+        "editSize": "Review Edit Size",
+        "editLeverage": "Review Edit Leverage",
+        "editMargin": "Review Edit Margin"
+      },
+      "close": "Close",
+      "buy": "Buy",
+      "sell": "Sell",
+      "market": "Market",
+      "limit": "Limit",
+      "deposit": "Deposit",
+      "withdraw": "Withdraw",
+      "leverage": "Leverage",
+      "margin": "Margin",
+      "increase": "Increase",
+      "decrease": "Decrease",
+      "positionFullyClosed": "Position Fully Closed",
+      "positionDetailsTitle": "New Position Details",
+      "labels": {
+        "positionSize": "Position Size:",
+        "margin": "Margin:",
+        "leverage": "Leverage:",
+        "entryPrice": "Entry Price:",
+        "liquidationPrice": "Liquidation Price:",
+        "totalToReceive": "Total to Receive:",
+        "maxEntryPrice": "Max Entry Price:",
+        "minEntryPrice": "Min Entry Price:"
+      },
+      "confirm": "Confirm"
+    },
+    "processTrade": {
+      "titles": {
+        "approval": "Approve Order",
+        "approvalFailed": "Approval Failed",
+        "approvalRejected": "Approval Rejected",
+        "confirm": "Confirm Order",
+        "confirmRejected": "Confirm Rejected",
+        "confirmMulti": "Confirm {{current}} from {{count}}",
+        "confirmMultiRejected": "Confirm {{current}} from {{count}} Rejected",
+        "processing": "Order processing…",
+        "completed": "Order Completed",
+        "failed": "Order Failed"
+      },
+      "texts": {
+        "approval": "Please approve BTC to be spent by the Sovryn smart contracts in your {{wallet}} wallet",
+        "confirm": "Please confirm transaction in your {{wallet}} wallet",
+        "confirmMulit": "Please confirm transaction {{current}} of {{count}} in your {{wallet}} wallet",
+        "error": "Your transaction has failed due to <0>{{error}}</0> Your position has not been opened",
+        "rejected": "The transaction request was rejected",
+        "cancelOrRetry": "Please cancel or retry your transaction"
+      },
+      "labels": {
+        "approvalTx": "Approval Tx ID:",
+        "marginTx": "Margin Tx ID:",
+        "tradeTx": "Trade Tx ID:",
+        "tx": "Tx ID:"
+      },
+      "buttons": {
+        "retry": "Retry",
+        "close": "Close"
+      }
+    },
+    "editPositionSize": {
+      "title": "Edit Position Size"
+    },
+    "editMargin": {
+      "title": "Edit Margin",
+      "increase": "Increase",
+      "decrease": "Decrease",
+      "increaseLabel": "Deposit margin:",
+      "decreaseLabel": "Withdraw margin:",
+      "button": "Review"
+    },
+    "editLeverage": {
+      "title": "Edit Leverage",
+      "margin": "Position Margin:",
+      "liquidation": "Liquidation Price:",
+      "button": "Review"
+    },
+    "closePosition": {
+      "title": "Close Position",
+      "amount": "Close Amount:",
+      "total": "Total to Receive:",
+      "button": "Review"
+    },
+    "currentTrade": {
+      "position": "Current Position:",
+      "margin": "Current Margin:",
+      "available": "Available Balance:",
+      "unrealizedPnL": "Unrealized P/L:"
+    },
+    "openPositions": "Positions",
+    "closedPositions": "Closed Positions",
+    "orderHistory": "Order History",
+    "fundingPayments": "Funding Payments",
+    "closedPositionsTable": {
+      "dateTime": "Date & Time",
+      "symbol": "Symbol",
+      "collateral": "Collateral",
+      "positionSize": "Position Size",
+      "realizedPnl": "Realized P&L",
+      "noData": "No data"
+    },
+    "orderHistoryTable": {
+      "dateTime": "Date & Time",
+      "symbol": "Symbol",
+      "orderType": "Order Type",
+      "orderState": "Order State",
+      "collateral": "Collateral",
+      "orderSize": "Order Size",
+      "limitPrice": "Limit Price",
+      "execSize": "Exec Size",
+      "execPrice": "Exec Price",
+      "orderId": "Order ID",
+      "tableData": {
+        "market": "Market",
+        "limit": "Limit",
+        "liquidation": "Liquidation",
+        "buy": "BUY",
+        "sell": "SELL"
+      },
+      "tooltips": {
+        "limitPrice": "The worst price that trader was willing to accept. Is set via slippage settings for market orders."
+      }
+    },
+    "fundingPaymentsTable": {
+      "dateTime": "Date & Time",
+      "symbol": "Symbol",
+      "collateral": "Collateral",
+      "received": "Received Funding",
+      "rate": "Rate",
+      "timeSinceLastPayment": "Time since last payment (DD:HH:MM:SS)",
+      "tooltips": {
+        "rate": "The time-averaged funding rate, scaled to be an 8h-rate.",
+        "timeSinceLastPayment": "The duration for which the funding payment applies to."
+      }
+    },
+    "warnings": {
+      "priceExceedsSlippage": "Trade is likely to fail, because the expected price exceeds limit price! Update slippage to at least {{slippage}}, to avoid transaction failure.",
+      "targetMarginUnsafe": "Transaction is likely to fail. The resulting position does not meet the required maintenance margin.",
+      "exceedsBalance": "Order cost exceeds total balance, your trade could fail in case of high slippage."
+    }
+  },
+  "claimOriginBanner": {
+    "text": "Your SOV is ready to claim!",
+    "cta": "Redeem SOV"
+  },
+  "escrowPage": {
+    "meta": {
+      "title": "",
+      "description": ""
+    },
+    "infoBar": {
+      "timeRemaining": "Reward Programme time remaining",
+      "timeCompleted": "Completed",
+      "liquidityTarget": "Total Liquidity Target:",
+      "remainingToCollect": "Total Remaining to Collect:"
+    },
+    "form": {
+      "amount": "Enter amount:",
+      "reward": "Expected SOV Reward:",
+      "cta": "Deposit SOV"
+    },
+    "description": {
+      "title": "Uniswap Liquidity Pool Escrow",
+      "line1": "Escrow pool participants will receive a 5% reward, plus a pro rata share from any trading fees generated in the SOV/ETH pool after any Impermanent Loss is covered by Sovryn, returning a minimum of 60% APY.",
+      "line2": "100% of SOV held in trust by Sovryn on behalf of users in the Uniswap escrow liquidity pool will be returned to users wallets 30 days after launch of the pool.",
+      "line3": "The 5% reward plus the pro rata fee share will be credited to user wallets in SOV, 30 days after launch of the pool."
+    },
+    "table": {
+      "labels": {
+        "pool": "Pool",
+        "provided": "Liquidity Provided",
+        "share": "Current Pool Share",
+        "totalFees": "Total Fees Collected",
+        "minimumRewards": "Minimum Rewards Collected",
+        "unlockDate": "Unlock Date",
+        "action": "Action"
+      },
+      "uniswapPool": "Uniswap Pool Token",
+      "addButton": "Add",
+      "withdrawButton": "Withdraw"
+    }
+  },
+  "landingPage": {
+    "meta": {
+      "title": "Welcome to Sovryn",
+      "description": "The Decentralized Bitcoin Trading And Lending Platform"
+    },
+    "welcomeTitle": "Welcome to Sovryn",
+    "welcomeMessage": "The decentralized bitcoin trading and lending platform",
+    "tradingVolume": {
+      "dayVolumeTitle": "24 Hour Volume",
+      "tvlTitle": "Total Value Locked",
+      "btc": "BTC",
+      "usd": "USD"
+    },
+    "arbitrageOpportunity": {
+      "title": "Arbitrage opportunity",
+      "swap": "swap",
+      "swapUp": "Swap up to ",
+      "for": "for up to ",
+      "noArbitrage": "There are currently no arbitrage opportunities…"
+    },
+    "tvl": {
+      "title": "Total value locked",
+      "type": "Contract Type",
+      "btc": "Value (BTC)",
+      "usd": "Value (USD)",
+      "protocol": "Protocol Contract",
+      "lend": "Lending Contract",
+      "amm": "Amm Contract",
+      "staked": "Bitocracy Staking Contract",
+      "subProtocol": "Subprotocol Bonding Curve Contracts",
+      "subtotal": "Sub total",
+      "total": "Total"
+    },
+    "promotions": {
+      "title": "Promotions",
+      "learnMore": "Learn more",
+      "sections": {
+        "lending": "Lending",
+        "borrowing": "Borrowing",
+        "yieldFarming": "Yield Farming",
+        "marginTrading": "Margin Trading",
+        "swap": "Swap",
+        "spotTrading": "Spot Trading"
+      }
+    },
+    "lendBorrow": "LEND & BORROW ASSETS",
+    "ammpool": {
+      "title": "AMM Pools",
+      "asset": "Asset",
+      "pool": "Pool",
+      "stakedBalance": "Staked Balance",
+      "contractBalance": "Contract Balance",
+      "imBalance": "Imbalance",
+      "apy": "APY"
+    },
+    "banner": {
+      "originsFish": "Origins FISH token pre-sale",
+      "liveNow": "LIVE NOW!",
+      "buyNow": "Buy Now",
+      "soldOut": "SOLD OUT!",
+      "learnMore": "Learn More",
+      "getStarted": "Get Started",
+      "timer": {
+        "days": "DAYS",
+        "hours": "HOURS",
+        "mins": "MINS",
+        "secs": "SECS"
+      }
+    },
+    "cryptocurrencyPrices": {
+      "title": "CRYPTOCURRENCY PRICES BY 24H CHANGE",
+      "asset": "Asset",
+      "price": "Price",
+      "24h": "24h%",
+      "7d": "7d%",
+      "marketCap": "Market Cap",
+      "marketCapTooltip": "Market cap is calculated as circulating supply * current USD price. <br /> <br /> For SOV, circulating supply = total supply (100m) - tokens in vesting contracts, <0>not including </0> tokens in adoption and development fund contracts. <br /> <br /> For RBTC, circulating supply = BTC locked in the RSK 2 Way Peg <br /> <br /> For all other tokens, circulating supply = total supply <br /> <br /> For tokens that have come across a bridge from another chain, the circulating supply is the supply of that token on the RSK chain. For example, the circulating supply of ETHs is not equal to the circulating supply of ETH on ethereum.",
+      "circulatingSupply": "Circulating Supply",
+      "circulatingSupplyTooltip": "We have updated the circulation supply formula to be showing the amount of liquid SOV token in line with market standards. SOV that has been unlocked from the adoption and development funds is now counted as circulating, and SOV that has been staked (either through vesting or voluntary staking) is not counted as circulating. <br /> <br />There is no change to your funds with this change. Just a standardisation of the displayed Circulating Supply."
+    }
+  },
+  "liquidityMining": {
+    "deposit": "Deposit",
+    "withdraw": "Withdraw",
+    "meta": {
+      "title": "Yield Farm"
+    },
+    "explainer": {
+      "earnSOV": "Earn SOV by depositing liquidity into the USDT/BTC liquidity pool",
+      "startDate": "Start date: 1st April 2021, 12.00 UTC",
+      "endDate": "End date: 1st May 2021, 12.00 UTC",
+      "rewardPoolUSDT": "Reward pool for depositing USDT: 25,000 SOV",
+      "rewardPoolRBTC": "Reward pool for depositing RBTC: 25,000 SOV",
+      "yourShare": "Your share of the pool is calculated by:",
+      "yourShare_N": "liquidity added by you * number of blocks held",
+      "yourShare_D": "total liquidity added * number of blocks held",
+      "airDrop": "Rewards will be deposited into liquidity providers' wallets on or before 8th May 2021",
+      "comingSoon": "Coming Soon"
+    },
+    "historyTable": {
+      "title": "Liquidity History",
+      "emptyState": "History is empty.",
+      "tableHeaders": {
+        "time": "Date/Time",
+        "pool": "Pool",
+        "action": "Action",
+        "asset": "Asset",
+        "liquidityAmount": "Liquidity Amount",
+        "transactionHash": "Transaction Hash",
+        "status": "Status"
+      },
+      "txType": {
+        "added": "Added",
+        "removed": "Removed"
+      }
+    },
+    "rowTable": {
+      "noLiquidityProvided": "Add liquidity and earn income",
+      "tableHeaders": {
+        "totalEarned": "Total Earned",
+        "balance": "Balance",
+        "pl": "P/L",
+        "rewards": "Rewards"
+      }
+    },
+    "modals": {
+      "deposit": {
+        "title": "Deposit Liquidity",
+        "cta": "Deposit",
+        "amount": "Amount:"
+      },
+      "withdraw": {
+        "title": "Withdraw Liquidity",
+        "cta": "Withdraw",
+        "amount": "Amount:",
+        "reward": "Reward:"
+      }
+    },
+    "lootDropLink": "Learn more",
+    "chartOverlayText": "APY% Coming Soon!",
+    "recalibration": "Next recalibration on {{date}}"
+  },
   "addToMargin": {
     "title": "Add to Margin",
     "amount": "Increase margin by:",
@@ -2232,46 +2616,5 @@
       "closingPrice": "The exit price is 95% of the value of the closing price shown. This difference is due to the discount applied as an incentive for liquidators."
     },
     "profitTooltip": "Closing position would withdraw one of these:"
-  },
-  "claimOriginBanner": {
-    "text": "Your SOV is ready to claim!",
-    "cta": "Redeem SOV"
-  },
-  "escrowPage": {
-    "meta": {
-      "title": "",
-      "description": ""
-    },
-    "infoBar": {
-      "timeRemaining": "Reward Programme time remaining",
-      "timeCompleted": "Completed",
-      "liquidityTarget": "Total Liquidity Target:",
-      "remainingToCollect": "Total Remaining to Collect:"
-    },
-    "form": {
-      "amount": "Enter amount:",
-      "reward": "Expected SOV Reward:",
-      "cta": "Deposit SOV"
-    },
-    "description": {
-      "title": "Uniswap Liquidity Pool Escrow",
-      "line1": "Escrow pool participants will receive a 5% reward, plus a pro rata share from any trading fees generated in the SOV/ETH pool after any Impermanent Loss is covered by Sovryn, returning a minimum of 60% APY.",
-      "line2": "100% of SOV held in trust by Sovryn on behalf of users in the Uniswap escrow liquidity pool will be returned to users wallets 30 days after launch of the pool.",
-      "line3": "The 5% reward plus the pro rata fee share will be credited to user wallets in SOV, 30 days after launch of the pool."
-    },
-    "table": {
-      "labels": {
-        "pool": "Pool",
-        "provided": "Liquidity Provided",
-        "share": "Current Pool Share",
-        "totalFees": "Total Fees Collected",
-        "minimumRewards": "Minimum Rewards Collected",
-        "unlockDate": "Unlock Date",
-        "action": "Action"
-      },
-      "uniswapPool": "Uniswap Pool Token",
-      "addButton": "Add",
-      "withdrawButton": "Withdraw"
-    }
   }
 }

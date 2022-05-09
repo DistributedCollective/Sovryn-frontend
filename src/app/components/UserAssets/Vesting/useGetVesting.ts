@@ -5,7 +5,7 @@ import { bridgeNetwork } from '../../../pages/BridgeDepositPage/utils/bridge-net
 import { getContract } from '../../../../utils/blockchain/contract-helpers';
 import { Chain } from '../../../../types';
 import stakingAbi from 'utils/blockchain/abi/Staking.json';
-import { FullVesting, StakesProp } from './types';
+import { FullVesting } from './types';
 
 const fillEmptyVesting = (vesting: FullVesting) => ({
   ...vesting,
@@ -88,10 +88,10 @@ export function useGetVesting(vesting: FullVesting) {
           // },
         ];
 
-        const { returnData: info } = await bridgeNetwork.multiCall<{
-          balance: string;
-          stakes: StakesProp;
-        }>(Chain.RSK, mc);
+        const { returnData: info } = await bridgeNetwork.multiCall(
+          Chain.RSK,
+          mc,
+        );
 
         return {
           ...vesting,

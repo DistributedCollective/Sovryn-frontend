@@ -9,6 +9,7 @@
     font-variant-numeric: tabular-nums;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    overflow: overlay;
   }
 
   @screen lg {
@@ -18,7 +19,7 @@
   }
 
   * {
-    @apply tw-font-body;
+    @apply tw-font-body tw-scrollbars-wide;
   }
 
   *:focus {

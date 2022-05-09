@@ -1,12 +1,13 @@
-@import "~tailwindcss/base.css";
+@import "tailwindcss/base.css";
 @import "./base.css";
 
 /* Start purging... */
-@import "~tailwindcss/components.css";
+@import "tailwindcss/components.css";
 @import "./components/index.css";
 @import "./components.css";
 /* Stop purging. */
 
 /* Start purging... */
-@import "~tailwindcss/utilities.css";
+@import "tailwindcss/utilities.css";
+@import "./utilities.css";
 /* Stop purging. */

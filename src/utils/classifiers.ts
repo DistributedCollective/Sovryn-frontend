@@ -10,6 +10,8 @@ export const chains = {
 export const currentNetwork: AppMode | string =
   String(process.env.REACT_APP_NETWORK).toLowerCase() || AppMode.MAINNET;
 
+export const isMainnet = currentNetwork === 'mainnet';
+
 export const currentChainId = chains[currentNetwork];
 
 export const blockExplorers = {
@@ -26,6 +28,8 @@ export const blockExplorers = {
 export const rpcNodes = {
   30: ['https://mainnet.sovryn.app/rpc', 'https://public-node.rsk.co/'],
   31: ['https://testnet.sovryn.app/rpc', 'https://public-node.testnet.rsk.co/'],
+  56: 'wss://bsc.sovryn.app/mainnet',
+  97: 'wss://bsctestnet.sovryn.app/websocket',
 };
 
 export const bitocracyUrl =
@@ -43,6 +47,8 @@ export const backendUrl = {
   31: 'https://api.test.sovryn.app',
 };
 
+export const graphRskUrl = process.env.REACT_APP_GRAPH_RSK;
+
 export const ethGenesisAddress = '0x0000000000000000000000000000000000000000';
 
 export const sovAnalyticsCookie = { name: 'SovAnalytics', value: 'optout' };
@@ -50,6 +56,7 @@ export const sovAnalyticsCookie = { name: 'SovAnalytics', value: 'optout' };
 export const chartStorageKey = 'sovryn.charts';
 
 export const gasLimit = {
+  [TxType.APPROVE]: 100000,
   [TxType.TRADE]: 3750000,
   [TxType.CLOSE_WITH_SWAP]: 2300000,
   [TxType.CLOSE_WITH_DEPOSIT]: 500000,
@@ -77,12 +84,18 @@ export const gasLimit = {
   [TxType.STAKING_EXTEND]: 450000,
   [TxType.STAKING_WITHDRAW]: 650000,
   [TxType.STAKING_REWARDS_CLAIM]: 3250000, //limit should be reduced once contract issue with claiming 0 values is resolved
+  [TxType.DEPOSIT_COLLATERAL]: 250000,
   [TxType.STAKING_LIQUID_SOV_CLAIM]: 2500000,
   [TxType.DEPOSIT_COLLATERAL]: 250000,
   [TxType.CLAIM_VESTED_SOV_REWARDS]: 6000000,
   [TxType.SOV_WITHDRAW_VESTING]: 1900000,
   [TxType.SIMULATOR_REQUEST]: 6800000,
+  [TxType.DEPOSIT_COLLATERAL]: 850000,
+  [TxType.WITHDRAW_COLLATERAL]: 1400000,
   [TxType.FAST_BTC_WITHDRAW]: 300000,
+  [TxType.PERPETUAL_TRADE]: 3000000,
+  [TxType.PERPETUAL_DEPOSIT_COLLATERAL]: 1700000,
+  [TxType.PERPETUAL_WITHDRAW_COLLATERAL]: 2400000,
   [TxType.LIMIT_ORDER]: 3000000,
   [TxType.SETTLEMENT_WITDHRAW]: 70000,
 };

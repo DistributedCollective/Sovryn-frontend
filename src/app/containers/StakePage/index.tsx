@@ -427,6 +427,7 @@ const InnerStakePage: React.FC = () => {
                     type={ButtonType.button}
                     disabled={paused}
                     className="tw-font-normal tw-text-primary tw-bg-primary tw-bg-opacity-10 hover:tw-text-primary hover:tw-bg-opacity-40"
+                    dataActionId="staking-addstakeButton"
                   />
                 ) : (
                   <Tooltip
@@ -447,6 +448,7 @@ const InnerStakePage: React.FC = () => {
                       type={ButtonType.button}
                       disabled
                       className="tw-font-normal tw-text-primary tw-bg-primary tw-bg-opacity-10 hover:tw-text-primary hover:tw-bg-opacity-40"
+                      dataActionId="staking-addstakeButton"
                     />
                   </Tooltip>
                 )}
@@ -491,12 +493,13 @@ const InnerStakePage: React.FC = () => {
                   )}
                 </div>
                 <div className="tw-flex tw-flex-col tw-items-start">
-                  <div className="tw-bg-primary tw-font-normal tw-bg-opacity-10 tw-hover:text-primary tw-focus:outline-none tw-focus:bg-opacity-50 hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out tw-px-8 tw-py-3 tw-text-lg tw-text-primary tw-border tw-transition-colors tw-duration-300 tw-ease-in-out tw-border-primary tw-rounded-xl hover:tw-no-underline tw-no-underline tw-inline-block">
+                  <div className="tw-bg-primary tw-font-normal tw-bg-opacity-10 tw-hover:text-primary tw-focus:outline-none tw-focus:bg-opacity-50 hover:tw-bg-opacity-40 tw-duration-500 tw-px-8 tw-py-3 tw-text-lg tw-text-primary tw-border tw-transition-colors tw-ease-in-out tw-border-primary tw-rounded-xl hover:tw-no-underline tw-no-underline tw-inline-block">
                     <a
                       href={bitocracyUrl}
                       rel="noopener noreferrer"
                       target="_blank"
                       className="hover:tw-no-underline"
+                      data-action-id="staking-governanceButton"
                     >
                       {t(translations.stake.viewGovernance)}
                     </a>
