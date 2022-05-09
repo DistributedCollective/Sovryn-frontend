@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { bignumber } from 'mathjs';
 import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
-import { useApproveAndAddMargin } from '../../../../hooks/trading/useApproveAndAndMargin';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
 import { useCanInteract } from '../../../../hooks/useCanInteract';
 import { useIsAmountWithinLimits } from '../../../../hooks/useIsAmountWithinLimits';
@@ -14,6 +13,7 @@ import { CollateralForm } from './CollateralForm';
 import { ReviewStep } from './ReviewStep';
 import { fromWei } from 'utils/blockchain/math-helpers';
 import { Asset } from 'types';
+import { ResetTxResponseInterface } from 'app/hooks/useSendContractTx';
 
 type AddCollateralModalProps = {
   loan: ActiveLoan;
@@ -25,6 +25,7 @@ type AddCollateralModalProps = {
   ) => void;
   liquidationPrice?: React.ReactNode;
   positionSize?: string;
+  tx: ResetTxResponseInterface;
 };
 
 enum Step {
@@ -34,6 +35,7 @@ enum Step {
 
 export const AddCollateralModal: React.FC<AddCollateralModalProps> = ({
   loan: item,
+  tx,
   onSubmit,
 }) => {
   const canInteract = useCanInteract();
@@ -51,11 +53,6 @@ export const AddCollateralModal: React.FC<AddCollateralModalProps> = ({
   const { value: balance } = useAssetBalanceOf(tokenDetails.asset);
   const weiAmount = useWeiAmount(amount);
 
-  const { send, ...tx } = useApproveAndAddMargin(
-    tokenDetails.asset,
-    item.loanId,
-    weiAmount,
-  );
   const { checkMaintenance, States } = useMaintenance();
   const topupLocked = checkMaintenance(States.ADD_TO_MARGIN_TRADES);
 
