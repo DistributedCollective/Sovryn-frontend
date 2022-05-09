@@ -8,7 +8,6 @@ import { translations } from '../../../../../locales/i18n';
 import { Dialog } from '../../../../containers/Dialog';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { AmountInput } from 'app/components/Form/AmountInput';
-import { DialogButton } from 'app/components/Form/DialogButton';
 import { useCanInteract } from '../../../../hooks/useCanInteract';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import { getTokenContract } from '../../../../../utils/blockchain/contract-helpers';
@@ -26,6 +25,7 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
 import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
+import { Button } from 'app/components/Button';
 
 interface IAddLiquidityDialogV1Props {
   pool: AmmLiquidityPool;
@@ -120,7 +120,7 @@ export const AddLiquidityDialogV1: React.FC<IAddLiquidityDialogV1Props> = ({
                 translations.common.availableBalance,
               )} ${weiToNumberFormat(balance1, 8)}`}
               asset={assetA}
-              dataActionId="yieldFarm"
+              dataActionId="yieldFarm-deposit"
             />
           </FormGroup>
           <DummyInput
@@ -164,14 +164,14 @@ export const AddLiquidityDialogV1: React.FC<IAddLiquidityDialogV1Props> = ({
             />
           )}
           {!addliquidityLocked && (
-            <DialogButton
-              confirmLabel={t(translations.liquidityMining.modals.deposit.cta)}
-              onConfirm={() => handleConfirm()}
+            <Button
+              text={t(translations.liquidityMining.modals.deposit.cta)}
+              onClick={handleConfirm}
               disabled={
                 tx.loading || !valid || !canInteract || addliquidityLocked
               }
-              className="tw-rounded-lg"
-              data-action-id="yieldFarm-liquidityModal-confirm"
+              dataActionId={`yieldFarm-deposit-confirmButton-${assetA}`}
+              className="tw-w-full tw-mt-2"
             />
           )}
         </div>
