@@ -48,6 +48,7 @@ import { getContract } from '../../../../../utils/blockchain/contract-helpers';
 import { useAccount } from '../../../../hooks/useAccount';
 import { BigNumber } from 'ethers';
 import { ABK64x64ToFloat } from '@sovryn/perpetual-swap/dist/scripts/utils/perpMath';
+import { getEstimatedMarginCollateralForLimitOrder } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
 
 const {
   calculateApproxLiquidationPrice,
@@ -203,36 +204,55 @@ export const TradeDialog: React.FC = () => {
       return;
     }
 
+    const isLimitOrder = [
+      PerpetualTradeType.LIMIT,
+      PerpetualTradeType.STOP,
+    ].includes(trade?.tradeType);
+
     const amountTarget = getSignedAmount(trade.position, trade.amount);
     const amountChange = amountTarget - traderState.marginAccountPositionBC;
 
-    const entryPrice = getPrice(
-      isNewTradeForm ? amountTarget : amountChange,
-      perpParameters,
-      ammState,
-    );
+    const entryPrice = trade.limit
+      ? numberFromWei(trade.limit)
+      : getPrice(
+          isNewTradeForm ? amountTarget : amountChange,
+          perpParameters,
+          ammState,
+        );
 
-    const limitPrice = calculateSlippagePriceFromMidPrice(
-      perpParameters,
-      ammState,
-      trade.slippage,
-      Math.sign(isNewTradeForm ? amountTarget : amountChange),
-    );
+    const limitPrice = trade.limit
+      ? numberFromWei(trade.limit)
+      : calculateSlippagePriceFromMidPrice(
+          perpParameters,
+          ammState,
+          trade.slippage,
+          Math.sign(isNewTradeForm ? amountTarget : amountChange),
+        );
 
     const marginTarget = trade.margin
       ? numberFromWei(trade.margin)
       : Math.abs(amountTarget) / trade.leverage;
 
-    let orderCost = getRequiredMarginCollateral(
-      trade.leverage,
-      amountTarget,
-      perpParameters,
-      ammState,
-      traderState,
-      trade.slippage,
-      false,
-      false,
-    );
+    let orderCost =
+      isLimitOrder && trade.limit
+        ? getEstimatedMarginCollateralForLimitOrder(
+            perpParameters,
+            ammState,
+            trade.leverage,
+            amountTarget,
+            numberFromWei(trade.limit),
+            trade.trigger ? numberFromWei(trade.trigger) : undefined,
+          )
+        : getRequiredMarginCollateral(
+            trade.leverage,
+            amountTarget,
+            perpParameters,
+            ammState,
+            traderState,
+            trade.slippage,
+            false,
+            false,
+          );
 
     const marginChange = marginTarget - traderState.availableCashCC;
 
@@ -308,11 +328,7 @@ export const TradeDialog: React.FC = () => {
     };
 
     const requiresApproval =
-      marginChange > 0 ||
-      (trade?.tradeType &&
-        [PerpetualTradeType.LIMIT, PerpetualTradeType.STOP].includes(
-          trade?.tradeType,
-        ));
+      marginChange > 0 || (trade?.tradeType && isLimitOrder);
 
     let cancelled = false;
     if (requiresApproval) {

@@ -268,7 +268,7 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
                 />
               </span>
             </div>
-            {trade?.trigger && (
+            {trade?.trigger && trade.trigger !== '0' && (
               <div>
                 <span className="tw-text-gray-10 tw-mr-2">
                   {t(

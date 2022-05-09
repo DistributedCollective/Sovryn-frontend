@@ -42,7 +42,6 @@ import { getCollateralName } from '../../utils/renderUtils';
 import { TxType } from '../../../../../store/global/transactions-store/types';
 import { perpMath, perpUtils } from '@sovryn/perpetual-swap';
 import { getRequiredMarginCollateralWithGasFees } from '../../utils/perpUtils';
-import { usePerpetual_getCurrentPairId } from '../../hooks/usePerpetual_getCurrentPairId';
 import { bignumber } from 'mathjs';
 import { ExpiryDateInput } from './components/ExpiryDateInput';
 import { ResultingPosition } from './components/ResultingPosition';
@@ -63,7 +62,7 @@ interface ITradeFormProps {
   trade: PerpetualTrade;
   disabled?: boolean;
   onChange: (trade: PerpetualTrade) => void;
-  onSubmit: () => void;
+  onSubmit: (trade: PerpetualTrade) => void;
   onOpenSlippage: () => void;
 }
 
@@ -74,15 +73,16 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   onSubmit,
   onOpenSlippage,
 }) => {
-  const { t } = useTranslation();
+  const pair = useMemo(() => PerpetualPairDictionary.get(trade.pairType), [
+    trade.pairType,
+  ]);
 
-  const { pairType, collateral } = useSelector(selectPerpetualPage);
+  const { t } = useTranslation();
 
   const inMaintenance = usePerpetual_isTradingInMaintenance();
 
   const { useMetaTransactions } = useSelector(selectPerpetualPage);
 
-  const currentPairId = usePerpetual_getCurrentPairId();
   const { perpetuals } = useContext(PerpetualQueriesContext);
   const {
     ammState,
@@ -93,12 +93,12 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     lotSize,
     lotPrecision,
     availableBalance,
-  } = perpetuals[currentPairId];
+  } = perpetuals[pair.id];
 
-  const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
-  const collateralName = useMemo(() => getCollateralName(collateral), [
-    collateral,
-  ]);
+  const collateralName = useMemo(
+    () => getCollateralName(pair.collateralAsset),
+    [pair.collateralAsset],
+  );
 
   const maxTradeSize = useMemo(() => {
     const maxTradeSize = shrinkToLot(
@@ -422,6 +422,36 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     },
     [onChange, trade],
   );
+
+  const onSubmitWrapper = useCallback(() => {
+    const completeTrade = {
+      ...trade,
+    };
+
+    if (trade.tradeType !== PerpetualTradeType.MARKET) {
+      if (
+        !completeTrade.limit ||
+        bignumber(completeTrade.limit).lessThanOrEqualTo(0)
+      ) {
+        completeTrade.limit = limit ? toWei(limit) : '0';
+      }
+
+      if (completeTrade.tradeType === PerpetualTradeType.STOP) {
+        if (
+          !completeTrade.trigger ||
+          bignumber(completeTrade.trigger).lessThanOrEqualTo(0)
+        ) {
+          completeTrade.trigger = triggerPrice ? toWei(triggerPrice) : '0';
+        }
+      } else {
+        completeTrade.trigger = '0';
+      }
+
+      completeTrade.slippage = 0;
+    }
+
+    onSubmit(completeTrade);
+  }, [trade, limit, triggerPrice, onSubmit]);
 
   useEffect(() => {
     // resets trade.keepPositionLeverage in case we flip the sign
@@ -812,7 +842,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
                 ? 'tw-opacity-25 tw-cursor-not-allowed'
                 : 'tw-opacity-100 hover:tw-opacity-75',
             )}
-            onClick={onSubmit}
+            onClick={onSubmitWrapper}
             disabled={buttonDisabled}
           >
             <span className="tw-mr-2">{tradeButtonLabel}</span>
