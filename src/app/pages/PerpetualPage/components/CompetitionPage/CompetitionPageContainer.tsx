@@ -12,7 +12,6 @@ import { HeaderLabs } from 'app/components/HeaderLabs';
 import { Button } from 'app/pages/BuySovPage/components/Button';
 import { Leaderboard } from './components/Leaderboard';
 import { useIsConnected, useAccount } from 'app/hooks/useAccount';
-import { RegisterDialog } from './components/RegisterDialog';
 import {
   isMainnet,
   discordInvite,
@@ -29,7 +28,6 @@ import {
 } from 'utils/dictionaries/perpetual-pair-dictionary';
 
 export const CompetitionPageContainer: React.FC = () => {
-  const [registerDialogOpen, setRegisterDialogOpen] = useState<boolean>(false);
   const [isRegistered, setIsRegistered] = useState<boolean>(false);
   const [registeredTraders, setRegisteredTraders] = useState<
     RegisteredTraderData[]
@@ -54,15 +52,6 @@ export const CompetitionPageContainer: React.FC = () => {
         console.error(e);
       });
   }, []);
-
-  const onClose = useCallback(
-    (success: boolean) => {
-      setIsRegistered(success);
-      setRegisterDialogOpen(false);
-      getRegisteredWallets();
-    },
-    [getRegisteredWallets],
-  );
 
   useEffect(() => {
     getRegisteredWallets();
@@ -164,12 +153,6 @@ export const CompetitionPageContainer: React.FC = () => {
                     onClick={() => walletContext.connect()}
                   />
                 )}
-                {connected && !isRegistered && (
-                  <Button
-                    text={t(translations.competitionPage.cta.enter)}
-                    onClick={() => setRegisterDialogOpen(true)}
-                  />
-                )}
                 {connected && isRegistered && (
                   <>
                     <p className="tw-mb-8">
@@ -189,7 +172,6 @@ export const CompetitionPageContainer: React.FC = () => {
           </div>
         </div>
       </PerpetualQueriesContextProvider>
-      <RegisterDialog isOpen={registerDialogOpen} onClose={onClose} />
     </>
   );
 };
