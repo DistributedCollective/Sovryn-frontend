@@ -24,33 +24,34 @@ import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import debounce from 'lodash.debounce';
-import { usePerpetual_getCurrentPairId } from 'app/pages/PerpetualPage/hooks/usePerpetual_getCurrentPairId';
 import { ABK64x64ToFloat } from '@sovryn/perpetual-swap/dist/scripts/utils/perpMath';
 import { getBase2CollateralFX } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
+import { PerpetualPair } from 'utils/models/perpetual-pair';
+import { Nullable } from 'types';
 
 const initialFunding = 0.2; // funds sent to every trader at the beginning of the competition
 
 interface ILeaderboardProps {
   data: RegisteredTraderData[];
   showUserRow: boolean;
+  pair: PerpetualPair;
 }
 
 export const Leaderboard: React.FC<ILeaderboardProps> = ({
   data,
   showUserRow,
+  pair,
 }) => {
   const { t } = useTranslation();
   const userRowRef = useRef<HTMLDivElement>(null);
   const userRowVisible = useIntersection(userRowRef.current);
   const account = useAccount();
   const [items, setItems] = useState<LeaderboardData[]>([]);
-  const [userData, setUserData] = useState<LeaderboardData | null>(null);
+  const [userData, setUserData] = useState<Nullable<LeaderboardData>>(null);
   const [loaded, setLoaded] = useState(false);
 
-  const currentPairId = usePerpetual_getCurrentPairId();
-
   const { perpetuals } = useContext(PerpetualQueriesContext);
-  const { ammState, perpetualParameters } = perpetuals[currentPairId];
+  const { ammState, perpetualParameters } = perpetuals[pair.id];
 
   const { data: leaderboardData } = useGetLeaderboardData(
     PerpetualPairType.BTCUSD,
@@ -224,7 +225,10 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
           </div>
         </div>
         <div
-          className={`${styles.leaderboardContainer} tw-scrollbars-thin tw-overflow-y-auto tw-text-sm tw-align-middle`}
+          className={classNames(
+            'tw-scrollbars-thin tw-overflow-y-auto tw-text-sm tw-align-middle',
+            styles.leaderboardContainer,
+          )}
         >
           {items.map(val => {
             const isUser = val.walletAddress === account?.toLowerCase();

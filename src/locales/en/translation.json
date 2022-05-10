@@ -2722,7 +2722,6 @@
     "registered": "You are registered! If you require some help, please click on the help button in the top right or post a message on our <0>discord</0>.",
     "cta": {
       "connect": "Connect Wallet",
-      "enter": "Enter Contest",
       "compete": "Compete"
     },
     "table": {
@@ -2732,14 +2731,6 @@
       "trade": "Last trade",
       "total": "Total P/L",
       "empty": "No one registered yet. You could be the first!"
-    },
-    "join": {
-      "title": "Enter Competition",
-      "pseudonym": "Pseudonym (Optional):",
-      "pseudonymPlaceholder": "Enter Pseudonym",
-      "wallet": "Wallet Address:",
-      "conditions": "I agree to the Perp Swaps trading competition's terms and condition",
-      "cta": "Confirm"
     }
   }
 }

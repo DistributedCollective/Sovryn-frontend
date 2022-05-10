@@ -28,7 +28,7 @@ import {
 } from 'utils/dictionaries/perpetual-pair-dictionary';
 
 export const CompetitionPageContainer: React.FC = () => {
-  const [isRegistered, setIsRegistered] = useState<boolean>(false);
+  const [isRegistered, setIsRegistered] = useState(false);
   const [registeredTraders, setRegisteredTraders] = useState<
     RegisteredTraderData[]
   >([]);
@@ -60,7 +60,7 @@ export const CompetitionPageContainer: React.FC = () => {
       walletContext.disconnect();
     }
 
-    //set the bridge chain id to Matic
+    //set the bridge chain id to BSC
     dispatch(
       walletProviderActions.setBridgeChainId(
         isMainnet ? ChainId.BSC_MAINNET : ChainId.BSC_TESTNET,
@@ -128,6 +128,7 @@ export const CompetitionPageContainer: React.FC = () => {
               <Leaderboard
                 showUserRow={isRegistered}
                 data={registeredTraders}
+                pair={pair}
               />
             </div>
             <div className="tw-flex tw-flex-col tw-w-5/12">
