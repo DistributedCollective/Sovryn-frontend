@@ -6,6 +6,7 @@ import { gas } from '../../utils/blockchain/gas-price';
 import { bignumber } from 'mathjs';
 import { ContractName } from '../../utils/types/contracts';
 import { getContract } from '../../utils/blockchain/contract-helpers';
+import { useIsMounted } from './useIsMounted';
 
 export function useEstimateGas(
   address: string,
@@ -15,28 +16,40 @@ export function useEstimateGas(
   config: TransactionConfig = {},
   condition?: boolean,
 ) {
+  const isMounted = useIsMounted();
   const [state, setState] = useState({ value: 0, loading: false, error: '' });
 
   useEffect(() => {
+    if (config?.gas) {
+      setState({ value: Number(config.gas), loading: false, error: '' });
+      return;
+    }
+
     if (condition === undefined || condition) {
-      setState(prevState => ({ ...prevState, loading: true, error: '' }));
+      if (isMounted()) {
+        setState(prevState => ({ ...prevState, loading: true, error: '' }));
+      }
       contractReader
         .estimateGas(address, abi, methodName, args, config)
-        .then(result =>
-          setState(prevState => ({
-            ...prevState,
-            value: result,
-            loading: false,
-            error: '',
-          })),
-        )
-        .catch(e =>
-          setState(prevState => ({
-            ...prevState,
-            loading: false,
-            error: e.message,
-          })),
-        );
+        .then(result => {
+          if (isMounted()) {
+            setState(prevState => ({
+              ...prevState,
+              value: result,
+              loading: false,
+              error: '',
+            }));
+          }
+        })
+        .catch(e => {
+          if (isMounted()) {
+            setState(prevState => ({
+              ...prevState,
+              loading: false,
+              error: e.message,
+            }));
+          }
+        });
     }
     // eslint-disable-next-line
   }, [
@@ -49,6 +62,7 @@ export function useEstimateGas(
     // eslint-disable-next-line
     JSON.stringify(config),
     condition,
+    isMounted,
   ]);
 
   const txFee = useMemo(

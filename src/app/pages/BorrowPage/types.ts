@@ -9,6 +9,8 @@ export interface LendBorrowSovrynState {
   borrowAmount: string;
   repayItem: Nullable<string>;
   repayModalOpen: boolean;
+  addItem: Nullable<string>;
+  addModalOpen: boolean;
 }
 
 export enum TabType {
