@@ -20,6 +20,11 @@ export function useEstimateGas(
   const [state, setState] = useState({ value: 0, loading: false, error: '' });
 
   useEffect(() => {
+    if (config?.gas) {
+      setState({ value: Number(config.gas), loading: false, error: '' });
+      return;
+    }
+
     if (condition === undefined || condition) {
       if (isMounted()) {
         setState(prevState => ({ ...prevState, loading: true, error: '' }));

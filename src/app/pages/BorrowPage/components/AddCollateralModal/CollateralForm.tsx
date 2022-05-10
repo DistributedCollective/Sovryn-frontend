@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { FormGroup } from '@blueprintjs/core';
 import { AssetRenderer } from 'app/components/AssetRenderer';
@@ -9,7 +9,7 @@ import { LabelValuePair } from 'app/components/LabelValuePair';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import { translations } from 'locales/i18n';
-import { discordInvite } from 'utils/classifiers';
+import { discordInvite, gasLimit } from 'utils/classifiers';
 import {
   toAssetNumberFormat,
   weiToAssetNumberFormat,
@@ -17,6 +17,7 @@ import {
 import { ActiveLoan } from 'app/hooks/trading/useGetLoan';
 import { AssetDetails } from 'utils/models/asset-details';
 import { useWeiAmount } from 'app/hooks/useWeiAmount';
+import { TxType } from 'store/global/transactions-store/types';
 
 type CollateralFormType = {
   item: ActiveLoan;
@@ -54,6 +55,7 @@ export const CollateralForm: React.FC<CollateralFormType> = ({
   onSubmit,
 }) => {
   const { t } = useTranslation();
+  const [gasFee, setGasFee] = useState('0');
   const weiAmount = useWeiAmount(amount);
   return (
     <>
@@ -100,6 +102,7 @@ export const CollateralForm: React.FC<CollateralFormType> = ({
           value={amount}
           asset={tokenDetails.asset}
           showBalance={true}
+          gasFee={gasFee}
         />
       </FormGroup>
 
@@ -154,6 +157,8 @@ export const CollateralForm: React.FC<CollateralFormType> = ({
           args={[item.loanId, weiAmount]}
           methodName="depositCollateral"
           contractName="sovrynProtocol"
+          onFeeUpdated={setGasFee}
+          txConfig={{ gas: gasLimit[TxType.DEPOSIT_COLLATERAL] }}
         />
       </div>
 
