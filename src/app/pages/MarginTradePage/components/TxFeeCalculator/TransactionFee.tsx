@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import type { TransactionConfig } from 'web3-core';
 import { fromWei } from 'utils/blockchain/math-helpers';
 import { ContractName } from 'utils/types/contracts';
@@ -17,6 +17,7 @@ interface ITransactionFeeProps {
   args: any[];
   txConfig?: TransactionConfig;
   condition?: boolean;
+  onFeeUpdated?: (value: string) => void;
 }
 
 export const TransactionFee: React.FC<ITransactionFeeProps> = ({
@@ -26,6 +27,7 @@ export const TransactionFee: React.FC<ITransactionFeeProps> = ({
   args,
   txConfig = {},
   condition = true,
+  onFeeUpdated,
 }) => {
   const { t } = useTranslation();
   const { value, loading, error, gasPrice, gasLimit } = useEstimateContractGas(
@@ -35,6 +37,12 @@ export const TransactionFee: React.FC<ITransactionFeeProps> = ({
     txConfig,
     condition,
   );
+
+  useEffect(() => {
+    if (onFeeUpdated && value) {
+      onFeeUpdated(value);
+    }
+  }, [onFeeUpdated, value]);
 
   return (
     <LoadableValue
