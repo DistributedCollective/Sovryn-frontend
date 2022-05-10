@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 
 type PortalProps = {
   zIndex?: number;
+  className?: string;
   /** css selector string of the target element */
   target?: string;
   children: ReactNode;
@@ -10,6 +11,7 @@ type PortalProps = {
 
 export const Portal: React.FC<PortalProps> = ({
   zIndex,
+  className,
   target = '#overlay',
   children,
 }) => {
@@ -22,6 +24,12 @@ export const Portal: React.FC<PortalProps> = ({
       element.style.zIndex = zIndex.toString();
     }
   }, [zIndex, element]);
+
+  useEffect(() => {
+    if (className) {
+      element.className = className;
+    }
+  }, [className, element]);
 
   useEffect(() => {
     if (parent) {

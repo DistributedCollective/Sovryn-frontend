@@ -12,7 +12,12 @@ export const StyledPieChart = styled.div<IStyledPieChartProps>`
   width: 75px;
   height: 75px;
   border-radius: 50%;
-  background-image: ${props =>
-    `conic-gradient(${props.firstColor} ${props.firstPercentage}deg, ${props.secondColor} ${props.firstPercentage}deg ${props.secondPercentage}deg)`};
+  background-image: ${({
+    firstColor,
+    firstPercentage,
+    secondColor,
+    secondPercentage,
+  }) =>
+    `conic-gradient(${firstColor} ${firstPercentage}deg, ${secondColor} ${firstPercentage}deg ${secondPercentage}deg)`};
   z-index: 2;
 `;

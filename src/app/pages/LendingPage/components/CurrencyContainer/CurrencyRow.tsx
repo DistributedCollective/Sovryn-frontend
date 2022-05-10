@@ -52,7 +52,7 @@ const CurrencyRow: React.FC<Props> = ({
           <ActionButton
             text={t(translations.lendingPage.deposit)}
             onClick={() => setDialog('add')}
-            className="tw-block tw-w-full tw-mb-3 tw-rounded-lg tw-bg-primary-25 hover:tw-opacity-75"
+            className="tw-block tw-w-full tw-mb-3 tw-rounded-lg tw-bg-primary-10 hover:tw-opacity-75"
             textClassName="tw-text-base"
             disabled={depositLocked || !connected}
             data-action-id={`lend-depositButton-${asset}`}
@@ -69,7 +69,7 @@ const CurrencyRow: React.FC<Props> = ({
             <ActionButton
               text={t(translations.lendingPage.deposit)}
               onClick={() => setDialog('add')}
-              className="tw-block tw-w-full tw-mb-3 tw-rounded-lg tw-bg-primary-25 hover:tw-opacity-75"
+              className="tw-block tw-w-full tw-mb-3 tw-rounded-lg tw-bg-primary-10 hover:tw-opacity-75"
               textClassName="tw-text-base"
               disabled={depositLocked}
             />

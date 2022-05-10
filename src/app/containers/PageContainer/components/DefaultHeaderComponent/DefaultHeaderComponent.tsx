@@ -146,12 +146,7 @@ export const DefaultHeaderComponent: React.FC = () => {
     {
       to: '/origins/claim',
       title: t(translations.mainMenu.originsClaim),
-      dataActionId: 'header-link-portfolio',
-    },
-    {
-      to: 'https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp',
-      title: t(translations.mainMenu.help),
-      dataActionId: 'header-link-help',
+      dataActionId: 'header-origins-link-claim',
     },
     {
       to: '',
@@ -161,7 +156,7 @@ export const DefaultHeaderComponent: React.FC = () => {
     {
       to: '/mynt-token',
       title: t(translations.mainMenu.myntToken),
-      dataActionId: 'header-link-lab-mynt-token',
+      dataActionId: 'header-lab-link-mynt-token',
     },
   ];
 
@@ -169,9 +164,22 @@ export const DefaultHeaderComponent: React.FC = () => {
     pages.push({
       to: '/perpetuals',
       title: t(translations.mainMenu.perpetuals),
-      dataActionId: 'header-link-lab-perpetuals',
+      dataActionId: 'header-lab-link-perpetuals',
     });
   }
+
+  pages.push(
+    {
+      to: '',
+      title: '',
+      dataActionId: 'header-link-resources',
+    },
+    {
+      to: 'https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp',
+      title: t(translations.mainMenu.help),
+      dataActionId: 'header-resources-link-help',
+    },
+  );
 
   const menuItems = pages.map((item, index) => {
     let link: {
@@ -279,7 +287,7 @@ export const DefaultHeaderComponent: React.FC = () => {
   return (
     <>
       <header className={classNames(styles.header, open && styles.open)}>
-        <div className="tw-container tw-flex tw-justify-between tw-items-center tw-pt-2 tw-pb-2 tw-px-4 tw-mx-auto">
+        <div className="tw-container tw-flex tw-justify-between tw-items-center tw-pt-2 tw-pb-2 tw-mx-auto">
           <div className="tw-flex tw-items-center">
             <div className="xl:tw-hidden">
               <div ref={node}>
@@ -456,38 +464,6 @@ export const DefaultHeaderComponent: React.FC = () => {
                 >
                   {t(translations.mainMenu.wallet)}
                 </NavLink>
-                <NavPopover
-                  content={
-                    <BPMenu>
-                      <MenuItem
-                        text={t(translations.mainMenu.launchpad)}
-                        className="bp3-popover-dismiss"
-                        onClick={() => history.push('/origins')}
-                        data-action-id="header-origins-link-launchpad"
-                      />
-                      <MenuItem
-                        text={t(translations.mainMenu.claim)}
-                        className="bp3-popover-dismiss"
-                        onClick={() => history.push('/origins/claim')}
-                        data-action-id="header-origins-link-claim"
-                      />
-                    </BPMenu>
-                  }
-                >
-                  <div
-                    className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
-                      isSectionOpen(SECTION_TYPE.ORIGINS) && 'tw-font-bold'
-                    }`}
-                  >
-                    <span
-                      className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
-                      data-action-id="header-link-origins"
-                    >
-                      {t(translations.mainMenu.origins)}
-                    </span>
-                    <FontAwesomeIcon icon={faChevronDown} size="xs" />
-                  </div>
-                </NavPopover>
                 {currentNetwork === AppMode.TESTNET && (
                   <NavPopover
                     content={
@@ -506,6 +482,21 @@ export const DefaultHeaderComponent: React.FC = () => {
                             data-action-id="header-lab-perpetuals"
                           />
                         )}
+                        <span className={styles.host}>
+                          {t(translations.mainMenu.origins)}
+                        </span>
+                        <MenuItem
+                          text={t(translations.mainMenu.launchpad)}
+                          className="bp3-popover-dismiss"
+                          onClick={() => history.push('/origins')}
+                          data-action-id="header-origins-link-launchpad"
+                        />
+                        <MenuItem
+                          text={t(translations.mainMenu.claim)}
+                          className="bp3-popover-dismiss"
+                          onClick={() => history.push('/origins/claim')}
+                          data-action-id="header-origins-link-claim"
+                        />
                       </BPMenu>
                     }
                   >
@@ -539,6 +530,7 @@ export const DefaultHeaderComponent: React.FC = () => {
               to={{
                 pathname: '/wallet',
               }}
+              data-action-id="header-link-deposit"
             >
               <span>{t(translations.common.deposit)}</span>
             </Link>

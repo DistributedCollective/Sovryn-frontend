@@ -27,6 +27,7 @@ interface IBaseClaimFormProps {
   onSubmit: () => void;
   claimAsset?: Asset;
   claimLocked?: boolean;
+  dataActionId?: string;
 }
 
 export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
@@ -37,6 +38,7 @@ export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
   onSubmit,
   claimLocked,
   claimAsset = Asset.SOV,
+  dataActionId,
 }) => {
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
@@ -129,6 +131,7 @@ export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
                 className="tw-w-full tw-mb-4 tw-mt-16"
                 size={ButtonSize.lg}
                 text={t(translations.rewardPage.claimForm.cta)}
+                dataActionId={`rewards-claim-${dataActionId}`}
               />
             </Tooltip>
           )}

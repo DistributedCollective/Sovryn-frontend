@@ -402,7 +402,7 @@
     "reviewSwap": "Review Swap",
     "swapAsset": "Swap Asset:",
     "amount": "Amount:",
-    "amountReceived": "Amount Received:",
+    "amountReceived": "Amount To Receive:",
     "receiveAsset": "Receive Asset:",
     "minimumReceived": "Minimum Received:"
   },
@@ -710,7 +710,7 @@
     "votingPower": "Combined Voting Power",
     "viewGovernance": "View Governance",
     "addStake": "Add New Stake",
-    "feeTitle": "Total earned fees Available",
+    "feeTitle": "Total earned fees available",
     "sentLendingPool": "{{asset}} will be sent to the lending pool.",
     "convertedToRBTC": "{{asset}} will be converted to RBTC and sent directly to your wallet.",
     "noUnlockedSov": "You don't have unlocked SOV",
@@ -782,17 +782,17 @@
       "newVotingPower": "New Voting Power"
     },
     "currentStakes": {
-      "title": "Current Stakes",
+      "title": "Staking contracts",
       "asset": "Asset",
       "lockedAmount": "Locked Amount",
-      "votingPower": "Voting power",
+      "votingPower": "Voting Power",
       "votingDelegation": "Voting Delegation",
       "stakingPeriod": "Staking Period",
       "unlockDate": "Unlock Date"
     },
     "currentVests": {
-      "title": "Current Vests",
-      "asset": "Vested Asset",
+      "title": "Vesting contracts",
+      "asset": "Asset",
       "lockedAmount": "Locked Amount",
       "votingPower": "Voting Delegation",
       "stakingDate": "End Date",
@@ -940,7 +940,6 @@
     "btn": "Withdraw"
   },
   "borrowActivity": {
-    "title": "My Debts",
     "tabs": {
       "active": "Active",
       "history": "History"
@@ -1546,7 +1545,7 @@
       "title": "Amount to claim:",
       "available": "Total Reward SOV Available:",
       "cta": "CLAIM",
-      "note": "Claiming your rewards automatically vests them for 10 months with a 1 month cliff.",
+      "note": "Claiming your rewards automatically starts a vesting period of 40 weeks with a maximum 4-week cliff.",
       "learn": "Learn more",
       "claimDisabled": "There is not enough SOV in the StakingRewardsProxy contract to facilitate a claim of rewards at this time. Therefore, to avoid a loss of gas fee by initiating a transaction that will inevitably fail, the CLAIM button has been disabled. Be assured that the team is aware and funds should be replenished shortly."
     },
@@ -1667,6 +1666,10 @@
       "sell": "sell"
     },
     "tradingHistory": "Margin order history",
+    "limitOrderHistory": {
+      "limitPriceHelper": "Final execution price of Limit Orders is impacted by cost of relayer fees and slippage at the time of execution. For further details see the <0>wiki</0>.",
+      "filledPriceHelper": "Final execution price of Limit Orders is impacted by cost of relayer fees and slippage at the time of execution, therefore this will not match the defined limit price exactly. For further details see the <0>wiki</0>."
+    },
     "notificationSettingsDialog": {
       "title": "Notification Settings",
       "notifyVia": "Receive email notifications for limit order fills, margin calls, and liquidations. Details <0>here</0>.",
@@ -1829,12 +1832,12 @@
       "limit": "Limit",
       "advancedSettings": "Advanced Settings",
       "limitPrice": "Limit Price:",
-      "limitPriceTooltip": "Final execution price of Limit Orders is impacted by cost of relayer fee and slippage, please note this will not match price entered here exactly.",
+      "limitPriceTooltip": "Final execution price of Limit Orders is impacted by cost of relayer fee and slippage, please note this will not match price entered here exactly. For further details see the <0>wiki</0>.",
       "receive": "Receive:",
       "amount": "Amount:",
       "errors": {
-        "minAmount": "Limit order trade size too low, please try again with a larger amount",
-        "maxAmount": "Maximum Limit Order trade size reached, please see our <0>wiki</0> for more details"
+        "minAmount": "Limit order trade size too low, please try again with a larger amount.",
+        "maxAmount": "Maximum Limit Order trade size reached, please see our <0>wiki</0> for more details."
       }
     },
     "priceHistory": {
@@ -1868,12 +1871,21 @@
       "partialFilled": "Allow partial filled order:",
       "infinity": "∞"
     },
+    "recentTrades": {
+      "title": "Recent Trades",
+      "titleAMMInfo": "Please note that since there is no AMM pool for this trading pair, we can only show trades made on the underlying AMM pool of the base asset - e.g. trades between <0></0> and <1></1>.",
+      "price": "Price",
+      "size": "Size",
+      "time": "Time",
+      "noTrades": "No Recent Trades"
+    },
     "openLimitOrders": {
       "dateTime": "Date/Time",
       "pair": "Pair",
       "orderType": "Order Type",
       "tradeAmount": "Trade Amount",
       "limitPrice": "Limit Price",
+      "limitPriceHelper": "Final execution price of Limit Orders is impacted by cost of relayer fees and slippage at the time of execution, for further details see the <0>wiki</0>.",
       "executionPrice": "Execution Price",
       "amountReceive": "Amount to Receive",
       "duration": "Duration",
@@ -1887,6 +1899,9 @@
         "edit": "Edit",
         "close": "Close"
       }
+    },
+    "limitOrderHistory": {
+      "limitPriceHelper": "Final execution price of Limit Orders is impacted by cost of relayer fees and slippage at the time of execution, please check the Open positions/Margin order history tables for the actual execution price. For further details see the <0>wiki</0>."
     },
     "cancelDialog": {
       "title": "Cancel Limit Order",
@@ -1922,7 +1937,7 @@
       "aborted": "Your transaction has failed. <br/>Please cancel or retry your transaction",
       "abortedLedger": "Make sure \"Contract data\" is set to \"Allowed\" in your Ledger app settings",
       "cta": "View in Tracker",
-      "processing": "{{action}} processing...",
+      "processing": "{{action}} Processing...",
       "complete": "{{action}} Complete",
       "submit": "{{action}} Submitted"
     }
@@ -2009,6 +2024,7 @@
       "amount": "Amount",
       "receiver": "Receiver",
       "bridgeFee": "Bridge Fee",
+      "bridgeFeeWarning": "WARNING: HIGH FEE. The cost of gas on Ethereum is significantly higher than it is on BSC or RSK.",
       "tx": "Tx",
       "confirm": "Confirm Withdraw"
     },

@@ -27,6 +27,7 @@ export function Features() {
               href="https://wiki.sovryn.app/en/technical-documents/amm/AMM-FAQ"
               target="_blank"
               rel="noreferrer noopener"
+              data-action-id="buySov-link-liquiditymining-learnmore"
             >
               {t(translations.buySovPage.features.learnMore)}
             </a>
@@ -36,6 +37,7 @@ export function Features() {
         cta={t(translations.buySovPage.features.mining.cta)}
         href="/yield-farm"
         reverse
+        ctaDataActionId="buySov-ctaButton-liquiditymining"
       />
 
       <Feature
@@ -47,6 +49,7 @@ export function Features() {
               href="https://wiki.sovryn.app/en/sovryn-dapp/trading#margin-trading-on-sovryn"
               target="_blank"
               rel="noreferrer noopener"
+              data-action-id="buySov-link-margintrade-learnmore"
             >
               {t(translations.buySovPage.features.learnMore)}
             </a>
@@ -55,6 +58,7 @@ export function Features() {
         image={imgTrading}
         cta={t(translations.buySovPage.features.marginTrading.cta)}
         href="/trade"
+        ctaDataActionId="buySov-ctaButton-margintrade"
       />
 
       <Feature
@@ -66,6 +70,7 @@ export function Features() {
               href="https://wiki.sovryn.app/en/sovryn-dapp/trading#step-1-go-to-the-sovryn-dapp"
               target="_blank"
               rel="noreferrer noopener"
+              data-action-id="buySov-link-swap-learnmore"
             >
               {t(translations.buySovPage.features.learnMore)}
             </a>
@@ -75,6 +80,7 @@ export function Features() {
         cta={t(translations.buySovPage.features.swap.cta)}
         href="/swap"
         reverse
+        ctaDataActionId="buySov-ctaButton-swap"
       />
 
       <Feature
@@ -86,6 +92,7 @@ export function Features() {
               href="https://wiki.sovryn.app/en/sovryn-dapp/market-making#video-how-to-earn-by-market-making"
               target="_blank"
               rel="noreferrer noopener"
+              data-action-id="buySov-link-yieldfarm-learnmore"
             >
               {t(translations.buySovPage.features.learnMore)}
             </a>
@@ -94,6 +101,7 @@ export function Features() {
         image={imgMarketMaking}
         cta={t(translations.buySovPage.features.liquidity.cta)}
         href="/yield-farm"
+        ctaDataActionId="buySov-ctaButton-yieldfarm"
       />
 
       <Feature
@@ -105,6 +113,7 @@ export function Features() {
               href="https://wiki.sovryn.app/en/sovryn-dapp/lending"
               target="_blank"
               rel="noreferrer noopener"
+              data-action-id="buySov-link-lend-learnmore"
             >
               {t(translations.buySovPage.features.learnMore)}
             </a>
@@ -114,6 +123,7 @@ export function Features() {
         cta={t(translations.buySovPage.features.lending.cta)}
         href="/lend"
         reverse
+        ctaDataActionId="buySov-ctaButton-lend"
       />
       <StakeVote />
     </>
