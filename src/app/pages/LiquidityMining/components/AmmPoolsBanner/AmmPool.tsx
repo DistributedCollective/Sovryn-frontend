@@ -2,12 +2,12 @@ import React from 'react';
 import { Asset } from '../../../../../types';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { useMining_ApproveAndDeposit } from '../../hooks/useMining_ApproveAndDeposit';
-import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
 import { AssetRenderer } from 'app/components/AssetRenderer';
+import { TransactionDialog } from 'app/components/TransactionDialog';
 
 interface IAmmPoolProps {
   pool: AmmLiquidityPool;
@@ -40,7 +40,7 @@ export const AmmPool: React.FC<IAmmPoolProps> = props => {
           />
         </div>
       </div>
-      <TxDialog tx={tx} />
+      <TransactionDialog tx={tx} />
     </>
   );
 };

@@ -13,7 +13,6 @@ import { AmountInput } from 'app/components/Form/AmountInput';
 import { SlippageDialog } from 'app/pages/BuySovPage/components/BuyForm/Dialogs/SlippageDialog';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
 import { BuyButton } from 'app/pages/BuySovPage/components/Button/buy';
-import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { SwapStatsPrices } from './components/SwapStatsPrices';
 import { bignumber } from 'mathjs';
 import { Input } from 'app/components/Form/Input';
@@ -38,6 +37,7 @@ import { IAssets } from 'app/pages/LandingPage/components/CryptocurrencyPrices/t
 import { IPairsData } from 'types/trading-pairs';
 import { useInterval } from 'app/hooks/useInterval';
 import { getFavoriteList } from 'utils/helpers';
+import { TransactionDialog } from 'app/components/TransactionDialog';
 
 const refreshInterval = 300000;
 const url = backendUrl[currentChainId];
@@ -354,7 +354,7 @@ export const SwapFormContainer: React.FC = () => {
         />
       </div>
 
-      <TxDialog tx={tx} />
+      <TransactionDialog tx={tx} />
 
       <ReviewDialog
         isOpen={isReviewDialogOpen}
@@ -363,7 +363,8 @@ export const SwapFormContainer: React.FC = () => {
         sourceToken={sourceToken}
         targetToken={targetToken}
         amount={amount}
-        amountReceived={rateByPath}
+        expectedReturn={rateByPath}
+        amountReceived={minReturn}
       />
     </>
   );

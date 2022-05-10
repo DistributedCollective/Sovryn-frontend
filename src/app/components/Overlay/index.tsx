@@ -38,7 +38,7 @@ const AlignVerticalClassName: { [key in AlignVertical]: string } = {
   [AlignVertical.bottom]: 'tw-items-end',
 };
 
-type OverlayProps = {
+export type OverlayProps = {
   className?: string;
   portalTarget?: string;
   zIndex?: number;
@@ -47,8 +47,9 @@ type OverlayProps = {
   align?: Align;
   alignVertical?: AlignVertical;
   background?: OverlayBackground;
-  onBlur: MouseEventHandler;
+  onBlur?: MouseEventHandler;
   children: ReactNode;
+  portalClassName?: string;
 };
 
 export const Overlay: React.FC<OverlayProps> = ({
@@ -62,6 +63,7 @@ export const Overlay: React.FC<OverlayProps> = ({
   background = OverlayBackground.dark75,
   onBlur,
   children,
+  portalClassName,
 }) => {
   const onBlurHandler = useCallback(
     (event: MouseEvent) => {
@@ -119,7 +121,7 @@ export const Overlay: React.FC<OverlayProps> = ({
 
   if (fixed) {
     return (
-      <Portal target={portalTarget} zIndex={zIndex}>
+      <Portal target={portalTarget} zIndex={zIndex} className={portalClassName}>
         {element}
       </Portal>
     );
