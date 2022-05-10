@@ -98,9 +98,10 @@ export const trimZero = (amount: string) => {
 };
 
 export const isValidNumerishValue = (value: any) =>
-  ['string', 'number'].includes(typeof value) &&
-  value !== '' &&
-  Number.isFinite(Number(value));
+  (['string', 'number'].includes(typeof value) &&
+    value !== '' &&
+    Number.isFinite(Number(value))) ||
+  (typeof value === 'object' && value.isFinite?.());
 
 export const toValidNumberishValue = (value: any): string =>
   isValidNumerishValue(value) ? bignumber(value).toString() : '0';
