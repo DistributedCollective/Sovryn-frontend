@@ -11,7 +11,6 @@ import { AmountInput } from 'app/components/Form/AmountInput';
 import { useCanInteract } from '../../../../hooks/useCanInteract';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import { getTokenContract } from '../../../../../utils/blockchain/contract-helpers';
-import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
 import { DummyInput } from 'app/components/Form/Input';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
@@ -26,6 +25,7 @@ import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
 import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
 import { Button } from 'app/components/Button';
+import { TransactionDialog } from 'app/components/TransactionDialog';
 
 interface IAddLiquidityDialogV1Props {
   pool: AmmLiquidityPool;
@@ -176,7 +176,7 @@ export const AddLiquidityDialogV1: React.FC<IAddLiquidityDialogV1Props> = ({
           )}
         </div>
       </Dialog>
-      <TxDialog
+      <TransactionDialog
         tx={tx}
         onUserConfirmed={() => props.onCloseModal()}
         onSuccess={props.onSuccess}

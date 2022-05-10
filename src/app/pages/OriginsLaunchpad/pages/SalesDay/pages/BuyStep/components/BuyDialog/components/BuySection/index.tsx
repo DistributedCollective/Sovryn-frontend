@@ -15,12 +15,11 @@ import { useSwapsExternal_getSwapExpectedReturn } from 'app/hooks/swap-network/u
 import { useSwapsExternal_approveAndSwapExternal } from 'app/hooks/swap-network/useSwapsExternal_approveAndSwapExternal';
 import { useSlippage } from 'app/pages/BuySovPage/components/BuyForm/useSlippage';
 import { useApproveAndContribute } from 'app/pages/OriginsLaunchpad/hooks/useApproveAndContribute';
-import { TxDialog } from '../TxDialog';
-import { TxDialog as SwapTxDialog } from 'app/components/Dialogs/TxDialog';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { BalanceOfAsset } from './components/BalanceOfAsset';
 import styles from './index.module.scss';
+import { TransactionDialog } from 'app/components/TransactionDialog';
 
 interface IBuySectionProps {
   saleName: string;
@@ -173,9 +172,9 @@ export const BuySection: React.FC<IBuySectionProps> = ({
         </div>
       </div>
 
-      <TxDialog tx={buyTx} />
+      <TransactionDialog tx={buyTx} />
       {txSwap && txSwap?.status !== TxStatus.CONFIRMED && (
-        <SwapTxDialog tx={txSwap} />
+        <TransactionDialog tx={txSwap} />
       )}
     </div>
   );

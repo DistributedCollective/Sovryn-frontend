@@ -19,7 +19,6 @@ import { ArrowDown } from '../../../../components/Arrows';
 import { DummyInput } from 'app/components/Form/Input';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { TxFeeCalculator } from '../../../MarginTradePage/components/TxFeeCalculator';
-import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { useLiquidityMining_getUserInfo } from '../../hooks/useLiquidityMining_getUserInfo';
@@ -34,6 +33,7 @@ import { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
 
 import { useCacheCallToWithValue } from 'app/hooks/chain/useCacheCallToWithValue';
 import { Button } from 'app/components/Button';
+import { TransactionDialog } from 'app/components/TransactionDialog';
 
 interface IRemoveLiquidityDialogV1Props {
   pool: AmmLiquidityPool;
@@ -248,7 +248,7 @@ export const RemoveLiquidityDialogV1: React.FC<IRemoveLiquidityDialogV1Props> = 
           )}
         </div>
       </Dialog>
-      <TxDialog
+      <TransactionDialog
         tx={tx}
         onUserConfirmed={() => props.onCloseModal()}
         onSuccess={props.onSuccess}

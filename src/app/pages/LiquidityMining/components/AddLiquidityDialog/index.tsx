@@ -14,13 +14,13 @@ import { DialogButton } from 'app/components/Form/DialogButton';
 import { useCanInteract } from '../../../../hooks/useCanInteract';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import { getTokenContract } from '../../../../../utils/blockchain/contract-helpers';
-import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 import { useMining_ApproveAndAddLiquidityV2 } from '../../hooks/useMining_ApproveAndAddLiquidityV2';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
 import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
+import { TransactionDialog } from 'app/components/TransactionDialog';
 
 interface IAddLiquidityDialogProps {
   pool: AmmLiquidityPool;
@@ -139,7 +139,7 @@ export const AddLiquidityDialog: React.FC<IAddLiquidityDialogProps> = ({
           )}
         </div>
       </Dialog>
-      <TxDialog
+      <TransactionDialog
         tx={tx}
         onUserConfirmed={() => props.onCloseModal()}
         onSuccess={props.onSuccess}

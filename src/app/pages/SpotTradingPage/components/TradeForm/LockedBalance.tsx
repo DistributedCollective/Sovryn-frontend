@@ -8,10 +8,10 @@ import { Asset } from 'types';
 import { weiToAssetNumberFormat } from 'utils/display-text/format';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { useSendContractTx } from 'app/hooks/useSendContractTx';
 import { Tooltip } from '@blueprintjs/core';
 import { TxType } from 'store/global/transactions-store/types';
+import { TransactionDialog } from 'app/components/TransactionDialog';
 
 type LockedBalanceProps = {
   hasPendingOrders?: boolean;
@@ -61,7 +61,7 @@ export const LockedBalance: React.FC<LockedBalanceProps> = ({
           </Tooltip>
         </button>
       )}
-      <TxDialog tx={tx} />
+      <TransactionDialog tx={tx} />
     </div>
   );
 };

@@ -13,6 +13,7 @@ export interface IPairData {
   quote_id: string;
   last_price: number;
   last_price_usd: number;
+  inverse_price: number;
   high_price_24h: number;
   lowest_price_24h: number;
   base_volume: number;
@@ -48,4 +49,19 @@ export type RecentTradesDataEntry = {
   positionSize: string;
   timestamp: string;
   priceChange: TradePriceChange;
+};
+
+export enum SwapsType {
+  BUY = 'BUY',
+  SELL = 'SELL',
+}
+
+export type RecentSwapsDataEntry = {
+  type: SwapsType;
+  fromToken: string;
+  toToken: string;
+  price: string;
+  timestamp: string;
+  quoteVolume: string;
+  transactionHash: string;
 };
