@@ -89,8 +89,8 @@ export async function createOrderDigest(
   managerAddress: string,
   chainId: number,
 ): Promise<string> {
-  const NAME = toUtf8Bytes('Perpetual Trade Manager');
-  const DOMAIN_TYPEHASH = keccak256(
+  const name = toUtf8Bytes('Perpetual Trade Manager');
+  const domainTypehash = keccak256(
     toUtf8Bytes(
       'EIP712Domain(string name,uint256 chainId,address verifyingContract)',
     ),
@@ -98,10 +98,10 @@ export async function createOrderDigest(
   let domainSeparator = keccak256(
     defaultAbiCoder.encode(
       ['bytes32', 'bytes32', 'uint256', 'address'],
-      [DOMAIN_TYPEHASH, keccak256(NAME), chainId, managerAddress],
+      [domainTypehash, keccak256(name), chainId, managerAddress],
     ),
   );
-  const TRADE_ORDER_TYPEHASH = keccak256(
+  const tradeOrderTypehash = keccak256(
     toUtf8Bytes(
       'Order(bytes32 iPerpetualId,address traderAddr,int128 fAmount,int128 fLimitPrice,int128 fTriggerPrice,uint256 iDeadline,address referrerAddr,uint32 flags,int128 fLeverage,uint256 createdTimestamp)',
     ),
@@ -122,7 +122,7 @@ export async function createOrderDigest(
         'uint256',
       ],
       [
-        TRADE_ORDER_TYPEHASH,
+        tradeOrderTypehash,
         order.iPerpetualId,
         order.traderAddr,
         order.fAmount,

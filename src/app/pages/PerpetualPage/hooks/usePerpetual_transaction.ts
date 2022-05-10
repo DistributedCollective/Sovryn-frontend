@@ -73,7 +73,7 @@ export const usePerpetual_transaction = (
 
       setSending(true);
 
-      let txType: TxType = PerpetualTxMethodTypeMap[transaction.method];
+      const txType: TxType = PerpetualTxMethodTypeMap[transaction.method];
 
       return send(
         await perpetualTransactionArgs(

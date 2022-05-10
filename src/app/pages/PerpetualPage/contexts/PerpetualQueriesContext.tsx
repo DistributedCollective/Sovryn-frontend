@@ -78,7 +78,7 @@ const initSocket = (
   };
 };
 
-export type PerpetualValue = {
+type PerpetualValue = {
   ammState: AMMState;
   perpetualParameters: PerpParameters;
   traderState: TraderState;

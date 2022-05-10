@@ -137,11 +137,11 @@ const evaluateEndpoint = async (endpoint: GraphQLEndpoint) => {
 // TODO: add Perpetual GraphQL mainnet urls
 // fallback endpoint has to always be the last entry.
 const config: GraphQLEndpoint[] = [
-  // {
-  //   graph:
-  //     'https://api.thegraph.com/subgraphs/name/omerzam/perpetual-swaps-compete',
-  //   index: 'https://api.thegraph.com/index-node/graphql',
-  // },
+  {
+    graph:
+      'https://api.thegraph.com/subgraphs/name/omerzam/perpetual-swaps-compete',
+    index: 'https://api.thegraph.com/index-node/graphql',
+  },
   {
     graph:
       'https://graphql.sovryn.app/subgraphs/name/DistributedCollective/Sovryn-perpetual-swaps-subgraph',

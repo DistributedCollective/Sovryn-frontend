@@ -585,7 +585,7 @@ const perpetualTradeArgs = (
     account,
     floatToABK64x64(signedAmount),
     floatToABK64x64(limitPrice),
-    0, // TODO: this is fTriggerPrice, it will need to be adjusted once we have limit orders functionality, it's 0 for market orders
+    0,
     deadline,
     ethGenesisAddress,
     isClosePosition ? MASK_CLOSE_ONLY : MASK_MARKET_ORDER,
@@ -597,7 +597,6 @@ const perpetualTradeArgs = (
 };
 
 const perpetualCreateLimitTradeArgs = async (
-  context: PerpetualQueriesContextValue,
   account: string,
   transaction: PerpetualTxCreateLimitOrder,
 ): Promise<Parameters<SendTxResponseInterface['send']>[0]> => {
@@ -640,14 +639,13 @@ const perpetualCreateLimitTradeArgs = async (
 
   const signature = await walletService.request({
     method: 'personal_sign',
-    params: [digest, walletService.address.toLowerCase()],
+    params: [digest, account.toLowerCase()],
   });
 
   return [order, signature];
 };
 
 const perpetualCancelLimitTradeArgs = async (
-  context: PerpetualQueriesContextValue,
   account: string,
   transaction: PerpetualTxCancelLimitOrder,
 ): Promise<Parameters<SendTxResponseInterface['send']>[0]> => {
@@ -671,7 +669,7 @@ const perpetualCancelLimitTradeArgs = async (
 
   const signature = await walletService.request({
     method: 'personal_sign',
-    params: [cancelDigest, walletService.address.toLowerCase()],
+    params: [cancelDigest, account.toLowerCase()],
   });
 
   return [digest, signature];
@@ -689,18 +687,10 @@ export const perpetualTransactionArgs = async (
       return perpetualTradeArgs(perpetuals, account, tradeTx);
     case PerpetualTxMethod.createLimitOrder:
       const createLimitTx: PerpetualTxCreateLimitOrder = transaction;
-      return await perpetualCreateLimitTradeArgs(
-        perpetuals,
-        account,
-        createLimitTx,
-      );
+      return await perpetualCreateLimitTradeArgs(account, createLimitTx);
     case PerpetualTxMethod.cancelLimitOrder:
       const cancelLimitTx: PerpetualTxCancelLimitOrder = transaction;
-      return await perpetualCancelLimitTradeArgs(
-        perpetuals,
-        account,
-        cancelLimitTx,
-      );
+      return await perpetualCancelLimitTradeArgs(account, cancelLimitTx);
     case PerpetualTxMethod.deposit:
       const depositTx: PerpetualTxDepositMargin = transaction;
       return [pair.id, weiToABK64x64(depositTx.amount)];

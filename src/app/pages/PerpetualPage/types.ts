@@ -114,11 +114,11 @@ export type PerpetualTrade = {
   collateral: Asset;
   tradeType: PerpetualTradeType;
   position: TradingPosition;
-  /** base value wei string */
+  /** base value as wei string */
   amount: string;
   /** limit quote price as wei string */
   limit?: string;
-  /** trigger quote trigger wei string */
+  /** trigger quote price as wei string */
   trigger?: string;
   /** collateral value wei string */
   margin?: string;

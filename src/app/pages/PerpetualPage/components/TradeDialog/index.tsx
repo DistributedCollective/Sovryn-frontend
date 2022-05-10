@@ -189,7 +189,7 @@ export const TradeDialog: React.FC = () => {
   }, [account, origin, requestedTransactions]);
 
   useEffect(() => {
-    // reset current transaction state when model is closed or called again
+    // reset current transaction state when modal is closed or called again
     setCurrentTransaction(undefined);
     setTransactions(requestedTransactions);
   }, [origin, requestedTransactions]);
@@ -234,7 +234,7 @@ export const TradeDialog: React.FC = () => {
       ? numberFromWei(trade.margin)
       : Math.abs(amountTarget) / trade.leverage;
 
-    let orderCost =
+    const orderCost =
       isLimitOrder && trade.limit
         ? getEstimatedMarginCollateralForLimitOrder(
             perpParameters,

@@ -240,7 +240,7 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
           <div className="tw-flex tw-flex-col tw-items-center tw-justify-center tw-w-full tw-mt-2 tw-text-sm">
             <div>
               <span className="tw-text-gray-10 tw-mr-2">
-                {t(translations.perpetualPage.reviewTrade.labels.OrderSize)}
+                {t(translations.perpetualPage.reviewTrade.labels.orderSize)}
               </span>
               <span className="tw-text-sov-white">
                 <AssetValue

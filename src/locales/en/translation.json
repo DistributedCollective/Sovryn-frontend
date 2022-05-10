@@ -2319,7 +2319,7 @@
         "minEntryPrice": "Min Entry Price:",
         "limitPrice": "Limit Price:",
         "triggerPrice": "Trigger Price:",
-        "OrderSize": "Order Size:"
+        "orderSize": "Order Size:"
       },
       "confirm": "Confirm"
     },
