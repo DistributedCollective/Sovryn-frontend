@@ -13,8 +13,10 @@ export const useMargin_RecentTrades = (baseToken: Asset, quoteToken: Asset) => {
   );
   const baseTokenAddress = getTokenContract(baseToken).address;
   const quoteTokenAddress = getTokenContract(quoteToken).address;
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     axios
       .get(url, {
         params: {
@@ -28,8 +30,9 @@ export const useMargin_RecentTrades = (baseToken: Asset, quoteToken: Asset) => {
       })
       .catch(e => {
         console.log(e);
-      });
+      })
+      .finally(() => setLoading(false));
   }, [baseTokenAddress, quoteTokenAddress]);
 
-  return data;
+  return { data, loading };
 };
