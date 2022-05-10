@@ -32,7 +32,6 @@ import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { useStaking_getCurrentVotes } from '../../hooks/staking/useStaking_getCurrentVotes';
 import { useStaking_computeWeightByDate } from '../../hooks/staking/useStaking_computeWeightByDate';
 import { StakeForm } from './components/StakeForm';
-import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { useStakeIncrease } from '../../hooks/staking/useStakeIncrease';
 import { useStakeStake } from '../../hooks/staking/useStakeStake';
 import { useStakeWithdraw } from '../../hooks/staking/useStakeWithdraw';
@@ -48,6 +47,7 @@ import { useContractPauseState } from 'app/hooks/useContractPauseState';
 import { AlertBadge } from 'app/components/AlertBadge/AlertBadge';
 import { discordInvite, bitocracyUrl } from 'utils/classifiers';
 import { Button, ButtonType } from 'app/components/Button';
+import { TransactionDialog } from 'app/components/TransactionDialog';
 import { useStaking_timestampToLockDate } from 'app/hooks/staking/useStaking_timestampToLockDate';
 
 const now = new Date();
@@ -565,12 +565,12 @@ const InnerStakePage: React.FC = () => {
             />
             <HistoryEventsTable />
           </div>
-          <TxDialog tx={increaseTx} />
-          <TxDialog tx={stakeTx} />
-          <TxDialog tx={extendTx} />
-          <TxDialog tx={withdrawTx} />
-          <TxDialog tx={delegateTx} />
-          <TxDialog tx={vestingDelegateTx} />
+          <TransactionDialog tx={increaseTx} />
+          <TransactionDialog tx={stakeTx} />
+          <TransactionDialog tx={extendTx} />
+          <TransactionDialog tx={withdrawTx} />
+          <TransactionDialog tx={delegateTx} />
+          <TransactionDialog tx={vestingDelegateTx} />
 
           <>
             {balanceOf.value !== '0' && (
