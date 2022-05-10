@@ -28,6 +28,9 @@ import { bridgeNetwork } from '../../pages/BridgeDepositPage/utils/bridge-networ
 import { BridgeNetworkDictionary } from '../../pages/BridgeDepositPage/dictionaries/bridge-network-dictionary';
 import { Chain, Nullable } from '../../../types';
 import { gsnNetwork } from '../../../utils/gsn/GsnNetwork';
+import { debug } from 'utils/debug';
+
+const log = debug('WalletProvider');
 
 // start block watcher
 function createBlockPollChannel({ interval }) {
@@ -100,8 +103,7 @@ function* processBlockHeader(event) {
       yield call(processBlock, { block, address });
     }
   } catch (error) {
-    console.error('Error in block processing:');
-    console.error(error);
+    log.error('Error in block processing:', error);
   }
 }
 
@@ -110,7 +112,7 @@ function* processBlock({ block, address }) {
     const user = address.toLowerCase();
 
     if (!block) {
-      console.log('no block?');
+      log.log('no block?');
       return;
     }
 
@@ -142,8 +144,7 @@ function* processBlock({ block, address }) {
       yield put(actions.reSync(block.number));
     }
   } catch (error) {
-    console.error('Error in block processing:');
-    console.error(error);
+    log.error('Error in block processing:', error);
   }
 }
 
@@ -181,37 +182,42 @@ function* callTestTransactionsState() {
   const txes = transactions.filter(item => item.status === TxStatus.PENDING);
 
   for (let tx of txes) {
-    let receipt: Nullable<TransactionReceipt> = yield call(
-      [bridgeNetwork, bridgeNetwork.receipt],
-      (tx.chainId && BridgeNetworkDictionary.getByChainId(tx.chainId)?.chain) ||
-        Chain.RSK,
-      tx.transactionHash,
-    );
+    try {
+      let receipt: Nullable<TransactionReceipt> = yield call(
+        [bridgeNetwork, bridgeNetwork.receipt],
+        (tx.chainId &&
+          BridgeNetworkDictionary.getByChainId(tx.chainId)?.chain) ||
+          Chain.RSK,
+        tx.transactionHash,
+      );
 
-    if (!receipt) {
-      continue;
-    }
-
-    if (tx.chainId && tx.gsnPaymaster) {
-      try {
-        receipt = gsnNetwork
-          .getProvider(tx.chainId, tx.gsnPaymaster)
-          .translateReceipt(receipt);
-      } catch (error) {
-        console.error(error);
+      if (!receipt) {
+        continue;
       }
-    }
 
-    if (receipt?.status) {
-      hasChanges = true;
-    }
+      if (tx.chainId && tx.gsnPaymaster) {
+        try {
+          receipt = gsnNetwork
+            .getProvider(tx.chainId, tx.gsnPaymaster)
+            .translateReceipt(receipt);
+        } catch (error) {
+          console.error(error);
+        }
+      }
 
-    yield put(
-      txActions.updateTransactionStatus({
-        transactionHash: tx.transactionHash,
-        status: receipt?.status ? TxStatus.CONFIRMED : TxStatus.FAILED,
-      }),
-    );
+      if (receipt?.status) {
+        hasChanges = true;
+      }
+
+      yield put(
+        txActions.updateTransactionStatus({
+          transactionHash: tx.transactionHash,
+          status: receipt?.status ? TxStatus.CONFIRMED : TxStatus.FAILED,
+        }),
+      );
+    } catch (e) {
+      log.error('failed to get receipt', e);
+    }
   }
 
   if (hasChanges) {
@@ -228,9 +234,13 @@ function* testTransactionsPeriodically() {
 }
 
 function* addVisitSaga({ payload }: PayloadAction<string>) {
-  yield call([axios, axios.post], backendUrl[currentChainId] + '/addVisit', {
-    walletAddress: payload,
-  });
+  try {
+    yield call([axios, axios.post], backendUrl[currentChainId] + '/addVisit', {
+      walletAddress: payload,
+    });
+  } catch (error) {
+    log.error('failed to log visit', error);
+  }
 }
 
 export function* walletProviderSaga() {
