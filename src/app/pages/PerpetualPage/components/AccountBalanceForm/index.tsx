@@ -32,7 +32,9 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const { collateral, pairType } = useSelector(selectPerpetualPage);
+  const { collateral, pairType, isAddressWhitelisted } = useSelector(
+    selectPerpetualPage,
+  );
 
   const collateralAsset = useMemo(() => getCollateralName(collateral), [
     collateral,
@@ -47,13 +49,27 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
     checkMaintenance(States.PERPETUALS) ||
     checkMaintenance(States.PERPETUALS_ACCOUNT_WITHDRAW);
 
+  const fundAccountDisabled = useMemo(
+    () => fundAccountLocked || !isAddressWhitelisted,
+    [fundAccountLocked, isAddressWhitelisted],
+  );
+
+  const withdrawAccountDisabled = useMemo(
+    () => withdrawAccountLocked || !isAddressWhitelisted,
+    [isAddressWhitelisted, withdrawAccountLocked],
+  );
+
   const onOpenDeposit = useCallback(() => {
-    history.push('/fast-btc/deposit/bsc');
-  }, [history]);
+    if (!fundAccountDisabled) {
+      history.push('/fast-btc/deposit/bsc');
+    }
+  }, [fundAccountDisabled, history]);
 
   const onOpenWithdraw = useCallback(() => {
-    history.push('/fast-btc/withdraw/bsc');
-  }, [history]);
+    if (!withdrawAccountDisabled) {
+      history.push('/fast-btc/withdraw/bsc');
+    }
+  }, [history, withdrawAccountDisabled]);
 
   const onOpenTransfer = useCallback(() => {
     dispatch(actions.setModal(PerpetualPageModals.FASTBTC_TRANSFER));
@@ -184,7 +200,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
       <div className="tw-flex tw-flex-col md:tw-flex-row tw-justify-center tw-mx-auto tw-mt-16 tw-space-y-4 md:tw-space-y-0 md:tw-space-x-10">
         <ActionButton
           onClick={onOpenDeposit}
-          disabled={fundAccountLocked}
+          disabled={fundAccountDisabled}
           tooltip={
             fundAccountLocked
               ? t(translations.maintenance.perpetualsAccountFund)
@@ -196,7 +212,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
 
         <ActionButton
           onClick={onOpenWithdraw}
-          disabled={withdrawAccountLocked}
+          disabled={withdrawAccountDisabled}
           tooltip={
             withdrawAccountLocked
               ? t(translations.maintenance.perpetualsAccountWithdraw)

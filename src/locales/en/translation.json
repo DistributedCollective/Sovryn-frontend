@@ -2272,7 +2272,8 @@
         "slippageSettings": "Slippage Settings"
       },
       "disabledState": {
-        "emptyBalanceExplanation": "Fund your account to start trading"
+        "emptyBalanceExplanation": "Fund your account to start trading",
+        "whitelistExplanation": "Sovryn Perpetuals trading is not available for unregistered users. Based on your current address, you are not part of the selected users that are granted access to the Sovryn Perpetuals trading platform. This will change in the future and you will be able to trade with us! Please check-in again soon here, on <0>sovryn.app</0>, or follow us on <1>Twitter</1> to stay informed."
       },
       "tooltips": {
         "orderSize": "The notional amount for your position.",
