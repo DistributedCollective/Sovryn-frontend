@@ -69,9 +69,8 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({
 
   const shouldHideExecPrice = useMemo(
     () =>
-      ((tradeType === PerpetualTradeType.LIMIT ||
-        tradeType === PerpetualTradeType.STOP) &&
-        orderState === OrderState.Opened) ||
+      [PerpetualTradeType.LIMIT, PerpetualTradeType.STOP].includes(tradeType) ||
+      [OrderState.Opened, OrderState.Cancelled].includes(orderState) ||
       !execPrice,
     [execPrice, orderState, tradeType],
   );

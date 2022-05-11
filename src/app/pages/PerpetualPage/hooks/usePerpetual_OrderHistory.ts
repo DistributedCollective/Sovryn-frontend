@@ -184,7 +184,7 @@ export const usePerpetual_OrderHistory = (
             orderSize: tradeAmountWei,
             limitPrice: limitPrice,
             execPrice: limitPrice,
-            orderId: item.id,
+            orderId: item.createdTransactionHash,
           };
         }),
       );

@@ -211,6 +211,7 @@ class EventDictionary {
           'state',
           'deadline',
           'createdTimestamp',
+          'createdTransactionHash',
         ]),
       ],
     ],
