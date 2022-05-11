@@ -16,6 +16,7 @@ import {
   isMainnet,
   discordInvite,
   notificationServiceUrl,
+  currentChainId,
 } from 'utils/classifiers';
 import { ChainId } from 'types';
 import { useWalletContext } from '@sovryn/react-wallet';
@@ -26,6 +27,8 @@ import {
   PerpetualPairDictionary,
   PerpetualPairType,
 } from 'utils/dictionaries/perpetual-pair-dictionary';
+
+const baseUrl = notificationServiceUrl[currentChainId];
 
 export const CompetitionPageContainer: React.FC = () => {
   const [isRegistered, setIsRegistered] = useState(false);
@@ -42,7 +45,7 @@ export const CompetitionPageContainer: React.FC = () => {
 
   const getRegisteredWallets = useCallback(() => {
     axios
-      .get(`${notificationServiceUrl}/tradingCompetition`)
+      .get(`${baseUrl}tradingCompetition`)
       .then(res => {
         if (res?.status === 200 && res.data) {
           setRegisteredTraders(res.data);
@@ -83,9 +86,7 @@ export const CompetitionPageContainer: React.FC = () => {
     }
 
     axios
-      .get(
-        `${notificationServiceUrl}/tradingCompetition/${account.toLowerCase()}`,
-      )
+      .get(`${baseUrl}tradingCompetition/${account.toLowerCase()}`)
       .then(res => {
         if (
           res?.status === 200 &&
