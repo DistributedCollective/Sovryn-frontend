@@ -17,8 +17,8 @@ import { bignumber } from 'mathjs';
 import { Asset } from 'types';
 import { weiToUSD } from 'utils/display-text/format';
 import { useSendContractTx } from 'app/hooks/useSendContractTx';
-import { TxDialog } from 'app/components/Dialogs/TxDialog';
-import classNames from 'classnames';
+import { TransactionDialog } from 'app/components/TransactionDialog';
+import { Button, ButtonSize, ButtonStyle } from 'app/components/Button';
 
 interface IFeeBlockProps {
   contractToken: AssetDetails;
@@ -26,6 +26,7 @@ interface IFeeBlockProps {
   useNewContract?: boolean;
   title?: string;
   frozen?: boolean;
+  vestedFees?: boolean;
 }
 
 export const FeeBlock: React.FC<IFeeBlockProps> = ({
@@ -34,6 +35,7 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
   useNewContract = false,
   title,
   frozen,
+  vestedFees,
 }) => {
   const account = useAccount();
   const { asset } = contractToken;
@@ -135,21 +137,20 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
               </Tooltip>
             </div>
           </div>
-          <button
-            onClick={handleWithdrawFee}
-            type="button"
+          <Button
+            text={t(translations.userAssets.actions.withdraw)}
             disabled={frozen || currency.value === '0'}
-            className={classNames(
-              'tw-text-primary hover:tw-text-primary tw-p-0 tw-text-normal tw-lowercase hover:tw-underline tw-font-medium tw-font-body tw-tracking-normal',
-              (frozen || currency.value === '0') &&
-                'tw-opacity-50 tw-cursor-not-allowed',
-            )}
-          >
-            {t(translations.userAssets.actions.withdraw)}
-          </button>
+            onClick={handleWithdrawFee}
+            className="tw-lowercase"
+            dataActionId={`staking-withdrawalButton-${
+              vestedFees ? 'vested' : ''
+            }${asset}`}
+            style={ButtonStyle.link}
+            size={ButtonSize.sm}
+          />
         </div>
       )}
-      <TxDialog tx={tx} />
+      <TransactionDialog tx={tx} />
     </>
   );
 };

@@ -22,6 +22,7 @@ import { Tooltip } from '@blueprintjs/core';
 import type { RevertInstructionError } from 'web3-core-helpers';
 import { Spinner, SpinnerSize } from 'app/components/Spinner';
 import classNames from 'classnames';
+import { useStaking_timestampToLockDate } from 'app/hooks/staking/useStaking_timestampToLockDate';
 
 interface StakeItem {
   stakedAmount: string;
@@ -196,9 +197,14 @@ const AssetRow: React.FC<IAssetRowProps> = ({
   );
   const [votingPower, setVotingPower] = useState(0);
   const WEIGHT_FACTOR = useStaking_WEIGHT_FACTOR();
+
+  const currentLockDate = useStaking_timestampToLockDate(
+    Math.round(now.getTime() / 1e3),
+  );
+
   const getWeight = useStaking_computeWeightByDate(
     Number(item.unlockDate),
-    Math.round(now.getTime() / 1e3),
+    Number(currentLockDate.value),
   );
 
   const SOV = AssetsDictionary.get(Asset.SOV);
@@ -279,6 +285,7 @@ const AssetRow: React.FC<IAssetRowProps> = ({
                 <button
                   type="button"
                   className="tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent"
+                  data-action-id="staking-stake-increaseButton"
                 >
                   {t(translations.stake.actions.increase)}
                 </button>
@@ -293,6 +300,7 @@ const AssetRow: React.FC<IAssetRowProps> = ({
                 <button
                   type="button"
                   className="tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent"
+                  data-action-id="staking-stake-extendButton"
                 >
                   {t(translations.stake.actions.extend)}
                 </button>
@@ -311,6 +319,7 @@ const AssetRow: React.FC<IAssetRowProps> = ({
                   onIncrease(Number(item.stakedAmount), Number(item.unlockDate))
                 }
                 disabled={!locked || paused}
+                data-action-id="staking-stake-increaseButton"
               >
                 {t(translations.stake.actions.increase)}
               </button>
@@ -325,6 +334,7 @@ const AssetRow: React.FC<IAssetRowProps> = ({
                   onExtend(Number(item.stakedAmount), Number(item.unlockDate))
                 }
                 disabled={paused}
+                data-action-id="staking-stake-extendButton"
               >
                 {t(translations.stake.actions.extend)}
               </button>
@@ -342,6 +352,7 @@ const AssetRow: React.FC<IAssetRowProps> = ({
               <button
                 type="button"
                 className="tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent"
+                data-action-id="staking-stake-unstakeButton"
               >
                 {t(translations.stake.actions.unstake)}
               </button>
@@ -358,6 +369,7 @@ const AssetRow: React.FC<IAssetRowProps> = ({
                 onUnstake(item.stakedAmount, Number(item.unlockDate))
               }
               disabled={frozen}
+              data-action-id="staking-stake-unstakeButton"
             >
               {t(translations.stake.actions.unstake)}
             </button>
@@ -374,6 +386,7 @@ const AssetRow: React.FC<IAssetRowProps> = ({
               <button
                 type="button"
                 className="tw-text-primary tw-tracking-normal hover:tw-text-primary hover:tw-underline tw-mr-1 xl:tw-mr-4 tw-p-0 tw-font-normal tw-font-montserrat tw-bg-transparent hover:tw-bg-opacity-0 tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-transparent"
+                data-action-id="staking-stake-delegateButton"
               >
                 {t(translations.stake.actions.delegate)}
               </button>
@@ -389,6 +402,7 @@ const AssetRow: React.FC<IAssetRowProps> = ({
                 onDelegate(Number(item.stakedAmount), Number(item.unlockDate))
               }
               disabled={!locked || paused}
+              data-action-id="staking-stake-delegateButton"
             >
               {t(translations.stake.actions.delegate)}
             </button>

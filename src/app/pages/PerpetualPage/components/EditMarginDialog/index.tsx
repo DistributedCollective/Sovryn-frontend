@@ -240,10 +240,10 @@ export const EditMarginDialog: React.FC = () => {
           <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-5">
             <button
               className={classNames(
-                'tw-w-full tw-h-8 tw-font-semibold tw-text-sm tw-rounded-l-lg tw-border tw-border-secondary tw-transition-colors tw-duration-300',
+                'tw-w-full tw-h-8 tw-font-semibold tw-text-sm tw-rounded-l-lg tw-bg-secondary tw-border tw-border-secondary tw-transition-colors tw-duration-300',
                 mode === EditMarginDialogMode.increase
-                  ? 'tw-text-white tw-bg-secondary-50'
-                  : 'tw-text-gray-5 tw-bg-transparent hover:tw-text-white hover:tw-bg-secondary-50',
+                  ? 'tw-text-white tw-bg-opacity-50'
+                  : 'tw-text-gray-5 tw-bg-opacity-0 hover:tw-text-white hover:tw-bg-opacity-50',
               )}
               onClick={onSelectIncrease}
             >
@@ -251,10 +251,10 @@ export const EditMarginDialog: React.FC = () => {
             </button>
             <button
               className={classNames(
-                'tw-w-full tw-h-8 tw-font-semibold tw-text-sm tw-rounded-r-lg tw-border tw-border-secondary tw-transition-colors tw-duration-300',
+                'tw-w-full tw-h-8 tw-font-semibold tw-text-sm tw-rounded-r-lg tw-bg-secondary tw-border tw-border-secondary tw-transition-colors tw-duration-300',
                 mode === EditMarginDialogMode.decrease
-                  ? 'tw-text-white tw-bg-secondary-50'
-                  : 'tw-text-gray-5 tw-bg-transparent hover:tw-text-white hover:tw-bg-secondary-50',
+                  ? 'tw-text-white tw-bg-opacity-50'
+                  : 'tw-text-gray-5 tw-bg-opacity-0 hover:tw-text-white hover:tw-bg-opacity-50',
               )}
               onClick={onSelectDecrease}
             >

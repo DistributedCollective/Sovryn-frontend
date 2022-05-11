@@ -21,7 +21,8 @@ import { DummyInput } from '../../../../components/Form/Input';
 import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import { TxDialog } from '../../../../components/Dialogs/TxDialog';
+import { TransactionDialog } from 'app/components/TransactionDialog';
+
 interface IDialogContentProps {
   item: ActiveLoan;
   onCloseModal: () => void;
@@ -144,7 +145,7 @@ export function DialogContent(props: IDialogContentProps) {
           disabled={rest.loading || !valid || closeTradesLocked || loading}
         />
       </div>
-      <TxDialog tx={rest} onClose={props.onCloseModal} />
+      <TransactionDialog tx={rest} onClose={props.onCloseModal} />
     </>
   );
 }

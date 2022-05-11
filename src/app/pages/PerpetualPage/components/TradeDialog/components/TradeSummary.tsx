@@ -18,11 +18,11 @@ import {
   TxStatus,
 } from '../../../../../../store/global/transactions-store/types';
 import { LinkToExplorer } from '../../../../../components/LinkToExplorer';
-import { StatusComponent } from '../../../../../components/Dialogs/TxDialog';
 import { RecentTradesContext } from '../../../contexts/RecentTradesContext';
 import { RecentTradesDataEntry } from '../../RecentTradesTable/types';
 import { TradeAnalysis } from '../types';
 import { getCollateralName } from 'app/pages/PerpetualPage/utils/renderUtils';
+import { StatusComponent } from 'app/components/Dialogs/StatusComponent';
 
 const TxTypeLabels = {
   [TxType.APPROVE]: translations.perpetualPage.processTrade.labels.approvalTx,

@@ -27,7 +27,7 @@ export const ExpiryDateInput: React.FC<ExpiryDateInputProps> = ({
     <div className="tw-w-2/5">
       <Input
         value={value}
-        onChange={onInputChange}
+        onChangeText={onInputChange}
         step={step}
         type="number"
         min={0}

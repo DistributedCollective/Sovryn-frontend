@@ -58,7 +58,7 @@ export const ConnectFormStep: TransitionStep<NewPositionCardStep> = ({
         />
       </p>
       <button
-        className="tw-w-full tw-min-h-10 tw-p-2 tw-text-base tw-text-primary tw-border tw-border-primary tw-bg-primary-05 tw-rounded-lg tw-transition-colors tw-duration-300 hover:tw-bg-primary-25"
+        className="tw-w-full tw-min-h-10 tw-p-2 tw-text-base tw-text-primary tw-border tw-border-primary tw-bg-transparent tw-rounded-lg tw-transition-colors tw-duration-300 hover:tw-bg-primary-10"
         onClick={connect}
       >
         {t(translations.perpetualPage.tradeForm.buttons.connect)}

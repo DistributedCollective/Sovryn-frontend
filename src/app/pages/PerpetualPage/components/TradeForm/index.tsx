@@ -553,7 +553,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           step={lotSize}
           min={0}
           max={maxTradeSize}
-          onChange={onChangeOrderAmount}
+          onChangeText={onChangeOrderAmount}
           onBlur={onBlurOrderAmount}
         />
       </div>
@@ -589,7 +589,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           value={triggerPrice}
           step={1}
           min={0}
-          onChange={onChangeTriggerPrice}
+          onChangeText={onChangeTriggerPrice}
         />
       </div>
 
@@ -609,7 +609,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
               value={limit}
               step={1}
               min={0}
-              onChange={onChangeOrderLimit}
+              onChangeText={onChangeOrderLimit}
             />
           </div>
 
