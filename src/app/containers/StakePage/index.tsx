@@ -483,6 +483,7 @@ const InnerStakePage: React.FC = () => {
                   title={t(translations.stake.vestingFees)}
                   useNewContract
                   frozen={frozen}
+                  vestedFees={true}
                 />
               </div>
               <div className="tw-staking-box tw-bg-gray-3 tw-p-8 tw-pb-6 tw-mb-5 tw-rounded-2xl lg:tw-w-1/3 lg:tw-mx-2 lg:tw-mb-0 2xl:tw-w-1/4">
