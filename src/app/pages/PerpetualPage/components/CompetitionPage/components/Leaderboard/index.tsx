@@ -105,6 +105,11 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
 
             entry.unrealizedPnLCC = 0;
 
+            const balance = ABK64x64ToFloat(BigNumber.from(trader.balance));
+            const capitalUsed = ABK64x64ToFloat(
+              BigNumber.from(trader.capitalUsed),
+            );
+
             if (
               trader.positions.find(item => !item.isClosed) &&
               trader.traderState
@@ -143,12 +148,15 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
                   ammState,
                   perpetualParameters,
                 ) * baseToCollateral;
+
+              entry.totalPnL =
+                (balance + parsedTraderState.marginBalanceCC) / capitalUsed;
             }
 
-            const totalProfitWithFunding =
-              entry.realizedProfitCC + entry.unrealizedPnLCC;
+            // const totalProfitWithFunding =
+            //   entry.realizedProfitCC + entry.unrealizedPnLCC;
 
-            entry.totalPnL = (totalProfitWithFunding / initialFunding) * 100;
+            //entry.totalPnL = (totalProfitWithFunding / initialFunding) * 100;
 
             const lastPositionProfit = ABK64x64ToFloat(
               BigNumber.from(trader.positions[0].totalPnLCC || '0'),

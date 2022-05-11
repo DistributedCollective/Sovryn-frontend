@@ -24,6 +24,8 @@ export function useGetLeaderboardData(
       totalPnLCC
       totalFundingPaymentCC
       positionsTotalCount
+      balance
+      capitalUsed
       traderState {
         marginBalanceCC
         availableMarginCC
