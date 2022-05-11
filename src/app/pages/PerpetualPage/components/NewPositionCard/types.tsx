@@ -11,5 +11,5 @@ export type NewPositionCardContextType = {
   hasEmptyBalance: boolean;
   trade: PerpetualTrade;
   onChangeTrade: (trade: PerpetualTrade) => void;
-  onSubmit: () => void;
+  onSubmit: (trade: PerpetualTrade) => void;
 };

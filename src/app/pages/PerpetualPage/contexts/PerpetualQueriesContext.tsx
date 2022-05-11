@@ -90,7 +90,7 @@ type PerpetualValue = {
   availableBalance: string;
 };
 
-type PerpetualQueriesContextValue = {
+export type PerpetualQueriesContextValue = {
   perpetuals: {
     [key: string]: PerpetualValue;
   };

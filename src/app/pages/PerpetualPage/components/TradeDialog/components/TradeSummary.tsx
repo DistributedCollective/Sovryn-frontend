@@ -34,6 +34,13 @@ const TxTypeLabels = {
     translations.perpetualPage.processTrade.labels.marginTx,
 };
 
+const TradeTypeLabels: Record<PerpetualTradeType, any> = {
+  [PerpetualTradeType.MARKET]: translations.perpetualPage.reviewTrade.market,
+  [PerpetualTradeType.LIMIT]: translations.perpetualPage.reviewTrade.limit,
+  [PerpetualTradeType.STOP]: translations.perpetualPage.reviewTrade.stop,
+  [PerpetualTradeType.LIQUIDATION]: undefined,
+};
+
 type TradeSummaryProps = {
   origin?: PerpetualPageModals;
   trade?: PerpetualTrade;
@@ -73,16 +80,15 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
     showMarginText,
     showAmountText,
     showCloseText,
+    showOrderText,
     isBuy,
   } = useMemo(() => {
     switch (origin) {
       case PerpetualPageModals.CLOSE_POSITION:
         return {
-          title: `${
-            trade?.tradeType === PerpetualTradeType.MARKET
-              ? t(translations.perpetualPage.reviewTrade.market)
-              : t(translations.perpetualPage.reviewTrade.limit)
-          } ${t(translations.perpetualPage.reviewTrade.close)}`,
+          title: `${t(
+            TradeTypeLabels[trade?.tradeType || PerpetualTradeType.MARKET],
+          )} ${t(translations.perpetualPage.reviewTrade.close)}`,
           showAmountText: true,
           showCloseText: true,
           isBuy: amountChange > 0,
@@ -105,27 +111,36 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
           showMarginText: true,
           isBuy: marginChange > 0,
         };
-      case PerpetualPageModals.NONE:
+      case PerpetualPageModals.CANCEL_ORDER:
         return {
-          title: `${toNumberFormat(trade?.leverage || leverageTarget, 2)}x ${
-            trade?.tradeType === PerpetualTradeType.MARKET
-              ? t(translations.perpetualPage.reviewTrade.market)
-              : t(translations.perpetualPage.reviewTrade.limit)
-          } ${
+          title: `${t(translations.perpetualPage.reviewTrade.cancel)} ${t(
+            TradeTypeLabels[trade?.tradeType || PerpetualTradeType.MARKET],
+          )} ${
             amountChange > 0
               ? t(translations.perpetualPage.reviewTrade.buy)
               : t(translations.perpetualPage.reviewTrade.sell)
           }`,
-          showAmountText: true,
+          showOrderText: true,
+          isBuy: amountChange > 0,
+        };
+      case PerpetualPageModals.NONE:
+        return {
+          title: `${toNumberFormat(trade?.leverage || leverageTarget, 2)}x ${t(
+            TradeTypeLabels[trade?.tradeType || PerpetualTradeType.MARKET],
+          )} ${
+            amountChange > 0
+              ? t(translations.perpetualPage.reviewTrade.buy)
+              : t(translations.perpetualPage.reviewTrade.sell)
+          }`,
+          showAmountText: trade?.tradeType === PerpetualTradeType.MARKET,
+          showOrderText: trade?.tradeType !== PerpetualTradeType.MARKET,
           isBuy: amountChange > 0,
         };
       default:
         return {
-          title: `${toNumberFormat(leverageTarget, 2)}x ${
-            trade?.tradeType === PerpetualTradeType.MARKET
-              ? t(translations.perpetualPage.reviewTrade.market)
-              : t(translations.perpetualPage.reviewTrade.limit)
-          } ${
+          title: `${toNumberFormat(leverageTarget, 2)}x ${t(
+            TradeTypeLabels[trade?.tradeType || PerpetualTradeType.MARKET],
+          )} ${
             amountChange > 0
               ? t(translations.perpetualPage.reviewTrade.buy)
               : t(translations.perpetualPage.reviewTrade.sell)
@@ -219,6 +234,60 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
                 />
               </span>
             </div>
+          </div>
+        )}
+        {showOrderText && (
+          <div className="tw-flex tw-flex-col tw-items-center tw-justify-center tw-w-full tw-mt-2 tw-text-sm">
+            <div>
+              <span className="tw-text-gray-10 tw-mr-2">
+                {t(translations.perpetualPage.reviewTrade.labels.orderSize)}
+              </span>
+              <span className="tw-text-sov-white">
+                <AssetValue
+                  className="tw-font-light"
+                  assetClassName="tw-font-light"
+                  value={trade?.amount || '0'}
+                  assetString={pair.baseAsset}
+                  mode={AssetValueMode.auto}
+                />
+              </span>
+            </div>
+            <div>
+              <span className="tw-text-gray-10 tw-mr-2">
+                {t(translations.perpetualPage.reviewTrade.labels.limitPrice)}
+              </span>
+              <span className="tw-text-sov-white">
+                <AssetValue
+                  className="tw-font-light"
+                  assetClassName="tw-font-light"
+                  value={trade?.limit || '0'}
+                  assetString={pair.quoteAsset}
+                  minDecimals={2}
+                  maxDecimals={2}
+                  mode={AssetValueMode.auto}
+                />
+              </span>
+            </div>
+            {trade?.trigger && trade.trigger !== '0' && (
+              <div>
+                <span className="tw-text-gray-10 tw-mr-2">
+                  {t(
+                    translations.perpetualPage.reviewTrade.labels.triggerPrice,
+                  )}
+                </span>
+                <span className="tw-text-sov-white">
+                  <AssetValue
+                    className="tw-font-light"
+                    assetClassName="tw-font-light"
+                    value={trade.trigger}
+                    assetString={pair.quoteAsset}
+                    minDecimals={2}
+                    maxDecimals={2}
+                    mode={AssetValueMode.auto}
+                  />
+                </span>
+              </div>
+            )}
           </div>
         )}
       </div>

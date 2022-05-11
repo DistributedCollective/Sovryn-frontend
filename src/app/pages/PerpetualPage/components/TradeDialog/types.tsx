@@ -8,7 +8,8 @@ import { PerpetualPairType } from '../../../../../utils/dictionaries/perpetual-p
 export enum TradeDialogStep {
   review = 'review',
   approval = 'approval',
-  confirmation = 'confirmation',
+  confirmationEven = 'confirmationEven',
+  confirmationOdd = 'confirmationOdd',
   transaction = 'transaction',
 }
 
@@ -23,11 +24,15 @@ export type TradeAnalysis = {
   limitPrice: number;
   liquidationPrice: number;
   orderCost: number;
+  requiredAllowance: number;
   tradingFee: number;
+  loading: boolean;
 };
 
-export enum PerpetualTxMethods {
+export enum PerpetualTxMethod {
   trade = 'trade',
+  createLimitOrder = 'createLimitOrder',
+  cancelLimitOrder = 'cancelLimitOrder',
   deposit = 'deposit',
   withdraw = 'withdraw',
   withdrawAll = 'withdrawAll',
@@ -35,7 +40,7 @@ export enum PerpetualTxMethods {
 
 interface PerpetualTxBase {
   pair: PerpetualPairType;
-  method: PerpetualTxMethods;
+  method: PerpetualTxMethod;
   tx: Nullable<string>;
   origin?: PerpetualPageModals;
   index?: number;
@@ -46,7 +51,7 @@ interface PerpetualTxBase {
 }
 
 export interface PerpetualTxTrade extends PerpetualTxBase {
-  method: PerpetualTxMethods.trade;
+  method: PerpetualTxMethod.trade;
   /** amount as wei string */
   amount: string;
   leverage?: number;
@@ -58,8 +63,30 @@ export interface PerpetualTxTrade extends PerpetualTxBase {
   approvalTx: Nullable<string>;
 }
 
+export interface PerpetualTxCreateLimitOrder extends PerpetualTxBase {
+  method: PerpetualTxMethod.createLimitOrder;
+  /** amount as wei string */
+  amount: string;
+  /** limit as wei string */
+  limit: string;
+  /** trigger as wei string */
+  trigger: string;
+  expiry: number;
+  created: number;
+  leverage?: number;
+  tradingPosition?: TradingPosition;
+
+  approvalTx: Nullable<string>;
+}
+
+export interface PerpetualTxCancelLimitOrder extends PerpetualTxBase {
+  method: PerpetualTxMethod.cancelLimitOrder;
+  /** LimitOrder digest/id */
+  digest: string;
+}
+
 export interface PerpetualTxDepositMargin extends PerpetualTxBase {
-  method: PerpetualTxMethods.deposit;
+  method: PerpetualTxMethod.deposit;
   /** amount as wei string */
   amount: string;
 
@@ -67,23 +94,25 @@ export interface PerpetualTxDepositMargin extends PerpetualTxBase {
 }
 
 export interface PerpetualTxWithdrawMargin extends PerpetualTxBase {
-  method: PerpetualTxMethods.withdraw;
+  method: PerpetualTxMethod.withdraw;
   /** amount as wei string */
   amount: string;
 }
 
 export interface PerpetualTxWithdrawAllMargin extends PerpetualTxBase {
-  method: PerpetualTxMethods.withdrawAll;
+  method: PerpetualTxMethod.withdrawAll;
 }
 
 export type PerpetualTx =
   | PerpetualTxTrade
+  | PerpetualTxCreateLimitOrder
+  | PerpetualTxCancelLimitOrder
   | PerpetualTxDepositMargin
   | PerpetualTxWithdrawMargin
   | PerpetualTxWithdrawAllMargin;
 
 export const isPerpetualTx = (x: any): x is PerpetualTx =>
-  x && typeof x === 'object' && PerpetualTxMethods[x.method] !== undefined;
+  x && typeof x === 'object' && PerpetualTxMethod[x.method] !== undefined;
 
 export enum PerpetualTxStage {
   reviewed = 'reviewed',
@@ -114,19 +143,29 @@ export type TradeDialogContextType = {
 export const isTrade = (
   transaction: PerpetualTx,
 ): transaction is PerpetualTxTrade =>
-  transaction.method === PerpetualTxMethods.trade;
+  transaction.method === PerpetualTxMethod.trade;
 
 export const isDepositMargin = (
   transaction: PerpetualTx,
 ): transaction is PerpetualTxDepositMargin =>
-  transaction.method === PerpetualTxMethods.deposit;
+  transaction.method === PerpetualTxMethod.deposit;
 
 export const isWithdrawMargin = (
   transaction: PerpetualTx,
 ): transaction is PerpetualTxWithdrawMargin =>
-  transaction.method === PerpetualTxMethods.withdraw;
+  transaction.method === PerpetualTxMethod.withdraw;
 
 export const isWithdrawAllMargin = (
   transaction: PerpetualTx,
 ): transaction is PerpetualTxWithdrawAllMargin =>
-  transaction.method === PerpetualTxMethods.withdrawAll;
+  transaction.method === PerpetualTxMethod.withdrawAll;
+
+export const isCreateLimitOrder = (
+  transaction: PerpetualTx,
+): transaction is PerpetualTxCreateLimitOrder =>
+  transaction.method === PerpetualTxMethod.createLimitOrder;
+
+export const isCancelLimitOrder = (
+  transaction: PerpetualTx,
+): transaction is PerpetualTxCancelLimitOrder =>
+  transaction.method === PerpetualTxMethod.cancelLimitOrder;

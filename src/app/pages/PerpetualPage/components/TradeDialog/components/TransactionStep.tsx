@@ -1,6 +1,6 @@
 import React, { useContext, useMemo, useCallback } from 'react';
 import { TransitionStep } from '../../../../../containers/TransitionSteps';
-import { TradeDialogStep, PerpetualTxMethods } from '../types';
+import { TradeDialogStep, PerpetualTxMethod } from '../types';
 import { TradeDialogContext } from '../index';
 import styles from '../index.module.scss';
 import { translations } from '../../../../../../locales/i18n';
@@ -46,8 +46,8 @@ export const TransactionStep: TransitionStep<TradeDialogStep> = ({
     () =>
       transactions.reduce<Transaction[]>((acc, transaction) => {
         if (
-          (transaction.method === PerpetualTxMethods.deposit ||
-            transaction.method === PerpetualTxMethods.trade) &&
+          (transaction.method === PerpetualTxMethod.deposit ||
+            transaction.method === PerpetualTxMethod.trade) &&
           transaction.approvalTx &&
           transactionsMap[transaction.approvalTx]
         ) {

@@ -28,6 +28,8 @@ const titleMap = {
     translations.perpetualPage.reviewTrade.titles.editMargin,
   [PerpetualPageModals.CLOSE_POSITION]:
     translations.perpetualPage.reviewTrade.titles.close,
+  [PerpetualPageModals.CANCEL_ORDER]:
+    translations.perpetualPage.reviewTrade.titles.cancelOrder,
 };
 
 export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
@@ -60,12 +62,12 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     });
 
     changeTo(
-      analysis.marginChange > 0
+      analysis.requiredAllowance > 0
         ? TradeDialogStep.approval
-        : TradeDialogStep.confirmation,
+        : TradeDialogStep.confirmationEven,
       TransitionAnimation.slideLeft,
     );
-  }, [analysis.marginChange, setCurrentTransaction, changeTo]);
+  }, [analysis.requiredAllowance, setCurrentTransaction, changeTo]);
 
   return (
     <>
@@ -112,7 +114,7 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
             <button
               className={styles.confirmButton}
               onClick={isTradingInMaintenance ? undefined : onSubmit}
-              disabled={isTradingInMaintenance}
+              disabled={isTradingInMaintenance && analysis.loading}
             >
               {t(translations.perpetualPage.reviewTrade.confirm)}
             </button>

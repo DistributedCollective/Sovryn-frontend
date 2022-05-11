@@ -9,6 +9,7 @@ import { isMainnet } from '../../../utils/classifiers';
 import { toWei } from '../../../utils/blockchain/math-helpers';
 
 export const PERPETUAL_SLIPPAGE_DEFAULT = 0.005;
+export const PERPETUAL_EXPIRY_DEFAULT = 30;
 export const PERPETUAL_MAX_LEVERAGE_DEFAULT = 15;
 export const PERPETUAL_CHAIN = Chain.BSC;
 export const PERPETUAL_CHAIN_ID =
@@ -38,6 +39,7 @@ export enum PerpetualPageModals {
   EDIT_LEVERAGE = 'EDIT_LEVERAGE',
   EDIT_MARGIN = 'EDIT_MARGIN',
   CLOSE_POSITION = 'CLOSE_POSITION',
+  CANCEL_ORDER = 'CANCEL_ORDER',
 }
 
 export type PerpetualTradeEvent = {
@@ -112,18 +114,19 @@ export type PerpetualTrade = {
   collateral: Asset;
   tradeType: PerpetualTradeType;
   position: TradingPosition;
-  /** wei string */
+  /** base value as wei string */
   amount: string;
-  /** wei string */
+  /** limit quote price as wei string */
   limit?: string;
-  /** wei string */
-  triggerPrice?: string;
-  /** wei string */
+  /** trigger quote price as wei string */
+  trigger?: string;
+  /** collateral value wei string */
   margin?: string;
-  expiry?: string;
+  /** expected entry price as wei string */
+  entryPrice: string;
+  expiry?: number;
   leverage: number;
   slippage: number;
-  entryPrice: number;
   keepPositionLeverage?: boolean;
 };
 
@@ -145,8 +148,9 @@ export const isPerpetualTrade = (x: any): x is PerpetualTrade =>
   typeof x.amount === 'string' &&
   typeof x.leverage === 'number' &&
   typeof x.slippage === 'number' &&
-  typeof x.entryPrice === 'number' &&
+  typeof x.entryPrice === 'string' &&
   (x.limit === undefined || typeof x.limit === 'string') &&
+  (x.trigger === undefined || typeof x.trigger === 'string') &&
   (x.margin === undefined || typeof x.margin === 'string');
 
 export const isPerpetualTradeReview = (x: any): x is PerpetualTradeReview =>

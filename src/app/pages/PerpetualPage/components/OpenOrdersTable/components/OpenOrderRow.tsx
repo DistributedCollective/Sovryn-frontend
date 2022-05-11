@@ -13,11 +13,20 @@ import {
 import {
   PerpetualTradeType,
   PERPETUAL_CHAIN_ID,
+  PerpetualPageModals,
 } from 'app/pages/PerpetualPage/types';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { prettyTx } from 'utils/helpers';
 import { translations } from 'locales/i18n';
 import { TableRowAction } from '../../TableRowAction';
+import { actions } from '../../../slice';
+import { useDispatch } from 'react-redux';
+import {
+  PerpetualTxMethod,
+  PerpetualTxCancelLimitOrder,
+} from '../../TradeDialog/types';
+import { toWei } from '../../../../../../utils/blockchain/math-helpers';
+import { TradingPosition } from '../../../../../../types/trading-position';
 
 type OpenOrderRowProps = {
   item: OpenOrderEntry;
@@ -25,6 +34,7 @@ type OpenOrderRowProps = {
 
 export const OpenOrderRow: React.FC<OpenOrderRowProps> = ({ item }) => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
 
   const pair = useMemo(() => PerpetualPairDictionary.get(item.pairType), [
     item.pairType,
@@ -35,8 +45,36 @@ export const OpenOrderRow: React.FC<OpenOrderRowProps> = ({ item }) => {
     [pair.collateralAsset],
   );
 
-  // TODO: Will be adjusted in https://sovryn.monday.com/boards/2218344956/pulses/2382474482
-  const onCancelOrder = useCallback(() => console.log(item.id), [item.id]);
+  const onCancelOrder = useCallback(() => {
+    const transactions: PerpetualTxCancelLimitOrder[] = [
+      {
+        method: PerpetualTxMethod.cancelLimitOrder,
+        pair: item.pairType,
+        digest: item.id,
+        tx: null,
+      },
+    ];
+
+    dispatch(
+      actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
+        origin: PerpetualPageModals.CANCEL_ORDER,
+        trade: {
+          id: item.id,
+          pairType: item.pairType,
+          tradeType: item.orderType,
+          position:
+            item.orderSize > 0 ? TradingPosition.LONG : TradingPosition.SHORT,
+          amount: toWei(Math.abs(item.orderSize)),
+          entryPrice: toWei(item.limitPrice),
+          limit: toWei(item.limitPrice),
+          collateral: pair.collateralAsset,
+          leverage: -1,
+          slippage: 0,
+        },
+        transactions: transactions,
+      }),
+    );
+  }, [pair, item, dispatch]);
 
   const orderTypeTranslation = useMemo(() => {
     const tradeDirection = t(

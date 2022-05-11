@@ -228,9 +228,13 @@ function* testTransactionsPeriodically() {
 }
 
 function* addVisitSaga({ payload }: PayloadAction<string>) {
-  yield call([axios, axios.post], backendUrl[currentChainId] + '/addVisit', {
-    walletAddress: payload,
-  });
+  try {
+    yield call([axios, axios.post], backendUrl[currentChainId] + '/addVisit', {
+      walletAddress: payload,
+    });
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 export function* walletProviderSaga() {

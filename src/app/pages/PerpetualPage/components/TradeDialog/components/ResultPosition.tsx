@@ -42,6 +42,10 @@ export const ResultPosition: React.FC<ResultPositionProps> = ({
     [pair.collateralAsset],
   );
 
+  if (origin === PerpetualPageModals.CANCEL_ORDER) {
+    return null;
+  }
+
   if (
     origin === PerpetualPageModals.CLOSE_POSITION &&
     Math.abs(marginTarget) < lotSize

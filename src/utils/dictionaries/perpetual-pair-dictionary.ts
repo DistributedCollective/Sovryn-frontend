@@ -35,6 +35,7 @@ export class PerpetualPairDictionary {
         'USD',
         'BTC',
         Asset.BTCS,
+        'perpetualLimitOrderBookBTCUSD',
         {
           leverage: {
             min: 0.1,
@@ -56,6 +57,7 @@ export class PerpetualPairDictionary {
         'USD',
         'BNB',
         Asset.BTCS,
+        'perpetualLimitOrderBookBNBUSD',
         {
           leverage: {
             min: 0.1,

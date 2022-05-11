@@ -9,6 +9,8 @@ import {
   isDepositMargin,
   isWithdrawMargin,
   PerpetualTx,
+  isCreateLimitOrder,
+  isCancelLimitOrder,
 } from '../../../TradeDialog/types';
 import { PerpetualPairDictionary } from '../../../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import {
@@ -129,6 +131,22 @@ export const ToastAdditionalInfo: React.FC<ToastAdditionalInfoProps> = ({
           assetString={pair.baseAsset}
         />
         {pagination}
+      </>
+    );
+  }
+
+  if (isCreateLimitOrder(perpetualTx)) {
+    return (
+      <>
+        {t(translations.perpetualPage.toasts.createLimitOrder)} {pagination}
+      </>
+    );
+  }
+
+  if (isCancelLimitOrder(perpetualTx)) {
+    return (
+      <>
+        {t(translations.perpetualPage.toasts.cancelLimitOrder)} {pagination}
       </>
     );
   }

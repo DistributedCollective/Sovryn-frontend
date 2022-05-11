@@ -5,6 +5,7 @@ import type {
   PerpetualPairConfig,
 } from '../dictionaries/perpetual-pair-dictionary';
 import { TradingPosition } from '../../types/trading-position';
+import { ContractName } from '../types/contracts';
 
 export class PerpetualPair {
   constructor(
@@ -15,6 +16,7 @@ export class PerpetualPair {
     public readonly quoteAsset: string,
     public readonly baseAsset: string,
     public readonly collateralAsset: Asset,
+    public readonly limitOrderBook: ContractName,
     public readonly config: PerpetualPairConfig,
     public readonly deprecated: boolean = false,
   ) {}
