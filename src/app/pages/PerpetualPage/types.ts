@@ -106,6 +106,7 @@ export type LimitOrderEvent = {
   state: LimitOrderState;
   deadline: string;
   createdTimestamp: string;
+  createdTransactionHash: string;
 };
 
 export type PerpetualTrade = {

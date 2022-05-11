@@ -27,6 +27,7 @@ export type OpenOrderEntry = {
   createdAt: string;
   orderSize: number;
   expiry: string;
+  createdTransactionHash: string;
 };
 
 type OpenOrdersHookResult = {
@@ -102,6 +103,7 @@ export const usePerpetual_OpenOrders = (
           limitPrice: ABK64x64ToFloat(BigNumber.from(position.limitPrice)),
           orderSize: ABK64x64ToFloat(BigNumber.from(position.tradeAmount)),
           expiry: position.deadline,
+          createdTransactionHash: position.createdTransactionHash,
         });
 
         return acc;

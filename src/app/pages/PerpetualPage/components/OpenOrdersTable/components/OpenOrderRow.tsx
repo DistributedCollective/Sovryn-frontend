@@ -149,8 +149,8 @@ export const OpenOrderRow: React.FC<OpenOrderRowProps> = ({ item }) => {
       <td>
         <LinkToExplorer
           className="tw-text-sov-white tw-underline"
-          txHash={item.id}
-          text={prettyTx(item.id)}
+          txHash={item.createdTransactionHash}
+          text={prettyTx(item.createdTransactionHash)}
           chainId={PERPETUAL_CHAIN_ID}
         />
       </td>
