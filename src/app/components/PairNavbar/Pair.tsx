@@ -51,15 +51,12 @@ export const Pair: React.FC<IPairProps> = ({ tradingType, type }) => {
         />
       </div>
 
-      <div
-        className="tw-font-light text-white tw-ml-2.5 tw-flex"
-        data-action-id="spot-select-pair"
-      >
-        <div data-action-id="spot-select-asset-selector1">
+      <div className="tw-font-light text-white tw-ml-2.5 tw-flex">
+        <div data-action-id={`${type}-select-asset-${Asset[targetToken]}`}>
           <AssetSymbolRenderer asset={Asset[sourceToken]} />
         </div>
         /
-        <div data-action-id="spot-select-asset-selector1">
+        <div data-action-id={`${type}-select-asset-${Asset[targetToken]}`}>
           <AssetSymbolRenderer asset={Asset[targetToken]} />
         </div>
       </div>

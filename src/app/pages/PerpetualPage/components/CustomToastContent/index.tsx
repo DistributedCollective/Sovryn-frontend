@@ -30,18 +30,16 @@ export const CustomToastContent: React.FC<ICustomToastContentProps> = ({
   mainInfo,
   additionalInfo,
 }) => (
-  <div className="tw-flex tw-items-start">
+  <div className="tw-flex tw-items-center">
     <img
       src={getIcon(toastProps?.type)}
       alt="success"
       className="tw-w-7 tw-mr-2.5"
     />
 
-    <div className="tw-flex tw-text-black tw-items-start">
-      <span className="tw-font-semibold tw-font-loose tw-mt-0.5">
-        {mainInfo}
-      </span>
-      <span className="tw-text-xs tw-font-normal tw-font-medium tw-mt-1.5 tw-ml-4">
+    <div className="tw-flex tw-text-black tw-items-center">
+      <span className="tw-font-semibold tw-font-loose">{mainInfo}</span>
+      <span className="tw-text-xs tw-font-normal tw-font-medium tw-ml-4">
         {additionalInfo}
       </span>
     </div>

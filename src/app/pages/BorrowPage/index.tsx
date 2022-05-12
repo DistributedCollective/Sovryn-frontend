@@ -15,6 +15,7 @@ import { RepayPositionHandler } from 'app/containers/RepayPositionHandler/Loadab
 import { BorrowActivity } from '../../components/BorrowActivity/Loadable';
 import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
+import { AddCollateralHandler } from './components/AddCollateralModal/AddCollateralHandler';
 
 const BorrowPage: React.FC = () => {
   const location = useLocation<IPromotionLinkState>();
@@ -56,6 +57,7 @@ const BorrowPage: React.FC = () => {
       <div className="tw-container tw-mx-auto tw-px-4 tw-mt-6">
         <BorrowActivity />
         <RepayPositionHandler />
+        <AddCollateralHandler />
       </div>
     </>
   );

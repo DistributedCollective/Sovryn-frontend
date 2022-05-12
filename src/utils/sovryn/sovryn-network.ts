@@ -17,6 +17,7 @@ export class SovrynNetwork {
   private _readWeb3: Record<number, Web3> = {};
   private _databaseWeb3: Record<number, Web3> = {};
   private _connected = false;
+
   public contracts: { [key: string]: Contract } = {};
   public contractList: Contract[] = [];
   public writeContracts: { [key: string]: Contract } = {};

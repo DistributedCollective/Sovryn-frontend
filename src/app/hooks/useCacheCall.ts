@@ -5,6 +5,7 @@ import { ContractName } from 'utils/types/contracts';
 
 import { Nullable } from '../../types';
 import { useAccount, useBlockSync } from './useAccount';
+import { useIsMounted } from './useIsMounted';
 
 export interface CacheCallResponse<T = string> {
   value: Nullable<T>;
@@ -27,6 +28,7 @@ export function useCacheCall<T = any>(
   methodName: string,
   ...args: any
 ): CacheCallResponse<T> {
+  const isMounted = useIsMounted();
   const syncBlockNumber = useBlockSync();
   const account = useAccount();
 
@@ -37,37 +39,44 @@ export function useCacheCall<T = any>(
   });
 
   useEffect(() => {
-    setState(prevState => ({ ...prevState, loading: true, error: null }));
+    if (isMounted()) {
+      setState(prevState => ({ ...prevState, loading: true, error: null }));
+    }
 
     try {
       contractReader
         .call(contractName, methodName, args, account || undefined)
         .then(value => {
-          setState(prevState => ({
-            ...prevState,
-            value,
-            loading: false,
-            error: null,
-          }));
+          if (isMounted()) {
+            setState(prevState => ({
+              ...prevState,
+              value,
+              loading: false,
+              error: null,
+            }));
+          }
         })
         .catch(error => {
           // todo add logger?
-          // silence...
-          setState(prevState => ({
-            ...prevState,
-            loading: false,
-            value: null,
-            error: error.message || error,
-          }));
+          if (isMounted()) {
+            setState(prevState => ({
+              ...prevState,
+              loading: false,
+              value: null,
+              error: error.message || error,
+            }));
+          }
         });
     } catch (error) {
-      // todo add winston logger?
-      setState(prevState => ({
-        ...prevState,
-        loading: false,
-        value: null,
-        error: (error as Error).message || error,
-      }));
+      // todo add logger?
+      if (isMounted()) {
+        setState(prevState => ({
+          ...prevState,
+          loading: false,
+          value: null,
+          error: (error as Error).message || error,
+        }));
+      }
     }
 
     return () => {
