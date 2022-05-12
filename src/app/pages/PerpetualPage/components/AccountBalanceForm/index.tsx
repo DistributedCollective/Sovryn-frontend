@@ -20,6 +20,7 @@ import classNames from 'classnames';
 import { Tooltip } from '@blueprintjs/core';
 import { getCollateralName } from '../../utils/renderUtils';
 import { selectPerpetualPage } from '../../selectors';
+import { isMainnet } from '../../../../../utils/classifiers';
 
 type AccountBalanceFormProps = {
   onOpenTransactionHistory: () => void;
@@ -41,39 +42,49 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
   ]);
 
   const { checkMaintenance, States } = useMaintenance();
-  const fundAccountLocked =
-    checkMaintenance(States.PERPETUALS) ||
-    checkMaintenance(States.PERPETUALS_ACCOUNT_FUND);
-
-  const withdrawAccountLocked =
-    checkMaintenance(States.PERPETUALS) ||
-    checkMaintenance(States.PERPETUALS_ACCOUNT_WITHDRAW);
-
-  const fundAccountDisabled = useMemo(
-    () => fundAccountLocked || !isAddressWhitelisted,
-    [fundAccountLocked, isAddressWhitelisted],
+  const fundLocked = useMemo(
+    () => checkMaintenance(States.PERPETUALS, States.PERPETUALS_ACCOUNT_FUND),
+    [checkMaintenance, States],
   );
 
-  const withdrawAccountDisabled = useMemo(
-    () => withdrawAccountLocked || !isAddressWhitelisted,
-    [isAddressWhitelisted, withdrawAccountLocked],
+  const withdrawLocked = useMemo(
+    () =>
+      checkMaintenance(States.PERPETUALS, States.PERPETUALS_ACCOUNT_WITHDRAW),
+    [checkMaintenance, States],
   );
+
+  const transferLocked = useMemo(
+    () =>
+      checkMaintenance(States.PERPETUALS, States.PERPETUALS_ACCOUNT_TRANSFER),
+    [checkMaintenance, States],
+  );
+
+  const fundDisabled = fundLocked || !isAddressWhitelisted;
+  const withdrawDisabled = withdrawLocked || !isAddressWhitelisted;
+  const transferDisabled = transferLocked || !isAddressWhitelisted;
 
   const onOpenDeposit = useCallback(() => {
-    if (!fundAccountDisabled) {
+    if (!fundDisabled) {
       history.push('/fast-btc/deposit/bsc');
     }
-  }, [fundAccountDisabled, history]);
+  }, [fundDisabled, history]);
 
   const onOpenWithdraw = useCallback(() => {
-    if (!withdrawAccountDisabled) {
+    if (!withdrawDisabled) {
       history.push('/fast-btc/withdraw/bsc');
     }
-  }, [history, withdrawAccountDisabled]);
+  }, [history, withdrawDisabled]);
 
   const onOpenTransfer = useCallback(() => {
-    dispatch(actions.setModal(PerpetualPageModals.FASTBTC_TRANSFER));
-  }, [dispatch]);
+    if (!transferDisabled) {
+      window.open(
+        isMainnet
+          ? 'https://bridge.sovryn.app'
+          : 'https://bridge.test.sovryn.app',
+        '_blank',
+      );
+    }
+  }, [transferDisabled]);
 
   const {
     total,
@@ -200,9 +211,9 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
       <div className="tw-flex tw-flex-col md:tw-flex-row tw-justify-center tw-mx-auto tw-mt-16 tw-space-y-4 md:tw-space-y-0 md:tw-space-x-10">
         <ActionButton
           onClick={onOpenDeposit}
-          disabled={fundAccountDisabled}
+          disabled={fundDisabled}
           tooltip={
-            fundAccountLocked
+            fundLocked
               ? t(translations.maintenance.perpetualsAccountFund)
               : undefined
           }
@@ -212,9 +223,9 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
 
         <ActionButton
           onClick={onOpenWithdraw}
-          disabled={withdrawAccountDisabled}
+          disabled={withdrawDisabled}
           tooltip={
-            withdrawAccountLocked
+            withdrawLocked
               ? t(translations.maintenance.perpetualsAccountWithdraw)
               : undefined
           }
@@ -223,9 +234,13 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
         </ActionButton>
 
         <ActionButton
-          disabled
-          tooltip={t(translations.common.comingSoon)}
           onClick={onOpenTransfer}
+          disabled={transferDisabled}
+          tooltip={
+            withdrawLocked
+              ? t(translations.maintenance.perpetualsAccountTransfer)
+              : undefined
+          }
         >
           {t(translations.perpetualPage.accountBalance.transfer)}
         </ActionButton>
