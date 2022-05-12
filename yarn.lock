@@ -4714,10 +4714,10 @@
   dependencies:
     debug "^4.3.1"
 
-"@sovryn/perpetual-swap@3.0.1":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@sovryn/perpetual-swap/-/perpetual-swap-3.0.1.tgz#7599fe4a32723dbc5ef4a95146df457f7876847e"
-  integrity sha512-wC/6GMQwMeZh7o1H0n3GPOUN/YuvtfRlf5Ut+Aqvo2asU3SQB5UOg1qCNuziHIFMOSfeQj7zgDnfZmKQTaJKcQ==
+"@sovryn/perpetual-swap@3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@sovryn/perpetual-swap/-/perpetual-swap-3.0.2.tgz#3a779f9e77321ef2c9bbc0212e969bc1da157401"
+  integrity sha512-PNlUFbXTRRNe6j7CXBkvWw9e8cuMr9RZxRc8lJTy0UlTsSze3+/2v0C9kb5tXMAuIOsYPQmabstSsL0iQ+i6pw==
   dependencies:
     "@opengsn/provider" "^2.2.4"
     "@openzeppelin/contracts" "4.5.0"
@@ -14954,26 +14954,6 @@ inquirer@^7.0.0:
     mute-stream "0.0.8"
     run-async "^2.4.0"
     rxjs "^6.6.0"
-    string-width "^4.1.0"
-    strip-ansi "^6.0.0"
-    through "^2.3.6"
-
-inquirer@^8.0.0:
-  version "8.2.2"
-  resolved "https://registry.yarnpkg.com/inquirer/-/inquirer-8.2.2.tgz#1310517a87a0814d25336c78a20b44c3d9b7629d"
-  integrity sha512-pG7I/si6K/0X7p1qU+rfWnpTE1UIkTONN1wxtzh0d+dHXtT/JG6qBgLxoyHVsQa8cFABxAPh0pD6uUUHiAoaow==
-  dependencies:
-    ansi-escapes "^4.2.1"
-    chalk "^4.1.1"
-    cli-cursor "^3.1.0"
-    cli-width "^3.0.0"
-    external-editor "^3.0.3"
-    figures "^3.0.0"
-    lodash "^4.17.21"
-    mute-stream "0.0.8"
-    ora "^5.4.1"
-    run-async "^2.4.0"
-    rxjs "^7.5.5"
     string-width "^4.1.0"
     strip-ansi "^6.0.0"
     through "^2.3.6"
