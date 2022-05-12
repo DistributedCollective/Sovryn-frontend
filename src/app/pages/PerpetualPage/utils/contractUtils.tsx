@@ -18,7 +18,6 @@ import {
   getRequiredMarginCollateralWithGasFees,
   MASK_CLOSE_ONLY,
   MASK_MARKET_ORDER,
-  createOrderDigest,
   MASK_LIMIT_ORDER,
 } from './perpUtils';
 import {
@@ -58,6 +57,7 @@ import { PerpetualPairDictionary } from '../../../../utils/dictionaries/perpetua
 const {
   calculateSlippagePriceFromMidPrice,
   calculateSlippagePrice,
+  createOrderDigest,
   getPrice,
   getMidPrice,
   isTraderInitialMarginSafe,

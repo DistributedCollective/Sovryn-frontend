@@ -11,7 +11,6 @@ import {
   PerpParameters,
   perpUtils,
 } from '@sovryn/perpetual-swap';
-import { keccak256, defaultAbiCoder, toUtf8Bytes } from 'ethers/lib/utils';
 
 const { getTraderPnL, getMarkPrice, getRequiredMarginCollateral } = perpUtils;
 
@@ -81,66 +80,3 @@ export const MASK_STOP_LOSS_ORDER = 0x20000000;
 export const MASK_TAKE_PROFIT_ORDER = 0x10000000;
 export const MASK_USE_TARGET_LEVERAGE = 0x08000000;
 export const MASK_LIMIT_ORDER = 0x04000000;
-
-// FIXME: move to @sovryn/perpetual-swap
-export async function createOrderDigest(
-  order: any,
-  isNewOrder: boolean,
-  managerAddress: string,
-  chainId: number,
-): Promise<string> {
-  const name = toUtf8Bytes('Perpetual Trade Manager');
-  const domainTypehash = keccak256(
-    toUtf8Bytes(
-      'EIP712Domain(string name,uint256 chainId,address verifyingContract)',
-    ),
-  );
-  let domainSeparator = keccak256(
-    defaultAbiCoder.encode(
-      ['bytes32', 'bytes32', 'uint256', 'address'],
-      [domainTypehash, keccak256(name), chainId, managerAddress],
-    ),
-  );
-  const tradeOrderTypehash = keccak256(
-    toUtf8Bytes(
-      'Order(bytes32 iPerpetualId,address traderAddr,int128 fAmount,int128 fLimitPrice,int128 fTriggerPrice,uint256 iDeadline,address referrerAddr,uint32 flags,int128 fLeverage,uint256 createdTimestamp)',
-    ),
-  );
-  let structHash = keccak256(
-    defaultAbiCoder.encode(
-      [
-        'bytes32',
-        'bytes32',
-        'address',
-        'int128',
-        'int128',
-        'int128',
-        'uint256',
-        'address',
-        'uint32',
-        'int128',
-        'uint256',
-      ],
-      [
-        tradeOrderTypehash,
-        order.iPerpetualId,
-        order.traderAddr,
-        order.fAmount,
-        order.fLimitPrice,
-        order.fTriggerPrice,
-        order.iDeadline,
-        order.referrerAddr,
-        order.flags,
-        order.fLeverage,
-        order.createdTimestamp,
-      ],
-    ),
-  );
-  let digest = keccak256(
-    defaultAbiCoder.encode(
-      ['bytes32', 'bytes32', 'bool'],
-      [domainSeparator, structHash, isNewOrder],
-    ),
-  );
-  return digest;
-}
