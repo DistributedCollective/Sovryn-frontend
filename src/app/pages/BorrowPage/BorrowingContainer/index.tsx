@@ -83,6 +83,7 @@ const InnerBorrowContainer: React.FC<Props> = ({ currency }) => {
       .map(item => ({
         key: item.asset,
         label: item.symbol,
+        dataActionId: 'borrow-assetToCollateralizeAmountDropDown',
       }));
 
     setAmount('');
@@ -278,7 +279,7 @@ const InnerBorrowContainer: React.FC<Props> = ({ currency }) => {
               <>{t(translations.maintenance.startBorrow)}</>
             ) : undefined
           }
-          dataActionId="borrow-borrowButton"
+          dataActionId={`borrow-borrowButton-${tokenToCollarate}`}
         />
       </div>
     </>
