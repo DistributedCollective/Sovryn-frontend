@@ -17,6 +17,7 @@ import { Skeleton } from '../PageSkeleton';
 import Datafeed from './datafeed';
 import Storage from './storage';
 import { noop } from '../../constants';
+import { useApolloClient } from '@apollo/client';
 
 export enum Theme {
   LIGHT = 'Light',
@@ -32,6 +33,7 @@ export interface ChartContainerProps {
 export function TradingChart(props: ChartContainerProps) {
   const [hasCharts, setHasCharts] = useState<boolean>(false);
   const [chart, setChart] = useState<IChartingLibraryWidget | null>(null);
+  const client = useApolloClient();
 
   useEffect(() => {
     try {
@@ -39,7 +41,7 @@ export function TradingChart(props: ChartContainerProps) {
       const widgetOptions: any = {
         debug: false,
         symbol: props.symbol,
-        datafeed: Datafeed,
+        datafeed: Datafeed(client),
         save_load_adapter: Storage,
         study_count_limit: 15, //max number of indicators that can be added to charts
         interval: '30', //default time interval
@@ -89,7 +91,7 @@ export function TradingChart(props: ChartContainerProps) {
 
     // run only once after mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [client]);
 
   useLayoutEffect(() => {
     if (chart && hasCharts) {

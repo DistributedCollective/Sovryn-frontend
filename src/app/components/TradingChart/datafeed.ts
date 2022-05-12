@@ -9,52 +9,44 @@
  * this directory. Refer to:
  * https://github.com/tradingview/charting_library/wiki/Breaking-Changes
  */
-import { Bar, fetchCandleSticks } from './graph';
+
 import { stream } from './streaming';
+import { ApolloClient } from '@apollo/client';
+import {
+  ChartingLibraryWidgetOptions,
+  SearchSymbolsCallback,
+  LibrarySymbolInfo,
+} from '@sovryn/charting-library/src/charting_library/charting_library.min';
+import {
+  Bar,
+  config,
+  resolutionMap,
+  supportedResolutions,
+} from 'app/pages/PerpetualPage/components/TradingChart/helpers';
+import {
+  getTokensFromSymbol,
+  makeApiRequest,
+  TradingCandleDictionary,
+} from './helpers';
+import { CandleDuration } from 'app/pages/PerpetualPage/hooks/graphql/useGetCandles';
 
-export const supportedResolutions = [
-  '10',
-  '20',
-  '30',
-  '60',
-  '120',
-  '240',
-  '360',
-  '720',
-  '1D',
-  '3D',
-  '1W',
-  '1M',
-];
-const MAX_DAYS = 5;
-const MAX_MONTHS = 1;
+const newestBarsCache = new Map<string, Bar>();
+const oldestBarsCache = new Map<string, Bar>();
 
-const lastBarCache = new Map<string, Bar>();
-
-// Supported configuration options can be found here:
-// https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#onreadycallback
-const config = {
-  exchanges: [],
-  symbols_types: [],
-  supported_resolutions: supportedResolutions,
-  supports_time: false,
-};
-
-const tradingChartDataFeeds = {
+const tradingChartDataFeeds = (
+  graphqlClient: ApolloClient<any>,
+): ChartingLibraryWidgetOptions['datafeed'] => ({
   // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#onreadycallback
-  onReady: callback => {
-    setTimeout(() => callback(config));
-  },
+  onReady: callback => setTimeout(() => callback(config)),
 
   // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#searchsymbolsuserinput-exchange-symboltype-onresultreadycallback
-  searchSymbols: async (
-    userInput,
-    exchange,
-    symbolType,
-    onResultReadyCallback,
-  ) => {
-    // disabled via chart config in index.tsx
-  },
+  // searchSymbols disabled via chart config in index.tsx
+  searchSymbols: (
+    userInput: string,
+    exchange: string,
+    symbolType: string,
+    onResult: SearchSymbolsCallback,
+  ) => {},
 
   // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#resolvesymbolsymbolname-onsymbolresolvedcallback-onresolveerrorcallback-extension
   resolveSymbol: async (
@@ -62,25 +54,28 @@ const tradingChartDataFeeds = {
     onSymbolResolvedCallback,
     onResolveErrorCallback,
   ) => {
-    const symbolInfo = {
+    const symbolInfo: LibrarySymbolInfo = {
       name: symbolName,
+      full_name: symbolName,
       description: '',
       type: 'crypto',
+      exchange: '',
+      listed_exchange: '',
+      format: 'price',
       session: '24x7',
       timezone: 'Etc/UTC',
       ticker: symbolName,
       minmov: 1, //0.00000001,
-      pricescale: symbolName.split('/')[1]?.match(/USDT|DOC/) ? 100 : 100000000,
+      pricescale: 100,
       has_intraday: true,
-      intraday_multipliers: ['10'],
-      supported_resolution: supportedResolutions,
-      has_no_volume: true,
-      has_empty_bars: true,
-      has_daily: false,
+      intraday_multipliers: ['1', '15', '60', '240'],
+      supported_resolutions: supportedResolutions,
+      has_no_volume: false,
+      has_empty_bars: false,
+      has_daily: true,
       has_weekly_and_monthly: false,
       data_status: 'streaming',
     };
-
     setTimeout(() => onSymbolResolvedCallback(symbolInfo));
   },
 
@@ -94,47 +89,112 @@ const tradingChartDataFeeds = {
     onErrorCallback,
     firstDataRequest,
   ) => {
-    var split_symbol = symbolInfo.name.split('/');
-    try {
-      const bars = await fetchCandleSticks(
-        split_symbol[0],
-        split_symbol[1],
-        resolution,
-        from,
-        to,
-      );
+    const candleDuration: CandleDuration = resolutionMap[resolution];
+    const candeDetails = TradingCandleDictionary.get(candleDuration);
 
-      if (!bars.length) {
+    const candleSize = () => {
+      const resolutionNumber = parseInt(resolution);
+      return resolutionNumber > 0 ? resolutionNumber : 1440; //Resolution in minutes - if more than a day, use day
+    };
+
+    const startTime = (): number => {
+      const oldestBarTime = oldestBarsCache.get(symbolInfo.name)?.time;
+      if (firstDataRequest) {
+        return from;
+      } else if (oldestBarTime !== undefined) {
+        if (from < oldestBarTime / 1e3) {
+          return from;
+        }
+        return oldestBarTime / 1e3 - candeDetails.candleSeconds;
+      } else {
+        return from;
+      }
+    };
+
+    const candleNumber = (): number => {
+      const timeSpanSeconds = to - startTime();
+      const numOfCandles = Math.ceil(timeSpanSeconds / (candleSize() * 60));
+      return Math.abs(numOfCandles);
+    };
+
+    try {
+      const { baseToken, quoteToken } = getTokensFromSymbol(symbolInfo.name);
+      /** If first request then calculate number of bars and pass it in, else startTime */
+      const data = await makeApiRequest(
+        graphqlClient,
+        candleDuration,
+        baseToken,
+        quoteToken,
+        startTime(),
+        to,
+        candleNumber(),
+      );
+      let bars: Bar[] = [];
+      if (data.length > 0) {
+        bars = data;
+      } else {
+        bars = [];
+      }
+
+      if (firstDataRequest) {
+        newestBarsCache.set(symbolInfo.name, { ...bars[bars.length - 1] });
+        oldestBarsCache.set(symbolInfo.name, { ...bars[0] });
+      }
+
+      if (!bars || bars.length === 1) {
         onHistoryCallback([], {
           noData: true,
         });
         return;
       }
-      const lastBar = lastBarCache.get(symbolInfo.name);
+
+      const lastBar = newestBarsCache.get(symbolInfo.name);
       const newestBar = bars[bars.length - 1];
-      if (lastBar) {
-        if (newestBar.time >= lastBar.time) {
-          lastBarCache.set(symbolInfo.name, newestBar);
+      try {
+        if (lastBar) {
+          if (newestBar && newestBar?.time < lastBar.time) {
+            newestBarsCache.set(symbolInfo.name, newestBar);
+          }
+        } else {
+          newestBarsCache.set(symbolInfo.name, newestBar);
+        }
+      } catch (error) {
+        console.error('Errors caching newest bar as last bar', error);
+      }
+
+      const oldestBar = oldestBarsCache.get(symbolInfo.name);
+      const currentOldest = bars[0];
+
+      if (oldestBar) {
+        if (oldestBar.time > currentOldest.time) {
+          oldestBarsCache.set(symbolInfo.name, currentOldest);
         }
       } else {
-        lastBarCache.set(symbolInfo.name, newestBar);
+        oldestBarsCache.set(symbolInfo.name, currentOldest);
       }
-      onHistoryCallback(bars, {
-        noData: false,
-      });
+
+      if (!bars || bars.length === 0) {
+        onHistoryCallback([], {
+          noData: true,
+        });
+      } else {
+        onHistoryCallback(bars, {
+          noData: false,
+        });
+      }
     } catch (error) {
       onErrorCallback(error);
     }
   },
   // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#calculatehistorydepthresolution-resolutionback-intervalback
   calculateHistoryDepth: (resolution, resolutionBack, intervalBack) => {
-    if (resolutionBack === 'D') {
-      if (resolution > MAX_DAYS)
-        return { resolutionBack: 'D', intervalBack: MAX_DAYS };
-    } else if (resolutionBack === 'M') {
-      if (resolution > MAX_MONTHS)
-        return { resolutionBack: 'M', intervalBack: MAX_MONTHS };
-    }
+    const candleDetails = TradingCandleDictionary.get(
+      resolutionMap[resolution],
+    );
+    return {
+      resolutionBack: candleDetails.resolutionBack,
+      intervalBack: candleDetails.intervalBack,
+    };
   },
   // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#subscribebarssymbolinfo-resolution-onrealtimecallback-subscriberuid-onresetcacheneededcallback
   subscribeBars: (
@@ -144,20 +204,20 @@ const tradingChartDataFeeds = {
     subscribeUID,
     onResetCacheNeededCallback,
   ) => {
+    const newestBar = newestBarsCache.get(symbolInfo.name);
     stream.subscribeOnStream(
+      graphqlClient,
       symbolInfo,
       resolution,
       onRealtimeCallback,
       subscribeUID,
       onResetCacheNeededCallback,
-      lastBarCache.get(symbolInfo.name),
+      newestBar,
     );
   },
 
-  // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#unsubscribebarssubscriberuid
-  unsubscribeBars: subscriberUID => {
-    stream.unsubscribeFromStream(subscriberUID);
-  },
-};
+  // // // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#unsubscribebarssubscriberuid
+  unsubscribeBars: subscriberUID => stream.unsubscribeFromStream(subscriberUID),
+});
 
 export default tradingChartDataFeeds;

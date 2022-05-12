@@ -20,7 +20,6 @@ export const supportedResolutions = [
   '60',
   '240',
   '720',
-  '1440',
   '1D',
   '3D',
   '1W',

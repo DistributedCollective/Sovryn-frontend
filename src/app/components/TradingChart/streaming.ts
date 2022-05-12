@@ -9,7 +9,15 @@
  * this directory. Refer to:
  * https://github.com/tradingview/charting_library/wiki/Breaking-Changes
  */
-import { Bar, fetchCandleSticks } from './graph';
+import { ApolloClient } from '@apollo/client';
+import { resolutionMap } from 'app/pages/PerpetualPage/components/TradingChart/helpers';
+import { CandleDuration } from 'app/pages/PerpetualPage/hooks/graphql/useGetCandles';
+import {
+  Bar,
+  getTokensFromSymbol,
+  makeApiRequest,
+  TradingCandleDictionary,
+} from './helpers';
 
 type SubItem = {
   symbolInfo: any;
@@ -23,12 +31,10 @@ type SubItem = {
 const REFRESH_RATE = 15 * 1e3;
 
 export class Streaming {
+  private client: ApolloClient<any> | null = null;
   private subscriptions = new Map<string, SubItem>();
-  private abortControllerSource: AbortController | null = null;
 
   private onUpdate(subscriptionItem: SubItem) {
-    console.log('on update?', subscriptionItem);
-
     if (!subscriptionItem?.symbolInfo?.name) {
       console.log('error in symbol info', subscriptionItem);
       return;
@@ -41,36 +47,32 @@ export class Streaming {
       );
       return;
     }
-    if (this.abortControllerSource) this.abortControllerSource.abort();
-    this.abortControllerSource = new AbortController();
 
-    const assets = subscriptionItem.symbolInfo.name.split('/');
+    const candleDuration: CandleDuration =
+      resolutionMap[subscriptionItem.resolution];
 
-    console.log(
-      assets,
-      new Date(
-        Math.ceil(subscriptionItem?.lastBar?.time || Date.now()),
-      ).toString(),
+    const details = TradingCandleDictionary.get(candleDuration);
+
+    const { baseToken, quoteToken } = getTokensFromSymbol(
+      subscriptionItem.symbolInfo.name,
     );
 
-    fetchCandleSticks(
-      assets[0],
-      assets[1],
-      'interval',
-      Math.ceil((subscriptionItem?.lastBar?.time || Date.now()) / 1000),
+    makeApiRequest(
+      this.client!,
+      candleDuration,
+      baseToken,
+      quoteToken,
+      subscriptionItem?.lastBar?.time / 1000 - details.candleSeconds * 2,
       Math.ceil(Date.now() / 1000),
-      this.abortControllerSource.signal,
+      1,
     )
       .then(bars => {
-        console.log('update result', bars);
-
-        bars.forEach(item => {
+        bars.reverse().forEach(item => {
           let bar;
           if (
             !subscriptionItem.lastBar ||
-            item.time > subscriptionItem.lastBar.time
+            item.time * 1e3 > subscriptionItem?.lastBar?.time
           ) {
-            console.log('dd', item.time, subscriptionItem.lastBar.time);
             // generate new bar
             bar = {
               ...item,
@@ -78,7 +80,7 @@ export class Streaming {
             };
           } else if (
             subscriptionItem.lastBar &&
-            item.time === subscriptionItem.lastBar.time
+            item.time * 1e3 === subscriptionItem?.lastBar?.time
           ) {
             // update last bar
             bar = {
@@ -87,6 +89,9 @@ export class Streaming {
               low: Math.min(subscriptionItem.lastBar.low, item.low),
               close: item.close,
             };
+          } else {
+            // do not update
+            return;
           }
           // update last bar cache and execute chart callback
           subscriptionItem.lastBar = bar;
@@ -110,6 +115,7 @@ export class Streaming {
   }
 
   public subscribeOnStream(
+    client: ApolloClient<any>,
     symbolInfo,
     resolution,
     onRealtimeCallback,
@@ -117,6 +123,8 @@ export class Streaming {
     onResetCacheNeededCallback,
     lastBar,
   ) {
+    this.client = client;
+
     let subscriptionItem = this.subscriptions.get(subscribeUID);
     if (subscriptionItem) {
       // already subscribed to the channel, continue to use the existing subscription
