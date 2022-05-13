@@ -2,8 +2,11 @@
   @apply tw-list-none;
 
   .button {
-    @apply tw-flex tw-items-center tw-w-full tw-px-4 tw-py-2 tw-text-sov-white tw-text-left tw-no-underline hover:tw-bg-gray-3;
+    @apply tw-flex tw-items-center tw-w-full tw-px-3 tw-py-2 tw-text-sov-white tw-text-left tw-no-underline hover:tw-bg-gray-3;
     font-weight: inherit;
+    @screen 2xl {
+      @apply tw-px-4;
+    }
 
     &.disabled {
       @apply tw-opacity-50 tw-cursor-not-allowed;

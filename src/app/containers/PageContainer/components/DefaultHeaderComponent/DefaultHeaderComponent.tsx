@@ -277,12 +277,12 @@ export const DefaultHeaderComponent: React.FC = () => {
             </div>
           </div>
           <div className="xl:tw-flex tw-flex-row tw-items-center">
-            <div className="tw-mr-5 2xl:tw-mr-20">
+            <div className="tw-mr-5 2xl:tw-mr-16">
               <Link to="/">
                 <SovLogo className={styles.logo} />
               </Link>
             </div>
-            <Menu className="tw-hidden xl:tw-flex tw-flex-row tw-flex-nowrap tw-space-x-4">
+            <Menu className="tw-hidden xl:tw-flex tw-flex-row tw-flex-nowrap 2xl:tw-space-x-4">
               <MenuItem
                 text={
                   <NavPopover

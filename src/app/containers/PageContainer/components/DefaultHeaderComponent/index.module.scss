@@ -39,7 +39,7 @@
 }
 
 .mobileMenuSection {
-  @apply tw-flex tw-flex-row tw-self-center tw-w-1/2 tw-text-lg tw-px-0 tw-font-extralight tw-text-white tw-text-center tw-tracking-wider tw-text-center tw-mt-4;
+  @apply tw-flex tw-flex-row tw-self-center tw-w-1/2 tw-text-lg tw-px-0 tw-font-extralight tw-text-white tw-text-center tw-tracking-wider tw-mt-4;
 
   &:after,
   &:before {
@@ -91,14 +91,14 @@
 }
 
 .logo {
-  @apply tw-h-8 tw-m-0 tw-w-auto md:tw-h-10;
+  @apply tw-h-8 tw-m-0 tw-w-auto 2xl:tw-h-10;
 
   // custom font for "Alpha" logo text
   #Alpha tspan {
     font-family: Orbitron-Medium, Orbitron;
   }
 
-  @screen xl {
+  @screen 2xl {
     height: 53px;
   }
 }
