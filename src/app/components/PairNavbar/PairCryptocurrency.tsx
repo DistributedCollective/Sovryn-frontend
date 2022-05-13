@@ -274,7 +274,7 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
               <tr
                 key={pair[0].base_id + pair[1].base_id + pair[2]}
                 className="tw-text-sm tw-cursor-pointer tw-transition-opacity hover:tw-opacity-75 tw-d-table tw-table-fixed"
-                data-action-id={`${type}-pairselect-${pairTradingType(pair)}`}
+                data-action-id={`${type}-pairSelector-${pairTradingType(pair)}`}
               >
                 <td>
                   <StarButton
