@@ -103,6 +103,10 @@
   }
 }
 
+.headerText {
+  @apply tw-mr-1.5 tw-cursor-pointer tw-text-sm tw-font-medium;
+}
+
 // blueprintjs override
 :global(.bp3-popover).header-nav-popover :global(.bp3-popover-content) {
   @apply tw-bg-black tw-border-0

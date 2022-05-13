@@ -236,7 +236,8 @@ export const DefaultHeaderComponent: React.FC = () => {
         hoverOpenDelay={0}
         hoverCloseDelay={0}
         position={Position.BOTTOM_LEFT}
-        className="hover:tw-text-secondary"
+        className="hover:tw-bg-gray-5 tw-rounded tw-leading-1"
+        targetClassName="tw-px-3 tw-py-2"
       >
         {children}
       </Popover>
@@ -298,7 +299,7 @@ export const DefaultHeaderComponent: React.FC = () => {
                   <SovLogo className={styles.logo} />
                 </Link>
               </div>
-              <div className="tw-hidden xl:tw-flex tw-flex-row tw-flex-nowrap tw-space-x-4 2xl:tw-space-x-10">
+              <div className="tw-hidden xl:tw-flex tw-flex-row tw-flex-nowrap tw-space-x-4 2xl:tw-space-x-10 tw-items-center">
                 <NavPopover
                   content={
                     <BPMenu>
@@ -335,7 +336,7 @@ export const DefaultHeaderComponent: React.FC = () => {
                     }`}
                   >
                     <span
-                      className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
+                      className={styles.headerText}
                       data-action-id="header-link-trade"
                     >
                       {t(translations.mainMenu.trade)}
@@ -344,7 +345,10 @@ export const DefaultHeaderComponent: React.FC = () => {
                   </div>
                 </NavPopover>
                 <NavLink
-                  className="tw-header-link tw-mr-2 2xl:tw-mr-3"
+                  className={classNames(
+                    'tw-header-link hover:tw-bg-gray-5 hover:tw-text-sov-white tw-rounded tw-px-3 tw-py-2',
+                    styles.headerText,
+                  )}
                   to="/borrow"
                   data-action-id="header-link-borrow"
                 >
@@ -382,7 +386,7 @@ export const DefaultHeaderComponent: React.FC = () => {
                     }`}
                   >
                     <span
-                      className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
+                      className={styles.headerText}
                       data-action-id="header-link-earn"
                     >
                       {t(translations.mainMenu.earn)}
@@ -430,7 +434,7 @@ export const DefaultHeaderComponent: React.FC = () => {
                       }`}
                     >
                       <span
-                        className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
+                        className={styles.headerText}
                         data-action-id="header-link-lab"
                       >
                         {t(translations.mainMenu.labs)}
@@ -475,7 +479,7 @@ export const DefaultHeaderComponent: React.FC = () => {
                 >
                   <div className="tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center">
                     <span
-                      className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
+                      className={styles.headerText}
                       data-action-id="header-link-bitocracy"
                     >
                       {t(translations.mainMenu.bitocracy)}
