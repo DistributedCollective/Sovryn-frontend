@@ -87,6 +87,14 @@ const WalletConnectorContainer: React.FC<Props> = ({
             content={
               address ? (
                 <Menu>
+                  <MenuItem
+                    text={t(translations.mainMenu.rewards)}
+                    href="/reward"
+                  />
+                  <MenuItem
+                    text={t(translations.mainMenu.portfolio)}
+                    href="/wallet"
+                  />
                   <CopyToClipboard
                     text={address}
                     onCopy={() =>

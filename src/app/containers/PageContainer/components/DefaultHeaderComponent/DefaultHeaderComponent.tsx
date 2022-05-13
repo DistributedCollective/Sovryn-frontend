@@ -56,17 +56,37 @@ export const DefaultHeaderComponent: React.FC = () => {
     </button>
   );
 
+  const labPages = [
+    {
+      to: '/origins',
+      title: t(translations.mainMenu.originsLaunchpad),
+      dataActionId: 'header-lab-link-launchpad',
+    },
+    {
+      to: '/origins/claim',
+      title: t(translations.mainMenu.originsClaim),
+      dataActionId: 'header-lab-link-claim',
+    },
+    {
+      to: '/mynt-token',
+      title: t(translations.mainMenu.myntToken),
+      dataActionId: 'header-lab-link-mynt-token',
+    },
+  ];
+
+  if (!isMainnet) {
+    labPages.push({
+      to: '/perpetuals',
+      title: t(translations.mainMenu.perpetuals),
+      dataActionId: 'header-lab-link-perpetuals',
+    });
+  }
+
   const pages = [
     {
       to: '',
       title: t(translations.mainMenu.trade),
       dataActionId: 'header-link-trade',
-    },
-    {
-      to: '/buy-sov',
-      title: t(translations.mainMenu.buySov),
-      exact: true,
-      dataActionId: 'header-trade-link-buySov',
     },
     {
       to: '/swap',
@@ -85,43 +105,59 @@ export const DefaultHeaderComponent: React.FC = () => {
     },
     {
       to: '',
-      title: t(translations.mainMenu.finance),
-      dataActionId: 'header-link-finance',
-    },
-    {
-      to: '/lend',
-      title: t(translations.mainMenu.lend),
-      dataActionId: 'header-finance-link-lend',
+      title: '',
+      dataActionId: '',
     },
     {
       to: '/borrow',
       title: t(translations.mainMenu.borrow),
-      dataActionId: 'header-finance-link-borrow',
+      dataActionId: 'header-link-borrow',
+    },
+    {
+      to: '',
+      title: t(translations.mainMenu.earn),
+      dataActionId: 'header-link-earn',
+    },
+    {
+      to: '/lend',
+      title: t(translations.mainMenu.lend),
+      dataActionId: 'header-earn-link-lend',
     },
     {
       to: '/yield-farm',
-      title: t(translations.mainMenu.yieldFarm),
-      dataActionId: 'header-finance-link-yieldFarm',
+      title: t(translations.mainMenu.pool),
+      dataActionId: 'header-earn-link-pool',
     },
+    {
+      to: '/stake',
+      title: t(translations.mainMenu.staking),
+      dataActionId: 'header-earn-link-stake',
+    },
+    {
+      to: '',
+      title: t(translations.mainMenu.labs),
+      dataActionId: 'header-link-lab',
+    },
+    ...labPages,
     {
       to: '',
       title: t(translations.mainMenu.bitocracy),
       dataActionId: 'header-link-bitocracy',
     },
     {
-      to: '/stake',
-      title: t(translations.mainMenu.staking),
-      dataActionId: 'header-bitocracy-link-stake',
-    },
-    {
       to: bitocracyUrl,
-      title: t(translations.mainMenu.governance),
-      dataActionId: 'header-bitocracy-link-governance',
+      title: t(translations.mainMenu.voting),
+      dataActionId: 'header-bitocracy-link-voting',
     },
     {
       to: 'https://forum.sovryn.app',
       title: t(translations.mainMenu.forum),
       dataActionId: 'header-bitocracy-link-forum',
+    },
+    {
+      to: '',
+      title: '',
+      dataActionId: '',
     },
     {
       to: '/reward',
@@ -130,56 +166,15 @@ export const DefaultHeaderComponent: React.FC = () => {
     },
     {
       to: '/wallet',
-      title: t(translations.mainMenu.wallet),
+      title: t(translations.mainMenu.portfolio),
       dataActionId: 'header-link-portfolio',
-    },
-    {
-      to: '',
-      title: t(translations.mainMenu.origins),
-      dataActionId: 'header-link-origins',
-    },
-    {
-      to: '/origins',
-      title: t(translations.mainMenu.launchpad),
-      dataActionId: 'header-origins-link-launchpad',
-    },
-    {
-      to: '/origins/claim',
-      title: t(translations.mainMenu.originsClaim),
-      dataActionId: 'header-origins-link-claim',
-    },
-    {
-      to: '',
-      title: t(translations.mainMenu.labs),
-      dataActionId: 'header-link-lab',
-    },
-    {
-      to: '/mynt-token',
-      title: t(translations.mainMenu.myntToken),
-      dataActionId: 'header-lab-link-mynt-token',
-    },
-  ];
-
-  if (!isMainnet) {
-    pages.push({
-      to: '/perpetuals',
-      title: t(translations.mainMenu.perpetuals),
-      dataActionId: 'header-lab-link-perpetuals',
-    });
-  }
-
-  pages.push(
-    {
-      to: '',
-      title: '',
-      dataActionId: 'header-link-resources',
     },
     {
       to: 'https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp',
       title: t(translations.mainMenu.help),
-      dataActionId: 'header-resources-link-help',
+      dataActionId: 'header-link-help',
     },
-  );
+  ];
 
   const menuItems = pages.map((item, index) => {
     let link: {
@@ -250,19 +245,21 @@ export const DefaultHeaderComponent: React.FC = () => {
 
   const SECTION_TYPE = {
     TRADE: 'trade',
-    FINANCE: 'finance',
-    BITOCRACY: 'bitocracy',
-    ORIGINS: 'origins',
+    EARN: 'earn',
     LABS: 'labs',
   };
 
   const isSectionOpen = (section: string) => {
     const paths = {
-      [SECTION_TYPE.TRADE]: ['/buy-sov', '/trade', '/swap'],
-      [SECTION_TYPE.FINANCE]: ['/lend', '/yield-farm'],
-      [SECTION_TYPE.BITOCRACY]: ['/stake'],
-      [SECTION_TYPE.ORIGINS]: ['/origins', '/origins/claim'],
-      [SECTION_TYPE.LABS]: ['/labs', '/mynt-token', '/perpetuals'],
+      [SECTION_TYPE.TRADE]: ['/swap', '/spot', '/trade'],
+      [SECTION_TYPE.EARN]: ['/lend', '/yield-farm', '/stake'],
+      [SECTION_TYPE.LABS]: [
+        '/origins',
+        '/origins/claim',
+        '/labs',
+        '/mynt-token',
+        '/perpetuals',
+      ],
     };
     return section && paths[section].includes(location.pathname);
   };
@@ -306,14 +303,6 @@ export const DefaultHeaderComponent: React.FC = () => {
                   content={
                     <BPMenu>
                       <MenuItem
-                        text={t(translations.mainMenu.buySov)}
-                        className="bp3-popover-dismiss"
-                        onClick={() => {
-                          history.push('/buy-sov');
-                        }}
-                        data-action-id="header-trade-link-buySov"
-                      />
-                      <MenuItem
                         text={t(translations.mainMenu.swap)}
                         className="bp3-popover-dismiss"
                         onClick={() => {
@@ -354,6 +343,13 @@ export const DefaultHeaderComponent: React.FC = () => {
                     <FontAwesomeIcon icon={faChevronDown} size="xs" />
                   </div>
                 </NavPopover>
+                <NavLink
+                  className="tw-header-link tw-mr-2 2xl:tw-mr-3"
+                  to="/borrow"
+                  data-action-id="header-link-borrow"
+                >
+                  {t(translations.mainMenu.borrow)}
+                </NavLink>
                 <NavPopover
                   content={
                     <BPMenu>
@@ -361,48 +357,91 @@ export const DefaultHeaderComponent: React.FC = () => {
                         text={t(translations.mainMenu.lend)}
                         className="bp3-popover-dismiss"
                         onClick={() => history.push('/lend')}
-                        data-action-id="header-finance-link-lend"
+                        data-action-id="header-earn-link-lend"
                       />
                       <MenuItem
-                        text={t(translations.mainMenu.borrow)}
-                        className="bp3-popover-dismiss"
-                        onClick={() => history.push('/borrow')}
-                        data-action-id="header-finance-link-borrow"
-                      />
-                      <MenuItem
-                        text={t(translations.mainMenu.yieldFarm)}
+                        text={t(translations.mainMenu.pool)}
                         className="bp3-popover-dismiss"
                         onClick={() => history.push('/yield-farm')}
-                        data-action-id="header-finance-link-yieldFarm"
+                        data-action-id="header-earn-link-pool"
                       />
-                    </BPMenu>
-                  }
-                >
-                  <div
-                    className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
-                      isSectionOpen(SECTION_TYPE.FINANCE) && 'tw-font-bold'
-                    }`}
-                  >
-                    <span
-                      className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
-                      data-action-id="header-link-finance"
-                    >
-                      {t(translations.mainMenu.finance)}
-                    </span>
-                    <FontAwesomeIcon icon={faChevronDown} size="xs" />
-                  </div>
-                </NavPopover>
-                <NavPopover
-                  content={
-                    <BPMenu>
                       <MenuItem
                         text={t(translations.mainMenu.staking)}
                         className="bp3-popover-dismiss"
                         onClick={() => {
                           history.push('/stake');
                         }}
-                        data-action-id="header-bitocracy-link-stake"
+                        data-action-id="header-earn-link-stake"
                       />
+                    </BPMenu>
+                  }
+                >
+                  <div
+                    className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
+                      isSectionOpen(SECTION_TYPE.EARN) && 'tw-font-bold'
+                    }`}
+                  >
+                    <span
+                      className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
+                      data-action-id="header-link-earn"
+                    >
+                      {t(translations.mainMenu.earn)}
+                    </span>
+                    <FontAwesomeIcon icon={faChevronDown} size="xs" />
+                  </div>
+                </NavPopover>
+
+                {currentNetwork === AppMode.TESTNET && (
+                  <NavPopover
+                    content={
+                      <BPMenu>
+                        <MenuItem
+                          text={t(translations.mainMenu.originsLaunchpad)}
+                          className="bp3-popover-dismiss"
+                          onClick={() => history.push('/origins')}
+                          data-action-id="header-lab-link-launchpad"
+                        />
+                        <MenuItem
+                          text={t(translations.mainMenu.originsClaim)}
+                          className="bp3-popover-dismiss"
+                          onClick={() => history.push('/origins/claim')}
+                          data-action-id="header-lab-link-claim"
+                        />
+                        <MenuItem
+                          text={t(translations.mainMenu.myntToken)}
+                          className="bp3-popover-dismiss"
+                          href="/mynt-token"
+                          data-action-id="header-lab-link-mynt-token"
+                        />
+                        {!isMainnet && (
+                          <MenuItem
+                            text={t(translations.mainMenu.perpetuals)}
+                            className="bp3-popover-dismiss"
+                            href="/perpetuals"
+                            data-action-id="header-lab-link-perpetuals"
+                          />
+                        )}
+                      </BPMenu>
+                    }
+                  >
+                    <div
+                      className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
+                        isSectionOpen(SECTION_TYPE.LABS) && 'tw-font-bold'
+                      }`}
+                    >
+                      <span
+                        className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
+                        data-action-id="header-link-lab"
+                      >
+                        {t(translations.mainMenu.labs)}
+                      </span>
+                      <FontAwesomeIcon icon={faChevronDown} size="xs" />
+                    </div>
+                  </NavPopover>
+                )}
+                <NavPopover
+                  content={
+                    <BPMenu>
                       <MenuItem
                         icon={
                           <img
@@ -413,9 +452,9 @@ export const DefaultHeaderComponent: React.FC = () => {
                         }
                         href={bitocracyUrl}
                         target="_blank"
-                        text={t(translations.mainMenu.governance)}
+                        text={t(translations.mainMenu.voting)}
                         className="bp3-popover-dismiss"
-                        data-action-id="header-bitocracy-link-governance"
+                        data-action-id="header-bitocracy-link-voting"
                       />
                       <MenuItem
                         icon={
@@ -434,12 +473,7 @@ export const DefaultHeaderComponent: React.FC = () => {
                     </BPMenu>
                   }
                 >
-                  <div
-                    className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
-                      isSectionOpen(SECTION_TYPE.BITOCRACY) &&
-                      'font-weight-bold'
-                    }`}
-                  >
+                  <div className="tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center">
                     <span
                       className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
                       data-action-id="header-link-bitocracy"
@@ -449,72 +483,6 @@ export const DefaultHeaderComponent: React.FC = () => {
                     <FontAwesomeIcon icon={faChevronDown} size="xs" />
                   </div>
                 </NavPopover>
-                <NavLink
-                  className="tw-header-link tw-mr-2 2xl:tw-mr-3"
-                  to="/reward"
-                  data-action-id="header-link-rewards"
-                >
-                  {t(translations.mainMenu.rewards)}
-                </NavLink>
-
-                <NavLink
-                  className="tw-header-link tw-mr-2 2xl:tw-mr-3"
-                  to="/wallet"
-                  data-action-id="header-link-portfolio"
-                >
-                  {t(translations.mainMenu.wallet)}
-                </NavLink>
-                {currentNetwork === AppMode.TESTNET && (
-                  <NavPopover
-                    content={
-                      <BPMenu>
-                        <MenuItem
-                          text={t(translations.mainMenu.myntToken)}
-                          className="bp3-popover-dismiss"
-                          href="/mynt-token"
-                          data-action-id="header-lab-mynt-token"
-                        />
-                        {!isMainnet && (
-                          <MenuItem
-                            text={t(translations.mainMenu.perpetuals)}
-                            className="bp3-popover-dismiss"
-                            href="/perpetuals"
-                            data-action-id="header-lab-perpetuals"
-                          />
-                        )}
-                        <span className={styles.host}>
-                          {t(translations.mainMenu.origins)}
-                        </span>
-                        <MenuItem
-                          text={t(translations.mainMenu.launchpad)}
-                          className="bp3-popover-dismiss"
-                          onClick={() => history.push('/origins')}
-                          data-action-id="header-origins-link-launchpad"
-                        />
-                        <MenuItem
-                          text={t(translations.mainMenu.claim)}
-                          className="bp3-popover-dismiss"
-                          onClick={() => history.push('/origins/claim')}
-                          data-action-id="header-origins-link-claim"
-                        />
-                      </BPMenu>
-                    }
-                  >
-                    <div
-                      className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
-                        isSectionOpen(SECTION_TYPE.LABS) && 'tw-font-bold'
-                      }`}
-                    >
-                      <span
-                        className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
-                        data-action-id="header-link-origins"
-                      >
-                        {t(translations.mainMenu.labs)}
-                      </span>
-                      <FontAwesomeIcon icon={faChevronDown} size="xs" />
-                    </div>
-                  </NavPopover>
-                )}
               </div>
             </div>
           </div>
