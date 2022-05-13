@@ -25,7 +25,8 @@ export const useSwap_RecentTrades = (baseToken: Asset, quoteToken: Asset) => {
       })
       .then(res => {
         setData(res.data);
-      });
+      })
+      .catch(console.error);
   }, [baseTokenAddress, quoteTokenAddress]);
 
   return data;
