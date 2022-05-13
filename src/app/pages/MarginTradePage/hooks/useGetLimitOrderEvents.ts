@@ -1,30 +1,20 @@
-import React, { useMemo } from 'react';
-import classNames from 'classnames';
-
-import { useGetLimitOrders } from 'app/hooks/limitOrder/useGetLimitOrders';
-import { OpenPositionsTable } from '../OpenPositionsTable';
-import { LimitOrderHistory } from '../LimitOrderHistory';
-import { useAccount } from 'app/hooks/useAccount';
-import { MarginLimitOrder } from 'app/pages/MarginTradePage/types';
-import { Asset } from 'types';
+import { useMemo } from 'react';
+import { fromWei } from 'web3-utils';
 import { TradingPair } from 'utils/models/trading-pair';
 import { TradingPosition } from 'types/trading-position';
+import { useAccount } from 'app/hooks/useAccount';
+import { useGetLimitOrders } from 'app/hooks/limitOrder/useGetLimitOrders';
+import { MarginLimitOrder } from '../types';
+import { useGetContractPastEvents } from 'app/hooks/useGetContractPastEvents';
+import { useLog } from 'app/hooks/useDebug';
 import {
   assetByLoanTokenAddress,
   assetByTokenAddress,
 } from 'utils/blockchain/contract-helpers';
 import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
-import { fromWei } from 'web3-utils';
-import { useGetContractPastEvents } from 'app/hooks/useGetContractPastEvents';
-import { useLog } from 'app/hooks/useDebug';
+import { Asset } from 'types';
 
-interface ILimitOrderTablesProps {
-  activeTab: number;
-}
-
-export const LimitOrderTables: React.FC<ILimitOrderTablesProps> = ({
-  activeTab,
-}) => {
+export const useGetLimitOrderEvents = () => {
   const account = useAccount();
 
   const { value, loading } = useGetLimitOrders<MarginLimitOrder>(account, true);
@@ -46,24 +36,11 @@ export const LimitOrderTables: React.FC<ILimitOrderTablesProps> = ({
 
   useLog('LimitOrderTables', events);
 
-  return (
-    <>
-      <div className={classNames({ 'tw-hidden': activeTab !== 2 })}>
-        <OpenPositionsTable
-          orders={limitOrders.filter(item => item.filledAmount === '0')}
-          orderFilledEvents={events}
-          loading={loading}
-        />
-      </div>
-      <div className={classNames({ 'tw-hidden': activeTab !== 3 })}>
-        <LimitOrderHistory
-          orders={limitOrders.filter(item => item.filledAmount !== '0')}
-          orderFilledEvents={events}
-          loading={loading}
-        />
-      </div>
-    </>
-  );
+  return {
+    events,
+    limitOrders,
+    loading,
+  };
 };
 
 export interface MarginLimitOrderList {

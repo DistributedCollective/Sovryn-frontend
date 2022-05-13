@@ -14,6 +14,7 @@ import { CollateralAmount } from './CollateralAmount';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
 import { useMaintenance } from '../../hooks/useMaintenance';
+import { ActionButton } from '../Form/ActionButton';
 
 interface Props {
   data: any;
@@ -24,6 +25,7 @@ export function ActiveBorrowTable(props: Props) {
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
   const repayLocked = checkMaintenance(States.STOP_BORROW);
+  const addingLocked = checkMaintenance(States.ADD_TO_MARGIN_TRADES);
 
   const columns = React.useMemo(
     () => [
@@ -59,6 +61,7 @@ export function ActiveBorrowTable(props: Props) {
     ],
     [t],
   );
+
   const data = React.useMemo(() => {
     return props.data.map(item => {
       return {
@@ -88,39 +91,51 @@ export function ActiveBorrowTable(props: Props) {
         ),
         endTimestamp: <DisplayDate timestamp={item.endTimestamp} />,
         actions: (
-          <div className="tw-flex tw-flex-row tw-flex-nowrap tw-justify-between">
-            <div className="tw-mr-1">
-              {repayLocked ? (
-                <Tooltip
-                  position="bottom"
-                  hoverOpenDelay={0}
-                  hoverCloseDelay={0}
-                  interactionKind="hover"
-                  content={<>{t(translations.maintenance.stopBorrow)}</>}
-                >
-                  <button
-                    type="button"
-                    className="tw-w-20 tw-h-8 tw-bg-gray-1 tw-text-success tw-border-2 tw-border-success tw-rounded-lg tw-opacity-50 tw-cursor-not-allowed"
-                  >
-                    {t(translations.activeBorrowTable.repayButton)}
-                  </button>
-                </Tooltip>
-              ) : (
-                <button
-                  type="button"
-                  className="tw-w-20 tw-h-8 tw-bg-gray-1 tw-text-success tw-border-2 tw-border-success tw-rounded-lg"
-                  onClick={() => dispatch(actions.openRepayModal(item.loanId))}
-                  data-action-id="borrow-repayButton"
-                >
-                  {t(translations.activeBorrowTable.repayButton)}
-                </button>
-              )}
-            </div>
+          <div className="tw-flex tw-flex-row tw-flex-nowrap tw-justify-end tw-space-x-2">
+            {repayLocked ? (
+              <Tooltip
+                position="bottom"
+                hoverOpenDelay={0}
+                hoverCloseDelay={0}
+                interactionKind="hover"
+                content={<>{t(translations.maintenance.stopBorrow)}</>}
+              >
+                <ActionButton
+                  text={t(translations.activeBorrowTable.repayButton)}
+                  disabled
+                />
+              </Tooltip>
+            ) : (
+              <ActionButton
+                text={t(translations.activeBorrowTable.repayButton)}
+                onClick={() => dispatch(actions.openRepayModal(item.loanId))}
+              />
+            )}
+
+            {addingLocked ? (
+              <Tooltip
+                position="bottom"
+                hoverOpenDelay={0}
+                hoverCloseDelay={0}
+                interactionKind="hover"
+                content={<>{t(translations.maintenance.addCollateralBorrow)}</>}
+              >
+                <ActionButton
+                  text={t(translations.activeBorrowTable.addCollateralButton)}
+                  disabled
+                />
+              </Tooltip>
+            ) : (
+              <ActionButton
+                text={t(translations.activeBorrowTable.addCollateralButton)}
+                onClick={() => dispatch(actions.openAddModal(item.loanId))}
+              />
+            )}
           </div>
         ),
       };
     });
-  }, [props.data, dispatch, t, repayLocked]);
+  }, [props.data, repayLocked, t, addingLocked, dispatch]);
 
   const {
     getTableProps,

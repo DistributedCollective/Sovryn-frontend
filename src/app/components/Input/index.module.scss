@@ -1,8 +1,27 @@
+.wrapper {
+  @apply tw-w-full tw-rounded-lg tw-max-w-xs tw-border tw-flex tw-flex-row tw-justify-between tw-items-center;
+}
+
 .input {
-  @apply tw-w-full tw-h-8 tw-p-2 tw-leading-none tw-text-base tw-font-semibold tw-text-black tw-bg-sov-white tw-rounded-lg;
+  @apply tw-w-full tw-h-8 tw-py-2 tw-px-3 tw-leading-none tw-text-base tw-font-semibold tw-text-gray-1 tw-bg-sov-white tw-duration-300 hover:tw-bg-gray-10;
+
+  &::placeholder {
+    @apply tw-text-gray-8;
+  }
+
+  &[value='']:not(:focus), &:not([value]):not(:focus) {
+    @apply tw-bg-gray-9;
+  }
+
+  &:disabled {
+    @apply tw-cursor-not-allowed tw-bg-gray-8 tw-text-gray-6;
+  }
+
+  &:read-only:not(:disabled) {
+    @apply tw-bg-transparent tw-text-sov-white;
+  }
 
   &[type='number'] {
-    @apply tw-text-right;
     appearance: textfield;
     
     &[step] {
@@ -18,7 +37,7 @@
 }
 
 .stepButton {
-  @apply tw-absolute tw-right-0 tw-flex tw-items-center tw-justify-center tw-h-4 tw-w-6 
+  @apply tw-absolute tw-right-1 tw-flex tw-items-center tw-justify-center tw-h-4 tw-w-6 
     tw-transition-opacity tw-duration-300 hover:tw-opacity-50;
 
   padding: 3px;
