@@ -49,7 +49,6 @@ import { BridgeDepositPage } from './pages/BridgeDepositPage/Loadable';
 import { BridgeWithdrawPage } from './pages/BridgeWithdrawPage/Loadable';
 import { FastBtcPage } from './pages/FastBtcPage/Loadable';
 import { PageContainer } from './containers/PageContainer';
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { PerpetualPageLoadable } from './pages/PerpetualPage/Loadable';
 
@@ -140,7 +139,6 @@ export function App() {
                 <Route component={NotFoundPage} />
               </Switch>
             </PageContainer>
-            <ToastContainer className="tw-w-max" />
           </WalletProvider>
         </>
       )}

@@ -19,8 +19,6 @@ import { ArrowDown } from '../../../../components/Arrows';
 import { DummyInput } from 'app/components/Form/Input';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { TxFeeCalculator } from '../../../MarginTradePage/components/TxFeeCalculator';
-import { DialogButton } from 'app/components/Form/DialogButton';
-import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { weiToNumberFormat } from '../../../../../utils/display-text/format';
 import { useLiquidityMining_getUserInfo } from '../../hooks/useLiquidityMining_getUserInfo';
@@ -34,6 +32,8 @@ import { discordInvite } from 'utils/classifiers';
 import { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
 
 import { useCacheCallToWithValue } from 'app/hooks/chain/useCacheCallToWithValue';
+import { Button } from 'app/components/Button';
+import { TransactionDialog } from 'app/components/TransactionDialog';
 
 interface IRemoveLiquidityDialogV1Props {
   pool: AmmLiquidityPool;
@@ -181,7 +181,7 @@ export const RemoveLiquidityDialogV1: React.FC<IRemoveLiquidityDialogV1Props> = 
                 translations.common.availableBalance,
               )} ${weiToNumberFormat(balance, 8)}`}
               maxAmount={balance}
-              dataActionId="yieldFarm"
+              dataActionId="yieldFarm-withdraw"
             />
           </FormGroup>
           <DummyInput
@@ -236,19 +236,19 @@ export const RemoveLiquidityDialogV1: React.FC<IRemoveLiquidityDialogV1Props> = 
             />
           )}
           {!removeliquidityLocked && (
-            <DialogButton
-              confirmLabel={t(translations.liquidityMining.modals.withdraw.cta)}
-              onConfirm={() => handleConfirm()}
+            <Button
+              text={t(translations.liquidityMining.modals.withdraw.cta)}
+              onClick={handleConfirm}
               disabled={
                 tx.loading || !valid || !canInteract || removeliquidityLocked
               }
-              className="tw-rounded-lg"
-              data-action-id="yieldFarm-liquidityModal-confirm"
+              dataActionId={`yieldFarm-deposit-confirmButton-${pool.assetA}`}
+              className="tw-w-full tw-mt-2"
             />
           )}
         </div>
       </Dialog>
-      <TxDialog
+      <TransactionDialog
         tx={tx}
         onUserConfirmed={() => props.onCloseModal()}
         onSuccess={props.onSuccess}

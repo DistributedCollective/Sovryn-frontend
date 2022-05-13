@@ -5,11 +5,6 @@ import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary'
 import styles from './index.module.scss';
 
 const symbolMap = {
-  [Asset.RBTC]: (
-    <>
-      <em>R</em>BTC
-    </>
-  ),
   [Asset.WRBTC]: (
     <>
       <em>WR</em>BTC

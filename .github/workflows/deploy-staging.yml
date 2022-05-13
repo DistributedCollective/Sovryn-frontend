@@ -35,6 +35,7 @@ jobs:
           REACT_APP_NETWORK: 'mainnet'
           REACT_APP_BYPASS_MAINTENANCE: 'true'
           REACT_APP_ESTIMATOR_URI: 'https://simulator.sovryn.app'
+          REACT_APP_INTERCOM_ID: 'zxxit1rp'
 
       - name: Deploy to S3
         uses: raulanatol/aws-s3-docker-action@master

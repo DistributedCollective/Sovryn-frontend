@@ -77,7 +77,7 @@ export const AmountInput: React.FC<IAmountInputProps> = ({
         appendClassName={assetSelectable ? '' : 'tw-mr-5'}
         step={step}
         readOnly={readonly}
-        dataActionId={`${dataActionId}-amountInput`}
+        dataActionId={`${dataActionId}-amountInput${asset && '-' + asset}`}
         onChange={onChange}
       />
       {subText && (

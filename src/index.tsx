@@ -20,6 +20,7 @@ import { Provider } from 'react-redux';
 import './styles/sass/styles.scss';
 import './styles/tailwindcss/index.css';
 import '@sovryn/react-wallet/index.css';
+import '@blueprintjs/icons/lib/css/blueprint-icons.css';
 
 // Import global types
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -66,7 +67,7 @@ const ConnectedApp = ({ Component }: Props) => {
         <ServiceWorkerToaster />
         <MobileBrowsersWarningDialog />
         <FirstVisitDisclaimerDialog />
-        <ToastContainer />
+        <ToastContainer className="tw-w-max" />
       </ApolloProvider>
     </Provider>
   );
