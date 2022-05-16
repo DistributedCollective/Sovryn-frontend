@@ -218,7 +218,6 @@ export const DefaultHeaderComponent: React.FC = () => {
         hoverOpenDelay={0}
         hoverCloseDelay={0}
         position={Position.BOTTOM_LEFT}
-        // className="hover:tw-bg-gray-5 tw-rounded"
       >
         {children}
       </Popover>
@@ -291,6 +290,7 @@ export const DefaultHeaderComponent: React.FC = () => {
                             history.push('/swap');
                           }}
                           data-action-id="header-trade-link-swap"
+                          className="hover:tg-bg-gray-5"
                         />
                         <MenuItem
                           text={t(translations.mainMenu.spotTrade)}
@@ -298,9 +298,11 @@ export const DefaultHeaderComponent: React.FC = () => {
                             history.push('/spot');
                           }}
                           data-action-id="header-trade-link-spot"
+                          className={styles.menuItem}
                         />
                         <MenuItem
                           text={t(translations.mainMenu.marginTrade)}
+                          label="Some additional text"
                           onClick={() => {
                             history.push('/trade');
                           }}
@@ -324,7 +326,7 @@ export const DefaultHeaderComponent: React.FC = () => {
                     </span>
                   </NavPopover>
                 }
-                className="hover:tw-bg-gray-5 tw-rounded"
+                buttonClassName="hover:tw-bg-gray-5 tw-rounded"
               />
 
               <MenuItem
@@ -333,6 +335,7 @@ export const DefaultHeaderComponent: React.FC = () => {
                 }}
                 text={t(translations.mainMenu.borrow)}
                 data-action-id="header-link-borrow"
+                buttonClassName="hover:tw-bg-gray-5 tw-rounded"
               />
 
               <MenuItem
@@ -393,6 +396,7 @@ export const DefaultHeaderComponent: React.FC = () => {
                     </div>
                   </NavPopover>
                 }
+                buttonClassName="hover:tw-bg-gray-5 tw-rounded"
               />
 
               <MenuItem
@@ -464,6 +468,7 @@ export const DefaultHeaderComponent: React.FC = () => {
                     </div>
                   </NavPopover>
                 }
+                buttonClassName="hover:tw-bg-gray-5 tw-rounded"
               />
 
               <MenuItem
@@ -497,6 +502,7 @@ export const DefaultHeaderComponent: React.FC = () => {
                     </span>
                   </NavPopover>
                 }
+                buttonClassName="hover:tw-bg-gray-5 tw-rounded"
               />
             </Menu>
           </div>

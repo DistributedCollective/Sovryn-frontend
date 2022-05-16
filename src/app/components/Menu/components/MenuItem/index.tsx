@@ -23,6 +23,7 @@ type MenuItemProps = {
   hrefExternal?: boolean;
   onClick?: MouseEventHandler;
   dataActionId?: string;
+  buttonClassName?: string;
 };
 
 export const MenuItem: React.FC<MenuItemProps> = ({
@@ -35,6 +36,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
   hrefExternal,
   onClick,
   dataActionId,
+  buttonClassName,
 }) => {
   const onClickWhenAllowed = useCallback(
     (event: MouseEvent) => {
@@ -89,7 +91,11 @@ export const MenuItem: React.FC<MenuItemProps> = ({
         <button
           type="button"
           disabled={disabled}
-          className={classNames(styles.button, disabled && styles.disabled)}
+          className={classNames(
+            styles.button,
+            disabled && styles.disabled,
+            buttonClassName,
+          )}
           onClick={onClickWhenAllowed}
           data-action-id={dataActionId}
         >
@@ -100,14 +106,15 @@ export const MenuItem: React.FC<MenuItemProps> = ({
       );
     }
   }, [
-    disabled,
     href,
     hrefExternal,
+    disabled,
     onClickWhenAllowed,
+    dataActionId,
     icon,
     text,
     label,
-    dataActionId,
+    buttonClassName,
   ]);
 
   return <li className={classNames(styles.host, className)}>{button}</li>;
