@@ -18,10 +18,12 @@ import {
 import { LanguageToggle } from '../../../../components/LanguageToggle';
 import styles from './index.module.scss';
 import { ReactComponent as SovLogo } from 'assets/images/sovryn-logo-alpha.svg';
-import { bitocracyUrl, isMainnet } from 'utils/classifiers';
+import { bitocracyUrl, isMainnet, isStaging } from 'utils/classifiers';
 import { Menu } from 'app/components/Menu';
 import { MenuItem } from 'app/components/Menu/components/MenuItem';
 import { MenuSeparator } from 'app/components/Menu/components/MenuSeparator';
+
+const showPerps = !isMainnet || isStaging;
 
 export const DefaultHeaderComponent: React.FC = () => {
   const { t } = useTranslation();
@@ -57,7 +59,7 @@ export const DefaultHeaderComponent: React.FC = () => {
   );
 
   const perpetualPage = {
-    ...((!isMainnet && {
+    ...((showPerps && {
       to: '/perpetuals',
       title: t(translations.mainMenu.perpetuals),
       dataActionId: 'header-link-lab-perpetuals',
@@ -447,7 +449,7 @@ export const DefaultHeaderComponent: React.FC = () => {
                           href="/mynt-token"
                           data-action-id="header-lab-mynt-token"
                         />
-                        {!isMainnet && (
+                        {showPerps && (
                           <MenuItem
                             text={t(translations.mainMenu.perpetuals)}
                             href="/perpetuals"
