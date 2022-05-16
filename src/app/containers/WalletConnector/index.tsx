@@ -87,9 +87,18 @@ const WalletConnectorContainer: React.FC<Props> = ({
         <div className={connectedWrapperClassName}>
           <Popover
             placement={'bottom'}
+            minimal
             content={
               address ? (
                 <Menu className="tw-p-1">
+                  <MenuItem
+                    text={t(translations.mainMenu.rewards)}
+                    href="/reward"
+                  />
+                  <MenuItem
+                    text={t(translations.mainMenu.portfolio)}
+                    href="/wallet"
+                  />
                   <CopyToClipboard
                     text={address}
                     onCopy={() =>
