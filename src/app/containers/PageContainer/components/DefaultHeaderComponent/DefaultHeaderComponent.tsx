@@ -22,6 +22,7 @@ import styles from './index.module.scss';
 import { ReactComponent as SovLogo } from 'assets/images/sovryn-logo-alpha.svg';
 import { bitocracyUrl, currentNetwork, isMainnet } from 'utils/classifiers';
 import { AppMode } from 'types';
+import { MenuItemContent } from './components/MenuItemContent';
 
 export const DefaultHeaderComponent: React.FC = () => {
   const { t } = useTranslation();
@@ -236,7 +237,7 @@ export const DefaultHeaderComponent: React.FC = () => {
         hoverOpenDelay={0}
         hoverCloseDelay={0}
         position={Position.BOTTOM_LEFT}
-        className="hover:tw-bg-gray-5 tw-rounded tw-leading-1"
+        className="hover:tw-bg-gray-5 tw-rounded"
         targetClassName="tw-px-3 tw-py-2"
       >
         {children}
@@ -304,24 +305,48 @@ export const DefaultHeaderComponent: React.FC = () => {
                   content={
                     <BPMenu>
                       <MenuItem
-                        text={t(translations.mainMenu.swap)}
-                        className="bp3-popover-dismiss"
+                        text={
+                          <MenuItemContent
+                            title={t(translations.mainMenu.swap)}
+                            content={'Some additional text'}
+                          />
+                        }
+                        className={classNames(
+                          'bp3-popover-dismiss',
+                          styles.menuItem,
+                        )}
                         onClick={() => {
                           history.push('/swap');
                         }}
                         data-action-id="header-trade-link-swap"
                       />
                       <MenuItem
-                        text={t(translations.mainMenu.spotTrade)}
-                        className="bp3-popover-dismiss"
+                        text={
+                          <MenuItemContent
+                            title={t(translations.mainMenu.spotTrade)}
+                            content={'Some additional text'}
+                          />
+                        }
+                        className={classNames(
+                          'bp3-popover-dismiss',
+                          styles.menuItem,
+                        )}
                         onClick={() => {
                           history.push('/spot');
                         }}
                         data-action-id="header-trade-link-spot"
                       />
                       <MenuItem
-                        text={t(translations.mainMenu.marginTrade)}
-                        className="bp3-popover-dismiss"
+                        text={
+                          <MenuItemContent
+                            title={t(translations.mainMenu.marginTrade)}
+                            content={'Some additional text'}
+                          />
+                        }
+                        className={classNames(
+                          'bp3-popover-dismiss',
+                          styles.menuItem,
+                        )}
                         onClick={() => {
                           history.push('/trade');
                         }}
@@ -358,20 +383,44 @@ export const DefaultHeaderComponent: React.FC = () => {
                   content={
                     <BPMenu>
                       <MenuItem
-                        text={t(translations.mainMenu.lend)}
-                        className="bp3-popover-dismiss"
+                        text={
+                          <MenuItemContent
+                            title={t(translations.mainMenu.lend)}
+                            content={'Some additional text'}
+                          />
+                        }
+                        className={classNames(
+                          'bp3-popover-dismiss',
+                          styles.menuItem,
+                        )}
                         onClick={() => history.push('/lend')}
                         data-action-id="header-earn-link-lend"
                       />
                       <MenuItem
-                        text={t(translations.mainMenu.pool)}
-                        className="bp3-popover-dismiss"
+                        text={
+                          <MenuItemContent
+                            title={t(translations.mainMenu.pool)}
+                            content={'Some additional text'}
+                          />
+                        }
+                        className={classNames(
+                          'bp3-popover-dismiss',
+                          styles.menuItem,
+                        )}
                         onClick={() => history.push('/yield-farm')}
                         data-action-id="header-earn-link-pool"
                       />
                       <MenuItem
-                        text={t(translations.mainMenu.staking)}
-                        className="bp3-popover-dismiss"
+                        text={
+                          <MenuItemContent
+                            title={t(translations.mainMenu.staking)}
+                            content={'Some additional text'}
+                          />
+                        }
+                        className={classNames(
+                          'bp3-popover-dismiss',
+                          styles.menuItem,
+                        )}
                         onClick={() => {
                           history.push('/stake');
                         }}
@@ -400,27 +449,59 @@ export const DefaultHeaderComponent: React.FC = () => {
                     content={
                       <BPMenu>
                         <MenuItem
-                          text={t(translations.mainMenu.originsLaunchpad)}
-                          className="bp3-popover-dismiss"
+                          text={
+                            <MenuItemContent
+                              title={t(translations.mainMenu.originsLaunchpad)}
+                              content={'Some additional text'}
+                            />
+                          }
+                          className={classNames(
+                            'bp3-popover-dismiss',
+                            styles.menuItem,
+                          )}
                           onClick={() => history.push('/origins')}
                           data-action-id="header-lab-link-launchpad"
                         />
                         <MenuItem
-                          text={t(translations.mainMenu.originsClaim)}
-                          className="bp3-popover-dismiss"
+                          text={
+                            <MenuItemContent
+                              title={t(translations.mainMenu.originsClaim)}
+                              content={'Some additional text'}
+                            />
+                          }
+                          className={classNames(
+                            'bp3-popover-dismiss',
+                            styles.menuItem,
+                          )}
                           onClick={() => history.push('/origins/claim')}
                           data-action-id="header-lab-link-claim"
                         />
                         <MenuItem
-                          text={t(translations.mainMenu.myntToken)}
-                          className="bp3-popover-dismiss"
+                          text={
+                            <MenuItemContent
+                              title={t(translations.mainMenu.myntToken)}
+                              content={'Some additional text'}
+                            />
+                          }
+                          className={classNames(
+                            'bp3-popover-dismiss',
+                            styles.menuItem,
+                          )}
                           href="/mynt-token"
                           data-action-id="header-lab-link-mynt-token"
                         />
                         {!isMainnet && (
                           <MenuItem
-                            text={t(translations.mainMenu.perpetuals)}
-                            className="bp3-popover-dismiss"
+                            text={
+                              <MenuItemContent
+                                title={t(translations.mainMenu.perpetuals)}
+                                content={'Some additional text'}
+                              />
+                            }
+                            className={classNames(
+                              'bp3-popover-dismiss',
+                              styles.menuItem,
+                            )}
                             href="/perpetuals"
                             data-action-id="header-lab-link-perpetuals"
                           />
@@ -447,31 +528,47 @@ export const DefaultHeaderComponent: React.FC = () => {
                   content={
                     <BPMenu>
                       <MenuItem
-                        icon={
-                          <img
-                            src={iconNewTab}
-                            alt="newTab"
-                            className="tw-w-4 tw-h-4"
-                          />
-                        }
                         href={bitocracyUrl}
                         target="_blank"
-                        text={t(translations.mainMenu.voting)}
-                        className="bp3-popover-dismiss"
+                        text={
+                          <MenuItemContent
+                            title={t(translations.mainMenu.voting)}
+                            content={'Some additional text'}
+                            icon={
+                              <img
+                                src={iconNewTab}
+                                alt="newTab"
+                                className="tw-w-4 tw-h-4"
+                              />
+                            }
+                          />
+                        }
+                        className={classNames(
+                          'bp3-popover-dismiss',
+                          styles.menuItem,
+                        )}
                         data-action-id="header-bitocracy-link-voting"
                       />
                       <MenuItem
-                        icon={
-                          <img
-                            src={iconNewTab}
-                            alt="newTab"
-                            className="tw-w-4 tw-h-4"
-                          />
-                        }
                         href="https://forum.sovryn.app/"
                         target="_blank"
-                        text={t(translations.mainMenu.forum)}
-                        className="bp3-popover-dismiss"
+                        text={
+                          <MenuItemContent
+                            title={t(translations.mainMenu.forum)}
+                            content={'Some additional text'}
+                            icon={
+                              <img
+                                src={iconNewTab}
+                                alt="newTab"
+                                className="tw-w-4 tw-h-4"
+                              />
+                            }
+                          />
+                        }
+                        className={classNames(
+                          'bp3-popover-dismiss',
+                          styles.menuItem,
+                        )}
                         data-action-id="header-bitocracy-link-forum"
                       />
                     </BPMenu>
