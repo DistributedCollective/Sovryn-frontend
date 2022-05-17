@@ -25,7 +25,7 @@ import { TradeFormStep } from './components/TradeFormStep';
 import { ConnectFormStep } from './components/ConnectFormStep';
 import { noop } from '../../../../constants';
 import { PERPETUAL_SLIPPAGE_DEFAULT } from '../../types';
-import { PerpetualTxMethod, PerpetualTx } from '../TradeDialog/types';
+import { PerpetualTxMethod, PerpetualTx } from '../../types';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
 import debounce from 'lodash.debounce';
 

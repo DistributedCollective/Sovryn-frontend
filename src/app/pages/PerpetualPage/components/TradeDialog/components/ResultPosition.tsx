@@ -7,8 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../../locales/i18n';
 import { toNumberFormat } from '../../../../../../utils/display-text/format';
 import { PerpetualPair } from '../../../../../../utils/models/perpetual-pair';
-import { PerpetualPageModals } from '../../../types';
-import { TradeAnalysis } from '../types';
+import { PerpetualPageModals, TradeAnalysis } from '../../../types';
 import { getCollateralName } from 'app/pages/PerpetualPage/utils/renderUtils';
 
 type ResultPositionProps = {

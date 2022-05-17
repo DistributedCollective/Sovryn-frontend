@@ -25,14 +25,13 @@ export const ResultingPosition: React.FC<ResultingPositionProps> = ({
   minLeverage,
   maxLeverage,
   limitOrderPrice,
-  keepPositionLeverage = false,
 }) => {
   const { t } = useTranslation();
 
   const {
     liquidationPrice,
     leverage,
-  } = usePerpetual_calculateResultingPosition(trade, keepPositionLeverage);
+  } = usePerpetual_calculateResultingPosition(trade);
 
   const { pairType } = useSelector(selectPerpetualPage);
   const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);

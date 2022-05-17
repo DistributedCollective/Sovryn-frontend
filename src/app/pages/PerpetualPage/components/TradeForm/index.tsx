@@ -35,7 +35,11 @@ import {
 } from '../../utils/contractUtils';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';
-import { numberFromWei, toWei } from 'utils/blockchain/math-helpers';
+import {
+  numberFromWei,
+  toWei,
+  isValidNumerishValue,
+} from 'utils/blockchain/math-helpers';
 import { useSelector } from 'react-redux';
 import { selectPerpetualPage } from '../../selectors';
 import { getCollateralName } from '../../utils/renderUtils';
@@ -128,6 +132,8 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     lotSize,
   ]);
 
+  const hasOpenTrades = traderState?.marginAccountPositionBC !== 0;
+
   const [minLeverage, maxLeverage] = useMemo(() => {
     const amountChange = getSignedAmount(trade.position, trade.amount);
     const amountTarget = traderState.marginAccountPositionBC + amountChange;
@@ -178,7 +184,10 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   );
 
   useEffect(() => {
-    if (bignumber(amount).greaterThan(maxTradeSize)) {
+    if (
+      isValidNumerishValue(amount) &&
+      bignumber(amount).greaterThan(maxTradeSize)
+    ) {
       setAmount(String(maxTradeSize));
     }
   }, [amount, maxTradeSize, trade.position]);
@@ -303,10 +312,12 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   );
 
   const requiredCollateral = useMemo(() => {
-    const amount = getSignedAmount(trade.position, trade.amount);
-    return getRequiredMarginCollateralWithGasFees(
+    const targetAmount =
+      getSignedAmount(trade.position, trade.amount) +
+      traderState.marginAccountPositionBC;
+    const marginRequired = getRequiredMarginCollateralWithGasFees(
       trade.leverage,
-      amount,
+      targetAmount,
       perpParameters,
       ammState,
       traderState,
@@ -315,6 +326,12 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       false,
       false,
     );
+
+    console.log(
+      `marginReq: ${marginRequired}, for targetAmount: ${targetAmount}`,
+    );
+
+    return marginRequired;
   }, [
     trade.position,
     trade.amount,
@@ -343,7 +360,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
 
   const validation = useMemo(() => {
     const signedAmount = getSignedAmount(trade.position, trade.amount);
-    const marginChange = requiredCollateral;
+    const marginChange = requiredCollateral - traderState.availableCashCC;
     return signedAmount !== 0 || marginChange !== 0
       ? validatePositionChange(
           signedAmount,
@@ -405,14 +422,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     [signedAmount, traderState.marginAccountPositionBC],
   );
 
-  const isLeverageDisabled = useMemo(
-    () =>
-      Number(amount) !== 0 &&
-      (resultingPositionSize === 0 ||
-        Math.sign(resultingPositionSize) !== Math.sign(signedAmount)),
-    [amount, resultingPositionSize, signedAmount],
-  );
-
   const [keepPositionLeverage, setKeepPositionLeverage] = useState(false);
 
   const onChangeKeepPositionLeverage = useCallback(
@@ -421,6 +430,15 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       onChange({ ...trade, keepPositionLeverage: keepPositionLeverage });
     },
     [onChange, trade],
+  );
+
+  const isLeverageDisabled = useMemo(
+    () =>
+      keepPositionLeverage ||
+      (Number(amount) !== 0 &&
+        (resultingPositionSize === 0 ||
+          Math.sign(resultingPositionSize) !== Math.sign(signedAmount))),
+    [keepPositionLeverage, amount, resultingPositionSize, signedAmount],
   );
 
   const onSubmitWrapper = useCallback(() => {
@@ -448,6 +466,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       }
 
       completeTrade.slippage = 0;
+      completeTrade.keepPositionLeverage = false;
     }
 
     onSubmit(completeTrade);
@@ -455,19 +474,10 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
 
   useEffect(() => {
     // resets trade.keepPositionLeverage in case we flip the sign
-    if (
-      trade.tradeType === PerpetualTradeType.MARKET &&
-      !isLeverageDisabled &&
-      keepPositionLeverage
-    ) {
+    if (trade.tradeType !== PerpetualTradeType.MARKET && keepPositionLeverage) {
       onChangeKeepPositionLeverage(false);
     }
-  }, [
-    isLeverageDisabled,
-    keepPositionLeverage,
-    onChangeKeepPositionLeverage,
-    trade.tradeType,
-  ]);
+  }, [keepPositionLeverage, onChangeKeepPositionLeverage, trade.tradeType]);
 
   return (
     <div
@@ -782,28 +792,28 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
 
       {trade.tradeType === PerpetualTradeType.MARKET && (
         <>
-          {isLeverageDisabled && (
-            <Tooltip
-              content={t(
-                translations.perpetualPage.tradeForm.tooltips
+          <Tooltip
+            popoverClassName="tw-max-w-md"
+            content={t(
+              translations.perpetualPage.tradeForm.tooltips
+                .keepPositionLeverage,
+            )}
+            position={PopoverPosition.TOP}
+          >
+            <Checkbox
+              checked={keepPositionLeverage}
+              onChange={() =>
+                onChangeKeepPositionLeverage(!keepPositionLeverage)
+              }
+              disabled={!hasOpenTrades}
+              label={t(
+                translations.perpetualPage.tradeForm.labels
                   .keepPositionLeverage,
               )}
-              position={PopoverPosition.TOP}
-            >
-              <Checkbox
-                checked={keepPositionLeverage}
-                onChange={() =>
-                  onChangeKeepPositionLeverage(!keepPositionLeverage)
-                }
-                label={t(
-                  translations.perpetualPage.tradeForm.labels
-                    .keepPositionLeverage,
-                )}
-                data-action-id="keep-position-leverage"
-                className="tw-text-sm"
-              />
-            </Tooltip>
-          )}
+              data-action-id="keep-position-leverage"
+              className="tw-text-sm"
+            />
+          </Tooltip>
           <div className="tw-my-2 tw-text-secondary tw-text-xs">
             <button className="tw-flex tw-flex-row" onClick={onOpenSlippage}>
               <Trans

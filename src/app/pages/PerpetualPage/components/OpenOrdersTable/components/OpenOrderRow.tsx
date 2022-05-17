@@ -21,10 +21,7 @@ import { translations } from 'locales/i18n';
 import { TableRowAction } from '../../TableRowAction';
 import { actions } from '../../../slice';
 import { useDispatch } from 'react-redux';
-import {
-  PerpetualTxMethod,
-  PerpetualTxCancelLimitOrder,
-} from '../../TradeDialog/types';
+import { PerpetualTxMethod, PerpetualTxCancelLimitOrder } from '../../../types';
 import { toWei } from '../../../../../../utils/blockchain/math-helpers';
 import { TradingPosition } from '../../../../../../types/trading-position';
 

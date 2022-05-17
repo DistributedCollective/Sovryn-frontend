@@ -11,6 +11,7 @@ import {
   PerpetualPageModals,
   PerpetualTrade,
   PerpetualTradeType,
+  TradeAnalysis,
 } from '../../../types';
 import {
   Transaction,
@@ -20,7 +21,6 @@ import {
 import { LinkToExplorer } from '../../../../../components/LinkToExplorer';
 import { RecentTradesContext } from '../../../contexts/RecentTradesContext';
 import { RecentTradesDataEntry } from '../../RecentTradesTable/types';
-import { TradeAnalysis } from '../types';
 import { getCollateralName } from 'app/pages/PerpetualPage/utils/renderUtils';
 import { StatusComponent } from 'app/components/Dialogs/StatusComponent';
 

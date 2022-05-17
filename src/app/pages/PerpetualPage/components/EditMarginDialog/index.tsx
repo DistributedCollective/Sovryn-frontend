@@ -26,7 +26,7 @@ import {
   toWei,
   numberFromWei,
 } from '../../../../../utils/blockchain/math-helpers';
-import { PerpetualTxMethod } from '../TradeDialog/types';
+import { PerpetualTxMethod } from '../../types';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 import { ActionDialogSubmitButton } from '../ActionDialogSubmitButton';
 import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';

@@ -47,7 +47,7 @@ import {
   PerpetualTxCancelLimitOrder,
   PerpetualTxDepositMargin,
   PerpetualTxWithdrawMargin,
-} from '../components/TradeDialog/types';
+} from '../types';
 import { PerpetualQueriesContextValue } from '../contexts/PerpetualQueriesContext';
 import { ethGenesisAddress } from '../../../../utils/classifiers';
 import { SendTxResponseInterface } from '../../../hooks/useSendContractTx';

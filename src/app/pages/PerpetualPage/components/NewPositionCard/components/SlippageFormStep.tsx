@@ -31,10 +31,7 @@ export const SlippageFormStep: TransitionStep<NewPositionCardStep> = ({
 
   const { trade, onChangeTrade } = useContext(NewPositionCardContext);
 
-  const { liquidationPrice } = usePerpetual_calculateResultingPosition(
-    trade,
-    trade.keepPositionLeverage,
-  );
+  const { liquidationPrice } = usePerpetual_calculateResultingPosition(trade);
 
   const pair = useMemo(() => PerpetualPairDictionary.get(trade.pairType), [
     trade.pairType,

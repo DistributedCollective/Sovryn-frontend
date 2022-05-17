@@ -21,15 +21,14 @@ type ResultingPositionData = {
 };
 
 export const usePerpetual_calculateResultingPosition = (
-  trade: PerpetualTrade,
-  keepPositionLeverage: boolean = false,
+  trade?: PerpetualTrade,
 ): ResultingPositionData => {
   const { pairType, useMetaTransactions } = useSelector(selectPerpetualPage);
   const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
 
   const signedOrderSize = useMemo(
-    () => getSignedAmount(trade.position, trade.amount),
-    [trade.amount, trade.position],
+    () => (trade?.amount ? getSignedAmount(trade.position, trade.amount) : 0),
+    [trade?.amount, trade?.position],
   );
 
   const { perpetuals } = useContext(PerpetualQueriesContext);
@@ -40,12 +39,21 @@ export const usePerpetual_calculateResultingPosition = (
   } = perpetuals[pair.id];
 
   const leverage = useMemo(() => {
-    // trader doesn't have an open position
-    if (!traderState.marginAccountPositionBC) {
+    if (!trade) {
+      return 0;
+    }
+    const isFlippingPosition =
+      Math.sign(signedOrderSize + traderState.marginAccountPositionBC) !==
+      Math.sign(traderState.marginAccountPositionBC);
+    // trader doesn't have an open position or is flipping their position direction
+    if (!traderState.marginAccountPositionBC || isFlippingPosition) {
       return trade.leverage;
     }
 
-    if (keepPositionLeverage && trade.tradeType === PerpetualTradeType.MARKET) {
+    if (
+      trade.keepPositionLeverage &&
+      trade.tradeType === PerpetualTradeType.MARKET
+    ) {
       return getTraderLeverage(traderState, ammState);
     }
 
@@ -57,16 +65,7 @@ export const usePerpetual_calculateResultingPosition = (
       trade.leverage,
       trade.slippage,
     );
-  }, [
-    ammState,
-    keepPositionLeverage,
-    perpParameters,
-    signedOrderSize,
-    trade.leverage,
-    trade.slippage,
-    trade.tradeType,
-    traderState,
-  ]);
+  }, [ammState, perpParameters, signedOrderSize, trade, traderState]);
 
   const liquidationPrice = useMemo(() => {
     const requiredCollateral = getRequiredMarginCollateralWithGasFees(
@@ -75,7 +74,7 @@ export const usePerpetual_calculateResultingPosition = (
       perpParameters,
       ammState,
       traderState,
-      trade.slippage,
+      trade?.slippage,
       useMetaTransactions,
       true,
       true,
@@ -93,7 +92,7 @@ export const usePerpetual_calculateResultingPosition = (
     leverage,
     perpParameters,
     signedOrderSize,
-    trade.slippage,
+    trade?.slippage,
     traderState,
     useMetaTransactions,
   ]);
@@ -104,12 +103,16 @@ export const usePerpetual_calculateResultingPosition = (
   );
 
   const margin = useMemo(() => {
+    if (!trade) {
+      return traderState.availableCashCC;
+    }
+
     const tradeMargin = trade.margin
       ? numberFromWei(trade.margin)
       : Math.abs(numberFromWei(trade.amount)) / trade.leverage;
 
     return tradeMargin + traderState.availableCashCC;
-  }, [trade.amount, trade.leverage, trade.margin, traderState.availableCashCC]);
+  }, [trade, traderState.availableCashCC]);
 
   return {
     leverage,

@@ -13,6 +13,7 @@ import { Dialog } from '../../../../containers/Dialog';
 import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
 import {
+  PerpetualTxMethod,
   isPerpetualTrade,
   PerpetualPageModals,
   PERPETUAL_MAX_LEVERAGE_DEFAULT,
@@ -25,7 +26,6 @@ import {
   toWei,
   numberFromWei,
 } from '../../../../../utils/blockchain/math-helpers';
-import { PerpetualTxMethod } from '../TradeDialog/types';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 import {
   getSignedAmount,

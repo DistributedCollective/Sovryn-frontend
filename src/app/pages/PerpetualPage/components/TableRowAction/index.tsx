@@ -13,12 +13,13 @@ export const TableRowAction: React.FC<TableRowActionProps> = ({
   onClick,
 }) => (
   <Tooltip
+    className="tw-mr-8"
     position="bottom"
     popoverClassName="tw-max-w-md tw-font-light"
     content={tooltip}
   >
     <button
-      className="tw-mr-8 tw-text-primary tw-text-sm tw-font-medium"
+      className="tw-text-primary tw-text-sm tw-font-medium"
       onClick={onClick}
     >
       {label}

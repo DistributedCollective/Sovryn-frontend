@@ -1,8 +1,5 @@
 import { useMemo, useContext, useCallback, useState } from 'react';
-import {
-  PerpetualTx,
-  PerpetualTxMethod,
-} from '../components/TradeDialog/types';
+import {} from '../components/TradeDialog/types';
 import { useGsnSendTx } from '../../../hooks/useGsnSendTx';
 import {
   PerpetualPairDictionary,
@@ -12,6 +9,8 @@ import {
   PERPETUAL_CHAIN,
   PERPETUAL_PAYMASTER,
   PERPETUAL_GAS_PRICE_DEFAULT,
+  PerpetualTx,
+  PerpetualTxMethod,
 } from '../types';
 import {
   perpetualTransactionArgs,
@@ -74,6 +73,8 @@ export const usePerpetual_transaction = (
       setSending(true);
 
       const txType: TxType = PerpetualTxMethodTypeMap[transaction.method];
+
+      console.log('execute', transaction);
 
       return send(
         await perpetualTransactionArgs(
