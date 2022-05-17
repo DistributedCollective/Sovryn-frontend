@@ -469,10 +469,10 @@ export const DefaultHeaderComponent: React.FC = () => {
             </Link>
           </li>
           <li className="2xl:tw-mr-4">
-            <LanguageToggle />
-          </li>
-          <li>
             <WalletConnector />
+          </li>
+          <li className="2xl:tw-mr-4">
+            <LanguageToggle />
           </li>
         </Menu>
       </div>
