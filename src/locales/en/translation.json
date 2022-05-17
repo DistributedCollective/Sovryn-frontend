@@ -471,7 +471,13 @@
     "labs": "Labs",
     "myntToken": "MYNT Token",
     "zero": "Zero",
-    "perpetuals": "Perpetuals"
+    "perpetuals": "Perpetuals",
+    "getStarted": "Get Started",
+    "fundWallet": "Fund Wallet",
+    "tooltips": {
+      "readMore": "Read more",
+      "fundWalletButton": "Click here to fund your wallet and get started with Sovryn"
+    }
   },
   "originsLaunchpad": {
     "upcomingSales": {

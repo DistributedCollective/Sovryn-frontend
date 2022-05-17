@@ -1,13 +1,18 @@
-import { Popover, Position } from '@blueprintjs/core';
+import {
+  Popover,
+  PopoverInteractionKind,
+  PopoverPosition,
+  Position,
+} from '@blueprintjs/core';
 import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
 import { translations } from 'locales/i18n';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
-import { useIsConnected } from 'app/hooks/useAccount';
+import { useAccount, useIsConnected } from 'app/hooks/useAccount';
 
 import WalletConnector from '../../../WalletConnector';
 import { lendBorrowSovrynSaga } from '../../../../pages/BorrowPage/saga';
@@ -22,6 +27,15 @@ import { bitocracyUrl, isMainnet, isStaging } from 'utils/classifiers';
 import { Menu } from 'app/components/Menu';
 import { MenuItem } from 'app/components/Menu/components/MenuItem';
 import { MenuSeparator } from 'app/components/Menu/components/MenuSeparator';
+import {
+  Button,
+  ButtonColor,
+  ButtonSize,
+  ButtonStyle,
+  ButtonType,
+} from 'app/components/Button';
+import { Sovryn } from 'utils/sovryn';
+import { bignumber } from 'mathjs';
 
 const showPerps = !isMainnet || isStaging;
 
@@ -32,6 +46,23 @@ export const DefaultHeaderComponent: React.FC = () => {
   const [open, setOpen] = useState(false);
   const node = useRef(null);
   const connected = useIsConnected();
+  const account = useAccount();
+
+  const [rbtcBalance, setRbtcBalance] = useState('0');
+
+  useEffect(() => {
+    if (account) {
+      Sovryn.getWeb3()
+        .eth.getBalance(account)
+        .then(setRbtcBalance)
+        .catch(e => console.log('Could not load RBTC balance'));
+    }
+  }, [account]);
+
+  const hasFunds = useMemo(
+    () => !bignumber(rbtcBalance).isZero() && connected,
+    [connected, rbtcBalance],
+  );
 
   useInjectReducer({ key: lendBorrowSlice, reducer: lendBorrowReducer });
   useInjectSaga({ key: lendBorrowSlice, saga: lendBorrowSovrynSaga });
@@ -181,31 +212,29 @@ export const DefaultHeaderComponent: React.FC = () => {
     },
   ];
 
-  const menuItems = pages
-    .filter(page => page.title !== '')
-    .map((item, index) => {
-      let link: {
-        to: string;
-        title: string;
-        dataActionId: string;
-        hrefExternal?: boolean;
-      } = item;
+  const menuItems = pages.map((item, index) => {
+    let link: {
+      to: string;
+      title: string;
+      dataActionId: string;
+      hrefExternal?: boolean;
+    } = item;
 
-      if (link.to === '') {
-        return <MenuSeparator key={index} text={link.title} />;
-      }
+    if (link.to === '') {
+      return <MenuSeparator key={index} text={link.title} />;
+    }
 
-      return (
-        <MenuItem
-          key={index}
-          href={link.to}
-          text={link.title}
-          hrefExternal={link.hrefExternal}
-          data-action-id={link.dataActionId}
-          className="tw-leading-snug"
-        />
-      );
-    });
+    return (
+      <MenuItem
+        key={index}
+        href={link.to}
+        text={link.title}
+        hrefExternal={link.hrefExternal}
+        data-action-id={link.dataActionId}
+        className="tw-leading-snug"
+      />
+    );
+  });
 
   const NavPopover = ({ content, children }) => {
     return (
@@ -452,21 +481,41 @@ export const DefaultHeaderComponent: React.FC = () => {
         </div>
 
         <Menu className="tw-flex tw-justify-start tw-items-center">
-          <li>
-            <Link
-              to={{
-                pathname: '/wallet',
-              }}
-              className={classNames(
-                'tw-btn-action tw-text-primary hover:tw-bg-transparent tw-hidden sm:tw-flex tw-mx-2 2xl:tw-mr-4',
-                {
-                  'tw-hidden': !connected,
-                },
-              )}
-              data-action-id="header-link-deposit"
+          <li className="2xl:tw-mr-8">
+            <Popover
+              interactionKind={PopoverInteractionKind.HOVER}
+              position={PopoverPosition.BOTTOM}
+              className="tw-pl-4"
+              popoverClassName="tw-mw-340"
+              content={
+                <div className="tw-px-3.5 tw-py-2 tw-font-normal">
+                  <div className="tw-mb-6">
+                    {t(translations.mainMenu.tooltips.fundWalletButton)}
+                  </div>
+                  <a
+                    href="https://wiki.sovryn.app/en/getting-started"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {t(translations.mainMenu.tooltips.readMore)}
+                  </a>
+                </div>
+              }
             >
-              {t(translations.common.deposit)}
-            </Link>
+              <Button
+                text={t(
+                  translations.mainMenu[hasFunds ? 'fundWallet' : 'getStarted'],
+                )}
+                href="/fast-btc/deposit"
+                type={ButtonType.button}
+                color={ButtonColor.primary}
+                style={ButtonStyle.normal}
+                size={ButtonSize.md}
+                disabled={!connected}
+                className="tw-rounded tw-px-5"
+                dataActionId="header-link-deposit"
+              />
+            </Popover>
           </li>
           <li className="2xl:tw-mr-4">
             <WalletConnector />

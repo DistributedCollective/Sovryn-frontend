@@ -94,8 +94,8 @@ const WalletConnectorContainer: React.FC<Props> = ({
         ) : (
           <div className={connectedWrapperClassName}>
             <Popover
-              placement={'bottom'}
-              interactionKind={PopoverInteractionKind.HOVER}
+              placement="bottom-end"
+              interactionKind={PopoverInteractionKind.CLICK}
               popoverClassName={styles.walletConnectorPopover}
               minimal
               content={
@@ -126,6 +126,7 @@ const WalletConnectorContainer: React.FC<Props> = ({
                       <MenuItem
                         icon={faClone}
                         text={t(translations.wallet.copy_address)}
+                        dataActionId="copy-wallet-address"
                       />
                     </CopyToClipboard>
                     <MenuItem
