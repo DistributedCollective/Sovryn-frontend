@@ -55,34 +55,58 @@ export const MenuItem: React.FC<MenuItemProps> = ({
       if (hrefExternal) {
         return (
           <a
-            className={classNames(styles.button, disabled && styles.disabled)}
+            className={classNames(styles.button, {
+              [styles.disabled]: disabled,
+            })}
             href={href}
             target="_blank"
             rel="noreferrer"
             onClick={onClickWhenAllowed}
             data-action-id={dataActionId}
           >
-            {icon && <FontAwesomeIcon icon={icon} className="tw-mr-2" />}
-            {text}
-            <img
-              src={iconNewTab}
-              className="tw-ml-2 tw-h-5"
-              alt="external link"
-            />
-            {label && <span className={styles.label}>{label}</span>}
+            <div className="tw-block tw-leading-none">
+              <div className="tw-flex tw-items-center">
+                {icon && <FontAwesomeIcon icon={icon} className="tw-mr-2" />}
+                <span
+                  className={classNames(styles.text, {
+                    'tw-mb-1': !!label,
+                  })}
+                >
+                  {text}
+                </span>
+                <img
+                  src={iconNewTab}
+                  className="tw-ml-2 tw-h-5"
+                  alt="external link"
+                />
+              </div>
+              {label && <span className={styles.label}>{label}</span>}
+            </div>
           </a>
         );
       } else {
         return (
           <Link
             to={href}
-            className={classNames(styles.button, disabled && styles.disabled)}
+            className={classNames(styles.button, {
+              [styles.disabled]: disabled,
+            })}
             onClick={onClickWhenAllowed}
             data-action-id={dataActionId}
           >
-            {icon && <FontAwesomeIcon icon={icon} className="tw-mr-2" />}
-            {text}
-            {label && <span className={styles.label}>{label}</span>}
+            <div className="tw-block tw-leading-none">
+              <div className="tw-flex tw-items-center">
+                {icon && <FontAwesomeIcon icon={icon} className="tw-mr-2" />}
+                <span
+                  className={classNames(styles.text, {
+                    'tw-mb-1': !!label,
+                  })}
+                >
+                  {text}
+                </span>
+              </div>
+              {label && <span className={styles.label}>{label}</span>}
+            </div>
           </Link>
         );
       }
@@ -91,17 +115,25 @@ export const MenuItem: React.FC<MenuItemProps> = ({
         <button
           type="button"
           disabled={disabled}
-          className={classNames(
-            styles.button,
-            disabled && styles.disabled,
-            buttonClassName,
-          )}
+          className={classNames(styles.button, buttonClassName, {
+            [styles.disabled]: disabled,
+          })}
           onClick={onClickWhenAllowed}
           data-action-id={dataActionId}
         >
-          {icon && <FontAwesomeIcon icon={icon} className="tw-mr-2" />}
-          {text}
-          {label && <span className={styles.label}>{label}</span>}
+          <div className="tw-block tw-leading-none">
+            <div className="tw-flex tw-items-center">
+              {icon && <FontAwesomeIcon icon={icon} className="tw-mr-2" />}
+              <span
+                className={classNames(styles.text, {
+                  'tw-mb-1': !!label,
+                })}
+              >
+                {text}
+              </span>
+            </div>
+            {label && <span className={styles.label}>{label}</span>}
+          </div>
         </button>
       );
     }

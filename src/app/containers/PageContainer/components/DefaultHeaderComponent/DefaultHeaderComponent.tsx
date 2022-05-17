@@ -1,10 +1,10 @@
 import { Popover, Position } from '@blueprintjs/core';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faCaretDown } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import classNames from 'classnames';
 import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { Link, NavLink, useHistory, useLocation } from 'react-router-dom';
 import { translations } from 'locales/i18n';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import { useIsConnected } from 'app/hooks/useAccount';
@@ -22,7 +22,6 @@ import { bitocracyUrl, isMainnet, isStaging } from 'utils/classifiers';
 import { Menu } from 'app/components/Menu';
 import { MenuItem } from 'app/components/Menu/components/MenuItem';
 import { MenuSeparator } from 'app/components/Menu/components/MenuSeparator';
-import { MenuItemContent } from './components/MenuItemContent';
 
 const showPerps = !isMainnet || isStaging;
 
@@ -218,6 +217,8 @@ export const DefaultHeaderComponent: React.FC = () => {
         hoverOpenDelay={0}
         hoverCloseDelay={0}
         position={Position.BOTTOM_LEFT}
+        className="hover:tw-bg-gray-2.5 tw-rounded"
+        targetClassName="tw-px-3 tw-py-2"
       >
         {children}
       </Popover>
@@ -278,232 +279,174 @@ export const DefaultHeaderComponent: React.FC = () => {
                 <SovLogo className={styles.logo} />
               </Link>
             </div>
-            <Menu className="tw-hidden xl:tw-flex tw-flex-row tw-flex-nowrap 2xl:tw-space-x-4">
-              <MenuItem
-                text={
-                  <NavPopover
-                    content={
-                      <>
-                        <MenuItem
-                          text={t(translations.mainMenu.swap)}
-                          onClick={() => {
-                            history.push('/swap');
-                          }}
-                          data-action-id="header-trade-link-swap"
-                          className="hover:tg-bg-gray-5"
-                        />
-                        <MenuItem
-                          text={t(translations.mainMenu.spotTrade)}
-                          onClick={() => {
-                            history.push('/spot');
-                          }}
-                          data-action-id="header-trade-link-spot"
-                          className={styles.menuItem}
-                        />
-                        <MenuItem
-                          text={t(translations.mainMenu.marginTrade)}
-                          label="Some additional text"
-                          onClick={() => {
-                            history.push('/trade');
-                          }}
-                          data-action-id="header-trade-link-margin"
-                        />
-                      </>
-                    }
-                  >
-                    <span
-                      className={`tw-flex tw-flex-row tw-items-center ${
-                        isSectionOpen(SECTION_TYPE.TRADE) && 'tw-font-bold'
-                      }`}
-                    >
-                      <span
-                        className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
-                        data-action-id="header-link-trade"
-                      >
-                        {t(translations.mainMenu.trade)}
-                      </span>
-                      <FontAwesomeIcon icon={faChevronDown} size="xs" />
-                    </span>
-                  </NavPopover>
+            <Menu className="tw-hidden xl:tw-flex tw-flex-row tw-flex-nowrap 2xl:tw-space-x-4 tw-items-center">
+              <NavPopover
+                content={
+                  <>
+                    <MenuItem
+                      text={t(translations.mainMenu.swap)}
+                      label="Some additional text"
+                      onClick={() => {
+                        history.push('/swap');
+                      }}
+                      data-action-id="header-trade-link-swap"
+                      className="hover:tg-bg-gray-5"
+                    />
+                    <MenuItem
+                      text={t(translations.mainMenu.spotTrade)}
+                      label="Some additional text"
+                      onClick={() => {
+                        history.push('/spot');
+                      }}
+                      data-action-id="header-trade-link-spot"
+                    />
+                    <MenuItem
+                      text={t(translations.mainMenu.marginTrade)}
+                      label="Some additional text"
+                      onClick={() => {
+                        history.push('/trade');
+                      }}
+                      data-action-id="header-trade-link-margin"
+                    />
+                  </>
                 }
-                buttonClassName="hover:tw-bg-gray-5 tw-rounded"
-              />
+              >
+                <span
+                  className={`tw-flex tw-flex-row tw-items-center ${
+                    isSectionOpen(SECTION_TYPE.TRADE) &&
+                    'tw-font-semibold tw-text-orange'
+                  }`}
+                >
+                  <span
+                    className={styles.headerText}
+                    data-action-id="header-link-trade"
+                  >
+                    {t(translations.mainMenu.trade)}
+                  </span>
+                  <FontAwesomeIcon icon={faCaretDown} size="xs" />
+                </span>
+              </NavPopover>
 
-              <MenuItem
-                onClick={() => {
-                  history.push('/borrow');
-                }}
-                text={t(translations.mainMenu.borrow)}
+              <NavLink
+                className={classNames(
+                  'tw-header-link hover:tw-bg-gray-2.5 hover:tw-text-sov-white tw-rounded tw-px-3 tw-py-2',
+                  styles.headerText,
+                )}
+                to="/borrow"
                 data-action-id="header-link-borrow"
-                buttonClassName="hover:tw-bg-gray-5 tw-rounded"
-              />
+              >
+                {t(translations.mainMenu.borrow)}
+              </NavLink>
 
-              <MenuItem
-                text={
-                  <NavPopover
-                    content={
-                      <>
-                        <MenuItem
-                          text={
-                            <MenuItemContent
-                              title={t(translations.mainMenu.lend)}
-                              content={'Some additional text'}
-                            />
-                          }
-                          className={classNames(styles.menuItem)}
-                          onClick={() => history.push('/lend')}
-                          data-action-id="header-earn-link-lend"
-                        />
-                        <MenuItem
-                          text={
-                            <MenuItemContent
-                              title={t(translations.mainMenu.pool)}
-                              content={'Some additional text'}
-                            />
-                          }
-                          className={classNames(styles.menuItem)}
-                          onClick={() => history.push('/yield-farm')}
-                          data-action-id="header-earn-link-pool"
-                        />
-                        <MenuItem
-                          text={
-                            <MenuItemContent
-                              title={t(translations.mainMenu.staking)}
-                              content={'Some additional text'}
-                            />
-                          }
-                          className={classNames(styles.menuItem)}
-                          onClick={() => {
-                            history.push('/stake');
-                          }}
-                          data-action-id="header-earn-link-stake"
-                        />
-                      </>
-                    }
-                  >
-                    <div
-                      className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
-                        isSectionOpen(SECTION_TYPE.EARN) && 'tw-font-bold'
-                      }`}
-                    >
-                      <span
-                        className={styles.headerText}
-                        data-action-id="header-link-earn"
-                      >
-                        {t(translations.mainMenu.earn)}
-                      </span>
-                      <FontAwesomeIcon icon={faChevronDown} size="xs" />
-                    </div>
-                  </NavPopover>
+              <NavPopover
+                content={
+                  <>
+                    <MenuItem
+                      text={t(translations.mainMenu.lend)}
+                      onClick={() => history.push('/lend')}
+                      data-action-id="header-earn-link-lend"
+                    />
+                    <MenuItem
+                      text={t(translations.mainMenu.pool)}
+                      onClick={() => history.push('/yield-farm')}
+                      data-action-id="header-earn-link-pool"
+                    />
+                    <MenuItem
+                      text={t(translations.mainMenu.staking)}
+                      onClick={() => {
+                        history.push('/stake');
+                      }}
+                      data-action-id="header-earn-link-stake"
+                    />
+                  </>
                 }
-                buttonClassName="hover:tw-bg-gray-5 tw-rounded"
-              />
+              >
+                <div
+                  className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
+                    isSectionOpen(SECTION_TYPE.EARN) && 'tw-font-semibold'
+                  }`}
+                >
+                  <span
+                    className={styles.headerText}
+                    data-action-id="header-link-earn"
+                  >
+                    {t(translations.mainMenu.earn)}
+                  </span>
+                  <FontAwesomeIcon icon={faCaretDown} size="xs" />
+                </div>
+              </NavPopover>
 
-              <MenuItem
-                text={
-                  <NavPopover
-                    content={
-                      <>
-                        <MenuItem
-                          text={
-                            <MenuItemContent
-                              title={t(translations.mainMenu.originsLaunchpad)}
-                              content={'Some additional text'}
-                            />
-                          }
-                          className={classNames(styles.menuItem)}
-                          onClick={() => history.push('/origins')}
-                          data-action-id="header-lab-link-launchpad"
-                        />
-                        <MenuItem
-                          text={
-                            <MenuItemContent
-                              title={t(translations.mainMenu.originsClaim)}
-                              content={'Some additional text'}
-                            />
-                          }
-                          className={classNames(styles.menuItem)}
-                          onClick={() => history.push('/origins/claim')}
-                          data-action-id="header-lab-link-claim"
-                        />
-                        <MenuItem
-                          text={
-                            <MenuItemContent
-                              title={t(translations.mainMenu.myntToken)}
-                              content={'Some additional text'}
-                            />
-                          }
-                          className={classNames(styles.menuItem)}
-                          href="/mynt-token"
-                          data-action-id="header-lab-link-mynt-token"
-                        />
-                        {showPerps && (
-                          <MenuItem
-                            text={
-                              <MenuItemContent
-                                title={t(translations.mainMenu.perpetuals)}
-                                content={'Some additional text'}
-                              />
-                            }
-                            className={classNames(styles.menuItem)}
-                            href="/perpetuals"
-                            data-action-id="header-lab-link-perpetuals"
-                          />
-                        )}
-                      </>
-                    }
-                  >
-                    <div
-                      className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
-                        isSectionOpen(SECTION_TYPE.LABS) && 'tw-font-bold'
-                      }`}
-                    >
-                      <span
-                        className={styles.headerText}
-                        data-action-id="header-link-lab"
-                      >
-                        {t(translations.mainMenu.labs)}
-                      </span>
-                      <FontAwesomeIcon icon={faChevronDown} size="xs" />
-                    </div>
-                  </NavPopover>
+              <NavPopover
+                content={
+                  <>
+                    <MenuItem
+                      text={t(translations.mainMenu.originsLaunchpad)}
+                      onClick={() => history.push('/origins')}
+                      data-action-id="header-lab-link-launchpad"
+                    />
+                    <MenuItem
+                      text={t(translations.mainMenu.originsClaim)}
+                      onClick={() => history.push('/origins/claim')}
+                      data-action-id="header-lab-link-claim"
+                    />
+                    <MenuItem
+                      text={t(translations.mainMenu.myntToken)}
+                      href="/mynt-token"
+                      data-action-id="header-lab-link-mynt-token"
+                    />
+                    {showPerps && (
+                      <MenuItem
+                        text={t(translations.mainMenu.perpetuals)}
+                        href="/perpetuals"
+                        data-action-id="header-lab-link-perpetuals"
+                      />
+                    )}
+                  </>
                 }
-                buttonClassName="hover:tw-bg-gray-5 tw-rounded"
-              />
+              >
+                <div
+                  className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
+                    isSectionOpen(SECTION_TYPE.LABS) && 'tw-font-semibold'
+                  }`}
+                >
+                  <span
+                    className={styles.headerText}
+                    data-action-id="header-link-lab"
+                  >
+                    {t(translations.mainMenu.labs)}
+                  </span>
+                  <FontAwesomeIcon icon={faCaretDown} size="xs" />
+                </div>
+              </NavPopover>
 
-              <MenuItem
-                text={
-                  <NavPopover
-                    content={
-                      <Menu>
-                        <MenuItem
-                          href={bitocracyUrl}
-                          hrefExternal
-                          text={t(translations.mainMenu.voting)}
-                          data-action-id="header-bitocracy-link-voting"
-                        />
-                        <MenuItem
-                          href="https://forum.sovryn.app/"
-                          hrefExternal
-                          text={t(translations.mainMenu.forum)}
-                          data-action-id="header-bitocracy-link-forum"
-                        />
-                      </Menu>
-                    }
-                  >
-                    <span className="tw-flex tw-flex-row tw-items-center">
-                      <span
-                        className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
-                        data-action-id="header-link-bitocracy"
-                      >
-                        {t(translations.mainMenu.bitocracy)}
-                      </span>
-                      <FontAwesomeIcon icon={faChevronDown} size="xs" />
-                    </span>
-                  </NavPopover>
+              <NavPopover
+                content={
+                  <Menu>
+                    <MenuItem
+                      href={bitocracyUrl}
+                      hrefExternal
+                      text={t(translations.mainMenu.voting)}
+                      data-action-id="header-bitocracy-link-voting"
+                    />
+                    <MenuItem
+                      href="https://forum.sovryn.app/"
+                      hrefExternal
+                      text={t(translations.mainMenu.forum)}
+                      data-action-id="header-bitocracy-link-forum"
+                    />
+                  </Menu>
                 }
-                buttonClassName="hover:tw-bg-gray-5 tw-rounded"
-              />
+              >
+                <span className="tw-flex tw-flex-row tw-items-center">
+                  <span
+                    className={styles.headerText}
+                    data-action-id="header-link-bitocracy"
+                  >
+                    {t(translations.mainMenu.bitocracy)}
+                  </span>
+                  <FontAwesomeIcon icon={faCaretDown} size="xs" />
+                </span>
+              </NavPopover>
             </Menu>
           </div>
         </div>
