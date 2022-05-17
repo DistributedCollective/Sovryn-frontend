@@ -14,6 +14,7 @@ export const PERPETUAL_MAX_LEVERAGE_DEFAULT = 15;
 export const PERPETUAL_CHAIN = Chain.BSC;
 export const PERPETUAL_CHAIN_ID =
   getBridgeChainId(Chain.BSC) || ChainId.BSC_MAINNET;
+
 export const PERPETUAL_PAYMASTER = isMainnet
   ? '' // TODO: add mainnet paymaster address
   : '0x516181Fe2053B3b5CfD547f1220Fa9cdD38e7f9B';
