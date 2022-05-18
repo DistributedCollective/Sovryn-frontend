@@ -70,7 +70,7 @@ export function useMaintenance() {
     if (!!process.env.REACT_APP_BYPASS_MAINTENANCE) {
       return false;
     }
-    return maintenanceStates[name]?.maintenance_active;
+    return maintenanceStates[name]?.isInMaintenance;
   };
 
   const checkMaintenances = (): MaintenanceResult => {
