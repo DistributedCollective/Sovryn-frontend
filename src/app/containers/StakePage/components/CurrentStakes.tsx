@@ -22,6 +22,7 @@ import { Tooltip } from '@blueprintjs/core';
 import type { RevertInstructionError } from 'web3-core-helpers';
 import { Spinner, SpinnerSize } from 'app/components/Spinner';
 import classNames from 'classnames';
+import { useStaking_timestampToLockDate } from 'app/hooks/staking/useStaking_timestampToLockDate';
 
 interface StakeItem {
   stakedAmount: string;
@@ -196,9 +197,14 @@ const AssetRow: React.FC<IAssetRowProps> = ({
   );
   const [votingPower, setVotingPower] = useState(0);
   const WEIGHT_FACTOR = useStaking_WEIGHT_FACTOR();
+
+  const currentLockDate = useStaking_timestampToLockDate(
+    Math.round(now.getTime() / 1e3),
+  );
+
   const getWeight = useStaking_computeWeightByDate(
     Number(item.unlockDate),
-    Math.round(now.getTime() / 1e3),
+    Number(currentLockDate.value),
   );
 
   const SOV = AssetsDictionary.get(Asset.SOV);

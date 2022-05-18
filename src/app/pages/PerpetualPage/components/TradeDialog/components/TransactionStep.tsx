@@ -10,12 +10,12 @@ import {
   TxStatus,
   Transaction,
 } from '../../../../../../store/global/transactions-store/types';
-import { StatusComponent } from '../../../../../components/Dialogs/TxDialog';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectTransactions } from '../../../../../../store/global/transactions-store/selectors';
 import { actions } from '../../../slice';
 import { PerpetualPageModals } from '../../../types';
 import { RecentTradesContext } from '../../../contexts/RecentTradesContext';
+import { StatusComponent } from 'app/components/Dialogs/StatusComponent';
 
 const TxStatusPriority = {
   [TxStatus.NONE]: 0,

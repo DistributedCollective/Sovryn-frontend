@@ -8,6 +8,7 @@ import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { weiTo4 } from 'utils/blockchain/math-helpers';
 import { useStaking_computeWeightByDate } from '../../../hooks/staking/useStaking_computeWeightByDate';
 import { useStaking_WEIGHT_FACTOR } from '../../../hooks/staking/useStaking_WEIGHT_FACTOR';
+import { useStaking_timestampToLockDate } from 'app/hooks/staking/useStaking_timestampToLockDate';
 
 interface Props {
   handleSubmit: (event: FormEvent<HTMLFormElement>) => void;
@@ -24,9 +25,14 @@ export function DelegateForm(props: Props) {
   const [weight, setWeight] = useState('');
   const [votingPower, setVotingPower] = useState(0);
   const WEIGHT_FACTOR = useStaking_WEIGHT_FACTOR();
+
+  const currentLockDate = useStaking_timestampToLockDate(
+    Math.round(now.getTime() / 1e3),
+  );
+
   const getWeight = useStaking_computeWeightByDate(
     props.timestamp,
-    Math.round(now.getTime() / 1e3),
+    Number(currentLockDate.value),
   );
   const { t } = useTranslation();
   const { checkMaintenances, States } = useMaintenance();

@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import { Text } from '@blueprintjs/core/lib/esm/components/text/text';
-import { MenuItem } from '@blueprintjs/core/lib/esm/components/menu/menuItem';
 import { ItemRenderer } from '@blueprintjs/select/lib/esm/common/itemRenderer';
 import { ItemPredicate } from '@blueprintjs/select/lib/esm/common/predicate';
 import { useTranslation } from 'react-i18next';
@@ -11,6 +10,7 @@ import { CustomDot } from 'app/pages/LandingPage/components/Promotions/component
 import classNames from 'classnames';
 import 'react-multi-carousel/lib/styles.css';
 import { CustomButtonGroup } from './CustomButtonGroup';
+import { MenuItem } from '../Menu/components/MenuItem';
 
 interface DateItem {
   key: number;
@@ -167,7 +167,7 @@ export function StakingDateSelector(props: Props) {
           );
         })}
       </div>
-      <div className="tw-mt-5 tw-pr-0 tw-relative">
+      <div className="tw-mt-5 tw-pr-0 tw-relative tw-pb-4">
         <Carousel
           key={selectedYear}
           arrows={false}
@@ -246,7 +246,6 @@ export const renderItem: ItemRenderer<DateItem> = (
   }
   return (
     <MenuItem
-      active={modifiers.active}
       disabled={modifiers.disabled}
       key={item.key}
       onClick={handleClick}

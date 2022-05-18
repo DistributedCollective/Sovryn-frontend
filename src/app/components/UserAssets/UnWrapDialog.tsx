@@ -15,9 +15,9 @@ import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import { useAccount } from 'app/hooks/useAccount';
 import { useUnWrap } from '../../hooks/portfolio/useUnWrap';
-import { TxDialog } from '../Dialogs/TxDialog';
 import { gasLimit } from '../../../utils/classifiers';
 import { TxType } from '../../../store/global/transactions-store/types';
+import { TransactionDialog } from '../TransactionDialog';
 
 interface IConversionDialogProps {
   isOpen: boolean;
@@ -105,7 +105,7 @@ export const UnWrapDialog: React.FC<IConversionDialogProps> = ({
           </BuyButton>
         </div>
       </Dialog>
-      <TxDialog tx={convertTx} />
+      <TransactionDialog tx={convertTx} />
     </>
   );
 };
