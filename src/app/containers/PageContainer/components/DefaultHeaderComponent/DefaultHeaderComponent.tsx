@@ -246,8 +246,7 @@ export const DefaultHeaderComponent: React.FC = () => {
         hoverOpenDelay={0}
         hoverCloseDelay={0}
         position={Position.BOTTOM_LEFT}
-        className="hover:tw-bg-gray-2.5 tw-rounded"
-        targetClassName="tw-px-3 tw-py-2"
+        className="hover:tw-bg-gray-2.5 tw-rounded tw-text-gray-8 hover:tw-text-sov-white tw-cursor-pointer"
       >
         {children}
       </Popover>
@@ -258,6 +257,7 @@ export const DefaultHeaderComponent: React.FC = () => {
     TRADE: 'trade',
     EARN: 'earn',
     LABS: 'labs',
+    BORROW: 'borrow',
   };
 
   const isSectionOpen = (section: string) => {
@@ -271,6 +271,7 @@ export const DefaultHeaderComponent: React.FC = () => {
         '/mynt-token',
         '/perpetuals',
       ],
+      [SECTION_TYPE.BORROW]: ['/borrow'],
     };
     return section && paths[section].includes(location.pathname);
   };
@@ -314,37 +315,31 @@ export const DefaultHeaderComponent: React.FC = () => {
                   <>
                     <MenuItem
                       text={t(translations.mainMenu.swap)}
-                      label="Some additional text"
-                      onClick={() => {
-                        history.push('/swap');
-                      }}
+                      label={t(translations.mainMenu.labels.swap)}
+                      href="/swap"
                       data-action-id="header-trade-link-swap"
-                      className="hover:tg-bg-gray-5"
                     />
                     <MenuItem
                       text={t(translations.mainMenu.spotTrade)}
-                      label="Some additional text"
-                      onClick={() => {
-                        history.push('/spot');
-                      }}
+                      label={t(translations.mainMenu.labels.spotTrade)}
+                      href="/spot"
                       data-action-id="header-trade-link-spot"
                     />
                     <MenuItem
                       text={t(translations.mainMenu.marginTrade)}
-                      label="Some additional text"
-                      onClick={() => {
-                        history.push('/trade');
-                      }}
+                      label={t(translations.mainMenu.labels.marginTrade)}
+                      href="/trade"
                       data-action-id="header-trade-link-margin"
                     />
                   </>
                 }
               >
                 <span
-                  className={`tw-flex tw-flex-row tw-items-center ${
-                    isSectionOpen(SECTION_TYPE.TRADE) &&
-                    'tw-font-semibold tw-text-orange'
-                  }`}
+                  className={classNames(styles.firstLevelMenu, {
+                    [styles.firstLevelMenuActive]: isSectionOpen(
+                      SECTION_TYPE.TRADE,
+                    ),
+                  })}
                 >
                   <span
                     className={styles.headerText}
@@ -360,6 +355,14 @@ export const DefaultHeaderComponent: React.FC = () => {
                 className={classNames(
                   'tw-header-link hover:tw-bg-gray-2.5 hover:tw-text-sov-white tw-rounded tw-px-3 tw-py-2',
                   styles.headerText,
+                  isSectionOpen(SECTION_TYPE.BORROW)
+                    ? 'tw-text-sov-white'
+                    : 'tw-text-gray-8',
+                  {
+                    [styles.firstLevelMenuActive]: isSectionOpen(
+                      SECTION_TYPE.BORROW,
+                    ),
+                  },
                 )}
                 to="/borrow"
                 data-action-id="header-link-borrow"
@@ -372,28 +375,31 @@ export const DefaultHeaderComponent: React.FC = () => {
                   <>
                     <MenuItem
                       text={t(translations.mainMenu.lend)}
-                      onClick={() => history.push('/lend')}
+                      label={t(translations.mainMenu.labels.lend)}
+                      href="/lend"
                       data-action-id="header-earn-link-lend"
                     />
                     <MenuItem
                       text={t(translations.mainMenu.pool)}
-                      onClick={() => history.push('/yield-farm')}
+                      label={t(translations.mainMenu.labels.pool)}
+                      href="/yield-farm"
                       data-action-id="header-earn-link-pool"
                     />
                     <MenuItem
                       text={t(translations.mainMenu.staking)}
-                      onClick={() => {
-                        history.push('/stake');
-                      }}
+                      label={t(translations.mainMenu.labels.staking)}
+                      href="/stake"
                       data-action-id="header-earn-link-stake"
                     />
                   </>
                 }
               >
                 <div
-                  className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
-                    isSectionOpen(SECTION_TYPE.EARN) && 'tw-font-semibold'
-                  }`}
+                  className={classNames(styles.firstLevelMenu, {
+                    [styles.firstLevelMenuActive]: isSectionOpen(
+                      SECTION_TYPE.EARN,
+                    ),
+                  })}
                 >
                   <span
                     className={styles.headerText}
@@ -410,22 +416,26 @@ export const DefaultHeaderComponent: React.FC = () => {
                   <>
                     <MenuItem
                       text={t(translations.mainMenu.originsLaunchpad)}
-                      onClick={() => history.push('/origins')}
+                      label={t(translations.mainMenu.labels.originsLaunchpad)}
+                      href="/origins"
                       data-action-id="header-lab-link-launchpad"
                     />
                     <MenuItem
                       text={t(translations.mainMenu.originsClaim)}
-                      onClick={() => history.push('/origins/claim')}
+                      label={t(translations.mainMenu.labels.originsClaim)}
+                      href="/origins/claim"
                       data-action-id="header-lab-link-claim"
                     />
                     <MenuItem
                       text={t(translations.mainMenu.myntToken)}
+                      label={t(translations.mainMenu.labels.myntToken)}
                       href="/mynt-token"
                       data-action-id="header-lab-link-mynt-token"
                     />
                     {showPerps && (
                       <MenuItem
                         text={t(translations.mainMenu.perpetuals)}
+                        label={t(translations.mainMenu.labels.perpetuals)}
                         href="/perpetuals"
                         data-action-id="header-lab-link-perpetuals"
                       />
@@ -434,9 +444,11 @@ export const DefaultHeaderComponent: React.FC = () => {
                 }
               >
                 <div
-                  className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
-                    isSectionOpen(SECTION_TYPE.LABS) && 'tw-font-semibold'
-                  }`}
+                  className={classNames(styles.firstLevelMenu, {
+                    [styles.firstLevelMenuActive]: isSectionOpen(
+                      SECTION_TYPE.LABS,
+                    ),
+                  })}
                 >
                   <span
                     className={styles.headerText}
@@ -455,18 +467,20 @@ export const DefaultHeaderComponent: React.FC = () => {
                       href={bitocracyUrl}
                       hrefExternal
                       text={t(translations.mainMenu.voting)}
+                      label={t(translations.mainMenu.labels.voting)}
                       data-action-id="header-bitocracy-link-voting"
                     />
                     <MenuItem
                       href="https://forum.sovryn.app/"
                       hrefExternal
                       text={t(translations.mainMenu.forum)}
+                      label={t(translations.mainMenu.labels.forum)}
                       data-action-id="header-bitocracy-link-forum"
                     />
                   </Menu>
                 }
               >
-                <span className="tw-flex tw-flex-row tw-items-center">
+                <span className={styles.firstLevelMenu}>
                   <span
                     className={styles.headerText}
                     data-action-id="header-link-bitocracy"

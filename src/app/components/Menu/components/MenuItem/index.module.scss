@@ -2,7 +2,7 @@
   @apply tw-list-none;
 
   .button {
-    @apply tw-flex tw-items-center tw-w-full tw-px-5 tw-py-2.5 tw-text-gray-8 tw-text-left tw-no-underline tw-rounded hover:tw-text-sov-white hover:tw-bg-gray-3 tw-font-medium;
+    @apply tw-flex tw-items-center tw-w-full tw-px-5 tw-py-2.5 tw-text-gray-8 tw-text-left tw-no-underline tw-rounded hover:tw-text-sov-white hover:tw-bg-gray-3 tw-font-medium tw-opacity-70 hover:tw-opacity-100 tw-leading-none;
 
     @screen 2xl {
       @apply tw-px-4;
@@ -10,6 +10,10 @@
 
     &.disabled {
       @apply tw-opacity-50 tw-cursor-not-allowed;
+    }
+    
+    &.active {
+      @apply tw-text-sov-white tw-bg-gray-3 tw-font-bold tw-opacity-100;
     }
 
     .text {

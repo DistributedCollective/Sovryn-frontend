@@ -6,7 +6,7 @@ import React, {
   useCallback,
 } from 'react';
 import classNames from 'classnames';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './index.module.scss';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
@@ -23,7 +23,6 @@ type MenuItemProps = {
   hrefExternal?: boolean;
   onClick?: MouseEventHandler;
   dataActionId?: string;
-  buttonClassName?: string;
 };
 
 export const MenuItem: React.FC<MenuItemProps> = ({
@@ -36,7 +35,6 @@ export const MenuItem: React.FC<MenuItemProps> = ({
   hrefExternal,
   onClick,
   dataActionId,
-  buttonClassName,
 }) => {
   const onClickWhenAllowed = useCallback(
     (event: MouseEvent) => {
@@ -49,6 +47,13 @@ export const MenuItem: React.FC<MenuItemProps> = ({
     },
     [onClick, disabled],
   );
+
+  const location = useLocation();
+
+  const isActive = useMemo(() => href && href === location.pathname, [
+    href,
+    location.pathname,
+  ]);
 
   const button = useMemo(() => {
     if (href) {
@@ -90,6 +95,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
             to={href}
             className={classNames(styles.button, {
               [styles.disabled]: disabled,
+              [styles.active]: isActive,
             })}
             onClick={onClickWhenAllowed}
             data-action-id={dataActionId}
@@ -115,7 +121,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
         <button
           type="button"
           disabled={disabled}
-          className={classNames(styles.button, buttonClassName, {
+          className={classNames(styles.button, {
             [styles.disabled]: disabled,
           })}
           onClick={onClickWhenAllowed}
@@ -144,9 +150,9 @@ export const MenuItem: React.FC<MenuItemProps> = ({
     onClickWhenAllowed,
     dataActionId,
     icon,
-    text,
     label,
-    buttonClassName,
+    text,
+    isActive,
   ]);
 
   return <li className={classNames(styles.host, className)}>{button}</li>;

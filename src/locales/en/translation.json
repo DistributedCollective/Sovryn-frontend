@@ -453,7 +453,7 @@
     "borrow": "Borrow",
     "yieldFarm": "Yield Farm",
     "reward": "Rewards",
-    "staking": "Stake",
+    "staking": "Staking",
     "governance": "Governance",
     "forum": "Forum",
     "wallet": "Portfolio",
@@ -476,7 +476,21 @@
     "fundWallet": "Fund Wallet",
     "tooltips": {
       "readMore": "Read more",
-      "fundWalletButton": "Click here to fund your wallet and get started with Sovryn"
+      "fundWalletButton": "Click here to fund your wallet and get started."
+    },
+    "labels": {
+      "swap": "Swap one asset for another",
+      "spotTrade": "Place market trades",
+      "marginTrade": "Up to 10x leverage",
+      "lend": "Earn by depositing to the LP",
+      "pool": "Earn yield in the AMM",
+      "staking": "Earn rewards by staking SOV",
+      "originsLaunchpad": "Previous sales on Origins",
+      "originsClaim": "Claim Fish rewards",
+      "myntToken": "Sovryn's BTC backed stablecoin protocol",
+      "perpetuals": "Coming soon",
+      "voting": "Affect Sovryn's governance",
+      "forum": "Join the community"
     }
   },
   "originsLaunchpad": {
