@@ -12,12 +12,8 @@
 import { ApolloClient } from '@apollo/client';
 import { resolutionMap } from 'app/pages/PerpetualPage/components/TradingChart/helpers';
 import { CandleDuration } from 'app/pages/PerpetualPage/hooks/graphql/useGetCandles';
-import {
-  Bar,
-  getTokensFromSymbol,
-  makeApiRequest,
-  TradingCandleDictionary,
-} from './helpers';
+import { TradingCandleDictionary } from './dictionary';
+import { Bar, getTokensFromSymbol, queryCandles } from './helpers';
 
 type SubItem = {
   symbolInfo: any;
@@ -57,7 +53,7 @@ export class Streaming {
       subscriptionItem.symbolInfo.name,
     );
 
-    makeApiRequest(
+    queryCandles(
       this.client!,
       candleDuration,
       baseToken,

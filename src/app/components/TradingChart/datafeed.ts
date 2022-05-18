@@ -23,12 +23,9 @@ import {
   resolutionMap,
   supportedResolutions,
 } from 'app/pages/PerpetualPage/components/TradingChart/helpers';
-import {
-  getTokensFromSymbol,
-  makeApiRequest,
-  TradingCandleDictionary,
-} from './helpers';
+import { getTokensFromSymbol, queryCandles } from './helpers';
 import { CandleDuration } from 'app/pages/PerpetualPage/hooks/graphql/useGetCandles';
+import { TradingCandleDictionary } from './dictionary';
 
 const newestBarsCache = new Map<string, Bar>();
 const oldestBarsCache = new Map<string, Bar>();
@@ -90,7 +87,7 @@ const tradingChartDataFeeds = (
     firstDataRequest,
   ) => {
     const candleDuration: CandleDuration = resolutionMap[resolution];
-    const candeDetails = TradingCandleDictionary.get(candleDuration);
+    const candleDetails = TradingCandleDictionary.get(candleDuration);
 
     const candleSize = () => {
       const resolutionNumber = parseInt(resolution);
@@ -105,7 +102,7 @@ const tradingChartDataFeeds = (
         if (from < oldestBarTime / 1e3) {
           return from;
         }
-        return oldestBarTime / 1e3 - candeDetails.candleSeconds;
+        return oldestBarTime / 1e3 - candleDetails.candleSeconds;
       } else {
         return from;
       }
@@ -120,7 +117,7 @@ const tradingChartDataFeeds = (
     try {
       const { baseToken, quoteToken } = getTokensFromSymbol(symbolInfo.name);
       /** If first request then calculate number of bars and pass it in, else startTime */
-      const data = await makeApiRequest(
+      const data = await queryCandles(
         graphqlClient,
         candleDuration,
         baseToken,
@@ -216,7 +213,7 @@ const tradingChartDataFeeds = (
     );
   },
 
-  // // // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#unsubscribebarssubscriberuid
+  // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#unsubscribebarssubscriberuid
   unsubscribeBars: subscriberUID => stream.unsubscribeFromStream(subscriberUID),
 });
 
