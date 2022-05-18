@@ -19,6 +19,7 @@ import {
   MASK_CLOSE_ONLY,
   MASK_MARKET_ORDER,
   MASK_LIMIT_ORDER,
+  MASK_KEEP_POS_LEVERAGE,
 } from './perpUtils';
 import {
   perpUtils,
@@ -27,7 +28,10 @@ import {
   PerpParameters,
   LiqPoolState,
 } from '@sovryn/perpetual-swap';
-import { fromWei } from '../../../../utils/blockchain/math-helpers';
+import {
+  fromWei,
+  numberFromWei,
+} from '../../../../utils/blockchain/math-helpers';
 import {
   CheckAndApproveResultWithError,
   PERPETUAL_SLIPPAGE_DEFAULT,
@@ -48,7 +52,6 @@ import {
   PerpetualTxDepositMargin,
   PerpetualTxWithdrawMargin,
 } from '../types';
-import { PerpetualQueriesContextValue } from '../contexts/PerpetualQueriesContext';
 import { ethGenesisAddress } from '../../../../utils/classifiers';
 import { SendTxResponseInterface } from '../../../hooks/useSendContractTx';
 import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
@@ -553,14 +556,14 @@ export const getPerpetualTxContractName = (
 };
 
 const perpetualTradeArgs = (
-  context: PerpetualQueriesContextValue,
   account: string,
   transaction: PerpetualTxTrade,
 ): Parameters<SendTxResponseInterface['send']>[0] => {
   const {
     isClosePosition = false,
     /** amount as wei string */
-    amount = '0',
+    price,
+    amount,
     leverage = 1,
     slippage = PERPETUAL_SLIPPAGE_DEFAULT,
     tradingPosition = TradingPosition.LONG,
@@ -570,16 +573,20 @@ const perpetualTradeArgs = (
   const signedAmount = getSignedAmount(tradingPosition, amount);
   const tradeDirection = Math.sign(signedAmount);
 
-  const { averagePrice } = context.perpetuals[pair.id];
-
   const limitPrice = calculateSlippagePrice(
-    averagePrice,
+    numberFromWei(price),
     slippage,
     tradeDirection,
   );
 
   const deadline = Math.round(Date.now() / 1000) + 86400; // 1 day
   const timeNow = Math.round(Date.now() / 1000);
+
+  let flags = isClosePosition ? MASK_CLOSE_ONLY : MASK_MARKET_ORDER;
+  if (transaction.keepPositionLeverage) {
+    flags |= MASK_KEEP_POS_LEVERAGE;
+  }
+
   const order = [
     pair.id,
     account,
@@ -588,7 +595,7 @@ const perpetualTradeArgs = (
     0,
     deadline,
     ethGenesisAddress,
-    isClosePosition ? MASK_CLOSE_ONLY : MASK_MARKET_ORDER,
+    flags,
     floatToABK64x64(leverage),
     timeNow,
   ];
@@ -676,7 +683,6 @@ const perpetualCancelLimitTradeArgs = async (
 };
 
 export const perpetualTransactionArgs = async (
-  perpetuals: PerpetualQueriesContextValue,
   pair: PerpetualPair,
   account: string,
   transaction: PerpetualTx,
@@ -684,7 +690,7 @@ export const perpetualTransactionArgs = async (
   switch (transaction.method) {
     case PerpetualTxMethod.trade:
       const tradeTx: PerpetualTxTrade = transaction;
-      return perpetualTradeArgs(perpetuals, account, tradeTx);
+      return perpetualTradeArgs(account, tradeTx);
     case PerpetualTxMethod.createLimitOrder:
       const createLimitTx: PerpetualTxCreateLimitOrder = transaction;
       return await perpetualCreateLimitTradeArgs(account, createLimitTx);

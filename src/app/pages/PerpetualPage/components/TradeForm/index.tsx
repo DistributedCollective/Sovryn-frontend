@@ -392,12 +392,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     [disabled, amount, validation],
   );
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => onChange({ ...trade, entryPrice: toWei(averagePrice) }), [
-    averagePrice,
-    onChange,
-  ]);
-
   // clamp leverage
   useEffect(() => {
     const leverage = Math.max(
@@ -444,6 +438,8 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   const onSubmitWrapper = useCallback(() => {
     const completeTrade = {
       ...trade,
+      averagePrice: toWei(averagePrice),
+      entryPrice: toWei(entryPrice),
     };
 
     if (trade.tradeType !== PerpetualTradeType.MARKET) {
@@ -470,7 +466,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     }
 
     onSubmit(completeTrade);
-  }, [trade, limit, triggerPrice, onSubmit]);
+  }, [trade, averagePrice, entryPrice, limit, triggerPrice, onSubmit]);
 
   useEffect(() => {
     // resets trade.keepPositionLeverage in case we flip the sign

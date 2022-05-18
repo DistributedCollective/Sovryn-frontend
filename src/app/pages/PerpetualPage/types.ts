@@ -121,7 +121,9 @@ export type PerpetualTrade = {
   /** collateral value wei string */
   margin?: string;
   /** expected entry price as wei string */
-  entryPrice: string;
+  entryPrice?: string;
+  /** current average price as wei string */
+  averagePrice?: string;
   expiry?: number;
   leverage: number;
   slippage: number;
@@ -146,10 +148,13 @@ export const isPerpetualTrade = (x: any): x is PerpetualTrade =>
   typeof x.amount === 'string' &&
   typeof x.leverage === 'number' &&
   typeof x.slippage === 'number' &&
-  typeof x.entryPrice === 'string' &&
+  (x.entryPrice === undefined || typeof x.entryPrice === 'string') &&
+  (x.averagePrice === undefined || typeof x.averagePrice === 'string') &&
   (x.limit === undefined || typeof x.limit === 'string') &&
   (x.trigger === undefined || typeof x.trigger === 'string') &&
-  (x.margin === undefined || typeof x.margin === 'string');
+  (x.margin === undefined || typeof x.margin === 'string') &&
+  (x.keepPositionLeverage === undefined ||
+    typeof x.keepPositionLeverage === 'boolean');
 
 export const isPerpetualTradeReview = (x: any): x is PerpetualTradeReview =>
   x &&
@@ -220,6 +225,7 @@ export interface PerpetualTxTrade extends PerpetualTxBase {
   method: PerpetualTxMethod.trade;
   /** amount as wei string */
   amount: string;
+  price: string;
   leverage?: number;
   slippage?: number;
   tradingPosition?: TradingPosition;

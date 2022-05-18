@@ -42,7 +42,6 @@ export const NewPositionCardContext = React.createContext<
     amount: '0',
     leverage: 1,
     slippage: PERPETUAL_SLIPPAGE_DEFAULT,
-    entryPrice: '0',
   },
   onChangeTrade: noop,
   onSubmit: noop,
@@ -92,17 +91,21 @@ export const NewPositionCard: React.FC = () => {
     amount: '0',
     leverage: 1,
     slippage: PERPETUAL_SLIPPAGE_DEFAULT,
-    entryPrice: '0',
   });
 
   const onSubmit = useCallback(
     (trade: PerpetualTrade) => {
+      if (!trade.averagePrice || trade.averagePrice === '0') {
+        return;
+      }
+
       const transactions: PerpetualTx[] = [];
       if (trade.tradeType === PerpetualTradeType.MARKET) {
         transactions.push({
           method: PerpetualTxMethod.trade,
           pair: trade.pairType,
           amount: trade.amount,
+          price: trade.averagePrice,
           tradingPosition: trade.position,
           slippage: trade.slippage,
           leverage: trade.leverage,
@@ -150,7 +153,6 @@ export const NewPositionCard: React.FC = () => {
       setTrade(trade => ({
         ...trade,
         pairType,
-        entryPrice: '0',
         limit: '0',
         trigger: '0',
       }));

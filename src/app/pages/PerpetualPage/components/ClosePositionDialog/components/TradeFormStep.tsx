@@ -33,6 +33,7 @@ import { usePerpetual_isTradingInMaintenance } from 'app/pages/PerpetualPage/hoo
 import { selectPerpetualPage } from '../../../selectors';
 import { perpMath, perpUtils } from '@sovryn/perpetual-swap';
 import { getCollateralName } from 'app/pages/PerpetualPage/utils/renderUtils';
+import { getPrice } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
 
 const { roundToLot } = perpMath;
 const { getTraderPnLInCC, calculateSlippagePrice } = perpUtils;
@@ -129,13 +130,14 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
       return;
     }
 
-    const targetTrade: PerpetualTrade = {
+    const targetTrade = {
       ...changedTrade,
       amount: toWei(Math.abs(amountTarget)),
       margin: toWei(Number.isNaN(marginTarget) ? 0 : marginTarget), // marginTarget is NaN in case we don't have a position but we successfully deposited a margin
       position:
         amountTarget >= 0 ? TradingPosition.LONG : TradingPosition.SHORT,
-      entryPrice: toWei(averagePrice),
+      averagePrice: toWei(averagePrice),
+      entryPrice: toWei(getPrice(amountTarget, perpParameters, ammState)),
     };
 
     let transactions: PerpetualTx[] = [];
@@ -144,6 +146,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
         pair: pair.pairType,
         method: PerpetualTxMethod.trade,
         isClosePosition: true,
+        price: targetTrade.averagePrice,
         amount: toWei(amountChange),
         slippage: changedTrade?.slippage,
         tx: null,
