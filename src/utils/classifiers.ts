@@ -49,8 +49,8 @@ export const backendUrl = {
 };
 
 export const maintenanceUrl = {
-  30: 'https://maintenance-mode.sovryn.app',
-  31: 'https://maintenance-mode.test.sovryn.app',
+  30: 'https://maintenance-mode.sovryn.app/maintenance',
+  31: 'https://maintenance-mode.test.sovryn.app/maintenance',
 };
 
 export const graphRskUrl = process.env.REACT_APP_GRAPH_RSK;
