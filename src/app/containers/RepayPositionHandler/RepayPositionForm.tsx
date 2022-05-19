@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { min, bignumber } from 'mathjs';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
@@ -19,6 +19,10 @@ import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { TxStatus } from 'store/global/transactions-store/types';
+import { TINY_POSITION_AS_RBTC } from 'utils/classifiers';
+import { useDenominateAssetAmount } from 'app/hooks/trading/useDenominateAssetAmount';
+import { Asset } from 'types';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 
 type RepayPositionFormProps = {
   loan: ActiveLoan;
@@ -76,6 +80,24 @@ export const RepayPositionForm: React.FC<RepayPositionFormProps> = ({
     }
   }, [weiAmount, loan.collateral, loan.principal]);
 
+  const remainingPrincipal = useMemo(
+    () => bignumber(loan.principal).minus(weiAmount).toFixed(0),
+    [loan.principal, weiAmount],
+  );
+  const { value: remainingPrincipalAsRBTC } = useDenominateAssetAmount(
+    asset,
+    Asset.RBTC,
+    remainingPrincipal,
+  );
+
+  const askToClosePosition = useMemo(() => {
+    return (
+      weiAmount !== '0' &&
+      bignumber(loan.principal).gt(weiAmount) &&
+      bignumber(TINY_POSITION_AS_RBTC).gte(remainingPrincipalAsRBTC)
+    );
+  }, [loan.principal, weiAmount, remainingPrincipalAsRBTC]);
+
   return (
     <div className="tw-container tw-mx-auto tw-px-4 tw-relative">
       <h4 className="tw-text-long tw-text-center tw-mb-4 tw-uppercase">
@@ -113,6 +135,12 @@ export const RepayPositionForm: React.FC<RepayPositionFormProps> = ({
         </small>
       </FieldGroup>
 
+      {askToClosePosition && (
+        <ErrorBadge
+          content={t(translations.repayPositionForm.tinyPositionError)}
+        />
+      )}
+
       <SendTxProgress displayAbsolute={false} {...closeTx} />
 
       <div className="tw-flex tw-flex-col lg:tw-flex-row lg:tw-justify-between lg:tw-items-center">
@@ -128,7 +156,8 @@ export const RepayPositionForm: React.FC<RepayPositionFormProps> = ({
             closeTx.status === TxStatus.PENDING ||
             !valid ||
             !canInteract ||
-            repayLocked
+            repayLocked ||
+            askToClosePosition
           }
           tooltip={
             repayLocked ? t(translations.maintenance.stopBorrow) : undefined

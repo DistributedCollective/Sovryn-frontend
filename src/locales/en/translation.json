@@ -1394,6 +1394,7 @@
       "amountToRepay": "{{currency}} amount to repay",
       "amountToReceive": "You will receive"
     },
+    "tinyPositionError": "You are leaving tiny position behind. Please close your entire loan instead.",
     "button": "Repay"
   },
   "closeTradingPositionHandler": {
