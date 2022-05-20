@@ -80,31 +80,32 @@ export const NotificationSettingsDialog: React.FC<INotificationSettingsDialogPro
     if (!account) return;
     const timestamp = new Date();
     const message = `Login to backend on: ${timestamp}`;
-    const { data: alreadyUser } = await axios.get(
-      url + 'user/isUser/' + account,
-    );
-    walletService
-      .signMessage(message)
-      .then(signedMessage => {
-        axios
-          .post(url + 'user/' + (alreadyUser ? 'auth' : 'register'), {
-            signedMessage,
-            message,
-            walletAddress: account,
-          })
-          .then(res => {
-            if (res.data && res.data.token) {
-              dispatch(
-                actions.setNotificationToken({
-                  token: res.data.token,
-                  wallet: account,
-                }),
-              );
-            }
-          })
-          .catch(onClose);
-      })
-      .catch(onClose);
+    return axios
+      .get(url + 'user/isUser/' + account)
+      .then(alreadyUser =>
+        walletService.signMessage(message).then(signedMessage =>
+          axios
+            .post(url + 'user/' + (alreadyUser ? 'auth' : 'register'), {
+              signedMessage,
+              message,
+              walletAddress: account,
+            })
+            .then(res => {
+              if (res.data && res.data.token) {
+                dispatch(
+                  actions.setNotificationToken({
+                    token: res.data.token,
+                    wallet: account,
+                  }),
+                );
+              }
+            }),
+        ),
+      )
+      .catch(error => {
+        console.error(error);
+        onClose();
+      });
   };
 
   const getUser = () => {
