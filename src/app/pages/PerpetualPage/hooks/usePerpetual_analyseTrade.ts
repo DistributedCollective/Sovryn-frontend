@@ -12,15 +12,14 @@ import {
   getPrice,
   calculateSlippagePriceFromMidPrice,
   getEstimatedMarginCollateralForLimitOrder,
-  getRequiredMarginCollateral,
   getTraderPnLInCC,
   getTradingFee,
   getEstimatedMarginCollateralForTrader,
 } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
+import { ABK64x64ToFloat } from '@sovryn/perpetual-swap/dist/scripts/utils/perpMath';
 import { usePerpetual_calculateResultingPosition } from './usePerpetual_calculateResultingPosition';
 import { getContract } from '../../../../utils/blockchain/contract-helpers';
 import { bridgeNetwork } from '../../BridgeDepositPage/utils/bridge-network';
-import { ABK64x64ToFloat } from '@sovryn/perpetual-swap/dist/scripts/utils/perpMath';
 import { BigNumber } from 'ethers';
 import { getRequiredMarginCollateralWithGasFees } from '../utils/perpUtils';
 

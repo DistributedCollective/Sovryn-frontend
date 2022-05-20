@@ -1,17 +1,17 @@
+import { useContext, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import {
   getTraderLeverage,
   calculateResultingPositionLeverage,
   calculateApproxLiquidationPrice,
 } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
-import { useContext, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { roundToLot } from '@sovryn/perpetual-swap/dist/scripts/utils/perpMath';
 import { numberFromWei } from 'utils/blockchain/math-helpers';
 import { PerpetualPairDictionary } from 'utils/dictionaries/perpetual-pair-dictionary';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import { selectPerpetualPage } from '../selectors';
 import { PerpetualTrade, PerpetualTradeType } from '../types';
 import { getSignedAmount } from '../utils/contractUtils';
-import { getRequiredMarginCollateralWithGasFees } from '../utils/perpUtils';
 
 type ResultingPositionData = {
   leverage: number;
@@ -23,7 +23,7 @@ type ResultingPositionData = {
 export const usePerpetual_calculateResultingPosition = (
   trade?: PerpetualTrade,
 ): ResultingPositionData => {
-  const { pairType, useMetaTransactions } = useSelector(selectPerpetualPage);
+  const { pairType } = useSelector(selectPerpetualPage);
   const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
 
   const signedOrderSize = useMemo(
@@ -36,11 +36,16 @@ export const usePerpetual_calculateResultingPosition = (
     ammState,
     traderState,
     perpetualParameters: perpParameters,
+    lotSize,
   } = perpetuals[pair.id];
 
   const size = useMemo(
-    () => signedOrderSize + traderState.marginAccountPositionBC,
-    [signedOrderSize, traderState.marginAccountPositionBC],
+    () =>
+      roundToLot(
+        signedOrderSize + traderState.marginAccountPositionBC,
+        lotSize || 1,
+      ),
+    [signedOrderSize, traderState.marginAccountPositionBC, lotSize],
   );
 
   const leverage = useMemo(() => {
@@ -76,36 +81,6 @@ export const usePerpetual_calculateResultingPosition = (
     );
   }, [ammState, perpParameters, signedOrderSize, trade, traderState]);
 
-  const estimatedLiquidationPrice = useMemo(() => {
-    const requiredCollateral = getRequiredMarginCollateralWithGasFees(
-      leverage,
-      signedOrderSize,
-      perpParameters,
-      ammState,
-      traderState,
-      trade?.slippage,
-      useMetaTransactions,
-      true,
-      true,
-    );
-
-    return calculateApproxLiquidationPrice(
-      traderState,
-      ammState,
-      perpParameters,
-      signedOrderSize,
-      requiredCollateral,
-    );
-  }, [
-    ammState,
-    leverage,
-    perpParameters,
-    signedOrderSize,
-    trade?.slippage,
-    traderState,
-    useMetaTransactions,
-  ]);
-
   const estimatedMargin = useMemo(() => {
     const tradeMargin = trade?.margin
       ? numberFromWei(trade.margin) + traderState.availableCashCC
@@ -113,6 +88,25 @@ export const usePerpetual_calculateResultingPosition = (
 
     return tradeMargin;
   }, [trade?.margin, leverage, size, traderState.availableCashCC]);
+
+  const estimatedLiquidationPrice = useMemo(() => {
+    return size === 0
+      ? 0
+      : calculateApproxLiquidationPrice(
+          traderState,
+          ammState,
+          perpParameters,
+          signedOrderSize,
+          estimatedMargin - traderState.availableCashCC,
+        );
+  }, [
+    size,
+    signedOrderSize,
+    estimatedMargin,
+    ammState,
+    perpParameters,
+    traderState,
+  ]);
 
   return {
     leverage,

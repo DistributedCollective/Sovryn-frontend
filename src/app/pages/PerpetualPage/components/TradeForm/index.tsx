@@ -45,19 +45,17 @@ import { selectPerpetualPage } from '../../selectors';
 import { getCollateralName } from '../../utils/renderUtils';
 import { TxType } from '../../../../../store/global/transactions-store/types';
 import { perpMath, perpUtils } from '@sovryn/perpetual-swap';
-import { getRequiredMarginCollateralWithGasFees } from '../../utils/perpUtils';
 import { bignumber } from 'mathjs';
 import { ExpiryDateInput } from './components/ExpiryDateInput';
 import { ResultingPosition } from './components/ResultingPosition';
 import { Checkbox } from 'app/components/Checkbox';
-import { getTraderLeverage } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
 import { usePerpetual_analyseTrade } from '../../hooks/usePerpetual_analyseTrade';
 
 const { shrinkToLot } = perpMath;
 const {
   getTradingFee,
   getQuote2CollateralFX,
-  calculateSlippagePrice,
+  getTraderLeverage,
   calculateLeverage,
   getMaxInitialLeverage,
   getPrice,

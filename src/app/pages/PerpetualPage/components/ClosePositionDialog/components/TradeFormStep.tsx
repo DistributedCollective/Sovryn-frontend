@@ -6,7 +6,6 @@ import { actions } from '../../../slice';
 import {
   PerpetualPageModals,
   PERPETUAL_SLIPPAGE_DEFAULT,
-  PerpetualTrade,
 } from '../../../types';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from '../../../../../../locales/i18n';
@@ -33,10 +32,9 @@ import { usePerpetual_isTradingInMaintenance } from 'app/pages/PerpetualPage/hoo
 import { selectPerpetualPage } from '../../../selectors';
 import { perpMath, perpUtils } from '@sovryn/perpetual-swap';
 import { getCollateralName } from 'app/pages/PerpetualPage/utils/renderUtils';
-import { getPrice } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
 
 const { roundToLot } = perpMath;
-const { getTraderPnLInCC, calculateSlippagePrice } = perpUtils;
+const { getTraderPnLInCC, calculateSlippagePrice, getPrice } = perpUtils;
 
 export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
   changeTo,
@@ -193,6 +191,8 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     totalToReceive,
     lotSize,
     pair,
+    ammState,
+    perpParameters,
   ]);
 
   const onChangeAmount = useCallback(
@@ -204,7 +204,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
 
       amount = roundToLot(
         Math.max(0, Math.min(Number(fromWei(trade?.amount || '0')), amount)),
-        lotSize,
+        lotSize || 1,
       );
 
       onChange({
