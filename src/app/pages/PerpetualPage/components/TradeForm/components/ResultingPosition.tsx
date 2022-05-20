@@ -17,7 +17,6 @@ type ResultingPositionProps = {
   minLeverage: number;
   maxLeverage: number;
   limitOrderPrice: number;
-  keepPositionLeverage?: boolean;
 };
 
 export const ResultingPosition: React.FC<ResultingPositionProps> = ({

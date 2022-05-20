@@ -80,9 +80,10 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
     onChange,
   ]);
 
-  const onInputChange = useCallback(value => onChange(Number(value)), [
-    onChange,
-  ]);
+  const onInputChange = useCallback(
+    event => onChange(Number(event.target.value)),
+    [onChange],
+  );
 
   const onInputBlur = useCallback(() => {
     let numberValue = Number(value);

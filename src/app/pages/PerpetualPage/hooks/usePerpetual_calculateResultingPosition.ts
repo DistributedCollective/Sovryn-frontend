@@ -38,20 +38,28 @@ export const usePerpetual_calculateResultingPosition = (
     perpetualParameters: perpParameters,
   } = perpetuals[pair.id];
 
+  const size = useMemo(
+    () => signedOrderSize + traderState.marginAccountPositionBC,
+    [signedOrderSize, traderState.marginAccountPositionBC],
+  );
+
   const leverage = useMemo(() => {
     if (!trade) {
       return 0;
     }
-    const isFlippingPosition =
-      Math.sign(signedOrderSize + traderState.marginAccountPositionBC) !==
-      Math.sign(traderState.marginAccountPositionBC);
+
     // trader doesn't have an open position or is flipping their position direction
-    if (!traderState.marginAccountPositionBC || isFlippingPosition) {
+    if (!traderState.marginAccountPositionBC) {
       return trade.leverage;
     }
 
+    // trader wants to keep their position leverage and is reducing their position
     if (
       trade.keepPositionLeverage &&
+      Math.sign(signedOrderSize) !==
+        Math.sign(traderState.marginAccountPositionBC) &&
+      Math.abs(signedOrderSize) <=
+        Math.abs(traderState.marginAccountPositionBC) &&
       trade.tradeType === PerpetualTradeType.MARKET
     ) {
       return getTraderLeverage(traderState, ammState);
@@ -96,11 +104,6 @@ export const usePerpetual_calculateResultingPosition = (
     traderState,
     useMetaTransactions,
   ]);
-
-  const size = useMemo(
-    () => signedOrderSize + traderState.marginAccountPositionBC,
-    [signedOrderSize, traderState.marginAccountPositionBC],
-  );
 
   const margin = useMemo(() => {
     if (!trade) {

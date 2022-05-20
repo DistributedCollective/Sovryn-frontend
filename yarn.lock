@@ -4714,10 +4714,10 @@
   dependencies:
     debug "^4.3.1"
 
-"@sovryn/perpetual-swap@3.0.3":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@sovryn/perpetual-swap/-/perpetual-swap-3.0.3.tgz#0b9e08511469572676bb28b97fb2f7d7501158f5"
-  integrity sha512-0JjkCha/67qUl3i+7c+7AnOVlgXm8nXeXq/A6wNC9KieaJlj+w874odTNKGkfKj7/iGg+h5xAws+x6MFDTLtlw==
+"@sovryn/perpetual-swap@3.0.4":
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/@sovryn/perpetual-swap/-/perpetual-swap-3.0.4.tgz#95e9c9117c0fc77370ba357d9b52e0c7abc982e6"
+  integrity sha512-054+eyd6juY8OYi3QMBgGAax01Sb98kt/g58wP06PzhTLO5o2ZitOvw/SrlZB5ZNevXKr/BSjbVoueGyURl6vQ==
   dependencies:
     "@opengsn/provider" "^2.2.4"
     "@openzeppelin/contracts" "4.5.0"

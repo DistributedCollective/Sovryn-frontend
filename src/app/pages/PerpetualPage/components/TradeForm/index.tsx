@@ -50,6 +50,7 @@ import { bignumber } from 'mathjs';
 import { ExpiryDateInput } from './components/ExpiryDateInput';
 import { ResultingPosition } from './components/ResultingPosition';
 import { Checkbox } from 'app/components/Checkbox';
+import { getTraderLeverage } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
 
 const { shrinkToLot } = perpMath;
 const {
@@ -312,6 +313,10 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   );
 
   const requiredCollateral = useMemo(() => {
+    if (trade.amount === '0') {
+      return 0;
+    }
+
     const targetAmount =
       getSignedAmount(trade.position, trade.amount) +
       traderState.marginAccountPositionBC;
@@ -324,7 +329,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       trade.slippage,
       useMetaTransactions,
       false,
-      false,
+      true,
     );
 
     console.log(
@@ -396,7 +401,12 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   useEffect(() => {
     const leverage = Math.max(
       minLeverage,
-      Math.min(maxLeverage, trade.leverage || 1),
+      Math.min(
+        maxLeverage,
+        trade.keepPositionLeverage
+          ? getTraderLeverage(traderState, ammState)
+          : trade.leverage || 1,
+      ),
     );
     if (Number.isFinite(leverage) && trade.leverage !== leverage) {
       onChange({
@@ -404,7 +414,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         leverage,
       });
     }
-  }, [trade, minLeverage, maxLeverage, onChange]);
+  }, [trade, minLeverage, maxLeverage, traderState, ammState, onChange]);
 
   const signedAmount = useMemo(
     () => getSignedAmount(trade.position, trade.amount),
@@ -421,7 +431,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   const onChangeKeepPositionLeverage = useCallback(
     (keepPositionLeverage: boolean) => {
       setKeepPositionLeverage(keepPositionLeverage);
-      onChange({ ...trade, keepPositionLeverage: keepPositionLeverage });
+      onChange({ ...trade, keepPositionLeverage });
     },
     [onChange, trade],
   );
@@ -826,7 +836,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
             minLeverage={minLeverage}
             maxLeverage={maxLeverage}
             limitOrderPrice={limitPrice}
-            keepPositionLeverage={keepPositionLeverage}
           />
         </>
       )}
