@@ -19,7 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { TxStatus } from 'store/global/transactions-store/types';
-import { TINY_POSITION_AS_RBTC_VALUE } from 'utils/classifiers';
+import { TINY_POSITION_RBTC_VALUE } from 'utils/classifiers';
 import { useDenominateAssetAmount } from 'app/hooks/trading/useDenominateAssetAmount';
 import { Asset } from 'types';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
@@ -84,7 +84,7 @@ export const RepayPositionForm: React.FC<RepayPositionFormProps> = ({
     () => bignumber(loan.principal).minus(weiAmount).toFixed(0),
     [loan.principal, weiAmount],
   );
-  const { value: remainingPrincipalAsRBTCValue } = useDenominateAssetAmount(
+  const { value: remainingPrincipalRBTCValue } = useDenominateAssetAmount(
     asset,
     Asset.RBTC,
     remainingPrincipal,
@@ -94,9 +94,9 @@ export const RepayPositionForm: React.FC<RepayPositionFormProps> = ({
     return (
       weiAmount !== '0' &&
       bignumber(loan.principal).gt(weiAmount) &&
-      bignumber(TINY_POSITION_AS_RBTC_VALUE).gte(remainingPrincipalAsRBTCValue)
+      bignumber(TINY_POSITION_RBTC_VALUE).gte(remainingPrincipalRBTCValue)
     );
-  }, [loan.principal, weiAmount, remainingPrincipalAsRBTCValue]);
+  }, [loan.principal, weiAmount, remainingPrincipalRBTCValue]);
 
   return (
     <div className="tw-container tw-mx-auto tw-px-4 tw-relative">
