@@ -520,7 +520,7 @@ export const DefaultHeaderComponent: React.FC = () => {
                 text={t(
                   translations.mainMenu[hasFunds ? 'fundWallet' : 'getStarted'],
                 )}
-                href="/fast-btc/deposit"
+                onClick={() => history.push('/fast-btc/deposit')}
                 type={ButtonType.button}
                 color={ButtonColor.primary}
                 style={ButtonStyle.normal}
