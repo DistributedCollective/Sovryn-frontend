@@ -495,7 +495,7 @@ export const DefaultHeaderComponent: React.FC = () => {
         </div>
 
         <Menu className="tw-flex tw-justify-start tw-items-center">
-          <li className="2xl:tw-mr-8">
+          <li className="tw-mr-2 2xl:tw-mr-8">
             <Popover
               interactionKind={PopoverInteractionKind.HOVER}
               position={PopoverPosition.BOTTOM}
@@ -531,10 +531,10 @@ export const DefaultHeaderComponent: React.FC = () => {
               />
             </Popover>
           </li>
-          <li className="2xl:tw-mr-4">
+          <li className="tw-mr-2 2xl:tw-mr-4">
             <WalletConnector />
           </li>
-          <li className="2xl:tw-mr-4">
+          <li className="tw-mr-2 2xl:tw-mr-4">
             <LanguageToggle />
           </li>
         </Menu>
