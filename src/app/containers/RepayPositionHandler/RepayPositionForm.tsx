@@ -19,7 +19,7 @@ import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { TxStatus } from 'store/global/transactions-store/types';
-import { TINY_POSITION_AS_RBTC } from 'utils/classifiers';
+import { TINY_POSITION_AS_RBTC_VALUE } from 'utils/classifiers';
 import { useDenominateAssetAmount } from 'app/hooks/trading/useDenominateAssetAmount';
 import { Asset } from 'types';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
@@ -84,19 +84,19 @@ export const RepayPositionForm: React.FC<RepayPositionFormProps> = ({
     () => bignumber(loan.principal).minus(weiAmount).toFixed(0),
     [loan.principal, weiAmount],
   );
-  const { value: remainingPrincipalAsRBTC } = useDenominateAssetAmount(
+  const { value: remainingPrincipalAsRBTCValue } = useDenominateAssetAmount(
     asset,
     Asset.RBTC,
     remainingPrincipal,
   );
 
-  const askToClosePosition = useMemo(() => {
+  const isLeavingTinyPosition = useMemo(() => {
     return (
       weiAmount !== '0' &&
       bignumber(loan.principal).gt(weiAmount) &&
-      bignumber(TINY_POSITION_AS_RBTC).gte(remainingPrincipalAsRBTC)
+      bignumber(TINY_POSITION_AS_RBTC_VALUE).gte(remainingPrincipalAsRBTCValue)
     );
-  }, [loan.principal, weiAmount, remainingPrincipalAsRBTC]);
+  }, [loan.principal, weiAmount, remainingPrincipalAsRBTCValue]);
 
   return (
     <div className="tw-container tw-mx-auto tw-px-4 tw-relative">
@@ -135,7 +135,7 @@ export const RepayPositionForm: React.FC<RepayPositionFormProps> = ({
         </small>
       </FieldGroup>
 
-      {askToClosePosition && (
+      {isLeavingTinyPosition && (
         <ErrorBadge
           content={t(translations.repayPositionForm.tinyPositionError)}
         />
@@ -157,7 +157,7 @@ export const RepayPositionForm: React.FC<RepayPositionFormProps> = ({
             !valid ||
             !canInteract ||
             repayLocked ||
-            askToClosePosition
+            isLeavingTinyPosition
           }
           tooltip={
             repayLocked ? t(translations.maintenance.stopBorrow) : undefined

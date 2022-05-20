@@ -133,7 +133,7 @@ export const DUST_AMOUNT = toWei(0.0000001);
 
 // amount less than 25e13 is considered tiny position in our smart contracts
 // if position is considered tiny - FE must force user to close it entirelly without giving option to do it partially.
-export const TINY_POSITION_AS_RBTC = 250000000000000;
+export const TINY_POSITION_AS_RBTC_VALUE = 250000000000000;
 
 export const notificationServiceUrl = {
   30: 'https://notify.sovryn.app/',
