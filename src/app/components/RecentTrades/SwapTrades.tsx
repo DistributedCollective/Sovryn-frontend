@@ -37,7 +37,7 @@ export const SwapTrades: React.FC<ISwapTradesProps> = ({
     return { base, quote };
   }, [assets.base, assets.quote]);
 
-  const data = useSwap_RecentTrades(assets.quote, assets.base);
+  const { data, loading } = useSwap_RecentTrades(assets.quote, assets.base);
 
   return (
     <table className="tw-w-full">
@@ -96,7 +96,8 @@ export const SwapTrades: React.FC<ISwapTradesProps> = ({
         </tr>
       </thead>
       <tbody>
-        {data &&
+        {!loading &&
+          data &&
           data.map((item, index) => {
             return (
               <RecentSwapRow
@@ -109,7 +110,8 @@ export const SwapTrades: React.FC<ISwapTradesProps> = ({
             );
           })}
 
-        {!data ||
+        {!loading ||
+          !data ||
           (data.length === 0 && (
             <tr>
               <td colSpan={4}>
@@ -119,6 +121,19 @@ export const SwapTrades: React.FC<ISwapTradesProps> = ({
               </td>
             </tr>
           ))}
+        {loading && (
+          <>
+            {Array(10)
+              .fill(1)
+              .map((item, index) => (
+                <tr className="tw-h-6" key={index}>
+                  <td colSpan={4}>
+                    <p className="tw-skeleton-wrapper bp3-skeleton tw-m-0 tw-p-3"></p>
+                  </td>
+                </tr>
+              ))}
+          </>
+        )}
       </tbody>
     </table>
   );
