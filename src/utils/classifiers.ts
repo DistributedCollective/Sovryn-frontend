@@ -35,7 +35,7 @@ export const rpcNodes = {
   31: [
     'https://testnet.sovryn.app/rpc',
     'https://testnet2.sovryn.app/rpc',
-    'https://public-node.testnet.rsk.co/'
+    'https://public-node.testnet.rsk.co/',
   ],
   56: 'wss://bsc.sovryn.app/mainnet',
   97: 'wss://bsctestnet.sovryn.app/websocket',
