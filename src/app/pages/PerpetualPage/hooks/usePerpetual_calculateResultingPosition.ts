@@ -15,9 +15,9 @@ import { getRequiredMarginCollateralWithGasFees } from '../utils/perpUtils';
 
 type ResultingPositionData = {
   leverage: number;
-  liquidationPrice: number;
   size: number;
-  margin: number;
+  estimatedLiquidationPrice: number;
+  estimatedMargin: number;
 };
 
 export const usePerpetual_calculateResultingPosition = (
@@ -72,10 +72,11 @@ export const usePerpetual_calculateResultingPosition = (
       signedOrderSize,
       trade.leverage,
       trade.slippage,
+      trade.keepPositionLeverage,
     );
   }, [ammState, perpParameters, signedOrderSize, trade, traderState]);
 
-  const liquidationPrice = useMemo(() => {
+  const estimatedLiquidationPrice = useMemo(() => {
     const requiredCollateral = getRequiredMarginCollateralWithGasFees(
       leverage,
       signedOrderSize,
@@ -105,22 +106,18 @@ export const usePerpetual_calculateResultingPosition = (
     useMetaTransactions,
   ]);
 
-  const margin = useMemo(() => {
-    if (!trade) {
-      return traderState.availableCashCC;
-    }
+  const estimatedMargin = useMemo(() => {
+    const tradeMargin = trade?.margin
+      ? numberFromWei(trade.margin) + traderState.availableCashCC
+      : Math.abs(size) / leverage;
 
-    const tradeMargin = trade.margin
-      ? numberFromWei(trade.margin)
-      : Math.abs(numberFromWei(trade.amount)) / trade.leverage;
-
-    return tradeMargin + traderState.availableCashCC;
-  }, [trade, traderState.availableCashCC]);
+    return tradeMargin;
+  }, [trade?.margin, leverage, size, traderState.availableCashCC]);
 
   return {
     leverage,
-    liquidationPrice,
     size,
-    margin,
+    estimatedLiquidationPrice,
+    estimatedMargin,
   };
 };

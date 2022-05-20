@@ -28,7 +28,7 @@ export const ResultingPosition: React.FC<ResultingPositionProps> = ({
   const { t } = useTranslation();
 
   const {
-    liquidationPrice,
+    estimatedLiquidationPrice: liquidationPrice,
     leverage,
   } = usePerpetual_calculateResultingPosition(trade);
 

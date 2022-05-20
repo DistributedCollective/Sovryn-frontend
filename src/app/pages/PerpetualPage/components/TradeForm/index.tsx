@@ -51,6 +51,7 @@ import { ExpiryDateInput } from './components/ExpiryDateInput';
 import { ResultingPosition } from './components/ResultingPosition';
 import { Checkbox } from 'app/components/Checkbox';
 import { getTraderLeverage } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
+import { usePerpetual_analyseTrade } from '../../hooks/usePerpetual_analyseTrade';
 
 const { shrinkToLot } = perpMath;
 const {
@@ -312,63 +313,18 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     [ammState],
   );
 
-  const requiredCollateral = useMemo(() => {
-    if (trade.amount === '0') {
-      return 0;
-    }
-
-    const targetAmount =
-      getSignedAmount(trade.position, trade.amount) +
-      traderState.marginAccountPositionBC;
-    const marginRequired = getRequiredMarginCollateralWithGasFees(
-      trade.leverage,
-      targetAmount,
-      perpParameters,
-      ammState,
-      traderState,
-      trade.slippage,
-      useMetaTransactions,
-      false,
-      true,
-    );
-
-    console.log(
-      `marginReq: ${marginRequired}, for targetAmount: ${targetAmount}`,
-    );
-
-    return marginRequired;
-  }, [
-    trade.position,
-    trade.amount,
-    trade.leverage,
-    trade.slippage,
-    traderState,
-    perpParameters,
-    ammState,
-    useMetaTransactions,
-  ]);
-
-  const tradingFee = useMemo(
-    () => getTradingFee(numberFromWei(trade.amount), perpParameters, ammState),
-    [trade.amount, perpParameters, ammState],
-  );
-
-  const limitPrice = useMemo(
-    () =>
-      calculateSlippagePrice(
-        averagePrice,
-        trade.slippage,
-        getTradeDirection(trade.position),
-      ),
-    [averagePrice, trade.slippage, trade.position],
-  );
+  const {
+    orderCost,
+    tradingFee,
+    limitPrice,
+    amountChange,
+    marginChange,
+  } = usePerpetual_analyseTrade(trade);
 
   const validation = useMemo(() => {
-    const signedAmount = getSignedAmount(trade.position, trade.amount);
-    const marginChange = requiredCollateral - traderState.availableCashCC;
-    return signedAmount !== 0 || marginChange !== 0
+    return amountChange !== 0 || marginChange !== 0
       ? validatePositionChange(
-          signedAmount,
+          amountChange,
           marginChange,
           trade.leverage,
           trade.slippage,
@@ -380,8 +336,10 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         )
       : undefined;
   }, [
-    trade,
-    requiredCollateral,
+    amountChange,
+    marginChange,
+    trade.leverage,
+    trade.slippage,
     availableBalance,
     traderState,
     perpParameters,
@@ -660,7 +618,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
                 minDecimals={8}
                 maxDecimals={8}
                 mode={AssetValueMode.auto}
-                value={requiredCollateral}
+                value={orderCost}
                 assetString={collateralName}
               />
               <AssetValue
@@ -668,7 +626,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
                 minDecimals={2}
                 maxDecimals={2}
                 mode={AssetValueMode.auto}
-                value={requiredCollateral / quoteToCollateralFactor}
+                value={orderCost / quoteToCollateralFactor}
                 assetString={pair.quoteAsset}
                 isApproximation
               />
@@ -679,7 +637,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
             minDecimals={4}
             maxDecimals={4}
             mode={AssetValueMode.auto}
-            value={requiredCollateral}
+            value={orderCost}
             assetString={collateralName}
           />
         </Tooltip>

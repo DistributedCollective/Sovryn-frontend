@@ -22,6 +22,7 @@ import { getContract } from '../../../../utils/blockchain/contract-helpers';
 import { bridgeNetwork } from '../../BridgeDepositPage/utils/bridge-network';
 import { ABK64x64ToFloat } from '@sovryn/perpetual-swap/dist/scripts/utils/perpMath';
 import { BigNumber } from 'ethers';
+import { getRequiredMarginCollateralWithGasFees } from '../utils/perpUtils';
 
 const defaultAnalysis: TradeAnalysis = {
   amountChange: 0,
@@ -66,9 +67,9 @@ export const usePerpetual_analyseTrade = (
 
   const {
     leverage: leverageTarget,
-    liquidationPrice,
-    margin: marginTarget,
     size: amountTarget,
+    estimatedLiquidationPrice,
+    estimatedMargin: estimatedMarginTarget,
   } = usePerpetual_calculateResultingPosition(trade);
 
   const analysis = useMemo(() => {
@@ -77,8 +78,9 @@ export const usePerpetual_analyseTrade = (
       return ref.current;
     }
 
-    // update trade analysis
+    // reset analysis
     if (!trade || !account) {
+      openOrders.current = [];
       return defaultAnalysis;
     }
 
@@ -121,18 +123,18 @@ export const usePerpetual_analyseTrade = (
             numberFromWei(trade.limit),
             trade.trigger ? numberFromWei(trade.trigger) : undefined,
           )
-        : getRequiredMarginCollateral(
-            trade.leverage,
-            amountChange,
+        : getRequiredMarginCollateralWithGasFees(
+            leverageTarget,
+            amountTarget,
             perpParameters,
             ammState,
             traderState,
             trade.slippage,
-            false,
-            false,
+            true,
+            true,
           );
 
-    const marginChange = marginTarget - traderState.availableCashCC;
+    const marginChange = estimatedMarginTarget - traderState.availableCashCC;
 
     const partialUnrealizedPnL =
       getTraderPnLInCC(traderState, ammState, perpParameters, limitPrice) *
@@ -148,10 +150,10 @@ export const usePerpetual_analyseTrade = (
       amountChange,
       amountTarget,
       marginChange,
-      marginTarget,
+      marginTarget: estimatedMarginTarget,
       partialUnrealizedPnL,
       leverageTarget,
-      liquidationPrice,
+      liquidationPrice: estimatedLiquidationPrice,
       entryPrice,
       limitPrice,
       orderCost,
@@ -167,8 +169,8 @@ export const usePerpetual_analyseTrade = (
     perpParameters,
     ammState,
     leverageTarget,
-    liquidationPrice,
-    marginTarget,
+    estimatedLiquidationPrice,
+    estimatedMarginTarget,
     amountTarget,
     lockedIn,
   ]);
