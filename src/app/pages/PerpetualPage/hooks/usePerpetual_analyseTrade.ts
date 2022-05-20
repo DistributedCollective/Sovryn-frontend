@@ -1,7 +1,7 @@
 import { PerpetualTrade, PerpetualTradeType, PERPETUAL_CHAIN } from '../types';
 import { useRef, useMemo, useContext, useEffect, useState } from 'react';
 import { useAccount } from '../../../hooks/useAccount';
-import { TradeAnalysis } from '../types';
+import { PerpetualTradeAnalysis } from '../types';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import { useSelector } from 'react-redux';
 import { selectPerpetualPage } from '../selectors';
@@ -23,7 +23,7 @@ import { bridgeNetwork } from '../../BridgeDepositPage/utils/bridge-network';
 import { BigNumber } from 'ethers';
 import { getRequiredMarginCollateralWithGasFees } from '../utils/perpUtils';
 
-const defaultAnalysis: TradeAnalysis = {
+const defaultAnalysis: PerpetualTradeAnalysis = {
   amountChange: 0,
   amountTarget: 0,
   marginChange: 0,
@@ -42,7 +42,7 @@ const defaultAnalysis: TradeAnalysis = {
 export const usePerpetual_analyseTrade = (
   trade?: PerpetualTrade,
   lockedIn?: boolean,
-): TradeAnalysis => {
+): PerpetualTradeAnalysis => {
   const account = useAccount();
   const { perpetuals } = useContext(PerpetualQueriesContext);
 
@@ -53,7 +53,7 @@ export const usePerpetual_analyseTrade = (
     [pairType, trade?.pairType],
   );
 
-  const ref = useRef<TradeAnalysis>(defaultAnalysis);
+  const ref = useRef<PerpetualTradeAnalysis>(defaultAnalysis);
 
   const openOrders = useRef<any[]>();
   const [requiredAllowance, setRequiredAllowance] = useState<number>();

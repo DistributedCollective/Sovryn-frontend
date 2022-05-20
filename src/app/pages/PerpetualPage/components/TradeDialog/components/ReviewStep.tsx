@@ -82,6 +82,7 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
         <ResultPosition
           origin={origin}
           pair={pair}
+          trade={trade}
           lotPrecision={lotPrecision}
           lotSize={lotSize}
           analysis={analysis}

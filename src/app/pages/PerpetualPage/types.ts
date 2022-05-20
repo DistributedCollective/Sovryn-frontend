@@ -128,6 +128,7 @@ export type PerpetualTrade = {
   leverage: number;
   slippage: number;
   keepPositionLeverage?: boolean;
+  isClosePosition?: boolean;
 };
 
 export type PerpetualTradeReview = {
@@ -154,7 +155,9 @@ export const isPerpetualTrade = (x: any): x is PerpetualTrade =>
   (x.trigger === undefined || typeof x.trigger === 'string') &&
   (x.margin === undefined || typeof x.margin === 'string') &&
   (x.keepPositionLeverage === undefined ||
-    typeof x.keepPositionLeverage === 'boolean');
+    typeof x.keepPositionLeverage === 'boolean') &&
+  (x.isClosingPosition === undefined ||
+    typeof x.isClosingPosition === 'boolean');
 
 export const isPerpetualTradeReview = (x: any): x is PerpetualTradeReview =>
   x &&
@@ -184,7 +187,7 @@ export type CheckAndApproveResultWithError = CheckAndApproveResult & {
   error?: Error;
 };
 
-export type TradeAnalysis = {
+export type PerpetualTradeAnalysis = {
   amountChange: number;
   amountTarget: number;
   marginChange: number;

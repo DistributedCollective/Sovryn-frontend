@@ -11,7 +11,7 @@ import {
   PerpetualPageModals,
   PerpetualTrade,
   PerpetualTradeType,
-  TradeAnalysis,
+  PerpetualTradeAnalysis,
 } from '../../../types';
 import {
   Transaction,
@@ -45,7 +45,7 @@ type TradeSummaryProps = {
   origin?: PerpetualPageModals;
   trade?: PerpetualTrade;
   pair: PerpetualPair;
-  analysis: TradeAnalysis;
+  analysis: PerpetualTradeAnalysis;
   transactions?: Transaction[];
 };
 

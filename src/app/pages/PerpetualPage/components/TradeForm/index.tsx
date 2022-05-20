@@ -316,6 +316,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     tradingFee,
     limitPrice,
     amountChange,
+    amountTarget,
     marginChange,
   } = usePerpetual_analyseTrade(trade);
 
@@ -394,10 +395,11 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
 
   const isLeverageDisabled = useMemo(
     () =>
-      keepPositionLeverage ||
-      (Number(amount) !== 0 &&
-        (resultingPositionSize === 0 ||
-          Math.sign(resultingPositionSize) !== Math.sign(signedAmount))),
+      trade.tradeType === PerpetualTradeType.MARKET &&
+      (keepPositionLeverage ||
+        (Number(amount) !== 0 &&
+          (resultingPositionSize === 0 ||
+            Math.sign(resultingPositionSize) !== Math.sign(signedAmount)))),
     [keepPositionLeverage, amount, resultingPositionSize, signedAmount],
   );
 
@@ -406,6 +408,9 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       ...trade,
       averagePrice: toWei(averagePrice),
       entryPrice: toWei(entryPrice),
+      isClosePosition:
+        trade.tradeType === PerpetualTradeType.MARKET &&
+        Math.abs(amountTarget) < lotSize,
     };
 
     if (trade.tradeType !== PerpetualTradeType.MARKET) {
@@ -432,7 +437,16 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     }
 
     onSubmit(completeTrade);
-  }, [trade, averagePrice, entryPrice, limit, triggerPrice, onSubmit]);
+  }, [
+    trade,
+    averagePrice,
+    entryPrice,
+    amountTarget,
+    lotSize,
+    limit,
+    triggerPrice,
+    onSubmit,
+  ]);
 
   useEffect(() => {
     // resets trade.keepPositionLeverage in case we flip the sign

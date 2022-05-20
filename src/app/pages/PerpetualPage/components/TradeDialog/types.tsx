@@ -1,7 +1,7 @@
 import {
   PerpetualPageModals,
   PerpetualTrade,
-  TradeAnalysis,
+  PerpetualTradeAnalysis,
   PerpetualTx,
 } from '../../types';
 import { PerpetualPair } from '../../../../../utils/models/perpetual-pair';
@@ -31,7 +31,7 @@ export type TradeDialogContextType = {
   pair: PerpetualPair;
   origin?: PerpetualPageModals;
   trade?: PerpetualTrade;
-  analysis: TradeAnalysis;
+  analysis: PerpetualTradeAnalysis;
   transactions: PerpetualTx[];
   currentTransaction?: TradeDialogCurrentTransaction;
   setTransactions: Dispatch<SetStateAction<PerpetualTx[]>>;

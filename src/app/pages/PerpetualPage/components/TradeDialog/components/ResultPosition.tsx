@@ -7,13 +7,19 @@ import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../../locales/i18n';
 import { toNumberFormat } from '../../../../../../utils/display-text/format';
 import { PerpetualPair } from '../../../../../../utils/models/perpetual-pair';
-import { PerpetualPageModals, TradeAnalysis } from '../../../types';
+import {
+  PerpetualPageModals,
+  PerpetualTradeAnalysis,
+  PerpetualTrade,
+  PerpetualTradeType,
+} from '../../../types';
 import { getCollateralName } from 'app/pages/PerpetualPage/utils/renderUtils';
 
 type ResultPositionProps = {
   origin?: PerpetualPageModals;
   pair: PerpetualPair;
-  analysis: TradeAnalysis;
+  trade?: PerpetualTrade;
+  analysis: PerpetualTradeAnalysis;
   lotSize: number;
   lotPrecision: number;
 };
@@ -21,6 +27,7 @@ type ResultPositionProps = {
 export const ResultPosition: React.FC<ResultPositionProps> = ({
   origin,
   pair,
+  trade,
   analysis,
   lotSize,
   lotPrecision,
@@ -41,12 +48,15 @@ export const ResultPosition: React.FC<ResultPositionProps> = ({
     [pair.collateralAsset],
   );
 
-  if (origin === PerpetualPageModals.CANCEL_ORDER) {
+  if (
+    origin === PerpetualPageModals.CANCEL_ORDER ||
+    trade?.tradeType !== PerpetualTradeType.MARKET
+  ) {
     return null;
   }
 
   if (
-    origin === PerpetualPageModals.CLOSE_POSITION &&
+    origin === PerpetualPageModals.CLOSE_POSITION ||
     Math.abs(marginTarget) < lotSize
   ) {
     return (

@@ -110,6 +110,7 @@ export const NewPositionCard: React.FC = () => {
           slippage: trade.slippage,
           leverage: trade.leverage,
           keepPositionLeverage: trade.keepPositionLeverage,
+          isClosePosition: trade.isClosePosition,
           tx: null,
           approvalTx: null,
         });
