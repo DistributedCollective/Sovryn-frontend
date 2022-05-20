@@ -1,16 +1,12 @@
-/**
- *
- * FormSelect
- *
- */
 import React, { useCallback, useEffect, useState } from 'react';
 import { ItemPredicate, ItemRenderer, Select } from '@blueprintjs/select';
-import { Icon, MenuItem, Text } from '@blueprintjs/core';
+import { Icon, Text } from '@blueprintjs/core';
 import { Nullable } from 'types';
 import styled from 'styled-components/macro';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { isMobile } from '../../../utils/helpers';
+import { MenuItem } from '../Menu/components/MenuItem';
 
 export type SelectItem = {
   key: any;
@@ -141,7 +137,6 @@ export const renderItem: ItemRenderer<SelectItem> = (
   }
   return (
     <MenuItem
-      active={modifiers.active}
       disabled={modifiers.disabled}
       key={item.key}
       onClick={handleClick}
