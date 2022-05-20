@@ -213,9 +213,7 @@ export function LendingDialog({
                   ? maxMinusFee(userBalance, currency, gasLimit)
                   : depositedAssetBalance
               }
-              dataActionId={`lend-${
-                type === 'add' ? 'deposit' : 'withdraw'
-              }-amountInput-${currency}`}
+              dataActionId={`lend-${type === 'add' ? 'deposit' : 'withdraw'}`}
             />
           </FormGroup>
 
