@@ -3,11 +3,11 @@
 }
 
 .orderActionBuy {
-  color: #129c8e;
+  @apply tw-text-trade-long;
 }
 
 .orderActionSell {
-  color: #d64d08;
+  @apply tw-text-trade-short;
 }
 
 .positionInfoRow {
@@ -33,11 +33,9 @@
 }
 
 .positionSizeBuy {
-  @apply tw-font-medium;
-  color: #15ae9f;
+  @apply tw-font-medium tw-text-trade-long;
 }
 
 .positionSizeSell {
-  @apply tw-font-medium;
-  color: #ce4b09;
+  @apply tw-font-medium tw-text-trade-long;
 }

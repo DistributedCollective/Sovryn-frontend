@@ -52,6 +52,7 @@ export const LootDrop: React.FC<ILootDropProps> = ({
           target="_blank"
           rel="noopener noreferrer"
           className="tw-text-secondary tw-text-xs tw-underline"
+          data-action-id={`yieldfarm-promo-learnmore-${asset1}`}
         >
           {linkText}
         </a>

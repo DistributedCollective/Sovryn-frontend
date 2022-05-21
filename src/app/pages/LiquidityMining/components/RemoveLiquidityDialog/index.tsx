@@ -16,7 +16,6 @@ import { DummyInput } from 'app/components/Form/Input';
 import { AssetRenderer } from '../../../../components/AssetRenderer';
 import { TxFeeCalculator } from '../../../MarginTradePage/components/TxFeeCalculator';
 import { DialogButton } from 'app/components/Form/DialogButton';
-import { TxDialog } from '../../../../components/Dialogs/TxDialog';
 import { useMining_ApproveAndRemoveLiquidityV2 } from '../../hooks/useMining_ApproveAndRemoveLiquidityV2';
 import { useMining_RemoveLiquidityReturnAndFee } from '../../hooks/useMining_RemoveLiquidityReturnAndFee';
 import { LoadableValue } from '../../../../components/LoadableValue';
@@ -28,6 +27,7 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
 import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
+import { TransactionDialog } from 'app/components/TransactionDialog';
 
 interface IRemoveLiquidityDialogProps {
   pool: AmmLiquidityPool;
@@ -189,7 +189,7 @@ export const RemoveLiquidityDialog: React.FC<IRemoveLiquidityDialogProps> = ({
           )}
         </div>
       </Dialog>
-      <TxDialog
+      <TransactionDialog
         tx={tx}
         onUserConfirmed={() => props.onCloseModal()}
         onSuccess={props.onSuccess}

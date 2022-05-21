@@ -61,6 +61,7 @@
     "withdrawLend": "Sorry, lending withdrawals are currently under maintenance, please check our discord (link in footer) for updates.",
     "startBorrow": "Sorry, loan opening is currently under maintenance, please check our discord (link in footer) for updates.",
     "stopBorrow": "Sorry, loan closing is currently under maintenance, please check our discord (link in footer) for updates.",
+    "addCollateralBorrow": "Sorry, adding collateral is currently under maintenance, please check our <0>discord</0> for updates.",
     "addLiquidity": "Sorry, adding liquidity is currently under maintenance, please check our <0>discord</0> for updates.",
     "removeLiquidity": "Sorry, removing liquidity is currently under maintenance, please check our <0>discord</0> for updates.",
     "liquidity": "Sorry, liquidity providing is currently under maintenance, some features may be unavailable. Please check our <0>discord</0> for updates.",
@@ -402,7 +403,7 @@
     "reviewSwap": "Review Swap",
     "swapAsset": "Swap Asset:",
     "amount": "Amount:",
-    "amountReceived": "Amount Received:",
+    "amountReceived": "Amount To Receive:",
     "receiveAsset": "Receive Asset:",
     "minimumReceived": "Minimum Received:"
   },
@@ -1384,7 +1385,8 @@
       "interestAPR": "Interest APY",
       "endTimestamp": "Payback until"
     },
-    "repayButton": "Repay"
+    "repayButton": "Repay",
+    "addCollateralButton": "Add collateral"
   },
   "repayPositionForm": {
     "title": "Repay Loan",
@@ -1546,7 +1548,7 @@
       "title": "Amount to claim:",
       "available": "Total Reward SOV Available:",
       "cta": "CLAIM",
-      "note": "Claiming your rewards automatically vests them for 10 months with a 1 month cliff.",
+      "note": "Claiming your rewards automatically starts a vesting period of 40 weeks with a maximum 4-week cliff.",
       "learn": "Learn more",
       "claimDisabled": "There is not enough SOV in the StakingRewardsProxy contract to facilitate a claim of rewards at this time. Therefore, to avoid a loss of gas fee by initiating a transaction that will inevitably fail, the CLAIM button has been disabled. Be assured that the team is aware and funds should be replenished shortly."
     },
@@ -1871,6 +1873,14 @@
       "day_other": "{{count}} days",
       "partialFilled": "Allow partial filled order:",
       "infinity": "∞"
+    },
+    "recentTrades": {
+      "title": "Recent Trades",
+      "titleAMMInfo": "Please note that since there is no AMM pool for this trading pair, we can only show trades made on the underlying AMM pool of the base asset - e.g. trades between <0></0> and <1></1>.",
+      "price": "Price",
+      "size": "Size",
+      "time": "Time",
+      "noTrades": "No Recent Trades"
     },
     "openLimitOrders": {
       "dateTime": "Date/Time",
@@ -2571,6 +2581,18 @@
     "title": "Add to Margin",
     "amount": "Increase margin by:",
     "liquidationPrice": "Estimated Liquidation price:"
+  },
+  "addCollateral": {
+    "title": "Add Collateral",
+    "collateralBalance": "Collateral Balance",
+    "liquidationPrice": "Liquidation Price",
+    "collateralRatio": "Collateral Ratio",
+    "amount": "Increase collateral by:",
+    "newInfo": "New details:",
+    "review": "Review Transaction",
+    "errors": {
+      "balance": "Please enter an amount equal to or less than the balance of {{asset}} in your address."
+    }
   },
   "openPositionTable": {
     "direction": "Direction",

@@ -1,4 +1,4 @@
-import { Icon, Menu, MenuItem, Popover } from '@blueprintjs/core';
+import { Icon, Popover } from '@blueprintjs/core';
 import { ProviderType } from '@sovryn/wallet';
 import { WalletContext } from '@sovryn/react-wallet';
 import blockies from 'ethereum-blockies';
@@ -8,14 +8,17 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import classNames from 'classnames';
 import { toastSuccess } from 'utils/toaster';
 import styled from 'styled-components/macro';
-
 import { translations } from 'locales/i18n';
 import { isMobile, isTablet, prettyTx } from 'utils/helpers';
-
 import { media } from '../../../styles/media';
-
 import styles from './index.module.scss';
 import { Spinner, SpinnerSize } from 'app/components/Spinner';
+import { Menu } from 'app/components/Menu';
+import { MenuItem } from 'app/components/Menu/components/MenuItem';
+import {
+  faArrowRightFromBracket,
+  faClone,
+} from '@fortawesome/free-solid-svg-icons';
 
 type Props = {
   lightMode?: boolean;
@@ -66,7 +69,7 @@ const WalletConnectorContainer: React.FC<Props> = ({
         hideConnectButton ? null : (
           <StyledButton
             onClick={() => connect()}
-            className="tw-flex tw-justify-center tw-items-center tw-bg-primary-25 hover:tw-opacity-75"
+            className="tw-flex tw-justify-center tw-items-center tw-bg-primary tw-bg-opacity-25 hover:tw-opacity-75"
             data-action-id="connect-wallet-button"
           >
             {connecting && <Spinner size={SpinnerSize.SM} />}
@@ -86,7 +89,7 @@ const WalletConnectorContainer: React.FC<Props> = ({
             placement={'bottom'}
             content={
               address ? (
-                <Menu>
+                <Menu className="tw-p-1">
                   <CopyToClipboard
                     text={address}
                     onCopy={() =>
@@ -97,12 +100,12 @@ const WalletConnectorContainer: React.FC<Props> = ({
                     }
                   >
                     <MenuItem
-                      icon="duplicate"
+                      icon={faClone}
                       text={t(translations.wallet.copy_address)}
                     />
                   </CopyToClipboard>
                   <MenuItem
-                    icon="log-out"
+                    icon={faArrowRightFromBracket}
                     text={t(translations.wallet.disconnect)}
                     onClick={() => disconnect()}
                   />

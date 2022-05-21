@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
 import { translations } from 'locales/i18n';
-import { RecentTrades } from 'app/components/RecentTrades';
+import { RecentTrades, RecentTradeType } from 'app/components/RecentTrades';
 import { reducer, sliceKey } from './slice';
 import { selectMarginTradePage } from './selectors';
 import { marginTradePageSaga } from './saga';
@@ -19,8 +19,8 @@ import { PairNavbar } from 'app/components/PairNavbar';
 import { TradingType } from 'types/trading-pairs';
 import { Tabs } from 'app/components/Tabs';
 import { OpenPositionsTable } from './components/OpenPositionsTable/OpenPositionsTable';
-// import { OpenLimitOrdersPositionsTable } from './components/LimitOrder/OpenLimitOrdersPositionsTable';
-// import { LimitOrderHistory } from './components/LimitOrder/LimitOrderHistory';
+import { OpenLimitOrdersPositionsTable } from './components/LimitOrder/OpenLimitOrdersPositionsTable';
+import { LimitOrderHistory } from './components/LimitOrder/LimitOrderHistory';
 
 export const MarginTradePage: React.FC = () => {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -60,16 +60,16 @@ export const MarginTradePage: React.FC = () => {
         label: t(translations.marginTradePage.tradingHistory),
         content: <ClosedPositionsTable />,
       },
-      // {
-      //   id: 'limitOrders',
-      //   label: t(translations.spotTradingPage.history.openLimitOrders),
-      //   content: <OpenLimitOrdersPositionsTable />,
-      // },
-      // {
-      //   id: 'limitOrderHistory',
-      //   label: t(translations.spotTradingPage.history.limitOrderHistory),
-      //   content: <LimitOrderHistory />,
-      // },
+      {
+        id: 'limitOrders',
+        label: t(translations.spotTradingPage.history.openLimitOrders),
+        content: <OpenLimitOrdersPositionsTable />,
+      },
+      {
+        id: 'limitOrderHistory',
+        label: t(translations.spotTradingPage.history.limitOrderHistory),
+        content: <LimitOrderHistory />,
+      },
     ],
     [t],
   );
@@ -99,6 +99,7 @@ export const MarginTradePage: React.FC = () => {
             <RecentTrades
               baseToken={pair.collaterals[0]}
               quoteToken={pair.collaterals[1]}
+              type={RecentTradeType.MARGIN}
             />
           </div>
           <TradeForm pairType={linkPairType || pairType} />

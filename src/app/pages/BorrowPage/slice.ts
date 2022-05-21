@@ -10,7 +10,9 @@ export const initialState: ContainerState = {
   lendAmount: '',
   borrowAmount: '',
   repayItem: null,
+  addItem: null,
   repayModalOpen: false,
+  addModalOpen: false,
 };
 
 const lendBorrowSovrynSlice = createSlice({
@@ -33,6 +35,14 @@ const lendBorrowSovrynSlice = createSlice({
     closeRepayModal(state) {
       state.repayItem = null;
       state.repayModalOpen = false;
+    },
+    openAddModal(state, { payload }: PayloadAction<string>) {
+      state.addItem = payload;
+      state.addModalOpen = true;
+    },
+    closeAddModal(state) {
+      state.addItem = null;
+      state.addModalOpen = false;
     },
   },
 });

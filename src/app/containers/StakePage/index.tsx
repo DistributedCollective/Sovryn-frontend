@@ -32,7 +32,6 @@ import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { useStaking_getCurrentVotes } from '../../hooks/staking/useStaking_getCurrentVotes';
 import { useStaking_computeWeightByDate } from '../../hooks/staking/useStaking_computeWeightByDate';
 import { StakeForm } from './components/StakeForm';
-import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { useStakeIncrease } from '../../hooks/staking/useStakeIncrease';
 import { useStakeStake } from '../../hooks/staking/useStakeStake';
 import { useStakeWithdraw } from '../../hooks/staking/useStakeWithdraw';
@@ -49,6 +48,8 @@ import { AlertBadge } from 'app/components/AlertBadge/AlertBadge';
 import { discordInvite, bitocracyUrl } from 'utils/classifiers';
 import { Button, ButtonType } from 'app/components/Button';
 import { VestGroup } from 'app/components/UserAssets/Vesting/types';
+import { TransactionDialog } from 'app/components/TransactionDialog';
+import { useStaking_timestampToLockDate } from 'app/hooks/staking/useStaking_timestampToLockDate';
 
 const now = new Date();
 
@@ -113,9 +114,14 @@ const InnerStakePage: React.FC = () => {
   const [prevTimestamp, setPrevTimestamp] = useState<number | undefined>(
     undefined,
   );
+
+  const currentLockDate = useStaking_timestampToLockDate(
+    Math.round(now.getTime() / 1e3),
+  );
+
   const getWeight = useStaking_computeWeightByDate(
     Number(lockDate),
-    Math.round(now.getTime() / 1e3),
+    Number(currentLockDate.value),
   );
   const [assetsUsd, setAssetsUsd] = useState<{
     [assets: string]: number;
@@ -486,6 +492,7 @@ const InnerStakePage: React.FC = () => {
                   title={t(translations.stake.vestingFees)}
                   useNewContract
                   frozen={frozen}
+                  vestedFees={true}
                 />
               </div>
               <div className="tw-staking-box tw-bg-gray-3 tw-p-8 tw-pb-6 tw-mb-5 tw-rounded-2xl lg:tw-w-1/3 lg:tw-mx-2 lg:tw-mb-0 2xl:tw-w-1/4">
@@ -568,12 +575,12 @@ const InnerStakePage: React.FC = () => {
             />
             <HistoryEventsTable />
           </div>
-          <TxDialog tx={increaseTx} />
-          <TxDialog tx={stakeTx} />
-          <TxDialog tx={extendTx} />
-          <TxDialog tx={withdrawTx} />
-          <TxDialog tx={delegateTx} />
-          <TxDialog tx={vestingDelegateTx} />
+          <TransactionDialog tx={increaseTx} />
+          <TransactionDialog tx={stakeTx} />
+          <TransactionDialog tx={extendTx} />
+          <TransactionDialog tx={withdrawTx} />
+          <TransactionDialog tx={delegateTx} />
+          <TransactionDialog tx={vestingDelegateTx} />
 
           <>
             {balanceOf.value !== '0' && (

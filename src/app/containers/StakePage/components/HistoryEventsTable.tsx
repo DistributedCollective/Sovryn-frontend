@@ -54,7 +54,8 @@ export function HistoryEventsTable() {
         .then(({ data }) => {
           setEventsHistory(data?.events);
           seIsHistoryLoading(false);
-        });
+        })
+        .catch(console.error);
     }
   }, [account, chainId]);
 
