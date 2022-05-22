@@ -1,33 +1,21 @@
 import { contractReader } from 'utils/sovryn/contract-reader';
 
 import VestingABI from '../abi/Vesting.json';
-import FourYearVestingABI from '../abi/FourYearVesting.json';
-import { VestGroup } from 'app/components/UserAssets/Vesting/types';
 
-export const vesting_getStartDate = (
-  vestingAddress: string,
-  vestingType: VestGroup,
-) => {
+export const vesting_getStartDate = (vestingAddress: string) => {
   return contractReader.callByAddress(
     vestingAddress,
-    getVestingAbi(vestingType),
+    VestingABI,
     'startDate',
     [],
   );
 };
 
-export const vesting_getEndDate = (
-  vestingAddress: string,
-  vestingType: VestGroup,
-) => {
+export const vesting_getEndDate = (vestingAddress: string) => {
   return contractReader.callByAddress(
     vestingAddress,
-    getVestingAbi(vestingType),
+    VestingABI,
     'endDate',
     [],
   );
-};
-
-export const getVestingAbi = (vestingType: VestGroup) => {
-  return vestingType === 'fouryear' ? FourYearVestingABI : VestingABI;
 };

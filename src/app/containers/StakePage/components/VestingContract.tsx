@@ -29,7 +29,7 @@ import { useAccount } from 'app/hooks/useAccount';
 import { WithdrawVesting } from './WithdrawVesting';
 import { VestGroup } from 'app/components/UserAssets/Vesting/types';
 import { useSendToContractAddressTx } from 'app/hooks/useSendToContractAddressTx';
-import { getVestingAbi } from 'utils/blockchain/requests/vesting';
+import VestingABI from 'utils/blockchain/abi/Vesting.json';
 import { AbiItem } from 'web3-utils';
 import { TxType } from 'store/global/transactions-store/types';
 import { TransactionDialog } from 'app/components/TransactionDialog';
@@ -119,10 +119,10 @@ export const VestingContract: React.FC<IVestingContractProps> = ({
       try {
         setVestLoading(true);
         Promise.all([
-          vesting_getStartDate(vestingAddress, type).then(
+          vesting_getStartDate(vestingAddress).then(
             res => typeof res === 'string' && setStakingPeriodStart(res),
           ),
-          vesting_getEndDate(vestingAddress, type).then(
+          vesting_getEndDate(vestingAddress).then(
             res => typeof res === 'string' && setUnlockDate(res),
           ),
         ]).then(_ => setVestLoading(false));
@@ -136,7 +136,7 @@ export const VestingContract: React.FC<IVestingContractProps> = ({
     if (vestingAddress !== ethGenesisAddress) {
       getVestsList().catch(console.error);
     }
-  }, [vestingAddress, type, account]);
+  }, [vestingAddress, account]);
 
   useEffect(() => {
     async function getDelegate() {
@@ -181,7 +181,7 @@ export const VestingContract: React.FC<IVestingContractProps> = ({
 
   const { send, ...tx } = useSendToContractAddressTx(
     vestingAddress.toLowerCase(),
-    getVestingAbi(type) as AbiItem[],
+    VestingABI as AbiItem[],
     'withdrawTokens',
   );
 

@@ -47,7 +47,6 @@ import { useContractPauseState } from 'app/hooks/useContractPauseState';
 import { AlertBadge } from 'app/components/AlertBadge/AlertBadge';
 import { discordInvite, bitocracyUrl } from 'utils/classifiers';
 import { Button, ButtonType } from 'app/components/Button';
-import { VestGroup } from 'app/components/UserAssets/Vesting/types';
 import { TransactionDialog } from 'app/components/TransactionDialog';
 import { useStaking_timestampToLockDate } from 'app/hooks/staking/useStaking_timestampToLockDate';
 
@@ -107,7 +106,6 @@ const InnerStakePage: React.FC = () => {
   const [lockDate, setLockDate] = useState(0);
   const [timestamp, setTimestamp] = useState(0);
   const [vestingContractAddress, setVestingContractAddress] = useState('');
-  const [vestingContractType, setVestingContractType] = useState('');
   const [votingPower, setVotingPower] = useState(0);
   const [withdrawAmount, setWithdrawAmount] = useState('0');
   const weiWithdrawAmount = useWeiAmount(withdrawAmount);
@@ -141,10 +139,7 @@ const InnerStakePage: React.FC = () => {
   const {
     delegate: vestingDelegate,
     ...vestingDelegateTx
-  } = useVestingDelegate(
-    vestingContractAddress,
-    vestingContractType as VestGroup,
-  );
+  } = useVestingDelegate(vestingContractAddress);
 
   const { checkMaintenance, States } = useMaintenance();
   const stakingLocked = checkMaintenance(States.STAKING);
@@ -372,16 +367,12 @@ const InnerStakePage: React.FC = () => {
     setWithdrawForm(true);
   }, []);
 
-  const onDelegateVest = useCallback(
-    (timestamp, contractAddress, contractType) => {
-      setTimestamp(timestamp);
-      setIsStakeDelegate(false);
-      setVestingContractAddress(contractAddress);
-      setVestingContractType(contractType);
-      setDelegateForm(delegateForm => !delegateForm);
-    },
-    [],
-  );
+  const onDelegateVest = useCallback((timestamp, contractAddress) => {
+    setTimestamp(timestamp);
+    setIsStakeDelegate(false);
+    setVestingContractAddress(contractAddress);
+    setDelegateForm(delegateForm => !delegateForm);
+  }, []);
 
   return (
     <>

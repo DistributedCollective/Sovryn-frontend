@@ -7,7 +7,8 @@ import { Sovryn } from '../../../utils/sovryn';
 import { ethGenesisAddress } from '../../../utils/classifiers';
 import { Nullable } from 'types';
 import { ContractName } from '../../../utils/types/contracts';
-import { getVestingAbi } from 'utils/blockchain/requests/vesting';
+import VestingABI from 'utils/blockchain/abi/Vesting.json';
+import FourYearVestingABI from 'utils/blockchain/abi/FourYearVesting.json';
 
 const TWO_WEEKS = 1209600;
 
@@ -24,7 +25,6 @@ export function useGetUnlockedVesting(
   const isFourYearVest = useMemo(() => vestingType === 'fouryear', [
     vestingType,
   ]);
-  const vestABI = useMemo(() => getVestingAbi(vestingType), [vestingType]);
 
   useEffect(() => {
     const run = async () => {
@@ -34,7 +34,7 @@ export function useGetUnlockedVesting(
         const startDate = Number(
           await contractReader.callByAddress(
             vestingAddress,
-            vestABI,
+            VestingABI,
             'startDate',
             [],
           ),
@@ -42,8 +42,8 @@ export function useGetUnlockedVesting(
         const cliff = Number(
           await contractReader.callByAddress(
             vestingAddress,
-            vestABI,
-            isFourYearVest ? 'CLIFF' : 'cliff',
+            VestingABI,
+            'cliff',
             [],
           ),
         );
@@ -59,7 +59,7 @@ export function useGetUnlockedVesting(
           end = Number(
             await contractReader.callByAddress(
               vestingAddress,
-              vestABI,
+              VestingABI,
               'endDate',
               [],
             ),
@@ -76,11 +76,21 @@ export function useGetUnlockedVesting(
           )) as string;
           value = bignumber(value).add(stake).toFixed(0);
         }
-        if (
-          isFourYearVest &&
-          Math.round(Date.now() / 1e3) <= Number(startDate) + 31449600 // four year vests locked with 1 year cliff. 31449600 = 52 weeks in seconds
-        ) {
-          value = '0';
+        if (isFourYearVest) {
+          // four year vests locked with extended cliff, if still in this period then tokens cannot be withdrawn
+          const extendedDuration = ((await contractReader.callByAddress(
+            vestingAddress,
+            FourYearVestingABI,
+            'extendDurationFor',
+            [],
+          )) || 0) as number;
+
+          if (
+            Math.round(Date.now() / 1e3) <=
+            Number(startDate) + extendedDuration
+          ) {
+            value = '0';
+          }
         }
       } catch (e) {
         setAmount('0');
@@ -100,14 +110,7 @@ export function useGetUnlockedVesting(
         })
         .finally(() => setLoading(false));
     }
-  }, [
-    account,
-    vestingAddress,
-    syncBlock,
-    stakingContractName,
-    isFourYearVest,
-    vestABI,
-  ]);
+  }, [account, vestingAddress, syncBlock, stakingContractName, isFourYearVest]);
 
   return { value: amount, loading, error: err };
 }
