@@ -298,6 +298,11 @@
         "internalType": "bytes32",
         "name": "_digest",
         "type": "bytes32"
+      },
+      {
+        "internalType": "address",
+        "name": "_referrerAddr",
+        "type": "address"
       }
     ],
     "name": "executeLimitOrderByDigest",
