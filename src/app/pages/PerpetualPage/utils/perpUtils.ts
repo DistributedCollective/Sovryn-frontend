@@ -11,6 +11,7 @@ import {
   PerpParameters,
   perpUtils,
 } from '@sovryn/perpetual-swap';
+import { BigNumber } from 'ethers';
 
 const { getTraderPnL, getMarkPrice, getRequiredMarginCollateral } = perpUtils;
 
@@ -74,9 +75,9 @@ export function getRequiredMarginCollateralWithGasFees(
 }
 
 // FIXME: move to @sovryn/perpetual-swap
-export const MASK_CLOSE_ONLY = 0x80000000;
-export const MASK_MARKET_ORDER = 0x40000000;
-export const MASK_STOP_LOSS_ORDER = 0x20000000;
-export const MASK_TAKE_PROFIT_ORDER = 0x10000000;
-export const MASK_KEEP_POS_LEVERAGE = 0x08000000;
-export const MASK_LIMIT_ORDER = 0x04000000;
+export const MASK_CLOSE_ONLY = BigNumber.from(0x80000000);
+export const MASK_MARKET_ORDER = BigNumber.from(0x40000000);
+export const MASK_STOP_LOSS_ORDER = BigNumber.from(0x20000000);
+export const MASK_TAKE_PROFIT_ORDER = BigNumber.from(0x10000000);
+export const MASK_KEEP_POS_LEVERAGE = BigNumber.from(0x08000000);
+export const MASK_LIMIT_ORDER = BigNumber.from(0x04000000);

@@ -584,7 +584,7 @@ const perpetualTradeArgs = (
 
   let flags = isClosePosition ? MASK_CLOSE_ONLY : MASK_MARKET_ORDER;
   if (transaction.keepPositionLeverage) {
-    flags |= MASK_KEEP_POS_LEVERAGE;
+    flags = flags.or(MASK_KEEP_POS_LEVERAGE);
   }
 
   const order = [
