@@ -85,7 +85,7 @@ export function FormSelect(props: Props) {
       <StyledSelection
         data-action-id={props.dataActionId}
         active={!!selected}
-        className={props.innerClasses}
+        //className={props.innerClasses}
       >
         <Text ellipsize>{selected ? selected.label : props.placeholder}</Text>
         <Icon icon="caret-down" />

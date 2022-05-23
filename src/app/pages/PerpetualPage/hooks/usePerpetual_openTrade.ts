@@ -18,6 +18,7 @@ import {
 import { PerpetualTx } from '../components/TradeDialog/types';
 import { useGsnSendTx } from '../../../hooks/useGsnSendTx';
 import { perpUtils } from '@sovryn/perpetual-swap';
+import { getFunctionSignature } from 'utils/blockchain/contract-helpers';
 
 const { calculateSlippagePrice } = perpUtils;
 
@@ -28,6 +29,18 @@ export const usePerpetual_openTrade = (useGSN: boolean) => {
   const account = useAccount();
 
   const { perpetuals } = useContext(PerpetualQueriesContext);
+
+  const functionSignature = getFunctionSignature();
+
+  // Uncomment to see that arguments and returnValue are successfully extracted
+  // type arguments = Parameters<typeof functionSignature>;
+  // type returnValue = ReturnType<typeof functionSignature>;
+
+  // We would need to adjust useGsnSendTx to accept generics and use it like this
+  // const { send, ...rest } = useGsnSendTx<
+  //   Parameters<typeof functionSignature>,
+  //   ReturnType<typeof functionSignature>
+  // >(PERPETUAL_CHAIN, 'perpetualManager', 'trade', PERPETUAL_PAYMASTER, useGSN);
 
   const { send, ...rest } = useGsnSendTx(
     PERPETUAL_CHAIN,

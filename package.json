@@ -166,7 +166,7 @@
     "thread-loader": "3.0.4",
     "ts-node": "8.8.2",
     "ts-pnp": "1.1.6",
-    "typescript": "3.8.2",
+    "typescript": "4.6.4",
     "url-loader": "2.3.0",
     "web3": "1.2.11",
     "web3-eth-contract": "1.2.11",
@@ -182,6 +182,7 @@
     "changelog": "./bin/changelog"
   },
   "scripts": {
+    "generate-types": "typechain --target=web3-v1 --out-dir src/abiTypes 'src/testAbis/*.json'",
     "start": "node scripts/start.js",
     "build": "if-env BUILD_STORYBOOK=true && yarn build:with-storybook || node scripts/build.js",
     "build:dev": "env-cmd -f .env.local yarn build",
@@ -299,6 +300,8 @@
     }
   },
   "devDependencies": {
+    "@typechain/web3-v1": "6.0.0",
+    "typechain": "8.0.0",
     "@babel/plugin-proposal-object-rest-spread": "7.12.1",
     "@graphql-codegen/add": "3.1.1",
     "@graphql-codegen/cli": "2.6.2",
