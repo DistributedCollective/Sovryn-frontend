@@ -39,6 +39,7 @@ const LendingPage: React.FC = () => {
             })}
             linkUrl="https://www.sovryn.app/blog/sov-is-diving-into-lending-pools"
             linkText={t(translations.liquidityMining.lootDropLink)}
+            linkDataActionId={`lend-promo-learnmore-${Asset.XUSD}`}
             highlightColor={LootDropColors.Yellow}
           />
         </LootDropSectionWrapper>
