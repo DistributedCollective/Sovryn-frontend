@@ -41,6 +41,11 @@ export const bitocracyUrl =
     ? 'https://bitocracy.sovryn.app'
     : 'https://bitocracy.test.sovryn.app';
 
+export const zeroUrl =
+  currentNetwork === AppMode.MAINNET
+    ? 'https://live.sovryn.app/zero'
+    : 'https://staging.sovryn.app/zero';
+
 export const databaseRpcNodes = {
   30: 'https://backend.sovryn.app/rpc',
   31: 'https://api.test.sovryn.app/rpc',

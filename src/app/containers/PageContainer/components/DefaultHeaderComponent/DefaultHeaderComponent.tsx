@@ -20,7 +20,12 @@ import {
 import { LanguageToggle } from '../../../../components/LanguageToggle';
 import styles from './index.module.scss';
 import { ReactComponent as SovLogo } from 'assets/images/sovryn-logo-alpha.svg';
-import { bitocracyUrl, currentNetwork, isMainnet } from 'utils/classifiers';
+import {
+  bitocracyUrl,
+  zeroUrl,
+  currentNetwork,
+  isMainnet,
+} from 'utils/classifiers';
 import { AppMode } from 'types';
 
 export const DefaultHeaderComponent: React.FC = () => {
@@ -464,6 +469,16 @@ export const DefaultHeaderComponent: React.FC = () => {
                 >
                   {t(translations.mainMenu.wallet)}
                 </NavLink>
+                {currentNetwork === AppMode.MAINNET && (
+                  <a
+                    className="tw-header-link tw-mr-2 2xl:tw-mr-3"
+                    href={zeroUrl}
+                    data-action-id="header-zero-link"
+                  >
+                    {t(translations.mainMenu.zero)}
+                  </a>
+                )}
+
                 {currentNetwork === AppMode.TESTNET && (
                   <NavPopover
                     content={
@@ -482,6 +497,12 @@ export const DefaultHeaderComponent: React.FC = () => {
                             data-action-id="header-lab-perpetuals"
                           />
                         )}
+                        <MenuItem
+                          href={zeroUrl}
+                          text={t(translations.mainMenu.zero)}
+                          className="bp3-popover-dismiss"
+                          data-action-id="header-zero-link"
+                        />
                         <span className={styles.host}>
                           {t(translations.mainMenu.origins)}
                         </span>
