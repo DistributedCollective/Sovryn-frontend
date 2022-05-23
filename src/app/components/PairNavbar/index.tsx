@@ -196,7 +196,7 @@ export const PairNavbar: React.FC<IPairNavbarProps> = ({ type }) => {
             <button
               onClick={onNotificationSettingsClick}
               className="tw-text-sm tw-text-primary tw-tracking-normal tw-flex tw-items-center"
-              data-action-id={`${type}-select-asset-enable-notification-button`}
+              data-action-id={`${type}-notifications-button`}
             >
               <img
                 src={imgNotificationBell}
