@@ -13,8 +13,10 @@ export const useSwap_RecentTrades = (baseToken: Asset, quoteToken: Asset) => {
   );
   const baseTokenAddress = getTokenContract(baseToken).address;
   const quoteTokenAddress = getTokenContract(quoteToken).address;
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    setLoading(true);
     axios
       .get(url, {
         params: {
@@ -25,8 +27,10 @@ export const useSwap_RecentTrades = (baseToken: Asset, quoteToken: Asset) => {
       })
       .then(res => {
         setData(res.data);
-      });
+      })
+      .catch(console.error)
+      .finally(() => setLoading(false));
   }, [baseTokenAddress, quoteTokenAddress]);
 
-  return data;
+  return { data, loading };
 };
