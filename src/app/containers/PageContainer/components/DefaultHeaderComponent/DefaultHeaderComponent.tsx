@@ -20,13 +20,7 @@ import {
 import { LanguageToggle } from '../../../../components/LanguageToggle';
 import styles from './index.module.scss';
 import { ReactComponent as SovLogo } from 'assets/images/sovryn-logo-alpha.svg';
-import {
-  bitocracyUrl,
-  zeroUrl,
-  currentNetwork,
-  isMainnet,
-} from 'utils/classifiers';
-import { AppMode } from 'types';
+import { bitocracyUrl, zeroUrl, isMainnet } from 'utils/classifiers';
 
 export const DefaultHeaderComponent: React.FC = () => {
   const { t } = useTranslation();
@@ -159,6 +153,11 @@ export const DefaultHeaderComponent: React.FC = () => {
       dataActionId: 'header-link-lab',
     },
     {
+      to: zeroUrl,
+      title: t(translations.mainMenu.myntToken),
+      dataActionId: 'header-lab-link-zero',
+    },
+    {
       to: '/mynt-token',
       title: t(translations.mainMenu.myntToken),
       dataActionId: 'header-lab-link-mynt-token',
@@ -267,7 +266,7 @@ export const DefaultHeaderComponent: React.FC = () => {
       [SECTION_TYPE.FINANCE]: ['/lend', '/yield-farm'],
       [SECTION_TYPE.BITOCRACY]: ['/stake'],
       [SECTION_TYPE.ORIGINS]: ['/origins', '/origins/claim'],
-      [SECTION_TYPE.LABS]: ['/labs', '/mynt-token', '/perpetuals'],
+      [SECTION_TYPE.LABS]: ['/labs', '/mynt-token', '/perpetuals', '/zero'],
     };
     return section && paths[section].includes(location.pathname);
   };
@@ -469,73 +468,61 @@ export const DefaultHeaderComponent: React.FC = () => {
                 >
                   {t(translations.mainMenu.wallet)}
                 </NavLink>
-                {currentNetwork === AppMode.MAINNET && (
-                  <a
-                    className="tw-header-link tw-mr-2 2xl:tw-mr-3"
-                    href={zeroUrl}
-                    data-action-id="header-zero-link"
-                  >
-                    {t(translations.mainMenu.zero)}
-                  </a>
-                )}
-
-                {currentNetwork === AppMode.TESTNET && (
-                  <NavPopover
-                    content={
-                      <BPMenu>
+                <NavPopover
+                  content={
+                    <BPMenu>
+                      <MenuItem
+                        href={zeroUrl}
+                        text={t(translations.mainMenu.zero)}
+                        className="bp3-popover-dismiss"
+                        data-action-id="header-lab-zero-link"
+                      />
+                      {!isMainnet && (
                         <MenuItem
-                          text={t(translations.mainMenu.myntToken)}
+                          text={t(translations.mainMenu.perpetuals)}
                           className="bp3-popover-dismiss"
-                          href="/mynt-token"
-                          data-action-id="header-lab-mynt-token"
+                          href="/perpetuals"
+                          data-action-id="header-lab-perpetuals"
                         />
-                        {!isMainnet && (
-                          <MenuItem
-                            text={t(translations.mainMenu.perpetuals)}
-                            className="bp3-popover-dismiss"
-                            href="/perpetuals"
-                            data-action-id="header-lab-perpetuals"
-                          />
-                        )}
-                        <MenuItem
-                          href={zeroUrl}
-                          text={t(translations.mainMenu.zero)}
-                          className="bp3-popover-dismiss"
-                          data-action-id="header-zero-link"
-                        />
-                        <span className={styles.host}>
-                          {t(translations.mainMenu.origins)}
-                        </span>
-                        <MenuItem
-                          text={t(translations.mainMenu.launchpad)}
-                          className="bp3-popover-dismiss"
-                          onClick={() => history.push('/origins')}
-                          data-action-id="header-origins-link-launchpad"
-                        />
-                        <MenuItem
-                          text={t(translations.mainMenu.claim)}
-                          className="bp3-popover-dismiss"
-                          onClick={() => history.push('/origins/claim')}
-                          data-action-id="header-origins-link-claim"
-                        />
-                      </BPMenu>
-                    }
-                  >
-                    <div
-                      className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
-                        isSectionOpen(SECTION_TYPE.LABS) && 'tw-font-bold'
-                      }`}
-                    >
-                      <span
-                        className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
-                        data-action-id="header-link-origins"
-                      >
-                        {t(translations.mainMenu.labs)}
+                      )}
+                      <MenuItem
+                        text={t(translations.mainMenu.myntToken)}
+                        className="bp3-popover-dismiss"
+                        href="/mynt-token"
+                        data-action-id="header-lab-mynt-token"
+                      />
+                      <span className={styles.host}>
+                        {t(translations.mainMenu.origins)}
                       </span>
-                      <FontAwesomeIcon icon={faChevronDown} size="xs" />
-                    </div>
-                  </NavPopover>
-                )}
+                      <MenuItem
+                        text={t(translations.mainMenu.launchpad)}
+                        className="bp3-popover-dismiss"
+                        onClick={() => history.push('/origins')}
+                        data-action-id="header-origins-link-launchpad"
+                      />
+                      <MenuItem
+                        text={t(translations.mainMenu.claim)}
+                        className="bp3-popover-dismiss"
+                        onClick={() => history.push('/origins/claim')}
+                        data-action-id="header-origins-link-claim"
+                      />
+                    </BPMenu>
+                  }
+                >
+                  <div
+                    className={`tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center ${
+                      isSectionOpen(SECTION_TYPE.LABS) && 'tw-font-bold'
+                    }`}
+                  >
+                    <span
+                      className="tw-mr-2 2xl:tw-mr-3 tw-cursor-pointer"
+                      data-action-id="header-link-origins"
+                    >
+                      {t(translations.mainMenu.labs)}
+                    </span>
+                    <FontAwesomeIcon icon={faChevronDown} size="xs" />
+                  </div>
+                </NavPopover>
               </div>
             </div>
           </div>
