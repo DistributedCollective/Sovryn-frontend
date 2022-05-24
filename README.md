@@ -67,6 +67,7 @@
 Please read our docs page for step by step guides on how to add new tokens, amm pools and etc:
 
 - [Guides & Tutorials](./docs/README.md)
+- [Running on Apple with M1 chip](https://gist.github.com/LeZuse/bf838718ff2689c5fc035c5a6825a11c)
 
 ### Bug Reports
 
