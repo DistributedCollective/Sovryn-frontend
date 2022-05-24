@@ -6,6 +6,7 @@ import { CheckAndApproveResult } from '../../../utils/sovryn/contract-writer';
 import { getBridgeChainId } from '../BridgeDepositPage/utils/helpers';
 import { isMainnet } from '../../../utils/classifiers';
 import { toWei } from '../../../utils/blockchain/math-helpers';
+import { Validation } from './utils/contractUtils';
 
 export const PERPETUAL_SLIPPAGE_DEFAULT = 0.005;
 export const PERPETUAL_EXPIRY_DEFAULT = 30;
@@ -201,6 +202,7 @@ export type PerpetualTradeAnalysis = {
   tradingFee: number;
   requiredAllowance: number;
   loading: boolean;
+  validation?: Validation;
 };
 
 export enum PerpetualTxMethod {

@@ -3,10 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import settingImg from 'assets/images/settings-blue.svg';
 import { TransitionStep } from '../../../../../containers/TransitionSteps';
 import { actions } from '../../../slice';
-import {
-  PerpetualPageModals,
-  PERPETUAL_SLIPPAGE_DEFAULT,
-} from '../../../types';
+import { PerpetualPageModals } from '../../../types';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from '../../../../../../locales/i18n';
 import { AmountInput } from '../../../../../components/Form/AmountInput';
@@ -15,15 +12,10 @@ import { ClosePositionDialogContext } from '..';
 import { PerpetualPairDictionary } from '../../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { AssetValue } from '../../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../../components/AssetValue/types';
-import {
-  getSignedAmount,
-  validatePositionChange,
-} from '../../../utils/contractUtils';
 import { TradingPosition } from '../../../../../../types/trading-position';
 import {
   toWei,
   fromWei,
-  numberFromWei,
 } from '../../../../../../utils/blockchain/math-helpers';
 import { PerpetualTxMethod, PerpetualTx } from '../../../types';
 import { PerpetualQueriesContext } from 'app/pages/PerpetualPage/contexts/PerpetualQueriesContext';
@@ -32,9 +24,10 @@ import { usePerpetual_isTradingInMaintenance } from 'app/pages/PerpetualPage/hoo
 import { selectPerpetualPage } from '../../../selectors';
 import { perpMath, perpUtils } from '@sovryn/perpetual-swap';
 import { getCollateralName } from 'app/pages/PerpetualPage/utils/renderUtils';
+import { usePerpetual_analyseTrade } from '../../../hooks/usePerpetual_analyseTrade';
 
 const { roundToLot } = perpMath;
-const { getTraderPnLInCC, calculateSlippagePrice, getPrice } = perpUtils;
+const { getTraderPnLInCC, getPrice } = perpUtils;
 
 export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
   changeTo,
@@ -42,9 +35,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  const { useMetaTransactions, pairType: currentPairType } = useSelector(
-    selectPerpetualPage,
-  );
+  const { pairType: currentPairType } = useSelector(selectPerpetualPage);
 
   const inMaintenance = usePerpetual_isTradingInMaintenance();
 
@@ -67,7 +58,6 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     averagePrice,
     lotSize,
     lotPrecision,
-    availableBalance,
   } = perpetuals[pair.id];
 
   const collateralName = useMemo(
@@ -80,47 +70,24 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     amountTarget,
     marginChange,
     marginTarget,
-    totalToReceive,
-  } = useMemo(() => {
-    const amountCurrent = trade
-      ? getSignedAmount(trade.position, trade.amount)
-      : 0;
-    const amountChange = changedTrade
-      ? getSignedAmount(changedTrade.position, changedTrade.amount)
-      : 0;
+    limitPrice,
+    validation,
+  } = usePerpetual_analyseTrade(trade);
 
-    const amountTarget = amountCurrent + amountChange;
-    const targetFactor = amountCurrent === 0 ? 1 : amountTarget / amountCurrent;
-    const marginTarget = traderState.availableCashCC * targetFactor;
-    const marginChange = marginTarget - traderState.availableCashCC;
-
-    const limitPrice = calculateSlippagePrice(
-      averagePrice,
-      changedTrade?.slippage || PERPETUAL_SLIPPAGE_DEFAULT,
-      Math.sign(amountChange),
-    );
-
+  const totalToReceive = useMemo(() => {
+    const targetFactor =
+      Math.abs(amountChange) / Math.abs(traderState.marginAccountPositionBC);
     const unrealizedPartial =
       getTraderPnLInCC(traderState, ammState, perpParameters, limitPrice) *
       (1 - targetFactor);
-    const totalToReceive = Math.abs(marginChange) + unrealizedPartial;
-
-    return {
-      amountChange,
-      amountTarget,
-      marginChange,
-      marginTarget,
-      totalToReceive: Number.isNaN(totalToReceive)
-        ? traderState.availableCashCC
-        : totalToReceive,
-    };
+    return Math.abs(marginChange) + unrealizedPartial;
   }, [
-    averagePrice,
-    trade,
-    changedTrade,
+    amountChange,
     traderState,
     ammState,
     perpParameters,
+    limitPrice,
+    marginChange,
   ]);
 
   const onSubmit = useCallback(() => {
@@ -214,34 +181,6 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     },
     [onChange, changedTrade, lotSize, trade?.amount],
   );
-
-  const validation = useMemo(() => {
-    if (!changedTrade || amountTarget === 0) {
-      return;
-    }
-
-    return validatePositionChange(
-      amountChange,
-      marginChange,
-      changedTrade.leverage,
-      changedTrade.slippage,
-      numberFromWei(availableBalance),
-      traderState,
-      perpParameters,
-      ammState,
-      useMetaTransactions,
-    );
-  }, [
-    amountChange,
-    amountTarget,
-    marginChange,
-    changedTrade,
-    availableBalance,
-    traderState,
-    perpParameters,
-    ammState,
-    useMetaTransactions,
-  ]);
 
   const isButtonDisabled = useMemo(
     () =>

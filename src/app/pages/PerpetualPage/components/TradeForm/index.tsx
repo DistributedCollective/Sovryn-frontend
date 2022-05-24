@@ -28,11 +28,7 @@ import { Input } from '../../../../components/Input';
 import { PopoverPosition, Tooltip } from '@blueprintjs/core';
 import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
-import {
-  getSignedAmount,
-  getTradeDirection,
-  validatePositionChange,
-} from '../../utils/contractUtils';
+import { getSignedAmount, getTradeDirection } from '../../utils/contractUtils';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';
 import {
@@ -50,6 +46,7 @@ import { ExpiryDateInput } from './components/ExpiryDateInput';
 import { ResultingPosition } from './components/ResultingPosition';
 import { Checkbox } from 'app/components/Checkbox';
 import { usePerpetual_analyseTrade } from '../../hooks/usePerpetual_analyseTrade';
+import { getTraderPnLInCC } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
 
 const { shrinkToLot } = perpMath;
 const {
@@ -142,11 +139,13 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       traderState.availableCashCC -
       getTradingFee(amountChange, perpParameters, ammState);
     if (useMetaTransactions) {
-      possibleMargin -=
-        gasLimit.deposit_collateral + gasLimit[TxType.PERPETUAL_TRADE];
+      possibleMargin -= gasLimit[TxType.PERPETUAL_TRADE];
     }
 
-    // max leverage for limit and stop orders should equal to max leverage for huge positions and not the actual target amount so we don't allow users to place multiple high leverage small positions
+    // Reduce possible margin slightly to account for calculation
+    possibleMargin += getTraderPnLInCC(traderState, ammState, perpParameters);
+    // max leverage for limit and stop orders should equal to max leverage for huge positions
+    // and not the actual target amount so we don't allow users to place multiple high leverage small positions
     const position =
       trade.tradeType === PerpetualTradeType.MARKET ? amountTarget : 1000000000;
 
@@ -162,6 +161,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
           traderState,
           ammState,
           perpParameters,
+          trade.slippage,
         ),
       ),
     );
@@ -171,6 +171,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     trade.position,
     trade.amount,
     trade.tradeType,
+    trade.slippage,
     traderState,
     availableBalance,
     perpParameters,
@@ -315,36 +316,9 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     orderCost,
     tradingFee,
     limitPrice,
-    amountChange,
     amountTarget,
-    marginChange,
+    validation,
   } = usePerpetual_analyseTrade(trade);
-
-  const validation = useMemo(() => {
-    return amountChange !== 0 || marginChange !== 0
-      ? validatePositionChange(
-          amountChange,
-          marginChange,
-          trade.leverage,
-          trade.slippage,
-          numberFromWei(availableBalance),
-          traderState,
-          perpParameters,
-          ammState,
-          useMetaTransactions,
-        )
-      : undefined;
-  }, [
-    amountChange,
-    marginChange,
-    trade.leverage,
-    trade.slippage,
-    availableBalance,
-    traderState,
-    perpParameters,
-    ammState,
-    useMetaTransactions,
-  ]);
 
   const buttonDisabled = useMemo(
     () =>
@@ -397,10 +371,14 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     () =>
       trade.tradeType === PerpetualTradeType.MARKET &&
       (keepPositionLeverage ||
-        (Number(amount) !== 0 &&
-          (resultingPositionSize === 0 ||
-            Math.sign(resultingPositionSize) !== Math.sign(signedAmount)))),
-    [keepPositionLeverage, amount, resultingPositionSize, signedAmount],
+        (Number(amount) !== 0 && Math.abs(resultingPositionSize) < lotSize)),
+    [
+      trade.tradeType,
+      keepPositionLeverage,
+      amount,
+      resultingPositionSize,
+      lotSize,
+    ],
   );
 
   const onSubmitWrapper = useCallback(() => {
@@ -810,11 +788,14 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         </>
       )}
 
-      {validation && !validation.valid && validation.errors.length > 0 && (
-        <div className="tw-flex tw-flex-col tw-justify-between tw-px-6 tw-py-1 tw-mt-4 tw-text-warning tw-text-xs tw-font-medium tw-border tw-border-warning tw-rounded-lg">
-          {validation.errorMessages}
-        </div>
-      )}
+      {Number(amount) > 0 &&
+        validation &&
+        !validation.valid &&
+        validation.errors.length > 0 && (
+          <div className="tw-flex tw-flex-col tw-justify-between tw-px-6 tw-py-1 tw-mt-4 tw-text-warning tw-text-xs tw-font-medium tw-border tw-border-warning tw-rounded-lg">
+            {validation.errorMessages}
+          </div>
+        )}
       <div className="tw-absolute tw-bottom-0 tw-left-0 tw-right-0">
         {!inMaintenance ? (
           <button

@@ -6,7 +6,10 @@ import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import { useSelector } from 'react-redux';
 import { selectPerpetualPage } from '../selectors';
 import { PerpetualPairDictionary } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
-import { getSignedAmount } from '../utils/contractUtils';
+import {
+  getSignedAmount,
+  validatePositionChange,
+} from '../utils/contractUtils';
 import { numberFromWei } from '../../../../utils/blockchain/math-helpers';
 import {
   getPrice,
@@ -62,6 +65,7 @@ export const usePerpetual_analyseTrade = (
     ammState,
     traderState,
     perpetualParameters: perpParameters,
+    availableBalance,
   } = perpetuals[pair.id];
 
   const {
@@ -112,28 +116,30 @@ export const usePerpetual_analyseTrade = (
           Math.sign(amountChange),
         );
 
-    const orderCost =
-      isLimitOrder && trade.limit
-        ? getEstimatedMarginCollateralForLimitOrder(
-            perpParameters,
-            ammState,
-            trade.leverage,
-            amountChange,
-            numberFromWei(trade.limit),
-            trade.trigger ? numberFromWei(trade.trigger) : undefined,
-          )
-        : getRequiredMarginCollateralWithGasFees(
-            leverageTarget,
-            amountTarget,
-            perpParameters,
-            ammState,
-            traderState,
-            trade.slippage,
-            true,
-            true,
-          );
-
     const marginChange = estimatedMarginTarget - traderState.availableCashCC;
+
+    let orderCost = Math.max(0, marginChange);
+    if (isLimitOrder && trade.limit) {
+      orderCost = getEstimatedMarginCollateralForLimitOrder(
+        perpParameters,
+        ammState,
+        trade.leverage,
+        amountChange,
+        numberFromWei(trade.limit),
+        trade.trigger ? numberFromWei(trade.trigger) : undefined,
+      );
+    } else if (amountChange !== 0) {
+      orderCost = getRequiredMarginCollateralWithGasFees(
+        leverageTarget,
+        amountTarget,
+        perpParameters,
+        ammState,
+        traderState,
+        trade.slippage,
+        true,
+        true,
+      );
+    }
 
     const partialUnrealizedPnL =
       getTraderPnLInCC(traderState, ammState, perpParameters, limitPrice) *
@@ -145,7 +151,7 @@ export const usePerpetual_analyseTrade = (
       ammState,
     );
 
-    return {
+    const analysis: PerpetualTradeAnalysis = {
       amountChange,
       amountTarget,
       marginChange,
@@ -160,6 +166,16 @@ export const usePerpetual_analyseTrade = (
       requiredAllowance: requiredAllowance || 0,
       loading: requiredAllowance === undefined,
     };
+
+    analysis.validation = validatePositionChange(
+      analysis,
+      numberFromWei(availableBalance),
+      traderState,
+      perpParameters,
+      ammState,
+    );
+
+    return analysis;
   }, [
     requiredAllowance,
     account,
@@ -172,6 +188,7 @@ export const usePerpetual_analyseTrade = (
     estimatedMarginTarget,
     amountTarget,
     lockedIn,
+    availableBalance,
   ]);
 
   useEffect(() => {
@@ -222,7 +239,7 @@ export const usePerpetual_analyseTrade = (
         openOrders.current = orders;
       }
 
-      return getEstimatedMarginCollateralForTrader(
+      const requiredAllowance = getEstimatedMarginCollateralForTrader(
         analysis.amountChange,
         trade.leverage,
         orders,
@@ -233,6 +250,13 @@ export const usePerpetual_analyseTrade = (
         trade.limit ? numberFromWei(trade.limit) : null,
         trade.trigger ? numberFromWei(trade.trigger) : null,
       );
+
+      if (analysis.amountChange === 0) {
+        // only margin is being changed,
+        // so take the open orders allowance and add the order cost.
+        return requiredAllowance + analysis.orderCost;
+      }
+      return requiredAllowance;
     };
 
     const isAllowanceRequired = analysis.marginChange > 0;
@@ -244,14 +268,18 @@ export const usePerpetual_analyseTrade = (
           if (cancelled) {
             return;
           }
-          console.log(`Trade needs ${requiredAllowance} allowance`);
-          setRequiredAllowance(requiredAllowance);
+          // add 1% allowance to account for estimation accuracy
+          const requiredAllowanceWithMargin = requiredAllowance * 1.01;
+          setRequiredAllowance(requiredAllowanceWithMargin);
         })
         .catch(console.error);
     } else {
-      console.log('Trade does not need allowance.');
       setRequiredAllowance(0);
     }
+
+    return () => {
+      cancelled = true;
+    };
   }, [
     lockedIn,
     analysis,

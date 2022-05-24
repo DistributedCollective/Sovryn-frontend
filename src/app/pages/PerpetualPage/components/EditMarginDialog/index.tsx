@@ -21,7 +21,10 @@ import classNames from 'classnames';
 import { LeverageViewer } from '../LeverageViewer';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { AmountInput } from '../../../../components/Form/AmountInput';
-import { validatePositionChange } from '../../utils/contractUtils';
+import {
+  validatePositionChange,
+  getTradeDirection,
+} from '../../utils/contractUtils';
 import {
   toWei,
   numberFromWei,
@@ -32,6 +35,7 @@ import { ActionDialogSubmitButton } from '../ActionDialogSubmitButton';
 import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';
 import { getCollateralName } from '../../utils/renderUtils';
 import { perpUtils } from '@sovryn/perpetual-swap';
+import { calculateSlippagePrice } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
 
 const {
   calculateApproxLiquidationPrice,
@@ -52,7 +56,6 @@ export const EditMarginDialog: React.FC = () => {
     collateral,
     modal,
     modalOptions,
-    useMetaTransactions,
   } = useSelector(selectPerpetualPage);
 
   const inMaintenance = usePerpetual_isTradingInMaintenance();
@@ -192,15 +195,22 @@ export const EditMarginDialog: React.FC = () => {
       return;
     }
     return validatePositionChange(
-      0,
-      signedMargin,
-      changedTrade.leverage,
-      changedTrade.slippage,
+      {
+        amountChange: 0,
+        marginChange: signedMargin,
+        orderCost: Math.max(signedMargin, 0),
+        limitPrice: calculateSlippagePrice(
+          changedTrade.averagePrice
+            ? numberFromWei(changedTrade.averagePrice)
+            : 0,
+          changedTrade.slippage,
+          getTradeDirection(changedTrade.position),
+        ),
+      },
       numberFromWei(availableBalance),
       traderState,
       perpParameters,
       ammState,
-      useMetaTransactions,
     );
   }, [
     changedTrade,
@@ -209,7 +219,6 @@ export const EditMarginDialog: React.FC = () => {
     traderState,
     perpParameters,
     ammState,
-    useMetaTransactions,
   ]);
 
   const isButtonDisabled = useMemo(

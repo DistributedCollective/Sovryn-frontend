@@ -15,7 +15,6 @@ import { getContract } from 'utils/blockchain/contract-helpers';
 import marginTokenAbi from 'utils/blockchain/abi/MarginToken.json';
 import { TradingPosition } from 'types/trading-position';
 import {
-  getRequiredMarginCollateralWithGasFees,
   MASK_CLOSE_ONLY,
   MASK_MARKET_ORDER,
   MASK_LIMIT_ORDER,
@@ -37,6 +36,7 @@ import {
   PERPETUAL_SLIPPAGE_DEFAULT,
   PERPETUAL_CHAIN_ID,
   PERPETUAL_CHAIN,
+  PerpetualTradeAnalysis,
 } from '../types';
 import { BridgeNetworkDictionary } from '../../BridgeDepositPage/dictionaries/bridge-network-dictionary';
 import { Trans } from 'react-i18next';
@@ -58,7 +58,6 @@ import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
 import { PerpetualPairDictionary } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 
 const {
-  calculateSlippagePriceFromMidPrice,
   calculateSlippagePrice,
   createOrderDigest,
   getPrice,
@@ -208,15 +207,14 @@ export type Validation = {
 };
 
 export const validatePositionChange = (
-  amountChange: number,
-  marginChange: number,
-  targetLeverage: number,
-  slippage: number,
+  analysis: Pick<
+    PerpetualTradeAnalysis,
+    'amountChange' | 'marginChange' | 'limitPrice' | 'orderCost'
+  >,
   availableBalance: number,
   traderState: TraderState,
   perpParameters: PerpParameters,
   ammState: AMMState,
-  useMetaTransactions: boolean,
 ) => {
   const result: Validation = {
     valid: true,
@@ -229,19 +227,17 @@ export const validatePositionChange = (
     return undefined;
   }
 
-  if (amountChange !== 0) {
-    const slippagePrice = calculateSlippagePriceFromMidPrice(
+  if (analysis.amountChange !== 0) {
+    const expectedPrice = getPrice(
+      analysis.amountChange,
       perpParameters,
       ammState,
-      slippage,
-      Math.sign(amountChange),
     );
-    const expectedPrice = getPrice(amountChange, perpParameters, ammState);
 
     if (
-      amountChange > 0
-        ? expectedPrice > slippagePrice
-        : expectedPrice < slippagePrice
+      analysis.amountChange > 0
+        ? expectedPrice > analysis.limitPrice
+        : expectedPrice < analysis.limitPrice
     ) {
       const midPrice = getMidPrice(perpParameters, ammState);
       const requiredSlippage = Math.abs(expectedPrice - midPrice) / midPrice;
@@ -263,8 +259,8 @@ export const validatePositionChange = (
   if (
     !isTraderInitialMarginSafe(
       traderState,
-      marginChange,
-      amountChange,
+      analysis.marginChange,
+      analysis.amountChange,
       perpParameters,
       ammState,
     )
@@ -281,20 +277,8 @@ export const validatePositionChange = (
     );
   }
 
-  if (amountChange !== 0 || marginChange !== 0) {
-    const targetAmount = amountChange + traderState.marginAccountPositionBC;
-
-    const requiredMargin = getRequiredMarginCollateralWithGasFees(
-      targetLeverage,
-      targetAmount,
-      perpParameters,
-      ammState,
-      traderState,
-      slippage,
-      useMetaTransactions,
-    );
-
-    if (requiredMargin > traderState.availableCashCC + availableBalance) {
+  if (analysis.amountChange !== 0 || analysis.marginChange !== 0) {
+    if (analysis.orderCost > availableBalance) {
       result.valid = false;
       result.isWarning = true;
       result.errors.push(new Error('Order cost exceeds total balance!'));

@@ -30,12 +30,15 @@ import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext'
 import {
   getSignedAmount,
   validatePositionChange,
+  getTradeDirection,
 } from '../../utils/contractUtils';
 import { ActionDialogSubmitButton } from '../ActionDialogSubmitButton';
 import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';
 import { usePrevious } from '../../../../hooks/usePrevious';
 import { perpUtils } from '@sovryn/perpetual-swap';
 import { getCollateralName } from '../../utils/renderUtils';
+import { calculateSlippagePrice } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
+import { ResultingPosition } from '../TradeForm/components/ResultingPosition';
 
 const {
   getRequiredMarginCollateral,
@@ -46,12 +49,9 @@ const {
 export const EditLeverageDialog: React.FC = () => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const {
-    pairType: currentPairType,
-    modal,
-    modalOptions,
-    useMetaTransactions,
-  } = useSelector(selectPerpetualPage);
+  const { pairType: currentPairType, modal, modalOptions } = useSelector(
+    selectPerpetualPage,
+  );
 
   const inMaintenance = usePerpetual_isTradingInMaintenance();
 
@@ -153,7 +153,15 @@ export const EditLeverageDialog: React.FC = () => {
     dispatch(
       actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
         origin: PerpetualPageModals.EDIT_LEVERAGE,
-        trade: { ...changedTrade, leverage },
+        trade: {
+          ...changedTrade,
+          amount: '0',
+          margin: toWei(marginChange),
+          leverage:
+            marginChange >= 0
+              ? Number.POSITIVE_INFINITY
+              : Number.NEGATIVE_INFINITY,
+        },
         transactions: [
           marginChange >= 0
             ? {
@@ -180,14 +188,7 @@ export const EditLeverageDialog: React.FC = () => {
         ],
       }),
     );
-  }, [
-    dispatch,
-    changedTrade,
-    leverage,
-    margin,
-    traderState.availableCashCC,
-    pair,
-  ]);
+  }, [dispatch, changedTrade, margin, traderState.availableCashCC, pair]);
 
   const validation = useMemo(() => {
     if (!changedTrade) {
@@ -196,15 +197,22 @@ export const EditLeverageDialog: React.FC = () => {
     const marginChange = margin - traderState.availableCashCC;
 
     return validatePositionChange(
-      0,
-      marginChange,
-      changedTrade.leverage,
-      changedTrade.slippage,
+      {
+        amountChange: 0,
+        marginChange,
+        orderCost: Math.max(marginChange, 0),
+        limitPrice: calculateSlippagePrice(
+          changedTrade.averagePrice
+            ? numberFromWei(changedTrade.averagePrice)
+            : 0,
+          changedTrade.slippage,
+          getTradeDirection(changedTrade.position),
+        ),
+      },
       numberFromWei(availableBalance),
       traderState,
       perpParameters,
       ammState,
-      useMetaTransactions,
     );
   }, [
     changedTrade,
@@ -213,7 +221,6 @@ export const EditLeverageDialog: React.FC = () => {
     traderState,
     perpParameters,
     ammState,
-    useMetaTransactions,
   ]);
 
   const isButtonDisabled = useMemo(

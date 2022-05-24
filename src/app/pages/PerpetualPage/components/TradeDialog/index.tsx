@@ -87,7 +87,10 @@ export const TradeDialog: React.FC = () => {
     [pairType, trade?.pairType],
   );
 
-  const analysis = usePerpetual_analyseTrade(trade, !!currentTransaction);
+  const analysis = usePerpetual_analyseTrade(
+    trade,
+    currentTransaction !== undefined,
+  );
 
   const onClose = useCallback(
     () => dispatch(actions.setModal(PerpetualPageModals.NONE)),
