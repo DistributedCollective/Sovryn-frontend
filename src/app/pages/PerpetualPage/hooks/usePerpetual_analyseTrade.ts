@@ -87,11 +87,6 @@ export const usePerpetual_analyseTrade = (
       return defaultAnalysis;
     }
 
-    const isLimitOrder = [
-      PerpetualTradeType.LIMIT,
-      PerpetualTradeType.STOP,
-    ].includes(trade?.tradeType);
-
     const amountChange = getSignedAmount(trade.position, trade.amount);
 
     const isNewPosition =
@@ -119,7 +114,13 @@ export const usePerpetual_analyseTrade = (
     const marginChange = estimatedMarginTarget - traderState.availableCashCC;
 
     let orderCost = Math.max(0, marginChange);
-    if (isLimitOrder && trade.limit) {
+
+    const isLimitOrder =
+      [PerpetualTradeType.LIMIT, PerpetualTradeType.STOP].includes(
+        trade?.tradeType,
+      ) && trade.limit;
+
+    if (isLimitOrder) {
       orderCost = getEstimatedMarginCollateralForLimitOrder(
         perpParameters,
         ammState,

@@ -55,8 +55,13 @@ export const usePerpetual_calculateResultingPosition = (
       return 0;
     }
 
+    const isLimitOrder =
+      [PerpetualTradeType.LIMIT, PerpetualTradeType.STOP].includes(
+        trade.tradeType,
+      ) && trade.limit !== undefined;
+
     // trader doesn't have an open position or is flipping their position direction
-    if (!traderState.marginAccountPositionBC || trade.limit !== undefined) {
+    if (!traderState.marginAccountPositionBC || isLimitOrder) {
       return trade.leverage;
     }
 
