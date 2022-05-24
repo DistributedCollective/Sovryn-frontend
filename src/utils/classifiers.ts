@@ -27,7 +27,11 @@ export const blockExplorers = {
 };
 
 export const rpcNodes = {
-  30: ['https://mainnet.sovryn.app/rpc', 'https://public-node.rsk.co/'],
+  30: [
+    'https://mainnet.sovryn.app/rpc',
+    'https://mainnet2.sovryn.app/rpc',
+    'https://public-node.rsk.co/',
+  ],
   31: ['https://testnet.sovryn.app/rpc', 'https://public-node.testnet.rsk.co/'],
   56: 'wss://bsc.sovryn.app/mainnet',
   97: 'wss://bsctestnet.sovryn.app/websocket',
@@ -65,7 +69,7 @@ export const gasLimit = {
   [TxType.APPROVE]: 100000,
   [TxType.TRADE]: 3750000,
   [TxType.CLOSE_WITH_SWAP]: 2300000,
-  [TxType.CLOSE_WITH_DEPOSIT]: 500000,
+  [TxType.CLOSE_WITH_DEPOSIT]: 950000,
   [TxType.ADD_LIQUIDITY]: 500000,
   [TxType.REMOVE_LIQUIDITY]: 650000,
   [TxType.BORROW]: 1500000,

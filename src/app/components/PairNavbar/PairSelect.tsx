@@ -56,7 +56,7 @@ export const PairSelect: React.FC<IPairSelect> = ({
           { 'tw-rounded-b-lg': !isOpen },
           'tw-flex tw-h-full tw-items-center tw-py-1 tw-bg-gray-2 lg:tw-px-8 tw-px-4 tw-rounded-t-lg tw-cursor-pointer tw-select-none tw-transition-opacity hover:tw-bg-opacity-75',
         )}
-        data-action-id={`${type}-pairselect`}
+        data-action-id={`${type}-pairSelector`}
       >
         <div className="tw-flex-1">
           <Pair
@@ -95,7 +95,7 @@ export const PairSelect: React.FC<IPairSelect> = ({
             prependElem={
               <img className="tw-w-5" src={searchIcon} alt="Search" />
             }
-            data-action-id={`${type}-search-input`}
+            data-action-id={`${type}-pairSelector-search-input`}
           />
 
           <div className="tw-flex tw-items-center tw-mt-3">
