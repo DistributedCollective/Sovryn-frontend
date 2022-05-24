@@ -95,6 +95,11 @@ export const EditMarginDialog: React.FC = () => {
   const [margin, setMargin] = useState('0');
   const [changedTrade, setChangedTrade] = useState(trade);
 
+  const signedMargin = useMemo(
+    () => (mode === EditMarginDialogMode.increase ? 1 : -1) * Number(margin),
+    [mode, margin],
+  );
+
   const onClose = useCallback(
     () => dispatch(actions.setModal(PerpetualPageModals.NONE)),
     [dispatch],
@@ -106,13 +111,18 @@ export const EditMarginDialog: React.FC = () => {
       dispatch(
         actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
           origin: PerpetualPageModals.EDIT_MARGIN,
-          trade: changedTrade,
+          trade: {
+            ...changedTrade,
+            amount: '0',
+            margin: toWei(signedMargin),
+            leverage: NaN,
+          },
           transactions: [
-            mode === EditMarginDialogMode.increase
+            signedMargin >= 0
               ? {
                   pair: pair.pairType,
                   method: PerpetualTxMethod.deposit,
-                  amount: toWei(margin),
+                  amount: toWei(signedMargin),
                   approvalTx: null,
                   tx: null,
                   origin: PerpetualPageModals.EDIT_MARGIN,
@@ -120,14 +130,14 @@ export const EditMarginDialog: React.FC = () => {
               : {
                   pair: pair.pairType,
                   method: PerpetualTxMethod.withdraw,
-                  amount: toWei(margin),
+                  amount: toWei(-signedMargin),
                   tx: null,
                   origin: PerpetualPageModals.EDIT_MARGIN,
                 },
           ],
         }),
       ),
-    [dispatch, changedTrade, mode, margin, pair],
+    [dispatch, changedTrade, signedMargin, pair],
   );
 
   const [maxAmount, maxAmountWei] = useMemo(() => {
@@ -143,11 +153,6 @@ export const EditMarginDialog: React.FC = () => {
       return [maxAmount, toWei(maxAmount)];
     }
   }, [mode, availableBalance, traderState, perpParameters, ammState]);
-
-  const signedMargin = useMemo(
-    () => (mode === EditMarginDialogMode.increase ? 1 : -1) * Number(margin),
-    [mode, margin],
-  );
 
   const onChangeMargin = useCallback(
     (value?: string) => {

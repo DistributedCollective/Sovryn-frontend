@@ -38,7 +38,6 @@ import { usePrevious } from '../../../../hooks/usePrevious';
 import { perpUtils } from '@sovryn/perpetual-swap';
 import { getCollateralName } from '../../utils/renderUtils';
 import { calculateSlippagePrice } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
-import { ResultingPosition } from '../TradeForm/components/ResultingPosition';
 
 const {
   getRequiredMarginCollateral,
@@ -157,10 +156,7 @@ export const EditLeverageDialog: React.FC = () => {
           ...changedTrade,
           amount: '0',
           margin: toWei(marginChange),
-          leverage:
-            marginChange >= 0
-              ? Number.POSITIVE_INFINITY
-              : Number.NEGATIVE_INFINITY,
+          leverage: Number.NaN,
         },
         transactions: [
           marginChange >= 0
