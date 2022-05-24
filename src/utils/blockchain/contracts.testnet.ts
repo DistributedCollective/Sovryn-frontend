@@ -125,7 +125,7 @@ export const contracts = {
     blockNumber: 1408174,
   },
   XUSD_lending: {
-    address: '0x9bD0cE087b14ef67C3D37C891139AaE7d94a961A',
+    address: '0xE27428101550f8104A6d06D830e2E0a097e1d006',
     abi: LoanTokenLogicStandard,
     blockNumber: 1406290,
   },
