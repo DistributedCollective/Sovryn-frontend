@@ -11,6 +11,7 @@ export const currentNetwork: AppMode | string =
   String(process.env.REACT_APP_NETWORK).toLowerCase() || AppMode.MAINNET;
 
 export const isMainnet = currentNetwork === 'mainnet';
+export const isStaging = !!process.env.REACT_APP_STAGING;
 
 export const currentChainId = chains[currentNetwork];
 
@@ -40,6 +41,13 @@ export const bitocracyUrl =
   currentNetwork === AppMode.MAINNET
     ? 'https://bitocracy.sovryn.app'
     : 'https://bitocracy.test.sovryn.app';
+
+export const zeroUrl =
+  currentNetwork === AppMode.MAINNET
+    ? isStaging
+      ? 'https://staging.sovryn.app/zero'
+      : 'https://live.sovryn.app/zero'
+    : 'https://test.sovryn.app/zero';
 
 export const databaseRpcNodes = {
   30: 'https://backend.sovryn.app/rpc',
