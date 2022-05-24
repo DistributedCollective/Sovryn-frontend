@@ -9,6 +9,7 @@ export enum Asset {
   RDOC = 'RDOC',
   USDT = 'USDT',
   XUSD = 'XUSD',
+  XUSD_legacy = 'XUSD_legacy',
   BPRO = 'BPRO',
   SOV = 'SOV',
   MOC = 'MOC',

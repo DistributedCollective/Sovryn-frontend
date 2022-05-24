@@ -129,6 +129,17 @@ export const contracts = {
     abi: LoanTokenLogicStandard,
     blockNumber: 1406290,
   },
+  /** @deprecated */
+  XUSD_legacy_token: {
+    address: '0x74858FE37d391f81F89472e1D8BC8Ef9CF67B3b1',
+    abi: erc20TokenAbi,
+    blockNumber: 1408174,
+  },
+  XUSD_legacy_lending: {
+    address: '0x9bD0cE087b14ef67C3D37C891139AaE7d94a961A',
+    abi: LoanTokenLogicStandard,
+    blockNumber: 1406290,
+  },
   BPRO_token: {
     address: '0x4dA7997A819bb46B6758b9102234c289Dd2ad3bf',
     abi: erc20TokenAbi,
