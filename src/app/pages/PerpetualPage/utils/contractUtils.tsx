@@ -256,7 +256,12 @@ export const validatePositionChange = (
     }
   }
 
+  const isClosingTrade =
+    Math.abs(traderState.marginAccountPositionBC + analysis.amountChange) <
+    perpParameters.fLotSizeBC;
+
   if (
+    !isClosingTrade &&
     !isTraderInitialMarginSafe(
       traderState,
       analysis.marginChange,

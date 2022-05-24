@@ -2,7 +2,7 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { bignumber } from 'mathjs';
 import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { translations } from '../../../../../locales/i18n';
 import { numberFromWei } from '../../../../../utils/blockchain/math-helpers';
@@ -10,8 +10,6 @@ import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpe
 import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
-import { actions } from '../../slice';
-import { PerpetualPageModals } from '../../types';
 import {
   BarCompositionChart,
   BarCompositionChartEntry,
@@ -30,7 +28,6 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
   onOpenTransactionHistory,
 }) => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const history = useHistory();
 
   const { collateral, pairType, isAddressWhitelisted } = useSelector(

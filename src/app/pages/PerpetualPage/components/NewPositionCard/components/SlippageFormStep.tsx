@@ -29,7 +29,7 @@ export const SlippageFormStep: TransitionStep<NewPositionCardStep> = ({
   const { perpetuals } = useContext(PerpetualQueriesContext);
   const { averagePrice } = perpetuals[currentPairId];
 
-  const { trade, onChangeTrade } = useContext(NewPositionCardContext);
+  const { trade, setTrade } = useContext(NewPositionCardContext);
 
   const {
     estimatedLiquidationPrice: liquidationPrice,
@@ -44,8 +44,8 @@ export const SlippageFormStep: TransitionStep<NewPositionCardStep> = ({
     [changeTo],
   );
   const onChangeSlippage = useCallback(
-    slippage => onChangeTrade({ ...trade, slippage }),
-    [trade, onChangeTrade],
+    slippage => setTrade({ ...trade, slippage }),
+    [trade, setTrade],
   );
 
   const minEntryPrice = useMemo(

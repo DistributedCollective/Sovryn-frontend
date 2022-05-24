@@ -72,8 +72,6 @@ export const usePerpetual_transaction = (
 
       const txType: TxType = PerpetualTxMethodTypeMap[transaction.method];
 
-      console.log('execute', transaction);
-
       return send(
         await perpetualTransactionArgs(pair, account, transaction),
         {

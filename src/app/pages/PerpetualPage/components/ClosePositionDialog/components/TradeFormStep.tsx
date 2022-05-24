@@ -12,7 +12,6 @@ import { ClosePositionDialogContext } from '..';
 import { PerpetualPairDictionary } from '../../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { AssetValue } from '../../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../../components/AssetValue/types';
-import { TradingPosition } from '../../../../../../types/trading-position';
 import {
   toWei,
   fromWei,
@@ -27,7 +26,7 @@ import { getCollateralName } from 'app/pages/PerpetualPage/utils/renderUtils';
 import { usePerpetual_analyseTrade } from '../../../hooks/usePerpetual_analyseTrade';
 
 const { roundToLot } = perpMath;
-const { getTraderPnLInCC, getPrice } = perpUtils;
+const { getPrice } = perpUtils;
 
 export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
   changeTo,
@@ -53,7 +52,6 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
 
   const {
     ammState,
-    traderState,
     perpetualParameters: perpParameters,
     averagePrice,
     lotSize,
@@ -70,25 +68,11 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     amountTarget,
     marginChange,
     marginTarget,
-    limitPrice,
     validation,
-  } = usePerpetual_analyseTrade(trade);
+    partialUnrealizedPnL,
+  } = usePerpetual_analyseTrade(changedTrade);
 
-  const totalToReceive = useMemo(() => {
-    const targetFactor =
-      Math.abs(amountChange) / Math.abs(traderState.marginAccountPositionBC);
-    const unrealizedPartial =
-      getTraderPnLInCC(traderState, ammState, perpParameters, limitPrice) *
-      (1 - targetFactor);
-    return Math.abs(marginChange) + unrealizedPartial;
-  }, [
-    amountChange,
-    traderState,
-    ammState,
-    perpParameters,
-    limitPrice,
-    marginChange,
-  ]);
+  const totalToReceive = partialUnrealizedPnL - marginChange;
 
   const onSubmit = useCallback(() => {
     if (!changedTrade) {
@@ -98,11 +82,10 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     const targetTrade = {
       ...changedTrade,
       amount: toWei(Math.abs(amountTarget)),
-      margin: toWei(Number.isNaN(marginTarget) ? 0 : marginTarget), // marginTarget is NaN in case we don't have a position but we successfully deposited a margin
-      position:
-        amountTarget >= 0 ? TradingPosition.LONG : TradingPosition.SHORT,
       averagePrice: toWei(averagePrice),
       entryPrice: toWei(getPrice(amountTarget, perpParameters, ammState)),
+      isClosePosition: true,
+      keepPositionLeverage: true,
     };
 
     let transactions: PerpetualTx[] = [];
@@ -111,20 +94,13 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
         pair: pair.pairType,
         method: PerpetualTxMethod.trade,
         isClosePosition: true,
+        keepPositionLeverage: true,
         price: targetTrade.averagePrice,
         amount: toWei(amountChange),
         slippage: changedTrade?.slippage,
         tx: null,
         approvalTx: null,
       });
-      if (Math.abs(amountTarget) >= lotSize) {
-        transactions.push({
-          pair: pair.pairType,
-          method: PerpetualTxMethod.withdraw,
-          amount: toWei(Math.abs(totalToReceive)),
-          tx: null,
-        });
-      }
     } else {
       // marginTarget is NaN in case we don't have a position but we successfully deposited a margin: [
       transactions.push({
@@ -155,8 +131,6 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
     amountTarget,
     amountChange,
     marginTarget,
-    totalToReceive,
-    lotSize,
     pair,
     ammState,
     perpParameters,
@@ -164,19 +138,20 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
 
   const onChangeAmount = useCallback(
     (value: string) => {
-      let amount = Number(value);
+      const amount = Number(value);
       if (!changedTrade || !Number.isFinite(amount)) {
         return;
       }
 
-      amount = roundToLot(
+      const clampedAmount = roundToLot(
         Math.max(0, Math.min(Number(fromWei(trade?.amount || '0')), amount)),
         lotSize || 1,
       );
 
       onChange({
         ...changedTrade,
-        amount: toWei(amount),
+        amount: toWei(clampedAmount),
+        keepPositionLeverage: true,
       });
     },
     [onChange, changedTrade, lotSize, trade?.amount],

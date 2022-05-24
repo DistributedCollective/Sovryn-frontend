@@ -5,6 +5,7 @@ import {
   calculateResultingPositionLeverage,
   calculateApproxLiquidationPrice,
   calculateLeverage,
+  getRequiredMarginCollateral,
 } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
 import { roundToLot } from '@sovryn/perpetual-swap/dist/scripts/utils/perpMath';
 import { numberFromWei } from 'utils/blockchain/math-helpers';
@@ -55,7 +56,7 @@ export const usePerpetual_calculateResultingPosition = (
     }
 
     // trader doesn't have an open position or is flipping their position direction
-    if (!traderState.marginAccountPositionBC) {
+    if (!traderState.marginAccountPositionBC || trade.limit !== undefined) {
       return trade.leverage;
     }
 
@@ -93,13 +94,30 @@ export const usePerpetual_calculateResultingPosition = (
     );
   }, [trade, signedOrderSize, traderState, ammState, perpParameters, size]);
 
-  const estimatedMargin = useMemo(
-    () =>
-      trade?.margin
-        ? numberFromWei(trade.margin) + traderState.availableCashCC
-        : Math.abs(size) / leverage,
-    [trade?.margin, leverage, size, traderState.availableCashCC],
-  );
+  const estimatedMargin = useMemo(() => {
+    if (trade?.margin && trade?.margin !== '0') {
+      return numberFromWei(trade.margin) + traderState.availableCashCC;
+    }
+
+    return getRequiredMarginCollateral(
+      leverage,
+      size,
+      perpParameters,
+      ammState,
+      traderState,
+      trade?.slippage,
+      false,
+      false,
+    );
+  }, [
+    trade?.margin,
+    leverage,
+    size,
+    traderState,
+    perpParameters,
+    ammState,
+    trade?.slippage,
+  ]);
 
   const estimatedLiquidationPrice = useMemo(() => {
     return size === 0

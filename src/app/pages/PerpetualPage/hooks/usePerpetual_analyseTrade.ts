@@ -49,7 +49,7 @@ export const usePerpetual_analyseTrade = (
   const account = useAccount();
   const { perpetuals } = useContext(PerpetualQueriesContext);
 
-  const { pairType } = useSelector(selectPerpetualPage);
+  const { pairType, useMetaTransactions } = useSelector(selectPerpetualPage);
 
   const pair = useMemo(
     () => PerpetualPairDictionary.get(trade?.pairType || pairType),
@@ -136,6 +136,7 @@ export const usePerpetual_analyseTrade = (
         ammState,
         traderState,
         trade.slippage,
+        useMetaTransactions,
         true,
         true,
       );
@@ -189,6 +190,7 @@ export const usePerpetual_analyseTrade = (
     amountTarget,
     lockedIn,
     availableBalance,
+    useMetaTransactions,
   ]);
 
   useEffect(() => {
@@ -239,17 +241,18 @@ export const usePerpetual_analyseTrade = (
         openOrders.current = orders;
       }
 
-      const requiredAllowance = getEstimatedMarginCollateralForTrader(
-        analysis.amountChange,
-        trade.leverage,
-        orders,
-        perpParameters,
-        ammState,
-        traderState,
-        trade.slippage,
-        trade.limit ? numberFromWei(trade.limit) : null,
-        trade.trigger ? numberFromWei(trade.trigger) : null,
-      );
+      const requiredAllowance =
+        getEstimatedMarginCollateralForTrader(
+          analysis.amountChange,
+          trade.leverage,
+          orders,
+          perpParameters,
+          ammState,
+          traderState,
+          trade.slippage,
+          trade.limit ? numberFromWei(trade.limit) : null,
+          trade.trigger ? numberFromWei(trade.trigger) : null,
+        ) || 0;
 
       if (analysis.amountChange === 0) {
         // only margin is being changed,

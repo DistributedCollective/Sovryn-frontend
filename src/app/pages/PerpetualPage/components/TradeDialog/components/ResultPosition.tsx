@@ -57,7 +57,7 @@ export const ResultPosition: React.FC<ResultPositionProps> = ({
 
   if (
     origin === PerpetualPageModals.CLOSE_POSITION ||
-    Math.abs(marginTarget) < lotSize
+    Math.abs(amountTarget) < lotSize
   ) {
     return (
       <div className="tw-text-sm tw-mt-6 tw-mb-2 tw-text-center tw-text-sov-white tw-font-medium">

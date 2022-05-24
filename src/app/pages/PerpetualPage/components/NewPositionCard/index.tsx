@@ -43,7 +43,7 @@ export const NewPositionCardContext = React.createContext<
     leverage: 1,
     slippage: PERPETUAL_SLIPPAGE_DEFAULT,
   },
-  onChangeTrade: noop,
+  setTrade: trade => trade,
   onSubmit: noop,
 });
 
@@ -166,7 +166,7 @@ export const NewPositionCard: React.FC = () => {
       hasEmptyBalance,
       trade,
       onSubmit,
-      onChangeTrade: setTrade,
+      setTrade,
     }),
     [trade, onSubmit, hasOpenPosition, hasEmptyBalance],
   );

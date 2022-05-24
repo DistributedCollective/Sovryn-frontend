@@ -4,6 +4,8 @@ import React, {
   useEffect,
   useMemo,
   useState,
+  Dispatch,
+  SetStateAction,
 } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
@@ -62,7 +64,7 @@ const {
 interface ITradeFormProps {
   trade: PerpetualTrade;
   disabled?: boolean;
-  onChange: (trade: PerpetualTrade) => void;
+  setTrade: Dispatch<SetStateAction<PerpetualTrade>>;
   onSubmit: (trade: PerpetualTrade) => void;
   onOpenSlippage: () => void;
 }
@@ -70,7 +72,7 @@ interface ITradeFormProps {
 export const TradeForm: React.FC<ITradeFormProps> = ({
   trade,
   disabled,
-  onChange,
+  setTrade,
   onSubmit,
   onOpenSlippage,
 }) => {
@@ -203,24 +205,13 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       );
       setAmount(amount);
 
-      let newTrade = { ...trade, amount: toWei(roundedAmount) };
-
-      newTrade.leverage = Math.max(
-        minLeverage,
-        Math.min(maxLeverage, newTrade.leverage),
-      );
-
-      onChange(newTrade);
+      setTrade(trade => ({
+        ...trade,
+        amount: toWei(roundedAmount),
+        leverage: Math.max(minLeverage, Math.min(maxLeverage, trade.leverage)),
+      }));
     },
-    [
-      onChange,
-      trade,
-      lotSize,
-      lotPrecision,
-      maxTradeSize,
-      minLeverage,
-      maxLeverage,
-    ],
+    [lotSize, lotPrecision, maxTradeSize, minLeverage, maxLeverage, setTrade],
   );
 
   const onBlurOrderAmount = useCallback(() => {
@@ -237,61 +228,60 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     [trade.position, trade.amount, perpParameters, ammState],
   );
 
-  const [limit, setLimit] = useState(trade.limit);
+  const [limit, setLimit] = useState<string>();
   const onChangeOrderLimit = useCallback(
     (limit: string) => {
       setLimit(limit);
-      onChange({ ...trade, limit: toWei(limit) });
+      setTrade(trade => ({ ...trade, limit: toWei(limit) }));
     },
-    [onChange, trade],
+    [setTrade],
   );
 
-  useEffect(() => {
-    if (!trade.limit || bignumber(trade.limit).lessThanOrEqualTo(0)) {
-      setLimit(String(Math.floor(entryPrice)));
-    }
-  }, [entryPrice, trade.limit]);
-
-  const [triggerPrice, setTriggerPrice] = useState(trade.trigger);
+  const [triggerPrice, setTriggerPrice] = useState<string>();
   const onChangeTriggerPrice = useCallback(
     (triggerPrice: string) => {
       setTriggerPrice(triggerPrice);
-      onChange({ ...trade, trigger: toWei(triggerPrice) });
+      setTrade(trade => ({ ...trade, trigger: toWei(triggerPrice) }));
     },
-    [onChange, trade],
+    [setTrade],
   );
 
   useEffect(() => {
-    if (!trade.trigger || bignumber(trade.trigger).lessThanOrEqualTo(0)) {
-      setTriggerPrice(String(Math.floor(entryPrice)));
+    if (entryPrice && (limit === undefined || triggerPrice === undefined)) {
+      setTrade(trade => ({
+        ...trade,
+        limit: limit === undefined ? toWei(entryPrice) : trade.limit,
+        trigger: triggerPrice === undefined ? toWei(entryPrice) : trade.trigger,
+      }));
     }
-  }, [entryPrice, trade.trigger]);
+  }, [entryPrice, limit, triggerPrice, setTrade]);
 
   const [expiry, setExpiry] = useState(String(PERPETUAL_EXPIRY_DEFAULT));
   const onChangeExpiry = useCallback(
     (expiry: string) => {
       setExpiry(expiry);
-      onChange({ ...trade, expiry: Number(expiry) });
+      setTrade(trade => ({ ...trade, expiry: Number(expiry) }));
     },
-    [onChange, trade],
+    [setTrade],
   );
 
   const onChangeLeverage = useCallback(
     (leverage: number) => {
-      onChange({ ...trade, leverage });
+      setTrade({ ...trade, leverage });
     },
-    [onChange, trade],
+    [setTrade, trade],
   );
 
   const bindSelectPosition = useCallback(
-    (position: TradingPosition) => () => onChange({ ...trade, position }),
-    [trade, onChange],
+    (position: TradingPosition) => () =>
+      setTrade(trade => ({ ...trade, position })),
+    [setTrade],
   );
 
   const bindSelectTradeType = useCallback(
     (tradeType: PerpetualTradeType) => () =>
-      onChange({ ...trade, tradeType: tradeType }),
-    [onChange, trade],
+      setTrade(trade => ({ ...trade, tradeType: tradeType })),
+    [setTrade],
   );
 
   const tradeButtonLabel = useMemo(() => {
@@ -340,12 +330,12 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       ),
     );
     if (Number.isFinite(leverage) && trade.leverage !== leverage) {
-      onChange({
+      setTrade({
         ...trade,
         leverage,
       });
     }
-  }, [trade, minLeverage, maxLeverage, traderState, ammState, onChange]);
+  }, [trade, minLeverage, maxLeverage, traderState, ammState, setTrade]);
 
   const signedAmount = useMemo(
     () => getSignedAmount(trade.position, trade.amount),
@@ -362,9 +352,9 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   const onChangeKeepPositionLeverage = useCallback(
     (keepPositionLeverage: boolean) => {
       setKeepPositionLeverage(keepPositionLeverage);
-      onChange({ ...trade, keepPositionLeverage });
+      setTrade(trade => ({ ...trade, keepPositionLeverage }));
     },
-    [onChange, trade],
+    [setTrade],
   );
 
   const isLeverageDisabled = useMemo(
@@ -550,7 +540,11 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         <Input
           className="tw-w-2/5"
           type="number"
-          value={triggerPrice}
+          value={
+            triggerPrice !== undefined
+              ? triggerPrice
+              : numberFromWei(trade.trigger).toFixed(2)
+          }
           step={1}
           min={0}
           onChangeText={onChangeTriggerPrice}
@@ -570,7 +564,11 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
             <Input
               className="tw-w-2/5"
               type="number"
-              value={limit}
+              value={
+                limit !== undefined
+                  ? limit
+                  : numberFromWei(trade.limit).toFixed(2)
+              }
               step={1}
               min={0}
               onChangeText={onChangeOrderLimit}
