@@ -154,7 +154,7 @@ export const DefaultHeaderComponent: React.FC = () => {
     },
     {
       to: zeroUrl,
-      title: t(translations.mainMenu.myntToken),
+      title: t(translations.mainMenu.zero),
       dataActionId: 'header-lab-link-zero',
     },
     {
