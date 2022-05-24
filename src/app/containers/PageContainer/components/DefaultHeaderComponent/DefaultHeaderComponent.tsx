@@ -153,18 +153,19 @@ export const DefaultHeaderComponent: React.FC = () => {
       dataActionId: 'header-link-lab',
     },
     {
-      to: zeroUrl,
-      title: t(translations.mainMenu.zero),
-      dataActionId: 'header-lab-link-zero',
-    },
-    {
       to: '/mynt-token',
       title: t(translations.mainMenu.myntToken),
       dataActionId: 'header-lab-link-mynt-token',
     },
   ];
 
-  if (!isMainnet) {
+  if (isMainnet) {
+    pages.push({
+      to: zeroUrl,
+      title: t(translations.mainMenu.zero),
+      dataActionId: 'header-lab-link-zero',
+    });
+  } else {
     pages.push({
       to: '/perpetuals',
       title: t(translations.mainMenu.perpetuals),
@@ -471,12 +472,14 @@ export const DefaultHeaderComponent: React.FC = () => {
                 <NavPopover
                   content={
                     <BPMenu>
-                      <MenuItem
-                        href={zeroUrl}
-                        text={t(translations.mainMenu.zero)}
-                        className="bp3-popover-dismiss"
-                        data-action-id="header-lab-zero-link"
-                      />
+                      {isMainnet && (
+                        <MenuItem
+                          href={zeroUrl}
+                          text={t(translations.mainMenu.zero)}
+                          className="bp3-popover-dismiss"
+                          data-action-id="header-lab-zero-link"
+                        />
+                      )}
                       {!isMainnet && (
                         <MenuItem
                           text={t(translations.mainMenu.perpetuals)}
