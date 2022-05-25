@@ -326,19 +326,19 @@ export const DefaultHeaderComponent: React.FC = () => {
                       text={t(translations.mainMenu.swap)}
                       label={t(translations.mainMenu.labels.swap)}
                       href="/swap"
-                      data-action-id="header-trade-link-swap"
+                      dataActionId="header-trade-link-swap"
                     />
                     <MenuItem
                       text={t(translations.mainMenu.spotTrade)}
                       label={t(translations.mainMenu.labels.spotTrade)}
                       href="/spot"
-                      data-action-id="header-trade-link-spot"
+                      dataActionId="header-trade-link-spot"
                     />
                     <MenuItem
                       text={t(translations.mainMenu.marginTrade)}
                       label={t(translations.mainMenu.labels.marginTrade)}
                       href="/trade"
-                      data-action-id="header-trade-link-margin"
+                      dataActionId="header-trade-link-margin"
                     />
                   </>
                 }
@@ -386,19 +386,19 @@ export const DefaultHeaderComponent: React.FC = () => {
                       text={t(translations.mainMenu.lend)}
                       label={t(translations.mainMenu.labels.lend)}
                       href="/lend"
-                      data-action-id="header-earn-link-lend"
+                      dataActionId="header-earn-link-lend"
                     />
                     <MenuItem
                       text={t(translations.mainMenu.pool)}
                       label={t(translations.mainMenu.labels.pool)}
                       href="/yield-farm"
-                      data-action-id="header-earn-link-pool"
+                      dataActionId="header-earn-link-pool"
                     />
                     <MenuItem
                       text={t(translations.mainMenu.staking)}
                       label={t(translations.mainMenu.labels.staking)}
                       href="/stake"
-                      data-action-id="header-earn-link-stake"
+                      dataActionId="header-earn-link-stake"
                     />
                   </>
                 }
@@ -427,26 +427,26 @@ export const DefaultHeaderComponent: React.FC = () => {
                       text={t(translations.mainMenu.originsLaunchpad)}
                       label={t(translations.mainMenu.labels.originsLaunchpad)}
                       href="/origins"
-                      data-action-id="header-lab-link-launchpad"
+                      dataActionId="header-lab-link-launchpad"
                     />
                     <MenuItem
                       text={t(translations.mainMenu.originsClaim)}
                       label={t(translations.mainMenu.labels.originsClaim)}
                       href="/origins/claim"
-                      data-action-id="header-lab-link-claim"
+                      dataActionId="header-lab-link-claim"
                     />
                     <MenuItem
                       text={t(translations.mainMenu.myntToken)}
                       label={t(translations.mainMenu.labels.myntToken)}
                       href="/mynt-token"
-                      data-action-id="header-lab-link-mynt-token"
+                      dataActionId="header-lab-link-mynt-token"
                     />
                     {showZero && (
                       <MenuItem
                         text={t(translations.mainMenu.zero)}
                         label={t(translations.mainMenu.labels.zero)}
                         href="/zero"
-                        data-action-id="header-lab-link-zero"
+                        dataActionId="header-lab-link-zero"
                       />
                     )}
                     <MenuItem
@@ -454,7 +454,7 @@ export const DefaultHeaderComponent: React.FC = () => {
                       label={t(translations.mainMenu.labels.perpetuals)}
                       href="/perpetuals"
                       disabled={!showPerps}
-                      data-action-id="header-lab-link-perpetuals"
+                      dataActionId="header-lab-link-perpetuals"
                     />
                   </>
                 }
@@ -484,14 +484,14 @@ export const DefaultHeaderComponent: React.FC = () => {
                       hrefExternal
                       text={t(translations.mainMenu.voting)}
                       label={t(translations.mainMenu.labels.voting)}
-                      data-action-id="header-bitocracy-link-voting"
+                      dataActionId="header-bitocracy-link-voting"
                     />
                     <MenuItem
                       href="https://forum.sovryn.app/"
                       hrefExternal
                       text={t(translations.mainMenu.forum)}
                       label={t(translations.mainMenu.labels.forum)}
-                      data-action-id="header-bitocracy-link-forum"
+                      dataActionId="header-bitocracy-link-forum"
                     />
                   </Menu>
                 }
