@@ -38,6 +38,7 @@ import { usePrevious } from '../../../../hooks/usePrevious';
 import { perpUtils } from '@sovryn/perpetual-swap';
 import { getCollateralName } from '../../utils/renderUtils';
 import { calculateSlippagePrice } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
+import { ValidationHint } from '../ValidationHint/ValidationHint';
 
 const {
   getRequiredMarginCollateral,
@@ -284,14 +285,9 @@ export const EditLeverageDialog: React.FC = () => {
               />
             </div>
           </div>
-          {!inMaintenance &&
-            validation &&
-            !validation.valid &&
-            validation.errors.length > 0 && (
-              <div className="tw-flex tw-flex-row tw-justify-between tw-px-6 tw-py-1 tw-mb-4 tw-text-warning tw-text-xs tw-font-medium tw-border tw-border-warning tw-rounded-lg">
-                {validation.errorMessages}
-              </div>
-            )}
+          {!inMaintenance && (
+            <ValidationHint className="tw-mb-4" validation={validation} />
+          )}
 
           <ActionDialogSubmitButton
             inMaintenance={inMaintenance}

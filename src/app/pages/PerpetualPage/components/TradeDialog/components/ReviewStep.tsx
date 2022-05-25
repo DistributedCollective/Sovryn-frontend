@@ -18,6 +18,7 @@ import { usePerpetual_isTradingInMaintenance } from 'app/pages/PerpetualPage/hoo
 import { useMaintenance } from '../../../../../hooks/useMaintenance';
 import { useSelector } from 'react-redux';
 import { selectPerpetualPage } from '../../../selectors';
+import { ValidationHint } from '../../ValidationHint/ValidationHint';
 
 const titleMap = {
   [PerpetualPageModals.NONE]:
@@ -87,13 +88,7 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
           lotSize={lotSize}
           analysis={analysis}
         />
-        {analysis.validation &&
-          !analysis.validation.valid &&
-          analysis.validation.errors.length > 0 && (
-            <div className="tw-flex tw-flex-col tw-justify-between tw-px-6 tw-py-1 tw-mt-4 tw-text-warning tw-text-xs tw-font-medium tw-border tw-border-warning tw-rounded-lg">
-              {analysis.validation.errorMessages}
-            </div>
-          )}
+        <ValidationHint className="tw-mt-4" validation={analysis.validation} />
         <div className="tw-flex tw-justify-center">
           {isTradingInMaintenance ||
           (useMetaTransactions && isGsnInMaintenance) ? (

@@ -49,6 +49,7 @@ import { ResultingPosition } from './components/ResultingPosition';
 import { Checkbox } from 'app/components/Checkbox';
 import { usePerpetual_analyseTrade } from '../../hooks/usePerpetual_analyseTrade';
 import { getTraderPnLInCC } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
+import { ValidationHint } from '../ValidationHint/ValidationHint';
 
 const { shrinkToLot } = perpMath;
 const {
@@ -786,14 +787,9 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         </>
       )}
 
-      {Number(amount) > 0 &&
-        validation &&
-        !validation.valid &&
-        validation.errors.length > 0 && (
-          <div className="tw-flex tw-flex-col tw-justify-between tw-px-6 tw-py-1 tw-mt-4 tw-text-warning tw-text-xs tw-font-medium tw-border tw-border-warning tw-rounded-lg">
-            {validation.errorMessages}
-          </div>
-        )}
+      {Number(amount) > 0 && (
+        <ValidationHint className="tw-mt-4" validation={validation} />
+      )}
       <div className="tw-absolute tw-bottom-0 tw-left-0 tw-right-0">
         {!inMaintenance ? (
           <button

@@ -24,6 +24,7 @@ import { selectPerpetualPage } from '../../../selectors';
 import { perpMath, perpUtils } from '@sovryn/perpetual-swap';
 import { getCollateralName } from 'app/pages/PerpetualPage/utils/renderUtils';
 import { usePerpetual_analyseTrade } from '../../../hooks/usePerpetual_analyseTrade';
+import { ValidationHint } from '../../ValidationHint/ValidationHint';
 
 const { roundToLot } = perpMath;
 const { getPrice } = perpUtils;
@@ -212,11 +213,8 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
           />
         </span>
       </div>
-      {validation && !validation.valid && validation.errors.length > 0 && (
-        <div className="tw-flex tw-flex-col tw-justify-between tw-px-6 tw-py-1 tw-mb-4 tw-text-warning tw-text-xs tw-font-medium tw-border tw-border-warning tw-rounded-lg">
-          {validation.errorMessages}
-        </div>
-      )}
+
+      <ValidationHint className="tw-mb-4" validation={validation} />
 
       <ActionDialogSubmitButton
         inMaintenance={inMaintenance}
