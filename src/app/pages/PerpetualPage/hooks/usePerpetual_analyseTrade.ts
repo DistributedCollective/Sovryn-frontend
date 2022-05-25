@@ -87,13 +87,18 @@ export const usePerpetual_analyseTrade = (
       return defaultAnalysis;
     }
 
+    const isLimitOrder =
+      [PerpetualTradeType.LIMIT, PerpetualTradeType.STOP].includes(
+        trade?.tradeType,
+      ) && trade.limit;
+
     const amountChange = getSignedAmount(trade.position, trade.amount);
 
-    const entryPrice = trade.limit
+    const entryPrice = isLimitOrder
       ? numberFromWei(trade.limit)
       : getPrice(amountChange, perpParameters, ammState);
 
-    const limitPrice = trade.limit
+    const limitPrice = isLimitOrder
       ? numberFromWei(trade.limit)
       : calculateSlippagePriceFromMidPrice(
           perpParameters,
@@ -105,11 +110,6 @@ export const usePerpetual_analyseTrade = (
     const marginChange = estimatedMarginTarget - traderState.availableCashCC;
 
     let orderCost = Math.max(0, marginChange);
-
-    const isLimitOrder =
-      [PerpetualTradeType.LIMIT, PerpetualTradeType.STOP].includes(
-        trade?.tradeType,
-      ) && trade.limit;
 
     if (isLimitOrder) {
       orderCost = getEstimatedMarginCollateralForLimitOrder(

@@ -810,7 +810,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
               {weiToNumberFormat(trade.amount, lotPrecision)} @{' '}
               {trade.tradeType === PerpetualTradeType.MARKET
                 ? toNumberFormat(entryPrice, 2)
-                : limit}
+                : toNumberFormat(limitPrice, 2)}
             </span>
           </button>
         ) : (
