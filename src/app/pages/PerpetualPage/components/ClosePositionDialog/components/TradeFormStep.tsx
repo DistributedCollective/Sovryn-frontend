@@ -82,7 +82,7 @@ export const TradeFormStep: TransitionStep<ClosePositionDialogStep> = ({
 
     const targetTrade = {
       ...changedTrade,
-      amount: toWei(Math.abs(amountTarget)),
+      amount: toWei(Math.abs(amountChange)),
       averagePrice: toWei(averagePrice),
       entryPrice: toWei(getPrice(amountTarget, perpParameters, ammState)),
       isClosePosition: true,
