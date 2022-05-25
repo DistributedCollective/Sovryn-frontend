@@ -441,14 +441,13 @@ export const DefaultHeaderComponent: React.FC = () => {
                       href="/mynt-token"
                       data-action-id="header-lab-link-mynt-token"
                     />
-                    {showPerps && (
-                      <MenuItem
-                        text={t(translations.mainMenu.perpetuals)}
-                        label={t(translations.mainMenu.labels.perpetuals)}
-                        href="/perpetuals"
-                        data-action-id="header-lab-link-perpetuals"
-                      />
-                    )}
+                    <MenuItem
+                      text={t(translations.mainMenu.perpetuals)}
+                      label={t(translations.mainMenu.labels.perpetuals)}
+                      href="/perpetuals"
+                      disabled={!showPerps}
+                      data-action-id="header-lab-link-perpetuals"
+                    />
                     {showZero && (
                       <MenuItem
                         text={t(translations.mainMenu.zero)}
