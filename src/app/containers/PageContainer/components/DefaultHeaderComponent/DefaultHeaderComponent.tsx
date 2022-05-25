@@ -517,6 +517,7 @@ export const DefaultHeaderComponent: React.FC = () => {
               position={PopoverPosition.BOTTOM}
               className="tw-pl-4"
               popoverClassName="tw-mw-340"
+              disabled={!connected}
               content={
                 <div className="tw-px-3.5 tw-py-2 tw-font-normal">
                   <div className="tw-mb-6">
