@@ -33,7 +33,10 @@ export const ResultingPosition: React.FC<ResultingPositionProps> = ({
   } = usePerpetual_calculateResultingPosition(trade);
 
   const { pairType } = useSelector(selectPerpetualPage);
-  const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
+  const pair = useMemo(
+    () => PerpetualPairDictionary.get(trade.pairType || pairType),
+    [trade.pairType, pairType],
+  );
 
   return (
     <>

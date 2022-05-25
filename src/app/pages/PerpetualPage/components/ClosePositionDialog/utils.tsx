@@ -15,4 +15,5 @@ export const generateCloseTrade = (trade: PerpetualTrade): PerpetualTrade => ({
   entryPrice: trade.entryPrice,
   averagePrice: trade.averagePrice,
   isClosePosition: true,
+  keepPositionLeverage: true,
 });

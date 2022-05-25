@@ -53,6 +53,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
         collateral: pair.collateralAsset,
         leverage: item.leverage || 0,
         entryPrice: item.entryPrice ? toWei(item.entryPrice) : '0',
+        averagePrice: item.averagePrice ? toWei(item.averagePrice) : '0',
       };
       dispatch(actions.setModal(modal, trade));
     },

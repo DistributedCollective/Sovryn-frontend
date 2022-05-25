@@ -26,7 +26,10 @@ export const usePerpetual_calculateResultingPosition = (
   trade?: PerpetualTrade,
 ): ResultingPositionData => {
   const { pairType } = useSelector(selectPerpetualPage);
-  const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
+  const pair = useMemo(
+    () => PerpetualPairDictionary.get(trade?.pairType || pairType),
+    [trade?.pairType, pairType],
+  );
 
   const signedOrderSize = useMemo(
     () => (trade?.amount ? getSignedAmount(trade.position, trade.amount) : 0),
