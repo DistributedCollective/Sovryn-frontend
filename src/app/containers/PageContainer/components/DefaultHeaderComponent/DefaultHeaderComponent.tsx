@@ -108,18 +108,18 @@ export const DefaultHeaderComponent: React.FC = () => {
     },
   ];
 
-  if (showPerps) {
-    labPages.push({
-      to: '/perpetuals',
-      title: t(translations.mainMenu.perpetuals),
-      dataActionId: 'header-lab-link-perpetuals',
-    });
-  }
   if (showZero) {
     labPages.push({
       to: zeroUrl,
       title: t(translations.mainMenu.zero),
       dataActionId: 'header-lab-link-zero',
+    });
+  }
+  if (showPerps) {
+    labPages.push({
+      to: '/perpetuals',
+      title: t(translations.mainMenu.perpetuals),
+      dataActionId: 'header-lab-link-perpetuals',
     });
   }
 
@@ -441,6 +441,14 @@ export const DefaultHeaderComponent: React.FC = () => {
                       href="/mynt-token"
                       data-action-id="header-lab-link-mynt-token"
                     />
+                    {showZero && (
+                      <MenuItem
+                        text={t(translations.mainMenu.zero)}
+                        label={t(translations.mainMenu.labels.zero)}
+                        href="/zero"
+                        data-action-id="header-lab-link-zero"
+                      />
+                    )}
                     <MenuItem
                       text={t(translations.mainMenu.perpetuals)}
                       label={t(translations.mainMenu.labels.perpetuals)}
@@ -448,13 +456,6 @@ export const DefaultHeaderComponent: React.FC = () => {
                       disabled={!showPerps}
                       data-action-id="header-lab-link-perpetuals"
                     />
-                    {showZero && (
-                      <MenuItem
-                        text={t(translations.mainMenu.zero)}
-                        href="/zero"
-                        data-action-id="header-lab-link-zero"
-                      />
-                    )}
                   </>
                 }
               >
