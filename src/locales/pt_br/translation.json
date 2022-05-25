@@ -1351,7 +1351,8 @@
       "interestAPR": "Juros anual",
       "endTimestamp": "Devolver até"
     },
-    "repayButton": "Devolver"
+    "repayButton": "Devolver",
+    "addCollateralButton": "Adicionar colateral"
   },
   "repayPositionForm": {
     "title": "Devolver empréstimo",
@@ -2265,6 +2266,18 @@
     "title": "Adicionar margem",
     "amount": "Aumentar margem em:",
     "liquidationPrice": "Preço aprox de liquidação:"
+  },
+  "addCollateral": {
+    "title": "Adicionar colateral",
+    "collateralBalance": "Saldo em colateral",
+    "liquidationPrice": "Preço de liquidação",
+    "collateralRatio": "Garantia",
+    "amount": "Aumentar colateral em:",
+    "newInfo": "Novos dados:",
+    "review": "Revisar transação",
+    "errors": {
+      "balance": "Insira um valor igual ou inferior ao saldo de {{asset}} em seu endereço."
+    }
   },
   "openPositionTable": {
     "direction": "Direção",
