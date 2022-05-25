@@ -65,7 +65,7 @@ export function LiquidityMining() {
       <div className="tw-container tw-mt-12 tw-font-body">
         <LootDropSectionWrapper>
           <LootDrop
-            title="15k SOV"
+            title="5k SOV"
             asset1={Asset.MYNT}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
@@ -77,19 +77,7 @@ export function LiquidityMining() {
             highlightColor={LootDropColors.Orange}
           />
           <LootDrop
-            title="15k SOV"
-            asset1={Asset.BNB}
-            asset2={Asset.RBTC}
-            message={t(translations.liquidityMining.recalibration, {
-              date,
-            })}
-            linkUrl="https://www.sovryn.app/blog/bnb-btc-pool-is-live"
-            linkText={t(translations.liquidityMining.lootDropLink)}
-            linkDataActionId={`yieldfarm-promo-learnmore-${Asset.BNB}`}
-            highlightColor={LootDropColors.Blue}
-          />
-          <LootDrop
-            title="15K SOV"
+            title="25K SOV"
             asset1={Asset.XUSD}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
@@ -113,7 +101,7 @@ export function LiquidityMining() {
             highlightColor={LootDropColors.Purple}
           />
           <LootDrop
-            title="15K SOV"
+            title="5K SOV"
             asset1={Asset.ETH}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
