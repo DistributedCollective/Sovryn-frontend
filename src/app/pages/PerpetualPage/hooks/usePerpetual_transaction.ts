@@ -1,5 +1,4 @@
 import { useMemo, useCallback, useState } from 'react';
-import {} from '../components/TradeDialog/types';
 import { useGsnSendTx } from '../../../hooks/useGsnSendTx';
 import {
   PerpetualPairDictionary,

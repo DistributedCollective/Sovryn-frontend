@@ -89,18 +89,9 @@ export const usePerpetual_analyseTrade = (
 
     const amountChange = getSignedAmount(trade.position, trade.amount);
 
-    const isNewPosition =
-      traderState.marginAccountPositionBC ||
-      Math.sign(amountChange) !==
-        Math.sign(traderState.marginAccountPositionBC);
-
     const entryPrice = trade.limit
       ? numberFromWei(trade.limit)
-      : getPrice(
-          isNewPosition ? amountChange : amountChange,
-          perpParameters,
-          ammState,
-        );
+      : getPrice(amountChange, perpParameters, ammState);
 
     const limitPrice = trade.limit
       ? numberFromWei(trade.limit)
@@ -147,11 +138,7 @@ export const usePerpetual_analyseTrade = (
       getTraderPnLInCC(traderState, ammState, perpParameters, limitPrice) *
       Math.abs(-marginChange / traderState.availableCashCC);
 
-    const tradingFee = getTradingFee(
-      Math.abs(isNewPosition ? amountChange : amountChange),
-      perpParameters,
-      ammState,
-    );
+    const tradingFee = getTradingFee(amountChange, perpParameters, ammState);
 
     const analysis: PerpetualTradeAnalysis = {
       amountChange,
