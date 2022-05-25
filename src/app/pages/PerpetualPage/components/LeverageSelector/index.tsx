@@ -51,7 +51,7 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
 
   const onEnableManual = useCallback(() => {
     setManual(true);
-    onChange(Number(roundToSmaller(value, 4)));
+    onChange(Number(roundToSmaller(value, 2)));
   }, [value, onChange]);
 
   const onEnableManualMinimum = useCallback(() => {
@@ -80,9 +80,10 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
     onChange,
   ]);
 
-  const onInputChange = useCallback(value => onChange(Number(value)), [
-    onChange,
-  ]);
+  const onInputChange = useCallback(
+    event => onChange(Number(event.target.value)),
+    [onChange],
+  );
 
   const onInputBlur = useCallback(() => {
     let numberValue = Number(value);
@@ -92,7 +93,7 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
       numberValue = max;
     }
 
-    onChange(Number(roundToSmaller(numberValue, 4)));
+    onChange(Number(roundToSmaller(numberValue, 2)));
   }, [value, min, max, onChange]);
 
   return (

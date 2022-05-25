@@ -7,7 +7,8 @@ import React, {
 } from 'react';
 import txFailed from 'assets/images/failed-tx.svg';
 import { TransitionStep } from '../../../../../containers/TransitionSteps';
-import { TradeDialogStep, PerpetualTxStage, PerpetualTxMethod } from '../types';
+import { TradeDialogStep, PerpetualTxStage } from '../types';
+import { PerpetualTxMethod } from '../../../types';
 import { TradeDialogContext } from '../index';
 import styles from '../index.module.scss';
 import { translations } from '../../../../../../locales/i18n';
@@ -39,7 +40,6 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     setTransactions,
     setCurrentTransaction,
   } = useContext(TradeDialogContext);
-  const { requiredAllowance } = analysis;
   const { wallet } = useWalletContext();
   const { useMetaTransactions } = useSelector(selectPerpetualPage);
   const { checkAndApprove } = useGsnCheckAndApprove(
@@ -72,13 +72,13 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
       case PerpetualTxMethod.deposit:
         return [current, current.amount];
       case PerpetualTxMethod.trade:
-        return [current, toWei(requiredAllowance)];
+        return [current, toWei(analysis.requiredAllowance)];
       case PerpetualTxMethod.createLimitOrder:
-        return [current, toWei(requiredAllowance)];
+        return [current, toWei(analysis.requiredAllowance)];
       default:
         return [undefined, '0'];
     }
-  }, [transactions, currentTransaction, requiredAllowance]);
+  }, [transactions, currentTransaction, analysis.requiredAllowance]);
 
   const onRetry = useCallback(() => {
     if (!currentTransaction) {

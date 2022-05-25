@@ -12,13 +12,11 @@ import { getTradeDirection } from '../../../utils/contractUtils';
 import { TradingPosition } from '../../../../../../types/trading-position';
 import { AssetValue } from '../../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../../components/AssetValue/types';
-import {
-  PerpetualPairDictionary,
-  PerpetualPairType,
-} from '../../../../../../utils/dictionaries/perpetual-pair-dictionary';
+import { PerpetualPairDictionary } from '../../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { PerpetualQueriesContext } from 'app/pages/PerpetualPage/contexts/PerpetualQueriesContext';
 import { perpUtils } from '@sovryn/perpetual-swap';
-import { usePerpetual_getCurrentPairId } from 'app/pages/PerpetualPage/hooks/usePerpetual_getCurrentPairId';
+import { useSelector } from 'react-redux';
+import { selectPerpetualPage } from '../../../selectors';
 
 const { calculateSlippagePrice } = perpUtils;
 
@@ -27,19 +25,16 @@ export const SlippageFormStep: TransitionStep<ClosePositionDialogStep> = ({
 }) => {
   const { t } = useTranslation();
 
-  const currentPairId = usePerpetual_getCurrentPairId();
+  const { pairType } = useSelector(selectPerpetualPage);
   const { perpetuals } = useContext(PerpetualQueriesContext);
-  const { averagePrice } = perpetuals[currentPairId];
-
   const { changedTrade, onChange } = useContext(ClosePositionDialogContext);
 
   const pair = useMemo(
-    () =>
-      PerpetualPairDictionary.get(
-        changedTrade?.pairType || PerpetualPairType.BTCUSD,
-      ),
-    [changedTrade?.pairType],
+    () => PerpetualPairDictionary.get(changedTrade?.pairType || pairType),
+    [changedTrade?.pairType, pairType],
   );
+
+  const { averagePrice } = perpetuals[pair.id];
 
   const onCloseSlippage = useCallback(
     () =>

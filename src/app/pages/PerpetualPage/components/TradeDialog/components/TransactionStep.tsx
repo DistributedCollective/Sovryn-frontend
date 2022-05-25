@@ -1,6 +1,6 @@
 import React, { useContext, useMemo, useCallback } from 'react';
 import { TransitionStep } from '../../../../../containers/TransitionSteps';
-import { TradeDialogStep, PerpetualTxMethod } from '../types';
+import { TradeDialogStep } from '../types';
 import { TradeDialogContext } from '../index';
 import styles from '../index.module.scss';
 import { translations } from '../../../../../../locales/i18n';
@@ -13,7 +13,7 @@ import {
 import { useSelector, useDispatch } from 'react-redux';
 import { selectTransactions } from '../../../../../../store/global/transactions-store/selectors';
 import { actions } from '../../../slice';
-import { PerpetualPageModals } from '../../../types';
+import { PerpetualPageModals, PerpetualTxMethod } from '../../../types';
 import { RecentTradesContext } from '../../../contexts/RecentTradesContext';
 import { StatusComponent } from 'app/components/Dialogs/StatusComponent';
 

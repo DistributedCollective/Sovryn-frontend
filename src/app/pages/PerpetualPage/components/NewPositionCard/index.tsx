@@ -25,7 +25,7 @@ import { TradeFormStep } from './components/TradeFormStep';
 import { ConnectFormStep } from './components/ConnectFormStep';
 import { noop } from '../../../../constants';
 import { PERPETUAL_SLIPPAGE_DEFAULT } from '../../types';
-import { PerpetualTxMethod, PerpetualTx } from '../TradeDialog/types';
+import { PerpetualTxMethod, PerpetualTx } from '../../types';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
 import debounce from 'lodash.debounce';
 
@@ -42,9 +42,8 @@ export const NewPositionCardContext = React.createContext<
     amount: '0',
     leverage: 1,
     slippage: PERPETUAL_SLIPPAGE_DEFAULT,
-    entryPrice: '0',
   },
-  onChangeTrade: noop,
+  setTrade: trade => trade,
   onSubmit: noop,
 });
 
@@ -92,21 +91,26 @@ export const NewPositionCard: React.FC = () => {
     amount: '0',
     leverage: 1,
     slippage: PERPETUAL_SLIPPAGE_DEFAULT,
-    entryPrice: '0',
   });
 
   const onSubmit = useCallback(
     (trade: PerpetualTrade) => {
+      if (!trade.averagePrice || trade.averagePrice === '0') {
+        return;
+      }
+
       const transactions: PerpetualTx[] = [];
       if (trade.tradeType === PerpetualTradeType.MARKET) {
         transactions.push({
           method: PerpetualTxMethod.trade,
           pair: trade.pairType,
           amount: trade.amount,
+          price: trade.averagePrice,
           tradingPosition: trade.position,
           slippage: trade.slippage,
           leverage: trade.leverage,
           keepPositionLeverage: trade.keepPositionLeverage,
+          isClosePosition: trade.isClosePosition,
           tx: null,
           approvalTx: null,
         });
@@ -150,7 +154,6 @@ export const NewPositionCard: React.FC = () => {
       setTrade(trade => ({
         ...trade,
         pairType,
-        entryPrice: '0',
         limit: '0',
         trigger: '0',
       }));
@@ -163,7 +166,7 @@ export const NewPositionCard: React.FC = () => {
       hasEmptyBalance,
       trade,
       onSubmit,
-      onChangeTrade: setTrade,
+      setTrade,
     }),
     [trade, onSubmit, hasOpenPosition, hasEmptyBalance],
   );

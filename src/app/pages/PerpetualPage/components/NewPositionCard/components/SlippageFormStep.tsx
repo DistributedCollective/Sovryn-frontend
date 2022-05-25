@@ -15,8 +15,9 @@ import { getTradeDirection } from 'app/pages/PerpetualPage/utils/contractUtils';
 import { TradingPosition } from '../../../../../../types/trading-position';
 import { PerpetualQueriesContext } from 'app/pages/PerpetualPage/contexts/PerpetualQueriesContext';
 import { perpUtils } from '@sovryn/perpetual-swap';
-import { usePerpetual_getCurrentPairId } from 'app/pages/PerpetualPage/hooks/usePerpetual_getCurrentPairId';
 import { usePerpetual_calculateResultingPosition } from 'app/pages/PerpetualPage/hooks/usePerpetual_calculateResultingPosition';
+import { selectPerpetualPage } from '../../../selectors';
+import { useSelector } from 'react-redux';
 
 const { calculateSlippagePrice } = perpUtils;
 
@@ -25,28 +26,28 @@ export const SlippageFormStep: TransitionStep<NewPositionCardStep> = ({
 }) => {
   const { t } = useTranslation();
 
-  const currentPairId = usePerpetual_getCurrentPairId();
+  const { pairType } = useSelector(selectPerpetualPage);
   const { perpetuals } = useContext(PerpetualQueriesContext);
-  const { averagePrice } = perpetuals[currentPairId];
 
-  const { trade, onChangeTrade } = useContext(NewPositionCardContext);
+  const { trade, setTrade } = useContext(NewPositionCardContext);
 
-  const { liquidationPrice } = usePerpetual_calculateResultingPosition(
-    trade,
-    trade.keepPositionLeverage,
+  const {
+    estimatedLiquidationPrice: liquidationPrice,
+  } = usePerpetual_calculateResultingPosition(trade);
+
+  const pair = useMemo(
+    () => PerpetualPairDictionary.get(trade.pairType || pairType),
+    [trade.pairType, pairType],
   );
-
-  const pair = useMemo(() => PerpetualPairDictionary.get(trade.pairType), [
-    trade.pairType,
-  ]);
+  const { averagePrice } = perpetuals[pair.id];
 
   const onCloseSlippage = useCallback(
     () => changeTo(NewPositionCardStep.trade, TransitionAnimation.slideRight),
     [changeTo],
   );
   const onChangeSlippage = useCallback(
-    slippage => onChangeTrade({ ...trade, slippage }),
-    [trade, onChangeTrade],
+    slippage => setTrade({ ...trade, slippage }),
+    [trade, setTrade],
   );
 
   const minEntryPrice = useMemo(

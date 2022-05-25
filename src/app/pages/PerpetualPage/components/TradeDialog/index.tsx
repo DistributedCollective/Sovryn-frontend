@@ -1,11 +1,4 @@
-import React, {
-  useCallback,
-  useMemo,
-  useState,
-  useEffect,
-  useContext,
-  useRef,
-} from 'react';
+import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dialog } from '../../../../containers/Dialog';
 import { selectPerpetualPage } from '../../selectors';
@@ -13,22 +6,16 @@ import { actions } from '../../slice';
 import {
   PerpetualPageModals,
   isPerpetualTradeReview,
-  PerpetualTrade,
-  PerpetualTradeType,
-  PERPETUAL_SLIPPAGE_DEFAULT,
-  PERPETUAL_CHAIN,
+  PerpetualTx,
 } from '../../types';
 import {
   PerpetualPairDictionary,
   PerpetualPairType,
 } from 'utils/dictionaries/perpetual-pair-dictionary';
-import { getSignedAmount } from '../../utils/contractUtils';
 import {
-  TradeAnalysis,
   TradeDialogContextType,
   TradeDialogStep,
   TradeDialogCurrentTransaction,
-  PerpetualTx,
 } from './types';
 import { noop } from '../../../../constants';
 import { TransitionSteps } from '../../../../containers/TransitionSteps';
@@ -37,40 +24,7 @@ import { ReviewStep } from './components/ReviewStep';
 import { ApprovalStep } from './components/ApprovalStep';
 import { ConfirmationStep } from './components/ConfirmationStep';
 import { TransactionStep } from './components/TransactionStep';
-import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
-import { numberFromWei } from '../../../../../utils/blockchain/math-helpers';
-import { perpUtils } from '@sovryn/perpetual-swap';
-import { usePerpetual_calculateResultingPosition } from '../../hooks/usePerpetual_calculateResultingPosition';
-import { Asset } from 'types';
-import { TradingPosition } from 'types/trading-position';
-import { bridgeNetwork } from '../../../BridgeDepositPage/utils/bridge-network';
-import { getContract } from '../../../../../utils/blockchain/contract-helpers';
-import { useAccount } from '../../../../hooks/useAccount';
-import { BigNumber } from 'ethers';
-import { ABK64x64ToFloat } from '@sovryn/perpetual-swap/dist/scripts/utils/perpMath';
-import { getEstimatedMarginCollateralForLimitOrder } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
-
-const {
-  calculateApproxLiquidationPrice,
-  getRequiredMarginCollateral,
-  getEstimatedMarginCollateralForTrader,
-  getTradingFee,
-  getTraderPnLInCC,
-  calculateSlippagePriceFromMidPrice,
-  getPrice,
-  calculateLeverage,
-} = perpUtils;
-
-const EMPTY_TRADE: PerpetualTrade = {
-  pairType: PerpetualPairType.BTCUSD,
-  collateral: Asset.BTCS,
-  tradeType: PerpetualTradeType.MARKET,
-  position: TradingPosition.LONG,
-  amount: '0',
-  leverage: 0,
-  slippage: PERPETUAL_SLIPPAGE_DEFAULT,
-  entryPrice: '0',
-};
+import { usePerpetual_analyseTrade } from '../../hooks/usePerpetual_analyseTrade';
 
 const tradeDialogContextDefault: TradeDialogContextType = {
   pair: PerpetualPairDictionary.get(PerpetualPairType.BTCUSD),
@@ -109,15 +63,9 @@ const TradeDialogStepComponents = {
 
 export const TradeDialog: React.FC = () => {
   const dispatch = useDispatch();
-  const account = useAccount();
 
-  const openOrders = useRef<any[]>();
+  const { modal, modalOptions, pairType } = useSelector(selectPerpetualPage);
 
-  const { modal, modalOptions, useMetaTransactions, pairType } = useSelector(
-    selectPerpetualPage,
-  );
-
-  const { perpetuals } = useContext(PerpetualQueriesContext);
   const { origin, trade, transactions: requestedTransactions } = useMemo(
     () =>
       isPerpetualTradeReview(modalOptions)
@@ -139,24 +87,15 @@ export const TradeDialog: React.FC = () => {
     [pairType, trade?.pairType],
   );
 
-  const {
-    ammState,
-    traderState,
-    perpetualParameters: perpParameters,
-  } = perpetuals[pair.id];
-
-  const [analysis, setAnalysis] = useState<TradeAnalysis>(
-    tradeDialogContextDefault.analysis,
+  const analysis = usePerpetual_analyseTrade(
+    trade,
+    currentTransaction !== undefined,
   );
 
   const onClose = useCallback(
     () => dispatch(actions.setModal(PerpetualPageModals.NONE)),
     [dispatch],
   );
-
-  const isNewTradeForm = useMemo(() => origin === PerpetualPageModals.NONE, [
-    origin,
-  ]);
 
   const context: TradeDialogContextType = useMemo(
     () => ({
@@ -173,217 +112,11 @@ export const TradeDialog: React.FC = () => {
     [origin, pair, trade, analysis, transactions, currentTransaction, onClose],
   );
 
-  const {
-    liquidationPrice: resultingLiquidationPrice,
-    leverage: resultingLeverage,
-    size: resultingSize,
-    margin: resultingMargin,
-  } = usePerpetual_calculateResultingPosition(
-    trade || EMPTY_TRADE,
-    trade?.keepPositionLeverage,
-  );
-
-  useEffect(() => {
-    // reset cached orders result
-    openOrders.current = undefined;
-  }, [account, origin, requestedTransactions]);
-
   useEffect(() => {
     // reset current transaction state when modal is closed or called again
     setCurrentTransaction(undefined);
     setTransactions(requestedTransactions);
   }, [origin, requestedTransactions]);
-
-  useEffect(() => {
-    // update trade analysis
-    if (!trade || !account) {
-      return setAnalysis(tradeDialogContextDefault.analysis);
-    }
-
-    if (currentTransaction) {
-      // Do not recompute after confirmation happened in ReviewStep
-      return;
-    }
-
-    const isLimitOrder = [
-      PerpetualTradeType.LIMIT,
-      PerpetualTradeType.STOP,
-    ].includes(trade?.tradeType);
-
-    const amountTarget = getSignedAmount(trade.position, trade.amount);
-    const amountChange = amountTarget - traderState.marginAccountPositionBC;
-
-    const entryPrice = trade.limit
-      ? numberFromWei(trade.limit)
-      : getPrice(
-          isNewTradeForm ? amountTarget : amountChange,
-          perpParameters,
-          ammState,
-        );
-
-    const limitPrice = trade.limit
-      ? numberFromWei(trade.limit)
-      : calculateSlippagePriceFromMidPrice(
-          perpParameters,
-          ammState,
-          trade.slippage,
-          Math.sign(isNewTradeForm ? amountTarget : amountChange),
-        );
-
-    const marginTarget = trade.margin
-      ? numberFromWei(trade.margin)
-      : Math.abs(amountTarget) / trade.leverage;
-
-    const orderCost =
-      isLimitOrder && trade.limit
-        ? getEstimatedMarginCollateralForLimitOrder(
-            perpParameters,
-            ammState,
-            trade.leverage,
-            amountTarget,
-            numberFromWei(trade.limit),
-            trade.trigger ? numberFromWei(trade.trigger) : undefined,
-          )
-        : getRequiredMarginCollateral(
-            trade.leverage,
-            amountTarget,
-            perpParameters,
-            ammState,
-            traderState,
-            trade.slippage,
-            false,
-            false,
-          );
-
-    const marginChange = marginTarget - traderState.availableCashCC;
-
-    const partialUnrealizedPnL =
-      getTraderPnLInCC(traderState, ammState, perpParameters, limitPrice) *
-      Math.abs(-marginChange / traderState.availableCashCC);
-
-    const liquidationPrice = calculateApproxLiquidationPrice(
-      traderState,
-      ammState,
-      perpParameters,
-      amountChange,
-      marginChange,
-    );
-
-    const tradingFee = getTradingFee(
-      Math.abs(isNewTradeForm ? amountTarget : amountChange),
-      perpParameters,
-      ammState,
-    );
-
-    const leverageTarget = calculateLeverage(
-      amountTarget,
-      marginTarget,
-      traderState,
-      ammState,
-      perpParameters,
-    );
-
-    const fetchRequiredAllowance = async () => {
-      const contract = getContract(pair.limitOrderBook);
-
-      let orders: any[];
-      if (openOrders.current) {
-        orders = openOrders.current;
-      } else {
-        orders = await bridgeNetwork.call(
-          PERPETUAL_CHAIN,
-          contract.address,
-          contract.abi,
-          'getOrders',
-          [account.toLowerCase(), 0, 1000],
-        );
-        orders = Array.isArray(orders)
-          ? orders
-              // filter empty placeholders
-              .filter(entry => entry?.traderAddr === account)
-              // resolve all BigNumber objects to float
-              .map(entry =>
-                Object.entries(entry).reduce((acc, [key, value]) => {
-                  acc[key] =
-                    typeof value === 'object'
-                      ? (acc[key] = ABK64x64ToFloat(BigNumber.from(value)))
-                      : value;
-                  return acc;
-                }, {}),
-              )
-          : [];
-        openOrders.current = orders;
-      }
-
-      return getEstimatedMarginCollateralForTrader(
-        amountTarget,
-        trade.leverage,
-        orders,
-        perpParameters,
-        ammState,
-        traderState,
-        trade.slippage,
-        trade.limit ? numberFromWei(trade.limit) : null,
-        trade.trigger ? numberFromWei(trade.trigger) : null,
-      );
-    };
-
-    const requiresApproval =
-      marginChange > 0 || (trade?.tradeType && isLimitOrder);
-
-    let cancelled = false;
-    if (requiresApproval) {
-      fetchRequiredAllowance()
-        .then(requiredAllowance => {
-          if (cancelled) {
-            return;
-          }
-          setAnalysis(analysis => ({
-            ...analysis,
-            requiredAllowance: requiredAllowance * 1.1,
-            loading: false,
-          }));
-        })
-        .catch(console.error);
-    }
-
-    setAnalysis({
-      amountChange: isNewTradeForm ? amountTarget : amountChange,
-      amountTarget: isNewTradeForm ? resultingSize : amountTarget,
-      marginChange,
-      partialUnrealizedPnL,
-      marginTarget: isNewTradeForm ? resultingMargin : marginTarget,
-      leverageTarget: isNewTradeForm ? resultingLeverage : leverageTarget,
-      liquidationPrice: isNewTradeForm
-        ? resultingLiquidationPrice
-        : liquidationPrice,
-      entryPrice,
-      limitPrice,
-      orderCost,
-      tradingFee,
-      requiredAllowance: 0,
-      loading: requiresApproval,
-    });
-
-    return () => {
-      cancelled = true;
-    };
-  }, [
-    account,
-    pair,
-    currentTransaction,
-    trade,
-    traderState,
-    perpParameters,
-    ammState,
-    useMetaTransactions,
-    origin,
-    resultingSize,
-    resultingLeverage,
-    resultingLiquidationPrice,
-    isNewTradeForm,
-    resultingMargin,
-  ]);
 
   if (!trade) {
     return null;

@@ -15,7 +15,7 @@ export const TradeFormStep: TransitionStep<NewPositionCardStep> = ({
 
   const { isAddressWhitelisted } = useSelector(selectPerpetualPage);
 
-  const { hasEmptyBalance, trade, onSubmit, onChangeTrade } = useContext(
+  const { hasEmptyBalance, trade, onSubmit, setTrade } = useContext(
     NewPositionCardContext,
   );
 
@@ -73,7 +73,7 @@ export const TradeFormStep: TransitionStep<NewPositionCardStep> = ({
         disabled={isDisabled}
         onOpenSlippage={onOpenSlippage}
         onSubmit={onSubmit}
-        onChange={onChangeTrade}
+        setTrade={setTrade}
       />
     </div>
   );

@@ -15,10 +15,10 @@ import { getContract } from 'utils/blockchain/contract-helpers';
 import marginTokenAbi from 'utils/blockchain/abi/MarginToken.json';
 import { TradingPosition } from 'types/trading-position';
 import {
-  getRequiredMarginCollateralWithGasFees,
   MASK_CLOSE_ONLY,
   MASK_MARKET_ORDER,
   MASK_LIMIT_ORDER,
+  MASK_KEEP_POS_LEVERAGE,
 } from './perpUtils';
 import {
   perpUtils,
@@ -27,12 +27,16 @@ import {
   PerpParameters,
   LiqPoolState,
 } from '@sovryn/perpetual-swap';
-import { fromWei } from '../../../../utils/blockchain/math-helpers';
+import {
+  fromWei,
+  numberFromWei,
+} from '../../../../utils/blockchain/math-helpers';
 import {
   CheckAndApproveResultWithError,
   PERPETUAL_SLIPPAGE_DEFAULT,
   PERPETUAL_CHAIN_ID,
   PERPETUAL_CHAIN,
+  PerpetualTradeAnalysis,
 } from '../types';
 import { BridgeNetworkDictionary } from '../../BridgeDepositPage/dictionaries/bridge-network-dictionary';
 import { Trans } from 'react-i18next';
@@ -47,15 +51,13 @@ import {
   PerpetualTxCancelLimitOrder,
   PerpetualTxDepositMargin,
   PerpetualTxWithdrawMargin,
-} from '../components/TradeDialog/types';
-import { PerpetualQueriesContextValue } from '../contexts/PerpetualQueriesContext';
+} from '../types';
 import { ethGenesisAddress } from '../../../../utils/classifiers';
 import { SendTxResponseInterface } from '../../../hooks/useSendContractTx';
 import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
 import { PerpetualPairDictionary } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 
 const {
-  calculateSlippagePriceFromMidPrice,
   calculateSlippagePrice,
   createOrderDigest,
   getPrice,
@@ -205,15 +207,14 @@ export type Validation = {
 };
 
 export const validatePositionChange = (
-  amountChange: number,
-  marginChange: number,
-  targetLeverage: number,
-  slippage: number,
+  analysis: Pick<
+    PerpetualTradeAnalysis,
+    'amountChange' | 'marginChange' | 'limitPrice' | 'orderCost'
+  >,
   availableBalance: number,
   traderState: TraderState,
   perpParameters: PerpParameters,
   ammState: AMMState,
-  useMetaTransactions: boolean,
 ) => {
   const result: Validation = {
     valid: true,
@@ -226,19 +227,17 @@ export const validatePositionChange = (
     return undefined;
   }
 
-  if (amountChange !== 0) {
-    const slippagePrice = calculateSlippagePriceFromMidPrice(
+  if (analysis.amountChange !== 0) {
+    const expectedPrice = getPrice(
+      analysis.amountChange,
       perpParameters,
       ammState,
-      slippage,
-      Math.sign(amountChange),
     );
-    const expectedPrice = getPrice(amountChange, perpParameters, ammState);
 
     if (
-      amountChange > 0
-        ? expectedPrice > slippagePrice
-        : expectedPrice < slippagePrice
+      analysis.amountChange > 0
+        ? expectedPrice > analysis.limitPrice
+        : expectedPrice < analysis.limitPrice
     ) {
       const midPrice = getMidPrice(perpParameters, ammState);
       const requiredSlippage = Math.abs(expectedPrice - midPrice) / midPrice;
@@ -257,11 +256,16 @@ export const validatePositionChange = (
     }
   }
 
+  const isClosingTrade =
+    Math.abs(traderState.marginAccountPositionBC + analysis.amountChange) <
+    perpParameters.fLotSizeBC;
+
   if (
+    !isClosingTrade &&
     !isTraderInitialMarginSafe(
       traderState,
-      marginChange,
-      amountChange,
+      analysis.marginChange,
+      analysis.amountChange,
       perpParameters,
       ammState,
     )
@@ -278,20 +282,8 @@ export const validatePositionChange = (
     );
   }
 
-  if (amountChange !== 0 || marginChange !== 0) {
-    const targetAmount = amountChange + traderState.marginAccountPositionBC;
-
-    const requiredMargin = getRequiredMarginCollateralWithGasFees(
-      targetLeverage,
-      targetAmount,
-      perpParameters,
-      ammState,
-      traderState,
-      slippage,
-      useMetaTransactions,
-    );
-
-    if (requiredMargin > traderState.availableCashCC + availableBalance) {
+  if (analysis.amountChange !== 0 || analysis.marginChange !== 0) {
+    if (analysis.orderCost > availableBalance) {
       result.valid = false;
       result.isWarning = true;
       result.errors.push(new Error('Order cost exceeds total balance!'));
@@ -553,14 +545,14 @@ export const getPerpetualTxContractName = (
 };
 
 const perpetualTradeArgs = (
-  context: PerpetualQueriesContextValue,
   account: string,
   transaction: PerpetualTxTrade,
 ): Parameters<SendTxResponseInterface['send']>[0] => {
   const {
     isClosePosition = false,
     /** amount as wei string */
-    amount = '0',
+    price,
+    amount,
     leverage = 1,
     slippage = PERPETUAL_SLIPPAGE_DEFAULT,
     tradingPosition = TradingPosition.LONG,
@@ -570,16 +562,20 @@ const perpetualTradeArgs = (
   const signedAmount = getSignedAmount(tradingPosition, amount);
   const tradeDirection = Math.sign(signedAmount);
 
-  const { averagePrice } = context.perpetuals[pair.id];
-
   const limitPrice = calculateSlippagePrice(
-    averagePrice,
+    numberFromWei(price),
     slippage,
     tradeDirection,
   );
 
   const deadline = Math.round(Date.now() / 1000) + 86400; // 1 day
   const timeNow = Math.round(Date.now() / 1000);
+
+  let flags = isClosePosition ? MASK_CLOSE_ONLY : MASK_MARKET_ORDER;
+  if (transaction.keepPositionLeverage) {
+    flags = flags.or(MASK_KEEP_POS_LEVERAGE);
+  }
+
   const order = [
     pair.id,
     account,
@@ -588,7 +584,7 @@ const perpetualTradeArgs = (
     0,
     deadline,
     ethGenesisAddress,
-    isClosePosition ? MASK_CLOSE_ONLY : MASK_MARKET_ORDER,
+    flags,
     floatToABK64x64(leverage),
     timeNow,
   ];
@@ -676,7 +672,6 @@ const perpetualCancelLimitTradeArgs = async (
 };
 
 export const perpetualTransactionArgs = async (
-  perpetuals: PerpetualQueriesContextValue,
   pair: PerpetualPair,
   account: string,
   transaction: PerpetualTx,
@@ -684,7 +679,7 @@ export const perpetualTransactionArgs = async (
   switch (transaction.method) {
     case PerpetualTxMethod.trade:
       const tradeTx: PerpetualTxTrade = transaction;
-      return perpetualTradeArgs(perpetuals, account, tradeTx);
+      return perpetualTradeArgs(account, tradeTx);
     case PerpetualTxMethod.createLimitOrder:
       const createLimitTx: PerpetualTxCreateLimitOrder = transaction;
       return await perpetualCreateLimitTradeArgs(account, createLimitTx);

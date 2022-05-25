@@ -1,35 +1,39 @@
+import { useContext, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import {
   getTraderLeverage,
   calculateResultingPositionLeverage,
   calculateApproxLiquidationPrice,
+  calculateLeverage,
+  getRequiredMarginCollateral,
 } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
-import { useContext, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { roundToLot } from '@sovryn/perpetual-swap/dist/scripts/utils/perpMath';
 import { numberFromWei } from 'utils/blockchain/math-helpers';
 import { PerpetualPairDictionary } from 'utils/dictionaries/perpetual-pair-dictionary';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import { selectPerpetualPage } from '../selectors';
 import { PerpetualTrade, PerpetualTradeType } from '../types';
 import { getSignedAmount } from '../utils/contractUtils';
-import { getRequiredMarginCollateralWithGasFees } from '../utils/perpUtils';
 
 type ResultingPositionData = {
   leverage: number;
-  liquidationPrice: number;
   size: number;
-  margin: number;
+  estimatedLiquidationPrice: number;
+  estimatedMargin: number;
 };
 
 export const usePerpetual_calculateResultingPosition = (
-  trade: PerpetualTrade,
-  keepPositionLeverage: boolean = false,
+  trade?: PerpetualTrade,
 ): ResultingPositionData => {
-  const { pairType, useMetaTransactions } = useSelector(selectPerpetualPage);
-  const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
+  const { pairType } = useSelector(selectPerpetualPage);
+  const pair = useMemo(
+    () => PerpetualPairDictionary.get(trade?.pairType || pairType),
+    [trade?.pairType, pairType],
+  );
 
   const signedOrderSize = useMemo(
-    () => getSignedAmount(trade.position, trade.amount),
-    [trade.amount, trade.position],
+    () => (trade?.amount ? getSignedAmount(trade.position, trade.amount) : 0),
+    [trade?.amount, trade?.position],
   );
 
   const { perpetuals } = useContext(PerpetualQueriesContext);
@@ -37,16 +41,54 @@ export const usePerpetual_calculateResultingPosition = (
     ammState,
     traderState,
     perpetualParameters: perpParameters,
+    lotSize,
   } = perpetuals[pair.id];
 
+  const size = useMemo(
+    () =>
+      roundToLot(
+        signedOrderSize + traderState.marginAccountPositionBC,
+        lotSize || 1,
+      ),
+    [signedOrderSize, traderState.marginAccountPositionBC, lotSize],
+  );
+
   const leverage = useMemo(() => {
-    // trader doesn't have an open position
-    if (!traderState.marginAccountPositionBC) {
+    if (!trade) {
+      return 0;
+    }
+
+    const isLimitOrder =
+      [PerpetualTradeType.LIMIT, PerpetualTradeType.STOP].includes(
+        trade.tradeType,
+      ) && trade.limit !== undefined;
+
+    // trader doesn't have an open position or is flipping their position direction
+    if (!traderState.marginAccountPositionBC || isLimitOrder) {
       return trade.leverage;
     }
 
-    if (keepPositionLeverage && trade.tradeType === PerpetualTradeType.MARKET) {
+    // trader wants to keep their position leverage and is reducing their position
+    if (
+      trade.keepPositionLeverage &&
+      Math.sign(signedOrderSize) !==
+        Math.sign(traderState.marginAccountPositionBC) &&
+      Math.abs(signedOrderSize) <=
+        Math.abs(traderState.marginAccountPositionBC) &&
+      trade.tradeType === PerpetualTradeType.MARKET
+    ) {
       return getTraderLeverage(traderState, ammState);
+    }
+
+    if (trade.margin) {
+      return calculateLeverage(
+        size,
+        traderState.availableCashCC + numberFromWei(trade.margin),
+        traderState,
+        ammState,
+        perpParameters,
+        trade.slippage,
+      );
     }
 
     return calculateResultingPositionLeverage(
@@ -56,65 +98,58 @@ export const usePerpetual_calculateResultingPosition = (
       signedOrderSize,
       trade.leverage,
       trade.slippage,
+      trade.keepPositionLeverage,
     );
-  }, [
-    ammState,
-    keepPositionLeverage,
-    perpParameters,
-    signedOrderSize,
-    trade.leverage,
-    trade.slippage,
-    trade.tradeType,
-    traderState,
-  ]);
+  }, [trade, signedOrderSize, traderState, ammState, perpParameters, size]);
 
-  const liquidationPrice = useMemo(() => {
-    const requiredCollateral = getRequiredMarginCollateralWithGasFees(
+  const estimatedMargin = useMemo(() => {
+    if (trade?.margin && trade?.margin !== '0') {
+      return numberFromWei(trade.margin) + traderState.availableCashCC;
+    }
+
+    return getRequiredMarginCollateral(
       leverage,
-      signedOrderSize,
+      size,
       perpParameters,
       ammState,
       traderState,
-      trade.slippage,
-      useMetaTransactions,
-      true,
-      true,
-    );
-
-    return calculateApproxLiquidationPrice(
-      traderState,
-      ammState,
-      perpParameters,
-      signedOrderSize,
-      requiredCollateral,
+      trade?.slippage,
+      false,
+      false,
     );
   }, [
-    ammState,
+    trade?.margin,
     leverage,
-    perpParameters,
-    signedOrderSize,
-    trade.slippage,
+    size,
     traderState,
-    useMetaTransactions,
+    perpParameters,
+    ammState,
+    trade?.slippage,
   ]);
 
-  const size = useMemo(
-    () => signedOrderSize + traderState.marginAccountPositionBC,
-    [signedOrderSize, traderState.marginAccountPositionBC],
-  );
-
-  const margin = useMemo(() => {
-    const tradeMargin = trade.margin
-      ? numberFromWei(trade.margin)
-      : Math.abs(numberFromWei(trade.amount)) / trade.leverage;
-
-    return tradeMargin + traderState.availableCashCC;
-  }, [trade.amount, trade.leverage, trade.margin, traderState.availableCashCC]);
+  const estimatedLiquidationPrice = useMemo(() => {
+    return size === 0
+      ? 0
+      : calculateApproxLiquidationPrice(
+          traderState,
+          ammState,
+          perpParameters,
+          signedOrderSize,
+          estimatedMargin - traderState.availableCashCC,
+        );
+  }, [
+    size,
+    signedOrderSize,
+    estimatedMargin,
+    ammState,
+    perpParameters,
+    traderState,
+  ]);
 
   return {
     leverage,
-    liquidationPrice,
     size,
-    margin,
+    estimatedLiquidationPrice,
+    estimatedMargin,
   };
 };

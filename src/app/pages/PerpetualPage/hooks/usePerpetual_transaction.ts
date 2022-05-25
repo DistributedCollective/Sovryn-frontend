@@ -1,8 +1,4 @@
-import { useMemo, useContext, useCallback, useState } from 'react';
-import {
-  PerpetualTx,
-  PerpetualTxMethod,
-} from '../components/TradeDialog/types';
+import { useMemo, useCallback, useState } from 'react';
 import { useGsnSendTx } from '../../../hooks/useGsnSendTx';
 import {
   PerpetualPairDictionary,
@@ -12,12 +8,13 @@ import {
   PERPETUAL_CHAIN,
   PERPETUAL_PAYMASTER,
   PERPETUAL_GAS_PRICE_DEFAULT,
+  PerpetualTx,
+  PerpetualTxMethod,
 } from '../types';
 import {
   perpetualTransactionArgs,
   getPerpetualTxContractName,
 } from '../utils/contractUtils';
-import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import { useAccount } from '../../../hooks/useAccount';
 import { TxType } from '../../../../store/global/transactions-store/types';
 import { gasLimit } from '../../../../utils/classifiers';
@@ -45,7 +42,6 @@ export const usePerpetual_transaction = (
   useGSN: boolean,
 ) => {
   const account = useAccount();
-  const perpetualsContext = useContext(PerpetualQueriesContext);
 
   const pair = useMemo(
     () =>
@@ -76,12 +72,7 @@ export const usePerpetual_transaction = (
       const txType: TxType = PerpetualTxMethodTypeMap[transaction.method];
 
       return send(
-        await perpetualTransactionArgs(
-          perpetualsContext,
-          pair,
-          account,
-          transaction,
-        ),
+        await perpetualTransactionArgs(pair, account, transaction),
         {
           from: account,
           gas: gasLimit[txType],
@@ -95,7 +86,7 @@ export const usePerpetual_transaction = (
         },
       ).finally(() => setSending(false));
     },
-    [transaction, account, perpetualsContext, pair, send],
+    [transaction, account, pair, send],
   );
 
   return useMemo(() => {

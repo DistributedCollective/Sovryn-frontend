@@ -11,6 +11,7 @@ import {
   PerpetualPageModals,
   PerpetualTrade,
   PerpetualTradeType,
+  PerpetualTradeAnalysis,
 } from '../../../types';
 import {
   Transaction,
@@ -20,9 +21,10 @@ import {
 import { LinkToExplorer } from '../../../../../components/LinkToExplorer';
 import { RecentTradesContext } from '../../../contexts/RecentTradesContext';
 import { RecentTradesDataEntry } from '../../RecentTradesTable/types';
-import { TradeAnalysis } from '../types';
 import { getCollateralName } from 'app/pages/PerpetualPage/utils/renderUtils';
 import { StatusComponent } from 'app/components/Dialogs/StatusComponent';
+import { PerpetualQueriesContext } from '../../../contexts/PerpetualQueriesContext';
+import { PerpetualPairDictionary } from '../../../../../../utils/dictionaries/perpetual-pair-dictionary';
 
 const TxTypeLabels = {
   [TxType.APPROVE]: translations.perpetualPage.processTrade.labels.approvalTx,
@@ -45,17 +47,28 @@ type TradeSummaryProps = {
   origin?: PerpetualPageModals;
   trade?: PerpetualTrade;
   pair: PerpetualPair;
-  analysis: TradeAnalysis;
+  analysis: PerpetualTradeAnalysis;
   transactions?: Transaction[];
 };
 
 export const TradeSummary: React.FC<TradeSummaryProps> = ({
   origin = PerpetualPageModals.NONE,
   trade,
-  pair,
+  pair: currentPair,
   analysis,
   transactions,
 }) => {
+  const { perpetuals } = useContext(PerpetualQueriesContext);
+  const pair = useMemo(
+    () =>
+      trade?.pairType
+        ? PerpetualPairDictionary.get(trade?.pairType)
+        : currentPair,
+    [trade?.pairType, currentPair],
+  );
+
+  const { lotPrecision } = perpetuals[pair.id];
+
   const {
     amountChange,
     marginChange,
@@ -182,8 +195,8 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
         )}
         {showAmountText && (
           <div className="tw-text-sm tw-tracking-normal tw-mt-2 tw-leading-none tw-text-sov-white tw-font-medium">
-            {toNumberFormat(Math.abs(amountChange), 3)} {pair.baseAsset} @{' '}
-            {toNumberFormat(entryPrice, 2)} {pair.quoteAsset}
+            {toNumberFormat(Math.abs(amountChange), lotPrecision)}{' '}
+            {pair.baseAsset} @ {toNumberFormat(entryPrice, 2)} {pair.quoteAsset}
           </div>
         )}
         {showCloseText && (
@@ -229,7 +242,7 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
                   maxDecimals={4}
                   mode={AssetValueMode.auto}
                   value={totalToReceive}
-                  assetString={pair.baseAsset}
+                  assetString={collateralName}
                   showPositiveSign
                 />
               </span>
@@ -248,6 +261,8 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
                   assetClassName="tw-font-light"
                   value={trade?.amount || '0'}
                   assetString={pair.baseAsset}
+                  minDecimals={lotPrecision}
+                  maxDecimals={lotPrecision}
                   mode={AssetValueMode.auto}
                 />
               </span>

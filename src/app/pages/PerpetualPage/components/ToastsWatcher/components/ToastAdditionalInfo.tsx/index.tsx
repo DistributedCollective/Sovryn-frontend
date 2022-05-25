@@ -11,7 +11,7 @@ import {
   PerpetualTx,
   isCreateLimitOrder,
   isCancelLimitOrder,
-} from '../../../TradeDialog/types';
+} from '../../../../types';
 import { PerpetualPairDictionary } from '../../../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import {
   Transaction,
