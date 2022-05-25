@@ -247,7 +247,7 @@ export const DefaultHeaderComponent: React.FC = () => {
   const NavPopover = ({ content, children }) => {
     return (
       <Popover
-        interactionKind="hover"
+        interactionKind={PopoverInteractionKind.CLICK}
         minimal={true}
         popoverClassName={styles.headerNavPopover}
         content={content}
