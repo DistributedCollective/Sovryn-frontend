@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useMemo } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 
 import { usePageViews } from 'app/hooks/useAnalytics';
 
@@ -18,13 +18,20 @@ export type HeaderLabsProps = {
 
 export const HeaderLabs: React.FC<HeaderLabsProps> = ({ menus, helpLink }) => {
   const { t } = useTranslation();
+  const location = useLocation();
   usePageViews();
+
+  const linkBackUrl = useMemo(
+    () =>
+      location.pathname === '/perpetuals/competition' ? '/perpetuals' : '/',
+    [location.pathname],
+  );
 
   return (
     <header className={styles.header}>
       <div className="tw-container tw-flex tw-justify-between tw-items-center tw-py-1.5 tw-px-2 xl:tw-pr-8 tw-mx-auto tw-text-black">
         <div className="tw-w-12 xl:tw-w-1/4 tw-flex tw-items-start">
-          <Link to="/">
+          <Link to={linkBackUrl}>
             <ArrowBack className={styles.backArrow} />
           </Link>
         </div>
