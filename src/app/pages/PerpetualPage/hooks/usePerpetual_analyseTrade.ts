@@ -162,6 +162,7 @@ export const usePerpetual_analyseTrade = (
       traderState,
       perpParameters,
       ammState,
+      trade.tradeType,
     );
 
     return analysis;

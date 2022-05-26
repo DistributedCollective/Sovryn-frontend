@@ -2442,7 +2442,9 @@
     "warnings": {
       "priceExceedsSlippage": "Trade is likely to fail, because the expected price exceeds limit price! Update slippage to at least {{slippage}}, to avoid transaction failure.",
       "targetMarginUnsafe": "Transaction is likely to fail. The resulting position does not meet the required maintenance margin.",
-      "exceedsBalance": "Order cost exceeds total balance, your trade could fail in case of high slippage."
+      "exceedsBalance": "Order cost exceeds total balance, your trade could fail in case of high slippage.",
+      "exceedsBalanceLimitOrder": "Order cost exceeds total balance, your trade could fail.",
+      "limitPriceWorseThanCurrentPrice": "Limit order price is worse than the current market price."
     }
   },
   "claimOriginBanner": {

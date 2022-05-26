@@ -37,6 +37,7 @@ import {
   PERPETUAL_CHAIN_ID,
   PERPETUAL_CHAIN,
   PerpetualTradeAnalysis,
+  PerpetualTradeType,
 } from '../types';
 import { BridgeNetworkDictionary } from '../../BridgeDepositPage/dictionaries/bridge-network-dictionary';
 import { Trans } from 'react-i18next';
@@ -215,6 +216,7 @@ export const validatePositionChange = (
   traderState: TraderState,
   perpParameters: PerpParameters,
   ammState: AMMState,
+  tradeType: PerpetualTradeType | undefined = PerpetualTradeType.MARKET,
 ) => {
   const result: Validation = {
     valid: true,
@@ -222,6 +224,11 @@ export const validatePositionChange = (
     errors: [],
     errorMessages: [],
   };
+
+  const isLimitOrder = [
+    PerpetualTradeType.LIMIT,
+    PerpetualTradeType.STOP,
+  ].includes(tradeType);
 
   if (ammState.indexS2PriceData === 0 || perpParameters.fLotSizeBC === 0) {
     return undefined;
@@ -235,9 +242,10 @@ export const validatePositionChange = (
     );
 
     if (
-      analysis.amountChange > 0
+      (analysis.amountChange > 0
         ? expectedPrice > analysis.limitPrice
-        : expectedPrice < analysis.limitPrice
+        : expectedPrice < analysis.limitPrice) &&
+      !isLimitOrder
     ) {
       const midPrice = getMidPrice(perpParameters, ammState);
       const requiredSlippage = Math.abs(expectedPrice - midPrice) / midPrice;
@@ -251,6 +259,28 @@ export const validatePositionChange = (
           key="priceExceedsSlippage"
           i18nKey={translations.perpetualPage.warnings.priceExceedsSlippage}
           values={{ slippage: numberToPercent(requiredSlippage, 2) }}
+        />,
+      );
+    }
+
+    if (
+      isLimitOrder &&
+      (analysis.amountChange > 0
+        ? expectedPrice < analysis.limitPrice
+        : expectedPrice > analysis.limitPrice)
+    ) {
+      result.valid = false;
+      result.isWarning = true;
+      result.errors.push(
+        new Error('Expected price worse than the current market price!'),
+      );
+      result.errorMessages?.push(
+        <Trans
+          parent="div"
+          key="limitPriceWorseThanCurrentPrice"
+          i18nKey={
+            translations.perpetualPage.warnings.limitPriceWorseThanCurrentPrice
+          }
         />,
       );
     }
@@ -291,7 +321,11 @@ export const validatePositionChange = (
         <Trans
           parent="div"
           key="targetMarginUnsafe"
-          i18nKey={translations.perpetualPage.warnings.exceedsBalance}
+          i18nKey={
+            translations.perpetualPage.warnings[
+              isLimitOrder ? 'exceedsBalanceLimitOrder' : 'exceedsBalance'
+            ]
+          }
         />,
       );
     }
