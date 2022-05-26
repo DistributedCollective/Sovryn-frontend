@@ -1,23 +1,23 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Dialog } from 'app/containers/Dialog';
-import { FormGroup } from '../Form/FormGroup';
+import { FormGroup } from '../../Form/FormGroup';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { AmountInput } from '../Form/AmountInput';
+import { AmountInput } from '../../Form/AmountInput';
 import { Asset } from 'types';
 import { useWeiAmount } from 'app/hooks/useWeiAmount';
 import { noop } from 'app/constants';
 import { useCanInteract } from 'app/hooks/useCanInteract';
 import { bignumber } from 'mathjs';
-import { BuyButton, Img } from './styled';
-import image from 'assets/images/arrow-down.svg';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
 import { useAccount } from 'app/hooks/useAccount';
-import { useUnWrap } from '../../hooks/portfolio/useUnWrap';
-import { gasLimit } from '../../../utils/classifiers';
-import { TxType } from '../../../store/global/transactions-store/types';
-import { TransactionDialog } from '../TransactionDialog';
+import { useUnWrap } from 'app/hooks/portfolio/useUnWrap';
+import { gasLimit } from 'utils/classifiers';
+import { TxType } from 'store/global/transactions-store/types';
+import { TransactionDialog } from '../../TransactionDialog';
+import { Button, ButtonColor, ButtonSize, ButtonStyle } from '../../Button';
+import { Icon } from '../../Icon';
 
 interface IConversionDialogProps {
   isOpen: boolean;
@@ -76,7 +76,13 @@ export const UnWrapDialog: React.FC<IConversionDialogProps> = ({
             />
           </FormGroup>
 
-          <Img src={image} alt="Arrow" />
+          <div className="tw-text-center tw-mx-auto">
+            <Icon
+              icon="arrow-down-wide"
+              className="tw-mx-auto tw-m-5"
+              size={50}
+            />
+          </div>
 
           <FormGroup
             label={`${t(translations.userAssets.unwrapDialog.to)}:`}
@@ -100,9 +106,15 @@ export const UnWrapDialog: React.FC<IConversionDialogProps> = ({
             />
           </div>
 
-          <BuyButton disabled={!isSubmitEnabled} onClick={onConversionSubmit}>
-            {t(translations.userAssets.unwrapDialog.cta)}
-          </BuyButton>
+          <Button
+            disabled={!isSubmitEnabled}
+            onClick={onConversionSubmit}
+            text={t(translations.userAssets.unwrapDialog.cta)}
+            size={ButtonSize.lg}
+            style={ButtonStyle.normal}
+            color={ButtonColor.primary}
+            className="tw-w-full"
+          />
         </div>
       </Dialog>
       <TransactionDialog tx={convertTx} />

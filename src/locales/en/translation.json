@@ -33,7 +33,9 @@
     "gasLimit": "gas limit",
     "units": "units",
     "txHash": "Tx Hash",
-    "walletCompatibility": "Wallet Compatibility"
+    "walletCompatibility": "Wallet Compatibility",
+    "send": "Send",
+    "receive": "Receive"
   },
   "tradeEvents": {
     "CloseWithSwap": "Withdraw",
@@ -766,6 +768,7 @@
       "totalStaked": "Total Staked",
       "viewHistory": "Click to view history",
       "status": "Status",
+      "emptyHistory": "History is empty.",
       "actions": {
         "stake": "Stake",
         "unstake": "Unstake",
@@ -1166,15 +1169,30 @@
       "title": "Top-UP"
     }
   },
-  "walletPage": {
+  "portfolioPage": {
+    "portfolio": "Portfolio",
+    "rewards": "Rewards",
     "meta": {
       "title": "My Wallet",
       "description": "Information about connected wallet"
     },
     "tabs": {
       "userAssets": "Assets",
-      "vestedAssets": "Vested Assets",
-      "userNFTS": "NFTS"
+      "vestedAssets": "Vesting",
+      "userNFTS": "Gallery"
+    },
+    "claimDialog": {
+      "redemptionSuccessful": "Redemption Successful",
+      "vestedSovLink": "You will now be able to see your vested SOV in our <0>staking</0> page.",
+      "congratulations": " Congratulations you are also now owner of SOV!",
+      "checkSov": "Check SOV",
+      "txHash": "Tx Hash:",
+      "redeemOriginsSOV": "Redeem Origins SOV",
+      "requiresRBTC": "This transaction requires rBTC for gas.",
+      "originsBTCdeposit": "Origins BTC deposit:",
+      "claimedSov": "SOV claimed at {{count}} sats",
+      "sov": "SOV",
+      "btc": "BTC"
     }
   },
   "salesPage": {
@@ -1192,8 +1210,7 @@
       "asset": "Asset",
       "totalBalance": "Total Balance",
       "dollarBalance": "Dollar Balance",
-      "lockedAmount": "Locked Amount",
-      "action": "Action"
+      "lockedAmount": "Locked Amount"
     },
     "actions": {
       "deposit": "Deposit",
@@ -1207,6 +1224,8 @@
       "redeemRBTC": "Redeem RBTC",
       "withdraw": "Withdraw"
     },
+    "sendMessage": "Send {{asset}} to your connected address in the RSK network",
+    "receiveMessage": "Receive {{asset}} from your connected address in the RSK network",
     "convertDialog": {
       "title": "Convert",
       "from": "From",
@@ -1240,6 +1259,18 @@
         "hash": "RSK Relay Hash",
         "cta": "Close"
       }
+    },
+    "gallery": {
+      "title": "SOV Generation 01 NFT's",
+      "community": "Community",
+      "hero": "Hero",
+      "superhero": "Superhero",
+      "preOrder": "SOV Genesis Pre-Order",
+      "purchaseLimit": "Purchase Limit:",
+      "tier": "Tier",
+      "sovOG": "SOV-OG",
+      "btc": "BTC",
+      "emptyGallery": "Gallery is empty."
     }
   },
   "swapHistory": {
@@ -1258,7 +1289,7 @@
     "recentSwapHistory": "Recent Swap History"
   },
   "vestedHistory": {
-    "title": "Vested History",
+    "title": "Vesting History",
     "tableHeaders": {
       "time": "Date/Time",
       "vestingSchedule": "Type",
@@ -1295,7 +1326,8 @@
     },
     "emptyState": "History is empty.",
     "walletHistory": "Wallet must be connected.",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "btc": "BTC"
   },
   "validationErrors": {
     "insufficientBalance": "insufficient funds available",

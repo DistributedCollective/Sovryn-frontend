@@ -1,22 +1,19 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
-
-import { translations } from '../../../locales/i18n';
-import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
-import { SovGenerationNFTS } from '../../components/SovGenerationNFTS';
-import { UserAssets } from '../../components/UserAssets';
-import { VestedAssets } from '../../components/UserAssets/VestedAssets';
-import { useAccount, useIsConnected } from '../../hooks/useAccount';
+import { translations } from 'locales/i18n';
+import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
+import { SovGenerationNFTS } from 'app/components/SovGenerationNFTS';
+import { UserAssets } from 'app/components/UserAssets';
+import { VestedAssets } from 'app/components/UserAssets/components/VestedAssets';
+import { useAccount, useIsConnected } from 'app/hooks/useAccount';
 import { TopUpHistory } from './components/TopUpHistory';
-import { SwapHistory } from '../SwapHistory';
-import { VestedHistory } from '../VestedHistory';
+import { VestedHistory } from 'app/containers/VestedHistory';
 import { OriginClaimBanner } from './components/OriginClaimBanner';
-
-import './_overlay.scss';
+import { Button, ButtonStyle } from 'app/components/Button';
 import { Tabs } from 'app/components/Tabs';
 
-export const WalletPage: React.FC = () => {
+export const PortfolioPage: React.FC = () => {
   const { t } = useTranslation();
   const connected = useIsConnected();
   const account = useAccount();
@@ -28,52 +25,58 @@ export const WalletPage: React.FC = () => {
       content: <TopUpHistory />,
     },
     {
-      id: 'swapHistory',
-      label: t(translations.swapHistory.title),
-      content: <SwapHistory />,
-    },
-    {
       id: 'vestedHistory',
       label: t(translations.vestedHistory.title),
       content: <VestedHistory />,
     },
   ];
 
-  const walletTabs = [
+  const portfolioTabs = [
     {
       id: 'userAssets',
-      label: t(translations.walletPage.tabs.userAssets),
+      label: t(translations.portfolioPage.tabs.userAssets),
       content: <UserAssets />,
     },
     {
       id: 'vestedAssets',
-      label: t(translations.walletPage.tabs.vestedAssets),
+      label: t(translations.portfolioPage.tabs.vestedAssets),
       content: <VestedAssets />,
     },
     {
       id: 'userNFTS',
-      label: t(translations.walletPage.tabs.userNFTS),
+      label: t(translations.portfolioPage.tabs.userNFTS),
       content: <SovGenerationNFTS />,
     },
   ];
   return (
     <>
       <Helmet>
-        <title>{t(translations.walletPage.meta.title)}</title>
+        <title>{t(translations.portfolioPage.meta.title)}</title>
         <meta
           name="description"
-          content={t(translations.walletPage.meta.description)}
+          content={t(translations.portfolioPage.meta.description)}
         />
       </Helmet>
 
-      <div className="tw-container tw-mx-auto tw-px-4 tw-mt-4">
+      <div className="tw-container tw-mx-auto tw-flex tw-mt-10 xl:tw-max-w-4/6">
+        <Button
+          text={t(translations.portfolioPage.portfolio)}
+          style={ButtonStyle.link}
+          className="tw-text-2xl tw-text-sov-white hover:tw-no-underline focus:tw-no-underline"
+        />
+        <Button
+          text={t(translations.portfolioPage.rewards)}
+          style={ButtonStyle.link}
+          className="tw-ml-10 tw-text-2xl tw-text-gray-6 hover:tw-text-sov-white hover:tw-no-underline focus:tw-no-underline"
+          href="/reward"
+        />
+      </div>
+
+      <div className="tw-container tw-mx-auto tw-flex tw-mt-4 xl:tw-max-w-4/6">
         <OriginClaimBanner />
       </div>
 
-      <div
-        className="tw-container tw-mx-auto tw-px-4"
-        style={{ maxWidth: 1200 }}
-      >
+      <div className="tw-container tw-mx-auto tw-px-4 tw-max-w-6xl ">
         <div className="tw-flex tw-flex-wrap tw-items-center tw-justify-center tw-mb-3">
           <h2 className="tw-flex-shrink-0 tw-flex-grow-0 tw-mb-2 ">
             {t(translations.userAssets.meta.title)}
@@ -81,8 +84,8 @@ export const WalletPage: React.FC = () => {
         </div>
         {connected && account ? (
           <Tabs
-            items={walletTabs}
-            initial={walletTabs[0].id}
+            items={portfolioTabs}
+            initial={portfolioTabs[0].id}
             contentClassName="tw-col-span-12 tw-mt-2"
             dataActionId="portfolio-assets"
           />

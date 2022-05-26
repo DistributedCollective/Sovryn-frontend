@@ -1,9 +1,9 @@
 import React from 'react';
 import { Dialog } from 'app/containers/Dialog';
 import { Asset } from 'types';
-import { TxDialog } from './TxDialog';
 import { useConvertToXUSD } from 'app/hooks/portfolio/useConvertToXUSD';
 import { ConversionDialogContent } from './ConversionDialogContent';
+import { TransactionDialog } from 'app/components/TransactionDialog';
 
 interface IConversionDialogProps {
   isOpen: boolean;
@@ -30,7 +30,7 @@ export const ConversionDialog: React.FC<IConversionDialogProps> = ({
           />
         )}
       </Dialog>
-      <TxDialog tx={convertTx} />
+      <TransactionDialog tx={convertTx} />
     </>
   );
 };

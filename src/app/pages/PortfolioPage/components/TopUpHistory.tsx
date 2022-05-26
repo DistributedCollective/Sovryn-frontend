@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import {
   HistoryItem,
@@ -15,14 +14,15 @@ import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/D
 import { toNumberFormat } from 'utils/display-text/format';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { btcInSatoshis } from 'app/constants';
+import { PortfolioDirectionType } from '../types';
+
+//interval time to check history
+const CHECK_TIME = 15e3; // 15 seconds
 
 export const TopUpHistory: React.FC = () => {
   const { t } = useTranslation();
-
   const account = useAccount();
-
   const { ready, getDepositHistory } = useDepositSocket();
-
   const [state, setState] = useState<{
     items: HistoryItem[];
     loading: boolean;
@@ -59,7 +59,7 @@ export const TopUpHistory: React.FC = () => {
 
       const timer = setInterval(() => {
         getHistory();
-      }, 15e3);
+      }, CHECK_TIME);
 
       return () => clearInterval(timer);
     }
@@ -71,16 +71,14 @@ export const TopUpHistory: React.FC = () => {
         <table className="tw-w-full">
           <thead>
             <tr>
-              <th className="tw-text-left tw-hidden md:tw-table-cell">
+              <th className="tw-hidden md:tw-table-cell">
                 {t(translations.topUpHistory.tableHeaders.time)}
               </th>
-              <th className="tw-text-left tw-hidden md:tw-table-cell">
+              <th className="tw-hidden md:tw-table-cell">
                 {t(translations.topUpHistory.tableHeaders.asset)}
               </th>
-              <th className="tw-text-right">
-                {t(translations.topUpHistory.tableHeaders.amount)}
-              </th>
-              <th className="tw-text-right">
+              <th>{t(translations.topUpHistory.tableHeaders.amount)}</th>
+              <th>
                 <span className="tw-hidden md:tw-inline">
                   {t(translations.topUpHistory.tableHeaders.depositTx)}
                 </span>
@@ -88,7 +86,7 @@ export const TopUpHistory: React.FC = () => {
                   {t(translations.topUpHistory.tableHeaders.txHash)}
                 </span>
               </th>
-              <th className="tw-text-right tw-hidden md:tw-table-cell">
+              <th className="tw-hidden md:tw-table-cell">
                 {t(translations.topUpHistory.tableHeaders.transferTx)}
               </th>
             </tr>
@@ -116,59 +114,68 @@ export const TopUpHistory: React.FC = () => {
             )}
             {sortedHistoryItems.map(item => (
               <tr key={item.txHash}>
-                <td className="tw-text-left tw-hidden md:tw-table-cell">
+                <td className="tw-hidden md:tw-table-cell">
                   <DisplayDate
                     timestamp={(
-                      new Date(item.dateAdded).getTime() / 1000
+                      new Date(item.dateAdded).getTime() / 1e3
                     ).toString()}
                   />
                 </td>
-                <td className="tw-text-left tw-hidden md:tw-table-cell">
+                <td className="tw-hidden md:tw-table-cell">
                   <img
                     className="tw-inline"
-                    style={{ height: '40px' }}
                     src={asset.logoSvg}
                     alt={asset.asset}
                   />{' '}
-                  {item.type === 'deposit' ? (
-                    'BTC'
+                  {item.type === PortfolioDirectionType.DEPOSIT ? (
+                    t(translations.topUpHistory.btc)
                   ) : (
                     <AssetSymbolRenderer asset={Asset.RBTC} />
                   )}
                 </td>
                 <td>
-                  <div className="tw-flex tw-flex-nowrap tw-text-right tw-justify-end">
-                    <small>
+                  <div className="tw-flex tw-flex-nowrap">
+                    <span>
                       {toNumberFormat(item.valueBtc / btcInSatoshis, 6)}
-                    </small>{' '}
-                    <small className="tw-text-gray-6">
-                      {item.type === 'deposit' ? 'BTC' : 'rBTC'}
-                    </small>
+                    </span>{' '}
+                    <span>
+                      {item.type === PortfolioDirectionType.DEPOSIT ? (
+                        t(translations.topUpHistory.btc)
+                      ) : (
+                        <AssetSymbolRenderer asset={Asset.RBTC} />
+                      )}
+                    </span>
                   </div>
                 </td>
                 <td
-                  className={`tw-text-right ${
-                    item.type !== 'deposit' && 'tw-hidden md:tw-table-cell'
+                  className={`${
+                    item.type !== PortfolioDirectionType.DEPOSIT &&
+                    'tw-hidden md:tw-table-cell'
                   }`}
                 >
-                  {item.type === 'deposit' && (
+                  {item.type === PortfolioDirectionType.DEPOSIT ? (
                     <LinkToExplorer
                       txHash={item.txHash}
                       realBtc
                       className="tw-text-primary"
                     />
+                  ) : (
+                    <span>–</span>
                   )}
                 </td>
                 <td
-                  className={`tw-text-right ${
-                    item.type !== 'transfer' && 'tw-hidden md:tw-table-cell'
+                  className={`${
+                    item.type !== PortfolioDirectionType.TRANSFER &&
+                    'tw-hidden md:tw-table-cell'
                   }`}
                 >
-                  {item.type === 'transfer' && (
+                  {item.type === PortfolioDirectionType.TRANSFER ? (
                     <LinkToExplorer
                       txHash={item.txHash}
                       className="tw-text-primary"
                     />
+                  ) : (
+                    <span>–</span>
                   )}
                 </td>
               </tr>
