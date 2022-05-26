@@ -12,9 +12,9 @@ export type LeaderboardData = {
 };
 
 export type RegisteredTraderData = {
-  createdAt: string; //date timestamp
+  createdAt: string; //timestamp
   id: string; //uuid
-  updatedAt: string; //date timestamp
+  updatedAt: string; //timestamp
   userName: string | null;
   walletAddress: string;
 };
