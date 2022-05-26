@@ -18,12 +18,13 @@ import {
 import { LanguageToggle } from '../../../../components/LanguageToggle';
 import styles from './index.module.scss';
 import { ReactComponent as SovLogo } from 'assets/images/sovryn-logo-alpha.svg';
-import { bitocracyUrl, isMainnet, isStaging } from 'utils/classifiers';
+import { bitocracyUrl, zeroUrl, isMainnet, isStaging } from 'utils/classifiers';
 import { Menu } from 'app/components/Menu';
 import { MenuItem } from 'app/components/Menu/components/MenuItem';
 import { MenuSeparator } from 'app/components/Menu/components/MenuSeparator';
 
 const showPerps = !isMainnet || isStaging;
+const showZero = isMainnet || isStaging;
 
 export const DefaultHeaderComponent: React.FC = () => {
   const { t } = useTranslation();
@@ -63,6 +64,17 @@ export const DefaultHeaderComponent: React.FC = () => {
       to: '/perpetuals',
       title: t(translations.mainMenu.perpetuals),
       dataActionId: 'header-link-lab-perpetuals',
+    }) || {
+      to: '',
+      title: '',
+      dataActionId: '',
+    }),
+  };
+  const zeroPage = {
+    ...((showZero && {
+      to: zeroUrl,
+      title: t(translations.mainMenu.zero),
+      dataActionId: 'header-lab-link-zero',
     }) || {
       to: '',
       title: '',
@@ -153,6 +165,7 @@ export const DefaultHeaderComponent: React.FC = () => {
       title: t(translations.mainMenu.labs),
       dataActionId: 'header-link-lab',
     },
+    zeroPage,
     {
       to: '/mynt-token',
       title: t(translations.mainMenu.myntToken),
@@ -172,7 +185,7 @@ export const DefaultHeaderComponent: React.FC = () => {
     {
       to: '/origins/claim',
       title: t(translations.mainMenu.originsClaim),
-      dataActionId: 'header-link-portfolio',
+      dataActionId: 'header-link-origins-claim',
     },
     {
       to: 'https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp',
@@ -242,6 +255,7 @@ export const DefaultHeaderComponent: React.FC = () => {
       [SECTION_TYPE.PORTFOLIO]: ['/wallet'],
       [SECTION_TYPE.LABS]: [
         '/labs',
+        '/zero',
         '/mynt-token',
         '/perpetuals',
         '/origins',
@@ -444,6 +458,14 @@ export const DefaultHeaderComponent: React.FC = () => {
                   <NavPopover
                     content={
                       <Menu>
+                        {showZero && (
+                          <MenuItem
+                            href={zeroUrl}
+                            text={t(translations.mainMenu.zero)}
+                            className="bp3-popover-dismiss"
+                            data-action-id="header-lab-link-zero"
+                          />
+                        )}
                         <MenuItem
                           text={t(translations.mainMenu.myntToken)}
                           href="/mynt-token"
@@ -464,11 +486,13 @@ export const DefaultHeaderComponent: React.FC = () => {
                           onClick={() => history.push('/origins')}
                           data-action-id="header-origins-link-launchpad"
                         />
-                        <MenuItem
-                          text={t(translations.mainMenu.claim)}
-                          onClick={() => history.push('/origins/claim')}
-                          data-action-id="header-origins-link-claim"
-                        />
+                        {!isMainnet && (
+                          <MenuItem
+                            text={t(translations.mainMenu.claim)}
+                            onClick={() => history.push('/origins/claim')}
+                            data-action-id="header-origins-link-claim"
+                          />
+                        )}
                       </Menu>
                     }
                   >
