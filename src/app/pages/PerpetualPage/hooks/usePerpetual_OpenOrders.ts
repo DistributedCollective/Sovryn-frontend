@@ -12,6 +12,7 @@ import { BigNumber } from 'ethers';
 import {
   Event,
   EventQuery,
+  OrderDirection,
   useGetTraderEvents,
 } from './graphql/useGetTraderEvents';
 import { usePerpetual_completedTransactions } from './usePerpetual_completedTransactions';
@@ -60,6 +61,8 @@ export const usePerpetual_OpenOrders = (
       {
         event: Event.LIMIT_ORDER,
         whereCondition: `state: Active`,
+        orderBy: 'createdTimestamp',
+        orderDirection: OrderDirection.desc,
         page: 1, // TODO: Add a proper pagination once we have a total limit orders field in the subgraph
         perPage: 10,
       },
