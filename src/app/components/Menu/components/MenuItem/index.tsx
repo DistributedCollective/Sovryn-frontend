@@ -7,10 +7,10 @@ import React, {
 } from 'react';
 import classNames from 'classnames';
 import { Link, useLocation } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styles from './index.module.scss';
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import iconNewTab from 'assets/images/iconNewTab.svg';
+import { Icon } from 'app/components/Icon';
 
 type MenuItemProps = {
   className?: string;
@@ -71,7 +71,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
           >
             <div className="tw-block tw-leading-none">
               <div className="tw-flex tw-items-center">
-                {icon && <FontAwesomeIcon icon={icon} className="tw-mr-2" />}
+                {icon && <Icon icon={icon} className="tw-mr-2" />}
                 <span
                   className={classNames(styles.text, {
                     'tw-mb-1': !!label,
@@ -102,7 +102,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
           >
             <div className="tw-block tw-leading-none">
               <div className="tw-flex tw-items-center">
-                {icon && <FontAwesomeIcon icon={icon} className="tw-mr-2" />}
+                {icon && <Icon icon={icon} className="tw-mr-2" />}
                 <span
                   className={classNames(styles.text, {
                     'tw-mb-1': !!label,
@@ -129,7 +129,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
         >
           <div className="tw-block tw-leading-none">
             <div className="tw-flex tw-items-center">
-              {icon && <FontAwesomeIcon icon={icon} className="tw-mr-2" />}
+              {icon && <Icon icon={icon} className="tw-mr-2" />}
               <span
                 className={classNames(styles.text, {
                   'tw-mb-1': !!label,
