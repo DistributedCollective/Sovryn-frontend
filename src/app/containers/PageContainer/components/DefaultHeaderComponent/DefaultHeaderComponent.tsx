@@ -238,7 +238,7 @@ export const DefaultHeaderComponent: React.FC = () => {
         href={link.to}
         text={link.title}
         hrefExternal={link.hrefExternal}
-        data-action-id={link.dataActionId}
+        dataActionId={link.dataActionId}
         className="tw-leading-snug"
       />
     );
