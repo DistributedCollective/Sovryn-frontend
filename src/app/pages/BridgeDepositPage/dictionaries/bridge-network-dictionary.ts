@@ -16,7 +16,7 @@ export class BridgeNetworkDictionary {
       'RSK',
       CrossBridgeAsset.RBTC,
       rskLogo,
-      'https://mainnet.sovryn.app/rpc',
+      'https://mainnet7.sovryn.app/rpc',
       'https://explorer.rsk.co',
       AppMode.MAINNET,
       '0x6c62bf5440de2cb157205b15c424bceb5c3368f5',
