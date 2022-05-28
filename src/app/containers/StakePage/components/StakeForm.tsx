@@ -174,7 +174,7 @@ export function StakeForm(props: Props) {
               'tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-opacity-100'
             }`}
             disabled={!props.isValid || stakingLocked}
-            data-action-id="staking-ConfirmButton"
+            data-action-id="staking-stake-confirmButton"
           >
             {t(translations.stake.actions.confirm)}
           </button>
@@ -182,7 +182,7 @@ export function StakeForm(props: Props) {
             type="button"
             onClick={() => props.onCloseModal()}
             className="tw-border tw-border-primary tw-rounded-lg tw-text-primary tw-uppercase tw-w-full tw-text-xl tw-font-extrabold tw-px-4 tw-py-2 hover:tw-bg-primary hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out"
-            data-action-id="staking-CancelButton"
+            data-action-id="staking-stake-cancelButton"
           >
             {t(translations.stake.actions.cancel)}
           </button>
