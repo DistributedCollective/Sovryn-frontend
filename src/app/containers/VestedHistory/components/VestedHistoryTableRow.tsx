@@ -31,6 +31,23 @@ export const VestedHistoryTableRow: React.FC<IVestedHistoryTableRow> = ({
       .div(10 ** SOV.decimals)
       .toFixed(0);
   }, [dollars.value, item.returnVal.amount, SOV.decimals]);
+
+  const getStatusIcon = (tx: TxStatus) => {
+    if (tx === TxStatus.FAILED)
+      return <Icon icon="failed-tx" size={25} className="tw-text-warning" />;
+    if (tx === TxStatus.PENDING)
+      return <Icon icon="pending-tx" size={25} className="tw-text-sov-white" />;
+    return <Icon icon="success-tx" size={25} className="tw-text-success" />;
+  };
+
+  const getStatusText = (tx: TxStatus) => {
+    if (tx === TxStatus.FAILED)
+      return <p className="tw-m-0">{t(translations.common.failed)}</p>;
+    if (tx === TxStatus.PENDING)
+      return <p className="tw-m-0">{t(translations.common.pending)}</p>;
+    return <p className="tw-m-0">{t(translations.common.confirmed)}</p>;
+  };
+
   return (
     <tr>
       <td>
@@ -67,31 +84,13 @@ export const VestedHistoryTableRow: React.FC<IVestedHistoryTableRow> = ({
       <td>
         <div className="tw-flex tw-items-center tw-justify-between lg:tw-w-5/6 tw-p-0">
           <div>
-            {!item.status && (
-              <p className="tw-m-0">{t(translations.common.confirmed)}</p>
-            )}
-            {item.status === TxStatus.FAILED && (
-              <p className="tw-m-0">{t(translations.common.failed)}</p>
-            )}
-            {item.status === TxStatus.PENDING && (
-              <p className="tw-m-0">{t(translations.common.pending)}</p>
-            )}
+            {getStatusText(item.status)}
             <LinkToExplorer
               txHash={item.transaction_hash}
               className="tw-text-primary tw-font-normal tw-text-nowrap"
             />
           </div>
-          <div>
-            {!item.status && (
-              <Icon icon="success-tx" size={25} className="tw-text-success" />
-            )}
-            {item.status === TxStatus.FAILED && (
-              <Icon icon="failed-tx" size={25} className="tw-text-warning" />
-            )}
-            {item.status === TxStatus.PENDING && (
-              <Icon icon="pending-tx" size={25} className="tw-text-sov-white" />
-            )}
-          </div>
+          <div>{getStatusIcon(item.status)}</div>
         </div>
       </td>
     </tr>

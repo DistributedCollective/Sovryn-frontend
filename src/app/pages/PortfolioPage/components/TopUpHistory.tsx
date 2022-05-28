@@ -14,7 +14,7 @@ import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/D
 import { toNumberFormat } from 'utils/display-text/format';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { btcInSatoshis } from 'app/constants';
-import { PortfolioDirectionType } from '../types';
+import { HistoryItemType } from '../types';
 
 //interval time to check history
 const CHECK_TIME = 15e3; // 15 seconds
@@ -127,7 +127,7 @@ export const TopUpHistory: React.FC = () => {
                     src={asset.logoSvg}
                     alt={asset.asset}
                   />{' '}
-                  {item.type === PortfolioDirectionType.DEPOSIT ? (
+                  {item.type === HistoryItemType.DEPOSIT ? (
                     t(translations.topUpHistory.btc)
                   ) : (
                     <AssetSymbolRenderer asset={Asset.RBTC} />
@@ -139,7 +139,7 @@ export const TopUpHistory: React.FC = () => {
                       {toNumberFormat(item.valueBtc / btcInSatoshis, 6)}
                     </span>{' '}
                     <span>
-                      {item.type === PortfolioDirectionType.DEPOSIT ? (
+                      {item.type === HistoryItemType.DEPOSIT ? (
                         t(translations.topUpHistory.btc)
                       ) : (
                         <AssetSymbolRenderer asset={Asset.RBTC} />
@@ -149,11 +149,11 @@ export const TopUpHistory: React.FC = () => {
                 </td>
                 <td
                   className={`${
-                    item.type !== PortfolioDirectionType.DEPOSIT &&
+                    item.type !== HistoryItemType.DEPOSIT &&
                     'tw-hidden md:tw-table-cell'
                   }`}
                 >
-                  {item.type === PortfolioDirectionType.DEPOSIT ? (
+                  {item.type === HistoryItemType.DEPOSIT ? (
                     <LinkToExplorer
                       txHash={item.txHash}
                       realBtc
@@ -165,11 +165,11 @@ export const TopUpHistory: React.FC = () => {
                 </td>
                 <td
                   className={`${
-                    item.type !== PortfolioDirectionType.TRANSFER &&
+                    item.type !== HistoryItemType.TRANSFER &&
                     'tw-hidden md:tw-table-cell'
                   }`}
                 >
-                  {item.type === PortfolioDirectionType.TRANSFER ? (
+                  {item.type === HistoryItemType.TRANSFER ? (
                     <LinkToExplorer
                       txHash={item.txHash}
                       className="tw-text-primary"

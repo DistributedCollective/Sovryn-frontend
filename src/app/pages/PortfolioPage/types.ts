@@ -1,4 +1,4 @@
-export enum PortfolioDirectionType {
+export enum HistoryItemType {
   DEPOSIT = 'deposit',
   TRANSFER = 'transfer',
 }

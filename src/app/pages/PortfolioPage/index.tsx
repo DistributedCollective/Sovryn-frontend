@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -18,36 +18,43 @@ export const PortfolioPage: React.FC = () => {
   const connected = useIsConnected();
   const account = useAccount();
 
-  const historyTabs = [
-    {
-      id: 'topUpHistory',
-      label: t(translations.topUpHistory.meta.title),
-      content: <TopUpHistory />,
-    },
-    {
-      id: 'vestedHistory',
-      label: t(translations.vestedHistory.title),
-      content: <VestedHistory />,
-    },
-  ];
+  const historyTabs = useMemo(
+    () => [
+      {
+        id: 'topUpHistory',
+        label: t(translations.topUpHistory.meta.title),
+        content: <TopUpHistory />,
+      },
+      {
+        id: 'vestedHistory',
+        label: t(translations.vestedHistory.title),
+        content: <VestedHistory />,
+      },
+    ],
+    [t],
+  );
 
-  const portfolioTabs = [
-    {
-      id: 'userAssets',
-      label: t(translations.portfolioPage.tabs.userAssets),
-      content: <UserAssets />,
-    },
-    {
-      id: 'vestedAssets',
-      label: t(translations.portfolioPage.tabs.vestedAssets),
-      content: <VestedAssets />,
-    },
-    {
-      id: 'userNFTS',
-      label: t(translations.portfolioPage.tabs.userNFTS),
-      content: <SovGenerationNFTS />,
-    },
-  ];
+  const portfolioTabs = useMemo(
+    () => [
+      {
+        id: 'userAssets',
+        label: t(translations.portfolioPage.tabs.userAssets),
+        content: <UserAssets />,
+      },
+      {
+        id: 'vestedAssets',
+        label: t(translations.portfolioPage.tabs.vestedAssets),
+        content: <VestedAssets />,
+      },
+      {
+        id: 'userNFTS',
+        label: t(translations.portfolioPage.tabs.userNFTS),
+        content: <SovGenerationNFTS />,
+      },
+    ],
+    [t],
+  );
+
   return (
     <>
       <Helmet>
