@@ -160,6 +160,7 @@ export function StakingDateSelector(props: Props) {
                 className={`tw-leading-7 tw-font-normal tw-rounded tw-border tw-border-secondary tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 md:tw-px-3 tw-px-2 tw-py-0 tw-text-center tw-border-r tw-text-md tw-text-secondary tw-tracking-tighter ${
                   selectedYear === year && 'tw-bg-opacity-30 tw-bg-secondary'
                 }`}
+                data-action-id={`staking-year-selector-${year}`}
               >
                 {year}
               </button>
@@ -212,6 +213,9 @@ export function StakingDateSelector(props: Props) {
                               'tw-bg-opacity-30 tw-bg-secondary': isDateSelected,
                             },
                           )}
+                          data-action-id={`staking-month-${dayjs(
+                            item.date,
+                          ).format('MMM')}-${dayjs(item.date).format('D')}`}
                         >
                           {dayjs(item.date)
                             .subtract(currentUserOffset, 'hour')
