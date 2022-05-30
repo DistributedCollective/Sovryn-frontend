@@ -8,10 +8,21 @@ import { actions } from '../../slice';
 import { Tooltip, Switch } from '@blueprintjs/core';
 import { translations } from '../../../../../locales/i18n';
 import { useTranslation } from 'react-i18next';
+import {
+  PERPETUAL_PAYMASTER,
+  PerpetualPageModals,
+  PERPETUAL_CHAIN,
+} from '../../types';
+import { bridgeNetwork } from '../../../BridgeDepositPage/utils/bridge-network';
+import { getContract } from '../../../../../utils/blockchain/contract-helpers';
+import { useAccount } from '../../../../hooks/useAccount';
+import { BigNumber } from 'ethers';
+import { toWei } from '../../../../../utils/blockchain/math-helpers';
 
 export const GsnSwitch: React.FC = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const account = useAccount();
   const { useMetaTransactions } = useSelector(selectPerpetualPage);
   const { wallet } = useWalletContext();
 
@@ -29,8 +40,26 @@ export const GsnSwitch: React.FC = () => {
   );
 
   const onToggleMetaTransactions = useCallback(() => {
-    dispatch(actions.setUseMetaTransactions(!useMetaTransactions));
-  }, [dispatch, useMetaTransactions]);
+    if (!useMetaTransactions) {
+      const contract = getContract('PERPETUALS_token');
+      // on enabling meta transactions check wether or not the Paymaster already has allowance
+      bridgeNetwork
+        .call(PERPETUAL_CHAIN, contract.address, contract.abi, 'allowance', [
+          account.toLowerCase(),
+          PERPETUAL_PAYMASTER.toLowerCase(),
+        ])
+        .then(allowance => {
+          if (BigNumber.from(allowance).lt(toWei(100))) {
+            dispatch(actions.setModal(PerpetualPageModals.GSN_APPROVAL));
+          } else {
+            dispatch(actions.setUseMetaTransactions(!useMetaTransactions));
+          }
+        })
+        .catch(console.error);
+    } else {
+      dispatch(actions.setUseMetaTransactions(!useMetaTransactions));
+    }
+  }, [dispatch, useMetaTransactions, account]);
 
   useEffect(() => {
     if (wallet.connected && useMetaTransactions) {

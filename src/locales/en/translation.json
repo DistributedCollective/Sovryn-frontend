@@ -2160,6 +2160,11 @@
         "gsnUnsupported": "GSN is currently only supported for browser based wallets."
       }
     },
+    "gsnDialog": {
+      "title": "Allowance Required",
+      "explainer": "To use the GSN the paymaster contract needs to be allowed to spend your collateral token.",
+      "button": "Approve"
+    },
     "toasts": {
       "market": "Market",
       "buy": "Buy",

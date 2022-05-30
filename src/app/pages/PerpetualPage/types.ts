@@ -32,6 +32,7 @@ export enum PerpetualTradeType {
 
 export enum PerpetualPageModals {
   NONE = 'NONE',
+  GSN_APPROVAL = 'GSN_APPROVAL',
   ACCOUNT_BALANCE = 'ACCOUNT_BALANCE',
   TRADE_REVIEW = 'TRADE_REVIEW',
   EDIT_LEVERAGE = 'EDIT_LEVERAGE',

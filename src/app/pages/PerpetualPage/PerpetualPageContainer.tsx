@@ -44,6 +44,7 @@ import { ToastsWatcher } from './components/ToastsWatcher';
 import { OpenOrdersTable } from './components/OpenOrdersTable';
 import { Tabs } from 'app/components/Tabs';
 import { usePerpetual_isAddressWhitelisted } from './hooks/usePerpetual_isAddressWhitelisted';
+import { GsnApprovalDialog } from './components/GsnApprovalDialog/GsnApprovalDialog';
 
 export const PerpetualPageContainer: React.FC = () => {
   useInjectReducer({ key: sliceKey, reducer });
@@ -233,6 +234,7 @@ export const PerpetualPageContainer: React.FC = () => {
         <EditLeverageDialog />
         <EditMarginDialog />
         <ClosePositionDialog />
+        <GsnApprovalDialog />
         <ToastsWatcher />
       </PerpetualQueriesContextProvider>
     </RecentTradesContextProvider>
