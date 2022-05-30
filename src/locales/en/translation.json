@@ -2444,7 +2444,8 @@
       "targetMarginUnsafe": "Transaction is likely to fail. The resulting position does not meet the required maintenance margin.",
       "exceedsBalance": "Order cost exceeds total balance, your trade could fail in case of high slippage.",
       "exceedsBalanceLimitOrder": "Order cost exceeds total balance, your trade could fail.",
-      "limitPriceWorseThanCurrentPrice": "Limit order price is worse than the current market price."
+      "limitPriceWorseThanCurrentPrice": "Limit order price is worse than the current market price.",
+      "maximalAmountOfLimitOrders": "There is a maximal amount of 15 Limit/Stop orders."
     }
   },
   "claimOriginBanner": {

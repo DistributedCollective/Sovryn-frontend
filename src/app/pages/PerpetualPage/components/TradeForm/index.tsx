@@ -132,6 +132,11 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     lotSize,
   ]);
 
+  const isMarketOrder = useMemo(
+    () => trade.tradeType === PerpetualTradeType.MARKET,
+    [trade.tradeType],
+  );
+
   const hasOpenTrades = traderState?.marginAccountPositionBC !== 0;
 
   const [minLeverage, maxLeverage] = useMemo(() => {
@@ -149,8 +154,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     possibleMargin += getTraderPnLInCC(traderState, ammState, perpParameters);
     // max leverage for limit and stop orders should equal to max leverage for huge positions
     // and not the actual target amount so we don't allow users to place multiple high leverage small positions
-    const position =
-      trade.tradeType === PerpetualTradeType.MARKET ? amountTarget : 1000000000;
+    const position = isMarketOrder ? amountTarget : 1000000000;
 
     const maxLeverage = getMaxInitialLeverage(position, perpParameters);
 
@@ -173,13 +177,13 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   }, [
     trade.position,
     trade.amount,
-    trade.tradeType,
     trade.slippage,
     traderState,
     availableBalance,
     perpParameters,
     ammState,
     useMetaTransactions,
+    isMarketOrder,
     pair.config.leverage.min,
   ]);
 
@@ -360,11 +364,11 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
 
   const isLeverageDisabled = useMemo(
     () =>
-      trade.tradeType === PerpetualTradeType.MARKET &&
+      isMarketOrder &&
       (keepPositionLeverage ||
         (Number(amount) !== 0 && Math.abs(resultingPositionSize) < lotSize)),
     [
-      trade.tradeType,
+      isMarketOrder,
       keepPositionLeverage,
       amount,
       resultingPositionSize,
@@ -377,9 +381,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       ...trade,
       averagePrice: toWei(averagePrice),
       entryPrice: toWei(entryPrice),
-      isClosePosition:
-        trade.tradeType === PerpetualTradeType.MARKET &&
-        Math.abs(amountTarget) < lotSize,
+      isClosePosition: isMarketOrder && Math.abs(amountTarget) < lotSize,
     };
 
     if (trade.tradeType !== PerpetualTradeType.MARKET) {
@@ -410,11 +412,12 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     trade,
     averagePrice,
     entryPrice,
+    isMarketOrder,
     amountTarget,
     lotSize,
+    onSubmit,
     limit,
     triggerPrice,
-    onSubmit,
   ]);
 
   useEffect(() => {
@@ -610,15 +613,17 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
                 value={orderCost}
                 assetString={collateralName}
               />
-              <AssetValue
-                className="tw-block tw-text-right"
-                minDecimals={2}
-                maxDecimals={2}
-                mode={AssetValueMode.auto}
-                value={orderCost / quoteToCollateralFactor}
-                assetString={pair.quoteAsset}
-                isApproximation
-              />
+              {(!pair.isQuanto || isMarketOrder) && (
+                <AssetValue
+                  className="tw-block tw-text-right"
+                  minDecimals={2}
+                  maxDecimals={2}
+                  mode={AssetValueMode.auto}
+                  value={orderCost / quoteToCollateralFactor}
+                  assetString={pair.quoteAsset}
+                  isApproximation
+                />
+              )}
             </>
           }
         >
@@ -635,7 +640,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         className={classNames(
           'tw-flex tw-flex-row tw-items-center tw-justify-between tw-text-xs tw-font-medium',
           {
-            'tw-mb-4': trade.tradeType === PerpetualTradeType.MARKET,
+            'tw-mb-4': isMarketOrder,
           },
         )}
       >
@@ -743,7 +748,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         disabled={isLeverageDisabled}
       />
 
-      {trade.tradeType === PerpetualTradeType.MARKET && (
+      {isMarketOrder && (
         <>
           <Tooltip
             popoverClassName="tw-max-w-md"
@@ -808,7 +813,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
             <span className="tw-mr-2">{tradeButtonLabel}</span>
             <span>
               {weiToNumberFormat(trade.amount, lotPrecision)} @{' '}
-              {trade.tradeType === PerpetualTradeType.MARKET
+              {isMarketOrder
                 ? toNumberFormat(entryPrice, 2)
                 : toNumberFormat(limitPrice, 2)}
             </span>

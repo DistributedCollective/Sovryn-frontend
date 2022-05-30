@@ -45,6 +45,7 @@ export class PerpetualPairDictionary {
           },
         },
         false,
+        false,
       ),
     ],
     [
@@ -67,6 +68,7 @@ export class PerpetualPairDictionary {
           },
         },
         false,
+        true,
       ),
     ],
   ]);

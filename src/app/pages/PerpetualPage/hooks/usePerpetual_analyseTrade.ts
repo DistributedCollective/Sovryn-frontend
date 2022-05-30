@@ -25,6 +25,7 @@ import { getContract } from '../../../../utils/blockchain/contract-helpers';
 import { bridgeNetwork } from '../../BridgeDepositPage/utils/bridge-network';
 import { BigNumber } from 'ethers';
 import { getRequiredMarginCollateralWithGasFees } from '../utils/perpUtils';
+import { usePerpetual_OpenOrders } from './usePerpetual_OpenOrders';
 
 const defaultAnalysis: PerpetualTradeAnalysis = {
   amountChange: 0,
@@ -48,6 +49,8 @@ export const usePerpetual_analyseTrade = (
 ): PerpetualTradeAnalysis => {
   const account = useAccount();
   const { perpetuals } = useContext(PerpetualQueriesContext);
+
+  const { totalCount: limitOrdersCount } = usePerpetual_OpenOrders(1, 1000);
 
   const { pairType, useMetaTransactions } = useSelector(selectPerpetualPage);
 
@@ -163,22 +166,24 @@ export const usePerpetual_analyseTrade = (
       perpParameters,
       ammState,
       trade.tradeType,
+      limitOrdersCount,
     );
 
     return analysis;
   }, [
-    requiredAllowance,
-    account,
+    lockedIn,
     trade,
-    traderState,
+    account,
     perpParameters,
     ammState,
+    estimatedMarginTarget,
+    traderState,
+    amountTarget,
     leverageTarget,
     estimatedLiquidationPrice,
-    estimatedMarginTarget,
-    amountTarget,
-    lockedIn,
+    requiredAllowance,
     availableBalance,
+    limitOrdersCount,
     useMetaTransactions,
   ]);
 

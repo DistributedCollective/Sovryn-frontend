@@ -18,6 +18,7 @@ import {
 import { usePerpetual_completedTransactions } from './usePerpetual_completedTransactions';
 import { TxType } from '../../../../store/global/transactions-store/types';
 import { RecentTradesContext } from '../contexts/RecentTradesContext';
+import { useAccount } from 'app/hooks/useAccount';
 
 export type OpenOrderEntry = {
   id: string;
@@ -34,11 +35,14 @@ export type OpenOrderEntry = {
 type OpenOrdersHookResult = {
   loading: boolean;
   data?: OpenOrderEntry[];
+  totalCount: number;
 };
 
 export const usePerpetual_OpenOrders = (
-  address: string,
+  page: number,
+  perPage: number,
 ): OpenOrdersHookResult => {
+  const account = useAccount();
   const completedTransactions = usePerpetual_completedTransactions();
   const completeLimitOrderTxCount = useMemo(
     () =>
@@ -64,7 +68,7 @@ export const usePerpetual_OpenOrders = (
         orderBy: 'createdTimestamp',
         orderDirection: OrderDirection.desc,
         page: 1, // TODO: Add a proper pagination once we have a total limit orders field in the subgraph
-        perPage: 10,
+        perPage: 1000,
       },
     ],
     [],
@@ -75,7 +79,7 @@ export const usePerpetual_OpenOrders = (
     previousData: previousTradeEvents,
     refetch,
     loading,
-  } = useGetTraderEvents(address.toLowerCase(), eventQuery);
+  } = useGetTraderEvents(account.toLowerCase(), eventQuery);
 
   const data = useMemo(() => {
     const currentPositions: LimitOrderEvent[] | undefined =
@@ -134,5 +138,10 @@ export const usePerpetual_OpenOrders = (
     refetchDebounced();
   }, [refetchDebounced, completeLimitOrderTxCount, latestTradeByUser]);
 
-  return { data, loading };
+  const paginatedData = useMemo(
+    () => data && data.slice((page - 1) * perPage, page * perPage),
+    [data, page, perPage],
+  );
+
+  return { data: paginatedData, loading, totalCount: data?.length || 0 };
 };

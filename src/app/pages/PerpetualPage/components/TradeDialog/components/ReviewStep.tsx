@@ -53,6 +53,12 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
   );
   const isTradingInMaintenance = usePerpetual_isTradingInMaintenance();
 
+  // We don't want to display ValidationHint in case of Cancel limit orders
+  const shouldDisplayValidationHint = useMemo(
+    () => !origin || (origin && origin !== PerpetualPageModals.CANCEL_ORDER),
+    [origin],
+  );
+
   const onSubmit = useCallback(async () => {
     let nonce = await bridgeNetwork.nonce(Chain.BSC);
 
@@ -88,7 +94,12 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
           lotSize={lotSize}
           analysis={analysis}
         />
-        <ValidationHint className="tw-mt-4" validation={analysis.validation} />
+        {shouldDisplayValidationHint && (
+          <ValidationHint
+            className="tw-mt-4"
+            validation={analysis.validation}
+          />
+        )}
         <div className="tw-flex tw-justify-center">
           {isTradingInMaintenance ||
           (useMetaTransactions && isGsnInMaintenance) ? (

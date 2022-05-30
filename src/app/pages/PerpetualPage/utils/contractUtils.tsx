@@ -217,6 +217,7 @@ export const validatePositionChange = (
   perpParameters: PerpParameters,
   ammState: AMMState,
   tradeType: PerpetualTradeType | undefined = PerpetualTradeType.MARKET,
+  limitOrdersCount: number | undefined = 0,
 ) => {
   const result: Validation = {
     valid: true,
@@ -320,7 +321,7 @@ export const validatePositionChange = (
       result.errorMessages?.push(
         <Trans
           parent="div"
-          key="targetMarginUnsafe"
+          key="exceedsBalance"
           i18nKey={
             translations.perpetualPage.warnings[
               isLimitOrder ? 'exceedsBalanceLimitOrder' : 'exceedsBalance'
@@ -329,6 +330,21 @@ export const validatePositionChange = (
         />,
       );
     }
+  }
+
+  if (isLimitOrder && limitOrdersCount === 15) {
+    result.valid = false;
+    result.isWarning = false;
+    result.errors.push(
+      new Error('There is a maximal amount of 15 Limit/Stop orders.'),
+    );
+    result.errorMessages?.push(
+      <Trans
+        parent="div"
+        key="maximalAmountOfLimitOrders"
+        i18nKey={translations.perpetualPage.warnings.maximalAmountOfLimitOrders}
+      />,
+    );
   }
 
   return result;

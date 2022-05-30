@@ -19,6 +19,7 @@ export class PerpetualPair {
     public readonly limitOrderBook: ContractName,
     public readonly config: PerpetualPairConfig,
     public readonly deprecated: boolean = false,
+    public readonly isQuanto: boolean = false,
   ) {}
 
   public getContractForPosition(position: TradingPosition) {

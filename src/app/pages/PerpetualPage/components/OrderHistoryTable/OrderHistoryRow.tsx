@@ -69,10 +69,20 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({
 
   const shouldHideExecPrice = useMemo(
     () =>
-      [PerpetualTradeType.LIMIT, PerpetualTradeType.STOP].includes(tradeType) ||
-      [OrderState.Opened, OrderState.Cancelled].includes(orderState) ||
+      ([PerpetualTradeType.LIMIT, PerpetualTradeType.STOP].includes(
+        tradeType,
+      ) &&
+        [OrderState.Opened, OrderState.Cancelled].includes(orderState)) ||
       !execPrice,
     [execPrice, orderState, tradeType],
+  );
+
+  const shouldHideTriggerPrice = useMemo(
+    () =>
+      tradeType !== PerpetualTradeType.STOP ||
+      !triggerPrice ||
+      triggerPrice === '0',
+    [tradeType, triggerPrice],
   );
 
   return (
@@ -99,14 +109,14 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({
         />
       </td>
       <td>
-        {triggerPrice ? (
+        {shouldHideTriggerPrice ? (
+          <span>–</span>
+        ) : (
           <AssetValue
-            value={triggerPrice}
+            value={triggerPrice!} // shouldHideTriggerPrice checks if triggerPrice exists so this is safe
             assetString={pair?.quoteAsset}
             mode={AssetValueMode.auto}
           />
-        ) : (
-          <span>–</span>
         )}
       </td>
       <td>
