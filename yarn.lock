@@ -4736,14 +4736,14 @@
     node-fetch "^2.6.6"
     web3 "^1.6.0"
 
-"@sovryn/react-wallet@2.2.3":
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/@sovryn/react-wallet/-/react-wallet-2.2.3.tgz#1e44b7240258c63a98f82a2fd1ddca371be734e6"
-  integrity sha512-u6Ua8CXBB3XnoOG/bbxbcVHGVbX+pwApZgelwz9RCfJ77V0IB64wz7pfQq2PyP9p0cEmPIBI2gfMTZMt+mzEfQ==
+"@sovryn/react-wallet@2.2.4":
+  version "2.2.4"
+  resolved "https://registry.npmjs.org/@sovryn/react-wallet/-/react-wallet-2.2.4.tgz#bee9b680d9718956968f0404aaed2a214a8601c8"
+  integrity sha512-GLBUCSX6Y8KLXCcLVBlzOhxRQRPg1RQePegGBqQfm8QHXnp9hw2DptMsyj9dzO+j3h4NiTO4fzMUwYaYNEHTlA==
   dependencies:
     "@blueprintjs/core" "^3.44.2"
     "@hookstate/core" "^3.0.6"
-    "@sovryn/wallet" "^2.2.3"
+    "@sovryn/wallet" "^2.2.4"
     "@types/classnames" "^2.2.11"
     "@types/react-copy-to-clipboard" "^5.0.0"
     caniuse-lite "^1.0.30001287"
@@ -4760,10 +4760,10 @@
     web3 "^1.3.6"
     web3-core "^1.3.6"
 
-"@sovryn/wallet@^2.2.3":
-  version "2.2.3"
-  resolved "https://registry.yarnpkg.com/@sovryn/wallet/-/wallet-2.2.3.tgz#b54d6a1bebb9f790eea6abcdbc77c35d5306476a"
-  integrity sha512-PVoDilnItof3/i+7ztaK61to+CekqQ46GRypEh420bTeJxlAHy7D308mu8ksoZjwE5r9iU50x6W9dfDQGMm5DQ==
+"@sovryn/wallet@^2.2.4":
+  version "2.2.4"
+  resolved "https://registry.npmjs.org/@sovryn/wallet/-/wallet-2.2.4.tgz#f76dab577e4263b92143f38c463e34a124433967"
+  integrity sha512-t+JrnbV+sIDb8vF3mWcARtUHKavCaHSXDfl10GGlahoxawRovXVPmI6iW7So8r62Pc3V9N6rCUz1t46yWORoyQ==
   dependencies:
     "@ledgerhq/hw-app-eth" "^5.53.0"
     "@ledgerhq/hw-transport" "^5.51.1"
