@@ -112,6 +112,10 @@ export const usePerpetual_OrderHistory = (
       entries = currentTradeEvents.map(item => {
         const tradeAmount = BigNumber.from(item.tradeAmountBC);
         const tradeAmountWei = ABK64x64ToWei(tradeAmount);
+        const tradeType = getFilledOrderTradeType(
+          item.orderDigest,
+          currentLimitOrderEvents,
+        );
 
         return {
           id: item.id,
@@ -120,14 +124,18 @@ export const usePerpetual_OrderHistory = (
           position: tradeAmount.isNegative()
             ? TradingPosition.SHORT
             : TradingPosition.LONG,
-          tradeType: getFilledOrderTradeType(
-            item.orderDigest,
-            currentLimitOrderEvents,
-          ),
+          tradeType,
           orderState: OrderState.Filled,
           orderSize: tradeAmountWei,
           limitPrice: ABK64x64ToWei(BigNumber.from(item.limitPrice)),
           execPrice: ABK64x64ToWei(BigNumber.from(item.price)),
+          triggerPrice:
+            tradeType === PerpetualTradeType.STOP
+              ? getFilledOrderTriggerPrice(
+                  item.orderDigest!,
+                  currentLimitOrderEvents,
+                )
+              : undefined,
           orderId: item.transaction.id,
         };
       });
@@ -252,9 +260,18 @@ const getFilledOrderTradeType = (
     return PerpetualTradeType.MARKET;
   }
 
-  if (!limitOrder.triggerPrice) {
+  if (!limitOrder.triggerPrice || limitOrder.triggerPrice === '0') {
     return PerpetualTradeType.LIMIT;
   }
 
   return PerpetualTradeType.STOP;
+};
+
+const getFilledOrderTriggerPrice = (
+  orderDigest: string,
+  limitOrders: LimitOrderEvent[],
+) => {
+  const limitOrder = limitOrders.find(order => order.id === orderDigest);
+
+  return ABK64x64ToWei(BigNumber.from(limitOrder?.triggerPrice));
 };
