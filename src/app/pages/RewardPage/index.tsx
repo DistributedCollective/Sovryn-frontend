@@ -11,8 +11,6 @@ import { RewardTab } from './components/RewardTab';
 import { Tab } from './components/Tab';
 import { RewardTabType } from './types';
 
-import imgSov from 'assets/images/reward/sov.svg';
-import imgBtc from 'assets/images/reward/Bitcoin.svg';
 import styles from './index.module.scss';
 import { FeesEarnedTab } from './components/FeesEarnedTab';
 import { Asset } from 'types';
@@ -55,12 +53,7 @@ export function RewardPage() {
         />
       </Helmet>
 
-      <div className={styles['background-image-wrapper']}>
-        <img className={styles['background-image']} src={imgSov} alt="SOV" />
-        <img className={styles['background-image']} src={imgBtc} alt="BTC" />
-      </div>
-
-      <div className="tw-container tw-mx-auto tw-flex tw-mt-10 xl:tw-max-w-4/6 tw-relative">
+      <div className="tw-container tw-mx-auto tw-flex tw-mt-10 xl:tw-max-w-2/3 tw-relative">
         <Button
           text={t(translations.portfolioPage.portfolio)}
           style={ButtonStyle.link}
@@ -77,7 +70,7 @@ export function RewardPage() {
       <div className="tw-container tw-mt-2 tw-mx-auto tw-px-6 tw-relative">
         <div className="tw-mt-4 tw-items-center tw-flex tw-flex-col">
           <div className={styles['page-main-section']}>
-            <div className="tw-flex tw-flex-row tw-items-center tw-justify-start tw-mt-24">
+            <div className="tw-flex tw-flex-row tw-items-center tw-justify-start tw-mt-4">
               <div className="tw-w-full">
                 <Tab
                   text={t(translations.rewardPage.sov.reward)}

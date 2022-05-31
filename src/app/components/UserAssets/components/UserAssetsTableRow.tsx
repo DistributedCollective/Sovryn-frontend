@@ -43,6 +43,7 @@ const XUSD_ASSETS: {
 export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
   item,
   onConvert,
+  onTransack,
   onUnWrap,
 }) => {
   const { t } = useTranslation();
@@ -136,6 +137,12 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
         <div className="tw-w-full tw-flex tw-flex-row tw-space-x-4 tw-justify-end">
           {asset === Asset.RBTC && (
             <>
+              <Button
+                text={t(translations.userAssets.actions.buy)}
+                onClick={onTransack}
+                style={ButtonStyle.link}
+                size={ButtonSize.sm}
+              />
               <Tooltip
                 position="top"
                 hoverOpenDelay={0}

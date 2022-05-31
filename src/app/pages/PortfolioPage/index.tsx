@@ -65,7 +65,7 @@ export const PortfolioPage: React.FC = () => {
         />
       </Helmet>
 
-      <div className="tw-container tw-mx-auto tw-flex tw-mt-10 xl:tw-max-w-4/6">
+      <div className="tw-container tw-mx-auto tw-flex tw-mb-4 tw-mt-10 xl:tw-max-w-2/3">
         <Button
           text={t(translations.portfolioPage.portfolio)}
           style={ButtonStyle.link}
@@ -79,16 +79,11 @@ export const PortfolioPage: React.FC = () => {
         />
       </div>
 
-      <div className="tw-container tw-mx-auto tw-flex tw-mt-4 xl:tw-max-w-4/6">
+      <div className="tw-container tw-mx-auto tw-flex xl:tw-max-w-2/3">
         <OriginClaimBanner />
       </div>
 
-      <div className="tw-container tw-mx-auto tw-px-4 tw-max-w-6xl ">
-        <div className="tw-flex tw-flex-wrap tw-items-center tw-justify-center tw-mb-3">
-          <h2 className="tw-flex-shrink-0 tw-flex-grow-0 tw-mb-2 ">
-            {t(translations.userAssets.meta.title)}
-          </h2>
-        </div>
+      <div className="tw-container tw-mx-auto tw-px-4 xl:tw-max-w-2/3">
         {connected && account ? (
           <Tabs
             items={portfolioTabs}
