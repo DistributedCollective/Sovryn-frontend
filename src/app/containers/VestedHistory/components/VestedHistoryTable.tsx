@@ -10,7 +10,7 @@ export const VestedHistoryTable: React.FC<IVestedHistoryTable> = ({
 }) => (
   <>
     {items.map((item, index) => (
-      <VestedHistoryTableRow key={index} item={item} />
+      <VestedHistoryTableRow key={item.transactionHash + index} item={item} />
     ))}
   </>
 );
