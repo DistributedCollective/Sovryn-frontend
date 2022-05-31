@@ -94,17 +94,17 @@ export const DefaultHeaderComponent: React.FC = () => {
     {
       to: '/origins',
       title: t(translations.mainMenu.originsLaunchpad),
-      dataActionId: 'header-lab-link-launchpad',
+      dataActionId: 'header-mobile-lab-link-launchpad',
     },
     {
       to: '/origins/claim',
       title: t(translations.mainMenu.originsClaim),
-      dataActionId: 'header-lab-link-claim',
+      dataActionId: 'header-mobile-lab-link-claim',
     },
     {
       to: '/mynt-token',
       title: t(translations.mainMenu.myntToken),
-      dataActionId: 'header-lab-link-mynt-token',
+      dataActionId: 'header-mobile-lab-link-mynt-token',
     },
   ];
 
@@ -112,14 +112,14 @@ export const DefaultHeaderComponent: React.FC = () => {
     labPages.push({
       to: zeroUrl,
       title: t(translations.mainMenu.zero),
-      dataActionId: 'header-lab-link-zero',
+      dataActionId: 'header-mobile-lab-link-zero',
     });
   }
   if (showPerps) {
     labPages.push({
       to: '/perpetuals',
       title: t(translations.mainMenu.perpetuals),
-      dataActionId: 'header-lab-link-perpetuals',
+      dataActionId: 'header-mobile-lab-link-perpetuals',
     });
   }
 
@@ -127,22 +127,22 @@ export const DefaultHeaderComponent: React.FC = () => {
     {
       to: '',
       title: t(translations.mainMenu.trade),
-      dataActionId: 'header-link-trade',
+      dataActionId: 'header-mobile-link-trade',
     },
     {
       to: '/swap',
       title: t(translations.mainMenu.swap),
-      dataActionId: 'header-trade-link-swap',
+      dataActionId: 'header-mobile-trade-link-swap',
     },
     {
       to: '/spot',
       title: t(translations.mainMenu.spotTrade),
-      dataActionId: 'header-trade-link-spot',
+      dataActionId: 'header-mobile-trade-link-spot',
     },
     {
       to: '/trade',
       title: t(translations.mainMenu.marginTrade),
-      dataActionId: 'header-trade-link-margin',
+      dataActionId: 'header-mobile-trade-link-margin',
     },
     {
       to: '',
@@ -152,49 +152,49 @@ export const DefaultHeaderComponent: React.FC = () => {
     {
       to: '/borrow',
       title: t(translations.mainMenu.borrow),
-      dataActionId: 'header-link-borrow',
+      dataActionId: 'header-mobile-link-borrow',
     },
     {
       to: '',
       title: t(translations.mainMenu.earn),
-      dataActionId: 'header-link-earn',
+      dataActionId: 'header-mobile-link-earn',
     },
     {
       to: '/lend',
       title: t(translations.mainMenu.lend),
-      dataActionId: 'header-earn-link-lend',
+      dataActionId: 'header-mobile-earn-link-lend',
     },
     {
       to: '/yield-farm',
       title: t(translations.mainMenu.pool),
-      dataActionId: 'header-earn-link-pool',
+      dataActionId: 'header-mobile-earn-link-pool',
     },
     {
       to: '/stake',
       title: t(translations.mainMenu.staking),
-      dataActionId: 'header-earn-link-stake',
+      dataActionId: 'header-mobile-earn-link-stake',
     },
     {
       to: '',
       title: t(translations.mainMenu.labs),
-      dataActionId: 'header-link-lab',
+      dataActionId: 'header-mobile-link-lab',
     },
     ...labPages,
     {
       to: '',
       title: t(translations.mainMenu.bitocracy),
-      dataActionId: 'header-link-bitocracy',
+      dataActionId: 'header-mobile-link-bitocracy',
     },
     {
       to: bitocracyUrl,
       title: t(translations.mainMenu.voting),
-      dataActionId: 'header-bitocracy-link-voting',
+      dataActionId: 'header-mobile-bitocracy-link-voting',
       hrefExternal: true,
     },
     {
       to: 'https://forum.sovryn.app',
       title: t(translations.mainMenu.forum),
-      dataActionId: 'header-bitocracy-link-forum',
+      dataActionId: 'header-mobile-bitocracy-link-forum',
       hrefExternal: true,
     },
     {
@@ -205,17 +205,17 @@ export const DefaultHeaderComponent: React.FC = () => {
     {
       to: '/reward',
       title: t(translations.mainMenu.reward),
-      dataActionId: 'header-link-rewards',
+      dataActionId: 'header-mobile-link-rewards',
     },
     {
       to: '/wallet',
       title: t(translations.mainMenu.portfolio),
-      dataActionId: 'header-link-portfolio',
+      dataActionId: 'header-mobile-link-portfolio',
     },
     {
       to: 'https://wiki.sovryn.app/en/sovryn-dapp/faq-dapp',
       title: t(translations.mainMenu.help),
-      dataActionId: 'header-link-help',
+      dataActionId: 'header-mobile-link-help',
       hrefExternal: true,
     },
   ];
