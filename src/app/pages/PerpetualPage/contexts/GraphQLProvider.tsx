@@ -137,15 +137,15 @@ const evaluateEndpoint = async (endpoint: GraphQLEndpoint) => {
 // TODO: add Perpetual GraphQL mainnet urls
 // fallback endpoint has to always be the last entry.
 const config: GraphQLEndpoint[] = [
-  {
-    graph:
-      'https://api.thegraph.com/subgraphs/name/omerzam/perpetual-swaps-compete',
-    index: 'https://api.thegraph.com/index-node/graphql',
-  },
+  // {
+  //   graph:
+  //     'https://api.thegraph.com/subgraphs/name/omerzam/perpetual-swaps-compete',
+  //   index: 'https://api.thegraph.com/index-node/graphql',
+  // },
   {
     graph:
       'https://graphql.sovryn.app/subgraphs/name/DistributedCollective/Sovryn-perpetual-swaps-subgraph',
-    isFallback: true,
+    // isFallback: true,
   },
 ];
 
@@ -170,22 +170,22 @@ export const GraphQLProvider: React.FC<GraphQLProviderProps> = ({
         let bestIndex = active;
 
         if (bestEvaluation.score > LACKING_TEST_SCORE) {
-          console.info(
-            `GraphQL endpoint is healthy and synced! [score:${bestEvaluation.score}] Continuing to use "${activeEndpoint.graph}".`,
-          );
+          // console.info(
+          //   `GraphQL endpoint is healthy and synced! [score:${bestEvaluation.score}] Continuing to use "${activeEndpoint.graph}".`,
+          // );
           return;
         } else if (activeEndpoint.isFallback) {
           // TODO: add index to private fallback graph to be able to properly evaluate it.
           bestEvaluation.score =
             bestEvaluation.score > 0 ? LACKING_TEST_SCORE : 0;
         }
-        console.info(
-          `GraphQL endpoint is ${
-            activeEndpoint.isFallback ? 'the fallback' : 'lacking'
-          }!`,
-          JSON.stringify(bestEvaluation),
-          `Evaluating alternatives!`,
-        );
+        // console.info(
+        //   `GraphQL endpoint is ${
+        //     activeEndpoint.isFallback ? 'the fallback' : 'lacking'
+        //   }!`,
+        //   JSON.stringify(bestEvaluation),
+        //   `Evaluating alternatives!`,
+        // );
 
         for (let index = 0; index < config.length; index++) {
           if (index === active) {

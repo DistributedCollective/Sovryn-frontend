@@ -14,7 +14,12 @@ import {
 import { getContract } from 'utils/blockchain/contract-helpers';
 import marginTokenAbi from 'utils/blockchain/abi/MarginToken.json';
 import { TradingPosition } from 'types/trading-position';
-import { getRequiredMarginCollateralWithGasFees } from './perpUtils';
+import {
+  MASK_CLOSE_ONLY,
+  MASK_MARKET_ORDER,
+  MASK_LIMIT_ORDER,
+  MASK_KEEP_POS_LEVERAGE,
+} from './perpUtils';
 import {
   perpUtils,
   TraderState,
@@ -22,16 +27,40 @@ import {
   PerpParameters,
   LiqPoolState,
 } from '@sovryn/perpetual-swap';
-import { fromWei } from '../../../../utils/blockchain/math-helpers';
-import { CheckAndApproveResultWithError } from '../types';
+import {
+  fromWei,
+  numberFromWei,
+} from '../../../../utils/blockchain/math-helpers';
+import {
+  CheckAndApproveResultWithError,
+  PERPETUAL_SLIPPAGE_DEFAULT,
+  PERPETUAL_CHAIN_ID,
+  PERPETUAL_CHAIN,
+  PerpetualTradeAnalysis,
+  PerpetualTradeType,
+} from '../types';
 import { BridgeNetworkDictionary } from '../../BridgeDepositPage/dictionaries/bridge-network-dictionary';
 import { Trans } from 'react-i18next';
 import { translations } from '../../../../locales/i18n';
 import { numberToPercent } from '../../../../utils/display-text/format';
 import perpetualManagerAbi from 'utils/blockchain/abi/PerpetualManager.json';
+import {
+  PerpetualTxMethod,
+  PerpetualTx,
+  PerpetualTxTrade,
+  PerpetualTxCreateLimitOrder,
+  PerpetualTxCancelLimitOrder,
+  PerpetualTxDepositMargin,
+  PerpetualTxWithdrawMargin,
+} from '../types';
+import { ethGenesisAddress } from '../../../../utils/classifiers';
+import { SendTxResponseInterface } from '../../../hooks/useSendContractTx';
+import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
+import { PerpetualPairDictionary } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 
 const {
-  calculateSlippagePriceFromMidPrice,
+  calculateSlippagePrice,
+  createOrderDigest,
   getPrice,
   getMidPrice,
   isTraderInitialMarginSafe,
@@ -179,15 +208,16 @@ export type Validation = {
 };
 
 export const validatePositionChange = (
-  amountChange: number,
-  marginChange: number,
-  targetLeverage: number,
-  slippage: number,
+  analysis: Pick<
+    PerpetualTradeAnalysis,
+    'amountChange' | 'marginChange' | 'limitPrice' | 'orderCost'
+  >,
   availableBalance: number,
   traderState: TraderState,
   perpParameters: PerpParameters,
   ammState: AMMState,
-  useMetaTransactions: boolean,
+  tradeType: PerpetualTradeType | undefined = PerpetualTradeType.MARKET,
+  limitOrdersCount: number | undefined = 0,
 ) => {
   const result: Validation = {
     valid: true,
@@ -196,23 +226,27 @@ export const validatePositionChange = (
     errorMessages: [],
   };
 
+  const isLimitOrder = [
+    PerpetualTradeType.LIMIT,
+    PerpetualTradeType.STOP,
+  ].includes(tradeType);
+
   if (ammState.indexS2PriceData === 0 || perpParameters.fLotSizeBC === 0) {
     return undefined;
   }
 
-  if (amountChange !== 0) {
-    const slippagePrice = calculateSlippagePriceFromMidPrice(
+  if (analysis.amountChange !== 0) {
+    const expectedPrice = getPrice(
+      analysis.amountChange,
       perpParameters,
       ammState,
-      slippage,
-      Math.sign(amountChange),
     );
-    const expectedPrice = getPrice(amountChange, perpParameters, ammState);
 
     if (
-      amountChange > 0
-        ? expectedPrice > slippagePrice
-        : expectedPrice < slippagePrice
+      (analysis.amountChange > 0
+        ? expectedPrice > analysis.limitPrice
+        : expectedPrice < analysis.limitPrice) &&
+      !isLimitOrder
     ) {
       const midPrice = getMidPrice(perpParameters, ammState);
       const requiredSlippage = Math.abs(expectedPrice - midPrice) / midPrice;
@@ -229,13 +263,40 @@ export const validatePositionChange = (
         />,
       );
     }
+
+    if (
+      isLimitOrder &&
+      (analysis.amountChange > 0
+        ? expectedPrice < analysis.limitPrice
+        : expectedPrice > analysis.limitPrice)
+    ) {
+      result.valid = false;
+      result.isWarning = true;
+      result.errors.push(
+        new Error('Expected price worse than the current market price!'),
+      );
+      result.errorMessages?.push(
+        <Trans
+          parent="div"
+          key="limitPriceWorseThanCurrentPrice"
+          i18nKey={
+            translations.perpetualPage.warnings.limitPriceWorseThanCurrentPrice
+          }
+        />,
+      );
+    }
   }
 
+  const isClosingTrade =
+    Math.abs(traderState.marginAccountPositionBC + analysis.amountChange) <
+    perpParameters.fLotSizeBC;
+
   if (
+    !isClosingTrade &&
     !isTraderInitialMarginSafe(
       traderState,
-      marginChange,
-      amountChange,
+      analysis.marginChange,
+      analysis.amountChange,
       perpParameters,
       ammState,
     )
@@ -252,31 +313,38 @@ export const validatePositionChange = (
     );
   }
 
-  if (amountChange !== 0 || marginChange !== 0) {
-    const targetAmount = amountChange + traderState.marginAccountPositionBC;
-
-    const requiredMargin = getRequiredMarginCollateralWithGasFees(
-      targetLeverage,
-      targetAmount,
-      perpParameters,
-      ammState,
-      traderState,
-      slippage,
-      useMetaTransactions,
-    );
-
-    if (requiredMargin > traderState.availableCashCC + availableBalance) {
+  if (analysis.amountChange !== 0 || analysis.marginChange !== 0) {
+    if (analysis.orderCost > availableBalance) {
       result.valid = false;
       result.isWarning = true;
       result.errors.push(new Error('Order cost exceeds total balance!'));
       result.errorMessages?.push(
         <Trans
           parent="div"
-          key="targetMarginUnsafe"
-          i18nKey={translations.perpetualPage.warnings.exceedsBalance}
+          key="exceedsBalance"
+          i18nKey={
+            translations.perpetualPage.warnings[
+              isLimitOrder ? 'exceedsBalanceLimitOrder' : 'exceedsBalance'
+            ]
+          }
         />,
       );
     }
+  }
+
+  if (isLimitOrder && limitOrdersCount === 15) {
+    result.valid = false;
+    result.isWarning = false;
+    result.errors.push(
+      new Error('There is a maximal amount of 15 Limit/Stop orders.'),
+    );
+    result.errorMessages?.push(
+      <Trans
+        parent="div"
+        key="maximalAmountOfLimitOrders"
+        i18nKey={translations.perpetualPage.warnings.maximalAmountOfLimitOrders}
+      />,
+    );
   }
 
   return result;
@@ -505,4 +573,176 @@ export const balanceCallData = (
     args: [walletAddress],
     parser: value => (value?.[0] ? String(value[0]) : '0'),
   };
+};
+
+export const getPerpetualTxContractName = (
+  transaction?: PerpetualTx,
+): ContractName => {
+  if (!transaction) {
+    return 'perpetualManager';
+  }
+
+  switch (transaction.method) {
+    case PerpetualTxMethod.trade:
+    case PerpetualTxMethod.deposit:
+    case PerpetualTxMethod.withdraw:
+    case PerpetualTxMethod.withdrawAll:
+      return 'perpetualManager';
+    case PerpetualTxMethod.createLimitOrder:
+    case PerpetualTxMethod.cancelLimitOrder:
+      return PerpetualPairDictionary.get(transaction.pair).limitOrderBook;
+  }
+};
+
+const perpetualTradeArgs = (
+  account: string,
+  transaction: PerpetualTxTrade,
+): Parameters<SendTxResponseInterface['send']>[0] => {
+  const {
+    isClosePosition = false,
+    /** amount as wei string */
+    price,
+    amount,
+    leverage = 1,
+    slippage = PERPETUAL_SLIPPAGE_DEFAULT,
+    tradingPosition = TradingPosition.LONG,
+    pair: pairType,
+  } = transaction;
+  const pair = PerpetualPairDictionary.get(pairType);
+  const signedAmount = getSignedAmount(tradingPosition, amount);
+  const tradeDirection = Math.sign(signedAmount);
+
+  const limitPrice = calculateSlippagePrice(
+    numberFromWei(price),
+    slippage,
+    tradeDirection,
+  );
+
+  const deadline = Math.round(Date.now() / 1000) + 86400; // 1 day
+  const timeNow = Math.round(Date.now() / 1000);
+
+  let flags = isClosePosition ? MASK_CLOSE_ONLY : MASK_MARKET_ORDER;
+  if (transaction.keepPositionLeverage) {
+    flags = flags.or(MASK_KEEP_POS_LEVERAGE);
+  }
+
+  const order = [
+    pair.id,
+    account,
+    floatToABK64x64(signedAmount),
+    floatToABK64x64(limitPrice),
+    0,
+    deadline,
+    ethGenesisAddress,
+    flags,
+    floatToABK64x64(leverage),
+    timeNow,
+  ];
+
+  return [order];
+};
+
+const perpetualCreateLimitTradeArgs = async (
+  account: string,
+  transaction: PerpetualTxCreateLimitOrder,
+): Promise<Parameters<SendTxResponseInterface['send']>[0]> => {
+  const {
+    tradingPosition = TradingPosition.LONG,
+    amount,
+    limit,
+    trigger,
+    expiry,
+    created,
+    leverage = 1,
+    pair: pairType,
+  } = transaction;
+  const pair = PerpetualPairDictionary.get(pairType);
+
+  const signedAmount = getSignedAmount(tradingPosition, amount);
+
+  const createdSeconds = Math.floor(created / 1000);
+  const deadlineSeconds = createdSeconds + expiry * 24 * 60 * 60;
+
+  const order = {
+    iPerpetualId: pair.id,
+    traderAddr: account,
+    fAmount: floatToABK64x64(signedAmount).toString(),
+    fLimitPrice: weiToABK64x64(limit).toString(),
+    fTriggerPrice: weiToABK64x64(trigger).toString(),
+    iDeadline: deadlineSeconds,
+    referrerAddr: ethGenesisAddress,
+    flags: MASK_LIMIT_ORDER,
+    fLeverage: floatToABK64x64(leverage).toString(),
+    createdTimestamp: createdSeconds,
+  };
+
+  const digest = await createOrderDigest(
+    order,
+    true,
+    getContract('perpetualManager').address,
+    PERPETUAL_CHAIN_ID,
+  );
+
+  const signature = await walletService.request({
+    method: 'personal_sign',
+    params: [digest, account.toLowerCase()],
+  });
+
+  return [order, signature];
+};
+
+const perpetualCancelLimitTradeArgs = async (
+  account: string,
+  transaction: PerpetualTxCancelLimitOrder,
+): Promise<Parameters<SendTxResponseInterface['send']>[0]> => {
+  const { digest } = transaction;
+
+  const contract = getContract(getPerpetualTxContractName(transaction));
+  const order = await bridgeNetwork.call(
+    PERPETUAL_CHAIN,
+    contract.address,
+    contract.abi,
+    'orderOfDigest',
+    [digest],
+  );
+
+  const cancelDigest = await createOrderDigest(
+    order,
+    false,
+    getContract('perpetualManager').address,
+    PERPETUAL_CHAIN_ID,
+  );
+
+  const signature = await walletService.request({
+    method: 'personal_sign',
+    params: [cancelDigest, account.toLowerCase()],
+  });
+
+  return [digest, signature];
+};
+
+export const perpetualTransactionArgs = async (
+  pair: PerpetualPair,
+  account: string,
+  transaction: PerpetualTx,
+): Promise<Parameters<SendTxResponseInterface['send']>[0]> => {
+  switch (transaction.method) {
+    case PerpetualTxMethod.trade:
+      const tradeTx: PerpetualTxTrade = transaction;
+      return perpetualTradeArgs(account, tradeTx);
+    case PerpetualTxMethod.createLimitOrder:
+      const createLimitTx: PerpetualTxCreateLimitOrder = transaction;
+      return await perpetualCreateLimitTradeArgs(account, createLimitTx);
+    case PerpetualTxMethod.cancelLimitOrder:
+      const cancelLimitTx: PerpetualTxCancelLimitOrder = transaction;
+      return await perpetualCancelLimitTradeArgs(account, cancelLimitTx);
+    case PerpetualTxMethod.deposit:
+      const depositTx: PerpetualTxDepositMargin = transaction;
+      return [pair.id, weiToABK64x64(depositTx.amount)];
+    case PerpetualTxMethod.withdraw:
+      const withdrawTx: PerpetualTxWithdrawMargin = transaction;
+      return [pair.id, weiToABK64x64(withdrawTx.amount)];
+    case PerpetualTxMethod.withdrawAll:
+      return [pair.id];
+  }
 };

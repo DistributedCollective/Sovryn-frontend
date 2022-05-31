@@ -67,7 +67,7 @@ export const PairSelectorButton: React.FC<PairSelectorButtonProps> = ({
     >
       <span className="tw-font-medium tw-mr-2 tw-text-base">{pair.name}</span>
       <div className="tw-flex-auto tw-flex tw-flex-col tw-justify-center tw-py-0.5 tw-text-right">
-        <div className="tw-text-tiny tw-leading-none tw-text-gray-8 tw-font-thin">
+        <div className="tw-text-tiny tw-leading-none tw-text-gray-9 tw-font-light">
           {t(translations.perpetualPage.pairSelector.markPrice)}
         </div>
         <span
