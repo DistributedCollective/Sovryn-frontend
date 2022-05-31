@@ -25,6 +25,7 @@ export type OpenPositionEntry = {
   position?: TradingPosition;
   amount?: number;
   entryPrice?: number;
+  averagePrice?: number;
   liquidationPrice?: number;
   margin: number;
   leverage?: number;
@@ -89,6 +90,7 @@ export const usePerpetual_OpenPositions = (
           ammState,
           traderState,
           perpetualParameters: perpParameters,
+          averagePrice,
         } = perpetuals[position.perpetual.id];
 
         const base2quote = getBase2QuoteFX(ammState, true);
@@ -102,11 +104,12 @@ export const usePerpetual_OpenPositions = (
         const margin = traderState.availableCashCC;
 
         if (traderState.marginAccountPositionBC === 0) {
-          return {
+          acc.push({
             id: pair.id,
             pairType: pair.pairType,
             margin,
-          };
+          });
+          return acc;
         }
 
         const tradeAmount = traderState.marginAccountPositionBC;
@@ -149,6 +152,7 @@ export const usePerpetual_OpenPositions = (
             tradeAmount > 0 ? TradingPosition.LONG : TradingPosition.SHORT,
           amount: tradeAmount,
           entryPrice,
+          averagePrice,
           liquidationPrice,
           leverage,
           margin,

@@ -1,4 +1,5 @@
 import { PerpetualTrade } from '../../types';
+import { SetStateAction, Dispatch } from 'react';
 
 export enum NewPositionCardStep {
   unconnected = 'unconnected',
@@ -10,6 +11,6 @@ export type NewPositionCardContextType = {
   hasOpenPosition: boolean;
   hasEmptyBalance: boolean;
   trade: PerpetualTrade;
-  onChangeTrade: (trade: PerpetualTrade) => void;
-  onSubmit: () => void;
+  setTrade: Dispatch<SetStateAction<PerpetualTrade>>;
+  onSubmit: (trade: PerpetualTrade) => void;
 };

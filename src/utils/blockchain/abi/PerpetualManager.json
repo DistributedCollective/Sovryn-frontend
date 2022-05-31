@@ -1692,12 +1692,7 @@
       },
       {
         "internalType": "int128",
-        "name": "_fPrice",
-        "type": "int128"
-      },
-      {
-        "internalType": "int128",
-        "name": "_fTradeAmountBC",
+        "name": "_fDepositRequired",
         "type": "int128"
       },
       {
@@ -1758,7 +1753,7 @@
         "type": "tuple"
       }
     ],
-    "name": "depositMarginForNewLeveragedTrade",
+    "name": "depositMarginForOpeningTrade",
     "outputs": [
       {
         "internalType": "bool",
@@ -2043,22 +2038,27 @@
     "inputs": [
       {
         "internalType": "int128",
-        "name": "_fPosition",
+        "name": "_fPosition0",
         "type": "int128"
       },
       {
         "internalType": "int128",
-        "name": "_fLeverage",
+        "name": "_fBalance0",
+        "type": "int128"
+      },
+      {
+        "internalType": "int128",
+        "name": "_fTradeAmount",
+        "type": "int128"
+      },
+      {
+        "internalType": "int128",
+        "name": "_fTargetLeverage",
         "type": "int128"
       },
       {
         "internalType": "int128",
         "name": "_fPrice",
-        "type": "int128"
-      },
-      {
-        "internalType": "int128",
-        "name": "_fS2",
         "type": "int128"
       },
       {
@@ -2069,11 +2069,6 @@
       {
         "internalType": "int128",
         "name": "_fS3",
-        "type": "int128"
-      },
-      {
-        "internalType": "int128",
-        "name": "_fTotalFeeRate",
         "type": "int128"
       }
     ],
@@ -3062,6 +3057,55 @@
   {
     "inputs": [
       {
+        "internalType": "int128",
+        "name": "_fDeltaPos",
+        "type": "int128"
+      },
+      {
+        "internalType": "int128",
+        "name": "_fTreasuryFeeRate",
+        "type": "int128"
+      },
+      {
+        "internalType": "int128",
+        "name": "_fPnLPartRate",
+        "type": "int128"
+      },
+      {
+        "internalType": "int128",
+        "name": "_fReferralRebate",
+        "type": "int128"
+      },
+      {
+        "internalType": "address",
+        "name": "_referrerAddr",
+        "type": "address"
+      }
+    ],
+    "name": "getTradeFees",
+    "outputs": [
+      {
+        "internalType": "int128",
+        "name": "",
+        "type": "int128"
+      },
+      {
+        "internalType": "int128",
+        "name": "",
+        "type": "int128"
+      },
+      {
+        "internalType": "int128",
+        "name": "",
+        "type": "int128"
+      }
+    ],
+    "stateMutability": "pure",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "bytes32",
         "name": "_iPerpetualId",
         "type": "bytes32"
@@ -3402,11 +3446,6 @@
       {
         "internalType": "int128",
         "name": "_fShareAmount",
-        "type": "int128"
-      },
-      {
-        "internalType": "int128",
-        "name": "_fMinTokenAmount",
         "type": "int128"
       }
     ],

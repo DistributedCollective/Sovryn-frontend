@@ -7,11 +7,8 @@ import React, {
 } from 'react';
 import txFailed from 'assets/images/failed-tx.svg';
 import { TransitionStep } from '../../../../../containers/TransitionSteps';
-import {
-  TradeDialogStep,
-  PerpetualTxStage,
-  PerpetualTxMethods,
-} from '../types';
+import { TradeDialogStep, PerpetualTxStage } from '../types';
+import { PerpetualTxMethod } from '../../../types';
 import { TradeDialogContext } from '../index';
 import styles from '../index.module.scss';
 import { translations } from '../../../../../../locales/i18n';
@@ -43,7 +40,6 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     setTransactions,
     setCurrentTransaction,
   } = useContext(TradeDialogContext);
-  const { orderCost } = analysis;
   const { wallet } = useWalletContext();
   const { useMetaTransactions } = useSelector(selectPerpetualPage);
   const { checkAndApprove } = useGsnCheckAndApprove(
@@ -72,14 +68,17 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
         ? transactions[currentTransaction?.index]
         : undefined;
 
-    if (current?.method === PerpetualTxMethods.deposit) {
-      return [current, current.amount];
+    switch (current?.method) {
+      case PerpetualTxMethod.deposit:
+        return [current, current.amount];
+      case PerpetualTxMethod.trade:
+        return [current, toWei(analysis.requiredAllowance)];
+      case PerpetualTxMethod.createLimitOrder:
+        return [current, toWei(analysis.requiredAllowance)];
+      default:
+        return [undefined, '0'];
     }
-    if (current?.method === PerpetualTxMethods.trade) {
-      return [current, toWei(orderCost * 1.1)]; // add 10% to allow for market deviation
-    }
-    return [undefined, '0'];
-  }, [transactions, currentTransaction, orderCost]);
+  }, [transactions, currentTransaction, analysis.requiredAllowance]);
 
   const onRetry = useCallback(() => {
     if (!currentTransaction) {
@@ -97,7 +96,10 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     if (!current || approvalAmount === '0') {
       setTimeout(
         () =>
-          changeTo(TradeDialogStep.confirmation, TransitionAnimation.slideLeft),
+          changeTo(
+            TradeDialogStep.confirmationEven,
+            TransitionAnimation.slideLeft,
+          ),
         500,
       );
     }
@@ -126,7 +128,9 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
               }),
             );
             changeTo(
-              TradeDialogStep.confirmation,
+              currentTransaction.index % 2 === 0
+                ? TradeDialogStep.confirmationEven
+                : TradeDialogStep.confirmationOdd,
               TransitionAnimation.slideLeft,
             );
           }
@@ -138,7 +142,6 @@ export const ApprovalStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     current,
     approvalAmount,
     currentTransaction,
-    orderCost,
     checkAndApprove,
     setCurrentTransaction,
     setTransactions,

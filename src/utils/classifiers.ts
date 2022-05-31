@@ -33,8 +33,8 @@ export const rpcNodes = {
     'https://public-node.rsk.co/',
   ],
   31: ['https://testnet.sovryn.app/rpc', 'https://public-node.testnet.rsk.co/'],
-  56: 'wss://bsc.sovryn.app/mainnet',
-  97: 'wss://bsctestnet.sovryn.app/websocket',
+  56: 'wss://bsc.sovryn.app/mainnet/websocket',
+  97: 'wss://bsc.sovryn.app/testnet/websocket',
 };
 
 export const bitocracyUrl =
@@ -105,9 +105,10 @@ export const gasLimit = {
   [TxType.DEPOSIT_COLLATERAL]: 850000,
   [TxType.WITHDRAW_COLLATERAL]: 1400000,
   [TxType.FAST_BTC_WITHDRAW]: 300000,
-  [TxType.PERPETUAL_TRADE]: 3000000,
+  [TxType.PERPETUAL_TRADE]: 3300000,
   [TxType.PERPETUAL_DEPOSIT_COLLATERAL]: 1700000,
   [TxType.PERPETUAL_WITHDRAW_COLLATERAL]: 2400000,
+  [TxType.PERPETUAL_CREATE_LIMIT_ORDER]: 3000000,
   [TxType.LIMIT_ORDER]: 3000000,
   [TxType.SETTLEMENT_WITDHRAW]: 70000,
 };

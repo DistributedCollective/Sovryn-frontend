@@ -85,6 +85,7 @@ export enum Event {
   UPDATE_MARGIN_ACCOUNT = 'UPDATE_MARGIN_ACCOUNT',
   POSITION = 'POSITION',
   FUNDING_RATE = 'FUNDING_RATE',
+  LIMIT_ORDER = 'LIMIT_ORDER',
 }
 
 const totalCountFields = {
@@ -115,6 +116,7 @@ class EventDictionary {
           'price',
           'limitPrice',
           'isClose',
+          'orderDigest',
           ...genericFields,
         ]),
       ],
@@ -196,6 +198,20 @@ class EventDictionary {
           'blockTimestamp',
           'deltaTime',
           'fundingPayment{ position{ perpetual{ id } } }',
+        ]),
+      ],
+      [
+        Event.LIMIT_ORDER,
+        new EventDetails('limitOrders', [
+          'id',
+          'perpetual{ id }',
+          'limitPrice',
+          'triggerPrice',
+          'tradeAmount',
+          'state',
+          'deadline',
+          'createdTimestamp',
+          'createdTransactionHash',
         ]),
       ],
     ],
