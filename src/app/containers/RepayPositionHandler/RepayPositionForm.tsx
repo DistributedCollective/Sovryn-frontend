@@ -1,9 +1,3 @@
-/**
- *
- * RepayPositionForm
- *
- */
-
 import React, { useCallback, useEffect, useState } from 'react';
 import { min, bignumber } from 'mathjs';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
@@ -26,11 +20,13 @@ import { translations } from '../../../locales/i18n';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { TxStatus } from 'store/global/transactions-store/types';
 
-interface Props {
+type RepayPositionFormProps = {
   loan: ActiveLoan;
-}
+};
 
-export function RepayPositionForm({ loan }: Props) {
+export const RepayPositionForm: React.FC<RepayPositionFormProps> = ({
+  loan,
+}) => {
   const { t } = useTranslation();
   const canInteract = useIsConnected();
   const { checkMaintenance, States } = useMaintenance();
@@ -142,4 +138,4 @@ export function RepayPositionForm({ loan }: Props) {
       </div>
     </div>
   );
-}
+};

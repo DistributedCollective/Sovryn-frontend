@@ -241,7 +241,7 @@ export const PositionRow: React.FC<PositionRowProps> = ({ data: item }) => {
                   )) ||
                 undefined
               }
-              data-action-id="margin-openPositions-AddToMarginButton"
+              dataActionId="margin-openPosition-history-addToMarginButton"
             />
             <ActionButton
               text={t(translations.openPositionTable.cta.close)}
@@ -259,7 +259,7 @@ export const PositionRow: React.FC<PositionRowProps> = ({ data: item }) => {
                   )) ||
                 undefined
               }
-              data-action-id="margin-openPositions-CloseButton"
+              dataActionId="margin-openPosition-history-closeButton"
             />
             <ActionButton
               text={t(translations.openPositionTable.cta.details)}
