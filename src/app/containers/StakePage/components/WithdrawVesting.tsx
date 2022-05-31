@@ -57,6 +57,7 @@ export function WithdrawVesting({ vesting, onCloseModal, onWithdraw }: Props) {
               value={address}
               placeholder="Enter or paste address"
               onChange={e => setAddress(e.currentTarget.value)}
+              data-action-id="staking-vest-withdraw-addressInput"
             />
           </div>
 
@@ -106,6 +107,7 @@ export function WithdrawVesting({ vesting, onCloseModal, onWithdraw }: Props) {
               'tw-bg-opacity-25 tw-cursor-not-allowed'
             }`}
             disabled={!validate() || withdrawVestsLocked}
+            data-action-id="staking-vest-withdraw-confirmButton"
           >
             {t(translations.stake.actions.confirm)}
           </button>
@@ -113,6 +115,7 @@ export function WithdrawVesting({ vesting, onCloseModal, onWithdraw }: Props) {
             type="button"
             onClick={onCloseModal}
             className="tw-border tw-border-primary tw-rounded-lg tw-text-primary tw-uppercase tw-w-full tw-text-xl tw-font-extrabold tw-px-4 tw-py-2 hover:tw-bg-primary hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out"
+            data-action-id="staking-vest-withdraw-cancelButton"
           >
             {t(translations.stake.actions.cancel)}
           </button>

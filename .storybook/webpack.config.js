@@ -11,6 +11,8 @@ const upgradePostCssLoaderEntry = entry => {
           postcssOptions: {
             ident: 'postcss',
             plugins: [
+              require('postcss-import'),
+              require('postcss-nested'),
               require('tailwindcss'),
               require('autoprefixer'),
               require('postcss-flexbugs-fixes'),

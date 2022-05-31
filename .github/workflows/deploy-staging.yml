@@ -33,18 +33,22 @@ jobs:
         run: yarn build
         env:
           REACT_APP_NETWORK: 'mainnet'
+          REACT_APP_STAGING: 'true'
           REACT_APP_BYPASS_MAINTENANCE: 'true'
           REACT_APP_ESTIMATOR_URI: 'https://simulator.sovryn.app'
+          REACT_APP_INTERCOM_ID: 'zxxit1rp'
+          REACT_APP_GRAPH_RSK: 'https://subgraph.sovryn.app/subgraphs/name/DistributedCollective/sovryn-subgraph'
+
 
       - name: Deploy to S3
         uses: raulanatol/aws-s3-docker-action@master
         env:
           AWS_ACCESS_KEY_ID: '${{ secrets.AWS_ACCESS_KEY_ID }}'
           AWS_SECRET_ACCESS_KEY: '${{ secrets.AWS_SECRET_ACCESS_KEY }}'
-          AWS_BUCKET_NAME:  '${{ secrets.AWS_S3_BUCKET }}'
+          AWS_BUCKET_NAME: '${{ secrets.AWS_S3_BUCKET }}'
           AWS_REGION: us-east-2
           SOURCE: build
-#          TARGET:
+          #          TARGET:
           WITH_DELETE: true
 #          WITH_CLOUD_FRONT_INVALIDATION:
 #          AWS_CLOUDFRONT_DISTRIBUTION_ID:

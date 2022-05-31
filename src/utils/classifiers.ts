@@ -11,6 +11,7 @@ export const currentNetwork: AppMode | string =
   String(process.env.REACT_APP_NETWORK).toLowerCase() || AppMode.MAINNET;
 
 export const isMainnet = currentNetwork === 'mainnet';
+export const isStaging = !!process.env.REACT_APP_STAGING;
 
 export const currentChainId = chains[currentNetwork];
 
@@ -26,7 +27,11 @@ export const blockExplorers = {
 };
 
 export const rpcNodes = {
-  30: ['https://mainnet.sovryn.app/rpc', 'https://public-node.rsk.co/'],
+  30: [
+    'https://mainnet.sovryn.app/rpc',
+    'https://mainnet2.sovryn.app/rpc',
+    'https://public-node.rsk.co/',
+  ],
   31: ['https://testnet.sovryn.app/rpc', 'https://public-node.testnet.rsk.co/'],
   56: 'wss://bsc.sovryn.app/mainnet/websocket',
   97: 'wss://bsc.sovryn.app/testnet/websocket',
@@ -36,6 +41,13 @@ export const bitocracyUrl =
   currentNetwork === AppMode.MAINNET
     ? 'https://bitocracy.sovryn.app'
     : 'https://bitocracy.test.sovryn.app';
+
+export const zeroUrl =
+  currentNetwork === AppMode.MAINNET
+    ? isStaging
+      ? 'https://staging.sovryn.app/zero'
+      : 'https://live.sovryn.app/zero'
+    : 'https://test.sovryn.app/zero';
 
 export const databaseRpcNodes = {
   30: 'https://backend.sovryn.app/rpc',
@@ -59,7 +71,7 @@ export const gasLimit = {
   [TxType.APPROVE]: 100000,
   [TxType.TRADE]: 3750000,
   [TxType.CLOSE_WITH_SWAP]: 2300000,
-  [TxType.CLOSE_WITH_DEPOSIT]: 500000,
+  [TxType.CLOSE_WITH_DEPOSIT]: 950000,
   [TxType.ADD_LIQUIDITY]: 500000,
   [TxType.REMOVE_LIQUIDITY]: 650000,
   [TxType.BORROW]: 1500000,
@@ -88,7 +100,7 @@ export const gasLimit = {
   [TxType.STAKING_LIQUID_SOV_CLAIM]: 2500000,
   [TxType.DEPOSIT_COLLATERAL]: 250000,
   [TxType.CLAIM_VESTED_SOV_REWARDS]: 6000000,
-  [TxType.SOV_WITHDRAW_VESTING]: 1900000,
+  [TxType.SOV_WITHDRAW_VESTING]: 2350000,
   [TxType.SIMULATOR_REQUEST]: 6800000,
   [TxType.DEPOSIT_COLLATERAL]: 850000,
   [TxType.WITHDRAW_COLLATERAL]: 1400000,

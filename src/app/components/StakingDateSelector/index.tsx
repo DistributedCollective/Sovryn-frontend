@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import { Text } from '@blueprintjs/core/lib/esm/components/text/text';
-import { MenuItem } from '@blueprintjs/core/lib/esm/components/menu/menuItem';
 import { ItemRenderer } from '@blueprintjs/select/lib/esm/common/itemRenderer';
 import { ItemPredicate } from '@blueprintjs/select/lib/esm/common/predicate';
 import { useTranslation } from 'react-i18next';
@@ -11,6 +10,7 @@ import { CustomDot } from 'app/pages/LandingPage/components/Promotions/component
 import classNames from 'classnames';
 import 'react-multi-carousel/lib/styles.css';
 import { CustomButtonGroup } from './CustomButtonGroup';
+import { MenuItem } from '../Menu/components/MenuItem';
 
 interface DateItem {
   key: number;
@@ -160,6 +160,7 @@ export function StakingDateSelector(props: Props) {
                 className={`tw-leading-7 tw-font-normal tw-rounded tw-border tw-border-secondary tw-cursor-pointer tw-transition tw-duration-300 tw-ease-in-out hover:tw-bg-secondary hover:tw-bg-opacity-30 md:tw-px-3 tw-px-2 tw-py-0 tw-text-center tw-border-r tw-text-md tw-text-secondary tw-tracking-tighter ${
                   selectedYear === year && 'tw-bg-opacity-30 tw-bg-secondary'
                 }`}
+                data-action-id={`staking-year-selector-${year}`}
               >
                 {year}
               </button>
@@ -167,7 +168,7 @@ export function StakingDateSelector(props: Props) {
           );
         })}
       </div>
-      <div className="tw-mt-5 tw-pr-0 tw-relative">
+      <div className="tw-mt-5 tw-pr-0 tw-relative tw-pb-4">
         <Carousel
           key={selectedYear}
           arrows={false}
@@ -212,6 +213,9 @@ export function StakingDateSelector(props: Props) {
                               'tw-bg-opacity-30 tw-bg-secondary': isDateSelected,
                             },
                           )}
+                          data-action-id={`staking-month-${dayjs(
+                            item.date,
+                          ).format('MMM')}-${dayjs(item.date).format('D')}`}
                         >
                           {dayjs(item.date)
                             .subtract(currentUserOffset, 'hour')
@@ -246,7 +250,6 @@ export const renderItem: ItemRenderer<DateItem> = (
   }
   return (
     <MenuItem
-      active={modifiers.active}
       disabled={modifiers.disabled}
       key={item.key}
       onClick={handleClick}
