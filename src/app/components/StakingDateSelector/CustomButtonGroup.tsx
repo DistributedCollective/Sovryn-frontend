@@ -50,6 +50,7 @@ export const CustomButtonGroup = ({
           },
         )}
         onClick={previous}
+        dataActionId={`staking-${ArrowType.LEFT}Button`}
       />
       <CustomArrow
         arrowType={ArrowType.RIGHT}
@@ -60,6 +61,7 @@ export const CustomButtonGroup = ({
           },
         )}
         onClick={next}
+        dataActionId={`staking-${ArrowType.RIGHT}Button`}
       />
     </>
   );
