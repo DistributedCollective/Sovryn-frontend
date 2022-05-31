@@ -114,6 +114,7 @@ export function WithdrawForm(props: Props) {
                     props.onChangeAmount(handleNumberInput(e));
                     getEvent(handleNumberInput(e).toString());
                   }}
+                  data-action-id="staking-stake-unstake-amountInput"
                 />
                 <span className="tw-text-black tw-text-md tw-font-semibold tw-absolute tw-top-3 tw-right-3 tw-leading-4">
                   {t(translations.stake.sov)}
@@ -250,6 +251,7 @@ export function WithdrawForm(props: Props) {
                     e.preventDefault();
                     setWithdrawFormConfirmation(true);
                   }}
+                  data-action-id="staking-stake-unstake-confirmButton"
                 >
                   {t(translations.stake.actions.confirm)}
                 </button>
@@ -261,6 +263,7 @@ export function WithdrawForm(props: Props) {
                     'tw-opacity-50 tw-cursor-not-allowed hover:tw-bg-opacity-100'
                   }`}
                   disabled={!props.isValid || unstakingLocked}
+                  data-action-id="staking-stake-unstake-confirmButton"
                 >
                   {t(translations.stake.actions.confirm)}
                 </button>
@@ -269,6 +272,7 @@ export function WithdrawForm(props: Props) {
                 type="button"
                 onClick={() => props.onCloseModal()}
                 className="tw-border tw-border-primary tw-rounded-lg tw-text-primary tw-uppercase tw-w-full tw-text-xl tw-font-extrabold tw-px-4 tw-py-2 hover:tw-bg-primary hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out"
+                data-action-id="staking-stake-unstake-cancelButton"
               >
                 {t(translations.stake.actions.cancel)}
               </button>
