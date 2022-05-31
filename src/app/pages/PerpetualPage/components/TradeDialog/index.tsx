@@ -1,26 +1,21 @@
-import React, {
-  useCallback,
-  useMemo,
-  useState,
-  useEffect,
-  useContext,
-} from 'react';
+import React, { useCallback, useMemo, useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Dialog } from '../../../../containers/Dialog';
 import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
-import { PerpetualPageModals, isPerpetualTradeReview } from '../../types';
+import {
+  PerpetualPageModals,
+  isPerpetualTradeReview,
+  PerpetualTx,
+} from '../../types';
 import {
   PerpetualPairDictionary,
   PerpetualPairType,
 } from 'utils/dictionaries/perpetual-pair-dictionary';
-import { getSignedAmount } from '../../utils/contractUtils';
 import {
-  TradeAnalysis,
   TradeDialogContextType,
   TradeDialogStep,
   TradeDialogCurrentTransaction,
-  PerpetualTx,
 } from './types';
 import { noop } from '../../../../constants';
 import { TransitionSteps } from '../../../../containers/TransitionSteps';
@@ -29,19 +24,7 @@ import { ReviewStep } from './components/ReviewStep';
 import { ApprovalStep } from './components/ApprovalStep';
 import { ConfirmationStep } from './components/ConfirmationStep';
 import { TransactionStep } from './components/TransactionStep';
-import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
-import { numberFromWei } from '../../../../../utils/blockchain/math-helpers';
-import { perpUtils } from '@sovryn/perpetual-swap';
-
-const {
-  calculateApproxLiquidationPrice,
-  getRequiredMarginCollateral,
-  getTradingFee,
-  getTraderPnLInCC,
-  calculateSlippagePriceFromMidPrice,
-  getPrice,
-  calculateLeverage,
-} = perpUtils;
+import { usePerpetual_analyseTrade } from '../../hooks/usePerpetual_analyseTrade';
 
 const tradeDialogContextDefault: TradeDialogContextType = {
   pair: PerpetualPairDictionary.get(PerpetualPairType.BTCUSD),
@@ -56,7 +39,9 @@ const tradeDialogContextDefault: TradeDialogContextType = {
     limitPrice: 0,
     liquidationPrice: 0,
     orderCost: 0,
+    requiredAllowance: 0,
     tradingFee: 0,
+    loading: true,
   },
   transactions: [],
   setTransactions: noop,
@@ -71,15 +56,16 @@ export const TradeDialogContext = React.createContext<TradeDialogContextType>(
 const TradeDialogStepComponents = {
   [TradeDialogStep.review]: ReviewStep,
   [TradeDialogStep.approval]: ApprovalStep,
-  [TradeDialogStep.confirmation]: ConfirmationStep,
+  [TradeDialogStep.confirmationEven]: ConfirmationStep,
+  [TradeDialogStep.confirmationOdd]: ConfirmationStep,
   [TradeDialogStep.transaction]: TransactionStep,
 };
 
 export const TradeDialog: React.FC = () => {
   const dispatch = useDispatch();
-  const { modal, modalOptions } = useSelector(selectPerpetualPage);
 
-  const { perpetuals } = useContext(PerpetualQueriesContext);
+  const { modal, modalOptions, pairType } = useSelector(selectPerpetualPage);
+
   const { origin, trade, transactions: requestedTransactions } = useMemo(
     () =>
       isPerpetualTradeReview(modalOptions)
@@ -97,19 +83,13 @@ export const TradeDialog: React.FC = () => {
   >();
 
   const pair = useMemo(
-    () =>
-      PerpetualPairDictionary.get(trade?.pairType || PerpetualPairType.BTCUSD),
-    [trade],
+    () => PerpetualPairDictionary.get(trade?.pairType || pairType),
+    [pairType, trade?.pairType],
   );
 
-  const {
-    ammState,
-    traderState,
-    perpetualParameters: perpParameters,
-  } = perpetuals[pair.id];
-
-  const [analysis, setAnalysis] = useState<TradeAnalysis>(
-    tradeDialogContextDefault.analysis,
+  const analysis = usePerpetual_analyseTrade(
+    trade,
+    currentTransaction !== undefined,
   );
 
   const onClose = useCallback(
@@ -133,87 +113,10 @@ export const TradeDialog: React.FC = () => {
   );
 
   useEffect(() => {
+    // reset current transaction state when modal is closed or called again
     setCurrentTransaction(undefined);
     setTransactions(requestedTransactions);
   }, [origin, requestedTransactions]);
-
-  useEffect(() => {
-    if (!trade) {
-      setAnalysis(tradeDialogContextDefault.analysis);
-      return;
-    }
-
-    if (currentTransaction) {
-      return;
-    }
-
-    const amountTarget = getSignedAmount(trade.position, trade.amount);
-    const amountChange = amountTarget - traderState.marginAccountPositionBC;
-
-    const entryPrice = getPrice(amountChange, perpParameters, ammState);
-    const limitPrice = calculateSlippagePriceFromMidPrice(
-      perpParameters,
-      ammState,
-      trade.slippage,
-      Math.sign(amountChange),
-    );
-
-    const marginTarget = trade.margin
-      ? numberFromWei(trade.margin)
-      : Math.abs(amountTarget) / trade.leverage;
-
-    const orderCost = getRequiredMarginCollateral(
-      trade.leverage,
-      amountTarget,
-      perpParameters,
-      ammState,
-      traderState,
-      trade.slippage,
-      true,
-    );
-
-    const marginChange = marginTarget - traderState.availableCashCC;
-
-    const partialUnrealizedPnL =
-      getTraderPnLInCC(traderState, ammState, perpParameters, limitPrice) *
-      Math.abs(-marginChange / traderState.availableCashCC);
-
-    const liquidationPrice = calculateApproxLiquidationPrice(
-      traderState,
-      ammState,
-      perpParameters,
-      amountChange,
-      marginChange,
-    );
-
-    const tradingFee = getTradingFee(
-      Math.abs(amountChange),
-      perpParameters,
-      ammState,
-    );
-
-    const leverageTarget = calculateLeverage(
-      amountTarget,
-      marginTarget,
-      traderState,
-      ammState,
-      perpParameters,
-    );
-
-    setAnalysis({
-      amountChange,
-      amountTarget,
-      marginChange,
-      partialUnrealizedPnL,
-      marginTarget,
-      leverageTarget,
-      liquidationPrice,
-      entryPrice,
-      limitPrice,
-      orderCost,
-      tradingFee,
-    });
-  }, [currentTransaction, trade, traderState, perpParameters, ammState]);
 
   if (!trade) {
     return null;

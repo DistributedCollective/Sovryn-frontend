@@ -53,6 +53,9 @@ export const OrderHistoryTable: React.FC<IOrderHistoryTableProps> = ({
               {t(translations.perpetualPage.orderHistoryTable.orderSize)}
             </th>
             <th className="tw-text-sm">
+              {t(translations.perpetualPage.orderHistoryTable.triggerPrice)}
+            </th>
+            <th className="tw-text-sm">
               <Tooltip
                 position="bottom"
                 popoverClassName="tw-max-w-md tw-font-light"
@@ -63,9 +66,6 @@ export const OrderHistoryTable: React.FC<IOrderHistoryTableProps> = ({
               >
                 {t(translations.perpetualPage.orderHistoryTable.limitPrice)}
               </Tooltip>
-            </th>
-            <th className="tw-text-sm">
-              {t(translations.perpetualPage.orderHistoryTable.execSize)}
             </th>
             <th className="tw-text-sm">
               {t(translations.perpetualPage.orderHistoryTable.execPrice)}
