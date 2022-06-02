@@ -17,6 +17,7 @@ import {
   discordInvite,
   notificationServiceUrl,
   currentChainId,
+  WIKI_PERPETUAL_FUTURES_LINK,
 } from 'utils/classifiers';
 import { ChainId } from 'types';
 import { useWalletContext } from '@sovryn/react-wallet';
@@ -51,9 +52,7 @@ export const CompetitionPageContainer: React.FC = () => {
           setRegisteredTraders(res.data);
         }
       })
-      .catch(e => {
-        console.error(e);
-      });
+      .catch(console.error);
   }, []);
 
   useEffect(() => {
@@ -115,7 +114,7 @@ export const CompetitionPageContainer: React.FC = () => {
         />
       </Helmet>
       <HeaderLabs
-        helpLink="https://wiki.sovryn.app/en/sovryn-dapp/perpetual-futures"
+        helpLink={WIKI_PERPETUAL_FUTURES_LINK}
         menus={
           <Link to="/perpetuals" className="tw-mr-4 tw-text-black">
             {t(translations.competitionPage.nav.perpetualSwap)}

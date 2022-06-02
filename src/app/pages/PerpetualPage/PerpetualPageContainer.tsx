@@ -23,7 +23,10 @@ import { DataCard } from './components/DataCard';
 import { AmmDepthChart } from './components/AmmDepthChart';
 import { RecentTradesTable } from './components/RecentTradesTable';
 import { ContractDetails } from './components/ContractDetails';
-import { isMainnet } from '../../../utils/classifiers';
+import {
+  isMainnet,
+  WIKI_PERPETUAL_FUTURES_LINK,
+} from '../../../utils/classifiers';
 import { ChainId } from '../../../types';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { ProviderType } from '@sovryn/wallet';
@@ -153,7 +156,7 @@ export const PerpetualPageContainer: React.FC = () => {
           />
         </Helmet>
         <HeaderLabs
-          helpLink="https://wiki.sovryn.app/en/sovryn-dapp/perpetual-futures"
+          helpLink={WIKI_PERPETUAL_FUTURES_LINK}
           menus={
             <Link
               to="/perpetuals/competition"

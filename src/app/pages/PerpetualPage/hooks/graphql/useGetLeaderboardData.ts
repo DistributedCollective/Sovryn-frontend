@@ -47,6 +47,6 @@ export function useGetLeaderboardData(
   }
   `;
   const traderDataQuery = useQuery(TRADER_DATA_QUERY);
-  console.log(traderDataQuery?.data);
+  //console.log(traderDataQuery?.data);
   return traderDataQuery;
 }

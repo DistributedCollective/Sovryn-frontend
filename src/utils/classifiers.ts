@@ -133,6 +133,8 @@ export const WIKI_LIMIT_ORDER_LIMITS_LINK =
   'https://wiki.sovryn.app/en/sovryn-dapp/limit-order-limitations';
 export const WIKI_LIMIT_ORDER_WALLETS_LINK =
   'https://wiki.sovryn.app/en/sovryn-dapp/limit-order-limitations#wallet-compatibility';
+export const WIKI_PERPETUAL_FUTURES_LINK =
+  'https://wiki.sovryn.app/en/sovryn-dapp/perpetual-futures';
 
 export const MILLION = 1000000;
 
