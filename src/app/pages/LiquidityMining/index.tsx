@@ -65,7 +65,7 @@ export function LiquidityMining() {
       <div className="tw-container tw-mt-12 tw-font-body">
         <LootDropSectionWrapper>
           <LootDrop
-            title="15k SOV"
+            title="5k SOV"
             asset1={Asset.MYNT}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
@@ -73,21 +73,11 @@ export function LiquidityMining() {
             })}
             linkUrl="https://www.sovryn.app/blog/sovryn-mynt-project-updates"
             linkText={t(translations.liquidityMining.lootDropLink)}
+            linkDataActionId={`yieldfarm-promo-learnmore-${Asset.MYNT}`}
             highlightColor={LootDropColors.Orange}
           />
           <LootDrop
-            title="15k SOV"
-            asset1={Asset.BNB}
-            asset2={Asset.RBTC}
-            message={t(translations.liquidityMining.recalibration, {
-              date,
-            })}
-            linkUrl="https://www.sovryn.app/blog/bnb-btc-pool-is-live"
-            linkText={t(translations.liquidityMining.lootDropLink)}
-            highlightColor={LootDropColors.Blue}
-          />
-          <LootDrop
-            title="15K SOV"
+            title="25K SOV"
             asset1={Asset.XUSD}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
@@ -95,6 +85,7 @@ export function LiquidityMining() {
             })}
             linkUrl="https://www.sovryn.app/blog/xusd-go-brrrrr"
             linkText={t(translations.liquidityMining.lootDropLink)}
+            linkDataActionId={`yieldfarm-promo-learnmore-${Asset.XUSD}`}
             highlightColor={LootDropColors.Yellow}
           />
           <LootDrop
@@ -106,10 +97,11 @@ export function LiquidityMining() {
             })}
             linkUrl="https://www.sovryn.app/blog/get-stacking-with-our-biggest-loot-drop-yet"
             linkText={t(translations.liquidityMining.lootDropLink)}
+            linkDataActionId={`yieldfarm-promo-learnmore-${Asset.SOV}`}
             highlightColor={LootDropColors.Purple}
           />
           <LootDrop
-            title="15K SOV"
+            title="5K SOV"
             asset1={Asset.ETH}
             asset2={Asset.RBTC}
             message={t(translations.liquidityMining.recalibration, {
@@ -117,6 +109,7 @@ export function LiquidityMining() {
             })}
             linkUrl="https://www.sovryn.app/blog/over-1000-yield-for-eth-btc-lps"
             linkText={t(translations.liquidityMining.lootDropLink)}
+            linkDataActionId={`yieldfarm-promo-learnmore-${Asset.ETH}`}
             highlightColor={LootDropColors.Green}
           />
         </LootDropSectionWrapper>

@@ -1,6 +1,7 @@
 import { useSelector } from 'react-redux';
 import { selectMaintenance } from 'store/global/maintenance-store/selectors';
 import { MaintenanceStates } from 'store/global/maintenance-store/types';
+import { useCallback, useMemo } from 'react';
 
 // items and values should match those from Maintenance db table
 enum States {
@@ -66,22 +67,28 @@ type MaintenanceResult = {
 export function useMaintenance() {
   const maintenanceStates: MaintenanceStates = useSelector(selectMaintenance);
 
-  const checkMaintenance = (name: States): boolean => {
-    if (!!process.env.REACT_APP_BYPASS_MAINTENANCE) {
-      return false;
-    }
-    return maintenanceStates[name]?.maintenance_active;
-  };
+  const checkMaintenance = useCallback(
+    (...names: States[]): boolean => {
+      if (!!process.env.REACT_APP_BYPASS_MAINTENANCE) {
+        return false;
+      }
+      return names.every(name => maintenanceStates[name]?.maintenance_active);
+    },
+    [maintenanceStates],
+  );
 
-  const checkMaintenances = (): MaintenanceResult => {
-    return Object.keys(maintenanceStates).reduce(
+  const checkMaintenances = useCallback((): MaintenanceResult => {
+    return Object.keys(States).reduce(
       (res, curr) =>
         Object.assign(res, {
           [curr]: checkMaintenance(curr as States),
         }),
       {} as MaintenanceResult,
     );
-  };
+  }, [checkMaintenance]);
 
-  return { checkMaintenance, checkMaintenances, States };
+  return useMemo(() => ({ checkMaintenance, checkMaintenances, States }), [
+    checkMaintenance,
+    checkMaintenances,
+  ]);
 }

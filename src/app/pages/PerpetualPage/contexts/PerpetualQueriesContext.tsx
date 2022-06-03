@@ -90,7 +90,7 @@ type PerpetualValue = {
   availableBalance: string;
 };
 
-type PerpetualQueriesContextValue = {
+export type PerpetualQueriesContextValue = {
   perpetuals: {
     [key: string]: PerpetualValue;
   };
@@ -203,8 +203,8 @@ export const PerpetualQueriesContextProvider: React.FC<PerpetualQueriesContextPr
   );
 
   const refetch = useCallback(() => {
-    firstRefetch();
-    secondRefetch();
+    firstRefetch().catch(console.error);
+    secondRefetch().catch(console.error);
   }, [firstRefetch, secondRefetch]);
 
   const refetchDebounced = useMemo(

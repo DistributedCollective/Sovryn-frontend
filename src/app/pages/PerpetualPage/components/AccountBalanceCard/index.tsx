@@ -9,6 +9,7 @@ import { selectPerpetualPage } from '../../selectors';
 import { getCollateralName } from '../../utils/renderUtils';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 import { usePerpetual_getCurrentPairId } from '../../hooks/usePerpetual_getCurrentPairId';
+import classNames from 'classnames';
 
 export const AccountBalanceCard: React.FC = () => {
   const { t } = useTranslation();
@@ -18,7 +19,7 @@ export const AccountBalanceCard: React.FC = () => {
   const { perpetuals } = useContext(PerpetualQueriesContext);
   const { availableBalance } = perpetuals[currentPairId];
 
-  const { collateral } = useSelector(selectPerpetualPage);
+  const { collateral, isAddressWhitelisted } = useSelector(selectPerpetualPage);
   const collateralAsset = useMemo(() => getCollateralName(collateral), [
     collateral,
   ]);
@@ -27,10 +28,11 @@ export const AccountBalanceCard: React.FC = () => {
     availableBalance,
   ]);
 
-  const onViewAccount = useCallback(
-    () => dispatch(actions.setModal(PerpetualPageModals.ACCOUNT_BALANCE)),
-    [dispatch],
-  );
+  const onViewAccount = useCallback(() => {
+    if (isAddressWhitelisted) {
+      dispatch(actions.setModal(PerpetualPageModals.ACCOUNT_BALANCE));
+    }
+  }, [dispatch, isAddressWhitelisted]);
 
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-h-24 tw-p-2.5 tw-bg-gray-4 tw-rounded-lg">
@@ -43,8 +45,14 @@ export const AccountBalanceCard: React.FC = () => {
         </span>
       </div>
       <button
-        className="tw-px-4 tw-py-2 tw-mt-1 tw-text-xs tw-font-medium tw-text-primary"
+        className={classNames(
+          'tw-px-4 tw-py-2 tw-mt-1 tw-text-xs tw-font-medium tw-text-primary',
+          {
+            'tw-opacity-40 tw-cursor-not-allowed': !isAddressWhitelisted,
+          },
+        )}
         onClick={onViewAccount}
+        disabled={!isAddressWhitelisted}
       >
         {hasBalance
           ? t(translations.perpetualPage.accountBalance.viewAccount)

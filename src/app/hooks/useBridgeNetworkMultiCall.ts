@@ -25,7 +25,7 @@ export const useBridgeNetworkMultiCall = (
 
   useEffect(() => {
     if (immediate) {
-      fetch();
+      fetch().catch(console.error);
     }
   }, [fetch, immediate]);
 

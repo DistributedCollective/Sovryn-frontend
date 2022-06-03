@@ -140,7 +140,7 @@ export const renderItem: ItemRenderer<SelectItem> = (
       disabled={modifiers.disabled}
       key={item.key}
       onClick={handleClick}
-      data-action-id={
+      dataActionId={
         item.dataActionId ? `${item.dataActionId}-${item.key}` : item.key
       }
       text={<Text ellipsize>{highlightText(item.label, query)}</Text>}

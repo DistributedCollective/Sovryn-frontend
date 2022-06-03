@@ -1,5 +1,8 @@
 import React, { useMemo } from 'react';
-import { OrderHistoryEntry } from '../../hooks/usePerpetual_OrderHistory';
+import {
+  OrderHistoryEntry,
+  OrderState,
+} from '../../hooks/usePerpetual_OrderHistory';
 import {
   DisplayDate,
   SeparatorType,
@@ -21,6 +24,8 @@ const tradeTypeTranslations: { [key in PerpetualTradeType]: string } = {
     translations.perpetualPage.orderHistoryTable.tableData.market,
   [PerpetualTradeType.LIMIT]:
     translations.perpetualPage.orderHistoryTable.tableData.limit,
+  [PerpetualTradeType.STOP]:
+    translations.perpetualPage.orderHistoryTable.tableData.stop,
   [PerpetualTradeType.LIQUIDATION]:
     translations.perpetualPage.orderHistoryTable.tableData.liquidation,
 };
@@ -42,11 +47,11 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({
     tradeType,
     datetime,
     pair,
-    execSize,
     execPrice,
     orderId,
     orderSize,
     orderState,
+    triggerPrice,
     limitPrice,
   },
 }) => {
@@ -61,6 +66,24 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({
       tradingPositionTranslations[position],
     )}`;
   }, [t, tradeType, position]);
+
+  const shouldHideExecPrice = useMemo(
+    () =>
+      ([PerpetualTradeType.LIMIT, PerpetualTradeType.STOP].includes(
+        tradeType,
+      ) &&
+        [OrderState.Opened, OrderState.Cancelled].includes(orderState)) ||
+      !execPrice,
+    [execPrice, orderState, tradeType],
+  );
+
+  const shouldHideTriggerPrice = useMemo(
+    () =>
+      tradeType !== PerpetualTradeType.STOP ||
+      !triggerPrice ||
+      triggerPrice === '0',
+    [tradeType, triggerPrice],
+  );
 
   return (
     <tr>
@@ -86,6 +109,17 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({
         />
       </td>
       <td>
+        {shouldHideTriggerPrice ? (
+          <span>–</span>
+        ) : (
+          <AssetValue
+            value={triggerPrice!} // shouldHideTriggerPrice checks if triggerPrice exists so this is safe
+            assetString={pair?.quoteAsset}
+            mode={AssetValueMode.auto}
+          />
+        )}
+      </td>
+      <td>
         {limitPrice && (
           <AssetValue
             minDecimals={0}
@@ -97,18 +131,13 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({
         )}
       </td>
       <td>
-        <AssetValue
-          value={execSize}
-          assetString={pair?.baseAsset}
-          mode={AssetValueMode.auto}
-        />
-      </td>
-      <td>
-        {execPrice && (
+        {shouldHideExecPrice ? (
+          <span>–</span>
+        ) : (
           <AssetValue
             minDecimals={0}
             maxDecimals={2}
-            value={execPrice}
+            value={execPrice!} // shouldHideExecPrice checks if execPrice exists so this is safe
             assetString={pair?.quoteAsset}
             mode={AssetValueMode.auto}
           />
