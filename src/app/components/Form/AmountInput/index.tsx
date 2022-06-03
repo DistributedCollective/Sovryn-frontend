@@ -77,7 +77,7 @@ export const AmountInput: React.FC<IAmountInputProps> = ({
         appendClassName={assetSelectable ? '' : 'tw-mr-5'}
         step={step}
         readOnly={readonly}
-        dataActionId={`${dataActionId}-amountInput`}
+        dataActionId={`${dataActionId}-amountInput${asset && '-' + asset}`}
         onChange={onChange}
       />
       {subText && (
@@ -189,21 +189,31 @@ export const AmountSelectorInner: React.FC<IAmountSelectorProps> = ({
   );
 };
 
+export enum AmountSelectorButtonPadding {
+  md = 'tw-px-4',
+  sm = 'tw-px-2',
+}
+
 interface IAmountButtonProps {
   text?: string;
   onClick?: () => void;
   dataActionId?: string;
+  padding?: AmountSelectorButtonPadding;
 }
 
 export const AmountSelectorButton: React.FC<IAmountButtonProps> = ({
   text,
   onClick,
   dataActionId,
+  padding = AmountSelectorButtonPadding.md,
 }) => {
   return (
     <button
       onClick={onClick}
-      className="tw-text-secondary tw-bg-secondary tw-bg-opacity-0 tw-font-medium tw-text-xs tw-leading-none tw-px-4 tw-py-1 tw-text-center tw-w-full tw-transition hover:tw-bg-opacity-25"
+      className={classNames(
+        'tw-text-secondary tw-bg-secondary tw-bg-opacity-0 tw-font-medium tw-text-xs tw-leading-none tw-py-1 tw-text-center tw-w-full tw-transition hover:tw-bg-opacity-25',
+        padding,
+      )}
       data-action-id={`${dataActionId}-amountSelectorButton-${text}`}
     >
       {text}

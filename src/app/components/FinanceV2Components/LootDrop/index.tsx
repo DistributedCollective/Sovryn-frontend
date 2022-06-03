@@ -12,6 +12,7 @@ interface ILootDropProps {
   message?: string;
   linkUrl: string;
   linkText: string;
+  linkDataActionId: string;
   highlightColor: LootDropColors;
 }
 
@@ -25,6 +26,7 @@ export const LootDrop: React.FC<ILootDropProps> = ({
   message,
   linkUrl,
   linkText,
+  linkDataActionId,
 }) => (
   <LootDropWrapper>
     <div className="tw-p-4 tw-pb-1.5">
@@ -52,6 +54,7 @@ export const LootDrop: React.FC<ILootDropProps> = ({
           target="_blank"
           rel="noopener noreferrer"
           className="tw-text-secondary tw-text-xs tw-underline"
+          data-action-id={linkDataActionId}
         >
           {linkText}
         </a>

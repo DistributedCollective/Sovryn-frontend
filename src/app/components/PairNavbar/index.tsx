@@ -1,16 +1,11 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
-import { translations } from 'locales/i18n';
 import { reactLocalStorage } from 'reactjs-localstorage';
 import { useDispatch } from 'react-redux';
-import { NotificationSettingsDialog } from 'app/pages/MarginTradePage/components/NotificationSettingsDialog';
 import { PairNavbarInfo } from 'app/components/PairNavbarInfo';
 import { PairSelect } from './PairSelect';
 import { useLocation } from 'react-router-dom';
-import imgNotificationBell from 'assets/images/marginTrade/notifications.svg';
 import { SpotPairType } from 'app/pages/SpotTradingPage/types';
 import { TradingPairType } from 'utils/dictionaries/trading-pair-dictionary';
-import { useIsConnected } from 'app/hooks/useAccount';
 import { useGetCryptoPairs } from 'app/hooks/trading/useGetCryptoPairs';
 import { actions as spotActions } from 'app/pages/SpotTradingPage/slice';
 import { actions as marginActions } from 'app/pages/MarginTradePage/slice';
@@ -23,10 +18,8 @@ interface IPairNavbarProps {
 }
 
 export const PairNavbar: React.FC<IPairNavbarProps> = ({ type }) => {
-  const { t } = useTranslation();
   const location = useLocation();
   const dispatch = useDispatch();
-  const connected = useIsConnected();
   const marginType = useMemo(() => {
     return type === TradingType.MARGIN;
   }, [type]);
@@ -36,11 +29,6 @@ export const PairNavbar: React.FC<IPairNavbarProps> = ({ type }) => {
   const selectedPair = reactLocalStorage.getObject(localStoreObject);
   const tradingType =
     type === TradingType.SPOT ? SpotPairType : TradingPairType;
-
-  const [
-    showNotificationSettingsModal,
-    setShowNotificationSettingsModal,
-  ] = useState(false);
 
   const [isOpen, setIsOpen] = useState(false);
 
@@ -54,11 +42,6 @@ export const PairNavbar: React.FC<IPairNavbarProps> = ({ type }) => {
         return '';
     }
   }, [location.pathname]);
-
-  const onNotificationSettingsClick = useCallback(
-    () => setShowNotificationSettingsModal(true),
-    [],
-  );
 
   const [pair, setPair] = useState<ITradingPairs | undefined>(undefined);
 
@@ -191,28 +174,7 @@ export const PairNavbar: React.FC<IPairNavbarProps> = ({ type }) => {
         />
 
         {pair && <PairNavbarInfo pair={pair} />}
-        {connected && (
-          <div>
-            <button
-              onClick={onNotificationSettingsClick}
-              className="tw-text-sm tw-text-primary tw-tracking-normal tw-flex tw-items-center"
-              data-action-id="margin-select-asset-enable-notification-button"
-            >
-              <img
-                src={imgNotificationBell}
-                alt="Notification bell"
-                className="tw-mr-1.5"
-              />{' '}
-              {t(translations.marginTradePage.notificationsButton.enable)}
-            </button>
-          </div>
-        )}
       </div>
-
-      <NotificationSettingsDialog
-        isOpen={showNotificationSettingsModal}
-        onClose={() => setShowNotificationSettingsModal(false)}
-      />
     </div>
   );
 };

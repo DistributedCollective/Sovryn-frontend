@@ -1,9 +1,9 @@
 import { Tooltip } from '@blueprintjs/core';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { Button, ButtonSize } from 'app/components/Button';
-import { TxDialog } from 'app/components/Dialogs/TxDialog';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { Input } from 'app/components/Form/Input';
+import { TransactionDialog } from 'app/components/TransactionDialog';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ResetTxResponseInterface } from 'app/hooks/useSendContractTx';
@@ -27,6 +27,7 @@ interface IBaseClaimFormProps {
   onSubmit: () => void;
   claimAsset?: Asset;
   claimLocked?: boolean;
+  dataActionId?: string;
 }
 
 export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
@@ -37,6 +38,7 @@ export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
   onSubmit,
   claimLocked,
   claimAsset = Asset.SOV,
+  dataActionId,
 }) => {
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
@@ -129,6 +131,7 @@ export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
                 className="tw-w-full tw-mb-4 tw-mt-16"
                 size={ButtonSize.lg}
                 text={t(translations.rewardPage.claimForm.cta)}
+                dataActionId={`rewards-claim-${dataActionId}`}
               />
             </Tooltip>
           )}
@@ -136,7 +139,7 @@ export const BaseClaimForm: React.FC<IBaseClaimFormProps> = ({
           <div className="tw-text-xs">{footer}</div>
         </>
       </div>
-      <TxDialog tx={tx} />
+      <TransactionDialog tx={tx} />
     </div>
   );
 };

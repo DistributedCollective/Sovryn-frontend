@@ -36,7 +36,6 @@ import OrderBookAbi from './abi/OrderBook.json';
 import OrderBookMarginAbi from './abi/OrderBookMargin.json';
 import nftAbi from './abi/nftAbi.json';
 import MYNTControllerAbi from './abi/MYNTController.json';
-import MYNTTokenAbi from './abi/MYNT_token.json';
 import MYNTPresaleAbi from './abi/MYNTPresale.json';
 import MYNTMarketMakerAbi from './abi/MYNTMarketMaker.json';
 import fastBtcBridgeAbi from './abi/fastBtcBridge.json';
@@ -44,7 +43,6 @@ import fastBtcMultisigAbi from './abi/fastBtcMultisig.json';
 import perpetualManagerAbi from './abi/PerpetualManager.json';
 import perpetualLimitOrderBookAbi from './abi/PerpetualLimitOrderBook.json';
 import marginTokenAbi from './abi/MarginToken.json';
-import ZUSDAbi from './abi/ZUSDToken.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -311,7 +309,7 @@ export const contracts = {
   },
   MYNT_token: {
     address: '0x2e6B1d146064613E8f521Eb3c6e65070af964EbB',
-    abi: MYNTTokenAbi,
+    abi: erc20TokenAbi,
     blockNumber: 3832084,
   },
   MYNTPresale: {
@@ -336,24 +334,23 @@ export const contracts = {
     abi: perpetualManagerAbi,
     chainId: ChainId.BSC_MAINNET,
   },
-  perpetualLimitOrderBook: {
-    address: '0xaC4eFd35d52Bba2F8032a45Edd9ceA78fB5ae282',
-    abi: perpetualLimitOrderBookAbi,
-    chainId: ChainId.BSC_TESTNET,
-  },
   PERPETUALS_token: {
     address: '0x1431Aa8f066795d3aB94F8516B74FdCC5fD7897F',
     abi: marginTokenAbi,
     chainId: ChainId.BSC_MAINNET,
   },
-
-  // TODO: add ZUSD and NUE mainnet contract addresses
+  perpetualLimitOrderBookBTCUSD: {
+    address: '0xF683eED9590E2f90fe991E9e5A736f8BEDEa84Cd',
+    abi: perpetualLimitOrderBookAbi,
+    chainId: ChainId.BSC_MAINNET,
+  },
+  perpetualLimitOrderBookBNBUSD: {
+    address: '0xA9a91c803a994332c1020D2DACFEBbfC53D65533',
+    abi: perpetualLimitOrderBookAbi,
+    chainId: ChainId.BSC_MAINNET,
+  },
   ZUSD_token: {
     address: '0x4a0741FA749eD6b1F810224D09f1f511952e67de',
-    abi: ZUSDAbi,
-  },
-  NUE_token: {
-    address: '0xE0A574a940f9f2F7aE730a2DfB667B70dB989CaB',
     abi: erc20TokenAbi,
   },
 };

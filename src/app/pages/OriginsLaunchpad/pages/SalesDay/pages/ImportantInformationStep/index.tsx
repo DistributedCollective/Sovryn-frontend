@@ -1,12 +1,12 @@
 import React, { useCallback, useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
-import { Checkbox } from '@blueprintjs/core';
 import { Link } from 'react-router-dom';
 
 import { translations } from 'locales/i18n';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { discordInvite, sovrynTelegram } from 'utils/classifiers';
 import styles from './index.module.scss';
+import { Checkbox } from 'app/components/Checkbox';
 
 interface IImportantInformationStepProps {
   saleName: string;

@@ -107,7 +107,7 @@ export const TradeDetails: React.FC<TradeDetailsProps> = ({
             maxDecimals={4}
             mode={AssetValueMode.auto}
             value={unrealized}
-            assetString={collateralName}
+            assetString={pair.baseAsset}
             showPositiveSign
             useTooltip
           />

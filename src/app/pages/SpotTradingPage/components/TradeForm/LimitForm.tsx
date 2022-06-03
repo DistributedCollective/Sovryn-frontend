@@ -2,6 +2,7 @@ import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { AmountInput } from 'app/components/Form/AmountInput';
+import { FormGroup } from 'app/components/Form/FormGroup';
 import { ButtonTrade } from 'app/components/ButtonTrade';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
@@ -282,17 +283,15 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
           <LockedBalance hasPendingOrders={hasPendingLimitOrders} />
         </div>
         <div className="tw-flex tw-items-center tw-justify-between tw-mt-5">
-          <span className={styles.amountLabel}>
-            {t(translations.spotTradingPage.tradeForm.amount)}
-          </span>
-          <AmountInput
-            value={amount}
-            decimalPrecision={8}
-            onChange={setAmount}
-            asset={sourceToken}
-            hideAmountSelector
-            dataActionId="spot-limit-amountInput"
-          />
+          <FormGroup label={t(translations.spotTradingPage.tradeForm.amount)}>
+            <AmountInput
+              value={amount}
+              decimalPrecision={8}
+              onChange={setAmount}
+              asset={sourceToken}
+              dataActionId="spot-limit"
+            />
+          </FormGroup>
         </div>
         {!isMinAmountValid && (
           <ErrorBadge
@@ -322,9 +321,22 @@ export const LimitForm: React.FC<ITradeFormProps> = ({
         <div className="tw-flex tw-relative tw-items-center tw-justify-between tw-mt-5">
           <span className={styles.amountLabel}>
             <HelpBadge
-              tooltip={t(
-                translations.spotTradingPage.tradeForm.limitPriceTooltip,
-              )}
+              tooltip={
+                <Trans
+                  i18nKey={
+                    translations.spotTradingPage.tradeForm.limitPriceTooltip
+                  }
+                  components={[
+                    <a
+                      target="_blank"
+                      href="https://wiki.sovryn.app/en/sovryn-dapp/limit-order-limitations#limit-order-execution"
+                      rel="noopener noreferrer"
+                    >
+                      x
+                    </a>,
+                  ]}
+                />
+              }
             >
               {t(translations.spotTradingPage.tradeForm.limitPrice)}
             </HelpBadge>

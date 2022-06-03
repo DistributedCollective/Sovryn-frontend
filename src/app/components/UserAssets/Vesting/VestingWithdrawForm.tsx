@@ -18,8 +18,8 @@ import { InputField } from '../../InputField';
 import { Button, ButtonStyle, ButtonSize } from '../../Button';
 import { AssetSymbolRenderer } from '../../AssetSymbolRenderer';
 import { VestingUnlockScheduleDialog } from './VestingUnlockScheduleDialog';
-import { TxDialog } from '../../Dialogs/TxDialog';
 import { gasLimit } from 'utils/classifiers';
+import { TransactionDialog } from 'app/components/TransactionDialog';
 
 type VestingWithdrawFormProps = {
   vesting: FullVesting;
@@ -143,7 +143,7 @@ export const VestingWithdrawForm: React.FC<VestingWithdrawFormProps> = ({
         isOpen={scheduleOpen}
         onClose={closeSchedule}
       />
-      <TxDialog tx={tx} />
+      <TransactionDialog tx={tx} />
     </>
   );
 };

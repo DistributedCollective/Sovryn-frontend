@@ -2,7 +2,7 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { bignumber } from 'mathjs';
 import React, { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { translations } from '../../../../../locales/i18n';
 import { numberFromWei } from '../../../../../utils/blockchain/math-helpers';
@@ -10,8 +10,6 @@ import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpe
 import { AssetValue } from '../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../components/AssetValue/types';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
-import { actions } from '../../slice';
-import { PerpetualPageModals } from '../../types';
 import {
   BarCompositionChart,
   BarCompositionChartEntry,
@@ -20,6 +18,7 @@ import classNames from 'classnames';
 import { Tooltip } from '@blueprintjs/core';
 import { getCollateralName } from '../../utils/renderUtils';
 import { selectPerpetualPage } from '../../selectors';
+import { isMainnet } from '../../../../../utils/classifiers';
 
 type AccountBalanceFormProps = {
   onOpenTransactionHistory: () => void;
@@ -29,39 +28,60 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
   onOpenTransactionHistory,
 }) => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
   const history = useHistory();
 
-  const { collateral, pairType } = useSelector(selectPerpetualPage);
+  const { collateral, pairType, isAddressWhitelisted } = useSelector(
+    selectPerpetualPage,
+  );
 
   const collateralAsset = useMemo(() => getCollateralName(collateral), [
     collateral,
   ]);
 
   const { checkMaintenance, States } = useMaintenance();
-  const fundAccountLocked =
-    checkMaintenance(States.PERPETUALS) ||
-    checkMaintenance(States.PERPETUALS_ACCOUNT_FUND);
+  const fundLocked = useMemo(
+    () => checkMaintenance(States.PERPETUALS, States.PERPETUALS_ACCOUNT_FUND),
+    [checkMaintenance, States],
+  );
 
-  const withdrawAccountLocked =
-    checkMaintenance(States.PERPETUALS) ||
-    checkMaintenance(States.PERPETUALS_ACCOUNT_WITHDRAW);
+  const withdrawLocked = useMemo(
+    () =>
+      checkMaintenance(States.PERPETUALS, States.PERPETUALS_ACCOUNT_WITHDRAW),
+    [checkMaintenance, States],
+  );
 
-  const transferAccountLocked =
-    checkMaintenance(States.PERPETUALS) ||
-    checkMaintenance(States.PERPETUALS_ACCOUNT_TRANSFER);
+  const transferLocked = useMemo(
+    () =>
+      checkMaintenance(States.PERPETUALS, States.PERPETUALS_ACCOUNT_TRANSFER),
+    [checkMaintenance, States],
+  );
+
+  const fundDisabled = fundLocked || !isAddressWhitelisted;
+  const withdrawDisabled = withdrawLocked || !isAddressWhitelisted;
+  const transferDisabled = transferLocked || !isAddressWhitelisted;
 
   const onOpenDeposit = useCallback(() => {
-    history.push('/fast-btc/deposit/bsc');
-  }, [history]);
+    if (!fundDisabled) {
+      history.push('/fast-btc/deposit/bsc');
+    }
+  }, [fundDisabled, history]);
 
   const onOpenWithdraw = useCallback(() => {
-    history.push('/fast-btc/withdraw/bsc');
-  }, [history]);
+    if (!withdrawDisabled) {
+      history.push('/fast-btc/withdraw/bsc');
+    }
+  }, [history, withdrawDisabled]);
 
   const onOpenTransfer = useCallback(() => {
-    dispatch(actions.setModal(PerpetualPageModals.FASTBTC_TRANSFER));
-  }, [dispatch]);
+    if (!transferDisabled) {
+      window.open(
+        isMainnet
+          ? 'https://bridge.sovryn.app'
+          : 'https://bridge.test.sovryn.app',
+        '_blank',
+      );
+    }
+  }, [transferDisabled]);
 
   const {
     total,
@@ -188,9 +208,9 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
       <div className="tw-flex tw-flex-col md:tw-flex-row tw-justify-center tw-mx-auto tw-mt-16 tw-space-y-4 md:tw-space-y-0 md:tw-space-x-10">
         <ActionButton
           onClick={onOpenDeposit}
-          disabled={fundAccountLocked}
+          disabled={fundDisabled}
           tooltip={
-            fundAccountLocked
+            fundLocked
               ? t(translations.maintenance.perpetualsAccountFund)
               : undefined
           }
@@ -200,9 +220,9 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
 
         <ActionButton
           onClick={onOpenWithdraw}
-          disabled={withdrawAccountLocked}
+          disabled={withdrawDisabled}
           tooltip={
-            withdrawAccountLocked
+            withdrawLocked
               ? t(translations.maintenance.perpetualsAccountWithdraw)
               : undefined
           }
@@ -211,9 +231,13 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
         </ActionButton>
 
         <ActionButton
-          disabled
-          tooltip={t(translations.common.comingSoon)}
           onClick={onOpenTransfer}
+          disabled={transferDisabled}
+          tooltip={
+            withdrawLocked
+              ? t(translations.maintenance.perpetualsAccountTransfer)
+              : undefined
+          }
         >
           {t(translations.perpetualPage.accountBalance.transfer)}
         </ActionButton>
@@ -238,10 +262,10 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   const button = (
     <button
       className={classNames(
-        'tw-min-w-40 tw-min-h-10 tw-p-2 tw-text-base tw-text-primary tw-border tw-border-primary tw-bg-primary-10 tw-rounded-lg tw-transition-colors tw-duration-300',
+        'tw-min-w-40 tw-min-h-10 tw-p-2 tw-text-base tw-text-primary tw-border tw-border-primary tw-bg-transparent tw-rounded-lg tw-transition-colors tw-duration-300',
         disabled
           ? 'tw-opacity-25 tw-cursor-not-allowed'
-          : 'hover:tw-bg-primary-25 tw-cursor-pointer',
+          : 'hover:tw-bg-primary-10 tw-cursor-pointer',
       )}
       disabled={disabled}
       onClick={onClick}

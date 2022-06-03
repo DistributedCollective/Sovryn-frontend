@@ -21,17 +21,22 @@ import classNames from 'classnames';
 import { LeverageViewer } from '../LeverageViewer';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { AmountInput } from '../../../../components/Form/AmountInput';
-import { validatePositionChange } from '../../utils/contractUtils';
+import {
+  validatePositionChange,
+  getTradeDirection,
+} from '../../utils/contractUtils';
 import {
   toWei,
   numberFromWei,
 } from '../../../../../utils/blockchain/math-helpers';
-import { PerpetualTxMethods } from '../TradeDialog/types';
+import { PerpetualTxMethod } from '../../types';
 import { PerpetualQueriesContext } from '../../contexts/PerpetualQueriesContext';
 import { ActionDialogSubmitButton } from '../ActionDialogSubmitButton';
 import { usePerpetual_isTradingInMaintenance } from '../../hooks/usePerpetual_isTradingInMaintenance';
 import { getCollateralName } from '../../utils/renderUtils';
 import { perpUtils } from '@sovryn/perpetual-swap';
+import { calculateSlippagePrice } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
+import { ValidationHint } from '../ValidationHint/ValidationHint';
 
 const {
   calculateApproxLiquidationPrice,
@@ -52,7 +57,6 @@ export const EditMarginDialog: React.FC = () => {
     collateral,
     modal,
     modalOptions,
-    useMetaTransactions,
   } = useSelector(selectPerpetualPage);
 
   const inMaintenance = usePerpetual_isTradingInMaintenance();
@@ -92,6 +96,11 @@ export const EditMarginDialog: React.FC = () => {
   const [margin, setMargin] = useState('0');
   const [changedTrade, setChangedTrade] = useState(trade);
 
+  const signedMargin = useMemo(
+    () => (mode === EditMarginDialogMode.increase ? 1 : -1) * Number(margin),
+    [mode, margin],
+  );
+
   const onClose = useCallback(
     () => dispatch(actions.setModal(PerpetualPageModals.NONE)),
     [dispatch],
@@ -103,28 +112,33 @@ export const EditMarginDialog: React.FC = () => {
       dispatch(
         actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
           origin: PerpetualPageModals.EDIT_MARGIN,
-          trade: changedTrade,
+          trade: {
+            ...changedTrade,
+            amount: '0',
+            margin: toWei(signedMargin),
+            leverage: NaN,
+          },
           transactions: [
-            mode === EditMarginDialogMode.increase
+            signedMargin >= 0
               ? {
                   pair: pair.pairType,
-                  method: PerpetualTxMethods.deposit,
-                  amount: toWei(margin),
+                  method: PerpetualTxMethod.deposit,
+                  amount: toWei(signedMargin),
                   approvalTx: null,
                   tx: null,
                   origin: PerpetualPageModals.EDIT_MARGIN,
                 }
               : {
                   pair: pair.pairType,
-                  method: PerpetualTxMethods.withdraw,
-                  amount: toWei(margin),
+                  method: PerpetualTxMethod.withdraw,
+                  amount: toWei(-signedMargin),
                   tx: null,
                   origin: PerpetualPageModals.EDIT_MARGIN,
                 },
           ],
         }),
       ),
-    [dispatch, changedTrade, mode, margin, pair],
+    [dispatch, changedTrade, signedMargin, pair],
   );
 
   const [maxAmount, maxAmountWei] = useMemo(() => {
@@ -140,11 +154,6 @@ export const EditMarginDialog: React.FC = () => {
       return [maxAmount, toWei(maxAmount)];
     }
   }, [mode, availableBalance, traderState, perpParameters, ammState]);
-
-  const signedMargin = useMemo(
-    () => (mode === EditMarginDialogMode.increase ? 1 : -1) * Number(margin),
-    [mode, margin],
-  );
 
   const onChangeMargin = useCallback(
     (value?: string) => {
@@ -192,15 +201,22 @@ export const EditMarginDialog: React.FC = () => {
       return;
     }
     return validatePositionChange(
-      0,
-      signedMargin,
-      changedTrade.leverage,
-      changedTrade.slippage,
+      {
+        amountChange: 0,
+        marginChange: signedMargin,
+        orderCost: Math.max(signedMargin, 0),
+        limitPrice: calculateSlippagePrice(
+          changedTrade.averagePrice
+            ? numberFromWei(changedTrade.averagePrice)
+            : 0,
+          changedTrade.slippage,
+          getTradeDirection(changedTrade.position),
+        ),
+      },
       numberFromWei(availableBalance),
       traderState,
       perpParameters,
       ammState,
-      useMetaTransactions,
     );
   }, [
     changedTrade,
@@ -209,7 +225,6 @@ export const EditMarginDialog: React.FC = () => {
     traderState,
     perpParameters,
     ammState,
-    useMetaTransactions,
   ]);
 
   const isButtonDisabled = useMemo(
@@ -240,10 +255,10 @@ export const EditMarginDialog: React.FC = () => {
           <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-5">
             <button
               className={classNames(
-                'tw-w-full tw-h-8 tw-font-semibold tw-text-sm tw-rounded-l-lg tw-border tw-border-secondary tw-transition-colors tw-duration-300',
+                'tw-w-full tw-h-8 tw-font-semibold tw-text-sm tw-rounded-l-lg tw-bg-secondary tw-border tw-border-secondary tw-transition-colors tw-duration-300',
                 mode === EditMarginDialogMode.increase
-                  ? 'tw-text-white tw-bg-secondary-50'
-                  : 'tw-text-gray-5 tw-bg-transparent hover:tw-text-white hover:tw-bg-secondary-50',
+                  ? 'tw-text-white tw-bg-opacity-50'
+                  : 'tw-text-gray-5 tw-bg-opacity-0 hover:tw-text-white hover:tw-bg-opacity-50',
               )}
               onClick={onSelectIncrease}
             >
@@ -251,10 +266,10 @@ export const EditMarginDialog: React.FC = () => {
             </button>
             <button
               className={classNames(
-                'tw-w-full tw-h-8 tw-font-semibold tw-text-sm tw-rounded-r-lg tw-border tw-border-secondary tw-transition-colors tw-duration-300',
+                'tw-w-full tw-h-8 tw-font-semibold tw-text-sm tw-rounded-r-lg tw-bg-secondary tw-border tw-border-secondary tw-transition-colors tw-duration-300',
                 mode === EditMarginDialogMode.decrease
-                  ? 'tw-text-white tw-bg-secondary-50'
-                  : 'tw-text-gray-5 tw-bg-transparent hover:tw-text-white hover:tw-bg-secondary-50',
+                  ? 'tw-text-white tw-bg-opacity-50'
+                  : 'tw-text-gray-5 tw-bg-opacity-0 hover:tw-text-white hover:tw-bg-opacity-50',
               )}
               onClick={onSelectDecrease}
             >
@@ -302,11 +317,8 @@ export const EditMarginDialog: React.FC = () => {
               />
             </div>
           </div>
-          {validation && !validation.valid && validation.errors.length > 0 && (
-            <div className="tw-flex tw-flex-col tw-justify-between tw-px-6 tw-py-1 tw-mb-4 tw-text-warning tw-text-xs tw-font-medium tw-border tw-border-warning tw-rounded-lg">
-              {validation.errorMessages}
-            </div>
-          )}
+
+          <ValidationHint className="tw-mb-4" validation={validation} />
 
           <ActionDialogSubmitButton
             inMaintenance={inMaintenance}

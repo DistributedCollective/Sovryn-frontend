@@ -247,6 +247,7 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
                       )) ||
                     undefined
                   }
+                  dataActionId="spot-limit-closeorder"
                 />
               )}
               {pending && (

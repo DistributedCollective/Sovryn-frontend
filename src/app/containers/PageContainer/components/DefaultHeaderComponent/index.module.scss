@@ -11,7 +11,7 @@
   }
 
   select {
-    @apply tw-text-base tw-font-body tw-font-extralight 
+    @apply tw-text-base tw-font-body tw-font-extralight
       tw-bg-transparent;
   }
 }
@@ -26,8 +26,9 @@
     @apply tw-list-none;
   }
 
-  a {
-    @apply tw-text-xl tw-px-0 tw-font-medium tw-text-white tw-text-center tw-tracking-wider tw-py-4;
+  a,
+  button {
+    @apply tw-text-xl tw-px-0 tw-my-1 tw-font-medium tw-tracking-wider tw-justify-center;
 
     text-decoration: none;
     transition: color 0.3s linear;
@@ -39,7 +40,7 @@
 }
 
 .mobileMenuSection {
-  @apply tw-flex tw-flex-row tw-self-center tw-w-1/2 tw-text-lg tw-px-0 tw-font-extralight tw-text-white tw-text-center tw-tracking-wider tw-text-center tw-mt-4;
+  @apply tw-flex tw-flex-row tw-self-center tw-w-1/2 tw-text-lg tw-px-0 tw-font-extralight tw-text-white tw-text-center tw-tracking-wider tw-mt-4;
 
   &:after,
   &:before {
@@ -91,28 +92,73 @@
 }
 
 .logo {
-  @apply tw-h-8 tw-m-0 tw-w-auto md:tw-h-10;
+  @apply tw-h-8 tw-m-0 tw-w-auto 2xl:tw-h-10;
 
   // custom font for "Alpha" logo text
   #Alpha tspan {
     font-family: Orbitron-Medium, Orbitron;
   }
 
-  @screen xl {
+  @screen 2xl {
     height: 53px;
   }
 }
 
+.menuItem {
+  @apply tw-px-5 tw-py-2.5 tw-rounded;
+
+  &:hover {
+    @apply tw-bg-gray-5;
+  }
+}
+
+.headerText {
+  @apply tw-mr-1.5 tw-cursor-pointer tw-text-sm tw-font-medium;
+}
+
+.firstLevelMenu {
+  @apply tw-flex-shrink-0 tw-flex tw-flex-row tw-items-center tw-px-3 tw-py-2 tw-rounded;
+}
+
+.firstLevelMenuActive {
+  @apply tw-text-sov-white tw-bg-gray-2.5;
+}
+
 // blueprintjs override
 :global(.bp3-popover).header-nav-popover :global(.bp3-popover-content) {
-  @apply tw-bg-black tw-border-0 
-    tw-overflow-hidden;
+  @apply tw-bg-gray-2.5 tw-border-0 tw-p-1 tw-overflow-hidden tw-rounded;
+
+  min-width: 12.875rem;
+
+  & li + li {
+    @apply tw-mt-2;
+  }
 
   & :global(.bp3-menu) {
     @apply tw-p-0;
+  }
+}
 
-    & a {
-      @apply tw-font-normal;
+.host {
+  @apply tw-flex tw-flex-row tw-self-center tw-w-full tw-text-sov-white tw-text-sm tw-leading-snug tw-px-0 tw-font-extralight tw-text-center tw-mt-2 tw-list-none;
+
+  &:after,
+  &:before {
+    @apply tw-flex-1 tw-border-b tw-border-solid tw-border-current tw-m-auto;
+
+    content: '';
+  }
+
+  &:not(:empty) {
+    &:before {
+      @apply tw-mr-2.5;
     }
+    &:after {
+      @apply tw-ml-2.5;
+    }
+  }
+
+  &:empty {
+    @apply tw-mb-2;
   }
 }

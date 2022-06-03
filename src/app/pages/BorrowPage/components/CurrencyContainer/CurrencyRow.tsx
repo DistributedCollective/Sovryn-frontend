@@ -38,6 +38,7 @@ const CurrencyRow: React.FC<Props> = ({
         active && styles.active,
       )}
       onClick={onClick}
+      data-action-id={`borrow-assetSelect-${lendingPool.getAsset()}`}
     >
       <div
         className={classNames(

@@ -1,6 +1,6 @@
 import React, { useContext, useMemo, useCallback } from 'react';
 import { TransitionStep } from '../../../../../containers/TransitionSteps';
-import { TradeDialogStep, PerpetualTxMethods } from '../types';
+import { TradeDialogStep } from '../types';
 import { TradeDialogContext } from '../index';
 import styles from '../index.module.scss';
 import { translations } from '../../../../../../locales/i18n';
@@ -10,12 +10,12 @@ import {
   TxStatus,
   Transaction,
 } from '../../../../../../store/global/transactions-store/types';
-import { StatusComponent } from '../../../../../components/Dialogs/TxDialog';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectTransactions } from '../../../../../../store/global/transactions-store/selectors';
 import { actions } from '../../../slice';
-import { PerpetualPageModals } from '../../../types';
+import { PerpetualPageModals, PerpetualTxMethod } from '../../../types';
 import { RecentTradesContext } from '../../../contexts/RecentTradesContext';
+import { StatusComponent } from 'app/components/Dialogs/StatusComponent';
 
 const TxStatusPriority = {
   [TxStatus.NONE]: 0,
@@ -46,8 +46,8 @@ export const TransactionStep: TransitionStep<TradeDialogStep> = ({
     () =>
       transactions.reduce<Transaction[]>((acc, transaction) => {
         if (
-          (transaction.method === PerpetualTxMethods.deposit ||
-            transaction.method === PerpetualTxMethods.trade) &&
+          (transaction.method === PerpetualTxMethod.deposit ||
+            transaction.method === PerpetualTxMethod.trade) &&
           transaction.approvalTx &&
           transactionsMap[transaction.approvalTx]
         ) {

@@ -408,15 +408,19 @@
   },
   "mainMenu": {
     "buySov": "Comprar SOV",
-    "trade": "Negociar",
+    "trade": "Negocie",
     "swap": "Trocar cripto",
     "marginTrade": "Operar margem",
+    "earn": "Ganhe",
+    "pool": "Minerar liquidez",
+    "voting": "Votar",
+    "portfolio": "Portfólio",
     "finance": "Finanças",
     "lend": "Emprestar cripto",
-    "borrow": "Obter empréstimo",
+    "borrow": "Pegar empréstimo",
     "yieldFarm": "Minerar liquidez",
     "reward": "Bônus SOV",
-    "staking": "Token SOV",
+    "staking": "Rentabilizar SOV",
     "governance": "Governança",
     "forum": "Fórum",
     "affiliate": "Indique e ganhe",
@@ -424,13 +428,37 @@
     "stats": "Dados",
     "help": "Ajuda",
     "bitocracy": "Bitocracia",
+    "notifications": "Notificações",
     "spotTrade": "Operar spot",
     "origins": "Origens",
-    "launchpad": "Lançamentos",
+    "originsClaim": "Origens - Reivindicar",
+    "originsLaunchpad": "Origens - Lançamentos",
     "claim": "Reinvindicar",
     "rewards": "Recompensas",
     "labs": "Labs",
-    "perpetuals": "Operar perpétuo"
+    "myntToken": "MYNT token",
+    "zero": "Zero",
+    "perpetuals": "Operar perpétuo",
+    "getStarted": "Começar",
+    "fundWallet": "Depositar",
+    "tooltips": {
+      "readMore": "Saiba mais",
+      "fundWalletButton": "Clique aqui para depositar e começar a usar."
+    },
+    "labels": {
+      "swap": "A forma mais simples de trocar um ativo por outro",
+      "spotTrade": "Ferramenta avançada para troca de ativos",
+      "marginTrade": "Negocie com alavancagem de até 10x",
+      "lend": "Receba juros emprestando criptos nos pools de empréstimo",
+      "pool": "Ganhe rendimentos depositando criptos nos pools de liquidez",
+      "staking": "Ganhe recompensas investindo seus SOV",
+      "originsLaunchpad": "Vendas realizadas na plataforma Origens",
+      "originsClaim": "Reivindicar recompensas FISH",
+      "myntToken": "Protocolo Sovryn de moedas estáveis apoiado por BTC",
+      "perpetuals": "Em breve",
+      "voting": "Participe das decisões de governança",
+      "forum": "Junte-se à comunidade"
+    }
   },
   "originsLaunchpad": {
     "upcomingSales": {
@@ -845,7 +873,7 @@
     },
     "currency": {
       "lend": "Emprestar",
-      "borrow": "Obter empréstimo",
+      "borrow": "Pegar empréstimo",
       "lendArp": "Juros anual (credor)",
       "borrowArp": "Juros anual (devedor)"
     },
@@ -860,14 +888,14 @@
     "borrowingContainer": {
       "amount": "Valor do empréstimo",
       "tokenAssetCollateral": "Ativo de garantia e quantidade",
-      "borrow": "Obter empréstimo",
+      "borrow": "Pegar empréstimo",
       "chooseDays": "Quantidade de dias",
       "disabled": "Ativo não disponível para empréstimo."
     }
   },
   "borrow": {
     "meta": {
-      "title": "Obter empréstimo"
+      "title": "Pegar empréstimo"
     }
   },
   "activeUserBorrows": {
@@ -1323,7 +1351,8 @@
       "interestAPR": "Juros anual",
       "endTimestamp": "Devolver até"
     },
-    "repayButton": "Devolver"
+    "repayButton": "Devolver",
+    "addCollateralButton": "Adicionar colateral"
   },
   "repayPositionForm": {
     "title": "Devolver empréstimo",
@@ -1791,7 +1820,15 @@
       "day_one": "{{count}} dia",
       "day_other": "{{count}} dias",
       "partialFilled": "Permitir ordem parcialmente executada:",
-      "infinity": "∞"
+      "infinity": "Nunca"
+    },
+    "recentTrades": {
+      "title": "Negociações recentes",
+      "titleAMMInfo": "Please note that since there is no AMM pool for this trading pair, we can only show trades made on the underlying AMM pool of the base asset - e.g. trades between <0></0> and <1></1>.",
+      "price": "Preço",
+      "size": "Tamanho",
+      "time": "Data e hora",
+      "noTrades": "Sem negociações recentes"
     },
     "openLimitOrders": {
       "dateTime": "Data e hora",
@@ -2237,6 +2274,18 @@
     "title": "Adicionar margem",
     "amount": "Aumentar margem em:",
     "liquidationPrice": "Preço aprox de liquidação:"
+  },
+  "addCollateral": {
+    "title": "Adicionar colateral",
+    "collateralBalance": "Saldo em colateral",
+    "liquidationPrice": "Preço de liquidação",
+    "collateralRatio": "Garantia",
+    "amount": "Aumentar colateral em:",
+    "newInfo": "Novos dados:",
+    "review": "Revisar transação",
+    "errors": {
+      "balance": "Insira um valor igual ou inferior ao saldo de {{asset}} em seu endereço."
+    }
   },
   "openPositionTable": {
     "direction": "Direção",

@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState, useCallback } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { Helmet } from 'react-helmet-async';
-import { Tab } from '../../components/Tab';
 import { actions as walletProviderActions } from 'app/containers/WalletProvider/slice';
 
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
@@ -32,7 +31,6 @@ import { AccountBalanceCard } from './components/AccountBalanceCard';
 import { AccountDialog } from './components/AccountDialog';
 import { NewPositionCard } from './components/NewPositionCard';
 import { TradeDialog } from './components/TradeDialog';
-import { EditPositionSizeDialog } from './components/EditPositionSizeDialog';
 import { EditLeverageDialog } from './components/EditLeverageDialog';
 import { EditMarginDialog } from './components/EditMarginDialog';
 import { RecentTradesContextProvider } from './contexts/RecentTradesContext';
@@ -43,6 +41,9 @@ import { FundingPaymentsTable } from './components/FundingPaymentsTable/index';
 import { PerpetualQueriesContextProvider } from './contexts/PerpetualQueriesContext';
 import { PairSelector } from './components/PairSelector';
 import { ToastsWatcher } from './components/ToastsWatcher';
+import { OpenOrdersTable } from './components/OpenOrdersTable';
+import { Tabs } from 'app/components/Tabs';
+import { usePerpetual_isAddressWhitelisted } from './hooks/usePerpetual_isAddressWhitelisted';
 
 export const PerpetualPageContainer: React.FC = () => {
   useInjectReducer({ key: sliceKey, reducer });
@@ -65,6 +66,12 @@ export const PerpetualPageContainer: React.FC = () => {
   const location = useLocation<IPromotionLinkState>();
   const history = useHistory<IPromotionLinkState>();
 
+  const isAddressWhitelisted = usePerpetual_isAddressWhitelisted();
+
+  useEffect(() => {
+    dispatch(actions.setIsAddressWhitelisted(isAddressWhitelisted));
+  }, [dispatch, isAddressWhitelisted]);
+
   const [linkPairType, setLinkPairType] = useState(
     location.state?.perpetualPair,
   );
@@ -73,8 +80,6 @@ export const PerpetualPageContainer: React.FC = () => {
     () => PerpetualPairDictionary.get(linkPairType || pairType),
     [linkPairType, pairType],
   );
-
-  const [activeTab, setActiveTab] = useState(0);
 
   const onChangePair = useCallback(
     (pairType: PerpetualPairType) => dispatch(actions.setPairType(pairType)),
@@ -106,6 +111,37 @@ export const PerpetualPageContainer: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const tables = useMemo(
+    () => [
+      {
+        id: 'openPositions',
+        label: t(translations.perpetualPage.openPositions),
+        content: <OpenPositionsTable perPage={5} />,
+      },
+      {
+        id: 'openOrders',
+        label: t(translations.perpetualPage.openOrders),
+        content: <OpenOrdersTable perPage={5} />,
+      },
+      {
+        id: 'closedPositions',
+        label: t(translations.perpetualPage.closedPositions),
+        content: <ClosedPositionsTable perPage={5} />,
+      },
+      {
+        id: 'orderHistory',
+        label: t(translations.perpetualPage.orderHistory),
+        content: <OrderHistoryTable perPage={5} />,
+      },
+      {
+        id: 'fundingPayments',
+        label: t(translations.perpetualPage.fundingPayments),
+        content: <FundingPaymentsTable perPage={5} />,
+      },
+    ],
+    [t],
+  );
+
   return (
     <RecentTradesContextProvider pair={pair}>
       <PerpetualQueriesContextProvider pair={pair}>
@@ -123,7 +159,7 @@ export const PerpetualPageContainer: React.FC = () => {
             collateral={collateral}
             onChange={onChangePair}
           />
-          <ContractDetails pair={pair} collateral={collateral} />
+          <ContractDetails pair={pair} />
         </div>
         <div className="tw-container tw-flex tw-flex-col tw-mt-5 tw-flex-grow">
           <div className="tw-flex tw-flex-col tw-mb-8 xl:tw-flex-row xl:tw-justify-start tw-items-stretch tw-flex-grow tw-h-full tw-space-y-2 xl:tw-space-y-0 xl:tw-space-x-2">
@@ -184,41 +220,16 @@ export const PerpetualPageContainer: React.FC = () => {
 
           {showTables && (
             <div className="tw-p-4 tw-bg-gray-2.5 tw-rounded-xl tw-mb-12">
-              <div className="tw-flex tw-items-center tw-text-sm">
-                <Tab
-                  text={t(translations.perpetualPage.openPositions)}
-                  active={activeTab === 0}
-                  onClick={() => setActiveTab(0)}
-                />
-                <Tab
-                  text={t(translations.perpetualPage.closedPositions)}
-                  active={activeTab === 1}
-                  onClick={() => setActiveTab(1)}
-                />
-                <Tab
-                  text={t(translations.perpetualPage.orderHistory)}
-                  active={activeTab === 2}
-                  onClick={() => setActiveTab(2)}
-                />
-                <Tab
-                  text={t(translations.perpetualPage.fundingPayments)}
-                  active={activeTab === 3}
-                  onClick={() => setActiveTab(3)}
-                />
-              </div>
-
-              <div className="tw-w-full">
-                {activeTab === 0 && <OpenPositionsTable perPage={5} />}
-                {activeTab === 1 && <ClosedPositionsTable perPage={5} />}
-                {activeTab === 2 && <OrderHistoryTable perPage={5} />}
-                {activeTab === 3 && <FundingPaymentsTable perPage={5} />}
-              </div>
+              <Tabs
+                items={tables}
+                initial={tables[0].id}
+                dataActionId="perpetual-tables"
+              />
             </div>
           )}
         </div>
         <AccountDialog />
         <TradeDialog />
-        <EditPositionSizeDialog />
         <EditLeverageDialog />
         <EditMarginDialog />
         <ClosePositionDialog />
