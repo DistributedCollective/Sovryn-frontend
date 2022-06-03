@@ -338,7 +338,7 @@ export const contracts = {
     chainId: ChainId.BSC_TESTNET,
   },
   ZUSD_token: {
-    address: '0x4a0741FA749eD6b1F810224D09f1f511952e67de',
+    address: '0xf78818b73121AEF721730ad1ef91AeF124fdD262',
     abi: erc20TokenAbi,
   },
 };
