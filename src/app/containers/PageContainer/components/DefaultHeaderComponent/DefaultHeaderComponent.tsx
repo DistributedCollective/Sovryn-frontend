@@ -40,6 +40,13 @@ import { bignumber } from 'mathjs';
 const showPerps = !isMainnet || isStaging;
 const showZero = isMainnet || isStaging;
 
+interface PagesProps {
+  to: string;
+  title: string;
+  dataActionId: string;
+  hrefExternal?: boolean;
+}
+
 export const DefaultHeaderComponent: React.FC = () => {
   const { t } = useTranslation();
   const history = useHistory();
@@ -90,7 +97,7 @@ export const DefaultHeaderComponent: React.FC = () => {
     </button>
   );
 
-  const labPages = [
+  const labPages: PagesProps[] = [
     {
       to: '/origins',
       title: t(translations.mainMenu.originsLaunchpad),
@@ -113,6 +120,7 @@ export const DefaultHeaderComponent: React.FC = () => {
       to: zeroUrl,
       title: t(translations.mainMenu.zero),
       dataActionId: 'header-mobile-lab-link-zero',
+      hrefExternal: true,
     });
   }
   if (showPerps) {
@@ -123,7 +131,7 @@ export const DefaultHeaderComponent: React.FC = () => {
     });
   }
 
-  const pages = [
+  const pages: PagesProps[] = [
     {
       to: '',
       title: t(translations.mainMenu.trade),
@@ -221,12 +229,7 @@ export const DefaultHeaderComponent: React.FC = () => {
   ];
 
   const menuItems = pages.map((item, index) => {
-    let link: {
-      to: string;
-      title: string;
-      dataActionId: string;
-      hrefExternal?: boolean;
-    } = item;
+    let link: PagesProps = item;
 
     if (link.to === '') {
       return <MenuSeparator key={index} text={link.title} />;
@@ -445,7 +448,8 @@ export const DefaultHeaderComponent: React.FC = () => {
                       <MenuItem
                         text={t(translations.mainMenu.zero)}
                         label={t(translations.mainMenu.labels.zero)}
-                        href="/zero"
+                        href={zeroUrl}
+                        hrefExternal
                         dataActionId="header-lab-link-zero"
                       />
                     )}
