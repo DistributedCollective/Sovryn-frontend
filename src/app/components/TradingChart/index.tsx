@@ -19,6 +19,10 @@ import Storage from './storage';
 import { noop } from '../../constants';
 import { useApolloClient } from '@apollo/client';
 import { hasDirectFeed } from './helpers';
+import { Trans } from 'react-i18next';
+import { translations } from 'locales/i18n';
+import { AssetRenderer } from '../AssetRenderer';
+import { Asset } from 'types';
 
 export enum Theme {
   LIGHT = 'Light',
@@ -112,7 +116,7 @@ export function TradingChart(props: ChartContainerProps) {
   return (
     <div
       className={classNames(
-        'tw-w-full tw-h-full tw-flex tw-rounded tw-overflow-hidden',
+        'tw-w-full tw-h-full tw-flex tw-flex-col tw-rounded tw-overflow-hidden',
         hasCharts && 'tw-border',
       )}
       style={
@@ -157,6 +161,17 @@ export function TradingChart(props: ChartContainerProps) {
             <Skeleton height="55%" />
           </div>
         </div>
+        {!hasDirectFeed(props.symbol) && (
+          <div className="tw-py-2 tw-px-3 tw-text-xs tw-opacity-50">
+            <Trans
+              i18nKey={translations.tradingChart.lineChartOnly}
+              components={[
+                <AssetRenderer asset={Asset.XUSD} />,
+                <AssetRenderer asset={Asset.RBTC} />,
+              ]}
+            />
+          </div>
+        )}
       </>
     </div>
   );

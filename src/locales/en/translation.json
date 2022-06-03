@@ -2705,5 +2705,8 @@
       "closingPrice": "The exit price is 95% of the value of the closing price shown. This difference is due to the discount applied as an incentive for liquidators."
     },
     "profitTooltip": "Closing position would withdraw one of these:"
+  },
+  "tradingChart": {
+    "lineChartOnly": "Non <0/> or <1/> assets are displayed as line charts"
   }
 }
