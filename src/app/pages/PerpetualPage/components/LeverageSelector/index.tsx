@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { ReactComponent as EditIcon } from 'assets/images/edit.svg';
-import { ReactComponent as ArrowForwardIcon } from 'assets/images/arrow_forward.svg';
 import { Slider, SliderType } from 'app/components/Form/Slider';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
@@ -9,6 +8,8 @@ import { FormGroup } from '../../../../components/Form/FormGroup';
 import classNames from 'classnames';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { roundToSmaller } from '../../../../../utils/blockchain/math-helpers';
+import { Icon } from 'app/components/Icon';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
 const leverageStepDeviation = 0.05;
 
@@ -110,12 +111,9 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
       >
         <div className="tw-flex tw-flex-row tw-items-start tw-justify-between tw-h-12">
           {manual || sliderValue < 0 ? (
-            <>
-              <button
-                className="tw-w-1/6 tw-p-1 tw-text-secondary"
-                onClick={onDisableManual}
-              >
-                <ArrowForwardIcon className="tw-transform tw-rotate-180" />
+            <div className="tw-flex tw-items-center tw-justify-center tw-w-full">
+              <button className="tw-w-1/6 tw-p-1" onClick={onDisableManual}>
+                <Icon icon={faXmark} size="lg" />
               </button>
               <Input
                 className="tw-w-2/3 tw-mx-4 tw-text-center"
@@ -128,7 +126,7 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
                 onChange={onInputChange}
               />
               <span className="tw-w-1/6" />
-            </>
+            </div>
           ) : (
             <>
               <button
