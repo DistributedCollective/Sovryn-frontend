@@ -23,6 +23,7 @@ export const GetStartedBanner: React.FC = () => {
         className="tw-absolute tw-self-center tw-min-h-8 md:tw-min-h-12 sm:tw-self-auto tw-bottom-3 md:tw-bottom-6 tw-text-sm md:tw-text-xl tw-border-2 tw-py-1 md:tw-py-3"
         text={t(translations.landingPage.banner.getStarted)}
         href={zeroUrl}
+        hrefExternal={true}
         size={ButtonSize.lg}
         style={ButtonStyle.transparent}
         dataActionId="landing-getstarted-button"
