@@ -78,6 +78,7 @@ const tradingChartDataFeeds = (
       has_weekly_and_monthly: false,
       data_status: 'streaming',
     };
+
     setTimeout(() => onSymbolResolvedCallback(symbolInfo));
   },
 
@@ -139,16 +140,16 @@ const tradingChartDataFeeds = (
         bars = [];
       }
 
-      if (firstDataRequest) {
-        newestBarsCache.set(symbolInfo.name, { ...bars[bars.length - 1] });
-        oldestBarsCache.set(symbolInfo.name, { ...bars[0] });
-      }
-
-      if (!bars || bars.length === 1) {
+      if (!bars || bars.length === 0) {
         onHistoryCallback([], {
           noData: true,
         });
         return;
+      }
+
+      if (firstDataRequest) {
+        newestBarsCache.set(symbolInfo.name, { ...bars[bars.length - 1] });
+        oldestBarsCache.set(symbolInfo.name, { ...bars[0] });
       }
 
       const lastBar = newestBarsCache.get(symbolInfo.name);

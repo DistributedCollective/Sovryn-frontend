@@ -120,7 +120,7 @@ export const contracts = {
     blockNumber: 1406290,
   },
   XUSD_token: {
-    address: '0xa9262CC3fB54Ea55B1B0af00EfCa9416B8d59570',
+    address: '0xa9262cc3fb54ea55b1b0af00efca9416b8d59570',
     abi: erc20TokenAbi,
     blockNumber: 1408174,
   },
