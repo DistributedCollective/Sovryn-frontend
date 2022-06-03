@@ -11,7 +11,6 @@ import classNames from 'classnames';
 import {
   widget,
   IChartingLibraryWidget,
-  SeriesStyle,
 } from '@sovryn/charting-library/src/charting_library/charting_library.min';
 
 import { Skeleton } from '../PageSkeleton';
@@ -19,8 +18,7 @@ import Datafeed from './datafeed';
 import Storage from './storage';
 import { noop } from '../../constants';
 import { useApolloClient } from '@apollo/client';
-import { LiquidityPoolDictionary } from 'utils/dictionaries/liquidity-pool-dictionary';
-import { Asset } from 'types';
+import { hasDirectFeed } from './helpers';
 
 export enum Theme {
   LIGHT = 'Light',
@@ -103,12 +101,10 @@ export function TradingChart(props: ChartContainerProps) {
       chart.chart().resetData();
 
       // if quote asset is not RBTC or XUSD, make it line chart, otherwise candle
-      const [, quote] = props.symbol.split('/') as [Asset, Asset];
       // 1 - candles
       // 2 - line
-      chart
-        .chart()
-        .setChartType([Asset.RBTC, Asset.XUSD].includes(quote) ? 1 : 2);
+      chart.chart().setChartType(hasDirectFeed(props.symbol) ? 1 : 2);
+
       chart.chart().setSymbol(props.symbol, noop);
     }
   }, [chart, hasCharts, props.symbol]);

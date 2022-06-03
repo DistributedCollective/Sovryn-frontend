@@ -23,7 +23,7 @@ import {
   resolutionMap,
   supportedResolutions,
 } from 'app/pages/PerpetualPage/components/TradingChart/helpers';
-import { getTokensFromSymbol, queryCandles } from './helpers';
+import { getTokensFromSymbol, hasDirectFeed, queryCandles } from './helpers';
 import { CandleDuration } from 'app/pages/PerpetualPage/hooks/graphql/useGetCandles';
 import { TradingCandleDictionary } from './dictionary';
 import { Asset } from 'types';
@@ -125,6 +125,7 @@ const tradingChartDataFeeds = (
       const data = await queryCandles(
         graphqlClient,
         candleDuration,
+        hasDirectFeed(symbolInfo.name),
         baseToken,
         quoteToken,
         startTime(),
