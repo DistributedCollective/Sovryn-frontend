@@ -37,10 +37,6 @@ export class Streaming {
     }
 
     if (typeof document?.hasFocus === 'function' && !document.hasFocus()) {
-      console.log(
-        typeof document?.hasFocus === 'function',
-        !document.hasFocus(),
-      );
       return;
     }
 

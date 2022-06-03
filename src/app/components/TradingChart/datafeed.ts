@@ -26,6 +26,8 @@ import {
 import { getTokensFromSymbol, queryCandles } from './helpers';
 import { CandleDuration } from 'app/pages/PerpetualPage/hooks/graphql/useGetCandles';
 import { TradingCandleDictionary } from './dictionary';
+import { Asset } from 'types';
+import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 
 const newestBarsCache = new Map<string, Bar>();
 const oldestBarsCache = new Map<string, Bar>();
@@ -51,6 +53,9 @@ const tradingChartDataFeeds = (
     onSymbolResolvedCallback,
     onResolveErrorCallback,
   ) => {
+    const [, quote] = symbolName.split('/') as [Asset, Asset];
+    const asset = AssetsDictionary.get(quote);
+
     const symbolInfo: LibrarySymbolInfo = {
       name: symbolName,
       full_name: symbolName,
@@ -62,8 +67,8 @@ const tradingChartDataFeeds = (
       session: '24x7',
       timezone: 'Etc/UTC',
       ticker: symbolName,
-      minmov: 1, //0.00000001,
-      pricescale: 100,
+      minmov: 1,
+      pricescale: 10 ** asset.displayDecimals,
       has_intraday: true,
       intraday_multipliers: ['1', '15', '60', '240'],
       supported_resolutions: supportedResolutions,
