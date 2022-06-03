@@ -37,6 +37,16 @@ export const OpenOrderRow: React.FC<OpenOrderRowProps> = ({ item }) => {
     item.pairType,
   ]);
 
+  const isExpiredOrder = useMemo(
+    () => Number(item.expiry) < Math.floor(Date.now() / 1e3),
+    [item.expiry],
+  );
+
+  const opacityClassName = useMemo(
+    () => (isExpiredOrder ? 'tw-opacity-60' : ''),
+    [isExpiredOrder],
+  );
+
   const collateralName = useMemo(
     () => getCollateralName(pair.collateralAsset),
     [pair.collateralAsset],
@@ -93,23 +103,23 @@ export const OpenOrderRow: React.FC<OpenOrderRowProps> = ({ item }) => {
 
   return (
     <tr>
-      <td>
+      <td className={opacityClassName}>
         <DisplayDate
           timestamp={item.createdAt || Math.floor(Date.now() / 1e3).toString()}
           separator={SeparatorType.Dash}
         />
       </td>
-      <td>{pair.name}</td>
+      <td className={opacityClassName}>{pair.name}</td>
       <td
-        className={classNames({
+        className={classNames(opacityClassName, {
           'tw-text-trade-long': item.orderSize > 0,
           'tw-text-trade-short': item.orderSize < 0,
         })}
       >
         {orderTypeTranslation}
       </td>
-      <td>{collateralName}</td>
-      <td>
+      <td className={opacityClassName}>{collateralName}</td>
+      <td className={opacityClassName}>
         <AssetValue
           minDecimals={2}
           maxDecimals={6}
@@ -118,7 +128,7 @@ export const OpenOrderRow: React.FC<OpenOrderRowProps> = ({ item }) => {
           mode={AssetValueMode.auto}
         />
       </td>
-      <td>
+      <td className={opacityClassName}>
         <AssetValue
           minDecimals={2}
           maxDecimals={2}
@@ -128,7 +138,7 @@ export const OpenOrderRow: React.FC<OpenOrderRowProps> = ({ item }) => {
         />
       </td>
 
-      <td>
+      <td className={opacityClassName}>
         <AssetValue
           minDecimals={2}
           maxDecimals={2}
@@ -137,13 +147,13 @@ export const OpenOrderRow: React.FC<OpenOrderRowProps> = ({ item }) => {
           mode={AssetValueMode.auto}
         />
       </td>
-      <td>
+      <td className={opacityClassName}>
         <DisplayDate
           timestamp={item.expiry || Math.floor(Date.now() / 1e3).toString()}
           separator={SeparatorType.Dash}
         />
       </td>
-      <td>
+      <td className={opacityClassName}>
         <LinkToExplorer
           className="tw-text-sov-white tw-underline"
           txHash={item.createdTransactionHash}
