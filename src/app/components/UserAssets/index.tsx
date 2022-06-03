@@ -239,7 +239,9 @@ const AssetRow: React.FC<IAssetRowProps> = ({
 
   const assetDollarValue = useDollarValue(item.asset, tokens);
 
-  if (tokens === '0' && item.hideIfZero)
+  const hasAnyTokens = useMemo(() => tokens !== '0', [tokens]);
+
+  if (!hasAnyTokens && item.hideIfZero)
     return <React.Fragment key={item.asset} />;
 
   return (
@@ -278,7 +280,7 @@ const AssetRow: React.FC<IAssetRowProps> = ({
       <td className="tw-text-right tw-hidden md:tw-table-cell">
         <LoadableValue
           value={
-            <AssetValue value={assetDollarValue.value} asset={Asset.XUSD} />
+            <AssetValue value={assetDollarValue.value} assetString="USD" />
           }
           loading={assetDollarValue.loading}
         />
@@ -322,10 +324,9 @@ const AssetRow: React.FC<IAssetRowProps> = ({
               ) : (
                 <Link
                   to="/fast-btc/withdraw"
-                  className={classNames(
-                    styles.actionLink,
-                    tokens === '0' && styles.disabled,
-                  )}
+                  className={classNames(styles.actionLink, {
+                    [styles.disabled]: !hasAnyTokens,
+                  })}
                 >
                   <span>{t(translations.common.withdraw)}</span>
                 </Link>
@@ -336,7 +337,7 @@ const AssetRow: React.FC<IAssetRowProps> = ({
             <button
               className={styles.actionLink}
               onClick={() => onConvert(item.asset)}
-              disabled={tokens === '0'}
+              disabled={!hasAnyTokens}
             >
               {t(translations.userAssets.actions.convert)}
             </button>
@@ -344,13 +345,13 @@ const AssetRow: React.FC<IAssetRowProps> = ({
           {[Asset.SOV, Asset.ETH, Asset.XUSD, Asset.BNB].includes(
             item.asset,
           ) && (
-            <BridgeLink asset={item.asset} disableWithdrawal={tokens === '0'} />
+            <BridgeLink asset={item.asset} disableWithdrawal={!hasAnyTokens} />
           )}
           {item.asset === Asset.WRBTC && (
             <button
               className={styles.actionLink}
               onClick={onUnWrap}
-              disabled={tokens === '0'}
+              disabled={!hasAnyTokens}
             >
               {t(translations.userAssets.actions.unwrap)}
             </button>

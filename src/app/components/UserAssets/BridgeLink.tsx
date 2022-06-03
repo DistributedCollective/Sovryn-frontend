@@ -111,10 +111,9 @@ export const BridgeLink: React.FC<IBridgeLinkProps> = ({
             pathname: '/cross-chain/withdraw',
             state: { receiver, asset },
           }}
-          className={classNames(
-            styles.actionLink,
-            disableWithdrawal && styles.disabled,
-          )}
+          className={classNames(styles.actionLink, {
+            [styles.disabled]: disableWithdrawal,
+          })}
         >
           <span>{t(translations.common.withdraw)}</span>
         </Link>

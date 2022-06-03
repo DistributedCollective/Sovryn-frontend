@@ -33,7 +33,6 @@ import OrderBookAbi from './abi/OrderBook.json';
 import OrderBookMarginAbi from './abi/OrderBookMargin.json';
 import nftAbi from './abi/nftAbi.json';
 import MYNTControllerAbi from './abi/MYNTController.json';
-import MYNTTokenAbi from './abi/MYNT_token.json';
 import MYNTPresaleAbi from './abi/MYNTPresale.json';
 import MYNTMarketMakerAbi from './abi/MYNTMarketMaker.json';
 import perpetualManagerAbi from './abi/PerpetualManager.json';
@@ -41,7 +40,6 @@ import perpetualLimitOrderBookAbi from './abi/PerpetualLimitOrderBook.json';
 import marginTokenAbi from './abi/MarginToken.json';
 import fastBtcBridgeAbi from './abi/fastBtcBridge.json';
 import fastBtcMultisigAbi from './abi/fastBtcMultisig.json';
-import ZUSDAbi from './abi/ZUSDToken.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -300,7 +298,7 @@ export const contracts = {
   },
   MYNT_token: {
     address: '0x139483e22575826183F5b56dd242f8f2C1AEf327',
-    abi: MYNTTokenAbi,
+    abi: erc20TokenAbi,
     blockNumber: 2267574,
   },
   MYNTPresale: {
@@ -341,10 +339,6 @@ export const contracts = {
   },
   ZUSD_token: {
     address: '0x4a0741FA749eD6b1F810224D09f1f511952e67de',
-    abi: ZUSDAbi,
-  },
-  NUE_token: {
-    address: '0xE0A574a940f9f2F7aE730a2DfB667B70dB989CaB',
     abi: erc20TokenAbi,
   },
 };

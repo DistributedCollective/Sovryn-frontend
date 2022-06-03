@@ -1221,7 +1221,7 @@
     "tableHeaders": {
       "asset": "Asset",
       "balance": "Balance",
-      "dollarBalance": "XUSD Value",
+      "dollarBalance": "USD Value",
       "lockedAmount": "Locked Amount",
       "action": "Action"
     },
@@ -1277,7 +1277,8 @@
     "purchaseLimit": "Purchase Limit:",
     "tier": "Tier",
     "tierSovOG": "SOV-OG",
-    "emptyMessage": "Your connected wallet does not currently have any supported NFTs. Join the <0>Sovryn community</0> for opportunities to earn NFT rewards."
+    "emptyMessage": "Your connected wallet does not currently have any supported NFTs. Join the <0>Sovryn community</0> for opportunities to earn NFT rewards.",
+    "loadingMessage": "Loading your NFTs."
   },
   "swapHistory": {
     "title": "Swap History",

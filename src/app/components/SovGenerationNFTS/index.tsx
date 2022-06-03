@@ -21,25 +21,21 @@ import { discordInvite } from '../../../utils/classifiers';
 export function SovGenerationNFTS() {
   const { t } = useTranslation();
   const account = useAccount();
-  const { value: balanceCommunity } = useCacheCallWithValue(
-    'SovrynNFTCommunity',
-    'balanceOf',
-    '0',
-    account,
-  );
-  const { value: balanceHero } = useCacheCallWithValue(
+  const {
+    value: balanceCommunity,
+    loading: loadingCommunity,
+  } = useCacheCallWithValue('SovrynNFTCommunity', 'balanceOf', '0', account);
+  const { value: balanceHero, loading: loadingHero } = useCacheCallWithValue(
     'SovrynNFTHero',
     'balanceOf',
     '0',
     account,
   );
-  const { value: balanceSuperhero } = useCacheCallWithValue(
-    'SovrynNFTSuperhero',
-    'balanceOf',
-    '0',
-    account,
-  );
-  const { value: balanceBday } = useCacheCallWithValue(
+  const {
+    value: balanceSuperhero,
+    loading: loadingSuperhero,
+  } = useCacheCallWithValue('SovrynNFTSuperhero', 'balanceOf', '0', account);
+  const { value: balanceBday, loading: loadingBday } = useCacheCallWithValue(
     'SovrynNFTBday',
     'balanceOf',
     '0',
@@ -71,7 +67,18 @@ export function SovGenerationNFTS() {
     [balanceCommunity, balanceHero, balanceSuperhero],
   );
 
-  const { items } = useLoadSovNfts();
+  const { items, loading: loadingList } = useLoadSovNfts();
+
+  const loading = useMemo(
+    () =>
+      loadingBday ||
+      loadingCommunity ||
+      loadingHero ||
+      loadingSuperhero ||
+      loadingBday ||
+      loadingList,
+    [loadingBday, loadingCommunity, loadingHero, loadingList, loadingSuperhero],
+  );
 
   return (
     <div className="sovryn-border tw-p-4 tw-mb-12">
@@ -136,7 +143,14 @@ export function SovGenerationNFTS() {
             </div>
           </div>
         ))}
-        {!items?.length && !tiers?.length && balanceBday === '0' && (
+
+        {loading && (
+          <p className="tw-mt-4">
+            {t(translations.sovGenerationNFTS.loadingMessage)}
+          </p>
+        )}
+
+        {!loading && !items?.length && !tiers?.length && balanceBday === '0' && (
           <p className="tw-mt-4">
             <Trans
               i18nKey={translations.sovGenerationNFTS.emptyMessage}
