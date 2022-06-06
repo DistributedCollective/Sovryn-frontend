@@ -40,12 +40,12 @@ import { bignumber } from 'mathjs';
 const showPerps = !isMainnet || isStaging;
 const showZero = isMainnet || isStaging;
 
-interface PagesProps {
+type PagesProps = {
   to: string;
   title: string;
   dataActionId: string;
   hrefExternal?: boolean;
-}
+};
 
 export const DefaultHeaderComponent: React.FC = () => {
   const { t } = useTranslation();
