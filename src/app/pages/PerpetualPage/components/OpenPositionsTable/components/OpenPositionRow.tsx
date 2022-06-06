@@ -19,8 +19,8 @@ import { AssetValueMode } from '../../../../../components/AssetValue/types';
 import { toWei } from '../../../../../../utils/blockchain/math-helpers';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { usePerpetual_isTradingInMaintenance } from '../../../hooks/usePerpetual_isTradingInMaintenance';
-import { RowAction } from './RowAction';
 import { getCollateralName } from 'app/pages/PerpetualPage/utils/renderUtils';
+import { TableRowAction } from '../../TableRowAction';
 
 type OpenPositionRowProps = {
   item: OpenPositionEntry;
@@ -52,16 +52,12 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
         amount: item.amount ? toWei(Math.abs(item.amount)) : '0',
         collateral: pair.collateralAsset,
         leverage: item.leverage || 0,
-        entryPrice: item.entryPrice || 0,
+        entryPrice: item.entryPrice ? toWei(item.entryPrice) : '0',
+        averagePrice: item.averagePrice ? toWei(item.averagePrice) : '0',
       };
       dispatch(actions.setModal(modal, trade));
     },
     [item, pair, dispatch],
-  );
-
-  const onEditSize = useCallback(
-    () => onOpenTradeModal(PerpetualPageModals.EDIT_POSITION_SIZE),
-    [onOpenTradeModal],
   );
 
   const onEditLeverage = useCallback(
@@ -203,17 +199,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
             />
           ) : (
             <>
-              <RowAction
-                label={t(
-                  translations.perpetualPage.openPositionsTable.editSize,
-                )}
-                tooltip={t(
-                  translations.perpetualPage.openPositionsTable.tooltips
-                    .editSize,
-                )}
-                onClick={onEditSize}
-              />
-              <RowAction
+              <TableRowAction
                 label={t(
                   translations.perpetualPage.openPositionsTable.editLeverage,
                 )}
@@ -223,7 +209,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
                 )}
                 onClick={onEditLeverage}
               />
-              <RowAction
+              <TableRowAction
                 label={t(
                   translations.perpetualPage.openPositionsTable.editMargin,
                 )}
@@ -234,7 +220,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
                 onClick={onEditMargin}
               />
 
-              <RowAction
+              <TableRowAction
                 label={t(
                   translations.perpetualPage.openPositionsTable.editClose,
                 )}

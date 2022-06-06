@@ -72,6 +72,7 @@ export function DelegateForm(props: Props) {
               value={props.address}
               placeholder={t(translations.stake.delegation.address)}
               onChange={e => props.onChangeAddress(e.currentTarget.value)}
+              data-action-id="staking-stake-delegate-addressInput"
             />
           </div>
           <div className="my-2">
@@ -115,6 +116,7 @@ export function DelegateForm(props: Props) {
             disabled={
               !props.isValid || delegateStakesLocked || delegateVestsLocked
             }
+            data-action-id="staking-stake-delegate-confirmButton"
           >
             {t(translations.stake.actions.confirm)}
           </button>
@@ -125,6 +127,7 @@ export function DelegateForm(props: Props) {
               props.onChangeAddress('');
             }}
             className="tw-border tw-border-primary tw-rounded-lg tw-text-primary tw-uppercase tw-w-full tw-text-xl tw-font-extrabold tw-px-4 tw-py-2 hover:tw-bg-primary hover:tw-bg-opacity-40 tw-transition tw-duration-500 tw-ease-in-out"
+            data-action-id="staking-stake-delegate-cancelButton"
           >
             {t(translations.stake.actions.cancel)}
           </button>

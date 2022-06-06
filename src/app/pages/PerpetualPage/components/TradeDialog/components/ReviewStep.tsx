@@ -18,11 +18,10 @@ import { usePerpetual_isTradingInMaintenance } from 'app/pages/PerpetualPage/hoo
 import { useMaintenance } from '../../../../../hooks/useMaintenance';
 import { useSelector } from 'react-redux';
 import { selectPerpetualPage } from '../../../selectors';
+import { ValidationHint } from '../../ValidationHint/ValidationHint';
 
 const titleMap = {
   [PerpetualPageModals.NONE]:
-    translations.perpetualPage.reviewTrade.titles.newOrder,
-  [PerpetualPageModals.EDIT_POSITION_SIZE]:
     translations.perpetualPage.reviewTrade.titles.newOrder,
   [PerpetualPageModals.EDIT_LEVERAGE]:
     translations.perpetualPage.reviewTrade.titles.editLeverage,
@@ -30,6 +29,8 @@ const titleMap = {
     translations.perpetualPage.reviewTrade.titles.editMargin,
   [PerpetualPageModals.CLOSE_POSITION]:
     translations.perpetualPage.reviewTrade.titles.close,
+  [PerpetualPageModals.CANCEL_ORDER]:
+    translations.perpetualPage.reviewTrade.titles.cancelOrder,
 };
 
 export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
@@ -52,6 +53,12 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
   );
   const isTradingInMaintenance = usePerpetual_isTradingInMaintenance();
 
+  // We don't want to display ValidationHint in case of Cancel limit orders
+  const shouldDisplayValidationHint = useMemo(
+    () => !origin || (origin && origin !== PerpetualPageModals.CANCEL_ORDER),
+    [origin],
+  );
+
   const onSubmit = useCallback(async () => {
     let nonce = await bridgeNetwork.nonce(Chain.BSC);
 
@@ -62,12 +69,12 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
     });
 
     changeTo(
-      analysis.marginChange > 0
+      analysis.requiredAllowance > 0
         ? TradeDialogStep.approval
-        : TradeDialogStep.confirmation,
+        : TradeDialogStep.confirmationEven,
       TransitionAnimation.slideLeft,
     );
-  }, [analysis.marginChange, setCurrentTransaction, changeTo]);
+  }, [analysis.requiredAllowance, setCurrentTransaction, changeTo]);
 
   return (
     <>
@@ -82,10 +89,17 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
         <ResultPosition
           origin={origin}
           pair={pair}
+          trade={trade}
           lotPrecision={lotPrecision}
           lotSize={lotSize}
           analysis={analysis}
         />
+        {shouldDisplayValidationHint && (
+          <ValidationHint
+            className="tw-mt-4"
+            validation={analysis.validation}
+          />
+        )}
         <div className="tw-flex tw-justify-center">
           {isTradingInMaintenance ||
           (useMetaTransactions && isGsnInMaintenance) ? (
@@ -114,7 +128,7 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
             <button
               className={styles.confirmButton}
               onClick={isTradingInMaintenance ? undefined : onSubmit}
-              disabled={isTradingInMaintenance}
+              disabled={isTradingInMaintenance && analysis.loading}
             >
               {t(translations.perpetualPage.reviewTrade.confirm)}
             </button>

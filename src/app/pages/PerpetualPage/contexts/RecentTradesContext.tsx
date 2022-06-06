@@ -144,7 +144,7 @@ export const RecentTradesContextProvider = props => {
     (trade: RecentTradesDataEntry) => {
       setDisconnected(false);
       setValue(state => {
-        const prevPrice = state.trades[0].price;
+        const prevPrice = state?.trades[0]?.price || trade.price;
         trade.priceChange = getPriceChange(prevPrice, trade.price);
         return {
           ...state,

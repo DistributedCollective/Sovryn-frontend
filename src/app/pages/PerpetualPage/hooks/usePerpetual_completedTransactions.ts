@@ -21,6 +21,8 @@ export const usePerpetual_completedTransactions = () => {
           TxType.APPROVE,
           TxType.PERPETUAL_DEPOSIT_COLLATERAL,
           TxType.PERPETUAL_WITHDRAW_COLLATERAL,
+          TxType.PERPETUAL_CREATE_LIMIT_ORDER,
+          TxType.PERPETUAL_CANCEL_LIMIT_ORDER,
           TxType.PERPETUAL_TRADE,
         ].includes(transaction.type) &&
         transaction.asset === Asset.BTCS &&

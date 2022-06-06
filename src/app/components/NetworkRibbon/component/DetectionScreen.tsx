@@ -103,6 +103,7 @@ export const DetectionScreen: React.FC<DetectionScreenProps> = ({
           <button onClick={onStart} className={styles.linkButton}>
             {t(translations.wrongNetworkDialog.tutorialGuide, {
               wallet: walletName,
+              network: network.chain,
             })}{' '}
           </button>
         )}

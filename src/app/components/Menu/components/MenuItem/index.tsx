@@ -1,7 +1,6 @@
 import React, {
   ReactNode,
   MouseEventHandler,
-  MouseEvent,
   useMemo,
   useCallback,
 } from 'react';
@@ -37,7 +36,7 @@ export const MenuItem: React.FC<MenuItemProps> = ({
   dataActionId,
 }) => {
   const onClickWhenAllowed = useCallback(
-    (event: MouseEvent) => {
+    event => {
       if (disabled) {
         event.preventDefault();
         event.stopPropagation();
