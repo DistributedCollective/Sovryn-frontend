@@ -11,16 +11,20 @@ export function PriceHistory() {
   const [currentPrice, setCurrentPrice] = useState(-1);
   const [turnover, setTurnover] = useState(-1);
   useEffect(() => {
-    axios.get(url + '/sov/trading-volume').then(({ data }) => {
-      setTurnover(data?.total?.sov);
-    });
+    axios
+      .get(url + '/sov/trading-volume')
+      .then(({ data }) => {
+        setTurnover(data?.total?.sov);
+      })
+      .catch(console.error);
   }, []);
 
   useEffect(() => {
     const getPrice = () =>
       axios
         .get(url + '/sov/current-price')
-        .then(({ data }) => setCurrentPrice(data?.price * 1e8));
+        .then(({ data }) => setCurrentPrice(data?.price * 1e8))
+        .catch(console.error);
 
     getPrice();
 

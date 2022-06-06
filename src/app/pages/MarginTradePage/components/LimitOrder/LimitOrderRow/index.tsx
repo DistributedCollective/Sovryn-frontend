@@ -147,6 +147,7 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
                       )) ||
                     undefined
                   }
+                  dataActionId="margin-limit-history-closeButton"
                 />
               )}
               {pending && (

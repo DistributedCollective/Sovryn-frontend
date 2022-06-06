@@ -127,15 +127,13 @@ const CurrencyRow: React.FC<Props> = ({
         chartReady={true}
       />
 
-      <>
-        <LendingDialog
-          currency={asset}
-          showModal={dialog !== 'none'}
-          onCloseModal={() => setDialog('none')}
-          type={dialog}
-          lendingAmount={lendingAmount}
-        />
-      </>
+      <LendingDialog
+        currency={asset}
+        showModal={dialog !== 'none'}
+        onCloseModal={() => setDialog('none')}
+        type={dialog}
+        lendingAmount={lendingAmount}
+      />
     </div>
   );
 };

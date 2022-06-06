@@ -73,6 +73,7 @@ export function LiquidityMining() {
             })}
             linkUrl="https://www.sovryn.app/blog/sovryn-mynt-project-updates"
             linkText={t(translations.liquidityMining.lootDropLink)}
+            linkDataActionId={`yieldfarm-promo-learnmore-${Asset.MYNT}`}
             highlightColor={LootDropColors.Orange}
           />
           <LootDrop
@@ -84,6 +85,7 @@ export function LiquidityMining() {
             })}
             linkUrl="https://www.sovryn.app/blog/xusd-go-brrrrr"
             linkText={t(translations.liquidityMining.lootDropLink)}
+            linkDataActionId={`yieldfarm-promo-learnmore-${Asset.XUSD}`}
             highlightColor={LootDropColors.Yellow}
           />
           <LootDrop
@@ -95,6 +97,7 @@ export function LiquidityMining() {
             })}
             linkUrl="https://www.sovryn.app/blog/get-stacking-with-our-biggest-loot-drop-yet"
             linkText={t(translations.liquidityMining.lootDropLink)}
+            linkDataActionId={`yieldfarm-promo-learnmore-${Asset.SOV}`}
             highlightColor={LootDropColors.Purple}
           />
           <LootDrop
@@ -106,6 +109,7 @@ export function LiquidityMining() {
             })}
             linkUrl="https://www.sovryn.app/blog/over-1000-yield-for-eth-btc-lps"
             linkText={t(translations.liquidityMining.lootDropLink)}
+            linkDataActionId={`yieldfarm-promo-learnmore-${Asset.ETH}`}
             highlightColor={LootDropColors.Green}
           />
         </LootDropSectionWrapper>

@@ -10,7 +10,7 @@ import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 
-import { currentNetwork, isMainnet } from 'utils/classifiers';
+import { currentNetwork, isMainnet, isStaging } from 'utils/classifiers';
 import { useAppTheme } from './hooks/app/useAppTheme';
 import { useMaintenance } from './hooks/useMaintenance';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
@@ -53,6 +53,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { PerpetualPageLoadable } from './pages/PerpetualPage/Loadable';
 
 const title = !isMainnet ? `Sovryn ${currentNetwork}` : 'Sovryn';
+const showPerps = !isMainnet || isStaging;
+
+console.log(showPerps);
 
 export function App() {
   useAppTheme();
@@ -129,7 +132,7 @@ export function App() {
                   path="/fast-btc/:type/:network?"
                   component={FastBtcPage}
                 />
-                {!isMainnet && (
+                {showPerps && (
                   <Route
                     exact
                     path="/perpetuals"

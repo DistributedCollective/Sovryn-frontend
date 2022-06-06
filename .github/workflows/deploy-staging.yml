@@ -37,6 +37,8 @@ jobs:
           REACT_APP_BYPASS_MAINTENANCE: 'true'
           REACT_APP_ESTIMATOR_URI: 'https://simulator.sovryn.app'
           REACT_APP_INTERCOM_ID: 'zxxit1rp'
+          REACT_APP_GRAPH_RSK: 'https://subgraph.sovryn.app/subgraphs/name/DistributedCollective/sovryn-subgraph'
+
 
       - name: Deploy to S3
         uses: raulanatol/aws-s3-docker-action@master

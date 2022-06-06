@@ -75,7 +75,7 @@ export const RecentTradesTable: React.FC<RecentTradesTableProps> = ({
           {trades &&
             trades.map(item => (
               <RecentTradesTableRow
-                key={item.id}
+                key={`${item.id}${item.time}`}
                 row={item}
                 pricePrecision={2}
                 sizePrecision={lotPrecision}

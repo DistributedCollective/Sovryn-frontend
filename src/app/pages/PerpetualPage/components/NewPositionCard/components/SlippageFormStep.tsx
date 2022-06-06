@@ -11,48 +11,43 @@ import { AssetValue } from '../../../../../components/AssetValue';
 import { AssetValueMode } from '../../../../../components/AssetValue/types';
 import { PerpetualPairDictionary } from '../../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import styles from '../index.module.scss';
-import {
-  getSignedAmount,
-  getTradeDirection,
-} from 'app/pages/PerpetualPage/utils/contractUtils';
+import { getTradeDirection } from 'app/pages/PerpetualPage/utils/contractUtils';
 import { TradingPosition } from '../../../../../../types/trading-position';
 import { PerpetualQueriesContext } from 'app/pages/PerpetualPage/contexts/PerpetualQueriesContext';
 import { perpUtils } from '@sovryn/perpetual-swap';
-import { usePerpetual_getCurrentPairId } from 'app/pages/PerpetualPage/hooks/usePerpetual_getCurrentPairId';
+import { usePerpetual_calculateResultingPosition } from 'app/pages/PerpetualPage/hooks/usePerpetual_calculateResultingPosition';
+import { selectPerpetualPage } from '../../../selectors';
+import { useSelector } from 'react-redux';
 
-const {
-  calculateSlippagePrice,
-  calculateApproxLiquidationPrice,
-  getRequiredMarginCollateral,
-} = perpUtils;
+const { calculateSlippagePrice } = perpUtils;
 
 export const SlippageFormStep: TransitionStep<NewPositionCardStep> = ({
   changeTo,
 }) => {
   const { t } = useTranslation();
 
-  const currentPairId = usePerpetual_getCurrentPairId();
+  const { pairType } = useSelector(selectPerpetualPage);
   const { perpetuals } = useContext(PerpetualQueriesContext);
+
+  const { trade, setTrade } = useContext(NewPositionCardContext);
+
   const {
-    ammState,
-    traderState,
-    perpetualParameters: perpParameters,
-    averagePrice,
-  } = perpetuals[currentPairId];
+    estimatedLiquidationPrice: liquidationPrice,
+  } = usePerpetual_calculateResultingPosition(trade);
 
-  const { trade, onChangeTrade } = useContext(NewPositionCardContext);
-
-  const pair = useMemo(() => PerpetualPairDictionary.get(trade.pairType), [
-    trade.pairType,
-  ]);
+  const pair = useMemo(
+    () => PerpetualPairDictionary.get(trade.pairType || pairType),
+    [trade.pairType, pairType],
+  );
+  const { averagePrice } = perpetuals[pair.id];
 
   const onCloseSlippage = useCallback(
     () => changeTo(NewPositionCardStep.trade, TransitionAnimation.slideRight),
     [changeTo],
   );
   const onChangeSlippage = useCallback(
-    slippage => onChangeTrade({ ...trade, slippage }),
-    [trade, onChangeTrade],
+    slippage => setTrade({ ...trade, slippage }),
+    [trade, setTrade],
   );
 
   const minEntryPrice = useMemo(
@@ -64,33 +59,6 @@ export const SlippageFormStep: TransitionStep<NewPositionCardStep> = ({
       ),
     [averagePrice, trade.position, trade.slippage],
   );
-
-  const minLiquidationPrice = useMemo(() => {
-    const amount = getSignedAmount(trade.position, trade.amount);
-    const margin = getRequiredMarginCollateral(
-      trade.leverage,
-      traderState.marginAccountPositionBC + amount,
-      perpParameters,
-      ammState,
-      traderState,
-      trade.slippage,
-    );
-    return calculateApproxLiquidationPrice(
-      traderState,
-      ammState,
-      perpParameters,
-      amount,
-      margin,
-    );
-  }, [
-    trade.amount,
-    trade.position,
-    trade.leverage,
-    trade.slippage,
-    traderState,
-    ammState,
-    perpParameters,
-  ]);
 
   return (
     <div className="tw-p-4">
@@ -133,7 +101,7 @@ export const SlippageFormStep: TransitionStep<NewPositionCardStep> = ({
           minDecimals={2}
           maxDecimals={2}
           mode={AssetValueMode.auto}
-          value={minLiquidationPrice}
+          value={liquidationPrice}
           assetString={pair.quoteAsset}
         />
       </div>
