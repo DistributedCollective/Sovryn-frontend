@@ -22,12 +22,12 @@ import styles from './index.module.scss';
 import { ReactComponent as SovLogo } from 'assets/images/sovryn-logo-alpha.svg';
 import { bitocracyUrl, zeroUrl, isMainnet, isStaging } from 'utils/classifiers';
 
-interface PagesProps {
+type PagesProps = {
   to: string;
   title: string;
   dataActionId: string;
   hrefExternal?: boolean;
-}
+};
 
 const showPerps = !isMainnet || isStaging;
 const showZero = isMainnet || isStaging;
