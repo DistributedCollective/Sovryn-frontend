@@ -37,6 +37,16 @@ export const OpenOrderRow: React.FC<OpenOrderRowProps> = ({ item }) => {
     item.pairType,
   ]);
 
+  const isExpiredOrder = useMemo(
+    () => Number(item.expiry) < Math.floor(Date.now() / 1e3),
+    [item.expiry],
+  );
+
+  const opacityClassName = useMemo(
+    () => (isExpiredOrder ? 'tw-opacity-40' : ''),
+    [isExpiredOrder],
+  );
+
   const collateralName = useMemo(
     () => getCollateralName(pair.collateralAsset),
     [pair.collateralAsset],
@@ -94,21 +104,29 @@ export const OpenOrderRow: React.FC<OpenOrderRowProps> = ({ item }) => {
   return (
     <tr>
       <td>
-        <DisplayDate
-          timestamp={item.createdAt || Math.floor(Date.now() / 1e3).toString()}
-          separator={SeparatorType.Dash}
-        />
+        <span className={opacityClassName}>
+          <DisplayDate
+            timestamp={
+              item.createdAt || Math.floor(Date.now() / 1e3).toString()
+            }
+            separator={SeparatorType.Dash}
+          />
+        </span>
       </td>
-      <td>{pair.name}</td>
+      <td>
+        <span className={opacityClassName}>{pair.name}</span>
+      </td>
       <td
         className={classNames({
           'tw-text-trade-long': item.orderSize > 0,
           'tw-text-trade-short': item.orderSize < 0,
         })}
       >
-        {orderTypeTranslation}
+        <span className={opacityClassName}>{orderTypeTranslation}</span>
       </td>
-      <td>{collateralName}</td>
+      <td>
+        <span className={opacityClassName}>{collateralName}</span>
+      </td>
       <td>
         <AssetValue
           minDecimals={2}
@@ -116,6 +134,7 @@ export const OpenOrderRow: React.FC<OpenOrderRowProps> = ({ item }) => {
           value={item.orderSize}
           assetString={pair.baseAsset}
           mode={AssetValueMode.auto}
+          className={opacityClassName}
         />
       </td>
       <td>
@@ -125,6 +144,7 @@ export const OpenOrderRow: React.FC<OpenOrderRowProps> = ({ item }) => {
           value={item.limitPrice}
           assetString={pair.quoteAsset}
           mode={AssetValueMode.auto}
+          className={opacityClassName}
         />
       </td>
 
@@ -135,21 +155,26 @@ export const OpenOrderRow: React.FC<OpenOrderRowProps> = ({ item }) => {
           value={item.triggerPrice}
           assetString={pair.quoteAsset}
           mode={AssetValueMode.auto}
+          className={opacityClassName}
         />
       </td>
       <td>
-        <DisplayDate
-          timestamp={item.expiry || Math.floor(Date.now() / 1e3).toString()}
-          separator={SeparatorType.Dash}
-        />
+        <span className={opacityClassName}>
+          <DisplayDate
+            timestamp={item.expiry || Math.floor(Date.now() / 1e3).toString()}
+            separator={SeparatorType.Dash}
+          />
+        </span>
       </td>
       <td>
-        <LinkToExplorer
-          className="tw-text-sov-white tw-underline"
-          txHash={item.createdTransactionHash}
-          text={prettyTx(item.createdTransactionHash)}
-          chainId={PERPETUAL_CHAIN_ID}
-        />
+        <span className={opacityClassName}>
+          <LinkToExplorer
+            className="tw-text-sov-white tw-underline"
+            txHash={item.createdTransactionHash}
+            text={prettyTx(item.createdTransactionHash)}
+            chainId={PERPETUAL_CHAIN_ID}
+          />
+        </span>
       </td>
       <td>
         <TableRowAction

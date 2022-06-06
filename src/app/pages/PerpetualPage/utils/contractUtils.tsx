@@ -265,7 +265,7 @@ export const validatePositionChange = (
     }
 
     if (
-      isLimitOrder &&
+      tradeType === PerpetualTradeType.LIMIT &&
       (analysis.amountChange > 0
         ? expectedPrice < analysis.limitPrice
         : expectedPrice > analysis.limitPrice)
