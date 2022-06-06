@@ -82,7 +82,7 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
   ]);
 
   const onInputChange = useCallback(
-    event => onChange(Number(event.target.value)),
+    (amount: string) => onChange(Number(amount)),
     [onChange],
   );
 
@@ -123,7 +123,7 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
                 max={max}
                 step={0.01}
                 onBlur={onInputBlur}
-                onChange={onInputChange}
+                onChangeText={onInputChange}
               />
               <span className="tw-w-1/6" />
             </div>
