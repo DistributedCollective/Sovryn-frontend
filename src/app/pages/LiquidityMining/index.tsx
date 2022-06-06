@@ -2,8 +2,6 @@ import classNames from 'classnames';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Trans, useTranslation } from 'react-i18next';
-
-import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
 import { LocalSharedArrayBuffer } from 'app/components/LocalSharedArrayBuffer';
 import { useFetch } from 'app/hooks/useFetch';
 import { useMaintenance } from 'app/hooks/useMaintenance';
@@ -11,10 +9,7 @@ import { translations } from 'locales/i18n';
 import { Asset } from 'types';
 import { discordInvite } from 'utils/classifiers';
 import { backendUrl, currentChainId } from 'utils/classifiers';
-
 import { LiquidityPoolDictionary } from '../../../utils/dictionaries/liquidity-pool-dictionary';
-import { LootDrop } from '../../components/FinanceV2Components/LootDrop';
-import { LootDropSectionWrapper } from '../../components/FinanceV2Components/LootDrop/LootDropSectionWrapper';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { useAccount } from '../../hooks/useAccount';
 import { AmmPoolsBanner } from './components/AmmPoolsBanner';
@@ -22,7 +17,13 @@ import { HistoryTable } from './components/HistoryTable';
 import { MiningPool } from './components/MiningPool';
 import { getNextMonday } from '../../../utils/dateHelpers';
 import { useHistory, useLocation } from 'react-router-dom';
-import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
+import {
+  AppSection,
+  IPromotionLinkState,
+  PromotionColor,
+} from '../../components/Promotions/components/PromotionCard/types';
+import { PromotionCard } from 'app/components/Promotions/components/PromotionCard';
+import { PromotionsCarousel } from 'app/components/Promotions/components/PromotionsCarousel';
 
 const pools = LiquidityPoolDictionary.list();
 
@@ -63,56 +64,63 @@ export function LiquidityMining() {
         <title>{t(translations.liquidityMining.meta.title)}</title>
       </Helmet>
       <div className="tw-container tw-mt-12 tw-font-body">
-        <LootDropSectionWrapper>
-          <LootDrop
-            title="5k SOV"
-            asset1={Asset.MYNT}
-            asset2={Asset.RBTC}
-            message={t(translations.liquidityMining.recalibration, {
+        <PromotionsCarousel>
+          <PromotionCard
+            appSection={AppSection.YieldFarm}
+            backgroundColor={PromotionColor.Orange}
+            title={t(translations.promotions.card1.title)}
+            text={t(translations.promotions.card1.text)}
+            duration={t(translations.liquidityMining.recalibration, {
               date,
             })}
-            linkUrl="https://www.sovryn.app/blog/sovryn-mynt-project-updates"
-            linkText={t(translations.liquidityMining.lootDropLink)}
+            learnMoreLink="https://wiki.sovryn.app/en/sovryn-dapp/market-making#yield-farming"
+            logoAsset1={Asset.MYNT}
+            logoAsset2={Asset.RBTC}
             linkDataActionId={`yieldfarm-promo-learnmore-${Asset.MYNT}`}
-            highlightColor={LootDropColors.Orange}
           />
-          <LootDrop
-            title="25K SOV"
-            asset1={Asset.XUSD}
-            asset2={Asset.RBTC}
-            message={t(translations.liquidityMining.recalibration, {
+          <PromotionCard
+            appSection={AppSection.YieldFarm}
+            backgroundColor={PromotionColor.Yellow}
+            title={t(translations.promotions.card3.title)}
+            text={t(translations.promotions.card3.text)}
+            duration={t(translations.liquidityMining.recalibration, {
               date,
             })}
-            linkUrl="https://www.sovryn.app/blog/xusd-go-brrrrr"
-            linkText={t(translations.liquidityMining.lootDropLink)}
+            learnMoreLink="https://wiki.sovryn.app/en/sovryn-dapp/market-making#yield-farming"
+            logoAsset1={Asset.XUSD}
+            logoAsset2={Asset.RBTC}
+            linkAsset={LiquidityPoolDictionary.get(Asset.XUSD, Asset.RBTC)?.key}
             linkDataActionId={`yieldfarm-promo-learnmore-${Asset.XUSD}`}
-            highlightColor={LootDropColors.Yellow}
           />
-          <LootDrop
-            title="30K SOV"
-            asset1={Asset.SOV}
-            asset2={Asset.RBTC}
-            message={t(translations.liquidityMining.recalibration, {
+          <PromotionCard
+            appSection={AppSection.YieldFarm}
+            backgroundColor={PromotionColor.Purple}
+            title={t(translations.promotions.card4.title)}
+            text={t(translations.promotions.card4.text)}
+            duration={t(translations.liquidityMining.recalibration, {
               date,
             })}
-            linkUrl="https://www.sovryn.app/blog/get-stacking-with-our-biggest-loot-drop-yet"
-            linkText={t(translations.liquidityMining.lootDropLink)}
+            learnMoreLink="https://wiki.sovryn.app/en/sovryn-dapp/market-making#yield-farming"
+            logoAsset1={Asset.SOV}
+            logoAsset2={Asset.RBTC}
+            linkAsset={LiquidityPoolDictionary.get(Asset.SOV, Asset.RBTC)?.key}
             linkDataActionId={`yieldfarm-promo-learnmore-${Asset.SOV}`}
-            highlightColor={LootDropColors.Purple}
           />
-          <LootDrop
-            title="5K SOV"
-            asset1={Asset.ETH}
-            asset2={Asset.RBTC}
-            message={t(translations.liquidityMining.recalibration, {
+          <PromotionCard
+            appSection={AppSection.YieldFarm}
+            backgroundColor={PromotionColor.Green}
+            title={t(translations.promotions.card5.title)}
+            text={t(translations.promotions.card5.text)}
+            duration={t(translations.liquidityMining.recalibration, {
               date,
             })}
-            linkUrl="https://www.sovryn.app/blog/over-1000-yield-for-eth-btc-lps"
-            linkText={t(translations.liquidityMining.lootDropLink)}
+            learnMoreLink="https://wiki.sovryn.app/en/sovryn-dapp/market-making#yield-farming"
+            logoAsset1={Asset.ETH}
+            logoAsset2={Asset.RBTC}
+            linkAsset={LiquidityPoolDictionary.get(Asset.ETH, Asset.RBTC)?.key}
             linkDataActionId={`yieldfarm-promo-learnmore-${Asset.ETH}`}
-            highlightColor={LootDropColors.Green}
           />
-        </LootDropSectionWrapper>
+        </PromotionsCarousel>
 
         <AmmPoolsBanner onDataNotPresent={onOldPoolsNotPresent} />
 

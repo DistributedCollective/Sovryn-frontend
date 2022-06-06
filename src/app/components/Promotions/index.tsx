@@ -22,59 +22,60 @@ export const Promotions: React.FC = () => {
           <PromotionCard
             appSection={AppSection.YieldFarm}
             backgroundColor={PromotionColor.Orange}
-            title="5K SOV rewards"
-            duration="Ongoing weekly rewards"
-            text="Provide a 1:1 ratio of MYNT and rBTC to the MYNT/BTC AMM liquidity pool and instantly start accruing your share of 5,000 SOV rewards."
-            learnMoreLink="https://www.sovryn.app/blog/sovryn-mynt-project-updates"
+            title={t(translations.promotions.card1.title)}
+            duration={t(translations.promotions.card1.duration)}
+            text={t(translations.promotions.card1.text)}
+            learnMoreLink="https://wiki.sovryn.app/en/sovryn-dapp/market-making#yield-farming"
             logoAsset1={Asset.MYNT}
             logoAsset2={Asset.RBTC}
+            linkDataActionId={`landing-promo-learnmore-${Asset.MYNT}`}
           />
-
           <PromotionCard
             appSection={AppSection.Lend}
             backgroundColor={PromotionColor.Yellow}
-            title="15K SOV rewards"
-            duration="Ongoing weekly rewards"
-            text="Provide any amount of XUSD to the XUSD lending pool and instantly start accruing your share of 15,000 SOV rewards."
+            title={t(translations.promotions.card2.title)}
+            duration={t(translations.promotions.card2.duration)}
+            text={t(translations.promotions.card2.text)}
             linkAsset={Asset.XUSD}
-            learnMoreLink="https://www.sovryn.app/blog/sov-is-diving-into-lending-pools"
+            learnMoreLink="https://wiki.sovryn.app/en/sovryn-dapp/market-making"
             logoAsset1={Asset.XUSD}
+            linkDataActionId={`landing-lend-promo-learnmore-${Asset.XUSD}`}
           />
-
           <PromotionCard
             appSection={AppSection.YieldFarm}
             backgroundColor={PromotionColor.Yellow}
-            title="25K SOV rewards"
-            duration="Ongoing weekly rewards"
-            text="Provide a 1:1 ratio of XUSD and rBTC to the XUSD/rBTC AMM liquidity pool and instantly start accruing your share of 25,000 SOV rewards."
-            learnMoreLink="https://www.sovryn.app/blog/xusd-go-brrrrr"
+            title={t(translations.promotions.card3.title)}
+            duration={t(translations.promotions.card3.duration)}
+            text={t(translations.promotions.card3.text)}
+            learnMoreLink="https://wiki.sovryn.app/en/sovryn-dapp/market-making#yield-farming"
             logoAsset1={Asset.XUSD}
             logoAsset2={Asset.RBTC}
             linkAsset={LiquidityPoolDictionary.get(Asset.XUSD, Asset.RBTC)?.key}
+            linkDataActionId={`landing-promo-learnmore-${Asset.XUSD}`}
           />
-
           <PromotionCard
             appSection={AppSection.YieldFarm}
             backgroundColor={PromotionColor.Purple}
-            title="30K SOV rewards"
-            duration="Ongoing weekly rewards"
-            text="Provide a 1:1 ratio of SOV and rBTC to the SOV/rBTC AMM liquidity pool and instantly start accruing your share of 30,000 SOV rewards."
-            learnMoreLink="https://www.sovryn.app/blog/get-stacking-with-our-biggest-loot-drop-yet"
+            title={t(translations.promotions.card4.title)}
+            duration={t(translations.promotions.card4.duration)}
+            text={t(translations.promotions.card4.text)}
+            learnMoreLink="https://wiki.sovryn.app/en/sovryn-dapp/market-making#yield-farming"
             logoAsset1={Asset.SOV}
             logoAsset2={Asset.RBTC}
             linkAsset={LiquidityPoolDictionary.get(Asset.SOV, Asset.RBTC)?.key}
+            linkDataActionId={`landing-promo-learnmore-${Asset.SOV}`}
           />
-
           <PromotionCard
             appSection={AppSection.YieldFarm}
             backgroundColor={PromotionColor.Green}
-            title="5K SOV rewards"
-            duration="Ongoing weekly rewards"
-            text="Provide a 1:1 ratio of ETH and rBTC to the ETH/rBTC AMM liquidity pool and instantly start accruing your share of 5,000 SOV rewards."
-            learnMoreLink="https://www.sovryn.app/blog/over-1000-yield-for-eth-btc-lps"
+            title={t(translations.promotions.card5.title)}
+            duration={t(translations.promotions.card5.duration)}
+            text={t(translations.promotions.card5.text)}
+            learnMoreLink="https://wiki.sovryn.app/en/sovryn-dapp/market-making#yield-farming"
             logoAsset1={Asset.ETH}
             logoAsset2={Asset.RBTC}
             linkAsset={LiquidityPoolDictionary.get(Asset.ETH, Asset.RBTC)?.key}
+            linkDataActionId={`landing-promo-learnmore-${Asset.ETH}`}
           />
         </PromotionsCarousel>
       </div>

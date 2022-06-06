@@ -26,6 +26,7 @@ interface IPromotionCardProps {
   learnMoreLink?: string;
   linkAsset?: Asset | string;
   linkTargetAsset?: Asset;
+  linkDataActionId?: string;
   linkMarginPairType?: TradingPairType;
   linkSpotTradingPairType?: SpotPairType;
 }
@@ -41,6 +42,7 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
   learnMoreLink,
   linkAsset,
   linkTargetAsset,
+  linkDataActionId,
   linkMarginPairType,
   linkSpotTradingPairType,
 }) => {
@@ -119,6 +121,7 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
             target="_blank"
             rel="noopener noreferrer"
             className="tw-text-secondary tw-underline"
+            data-action-id={linkDataActionId}
           >
             {t(translations.landingPage.promotions.learnMore)}
           </a>

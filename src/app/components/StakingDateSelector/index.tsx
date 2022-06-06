@@ -6,7 +6,7 @@ import { ItemPredicate } from '@blueprintjs/select/lib/esm/common/predicate';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
 import Carousel from 'react-multi-carousel';
-import { CustomDot } from 'app/pages/LandingPage/components/Promotions/components/PromotionsCarousel/CustomDot';
+import { CustomDot } from '../Promotions/components/PromotionsCarousel/CustomDot';
 import classNames from 'classnames';
 import 'react-multi-carousel/lib/styles.css';
 import { CustomButtonGroup } from './CustomButtonGroup';

@@ -13,7 +13,7 @@ import LeftSection from './LeftSection';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { Asset } from 'types';
 import { Tooltip } from '@blueprintjs/core';
-import { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
+import { PromotionColor } from 'app/components/Promotions/components/PromotionCard/types';
 
 type Props = {
   lendingPool: LendingPool;
@@ -123,7 +123,7 @@ const CurrencyRow: React.FC<Props> = ({
             onNonEmptyBalance={onNonEmptyBalance}
           />
         }
-        leftColor={asset === Asset.XUSD ? LootDropColors.Yellow : undefined}
+        leftColor={asset === Asset.XUSD ? PromotionColor.Yellow : undefined}
         chartReady={true}
       />
 

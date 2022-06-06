@@ -1,4 +1,4 @@
-import type { LootDropColors } from 'app/components/FinanceV2Components/LootDrop/styled';
+import { PromotionColor } from 'app/components/Promotions/components/PromotionCard/types';
 import type { AppMode, Asset } from 'types';
 import type { AbiItem } from 'web3-utils';
 import LiquidityPoolV1Converter from '../blockchain/abi/LiquidityPoolV1Converter.json';
@@ -7,7 +7,7 @@ import LiquidityPoolV2Converter from '../blockchain/abi/LiquidityPoolV2Converter
 export type ConverterVersion = 1 | 2;
 
 export class AmmLiquidityPool {
-  private _lootDropColor?: LootDropColors | string;
+  private _lootDropColor?: PromotionColor | string;
   private _hasSovRewards: boolean = true;
   private _previousConverters: string[] = [];
   constructor(
@@ -35,7 +35,7 @@ export class AmmLiquidityPool {
       this.poolTokenB = poolTokenB.toLowerCase();
     }
   }
-  public setLootDropColor(color: LootDropColors | string) {
+  public setLootDropColor(color: PromotionColor | string) {
     this._lootDropColor = color;
     return this;
   }

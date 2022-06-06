@@ -8,7 +8,7 @@ import { TradingVolume } from './components/TradingVolume';
 // import { BabelSoldOutBanner } from './components/Banner/BabelSoldOutBanner';
 import { GetStartedBanner } from './components/Banner/GetStartedBanner';
 import { TotalValueLocked } from './components/TotalValueLocked';
-import { Promotions } from './components/Promotions';
+import { Promotions } from '../../components/Promotions';
 import { AmmBalance } from './components/AmmBalance';
 import { backendUrl, currentChainId } from 'utils/classifiers';
 import { TvlData } from 'app/containers/StatsPage/types';
