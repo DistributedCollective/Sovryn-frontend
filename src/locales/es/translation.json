@@ -114,8 +114,7 @@
     "title": "Promovido por <0>Bitcoin</0>",
     "notice_1": "Only you control and have access to your wealth, any actions you take could cause a potential loss of funds.",
     "notice_2": "Particularly please be sure to check all transaction fee prices before proceeding as third party wallets may automatically present high fees.",
-    "notice_3": "Please visit our <0>FAQ</0> if you have any questions.",
-    "notice_4": "If you’re new to DeFi, here is the <0>wiki</0> on how to use SOVRYN.",
+    "notice_3": "If you’re new to DeFi, here is the <0>wiki</0> on how to use SOVRYN.",
     "optOut": "Desactivar <0>Google Analytics</0>",
     "buildID": "Build ID"
   },
