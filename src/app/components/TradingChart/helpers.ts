@@ -71,7 +71,18 @@ const queryDirectPair = async (
     .query({
       query,
     })
-    .then(response => response.data?.candleSticks || []);
+    .then(response => response.data?.candleSticks || [])
+    .then(items =>
+      items.map(item => ({
+        id: item.id,
+        open: Number(item.open),
+        high: Number(item.high),
+        low: Number(item.low),
+        close: Number(item.close),
+        totalVolume: Number(item.totalVolume),
+        periodStartUnix: Number(item.periodStartUnix),
+      })),
+    );
 };
 
 const fillItem = (
