@@ -251,7 +251,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     [setTrade],
   );
 
-  // reset amount, limit price and trigger price if pair changes
+  // reset amount, limit price and trigger price if pair or position changes
   useEffect(() => {
     setAmount('0');
     setLimit(undefined);
@@ -263,7 +263,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       limit: undefined,
       trigger: undefined,
     }));
-  }, [setTrade, trade.pairType]);
+  }, [setTrade, trade.pairType, trade.position]);
 
   useEffect(() => {
     if (entryPrice && (limit === undefined || triggerPrice === undefined)) {
