@@ -324,7 +324,7 @@ export const contracts = {
     chainId: ChainId.BSC_TESTNET,
   },
   PERPETUALS_token: {
-    address: '0xd0370a808203da14B703826eF77072ef5F09840D',
+    address: '0xcF3D22A034Fa157985F0Fe71F15477446f80Be26',
     abi: marginTokenAbi,
     chainId: ChainId.BSC_TESTNET,
   },

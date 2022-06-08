@@ -81,7 +81,7 @@ export const contracts: Record<
       },
       [Chain.BSC]: {
         [AppMode.MAINNET]: ethers.constants.AddressZero, // todo
-        [AppMode.TESTNET]: '0xd0370a808203da14B703826eF77072ef5F09840D',
+        [AppMode.TESTNET]: '0xcF3D22A034Fa157985F0Fe71F15477446f80Be26',
       },
     },
     abi: erc20TokenAbi,
@@ -99,7 +99,7 @@ export const contracts: Record<
     address: {
       [Chain.BSC]: {
         [AppMode.MAINNET]: ethers.constants.AddressZero, // todo
-        [AppMode.TESTNET]: '0xc54B47AC178273A42Fb71631d8018aD7EBbec330',
+        [AppMode.TESTNET]: '0x63f9a9145147330dFAdc991CC3821DF23879ae16',
       },
     },
     abi: aggregatorAbi,
