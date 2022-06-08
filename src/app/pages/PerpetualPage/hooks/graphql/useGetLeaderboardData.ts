@@ -21,12 +21,9 @@ export function useGetLeaderboardData(
       first: ${traderIDs.length}
     ){
       id
-      totalPnLCC
       totalFundingPaymentCC
       positionsTotalCount
-      balance
-      capitalUsed
-      traderState {
+      traderStates (where: {perpetual: ${JSON.stringify(pair.id)}}) {
         marginBalanceCC
         availableMarginCC
         availableCashCC
@@ -34,6 +31,9 @@ export function useGetLeaderboardData(
         marginAccountPositionBC
         marginAccountLockedInValueQC
         fUnitAccumulatedFundingStart
+        totalPnLCC
+        balance
+        capitalUsed
       }
       positions(where: {perpetual: ${JSON.stringify(
         pair.id,
@@ -47,6 +47,6 @@ export function useGetLeaderboardData(
   }
   `;
   const traderDataQuery = useQuery(TRADER_DATA_QUERY);
-  //console.log(traderDataQuery?.data);
+  console.log(traderDataQuery?.data);
   return traderDataQuery;
 }

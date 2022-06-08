@@ -144,7 +144,7 @@ const config: GraphQLEndpoint[] = [
   // },
   {
     graph:
-      'https://graphql.sovryn.app/subgraphs/name/DistributedCollective/Sovryn-perpetual-swaps-subgraph',
+      'https://sovryn-perps-subgraph.test.sovryn.app/subgraphs/name/DistributedCollective/Sovryn-perpetual-swaps-subgraph',
     // isFallback: true,
   },
 ];
