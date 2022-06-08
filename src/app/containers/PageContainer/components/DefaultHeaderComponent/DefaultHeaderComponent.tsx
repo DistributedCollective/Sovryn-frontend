@@ -20,7 +20,17 @@ import {
 import { LanguageToggle } from '../../../../components/LanguageToggle';
 import styles from './index.module.scss';
 import { ReactComponent as SovLogo } from 'assets/images/sovryn-logo-alpha.svg';
-import { bitocracyUrl, zeroUrl, isMainnet } from 'utils/classifiers';
+import { bitocracyUrl, zeroUrl, isMainnet, isStaging } from 'utils/classifiers';
+
+type PagesProps = {
+  to: string;
+  title: string;
+  dataActionId: string;
+  hrefExternal?: boolean;
+};
+
+const showPerps = !isMainnet || isStaging;
+const showZero = isMainnet || isStaging;
 
 export const DefaultHeaderComponent: React.FC = () => {
   const { t } = useTranslation();
@@ -55,7 +65,41 @@ export const DefaultHeaderComponent: React.FC = () => {
     </button>
   );
 
-  const pages = [
+  const labPages: PagesProps[] = [
+    {
+      to: '/origins',
+      title: t(translations.mainMenu.launchpad),
+      dataActionId: 'header-mobile-lab-link-launchpad',
+    },
+    {
+      to: '/origins/claim',
+      title: t(translations.mainMenu.originsClaim),
+      dataActionId: 'header-mobile-lab-link-claim',
+    },
+    {
+      to: '/mynt-token',
+      title: t(translations.mainMenu.myntToken),
+      dataActionId: 'header-mobile-lab-link-mynt-token',
+    },
+  ];
+
+  if (showZero) {
+    labPages.push({
+      to: zeroUrl,
+      title: t(translations.mainMenu.zero),
+      dataActionId: 'header-mobile-lab-link-zero',
+      hrefExternal: true,
+    });
+  }
+  if (showPerps) {
+    labPages.push({
+      to: '/perpetuals',
+      title: t(translations.mainMenu.perpetuals),
+      dataActionId: 'header-mobile-lab-link-perpetuals',
+    });
+  }
+
+  const pages: PagesProps[] = [
     {
       to: '',
       title: t(translations.mainMenu.trade),
@@ -64,7 +108,6 @@ export const DefaultHeaderComponent: React.FC = () => {
     {
       to: '/buy-sov',
       title: t(translations.mainMenu.buySov),
-      exact: true,
       dataActionId: 'header-trade-link-buySov',
     },
     {
@@ -187,13 +230,7 @@ export const DefaultHeaderComponent: React.FC = () => {
   );
 
   const menuItems = pages.map((item, index) => {
-    let link: {
-      to: string;
-      title: string;
-      dataActionId: string;
-      onClick?: () => void;
-      beforeOpen?: () => void;
-    } = item;
+    let link: PagesProps = item;
 
     if (link.to === '') {
       return (
@@ -226,8 +263,7 @@ export const DefaultHeaderComponent: React.FC = () => {
         key={index}
         text={link.title}
         onClick={() => {
-          link.beforeOpen && link.beforeOpen();
-          link.onClick ? link.onClick() : history.push(link.to);
+          history.push(link.to);
           setOpen(false);
         }}
         data-action-id={link.dataActionId}
@@ -476,6 +512,7 @@ export const DefaultHeaderComponent: React.FC = () => {
                         <MenuItem
                           href={zeroUrl}
                           text={t(translations.mainMenu.zero)}
+                          target="_blank"
                           className="bp3-popover-dismiss"
                           data-action-id="header-lab-zero-link"
                         />
