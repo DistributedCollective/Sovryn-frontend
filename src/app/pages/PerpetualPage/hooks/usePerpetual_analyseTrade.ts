@@ -121,7 +121,9 @@ export const usePerpetual_analyseTrade = (
         trade.leverage,
         amountChange,
         numberFromWei(trade.limit),
-        trade.trigger ? numberFromWei(trade.trigger) : undefined,
+        trade.trigger && trade.trigger !== '0'
+          ? numberFromWei(trade.trigger)
+          : undefined,
       );
     } else if (amountChange !== 0) {
       orderCost = getRequiredMarginCollateralWithGasFees(
