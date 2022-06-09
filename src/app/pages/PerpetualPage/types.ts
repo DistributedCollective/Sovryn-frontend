@@ -86,7 +86,7 @@ export type PerpetualPositionEvent = {
   endDate?: string;
   lastChanged?: string;
   startPositionSizeBC?: string;
-  tradesCount?: number;
+  tradesTotalCount?: number;
 };
 
 export enum LimitOrderState {
