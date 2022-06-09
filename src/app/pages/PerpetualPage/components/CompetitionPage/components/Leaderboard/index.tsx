@@ -81,6 +81,8 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
             row => row.id.toLowerCase() === item.walletAddress.toLowerCase(),
           );
 
+          const traderState = trader?.traderStates[0];
+
           const entry: LeaderboardData = {
             rank: '-',
             userName: item.userName,
@@ -97,7 +99,7 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
               BigNumber.from(trader.totalFundingPaymentCC || '0'),
             );
             entry.totalPnLCC = ABK64x64ToFloat(
-              BigNumber.from(trader.totalPnLCC || '0'),
+              BigNumber.from(traderState.totalPnLCC || '0'),
             );
 
             entry.realizedProfitCC =
@@ -105,40 +107,35 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
 
             entry.unrealizedPnLCC = 0;
 
-            const balance = ABK64x64ToFloat(BigNumber.from(trader.balance));
+            const balance = ABK64x64ToFloat(
+              BigNumber.from(traderState.balance || '0'),
+            );
             const capitalUsed = ABK64x64ToFloat(
-              BigNumber.from(trader.capitalUsed),
+              BigNumber.from(traderState.capitalUsed || '0'),
             );
 
-            if (
-              trader.positions.find(item => !item.isClosed) &&
-              trader.traderState
-            ) {
+            if (trader.positions.find(item => !item.isClosed) && traderState) {
               const parsedTraderState = {
                 marginBalanceCC: ABK64x64ToFloat(
-                  BigNumber.from(trader.traderState.marginBalanceCC),
+                  BigNumber.from(traderState.marginBalanceCC),
                 ),
                 availableMarginCC: ABK64x64ToFloat(
-                  BigNumber.from(trader.traderState.availableMarginCC),
+                  BigNumber.from(traderState.availableMarginCC),
                 ),
                 availableCashCC: ABK64x64ToFloat(
-                  BigNumber.from(trader.traderState.availableCashCC),
+                  BigNumber.from(traderState.availableCashCC),
                 ),
                 marginAccountCashCC: ABK64x64ToFloat(
-                  BigNumber.from(trader.traderState.marginAccountCashCC),
+                  BigNumber.from(traderState.marginAccountCashCC),
                 ),
                 marginAccountPositionBC: ABK64x64ToFloat(
-                  BigNumber.from(trader.traderState.marginAccountPositionBC),
+                  BigNumber.from(traderState.marginAccountPositionBC),
                 ),
                 marginAccountLockedInValueQC: ABK64x64ToFloat(
-                  BigNumber.from(
-                    trader.traderState.marginAccountLockedInValueQC,
-                  ),
+                  BigNumber.from(traderState.marginAccountLockedInValueQC),
                 ),
                 fUnitAccumulatedFundingStart: ABK64x64ToFloat(
-                  BigNumber.from(
-                    trader.traderState.fUnitAccumulatedFundingStart,
-                  ),
+                  BigNumber.from(traderState.fUnitAccumulatedFundingStart),
                 ),
               };
 
@@ -152,11 +149,6 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
               entry.totalPnL =
                 (balance + parsedTraderState.marginBalanceCC) / capitalUsed;
             }
-
-            // const totalProfitWithFunding =
-            //   entry.realizedProfitCC + entry.unrealizedPnLCC;
-
-            //entry.totalPnL = (totalProfitWithFunding / initialFunding) * 100;
 
             const lastPositionProfit = ABK64x64ToFloat(
               BigNumber.from(trader.positions[0].totalPnLCC || '0'),
