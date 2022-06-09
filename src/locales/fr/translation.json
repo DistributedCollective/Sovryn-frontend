@@ -218,8 +218,7 @@
     "buildID": "ID de build",
     "notice_1": "Vous seul contrôlez et avez accès à votre patrimoine, toute action que vous entreprenez pourrait entraîner une perte potentielle de fonds.",
     "notice_2": "Assurez-vous en particulier de vérifier tous les prix des frais de transaction avant de continuer, car les portefeuilles tiers peuvent automatiquement présenter des frais élevés.",
-    "notice_3": "Veuillez consulter notre <0> FAQ </0> si vous avez des questions.",
-    "notice_4": "Si vous êtes nouveau sur DeFi, voici le <0> wiki </0> sur la façon d’utiliser SOVRYN.",
+    "notice_3": "Si vous êtes nouveau sur DeFi, voici le <0> wiki </0> sur la façon d’utiliser SOVRYN.",
     "optOut": "Désactivation de <0> Google Analytics </0>",
     "title": "Propulsé par <0> Bitcoin </0>"
   },

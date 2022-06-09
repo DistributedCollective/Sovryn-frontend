@@ -34,7 +34,7 @@ export const TradeFormStep: TransitionStep<NewPositionCardStep> = ({
       {isDisabled && (
         <div className="tw-absolute tw-left-0 tw-top-0 tw-bg-black tw-h-full tw-w-full tw-px-10 tw-z-10 tw-bg-opacity-90 tw-flex tw-items-center tw-justify-center tw-flex-col tw-text-center tw-text-sm tw-font-semibold">
           <div>
-            {isAddressWhitelisted ? (
+            {!isAddressWhitelisted ? (
               <Trans
                 i18nKey={
                   translations.perpetualPage.tradeForm.disabledState
