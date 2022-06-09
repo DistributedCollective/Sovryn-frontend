@@ -58,12 +58,13 @@ export function useListOfUserVestings(asset?: Asset) {
             address.map(
               async (item, index): Promise<Vesting> => {
                 // 'type' can be 0 or 1, 0 - Team Vesting, 1 - Vesting, fish, fishAirdrop
-                // 'typeCreation' can be 1, 2, 3 representing Vesting Registry 1, Vesting Registry 2 and Vesting Registry 3
+                // 'typeCreation' can be 1-4 representing Vesting Registry 1-4
                 const label = {
                   '0 1': 'team',
                   '1 1': 'genesis',
                   '1 2': 'origin',
                   '1 3': 'reward',
+                  '1 4': 'fouryear',
                   'fish vestingRegistryFISH': 'fish',
                   'fishAirdrop vestingRegistryFISH': 'fishAirdrop',
                 }[`${type[index]} ${typeCreation[index]}`];
