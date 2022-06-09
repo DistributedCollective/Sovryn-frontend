@@ -29,6 +29,7 @@ export const Promotions: React.FC = () => {
             learnMoreLink={learnMoreYieldFarming}
             logoAsset1={Asset.MYNT}
             logoAsset2={Asset.RBTC}
+            linkAsset={LiquidityPoolDictionary.get(Asset.MYNT, Asset.RBTC)?.key}
             linkDataActionId={`landing-promo-learnmore-${Asset.MYNT}`}
           />
           <PromotionCard

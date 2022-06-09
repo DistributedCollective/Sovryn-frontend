@@ -30,7 +30,7 @@ const LendingPage: React.FC = () => {
           content={t(translations.lendingPage.meta.description)}
         />
       </Helmet>
-      <div className="tw-container tw-mt-12 tw-font-body">
+      <div className="tw-max-w-screen-2xl tw-mx-auto tw-container 2xl:tw-px-0 tw-w-full">
         <PromotionCard
           appSection={AppSection.Lend}
           backgroundColor={PromotionColor.Yellow}

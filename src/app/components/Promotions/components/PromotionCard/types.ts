@@ -32,4 +32,5 @@ export interface IPromotionLinkState {
   marginTradingPair?: TradingPairType;
   spotTradingPair?: SpotPairType;
   perpetualPair?: PerpetualPairType;
+  promotionSelectedAsset?: Asset;
 }

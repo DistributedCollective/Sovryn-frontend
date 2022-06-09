@@ -31,3 +31,9 @@ export type UserInfo = {
 export type Balance = {
   0: string;
 };
+
+export enum DialogType {
+  NONE,
+  ADD,
+  REMOVE,
+}

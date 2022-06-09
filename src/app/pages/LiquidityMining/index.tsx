@@ -63,7 +63,7 @@ export function LiquidityMining() {
       <Helmet>
         <title>{t(translations.liquidityMining.meta.title)}</title>
       </Helmet>
-      <div className="tw-container tw-mt-12 tw-font-body">
+      <div className="tw-max-w-screen-2xl tw-mx-auto tw-container 2xl:tw-px-0 tw-w-full">
         <PromotionsCarousel>
           <PromotionCard
             appSection={AppSection.YieldFarm}
@@ -76,6 +76,7 @@ export function LiquidityMining() {
             learnMoreLink={learnMoreYieldFarming}
             logoAsset1={Asset.MYNT}
             logoAsset2={Asset.RBTC}
+            linkAsset={LiquidityPoolDictionary.get(Asset.MYNT, Asset.RBTC)?.key}
             linkDataActionId={`yieldfarm-promo-learnmore-${Asset.MYNT}`}
           />
           <PromotionCard
@@ -143,7 +144,7 @@ export function LiquidityMining() {
         )}
         <div
           className={classNames(
-            'tw-max-w-screen-2xl tw-mx-auto tw-mt-5 tw-mb-32',
+            'tw-max-w-screen-2xl tw-mx-auto tw-mb-32',
             hasOldPools && 'tw-opacity-25 tw-pointer-events-none',
           )}
         >

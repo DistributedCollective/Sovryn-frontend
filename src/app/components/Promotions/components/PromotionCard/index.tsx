@@ -47,7 +47,6 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
   linkSpotTradingPairType,
 }) => {
   const { t } = useTranslation();
-
   const sectionTitle = getSectionTitle(appSection);
   const linkPathname = getLinkPathname(appSection);
 
@@ -61,6 +60,7 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
             target: linkTargetAsset,
             marginTradingPair: linkMarginPairType,
             spotTradingPair: linkSpotTradingPairType,
+            promotionSelectedAsset: logoAsset1,
           },
         }}
         className="tw-no-underline"
@@ -98,7 +98,7 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
             <div className="tw-relative">
               <div className={styles.sectionTitle}>{sectionTitle}</div>
 
-              <div className="tw-max-w-60">
+              <div className="tw-max-w-56">
                 <div className={styles.cardTextTitle}>{title}</div>
                 <div className="tw-text-xs tw-font-normal tw-absolute tw-bottom-0">
                   {duration}
