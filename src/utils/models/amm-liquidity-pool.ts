@@ -7,7 +7,7 @@ import LiquidityPoolV2Converter from '../blockchain/abi/LiquidityPoolV2Converter
 export type ConverterVersion = 1 | 2;
 
 export class AmmLiquidityPool {
-  private _lootDropColor?: PromotionColor | string;
+  private _promotionColor?: PromotionColor | string;
   private _hasSovRewards: boolean = true;
   private _previousConverters: string[] = [];
   constructor(
@@ -35,12 +35,12 @@ export class AmmLiquidityPool {
       this.poolTokenB = poolTokenB.toLowerCase();
     }
   }
-  public setLootDropColor(color: PromotionColor | string) {
-    this._lootDropColor = color;
+  public setPromotionColor(color: PromotionColor | string) {
+    this._promotionColor = color;
     return this;
   }
   public get lootDropColor() {
-    return this._lootDropColor;
+    return this._promotionColor;
   }
   public getPoolTokenAddress(asset: Asset) {
     if (asset === this.assetA) {

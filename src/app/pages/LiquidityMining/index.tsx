@@ -7,7 +7,7 @@ import { useFetch } from 'app/hooks/useFetch';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { translations } from 'locales/i18n';
 import { Asset } from 'types';
-import { discordInvite } from 'utils/classifiers';
+import { discordInvite, learnMoreYieldFarming } from 'utils/classifiers';
 import { backendUrl, currentChainId } from 'utils/classifiers';
 import { LiquidityPoolDictionary } from '../../../utils/dictionaries/liquidity-pool-dictionary';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
@@ -73,7 +73,7 @@ export function LiquidityMining() {
             duration={t(translations.liquidityMining.recalibration, {
               date,
             })}
-            learnMoreLink="https://wiki.sovryn.app/en/sovryn-dapp/market-making#yield-farming"
+            learnMoreLink={learnMoreYieldFarming}
             logoAsset1={Asset.MYNT}
             logoAsset2={Asset.RBTC}
             linkDataActionId={`yieldfarm-promo-learnmore-${Asset.MYNT}`}
@@ -86,7 +86,7 @@ export function LiquidityMining() {
             duration={t(translations.liquidityMining.recalibration, {
               date,
             })}
-            learnMoreLink="https://wiki.sovryn.app/en/sovryn-dapp/market-making#yield-farming"
+            learnMoreLink={learnMoreYieldFarming}
             logoAsset1={Asset.XUSD}
             logoAsset2={Asset.RBTC}
             linkAsset={LiquidityPoolDictionary.get(Asset.XUSD, Asset.RBTC)?.key}
@@ -100,7 +100,7 @@ export function LiquidityMining() {
             duration={t(translations.liquidityMining.recalibration, {
               date,
             })}
-            learnMoreLink="https://wiki.sovryn.app/en/sovryn-dapp/market-making#yield-farming"
+            learnMoreLink={learnMoreYieldFarming}
             logoAsset1={Asset.SOV}
             logoAsset2={Asset.RBTC}
             linkAsset={LiquidityPoolDictionary.get(Asset.SOV, Asset.RBTC)?.key}
@@ -114,7 +114,7 @@ export function LiquidityMining() {
             duration={t(translations.liquidityMining.recalibration, {
               date,
             })}
-            learnMoreLink="https://wiki.sovryn.app/en/sovryn-dapp/market-making#yield-farming"
+            learnMoreLink={learnMoreYieldFarming}
             logoAsset1={Asset.ETH}
             logoAsset2={Asset.RBTC}
             linkAsset={LiquidityPoolDictionary.get(Asset.ETH, Asset.RBTC)?.key}

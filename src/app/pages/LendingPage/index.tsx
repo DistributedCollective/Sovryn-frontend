@@ -13,6 +13,7 @@ import {
   AppSection,
   PromotionColor,
 } from 'app/components/Promotions/components/PromotionCard/types';
+import { learnMoreLending } from 'utils/classifiers';
 
 const date = getNextMonday();
 
@@ -39,7 +40,7 @@ const LendingPage: React.FC = () => {
             date,
           })}
           linkAsset={Asset.XUSD}
-          learnMoreLink="https://wiki.sovryn.app/en/sovryn-dapp/market-making"
+          learnMoreLink={learnMoreLending}
           logoAsset1={Asset.XUSD}
           linkDataActionId={`lend-promo-learnmore-${Asset.XUSD}`}
         />

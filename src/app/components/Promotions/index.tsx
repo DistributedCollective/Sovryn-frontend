@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { LiquidityPoolDictionary } from 'utils/dictionaries/liquidity-pool-dictionary';
 import styles from './index.module.scss';
+import { learnMoreLending, learnMoreYieldFarming } from 'utils/classifiers';
 
 export const Promotions: React.FC = () => {
   const { t } = useTranslation();
@@ -25,7 +26,7 @@ export const Promotions: React.FC = () => {
             title={t(translations.promotions.card1.title)}
             duration={t(translations.promotions.card1.duration)}
             text={t(translations.promotions.card1.text)}
-            learnMoreLink="https://wiki.sovryn.app/en/sovryn-dapp/market-making#yield-farming"
+            learnMoreLink={learnMoreYieldFarming}
             logoAsset1={Asset.MYNT}
             logoAsset2={Asset.RBTC}
             linkDataActionId={`landing-promo-learnmore-${Asset.MYNT}`}
@@ -37,7 +38,7 @@ export const Promotions: React.FC = () => {
             duration={t(translations.promotions.card2.duration)}
             text={t(translations.promotions.card2.text)}
             linkAsset={Asset.XUSD}
-            learnMoreLink="https://wiki.sovryn.app/en/sovryn-dapp/market-making"
+            learnMoreLink={learnMoreLending}
             logoAsset1={Asset.XUSD}
             linkDataActionId={`landing-lend-promo-learnmore-${Asset.XUSD}`}
           />
@@ -47,7 +48,7 @@ export const Promotions: React.FC = () => {
             title={t(translations.promotions.card3.title)}
             duration={t(translations.promotions.card3.duration)}
             text={t(translations.promotions.card3.text)}
-            learnMoreLink="https://wiki.sovryn.app/en/sovryn-dapp/market-making#yield-farming"
+            learnMoreLink={learnMoreYieldFarming}
             logoAsset1={Asset.XUSD}
             logoAsset2={Asset.RBTC}
             linkAsset={LiquidityPoolDictionary.get(Asset.XUSD, Asset.RBTC)?.key}
@@ -59,7 +60,7 @@ export const Promotions: React.FC = () => {
             title={t(translations.promotions.card4.title)}
             duration={t(translations.promotions.card4.duration)}
             text={t(translations.promotions.card4.text)}
-            learnMoreLink="https://wiki.sovryn.app/en/sovryn-dapp/market-making#yield-farming"
+            learnMoreLink={learnMoreYieldFarming}
             logoAsset1={Asset.SOV}
             logoAsset2={Asset.RBTC}
             linkAsset={LiquidityPoolDictionary.get(Asset.SOV, Asset.RBTC)?.key}
@@ -71,7 +72,7 @@ export const Promotions: React.FC = () => {
             title={t(translations.promotions.card5.title)}
             duration={t(translations.promotions.card5.duration)}
             text={t(translations.promotions.card5.text)}
-            learnMoreLink="https://wiki.sovryn.app/en/sovryn-dapp/market-making#yield-farming"
+            learnMoreLink={learnMoreYieldFarming}
             logoAsset1={Asset.ETH}
             logoAsset2={Asset.RBTC}
             linkAsset={LiquidityPoolDictionary.get(Asset.ETH, Asset.RBTC)?.key}
