@@ -830,6 +830,7 @@
         "genesis": "Genesis SOV",
         "origin": "Origin SOV",
         "team": "Team SOV",
+        "fouryear": "Four-Year Vested SOV",
         "reward": "Reward SOV",
         "fish": "Origins FISH",
         "fishAirdrop": "Airdrop FISH"
@@ -2575,7 +2576,7 @@
       "buyNow": "Buy Now",
       "soldOut": "SOLD OUT!",
       "learnMore": "Learn More",
-      "getStarted": "Get Started",
+      "getStarted": "Join the waitlist",
       "timer": {
         "days": "DAYS",
         "hours": "HOURS",
