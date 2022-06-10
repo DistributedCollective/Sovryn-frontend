@@ -22,9 +22,9 @@ export const Promotions: React.FC = () => {
           <PromotionCard
             appSection={AppSection.YieldFarm}
             backgroundColor={PromotionColor.Orange}
-            title="15K SOV rewards"
+            title="5K SOV rewards"
             duration="Ongoing weekly rewards"
-            text="Provide a 1:1 ratio of MYNT and rBTC to the MYNT/BTC AMM liquidity pool and instantly start accruing your share of 15,000 SOV rewards."
+            text="Provide a 1:1 ratio of MYNT and rBTC to the MYNT/BTC AMM liquidity pool and instantly start accruing your share of 5,000 SOV rewards."
             learnMoreLink="https://www.sovryn.app/blog/sovryn-mynt-project-updates"
             logoAsset1={Asset.MYNT}
             logoAsset2={Asset.RBTC}
@@ -43,22 +43,10 @@ export const Promotions: React.FC = () => {
 
           <PromotionCard
             appSection={AppSection.YieldFarm}
-            backgroundColor={PromotionColor.Blue}
-            title="15K SOV rewards"
-            duration="Ongoing weekly rewards"
-            text="Provide a 1:1 ratio of BNB and rBTC to the BNB/BTC AMM liquidity pool and instantly start accruing your share of 15,000 SOV rewards."
-            learnMoreLink="https://www.sovryn.app/blog/bnb-btc-pool-is-live"
-            logoAsset1={Asset.BNB}
-            logoAsset2={Asset.RBTC}
-            linkAsset={LiquidityPoolDictionary.get(Asset.BNB, Asset.RBTC)?.key}
-          />
-
-          <PromotionCard
-            appSection={AppSection.YieldFarm}
             backgroundColor={PromotionColor.Yellow}
-            title="15K SOV rewards"
+            title="25K SOV rewards"
             duration="Ongoing weekly rewards"
-            text="Provide a 1:1 ratio of XUSD and rBTC to the XUSD/rBTC AMM liquidity pool and instantly start accruing your share of 15,000 SOV rewards."
+            text="Provide a 1:1 ratio of XUSD and rBTC to the XUSD/rBTC AMM liquidity pool and instantly start accruing your share of 25,000 SOV rewards."
             learnMoreLink="https://www.sovryn.app/blog/xusd-go-brrrrr"
             logoAsset1={Asset.XUSD}
             logoAsset2={Asset.RBTC}
@@ -80,9 +68,9 @@ export const Promotions: React.FC = () => {
           <PromotionCard
             appSection={AppSection.YieldFarm}
             backgroundColor={PromotionColor.Green}
-            title="15K SOV rewards"
+            title="5K SOV rewards"
             duration="Ongoing weekly rewards"
-            text="Provide a 1:1 ratio of ETH and rBTC to the ETH/rBTC AMM liquidity pool and instantly start accruing your share of 15,000 SOV rewards."
+            text="Provide a 1:1 ratio of ETH and rBTC to the ETH/rBTC AMM liquidity pool and instantly start accruing your share of 5,000 SOV rewards."
             learnMoreLink="https://www.sovryn.app/blog/over-1000-yield-for-eth-btc-lps"
             logoAsset1={Asset.ETH}
             logoAsset2={Asset.RBTC}
