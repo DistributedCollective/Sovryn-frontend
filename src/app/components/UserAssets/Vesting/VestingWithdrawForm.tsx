@@ -33,6 +33,7 @@ export const VestingWithdrawForm: React.FC<VestingWithdrawFormProps> = ({
   const { value, loading } = useGetUnlockedVesting(
     vesting.staking,
     vesting.vestingContract,
+    vesting.type,
   );
   const [address, setAddress] = useState(account);
 
