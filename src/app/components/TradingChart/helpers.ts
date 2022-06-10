@@ -8,7 +8,6 @@ import { getTokenContract } from 'utils/blockchain/contract-helpers';
 import { TradingCandleDictionary } from './dictionary';
 
 export const MAX_CANDLE_COUNT = 500;
-export const graph_endpoint: string = process.env.REACT_APP_GRAPH_RSK!;
 
 export type Bar = {
   time: number;
