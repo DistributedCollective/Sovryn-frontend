@@ -8,7 +8,7 @@ import {
   getRequiredMarginCollateral,
 } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
 import { roundToLot } from '@sovryn/perpetual-swap/dist/scripts/utils/perpMath';
-import { numberFromWei } from 'utils/blockchain/math-helpers';
+import { fromWei, numberFromWei } from 'utils/blockchain/math-helpers';
 import { PerpetualPairDictionary } from 'utils/dictionaries/perpetual-pair-dictionary';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import { selectPerpetualPage } from '../selectors';
@@ -44,14 +44,26 @@ export const usePerpetual_calculateResultingPosition = (
     lotSize,
   } = perpetuals[pair.id];
 
-  const size = useMemo(
-    () =>
-      roundToLot(
-        signedOrderSize + traderState.marginAccountPositionBC,
-        lotSize || 1,
-      ),
-    [signedOrderSize, traderState.marginAccountPositionBC, lotSize],
-  );
+  const size = useMemo(() => {
+    // We don't want to use roundToLot if we want to open a new position with 1 lot size
+    if (
+      traderState.marginAccountPositionBC === 0 &&
+      trade?.amount &&
+      Number(fromWei(trade.amount)) === lotSize
+    ) {
+      return signedOrderSize;
+    }
+
+    return roundToLot(
+      signedOrderSize + traderState.marginAccountPositionBC,
+      lotSize || 1,
+    );
+  }, [
+    traderState.marginAccountPositionBC,
+    trade?.amount,
+    signedOrderSize,
+    lotSize,
+  ]);
 
   const leverage = useMemo(() => {
     if (!trade) {

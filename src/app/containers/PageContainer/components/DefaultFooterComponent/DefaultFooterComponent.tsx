@@ -34,22 +34,6 @@ export const Footer: React.FC = () => {
                   i18nKey={translations.footer.notice_3}
                   components={[
                     <a
-                      className="tw-text-secondary tw-underline"
-                      href="https://wiki.sovryn.app/en/getting-started/faq-general"
-                      target="_blank"
-                      rel="noreferrer noopener"
-                      data-action-id="footer-link-faq"
-                    >
-                      x
-                    </a>,
-                  ]}
-                />
-              </p>
-              <p className="tw-mb-2">
-                <Trans
-                  i18nKey={translations.footer.notice_4}
-                  components={[
-                    <a
                       href="https://wiki.sovryn.app/en/getting-started/wallet-setup"
                       target="_blank"
                       rel="noreferrer noopener"
@@ -63,7 +47,7 @@ export const Footer: React.FC = () => {
               </p>
               <p className="tw-mb-1">
                 <Trans
-                  i18nKey={translations.footer.notice_5}
+                  i18nKey={translations.footer.notice_4}
                   components={[
                     <a
                       href={discordInvite}

@@ -427,9 +427,8 @@
     "title": "Powered by <0>Bitcoin</0>",
     "notice_1": "Only you control and have access to your wealth, any actions you take could cause a potential loss of funds.",
     "notice_2": "Particularly please be sure to check all transaction fee prices before proceeding as third party wallets may automatically present high fees.",
-    "notice_3": "Please visit our <0>FAQ</0> if you have any questions.",
-    "notice_4": "If you’re new to DeFi, here is the <0>wiki</0> on how to use SOVRYN.",
-    "notice_5": "For latest updates or discussion, head over to our <0>Discord</0> server.",
+    "notice_3": "If you’re new to DeFi, here is the <0>wiki</0> on how to use SOVRYN.",
+    "notice_4": "For latest updates or discussion, head over to our <0>Discord</0> server.",
     "optOut": "Opt-out from Google Analytics",
     "buildID": "Build ID"
   },
@@ -831,6 +830,7 @@
         "genesis": "Genesis SOV",
         "origin": "Origin SOV",
         "team": "Team SOV",
+        "fouryear": "Four-Year Vested SOV",
         "reward": "Reward SOV",
         "fish": "Origins FISH",
         "fishAirdrop": "Airdrop FISH"
@@ -2576,7 +2576,7 @@
       "buyNow": "Buy Now",
       "soldOut": "SOLD OUT!",
       "learnMore": "Learn More",
-      "getStarted": "Get Started",
+      "getStarted": "Join the waitlist",
       "timer": {
         "days": "DAYS",
         "hours": "HOURS",

@@ -26,6 +26,7 @@ import { useVesting_getOriginVesting } from '../../hooks/staking/useVesting_getO
 import { useVesting_getRewards } from '../../hooks/staking/useVesting_getRewards';
 import { useVesting_getTeamVesting } from '../../hooks/staking/useVesting_getTeamVesting';
 import { useVesting_getVesting } from '../../hooks/staking/useVesting_getVesting';
+import { useVesting_getFourYearVesting } from '../../hooks/staking/useVesting_getFourYearVesting';
 import { useAccount } from '../../hooks/useAccount';
 
 export function VestedHistory() {
@@ -37,6 +38,7 @@ export function VestedHistory() {
   const rewards = useVesting_getRewards(account);
   const vestingTeam = useVesting_getTeamVesting(account);
   const vestingOrigin = useVesting_getOriginVesting(account);
+  const vestingFourYear = useVesting_getFourYearVesting(account);
   const [eventsHistoryVesting, setEventsHistoryVesting] = useState<any>([]);
   const [eventsHistoryRewards, setEventsHistoryRewards] = useState([]) as any;
   const [eventsHistoryVestingTeam, setEventsHistoryVestingTeam] = useState<any>(
@@ -45,6 +47,10 @@ export function VestedHistory() {
   const [eventsHistoryVestingOrigin, setEventsHistoryVestingOrigin] = useState<
     any
   >([]);
+  const [
+    eventsHistoryVestingFourYear,
+    setEventsHistoryVestingFourYear,
+  ] = useState<any>([]);
   const [currentHistory, setCurrentHistory] = useState([]) as any;
 
   const onPageChanged = data => {
@@ -56,6 +62,7 @@ export function VestedHistory() {
         ...eventsHistoryVestingOrigin,
         ...eventsHistoryVestingTeam,
         ...eventsHistoryRewards,
+        ...eventsHistoryVestingFourYear,
       ]
         .sort(
           (x, y) => dayjs(y.eventDate).valueOf() - dayjs(x.eventDate).valueOf(),
@@ -67,58 +74,71 @@ export function VestedHistory() {
   useEffect(() => {
     async function getHistory() {
       setLoading(true);
-      let reward: void, genesis: void, team: void, origin: void;
-      if (rewards.value !== ethGenesisAddress) {
-        reward = await eventReader
-          .getPastEvents('staking', 'TokensStaked', {
-            staker: rewards.value,
-          })
-          .then(res => {
-            const newRes = res.map(v => ({
-              ...v,
-              type: t(translations.stake.currentVests.assetType.reward),
-            }));
-            setEventsHistoryRewards(newRes);
-          });
-      }
-      if (vesting.value !== ethGenesisAddress) {
-        genesis = await eventReader
-          .getPastEvents('staking', 'TokensStaked', {
-            staker: vesting.value,
-          })
-          .then(res => {
-            const newRes = res.map(v => ({ ...v, type: 'Genesis SOV' }));
-            setEventsHistoryVesting(newRes);
-          });
-      }
-      if (vestingTeam.value !== ethGenesisAddress) {
-        team = await eventReader
-          .getPastEvents('staking', 'TokensStaked', {
-            staker: vestingTeam.value,
-          })
-          .then(res => {
-            const newRes = res.map(v => ({ ...v, type: 'Team SOV' }));
-            setEventsHistoryVestingTeam(newRes);
-          });
-      }
-      if (vestingOrigin.value !== ethGenesisAddress) {
-        origin = await eventReader
-          .getPastEvents('staking', 'TokensStaked', {
-            staker: vestingOrigin.value,
-          })
-          .then(res => {
-            const newRes = res.map(v => ({ ...v, type: 'Origin SOV' }));
-            setEventsHistoryVestingOrigin(newRes);
-          });
-      }
+
       try {
-        Promise.all([reward, genesis, team, origin]).then(_ =>
-          setLoading(false),
-        );
+        if (rewards.value !== ethGenesisAddress) {
+          await eventReader
+            .getPastEvents('staking', 'TokensStaked', {
+              staker: rewards.value,
+            })
+            .then(res => {
+              const newRes = res.map(v => ({
+                ...v,
+                type: t(translations.stake.currentVests.assetType.reward),
+              }));
+              setEventsHistoryRewards(newRes);
+            });
+        }
+        if (vesting.value !== ethGenesisAddress) {
+          await eventReader
+            .getPastEvents('staking', 'TokensStaked', {
+              staker: vesting.value,
+            })
+            .then(res => {
+              const newRes = res.map(v => ({
+                ...v,
+                type: 'Genesis SOV',
+              }));
+              setEventsHistoryVesting(newRes);
+            });
+        }
+        if (vestingTeam.value !== ethGenesisAddress) {
+          await eventReader
+            .getPastEvents('staking', 'TokensStaked', {
+              staker: vestingTeam.value,
+            })
+            .then(res => {
+              const newRes = res.map(v => ({ ...v, type: 'Team SOV' }));
+              setEventsHistoryVestingTeam(newRes);
+            });
+        }
+        if (vestingOrigin.value !== ethGenesisAddress) {
+          await eventReader
+            .getPastEvents('staking', 'TokensStaked', {
+              staker: vestingOrigin.value,
+            })
+            .then(res => {
+              const newRes = res.map(v => ({ ...v, type: 'Origin SOV' }));
+              setEventsHistoryVestingOrigin(newRes);
+            });
+        }
+        if (vestingFourYear.value !== ethGenesisAddress) {
+          await eventReader
+            .getPastEvents('staking', 'TokensStaked', {
+              staker: vestingFourYear.value,
+            })
+            .then(res => {
+              const newRes = res.map(v => ({
+                ...v,
+                type: t(translations.stake.currentVests.assetType.fouryear),
+              }));
+              setEventsHistoryVestingFourYear(newRes);
+            });
+        }
       } catch (e) {
         console.error(e);
-        setLoading(false);
       }
+      setLoading(false);
     }
 
     getHistory();
@@ -128,6 +148,7 @@ export function VestedHistory() {
     vestingOrigin.value,
     vesting.value,
     rewards.value,
+    vestingFourYear.value,
     getStakes.value,
     setEventsHistoryRewards,
     t,
@@ -169,6 +190,7 @@ export function VestedHistory() {
             eventsHistoryVesting.length === 0 &&
             eventsHistoryVestingTeam.length === 0 &&
             eventsHistoryVestingOrigin.length === 0 &&
+            eventsHistoryVestingFourYear.length === 0 &&
             !loading && (
               <tr key={'empty'}>
                 <td className="tw-text-center" colSpan={99}>
@@ -189,7 +211,8 @@ export function VestedHistory() {
             eventsHistoryRewards.length +
             eventsHistoryVesting.length +
             eventsHistoryVestingTeam.length +
-            eventsHistoryVestingOrigin.length
+            eventsHistoryVestingOrigin.length +
+            eventsHistoryVestingFourYear.length
           }
           pageLimit={6}
           pageNeighbours={1}
