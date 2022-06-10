@@ -1250,8 +1250,8 @@
       "redeemRBTC": "Redeem RBTC",
       "withdraw": "Withdraw"
     },
-    "sendMessage": "Send {{asset}} to your connected address in the RSK network",
-    "receiveMessage": "Receive {{asset}} from your connected address in the RSK network",
+    "sendMessage": "Send {{asset}} from your connected address in the RSK network",
+    "receiveMessage": "Receive {{asset}} to your connected address in the RSK network",
     "convertDialog": {
       "title": "Convert",
       "from": "From",
