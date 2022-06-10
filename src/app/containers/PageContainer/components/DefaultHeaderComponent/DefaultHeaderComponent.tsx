@@ -37,6 +37,13 @@ import {
 import { Sovryn } from 'utils/sovryn';
 import { bignumber } from 'mathjs';
 
+type PagesProps = {
+  to: string;
+  title: string;
+  dataActionId: string;
+  hrefExternal?: boolean;
+};
+
 const showPerps = !isMainnet || isStaging;
 const showZero = isMainnet || isStaging;
 
@@ -90,7 +97,7 @@ export const DefaultHeaderComponent: React.FC = () => {
     </button>
   );
 
-  const labPages = [
+  const labPages: PagesProps[] = [
     {
       to: '/origins',
       title: t(translations.mainMenu.originsLaunchpad),
@@ -113,6 +120,7 @@ export const DefaultHeaderComponent: React.FC = () => {
       to: zeroUrl,
       title: t(translations.mainMenu.zero),
       dataActionId: 'header-mobile-lab-link-zero',
+      hrefExternal: true,
     });
   }
   if (showPerps) {
@@ -123,11 +131,11 @@ export const DefaultHeaderComponent: React.FC = () => {
     });
   }
 
-  const pages = [
+  const pages: PagesProps[] = [
     {
       to: '',
       title: t(translations.mainMenu.trade),
-      dataActionId: 'header-mobile-link-trade',
+      dataActionId: 'header-link-trade',
     },
     {
       to: '/swap',
@@ -221,12 +229,7 @@ export const DefaultHeaderComponent: React.FC = () => {
   ];
 
   const menuItems = pages.map((item, index) => {
-    let link: {
-      to: string;
-      title: string;
-      dataActionId: string;
-      hrefExternal?: boolean;
-    } = item;
+    let link: PagesProps = item;
 
     if (link.to === '') {
       return <MenuSeparator key={index} text={link.title} />;
@@ -237,8 +240,12 @@ export const DefaultHeaderComponent: React.FC = () => {
         key={index}
         href={link.to}
         text={link.title}
+        onClick={() => {
+          history.push(link.to);
+          setOpen(false);
+        }}
         hrefExternal={link.hrefExternal}
-        dataActionId={link.dataActionId}
+        data-action-id={link.dataActionId}
         className="tw-leading-snug"
       />
     );

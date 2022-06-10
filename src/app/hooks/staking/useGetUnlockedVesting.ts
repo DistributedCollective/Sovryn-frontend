@@ -1,24 +1,31 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { bignumber } from 'mathjs';
-import VestingABI from 'utils/blockchain/abi/Vesting.json';
+import { VestGroup } from 'app/components/UserAssets/Vesting/types';
 import { useAccount, useBlockSync } from '../useAccount';
 import { contractReader } from '../../../utils/sovryn/contract-reader';
 import { Sovryn } from '../../../utils/sovryn';
 import { ethGenesisAddress } from '../../../utils/classifiers';
 import { Nullable } from 'types';
 import { ContractName } from '../../../utils/types/contracts';
+import VestingABI from 'utils/blockchain/abi/Vesting.json';
+import FourYearVestingABI from 'utils/blockchain/abi/FourYearVesting.json';
 
 const TWO_WEEKS = 1209600;
 
 export function useGetUnlockedVesting(
   stakingContractName: ContractName,
   vestingAddress: string,
+  vestingType: VestGroup,
 ) {
   const account = useAccount();
   const syncBlock = useBlockSync();
   const [loading, setLoading] = useState(false);
   const [amount, setAmount] = useState('0');
   const [err, setError] = useState<Nullable<string>>(null);
+  const isFourYearVest = useMemo(() => vestingType === 'fouryear', [
+    vestingType,
+  ]);
+
   useEffect(() => {
     const run = async () => {
       let value = '0';
@@ -69,12 +76,28 @@ export function useGetUnlockedVesting(
           )) as string;
           value = bignumber(value).add(stake).toFixed(0);
         }
+
+        if (isFourYearVest) {
+          // four year vests locked with extended cliff, if still in this period then tokens cannot be withdrawn
+          const extendedDuration = ((await contractReader.callByAddress(
+            vestingAddress,
+            FourYearVestingABI,
+            'extendDurationFor',
+            [],
+          )) || 0) as number;
+
+          if (
+            Math.round(Date.now() / 1e3) <=
+            Number(startDate) + extendedDuration
+          ) {
+            value = '0';
+          }
+        }
       } catch (e) {
         setAmount('0');
         setLoading(false);
         setError(e.message);
       }
-
       return value;
     };
 
@@ -88,7 +111,7 @@ export function useGetUnlockedVesting(
         })
         .finally(() => setLoading(false));
     }
-  }, [account, vestingAddress, syncBlock, stakingContractName]);
+  }, [account, vestingAddress, syncBlock, stakingContractName, isFourYearVest]);
 
   return { value: amount, loading, error: err };
 }
