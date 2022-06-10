@@ -6,25 +6,27 @@ import { useAccount } from 'app/hooks/useAccount';
 export function useGetBorrowHistoryData() {
   const account = useAccount();
   const BORROW_HISTORY = gql`
-    query {
-      user(id: "${account.toLowerCase()}") {
-        borrows {
-          loanId {
-            id
-          }
-          loanToken
-          collateralToken
-          newPrincipal
-          newCollateral
-          interestRate
-          interestDuration
-          collateralToLoanRate
-          timestamp
-          transaction {
-            id
-          }
+    query getBorrowHistory($user: ID!) {
+      borrows(where: { user: $user }) {
+        loanId {
+          id
+        }
+        loanToken
+        collateralToken
+        newPrincipal
+        newCollateral
+        interestRate
+        interestDuration
+        collateralToLoanRate
+        timestamp
+        transaction {
+          id
         }
       }
-    }`;
-  return useQuery(BORROW_HISTORY);
+    }
+  `;
+
+  return useQuery(BORROW_HISTORY, {
+    variables: { user: account.toLowerCase() },
+  });
 }

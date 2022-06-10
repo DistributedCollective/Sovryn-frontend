@@ -14,7 +14,7 @@ export const BorrowHistory: React.FC = () => {
 
   const rows = useMemo(() => {
     if (!data || loading) return null;
-    return data.user.borrows.map(item => {
+    return data.borrows.map(item => {
       return {
         key: item.loanId.id,
         borrowAmount: item.newPrincipal,
