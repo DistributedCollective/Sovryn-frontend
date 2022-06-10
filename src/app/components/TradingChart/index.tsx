@@ -23,6 +23,7 @@ import { Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { AssetRenderer } from '../AssetRenderer';
 import { Asset } from 'types';
+import { SeriesStyle } from './types';
 
 export enum Theme {
   LIGHT = 'Light',
@@ -105,9 +106,13 @@ export function TradingChart(props: ChartContainerProps) {
       chart.chart().resetData();
 
       // if quote asset is not RBTC or XUSD, make it line chart, otherwise candle
-      // 1 - candles
-      // 2 - line
-      chart.chart().setChartType(hasDirectFeed(props.symbol) ? 1 : 2);
+      chart
+        .chart()
+        .setChartType(
+          (hasDirectFeed(props.symbol)
+            ? SeriesStyle.Candles
+            : SeriesStyle.Line) as number,
+        );
 
       chart.chart().setSymbol(props.symbol, noop);
     }
