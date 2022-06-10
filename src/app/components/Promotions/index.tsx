@@ -18,7 +18,7 @@ export const Promotions: React.FC = () => {
         {t(translations.landingPage.promotions.title)}
       </div>
 
-      <div className="tw-relative tw-mb-8">
+      <div className="tw-relative tw-mb-8 tw-mt-3">
         <PromotionsCarousel>
           <PromotionCard
             appSection={AppSection.YieldFarm}
