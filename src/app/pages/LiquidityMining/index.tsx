@@ -64,7 +64,7 @@ export function LiquidityMining() {
         <title>{t(translations.liquidityMining.meta.title)}</title>
       </Helmet>
       <div className="tw-max-w-screen-2xl tw-mx-auto tw-container 2xl:tw-px-0 tw-w-full">
-        <PromotionsCarousel>
+        <PromotionsCarousel className="tw-mt-3 tw-mb-7">
           <PromotionCard
             appSection={AppSection.YieldFarm}
             backgroundColor={PromotionColor.Orange}
@@ -78,6 +78,7 @@ export function LiquidityMining() {
             logoAsset2={Asset.RBTC}
             linkAsset={LiquidityPoolDictionary.get(Asset.MYNT, Asset.RBTC)?.key}
             linkDataActionId={`yieldfarm-promo-learnmore-${Asset.MYNT}`}
+            imageClassName="tw-transform tw-scale-85"
           />
           <PromotionCard
             appSection={AppSection.YieldFarm}
@@ -92,6 +93,7 @@ export function LiquidityMining() {
             logoAsset2={Asset.RBTC}
             linkAsset={LiquidityPoolDictionary.get(Asset.XUSD, Asset.RBTC)?.key}
             linkDataActionId={`yieldfarm-promo-learnmore-${Asset.XUSD}`}
+            imageClassName="tw-transform tw-scale-85"
           />
           <PromotionCard
             appSection={AppSection.YieldFarm}
@@ -106,6 +108,7 @@ export function LiquidityMining() {
             logoAsset2={Asset.RBTC}
             linkAsset={LiquidityPoolDictionary.get(Asset.SOV, Asset.RBTC)?.key}
             linkDataActionId={`yieldfarm-promo-learnmore-${Asset.SOV}`}
+            imageClassName="tw-transform tw-scale-85"
           />
           <PromotionCard
             appSection={AppSection.YieldFarm}
@@ -120,6 +123,7 @@ export function LiquidityMining() {
             logoAsset2={Asset.RBTC}
             linkAsset={LiquidityPoolDictionary.get(Asset.ETH, Asset.RBTC)?.key}
             linkDataActionId={`yieldfarm-promo-learnmore-${Asset.ETH}`}
+            imageClassName="tw-transform tw-scale-85"
           />
         </PromotionsCarousel>
 

@@ -43,6 +43,8 @@ const LendingPage: React.FC = () => {
           learnMoreLink={learnMoreLending}
           logoAsset1={Asset.XUSD}
           linkDataActionId={`lend-promo-learnmore-${Asset.XUSD}`}
+          className="tw-mt-3"
+          imageClassName="tw-transform tw-scale-85"
         />
 
         <div className={'tw-max-w-screen-2xl tw-mx-auto tw-mt-5'}>

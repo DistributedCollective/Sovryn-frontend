@@ -160,7 +160,11 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
           </div>
         </div>
 
-        <Promotions />
+        <Promotions
+          className="tw-mt-14"
+          cardClassName="tw-my-7"
+          cardImageClassName="tw-mb-3"
+        />
         <div className="tw-max-w-screen-xl tw-mx-auto">
           <div className="tw-w-full tw-overflow-auto">
             {pairsData && pairsData.pairs && (

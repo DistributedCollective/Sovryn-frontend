@@ -1,4 +1,5 @@
 import React from 'react';
+import classNames from 'classnames';
 import { PromotionsCarousel } from './components/PromotionsCarousel';
 import { AppSection, PromotionColor } from './components/PromotionCard/types';
 import { PromotionCard } from './components/PromotionCard';
@@ -9,11 +10,26 @@ import { LiquidityPoolDictionary } from 'utils/dictionaries/liquidity-pool-dicti
 import styles from './index.module.scss';
 import { learnMoreLending, learnMoreYieldFarming } from 'utils/classifiers';
 
-export const Promotions: React.FC = () => {
+type PromotionsProps = {
+  className?: string;
+  cardClassName?: string;
+  cardImageClassName?: string;
+};
+
+export const Promotions: React.FC<PromotionsProps> = ({
+  className,
+  cardClassName,
+  cardImageClassName,
+}) => {
   const { t } = useTranslation();
 
   return (
-    <div className="tw-my-14 tw-border-b tw-border-solid tw-border-sov-white">
+    <div
+      className={classNames(
+        'tw-mb-14 tw-border-b tw-border-solid tw-border-sov-white',
+        className,
+      )}
+    >
       <div className={styles.title}>
         {t(translations.landingPage.promotions.title)}
       </div>
@@ -31,6 +47,8 @@ export const Promotions: React.FC = () => {
             logoAsset2={Asset.RBTC}
             linkAsset={LiquidityPoolDictionary.get(Asset.MYNT, Asset.RBTC)?.key}
             linkDataActionId={`landing-promo-learnmore-${Asset.MYNT}`}
+            className={cardClassName}
+            imageClassName={cardImageClassName}
           />
           <PromotionCard
             appSection={AppSection.Lend}
@@ -42,6 +60,8 @@ export const Promotions: React.FC = () => {
             learnMoreLink={learnMoreLending}
             logoAsset1={Asset.XUSD}
             linkDataActionId={`landing-lend-promo-learnmore-${Asset.XUSD}`}
+            className={cardClassName}
+            imageClassName={cardImageClassName}
           />
           <PromotionCard
             appSection={AppSection.YieldFarm}
@@ -54,6 +74,8 @@ export const Promotions: React.FC = () => {
             logoAsset2={Asset.RBTC}
             linkAsset={LiquidityPoolDictionary.get(Asset.XUSD, Asset.RBTC)?.key}
             linkDataActionId={`landing-promo-learnmore-${Asset.XUSD}`}
+            className={cardClassName}
+            imageClassName={cardImageClassName}
           />
           <PromotionCard
             appSection={AppSection.YieldFarm}
@@ -66,6 +88,8 @@ export const Promotions: React.FC = () => {
             logoAsset2={Asset.RBTC}
             linkAsset={LiquidityPoolDictionary.get(Asset.SOV, Asset.RBTC)?.key}
             linkDataActionId={`landing-promo-learnmore-${Asset.SOV}`}
+            className={cardClassName}
+            imageClassName={cardImageClassName}
           />
           <PromotionCard
             appSection={AppSection.YieldFarm}
@@ -78,6 +102,8 @@ export const Promotions: React.FC = () => {
             logoAsset2={Asset.RBTC}
             linkAsset={LiquidityPoolDictionary.get(Asset.ETH, Asset.RBTC)?.key}
             linkDataActionId={`landing-promo-learnmore-${Asset.ETH}`}
+            className={cardClassName}
+            imageClassName={cardImageClassName}
           />
         </PromotionsCarousel>
       </div>

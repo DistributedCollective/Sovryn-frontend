@@ -1,6 +1,7 @@
 import { SpotPairType } from 'app/pages/SpotTradingPage/types';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import classNames from 'classnames';
 import { Asset } from 'types';
 import { TradingPairType } from 'utils/dictionaries/trading-pair-dictionary';
 import { AppSection, PromotionColor } from './types';
@@ -29,6 +30,8 @@ interface IPromotionCardProps {
   linkDataActionId?: string;
   linkMarginPairType?: TradingPairType;
   linkSpotTradingPairType?: SpotPairType;
+  className?: string;
+  imageClassName?: string;
 }
 
 export const PromotionCard: React.FC<IPromotionCardProps> = ({
@@ -45,13 +48,15 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
   linkDataActionId,
   linkMarginPairType,
   linkSpotTradingPairType,
+  className,
+  imageClassName,
 }) => {
   const { t } = useTranslation();
   const sectionTitle = getSectionTitle(appSection);
   const linkPathname = getLinkPathname(appSection);
 
   return (
-    <div className={styles.cardItem}>
+    <div className={classNames(styles.cardItem, className)}>
       <Link
         to={{
           pathname: `/${linkPathname}`,
@@ -66,7 +71,7 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
         className="tw-no-underline"
       >
         <div
-          className={styles.cardImageSection}
+          className={classNames(styles.cardImageSection, imageClassName)}
           style={{
             backgroundImage: `url(${getBackgroundImageUrl(backgroundColor)})`,
           }}
@@ -107,7 +112,7 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
             </div>
           </div>
           <img
-            className="tw-absolute tw-bottom-5  tw-right-6 tw-cursor-pointer tw-h-4"
+            className="tw-absolute tw-bottom-5 tw-right-6 tw-cursor-pointer tw-h-4"
             src={arrowForward}
             alt={title}
           />
