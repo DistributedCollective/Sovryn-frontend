@@ -26,7 +26,5 @@ export function useGetBorrowHistoryData() {
         }
       }
     }`;
-  const { data, loading } = useQuery(BORROW_HISTORY);
-
-  return { data, loading };
+  return useQuery(BORROW_HISTORY);
 }
