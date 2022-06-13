@@ -53,6 +53,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
           className={styles.hiddenInput}
           checked={checked}
           onChange={onChange}
+          disabled={disabled}
         />
         <span
           className={classNames(styles.checkbox, {
