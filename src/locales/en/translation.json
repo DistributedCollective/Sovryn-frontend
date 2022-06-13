@@ -830,6 +830,7 @@
         "genesis": "Genesis SOV",
         "origin": "Origin SOV",
         "team": "Team SOV",
+        "fouryear": "Four-Year Vested SOV",
         "reward": "Reward SOV",
         "fish": "Origins FISH",
         "fishAirdrop": "Airdrop FISH"
@@ -1419,6 +1420,7 @@
       "amountToRepay": "{{currency}} amount to repay",
       "amountToReceive": "You will receive"
     },
+    "tinyPositionError": "You are leaving tiny position behind. Please close your entire loan instead.",
     "button": "Repay"
   },
   "closeTradingPositionHandler": {
@@ -2575,7 +2577,7 @@
       "buyNow": "Buy Now",
       "soldOut": "SOLD OUT!",
       "learnMore": "Learn More",
-      "getStarted": "Get Started",
+      "getStarted": "Join the waitlist",
       "timer": {
         "days": "DAYS",
         "hours": "HOURS",
