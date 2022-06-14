@@ -33,14 +33,21 @@ export const rpcNodes = {
     'https://public-node.rsk.co/',
   ],
   31: ['https://testnet.sovryn.app/rpc', 'https://public-node.testnet.rsk.co/'],
-  56: 'wss://bsc.sovryn.app/mainnet',
-  97: 'wss://bsctestnet.sovryn.app/websocket',
+  56: 'wss://bsc.sovryn.app/mainnet/websocket',
+  97: 'wss://bsc.sovryn.app/testnet/websocket',
 };
 
 export const bitocracyUrl =
   currentNetwork === AppMode.MAINNET
     ? 'https://bitocracy.sovryn.app'
     : 'https://bitocracy.test.sovryn.app';
+
+export const zeroUrl =
+  currentNetwork === AppMode.MAINNET
+    ? isStaging
+      ? 'https://staging.sovryn.app/zero'
+      : 'https://live.sovryn.app/zero'
+    : 'https://test.sovryn.app/zero';
 
 export const databaseRpcNodes = {
   30: 'https://backend.sovryn.app/rpc',
@@ -93,14 +100,15 @@ export const gasLimit = {
   [TxType.STAKING_LIQUID_SOV_CLAIM]: 2500000,
   [TxType.DEPOSIT_COLLATERAL]: 250000,
   [TxType.CLAIM_VESTED_SOV_REWARDS]: 6000000,
-  [TxType.SOV_WITHDRAW_VESTING]: 1900000,
+  [TxType.SOV_WITHDRAW_VESTING]: 2350000,
   [TxType.SIMULATOR_REQUEST]: 6800000,
   [TxType.DEPOSIT_COLLATERAL]: 850000,
   [TxType.WITHDRAW_COLLATERAL]: 1400000,
   [TxType.FAST_BTC_WITHDRAW]: 300000,
-  [TxType.PERPETUAL_TRADE]: 3000000,
+  [TxType.PERPETUAL_TRADE]: 3300000,
   [TxType.PERPETUAL_DEPOSIT_COLLATERAL]: 1700000,
   [TxType.PERPETUAL_WITHDRAW_COLLATERAL]: 2400000,
+  [TxType.PERPETUAL_CREATE_LIMIT_ORDER]: 3000000,
   [TxType.LIMIT_ORDER]: 3000000,
   [TxType.SETTLEMENT_WITDHRAW]: 70000,
 };
@@ -131,6 +139,10 @@ export const MILLION = 1000000;
 // most wallets considers 546 sats as minimum amount user needs to have in wallet to use network.
 // i'm putting it as 10 sats for now.
 export const DUST_AMOUNT = toWei(0.0000001);
+
+// amount less than 25e13 is considered tiny position in our smart contracts
+// if position is considered tiny - FE must force user to close it entirelly without giving option to do it partially.
+export const TINY_POSITION_RBTC_VALUE = 250000000000000;
 
 export const notificationServiceUrl = {
   30: 'https://notify.sovryn.app/',

@@ -4,7 +4,6 @@ import { ResetTxResponseInterface } from 'app/hooks/useSendContractTx';
 import { TxStatus } from 'store/global/transactions-store/types';
 import { detectWeb3Wallet, prettyTx } from 'utils/helpers';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
-import styles from './dialog.module.scss';
 import { WalletContext } from '@sovryn/react-wallet';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -47,13 +46,12 @@ export const TxDialog: React.FC<ITxDialogProps> = ({ tx, onUserConfirmed }) => {
       onUserConfirmed();
     }
   }, [tx.status, oldStatus, onUserConfirmed]);
-
   return (
     <Dialog
       isCloseButtonShown={false}
       isOpen={tx.status !== TxStatus.NONE}
       onClose={close}
-      className={styles.dialog}
+      className="tw-relative tw-font-body tw-bg-black tw-border-0 tw-rounded-3xl tw-p-10 tw-max-w-md tw-max-h-auto"
     >
       <CloseButton onClick={close}>
         <span className="tw-sr-only">Close Dialog</span>
