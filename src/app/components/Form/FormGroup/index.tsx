@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import { makeId } from 'utils/helpers';
+import { Tooltip } from '@blueprintjs/core';
 
 interface FormGroupProps {
   label?: React.ReactNode;
@@ -10,6 +11,7 @@ interface FormGroupProps {
   children: React.ReactNode;
   className?: string;
   labelClassName?: string;
+  labelTooltip?: string;
 }
 
 export function FormGroup({
@@ -17,6 +19,7 @@ export function FormGroup({
   describe,
   className,
   labelClassName,
+  labelTooltip,
   ...props
 }: FormGroupProps) {
   const [id, setId] = useState<string>(props.id || makeId());
@@ -25,15 +28,33 @@ export function FormGroup({
     setId(prevState => props.id || prevState || makeId());
   }, [props.id]);
 
-  return (
-    <div className={classNames('tw-form-group', className)}>
-      {props.label && (
+  const label = useMemo(
+    () =>
+      props.label ? (
         <label
           htmlFor={id}
           className={classNames('tw-form-group-label', labelClassName)}
         >
           {props.label}
         </label>
+      ) : (
+        <></>
+      ),
+    [id, labelClassName, props.label],
+  );
+
+  return (
+    <div className={classNames('tw-form-group', className)}>
+      {labelTooltip ? (
+        <Tooltip
+          position="bottom"
+          popoverClassName="tw-max-w-md tw-font-light"
+          content={labelTooltip}
+        >
+          {label}
+        </Tooltip>
+      ) : (
+        <>{label}</>
       )}
       <PassPropsToChildren id={id}>{children}</PassPropsToChildren>
       {describe && (
