@@ -29,8 +29,6 @@ import { getBase2CollateralFX } from '@sovryn/perpetual-swap/dist/scripts/utils/
 import { PerpetualPair } from 'utils/models/perpetual-pair';
 import { Nullable } from 'types';
 
-const initialFunding = 0.2; // funds sent to every trader at the beginning of the competition
-
 interface ILeaderboardProps {
   data: RegisteredTraderData[];
   showUserRow: boolean;
@@ -114,7 +112,7 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
               BigNumber.from(traderState.capitalUsed || '0'),
             );
 
-            if (trader.positions.find(item => !item.isClosed) && traderState) {
+            if (trader.positions && traderState) {
               const parsedTraderState = {
                 marginBalanceCC: ABK64x64ToFloat(
                   BigNumber.from(traderState.marginBalanceCC),
@@ -156,7 +154,7 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
 
             entry.lastTrade =
               ((lastPositionProfit + entry.unrealizedPnLCC) /
-                Math.abs(initialFunding)) *
+                Math.abs(capitalUsed)) *
               100;
           }
           items.push(entry);
