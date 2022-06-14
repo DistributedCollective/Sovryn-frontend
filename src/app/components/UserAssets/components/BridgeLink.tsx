@@ -7,7 +7,7 @@ import { Tooltip } from '@blueprintjs/core';
 import { useAccount } from 'app/hooks/useAccount';
 import { Asset } from 'types';
 import { useMaintenance } from 'app/hooks/useMaintenance';
-import { useIsBridgeLinkLocked } from './hooks/useIsBridgeLinkLocked';
+import { useIsBridgeLinkLocked } from '../hooks/useIsBridgeLinkLocked';
 
 interface IBridgeLinkProps {
   asset: Asset;
@@ -60,54 +60,65 @@ export const BridgeLink: React.FC<IBridgeLinkProps> = ({ asset }) => {
 
   return (
     <>
-      {assetDepositLocked ? (
-        <Tooltip
-          position="bottom"
-          hoverOpenDelay={0}
-          hoverCloseDelay={0}
-          interactionKind="hover"
-          content={
-            <>{getMaintenanceTooltipCopy(asset, CROSSCHAIN_TYPE.DEPOSIT)}</>
-          }
-        >
+      <Tooltip
+        position="top"
+        hoverOpenDelay={0}
+        hoverCloseDelay={0}
+        interactionKind="hover"
+        content={
+          <>
+            {assetDepositLocked
+              ? getMaintenanceTooltipCopy(asset, CROSSCHAIN_TYPE.DEPOSIT)
+              : t(translations.userAssets.sendMessage, { asset })}
+          </>
+        }
+      >
+        {assetDepositLocked ? (
           <div className="tw-cursor-not-allowed tw-opacity-25">
-            {t(translations.common.deposit)}
+            {t(translations.common.send)}
           </div>
-        </Tooltip>
-      ) : (
-        <Link
-          to={{
-            pathname: '/cross-chain/deposit',
-            state: { receiver, asset },
-          }}
-        >
-          <span>{t(translations.common.deposit)}</span>
-        </Link>
-      )}
-      {assetWithdrawLocked ? (
-        <Tooltip
-          position="bottom"
-          hoverOpenDelay={0}
-          hoverCloseDelay={0}
-          interactionKind="hover"
-          content={
-            <>{getMaintenanceTooltipCopy(asset, CROSSCHAIN_TYPE.WITHDRAW)}</>
-          }
-        >
+        ) : (
+          <Link
+            to={{
+              pathname: '/cross-chain/deposit',
+              state: { receiver, asset },
+            }}
+          >
+            <span className="tw-font-bold">{t(translations.common.send)}</span>
+          </Link>
+        )}
+      </Tooltip>
+
+      <Tooltip
+        position="top"
+        hoverOpenDelay={0}
+        hoverCloseDelay={0}
+        interactionKind="hover"
+        content={
+          <>
+            {assetWithdrawLocked
+              ? getMaintenanceTooltipCopy(asset, CROSSCHAIN_TYPE.WITHDRAW)
+              : t(translations.userAssets.receiveMessage, { asset })}
+          </>
+        }
+      >
+        {assetWithdrawLocked ? (
           <div className="tw-cursor-not-allowed tw-opacity-25">
-            {t(translations.common.withdraw)}
+            {t(translations.common.receive)}
           </div>
-        </Tooltip>
-      ) : (
-        <Link
-          to={{
-            pathname: '/cross-chain/withdraw',
-            state: { receiver, asset },
-          }}
-        >
-          <span>{t(translations.common.withdraw)}</span>
-        </Link>
-      )}
+        ) : (
+          <Link
+            to={{
+              pathname: '/cross-chain/withdraw',
+              state: { receiver, asset },
+            }}
+          >
+            <span className="tw-font-bold">
+              {t(translations.common.receive)}
+            </span>
+          </Link>
+        )}
+      </Tooltip>
     </>
   );
 };

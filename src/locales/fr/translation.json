@@ -832,7 +832,7 @@
     "my_wallet": "Mon portefeuille",
     "referrals": "Parrainer un ami"
   },
-  "walletPage": {
+  "portfolioPage": {
     "meta": {
       "description": "Informations sur le portefeuille connecté",
       "title": "Mon portefeuille"

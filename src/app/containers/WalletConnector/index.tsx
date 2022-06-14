@@ -104,10 +104,12 @@ const WalletConnectorContainer: React.FC<Props> = ({
                     <MenuItem
                       text={t(translations.mainMenu.rewards)}
                       href="/reward"
+                      className="bp3-popover-dismiss"
                     />
                     <MenuItem
                       text={t(translations.mainMenu.portfolio)}
                       href="/wallet"
+                      className="bp3-popover-dismiss"
                     />
                     <MenuItem
                       text={t(translations.mainMenu.notifications)}
@@ -127,6 +129,7 @@ const WalletConnectorContainer: React.FC<Props> = ({
                         icon={faClone}
                         text={t(translations.wallet.copy_address)}
                         dataActionId="copy-wallet-address"
+                        className="bp3-popover-dismiss"
                       />
                     </CopyToClipboard>
                     <MenuItem

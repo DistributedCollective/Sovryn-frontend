@@ -1,25 +1,23 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { useAccount, useIsConnected } from '../../hooks/useAccount';
-import { Skeleton } from '../PageSkeleton';
-import { useListOfUserVestings } from './Vesting/useListOfUserVestings';
-import { FullVesting } from './Vesting/types';
-import { VestedItem } from './Vesting/VestedItem';
-import { VestingWithdrawDialog } from './Vesting/VestingWithdrawDialog';
+import { useAccount, useIsConnected } from '../../../hooks/useAccount';
+import { Skeleton } from '../../PageSkeleton';
+import { useListOfUserVestings } from '../Vesting/useListOfUserVestings';
+import { FullVesting } from '../Vesting/types';
+import { VestedItem } from '../Vesting/VestedItem';
+import { VestingWithdrawDialog } from '../Vesting/VestingWithdrawDialog';
 import type { Nullable } from 'types';
 import { useContractPauseState } from 'app/hooks/useContractPauseState';
-import { AlertBadge } from '../AlertBadge/AlertBadge';
+import { AlertBadge } from '../../AlertBadge/AlertBadge';
 import { discordInvite } from 'utils/classifiers';
 
-export function VestedAssets() {
+export const VestedAssets: React.FC = () => {
   const { t } = useTranslation();
   const { frozen } = useContractPauseState('staking');
   const connected = useIsConnected();
   const account = useAccount();
-
   const { loading, items } = useListOfUserVestings();
-
   const [open, setOpen] = useState(false);
   const [vesting, setVesting] = useState<Nullable<FullVesting>>(null);
 
@@ -45,12 +43,9 @@ export function VestedAssets() {
           <Trans
             i18nKey={translations.stake.paused}
             components={[
-              // eslint-disable-next-line jsx-a11y/anchor-has-content
-              <a
-                href={discordInvite}
-                target="_blank"
-                rel="noreferrer nofollow"
-              />,
+              <a href={discordInvite} target="_blank" rel="noreferrer nofollow">
+                x
+              </a>,
             ]}
           />
         </AlertBadge>
@@ -66,9 +61,7 @@ export function VestedAssets() {
               <th className="tw-text-right tw-hidden md:tw-table-cell">
                 {t(translations.userAssets.tableHeaders.dollarBalance)}
               </th>
-              <th className="tw-text-right">
-                {t(translations.userAssets.tableHeaders.action)}
-              </th>
+              <th className="tw-text-right"></th>
             </tr>
           </thead>
           <tbody className="tw-mt-12">
@@ -121,4 +114,4 @@ export function VestedAssets() {
       />
     </>
   );
-}
+};
