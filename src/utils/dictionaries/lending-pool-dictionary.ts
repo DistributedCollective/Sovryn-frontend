@@ -1,4 +1,3 @@
-import { P } from 'app/components/NotFoundPage/P';
 import { Asset } from 'types/asset';
 import { isMainnet } from 'utils/classifiers';
 import { LendingPool } from '../models/lending-pool';
