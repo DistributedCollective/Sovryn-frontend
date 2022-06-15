@@ -8,9 +8,12 @@ import { useAccount } from 'app/hooks/useAccount';
 import { Asset } from 'types';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { useIsBridgeLinkLocked } from '../hooks/useIsBridgeLinkLocked';
+import classNames from 'classnames';
+import styles from './BridgeLink.module.scss';
 
 interface IBridgeLinkProps {
   asset: Asset;
+  disableWithdrawal?: boolean;
 }
 
 enum CROSSCHAIN_TYPE {
@@ -18,7 +21,10 @@ enum CROSSCHAIN_TYPE {
   WITHDRAW = 'withdraw',
 }
 
-export const BridgeLink: React.FC<IBridgeLinkProps> = ({ asset }) => {
+export const BridgeLink: React.FC<IBridgeLinkProps> = ({
+  asset,
+  disableWithdrawal,
+}) => {
   const receiver = useAccount();
   const { t } = useTranslation();
   const { checkMaintenance, States } = useMaintenance();
@@ -65,27 +71,40 @@ export const BridgeLink: React.FC<IBridgeLinkProps> = ({ asset }) => {
         hoverOpenDelay={0}
         hoverCloseDelay={0}
         interactionKind="hover"
+        disabled={disableWithdrawal}
         content={
           <>
-            {assetDepositLocked
-              ? getMaintenanceTooltipCopy(asset, CROSSCHAIN_TYPE.DEPOSIT)
+            {assetWithdrawLocked
+              ? getMaintenanceTooltipCopy(asset, CROSSCHAIN_TYPE.WITHDRAW)
               : t(translations.userAssets.sendMessage, { asset })}
           </>
         }
       >
-        {assetDepositLocked ? (
+        {assetWithdrawLocked ? (
           <div className="tw-cursor-not-allowed tw-opacity-25">
             {t(translations.common.send)}
           </div>
         ) : (
-          <Link
-            to={{
-              pathname: '/cross-chain/deposit',
-              state: { receiver, asset },
-            }}
+          <div
+            className={classNames({
+              'tw-cursor-not-allowed': disableWithdrawal,
+            })}
           >
-            <span className="tw-font-bold">{t(translations.common.send)}</span>
-          </Link>
+            {' '}
+            <Link
+              to={{
+                pathname: '/cross-chain/withdraw',
+                state: { receiver, asset },
+              }}
+              className={classNames(styles.actionLink, {
+                [styles.disabled]: disableWithdrawal,
+              })}
+            >
+              <span className="tw-font-bold">
+                {t(translations.common.send)}
+              </span>
+            </Link>
+          </div>
         )}
       </Tooltip>
 
@@ -96,20 +115,20 @@ export const BridgeLink: React.FC<IBridgeLinkProps> = ({ asset }) => {
         interactionKind="hover"
         content={
           <>
-            {assetWithdrawLocked
-              ? getMaintenanceTooltipCopy(asset, CROSSCHAIN_TYPE.WITHDRAW)
+            {assetDepositLocked
+              ? getMaintenanceTooltipCopy(asset, CROSSCHAIN_TYPE.DEPOSIT)
               : t(translations.userAssets.receiveMessage, { asset })}
           </>
         }
       >
-        {assetWithdrawLocked ? (
+        {assetDepositLocked ? (
           <div className="tw-cursor-not-allowed tw-opacity-25">
             {t(translations.common.receive)}
           </div>
         ) : (
           <Link
             to={{
-              pathname: '/cross-chain/withdraw',
+              pathname: '/cross-chain/deposit',
               state: { receiver, asset },
             }}
           >

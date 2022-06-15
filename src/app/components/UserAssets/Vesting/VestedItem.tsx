@@ -2,10 +2,7 @@ import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tooltip } from '@blueprintjs/core';
 import { LoadableValue } from '../../LoadableValue';
-import {
-  weiToNumberFormat,
-  weiToUSD,
-} from '../../../../utils/display-text/format';
+import { weiToNumberFormat } from '../../../../utils/display-text/format';
 import { translations } from '../../../../locales/i18n';
 import { ActionButton } from '../../Form/ActionButton';
 import { AssetsDictionary } from '../../../../utils/dictionaries/assets-dictionary';
@@ -13,6 +10,7 @@ import { useMaintenance } from '../../../hooks/useMaintenance';
 import { FullVesting } from './types';
 import { useDollarValue } from '../../../hooks/useDollarValue';
 import { useGetVesting } from './useGetVesting';
+import { AssetValue } from 'app/components/AssetValue';
 
 type VestedItemProps = {
   vesting: FullVesting;
@@ -57,7 +55,7 @@ export const VestedItem: React.FC<VestedItemProps> = ({
       </td>
       <td className="tw-text-right">
         <LoadableValue
-          value={weiToUSD(dollarValue.value)}
+          value={<AssetValue value={dollarValue.value} assetString="USD" />}
           loading={dollarValue.loading || loading}
         />
       </td>

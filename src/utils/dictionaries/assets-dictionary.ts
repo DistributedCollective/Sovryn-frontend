@@ -13,6 +13,7 @@ import fishIcon from 'assets/images/tokens/babelfish.svg';
 import rdoc from 'assets/images/tokens/rifd.svg';
 import rifToken from 'assets/images/tokens/rif.svg';
 import mintIcon from 'assets/images/tokens/mint.svg';
+import zusdIcon from 'assets/images/tokens/zusd.svg';
 
 import { AssetDetails } from '../models/asset-details';
 
@@ -141,6 +142,10 @@ export class AssetsDictionary {
       [
         Asset.MYNT,
         new AssetDetails(Asset.MYNT, 'MYNT', 'MYNT', 18, 3, mintIcon, true),
+      ],
+      [
+        Asset.ZUSD,
+        new AssetDetails(Asset.ZUSD, 'ZUSD', 'ZUSD', 18, 2, zusdIcon, true),
       ],
     ],
   );

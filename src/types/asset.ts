@@ -18,4 +18,5 @@ export enum Asset {
   TRADING = 'TRADING',
   RIF = 'RIF',
   MYNT = 'MYNT',
+  ZUSD = 'ZUSD',
 }

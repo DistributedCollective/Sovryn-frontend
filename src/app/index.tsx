@@ -100,7 +100,8 @@ export function App() {
                   component={LiquidityMiningPage}
                 />
                 <Route exact path="/reward" component={RewardPage} />
-                <Route exact path="/wallet" component={PortfolioPage} />
+                <Redirect exact path="/wallet" to="/portfolio" />
+                <Route exact path="/portfolio" component={PortfolioPage} />
                 <Route exact path="/origins" component={OriginsLaunchpadPage} />
                 <Route
                   exact
