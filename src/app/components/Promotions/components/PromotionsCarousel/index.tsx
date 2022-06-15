@@ -28,23 +28,33 @@ const responsive = {
   },
 };
 
-export const PromotionsCarousel: React.FC = ({ children }) => {
+type PromotionsCarouselProps = {
+  children?: React.ReactNode;
+  className?: string;
+};
+
+export const PromotionsCarousel: React.FC<PromotionsCarouselProps> = ({
+  children,
+  className,
+}) => {
   return (
-    <Carousel
-      arrows
-      responsive={responsive}
-      draggable
-      focusOnSelect={false}
-      infinite
-      minimumTouchDrag={80}
-      renderDotsOutside
-      customLeftArrow={<CustomLeftArrow />}
-      customRightArrow={<CustomRightArrow />}
-      customDot={<CustomDot />}
-      showDots
-      swipeable
-    >
-      {children}
-    </Carousel>
+    <div className={className}>
+      <Carousel
+        arrows
+        responsive={responsive}
+        draggable
+        focusOnSelect={false}
+        infinite
+        minimumTouchDrag={80}
+        renderDotsOutside
+        customLeftArrow={<CustomLeftArrow />}
+        customRightArrow={<CustomRightArrow />}
+        customDot={<CustomDot />}
+        showDots
+        swipeable
+      >
+        {children}
+      </Carousel>
+    </div>
   );
 };
