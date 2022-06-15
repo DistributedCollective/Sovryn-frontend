@@ -2355,7 +2355,7 @@
         "orderCostLimit": "A conservative estimate of the amount withdrawn from your wallet to pay for the trade. Consists of estimated margin and trading fee at the time of execution.",
         "tradingFee": "The trading fee. If fees are paid in BTC, this includes gas costs.",
         "relayerFee": "Limit/Stop orders are processed with the assistance of a referrer. The referrer is compensated with the relayer fee.",
-        "keepPositionLeverage": "You can keep the leverage of the current position by checking this box. If unchecked, the leverage decreases.",
+        "keepPositionLeverage": "You can keep the leverage of the current position by checking this box.",
         "maxTradeSize": "Maximal order size currently allowed by the system.",
         "leverage": "If at the time of order execution, there is an existing position, the position leverage will remain unchanged if the order partially closes the existing position. If instead, the order increases the existing position size, the order will add margin according to your choice of trade leverage. The resulting position leverage depends on how much margin was added with the trade and the amount of margin in the existing position before the trade.",
         "limitPrice": "The execution price will be at or below the limit price for buy orders, at or above for sell orders.",

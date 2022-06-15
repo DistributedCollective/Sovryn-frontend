@@ -20,6 +20,8 @@ export const AssetDecimals: { [key in Asset]: number } = {
   MYNT: 2,
   TRADING: 1,
   ZUSD: 2,
+  /** @deprecated */
+  XUSD_legacy: 2,
 };
 
 export enum AssetValueMode {
