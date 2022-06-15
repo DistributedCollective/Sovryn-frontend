@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
 import CurrencyRow from './CurrencyRow';
-import { useWeiAmount } from '../../../../hooks/useWeiAmount';
-import { LendingPoolDictionary } from '../../../../../utils/dictionaries/lending-pool-dictionary';
+import { useWeiAmount } from 'app/hooks/useWeiAmount';
+import { LendingPoolDictionary } from 'utils/dictionaries/lending-pool-dictionary';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { useLocation, useHistory } from 'react-router-dom';
-import { IPromotionLinkState } from 'app/pages/LandingPage/components/Promotions/components/PromotionCard/types';
+import { IPromotionLinkState } from 'app/components/Promotions/components/PromotionCard/types';
 import { useIsConnected } from 'app/hooks/useAccount';
 
 const currencyRows = LendingPoolDictionary.list();
