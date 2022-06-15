@@ -18,22 +18,6 @@ export const PortfolioPage: React.FC = () => {
   const connected = useIsConnected();
   const account = useAccount();
 
-  const historyTabs = useMemo(
-    () => [
-      {
-        id: 'topUpHistory',
-        label: t(translations.topUpHistory.meta.title),
-        content: <TopUpHistory />,
-      },
-      {
-        id: 'vestedHistory',
-        label: t(translations.vestedHistory.title),
-        content: <VestedHistory />,
-      },
-    ],
-    [t],
-  );
-
   const portfolioTabs = useMemo(
     () => [
       {
@@ -50,6 +34,22 @@ export const PortfolioPage: React.FC = () => {
         id: 'userNFTS',
         label: t(translations.portfolioPage.tabs.userNFTS),
         content: <SovGenerationNFTS />,
+      },
+    ],
+    [t],
+  );
+
+  const historyTabs = useMemo(
+    () => [
+      {
+        id: 'topUpHistory',
+        label: t(translations.topUpHistory.meta.title),
+        content: <TopUpHistory />,
+      },
+      {
+        id: 'vestedHistory',
+        label: t(translations.vestedHistory.title),
+        content: <VestedHistory />,
       },
     ],
     [t],
@@ -79,38 +79,42 @@ export const PortfolioPage: React.FC = () => {
         />
       </div>
 
-      <div className="tw-container tw-mx-auto tw-flex xl:tw-max-w-2/3">
-        <OriginClaimBanner />
-      </div>
-
-      <div className="tw-container tw-mx-auto tw-px-4 xl:tw-max-w-2/3">
-        {connected && account ? (
-          <Tabs
-            items={portfolioTabs}
-            initial={portfolioTabs[0].id}
-            contentClassName="tw-col-span-12 tw-mt-2"
-            dataActionId="portfolio-assets"
-          />
-        ) : (
-          <div className="tw-grid tw-gap-8 tw-grid-cols-12">
-            <div className="tw-col-span-12">
-              <SkeletonRow
-                loadingText={t(translations.topUpHistory.walletHistory)}
-                className="tw-mt-2"
-              />
+      <div className="tw-flex-grow">
+        <div className="tw-container tw-mx-auto tw-px-4 tw-mt-4">
+          <OriginClaimBanner />
+        </div>
+        <div
+          className="tw-container tw-flex-grow tw-mx-auto tw-px-4 tw-mt-4"
+          style={{ maxWidth: 1200 }}
+        >
+          {connected && account ? (
+            <Tabs
+              items={portfolioTabs}
+              initial={portfolioTabs[0].id}
+              contentClassName="tw-col-span-12 tw-mt-2"
+              dataActionId="portfolio-assets"
+            />
+          ) : (
+            <div className="tw-grid tw-gap-8 tw-grid-cols-12">
+              <div className="tw-col-span-12">
+                <SkeletonRow
+                  loadingText={t(translations.topUpHistory.walletHistory)}
+                  className="tw-mt-2"
+                />
+              </div>
             </div>
-          </div>
+          )}
+        </div>
+        {connected && account && (
+          <Tabs
+            items={historyTabs}
+            initial={historyTabs[0].id}
+            className="tw-container tw-mt-12"
+            contentClassName="tw-overflow-auto"
+            dataActionId="portfolio-history"
+          />
         )}
       </div>
-      {connected && account && (
-        <Tabs
-          items={historyTabs}
-          initial={historyTabs[0].id}
-          className="tw-container tw-mt-12"
-          contentClassName="tw-overflow-auto"
-          dataActionId="portfolio-history"
-        />
-      )}
     </>
   );
 };

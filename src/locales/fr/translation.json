@@ -833,9 +833,11 @@
     "referrals": "Parrainer un ami"
   },
   "portfolioPage": {
+    "portfolio": "Portfolio",
+    "rewards": "Rewards",
     "meta": {
-      "description": "Informations sur le portefeuille connecté",
-      "title": "Mon portefeuille"
+      "title": "Portfolio",
+      "description": "Manage supported assets in your connected wallet"
     },
     "tabs": {
       "userAssets": "Actifs",

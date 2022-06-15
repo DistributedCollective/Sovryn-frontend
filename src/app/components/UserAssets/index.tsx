@@ -55,32 +55,30 @@ export const UserAssets: React.FC = () => {
             <tr>
               <th>{t(translations.userAssets.tableHeaders.asset)}</th>
               <th className="tw-text-right">
-                {t(translations.userAssets.tableHeaders.totalBalance)}
+                {t(translations.userAssets.tableHeaders.balance)}
               </th>
               <th className="tw-text-right tw-hidden md:tw-table-cell">
-                {t(translations.userAssets.tableHeaders.dollarBalance)}
+                {t(translations.stake.currentVests.dollarBalance)}
               </th>
               <th className="tw-text-right tw-hidden md:tw-table-cell"></th>
             </tr>
           </thead>
           <tbody className="tw-mt-12">
             {!connected && (
-              <>
-                <tr>
-                  <td>
-                    <Skeleton />
-                  </td>
-                  <td>
-                    <Skeleton />
-                  </td>
-                  <td className="tw-hidden md:tw-table-cell">
-                    <Skeleton />
-                  </td>
-                  <td className="tw-hidden md:tw-table-cell">
-                    <Skeleton />
-                  </td>
-                </tr>
-              </>
+              <tr>
+                <td>
+                  <Skeleton />
+                </td>
+                <td>
+                  <Skeleton />
+                </td>
+                <td className="tw-hidden md:tw-table-cell">
+                  <Skeleton />
+                </td>
+                <td className="tw-hidden md:tw-table-cell">
+                  <Skeleton />
+                </td>
+              </tr>
             )}
             {connected &&
               account &&

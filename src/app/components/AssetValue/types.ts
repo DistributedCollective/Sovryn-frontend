@@ -19,6 +19,7 @@ export const AssetDecimals: { [key in Asset]: number } = {
   RIF: 2,
   MYNT: 2,
   TRADING: 1,
+  ZUSD: 2,
   /** @deprecated */
   XUSD_legacy: 2,
 };

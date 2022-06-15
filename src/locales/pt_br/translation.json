@@ -1154,14 +1154,16 @@
     }
   },
   "portfolioPage": {
+    "portfolio": "Portfólio",
+    "rewards": "Rewards",
     "meta": {
       "title": "Portfólio",
-      "description": "Informações sobre a carteira conectada"
+      "description": "Manage supported assets in your connected wallet"
     },
     "tabs": {
-      "userAssets": "Meus ativos",
-      "vestedAssets": "SOV reservados",
-      "userNFTS": "NFTS"
+      "userAssets": "Assets",
+      "vestedAssets": "Vesting",
+      "userNFTS": "Gallery"
     }
   },
   "salesPage": {
@@ -1172,15 +1174,15 @@
   },
   "userAssets": {
     "meta": {
-      "title": "Carteira"
+      "title": "Portfolio",
+      "description": "Manage supported assets in your connected wallet"
     },
-    "emptyVestTable": "Não existem SOV reservados para você",
+    "emptyVestTable": "You don’t have any vesting contracts",
     "tableHeaders": {
-      "asset": "Ativo",
-      "totalBalance": "Saldo total",
-      "dollarBalance": "Saldo em dólar",
-      "lockedAmount": "Quantidade bloqueada",
-      "action": "Ação"
+      "asset": "Asset",
+      "balance": "Balance",
+      "dollarBalance": "USD Value",
+      "lockedAmount": "Locked Amount"
     },
     "actions": {
       "deposit": "Bridge",
@@ -1210,6 +1212,36 @@
         "hash": "ID transação",
         "cta": "Fechar"
       }
+    },
+    "unwrapDialog": {
+      "title": "Unwrap WRBTC",
+      "from": "From",
+      "to": "To",
+      "cta": "Unwrap to RBTC",
+      "txDialog": {
+        "titleInProgress": "Transaction in Progress",
+        "titleCompleted": "Transaction Complete",
+        "titleFailed": "Transaction Failed",
+        "statusInProgress": "Minting can take a couple of minutes",
+        "dateTime": "Date/Time",
+        "amountSent": "Amount Sent",
+        "amountReceived": "Amount Received",
+        "hash": "RSK Relay Hash",
+        "cta": "Close"
+      }
+    },
+    "gallery": {
+      "title": "SOV Generation 01 NFT's",
+      "community": "Community",
+      "hero": "Hero",
+      "superhero": "Superhero",
+      "preOrder": "SOV Genesis Pre-Order",
+      "purchaseLimit": "Purchase Limit:",
+      "tier": "Tier",
+      "sovOG": "SOV-OG",
+      "btc": "BTC",
+      "emptyGallery": "Your connected wallet does not currently have any supported NFTs. Join the <0>Sovryn community</0> for opportunities to earn NFT rewards.",
+      "loadingMessage": "Loading your gallery."
     }
   },
   "swapHistory": {

@@ -33,7 +33,6 @@ import OrderBookAbi from './abi/OrderBook.json';
 import OrderBookMarginAbi from './abi/OrderBookMargin.json';
 import nftAbi from './abi/nftAbi.json';
 import MYNTControllerAbi from './abi/MYNTController.json';
-import MYNTTokenAbi from './abi/MYNT_token.json';
 import MYNTPresaleAbi from './abi/MYNTPresale.json';
 import MYNTMarketMakerAbi from './abi/MYNTMarketMaker.json';
 import perpetualManagerAbi from './abi/PerpetualManager.json';
@@ -310,7 +309,7 @@ export const contracts = {
   },
   MYNT_token: {
     address: '0x139483e22575826183F5b56dd242f8f2C1AEf327',
-    abi: MYNTTokenAbi,
+    abi: erc20TokenAbi,
     blockNumber: 2267574,
   },
   MYNTPresale: {
@@ -348,5 +347,9 @@ export const contracts = {
     address: '0xe2b95C2bcfEbb2fF73e103d86a2Eb2b82Cb34Dd5',
     abi: perpetualLimitOrderBookAbi,
     chainId: ChainId.BSC_TESTNET,
+  },
+  ZUSD_token: {
+    address: '0x6b41566353d6C7B8C2a7931d498F11489DacAc29',
+    abi: erc20TokenAbi,
   },
 };
