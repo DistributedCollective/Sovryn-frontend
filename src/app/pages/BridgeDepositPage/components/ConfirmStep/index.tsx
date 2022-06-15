@@ -60,7 +60,7 @@ export const ConfirmStep: React.FC = () => {
       <>
         {tx.step === TxStep.MAIN && (
           <>
-            <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
+            <div className="tw-mb-7 tw-text-base tw-text-center tw-font-semibold">
               {t(trans.pleaseWait)}
             </div>
             <p className="tw-w-80 tw-text-center tw-mt-12">
@@ -70,7 +70,7 @@ export const ConfirmStep: React.FC = () => {
         )}
         {tx.step === TxStep.APPROVE && (
           <>
-            <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
+            <div className="tw-mb-7 tw-text-base tw-text-center tw-font-semibold">
               {t(trans.allowTransaction)}
             </div>
             <SelectBox onClick={noop}>
@@ -92,7 +92,7 @@ export const ConfirmStep: React.FC = () => {
         )}
         {tx.step === TxStep.CONFIRM_TRANSFER && (
           <>
-            <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
+            <div className="tw-mb-7 tw-text-base tw-text-center tw-font-semibold">
               {t(trans.confirmTransaction)}
             </div>
             <SelectBox onClick={noop}>
@@ -208,7 +208,7 @@ export const ConfirmStep: React.FC = () => {
       {renderTransferSteps()}
       {tx.step === TxStep.USER_DENIED && (
         <>
-          <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
+          <div className="tw-mb-7 tw-text-base tw-text-center tw-font-semibold">
             {t(trans.transactionDenied)}
           </div>
           <p className="tw-w-80 tw-mt-12 tw-text-center">

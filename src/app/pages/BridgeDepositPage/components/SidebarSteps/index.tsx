@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { actions } from '../../slice';
 import { DepositStep } from '../../types';
 import { selectBridgeDepositPage } from '../../selectors';
-import { StepItem, Stepper } from '../Stepper';
 import { BridgeNetworkDictionary } from '../../dictionaries/bridge-network-dictionary';
 import { Chain } from 'types';
 import { BridgeDictionary } from '../../dictionaries/bridge-dictionary';
@@ -12,11 +11,12 @@ import { AssetModel } from '../../types/asset-model';
 import { toNumberFormat } from 'utils/display-text/format';
 import { bignumber } from 'mathjs';
 import walletIcon from 'assets/images/account_balance_wallet.svg';
-import ArrowBack from 'assets/images/genesis/arrow_back.svg';
 import iconSuccess from 'assets/images/icon-success.svg';
 
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
+import { StepItem, Stepper } from 'app/components/Stepper';
+import { useMaintenance } from 'app/hooks/useMaintenance';
 
 const stepOrder = [
   DepositStep.CHAIN_SELECTOR,
@@ -30,11 +30,11 @@ const stepOrder = [
 ];
 
 const initialSteps: StepItem[] = [
-  { stepTitle: 'Network', value: DepositStep.CHAIN_SELECTOR },
+  { stepTitle: 'Choose Source', value: DepositStep.CHAIN_SELECTOR },
   { stepTitle: 'Wallet', value: DepositStep.WALLET_SELECTOR },
-  { stepTitle: 'Token', value: DepositStep.TOKEN_SELECTOR },
-  { stepTitle: 'Amount', value: DepositStep.AMOUNT_SELECTOR },
-  { stepTitle: 'Review', value: DepositStep.REVIEW },
+  { stepTitle: 'Select Token', value: DepositStep.TOKEN_SELECTOR },
+  { stepTitle: 'Enter Amount', value: DepositStep.AMOUNT_SELECTOR },
+  { stepTitle: 'Review Transaction', value: DepositStep.REVIEW },
   { stepTitle: 'Confirm', value: DepositStep.CONFIRM },
   { stepTitle: 'Processing', value: DepositStep.PROCESSING },
   { stepTitle: 'Complete', value: DepositStep.COMPLETE },
@@ -43,17 +43,15 @@ const initialSteps: StepItem[] = [
 // User should be able to go back on steps but not forward (even if moved back,
 // unless we are confident that user didn't change anything)
 export const SidebarSteps: React.FC = () => {
+  const { checkMaintenance, States } = useMaintenance();
+  const bridgeLocked = checkMaintenance(States.BRIDGE);
+
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  const {
-    chain,
-    sourceAsset,
-    targetChain,
-    amount,
-    step,
-    requestedReturnToPortfolio,
-  } = useSelector(selectBridgeDepositPage);
+  const { chain, sourceAsset, targetChain, amount, step } = useSelector(
+    selectBridgeDepositPage,
+  );
   const network = useMemo(() => BridgeNetworkDictionary.get(chain as Chain), [
     chain,
   ]);
@@ -158,32 +156,14 @@ export const SidebarSteps: React.FC = () => {
     [canOpen, dispatch],
   );
 
-  const handleBack = useCallback(() => {
-    if (step === DepositStep.CHAIN_SELECTOR) {
-      return dispatch(actions.returnToPortfolio());
-    } else {
-      changeStep(stepOrder[step - 1]);
-    }
-  }, [changeStep, dispatch, step]);
-
   return (
-    <>
-      {step < DepositStep.CONFIRM && !requestedReturnToPortfolio && (
-        <div
-          onClick={handleBack}
-          className="tw-absolute tw-top-16 tw-left-0 tw-flex tw-items-center tw-font-semibold tw-text-2xl tw-cursor-pointer tw-select-none"
-        >
-          <img
-            alt="arrowback"
-            src={ArrowBack}
-            style={{ height: '20px', width: '20px', marginRight: '10px' }}
-          />
-          {t(translations.common.back)}
-        </div>
-      )}
-      <div className="tw-mt-24">
-        <Stepper steps={steps} step={step} onClick={changeStep} />
-      </div>
-    </>
+    <div className="tw-w-full">
+      <Stepper
+        locked={bridgeLocked}
+        steps={steps}
+        step={step}
+        onClick={changeStep}
+      />
+    </div>
   );
 };

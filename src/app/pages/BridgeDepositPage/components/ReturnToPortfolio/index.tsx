@@ -46,7 +46,7 @@ export const ReturnToPortfolio: React.FC = () => {
 
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
-      <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold tw-w-80">
+      <div className="tw-mb-7 tw-text-base tw-text-center tw-font-semibold tw-w-80">
         {t(trans.title)}
       </div>
       {!connected && (

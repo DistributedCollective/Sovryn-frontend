@@ -1,16 +1,11 @@
 import React, { useContext, useMemo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
 import { translations } from 'locales/i18n';
-import { Asset, Chain } from 'types';
-import {
-  StepItem,
-  Stepper,
-} from 'app/pages/BridgeDepositPage/components/Stepper';
+import { Asset } from 'types';
+import { Stepper, StepItem } from 'app/components/Stepper';
 import { WithdrawContext, WithdrawStep } from '../../contexts/withdraw-context';
 import { toNumberFormat } from 'utils/display-text/format';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
-import ArrowBack from 'assets/images/genesis/arrow_back.svg';
 import { prettyTx } from 'utils/helpers';
 
 import walletIcon from 'assets/images/fast-btc/wallet-icon.svg';
@@ -164,34 +159,13 @@ export const SidebarStepsWithdraw: React.FC<NetworkAwareComponentProps> = ({
     [canOpen, set],
   );
 
-  const backToUrl = useMemo(
-    () => (network === Chain.BSC ? '/perpetuals' : '/wallet'),
-    [network],
-  );
-
-  const backToTitle = useMemo(
-    () =>
-      network === Chain.BSC
-        ? t(translations.fastBtcPage.backToPerpetuals)
-        : t(translations.fastBtcPage.backToPortfolio),
-    [network, t],
-  );
-
   return (
     <>
-      <Link
-        to={backToUrl}
-        className="tw-absolute tw--top-2 tw-left-0 tw-flex tw-items-center tw-font-semibold tw-text-2xl tw-cursor-pointer tw-select-none tw-text-white tw-whitespace-nowrap tw-no-underline"
-      >
-        <img
-          alt="arrowback"
-          src={ArrowBack}
-          className="tw-w-4 tw-h-4 tw-mr-2"
-        />
-        {backToTitle}
-      </Link>
       {step !== WithdrawStep.MAIN && (
-        <div className="tw-mt-24">
+        <div
+          className="tw-w-full tw-my-10 tw-px-10"
+          style={{ minWidth: '40rem' }}
+        >
           <Stepper steps={steps} step={step} onClick={changeStep} />
         </div>
       )}

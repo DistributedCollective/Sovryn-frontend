@@ -27,6 +27,7 @@ import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 import { usePageActions } from 'app/containers/PageContainer';
+import { CrossChainLayout } from 'app/components/CrossChain/CrossChainLayout';
 
 const dirtyDepositAsset = {
   [Asset.ETH]: CrossBridgeAsset.ETHS,
@@ -84,27 +85,20 @@ export const BridgeDepositPage: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <>
+    <CrossChainLayout>
       <div
-        className="tw-flex tw-flex-row tw-justify-between tw-items-start tw-w-full tw-p-5 tw-bg-gray-4 tw-relative"
-        style={{ marginTop: '-4.4rem' }}
+        style={{ minHeight: 592 }}
+        className="tw-py-4 tw-flex tw-flex-col tw-h-full tw-w-full tw-relative"
       >
         <div
           className={classNames(
-            'tw-relative tw-z-50 tw-h-full tw-flex tw-flex-col tw-items-start tw-justify-center tw-pl-8',
+            'tw-px-10 tw-mt-10 tw-relative tw-z-50 tw-w-full tw-flex tw-items-start tw-justify-center',
             { invisible: requestedReturnToPortfolio },
           )}
-          style={{ minWidth: 200, minHeight: 'calc(100vh - 2.5rem)' }}
         >
           <SidebarSteps />
         </div>
-        <div
-          style={{
-            minHeight: 'calc(100% - 2.5rem)',
-            minWidth: 'calc(100% - 2.5rem)',
-          }}
-          className="tw-flex-1 tw-flex tw-flex-col tw-items-end md:tw-items-center tw-justify-around tw-absolute tw-pb-20"
-        >
+        <div className="tw-flex-1 tw-px-4 tw-w-full tw-flex tw-flex-col tw-items-end md:tw-items-center tw-justify-around">
           <SwitchTransition>
             <CSSTransition
               key={step + (requestedReturnToPortfolio ? 1 : 0)}
@@ -140,6 +134,6 @@ export const BridgeDepositPage: React.FC = () => {
           </div>
         )}
       </div>
-    </>
+    </CrossChainLayout>
   );
 };

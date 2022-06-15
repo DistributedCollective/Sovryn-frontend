@@ -53,7 +53,7 @@ export const ChainSelector: React.FC = () => {
 
   return (
     <div>
-      <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
+      <div className="tw-mb-7 tw-text-base tw-text-center tw-font-semibold">
         {t(translations.BridgeWithdrawPage.chainSelector.chooseNetwork.title, {
           asset: sourceAsset,
         })}

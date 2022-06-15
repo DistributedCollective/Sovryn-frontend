@@ -55,7 +55,7 @@ export const ChainSelector: React.FC = () => {
 
   return (
     <div>
-      <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
+      <div className="tw-mb-7 tw-text-base tw-text-center tw-font-semibold">
         {t(translations.BridgeDepositPage.chainSelector.chooseNetwork.title)}
       </div>
       <div className="tw-flex tw-px-2 tw-justify-center">
@@ -67,11 +67,11 @@ export const ChainSelector: React.FC = () => {
               bridgeLocked || assetDepositLocked || lockedChains[item.chain]
             }
           >
-            <img className="tw-mb-5 tw-mt-2" src={item.logo} alt={item.chain} />
-            <div>
+            <img src={item.logo} alt={item.chain} />
+            {/* <div>
               <span className="tw-uppercase">{item.chain} </span>{' '}
               {t(translations.BridgeDepositPage.network)}
-            </div>
+            </div> */}
           </SelectBox>
         ))}
       </div>

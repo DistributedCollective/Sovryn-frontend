@@ -14,8 +14,6 @@ import {
 import { usePageViews } from 'app/hooks/useAnalytics';
 import { DefaultHeaderComponent } from './components/DefaultHeaderComponent/DefaultHeaderComponent';
 import { Footer } from './components/DefaultFooterComponent/DefaultFooterComponent';
-import { FastBtcHeader } from 'app/pages/FastBtcPage/components/FastBtcHeader';
-import UserWallet from 'app/pages/BridgeDepositPage/components/UserWallet';
 
 type HeaderContainerProps = {
   pageOptions: PageOptions;
@@ -70,9 +68,9 @@ export const PageContainer: React.FC<Partial<HeaderContainerProps>> = ({
       case HeaderTypes.DEFAULT:
         return <DefaultHeaderComponent {...options.headerProps} />;
       case HeaderTypes.FAST_BTC:
-        return <FastBtcHeader address={options.headerProps?.address} />;
+        return <></>;
       case HeaderTypes.CROSS_CHAIN:
-        return <UserWallet address={options.headerProps?.address} />;
+        return <></>;
       case HeaderTypes.LABS:
         return <></>; // todo
       default:

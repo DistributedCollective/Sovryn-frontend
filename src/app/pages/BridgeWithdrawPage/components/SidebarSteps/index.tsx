@@ -34,7 +34,7 @@ const stepOrder = [
 ];
 
 const initialSteps: StepItem[] = [
-  { stepTitle: 'Network', value: WithdrawStep.CHAIN_SELECTOR },
+  { stepTitle: 'Choose Source', value: WithdrawStep.CHAIN_SELECTOR },
   { stepTitle: 'Token', value: WithdrawStep.TOKEN_SELECTOR },
   { stepTitle: 'Amount', value: WithdrawStep.AMOUNT_SELECTOR },
   { stepTitle: 'Address', value: WithdrawStep.RECEIVER_SELECTOR },

@@ -62,7 +62,7 @@ export const ReceiverSelector: React.FC<IReceiverSelectorProps> = ({
   return (
     <div className="tw-flex tw-flex-col tw-items-center">
       <div className="tw-flex tw-flex-col tw-items-center">
-        <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold tw-w-96">
+        <div className="tw-mb-7 tw-text-base tw-text-center tw-font-semibold tw-w-96">
           {t(trans.title, { currentNetwork })}
         </div>
         <div className="tw-w-80">

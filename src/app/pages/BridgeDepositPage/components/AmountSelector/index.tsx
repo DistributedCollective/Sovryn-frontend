@@ -94,7 +94,7 @@ export const AmountSelector: React.FC = () => {
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
       <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
-        <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
+        <div className="tw-mb-7 tw-text-base tw-text-center tw-font-semibold">
           {t(translations.BridgeDepositPage.amountSelector.title)}
         </div>
         <div className="tw-w-80">
