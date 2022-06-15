@@ -1,22 +1,22 @@
-import { Asset } from '../../../types';
-import { SendTxResponse } from '../../hooks/useSendContractTx';
+import { Asset } from 'types';
+import { SendTxResponse } from 'app/hooks/useSendContractTx';
 import React, { useCallback, useMemo, useState } from 'react';
-import { getTokenContract } from '../../../utils/blockchain/contract-helpers';
+import { getTokenContract } from 'utils/blockchain/contract-helpers';
 import { useTranslation } from 'react-i18next';
-import { useCanInteract } from '../../hooks/useCanInteract';
-import { useAccount } from '../../hooks/useAccount';
-import { useWeiAmount } from '../../hooks/useWeiAmount';
+import { useCanInteract } from 'app/hooks/useCanInteract';
+import { useAccount } from 'app/hooks/useAccount';
+import { useWeiAmount } from 'app/hooks/useWeiAmount';
 import { bignumber } from 'mathjs';
-import { gasLimit } from '../../../utils/classifiers';
-import { TxType } from '../../../store/global/transactions-store/types';
-import { translations } from '../../../locales/i18n';
-import { FormGroup } from '../Form/FormGroup';
-import { AmountInput } from '../Form/AmountInput';
-import { BuyButton, Img } from './styled';
-import image from '../../../assets/images/arrow-down.svg';
-import { weiToFixed } from '../../../utils/blockchain/math-helpers';
-import { noop } from '../../constants';
-import { TxFeeCalculator } from '../../pages/MarginTradePage/components/TxFeeCalculator';
+import { gasLimit } from 'utils/classifiers';
+import { TxType } from 'store/global/transactions-store/types';
+import { translations } from 'locales/i18n';
+import { FormGroup } from '../../Form/FormGroup';
+import { AmountInput } from '../../Form/AmountInput';
+import { weiToFixed } from 'utils/blockchain/math-helpers';
+import { noop } from 'app/constants';
+import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalculator';
+import { Button, ButtonColor, ButtonSize, ButtonStyle } from '../../Button';
+import { Icon } from '../../Icon';
 
 interface IConversionDialogContentProps {
   asset: Asset;
@@ -78,7 +78,13 @@ export const ConversionDialogContent: React.FC<IConversionDialogContentProps> = 
           <AmountInput value={amount} onChange={setAmount} asset={asset} />
         </FormGroup>
 
-        <Img src={image} alt="Arrow" />
+        <div className="tw-text-center tw-mx-auto">
+          <Icon
+            icon="arrow-down-wide"
+            className="tw-mx-auto tw-m-5"
+            size={50}
+          />
+        </div>
 
         <FormGroup
           label={`${t(translations.userAssets.convertDialog.to)}:`}
@@ -102,9 +108,15 @@ export const ConversionDialogContent: React.FC<IConversionDialogContentProps> = 
           />
         </div>
 
-        <BuyButton disabled={!isSubmitEnabled} onClick={handleSubmit}>
-          {t(translations.userAssets.convertDialog.cta)}
-        </BuyButton>
+        <Button
+          disabled={!isSubmitEnabled}
+          onClick={handleSubmit}
+          text={t(translations.userAssets.convertDialog.cta)}
+          size={ButtonSize.lg}
+          style={ButtonStyle.normal}
+          color={ButtonColor.primary}
+          className="tw-w-full"
+        />
       </div>
     </>
   );

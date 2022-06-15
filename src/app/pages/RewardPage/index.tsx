@@ -11,8 +11,6 @@ import { RewardTab } from './components/RewardTab';
 import { Tab } from './components/Tab';
 import { RewardTabType } from './types';
 
-import imgSov from 'assets/images/reward/sov.svg';
-import imgBtc from 'assets/images/reward/Bitcoin.svg';
 import styles from './index.module.scss';
 import { FeesEarnedTab } from './components/FeesEarnedTab';
 import { Asset } from 'types';
@@ -20,6 +18,7 @@ import { useGetLiquidSovClaimAmount } from './hooks/useGetLiquidSovClaimAmount';
 import { useGetRewardSovClaimAmount } from './hooks/useGetRewardSovClaimAmount';
 import { useGetFeesEarnedClaimAmount } from './hooks/useGetFeesEarnedClaimAmount';
 import { useAccount } from 'app/hooks/useAccount';
+import { Button, ButtonStyle } from 'app/components/Button';
 
 export function RewardPage() {
   const { t } = useTranslation();
@@ -54,15 +53,24 @@ export function RewardPage() {
         />
       </Helmet>
 
-      <div className={styles['background-image-wrapper']}>
-        <img className={styles['background-image']} src={imgSov} alt="SOV" />
-        <img className={styles['background-image']} src={imgBtc} alt="BTC" />
+      <div className="tw-container tw-mx-auto tw-flex tw-mt-10 xl:tw-max-w-2/3 tw-relative">
+        <Button
+          text={t(translations.portfolioPage.portfolio)}
+          style={ButtonStyle.link}
+          className="tw-text-2xl tw-text-gray-6 hover:tw-no-underline hover:tw-text-sov-white focus:tw-no-underline"
+          href="/wallet"
+        />
+        <Button
+          text={t(translations.portfolioPage.rewards)}
+          style={ButtonStyle.link}
+          className="tw-ml-10 tw-text-2xl tw-text-sov-white hover:tw-no-underline focus:tw-no-underline"
+        />
       </div>
 
-      <div className="tw-container tw-mt-9 tw-mx-auto tw-px-6 tw-relative">
+      <div className="tw-container tw-mt-2 tw-mx-auto tw-px-6 tw-relative">
         <div className="tw-mt-4 tw-items-center tw-flex tw-flex-col">
           <div className={styles['page-main-section']}>
-            <div className="tw-flex tw-flex-row tw-items-center tw-justify-start tw-mt-24">
+            <div className="tw-flex tw-flex-row tw-items-center tw-justify-start tw-mt-4">
               <div className="tw-w-full">
                 <Tab
                   text={t(translations.rewardPage.sov.reward)}
