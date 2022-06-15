@@ -1,4 +1,6 @@
+import { P } from 'app/components/NotFoundPage/P';
 import { Asset } from 'types/asset';
+import { isMainnet } from 'utils/classifiers';
 import { LendingPool } from '../models/lending-pool';
 
 export class LendingPoolDictionary {
@@ -65,4 +67,17 @@ export class LendingPoolDictionary {
   public static entries() {
     return Array.from(this.pools.entries());
   }
+}
+
+if (!isMainnet) {
+  LendingPoolDictionary.pools.set(
+    Asset.XUSD_legacy,
+    new LendingPool(
+      'XUSD*',
+      Asset.XUSD_legacy,
+      [Asset.RBTC, Asset.DOC, Asset.BPRO, Asset.SOV],
+      true,
+      true,
+    ),
+  );
 }
