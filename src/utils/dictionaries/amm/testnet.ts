@@ -19,11 +19,14 @@ export const testnetAmm = [
     Asset.RBTC,
     1,
     AppMode.TESTNET,
-    '0xe5e750ead0e564e489b0776273e4a10f3f3d4028',
-    '0x6601Ccd32342d644282e82Cb05A3Dd88964D18c1',
+    '0xD877fd00ECF08eD78BF549fbc74bac3001aBBb07',
+    '0xb89D193c8a9Ae3fadF73B23519c215a0B7DD1B37',
   )
     .setPromotionColor(PromotionColor.Yellow)
-    .setPreviousConverters(['0x9a1aE300b23F4C676186e6d417ac586889aAfF42']),
+    .setPreviousConverters([
+      '0x9a1aE300b23F4C676186e6d417ac586889aAfF42',
+      '0xe5e750ead0e564e489b0776273e4a10f3f3d4028',
+    ]),
   new AmmLiquidityPool(
     Asset.FISH,
     Asset.RBTC,

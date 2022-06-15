@@ -120,11 +120,22 @@ export const contracts = {
     blockNumber: 1406290,
   },
   XUSD_token: {
-    address: '0x74858FE37d391f81F89472e1D8BC8Ef9CF67B3b1',
+    address: '0xa9262cc3fb54ea55b1b0af00efca9416b8d59570',
     abi: erc20TokenAbi,
     blockNumber: 1408174,
   },
   XUSD_lending: {
+    address: '0xE27428101550f8104A6d06D830e2E0a097e1d006',
+    abi: LoanTokenLogicStandard,
+    blockNumber: 1406290,
+  },
+  /** @deprecated */
+  XUSD_legacy_token: {
+    address: '0x74858FE37d391f81F89472e1D8BC8Ef9CF67B3b1',
+    abi: erc20TokenAbi,
+    blockNumber: 1408174,
+  },
+  XUSD_legacy_lending: {
     address: '0x9bD0cE087b14ef67C3D37C891139AaE7d94a961A',
     abi: LoanTokenLogicStandard,
     blockNumber: 1406290,
@@ -319,7 +330,7 @@ export const contracts = {
     abi: fastBtcMultisigAbi,
   },
   perpetualManager: {
-    address: '0x339bFb76EcECd31266937b2481C7170315d6E3d2',
+    address: '0x28193dcc74202cCa433279010917977137394d2E',
     abi: perpetualManagerAbi,
     chainId: ChainId.BSC_TESTNET,
   },
@@ -329,12 +340,12 @@ export const contracts = {
     chainId: ChainId.BSC_TESTNET,
   },
   perpetualLimitOrderBookBTCUSD: {
-    address: '0xaB15b6F5364B4AFa82E233C25534Cd61Ae18926D',
+    address: '0x29a0BC198E7ae04E91d2924da8093FAAF9d94950',
     abi: perpetualLimitOrderBookAbi,
     chainId: ChainId.BSC_TESTNET,
   },
   perpetualLimitOrderBookBNBUSD: {
-    address: '0x809B6C07666e5cD4A26D911E64B3AFc22e4B6893',
+    address: '0xe2b95C2bcfEbb2fF73e103d86a2Eb2b82Cb34Dd5',
     abi: perpetualLimitOrderBookAbi,
     chainId: ChainId.BSC_TESTNET,
   },
