@@ -65,7 +65,7 @@ export const PortfolioPage: React.FC = () => {
         />
       </Helmet>
 
-      <div className="tw-container tw-mx-auto tw-flex tw-mb-4 tw-mt-10 xl:tw-max-w-2/3">
+      <div className="tw-container tw-mx-auto tw-flex tw-mb-4 tw-mt-10 2xl:tw-max-w-2/3 2xl:tw-px-0 tw-max-w-full tw-px-16">
         <Button
           text={t(translations.portfolioPage.portfolio)}
           style={ButtonStyle.link}
