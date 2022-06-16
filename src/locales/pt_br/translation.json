@@ -31,7 +31,9 @@
     "gasLimit": "Limite gás",
     "units": "unidades",
     "txHash": "Tx Hash",
-    "walletCompatibility": "Carteiras compatíveis"
+    "walletCompatibility": "Carteiras compatíveis",
+    "send": "Enviar",
+    "receive": "Receber"
   },
   "tradeEvents": {
     "CloseWithSwap": "Saída de posição",
@@ -455,6 +457,7 @@
       "originsClaim": "Reivindicar recompensas FISH",
       "myntToken": "Protocolo Sovryn de moedas estáveis apoiado por BTC",
       "perpetuals": "Em breve",
+      "zero": "Empréstimo com juros de 0% em seu bitcoin",
       "voting": "Participe das decisões de governança",
       "forum": "Junte-se à comunidade"
     }
@@ -1155,15 +1158,15 @@
   },
   "portfolioPage": {
     "portfolio": "Portfólio",
-    "rewards": "Rewards",
+    "rewards": "Recompensas",
     "meta": {
       "title": "Portfólio",
-      "description": "Manage supported assets in your connected wallet"
+      "description": "Gerencie os ativos da sua carteira"
     },
     "tabs": {
-      "userAssets": "Assets",
+      "userAssets": "Ativos",
       "vestedAssets": "Vesting",
-      "userNFTS": "Gallery"
+      "userNFTS": "Galeria"
     }
   },
   "salesPage": {
@@ -1175,14 +1178,14 @@
   "userAssets": {
     "meta": {
       "title": "Portfolio",
-      "description": "Manage supported assets in your connected wallet"
+      "description": "Gerencie os ativos da sua carteira"
     },
     "emptyVestTable": "You don’t have any vesting contracts",
     "tableHeaders": {
-      "asset": "Asset",
-      "balance": "Balance",
-      "dollarBalance": "USD Value",
-      "lockedAmount": "Locked Amount"
+      "asset": "Ativo",
+      "balance": "Saldo",
+      "dollarBalance": "Valor em USD",
+      "lockedAmount": "Quantidade bloqueada"
     },
     "actions": {
       "deposit": "Bridge",
@@ -1195,6 +1198,8 @@
       "redeemRBTC": "Sacar rBTC",
       "withdraw": "Sacar"
     },
+    "sendMessage": "Envie {{asset}} para um endereço BTC",
+    "receiveMessage": "Receba {{asset}} depositando BTC",
     "convertDialog": {
       "title": "Converter",
       "from": "De",
@@ -1240,8 +1245,8 @@
       "tier": "Tier",
       "sovOG": "SOV-OG",
       "btc": "BTC",
-      "emptyGallery": "Your connected wallet does not currently have any supported NFTs. Join the <0>Sovryn community</0> for opportunities to earn NFT rewards.",
-      "loadingMessage": "Loading your gallery."
+      "emptyGallery": "Sua carteira não possui NFTs. Junte-se a <0>comunidade Sovryn</0> para oportunidades de ganhar recompensas NFT.",
+      "loadingMessage": "Carregando sua galeria."
     }
   },
   "swapHistory": {
