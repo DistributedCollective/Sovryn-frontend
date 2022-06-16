@@ -153,6 +153,9 @@ module.exports = {
       animation: {
         'spin-fast': 'spin .5s linear infinite',
       },
+      scale: {
+        '85': '.85',
+      },
     },
   },
   variants: {

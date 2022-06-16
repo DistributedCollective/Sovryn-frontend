@@ -1,65 +1,79 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 import { NewPositionCardContext } from '..';
 import { TransitionStep } from '../../../../../containers/TransitionSteps';
 import { TradeForm } from '../../TradeForm';
 import { NewPositionCardStep } from '../types';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { translations } from '../../../../../../locales/i18n';
+import { selectPerpetualPage } from 'app/pages/PerpetualPage/selectors';
+import { useSelector } from 'react-redux';
 
 export const TradeFormStep: TransitionStep<NewPositionCardStep> = ({
   changeTo,
 }) => {
   const { t } = useTranslation();
 
-  const {
-    hasEmptyBalance,
-    hasOpenPosition,
-    trade,
-    onSubmit,
-    onChangeTrade,
-  } = useContext(NewPositionCardContext);
+  const { isAddressWhitelisted } = useSelector(selectPerpetualPage);
+
+  const { hasEmptyBalance, trade, onSubmit, setTrade } = useContext(
+    NewPositionCardContext,
+  );
 
   const onOpenSlippage = useCallback(
     () => changeTo(NewPositionCardStep.slippage),
     [changeTo],
   );
 
+  const isDisabled = useMemo(() => !isAddressWhitelisted || hasEmptyBalance, [
+    hasEmptyBalance,
+    isAddressWhitelisted,
+  ]);
+
   return (
     <div className="tw-relative tw-p-4">
-      {(hasOpenPosition || hasEmptyBalance) && (
+      {isDisabled && (
         <div className="tw-absolute tw-left-0 tw-top-0 tw-bg-black tw-h-full tw-w-full tw-px-10 tw-z-10 tw-bg-opacity-90 tw-flex tw-items-center tw-justify-center tw-flex-col tw-text-center tw-text-sm tw-font-semibold">
-          {hasOpenPosition ? (
-            <>
-              <div>
-                {t(
+          <div>
+            {!isAddressWhitelisted ? (
+              <Trans
+                i18nKey={
                   translations.perpetualPage.tradeForm.disabledState
-                    .explanation1,
-                )}
-              </div>
-              <div className="tw-mt-4">
-                {t(
-                  translations.perpetualPage.tradeForm.disabledState
-                    .explanation2,
-                )}
-              </div>
-            </>
-          ) : (
-            <div>
-              {t(
+                    .whitelistExplanation
+                }
+                components={[
+                  <a
+                    className="tw-underline"
+                    href="https://live.sovryn.app/"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    sovryn.app
+                  </a>,
+                  <a
+                    className="tw-underline"
+                    href="https://twitter.com/SovrynBTC"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Twitter
+                  </a>,
+                ]}
+              />
+            ) : (
+              t(
                 translations.perpetualPage.tradeForm.disabledState
                   .emptyBalanceExplanation,
-              )}
-            </div>
-          )}
+              )
+            )}
+          </div>
         </div>
       )}
       <TradeForm
         trade={trade}
-        isNewTrade
-        disabled={hasEmptyBalance || hasOpenPosition}
+        disabled={isDisabled}
         onOpenSlippage={onOpenSlippage}
         onSubmit={onSubmit}
-        onChange={onChangeTrade}
+        setTrade={setTrade}
       />
     </div>
   );

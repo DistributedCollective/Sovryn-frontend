@@ -41,10 +41,26 @@ export const OrderHistoryTable: React.FC<IOrderHistoryTableProps> = ({
               {t(translations.perpetualPage.orderHistoryTable.symbol)}
             </th>
             <th className="tw-text-sm">
-              {t(translations.perpetualPage.orderHistoryTable.orderType)}
+              <Tooltip
+                position="bottom"
+                popoverClassName="tw-max-w-md tw-font-light"
+                content={t(
+                  translations.perpetualPage.orderHistoryTable.tooltips.type,
+                )}
+              >
+                {t(translations.perpetualPage.orderHistoryTable.orderType)}
+              </Tooltip>
             </th>
             <th className="tw-text-sm">
-              {t(translations.perpetualPage.orderHistoryTable.orderState)}
+              <Tooltip
+                position="bottom"
+                popoverClassName="tw-max-w-md tw-font-light"
+                content={t(
+                  translations.perpetualPage.orderHistoryTable.tooltips.state,
+                )}
+              >
+                {t(translations.perpetualPage.orderHistoryTable.orderState)}
+              </Tooltip>
             </th>
             <th className="tw-text-sm">
               {t(translations.perpetualPage.orderHistoryTable.collateral)}
@@ -58,14 +74,23 @@ export const OrderHistoryTable: React.FC<IOrderHistoryTableProps> = ({
                 popoverClassName="tw-max-w-md tw-font-light"
                 content={t(
                   translations.perpetualPage.orderHistoryTable.tooltips
+                    .triggerPrice,
+                )}
+              >
+                {t(translations.perpetualPage.orderHistoryTable.triggerPrice)}
+              </Tooltip>
+            </th>
+            <th className="tw-text-sm">
+              <Tooltip
+                position="bottom"
+                popoverClassName="tw-max-w-md tw-font-light"
+                content={t(
+                  translations.perpetualPage.orderHistoryTable.tooltips
                     .limitPrice,
                 )}
               >
                 {t(translations.perpetualPage.orderHistoryTable.limitPrice)}
               </Tooltip>
-            </th>
-            <th className="tw-text-sm">
-              {t(translations.perpetualPage.orderHistoryTable.execSize)}
             </th>
             <th className="tw-text-sm">
               {t(translations.perpetualPage.orderHistoryTable.execPrice)}

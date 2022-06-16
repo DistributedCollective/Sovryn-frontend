@@ -70,6 +70,12 @@ const defaultEarnedFees: IEarnedFee[] = [
     value: '0',
     rbtcValue: 0,
   },
+  {
+    asset: Asset.ZUSD,
+    contractAddress: getContract('ZUSD_token').address,
+    value: '0',
+    rbtcValue: 0,
+  },
 ];
 
 const useGetFeesEarned = () => {

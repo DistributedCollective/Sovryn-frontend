@@ -33,7 +33,9 @@
     "gasLimit": "gas limit",
     "units": "units",
     "txHash": "Tx Hash",
-    "walletCompatibility": "Wallet Compatibility"
+    "walletCompatibility": "Wallet Compatibility",
+    "send": "Send",
+    "receive": "Receive"
   },
   "tradeEvents": {
     "CloseWithSwap": "Withdraw",
@@ -443,12 +445,16 @@
     "trade": "Trade",
     "swap": "Swap",
     "marginTrade": "Margin",
+    "earn": "Earn",
+    "pool": "Pool",
+    "voting": "Voting",
+    "portfolio": "Portfolio",
     "finance": "Finance",
     "lend": "Lend",
     "borrow": "Borrow",
     "yieldFarm": "Yield Farm",
     "reward": "Rewards",
-    "staking": "Stake",
+    "staking": "Staking",
     "governance": "Governance",
     "forum": "Forum",
     "wallet": "Portfolio",
@@ -456,16 +462,38 @@
     "stats": "Stats",
     "help": "Help",
     "bitocracy": "Bitocracy",
+    "notifications": "Notifications",
     "spotTrade": "Spot",
     "origins": "Origins",
-    "originsClaim": "Claim",
-    "launchpad": "Launchpad",
+    "originsClaim": "Origins - Claim",
+    "originsLaunchpad": "Origins - Launchpad",
     "claim": "Claim",
     "rewards": "Rewards",
     "labs": "Labs",
     "myntToken": "MYNT Token",
     "zero": "Zero",
-    "perpetuals": "Perpetuals"
+    "perpetuals": "Perpetuals",
+    "getStarted": "Get Started",
+    "fundWallet": "Fund Wallet",
+    "tooltips": {
+      "readMore": "Read more",
+      "fundWalletButton": "Click here to fund your wallet and get started."
+    },
+    "labels": {
+      "swap": "Swap one asset for another",
+      "spotTrade": "Place market trades",
+      "marginTrade": "Up to 5x leverage",
+      "lend": "Earn by depositing to the LP",
+      "pool": "Earn yield in the AMM",
+      "staking": "Earn rewards by staking SOV",
+      "originsLaunchpad": "Previous sales on Origins",
+      "originsClaim": "Claim Fish rewards",
+      "myntToken": "Sovryn's BTC backed stablecoin protocol",
+      "perpetuals": "Coming soon",
+      "zero": "0% interest loans on your bitcoin",
+      "voting": "Affect Sovryn's governance",
+      "forum": "Join the community"
+    }
   },
   "originsLaunchpad": {
     "upcomingSales": {
@@ -765,6 +793,7 @@
       "totalStaked": "Total Staked",
       "viewHistory": "Click to view history",
       "status": "Status",
+      "emptyHistory": "History is empty.",
       "actions": {
         "stake": "Stake",
         "unstake": "Unstake",
@@ -793,6 +822,7 @@
     "currentVests": {
       "title": "Vesting contracts",
       "asset": "Asset",
+      "dollarBalance": "USD Value",
       "lockedAmount": "Locked Amount",
       "votingPower": "Voting Delegation",
       "stakingDate": "End Date",
@@ -1166,15 +1196,30 @@
       "title": "Top-UP"
     }
   },
-  "walletPage": {
+  "portfolioPage": {
+    "portfolio": "Portfolio",
+    "rewards": "Rewards",
     "meta": {
-      "title": "My Wallet",
-      "description": "Information about connected wallet"
+      "title": "Portfolio",
+      "description": "Manage supported assets in your connected wallet"
     },
     "tabs": {
       "userAssets": "Assets",
-      "vestedAssets": "Vested Assets",
-      "userNFTS": "NFTS"
+      "vestedAssets": "Vesting",
+      "userNFTS": "Gallery"
+    },
+    "claimDialog": {
+      "redemptionSuccessful": "Redemption Successful",
+      "vestedSovLink": "You will now be able to see your vested SOV in our <0>staking</0> page.",
+      "congratulations": " Congratulations you are also now owner of SOV!",
+      "checkSov": "Check SOV",
+      "txHash": "Tx Hash:",
+      "redeemOriginsSOV": "Redeem Origins SOV",
+      "requiresRBTC": "This transaction requires rBTC for gas.",
+      "originsBTCdeposit": "Origins BTC deposit:",
+      "claimedSov": "SOV claimed at {{count}} sats",
+      "sov": "SOV",
+      "btc": "BTC"
     }
   },
   "salesPage": {
@@ -1185,15 +1230,15 @@
   },
   "userAssets": {
     "meta": {
-      "title": "Connected Wallet"
+      "title": "Portfolio",
+      "description": "Manage supported assets in your connected wallet"
     },
-    "emptyVestTable": "You don't have any current vest",
+    "emptyVestTable": "You don't have any vesting contracts",
     "tableHeaders": {
       "asset": "Asset",
-      "totalBalance": "Total Balance",
-      "dollarBalance": "Dollar Balance",
-      "lockedAmount": "Locked Amount",
-      "action": "Action"
+      "balance": "Balance",
+      "dollarBalance": "USD Value",
+      "lockedAmount": "Locked Amount"
     },
     "actions": {
       "deposit": "Deposit",
@@ -1207,6 +1252,8 @@
       "redeemRBTC": "Redeem RBTC",
       "withdraw": "Withdraw"
     },
+    "sendMessage": "Send {{asset}} from your connected address in the RSK network",
+    "receiveMessage": "Receive {{asset}} to your connected address in the RSK network",
     "convertDialog": {
       "title": "Convert",
       "from": "From",
@@ -1240,6 +1287,19 @@
         "hash": "RSK Relay Hash",
         "cta": "Close"
       }
+    },
+    "gallery": {
+      "title": "SOV Generation 01 NFT's",
+      "community": "Community",
+      "hero": "Hero",
+      "superhero": "Superhero",
+      "preOrder": "SOV Genesis Pre-Order",
+      "purchaseLimit": "Purchase Limit:",
+      "tier": "Tier",
+      "sovOG": "SOV-OG",
+      "btc": "BTC",
+      "emptyGallery": "Your connected wallet does not currently have any supported NFTs. Join the <0>Sovryn community</0> for opportunities to earn NFT rewards.",
+      "loadingMessage": "Loading your gallery."
     }
   },
   "swapHistory": {
@@ -1258,7 +1318,7 @@
     "recentSwapHistory": "Recent Swap History"
   },
   "vestedHistory": {
-    "title": "Vested History",
+    "title": "Vesting History",
     "tableHeaders": {
       "time": "Date/Time",
       "vestingSchedule": "Type",
@@ -1295,7 +1355,8 @@
     },
     "emptyState": "History is empty.",
     "walletHistory": "Wallet must be connected.",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "btc": "BTC"
   },
   "validationErrors": {
     "insufficientBalance": "insufficient funds available",
@@ -2085,22 +2146,58 @@
       "unrealized": "Unrealized P&L",
       "realized": "Realized P&L",
       "actions": "Actions",
-      "editSize": "Size",
       "editLeverage": "Leverage",
       "editMargin": "Margin",
       "editClose": "Close",
       "tooltips": {
-        "editSize": "Change the position size to a value allowed by your current margin.",
         "editLeverage": "Change the leverage of your position. This action will either withdraw from your margin account or deposit to your margin account.",
-        "editMargin": "Deposit margin or withdraw margin. This action will change the leverage of your position.",
-        "editClose": "Close the entire open position or just partially.",
+        "editMargin": "Transact margin collateral between your wallet and your margin account. This action will change the leverage of your position.",
+        "editClose": "Close the entire open position with a market order.",
         "positionSize": "The size of your position. Negative values denote short positions.",
         "entryPrice": "The average price received when opening this position.",
         "markPrice": "Latest Mark Price for this contract. To prevent price manipulation, the Mark Price is used for unrealized PnL and margin calculations.",
-        "liquidationPrice": "The liquidation price is the mark price at which your position can be liquidated. To move your position away from the liquidation price, you can decrease your position size, add margin, or use the leverage action to reduce leverage.",
+        "liquidationPrice": "The liquidation price is the mark price at which your position can be liquidated. To move your position away from the liquidation price, you can decrease your position size by trading, add margin, or use the leverage action to reduce leverage.",
         "margin": "The margin allocated to the position and leverage ratio in brackets. The lower the Leverage Ratio, the further away your liquidation price will be relative to your position entry price.",
         "unrealized": "The unrealized P&L is calculated using the Mark Price. It also contains the accrued funding payments.",
         "realized": "The realized P&L that was paid to your margin account. This includes fees and slippage. Funding payments are reported separately."
+      }
+    },
+    "openOrders": "Open Orders",
+    "openOrdersTable": {
+      "dateTime": "Date & Time",
+      "symbol": "Symbol",
+      "orderType": "Type",
+      "orderState": "State",
+      "collateral": "Collateral",
+      "orderSize": "Size",
+      "limitPrice": "Limit Price",
+      "triggerPrice": "Trigger Price",
+      "transactionId": "Transaction ID",
+      "timeInForce": "Time in force",
+      "cancel": "Cancel",
+      "orderTypes": {
+        "limit": "Limit",
+        "stop": "Stop",
+        "buy": "Buy",
+        "sell": "Sell"
+      },
+      "tableData": {
+        "market": "Market",
+        "limit": "Limit",
+        "stopLoss": "Stop Loss",
+        "liquidation": "Liquidation",
+        "buy": "BUY",
+        "sell": "SELL",
+        "day": "day",
+        "days": "days"
+      },
+      "tooltips": {
+        "orderType": "Limit Buy Order, Limit Sell Order, Stop Buy Order or Stop Sell Order",
+        "collateral": "Currency of the margin collateral",
+        "orderSize": "Notional of the order followed by base currency",
+        "limitPrice": "Limit price in quote currency of the order",
+        "triggerPrice": "Either empty (\"-\"), or a price in quote currency",
+        "cancel": "Cancel the order"
       }
     },
     "layout": {
@@ -2134,6 +2231,8 @@
       "orderFailed": "Order failed",
       "increaseMargin": "Increase margin",
       "decreaseMargin": "Decrease margin",
+      "createLimitOrder": "Create limit order",
+      "cancelLimitOrder": "Cancel limit order",
       "editLeverage": "Edit leverage to {{leverage}}x",
       "approvalComplete": "Approval complete",
       "approvalFailed": "Approval failed"
@@ -2201,28 +2300,34 @@
         "slippage": "Slippage Settings"
       },
       "text": {
-        "welcome1": "This is a preview of our perpetuals dashboard.\n The market data to the side is live.",
-        "welcome2": "In order to start trading perpetuals on Sovryn you need to:",
-        "welcome3": "<0>Connect a Hardware, web or mobile wallet</0> <0>Be connected to the Polygon network</0> <0>Fund your account by depositing BTC</0>",
-        "welcome4": "New from Bitmex? <0>Read our getting started guide</0>"
+        "welcome1": "To start trading:",
+        "welcome2": "<0>Fund your wallet</0>",
+        "welcome3": "Navigate back to this page and connect your wallet via button below",
+        "welcome4": "New to perpetuals? <0>Read our getting started guide</0>"
       },
       "labels": {
         "pair": "Symbol:",
         "asset": "Asset to receive:",
-        "leverageSelector": "Position Leverage:",
+        "leverageSelector": "Trade Leverage:",
         "leverage": "Leverage:",
-        "orderValue": "Order Value:",
+        "orderSize": "Order Size:",
         "limitPrice": "Limit Price:",
+        "expiry": "Expiry:",
+        "days": "Days",
         "orderCost": "Order Cost:",
-        "maxTradeSize": "Max Trade Size:",
+        "maxTradeSize": "Max:",
         "minEntryPrice": "Min Entry Price:",
         "maxEntryPrice": "Max Entry Price:",
         "minLiquidationPrice": "Min Liquidation Price:",
         "liquidationPrice": "Liquidation Price:",
         "tradingFee": "Trading Fee:",
+        "relayerFee": "Relayer Fee:",
         "slippage": "Slippage Tolerance:",
         "balance": "Available Balance: <0/> <1/>",
-        "txFee": "Tx Fee: <0/> {{symbol}}"
+        "txFee": "Tx Fee: <0/> {{symbol}}",
+        "triggerPrice": "Trigger Price:",
+        "resultingPosition": "Resulting Position",
+        "keepPositionLeverage": "Keep Position Leverage"
       },
       "buttons": {
         "buy": "Buy",
@@ -2230,22 +2335,32 @@
         "connect": "Connect Wallet",
         "market": "Market",
         "limit": "Limit",
+        "stop": "Stop",
         "buyMarket": "Buy Market",
         "buyLimit": "Buy Limit",
+        "buyStop": "Buy Stop",
         "sellMarket": "Sell Market",
         "sellLimit": "Sell Limit",
+        "sellStop": "Sell Stop",
         "minLeverage": "MIN",
         "slippageSettings": "Slippage Settings"
       },
       "disabledState": {
         "emptyBalanceExplanation": "Fund your account to start trading",
-        "explanation1": "Only one position can be opened at a time",
-        "explanation2": "You can edit and close your position in the action section below"
+        "whitelistExplanation": "Sovryn Perpetuals trading is not available for unregistered users. Based on your current address, you are not part of the selected users that are granted access to the Sovryn Perpetuals trading platform. This will change in the future and you will be able to trade with us! Please check-in again soon here, on <0>sovryn.app</0>, or follow us on <1>Twitter</1> to stay informed."
       },
       "tooltips": {
-        "orderValue": "The notional amount for your position.",
-        "orderCost": "The maximal amount withdrawn from your wallet to pay for the trade. Consists of required margin and trading fee. This value depends on your slippage settings.",
-        "tradingFee": "The trading fee. If fees are paid in BTC, this includes gas costs."
+        "orderSize": "The notional amount for your position.",
+        "orderCost": "A conservative estimate of the amount withdrawn from your wallet to pay for the trade. Consists of required margin and trading fee. This value depends on your slippage settings.",
+        "orderCostLimit": "A conservative estimate of the amount withdrawn from your wallet to pay for the trade. Consists of estimated margin and trading fee at the time of execution.",
+        "tradingFee": "The trading fee. If fees are paid in BTC, this includes gas costs.",
+        "relayerFee": "Limit/Stop orders are processed with the assistance of a referrer. The referrer is compensated with the relayer fee.",
+        "keepPositionLeverage": "You can keep the leverage of the current position by checking this box.",
+        "maxTradeSize": "Maximal order size currently allowed by the system.",
+        "leverage": "If at the time of order execution, there is an existing position, the position leverage will remain unchanged if the order partially closes the existing position. If instead, the order increases the existing position size, the order will add margin according to your choice of trade leverage. The resulting position leverage depends on how much margin was added with the trade and the amount of margin in the existing position before the trade.",
+        "limitPrice": "The execution price will be at or below the limit price for buy orders, at or above for sell orders.",
+        "expiry": "The order will no longer be executed after expiration.",
+        "triggerPrice": "Only if the Mark Price is above the trigger price, a limit buy order can execute. Limit sell orders only execute if the Mark Price is below the trigger price."
       }
     },
     "reviewTrade": {
@@ -2254,13 +2369,16 @@
         "newOrder": "Review Order",
         "editSize": "Review Edit Size",
         "editLeverage": "Review Edit Leverage",
-        "editMargin": "Review Edit Margin"
+        "editMargin": "Review Edit Margin",
+        "cancelOrder": "Cancel Order"
       },
       "close": "Close",
       "buy": "Buy",
       "sell": "Sell",
       "market": "Market",
       "limit": "Limit",
+      "stop": "Stop",
+      "cancel": "Cancel",
       "deposit": "Deposit",
       "withdraw": "Withdraw",
       "leverage": "Leverage",
@@ -2277,7 +2395,10 @@
         "liquidationPrice": "Liquidation Price:",
         "totalToReceive": "Total to Receive:",
         "maxEntryPrice": "Max Entry Price:",
-        "minEntryPrice": "Min Entry Price:"
+        "minEntryPrice": "Min Entry Price:",
+        "limitPrice": "Limit Price:",
+        "triggerPrice": "Trigger Price:",
+        "orderSize": "Order Size:"
       },
       "confirm": "Confirm"
     },
@@ -2312,9 +2433,6 @@
         "retry": "Retry",
         "close": "Close"
       }
-    },
-    "editPositionSize": {
-      "title": "Edit Position Size"
     },
     "editMargin": {
       "title": "Edit Margin",
@@ -2357,23 +2475,27 @@
     "orderHistoryTable": {
       "dateTime": "Date & Time",
       "symbol": "Symbol",
-      "orderType": "Order Type",
-      "orderState": "Order State",
+      "orderType": "Type",
+      "orderState": "State",
       "collateral": "Collateral",
-      "orderSize": "Order Size",
+      "orderSize": "Size",
+      "triggerPrice": "Trigger Price",
       "limitPrice": "Limit Price",
-      "execSize": "Exec Size",
       "execPrice": "Exec Price",
-      "orderId": "Order ID",
+      "orderId": "ID",
       "tableData": {
         "market": "Market",
         "limit": "Limit",
+        "stop": "Stop",
         "liquidation": "Liquidation",
         "buy": "BUY",
         "sell": "SELL"
       },
       "tooltips": {
-        "limitPrice": "The worst price that trader was willing to accept. Is set via slippage settings for market orders."
+        "type": "The types are Market-, Limit-, Stop- Buy/Sell, Liquidation.",
+        "state": "Filled/Open. Market orders are filled immediately.",
+        "triggerPrice": "Stop orders feature a trigger price. Limit stops are executed only if the Mark Price is higher than the trigger price for buy orders, lower than the trigger price for sell orders.",
+        "limitPrice": "The limit price for limit and stop orders. For market orders, the limit price is determined based on slippage settings."
       }
     },
     "fundingPaymentsTable": {
@@ -2384,6 +2506,7 @@
       "rate": "Rate",
       "timeSinceLastPayment": "Time since last payment (DD:HH:MM:SS)",
       "tooltips": {
+        "receivedFunding": "Funding paid to the trader. If negative, the trader paid.",
         "rate": "The time-averaged funding rate, scaled to be an 8h-rate.",
         "timeSinceLastPayment": "The duration for which the funding payment applies to."
       }
@@ -2391,7 +2514,10 @@
     "warnings": {
       "priceExceedsSlippage": "Trade is likely to fail, because the expected price exceeds limit price! Update slippage to at least {{slippage}}, to avoid transaction failure.",
       "targetMarginUnsafe": "Transaction is likely to fail. The resulting position does not meet the required maintenance margin.",
-      "exceedsBalance": "Order cost exceeds total balance, your trade could fail in case of high slippage."
+      "exceedsBalance": "Order cost exceeds total balance, your trade could fail in case of high slippage.",
+      "exceedsBalanceLimitOrder": "Order cost exceeds total balance, your trade could fail.",
+      "limitPriceWorseThanCurrentPrice": "Limit order price is worse than the current market price.",
+      "maximalAmountOfLimitOrders": "There is a maximal amount of 15 Limit/Stop orders."
     }
   },
   "claimOriginBanner": {
@@ -2514,6 +2640,33 @@
       "marketCapTooltip": "Market cap is calculated as circulating supply * current USD price. <br /> <br /> For SOV, circulating supply = total supply (100m) - tokens in vesting contracts, <0>not including </0> tokens in adoption and development fund contracts. <br /> <br /> For RBTC, circulating supply = BTC locked in the RSK 2 Way Peg <br /> <br /> For all other tokens, circulating supply = total supply <br /> <br /> For tokens that have come across a bridge from another chain, the circulating supply is the supply of that token on the RSK chain. For example, the circulating supply of ETHs is not equal to the circulating supply of ETH on ethereum.",
       "circulatingSupply": "Circulating Supply",
       "circulatingSupplyTooltip": "We have updated the circulation supply formula to be showing the amount of liquid SOV token in line with market standards. SOV that has been unlocked from the adoption and development funds is now counted as circulating, and SOV that has been staked (either through vesting or voluntary staking) is not counted as circulating. <br /> <br />There is no change to your funds with this change. Just a standardisation of the displayed Circulating Supply."
+    }
+  },
+  "promotions": {
+    "card1": {
+      "title": "5K SOV rewards",
+      "duration": "Ongoing weekly rewards",
+      "text": "Provide a 1:1 ratio of MYNT and rBTC to the MYNT/BTC AMM liquidity pool and instantly start accruing your share of 5,000 SOV rewards."
+    },
+    "card2": {
+      "title": "15K SOV rewards",
+      "duration": "Ongoing weekly rewards",
+      "text": "Provide any amount of XUSD to the XUSD lending pool and instantly start accruing your share of 15,000 SOV rewards."
+    },
+    "card3": {
+      "title": "25K SOV rewards",
+      "duration": "Ongoing weekly rewards",
+      "text": "Provide a 1:1 ratio of XUSD and rBTC to the XUSD/rBTC AMM liquidity pool and instantly start accruing your share of 25,000 SOV rewards."
+    },
+    "card4": {
+      "title": "30K SOV rewards",
+      "duration": "Ongoing weekly rewards",
+      "text": "Provide a 1:1 ratio of SOV and rBTC to the SOV/rBTC AMM liquidity pool and instantly start accruing your share of 30,000 SOV rewards."
+    },
+    "card5": {
+      "title": "5K SOV rewards",
+      "duration": "Ongoing weekly rewards",
+      "text": "Provide a 1:1 ratio of ETH and rBTC to the ETH/rBTC AMM liquidity pool and instantly start accruing your share of 5,000 SOV rewards."
     }
   },
   "liquidityMining": {

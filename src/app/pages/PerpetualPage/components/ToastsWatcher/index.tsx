@@ -6,10 +6,9 @@ import { toast } from 'react-toastify';
 import { TxStatus } from 'store/global/transactions-store/types';
 import { selectPerpetualPage } from '../../selectors';
 import { actions } from '../../slice';
-import { PerpetualPageModals } from '../../types';
+import { PerpetualPageModals, isPerpetualTx } from '../../types';
 import { CustomToastContent, toastOptions } from '../CustomToastContent';
 import { ToastAdditionalInfo } from './components/ToastAdditionalInfo.tsx';
-import { isPerpetualTx } from '../TradeDialog/types';
 import { usePerpetual_completedTransactions } from '../../hooks/usePerpetual_completedTransactions';
 
 export const ToastsWatcher: React.FC = () => {

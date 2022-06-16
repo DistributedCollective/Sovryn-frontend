@@ -6,6 +6,7 @@ import { AssetsDictionary } from '../../utils/dictionaries/assets-dictionary';
 
 // Converts asset amount in wei to RUSDT and returns dollar value in wei back
 export function useDollarValue(asset: Asset, weiAmount: string) {
+  if (asset === Asset.ZUSD) asset = Asset.XUSD;
   const dollars = useCachedAssetPrice(asset, Asset.USDT);
 
   const value = useMemo(() => {

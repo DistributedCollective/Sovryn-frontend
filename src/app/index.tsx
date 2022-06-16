@@ -10,7 +10,7 @@ import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 
-import { currentNetwork, isMainnet } from 'utils/classifiers';
+import { currentNetwork, isMainnet, isStaging } from 'utils/classifiers';
 import { useAppTheme } from './hooks/app/useAppTheme';
 import { useMaintenance } from './hooks/useMaintenance';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
@@ -28,7 +28,7 @@ import { WalletProvider } from './containers/WalletProvider';
 
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { EmailPage } from './containers/EmailPage';
-import { WalletPage } from './containers/WalletPage/Loadable';
+import { PortfolioPage } from './pages/PortfolioPage/Loadable';
 
 import { SwapPage } from './containers/SwapPage/Loadable';
 import { RewardPage } from './pages/RewardPage/Loadable';
@@ -53,6 +53,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { PerpetualPageLoadable } from './pages/PerpetualPage/Loadable';
 
 const title = !isMainnet ? `Sovryn ${currentNetwork}` : 'Sovryn';
+const showPerps = !isMainnet || isStaging;
+
+console.log(showPerps);
 
 export function App() {
   useAppTheme();
@@ -97,7 +100,8 @@ export function App() {
                   component={LiquidityMiningPage}
                 />
                 <Route exact path="/reward" component={RewardPage} />
-                <Route exact path="/wallet" component={WalletPage} />
+                <Redirect exact path="/wallet" to="/portfolio" />
+                <Route exact path="/portfolio" component={PortfolioPage} />
                 <Route exact path="/origins" component={OriginsLaunchpadPage} />
                 <Route
                   exact
@@ -129,7 +133,7 @@ export function App() {
                   path="/fast-btc/:type/:network?"
                   component={FastBtcPage}
                 />
-                {!isMainnet && (
+                {showPerps && (
                   <Route
                     exact
                     path="/perpetuals"

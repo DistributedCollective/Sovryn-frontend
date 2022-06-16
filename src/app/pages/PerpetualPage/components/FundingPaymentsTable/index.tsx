@@ -43,7 +43,16 @@ export const FundingPaymentsTable: React.FC<IFundingPaymentsTable> = ({
               {t(translations.perpetualPage.fundingPaymentsTable.collateral)}
             </th>
             <th className="tw-text-sm">
-              {t(translations.perpetualPage.fundingPaymentsTable.received)}
+              <Tooltip
+                position="bottom"
+                popoverClassName="tw-max-w-md tw-font-light"
+                content={t(
+                  translations.perpetualPage.fundingPaymentsTable.tooltips
+                    .receivedFunding,
+                )}
+              >
+                {t(translations.perpetualPage.fundingPaymentsTable.received)}
+              </Tooltip>
             </th>
             <th className="tw-text-sm">
               <Tooltip
