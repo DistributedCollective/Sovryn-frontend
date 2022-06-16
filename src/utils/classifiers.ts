@@ -49,6 +49,13 @@ export const zeroUrl =
       : 'https://live.sovryn.app/zero'
     : 'https://test.sovryn.app/zero';
 
+export const myntUrl =
+  currentNetwork === AppMode.MAINNET
+    ? isStaging
+      ? 'https://staging.sovryn.app/mynt-token'
+      : 'https://live.sovryn.app/mynt-token'
+    : 'https://test.sovryn.app/mynt-token';
+
 export const databaseRpcNodes = {
   30: 'https://backend.sovryn.app/rpc',
   31: 'https://api.test.sovryn.app/rpc',
