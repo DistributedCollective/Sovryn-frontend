@@ -7,7 +7,7 @@ import { getTokenContractName } from 'utils/blockchain/contract-helpers';
 import { AssetDetails } from 'utils/models/asset-details';
 import { LoadableValue } from '../../LoadableValue';
 import { Asset } from 'types';
-import { weiToNumberFormat, weiToUSD } from 'utils/display-text/format';
+import { weiToNumberFormat } from 'utils/display-text/format';
 import { contractReader } from 'utils/sovryn/contract-reader';
 import { useAccount, useBlockSync } from 'app/hooks/useAccount';
 import { AssetRenderer } from '../../AssetRenderer/';
@@ -17,6 +17,7 @@ import { Button, ButtonSize, ButtonStyle } from '../../Button';
 import { BridgeLink } from './BridgeLink';
 import { useDollarValue } from 'app/hooks/useDollarValue';
 import { CrossBridgeAsset } from 'app/pages/BridgeDepositPage/types/cross-bridge-asset';
+import { AssetValue } from 'app/components/AssetValue';
 
 import busdIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/busd.svg';
 import usdtIcon from 'app/pages/BridgeDepositPage/dictionaries/assets/icons/usdt.svg';
@@ -91,8 +92,8 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
   }, [asset, account, blockSync]);
 
   const assetDollarValue = useDollarValue(asset, tokens);
-
-  if (tokens === '0' && item.hideIfZero) return <React.Fragment key={asset} />;
+  const hasAnyTokens = useMemo(() => tokens !== '0', [tokens]);
+  if (!hasAnyTokens && item.hideIfZero) return <React.Fragment key={asset} />;
 
   return (
     <tr key={asset}>
@@ -129,7 +130,9 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
       </td>
       <td className="tw-text-right tw-hidden md:tw-table-cell">
         <LoadableValue
-          value={weiToUSD(assetDollarValue.value)}
+          value={
+            <AssetValue value={assetDollarValue.value} assetString="USD" />
+          }
           loading={assetDollarValue.loading}
         />
       </td>
@@ -163,7 +166,7 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
                 ) : (
                   <Button
                     text={t(translations.common.send)}
-                    href="/fast-btc/deposit"
+                    href="/fast-btc/withdraw"
                     style={ButtonStyle.link}
                     size={ButtonSize.sm}
                   />
@@ -190,7 +193,7 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
                 ) : (
                   <Button
                     text={t(translations.common.receive)}
-                    href="/fast-btc/withdraw"
+                    href="/fast-btc/deposit"
                     style={ButtonStyle.link}
                     size={ButtonSize.sm}
                   />
@@ -204,10 +207,11 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
               onClick={() => onConvert(asset)}
               style={ButtonStyle.link}
               size={ButtonSize.sm}
+              disabled={!hasAnyTokens}
             />
           )}
           {[Asset.SOV, Asset.ETH, Asset.XUSD, Asset.BNB].includes(asset) && (
-            <BridgeLink asset={asset} />
+            <BridgeLink asset={asset} disableWithdrawal={!hasAnyTokens} />
           )}
           {asset === Asset.WRBTC && (
             <Button
@@ -215,6 +219,7 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
               onClick={onUnWrap}
               style={ButtonStyle.link}
               size={ButtonSize.sm}
+              disabled={!hasAnyTokens}
             />
           )}
         </div>

@@ -1,6 +1,7 @@
 import { SpotPairType } from 'app/pages/SpotTradingPage/types';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import classNames from 'classnames';
 import { Asset } from 'types';
 import { TradingPairType } from 'utils/dictionaries/trading-pair-dictionary';
 import { AppSection, PromotionColor } from './types';
@@ -26,8 +27,11 @@ interface IPromotionCardProps {
   learnMoreLink?: string;
   linkAsset?: Asset | string;
   linkTargetAsset?: Asset;
+  linkDataActionId?: string;
   linkMarginPairType?: TradingPairType;
   linkSpotTradingPairType?: SpotPairType;
+  className?: string;
+  imageClassName?: string;
 }
 
 export const PromotionCard: React.FC<IPromotionCardProps> = ({
@@ -41,16 +45,18 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
   learnMoreLink,
   linkAsset,
   linkTargetAsset,
+  linkDataActionId,
   linkMarginPairType,
   linkSpotTradingPairType,
+  className,
+  imageClassName,
 }) => {
   const { t } = useTranslation();
-
   const sectionTitle = getSectionTitle(appSection);
   const linkPathname = getLinkPathname(appSection);
 
   return (
-    <div className={styles.cardItem}>
+    <div className={classNames(styles.cardItem, className)}>
       <Link
         to={{
           pathname: `/${linkPathname}`,
@@ -59,12 +65,13 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
             target: linkTargetAsset,
             marginTradingPair: linkMarginPairType,
             spotTradingPair: linkSpotTradingPairType,
+            promotionSelectedAsset: logoAsset1,
           },
         }}
         className="tw-no-underline"
       >
         <div
-          className={styles.cardImageSection}
+          className={classNames(styles.cardImageSection, imageClassName)}
           style={{
             backgroundImage: `url(${getBackgroundImageUrl(backgroundColor)})`,
           }}
@@ -96,7 +103,7 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
             <div className="tw-relative">
               <div className={styles.sectionTitle}>{sectionTitle}</div>
 
-              <div className="tw-max-w-60">
+              <div className="tw-max-w-56">
                 <div className={styles.cardTextTitle}>{title}</div>
                 <div className="tw-text-xs tw-font-normal tw-absolute tw-bottom-0">
                   {duration}
@@ -105,7 +112,7 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
             </div>
           </div>
           <img
-            className="tw-absolute tw-bottom-5  tw-right-6 tw-cursor-pointer tw-h-4"
+            className="tw-absolute tw-bottom-5 tw-right-6 tw-cursor-pointer tw-h-4"
             src={arrowForward}
             alt={title}
           />
@@ -119,6 +126,7 @@ export const PromotionCard: React.FC<IPromotionCardProps> = ({
             target="_blank"
             rel="noopener noreferrer"
             className="tw-text-secondary tw-underline"
+            data-action-id={linkDataActionId}
           >
             {t(translations.landingPage.promotions.learnMore)}
           </a>

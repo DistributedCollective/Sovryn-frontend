@@ -1,7 +1,7 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { translations } from '../../../../../locales/i18n';
+import { translations } from 'locales/i18n';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { Spinner } from 'app/components/Spinner';
 import { AddLiquidityDialog } from '../AddLiquidityDialog';
@@ -9,26 +9,22 @@ import { RemoveLiquidityDialog } from '../RemoveLiquidityDialog';
 import { PoolAssetInfo } from './PoolAssetInfo';
 import { PoolChart } from './PoolChart';
 import { UserPoolInfo } from './UserPoolInfo';
-import { useCanInteract } from '../../../../hooks/useCanInteract';
+import { useCanInteract } from 'app/hooks/useCanInteract';
 import { AddLiquidityDialogV1 } from '../AddLiquidityDialog/AddLiquidityDialogV1';
 import { RemoveLiquidityDialogV1 } from '../RemoveLiquidityDialog/RemoveLiquidityDialogV1';
 import { CardRow } from 'app/components/FinanceV2Components/CardRow';
 import { useMaintenance } from 'app/hooks/useMaintenance';
-import type { AmmHistory } from './types';
+import { AmmHistory, DialogType } from './types';
 import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
 import { LiquidityPoolDictionary } from 'utils/dictionaries/liquidity-pool-dictionary';
+import { useHistory, useLocation } from 'react-router-dom';
+import { IPromotionLinkState } from 'app/components/Promotions/components/PromotionCard/types';
 
 interface IMiningPoolProps {
   pool: AmmLiquidityPool;
   ammData: AmmHistory;
   ammDataLoading: boolean;
   linkAsset?: string;
-}
-
-enum DialogType {
-  NONE,
-  ADD,
-  REMOVE,
 }
 
 export const MiningPool: React.FC<IMiningPoolProps> = ({
@@ -38,6 +34,8 @@ export const MiningPool: React.FC<IMiningPoolProps> = ({
   linkAsset,
 }) => {
   const { t } = useTranslation();
+  const location = useLocation<IPromotionLinkState>();
+  const history = useHistory();
   const [dialog, setDialog] = useState<DialogType>(
     linkAsset && pool.key === LiquidityPoolDictionary.getByKey(linkAsset)?.key
       ? DialogType.ADD
@@ -61,6 +59,25 @@ export const MiningPool: React.FC<IMiningPoolProps> = ({
     () => setSuccessfulTransactions(prevValue => prevValue + 1),
     [setSuccessfulTransactions],
   );
+  useEffect(() => {
+    if (
+      location.state?.promotionSelectedAsset === pool.assetA &&
+      canInteract &&
+      !addliquidityLocked
+    ) {
+      setDialog(DialogType.ADD);
+      history.push({
+        state: undefined,
+      });
+    }
+  }, [
+    setDialog,
+    history,
+    addliquidityLocked,
+    canInteract,
+    location.state,
+    pool.assetA,
+  ]);
 
   const Actions = () => {
     return (
