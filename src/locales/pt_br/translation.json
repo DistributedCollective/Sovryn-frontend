@@ -457,7 +457,7 @@
     "labels": {
       "swap": "A forma mais simples de trocar um ativo por outro",
       "spotTrade": "Ferramenta avançada para troca de ativos",
-      "marginTrade": "Negocie com alavancagem de até 10x",
+      "marginTrade": "Negocie com alavancagem de até 5x",
       "lend": "Receba juros emprestando criptos nos pools de empréstimo",
       "pool": "Ganhe rendimentos depositando criptos nos pools de liquidez",
       "staking": "Ganhe recompensas investindo seus SOV",
