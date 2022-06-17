@@ -18,6 +18,9 @@ import { MenuItem } from 'app/components/Menu/components/MenuItem';
 import {
   faArrowRightFromBracket,
   faClone,
+  faUser,
+  faCoins,
+  faBell,
 } from '@fortawesome/free-solid-svg-icons';
 import { NotificationSettingsDialog } from 'app/pages/MarginTradePage/components/NotificationSettingsDialog';
 import { MenuSeparator } from 'app/components/Menu/components/MenuSeparator';
@@ -95,24 +98,29 @@ const WalletConnectorContainer: React.FC<Props> = ({
           <div className={connectedWrapperClassName}>
             <Popover
               placement="bottom-end"
-              interactionKind={PopoverInteractionKind.CLICK}
+              interactionKind={PopoverInteractionKind.HOVER}
               popoverClassName={styles.walletConnectorPopover}
+              hoverOpenDelay={20}
+              hoverCloseDelay={250}
               minimal
               content={
                 address ? (
                   <Menu>
                     <MenuItem
-                      text={t(translations.mainMenu.rewards)}
-                      href="/reward"
+                      text={t(translations.mainMenu.portfolio)}
+                      href="/portfolio"
+                      icon={faUser}
                       className="bp3-popover-dismiss"
                     />
                     <MenuItem
-                      text={t(translations.mainMenu.portfolio)}
-                      href="/wallet"
+                      text={t(translations.mainMenu.rewards)}
+                      href="/reward"
+                      icon={faCoins}
                       className="bp3-popover-dismiss"
                     />
                     <MenuItem
                       text={t(translations.mainMenu.notifications)}
+                      icon={faBell}
                       onClick={() => setShowNotificationSettingsModal(true)}
                     />
                     <MenuSeparator />
@@ -144,7 +152,6 @@ const WalletConnectorContainer: React.FC<Props> = ({
               <>
                 <div className={styles.engageWallet}>
                   <span className="tw-flex tw-flex-nowrap tw-flex-row tw-items-center tw-w-full tw-justify-between tw-truncate">
-                    <span>{prettyTx(address || '', 4, 4)}</span>
                     <span className={styles.addressImage}>
                       <img
                         className="tw-rounded"
@@ -152,12 +159,10 @@ const WalletConnectorContainer: React.FC<Props> = ({
                         alt="wallet address"
                       />
                     </span>
-                    <Icon
-                      icon="log-out"
-                      className={styles.logout}
-                      onClick={() => disconnect()}
-                      data-action-id="logout-button"
-                    />
+                    <span>{prettyTx(address || '', 4, 4)}</span>
+                    <span className={styles.caretIndicator}>
+                      <Icon icon="caret-down" />
+                    </span>
                   </span>
                 </div>
                 <StyledButton className="xl:tw-hidden">
