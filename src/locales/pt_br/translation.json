@@ -240,6 +240,14 @@
         "line4": "Aguarde até {{hours}} horas para processar.",
         "line5": "Se a transação não for concluída em {{hours}} horas <0>abra um ticket de suporte</0>."
       },
+      "validationScreen": {
+        "title": "Verificando federação FastBTC",
+        "description": "Para uma maior segurança, estamos verificando as assinaturas do servidor da federação FastBTC. Aguarde a verificação ser concluída.",
+        "cta": "Clique para continuar",
+        "validationTextLoading": "Verificando assinaturas...",
+        "validationTextSuccess": "Verificação concluída",
+        "validationTextError": "Verificação falhou"
+      },
       "addressForm": {
         "title": "Endereço de depósito BTC",
         "description": "Envie BTC para este endereço"
