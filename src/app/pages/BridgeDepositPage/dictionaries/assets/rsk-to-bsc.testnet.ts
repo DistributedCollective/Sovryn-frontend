@@ -66,7 +66,7 @@ const rskToBscTestnet = [
     xusdIcon,
     18,
     4,
-    '0x74858FE37d391f81F89472e1D8BC8Ef9CF67B3b1',
+    '0xa9262CC3fB54Ea55B1B0af00EfCa9416B8d59570',
     false,
     CrossBridgeAsset.XUSD,
     true,

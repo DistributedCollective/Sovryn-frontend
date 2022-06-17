@@ -33,7 +33,7 @@ export const StatusScreen: React.FC<StatusScreenProps> = ({ tx, network }) => {
   const history = useHistory();
 
   const backToUrl = useMemo(
-    () => (network === Chain.BSC ? '/perpetuals' : '/wallet'),
+    () => (network === Chain.BSC ? '/perpetuals' : '/portfolio'),
     [network],
   );
 

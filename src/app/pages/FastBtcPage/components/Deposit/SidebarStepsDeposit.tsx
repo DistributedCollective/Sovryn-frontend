@@ -144,7 +144,7 @@ export const SidebarStepsDeposit: React.FC<NetworkAwareComponentProps> = ({
   );
 
   const backToUrl = useMemo(
-    () => (network === Chain.BSC ? '/perpetuals' : '/wallet'),
+    () => (network === Chain.BSC ? '/perpetuals' : '/portfolio'),
     [network],
   );
 

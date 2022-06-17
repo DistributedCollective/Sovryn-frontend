@@ -28,7 +28,7 @@ import { WalletProvider } from './containers/WalletProvider';
 
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { EmailPage } from './containers/EmailPage';
-import { WalletPage } from './containers/WalletPage/Loadable';
+import { PortfolioPage } from './pages/PortfolioPage/Loadable';
 
 import { SwapPage } from './containers/SwapPage/Loadable';
 import { RewardPage } from './pages/RewardPage/Loadable';
@@ -98,7 +98,8 @@ export function App() {
                   component={LiquidityMiningPage}
                 />
                 <Route exact path="/reward" component={RewardPage} />
-                <Route exact path="/wallet" component={WalletPage} />
+                <Redirect exact path="/wallet" to="/portfolio" />
+                <Route exact path="/portfolio" component={PortfolioPage} />
                 <Route exact path="/origins" component={OriginsLaunchpadPage} />
                 <Route
                   exact

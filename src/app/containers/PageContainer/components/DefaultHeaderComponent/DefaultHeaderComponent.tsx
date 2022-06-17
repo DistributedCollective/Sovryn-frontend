@@ -23,7 +23,13 @@ import {
 import { LanguageToggle } from '../../../../components/LanguageToggle';
 import styles from './index.module.scss';
 import { ReactComponent as SovLogo } from 'assets/images/sovryn-logo-alpha.svg';
-import { bitocracyUrl, zeroUrl, isMainnet, isStaging } from 'utils/classifiers';
+import {
+  bitocracyUrl,
+  zeroUrl,
+  myntUrl,
+  isMainnet,
+  isStaging,
+} from 'utils/classifiers';
 import { Menu } from 'app/components/Menu';
 import { MenuItem } from 'app/components/Menu/components/MenuItem';
 import { MenuSeparator } from 'app/components/Menu/components/MenuSeparator';
@@ -109,7 +115,7 @@ export const DefaultHeaderComponent: React.FC = () => {
       dataActionId: 'header-mobile-lab-link-claim',
     },
     {
-      to: '/mynt-token',
+      to: myntUrl,
       title: t(translations.mainMenu.myntToken),
       dataActionId: 'header-mobile-lab-link-mynt-token',
     },
@@ -445,14 +451,16 @@ export const DefaultHeaderComponent: React.FC = () => {
                     <MenuItem
                       text={t(translations.mainMenu.myntToken)}
                       label={t(translations.mainMenu.labels.myntToken)}
-                      href="/mynt-token"
+                      href={myntUrl}
+                      hrefExternal
                       dataActionId="header-lab-link-mynt-token"
                     />
                     {showZero && (
                       <MenuItem
                         text={t(translations.mainMenu.zero)}
                         label={t(translations.mainMenu.labels.zero)}
-                        href="/zero"
+                        href={zeroUrl}
+                        hrefExternal
                         dataActionId="header-lab-link-zero"
                       />
                     )}
