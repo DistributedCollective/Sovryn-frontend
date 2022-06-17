@@ -188,7 +188,7 @@ const HistoryTableAsset: React.FC<HistoryAsset> = ({ item }) => {
       <td className="tw-text-left tw-font-normal">
         {item.action !== t(translations.stake.actions.delegate) ? (
           <>
-            {numberFromWei(item.amount)} SOV
+            {item.amount ? numberFromWei(item.amount) : '-'} SOV
             <br />≈{' '}
             <LoadableValue
               value={weiToUSD(dollarValue)}

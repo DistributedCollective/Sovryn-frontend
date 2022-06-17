@@ -558,7 +558,7 @@ export const DefaultHeaderComponent: React.FC = () => {
                 style={ButtonStyle.normal}
                 size={ButtonSize.md}
                 disabled={!connected}
-                className="tw-rounded tw-px-5"
+                className="tw-rounded tw-px-5 tw-text-sm"
                 dataActionId="header-link-deposit"
               />
             </Popover>
