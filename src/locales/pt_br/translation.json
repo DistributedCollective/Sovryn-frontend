@@ -1769,117 +1769,117 @@
       "placeholder": "Selecionar item"
     }
   },
-  "perpetualPage": {
+  "buySovPage": {
     "meta": {
-      "title": "Operar perpétuos",
-      "description": "Operar perpétuos"
+      "title": "Negociações com SOV estão abertas!",
+      "description": "Negociações com SOV estão abertas!"
     },
-    "ammDepth": {
-      "price": "Preço (<0/>)",
-      "size": "Tamanho (<0/>)",
-      "total": "Total (<0/>)",
-      "indexPrice": "Preço de índice:",
-      "markPrice": "Preço real:"
+    "banner": {
+      "title": "Negociações com SOV estão abertas!",
+      "cta": "Comprar SOV"
     },
-    "contractDetails": {
-      "title": "Detalhes do contrato:",
-      "indexPrice": "Preço de índice:",
-      "volume24h": "24h volume:",
-      "openInterest": "Interesse aberto:",
-      "fundingRate": "Taxa de financiamento: ",
-      "fundingRate4hr": "em 4h",
-      "contractValue": "Valor do contrato:",
-      "lotSize": "Tamanho do lote:",
-      "minTradeAmount": "Valor mínimo de negociação:"
+    "stats": {
+      "totalSupply": "Total existente:",
+      "circulatingSupply": "Total em circulação:",
+      "marketCap": "Valor de mercado:",
+      "lastPrice": "Último preço:"
     },
-    "recentTrades": {
-      "price": "Preço (<0/>)",
-      "size": "Tamanho (<0/>)",
-      "time": "Hora"
+    "engage": {
+      "title": "Conectar",
+      "line1": "Use uma das carteiras disponíveis para conectar na rede <0>RSK</0>",
+      "line2": "Ainda não tem uma carteira? Recomendamos a <0>carteira Liquality</0>",
+      "cta": "Conectar carteira"
     },
-    "tradeForm": {
-      "titles": {
-        "order": "Inserir nova ordem",
-        "welcome": "Operar perpétuos na Sovryn"
+    "topUp": {
+      "title": "Adquirir <0>RBTC</0>",
+      "line1": "Você irá precisar de <0>RBTC</0> na sua carteira para comprar SOV e pagar as taxas da rede RSK",
+      "line2": "Saiba mais sobre a RSK",
+      "cta": "Carregar carteira"
+    },
+    "form": {
+      "title": "Comprar SOV com <0>RBTC</0>",
+      "enterAmount": "Insira a quantidade",
+      "availableBalance": "Saldo disponível:",
+      "minimumReceived": "Mínimo a receber:",
+      "cta": "Comprar SOV"
+    },
+    "slippageDialog": {
+      "title": "Ajustar desvio máximo",
+      "tolerance": "Diferença máxima no preço:",
+      "minimumReceived": "Mínimo a receber",
+      "minEntryPrice": "Minimum Entry Price"
+    },
+    "txDialog": {
+      "pendingUser": {
+        "title": "Confirmar transação",
+        "text": "Por favor, confirme a transação na sua {{walletName}}"
       },
-      "text": {
-        "welcome1": "Esta é uma prévia do painel de perpétuos.\n Os dados de mercado ao lado são reais.",
-        "welcome2": "Para começar a operar perpétuos na Sovryn, você precisa:",
-        "welcome3": "<0>Conectar uma carteira</0> <0>Estar conectado à rede Polygon</0> <0>Adicionar fundos à sua conta depositando BTC</0>",
-        "welcome4": "Novo na Sovryn? <0>Leia nosso guia de primeiros passos</0>"
-      },
-      "labels": {
-        "pair": "Par de negociação:",
-        "asset": "Ativo:",
-        "leverage": "Alavancagem:",
-        "orderValue": "Valor da ordem:",
-        "limitPrice": "Preço máximo:",
-        "slippage": "Diferença máxima no preço:",
-        "balance": "Saldo disponível: <0/> <1/>",
-        "txFee": "Taxa de transação: <0/> {{symbol}}"
-      },
-      "buttons": {
-        "buy": "Compra",
-        "sell": "Venda",
-        "connect": "Conectar Carteira",
-        "market": "Mercado",
-        "limit": "Limitada",
-        "buyMarket": "Comprar a mercado",
-        "buyLimit": "Comprar a limite",
-        "sellMarket": "Vender a mercado",
-        "sellLimit": "Vender a limite"
+      "txStatus": {
+        "title": "Status da transação",
+        "aborted": "Você optou por rejeitar esta transação. Cancele ou refaça a transação",
+        "abortedLedger": "Verifique se \"Contract data\" está configurado para \"Permitido\" no seu aplicativo Ledger",
+        "cta": "Abrir transação"
       }
     },
-    "tradeDialog": {
-      "title": "Revisar transação",
-      "pair": "Par de negociação:",
-      "leverage": "Alavancagem:",
-      "asset": "Ativo:",
-      "direction": "Par:",
-      "positionSize": "Tamanho da posição",
-      "maintananceMargin": "Margem de manutenção:",
-      "liquidationPrice": "Preço estimado de liquidação:",
-      "entryPrice": "Preço de entrada na posição:",
-      "minEntry": "Preço mínimo de entrada: ",
-      "minLiq": "Preço mínimo de liquidação: ",
-      "interestAPR": "Juros anual",
-      "renewalDate": "Data de renovação:",
-      "position": {
-        "long": "Comprado",
-        "short": "Vendido"
+    "promotions": {
+      "title": "Promoções SOV",
+      "p1": {
+        "title": "Mês de Abril - Distribuição de 50k SOV no pool BTC/USDT",
+        "text": "Disponibilize sua cripto no pool de liquidez da Sovryn. Quanto mais tempo você deixar os fundos no pool, mais SOV você ganhará.",
+        "cta": "Sovryn go brrrrrrrrrrrrrrr"
+      },
+      "p2": {
+        "title": "Mês de Abril - Distribuição de 75k SOV no pool BTC/SOV",
+        "text": "O pool de liquidez SOV/BTC está aberto, é a sua chance de participar da nossa maior distribuição de SOV já realizada até o momento..",
+        "cta": "Veja como participar"
+      },
+      "p3": {
+        "title": "Distribuição de 30K SOV no pool SOV/RBTC!",
+        "text": "Forneça liquidez no pool SOV/RBTC. Novas promoções semanais serão anunciadas em breve.",
+        "cta": "Ganhe agora"
+      },
+      "p4": {
+        "title": "Distribuição de 35K SOV no pool ETHs/RBTC",
+        "text": "Na primeira semana, $1.2 milhões de SOV serão distribuídos para os fornecedores de liquidez do AMM. Esta super promoção irá durar 7 dias. Algumas análises indicam que os primeiros participantes terão um retorno 3000%!! O maior rendimento de ETH existente hoje. Haverá novos bônus para as próximas semanas, que serão revisadas e anunciadas no final de cada semana.",
+        "cta": "Ganhe agora"
       }
     },
-    "reviewTrade": {
-      "title": "Revisar ordem"
-    },
-    "openPositions": "Posições",
-    "closedPositions": "Posições fechadas",
-    "orderHistory": "Histórico de ordens",
-    "openPositionsTable": {
-      "pair": "Par",
-      "positionSize": "Tamanho da posição",
-      "value": "Valor",
-      "entryPrice": "Preço de entrada",
-      "markPrice": "Preço real",
-      "liquidationPrice": "Preço de liquidação",
-      "margin": "Margem",
-      "unrealized": "L&P não realizado",
-      "realized": "L&P realizado",
-      "actions": "Ação"
-    },
-    "notificationSettingsDialog": {
-      "title": "Configurações de notificação",
-      "notifyVia": "Notificar via",
-      "telegramHandle": "Insira seu nome de usuário do Telegram",
-      "discordHandle": "Insira seu nome de usuário do Discord",
-      "usernamePlaceholder": "@usuário",
-      "receiveNotificationTitle": "Você irá receber uma notificação quando ocorrer:",
-      "notificationEvents": {
-        "1": "25% margem",
-        "2": "Liquidação"
+    "features": {
+      "title": "Como você pode usar a Sovryn",
+      "learnMore": "Saiba mais",
+      "mining": {
+        "title": "Minerando liquidez",
+        "text": "Diga adeus aos serviços centralizados de fornecimento de liquidez. Na Sovryn, os provedores de liquidez são recompensados por facilitar as negociações e trocas de ativos.",
+        "cta": "Minerar"
       },
-      "submit": "Confirmar"
-    }
+      "marginTrading": {
+        "title": "Operando margem",
+        "text": "Margem permite realizar operações alavancadas possibilitando maiores ganhos.",
+        "cta": "Operar"
+      },
+      "swap": {
+        "title": "Realizando trocas de ativos",
+        "text": "Faça trocas entre os ativos listados na Sovryn de forma simples e fácil. A descentralização garante liberdade para você realizar suas trocas.",
+        "cta": "Trocar"
+      },
+      "liquidity": {
+        "title": "Adicionando liquidez",
+        "text": "A Sovryn funcionando na rede Rootstock (RSK), proporciona o uso de instrumentos financeiros com diversos ativos em diferentes blockchains, promovendo a visão de Satoshi de soberania monetária.",
+        "cta": "Adicionar"
+      },
+      "lending": {
+        "title": "Emprestando seus ativos",
+        "text": "Receba uma renda passiva emprestando seus ativos diretamente para outros usuários. A solução não custodiante da Sovrny mantém você no controle de seus fundos, e você é livre para resgatar seus ativos a qualquer momento.",
+        "cta": "Emprestar"
+      },
+      "stake": {
+        "title": "Rentabilizando seus SOV & Votando",
+        "text": "O protocolo da Sovryn tem incentivos incorporados no código para crescimento a longo prazo. Os detentores do token que investem seus SOV, quando participam da governança do protocolo por meio de votação, recebem dividendos que a plataforma gera das taxas de transação cobradas dos usuários.",
+        "cta": "Rentabilizar SOV"
+      }
+    },
+    "title": "Compre SOV na Sovryn!",
+    "earn": "Ganhe com a Sovryn"
   },
   "spotTradingPage": {
     "meta": {
@@ -1949,6 +1949,8 @@
       "orderType": "Tipo de ordem",
       "tradeAmount": "Quantidade negociada",
       "limitPrice": "Preço limite",
+      "limitPriceHelper": "Final execution price of Limit Orders is impacted by cost of relayer fees and slippage at the time of execution, for further details see the <0>wiki</0>.",
+      "executionPrice": "Execution Price",
       "amountReceive": "Quantidade a receber",
       "duration": "Expira em",
       "deadline": "Validade",
@@ -1961,6 +1963,9 @@
         "edit": "Editar",
         "close": "Fechar"
       }
+    },
+    "limitOrderHistory": {
+      "limitPriceHelper": "Final execution price of Limit Orders is impacted by cost of relayer fees and slippage at the time of execution, please check the Open positions/Margin order history tables for the actual execution price. For further details see the <0>wiki</0>."
     },
     "cancelDialog": {
       "title": "Cancelar ordem limitada",
@@ -1984,152 +1989,21 @@
     "all": "TUDO",
     "search": "Procurar"
   },
-  "form": {
-    "select": {
-      "noResults": "Sem resultados",
-      "placeholder": "Selecionar item"
-    }
-  },
-  "liquidityMining": {
-    "deposit": "Adicionar",
-    "withdraw": "Retirar",
-    "meta": {
-      "title": "Minerar liquidez"
+  "transactionDialog": {
+    "pendingUser": {
+      "title": "Confirmar {{action}}",
+      "text": "Confirme a transação na sua carteira {{walletName}}",
+      "failed": "Falhou",
+      "retry": "Tentar novamente"
     },
-    "explainer": {
-      "earnSOV": "Earn SOV by depositing liquidity into the USDT/BTC liquidity pool",
-      "startDate": "Start date: 1st April 2021, 12.00 UTC",
-      "endDate": "End date: 1st May 2021, 12.00 UTC",
-      "rewardPoolUSDT": "Reward pool for depositing USDT: 25,000 SOV",
-      "rewardPoolRBTC": "Reward pool for depositing RBTC: 25,000 SOV",
-      "yourShare": "Your share of the pool is calculated by:",
-      "yourShare_N": "liquidity added by you * number of blocks held",
-      "yourShare_D": "total liquidity added * number of blocks held",
-      "airDrop": "Rewards will be deposited into liquidity providers' wallets on or before 8th May 2021"
-    },
-    "historyTable": {
-      "title": "Histórico",
-      "emptyState": "Histórico vázio.",
-      "tableHeaders": {
-        "time": "Data e hora",
-        "pool": "Pool",
-        "action": "Ação",
-        "asset": "Ativo",
-        "liquidityAmount": "Quantidade",
-        "transactionHash": "ID transação",
-        "status": "Status da transação"
-      },
-      "txType": {
-        "added": "Adicionar liquidez",
-        "removed": "Retirar liquidez"
-      }
-    },
-    "rowTable": {
-      "noLiquidityProvided": "Adicione liquidez e ganhe rendimentos",
-      "tableHeaders": {
-        "totalEarned": "Total ganho",
-        "balance": "Saldo atual",
-        "pl": "L/P",
-        "rewards": "Bônus"
-      }
-    },
-    "modals": {
-      "deposit": {
-        "title": "Adicionar liquidez",
-        "cta": "Depositar",
-        "asset": "Ativo:",
-        "amount": "Quantidade:"
-      },
-      "withdraw": {
-        "title": "Retirar liquidez",
-        "cta": "Resgatar",
-        "amount": "Quantidade:",
-        "asset": "Ativo:",
-        "reward": "Bônus:"
-      }
-    },
-    "lootDropLink": "Saiba mais",
-    "chartOverlayText": "Juros anual% Em breve!",
-    "recalibration": "Próximo ajuste em {{date}}"
-  },
-  "landingPage": {
-    "meta": {
-      "title": "Bem-vindo à Sovryn",
-      "description": "DApp de negociação de bitcoin e plataforma de empréstimo"
-    },
-    "welcomeTitle": "Bem-vindo à Sovryn",
-    "welcomeMessage": "DApp de negociação de bitcoin e plataforma de empréstimo",
-    "tradingVolume": {
-      "dayVolumeTitle": "Volume 24 horas",
-      "tvlTitle": "Valor total",
-      "btc": "BTC",
-      "usd": "USD"
-    },
-    "arbitrageOpportunity": {
-      "title": "Oportunidade de arbitragem",
-      "swap": "trocar",
-      "swapUp": "Trocar até ",
-      "for": "por até ",
-      "noArbitrage": "Atualmente não há oportunidades de arbitragem…"
-    },
-    "tvl": {
-      "title": "Valor total na Sovryn",
-      "type": "Tipo de contrato",
-      "btc": "Valor (BTC)",
-      "usd": "Valor (USD)",
-      "protocol": "Contrato de protocolo",
-      "lend": "Contrato de empréstimo",
-      "amm": "Contrato Amm",
-      "staked": "Contrato Bitocracia",
-      "subProtocol": "Subprotocolos",
-      "subtotal": "Sub total",
-      "total": "Total"
-    },
-    "promotions": {
-      "title": "Promoções",
-      "learnMore": "Saiba mais",
-      "sections": {
-        "lending": "Emprestando cripto",
-        "borrowing": "Obtendo empréstimo",
-        "yieldFarming": "Minerando liquidez",
-        "marginTrading": "Operando margem",
-        "swap": "Trocando cripto",
-        "spotTrading": "Operando spot"
-      }
-    },
-    "lendBorrow": "EMPRESTAR & OBTER EMPRÉSTIMO DE ATIVOS",
-    "ammpool": {
-      "title": "POOLS AMM",
-      "asset": "Ativo",
-      "pool": "Pool",
-      "stakedBalance": "Total",
-      "contractBalance": "Saldo do contrato",
-      "imBalance": "Desequilíbrio",
-      "apy": "Juros anual"
-    },
-    "banner": {
-      "originsFish": "Pré-venda do token FISH ",
-      "liveNow": "VENDA ABERTA!",
-      "buyNow": "Compre agora",
-      "soldOut": "FINALIZADA!",
-      "learnMore": "Saiba mais",
-      "getStarted": "Lista de espera",
-      "timer": {
-        "days": "DIAS",
-        "hours": "HORAS",
-        "mins": "MINUTOS",
-        "secs": "SEGUNDOS"
-      }
-    },
-    "cryptocurrencyPrices": {
-      "title": "PREÇO DOS ATIVOS",
-      "asset": "Ativo",
-      "price": "Preço",
-      "24h": "24h%",
-      "7d": "7d%",
-      "marketCap": "Valor de mercado",
-      "marketCapTooltip": "O valor de mercado é calculado multiplicando o total em circulação pelo preço em dólar. <br /> <br /> Para SOV, o total em circulação é igual a oferta total (100m) menos os tokens reservados, <0>não inclui </0> os tokens de contratos de fundos de adoção e desenvolvimento. <br /> <br /> Para rBTC, o total em circulação é igual ao total de BTC na rede RSK <br /> <br /> Para os demais tokens, o total em circulação é igual a oferta total <br /> <br /> Para os tokens de outras blockchains, o total em circulação é igual ao total existente na rede RSK. Por exemplo, o total em circulação de ETHs não é igual ao total em circulação de ETH na ethereum.",
-      "circulatingSupply": "Em circulação"
+    "txStatus": {
+      "title": "Status da transação",
+      "aborted": "Transação falhou. <br/>Cancele ou refaça a transação",
+      "abortedLedger": "Make sure \"Contract data\" is set to \"Allowed\" in your Ledger app settings",
+      "cta": "Abrir transação",
+      "processing": "{{action}} em processamento...",
+      "complete": "{{action}} concluída",
+      "submit": "{{action}} inserida"
     }
   },
   "BridgeDepositPage": {
@@ -2214,6 +2088,7 @@
       "amount": "Quantidade",
       "receiver": "Destinatário",
       "bridgeFee": "Taxa de serviço",
+      "bridgeFeeWarning": "WARNING: HIGH FEE. The cost of gas on Ethereum is significantly higher than it is on BSC or RSK.",
       "tx": "ID transação",
       "confirm": "Confirmar saque"
     },
@@ -2256,133 +2131,604 @@
       "maxWithdrawal": "Máximo permitido:"
     }
   },
-  "transactionDialog": {
-    "pendingUser": {
-      "title": "Confirmar {{action}}",
-      "text": "Confirme a transação na sua carteira {{walletName}}",
-      "failed": "Falhou",
-      "retry": "Tentar novamente"
+  "perpetualPage": {
+    "meta": {
+      "title": "Operar perpétuos",
+      "description": "Operar perpétuos"
     },
-    "txStatus": {
-      "title": "Status da transação",
-      "aborted": "Transação falhou. <br/>Cancele ou refaça a transação",
-      "abortedLedger": "Make sure \"Contract data\" is set to \"Allowed\" in your Ledger app settings",
-      "cta": "Abrir transação",
-      "processing": "{{action}} em processamento...",
-      "complete": "{{action}} concluída",
-      "submit": "{{action}} inserida"
+    "openPositionsTable": {
+      "pair": "Par",
+      "positionSize": "Tamanho da posição",
+      "value": "Valor",
+      "entryPrice": "Preço de entrada",
+      "liquidationPrice": "Preço de liquidação",
+      "margin": "Margem",
+      "unrealized": "L&P não realizado",
+      "realized": "L&P realizado",
+      "actions": "Ação",
+      "editLeverage": "Leverage",
+      "editMargin": "Margin",
+      "editClose": "Close",
+      "tooltips": {
+        "editLeverage": "Change the leverage of your position. This action will either withdraw from your margin account or deposit to your margin account.",
+        "editMargin": "Transact margin collateral between your wallet and your margin account. This action will change the leverage of your position.",
+        "editClose": "Close the entire open position with a market order.",
+        "positionSize": "The size of your position. Negative values denote short positions.",
+        "entryPrice": "The average price received when opening this position.",
+        "markPrice": "Latest Mark Price for this contract. To prevent price manipulation, the Mark Price is used for unrealized PnL and margin calculations.",
+        "liquidationPrice": "The liquidation price is the mark price at which your position can be liquidated. To move your position away from the liquidation price, you can decrease your position size by trading, add margin, or use the leverage action to reduce leverage.",
+        "margin": "The margin allocated to the position and leverage ratio in brackets. The lower the Leverage Ratio, the further away your liquidation price will be relative to your position entry price.",
+        "unrealized": "The unrealized P&L is calculated using the Mark Price. It also contains the accrued funding payments.",
+        "realized": "The realized P&L that was paid to your margin account. This includes fees and slippage. Funding payments are reported separately."
+      }
+    },
+    "openOrders": "Open Orders",
+    "openOrdersTable": {
+      "dateTime": "Date & Time",
+      "symbol": "Symbol",
+      "orderType": "Type",
+      "orderState": "State",
+      "collateral": "Collateral",
+      "orderSize": "Size",
+      "limitPrice": "Limit Price",
+      "triggerPrice": "Trigger Price",
+      "transactionId": "Transaction ID",
+      "timeInForce": "Time in force",
+      "cancel": "Cancel",
+      "orderTypes": {
+        "limit": "Limit",
+        "stop": "Stop",
+        "buy": "Buy",
+        "sell": "Sell"
+      },
+      "tableData": {
+        "market": "Market",
+        "limit": "Limit",
+        "stopLoss": "Stop Loss",
+        "liquidation": "Liquidation",
+        "buy": "BUY",
+        "sell": "SELL",
+        "day": "day",
+        "days": "days"
+      },
+      "tooltips": {
+        "orderType": "Limit Buy Order, Limit Sell Order, Stop Buy Order or Stop Sell Order",
+        "collateral": "Currency of the margin collateral",
+        "orderSize": "Notional of the order followed by base currency",
+        "limitPrice": "Limit price in quote currency of the order",
+        "triggerPrice": "Either empty (\"-\"), or a price in quote currency",
+        "cancel": "Cancel the order"
+      }
+    },
+    "layout": {
+      "button": "Customize layout",
+      "showAmmDepth": "Show AMM Depth",
+      "showChart": "Show Chart",
+      "showRecentTrades": "Show Recent Trades",
+      "showTradeForm": "Show Trade Form",
+      "showTables": "Show Tables",
+      "hideAmmDepth": "Hide AMM Depth",
+      "hideChart": "Hide Chart",
+      "hideRecentTrades": "Hide Recent Trades",
+      "hideTradeForm": "Hide Trade Form",
+      "hideTables": "Hide Tables"
+    },
+    "pairSelector": {
+      "markPrice": "Mark Price",
+      "gsn": "GSN",
+      "tooltips": {
+        "gsnEnabled": "Fees paid in BTC. With the Gas Station Network (GSN) you can pay gas fees in BTC",
+        "gsnDisabled": "Fees paid in BNB. With the Gas Station Network (GSN) you can pay gas fees in BTC",
+        "gsnUnsupported": "GSN is currently only supported for browser based wallets."
+      }
+    },
+    "toasts": {
+      "market": "Market",
+      "buy": "Buy",
+      "sell": "Sell",
+      "closePosition": "Close position",
+      "orderComplete": "Order complete",
+      "orderFailed": "Order failed",
+      "increaseMargin": "Increase margin",
+      "decreaseMargin": "Decrease margin",
+      "createLimitOrder": "Create limit order",
+      "cancelLimitOrder": "Cancel limit order",
+      "editLeverage": "Edit leverage to {{leverage}}x",
+      "approvalComplete": "Approval complete",
+      "approvalFailed": "Approval failed"
+    },
+    "accountBalance": {
+      "titleBalance": "Perpetuals Account",
+      "titleHistory": "Funding History",
+      "total": "Total Balance:",
+      "pending": "Pending transfer…",
+      "available": "Available Balance",
+      "inPositions": "In positions",
+      "unrealized": "Unrealized P&L",
+      "viewHistory": "View Transaction History",
+      "deposit": "BTC Deposit",
+      "withdraw": "BTC Withdraw",
+      "transfer": "RSK Transfer",
+      "availableBalance": "Available Balance:",
+      "fundAccount": "Fund Account",
+      "viewAccount": "View Account",
+      "action": "Action",
+      "time": "Date/Time",
+      "amount": "Amount",
+      "status": "Status",
+      "transactionId": "Transaction ID"
+    },
+    "ammDepth": {
+      "title": "AMM Depth (<0/>)",
+      "price": "Price (<0/>)",
+      "change": "% Change",
+      "total": "Order Size (<0/>)",
+      "tooltips": {
+        "indexPrice": "Index Price: <0/>",
+        "indexPriceDescription": "The Index price consists of a bucket of Spot prices obtained via Chainlink oracle.",
+        "markPrice": "Mark Price: <0/>",
+        "markPriceDescription": "Latest Mark Price for this contract. To prevent price manipulation, the Mark Price is used for unrealized PnL and margin calculations.",
+        "midPrice": "Mid Price: <0/>",
+        "change": "Change in price relative to Mid Price when trading the corresponding order size."
+      }
+    },
+    "chart": {
+      "title": "Chart (<0/>)"
+    },
+    "contractDetails": {
+      "volume24h": "24hr Volume:",
+      "openInterest": "Open Interest:",
+      "fundingRate": "Funding Rate: ",
+      "lotSize": "Lot Size:",
+      "minTradeAmount": "Min Trade Amount:",
+      "tooltips": {
+        "lastTradedPrice": "Last traded price.",
+        "openInterest": "The total amount of contracts held by either the long or the short traders, whatever is larger.",
+        "fundingRate": "Funding rate paid from buyers to sellers. If negative, the sellers pay to the buyers. We scale the displayed rate to be an 8h-rate. The rate is refreshed with every smart contract interaction or at most with every block. The time-weighted average value is used to calculate the funding rate paid."
+      }
+    },
+    "recentTrades": {
+      "title": "Últimas negociações (<0/>)",
+      "price": "Preço (<0/>)",
+      "size": "Tamanho (<0/>)",
+      "time": "Data e hora"
+    },
+    "tradeForm": {
+      "titles": {
+        "order": "Place New Order",
+        "welcome": "Welcome to Sovryn Perpetuals",
+        "slippage": "Slippage Settings"
+      },
+      "text": {
+        "welcome1": "To start trading:",
+        "welcome2": "<0>Fund your wallet</0>",
+        "welcome3": "Navigate back to this page and connect your wallet via button below",
+        "welcome4": "New to perpetuals? <0>Read our getting started guide</0>"
+      },
+      "labels": {
+        "pair": "Symbol:",
+        "asset": "Asset to receive:",
+        "leverageSelector": "Trade Leverage:",
+        "leverage": "Leverage:",
+        "orderSize": "Order Size:",
+        "limitPrice": "Limit Price:",
+        "expiry": "Expiry:",
+        "days": "Days",
+        "orderCost": "Order Cost:",
+        "maxTradeSize": "Max:",
+        "minEntryPrice": "Min Entry Price:",
+        "maxEntryPrice": "Max Entry Price:",
+        "minLiquidationPrice": "Min Liquidation Price:",
+        "liquidationPrice": "Liquidation Price:",
+        "tradingFee": "Trading Fee:",
+        "relayerFee": "Relayer Fee:",
+        "slippage": "Slippage Tolerance:",
+        "balance": "Available Balance: <0/> <1/>",
+        "txFee": "Tx Fee: <0/> {{symbol}}",
+        "triggerPrice": "Trigger Price:",
+        "resultingPosition": "Resulting Position",
+        "keepPositionLeverage": "Keep Position Leverage"
+      },
+       "buttons": {
+        "buy": "Compra",
+        "sell": "Venda",
+        "connect": "Conectar Carteira",
+        "market": "Mercado",
+        "limit": "Limitada",
+        "stop": "Stop",
+        "buyMarket": "Comprar a mercado",
+        "buyLimit": "Comprar a limite",
+        "buyStop": "Buy Stop",
+        "sellMarket": "Vender a mercado",
+        "sellLimit": "Vender a limite",
+        "sellStop": "Sell Stop",
+        "minLeverage": "MIN",
+        "slippageSettings": "Slippage Settings"
+      },
+      "disabledState": {
+        "emptyBalanceExplanation": "Fund your account to start trading",
+        "whitelistExplanation": "Sovryn Perpetuals trading is not available for unregistered users. Based on your current address, you are not part of the selected users that are granted access to the Sovryn Perpetuals trading platform. This will change in the future and you will be able to trade with us! Please check-in again soon here, on <0>sovryn.app</0>, or follow us on <1>Twitter</1> to stay informed."
+      },
+      "tooltips": {
+        "orderSize": "The notional amount for your position.",
+        "orderCost": "A conservative estimate of the amount withdrawn from your wallet to pay for the trade. Consists of required margin and trading fee. This value depends on your slippage settings.",
+        "orderCostLimit": "A conservative estimate of the amount withdrawn from your wallet to pay for the trade. Consists of estimated margin and trading fee at the time of execution.",
+        "tradingFee": "The trading fee. If fees are paid in BTC, this includes gas costs.",
+        "relayerFee": "Limit/Stop orders are processed with the assistance of a referrer. The referrer is compensated with the relayer fee.",
+        "keepPositionLeverage": "You can keep the leverage of the current position by checking this box.",
+        "maxTradeSize": "Maximal order size currently allowed by the system.",
+        "leverage": "If at the time of order execution, there is an existing position, the position leverage will remain unchanged if the order partially closes the existing position. If instead, the order increases the existing position size, the order will add margin according to your choice of trade leverage. The resulting position leverage depends on how much margin was added with the trade and the amount of margin in the existing position before the trade.",
+        "limitPrice": "The execution price will be at or below the limit price for buy orders, at or above for sell orders.",
+        "expiry": "The order will no longer be executed after expiration.",
+        "triggerPrice": "Only if the Mark Price is above the trigger price, a limit buy order can execute. Limit sell orders only execute if the Mark Price is below the trigger price."
+      }
+    },
+    "reviewTrade": {
+      "titles": {
+        "close": "Review Close",
+        "newOrder": "Review Order",
+        "editSize": "Review Edit Size",
+        "editLeverage": "Review Edit Leverage",
+        "editMargin": "Review Edit Margin",
+        "cancelOrder": "Cancel Order"
+      },
+      "close": "Close",
+      "buy": "Buy",
+      "sell": "Sell",
+      "market": "Market",
+      "limit": "Limit",
+      "stop": "Stop",
+      "cancel": "Cancel",
+      "deposit": "Deposit",
+      "withdraw": "Withdraw",
+      "leverage": "Leverage",
+      "margin": "Margin",
+      "increase": "Increase",
+      "decrease": "Decrease",
+      "positionFullyClosed": "Position Fully Closed",
+      "positionDetailsTitle": "New Position Details",
+      "labels": {
+        "positionSize": "Position Size:",
+        "margin": "Margin:",
+        "leverage": "Leverage:",
+        "entryPrice": "Entry Price:",
+        "liquidationPrice": "Liquidation Price:",
+        "totalToReceive": "Total to Receive:",
+        "maxEntryPrice": "Max Entry Price:",
+        "minEntryPrice": "Min Entry Price:",
+        "limitPrice": "Limit Price:",
+        "triggerPrice": "Trigger Price:",
+        "orderSize": "Order Size:"
+      },
+      "confirm": "Confirm"
+    },
+    "processTrade": {
+      "titles": {
+        "approval": "Approve Order",
+        "approvalFailed": "Approval Failed",
+        "approvalRejected": "Approval Rejected",
+        "confirm": "Confirm Order",
+        "confirmRejected": "Confirm Rejected",
+        "confirmMulti": "Confirm {{current}} from {{count}}",
+        "confirmMultiRejected": "Confirm {{current}} from {{count}} Rejected",
+        "processing": "Order processing…",
+        "completed": "Order Completed",
+        "failed": "Order Failed"
+      },
+      "texts": {
+        "approval": "Please approve BTC to be spent by the Sovryn smart contracts in your {{wallet}} wallet",
+        "confirm": "Please confirm transaction in your {{wallet}} wallet",
+        "confirmMulit": "Please confirm transaction {{current}} of {{count}} in your {{wallet}} wallet",
+        "error": "Your transaction has failed due to <0>{{error}}</0> Your position has not been opened",
+        "rejected": "The transaction request was rejected",
+        "cancelOrRetry": "Please cancel or retry your transaction"
+      },
+      "labels": {
+        "approvalTx": "Approval Tx ID:",
+        "marginTx": "Margin Tx ID:",
+        "tradeTx": "Trade Tx ID:",
+        "tx": "Tx ID:"
+      },
+      "buttons": {
+        "retry": "Retry",
+        "close": "Close"
+      }
+    },
+    "editMargin": {
+      "title": "Edit Margin",
+      "increase": "Increase",
+      "decrease": "Decrease",
+      "increaseLabel": "Deposit margin:",
+      "decreaseLabel": "Withdraw margin:",
+      "button": "Review"
+    },
+    "editLeverage": {
+      "title": "Edit Leverage",
+      "margin": "Position Margin:",
+      "liquidation": "Liquidation Price:",
+      "button": "Review"
+    },
+    "closePosition": {
+      "title": "Close Position",
+      "amount": "Close Amount:",
+      "total": "Total to Receive:",
+      "button": "Review"
+    },
+    "currentTrade": {
+      "position": "Current Position:",
+      "margin": "Current Margin:",
+      "available": "Available Balance:",
+      "unrealizedPnL": "Unrealized P/L:"
+    },
+    "openPositions": "Positions",
+    "closedPositions": "Closed Positions",
+    "orderHistory": "Order History",
+    "fundingPayments": "Funding Payments",
+    "closedPositionsTable": {
+      "dateTime": "Date & Time",
+      "symbol": "Symbol",
+      "collateral": "Collateral",
+      "positionSize": "Position Size",
+      "realizedPnl": "Realized P&L",
+      "noData": "No data"
+    },
+    "orderHistoryTable": {
+      "dateTime": "Date & Time",
+      "symbol": "Symbol",
+      "orderType": "Type",
+      "orderState": "State",
+      "collateral": "Collateral",
+      "orderSize": "Size",
+      "triggerPrice": "Trigger Price",
+      "limitPrice": "Limit Price",
+      "execPrice": "Exec Price",
+      "orderId": "ID",
+      "tableData": {
+        "market": "Market",
+        "limit": "Limit",
+        "stop": "Stop",
+        "liquidation": "Liquidation",
+        "buy": "BUY",
+        "sell": "SELL"
+      },
+      "tooltips": {
+        "type": "The types are Market-, Limit-, Stop- Buy/Sell, Liquidation.",
+        "state": "Filled/Open. Market orders are filled immediately.",
+        "triggerPrice": "Stop orders feature a trigger price. Limit stops are executed only if the Mark Price is higher than the trigger price for buy orders, lower than the trigger price for sell orders.",
+        "limitPrice": "The limit price for limit and stop orders. For market orders, the limit price is determined based on slippage settings."
+      }
+    },
+    "fundingPaymentsTable": {
+      "dateTime": "Date & Time",
+      "symbol": "Symbol",
+      "collateral": "Collateral",
+      "received": "Received Funding",
+      "rate": "Rate",
+      "timeSinceLastPayment": "Time since last payment (DD:HH:MM:SS)",
+      "tooltips": {
+        "receivedFunding": "Funding paid to the trader. If negative, the trader paid.",
+        "rate": "The time-averaged funding rate, scaled to be an 8h-rate.",
+        "timeSinceLastPayment": "The duration for which the funding payment applies to."
+      }
+    },
+    "warnings": {
+      "priceExceedsSlippage": "Trade is likely to fail, because the expected price exceeds limit price! Update slippage to at least {{slippage}}, to avoid transaction failure.",
+      "targetMarginUnsafe": "Transaction is likely to fail. The resulting position does not meet the required maintenance margin.",
+      "exceedsBalance": "Order cost exceeds total balance, your trade could fail in case of high slippage.",
+      "exceedsBalanceLimitOrder": "Order cost exceeds total balance, your trade could fail.",
+      "limitPriceWorseThanCurrentPrice": "Limit order price is worse than the current market price.",
+      "maximalAmountOfLimitOrders": "There is a maximal amount of 15 Limit/Stop orders."
     }
   },
-  "buySovPage": {
+  "claimOriginBanner": {
+    "text": "Seu SOV está pronto para ser sacado!",
+    "cta": "Sacar SOV"
+  },
+  "escrowPage": {
     "meta": {
-      "title": "Negociações com SOV estão abertas!",
-      "description": "Negociações com SOV estão abertas!"
+      "title": "",
+      "description": ""
     },
-    "banner": {
-      "title": "Negociações com SOV estão abertas!",
-      "cta": "Comprar SOV"
-    },
-    "stats": {
-      "totalSupply": "Total existente:",
-      "circulatingSupply": "Total em circulação:",
-      "marketCap": "Valor de mercado:",
-      "lastPrice": "Último preço:"
-    },
-    "engage": {
-      "title": "Conectar",
-      "line1": "Use uma das carteiras disponíveis para conectar na rede <0>RSK</0>",
-      "line2": "Ainda não tem uma carteira? Recomendamos a <0>carteira Liquality</0>",
-      "cta": "Conectar carteira"
-    },
-    "topUp": {
-      "title": "Adquirir <0>RBTC</0>",
-      "line1": "Você irá precisar de <0>RBTC</0> na sua carteira para comprar SOV e pagar as taxas da rede RSK",
-      "line2": "Saiba mais sobre a RSK",
-      "cta": "Carregar carteira"
+    "infoBar": {
+      "timeRemaining": "Reward Programme time remaining",
+      "timeCompleted": "Completed",
+      "liquidityTarget": "Total Liquidity Target:",
+      "remainingToCollect": "Total Remaining to Collect:"
     },
     "form": {
-      "title": "Comprar SOV com <0>RBTC</0>",
-      "enterAmount": "Insira a quantidade",
-      "availableBalance": "Saldo disponível:",
-      "minimumReceived": "Mínimo a receber:",
-      "cta": "Comprar SOV"
+      "amount": "Enter amount:",
+      "reward": "Expected SOV Reward:",
+      "cta": "Deposit SOV"
     },
-    "slippageDialog": {
-      "title": "Ajustar desvio máximo",
-      "tolerance": "Diferença máxima no preço:",
-      "minimumReceived": "Mínimo a receber"
+    "description": {
+      "title": "Uniswap Liquidity Pool Escrow",
+      "line1": "Escrow pool participants will receive a 5% reward, plus a pro rata share from any trading fees generated in the SOV/ETH pool after any Impermanent Loss is covered by Sovryn, returning a minimum of 60% APY.",
+      "line2": "100% of SOV held in trust by Sovryn on behalf of users in the Uniswap escrow liquidity pool will be returned to users wallets 30 days after launch of the pool.",
+      "line3": "The 5% reward plus the pro rata fee share will be credited to user wallets in SOV, 30 days after launch of the pool."
     },
-    "txDialog": {
-      "pendingUser": {
-        "title": "Confirmar transação",
-        "text": "Por favor, confirme a transação na sua {{walletName}}"
+    "table": {
+      "labels": {
+        "pool": "Pool",
+        "provided": "Liquidity Provided",
+        "share": "Current Pool Share",
+        "totalFees": "Total Fees Collected",
+        "minimumRewards": "Minimum Rewards Collected",
+        "unlockDate": "Unlock Date",
+        "action": "Action"
       },
-      "txStatus": {
-        "title": "Status da transação",
-        "aborted": "Você optou por rejeitar esta transação. Cancele ou refaça a transação",
-        "abortedLedger": "Verifique se \"Contract data\" está configurado para \"Permitido\" no seu aplicativo Ledger",
-        "cta": "Abrir transação"
-      }
+      "uniswapPool": "Uniswap Pool Token",
+      "addButton": "Add",
+      "withdrawButton": "Withdraw"
+    }
+  },
+  "landingPage": {
+    "meta": {
+      "title": "Bem-vindo à Sovryn",
+      "description": "DApp de negociação de bitcoin e plataforma de empréstimo"
+    },
+    "welcomeTitle": "Bem-vindo à Sovryn",
+    "welcomeMessage": "DApp de negociação de bitcoin e plataforma de empréstimo",
+    "tradingVolume": {
+      "dayVolumeTitle": "Volume 24 horas",
+      "tvlTitle": "Valor total",
+      "btc": "BTC",
+      "usd": "USD"
+    },
+    "arbitrageOpportunity": {
+      "title": "Oportunidade de arbitragem",
+      "swap": "trocar",
+      "swapUp": "Trocar até ",
+      "for": "por até ",
+      "noArbitrage": "Atualmente não há oportunidades de arbitragem…"
+    },
+    "tvl": {
+      "title": "Valor total na Sovryn",
+      "type": "Tipo de contrato",
+      "btc": "Valor (BTC)",
+      "usd": "Valor (USD)",
+      "protocol": "Contrato de protocolo",
+      "lend": "Contrato de empréstimo",
+      "amm": "Contrato Amm",
+      "staked": "Contrato Bitocracia",
+      "subProtocol": "Subprotocolos",
+      "subtotal": "Sub total",
+      "total": "Total"
     },
     "promotions": {
-      "title": "Promoções SOV",
-      "p1": {
-        "title": "Mês de Abril - Distribuição de 50k SOV no pool BTC/USDT",
-        "text": "Disponibilize sua cripto no pool de liquidez da Sovryn. Quanto mais tempo você deixar os fundos no pool, mais SOV você ganhará.",
-        "cta": "Sovryn go brrrrrrrrrrrrrrr"
-      },
-      "p2": {
-        "title": "Mês de Abril - Distribuição de 75k SOV no pool BTC/SOV",
-        "text": "O pool de liquidez SOV/BTC está aberto, é a sua chance de participar da nossa maior distribuição de SOV já realizada até o momento..",
-        "cta": "Veja como participar"
-      },
-      "p3": {
-        "title": "Distribuição de 30K SOV no pool SOV/RBTC!",
-        "text": "Forneça liquidez no pool SOV/RBTC. Novas promoções semanais serão anunciadas em breve.",
-        "cta": "Ganhe agora"
-      },
-      "p4": {
-        "title": "Distribuição de 35K SOV no pool ETHs/RBTC",
-        "text": "Na primeira semana, $1.2 milhões de SOV serão distribuídos para os fornecedores de liquidez do AMM. Esta super promoção irá durar 7 dias. Algumas análises indicam que os primeiros participantes terão um retorno 3000%!! O maior rendimento de ETH existente hoje. Haverá novos bônus para as próximas semanas, que serão revisadas e anunciadas no final de cada semana.",
-        "cta": "Ganhe agora"
-      }
-    },
-    "features": {
-      "title": "Como você pode usar a Sovryn",
+      "title": "Promoções",
       "learnMore": "Saiba mais",
-      "mining": {
-        "title": "Minerando liquidez",
-        "text": "Diga adeus aos serviços centralizados de fornecimento de liquidez. Na Sovryn, os provedores de liquidez são recompensados por facilitar as negociações e trocas de ativos.",
-        "cta": "Minerar"
-      },
-      "marginTrading": {
-        "title": "Operando margem",
-        "text": "Margem permite realizar operações alavancadas possibilitando maiores ganhos.",
-        "cta": "Operar"
-      },
-      "swap": {
-        "title": "Realizando trocas de ativos",
-        "text": "Faça trocas entre os ativos listados na Sovryn de forma simples e fácil. A descentralização garante liberdade para você realizar suas trocas.",
-        "cta": "Trocar"
-      },
-      "liquidity": {
-        "title": "Adicionando liquidez",
-        "text": "A Sovryn funcionando na rede Rootstock (RSK), proporciona o uso de instrumentos financeiros com diversos ativos em diferentes blockchains, promovendo a visão de Satoshi de soberania monetária.",
-        "cta": "Adicionar"
-      },
-      "lending": {
-        "title": "Emprestando seus ativos",
-        "text": "Receba uma renda passiva emprestando seus ativos diretamente para outros usuários. A solução não custodiante da Sovrny mantém você no controle de seus fundos, e você é livre para resgatar seus ativos a qualquer momento.",
-        "cta": "Emprestar"
-      },
-      "stake": {
-        "title": "Rentabilizando seus SOV & Votando",
-        "text": "O protocolo da Sovryn tem incentivos incorporados no código para crescimento a longo prazo. Os detentores do token que investem seus SOV, quando participam da governança do protocolo por meio de votação, recebem dividendos que a plataforma gera das taxas de transação cobradas dos usuários.",
-        "cta": "Rentabilizar SOV"
+      "sections": {
+        "lending": "Emprestando cripto",
+        "borrowing": "Obtendo empréstimo",
+        "yieldFarming": "Minerando liquidez",
+        "marginTrading": "Operando margem",
+        "swap": "Trocando cripto",
+        "spotTrading": "Operando spot"
       }
     },
-    "title": "Compre SOV na Sovryn!",
-    "earn": "Ganhe com a Sovryn"
+    "lendBorrow": "EMPRESTAR & OBTER EMPRÉSTIMO DE ATIVOS",
+    "ammpool": {
+      "title": "POOLS AMM",
+      "asset": "Ativo",
+      "pool": "Pool",
+      "stakedBalance": "Total",
+      "contractBalance": "Saldo do contrato",
+      "imBalance": "Desequilíbrio",
+      "apy": "Juros anual"
+    },
+    "banner": {
+      "originsFish": "Pré-venda do token FISH ",
+      "liveNow": "VENDA ABERTA!",
+      "buyNow": "Compre agora",
+      "soldOut": "FINALIZADA!",
+      "learnMore": "Saiba mais",
+      "getStarted": "Lista de espera",
+      "timer": {
+        "days": "DIAS",
+        "hours": "HORAS",
+        "mins": "MINUTOS",
+        "secs": "SEGUNDOS"
+      }
+    },
+    "cryptocurrencyPrices": {
+      "title": "PREÇO DOS ATIVOS",
+      "asset": "Ativo",
+      "price": "Preço",
+      "24h": "24h%",
+      "7d": "7d%",
+      "marketCap": "Valor de mercado",
+      "marketCapTooltip": "O valor de mercado é calculado multiplicando o total em circulação pelo preço em dólar. <br /> <br /> Para SOV, o total em circulação é igual a oferta total (100m) menos os tokens reservados, <0>não inclui </0> os tokens de contratos de fundos de adoção e desenvolvimento. <br /> <br /> Para rBTC, o total em circulação é igual ao total de BTC na rede RSK <br /> <br /> Para os demais tokens, o total em circulação é igual a oferta total <br /> <br /> Para os tokens de outras blockchains, o total em circulação é igual ao total existente na rede RSK. Por exemplo, o total em circulação de ETHs não é igual ao total em circulação de ETH na ethereum.",
+      "circulatingSupply": "Em circulação"
+    }
+  },
+  "promotions": {
+    "card1": {
+      "title": "5K SOV rewards",
+      "duration": "Ongoing weekly rewards",
+      "text": "Provide a 1:1 ratio of MYNT and rBTC to the MYNT/BTC AMM liquidity pool and instantly start accruing your share of 5,000 SOV rewards."
+    },
+    "card2": {
+      "title": "15K SOV rewards",
+      "duration": "Ongoing weekly rewards",
+      "text": "Provide any amount of XUSD to the XUSD lending pool and instantly start accruing your share of 15,000 SOV rewards."
+    },
+    "card3": {
+      "title": "25K SOV rewards",
+      "duration": "Ongoing weekly rewards",
+      "text": "Provide a 1:1 ratio of XUSD and rBTC to the XUSD/rBTC AMM liquidity pool and instantly start accruing your share of 25,000 SOV rewards."
+    },
+    "card4": {
+      "title": "30K SOV rewards",
+      "duration": "Ongoing weekly rewards",
+      "text": "Provide a 1:1 ratio of SOV and rBTC to the SOV/rBTC AMM liquidity pool and instantly start accruing your share of 30,000 SOV rewards."
+    },
+    "card5": {
+      "title": "5K SOV rewards",
+      "duration": "Ongoing weekly rewards",
+      "text": "Provide a 1:1 ratio of ETH and rBTC to the ETH/rBTC AMM liquidity pool and instantly start accruing your share of 5,000 SOV rewards."
+    }
+  },
+  "liquidityMining": {
+    "deposit": "Adicionar",
+    "withdraw": "Retirar",
+    "meta": {
+      "title": "Minerar liquidez"
+    },
+    "explainer": {
+      "earnSOV": "Earn SOV by depositing liquidity into the USDT/BTC liquidity pool",
+      "startDate": "Start date: 1st April 2021, 12.00 UTC",
+      "endDate": "End date: 1st May 2021, 12.00 UTC",
+      "rewardPoolUSDT": "Reward pool for depositing USDT: 25,000 SOV",
+      "rewardPoolRBTC": "Reward pool for depositing RBTC: 25,000 SOV",
+      "yourShare": "Your share of the pool is calculated by:",
+      "yourShare_N": "liquidity added by you * number of blocks held",
+      "yourShare_D": "total liquidity added * number of blocks held",
+      "airDrop": "Rewards will be deposited into liquidity providers' wallets on or before 8th May 2021"
+    },
+    "historyTable": {
+      "title": "Histórico",
+      "emptyState": "Histórico vázio.",
+      "tableHeaders": {
+        "time": "Data e hora",
+        "pool": "Pool",
+        "action": "Ação",
+        "asset": "Ativo",
+        "liquidityAmount": "Quantidade",
+        "transactionHash": "ID transação",
+        "status": "Status da transação"
+      },
+      "txType": {
+        "added": "Adicionar liquidez",
+        "removed": "Retirar liquidez"
+      }
+    },
+    "rowTable": {
+      "noLiquidityProvided": "Adicione liquidez e ganhe rendimentos",
+      "tableHeaders": {
+        "totalEarned": "Total ganho",
+        "balance": "Saldo atual",
+        "pl": "L/P",
+        "rewards": "Bônus"
+      }
+    },
+    "modals": {
+      "deposit": {
+        "title": "Adicionar liquidez",
+        "cta": "Depositar",
+        "asset": "Ativo:",
+        "amount": "Quantidade:"
+      },
+      "withdraw": {
+        "title": "Retirar liquidez",
+        "cta": "Resgatar",
+        "amount": "Quantidade:",
+        "asset": "Ativo:",
+        "reward": "Bônus:"
+      }
+    },
+    "lootDropLink": "Saiba mais",
+    "chartOverlayText": "Juros anual% Em breve!",
+    "recalibration": "Próximo ajuste em {{date}}"
   },
   "addToMargin": {
     "title": "Adicionar margem",
@@ -2432,71 +2778,5 @@
       "closingPrice": "O preço de saída é 95% do valor do preço de fechamento. Esta diferença ocorre devido ao desconto aplicado como incentivo aos liquidatários."
     },
     "profitTooltip": "Ao fechar a posição você pode escolher receber o valor nos ativos abaixo:"
-  },
-  "claimOriginBanner": {
-    "text": "Seu SOV está pronto para ser sacado!",
-    "cta": "Sacar SOV"
-  },
-  "escrowPage": {
-    "meta": {
-      "title": "",
-      "description": ""
-    },
-    "infoBar": {
-      "timeRemaining": "Reward Programme time remaining",
-      "timeCompleted": "Completed",
-      "liquidityTarget": "Total Liquidity Target:",
-      "remainingToCollect": "Total Remaining to Collect:"
-    },
-    "form": {
-      "amount": "Enter amount:",
-      "reward": "Expected SOV Reward:",
-      "cta": "Deposit SOV"
-    },
-    "description": {
-      "title": "Uniswap Liquidity Pool Escrow",
-      "line1": "Escrow pool participants will receive a 5% reward, plus a pro rata share from any trading fees generated in the SOV/ETH pool after any Impermanent Loss is covered by Sovryn, returning a minimum of 60% APY.",
-      "line2": "100% of SOV held in trust by Sovryn on behalf of users in the Uniswap escrow liquidity pool will be returned to users wallets 30 days after launch of the pool.",
-      "line3": "The 5% reward plus the pro rata fee share will be credited to user wallets in SOV, 30 days after launch of the pool."
-    },
-    "table": {
-      "labels": {
-        "pool": "Pool",
-        "provided": "Liquidity Provided",
-        "share": "Current Pool Share",
-        "totalFees": "Total Fees Collected",
-        "minimumRewards": "Minimum Rewards Collected",
-        "unlockDate": "Unlock Date",
-        "action": "Action"
-      },
-      "uniswapPool": "Uniswap Pool Token",
-      "addButton": "Add",
-      "withdrawButton": "Withdraw"
-    }
-  },
-  "affiliates": {
-    "title": "Traga seus amigos para a Sovryn e ganhe cripto",
-    "isConnected": "Conecte sua carteira para começar a indicar e ganhar.",
-    "refLink": "Compartilhe seu link de indicação",
-    "feesEarned": "Ganho",
-    "rewardSOVEarned": "SOV Líquido ganho",
-    "numberReferrals": "Número de indicações",
-    "linkCopied": "Link copiado",
-    "referralHistory": "Histórico",
-    "terms": "Termos e condições",
-    "text": "Convide seus amigos e ganhe <1>bônus em $SOV + 0.01% das taxas cobradas pela Sovryn</1> nas transações realizadas pelas carteiras criadas com o seu link de indicação.",
-    "claim": "Reinvindicar",
-    "tableHeaders": {
-      "date": "Data e hora",
-      "type": "Tipo",
-      "from": "De",
-      "sovAmount": "SOV Líquido ganho",
-      "feesAmount": "Ganho",
-      "hash": "ID transação",
-      "status": "Status da transação"
-    },
-    "tableEmpty": "Você ainda não indicou ninguém.",
-    "referralFrom": "Indicação",
-    "referralUnknown": "Indicação desconhecida"
   }
 }
