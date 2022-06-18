@@ -971,7 +971,6 @@
     "btn": "Retirar"
   },
   "borrowActivity": {
-    "title": "Meus empréstimos",
     "tabs": {
       "active": "A devolver",
       "history": "Devolvidos"
@@ -1208,6 +1207,19 @@
       "userAssets": "Ativos",
       "vestedAssets": "Vesting",
       "userNFTS": "Galeria"
+  },
+  "claimDialog": {
+      "redemptionSuccessful": "Redemption Successful",
+      "vestedSovLink": "You will now be able to see your vested SOV in our <0>staking</0> page.",
+      "congratulations": " Congratulations you are also now owner of SOV!",
+      "checkSov": "Check SOV",
+      "txHash": "Tx Hash:",
+      "redeemOriginsSOV": "Redeem Origins SOV",
+      "requiresRBTC": "This transaction requires rBTC for gas.",
+      "originsBTCdeposit": "Origins BTC deposit:",
+      "claimedSov": "SOV claimed at {{count}} sats",
+      "sov": "SOV",
+      "btc": "BTC"
     }
   },
   "salesPage": {
@@ -1343,7 +1355,8 @@
     },
     "emptyState": "Histórico vázio.",
     "walletHistory": "A carteira precisa estar conectada.",
-    "loading": "Carregando..."
+    "loading": "Carregando...",
+    "btc": "BTC"
   },
   "validationErrors": {
     "insufficientBalance": "Saldo insuficiente",
@@ -1352,6 +1365,10 @@
   "lendingPage": {
     "deposit": "Emprestar",
     "withdraw": "Resgatar",
+    "meta": {
+      "title": "Emprestar",
+      "description": "Lending Page"
+    },
     "tabs": {
       "deposit": "Depositar",
       "redeem": "Resgatar"
@@ -1438,6 +1455,7 @@
       "amountToRepay": "{{currency}} a ser devolvido",
       "amountToReceive": "Você irá receber"
     },
+    "tinyPositionError": "You are leaving tiny position behind. Please close your entire loan instead.",
     "button": "Devolver"
   },
   "closeTradingPositionHandler": {
@@ -1523,6 +1541,14 @@
       "paragraph1": "A Sovryn ainda não é totalmente compatível com celulares.",
       "paragraph2": "Que tal usar a versão para computadores?"
     }
+  },
+  "promotionsDialog": {
+    "title": "New Event on the Origins Launchpad",
+    "promotion1_title": "MYNT",
+    "promotion1_1": "The MYNT Bootstrap Event is now live!",
+    "promotion1_2": "Find out more information about MYNT <0>here</0>",
+    "promotion1_3": "Ready to participate? Head over to the event page by clicking the button below!",
+    "promotion1_cta": "Go to event"
   },
   "transakDialog": {
     "title": "Comprar <0>RBTC</0>",
