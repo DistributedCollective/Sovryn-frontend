@@ -1610,7 +1610,8 @@
       "availble": "Total de SOV disponíveis:",
       "cta": "REIVINDICAR",
       "note": "Ao reivindicar seus SOV Recompensa, eles ficam bloqueados por 10 meses. A cada mês uma quantidade é liberada.",
-      "learn": "Saiba mais"
+      "learn": "Saiba mais",
+      "claimDisabled": "There is not enough SOV in the StakingRewardsProxy contract to facilitate a claim of rewards at this time. Therefore, to avoid a loss of gas fee by initiating a transaction that will inevitably fail, the CLAIM button has been disabled. Be assured that the team is aware and funds should be replenished shortly."
     },
     "liquidClaimForm": {
       "note": "Ao reivindicar seus SOV Líquido, eles automaticamente são adicionados no seu saldo SOV no portfólio.",
@@ -1666,6 +1667,7 @@
     }
   },
   "marginTradePage": {
+    "openPositions": "Open positions",
     "meta": {
       "title": "Operar margem",
       "description": "Operar margem"
@@ -1727,9 +1729,11 @@
       "buy": "compra",
       "sell": "venda"
     },
-    "openPositions": "Posições abertas",
-    "tradingHistory": "Posições fechadas",
-    "openLimitOrders": "Ordens a limite abertas",
+    "tradingHistory": "Margin order history",
+    "limitOrderHistory": {
+      "limitPriceHelper": "Final execution price of Limit Orders is impacted by cost of relayer fees and slippage at the time of execution. For further details see the <0>wiki</0>.",
+      "filledPriceHelper": "Final execution price of Limit Orders is impacted by cost of relayer fees and slippage at the time of execution, therefore this will not match the defined limit price exactly. For further details see the <0>wiki</0>."
+    },
     "notificationSettingsDialog": {
       "title": "Configurações de notificação de margem",
       "notifyVia": "Receba notificações por e-mail para ordens a limite executadas, chamadas de margem e liquidações. Detalhes <0>aqui</0>.",
@@ -1757,6 +1761,12 @@
     "notificationsButton": {
       "enable": "Ativar notificações",
       "enabled": "Notificações habilitadas"
+    }
+  },
+  "form": {
+    "select": {
+      "noResults": "Sem resultados",
+      "placeholder": "Selecionar item"
     }
   },
   "perpetualPage": {
