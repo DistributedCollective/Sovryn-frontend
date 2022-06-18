@@ -10,6 +10,7 @@
     "cancel": "Cancelar",
     "fee": "Taxa: {{amount}} (r)BTC",
     "pending": "Pendente",
+    "complete": "Concluída",
     "confirmed": "Confirmada",
     "failed": "Falhou",
     "deposit": "Depositar",
@@ -18,6 +19,7 @@
     "unusedBalance": "Recuperar fundos não utilizados",
     "unusedBalanceTooltip": "Saldo não utilizado:",
     "maintenance": "Em manutenção",
+    "comingSoon": "Em breve",
     "next": "Próximo",
     "loading": "Carregando...",
     "noData": "Sem dados",
@@ -61,15 +63,25 @@
     "withdrawLend": "Desculpe, a opção de resgatar ativo emprestado está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
     "startBorrow": "Desculpe, a opção de receber empréstimos está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
     "stopBorrow": "Desculpe, a opção de devolver empréstimos está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
+    "addCollateralBorrow": "Sorry, adding collateral is currently under maintenance, please check our <0>discord</0> for updates.",
     "addLiquidity": "Desculpe, a opção de adicionar liquidez está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
     "removeLiquidity": "Desculpe, a opção de retirar liquidez está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
     "liquidity": "Desculpe, a opção de adicionar liquidez está em manutenção, alguns recursos podem estar indisponíveis. Por favor verifique o nosso <0>discord</0> para atualizações.",
     "fastBTC": "Desculpe, a opção de depósitos pela FastBTC está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
+    "fastBTCPortfolio": "Sorry, FastBTC transfers are currently under maintenance, please check our discord (link in footer) for updates.",
     "transack": "Desculpe, a opção de depósitos pela Transak está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
 
     "bridge": "Desculpe, a opção de transferências de ativos entre diferentes redes está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
     "bridgeSteps": "Desculpe, a opção de transferências de ativos entre diferentes redes está em manutenção, Por favor verifique o nosso <0>discord</0> para atualizações.",
-
+    "bridgeSovDeposit": "Sorry, SOV cross-chain deposits are currently under maintenance, please check our discord (link in footer) for updates.",
+    "bridgeSovWithdraw": "Sorry, SOV cross-chain withdrawals are currently under maintenance, please check our discord (link in footer) for updates.",
+    "bridgeEthDeposit": "Sorry, ETH cross-chain deposits are currently under maintenance, please check our discord (link in footer) for updates.",
+    "bridgeEthWithdraw": "Sorry, ETH cross-chain withdrawals are currently under maintenance, please check our discord (link in footer) for updates.",
+    "bridgeBnbDeposit": "Sorry, BNB cross-chain deposits are currently under maintenance, please check our discord (link in footer) for updates.",
+    "bridgeBnbWithdraw": "Sorry, BNB cross-chain withdrawals are currently under maintenance, please check our discord (link in footer) for updates.",
+    "bridgeXusdDeposit": "Sorry, XUSD cross-chain deposits are currently under maintenance, please check our discord (link in footer) for updates.",
+    "bridgeXusdWithdraw": "Sorry, XUSD cross-chain withdrawals are currently under maintenance, please check our discord (link in footer) for updates.",
+    
     "staking": "Desculpe, a opção de rentabilizar SOV está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
     "stakingModal": "Desculpe, a opção de rentabilizar SOV está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
     "unstaking": "Desculpe, a opção de sacar SOV está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
@@ -81,6 +93,14 @@
     "withdrawVests": "Desculpe, a opção de sacar SOV está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
     "withdrawVestsModal": "Desculpe, a opção de sacar SOV está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
     "claimRewards": "Desculpe, a opção de reivindicar bônus está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações."
+    "claimOrigins": "Sorry, origins claim is currently under maintenance, please check our <0>discord</0> for updates.",
+    
+    "perpetuals": "Sorry, Perpetuals is currently under maintenance, please check our discord (link in footer) for updates.",
+    "perpetualsAccountFund": "Sorry, deposits on Perpetuals are currently under maintenance, please check our discord (link in footer) for updates.",
+    "perpetualsAccountWithdraw": "Sorry, withdrawals on Perpetuals are currently under maintenance, please check our discord (link in footer) for updates.",
+    "perpetualsAccountTransfer": "Sorry, transfers on Perpetuals are currently under maintenance, please check our discord (link in footer) for updates.",
+    "perpetualsTrade": "Sorry, trading on Perpetuals is currently under maintenance, please check our discord (link in footer) for updates.",
+    "perpetualsGsn": "Sorry, the GSN on Perpetuals is currently under maintenance, please check our discord (link in footer) for updates. Transactions without GSN may still work."
   },
   "homePage": {
     "title": "Página inicial",
@@ -214,8 +234,10 @@
       "description": "Transfira seu Bitcoin para a rede RSK."
     },
     "backToPortfolio": "Voltar ao portfólio",
+    "backToPerpetuals": "Voltar aos perpétuos",
     "deposit": {
       "sidebarSteps": {
+        "validation": "Validação",
         "address": "Endereço de depósito",
         "processing": "Processando",
         "processingSteps": "Processando... ({{step}}/{{steps}})",
@@ -238,7 +260,8 @@
         "line2": "Não envie menos BTC do que o limite mínimo.",
         "line3": "Não envie mais BTC do que o limite máximo.",
         "line4": "Aguarde até {{hours}} horas para processar.",
-        "line5": "Se a transação não for concluída em {{hours}} horas <0>abra um ticket de suporte</0>."
+        "line5": "Se a transação não for concluída em {{hours}} horas <0>abra um ticket de suporte</0>.",
+        "line6": "If your transaction takes longer than {{hours}} hrs please <0>create a support ticket</0>."
       },
       "validationScreen": {
         "title": "Verificando federação FastBTC",
@@ -351,6 +374,7 @@
       "esEntryPrice": "Preço aprox de entrada:",
       "esLiquidationPrice": "Preço aprox de liquidação:",
       "interestAPY": "Interest APY:",
+      "slippageSettings": "Slippage Settings",
       "interestAPR": "Taxa anual:"
     },
     "buttons": {
@@ -395,7 +419,8 @@
     "disconnect": "Sair",
     "my_wallet": "Portfólio",
     "copy_address": "Copiar endereço",
-    "referrals": "Convide um amigo"
+    "referrals": "Convide um amigo",
+    "changeWallet": "Change Wallet"
   },
   "hintDialog": {
     "title": "Dicas Sovryn"
@@ -680,6 +705,8 @@
       "contractBalance": "Saldo do contrato",
       "imBalance": "Desequilíbrio"
     },
+    "tradingVolume": "Trading Volume",
+    "lending": "Lending Stats",
     "asset": "Ativo",
     "totalAssetSupplied": "Total",
     "totalAssetBorrowed": "Emprestado",
@@ -705,6 +732,7 @@
   "stake": {
     "title": "SOV investidos/reservados",
     "meta": "SOV investidos/reservados",
+    "paused": "Staking functionality is currently paused by Sovryn Governance, please try again later or check our <0>Discord</0> for more details.",
     "connect": "Conecte sua carteira e comece a rentabilizar seus SOV.",
     "total": "Total investido",
     "votingPower": "Poder de voto combinado",
@@ -765,6 +793,7 @@
       "totalStaked": "Total investido",
       "viewHistory": "Ver histórico",
       "status": "Status da transação",
+      "emptyHistory": "Hitórico vázio.",
       "actions": {
         "stake": "Novo investimento",
         "unstake": "Sacar investimento",
@@ -793,6 +822,7 @@
     "currentVests": {
       "title": "Atualmente reservado",
       "asset": "Ativo",
+      "dollarBalance": "Valor em USD",
       "lockedAmount": "Quantidade bloqueada",
       "votingPower": "Voto delegado",
       "stakingDate": "Data final",
@@ -804,7 +834,10 @@
         "genesis": "SOV Gênese",
         "origin": "SOV Origem",
         "team": "SOV Team",
-        "reward": "SOV Recompensa"
+        "fouryear": "Four-Year Vested SOV",
+        "reward": "SOV Recompensa",
+        "fish": "Origins FISH",
+        "fishAirdrop": "Airdrop FISH"
       }
     },
     "actions": {
@@ -815,8 +848,7 @@
       "delegate": "Delegar",
       "confirm": "Confirmar",
       "cancel": "Cancelar",
-      "withdraw": "Sacar",
-      "withdrawFees": "Sacar lucro"
+      "withdraw": "Sacar"
     },
     "dateSelector": {
       "noneAvailable": "Sem datas disponíveis.",
@@ -848,7 +880,8 @@
       "balance": "Saldo disponível"
     },
     "PoolTransferDialog": {
-      "title": "Atualizar pool"
+      "title": "Atualizar pool",
+      "subtitle": "We have updated the AMM smart contracts, in order to continue using liquidity pools with Sovryn UI and to earn Liquidity Mining rewards please click transfer for each pool you have liquidity in"
     }
   },
   "modal": {
