@@ -1367,7 +1367,7 @@
     "withdraw": "Resgatar",
     "meta": {
       "title": "Emprestar",
-      "description": "Lending Page"
+      "description": "Emprestar ativos"
     },
     "tabs": {
       "deposit": "Depositar",
