@@ -53,11 +53,10 @@ export const ReturnToPortfolio: React.FC = () => {
         <>
           <SelectBox onClick={noop}>
             <img
-              className="tw-h-20 tw-mb-5 tw-mt-2"
+              className="tw-h-20"
               src={getWalletImage(walletName)}
               alt={walletName}
             />
-            <div className="tw-capitalize">{getWalletName(walletName)}</div>
           </SelectBox>
           <p className="tw-w-80 tw-text-center tw-mt-12 tw-mb-5">
             {t(trans.notConnected)}{' '}
@@ -75,11 +74,10 @@ export const ReturnToPortfolio: React.FC = () => {
         <>
           <SelectBox onClick={noop}>
             <img
-              className="tw-h-20 tw-mb-5 tw-mt-2"
+              className="tw-h-20"
               src={getWalletImage(walletName)}
               alt={walletName}
             />
-            <div className="tw-capitalize">{getWalletName(walletName)}</div>
           </SelectBox>
           <p className="tw-w-80 tw-text-center tw-mt-12 tw-mb-5">
             {t(trans.wrongNetwork)}{' '}
@@ -106,11 +104,10 @@ export const ReturnToPortfolio: React.FC = () => {
         <>
           <SelectBox onClick={noop}>
             <img
-              className="tw-h-20 tw-mb-5 tw-mt-2"
+              className="tw-h-20"
               src={getWalletImage(walletName)}
               alt={walletName}
             />
-            <div className="tw-capitalize">{getWalletName(walletName)}</div>
           </SelectBox>
           <p className="tw-w-80 tw-text-center tw-mt-12 tw-mb-5">
             {t(trans.connected)}

@@ -66,7 +66,10 @@ export const NetworkStep: React.FC<NetworkAwareComponentProps> = ({
   return (
     <div>
       <div className="tw-mb-7 tw-text-base tw-text-center tw-font-semibold">
-        {t(translations.BridgeDepositPage.chainSelector.chooseNetwork.title)}
+        {t(
+          translations.BridgeDepositPage.chainSelector.chooseNetwork.title,
+          'rBTC',
+        )}
       </div>
       <div className="tw-flex tw-px-2 tw-justify-center">
         {chainId !== chainIdRequired && (

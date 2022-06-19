@@ -21,13 +21,18 @@ export const Stepper: React.FC<IStepperProps> = ({
   onClick,
   locked,
 }) => {
-  const activeIndex = steps.findIndex(item => item.value === step);
+  const activeIndex = steps.findIndex(item => item.value === step) + 1;
   return (
     <div>
       <div className="tw-bg-gray-4 tw-h-1.5 tw-w-full tw-relative tw-rounded-3xl tw-overflow-hidden">
         <div
-          className="tw-bg-primary tw-h-1.5 tw-absolute tw-left-0  tw-rounded-3xl"
-          style={{ width: `${(activeIndex * 100) / steps.length + 3}%` }}
+          className="tw-bg-primary tw-h-1.5 tw-absolute tw-left-0 tw-rounded-3xl"
+          style={{
+            width: `${
+              (activeIndex * 100) / steps.length -
+              (activeIndex !== steps.length ? 10 : 0)
+            }%`,
+          }}
         ></div>
       </div>
       <ul className="tw-relative tw-flex tw-items-center tw-justify-between tw-gap-8 tw-mt-5">

@@ -15,14 +15,11 @@ import { AmountSelector } from './components/AmountSelector';
 import { ReviewStep } from './components/ReviewStep';
 import { ConfirmStep } from './components/ConfirmStep';
 import { Asset, Chain } from '../../../types';
-import babelfishIcon from 'assets/images/tokens/babelfish.svg';
 
 import './styles.scss';
 import { SidebarSteps } from './components/SidebarSteps';
 import { CrossBridgeAsset } from '../BridgeDepositPage/types/cross-bridge-asset';
 import { ReceiverSelector } from './components/ReceiverSelector';
-import { translations } from 'locales/i18n';
-import { useTranslation } from 'react-i18next';
 import { useAccount } from '../../hooks/useAccount';
 import { usePageActions } from 'app/containers/PageContainer';
 
@@ -43,10 +40,9 @@ export const BridgeWithdrawPage: React.FC = () => {
   useInjectReducer({ key: sliceKey, reducer: reducer });
   useInjectSaga({ key: sliceKey, saga: bridgeWithdrawPageSaga });
 
-  const { step, sourceAsset } = useSelector(selectBridgeWithdrawPage);
+  const { step } = useSelector(selectBridgeWithdrawPage);
   const dispatch = useDispatch();
   const history = useHistory();
-  const { t } = useTranslation();
 
   const location = useLocation<any>();
 
@@ -121,12 +117,12 @@ export const BridgeWithdrawPage: React.FC = () => {
             </CSSTransition>
           </SwitchTransition>
         </div>
-        {sourceAsset === 'XUSD' && (
+        {/* {sourceAsset === 'XUSD' && (
           <div className="tw-absolute tw-bottom-8 tw-left-0 tw-right-0 tw-mx-auto tw-flex tw-flex-col tw-items-center">
             <img className="tw-mb-1" src={babelfishIcon} alt="babelFish" />
             {t(translations.BridgeDepositPage.poweredBy)}
           </div>
-        )}
+        )} */}
       </div>
     </>
   );

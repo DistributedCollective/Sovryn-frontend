@@ -23,10 +23,7 @@ import iconPending from 'assets/images/icon-pending.svg';
 import { noop } from '../../../../constants';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { detectWeb3Wallet } from 'utils/helpers';
-import {
-  getWalletName,
-  getWalletImage,
-} from 'app/components/UserAssets/TxDialog/WalletLogo';
+import { getWalletImage } from 'app/components/UserAssets/TxDialog/WalletLogo';
 
 export const ConfirmStep: React.FC = () => {
   const { t } = useTranslation();
@@ -75,11 +72,10 @@ export const ConfirmStep: React.FC = () => {
             </div>
             <SelectBox onClick={noop}>
               <img
-                className="tw-h-20 tw-mb-5 tw-mt-2"
+                className="tw-h-20"
                 src={getWalletImage(walletName)}
                 alt={walletName}
               />
-              <div>{getWalletName(walletName)}</div>
             </SelectBox>
             <p className="tw-w-80 tw-mt-12 tw-text-center">
               {t(trans.approve, {
@@ -97,11 +93,10 @@ export const ConfirmStep: React.FC = () => {
             </div>
             <SelectBox onClick={noop}>
               <img
-                className="tw-h-20 tw-mb-5 tw-mt-2"
+                className="tw-h-20"
                 src={getWalletImage(walletName)}
                 alt={walletName}
               />
-              <div>{getWalletName(walletName)}</div>
             </SelectBox>
             <p className="tw-w-80 tw-mt-12 tw-text-center">
               {t(trans.confirm, { providerType: wallet.providerType })}
@@ -164,24 +159,26 @@ export const ConfirmStep: React.FC = () => {
                   <td>
                     {t(translations.BridgeDepositPage.reviewStep.dateTime)}:
                   </td>
-                  <td>{new Date().toLocaleDateString()}</td>
+                  <td className="tw-text-right">
+                    {new Date().toLocaleDateString()}
+                  </td>
                 </tr>
                 <tr>
                   <td>{t(translations.BridgeDepositPage.reviewStep.from)}:</td>
-                  <td>{network.name}</td>
+                  <td className="tw-text-right">{network.name}</td>
                 </tr>
                 <tr>
                   <td>
                     {t(translations.BridgeDepositPage.reviewStep.amount)}:
                   </td>
-                  <td>
+                  <td className="tw-text-right">
                     {toNumberFormat(asset.fromWei(amount), asset.minDecimals)}{' '}
                     {asset.symbol}
                   </td>
                 </tr>
                 <tr>
                   <td>{t(translations.BridgeDepositPage.reviewStep.tx)}:</td>
-                  <td>
+                  <td className="tw-text-right">
                     <LinkToExplorer
                       txHash={tx.hash}
                       chainId={network.chainId}
@@ -193,7 +190,7 @@ export const ConfirmStep: React.FC = () => {
             </Table>
 
             <ActionButton
-              className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
+              className="tw-mt-10 tw-w-40 tw-font-semibold tw-rounded-xl"
               text={t(translations.common.close)}
               onClick={handleComplete}
             />
@@ -216,7 +213,7 @@ export const ConfirmStep: React.FC = () => {
           </p>
 
           <ActionButton
-            className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
+            className="tw-mt-10 tw-w-40 tw-font-semibold tw-rounded-xl"
             text={t(translations.common.close)}
             onClick={handleComplete}
           />

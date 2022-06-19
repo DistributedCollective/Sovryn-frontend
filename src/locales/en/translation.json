@@ -1974,13 +1974,15 @@
   "BridgeDepositPage": {
     "poweredBy": "Powered by babelFish",
     "network": "Network",
+    "title": "Receive {{asset}}",
+    "subtitle": "Receive {{asset}} on the RSK network",
     "changeWallet": "Want to use a different wallet?",
     "chainSelector": {
       "wrongNetwork": {
         "title": "Change to {{network}}"
       },
       "chooseNetwork": {
-        "title": "Select Network to deposit from"
+        "title": "Select the network you'd like to receive {{asset}} from"
       }
     },
     "reviewStep": {
@@ -1991,7 +1993,7 @@
       "amount": "Amount",
       "bridgeFee": "Bridge Fee",
       "tx": "Tx",
-      "confirmDeposit": "Confirm Deposit"
+      "confirmDeposit": "Confirm"
     },
     "walletSelector": {
       "wrongNetwork": "We detected that you are on",
@@ -2034,7 +2036,7 @@
       "return": "Return to Portfolio"
     },
     "tokenSelector": {
-      "title": "Select coin to deposit",
+      "title": "Select the source token on the {{network}} network",
       "notSupported": "Sorry, no supported deposit tokens for {{targetAsset}} on{{network}} network. Try choosing another network or token."
     }
   },

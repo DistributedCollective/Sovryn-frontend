@@ -94,14 +94,12 @@ export const AmountSelector: React.FC = () => {
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
       <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
-        <div className="tw-mb-7 tw-text-base tw-text-center tw-font-semibold">
-          {t(translations.BridgeDepositPage.amountSelector.title)}
-        </div>
         <div className="tw-w-80">
           <FormGroup
             label={t(
               translations.BridgeDepositPage.amountSelector.depositAmount,
             )}
+            labelClassName="tw-text-sm tw-font-bold"
           >
             <AmountInput
               value={value}
@@ -121,12 +119,12 @@ export const AmountSelector: React.FC = () => {
           {t(translations.BridgeDepositPage.amountSelector.dailyDepositLimits)}
         </div>
         <Table>
-          <tbody className="tw-text-right tw-text-sm">
+          <tbody className="tw-text-left tw-text-sm tw-font-medium">
             <tr>
               <td>
                 {t(translations.BridgeDepositPage.amountSelector.minAmount)}:
               </td>
-              <td>
+              <td className="tw-text-right">
                 <LoadableValue
                   value={`${toNumberFormat(
                     asset.fromWei(limits.returnData.getMinPerToken),
@@ -140,7 +138,7 @@ export const AmountSelector: React.FC = () => {
               <td>
                 {t(translations.BridgeDepositPage.amountSelector.maxAmount)}:
               </td>
-              <td>
+              <td className="tw-text-right">
                 <LoadableValue
                   value={`${toNumberFormat(
                     fromWei(limits.returnData.getMaxTokensAllowed),
@@ -154,7 +152,7 @@ export const AmountSelector: React.FC = () => {
               <td>
                 {t(translations.BridgeDepositPage.amountSelector.dailyLimit)}:
               </td>
-              <td>
+              <td className="tw-text-right">
                 <LoadableValue
                   value={`${toNumberFormat(
                     fromWei(limits.returnData.dailyLimit),
@@ -171,7 +169,7 @@ export const AmountSelector: React.FC = () => {
                 )}
                 :
               </td>
-              <td>
+              <td className="tw-text-right">
                 <LoadableValue
                   value={`${toNumberFormat(
                     fromWei(limits.returnData.spentToday),
@@ -183,7 +181,7 @@ export const AmountSelector: React.FC = () => {
             </tr>
             <tr>
               <td> {t(translations.BridgeDepositPage.amountSelector.fee)}:</td>
-              <td>
+              <td className="tw-text-right">
                 <LoadableValue
                   value={`${toNumberFormat(
                     asset.fromWei(limits.returnData.getFeePerToken),

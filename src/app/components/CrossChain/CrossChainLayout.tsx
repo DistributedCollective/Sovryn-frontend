@@ -13,11 +13,15 @@ import ArrowBack from 'assets/images/genesis/arrow_back.svg';
 type CrossChainLayoutProps = {
   children: React.ReactNode;
   network?: Chain;
+  title?: string;
+  subtitle?: string;
 };
 
 export const CrossChainLayout: React.FC<CrossChainLayoutProps> = ({
   children,
   network = Chain.RSK,
+  title,
+  subtitle,
 }) => {
   const { connected, address } = useContext(WalletContext);
   const { t } = useTranslation();
@@ -59,7 +63,7 @@ export const CrossChainLayout: React.FC<CrossChainLayoutProps> = ({
         className="tw-rounded tw-w-full tw-bg-gray-3 tw-flex tw-justify-center tw-items-center tw-relative"
         style={{ minHeight: 'calc(100vh - 5.5rem)' }}
       >
-        <header className="tw-absolute tw-whitespace-nowrap tw-top-6 tw-right-0 tw-w-full tw-px-8 tw-z-50 tw-flex tw-flex-row tw-items-center tw-justify-between">
+        <header className="tw-absolute tw-whitespace-nowrap tw-top-6 tw-right-0 tw-w-full tw-px-8 tw-z-50 tw-flex tw-flex-row tw-items-start tw-justify-between">
           <Link
             to={backToUrl}
             className="tw-flex tw-items-center tw-font-semibold tw-cursor-pointer tw-select-none tw-text-white tw-whitespace-nowrap tw-no-underline"
@@ -71,6 +75,16 @@ export const CrossChainLayout: React.FC<CrossChainLayoutProps> = ({
             />
             {backToTitle}
           </Link>
+          <div className="tw-text-center">
+            {title && (
+              <div className="tw-font-semibold tw-text-2xl">{title}</div>
+            )}
+            {subtitle && (
+              <div className="tw-font-medium tw-text-base tw-mt-2">
+                {subtitle}
+              </div>
+            )}
+          </div>
           {connected && address && (
             <div className="tw-max-w-60 tw-bg-gray-2.5 tw-rounded-3xl engage-wallet tw-flex tw-items-center tw-px-4 tw-py-1.5 tw-justify-end tw-truncate">
               <span className="tw-font-semibold">

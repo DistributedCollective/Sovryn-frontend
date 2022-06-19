@@ -22,10 +22,10 @@ export const Step: React.FC<IStepProps> = ({
   return (
     <li
       className={classNames(
-        'tw-flex tw-items-center tw-transition tw-duration-700 tw-ease-in-out tw-text-sm',
+        'tw-flex-1 tw-flex tw-items-center tw-transition tw-duration-700 tw-ease-in-out tw-text-sm',
         {
           'tw-opacity-25': !active,
-          'tw-font-bold': current,
+          'tw-font-bold': active || current,
         },
         disabled ? 'tw-cursor-not-allowed' : 'tw-cursor-pointer',
       )}

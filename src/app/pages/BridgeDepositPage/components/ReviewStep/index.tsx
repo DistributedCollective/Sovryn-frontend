@@ -93,30 +93,32 @@ export const ReviewStep: React.FC = () => {
       <div className="tw-mb-7 tw-text-base tw-text-center tw-font-semibold">
         {t(trans.title)}
       </div>
-      <div className="tw-w-80">
-        <Table className="tw-mx-auto">
+      <div className="tw-w-80 tw-text-center">
+        <Table className="tw-mx-auto tw-font-medium">
           <tbody>
             <tr>
               <td>{t(trans.dateTime)}:</td>
-              <td>{new Date().toLocaleDateString()}</td>
+              <td className="tw-text-right">
+                {new Date().toLocaleDateString()}
+              </td>
             </tr>
             <tr>
               <td>{t(trans.from)}:</td>
-              <td>{network?.name}</td>
+              <td className="tw-text-right">{network?.name}</td>
             </tr>
             <tr>
               <td>{t(trans.token)}:</td>
-              <td>{asset?.symbol}</td>
+              <td className="tw-text-right">{asset?.symbol}</td>
             </tr>
             <tr>
               <td>{t(trans.amount)}:</td>
-              <td>
+              <td className="tw-text-right">
                 {toNumberFormat(asset.fromWei(amount), asset.minDecimals)}
               </td>
             </tr>
             <tr>
               <td>{t(trans.bridgeFee)}:</td>
-              <td>
+              <td className="tw-text-right">
                 {toNumberFormat(
                   asset.fromWei(limits.returnData.getFeePerToken),
                   asset.minDecimals,
@@ -128,9 +130,9 @@ export const ReviewStep: React.FC = () => {
         </Table>
 
         <Button
-          className="tw-mt-20 tw-w-80"
+          className="tw-mt-20 tw-w-40 tw-font-semibold"
           text={t(trans.confirmDeposit)}
-          size={ButtonSize.lg}
+          size={ButtonSize.sm}
           disabled={bridgeDepositLocked || !isValid || tx.loading}
           loading={tx.loading}
           onClick={handleSubmit}

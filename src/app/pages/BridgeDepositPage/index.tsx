@@ -19,15 +19,14 @@ import { ConfirmStep } from './components/ConfirmStep';
 import { ReturnToPortfolio } from './components/ReturnToPortfolio';
 import { Asset } from '../../../types';
 import { CrossBridgeAsset } from './types/cross-bridge-asset';
-import babelfishIcon from 'assets/images/tokens/babelfish.svg';
 
 import './styles.scss';
 import { SidebarSteps } from './components/SidebarSteps';
-import { translations } from 'locales/i18n';
-import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 import { usePageActions } from 'app/containers/PageContainer';
 import { CrossChainLayout } from 'app/components/CrossChain/CrossChainLayout';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 
 const dirtyDepositAsset = {
   [Asset.ETH]: CrossBridgeAsset.ETHS,
@@ -35,6 +34,7 @@ const dirtyDepositAsset = {
 
 export const BridgeDepositPage: React.FC = () => {
   const page = usePageActions();
+  const { t } = useTranslation();
 
   useInjectReducer({ key: sliceKey, reducer: reducer });
   useInjectSaga({ key: sliceKey, saga: bridgeDepositPageSaga });
@@ -42,8 +42,8 @@ export const BridgeDepositPage: React.FC = () => {
   const {
     step,
     requestedReturnToPortfolio,
-    targetAsset,
     receiver,
+    targetAsset,
   } = useSelector(selectBridgeDepositPage);
 
   useLayoutEffect(() => {
@@ -52,7 +52,6 @@ export const BridgeDepositPage: React.FC = () => {
     });
   }, [receiver, page]);
 
-  const { t } = useTranslation();
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -85,9 +84,14 @@ export const BridgeDepositPage: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <CrossChainLayout>
+    <CrossChainLayout
+      title={t(translations.BridgeDepositPage.title, { asset: targetAsset })}
+      subtitle={t(translations.BridgeDepositPage.subtitle, {
+        asset: targetAsset,
+      })}
+    >
       <div
-        style={{ minHeight: 592 }}
+        style={{ minHeight: 610, minWidth: 780 }}
         className="tw-py-4 tw-flex tw-flex-col tw-h-full tw-w-full tw-relative"
       >
         <div
@@ -127,12 +131,12 @@ export const BridgeDepositPage: React.FC = () => {
             </CSSTransition>
           </SwitchTransition>
         </div>
-        {!requestedReturnToPortfolio && targetAsset === 'XUSD' && (
+        {/* {!requestedReturnToPortfolio && targetAsset === 'XUSD' && (
           <div className="tw-absolute tw-bottom-8 tw-left-0 tw-right-0 tw-mx-auto tw-flex tw-flex-col tw-items-center">
             <img className="tw-mb-1" src={babelfishIcon} alt="babelFish" />
             {t(translations.BridgeDepositPage.poweredBy)}
           </div>
-        )}
+        )} */}
       </div>
     </CrossChainLayout>
   );
