@@ -172,7 +172,7 @@
   "marketingPage": {
     "explain": {
       "title": "COMO FUNCIONA?",
-      "earn": "Ganhe SOV minerando liquidez nos pools USDT/BTC ou SOV/RBTC",
+      "earn": "Ganhe SOVs minerando liquidez nos pools USDT/BTC ou SOV/RBTC",
       "datesUSDT": "Datas USDT/RBTC: 1 Abril 2021, 12.00 UTC  até 1 Maio 2021, 12.00 UTC",
       "datesSOV": "Datas SOV/RBTC: 13 Abril 2021 12.00 UTC até 11 Maio 2021 12.00 UTC",
       "depositUSDT": "Bônus se depositar USDT: 25,000 SOV",
@@ -730,8 +730,8 @@
     "advancedSettings": "Configurações avançadas"
   },
   "stake": {
-    "title": "SOV investidos/reservados",
-    "meta": "SOV investidos/reservados",
+    "title": "SOVs investidos/reservados",
+    "meta": "SOVs investidos/reservados",
     "paused": "Staking functionality is currently paused by Sovryn Governance, please try again later or check our <0>Discord</0> for more details.",
     "connect": "Conecte sua carteira e comece a rentabilizar seus SOVs.",
     "total": "Total investido",
@@ -741,7 +741,7 @@
     "feeTitle": "Dividendos disponíveis",
     "sentLendingPool": "{{asset}} será enviado para o pool de empréstimos.",
     "convertedToRBTC": "{{asset}} será convertido em RBTC e enviado diretamente para sua carteira.",
-    "noUnlockedSov": "Você não possui SOV disponíveis para investimento",
+    "noUnlockedSov": "Você não possui SOVs disponíveis para investimento",
     "txFee": "Taxa de transação",
     "txId": "ID transação:",
     "sov": "SOV",
@@ -763,8 +763,8 @@
       "closeDialog": "Fechar janela",
       "reallyUnstake": "Você tem certeza de que deseja sacar seus SOVs?",
       "stakeUnlockUntil": "Este investimento está agendado para ser desbloqueado somente em",
-      "penalty": "Sacar os SOV neste momento fará com que você receba uma penalidade",
-      "penaltyZero": "Será cobrado de você alguns SOV por sacar antes do prazo estabelecido",
+      "penalty": "Sacar os SOVs neste momento fará com que você receba uma penalidade",
+      "penaltyZero": "Será cobrado de você alguns SOVs por sacar antes do prazo estabelecido",
       "unstake": "Ok, sacar SOV",
       "loading": "Carregando..."
     },
@@ -829,7 +829,7 @@
       "stakingPeriod": "Prazo da reserva",
       "unlockDate": "Data de desbloqueio",
       "fees": "Dividendos recebidos",
-      "noVestingContracts": "Não existem SOV reservados para você.",
+      "noVestingContracts": "Não existem SOVs reservados para você.",
       "assetType": {
         "genesis": "SOV Gênese",
         "origin": "SOV Origem",
@@ -1607,7 +1607,7 @@
     },
     "claimForm": {
       "title": "Quantidade:",
-      "availble": "Total de SOV disponíveis:",
+      "availble": "Total de SOVs disponíveis:",
       "cta": "REIVINDICAR",
       "note": "Ao reivindicar seus SOVs Recompensa, eles ficam bloqueados por 10 meses. A cada mês uma quantidade é liberada.",
       "learn": "Saiba mais",
@@ -1825,12 +1825,12 @@
       "title": "Promoções SOV",
       "p1": {
         "title": "Mês de Abril - Distribuição de 50k SOVs no pool BTC/USDT",
-        "text": "Disponibilize sua cripto no pool de liquidez da Sovryn. Quanto mais tempo você deixar os fundos no pool, mais SOV você ganhará.",
+        "text": "Disponibilize sua cripto no pool de liquidez da Sovryn. Quanto mais tempo você deixar os fundos no pool, mais SOVs você ganhará.",
         "cta": "Sovryn go brrrrrrrrrrrrrrr"
       },
       "p2": {
         "title": "Mês de Abril - Distribuição de 75k SOV no pool BTC/SOV",
-        "text": "O pool de liquidez SOV/BTC está aberto, é a sua chance de participar da nossa maior distribuição de SOV já realizada até o momento..",
+        "text": "O pool de liquidez SOV/BTC está aberto, é a sua chance de participar da nossa maior distribuição de SOVs já realizada até o momento..",
         "cta": "Veja como participar"
       },
       "p3": {
@@ -1839,8 +1839,8 @@
         "cta": "Ganhe agora"
       },
       "p4": {
-        "title": "Distribuição de 35K SOV no pool ETHs/RBTC",
-        "text": "Na primeira semana, $1.2 milhões de SOV serão distribuídos para os fornecedores de liquidez do AMM. Esta super promoção irá durar 7 dias. Algumas análises indicam que os primeiros participantes terão um retorno 3000%!! O maior rendimento de ETH existente hoje. Haverá novos bônus para as próximas semanas, que serão revisadas e anunciadas no final de cada semana.",
+        "title": "Distribuição de 35K SOVs no pool ETHs/RBTC",
+        "text": "Na primeira semana, $1.2 milhões de SOVs serão distribuídos para os fornecedores de liquidez do AMM. Esta super promoção irá durar 7 dias. Algumas análises indicam que os primeiros participantes terão um retorno 3000%!! O maior rendimento de ETH existente hoje. Haverá novos bônus para as próximas semanas, que serão revisadas e anunciadas no final de cada semana.",
         "cta": "Ganhe agora"
       }
     },
