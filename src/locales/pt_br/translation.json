@@ -2643,29 +2643,29 @@
   },
   "promotions": {
     "card1": {
-      "title": "5K SOV rewards",
-      "duration": "Ongoing weekly rewards",
-      "text": "Provide a 1:1 ratio of MYNT and rBTC to the MYNT/BTC AMM liquidity pool and instantly start accruing your share of 5,000 SOV rewards."
+      "title": "5K SOVs em recompensas",
+      "duration": "Toda semana",
+      "text": "Deposite MYNT e rBTC neste pool de liquidez e comece agora mesmo a acumular sua parte nos 5,000 SOVs."
     },
     "card2": {
-      "title": "15K SOV rewards",
-      "duration": "Ongoing weekly rewards",
-      "text": "Provide any amount of XUSD to the XUSD lending pool and instantly start accruing your share of 15,000 SOV rewards."
+      "title": "15K SOVs em recompensas",
+      "duration": "Toda semana",
+      "text": "Deposite qualquer quantia de XUSD neste pool de empréstimo e comece agora mesmo a acumular sua parte nos 15,000 SOVs."
     },
     "card3": {
-      "title": "25K SOV rewards",
-      "duration": "Ongoing weekly rewards",
-      "text": "Provide a 1:1 ratio of XUSD and rBTC to the XUSD/rBTC AMM liquidity pool and instantly start accruing your share of 25,000 SOV rewards."
+      "title": "25K SOVs em recompensas",
+      "duration": "Toda semana",
+      "text": "Deposite XUSD e rBTC neste pool de liquidez e comece agora mesmo a acumular sua parte nos 25,000 SOVs."
     },
     "card4": {
-      "title": "30K SOV rewards",
-      "duration": "Ongoing weekly rewards",
-      "text": "Provide a 1:1 ratio of SOV and rBTC to the SOV/rBTC AMM liquidity pool and instantly start accruing your share of 30,000 SOV rewards."
+      "title": "30K SOVs em recompensas",
+      "duration": "Toda semana",
+      "text": "Deposite SOV e rBTC neste pool de liquidez e comece agora mesmo a acumular sua parte nos 30,000 SOVs."
     },
     "card5": {
-      "title": "5K SOV rewards",
-      "duration": "Ongoing weekly rewards",
-      "text": "Provide a 1:1 ratio of ETH and rBTC to the ETH/rBTC AMM liquidity pool and instantly start accruing your share of 5,000 SOV rewards."
+      "title": "5K SOVs em recompensas",
+      "duration": "Toda semana",
+      "text": "Deposite ETH e rBTC neste pool de liquidez e comece agora mesmo a acumular sua parte nos 5,000 SOVs."
     }
   },
   "liquidityMining": {
