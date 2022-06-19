@@ -485,7 +485,7 @@
       "marginTrade": "Negocie com alavancagem de até 5x",
       "lend": "Receba juros emprestando criptos nos pools de empréstimo",
       "pool": "Ganhe rendimentos depositando criptos nos pools de liquidez",
-      "staking": "Ganhe recompensas investindo seus SOV",
+      "staking": "Ganhe recompensas investindo seus SOVs",
       "originsLaunchpad": "Vendas realizadas na plataforma Origens",
       "originsClaim": "Reivindicar recompensas FISH",
       "myntToken": "Protocolo Sovryn de moedas estáveis apoiado por BTC",
@@ -761,7 +761,7 @@
       "unlockedSov": "SOV desbloqueado",
       "forfeit": "Multa por sacar SOV antes do prazo",
       "closeDialog": "Fechar janela",
-      "reallyUnstake": "Você tem certeza de que deseja sacar seus SOV?",
+      "reallyUnstake": "Você tem certeza de que deseja sacar seus SOVs?",
       "stakeUnlockUntil": "Este investimento está agendado para ser desbloqueado somente em",
       "penalty": "Sacar os SOV neste momento fará com que você receba uma penalidade",
       "penaltyZero": "Será cobrado de você alguns SOV por sacar antes do prazo estabelecido",
@@ -1590,13 +1590,13 @@
       "liquidSovTab": {
         "title": "Você não possui SOV Líquido",
         "recommendationsTitle": "Ganhe SOV Líquido das seguintes formas:",
-        "recommendation1": "Investindo seus SOV",
+        "recommendation1": "Investindo seus SOVs",
         "recommendation2": "Operando margem em criptos listadas na Sovryn"
       },
       "feesEarnedTab": {
         "title": "Você não possui Dividendos/Comissão a receber",
         "recommendationsTitle": "Ganhe Dividendos/Comissão das seguintes formas:",
-        "recommendation1": "Investindo seus SOV",
+        "recommendation1": "Investindo seus SOVs",
         "recommendation2": "Quando usuários indicados por você realizam transações na Sovryn",
         "recommendation3": "Você também pode reivindicar aqui os tokens lançados e distribuídos gratuitamente"
       }
@@ -1609,12 +1609,12 @@
       "title": "Quantidade:",
       "availble": "Total de SOV disponíveis:",
       "cta": "REIVINDICAR",
-      "note": "Ao reivindicar seus SOV Recompensa, eles ficam bloqueados por 10 meses. A cada mês uma quantidade é liberada.",
+      "note": "Ao reivindicar seus SOVs Recompensa, eles ficam bloqueados por 10 meses. A cada mês uma quantidade é liberada.",
       "learn": "Saiba mais",
       "claimDisabled": "There is not enough SOV in the StakingRewardsProxy contract to facilitate a claim of rewards at this time. Therefore, to avoid a loss of gas fee by initiating a transaction that will inevitably fail, the CLAIM button has been disabled. Be assured that the team is aware and funds should be replenished shortly."
     },
     "liquidClaimForm": {
-      "note": "Ao reivindicar seus SOV Líquido, eles automaticamente são adicionados no seu saldo SOV no portfólio.",
+      "note": "Ao reivindicar seus SOVs Líquido, eles automaticamente são adicionados no seu saldo SOV no portfólio.",
       "learn": "Saiba mais"
     },
     "feesEarnedClaimForm": {
@@ -1873,8 +1873,8 @@
         "cta": "Emprestar"
       },
       "stake": {
-        "title": "Rentabilizando seus SOV & Votando",
-        "text": "O protocolo da Sovryn tem incentivos incorporados no código para crescimento a longo prazo. Os detentores do token que investem seus SOV, quando participam da governança do protocolo por meio de votação, recebem dividendos que a plataforma gera das taxas de transação cobradas dos usuários.",
+        "title": "Rentabilizando seus SOVs & Votando",
+        "text": "O protocolo da Sovryn tem incentivos incorporados no código para crescimento a longo prazo. Os detentores do token que investem seus SOVs, quando participam da governança do protocolo por meio de votação, recebem dividendos que a plataforma gera das taxas de transação cobradas dos usuários.",
         "cta": "Rentabilizar SOV"
       }
     },
