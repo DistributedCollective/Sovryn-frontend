@@ -154,8 +154,10 @@ export const NewPositionCard: React.FC = () => {
       setTrade(trade => ({
         ...trade,
         pairType,
-        limit: '0',
-        trigger: '0',
+        expiry: undefined,
+        amount: '0',
+        limit: undefined,
+        trigger: undefined,
       }));
     }
   }, [dispatch, pairType, trade.pairType]);
