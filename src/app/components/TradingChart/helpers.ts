@@ -1,5 +1,6 @@
 import { ApolloClient, gql } from '@apollo/client';
 import { CandleDetails } from 'app/pages/PerpetualPage/hooks/graphql/useGetCandles';
+import { uniqBy } from 'lodash';
 import { Asset } from 'types';
 import { getTokenContract } from 'utils/blockchain/contract-helpers';
 
@@ -216,6 +217,8 @@ export const queryCustomPairs = async (
         const item = fillItem(lastBase, quote, lastBase);
         if (item) {
           items.push(item);
+        } else {
+          items.push(lastBase);
         }
       }
 
@@ -300,7 +303,6 @@ export const addMissingBars = (
         const newBar = {
           ...extraBar,
           time: startTime,
-          time2: new Date(startTime).toLocaleString(),
         };
         newBars.push(newBar);
         startTime += seconds;
@@ -309,5 +311,7 @@ export const addMissingBars = (
     }
   }
 
-  return newBars;
+  const items = uniqBy(newBars, 'time').sort((a, b) => a.time - b.time);
+
+  return items;
 };
