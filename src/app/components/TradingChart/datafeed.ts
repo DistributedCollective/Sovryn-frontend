@@ -69,6 +69,7 @@ const tradingChartDataFeeds = (
       exchange: '',
       listed_exchange: '',
       format: 'price',
+      volume_precision: 6,
       session: '24x7',
       timezone: 'Etc/UTC',
       ticker: symbolName,
