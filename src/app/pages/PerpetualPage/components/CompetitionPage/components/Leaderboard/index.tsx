@@ -137,15 +137,21 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
                 ),
               };
 
-              entry.unrealizedPnLCC =
+              const unrealizedPnlCC =
                 getTraderPnLInBC(
                   parsedTraderState,
                   ammState,
                   perpetualParameters,
                 ) * baseToCollateral;
 
+              entry.unrealizedPnLCC = unrealizedPnlCC;
+
               entry.totalPnL =
-                (balance + parsedTraderState.marginBalanceCC) / capitalUsed;
+                ((balance +
+                  unrealizedPnlCC +
+                  parsedTraderState.marginAccountCashCC) /
+                  capitalUsed) *
+                100;
             }
 
             const lastPositionProfit = ABK64x64ToFloat(
