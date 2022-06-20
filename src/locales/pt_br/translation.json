@@ -229,8 +229,8 @@
   "fastBtcPage": {
     "meta": {
       "title": "FastBTC",
-      "titleDeposit": "Depositar BTC",
-      "titleWithdraw": "Sacar BTC",
+      "titleDeposit": "Receber RBTC",
+      "titleWithdraw": "Enviar BTC",
       "description": "Transfira seu Bitcoin para a rede RSK."
     },
     "backToPortfolio": "Voltar ao portfólio",
@@ -294,7 +294,7 @@
     "withdraw": {
       "sidebarSteps": {
         "amount": "Inserir quantidade",
-        "address": "Endereço de saque",
+        "address": "Endereço de recebimento",
         "review": "Revisar",
         "confirm": "Confirmar",
         "processing": "Processando",
@@ -302,8 +302,8 @@
         "completed": "Concluído"
       },
       "mainScreen": {
-        "title": "Sacar <0/> para a rede BTC",
-        "description": "Sempre verifique se o endereço de saque está correto."
+        "title": "Enviar <0/> para endereço BTC",
+        "description": "Sempre verifique se o endereço de recebimento está correto."
       },
       "withdrawDetails": {
         "title": "Limites e taxas",
@@ -320,7 +320,7 @@
         "line5": "Se a transação não for concluída em {{hours}} horas <0>abra um ticket de suporte</0>."
       },
       "amountForm": {
-        "title": "Sacar <0/>",
+        "title": "Enviar <0/>",
         "withdrawAmount": "Quantidade",
         "availableBalance": "Saldo disponível: <0/> <1/>"
       },
@@ -328,16 +328,16 @@
         "title": "Endereço BTC",
         "address": "Receber BTC no endereço:",
         "errorBECH32": "Insira um endereço BTC BECH32 válido!",
-        "cta": "Revisar saque"
+        "cta": "Revisar transação"
       },
       "reviewScreen": {
-        "title": "Revisar saque <0/>",
+        "title": "Revisar transação <0/>",
         "amount": "Quantidade",
         "address": "Endereço BTC de recebimento",
         "fees": "Taxas:",
         "received": "Receber:",
         "tx": "ID transação:",
-        "description": "O saque está sendo processado. Se a transação não for concluída em {{hours}} horas <0>abra um ticket de suporte</0>."
+        "description": "A transação está sendo processada. Se a transação não for concluída em {{hours}} horas <0>abra um ticket de suporte</0>."
       },
       "walletTxHelper": {
         "confirm": "Confirme a transação na sua carteira {{wallet}}",
@@ -348,10 +348,10 @@
       },
       "statusScreen": {
         "titles": {
-          "pending_for_user": "Confirmar saque <0/>",
-          "pending": "Processando saque <0/>.",
+          "pending_for_user": "Confirmar transação <0/>",
+          "pending": "Processando transação <0/>.",
           "confirmed": "Confirmado",
-          "failed": "Saque falhou"
+          "failed": "Transação falhou"
         },
         "cta": "Voltar ao portfólio"
       }
