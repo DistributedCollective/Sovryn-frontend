@@ -40,7 +40,7 @@ export const HeaderLabs: React.FC<HeaderLabsProps> = ({ menus, helpLink }) => {
             <SovLogo className={styles.logo} />
           </div>
         </div>
-        <div>{menus}</div>
+        <>{menus}</>
         <div className="tw-w-1/4 tw-flex tw-justify-end tw-items-center">
           {helpLink && (
             <a

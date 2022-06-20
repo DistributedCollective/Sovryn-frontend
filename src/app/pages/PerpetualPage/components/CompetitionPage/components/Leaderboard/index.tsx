@@ -185,8 +185,8 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
       setLoaded(false);
       run()
         .then(rows => {
-          // Log full results, to debug PnL values.
-          console.log(rows);
+          // Log full results, to debug PnL values. Uncomment it only for debugging reasons.
+          //console.log(rows);
           setItems(rows);
           setLoaded(true);
           if (account) {
