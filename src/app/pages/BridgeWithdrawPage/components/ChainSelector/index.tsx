@@ -60,19 +60,19 @@ export const ChainSelector: React.FC = () => {
       </div>
       <div className="tw-flex tw-px-2 tw-justify-center">
         {networks.map(item => (
-          <SelectBox
-            key={item.chain}
-            onClick={() => selectNetwork(item.chain)}
-            disabled={
-              bridgeLocked || assetWithdrawLocked || lockedChains[item.chain]
-            }
-          >
-            <img className="tw-mb-5 tw-mt-2" src={item.logo} alt={item.chain} />
-            <div>
-              <span className="tw-uppercase">{item.chain} </span>{' '}
-              {t(translations.BridgeDepositPage.network)}
-            </div>
-          </SelectBox>
+          <div key={item.chain}>
+            <SelectBox
+              onClick={() => selectNetwork(item.chain)}
+              disabled={
+                bridgeLocked || assetWithdrawLocked || lockedChains[item.chain]
+              }
+            >
+              <img src={item.logo} alt={item.chain} />
+            </SelectBox>
+            <h3 className="tw-w-32 tw-text-center tw-mx-auto tw-mt-4">
+              {item.name}
+            </h3>
+          </div>
         ))}
       </div>
       {(bridgeLocked || assetWithdrawLocked || lockedChainsVisible) && (

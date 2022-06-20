@@ -66,7 +66,10 @@ export const ReceiverSelector: React.FC<IReceiverSelectorProps> = ({
           {t(trans.title, { currentNetwork })}
         </div>
         <div className="tw-w-80">
-          <FormGroup label={`Receiving ${targetAsset} Address`}>
+          <FormGroup
+            label={`Receiving ${targetAsset} Address`}
+            labelClassName="tw-text-sm tw-font-bold"
+          >
             <Input
               value={value}
               onChange={val => setValue(val)}
@@ -96,13 +99,11 @@ export const ReceiverSelector: React.FC<IReceiverSelectorProps> = ({
                 {t(trans.withdrawDisclaimer)}
               </div>
             </div>
-          ) : (
-            <div className="tw-mb-12">{t(trans.confirm)}</div>
-          )}
+          ) : null}
         </div>
 
         <ActionButton
-          className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
+          className="tw-mt-10 tw-w-44 tw-font-semibold tw-rounded-xl"
           text={t(translations.common.next)}
           disabled={bridgeWithdrawLocked || !valid}
           onClick={selectReceiver}

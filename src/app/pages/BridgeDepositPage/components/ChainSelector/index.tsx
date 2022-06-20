@@ -62,9 +62,8 @@ export const ChainSelector: React.FC = () => {
       </div>
       <div className="tw-flex tw-px-2 tw-justify-center">
         {networks.map(item => (
-          <div>
+          <div key={item.chain}>
             <SelectBox
-              key={item.chain}
               onClick={() => selectNetwork(item.chain)}
               disabled={
                 bridgeLocked || assetDepositLocked || lockedChains[item.chain]

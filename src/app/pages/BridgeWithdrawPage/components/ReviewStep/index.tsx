@@ -112,35 +112,37 @@ export const ReviewStep: React.FC = () => {
 
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
-      <div className="tw-mb-7 tw-text-base tw-text-center tw-font-semibold">
+      <div className="tw-mb-4 tw-text-base tw-text-center tw-font-semibold">
         {t(translations.BridgeWithdrawPage.reviewStep.title, {
           symbol: currentAsset.symbol,
         })}
       </div>
-      <div className="tw-w-80">
-        <Table className="tw-mx-auto">
+      <div className="tw-w-80 tw-text-center">
+        <Table className="tw-mx-auto tw-text-left tw-text-sm tw-font-medium">
           <tbody>
             <tr>
               <td>{t(translations.BridgeWithdrawPage.reviewStep.dateTime)}:</td>
-              <td>{new Date().toLocaleDateString()}</td>
+              <td className="tw-text-right">
+                {new Date().toLocaleDateString()}
+              </td>
             </tr>
             <tr>
               <td>{t(translations.BridgeWithdrawPage.reviewStep.from)}:</td>
-              <td>{currentNetwork?.name}</td>
+              <td className="tw-text-right">{currentNetwork?.name}</td>
             </tr>
             <tr>
               <td>{t(translations.BridgeWithdrawPage.reviewStep.to)}:</td>
-              <td>{network?.name}</td>
+              <td className="tw-text-right">{network?.name}</td>
             </tr>
             <tr>
               <td>{t(translations.BridgeWithdrawPage.reviewStep.token)}:</td>
-              <td>
+              <td className="tw-text-right">
                 {currentAsset?.symbol} -&gt; {asset?.symbol}
               </td>
             </tr>
             <tr>
               <td>{t(translations.BridgeWithdrawPage.reviewStep.amount)}:</td>
-              <td>
+              <td className="tw-text-right">
                 {toNumberFormat(
                   currentAsset.fromWei(amount),
                   currentAsset.minDecimals,
@@ -149,7 +151,7 @@ export const ReviewStep: React.FC = () => {
             </tr>
             <tr>
               <td>{t(translations.BridgeWithdrawPage.reviewStep.receiver)}:</td>
-              <td>
+              <td className="tw-text-right">
                 <a
                   href={network.explorer + '/address/' + receiver}
                   rel="noreferrer noopener"
@@ -163,7 +165,7 @@ export const ReviewStep: React.FC = () => {
               <td>
                 {t(translations.BridgeWithdrawPage.reviewStep.bridgeFee)}:
               </td>
-              <td>
+              <td className="tw-text-right">
                 <div className="tw-flex tw-items-center">
                   {toNumberFormat(
                     currentAsset.fromWei(limits.returnData.getFeePerToken),
@@ -197,7 +199,7 @@ export const ReviewStep: React.FC = () => {
         </Table>
 
         <Button
-          className="tw-mt-20 tw-w-80"
+          className="tw-mt-20 tw-w-44 tw-mx-auto"
           text={t(translations.BridgeWithdrawPage.reviewStep.confirm)}
           size={ButtonSize.lg}
           disabled={bridgeWithdrawLocked || !isValid || tx.loading}

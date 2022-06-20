@@ -22,6 +22,7 @@ import { CrossBridgeAsset } from '../BridgeDepositPage/types/cross-bridge-asset'
 import { ReceiverSelector } from './components/ReceiverSelector';
 import { useAccount } from '../../hooks/useAccount';
 import { usePageActions } from 'app/containers/PageContainer';
+import { CrossChainLayout } from 'app/components/CrossChain/CrossChainLayout';
 
 const dirtyWithdrawAssets = {
   [Asset.ETH]: CrossBridgeAsset.ETHS,
@@ -73,25 +74,16 @@ export const BridgeWithdrawPage: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <>
+    <CrossChainLayout>
       <div
-        className="tw-flex tw-flex-row tw-justify-between tw-items-start tw-w-full tw-p-5 tw-bg-gray-4 tw-relative"
-        style={{ marginTop: '-4.4rem' }}
+        style={{ minHeight: 610, width: 780, maxWidth: 'calc(100vw - 22rem)' }}
+        className="tw-py-4 tw-flex tw-flex-col tw-h-full tw-relative"
       >
-        <div
-          className="tw-relative tw-z-50 tw-h-full tw-flex tw-flex-col tw-items-start tw-justify-center tw-pl-8"
-          style={{ minWidth: 200, minHeight: 'calc(100vh - 2.5rem)' }}
-        >
+        <div className="tw-px-10 tw-mt-10 tw-relative tw-z-50 tw-w-full tw-flex tw-items-start tw-justify-center">
           <SidebarSteps />
         </div>
 
-        <div
-          style={{
-            minHeight: 'calc(100% - 2.5rem)',
-            minWidth: 'calc(100% - 2.5rem)',
-          }}
-          className="tw-flex-1 tw-flex tw-flex-col tw-items-end md:tw-items-center tw-justify-around tw-absolute tw-pb-20"
-        >
+        <div className="tw-flex-1 tw-px-4 tw-w-full tw-flex tw-flex-col tw-items-end md:tw-items-center tw-justify-around">
           <SwitchTransition>
             <CSSTransition
               key={step}
@@ -124,6 +116,6 @@ export const BridgeWithdrawPage: React.FC = () => {
           </div>
         )} */}
       </div>
-    </>
+    </CrossChainLayout>
   );
 };

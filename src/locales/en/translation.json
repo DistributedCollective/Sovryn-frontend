@@ -2043,7 +2043,7 @@
   "BridgeWithdrawPage": {
     "chainSelector": {
       "chooseNetwork": {
-        "title": "Select Network to withdraw {{asset}} to"
+        "title": "Select the network you want to bridge to and send {{asset}} to"
       }
     },
     "reviewStep": {
@@ -2057,7 +2057,7 @@
       "bridgeFee": "Bridge Fee",
       "bridgeFeeWarning": "WARNING: HIGH FEE. The cost of gas on Ethereum is significantly higher than it is on BSC or RSK.",
       "tx": "Tx",
-      "confirm": "Confirm Withdraw"
+      "confirm": "Confirm"
     },
     "amountSelector": {
       "title": "Enter amount to withdraw",
@@ -2093,7 +2093,7 @@
       "withdrawDisclaimer": "Withdrawals directly to exchange addresses are not advised due to lack of support by exchanges (e.g. Binance), we are not responsible for any loss of funds in these cases. Please only send funds to wallet addresses that you control exclusively (EOA)."
     },
     "tokenSelector": {
-      "title": "Select coin to withdraw to",
+      "title": "Select the token you'd like to receive on the {{network}} network",
       "notSupported": "Sorry, no supported deposit tokens for {{sourceAsset}} on{{network}} network. Try choosing another network or token.",
       "maxWithdrawal": "Max Withdrawal:"
     }

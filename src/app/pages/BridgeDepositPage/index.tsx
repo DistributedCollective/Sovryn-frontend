@@ -91,8 +91,8 @@ export const BridgeDepositPage: React.FC = () => {
       })}
     >
       <div
-        style={{ minHeight: 610, minWidth: 780 }}
-        className="tw-py-4 tw-flex tw-flex-col tw-h-full tw-w-full tw-relative"
+        style={{ minHeight: 610, width: 780, maxWidth: 'calc(100vw - 22rem)' }}
+        className="tw-py-4 tw-flex tw-flex-col tw-h-full tw-relative"
       >
         <div
           className={classNames(

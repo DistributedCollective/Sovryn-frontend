@@ -153,7 +153,7 @@ export const ConfirmStep: React.FC = () => {
                 />
               )}
             </div>
-            <Table>
+            <Table className="tw-mx-auto tw-text-left tw-text-sm tw-font-medium">
               <tbody>
                 <tr>
                   <td>
@@ -190,7 +190,7 @@ export const ConfirmStep: React.FC = () => {
             </Table>
 
             <ActionButton
-              className="tw-mt-10 tw-w-40 tw-font-semibold tw-rounded-xl"
+              className="tw-mt-10 tw-w-44 tw-font-semibold tw-rounded-xl"
               text={t(translations.common.close)}
               onClick={handleComplete}
             />
@@ -213,7 +213,7 @@ export const ConfirmStep: React.FC = () => {
           </p>
 
           <ActionButton
-            className="tw-mt-10 tw-w-40 tw-font-semibold tw-rounded-xl"
+            className="tw-mt-10 tw-w-44 tw-font-semibold tw-rounded-xl"
             text={t(translations.common.close)}
             onClick={handleComplete}
           />

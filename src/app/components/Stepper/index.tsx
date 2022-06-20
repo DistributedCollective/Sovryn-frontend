@@ -30,18 +30,18 @@ export const Stepper: React.FC<IStepperProps> = ({
           style={{
             width: `${
               (activeIndex * 100) / steps.length -
-              (activeIndex !== steps.length ? 10 : 0)
+              (activeIndex !== steps.length ? 15 : 0)
             }%`,
           }}
         ></div>
       </div>
-      <ul className="tw-relative tw-flex tw-items-center tw-justify-between tw-gap-8 tw-mt-5">
+      <ul className="tw-relative tw-flex tw-items-center tw-justify-between tw-gap-8 tw-mt-5 tw-pr-20">
         {steps.map((item, i) => (
           <Step
             key={i}
             step={item}
-            current={activeIndex === i}
-            active={activeIndex >= i && !locked}
+            current={activeIndex - 1 === i}
+            active={activeIndex - 1 >= i && !locked}
             onClick={() => !locked && onClick(item.value)}
             disabled={locked}
           />

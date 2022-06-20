@@ -115,98 +115,106 @@ export const AmountSelector: React.FC = () => {
             </p>
           </FormGroup>
         </div>
-        <div className="text-center tw-mt-4 tw-mb-2">
-          {t(translations.BridgeDepositPage.amountSelector.dailyDepositLimits)}
-        </div>
-        <Table>
-          <tbody className="tw-text-left tw-text-sm tw-font-medium">
-            <tr>
-              <td>
-                {t(translations.BridgeDepositPage.amountSelector.minAmount)}:
-              </td>
-              <td className="tw-text-right">
-                <LoadableValue
-                  value={`${toNumberFormat(
-                    asset.fromWei(limits.returnData.getMinPerToken),
-                    asset.minDecimals,
-                  )} ${asset.symbol}`}
-                  loading={limitsLoading}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                {t(translations.BridgeDepositPage.amountSelector.maxAmount)}:
-              </td>
-              <td className="tw-text-right">
-                <LoadableValue
-                  value={`${toNumberFormat(
-                    fromWei(limits.returnData.getMaxTokensAllowed),
-                    asset.minDecimals,
-                  )} ${asset.symbol}`}
-                  loading={limitsLoading}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                {t(translations.BridgeDepositPage.amountSelector.dailyLimit)}:
-              </td>
-              <td className="tw-text-right">
-                <LoadableValue
-                  value={`${toNumberFormat(
-                    fromWei(limits.returnData.dailyLimit),
-                    asset.minDecimals,
-                  )} ${asset.symbol}`}
-                  loading={limitsLoading}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td>
-                {t(
-                  translations.BridgeDepositPage.amountSelector.dailyLimitSpent,
-                )}
-                :
-              </td>
-              <td className="tw-text-right">
-                <LoadableValue
-                  value={`${toNumberFormat(
-                    fromWei(limits.returnData.spentToday),
-                    asset.minDecimals,
-                  )} ${asset.symbol}`}
-                  loading={limitsLoading}
-                />
-              </td>
-            </tr>
-            <tr>
-              <td> {t(translations.BridgeDepositPage.amountSelector.fee)}:</td>
-              <td className="tw-text-right">
-                <LoadableValue
-                  value={`${toNumberFormat(
-                    asset.fromWei(limits.returnData.getFeePerToken),
-                    asset.minDecimals,
-                  )} ${asset.symbol}`}
-                  loading={limitsLoading}
-                />
-              </td>
-            </tr>
-            {bridgeBalance.value !== false && (
+        <div>
+          <div className="text-left tw-font-semibold tw-mt-4 tw-mb-2 tw-w-full tw-px-2">
+            {t(
+              translations.BridgeDepositPage.amountSelector.dailyDepositLimits,
+            )}
+          </div>
+          <Table>
+            <tbody className="tw-text-left tw-text-sm tw-font-medium">
+              <tr>
+                <td>
+                  {t(translations.BridgeDepositPage.amountSelector.minAmount)}:
+                </td>
+                <td className="tw-text-right">
+                  <LoadableValue
+                    value={`${toNumberFormat(
+                      asset.fromWei(limits.returnData.getMinPerToken),
+                      asset.minDecimals,
+                    )} ${asset.symbol}`}
+                    loading={limitsLoading}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  {t(translations.BridgeDepositPage.amountSelector.maxAmount)}:
+                </td>
+                <td className="tw-text-right">
+                  <LoadableValue
+                    value={`${toNumberFormat(
+                      fromWei(limits.returnData.getMaxTokensAllowed),
+                      asset.minDecimals,
+                    )} ${asset.symbol}`}
+                    loading={limitsLoading}
+                  />
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  {t(translations.BridgeDepositPage.amountSelector.dailyLimit)}:
+                </td>
+                <td className="tw-text-right">
+                  <LoadableValue
+                    value={`${toNumberFormat(
+                      fromWei(limits.returnData.dailyLimit),
+                      asset.minDecimals,
+                    )} ${asset.symbol}`}
+                    loading={limitsLoading}
+                  />
+                </td>
+              </tr>
               <tr>
                 <td>
                   {t(
                     translations.BridgeDepositPage.amountSelector
-                      .aggregatorBalance,
+                      .dailyLimitSpent,
                   )}
+                  :
                 </td>
-                <td>{bridgeBalance.value}</td>
+                <td className="tw-text-right">
+                  <LoadableValue
+                    value={`${toNumberFormat(
+                      fromWei(limits.returnData.spentToday),
+                      asset.minDecimals,
+                    )} ${asset.symbol}`}
+                    loading={limitsLoading}
+                  />
+                </td>
               </tr>
-            )}
-          </tbody>
-        </Table>
+              <tr>
+                <td>
+                  {' '}
+                  {t(translations.BridgeDepositPage.amountSelector.fee)}:
+                </td>
+                <td className="tw-text-right">
+                  <LoadableValue
+                    value={`${toNumberFormat(
+                      asset.fromWei(limits.returnData.getFeePerToken),
+                      asset.minDecimals,
+                    )} ${asset.symbol}`}
+                    loading={limitsLoading}
+                  />
+                </td>
+              </tr>
+              {bridgeBalance.value !== false && (
+                <tr>
+                  <td>
+                    {t(
+                      translations.BridgeDepositPage.amountSelector
+                        .aggregatorBalance,
+                    )}
+                  </td>
+                  <td>{bridgeBalance.value}</td>
+                </tr>
+              )}
+            </tbody>
+          </Table>
+        </div>
 
         <ActionButton
-          className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
+          className="tw-mt-10 tw-w-44 tw-font-semibold tw-rounded-xl"
           text={t(translations.common.next)}
           disabled={bridgeDepositLocked || !isValid}
           onClick={selectAmount}

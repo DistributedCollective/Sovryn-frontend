@@ -4,10 +4,7 @@ import { Chain } from 'types';
 import { selectBridgeWithdrawPage } from '../../selectors';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
-import {
-  getWalletName,
-  getWalletImage,
-} from 'app/components/UserAssets/TxDialog/WalletLogo';
+import { getWalletImage } from 'app/components/UserAssets/TxDialog/WalletLogo';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { Table } from '../styled';
 
@@ -82,11 +79,10 @@ export const ConfirmStep: React.FC = () => {
             </div>
             <SelectBox onClick={noop}>
               <img
-                className="tw-h-20 tw-mb-5 tw-mt-2"
+                className="tw-h-20"
                 src={getWalletImage(walletName)}
                 alt={walletName}
               />
-              <div>{getWalletName(walletName)}</div>
             </SelectBox>
             <p className="tw-w-80 tw-mt-12 tw-text-center">
               {t(trans.approve, {
@@ -104,11 +100,10 @@ export const ConfirmStep: React.FC = () => {
             </div>
             <SelectBox onClick={noop}>
               <img
-                className="tw-h-20 tw-mb-5 tw-mt-2"
+                className="tw-h-20"
                 src={getWalletImage(walletName)}
                 alt={walletName}
               />
-              <div>{getWalletName(walletName)}</div>
             </SelectBox>
             <p className="tw-w-80 tw-mt-12 tw-text-center">
               {t(trans.confirm, { providerType: wallet.providerType })}
@@ -165,38 +160,40 @@ export const ConfirmStep: React.FC = () => {
                 />
               )}
             </div>
-            <Table>
+            <Table className="tw-mx-auto tw-text-left tw-text-sm tw-font-medium">
               <tbody>
                 <tr>
                   <td>
                     {t(translations.BridgeWithdrawPage.reviewStep.dateTime)}:
                   </td>
-                  <td>{new Date().toLocaleDateString()}</td>
+                  <td className="tw-text-right">
+                    {new Date().toLocaleDateString()}
+                  </td>
                 </tr>
                 <tr>
                   <td>
                     {' '}
                     {t(translations.BridgeWithdrawPage.reviewStep.from)}:
                   </td>
-                  <td>{currentNetwork.name}</td>
+                  <td className="tw-text-right">{currentNetwork.name}</td>
                 </tr>
                 <tr>
                   <td>
                     {' '}
                     {t(translations.BridgeWithdrawPage.reviewStep.amount)}:
                   </td>
-                  <td>
+                  <td className="tw-text-right">
                     {toNumberFormat(asset.fromWei(amount), asset.minDecimals)}{' '}
                     {asset.symbol}
                   </td>
                 </tr>
                 <tr>
                   <td> {t(translations.BridgeWithdrawPage.reviewStep.to)}:</td>
-                  <td>{network.name}</td>
+                  <td className="tw-text-right">{network.name}</td>
                 </tr>
                 <tr>
                   <td> {t(translations.BridgeWithdrawPage.reviewStep.tx)}:</td>
-                  <td>
+                  <td className="tw-text-right">
                     <LinkToExplorer
                       txHash={tx.hash}
                       className="text-primary font-weight-normal text-nowrap tw-text-xs"
@@ -206,7 +203,7 @@ export const ConfirmStep: React.FC = () => {
               </tbody>
             </Table>
             <ActionButton
-              className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
+              className="tw-mt-10 tw-w-44 tw-font-semibold tw-rounded-xl"
               text={t(translations.common.close)}
               onClick={handleComplete}
             />
@@ -229,7 +226,7 @@ export const ConfirmStep: React.FC = () => {
             {t(trans.rejectedByUser)}
           </p>
           <ActionButton
-            className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
+            className="tw-mt-10 tw-w-44 tw-font-semibold tw-rounded-xl"
             text={t(translations.common.close)}
             onClick={handleComplete}
           />
