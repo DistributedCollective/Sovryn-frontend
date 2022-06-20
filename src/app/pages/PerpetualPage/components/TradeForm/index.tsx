@@ -104,6 +104,8 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     [pair.collateralAsset],
   );
 
+  const hasOpenTrades = traderState?.marginAccountPositionBC !== 0;
+
   const maxTradeSize = useMemo(() => {
     const maxTradeSize = shrinkToLot(
       Math.abs(
@@ -120,7 +122,14 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       lotSize,
     );
 
-    return Number.isFinite(maxTradeSize) ? maxTradeSize : 0;
+    const finiteMaxTradeSize = Number.isFinite(maxTradeSize) ? maxTradeSize : 0;
+
+    return hasOpenTrades
+      ? Math.max(
+          finiteMaxTradeSize,
+          Math.abs(traderState.marginAccountPositionBC),
+        )
+      : finiteMaxTradeSize;
   }, [
     trade.position,
     trade.slippage,
@@ -130,6 +139,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     ammState,
     liqPoolState,
     lotSize,
+    hasOpenTrades,
   ]);
 
   const isMarketOrder = useMemo(
@@ -144,8 +154,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       ),
     [trade.tradeType],
   );
-
-  const hasOpenTrades = traderState?.marginAccountPositionBC !== 0;
 
   const [minLeverage, maxLeverage] = useMemo(() => {
     const amountChange = getSignedAmount(trade.position, trade.amount);
