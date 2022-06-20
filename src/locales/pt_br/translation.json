@@ -1252,7 +1252,7 @@
       "withdraw": "Sacar"
     },
     "sendMessage": "Envie {{asset}}",
-    "receiveMessage": "Receba {{asset}} depositando BTC",
+    "receiveMessage": "Receba {{asset}}",
     "convertDialog": {
       "title": "Converter",
       "from": "De",
