@@ -5,6 +5,7 @@ import { TradingPosition } from '../../../types/trading-position';
 import { BigNumber } from 'ethers';
 
 export const MARGIN_SLIPPAGE_DEFAULT = 0.5;
+export const PAGE_SIZE = 6;
 
 export interface IMarginTradePageState {
   pairType: TradingPairType;
@@ -73,3 +74,99 @@ export enum TradeType {
   'SHORT' = 'short',
   'LONG' = 'long',
 }
+
+export type LoanEvent = {
+  id: string;
+  type: EventType;
+  trade: EventTrade[];
+  isOpen: boolean;
+  loanToken: {
+    id: string;
+  };
+  liquidates: EventLiquidates[];
+  realizedPnL: string;
+  nextRollover: number;
+  startTimestamp: number;
+  closeWithSwaps: EventCloseWithSwaps[];
+  collateralToken: {
+    id: string;
+  };
+  depositCollateral: EventDepositCollateral[];
+  closewithDeposits: EventCloseWithDeposit[];
+  realizedPnLPercent: string;
+};
+
+export type EventTrade = {
+  id: string;
+  loanToken: {
+    id: string;
+  };
+  timestamp: number;
+  transaction: {
+    id: string;
+  };
+  __typename: EventType;
+  entryPrice: string;
+  positionSize: string;
+  interestRate: string;
+  entryLeverage: string;
+  borrowedAmount: string;
+  collateralToken: {
+    id: string;
+  };
+};
+
+export type EventLiquidates = {
+  id: string;
+  timestamp: number;
+  loanToken: string;
+  __typename: EventType;
+  transaction: {
+    id: string;
+  };
+  currentMargin: string;
+  collateralToken: string;
+  collateralToLoanRate: string;
+  collateralWithdrawAmount: string;
+};
+
+export type EventCloseWithSwaps = {
+  id: string;
+  exitPrice: string;
+  loanToken: string;
+  timestamp: number;
+  __typename: EventType;
+  transaction: {
+    id: string;
+  };
+  collateralToken: string;
+  loanCloseAmount: string;
+  currentLeverage: string;
+  positionCloseSize: string;
+};
+
+export type EventCloseWithDeposit = {
+  id: string;
+  loanToken: string;
+  timestamp: number;
+  __typename: EventType;
+  transaction: {
+    id: string;
+  };
+  collateralToken: string;
+  collateralToLoanRate: string;
+  collateralWithdrawAmount: string;
+};
+
+export type EventDepositCollateral = {
+  id: string;
+  loanId: {
+    id: string;
+  };
+  timestamp: number;
+  __typename: EventType;
+  transaction: {
+    id: string;
+  };
+  depositAmount: string;
+};

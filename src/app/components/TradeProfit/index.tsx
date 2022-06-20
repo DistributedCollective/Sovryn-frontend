@@ -1,49 +1,33 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { bignumber } from 'mathjs';
 import { Tooltip } from '@blueprintjs/core';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 import { TradingPosition } from 'types/trading-position';
-import {
-  toNumberFormat,
-  weiToAssetNumberFormat,
-} from 'utils/display-text/format';
+import { toAssetNumberFormat } from 'utils/display-text/format';
 import { translations } from 'locales/i18n';
-import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
-import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
-import { getTradingPositionPrice } from 'app/pages/MarginTradePage/utils/marginUtils';
 import { AssetRenderer } from '../AssetRenderer';
-import { LoanEvent } from 'app/pages/MarginTradePage/components/OpenPositionsTable/hooks/useMargin_getLoanEvents';
+import { Asset } from 'types/asset';
 
 interface ITradeProfitProps {
-  closedItem: LoanEvent;
-  openedItem: LoanEvent;
+  collateralAsset: Asset;
+  position: TradingPosition;
+  openPrice: string;
+  closePrice: string;
+  realizedPnL: string;
+  realizedPnLPercent: string;
 }
 
 export const TradeProfit: React.FC<ITradeProfitProps> = ({
-  closedItem,
-  openedItem,
+  collateralAsset,
+  position,
+  openPrice,
+  closePrice,
+  realizedPnL,
+  realizedPnLPercent,
 }) => {
   const { t } = useTranslation();
-  const [profit, setProfit] = useState(0);
   const [profitDirection, setProfitDirection] = useState(0);
-
-  const loanAsset = assetByTokenAddress(closedItem.loanToken);
-  const collateralAsset = assetByTokenAddress(closedItem.collateralToken);
-  const pair = TradingPairDictionary.findPair(loanAsset, collateralAsset);
-  const position =
-    pair?.longAsset === loanAsset
-      ? TradingPosition.LONG
-      : TradingPosition.SHORT;
-
-  const openPrice = useMemo(
-    () => getTradingPositionPrice(openedItem, position),
-    [openedItem, position],
-  );
-  const closePrice = useMemo(
-    () => getTradingPositionPrice(closedItem, position),
-    [closedItem, position],
-  );
 
   useEffect(() => {
     //LONG position
@@ -61,16 +45,8 @@ export const TradeProfit: React.FC<ITradeProfitProps> = ({
         .mul(100)
         .toNumber();
     }
-    setProfit(
-      Math.abs(
-        bignumber(change || '0')
-          .mul(bignumber(openedItem.positionSizeChange || '0'))
-          .div(100)
-          .toNumber(),
-      ),
-    );
     setProfitDirection(change);
-  }, [position, closePrice, openPrice, openedItem.positionSizeChange]);
+  }, [position, closePrice, openPrice]);
 
   return (
     <div>
@@ -81,7 +57,7 @@ export const TradeProfit: React.FC<ITradeProfitProps> = ({
               <>
                 {t(translations.tradingHistoryPage.table.profitLabels.up)}
                 <span className="tw-text-success">
-                  {toNumberFormat(profitDirection, 2)}
+                  {Number(realizedPnLPercent).toFixed(2)}
                 </span>{' '}
                 %
               </>
@@ -90,7 +66,7 @@ export const TradeProfit: React.FC<ITradeProfitProps> = ({
               <>
                 {t(translations.tradingHistoryPage.table.profitLabels.down)}
                 <span className="tw-text-warning">
-                  {toNumberFormat(Math.abs(profitDirection), 2)}
+                  {Number(realizedPnLPercent).toFixed(2)}
                 </span>{' '}
                 %
               </>
@@ -114,8 +90,7 @@ export const TradeProfit: React.FC<ITradeProfitProps> = ({
           )}
         >
           {profitDirection > 0 && '+'}
-          {profitDirection < 0 && '-'}
-          {weiToAssetNumberFormat(profit, collateralAsset)}{' '}
+          {toAssetNumberFormat(realizedPnL, collateralAsset)}{' '}
           <AssetRenderer asset={collateralAsset} />
         </span>
       </Tooltip>

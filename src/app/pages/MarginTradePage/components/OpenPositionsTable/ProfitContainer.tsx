@@ -3,25 +3,21 @@ import classNames from 'classnames';
 import { bignumber } from 'mathjs';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { ActiveLoan } from 'types/active-loan';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { usePriceFeeds_QueryRate } from 'app/hooks/price-feeds/useQueryRate';
 import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
-import {
-  toNumberFormat,
-  weiToAssetNumberFormat,
-} from 'utils/display-text/format';
+import { toAssetNumberFormat, toNumberFormat } from 'utils/display-text/format';
 import { TradingPosition } from 'types/trading-position';
 import { percentageChange } from 'utils/helpers';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import { useAccount } from 'app/hooks/useAccount';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { isLongTrade } from '../../utils/marginUtils';
+import { LoanEvent } from '../../types';
 
 type ProfitContainerProps = {
-  item: ActiveLoan;
+  item: LoanEvent;
   position: TradingPosition;
-  entryPrice: number;
   leverage: number;
 };
 
@@ -29,17 +25,20 @@ export const ProfitContainer: React.FC<ProfitContainerProps> = ({
   item,
   position,
   leverage,
-  entryPrice,
 }) => {
   const { t } = useTranslation();
-
+  const {
+    trade: [{ entryPrice }],
+    loanToken: { id: loanTokenId },
+    collateralToken: { id: collateralTokenId },
+  } = item;
   const { isLong, loanToken, collateralToken } = useMemo(
     () => ({
       isLong: isLongTrade(position),
-      loanToken: assetByTokenAddress(item.loanToken),
-      collateralToken: assetByTokenAddress(item.collateralToken),
+      loanToken: assetByTokenAddress(loanTokenId),
+      collateralToken: assetByTokenAddress(collateralTokenId),
     }),
-    [position, item.loanToken, item.collateralToken],
+    [position, loanTokenId, collateralTokenId],
   );
 
   const {
@@ -49,14 +48,12 @@ export const ProfitContainer: React.FC<ProfitContainerProps> = ({
 
   const exitPrice = useMemo(() => {
     let currentRate = bignumber(currentCollateralToPrincipalRate.rate);
-
     if (!isLong) {
       currentRate = bignumber(1)
         .div(currentRate)
         .times(currentCollateralToPrincipalRate.precision)
         .mul(Math.pow(10, 18));
     }
-
     return currentRate.div(1.003).toString();
   }, [
     currentCollateralToPrincipalRate.rate,
@@ -64,13 +61,20 @@ export const ProfitContainer: React.FC<ProfitContainerProps> = ({
     isLong,
   ]);
 
+  const entryPriceFormatted = useMemo(() => {
+    if (isLong) {
+      return bignumber(1).div(entryPrice);
+    }
+    return entryPrice;
+  }, [entryPrice, isLong]);
+
   const priceChange = useMemo(() => {
-    const openPrice = bignumber(entryPrice).mul(Math.pow(10, 18));
+    const openPrice = bignumber(entryPriceFormatted).mul(Math.pow(10, 18));
     const percentageBetweenPrices = isLong
       ? percentageChange(openPrice, exitPrice)
       : percentageChange(exitPrice, openPrice);
     return bignumber(percentageBetweenPrices).mul(leverage).toString();
-  }, [isLong, entryPrice, exitPrice, leverage]);
+  }, [isLong, exitPrice, leverage, entryPriceFormatted]);
 
   const exitAmountCollateral = useCacheCallWithValue<{
     loanCloseAmount: string;
@@ -80,9 +84,9 @@ export const ProfitContainer: React.FC<ProfitContainerProps> = ({
     'sovrynProtocol',
     'closeWithSwap',
     { loanCloseAmount: '0', withdrawAmount: '0', withdrawToken: '' },
-    item.loanId,
+    loanTokenId,
     useAccount(),
-    item.collateral,
+    collateralTokenId,
     true,
     '0x',
   );
@@ -95,9 +99,9 @@ export const ProfitContainer: React.FC<ProfitContainerProps> = ({
     'sovrynProtocol',
     'closeWithSwap',
     { loanCloseAmount: '0', withdrawAmount: '0', withdrawToken: '' },
-    item.loanId,
+    loanTokenId,
     useAccount(),
-    item.collateral,
+    collateralTokenId,
     false,
     '0x',
   );
@@ -124,14 +128,14 @@ export const ProfitContainer: React.FC<ProfitContainerProps> = ({
             <div className="tw-mt-2 tw-text-xs">
               <div>{t(translations.openPositionTable.profitTooltip)}</div>
               <div className="tw-mt-1 tw-pl-3">
-                {weiToAssetNumberFormat(
+                {toAssetNumberFormat(
                   exitAmountLoan.value.withdrawAmount,
                   loanToken,
                 )}{' '}
                 <AssetSymbolRenderer asset={loanToken} />
               </div>
               <div className="tw-pl-3">
-                {weiToAssetNumberFormat(
+                {toAssetNumberFormat(
                   exitAmountCollateral.value.withdrawAmount,
                   collateralToken,
                 )}{' '}

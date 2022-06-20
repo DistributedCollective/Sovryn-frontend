@@ -1,10 +1,11 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import {
+  toAssetNumberFormat,
   weiToAssetNumberFormat,
   weiToNumberFormat,
 } from 'utils/display-text/format';
-import { toWei, weiTo18 } from 'utils/blockchain/math-helpers';
+import { toWei } from 'utils/blockchain/math-helpers';
 import { AmountInput } from 'app/components/Form/AmountInput';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { FormGroup } from 'app/components/Form/FormGroup';
@@ -24,7 +25,6 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { useWeiAmount } from 'app/hooks/useWeiAmount';
 import { CollateralAssets } from '../CollateralAssets';
 import { AssetRenderer } from 'app/components/AssetRenderer';
-import type { ActiveLoan } from 'types/active-loan';
 import { TxFeeCalculator } from '../TxFeeCalculator';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { calculateMinimumReturn } from '../../utils/marginUtils';
@@ -36,25 +36,21 @@ import { DummyInput } from 'app/components/Form/Input';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import { ProfitContainer } from '../OpenPositionsTable/ProfitContainer';
 import { TradingPosition } from 'types/trading-position';
-import { MARGIN_SLIPPAGE_DEFAULT } from '../../types';
+import { LoanEvent, MARGIN_SLIPPAGE_DEFAULT } from '../../types';
 import { LabelValuePair } from 'app/components/LabelValuePair';
-import { leverageFromMargin } from 'utils/blockchain/leverage-from-start-margin';
 
 interface IClosePositionDialogProps {
-  item: ActiveLoan;
+  item: LoanEvent;
   showModal: boolean;
   onCloseModal: () => void;
   positionSize?: string;
 }
 
-const getOptions = (item: ActiveLoan) => {
-  if (!item.collateralToken || !item.loanToken) {
+const getOptions = (collateralToken: string, loanToken: string) => {
+  if (!collateralToken || !loanToken) {
     return [];
   }
-  return [
-    assetByTokenAddress(item.collateralToken),
-    assetByTokenAddress(item.loanToken),
-  ];
+  return [assetByTokenAddress(collateralToken), assetByTokenAddress(loanToken)];
 };
 
 export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
@@ -70,26 +66,33 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
   const [slippage, setSlippage] = useState(MARGIN_SLIPPAGE_DEFAULT);
   const { checkMaintenance, States } = useMaintenance();
   const closeTradesLocked = checkMaintenance(States.CLOSE_MARGIN_TRADES);
+  const {
+    trade: [{ entryLeverage, positionSize }],
+    loanToken: { id: loanTokenId },
+    collateralToken: { id: collateralTokenId },
+  } = item;
+
   const [collateral, setCollateral] = useState(
-    assetByTokenAddress(item.collateralToken),
+    assetByTokenAddress(collateralTokenId),
   );
 
   useEffect(() => {
     setAmount('0');
-  }, [item.collateral]);
+  }, [item]);
 
-  const leverage = useMemo(() => leverageFromMargin(item.startMargin), [
-    item.startMargin,
-  ]);
+  const leverage = useMemo(() => Number(entryLeverage) + 1, [entryLeverage]);
 
-  const maxAmount = bignumber(item.collateral).div(leverage).toFixed(0);
+  const maxAmount = bignumber(positionSize).div(leverage).toFixed(0);
   const sourceToken = AssetsDictionary.getByTokenContractAddress(
-    item?.collateralToken || '',
+    collateralTokenId || '',
   );
   const targetToken = AssetsDictionary.getByTokenContractAddress(
-    item?.loanToken || '',
+    loanTokenId || '',
   );
-  const options = useMemo(() => getOptions(item), [item]);
+  const options = useMemo(() => getOptions(collateralTokenId, loanTokenId), [
+    collateralTokenId,
+    loanTokenId,
+  ]);
   const isCollateral = useMemo(() => collateral === sourceToken.asset, [
     collateral,
     sourceToken.asset,
@@ -101,15 +104,15 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
   );
 
   const args = useMemo(
-    () => [item.loanId, receiver, weiAmount, isCollateral, '0x'],
-    [item.loanId, receiver, weiAmount, isCollateral],
+    () => [loanTokenId, receiver, weiAmount, isCollateral, '0x'],
+    [loanTokenId, receiver, weiAmount, isCollateral],
   );
 
   const { send, ...rest } = useCloseWithSwap(
-    item.loanId,
+    loanTokenId,
     receiver,
     maxAmount === weiAmount
-      ? item.collateral
+      ? positionSize
       : toWei(
           bignumber(amount || '0')
             .mul(leverage)
@@ -120,16 +123,11 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
   );
 
   const position =
-    pair?.longAsset === item.loanToken
+    pair?.longAsset === loanTokenId
       ? TradingPosition.LONG
       : TradingPosition.SHORT;
 
-  const entryPrice = useMemo(() => getEntryPrice(item, position), [
-    item,
-    position,
-  ]);
-
-  const valid = useIsAmountWithinLimits(weiAmount, '1', item.collateral);
+  const valid = useIsAmountWithinLimits(weiAmount, '1', positionSize);
 
   const { value, loading: loadingValue, error } = useCacheCallWithValue<{
     withdrawAmount: string;
@@ -179,7 +177,7 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
               label={t(translations.closeTradingPositionHandler.positionSize)}
               value={
                 <>
-                  {weiToAssetNumberFormat(item.collateral, sourceToken.asset)}{' '}
+                  {toAssetNumberFormat(positionSize, sourceToken.asset)}{' '}
                   <AssetRenderer asset={sourceToken.asset} />
                 </>
               }
@@ -193,7 +191,6 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
                     <ProfitContainer
                       item={item}
                       position={position}
-                      entryPrice={entryPrice}
                       leverage={leverage}
                     />
                   }
@@ -217,7 +214,7 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
               value={amount}
               onChange={setAmount}
               asset={sourceToken.asset}
-              maxAmount={item.collateral}
+              maxAmount={toWei(positionSize)}
             />
           </FormGroup>
 
@@ -281,7 +278,7 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
               onClose={() => setOpenSlippage(false)}
               amount={value.withdrawAmount}
               value={slippage}
-              asset={assetByTokenAddress(item.collateralToken)}
+              asset={assetByTokenAddress(collateralTokenId)}
               onChange={setSlippage}
             />
           )}
@@ -331,9 +328,4 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
       />
     </>
   );
-};
-
-const getEntryPrice = (item: ActiveLoan, position: TradingPosition) => {
-  if (position === TradingPosition.LONG) return Number(weiTo18(item.startRate));
-  return 1 / Number(weiTo18(item.startRate));
 };

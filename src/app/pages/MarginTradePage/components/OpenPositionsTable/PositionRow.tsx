@@ -1,3 +1,4 @@
+import React, { useEffect, useMemo, useState } from 'react';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { ActionButton } from 'app/components/Form/ActionButton';
@@ -5,105 +6,103 @@ import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { usePositionLiquidationPrice } from 'app/hooks/trading/usePositionLiquidationPrice';
 import { useMaintenance } from 'app/hooks/useMaintenance';
-import classNames from 'classnames';
 import { translations } from 'locales/i18n';
 import { bignumber } from 'mathjs';
-import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ActiveLoan } from 'types/active-loan';
 import { TradingPosition } from 'types/trading-position';
 import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
-import { leverageFromMargin } from 'utils/blockchain/leverage-from-start-margin';
-import { weiTo18 } from 'utils/blockchain/math-helpers';
 import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
 import {
   toAssetNumberFormat,
   toNumberFormat,
-  weiToAssetNumberFormat,
   weiToNumberFormat,
 } from 'utils/display-text/format';
-import { EventType } from '../../types';
-import { isLongTrade } from '../../utils/marginUtils';
+import { getOpenPositionPrice, isLongTrade } from '../../utils/marginUtils';
 import { AddToMarginDialog } from '../AddToMarginDialog';
 import { ClosePositionDialog } from '../ClosePositionDialog';
 import { PositionEventsTable } from '../PositionEventsTable';
 import { PositionBlock } from '../PositionBlock';
-import { useMargin_getLoanEvents } from './hooks/useMargin_getLoanEvents';
 import { ProfitContainer } from './ProfitContainer';
+import { MAINTENANCE_MARGIN } from 'utils/classifiers';
+import { useGetLoan } from 'app/hooks/trading/useGetLoan';
+import { LoanEvent } from '../../types';
+import { toWei } from 'utils/blockchain/math-helpers';
 import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
 
 type PositionRowProps = {
-  data: ActiveLoan;
-  events?: any[];
+  event: LoanEvent;
 };
 
-export const PositionRow: React.FC<PositionRowProps> = ({ data: item }) => {
-  const { items: events, loading } = useMargin_getLoanEvents(item.loanId);
-
+export const PositionRow: React.FC<PositionRowProps> = ({ event }) => {
   const { t } = useTranslation();
-
+  const [showAddToMargin, setShowAddToMargin] = useState(false);
+  const [showClosePosition, setShowClosePosition] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
+  const {
+    id,
+    trade: [
+      { entryLeverage, positionSize, entryPrice, interestRate, transaction },
+    ],
+    loanToken,
+    nextRollover,
+    collateralToken,
+  } = event;
   const { checkMaintenances, States } = useMaintenance();
   const {
     [States.CLOSE_MARGIN_TRADES]: closeTradesLocked,
     [States.ADD_TO_MARGIN_TRADES]: addToMarginLocked,
   } = checkMaintenances();
-
-  const [showAddToMargin, setShowAddToMargin] = useState(false);
-  const [showClosePosition, setShowClosePosition] = useState(false);
-  const [showDetails, setShowDetails] = useState(false);
-  const loanAsset = assetByTokenAddress(item.loanToken);
-  const collateralAsset = assetByTokenAddress(item.collateralToken);
-
+  const { value: loan, loading, getLoan } = useGetLoan();
+  const loanAsset = assetByTokenAddress(loanToken.id);
+  const collateralAsset = assetByTokenAddress(collateralToken.id);
   const pair = TradingPairDictionary.findPair(loanAsset, collateralAsset);
-
-  const position =
-    pair?.longAsset === loanAsset
+  const position = useMemo(() => {
+    return pair.longAsset === loanAsset
       ? TradingPosition.LONG
       : TradingPosition.SHORT;
+  }, [loanAsset, pair]);
 
   const isLong = useMemo(() => isLongTrade(position), [position]);
-
-  const leverage = useMemo(() => leverageFromMargin(item.startMargin), [
-    item.startMargin,
+  const leverage = useMemo(() => Number(entryLeverage) + 1, [entryLeverage]);
+  const openPrice = useMemo(() => getOpenPositionPrice(entryPrice, position), [
+    entryPrice,
+    position,
   ]);
 
-  const liquidationPrice = usePositionLiquidationPrice(
-    item.principal,
-    item.collateral,
-    position,
-    item.maintenanceMargin,
+  const rolloverDate = useMemo(
+    () => new Date(nextRollover).getTime().toString(),
+    [nextRollover],
   );
 
-  const entryPrice = useMemo(() => getEntryPrice(item, position), [
-    item,
+  useEffect(() => {
+    getLoan(id);
+  }, [id, getLoan]);
+
+  const principal = useMemo(() => {
+    return loan ? loan.principal : '0';
+  }, [loan]);
+
+  const currentMargin = useMemo(() => {
+    return loan ? loan.currentMargin : '0';
+  }, [loan]);
+
+  const liquidationPrice = usePositionLiquidationPrice(
+    principal,
+    toWei(positionSize),
     position,
-  ]);
+    MAINTENANCE_MARGIN,
+  );
 
   const positionMargin = useMemo(() => {
-    if (isLong) {
-      return bignumber(entryPrice)
-        .mul(bignumber(item.collateral).div(leverage))
-        .toString();
-    }
     return bignumber(1)
       .div(entryPrice)
-      .mul(bignumber(item.collateral).div(leverage))
+      .mul(bignumber(positionSize).div(leverage))
       .toString();
-  }, [entryPrice, item.collateral, leverage, isLong]);
+  }, [entryPrice, positionSize, leverage]);
 
   const positionMarginAsset = useMemo(
     () => (isLong ? pair.longAsset : pair.shortAsset),
     [isLong, pair],
-  );
-
-  const tradeEvent = useMemo(
-    () => events.data.find(item => item.event === EventType.TRADE),
-    [events],
-  );
-
-  const rolloverDate = useMemo(
-    () => new Date(events.nextRollover).getTime().toString(),
-    [events],
   );
 
   return (
@@ -118,11 +117,16 @@ export const PositionRow: React.FC<PositionRowProps> = ({ data: item }) => {
               <LoadableValue
                 value={
                   <>
-                    {weiToAssetNumberFormat(item.collateral, collateralAsset)}{' '}
+                    {toAssetNumberFormat(positionSize, collateralAsset)}{' '}
                     <AssetRenderer asset={collateralAsset} /> ({leverage}x)
                   </>
                 }
-                tooltip={weiToNumberFormat(item.collateral, 18)}
+                tooltip={
+                  <>
+                    {toNumberFormat(positionSize, 18)}{' '}
+                    <AssetRenderer asset={collateralAsset} />
+                  </>
+                }
               />
             </div>
           </div>
@@ -132,11 +136,16 @@ export const PositionRow: React.FC<PositionRowProps> = ({ data: item }) => {
             <LoadableValue
               value={
                 <>
-                  {toAssetNumberFormat(entryPrice, pair.longDetails.asset)}{' '}
+                  {toAssetNumberFormat(openPrice, pair.longDetails.asset)}{' '}
                   <AssetRenderer asset={pair.longDetails.asset} />
                 </>
               }
-              tooltip={toNumberFormat(entryPrice, 18)}
+              tooltip={
+                <>
+                  {toNumberFormat(openPrice, 18)}{' '}
+                  <AssetRenderer asset={pair.longDetails.asset} />
+                </>
+              }
             />
           </div>
         </td>
@@ -152,7 +161,14 @@ export const PositionRow: React.FC<PositionRowProps> = ({ data: item }) => {
                   <AssetRenderer asset={pair.longDetails.asset} />
                 </>
               }
-              tooltip={toNumberFormat(liquidationPrice, 18)}
+              loading={loading}
+              tooltip={
+                <>
+                  {toNumberFormat(liquidationPrice, 18)}
+                  {''}
+                  <AssetRenderer asset={pair.longDetails.asset} />
+                </>
+              }
             />
           </div>
         </td>
@@ -161,15 +177,17 @@ export const PositionRow: React.FC<PositionRowProps> = ({ data: item }) => {
             <LoadableValue
               value={
                 <>
-                  {weiToAssetNumberFormat(positionMargin, positionMarginAsset)}{' '}
+                  {toAssetNumberFormat(positionMargin, positionMarginAsset)}{' '}
                   <AssetSymbolRenderer asset={positionMarginAsset} />
                 </>
               }
+              loading={loading}
               tooltip={
                 <>
-                  {weiToNumberFormat(positionMargin, 18)}
+                  {toNumberFormat(positionMargin, 18)}{' '}
+                  <AssetSymbolRenderer asset={positionMarginAsset} />
                   <br />
-                  {weiToNumberFormat(item.currentMargin, 3)} %
+                  {weiToNumberFormat(currentMargin, 3)} %
                 </>
               }
             />
@@ -178,49 +196,30 @@ export const PositionRow: React.FC<PositionRowProps> = ({ data: item }) => {
         <td>
           <div className="tw-whitespace-nowrap">
             <ProfitContainer
-              item={item}
+              item={event}
               position={position}
-              entryPrice={entryPrice}
               leverage={leverage}
             />
           </div>
         </td>
         <td className="tw-hidden 2xl:tw-table-cell">
-          <div
-            className={classNames('tw-min-w-6', { 'bp3-skeleton': loading })}
-          >
-            {tradeEvent?.interestRate ? (
-              <>{tradeEvent.interestRate.toFixed(2)}%</>
-            ) : (
-              '-'
-            )}
+          <div className="tw-min-w-6">
+            <>{Number(interestRate).toFixed(2)}%</>
           </div>
         </td>
         <td className="tw-hidden 2xl:tw-table-cell">
-          <div
-            className={classNames('tw-min-w-6', { 'bp3-skeleton': loading })}
-          >
-            {events.nextRollover ? (
-              <DisplayDate timestamp={rolloverDate} />
-            ) : (
-              <>-</>
-            )}
+          <div className="tw-min-w-6">
+            <DisplayDate timestamp={rolloverDate} />
           </div>
         </td>
         <td className="tw-hidden 2xl:tw-table-cell">
-          <div
-            className={classNames('tw-min-w-6', { 'bp3-skeleton': loading })}
-          >
-            {tradeEvent?.txHash ? (
-              <LinkToExplorer
-                txHash={tradeEvent.txHash}
-                className="tw-m-0 tw-whitespace-nowrap"
-                startLength={5}
-                endLength={5}
-              />
-            ) : (
-              <>-</>
-            )}
+          <div className="tw-min-w-6">
+            <LinkToExplorer
+              txHash={transaction.id}
+              className="tw-m-0 tw-whitespace-nowrap"
+              startLength={5}
+              endLength={5}
+            />
           </div>
         </td>
         <td>
@@ -231,8 +230,9 @@ export const PositionRow: React.FC<PositionRowProps> = ({ data: item }) => {
               className={`tw-border-none tw-px-1 sm:tw-px-4 xl:tw-px-2 ${
                 addToMarginLocked && 'tw-cursor-not-allowed'
               }`}
+              loading={loading}
               textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
-              disabled={addToMarginLocked || item.currentMargin === '0'}
+              disabled={addToMarginLocked || currentMargin === '0' || loading}
               title={
                 (addToMarginLocked &&
                   t(translations.maintenance.addToMarginTrades).replace(
@@ -249,8 +249,9 @@ export const PositionRow: React.FC<PositionRowProps> = ({ data: item }) => {
               className={`tw-border-none tw-px-1 sm:tw-px-4 xl:tw-px-2 ${
                 closeTradesLocked && 'tw-cursor-not-allowed'
               }`}
+              loading={loading}
               textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
-              disabled={closeTradesLocked || item.currentMargin === '0'}
+              disabled={closeTradesLocked || currentMargin === '0' || loading}
               title={
                 (closeTradesLocked &&
                   t(translations.maintenance.closeMarginTrades).replace(
@@ -266,25 +267,16 @@ export const PositionRow: React.FC<PositionRowProps> = ({ data: item }) => {
               onClick={() => setShowDetails(!showDetails)}
               className="tw-border-none tw-ml-0 tw-pl-1 sm:tw-p-4 xl:tw-pl-2 tw-pr-0"
               textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
-              disabled={events.data.length === 0}
               data-action-id="margin-openPositions-DetailsButton"
-              loading={loading}
             />
           </div>
           <AddToMarginDialog
-            item={item}
-            liquidationPrice={
-              <>
-                {toAssetNumberFormat(Number(liquidationPrice), pair.longAsset)}
-                &nbsp;&nbsp;
-                <AssetRenderer asset={pair.longAsset} />
-              </>
-            }
+            item={event}
             onCloseModal={() => setShowAddToMargin(false)}
             showModal={showAddToMargin}
           />
           <ClosePositionDialog
-            item={item}
+            item={event}
             onCloseModal={() => setShowClosePosition(false)}
             showModal={showClosePosition}
           />
@@ -294,15 +286,11 @@ export const PositionRow: React.FC<PositionRowProps> = ({ data: item }) => {
       {showDetails && (
         <PositionEventsTable
           isOpenPosition={true}
-          events={events.data}
+          event={event}
           isLong={isLong}
+          position={position}
         />
       )}
     </>
   );
-};
-
-const getEntryPrice = (item: ActiveLoan, position: TradingPosition) => {
-  if (position === TradingPosition.LONG) return Number(weiTo18(item.startRate));
-  return 1 / Number(weiTo18(item.startRate));
 };

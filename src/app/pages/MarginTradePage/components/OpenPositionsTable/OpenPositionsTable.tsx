@@ -1,39 +1,31 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Trans, useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { PendingPositionRow } from './PendingPositionRow';
-import { translations } from '../../../../../locales/i18n';
-import { Pagination } from '../../../../components/Pagination';
 import { selectTransactionArray } from 'store/global/transactions-store/selectors';
 import { TxStatus, TxType } from 'store/global/transactions-store/types';
 import { HelpBadge } from 'app/components/HelpBadge/HelpBadge';
-import { useAccount } from 'app/hooks/useAccount';
-import { useMargin_getActiveLoans } from './hooks/useMargin_getActiveLoans';
 import { PositionRow } from './PositionRow';
-
-const PER_PAGE = 6;
+import { useGetMarginLoans } from '../../hooks/useMargin_GetLoans';
+import { LoanEvent, PAGE_SIZE } from '../../types';
+import { MarginPagination } from '../MarginPagination';
 
 export const OpenPositionsTable = () => {
   const { t } = useTranslation();
-  const [page, setPage] = useState(1);
   const transactions = useSelector(selectTransactionArray);
-
-  const account = useAccount();
-
-  const { items: _items, loading } = useMargin_getActiveLoans(account);
-
-  const items = useMemo(
-    () => _items.slice(page * PER_PAGE - PER_PAGE, page * PER_PAGE),
-    [_items, page],
-  );
-
+  const [page, setPage] = useState(1);
+  const { data, loading } = useGetMarginLoans(page, true, PAGE_SIZE);
   const isEmpty = useMemo(
-    () => !loading && !_items?.length && !transactions.length,
-    [loading, _items, transactions],
+    () => !loading && !data.loans.length && !transactions.length,
+    [transactions, loading, data],
   );
 
-  const onPageChanged = useCallback(data => setPage(data.currentPage), []);
+  const isDisabled = useMemo(() => data && data.loans.length < PAGE_SIZE, [
+    data,
+  ]);
+
   const onGoingTransactions = useMemo(
     () =>
       transactions.length > 0 && (
@@ -51,6 +43,13 @@ export const OpenPositionsTable = () => {
         </>
       ),
     [transactions],
+  );
+
+  const onPageChanged = useCallback(page => setPage(page), [setPage]);
+
+  const isHiddenPagination = useMemo(
+    () => data && data.loans.length === 0 && page === 1 && !loading,
+    [data, page, loading],
   );
 
   return (
@@ -117,22 +116,19 @@ export const OpenPositionsTable = () => {
             </tr>
           )}
 
-          {items.length > 0 && (
-            <>
-              {items?.map(event => (
-                <PositionRow key={event.loanId} data={event} />
-              ))}
-            </>
-          )}
+          {data &&
+            data.loans.map((loan: LoanEvent) => {
+              return <PositionRow key={loan.id} event={loan} />;
+            })}
         </tbody>
       </table>
 
-      {_items.length > 0 && (
-        <Pagination
-          totalRecords={_items.length}
-          pageLimit={6}
-          pageNeighbours={1}
+      {!isHiddenPagination && (
+        <MarginPagination
+          page={page}
+          loading={loading}
           onChange={onPageChanged}
+          isDisabled={isDisabled}
         />
       )}
     </>

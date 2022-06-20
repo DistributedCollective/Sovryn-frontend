@@ -1,62 +1,24 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Icon, Popover } from '@blueprintjs/core';
 import { translations } from 'locales/i18n';
-import { Asset } from 'types';
-import type { LoanEvent } from '../OpenPositionsTable/hooks/useMargin_getLoanEvents';
-import { EventType } from '../../types';
 import { PositionEventRow } from './PositionEventRow';
-import {
-  getCloseEventData,
-  getDepositEventData,
-  getLiquidateEventData,
-  getTradeEventData,
-} from './utils';
+import { TradingPosition } from 'types/trading-position';
+import { LoanEvent } from '../../types';
 
 type LiquidatedPositionsTableProps = {
-  events: LoanEvent[];
+  event: LoanEvent;
   isOpenPosition: boolean;
   isLong: boolean;
-};
-
-export type PositionEvent = {
-  event: EventType;
-  positionChange: string;
-  price: string;
-  positionAsset: Asset;
-  collateralAsset: Asset;
-  time: number;
-  txHash: string;
-  positionSubtracted?: boolean;
+  position: TradingPosition;
 };
 
 export const PositionEventsTable: React.FC<LiquidatedPositionsTableProps> = ({
-  events,
-  isOpenPosition,
+  event,
   isLong,
 }) => {
   const { t } = useTranslation();
-
-  const items = useMemo(
-    () =>
-      events
-        .map(item => {
-          switch (item.event) {
-            case EventType.TRADE:
-              return getTradeEventData(item, isLong);
-            case EventType.DEPOSIT:
-              return getDepositEventData(item, isLong);
-            case EventType.LIQUIDATE:
-              return getLiquidateEventData(item, isLong);
-            case EventType.CLOSED:
-              return getCloseEventData(item, isLong);
-            default:
-              return null;
-          }
-        })
-        .filter(item => !!item) as PositionEvent[],
-    [events, isLong],
-  );
+  const { trade, liquidates, depositCollateral, closeWithSwaps } = event;
 
   return (
     <>
@@ -100,11 +62,46 @@ export const PositionEventsTable: React.FC<LiquidatedPositionsTableProps> = ({
               </tr>
             </thead>
             <tbody>
-              {items.map(item => (
+              {trade.map(item => (
                 <PositionEventRow
-                  key={item.txHash}
-                  positionStatus={isOpenPosition}
+                  key={item.id}
                   event={item}
+                  positionToken={item.loanToken.id}
+                  collateralToken={item.collateralToken.id}
+                  positionSize={item.positionSize}
+                  closePrice={item.entryPrice}
+                  isLong={isLong}
+                />
+              ))}
+              {liquidates.map(item => (
+                <PositionEventRow
+                  key={item.id}
+                  event={item}
+                  positionToken={item.loanToken}
+                  collateralToken={item.collateralToken}
+                  positionSize={item.collateralWithdrawAmount}
+                  closePrice={item.collateralToLoanRate}
+                  isLong={isLong}
+                />
+              ))}
+              {depositCollateral.map(item => (
+                <PositionEventRow
+                  key={item.id}
+                  event={item}
+                  positionToken={event.trade[0].loanToken.id}
+                  collateralToken={event.trade[0].collateralToken.id}
+                  positionSize={item.depositAmount}
+                  isLong={isLong}
+                />
+              ))}
+              {closeWithSwaps.map(item => (
+                <PositionEventRow
+                  key={item.id}
+                  event={item}
+                  positionToken={item.loanToken}
+                  collateralToken={item.collateralToken}
+                  positionSize={item.positionCloseSize}
+                  closePrice={item.exitPrice}
                   isLong={isLong}
                 />
               ))}

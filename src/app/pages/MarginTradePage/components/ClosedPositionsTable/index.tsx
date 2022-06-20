@@ -1,17 +1,31 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
-import { ClosedPositionRow } from './ClosedPositionRow';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { Pagination } from 'app/components/Pagination';
-import { useMargin_GetLoans } from '../../hooks/useMargin_GetLoans';
+import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
+import { ClosedPositionRow } from './ClosedPositionRow';
+import { useGetMarginLoans } from '../../hooks/useMargin_GetLoans';
+import { LoanEvent, PAGE_SIZE } from '../../types';
+import { MarginPagination } from '../MarginPagination';
 
 export const ClosedPositionsTable: React.FC = () => {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
-  const { events, loading, totalCount } = useMargin_GetLoans(page, false);
-  const isEmpty = useMemo(() => !loading && !events, [loading, events]);
-  const onPageChanged = useCallback(data => setPage(data.currentPage), []);
+  const { data, loading } = useGetMarginLoans(page, false, PAGE_SIZE);
+  const isEmpty = useMemo(() => !loading && !data.loans.length, [
+    loading,
+    data,
+  ]);
+
+  const isDisabled = useMemo(() => data && data.loans.length < PAGE_SIZE, [
+    data,
+  ]);
+
+  const onPageChanged = useCallback(page => setPage(page), [setPage]);
+
+  const isHiddenPagination = useMemo(
+    () => data && data.loans.length === 0 && page === 1 && !loading,
+    [data, page, loading],
+  );
 
   return (
     <>
@@ -58,21 +72,19 @@ export const ClosedPositionsTable: React.FC = () => {
             </tr>
           )}
 
-          {totalCount > 0 &&
-            events?.map(event => {
-              return (
-                <ClosedPositionRow key={event.loanId} items={event.data} />
-              );
+          {data &&
+            data.loans.map((loan: LoanEvent) => {
+              return <ClosedPositionRow key={loan.id} event={loan} />;
             })}
         </tbody>
       </table>
 
-      {totalCount > 0 && (
-        <Pagination
-          totalRecords={totalCount}
-          pageLimit={6}
-          pageNeighbours={1}
+      {!isHiddenPagination && (
+        <MarginPagination
+          page={page}
+          loading={loading}
           onChange={onPageChanged}
+          isDisabled={isDisabled}
         />
       )}
     </>

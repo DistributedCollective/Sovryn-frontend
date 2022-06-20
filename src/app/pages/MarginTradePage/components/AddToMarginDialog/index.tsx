@@ -1,40 +1,38 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
+import { bignumber } from 'mathjs';
 import classNames from 'classnames';
-import { TradingPosition } from '../../../../../types/trading-position';
-import { AssetsDictionary } from '../../../../../utils/dictionaries/assets-dictionary';
-import { AssetRenderer } from '../../../../components/AssetRenderer';
-import { TradingPairDictionary } from '../../../../../utils/dictionaries/trading-pair-dictionary';
+import { TradingPosition } from 'types/trading-position';
+import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
+import { AssetRenderer } from 'app/components/AssetRenderer';
+import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
 import { TransactionDialog } from 'app/components/TransactionDialog';
-import { DummyField } from '../../../../components/DummyField';
-import { Dialog } from '../../../../containers/Dialog/Loadable';
-import { useApproveAndAddMargin } from '../../../../hooks/trading/useApproveAndAndMargin';
-import { useAssetBalanceOf } from '../../../../hooks/useAssetBalanceOf';
-import { useCanInteract } from '../../../../hooks/useCanInteract';
-import { useIsAmountWithinLimits } from '../../../../hooks/useIsAmountWithinLimits';
-import { useMaintenance } from '../../../../hooks/useMaintenance';
-import { useWeiAmount } from '../../../../hooks/useWeiAmount';
+import { DummyField } from 'app/components/DummyField';
+import { Dialog } from 'app/containers/Dialog/Loadable';
+import { useApproveAndAddMargin } from 'app/hooks/trading/useApproveAndAndMargin';
+import { useAssetBalanceOf } from 'app/hooks/useAssetBalanceOf';
+import { useCanInteract } from 'app/hooks/useCanInteract';
+import { useIsAmountWithinLimits } from 'app/hooks/useIsAmountWithinLimits';
+import { useMaintenance } from 'app/hooks/useMaintenance';
+import { useWeiAmount } from 'app/hooks/useWeiAmount';
 import { TxFeeCalculator } from '../TxFeeCalculator';
 import { AmountInput } from 'app/components/Form/AmountInput';
 import { FormGroup } from 'app/components/Form/FormGroup';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
-import { ActiveLoan } from 'types/active-loan';
 import { discordInvite, MAINTENANCE_MARGIN } from 'utils/classifiers';
-import { weiToNumberFormat } from 'utils/display-text/format';
-import { bignumber } from 'mathjs';
-import { usePositionLiquidationPrice } from '../../../../hooks/trading/usePositionLiquidationPrice';
+import { usePositionLiquidationPrice } from 'app/hooks/trading/usePositionLiquidationPrice';
 import { toAssetNumberFormat } from 'utils/display-text/format';
 import { LabelValuePair } from 'app/components/LabelValuePair';
-import { leverageFromMargin } from 'utils/blockchain/leverage-from-start-margin';
+import { LoanEvent } from '../../types';
+import { useGetLoan } from 'app/hooks/trading/useGetLoan';
+import { toWei } from 'utils/blockchain/math-helpers';
 
 interface IAddToMarginDialogProps {
-  item: ActiveLoan;
+  item: LoanEvent;
   showModal: boolean;
   onCloseModal: () => void;
-  liquidationPrice?: React.ReactNode;
-  positionSize?: string;
 }
 
 export const AddToMarginDialog: React.FC<IAddToMarginDialogProps> = ({
@@ -43,11 +41,17 @@ export const AddToMarginDialog: React.FC<IAddToMarginDialogProps> = ({
   onCloseModal,
 }) => {
   const canInteract = useCanInteract();
+  const {
+    id,
+    trade: [{ entryLeverage, positionSize: positionSizeValue }],
+    loanToken: { id: loanTokenId },
+    collateralToken: { id: collateralTokenId },
+  } = item;
   const tokenDetails = AssetsDictionary.getByTokenContractAddress(
-    item?.collateralToken || '',
+    collateralTokenId || '',
   );
   const loanToken = AssetsDictionary.getByTokenContractAddress(
-    item?.loanToken || '',
+    loanTokenId || '',
   );
   const [amount, setAmount] = useState('');
   const { value: balance } = useAssetBalanceOf(tokenDetails.asset);
@@ -55,15 +59,13 @@ export const AddToMarginDialog: React.FC<IAddToMarginDialogProps> = ({
 
   const { send, ...tx } = useApproveAndAddMargin(
     tokenDetails.asset,
-    item.loanId,
+    loanTokenId,
     weiAmount,
   );
   const { checkMaintenance, States } = useMaintenance();
   const topupLocked = checkMaintenance(States.ADD_TO_MARGIN_TRADES);
 
-  const leverage = useMemo(() => leverageFromMargin(item.startMargin), [
-    item.startMargin,
-  ]);
+  const leverage = useMemo(() => Number(entryLeverage) + 1, [entryLeverage]);
 
   const handleConfirm = () => {
     send();
@@ -82,9 +84,19 @@ export const AddToMarginDialog: React.FC<IAddToMarginDialogProps> = ({
     pair.longAsset,
   ]);
 
+  const { value: loan, getLoan } = useGetLoan();
+
+  useEffect(() => {
+    getLoan(id);
+  }, [id, getLoan]);
+
+  const positionSize = useMemo(() => {
+    return bignumber(toWei(positionSizeValue)).add(weiAmount).toString();
+  }, [positionSizeValue, weiAmount]);
+
   const liquidationPrice = usePositionLiquidationPrice(
-    item.principal,
-    bignumber(item.collateral).add(weiAmount).toString(),
+    loan ? loan.principal : '0',
+    positionSize,
     isLong ? TradingPosition.LONG : TradingPosition.SHORT,
     MAINTENANCE_MARGIN,
   );
@@ -119,7 +131,7 @@ export const AddToMarginDialog: React.FC<IAddToMarginDialogProps> = ({
               label={t(translations.closeTradingPositionHandler.positionSize)}
               value={
                 <>
-                  {weiToNumberFormat(item.collateral, 4)}{' '}
+                  {toAssetNumberFormat(positionSizeValue, tokenDetails.asset)}{' '}
                   <AssetRenderer asset={tokenDetails.asset} />
                 </>
               }
@@ -150,7 +162,7 @@ export const AddToMarginDialog: React.FC<IAddToMarginDialogProps> = ({
 
           <div className="tw-text-sm tw-mb-3">
             <TxFeeCalculator
-              args={[item.loanId, weiAmount]}
+              args={[loanTokenId, weiAmount]}
               methodName="depositCollateral"
               contractName="sovrynProtocol"
             />
@@ -185,7 +197,7 @@ export const AddToMarginDialog: React.FC<IAddToMarginDialogProps> = ({
       <TransactionDialog
         fee={
           <TxFeeCalculator
-            args={[item.loanId, weiAmount]}
+            args={[loanTokenId, weiAmount]}
             methodName="depositCollateral"
             contractName="sovrynProtocol"
           />

@@ -1,64 +1,121 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useQuery, gql } from '@apollo/client';
 import { useAccount } from 'app/hooks/useAccount';
-import { backendUrl, currentChainId } from 'utils/classifiers';
-import { useDebug } from 'app/hooks/useDebug';
-import {
-  LoanData,
-  LoanEvent,
-} from '../components/OpenPositionsTable/hooks/useMargin_getLoanEvents';
+import { useMemo } from 'react';
 
-const PAGE_SIZE = 6;
+/** Hook to return loans data for Margin open or closed positions */
 
-type ClosedPositionHookResult = {
-  loading: boolean;
-  events?: LoanData[];
-  totalCount: number;
-};
-
-export const useMargin_GetLoans = (
+export const useGetMarginLoans = (
   page: number,
   isOpen: boolean,
-): ClosedPositionHookResult => {
-  const { log, error } = useDebug('useMargin_GetLoans');
+  pageSize: number,
+) => {
   const account = useAccount();
-  const url = backendUrl[currentChainId];
-  const [totalCount, setTotalCount] = useState(0);
-  const [events, setEvents] = useState<LoanData[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    setLoading(true);
-    const getOpenLoans = () =>
-      axios
-        .get(
-          url +
-            `/events/trade/${account}?page=${page}&pageSize=${PAGE_SIZE}&isOpen=${isOpen}`,
-        )
-        .then(({ data }) => {
-          log(data.events);
-          const sortedEntries = data.events.sort(
-            (a: LoanEvent, b: LoanEvent) => {
-              return b.time - a.time;
-            },
-          );
-          setEvents(sortedEntries);
-          setTotalCount(data.pagination.totalPages * PAGE_SIZE);
-          setLoading(false);
-        })
-        .catch(e => {
-          error(e);
-          setLoading(false);
-        });
-
-    if (account) {
-      getOpenLoans();
+  const currentPage = useMemo(() => {
+    if (page === 1) {
+      return 0;
     }
-  }, [account, page, isOpen, url, log, error]);
+    return (page - 1) * pageSize;
+  }, [page, pageSize]);
 
-  return {
-    events,
-    loading,
-    totalCount,
-  };
+  const MARGIN_LOANS = gql`
+    query getMarginLoans($user: ID!, $skip: Int!, $isOpen: Boolean!) {
+      loans(
+        first: ${pageSize},
+        skip: $skip,
+        where: {user: $user, isOpen: $isOpen, type: Trade},
+        orderBy: startTimestamp,
+        orderDirection: desc
+      ) {
+        id
+        type
+        trade {
+          id
+          timestamp
+          loanToken {
+            id
+          }
+          entryPrice
+          transaction {
+            id
+          }
+          positionSize
+          interestRate
+          entryLeverage
+          collateralToken {
+            id
+          }
+          borrowedAmount
+          currentLeverage
+        }
+        isOpen
+        loanToken {
+          id
+        }
+        realizedPnL
+        nextRollover
+        positionSize
+        collateralToken {
+          id
+        }
+        startTimestamp
+        realizedPnLPercent
+        depositCollateral {
+          id
+          rate
+          loanId {
+            id
+          }
+          timestamp
+          transaction {
+            id
+          }
+          depositAmount
+        }
+        liquidates {
+          id
+          timestamp
+          loanToken
+          transaction {
+            id
+          }
+          currentMargin
+          collateralToken
+          collateralToLoanRate
+          collateralWithdrawAmount
+        }
+        closeWithSwaps {
+          id
+          timestamp
+          loanToken
+          exitPrice
+          transaction {
+            id
+          }
+          loanCloseAmount
+          currentLeverage
+          collateralToken
+          positionCloseSize
+        }
+        closewithDeposits {
+          id
+          loanToken
+          timestamp
+          transaction {
+            id
+          }
+          collateralToken
+          collateralToLoanRate
+          collateralWithdrawAmount
+        }
+      }
+    }
+  `;
+
+  return useQuery(MARGIN_LOANS, {
+    variables: {
+      skip: currentPage,
+      user: account.toLowerCase(),
+      isOpen: isOpen,
+    },
+  });
 };
