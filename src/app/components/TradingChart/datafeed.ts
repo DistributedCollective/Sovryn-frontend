@@ -12,6 +12,15 @@
 import { backendUrl, currentChainId } from 'utils/classifiers';
 import { stream } from './streaming';
 
+export type Bar = {
+  time: number;
+  low: number;
+  high: number;
+  open: number;
+  close: number;
+  volume?: number;
+};
+
 export const api_root = `${backendUrl[currentChainId]}/datafeed/price/`;
 export const supportedResolutions = [
   '10',
@@ -29,7 +38,12 @@ export const supportedResolutions = [
 ];
 const MAX_DAYS = 5;
 const MAX_MONTHS = 1;
-
+/**
+ * Number of 10 minute candles that can be loaded in one chunk from the backend endpoint.
+ * NOTE: this must be lower or equal to the limit set on backend
+ */
+const MAX_CANDLES = 4000;
+const CANDLE_SIZE_SECONDS = 600; //10 minute candles
 const lastBarCache = new Map<string, Bar>();
 
 // Supported configuration options can be found here:
@@ -46,17 +60,67 @@ const makeApiRequest = async path => {
     const response = await fetch(`${api_root}${path}`);
     return response.json();
   } catch (error) {
-    throw new Error(`Request error: ${error.status}`);
+    throw new Error(`Request error: ${(error as any).status}`);
   }
 };
 
-export type Bar = {
-  time: number;
-  low: number;
-  high: number;
-  open: number;
-  close: number;
-  volume?: number;
+const loadCandleChunk = async (props: {
+  oldestCandleTime: number;
+  newestCandleTime: number;
+  url: string;
+  bars: Bar[];
+  from: number;
+  to: number;
+}) => {
+  let candleTimes = {
+    oldestCandleTime: props.oldestCandleTime,
+    newestCandleTime: props.newestCandleTime,
+  };
+  console.log({
+    chunkFrom: new Date(props.oldestCandleTime * 1e3),
+    chunkTo: new Date(props.newestCandleTime * 1e3),
+  });
+  const query = Object.entries({
+    startTime: candleTimes.oldestCandleTime * 1e3,
+    endTime: candleTimes.newestCandleTime * 1e3,
+  })
+    .map(item => `${item[0]}=${encodeURIComponent(item[1])}`)
+    .join('&');
+  const data = await makeApiRequest(`${props.url}?${query}`);
+  let newBars: Bar[] = props.bars;
+  if (data && data.series) {
+    for (let i = data.series.length - 1; i >= 0; i--) {
+      let newBar = data.series[i];
+      if (newBar && newBars[0] && newBar.time * 1e3 >= newBars[0].time) {
+        // console.log('skipping time violation candle', new Date(newBar.time * 1e3), new Date(bars[0].time));
+        candleTimes.newestCandleTime = newBar.time;
+      } else if (newBar.time >= props.from && newBar.time <= props.to) {
+        newBars = [
+          {
+            time: newBar.time * 1e3,
+            low: newBar.low,
+            high: newBar.high,
+            open: newBar.open,
+            close: newBar.close,
+          },
+          ...newBars,
+        ];
+
+        candleTimes.newestCandleTime = Math.min(
+          newBar.time,
+          candleTimes.oldestCandleTime,
+        );
+      }
+    }
+  } else {
+    newBars = [];
+  }
+
+  return {
+    bars: newBars,
+    oldestCandleTime: candleTimes.oldestCandleTime,
+    newestCandleTime: candleTimes.newestCandleTime,
+  };
 };
 
 const tradingChartDataFeeds = {
@@ -115,33 +179,48 @@ const tradingChartDataFeeds = {
   ) => {
     var split_symbol = symbolInfo.name.split('/');
     const url = split_symbol[0] + ':' + split_symbol[1];
-    const urlParameters = {
-      startTime: from * 1e3,
-      endTime: to * 1e3,
-    };
-    const query = Object.keys(urlParameters)
-      .map(name => `${name}=${encodeURIComponent(urlParameters[name])}`)
-      .join('&');
+    const totalNumCandles = Math.ceil((to - from) / CANDLE_SIZE_SECONDS);
+    let bars: Bar[] = [];
+
     try {
-      const data = await makeApiRequest(`${url}?${query}`);
-      let bars: Bar[] = [];
-      if (data && data.series) {
-        data.series.forEach(bar => {
-          if (bar.time >= from && bar.time <= to) {
-            bars = [
-              ...bars,
-              {
-                time: bar.time * 1e3,
-                low: bar.low,
-                high: bar.high,
-                open: bar.open,
-                close: bar.close,
-              },
-            ];
+      if (totalNumCandles > MAX_CANDLES) {
+        let oldestCandleTime,
+          latestCandleTime = to,
+          loadedAllCandles = false;
+        while (!loadedAllCandles) {
+          oldestCandleTime =
+            latestCandleTime - MAX_CANDLES * CANDLE_SIZE_SECONDS;
+          const {
+            bars: newBars,
+            oldestCandleTime: newOldestCandleTime,
+            newestCandleTime: newLatestCandleTime,
+          } = await loadCandleChunk({
+            oldestCandleTime,
+            newestCandleTime: latestCandleTime,
+            url,
+            bars,
+            from,
+            to,
+          });
+          bars = newBars;
+          oldestCandleTime = newOldestCandleTime;
+          latestCandleTime = newLatestCandleTime;
+
+          if (latestCandleTime <= from) {
+            loadedAllCandles = true;
           }
-        });
+        }
       } else {
-        bars = [];
+        //total num candles needed is lower than the limit so we can just load all data in one chunk
+        const { bars: newBars } = await loadCandleChunk({
+          oldestCandleTime: from,
+          newestCandleTime: to,
+          url,
+          bars,
+          from,
+          to,
+        });
+        bars = newBars;
       }
 
       if (!bars.length) {
@@ -150,19 +229,24 @@ const tradingChartDataFeeds = {
         });
         return;
       }
-      const lastBar = lastBarCache.get(symbolInfo.name);
+
       const newestBar = bars[bars.length - 1];
-      if (lastBar) {
-        if (newestBar.time >= lastBar.time) {
+      if (newestBar) {
+        const lastBar = lastBarCache.get(symbolInfo.name);
+        if (lastBar) {
+          if (newestBar.time >= lastBar.time) {
+            lastBarCache.set(symbolInfo.name, newestBar);
+          }
+        } else {
           lastBarCache.set(symbolInfo.name, newestBar);
         }
-      } else {
-        lastBarCache.set(symbolInfo.name, newestBar);
       }
+
       onHistoryCallback(bars, {
         noData: false,
       });
     } catch (error) {
+      console.log('error', error);
       onErrorCallback(error);
     }
   },
