@@ -4,7 +4,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { usePageViews } from 'app/hooks/useAnalytics';
 
 import WalletConnector from '../../containers/WalletConnector';
-import { LanguageToggle } from '../LanguageToggle';
 import styles from './index.module.scss';
 import { ReactComponent as SovLogo } from 'assets/images/sovryn-logo-labs.svg';
 import { ReactComponent as ArrowBack } from 'assets/images/genesis/arrow_back.svg';
@@ -52,9 +51,10 @@ export const HeaderLabs: React.FC<HeaderLabsProps> = ({ menus, helpLink }) => {
               {t(translations.mainMenu.help)}
             </a>
           )}
-          <div className="xl:tw-mr-4">
+          {/* Hidden until we have translations */}
+          {/* <div className="xl:tw-mr-4">
             <LanguageToggle innerClasses="tw-text-black tw-h-8" />
-          </div>
+          </div> */}
           <WalletConnector lightMode hideConnectButton />
         </div>
       </div>
