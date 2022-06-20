@@ -55,8 +55,6 @@ import { PerpetualPageLoadable } from './pages/PerpetualPage/Loadable';
 const title = !isMainnet ? `Sovryn ${currentNetwork}` : 'Sovryn';
 const showPerps = !isMainnet || isStaging;
 
-console.log(showPerps);
-
 export function App() {
   useAppTheme();
 
