@@ -32,6 +32,7 @@ import { CandleDuration } from 'app/pages/PerpetualPage/hooks/graphql/useGetCand
 import { TradingCandleDictionary } from './dictionary';
 import { Asset } from 'types';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
+import { pushPrice } from 'utils/pair-price-tracker';
 
 const newestBarsCache = new Map<string, Bar>();
 const oldestBarsCache = new Map<string, Bar>();
@@ -136,6 +137,8 @@ const tradingChartDataFeeds = (
       if (firstDataRequest) {
         newestBarsCache.set(symbolInfo.name, { ...items[items.length - 1] });
         oldestBarsCache.set(symbolInfo.name, { ...items[0] });
+
+        pushPrice(symbolInfo.name, items[items.length - 1].close);
       }
 
       const lastBar = newestBarsCache.get(symbolInfo.name);
@@ -144,9 +147,11 @@ const tradingChartDataFeeds = (
         if (lastBar) {
           if (newestBar && newestBar?.time < lastBar.time) {
             newestBarsCache.set(symbolInfo.name, newestBar);
+            pushPrice(symbolInfo.name, newestBar.close);
           }
         } else {
           newestBarsCache.set(symbolInfo.name, newestBar);
+          pushPrice(symbolInfo.name, newestBar.close);
         }
       } catch (error) {
         console.error('Errors caching newest bar as last bar', error);

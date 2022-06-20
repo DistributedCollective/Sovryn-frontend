@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { toNumberFormat } from 'utils/display-text/format';
@@ -6,6 +6,7 @@ import { ITradingPairs } from 'types/trading-pairs';
 import classNames from 'classnames';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { useGetCandlesData } from 'app/hooks/trading/useGetCandlesData';
+import { watchPrice } from 'utils/pair-price-tracker';
 
 interface IPairNavbarInfoProps {
   pair: ITradingPairs;
@@ -16,6 +17,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
   const [lowPrice, setLowPrice] = useState(0);
   const [hightPrice, setHightPrice] = useState(0);
   const [lastPrice, setLastPrice] = useState(0);
+  const [lastPriceEvent, setLastPriceEvent] = useState(0);
   const [dayPrice, setDayPrice] = useState(0);
   const [percent, setPercent] = useState(0);
   const [symbolA, setSymbolA] = useState('');
@@ -117,13 +119,30 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
     }
   }, [lastPrice, pair, candles, loading, dayPrice]);
 
+  useEffect(() => {
+    const symbol =
+      pair[0].trading_pairs === pair[1].trading_pairs
+        ? `${pair[0].quote_symbol}/${pair[0].base_symbol}`
+        : `${pair[0].base_symbol}/${pair[1].base_symbol}`;
+    setLastPriceEvent(0);
+    const unsubscribe = watchPrice(symbol, val => {
+      setLastPriceEvent(val);
+    });
+    return () => unsubscribe();
+  }, [pair]);
+
+  const _lastPrice = useMemo(() => lastPriceEvent || lastPrice, [
+    lastPrice,
+    lastPriceEvent,
+  ]);
+
   return (
     <div className="tw-flex tw-items-center tw-justify-around tw-flex-1 tw-text-xs">
       <div className="tw-hidden sm:tw-flex tw-items-center tw-text-center tw-flex-row">
         {t(translations.pairNavbar.lastTradedPrice)}
         <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-primary">
           <LoadableValue
-            value={toNumberFormat(lastPrice, 8)}
+            value={toNumberFormat(_lastPrice, 8)}
             loading={loading}
           />
         </span>

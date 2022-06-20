@@ -12,6 +12,7 @@
 import { ApolloClient } from '@apollo/client';
 import { resolutionMap } from 'app/pages/PerpetualPage/components/TradingChart/helpers';
 import { CandleDuration } from 'app/pages/PerpetualPage/hooks/graphql/useGetCandles';
+import { pushPrice } from 'utils/pair-price-tracker';
 import { TradingCandleDictionary } from './dictionary';
 import {
   Bar,
@@ -90,6 +91,8 @@ export class Streaming {
             // do not update
             return;
           }
+
+          pushPrice(subscriptionItem?.symbolInfo?.name, bar.close);
           // update last bar cache and execute chart callback
           subscriptionItem.lastBar = bar;
           subscriptionItem.handler(bar);
