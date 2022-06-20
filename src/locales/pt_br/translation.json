@@ -1251,7 +1251,7 @@
       "redeemRBTC": "Sacar rBTC",
       "withdraw": "Sacar"
     },
-    "sendMessage": "Envie {{asset}} para um endereço BTC",
+    "sendMessage": "Envie {{asset}}",
     "receiveMessage": "Receba {{asset}} depositando BTC",
     "convertDialog": {
       "title": "Converter",
