@@ -21,6 +21,7 @@ type LeverageSelectorProps = {
   steps: number[];
   onChange: (value: number) => void;
   disabled?: boolean;
+  tooltip?: string;
 };
 
 export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
@@ -31,6 +32,7 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
   steps: unfilteredSteps,
   onChange,
   disabled = false,
+  tooltip,
 }) => {
   const { t } = useTranslation();
   const [manual, setManual] = useState(false);
@@ -108,6 +110,7 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
           'tw-p-4 tw-pb-px tw-bg-gray-4 tw-rounded-lg',
           className,
         )}
+        labelTooltip={tooltip}
       >
         <div className="tw-flex tw-flex-row tw-items-start tw-justify-between tw-h-12">
           {manual || sliderValue < 0 ? (

@@ -1,75 +1,81 @@
-/**
- *
- * SovGenerationNFTS
- *
- */
-
-import React from 'react';
+import React, { useMemo } from 'react';
 import sov_1 from 'assets/images/wallet/sov_1.jpg';
 import sov_2 from 'assets/images/wallet/sov_2.jpg';
 import sov_3 from 'assets/images/wallet/sov_3.jpg';
 import bfntImg from 'assets/images/wallet/bnft.png';
 import sov_icon from 'assets/images/wallet/icon-sov.svg';
-import { useAccount } from '../../hooks/useAccount';
-import { useCacheCallWithValue } from '../../hooks/useCacheCallWithValue';
+import { useAccount } from 'app/hooks/useAccount';
+import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import { useLoadSovNfts } from './useLoadSovNfts';
 import SovNftToken from './SovNftToken';
+import { Picture } from '../Picture';
+import { translations } from 'locales/i18n';
+import { Trans, useTranslation } from 'react-i18next';
+import { discordInvite } from '../../../utils/classifiers';
 
-export function SovGenerationNFTS() {
+export const SovGenerationNFTS: React.FC = () => {
   const account = useAccount();
-  const { value: balanceCommunity } = useCacheCallWithValue(
-    'SovrynNFTCommunity',
-    'balanceOf',
-    '0',
-    account,
-  );
-  const { value: balanceHero } = useCacheCallWithValue(
+  const { t } = useTranslation();
+  const {
+    value: balanceCommunity,
+    loading: loadingCommunity,
+  } = useCacheCallWithValue('SovrynNFTCommunity', 'balanceOf', '0', account);
+  const { value: balanceHero, loading: loadingHero } = useCacheCallWithValue(
     'SovrynNFTHero',
     'balanceOf',
     '0',
     account,
   );
-  const { value: balanceSuperhero } = useCacheCallWithValue(
-    'SovrynNFTSuperhero',
-    'balanceOf',
-    '0',
-    account,
-  );
-  const { value: balanceBday } = useCacheCallWithValue(
+  const {
+    value: balanceSuperhero,
+    loading: loadingSuperhero,
+  } = useCacheCallWithValue('SovrynNFTSuperhero', 'balanceOf', '0', account);
+  const { value: balanceBday, loading: loadingBday } = useCacheCallWithValue(
     'SovrynNFTBday',
     'balanceOf',
     '0',
     account,
   );
 
-  const tiers = [
-    {
-      title: 'Community',
-      max: '0.03',
-      balance: balanceCommunity,
-      image: sov_1,
-    },
-    {
-      title: 'Hero',
-      max: '0.1',
-      balance: balanceHero,
-      image: sov_2,
-    },
-    {
-      title: 'Superhero',
-      max: '2',
-      balance: balanceSuperhero,
-      image: sov_3,
-    },
-  ];
+  const tiers = useMemo(
+    () =>
+      [
+        {
+          title: t(translations.userAssets.gallery.community),
+          max: '0.03',
+          balance: balanceCommunity,
+          image: sov_1,
+        },
+        {
+          title: t(translations.userAssets.gallery.hero),
+          max: '0.1',
+          balance: balanceHero,
+          image: sov_2,
+        },
+        {
+          title: t(translations.userAssets.gallery.superhero),
+          max: '2',
+          balance: balanceSuperhero,
+          image: sov_3,
+        },
+      ].filter(entry => entry.balance !== '0'),
+    [t, balanceCommunity, balanceHero, balanceSuperhero],
+  );
 
-  const { items } = useLoadSovNfts();
+  const { items, loading: loadingList } = useLoadSovNfts();
+
+  const loading = useMemo(
+    () =>
+      loadingBday ||
+      loadingCommunity ||
+      loadingHero ||
+      loadingSuperhero ||
+      loadingList,
+    [loadingBday, loadingCommunity, loadingHero, loadingList, loadingSuperhero],
+  );
 
   return (
-    <div className="sovryn-border tw-p-4 tw-mb-12 tw-pb-12">
-      <p className="tw-text-center sov-title tw-mb-12">
-        SOV Generation 01 NFT's
-      </p>
+    <div className="sovryn-border tw-p-4 tw-mb-12">
       <div className="lg:tw-flex tw-text-center tw-items-center tw-justify-center">
         {items.map(item => (
           <SovNftToken key={item} tokenId={item} />
@@ -78,15 +84,31 @@ export function SovGenerationNFTS() {
         {balanceBday !== '0' && (
           <div className="md:tw-mr-5 sm:tw-mb-5 tw-mb-12 tw-ml-4 tw-mr-4 tw-relative tw-inline-block">
             <div className="image-bordered">
-              <img
+              <Picture
                 className="tw-relative tw-w-full tw-max-w-xs tw-h-full tw-rounded-md"
                 src={bfntImg}
-                alt="Staying Sovryn for 10 halvings"
               />
             </div>
           </div>
         )}
 
+        {loading && (
+          <p className="tw-mt-4">
+            {t(translations.userAssets.gallery.loadingMessage)}
+          </p>
+        )}
+        {!loading && !items?.length && !tiers?.length && balanceBday === '0' && (
+          <p className="tw-mt-4">
+            <Trans
+              i18nKey={translations.userAssets.gallery.emptyGallery}
+              components={[
+                <a className="tw-text-secondary" href={discordInvite}>
+                  x
+                </a>,
+              ]}
+            />
+          </p>
+        )}
         {tiers.map((item, index) => {
           return (
             item.balance !== '0' && (
@@ -95,10 +117,9 @@ export function SovGenerationNFTS() {
                 className="md:tw-mr-5 sm:tw-mb-5 tw-mb-12 tw-ml-4 tw-mr-4 tw-relative tw-inline-block"
               >
                 <div className="image-bordered">
-                  <img
+                  <Picture
                     className="tw-relative tw-w-full tw-max-w-xs tw-h-full tw-rounded-md"
                     src={item.image}
-                    alt=""
                   />
                 </div>
                 <div className="sov-table">
@@ -106,21 +127,26 @@ export function SovGenerationNFTS() {
                     <tbody>
                       <tr>
                         <td>
-                          <b>SOV Genesis Pre-Order</b>
+                          <b>{t(translations.userAssets.gallery.preOrder)}</b>
                         </td>
                         <td rowSpan={2}>
-                          <img src={sov_icon} alt="icon" />
+                          <Picture src={sov_icon} />
                         </td>
                       </tr>
                       <tr>
                         <td>
-                          <b>Purchase Limit: {item.max} BTC</b>
+                          <b>
+                            {t(translations.userAssets.gallery.purchaseLimit)}{' '}
+                            {item.max} {t(translations.userAssets.gallery.btc)}
+                          </b>
                         </td>
                       </tr>
                       <tr>
-                        <td>{item.title} Tier</td>
                         <td>
-                          <div>SOV-OG</div>
+                          {item.title} {t(translations.userAssets.gallery.tier)}
+                        </td>
+                        <td>
+                          <div>{t(translations.userAssets.gallery.sovOG)}</div>
                         </td>
                       </tr>
                     </tbody>
@@ -133,4 +159,4 @@ export function SovGenerationNFTS() {
       </div>
     </div>
   );
-}
+};

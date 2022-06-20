@@ -139,6 +139,11 @@ export const SwapSelector: React.FC<ISwapSelectorProps> = ({
                     const assetDetails = AssetsDictionary.getByTokenContractAddress(
                       pair.base_id,
                     );
+
+                    if (!assetDetails || !assetDetailsRBTC) {
+                      return null;
+                    }
+
                     //as we don't have RBTC as source, we make a separate reverted pair from USDT_RBTC
                     let pairDivRBTC;
                     let pairDiv;

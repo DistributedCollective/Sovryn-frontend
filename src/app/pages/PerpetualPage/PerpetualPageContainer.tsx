@@ -17,7 +17,7 @@ import {
 import { TradingChart } from './components/TradingChart';
 import { OpenPositionsTable } from './components/OpenPositionsTable';
 import { Link, useHistory, useLocation } from 'react-router-dom';
-import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
+import { IPromotionLinkState } from '../../components/Promotions/components/PromotionCard/types';
 import { selectPerpetualPage } from './selectors';
 import { DataCard } from './components/DataCard';
 import { AmmDepthChart } from './components/AmmDepthChart';

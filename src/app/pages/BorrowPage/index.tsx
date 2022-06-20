@@ -14,7 +14,7 @@ import { selectLendBorrowSovryn } from './selectors';
 import { RepayPositionHandler } from 'app/containers/RepayPositionHandler/Loadable';
 import { BorrowActivity } from '../../components/BorrowActivity/Loadable';
 import { useHistory, useLocation } from 'react-router-dom';
-import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
+import { IPromotionLinkState } from '../../components/Promotions/components/PromotionCard/types';
 import { AddCollateralHandler } from './components/AddCollateralModal/AddCollateralHandler';
 
 const BorrowPage: React.FC = () => {

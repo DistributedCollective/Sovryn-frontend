@@ -30,3 +30,9 @@ export enum LendingEventType {
 }
 
 export type ContainerState = LendingPageState;
+
+export enum DialogType {
+  NONE,
+  ADD,
+  REMOVE,
+}
