@@ -81,7 +81,6 @@
     "bridgeBnbWithdraw": "Sorry, BNB cross-chain withdrawals are currently under maintenance, please check our discord (link in footer) for updates.",
     "bridgeXusdDeposit": "Sorry, XUSD cross-chain deposits are currently under maintenance, please check our discord (link in footer) for updates.",
     "bridgeXusdWithdraw": "Sorry, XUSD cross-chain withdrawals are currently under maintenance, please check our discord (link in footer) for updates.",
-    
     "staking": "Desculpe, a opção de rentabilizar SOV está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
     "stakingModal": "Desculpe, a opção de rentabilizar SOV está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
     "unstaking": "Desculpe, a opção de sacar SOV está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
@@ -92,9 +91,9 @@
     "delegateModal": "Desculpe, a opção de delegar está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
     "withdrawVests": "Desculpe, a opção de sacar SOV está em manutenção, por favor verifique o nosso discord (link no rodapé) para atualizações.",
     "withdrawVestsModal": "Desculpe, a opção de sacar SOV está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
-    "claimRewards": "Desculpe, a opção de reivindicar bônus está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações."
+    "claimRewards": "Desculpe, a opção de reivindicar bônus está em manutenção, por favor verifique o nosso <0>discord</0> para atualizações.",
     "claimOrigins": "Sorry, origins claim is currently under maintenance, please check our <0>discord</0> for updates.",
-    
+
     "perpetuals": "Sorry, Perpetuals is currently under maintenance, please check our discord (link in footer) for updates.",
     "perpetualsAccountFund": "Sorry, deposits on Perpetuals are currently under maintenance, please check our discord (link in footer) for updates.",
     "perpetualsAccountWithdraw": "Sorry, withdrawals on Perpetuals are currently under maintenance, please check our discord (link in footer) for updates.",
@@ -1207,8 +1206,8 @@
       "userAssets": "Ativos",
       "vestedAssets": "Vesting",
       "userNFTS": "Galeria"
-  },
-  "claimDialog": {
+    },
+    "claimDialog": {
       "redemptionSuccessful": "Redemption Successful",
       "vestedSovLink": "You will now be able to see your vested SOV in our <0>staking</0> page.",
       "congratulations": " Congratulations you are also now owner of SOV!",
@@ -2329,7 +2328,7 @@
         "resultingPosition": "Resulting Position",
         "keepPositionLeverage": "Keep Position Leverage"
       },
-       "buttons": {
+      "buttons": {
         "buy": "Compra",
         "sell": "Venda",
         "connect": "Conectar Carteira",
