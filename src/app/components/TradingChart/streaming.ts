@@ -17,7 +17,7 @@ import {
   Bar,
   getTokensFromSymbol,
   hasDirectFeed,
-  queryCandles,
+  queryPairByChunks,
 } from './helpers';
 
 type SubItem = {
@@ -54,15 +54,14 @@ export class Streaming {
       subscriptionItem.symbolInfo.name,
     );
 
-    queryCandles(
+    queryPairByChunks(
       this.client!,
-      candleDuration,
-      hasDirectFeed(subscriptionItem?.symbolInfo?.name),
+      details,
       baseToken,
       quoteToken,
       subscriptionItem?.lastBar?.time / 1000 - details.candleSeconds * 2,
       Math.ceil(Date.now() / 1000),
-      1,
+      hasDirectFeed(subscriptionItem?.symbolInfo?.name),
     )
       .then(bars => {
         bars.reverse().forEach(item => {

@@ -1,13 +1,9 @@
 import { ApolloClient, gql } from '@apollo/client';
-import {
-  CandleDetails,
-  CandleDuration,
-} from 'app/pages/PerpetualPage/hooks/graphql/useGetCandles';
+import { CandleDetails } from 'app/pages/PerpetualPage/hooks/graphql/useGetCandles';
 import { Asset } from 'types';
 import { getTokenContract } from 'utils/blockchain/contract-helpers';
-import { TradingCandleDictionary } from './dictionary';
 
-export const MAX_CANDLE_COUNT = 500;
+const CHUNK_SIZE = 50;
 
 export type Bar = {
   time: number;
@@ -28,9 +24,75 @@ export type CandleSticksResponse = {
   periodStartUnix: number;
 };
 
+type TimestampChunk = {
+  from: number;
+  to: number;
+};
+
 export const hasDirectFeed = (symbolName: string) => {
   const [, quote] = symbolName.split('/') as [Asset, Asset];
   return [Asset.RBTC, Asset.XUSD].includes(quote);
+};
+
+const splitPeriodToChunks = (
+  from: number,
+  to: number,
+  candleDetails: CandleDetails,
+): TimestampChunk[] => {
+  const timeSpanSeconds = to - from;
+  const candlesInPeriod = Math.abs(
+    Math.floor(timeSpanSeconds / candleDetails.candleSeconds),
+  );
+
+  const chunks =
+    candlesInPeriod > CHUNK_SIZE ? Math.ceil(candlesInPeriod / CHUNK_SIZE) : 1;
+
+  let _from = from;
+  let _to = from;
+
+  const times: TimestampChunk[] = [];
+
+  if (candlesInPeriod > CHUNK_SIZE) {
+    const delay = CHUNK_SIZE * candleDetails.candleSeconds;
+    for (let chunk = 0; chunk < chunks; chunk++) {
+      _from = chunk === 0 ? from : _to;
+      _to = _from + delay < to ? _from + delay : to;
+      times.push({ from: _from, to: _to });
+    }
+    return times;
+  }
+
+  return [{ from, to }];
+};
+
+export const queryPairByChunks = async (
+  client: ApolloClient<any>,
+  candleDetails: CandleDetails,
+  baseToken: string,
+  quoteToken: string,
+  startTime: number,
+  endTime: number,
+  hasDirectPair: boolean,
+): Promise<Bar[]> => {
+  const queries = splitPeriodToChunks(
+    startTime,
+    endTime,
+    candleDetails,
+  ).map(item =>
+    queryCandles(
+      client,
+      candleDetails,
+      hasDirectPair,
+      baseToken,
+      quoteToken,
+      item.from,
+      item.to,
+    ),
+  );
+
+  return Promise.all(queries).then(items =>
+    items.flat(1).sort((a, b) => a.time - b.time),
+  );
 };
 
 const queryDirectPair = async (
@@ -40,8 +102,7 @@ const queryDirectPair = async (
   quoteToken: string,
   startTime: number,
   endTime: number,
-  candleNumber: number,
-): Promise<CandleSticksResponse[]> => {
+): Promise<Bar[]> => {
   const query = gql`
       {
         candleSticks (
@@ -54,7 +115,7 @@ const queryDirectPair = async (
           }
           orderBy: periodStartUnix
           orderDirection: desc
-          first: ${Math.min(candleNumber, MAX_CANDLE_COUNT)}
+          first: ${CHUNK_SIZE}
         ) {
           id
           open
@@ -73,22 +134,17 @@ const queryDirectPair = async (
     .then(response => response.data?.candleSticks || [])
     .then(items =>
       items.map(item => ({
-        id: item.id,
         open: Number(item.open),
         high: Number(item.high),
         low: Number(item.low),
         close: Number(item.close),
-        totalVolume: Number(item.totalVolume),
-        periodStartUnix: Number(item.periodStartUnix),
+        volume: Number(item.totalVolume),
+        time: Number(item.periodStartUnix) * 1000,
       })),
     );
 };
 
-const fillItem = (
-  base: CandleSticksResponse,
-  quote?: CandleSticksResponse,
-  lastQuote?: CandleSticksResponse,
-): CandleSticksResponse | null => {
+const fillItem = (base: Bar, quote?: Bar, lastQuote?: Bar): Bar | null => {
   if (!quote && lastQuote) {
     quote = lastQuote;
   }
@@ -98,13 +154,12 @@ const fillItem = (
   }
 
   return {
-    id: base.id,
     open: base.open / quote.open,
     high: base.high / quote.high,
     low: base.low / quote.low,
     close: base.close / quote.close,
-    totalVolume: 0,
-    periodStartUnix: base.periodStartUnix,
+    volume: 0,
+    time: base.time,
   };
 };
 
@@ -115,7 +170,6 @@ export const queryCustomPairs = async (
   quoteToken: string,
   startTime: number,
   endTime: number,
-  candleNumber: number,
 ) => {
   return Promise.all([
     queryDirectPair(
@@ -125,7 +179,6 @@ export const queryCustomPairs = async (
       getTokenAddress(Asset.XUSD),
       startTime,
       endTime,
-      candleNumber,
     ),
     queryDirectPair(
       client,
@@ -134,20 +187,17 @@ export const queryCustomPairs = async (
       getTokenAddress(Asset.XUSD),
       startTime,
       endTime,
-      candleNumber,
     ),
   ]).then(e => {
-    const baseCandles: CandleSticksResponse[] = e[0];
-    const quoteCandles: CandleSticksResponse[] = e[1];
+    const baseCandles: Bar[] = e[0];
+    const quoteCandles: Bar[] = e[1];
 
-    const items: CandleSticksResponse[] = [];
+    const items: Bar[] = [];
     let lastQuote;
     let lastBase;
 
     for (let base of baseCandles) {
-      const quote = quoteCandles.find(
-        item => item.periodStartUnix === base.periodStartUnix,
-      );
+      const quote = quoteCandles.find(item => item.time === base.time);
 
       const item = fillItem(base, quote, lastQuote);
       if (item) {
@@ -160,9 +210,7 @@ export const queryCustomPairs = async (
     }
 
     for (let quote of quoteCandles) {
-      const base = items.find(
-        item => item.periodStartUnix === quote.periodStartUnix,
-      );
+      const base = items.find(item => item.time === quote.time);
 
       if (!base && lastBase) {
         const item = fillItem(lastBase, quote, lastBase);
@@ -182,17 +230,14 @@ export const queryCustomPairs = async (
 
 export const queryCandles = async (
   client: ApolloClient<any>,
-  candleDuration: CandleDuration,
+  candleDetails: CandleDetails,
   directFeed: boolean,
   baseToken: string,
   quoteToken: string,
   startTime: number,
   endTime: number,
-  candleNumber: number,
 ) => {
   try {
-    const candleDetails = TradingCandleDictionary.get(candleDuration);
-
     const bars: Bar[] = await (directFeed
       ? queryDirectPair(
           client,
@@ -201,7 +246,6 @@ export const queryCandles = async (
           quoteToken,
           startTime,
           endTime,
-          candleNumber,
         )
       : queryCustomPairs(
           client,
@@ -210,21 +254,8 @@ export const queryCandles = async (
           quoteToken,
           startTime,
           endTime,
-          candleNumber,
-        )
-    )
-      .then(response =>
-        response.map(item => ({
-          time: item.periodStartUnix * 1000,
-          low: item.low,
-          high: item.high,
-          open: item.open,
-          close: item.close,
-          volume: item.totalVolume,
-        })),
-      )
-      .then(response => response.sort((a, b) => a.time - b.time));
-    return addMissingBars(bars, candleDuration);
+        ));
+    return addMissingBars(bars, candleDetails);
   } catch (error) {
     console.error(error);
     throw new Error(`Request error: ${error}`);
@@ -244,9 +275,8 @@ export const getTokensFromSymbol = (symbol: string) => {
 
 export const addMissingBars = (
   bars: Bar[],
-  candleDuration: CandleDuration,
+  candleDetails: CandleDetails,
 ): Bar[] => {
-  const candleDetails = TradingCandleDictionary.get(candleDuration);
   const seconds = candleDetails.candleSeconds * 1e3;
   let newBars: Bar[] = [];
   let previousBar = bars[bars.length - 1];

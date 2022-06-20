@@ -4,7 +4,7 @@ import { ContainerState, ILimitOrder, SpotPairType } from './types';
 
 // The initial state of the SpotTradingPage container
 export const initialState: ContainerState = {
-  pairType: SpotPairType.SOV_RBTC,
+  pairType: SpotPairType.RBTC_XUSD,
   pendingLimitOrders: [],
 };
 

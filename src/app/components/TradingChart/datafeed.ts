@@ -23,7 +23,11 @@ import {
   resolutionMap,
   supportedResolutions,
 } from 'app/pages/PerpetualPage/components/TradingChart/helpers';
-import { getTokensFromSymbol, hasDirectFeed, queryCandles } from './helpers';
+import {
+  getTokensFromSymbol,
+  hasDirectFeed,
+  queryPairByChunks,
+} from './helpers';
 import { CandleDuration } from 'app/pages/PerpetualPage/hooks/graphql/useGetCandles';
 import { TradingCandleDictionary } from './dictionary';
 import { Asset } from 'types';
@@ -95,12 +99,7 @@ const tradingChartDataFeeds = (
     const candleDuration: CandleDuration = resolutionMap[resolution];
     const candleDetails = TradingCandleDictionary.get(candleDuration);
 
-    const candleSize = () => {
-      const resolutionNumber = parseInt(resolution);
-      return resolutionNumber > 0 ? resolutionNumber : 1440; //Resolution in minutes - if more than a day, use day
-    };
-
-    const startTime = (): number => {
+    const fromTime = (): number => {
       const oldestBarTime = oldestBarsCache.get(symbolInfo.name)?.time;
       if (firstDataRequest) {
         return from;
@@ -114,33 +113,20 @@ const tradingChartDataFeeds = (
       }
     };
 
-    const candleNumber = (): number => {
-      const timeSpanSeconds = to - startTime();
-      const numOfCandles = Math.ceil(timeSpanSeconds / (candleSize() * 60));
-      return Math.abs(numOfCandles);
-    };
-
     try {
       const { baseToken, quoteToken } = getTokensFromSymbol(symbolInfo.name);
-      /** If first request then calculate number of bars and pass it in, else startTime */
-      const data = await queryCandles(
+
+      const items = await queryPairByChunks(
         graphqlClient,
-        candleDuration,
-        hasDirectFeed(symbolInfo.name),
+        candleDetails,
         baseToken,
         quoteToken,
-        startTime(),
+        fromTime(),
         to,
-        candleNumber(),
+        hasDirectFeed(symbolInfo.name),
       );
-      let bars: Bar[] = [];
-      if (data.length > 0) {
-        bars = data;
-      } else {
-        bars = [];
-      }
 
-      if (!bars || bars.length === 0) {
+      if (!items || items.length === 0) {
         onHistoryCallback([], {
           noData: true,
         });
@@ -148,12 +134,12 @@ const tradingChartDataFeeds = (
       }
 
       if (firstDataRequest) {
-        newestBarsCache.set(symbolInfo.name, { ...bars[bars.length - 1] });
-        oldestBarsCache.set(symbolInfo.name, { ...bars[0] });
+        newestBarsCache.set(symbolInfo.name, { ...items[items.length - 1] });
+        oldestBarsCache.set(symbolInfo.name, { ...items[0] });
       }
 
       const lastBar = newestBarsCache.get(symbolInfo.name);
-      const newestBar = bars[bars.length - 1];
+      const newestBar = items[items.length - 1];
       try {
         if (lastBar) {
           if (newestBar && newestBar?.time < lastBar.time) {
@@ -167,7 +153,7 @@ const tradingChartDataFeeds = (
       }
 
       const oldestBar = oldestBarsCache.get(symbolInfo.name);
-      const currentOldest = bars[0];
+      const currentOldest = items[0];
 
       if (oldestBar) {
         if (oldestBar.time > currentOldest.time) {
@@ -177,15 +163,9 @@ const tradingChartDataFeeds = (
         oldestBarsCache.set(symbolInfo.name, currentOldest);
       }
 
-      if (!bars || bars.length === 0) {
-        onHistoryCallback([], {
-          noData: true,
-        });
-      } else {
-        onHistoryCallback(bars, {
-          noData: false,
-        });
-      }
+      onHistoryCallback(items, {
+        noData: false,
+      });
     } catch (error) {
       onErrorCallback(error);
     }
