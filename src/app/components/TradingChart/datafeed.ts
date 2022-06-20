@@ -76,10 +76,6 @@ const loadCandleChunk = async (props: {
     oldestCandleTime: props.oldestCandleTime,
     newestCandleTime: props.newestCandleTime,
   };
-  console.log({
-    chunkFrom: new Date(props.oldestCandleTime * 1e3),
-    chunkTo: new Date(props.newestCandleTime * 1e3),
-  });
   const query = Object.entries({
     startTime: candleTimes.oldestCandleTime * 1e3,
     endTime: candleTimes.newestCandleTime * 1e3,
@@ -92,7 +88,7 @@ const loadCandleChunk = async (props: {
     for (let i = data.series.length - 1; i >= 0; i--) {
       let newBar = data.series[i];
       if (newBar && newBars[0] && newBar.time * 1e3 >= newBars[0].time) {
-        // console.log('skipping time violation candle', new Date(newBar.time * 1e3), new Date(bars[0].time));
+        // skip candles with time violations, but make sure chart doesn't request further data from this time period
         candleTimes.newestCandleTime = newBar.time;
       } else if (newBar.time >= props.from && newBar.time <= props.to) {
         newBars = [
