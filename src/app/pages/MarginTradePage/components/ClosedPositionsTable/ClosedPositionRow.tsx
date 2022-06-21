@@ -29,11 +29,11 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
   const { t } = useTranslation();
   const [showDetails, setShowDetails] = useState(false);
   const {
-    realizedPnL,
-    realizedPnLPercent,
     trade: [{ positionSize, entryLeverage, entryPrice, transaction }],
     loanToken: { id: loanTokenId },
     collateralToken: { id: collateralTokenId },
+    liquidates,
+    closeWithSwaps,
   } = event;
   const loanAsset = assetByTokenAddress(loanTokenId);
   const collateralAsset = assetByTokenAddress(collateralTokenId);
@@ -50,14 +50,15 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
     position,
   ]);
 
-  const closePrice = useMemo(() => getClosePositionPrice(event, position), [
-    event,
-    position,
-  ]);
+  const closePrice = useMemo(
+    () => getClosePositionPrice(liquidates, closeWithSwaps, position),
+    [liquidates, closeWithSwaps, position],
+  );
 
-  const exitTransactionHash = useMemo(() => getExitTransactionHash(event), [
-    event,
-  ]);
+  const exitTransactionHash = useMemo(
+    () => getExitTransactionHash(liquidates, closeWithSwaps),
+    [liquidates, closeWithSwaps],
+  );
 
   return (
     <>
@@ -118,8 +119,7 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
         </td>
         <td>
           <TradeProfit
-            realizedPnL={realizedPnL}
-            realizedPnLPercent={realizedPnLPercent}
+            positionSize={positionSize}
             collateralAsset={collateralAsset}
             position={position}
             openPrice={openPrice}

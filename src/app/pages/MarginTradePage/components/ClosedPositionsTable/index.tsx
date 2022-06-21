@@ -23,7 +23,7 @@ export const ClosedPositionsTable: React.FC = () => {
   const onPageChanged = useCallback(page => setPage(page), [setPage]);
 
   const isHiddenPagination = useMemo(
-    () => data && data.loans.length === 0 && page === 1 && !loading,
+    () => data && data.loans.length < PAGE_SIZE && page === 1 && !loading,
     [data, page, loading],
   );
 

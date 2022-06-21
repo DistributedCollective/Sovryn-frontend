@@ -10,7 +10,7 @@ export const useGetMarginLoans = (
   pageSize: number,
 ) => {
   const account = useAccount();
-  const currentPage = useMemo(() => {
+  const skip = useMemo(() => {
     if (page === 1) {
       return 0;
     }
@@ -113,7 +113,7 @@ export const useGetMarginLoans = (
 
   return useQuery(MARGIN_LOANS, {
     variables: {
-      skip: currentPage,
+      skip: skip,
       user: account.toLowerCase(),
       isOpen: isOpen,
     },

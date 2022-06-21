@@ -4,9 +4,9 @@ import { Tooltip } from '@blueprintjs/core';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 import { TradingPosition } from 'types/trading-position';
-import { toAssetNumberFormat } from 'utils/display-text/format';
+import { toNumberFormat } from 'utils/display-text/format';
 import { translations } from 'locales/i18n';
-import { AssetRenderer } from '../AssetRenderer';
+import { AssetValue } from '../AssetValue';
 import { Asset } from 'types/asset';
 
 interface ITradeProfitProps {
@@ -14,8 +14,7 @@ interface ITradeProfitProps {
   position: TradingPosition;
   openPrice: string;
   closePrice: string;
-  realizedPnL: string;
-  realizedPnLPercent: string;
+  positionSize: string;
 }
 
 export const TradeProfit: React.FC<ITradeProfitProps> = ({
@@ -23,10 +22,10 @@ export const TradeProfit: React.FC<ITradeProfitProps> = ({
   position,
   openPrice,
   closePrice,
-  realizedPnL,
-  realizedPnLPercent,
+  positionSize,
 }) => {
   const { t } = useTranslation();
+  const [profit, setProfit] = useState(0);
   const [profitDirection, setProfitDirection] = useState(0);
 
   useEffect(() => {
@@ -45,8 +44,16 @@ export const TradeProfit: React.FC<ITradeProfitProps> = ({
         .mul(100)
         .toNumber();
     }
+    setProfit(
+      Math.abs(
+        bignumber(change || '0')
+          .mul(bignumber(positionSize || '0'))
+          .div(100)
+          .toNumber(),
+      ),
+    );
     setProfitDirection(change);
-  }, [position, closePrice, openPrice]);
+  }, [position, closePrice, openPrice, positionSize]);
 
   return (
     <div>
@@ -57,7 +64,7 @@ export const TradeProfit: React.FC<ITradeProfitProps> = ({
               <>
                 {t(translations.tradingHistoryPage.table.profitLabels.up)}
                 <span className="tw-text-success">
-                  {Number(realizedPnLPercent).toFixed(2)}
+                  {toNumberFormat(profitDirection, 2)}
                 </span>{' '}
                 %
               </>
@@ -66,7 +73,7 @@ export const TradeProfit: React.FC<ITradeProfitProps> = ({
               <>
                 {t(translations.tradingHistoryPage.table.profitLabels.down)}
                 <span className="tw-text-warning">
-                  {Number(realizedPnLPercent).toFixed(2)}
+                  {toNumberFormat(Math.abs(profitDirection), 2)}
                 </span>{' '}
                 %
               </>
@@ -89,9 +96,11 @@ export const TradeProfit: React.FC<ITradeProfitProps> = ({
             },
           )}
         >
-          {profitDirection > 0 && '+'}
-          {toAssetNumberFormat(realizedPnL, collateralAsset)}{' '}
-          <AssetRenderer asset={collateralAsset} />
+          <AssetValue
+            value={profit}
+            asset={collateralAsset}
+            showPositiveSign={true}
+          />
         </span>
       </Tooltip>
     </div>

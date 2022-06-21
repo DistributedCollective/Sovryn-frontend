@@ -5,7 +5,7 @@ import { TradingPosition } from '../../../types/trading-position';
 import { BigNumber } from 'ethers';
 
 export const MARGIN_SLIPPAGE_DEFAULT = 0.5;
-export const PAGE_SIZE = 6;
+export const PAGE_SIZE = 5;
 
 export interface IMarginTradePageState {
   pairType: TradingPairType;
@@ -84,7 +84,6 @@ export type LoanEvent = {
     id: string;
   };
   liquidates: EventLiquidates[];
-  realizedPnL: string;
   nextRollover: number;
   startTimestamp: number;
   closeWithSwaps: EventCloseWithSwaps[];
@@ -93,7 +92,6 @@ export type LoanEvent = {
   };
   depositCollateral: EventDepositCollateral[];
   closewithDeposits: EventCloseWithDeposit[];
-  realizedPnLPercent: string;
 };
 
 export type EventTrade = {
