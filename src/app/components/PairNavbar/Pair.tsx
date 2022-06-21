@@ -22,7 +22,6 @@ export const Pair: React.FC<IPairProps> = ({ tradingType, type }) => {
     type === TradingType.SPOT
       ? spotPairs[tradingType]
       : marginPairs[tradingType];
-
   const [sourceToken, targetToken] = pair;
 
   const sourceTokenLogo = useMemo(

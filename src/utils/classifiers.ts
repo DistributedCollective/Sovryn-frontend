@@ -49,6 +49,13 @@ export const zeroUrl =
       : 'https://live.sovryn.app/zero'
     : 'https://test.sovryn.app/zero';
 
+export const myntUrl =
+  currentNetwork === AppMode.MAINNET
+    ? isStaging
+      ? 'https://staging.sovryn.app/mynt-token'
+      : 'https://live.sovryn.app/mynt-token'
+    : 'https://test.sovryn.app/mynt-token';
+
 export const databaseRpcNodes = {
   30: 'https://backend.sovryn.app/rpc',
   31: 'https://api.test.sovryn.app/rpc',
@@ -155,3 +162,8 @@ export const limitOrderUrl = {
   // 31: 'https://orderbook.test.sovryn.app/limitOrder',
   31: 'https://_ob.sovryn.app/testnet/api',
 };
+
+export const learnMoreYieldFarming =
+  'https://wiki.sovryn.app/en/sovryn-dapp/market-making#yield-farming';
+export const learnMoreLending =
+  'https://wiki.sovryn.app/en/sovryn-dapp/market-making';

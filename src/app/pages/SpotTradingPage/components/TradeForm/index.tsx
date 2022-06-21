@@ -7,7 +7,7 @@ import { OrderType } from 'app/components/OrderTypeTitle/types';
 import { pairs, TradingTypes } from '../../types';
 import { Asset } from 'types/asset';
 import { useHistory, useLocation } from 'react-router-dom';
-import { IPromotionLinkState } from 'app/pages/LandingPage/components/Promotions/components/PromotionCard/types';
+import { IPromotionLinkState } from 'app/components/Promotions/components/PromotionCard/types';
 import { LimitForm } from './LimitForm';
 import { MarketForm } from './MarketForm';
 

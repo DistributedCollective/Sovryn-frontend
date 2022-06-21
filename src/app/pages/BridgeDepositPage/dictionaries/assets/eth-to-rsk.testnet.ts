@@ -6,7 +6,8 @@ import daiIcon from './icons/dai.svg';
 import { AssetModel } from '../../types/asset-model';
 import { CrossBridgeAsset } from '../../types/cross-bridge-asset';
 
-export const xusdAggregatorRSK = '0xca8b437d9d586b938CE000e765476A0594856b51';
+// @dev older version of xusd aggregator 0xca8b437d9d586b938CE000e765476A0594856b51
+export const xusdAggregatorRSK = '0x1572D7E4a78A8AD14AE722E6fE5f5600a2c7A149';
 export const ethsAggregatorRSK = '0x04D92DaA8f3Ef7bD222195e8D1DbE8D89A8CebD3';
 
 const ethToRskTestnetAssets = [

@@ -17,7 +17,7 @@ export const PERPETUAL_CHAIN_ID =
 
 export const PERPETUAL_PAYMASTER = isMainnet
   ? '' // TODO: add mainnet paymaster address
-  : '0xD76464394C9792781D1ed33bD73Fe1ff9D13c554';
+  : '0x402e4370f6871Ff59Db75aE578e038E101454dc1';
 
 export const PERPETUAL_GAS_PRICE_DEFAULT = isMainnet
   ? undefined
