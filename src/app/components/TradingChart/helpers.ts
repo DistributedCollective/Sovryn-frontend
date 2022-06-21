@@ -74,6 +74,7 @@ export const queryPairByChunks = async (
   startTime: number,
   endTime: number,
   hasDirectPair: boolean,
+  candleLimit: number = CHUNK_SIZE,
 ): Promise<Bar[]> => {
   const queries = splitPeriodToChunks(
     startTime,
@@ -88,6 +89,7 @@ export const queryPairByChunks = async (
       quoteToken,
       item.from,
       item.to,
+      candleLimit,
     ),
   );
 
@@ -103,6 +105,7 @@ const queryDirectPair = async (
   quoteToken: string,
   startTime: number,
   endTime: number,
+  candleLimit: number = CHUNK_SIZE,
 ): Promise<Bar[]> => {
   const query = gql`
       {
@@ -116,7 +119,7 @@ const queryDirectPair = async (
           }
           orderBy: periodStartUnix
           orderDirection: desc
-          first: ${CHUNK_SIZE}
+          first: ${candleLimit}
         ) {
           id
           open
@@ -171,6 +174,7 @@ export const queryCustomPairs = async (
   quoteToken: string,
   startTime: number,
   endTime: number,
+  candleLimit: number = CHUNK_SIZE,
 ) => {
   return Promise.all([
     queryDirectPair(
@@ -180,6 +184,7 @@ export const queryCustomPairs = async (
       getTokenAddress(Asset.XUSD),
       startTime,
       endTime,
+      candleLimit,
     ),
     queryDirectPair(
       client,
@@ -188,6 +193,7 @@ export const queryCustomPairs = async (
       getTokenAddress(Asset.XUSD),
       startTime,
       endTime,
+      candleLimit,
     ),
   ]).then(e => {
     const baseCandles: Bar[] = e[0];
@@ -239,6 +245,7 @@ export const queryCandles = async (
   quoteToken: string,
   startTime: number,
   endTime: number,
+  candleLimit: number = CHUNK_SIZE,
 ) => {
   try {
     const bars: Bar[] = await (directFeed
@@ -249,6 +256,7 @@ export const queryCandles = async (
           quoteToken,
           startTime,
           endTime,
+          candleLimit,
         )
       : queryCustomPairs(
           client,
@@ -257,6 +265,7 @@ export const queryCandles = async (
           quoteToken,
           startTime,
           endTime,
+          candleLimit,
         ));
     return addMissingBars(bars, candleDetails);
   } catch (error) {

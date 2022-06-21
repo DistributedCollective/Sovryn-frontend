@@ -12,6 +12,7 @@
 import { ApolloClient } from '@apollo/client';
 import { resolutionMap } from 'app/pages/PerpetualPage/components/TradingChart/helpers';
 import { CandleDuration } from 'app/pages/PerpetualPage/hooks/graphql/useGetCandles';
+import { debug } from 'utils/debug';
 import { pushPrice } from 'utils/pair-price-tracker';
 import { TradingCandleDictionary } from './dictionary';
 import {
@@ -32,19 +33,21 @@ type SubItem = {
 
 const REFRESH_RATE = 15 * 1e3;
 
+const log = debug('chart.streaming');
+
 export class Streaming {
   private client: ApolloClient<any> | null = null;
   private subscriptions = new Map<string, SubItem>();
 
   private onUpdate(subscriptionItem: SubItem) {
     if (!subscriptionItem?.symbolInfo?.name) {
-      console.log('error in symbol info', subscriptionItem);
+      log.error('error in symbol info', subscriptionItem);
       return;
     }
 
-    if (typeof document?.hasFocus === 'function' && !document.hasFocus()) {
-      return;
-    }
+    // if (typeof document?.hasFocus === 'function' && !document.hasFocus()) {
+    //   return;
+    // }
 
     const candleDuration: CandleDuration =
       resolutionMap[subscriptionItem.resolution];
@@ -60,12 +63,13 @@ export class Streaming {
       details,
       baseToken,
       quoteToken,
-      subscriptionItem?.lastBar?.time / 1000 - details.candleSeconds * 2,
+      subscriptionItem?.lastBar?.time / 1000,
       Math.ceil(Date.now() / 1000),
       hasDirectFeed(subscriptionItem?.symbolInfo?.name),
+      1,
     )
       .then(bars => {
-        bars.reverse().forEach(item => {
+        bars.reverse().forEach((item, index) => {
           let bar;
           if (
             !subscriptionItem.lastBar ||
@@ -92,13 +96,16 @@ export class Streaming {
             return;
           }
 
-          pushPrice(subscriptionItem?.symbolInfo?.name, bar.close);
+          if (index === bars.length) {
+            pushPrice(subscriptionItem?.symbolInfo?.name, bar.close);
+          }
+
           // update last bar cache and execute chart callback
           subscriptionItem.lastBar = bar;
           subscriptionItem.handler(bar);
         });
       })
-      .catch(console.error);
+      .catch(log.error);
   }
 
   private addSubscription(subItem) {
@@ -128,7 +135,7 @@ export class Streaming {
     let subscriptionItem = this.subscriptions.get(subscribeUID);
     if (subscriptionItem) {
       // already subscribed to the channel, continue to use the existing subscription
-      console.log(`already subscribed to`, subscriptionItem);
+      log.error(`already subscribed to`, subscriptionItem);
       return;
     }
 
