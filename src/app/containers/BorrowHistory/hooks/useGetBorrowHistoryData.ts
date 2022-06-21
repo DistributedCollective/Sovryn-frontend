@@ -1,32 +1,10 @@
-import { useQuery, gql } from '@apollo/client';
 import { useAccount } from 'app/hooks/useAccount';
-
-/** Hook to return data for Borrow History page */
-
+import { useGetBorrowHistoryQuery } from 'utils/graphql/rsk/generated';
 export function useGetBorrowHistoryData() {
   const account = useAccount();
-  const BORROW_HISTORY = gql`
-    query getBorrowHistory($user: ID!) {
-      borrows(where: { user: $user }) {
-        loanId {
-          id
-        }
-        loanToken
-        collateralToken
-        newPrincipal
-        newCollateral
-        interestRate
-        interestDuration
-        collateralToLoanRate
-        timestamp
-        transaction {
-          id
-        }
-      }
-    }
-  `;
-
-  return useQuery(BORROW_HISTORY, {
-    variables: { user: account.toLowerCase() },
+  return useGetBorrowHistoryQuery({
+    variables: {
+      user: account.toLowerCase(),
+    },
   });
 }
