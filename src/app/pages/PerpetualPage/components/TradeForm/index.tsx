@@ -104,6 +104,8 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     [pair.collateralAsset],
   );
 
+  const hasOpenTrades = traderState?.marginAccountPositionBC !== 0;
+
   const maxTradeSize = useMemo(() => {
     const maxTradeSize = shrinkToLot(
       Math.abs(
@@ -120,7 +122,14 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       lotSize,
     );
 
-    return Number.isFinite(maxTradeSize) ? maxTradeSize : 0;
+    const finiteMaxTradeSize = Number.isFinite(maxTradeSize) ? maxTradeSize : 0;
+
+    return hasOpenTrades
+      ? Math.max(
+          finiteMaxTradeSize,
+          Math.abs(traderState.marginAccountPositionBC),
+        )
+      : finiteMaxTradeSize;
   }, [
     trade.position,
     trade.slippage,
@@ -130,6 +139,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     ammState,
     liqPoolState,
     lotSize,
+    hasOpenTrades,
   ]);
 
   const isMarketOrder = useMemo(
@@ -144,8 +154,6 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       ),
     [trade.tradeType],
   );
-
-  const hasOpenTrades = traderState?.marginAccountPositionBC !== 0;
 
   const [minLeverage, maxLeverage] = useMemo(() => {
     const amountChange = getSignedAmount(trade.position, trade.amount);
@@ -259,19 +267,23 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     [setTrade],
   );
 
-  // reset amount, limit price and trigger price if pair or position changes
-  useEffect(() => {
-    setAmount('0');
-    setLimit(undefined);
-    setTriggerPrice(undefined);
+  const resetForm = useCallback(() => {
+    if (trade.tradeType === PerpetualTradeType.MARKET) {
+      setAmount('0');
+      setTrade({ ...trade, amount: '0' });
+    } else {
+      setAmount('0');
+      setLimit(undefined);
+      setTriggerPrice(undefined);
 
-    setTrade(trade => ({
-      ...trade,
-      amount: '0',
-      limit: undefined,
-      trigger: undefined,
-    }));
-  }, [setTrade, trade.pairType, trade.position]);
+      setTrade({
+        ...trade,
+        amount: '0',
+        limit: undefined,
+        trigger: undefined,
+      });
+    }
+  }, [setTrade, trade]);
 
   useEffect(() => {
     if (entryPrice && (limit === undefined || triggerPrice === undefined)) {
@@ -300,8 +312,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   );
 
   const bindSelectPosition = useCallback(
-    (position: TradingPosition) => () =>
-      setTrade(trade => ({ ...trade, position })),
+    (position: TradingPosition) => setTrade(trade => ({ ...trade, position })),
     [setTrade],
   );
 
@@ -310,6 +321,16 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       setTrade(trade => ({ ...trade, tradeType: tradeType })),
     [setTrade],
   );
+
+  const onLongClick = useCallback(() => {
+    resetForm();
+    bindSelectPosition(TradingPosition.LONG);
+  }, [bindSelectPosition, resetForm]);
+
+  const onShortClick = useCallback(() => {
+    resetForm();
+    bindSelectPosition(TradingPosition.SHORT);
+  }, [bindSelectPosition, resetForm]);
 
   const tradeButtonLabel = useMemo(() => {
     const i18nKey = {
@@ -443,6 +464,19 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   ]);
 
   useEffect(() => {
+    setAmount(
+      trade.amount !== '0'
+        ? Math.abs(numberFromWei(trade.amount)).toFixed(lotPrecision)
+        : '0',
+    );
+    setTriggerPrice(
+      trade.trigger ? numberFromWei(trade.trigger).toFixed(2) : undefined,
+    );
+    setLimit(trade.limit ? numberFromWei(trade.limit).toFixed(2) : undefined);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lotPrecision, trade.pairType]);
+
+  useEffect(() => {
     // resets trade.keepPositionLeverage in case we flip the sign
     if (trade.tradeType !== PerpetualTradeType.MARKET && keepPositionLeverage) {
       onChangeKeepPositionLeverage(false);
@@ -463,7 +497,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
             trade.position !== TradingPosition.LONG &&
               'tw-opacity-25 hover:tw-opacity-100 tw-transition-opacity tw-duration-300',
           )}
-          onClick={bindSelectPosition(TradingPosition.LONG)}
+          onClick={onLongClick}
         >
           {t(translations.perpetualPage.tradeForm.buttons.buy)}
         </button>
@@ -473,7 +507,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
             trade.position !== TradingPosition.SHORT &&
               'tw-opacity-25 hover:tw-opacity-100 tw-transition-opacity tw-duration-300',
           )}
-          onClick={bindSelectPosition(TradingPosition.SHORT)}
+          onClick={onShortClick}
         >
           {t(translations.perpetualPage.tradeForm.buttons.sell)}
         </button>
