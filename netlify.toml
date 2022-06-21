@@ -31,9 +31,6 @@
 # PR deployments (previews)
 [context.deploy-preview]
 
-# Testnet deployment
-[context.development]
-
 # Staging deployments (all branches)
 [context.branch-deploy]
   [context.branch-deploy.environment]
@@ -45,3 +42,9 @@
     REACT_APP_TRANSAK_API_KEY = "fadc5140-4d8f-4eda-ab37-5999dfedf353"
     REACT_APP_BYPASS_MAINTENANCE = "true"
     REACT_APP_STAGING = "true"
+
+# Testnet deployment
+[context.development]
+  [context.development.environment]
+    REACT_APP_NETWORK = "testnet"
+    REACT_APP_GRAPH_RSK = "https://subgraph.test.sovryn.app/subgraphs/name/DistributedCollective/sovryn-subgraph"
