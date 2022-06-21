@@ -34,18 +34,6 @@
 # Testnet deployment
 [context.development]
 
-# Testnet deployment
-[context.staging]
-  [context.staging.environment]
-    REACT_APP_NETWORK = "mainnet"
-    REACT_APP_GOOGLE_ANALYTICS = "UA-192081564-1"
-    REACT_APP_GRAPH_RSK = "https://subgraph.sovryn.app/subgraphs/name/DistributedCollective/sovryn-subgraph"
-    REACT_APP_INFURA_KEY = "12b606df88b3420aad7828acd0f11902"
-    REACT_APP_TRANSAK_ENV = "PRODUCTION"
-    REACT_APP_TRANSAK_API_KEY = "fadc5140-4d8f-4eda-ab37-5999dfedf353"
-    REACT_APP_BYPASS_MAINTENANCE = "true"
-    REACT_APP_STAGING = "true"
-
 # Staging deployments (all branches)
 [context.branch-deploy]
   [context.branch-deploy.environment]
