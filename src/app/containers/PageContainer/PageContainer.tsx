@@ -39,7 +39,7 @@ export const PageContainer: React.FC<Partial<HeaderContainerProps>> = ({
         cloneDeep(initialState.options),
         pageOptions,
       );
-      if (pathname.startsWith('/fast-btc')) {
+      if (pathname.startsWith('/fast-btc') || pathname.startsWith('/rbtc')) {
         initialOptions.header = HeaderTypes.FAST_BTC;
         initialOptions.footer = FooterTypes.NONE;
       } else if (pathname.startsWith('/cross-chain')) {

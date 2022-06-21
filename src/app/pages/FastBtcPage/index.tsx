@@ -63,15 +63,24 @@ export const FastBtcPage: React.FC = () => {
       </Helmet>
 
       <CrossChainLayout network={network}>
-        {type === FastBtcDirectionType.DEPOSIT && (
-          <DepositContainer network={network} />
-        )}
-        {type === FastBtcDirectionType.WITHDRAW && network === Chain.RSK && (
-          <WithdrawContainer />
-        )}
-        {type === FastBtcDirectionType.WITHDRAW && network !== Chain.RSK && (
-          <AggregatorWithdrawContainer network={network} />
-        )}
+        <div
+          style={{
+            minHeight: 610,
+            width: 780,
+            maxWidth: 'calc(100vw - 22rem)',
+          }}
+          className="tw-py-4 tw-flex tw-flex-col tw-h-full tw-relative"
+        >
+          {type === FastBtcDirectionType.DEPOSIT && (
+            <DepositContainer network={network} />
+          )}
+          {type === FastBtcDirectionType.WITHDRAW && network === Chain.RSK && (
+            <WithdrawContainer />
+          )}
+          {type === FastBtcDirectionType.WITHDRAW && network !== Chain.RSK && (
+            <AggregatorWithdrawContainer network={network} />
+          )}
+        </div>
       </CrossChainLayout>
     </>
   );
