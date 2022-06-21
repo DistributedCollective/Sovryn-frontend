@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import {
-  toAssetNumberFormat,
   weiToAssetNumberFormat,
   weiToNumberFormat,
 } from 'utils/display-text/format';
@@ -38,6 +37,7 @@ import { ProfitContainer } from '../OpenPositionsTable/ProfitContainer';
 import { TradingPosition } from 'types/trading-position';
 import { LoanEvent, MARGIN_SLIPPAGE_DEFAULT } from '../../types';
 import { LabelValuePair } from 'app/components/LabelValuePair';
+import { AssetValue } from 'app/components/AssetValue';
 
 interface IClosePositionDialogProps {
   item: LoanEvent;
@@ -176,10 +176,11 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
             <LabelValuePair
               label={t(translations.closeTradingPositionHandler.positionSize)}
               value={
-                <>
-                  {toAssetNumberFormat(positionSize, sourceToken.asset)}{' '}
-                  <AssetRenderer asset={sourceToken.asset} />
-                </>
+                <AssetValue
+                  asset={sourceToken.asset}
+                  value={toWei(positionSize)}
+                  useTooltip={true}
+                />
               }
             />
             <LabelValuePair

@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { AssetRenderer } from 'app/components/AssetRenderer';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
@@ -12,11 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { TradingPosition } from 'types/trading-position';
 import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
 import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
-import {
-  toAssetNumberFormat,
-  toNumberFormat,
-  weiToNumberFormat,
-} from 'utils/display-text/format';
+import { toNumberFormat, weiToNumberFormat } from 'utils/display-text/format';
 import { getOpenPositionPrice, isLongTrade } from '../../utils/marginUtils';
 import { AddToMarginDialog } from '../AddToMarginDialog';
 import { ClosePositionDialog } from '../ClosePositionDialog';
@@ -28,6 +23,7 @@ import { useGetLoan } from 'app/hooks/trading/useGetLoan';
 import { LoanEvent } from '../../types';
 import { toWei } from 'utils/blockchain/math-helpers';
 import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
+import { AssetValue } from 'app/components/AssetValue';
 
 type PositionRowProps = {
   event: LoanEvent;
@@ -117,14 +113,12 @@ export const PositionRow: React.FC<PositionRowProps> = ({ event }) => {
               <LoadableValue
                 value={
                   <>
-                    {toAssetNumberFormat(positionSize, collateralAsset)}{' '}
-                    <AssetRenderer asset={collateralAsset} /> ({leverage}x)
-                  </>
-                }
-                tooltip={
-                  <>
-                    {toNumberFormat(positionSize, 18)}{' '}
-                    <AssetRenderer asset={collateralAsset} />
+                    <AssetValue
+                      asset={collateralAsset}
+                      value={toWei(positionSize)}
+                      useTooltip={true}
+                    />{' '}
+                    ({leverage}x)
                   </>
                 }
               />
@@ -135,16 +129,11 @@ export const PositionRow: React.FC<PositionRowProps> = ({ event }) => {
           <div className="tw-whitespace-nowrap">
             <LoadableValue
               value={
-                <>
-                  {toAssetNumberFormat(openPrice, pair.longDetails.asset)}{' '}
-                  <AssetRenderer asset={pair.longDetails.asset} />
-                </>
-              }
-              tooltip={
-                <>
-                  {toNumberFormat(openPrice, 18)}{' '}
-                  <AssetRenderer asset={pair.longDetails.asset} />
-                </>
+                <AssetValue
+                  asset={pair.longDetails.asset}
+                  value={toWei(openPrice)}
+                  useTooltip={true}
+                />
               }
             />
           </div>
@@ -154,21 +143,14 @@ export const PositionRow: React.FC<PositionRowProps> = ({ event }) => {
             <LoadableValue
               value={
                 <>
-                  {toAssetNumberFormat(
-                    liquidationPrice,
-                    pair.longDetails.asset,
-                  )}{' '}
-                  <AssetRenderer asset={pair.longDetails.asset} />
+                  <AssetValue
+                    asset={pair.longDetails.asset}
+                    value={toWei(liquidationPrice)}
+                    useTooltip={true}
+                  />
                 </>
               }
               loading={loading}
-              tooltip={
-                <>
-                  {toNumberFormat(liquidationPrice, 18)}
-                  {''}
-                  <AssetRenderer asset={pair.longDetails.asset} />
-                </>
-              }
             />
           </div>
         </td>
@@ -176,10 +158,10 @@ export const PositionRow: React.FC<PositionRowProps> = ({ event }) => {
           <div className="tw-truncate">
             <LoadableValue
               value={
-                <>
-                  {toAssetNumberFormat(positionMargin, positionMarginAsset)}{' '}
-                  <AssetSymbolRenderer asset={positionMarginAsset} />
-                </>
+                <AssetValue
+                  asset={positionMarginAsset}
+                  value={toWei(positionMargin)}
+                />
               }
               loading={loading}
               tooltip={

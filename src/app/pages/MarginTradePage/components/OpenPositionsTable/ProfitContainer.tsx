@@ -6,14 +6,15 @@ import { translations } from 'locales/i18n';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { usePriceFeeds_QueryRate } from 'app/hooks/price-feeds/useQueryRate';
 import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
-import { toAssetNumberFormat, toNumberFormat } from 'utils/display-text/format';
+import { toNumberFormat } from 'utils/display-text/format';
 import { TradingPosition } from 'types/trading-position';
 import { percentageChange } from 'utils/helpers';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import { useAccount } from 'app/hooks/useAccount';
-import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { isLongTrade } from '../../utils/marginUtils';
 import { LoanEvent } from '../../types';
+import { AssetValue } from 'app/components/AssetValue';
+import { toWei } from 'utils/blockchain/math-helpers';
 
 type ProfitContainerProps = {
   item: LoanEvent;
@@ -128,18 +129,16 @@ export const ProfitContainer: React.FC<ProfitContainerProps> = ({
             <div className="tw-mt-2 tw-text-xs">
               <div>{t(translations.openPositionTable.profitTooltip)}</div>
               <div className="tw-mt-1 tw-pl-3">
-                {toAssetNumberFormat(
-                  exitAmountLoan.value.withdrawAmount,
-                  loanToken,
-                )}{' '}
-                <AssetSymbolRenderer asset={loanToken} />
+                <AssetValue
+                  asset={loanToken}
+                  value={toWei(exitAmountLoan.value.withdrawAmount)}
+                />
               </div>
               <div className="tw-pl-3">
-                {toAssetNumberFormat(
-                  exitAmountCollateral.value.withdrawAmount,
-                  collateralToken,
-                )}{' '}
-                <AssetSymbolRenderer asset={collateralToken} />
+                <AssetValue
+                  asset={collateralToken}
+                  value={toWei(exitAmountCollateral.value.withdrawAmount)}
+                />
               </div>
             </div>
           </>

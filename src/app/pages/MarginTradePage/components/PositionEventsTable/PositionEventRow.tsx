@@ -2,8 +2,6 @@ import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
-import { toAssetNumberFormat } from 'utils/display-text/format';
-import { AssetRenderer } from 'app/components/AssetRenderer';
 import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
 import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
 import { bignumber } from 'mathjs';
@@ -14,6 +12,8 @@ import {
   EventTrade,
   EventType,
 } from '../../types';
+import { AssetValue } from 'app/components/AssetValue';
+import { toWei } from 'utils/blockchain/math-helpers';
 
 type LiquidatedPositionRowProps = {
   event:
@@ -59,17 +59,21 @@ export const PositionEventRow: React.FC<LiquidatedPositionRowProps> = ({
       <td>{t(translations.tradeEvents[event.__typename])}</td>
       <td className="tw-hidden md:tw-table-cell">
         <div className="tw-whitespace-nowrap">
-          {toAssetNumberFormat(positionSize, collateralAsset)}{' '}
-          <AssetRenderer asset={collateralAsset} />
+          <AssetValue
+            asset={collateralAsset}
+            value={toWei(positionSize)}
+            useTooltip={true}
+          />
         </div>
       </td>
       <td>
         <div className="tw-whitespace-nowrap">
           {exitPrice ? (
-            <>
-              {toAssetNumberFormat(exitPrice, loanAsset)}{' '}
-              <AssetRenderer asset={loanAsset} />
-            </>
+            <AssetValue
+              asset={loanAsset}
+              value={toWei(exitPrice)}
+              useTooltip={true}
+            />
           ) : (
             <>-</>
           )}

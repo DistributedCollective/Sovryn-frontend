@@ -28,6 +28,7 @@ import { LabelValuePair } from 'app/components/LabelValuePair';
 import { LoanEvent } from '../../types';
 import { useGetLoan } from 'app/hooks/trading/useGetLoan';
 import { toWei } from 'utils/blockchain/math-helpers';
+import { AssetValue } from 'app/components/AssetValue';
 
 interface IAddToMarginDialogProps {
   item: LoanEvent;
@@ -130,10 +131,11 @@ export const AddToMarginDialog: React.FC<IAddToMarginDialogProps> = ({
             <LabelValuePair
               label={t(translations.closeTradingPositionHandler.positionSize)}
               value={
-                <>
-                  {toAssetNumberFormat(positionSizeValue, tokenDetails.asset)}{' '}
-                  <AssetRenderer asset={tokenDetails.asset} />
-                </>
+                <AssetValue
+                  asset={tokenDetails.asset}
+                  value={toWei(positionSizeValue)}
+                  useTooltip={true}
+                />
               }
             />
           </div>

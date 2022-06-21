@@ -1,14 +1,11 @@
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { Tooltip } from '@blueprintjs/core';
 import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
 import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
 import { TradingPosition } from 'types/trading-position';
-import { toAssetNumberFormat } from 'utils/display-text/format';
 import { PositionBlock } from '../PositionBlock';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
-import { AssetRenderer } from 'app/components/AssetRenderer';
 import { TradeProfit } from 'app/components/TradeProfit';
 import {
   getClosePositionPrice,
@@ -18,6 +15,8 @@ import {
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { PositionEventsTable } from '../PositionEventsTable';
 import { LoanEvent } from '../../types';
+import { AssetValue } from 'app/components/AssetValue';
+import { toWei } from 'utils/blockchain/math-helpers';
 
 type ClosedPositionRowProps = {
   event: LoanEvent;
@@ -68,18 +67,11 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
         </td>
         <td className="tw-hidden xl:tw-table-cell">
           <div className="tw-whitespace-nowrap">
-            <Tooltip
-              content={
-                <>
-                  {positionSize} <AssetRenderer asset={collateralAsset} />
-                </>
-              }
-            >
-              <>
-                {toAssetNumberFormat(positionSize, collateralAsset)}{' '}
-                <AssetRenderer asset={pair.longDetails.asset} />
-              </>
-            </Tooltip>
+            <AssetValue
+              asset={collateralAsset}
+              value={toWei(positionSize)}
+              useTooltip={true}
+            />
           </div>
         </td>
         <td className="tw-hidden xl:tw-table-cell">
@@ -87,34 +79,20 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
         </td>
         <td className="tw-hidden md:tw-table-cell">
           <div className="tw-whitespace-nowrap">
-            <Tooltip
-              content={
-                <>
-                  {openPrice} <AssetRenderer asset={pair.longDetails.asset} />
-                </>
-              }
-            >
-              <>
-                {toAssetNumberFormat(openPrice, pair.longDetails.asset)}{' '}
-                <AssetRenderer asset={pair.longDetails.asset} />
-              </>
-            </Tooltip>
+            <AssetValue
+              asset={pair.longDetails.asset}
+              value={toWei(openPrice)}
+              useTooltip={true}
+            />
           </div>
         </td>
         <td className="tw-hidden md:tw-table-cell">
           <div className="tw-whitespace-nowrap">
-            <Tooltip
-              content={
-                <>
-                  {closePrice} <AssetRenderer asset={pair.longDetails.asset} />
-                </>
-              }
-            >
-              <>
-                {toAssetNumberFormat(closePrice, pair.longDetails.asset)}{' '}
-                <AssetRenderer asset={pair.longDetails.asset} />
-              </>
-            </Tooltip>
+            <AssetValue
+              asset={pair.longDetails.asset}
+              value={toWei(closePrice)}
+              useTooltip={true}
+            />
           </div>
         </td>
         <td>
