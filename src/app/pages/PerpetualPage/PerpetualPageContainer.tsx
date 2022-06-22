@@ -17,7 +17,7 @@ import {
 import { TradingChart } from './components/TradingChart';
 import { OpenPositionsTable } from './components/OpenPositionsTable';
 import { useHistory, useLocation } from 'react-router-dom';
-import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
+import { IPromotionLinkState } from '../../components/Promotions/components/PromotionCard/types';
 import { selectPerpetualPage } from './selectors';
 import { DataCard } from './components/DataCard';
 import { AmmDepthChart } from './components/AmmDepthChart';
@@ -31,7 +31,6 @@ import { AccountBalanceCard } from './components/AccountBalanceCard';
 import { AccountDialog } from './components/AccountDialog';
 import { NewPositionCard } from './components/NewPositionCard';
 import { TradeDialog } from './components/TradeDialog';
-import { EditPositionSizeDialog } from './components/EditPositionSizeDialog';
 import { EditLeverageDialog } from './components/EditLeverageDialog';
 import { EditMarginDialog } from './components/EditMarginDialog';
 import { RecentTradesContextProvider } from './contexts/RecentTradesContext';
@@ -42,7 +41,9 @@ import { FundingPaymentsTable } from './components/FundingPaymentsTable/index';
 import { PerpetualQueriesContextProvider } from './contexts/PerpetualQueriesContext';
 import { PairSelector } from './components/PairSelector';
 import { ToastsWatcher } from './components/ToastsWatcher';
+import { OpenOrdersTable } from './components/OpenOrdersTable';
 import { Tabs } from 'app/components/Tabs';
+import { usePerpetual_isAddressWhitelisted } from './hooks/usePerpetual_isAddressWhitelisted';
 
 export const PerpetualPageContainer: React.FC = () => {
   useInjectReducer({ key: sliceKey, reducer });
@@ -64,6 +65,12 @@ export const PerpetualPageContainer: React.FC = () => {
 
   const location = useLocation<IPromotionLinkState>();
   const history = useHistory<IPromotionLinkState>();
+
+  const isAddressWhitelisted = usePerpetual_isAddressWhitelisted();
+
+  useEffect(() => {
+    dispatch(actions.setIsAddressWhitelisted(isAddressWhitelisted));
+  }, [dispatch, isAddressWhitelisted]);
 
   const [linkPairType, setLinkPairType] = useState(
     location.state?.perpetualPair,
@@ -104,12 +111,17 @@ export const PerpetualPageContainer: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const tabs = useMemo(
+  const tables = useMemo(
     () => [
       {
         id: 'openPositions',
         label: t(translations.perpetualPage.openPositions),
         content: <OpenPositionsTable perPage={5} />,
+      },
+      {
+        id: 'openOrders',
+        label: t(translations.perpetualPage.openOrders),
+        content: <OpenOrdersTable perPage={5} />,
       },
       {
         id: 'closedPositions',
@@ -147,7 +159,7 @@ export const PerpetualPageContainer: React.FC = () => {
             collateral={collateral}
             onChange={onChangePair}
           />
-          <ContractDetails pair={pair} collateral={collateral} />
+          <ContractDetails pair={pair} />
         </div>
         <div className="tw-container tw-flex tw-flex-col tw-mt-5 tw-flex-grow">
           <div className="tw-flex tw-flex-col tw-mb-8 xl:tw-flex-row xl:tw-justify-start tw-items-stretch tw-flex-grow tw-h-full tw-space-y-2 xl:tw-space-y-0 xl:tw-space-x-2">
@@ -209,16 +221,15 @@ export const PerpetualPageContainer: React.FC = () => {
           {showTables && (
             <div className="tw-p-4 tw-bg-gray-2.5 tw-rounded-xl tw-mb-12">
               <Tabs
-                items={tabs}
-                initial={tabs[0].id}
-                dataActionId="perpetuals-page-tables"
+                items={tables}
+                initial={tables[0].id}
+                dataActionId="perpetual-tables"
               />
             </div>
           )}
         </div>
         <AccountDialog />
         <TradeDialog />
-        <EditPositionSizeDialog />
         <EditLeverageDialog />
         <EditMarginDialog />
         <ClosePositionDialog />

@@ -1,6 +1,7 @@
 import { Asset } from 'types/asset';
 import { TradingPair } from '../models/trading-pair';
 import { RenderTradingPairName } from '../../app/components/Helpers';
+import { isMainnet } from 'utils/classifiers';
 
 export enum TradingPairType {
   RBTC_XUSD = 'RBTC_XUSD',
@@ -13,6 +14,10 @@ export enum TradingPairType {
   SOV_XUSD = 'SOV_XUSD',
   SOV_BPRO = 'SOV_BPRO',
   SOV_DOC = 'SOV_DOC',
+  // @dev testnet only pairs
+  RBTC_XUSD_legacy = 'RBTC_XUSD_legacy',
+  BPRO_XUSD_legacy = 'BPRO_XUSD_legacy',
+  SOV_XUSD_legacy = 'SOV_XUSD_legacy',
 }
 
 export const pairs = {
@@ -26,6 +31,10 @@ export const pairs = {
   [TradingPairType.RBTC_USDT]: [Asset.RBTC, Asset.USDT],
   [TradingPairType.RBTC_DOC]: [Asset.RBTC, Asset.DOC],
   [TradingPairType.RBTC_XUSD]: [Asset.RBTC, Asset.XUSD],
+  // @dev testnet only pairs
+  [TradingPairType.RBTC_XUSD_legacy]: [Asset.RBTC, Asset.XUSD_legacy],
+  [TradingPairType.BPRO_XUSD_legacy]: [Asset.BPRO, Asset.XUSD_legacy],
+  [TradingPairType.SOV_XUSD_legacy]: [Asset.BPRO, Asset.XUSD_legacy],
 };
 
 export class TradingPairDictionary {
@@ -192,4 +201,47 @@ export class TradingPairDictionary {
         (item.shortAsset === loanToken && item.longAsset === collateral),
     ) as TradingPair;
   }
+}
+
+// @dev add deprecated legacy xusd pairs on testnet just for history purposes and crash prevention
+if (!isMainnet) {
+  TradingPairDictionary.pairs.set(
+    TradingPairType.RBTC_XUSD_legacy,
+    new TradingPair(
+      TradingPairType.RBTC_XUSD_legacy,
+      RenderTradingPairName({ asset1: Asset.RBTC, asset2: Asset.XUSD_legacy }),
+      'RBTC/XUSD*',
+      Asset.XUSD_legacy,
+      Asset.RBTC,
+      [Asset.RBTC, Asset.XUSD_legacy],
+      true,
+    ),
+  );
+  TradingPairDictionary.pairs.set(
+    TradingPairType.BPRO_XUSD_legacy,
+    new TradingPair(
+      TradingPairType.BPRO_XUSD_legacy,
+      RenderTradingPairName({ asset1: Asset.BPRO, asset2: Asset.XUSD_legacy }),
+      'RBTC/XUSD*',
+      Asset.XUSD_legacy,
+      Asset.BPRO,
+      [Asset.BPRO, Asset.XUSD_legacy],
+      true,
+    ),
+  );
+  TradingPairDictionary.pairs.set(
+    TradingPairType.SOV_XUSD_legacy,
+    new TradingPair(
+      TradingPairType.SOV_XUSD_legacy,
+      RenderTradingPairName({ asset1: Asset.SOV, asset2: Asset.XUSD_legacy }),
+      'SOV/XUSD',
+      Asset.XUSD_legacy,
+      Asset.SOV,
+      [Asset.SOV, Asset.XUSD_legacy],
+      true,
+      true,
+      false,
+      2,
+    ),
+  );
 }

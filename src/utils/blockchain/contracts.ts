@@ -36,7 +36,6 @@ import OrderBookAbi from './abi/OrderBook.json';
 import OrderBookMarginAbi from './abi/OrderBookMargin.json';
 import nftAbi from './abi/nftAbi.json';
 import MYNTControllerAbi from './abi/MYNTController.json';
-import MYNTTokenAbi from './abi/MYNT_token.json';
 import MYNTPresaleAbi from './abi/MYNTPresale.json';
 import MYNTMarketMakerAbi from './abi/MYNTMarketMaker.json';
 import fastBtcBridgeAbi from './abi/fastBtcBridge.json';
@@ -310,7 +309,7 @@ export const contracts = {
   },
   MYNT_token: {
     address: '0x2e6B1d146064613E8f521Eb3c6e65070af964EbB',
-    abi: MYNTTokenAbi,
+    abi: erc20TokenAbi,
     blockNumber: 3832084,
   },
   MYNTPresale: {
@@ -335,14 +334,23 @@ export const contracts = {
     abi: perpetualManagerAbi,
     chainId: ChainId.BSC_MAINNET,
   },
-  perpetualLimitOrderBook: {
-    address: '0xaC4eFd35d52Bba2F8032a45Edd9ceA78fB5ae282',
-    abi: perpetualLimitOrderBookAbi,
-    chainId: ChainId.BSC_TESTNET,
-  },
   PERPETUALS_token: {
     address: '0x1431Aa8f066795d3aB94F8516B74FdCC5fD7897F',
     abi: marginTokenAbi,
     chainId: ChainId.BSC_MAINNET,
+  },
+  perpetualLimitOrderBookBTCUSD: {
+    address: '0xF683eED9590E2f90fe991E9e5A736f8BEDEa84Cd',
+    abi: perpetualLimitOrderBookAbi,
+    chainId: ChainId.BSC_MAINNET,
+  },
+  perpetualLimitOrderBookBNBUSD: {
+    address: '0xA9a91c803a994332c1020D2DACFEBbfC53D65533',
+    abi: perpetualLimitOrderBookAbi,
+    chainId: ChainId.BSC_MAINNET,
+  },
+  ZUSD_token: {
+    address: '0xdB107FA69E33f05180a4C2cE9c2E7CB481645C2d',
+    abi: erc20TokenAbi,
   },
 };

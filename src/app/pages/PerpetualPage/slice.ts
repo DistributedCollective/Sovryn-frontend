@@ -17,6 +17,7 @@ export const initialState: ContainerState = {
   showRecentTrades: true,
   showTradeForm: true,
   showTables: true,
+  isAddressWhitelisted: false,
 };
 
 const perpetualPageSlice = createSlice({
@@ -74,6 +75,9 @@ const perpetualPageSlice = createSlice({
     },
     setShowTables(state, { payload }: PayloadAction<boolean>) {
       state.showTables = payload;
+    },
+    setIsAddressWhitelisted(state, { payload }: PayloadAction<boolean>) {
+      state.isAddressWhitelisted = payload;
     },
   },
 });

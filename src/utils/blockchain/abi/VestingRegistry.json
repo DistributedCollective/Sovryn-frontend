@@ -219,6 +219,26 @@
     "type": "function"
   },
   {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "address[]",
+        "name": "_tokenOwners",
+        "type": "address[]"
+      },
+      {
+        "internalType": "address[]",
+        "name": "_vestingAddresses",
+        "type": "address[]"
+      }
+    ],
+    "name": "addFourYearVestings",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
     "constant": true,
     "inputs": [
       {
