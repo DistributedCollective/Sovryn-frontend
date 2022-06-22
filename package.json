@@ -182,7 +182,10 @@
     "changelog": "./bin/changelog"
   },
   "scripts": {
+    "prestart": "yarn generate:graphql",
     "start": "node scripts/start.js",
+    "prebuild": "yarn generate:graphql",
+    "dev": "netlify dev",
     "build": "if-env BUILD_STORYBOOK=true && yarn build:with-storybook || node scripts/build.js",
     "build:dev": "env-cmd -f .env.local yarn build",
     "build:testnet": "env-cmd -f .env.testnet yarn build",
@@ -321,6 +324,7 @@
     "@types/reactjs-localstorage": "1.0.0",
     "auto-changelog": "2.2.1",
     "git-revision-webpack-plugin": "3.0.6",
+    "netlify-cli": "10.5.1",
     "node-sass": "6.0.1",
     "postcss-import": "13",
     "postcss-nested": "5.0.6",
