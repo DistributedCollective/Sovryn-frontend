@@ -174,7 +174,7 @@ export const SidebarSteps: React.FC = () => {
 
   const handleBack = useCallback(() => {
     if (step === WithdrawStep.CHAIN_SELECTOR) {
-      return history.push('/wallet');
+      return history.push('/portfolio');
     } else {
       changeStep(stepOrder[step - 1]);
     }

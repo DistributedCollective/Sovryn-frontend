@@ -23,7 +23,13 @@ import {
 import { LanguageToggle } from '../../../../components/LanguageToggle';
 import styles from './index.module.scss';
 import { ReactComponent as SovLogo } from 'assets/images/sovryn-logo-alpha.svg';
-import { bitocracyUrl, zeroUrl, isMainnet, isStaging } from 'utils/classifiers';
+import {
+  bitocracyUrl,
+  zeroUrl,
+  myntUrl,
+  isMainnet,
+  isStaging,
+} from 'utils/classifiers';
 import { Menu } from 'app/components/Menu';
 import { MenuItem } from 'app/components/Menu/components/MenuItem';
 import { MenuSeparator } from 'app/components/Menu/components/MenuSeparator';
@@ -36,6 +42,13 @@ import {
 } from 'app/components/Button';
 import { Sovryn } from 'utils/sovryn';
 import { bignumber } from 'mathjs';
+
+type PagesProps = {
+  to: string;
+  title: string;
+  dataActionId: string;
+  hrefExternal?: boolean;
+};
 
 const showPerps = !isMainnet || isStaging;
 const showZero = isMainnet || isStaging;
@@ -90,7 +103,7 @@ export const DefaultHeaderComponent: React.FC = () => {
     </button>
   );
 
-  const labPages = [
+  const labPages: PagesProps[] = [
     {
       to: '/origins',
       title: t(translations.mainMenu.originsLaunchpad),
@@ -102,7 +115,7 @@ export const DefaultHeaderComponent: React.FC = () => {
       dataActionId: 'header-mobile-lab-link-claim',
     },
     {
-      to: '/mynt-token',
+      to: myntUrl,
       title: t(translations.mainMenu.myntToken),
       dataActionId: 'header-mobile-lab-link-mynt-token',
     },
@@ -113,6 +126,7 @@ export const DefaultHeaderComponent: React.FC = () => {
       to: zeroUrl,
       title: t(translations.mainMenu.zero),
       dataActionId: 'header-mobile-lab-link-zero',
+      hrefExternal: true,
     });
   }
   if (showPerps) {
@@ -123,11 +137,11 @@ export const DefaultHeaderComponent: React.FC = () => {
     });
   }
 
-  const pages = [
+  const pages: PagesProps[] = [
     {
       to: '',
       title: t(translations.mainMenu.trade),
-      dataActionId: 'header-mobile-link-trade',
+      dataActionId: 'header-link-trade',
     },
     {
       to: '/swap',
@@ -221,12 +235,7 @@ export const DefaultHeaderComponent: React.FC = () => {
   ];
 
   const menuItems = pages.map((item, index) => {
-    let link: {
-      to: string;
-      title: string;
-      dataActionId: string;
-      hrefExternal?: boolean;
-    } = item;
+    let link: PagesProps = item;
 
     if (link.to === '') {
       return <MenuSeparator key={index} text={link.title} />;
@@ -237,8 +246,12 @@ export const DefaultHeaderComponent: React.FC = () => {
         key={index}
         href={link.to}
         text={link.title}
+        onClick={() => {
+          history.push(link.to);
+          setOpen(false);
+        }}
         hrefExternal={link.hrefExternal}
-        dataActionId={link.dataActionId}
+        data-action-id={link.dataActionId}
         className="tw-leading-snug"
       />
     );
@@ -438,14 +451,16 @@ export const DefaultHeaderComponent: React.FC = () => {
                     <MenuItem
                       text={t(translations.mainMenu.myntToken)}
                       label={t(translations.mainMenu.labels.myntToken)}
-                      href="/mynt-token"
+                      href={myntUrl}
+                      hrefExternal
                       dataActionId="header-lab-link-mynt-token"
                     />
                     {showZero && (
                       <MenuItem
                         text={t(translations.mainMenu.zero)}
                         label={t(translations.mainMenu.labels.zero)}
-                        href="/zero"
+                        href={zeroUrl}
+                        hrefExternal
                         dataActionId="header-lab-link-zero"
                       />
                     )}
@@ -543,7 +558,7 @@ export const DefaultHeaderComponent: React.FC = () => {
                 style={ButtonStyle.normal}
                 size={ButtonSize.md}
                 disabled={!connected}
-                className="tw-rounded tw-px-5"
+                className="tw-rounded tw-px-5 tw-text-sm"
                 dataActionId="header-link-deposit"
               />
             </Popover>

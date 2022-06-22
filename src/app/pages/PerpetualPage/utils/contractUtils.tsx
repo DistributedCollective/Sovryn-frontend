@@ -434,26 +434,20 @@ export const initialLiquidityPoolState: LiqPoolState = {
   fPnLparticipantsCashCC: 0,
   fAMMFundCashCC: 0,
   fDefaultFundCashCC: 0,
-  iPriceUpdateTimeSec: 0,
   fTargetAMMFundSize: 0,
   fTargetDFSize: 0,
-  iLastTargetPoolSizeTime: 0,
-  iLastFundingTime: 0,
   isRunning: false,
 };
 
 const parseLiquidityPoolState = (response: any): LiqPoolState =>
   response?.[0]
     ? {
-        fPnLparticipantsCashCC: ABK64x64ToFloat(response[0][6]),
+        fPnLparticipantsCashCC: ABK64x64ToFloat(response[0][5]),
         fAMMFundCashCC: ABK64x64ToFloat(response[0][7]),
         fDefaultFundCashCC: ABK64x64ToFloat(response[0][8]),
-        iPriceUpdateTimeSec: ABK64x64ToFloat(response[0][9]),
-        fTargetAMMFundSize: ABK64x64ToFloat(response[0][10]),
-        fTargetDFSize: ABK64x64ToFloat(response[0][11]),
-        iLastTargetPoolSizeTime: ABK64x64ToFloat(response[0][12]),
-        iLastFundingTime: ABK64x64ToFloat(response[0][13]),
-        isRunning: response[0][1],
+        fTargetAMMFundSize: ABK64x64ToFloat(response[0][9]),
+        fTargetDFSize: ABK64x64ToFloat(response[0][10]),
+        isRunning: response[0][17],
       }
     : initialLiquidityPoolState;
 
@@ -510,7 +504,7 @@ export const initialPerpetualParameters: PerpParameters = {
 const parsePerpetualParameters = (response: any): PerpParameters =>
   response?.[0]
     ? {
-        poolId: BigNumber.from(response[0][1]).toNumber(),
+        poolId: BigNumber.from(response[0][0]).toNumber(),
         oracleS2Addr: response[0][2],
         oracleS3Addr: response[0][3],
         fCurrentFundingRate: ABK64x64ToFloat(response[0][10]),
@@ -544,7 +538,7 @@ const parsePerpetualParameters = (response: any): PerpParameters =>
         fAMMMinSizeCC: ABK64x64ToFloat(response[0][39]),
         fMinimalTraderExposureEMA: ABK64x64ToFloat(response[0][40]),
         fMaximalTradeSizeBumpUp: ABK64x64ToFloat(response[0][42]),
-        fMaxPositionBC: ABK64x64ToFloat(response[0][49]),
+        fMaxPositionBC: ABK64x64ToFloat(response[0][44]),
       }
     : initialPerpetualParameters;
 

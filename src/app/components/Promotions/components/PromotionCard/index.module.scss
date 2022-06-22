@@ -1,0 +1,28 @@
+.cardItem {
+  @apply tw-mx-auto;
+  width: 23.1875rem;
+}
+
+.cardImageSection {
+  @apply tw-w-full tw-relative tw-flex tw-flex-col tw-justify-between tw-text-white tw-bg-no-repeat;
+
+  height: 11.9375rem;
+  padding: 1.125rem;
+}
+
+.cardTextTitle {
+  @apply tw-text-3xl tw-tracking-normal tw-font-semibold;
+
+  line-height: 1.875rem;
+}
+
+.sectionTitle {
+  @apply tw-font-normal tw-tracking-normal;
+
+  line-height: 3.4375rem;
+}
+
+.assetLogo {
+  width: 55.81px;
+  height: 54.67px;
+}

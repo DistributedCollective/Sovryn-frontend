@@ -7,7 +7,7 @@
       href="%PUBLIC_URL%/safari-pinned-tab.svg"
       color="#ffffff"
     />
-    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" id="favicon" />
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" id="favicon" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta name="description" content="Crypto Margin Trading with Sovryn" />
@@ -108,21 +108,68 @@
       })();
     </script>
     <!-- End Matomo Code -->
+    <% } %> <% if (process.env.REACT_APP_INTERCOM_ID) { %>
+    <!-- Intercom Code -->
+    <script type="text/javascript">
+      window.intercomSettings = {
+        api_base: 'https://api-iam.intercom.io',
+        app_id: '%REACT_APP_INTERCOM_ID%',
+        Environment: '%REACT_APP_NETWORK%',
+      };
+    </script>
+    <script type="text/javascript">
+      (function () {
+        var w = window;
+        var ic = w.Intercom;
+        if (typeof ic === 'function') {
+          ic('reattach_activator');
+          ic('update', w.intercomSettings);
+        } else {
+          var d = document;
+          var i = function () {
+            i.c(arguments);
+          };
+          i.q = [];
+          i.c = function (args) {
+            i.q.push(args);
+          };
+          w.Intercom = i;
+          var l = function () {
+            var s = d.createElement('script');
+            s.type = 'text/javascript';
+            s.async = true;
+            s.src = 'https://widget.intercom.io/widget/%REACT_APP_INTERCOM_ID%';
+            var x = d.getElementsByTagName('script')[0];
+            x.parentNode.insertBefore(s, x);
+          };
+          if (document.readyState === 'complete') {
+            l();
+          } else if (w.attachEvent) {
+            w.attachEvent('onload', l);
+          } else {
+            w.addEventListener('load', l, false);
+          }
+        }
+      })();
+    </script>
+    <!-- End Intercom Code -->
     <% } %>
-    <% if (process.env.REACT_APP_INTERCOM_ID) { %>
-      <!-- Intercom Code -->
-      <script type="text/javascript">
-        window.intercomSettings = {
-          api_base: "https://api-iam.intercom.io",
-          app_id: "%REACT_APP_INTERCOM_ID%",
-          Environment: "%REACT_APP_NETWORK%"
-        };
-      </script>
-      <script type="text/javascript">
-        (function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',w.intercomSettings);}else{var d=document;var i=function(){i.c(arguments);};i.q=[];i.c=function(args){i.q.push(args);};w.Intercom=i;var l=function(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/%REACT_APP_INTERCOM_ID%';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);};if(document.readyState==='complete'){l();}else if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})();
-        </script>
-      <!-- End Intercom Code -->
-      <% } %>
+    <!-- Perpetuals Competition Info Popup -->
+    <script type="text/javascript">
+      (function (d, t) {
+        if (
+          window.location.hash != '#gleam' &&
+          ('' + document.cookie).match(/(^|;)\s*GleamVBcR5=X($|;)/)
+        ) {
+          return;
+        }
+        var g = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+        g.src = 'https://widget.gleamjs.io/VBcR5/ol.js';
+        s.parentNode.insertBefore(g, s);
+      })(document, 'script');
+    </script>
+    <!-- End Perpetuals Competition Info Popup -->
   </head>
   <body>
     <!-- Google Tag Manager (noscript) -->

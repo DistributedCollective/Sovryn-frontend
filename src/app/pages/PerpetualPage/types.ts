@@ -17,7 +17,7 @@ export const PERPETUAL_CHAIN_ID =
 
 export const PERPETUAL_PAYMASTER = isMainnet
   ? '' // TODO: add mainnet paymaster address
-  : '0x69E3cC9f027f61bDf5c965C735EBA6d35Ebcc826';
+  : '0x402e4370f6871Ff59Db75aE578e038E101454dc1';
 
 export const PERPETUAL_GAS_PRICE_DEFAULT = isMainnet
   ? undefined
@@ -86,7 +86,7 @@ export type PerpetualPositionEvent = {
   endDate?: string;
   lastChanged?: string;
   startPositionSizeBC?: string;
-  tradesCount?: number;
+  tradesTotalCount?: number;
 };
 
 export enum LimitOrderState {

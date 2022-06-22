@@ -439,7 +439,9 @@ export const TradeDialogContent: React.FC<ITradeDialogContentProps> = ({
           confirmLabel={t(translations.common.confirm)}
           onConfirm={onSubmit}
           disabled={openTradesLocked || disableButtonAfterSimulatorError}
-          data-action-id="margin-reviewTransaction-button-confirm"
+          data-action-id={`margin-reviewTransaction-${
+            position === TradingPosition.LONG ? 'long' : 'short'
+          }-confirm`}
         />
       </div>
     </div>

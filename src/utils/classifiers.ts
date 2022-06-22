@@ -49,6 +49,13 @@ export const zeroUrl =
       : 'https://live.sovryn.app/zero'
     : 'https://test.sovryn.app/zero';
 
+export const myntUrl =
+  currentNetwork === AppMode.MAINNET
+    ? isStaging
+      ? 'https://staging.sovryn.app/mynt-token'
+      : 'https://live.sovryn.app/mynt-token'
+    : 'https://test.sovryn.app/mynt-token';
+
 export const databaseRpcNodes = {
   30: 'https://backend.sovryn.app/rpc',
   31: 'https://api.test.sovryn.app/rpc',
@@ -140,6 +147,10 @@ export const MILLION = 1000000;
 // i'm putting it as 10 sats for now.
 export const DUST_AMOUNT = toWei(0.0000001);
 
+// amount less than 25e13 is considered tiny position in our smart contracts
+// if position is considered tiny - FE must force user to close it entirelly without giving option to do it partially.
+export const TINY_POSITION_RBTC_VALUE = 250000000000000;
+
 export const notificationServiceUrl = {
   30: 'https://notify.sovryn.app/',
   31: 'https://notify.test.sovryn.app/',
@@ -151,3 +162,8 @@ export const limitOrderUrl = {
   // 31: 'https://orderbook.test.sovryn.app/limitOrder',
   31: 'https://_ob.sovryn.app/testnet/api',
 };
+
+export const learnMoreYieldFarming =
+  'https://wiki.sovryn.app/en/sovryn-dapp/market-making#yield-farming';
+export const learnMoreLending =
+  'https://wiki.sovryn.app/en/sovryn-dapp/market-making';
