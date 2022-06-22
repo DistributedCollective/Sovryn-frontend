@@ -56,8 +56,6 @@ import { CompetitionPage } from './pages/PerpetualPage/components/CompetitionPag
 const title = !isMainnet ? `Sovryn ${currentNetwork}` : 'Sovryn';
 const showPerps = !isMainnet || isStaging;
 
-console.log(showPerps);
-
 export function App() {
   useAppTheme();
 

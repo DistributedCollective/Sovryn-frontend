@@ -1,164 +1,76 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useTable, useSortBy } from 'react-table';
-import { Icon, Text } from '@blueprintjs/core';
 import { translations } from 'locales/i18n';
+import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
+import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
+import { useGetBorrowHistoryData } from './hooks/useGetBorrowHistoryData';
+import { Table } from 'app/components/Table';
+import { AssetRenderer } from 'app/components/AssetRenderer';
+import { toAssetNumberFormat } from 'utils/display-text/format';
 
-import { BorrowAmount } from '../../components/ActiveBorrowTable/BorrowAmount';
-import { AssetsDictionary } from '../../../utils/dictionaries/assets-dictionary';
-import { CollateralAmount } from '../../components/ActiveBorrowTable/CollateralAmount';
-import { DisplayDate } from '../../components/ActiveUserLoanContainer/components/DisplayDate';
-import { useGetContractPastEvents } from '../../hooks/useGetContractPastEvents';
-import { weiToFixed } from '../../../utils/blockchain/math-helpers';
-import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
-
-interface Props {}
-
-export function BorrowHistory(props: Props) {
+export const BorrowHistory: React.FC = () => {
   const { t } = useTranslation();
+  const { data, loading } = useGetBorrowHistoryData();
 
-  const { events, loading } = useGetContractPastEvents(
-    'sovrynProtocol',
-    'Borrow',
-  );
+  const rows = useMemo(() => {
+    if (!data || loading) return;
+    return data.borrows.map(item => {
+      return {
+        key: item.loanId.id,
+        borrowAmount: item.newPrincipal,
+        collateralAmount: item.newCollateral,
+        interestAPR: item.interestRate,
+        timestamp: item.timestamp,
+        loanToken: item.loanToken,
+        collateralToken: item.collateralToken,
+      };
+    });
+  }, [data, loading]);
 
-  const columns = React.useMemo(
+  const columns = useMemo(
     () => [
       {
-        Header: t(translations.borrowHistory.table.headers.borrowAmount),
-        accessor: 'borrowAmount',
-        sortType: 'alphanumeric',
-        sortable: true,
+        id: 'borrowAmount',
+        title: t(translations.borrowHistory.table.headers.borrowAmount),
+        cellRenderer: row => {
+          const loanToken = AssetsDictionary.getByTokenContractAddress(
+            row.loanToken,
+          );
+          return (
+            <>
+              {toAssetNumberFormat(row.borrowAmount, loanToken.asset)}{' '}
+              <AssetRenderer asset={loanToken.asset} />
+            </>
+          );
+        },
       },
       {
-        Header: t(translations.borrowHistory.table.headers.collateralAmount),
-        accessor: 'collateralAmount',
-        sortType: 'alphanumeric',
-        sortable: true,
+        id: 'collateralAmount',
+        title: t(translations.borrowHistory.table.headers.collateralAmount),
+        cellRenderer: row => {
+          const collateralToken = AssetsDictionary.getByTokenContractAddress(
+            row.collateralToken,
+          );
+          return (
+            <>
+              {toAssetNumberFormat(row.collateralAmount, collateralToken.asset)}{' '}
+              <AssetRenderer asset={collateralToken.asset} />
+            </>
+          );
+        },
       },
       {
-        Header: t(translations.borrowHistory.table.headers.interestAPR),
-        accessor: 'interestAPR',
-        sortable: true,
+        id: 'interestAPR',
+        title: t(translations.borrowHistory.table.headers.interestAPR),
+        cellRenderer: row => <>{Number(row.interestAPR).toFixed(2)} %</>,
       },
       {
-        Header: t(translations.borrowHistory.table.headers.timestamp),
-        accessor: 'timestamp',
-        sortable: true,
-      },
-      {
-        Header: '',
-        accessor: 'actions',
+        id: 'timestamp',
+        title: t(translations.borrowHistory.table.headers.timestamp),
+        cellRenderer: row => <DisplayDate timestamp={row.timestamp} />,
       },
     ],
     [t],
   );
-  const data = React.useMemo(() => {
-    return events.map(item => {
-      const timestamp = String(
-        // EventData is incorrectly typed in web3-eth-contract
-        new Date((item as any).eventDate).getTime() / 1e3,
-      );
-      return {
-        id: item.returnValues.loanId,
-        borrowAmount: (
-          <BorrowAmount
-            amount={item.returnValues.newPrincipal}
-            asset={
-              AssetsDictionary.getByTokenContractAddress(
-                item.returnValues.loanToken,
-              ).asset
-            }
-          />
-        ),
-        collateralAmount: (
-          <CollateralAmount
-            amount={item.returnValues.newCollateral}
-            asset={
-              AssetsDictionary.getByTokenContractAddress(
-                item.returnValues.collateralToken,
-              ).asset
-            }
-          />
-        ),
-        interestAPR: <>{weiToFixed(item.returnValues.interestRate, 2)} %</>,
-        timestamp: <DisplayDate timestamp={timestamp} />,
-      };
-    });
-  }, [events]);
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable({ columns, data }, useSortBy);
-  return (
-    <div className="sovryn-border tw-p-4 tw-table-responsive">
-      <table {...getTableProps()} className="sovryn-table">
-        <thead>
-          {headerGroups.map(headerGroup => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps(column.getSortByToggleProps())}>
-                  <Text ellipsize tagName="span">
-                    {column.render('Header')}
-                    {column.sortable && (
-                      <span className="tw-mx-1">
-                        {column.isSorted ? (
-                          column.isSortedDesc ? (
-                            <Icon
-                              icon="sort-desc"
-                              className="tw-text-sov-white"
-                              iconSize={15}
-                            />
-                          ) : (
-                            <Icon
-                              icon="sort-asc"
-                              className="tw-text-sov-white"
-                              iconSize={15}
-                            />
-                          )
-                        ) : (
-                          <Icon icon="double-caret-vertical" iconSize={15} />
-                        )}
-                      </span>
-                    )}
-                  </Text>
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()} style={{ cursor: 'pointer' }}>
-          {rows.map(row => {
-            prepareRow(row);
-            return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map(cell => {
-                  return (
-                    <td className="tw-align-middle" {...cell.getCellProps()}>
-                      {cell.render('Cell')}
-                    </td>
-                  );
-                })}
-              </tr>
-            );
-          })}
-          {rows.length === 0 && !loading && (
-            <tr>
-              <td colSpan={99}>{t(translations.borrowHistory.no_items)}</td>
-            </tr>
-          )}
-          {rows.length === 0 && loading && (
-            <tr>
-              <td colSpan={99}>
-                <SkeletonRow />
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
-    </div>
-  );
-}
+  return <Table rows={rows} columns={columns} />;
+};
