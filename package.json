@@ -182,7 +182,9 @@
     "changelog": "./bin/changelog"
   },
   "scripts": {
+    "prestart": "yarn generate:graphql",
     "start": "node scripts/start.js",
+    "prebuild": "yarn generate:graphql",
     "dev": "netlify dev",
     "build": "if-env BUILD_STORYBOOK=true && yarn build:with-storybook || node scripts/build.js",
     "build:dev": "env-cmd -f .env.local yarn build",
