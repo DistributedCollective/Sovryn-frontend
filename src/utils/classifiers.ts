@@ -27,16 +27,34 @@ export const blockExplorers = {
 };
 
 export const rpcNodes = {
-  30: ['https://mainnet.sovryn.app/rpc', 'https://public-node.rsk.co/'],
+  30: [
+    'https://mainnet.sovryn.app/rpc',
+    'https://mainnet2.sovryn.app/rpc',
+    'https://public-node.rsk.co/',
+  ],
   31: ['https://testnet.sovryn.app/rpc', 'https://public-node.testnet.rsk.co/'],
-  56: 'wss://bsc.sovryn.app/mainnet',
-  97: 'wss://bsctestnet.sovryn.app/websocket',
+  56: 'wss://bsc.sovryn.app/mainnet/websocket',
+  97: 'wss://bsc.sovryn.app/testnet/websocket',
 };
 
 export const bitocracyUrl =
   currentNetwork === AppMode.MAINNET
     ? 'https://bitocracy.sovryn.app'
     : 'https://bitocracy.test.sovryn.app';
+
+export const zeroUrl =
+  currentNetwork === AppMode.MAINNET
+    ? isStaging
+      ? 'https://staging.sovryn.app/zero'
+      : 'https://live.sovryn.app/zero'
+    : 'https://test.sovryn.app/zero';
+
+export const myntUrl =
+  currentNetwork === AppMode.MAINNET
+    ? isStaging
+      ? 'https://staging.sovryn.app/mynt-token'
+      : 'https://live.sovryn.app/mynt-token'
+    : 'https://test.sovryn.app/mynt-token';
 
 export const databaseRpcNodes = {
   30: 'https://backend.sovryn.app/rpc',
@@ -60,7 +78,7 @@ export const gasLimit = {
   [TxType.APPROVE]: 100000,
   [TxType.TRADE]: 3750000,
   [TxType.CLOSE_WITH_SWAP]: 2300000,
-  [TxType.CLOSE_WITH_DEPOSIT]: 500000,
+  [TxType.CLOSE_WITH_DEPOSIT]: 950000,
   [TxType.ADD_LIQUIDITY]: 500000,
   [TxType.REMOVE_LIQUIDITY]: 650000,
   [TxType.BORROW]: 1500000,
@@ -89,14 +107,15 @@ export const gasLimit = {
   [TxType.STAKING_LIQUID_SOV_CLAIM]: 2500000,
   [TxType.DEPOSIT_COLLATERAL]: 250000,
   [TxType.CLAIM_VESTED_SOV_REWARDS]: 6000000,
-  [TxType.SOV_WITHDRAW_VESTING]: 1900000,
+  [TxType.SOV_WITHDRAW_VESTING]: 2350000,
   [TxType.SIMULATOR_REQUEST]: 6800000,
   [TxType.DEPOSIT_COLLATERAL]: 850000,
   [TxType.WITHDRAW_COLLATERAL]: 1400000,
   [TxType.FAST_BTC_WITHDRAW]: 300000,
-  [TxType.PERPETUAL_TRADE]: 3000000,
+  [TxType.PERPETUAL_TRADE]: 3300000,
   [TxType.PERPETUAL_DEPOSIT_COLLATERAL]: 1700000,
   [TxType.PERPETUAL_WITHDRAW_COLLATERAL]: 2400000,
+  [TxType.PERPETUAL_CREATE_LIMIT_ORDER]: 3000000,
   [TxType.LIMIT_ORDER]: 3000000,
   [TxType.SETTLEMENT_WITDHRAW]: 70000,
 };
@@ -128,6 +147,10 @@ export const MILLION = 1000000;
 // i'm putting it as 10 sats for now.
 export const DUST_AMOUNT = toWei(0.0000001);
 
+// amount less than 25e13 is considered tiny position in our smart contracts
+// if position is considered tiny - FE must force user to close it entirelly without giving option to do it partially.
+export const TINY_POSITION_RBTC_VALUE = 250000000000000;
+
 export const notificationServiceUrl = {
   30: 'https://notify.sovryn.app/',
   31: 'https://notify.test.sovryn.app/',
@@ -139,3 +162,8 @@ export const limitOrderUrl = {
   // 31: 'https://orderbook.test.sovryn.app/limitOrder',
   31: 'https://_ob.sovryn.app/testnet/api',
 };
+
+export const learnMoreYieldFarming =
+  'https://wiki.sovryn.app/en/sovryn-dapp/market-making#yield-farming';
+export const learnMoreLending =
+  'https://wiki.sovryn.app/en/sovryn-dapp/market-making';

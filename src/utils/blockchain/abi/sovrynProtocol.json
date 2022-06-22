@@ -1381,6 +1381,31 @@
         "type": "address"
       },
       {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "oldRolloverFlexFeePercent",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newRolloverFlexFeePercent",
+        "type": "uint256"
+      }
+    ],
+    "name": "SetRolloverFlexFeePercent",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "sender",
+        "type": "address"
+      },
+      {
         "indexed": true,
         "internalType": "address",
         "name": "oldTokenAddress",
@@ -2215,6 +2240,37 @@
       {
         "internalType": "uint256",
         "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "loanId",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "uint256",
+        "name": "depositAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "checkCloseWithDepositIsTinyPosition",
+    "outputs": [
+      {
+        "internalType": "bool",
+        "name": "isTinyPosition",
+        "type": "bool"
+      },
+      {
+        "internalType": "uint256",
+        "name": "tinyPositionAmount",
         "type": "uint256"
       }
     ],
@@ -5025,6 +5081,21 @@
       }
     ],
     "name": "setRolloverBaseReward",
+    "outputs": [],
+    "payable": false,
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "constant": false,
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "newRolloverFlexFeePercent",
+        "type": "uint256"
+      }
+    ],
+    "name": "setRolloverFlexFeePercent",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",

@@ -8,19 +8,19 @@ import { RecentTrades, RecentTradeType } from 'app/components/RecentTrades';
 import { reducer, sliceKey } from './slice';
 import { selectMarginTradePage } from './selectors';
 import { marginTradePageSaga } from './saga';
-import { TradingPairDictionary } from '../../../utils/dictionaries/trading-pair-dictionary';
+import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
 import { TradeForm } from './components/TradeForm';
 import { Theme, TradingChart } from '../../components/TradingChart';
 import { useIsConnected } from '../../hooks/useAccount';
 import { ClosedPositionsTable } from './components/ClosedPositionsTable';
 import { useHistory, useLocation } from 'react-router-dom';
-import { IPromotionLinkState } from '../LandingPage/components/Promotions/components/PromotionCard/types';
+import { IPromotionLinkState } from '../../components/Promotions/components/PromotionCard/types';
 import { PairNavbar } from 'app/components/PairNavbar';
 import { TradingType } from 'types/trading-pairs';
 import { Tabs } from 'app/components/Tabs';
 import { OpenPositionsTable } from './components/OpenPositionsTable/OpenPositionsTable';
-// import { OpenLimitOrdersPositionsTable } from './components/LimitOrder/OpenLimitOrdersPositionsTable';
-// import { LimitOrderHistory } from './components/LimitOrder/LimitOrderHistory';
+import { OpenLimitOrdersPositionsTable } from './components/LimitOrder/OpenLimitOrdersPositionsTable';
+import { LimitOrderHistory } from './components/LimitOrder/LimitOrderHistory';
 
 export const MarginTradePage: React.FC = () => {
   useInjectReducer({ key: sliceKey, reducer: reducer });
@@ -60,16 +60,16 @@ export const MarginTradePage: React.FC = () => {
         label: t(translations.marginTradePage.tradingHistory),
         content: <ClosedPositionsTable />,
       },
-      // {
-      //   id: 'limitOrders',
-      //   label: t(translations.spotTradingPage.history.openLimitOrders),
-      //   content: <OpenLimitOrdersPositionsTable />,
-      // },
-      // {
-      //   id: 'limitOrderHistory',
-      //   label: t(translations.spotTradingPage.history.limitOrderHistory),
-      //   content: <LimitOrderHistory />,
-      // },
+      {
+        id: 'limitOrders',
+        label: t(translations.spotTradingPage.history.openLimitOrders),
+        content: <OpenLimitOrdersPositionsTable />,
+      },
+      {
+        id: 'limitOrderHistory',
+        label: t(translations.spotTradingPage.history.limitOrderHistory),
+        content: <LimitOrderHistory />,
+      },
     ],
     [t],
   );

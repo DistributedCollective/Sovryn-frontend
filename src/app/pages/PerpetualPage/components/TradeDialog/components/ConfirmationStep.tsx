@@ -12,15 +12,19 @@ import { TradeDialogContext } from '../index';
 import styles from '../index.module.scss';
 import { translations } from '../../../../../../locales/i18n';
 import { useTranslation } from 'react-i18next';
-import { WalletLogo } from '../../../../../components/UserAssets/TxDialog/WalletLogo';
+import {
+  getWalletName,
+  WalletLogo,
+} from '../../../../../components/UserAssets/TxDialog/WalletLogo';
 import { useWalletContext } from '@sovryn/react-wallet';
 import classNames from 'classnames';
-import { usePerpetual_executeTransaction } from '../../../hooks/usePerpetual_executeTransaction';
+import { usePerpetual_transaction } from '../../../hooks/usePerpetual_transaction';
 import { TxStatus } from '../../../../../../store/global/transactions-store/types';
 import { useSelector } from 'react-redux';
 import { selectTransactions } from '../../../../../../store/global/transactions-store/selectors';
 import { TransitionAnimation } from '../../../../../containers/TransitionContainer';
 import { selectPerpetualPage } from '../../../selectors';
+import { detectWeb3Wallet } from 'utils/helpers';
 
 export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
   changeTo,
@@ -32,9 +36,11 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
     setTransactions,
     setCurrentTransaction,
   } = useContext(TradeDialogContext);
+
   const { useMetaTransactions } = useSelector(selectPerpetualPage);
   const { wallet } = useWalletContext();
-  const { execute, txHash, status, reset } = usePerpetual_executeTransaction(
+  const { execute, txHash, status, reset } = usePerpetual_transaction(
+    currentTransaction ? transactions[currentTransaction.index] : undefined,
     useMetaTransactions,
   );
 
@@ -64,7 +70,7 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
     ],
   );
 
-  const onRetry = useCallback(() => {
+  const onTry = useCallback(() => {
     if (!currentTransaction) {
       return;
     }
@@ -84,21 +90,23 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
 
     setRejected(false);
     reset?.();
-  }, [currentTransaction, setCurrentTransaction, setTransactions, reset]);
+    execute(currentTransaction.nonce).catch(error => {
+      console.error(error);
+      setRejected(true);
+    });
+  }, [
+    currentTransaction,
+    setCurrentTransaction,
+    setTransactions,
+    reset,
+    execute,
+  ]);
 
   useEffect(() => {
-    if (
-      (status === undefined || status === TxStatus.NONE) &&
-      currentTransaction &&
-      transactions[currentTransaction.index] &&
-      !transactions[currentTransaction.index].tx
-    ) {
-      const current = transactions[currentTransaction.index];
-      execute(current, currentTransaction.nonce).catch(() => {
-        setRejected(true);
-      });
-    }
-  }, [status, currentTransaction, transactions, execute]);
+    onTry();
+    // On mount start execution
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (!currentTransaction || !txHash) {
@@ -118,7 +126,12 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
         nonce: currentTransaction.nonce + 1,
         stage: PerpetualTxStage.reviewed,
       });
-      changeTo(TradeDialogStep.confirmation, TransitionAnimation.slideLeft);
+      changeTo(
+        (currentTransaction.index + 1) % 2 === 0
+          ? TradeDialogStep.confirmationEven
+          : TradeDialogStep.confirmationOdd,
+        TransitionAnimation.slideLeft,
+      );
     } else {
       setCurrentTransaction({
         index: currentTransaction.index,
@@ -158,7 +171,7 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
 
         {(rejected || transactionStatus === TxStatus.FAILED) && (
           <div className="tw-flex tw-justify-center">
-            <button className={styles.ghostButton} onClick={onRetry}>
+            <button className={styles.ghostButton} onClick={onTry}>
               {t(translations.perpetualPage.processTrade.buttons.retry)}
             </button>
           </div>
@@ -174,6 +187,8 @@ const getTranslations = (
   current: number,
   count: number,
 ) => {
+  const wallet = detectWeb3Wallet();
+
   if (rejected) {
     return {
       title: t(
@@ -204,6 +219,12 @@ const getTranslations = (
         count,
       },
     ),
-    text: <p>{t(translations.perpetualPage.processTrade.texts.confirm)}</p>,
+    text: (
+      <p>
+        {t(translations.perpetualPage.processTrade.texts.confirm, {
+          wallet: getWalletName(wallet),
+        })}
+      </p>
+    ),
   };
 };

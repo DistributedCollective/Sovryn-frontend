@@ -1,10 +1,4 @@
-/**
- *
- * RepayPositionForm
- *
- */
-
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { min, bignumber } from 'mathjs';
 import { useAccount, useIsConnected } from '../../hooks/useAccount';
 import { useIsAmountWithinLimits } from '../../hooks/useIsAmountWithinLimits';
@@ -25,12 +19,18 @@ import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { TxStatus } from 'store/global/transactions-store/types';
+import { TINY_POSITION_RBTC_VALUE } from 'utils/classifiers';
+import { useDenominateAssetAmount } from 'app/hooks/trading/useDenominateAssetAmount';
+import { Asset } from 'types';
+import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 
-interface Props {
+type RepayPositionFormProps = {
   loan: ActiveLoan;
-}
+};
 
-export function RepayPositionForm({ loan }: Props) {
+export const RepayPositionForm: React.FC<RepayPositionFormProps> = ({
+  loan,
+}) => {
   const { t } = useTranslation();
   const canInteract = useIsConnected();
   const { checkMaintenance, States } = useMaintenance();
@@ -80,6 +80,24 @@ export function RepayPositionForm({ loan }: Props) {
     }
   }, [weiAmount, loan.collateral, loan.principal]);
 
+  const remainingPrincipal = useMemo(
+    () => bignumber(loan.principal).minus(weiAmount).toFixed(0),
+    [loan.principal, weiAmount],
+  );
+  const { value: remainingPrincipalRBTCValue } = useDenominateAssetAmount(
+    asset,
+    Asset.RBTC,
+    remainingPrincipal,
+  );
+
+  const isLeavingTinyPosition = useMemo(() => {
+    return (
+      weiAmount !== '0' &&
+      bignumber(loan.principal).gt(weiAmount) &&
+      bignumber(TINY_POSITION_RBTC_VALUE).gte(remainingPrincipalRBTCValue)
+    );
+  }, [loan.principal, weiAmount, remainingPrincipalRBTCValue]);
+
   return (
     <div className="tw-container tw-mx-auto tw-px-4 tw-relative">
       <h4 className="tw-text-long tw-text-center tw-mb-4 tw-uppercase">
@@ -117,6 +135,12 @@ export function RepayPositionForm({ loan }: Props) {
         </small>
       </FieldGroup>
 
+      {isLeavingTinyPosition && (
+        <ErrorBadge
+          content={t(translations.repayPositionForm.tinyPositionError)}
+        />
+      )}
+
       <SendTxProgress displayAbsolute={false} {...closeTx} />
 
       <div className="tw-flex tw-flex-col lg:tw-flex-row lg:tw-justify-between lg:tw-items-center">
@@ -132,7 +156,8 @@ export function RepayPositionForm({ loan }: Props) {
             closeTx.status === TxStatus.PENDING ||
             !valid ||
             !canInteract ||
-            repayLocked
+            repayLocked ||
+            isLeavingTinyPosition
           }
           tooltip={
             repayLocked ? t(translations.maintenance.stopBorrow) : undefined
@@ -142,4 +167,4 @@ export function RepayPositionForm({ loan }: Props) {
       </div>
     </div>
   );
-}
+};

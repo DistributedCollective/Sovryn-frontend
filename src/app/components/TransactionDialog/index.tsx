@@ -12,7 +12,7 @@ import { ActionButton } from 'app/components/Form/ActionButton';
 import classNames from 'classnames';
 import { getStatusImage } from './utils';
 import { WalletLogo } from './WalletLogo';
-import { getWalletName } from '../UserAssets/TxDialog/WalletLogo';
+import { getWalletName } from './utils';
 import { WalletContext } from '@sovryn/react-wallet';
 
 interface ITransactionDialogProps {
@@ -128,7 +128,7 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
               <div className="tw-pt-3 tw-pb-2 tw-px-6 tw-bg-gray-2 tw-mb-4 tw-rounded-lg tw-text-sm tw-font-light">
                 {fee && <>{fee}</>}
                 <div className="tw-flex tw-flex-row tw-mb-1 tw-justify-between tw-text-sov-white tw-items-center">
-                  <div className="tw-w-1/2 tw-text-gray-10 tw-text-gray-10">
+                  <div className="tw-w-1/2 tw-text-gray-10">
                     {t(translations.stake.txId)}
                   </div>
                   <div className="tw-font-medium tw-w-1/2 tw-pl-2 tw-text-right">

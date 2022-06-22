@@ -1,0 +1,50 @@
+[dev]
+  command = "yarn start"
+  port = 8888
+  framework = "create-react-app"
+  autoLaunch = true
+
+# Shared config for build
+[build]
+  command = "yarn build"
+  [build.environment]
+    BUILD_STORYBOOK = "true"
+    REACT_APP_INTERCOM_ID = "zxxit1rp"
+    REACT_APP_NETWORK = "testnet"
+    REACT_APP_PORTIS_ID = "469a25c8-1101-4c57-823d-c47cb328f788"
+    REACT_APP_TRANSAK_ENV = "STAGING"
+    REACT_APP_TRANSAK_API_KEY = "a2d23229-58f9-4ca5-a3d4-2c3d2b1b9a81"
+    REACT_APP_ESTIMATOR_URI = "https://simulator.sovryn.app/simulate"
+    REACT_APP_MAILCHIMP = "https://gmail.us17.list-manage.com/subscribe/post?u=e66850f0b51ebbdbe1f2c3e36&id=ef5d452839"
+    REACT_APP_GRAPH_RSK = "https://subgraph.test.sovryn.app/subgraphs/name/DistributedCollective/sovryn-subgraph"
+
+[context.production]
+  [context.production.environment]
+    REACT_APP_NETWORK = "mainnet"
+    REACT_APP_GOOGLE_ANALYTICS = "UA-192081564-1"
+    REACT_APP_GRAPH_RSK = "https://subgraph.sovryn.app/subgraphs/name/DistributedCollective/sovryn-subgraph"
+    REACT_APP_INFURA_KEY = "12b606df88b3420aad7828acd0f11902"
+    REACT_APP_TRANSAK_ENV = "PRODUCTION"
+    REACT_APP_TRANSAK_API_KEY = "fadc5140-4d8f-4eda-ab37-5999dfedf353"
+    REACT_APP_ESTIMATOR_URI = "/simulate"
+
+# PR deployments (previews)
+[context.deploy-preview]
+
+# Staging deployments (all branches)
+[context.branch-deploy]
+  [context.branch-deploy.environment]
+    REACT_APP_NETWORK = "mainnet"
+    REACT_APP_GOOGLE_ANALYTICS = "UA-192081564-1"
+    REACT_APP_GRAPH_RSK = "https://subgraph.sovryn.app/subgraphs/name/DistributedCollective/sovryn-subgraph"
+    REACT_APP_INFURA_KEY = "12b606df88b3420aad7828acd0f11902"
+    REACT_APP_TRANSAK_ENV = "PRODUCTION"
+    REACT_APP_TRANSAK_API_KEY = "fadc5140-4d8f-4eda-ab37-5999dfedf353"
+    REACT_APP_BYPASS_MAINTENANCE = "true"
+    REACT_APP_STAGING = "true"
+
+# Testnet deployment
+[context.development]
+  [context.development.environment]
+    REACT_APP_NETWORK = "testnet"
+    REACT_APP_GRAPH_RSK = "https://subgraph.test.sovryn.app/subgraphs/name/DistributedCollective/sovryn-subgraph"

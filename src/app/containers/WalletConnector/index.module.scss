@@ -3,7 +3,6 @@
     @apply tw-h-8 tw-py-0.5 tw-pr-0 tw-pl-2.5 
       tw-text-black tw-bg-gray-9;
 
-
     .addressImage {
       @apply tw-pl-3;
 
@@ -29,7 +28,11 @@
   min-width: 165px;
 
   .addressImage {
-    @apply tw-pl-2;
+    @apply tw-pl-1 tw-pr-2;
+  }
+
+  .caretIndicator {
+    @apply tw-px-2;
   }
 
   .logout {
@@ -44,5 +47,24 @@
     &:hover {
       @apply tw-bg-black tw-bg-opacity-25;
     }
+  }
+}
+
+// blueprintjs override
+:global(.bp3-popover).wallet-connector-popover :global(.bp3-popover-content) {
+  @apply tw-bg-gray-2.5 tw-border-0 tw-p-1 tw-overflow-hidden tw-rounded;
+
+  min-width: 14rem;
+
+  & li {
+    @apply hover:tw-bg-gray-5 tw-opacity-70 hover:tw-opacity-100 tw-rounded tw-leading-none;
+
+    & + li {
+      @apply tw-mt-2;
+    }
+  }
+
+  & :global(.bp3-menu) {
+    @apply tw-p-0;
   }
 }

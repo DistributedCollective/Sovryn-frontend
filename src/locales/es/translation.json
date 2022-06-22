@@ -114,8 +114,7 @@
     "title": "Promovido por <0>Bitcoin</0>",
     "notice_1": "Only you control and have access to your wealth, any actions you take could cause a potential loss of funds.",
     "notice_2": "Particularly please be sure to check all transaction fee prices before proceeding as third party wallets may automatically present high fees.",
-    "notice_3": "Please visit our <0>FAQ</0> if you have any questions.",
-    "notice_4": "If you’re new to DeFi, here is the <0>wiki</0> on how to use SOVRYN.",
+    "notice_3": "If you’re new to DeFi, here is the <0>wiki</0> on how to use SOVRYN.",
     "optOut": "Desactivar <0>Google Analytics</0>",
     "buildID": "Build ID"
   },
@@ -382,10 +381,12 @@
       "title": "Re-Carga"
     }
   },
-  "walletPage": {
+  "portfolioPage": {
+    "portfolio": "Portfolio",
+    "rewards": "Rewards",
     "meta": {
-      "title": "My Wallet",
-      "description": "Information about connected wallet"
+      "title": "Portfolio",
+      "description": "Manage supported assets in your connected wallet"
     },
     "tabs": {
       "userAssets": "Assets",
@@ -400,19 +401,76 @@
   },
   "userAssets": {
     "meta": {
-      "title": "Connected Wallet"
+      "title": "Portfolio",
+      "description": "Manage supported assets in your connected wallet"
     },
+    "emptyVestTable": "You don’t have any vesting contracts",
     "tableHeaders": {
       "asset": "Asset",
-      "totalBalance": "Total Balance",
-      "dollarBalance": "Dollar Balance",
-      "action": "Action"
+      "balance": "Balance",
+      "dollarBalance": "USD Value",
+      "lockedAmount": "Locked Amount"
     },
     "actions": {
-      "fastBtc": "FastBTC",
+      "deposit": "Deposit",
+      "fastBtc": "Deposit",
+      "convert": "Convert to XUSD",
+      "unwrap": "Unwrap to RBTC",
       "swap": "Swap",
-      "trade": "Trade",
-      "claimSov": "Claim SOV"
+      "trade": "Margin Trade",
+      "buy": "Buy",
+      "claimSov": "Claim SOV",
+      "redeemRBTC": "Redeem RBTC",
+      "withdraw": "Withdraw"
+    },
+    "sendMessage": "Send {{asset}} from your connected address in the RSK network",
+    "receiveMessage": "Receive {{asset}} to your connected address in the RSK network",
+    "convertDialog": {
+      "title": "Convert",
+      "from": "From",
+      "to": "To",
+      "cta": "Convert to XUSD",
+      "txDialog": {
+        "titleInProgress": "Transaction in Progress",
+        "titleCompleted": "Transaction Complete",
+        "titleFailed": "Transaction Failed",
+        "statusInProgress": "Minting can take a couple of minutes",
+        "dateTime": "Date/Time",
+        "amountSent": "Amount Sent",
+        "amountReceived": "Amount Received",
+        "hash": "RSK Relay Hash",
+        "cta": "Close"
+      }
+    },
+    "unwrapDialog": {
+      "title": "Unwrap WRBTC",
+      "from": "From",
+      "to": "To",
+      "cta": "Unwrap to RBTC",
+      "txDialog": {
+        "titleInProgress": "Transaction in Progress",
+        "titleCompleted": "Transaction Complete",
+        "titleFailed": "Transaction Failed",
+        "statusInProgress": "Minting can take a couple of minutes",
+        "dateTime": "Date/Time",
+        "amountSent": "Amount Sent",
+        "amountReceived": "Amount Received",
+        "hash": "RSK Relay Hash",
+        "cta": "Close"
+      }
+    },
+    "gallery": {
+      "title": "SOV Generation 01 NFT's",
+      "community": "Community",
+      "hero": "Hero",
+      "superhero": "Superhero",
+      "preOrder": "SOV Genesis Pre-Order",
+      "purchaseLimit": "Purchase Limit:",
+      "tier": "Tier",
+      "sovOG": "SOV-OG",
+      "btc": "BTC",
+      "emptyGallery": "Your connected wallet does not currently have any supported NFTs. Join the <0>Sovryn community</0> for opportunities to earn NFT rewards.",
+      "loadingMessage": "Loading your gallery."
     }
   },
   "swapHistory": {

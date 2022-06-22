@@ -33,7 +33,6 @@ import OrderBookAbi from './abi/OrderBook.json';
 import OrderBookMarginAbi from './abi/OrderBookMargin.json';
 import nftAbi from './abi/nftAbi.json';
 import MYNTControllerAbi from './abi/MYNTController.json';
-import MYNTTokenAbi from './abi/MYNT_token.json';
 import MYNTPresaleAbi from './abi/MYNTPresale.json';
 import MYNTMarketMakerAbi from './abi/MYNTMarketMaker.json';
 import perpetualManagerAbi from './abi/PerpetualManager.json';
@@ -120,11 +119,22 @@ export const contracts = {
     blockNumber: 1406290,
   },
   XUSD_token: {
-    address: '0x74858FE37d391f81F89472e1D8BC8Ef9CF67B3b1',
+    address: '0xa9262cc3fb54ea55b1b0af00efca9416b8d59570',
     abi: erc20TokenAbi,
     blockNumber: 1408174,
   },
   XUSD_lending: {
+    address: '0xE27428101550f8104A6d06D830e2E0a097e1d006',
+    abi: LoanTokenLogicStandard,
+    blockNumber: 1406290,
+  },
+  /** @deprecated */
+  XUSD_legacy_token: {
+    address: '0x74858FE37d391f81F89472e1D8BC8Ef9CF67B3b1',
+    abi: erc20TokenAbi,
+    blockNumber: 1408174,
+  },
+  XUSD_legacy_lending: {
     address: '0x9bD0cE087b14ef67C3D37C891139AaE7d94a961A',
     abi: LoanTokenLogicStandard,
     blockNumber: 1406290,
@@ -299,7 +309,7 @@ export const contracts = {
   },
   MYNT_token: {
     address: '0x139483e22575826183F5b56dd242f8f2C1AEf327',
-    abi: MYNTTokenAbi,
+    abi: erc20TokenAbi,
     blockNumber: 2267574,
   },
   MYNTPresale: {
@@ -319,18 +329,27 @@ export const contracts = {
     abi: fastBtcMultisigAbi,
   },
   perpetualManager: {
-    address: '0x16106ADFeEe3aC73dC82E17D97a6232a322C823E',
+    address: '0x28193dcc74202cCa433279010917977137394d2E',
     abi: perpetualManagerAbi,
     chainId: ChainId.BSC_TESTNET,
   },
-  perpetualLimitOrderBook: {
-    address: '0x7F6581BE4e0b7e83C74FB43a71995CCD7d93B2A6',
+  PERPETUALS_token: {
+    address: '0xcF3D22A034Fa157985F0Fe71F15477446f80Be26',
+    abi: marginTokenAbi,
+    chainId: ChainId.BSC_TESTNET,
+  },
+  perpetualLimitOrderBookBTCUSD: {
+    address: '0x29a0BC198E7ae04E91d2924da8093FAAF9d94950',
     abi: perpetualLimitOrderBookAbi,
     chainId: ChainId.BSC_TESTNET,
   },
-  PERPETUALS_token: {
-    address: '0xaD884Eef9fE43b1FD735b40fe9e5e7D5eFb21E39',
-    abi: marginTokenAbi,
+  perpetualLimitOrderBookBNBUSD: {
+    address: '0xe2b95C2bcfEbb2fF73e103d86a2Eb2b82Cb34Dd5',
+    abi: perpetualLimitOrderBookAbi,
     chainId: ChainId.BSC_TESTNET,
+  },
+  ZUSD_token: {
+    address: '0x6b41566353d6C7B8C2a7931d498F11489DacAc29',
+    abi: erc20TokenAbi,
   },
 };

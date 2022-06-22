@@ -25,7 +25,7 @@ import { TradeFormStep } from './components/TradeFormStep';
 import { ConnectFormStep } from './components/ConnectFormStep';
 import { noop } from '../../../../constants';
 import { PERPETUAL_SLIPPAGE_DEFAULT } from '../../types';
-import { PerpetualTxMethods } from '../TradeDialog/types';
+import { PerpetualTxMethod, PerpetualTx } from '../../types';
 import { usePerpetual_accountBalance } from '../../hooks/usePerpetual_accountBalance';
 import debounce from 'lodash.debounce';
 
@@ -40,12 +40,10 @@ export const NewPositionCardContext = React.createContext<
     position: TradingPosition.LONG,
     tradeType: PerpetualTradeType.MARKET,
     amount: '0',
-    limit: '0',
     leverage: 1,
     slippage: PERPETUAL_SLIPPAGE_DEFAULT,
-    entryPrice: 0,
   },
-  onChangeTrade: noop,
+  setTrade: trade => trade,
   onSubmit: noop,
 });
 
@@ -91,32 +89,57 @@ export const NewPositionCard: React.FC = () => {
     position: TradingPosition.LONG,
     tradeType: PerpetualTradeType.MARKET,
     amount: '0',
-    limit: '0',
     leverage: 1,
     slippage: PERPETUAL_SLIPPAGE_DEFAULT,
-    entryPrice: 0,
   });
 
-  const onSubmit = useCallback(() => {
-    dispatch(
-      actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
-        origin: PerpetualPageModals.NONE,
-        trade,
-        transactions: [
-          {
-            pair: pairType,
-            method: PerpetualTxMethods.trade,
-            amount: trade.amount,
-            tradingPosition: trade.position,
-            slippage: trade.slippage,
-            leverage: trade.leverage,
-            tx: null,
-            approvalTx: null,
-          },
-        ],
-      }),
-    );
-  }, [dispatch, trade, pairType]);
+  const onSubmit = useCallback(
+    (trade: PerpetualTrade) => {
+      if (!trade.averagePrice || trade.averagePrice === '0') {
+        return;
+      }
+
+      const transactions: PerpetualTx[] = [];
+      if (trade.tradeType === PerpetualTradeType.MARKET) {
+        transactions.push({
+          method: PerpetualTxMethod.trade,
+          pair: trade.pairType,
+          amount: trade.amount,
+          price: trade.averagePrice,
+          tradingPosition: trade.position,
+          slippage: trade.slippage,
+          leverage: trade.leverage,
+          keepPositionLeverage: trade.keepPositionLeverage,
+          isClosePosition: trade.isClosePosition,
+          tx: null,
+          approvalTx: null,
+        });
+      } else {
+        transactions.push({
+          method: PerpetualTxMethod.createLimitOrder,
+          pair: trade.pairType,
+          amount: trade.amount,
+          tradingPosition: trade.position,
+          leverage: trade.leverage,
+          limit: trade.limit || '0',
+          trigger: trade.trigger || '0',
+          expiry: trade.expiry || 30,
+          created: Date.now(),
+          tx: null,
+          approvalTx: null,
+        });
+      }
+
+      dispatch(
+        actions.setModal(PerpetualPageModals.TRADE_REVIEW, {
+          origin: PerpetualPageModals.NONE,
+          trade,
+          transactions,
+        }),
+      );
+    },
+    [dispatch],
+  );
 
   const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
 
@@ -128,7 +151,14 @@ export const NewPositionCard: React.FC = () => {
 
   useEffect(() => {
     if (pairType !== trade.pairType) {
-      dispatch(actions.setPairType(pairType));
+      setTrade(trade => ({
+        ...trade,
+        pairType,
+        expiry: undefined,
+        amount: '0',
+        limit: undefined,
+        trigger: undefined,
+      }));
     }
   }, [dispatch, pairType, trade.pairType]);
 
@@ -138,7 +168,7 @@ export const NewPositionCard: React.FC = () => {
       hasEmptyBalance,
       trade,
       onSubmit,
-      onChangeTrade: setTrade,
+      setTrade,
     }),
     [trade, onSubmit, hasOpenPosition, hasEmptyBalance],
   );

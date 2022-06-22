@@ -1,10 +1,10 @@
 import React, { useMemo, useState, useEffect, useCallback } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 
-import { translations } from '../../../../../locales/i18n';
+import { translations } from 'locales/i18n';
 import { DialogButton } from 'app/components/Form/DialogButton';
 import { Asset } from 'types';
-import { DialogType } from '../CurrencyContainer/CurrencyRow';
+import { DialogType } from '../../types';
 import { FormGroup } from 'app/components/Form/FormGroup';
 import { AmountInput } from 'app/components/Form/AmountInput';
 
@@ -34,7 +34,7 @@ import { TxFeeCalculator } from 'app/pages/MarginTradePage/components/TxFeeCalcu
 import { LendingPoolDictionary } from 'utils/dictionaries/lending-pool-dictionary';
 import { TransactionDialog } from 'app/components/TransactionDialog';
 
-interface Props {
+interface ILendingDialogProps {
   currency: Asset;
   showModal: boolean;
   onCloseModal: () => void;
@@ -44,15 +44,17 @@ interface Props {
 
 const gasLimit = 340000;
 
-export function LendingDialog({
+export const LendingDialog: React.FC<ILendingDialogProps> = ({
   currency,
   type,
   lendingAmount,
   ...props
-}: Props) {
+}) => {
   const { t } = useTranslation();
   const modalTranslation =
-    translations.lendingPage.modal[type === 'add' ? 'deposit' : 'withdraw'];
+    translations.lendingPage.modal[
+      type === DialogType.ADD ? 'deposit' : 'withdraw'
+    ];
   const [amount, setAmount] = useState<string>('');
 
   const weiAmount = useWeiAmount(amount);
@@ -142,10 +144,10 @@ export function LendingDialog({
     setAmount('');
   }, [currency]);
 
-  const disabled = () => (type === 'add' ? !isValid : !isValidRedeem);
+  const disabled = () => (type === DialogType.ADD ? !isValid : !isValidRedeem);
 
   const errorMessage = useMemo(() => {
-    if (type === 'add') {
+    if (type === DialogType.ADD) {
       if (!isGreaterThanZero)
         return t(translations.validationErrors.minimumZero);
       if (!hasSufficientBalance)
@@ -158,14 +160,14 @@ export function LendingDialog({
   const { useLM } = LendingPoolDictionary.get(currency);
 
   const getMethodName = useCallback(() => {
-    if (type === 'add') {
+    if (type === DialogType.ADD) {
       return currency === Asset.RBTC ? 'mintWithBTC' : 'mint';
     }
     return currency === Asset.RBTC ? 'burnToBTC' : 'burn';
   }, [type, currency]);
 
   const txFeeArgs = useMemo(() => {
-    if (type === 'add')
+    if (type === DialogType.ADD)
       return currency === Asset.RBTC
         ? [tokenAddress, useLM]
         : [tokenAddress, weiAmount, useLM];
@@ -173,7 +175,7 @@ export function LendingDialog({
   }, [currency, tokenAddress, type, useLM, weiAmount, withdrawAmount]);
 
   const handleSubmit = () =>
-    type === 'add' ? handleLendSubmit() : handleUnlendSubmit();
+    type === DialogType.ADD ? handleLendSubmit() : handleUnlendSubmit();
 
   const handleChange = useCallback((newValue: string, isTotal?: boolean) => {
     setAmount(newValue);
@@ -197,7 +199,7 @@ export function LendingDialog({
           </h1>
           <FormGroup
             label={
-              type === 'add'
+              type === DialogType.ADD
                 ? `${t(
                     translations.lendingPage.modal.deposit.amount,
                   )}${maxDepositText}:`
@@ -209,16 +211,18 @@ export function LendingDialog({
               onChange={(value, isTotal) => handleChange(value, isTotal)}
               asset={currency}
               maxAmount={
-                type === 'add'
+                type === DialogType.ADD
                   ? maxMinusFee(userBalance, currency, gasLimit)
                   : depositedAssetBalance
               }
-              dataActionId="lend"
+              dataActionId={`lend-${
+                type === DialogType.ADD ? 'deposit' : 'withdraw'
+              }`}
             />
           </FormGroup>
 
           <div className="tw-mb-4 tw-mt-2">
-            {type === 'add' && (
+            {type === DialogType.ADD && (
               <div
                 className={classNames(
                   'tw-text-warning tw-text-sm tw-text-center',
@@ -231,7 +235,7 @@ export function LendingDialog({
               </div>
             )}
 
-            {type === 'remove' && (
+            {type === DialogType.REMOVE && (
               <div className="tw-mb-10 tw-truncate tw-text-xs tw-font-normal tw-tracking-normal">
                 <Trans
                   i18nKey={
@@ -254,7 +258,7 @@ export function LendingDialog({
             )}
           </div>
 
-          {type === 'add' && (
+          {type === DialogType.ADD && (
             <>
               <div
                 className={classNames('tw-text-center tw-mt-8 tw-mb-12', {
@@ -285,13 +289,13 @@ export function LendingDialog({
             disabled={disabled()}
             className="tw-rounded-lg"
             data-action-id={`lend-${
-              type === 'add' ? 'deposit' : 'withdrawal'
-            }Button`}
+              type === DialogType.ADD ? 'deposit' : 'withdraw'
+            }-confirmButton-${currency}`}
           />
         </div>
       </Dialog>
-      {type === 'add' && <TransactionDialog tx={lendTx} />}
-      {type === 'remove' && <TransactionDialog tx={unlendTx} />}
+      {type === DialogType.ADD && <TransactionDialog tx={lendTx} />}
+      {type === DialogType.REMOVE && <TransactionDialog tx={unlendTx} />}
     </>
   );
-}
+};
