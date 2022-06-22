@@ -35,6 +35,43 @@
     "anonymous": false,
     "inputs": [
       {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "poolId",
+        "type": "uint256"
+      },
+      {
+        "indexed": true,
+        "internalType": "bytes32",
+        "name": "perpetualId",
+        "type": "bytes32"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "trader",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "int128",
+        "name": "protocolFeeCC",
+        "type": "int128"
+      },
+      {
+        "indexed": false,
+        "internalType": "int128",
+        "name": "participationFundFeeCC",
+        "type": "int128"
+      }
+    ],
+    "name": "DistributeFees",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
         "indexed": false,
         "internalType": "bytes32",
         "name": "perpetualId",
@@ -75,12 +112,6 @@
         "internalType": "int128",
         "name": "newPositionSizeBC",
         "type": "int128"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "blockTimestamp",
-        "type": "uint256"
       }
     ],
     "name": "Liquidate",
@@ -599,12 +630,6 @@
         "internalType": "int128",
         "name": "amount",
         "type": "int128"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "blockTimestamp",
-        "type": "uint256"
       }
     ],
     "name": "TokensDeposited",
@@ -630,12 +655,6 @@
         "internalType": "int128",
         "name": "amount",
         "type": "int128"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "blockTimestamp",
-        "type": "uint256"
       }
     ],
     "name": "TokensWithdrawn",
@@ -663,22 +682,68 @@
         "type": "bytes32"
       },
       {
+        "components": [
+          {
+            "internalType": "bytes32",
+            "name": "iPerpetualId",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "address",
+            "name": "traderAddr",
+            "type": "address"
+          },
+          {
+            "internalType": "int128",
+            "name": "fAmount",
+            "type": "int128"
+          },
+          {
+            "internalType": "int128",
+            "name": "fLimitPrice",
+            "type": "int128"
+          },
+          {
+            "internalType": "int128",
+            "name": "fTriggerPrice",
+            "type": "int128"
+          },
+          {
+            "internalType": "uint256",
+            "name": "iDeadline",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "referrerAddr",
+            "type": "address"
+          },
+          {
+            "internalType": "uint32",
+            "name": "flags",
+            "type": "uint32"
+          },
+          {
+            "internalType": "int128",
+            "name": "fLeverage",
+            "type": "int128"
+          },
+          {
+            "internalType": "uint256",
+            "name": "createdTimestamp",
+            "type": "uint256"
+          }
+        ],
+        "indexed": false,
+        "internalType": "struct IPerpetualOrder.Order",
+        "name": "order",
+        "type": "tuple"
+      },
+      {
         "indexed": false,
         "internalType": "bytes32",
         "name": "orderDigest",
         "type": "bytes32"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint32",
-        "name": "orderFlags",
-        "type": "uint32"
-      },
-      {
-        "indexed": false,
-        "internalType": "int128",
-        "name": "tradeAmountBC",
-        "type": "int128"
       },
       {
         "indexed": false,
@@ -690,12 +755,6 @@
         "indexed": false,
         "internalType": "int128",
         "name": "price",
-        "type": "int128"
-      },
-      {
-        "indexed": false,
-        "internalType": "int128",
-        "name": "limitPrice",
         "type": "int128"
       }
     ],
@@ -722,12 +781,6 @@
         "internalType": "int128",
         "name": "newDefaultFundSize",
         "type": "int128"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "blockTimestamp",
-        "type": "uint256"
       }
     ],
     "name": "TransferEarningsToTreasury",
@@ -809,12 +862,6 @@
         "internalType": "int128",
         "name": "fNewLiqPoolTotalAMMFundsCash",
         "type": "int128"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "blockTimestamp",
-        "type": "uint256"
       }
     ],
     "name": "UpdateAMMFundCash",
@@ -858,12 +905,6 @@
         "internalType": "int128",
         "name": "fTargetAMMFundSizeInPool",
         "type": "int128"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "blockTimestamp",
-        "type": "uint256"
       }
     ],
     "name": "UpdateAMMFundTargetSize",
@@ -889,12 +930,6 @@
         "internalType": "int128",
         "name": "fNewFundCash",
         "type": "int128"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "blockTimestamp",
-        "type": "uint256"
       }
     ],
     "name": "UpdateDefaultFundCash",
@@ -920,12 +955,6 @@
         "internalType": "int128",
         "name": "fTargetDFSize",
         "type": "int128"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "blockTimestamp",
-        "type": "uint256"
       }
     ],
     "name": "UpdateDefaultFundTargetSize",
@@ -945,12 +974,6 @@
         "internalType": "int128",
         "name": "fFundingRate",
         "type": "int128"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "blockTimestamp",
-        "type": "uint256"
       }
     ],
     "name": "UpdateFundingRate",
@@ -1006,12 +1029,6 @@
         "internalType": "int128",
         "name": "fOpenInterestBC",
         "type": "int128"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "blockTimestamp",
-        "type": "uint256"
       }
     ],
     "name": "UpdateMarginAccount",
@@ -1037,12 +1054,6 @@
         "internalType": "int128",
         "name": "fSpotIndexPrice",
         "type": "int128"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "blockTimestamp",
-        "type": "uint256"
       }
     ],
     "name": "UpdateMarkPrice",
@@ -1068,12 +1079,6 @@
         "internalType": "int128",
         "name": "fNewFundCash",
         "type": "int128"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "blockTimestamp",
-        "type": "uint256"
       }
     ],
     "name": "UpdateParticipationFundCash",
@@ -1154,12 +1159,6 @@
         "internalType": "int128",
         "name": "fCurrentAMMExposureEMALong",
         "type": "int128"
-      },
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "blockTimestamp",
-        "type": "uint256"
       }
     ],
     "name": "UpdateReprTradeSizes",
@@ -1785,6 +1784,82 @@
   {
     "inputs": [
       {
+        "components": [
+          {
+            "internalType": "bytes32",
+            "name": "iPerpetualId",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "address",
+            "name": "traderAddr",
+            "type": "address"
+          },
+          {
+            "internalType": "int128",
+            "name": "fAmount",
+            "type": "int128"
+          },
+          {
+            "internalType": "int128",
+            "name": "fLimitPrice",
+            "type": "int128"
+          },
+          {
+            "internalType": "int128",
+            "name": "fTriggerPrice",
+            "type": "int128"
+          },
+          {
+            "internalType": "uint256",
+            "name": "iDeadline",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "referrerAddr",
+            "type": "address"
+          },
+          {
+            "internalType": "uint32",
+            "name": "flags",
+            "type": "uint32"
+          },
+          {
+            "internalType": "int128",
+            "name": "fLeverage",
+            "type": "int128"
+          },
+          {
+            "internalType": "uint256",
+            "name": "createdTimestamp",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct IPerpetualOrder.Order",
+        "name": "_order",
+        "type": "tuple"
+      },
+      {
+        "internalType": "bool",
+        "name": "_hasOpened",
+        "type": "bool"
+      }
+    ],
+    "name": "distributeFees",
+    "outputs": [
+      {
+        "internalType": "int128",
+        "name": "",
+        "type": "int128"
+      }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
         "internalType": "bytes32",
         "name": "_iPerpetualId",
         "type": "bytes32"
@@ -1792,11 +1867,6 @@
       {
         "internalType": "address",
         "name": "_traderAddr",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "_referrerAddr",
         "type": "address"
       },
       {
@@ -1810,7 +1880,7 @@
         "type": "bool"
       }
     ],
-    "name": "distributeFees",
+    "name": "distributeFeesNoRef",
     "outputs": [
       {
         "internalType": "int128",
@@ -2114,11 +2184,6 @@
             "type": "uint256"
           },
           {
-            "internalType": "bool",
-            "name": "isRunning",
-            "type": "bool"
-          },
-          {
             "internalType": "address",
             "name": "treasuryAddress",
             "type": "address"
@@ -2154,11 +2219,6 @@
             "type": "int128"
           },
           {
-            "internalType": "uint256",
-            "name": "iPriceUpdateTimeSec",
-            "type": "uint256"
-          },
-          {
             "internalType": "int128",
             "name": "fTargetAMMFundSize",
             "type": "int128"
@@ -2169,14 +2229,9 @@
             "type": "int128"
           },
           {
-            "internalType": "uint256",
-            "name": "iLastTargetPoolSizeTime",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "iLastFundingTime",
-            "type": "uint256"
+            "internalType": "int128",
+            "name": "fPnLparticipantWithdrawalPercentageLimit",
+            "type": "int128"
           },
           {
             "internalType": "uint256",
@@ -2184,9 +2239,9 @@
             "type": "uint256"
           },
           {
-            "internalType": "int128",
-            "name": "fPnLparticipantWithdrawalPercentageLimit",
-            "type": "int128"
+            "internalType": "uint256",
+            "name": "iPerpetualCount",
+            "type": "uint256"
           },
           {
             "internalType": "int128",
@@ -2199,14 +2254,14 @@
             "type": "int128"
           },
           {
-            "internalType": "uint256",
-            "name": "iPerpetualCount",
-            "type": "uint256"
-          },
-          {
             "internalType": "int128",
             "name": "fMaxTotalTraderFunds",
             "type": "int128"
+          },
+          {
+            "internalType": "bool",
+            "name": "isRunning",
+            "type": "bool"
           }
         ],
         "internalType": "struct PerpStorage.LiquidityPoolData",
@@ -2329,14 +2384,14 @@
       {
         "components": [
           {
-            "internalType": "int128",
-            "name": "fPrice",
-            "type": "int128"
-          },
-          {
             "internalType": "uint256",
             "name": "time",
             "type": "uint256"
+          },
+          {
+            "internalType": "int128",
+            "name": "fPrice",
+            "type": "int128"
           },
           {
             "internalType": "bool",
@@ -2416,14 +2471,14 @@
       {
         "components": [
           {
-            "internalType": "bytes32",
-            "name": "id",
-            "type": "bytes32"
-          },
-          {
             "internalType": "uint256",
             "name": "poolId",
             "type": "uint256"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "id",
+            "type": "bytes32"
           },
           {
             "internalType": "address",
@@ -2438,14 +2493,14 @@
           {
             "components": [
               {
-                "internalType": "int128",
-                "name": "fPrice",
-                "type": "int128"
-              },
-              {
                 "internalType": "uint256",
                 "name": "time",
                 "type": "uint256"
+              },
+              {
+                "internalType": "int128",
+                "name": "fPrice",
+                "type": "int128"
               },
               {
                 "internalType": "bool",
@@ -2460,14 +2515,14 @@
           {
             "components": [
               {
-                "internalType": "int128",
-                "name": "fPrice",
-                "type": "int128"
-              },
-              {
                 "internalType": "uint256",
                 "name": "time",
                 "type": "uint256"
+              },
+              {
+                "internalType": "int128",
+                "name": "fPrice",
+                "type": "int128"
               },
               {
                 "internalType": "bool",
@@ -2480,21 +2535,16 @@
             "type": "tuple"
           },
           {
-            "internalType": "int128",
-            "name": "premiumRatesEMA",
-            "type": "int128"
-          },
-          {
             "components": [
-              {
-                "internalType": "int128",
-                "name": "fPrice",
-                "type": "int128"
-              },
               {
                 "internalType": "uint256",
                 "name": "time",
                 "type": "uint256"
+              },
+              {
+                "internalType": "int128",
+                "name": "fPrice",
+                "type": "int128"
               },
               {
                 "internalType": "bool",
@@ -2509,14 +2559,14 @@
           {
             "components": [
               {
-                "internalType": "int128",
-                "name": "fPrice",
-                "type": "int128"
-              },
-              {
                 "internalType": "uint256",
                 "name": "time",
                 "type": "uint256"
+              },
+              {
+                "internalType": "int128",
+                "name": "fPrice",
+                "type": "int128"
               },
               {
                 "internalType": "bool",
@@ -2531,14 +2581,14 @@
           {
             "components": [
               {
-                "internalType": "int128",
-                "name": "fPrice",
-                "type": "int128"
-              },
-              {
                 "internalType": "uint256",
                 "name": "time",
                 "type": "uint256"
+              },
+              {
+                "internalType": "int128",
+                "name": "fPrice",
+                "type": "int128"
               },
               {
                 "internalType": "bool",
@@ -2549,6 +2599,11 @@
             "internalType": "struct PerpStorage.OraclePriceData",
             "name": "settlementS3PriceData",
             "type": "tuple"
+          },
+          {
+            "internalType": "int128",
+            "name": "premiumRatesEMA",
+            "type": "int128"
           },
           {
             "internalType": "int128",
@@ -2717,13 +2772,18 @@
           },
           {
             "internalType": "int128",
-            "name": "fTargetAMMFundSize",
+            "name": "fTotalMarginBalance",
             "type": "int128"
           },
           {
-            "internalType": "bool",
-            "name": "isBaselineAMMFundState",
-            "type": "bool"
+            "internalType": "int128",
+            "name": "fMaxPositionBC",
+            "type": "int128"
+          },
+          {
+            "internalType": "int128",
+            "name": "fTargetAMMFundSize",
+            "type": "int128"
           },
           {
             "internalType": "int128",
@@ -2741,14 +2801,24 @@
             "type": "int128"
           },
           {
-            "internalType": "int128",
-            "name": "fTotalMarginBalance",
-            "type": "int128"
+            "internalType": "bool",
+            "name": "isBaselineAMMFundState",
+            "type": "bool"
           },
           {
-            "internalType": "int128",
-            "name": "fMaxPositionBC",
-            "type": "int128"
+            "internalType": "uint256",
+            "name": "iLastFundingTime",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "iPriceUpdateTimeSec",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "iLastTargetPoolSizeTime",
+            "type": "uint256"
           }
         ],
         "internalType": "struct PerpStorage.PerpetualData",
@@ -3338,24 +3408,61 @@
         "type": "bytes32"
       },
       {
-        "internalType": "address",
-        "name": "_traderAddr",
-        "type": "address"
-      },
-      {
-        "internalType": "int128",
-        "name": "_fAmount",
-        "type": "int128"
-      },
-      {
-        "internalType": "int128",
-        "name": "_fLimitPrice",
-        "type": "int128"
-      },
-      {
-        "internalType": "uint32",
-        "name": "_flags",
-        "type": "uint32"
+        "components": [
+          {
+            "internalType": "bytes32",
+            "name": "iPerpetualId",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "address",
+            "name": "traderAddr",
+            "type": "address"
+          },
+          {
+            "internalType": "int128",
+            "name": "fAmount",
+            "type": "int128"
+          },
+          {
+            "internalType": "int128",
+            "name": "fLimitPrice",
+            "type": "int128"
+          },
+          {
+            "internalType": "int128",
+            "name": "fTriggerPrice",
+            "type": "int128"
+          },
+          {
+            "internalType": "uint256",
+            "name": "iDeadline",
+            "type": "uint256"
+          },
+          {
+            "internalType": "address",
+            "name": "referrerAddr",
+            "type": "address"
+          },
+          {
+            "internalType": "uint32",
+            "name": "flags",
+            "type": "uint32"
+          },
+          {
+            "internalType": "int128",
+            "name": "fLeverage",
+            "type": "int128"
+          },
+          {
+            "internalType": "uint256",
+            "name": "createdTimestamp",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct IPerpetualOrder.Order",
+        "name": "_order",
+        "type": "tuple"
       }
     ],
     "name": "preTrade",
@@ -3948,9 +4055,9 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "_iPoolIndex",
-        "type": "uint256"
+        "internalType": "bytes32",
+        "name": "_iPerpetualId",
+        "type": "bytes32"
       }
     ],
     "name": "updateDefaultFundTargetSize",
@@ -3962,8 +4069,26 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "_iPoolIdx",
+        "name": "_iPoolIndex",
         "type": "uint256"
+      }
+    ],
+    "name": "updateDefaultFundTargetSizeRandom",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "_iPerpetualId0",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "_iPerpetualId1",
+        "type": "bytes32"
       }
     ],
     "name": "updateFundingAndPricesAfter",
@@ -3974,9 +4099,14 @@
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "_iPoolIdx",
-        "type": "uint256"
+        "internalType": "bytes32",
+        "name": "_iPerpetualId0",
+        "type": "bytes32"
+      },
+      {
+        "internalType": "bytes32",
+        "name": "_iPerpetualId1",
+        "type": "bytes32"
       }
     ],
     "name": "updateFundingAndPricesBefore",

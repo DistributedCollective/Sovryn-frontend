@@ -54,7 +54,7 @@ subscription.on('data', data => {
   }
 
   const tradePrice = ABK64x64ToFloat(BigNumber.from(decoded.price));
-  const tradeAmount = ABK64x64ToFloat(BigNumber.from(decoded.tradeAmountBC));
+  const tradeAmount = ABK64x64ToFloat(BigNumber.from(decoded[3][2]));
   const tradeTime = Date.now();
   const channelString = Object.keys(symbolMap).find(
     item => symbolMap[item].toLowerCase() === decoded.perpetualId.toLowerCase(),
