@@ -564,6 +564,9 @@ const InnerStakePage: React.FC = () => {
               paused={paused}
               frozen={frozen}
             />
+            <p className="tw-font-semibold tw-text-lg tw-mb-4 tw-mt-6">
+              {t(translations.stake.history.title)}
+            </p>
             <HistoryEventsTable />
           </div>
           <TransactionDialog tx={increaseTx} />
