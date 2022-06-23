@@ -8731,6 +8731,38 @@ export type GetLiquidityHistoryQuery = {
   }>;
 };
 
+export type GetUserLiquidityHistoryQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type GetUserLiquidityHistoryQuery = {
+  __typename?: 'Query';
+  userLiquidityHistory?: {
+    __typename?: 'UserLiquidityHistory';
+    id: string;
+    totalAsset0LiquidityAdded: string;
+    totalAsset0LiquidityRemoved: string;
+    totalAsset1LiquidityAdded: string;
+    totalAsset1LiquidityRemoved: string;
+    poolToken: {
+      __typename?: 'PoolToken';
+      liquidityPool: {
+        __typename?: 'LiquidityPool';
+        token0?: {
+          __typename?: 'Token';
+          id: string;
+          decimals?: number | null;
+        } | null;
+        token1?: {
+          __typename?: 'Token';
+          id: string;
+          decimals?: number | null;
+        } | null;
+      };
+    };
+  } | null;
+};
+
 export type UsersQueryVariables = Exact<{
   where?: InputMaybe<User_Filter>;
 }>;
@@ -8900,6 +8932,80 @@ export type GetLiquidityHistoryLazyQueryHookResult = ReturnType<
 export type GetLiquidityHistoryQueryResult = Apollo.QueryResult<
   GetLiquidityHistoryQuery,
   GetLiquidityHistoryQueryVariables
+>;
+export const GetUserLiquidityHistoryDocument = gql`
+  query getUserLiquidityHistory($id: ID!) {
+    userLiquidityHistory(id: $id) {
+      id
+      totalAsset0LiquidityAdded
+      totalAsset0LiquidityRemoved
+      totalAsset1LiquidityAdded
+      totalAsset1LiquidityRemoved
+      poolToken {
+        liquidityPool {
+          token0 {
+            id
+            decimals
+          }
+          token1 {
+            id
+            decimals
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetUserLiquidityHistoryQuery__
+ *
+ * To run a query within a React component, call `useGetUserLiquidityHistoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserLiquidityHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserLiquidityHistoryQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetUserLiquidityHistoryQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetUserLiquidityHistoryQuery,
+    GetUserLiquidityHistoryQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetUserLiquidityHistoryQuery,
+    GetUserLiquidityHistoryQueryVariables
+  >(GetUserLiquidityHistoryDocument, options);
+}
+export function useGetUserLiquidityHistoryLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetUserLiquidityHistoryQuery,
+    GetUserLiquidityHistoryQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetUserLiquidityHistoryQuery,
+    GetUserLiquidityHistoryQueryVariables
+  >(GetUserLiquidityHistoryDocument, options);
+}
+export type GetUserLiquidityHistoryQueryHookResult = ReturnType<
+  typeof useGetUserLiquidityHistoryQuery
+>;
+export type GetUserLiquidityHistoryLazyQueryHookResult = ReturnType<
+  typeof useGetUserLiquidityHistoryLazyQuery
+>;
+export type GetUserLiquidityHistoryQueryResult = Apollo.QueryResult<
+  GetUserLiquidityHistoryQuery,
+  GetUserLiquidityHistoryQueryVariables
 >;
 export const UsersDocument = gql`
   query users($where: User_filter) {
