@@ -7,16 +7,20 @@ import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { translations } from 'locales/i18n';
 import { Asset } from 'types';
 import { toWei } from 'utils/blockchain/math-helpers';
-import { StakeHistoryActionType, StakeHistoryEvent } from '../../types';
 import { useCachedAssetPrice } from 'app/hooks/trading/useCachedAssetPrice';
 import { bignumber } from 'mathjs';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { weiToUSD } from 'utils/display-text/format';
+import {
+  StakeHistoryAction,
+  StakeHistoryFieldsFragment,
+} from 'utils/graphql/rsk/generated';
 
 interface IHistoryEventRowProps {
-  event: StakeHistoryEvent;
+  event: StakeHistoryFieldsFragment;
 }
+
 export const HistoryEventRow: React.FC<IHistoryEventRowProps> = ({ event }) => {
   const { t } = useTranslation();
   const { timestamp, action, amount, transaction } = event;
@@ -34,21 +38,21 @@ export const HistoryEventRow: React.FC<IHistoryEventRowProps> = ({ event }) => {
       .toFixed(0);
   }, [dollars.value, amount, SOV.decimals]);
 
-  const getActionName = (action: StakeHistoryActionType) => {
+  const getActionName = (action: StakeHistoryAction) => {
     switch (action) {
-      case StakeHistoryActionType.STAKE:
+      case StakeHistoryAction.Stake:
         return t(translations.stake.history.actions.stake);
-      case StakeHistoryActionType.UNSTAKE:
+      case StakeHistoryAction.Unstake:
         return t(translations.stake.history.actions.unstake);
-      case StakeHistoryActionType.FEE_WITHDRAWN:
+      case StakeHistoryAction.FeeWithdrawn:
         return t(translations.stake.history.actions.feeWithdraw);
-      case StakeHistoryActionType.INCREASE_STAKE:
+      case StakeHistoryAction.IncreaseStake:
         return t(translations.stake.history.actions.increase);
-      case StakeHistoryActionType.EXTEND_STAKE:
+      case StakeHistoryAction.ExtendStake:
         return t(translations.stake.history.actions.extend);
-      case StakeHistoryActionType.DELEGATE:
+      case StakeHistoryAction.Delegate:
         return t(translations.stake.history.actions.delegate);
-      case StakeHistoryActionType.WITHDRAW_STAKED:
+      case StakeHistoryAction.WithdrawStaked:
         return t(translations.stake.history.actions.withdraw);
       default:
         return action;
@@ -64,7 +68,7 @@ export const HistoryEventRow: React.FC<IHistoryEventRowProps> = ({ event }) => {
       </td>
       <td>{getActionName(action)}</td>
       <td className="tw-text-left tw-font-normal">
-        {action !== StakeHistoryActionType.DELEGATE ? (
+        {action !== StakeHistoryAction.Delegate ? (
           <>
             <AssetValue
               asset={Asset.SOV}

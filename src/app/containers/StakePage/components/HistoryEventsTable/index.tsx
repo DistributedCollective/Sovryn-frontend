@@ -3,23 +3,26 @@ import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { useGetStakeHistory } from '../../hooks/useGetStakeHistory';
-import { PAGE_SIZE, StakeHistoryEvent } from '../../types';
 import { StakePagination } from '../StakePagination';
 import { HistoryEventRow } from './HistoryEventRow';
+
+export const PAGE_SIZE = 5;
 
 export const HistoryEventsTable: React.FC = () => {
   const { t } = useTranslation();
   const [page, setPage] = useState(1);
   const { data, loading } = useGetStakeHistory(page, PAGE_SIZE);
-  const isEmpty = useMemo(() => !loading && !data.stakeHistoryItems.length, [
+  const isEmpty = useMemo(() => !loading && !data?.stakeHistoryItems.length, [
     loading,
     data,
   ]);
 
-  const isDisabled = useMemo(
-    () => data && data.stakeHistoryItems.length < PAGE_SIZE,
-    [data],
-  );
+  const isDisabled = useMemo(() => {
+    if (!data) {
+      return true;
+    }
+    return data && data.stakeHistoryItems.length < PAGE_SIZE;
+  }, [data]);
 
   const onPageChanged = useCallback(page => setPage(page), [setPage]);
 
@@ -71,8 +74,8 @@ export const HistoryEventsTable: React.FC = () => {
           )}
 
           {data &&
-            data.stakeHistoryItems.map((event: StakeHistoryEvent) => {
-              return <HistoryEventRow event={event} />;
+            data.stakeHistoryItems.map(value => {
+              return <HistoryEventRow event={value} />;
             })}
         </tbody>
       </table>
