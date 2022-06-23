@@ -7,6 +7,7 @@ import { translations } from '../../../../../../locales/i18n';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { LiquidityMiningEvent } from '../types';
+
 interface ITableBodyProps {
   items: LiquidityMiningEvent[];
   loading: Boolean;
