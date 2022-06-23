@@ -20,13 +20,14 @@ import { PositionBlock } from '../PositionBlock';
 import { ProfitContainer } from './ProfitContainer';
 import { MAINTENANCE_MARGIN } from 'utils/classifiers';
 import { useGetLoan } from 'app/hooks/trading/useGetLoan';
-import { LoanEvent } from '../../types';
 import { toWei } from 'utils/blockchain/math-helpers';
 import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
 import { AssetValue } from 'app/components/AssetValue';
+import { MarginLoansFieldsFragment } from 'utils/graphql/rsk/generated';
+import { EventTrade } from '../../types';
 
 type PositionRowProps = {
-  event: LoanEvent;
+  event: MarginLoansFieldsFragment;
 };
 
 export const PositionRow: React.FC<PositionRowProps> = ({ event }) => {
@@ -34,15 +35,15 @@ export const PositionRow: React.FC<PositionRowProps> = ({ event }) => {
   const [showAddToMargin, setShowAddToMargin] = useState(false);
   const [showClosePosition, setShowClosePosition] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
+  const { id, trade, loanToken, nextRollover, collateralToken } = event;
+  const tradeData = trade as EventTrade[];
   const {
-    id,
-    trade: [
-      { entryLeverage, positionSize, entryPrice, interestRate, transaction },
-    ],
-    loanToken,
-    nextRollover,
-    collateralToken,
-  } = event;
+    entryLeverage,
+    positionSize,
+    entryPrice,
+    interestRate,
+    transaction,
+  } = tradeData[0];
   const { checkMaintenances, States } = useMaintenance();
   const {
     [States.CLOSE_MARGIN_TRADES]: closeTradesLocked,
@@ -65,10 +66,13 @@ export const PositionRow: React.FC<PositionRowProps> = ({ event }) => {
     position,
   ]);
 
-  const rolloverDate = useMemo(
-    () => new Date(nextRollover).getTime().toString(),
-    [nextRollover],
-  );
+  const rolloverDate = useMemo(() => {
+    if (nextRollover) {
+      const date = new Date(nextRollover).getTime().toString();
+      return <DisplayDate timestamp={date} />;
+    }
+    return '-';
+  }, [nextRollover]);
 
   useEffect(() => {
     getLoan(id);
@@ -190,9 +194,7 @@ export const PositionRow: React.FC<PositionRowProps> = ({ event }) => {
           </div>
         </td>
         <td className="tw-hidden 2xl:tw-table-cell">
-          <div className="tw-min-w-6">
-            <DisplayDate timestamp={rolloverDate} />
-          </div>
+          <div className="tw-min-w-6">{rolloverDate}</div>
         </td>
         <td className="tw-hidden 2xl:tw-table-cell">
           <div className="tw-min-w-6">

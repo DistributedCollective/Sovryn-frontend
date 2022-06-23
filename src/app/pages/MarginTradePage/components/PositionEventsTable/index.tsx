@@ -4,10 +4,16 @@ import { Icon, Popover } from '@blueprintjs/core';
 import { translations } from 'locales/i18n';
 import { PositionEventRow } from './PositionEventRow';
 import { TradingPosition } from 'types/trading-position';
-import { LoanEvent } from '../../types';
+import { MarginLoansFieldsFragment } from 'utils/graphql/rsk/generated';
+import {
+  EventCloseWithSwaps,
+  EventDepositCollateral,
+  EventLiquidates,
+  EventTrade,
+} from '../../types';
 
 type LiquidatedPositionsTableProps = {
-  event: LoanEvent;
+  event: MarginLoansFieldsFragment;
   isOpenPosition: boolean;
   isLong: boolean;
   position: TradingPosition;
@@ -62,10 +68,10 @@ export const PositionEventsTable: React.FC<LiquidatedPositionsTableProps> = ({
               </tr>
             </thead>
             <tbody>
-              {trade.map(item => (
+              {trade?.map(item => (
                 <PositionEventRow
                   key={item.id}
-                  event={item}
+                  event={item as EventTrade}
                   positionToken={item.loanToken.id}
                   collateralToken={item.collateralToken.id}
                   positionSize={item.positionSize}
@@ -73,10 +79,10 @@ export const PositionEventsTable: React.FC<LiquidatedPositionsTableProps> = ({
                   isLong={isLong}
                 />
               ))}
-              {liquidates.map(item => (
+              {liquidates?.map(item => (
                 <PositionEventRow
                   key={item.id}
-                  event={item}
+                  event={item as EventLiquidates}
                   positionToken={item.loanToken}
                   collateralToken={item.collateralToken}
                   positionSize={item.collateralWithdrawAmount}
@@ -84,20 +90,22 @@ export const PositionEventsTable: React.FC<LiquidatedPositionsTableProps> = ({
                   isLong={isLong}
                 />
               ))}
-              {depositCollateral.map(item => (
+              {depositCollateral?.map(item => (
                 <PositionEventRow
                   key={item.id}
-                  event={item}
-                  positionToken={event.trade[0].loanToken.id}
-                  collateralToken={event.trade[0].collateralToken.id}
+                  event={item as EventDepositCollateral}
+                  positionToken={event.trade ? event.trade[0].loanToken.id : ''}
+                  collateralToken={
+                    event.trade ? event.trade[0].collateralToken.id : ''
+                  }
                   positionSize={item.depositAmount}
                   isLong={isLong}
                 />
               ))}
-              {closeWithSwaps.map(item => (
+              {closeWithSwaps?.map(item => (
                 <PositionEventRow
                   key={item.id}
-                  event={item}
+                  event={item as EventCloseWithSwaps}
                   positionToken={item.loanToken}
                   collateralToken={item.collateralToken}
                   positionSize={item.positionCloseSize}

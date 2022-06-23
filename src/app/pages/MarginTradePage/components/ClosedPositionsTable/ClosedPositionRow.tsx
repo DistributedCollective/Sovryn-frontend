@@ -14,12 +14,13 @@ import {
 } from '../../utils/marginUtils';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { PositionEventsTable } from '../PositionEventsTable';
-import { LoanEvent } from '../../types';
 import { AssetValue } from 'app/components/AssetValue';
 import { toWei } from 'utils/blockchain/math-helpers';
+import { MarginLoansFieldsFragment } from 'utils/graphql/rsk/generated';
+import { EventTrade } from '../../types';
 
 type ClosedPositionRowProps = {
-  event: LoanEvent;
+  event: MarginLoansFieldsFragment;
 };
 
 export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
@@ -28,12 +29,14 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
   const { t } = useTranslation();
   const [showDetails, setShowDetails] = useState(false);
   const {
-    trade: [{ positionSize, entryLeverage, entryPrice, transaction }],
+    trade,
     loanToken: { id: loanTokenId },
     collateralToken: { id: collateralTokenId },
     liquidates,
     closeWithSwaps,
   } = event;
+  const tradeData = trade as EventTrade[];
+  const { positionSize, entryLeverage, entryPrice, transaction } = tradeData[0];
   const loanAsset = assetByTokenAddress(loanTokenId);
   const collateralAsset = assetByTokenAddress(collateralTokenId);
   const pair = TradingPairDictionary.findPair(loanAsset, collateralAsset);

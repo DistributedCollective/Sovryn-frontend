@@ -1,0 +1,100 @@
+query getMarginLoansData(
+  $user: String
+  $skip: Int!
+  $isOpen: Boolean!
+  $pageSize: Int!
+) {
+  loans(
+    first: $pageSize
+    skip: $skip
+    where: { user: $user, isOpen: $isOpen, type: Trade }
+    orderBy: startTimestamp
+    orderDirection: desc
+  ) {
+    ...MarginLoansFields
+  }
+}
+
+fragment MarginLoansFields on Loan {
+  id
+  type
+  trade {
+    id
+    timestamp
+    loanToken {
+      id
+    }
+    entryPrice
+    transaction {
+      id
+    }
+    positionSize
+    interestRate
+    entryLeverage
+    collateralToken {
+      id
+    }
+    borrowedAmount
+    currentLeverage
+  }
+  isOpen
+  loanToken {
+    id
+  }
+  realizedPnL
+  nextRollover
+  positionSize
+  collateralToken {
+    id
+  }
+  startTimestamp
+  realizedPnLPercent
+  depositCollateral {
+    id
+    rate
+    loanId {
+      id
+    }
+    timestamp
+    transaction {
+      id
+    }
+    depositAmount
+  }
+  liquidates {
+    id
+    timestamp
+    loanToken
+    transaction {
+      id
+    }
+    currentMargin
+    collateralToken
+    collateralToLoanRate
+    collateralWithdrawAmount
+  }
+  closeWithSwaps {
+    id
+    timestamp
+    loanToken
+    exitPrice
+    transaction {
+      id
+    }
+    loanCloseAmount
+    currentLeverage
+    collateralToken
+    positionCloseSize
+  }
+  closewithDeposits {
+    id
+    loanToken
+    timestamp
+    transaction {
+      id
+    }
+    collateralToken
+    collateralToLoanRate
+    collateralWithdrawAmount
+  }
+}

@@ -8,23 +8,26 @@ import { selectTransactionArray } from 'store/global/transactions-store/selector
 import { TxStatus, TxType } from 'store/global/transactions-store/types';
 import { HelpBadge } from 'app/components/HelpBadge/HelpBadge';
 import { PositionRow } from './PositionRow';
-import { useGetMarginLoans } from '../../hooks/useMargin_GetLoans';
-import { LoanEvent, PAGE_SIZE } from '../../types';
+import { useGetMarginLoansData } from '../../hooks/useMargin_GetLoans';
+import { PAGE_SIZE } from '../../types';
 import { MarginPagination } from '../MarginPagination';
 
 export const OpenPositionsTable = () => {
   const { t } = useTranslation();
   const transactions = useSelector(selectTransactionArray);
   const [page, setPage] = useState(1);
-  const { data, loading } = useGetMarginLoans(page, true, PAGE_SIZE);
+  const { data, loading } = useGetMarginLoansData(page, true, PAGE_SIZE);
   const isEmpty = useMemo(
-    () => !loading && !data.loans.length && !transactions.length,
+    () => !loading && !data?.loans.length && !transactions.length,
     [transactions, loading, data],
   );
 
-  const isDisabled = useMemo(() => data && data.loans.length < PAGE_SIZE, [
-    data,
-  ]);
+  const isDisabled = useMemo(() => {
+    if (!data) {
+      return true;
+    }
+    return data && data.loans.length < PAGE_SIZE;
+  }, [data]);
 
   const onGoingTransactions = useMemo(
     () =>
@@ -117,7 +120,7 @@ export const OpenPositionsTable = () => {
           )}
 
           {data &&
-            data.loans.map((loan: LoanEvent) => {
+            data.loans.map(loan => {
               return <PositionRow key={loan.id} event={loan} />;
             })}
         </tbody>

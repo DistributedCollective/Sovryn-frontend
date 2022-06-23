@@ -3,7 +3,7 @@ import { TradingPosition } from 'types/trading-position';
 import imgArrowUp from 'assets/images/trend-arrow-up.svg';
 import imgArrowDown from 'assets/images/trend-arrow-down.svg';
 import { TradePriceChange } from 'types/trading-pairs';
-import { EventCloseWithSwaps, EventLiquidates } from '../types';
+import { EventLiquidates } from '../types';
 
 export const isLongTrade = (position: TradingPosition) => {
   return position === TradingPosition.LONG;
@@ -41,11 +41,7 @@ export const getOpenPositionPrice = (
   return (1 / Number(price)).toString();
 };
 
-export const getClosePositionPrice = (
-  liquidates: EventLiquidates[],
-  closeWithSwaps: EventCloseWithSwaps[],
-  position: TradingPosition,
-) => {
+export const getClosePositionPrice = (liquidates, closeWithSwaps, position) => {
   const sortedList = liquidates
     .slice()
     .sort((a: EventLiquidates, b: EventLiquidates) => {
@@ -65,10 +61,7 @@ export const getClosePositionPrice = (
   }
 };
 
-export const getExitTransactionHash = (
-  liquidates: EventLiquidates[],
-  closeWithSwaps: EventCloseWithSwaps[],
-) => {
+export const getExitTransactionHash = (liquidates, closeWithSwaps) => {
   const sortedList = liquidates
     .slice()
     .sort((a: EventLiquidates, b: EventLiquidates) => {

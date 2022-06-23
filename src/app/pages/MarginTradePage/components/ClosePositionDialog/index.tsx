@@ -35,12 +35,13 @@ import { DummyInput } from 'app/components/Form/Input';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import { ProfitContainer } from '../OpenPositionsTable/ProfitContainer';
 import { TradingPosition } from 'types/trading-position';
-import { LoanEvent, MARGIN_SLIPPAGE_DEFAULT } from '../../types';
+import { EventTrade, MARGIN_SLIPPAGE_DEFAULT } from '../../types';
 import { LabelValuePair } from 'app/components/LabelValuePair';
 import { AssetValue } from 'app/components/AssetValue';
+import { MarginLoansFieldsFragment } from 'utils/graphql/rsk/generated';
 
 interface IClosePositionDialogProps {
-  item: LoanEvent;
+  item: MarginLoansFieldsFragment;
   showModal: boolean;
   onCloseModal: () => void;
   positionSize?: string;
@@ -67,11 +68,12 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
   const { checkMaintenance, States } = useMaintenance();
   const closeTradesLocked = checkMaintenance(States.CLOSE_MARGIN_TRADES);
   const {
-    trade: [{ entryLeverage, positionSize }],
+    trade,
     loanToken: { id: loanTokenId },
     collateralToken: { id: collateralTokenId },
   } = item;
-
+  const tradeData = trade as EventTrade[];
+  const { entryLeverage, positionSize } = tradeData[0];
   const [collateral, setCollateral] = useState(
     assetByTokenAddress(collateralTokenId),
   );

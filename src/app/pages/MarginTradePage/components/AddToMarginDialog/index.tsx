@@ -25,13 +25,14 @@ import { discordInvite, MAINTENANCE_MARGIN } from 'utils/classifiers';
 import { usePositionLiquidationPrice } from 'app/hooks/trading/usePositionLiquidationPrice';
 import { toAssetNumberFormat } from 'utils/display-text/format';
 import { LabelValuePair } from 'app/components/LabelValuePair';
-import { LoanEvent } from '../../types';
 import { useGetLoan } from 'app/hooks/trading/useGetLoan';
 import { toWei } from 'utils/blockchain/math-helpers';
 import { AssetValue } from 'app/components/AssetValue';
+import { MarginLoansFieldsFragment } from 'utils/graphql/rsk/generated';
+import { EventTrade } from '../../types';
 
 interface IAddToMarginDialogProps {
-  item: LoanEvent;
+  item: MarginLoansFieldsFragment;
   showModal: boolean;
   onCloseModal: () => void;
 }
@@ -44,10 +45,12 @@ export const AddToMarginDialog: React.FC<IAddToMarginDialogProps> = ({
   const canInteract = useCanInteract();
   const {
     id,
-    trade: [{ entryLeverage, positionSize: positionSizeValue }],
+    trade,
     loanToken: { id: loanTokenId },
     collateralToken: { id: collateralTokenId },
   } = item;
+  const tradeData = trade as EventTrade[];
+  const { entryLeverage, positionSize: positionSizeValue } = tradeData[0];
   const tokenDetails = AssetsDictionary.getByTokenContractAddress(
     collateralTokenId || '',
   );
