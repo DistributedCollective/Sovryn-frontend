@@ -273,7 +273,7 @@ export const calculateAssetValue = (
   if (asset === targetAsset) {
     return Number(amount);
   }
-
+  if (asset === Asset.ZUSD) asset = Asset.XUSD;
   const rate = fixNumber(
     assetRates.find(
       assetRate =>
