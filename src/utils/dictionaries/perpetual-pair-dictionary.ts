@@ -28,7 +28,7 @@ export class PerpetualPairDictionary {
     [
       PerpetualPairType.BTCUSD,
       new PerpetualPair(
-        '0xada5013122d395ba3c54772283fb069b10426056ef8ca54750cb9bb552a59e7d',
+        '0x369d7c01e026e750d616303e0fa4ac262c55e4ebe19a54cbf15d814b03b1182b',
         PerpetualPairType.BTCUSD,
         'BTC/USD',
         'BTC/USD',
@@ -51,7 +51,7 @@ export class PerpetualPairDictionary {
     [
       PerpetualPairType.BNBUSD,
       new PerpetualPair(
-        '0xcc69885fda6bcc1a4ace058b4a62bf5e179ea78fd58a1ccd71c22cc9b688792f',
+        '0x75848bb7f08d2e009e76fdad5a1c6129e48df34d81245405f9c43b53d204dfaf',
         PerpetualPairType.BNBUSD,
         'BNB/USD',
         'BNB/USD',
