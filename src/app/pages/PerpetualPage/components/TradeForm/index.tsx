@@ -48,7 +48,10 @@ import { ExpiryDateInput } from './components/ExpiryDateInput';
 import { ResultingPosition } from './components/ResultingPosition';
 import { Checkbox } from 'app/components/Checkbox';
 import { usePerpetual_analyseTrade } from '../../hooks/usePerpetual_analyseTrade';
-import { getTraderPnLInCC } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
+import {
+  getMinimalPositionSize,
+  getTraderPnLInCC,
+} from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
 import { ValidationHint } from '../ValidationHint/ValidationHint';
 
 const { shrinkToLot } = perpMath;
@@ -99,12 +102,24 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     availableBalance,
   } = perpetuals[pair.id];
 
+  const minimumPositionSize = useMemo(
+    () =>
+      String(
+        Number(getMinimalPositionSize(perpParameters).toFixed(lotPrecision)), // Number conversion is performed so we trim additional zeros
+      ),
+
+    [lotPrecision, perpParameters],
+  );
+
   const collateralName = useMemo(
     () => getCollateralName(pair.collateralAsset),
     [pair.collateralAsset],
   );
 
-  const hasOpenTrades = traderState?.marginAccountPositionBC !== 0;
+  const hasOpenTrades = useMemo(
+    () => traderState?.marginAccountPositionBC !== 0,
+    [traderState?.marginAccountPositionBC],
+  );
 
   const maxTradeSize = useMemo(() => {
     const maxTradeSize = shrinkToLot(
@@ -215,6 +230,18 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       setAmount(String(maxTradeSize));
     }
   }, [amount, maxTradeSize, trade.position]);
+
+  useEffect(() => {
+    if (
+      !hasOpenTrades &&
+      isValidNumerishValue(amount) &&
+      !bignumber(amount).isZero() &&
+      bignumber(amount).lessThan(minimumPositionSize)
+    ) {
+      setAmount(minimumPositionSize);
+      setTrade(trade => ({ ...trade, amount: toWei(minimumPositionSize) }));
+    }
+  }, [amount, hasOpenTrades, lotPrecision, minimumPositionSize, setTrade]);
 
   const onChangeOrderAmount = useCallback(
     (amount: string) => {
