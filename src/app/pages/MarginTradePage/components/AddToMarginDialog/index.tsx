@@ -28,8 +28,7 @@ import { LabelValuePair } from 'app/components/LabelValuePair';
 import { useGetLoan } from 'app/hooks/trading/useGetLoan';
 import { toWei } from 'utils/blockchain/math-helpers';
 import { AssetValue } from 'app/components/AssetValue';
-import { MarginLoansFieldsFragment } from 'utils/graphql/rsk/generated';
-import { EventTrade } from '../../types';
+import { MarginLoansFieldsFragment, Trade } from 'utils/graphql/rsk/generated';
 
 interface IAddToMarginDialogProps {
   item: MarginLoansFieldsFragment;
@@ -49,7 +48,7 @@ export const AddToMarginDialog: React.FC<IAddToMarginDialogProps> = ({
     loanToken: { id: loanTokenId },
     collateralToken: { id: collateralTokenId },
   } = item;
-  const tradeData = trade as EventTrade[];
+  const tradeData = trade as Trade[];
   const { entryLeverage, positionSize: positionSizeValue } = tradeData[0];
   const tokenDetails = AssetsDictionary.getByTokenContractAddress(
     collateralTokenId || '',

@@ -3,7 +3,7 @@ import { TradingPosition } from 'types/trading-position';
 import imgArrowUp from 'assets/images/trend-arrow-up.svg';
 import imgArrowDown from 'assets/images/trend-arrow-down.svg';
 import { TradePriceChange } from 'types/trading-pairs';
-import { EventLiquidates } from '../types';
+import { Liquidate, CloseWithSwap } from 'utils/graphql/rsk/generated';
 
 export const isLongTrade = (position: TradingPosition) => {
   return position === TradingPosition.LONG;
@@ -41,12 +41,14 @@ export const getOpenPositionPrice = (
   return (1 / Number(price)).toString();
 };
 
-export const getClosePositionPrice = (liquidates, closeWithSwaps, position) => {
-  const sortedList = liquidates
-    .slice()
-    .sort((a: EventLiquidates, b: EventLiquidates) => {
-      return b.timestamp - a.timestamp;
-    });
+export const getClosePositionPrice = (
+  liquidates: Liquidate[],
+  closeWithSwaps: CloseWithSwap[],
+  position: TradingPosition,
+) => {
+  const sortedList = liquidates.slice().sort((a: Liquidate, b: Liquidate) => {
+    return b.timestamp - a.timestamp;
+  });
 
   if (sortedList.length > 0) {
     if (isLongTrade(position)) {
@@ -61,12 +63,13 @@ export const getClosePositionPrice = (liquidates, closeWithSwaps, position) => {
   }
 };
 
-export const getExitTransactionHash = (liquidates, closeWithSwaps) => {
-  const sortedList = liquidates
-    .slice()
-    .sort((a: EventLiquidates, b: EventLiquidates) => {
-      return b.timestamp - a.timestamp;
-    });
+export const getExitTransactionHash = (
+  liquidates: Liquidate[],
+  closeWithSwaps: CloseWithSwap[],
+) => {
+  const sortedList = liquidates.slice().sort((a: Liquidate, b: Liquidate) => {
+    return b.timestamp - a.timestamp;
+  });
 
   if (sortedList.length > 0) {
     return sortedList[0].transaction.id;

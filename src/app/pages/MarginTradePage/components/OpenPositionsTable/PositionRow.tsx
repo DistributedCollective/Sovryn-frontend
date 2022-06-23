@@ -23,8 +23,7 @@ import { useGetLoan } from 'app/hooks/trading/useGetLoan';
 import { toWei } from 'utils/blockchain/math-helpers';
 import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
 import { AssetValue } from 'app/components/AssetValue';
-import { MarginLoansFieldsFragment } from 'utils/graphql/rsk/generated';
-import { EventTrade } from '../../types';
+import { MarginLoansFieldsFragment, Trade } from 'utils/graphql/rsk/generated';
 
 type PositionRowProps = {
   event: MarginLoansFieldsFragment;
@@ -36,7 +35,7 @@ export const PositionRow: React.FC<PositionRowProps> = ({ event }) => {
   const [showClosePosition, setShowClosePosition] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const { id, trade, loanToken, nextRollover, collateralToken } = event;
-  const tradeData = trade as EventTrade[];
+  const tradeData = trade as Trade[];
   const {
     entryLeverage,
     positionSize,

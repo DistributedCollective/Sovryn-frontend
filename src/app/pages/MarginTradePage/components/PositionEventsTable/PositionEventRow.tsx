@@ -5,22 +5,18 @@ import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
 import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
 import { bignumber } from 'mathjs';
-import {
-  EventDepositCollateral,
-  EventCloseWithSwaps,
-  EventLiquidates,
-  EventTrade,
-  EventType,
-} from '../../types';
 import { AssetValue } from 'app/components/AssetValue';
 import { toWei } from 'utils/blockchain/math-helpers';
+import {
+  CloseWithSwap,
+  DepositCollateral,
+  Liquidate,
+  Trade,
+} from 'utils/graphql/rsk/generated';
+import { EventType } from '../../types';
 
 type LiquidatedPositionRowProps = {
-  event:
-    | EventTrade
-    | EventLiquidates
-    | EventDepositCollateral
-    | EventCloseWithSwaps;
+  event: CloseWithSwap | DepositCollateral | Liquidate | Trade;
   isLong: boolean;
   positionToken: string;
   collateralToken: string;
@@ -56,7 +52,9 @@ export const PositionEventRow: React.FC<LiquidatedPositionRowProps> = ({
 
   return (
     <tr>
-      <td>{t(translations.tradeEvents[event.__typename])}</td>
+      <td>
+        {event.__typename ? t(translations.tradeEvents[event.__typename]) : '-'}
+      </td>
       <td className="tw-hidden md:tw-table-cell">
         <div className="tw-whitespace-nowrap">
           <AssetValue
