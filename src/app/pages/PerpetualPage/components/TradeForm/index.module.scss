@@ -1,0 +1,11 @@
+.tradeTypeButton {
+  @apply tw-px-3 tw-py-1.5 tw-text-sm tw-text-white tw-rounded-lg tw-font-medium tw-opacity-75 tw-bg-transparent;
+
+  &:hover {
+    @apply tw-opacity-100 tw-font-semibold tw-transition-opacity tw-duration-300;
+  }
+
+  &.active {
+    @apply tw-bg-gray-7 tw-font-semibold tw-opacity-100 tw-font-semibold;
+  }
+}
