@@ -118,6 +118,7 @@ export const ReviewDialog: React.FC<IReviewDialogProps> = ({
             confirmLabel={t(translations.common.confirm)}
             onConfirm={submit}
             disabled={swapDialogLocked}
+            data-action-id="swap-reviewDialog-confirm"
           />
         </div>
       </Dialog>

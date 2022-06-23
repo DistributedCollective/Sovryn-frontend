@@ -48,8 +48,12 @@ import { ExpiryDateInput } from './components/ExpiryDateInput';
 import { ResultingPosition } from './components/ResultingPosition';
 import { Checkbox } from 'app/components/Checkbox';
 import { usePerpetual_analyseTrade } from '../../hooks/usePerpetual_analyseTrade';
-import { getTraderPnLInCC } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
+import {
+  getMinimalPositionSize,
+  getTraderPnLInCC,
+} from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
 import { ValidationHint } from '../ValidationHint/ValidationHint';
+import styles from './index.module.scss';
 
 const { shrinkToLot } = perpMath;
 const {
@@ -99,12 +103,24 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     availableBalance,
   } = perpetuals[pair.id];
 
+  const minimumPositionSize = useMemo(
+    () =>
+      String(
+        Number(getMinimalPositionSize(perpParameters).toFixed(lotPrecision)), // Number conversion is performed so we trim additional zeros
+      ),
+
+    [lotPrecision, perpParameters],
+  );
+
   const collateralName = useMemo(
     () => getCollateralName(pair.collateralAsset),
     [pair.collateralAsset],
   );
 
-  const hasOpenTrades = traderState?.marginAccountPositionBC !== 0;
+  const hasOpenTrades = useMemo(
+    () => traderState?.marginAccountPositionBC !== 0,
+    [traderState?.marginAccountPositionBC],
+  );
 
   const maxTradeSize = useMemo(() => {
     const maxTradeSize = shrinkToLot(
@@ -215,6 +231,18 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       setAmount(String(maxTradeSize));
     }
   }, [amount, maxTradeSize, trade.position]);
+
+  useEffect(() => {
+    if (
+      !hasOpenTrades &&
+      isValidNumerishValue(amount) &&
+      !bignumber(amount).isZero() &&
+      bignumber(amount).lessThan(minimumPositionSize)
+    ) {
+      setAmount(minimumPositionSize);
+      setTrade(trade => ({ ...trade, amount: toWei(minimumPositionSize) }));
+    }
+  }, [amount, hasOpenTrades, lotPrecision, minimumPositionSize, setTrade]);
 
   const onChangeOrderAmount = useCallback(
     (amount: string) => {
@@ -514,33 +542,27 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       </div>
       <div className="tw-flex tw-flex-row tw-items-center tw-mb-4">
         <button
-          className={classNames(
-            'tw-h-8 tw-px-3 tw-py-1 tw-font-semibold tw-text-sm tw-text-sov-white tw-bg-gray-7 tw-rounded-lg',
-            trade.tradeType !== PerpetualTradeType.MARKET &&
-              'tw-opacity-25 hover:tw-opacity-100 tw-transition-opacity tw-duration-300',
-          )}
+          className={classNames(styles.tradeTypeButton, {
+            [styles.active]: trade.tradeType === PerpetualTradeType.MARKET,
+          })}
           onClick={bindSelectTradeType(PerpetualTradeType.MARKET)}
         >
           {t(translations.perpetualPage.tradeForm.buttons.market)}
         </button>
 
         <button
-          className={classNames(
-            'tw-h-8 tw-px-3 tw-py-1 tw-font-semibold tw-text-sm tw-text-sov-white tw-bg-gray-7 tw-rounded-lg',
-            trade.tradeType !== PerpetualTradeType.LIMIT &&
-              'tw-opacity-25 hover:tw-opacity-100 tw-transition-opacity tw-duration-300',
-          )}
+          className={classNames(styles.tradeTypeButton, {
+            [styles.active]: trade.tradeType === PerpetualTradeType.LIMIT,
+          })}
           onClick={bindSelectTradeType(PerpetualTradeType.LIMIT)}
         >
           {t(translations.perpetualPage.tradeForm.buttons.limit)}
         </button>
 
         <button
-          className={classNames(
-            'tw-h-8 tw-px-3 tw-py-1 tw-font-semibold tw-text-sm tw-text-sov-white tw-bg-gray-7 tw-rounded-lg',
-            trade.tradeType !== PerpetualTradeType.STOP &&
-              'tw-opacity-25 hover:tw-opacity-100 tw-transition-opacity tw-duration-300',
-          )}
+          className={classNames(styles.tradeTypeButton, {
+            [styles.active]: trade.tradeType === PerpetualTradeType.STOP,
+          })}
           onClick={bindSelectTradeType(PerpetualTradeType.STOP)}
         >
           {t(translations.perpetualPage.tradeForm.buttons.stop)}
