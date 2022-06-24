@@ -88,13 +88,15 @@ export const ContractDetails: React.FC<ContractDetailsProps> = ({ pair }) => {
             }
           />
           <ContractDetailEntry
-            title={t(translations.perpetualPage.contractDetails.minTradeAmount)}
+            title={t(
+              translations.perpetualPage.contractDetails.minPositionSize,
+            )}
             value={
               <AssetValue
                 minDecimals={lotPrecision}
                 maxDecimals={lotPrecision}
                 mode={AssetValueMode.auto}
-                value={data?.minTradeAmount || 0}
+                value={data?.minPositionSize || 0}
                 assetString={pair.baseAsset}
               />
             }
