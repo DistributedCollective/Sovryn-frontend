@@ -2587,10 +2587,10 @@
       "btc": "Value (BTC)",
       "usd": "Value (USD)",
       "protocol": "Protocol Contract",
-      "lend": "Lending Contract",
-      "amm": "Amm Contract",
+      "lend": "Lending Contracts",
+      "amm": "AMM Contracts",
       "staked": "Bitocracy Staking Contract",
-      "subProtocol": "Subprotocol Bonding Curve Contracts",
+      "subProtocol": "MYNT Bonding Curve Contract",
       "subtotal": "Sub total",
       "total": "Total"
     },
