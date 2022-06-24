@@ -191,7 +191,9 @@ export const TradeDialog: React.FC<ITradeDialogProps> = ({
             confirmLabel={t(translations.common.confirm)}
             onConfirm={submit}
             disabled={spotLocked || !connected || buttonLoading}
-            data-action-id="spot-reviewDialog-submit"
+            data-action-id={`spot-reviewDialog-${
+              tradeType === TradingTypes.BUY ? 'buy' : 'sell'
+            }-submit`}
           />
         </div>
       </Dialog>
