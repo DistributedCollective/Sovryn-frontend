@@ -25,7 +25,10 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import debounce from 'lodash.debounce';
 import { ABK64x64ToFloat } from '@sovryn/perpetual-swap/dist/scripts/utils/perpMath';
-import { getBase2CollateralFX } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
+import {
+  getBase2CollateralFX,
+  getMarginBalanceAtClosing,
+} from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
 import { PerpetualPair } from 'utils/models/perpetual-pair';
 import { Nullable } from 'types';
 
@@ -137,21 +140,21 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
                 ),
               };
 
-              const unrealizedPnlCC =
+              entry.unrealizedPnLCC =
                 getTraderPnLInBC(
                   parsedTraderState,
                   ammState,
                   perpetualParameters,
                 ) * baseToCollateral;
 
-              entry.unrealizedPnLCC = unrealizedPnlCC;
+              const marginBalanceAtClosing = getMarginBalanceAtClosing(
+                parsedTraderState,
+                ammState,
+                perpetualParameters,
+              );
 
               entry.totalPnL =
-                ((balance +
-                  unrealizedPnlCC +
-                  parsedTraderState.marginAccountCashCC) /
-                  capitalUsed) *
-                100;
+                ((balance + marginBalanceAtClosing) / capitalUsed) * 100;
             }
 
             const lastPositionProfit = ABK64x64ToFloat(
