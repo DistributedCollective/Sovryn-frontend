@@ -6,6 +6,7 @@ import { TableTransactionStatus } from '../../../../../components/FinanceV2Compo
 import { TxStatus } from 'store/global/transactions-store/types';
 import { Asset } from 'types';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
+import { Tooltip } from '@blueprintjs/core';
 
 interface ITableRowProps {
   time: number;
@@ -32,7 +33,17 @@ export const TableRow: React.FC<ITableRowProps> = ({
       </td>
       <td>{type}</td>
       <td>
-        {amount} <AssetSymbolRenderer asset={asset} />
+        <Tooltip
+          content={
+            <>
+              {Number(amount).toFixed(12)} <AssetSymbolRenderer asset={asset} />
+            </>
+          }
+        >
+          <>
+            {Number(amount).toFixed(4)} <AssetSymbolRenderer asset={asset} />
+          </>
+        </Tooltip>
       </td>
       <td>
         <LinkToExplorer

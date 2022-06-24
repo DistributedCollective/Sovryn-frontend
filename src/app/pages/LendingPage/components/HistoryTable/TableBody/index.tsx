@@ -3,10 +3,9 @@ import React, { useCallback } from 'react';
 import { TableRow } from '../TableRow/index';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../../locales/i18n';
-import { weiTo4 } from 'utils/blockchain/math-helpers';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { LendingEvent } from '../../../types';
-import { LendingEventType } from 'app/pages/LendingPage/types';
+import { LendingHistoryType } from 'utils/graphql/rsk/generated';
 
 interface ITableBodyProps {
   items: LendingEvent[];
@@ -19,9 +18,9 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
   const getEventType = useCallback(
     type => {
       switch (type) {
-        case LendingEventType.MINT:
+        case LendingHistoryType.Lend:
           return t(translations.lendingPage.deposit);
-        case LendingEventType.BURN:
+        case LendingHistoryType.UnLend:
           return t(translations.lendingPage.withdraw);
         default:
           return '';
@@ -34,27 +33,26 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
     <tbody className="tw-mt-12">
       {items.map((item, index) => (
         <TableRow
-          key={`${item.contract_address}/${index}`}
-          time={Number(item.time)}
+          key={`${item.emittedBy}/${index}`}
+          time={item.timestamp}
           txHash={item.txHash}
-          amount={weiTo4(item.asset_amount)}
-          type={getEventType(item.event)}
+          amount={item.amount}
+          type={getEventType(item.type)}
           asset={
-            AssetsDictionary.getByLoanContractAddress(item.contract_address)
-              ?.asset
+            AssetsDictionary.getByLoanContractAddress(item.emittedBy)?.asset
           }
         />
       ))}
 
       {loading && (
-        <tr key={'loading'}>
+        <tr key="loading">
           <td colSpan={99}>
             <SkeletonRow loadingText={t(translations.topUpHistory.loading)} />
           </td>
         </tr>
       )}
       {items.length === 0 && !loading && (
-        <tr key={'empty'}>
+        <tr key="empty">
           <td className="tw-text-center" colSpan={99}>
             {t(translations.liquidityMining.historyTable.emptyState)}
           </td>
