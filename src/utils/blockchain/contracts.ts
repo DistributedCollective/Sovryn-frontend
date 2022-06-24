@@ -43,6 +43,8 @@ import fastBtcMultisigAbi from './abi/fastBtcMultisig.json';
 import perpetualManagerAbi from './abi/PerpetualManager.json';
 import perpetualLimitOrderBookAbi from './abi/PerpetualLimitOrderBook.json';
 import marginTokenAbi from './abi/MarginToken.json';
+import TroveManager from './abi/TroveManager.json';
+import StabilityPool from './abi/StabilityPool.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -352,5 +354,13 @@ export const contracts = {
   ZUSD_token: {
     address: '0xdB107FA69E33f05180a4C2cE9c2E7CB481645C2d',
     abi: erc20TokenAbi,
+  },
+  zero_troveManager: {
+    address: '0x82B09695ee4F214f3A0803683C4AaEc332E4E0a3',
+    abi: TroveManager,
+  },
+  zero_stabilityPool: {
+    address: '0xd46C0225D1331B46700d64fF8c906709D15C9202',
+    abi: StabilityPool,
   },
 };
