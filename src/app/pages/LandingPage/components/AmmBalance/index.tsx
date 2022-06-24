@@ -12,7 +12,6 @@ import { AmmBalanceRow } from 'app/containers/StatsPage/types';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import arrowForward from 'assets/images/arrow_forward.svg';
 import { useHistory } from 'react-router-dom';
-import { useFetch } from 'app/hooks/useFetch';
 import { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
 
 interface IAmmBalanceProps {
@@ -23,9 +22,6 @@ export const AmmBalance: React.FC<IAmmBalanceProps> = ({ rate = 60 }) => {
   const { t } = useTranslation();
   const history = useHistory();
   const pools = LiquidityPoolDictionary.list();
-  const { value: ammData } = useFetch(
-    `${backendUrl[currentChainId]}/amm/apy/all`,
-  );
 
   return (
     <div className="tw-mt-24">
@@ -63,7 +59,7 @@ export const AmmBalance: React.FC<IAmmBalanceProps> = ({ rate = 60 }) => {
           </thead>
           <tbody className="mt-5">
             {pools.map(item => (
-              <Row key={item.key} pool={item} rate={rate} ammData={ammData} />
+              <Row key={item.key} pool={item} rate={rate} />
             ))}
           </tbody>
         </table>
@@ -82,11 +78,10 @@ const decimals = {
 interface IRowProps {
   pool: AmmLiquidityPool;
   rate: number;
-  ammData: any;
   hide?: boolean;
 }
 
-const Row: React.FC<IRowProps> = ({ pool, rate, ammData, hide = false }) => {
+const Row: React.FC<IRowProps> = ({ pool, rate, hide = false }) => {
   const history = useHistory();
   const url = backendUrl[currentChainId];
   const [loading, setLoading] = useState(false);
