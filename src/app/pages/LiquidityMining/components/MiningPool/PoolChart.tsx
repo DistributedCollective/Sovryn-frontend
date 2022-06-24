@@ -26,7 +26,7 @@ export function PoolChart({ pool, history }: IPoolChartProps) {
 
       const primaryAssetData: ChartData = history.data[poolTokenA]?.map(i => [
         Date.parse(i.activity_date),
-        i.APY_pc,
+        Number(i.APY_pc),
       ]);
       setPrimaryAssetHistory(primaryAssetData);
 
@@ -38,7 +38,8 @@ export function PoolChart({ pool, history }: IPoolChartProps) {
       ) {
         const secondaryAssetData: ChartData = history.data[
           poolTokenB
-        ]?.map(i => [Date.parse(i.activity_date), i.APY_pc]);
+        ]?.map(i => [Date.parse(i.activity_date), Number(i.APY_pc)]);
+
         setSecondaryAssetHistory(secondaryAssetData);
       }
       const total: ChartData = history.balanceHistory?.map(i => [
@@ -55,7 +56,7 @@ export function PoolChart({ pool, history }: IPoolChartProps) {
         <ComparisonChart
           primaryData={{
             name: `${
-              secondaryAssetHistory && secondaryAssetHistory.length > 0
+              primaryAssetHistory && primaryAssetHistory.length > 0
                 ? pool.assetA
                 : t(translations.liquidity.pool)
             } ${t(translations.liquidity.apy)}`,
