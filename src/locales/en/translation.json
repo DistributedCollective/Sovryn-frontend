@@ -2281,7 +2281,7 @@
       "openInterest": "Open Interest:",
       "fundingRate": "Funding Rate: ",
       "lotSize": "Lot Size:",
-      "minTradeAmount": "Min Trade Amount:",
+      "minPositionSize": "Min Position Size:",
       "tooltips": {
         "lastTradedPrice": "Last traded price.",
         "openInterest": "The total amount of contracts held by either the long or the short traders, whatever is larger.",
