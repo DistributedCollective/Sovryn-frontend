@@ -1,5 +1,6 @@
 import { useAccount } from 'app/hooks/useAccount';
 import { useMemo } from 'react';
+import { APOLLO_POLL_INTERVAL } from 'utils/classifiers';
 import { useGetMarginLoansDataQuery } from 'utils/graphql/rsk/generated';
 
 /** Hook to return loans data for Margin open or closed positions */
@@ -24,5 +25,6 @@ export const useGetMarginLoansData = (
       pageSize: pageSize,
       isOpen: isOpen,
     },
+    pollInterval: APOLLO_POLL_INTERVAL,
   });
 };

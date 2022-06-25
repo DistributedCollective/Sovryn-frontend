@@ -1193,6 +1193,7 @@ export type LendingHistoryItem = {
   lender: User;
   lendingPool: LendingPool;
   loanTokenAmount: Scalars['BigDecimal'];
+  timestamp: Scalars['Int'];
   transaction: Transaction;
   type: LendingHistoryType;
   userLendingHistory: UserLendingHistory;
@@ -1279,6 +1280,14 @@ export type LendingHistoryItem_Filter = {
   loanTokenAmount_lte?: InputMaybe<Scalars['BigDecimal']>;
   loanTokenAmount_not?: InputMaybe<Scalars['BigDecimal']>;
   loanTokenAmount_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  timestamp?: InputMaybe<Scalars['Int']>;
+  timestamp_gt?: InputMaybe<Scalars['Int']>;
+  timestamp_gte?: InputMaybe<Scalars['Int']>;
+  timestamp_in?: InputMaybe<Array<Scalars['Int']>>;
+  timestamp_lt?: InputMaybe<Scalars['Int']>;
+  timestamp_lte?: InputMaybe<Scalars['Int']>;
+  timestamp_not?: InputMaybe<Scalars['Int']>;
+  timestamp_not_in?: InputMaybe<Array<Scalars['Int']>>;
   transaction?: InputMaybe<Scalars['String']>;
   transaction_contains?: InputMaybe<Scalars['String']>;
   transaction_ends_with?: InputMaybe<Scalars['String']>;
@@ -1321,6 +1330,7 @@ export enum LendingHistoryItem_OrderBy {
   Lender = 'lender',
   LendingPool = 'lendingPool',
   LoanTokenAmount = 'loanTokenAmount',
+  Timestamp = 'timestamp',
   Transaction = 'transaction',
   Type = 'type',
   UserLendingHistory = 'userLendingHistory',
@@ -2266,8 +2276,8 @@ export type Loan = {
   borrow?: Maybe<Array<Borrow>>;
   /** The amount borrowed in loan tokens */
   borrowedAmount: Scalars['BigDecimal'];
+  closeWithDeposits?: Maybe<Array<CloseWithDeposit>>;
   closeWithSwaps?: Maybe<Array<CloseWithSwap>>;
-  closewithDeposits?: Maybe<Array<CloseWithDeposit>>;
   collateralToken: Token;
   depositCollateral?: Maybe<Array<DepositCollateral>>;
   endTimestamp?: Maybe<Scalars['Int']>;
@@ -2313,21 +2323,21 @@ export type LoanBorrowArgs = {
 };
 
 /** A Loan can be initialized by either a Margin Trade event or a Borrow event */
+export type LoanCloseWithDepositsArgs = {
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<CloseWithDeposit_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<CloseWithDeposit_Filter>;
+};
+
+/** A Loan can be initialized by either a Margin Trade event or a Borrow event */
 export type LoanCloseWithSwapsArgs = {
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<CloseWithSwap_OrderBy>;
   orderDirection?: InputMaybe<OrderDirection>;
   skip?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<CloseWithSwap_Filter>;
-};
-
-/** A Loan can be initialized by either a Margin Trade event or a Borrow event */
-export type LoanClosewithDepositsArgs = {
-  first?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<CloseWithDeposit_OrderBy>;
-  orderDirection?: InputMaybe<OrderDirection>;
-  skip?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<CloseWithDeposit_Filter>;
 };
 
 /** A Loan can be initialized by either a Margin Trade event or a Borrow event */
@@ -2565,8 +2575,8 @@ export enum Loan_OrderBy {
   AverageSellPrice = 'averageSellPrice',
   Borrow = 'borrow',
   BorrowedAmount = 'borrowedAmount',
+  CloseWithDeposits = 'closeWithDeposits',
   CloseWithSwaps = 'closeWithSwaps',
-  ClosewithDeposits = 'closewithDeposits',
   CollateralToken = 'collateralToken',
   DepositCollateral = 'depositCollateral',
   EndTimestamp = 'endTimestamp',
@@ -8780,7 +8790,7 @@ export type GetMarginLoansDataQuery = {
       positionCloseSize: string;
       transaction: { __typename?: 'Transaction'; id: string };
     }> | null;
-    closewithDeposits?: Array<{
+    closeWithDeposits?: Array<{
       __typename?: 'CloseWithDeposit';
       id: string;
       loanToken: string;
@@ -8851,7 +8861,7 @@ export type MarginLoansFieldsFragment = {
     positionCloseSize: string;
     transaction: { __typename?: 'Transaction'; id: string };
   }> | null;
-  closewithDeposits?: Array<{
+  closeWithDeposits?: Array<{
     __typename?: 'CloseWithDeposit';
     id: string;
     loanToken: string;
@@ -8975,7 +8985,7 @@ export const MarginLoansFieldsFragmentDoc = gql`
       collateralToken
       positionCloseSize
     }
-    closewithDeposits {
+    closeWithDeposits {
       id
       loanToken
       timestamp

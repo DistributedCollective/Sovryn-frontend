@@ -86,7 +86,7 @@ fragment MarginLoansFields on Loan {
     collateralToken
     positionCloseSize
   }
-  closewithDeposits {
+  closeWithDeposits {
     id
     loanToken
     timestamp
