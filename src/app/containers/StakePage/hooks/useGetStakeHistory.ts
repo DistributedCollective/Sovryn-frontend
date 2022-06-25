@@ -1,5 +1,6 @@
 import { useAccount } from 'app/hooks/useAccount';
 import { useMemo } from 'react';
+import { APOLLO_POLL_INTERVAL } from 'utils/classifiers';
 import { useGetStakeHistoryQuery } from 'utils/graphql/rsk/generated';
 
 export const useGetStakeHistory = (page: number, pageSize: number) => {
@@ -16,5 +17,6 @@ export const useGetStakeHistory = (page: number, pageSize: number) => {
       skip: skip,
       pageSize: pageSize,
     },
+    pollInterval: APOLLO_POLL_INTERVAL,
   });
 };
