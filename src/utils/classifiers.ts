@@ -172,3 +172,4 @@ export const ammServiceUrl = {
   30: 'https://amm-apy.sovryn.app/',
   31: 'https://amm-apy.test.sovryn.app/',
 };
+export const APOLLO_POLL_INTERVAL = 60e3;
