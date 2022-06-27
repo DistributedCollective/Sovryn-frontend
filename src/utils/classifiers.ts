@@ -169,3 +169,5 @@ export const learnMoreYieldFarming =
   'https://wiki.sovryn.app/en/sovryn-dapp/market-making#yield-farming';
 export const learnMoreLending =
   'https://wiki.sovryn.app/en/sovryn-dapp/market-making';
+
+export const APOLLO_POLL_INTERVAL = 60e3;

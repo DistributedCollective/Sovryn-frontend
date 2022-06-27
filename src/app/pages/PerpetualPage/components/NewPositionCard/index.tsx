@@ -1,8 +1,6 @@
 import { useWalletContext } from '@sovryn/react-wallet';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import { translations } from '../../../../../locales/i18n';
 import { TradingPosition } from '../../../../../types/trading-position';
 import {
   PerpetualPairDictionary,
@@ -54,7 +52,6 @@ const StepComponents = {
 };
 
 export const NewPositionCard: React.FC = () => {
-  const { t } = useTranslation();
   const dispatch = useDispatch();
   const { connected } = useWalletContext();
   const { pairType, collateral } = useSelector(selectPerpetualPage);
@@ -175,7 +172,6 @@ export const NewPositionCard: React.FC = () => {
 
   return (
     <DataCard
-      title={t(translations.perpetualPage.tradeForm.titles.order)}
       className="tw-relative tw-flex-1 tw-max-h-content"
       hasPadding={false}
     >
