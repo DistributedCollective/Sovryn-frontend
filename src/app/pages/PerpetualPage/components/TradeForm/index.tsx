@@ -750,7 +750,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       </div>
       <div
         className={classNames(
-          'tw-flex tw-flex-row tw-items-center tw-justify-between tw-text-xs tw-font-medium',
+          'tw-flex tw-flex-row tw-items-center tw-justify-between tw-text-xs tw-font-medium tw-ml-2 tw-text-gray-8',
           {
             'tw-mb-4': isMarketOrder,
           },
@@ -800,7 +800,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       </div>
 
       {isLimitOrder && (
-        <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-xs tw-font-medium">
+        <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-xs tw-font-medium tw-ml-2 tw-text-gray-8">
           <Tooltip
             position="bottom"
             popoverClassName="tw-max-w-md tw-font-light"
