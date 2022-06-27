@@ -189,6 +189,7 @@ export const usePerpetual_analyseTrade = (
     requiredAllowance,
     availableBalance,
     limitOrdersCount,
+    relayerFee,
     useMetaTransactions,
   ]);
 
