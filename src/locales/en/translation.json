@@ -2778,5 +2778,32 @@
       "closingPrice": "The exit price is 95% of the value of the closing price shown. This difference is due to the discount applied as an incentive for liquidators."
     },
     "profitTooltip": "Closing position would withdraw one of these:"
+  },
+  "competitionPage": {
+    "meta": {
+      "title": "Trading Competition",
+      "description": ""
+    },
+    "nav": {
+      "perpetualSwap": "Perpetuals",
+      "competition": "Competition"
+    },
+    "rules": {
+      "title": "Trading Competition",
+      "reportBugs": "Please report bugs and issues here!"
+    },
+    "registered": "You are registered! If you require some help, please click on the help button in the top right or post a message on our <0>discord</0>.",
+    "cta": {
+      "connect": "Connect Wallet",
+      "compete": "Compete"
+    },
+    "table": {
+      "rank": "Rank",
+      "name": "Name / Wallet Address",
+      "positions": "Positions opened",
+      "trade": "Current trade",
+      "total": "Total P/L",
+      "empty": "No one registered yet. You could be the first!"
+    }
   }
 }

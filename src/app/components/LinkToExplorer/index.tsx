@@ -10,6 +10,7 @@ interface LinkToExplorerProps {
   chainId?: number | ChainId;
   realBtc?: boolean;
   text?: string;
+  isAddress?: boolean;
 }
 
 export const LinkToExplorer: React.FC<LinkToExplorerProps> = ({
@@ -37,7 +38,11 @@ export const LinkToExplorer: React.FC<LinkToExplorerProps> = ({
   return (
     <a
       className={className}
-      href={`${url}/tx/${props.txHash}`}
+      href={
+        props.isAddress
+          ? `${url}/address/${props.txHash}`
+          : `${url}/tx/${props.txHash}`
+      }
       target="_blank"
       rel="noreferrer noopener"
     >
