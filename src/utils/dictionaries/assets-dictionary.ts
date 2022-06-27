@@ -146,7 +146,7 @@ export class AssetsDictionary {
       ],
       [
         Asset.ZUSD,
-        new AssetDetails(Asset.ZUSD, 'ZUSD', 'ZUSD', 18, 2, zusdIcon, true),
+        new AssetDetails(Asset.ZUSD, 'ZUSD', 'ZUSD', 18, 2, zusdIcon, false),
       ],
     ],
   );
