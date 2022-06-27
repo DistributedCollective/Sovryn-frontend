@@ -155,16 +155,13 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
 
               entry.totalPnL =
                 ((balance + marginBalanceAtClosing) / capitalUsed) * 100;
+
+              entry.lastTrade =
+                ((marginBalanceAtClosing -
+                  parsedTraderState.marginAccountCashCC) /
+                  Math.abs(capitalUsed)) *
+                100;
             }
-
-            const lastPositionProfit = ABK64x64ToFloat(
-              BigNumber.from(trader.positions[0].totalPnLCC || '0'),
-            );
-
-            entry.lastTrade =
-              ((lastPositionProfit + entry.unrealizedPnLCC) /
-                Math.abs(capitalUsed)) *
-              100;
           }
           items.push(entry);
         }
