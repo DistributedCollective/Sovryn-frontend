@@ -8736,10 +8736,10 @@ export type GetMarginLoansDataQuery = {
     __typename?: 'Loan';
     id: string;
     type: LoanType;
+    positionSize: string;
     isOpen: boolean;
     realizedPnL: string;
     nextRollover?: number | null;
-    positionSize: string;
     startTimestamp: number;
     realizedPnLPercent: string;
     trade?: Array<{
@@ -8807,10 +8807,10 @@ export type MarginLoansFieldsFragment = {
   __typename?: 'Loan';
   id: string;
   type: LoanType;
+  positionSize: string;
   isOpen: boolean;
   realizedPnL: string;
   nextRollover?: number | null;
-  positionSize: string;
   startTimestamp: number;
   realizedPnLPercent: string;
   trade?: Array<{
@@ -8917,6 +8917,7 @@ export const MarginLoansFieldsFragmentDoc = gql`
   fragment MarginLoansFields on Loan {
     id
     type
+    positionSize
     trade {
       id
       timestamp

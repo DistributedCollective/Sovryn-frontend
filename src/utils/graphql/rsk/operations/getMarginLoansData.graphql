@@ -18,6 +18,7 @@ query getMarginLoansData(
 fragment MarginLoansFields on Loan {
   id
   type
+  positionSize
   trade {
     id
     timestamp

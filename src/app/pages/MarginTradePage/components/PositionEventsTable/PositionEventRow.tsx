@@ -57,6 +57,7 @@ export const PositionEventRow: React.FC<LiquidatedPositionRowProps> = ({
       </td>
       <td className="tw-hidden md:tw-table-cell">
         <div className="tw-whitespace-nowrap">
+          {event.__typename === EventType.LIQUIDATE ? '-' : ''}
           <AssetValue
             asset={collateralAsset}
             value={toWei(positionSize)}

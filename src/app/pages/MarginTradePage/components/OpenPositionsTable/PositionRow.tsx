@@ -24,6 +24,7 @@ import { toWei } from 'utils/blockchain/math-helpers';
 import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
 import { AssetValue } from 'app/components/AssetValue';
 import { MarginLoansFieldsFragment, Trade } from 'utils/graphql/rsk/generated';
+import { AssetValueMode } from 'app/components/AssetValue/types';
 
 type PositionRowProps = {
   event: MarginLoansFieldsFragment;
@@ -34,15 +35,16 @@ export const PositionRow: React.FC<PositionRowProps> = ({ event }) => {
   const [showAddToMargin, setShowAddToMargin] = useState(false);
   const [showClosePosition, setShowClosePosition] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
-  const { id, trade, loanToken, nextRollover, collateralToken } = event;
-  const tradeData = trade as Trade[];
   const {
-    entryLeverage,
+    id,
+    trade,
     positionSize,
-    entryPrice,
-    interestRate,
-    transaction,
-  } = tradeData[0];
+    loanToken,
+    nextRollover,
+    collateralToken,
+  } = event;
+  const tradeData = trade as Trade[];
+  const { entryLeverage, entryPrice, interestRate, transaction } = tradeData[0];
   const { checkMaintenances, States } = useMaintenance();
   const {
     [States.CLOSE_MARGIN_TRADES]: closeTradesLocked,
@@ -136,6 +138,8 @@ export const PositionRow: React.FC<PositionRowProps> = ({ event }) => {
                   asset={pair.longDetails.asset}
                   value={toWei(openPrice)}
                   useTooltip={true}
+                  mode={AssetValueMode.auto}
+                  maxDecimals={8}
                 />
               }
             />
@@ -150,6 +154,8 @@ export const PositionRow: React.FC<PositionRowProps> = ({ event }) => {
                     asset={pair.longDetails.asset}
                     value={toWei(liquidationPrice)}
                     useTooltip={true}
+                    mode={AssetValueMode.auto}
+                    maxDecimals={8}
                   />
                 </>
               }
@@ -164,6 +170,8 @@ export const PositionRow: React.FC<PositionRowProps> = ({ event }) => {
                 <AssetValue
                   asset={positionMarginAsset}
                   value={toWei(positionMargin)}
+                  mode={AssetValueMode.auto}
+                  maxDecimals={8}
                 />
               }
               loading={loading}

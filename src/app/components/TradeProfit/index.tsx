@@ -99,7 +99,8 @@ export const TradeProfit: React.FC<ITradeProfitProps> = ({
           <AssetValue
             value={profit}
             asset={collateralAsset}
-            showPositiveSign={true}
+            showPositiveSign={profitDirection > 0}
+            showNegativeSign={profitDirection < 0}
           />
         </span>
       </Tooltip>
