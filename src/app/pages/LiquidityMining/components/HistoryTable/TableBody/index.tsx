@@ -4,7 +4,7 @@ import { LiquidityPoolDictionary } from 'utils/dictionaries/liquidity-pool-dicti
 import { TableRow } from '../TableRow/index';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../../locales/i18n';
-import { weiToFixed } from 'utils/blockchain/math-helpers';
+import { roundToSmaller } from 'utils/blockchain/math-helpers';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { LiquidityMiningEvent } from '../types';
 
@@ -24,7 +24,7 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
           pool={LiquidityPoolDictionary.get(item.pool)}
           time={item.time}
           txHash={item.txHash}
-          amount={weiToFixed(item.amount, 4)}
+          amount={roundToSmaller(item.amount, 4)}
           type={item.type}
           asset={AssetsDictionary.getByTokenContractAddress(item.asset).asset}
         />

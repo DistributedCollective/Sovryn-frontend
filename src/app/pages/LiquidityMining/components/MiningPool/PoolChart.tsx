@@ -55,11 +55,9 @@ export function PoolChart({ pool, history }: IPoolChartProps) {
       {primaryAssetHistory?.length > 0 && totalHistory?.length > 0 && (
         <ComparisonChart
           primaryData={{
-            name: `${
-              primaryAssetHistory && primaryAssetHistory.length > 0
-                ? pool.assetA
-                : t(translations.liquidity.pool)
-            } ${t(translations.liquidity.apy)}`,
+            name: `${pool.assetA || t(translations.liquidity.pool)} ${t(
+              translations.liquidity.apy,
+            )}`,
             color: getAssetColor(pool.assetA),
             data: primaryAssetHistory,
             numDecimals: 2,

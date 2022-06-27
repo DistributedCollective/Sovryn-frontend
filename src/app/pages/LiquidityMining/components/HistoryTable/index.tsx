@@ -6,6 +6,7 @@ import { TableHeader } from './TableHeader';
 import { Pagination } from 'app/components/Pagination';
 import { useGetLiquidityHistoryQuery } from 'utils/graphql/rsk/generated';
 import { LiquidityPoolDictionary } from 'utils/dictionaries/liquidity-pool-dictionary';
+import { APOLLO_POLL_INTERVAL } from 'utils/classifiers';
 
 const pageSize = 6;
 
@@ -16,6 +17,7 @@ export const HistoryTable: React.FC = () => {
     variables: {
       user: account.toLowerCase(),
     },
+    pollInterval: APOLLO_POLL_INTERVAL,
   });
 
   const onPageChanged = useCallback(data => {
