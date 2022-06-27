@@ -2801,7 +2801,7 @@
       "rank": "Rank",
       "name": "Name / Wallet Address",
       "positions": "Positions opened",
-      "trade": "Last trade",
+      "trade": "Current trade",
       "total": "Total P/L",
       "empty": "No one registered yet. You could be the first!"
     }
