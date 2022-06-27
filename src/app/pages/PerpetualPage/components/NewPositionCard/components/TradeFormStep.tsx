@@ -7,6 +7,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { translations } from '../../../../../../locales/i18n';
 import { selectPerpetualPage } from 'app/pages/PerpetualPage/selectors';
 import { useSelector } from 'react-redux';
+import classNames from 'classnames';
 
 export const TradeFormStep: TransitionStep<NewPositionCardStep> = ({
   changeTo,
@@ -30,7 +31,11 @@ export const TradeFormStep: TransitionStep<NewPositionCardStep> = ({
   ]);
 
   return (
-    <div className="tw-relative tw-p-4">
+    <div
+      className={classNames('tw-relative', {
+        'tw-p-4': isDisabled,
+      })}
+    >
       {isDisabled && (
         <div className="tw-absolute tw-left-0 tw-top-0 tw-bg-black tw-h-full tw-w-full tw-px-10 tw-z-10 tw-bg-opacity-90 tw-flex tw-items-center tw-justify-center tw-flex-col tw-text-center tw-text-sm tw-font-semibold">
           <div>
