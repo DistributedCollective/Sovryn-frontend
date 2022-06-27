@@ -2589,7 +2589,7 @@
       "protocol": "Protocol Contract",
       "lend": "Lending Contracts",
       "amm": "AMM Contracts",
-      "zero": "Zero TVL",
+      "zero": "Zero Contracts",
       "staked": "Bitocracy Staking Contract",
       "subProtocol": "MYNT Bonding Curve Contract",
       "subtotal": "Sub total",
