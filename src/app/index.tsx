@@ -139,11 +139,11 @@ export function App() {
                       path="/perpetuals"
                       component={PerpetualPageLoadable}
                     />
-                    <Route
+                    {/* <Route
                       exact
                       path="/perpetuals/competition"
                       component={CompetitionPage}
-                    />
+                    /> */}
                   </>
                 )}
                 <Route component={NotFoundPage} />

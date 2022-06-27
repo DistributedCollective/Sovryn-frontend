@@ -157,14 +157,14 @@ export const PerpetualPageContainer: React.FC = () => {
         </Helmet>
         <HeaderLabs
           helpLink={WIKI_PERPETUAL_FUTURES_LINK}
-          menus={
-            <Link
-              to="/perpetuals/competition"
-              className="tw-mr-4 tw-text-black"
-            >
-              {t(translations.competitionPage.nav.competition)}
-            </Link>
-          }
+          // menus={
+          //   <Link
+          //     to="/perpetuals/competition"
+          //     className="tw-mr-4 tw-text-black"
+          //   >
+          //     {t(translations.competitionPage.nav.competition)}
+          //   </Link>
+          // }
         />
         <div className="tw-relative tw--top-2.5 tw-w-full">
           <PairSelector
