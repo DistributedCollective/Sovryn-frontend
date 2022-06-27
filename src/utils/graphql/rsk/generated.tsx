@@ -8864,7 +8864,11 @@ export type GetBorrowHistoryQueryResult = Apollo.QueryResult<
 >;
 export const GetLiquidityHistoryDocument = gql`
   query getLiquidityHistory($user: String) {
-    liquidityHistoryItems(where: { user: $user }) {
+    liquidityHistoryItems(
+      where: { user: $user }
+      orderBy: timestamp
+      orderDirection: desc
+    ) {
       amount
       type
       emittedBy
