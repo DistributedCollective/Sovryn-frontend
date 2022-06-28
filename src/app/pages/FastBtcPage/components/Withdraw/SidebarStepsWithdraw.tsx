@@ -1,7 +1,7 @@
 import React, { useContext, useMemo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { Asset, Chain } from 'types';
+import { Asset } from 'types';
 import { Stepper, StepItem } from 'app/components/Stepper';
 import { WithdrawContext, WithdrawStep } from '../../contexts/withdraw-context';
 import { toNumberFormat } from 'utils/display-text/format';
@@ -157,19 +157,6 @@ export const SidebarStepsWithdraw: React.FC<NetworkAwareComponentProps> = ({
       }
     },
     [canOpen, set],
-  );
-
-  const backToUrl = useMemo(
-    () => (network === Chain.BSC ? '/perpetuals' : '/portfolio'),
-    [network],
-  );
-
-  const backToTitle = useMemo(
-    () =>
-      network === Chain.BSC
-        ? t(translations.fastBtcPage.backToPerpetuals)
-        : t(translations.fastBtcPage.backToPortfolio),
-    [network, t],
   );
 
   return (

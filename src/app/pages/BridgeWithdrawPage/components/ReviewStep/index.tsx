@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { bignumber } from 'mathjs';
 
 import { Chain } from 'types';
-import { Button, ButtonSize } from 'app/components/Button';
+import { Button, ButtonColor, ButtonSize } from 'app/components/Button';
 
 import { actions } from '../../slice';
 import { selectBridgeWithdrawPage } from '../../selectors';
@@ -113,9 +113,7 @@ export const ReviewStep: React.FC = () => {
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
       <div className="tw-mb-4 tw-text-base tw-text-center tw-font-semibold">
-        {t(translations.BridgeWithdrawPage.reviewStep.title, {
-          symbol: currentAsset.symbol,
-        })}
+        {t(translations.BridgeWithdrawPage.transactionDetails)}
       </div>
       <div className="tw-w-80 tw-text-center">
         <Table className="tw-mx-auto tw-text-left tw-text-sm tw-font-medium">
@@ -199,12 +197,13 @@ export const ReviewStep: React.FC = () => {
         </Table>
 
         <Button
-          className="tw-mt-20 tw-w-44 tw-mx-auto"
+          className="tw-mt-10 tw-w-44 tw-font-semibold"
           text={t(translations.BridgeWithdrawPage.reviewStep.confirm)}
-          size={ButtonSize.lg}
           disabled={bridgeWithdrawLocked || !isValid || tx.loading}
           loading={tx.loading}
           onClick={handleSubmit}
+          color={ButtonColor.primary}
+          size={ButtonSize.md}
         />
         {bridgeWithdrawLocked && (
           <ErrorBadge

@@ -2021,14 +2021,16 @@
       }
     },
     "reviewStep": {
-      "title": "Review Deposit",
+      "title": "Transaction details",
       "dateTime": "Date/Time",
       "from": "From",
+      "to": "To",
       "token": "Token",
       "amount": "Amount",
       "bridgeFee": "Bridge Fee",
       "tx": "Tx",
-      "confirmDeposit": "Confirm"
+      "confirmDeposit": "Confirm",
+      "next": "Next"
     },
     "walletSelector": {
       "wrongNetwork": "We detected that you are on",
@@ -2059,7 +2061,8 @@
       "depositComplete": "Deposit Complete",
       "depositFailed": "Deposit Failed",
       "transactionDenied": "Transaction denied",
-      "rejectedByUser": "Rejected by user"
+      "rejectedByUser": "Rejected by user",
+      "to": "To"
     },
     "returnToPortfolio": {
       "title": "Connect to RSK",
@@ -2076,6 +2079,9 @@
     }
   },
   "BridgeWithdrawPage": {
+    "title": "Send {{asset}}",
+    "subtitle": "Send {{asset}} from the RSK network",
+    "transactionDetails": "Transaction Details",
     "chainSelector": {
       "chooseNetwork": {
         "title": "Select the network you want to bridge to and send {{asset}} to"

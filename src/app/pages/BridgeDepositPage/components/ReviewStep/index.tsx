@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { bignumber } from 'mathjs';
 import { Table } from '../../../BridgeWithdrawPage/components/styled';
 
-import { Button, ButtonSize } from 'app/components/Button';
+import { Button, ButtonColor, ButtonSize } from 'app/components/Button';
 
 import { actions } from '../../slice';
 import { selectBridgeDepositPage } from '../../selectors';
@@ -43,6 +43,14 @@ export const ReviewStep: React.FC = () => {
         item => item.chain === chain,
       ) as NetworkModel,
     [chain],
+  );
+
+  const targetNetwork = useMemo(
+    () =>
+      BridgeDictionary.listNetworks().find(
+        item => item.chain === targetChain,
+      ) as NetworkModel,
+    [targetChain],
   );
 
   const asset = useMemo(
@@ -90,7 +98,7 @@ export const ReviewStep: React.FC = () => {
 
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
-      <div className="tw-mb-7 tw-text-base tw-text-center tw-font-semibold">
+      <div className="tw-mb-5 tw-text-base tw-text-center tw-font-semibold">
         {t(trans.title)}
       </div>
       <div className="tw-w-80 tw-text-center">
@@ -107,8 +115,14 @@ export const ReviewStep: React.FC = () => {
               <td className="tw-text-right">{network?.name}</td>
             </tr>
             <tr>
+              <td>{t(trans.to)}:</td>
+              <td className="tw-text-right">{targetNetwork?.name}</td>
+            </tr>
+            <tr>
               <td>{t(trans.token)}:</td>
-              <td className="tw-text-right">{asset?.symbol}</td>
+              <td className="tw-text-right">
+                {sourceAsset} -&gt; {asset?.symbol}
+              </td>
             </tr>
             <tr>
               <td>{t(trans.amount)}:</td>
@@ -130,12 +144,13 @@ export const ReviewStep: React.FC = () => {
         </Table>
 
         <Button
-          className="tw-mt-20 tw-w-40 tw-font-semibold"
-          text={t(trans.confirmDeposit)}
+          className="tw-mt-10 tw-w-44 tw-font-semibold"
+          text={t(trans.next)}
           size={ButtonSize.sm}
           disabled={bridgeDepositLocked || !isValid || tx.loading}
           loading={tx.loading}
           onClick={handleSubmit}
+          color={ButtonColor.gray}
         />
         {bridgeDepositLocked && (
           <ErrorBadge

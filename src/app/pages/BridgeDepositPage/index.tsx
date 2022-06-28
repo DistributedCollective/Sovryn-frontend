@@ -27,6 +27,7 @@ import { usePageActions } from 'app/containers/PageContainer';
 import { CrossChainLayout } from 'app/components/CrossChain/CrossChainLayout';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
+import { useWalletContext } from '@sovryn/react-wallet';
 
 const dirtyDepositAsset = {
   [Asset.ETH]: CrossBridgeAsset.ETHS,
@@ -38,6 +39,7 @@ export const BridgeDepositPage: React.FC = () => {
 
   useInjectReducer({ key: sliceKey, reducer: reducer });
   useInjectSaga({ key: sliceKey, saga: bridgeDepositPageSaga });
+  const { setOptions } = useWalletContext();
 
   const {
     step,
@@ -75,6 +77,7 @@ export const BridgeDepositPage: React.FC = () => {
 
   useEffect(() => {
     dispatch(actions.init());
+
     return () => {
       // Unset bridge settings
       dispatch(walletProviderActions.setBridgeChainId(null));
@@ -82,6 +85,19 @@ export const BridgeDepositPage: React.FC = () => {
       dispatch(actions.close());
     };
   }, [dispatch]);
+
+  useEffect(() => {
+    setOptions({
+      viewType: 'gray',
+      hideTitle: true,
+    });
+    return () => {
+      setOptions({
+        viewType: 'default',
+        hideTitle: false,
+      });
+    };
+  }, [setOptions]);
 
   return (
     <CrossChainLayout
@@ -131,12 +147,6 @@ export const BridgeDepositPage: React.FC = () => {
             </CSSTransition>
           </SwitchTransition>
         </div>
-        {/* {!requestedReturnToPortfolio && targetAsset === 'XUSD' && (
-          <div className="tw-absolute tw-bottom-8 tw-left-0 tw-right-0 tw-mx-auto tw-flex tw-flex-col tw-items-center">
-            <img className="tw-mb-1" src={babelfishIcon} alt="babelFish" />
-            {t(translations.BridgeDepositPage.poweredBy)}
-          </div>
-        )} */}
       </div>
     </CrossChainLayout>
   );

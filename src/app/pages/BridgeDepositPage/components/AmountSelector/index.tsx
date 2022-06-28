@@ -15,12 +15,12 @@ import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { fromWei } from 'utils/blockchain/math-helpers';
 import { useBridgeTokenBalance } from '../../hooks/useBridgeTokenBalance';
 import { LoadableValue } from 'app/components/LoadableValue';
-import { ActionButton } from 'app/components/Form/ActionButton';
 import { translations } from 'locales/i18n';
 import { useTranslation, Trans } from 'react-i18next';
 import { useIsBridgeDepositLocked } from 'app/pages/BridgeDepositPage/hooks/useIsBridgeDepositLocked';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
+import { Button, ButtonColor, ButtonSize } from 'app/components/Button';
 
 export const AmountSelector: React.FC = () => {
   const { amount, chain, targetChain, sourceAsset, targetAsset } = useSelector(
@@ -213,11 +213,13 @@ export const AmountSelector: React.FC = () => {
           </Table>
         </div>
 
-        <ActionButton
-          className="tw-mt-10 tw-w-44 tw-font-semibold tw-rounded-xl"
+        <Button
+          className="tw-mt-10 tw-w-44 tw-font-semibold"
           text={t(translations.common.next)}
           disabled={bridgeDepositLocked || !isValid}
           onClick={selectAmount}
+          color={ButtonColor.gray}
+          size={ButtonSize.sm}
         />
         {bridgeDepositLocked && (
           <ErrorBadge

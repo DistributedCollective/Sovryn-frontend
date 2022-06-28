@@ -16,7 +16,6 @@ import { AssetModel } from '../../../BridgeDepositPage/types/asset-model';
 import { useTokenBalance } from '../../../BridgeDepositPage/hooks/useTokenBalance';
 import { useBridgeLimits } from '../../../BridgeDepositPage/hooks/useBridgeLimits';
 import { useBridgeTokenBalance } from '../../../BridgeDepositPage/hooks/useBridgeTokenBalance';
-import { ActionButton } from 'app/components/Form/ActionButton';
 import { translations } from 'locales/i18n';
 import { useTranslation, Trans } from 'react-i18next';
 import styles from './index.module.scss';
@@ -24,6 +23,7 @@ import classNames from 'classnames';
 import { discordInvite } from 'utils/classifiers';
 import { useIsBridgeWithdrawLocked } from 'app/pages/BridgeWithdrawPage/hooks/useIsBridgeWithdrawLocked';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { Button, ButtonColor, ButtonSize } from 'app/components/Button';
 
 export const AmountSelector: React.FC = () => {
   const { amount, chain, targetChain, sourceAsset, targetAsset } = useSelector(
@@ -238,11 +238,14 @@ export const AmountSelector: React.FC = () => {
             </tbody>
           </Table>
         </div>
-        <ActionButton
-          className="tw-mt-10 tw-w-44 tw-font-semibold tw-rounded-xl"
+
+        <Button
+          className="tw-mt-10 tw-w-44 tw-font-semibold"
           text={t(translations.common.next)}
           disabled={bridgeWithdrawLocked || !isValid}
           onClick={selectAmount}
+          color={ButtonColor.gray}
+          size={ButtonSize.sm}
         />
 
         {bridgeWithdrawLocked && (

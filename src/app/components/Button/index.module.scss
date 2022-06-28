@@ -67,6 +67,10 @@
   @apply tw-text-warning tw-bg-warning tw-border-warning;
 }
 
+.button.gray {
+  @apply tw-text-white tw-bg-gray-4 tw-border-none;
+}
+
 // STYLES ==================================================================
 
 .button.normal {

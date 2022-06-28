@@ -8,7 +8,7 @@ import { translations } from 'locales/i18n';
 import { prettyTx } from 'utils/helpers';
 import { WalletContext } from '@sovryn/react-wallet';
 import { Chain } from 'types';
-import ArrowBack from 'assets/images/genesis/arrow_back.svg';
+import { ReactComponent as Xmark } from 'assets/images/xmark.svg';
 
 type CrossChainLayoutProps = {
   children: React.ReactNode;
@@ -68,11 +68,7 @@ export const CrossChainLayout: React.FC<CrossChainLayoutProps> = ({
             to={backToUrl}
             className="tw-flex tw-items-center tw-font-semibold tw-cursor-pointer tw-select-none tw-text-white tw-whitespace-nowrap tw-no-underline"
           >
-            <img
-              alt="arrowback"
-              src={ArrowBack}
-              className="tw-w-4 tw-h-4 tw-mr-2"
-            />
+            <Xmark className="tw-w-4 tw-h-4 tw-mr-4" />
             {backToTitle}
           </Link>
           <div className="tw-text-center">
@@ -99,8 +95,11 @@ export const CrossChainLayout: React.FC<CrossChainLayoutProps> = ({
               </span>
             </div>
           )}
+          {(!connected || !address) && <div className="tw-w-50" />}
         </header>
-        <div className="tw-rounded tw-bg-gray-2.5">{children}</div>
+        <div className="tw-rounded tw-bg-gray-2.5 tw-mt-20 tw-mb-4">
+          {children}
+        </div>
       </div>
     </div>
   );

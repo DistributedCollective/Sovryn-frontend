@@ -41,6 +41,13 @@ export const ConfirmStep: React.FC = () => {
       ) as NetworkModel,
     [chain],
   );
+  const targetNetwork = useMemo(
+    () =>
+      BridgeDictionary.listNetworks().find(
+        item => item.chain === targetChain,
+      ) as NetworkModel,
+    [targetChain],
+  );
   const asset = useMemo(
     () =>
       BridgeDictionary.get(chain as Chain, targetChain)?.getAsset(
@@ -116,7 +123,7 @@ export const ConfirmStep: React.FC = () => {
           TxStep.FAILED_TRANSFER,
         ].includes(tx.step) && (
           <>
-            <div className="tw-mb-8 tw-text-2xl tw-text-center tw-font-semibold">
+            <div className="tw-mb-5 tw-text-base tw-text-center tw-font-semibold">
               {tx.step === TxStep.PENDING_TRANSFER && (
                 <> {t(trans.depositInProgress)}...</>
               )}
@@ -130,7 +137,7 @@ export const ConfirmStep: React.FC = () => {
             <div className="tw-mb-6 tw-text-center">
               {tx.step === TxStep.PENDING_TRANSFER && (
                 <img
-                  className="tw-h-14 tw-animate-spin"
+                  className="tw-h-20 tw-animate-spin"
                   src={iconPending}
                   title={t(translations.common.pending)}
                   alt={t(translations.common.pending)}
@@ -138,7 +145,7 @@ export const ConfirmStep: React.FC = () => {
               )}
               {tx.step === TxStep.COMPLETED_TRANSFER && (
                 <img
-                  className="tw-h-14"
+                  className="tw-h-20"
                   src={iconSuccess}
                   title={t(translations.common.confirmed)}
                   alt={t(translations.common.confirmed)}
@@ -146,7 +153,7 @@ export const ConfirmStep: React.FC = () => {
               )}
               {tx.step === TxStep.FAILED_TRANSFER && (
                 <img
-                  className="tw-h-14"
+                  className="tw-h-20"
                   src={iconRejected}
                   title={t(translations.common.failed)}
                   alt={t(translations.common.failed)}
@@ -166,6 +173,10 @@ export const ConfirmStep: React.FC = () => {
                 <tr>
                   <td>{t(translations.BridgeDepositPage.reviewStep.from)}:</td>
                   <td className="tw-text-right">{network.name}</td>
+                </tr>
+                <tr>
+                  <td>{t(trans.to)}:</td>
+                  <td className="tw-text-right">{targetNetwork?.name}</td>
                 </tr>
                 <tr>
                   <td>

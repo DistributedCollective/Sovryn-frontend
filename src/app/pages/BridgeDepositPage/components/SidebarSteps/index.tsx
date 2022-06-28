@@ -24,6 +24,8 @@ const initialSteps: StepItem[] = [
   { stepTitle: 'Select Token', value: DepositStep.TOKEN_SELECTOR },
   { stepTitle: 'Enter Amount', value: DepositStep.AMOUNT_SELECTOR },
   { stepTitle: 'Review Transaction', value: DepositStep.REVIEW },
+  { stepTitle: 'Processing Transaction', value: DepositStep.PROCESSING },
+  { stepTitle: 'Transaction Completed', value: DepositStep.COMPLETE },
 ];
 
 // User should be able to go back on steps but not forward (even if moved back,
@@ -67,13 +69,7 @@ export const SidebarSteps: React.FC = () => {
   );
 
   const activeStep = useMemo<DepositStep>(() => {
-    if (
-      [
-        DepositStep.CONFIRM,
-        DepositStep.PROCESSING,
-        DepositStep.COMPLETE,
-      ].includes(step)
-    ) {
+    if (step === DepositStep.CONFIRM) {
       return DepositStep.REVIEW;
     }
 

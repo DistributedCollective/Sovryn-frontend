@@ -23,6 +23,8 @@ import { ReceiverSelector } from './components/ReceiverSelector';
 import { useAccount } from '../../hooks/useAccount';
 import { usePageActions } from 'app/containers/PageContainer';
 import { CrossChainLayout } from 'app/components/CrossChain/CrossChainLayout';
+import { translations } from 'locales/i18n';
+import { useTranslation } from 'react-i18next';
 
 const dirtyWithdrawAssets = {
   [Asset.ETH]: CrossBridgeAsset.ETHS,
@@ -31,6 +33,7 @@ const dirtyWithdrawAssets = {
 export const BridgeWithdrawPage: React.FC = () => {
   const page = usePageActions();
   const account = useAccount();
+  const { t } = useTranslation();
 
   useLayoutEffect(() => {
     page.updateOptions({
@@ -41,7 +44,7 @@ export const BridgeWithdrawPage: React.FC = () => {
   useInjectReducer({ key: sliceKey, reducer: reducer });
   useInjectSaga({ key: sliceKey, saga: bridgeWithdrawPageSaga });
 
-  const { step } = useSelector(selectBridgeWithdrawPage);
+  const { step, sourceAsset } = useSelector(selectBridgeWithdrawPage);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -74,7 +77,12 @@ export const BridgeWithdrawPage: React.FC = () => {
   }, [dispatch]);
 
   return (
-    <CrossChainLayout>
+    <CrossChainLayout
+      title={t(translations.BridgeWithdrawPage.title, { asset: sourceAsset })}
+      subtitle={t(translations.BridgeWithdrawPage.subtitle, {
+        asset: sourceAsset,
+      })}
+    >
       <div
         style={{ minHeight: 610, width: 780, maxWidth: 'calc(100vw - 22rem)' }}
         className="tw-py-4 tw-flex tw-flex-col tw-h-full tw-relative"
