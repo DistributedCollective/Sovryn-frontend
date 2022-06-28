@@ -28,7 +28,7 @@ import { WalletProvider } from './containers/WalletProvider';
 
 import { NotFoundPage } from './components/NotFoundPage/Loadable';
 import { EmailPage } from './containers/EmailPage';
-import { WalletPage } from './containers/WalletPage/Loadable';
+import { PortfolioPage } from './pages/PortfolioPage/Loadable';
 
 import { SwapPage } from './containers/SwapPage/Loadable';
 import { RewardPage } from './pages/RewardPage/Loadable';
@@ -52,11 +52,10 @@ import { PageContainer } from './containers/PageContainer';
 import 'react-toastify/dist/ReactToastify.css';
 import { PerpetualPageLoadable } from './pages/PerpetualPage/Loadable';
 import { ReciveRBTCPage } from './pages/ReciveRBTCPage';
+import { CompetitionPage } from './pages/PerpetualPage/components/CompetitionPage';
 
 const title = !isMainnet ? `Sovryn ${currentNetwork}` : 'Sovryn';
 const showPerps = !isMainnet || isStaging;
-
-console.log(showPerps);
 
 export function App() {
   useAppTheme();
@@ -101,7 +100,8 @@ export function App() {
                   component={LiquidityMiningPage}
                 />
                 <Route exact path="/reward" component={RewardPage} />
-                <Route exact path="/wallet" component={WalletPage} />
+                <Redirect exact path="/wallet" to="/portfolio" />
+                <Route exact path="/portfolio" component={PortfolioPage} />
                 <Route exact path="/origins" component={OriginsLaunchpadPage} />
                 <Route
                   exact
@@ -135,11 +135,18 @@ export function App() {
                 />
                 <Route exact path="/rbtc/" component={ReciveRBTCPage} />
                 {showPerps && (
-                  <Route
-                    exact
-                    path="/perpetuals"
-                    component={PerpetualPageLoadable}
-                  />
+                  <>
+                    <Route
+                      exact
+                      path="/perpetuals"
+                      component={PerpetualPageLoadable}
+                    />
+                    <Route
+                      exact
+                      path="/perpetuals/competition"
+                      component={CompetitionPage}
+                    />
+                  </>
                 )}
                 <Route component={NotFoundPage} />
               </Switch>

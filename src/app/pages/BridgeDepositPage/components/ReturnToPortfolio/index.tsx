@@ -36,7 +36,7 @@ export const ReturnToPortfolio: React.FC = () => {
 
   const handleNetworkSwitch = useCallback(() => {
     dispatch(actions.selectSourceNetwork(Chain.RSK));
-    history.push('/wallet');
+    history.push('/portfolio');
   }, [dispatch, history]);
 
   const addNetworkCallback = useCallback(
@@ -116,7 +116,7 @@ export const ReturnToPortfolio: React.FC = () => {
           <ActionButton
             className="tw-font-semibold tw-w-80 tw-rounded-xl"
             text={t(trans.return)}
-            onClick={() => history.push('/wallet')}
+            onClick={() => history.push('/portfolio')}
           />
         </>
       )}

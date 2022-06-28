@@ -49,7 +49,7 @@ export const BridgeWithdrawPage: React.FC = () => {
 
   useEffect(() => {
     if (!location.state?.receiver || !location.state?.asset) {
-      history.push('/wallet');
+      history.push('/portfolio');
     } else {
       dispatch(actions.initReceiver(location.state?.receiver));
       // todo: change our main ETH to actual ETHs (in backend too).

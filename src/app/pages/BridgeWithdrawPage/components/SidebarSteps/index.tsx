@@ -6,6 +6,7 @@ import { selectBridgeWithdrawPage } from '../../selectors';
 import { StepItem, Stepper } from 'app/components/Stepper';
 
 import { useMaintenance } from 'app/hooks/useMaintenance';
+import { useHistory } from 'react-router-dom';
 
 const stepOrder = [
   WithdrawStep.CHAIN_SELECTOR,
@@ -24,6 +25,9 @@ const initialSteps: StepItem[] = [
   { stepTitle: 'Enter Amount', value: WithdrawStep.AMOUNT_SELECTOR },
   { stepTitle: 'Enter Address', value: WithdrawStep.RECEIVER_SELECTOR },
   { stepTitle: 'Review Transaction', value: WithdrawStep.REVIEW },
+  { stepTitle: 'Confirm Transaction', value: WithdrawStep.CONFIRM },
+  { stepTitle: 'Process Transaction', value: WithdrawStep.PROCESSING },
+  { stepTitle: 'Complete Transaction', value: WithdrawStep.COMPLETE },
 ];
 
 // User should be able to go back on steps but not forward (even if moved back,
@@ -32,6 +36,7 @@ export const SidebarSteps: React.FC = () => {
   const dispatch = useDispatch();
   const { checkMaintenance, States } = useMaintenance();
   const bridgeLocked = checkMaintenance(States.BRIDGE);
+  const history = useHistory();
 
   const { step } = useSelector(selectBridgeWithdrawPage);
 
@@ -65,26 +70,22 @@ export const SidebarSteps: React.FC = () => {
     [canOpen, dispatch],
   );
 
-  const activeStep = useMemo<WithdrawStep>(() => {
-    if (
-      [
-        WithdrawStep.CONFIRM,
-        WithdrawStep.PROCESSING,
-        WithdrawStep.COMPLETE,
-      ].includes(step)
-    ) {
-      return WithdrawStep.REVIEW;
+  const handleBack = useCallback(() => {
+    if (step === WithdrawStep.CHAIN_SELECTOR) {
+      return history.push('/portfolio');
+    } else {
+      changeStep(stepOrder[step - 1]);
     }
 
     return step;
-  }, [step]);
+  }, [changeStep, history, step]);
 
   return (
     <div className="tw-w-full">
       <Stepper
         locked={bridgeLocked}
         steps={initialSteps}
-        step={activeStep}
+        step={step}
         onClick={changeStep}
       />
     </div>

@@ -1,0 +1,37 @@
+.tradeTypeButton {
+  @apply tw-py-1.5 tw-text-sm tw-text-white tw-rounded-lg tw-font-medium tw-opacity-75 tw-bg-transparent;
+  width: 4.75rem;
+
+  &:hover {
+    @apply tw-opacity-100 tw-font-semibold tw-transition-opacity tw-duration-300;
+  }
+
+  &.active {
+    @apply tw-bg-gray-7 tw-font-semibold tw-opacity-100 tw-font-semibold;
+  }
+}
+
+.positionButton {
+  @apply tw-w-full tw-font-semibold tw-opacity-50 tw-text-base tw-text-white tw-bg-gray-1 tw-rounded-t tw-border-t-2 tw-border-transparent;
+  height: 3.125rem;
+
+  &:hover {
+    @apply tw-opacity-100;
+  }
+
+  &.active {
+    @apply tw-bg-gray-2.5 tw-opacity-100;
+  }
+
+  &.long {
+    &.active {
+      @apply tw-border-trade-long;
+    }
+  }
+
+  &.short {
+    &.active {
+      @apply tw-border-trade-short;
+    }
+  }
+}

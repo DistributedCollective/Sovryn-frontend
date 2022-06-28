@@ -37,7 +37,7 @@ export const FastBtcPage: React.FC = () => {
         type,
       )
     ) {
-      history.push('/wallet');
+      history.push('/portfolio');
     }
   }, [type, history]);
 

@@ -28,7 +28,7 @@ export const FastBtcHeader: React.FC<HeaderProps> = ({ address }) => {
   return (
     <header className="tw-absolute tw-whitespace-nowrap tw-top-2 md:tw-top-16 tw-right-16 tw-left-4 tw-z-50 tw-flex tw-flex-row tw-items-center tw-justify-between md:tw-justify-end tw-space-x-4">
       <div className="tw-truncate md:tw-hidden">
-        <Link to="/wallet">{t(translations.common.back)}</Link>
+        <Link to="/portfolio">{t(translations.common.back)}</Link>
       </div>
       <div className="tw-max-w-60 tw-bg-gray-2.5 tw-rounded-3xl engage-wallet tw-flex tw-items-center tw-px-4 tw-py-1.5 tw-justify-end tw-truncate">
         <span className="tw-font-semibold">

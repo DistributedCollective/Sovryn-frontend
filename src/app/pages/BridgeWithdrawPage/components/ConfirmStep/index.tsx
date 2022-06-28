@@ -56,7 +56,7 @@ export const ConfirmStep: React.FC = () => {
     [chain, sourceAsset, targetChain],
   );
   const handleComplete = useCallback(() => {
-    history.push('/wallet');
+    history.push('/portfolio');
   }, [history]);
 
   const renderInitialSteps = () => {

@@ -13,8 +13,10 @@ import fishIcon from 'assets/images/tokens/babelfish.svg';
 import rdoc from 'assets/images/tokens/rifd.svg';
 import rifToken from 'assets/images/tokens/rif.svg';
 import mintIcon from 'assets/images/tokens/mint.svg';
+import zusdIcon from 'assets/images/tokens/zusd.svg';
 
 import { AssetDetails } from '../models/asset-details';
+import { isMainnet } from 'utils/classifiers';
 
 export class AssetsDictionary {
   public static assets: Map<Asset, AssetDetails> = new Map<Asset, AssetDetails>(
@@ -142,6 +144,10 @@ export class AssetsDictionary {
         Asset.MYNT,
         new AssetDetails(Asset.MYNT, 'MYNT', 'MYNT', 18, 3, mintIcon, true),
       ],
+      [
+        Asset.ZUSD,
+        new AssetDetails(Asset.ZUSD, 'ZUSD', 'ZUSD', 18, 2, zusdIcon, false),
+      ],
     ],
   );
 
@@ -174,4 +180,20 @@ export class AssetsDictionary {
   public static find(assets: Array<Asset>): Array<AssetDetails> {
     return assets.map(asset => this.get(asset));
   }
+}
+
+if (!isMainnet) {
+  AssetsDictionary.assets.set(
+    Asset.XUSD_legacy,
+    new AssetDetails(
+      Asset.XUSD_legacy,
+      'XUSD*',
+      'XUSD Legacy',
+      18,
+      3,
+      xusdIcon,
+      false,
+      true,
+    ),
+  );
 }

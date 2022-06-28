@@ -242,7 +242,7 @@ export const RemoveLiquidityDialogV1: React.FC<IRemoveLiquidityDialogV1Props> = 
               disabled={
                 tx.loading || !valid || !canInteract || removeliquidityLocked
               }
-              dataActionId={`yieldFarm-deposit-confirmButton-${pool.assetA}`}
+              dataActionId={`yieldFarm-withdraw-confirmButton-${pool.assetA}`}
               className="tw-w-full tw-mt-2"
             />
           )}

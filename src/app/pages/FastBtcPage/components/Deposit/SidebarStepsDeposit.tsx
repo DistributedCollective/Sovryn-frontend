@@ -10,6 +10,7 @@ import { DepositContext, DepositStep } from '../../contexts/deposit-context';
 import { NetworkAwareComponentProps } from '../../types';
 import { TxStatus } from 'store/global/transactions-store/types';
 import { Stepper, StepItem } from 'app/components/Stepper';
+import { Chain } from 'types';
 
 const stepOrder = [
   DepositStep.VALIDATION,
@@ -136,6 +137,19 @@ export const SidebarStepsDeposit: React.FC<NetworkAwareComponentProps> = ({
       }
     },
     [canOpen, set],
+  );
+
+  const backToUrl = useMemo(
+    () => (network === Chain.BSC ? '/perpetuals' : '/portfolio'),
+    [network],
+  );
+
+  const backToTitle = useMemo(
+    () =>
+      network === Chain.BSC
+        ? t(translations.fastBtcPage.backToPerpetuals)
+        : t(translations.fastBtcPage.backToPortfolio),
+    [network, t],
   );
 
   return (

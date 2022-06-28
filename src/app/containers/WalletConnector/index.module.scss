@@ -3,7 +3,6 @@
     @apply tw-h-8 tw-py-0.5 tw-pr-0 tw-pl-2.5 
       tw-text-black tw-bg-gray-9;
 
-
     .addressImage {
       @apply tw-pl-3;
 
@@ -29,7 +28,11 @@
   min-width: 165px;
 
   .addressImage {
-    @apply tw-pl-2;
+    @apply tw-pl-1 tw-pr-2;
+  }
+
+  .caretIndicator {
+    @apply tw-px-2;
   }
 
   .logout {
