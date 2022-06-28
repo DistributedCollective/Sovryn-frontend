@@ -328,19 +328,18 @@ export const contracts = {
     address: '0x0f279e810B95E0d425622b9b40D7bCD0B5C4B19d',
     abi: fastBtcMultisigAbi,
   },
-  // TODO: add perpetual mainnet contracts
   perpetualManager: {
-    address: '0x15D155e8aDE68ED7f273770b47E2B2eA263861cF',
+    address: '0x86f586dc122d31E7654f89eb566B779C3D843e22',
     abi: perpetualManagerAbi,
     chainId: ChainId.BSC_MAINNET,
   },
   PERPETUALS_token: {
-    address: '0x1431Aa8f066795d3aB94F8516B74FdCC5fD7897F',
+    address: '0x6a7F2d2e5D5756729e875c8F8fC254448E763Fdf',
     abi: marginTokenAbi,
     chainId: ChainId.BSC_MAINNET,
   },
   perpetualLimitOrderBookBTCUSD: {
-    address: '0xF683eED9590E2f90fe991E9e5A736f8BEDEa84Cd',
+    address: '0x3ee8dAe27Feb809BD51eEdda749c3C2f1851e492',
     abi: perpetualLimitOrderBookAbi,
     chainId: ChainId.BSC_MAINNET,
   },
