@@ -277,7 +277,7 @@ const InnerBorrowContainer: React.FC<Props> = ({ currency }) => {
               <>{t(translations.maintenance.startBorrow)}</>
             ) : undefined
           }
-          dataActionId={`borrow-borrowButton-${tokenToCollarate}`}
+          dataActionId={`borrow-borrowButton-${currency}`}
         />
       </div>
     </>
