@@ -10,23 +10,26 @@ import eruoIcon from 'assets/images/fiat/euro.svg';
 import poundIcon from 'assets/images/fiat/pound.svg';
 import { TransakDialog } from 'app/components/TransakDialog/TransakDialog';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 
 export const ReciveRBTCPage: React.FC = () => {
   const [transack, setTransack] = useState(false);
+  const { t } = useTranslation();
 
   return (
     <>
       <Helmet>
-        <title>Receive RBTC</title>
+        <title>{t(translations.reciveRBTCPage.title)}</title>
         <meta
           name="description"
-          content={'Receive RBTC via bitcoin or bank/card transfer'}
+          content={t(translations.reciveRBTCPage.description)}
         />
       </Helmet>
 
       <CrossChainLayout
-        title="Receive RBTC"
-        subtitle="Receive RBTC via bitcoin or bank/card transfer"
+        title={t(translations.reciveRBTCPage.title)}
+        subtitle={t(translations.reciveRBTCPage.description)}
       >
         <div
           style={{
@@ -37,7 +40,7 @@ export const ReciveRBTCPage: React.FC = () => {
           className="tw-py-4 tw-flex tw-flex-col tw-items-center tw-justify-center tw-h-full tw-relative"
         >
           <div className="tw-mb-20 tw-text-base tw-text-center tw-font-semibold">
-            Select Source
+            {t(translations.reciveRBTCPage.selectSource)}
           </div>
           <div className="tw-flex tw-items-center tw-justify-center">
             <div className="tw-text-center">
@@ -46,7 +49,9 @@ export const ReciveRBTCPage: React.FC = () => {
                   <img src={btcIcon} alt="btc" />
                 </SelectBox>
               </Link>
-              <p className="tw-mt-3 tw-font-medium">Bitcoin Network</p>
+              <p className="tw-mt-3 tw-font-medium">
+                {t(translations.reciveRBTCPage.bitcoinNetwork)}
+              </p>
             </div>
 
             <div className="tw-text-center">
@@ -63,7 +68,9 @@ export const ReciveRBTCPage: React.FC = () => {
                   </div>
                 </div>
               </SelectBox>
-              <p className="tw-mt-3 tw-font-medium">Bank/Card</p>
+              <p className="tw-mt-3 tw-font-medium">
+                {t(translations.reciveRBTCPage.bankCard)}
+              </p>
             </div>
           </div>
         </div>

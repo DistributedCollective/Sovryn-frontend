@@ -226,6 +226,13 @@
       }
     }
   },
+  "reciveRBTCPage": {
+    "title": "Receive RBTC",
+    "description": "Receive RBTC via bitcoin or bank/card transfer",
+    "selectSource": "Select Source",
+    "bitcoinNetwork": "Bitcoin Network",
+    "bankCard": "Bank/Card"
+  },
   "fastBtcPage": {
     "meta": {
       "title": "Fast-BTC",
