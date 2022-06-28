@@ -4,7 +4,7 @@ import { PerpetualPairType } from '../../../utils/dictionaries/perpetual-pair-di
 import { Transaction } from 'ethers';
 import { CheckAndApproveResult } from '../../../utils/sovryn/contract-writer';
 import { getBridgeChainId } from '../BridgeDepositPage/utils/helpers';
-import { isMainnet } from '../../../utils/classifiers';
+import { isMainnet, isStaging } from '../../../utils/classifiers';
 import { toWei } from '../../../utils/blockchain/math-helpers';
 import { Validation } from './utils/contractUtils';
 
@@ -15,13 +15,13 @@ export const PERPETUAL_CHAIN = Chain.BSC;
 export const PERPETUAL_CHAIN_ID =
   getBridgeChainId(Chain.BSC) || ChainId.BSC_MAINNET;
 
-export const PERPETUAL_PAYMASTER = isMainnet
-  ? '' // TODO: add mainnet paymaster address
-  : '0x402e4370f6871Ff59Db75aE578e038E101454dc1';
+export const PERPETUAL_PAYMASTER =
+  isMainnet || isStaging
+    ? '0xd537EB00E053Fc97A58f22b2FB6f064Bd4C10cCA'
+    : '0x402e4370f6871Ff59Db75aE578e038E101454dc1';
 
-export const PERPETUAL_GAS_PRICE_DEFAULT = isMainnet
-  ? undefined
-  : toWei(10, 'gwei');
+export const PERPETUAL_GAS_PRICE_DEFAULT =
+  isMainnet || isStaging ? undefined : toWei(10, 'gwei');
 
 export enum PerpetualTradeType {
   MARKET = 'MARKET',
