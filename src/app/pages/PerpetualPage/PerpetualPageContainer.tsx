@@ -16,7 +16,7 @@ import {
 } from '../../../utils/dictionaries/perpetual-pair-dictionary';
 import { TradingChart } from './components/TradingChart';
 import { OpenPositionsTable } from './components/OpenPositionsTable';
-import { Link, useHistory, useLocation } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from '../../components/Promotions/components/PromotionCard/types';
 import { selectPerpetualPage } from './selectors';
 import { DataCard } from './components/DataCard';

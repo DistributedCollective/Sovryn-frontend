@@ -51,7 +51,6 @@ import { FastBtcPage } from './pages/FastBtcPage/Loadable';
 import { PageContainer } from './containers/PageContainer';
 import 'react-toastify/dist/ReactToastify.css';
 import { PerpetualPageLoadable } from './pages/PerpetualPage/Loadable';
-import { CompetitionPage } from './pages/PerpetualPage/components/CompetitionPage';
 
 const title = !isMainnet ? `Sovryn ${currentNetwork}` : 'Sovryn';
 const showPerps = !isMainnet || isStaging;
