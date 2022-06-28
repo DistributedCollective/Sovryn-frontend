@@ -74,9 +74,9 @@ export const HistoryEventsTable: React.FC = () => {
           )}
 
           {data &&
-            data.stakeHistoryItems.map(value => {
-              return <HistoryEventRow event={value} />;
-            })}
+            data.stakeHistoryItems.map(value => (
+              <HistoryEventRow event={value} />
+            ))}
         </tbody>
       </table>
       {!isHiddenPagination && (

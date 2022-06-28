@@ -16,6 +16,7 @@ import {
   StakeHistoryAction,
   StakeHistoryFieldsFragment,
 } from 'utils/graphql/rsk/generated';
+import { AssetValueMode } from 'app/components/AssetValue/types';
 
 interface IHistoryEventRowProps {
   event: StakeHistoryFieldsFragment;
@@ -74,6 +75,8 @@ export const HistoryEventRow: React.FC<IHistoryEventRowProps> = ({ event }) => {
               asset={Asset.SOV}
               value={amount ? toWei(amount) : '-'}
               useTooltip={true}
+              mode={AssetValueMode.auto}
+              maxDecimals={8}
             />
             <br />≈{' '}
             <LoadableValue
