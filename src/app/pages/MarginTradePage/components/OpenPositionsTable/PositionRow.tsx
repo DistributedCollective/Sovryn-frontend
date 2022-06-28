@@ -20,7 +20,7 @@ import { PositionBlock } from '../PositionBlock';
 import { ProfitContainer } from './ProfitContainer';
 import { MAINTENANCE_MARGIN } from 'utils/classifiers';
 import { useGetLoan } from 'app/hooks/trading/useGetLoan';
-import { toWei } from 'utils/blockchain/math-helpers';
+import { toWei, weiTo18 } from 'utils/blockchain/math-helpers';
 import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
 import { AssetValue } from 'app/components/AssetValue';
 import { MarginLoansFieldsFragment, Trade } from 'utils/graphql/rsk/generated';
@@ -35,14 +35,7 @@ export const PositionRow: React.FC<PositionRowProps> = ({ event }) => {
   const [showAddToMargin, setShowAddToMargin] = useState(false);
   const [showClosePosition, setShowClosePosition] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
-  const {
-    id,
-    trade,
-    positionSize,
-    loanToken,
-    nextRollover,
-    collateralToken,
-  } = event;
+  const { id, trade, loanToken, nextRollover, collateralToken } = event;
   const tradeData = trade as Trade[];
   const { entryLeverage, entryPrice, interestRate, transaction } = tradeData[0];
   const { checkMaintenances, States } = useMaintenance();
@@ -85,6 +78,10 @@ export const PositionRow: React.FC<PositionRowProps> = ({ event }) => {
 
   const currentMargin = useMemo(() => {
     return loan ? loan.currentMargin : '0';
+  }, [loan]);
+
+  const positionSize = useMemo(() => {
+    return loan ? weiTo18(loan.collateral) : '0';
   }, [loan]);
 
   const liquidationPrice = usePositionLiquidationPrice(
