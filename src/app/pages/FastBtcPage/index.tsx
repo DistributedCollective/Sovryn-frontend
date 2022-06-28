@@ -52,17 +52,29 @@ export const FastBtcPage: React.FC = () => {
     }
   }, [type, t]);
 
+  const renderDescription = useMemo(() => {
+    switch (type) {
+      case FastBtcDirectionType.DEPOSIT:
+        return t(translations.fastBtcPage.meta.descriptionDeposit);
+      case FastBtcDirectionType.WITHDRAW:
+        return t(translations.fastBtcPage.meta.descriptionWithdraw);
+      default:
+        return t(translations.fastBtcPage.meta.description);
+    }
+  }, [type, t]);
+
   return (
     <>
       <Helmet>
         <title>{renderTitle}</title>
-        <meta
-          name="description"
-          content={t(translations.fastBtcPage.meta.description)}
-        />
+        <meta name="description" content={renderDescription} />
       </Helmet>
 
-      <CrossChainLayout network={network}>
+      <CrossChainLayout
+        title={renderTitle}
+        subtitle={renderDescription}
+        network={network}
+      >
         <div
           style={{
             minHeight: 610,

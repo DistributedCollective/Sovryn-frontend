@@ -229,8 +229,10 @@
   "fastBtcPage": {
     "meta": {
       "title": "Fast-BTC",
-      "titleDeposit": "Deposit BTC",
-      "titleWithdraw": "Withdraw BTC",
+      "titleDeposit": "Receive Bitcoin with FastBTC",
+      "descriptionDeposit": "Receive RBTC by transferring Bitcoin from the Bitcoin network",
+      "titleWithdraw": "Send Bitcoin with FastBTC",
+      "descriptionWithdraw": "Send Bitcoin by transferring RBTC to the Bitcoin network",
       "description": "Move your Bitcoin to RSK network."
     },
     "backToPortfolio": "Back to portfolio",
@@ -239,9 +241,9 @@
       "sidebarSteps": {
         "validation": "Validation",
         "address": "Deposit Address",
-        "processing": "Processing",
+        "processing": "Processing Transaction",
         "processingSteps": "Processing... ({{step}}/{{steps}})",
-        "completed": "Completed"
+        "completed": "Transaction Completed"
       },
       "mainScreen": {
         "title": "Deposit BTC to Sovryn as <0/>",
@@ -295,11 +297,11 @@
       "sidebarSteps": {
         "amount": "Withdraw Amount",
         "address": "Withdraw Address",
-        "review": "Review",
-        "confirm": "Confirm",
-        "processing": "Processing",
+        "review": "Review Transaction",
+        "confirm": "Confirm Transaction",
+        "processing": "Processing Transaction",
         "processingProgress": "Processing...",
-        "completed": "Completed"
+        "completed": "Transaction Completed"
       },
       "mainScreen": {
         "title": "Withdraw <0/> to BTC Network",

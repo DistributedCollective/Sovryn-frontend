@@ -69,7 +69,7 @@ export const SignatureValidation: React.FC<ISignatureValidationProps> = ({
       <div className={styles.title}>
         {t(translations.fastBtcPage.deposit.validationScreen.title)}
       </div>
-      <div className="tw-mb-11 tw-text-gray-8 tw-text-center">
+      <div className="tw-mb-5 tw-text-gray-8 tw-text-center">
         {t(translations.fastBtcPage.deposit.validationScreen.description)}
       </div>
       <div className="tw-full">

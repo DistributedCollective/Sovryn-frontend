@@ -12,7 +12,7 @@ export const DepositDetails: React.FC = () => {
   const { limits } = useContext(DepositContext);
 
   return (
-    <section className="tw-py-4 tw-px-8 tw-bg-gray-6 tw-text-white tw-rounded tw-mb-4">
+    <section className="tw-py-4 tw-px-8 tw-bg-gray-3 tw-text-white tw-rounded tw-mb-4">
       <h4 className="tw-text-base tw-text-white tw-mb-4 tw-normal-case tw-font-semibold">
         {t(translations.fastBtcPage.deposit.depositDetails.title)}
       </h4>

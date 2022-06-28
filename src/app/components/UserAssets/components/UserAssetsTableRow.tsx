@@ -193,7 +193,7 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
                 ) : (
                   <Button
                     text={t(translations.common.receive)}
-                    href="/fast-btc/deposit"
+                    href="/rbtc"
                     style={ButtonStyle.link}
                     size={ButtonSize.sm}
                   />

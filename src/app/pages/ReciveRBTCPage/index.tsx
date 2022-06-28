@@ -24,7 +24,10 @@ export const ReciveRBTCPage: React.FC = () => {
         />
       </Helmet>
 
-      <CrossChainLayout>
+      <CrossChainLayout
+        title="Receive RBTC"
+        subtitle="Receive RBTC via bitcoin or bank/card transfer"
+      >
         <div
           style={{
             minHeight: 610,
@@ -33,6 +36,9 @@ export const ReciveRBTCPage: React.FC = () => {
           }}
           className="tw-py-4 tw-flex tw-flex-col tw-items-center tw-justify-center tw-h-full tw-relative"
         >
+          <div className="tw-mb-20 tw-text-base tw-text-center tw-font-semibold">
+            Select Source
+          </div>
           <div className="tw-flex tw-items-center tw-justify-center">
             <div className="tw-text-center">
               <Link to="/fast-btc/deposit">

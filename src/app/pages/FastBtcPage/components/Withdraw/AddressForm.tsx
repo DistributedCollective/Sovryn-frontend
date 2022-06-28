@@ -95,7 +95,7 @@ export const AddressForm: React.FC = () => {
 
   return (
     <>
-      <div className="tw-mb-6 tw-text-2xl tw-text-center tw-font-semibold">
+      <div className="tw-mb-6 tw-text-base tw-text-center tw-font-semibold">
         {t(translations.fastBtcPage.withdraw.addressForm.title)}
       </div>
 

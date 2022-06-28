@@ -68,7 +68,7 @@ export const StatusScreen: React.FC<NetworkAwareComponentProps> = ({
 
   return (
     <>
-      <div className="tw-mb-6 tw-text-2xl tw-text-center tw-font-semibold">
+      <div className="tw-mb-6 tw-text-base tw-text-center tw-font-semibold">
         <Trans
           i18nKey={
             translations.fastBtcPage.deposit.statusScreen[

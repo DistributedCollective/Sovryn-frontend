@@ -44,7 +44,7 @@ export const MainScreen: React.FC<NetworkAwareComponentProps> = ({
 
   return (
     <>
-      <div className="tw-mb-6 tw-text-2xl tw-text-center tw-font-semibold">
+      <div className="tw-mb-6 tw-text-base tw-text-center tw-font-semibold">
         <Trans
           i18nKey={translations.fastBtcPage.deposit.mainScreen.title}
           components={[
@@ -53,7 +53,7 @@ export const MainScreen: React.FC<NetworkAwareComponentProps> = ({
         />
       </div>
       <div className="tw-w-full">
-        <div className="tw-py-4 tw-px-8 tw-bg-gray-5 tw-text-white tw-rounded tw-mb-4">
+        <div className="tw-py-4 tw-px-8 tw-bg-gray-5 tw-font-semibold tw-text-white tw-rounded tw-mb-4">
           {t(translations.fastBtcPage.deposit.mainScreen.description)}
         </div>
         <DepositDetails />

@@ -73,7 +73,7 @@ export const AmountForm: React.FC<NetworkAwareComponentProps> = ({
 
   return (
     <>
-      <div className="tw-mb-6 tw-text-2xl tw-text-center tw-font-semibold">
+      <div className="tw-mb-6 tw-text-base tw-text-center tw-font-semibold">
         <Trans
           i18nKey={translations.fastBtcPage.withdraw.amountForm.title}
           components={[<AssetSymbolRenderer asset={asset} />]}
@@ -81,8 +81,6 @@ export const AmountForm: React.FC<NetworkAwareComponentProps> = ({
       </div>
 
       <div className="tw-w-full">
-        <WithdrawDetails network={network} />
-
         <FormGroup
           label={t(translations.fastBtcPage.withdraw.amountForm.withdrawAmount)}
         >
@@ -109,6 +107,7 @@ export const AmountForm: React.FC<NetworkAwareComponentProps> = ({
             />
           </div>
         </FormGroup>
+        <WithdrawDetails network={network} />
 
         <div className="tw-px-8">
           <FastBtcButton
