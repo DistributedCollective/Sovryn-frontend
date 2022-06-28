@@ -5,15 +5,18 @@ import { useTranslation, Trans } from 'react-i18next';
 import { ILimitOrder } from 'app/pages/SpotTradingPage/types';
 import { translations } from 'locales/i18n';
 import { Pagination } from 'app/components/Pagination';
-import { EventData } from 'web3-eth-contract';
 import { HelpBadge } from 'app/components/HelpBadge/HelpBadge';
+import {
+  LimitOrderCreatedFragment,
+  LimitOrderFilledFragment,
+} from 'utils/graphql/rsk/generated';
 
 interface ILimitOrderHistoryProps {
   perPage?: number;
   orders: ILimitOrder[];
   loading: boolean;
-  orderFilledEvents?: EventData[];
-  orderCreatedEvents?: EventData[];
+  orderFilledEvents?: LimitOrderFilledFragment[];
+  orderCreatedEvents?: LimitOrderCreatedFragment[];
 }
 
 export const LimitOrderHistory: React.FC<ILimitOrderHistoryProps> = ({

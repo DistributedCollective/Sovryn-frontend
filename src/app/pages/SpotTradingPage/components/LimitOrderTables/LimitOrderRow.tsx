@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ILimitOrder, pairList, TradingTypes } from '../../types';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
@@ -19,15 +18,17 @@ import classNames from 'classnames';
 import { TableTransactionStatus } from 'app/components/FinanceV2Components/TableTransactionStatus';
 import { TxStatus } from 'store/global/transactions-store/types';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
-import { EventData } from 'web3-eth-contract';
-import { useLog } from 'app/hooks/useDebug';
 import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
+import {
+  LimitOrderCreatedFragment,
+  LimitOrderFilledFragment,
+} from 'utils/graphql/rsk/generated';
 
 interface ILimitOrderRowProps {
   item: ILimitOrder;
   pending?: boolean;
-  orderFilledEvents?: EventData[];
-  orderCreatedEvents?: EventData[];
+  orderFilledEvents?: LimitOrderFilledFragment[];
+  orderCreatedEvents?: LimitOrderCreatedFragment[];
 }
 
 export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
@@ -71,9 +72,7 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
       return bignumber(item.limitPrice.toString()).div(10 ** pair[1].decimals);
     }
 
-    let price = orderCreatedEvents?.find(e => e.returnValues.hash === item.hash)
-      ?.returnValues?.limitPrice;
-    if (price) price = bignumber(price.toString()).div(10 ** pair[1].decimals);
+    let price = orderCreatedEvents?.find(e => e.hash === item.hash)?.limitPrice;
 
     if (pending || !price || !pair) {
       return tradeType === TradingTypes.BUY
@@ -92,28 +91,26 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
     tradeType,
   ]);
 
-  useLog('LimitOrderRow', item);
-
   const filledToken = useMemo(() => {
     const event = orderFilledEvents?.find(
-      e => e.returnValues.hash === item?.hash,
-    )?.returnValues;
+      e => e.transaction.id === item.transactionHash,
+    );
     if (!event) {
       return undefined;
     }
 
     if (tradeType === TradingTypes.SELL) {
-      return assetByTokenAddress(event.toToken);
+      return assetByTokenAddress(toToken.asset);
     }
 
-    return assetByTokenAddress(event.fromToken);
-  }, [item?.hash, orderFilledEvents, tradeType]);
+    return assetByTokenAddress(fromToken.asset);
+  }, [item.transactionHash, orderFilledEvents, tradeType, fromToken, toToken]);
 
   const filledPrice = useMemo(
     () => {
       const price = orderFilledEvents?.find(
-        e => e.returnValues.hash === item.hash,
-      )?.returnValues?.filledPrice;
+        e => e.transaction.id === item.transactionHash,
+      )?.filledPrice;
 
       if (!price) {
         return undefined;
@@ -129,7 +126,7 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
       return price;
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [item?.hash, JSON.stringify(orderFilledEvents)],
+    [item.transactionHash, JSON.stringify(orderFilledEvents)],
   );
 
   return (

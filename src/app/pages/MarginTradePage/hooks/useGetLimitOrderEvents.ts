@@ -5,14 +5,13 @@ import { TradingPosition } from 'types/trading-position';
 import { useAccount } from 'app/hooks/useAccount';
 import { useGetLimitOrders } from 'app/hooks/limitOrder/useGetLimitOrders';
 import { MarginLimitOrder } from '../types';
-import { useGetContractPastEvents } from 'app/hooks/useGetContractPastEvents';
-import { useLog } from 'app/hooks/useDebug';
 import {
   assetByLoanTokenAddress,
   assetByTokenAddress,
 } from 'utils/blockchain/contract-helpers';
 import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
 import { Asset } from 'types';
+import { useGetMarginLimitOrderFilled } from './useGetMarginLimitOrderFilled';
 
 export const useGetLimitOrderEvents = () => {
   const account = useAccount();
@@ -29,12 +28,9 @@ export const useGetLimitOrderEvents = () => {
     [value],
   );
 
-  const { events } = useGetContractPastEvents(
-    'settlement',
-    'MarginOrderFilled',
-  );
+  const { data } = useGetMarginLimitOrderFilled();
 
-  useLog('LimitOrderTables', events);
+  const events = useMemo(() => data?.marginOrderFilleds, [data]);
 
   return {
     events,

@@ -1,9 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
-
 import { PositionBlock } from '../../PositionBlock';
 import {
   toAssetNumberFormat,
@@ -20,13 +18,13 @@ import { CloseLimitPositionDialog } from '../CloseLimitPositionDialog';
 import { TradeDialogInfo } from '../../TradeDialog/TradeDialogInfo';
 import { OrderType } from 'app/components/OrderTypeTitle/types';
 import { useGetLimitOrderRow } from 'app/pages/MarginTradePage/hooks/useGetLimitOrderRow';
-import { EventData } from 'web3-eth-contract';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { MarginLimitOrderList } from 'app/pages/MarginTradePage/hooks/useGetLimitOrderEvents';
+import { MarginLimitOrderFilledFragment } from 'utils/graphql/rsk/generated';
 
 interface ILimitOrderRowProps extends MarginLimitOrderList {
   pending?: boolean;
-  orderFilledEvents?: EventData[];
+  orderFilledEvents?: MarginLimitOrderFilledFragment[];
 }
 
 export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({

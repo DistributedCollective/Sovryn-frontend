@@ -1,0 +1,24 @@
+query getLimitOrderFilled($maker: String) {
+  orderFilleds(
+    where: { maker: $maker }
+    orderBy: timestamp
+    orderDirection: desc
+  ) {
+    ...LimitOrderFilled
+  }
+}
+
+fragment LimitOrderFilled on OrderFilled {
+  maker {
+    id
+  }
+  amountIn
+  amountOut
+  path
+  filledPrice
+  timestamp
+  emittedBy
+  transaction {
+    id
+  }
+}

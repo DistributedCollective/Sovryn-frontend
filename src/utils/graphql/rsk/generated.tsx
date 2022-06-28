@@ -8713,6 +8713,116 @@ export type BorrowFieldsFragment = {
   transaction: { __typename?: 'Transaction'; id: string };
 };
 
+export type GetLimitOrderCreatedQueryVariables = Exact<{
+  network?: InputMaybe<Network>;
+  maker?: InputMaybe<Scalars['String']>;
+}>;
+
+export type GetLimitOrderCreatedQuery = {
+  __typename?: 'Query';
+  orderCreateds: Array<{
+    __typename?: 'OrderCreated';
+    hash: string;
+    order_fromToken: string;
+    order_toToken: string;
+    order_amountIn: string;
+    order_amountOutMin: string;
+    order_recipient: string;
+    order_deadline: string;
+    order_created: string;
+    limitPrice: string;
+    timestamp: number;
+    emittedBy: string;
+    order_maker: { __typename?: 'User'; id: string };
+    transaction: { __typename?: 'Transaction'; id: string };
+  }>;
+};
+
+export type LimitOrderCreatedFragment = {
+  __typename?: 'OrderCreated';
+  hash: string;
+  order_fromToken: string;
+  order_toToken: string;
+  order_amountIn: string;
+  order_amountOutMin: string;
+  order_recipient: string;
+  order_deadline: string;
+  order_created: string;
+  limitPrice: string;
+  timestamp: number;
+  emittedBy: string;
+  order_maker: { __typename?: 'User'; id: string };
+  transaction: { __typename?: 'Transaction'; id: string };
+};
+
+export type GetLimitOrderFilledQueryVariables = Exact<{
+  maker?: InputMaybe<Scalars['String']>;
+}>;
+
+export type GetLimitOrderFilledQuery = {
+  __typename?: 'Query';
+  orderFilleds: Array<{
+    __typename?: 'OrderFilled';
+    amountIn: string;
+    amountOut: string;
+    path: Array<string>;
+    filledPrice: string;
+    timestamp: number;
+    emittedBy: string;
+    maker: { __typename?: 'User'; id: string };
+    transaction: { __typename?: 'Transaction'; id: string };
+  }>;
+};
+
+export type LimitOrderFilledFragment = {
+  __typename?: 'OrderFilled';
+  amountIn: string;
+  amountOut: string;
+  path: Array<string>;
+  filledPrice: string;
+  timestamp: number;
+  emittedBy: string;
+  maker: { __typename?: 'User'; id: string };
+  transaction: { __typename?: 'Transaction'; id: string };
+};
+
+export type GetMarginLimitOrderFilledQueryVariables = Exact<{
+  trader?: InputMaybe<Scalars['String']>;
+}>;
+
+export type GetMarginLimitOrderFilledQuery = {
+  __typename?: 'Query';
+  marginOrderFilleds: Array<{
+    __typename?: 'MarginOrderFilled';
+    principal: string;
+    collateral: string;
+    leverageAmount: string;
+    loanTokenAddress: string;
+    loanTokenSent: string;
+    collateralTokenSent: string;
+    collateralTokenAddress: string;
+    filledPrice: string;
+    timestamp: number;
+    emittedBy: string;
+    transaction: { __typename?: 'Transaction'; id: string };
+  }>;
+};
+
+export type MarginLimitOrderFilledFragment = {
+  __typename?: 'MarginOrderFilled';
+  principal: string;
+  collateral: string;
+  leverageAmount: string;
+  loanTokenAddress: string;
+  loanTokenSent: string;
+  collateralTokenSent: string;
+  collateralTokenAddress: string;
+  filledPrice: string;
+  timestamp: number;
+  emittedBy: string;
+  transaction: { __typename?: 'Transaction'; id: string };
+};
+
 export type UsersQueryVariables = Exact<{
   where?: InputMaybe<User_Filter>;
 }>;
@@ -8748,6 +8858,60 @@ export const BorrowFieldsFragmentDoc = gql`
     interestDuration
     collateralToLoanRate
     timestamp
+    transaction {
+      id
+    }
+  }
+`;
+export const LimitOrderCreatedFragmentDoc = gql`
+  fragment LimitOrderCreated on OrderCreated {
+    hash
+    order_maker {
+      id
+    }
+    order_fromToken
+    order_toToken
+    order_amountIn
+    order_amountOutMin
+    order_recipient
+    order_deadline
+    order_created
+    limitPrice
+    timestamp
+    emittedBy
+    transaction {
+      id
+    }
+  }
+`;
+export const LimitOrderFilledFragmentDoc = gql`
+  fragment LimitOrderFilled on OrderFilled {
+    maker {
+      id
+    }
+    amountIn
+    amountOut
+    path
+    filledPrice
+    timestamp
+    emittedBy
+    transaction {
+      id
+    }
+  }
+`;
+export const MarginLimitOrderFilledFragmentDoc = gql`
+  fragment MarginLimitOrderFilled on MarginOrderFilled {
+    principal
+    collateral
+    leverageAmount
+    loanTokenAddress
+    loanTokenSent
+    collateralTokenSent
+    collateralTokenAddress
+    filledPrice
+    timestamp
+    emittedBy
     transaction {
       id
     }
@@ -8811,6 +8975,196 @@ export type GetBorrowHistoryLazyQueryHookResult = ReturnType<
 export type GetBorrowHistoryQueryResult = Apollo.QueryResult<
   GetBorrowHistoryQuery,
   GetBorrowHistoryQueryVariables
+>;
+export const GetLimitOrderCreatedDocument = gql`
+  query getLimitOrderCreated($network: Network, $maker: String) {
+    orderCreateds(
+      where: { network: $network, order_maker: $maker }
+      orderBy: timestamp
+      orderDirection: desc
+    ) {
+      ...LimitOrderCreated
+    }
+  }
+  ${LimitOrderCreatedFragmentDoc}
+`;
+
+/**
+ * __useGetLimitOrderCreatedQuery__
+ *
+ * To run a query within a React component, call `useGetLimitOrderCreatedQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetLimitOrderCreatedQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetLimitOrderCreatedQuery({
+ *   variables: {
+ *      network: // value for 'network'
+ *      maker: // value for 'maker'
+ *   },
+ * });
+ */
+export function useGetLimitOrderCreatedQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetLimitOrderCreatedQuery,
+    GetLimitOrderCreatedQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetLimitOrderCreatedQuery,
+    GetLimitOrderCreatedQueryVariables
+  >(GetLimitOrderCreatedDocument, options);
+}
+export function useGetLimitOrderCreatedLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetLimitOrderCreatedQuery,
+    GetLimitOrderCreatedQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetLimitOrderCreatedQuery,
+    GetLimitOrderCreatedQueryVariables
+  >(GetLimitOrderCreatedDocument, options);
+}
+export type GetLimitOrderCreatedQueryHookResult = ReturnType<
+  typeof useGetLimitOrderCreatedQuery
+>;
+export type GetLimitOrderCreatedLazyQueryHookResult = ReturnType<
+  typeof useGetLimitOrderCreatedLazyQuery
+>;
+export type GetLimitOrderCreatedQueryResult = Apollo.QueryResult<
+  GetLimitOrderCreatedQuery,
+  GetLimitOrderCreatedQueryVariables
+>;
+export const GetLimitOrderFilledDocument = gql`
+  query getLimitOrderFilled($maker: String) {
+    orderFilleds(
+      where: { maker: $maker }
+      orderBy: timestamp
+      orderDirection: desc
+    ) {
+      ...LimitOrderFilled
+    }
+  }
+  ${LimitOrderFilledFragmentDoc}
+`;
+
+/**
+ * __useGetLimitOrderFilledQuery__
+ *
+ * To run a query within a React component, call `useGetLimitOrderFilledQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetLimitOrderFilledQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetLimitOrderFilledQuery({
+ *   variables: {
+ *      maker: // value for 'maker'
+ *   },
+ * });
+ */
+export function useGetLimitOrderFilledQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetLimitOrderFilledQuery,
+    GetLimitOrderFilledQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetLimitOrderFilledQuery,
+    GetLimitOrderFilledQueryVariables
+  >(GetLimitOrderFilledDocument, options);
+}
+export function useGetLimitOrderFilledLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetLimitOrderFilledQuery,
+    GetLimitOrderFilledQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetLimitOrderFilledQuery,
+    GetLimitOrderFilledQueryVariables
+  >(GetLimitOrderFilledDocument, options);
+}
+export type GetLimitOrderFilledQueryHookResult = ReturnType<
+  typeof useGetLimitOrderFilledQuery
+>;
+export type GetLimitOrderFilledLazyQueryHookResult = ReturnType<
+  typeof useGetLimitOrderFilledLazyQuery
+>;
+export type GetLimitOrderFilledQueryResult = Apollo.QueryResult<
+  GetLimitOrderFilledQuery,
+  GetLimitOrderFilledQueryVariables
+>;
+export const GetMarginLimitOrderFilledDocument = gql`
+  query getMarginLimitOrderFilled($trader: String) {
+    marginOrderFilleds(
+      where: { trader: $trader }
+      orderBy: timestamp
+      orderDirection: desc
+    ) {
+      ...MarginLimitOrderFilled
+    }
+  }
+  ${MarginLimitOrderFilledFragmentDoc}
+`;
+
+/**
+ * __useGetMarginLimitOrderFilledQuery__
+ *
+ * To run a query within a React component, call `useGetMarginLimitOrderFilledQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMarginLimitOrderFilledQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMarginLimitOrderFilledQuery({
+ *   variables: {
+ *      trader: // value for 'trader'
+ *   },
+ * });
+ */
+export function useGetMarginLimitOrderFilledQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetMarginLimitOrderFilledQuery,
+    GetMarginLimitOrderFilledQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetMarginLimitOrderFilledQuery,
+    GetMarginLimitOrderFilledQueryVariables
+  >(GetMarginLimitOrderFilledDocument, options);
+}
+export function useGetMarginLimitOrderFilledLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetMarginLimitOrderFilledQuery,
+    GetMarginLimitOrderFilledQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetMarginLimitOrderFilledQuery,
+    GetMarginLimitOrderFilledQueryVariables
+  >(GetMarginLimitOrderFilledDocument, options);
+}
+export type GetMarginLimitOrderFilledQueryHookResult = ReturnType<
+  typeof useGetMarginLimitOrderFilledQuery
+>;
+export type GetMarginLimitOrderFilledLazyQueryHookResult = ReturnType<
+  typeof useGetMarginLimitOrderFilledLazyQuery
+>;
+export type GetMarginLimitOrderFilledQueryResult = Apollo.QueryResult<
+  GetMarginLimitOrderFilledQuery,
+  GetMarginLimitOrderFilledQueryVariables
 >;
 export const UsersDocument = gql`
   query users($where: User_filter) {
