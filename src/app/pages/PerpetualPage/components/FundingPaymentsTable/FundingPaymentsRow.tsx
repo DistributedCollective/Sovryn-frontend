@@ -42,7 +42,7 @@ export const FundingPaymentsRow: React.FC<FundingPaymentsRowProps> = ({
         <DisplayDate
           timestamp={item.datetime}
           separator={SeparatorType.Dash}
-          useUTC={true}
+          useUTC
         />
       </td>
       <td>{item.pair.name}</td>
