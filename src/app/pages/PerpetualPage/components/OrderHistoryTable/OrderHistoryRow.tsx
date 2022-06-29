@@ -88,7 +88,11 @@ export const OrderHistoryRow: React.FC<OrderHistoryRowProps> = ({
   return (
     <tr>
       <td>
-        <DisplayDate timestamp={datetime} separator={SeparatorType.Dash} />
+        <DisplayDate
+          timestamp={datetime}
+          separator={SeparatorType.Dash}
+          useUTC={true}
+        />
       </td>
       <td>{pair?.name}</td>
       <td

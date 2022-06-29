@@ -39,7 +39,11 @@ export const FundingPaymentsRow: React.FC<FundingPaymentsRowProps> = ({
   return (
     <tr>
       <td>
-        <DisplayDate timestamp={item.datetime} separator={SeparatorType.Dash} />
+        <DisplayDate
+          timestamp={item.datetime}
+          separator={SeparatorType.Dash}
+          useUTC={true}
+        />
       </td>
       <td>{item.pair.name}</td>
       <td>{collateralAsset}</td>
