@@ -1,7 +1,6 @@
 import { useAccount } from 'app/hooks/useAccount';
 import { useMemo } from 'react';
-import { AppMode } from 'types';
-import { APOLLO_POLL_INTERVAL, currentNetwork } from 'utils/classifiers';
+import { APOLLO_POLL_INTERVAL, isMainnet } from 'utils/classifiers';
 import {
   Network,
   useGetLimitOrderCreatedQuery,
@@ -12,9 +11,7 @@ import {
 export const useGetLimitOrderCreated = () => {
   const account = useAccount();
   const network = useMemo(() => {
-    return currentNetwork === AppMode.MAINNET
-      ? Network.Mainnet
-      : Network.Testnet;
+    return isMainnet ? Network.Mainnet : Network.Testnet;
   }, []);
 
   return useGetLimitOrderCreatedQuery({
