@@ -108,7 +108,7 @@ export const TxDialog: React.FC<ITxDialogProps> = ({ tx, onUserConfirmed }) => {
                       timestamp={new Date(txData?.customData?.date)
                         .getTime()
                         .toString()}
-                      useUTC={true}
+                      useUTC
                     />
                   </div>
 
