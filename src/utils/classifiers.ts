@@ -171,3 +171,8 @@ export const learnMoreLending =
   'https://wiki.sovryn.app/en/sovryn-dapp/market-making';
 
 export const APOLLO_POLL_INTERVAL = 60e3;
+
+export const graphWrapperUrl = {
+  30: 'https://graph-wrapper.sovryn.app/',
+  31: 'https://graph-wrapper.test.sovryn.app/',
+};

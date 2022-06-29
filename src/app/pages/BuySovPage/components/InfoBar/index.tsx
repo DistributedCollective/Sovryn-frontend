@@ -3,31 +3,21 @@ import styled from 'styled-components/macro';
 import { Text } from '@blueprintjs/core';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { LoadableValue } from '../../../../components/LoadableValue';
-import { backendUrl, currentChainId } from '../../../../../utils/classifiers';
+import {
+  currentChainId,
+  graphWrapperUrl,
+} from '../../../../../utils/classifiers';
 import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { useFetch } from '../../../../hooks/useFetch';
+import { Asset } from 'types';
+import { useGetTokenPrice } from 'app/hooks/useGetTokenPrice';
 
 export function InfoBar() {
   const { t } = useTranslation();
-  const [price, setPrice] = useState({ value: '0', loading: true });
   const [btcToUsd, setBtcToUsd] = useState({ value: '0', loading: true });
 
-  useEffect(() => {
-    const run = async () => {
-      const result = await fetch(
-        backendUrl[currentChainId] + '/sov/current-price',
-      ).then(e => e.json());
-      return String((result?.price || '0') * 1e8);
-    };
-    run()
-      .then(e => {
-        setPrice({ value: e, loading: false });
-      })
-      .catch(() => {
-        setPrice({ value: '0', loading: false });
-      });
-  }, []);
+  const price = useGetTokenPrice(Asset.SOV, 'BTC');
 
   useEffect(() => {
     const run = async () => {
@@ -49,9 +39,11 @@ export function InfoBar() {
     value: { circulating_supply: totalSupply },
     loading: totalSupplyLoading,
   } = useFetch<{ circulating_supply: number; insertion_time: Date }>(
-    backendUrl[currentChainId] + '/sov/circulating-supply',
+    graphWrapperUrl[currentChainId] + '/sov/circulating-supply',
     { circulating_supply: 0 },
   );
+
+  console.log('circulating_supply:', totalSupply);
 
   const marketCap = useMemo(() => {
     return (
