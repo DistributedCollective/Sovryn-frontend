@@ -9,13 +9,14 @@ import {
 } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { useApolloClient } from '@apollo/client';
 import { usePerpetual_getCurrentPairId } from './usePerpetual_getCurrentPairId';
+import { getMinimalPositionSize } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
 
 export type PerpetualContractDetailsData = {
   volume24h: number;
   openInterest: number;
   fundingRate: number;
   lotSize: number;
-  minTradeAmount: number;
+  minPositionSize: number;
 };
 
 export const usePerpetual_ContractDetails = (pairType: PerpetualPairType) => {
@@ -70,11 +71,12 @@ export const usePerpetual_ContractDetails = (pairType: PerpetualPairType) => {
         openInterest: perpetualParameters.fOpenInterest,
         fundingRate: perpetualParameters.fCurrentFundingRate,
         lotSize,
-        minTradeAmount: perpetualParameters.fLotSizeBC,
+        minPositionSize: getMinimalPositionSize(perpetualParameters),
       }),
     [
       ammState,
       lotSize,
+      perpetualParameters,
       perpetualParameters.fCurrentFundingRate,
       perpetualParameters.fLotSizeBC,
       perpetualParameters.fOpenInterest,

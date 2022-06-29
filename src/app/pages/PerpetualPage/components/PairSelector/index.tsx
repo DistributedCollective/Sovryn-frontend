@@ -15,7 +15,9 @@ type PairSelectorProps = {
   onChange: (pair: PerpetualPairType) => void;
 };
 
-const perpetualPairs = PerpetualPairDictionary.list();
+const perpetualPairs = PerpetualPairDictionary.list().filter(
+  pair => !pair.deprecated,
+);
 
 export const PairSelector: React.FC<PairSelectorProps> = ({
   pair,
