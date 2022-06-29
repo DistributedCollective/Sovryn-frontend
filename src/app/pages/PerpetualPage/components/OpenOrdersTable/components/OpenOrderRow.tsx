@@ -110,7 +110,7 @@ export const OpenOrderRow: React.FC<OpenOrderRowProps> = ({ item }) => {
               item.createdAt || Math.floor(Date.now() / 1e3).toString()
             }
             separator={SeparatorType.Dash}
-            useUTC={true}
+            useUTC
           />
         </span>
       </td>
