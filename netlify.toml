@@ -51,3 +51,4 @@
     REACT_APP_NETWORK = "testnet"
     REACT_APP_GRAPH_RSK = "https://subgraph.test.sovryn.app/subgraphs/name/DistributedCollective/sovryn-subgraph"
     BUILD_STORYBOOK = "true"
+    REACT_APP_STAGING = "false"
