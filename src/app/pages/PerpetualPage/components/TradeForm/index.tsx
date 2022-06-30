@@ -705,7 +705,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
               <ExpiryDateInput value={expiry} onChange={onChangeExpiry} />
             </div>
 
-            <div className="">
+            <div className="tw-mb-2">
               <Tooltip
                 popoverClassName="tw-max-w-md"
                 content={t(
@@ -719,7 +719,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
                   label={t(
                     translations.perpetualPage.tradeForm.labels.reduceOnly,
                   )}
-                  data-action-id="reduce-only"
+                  data-action-id="perps-tradeForm-reduceOnly"
                   className="tw-text-sm"
                 />
               </Tooltip>
