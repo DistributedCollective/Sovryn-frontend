@@ -124,6 +124,7 @@ export const NewPositionCard: React.FC = () => {
           created: Date.now(),
           tx: null,
           approvalTx: null,
+          reduceOnly: trade.reduceOnly,
         });
       }
 
@@ -156,6 +157,7 @@ export const NewPositionCard: React.FC = () => {
         limit: undefined,
         trigger: undefined,
         leverage: 1,
+        reduceOnly: undefined,
       }));
     }
   }, [dispatch, pairType, trade.pairType]);

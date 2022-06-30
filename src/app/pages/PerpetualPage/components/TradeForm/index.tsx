@@ -310,6 +310,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         limit: undefined,
         trigger: undefined,
         leverage: 1,
+        reduceOnly: undefined,
       });
     }
   }, [setTrade, trade]);
@@ -339,6 +340,13 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
     },
     [setTrade, trade],
   );
+
+  const onReduceOnly = useCallback(() => {
+    setTrade(prevTrade => ({
+      ...prevTrade,
+      reduceOnly: !prevTrade.reduceOnly,
+    }));
+  }, [setTrade]);
 
   const bindSelectPosition = useCallback(
     (position: TradingPosition) => setTrade(trade => ({ ...trade, position })),
@@ -695,6 +703,26 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
                 {t(translations.perpetualPage.tradeForm.labels.days)}
               </span>
               <ExpiryDateInput value={expiry} onChange={onChangeExpiry} />
+            </div>
+
+            <div className="">
+              <Tooltip
+                popoverClassName="tw-max-w-md"
+                content={t(
+                  translations.perpetualPage.tradeForm.tooltips.reduceOnly,
+                )}
+                position={PopoverPosition.TOP}
+              >
+                <Checkbox
+                  checked={trade.reduceOnly || false}
+                  onChange={onReduceOnly}
+                  label={t(
+                    translations.perpetualPage.tradeForm.labels.reduceOnly,
+                  )}
+                  data-action-id="reduce-only"
+                  className="tw-text-sm"
+                />
+              </Tooltip>
             </div>
           </>
         )}
