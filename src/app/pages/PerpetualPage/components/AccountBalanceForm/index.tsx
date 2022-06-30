@@ -18,10 +18,21 @@ import classNames from 'classnames';
 import { Tooltip } from '@blueprintjs/core';
 import { getCollateralName } from '../../utils/renderUtils';
 import { selectPerpetualPage } from '../../selectors';
-import { isMainnet } from '../../../../../utils/classifiers';
+import { isMainnet, isStaging } from '../../../../../utils/classifiers';
 
 type AccountBalanceFormProps = {
   onOpenTransactionHistory: () => void;
+};
+
+const getBridgeUrl = () => {
+  if (isMainnet) {
+    return 'https://bridge.sovryn.app';
+  }
+  if (isStaging) {
+    return 'https://bridge.staging.sovryn.app';
+  }
+
+  return 'https://bridge.test.sovryn.app';
 };
 
 export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
@@ -74,12 +85,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
 
   const onOpenTransfer = useCallback(() => {
     if (!transferDisabled) {
-      window.open(
-        isMainnet
-          ? 'https://bridge.sovryn.app'
-          : 'https://bridge.test.sovryn.app',
-        '_blank',
-      );
+      window.open(getBridgeUrl(), '_blank');
     }
   }, [transferDisabled]);
 
