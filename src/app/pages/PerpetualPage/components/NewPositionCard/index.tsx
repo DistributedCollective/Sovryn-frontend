@@ -155,6 +155,7 @@ export const NewPositionCard: React.FC = () => {
         amount: '0',
         limit: undefined,
         trigger: undefined,
+        leverage: 1,
       }));
     }
   }, [dispatch, pairType, trade.pairType]);

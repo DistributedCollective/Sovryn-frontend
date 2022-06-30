@@ -298,7 +298,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   const resetForm = useCallback(() => {
     if (trade.tradeType === PerpetualTradeType.MARKET) {
       setAmount('0');
-      setTrade({ ...trade, amount: '0' });
+      setTrade({ ...trade, amount: '0', leverage: 1 });
     } else {
       setAmount('0');
       setLimit(undefined);
@@ -309,6 +309,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         amount: '0',
         limit: undefined,
         trigger: undefined,
+        leverage: 1,
       });
     }
   }, [setTrade, trade]);
