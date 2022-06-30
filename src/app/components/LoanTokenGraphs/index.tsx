@@ -1,52 +1,20 @@
-import React, { useEffect, useState, useMemo } from 'react';
-import ParentSize from '@visx/responsive/lib/components/ParentSize';
-import { LendingPool } from 'utils/models/lending-pool';
-import { useSelector } from 'react-redux';
-import { selectWalletProvider } from '../../containers/WalletProvider/selectors';
-import { databaseRpcNodes } from '../../../utils/classifiers';
-import { getLendingContract } from '../../../utils/blockchain/contract-helpers';
-import ComparisonChart from '../ComparisonChart';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
+import ParentSize from '@visx/responsive/lib/components/ParentSize';
+import { LendingPool } from 'utils/models/lending-pool';
+import ComparisonChart from '../ComparisonChart';
+import { useGetLendingHistory } from 'app/hooks/lending/useGetLendingHistory';
+import { BarsGraphProps } from './types';
 
-interface DataItem {
-  supply: number;
-  supply_apr: number;
-  borrow_apr: number;
-  timestamp: string;
-}
-
-interface Props {
+interface ILoanTokenGraphsProps {
   lendingPool: LendingPool;
 }
 
-export function LoanTokenGraphs(props: Props) {
-  const { chainId } = useSelector(selectWalletProvider);
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    if (chainId !== undefined) {
-      fetch(databaseRpcNodes[chainId], {
-        method: 'post',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          method: 'custom_getLoanTokenHistory',
-          params: [
-            {
-              address: getLendingContract(props.lendingPool.getAsset()).address,
-            },
-          ],
-        }),
-      })
-        .then(e => e.json().then())
-        .then(e => {
-          setData(e.slice(-28)); //last 7 days of data in 6hr chunks
-        })
-        .catch(console.error);
-    }
-  }, [chainId, props.lendingPool]);
+export const LoanTokenGraphs: React.FC<ILoanTokenGraphsProps> = ({
+  lendingPool,
+}) => {
+  const data = useGetLendingHistory(lendingPool);
 
   if (!data.length) {
     return null;
@@ -57,24 +25,19 @@ export function LoanTokenGraphs(props: Props) {
       {({ width }) => <BarsGraph width={width} data={data} />}
     </ParentSize>
   );
-}
+};
 
-interface BarsProps {
-  width: number;
-  data: DataItem[];
-}
-
-function BarsGraph({ width, data }: BarsProps) {
+function BarsGraph({ width, data }: BarsGraphProps) {
   const { t } = useTranslation();
   const height = 150;
 
   const supplyApr = useMemo(
-    () => data.map(i => [Date.parse(i.timestamp), i.supply_apr / 1e8]),
+    () => data.map(i => [Date.parse(i.timestamp), Number(i.supply_apr)]),
     [data],
   );
 
   const borrowApr = useMemo(
-    () => data.map(i => [Date.parse(i.timestamp), i.borrow_apr / 1e8]),
+    () => data.map(i => [Date.parse(i.timestamp), Number(i.borrow_apr)]),
     [data],
   );
 
