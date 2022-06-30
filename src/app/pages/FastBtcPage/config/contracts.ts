@@ -63,11 +63,11 @@ export const contracts: Record<
   btcToken: {
     address: {
       [Chain.RSK]: {
-        [AppMode.MAINNET]: ethers.constants.AddressZero, //
+        [AppMode.MAINNET]: ethers.constants.AddressZero,
         [AppMode.TESTNET]: ethers.constants.AddressZero,
       },
       [Chain.BSC]: {
-        [AppMode.MAINNET]: '0x2591c762e8C9Fe28A03B035b380110dD599aE987',
+        [AppMode.MAINNET]: '0x6a7F2d2e5D5756729e875c8F8fC254448E763Fdf',
         [AppMode.TESTNET]: '0xd0370a808203da14B703826eF77072ef5F09840D',
       },
     },
