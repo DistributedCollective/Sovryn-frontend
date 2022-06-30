@@ -51,6 +51,7 @@
     REACT_APP_NETWORK = "testnet"
     REACT_APP_GRAPH_RSK = "https://subgraph.test.sovryn.app/subgraphs/name/DistributedCollective/sovryn-subgraph"
     BUILD_STORYBOOK = "true"
+    REACT_APP_STAGING = "false"
  
 # perps.sovryn.app deployment
 [context."feat/perpetuals_limit_orders_main"]
@@ -58,3 +59,4 @@
     REACT_APP_NETWORK = "testnet"
     REACT_APP_GRAPH_RSK = "https://subgraph.test.sovryn.app/subgraphs/name/DistributedCollective/sovryn-subgraph"
     BUILD_STORYBOOK = "false"
+    REACT_APP_STAGING = "false"
