@@ -518,298 +518,198 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         disabled && 'tw-pointer-events-none',
       )}
     >
-      <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-space-x-2.5 tw-mb-5">
+      <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-5">
         <button
-          className={classNames(
-            'tw-w-full tw-h-8 tw-font-semibold tw-text-base tw-text-white tw-bg-trade-long tw-rounded-lg',
-            trade.position !== TradingPosition.LONG &&
-              'tw-opacity-25 hover:tw-opacity-100 tw-transition-opacity tw-duration-300',
-          )}
+          className={classNames(styles.positionButton, styles.long, {
+            [styles.active]: trade.position === TradingPosition.LONG,
+          })}
           onClick={onLongClick}
         >
           {t(translations.perpetualPage.tradeForm.buttons.buy)}
         </button>
         <button
-          className={classNames(
-            'tw-w-full tw-h-8 tw-font-semibold tw-text-base tw-text-white tw-bg-trade-short tw-rounded-lg',
-            trade.position !== TradingPosition.SHORT &&
-              'tw-opacity-25 hover:tw-opacity-100 tw-transition-opacity tw-duration-300',
-          )}
+          className={classNames(styles.positionButton, styles.short, {
+            [styles.active]: trade.position === TradingPosition.SHORT,
+          })}
           onClick={onShortClick}
         >
           {t(translations.perpetualPage.tradeForm.buttons.sell)}
         </button>
       </div>
-      <div className="tw-flex tw-flex-row tw-items-center tw-mb-4">
-        <button
-          className={classNames(styles.tradeTypeButton, {
-            [styles.active]: trade.tradeType === PerpetualTradeType.MARKET,
-          })}
-          onClick={bindSelectTradeType(PerpetualTradeType.MARKET)}
-        >
-          {t(translations.perpetualPage.tradeForm.buttons.market)}
-        </button>
+      <div className="tw-p-4 tw-pt-2">
+        <div className="tw-flex tw-flex-row tw-items-center tw-mb-6">
+          <button
+            className={classNames(styles.tradeTypeButton, {
+              [styles.active]: trade.tradeType === PerpetualTradeType.MARKET,
+            })}
+            onClick={bindSelectTradeType(PerpetualTradeType.MARKET)}
+          >
+            {t(translations.perpetualPage.tradeForm.buttons.market)}
+          </button>
 
-        <button
-          className={classNames(styles.tradeTypeButton, {
-            [styles.active]: trade.tradeType === PerpetualTradeType.LIMIT,
-          })}
-          onClick={bindSelectTradeType(PerpetualTradeType.LIMIT)}
-        >
-          {t(translations.perpetualPage.tradeForm.buttons.limit)}
-        </button>
+          <button
+            className={classNames(styles.tradeTypeButton, {
+              [styles.active]: trade.tradeType === PerpetualTradeType.LIMIT,
+            })}
+            onClick={bindSelectTradeType(PerpetualTradeType.LIMIT)}
+          >
+            {t(translations.perpetualPage.tradeForm.buttons.limit)}
+          </button>
 
-        <button
-          className={classNames(styles.tradeTypeButton, {
-            [styles.active]: trade.tradeType === PerpetualTradeType.STOP,
-          })}
-          onClick={bindSelectTradeType(PerpetualTradeType.STOP)}
-        >
-          {t(translations.perpetualPage.tradeForm.buttons.stop)}
-        </button>
-      </div>
-      <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-sm">
-        <Tooltip
-          position="bottom"
-          popoverClassName="tw-max-w-md tw-font-light"
-          content={t(translations.perpetualPage.tradeForm.tooltips.orderSize)}
-        >
-          <label>
-            {t(translations.perpetualPage.tradeForm.labels.orderSize)}
-          </label>
-        </Tooltip>
-        <div className="tw-flex-1 tw-mx-4 tw-text-right">
-          <AssetSymbolRenderer assetString={pair.baseAsset} />
+          <button
+            className={classNames(styles.tradeTypeButton, {
+              [styles.active]: trade.tradeType === PerpetualTradeType.STOP,
+            })}
+            onClick={bindSelectTradeType(PerpetualTradeType.STOP)}
+          >
+            {t(translations.perpetualPage.tradeForm.buttons.stop)}
+          </button>
         </div>
-
-        <Input
-          className="tw-w-2/5"
-          type="number"
-          value={amount}
-          step={lotSize}
-          min={0}
-          max={maxTradeSize}
-          onChangeText={onChangeOrderAmount}
-          onBlur={onBlurOrderAmount}
-        />
-      </div>
-
-      <div className="tw-flex tw-justify-end tw-flex-1 tw--mt-3 tw-mb-4 tw-text-xs">
-        <Tooltip
-          position="bottom"
-          popoverClassName="tw-max-w-md tw-font-light"
-          content={t(
-            translations.perpetualPage.tradeForm.tooltips.maxTradeSize,
-          )}
-        >
-          <label className="tw-mr-1">
-            {t(translations.perpetualPage.tradeForm.labels.maxTradeSize)}
-          </label>
-        </Tooltip>
-        <AssetValue
-          minDecimals={0}
-          maxDecimals={6}
-          mode={AssetValueMode.auto}
-          value={maxTradeSize}
-          assetString={pair.baseAsset}
-        />
-      </div>
-
-      <div
-        className={classNames(
-          'tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-sm',
-          trade.tradeType !== PerpetualTradeType.STOP && 'tw-hidden',
-        )}
-      >
-        <Tooltip
-          position="bottom"
-          popoverClassName="tw-max-w-md tw-font-light"
-          content={t(
-            translations.perpetualPage.tradeForm.tooltips.triggerPrice,
-          )}
-        >
-          <label>
-            {t(translations.perpetualPage.tradeForm.labels.triggerPrice)}
-          </label>
-        </Tooltip>
-        <div className="tw-flex-1 tw-mx-4 tw-text-right">
-          <AssetSymbolRenderer assetString={pair.quoteAsset} />
-        </div>
-        <Input
-          className="tw-w-2/5"
-          type="number"
-          value={
-            triggerPrice !== undefined
-              ? triggerPrice
-              : numberFromWei(trade.trigger).toFixed(2)
-          }
-          step={1}
-          min={0}
-          onChangeText={onChangeTriggerPrice}
-        />
-      </div>
-
-      {isLimitOrder && (
-        <>
-          <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-sm">
-            <Tooltip
-              position="bottom"
-              popoverClassName="tw-max-w-md tw-font-light"
-              content={t(
-                translations.perpetualPage.tradeForm.tooltips.limitPrice,
-              )}
-            >
-              <label>
-                {t(translations.perpetualPage.tradeForm.labels.limitPrice)}
-              </label>
-            </Tooltip>
-
-            <div className="tw-flex-1 tw-mx-4 tw-text-right">
-              <AssetSymbolRenderer assetString={pair.quoteAsset} />
-            </div>
-            <Input
-              className="tw-w-2/5"
-              type="number"
-              value={
-                limit !== undefined
-                  ? limit
-                  : numberFromWei(trade.limit).toFixed(2)
-              }
-              step={1}
-              min={0}
-              onChangeText={onChangeOrderLimit}
-            />
+        <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-sm">
+          <Tooltip
+            position="bottom"
+            popoverClassName="tw-max-w-md tw-font-light"
+            content={t(translations.perpetualPage.tradeForm.tooltips.orderSize)}
+          >
+            <label>
+              {t(translations.perpetualPage.tradeForm.labels.orderSize)}
+            </label>
+          </Tooltip>
+          <div className="tw-flex-1 tw-mx-4 tw-text-right">
+            <AssetSymbolRenderer assetString={pair.baseAsset} />
           </div>
 
-          <div className="tw-flex tw-flex-row tw-justify-between tw-mb-4 tw-text-sm">
-            <Tooltip
-              position="bottom"
-              popoverClassName="tw-max-w-md tw-font-light"
-              content={t(translations.perpetualPage.tradeForm.tooltips.expiry)}
-            >
-              <label className="tw-mt-1.5">
-                {t(translations.perpetualPage.tradeForm.labels.expiry)}
-              </label>
-            </Tooltip>
-            <span className="tw-flex-1 tw-mt-1.5 tw-mx-4 tw-text-right tw-font-medium">
-              {t(translations.perpetualPage.tradeForm.labels.days)}
-            </span>
-            <ExpiryDateInput value={expiry} onChange={onChangeExpiry} />
-          </div>
-        </>
-      )}
-
-      <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-text-xs tw-font-medium">
-        <Tooltip
-          position="bottom"
-          popoverClassName="tw-max-w-md tw-font-light"
-          content={t(
-            translations.perpetualPage.tradeForm.tooltips[
-              isLimitOrder ? 'orderCostLimit' : 'orderCost'
-            ],
-          )}
-        >
-          <label>
-            {t(translations.perpetualPage.tradeForm.labels.orderCost)}
-          </label>
-        </Tooltip>
-        <Tooltip
-          position={'auto-start'}
-          content={
-            <>
-              <AssetValue
-                className="tw-block tw-text-right"
-                minDecimals={8}
-                maxDecimals={8}
-                mode={AssetValueMode.auto}
-                value={orderCost}
-                assetString={collateralName}
-              />
-              {(!pair.isQuanto || isMarketOrder) && (
-                <AssetValue
-                  className="tw-block tw-text-right"
-                  minDecimals={2}
-                  maxDecimals={2}
-                  mode={AssetValueMode.auto}
-                  value={orderCost / quoteToCollateralFactor}
-                  assetString={pair.quoteAsset}
-                  isApproximation
-                />
-              )}
-            </>
-          }
-        >
-          <AssetValue
-            minDecimals={4}
-            maxDecimals={4}
-            mode={AssetValueMode.auto}
-            value={orderCost}
-            assetString={collateralName}
+          <Input
+            className="tw-w-2/5"
+            type="number"
+            value={amount}
+            step={lotSize}
+            min={0}
+            max={maxTradeSize}
+            onChangeText={onChangeOrderAmount}
+            onBlur={onBlurOrderAmount}
           />
-        </Tooltip>
-      </div>
-      <div
-        className={classNames(
-          'tw-flex tw-flex-row tw-items-center tw-justify-between tw-text-xs tw-font-medium',
-          {
-            'tw-mb-4': isMarketOrder,
-          },
-        )}
-      >
-        <Tooltip
-          position="bottom"
-          popoverClassName="tw-max-w-md tw-font-light"
-          content={t(translations.perpetualPage.tradeForm.tooltips.tradingFee)}
-        >
-          <label>
-            {t(translations.perpetualPage.tradeForm.labels.tradingFee)}
-          </label>
-        </Tooltip>
-        <Tooltip
-          position={'auto-start'}
-          content={
-            <>
-              <AssetValue
-                className="tw-block tw-text-right"
-                minDecimals={8}
-                maxDecimals={8}
-                mode={AssetValueMode.auto}
-                value={tradingFee}
-                assetString={collateralName}
-              />
-              <AssetValue
-                className="tw-block tw-text-right"
-                minDecimals={2}
-                maxDecimals={2}
-                mode={AssetValueMode.auto}
-                value={tradingFee / quoteToCollateralFactor}
-                assetString={pair.quoteAsset}
-                isApproximation
-              />
-            </>
-          }
-        >
-          <AssetValue
-            minDecimals={4}
-            maxDecimals={4}
-            mode={AssetValueMode.auto}
-            value={tradingFee}
-            assetString={collateralName}
-          />
-        </Tooltip>
-      </div>
+        </div>
 
-      {isLimitOrder && (
-        <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-xs tw-font-medium">
+        <div className="tw-flex tw-justify-end tw-flex-1 tw--mt-3 tw-mb-4 tw-text-xs">
           <Tooltip
             position="bottom"
             popoverClassName="tw-max-w-md tw-font-light"
             content={t(
-              translations.perpetualPage.tradeForm.tooltips.relayerFee,
+              translations.perpetualPage.tradeForm.tooltips.maxTradeSize,
+            )}
+          >
+            <label className="tw-mr-1">
+              {t(translations.perpetualPage.tradeForm.labels.maxTradeSize)}
+            </label>
+          </Tooltip>
+          <AssetValue
+            minDecimals={0}
+            maxDecimals={6}
+            mode={AssetValueMode.auto}
+            value={maxTradeSize}
+            assetString={pair.baseAsset}
+          />
+        </div>
+
+        <div
+          className={classNames(
+            'tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-sm',
+            trade.tradeType !== PerpetualTradeType.STOP && 'tw-hidden',
+          )}
+        >
+          <Tooltip
+            position="bottom"
+            popoverClassName="tw-max-w-md tw-font-light"
+            content={t(
+              translations.perpetualPage.tradeForm.tooltips.triggerPrice,
             )}
           >
             <label>
-              {t(translations.perpetualPage.tradeForm.labels.relayerFee)}
+              {t(translations.perpetualPage.tradeForm.labels.triggerPrice)}
+            </label>
+          </Tooltip>
+          <div className="tw-flex-1 tw-mx-4 tw-text-right">
+            <AssetSymbolRenderer assetString={pair.quoteAsset} />
+          </div>
+          <Input
+            className="tw-w-2/5"
+            type="number"
+            value={
+              triggerPrice !== undefined
+                ? triggerPrice
+                : numberFromWei(trade.trigger).toFixed(2)
+            }
+            step={1}
+            min={0}
+            onChangeText={onChangeTriggerPrice}
+          />
+        </div>
+
+        {isLimitOrder && (
+          <>
+            <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-sm">
+              <Tooltip
+                position="bottom"
+                popoverClassName="tw-max-w-md tw-font-light"
+                content={t(
+                  translations.perpetualPage.tradeForm.tooltips.limitPrice,
+                )}
+              >
+                <label>
+                  {t(translations.perpetualPage.tradeForm.labels.limitPrice)}
+                </label>
+              </Tooltip>
+
+              <div className="tw-flex-1 tw-mx-4 tw-text-right">
+                <AssetSymbolRenderer assetString={pair.quoteAsset} />
+              </div>
+              <Input
+                className="tw-w-2/5"
+                type="number"
+                value={
+                  limit !== undefined
+                    ? limit
+                    : numberFromWei(trade.limit).toFixed(2)
+                }
+                step={1}
+                min={0}
+                onChangeText={onChangeOrderLimit}
+              />
+            </div>
+
+            <div className="tw-flex tw-flex-row tw-justify-between tw-mb-4 tw-text-sm">
+              <Tooltip
+                position="bottom"
+                popoverClassName="tw-max-w-md tw-font-light"
+                content={t(
+                  translations.perpetualPage.tradeForm.tooltips.expiry,
+                )}
+              >
+                <label className="tw-mt-1.5">
+                  {t(translations.perpetualPage.tradeForm.labels.expiry)}
+                </label>
+              </Tooltip>
+              <span className="tw-flex-1 tw-mt-1.5 tw-mx-4 tw-text-right tw-font-medium">
+                {t(translations.perpetualPage.tradeForm.labels.days)}
+              </span>
+              <ExpiryDateInput value={expiry} onChange={onChangeExpiry} />
+            </div>
+          </>
+        )}
+
+        <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-text-xs tw-font-medium">
+          <Tooltip
+            position="bottom"
+            popoverClassName="tw-max-w-md tw-font-light"
+            content={t(
+              translations.perpetualPage.tradeForm.tooltips[
+                isLimitOrder ? 'orderCostLimit' : 'orderCost'
+              ],
+            )}
+          >
+            <label>
+              {t(translations.perpetualPage.tradeForm.labels.orderCost)}
             </label>
           </Tooltip>
           <Tooltip
@@ -821,7 +721,61 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
                   minDecimals={8}
                   maxDecimals={8}
                   mode={AssetValueMode.auto}
-                  value={perpParameters.fReferralRebateCC}
+                  value={orderCost}
+                  assetString={collateralName}
+                />
+                {(!pair.isQuanto || isMarketOrder) && (
+                  <AssetValue
+                    className="tw-block tw-text-right"
+                    minDecimals={2}
+                    maxDecimals={2}
+                    mode={AssetValueMode.auto}
+                    value={orderCost / quoteToCollateralFactor}
+                    assetString={pair.quoteAsset}
+                    isApproximation
+                  />
+                )}
+              </>
+            }
+          >
+            <AssetValue
+              minDecimals={4}
+              maxDecimals={4}
+              mode={AssetValueMode.auto}
+              value={orderCost}
+              assetString={collateralName}
+            />
+          </Tooltip>
+        </div>
+        <div
+          className={classNames(
+            'tw-flex tw-flex-row tw-items-center tw-justify-between tw-text-xs tw-font-medium tw-ml-2 tw-text-gray-8',
+            {
+              'tw-mb-4': isMarketOrder,
+            },
+          )}
+        >
+          <Tooltip
+            position="bottom"
+            popoverClassName="tw-max-w-md tw-font-light"
+            content={t(
+              translations.perpetualPage.tradeForm.tooltips.tradingFee,
+            )}
+          >
+            <label>
+              {t(translations.perpetualPage.tradeForm.labels.tradingFee)}
+            </label>
+          </Tooltip>
+          <Tooltip
+            position={'auto-start'}
+            content={
+              <>
+                <AssetValue
+                  className="tw-block tw-text-right"
+                  minDecimals={8}
+                  maxDecimals={8}
+                  mode={AssetValueMode.auto}
+                  value={tradingFee}
                   assetString={collateralName}
                 />
                 <AssetValue
@@ -829,9 +783,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
                   minDecimals={2}
                   maxDecimals={2}
                   mode={AssetValueMode.auto}
-                  value={
-                    perpParameters.fReferralRebateCC / quoteToCollateralFactor
-                  }
+                  value={tradingFee / quoteToCollateralFactor}
                   assetString={pair.quoteAsset}
                   isApproximation
                 />
@@ -842,114 +794,165 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
               minDecimals={4}
               maxDecimals={4}
               mode={AssetValueMode.auto}
-              value={perpParameters.fReferralRebateCC}
+              value={tradingFee}
               assetString={collateralName}
             />
           </Tooltip>
         </div>
-      )}
 
-      <LeverageSelector
-        className="tw-mb-2"
-        value={trade.leverage}
-        min={minLeverage}
-        max={maxLeverage}
-        steps={pair.config.leverage.steps}
-        onChange={onChangeLeverage}
-        disabled={isLeverageDisabled}
-        tooltip={t(translations.perpetualPage.tradeForm.tooltips.leverage)}
-      />
-
-      {isMarketOrder && (
-        <>
-          <Tooltip
-            popoverClassName="tw-max-w-md"
-            content={t(
-              translations.perpetualPage.tradeForm.tooltips
-                .keepPositionLeverage,
-            )}
-            position={PopoverPosition.TOP}
-          >
-            <Checkbox
-              checked={keepPositionLeverage}
-              onChange={() =>
-                onChangeKeepPositionLeverage(!keepPositionLeverage)
+        {isLimitOrder && (
+          <div className="tw-flex tw-flex-row tw-items-center tw-justify-between tw-mb-4 tw-text-xs tw-font-medium tw-ml-2 tw-text-gray-8">
+            <Tooltip
+              position="bottom"
+              popoverClassName="tw-max-w-md tw-font-light"
+              content={t(
+                translations.perpetualPage.tradeForm.tooltips.relayerFee,
+              )}
+            >
+              <label>
+                {t(translations.perpetualPage.tradeForm.labels.relayerFee)}
+              </label>
+            </Tooltip>
+            <Tooltip
+              position={'auto-start'}
+              content={
+                <>
+                  <AssetValue
+                    className="tw-block tw-text-right"
+                    minDecimals={8}
+                    maxDecimals={8}
+                    mode={AssetValueMode.auto}
+                    value={perpParameters.fReferralRebateCC}
+                    assetString={collateralName}
+                  />
+                  <AssetValue
+                    className="tw-block tw-text-right"
+                    minDecimals={2}
+                    maxDecimals={2}
+                    mode={AssetValueMode.auto}
+                    value={
+                      perpParameters.fReferralRebateCC / quoteToCollateralFactor
+                    }
+                    assetString={pair.quoteAsset}
+                    isApproximation
+                  />
+                </>
               }
-              disabled={!hasOpenTrades}
-              label={t(
-                translations.perpetualPage.tradeForm.labels
+            >
+              <AssetValue
+                minDecimals={4}
+                maxDecimals={4}
+                mode={AssetValueMode.auto}
+                value={perpParameters.fReferralRebateCC}
+                assetString={collateralName}
+              />
+            </Tooltip>
+          </div>
+        )}
+
+        <LeverageSelector
+          className="tw-mb-2"
+          value={trade.leverage}
+          min={minLeverage}
+          max={maxLeverage}
+          steps={pair.config.leverage.steps}
+          onChange={onChangeLeverage}
+          disabled={isLeverageDisabled}
+          tooltip={t(translations.perpetualPage.tradeForm.tooltips.leverage)}
+        />
+
+        {isMarketOrder && (
+          <>
+            <Tooltip
+              popoverClassName="tw-max-w-md"
+              content={t(
+                translations.perpetualPage.tradeForm.tooltips
                   .keepPositionLeverage,
               )}
-              data-action-id="keep-position-leverage"
-              className="tw-text-sm"
-            />
-          </Tooltip>
-          <div className="tw-my-2 tw-text-secondary tw-text-xs">
-            <button className="tw-flex tw-flex-row" onClick={onOpenSlippage}>
-              <Trans
-                i18nKey={
-                  translations.perpetualPage.tradeForm.buttons.slippageSettings
+              position={PopoverPosition.TOP}
+            >
+              <Checkbox
+                checked={keepPositionLeverage}
+                onChange={() =>
+                  onChangeKeepPositionLeverage(!keepPositionLeverage)
                 }
+                disabled={!hasOpenTrades}
+                label={t(
+                  translations.perpetualPage.tradeForm.labels
+                    .keepPositionLeverage,
+                )}
+                data-action-id="keep-position-leverage"
+                className="tw-text-sm"
               />
-              <img className="tw-ml-2" alt="setting" src={settingImg} />
-            </button>
-          </div>
+            </Tooltip>
+            <div className="tw-my-2 tw-text-secondary tw-text-xs">
+              <button className="tw-flex tw-flex-row" onClick={onOpenSlippage}>
+                <Trans
+                  i18nKey={
+                    translations.perpetualPage.tradeForm.buttons
+                      .slippageSettings
+                  }
+                />
+                <img className="tw-ml-2" alt="setting" src={settingImg} />
+              </button>
+            </div>
 
-          <ResultingPosition
-            trade={trade}
-            minLeverage={minLeverage}
-            maxLeverage={maxLeverage}
-            limitOrderPrice={limitPrice}
-          />
-        </>
-      )}
-
-      {Number(amount) > 0 && (
-        <ValidationHint className="tw-mt-4" validation={validation} />
-      )}
-      <div className="tw-absolute tw-bottom-0 tw-left-0 tw-right-0">
-        {!inMaintenance ? (
-          <button
-            className={classNames(
-              'tw-flex tw-flex-row tw-justify-between tw-items-center tw-w-full tw-h-12 tw-px-4 tw-font-semibold tw-text-base tw-text-white tw-bg-trade-long tw-rounded-lg tw-transition-opacity tw-duration-300',
-              trade.position === TradingPosition.LONG
-                ? 'tw-bg-trade-long'
-                : 'tw-bg-trade-short',
-              buttonDisabled
-                ? 'tw-opacity-25 tw-cursor-not-allowed'
-                : 'tw-opacity-100 hover:tw-opacity-75',
-            )}
-            onClick={onSubmitWrapper}
-            disabled={buttonDisabled}
-          >
-            <span className="tw-mr-2">{tradeButtonLabel}</span>
-            <span>
-              {weiToNumberFormat(trade.amount, lotPrecision)} @{' '}
-              {isMarketOrder
-                ? toNumberFormat(entryPrice, 2)
-                : toNumberFormat(limitPrice, 2)}
-            </span>
-          </button>
-        ) : (
-          <ErrorBadge
-            content={
-              <Trans
-                i18nKey={translations.maintenance.perpetualsTrade}
-                components={[
-                  <a
-                    href={discordInvite}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
-                  >
-                    x
-                  </a>,
-                ]}
-              />
-            }
-            className="tw-mb-0 tw-pb-0"
-          />
+            <ResultingPosition
+              trade={trade}
+              minLeverage={minLeverage}
+              maxLeverage={maxLeverage}
+              limitOrderPrice={limitPrice}
+            />
+          </>
         )}
+
+        {Number(amount) > 0 && (
+          <ValidationHint className="tw-mt-4" validation={validation} />
+        )}
+        <div className="tw-absolute tw-bottom-4 tw-left-4 tw-right-4">
+          {!inMaintenance ? (
+            <button
+              className={classNames(
+                'tw-flex tw-flex-row tw-justify-between tw-items-center tw-w-full tw-h-12 tw-px-4 tw-font-semibold tw-text-base tw-text-white tw-bg-trade-long tw-rounded-lg tw-transition-opacity tw-duration-300',
+                trade.position === TradingPosition.LONG
+                  ? 'tw-bg-trade-long'
+                  : 'tw-bg-trade-short',
+                buttonDisabled
+                  ? 'tw-opacity-25 tw-cursor-not-allowed'
+                  : 'tw-opacity-100 hover:tw-opacity-75',
+              )}
+              onClick={onSubmitWrapper}
+              disabled={buttonDisabled}
+            >
+              <span className="tw-mr-2">{tradeButtonLabel}</span>
+              <span>
+                {weiToNumberFormat(trade.amount, lotPrecision)} @{' '}
+                {isMarketOrder
+                  ? toNumberFormat(entryPrice, 2)
+                  : toNumberFormat(limitPrice, 2)}
+              </span>
+            </button>
+          ) : (
+            <ErrorBadge
+              content={
+                <Trans
+                  i18nKey={translations.maintenance.perpetualsTrade}
+                  components={[
+                    <a
+                      href={discordInvite}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      className="tw-text-warning tw-text-xs tw-underline hover:tw-no-underline"
+                    >
+                      x
+                    </a>,
+                  ]}
+                />
+              }
+              className="tw-mb-0 tw-pb-0"
+            />
+          )}
+        </div>
       </div>
     </div>
   );

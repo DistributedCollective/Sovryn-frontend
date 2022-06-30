@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import { isMainnet, isStaging } from 'utils/classifiers';
 
 type GraphQLEndpoint = { graph: string; index?: string; isFallback?: boolean };
 
@@ -134,20 +135,33 @@ const evaluateEndpoint = async (endpoint: GraphQLEndpoint) => {
   return result;
 };
 
-// TODO: add Perpetual GraphQL mainnet urls
 // fallback endpoint has to always be the last entry.
-const config: GraphQLEndpoint[] = [
-  // {
-  //   graph:
-  //     'https://api.thegraph.com/subgraphs/name/omerzam/perpetual-swaps-compete',
-  //   index: 'https://api.thegraph.com/index-node/graphql',
-  // },
-  {
-    graph:
-      'https://sovryn-perps-subgraph.test.sovryn.app/subgraphs/name/DistributedCollective/Sovryn-perpetual-swaps-subgraph',
-    // isFallback: true,
-  },
-];
+const config: GraphQLEndpoint[] =
+  isMainnet || isStaging
+    ? [
+        {
+          graph:
+            'https://sovryn-perps-subgraph.sovryn.app/subgraphs/name/DistributedCollective/Sovryn-perpetual-swaps-subgraph',
+        },
+        {
+          graph:
+            'https://api.thegraph.com/subgraphs/name/distributedcollective/sovryn-perpetual-futures',
+          index: 'https://api.thegraph.com/index-node/graphql',
+          isFallback: true,
+        },
+      ]
+    : [
+        // {
+        //   graph:
+        //     'https://api.thegraph.com/subgraphs/name/omerzam/perpetual-swaps-compete',
+        //   index: 'https://api.thegraph.com/index-node/graphql',
+        // },
+        {
+          graph:
+            'https://sovryn-perps-subgraph.test.sovryn.app/subgraphs/name/DistributedCollective/Sovryn-perpetual-swaps-subgraph',
+          // isFallback: true,
+        },
+      ];
 
 type GraphQLProviderProps = {
   children: React.ReactNode;

@@ -110,6 +110,7 @@ export const OpenOrderRow: React.FC<OpenOrderRowProps> = ({ item }) => {
               item.createdAt || Math.floor(Date.now() / 1e3).toString()
             }
             separator={SeparatorType.Dash}
+            useUTC
           />
         </span>
       </td>
@@ -163,6 +164,7 @@ export const OpenOrderRow: React.FC<OpenOrderRowProps> = ({ item }) => {
           <DisplayDate
             timestamp={item.expiry || Math.floor(Date.now() / 1e3).toString()}
             separator={SeparatorType.Dash}
+            useUTC
           />
         </span>
       </td>
