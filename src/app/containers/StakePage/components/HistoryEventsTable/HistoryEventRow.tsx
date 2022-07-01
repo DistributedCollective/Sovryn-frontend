@@ -7,16 +7,14 @@ import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { translations } from 'locales/i18n';
 import { Asset } from 'types';
 import { toWei } from 'utils/blockchain/math-helpers';
-import { useCachedAssetPrice } from 'app/hooks/trading/useCachedAssetPrice';
-import { bignumber } from 'mathjs';
-import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { LoadableValue } from 'app/components/LoadableValue';
-import { weiToUSD } from 'utils/display-text/format';
 import {
   StakeHistoryAction,
   StakeHistoryFieldsFragment,
 } from 'utils/graphql/rsk/generated';
 import { AssetValueMode } from 'app/components/AssetValue/types';
+import { useDollarValue } from 'app/hooks/useDollarValue';
+import { getActionName } from '../../utils';
 
 interface IHistoryEventRowProps {
   event: StakeHistoryFieldsFragment;
@@ -29,36 +27,7 @@ export const HistoryEventRow: React.FC<IHistoryEventRowProps> = ({ event }) => {
     timestamp,
   ]);
 
-  const dollars = useCachedAssetPrice(Asset.SOV, Asset.USDT);
-  const SOV = AssetsDictionary.get(Asset.SOV);
-  const dollarValue = useMemo(() => {
-    if (!amount) return '';
-    return bignumber(toWei(amount))
-      .mul(dollars.value)
-      .div(10 ** SOV.decimals)
-      .toFixed(0);
-  }, [dollars.value, amount, SOV.decimals]);
-
-  const getActionName = (action: StakeHistoryAction) => {
-    switch (action) {
-      case StakeHistoryAction.Stake:
-        return t(translations.stake.history.actions.stake);
-      case StakeHistoryAction.Unstake:
-        return t(translations.stake.history.actions.unstake);
-      case StakeHistoryAction.FeeWithdrawn:
-        return t(translations.stake.history.actions.feeWithdraw);
-      case StakeHistoryAction.IncreaseStake:
-        return t(translations.stake.history.actions.increase);
-      case StakeHistoryAction.ExtendStake:
-        return t(translations.stake.history.actions.extend);
-      case StakeHistoryAction.Delegate:
-        return t(translations.stake.history.actions.delegate);
-      case StakeHistoryAction.WithdrawStaked:
-        return t(translations.stake.history.actions.withdraw);
-      default:
-        return action;
-    }
-  };
+  const dollarValue = useDollarValue(Asset.SOV, amount || '0');
 
   return (
     <tr>
@@ -67,7 +36,7 @@ export const HistoryEventRow: React.FC<IHistoryEventRowProps> = ({ event }) => {
           <DisplayDate timestamp={stakeTime} />
         </div>
       </td>
-      <td>{getActionName(action)}</td>
+      <td>{t(getActionName(action))}</td>
       <td className="tw-text-left tw-font-normal">
         {action !== StakeHistoryAction.Delegate ? (
           <>
@@ -80,8 +49,13 @@ export const HistoryEventRow: React.FC<IHistoryEventRowProps> = ({ event }) => {
             />
             <br />≈{' '}
             <LoadableValue
-              value={weiToUSD(dollarValue)}
-              loading={dollars.loading}
+              value={
+                <AssetValue
+                  value={Number(dollarValue.value)}
+                  assetString="USD"
+                />
+              }
+              loading={dollarValue.loading}
             />
           </>
         ) : (

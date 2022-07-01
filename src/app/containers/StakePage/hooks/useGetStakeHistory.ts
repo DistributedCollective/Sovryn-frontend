@@ -5,12 +5,14 @@ import { useGetStakeHistoryQuery } from 'utils/graphql/rsk/generated';
 
 export const useGetStakeHistory = (page: number, pageSize: number) => {
   const account = useAccount();
+
   const skip = useMemo(() => {
     if (page === 1) {
       return 0;
     }
     return (page - 1) * pageSize;
   }, [page, pageSize]);
+
   return useGetStakeHistoryQuery({
     variables: {
       user: account.toLowerCase(),
