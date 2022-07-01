@@ -129,6 +129,7 @@ export type PerpetualTrade = {
   leverage: number;
   slippage: number;
   keepPositionLeverage?: boolean;
+  reduceOnly?: boolean;
   isClosePosition?: boolean;
 };
 
@@ -157,6 +158,7 @@ export const isPerpetualTrade = (x: any): x is PerpetualTrade =>
   (x.margin === undefined || typeof x.margin === 'string') &&
   (x.keepPositionLeverage === undefined ||
     typeof x.keepPositionLeverage === 'boolean') &&
+  (x.reduceOnly === undefined || typeof x.reduceOnly === 'boolean') &&
   (x.isClosingPosition === undefined ||
     typeof x.isClosingPosition === 'boolean');
 
@@ -252,6 +254,7 @@ export interface PerpetualTxCreateLimitOrder extends PerpetualTxBase {
   created: number;
   leverage?: number;
   tradingPosition?: TradingPosition;
+  reduceOnly?: boolean;
 
   approvalTx: Nullable<string>;
 }
