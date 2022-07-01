@@ -106,6 +106,10 @@ export const contracts: Record<
         [AppMode.MAINNET]: '0xa2f50a2c699c1aa3b9089f6b565d4999d45d8983',
         [AppMode.TESTNET]: '0xa9f2ccb27fe01479a1f21f3a236989c614f801bc',
       },
+      [Chain.BSC]: {
+        [AppMode.MAINNET]: '0xc4b5178Cc086E764568AdfB2dacCBB0d973e8132',
+        [AppMode.TESTNET]: '0xa9f2ccb27fe01479a1f21f3a236989c614f801bc',
+      },
     },
     abi: allowTokensAbi,
   },
