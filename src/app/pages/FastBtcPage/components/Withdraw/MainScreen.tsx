@@ -2,12 +2,10 @@ import React, { useCallback, useContext } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { WithdrawContext, WithdrawStep } from '../../contexts/withdraw-context';
-import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
 import { WithdrawDetails } from './WithdrawDetails';
 import { WithdrawInstructions } from './WithdrawInstructions';
 import { FastBtcButton } from '../FastBtcButton';
 import { NetworkAwareComponentProps } from '../../types';
-import { getBTCAssetForNetwork } from '../../helpers';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
@@ -27,21 +25,13 @@ export const MainScreen: React.FC<NetworkAwareComponentProps> = ({
 
   return (
     <>
-      <div className="tw-mb-6 tw-text-base tw-text-center tw-font-semibold">
-        <Trans
-          i18nKey={translations.fastBtcPage.withdraw.mainScreen.title}
-          components={[
-            <AssetSymbolRenderer asset={getBTCAssetForNetwork(network)} />,
-          ]}
-        />
-      </div>
-      <div className="tw-w-full">
+      <div className="tw-w-full tw-mt-2.5 tw-px-2.5">
         <div className="tw-py-4 tw-px-8 tw-bg-gray-5 tw-font-semibold tw-text-white tw-rounded tw-mb-4">
           {t(translations.fastBtcPage.withdraw.mainScreen.description)}
         </div>
         <WithdrawDetails network={network} />
         <WithdrawInstructions />
-        <div className="tw-px-8">
+        <div className="tw-px-8 tw-mb-6">
           <FastBtcButton
             text={t(translations.common.continue)}
             onClick={onContinueClick}

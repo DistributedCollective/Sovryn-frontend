@@ -95,7 +95,7 @@ export const CrossChainLayout: React.FC<CrossChainLayoutProps> = ({
               </span>
             </div>
           )}
-          {(!connected || !address) && <div className="tw-w-50" />}
+          {(!connected || !address) && <div className="tw-w-40" />}
         </header>
         <div className="tw-rounded tw-bg-gray-2.5 tw-mt-20 tw-mb-4">
           {children}

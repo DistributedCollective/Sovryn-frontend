@@ -37,7 +37,7 @@ export const AggregatorWithdrawContainer: React.FC<NetworkAwareComponentProps> =
 
   return (
     <WithdrawContext.Provider value={withdrawContext}>
-      <div className="tw-flex tw-flex-col tw-justify-between tw-items-center tw-w-full tw-p-2.5">
+      <div className="tw-flex tw-flex-col tw-justify-between tw-items-center tw-w-full">
         <SidebarStepsWithdraw network={network} />
         <div
           className={classNames(

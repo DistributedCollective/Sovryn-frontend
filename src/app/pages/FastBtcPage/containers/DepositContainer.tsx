@@ -151,7 +151,7 @@ export const DepositContainer: React.FC<NetworkAwareComponentProps> = ({
 
   return (
     <DepositContext.Provider value={value}>
-      <div className="tw-flex tw-flex-col tw-items-center tw-w-full tw-p-2.5">
+      <div className="tw-flex tw-flex-col tw-items-center tw-w-full">
         <SidebarStepsDeposit network={network} />
         <div
           className={classNames(
