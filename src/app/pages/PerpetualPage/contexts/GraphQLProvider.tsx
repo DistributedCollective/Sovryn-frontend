@@ -139,14 +139,16 @@ const evaluateEndpoint = async (endpoint: GraphQLEndpoint) => {
 const config: GraphQLEndpoint[] =
   isMainnet || isStaging
     ? [
-        // {
-        //   graph:
-        //     'https://sovryn-perps-subgraph.sovryn.app/subgraphs/name/DistributedCollective/Sovryn-perpetual-swaps-subgraph/graphql',
-        // },
+        {
+          graph:
+            'https://sovryn-perps-subgraph.sovryn.app/subgraphs/name/DistributedCollective/Sovryn-perpetual-swaps-subgraph',
+          index: 'https://sovryn-perps-subgraph.sovryn.app/graphql',
+        },
         {
           graph:
             'https://api.thegraph.com/subgraphs/name/distributedcollective/sovryn-perpetual-futures',
-          // isFallback: true,
+          index: 'https://api.thegraph.com/index-node/graphql',
+          isFallback: true,
         },
       ]
     : [
