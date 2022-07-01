@@ -19,7 +19,7 @@ export function useGetLendingHistory(pool: LendingPool) {
         .then(res => {
           setData(res.data.slice(-36)); //last 6 days of data in 4hr chunks
         })
-        .catch(error => console.log(error));
+        .catch(() => setData([]));
     }
   }, [chainId, poolAddress]);
 

@@ -27,7 +27,7 @@ export const LoanTokenGraphs: React.FC<ILoanTokenGraphsProps> = ({
   );
 };
 
-function BarsGraph({ width, data }: BarsGraphProps) {
+const BarsGraph: React.FC<BarsGraphProps> = ({ width, data }) => {
   const { t } = useTranslation();
   const height = 150;
 
@@ -75,4 +75,4 @@ function BarsGraph({ width, data }: BarsGraphProps) {
       />
     </div>
   );
-}
+};
