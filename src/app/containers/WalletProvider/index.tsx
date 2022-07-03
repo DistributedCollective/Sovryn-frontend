@@ -24,7 +24,6 @@ import { detectWeb3Wallet } from 'utils/helpers';
 import { TxRequestDialog } from 'app/components/TransactionDialog/TxRequestDialog';
 import { currentChainId } from '../../../utils/classifiers';
 import { actions } from './slice';
-import { useEvent } from 'app/hooks/useAnalytics';
 import { selectWalletProvider } from './selectors';
 
 interface Props {
@@ -75,18 +74,9 @@ export function WalletProvider(props: Props) {
 function WalletWatcher() {
   const dispatch = useDispatch();
   const { wallet, address, chainId } = useWalletContext();
-  const setEvent = useEvent();
 
   useEffect(() => {
     if (address) {
-      setEvent({
-        category: 'Wallet',
-        action: 'Engaged',
-        label: `${
-          wallet?.wallet?.getWalletType() || 'unknown'
-        }:${crypto.createHash('md5').update(address).digest('hex')}`,
-      });
-
       intercomUpdate({
         'Wallet address': address,
         'Wallet type': detectWeb3Wallet(),
@@ -96,7 +86,7 @@ function WalletWatcher() {
     }
 
     dispatch(actions.accountChanged(address || ''));
-  }, [dispatch, address, setEvent, wallet?.wallet]);
+  }, [dispatch, address, wallet?.wallet]);
 
   useEffect(() => {
     dispatch(actions.chainChanged({ chainId, networkId: chainId }));
