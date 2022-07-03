@@ -185,7 +185,7 @@ export const OpenOrderRow: React.FC<OpenOrderRowProps> = ({ item }) => {
             translations.perpetualPage.openOrdersTable.tooltips.cancel,
           )}
           onClick={onCancelOrder}
-          dataActionId="perps-tables-openOrders-action-cancel-order"
+          dataActionId="perps-tables-openOrders-action-cancelOrder"
         />
       </td>
     </tr>

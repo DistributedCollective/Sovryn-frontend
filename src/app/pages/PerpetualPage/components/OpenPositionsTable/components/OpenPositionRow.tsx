@@ -208,7 +208,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
                     .editLeverage,
                 )}
                 onClick={onEditLeverage}
-                dataActionId="perps-tables-openPositions-action-edit-leverage"
+                dataActionId="perps-tables-openPositions-action-editLeverage"
               />
               <TableRowAction
                 label={t(
@@ -219,7 +219,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
                     .editMargin,
                 )}
                 onClick={onEditMargin}
-                dataActionId="perps-tables-openPositions-action-edit-margin"
+                dataActionId="perps-tables-openPositions-action-editMargin"
               />
 
               <TableRowAction
@@ -231,7 +231,7 @@ export const OpenPositionRow: React.FC<OpenPositionRowProps> = ({ item }) => {
                     .editClose,
                 )}
                 onClick={onCloseTrade}
-                dataActionId="perps-tables-openPositions-action-close-trade"
+                dataActionId="perps-tables-openPositions-action-closeTrade"
               />
             </>
           )}

@@ -33,7 +33,7 @@ export const LayoutMenu: React.FC = () => {
             )}
             checked={showAmmDepth}
             onChange={() => dispatch(actions.setShowAmmDepth(!showAmmDepth))}
-            data-action-id="perps-layoutMenu-amm-depth"
+            data-action-id="perps-layoutMenu-ammDepth"
           />
           <Switch
             large
@@ -57,7 +57,7 @@ export const LayoutMenu: React.FC = () => {
             onChange={() =>
               dispatch(actions.setShowRecentTrades(!showRecentTrades))
             }
-            data-action-id="perps-layoutMenu-recent-trades"
+            data-action-id="perps-layoutMenu-recentTrades"
           />
           <Switch
             large
@@ -68,7 +68,7 @@ export const LayoutMenu: React.FC = () => {
             )}
             checked={showTradeForm}
             onChange={() => dispatch(actions.setShowTradeForm(!showTradeForm))}
-            data-action-id="perps-layoutMenu-trade-form"
+            data-action-id="perps-layoutMenu-tradeForm"
           />
           <Switch
             className="tw-mb-0"
