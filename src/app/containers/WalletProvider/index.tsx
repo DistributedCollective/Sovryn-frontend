@@ -78,7 +78,10 @@ function WalletWatcher() {
   useEffect(() => {
     if (address) {
       intercomUpdate({
-        'Wallet address': address,
+        'Wallet address': crypto
+          .createHash('md5')
+          .update(address)
+          .digest('hex'),
         'Wallet type': detectWeb3Wallet(),
         'Wallet network': wallet?.wallet?.chainId?.toString() || 'unknown',
         Environment: currentChainId,
