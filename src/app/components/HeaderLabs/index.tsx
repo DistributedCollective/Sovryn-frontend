@@ -1,8 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { usePageViews } from 'app/hooks/useAnalytics';
-
 import WalletConnector from '../../containers/WalletConnector';
 import { LanguageToggle } from '../LanguageToggle';
 import styles from './index.module.scss';
@@ -17,7 +15,6 @@ export type HeaderLabsProps = {
 
 export const HeaderLabs: React.FC<HeaderLabsProps> = ({ helpLink }) => {
   const { t } = useTranslation();
-  usePageViews();
 
   return (
     <header className={styles.header}>

@@ -134,7 +134,7 @@ export const AddLiquidityDialog: React.FC<IAddLiquidityDialogProps> = ({
                 tx.loading || !valid || !canInteract || addliquidityLocked
               }
               className="tw-rounded-lg"
-              data-action-id="yieldFarm-liquidityModal-confirm"
+              data-action-id={`yieldFarm-deposit-confirmButton-${pool.assetA}`}
             />
           )}
         </div>
