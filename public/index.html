@@ -22,7 +22,13 @@
         j.async = true;
         j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
         f.parentNode.insertBefore(j, f);
-      })(window, document, 'script', 'dataLayer', 'GTM-KTSX2PL');
+      })(
+        window,
+        document,
+        'script',
+        'dataLayer',
+        '%REACT_APP_GOOGLE_ANALYTICS%',
+      );
     </script>
     <!-- End Google Tag Manager -->
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
@@ -175,7 +181,7 @@
     <!-- Google Tag Manager (noscript) -->
     <noscript
       ><iframe
-        src="https://www.googletagmanager.com/ns.html?id=GTM-KTSX2PL"
+        src="https://www.googletagmanager.com/ns.html?id=%REACT_APP_GOOGLE_ANALYTICS%"
         height="0"
         width="0"
         style="display: none; visibility: hidden;"
