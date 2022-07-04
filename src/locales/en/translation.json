@@ -2345,7 +2345,8 @@
         "txFee": "Tx Fee: <0/> {{symbol}}",
         "triggerPrice": "Trigger Price:",
         "resultingPosition": "Resulting Position",
-        "keepPositionLeverage": "Keep Position Leverage"
+        "keepPositionLeverage": "Keep Position Leverage",
+        "reduceOnly": "Reduce Only"
       },
       "buttons": {
         "buy": "Buy",
@@ -2374,6 +2375,7 @@
         "tradingFee": "The trading fee. If fees are paid in BTC, this includes gas costs.",
         "relayerFee": "Limit/Stop orders are processed with the assistance of a referrer. The referrer is compensated with the relayer fee.",
         "keepPositionLeverage": "You can keep the leverage of the current position by checking this box.",
+        "reduceOnly": "Reduce only orders strictly reduce your open position.",
         "maxTradeSize": "Maximal order size currently allowed by the system.",
         "leverage": "If at the time of order execution, there is an existing position, the position leverage will remain unchanged if the order partially closes the existing position. If instead, the order increases the existing position size, the order will add margin according to your choice of trade leverage. The resulting position leverage depends on how much margin was added with the trade and the amount of margin in the existing position before the trade.",
         "limitPrice": "The execution price will be at or below the limit price for buy orders, at or above for sell orders.",
@@ -2605,10 +2607,11 @@
       "btc": "Value (BTC)",
       "usd": "Value (USD)",
       "protocol": "Protocol Contract",
-      "lend": "Lending Contract",
-      "amm": "Amm Contract",
+      "lend": "Lending Contracts",
+      "amm": "AMM Contracts",
+      "zero": "Zero Contracts",
       "staked": "Bitocracy Staking Contract",
-      "subProtocol": "Subprotocol Bonding Curve Contracts",
+      "subProtocol": "MYNT Bonding Curve Contract",
       "subtotal": "Sub total",
       "total": "Total"
     },

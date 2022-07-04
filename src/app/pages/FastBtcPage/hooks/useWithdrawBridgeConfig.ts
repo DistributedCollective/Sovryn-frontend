@@ -73,20 +73,20 @@ export function useWithdrawBridgeConfig(network: Chain = Chain.RSK) {
         }));
       });
 
-    //
+    // for aggregator
     if (network !== Chain.RSK) {
       setState(prevState => ({
         ...prevState,
         aggregatorLimits: { ...prevState.aggregatorLimits, loading: true },
       }));
       const allowTokens = getFastBTCWithdrawalContract(
-        Chain.RSK,
+        network,
         'aggregatorAllowTokens',
       );
-      const basset = getFastBTCWithdrawalContract(Chain.RSK, 'btcWrapperToken');
+      const basset = getFastBTCWithdrawalContract(network, 'aggregatorBasset');
 
       bridgeNetwork
-        .multiCall(Chain.RSK, [
+        .multiCall(network, [
           {
             address: allowTokens.address,
             abi: allowTokens.abi,

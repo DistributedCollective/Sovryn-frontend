@@ -649,6 +649,7 @@ const perpetualCreateLimitTradeArgs = async (
     created,
     leverage = 1,
     pair: pairType,
+    reduceOnly,
   } = transaction;
   const pair = PerpetualPairDictionary.get(pairType);
 
@@ -656,6 +657,12 @@ const perpetualCreateLimitTradeArgs = async (
 
   const createdSeconds = Math.floor(created / 1000);
   const deadlineSeconds = createdSeconds + expiry * 24 * 60 * 60;
+
+  let flags = MASK_LIMIT_ORDER;
+
+  if (reduceOnly) {
+    flags = flags.or(MASK_CLOSE_ONLY);
+  }
 
   const order = {
     iPerpetualId: pair.id,
@@ -665,7 +672,7 @@ const perpetualCreateLimitTradeArgs = async (
     fTriggerPrice: weiToABK64x64(trigger).toString(),
     iDeadline: deadlineSeconds,
     referrerAddr: ethGenesisAddress,
-    flags: MASK_LIMIT_ORDER,
+    flags,
     fLeverage: floatToABK64x64(leverage).toString(),
     createdTimestamp: createdSeconds,
   };
