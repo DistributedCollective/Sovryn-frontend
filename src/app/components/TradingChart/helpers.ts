@@ -4,7 +4,8 @@ import { uniqBy } from 'lodash';
 import { Asset } from 'types';
 import { getTokenContract } from 'utils/blockchain/contract-helpers';
 
-const CHUNK_SIZE = 50;
+// maximum number of candles that should be loaded in one request
+const CHUNK_SIZE = 75;
 
 export type Bar = {
   time: number;
