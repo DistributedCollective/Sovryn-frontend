@@ -1,5 +1,5 @@
 import React, { useContext, useMemo, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 
 import { prettyTx } from 'utils/helpers';
@@ -30,23 +30,39 @@ export const SidebarStepsDeposit: React.FC<NetworkAwareComponentProps> = ({
   const initialSteps: StepItem[] = useMemo(
     () => [
       {
-        stepTitle: t(translations.fastBtcPage.deposit.sidebarSteps.validation),
+        stepTitle: (
+          <Trans
+            i18nKey={translations.fastBtcPage.deposit.sidebarSteps.validation}
+          />
+        ),
         value: DepositStep.VALIDATION,
       },
       {
-        stepTitle: t(translations.fastBtcPage.deposit.sidebarSteps.address),
+        stepTitle: (
+          <Trans
+            i18nKey={translations.fastBtcPage.deposit.sidebarSteps.address}
+          />
+        ),
         value: DepositStep.ADDRESS,
       },
       {
-        stepTitle: t(translations.fastBtcPage.deposit.sidebarSteps.processing),
+        stepTitle: (
+          <Trans
+            i18nKey={translations.fastBtcPage.deposit.sidebarSteps.processing}
+          />
+        ),
         value: DepositStep.PROCESSING,
       },
       {
-        stepTitle: t(translations.fastBtcPage.deposit.sidebarSteps.completed),
+        stepTitle: (
+          <Trans
+            i18nKey={translations.fastBtcPage.deposit.sidebarSteps.completed}
+          />
+        ),
         value: DepositStep.COMPLETED,
       },
     ],
-    [t],
+    [],
   );
 
   const steps = useMemo<StepItem[]>(() => {
@@ -122,8 +138,8 @@ export const SidebarStepsDeposit: React.FC<NetworkAwareComponentProps> = ({
       }
       return (
         indexOfTest < indexOfStep &&
-        // Can't go back if in confirm, processing or complete state.
-        ![DepositStep.CONFIRM, DepositStep.COMPLETED].includes(step)
+        // Can't go back if in processing or complete state.
+        ![DepositStep.PROCESSING, DepositStep.COMPLETED].includes(step)
       );
     },
     [step],

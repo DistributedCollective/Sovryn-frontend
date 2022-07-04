@@ -19,13 +19,69 @@ const stepOrder = [
 ];
 
 const initialSteps: StepItem[] = [
-  { stepTitle: 'Choose Source', value: DepositStep.CHAIN_SELECTOR },
-  { stepTitle: 'Select Wallet', value: DepositStep.WALLET_SELECTOR },
-  { stepTitle: 'Select Token', value: DepositStep.TOKEN_SELECTOR },
-  { stepTitle: 'Enter Amount', value: DepositStep.AMOUNT_SELECTOR },
-  { stepTitle: 'Review Transaction', value: DepositStep.REVIEW },
-  { stepTitle: 'Processing Transaction', value: DepositStep.PROCESSING },
-  { stepTitle: 'Transaction Completed', value: DepositStep.COMPLETE },
+  {
+    stepTitle: (
+      <>
+        Choose <br />
+        Source
+      </>
+    ),
+    value: DepositStep.CHAIN_SELECTOR,
+  },
+  {
+    stepTitle: (
+      <>
+        Select
+        <br /> Wallet
+      </>
+    ),
+    value: DepositStep.WALLET_SELECTOR,
+  },
+  {
+    stepTitle: (
+      <>
+        Select
+        <br /> Token
+      </>
+    ),
+    value: DepositStep.TOKEN_SELECTOR,
+  },
+  {
+    stepTitle: (
+      <>
+        Enter
+        <br /> Amount
+      </>
+    ),
+    value: DepositStep.AMOUNT_SELECTOR,
+  },
+  {
+    stepTitle: (
+      <>
+        Review
+        <br /> Transaction
+      </>
+    ),
+    value: DepositStep.REVIEW,
+  },
+  {
+    stepTitle: (
+      <>
+        Processing
+        <br /> Transaction
+      </>
+    ),
+    value: DepositStep.PROCESSING,
+  },
+  {
+    stepTitle: (
+      <>
+        Transaction
+        <br /> Completed
+      </>
+    ),
+    value: DepositStep.COMPLETE,
+  },
 ];
 
 // User should be able to go back on steps but not forward (even if moved back,
@@ -48,12 +104,8 @@ export const SidebarSteps: React.FC = () => {
       }
       return (
         indexOfTest < indexOfStep &&
-        // Can't go back if in confirm, processing or complete state.
-        ![
-          DepositStep.CONFIRM,
-          DepositStep.PROCESSING,
-          DepositStep.COMPLETE,
-        ].includes(step)
+        // Can't go back if in processing or complete state.
+        ![DepositStep.PROCESSING, DepositStep.COMPLETE].includes(step)
       );
     },
     [step],

@@ -246,11 +246,11 @@
     "backToPerpetuals": "Back to perpetuals",
     "deposit": {
       "sidebarSteps": {
-        "validation": "FastBTC Validation",
-        "address": "Enter Address",
-        "processing": "Processing Transaction",
+        "validation": "FastBTC<br/>Validation",
+        "address": "Enter<br/>Address",
+        "processing": "Processing<br/>Transaction",
         "processingSteps": "Processing... ({{step}}/{{steps}})",
-        "completed": "Transaction Completed"
+        "completed": "Transaction<br/>Completed"
       },
       "mainScreen": {
         "title": "Deposit BTC to Sovryn as <0/>",
@@ -286,8 +286,8 @@
         "description": "Send BTC to this address"
       },
       "statusScreen": {
-        "title": "BTC Deposit processing",
-        "titleCompleted": "BTC Deposit Complete",
+        "title": "Order Processing...",
+        "titleCompleted": "Order Complete",
         "amount": "Deposit",
         "fees": "Fees Paid:",
         "received": "Receive Amount:",
@@ -303,13 +303,13 @@
     },
     "withdraw": {
       "sidebarSteps": {
-        "amount": "Enter Amount",
-        "address": "Enter Address",
-        "review": "Review Transaction",
-        "confirm": "Confirm Transaction",
-        "processing": "Processing Transaction",
+        "amount": "Enter<br/>Amount",
+        "address": "Enter <br/>Address",
+        "review": "Review <br/>Transaction",
+        "confirm": "Confirm <br/>Transaction",
+        "processing": "Processing <br/>Transaction",
         "processingProgress": "Processing...",
-        "completed": "Transaction Completed"
+        "completed": "Transaction <br/>Completed"
       },
       "mainScreen": {
         "title": "Withdraw <0/> to BTC Network",
@@ -335,7 +335,7 @@
         "availableBalance": "Balance: <0/> <1/>"
       },
       "addressForm": {
-        "title": "BTC Network Withdraw Address",
+        "title": "Enter receiving BTC wallet address",
         "address": "Receiving BTC Address",
         "errorBECH32": "Please enter a supported BTC address. All BTC addresses except Taproot addresses are supported.",
         "cta": "Next"
@@ -359,9 +359,9 @@
       "statusScreen": {
         "titles": {
           "pending_for_user": "Confirm <0/> Withdrawal",
-          "pending": "<0/> Withdrawal processing...",
-          "confirmed": "Confirmed",
-          "failed": "Withdrawal failed"
+          "pending": "Order Processing…",
+          "confirmed": "Order Complete",
+          "failed": "Order failed"
         },
         "cta": "Return to Portfolio"
       }
@@ -2120,7 +2120,7 @@
       "dailyLimitSpent": "Daily Limit Spent",
       "fee": "Fee",
       "aggregatorBalance": "Aggregator Balance",
-      "withdrawAmount": "Withdraw Amount",
+      "withdrawAmount": "Amount to Send",
       "insufficientAggregator": "Insufficient aggregator balance to withdraw.",
       "insufficientDaily": "Daily limit exceeded."
     },

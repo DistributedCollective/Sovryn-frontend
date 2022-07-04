@@ -218,7 +218,7 @@ export const AmountSelector: React.FC = () => {
           text={t(translations.common.next)}
           disabled={bridgeDepositLocked || !isValid}
           onClick={selectAmount}
-          color={ButtonColor.gray}
+          color={ButtonColor.primary}
           size={ButtonSize.sm}
         />
         {bridgeDepositLocked && (

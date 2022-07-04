@@ -25,13 +25,13 @@ export const Step: React.FC<IStepProps> = ({
         'tw-flex-1 tw-flex tw-items-center tw-transition tw-duration-700 tw-ease-in-out tw-text-xs',
         {
           'tw-opacity-30': !active,
-          'tw-font-bold': active || current,
+          'tw-font-semibold': active || current,
         },
         disabled ? 'tw-cursor-not-allowed' : 'tw-cursor-pointer',
       )}
       onClick={() => !disabled && onClick()}
     >
-      <span className="tw-w-0">{step.stepTitle}</span>
+      <span className="tw-mx-auto">{step.stepTitle}</span>
     </li>
   );
 };

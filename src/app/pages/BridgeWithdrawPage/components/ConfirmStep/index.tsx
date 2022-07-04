@@ -204,7 +204,7 @@ export const ConfirmStep: React.FC = () => {
             </Table>
             <ActionButton
               className="tw-mt-10 tw-w-44 tw-font-semibold tw-rounded-xl"
-              text={t(translations.common.close)}
+              text={t(translations.fastBtcPage.backToPortfolio)}
               onClick={handleComplete}
             />
           </>
@@ -227,7 +227,7 @@ export const ConfirmStep: React.FC = () => {
           </p>
           <ActionButton
             className="tw-mt-10 tw-w-44 tw-font-semibold tw-rounded-xl"
-            text={t(translations.common.close)}
+            text={t(translations.fastBtcPage.backToPortfolio)}
             onClick={handleComplete}
           />
         </>

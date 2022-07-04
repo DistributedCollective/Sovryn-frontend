@@ -19,13 +19,69 @@ const stepOrder = [
 ];
 
 const initialSteps: StepItem[] = [
-  { stepTitle: 'Choose Destination', value: WithdrawStep.CHAIN_SELECTOR },
-  { stepTitle: 'Select Token', value: WithdrawStep.TOKEN_SELECTOR },
-  { stepTitle: 'Enter Amount', value: WithdrawStep.AMOUNT_SELECTOR },
-  { stepTitle: 'Enter Address', value: WithdrawStep.RECEIVER_SELECTOR },
-  { stepTitle: 'Review Transaction', value: WithdrawStep.REVIEW },
-  { stepTitle: 'Processing Transaction', value: WithdrawStep.PROCESSING },
-  { stepTitle: 'Transaction Completed', value: WithdrawStep.COMPLETE },
+  {
+    stepTitle: (
+      <>
+        Choose <br />
+        Destination
+      </>
+    ),
+    value: WithdrawStep.CHAIN_SELECTOR,
+  },
+  {
+    stepTitle: (
+      <>
+        Select
+        <br /> Token
+      </>
+    ),
+    value: WithdrawStep.TOKEN_SELECTOR,
+  },
+  {
+    stepTitle: (
+      <>
+        Enter
+        <br /> Amount
+      </>
+    ),
+    value: WithdrawStep.AMOUNT_SELECTOR,
+  },
+  {
+    stepTitle: (
+      <>
+        Enter
+        <br /> Address
+      </>
+    ),
+    value: WithdrawStep.RECEIVER_SELECTOR,
+  },
+  {
+    stepTitle: (
+      <>
+        Review
+        <br /> Transaction
+      </>
+    ),
+    value: WithdrawStep.REVIEW,
+  },
+  {
+    stepTitle: (
+      <>
+        Processing
+        <br /> Transaction
+      </>
+    ),
+    value: WithdrawStep.PROCESSING,
+  },
+  {
+    stepTitle: (
+      <>
+        Transaction
+        <br /> Completed
+      </>
+    ),
+    value: WithdrawStep.COMPLETE,
+  },
 ];
 
 // User should be able to go back on steps but not forward (even if moved back,
@@ -47,12 +103,8 @@ export const SidebarSteps: React.FC = () => {
       }
       return (
         indexOfTest < indexOfStep &&
-        // Can't go back if in confirm, processing or complete state.
-        ![
-          WithdrawStep.CONFIRM,
-          WithdrawStep.PROCESSING,
-          WithdrawStep.COMPLETE,
-        ].includes(step)
+        // Can't go back if in processing or complete state.
+        ![WithdrawStep.PROCESSING, WithdrawStep.COMPLETE].includes(step)
       );
     },
     [step],

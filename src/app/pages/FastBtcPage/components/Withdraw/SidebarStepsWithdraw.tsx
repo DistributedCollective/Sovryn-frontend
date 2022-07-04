@@ -1,5 +1,5 @@
 import React, { useContext, useMemo, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Asset } from 'types';
 import { Stepper, StepItem } from 'app/components/Stepper';
@@ -25,36 +25,54 @@ const stepOrder = [
 const isBehindStep = (current: WithdrawStep, needed: WithdrawStep) =>
   stepOrder.indexOf(current) > stepOrder.indexOf(needed);
 
-export const SidebarStepsWithdraw: React.FC<NetworkAwareComponentProps> = ({
-  network,
-}) => {
+export const SidebarStepsWithdraw: React.FC<NetworkAwareComponentProps> = () => {
   const { t } = useTranslation();
   const { step, set, amount, address } = useContext(WithdrawContext);
 
   const initialSteps: StepItem[] = useMemo(
     () => [
       {
-        stepTitle: t(translations.fastBtcPage.withdraw.sidebarSteps.amount),
+        stepTitle: (
+          <Trans
+            i18nKey={translations.fastBtcPage.withdraw.sidebarSteps.amount}
+          />
+        ),
         value: WithdrawStep.AMOUNT,
       },
       {
-        stepTitle: t(translations.fastBtcPage.withdraw.sidebarSteps.address),
+        stepTitle: (
+          <Trans
+            i18nKey={translations.fastBtcPage.withdraw.sidebarSteps.address}
+          />
+        ),
         value: WithdrawStep.ADDRESS,
       },
       {
-        stepTitle: t(translations.fastBtcPage.withdraw.sidebarSteps.review),
+        stepTitle: (
+          <Trans
+            i18nKey={translations.fastBtcPage.withdraw.sidebarSteps.review}
+          />
+        ),
         value: WithdrawStep.REVIEW,
       },
       {
-        stepTitle: t(translations.fastBtcPage.withdraw.sidebarSteps.processing),
+        stepTitle: (
+          <Trans
+            i18nKey={translations.fastBtcPage.withdraw.sidebarSteps.processing}
+          />
+        ),
         value: WithdrawStep.PROCESSING,
       },
       {
-        stepTitle: t(translations.fastBtcPage.withdraw.sidebarSteps.completed),
+        stepTitle: (
+          <Trans
+            i18nKey={translations.fastBtcPage.withdraw.sidebarSteps.completed}
+          />
+        ),
         value: WithdrawStep.COMPLETED,
       },
     ],
-    [t],
+    [],
   );
 
   const steps = useMemo<StepItem[]>(() => {
@@ -135,12 +153,8 @@ export const SidebarStepsWithdraw: React.FC<NetworkAwareComponentProps> = ({
       }
       return (
         indexOfTest < indexOfStep &&
-        // Can't go back if in confirm, processing or complete state.
-        ![
-          WithdrawStep.CONFIRM,
-          WithdrawStep.PROCESSING,
-          WithdrawStep.COMPLETED,
-        ].includes(step)
+        // Can't go back if in processing or complete state.
+        ![WithdrawStep.PROCESSING, WithdrawStep.COMPLETED].includes(step)
       );
     },
     [step],

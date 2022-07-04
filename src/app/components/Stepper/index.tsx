@@ -2,7 +2,7 @@ import React from 'react';
 import { Step } from './Step';
 
 export interface StepItem {
-  stepTitle: string;
+  stepTitle: string | React.ReactNode;
   value: number;
   title?: React.ReactNode;
   icon?: React.ReactNode;
@@ -23,19 +23,24 @@ export const Stepper: React.FC<IStepperProps> = ({
 }) => {
   const activeIndex = steps.findIndex(item => item.value === step) + 1;
   const isCompleted = activeIndex === steps.length;
+  const progress = ((activeIndex - 0.7) * 100) / steps.length;
   return (
     <div>
       <div className="tw-bg-gray-4 tw-h-1.5 tw-w-full tw-relative tw-rounded-3xl tw-overflow-hidden">
         <div
           className="tw-bg-primary tw-h-1.5 tw-absolute tw-left-0 tw-rounded-3xl"
           style={{
-            width: isCompleted
-              ? '100%'
-              : `calc(${((activeIndex - 1) * 100) / steps.length}% + 30px)`,
+            width: isCompleted ? '100%' : `calc(${progress}%)`,
           }}
         ></div>
       </div>
-      <ul className="tw-relative tw-flex tw-items-start tw-justify-between tw-mt-5">
+      <ul
+        className="tw-relative tw-flex tw-items-start tw-justify-between tw-mt-5"
+        style={{
+          marginLeft: `-${25 / steps.length}%`,
+          marginRight: `-${25 / steps.length}%`,
+        }}
+      >
         {steps.map((item, i) => (
           <Step
             key={i}

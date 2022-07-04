@@ -203,7 +203,7 @@ export const ReviewStep: React.FC = () => {
           loading={tx.loading}
           onClick={handleSubmit}
           color={ButtonColor.primary}
-          size={ButtonSize.md}
+          size={ButtonSize.sm}
         />
         {bridgeWithdrawLocked && (
           <ErrorBadge
