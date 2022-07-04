@@ -99,7 +99,7 @@ export const AmountSelector: React.FC = () => {
             label={t(
               translations.BridgeDepositPage.amountSelector.depositAmount,
             )}
-            labelClassName="tw-text-sm tw-font-bold"
+            labelClassName="tw-text-sm tw-font-semibold"
           >
             <AmountInput
               value={value}
@@ -108,7 +108,7 @@ export const AmountSelector: React.FC = () => {
               maxAmount={balance.value}
               decimalPrecision={asset.minDecimals}
             />
-            <p className="tw-mt-1">
+            <p className="tw-mt-1 tw-mb-1 tw-text-sm">
               {t(translations.BridgeDepositPage.amountSelector.balance)}:{' '}
               {toNumberFormat(asset.fromWei(balance.value), asset.minDecimals)}{' '}
               {asset.symbol}

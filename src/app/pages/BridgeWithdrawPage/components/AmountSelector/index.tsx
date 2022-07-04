@@ -124,7 +124,7 @@ export const AmountSelector: React.FC = () => {
         <div className="tw-w-80">
           <FormGroup
             label={t(trans.withdrawAmount)}
-            labelClassName="tw-text-sm tw-font-bold"
+            labelClassName="tw-text-sm tw-font-semibold"
           >
             <AmountInput
               value={value}
@@ -133,7 +133,7 @@ export const AmountSelector: React.FC = () => {
               maxAmount={balance.value}
               decimalPrecision={currentAsset.minDecimals}
             />
-            <p className="tw-mt-1 tw-mb-1 tw-relative">
+            <p className="tw-mt-1 tw-mb-1 tw-relative tw-text-sm">
               {t(trans.balance)}:{' '}
               {toNumberFormat(
                 currentAsset.fromWei(balance.value),

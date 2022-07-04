@@ -19,7 +19,12 @@ export const WithdrawContainer: React.FC = () => {
 
   return (
     <WithdrawContext.Provider value={value}>
-      <div className="tw-flex tw-flex-col tw-justify-between tw-items-center tw-w-full">
+      <div
+        className="tw-flex tw-flex-col tw-justify-between tw-items-center tw-w-full"
+        style={{
+          minHeight: step === WithdrawStep.MAIN ? 'auto' : 576,
+        }}
+      >
         <SidebarStepsWithdraw network={network} />
         <div
           className={classNames(

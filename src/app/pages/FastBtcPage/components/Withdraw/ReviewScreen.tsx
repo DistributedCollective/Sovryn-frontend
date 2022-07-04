@@ -82,7 +82,7 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
           </div>
         </div>
 
-        <div className="tw-w-full tw-px-8 tw-py-4 tw-bg-gray-5 tw-mb-8 tw-rounded">
+        <div className="tw-w-full tw-px-4 tw-py-4 tw-bg-gray-5 tw-mb-8 tw-rounded">
           <div className="tw-flex tw-flex-row tw-mb-2 tw-justify-start tw-items-center">
             <div className="tw-w-1/2">
               {t(translations.fastBtcPage.withdraw.reviewScreen.fees)}
@@ -94,7 +94,7 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
               />
             </div>
           </div>
-          <div className="tw-flex tw-flex-row tw-mb-2 tw-justify-start tw-items-center">
+          <div className="tw-flex tw-flex-row tw-justify-start tw-items-center">
             <div className="tw-w-1/2">
               {t(translations.fastBtcPage.withdraw.reviewScreen.received)}
             </div>

@@ -22,16 +22,16 @@ export const Step: React.FC<IStepProps> = ({
   return (
     <li
       className={classNames(
-        'tw-w-0 tw-flex tw-items-center tw-transition tw-duration-700 tw-ease-in-out tw-text-sm',
+        'tw-flex-1 tw-flex tw-items-center tw-transition tw-duration-700 tw-ease-in-out tw-text-xs',
         {
-          'tw-opacity-25': !active,
+          'tw-opacity-30': !active,
           'tw-font-bold': active || current,
         },
         disabled ? 'tw-cursor-not-allowed' : 'tw-cursor-pointer',
       )}
       onClick={() => !disabled && onClick()}
     >
-      {step.stepTitle}
+      <span className="tw-w-0">{step.stepTitle}</span>
     </li>
   );
 };

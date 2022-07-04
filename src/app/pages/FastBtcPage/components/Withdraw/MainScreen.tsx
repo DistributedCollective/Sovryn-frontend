@@ -26,12 +26,12 @@ export const MainScreen: React.FC<NetworkAwareComponentProps> = ({
   return (
     <>
       <div className="tw-w-full tw-mt-2.5 tw-px-2.5">
-        <div className="tw-py-4 tw-px-8 tw-bg-gray-5 tw-font-semibold tw-text-white tw-rounded tw-mb-4">
+        <div className="tw-py-4 tw-px-6 tw-bg-gray-5 tw-font-semibold tw-text-white tw-rounded tw-mb-4 tw-text-center">
           {t(translations.fastBtcPage.withdraw.mainScreen.description)}
         </div>
         <WithdrawDetails network={network} />
         <WithdrawInstructions />
-        <div className="tw-px-8 tw-mb-6">
+        <div className="tw-px-8">
           <FastBtcButton
             text={t(translations.common.continue)}
             onClick={onContinueClick}

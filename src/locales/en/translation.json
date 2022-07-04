@@ -246,8 +246,8 @@
     "backToPerpetuals": "Back to perpetuals",
     "deposit": {
       "sidebarSteps": {
-        "validation": "Validation",
-        "address": "Deposit Address",
+        "validation": "FastBTC Validation",
+        "address": "Enter Address",
         "processing": "Processing Transaction",
         "processingSteps": "Processing... ({{step}}/{{steps}})",
         "completed": "Transaction Completed"
@@ -255,7 +255,7 @@
       "mainScreen": {
         "title": "Deposit BTC to Sovryn as <0/>",
         "description": "Always generate a new deposit address and only use it once",
-        "cta": "Generate Deposit Address"
+        "cta": "Generate Address"
       },
       "depositDetails": {
         "title": "Deposit details",
@@ -276,6 +276,7 @@
         "title": "Verifying FastBTC Federators",
         "description": "As an additional layer of security, we are verifying the signatures from the FastBTC federator node. Please wait until this is completed",
         "cta": "Click to continue",
+        "download": "Click to download verification details",
         "validationTextLoading": "Verifying Signatures...",
         "validationTextSuccess": "Verifying Complete",
         "validationTextError": "Verifying Failed"
@@ -302,8 +303,8 @@
     },
     "withdraw": {
       "sidebarSteps": {
-        "amount": "Withdraw Amount",
-        "address": "Withdraw Address",
+        "amount": "Enter Amount",
+        "address": "Enter Address",
         "review": "Review Transaction",
         "confirm": "Confirm Transaction",
         "processing": "Processing Transaction",
@@ -315,7 +316,7 @@
         "description": "Double check that you are entering the correct withdrawal address."
       },
       "withdrawDetails": {
-        "title": "Withdraw Details",
+        "title": "Send Details",
         "min": "MIN:",
         "max": "MAX:",
         "fee": "FEE:"
@@ -330,14 +331,14 @@
       },
       "amountForm": {
         "title": "<0/> Withdraw Amount",
-        "withdrawAmount": "Withdraw Amount",
-        "availableBalance": "Available Balance: <0/> <1/>"
+        "withdrawAmount": "Amount to send",
+        "availableBalance": "Balance: <0/> <1/>"
       },
       "addressForm": {
         "title": "BTC Network Withdraw Address",
-        "address": "Withdraw BTC to this address",
+        "address": "Receiving BTC Address",
         "errorBECH32": "Please enter a supported BTC address. All BTC addresses except Taproot addresses are supported.",
-        "cta": "Review Withdraw"
+        "cta": "Next"
       },
       "reviewScreen": {
         "title": "Review <0/> Withdrawal",

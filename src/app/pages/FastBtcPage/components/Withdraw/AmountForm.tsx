@@ -63,16 +63,10 @@ export const AmountForm: React.FC<NetworkAwareComponentProps> = ({
 
   return (
     <>
-      <div className="tw-mb-6 tw-text-base tw-text-center tw-font-semibold">
-        <Trans
-          i18nKey={translations.fastBtcPage.withdraw.amountForm.title}
-          components={[<AssetSymbolRenderer asset={asset} />]}
-        />
-      </div>
-
-      <div className="tw-w-full">
+      <div className="tw-w-full tw-max-w-80 tw-mx-auto">
         <FormGroup
           label={t(translations.fastBtcPage.withdraw.amountForm.withdrawAmount)}
+          labelClassName="tw-text-sm tw-font-semibold"
         >
           <AmountInput
             value={value}
@@ -81,7 +75,7 @@ export const AmountForm: React.FC<NetworkAwareComponentProps> = ({
             maxAmount={balance.value}
             gasFee={gasLimit[TxType.FAST_BTC_WITHDRAW].toString()}
           />
-          <div className="tw-mt-1 tw-text-right tw-text-xs tw-my-8">
+          <div className="tw-mt-1 tw-text-left tw-text-sm tw-mb-8">
             <Trans
               i18nKey={
                 translations.fastBtcPage.withdraw.amountForm.availableBalance
@@ -96,7 +90,7 @@ export const AmountForm: React.FC<NetworkAwareComponentProps> = ({
             />
           </div>
         </FormGroup>
-        <WithdrawDetails network={network} />
+        <WithdrawDetails className="tw-bg-transparnet" network={network} />
 
         <div className="tw-px-8">
           <FastBtcButton

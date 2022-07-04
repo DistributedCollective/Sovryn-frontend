@@ -13,10 +13,10 @@ export const DepositDetails: React.FC = () => {
 
   return (
     <section className="tw-py-4 tw-px-8 tw-bg-gray-3 tw-text-white tw-rounded tw-mb-4">
-      <h4 className="tw-text-base tw-text-white tw-mb-4 tw-normal-case tw-font-semibold">
+      <h4 className="tw-text-base tw-text-white tw-mb-3 tw-normal-case tw-font-semibold">
         {t(translations.fastBtcPage.deposit.depositDetails.title)}
       </h4>
-      <ul className="tw-pl-4 tw-list-disc">
+      <ul className="tw-pl-4 tw-list-disc tw-text-sm">
         <li>
           {t(translations.fastBtcPage.deposit.depositDetails.min)}{' '}
           <LoadableValue

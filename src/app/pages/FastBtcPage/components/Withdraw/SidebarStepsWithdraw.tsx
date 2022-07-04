@@ -46,10 +46,6 @@ export const SidebarStepsWithdraw: React.FC<NetworkAwareComponentProps> = ({
         value: WithdrawStep.REVIEW,
       },
       {
-        stepTitle: t(translations.fastBtcPage.withdraw.sidebarSteps.confirm),
-        value: WithdrawStep.CONFIRM,
-      },
-      {
         stepTitle: t(translations.fastBtcPage.withdraw.sidebarSteps.processing),
         value: WithdrawStep.PROCESSING,
       },
@@ -159,14 +155,22 @@ export const SidebarStepsWithdraw: React.FC<NetworkAwareComponentProps> = ({
     [canOpen, set],
   );
 
+  const activeStep = useMemo(() => {
+    if (step === WithdrawStep.CONFIRM) return WithdrawStep.REVIEW;
+    return step;
+  }, [step]);
+
   return (
     <>
       {step !== WithdrawStep.MAIN && (
         <div
-          className="tw-w-full tw-my-10 tw-px-10"
-          style={{ minWidth: '40rem' }}
+          className="tw-my-10 tw-px-10"
+          style={{
+            width: 680,
+            maxWidth: 'calc(100vw - 22rem)',
+          }}
         >
-          <Stepper steps={steps} step={step} onClick={changeStep} />
+          <Stepper steps={steps} step={activeStep} onClick={changeStep} />
         </div>
       )}
     </>

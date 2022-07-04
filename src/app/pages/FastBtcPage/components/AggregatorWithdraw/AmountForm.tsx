@@ -80,9 +80,10 @@ export const AmountForm: React.FC<NetworkAwareComponentProps> = ({
         />
       </div>
 
-      <div className="tw-w-full">
+      <div className="tw-w-full tw-max-w-80 tw-mx-auto">
         <FormGroup
           label={t(translations.fastBtcPage.withdraw.amountForm.withdrawAmount)}
+          labelClassName="tw-text-sm tw-font-semibold"
         >
           <AmountInput
             value={value}

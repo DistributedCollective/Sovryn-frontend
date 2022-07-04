@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
 import { CrossChainLayout } from 'app/components/CrossChain/CrossChainLayout';
@@ -8,14 +8,15 @@ import btcIcon from 'assets/images/BTC.svg';
 import dollarIcon from 'assets/images/fiat/dollar.svg';
 import eruoIcon from 'assets/images/fiat/euro.svg';
 import poundIcon from 'assets/images/fiat/pound.svg';
-import { TransakDialog } from 'app/components/TransakDialog/TransakDialog';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
+import { useTransak } from 'app/components/TransakDialog/useTransak';
+import { Tooltip } from '@blueprintjs/core';
 
 export const ReciveRBTCPage: React.FC = () => {
-  const [transack, setTransack] = useState(false);
   const { t } = useTranslation();
+  const { handleClick, isWrongChainId } = useTransak();
 
   return (
     <>
@@ -55,7 +56,7 @@ export const ReciveRBTCPage: React.FC = () => {
             </div>
 
             <div className="tw-text-center">
-              <SelectBox onClick={() => setTransack(true)}>
+              <SelectBox disabled={isWrongChainId} onClick={handleClick}>
                 <div className="tw-flex">
                   <div className="tw-z-20 tw-border tw-border-gray-5 tw-bg-gray-4 tw-flex tw-items-center tw-justify-center tw-h-12 tw-w-12 tw-rounded-full">
                     <img src={dollarIcon} alt="dollar" />
@@ -68,14 +69,22 @@ export const ReciveRBTCPage: React.FC = () => {
                   </div>
                 </div>
               </SelectBox>
-              <p className="tw-mt-3 tw-font-medium">
-                {t(translations.reciveRBTCPage.bankCard)}
-              </p>
+              <Tooltip
+                position="bottom"
+                hoverOpenDelay={0}
+                hoverCloseDelay={0}
+                className="tw-block"
+                disabled={!isWrongChainId}
+                interactionKind="hover"
+                content={t(translations.transakDialog.chainId)}
+              >
+                <p className="tw-mt-3 tw-font-medium">
+                  {t(translations.reciveRBTCPage.bankCard)}
+                </p>
+              </Tooltip>
             </div>
           </div>
         </div>
-
-        <TransakDialog isOpen={transack} onClose={() => setTransack(false)} />
       </CrossChainLayout>
     </>
   );

@@ -75,12 +75,7 @@ export const FastBtcPage: React.FC = () => {
         subtitle={renderDescription}
         network={network}
       >
-        <div
-          style={{
-            minHeight: 610,
-          }}
-          className="tw-pb-4 tw-flex tw-flex-col tw-h-full tw-relative"
-        >
+        <div className="tw-pb-4 tw-flex tw-flex-col tw-h-full tw-relative">
           {type === FastBtcDirectionType.DEPOSIT && (
             <DepositContainer network={network} />
           )}
