@@ -11,8 +11,7 @@ export class TradingCandleDictionary {
     [CandleDuration.M_1, new CandleDetails('MinuteInterval', 'D', 1, 5, 60)],
     [
       CandleDuration.M_15,
-      // yes, value is correct, typo is in backend side.
-      new CandleDetails('FifteenMintuesInterval', 'D', 3, 5, 60 * 15),
+      new CandleDetails('FifteenMinutesInterval', 'D', 3, 5, 60 * 15),
     ],
     [CandleDuration.H_1, new CandleDetails('HourInterval', 'D', 5, 5, 60 * 60)],
     [
