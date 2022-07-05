@@ -373,7 +373,7 @@
       "esEntryPrice": "Preço aprox de entrada:",
       "esLiquidationPrice": "Preço aprox de liquidação:",
       "interestAPY": "Interest APY:",
-      "slippageSettings": "Slippage Settings",
+      "slippageSettings": "Configurações avançadas",
       "interestAPR": "Taxa anual:"
     },
     "buttons": {
@@ -2342,7 +2342,7 @@
         "sellLimit": "Vender a limite",
         "sellStop": "Sell Stop",
         "minLeverage": "MIN",
-        "slippageSettings": "Slippage Settings"
+        "slippageSettings": "Configurações avançadas"
       },
       "disabledState": {
         "emptyBalanceExplanation": "Fund your account to start trading",
@@ -2588,8 +2588,9 @@
       "protocol": "Contrato de protocolo",
       "lend": "Contrato de empréstimo",
       "amm": "Contrato Amm",
+      "zero": "Contrato Zero",
       "staked": "Contrato Bitocracia",
-      "subProtocol": "Subprotocolos",
+      "subProtocol": "Contrato MYNT",
       "subtotal": "Sub total",
       "total": "Total"
     },
@@ -2647,9 +2648,9 @@
       "text": "Deposite MYNT e rBTC neste pool de liquidez e comece agora mesmo a acumular sua parte nos 5,000 SOVs."
     },
     "card2": {
-      "title": "15K SOVs bônus",
+      "title": "2.5K SOVs bônus",
       "duration": "Toda semana",
-      "text": "Deposite qualquer quantia de XUSD neste pool de empréstimo e comece agora mesmo a acumular sua parte nos 15,000 SOVs."
+      "text": "Deposite qualquer quantia de XUSD neste pool de empréstimo e comece agora mesmo a acumular sua parte nos 2,500 SOVs."
     },
     "card3": {
       "title": "25K SOVs bônus",
@@ -2777,5 +2778,32 @@
       "closingPrice": "O preço de saída é 95% do valor do preço de fechamento. Esta diferença ocorre devido ao desconto aplicado como incentivo aos liquidatários."
     },
     "profitTooltip": "Ao fechar a posição você pode escolher receber o valor nos ativos abaixo:"
+  },
+  "competitionPage": {
+    "meta": {
+      "title": "Trading Competition",
+      "description": ""
+    },
+    "nav": {
+      "perpetualSwap": "Perpetuals",
+      "competition": "Competition"
+    },
+    "rules": {
+      "title": "Trading Competition",
+      "reportBugs": "Please report bugs and issues here!"
+    },
+    "registered": "You are registered! If you require some help, please click on the help button in the top right or post a message on our <0>discord</0>.",
+    "cta": {
+      "connect": "Connect Wallet",
+      "compete": "Compete"
+    },
+    "table": {
+      "rank": "Rank",
+      "name": "Name / Wallet Address",
+      "positions": "Positions opened",
+      "trade": "Current trade",
+      "total": "Total P/L",
+      "empty": "No one registered yet. You could be the first!"
+    }
   }
 }
