@@ -87,7 +87,7 @@ export const BridgeWithdrawPage: React.FC = () => {
         style={{ minHeight: 610, width: 780, maxWidth: 'calc(100vw - 22rem)' }}
         className="tw-pb-4 tw-flex tw-flex-col tw-h-full tw-relative"
       >
-        <div className="tw-px-10 tw-mt-10 tw-relative tw-z-50 tw-w-full tw-flex tw-items-start tw-justify-center">
+        <div className="tw-px-6 tw-mt-10 tw-relative tw-z-50 tw-w-full tw-flex tw-items-start tw-justify-center">
           <SidebarSteps />
         </div>
 

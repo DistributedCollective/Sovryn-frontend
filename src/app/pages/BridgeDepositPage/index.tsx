@@ -112,7 +112,7 @@ export const BridgeDepositPage: React.FC = () => {
       >
         <div
           className={classNames(
-            'tw-px-10 tw-mt-10 tw-relative tw-z-50 tw-w-full tw-flex tw-items-start tw-justify-center',
+            'tw-px-6 tw-mt-10 tw-relative tw-z-50 tw-w-full tw-flex tw-items-start tw-justify-center',
             { invisible: requestedReturnToPortfolio },
           )}
         >

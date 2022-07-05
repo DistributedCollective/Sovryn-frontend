@@ -158,7 +158,7 @@ export const SidebarStepsDeposit: React.FC<NetworkAwareComponentProps> = ({
     <>
       {step !== DepositStep.MAIN && (
         <div
-          className="tw-w-full tw-my-10 tw-px-10"
+          className="tw-w-full tw-my-10 tw-px-6"
           style={{ minWidth: '40rem' }}
         >
           <Stepper steps={steps} step={step} onClick={changeStep} />

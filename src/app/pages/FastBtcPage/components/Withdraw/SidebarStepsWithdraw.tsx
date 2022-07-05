@@ -178,7 +178,7 @@ export const SidebarStepsWithdraw: React.FC<NetworkAwareComponentProps> = () => 
     <>
       {step !== WithdrawStep.MAIN && (
         <div
-          className="tw-my-10 tw-px-10"
+          className="tw-my-10 tw-px-6"
           style={{
             width: 680,
             maxWidth: 'calc(100vw - 22rem)',
