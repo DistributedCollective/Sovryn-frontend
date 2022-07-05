@@ -1,12 +1,5 @@
-import axios, { CancelTokenSource } from 'axios';
 import { bignumber } from 'mathjs';
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
@@ -17,10 +10,9 @@ import iconSuccess from 'assets/images/icon-success.svg';
 import { selectTransactionArray } from 'store/global/transactions-store/selectors';
 import { TxStatus, TxType } from 'store/global/transactions-store/types';
 import { getContractNameByAddress } from 'utils/blockchain/contract-helpers';
-import { numberFromWei } from 'utils/blockchain/math-helpers';
-import { backendUrl, currentChainId } from 'utils/classifiers';
+import { fromWei } from 'utils/blockchain/math-helpers';
+import { APOLLO_POLL_INTERVAL } from 'utils/classifiers';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
-import { weiToUSD } from 'utils/display-text/format';
 import { AssetDetails } from 'utils/models/asset-details';
 
 import { translations } from '../../../locales/i18n';
@@ -32,76 +24,46 @@ import { Pagination } from '../../components/Pagination';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { useAccount } from '../../hooks/useAccount';
-import { useTradeHistoryRetry } from '../../hooks/useTradeHistoryRetry';
 import { Nullable } from 'types';
+import { useGetSwapHistoryQuery } from 'utils/graphql/rsk/generated';
+import { toNumberFormat } from 'utils/display-text/format';
 
-interface AssetRowData {
-  status: TxStatus;
-  timestamp: number;
-  transaction_hash: string;
-  returnVal: {
-    _fromAmount: string;
-    _toAmount: Nullable<string>;
-  };
+interface ISwapHistoryProps {
+  perPage?: number;
 }
 
-export function SwapHistory() {
+export const SwapHistory: React.FC<ISwapHistoryProps> = ({ perPage = 6 }) => {
   const transactions = useSelector(selectTransactionArray);
   const account = useAccount();
-  const url = backendUrl[currentChainId];
-  const [history, setHistory] = useState([]) as any;
-  const [currentHistory, setCurrentHistory] = useState([]) as any;
-  const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
   const assets = AssetsDictionary.list();
   const [hasOngoingTransactions, setHasOngoingTransactions] = useState(false);
-  const retry = useTradeHistoryRetry();
+  const [page, setPage] = useState(1);
 
-  let cancelTokenSource = useRef<CancelTokenSource>();
+  const { data, loading } = useGetSwapHistoryQuery({
+    variables: { user: account.toLowerCase() },
+    pollInterval: APOLLO_POLL_INTERVAL,
+  });
 
-  const getData = useCallback(() => {
-    if (cancelTokenSource.current) {
-      cancelTokenSource.current.cancel();
-    }
+  const history = useMemo(() => {
+    if (loading || !data) return [];
 
-    cancelTokenSource.current = axios.CancelToken.source();
-    axios
-      .get(`${url}/events/conversion-swap/${account}`, {
-        cancelToken: cancelTokenSource.current.token,
-      })
-      .then(res => {
-        setHistory(res.data.sort((x, y) => y.timestamp - x.timestamp));
-        setLoading(false);
-      })
-      .catch(e => {
-        console.log(e);
-        setHistory([]);
-        setCurrentHistory([]);
-        setLoading(false);
-      });
-  }, [url, account]);
+    return data.swaps.map(item => ({
+      fromToken: item.fromToken.id,
+      fromAmount: item.fromAmount,
+      toToken: item.toToken.id,
+      toAmount: item.toAmount,
+      timestamp: item.transaction.timestamp,
+      transactionHash: item.transaction.id,
+    }));
+  }, [data, loading]);
 
-  const getHistory = useCallback(() => {
-    setLoading(true);
-    setHistory([]);
-    setCurrentHistory([]);
+  const onPageChanged = data => setPage(data.currentPage);
 
-    getData();
-  }, [getData]);
-
-  //GET HISTORY
-  useEffect(() => {
-    if (account) {
-      getHistory();
-    }
-  }, [account, getHistory, retry]);
-
-  const onPageChanged = data => {
-    const { currentPage, pageLimit } = data;
-    const offset = (currentPage - 1) * pageLimit;
-    setCurrentHistory(history.slice(offset, offset + pageLimit));
-  };
-
+  const items = useMemo(
+    () => history.slice(page * perPage - perPage, page * perPage),
+    [perPage, page, history],
+  );
   const onGoingTransactions = useMemo(() => {
     return transactions
       .filter(
@@ -126,11 +88,9 @@ export function SwapHistory() {
         const data: AssetRowData = {
           status: item.status,
           timestamp: customData?.date,
-          transaction_hash: item.transactionHash,
-          returnVal: {
-            _fromAmount: customData?.amount,
-            _toAmount: customData?.minReturn || null,
-          },
+          transactionHash: item.transactionHash,
+          fromAmount: fromWei(customData?.amount),
+          toAmount: fromWei(customData?.minReturn) || null,
         };
 
         return (
@@ -187,19 +147,19 @@ export function SwapHistory() {
               </tr>
             )}
             {onGoingTransactions}
-            {currentHistory.map(item => {
+            {items.map(item => {
               let assetFrom = {} as AssetDetails;
               let assetTo = {} as AssetDetails;
               assets.map(currency => {
                 if (
-                  getContractNameByAddress(item.from_token)?.includes(
+                  getContractNameByAddress(item.fromToken)?.includes(
                     currency.asset,
                   )
                 ) {
                   assetFrom = currency;
                 }
                 if (
-                  getContractNameByAddress(item.to_token)?.includes(
+                  getContractNameByAddress(item.toToken)?.includes(
                     currency.asset,
                   )
                 ) {
@@ -210,7 +170,7 @@ export function SwapHistory() {
 
               return (
                 <AssetRow
-                  key={item.transaction_hash}
+                  key={item.transactionHash}
                   data={item}
                   itemFrom={assetFrom}
                   itemTo={assetTo}
@@ -222,7 +182,7 @@ export function SwapHistory() {
         {history.length > 0 && (
           <Pagination
             totalRecords={history.length}
-            pageLimit={6}
+            pageLimit={perPage}
             pageNeighbours={1}
             onChange={onPageChanged}
           />
@@ -230,24 +190,32 @@ export function SwapHistory() {
       </div>
     </section>
   );
+};
+
+interface AssetRowData {
+  status?: TxStatus;
+  timestamp: number;
+  transactionHash: string;
+  fromAmount: string;
+  toAmount: Nullable<string>;
 }
 
-interface AssetProps {
+interface IAssetProps {
   data: AssetRowData;
   itemFrom: AssetDetails;
   itemTo: AssetDetails;
 }
 
-function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
+const AssetRow: React.FC<IAssetProps> = ({ data, itemFrom, itemTo }) => {
   const { t } = useTranslation();
   const dollars = useCachedAssetPrice(itemTo.asset, Asset.USDT);
   const dollarValue = useMemo(() => {
-    if (data.returnVal._toAmount === null) return '';
-    return bignumber(data.returnVal._toAmount)
+    if (data.toAmount === null) return '';
+    return bignumber(data.toAmount)
       .mul(dollars.value)
       .div(10 ** itemTo.decimals)
       .toFixed(0);
-  }, [dollars.value, data.returnVal._toAmount, itemTo.decimals]);
+  }, [dollars.value, data.toAmount, itemTo.decimals]);
 
   return (
     <tr>
@@ -266,7 +234,7 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
         <AssetRenderer asset={itemFrom.asset} />
       </td>
       <td>
-        {numberFromWei(data.returnVal._fromAmount)}{' '}
+        {toNumberFormat(data.fromAmount, 4)}{' '}
         <AssetRenderer asset={itemFrom.asset} />
       </td>
       <td>
@@ -280,12 +248,12 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
       </td>
       <td className="tw-hidden lg:tw-table-cell">
         <div>
-          {numberFromWei(data.returnVal._toAmount)}{' '}
+          {toNumberFormat(data.toAmount || 0, 4)}{' '}
           <AssetRenderer asset={itemTo.asset} />
         </div>
         ≈{' '}
         <LoadableValue
-          value={weiToUSD(dollarValue || '0')}
+          value={toNumberFormat(dollarValue, 2) || '0'}
           loading={dollars.loading}
         />
       </td>
@@ -302,7 +270,7 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
               <p className="tw-m-0">{t(translations.common.pending)}</p>
             )}
             <LinkToExplorer
-              txHash={data.transaction_hash}
+              txHash={data.transactionHash}
               className="tw-text-primary tw-font-normal tw-whitespace-nowrap"
               startLength={5}
               endLength={5}
@@ -336,4 +304,4 @@ function AssetRow({ data, itemFrom, itemTo }: AssetProps) {
       </td>
     </tr>
   );
-}
+};

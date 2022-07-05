@@ -1,110 +1,66 @@
-import React, {
-  useCallback,
-  useMemo,
-  useEffect,
-  useState,
-  useRef,
-} from 'react';
-import axios, { CancelTokenSource } from 'axios';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { AssetDetails } from 'utils/models/asset-details';
-import { backendUrl, currentChainId } from 'utils/classifiers';
+import { APOLLO_POLL_INTERVAL } from 'utils/classifiers';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
-import { getContractNameByAddress } from 'utils/blockchain/contract-helpers';
 import { useSelector } from 'react-redux';
 import { selectTransactionArray } from 'store/global/transactions-store/selectors';
 import { TxStatus, TxType } from 'store/global/transactions-store/types';
-import { getOrder } from 'app/pages/SpotTradingPage/types';
-import { useTradeHistoryRetry } from 'app/hooks/useTradeHistoryRetry';
 import { AssetRow } from './AssetRow';
 import { useAccount } from 'app/hooks/useAccount';
 import { translations } from 'locales/i18n';
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { Pagination } from 'app/components/Pagination';
-import { useDebug } from 'app/hooks/useDebug';
+import { useGetSwapHistoryQuery } from 'utils/graphql/rsk/generated';
+import { fromWei } from 'web3-utils';
+import { getContractNameByAddress } from 'utils/blockchain/contract-helpers';
+import { AssetDetails } from 'utils/models/asset-details';
 
-export const SpotHistory: React.FC = () => {
-  const { log, error } = useDebug('SpotHistory');
+interface ISpotHistoryProps {
+  perPage?: number;
+}
+
+export const SpotHistory: React.FC<ISpotHistoryProps> = ({ perPage = 6 }) => {
   const transactions = useSelector(selectTransactionArray);
   const account = useAccount();
-  const url = backendUrl[currentChainId];
-  const [history, setHistory] = useState<any[]>([]);
-  const [currentHistory, setCurrentHistory] = useState<any[]>([]);
-  const [loading, setLoading] = useState(false);
   const { t } = useTranslation();
   const assets = AssetsDictionary.list();
-  const retry = useTradeHistoryRetry();
 
-  const cancelTokenSource = useRef<CancelTokenSource>();
-  const currentlyLoading = useRef<boolean>(false);
+  const [page, setPage] = useState(1);
 
-  const getHistory = useCallback(() => {
-    currentlyLoading.current = true;
-    setLoading(true);
-    if (cancelTokenSource.current) {
-      cancelTokenSource.current.cancel();
-    }
-    cancelTokenSource.current = axios.CancelToken.source();
-    log('start loading');
-    axios
-      .get(`${url}/events/conversion-swap/${account}`, {
-        cancelToken: cancelTokenSource.current.token,
-      })
-      .then(res => {
-        log('data returned', res.data);
-        setHistory(
-          res.data
-            .sort(
-              (a, b) =>
-                new Date(b.timestamp).getTime() -
-                new Date(a.timestamp).getTime(),
-            )
-            .map(item => {
-              const { assetFrom, assetTo } = extractAssets(
-                item.from_token,
-                item.to_token,
-              );
-              const order = getOrder(assetFrom.asset, assetTo.asset);
-              if (!order) return null;
+  const { data, loading } = useGetSwapHistoryQuery({
+    variables: { user: account.toLowerCase() },
+    pollInterval: APOLLO_POLL_INTERVAL,
+  });
 
-              return {
-                assetFrom,
-                assetTo,
-                order,
-                item,
-              };
-            })
-            .filter(item => item),
+  const history = useMemo(() => {
+    if (loading || !data) return [];
+
+    return data.swaps
+      .map(item => {
+        const { assetFrom, assetTo } = extractAssets(
+          item.fromToken.id,
+          item.toToken.id,
         );
-        setLoading(false);
-      })
-      .catch(e => {
-        if (!axios.isCancel(e)) {
-          error('loading failed', e);
-          setHistory([]);
-          setCurrentHistory([]);
-          setLoading(false);
-        }
-      })
-      .finally(() => (currentlyLoading.current = false));
-  }, [account, error, log, url]);
 
-  //GET HISTORY
-  useEffect(() => {
-    // load only if it's not already loading
-    if (account && !currentlyLoading.current) {
-      getHistory();
-    }
-  }, [account, getHistory, log, retry]);
+        if (!assetFrom || !assetTo) return null;
+        return {
+          toAmount: item.toAmount,
+          fromAmount: item.fromAmount,
+          timestamp: item.transaction.timestamp,
+          transactionHash: item.transaction.id,
+          assetFrom,
+          assetTo,
+        };
+      })
+      .filter(item => item);
+  }, [data, loading]);
 
-  const onPageChanged = useCallback(
-    data => {
-      const { currentPage, pageLimit } = data;
-      const offset = (currentPage - 1) * pageLimit;
-      setCurrentHistory(history.slice(offset, offset + pageLimit));
-    },
-    [history],
+  const onPageChanged = data => setPage(data.currentPage);
+
+  const items = useMemo(
+    () => history.slice(page * perPage - perPage, page * perPage),
+    [perPage, page, history],
   );
 
   const onGoingTransactions = useMemo(() => {
@@ -123,26 +79,21 @@ export const SpotHistory: React.FC = () => {
         const assetTo = assets.find(
           currency => currency.asset === customData?.targetToken,
         );
+        if (!assetFrom || !assetTo) return null;
 
         const data = {
           status: item.status,
           timestamp: customData?.date,
-          transaction_hash: item.transactionHash,
-          returnVal: {
-            _fromAmount: customData?.amount,
-            _toAmount: customData?.minReturn || null,
-          },
+          transactionHash: item.transactionHash,
+          fromAmount: fromWei(customData?.amount),
+          toAmount: fromWei(customData?.minReturn) || null,
+          assetFrom,
+          assetTo,
         };
 
-        return (
-          <AssetRow
-            key={item.transactionHash}
-            data={data}
-            itemFrom={assetFrom!}
-            itemTo={assetTo!}
-          />
-        );
-      });
+        return <AssetRow key={item.transactionHash} {...data} />;
+      })
+      .filter(item => item);
   }, [assets, transactions]);
 
   return (
@@ -183,22 +134,16 @@ export const SpotHistory: React.FC = () => {
               </tr>
             )}
             {onGoingTransactions}
-            {currentHistory.map(({ item, assetFrom, assetTo }) => {
-              return (
-                <AssetRow
-                  key={item.transaction_hash}
-                  data={item}
-                  itemFrom={assetFrom}
-                  itemTo={assetTo}
-                />
-              );
+            {items.map(item => {
+              if (!item) return null;
+              return <AssetRow key={item?.transactionHash} {...item} />;
             })}
           </tbody>
         </table>
         {history.length > 0 && (
           <Pagination
             totalRecords={history.length}
-            pageLimit={6}
+            pageLimit={perPage}
             pageNeighbours={1}
             onChange={onPageChanged}
           />
