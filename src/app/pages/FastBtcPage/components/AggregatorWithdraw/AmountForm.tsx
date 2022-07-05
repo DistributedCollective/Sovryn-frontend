@@ -110,7 +110,7 @@ export const AmountForm: React.FC<NetworkAwareComponentProps> = ({
         </FormGroup>
         <WithdrawDetails network={network} />
 
-        <div className="tw-px-8">
+        <div className="tw-px-8 tw-text-center">
           <FastBtcButton
             text={t(translations.common.continue)}
             onClick={onContinueClick}

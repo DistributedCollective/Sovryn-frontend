@@ -6,7 +6,6 @@ import { useWalletContext } from '@sovryn/react-wallet';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { getWalletImage } from 'app/components/UserAssets/TxDialog/WalletLogo';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
-import { Table } from '../styled';
 
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -22,8 +21,8 @@ import { AssetModel } from '../../../BridgeDepositPage/types/asset-model';
 import { SelectBox } from '../../../BridgeDepositPage/components/SelectBox';
 import { useHistory } from 'react-router-dom';
 import { noop } from '../../../../constants';
-import { ActionButton } from 'app/components/Form/ActionButton';
 import { detectWeb3Wallet } from 'utils/helpers';
+import { Button, ButtonColor, ButtonSize } from 'app/components/Button';
 
 export const ConfirmStep: React.FC = () => {
   const { t } = useTranslation();
@@ -160,7 +159,7 @@ export const ConfirmStep: React.FC = () => {
                 />
               )}
             </div>
-            <Table className="tw-mx-auto tw-text-left tw-text-sm tw-font-medium">
+            <table className="tw-mx-auto tw-text-left tw-text-sm tw-font-medium tw-w-full tw-w-60">
               <tbody>
                 <tr>
                   <td>
@@ -201,11 +200,13 @@ export const ConfirmStep: React.FC = () => {
                   </td>
                 </tr>
               </tbody>
-            </Table>
-            <ActionButton
-              className="tw-mt-10 tw-w-44 tw-font-semibold tw-rounded-xl"
+            </table>
+            <Button
+              className="tw-w-42 tw-font-semibold tw-absolute tw-bottom-8 tw-left-0 tw-right-0 tw-mx-auto"
               text={t(translations.fastBtcPage.backToPortfolio)}
               onClick={handleComplete}
+              color={ButtonColor.primary}
+              size={ButtonSize.sm}
             />
           </>
         )}
@@ -225,10 +226,12 @@ export const ConfirmStep: React.FC = () => {
             {' '}
             {t(trans.rejectedByUser)}
           </p>
-          <ActionButton
-            className="tw-mt-10 tw-w-44 tw-font-semibold tw-rounded-xl"
+          <Button
+            className="tw-w-42 tw-font-semibold tw-absolute tw-bottom-8 tw-left-0 tw-right-0 tw-mx-auto"
             text={t(translations.fastBtcPage.backToPortfolio)}
             onClick={handleComplete}
+            color={ButtonColor.primary}
+            size={ButtonSize.sm}
           />
         </>
       )}

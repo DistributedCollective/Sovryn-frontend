@@ -22,7 +22,7 @@ export const Step: React.FC<IStepProps> = ({
   return (
     <li
       className={classNames(
-        'tw-flex-1 tw-flex tw-items-center tw-transition tw-duration-700 tw-ease-in-out tw-text-xs',
+        'tw-flex tw-items-center tw-transition tw-duration-700 tw-ease-in-out tw-text-xs',
         {
           'tw-opacity-30': !active,
           'tw-font-semibold': active || current,
@@ -31,7 +31,7 @@ export const Step: React.FC<IStepProps> = ({
       )}
       onClick={() => !disabled && onClick()}
     >
-      <span className="tw-mx-auto">{step.stepTitle}</span>
+      {step.stepTitle}
     </li>
   );
 };

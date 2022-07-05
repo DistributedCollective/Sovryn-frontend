@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { bignumber } from 'mathjs';
-import { Table } from '../../../BridgeWithdrawPage/components/styled';
 
 import { Button, ButtonColor, ButtonSize } from 'app/components/Button';
 
@@ -96,55 +95,62 @@ export const ReviewStep: React.FC = () => {
 
   const bridgeDepositLocked = useIsBridgeDepositLocked(targetAsset, chain);
 
+  const items = [
+    {
+      label: t(trans.dateTime),
+      value: new Date().toLocaleDateString(),
+    },
+    {
+      label: t(trans.from),
+      value: network?.name,
+    },
+    {
+      label: t(trans.to),
+      value: targetNetwork?.name,
+    },
+    {
+      label: t(trans.token),
+      value: (
+        <>
+          {sourceAsset} -&gt; {asset?.symbol}
+        </>
+      ),
+    },
+    {
+      label: t(trans.amount),
+      value: toNumberFormat(asset.fromWei(amount), asset.minDecimals),
+    },
+    {
+      label: t(trans.bridgeFee),
+      value: (
+        <>
+          {toNumberFormat(
+            asset.fromWei(limits.returnData.getFeePerToken),
+            asset.minDecimals,
+          )}{' '}
+          {asset.symbol}
+        </>
+      ),
+    },
+  ];
   return (
-    <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
+    <div className="tw-flex tw-flex-col tw-items-center tw-max-w-80 tw-mb-10">
       <div className="tw-mb-5 tw-text-base tw-text-center tw-font-semibold">
         {t(trans.title)}
       </div>
-      <div className="tw-w-80 tw-text-center">
-        <Table className="tw-mx-auto tw-font-medium">
+      <div className="tw-w-60 tw-text-center">
+        <table className="tw-mx-auto tw-text-left tw-text-sm tw-font-medium tw-w-full">
           <tbody>
-            <tr>
-              <td>{t(trans.dateTime)}:</td>
-              <td className="tw-text-right">
-                {new Date().toLocaleDateString()}
-              </td>
-            </tr>
-            <tr>
-              <td>{t(trans.from)}:</td>
-              <td className="tw-text-right">{network?.name}</td>
-            </tr>
-            <tr>
-              <td>{t(trans.to)}:</td>
-              <td className="tw-text-right">{targetNetwork?.name}</td>
-            </tr>
-            <tr>
-              <td>{t(trans.token)}:</td>
-              <td className="tw-text-right">
-                {sourceAsset} -&gt; {asset?.symbol}
-              </td>
-            </tr>
-            <tr>
-              <td>{t(trans.amount)}:</td>
-              <td className="tw-text-right">
-                {toNumberFormat(asset.fromWei(amount), asset.minDecimals)}
-              </td>
-            </tr>
-            <tr>
-              <td>{t(trans.bridgeFee)}:</td>
-              <td className="tw-text-right">
-                {toNumberFormat(
-                  asset.fromWei(limits.returnData.getFeePerToken),
-                  asset.minDecimals,
-                )}{' '}
-                {asset.symbol}
-              </td>
-            </tr>
+            {items.map(({ label, value }, i) => (
+              <tr key={i}>
+                <td className="tw-py-0.5">{label}:</td>
+                <td className="tw-py-0.5 tw-text-right">{value}</td>
+              </tr>
+            ))}
           </tbody>
-        </Table>
-
+        </table>
         <Button
-          className="tw-mt-10 tw-w-44 tw-font-semibold"
+          className="tw-w-42 tw-font-semibold tw-absolute tw-right-0 tw-left-0 tw-bottom-8 tw-mx-auto"
           text={t(trans.next)}
           size={ButtonSize.sm}
           disabled={bridgeDepositLocked || !isValid || tx.loading}

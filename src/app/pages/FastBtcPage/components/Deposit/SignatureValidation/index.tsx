@@ -72,7 +72,7 @@ export const SignatureValidation: React.FC<ISignatureValidationProps> = ({
       <div className="tw-mb-5 tw-text-gray-8 tw-text-center">
         {t(translations.fastBtcPage.deposit.validationScreen.description)}
       </div>
-      <div className="tw-full tw-pb-4">
+      <div className="tw-full tw-mb-12">
         <StatusComponent status={pageStatus} showLabel={false} />
         <div className={styles.status}>{statusText}</div>
         <div className={styles.download}>
@@ -85,6 +85,7 @@ export const SignatureValidation: React.FC<ISignatureValidationProps> = ({
           </a>
         </div>
         <FastBtcButton
+          className="tw-absolute tw-right-0 tw-left-0 tw-bottom-8 tw-mx-auto"
           text={t(translations.fastBtcPage.deposit.validationScreen.cta)}
           disabled={!isSignatureValid || loading}
           loading={loading}

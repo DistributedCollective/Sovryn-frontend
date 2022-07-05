@@ -103,7 +103,7 @@ export const ReceiverSelector: React.FC<IReceiverSelectorProps> = ({
         </div>
 
         <Button
-          className="tw-mt-10 tw-w-44 tw-font-semibold"
+          className="tw-w-42 tw-font-semibold tw-absolute tw-bottom-8"
           text={t(translations.common.next)}
           disabled={bridgeWithdrawLocked || !valid}
           onClick={selectReceiver}

@@ -155,11 +155,11 @@ export const AmountSelector: React.FC = () => {
             </p>
           </FormGroup>
         </div>
-        <div>
-          <div className="text-left tw-font-semibold tw-mt-4 tw-mb-2 tw-w-full tw-px-2">
+        <div className="tw-w-80">
+          <div className="text-left tw-font-semibold tw-mt-4 tw-mb-2 tw-w-full">
             {t(trans.dailyBridgeLimits)}
           </div>
-          <Table>
+          <Table className="tw-w-full">
             <tbody className="tw-text-left tw-text-sm tw-font-medium">
               <tr>
                 <td> {t(trans.minAmount)}:</td>
@@ -240,7 +240,7 @@ export const AmountSelector: React.FC = () => {
         </div>
 
         <Button
-          className="tw-mt-10 tw-w-44 tw-font-semibold"
+          className="tw-w-42 tw-font-semibold tw-absolute tw-bottom-8"
           text={t(translations.common.next)}
           disabled={bridgeWithdrawLocked || !isValid}
           onClick={selectAmount}
@@ -274,6 +274,6 @@ export const AmountSelector: React.FC = () => {
 
 const Table = styled.table`
   td {
-    padding: 0.25rem 0.5rem;
+    padding: 0.25rem 0;
   }
 `;

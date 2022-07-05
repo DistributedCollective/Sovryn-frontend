@@ -34,13 +34,7 @@ export const Stepper: React.FC<IStepperProps> = ({
           }}
         ></div>
       </div>
-      <ul
-        className="tw-relative tw-flex tw-items-start tw-justify-between tw-mt-5"
-        style={{
-          marginLeft: `-${25 / steps.length}%`,
-          marginRight: `-${25 / steps.length}%`,
-        }}
-      >
+      <ul className="tw-relative tw-flex tw-items-start tw-justify-between tw-mt-5">
         {steps.map((item, i) => (
           <Step
             key={i}

@@ -8,7 +8,7 @@ export const AddressForm: React.FC = () => {
 
   return (
     <>
-      <div className="tw-full">
+      <div className="tw-full tw-mb-8">
         <DepositDetails />
         <AddressQrCode uri={URIType.BITCOIN} address={address} />
       </div>

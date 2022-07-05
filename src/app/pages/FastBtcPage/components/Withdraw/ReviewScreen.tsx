@@ -54,6 +54,45 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
 
   const asset = getBTCAssetForNetwork(network);
 
+  const items = [
+    {
+      label: t(translations.fastBtcPage.withdraw.reviewScreen.dateTime),
+      value: new Date().toLocaleDateString(),
+    },
+    {
+      label: t(translations.fastBtcPage.withdraw.reviewScreen.amount),
+      value: (
+        <>
+          {toNumberFormat(amount, 8)} <AssetSymbolRenderer asset={asset} />
+        </>
+      ),
+    },
+    {
+      label: t(translations.fastBtcPage.withdraw.reviewScreen.address),
+      value: (
+        <AddressBadge realBtc txHash={address} className="tw-text-primary" />
+      ),
+    },
+    {
+      label: t(translations.fastBtcPage.withdraw.reviewScreen.fees),
+      value: (
+        <LoadableValue
+          value={<>{weiToNumberFormat(feesPaid, 8)} BTC</>}
+          loading={loading}
+        />
+      ),
+    },
+    {
+      label: t(translations.fastBtcPage.withdraw.reviewScreen.received),
+      value: (
+        <LoadableValue
+          value={<>{weiToNumberFormat(receiveAmount, 8)} BTC</>}
+          loading={loading}
+        />
+      ),
+    },
+  ];
+
   return (
     <>
       <div className="tw-mb-6 tw-text-base tw-text-center tw-font-semibold">
@@ -63,52 +102,21 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
         />
       </div>
 
-      <div className="tw-w-full">
-        <div className="tw-w-full tw-px-8 tw-py-4 tw-bg-gray-5 tw-text-center tw-mb-8 tw-rounded">
-          <div className="tw-mb-2 tw-text-lg">
-            {t(translations.fastBtcPage.withdraw.reviewScreen.amount)}
-          </div>
-          <div>
-            {toNumberFormat(amount, 8)} <AssetSymbolRenderer asset={asset} />
-          </div>
-        </div>
+      <div className="tw-w-full tw-mb-20">
+        <table className="tw-mx-auto tw-text-left tw-text-sm tw-font-medium tw-w-full">
+          <tbody>
+            {items.map(({ label, value }) => (
+              <tr>
+                <td className="tw-py-0.5">{label}:</td>
+                <td className="tw-py-0.5 tw-text-right">{value}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
-        <div className="tw-w-full tw-px-8 tw-py-4 tw-bg-gray-6 tw-text-center tw-mb-8 tw-rounded">
-          <div className="tw-mb-2">
-            {t(translations.fastBtcPage.withdraw.reviewScreen.address)}
-          </div>
-          <div>
-            <AddressBadge realBtc txHash={address} />
-          </div>
-        </div>
-
-        <div className="tw-w-full tw-px-4 tw-py-4 tw-bg-gray-5 tw-mb-8 tw-rounded">
-          <div className="tw-flex tw-flex-row tw-mb-2 tw-justify-start tw-items-center">
-            <div className="tw-w-1/2">
-              {t(translations.fastBtcPage.withdraw.reviewScreen.fees)}
-            </div>
-            <div className="tw-font-semibold">
-              <LoadableValue
-                value={<>{weiToNumberFormat(feesPaid, 8)} BTC</>}
-                loading={loading}
-              />
-            </div>
-          </div>
-          <div className="tw-flex tw-flex-row tw-justify-start tw-items-center">
-            <div className="tw-w-1/2">
-              {t(translations.fastBtcPage.withdraw.reviewScreen.received)}
-            </div>
-            <div className="tw-font-semibold">
-              <LoadableValue
-                value={<>{weiToNumberFormat(receiveAmount, 8)} BTC</>}
-                loading={loading}
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="tw-px-8 tw-mt-8">
+        <div className="tw-px-8 tw-mt-8 tw-text-center">
           <FastBtcButton
+            className="tw-absolute tw-right-0 tw-left-0 tw-bottom-8 tw-mx-auto"
             text={t(translations.common.confirm)}
             onClick={onConfirm}
             disabled={fastBtcLocked || loading}

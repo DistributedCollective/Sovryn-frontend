@@ -17,7 +17,6 @@ import { useBridgeLimits } from '../../../BridgeDepositPage/hooks/useBridgeLimit
 import { prettyTx } from '../../../../../utils/helpers';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { Table } from '../styled';
 import { useIsBridgeWithdrawLocked } from 'app/pages/BridgeWithdrawPage/hooks/useIsBridgeWithdrawLocked';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
@@ -115,8 +114,8 @@ export const ReviewStep: React.FC = () => {
       <div className="tw-mb-4 tw-text-base tw-text-center tw-font-semibold">
         {t(translations.BridgeWithdrawPage.transactionDetails)}
       </div>
-      <div className="tw-w-80 tw-text-center">
-        <Table className="tw-mx-auto tw-text-left tw-text-sm tw-font-medium">
+      <div className="tw-w-60 tw-text-right tw-mb-10">
+        <table className="tw-mx-auto tw-text-left tw-text-sm tw-font-medium tw-w-full">
           <tbody>
             <tr>
               <td>{t(translations.BridgeWithdrawPage.reviewStep.dateTime)}:</td>
@@ -164,7 +163,7 @@ export const ReviewStep: React.FC = () => {
                 {t(translations.BridgeWithdrawPage.reviewStep.bridgeFee)}:
               </td>
               <td className="tw-text-right">
-                <div className="tw-flex tw-items-center">
+                <div className="tw-flex tw-items-center tw-justify-end">
                   {toNumberFormat(
                     currentAsset.fromWei(limits.returnData.getFeePerToken),
                     currentAsset.minDecimals,
@@ -194,10 +193,10 @@ export const ReviewStep: React.FC = () => {
               </td>
             </tr>
           </tbody>
-        </Table>
+        </table>
 
         <Button
-          className="tw-mt-10 tw-w-44 tw-font-semibold"
+          className="tw-w-42 tw-font-semibold tw-absolute tw-bottom-8 tw-left-0 tw-right-0 tw-mx-auto"
           text={t(translations.BridgeWithdrawPage.reviewStep.confirm)}
           disabled={bridgeWithdrawLocked || !isValid || tx.loading}
           loading={tx.loading}

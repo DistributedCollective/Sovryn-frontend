@@ -12,7 +12,6 @@ import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { NetworkModel } from '../../types/network-model';
 import { SelectBox } from '../SelectBox';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
-import { Table } from '../../../BridgeWithdrawPage/components/styled';
 
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -21,9 +20,9 @@ import iconSuccess from 'assets/images/icon-success.svg';
 import iconRejected from 'assets/images/icon-rejected.svg';
 import iconPending from 'assets/images/icon-pending.svg';
 import { noop } from '../../../../constants';
-import { ActionButton } from 'app/components/Form/ActionButton';
 import { detectWeb3Wallet } from 'utils/helpers';
 import { getWalletImage } from 'app/components/UserAssets/TxDialog/WalletLogo';
+import { Button, ButtonColor, ButtonSize } from 'app/components/Button';
 
 export const ConfirmStep: React.FC = () => {
   const { t } = useTranslation();
@@ -160,7 +159,7 @@ export const ConfirmStep: React.FC = () => {
                 />
               )}
             </div>
-            <Table className="tw-mx-auto tw-text-left tw-text-sm tw-font-medium">
+            <table className="tw-mx-auto tw-text-left tw-text-sm tw-font-medium tw-w-60">
               <tbody>
                 <tr>
                   <td>
@@ -198,12 +197,14 @@ export const ConfirmStep: React.FC = () => {
                   </td>
                 </tr>
               </tbody>
-            </Table>
+            </table>
 
-            <ActionButton
-              className="tw-mt-10 tw-w-44 tw-font-semibold tw-rounded-xl"
+            <Button
+              className="tw-w-42 tw-font-semibold tw-absolute tw-right-0 tw-left-0 tw-bottom-8 tw-mx-auto"
               text={t(translations.fastBtcPage.backToPortfolio)}
               onClick={handleComplete}
+              color={ButtonColor.primary}
+              size={ButtonSize.sm}
             />
           </>
         )}
@@ -223,10 +224,12 @@ export const ConfirmStep: React.FC = () => {
             {t(trans.rejectedByUser)}
           </p>
 
-          <ActionButton
-            className="tw-mt-10 tw-w-44 tw-font-semibold tw-rounded-xl"
+          <Button
+            className="tw-w-42 tw-font-semibold tw-absolute tw-right-0 tw-left-0 tw-bottom-8 tw-mx-auto"
             text={t(translations.fastBtcPage.backToPortfolio)}
             onClick={handleComplete}
+            color={ButtonColor.primary}
+            size={ButtonSize.sm}
           />
         </>
       )}

@@ -289,10 +289,10 @@
         "title": "Order Processing...",
         "titleCompleted": "Order Complete",
         "amount": "Deposit",
-        "fees": "Fees Paid:",
-        "received": "Receive Amount:",
-        "txHash": "Tx Hash:",
-        "txId": "Tx ID:",
+        "fees": "Fees Paid",
+        "received": "Receive Amount",
+        "txHash": "Tx Hash",
+        "txId": "Tx ID",
         "description": "Your deposit is being processed. If your transaction takes longer than {{hours}} hrs please <0>create a support ticket</0>.",
         "cta": "Return to Portfolio"
       },
@@ -341,12 +341,13 @@
         "cta": "Next"
       },
       "reviewScreen": {
-        "title": "Review <0/> Withdrawal",
-        "amount": "Withdraw",
-        "address": "BTC Network Receive Address",
-        "fees": "Fees Paid:",
-        "received": "Receive Amount:",
-        "tx": "Tx ID:",
+        "dateTime": "Date/Time",
+        "title": "Send details",
+        "amount": "Send",
+        "address": "Receiver",
+        "fees": "Bridge Fee",
+        "received": "Total Amount",
+        "tx": "Tx ID",
         "description": "Your withdrawal is being processed. If your transaction takes longer than {{hours}} hrs please <0>create a support ticket</0>"
       },
       "walletTxHelper": {
@@ -2058,7 +2059,7 @@
       "dailyLimitSpent": "Daily Limit Spent",
       "fee": "Fee",
       "aggregatorBalance": "Aggregator Balance",
-      "depositAmount": "Deposit Amount"
+      "depositAmount": "Amount to send"
     },
     "confirmStep": {
       "pleaseWait": "Please wait",
@@ -2131,8 +2132,8 @@
       "approve": "Please approve {{from}} {{symbol}} to be spent by Sovryn smart contracts in your {{providerType}} wallet.",
       "confirmTransaction": "Confirm Transaction",
       "confirm": "Please confirm the trade transaction in your {{providerType}} wallet.",
-      "withdrawInProgress": "Withdraw in Progress",
-      "withdrawComplete": "Withdraw Complete",
+      "withdrawInProgress": "Order Processing",
+      "withdrawComplete": "Order Complete",
       "withdrawFailed": "Withdraw Failed",
       "transactionDenied": "Transaction denied",
       "rejectedByUser": "Rejected by user"

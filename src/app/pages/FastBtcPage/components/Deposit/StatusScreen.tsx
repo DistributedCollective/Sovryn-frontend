@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 import { translations } from 'locales/i18n';
 import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
 import { TxStatus } from '../../../../../store/global/transactions-store/types';
-import { FastBtcButton } from '../FastBtcButton';
 import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { bignumber } from 'mathjs';
 import { LinkToExplorer } from '../../../../components/LinkToExplorer';
@@ -16,6 +15,7 @@ import { getBTCAssetForNetwork } from '../../helpers';
 import { NetworkAwareComponentProps } from '../../types';
 import { StatusComponent } from 'app/components/Dialogs/StatusComponent';
 import { Chain } from 'types';
+import { Button, ButtonColor, ButtonSize } from 'app/components/Button';
 
 export const StatusScreen: React.FC<NetworkAwareComponentProps> = ({
   network,
@@ -66,9 +66,39 @@ export const StatusScreen: React.FC<NetworkAwareComponentProps> = ({
 
   const asset = getBTCAssetForNetwork(network);
 
+  const items = [
+    {
+      label: t(translations.fastBtcPage.withdraw.reviewScreen.dateTime),
+      value: new Date().toLocaleDateString(),
+    },
+    {
+      label: t(translations.fastBtcPage.deposit.statusScreen.amount),
+      value: <>{toNumberFormat(amount, 8)} BTC</>,
+    },
+
+    {
+      label: t(translations.fastBtcPage.withdraw.reviewScreen.fees),
+      value: (
+        <>
+          {toNumberFormat(feeAmount, 8)} <AssetSymbolRenderer asset={asset} />
+        </>
+      ),
+    },
+
+    {
+      label: t(translations.fastBtcPage.deposit.statusScreen.received),
+      value: (
+        <>
+          {toNumberFormat(receiveAmount, 8)}{' '}
+          <AssetSymbolRenderer asset={asset} />
+        </>
+      ),
+    },
+  ];
+
   return (
     <>
-      <div className="tw-mb-6 tw-text-base tw-text-center tw-font-semibold tw-mt-2.5">
+      <div className="tw-mb-4 tw-text-base tw-text-center tw-font-semibold">
         <Trans
           i18nKey={
             translations.fastBtcPage.deposit.statusScreen[
@@ -78,7 +108,7 @@ export const StatusScreen: React.FC<NetworkAwareComponentProps> = ({
           components={[<AssetSymbolRenderer asset={asset} />]}
         />
       </div>
-      <div className="tw-w-full tw-px-2.5">
+      <div className="tw-w-full tw-max-w-80 tw-mb-10">
         <div className="tw-w-full">
           <StatusComponent
             status={
@@ -89,62 +119,47 @@ export const StatusScreen: React.FC<NetworkAwareComponentProps> = ({
             showLabel={false}
           />
 
-          <div className="tw-w-full tw-px-8 tw-py-4 tw-bg-gray-5 tw-text-center tw-mb-8 tw-rounded">
-            <div className="tw-mb-2 tw-text-lg">
-              {t(translations.fastBtcPage.deposit.statusScreen.amount)}
-            </div>
-            <div>{toNumberFormat(amount, 8)} BTC</div>
-          </div>
+          <table className="tw-mx-auto tw-text-left tw-text-sm tw-font-medium tw-w-full">
+            <tbody>
+              {items.map(({ label, value }) => (
+                <tr>
+                  <td className="tw-py-0.5">{label}:</td>
+                  <td className="tw-py-0.5 tw-text-right">{value}</td>
+                </tr>
+              ))}
 
-          <div className="tw-w-full tw-px-4 tw-py-4 tw-bg-gray-5 tw-mb-8 tw-rounded">
-            <div className="tw-flex tw-flex-row tw-mb-2 tw-justify-start tw-items-center">
-              <div className="tw-w-1/2">
-                {t(translations.fastBtcPage.deposit.statusScreen.fees)}
-              </div>
-              <div className="tw-font-semibold">
-                {toNumberFormat(feeAmount, 8)}{' '}
-                <AssetSymbolRenderer asset={asset} />
-              </div>
-            </div>
-            <div className="tw-flex tw-flex-row tw-justify-start tw-items-center">
-              <div className="tw-w-1/2">
-                {t(translations.fastBtcPage.deposit.statusScreen.received)}
-              </div>
-              <div className="tw-font-semibold">
-                {toNumberFormat(receiveAmount, 8)}{' '}
-                <AssetSymbolRenderer asset={asset} />
-              </div>
-            </div>
-            {depositTx && (
-              <div className="tw-flex tw-flex-row tw-mt-2 tw-justify-start tw-items-center">
-                <div className="tw-w-1/2">
-                  {t(translations.fastBtcPage.deposit.statusScreen.txId)}
-                </div>
-                <div className="tw-font-semibold">
-                  <LinkToExplorer
-                    txHash={depositTx.txHash}
-                    realBtc
-                    className="tw-text-primary tw-underline"
-                  />
-                </div>
-              </div>
-            )}
-            {transferTx && (
-              <div className="tw-flex tw-flex-row tw-mt-2 tw-justify-start tw-items-center">
-                <div className="tw-w-1/2">
-                  {t(translations.fastBtcPage.deposit.statusScreen.txHash)}
-                </div>
-                <div className="tw-font-semibold">
-                  <LinkToExplorer
-                    txHash={transferTx.txHash}
-                    className="tw-text-primary tw-underline"
-                  />
-                </div>
-              </div>
-            )}
-          </div>
+              {depositTx && (
+                <tr>
+                  <td className="tw-py-0.5">
+                    {t(translations.fastBtcPage.deposit.statusScreen.txId)}:
+                  </td>
+                  <td className="tw-text-right tw-py-0.5">
+                    <LinkToExplorer
+                      txHash={depositTx.txHash}
+                      realBtc
+                      className="tw-text-primary tw-underline"
+                    />
+                  </td>
+                </tr>
+              )}
 
-          <div className="tw-text-center tw-my-8">
+              {transferTx && (
+                <tr>
+                  <td className="tw-py-0.5">
+                    {t(translations.fastBtcPage.deposit.statusScreen.txHash)}:
+                  </td>
+                  <td className="tw-text-right tw-py-0.5">
+                    <LinkToExplorer
+                      txHash={transferTx.txHash}
+                      className="tw-text-primary tw-underline"
+                    />
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+
+          <div className="tw-text-center tw-mb-8 tw-mt-4">
             <Trans
               i18nKey={
                 translations.fastBtcPage.deposit.statusScreen.description
@@ -162,9 +177,15 @@ export const StatusScreen: React.FC<NetworkAwareComponentProps> = ({
             />
           </div>
 
-          <div className="tw-px-8 tw-mt-8">
-            <FastBtcButton text={backToTitle} onClick={onGoToPortfolio} />
-          </div>
+          <Button
+            className={
+              'tw-w-42 tw-font-semibold tw-absolute tw-right-0 tw-left-0 tw-bottom-8 tw-mx-auto'
+            }
+            size={ButtonSize.sm}
+            text={backToTitle}
+            onClick={onGoToPortfolio}
+            color={ButtonColor.primary}
+          />
         </div>
       </div>
     </>

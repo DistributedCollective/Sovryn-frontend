@@ -92,8 +92,8 @@ export const AmountSelector: React.FC = () => {
   ]);
 
   return (
-    <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
-      <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
+    <div className="tw-flex tw-flex-col tw-items-center tw-w-96">
+      <div className="tw-flex tw-flex-col tw-items-center tw-w-96">
         <div className="tw-w-80">
           <FormGroup
             label={t(
@@ -115,13 +115,13 @@ export const AmountSelector: React.FC = () => {
             </p>
           </FormGroup>
         </div>
-        <div>
-          <div className="text-left tw-font-semibold tw-mt-4 tw-mb-2 tw-w-full tw-px-2">
+        <div className="tw-w-80">
+          <div className="text-left tw-font-semibold tw-mt-4 tw-mb-2 tw-w-full">
             {t(
               translations.BridgeDepositPage.amountSelector.dailyDepositLimits,
             )}
           </div>
-          <Table>
+          <Table className="tw-w-full">
             <tbody className="tw-text-left tw-text-sm tw-font-medium">
               <tr>
                 <td>
@@ -214,11 +214,11 @@ export const AmountSelector: React.FC = () => {
         </div>
 
         <Button
-          className="tw-mt-10 tw-w-44 tw-font-semibold"
+          className="tw-w-42 tw-font-semibold tw-absolute tw-right-0 tw-left-0 tw-bottom-8 tw-mx-auto"
           text={t(translations.common.next)}
           disabled={bridgeDepositLocked || !isValid}
           onClick={selectAmount}
-          color={ButtonColor.primary}
+          color={ButtonColor.gray}
           size={ButtonSize.sm}
         />
         {bridgeDepositLocked && (
@@ -247,6 +247,6 @@ export const AmountSelector: React.FC = () => {
 
 const Table = styled.table`
   td {
-    padding: 0.25rem 0.5rem;
+    padding: 0.25rem 0;
   }
 `;
