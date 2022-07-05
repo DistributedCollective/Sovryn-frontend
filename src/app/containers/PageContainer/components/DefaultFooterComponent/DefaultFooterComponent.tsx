@@ -1,15 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
 import { discordInvite } from 'utils/classifiers';
-import OptOutDialog from 'app/components/OptOutDialog';
 import footerLogo from 'assets/images/footer-logo.svg';
 
 export const Footer: React.FC = () => {
   const { t } = useTranslation();
   const commitHash = process.env.REACT_APP_GIT_COMMIT_ID || '';
-  const [optDialogOpen, setOptDialogOpen] = useState<boolean>(false);
 
   return (
     <footer className="tw-mt-4 tw-bg-gray-2 tw-text-sov-white tw-pt-5">
@@ -63,14 +61,15 @@ export const Footer: React.FC = () => {
               </p>
             </div>
           </div>
-          <div className="tw-text-base">
-            <div
-              className="tw-cursor-pointer hover:tw-underline tw-font-base tw-text-primary tw-underline tw-mt-3 md:tw-mt-6 tw-mb-3 md:tw-mb-0"
-              onClick={e => setOptDialogOpen(true)}
+          <div className="tw-mt-3">
+            <a
+              href="https://tools.google.com/dlpage/gaoptout"
+              target="_blank"
+              rel="noopener noreferrer"
               data-action-id="footer-analytics-optout"
             >
               {t(translations.footer.optOut)}
-            </div>
+            </a>
           </div>
         </div>
         <div className="tw-flex tw-flex-col tw-justify-end tw-relative">
@@ -106,10 +105,6 @@ export const Footer: React.FC = () => {
           </div>
         </div>
       </div>
-      <OptOutDialog
-        open={optDialogOpen}
-        onClose={() => setOptDialogOpen(false)}
-      />
     </footer>
   );
 };
