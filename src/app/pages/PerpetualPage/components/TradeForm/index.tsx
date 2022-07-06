@@ -533,6 +533,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
             [styles.active]: trade.position === TradingPosition.LONG,
           })}
           onClick={onLongClick}
+          data-action-id="perps-tradeForm-positionButton-buy"
         >
           {t(translations.perpetualPage.tradeForm.buttons.buy)}
         </button>
@@ -541,6 +542,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
             [styles.active]: trade.position === TradingPosition.SHORT,
           })}
           onClick={onShortClick}
+          data-action-id="perps-tradeForm-positionButton-sell"
         >
           {t(translations.perpetualPage.tradeForm.buttons.sell)}
         </button>
@@ -552,6 +554,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
               [styles.active]: trade.tradeType === PerpetualTradeType.MARKET,
             })}
             onClick={bindSelectTradeType(PerpetualTradeType.MARKET)}
+            data-action-id="perps-tradeForm-tradeTypeButton-market"
           >
             {t(translations.perpetualPage.tradeForm.buttons.market)}
           </button>
@@ -561,6 +564,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
               [styles.active]: trade.tradeType === PerpetualTradeType.LIMIT,
             })}
             onClick={bindSelectTradeType(PerpetualTradeType.LIMIT)}
+            data-action-id="perps-tradeForm-tradeTypeButton-limit"
           >
             {t(translations.perpetualPage.tradeForm.buttons.limit)}
           </button>
@@ -570,6 +574,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
               [styles.active]: trade.tradeType === PerpetualTradeType.STOP,
             })}
             onClick={bindSelectTradeType(PerpetualTradeType.STOP)}
+            data-action-id="perps-tradeForm-tradeTypeButton-stop"
           >
             {t(translations.perpetualPage.tradeForm.buttons.stop)}
           </button>
@@ -597,6 +602,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
             max={maxTradeSize}
             onChangeText={onChangeOrderAmount}
             onBlur={onBlurOrderAmount}
+            dataActionId="perps-tradeForm-orderSize"
           />
         </div>
 
@@ -915,7 +921,11 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
               />
             </Tooltip>
             <div className="tw-my-2 tw-text-secondary tw-text-xs">
-              <button className="tw-flex tw-flex-row" onClick={onOpenSlippage}>
+              <button
+                className="tw-flex tw-flex-row"
+                onClick={onOpenSlippage}
+                data-action-id="perps-tradeForm-slippage"
+              >
                 <Trans
                   i18nKey={
                     translations.perpetualPage.tradeForm.buttons
@@ -952,6 +962,11 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
               )}
               onClick={onSubmitWrapper}
               disabled={buttonDisabled}
+              data-action-id={
+                trade.position === TradingPosition.LONG
+                  ? 'perps-tradeForm-submit-buy'
+                  : 'perps-tradeForm-submit-sell'
+              }
             >
               <span className="tw-mr-2">{tradeButtonLabel}</span>
               <span>
