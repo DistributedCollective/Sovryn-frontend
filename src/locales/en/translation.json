@@ -237,7 +237,7 @@
     "meta": {
       "title": "Fast-BTC",
       "titleDeposit": "Receive Bitcoin with FastBTC",
-      "descriptionDeposit": "Receive RBTC by transferring Bitcoin from the Bitcoin network",
+      "descriptionDeposit": "Transfer Bitcoin to a deposit address in the Bitcoin network, and it will be received as RBTC",
       "titleWithdraw": "Send Bitcoin with FastBTC",
       "descriptionWithdraw": "Send Bitcoin by transferring RBTC to the Bitcoin network",
       "description": "Move your Bitcoin to RSK network."
@@ -258,17 +258,17 @@
         "cta": "Generate Address"
       },
       "depositDetails": {
-        "title": "Deposit details",
+        "title": "Transfer details",
         "min": "MIN:",
         "max": "MAX:",
         "fee": "Fee:"
       },
       "depositInstructions": {
         "title": "Instructions:",
-        "line1": "Do not deposit any asset other than BTC.",
-        "line2": "Do not send less than the MIN limit.",
-        "line3": "Do not send more than the MAX limit.",
-        "line4": "Only send BTC to the deposit address generated for you.",
+        "line1": "Do not transfer any asset other than BTC to be received as RBTC.",
+        "line2": "Do not transfer less than the MIN limit.",
+        "line3": "Do not transfer more than the MAX limit.",
+        "line4": "Only transfer BTC to the deposit address generated for you.",
         "line5": "Allow up to {{hours}} hrs to proccess.",
         "line6": "If your transaction takes longer than {{hours}} hrs please <0>create a support ticket</0>."
       },
@@ -313,10 +313,10 @@
       },
       "mainScreen": {
         "title": "Withdraw <0/> to BTC Network",
-        "description": "Double check that you are entering the correct withdrawal address."
+        "description": "Double check that you are entering the correct BTC address to send to."
       },
       "withdrawDetails": {
-        "title": "Send Details",
+        "title": "Transfer details",
         "min": "MIN:",
         "max": "MAX:",
         "fee": "FEE:"

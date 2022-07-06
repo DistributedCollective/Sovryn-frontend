@@ -68,13 +68,13 @@
 }
 
 .button.gray {
-  @apply tw-text-white tw-bg-gray-4 tw-border-none;
+  @apply tw-text-primary tw-bg-gray-4 tw-border-primary;
 }
 
 // STYLES ==================================================================
 
 .button.normal {
-  @apply tw-rounded-lg tw-border-0;
+  @apply tw-rounded-lg;
 
   &.sm {
     @apply tw-font-normal;

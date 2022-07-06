@@ -162,7 +162,7 @@ export const StatusScreen: React.FC<StatusScreenProps> = ({ tx, network }) => {
                 </tbody>
               </table>
 
-              <div className="tw-text-center tw-mb-8 tw-mt-4">
+              <div className="tw-text-center tw-mb-8 tw-mt-4 tw-text-xs">
                 <Trans
                   i18nKey={
                     translations.fastBtcPage.withdraw.reviewScreen.description
@@ -176,19 +176,17 @@ export const StatusScreen: React.FC<StatusScreenProps> = ({ tx, network }) => {
                 />
               </div>
 
-              {tx.status !== TxStatus.PENDING && (
-                <div className="tw-px-8 tw-text-center">
-                  <Button
-                    className={
-                      'tw-w-42 tw-font-semibold tw-absolute tw-right-0 tw-left-0 tw-bottom-8 tw-mx-auto'
-                    }
-                    size={ButtonSize.sm}
-                    text={backToTitle}
-                    onClick={onGoToPortfolio}
-                    color={ButtonColor.primary}
-                  />
-                </div>
-              )}
+              <div className="tw-px-8 tw-text-center">
+                <Button
+                  className={
+                    'tw-w-42 tw-font-semibold tw-absolute tw-right-0 tw-left-0 tw-bottom-8 tw-mx-auto'
+                  }
+                  size={ButtonSize.sm}
+                  text={backToTitle}
+                  onClick={onGoToPortfolio}
+                  color={ButtonColor.primary}
+                />
+              </div>
             </div>
           </>
         ) : (
