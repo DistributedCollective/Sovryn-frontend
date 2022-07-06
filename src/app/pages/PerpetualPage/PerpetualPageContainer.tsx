@@ -236,7 +236,7 @@ export const PerpetualPageContainer: React.FC = () => {
               <Tabs
                 items={tables}
                 initial={tables[0].id}
-                dataActionId="perpetual-tables"
+                dataActionId="perps-tables"
               />
             </div>
           )}

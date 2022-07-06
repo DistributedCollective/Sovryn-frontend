@@ -206,6 +206,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
             className="tw-text-xs tw-font-medium tw-text-secondary tw-underline tw-opacity-50 tw-cursor-not-allowed"
             disabled
             onClick={onOpenTransactionHistory}
+            data-action-id="perps-accountBalance-history"
           >
             {t(translations.perpetualPage.accountBalance.viewHistory)}
           </button>
@@ -220,6 +221,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
               ? t(translations.maintenance.perpetualsAccountFund)
               : undefined
           }
+          dataActionId="perps-accountBalance-btc-deposit"
         >
           {t(translations.perpetualPage.accountBalance.deposit)}
         </ActionButton>
@@ -232,6 +234,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
               ? t(translations.maintenance.perpetualsAccountWithdraw)
               : undefined
           }
+          dataActionId="perps-accountBalance-btc-withdraw"
         >
           {t(translations.perpetualPage.accountBalance.withdraw)}
         </ActionButton>
@@ -244,6 +247,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
               ? t(translations.maintenance.perpetualsAccountTransfer)
               : undefined
           }
+          dataActionId="perps-accountBalance-rsk-transfer"
         >
           {t(translations.perpetualPage.accountBalance.transfer)}
         </ActionButton>
@@ -257,6 +261,7 @@ type ActionButtonProps = {
   disabled?: boolean;
   tooltip?: string;
   children: React.ReactNode;
+  dataActionId?: string;
 };
 
 const ActionButton: React.FC<ActionButtonProps> = ({
@@ -264,6 +269,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   disabled,
   tooltip,
   children,
+  dataActionId,
 }) => {
   const button = (
     <button
@@ -275,6 +281,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
       )}
       disabled={disabled}
       onClick={onClick}
+      data-action-id={dataActionId}
     >
       {children}
     </button>

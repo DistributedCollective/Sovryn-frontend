@@ -53,6 +53,7 @@ export const AccountBalanceCard: React.FC = () => {
         )}
         onClick={onViewAccount}
         disabled={!isAddressWhitelisted}
+        data-action-id={`perps-accountBalance-${hasBalance ? 'view' : 'fund'}`}
       >
         {hasBalance
           ? t(translations.perpetualPage.accountBalance.viewAccount)
