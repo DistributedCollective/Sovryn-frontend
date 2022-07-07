@@ -249,7 +249,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       const roundedAmount = Number(
         shrinkToLot(
           Math.max(Math.min(Number(amount) || 0, maxTradeSize), 0),
-          lotSize,
+          perpParameters.fLotSizeBC, // non-rounded lot size
         ).toFixed(lotPrecision),
       );
       setAmount(amount);
@@ -260,7 +260,14 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         leverage: Math.max(minLeverage, Math.min(maxLeverage, trade.leverage)),
       }));
     },
-    [lotSize, lotPrecision, maxTradeSize, minLeverage, maxLeverage, setTrade],
+    [
+      maxTradeSize,
+      perpParameters.fLotSizeBC,
+      lotPrecision,
+      setTrade,
+      minLeverage,
+      maxLeverage,
+    ],
   );
 
   const onBlurOrderAmount = useCallback(() => {
