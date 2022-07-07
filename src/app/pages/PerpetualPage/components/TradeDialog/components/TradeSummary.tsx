@@ -67,7 +67,7 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
     [trade?.pairType, currentPair],
   );
 
-  const { lotPrecision } = perpetuals[pair.id];
+  const { lotPrecision, perpetualParameters } = perpetuals[pair.id];
 
   const {
     amountChange,
@@ -322,6 +322,22 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
             />
           </span>
         </div>
+        {showOrderText && (
+          <div className="tw-flex tw-w-full">
+            <span className="tw-flex-auto tw-w-1/2 tw-text-left tw-text-gray-10">
+              {t(translations.perpetualPage.tradeForm.labels.relayerFee)}
+            </span>
+            <span className="tw-text-sov-white tw-font-medium">
+              <AssetValue
+                minDecimals={8}
+                maxDecimals={8}
+                mode={AssetValueMode.auto}
+                value={perpetualParameters.fReferralRebateCC}
+                assetString={collateralName}
+              />
+            </span>
+          </div>
+        )}
         {marginChange > 0 && (
           <div className="tw-flex tw-w-full">
             <span className="tw-flex-auto tw-w-1/2 tw-text-left tw-text-gray-10">
