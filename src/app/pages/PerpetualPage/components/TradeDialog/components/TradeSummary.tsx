@@ -314,8 +314,8 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
           </span>
           <span className="tw-text-sov-white tw-font-medium">
             <AssetValue
-              minDecimals={tradingFee === 0 ? 0 : 6}
-              maxDecimals={6}
+              minDecimals={tradingFee === 0 ? 0 : 8}
+              maxDecimals={8}
               mode={AssetValueMode.auto}
               value={tradingFee}
               assetString={collateralName}
@@ -329,8 +329,8 @@ export const TradeSummary: React.FC<TradeSummaryProps> = ({
             </span>
             <span className="tw-text-sov-white tw-font-medium">
               <AssetValue
-                minDecimals={6}
-                maxDecimals={6}
+                minDecimals={8}
+                maxDecimals={8}
                 mode={AssetValueMode.auto}
                 value={orderCost}
                 assetString={collateralName}
