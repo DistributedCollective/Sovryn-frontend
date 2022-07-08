@@ -41,9 +41,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
   const { t } = useTranslation();
   const history = useHistory();
 
-  const { collateral, pairType, isAddressWhitelisted } = useSelector(
-    selectPerpetualPage,
-  );
+  const { collateral, pairType } = useSelector(selectPerpetualPage);
 
   const collateralAsset = useMemo(() => getCollateralName(collateral), [
     collateral,
@@ -67,27 +65,23 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
     [checkMaintenance, States],
   );
 
-  const fundDisabled = fundLocked || !isAddressWhitelisted;
-  const withdrawDisabled = withdrawLocked || !isAddressWhitelisted;
-  const transferDisabled = transferLocked || !isAddressWhitelisted;
-
   const onOpenDeposit = useCallback(() => {
-    if (!fundDisabled) {
+    if (!fundLocked) {
       history.push('/fast-btc/deposit/bsc');
     }
-  }, [fundDisabled, history]);
+  }, [fundLocked, history]);
 
   const onOpenWithdraw = useCallback(() => {
-    if (!withdrawDisabled) {
+    if (!withdrawLocked) {
       history.push('/fast-btc/withdraw/bsc');
     }
-  }, [history, withdrawDisabled]);
+  }, [history, withdrawLocked]);
 
   const onOpenTransfer = useCallback(() => {
-    if (!transferDisabled) {
+    if (!transferLocked) {
       window.open(getBridgeUrl(), '_blank');
     }
-  }, [transferDisabled]);
+  }, [transferLocked]);
 
   const {
     total,
@@ -215,7 +209,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
       <div className="tw-flex tw-flex-col md:tw-flex-row tw-justify-center tw-mx-auto tw-mt-16 tw-space-y-4 md:tw-space-y-0 md:tw-space-x-10">
         <ActionButton
           onClick={onOpenDeposit}
-          disabled={fundDisabled}
+          disabled={fundLocked}
           tooltip={
             fundLocked
               ? t(translations.maintenance.perpetualsAccountFund)
@@ -228,7 +222,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
 
         <ActionButton
           onClick={onOpenWithdraw}
-          disabled={withdrawDisabled}
+          disabled={withdrawLocked}
           tooltip={
             withdrawLocked
               ? t(translations.maintenance.perpetualsAccountWithdraw)
@@ -241,7 +235,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
 
         <ActionButton
           onClick={onOpenTransfer}
-          disabled={transferDisabled}
+          disabled={transferLocked}
           tooltip={
             withdrawLocked
               ? t(translations.maintenance.perpetualsAccountTransfer)
