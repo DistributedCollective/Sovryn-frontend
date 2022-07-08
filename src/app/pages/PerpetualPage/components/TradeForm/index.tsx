@@ -233,7 +233,11 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
   }, [amount, maxTradeSize, trade.position]);
 
   useEffect(() => {
-    if (isValidNumerishValue(amount) && bignumber(amount).lessThan(lotSize)) {
+    if (
+      isValidNumerishValue(amount) &&
+      !bignumber(amount).isZero() &&
+      bignumber(amount).lessThan(lotSize)
+    ) {
       setAmount(String(lotSize));
       setTrade(trade => ({ ...trade, amount: toWei(lotSize) }));
     }
