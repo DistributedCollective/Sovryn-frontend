@@ -270,7 +270,7 @@
         "line3": "Do not transfer more than the MAX limit.",
         "line4": "Only transfer BTC to the deposit address generated for you.",
         "line5": "Allow up to {{hours}} hrs to proccess.",
-        "line6": "If your transaction takes longer than {{hours}} hrs please <0>create a support ticket</0>."
+        "line6": "If your transaction takes longer than {{hours}} hrs please <0>contact us</0>."
       },
       "validationScreen": {
         "title": "Verifying FastBTC Federators",
@@ -293,7 +293,7 @@
         "received": "Receive Amount",
         "txHash": "Tx Hash",
         "txId": "Tx ID",
-        "description": "Your deposit is being processed. If your transaction takes longer than {{hours}} hrs please <0>create a support ticket</0>.",
+        "description": "Your deposit is being processed. If your transaction takes longer than {{hours}} hrs please <0>contact us</0>.",
         "cta": "Return to Portfolio"
       },
       "qr": {
@@ -313,7 +313,7 @@
       },
       "mainScreen": {
         "title": "Withdraw <0/> to BTC Network",
-        "description": "Double check that you are entering the correct BTC address to send to."
+        "description": "Double check that you are entering the correct BTC address to send to"
       },
       "withdrawDetails": {
         "title": "Transfer details",
@@ -327,7 +327,7 @@
         "line2": "Do not send less than the MIN limit.",
         "line3": "Do not send more than the MAX limit.",
         "line4": "Allow up to {{hours}} hrs to process.",
-        "line5": "If your transaction takes longer than {{hours}} hrs please <0>create a support ticket</0>."
+        "line5": "If your transaction takes longer than {{hours}} hrs please <0>contact us</0>."
       },
       "amountForm": {
         "title": "<0/> Withdraw Amount",
@@ -348,7 +348,7 @@
         "fees": "Bridge Fee",
         "received": "Total Amount",
         "tx": "Tx ID",
-        "description": "Your withdrawal is being processed. If your transaction takes longer than {{hours}} hrs please <0>create a support ticket</0>"
+        "description": "Your withdrawal is being processed. If your transaction takes longer than {{hours}} hrs please <0>contact us</0>"
       },
       "walletTxHelper": {
         "confirm": "Please confirm the transaction in your {{wallet}} wallet",

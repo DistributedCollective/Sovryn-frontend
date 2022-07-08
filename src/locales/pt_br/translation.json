@@ -260,7 +260,7 @@
         "line3": "Não envie mais BTC do que o limite máximo.",
         "line4": "Aguarde até {{hours}} horas para processar.",
         "line5": "Se a transação não for concluída em {{hours}} horas <0>abra um ticket de suporte</0>.",
-        "line6": "If your transaction takes longer than {{hours}} hrs please <0>create a support ticket</0>."
+        "line6": "If your transaction takes longer than {{hours}} hrs please <0>contact us</0>."
       },
       "validationScreen": {
         "title": "Verificando federação FastBTC",

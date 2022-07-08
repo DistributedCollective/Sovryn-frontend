@@ -133,8 +133,7 @@ export const MAINTENANCE_MARGIN = 15000000000000000000;
 
 export const MIN_GAS = 40000;
 
-export const CREATE_TICKET_LINK =
-  'https://sovryn.freshdesk.com/support/tickets/new';
+export const CREATE_TICKET_LINK = 'https://help.sovryn.app/';
 
 export const WIKI_LIMIT_ORDER_LIMITS_LINK =
   'https://wiki.sovryn.app/en/sovryn-dapp/limit-order-limitations';
