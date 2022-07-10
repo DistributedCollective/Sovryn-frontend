@@ -138,7 +138,7 @@ export const CompetitionPageContainer: React.FC = () => {
 
               <div className="tw-mt-2 tw-mb-8">
                 <a
-                  href="https://forms.monday.com/forms/c3227cbc08a9075d3e326dc2dc07d24e"
+                  href="https://forms.monday.com/forms/5631b4b3608ad121f7e19af030f3b433"
                   target="_blank"
                   rel="noreferrer"
                 >
