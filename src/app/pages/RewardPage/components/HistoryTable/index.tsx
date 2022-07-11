@@ -17,7 +17,6 @@ export const HistoryTable: React.FC = () => {
       !loading,
     [data, page, loading],
   );
-  console.log('rewardsEarnedHistoryItems', data);
 
   const isDisabled = useMemo(() => {
     if (!data) {
