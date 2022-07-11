@@ -10,7 +10,7 @@ import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Switch, Route, BrowserRouter, Redirect } from 'react-router-dom';
 
-import { currentNetwork, isMainnet, isStaging } from 'utils/classifiers';
+import { currentNetwork, isMainnet } from 'utils/classifiers';
 import { useAppTheme } from './hooks/app/useAppTheme';
 import { useMaintenance } from './hooks/useMaintenance';
 import { useInjectReducer, useInjectSaga } from 'utils/redux-injectors';
@@ -51,9 +51,12 @@ import { FastBtcPage } from './pages/FastBtcPage/Loadable';
 import { PageContainer } from './containers/PageContainer';
 import 'react-toastify/dist/ReactToastify.css';
 import { PerpetualPageLoadable } from './pages/PerpetualPage/Loadable';
+import { CompetitionPage } from './pages/PerpetualPage/components/CompetitionPage';
 
 const title = !isMainnet ? `Sovryn ${currentNetwork}` : 'Sovryn';
-const showPerps = !isMainnet || isStaging;
+
+// TODO: Delete this once we go live, we may need it after the competition
+const showPerps = true; // !isMainnet || isStaging;
 
 export function App() {
   useAppTheme();
@@ -132,11 +135,18 @@ export function App() {
                   component={FastBtcPage}
                 />
                 {showPerps && (
-                  <Route
-                    exact
-                    path="/perpetuals"
-                    component={PerpetualPageLoadable}
-                  />
+                  <>
+                    <Route
+                      exact
+                      path="/perpetuals"
+                      component={PerpetualPageLoadable}
+                    />
+                    <Route
+                      exact
+                      path="/perpetuals/competition"
+                      component={CompetitionPage}
+                    />
+                  </>
                 )}
                 <Route component={NotFoundPage} />
               </Switch>

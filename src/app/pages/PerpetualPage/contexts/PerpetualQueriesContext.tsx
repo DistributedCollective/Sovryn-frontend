@@ -27,9 +27,6 @@ import {
   traderStateCallData,
   balanceCallData,
 } from '../utils/contractUtils';
-import { useBridgeNetworkMultiCall } from '../../../hooks/useBridgeNetworkMultiCall';
-import { PERPETUAL_CHAIN } from '../types';
-import { usePerpetual_queryLiqPoolId } from '../hooks/usePerpetual_queryLiqPoolId';
 import {
   perpUtils,
   AMMState,
@@ -37,8 +34,17 @@ import {
   PerpParameters,
   TraderState,
 } from '@sovryn/perpetual-swap';
-import { PerpetualPairDictionary } from 'utils/dictionaries/perpetual-pair-dictionary';
-import { MultiCallData } from 'app/pages/BridgeDepositPage/utils/bridge-network';
+import {
+  PerpetualPairDictionary,
+  PerpetualPairType,
+} from 'utils/dictionaries/perpetual-pair-dictionary';
+import {
+  MultiCallData,
+  MultiCallResult,
+} from 'app/pages/BridgeDepositPage/utils/bridge-network';
+import { isMainnet, isStaging } from 'utils/classifiers';
+import { useFetchBTCUSD } from './hooks/useFetchBTCUSD';
+import { useFetchAllPairs } from './hooks/useFetchAllPairs';
 
 const { getDepthMatrix } = perpUtils;
 
@@ -46,7 +52,21 @@ const THROTTLE_DELAY = 1000; // 1s
 const UPDATE_INTERVAL = 10000; // 10s
 
 const address = getContract('perpetualManager').address.toLowerCase();
-const pairIds = PerpetualPairDictionary.list().map(item => item.id);
+
+export type FetchResult = {
+  firstResult?: MultiCallResult;
+  firstRefetch?: () => Promise<MultiCallResult>;
+  secondResult?: MultiCallResult;
+  secondRefetch?: () => Promise<MultiCallResult>;
+};
+
+const isMainnetDeployment = isMainnet || isStaging;
+const fetchDataHook = isMainnetDeployment ? useFetchBTCUSD : useFetchAllPairs;
+
+// TODO: Find some generic solution for that
+const pairIds = isMainnetDeployment
+  ? [PerpetualPairDictionary.get(PerpetualPairType.BTCUSD).id]
+  : PerpetualPairDictionary.list().map(item => item.id);
 
 type InitSocketParams = {
   update: (isEventByTrader: boolean) => void;
@@ -141,23 +161,12 @@ export const PerpetualQueriesContextProvider: React.FC<PerpetualQueriesContextPr
   const [disconnected, setDisconnected] = useState(false);
 
   // TODO: Temporary solution, hook adjustment will be necessary
-  const { result: firstPoolId } = usePerpetual_queryLiqPoolId(pairIds[0]);
-  const { result: secondPoolId } = usePerpetual_queryLiqPoolId(pairIds[1]);
-
-  const multiCallData: MultiCallData[][] = useMemo(
-    () => getMultiCallData([firstPoolId, secondPoolId], account),
-    [account, firstPoolId, secondPoolId],
-  );
-
   const {
-    result: firstResult,
-    refetch: firstRefetch,
-  } = useBridgeNetworkMultiCall(PERPETUAL_CHAIN, multiCallData[0]);
-
-  const {
-    result: secondResult,
-    refetch: secondRefetch,
-  } = useBridgeNetworkMultiCall(PERPETUAL_CHAIN, multiCallData[1]);
+    firstResult,
+    firstRefetch,
+    secondResult,
+    secondRefetch,
+  } = fetchDataHook();
 
   const perpetuals = useMemo(
     () =>
@@ -203,8 +212,8 @@ export const PerpetualQueriesContextProvider: React.FC<PerpetualQueriesContextPr
   );
 
   const refetch = useCallback(() => {
-    firstRefetch().catch(console.error);
-    secondRefetch().catch(console.error);
+    firstRefetch?.().catch(console.error);
+    secondRefetch?.().catch(console.error);
   }, [firstRefetch, secondRefetch]);
 
   const refetchDebounced = useMemo(
@@ -290,7 +299,7 @@ const getAdditionalInfo = (
   };
 };
 
-const getMultiCallData = (poolIds: (string | undefined)[], account) => {
+export const getMultiCallData = (poolIds: (string | undefined)[], account) => {
   const multiCallData: MultiCallData[][] = [];
 
   pairIds.forEach((pairId, index) => {
