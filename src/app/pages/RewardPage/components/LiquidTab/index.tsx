@@ -9,6 +9,7 @@ import { bignumber } from 'mathjs';
 import { PieChart } from '../../styled';
 import imgNoClaim from 'assets/images/reward/ARMANDO__LENDING.svg';
 import { NoRewardInfo } from '../NoRewardInfo';
+import { addAmounts } from '../../helpers';
 
 interface ILiquidTabProps {
   amountToClaim: string;
@@ -23,13 +24,7 @@ export const LiquidTab: React.FC<ILiquidTabProps> = ({
   const { data } = useGetRewardEarnedEvents();
 
   const totalRewardsEarned = useMemo(() => {
-    if (!data) {
-      return null;
-    }
-    return data?.rewardsEarnedHistoryItems.reduce(
-      (previousItem, currentItem) => previousItem.add(currentItem.amount),
-      bignumber(0),
-    );
+    return addAmounts(data?.rewardsEarnedHistoryItems || []);
   }, [data]);
 
   return (

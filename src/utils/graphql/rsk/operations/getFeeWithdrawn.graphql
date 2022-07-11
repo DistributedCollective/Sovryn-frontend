@@ -4,11 +4,15 @@ query getFeeWithdrawn($user: String) {
     orderBy: timestamp
     orderDirection: desc
   ) {
-    action
-    amount
-    timestamp
-    transaction {
-      id
-    }
+    ...StakeHistoryItemsFields
+  }
+}
+
+fragment StakeHistoryItemsFields on StakeHistoryItem {
+  action
+  amount
+  timestamp
+  transaction {
+    id
   }
 }

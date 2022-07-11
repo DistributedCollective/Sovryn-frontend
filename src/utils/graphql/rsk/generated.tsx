@@ -8728,6 +8728,14 @@ export type GetFeeWithdrawnQuery = {
   }>;
 };
 
+export type StakeHistoryItemsFieldsFragment = {
+  __typename?: 'StakeHistoryItem';
+  action: StakeHistoryAction;
+  amount?: string | null;
+  timestamp: number;
+  transaction: { __typename?: 'Transaction'; id: string };
+};
+
 export type GetRewardClaimedQueryVariables = Exact<{
   user?: InputMaybe<Scalars['String']>;
 }>;
@@ -8825,6 +8833,16 @@ export const BorrowFieldsFragmentDoc = gql`
     }
   }
 `;
+export const StakeHistoryItemsFieldsFragmentDoc = gql`
+  fragment StakeHistoryItemsFields on StakeHistoryItem {
+    action
+    amount
+    timestamp
+    transaction {
+      id
+    }
+  }
+`;
 export const RewardsEarnedHistoryItemsFieldsFragmentDoc = gql`
   fragment RewardsEarnedHistoryItemsFields on RewardsEarnedHistoryItem {
     action
@@ -8904,14 +8922,10 @@ export const GetFeeWithdrawnDocument = gql`
       orderBy: timestamp
       orderDirection: desc
     ) {
-      action
-      amount
-      timestamp
-      transaction {
-        id
-      }
+      ...StakeHistoryItemsFields
     }
   }
+  ${StakeHistoryItemsFieldsFragmentDoc}
 `;
 
 /**

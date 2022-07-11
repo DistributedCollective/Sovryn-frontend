@@ -13,6 +13,7 @@ import { bignumber } from 'mathjs';
 import { NoRewardInfo } from '../../components/NoRewardInfo/index';
 import imgNoClaim from 'assets/images/reward/ARMANDO__LENDING.svg';
 import classNames from 'classnames';
+import { addAmounts } from '../../helpers';
 
 interface IRewardTabProps {
   availableTradingRewards: string;
@@ -33,13 +34,7 @@ export const RewardTab: React.FC<IRewardTabProps> = ({
   const { data } = useGetTotalLendingRewards();
 
   const totalLendingRewards = useMemo(() => {
-    if (!data) {
-      return null;
-    }
-    return data.rewardsEarnedHistoryItems.reduce(
-      (previousItem, currentItem) => previousItem.add(currentItem.amount),
-      bignumber(0),
-    );
+    return addAmounts(data?.rewardsEarnedHistoryItems || []);
   }, [data]);
 
   const {

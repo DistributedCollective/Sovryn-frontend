@@ -11,6 +11,7 @@ import { IEarnedFee } from '../../hooks/useGetFeesEarnedClaimAmount';
 import { FeesEarnedClaimRow } from '../ClaimForms/FeesEarnedClaimRow';
 import { useGetFeesEarnedEvents } from '../../hooks/useGetFeesEarnedEvents';
 import { AssetRenderer } from 'app/components/AssetRenderer';
+import { addAmounts } from '../../helpers';
 
 interface IFeesEarnedTabProps {
   amountToClaim: string;
@@ -28,13 +29,7 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
   const { data, loading: totalAmountLoading } = useGetFeesEarnedEvents();
 
   const totalAmount = useMemo(() => {
-    if (!data) {
-      return null;
-    }
-    return data.stakeHistoryItems.reduce(
-      (previousItem, currentItem) => previousItem.add(currentItem?.amount || 0),
-      bignumber(0),
-    );
+    return addAmounts(data?.stakeHistoryItems || []);
   }, [data]);
 
   const totalRewardsEarned = useMemo(
