@@ -28,7 +28,10 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
   const { data, loading: totalAmountLoading } = useGetFeesEarnedEvents();
 
   const totalAmount = useMemo(() => {
-    return data?.stakeHistoryItems.reduce(
+    if (!data) {
+      return null;
+    }
+    return data.stakeHistoryItems.reduce(
       (previousItem, currentItem) => previousItem.add(currentItem?.amount || 0),
       bignumber(0),
     );

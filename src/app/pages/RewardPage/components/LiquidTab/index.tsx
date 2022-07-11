@@ -20,14 +20,17 @@ export const LiquidTab: React.FC<ILiquidTabProps> = ({
   lastWithdrawalInterval,
 }) => {
   const { t } = useTranslation();
-  const { data: stakingRewardEvents } = useGetRewardEarnedEvents();
+  const { data } = useGetRewardEarnedEvents();
 
   const totalRewardsEarned = useMemo(() => {
-    return stakingRewardEvents?.rewardsEarnedHistoryItems.reduce(
+    if (!data) {
+      return null;
+    }
+    return data?.rewardsEarnedHistoryItems.reduce(
       (previousItem, currentItem) => previousItem.add(currentItem.amount),
       bignumber(0),
     );
-  }, [stakingRewardEvents]);
+  }, [data]);
 
   return (
     <div className="tw-flex tw-flex-col tw-w-full tw-justify-center tw-items-center">

@@ -6,6 +6,7 @@ import { TxStatus } from 'store/global/transactions-store/types';
 import { Asset } from 'types';
 import { TableTransactionStatus } from 'app/components/FinanceV2Components/TableTransactionStatus/index';
 import { Tooltip } from '@blueprintjs/core';
+import { weiToNumberFormat } from 'utils/display-text/format';
 
 interface ITableRowProps {
   time: number;
@@ -31,7 +32,7 @@ export const TableRow: React.FC<ITableRowProps> = ({
       <td>
         <Tooltip content={`${amount} ${asset}`}>
           <>
-            {amount}
+            {weiToNumberFormat(amount, 6)}
             <span className="tw-mr-1">...</span>{' '}
             <AssetSymbolRenderer asset={asset} />
           </>
