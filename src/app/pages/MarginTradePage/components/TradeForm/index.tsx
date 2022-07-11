@@ -210,6 +210,13 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
     ],
   );
 
+  const underMaintenance = useMemo(
+    () =>
+      openTradesLocked ||
+      (orderType === OrderType.LIMIT && openLimitTradeLocked),
+    [openTradesLocked, openLimitTradeLocked, orderType],
+  );
+
   useEffect(() => {
     getPriceAmm(pair.shortAsset, pair.longAsset, toWei('0.01'))
       .then(response => bignumber(response).mul(100))
@@ -381,7 +388,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
             )}
           </FormGroup>
 
-          {!openTradesLocked && (
+          {!underMaintenance && (
             <>
               <LabelValuePair
                 label={t(translations.marginTradeForm.fields.interestAPR)}
@@ -444,7 +451,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({ pairType }) => {
             </>
           )}
 
-          {openTradesLocked && (
+          {underMaintenance && (
             <ErrorBadge
               content={
                 <Trans
