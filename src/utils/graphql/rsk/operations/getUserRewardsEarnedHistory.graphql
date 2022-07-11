@@ -1,0 +1,23 @@
+query getUserRewardsEarnedHistory($user: String, $skip: Int!, $pageSize: Int!) {
+  rewardsEarnedHistoryItems(
+    first: $pageSize
+    skip: $skip
+    where: { user: $user }
+    orderBy: timestamp
+    orderDirection: desc
+  ) {
+    ...RewardsEarnedHistoryItemsFields
+  }
+}
+
+fragment RewardsEarnedHistoryItemsFields on RewardsEarnedHistoryItem {
+  action
+  amount
+  token {
+    id
+  }
+  timestamp
+  transaction {
+    id
+  }
+}

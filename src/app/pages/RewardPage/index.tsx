@@ -140,7 +140,7 @@ export function RewardPage() {
                 className="tw-mt-2"
               />
             ) : (
-              <HistoryTable activeTab={activeTab} />
+              <HistoryTable />
             )}
           </div>
         </div>

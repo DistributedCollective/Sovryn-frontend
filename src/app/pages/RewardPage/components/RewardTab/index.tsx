@@ -28,10 +28,16 @@ export const RewardTab: React.FC<IRewardTabProps> = ({
   amountToClaim,
 }) => {
   const { t } = useTranslation();
-
   const totalTradingRewards = useGetTotalTradingRewards();
   const totalLiquidityRewards = useGetTotalLiquidityRewards();
-  const totalLendingRewards = useGetTotalLendingRewards();
+  const { data: lendingRewardsData } = useGetTotalLendingRewards();
+
+  const totalLendingRewards = useMemo(() => {
+    return lendingRewardsData?.rewardsEarnedHistoryItems.reduce(
+      (prevValue, currentValue) => prevValue.add(currentValue.amount),
+      bignumber(0),
+    );
+  }, [lendingRewardsData]);
 
   const {
     lendingPercentage,

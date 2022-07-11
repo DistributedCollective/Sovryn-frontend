@@ -1,0 +1,14 @@
+query getFeeWithdrawn($user: String) {
+  stakeHistoryItems(
+    where: { user: $user, action: FeeWithdrawn, amount_gt: 0 }
+    orderBy: timestamp
+    orderDirection: desc
+  ) {
+    action
+    amount
+    timestamp
+    transaction {
+      id
+    }
+  }
+}

@@ -8713,6 +8713,78 @@ export type BorrowFieldsFragment = {
   transaction: { __typename?: 'Transaction'; id: string };
 };
 
+export type GetFeeWithdrawnQueryVariables = Exact<{
+  user?: InputMaybe<Scalars['String']>;
+}>;
+
+export type GetFeeWithdrawnQuery = {
+  __typename?: 'Query';
+  stakeHistoryItems: Array<{
+    __typename?: 'StakeHistoryItem';
+    action: StakeHistoryAction;
+    amount?: string | null;
+    timestamp: number;
+    transaction: { __typename?: 'Transaction'; id: string };
+  }>;
+};
+
+export type GetRewardClaimedQueryVariables = Exact<{
+  user?: InputMaybe<Scalars['String']>;
+}>;
+
+export type GetRewardClaimedQuery = {
+  __typename?: 'Query';
+  rewardsEarnedHistoryItems: Array<{
+    __typename?: 'RewardsEarnedHistoryItem';
+    action: RewardsEarnedAction;
+    amount: string;
+    timestamp: number;
+    transaction: { __typename?: 'Transaction'; id: string };
+  }>;
+};
+
+export type GetRewardWithdrawnQueryVariables = Exact<{
+  user?: InputMaybe<Scalars['String']>;
+}>;
+
+export type GetRewardWithdrawnQuery = {
+  __typename?: 'Query';
+  rewardsEarnedHistoryItems: Array<{
+    __typename?: 'RewardsEarnedHistoryItem';
+    action: RewardsEarnedAction;
+    amount: string;
+    timestamp: number;
+    transaction: { __typename?: 'Transaction'; id: string };
+  }>;
+};
+
+export type GetUserRewardsEarnedHistoryQueryVariables = Exact<{
+  user?: InputMaybe<Scalars['String']>;
+  skip: Scalars['Int'];
+  pageSize: Scalars['Int'];
+}>;
+
+export type GetUserRewardsEarnedHistoryQuery = {
+  __typename?: 'Query';
+  rewardsEarnedHistoryItems: Array<{
+    __typename?: 'RewardsEarnedHistoryItem';
+    action: RewardsEarnedAction;
+    amount: string;
+    timestamp: number;
+    token?: { __typename?: 'Token'; id: string } | null;
+    transaction: { __typename?: 'Transaction'; id: string };
+  }>;
+};
+
+export type RewardsEarnedHistoryItemsFieldsFragment = {
+  __typename?: 'RewardsEarnedHistoryItem';
+  action: RewardsEarnedAction;
+  amount: string;
+  timestamp: number;
+  token?: { __typename?: 'Token'; id: string } | null;
+  transaction: { __typename?: 'Transaction'; id: string };
+};
+
 export type UsersQueryVariables = Exact<{
   where?: InputMaybe<User_Filter>;
 }>;
@@ -8747,6 +8819,19 @@ export const BorrowFieldsFragmentDoc = gql`
     interestRate
     interestDuration
     collateralToLoanRate
+    timestamp
+    transaction {
+      id
+    }
+  }
+`;
+export const RewardsEarnedHistoryItemsFieldsFragmentDoc = gql`
+  fragment RewardsEarnedHistoryItemsFields on RewardsEarnedHistoryItem {
+    action
+    amount
+    token {
+      id
+    }
     timestamp
     transaction {
       id
@@ -8811,6 +8896,278 @@ export type GetBorrowHistoryLazyQueryHookResult = ReturnType<
 export type GetBorrowHistoryQueryResult = Apollo.QueryResult<
   GetBorrowHistoryQuery,
   GetBorrowHistoryQueryVariables
+>;
+export const GetFeeWithdrawnDocument = gql`
+  query getFeeWithdrawn($user: String) {
+    stakeHistoryItems(
+      where: { user: $user, action: FeeWithdrawn, amount_gt: 0 }
+      orderBy: timestamp
+      orderDirection: desc
+    ) {
+      action
+      amount
+      timestamp
+      transaction {
+        id
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetFeeWithdrawnQuery__
+ *
+ * To run a query within a React component, call `useGetFeeWithdrawnQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFeeWithdrawnQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetFeeWithdrawnQuery({
+ *   variables: {
+ *      user: // value for 'user'
+ *   },
+ * });
+ */
+export function useGetFeeWithdrawnQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetFeeWithdrawnQuery,
+    GetFeeWithdrawnQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetFeeWithdrawnQuery, GetFeeWithdrawnQueryVariables>(
+    GetFeeWithdrawnDocument,
+    options,
+  );
+}
+export function useGetFeeWithdrawnLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetFeeWithdrawnQuery,
+    GetFeeWithdrawnQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetFeeWithdrawnQuery,
+    GetFeeWithdrawnQueryVariables
+  >(GetFeeWithdrawnDocument, options);
+}
+export type GetFeeWithdrawnQueryHookResult = ReturnType<
+  typeof useGetFeeWithdrawnQuery
+>;
+export type GetFeeWithdrawnLazyQueryHookResult = ReturnType<
+  typeof useGetFeeWithdrawnLazyQuery
+>;
+export type GetFeeWithdrawnQueryResult = Apollo.QueryResult<
+  GetFeeWithdrawnQuery,
+  GetFeeWithdrawnQueryVariables
+>;
+export const GetRewardClaimedDocument = gql`
+  query getRewardClaimed($user: String) {
+    rewardsEarnedHistoryItems(
+      where: { user: $user, action: RewardClaimed, amount_gt: 0 }
+      orderBy: timestamp
+      orderDirection: desc
+    ) {
+      action
+      amount
+      transaction {
+        id
+      }
+      timestamp
+    }
+  }
+`;
+
+/**
+ * __useGetRewardClaimedQuery__
+ *
+ * To run a query within a React component, call `useGetRewardClaimedQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRewardClaimedQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRewardClaimedQuery({
+ *   variables: {
+ *      user: // value for 'user'
+ *   },
+ * });
+ */
+export function useGetRewardClaimedQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetRewardClaimedQuery,
+    GetRewardClaimedQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetRewardClaimedQuery, GetRewardClaimedQueryVariables>(
+    GetRewardClaimedDocument,
+    options,
+  );
+}
+export function useGetRewardClaimedLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetRewardClaimedQuery,
+    GetRewardClaimedQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetRewardClaimedQuery,
+    GetRewardClaimedQueryVariables
+  >(GetRewardClaimedDocument, options);
+}
+export type GetRewardClaimedQueryHookResult = ReturnType<
+  typeof useGetRewardClaimedQuery
+>;
+export type GetRewardClaimedLazyQueryHookResult = ReturnType<
+  typeof useGetRewardClaimedLazyQuery
+>;
+export type GetRewardClaimedQueryResult = Apollo.QueryResult<
+  GetRewardClaimedQuery,
+  GetRewardClaimedQueryVariables
+>;
+export const GetRewardWithdrawnDocument = gql`
+  query getRewardWithdrawn($user: String) {
+    rewardsEarnedHistoryItems(
+      where: { user: $user, action: StakingRewardWithdrawn, amount_gt: 0 }
+      orderBy: timestamp
+      orderDirection: desc
+    ) {
+      action
+      amount
+      timestamp
+      transaction {
+        id
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetRewardWithdrawnQuery__
+ *
+ * To run a query within a React component, call `useGetRewardWithdrawnQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRewardWithdrawnQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRewardWithdrawnQuery({
+ *   variables: {
+ *      user: // value for 'user'
+ *   },
+ * });
+ */
+export function useGetRewardWithdrawnQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetRewardWithdrawnQuery,
+    GetRewardWithdrawnQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetRewardWithdrawnQuery,
+    GetRewardWithdrawnQueryVariables
+  >(GetRewardWithdrawnDocument, options);
+}
+export function useGetRewardWithdrawnLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetRewardWithdrawnQuery,
+    GetRewardWithdrawnQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetRewardWithdrawnQuery,
+    GetRewardWithdrawnQueryVariables
+  >(GetRewardWithdrawnDocument, options);
+}
+export type GetRewardWithdrawnQueryHookResult = ReturnType<
+  typeof useGetRewardWithdrawnQuery
+>;
+export type GetRewardWithdrawnLazyQueryHookResult = ReturnType<
+  typeof useGetRewardWithdrawnLazyQuery
+>;
+export type GetRewardWithdrawnQueryResult = Apollo.QueryResult<
+  GetRewardWithdrawnQuery,
+  GetRewardWithdrawnQueryVariables
+>;
+export const GetUserRewardsEarnedHistoryDocument = gql`
+  query getUserRewardsEarnedHistory(
+    $user: String
+    $skip: Int!
+    $pageSize: Int!
+  ) {
+    rewardsEarnedHistoryItems(
+      first: $pageSize
+      skip: $skip
+      where: { user: $user }
+      orderBy: timestamp
+      orderDirection: desc
+    ) {
+      ...RewardsEarnedHistoryItemsFields
+    }
+  }
+  ${RewardsEarnedHistoryItemsFieldsFragmentDoc}
+`;
+
+/**
+ * __useGetUserRewardsEarnedHistoryQuery__
+ *
+ * To run a query within a React component, call `useGetUserRewardsEarnedHistoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserRewardsEarnedHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserRewardsEarnedHistoryQuery({
+ *   variables: {
+ *      user: // value for 'user'
+ *      skip: // value for 'skip'
+ *      pageSize: // value for 'pageSize'
+ *   },
+ * });
+ */
+export function useGetUserRewardsEarnedHistoryQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetUserRewardsEarnedHistoryQuery,
+    GetUserRewardsEarnedHistoryQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetUserRewardsEarnedHistoryQuery,
+    GetUserRewardsEarnedHistoryQueryVariables
+  >(GetUserRewardsEarnedHistoryDocument, options);
+}
+export function useGetUserRewardsEarnedHistoryLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetUserRewardsEarnedHistoryQuery,
+    GetUserRewardsEarnedHistoryQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetUserRewardsEarnedHistoryQuery,
+    GetUserRewardsEarnedHistoryQueryVariables
+  >(GetUserRewardsEarnedHistoryDocument, options);
+}
+export type GetUserRewardsEarnedHistoryQueryHookResult = ReturnType<
+  typeof useGetUserRewardsEarnedHistoryQuery
+>;
+export type GetUserRewardsEarnedHistoryLazyQueryHookResult = ReturnType<
+  typeof useGetUserRewardsEarnedHistoryLazyQuery
+>;
+export type GetUserRewardsEarnedHistoryQueryResult = Apollo.QueryResult<
+  GetUserRewardsEarnedHistoryQuery,
+  GetUserRewardsEarnedHistoryQueryVariables
 >;
 export const UsersDocument = gql`
   query users($where: User_filter) {

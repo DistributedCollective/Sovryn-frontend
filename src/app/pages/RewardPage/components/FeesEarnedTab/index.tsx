@@ -25,10 +25,17 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const { totalAmount, loading: totalAmountLoading } = useGetFeesEarnedEvents();
+  const { data, loading: totalAmountLoading } = useGetFeesEarnedEvents();
+
+  const totalAmount = useMemo(() => {
+    return data?.stakeHistoryItems.reduce(
+      (previousItem, currentItem) => previousItem.add(currentItem?.amount || 0),
+      bignumber(0),
+    );
+  }, [data]);
 
   const totalRewardsEarned = useMemo(
-    () => totalAmount.add(amountToClaim).toString(),
+    () => totalAmount?.add(amountToClaim).toString() || 0,
     [totalAmount, amountToClaim],
   );
 

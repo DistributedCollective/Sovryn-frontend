@@ -1,17 +1,16 @@
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
-
-import { translations } from '../../../../../../locales/i18n';
+import { translations } from 'locales/i18n';
 import { TableRow } from '../TableRow/index';
 import { Asset } from 'types';
 import { lendingPools } from 'app/pages/RewardPage/helpers';
 import { getFeesEarnedAsset } from 'app/pages/RewardPage/hooks/useGetFeesEarnedEvents';
+import { RewardsEarnedHistoryItemsFieldsFragment } from 'utils/graphql/rsk/generated';
 
 export interface RewardEvent {
   amount: string;
-  event: RewardEventType;
+  event: RewardsEarnedHistoryItemsFieldsFragment;
   poolToken: string;
   timestamp: number;
   txHash: string;
@@ -29,7 +28,7 @@ export enum RewardEventType {
 }
 
 interface ITableBodyProps {
-  items: RewardEvent[];
+  items: RewardsEarnedHistoryItemsFieldsFragment[] | undefined;
   loading: boolean;
 }
 
@@ -38,7 +37,7 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
 
   const getEventType = useCallback(
     item => {
-      switch (item.event) {
+      switch (item.action) {
         case RewardEventType.REWARD_CLAIMED:
           return lendingPools.includes(item.poolToken?.toLowerCase())
             ? t(translations.rewardPage.historyTable.event.lendingReward)
@@ -53,7 +52,7 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
         case RewardEventType.USER_FEE_WITHDRAWN:
           return t(translations.rewardPage.historyTable.event.feesReward);
         default:
-          return item.event;
+          return item.action;
       }
     },
     [t],
@@ -68,14 +67,14 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
 
   return (
     <tbody className="tw-mt-12">
-      {items.map((item, index) => (
+      {items?.map((item, index) => (
         <TableRow
           key={index}
           time={item.timestamp}
-          txHash={item.txHash}
+          txHash={item.transaction.id}
           amount={item.amount}
           type={getEventType(item)}
-          asset={getEventAsset(item.event, item.token)}
+          asset={getEventAsset(item.action, item.token?.id)}
         />
       ))}
 
@@ -86,7 +85,7 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
           </td>
         </tr>
       )}
-      {items.length === 0 && !loading && (
+      {items?.length === 0 && !loading && (
         <tr key={'empty'}>
           <td className="tw-text-center" colSpan={99}>
             {t(translations.liquidityMining.historyTable.emptyState)}
