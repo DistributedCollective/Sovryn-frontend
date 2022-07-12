@@ -71,7 +71,7 @@ export class BridgeNetworkDictionary {
       'Binance Smart Chain',
       CrossBridgeAsset.BNB,
       bscIcon,
-      'https://bsctestnet.sovryn.app/mainnet',
+      'https://bsc.sovryn.app/mainnet',
       'https://bscscan.com',
       AppMode.MAINNET,
       '0x41263cba59eb80dc200f3e2544eda4ed6a90e76c',
