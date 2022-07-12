@@ -47,9 +47,9 @@ const createClient = (endpoint: GraphQLEndpoint) =>
     }),
   });
 
-const MAX_ALLOWED_BLOCK_BEHIND = 15; // ~45 seconds
+const MAX_ALLOWED_BLOCK_BEHIND = 3; // ~9 seconds
 const RETRY_DELAY = 2 * 60 * 1000; // 2 minutes
-const MAX_TEST_SCORE = 4; // number of tests, can change in future
+const MAX_TEST_SCORE = 6; // number of tests, can change in future
 const LACKING_TEST_SCORE = MAX_TEST_SCORE - 1; // number of tests minus 1 for blocks behind, can change in future
 
 type EvaluationResult = {
@@ -59,6 +59,8 @@ type EvaluationResult = {
   isHealthy?: boolean;
   isKeepingUp?: boolean;
   blocksBehind?: number;
+  noIndexingErrors?: boolean;
+  noFatalErrors?: boolean;
 };
 
 const evaluateEndpoint = async (endpoint: GraphQLEndpoint) => {
@@ -68,6 +70,8 @@ const evaluateEndpoint = async (endpoint: GraphQLEndpoint) => {
     isSynced: undefined,
     isHealthy: undefined,
     isKeepingUp: undefined,
+    noIndexingErrors: undefined,
+    noFatalErrors: undefined,
   };
 
   try {
@@ -91,6 +95,11 @@ const evaluateEndpoint = async (endpoint: GraphQLEndpoint) => {
       return result;
     }
 
+    if (!metaResponse?.data?._meta?.hasIndexingErrors) {
+      result.score++;
+      result.noIndexingErrors = true;
+    }
+
     const statusResponse = await (
       await fetch(endpoint.index, {
         method: 'POST',
@@ -102,14 +111,22 @@ const evaluateEndpoint = async (endpoint: GraphQLEndpoint) => {
     ).json();
     if (statusResponse?.data?.indexingStatuses?.[0].subgraph) {
       const entry = statusResponse.data.indexingStatuses[0];
+
       if (entry.synced) {
         result.score++;
         result.isSynced = true;
       }
+
       if (entry.health === 'healthy') {
         result.score++;
         result.isHealthy = true;
       }
+
+      if (entry.fatalError === null) {
+        result.score++;
+        result.noFatalErrors = true;
+      }
+
       if (
         entry.chains?.[0]?.chainHeadBlock?.number &&
         entry.chains?.[0]?.latestBlock?.number
@@ -117,15 +134,20 @@ const evaluateEndpoint = async (endpoint: GraphQLEndpoint) => {
         const blocksBehind =
           entry.chains[0].chainHeadBlock.number -
           entry.chains[0].latestBlock.number;
-        if (blocksBehind > 0) {
+
+        if (blocksBehind === 0) {
+          result.score++;
+          result.isKeepingUp = true;
+        } else if (blocksBehind > 0) {
           if (blocksBehind > MAX_ALLOWED_BLOCK_BEHIND) {
             result.isKeepingUp = false;
           } else {
             result.score += 1 - blocksBehind / (MAX_ALLOWED_BLOCK_BEHIND + 1);
             result.isKeepingUp = true;
           }
-          result.blocksBehind = blocksBehind;
         }
+
+        result.blocksBehind = blocksBehind;
       }
     }
   } catch (error) {
@@ -190,7 +212,6 @@ export const GraphQLProvider: React.FC<GraphQLProviderProps> = ({
           // );
           return;
         } else if (activeEndpoint.isFallback) {
-          // TODO: add index to private fallback graph to be able to properly evaluate it.
           bestEvaluation.score =
             bestEvaluation.score > 0 ? LACKING_TEST_SCORE : 0;
         }

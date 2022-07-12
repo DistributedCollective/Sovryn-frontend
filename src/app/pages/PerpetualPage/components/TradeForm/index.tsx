@@ -190,20 +190,21 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
 
     const maxLeverage = getMaxInitialLeverage(position, perpParameters);
 
-    const minLeverage = Math.min(
-      maxLeverage,
-      Math.max(
-        pair.config.leverage.min,
-        calculateLeverage(
-          amountTarget,
-          possibleMargin,
-          traderState,
-          ammState,
-          perpParameters,
-          trade.slippage,
+    const minLeverage =
+      Math.min(
+        maxLeverage,
+        Math.max(
+          pair.config.leverage.min,
+          calculateLeverage(
+            amountTarget,
+            possibleMargin,
+            traderState,
+            ammState,
+            perpParameters,
+            trade.slippage,
+          ),
         ),
-      ),
-    );
+      ) || pair.config.leverage.min;
 
     return [minLeverage, maxLeverage];
   }, [
