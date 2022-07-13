@@ -50,7 +50,9 @@ type PagesProps = {
   hrefExternal?: boolean;
 };
 
-const showPerps = !isMainnet || isStaging;
+// TODO: Delete this once we go live, we may need it after the competition
+const showPerps = true; // !isMainnet || isStaging;
+
 const showZero = isMainnet || isStaging;
 
 export const DefaultHeaderComponent: React.FC = () => {
