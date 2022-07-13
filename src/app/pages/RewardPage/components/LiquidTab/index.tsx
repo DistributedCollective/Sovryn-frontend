@@ -9,7 +9,7 @@ import { bignumber } from 'mathjs';
 import { PieChart } from '../../styled';
 import imgNoClaim from 'assets/images/reward/ARMANDO__LENDING.svg';
 import { NoRewardInfo } from '../NoRewardInfo';
-import { addAmounts } from '../../helpers';
+import { sumAmounts } from '../../helpers';
 
 interface ILiquidTabProps {
   amountToClaim: string;
@@ -23,9 +23,10 @@ export const LiquidTab: React.FC<ILiquidTabProps> = ({
   const { t } = useTranslation();
   const { data } = useGetRewardEarnedEvents();
 
-  const totalRewardsEarned = useMemo(() => {
-    return addAmounts(data?.rewardsEarnedHistoryItems || []);
-  }, [data]);
+  const totalRewardsEarned = useMemo(
+    () => sumAmounts(data?.rewardsEarnedHistoryItems || []),
+    [data],
+  );
 
   return (
     <div className="tw-flex tw-flex-col tw-w-full tw-justify-center tw-items-center">
@@ -70,7 +71,7 @@ export const LiquidTab: React.FC<ILiquidTabProps> = ({
           color={RewardsDetailColor.Yellow}
           title={t(translations.rewardPage.stakingReward)}
           availableAmount={amountToClaim}
-          totalEarnedAmount={bignumber(totalRewardsEarned).toString()}
+          totalEarnedAmount={totalRewardsEarned.toString()}
         />
         <RewardsDetail
           color={RewardsDetailColor.Grey}

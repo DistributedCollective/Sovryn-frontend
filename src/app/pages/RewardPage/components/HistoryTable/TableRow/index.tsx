@@ -1,12 +1,11 @@
 import React from 'react';
 import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
-import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { TxStatus } from 'store/global/transactions-store/types';
 import { Asset } from 'types';
 import { TableTransactionStatus } from 'app/components/FinanceV2Components/TableTransactionStatus/index';
-import { Tooltip } from '@blueprintjs/core';
-import { toNumberFormat } from 'utils/display-text/format';
+import { AssetValue } from 'app/components/AssetValue';
+import { AssetValueMode } from 'app/components/AssetValue/types';
 
 interface ITableRowProps {
   time: number;
@@ -30,13 +29,14 @@ export const TableRow: React.FC<ITableRowProps> = ({
       </td>
       <td>{type}</td>
       <td>
-        <Tooltip content={`${amount} ${asset}`}>
-          <>
-            {toNumberFormat(amount, 8)}
-            <span className="tw-mr-1">...</span>{' '}
-            <AssetSymbolRenderer asset={asset} />
-          </>
-        </Tooltip>
+        <AssetValue
+          value={Number(amount)}
+          assetString={asset}
+          mode={AssetValueMode.auto}
+          minDecimals={8}
+          maxDecimals={8}
+          useTooltip
+        />
       </td>
       <td>
         <LinkToExplorer
