@@ -32,7 +32,8 @@ const getBridgeUrl = () => {
     return 'https://bridge.staging.sovryn.app';
   }
 
-  return 'https://bridge.test.sovryn.app';
+  // TODO: Change it back to https://bridge.test.sovryn.app once we resolve the DNS issue
+  return 'https://dev--legacy-bridge.netlify.app';
 };
 
 export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
