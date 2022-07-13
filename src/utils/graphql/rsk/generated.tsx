@@ -8713,6 +8713,35 @@ export type BorrowFieldsFragment = {
   transaction: { __typename?: 'Transaction'; id: string };
 };
 
+export type GetVestedHistoryQueryVariables = Exact<{
+  user?: InputMaybe<Scalars['String']>;
+  skip: Scalars['Int'];
+  pageSize: Scalars['Int'];
+}>;
+
+export type GetVestedHistoryQuery = {
+  __typename?: 'Query';
+  stakeHistoryItems: Array<{
+    __typename?: 'StakeHistoryItem';
+    id: string;
+    action: StakeHistoryAction;
+    amount?: string | null;
+    timestamp: number;
+    lockedUntil?: number | null;
+    transaction: { __typename?: 'Transaction'; id: string };
+  }>;
+};
+
+export type VestedHistoryFieldsFragment = {
+  __typename?: 'StakeHistoryItem';
+  id: string;
+  action: StakeHistoryAction;
+  amount?: string | null;
+  timestamp: number;
+  lockedUntil?: number | null;
+  transaction: { __typename?: 'Transaction'; id: string };
+};
+
 export type UsersQueryVariables = Exact<{
   where?: InputMaybe<User_Filter>;
 }>;
@@ -8748,6 +8777,18 @@ export const BorrowFieldsFragmentDoc = gql`
     interestDuration
     collateralToLoanRate
     timestamp
+    transaction {
+      id
+    }
+  }
+`;
+export const VestedHistoryFieldsFragmentDoc = gql`
+  fragment VestedHistoryFields on StakeHistoryItem {
+    id
+    action
+    amount
+    timestamp
+    lockedUntil
     transaction {
       id
     }
@@ -8811,6 +8852,73 @@ export type GetBorrowHistoryLazyQueryHookResult = ReturnType<
 export type GetBorrowHistoryQueryResult = Apollo.QueryResult<
   GetBorrowHistoryQuery,
   GetBorrowHistoryQueryVariables
+>;
+export const GetVestedHistoryDocument = gql`
+  query getVestedHistory($user: String, $skip: Int!, $pageSize: Int!) {
+    stakeHistoryItems(
+      first: $pageSize
+      skip: $skip
+      where: { user: $user, action_in: [Stake, IncreaseStake] }
+      orderBy: timestamp
+      orderDirection: desc
+    ) {
+      ...VestedHistoryFields
+    }
+  }
+  ${VestedHistoryFieldsFragmentDoc}
+`;
+
+/**
+ * __useGetVestedHistoryQuery__
+ *
+ * To run a query within a React component, call `useGetVestedHistoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetVestedHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetVestedHistoryQuery({
+ *   variables: {
+ *      user: // value for 'user'
+ *      skip: // value for 'skip'
+ *      pageSize: // value for 'pageSize'
+ *   },
+ * });
+ */
+export function useGetVestedHistoryQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetVestedHistoryQuery,
+    GetVestedHistoryQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetVestedHistoryQuery, GetVestedHistoryQueryVariables>(
+    GetVestedHistoryDocument,
+    options,
+  );
+}
+export function useGetVestedHistoryLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetVestedHistoryQuery,
+    GetVestedHistoryQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetVestedHistoryQuery,
+    GetVestedHistoryQueryVariables
+  >(GetVestedHistoryDocument, options);
+}
+export type GetVestedHistoryQueryHookResult = ReturnType<
+  typeof useGetVestedHistoryQuery
+>;
+export type GetVestedHistoryLazyQueryHookResult = ReturnType<
+  typeof useGetVestedHistoryLazyQuery
+>;
+export type GetVestedHistoryQueryResult = Apollo.QueryResult<
+  GetVestedHistoryQuery,
+  GetVestedHistoryQueryVariables
 >;
 export const UsersDocument = gql`
   query users($where: User_filter) {
