@@ -38,7 +38,7 @@ import { TradingPosition } from 'types/trading-position';
 import { MARGIN_SLIPPAGE_DEFAULT } from '../../types';
 import { LabelValuePair } from 'app/components/LabelValuePair';
 import { AssetValue } from 'app/components/AssetValue';
-import { MarginLoansFieldsFragment, Trade } from 'utils/graphql/rsk/generated';
+import { MarginLoansFieldsFragment } from 'utils/graphql/rsk/generated';
 
 interface IClosePositionDialogProps {
   item: MarginLoansFieldsFragment;
@@ -72,8 +72,8 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
     loanToken: { id: loanTokenId },
     collateralToken: { id: collateralTokenId },
   } = item;
-  const tradeData = trade as Trade[];
-  const { entryLeverage, positionSize } = tradeData[0];
+  const entryLeverage = trade?.[0].entryLeverage || '1';
+  const positionSize = trade?.[0].positionSize || '0';
   const [collateral, setCollateral] = useState(
     assetByTokenAddress(collateralTokenId),
   );

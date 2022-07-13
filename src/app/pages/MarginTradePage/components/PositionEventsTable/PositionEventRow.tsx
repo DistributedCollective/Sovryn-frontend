@@ -50,6 +50,11 @@ export const PositionEventRow: React.FC<LiquidatedPositionRowProps> = ({
     return isLong ? bignumber(1).div(closePrice).toString() : closePrice;
   }, [closePrice, isLong, event]);
 
+  const isLiquidateEvent = useMemo(
+    () => (event.__typename === EventType.LIQUIDATE ? '-' : ''),
+    [event],
+  );
+
   return (
     <tr>
       <td>
@@ -57,22 +62,18 @@ export const PositionEventRow: React.FC<LiquidatedPositionRowProps> = ({
       </td>
       <td className="tw-hidden md:tw-table-cell">
         <div className="tw-whitespace-nowrap">
-          {event.__typename === EventType.LIQUIDATE ? '-' : ''}
+          {isLiquidateEvent}
           <AssetValue
             asset={collateralAsset}
             value={toWei(positionSize)}
-            useTooltip={true}
+            useTooltip
           />
         </div>
       </td>
       <td>
         <div className="tw-whitespace-nowrap">
           {exitPrice ? (
-            <AssetValue
-              asset={loanAsset}
-              value={toWei(exitPrice)}
-              useTooltip={true}
-            />
+            <AssetValue asset={loanAsset} value={toWei(exitPrice)} useTooltip />
           ) : (
             <>-</>
           )}

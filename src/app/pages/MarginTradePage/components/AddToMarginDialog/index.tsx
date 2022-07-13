@@ -28,7 +28,7 @@ import { LabelValuePair } from 'app/components/LabelValuePair';
 import { useGetLoan } from 'app/hooks/trading/useGetLoan';
 import { toWei } from 'utils/blockchain/math-helpers';
 import { AssetValue } from 'app/components/AssetValue';
-import { MarginLoansFieldsFragment, Trade } from 'utils/graphql/rsk/generated';
+import { MarginLoansFieldsFragment } from 'utils/graphql/rsk/generated';
 
 interface IAddToMarginDialogProps {
   item: MarginLoansFieldsFragment;
@@ -48,8 +48,8 @@ export const AddToMarginDialog: React.FC<IAddToMarginDialogProps> = ({
     loanToken: { id: loanTokenId },
     collateralToken: { id: collateralTokenId },
   } = item;
-  const tradeData = trade as Trade[];
-  const { entryLeverage, positionSize: positionSizeValue } = tradeData[0];
+  const entryLeverage = trade?.[0].entryLeverage || '1';
+  const positionSizeValue = trade?.[0].positionSize || '0';
   const tokenDetails = AssetsDictionary.getByTokenContractAddress(
     collateralTokenId || '',
   );
@@ -93,9 +93,10 @@ export const AddToMarginDialog: React.FC<IAddToMarginDialogProps> = ({
     getLoan(id);
   }, [id, getLoan]);
 
-  const positionSize = useMemo(() => {
-    return bignumber(toWei(positionSizeValue)).add(weiAmount).toString();
-  }, [positionSizeValue, weiAmount]);
+  const positionSize = useMemo(
+    () => bignumber(toWei(positionSizeValue)).add(weiAmount).toString(),
+    [positionSizeValue, weiAmount],
+  );
 
   const liquidationPrice = usePositionLiquidationPrice(
     loan ? loan.principal : '0',

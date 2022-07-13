@@ -20,7 +20,6 @@ import {
   CloseWithSwap,
   Liquidate,
   MarginLoansFieldsFragment,
-  Trade,
 } from 'utils/graphql/rsk/generated';
 
 type ClosedPositionRowProps = {
@@ -39,8 +38,10 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
     liquidates,
     closeWithSwaps,
   } = event;
-  const tradeData = trade as Trade[];
-  const { positionSize, entryLeverage, entryPrice, transaction } = tradeData[0];
+  const entryLeverage = trade?.[0].entryLeverage || '1';
+  const positionSize = trade?.[0].positionSize || '0';
+  const entryPrice = trade?.[0].entryPrice || '0';
+  const transaction = trade?.[0].transaction.id || '';
   const loanAsset = assetByTokenAddress(loanTokenId);
   const collateralAsset = assetByTokenAddress(collateralTokenId);
   const pair = TradingPairDictionary.findPair(loanAsset, collateralAsset);
@@ -123,7 +124,7 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
         <td className="tw-hidden xl:tw-table-cell">
           <LinkToExplorer
             className="tw-text-primary tw-truncate tw-m-0"
-            txHash={transaction.id}
+            txHash={transaction}
             startLength={5}
             endLength={5}
           />

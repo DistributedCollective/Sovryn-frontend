@@ -23,7 +23,7 @@ import { useGetLoan } from 'app/hooks/trading/useGetLoan';
 import { toWei, weiTo18 } from 'utils/blockchain/math-helpers';
 import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
 import { AssetValue } from 'app/components/AssetValue';
-import { MarginLoansFieldsFragment, Trade } from 'utils/graphql/rsk/generated';
+import { MarginLoansFieldsFragment } from 'utils/graphql/rsk/generated';
 import { AssetValueMode } from 'app/components/AssetValue/types';
 
 type PositionRowProps = {
@@ -36,8 +36,11 @@ export const PositionRow: React.FC<PositionRowProps> = ({ event }) => {
   const [showClosePosition, setShowClosePosition] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
   const { id, trade, loanToken, nextRollover, collateralToken } = event;
-  const tradeData = trade as Trade[];
-  const { entryLeverage, entryPrice, interestRate, transaction } = tradeData[0];
+
+  const entryLeverage = trade?.[0].entryLeverage || '1';
+  const interestRate = trade?.[0].interestRate || '0';
+  const entryPrice = trade?.[0].entryPrice || '0';
+  const transaction = trade?.[0].transaction.id || '';
   const { checkMaintenances, States } = useMaintenance();
   const {
     [States.CLOSE_MARGIN_TRADES]: closeTradesLocked,
@@ -203,7 +206,7 @@ export const PositionRow: React.FC<PositionRowProps> = ({ event }) => {
         <td className="tw-hidden 2xl:tw-table-cell">
           <div className="tw-min-w-6">
             <LinkToExplorer
-              txHash={transaction.id}
+              txHash={transaction}
               className="tw-m-0 tw-whitespace-nowrap"
               startLength={5}
               endLength={5}

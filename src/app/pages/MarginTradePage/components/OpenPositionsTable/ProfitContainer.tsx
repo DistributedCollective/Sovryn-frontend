@@ -12,10 +12,9 @@ import { percentageChange } from 'utils/helpers';
 import { useCacheCallWithValue } from 'app/hooks/useCacheCallWithValue';
 import { useAccount } from 'app/hooks/useAccount';
 import { isLongTrade } from '../../utils/marginUtils';
-// import { EventTrade } from '../../types';
 import { AssetValue } from 'app/components/AssetValue';
 import { toWei } from 'utils/blockchain/math-helpers';
-import { MarginLoansFieldsFragment, Trade } from 'utils/graphql/rsk/generated';
+import { MarginLoansFieldsFragment } from 'utils/graphql/rsk/generated';
 
 type ProfitContainerProps = {
   item: MarginLoansFieldsFragment;
@@ -34,8 +33,8 @@ export const ProfitContainer: React.FC<ProfitContainerProps> = ({
     loanToken: { id: loanTokenId },
     collateralToken: { id: collateralTokenId },
   } = item;
-  const tradeData = trade as Trade[];
-  const { entryPrice } = tradeData[0];
+
+  const entryPrice = trade?.[0].entryPrice || '0';
   const { isLong, loanToken, collateralToken } = useMemo(
     () => ({
       isLong: isLongTrade(position),

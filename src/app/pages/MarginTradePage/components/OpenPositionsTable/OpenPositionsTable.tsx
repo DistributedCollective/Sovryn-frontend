@@ -22,12 +22,10 @@ export const OpenPositionsTable = () => {
     [transactions, loading, data],
   );
 
-  const isDisabled = useMemo(() => {
-    if (!data) {
-      return true;
-    }
-    return data && data.loans.length < PAGE_SIZE;
-  }, [data]);
+  const isDisabled = useMemo(
+    () => !data || (data && data.loans.length < PAGE_SIZE),
+    [data],
+  );
 
   const onGoingTransactions = useMemo(
     () =>
