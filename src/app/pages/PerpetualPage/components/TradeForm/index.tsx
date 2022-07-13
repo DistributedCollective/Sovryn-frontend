@@ -190,20 +190,21 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
 
     const maxLeverage = getMaxInitialLeverage(position, perpParameters);
 
-    const minLeverage = Math.min(
-      maxLeverage,
-      Math.max(
-        pair.config.leverage.min,
-        calculateLeverage(
-          amountTarget,
-          possibleMargin,
-          traderState,
-          ammState,
-          perpParameters,
-          trade.slippage,
+    const minLeverage =
+      Math.min(
+        maxLeverage,
+        Math.max(
+          pair.config.leverage.min,
+          calculateLeverage(
+            amountTarget,
+            possibleMargin,
+            traderState,
+            ammState,
+            perpParameters,
+            trade.slippage,
+          ),
         ),
-      ),
-    );
+      ) || pair.config.leverage.min;
 
     return [minLeverage, maxLeverage];
   }, [
@@ -234,6 +235,17 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
 
   useEffect(() => {
     if (
+      isValidNumerishValue(amount) &&
+      !bignumber(amount).isZero() &&
+      bignumber(amount).lessThan(lotSize)
+    ) {
+      setAmount(String(lotSize));
+      setTrade(trade => ({ ...trade, amount: toWei(lotSize) }));
+    }
+  }, [amount, lotSize, setTrade]);
+
+  useEffect(() => {
+    if (
       !hasOpenTrades &&
       isValidNumerishValue(amount) &&
       !bignumber(amount).isZero() &&
@@ -249,7 +261,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       const roundedAmount = Number(
         shrinkToLot(
           Math.max(Math.min(Number(amount) || 0, maxTradeSize), 0),
-          lotSize,
+          perpParameters.fLotSizeBC, // non-rounded lot size
         ).toFixed(lotPrecision),
       );
       setAmount(amount);
@@ -260,7 +272,14 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         leverage: Math.max(minLeverage, Math.min(maxLeverage, trade.leverage)),
       }));
     },
-    [lotSize, lotPrecision, maxTradeSize, minLeverage, maxLeverage, setTrade],
+    [
+      maxTradeSize,
+      perpParameters.fLotSizeBC,
+      lotPrecision,
+      setTrade,
+      minLeverage,
+      maxLeverage,
+    ],
   );
 
   const onBlurOrderAmount = useCallback(() => {
@@ -533,6 +552,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
             [styles.active]: trade.position === TradingPosition.LONG,
           })}
           onClick={onLongClick}
+          data-action-id="perps-tradeForm-positionButton-buy"
         >
           {t(translations.perpetualPage.tradeForm.buttons.buy)}
         </button>
@@ -541,6 +561,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
             [styles.active]: trade.position === TradingPosition.SHORT,
           })}
           onClick={onShortClick}
+          data-action-id="perps-tradeForm-positionButton-sell"
         >
           {t(translations.perpetualPage.tradeForm.buttons.sell)}
         </button>
@@ -552,6 +573,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
               [styles.active]: trade.tradeType === PerpetualTradeType.MARKET,
             })}
             onClick={bindSelectTradeType(PerpetualTradeType.MARKET)}
+            data-action-id="perps-tradeForm-tradeTypeButton-market"
           >
             {t(translations.perpetualPage.tradeForm.buttons.market)}
           </button>
@@ -561,6 +583,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
               [styles.active]: trade.tradeType === PerpetualTradeType.LIMIT,
             })}
             onClick={bindSelectTradeType(PerpetualTradeType.LIMIT)}
+            data-action-id="perps-tradeForm-tradeTypeButton-limit"
           >
             {t(translations.perpetualPage.tradeForm.buttons.limit)}
           </button>
@@ -570,6 +593,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
               [styles.active]: trade.tradeType === PerpetualTradeType.STOP,
             })}
             onClick={bindSelectTradeType(PerpetualTradeType.STOP)}
+            data-action-id="perps-tradeForm-tradeTypeButton-stop"
           >
             {t(translations.perpetualPage.tradeForm.buttons.stop)}
           </button>
@@ -597,6 +621,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
             max={maxTradeSize}
             onChangeText={onChangeOrderAmount}
             onBlur={onBlurOrderAmount}
+            dataActionId="perps-tradeForm-orderSize"
           />
         </div>
 
@@ -915,7 +940,11 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
               />
             </Tooltip>
             <div className="tw-my-2 tw-text-secondary tw-text-xs">
-              <button className="tw-flex tw-flex-row" onClick={onOpenSlippage}>
+              <button
+                className="tw-flex tw-flex-row"
+                onClick={onOpenSlippage}
+                data-action-id="perps-tradeForm-slippage"
+              >
                 <Trans
                   i18nKey={
                     translations.perpetualPage.tradeForm.buttons
@@ -952,6 +981,11 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
               )}
               onClick={onSubmitWrapper}
               disabled={buttonDisabled}
+              data-action-id={
+                trade.position === TradingPosition.LONG
+                  ? 'perps-tradeForm-submit-buy'
+                  : 'perps-tradeForm-submit-sell'
+              }
             >
               <span className="tw-mr-2">{tradeButtonLabel}</span>
               <span>

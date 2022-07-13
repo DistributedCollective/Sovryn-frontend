@@ -73,6 +73,7 @@ export const GsnSwitch: React.FC = () => {
         disabled={isGsnInMaintenance || !isGsnSupported}
         checked={useMetaTransactions}
         onChange={onToggleMetaTransactions}
+        data-action-id="perps-gsn-switch"
       />
     </Tooltip>
   );
