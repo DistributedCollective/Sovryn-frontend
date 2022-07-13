@@ -19,7 +19,10 @@ import {
 import { useWalletContext } from '@sovryn/react-wallet';
 import classNames from 'classnames';
 import { usePerpetual_transaction } from '../../../hooks/usePerpetual_transaction';
-import { TxStatus } from '../../../../../../store/global/transactions-store/types';
+import {
+  TxFailReason,
+  TxStatus,
+} from '../../../../../../store/global/transactions-store/types';
 import { useSelector } from 'react-redux';
 import { selectTransactions } from '../../../../../../store/global/transactions-store/selectors';
 import { TransitionAnimation } from '../../../../../containers/TransitionContainer';
@@ -39,7 +42,13 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
 
   const { useMetaTransactions } = useSelector(selectPerpetualPage);
   const { wallet } = useWalletContext();
-  const { execute, txHash, status, reset } = usePerpetual_transaction(
+  const {
+    execute,
+    txHash,
+    status,
+    reset,
+    failReason,
+  } = usePerpetual_transaction(
     currentTransaction ? transactions[currentTransaction.index] : undefined,
     useMetaTransactions,
   );
@@ -60,13 +69,15 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
         rejected || transactionStatus === TxStatus.FAILED,
         (currentTransaction?.index || 0) + 1,
         transactions.length,
+        failReason,
       ),
     [
       t,
       rejected,
       transactionStatus,
-      transactions.length,
       currentTransaction?.index,
+      transactions.length,
+      failReason,
     ],
   );
 
@@ -181,11 +192,20 @@ export const ConfirmationStep: TransitionStep<TradeDialogStep> = ({
   );
 };
 
+const failReasonsMapping = {
+  [TxFailReason.INSUFFICIENT_USER_FUNDS]:
+    translations.perpetualPage.processTrade.texts.failReasons
+      .insufficientUserFunds,
+  [TxFailReason.UNKNOWN]:
+    translations.perpetualPage.processTrade.texts.failReasons.unknown,
+};
+
 const getTranslations = (
   t,
   rejected: boolean,
   current: number,
   count: number,
+  failReason?: TxFailReason,
 ) => {
   const wallet = detectWeb3Wallet();
 
@@ -202,9 +222,15 @@ const getTranslations = (
       ),
       text: (
         <p className="tw-text-warning">
-          {t(translations.perpetualPage.processTrade.texts.rejected)}
-          <br />
-          {t(translations.perpetualPage.processTrade.texts.cancelOrRetry)}
+          {failReason && failReason !== TxFailReason.UNKNOWN ? (
+            t(failReasonsMapping[failReason])
+          ) : (
+            <>
+              {t(translations.perpetualPage.processTrade.texts.rejected)}
+              <br />
+              {t(translations.perpetualPage.processTrade.texts.cancelOrRetry)}
+            </>
+          )}
         </p>
       ),
     };
