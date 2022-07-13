@@ -190,20 +190,21 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
 
     const maxLeverage = getMaxInitialLeverage(position, perpParameters);
 
-    const minLeverage = Math.min(
-      maxLeverage,
-      Math.max(
-        pair.config.leverage.min,
-        calculateLeverage(
-          amountTarget,
-          possibleMargin,
-          traderState,
-          ammState,
-          perpParameters,
-          trade.slippage,
+    const minLeverage =
+      Math.min(
+        maxLeverage,
+        Math.max(
+          pair.config.leverage.min,
+          calculateLeverage(
+            amountTarget,
+            possibleMargin,
+            traderState,
+            ammState,
+            perpParameters,
+            trade.slippage,
+          ),
         ),
-      ),
-    );
+      ) || pair.config.leverage.min;
 
     return [minLeverage, maxLeverage];
   }, [
@@ -234,6 +235,17 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
 
   useEffect(() => {
     if (
+      isValidNumerishValue(amount) &&
+      !bignumber(amount).isZero() &&
+      bignumber(amount).lessThan(lotSize)
+    ) {
+      setAmount(String(lotSize));
+      setTrade(trade => ({ ...trade, amount: toWei(lotSize) }));
+    }
+  }, [amount, lotSize, setTrade]);
+
+  useEffect(() => {
+    if (
       !hasOpenTrades &&
       isValidNumerishValue(amount) &&
       !bignumber(amount).isZero() &&
@@ -249,7 +261,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       const roundedAmount = Number(
         shrinkToLot(
           Math.max(Math.min(Number(amount) || 0, maxTradeSize), 0),
-          lotSize,
+          perpParameters.fLotSizeBC, // non-rounded lot size
         ).toFixed(lotPrecision),
       );
       setAmount(amount);
@@ -260,7 +272,14 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
         leverage: Math.max(minLeverage, Math.min(maxLeverage, trade.leverage)),
       }));
     },
-    [lotSize, lotPrecision, maxTradeSize, minLeverage, maxLeverage, setTrade],
+    [
+      maxTradeSize,
+      perpParameters.fLotSizeBC,
+      lotPrecision,
+      setTrade,
+      minLeverage,
+      maxLeverage,
+    ],
   );
 
   const onBlurOrderAmount = useCallback(() => {
