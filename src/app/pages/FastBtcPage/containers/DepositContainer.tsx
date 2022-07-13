@@ -22,15 +22,36 @@ import { Signature } from '../contexts/deposit-context';
 import { SignatureValidation } from '../components/Deposit/SignatureValidation';
 import { isMainnet } from 'utils/classifiers';
 import { Chain, ChainId } from 'types';
+import { contractReader } from 'utils/sovryn/contract-reader';
+import { debug } from 'utils/debug';
 
 export const DepositContainer: React.FC<NetworkAwareComponentProps> = ({
   network,
 }) => {
+  const log = debug('FastBTCDeposit');
   const [state, setState] = useState<DepositContextStateType>(defaultValue);
   const { step } = state;
 
   const dispatch = useDispatch();
   const walletContext = useWalletContext();
+  const [requiredSigners, setRequiredSigners] = useState<number | undefined>();
+
+  useEffect(() => {
+    const getRequiredSigners = async () => {
+      try {
+        const required: number = await contractReader.call(
+          'fastBtcMultisig',
+          'required',
+          [],
+        );
+        setRequiredSigners(required);
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    getRequiredSigners();
+  }, []);
 
   useEffect(() => {
     if (network === Chain.BSC) {
@@ -85,16 +106,27 @@ export const DepositContainer: React.FC<NetworkAwareComponentProps> = ({
 
   const handleAddressRequest = useCallback(
     (address: string) => {
-      setState(prevState => ({ ...prevState, addressLoading: true }));
+      setState(prevState => ({
+        ...prevState,
+        addressLoading: true,
+      }));
       getDepositAddress(address)
         .then(response => {
-          setState(prevState => ({
-            ...prevState,
-            addressLoading: false,
-            address: response.btcadr,
-            step: DepositStep.VALIDATION,
-            signatures: response.signatures as Signature[],
-          }));
+          log.log(`checking for ${requiredSigners}: ${response.signatures}`);
+          if (
+            requiredSigners !== undefined &&
+            response.signatures.length >= requiredSigners
+          ) {
+            setState(prevState => ({
+              ...prevState,
+              addressLoading: false,
+              address: response.btcadr,
+              step: DepositStep.VALIDATION,
+              signatures: response.signatures as Signature[],
+            }));
+          } else {
+            handleAddressRequest(address);
+          }
         })
         .catch(error => {
           console.error(error);
@@ -106,7 +138,7 @@ export const DepositContainer: React.FC<NetworkAwareComponentProps> = ({
           }));
         });
     },
-    [getDepositAddress],
+    [getDepositAddress, requiredSigners, log],
   );
 
   const handleValidation = useCallback(() => {
