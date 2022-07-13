@@ -33,6 +33,7 @@ export const LayoutMenu: React.FC = () => {
             )}
             checked={showAmmDepth}
             onChange={() => dispatch(actions.setShowAmmDepth(!showAmmDepth))}
+            data-action-id="perps-layoutMenu-ammDepth"
           />
           <Switch
             large
@@ -43,6 +44,7 @@ export const LayoutMenu: React.FC = () => {
             )}
             checked={showChart}
             onChange={() => dispatch(actions.setShowChart(!showChart))}
+            data-action-id="perps-layoutMenu-chart"
           />
           <Switch
             large
@@ -55,6 +57,7 @@ export const LayoutMenu: React.FC = () => {
             onChange={() =>
               dispatch(actions.setShowRecentTrades(!showRecentTrades))
             }
+            data-action-id="perps-layoutMenu-recentTrades"
           />
           <Switch
             large
@@ -65,6 +68,7 @@ export const LayoutMenu: React.FC = () => {
             )}
             checked={showTradeForm}
             onChange={() => dispatch(actions.setShowTradeForm(!showTradeForm))}
+            data-action-id="perps-layoutMenu-tradeForm"
           />
           <Switch
             className="tw-mb-0"
@@ -76,11 +80,15 @@ export const LayoutMenu: React.FC = () => {
             )}
             checked={showTables}
             onChange={() => dispatch(actions.setShowTables(!showTables))}
+            data-action-id="perps-layoutMenu-tables"
           />
         </div>
       }
     >
-      <button className="tw-flex tw-items-center tw-py-1 tw-bg-gray-3 tw-px-5 tw-rounded-lg tw-cursor-pointer tw-select-none tw-transition-opacity hover:tw-bg-opacity-75">
+      <button
+        className="tw-flex tw-items-center tw-py-1 tw-bg-gray-3 tw-px-5 tw-rounded-lg tw-cursor-pointer tw-select-none tw-transition-opacity hover:tw-bg-opacity-75"
+        data-action-id="perps-layoutMenu-customizeButton"
+      >
         <div className="tw-flex tw-flex-row tw-justify-start tw-items-center tw-flex-shrink-0 tw-flex-grow tw-mr-4">
           {t(translations.perpetualPage.layout.button)}
         </div>

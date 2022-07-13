@@ -11,7 +11,6 @@ import {
   PageContextState,
   PageOptions,
 } from './types';
-import { usePageViews } from 'app/hooks/useAnalytics';
 import { DefaultHeaderComponent } from './components/DefaultHeaderComponent/DefaultHeaderComponent';
 import { Footer } from './components/DefaultFooterComponent/DefaultFooterComponent';
 import { FastBtcHeader } from 'app/pages/FastBtcPage/components/FastBtcHeader';
@@ -88,8 +87,6 @@ export const PageContainer: React.FC<Partial<HeaderContainerProps>> = ({
         return null;
     }
   }, [options.footer, options.footerProps]);
-
-  usePageViews();
 
   return (
     <PageContext.Provider value={{ state: memoizedState, actions }}>

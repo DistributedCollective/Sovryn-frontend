@@ -105,13 +105,14 @@ export function useDepositSocket(eventHandler?: EventHandler) {
         dynamicFee: number;
       }>((resolve, reject) => {
         if (socket.current) {
-          socket.current.emit('txAmount', res =>
+          socket.current.emit('txAmount', res => {
             resolve({
               ...res,
+              min: res.min < 0.0005 ? 0.0005 : res.min, // overiding with hardcoded value for now
               baseFee: DEPOSIT_FEE_SATS,
               dynamicFee: DEPOSIT_FEE_DYNAMIC,
-            }),
-          );
+            });
+          });
         } else {
           reject(new Error('socket not connected'));
         }

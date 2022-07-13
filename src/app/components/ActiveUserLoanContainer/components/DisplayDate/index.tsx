@@ -1,42 +1,40 @@
 import React from 'react';
+import dayjs from 'dayjs';
 
 export enum SeparatorType {
   Dash = 'dash',
-  Break = 'break',
+  Auto = 'auto',
 }
 
 const getSeparator = (separator: SeparatorType) => {
   switch (separator) {
-    case SeparatorType.Break:
-      return <br />;
+    case SeparatorType.Auto:
+      return '';
     case SeparatorType.Dash:
-      return '-';
     default:
-      return '-';
+      return ' -';
   }
 };
 
-interface Props {
+interface IDisplayDateProps {
   timestamp: string;
-  timezoneOption?: string;
-  timezoneLabel?: string;
+  useUTC?: boolean;
   separator?: SeparatorType;
 }
 
-export function DisplayDate({
+export const DisplayDate: React.FC<IDisplayDateProps> = ({
   timestamp,
-  timezoneOption = 'GMT',
-  timezoneLabel = 'GMT',
-  separator = SeparatorType.Break,
-}: Props) {
-  const date = (timestamp: string) => new Date(Number(timestamp) * 1e3);
-  const formatDate = date(timestamp).toLocaleString('en-GB', {
-    timeZone: timezoneOption,
-  });
+  separator = SeparatorType.Auto,
+  useUTC = false,
+}) => {
+  const stamp = dayjs.tz(Number(timestamp) * 1e3, 'UTC');
   return (
     <span>
-      {formatDate.slice(0, 10)} {getSeparator(separator)}{' '}
-      {formatDate.slice(12, 17)} {timezoneLabel}
+      {useUTC
+        ? stamp.format(`YYYY/MM/DD${getSeparator(separator)} HH:mm [UTC]`)
+        : stamp
+            .tz(dayjs.tz.guess())
+            .format(`L${getSeparator(separator)} LT [UTC] Z`)}
     </span>
   );
-}
+};
