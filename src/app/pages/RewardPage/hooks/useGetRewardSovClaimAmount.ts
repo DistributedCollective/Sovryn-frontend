@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 
 import { useGetAvailableLendingRewards } from '../components/RewardTab/hooks/useGetAvailableLendingRewards';
 import { useGetAvailableLiquidityRewards } from '../components/RewardTab/hooks/useGetAvailableLiquidityRewards';
-import { useGetAvailableTradingRewards } from '../components/RewardTab/hooks/useGetAvailableTradingRewards';
+import { useGetTradingRewards } from '../components/RewardTab/hooks/useGetTradingRewards';
 
 type RewardSovClaimData = {
   availableLendingRewards: string;
@@ -13,8 +13,16 @@ type RewardSovClaimData = {
 
 export const useGetRewardSovClaimAmount = (): RewardSovClaimData => {
   const availableLendingRewards = useGetAvailableLendingRewards();
-  const availableTradingRewards = useGetAvailableTradingRewards();
+  const { data: availableTradingRewardsData } = useGetTradingRewards();
   const availableLiquidityRewards = useGetAvailableLiquidityRewards();
+
+  const availableTradingRewards = useMemo(() => {
+    return (
+      availableTradingRewardsData?.userRewardsEarnedHistory
+        ?.availableTradingRewards || '0'
+    );
+  }, [availableTradingRewardsData]);
+
   const amountToClaim = useMemo(
     () =>
       (

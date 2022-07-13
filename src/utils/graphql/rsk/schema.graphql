@@ -8,6 +8,286 @@ scalar BigDecimal
 
 scalar BigInt
 
+type BitcoinTransfer {
+  amountBTC: BigDecimal!
+  bitcoinTxHash: Bytes!
+  btcAddress: String!
+  createdAtBlockNumber: Int!
+  createdAtTimestamp: Int!
+  createdAtTx: Transaction!
+  feeBTC: BigDecimal!
+  id: ID!
+  nonce: Int!
+  status: BitcoinTransferStatus!
+  totalAmountBTC: BigDecimal!
+  updatedAtBlockNumber: Int!
+  updatedAtTimestamp: Int!
+  updatedAtTx: Transaction!
+  user: User!
+}
+
+type BitcoinTransferBatchSending {
+  bitcoinTxHash: Bytes!
+  emittedBy: Bytes!
+  id: ID!
+  timestamp: Int!
+  transaction: Transaction!
+  transferBatchSize: Int!
+}
+
+input BitcoinTransferBatchSending_filter {
+  bitcoinTxHash: Bytes
+  bitcoinTxHash_contains: Bytes
+  bitcoinTxHash_in: [Bytes!]
+  bitcoinTxHash_not: Bytes
+  bitcoinTxHash_not_contains: Bytes
+  bitcoinTxHash_not_in: [Bytes!]
+  emittedBy: Bytes
+  emittedBy_contains: Bytes
+  emittedBy_in: [Bytes!]
+  emittedBy_not: Bytes
+  emittedBy_not_contains: Bytes
+  emittedBy_not_in: [Bytes!]
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  timestamp: Int
+  timestamp_gt: Int
+  timestamp_gte: Int
+  timestamp_in: [Int!]
+  timestamp_lt: Int
+  timestamp_lte: Int
+  timestamp_not: Int
+  timestamp_not_in: [Int!]
+  transaction: String
+  transaction_contains: String
+  transaction_ends_with: String
+  transaction_gt: String
+  transaction_gte: String
+  transaction_in: [String!]
+  transaction_lt: String
+  transaction_lte: String
+  transaction_not: String
+  transaction_not_contains: String
+  transaction_not_ends_with: String
+  transaction_not_in: [String!]
+  transaction_not_starts_with: String
+  transaction_starts_with: String
+  transferBatchSize: Int
+  transferBatchSize_gt: Int
+  transferBatchSize_gte: Int
+  transferBatchSize_in: [Int!]
+  transferBatchSize_lt: Int
+  transferBatchSize_lte: Int
+  transferBatchSize_not: Int
+  transferBatchSize_not_in: [Int!]
+}
+
+enum BitcoinTransferBatchSending_orderBy {
+  bitcoinTxHash
+  emittedBy
+  id
+  timestamp
+  transaction
+  transferBatchSize
+}
+
+enum BitcoinTransferStatus {
+  """
+  the transfer was confirmedly mined in Bitcoin blockchain
+  """
+  MINED
+
+  """
+  the transfer was initiated
+  """
+  NEW
+
+  """
+  the transfer slot has not been initialized
+  """
+  NOT_APPLICABLE
+
+  """
+  the transfer was reclaimed by the user
+  """
+  RECLAIMED
+
+  """
+  the transfer was refunded
+  """
+  REFUNDED
+
+  """
+  the federators have approved this transfer as part of a transfer batch
+  """
+  SENDING
+}
+
+input BitcoinTransfer_filter {
+  amountBTC: BigDecimal
+  amountBTC_gt: BigDecimal
+  amountBTC_gte: BigDecimal
+  amountBTC_in: [BigDecimal!]
+  amountBTC_lt: BigDecimal
+  amountBTC_lte: BigDecimal
+  amountBTC_not: BigDecimal
+  amountBTC_not_in: [BigDecimal!]
+  bitcoinTxHash: Bytes
+  bitcoinTxHash_contains: Bytes
+  bitcoinTxHash_in: [Bytes!]
+  bitcoinTxHash_not: Bytes
+  bitcoinTxHash_not_contains: Bytes
+  bitcoinTxHash_not_in: [Bytes!]
+  btcAddress: String
+  btcAddress_contains: String
+  btcAddress_ends_with: String
+  btcAddress_gt: String
+  btcAddress_gte: String
+  btcAddress_in: [String!]
+  btcAddress_lt: String
+  btcAddress_lte: String
+  btcAddress_not: String
+  btcAddress_not_contains: String
+  btcAddress_not_ends_with: String
+  btcAddress_not_in: [String!]
+  btcAddress_not_starts_with: String
+  btcAddress_starts_with: String
+  createdAtBlockNumber: Int
+  createdAtBlockNumber_gt: Int
+  createdAtBlockNumber_gte: Int
+  createdAtBlockNumber_in: [Int!]
+  createdAtBlockNumber_lt: Int
+  createdAtBlockNumber_lte: Int
+  createdAtBlockNumber_not: Int
+  createdAtBlockNumber_not_in: [Int!]
+  createdAtTimestamp: Int
+  createdAtTimestamp_gt: Int
+  createdAtTimestamp_gte: Int
+  createdAtTimestamp_in: [Int!]
+  createdAtTimestamp_lt: Int
+  createdAtTimestamp_lte: Int
+  createdAtTimestamp_not: Int
+  createdAtTimestamp_not_in: [Int!]
+  createdAtTx: String
+  createdAtTx_contains: String
+  createdAtTx_ends_with: String
+  createdAtTx_gt: String
+  createdAtTx_gte: String
+  createdAtTx_in: [String!]
+  createdAtTx_lt: String
+  createdAtTx_lte: String
+  createdAtTx_not: String
+  createdAtTx_not_contains: String
+  createdAtTx_not_ends_with: String
+  createdAtTx_not_in: [String!]
+  createdAtTx_not_starts_with: String
+  createdAtTx_starts_with: String
+  feeBTC: BigDecimal
+  feeBTC_gt: BigDecimal
+  feeBTC_gte: BigDecimal
+  feeBTC_in: [BigDecimal!]
+  feeBTC_lt: BigDecimal
+  feeBTC_lte: BigDecimal
+  feeBTC_not: BigDecimal
+  feeBTC_not_in: [BigDecimal!]
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  nonce: Int
+  nonce_gt: Int
+  nonce_gte: Int
+  nonce_in: [Int!]
+  nonce_lt: Int
+  nonce_lte: Int
+  nonce_not: Int
+  nonce_not_in: [Int!]
+  status: BitcoinTransferStatus
+  status_in: [BitcoinTransferStatus!]
+  status_not: BitcoinTransferStatus
+  status_not_in: [BitcoinTransferStatus!]
+  totalAmountBTC: BigDecimal
+  totalAmountBTC_gt: BigDecimal
+  totalAmountBTC_gte: BigDecimal
+  totalAmountBTC_in: [BigDecimal!]
+  totalAmountBTC_lt: BigDecimal
+  totalAmountBTC_lte: BigDecimal
+  totalAmountBTC_not: BigDecimal
+  totalAmountBTC_not_in: [BigDecimal!]
+  updatedAtBlockNumber: Int
+  updatedAtBlockNumber_gt: Int
+  updatedAtBlockNumber_gte: Int
+  updatedAtBlockNumber_in: [Int!]
+  updatedAtBlockNumber_lt: Int
+  updatedAtBlockNumber_lte: Int
+  updatedAtBlockNumber_not: Int
+  updatedAtBlockNumber_not_in: [Int!]
+  updatedAtTimestamp: Int
+  updatedAtTimestamp_gt: Int
+  updatedAtTimestamp_gte: Int
+  updatedAtTimestamp_in: [Int!]
+  updatedAtTimestamp_lt: Int
+  updatedAtTimestamp_lte: Int
+  updatedAtTimestamp_not: Int
+  updatedAtTimestamp_not_in: [Int!]
+  updatedAtTx: String
+  updatedAtTx_contains: String
+  updatedAtTx_ends_with: String
+  updatedAtTx_gt: String
+  updatedAtTx_gte: String
+  updatedAtTx_in: [String!]
+  updatedAtTx_lt: String
+  updatedAtTx_lte: String
+  updatedAtTx_not: String
+  updatedAtTx_not_contains: String
+  updatedAtTx_not_ends_with: String
+  updatedAtTx_not_in: [String!]
+  updatedAtTx_not_starts_with: String
+  updatedAtTx_starts_with: String
+  user: String
+  user_contains: String
+  user_ends_with: String
+  user_gt: String
+  user_gte: String
+  user_in: [String!]
+  user_lt: String
+  user_lte: String
+  user_not: String
+  user_not_contains: String
+  user_not_ends_with: String
+  user_not_in: [String!]
+  user_not_starts_with: String
+  user_starts_with: String
+}
+
+enum BitcoinTransfer_orderBy {
+  amountBTC
+  bitcoinTxHash
+  btcAddress
+  createdAtBlockNumber
+  createdAtTimestamp
+  createdAtTx
+  feeBTC
+  id
+  nonce
+  status
+  totalAmountBTC
+  updatedAtBlockNumber
+  updatedAtTimestamp
+  updatedAtTx
+  user
+}
+
 input Block_height {
   hash: Bytes
   number: Int
@@ -317,7 +597,7 @@ enum CandleStick_orderBy {
 
 enum CandleSticksInterval {
   DayInterval
-  FifteenMintuesInterval
+  FifteenMinutesInterval
   FourHourInterval
   HourInterval
   MinuteInterval
@@ -1104,6 +1384,123 @@ enum Deposit_orderBy {
   transaction
 }
 
+type FastBTCBridgeStat {
+  createdAtTx: Transaction!
+  id: ID!
+  totalAmountBTCInitialized: BigDecimal!
+  totalAmountBTCMined: BigDecimal!
+  totalAmountBTCRefunded: BigDecimal!
+  totalAmountBTCSending: BigDecimal!
+  totalFeesBTC: BigDecimal!
+  updatedAtTx: Transaction!
+  user: User
+}
+
+input FastBTCBridgeStat_filter {
+  createdAtTx: String
+  createdAtTx_contains: String
+  createdAtTx_ends_with: String
+  createdAtTx_gt: String
+  createdAtTx_gte: String
+  createdAtTx_in: [String!]
+  createdAtTx_lt: String
+  createdAtTx_lte: String
+  createdAtTx_not: String
+  createdAtTx_not_contains: String
+  createdAtTx_not_ends_with: String
+  createdAtTx_not_in: [String!]
+  createdAtTx_not_starts_with: String
+  createdAtTx_starts_with: String
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  totalAmountBTCInitialized: BigDecimal
+  totalAmountBTCInitialized_gt: BigDecimal
+  totalAmountBTCInitialized_gte: BigDecimal
+  totalAmountBTCInitialized_in: [BigDecimal!]
+  totalAmountBTCInitialized_lt: BigDecimal
+  totalAmountBTCInitialized_lte: BigDecimal
+  totalAmountBTCInitialized_not: BigDecimal
+  totalAmountBTCInitialized_not_in: [BigDecimal!]
+  totalAmountBTCMined: BigDecimal
+  totalAmountBTCMined_gt: BigDecimal
+  totalAmountBTCMined_gte: BigDecimal
+  totalAmountBTCMined_in: [BigDecimal!]
+  totalAmountBTCMined_lt: BigDecimal
+  totalAmountBTCMined_lte: BigDecimal
+  totalAmountBTCMined_not: BigDecimal
+  totalAmountBTCMined_not_in: [BigDecimal!]
+  totalAmountBTCRefunded: BigDecimal
+  totalAmountBTCRefunded_gt: BigDecimal
+  totalAmountBTCRefunded_gte: BigDecimal
+  totalAmountBTCRefunded_in: [BigDecimal!]
+  totalAmountBTCRefunded_lt: BigDecimal
+  totalAmountBTCRefunded_lte: BigDecimal
+  totalAmountBTCRefunded_not: BigDecimal
+  totalAmountBTCRefunded_not_in: [BigDecimal!]
+  totalAmountBTCSending: BigDecimal
+  totalAmountBTCSending_gt: BigDecimal
+  totalAmountBTCSending_gte: BigDecimal
+  totalAmountBTCSending_in: [BigDecimal!]
+  totalAmountBTCSending_lt: BigDecimal
+  totalAmountBTCSending_lte: BigDecimal
+  totalAmountBTCSending_not: BigDecimal
+  totalAmountBTCSending_not_in: [BigDecimal!]
+  totalFeesBTC: BigDecimal
+  totalFeesBTC_gt: BigDecimal
+  totalFeesBTC_gte: BigDecimal
+  totalFeesBTC_in: [BigDecimal!]
+  totalFeesBTC_lt: BigDecimal
+  totalFeesBTC_lte: BigDecimal
+  totalFeesBTC_not: BigDecimal
+  totalFeesBTC_not_in: [BigDecimal!]
+  updatedAtTx: String
+  updatedAtTx_contains: String
+  updatedAtTx_ends_with: String
+  updatedAtTx_gt: String
+  updatedAtTx_gte: String
+  updatedAtTx_in: [String!]
+  updatedAtTx_lt: String
+  updatedAtTx_lte: String
+  updatedAtTx_not: String
+  updatedAtTx_not_contains: String
+  updatedAtTx_not_ends_with: String
+  updatedAtTx_not_in: [String!]
+  updatedAtTx_not_starts_with: String
+  updatedAtTx_starts_with: String
+  user: String
+  user_contains: String
+  user_ends_with: String
+  user_gt: String
+  user_gte: String
+  user_in: [String!]
+  user_lt: String
+  user_lte: String
+  user_not: String
+  user_not_contains: String
+  user_not_ends_with: String
+  user_not_in: [String!]
+  user_not_starts_with: String
+  user_starts_with: String
+}
+
+enum FastBTCBridgeStat_orderBy {
+  createdAtTx
+  id
+  totalAmountBTCInitialized
+  totalAmountBTCMined
+  totalAmountBTCRefunded
+  totalAmountBTCSending
+  totalFeesBTC
+  updatedAtTx
+  user
+}
+
 type FeeSharingTokensTransferred {
   amount: BigDecimal!
   id: ID!
@@ -1161,6 +1558,7 @@ type LendingHistoryItem {
   lender: User!
   lendingPool: LendingPool!
   loanTokenAmount: BigDecimal!
+  timestamp: Int!
   transaction: Transaction!
   type: LendingHistoryType!
   userLendingHistory: UserLendingHistory!
@@ -1247,6 +1645,14 @@ input LendingHistoryItem_filter {
   loanTokenAmount_lte: BigDecimal
   loanTokenAmount_not: BigDecimal
   loanTokenAmount_not_in: [BigDecimal!]
+  timestamp: Int
+  timestamp_gt: Int
+  timestamp_gte: Int
+  timestamp_in: [Int!]
+  timestamp_lt: Int
+  timestamp_lte: Int
+  timestamp_not: Int
+  timestamp_not_in: [Int!]
   transaction: String
   transaction_contains: String
   transaction_ends_with: String
@@ -1289,6 +1695,7 @@ enum LendingHistoryItem_orderBy {
   lender
   lendingPool
   loanTokenAmount
+  timestamp
   transaction
   type
   userLendingHistory
@@ -2279,6 +2686,13 @@ type Loan {
   The amount borrowed in loan tokens
   """
   borrowedAmount: BigDecimal!
+  closeWithDeposits(
+    first: Int = 100
+    orderBy: CloseWithDeposit_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: CloseWithDeposit_filter
+  ): [CloseWithDeposit!]
   closeWithSwaps(
     first: Int = 100
     orderBy: CloseWithSwap_orderBy
@@ -2286,13 +2700,6 @@ type Loan {
     skip: Int = 0
     where: CloseWithSwap_filter
   ): [CloseWithSwap!]
-  closewithDeposits(
-    first: Int = 100
-    orderBy: CloseWithDeposit_orderBy
-    orderDirection: OrderDirection
-    skip: Int = 0
-    where: CloseWithDeposit_filter
-  ): [CloseWithDeposit!]
   collateralToken: Token!
   depositCollateral(
     first: Int = 100
@@ -2581,8 +2988,8 @@ enum Loan_orderBy {
   averageSellPrice
   borrow
   borrowedAmount
+  closeWithDeposits
   closeWithSwaps
-  closewithDeposits
   collateralToken
   depositCollateral
   endTimestamp
@@ -4253,6 +4660,62 @@ type Query {
   Access to subgraph metadata
   """
   _meta(block: Block_height): _Meta_
+  bitcoinTransfer(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): BitcoinTransfer
+  bitcoinTransferBatchSending(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): BitcoinTransferBatchSending
+  bitcoinTransferBatchSendings(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: BitcoinTransferBatchSending_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: BitcoinTransferBatchSending_filter
+  ): [BitcoinTransferBatchSending!]!
+  bitcoinTransfers(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: BitcoinTransfer_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: BitcoinTransfer_filter
+  ): [BitcoinTransfer!]!
   borrow(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -4477,6 +4940,34 @@ type Query {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: Deposit_filter
   ): [Deposit!]!
+  fastBTCBridgeStat(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): FastBTCBridgeStat
+  fastBTCBridgeStats(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: FastBTCBridgeStat_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: FastBTCBridgeStat_filter
+  ): [FastBTCBridgeStat!]!
   feeSharingTokensTransferred(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -6287,6 +6778,62 @@ type Subscription {
   Access to subgraph metadata
   """
   _meta(block: Block_height): _Meta_
+  bitcoinTransfer(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): BitcoinTransfer
+  bitcoinTransferBatchSending(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): BitcoinTransferBatchSending
+  bitcoinTransferBatchSendings(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: BitcoinTransferBatchSending_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: BitcoinTransferBatchSending_filter
+  ): [BitcoinTransferBatchSending!]!
+  bitcoinTransfers(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: BitcoinTransfer_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: BitcoinTransfer_filter
+  ): [BitcoinTransfer!]!
   borrow(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -6511,6 +7058,34 @@ type Subscription {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: Deposit_filter
   ): [Deposit!]!
+  fastBTCBridgeStat(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): FastBTCBridgeStat
+  fastBTCBridgeStats(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: FastBTCBridgeStat_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: FastBTCBridgeStat_filter
+  ): [FastBTCBridgeStat!]!
   feeSharingTokensTransferred(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -8646,6 +9221,17 @@ This entity contains all user-specific data displayed on the dapp, including all
 """
 type User {
   """
+  FastBTCBridge transfers from BTC to RSK
+  """
+  bitcoinTransfers(
+    first: Int = 100
+    orderBy: BitcoinTransfer_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: BitcoinTransfer_filter
+  ): [BitcoinTransfer!]
+
+  """
   An array of Borrow events
   """
   borrows(
@@ -8660,6 +9246,13 @@ type User {
   Timestamp of User's first interaction with the protocol (first transaction)
   """
   createdAtTimestamp: Int!
+  fastBTCBridgeStats(
+    first: Int = 100
+    orderBy: FastBTCBridgeStat_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: FastBTCBridgeStat_filter
+  ): [FastBTCBridgeStat!]
 
   """
   ID is user wallet address
@@ -8999,12 +9592,8 @@ This entity contains the history, fees and totals regarding one users' SOV rewar
 """
 type UserRewardsEarnedHistory {
   """
-  This is incremented by EarnReward and RewardClaimed events, and set to 0 by RewardWithdrawn events
-  """
-  availableRewardSov: BigDecimal!
-
-  """
-  This is incremented by EarnReward events, and set to 0 by TokensStaked events on the LockedSOV contract
+  SOV rewards earned from margin trading, but not yet claimed and vested
+  Incremented by EarnReward events, and set to 0 by TokensStaked events on the LockedSOV contract
   """
   availableTradingRewards: BigDecimal!
   id: ID!
@@ -9020,18 +9609,16 @@ type UserRewardsEarnedHistory {
   This is the total of all EarnReward and RewardClaimed events
   """
   totalFeesAndRewardsEarned: BigDecimal!
+
+  """
+  Sum of all SOV rewards earned from margin trading.
+  Incremented by EarnReward events
+  """
+  totalTradingRewards: BigDecimal!
   user: User!
 }
 
 input UserRewardsEarnedHistory_filter {
-  availableRewardSov: BigDecimal
-  availableRewardSov_gt: BigDecimal
-  availableRewardSov_gte: BigDecimal
-  availableRewardSov_in: [BigDecimal!]
-  availableRewardSov_lt: BigDecimal
-  availableRewardSov_lte: BigDecimal
-  availableRewardSov_not: BigDecimal
-  availableRewardSov_not_in: [BigDecimal!]
   availableTradingRewards: BigDecimal
   availableTradingRewards_gt: BigDecimal
   availableTradingRewards_gte: BigDecimal
@@ -9056,6 +9643,14 @@ input UserRewardsEarnedHistory_filter {
   totalFeesAndRewardsEarned_lte: BigDecimal
   totalFeesAndRewardsEarned_not: BigDecimal
   totalFeesAndRewardsEarned_not_in: [BigDecimal!]
+  totalTradingRewards: BigDecimal
+  totalTradingRewards_gt: BigDecimal
+  totalTradingRewards_gte: BigDecimal
+  totalTradingRewards_in: [BigDecimal!]
+  totalTradingRewards_lt: BigDecimal
+  totalTradingRewards_lte: BigDecimal
+  totalTradingRewards_not: BigDecimal
+  totalTradingRewards_not_in: [BigDecimal!]
   user: String
   user_contains: String
   user_ends_with: String
@@ -9073,11 +9668,11 @@ input UserRewardsEarnedHistory_filter {
 }
 
 enum UserRewardsEarnedHistory_orderBy {
-  availableRewardSov
   availableTradingRewards
   id
   rewardsEarnedHistory
   totalFeesAndRewardsEarned
+  totalTradingRewards
   user
 }
 
@@ -9352,8 +9947,10 @@ input User_filter {
 }
 
 enum User_orderBy {
+  bitcoinTransfers
   borrows
   createdAtTimestamp
+  fastBTCBridgeStats
   id
   lendingHistory
   liquidations
