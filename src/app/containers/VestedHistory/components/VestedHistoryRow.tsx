@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import logoSvg from 'assets/images/tokens/sov.svg';
 import { translations } from 'locales/i18n';
 import { LoadableValue } from 'app/components/LoadableValue';
-import { toWei } from 'utils/blockchain/math-helpers';
 import { Asset } from 'types/asset';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { Icon } from 'app/components/Icon';
@@ -45,7 +44,7 @@ export const VestedHistoryRow: React.FC<IVestedHistoryRow> = ({ event }) => {
       <td className="tw-text-left tw-font-normal tw-tracking-normal">
         <AssetValue
           asset={Asset.SOV}
-          value={amount ? toWei(amount) : '-'}
+          value={Number(amount)}
           useTooltip
           mode={AssetValueMode.auto}
           maxDecimals={8}
