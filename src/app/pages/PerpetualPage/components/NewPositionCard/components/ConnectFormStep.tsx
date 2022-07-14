@@ -51,6 +51,8 @@ export const ConnectFormStep: TransitionStep<NewPositionCardStep> = ({
             <a
               className="tw-text-secondary tw-underline"
               href="https://wiki.sovryn.app/en/sovryn-dapp/perpetual-futures#how-to-trade-perpetual-futures"
+              target="_blank"
+              rel="noreferrer"
             >
               Quickstart Guide
             </a>,
