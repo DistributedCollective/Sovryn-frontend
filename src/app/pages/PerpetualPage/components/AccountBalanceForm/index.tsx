@@ -18,10 +18,22 @@ import classNames from 'classnames';
 import { Tooltip } from '@blueprintjs/core';
 import { getCollateralName } from '../../utils/renderUtils';
 import { selectPerpetualPage } from '../../selectors';
-import { isMainnet } from '../../../../../utils/classifiers';
+import { isMainnet, isStaging } from '../../../../../utils/classifiers';
 
 type AccountBalanceFormProps = {
   onOpenTransactionHistory: () => void;
+};
+
+const getBridgeUrl = () => {
+  if (isMainnet) {
+    return 'https://bridge.sovryn.app';
+  }
+  if (isStaging) {
+    return 'https://bridge.staging.sovryn.app';
+  }
+
+  // TODO: Change it back to https://bridge.test.sovryn.app once we resolve the DNS issue
+  return 'https://dev--legacy-bridge.netlify.app';
 };
 
 export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
@@ -30,9 +42,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
   const { t } = useTranslation();
   const history = useHistory();
 
-  const { collateral, pairType, isAddressWhitelisted } = useSelector(
-    selectPerpetualPage,
-  );
+  const { collateral, pairType } = useSelector(selectPerpetualPage);
 
   const collateralAsset = useMemo(() => getCollateralName(collateral), [
     collateral,
@@ -56,32 +66,23 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
     [checkMaintenance, States],
   );
 
-  const fundDisabled = fundLocked || !isAddressWhitelisted;
-  const withdrawDisabled = withdrawLocked || !isAddressWhitelisted;
-  const transferDisabled = transferLocked || !isAddressWhitelisted;
-
   const onOpenDeposit = useCallback(() => {
-    if (!fundDisabled) {
+    if (!fundLocked) {
       history.push('/fast-btc/deposit/bsc');
     }
-  }, [fundDisabled, history]);
+  }, [fundLocked, history]);
 
   const onOpenWithdraw = useCallback(() => {
-    if (!withdrawDisabled) {
+    if (!withdrawLocked) {
       history.push('/fast-btc/withdraw/bsc');
     }
-  }, [history, withdrawDisabled]);
+  }, [history, withdrawLocked]);
 
   const onOpenTransfer = useCallback(() => {
-    if (!transferDisabled) {
-      window.open(
-        isMainnet
-          ? 'https://bridge.sovryn.app'
-          : 'https://bridge.test.sovryn.app',
-        '_blank',
-      );
+    if (!transferLocked) {
+      window.open(getBridgeUrl(), '_blank');
     }
-  }, [transferDisabled]);
+  }, [transferLocked]);
 
   const {
     total,
@@ -200,6 +201,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
             className="tw-text-xs tw-font-medium tw-text-secondary tw-underline tw-opacity-50 tw-cursor-not-allowed"
             disabled
             onClick={onOpenTransactionHistory}
+            data-action-id="perps-accountBalance-history"
           >
             {t(translations.perpetualPage.accountBalance.viewHistory)}
           </button>
@@ -208,36 +210,39 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
       <div className="tw-flex tw-flex-col md:tw-flex-row tw-justify-center tw-mx-auto tw-mt-16 tw-space-y-4 md:tw-space-y-0 md:tw-space-x-10">
         <ActionButton
           onClick={onOpenDeposit}
-          disabled={fundDisabled}
+          disabled={fundLocked}
           tooltip={
             fundLocked
               ? t(translations.maintenance.perpetualsAccountFund)
               : undefined
           }
+          dataActionId="perps-accountBalance-btc-deposit"
         >
           {t(translations.perpetualPage.accountBalance.deposit)}
         </ActionButton>
 
         <ActionButton
           onClick={onOpenWithdraw}
-          disabled={withdrawDisabled}
+          disabled={withdrawLocked}
           tooltip={
             withdrawLocked
               ? t(translations.maintenance.perpetualsAccountWithdraw)
               : undefined
           }
+          dataActionId="perps-accountBalance-btc-withdraw"
         >
           {t(translations.perpetualPage.accountBalance.withdraw)}
         </ActionButton>
 
         <ActionButton
           onClick={onOpenTransfer}
-          disabled={transferDisabled}
+          disabled={transferLocked}
           tooltip={
             withdrawLocked
               ? t(translations.maintenance.perpetualsAccountTransfer)
               : undefined
           }
+          dataActionId="perps-accountBalance-rsk-transfer"
         >
           {t(translations.perpetualPage.accountBalance.transfer)}
         </ActionButton>
@@ -251,6 +256,7 @@ type ActionButtonProps = {
   disabled?: boolean;
   tooltip?: string;
   children: React.ReactNode;
+  dataActionId?: string;
 };
 
 const ActionButton: React.FC<ActionButtonProps> = ({
@@ -258,6 +264,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
   disabled,
   tooltip,
   children,
+  dataActionId,
 }) => {
   const button = (
     <button
@@ -269,6 +276,7 @@ const ActionButton: React.FC<ActionButtonProps> = ({
       )}
       disabled={disabled}
       onClick={onClick}
+      data-action-id={dataActionId}
     >
       {children}
     </button>

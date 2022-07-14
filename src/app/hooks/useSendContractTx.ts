@@ -7,6 +7,7 @@ import {
 } from 'store/global/transactions-store/selectors';
 import {
   Transaction,
+  TxFailReason,
   TxStatus,
   TxType,
 } from 'store/global/transactions-store/types';
@@ -32,6 +33,7 @@ export interface SendTxResponse {
   txData: Nullable<Transaction>;
   status: TxStatus | any;
   loading: boolean;
+  failReason?: TxFailReason;
 }
 
 export interface ResetTxResponseInterface extends SendTxResponse {

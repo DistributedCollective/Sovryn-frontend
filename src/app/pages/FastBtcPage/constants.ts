@@ -1,5 +1,5 @@
 // https://github.com/DistributedCollective/FastBTC/blob/development/config/config-main.js#L15
-export const DEPOSIT_FEE_SATS = 5000;
+export const DEPOSIT_FEE_SATS = 6000;
 
 // hardcoded 0.2% dynamic fee
 // https://github.com/DistributedCollective/FastBTC/blob/development/controller/rskCtrl.js#L64

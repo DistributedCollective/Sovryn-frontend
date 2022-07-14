@@ -67,7 +67,7 @@ export class PerpetualPairDictionary {
             default: 1,
           },
         },
-        false,
+        true,
         true,
       ),
     ],

@@ -46,10 +46,7 @@ const networks = {
         symbol: 'BNB',
         decimals: 18,
       },
-      rpcUrls: [
-        'https://bsc.sovryn.app/mainnet/',
-        'https://bsc-dataseed.binance.org/',
-      ],
+      rpcUrls: ['https://bsc-dataseed.binance.org/'],
       blockExplorerUrls: ['https://bscscan.com'],
     },
   ],
@@ -63,7 +60,7 @@ const networks = {
         decimals: 18,
       },
       rpcUrls: [
-        'https://bsc.sovryn.app/testnet/',
+        'https://bsctestnet.sovryn.app/testnet',
         'https://data-seed-prebsc-2-s3.binance.org:8545/',
         'https://data-seed-prebsc-2-s2.binance.org:8545/',
         'https://data-seed-prebsc-2-s1.binance.org:8545/',
