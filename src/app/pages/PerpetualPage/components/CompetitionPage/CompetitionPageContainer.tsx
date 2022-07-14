@@ -28,10 +28,12 @@ import {
   PerpetualPairDictionary,
   PerpetualPairType,
 } from 'utils/dictionaries/perpetual-pair-dictionary';
+import { RegisterDialog } from './components/RegisterDialog';
 
 const baseUrl = notificationServiceUrl[currentChainId];
 
 export const CompetitionPageContainer: React.FC = () => {
+  const [registerDialogOpen, setRegisterDialogOpen] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
   const [registeredTraders, setRegisteredTraders] = useState<
     RegisteredTraderData[]
@@ -54,6 +56,15 @@ export const CompetitionPageContainer: React.FC = () => {
       })
       .catch(console.error);
   }, []);
+
+  const onClose = useCallback(
+    (success: boolean) => {
+      setIsRegistered(success);
+      setRegisterDialogOpen(false);
+      getRegisteredWallets();
+    },
+    [getRegisteredWallets],
+  );
 
   useEffect(() => {
     getRegisteredWallets();
@@ -154,6 +165,12 @@ export const CompetitionPageContainer: React.FC = () => {
                     onClick={() => walletContext.connect()}
                   />
                 )}
+                {connected && !isRegistered && (
+                  <Button
+                    text={t(translations.competitionPage.cta.enter)}
+                    onClick={() => setRegisterDialogOpen(true)}
+                  />
+                )}
                 {connected && isRegistered && (
                   <>
                     <p className="tw-mb-8">
@@ -173,6 +190,7 @@ export const CompetitionPageContainer: React.FC = () => {
           </div>
         </div>
       </PerpetualQueriesContextProvider>
+      <RegisterDialog isOpen={registerDialogOpen} onClose={onClose} />
     </>
   );
 };

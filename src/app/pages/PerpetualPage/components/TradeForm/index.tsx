@@ -190,20 +190,21 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
 
     const maxLeverage = getMaxInitialLeverage(position, perpParameters);
 
-    const minLeverage = Math.min(
-      maxLeverage,
-      Math.max(
-        pair.config.leverage.min,
-        calculateLeverage(
-          amountTarget,
-          possibleMargin,
-          traderState,
-          ammState,
-          perpParameters,
-          trade.slippage,
+    const minLeverage =
+      Math.min(
+        maxLeverage,
+        Math.max(
+          pair.config.leverage.min,
+          calculateLeverage(
+            amountTarget,
+            possibleMargin,
+            traderState,
+            ammState,
+            perpParameters,
+            trade.slippage,
+          ),
         ),
-      ),
-    );
+      ) || pair.config.leverage.min;
 
     return [minLeverage, maxLeverage];
   }, [
@@ -245,7 +246,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
 
   useEffect(() => {
     if (
-      !hasOpenTrades &&
+      (!hasOpenTrades || isLimitOrder) &&
       isValidNumerishValue(amount) &&
       !bignumber(amount).isZero() &&
       bignumber(amount).lessThan(minimumPositionSize)
@@ -253,7 +254,14 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       setAmount(minimumPositionSize);
       setTrade(trade => ({ ...trade, amount: toWei(minimumPositionSize) }));
     }
-  }, [amount, hasOpenTrades, lotPrecision, minimumPositionSize, setTrade]);
+  }, [
+    amount,
+    hasOpenTrades,
+    isLimitOrder,
+    lotPrecision,
+    minimumPositionSize,
+    setTrade,
+  ]);
 
   const onChangeOrderAmount = useCallback(
     (amount: string) => {
