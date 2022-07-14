@@ -16,11 +16,7 @@ import { ActionButton } from 'app/components/Form/ActionButton';
 import { PositionEventsTable } from '../PositionEventsTable';
 import { AssetValue } from 'app/components/AssetValue';
 import { toWei } from 'utils/blockchain/math-helpers';
-import {
-  CloseWithSwap,
-  Liquidate,
-  MarginLoansFieldsFragment,
-} from 'utils/graphql/rsk/generated';
+import { MarginLoansFieldsFragment } from 'utils/graphql/rsk/generated';
 
 type ClosedPositionRowProps = {
   event: MarginLoansFieldsFragment;
@@ -59,20 +55,12 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
 
   const closePrice = useMemo(
     () =>
-      getClosePositionPrice(
-        liquidates as Liquidate[],
-        closeWithSwaps as CloseWithSwap[],
-        position,
-      ),
+      getClosePositionPrice(liquidates || [], closeWithSwaps || [], position),
     [liquidates, closeWithSwaps, position],
   );
 
   const exitTransactionHash = useMemo(
-    () =>
-      getExitTransactionHash(
-        liquidates as Liquidate[],
-        closeWithSwaps as CloseWithSwap[],
-      ),
+    () => getExitTransactionHash(liquidates || [], closeWithSwaps || []),
     [liquidates, closeWithSwaps],
   );
 

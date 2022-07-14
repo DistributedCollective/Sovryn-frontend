@@ -15,28 +15,104 @@ query getMarginLoansData(
   }
 }
 
+fragment MarginLoansTrade on Trade {
+  id
+  timestamp
+  loanToken {
+    id
+  }
+  entryPrice
+  transaction {
+    id
+  }
+  positionSize
+  interestRate
+  entryLeverage
+  collateralToken {
+    id
+  }
+  borrowedAmount
+  currentLeverage
+}
+
+fragment MarginLoansDepositCollateral on DepositCollateral {
+  id
+  rate
+  loanId {
+    id
+  }
+  timestamp
+  transaction {
+    id
+  }
+  depositAmount
+}
+
+fragment MarginLoansLiquidate on Liquidate {
+  id
+  timestamp
+  loanToken
+  transaction {
+    id
+  }
+  currentMargin
+  collateralToken
+  collateralToLoanRate
+  collateralWithdrawAmount
+}
+
+fragment MarginLoansTrade on Trade {
+  id
+  timestamp
+  loanToken {
+    id
+  }
+  entryPrice
+  transaction {
+    id
+  }
+  positionSize
+  interestRate
+  entryLeverage
+  collateralToken {
+    id
+  }
+  borrowedAmount
+  currentLeverage
+}
+
+fragment MarginLoansCloseWithSwap on CloseWithSwap {
+  id
+  timestamp
+  loanToken
+  exitPrice
+  transaction {
+    id
+  }
+  loanCloseAmount
+  currentLeverage
+  collateralToken
+  positionCloseSize
+}
+
+fragment MarginLoansCloseWithDeposit on CloseWithDeposit {
+  id
+  loanToken
+  timestamp
+  transaction {
+    id
+  }
+  collateralToken
+  collateralToLoanRate
+  collateralWithdrawAmount
+}
+
 fragment MarginLoansFields on Loan {
   id
   type
   positionSize
   trade {
-    id
-    timestamp
-    loanToken {
-      id
-    }
-    entryPrice
-    transaction {
-      id
-    }
-    positionSize
-    interestRate
-    entryLeverage
-    collateralToken {
-      id
-    }
-    borrowedAmount
-    currentLeverage
+    ...MarginLoansTrade
   }
   isOpen
   loanToken {
@@ -51,51 +127,15 @@ fragment MarginLoansFields on Loan {
   startTimestamp
   realizedPnLPercent
   depositCollateral {
-    id
-    rate
-    loanId {
-      id
-    }
-    timestamp
-    transaction {
-      id
-    }
-    depositAmount
+    ...MarginLoansDepositCollateral
   }
   liquidates {
-    id
-    timestamp
-    loanToken
-    transaction {
-      id
-    }
-    currentMargin
-    collateralToken
-    collateralToLoanRate
-    collateralWithdrawAmount
+    ...MarginLoansLiquidate
   }
   closeWithSwaps {
-    id
-    timestamp
-    loanToken
-    exitPrice
-    transaction {
-      id
-    }
-    loanCloseAmount
-    currentLeverage
-    collateralToken
-    positionCloseSize
+    ...MarginLoansCloseWithSwap
   }
   closeWithDeposits {
-    id
-    loanToken
-    timestamp
-    transaction {
-      id
-    }
-    collateralToken
-    collateralToLoanRate
-    collateralWithdrawAmount
+    ...MarginLoansCloseWithDeposit
   }
 }

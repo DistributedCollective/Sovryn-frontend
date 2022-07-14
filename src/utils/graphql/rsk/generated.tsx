@@ -8803,6 +8803,67 @@ export type GetMarginLoansDataQuery = {
   }>;
 };
 
+export type MarginLoansTradeFragment = {
+  __typename?: 'Trade';
+  id: string;
+  timestamp: number;
+  entryPrice: string;
+  positionSize: string;
+  interestRate: string;
+  entryLeverage: string;
+  borrowedAmount: string;
+  currentLeverage: string;
+  loanToken: { __typename?: 'Token'; id: string };
+  transaction: { __typename?: 'Transaction'; id: string };
+  collateralToken: { __typename?: 'Token'; id: string };
+};
+
+export type MarginLoansDepositCollateralFragment = {
+  __typename?: 'DepositCollateral';
+  id: string;
+  rate?: string | null;
+  timestamp: number;
+  depositAmount: string;
+  loanId: { __typename?: 'Loan'; id: string };
+  transaction: { __typename?: 'Transaction'; id: string };
+};
+
+export type MarginLoansLiquidateFragment = {
+  __typename?: 'Liquidate';
+  id: string;
+  timestamp: number;
+  loanToken: string;
+  currentMargin: string;
+  collateralToken: string;
+  collateralToLoanRate: string;
+  collateralWithdrawAmount: string;
+  transaction: { __typename?: 'Transaction'; id: string };
+};
+
+export type MarginLoansCloseWithSwapFragment = {
+  __typename?: 'CloseWithSwap';
+  id: string;
+  timestamp: number;
+  loanToken: string;
+  exitPrice: string;
+  loanCloseAmount: string;
+  currentLeverage: string;
+  collateralToken: string;
+  positionCloseSize: string;
+  transaction: { __typename?: 'Transaction'; id: string };
+};
+
+export type MarginLoansCloseWithDepositFragment = {
+  __typename?: 'CloseWithDeposit';
+  id: string;
+  loanToken: string;
+  timestamp: number;
+  collateralToken: string;
+  collateralToLoanRate: string;
+  collateralWithdrawAmount: string;
+  transaction: { __typename?: 'Transaction'; id: string };
+};
+
 export type MarginLoansFieldsFragment = {
   __typename?: 'Loan';
   id: string;
@@ -8913,29 +8974,90 @@ export const BorrowFieldsFragmentDoc = gql`
     }
   }
 `;
+export const MarginLoansTradeFragmentDoc = gql`
+  fragment MarginLoansTrade on Trade {
+    id
+    timestamp
+    loanToken {
+      id
+    }
+    entryPrice
+    transaction {
+      id
+    }
+    positionSize
+    interestRate
+    entryLeverage
+    collateralToken {
+      id
+    }
+    borrowedAmount
+    currentLeverage
+  }
+`;
+export const MarginLoansDepositCollateralFragmentDoc = gql`
+  fragment MarginLoansDepositCollateral on DepositCollateral {
+    id
+    rate
+    loanId {
+      id
+    }
+    timestamp
+    transaction {
+      id
+    }
+    depositAmount
+  }
+`;
+export const MarginLoansLiquidateFragmentDoc = gql`
+  fragment MarginLoansLiquidate on Liquidate {
+    id
+    timestamp
+    loanToken
+    transaction {
+      id
+    }
+    currentMargin
+    collateralToken
+    collateralToLoanRate
+    collateralWithdrawAmount
+  }
+`;
+export const MarginLoansCloseWithSwapFragmentDoc = gql`
+  fragment MarginLoansCloseWithSwap on CloseWithSwap {
+    id
+    timestamp
+    loanToken
+    exitPrice
+    transaction {
+      id
+    }
+    loanCloseAmount
+    currentLeverage
+    collateralToken
+    positionCloseSize
+  }
+`;
+export const MarginLoansCloseWithDepositFragmentDoc = gql`
+  fragment MarginLoansCloseWithDeposit on CloseWithDeposit {
+    id
+    loanToken
+    timestamp
+    transaction {
+      id
+    }
+    collateralToken
+    collateralToLoanRate
+    collateralWithdrawAmount
+  }
+`;
 export const MarginLoansFieldsFragmentDoc = gql`
   fragment MarginLoansFields on Loan {
     id
     type
     positionSize
     trade {
-      id
-      timestamp
-      loanToken {
-        id
-      }
-      entryPrice
-      transaction {
-        id
-      }
-      positionSize
-      interestRate
-      entryLeverage
-      collateralToken {
-        id
-      }
-      borrowedAmount
-      currentLeverage
+      ...MarginLoansTrade
     }
     isOpen
     loanToken {
@@ -8950,54 +9072,23 @@ export const MarginLoansFieldsFragmentDoc = gql`
     startTimestamp
     realizedPnLPercent
     depositCollateral {
-      id
-      rate
-      loanId {
-        id
-      }
-      timestamp
-      transaction {
-        id
-      }
-      depositAmount
+      ...MarginLoansDepositCollateral
     }
     liquidates {
-      id
-      timestamp
-      loanToken
-      transaction {
-        id
-      }
-      currentMargin
-      collateralToken
-      collateralToLoanRate
-      collateralWithdrawAmount
+      ...MarginLoansLiquidate
     }
     closeWithSwaps {
-      id
-      timestamp
-      loanToken
-      exitPrice
-      transaction {
-        id
-      }
-      loanCloseAmount
-      currentLeverage
-      collateralToken
-      positionCloseSize
+      ...MarginLoansCloseWithSwap
     }
     closeWithDeposits {
-      id
-      loanToken
-      timestamp
-      transaction {
-        id
-      }
-      collateralToken
-      collateralToLoanRate
-      collateralWithdrawAmount
+      ...MarginLoansCloseWithDeposit
     }
   }
+  ${MarginLoansTradeFragmentDoc}
+  ${MarginLoansDepositCollateralFragmentDoc}
+  ${MarginLoansLiquidateFragmentDoc}
+  ${MarginLoansCloseWithSwapFragmentDoc}
+  ${MarginLoansCloseWithDepositFragmentDoc}
 `;
 export const GetBorrowHistoryDocument = gql`
   query getBorrowHistory($user: String) {

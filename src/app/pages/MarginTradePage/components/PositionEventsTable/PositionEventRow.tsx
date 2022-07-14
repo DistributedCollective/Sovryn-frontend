@@ -8,15 +8,19 @@ import { bignumber } from 'mathjs';
 import { AssetValue } from 'app/components/AssetValue';
 import { toWei } from 'utils/blockchain/math-helpers';
 import {
-  CloseWithSwap,
-  DepositCollateral,
-  Liquidate,
-  Trade,
+  MarginLoansCloseWithSwapFragment,
+  MarginLoansDepositCollateralFragment,
+  MarginLoansLiquidateFragment,
+  MarginLoansTradeFragment,
 } from 'utils/graphql/rsk/generated';
 import { EventType } from '../../types';
 
 type LiquidatedPositionRowProps = {
-  event: CloseWithSwap | DepositCollateral | Liquidate | Trade;
+  event:
+    | MarginLoansCloseWithSwapFragment
+    | MarginLoansDepositCollateralFragment
+    | MarginLoansLiquidateFragment
+    | MarginLoansTradeFragment;
   isLong: boolean;
   positionToken: string;
   collateralToken: string;
