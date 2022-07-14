@@ -137,7 +137,7 @@ export const AddToMarginDialog: React.FC<IAddToMarginDialogProps> = ({
                 <AssetValue
                   asset={tokenDetails.asset}
                   value={toWei(positionSizeValue)}
-                  useTooltip={true}
+                  useTooltip
                 />
               }
             />

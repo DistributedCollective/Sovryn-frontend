@@ -24,7 +24,6 @@ import { toWei, weiTo18 } from 'utils/blockchain/math-helpers';
 import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
 import { AssetValue } from 'app/components/AssetValue';
 import { MarginLoansFieldsFragment } from 'utils/graphql/rsk/generated';
-import { AssetValueMode } from 'app/components/AssetValue/types';
 
 type PositionRowProps = {
   event: MarginLoansFieldsFragment;
@@ -121,7 +120,7 @@ export const PositionRow: React.FC<PositionRowProps> = ({ event }) => {
                     <AssetValue
                       asset={collateralAsset}
                       value={toWei(positionSize)}
-                      useTooltip={true}
+                      useTooltip
                     />{' '}
                     ({leverage}x)
                   </>
@@ -137,9 +136,7 @@ export const PositionRow: React.FC<PositionRowProps> = ({ event }) => {
                 <AssetValue
                   asset={pair.longDetails.asset}
                   value={toWei(openPrice)}
-                  useTooltip={true}
-                  mode={AssetValueMode.auto}
-                  maxDecimals={8}
+                  useTooltip
                 />
               }
             />
@@ -153,9 +150,7 @@ export const PositionRow: React.FC<PositionRowProps> = ({ event }) => {
                   <AssetValue
                     asset={pair.longDetails.asset}
                     value={toWei(liquidationPrice)}
-                    useTooltip={true}
-                    mode={AssetValueMode.auto}
-                    maxDecimals={8}
+                    useTooltip
                   />
                 </>
               }
@@ -170,8 +165,6 @@ export const PositionRow: React.FC<PositionRowProps> = ({ event }) => {
                 <AssetValue
                   asset={positionMarginAsset}
                   value={toWei(positionMargin)}
-                  mode={AssetValueMode.auto}
-                  maxDecimals={8}
                 />
               }
               loading={loading}

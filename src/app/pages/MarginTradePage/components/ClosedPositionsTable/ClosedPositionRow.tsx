@@ -75,7 +75,7 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
             <AssetValue
               asset={collateralAsset}
               value={toWei(positionSize)}
-              useTooltip={true}
+              useTooltip
             />
           </div>
         </td>
@@ -87,7 +87,7 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
             <AssetValue
               asset={pair.longDetails.asset}
               value={toWei(openPrice)}
-              useTooltip={true}
+              useTooltip
             />
           </div>
         </td>
@@ -96,7 +96,7 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
             <AssetValue
               asset={pair.longDetails.asset}
               value={toWei(closePrice)}
-              useTooltip={true}
+              useTooltip
             />
           </div>
         </td>

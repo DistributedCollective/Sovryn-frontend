@@ -181,7 +181,7 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
                 <AssetValue
                   asset={sourceToken.asset}
                   value={toWei(positionSize)}
-                  useTooltip={true}
+                  useTooltip
                 />
               }
             />
