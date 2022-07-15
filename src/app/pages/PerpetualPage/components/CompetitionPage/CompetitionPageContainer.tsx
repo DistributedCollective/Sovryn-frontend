@@ -153,13 +153,12 @@ export const CompetitionPageContainer: React.FC = () => {
               <div>
                 <Countdown
                   date={competitionEndTime}
-                  renderer={({ days, hours, minutes, seconds, completed }) => (
+                  renderer={({ days, hours, minutes, seconds }) => (
                     <CompetitionEndCountdown
                       days={days}
                       hours={hours}
                       minutes={minutes}
                       seconds={seconds}
-                      completed={completed}
                     />
                   )}
                 />

@@ -7,7 +7,6 @@ type CompetitionEndCountdownProps = {
   hours: number;
   minutes: number;
   seconds: number;
-  completed: boolean;
 };
 
 export const CompetitionEndCountdown: React.FC<CompetitionEndCountdownProps> = ({
@@ -15,7 +14,6 @@ export const CompetitionEndCountdown: React.FC<CompetitionEndCountdownProps> = (
   hours,
   minutes,
   seconds,
-  completed,
 }) => {
   const { t } = useTranslation();
   return (
