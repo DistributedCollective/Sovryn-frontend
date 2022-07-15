@@ -45,6 +45,7 @@ import perpetualLimitOrderBookAbi from './abi/PerpetualLimitOrderBook.json';
 import marginTokenAbi from './abi/MarginToken.json';
 import TroveManager from './abi/TroveManager.json';
 import StabilityPool from './abi/StabilityPool.json';
+import lpShareToken from './abi/lpShareToken.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -348,6 +349,11 @@ export const contracts = {
   perpetualLimitOrderBookBNBUSD: {
     address: '0xA9a91c803a994332c1020D2DACFEBbfC53D65533',
     abi: perpetualLimitOrderBookAbi,
+    chainId: ChainId.BSC_MAINNET,
+  },
+  perpetuals_lpShareToken: {
+    address: '0xb8Ec4d3307B9FB1397af34541D9fEc433F05B614',
+    abi: lpShareToken,
     chainId: ChainId.BSC_MAINNET,
   },
   ZUSD_token: {
