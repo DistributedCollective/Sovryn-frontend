@@ -19,14 +19,21 @@ export const CompetitionEndCountdown: React.FC<CompetitionEndCountdownProps> = (
 }) => {
   const { t } = useTranslation();
   return (
-    <div>
-      <span className="tw-font-bold">
-        {t(translations.competitionPage.countdown.label)}{' '}
+    <div className="tw-flex tw-items-center">
+      <span className="tw-font-bold tw-mr-2">
+        {t(translations.competitionPage.countdown.label)}
       </span>
-      {days} {t(translations.competitionPage.countdown.days)} {hours}{' '}
-      {t(translations.competitionPage.countdown.hours)} {minutes}{' '}
-      {t(translations.competitionPage.countdown.minutes)} {seconds}{' '}
-      {t(translations.competitionPage.countdown.seconds)}
+      {days} {t(translations.competitionPage.countdown.days)}
+      <Divider />
+      {hours} {t(translations.competitionPage.countdown.hours)}
+      <Divider />
+      {minutes} {t(translations.competitionPage.countdown.minutes)}
+      <Divider />
+      {seconds} {t(translations.competitionPage.countdown.seconds)}
     </div>
   );
 };
+
+const Divider = () => (
+  <span className="tw-box-border tw-inline-block tw-h-4 tw-border-r tw-border-solid tw-border-gray-7 tw-mx-2" />
+);
