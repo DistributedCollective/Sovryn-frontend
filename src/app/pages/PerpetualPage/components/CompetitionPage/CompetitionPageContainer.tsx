@@ -29,8 +29,11 @@ import {
   PerpetualPairType,
 } from 'utils/dictionaries/perpetual-pair-dictionary';
 import { RegisterDialog } from './components/RegisterDialog';
+import Countdown from 'react-countdown';
+import { CompetitionEndCountdown } from './components/CompetitionEndCountdown';
 
 const baseUrl = notificationServiceUrl[currentChainId];
+const competitionEndTime = new Date(1658232000000); // Tuesday July 19th, 12pm UTC
 
 export const CompetitionPageContainer: React.FC = () => {
   const [registerDialogOpen, setRegisterDialogOpen] = useState(false);
@@ -143,11 +146,25 @@ export const CompetitionPageContainer: React.FC = () => {
               />
             </div>
             <div className="tw-flex tw-flex-col tw-w-5/12">
-              <div className="tw-text-2xl tw-font-bold tw-mb-6">
+              <div className="tw-text-2xl tw-font-bold tw-mb-4">
                 {t(translations.competitionPage.rules.title)}
               </div>
 
-              <div className="tw-mt-2 tw-mb-8">
+              <div>
+                <Countdown
+                  date={competitionEndTime}
+                  renderer={({ days, hours, minutes, seconds }) => (
+                    <CompetitionEndCountdown
+                      days={days}
+                      hours={hours}
+                      minutes={minutes}
+                      seconds={seconds}
+                    />
+                  )}
+                />
+              </div>
+
+              <div className="tw-mt-6 tw-mb-8">
                 <a
                   href="https://forms.monday.com/forms/5631b4b3608ad121f7e19af030f3b433"
                   target="_blank"

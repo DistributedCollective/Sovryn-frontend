@@ -2820,6 +2820,13 @@
       "wallet": "Wallet Address:",
       "conditions": "I agree to the Perp Swaps trading competition's terms and condition",
       "cta": "Confirm"
+    },
+    "countdown": {
+      "days": "days",
+      "hours": "hours",
+      "minutes": "minutes",
+      "seconds": "seconds",
+      "label": "Time until end:"
     }
   }
 }
