@@ -49,6 +49,8 @@ import { discordInvite, bitocracyUrl } from 'utils/classifiers';
 import { Button, ButtonType } from 'app/components/Button';
 import { TransactionDialog } from 'app/components/TransactionDialog';
 import { useStaking_timestampToLockDate } from 'app/hooks/staking/useStaking_timestampToLockDate';
+import { useListOfUserVestings } from '../../components/UserAssets/Vesting/useListOfUserVestings';
+import { LegacySovFeeBlock } from './components/LegacySovFeeBlock';
 
 const now = new Date();
 
@@ -112,6 +114,10 @@ const InnerStakePage: React.FC = () => {
   const [prevTimestamp, setPrevTimestamp] = useState<number | undefined>(
     undefined,
   );
+  const {
+    loading: vestingLoading,
+    items: vestingItems,
+  } = useListOfUserVestings();
 
   const currentLockDate = useStaking_timestampToLockDate(
     Math.round(now.getTime() / 1e3),
@@ -477,14 +483,21 @@ const InnerStakePage: React.FC = () => {
                     />
                   );
                 })}
-                <FeeBlock
-                  updateUsdTotal={updateUsdTotal}
-                  contractToken={AssetsDictionary.get(Asset.SOV)}
-                  title={t(translations.stake.vestingFees)}
-                  useNewContract
-                  frozen={frozen}
-                  vestedFees={true}
-                />
+                {vestingLoading === false &&
+                  vestingItems.length > 0 &&
+                  vestingItems.map(item => {
+                    if (item.type === 'origin') return '';
+                    return (
+                      <LegacySovFeeBlock
+                        updateUsdTotal={updateUsdTotal}
+                        contractToken={AssetsDictionary.get(Asset.SOV)}
+                        title={item.type}
+                        frozen={frozen}
+                        vestedFees={true}
+                        vestingContract={item.vestingContract}
+                      />
+                    );
+                  })}
               </div>
               <div className="tw-staking-box tw-bg-gray-3 tw-p-8 tw-pb-6 tw-mb-5 tw-rounded-2xl lg:tw-w-1/3 lg:tw-mx-2 lg:tw-mb-0 2xl:tw-w-1/4">
                 <p className="tw-text-lg tw--mt-1">

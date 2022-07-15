@@ -747,6 +747,7 @@
     "sov": "SOV",
     "days": "days",
     "vestingFees": "Vested SOV",
+    "vestingFeesTooltip": "Legacy SOV fees are withdrawn directly to your wallet.",
     "delegation": {
       "delegateTo": "Delegate To",
       "delegatedTo": "Delegated To",
