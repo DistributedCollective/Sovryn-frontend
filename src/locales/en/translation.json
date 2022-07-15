@@ -2811,6 +2811,7 @@
       "positions": "Positions opened",
       "trade": "Current trade",
       "total": "Total P/L",
+      "potentialPrize": "Potential Prize",
       "empty": "No one registered yet. You could be the first!"
     },
     "join": {

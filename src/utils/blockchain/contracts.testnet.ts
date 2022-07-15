@@ -42,6 +42,7 @@ import fastBtcBridgeAbi from './abi/fastBtcBridge.json';
 import fastBtcMultisigAbi from './abi/fastBtcMultisig.json';
 import TroveManager from './abi/TroveManager.json';
 import StabilityPool from './abi/StabilityPool.json';
+import lpShareToken from './abi/lpShareToken.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -348,6 +349,11 @@ export const contracts = {
   perpetualLimitOrderBookBNBUSD: {
     address: '0x959402A2bc8A2984100a623121712dA165b4A74c',
     abi: perpetualLimitOrderBookAbi,
+    chainId: ChainId.BSC_TESTNET,
+  },
+  perpetuals_lpShareToken: {
+    address: '0xb8Ec4d3307B9FB1397af34541D9fEc433F05B614', // This is the mainnet address, needs to be changed in the future
+    abi: lpShareToken,
     chainId: ChainId.BSC_TESTNET,
   },
   ZUSD_token: {
