@@ -148,7 +148,42 @@ export const CompetitionPageContainer: React.FC = () => {
                 {t(translations.competitionPage.rules.title)}
               </div>
 
-              <div className="tw-mt-2 tw-mb-8">
+              <div className="tw-mt-8">
+                <p>
+                  <Trans
+                    i18nKey={translations.competitionPage.rules.welcomeMessage}
+                    components={[
+                      <a
+                        className="tw-text-secondary tw-underline"
+                        href="/perpetuals"
+                      >
+                        Perpetuals page
+                      </a>,
+                    ]}
+                  />
+                </p>
+                <p className="tw-mb-11">
+                  <Trans
+                    i18nKey={translations.perpetualPage.tradeForm.text.welcome4}
+                    components={[
+                      <a
+                        className="tw-text-secondary tw-underline"
+                        href="https://wiki.sovryn.app/en/sovryn-dapp/perpetual-futures#how-to-trade-perpetual-futures"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Quickstart Guide
+                      </a>,
+                    ]}
+                  />
+                </p>
+              </div>
+
+              <div>
+                {t(translations.competitionPage.rules.prizeDistribution)}
+              </div>
+
+              <div className="tw-mt-8 tw-mb-8">
                 <a
                   href="https://forms.monday.com/forms/5631b4b3608ad121f7e19af030f3b433"
                   target="_blank"
@@ -186,41 +221,6 @@ export const CompetitionPageContainer: React.FC = () => {
                     />
                   </>
                 )}
-              </div>
-
-              <div className="tw-mt-8">
-                <p>
-                  <Trans
-                    i18nKey={translations.competitionPage.rules.welcomeMessage}
-                    components={[
-                      <a
-                        className="tw-text-secondary tw-underline"
-                        href="/perpetuals"
-                      >
-                        Perpetuals page
-                      </a>,
-                    ]}
-                  />
-                </p>
-                <p className="tw-mb-11">
-                  <Trans
-                    i18nKey={translations.perpetualPage.tradeForm.text.welcome4}
-                    components={[
-                      <a
-                        className="tw-text-secondary tw-underline"
-                        href="https://wiki.sovryn.app/en/sovryn-dapp/perpetual-futures#how-to-trade-perpetual-futures"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Quickstart Guide
-                      </a>,
-                    ]}
-                  />
-                </p>
-              </div>
-
-              <div>
-                {t(translations.competitionPage.rules.prizeDistribution)}
               </div>
             </div>
           </div>
