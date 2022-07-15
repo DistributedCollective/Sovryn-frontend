@@ -129,6 +129,7 @@ export const ReviewStep: TransitionStep<TradeDialogStep> = ({ changeTo }) => {
               className={styles.confirmButton}
               onClick={isTradingInMaintenance ? undefined : onSubmit}
               disabled={isTradingInMaintenance && analysis.loading}
+              data-action-id={`perps-reviewDialog-confirm-${trade?.tradeType?.toLowerCase()}`}
             >
               {t(translations.perpetualPage.reviewTrade.confirm)}
             </button>
