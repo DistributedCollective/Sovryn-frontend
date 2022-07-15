@@ -150,58 +150,99 @@ export const CompetitionPageContainer: React.FC = () => {
                 {t(translations.competitionPage.rules.title)}
               </div>
 
-              <div>
-                <Countdown
-                  date={competitionEndTime}
-                  renderer={({ days, hours, minutes, seconds }) => (
-                    <CompetitionEndCountdown
-                      days={days}
-                      hours={hours}
-                      minutes={minutes}
-                      seconds={seconds}
+              <div className="tw-mt-8 tw-mb-8">
+                <div>
+                  <Countdown
+                    date={competitionEndTime}
+                    renderer={({ days, hours, minutes, seconds }) => (
+                      <CompetitionEndCountdown
+                        days={days}
+                        hours={hours}
+                        minutes={minutes}
+                        seconds={seconds}
+                      />
+                    )}
+                  />
+                </div>
+
+                <div className="tw-mt-8">
+                  <p>
+                    <Trans
+                      i18nKey={
+                        translations.competitionPage.rules.welcomeMessage
+                      }
+                      components={[
+                        <a
+                          className="tw-text-secondary tw-underline"
+                          href="/perpetuals"
+                        >
+                          Perpetuals page
+                        </a>,
+                      ]}
+                    />
+                  </p>
+                  <p className="tw-mb-11">
+                    <Trans
+                      i18nKey={
+                        translations.perpetualPage.tradeForm.text.welcome4
+                      }
+                      components={[
+                        <a
+                          className="tw-text-secondary tw-underline"
+                          href="https://wiki.sovryn.app/en/sovryn-dapp/perpetual-futures#how-to-trade-perpetual-futures"
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Quickstart Guide
+                        </a>,
+                      ]}
+                    />
+                  </p>
+                </div>
+
+                <div>
+                  {t(translations.competitionPage.rules.prizeDistribution)}
+                </div>
+
+                <div className="tw-mt-6 tw-mb-8">
+                  <a
+                    href="https://forms.monday.com/forms/5631b4b3608ad121f7e19af030f3b433"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {t(translations.competitionPage.rules.reportBugs)}
+                  </a>
+                </div>
+
+                <div className="tw-w-6/12">
+                  {!connected && (
+                    <Button
+                      text={t(translations.competitionPage.cta.connect)}
+                      disabled={connected}
+                      onClick={() => walletContext.connect()}
                     />
                   )}
-                />
-              </div>
-
-              <div className="tw-mt-6 tw-mb-8">
-                <a
-                  href="https://forms.monday.com/forms/5631b4b3608ad121f7e19af030f3b433"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {t(translations.competitionPage.rules.reportBugs)}
-                </a>
-              </div>
-
-              <div className="tw-w-6/12">
-                {!connected && (
-                  <Button
-                    text={t(translations.competitionPage.cta.connect)}
-                    disabled={connected}
-                    onClick={() => walletContext.connect()}
-                  />
-                )}
-                {connected && !isRegistered && (
-                  <Button
-                    text={t(translations.competitionPage.cta.enter)}
-                    onClick={() => setRegisterDialogOpen(true)}
-                  />
-                )}
-                {connected && isRegistered && (
-                  <>
-                    <p className="tw-mb-8">
-                      <Trans
-                        i18nKey={translations.competitionPage.registered}
-                        components={[<a href={discordInvite}>discord</a>]}
-                      />
-                    </p>
+                  {connected && !isRegistered && (
                     <Button
-                      text={t(translations.competitionPage.cta.compete)}
-                      onClick={() => history.push('/perpetuals')}
+                      text={t(translations.competitionPage.cta.enter)}
+                      onClick={() => setRegisterDialogOpen(true)}
                     />
-                  </>
-                )}
+                  )}
+                  {connected && isRegistered && (
+                    <>
+                      <p className="tw-mb-8">
+                        <Trans
+                          i18nKey={translations.competitionPage.registered}
+                          components={[<a href={discordInvite}>discord</a>]}
+                        />
+                      </p>
+                      <Button
+                        text={t(translations.competitionPage.cta.compete)}
+                        onClick={() => history.push('/perpetuals')}
+                      />
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </div>
