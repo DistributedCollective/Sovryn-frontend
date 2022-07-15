@@ -29,6 +29,7 @@ import {
   PerpetualPairType,
 } from 'utils/dictionaries/perpetual-pair-dictionary';
 import { RegisterDialog } from './components/RegisterDialog';
+import { PerpetualPageModals } from '../../types';
 
 const baseUrl = notificationServiceUrl[currentChainId];
 
@@ -185,6 +186,41 @@ export const CompetitionPageContainer: React.FC = () => {
                     />
                   </>
                 )}
+              </div>
+
+              <div className="tw-mt-8">
+                <p>
+                  <Trans
+                    i18nKey={translations.competitionPage.rules.welcomeMessage}
+                    components={[
+                      <a
+                        className="tw-text-secondary tw-underline"
+                        href="/perpetuals"
+                      >
+                        Perpetuals page
+                      </a>,
+                    ]}
+                  />
+                </p>
+                <p className="tw-mb-11">
+                  <Trans
+                    i18nKey={translations.perpetualPage.tradeForm.text.welcome4}
+                    components={[
+                      <a
+                        className="tw-text-secondary tw-underline"
+                        href="https://wiki.sovryn.app/en/sovryn-dapp/perpetual-futures#how-to-trade-perpetual-futures"
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        Quickstart Guide
+                      </a>,
+                    ]}
+                  />
+                </p>
+              </div>
+
+              <div>
+                {t(translations.competitionPage.rules.prizeDistribution)}
               </div>
             </div>
           </div>
