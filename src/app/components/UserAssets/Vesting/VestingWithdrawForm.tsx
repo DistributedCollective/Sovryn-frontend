@@ -84,6 +84,7 @@ export const VestingWithdrawForm: React.FC<VestingWithdrawFormProps> = ({
               <span
                 className="tw-link tw-cursor-pointer tw-text-xs"
                 onClick={openSchedule}
+                data-action-id="portfolio-vesting-unlockSchedule"
               >
                 {t(translations.vestingDialog.schedule)}
               </span>
@@ -122,12 +123,14 @@ export const VestingWithdrawForm: React.FC<VestingWithdrawFormProps> = ({
             }`}
             loading={tx.loading}
             disabled={value === '0' || tx.loading}
+            dataActionId={`portfolio-vesting-withdraw-confirm-${vesting.type}`}
           />
           <Button
             text={t(translations.common.cancel)}
             style={ButtonStyle.inverted}
             onClick={onClose}
             className="tw-ml-4 tw-w-full"
+            dataActionId={`portfolio-vesting-withdraw-cancel-${vesting.type}`}
           />
         </div>
       </div>

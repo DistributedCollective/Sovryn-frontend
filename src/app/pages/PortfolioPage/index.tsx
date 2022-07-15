@@ -70,12 +70,14 @@ export const PortfolioPage: React.FC = () => {
           text={t(translations.portfolioPage.portfolio)}
           style={ButtonStyle.link}
           className="tw-text-2xl tw-text-sov-white hover:tw-no-underline focus:tw-no-underline"
+          dataActionId="portfolio-tab-portfolio"
         />
         <Button
           text={t(translations.portfolioPage.rewards)}
           style={ButtonStyle.link}
           className="tw-ml-10 tw-text-2xl tw-text-gray-6 hover:tw-text-sov-white hover:tw-no-underline focus:tw-no-underline"
           href="/reward"
+          dataActionId="portfolio-tab-rewards"
         />
       </div>
 
