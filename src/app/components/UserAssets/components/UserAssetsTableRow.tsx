@@ -169,6 +169,7 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
                     href="/fast-btc/withdraw"
                     style={ButtonStyle.link}
                     size={ButtonSize.sm}
+                    dataActionId={`portfolio-action-send-${asset}`}
                   />
                 )}
               </Tooltip>
@@ -196,6 +197,7 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
                     href="/fast-btc/deposit"
                     style={ButtonStyle.link}
                     size={ButtonSize.sm}
+                    dataActionId={`portfolio-action-receive-${asset}`}
                   />
                 )}
               </Tooltip>
@@ -208,6 +210,7 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
               style={ButtonStyle.link}
               size={ButtonSize.sm}
               disabled={!hasAnyTokens}
+              dataActionId={`portfolio-action-convert-${asset}`}
             />
           )}
           {[Asset.SOV, Asset.ETH, Asset.XUSD, Asset.BNB].includes(asset) && (
