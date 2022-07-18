@@ -12,8 +12,8 @@ export function useBridgeTokenBalance(
   asset: AssetModel,
   targetAsset: CrossBridgeAsset,
 ) {
-  const [state, setState] = useState<LoadingValueState<string | false>>({
-    value: false,
+  const [state, setState] = useState<LoadingValueState<string | null>>({
+    value: null,
     loading: false,
     error: null,
   });
@@ -23,7 +23,7 @@ export function useBridgeTokenBalance(
       setState(prevState => ({
         ...prevState,
         loading: true,
-        value: false,
+        value: null,
         error: null,
       }));
       return;

@@ -51,7 +51,7 @@ import { FastBtcPage } from './pages/FastBtcPage/Loadable';
 import { PageContainer } from './containers/PageContainer';
 import 'react-toastify/dist/ReactToastify.css';
 import { PerpetualPageLoadable } from './pages/PerpetualPage/Loadable';
-import { ReciveRBTCPage } from './pages/ReciveRBTCPage';
+import { ReceiveRBTCPage } from './pages/ReceiveRBTCPage';
 import { CompetitionPage } from './pages/PerpetualPage/components/CompetitionPage';
 
 const title = !isMainnet ? `Sovryn ${currentNetwork}` : 'Sovryn';
@@ -135,7 +135,7 @@ export function App() {
                   path="/fast-btc/:type/:network?"
                   component={FastBtcPage}
                 />
-                <Route exact path="/rbtc/" component={ReciveRBTCPage} />
+                <Route exact path="/rbtc/" component={ReceiveRBTCPage} />
                 {showPerps && (
                   <>
                     <Route

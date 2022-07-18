@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { bignumber } from 'mathjs';
-import styled from 'styled-components/macro';
 
 import { actions } from '../../slice';
 import { selectBridgeWithdrawPage } from '../../selectors';
@@ -76,7 +75,7 @@ export const AmountSelector: React.FC = () => {
   }, [currentAsset, value]);
 
   const checkBridgeBalance = useMemo(() => {
-    return bridgeBalance.value !== false
+    return bridgeBalance.value !== null
       ? bignumber(bridgeBalance.value).greaterThanOrEqualTo(bnAmount)
       : true;
   }, [bnAmount, bridgeBalance.value]);
@@ -159,8 +158,9 @@ export const AmountSelector: React.FC = () => {
           <div className="text-left tw-font-semibold tw-mt-4 tw-mb-2 tw-w-full">
             {t(trans.dailyBridgeLimits)}
           </div>
-          <Table className="tw-w-full">
-            <tbody className="tw-text-left tw-text-sm tw-font-medium">
+
+          <table className="tw-mx-auto tw-text-left tw-text-sm tw-font-medium tw-w-full">
+            <tbody>
               <tr>
                 <td> {t(trans.minAmount)}:</td>
                 <td className="tw-text-right">
@@ -221,7 +221,7 @@ export const AmountSelector: React.FC = () => {
                   />
                 </td>
               </tr>
-              {bridgeBalance.value !== false && (
+              {bridgeBalance.value !== null && (
                 <tr>
                   <td> {t(trans.aggregatorBalance)}</td>
                   <td className="tw-text-right">
@@ -236,7 +236,7 @@ export const AmountSelector: React.FC = () => {
                 </tr>
               )}
             </tbody>
-          </Table>
+          </table>
         </div>
 
         <Button
@@ -271,9 +271,3 @@ export const AmountSelector: React.FC = () => {
     </div>
   );
 };
-
-const Table = styled.table`
-  td {
-    padding: 0.25rem 0;
-  }
-`;

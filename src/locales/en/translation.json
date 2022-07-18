@@ -226,7 +226,7 @@
       }
     }
   },
-  "reciveRBTCPage": {
+  "receiveRBTCPage": {
     "title": "Receive RBTC",
     "description": "Receive RBTC via bitcoin or bank/card transfer",
     "selectSource": "Select Source",
@@ -2031,6 +2031,15 @@
         "title": "Select the network you'd like to receive {{asset}} from"
       }
     },
+    "sidebarSteps": {
+      "chooseSource": "Choose<br />Source",
+      "selectWallet": "Select<br /> Wallet",
+      "selectToken": "Select<br /> Token",
+      "enterAmount": "Enter<br /> Amount",
+      "reviewTransaction": "Review<br /> Transaction",
+      "processingTransaction": "Processing<br /> Transaction",
+      "transactionCompleted": "Transaction<br /> Completed"
+    },
     "reviewStep": {
       "title": "Transaction details",
       "dateTime": "Date/Time",
@@ -2098,6 +2107,15 @@
         "title": "Select the network you want to bridge to and send {{asset}} to"
       }
     },
+    "sidebarSteps": {
+      "chooseDestination": "Choose<br />Destination",
+      "selectToken": "Select<br /> Token",
+      "enterAmount": "Enter<br /> Amount",
+      "enterAddress": "Enter<br /> Address",
+      "reviewTransaction": "Review<br /> Transaction",
+      "processingTransaction": "Processing<br /> Transaction",
+      "transactionCompleted": "Transaction<br /> Completed"
+    },
     "reviewStep": {
       "title": "Review {{symbol}} Withdraw",
       "dateTime": "Date/Time",
@@ -2140,6 +2158,7 @@
     },
     "receiverSelector": {
       "title": "Enter receiving {{currentNetwork}} wallet address",
+      "desc": "Receiving {{targetAsset}} Address",
       "confirm": "Please check and confirm",
       "withdrawWarning": "Do not send to exchange addresses!",
       "withdrawDisclaimer": "Withdrawals directly to exchange addresses are not advised due to lack of support by exchanges (e.g. Binance), we are not responsible for any loss of funds in these cases. Please only send funds to wallet addresses that you control exclusively (EOA)."

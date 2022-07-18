@@ -6,6 +6,8 @@ import { selectBridgeWithdrawPage } from '../../selectors';
 import { StepItem, Stepper } from 'app/components/Stepper';
 
 import { useMaintenance } from 'app/hooks/useMaintenance';
+import { Trans } from 'react-i18next';
+import { translations } from 'locales/i18n';
 
 const stepOrder = [
   WithdrawStep.CHAIN_SELECTOR,
@@ -18,72 +20,6 @@ const stepOrder = [
   WithdrawStep.COMPLETE,
 ];
 
-const initialSteps: StepItem[] = [
-  {
-    stepTitle: (
-      <>
-        Choose <br />
-        Destination
-      </>
-    ),
-    value: WithdrawStep.CHAIN_SELECTOR,
-  },
-  {
-    stepTitle: (
-      <>
-        Select
-        <br /> Token
-      </>
-    ),
-    value: WithdrawStep.TOKEN_SELECTOR,
-  },
-  {
-    stepTitle: (
-      <>
-        Enter
-        <br /> Amount
-      </>
-    ),
-    value: WithdrawStep.AMOUNT_SELECTOR,
-  },
-  {
-    stepTitle: (
-      <>
-        Enter
-        <br /> Address
-      </>
-    ),
-    value: WithdrawStep.RECEIVER_SELECTOR,
-  },
-  {
-    stepTitle: (
-      <>
-        Review
-        <br /> Transaction
-      </>
-    ),
-    value: WithdrawStep.REVIEW,
-  },
-  {
-    stepTitle: (
-      <>
-        Processing
-        <br /> Transaction
-      </>
-    ),
-    value: WithdrawStep.PROCESSING,
-  },
-  {
-    stepTitle: (
-      <>
-        Transaction
-        <br /> Completed
-      </>
-    ),
-    value: WithdrawStep.COMPLETE,
-  },
-];
-
 // User should be able to go back on steps but not forward (even if moved back,
 // unless we are confident that user didn't change anything)
 export const SidebarSteps: React.FC = () => {
@@ -92,6 +28,76 @@ export const SidebarSteps: React.FC = () => {
   const bridgeLocked = checkMaintenance(States.BRIDGE);
 
   const { step } = useSelector(selectBridgeWithdrawPage);
+
+  const initialSteps: StepItem[] = useMemo(
+    () => [
+      {
+        stepTitle: (
+          <Trans
+            i18nKey={
+              translations.BridgeWithdrawPage.sidebarSteps.chooseDestination
+            }
+          />
+        ),
+        value: WithdrawStep.CHAIN_SELECTOR,
+      },
+      {
+        stepTitle: (
+          <Trans
+            i18nKey={translations.BridgeWithdrawPage.sidebarSteps.selectToken}
+          />
+        ),
+        value: WithdrawStep.TOKEN_SELECTOR,
+      },
+      {
+        stepTitle: (
+          <Trans
+            i18nKey={translations.BridgeWithdrawPage.sidebarSteps.enterAmount}
+          />
+        ),
+        value: WithdrawStep.AMOUNT_SELECTOR,
+      },
+      {
+        stepTitle: (
+          <Trans
+            i18nKey={translations.BridgeWithdrawPage.sidebarSteps.enterAddress}
+          />
+        ),
+        value: WithdrawStep.RECEIVER_SELECTOR,
+      },
+      {
+        stepTitle: (
+          <Trans
+            i18nKey={
+              translations.BridgeWithdrawPage.sidebarSteps.reviewTransaction
+            }
+          />
+        ),
+        value: WithdrawStep.REVIEW,
+      },
+      {
+        stepTitle: (
+          <Trans
+            i18nKey={
+              translations.BridgeWithdrawPage.sidebarSteps.processingTransaction
+            }
+          />
+        ),
+        value: WithdrawStep.PROCESSING,
+      },
+      {
+        stepTitle: (
+          <Trans
+            i18nKey={
+              translations.BridgeWithdrawPage.sidebarSteps.transactionCompleted
+            }
+          />
+        ),
+        value: WithdrawStep.COMPLETE,
+      },
+    ],
+    [],
+  );
 
   const canOpen = useCallback(
     (testStep: WithdrawStep) => {

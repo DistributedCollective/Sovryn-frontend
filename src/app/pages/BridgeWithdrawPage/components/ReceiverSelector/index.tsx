@@ -67,7 +67,7 @@ export const ReceiverSelector: React.FC<IReceiverSelectorProps> = ({
         </div>
         <div className="tw-w-80">
           <FormGroup
-            label={`Receiving ${targetAsset} Address`}
+            label={t(trans.desc, { targetAsset })}
             labelClassName="tw-text-sm tw-font-semibold"
           >
             <Input

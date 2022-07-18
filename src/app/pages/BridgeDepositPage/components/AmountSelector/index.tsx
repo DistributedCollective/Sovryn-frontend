@@ -1,7 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { bignumber } from 'mathjs';
-import styled from 'styled-components/macro';
 
 import { actions } from '../../slice';
 import { selectBridgeDepositPage } from '../../selectors';
@@ -61,7 +60,7 @@ export const AmountSelector: React.FC = () => {
     const bnAmount = bignumber(asset.toWei(value || '0'));
     const bnBalance = bignumber(balance.value || '0');
     const testBridgeBalance =
-      bridgeBalance.value !== false
+      bridgeBalance.value !== null
         ? bignumber(bridgeBalance.value).greaterThanOrEqualTo(bnAmount)
         : true;
     return (
@@ -121,8 +120,8 @@ export const AmountSelector: React.FC = () => {
               translations.BridgeDepositPage.amountSelector.dailyDepositLimits,
             )}
           </div>
-          <Table className="tw-w-full">
-            <tbody className="tw-text-left tw-text-sm tw-font-medium">
+          <table className="tw-mx-auto tw-text-left tw-text-sm tw-font-medium tw-w-full">
+            <tbody>
               <tr>
                 <td>
                   {t(translations.BridgeDepositPage.amountSelector.minAmount)}:
@@ -198,7 +197,7 @@ export const AmountSelector: React.FC = () => {
                   />
                 </td>
               </tr>
-              {bridgeBalance.value !== false && (
+              {bridgeBalance.value !== null && (
                 <tr>
                   <td>
                     {t(
@@ -210,7 +209,7 @@ export const AmountSelector: React.FC = () => {
                 </tr>
               )}
             </tbody>
-          </Table>
+          </table>
         </div>
 
         <Button
@@ -244,9 +243,3 @@ export const AmountSelector: React.FC = () => {
     </div>
   );
 };
-
-const Table = styled.table`
-  td {
-    padding: 0.25rem 0;
-  }
-`;

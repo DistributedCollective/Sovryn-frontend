@@ -1,14 +1,14 @@
 import React, { useCallback } from 'react';
 import classNames from 'classnames';
 
-type ISelectBoxProps = {
+type SelectBoxProps = {
   onClick?: Function;
   children: React.ReactNode;
   disabled?: boolean;
   className?: string;
 };
 
-export const SelectBox: React.FC<ISelectBoxProps> = ({
+export const SelectBox: React.FC<SelectBoxProps> = ({
   onClick,
   disabled,
   children,

@@ -6,6 +6,8 @@ import { selectBridgeDepositPage } from '../../selectors';
 
 import { StepItem, Stepper } from 'app/components/Stepper';
 import { useMaintenance } from 'app/hooks/useMaintenance';
+import { Trans } from 'react-i18next';
+import { translations } from 'locales/i18n';
 
 const stepOrder = [
   DepositStep.CHAIN_SELECTOR,
@@ -18,72 +20,6 @@ const stepOrder = [
   DepositStep.COMPLETE,
 ];
 
-const initialSteps: StepItem[] = [
-  {
-    stepTitle: (
-      <>
-        Choose <br />
-        Source
-      </>
-    ),
-    value: DepositStep.CHAIN_SELECTOR,
-  },
-  {
-    stepTitle: (
-      <>
-        Select
-        <br /> Wallet
-      </>
-    ),
-    value: DepositStep.WALLET_SELECTOR,
-  },
-  {
-    stepTitle: (
-      <>
-        Select
-        <br /> Token
-      </>
-    ),
-    value: DepositStep.TOKEN_SELECTOR,
-  },
-  {
-    stepTitle: (
-      <>
-        Enter
-        <br /> Amount
-      </>
-    ),
-    value: DepositStep.AMOUNT_SELECTOR,
-  },
-  {
-    stepTitle: (
-      <>
-        Review
-        <br /> Transaction
-      </>
-    ),
-    value: DepositStep.REVIEW,
-  },
-  {
-    stepTitle: (
-      <>
-        Processing
-        <br /> Transaction
-      </>
-    ),
-    value: DepositStep.PROCESSING,
-  },
-  {
-    stepTitle: (
-      <>
-        Transaction
-        <br /> Completed
-      </>
-    ),
-    value: DepositStep.COMPLETE,
-  },
-];
-
 // User should be able to go back on steps but not forward (even if moved back,
 // unless we are confident that user didn't change anything)
 export const SidebarSteps: React.FC = () => {
@@ -92,12 +28,80 @@ export const SidebarSteps: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const { step } = useSelector(selectBridgeDepositPage);
+  const { step: activeStep } = useSelector(selectBridgeDepositPage);
+
+  const initialSteps: StepItem[] = useMemo(
+    () => [
+      {
+        stepTitle: (
+          <Trans
+            i18nKey={translations.BridgeDepositPage.sidebarSteps.chooseSource}
+          />
+        ),
+        value: DepositStep.CHAIN_SELECTOR,
+      },
+      {
+        stepTitle: (
+          <Trans
+            i18nKey={translations.BridgeDepositPage.sidebarSteps.selectWallet}
+          />
+        ),
+        value: DepositStep.WALLET_SELECTOR,
+      },
+      {
+        stepTitle: (
+          <Trans
+            i18nKey={translations.BridgeDepositPage.sidebarSteps.selectToken}
+          />
+        ),
+        value: DepositStep.TOKEN_SELECTOR,
+      },
+      {
+        stepTitle: (
+          <Trans
+            i18nKey={translations.BridgeDepositPage.sidebarSteps.enterAmount}
+          />
+        ),
+        value: DepositStep.AMOUNT_SELECTOR,
+      },
+      {
+        stepTitle: (
+          <Trans
+            i18nKey={
+              translations.BridgeDepositPage.sidebarSteps.reviewTransaction
+            }
+          />
+        ),
+        value: DepositStep.REVIEW,
+      },
+      {
+        stepTitle: (
+          <Trans
+            i18nKey={
+              translations.BridgeDepositPage.sidebarSteps.processingTransaction
+            }
+          />
+        ),
+        value: DepositStep.PROCESSING,
+      },
+      {
+        stepTitle: (
+          <Trans
+            i18nKey={
+              translations.BridgeDepositPage.sidebarSteps.transactionCompleted
+            }
+          />
+        ),
+        value: DepositStep.COMPLETE,
+      },
+    ],
+    [],
+  );
 
   const canOpen = useCallback(
-    (testStep: DepositStep) => {
-      const indexOfTest = stepOrder.indexOf(testStep);
-      const indexOfStep = stepOrder.indexOf(step);
+    (nextStep: DepositStep) => {
+      const indexOfTest = stepOrder.indexOf(nextStep);
+      const indexOfStep = stepOrder.indexOf(activeStep);
 
       if (indexOfTest === -1 || indexOfStep === -1) {
         return false;
@@ -105,10 +109,10 @@ export const SidebarSteps: React.FC = () => {
       return (
         indexOfTest < indexOfStep &&
         // Can't go back if in processing or complete state.
-        ![DepositStep.PROCESSING, DepositStep.COMPLETE].includes(step)
+        ![DepositStep.PROCESSING, DepositStep.COMPLETE].includes(activeStep)
       );
     },
-    [step],
+    [activeStep],
   );
 
   const changeStep = useCallback(
@@ -120,20 +124,20 @@ export const SidebarSteps: React.FC = () => {
     [canOpen, dispatch],
   );
 
-  const activeStep = useMemo<DepositStep>(() => {
-    if (step === DepositStep.CONFIRM) {
+  const currentStep = useMemo<DepositStep>(() => {
+    if (activeStep === DepositStep.CONFIRM) {
       return DepositStep.REVIEW;
     }
 
-    return step;
-  }, [step]);
+    return activeStep;
+  }, [activeStep]);
 
   return (
     <div className="tw-w-full">
       <Stepper
         locked={bridgeLocked}
         steps={initialSteps}
-        step={activeStep}
+        step={currentStep}
         onClick={changeStep}
       />
     </div>

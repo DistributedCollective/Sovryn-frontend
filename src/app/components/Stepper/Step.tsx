@@ -37,7 +37,7 @@ export const Step: React.FC<IStepProps> = ({
             'tw-opacity-30': !active,
             'tw-font-semibold': active || current,
           },
-          disabled ? 'tw-cursor-not-allowed' : 'tw-cursor-pointer',
+          disabled || !active ? 'tw-cursor-not-allowed' : 'tw-cursor-pointer',
         )}
         onClick={() => !disabled && onClick()}
       >

@@ -14,23 +14,23 @@ import { translations } from 'locales/i18n';
 import { useTransak } from 'app/components/TransakDialog/useTransak';
 import { Tooltip } from '@blueprintjs/core';
 
-export const ReciveRBTCPage: React.FC = () => {
+export const ReceiveRBTCPage: React.FC = () => {
   const { t } = useTranslation();
   const { handleClick, isWrongChainId } = useTransak();
 
   return (
     <>
       <Helmet>
-        <title>{t(translations.reciveRBTCPage.title)}</title>
+        <title>{t(translations.receiveRBTCPage.title)}</title>
         <meta
           name="description"
-          content={t(translations.reciveRBTCPage.description)}
+          content={t(translations.receiveRBTCPage.description)}
         />
       </Helmet>
 
       <CrossChainLayout
-        title={t(translations.reciveRBTCPage.title)}
-        subtitle={t(translations.reciveRBTCPage.description)}
+        title={t(translations.receiveRBTCPage.title)}
+        subtitle={t(translations.receiveRBTCPage.description)}
       >
         <div
           style={{
@@ -41,7 +41,7 @@ export const ReciveRBTCPage: React.FC = () => {
           className="tw-py-4 tw-flex tw-flex-col tw-items-center tw-justify-center tw-h-full tw-relative"
         >
           <div className="tw-mb-20 tw-text-base tw-text-center tw-font-semibold">
-            {t(translations.reciveRBTCPage.selectSource)}
+            {t(translations.receiveRBTCPage.selectSource)}
           </div>
           <div className="tw-flex tw-items-center tw-justify-center">
             <div className="tw-text-center">
@@ -51,7 +51,7 @@ export const ReciveRBTCPage: React.FC = () => {
                 </SelectBox>
               </Link>
               <p className="tw-mt-3 tw-font-medium">
-                {t(translations.reciveRBTCPage.bitcoinNetwork)}
+                {t(translations.receiveRBTCPage.bitcoinNetwork)}
               </p>
             </div>
 
@@ -79,7 +79,7 @@ export const ReciveRBTCPage: React.FC = () => {
                 content={t(translations.transakDialog.chainId)}
               >
                 <p className="tw-mt-3 tw-font-medium">
-                  {t(translations.reciveRBTCPage.bankCard)}
+                  {t(translations.receiveRBTCPage.bankCard)}
                 </p>
               </Tooltip>
             </div>

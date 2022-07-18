@@ -21,9 +21,7 @@ const stepOrder = [
 const isBehindStep = (current: DepositStep, needed: DepositStep) =>
   stepOrder.indexOf(current) > stepOrder.indexOf(needed);
 
-export const SidebarStepsDeposit: React.FC<NetworkAwareComponentProps> = ({
-  network,
-}) => {
+export const SidebarStepsDeposit: React.FC<NetworkAwareComponentProps> = () => {
   const { t } = useTranslation();
   const { step, set, address, depositTx } = useContext(DepositContext);
 
