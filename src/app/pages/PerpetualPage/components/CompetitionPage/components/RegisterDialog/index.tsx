@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react';
 import axios from 'axios';
-import { Checkbox } from '@blueprintjs/core';
 
 import { walletService } from '@sovryn/react-wallet';
 import { Dialog, DialogSize } from 'app/containers/Dialog';
@@ -30,7 +29,7 @@ export const RegisterDialog: React.FC<IRegisterDialogProps> = ({
   const { t } = useTranslation();
 
   const [pseudonym, setPseudonym] = useState('');
-  const [termsChecked, setTermsChecked] = useState(false);
+  // const [termsChecked, setTermsChecked] = useState(false);
 
   const onSubmit = useCallback(() => {
     if (account) {
@@ -91,15 +90,16 @@ export const RegisterDialog: React.FC<IRegisterDialogProps> = ({
           <DummyField>{account}</DummyField>
         </FormGroup>
 
-        <Checkbox
+        {/* <Checkbox
           checked={termsChecked}
           onChange={() => setTermsChecked(!termsChecked)}
           label={t(translations.competitionPage.join.conditions)}
-        />
+        /> */}
         <DialogButton
           confirmLabel={t(translations.competitionPage.join.cta)}
           onConfirm={onSubmit}
-          disabled={!termsChecked || !connected}
+          disabled={!connected}
+          // disabled={!termsChecked || !connected}
         />
       </div>
     </Dialog>
