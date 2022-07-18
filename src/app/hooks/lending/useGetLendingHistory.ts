@@ -13,7 +13,7 @@ export function useGetLendingHistory(pool: LendingPool) {
     if (currentChainId !== undefined) {
       axios
         .get(`${subgraphWrapperUrl[currentChainId]}/lendingApy/${poolAddress}`)
-        .then(res => setData(res.data.slice(-36))) //last 6 days of data in 4hr chunks
+        .then(res => setData(res.data.slice(-42))) //last 7 days of data in 4hr chunks
         .catch(() => setData([]));
     }
   }, [poolAddress]);
