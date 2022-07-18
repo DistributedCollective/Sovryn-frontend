@@ -6,14 +6,18 @@ import { toNumberFormat } from 'utils/display-text/format';
 import classNames from 'classnames';
 import { LinkToExplorer } from '../../../../../../components/LinkToExplorer';
 import { PERPETUAL_CHAIN_ID } from '../../../../types';
+import { AssetValue } from 'app/components/AssetValue';
+import { Asset } from 'types';
+import { AssetValueMode } from 'app/components/AssetValue/types';
 
 interface ITraderRowProps {
   data: LeaderboardData;
   isUser: boolean;
+  potentialPrize: number;
 }
 
 export const TraderRow = forwardRef<HTMLDivElement, ITraderRowProps>(
-  ({ data, isUser }, ref) => (
+  ({ data, isUser, potentialPrize }, ref) => (
     <div
       ref={ref}
       className={classNames(
@@ -46,12 +50,12 @@ export const TraderRow = forwardRef<HTMLDivElement, ITraderRowProps>(
       <div
         className={classNames(
           data.openedPositions > 0 ? 'tw-text-success' : 'tw-text-warning',
-          'tw-px-1 tw-w-2/12 tw-my-auto tw-text-center',
+          'tw-px-1 tw-w-1/12 tw-my-auto tw-text-center',
         )}
       >
         {data.openedPositions}
       </div>
-      <div className="tw-px-1 tw-w-4/12 tw-my-auto">
+      <div className="tw-px-1 tw-w-3/12 tw-my-auto">
         {!data.lastTrade ? (
           '-'
         ) : (
@@ -70,6 +74,19 @@ export const TraderRow = forwardRef<HTMLDivElement, ITraderRowProps>(
         )}
       >
         {toNumberFormat(data.totalPnL, 2)}%
+      </div>
+      <div className="tw-px-1 tw-w-2/12 tw-my-auto">
+        {potentialPrize === 0 ? (
+          '-'
+        ) : (
+          <AssetValue
+            value={potentialPrize}
+            mode={AssetValueMode.auto}
+            minDecimals={4}
+            maxDecimals={4}
+            asset={Asset.BTCS}
+          />
+        )}
       </div>
     </div>
   ),

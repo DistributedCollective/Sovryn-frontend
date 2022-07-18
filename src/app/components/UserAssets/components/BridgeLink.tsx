@@ -99,6 +99,7 @@ export const BridgeLink: React.FC<IBridgeLinkProps> = ({
               className={classNames(styles.actionLink, {
                 [styles.disabled]: disableWithdrawal,
               })}
+              data-action-id={`portfolio-action-send-${asset}`}
             >
               <span className="tw-font-bold">
                 {t(translations.common.send)}
@@ -131,6 +132,7 @@ export const BridgeLink: React.FC<IBridgeLinkProps> = ({
               pathname: '/cross-chain/deposit',
               state: { receiver, asset },
             }}
+            data-action-id={`portfolio-action-receive-${asset}`}
           >
             <span className="tw-font-bold">
               {t(translations.common.receive)}

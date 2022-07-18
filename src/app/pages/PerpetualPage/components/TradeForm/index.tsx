@@ -988,11 +988,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
               )}
               onClick={onSubmitWrapper}
               disabled={buttonDisabled}
-              data-action-id={
-                trade.position === TradingPosition.LONG
-                  ? 'perps-tradeForm-submit-buy'
-                  : 'perps-tradeForm-submit-sell'
-              }
+              data-action-id={`perps-tradeForm-submit-${trade?.tradeType?.toLowerCase()}`}
             >
               <span className="tw-mr-2">{tradeButtonLabel}</span>
               <span>
