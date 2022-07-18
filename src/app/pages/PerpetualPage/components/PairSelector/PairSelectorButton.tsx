@@ -64,6 +64,7 @@ export const PairSelectorButton: React.FC<PairSelectorButtonProps> = ({
           : 'tw-bg-gray-4 tw-cursor-pointer hover:tw-bg-gray-5',
       )}
       onClick={onClick}
+      data-action-id={`perps-pairSelectorButton-${pair.name}`}
     >
       <span className="tw-font-medium tw-mr-2 tw-text-base">{pair.name}</span>
       <div className="tw-flex-auto tw-flex tw-flex-col tw-justify-center tw-py-0.5 tw-text-right">
