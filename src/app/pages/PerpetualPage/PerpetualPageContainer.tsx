@@ -163,7 +163,7 @@ export const PerpetualPageContainer: React.FC = () => {
               to="/perpetuals/competition"
               className="tw-mr-4 tw-text-black"
             >
-              {t(translations.competitionPage.nav.competition)}
+              {t(translations.competitionPage.nav.leaderboard)}
             </Link>
           }
         />
