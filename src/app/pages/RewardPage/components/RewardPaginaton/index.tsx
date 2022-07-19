@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { Button, ButtonStyle } from 'app/components/Button';
+import { Icon } from 'app/components/Icon';
 
 interface IRewardPaginationProps {
   page: number;
@@ -26,8 +27,26 @@ export const RewardPagination: React.FC<IRewardPaginationProps> = ({
     onChange(page - 1);
   }, [onChange, page]);
 
+  const handleMoveToFirst = useCallback(() => {
+    onChange(1);
+  }, [onChange]);
+
   return (
-    <div className="tw-flex tw-justify-center tw-items-center tw-my-5">
+    <div className="tw-flex tw-justify-center tw-items-center tw-my-5 tw-pr-10">
+      <Button
+        text={
+          <Icon
+            icon="chevron-double-left"
+            size={20}
+            className="tw-text-sov-white"
+          />
+        }
+        onClick={handleMoveToFirst}
+        loading={loading}
+        style={ButtonStyle.link}
+        disabled={page === 1 || loading}
+        className="tw-mr-2 hover:tw-bg-primary hover:tw-rounded-full tw-min-h-4 tw-min-w-4 tw-p-0.5"
+      />
       <Button
         text={t(translations.common.previous)}
         onClick={handleMoveLeft}
