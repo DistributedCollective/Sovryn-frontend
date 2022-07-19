@@ -7,7 +7,6 @@ import { Button, ButtonColor, ButtonSize } from 'app/components/Button';
 
 import { actions } from '../../slice';
 import { selectBridgeWithdrawPage } from '../../selectors';
-import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { BridgeDictionary } from '../../../BridgeDepositPage/dictionaries/bridge-dictionary';
 import { NetworkModel } from '../../../BridgeDepositPage/types/network-model';
 import { CrossBridgeAsset } from '../../../BridgeDepositPage/types/cross-bridge-asset';
@@ -21,6 +20,7 @@ import { useIsBridgeWithdrawLocked } from 'app/pages/BridgeWithdrawPage/hooks/us
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
 import { Icon, Popover } from '@blueprintjs/core';
+import { AssetValue } from 'app/components/AssetValue';
 
 export const ReviewStep: React.FC = () => {
   const {
@@ -140,10 +140,10 @@ export const ReviewStep: React.FC = () => {
             <tr>
               <td>{t(translations.BridgeWithdrawPage.reviewStep.amount)}:</td>
               <td className="tw-text-right">
-                {toNumberFormat(
-                  currentAsset.fromWei(amount),
-                  currentAsset.minDecimals,
-                )}
+                <AssetValue
+                  value={Number(currentAsset.fromWei(amount))}
+                  minDecimals={currentAsset.minDecimals}
+                />
               </td>
             </tr>
             <tr>
@@ -164,11 +164,14 @@ export const ReviewStep: React.FC = () => {
               </td>
               <td className="tw-text-right">
                 <div className="tw-flex tw-items-center tw-justify-end">
-                  {toNumberFormat(
-                    currentAsset.fromWei(limits.returnData.getFeePerToken),
-                    currentAsset.minDecimals,
-                  )}{' '}
-                  {currentAsset.symbol}
+                  <AssetValue
+                    value={Number(
+                      currentAsset.fromWei(limits.returnData.getFeePerToken),
+                    )}
+                    minDecimals={currentAsset.minDecimals}
+                    assetString={currentAsset.symbol}
+                  />
+
                   {targetChain === Chain.ETH && (
                     <Popover
                       content={

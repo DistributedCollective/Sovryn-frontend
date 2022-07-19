@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import { Chain } from 'types';
 import { selectBridgeWithdrawPage } from '../../selectors';
 import { useWalletContext } from '@sovryn/react-wallet';
-import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { getWalletImage } from 'app/components/UserAssets/TxDialog/WalletLogo';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 
@@ -23,6 +22,7 @@ import { useHistory } from 'react-router-dom';
 import { noop } from '../../../../constants';
 import { detectWeb3Wallet } from 'utils/helpers';
 import { Button, ButtonColor, ButtonSize } from 'app/components/Button';
+import { AssetValue } from 'app/components/AssetValue';
 
 export const ConfirmStep: React.FC = () => {
   const { t } = useTranslation();
@@ -182,8 +182,11 @@ export const ConfirmStep: React.FC = () => {
                     {t(translations.BridgeWithdrawPage.reviewStep.amount)}:
                   </td>
                   <td className="tw-text-right">
-                    {toNumberFormat(asset.fromWei(amount), asset.minDecimals)}{' '}
-                    {asset.symbol}
+                    <AssetValue
+                      value={Number(asset.fromWei(amount))}
+                      minDecimals={asset.minDecimals}
+                      assetString={asset.symbol}
+                    />
                   </td>
                 </tr>
                 <tr>

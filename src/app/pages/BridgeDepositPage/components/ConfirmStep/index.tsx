@@ -8,7 +8,6 @@ import { CrossBridgeAsset } from '../../types/cross-bridge-asset';
 import { AssetModel } from '../../types/asset-model';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { TxStep } from '../../types';
-import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { NetworkModel } from '../../types/network-model';
 import { SelectBox } from '../SelectBox';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
@@ -23,6 +22,7 @@ import { noop } from '../../../../constants';
 import { detectWeb3Wallet } from 'utils/helpers';
 import { getWalletImage } from 'app/components/UserAssets/TxDialog/WalletLogo';
 import { Button, ButtonColor, ButtonSize } from 'app/components/Button';
+import { AssetValue } from 'app/components/AssetValue';
 
 export const ConfirmStep: React.FC = () => {
   const { t } = useTranslation();
@@ -182,8 +182,11 @@ export const ConfirmStep: React.FC = () => {
                     {t(translations.BridgeDepositPage.reviewStep.amount)}:
                   </td>
                   <td className="tw-text-right">
-                    {toNumberFormat(asset.fromWei(amount), asset.minDecimals)}{' '}
-                    {asset.symbol}
+                    <AssetValue
+                      value={Number(asset.fromWei(amount))}
+                      minDecimals={asset.minDecimals}
+                      assetString={asset.symbol}
+                    />
                   </td>
                 </tr>
                 <tr>

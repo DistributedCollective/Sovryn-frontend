@@ -5,10 +5,7 @@ import { translations } from 'locales/i18n';
 import { FastBtcButton } from '../FastBtcButton';
 import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
 import { WithdrawContext } from '../../contexts/withdraw-context';
-import {
-  toNumberFormat,
-  weiToNumberFormat,
-} from '../../../../../utils/display-text/format';
+
 import { AddressBadge } from '../../../../components/AddressBadge';
 import { useCacheCallWithValue } from '../../../../hooks/useCacheCallWithValue';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
@@ -18,6 +15,7 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { getBTCAssetForNetwork } from '../../helpers';
+import { AssetValue } from 'app/components/AssetValue';
 
 type ReviewScreenProps = {
   onConfirm: () => void;
@@ -63,7 +61,7 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
       label: t(translations.fastBtcPage.withdraw.reviewScreen.amount),
       value: (
         <>
-          {toNumberFormat(amount, 8)} <AssetSymbolRenderer asset={asset} />
+          <AssetValue value={Number(amount)} minDecimals={8} asset={asset} />
         </>
       ),
     },
@@ -77,7 +75,9 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
       label: t(translations.fastBtcPage.withdraw.reviewScreen.fees),
       value: (
         <LoadableValue
-          value={<>{weiToNumberFormat(feesPaid, 8)} BTC</>}
+          value={
+            <AssetValue value={feesPaid} minDecimals={8} assetString="BTC" />
+          }
           loading={loading}
         />
       ),
@@ -86,7 +86,13 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
       label: t(translations.fastBtcPage.withdraw.reviewScreen.received),
       value: (
         <LoadableValue
-          value={<>{weiToNumberFormat(receiveAmount, 8)} BTC</>}
+          value={
+            <AssetValue
+              value={receiveAmount}
+              minDecimals={8}
+              assetString="BTC"
+            />
+          }
           loading={loading}
         />
       ),

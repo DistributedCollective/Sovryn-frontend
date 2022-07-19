@@ -8,10 +8,6 @@ import { SendTxResponse } from '../../../../hooks/useSendContractTx';
 import { WalletTxHelper } from './WalletTxHelper';
 import { TxStatus } from '../../../../../store/global/transactions-store/types';
 import { FastBtcButton } from '../FastBtcButton';
-import {
-  toNumberFormat,
-  weiToNumberFormat,
-} from '../../../../../utils/display-text/format';
 import { LoadableValue } from '../../../../components/LoadableValue';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
 import { useCacheCallWithValue } from '../../../../hooks/useCacheCallWithValue';
@@ -24,6 +20,7 @@ import { getBTCAssetForNetwork } from '../../helpers';
 import { Chain } from 'types';
 import { AddressBadge } from 'app/components/AddressBadge';
 import { ButtonColor, ButtonSize, Button } from 'app/components/Button';
+import { AssetValue } from 'app/components/AssetValue';
 
 type StatusScreenProps = {
   tx: SendTxResponse;
@@ -94,9 +91,7 @@ export const StatusScreen: React.FC<StatusScreenProps> = ({ tx, network }) => {
     {
       label: t(translations.fastBtcPage.withdraw.reviewScreen.amount),
       value: (
-        <>
-          {toNumberFormat(amount, 8)} <AssetSymbolRenderer asset={asset} />
-        </>
+        <AssetValue value={Number(amount)} minDecimals={8} asset={asset} />
       ),
     },
     {
@@ -109,7 +104,9 @@ export const StatusScreen: React.FC<StatusScreenProps> = ({ tx, network }) => {
       label: t(translations.fastBtcPage.withdraw.reviewScreen.fees),
       value: (
         <LoadableValue
-          value={<>{weiToNumberFormat(feesPaid, 8)} BTC</>}
+          value={
+            <AssetValue value={feesPaid} minDecimals={8} assetString="BTC" />
+          }
           loading={loading}
         />
       ),
@@ -118,7 +115,13 @@ export const StatusScreen: React.FC<StatusScreenProps> = ({ tx, network }) => {
       label: t(translations.fastBtcPage.withdraw.reviewScreen.received),
       value: (
         <LoadableValue
-          value={<>{weiToNumberFormat(receiveAmount, 8)} BTC</>}
+          value={
+            <AssetValue
+              value={receiveAmount}
+              minDecimals={8}
+              assetString="BTC"
+            />
+          }
           loading={loading}
         />
       ),

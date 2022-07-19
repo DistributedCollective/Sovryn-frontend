@@ -4,7 +4,6 @@ import { useHistory } from 'react-router-dom';
 import { translations } from 'locales/i18n';
 import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
 import { TxStatus } from '../../../../../store/global/transactions-store/types';
-import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { bignumber } from 'mathjs';
 import { LinkToExplorer } from '../../../../components/LinkToExplorer';
 import { DepositContext, DepositStep } from '../../contexts/deposit-context';
@@ -16,6 +15,7 @@ import { NetworkAwareComponentProps } from '../../types';
 import { StatusComponent } from 'app/components/Dialogs/StatusComponent';
 import { Chain } from 'types';
 import { Button, ButtonColor, ButtonSize } from 'app/components/Button';
+import { AssetValue } from 'app/components/AssetValue';
 
 export const StatusScreen: React.FC<NetworkAwareComponentProps> = ({
   network,
@@ -73,25 +73,26 @@ export const StatusScreen: React.FC<NetworkAwareComponentProps> = ({
     },
     {
       label: t(translations.fastBtcPage.deposit.statusScreen.amount),
-      value: <>{toNumberFormat(amount, 8)} BTC</>,
+      value: (
+        <AssetValue value={Number(amount)} minDecimals={8} assetString="BTC" />
+      ),
     },
 
     {
       label: t(translations.fastBtcPage.withdraw.reviewScreen.fees),
       value: (
-        <>
-          {toNumberFormat(feeAmount, 8)} <AssetSymbolRenderer asset={asset} />
-        </>
+        <AssetValue value={Number(feeAmount)} minDecimals={8} asset={asset} />
       ),
     },
 
     {
       label: t(translations.fastBtcPage.deposit.statusScreen.received),
       value: (
-        <>
-          {toNumberFormat(receiveAmount, 8)}{' '}
-          <AssetSymbolRenderer asset={asset} />
-        </>
+        <AssetValue
+          value={Number(receiveAmount)}
+          minDecimals={8}
+          asset={asset}
+        />
       ),
     },
   ];

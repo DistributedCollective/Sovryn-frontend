@@ -10,8 +10,6 @@ import { AssetModel } from '../../types/asset-model';
 import { AmountInput } from '../AmountInput';
 import { FormGroup } from '../../../../components/Form/FormGroup';
 import { useBridgeLimits } from '../../hooks/useBridgeLimits';
-import { toNumberFormat } from '../../../../../utils/display-text/format';
-import { fromWei } from 'utils/blockchain/math-helpers';
 import { useBridgeTokenBalance } from '../../hooks/useBridgeTokenBalance';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { translations } from 'locales/i18n';
@@ -20,6 +18,7 @@ import { useIsBridgeDepositLocked } from 'app/pages/BridgeDepositPage/hooks/useI
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
 import { Button, ButtonColor, ButtonSize } from 'app/components/Button';
+import { AssetValue } from 'app/components/AssetValue';
 
 export const AmountSelector: React.FC = () => {
   const { amount, chain, targetChain, sourceAsset, targetAsset } = useSelector(
@@ -109,8 +108,11 @@ export const AmountSelector: React.FC = () => {
             />
             <p className="tw-mt-1 tw-mb-1 tw-text-sm">
               {t(translations.BridgeDepositPage.amountSelector.balance)}:{' '}
-              {toNumberFormat(asset.fromWei(balance.value), asset.minDecimals)}{' '}
-              {asset.symbol}
+              <AssetValue
+                value={Number(asset.fromWei(balance.value))}
+                minDecimals={asset.minDecimals}
+                assetString={asset.symbol}
+              />
             </p>
           </FormGroup>
         </div>
@@ -128,10 +130,15 @@ export const AmountSelector: React.FC = () => {
                 </td>
                 <td className="tw-text-right">
                   <LoadableValue
-                    value={`${toNumberFormat(
-                      asset.fromWei(limits.returnData.getMinPerToken),
-                      asset.minDecimals,
-                    )} ${asset.symbol}`}
+                    value={
+                      <AssetValue
+                        value={Number(
+                          asset.fromWei(limits.returnData.getMinPerToken),
+                        )}
+                        minDecimals={asset.minDecimals}
+                        assetString={asset.symbol}
+                      />
+                    }
                     loading={limitsLoading}
                   />
                 </td>
@@ -142,10 +149,15 @@ export const AmountSelector: React.FC = () => {
                 </td>
                 <td className="tw-text-right">
                   <LoadableValue
-                    value={`${toNumberFormat(
-                      fromWei(limits.returnData.getMaxTokensAllowed),
-                      asset.minDecimals,
-                    )} ${asset.symbol}`}
+                    value={
+                      <AssetValue
+                        value={Number(
+                          asset.fromWei(limits.returnData.getMaxTokensAllowed),
+                        )}
+                        minDecimals={asset.minDecimals}
+                        assetString={asset.symbol}
+                      />
+                    }
                     loading={limitsLoading}
                   />
                 </td>
@@ -156,10 +168,13 @@ export const AmountSelector: React.FC = () => {
                 </td>
                 <td className="tw-text-right">
                   <LoadableValue
-                    value={`${toNumberFormat(
-                      fromWei(limits.returnData.dailyLimit),
-                      asset.minDecimals,
-                    )} ${asset.symbol}`}
+                    value={
+                      <AssetValue
+                        value={limits.returnData.dailyLimit}
+                        minDecimals={asset.minDecimals}
+                        assetString={asset.symbol}
+                      />
+                    }
                     loading={limitsLoading}
                   />
                 </td>
@@ -174,10 +189,13 @@ export const AmountSelector: React.FC = () => {
                 </td>
                 <td className="tw-text-right">
                   <LoadableValue
-                    value={`${toNumberFormat(
-                      fromWei(limits.returnData.spentToday),
-                      asset.minDecimals,
-                    )} ${asset.symbol}`}
+                    value={
+                      <AssetValue
+                        value={limits.returnData.spentToday}
+                        minDecimals={asset.minDecimals}
+                        assetString={asset.symbol}
+                      />
+                    }
                     loading={limitsLoading}
                   />
                 </td>
@@ -189,10 +207,15 @@ export const AmountSelector: React.FC = () => {
                 </td>
                 <td className="tw-text-right">
                   <LoadableValue
-                    value={`${toNumberFormat(
-                      asset.fromWei(limits.returnData.getFeePerToken),
-                      asset.minDecimals,
-                    )} ${asset.symbol}`}
+                    value={
+                      <AssetValue
+                        value={Number(
+                          asset.fromWei(limits.returnData.getFeePerToken),
+                        )}
+                        minDecimals={asset.minDecimals}
+                        assetString={asset.symbol}
+                      />
+                    }
                     loading={limitsLoading}
                   />
                 </td>

@@ -11,13 +11,13 @@ import { CrossBridgeAsset } from '../../types/cross-bridge-asset';
 import { useTokenBalance } from '../../hooks/useTokenBalance';
 import { AssetModel } from '../../types/asset-model';
 import { useBridgeLimits } from '../../hooks/useBridgeLimits';
-import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { NetworkModel } from '../../types/network-model';
 import { translations } from 'locales/i18n';
 import { useTranslation, Trans } from 'react-i18next';
 import { useIsBridgeDepositLocked } from 'app/pages/BridgeDepositPage/hooks/useIsBridgeDepositLocked';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
+import { AssetValue } from 'app/components/AssetValue';
 
 export const ReviewStep: React.FC = () => {
   const {
@@ -118,18 +118,21 @@ export const ReviewStep: React.FC = () => {
     },
     {
       label: t(trans.amount),
-      value: toNumberFormat(asset.fromWei(amount), asset.minDecimals),
+      value: (
+        <AssetValue
+          value={Number(asset.fromWei(amount))}
+          minDecimals={asset.minDecimals}
+        />
+      ),
     },
     {
       label: t(trans.bridgeFee),
       value: (
-        <>
-          {toNumberFormat(
-            asset.fromWei(limits.returnData.getFeePerToken),
-            asset.minDecimals,
-          )}{' '}
-          {asset.symbol}
-        </>
+        <AssetValue
+          value={Number(asset.fromWei(limits.returnData.getFeePerToken))}
+          minDecimals={asset.minDecimals}
+          assetString={asset.symbol}
+        />
       ),
     },
   ];
