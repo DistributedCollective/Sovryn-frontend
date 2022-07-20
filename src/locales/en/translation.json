@@ -293,7 +293,7 @@
         "received": "Receive Amount",
         "txHash": "Tx Hash",
         "txId": "Tx ID",
-        "description": "Your deposit is being processed. If your transaction takes longer than {{hours}} hrs please <0>contact us</0>.",
+        "description": "If your transaction takes longer than {{hours}} hrs please <0>contact us</0>.",
         "cta": "Return to Portfolio"
       },
       "qr": {
@@ -304,7 +304,7 @@
     "withdraw": {
       "sidebarSteps": {
         "amount": "Enter<br/>Amount",
-        "address": "Enter <br/>Address",
+        "address": "BTC <br/>Address",
         "review": "Review <br/>Transaction",
         "confirm": "Confirm <br/>Transaction",
         "processing": "Processing <br/>Transaction",
@@ -348,7 +348,7 @@
         "fees": "Bridge Fee",
         "received": "Total Amount",
         "tx": "Tx ID",
-        "description": "Your withdrawal is being processed. If your transaction takes longer than {{hours}} hrs please <0>contact us</0>"
+        "description": "If your transaction takes longer than {{hours}} hrs please <0>contact us</0>"
       },
       "walletTxHelper": {
         "confirm": "Please confirm the transaction in your {{wallet}} wallet",
