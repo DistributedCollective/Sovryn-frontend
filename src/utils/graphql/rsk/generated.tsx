@@ -8715,30 +8715,69 @@ export type BorrowFieldsFragment = {
 
 export type GetVestedHistoryQueryVariables = Exact<{
   user?: InputMaybe<Scalars['String']>;
-  skip: Scalars['Int'];
-  pageSize: Scalars['Int'];
 }>;
 
 export type GetVestedHistoryQuery = {
   __typename?: 'Query';
-  stakeHistoryItems: Array<{
-    __typename?: 'StakeHistoryItem';
-    id: string;
-    action: StakeHistoryAction;
-    amount?: string | null;
-    timestamp: number;
-    lockedUntil?: number | null;
-    transaction: { __typename?: 'Transaction'; id: string };
+  vestingContracts: Array<{
+    __typename?: 'VestingContract';
+    cliff?: number | null;
+    duration?: number | null;
+    startingBalance: string;
+    currentBalance: string;
+    type: VestingContractType;
+    emittedBy: string;
+    stakeHistory?: Array<{
+      __typename?: 'VestingHistoryItem';
+      id: string;
+      action: VestingHistoryItemAction;
+      amount: string;
+      lockedUntil: number;
+      timestamp: number;
+      transaction: { __typename?: 'Transaction'; id: string };
+    }> | null;
+    createdAtTransaction: { __typename?: 'Transaction'; id: string };
   }>;
 };
 
+export type VestedContractFieldsFragment = {
+  __typename?: 'VestingContract';
+  cliff?: number | null;
+  duration?: number | null;
+  startingBalance: string;
+  currentBalance: string;
+  type: VestingContractType;
+  emittedBy: string;
+  stakeHistory?: Array<{
+    __typename?: 'VestingHistoryItem';
+    id: string;
+    action: VestingHistoryItemAction;
+    amount: string;
+    lockedUntil: number;
+    timestamp: number;
+    transaction: { __typename?: 'Transaction'; id: string };
+  }> | null;
+  createdAtTransaction: { __typename?: 'Transaction'; id: string };
+};
+
+export type VestedContractTypeFragment = {
+  __typename?: 'VestingContract';
+  cliff?: number | null;
+  duration?: number | null;
+  startingBalance: string;
+  currentBalance: string;
+  type: VestingContractType;
+  emittedBy: string;
+  createdAtTransaction: { __typename?: 'Transaction'; id: string };
+};
+
 export type VestedHistoryFieldsFragment = {
-  __typename?: 'StakeHistoryItem';
+  __typename?: 'VestingHistoryItem';
   id: string;
-  action: StakeHistoryAction;
-  amount?: string | null;
+  action: VestingHistoryItemAction;
+  amount: string;
+  lockedUntil: number;
   timestamp: number;
-  lockedUntil?: number | null;
   transaction: { __typename?: 'Transaction'; id: string };
 };
 
@@ -8782,17 +8821,44 @@ export const BorrowFieldsFragmentDoc = gql`
     }
   }
 `;
+export const VestedContractTypeFragmentDoc = gql`
+  fragment VestedContractType on VestingContract {
+    cliff
+    duration
+    startingBalance
+    currentBalance
+    type
+    emittedBy
+    createdAtTransaction {
+      id
+    }
+  }
+`;
 export const VestedHistoryFieldsFragmentDoc = gql`
-  fragment VestedHistoryFields on StakeHistoryItem {
+  fragment VestedHistoryFields on VestingHistoryItem {
     id
     action
     amount
-    timestamp
     lockedUntil
+    timestamp
     transaction {
       id
     }
   }
+`;
+export const VestedContractFieldsFragmentDoc = gql`
+  fragment VestedContractFields on VestingContract {
+    ...VestedContractType
+    stakeHistory(
+      where: { action: TokensStaked }
+      orderBy: timestamp
+      orderDirection: desc
+    ) {
+      ...VestedHistoryFields
+    }
+  }
+  ${VestedContractTypeFragmentDoc}
+  ${VestedHistoryFieldsFragmentDoc}
 `;
 export const GetBorrowHistoryDocument = gql`
   query getBorrowHistory($user: String) {
@@ -8854,18 +8920,12 @@ export type GetBorrowHistoryQueryResult = Apollo.QueryResult<
   GetBorrowHistoryQueryVariables
 >;
 export const GetVestedHistoryDocument = gql`
-  query getVestedHistory($user: String, $skip: Int!, $pageSize: Int!) {
-    stakeHistoryItems(
-      first: $pageSize
-      skip: $skip
-      where: { user: $user, action_in: [Stake, IncreaseStake] }
-      orderBy: timestamp
-      orderDirection: desc
-    ) {
-      ...VestedHistoryFields
+  query getVestedHistory($user: String) {
+    vestingContracts(where: { user: $user }) {
+      ...VestedContractFields
     }
   }
-  ${VestedHistoryFieldsFragmentDoc}
+  ${VestedContractFieldsFragmentDoc}
 `;
 
 /**
@@ -8881,13 +8941,11 @@ export const GetVestedHistoryDocument = gql`
  * const { data, loading, error } = useGetVestedHistoryQuery({
  *   variables: {
  *      user: // value for 'user'
- *      skip: // value for 'skip'
- *      pageSize: // value for 'pageSize'
  *   },
  * });
  */
 export function useGetVestedHistoryQuery(
-  baseOptions: Apollo.QueryHookOptions<
+  baseOptions?: Apollo.QueryHookOptions<
     GetVestedHistoryQuery,
     GetVestedHistoryQueryVariables
   >,

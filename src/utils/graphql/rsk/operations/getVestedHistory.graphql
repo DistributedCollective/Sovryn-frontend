@@ -1,8 +1,13 @@
-query getVestedHistory($user: String, $skip: Int!, $pageSize: Int!) {
-  stakeHistoryItems(
-    first: $pageSize
-    skip: $skip
-    where: { user: $user, action_in: [Stake, IncreaseStake] }
+query getVestedHistory($user: String) {
+  vestingContracts(where: { user: $user }) {
+    ...VestedContractFields
+  }
+}
+
+fragment VestedContractFields on VestingContract {
+  ...VestedContractType
+  stakeHistory(
+    where: { action: TokensStaked }
     orderBy: timestamp
     orderDirection: desc
   ) {
@@ -10,13 +15,48 @@ query getVestedHistory($user: String, $skip: Int!, $pageSize: Int!) {
   }
 }
 
-fragment VestedHistoryFields on StakeHistoryItem {
+fragment VestedContractType on VestingContract {
+  cliff
+  duration
+  startingBalance
+  currentBalance
+  type
+  emittedBy
+  createdAtTransaction {
+    id
+  }
+}
+
+fragment VestedHistoryFields on VestingHistoryItem {
   id
   action
   amount
-  timestamp
   lockedUntil
+  timestamp
   transaction {
     id
   }
 }
+
+# query getVestedHistory($user: String, $skip: Int!, $pageSize: Int!) {
+#   stakeHistoryItems(
+#     first: $pageSize
+#     skip: $skip
+#     where: { user: $user, action_in: [Stake, IncreaseStake] }
+#     orderBy: timestamp
+#     orderDirection: desc
+#   ) {
+#     ...VestedHistoryFields
+#   }
+# }
+
+# fragment VestedHistoryFields on StakeHistoryItem {
+#   id
+#   action
+#   amount
+#   timestamp
+#   lockedUntil
+#   transaction {
+#     id
+#   }
+# }

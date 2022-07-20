@@ -6,26 +6,29 @@ import { LoadableValue } from 'app/components/LoadableValue';
 import { Asset } from 'types/asset';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { Icon } from 'app/components/Icon';
-import { VestedHistoryFieldsFragment } from 'utils/graphql/rsk/generated';
+import {
+  VestedHistoryFieldsFragment,
+  VestingContractType,
+} from 'utils/graphql/rsk/generated';
 import { useDollarValue } from 'app/hooks/useDollarValue';
 import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
-import { getActionName } from '../utils';
 import { AssetValue } from 'app/components/AssetValue';
 import { AssetValueMode } from 'app/components/AssetValue/types';
 
 interface IVestedHistoryRowProps {
   event: VestedHistoryFieldsFragment;
+  type: VestingContractType;
 }
 
 export const VestedHistoryRow: React.FC<IVestedHistoryRowProps> = ({
   event,
+  type,
 }) => {
   const { t } = useTranslation();
-  const { timestamp, action, amount, transaction } = event;
+  const { timestamp, amount, transaction } = event;
   const stakeTime = useMemo(() => new Date(timestamp).getTime().toString(), [
     timestamp,
   ]);
-
   const dollarValue = useDollarValue(Asset.SOV, amount || '0');
 
   return (
@@ -39,7 +42,7 @@ export const VestedHistoryRow: React.FC<IVestedHistoryRowProps> = ({
             <img src={logoSvg} className="tw-mr-3" alt="SOV" />
           </div>
           <div className="tw-text-sm tw-font-normal tw-hidden xl:tw-block tw-pl-3">
-            {t(getActionName(action))}
+            {type}
           </div>
         </div>
       </td>
