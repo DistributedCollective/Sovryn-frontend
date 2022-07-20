@@ -16,12 +16,12 @@ export const useGetRewardSovClaimAmount = (): RewardSovClaimData => {
   const { data: availableTradingRewardsData } = useGetTradingRewards();
   const availableLiquidityRewards = useGetAvailableLiquidityRewards();
 
-  const availableTradingRewards = useMemo(() => {
-    return (
+  const availableTradingRewards = useMemo(
+    () =>
       availableTradingRewardsData?.userRewardsEarnedHistory
-        ?.availableTradingRewards || '0'
-    );
-  }, [availableTradingRewardsData]);
+        ?.availableTradingRewards || '0',
+    [availableTradingRewardsData],
+  );
 
   const amountToClaim = useMemo(
     () =>

@@ -34,12 +34,12 @@ export const RewardTab: React.FC<IRewardTabProps> = ({
   const totalLiquidityRewards = useGetTotalLiquidityRewards();
   const totalLendingRewards = useGetTotalLendingRewards();
 
-  const totalTradingRewards = useMemo(() => {
-    return (
+  const totalTradingRewards = useMemo(
+    () =>
       totalTradingRewardsData?.userRewardsEarnedHistory?.totalTradingRewards ||
-      '0'
-    );
-  }, [totalTradingRewardsData]);
+      '0',
+    [totalTradingRewardsData],
+  );
 
   const {
     lendingPercentage,
