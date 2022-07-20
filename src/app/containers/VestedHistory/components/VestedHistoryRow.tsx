@@ -13,11 +13,13 @@ import { getActionName } from '../utils';
 import { AssetValue } from 'app/components/AssetValue';
 import { AssetValueMode } from 'app/components/AssetValue/types';
 
-interface IVestedHistoryRow {
+interface IVestedHistoryRowProps {
   event: VestedHistoryFieldsFragment;
 }
 
-export const VestedHistoryRow: React.FC<IVestedHistoryRow> = ({ event }) => {
+export const VestedHistoryRow: React.FC<IVestedHistoryRowProps> = ({
+  event,
+}) => {
   const { t } = useTranslation();
   const { timestamp, action, amount, transaction } = event;
   const stakeTime = useMemo(() => new Date(timestamp).getTime().toString(), [
@@ -34,7 +36,7 @@ export const VestedHistoryRow: React.FC<IVestedHistoryRow> = ({ event }) => {
       <td className="tw-text-left tw-font-normal tw-tracking-normal">
         <div className="assetname tw-flex tw-items-center">
           <div>
-            <img src={logoSvg} className="tw-mr-3" alt="sov" />
+            <img src={logoSvg} className="tw-mr-3" alt="SOV" />
           </div>
           <div className="tw-text-sm tw-font-normal tw-hidden xl:tw-block tw-pl-3">
             {t(getActionName(action))}

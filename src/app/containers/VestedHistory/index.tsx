@@ -57,7 +57,7 @@ export function VestedHistory() {
         </thead>
         <tbody className="tw-mt-5 tw-font-body">
           {loading && (
-            <tr key={'loading'}>
+            <tr key="loading">
               <td colSpan={99}>
                 <SkeletonRow
                   loadingText={t(translations.topUpHistory.loading)}
@@ -66,7 +66,7 @@ export function VestedHistory() {
             </tr>
           )}
           {isEmpty && (
-            <tr key={'empty'}>
+            <tr key="empty">
               <td className="tw-text-center" colSpan={99}>
                 {t(translations.stake.history.emptyHistory)}
               </td>
