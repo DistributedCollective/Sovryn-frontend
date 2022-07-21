@@ -246,7 +246,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
 
   useEffect(() => {
     if (
-      !hasOpenTrades &&
+      (!hasOpenTrades || isLimitOrder) &&
       isValidNumerishValue(amount) &&
       !bignumber(amount).isZero() &&
       bignumber(amount).lessThan(minimumPositionSize)
@@ -254,7 +254,14 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
       setAmount(minimumPositionSize);
       setTrade(trade => ({ ...trade, amount: toWei(minimumPositionSize) }));
     }
-  }, [amount, hasOpenTrades, lotPrecision, minimumPositionSize, setTrade]);
+  }, [
+    amount,
+    hasOpenTrades,
+    isLimitOrder,
+    lotPrecision,
+    minimumPositionSize,
+    setTrade,
+  ]);
 
   const onChangeOrderAmount = useCallback(
     (amount: string) => {
@@ -981,11 +988,7 @@ export const TradeForm: React.FC<ITradeFormProps> = ({
               )}
               onClick={onSubmitWrapper}
               disabled={buttonDisabled}
-              data-action-id={
-                trade.position === TradingPosition.LONG
-                  ? 'perps-tradeForm-submit-buy'
-                  : 'perps-tradeForm-submit-sell'
-              }
+              data-action-id={`perps-tradeForm-submit-${trade?.tradeType?.toLowerCase()}`}
             >
               <span className="tw-mr-2">{tradeButtonLabel}</span>
               <span>

@@ -7,6 +7,7 @@ import {
 } from 'store/global/transactions-store/selectors';
 import {
   Transaction,
+  TxFailReason,
   TxStatus,
   TxType,
 } from 'store/global/transactions-store/types';
@@ -23,6 +24,26 @@ import { bridgeNetwork } from '../pages/BridgeDepositPage/utils/bridge-network';
 import { BridgeNetworkDictionary } from '../pages/BridgeDepositPage/dictionaries/bridge-network-dictionary';
 import { getContract } from '../../utils/blockchain/contract-helpers';
 import { ContractName } from '../../utils/types/contracts';
+
+// example of the error message can be seen here: https://pastebin.com/2kkCyWfk
+const parseGsnErrorMessage = (message: string): TxFailReason => {
+  const codeSubstring = '"code":';
+  const codeIndex = message.indexOf(codeSubstring);
+  const errorCodeBeginningIndex = codeIndex + codeSubstring.length;
+  const errorCode = message.substring(
+    errorCodeBeginningIndex,
+    errorCodeBeginningIndex + 1,
+  );
+
+  // The error codes should be 1-10 according to this doc https://docs.openzeppelin.com/contracts/3.x/api/gsn
+  // but I haven't been able to find all of the values
+  switch (errorCode) {
+    case '3':
+      return TxFailReason.INSUFFICIENT_USER_FUNDS;
+    default:
+      return TxFailReason.UNKNOWN;
+  }
+};
 
 /**
  * Call contracts using the Gas Station Network, allowing you to pay transactions fees with another token!
@@ -46,6 +67,9 @@ export const useGsnSendTx = (
   const account = useAccount();
   const [txId, setTxId] = useState<string | TxStatus>(TxStatus.NONE);
   const [tx, setTx] = useState<Nullable<Transaction>>(null);
+  const [txFailReason, setTxFailReason] = useState<TxFailReason | undefined>(
+    undefined,
+  );
 
   const chainId = useMemo(() => BridgeNetworkDictionary.get(chain)?.chainId, [
     chain,
@@ -138,6 +162,7 @@ export const useGsnSendTx = (
         .catch(e => {
           console.error(e.message);
           setTxId(TxStatus.FAILED);
+          setTxFailReason(parseGsnErrorMessage(e.message));
           dispatch(actions.setTransactionRequestDialogError(e.message));
         });
     },
@@ -172,5 +197,6 @@ export const useGsnSendTx = (
     txHash: tx?.transactionHash || '',
     status: tx ? tx.status : txId,
     loading: loading,
+    failReason: txFailReason,
   };
 };

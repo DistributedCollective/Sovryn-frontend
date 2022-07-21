@@ -46,7 +46,6 @@ import { PairSelector } from './components/PairSelector';
 import { ToastsWatcher } from './components/ToastsWatcher';
 import { OpenOrdersTable } from './components/OpenOrdersTable';
 import { Tabs } from 'app/components/Tabs';
-import { usePerpetual_isAddressWhitelisted } from './hooks/usePerpetual_isAddressWhitelisted';
 
 export const PerpetualPageContainer: React.FC = () => {
   useInjectReducer({ key: sliceKey, reducer });
@@ -69,7 +68,9 @@ export const PerpetualPageContainer: React.FC = () => {
   const location = useLocation<IPromotionLinkState>();
   const history = useHistory<IPromotionLinkState>();
 
-  const isAddressWhitelisted = usePerpetual_isAddressWhitelisted();
+  // Temporary change, once we're on mainnet, the hook and this condition can be safely removed
+  // const isAddressWhitelisted = usePerpetual_isAddressWhitelisted();
+  const isAddressWhitelisted = true;
 
   useEffect(() => {
     dispatch(actions.setIsAddressWhitelisted(isAddressWhitelisted));
@@ -162,7 +163,7 @@ export const PerpetualPageContainer: React.FC = () => {
               to="/perpetuals/competition"
               className="tw-mr-4 tw-text-black"
             >
-              {t(translations.competitionPage.nav.competition)}
+              {t(translations.competitionPage.nav.leaderboard)}
             </Link>
           }
         />
