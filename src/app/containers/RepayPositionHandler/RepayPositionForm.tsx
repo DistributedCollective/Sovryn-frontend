@@ -82,9 +82,10 @@ export const RepayPositionForm: React.FC<RepayPositionFormProps> = ({
     value: { isTinyPosition },
   } = useCloseWithDepositIsTinyPosition(loan.loanId, weiAmount);
 
-  const isLeavingTinyPosition = useMemo(() => {
-    return weiAmount !== '0' && isTinyPosition;
-  }, [isTinyPosition, weiAmount]);
+  const isLeavingTinyPosition = useMemo(
+    () => weiAmount !== '0' && isTinyPosition,
+    [isTinyPosition, weiAmount],
+  );
 
   return (
     <div className="tw-container tw-mx-auto tw-px-4 tw-relative">

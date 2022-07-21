@@ -5,15 +5,14 @@ type Response = {
   tinyPositionAmount: string;
 };
 
-export function useCloseWithDepositIsTinyPosition(
+export const useCloseWithDepositIsTinyPosition = (
   loanId: string,
   depositAmount: string,
-) {
-  return useCacheCallWithValue<Response>(
+) =>
+  useCacheCallWithValue<Response>(
     'sovrynProtocol',
     'checkCloseWithDepositIsTinyPosition',
     '0',
     loanId,
     depositAmount,
   );
-}
