@@ -11,13 +11,16 @@ import { useTranslation } from 'react-i18next';
 import { translations } from '../../../../../locales/i18n';
 import { useFetch } from '../../../../hooks/useFetch';
 import { Asset } from 'types';
-import { useGetTokenPrice } from 'app/hooks/useGetTokenPrice';
+import {
+  DenominationAsset,
+  useGetTokenPrice,
+} from 'app/hooks/useGetTokenPrice';
 
 export function InfoBar() {
   const { t } = useTranslation();
   const [btcToUsd, setBtcToUsd] = useState({ value: '0', loading: true });
 
-  const price = useGetTokenPrice(Asset.SOV, 'BTC');
+  const price = useGetTokenPrice(Asset.SOV, DenominationAsset.BTC);
 
   useEffect(() => {
     const run = async () => {
@@ -42,8 +45,6 @@ export function InfoBar() {
     graphWrapperUrl[currentChainId] + '/sov/circulating-supply',
     { circulating_supply: 0 },
   );
-
-  console.log('circulating_supply:', totalSupply);
 
   const marketCap = useMemo(() => {
     return (

@@ -115,7 +115,6 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
         cancelToken,
       })
       .then(res => {
-        console.log('pair:", res.data', res.data);
         setPairsData(res.data);
       })
       .catch(e => console.error(e))
