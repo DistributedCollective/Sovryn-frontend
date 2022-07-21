@@ -19,7 +19,7 @@ export const liquidityPools = [
     .map(item => item.poolTokenB),
 ];
 
-export const sumAmounts = (
+export const sumRewards = (
   items: (
     | StakeHistoryItemsFieldsFragment
     | RewardsEarnedHistoryItemsFieldsFragment
