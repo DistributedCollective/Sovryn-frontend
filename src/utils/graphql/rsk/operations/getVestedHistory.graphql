@@ -37,26 +37,3 @@ fragment VestedHistoryFields on VestingHistoryItem {
     id
   }
 }
-
-# query getVestedHistory($user: String, $skip: Int!, $pageSize: Int!) {
-#   stakeHistoryItems(
-#     first: $pageSize
-#     skip: $skip
-#     where: { user: $user, action_in: [Stake, IncreaseStake] }
-#     orderBy: timestamp
-#     orderDirection: desc
-#   ) {
-#     ...VestedHistoryFields
-#   }
-# }
-
-# fragment VestedHistoryFields on StakeHistoryItem {
-#   id
-#   action
-#   amount
-#   timestamp
-#   lockedUntil
-#   transaction {
-#     id
-#   }
-# }
