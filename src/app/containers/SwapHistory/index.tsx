@@ -85,7 +85,7 @@ export const SwapHistory: React.FC<ISwapHistoryProps> = ({ perPage = 6 }) => {
           currency => currency.asset === customData?.targetToken,
         );
 
-        const data: AssetRowData = {
+        const data: IAssetRowData = {
           status: item.status,
           timestamp: customData?.date,
           transactionHash: item.transactionHash,
@@ -192,7 +192,7 @@ export const SwapHistory: React.FC<ISwapHistoryProps> = ({ perPage = 6 }) => {
   );
 };
 
-interface AssetRowData {
+interface IAssetRowData {
   status?: TxStatus;
   timestamp: number;
   transactionHash: string;
@@ -201,7 +201,7 @@ interface AssetRowData {
 }
 
 interface IAssetProps {
-  data: AssetRowData;
+  data: IAssetRowData;
   itemFrom: AssetDetails;
   itemTo: AssetDetails;
 }
@@ -248,12 +248,12 @@ const AssetRow: React.FC<IAssetProps> = ({ data, itemFrom, itemTo }) => {
       </td>
       <td className="tw-hidden lg:tw-table-cell">
         <div>
-          {toNumberFormat(data.toAmount || 0, 4)}{' '}
+          {toNumberFormat(data.toAmount || 0, 8)}{' '}
           <AssetRenderer asset={itemTo.asset} />
         </div>
         ≈{' '}
         <LoadableValue
-          value={toNumberFormat(dollarValue, 2) || '0'}
+          value={`USD ${toNumberFormat(dollarValue, 2)}`}
           loading={dollars.loading}
         />
       </td>

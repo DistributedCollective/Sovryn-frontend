@@ -13,6 +13,7 @@ import { AssetDetails } from 'utils/models/asset-details';
 import iconSuccess from 'assets/images/icon-success.svg';
 import iconRejected from 'assets/images/icon-rejected.svg';
 import iconPending from 'assets/images/icon-pending.svg';
+import { AssetValue } from 'app/components/AssetValue';
 
 interface IAssetRowProps {
   status?: TxStatus;
@@ -73,12 +74,14 @@ export const AssetRow: React.FC<IAssetRowProps> = ({
         <AssetRenderer asset={assetFrom.asset} />
       </td>
       <td className="tw-hidden lg:tw-table-cell">
-        <div>{toNumberFormat(toAmount || 0, 4)}</div>≈{' '}
+        <AssetValue value={Number(toAmount || 0)} asset={assetTo.asset} />
+        <br />≈{' '}
         <LoadableValue
-          value={toNumberFormat(dollarValue, 2)}
+          value={`USD ${toNumberFormat(dollarValue, 2)}`}
           loading={dollarsLoading}
         />
       </td>
+
       <td>
         <div className="tw-flex tw-items-center tw-p-0">
           <div className="tw-w-32">
