@@ -15,6 +15,7 @@ import { isLongTrade } from '../../utils/marginUtils';
 import { AssetValue } from 'app/components/AssetValue';
 import { toWei } from 'utils/blockchain/math-helpers';
 import { MarginLoansFieldsFragment } from 'utils/graphql/rsk/generated';
+import { DEFAULT_TRADE } from '../../types';
 
 type ProfitContainerProps = {
   item: MarginLoansFieldsFragment;
@@ -34,7 +35,7 @@ export const ProfitContainer: React.FC<ProfitContainerProps> = ({
     collateralToken: { id: collateralTokenId },
   } = item;
 
-  const entryPrice = trade?.[0].entryPrice || '0';
+  const entryPrice = trade?.[0].entryPrice || DEFAULT_TRADE.entryPrice;
   const { isLong, loanToken, collateralToken } = useMemo(
     () => ({
       isLong: isLongTrade(position),

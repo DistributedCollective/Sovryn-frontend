@@ -29,6 +29,7 @@ import { useGetLoan } from 'app/hooks/trading/useGetLoan';
 import { toWei } from 'utils/blockchain/math-helpers';
 import { AssetValue } from 'app/components/AssetValue';
 import { MarginLoansFieldsFragment } from 'utils/graphql/rsk/generated';
+import { DEFAULT_TRADE } from '../../types';
 
 interface IAddToMarginDialogProps {
   item: MarginLoansFieldsFragment;
@@ -48,14 +49,13 @@ export const AddToMarginDialog: React.FC<IAddToMarginDialogProps> = ({
     loanToken: { id: loanTokenId },
     collateralToken: { id: collateralTokenId },
   } = item;
-  const entryLeverage = trade?.[0].entryLeverage || '1';
-  const positionSizeValue = trade?.[0].positionSize || '0';
+  const entryLeverage = trade?.[0].entryLeverage || DEFAULT_TRADE.entryLeverage;
+  const positionSizeValue =
+    trade?.[0].positionSize || DEFAULT_TRADE.positionSize;
   const tokenDetails = AssetsDictionary.getByTokenContractAddress(
-    collateralTokenId || '',
+    collateralTokenId,
   );
-  const loanToken = AssetsDictionary.getByTokenContractAddress(
-    loanTokenId || '',
-  );
+  const loanToken = AssetsDictionary.getByTokenContractAddress(loanTokenId);
   const [amount, setAmount] = useState('');
   const { value: balance } = useAssetBalanceOf(tokenDetails.asset);
   const weiAmount = useWeiAmount(amount);
@@ -99,7 +99,7 @@ export const AddToMarginDialog: React.FC<IAddToMarginDialogProps> = ({
   );
 
   const liquidationPrice = usePositionLiquidationPrice(
-    loan ? loan.principal : '0',
+    loan ? loan.principal : DEFAULT_TRADE.loanPrincipal,
     positionSize,
     isLong ? TradingPosition.LONG : TradingPosition.SHORT,
     MAINTENANCE_MARGIN,

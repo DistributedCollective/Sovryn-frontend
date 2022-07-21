@@ -17,6 +17,7 @@ import { PositionEventsTable } from '../PositionEventsTable';
 import { AssetValue } from 'app/components/AssetValue';
 import { toWei } from 'utils/blockchain/math-helpers';
 import { MarginLoansFieldsFragment } from 'utils/graphql/rsk/generated';
+import { DEFAULT_TRADE } from '../../types';
 
 type ClosedPositionRowProps = {
   event: MarginLoansFieldsFragment;
@@ -34,10 +35,10 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
     liquidates,
     closeWithSwaps,
   } = event;
-  const entryLeverage = trade?.[0].entryLeverage || '1';
-  const positionSize = trade?.[0].positionSize || '0';
-  const entryPrice = trade?.[0].entryPrice || '0';
-  const transaction = trade?.[0].transaction.id || '';
+  const entryLeverage = trade?.[0].entryLeverage || DEFAULT_TRADE.entryLeverage;
+  const positionSize = trade?.[0].positionSize || DEFAULT_TRADE.positionSize;
+  const entryPrice = trade?.[0].entryPrice || DEFAULT_TRADE.entryPrice;
+  const transaction = trade?.[0].transaction.id || DEFAULT_TRADE.transactionId;
   const loanAsset = assetByTokenAddress(loanTokenId);
   const collateralAsset = assetByTokenAddress(collateralTokenId);
   const pair = TradingPairDictionary.findPair(loanAsset, collateralAsset);

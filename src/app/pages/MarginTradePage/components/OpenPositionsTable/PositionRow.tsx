@@ -24,6 +24,7 @@ import { toWei, weiTo18 } from 'utils/blockchain/math-helpers';
 import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
 import { AssetValue } from 'app/components/AssetValue';
 import { MarginLoansFieldsFragment } from 'utils/graphql/rsk/generated';
+import { DEFAULT_TRADE } from '../../types';
 
 type PositionRowProps = {
   event: MarginLoansFieldsFragment;
@@ -36,10 +37,10 @@ export const PositionRow: React.FC<PositionRowProps> = ({ event }) => {
   const [showDetails, setShowDetails] = useState(false);
   const { id, trade, loanToken, nextRollover, collateralToken } = event;
 
-  const entryLeverage = trade?.[0].entryLeverage || '1';
-  const interestRate = trade?.[0].interestRate || '0';
-  const entryPrice = trade?.[0].entryPrice || '0';
-  const transaction = trade?.[0].transaction.id || '';
+  const entryLeverage = trade?.[0].entryLeverage || DEFAULT_TRADE.entryLeverage;
+  const interestRate = trade?.[0].interestRate || DEFAULT_TRADE.interestRate;
+  const entryPrice = trade?.[0].entryPrice || DEFAULT_TRADE.entryPrice;
+  const transaction = trade?.[0].transaction.id || DEFAULT_TRADE.transactionId;
   const { checkMaintenances, States } = useMaintenance();
   const {
     [States.CLOSE_MARGIN_TRADES]: closeTradesLocked,
@@ -75,15 +76,15 @@ export const PositionRow: React.FC<PositionRowProps> = ({ event }) => {
   }, [id, getLoan]);
 
   const principal = useMemo(() => {
-    return loan ? loan.principal : '0';
+    return loan ? loan.principal : DEFAULT_TRADE.loanPrincipal;
   }, [loan]);
 
   const currentMargin = useMemo(() => {
-    return loan ? loan.currentMargin : '0';
+    return loan ? loan.currentMargin : DEFAULT_TRADE.loanCurrentMargin;
   }, [loan]);
 
   const positionSize = useMemo(() => {
-    return loan ? weiTo18(loan.collateral) : '0';
+    return loan ? weiTo18(loan.collateral) : DEFAULT_TRADE.loanCollateral;
   }, [loan]);
 
   const liquidationPrice = usePositionLiquidationPrice(

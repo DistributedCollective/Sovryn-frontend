@@ -39,6 +39,9 @@ import { MARGIN_SLIPPAGE_DEFAULT } from '../../types';
 import { LabelValuePair } from 'app/components/LabelValuePair';
 import { AssetValue } from 'app/components/AssetValue';
 import { MarginLoansFieldsFragment } from 'utils/graphql/rsk/generated';
+import { DEFAULT_TRADE } from '../../types';
+
+const minimumAmount = '1';
 
 interface IClosePositionDialogProps {
   item: MarginLoansFieldsFragment;
@@ -72,8 +75,8 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
     loanToken: { id: loanTokenId },
     collateralToken: { id: collateralTokenId },
   } = item;
-  const entryLeverage = trade?.[0].entryLeverage || '1';
-  const positionSize = trade?.[0].positionSize || '0';
+  const entryLeverage = trade?.[0].entryLeverage || DEFAULT_TRADE.entryLeverage;
+  const positionSize = trade?.[0].positionSize || DEFAULT_TRADE.positionSize;
   const [collateral, setCollateral] = useState(
     assetByTokenAddress(collateralTokenId),
   );
@@ -86,11 +89,9 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
 
   const maxAmount = bignumber(positionSize).div(leverage).toFixed(0);
   const sourceToken = AssetsDictionary.getByTokenContractAddress(
-    collateralTokenId || '',
+    collateralTokenId,
   );
-  const targetToken = AssetsDictionary.getByTokenContractAddress(
-    loanTokenId || '',
-  );
+  const targetToken = AssetsDictionary.getByTokenContractAddress(loanTokenId);
   const options = useMemo(() => getOptions(collateralTokenId, loanTokenId), [
     collateralTokenId,
     loanTokenId,
@@ -129,7 +130,7 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
       ? TradingPosition.LONG
       : TradingPosition.SHORT;
 
-  const valid = useIsAmountWithinLimits(weiAmount, '1', positionSize);
+  const valid = useIsAmountWithinLimits(weiAmount, minimumAmount, positionSize);
 
   const { value, loading: loadingValue, error } = useCacheCallWithValue<{
     withdrawAmount: string;
