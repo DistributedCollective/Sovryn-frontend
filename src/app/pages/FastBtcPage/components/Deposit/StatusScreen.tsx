@@ -16,6 +16,7 @@ import { StatusComponent } from 'app/components/Dialogs/StatusComponent';
 import { Chain } from 'types';
 import { Button, ButtonColor, ButtonSize } from 'app/components/Button';
 import { AssetValue } from 'app/components/AssetValue';
+import i18next from 'i18next';
 
 export const StatusScreen: React.FC<NetworkAwareComponentProps> = ({
   network,
@@ -168,7 +169,7 @@ export const StatusScreen: React.FC<NetworkAwareComponentProps> = ({
               tOptions={{ hours: 1.5 }}
               components={[
                 <a
-                  href={CREATE_TICKET_LINK}
+                  href={CREATE_TICKET_LINK + i18next.language}
                   target="_blank"
                   rel="noreferrer noopener"
                 >

@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { CREATE_TICKET_LINK } from 'utils/classifiers';
+import i18next from 'i18next';
 
 export const WithdrawInstructions: React.FC = () => {
   const { t } = useTranslation();
@@ -33,7 +34,7 @@ export const WithdrawInstructions: React.FC = () => {
             tOptions={{ hours: 1.5 }}
             components={[
               <a
-                href={CREATE_TICKET_LINK}
+                href={CREATE_TICKET_LINK + i18next.language}
                 target="_blank"
                 rel="noreferrer noopener"
               >
