@@ -6,7 +6,6 @@ import type { AmmHistory, ChartData } from './types';
 import ComparisonChart from 'app/components/FinanceV2Components/ComparisonChart';
 import { getAssetColor } from 'app/components/FinanceV2Components/utils/getAssetColor';
 import type { AmmLiquidityPool } from 'utils/models/amm-liquidity-pool';
-import { uniqBy } from 'utils/helpers';
 
 interface IPoolChartProps {
   pool: AmmLiquidityPool;
@@ -25,12 +24,14 @@ export function PoolChart({ pool, history }: IPoolChartProps) {
     if (history?.data && history?.balanceHistory && pool) {
       const { poolTokenA, poolTokenB } = pool;
 
-      const primaryAssetData: ChartData = uniqBy(
-        history.data[poolTokenA],
-        'activity_date',
-      )?.map(i => [Date.parse(i.activity_date), Number(i.APY_pc)]);
+      const primaryAssetData: ChartData = history.data[poolTokenA]?.map(i => [
+        Date.parse(i.activity_date),
+        Number(i.APY_pc),
+      ]);
 
-      setPrimaryAssetHistory(primaryAssetData);
+      setPrimaryAssetHistory(
+        primaryAssetData.sort((a, b) => (a[0] - b[0] > 0 ? 1 : -1)),
+      );
 
       //only use secondary asset data for v2 pools, as v1 pools are 50/50 and have same APY for both sides
       if (
@@ -38,18 +39,19 @@ export function PoolChart({ pool, history }: IPoolChartProps) {
         poolTokenB &&
         history.data[poolTokenB]
       ) {
-        const secondaryAssetData: ChartData = uniqBy(
-          history.data[poolTokenB],
-          'activity_date',
-        )?.map(i => [Date.parse(i.activity_date), Number(i.APY_pc)]);
+        const secondaryAssetData: ChartData = history.data[
+          poolTokenB
+        ]?.map(i => [Date.parse(i.activity_date), Number(i.APY_pc)]);
 
-        setSecondaryAssetHistory(secondaryAssetData);
+        setSecondaryAssetHistory(
+          secondaryAssetData.sort((a, b) => (a[0] - b[0] > 0 ? 1 : -1)),
+        );
       }
-      const total: ChartData = uniqBy(
-        history.balanceHistory,
-        'activity_date',
-      )?.map(i => [Date.parse(i.activity_date), i.balance_btc / 1e8]);
-      setTotalHistory(total);
+      const total: ChartData = history.balanceHistory?.map(i => [
+        Date.parse(i.activity_date),
+        Number(i.balance_btc),
+      ]);
+      setTotalHistory(total.sort((a, b) => (a[0] - b[0] > 0 ? 1 : -1)));
     }
   }, [history, pool]);
 
