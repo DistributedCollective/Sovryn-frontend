@@ -2423,7 +2423,11 @@
         "confirmMulit": "Please confirm transaction {{current}} of {{count}} in your {{wallet}} wallet",
         "error": "Your transaction has failed due to <0>{{error}}</0> Your position has not been opened",
         "rejected": "The transaction request was rejected",
-        "cancelOrRetry": "Please cancel or retry your transaction"
+        "cancelOrRetry": "Please cancel or retry your transaction",
+        "failReasons": {
+          "insufficientUserFunds": "You do not have enough balance to pay the gas for this transaction",
+          "unknown": "An unknown error has occurred"
+        }
       },
       "labels": {
         "approvalTx": "Approval Tx ID:",
@@ -2784,21 +2788,25 @@
   },
   "competitionPage": {
     "meta": {
-      "title": "Trading Competition",
+      "title": "Trade Ranking",
       "description": ""
     },
     "nav": {
       "perpetualSwap": "Perpetuals",
+      "leaderboard": "Leaderboard",
       "competition": "Competition"
     },
     "rules": {
-      "title": "Trading Competition",
-      "reportBugs": "Please report bugs and issues here!"
+      "title": "Trade Ranking",
+      "reportBugs": "Please report bugs and issues here!",
+      "prizeDistribution": "The total prize money is 0.5 BTC plus a share of the profit/loss that the AMM incurs during the competition. Prize money is paid to top 3 traders and distributed in relation to their P&L.",
+      "welcomeMessage": "To start trading, navigate to <0>the Perpetuals page</0>, connect your wallet, fund it and trade."
     },
     "registered": "You are registered! If you require some help, please click on the help button in the top right or post a message on our <0>discord</0>.",
     "cta": {
       "connect": "Connect Wallet",
-      "compete": "Compete"
+      "enter": "Enter Leaderboard",
+      "compete": "Trade"
     },
     "table": {
       "rank": "Rank",
@@ -2806,7 +2814,23 @@
       "positions": "Positions opened",
       "trade": "Current trade",
       "total": "Total P/L",
+      "potentialPrize": "Potential Prize",
       "empty": "No one registered yet. You could be the first!"
+    },
+    "join": {
+      "title": "Enter Competition",
+      "pseudonym": "Pseudonym (Optional):",
+      "pseudonymPlaceholder": "Enter Pseudonym",
+      "wallet": "Wallet Address:",
+      "conditions": "I agree to the Perp Swaps trading competition's terms and condition",
+      "cta": "Confirm"
+    },
+    "countdown": {
+      "days": "days",
+      "hours": "hours",
+      "minutes": "minutes",
+      "seconds": "seconds",
+      "label": "Time until end:"
     }
   }
 }

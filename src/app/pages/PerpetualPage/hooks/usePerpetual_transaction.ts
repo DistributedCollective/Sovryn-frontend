@@ -18,6 +18,7 @@ import {
 import { useAccount } from '../../../hooks/useAccount';
 import { TxType } from '../../../../store/global/transactions-store/types';
 import { gasLimit } from '../../../../utils/classifiers';
+import { bridgeNetwork } from 'app/pages/BridgeDepositPage/utils/bridge-network';
 
 const PerpetualTxMethodMap: { [key in PerpetualTxMethod]: string } = {
   [PerpetualTxMethod.trade]: 'trade',
@@ -71,12 +72,16 @@ export const usePerpetual_transaction = (
 
       const txType: TxType = PerpetualTxMethodTypeMap[transaction.method];
 
+      const gasPrice = await bridgeNetwork
+        .getNode(PERPETUAL_CHAIN)
+        .getGasPrice();
+
       return send(
         await perpetualTransactionArgs(pair, account, transaction),
         {
           from: account,
           gas: gasLimit[txType],
-          gasPrice: PERPETUAL_GAS_PRICE_DEFAULT,
+          gasPrice: gasPrice || PERPETUAL_GAS_PRICE_DEFAULT,
           nonce: nonce,
         },
         {
