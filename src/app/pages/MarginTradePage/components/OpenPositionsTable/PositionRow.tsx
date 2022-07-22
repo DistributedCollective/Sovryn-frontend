@@ -50,11 +50,13 @@ export const PositionRow: React.FC<PositionRowProps> = ({ event }) => {
   const loanAsset = assetByTokenAddress(loanToken.id);
   const collateralAsset = assetByTokenAddress(collateralToken.id);
   const pair = TradingPairDictionary.findPair(loanAsset, collateralAsset);
-  const position = useMemo(() => {
-    return pair.longAsset === loanAsset
-      ? TradingPosition.LONG
-      : TradingPosition.SHORT;
-  }, [loanAsset, pair]);
+  const position = useMemo(
+    () =>
+      pair.longAsset === loanAsset
+        ? TradingPosition.LONG
+        : TradingPosition.SHORT,
+    [loanAsset, pair],
+  );
 
   const isLong = useMemo(() => isLongTrade(position), [position]);
   const leverage = useMemo(() => Number(entryLeverage) + 1, [entryLeverage]);
@@ -75,17 +77,18 @@ export const PositionRow: React.FC<PositionRowProps> = ({ event }) => {
     getLoan(id);
   }, [id, getLoan]);
 
-  const principal = useMemo(() => {
-    return loan ? loan.principal : DEFAULT_TRADE.loanPrincipal;
-  }, [loan]);
-
-  const currentMargin = useMemo(() => {
-    return loan ? loan.currentMargin : DEFAULT_TRADE.loanCurrentMargin;
-  }, [loan]);
-
-  const positionSize = useMemo(() => {
-    return loan ? weiTo18(loan.collateral) : DEFAULT_TRADE.loanCollateral;
-  }, [loan]);
+  const principal = useMemo(
+    () => (loan ? loan.principal : DEFAULT_TRADE.loanPrincipal),
+    [loan],
+  );
+  const currentMargin = useMemo(
+    () => (loan ? loan.currentMargin : DEFAULT_TRADE.loanCurrentMargin),
+    [loan],
+  );
+  const positionSize = useMemo(
+    () => (loan ? weiTo18(loan.collateral) : DEFAULT_TRADE.loanCollateral),
+    [loan],
+  );
 
   const liquidationPrice = usePositionLiquidationPrice(
     principal,
