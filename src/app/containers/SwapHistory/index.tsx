@@ -1,12 +1,7 @@
-import { bignumber } from 'mathjs';
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
-import { LinkToExplorer } from 'app/components/LinkToExplorer';
-import iconPending from 'assets/images/icon-pending.svg';
-import iconRejected from 'assets/images/icon-rejected.svg';
-import iconSuccess from 'assets/images/icon-success.svg';
 import { selectTransactionArray } from 'store/global/transactions-store/selectors';
 import { TxStatus, TxType } from 'store/global/transactions-store/types';
 import { getContractNameByAddress } from 'utils/blockchain/contract-helpers';
@@ -16,17 +11,11 @@ import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import { AssetDetails } from 'utils/models/asset-details';
 
 import { translations } from '../../../locales/i18n';
-import { Asset } from '../../../types';
-import { DisplayDate } from '../../components/ActiveUserLoanContainer/components/DisplayDate';
-import { AssetRenderer } from '../../components/AssetRenderer';
-import { LoadableValue } from '../../components/LoadableValue';
 import { Pagination } from '../../components/Pagination';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
-import { useCachedAssetPrice } from '../../hooks/trading/useCachedAssetPrice';
 import { useAccount } from '../../hooks/useAccount';
-import { Nullable } from 'types';
 import { useGetSwapHistoryQuery } from 'utils/graphql/rsk/generated';
-import { toNumberFormat } from 'utils/display-text/format';
+import { AssetRow, IAssetRowData } from './components/AssetRow';
 
 interface ISwapHistoryProps {
   perPage?: number;
@@ -58,7 +47,7 @@ export const SwapHistory: React.FC<ISwapHistoryProps> = ({ perPage = 6 }) => {
     }));
   }, [data, loading]);
 
-  const onPageChanged = data => setPage(data.currentPage);
+  const onPageChanged = useCallback(data => setPage(data.currentPage), []);
 
   const items = useMemo(
     () => history.slice(page * perPage - perPage, page * perPage),
@@ -189,119 +178,5 @@ export const SwapHistory: React.FC<ISwapHistoryProps> = ({ perPage = 6 }) => {
         )}
       </div>
     </section>
-  );
-};
-
-interface IAssetRowData {
-  status?: TxStatus;
-  timestamp: number;
-  transactionHash: string;
-  fromAmount: string;
-  toAmount: Nullable<string>;
-}
-
-interface IAssetProps {
-  data: IAssetRowData;
-  itemFrom: AssetDetails;
-  itemTo: AssetDetails;
-}
-
-const AssetRow: React.FC<IAssetProps> = ({ data, itemFrom, itemTo }) => {
-  const { t } = useTranslation();
-  const dollars = useCachedAssetPrice(itemTo.asset, Asset.USDT);
-  const dollarValue = useMemo(() => {
-    if (data.toAmount === null) return '';
-    return bignumber(data.toAmount)
-      .mul(dollars.value)
-      .div(10 ** itemTo.decimals)
-      .toFixed(0);
-  }, [dollars.value, data.toAmount, itemTo.decimals]);
-
-  return (
-    <tr>
-      <td className="tw-hidden lg:tw-table-cell">
-        <DisplayDate
-          timestamp={new Date(data.timestamp).getTime().toString()}
-        />
-      </td>
-      <td className="tw-hidden lg:tw-table-cell">
-        <img
-          className="tw-hidden lg:tw-inline tw-mr-1"
-          style={{ height: '29px' }}
-          src={itemFrom.logoSvg}
-          alt={itemFrom.asset}
-        />{' '}
-        <AssetRenderer asset={itemFrom.asset} />
-      </td>
-      <td>
-        {toNumberFormat(data.fromAmount, 4)}{' '}
-        <AssetRenderer asset={itemFrom.asset} />
-      </td>
-      <td>
-        <img
-          className="lg:tw-inline tw-mr-1"
-          style={{ height: '29px' }}
-          src={itemTo.logoSvg}
-          alt={itemTo.asset}
-        />{' '}
-        <AssetRenderer asset={itemTo.asset} />
-      </td>
-      <td className="tw-hidden lg:tw-table-cell">
-        <div>
-          {toNumberFormat(data.toAmount || 0, 8)}{' '}
-          <AssetRenderer asset={itemTo.asset} />
-        </div>
-        ≈{' '}
-        <LoadableValue
-          value={`USD ${toNumberFormat(dollarValue, 2)}`}
-          loading={dollars.loading}
-        />
-      </td>
-      <td className="sm:tw-w-48">
-        <div className="tw-flex tw-items-center tw-justify-between tw-p-0">
-          <div>
-            {!data.status && (
-              <p className="tw-m-0">{t(translations.common.confirmed)}</p>
-            )}
-            {data.status === TxStatus.FAILED && (
-              <p className="tw-m-0">{t(translations.common.failed)}</p>
-            )}
-            {data.status === TxStatus.PENDING && (
-              <p className="tw-m-0">{t(translations.common.pending)}</p>
-            )}
-            <LinkToExplorer
-              txHash={data.transactionHash}
-              className="tw-text-primary tw-font-normal tw-whitespace-nowrap"
-              startLength={5}
-              endLength={5}
-            />
-          </div>
-          <div className="tw-hidden sm:tw-block lg:tw-hidden xl:tw-block">
-            {!data.status && (
-              <img
-                src={iconSuccess}
-                title={t(translations.common.confirmed)}
-                alt={t(translations.common.confirmed)}
-              />
-            )}
-            {data.status === TxStatus.FAILED && (
-              <img
-                src={iconRejected}
-                title={t(translations.common.failed)}
-                alt={t(translations.common.failed)}
-              />
-            )}
-            {data.status === TxStatus.PENDING && (
-              <img
-                className="tw-animate-spin"
-                src={iconPending}
-                title={t(translations.common.pending)}
-                alt={t(translations.common.pending)}
-              />
-            )}
-          </div>
-        </div>
-      </td>
-    </tr>
   );
 };

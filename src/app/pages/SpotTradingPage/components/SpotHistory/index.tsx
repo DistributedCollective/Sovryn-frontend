@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { APOLLO_POLL_INTERVAL } from 'utils/classifiers';
@@ -56,7 +56,7 @@ export const SpotHistory: React.FC<ISpotHistoryProps> = ({ perPage = 6 }) => {
       .filter(item => item);
   }, [data, loading]);
 
-  const onPageChanged = data => setPage(data.currentPage);
+  const onPageChanged = useCallback(data => setPage(data.currentPage), []);
 
   const items = useMemo(
     () => history.slice(page * perPage - perPage, page * perPage),
@@ -135,7 +135,9 @@ export const SpotHistory: React.FC<ISpotHistoryProps> = ({ perPage = 6 }) => {
             )}
             {onGoingTransactions}
             {items.map(item => {
-              if (!item) return null;
+              if (!item) {
+                return null;
+              }
               return <AssetRow key={item?.transactionHash} {...item} />;
             })}
           </tbody>
