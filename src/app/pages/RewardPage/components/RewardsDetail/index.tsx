@@ -86,13 +86,13 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
               bignumber(availableAmount).greaterThan(0) ? (
                 <Tooltip content={`${availableAmount} ${asset}`}>
                   <>
-                    {showApproximateSign && '≈ '}
                     <AssetValue
                       value={Number(availableAmount)}
                       minDecimals={6}
                       maxDecimals={6}
                       assetString={asset}
                       mode={AssetValueMode.auto}
+                      isApproximation={showApproximateSign}
                     />
                   </>
                 </Tooltip>
@@ -113,13 +113,13 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
             bignumber(totalEarnedAmount).greaterThan(0) ? (
               <Tooltip content={`${totalEarnedAmount} ${asset}`}>
                 <>
-                  {showApproximateSign && '≈ '}
                   <AssetValue
                     value={Number(totalEarnedAmount)}
                     minDecimals={6}
                     maxDecimals={6}
                     assetString={asset}
                     mode={AssetValueMode.auto}
+                    isApproximation={showApproximateSign}
                   />
                 </>
               </Tooltip>
