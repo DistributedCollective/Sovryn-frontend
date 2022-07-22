@@ -15,6 +15,7 @@ import iconRejected from 'assets/images/icon-rejected.svg';
 import iconPending from 'assets/images/icon-pending.svg';
 import { AssetValue } from 'app/components/AssetValue';
 import { Nullable } from 'types';
+import { AssetValueMode } from 'app/components/AssetValue/types';
 
 interface IAssetRowProps {
   status?: TxStatus;
@@ -76,12 +77,18 @@ export const AssetRow: React.FC<IAssetRowProps> = ({
       <td>
         <AssetValue
           value={Number(fromAmount)}
-          minDecimals={4}
+          maxDecimals={8}
+          mode={AssetValueMode.auto}
           asset={assetFrom.asset}
         />
       </td>
       <td className="tw-hidden lg:tw-table-cell">
-        <AssetValue value={Number(toAmount || 0)} asset={assetTo.asset} />
+        <AssetValue
+          value={Number(toAmount || 0)}
+          asset={assetTo.asset}
+          maxDecimals={8}
+          mode={AssetValueMode.auto}
+        />
         <br />≈{' '}
         <LoadableValue
           value={`USD ${toNumberFormat(dollarValue, 2)}`}

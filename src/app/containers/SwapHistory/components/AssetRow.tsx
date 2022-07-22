@@ -18,6 +18,7 @@ import { Nullable } from 'types';
 import { toNumberFormat } from 'utils/display-text/format';
 import { useDollarValue } from 'app/hooks/useDollarValue';
 import { AssetValue } from 'app/components/AssetValue';
+import { AssetValueMode } from 'app/components/AssetValue/types';
 
 export interface IAssetRowData {
   status?: TxStatus;
@@ -57,7 +58,8 @@ export const AssetRow: React.FC<IAssetProps> = ({ data, itemFrom, itemTo }) => {
       <td>
         <AssetValue
           value={Number(data.fromAmount)}
-          minDecimals={4}
+          maxDecimals={8}
+          mode={AssetValueMode.auto}
           asset={itemFrom.asset}
         />
       </td>
@@ -74,7 +76,8 @@ export const AssetRow: React.FC<IAssetProps> = ({ data, itemFrom, itemTo }) => {
         <div>
           <AssetValue
             value={Number(data.toAmount)}
-            minDecimals={8}
+            maxDecimals={8}
+            mode={AssetValueMode.auto}
             asset={itemTo.asset}
           />
         </div>
