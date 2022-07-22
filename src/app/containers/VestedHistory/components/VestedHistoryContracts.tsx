@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import logoSvg from 'assets/images/tokens/sov.svg';
 import { translations } from 'locales/i18n';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { Asset } from 'types/asset';
@@ -12,6 +11,7 @@ import { AssetValue } from 'app/components/AssetValue';
 import { AssetValueMode } from 'app/components/AssetValue/types';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { VestedHistoryTable } from './VestedHistoryTable';
+import { getAsset } from '../utils';
 
 interface IVestedHistoryContractsProps {
   events: VestedContractFieldsFragment;
@@ -21,9 +21,9 @@ export const VestedHistoryContracts: React.FC<IVestedHistoryContractsProps> = ({
   events,
 }) => {
   const { t } = useTranslation();
-  const { stakeHistory, type, startingBalance, createdAtTransaction } = events;
+  const { stakeHistory, type, currentBalance, createdAtTransaction } = events;
   const [showDetails, setShowDetails] = useState(false);
-  const dollarValue = useDollarValue(Asset.SOV, startingBalance || '0');
+  const dollarValue = useDollarValue(Asset.SOV, currentBalance || '0');
 
   return (
     <>
@@ -31,7 +31,11 @@ export const VestedHistoryContracts: React.FC<IVestedHistoryContractsProps> = ({
         <td className="tw-text-left tw-font-normal tw-tracking-normal">
           <div className="assetname tw-flex tw-items-center">
             <div>
-              <img src={logoSvg} className="tw-mr-3" alt="SOV" />
+              <img
+                src={getAsset(type).logoSvg}
+                className="tw-mr-3"
+                alt={getAsset(type).name}
+              />
             </div>
             <div className="tw-text-sm tw-font-normal tw-hidden xl:tw-block tw-pl-3">
               {type}
@@ -40,8 +44,8 @@ export const VestedHistoryContracts: React.FC<IVestedHistoryContractsProps> = ({
         </td>
         <td className="tw-text-left tw-font-normal tw-tracking-normal">
           <AssetValue
-            asset={Asset.SOV}
-            value={Number(startingBalance)}
+            asset={getAsset(type).asset}
+            value={Number(currentBalance)}
             useTooltip
             mode={AssetValueMode.auto}
             maxDecimals={8}

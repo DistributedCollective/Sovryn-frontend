@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import logoSvg from 'assets/images/tokens/sov.svg';
 import { translations } from 'locales/i18n';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { Asset } from 'types/asset';
@@ -14,6 +13,7 @@ import { useDollarValue } from 'app/hooks/useDollarValue';
 import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
 import { AssetValue } from 'app/components/AssetValue';
 import { AssetValueMode } from 'app/components/AssetValue/types';
+import { getAsset } from '../utils';
 
 interface IVestedHistoryRowProps {
   event: VestedHistoryFieldsFragment;
@@ -39,7 +39,11 @@ export const VestedHistoryRow: React.FC<IVestedHistoryRowProps> = ({
       <td className="tw-text-left tw-font-normal tw-tracking-normal">
         <div className="assetname tw-flex tw-items-center">
           <div>
-            <img src={logoSvg} className="tw-mr-3" alt="SOV" />
+            <img
+              src={getAsset(type).logoSvg}
+              className="tw-mr-3"
+              alt={getAsset(type).name}
+            />
           </div>
           <div className="tw-text-sm tw-font-normal tw-hidden xl:tw-block tw-pl-3">
             {type}
@@ -48,7 +52,7 @@ export const VestedHistoryRow: React.FC<IVestedHistoryRowProps> = ({
       </td>
       <td className="tw-text-left tw-font-normal tw-tracking-normal">
         <AssetValue
-          asset={Asset.SOV}
+          asset={getAsset(type).asset}
           value={Number(amount)}
           useTooltip
           mode={AssetValueMode.auto}
