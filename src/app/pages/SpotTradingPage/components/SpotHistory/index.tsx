@@ -34,7 +34,9 @@ export const SpotHistory: React.FC<ISpotHistoryProps> = ({ perPage = 6 }) => {
   });
 
   const history = useMemo(() => {
-    if (loading || !data) return [];
+    if (loading || !data) {
+      return [];
+    }
 
     return data.swaps
       .map(item => {
@@ -43,7 +45,9 @@ export const SpotHistory: React.FC<ISpotHistoryProps> = ({ perPage = 6 }) => {
           item.toToken.id,
         );
 
-        if (!assetFrom || !assetTo) return null;
+        if (!assetFrom || !assetTo) {
+          return null;
+        }
         return {
           toAmount: item.toAmount,
           fromAmount: item.fromAmount,
@@ -79,7 +83,9 @@ export const SpotHistory: React.FC<ISpotHistoryProps> = ({ perPage = 6 }) => {
         const assetTo = assets.find(
           currency => currency.asset === customData?.targetToken,
         );
-        if (!assetFrom || !assetTo) return null;
+        if (!assetFrom || !assetTo) {
+          return null;
+        }
 
         const data = {
           status: item.status,

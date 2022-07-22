@@ -35,7 +35,9 @@ export const SwapHistory: React.FC<ISwapHistoryProps> = ({ perPage = 6 }) => {
   });
 
   const history = useMemo(() => {
-    if (loading || !data) return [];
+    if (loading || !data) {
+      return [];
+    }
 
     return data.swaps.map(item => ({
       fromToken: item.fromToken.id,
