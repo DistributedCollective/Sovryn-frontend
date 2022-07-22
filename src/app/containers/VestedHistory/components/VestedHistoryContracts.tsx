@@ -23,7 +23,10 @@ export const VestedHistoryContracts: React.FC<IVestedHistoryContractsProps> = ({
   const { t } = useTranslation();
   const { stakeHistory, type, currentBalance, createdAtTransaction } = events;
   const [showDetails, setShowDetails] = useState(false);
-  const dollarValue = useDollarValue(Asset.SOV, currentBalance || '0');
+  const dollarValue = useDollarValue(
+    getAsset(type).asset,
+    currentBalance || '0',
+  );
 
   return (
     <>

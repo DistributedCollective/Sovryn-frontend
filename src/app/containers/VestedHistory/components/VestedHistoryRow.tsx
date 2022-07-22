@@ -29,7 +29,7 @@ export const VestedHistoryRow: React.FC<IVestedHistoryRowProps> = ({
   const stakeTime = useMemo(() => new Date(timestamp).getTime().toString(), [
     timestamp,
   ]);
-  const dollarValue = useDollarValue(Asset.SOV, amount || '0');
+  const dollarValue = useDollarValue(getAsset(type).asset, amount || '0');
 
   return (
     <tr>
