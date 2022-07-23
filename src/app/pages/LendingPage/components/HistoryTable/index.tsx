@@ -1,14 +1,12 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
 import axios, { CancelTokenSource } from 'axios';
 
-import { backendUrl, currentChainId } from 'utils/classifiers';
+import { backendUrl, currentChainId, PAGE_SIZE } from 'utils/classifiers';
 import { useAccount, useBlockSync } from 'app/hooks/useAccount';
 import { TableBody } from './TableBody';
 import { TableHeader } from './TableHeader';
 import { Pagination } from 'app/components/Pagination';
 import { LendingEvent } from '../../types';
-
-const pageSize = 6;
 
 export const HistoryTable: React.FC = () => {
   const account = useAccount();
@@ -27,13 +25,13 @@ export const HistoryTable: React.FC = () => {
 
     cancelTokenSource.current = axios.CancelToken.source();
     axios
-      .get(`${url}/events/lend/${account}?page=${page}&pageSize=${pageSize}`, {
+      .get(`${url}/events/lend/${account}?page=${page}&pageSize=${PAGE_SIZE}`, {
         cancelToken: cancelTokenSource.current.token,
       })
       .then(res => {
         const { events, pagination } = res.data;
         setHistory(events || []);
-        setTotal(pagination.totalPages * pageSize);
+        setTotal(pagination.totalPages * PAGE_SIZE);
         setLoading(false);
       })
       .catch(e => {
@@ -71,7 +69,7 @@ export const HistoryTable: React.FC = () => {
         {total > 0 && (
           <Pagination
             totalRecords={total}
-            pageLimit={pageSize}
+            pageLimit={PAGE_SIZE}
             pageNeighbours={1}
             onChange={onPageChanged}
           />
