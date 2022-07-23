@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { LoadableValue } from 'app/components/LoadableValue';
-import { Asset } from 'types/asset';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
 import { Icon } from 'app/components/Icon';
 import { VestedContractFieldsFragment } from 'utils/graphql/rsk/generated';
