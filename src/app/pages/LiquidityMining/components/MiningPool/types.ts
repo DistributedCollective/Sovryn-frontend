@@ -4,9 +4,9 @@ export type ChartData = ChartDatum[];
 export type PoolData = {
   pool_token: string;
   activity_date: string;
-  APY_fees_pc: number;
-  APY_rewards_pc: number;
-  APY_pc: number;
+  APY_fees_pc: string;
+  APY_rewards_pc: string;
+  APY_pc: string;
 };
 
 export type PoolBalanceData = {

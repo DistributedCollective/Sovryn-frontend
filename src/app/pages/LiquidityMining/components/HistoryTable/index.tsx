@@ -1,83 +1,61 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
-import axios, { CancelTokenSource } from 'axios';
+import React, { useState, useCallback, useMemo } from 'react';
 
-import { backendUrl, currentChainId } from 'utils/classifiers';
 import { useAccount } from 'app/hooks/useAccount';
 import { TableBody } from './TableBody';
 import { TableHeader } from './TableHeader';
 import { Pagination } from 'app/components/Pagination';
-import { LiquidityMiningEvent, LiquidityMiningHistory } from './types';
-
-const pageSize = 6;
+import { useGetLiquidityHistoryQuery } from 'utils/graphql/rsk/generated';
+import { LiquidityPoolDictionary } from 'utils/dictionaries/liquidity-pool-dictionary';
+import { APOLLO_POLL_INTERVAL, PAGE_SIZE } from 'utils/classifiers';
 
 export const HistoryTable: React.FC = () => {
   const account = useAccount();
-  const url = backendUrl[currentChainId];
-  const [history, setHistory] = useState<LiquidityMiningEvent[]>([]);
-  const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
-  const [total, setTotal] = useState(0);
-
-  let cancelTokenSource = useRef<CancelTokenSource>();
-  const getData = useCallback(() => {
-    if (cancelTokenSource.current) {
-      cancelTokenSource.current.cancel();
-    }
-
-    cancelTokenSource.current = axios.CancelToken.source();
-    axios
-      .get<LiquidityMiningHistory>(
-        `${url}/liquidity-history/${account}?page=${page}&pageSize=${pageSize}`,
-        {
-          cancelToken: cancelTokenSource.current.token,
-        },
-      )
-      .then(res => {
-        const { events, pagination } = res.data;
-        setHistory(events);
-        setTotal(pagination.totalPages * pageSize);
-        setLoading(false);
-      })
-      .catch(e => {
-        console.log(e);
-        setHistory([]);
-        setLoading(false);
-      });
-  }, [url, account, page]);
-
-  const getHistory = useCallback(() => {
-    setLoading(true);
-    setHistory([]);
-
-    getData();
-  }, [getData]);
-
-  useEffect(() => {
-    if (account) {
-      getHistory();
-    }
-  }, [account, getHistory]);
+  const { data, loading } = useGetLiquidityHistoryQuery({
+    variables: {
+      user: account.toLowerCase(),
+    },
+    pollInterval: APOLLO_POLL_INTERVAL,
+  });
 
   const onPageChanged = useCallback(data => {
     const { currentPage } = data;
     setPage(currentPage);
   }, []);
 
+  const items = useMemo(() => {
+    if (!data || loading) return [];
+    return data?.liquidityHistoryItems
+      .filter(item => LiquidityPoolDictionary.get(item.liquidityPool.id))
+      .map(item => ({
+        key: item.transaction.id,
+        amount: item.amount,
+        asset: item.reserveToken.id,
+        pool: item.liquidityPool.id,
+        time: item.timestamp,
+        txHash: item.transaction.id,
+        type: item.type,
+      }));
+  }, [data, loading]);
+
+  const rows = useMemo(() => {
+    const startIndex = (page - 1) * PAGE_SIZE;
+    return items.slice(startIndex, startIndex + PAGE_SIZE);
+  }, [items, page]);
+
   return (
     <section>
       <div className="sovryn-table tw-p-4 tw-mb-12">
         <table className="tw-w-full">
           <TableHeader />
-          <TableBody items={history} loading={loading} />
+          <TableBody items={rows} loading={loading} />
         </table>
-        {total > 0 && (
-          <Pagination
-            totalRecords={total}
-            pageLimit={pageSize}
-            pageNeighbours={1}
-            onChange={onPageChanged}
-          />
-        )}
+        <Pagination
+          totalRecords={items?.length || 0}
+          pageLimit={PAGE_SIZE}
+          pageNeighbours={1}
+          onChange={onPageChanged}
+        />
       </div>
     </section>
   );

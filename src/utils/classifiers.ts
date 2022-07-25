@@ -175,4 +175,10 @@ export const learnMoreYieldFarming =
 export const learnMoreLending =
   'https://wiki.sovryn.app/en/sovryn-dapp/market-making';
 
+export const ammServiceUrl = {
+  30: 'https://amm-apy.sovryn.app/',
+  31: 'https://amm-apy.test.sovryn.app/',
+};
 export const APOLLO_POLL_INTERVAL = 60e3;
+
+export const PAGE_SIZE = 5;
