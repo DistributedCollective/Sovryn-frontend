@@ -66,6 +66,11 @@ export const backendUrl = {
   31: 'https://api.test.sovryn.app',
 };
 
+export const subgraphWrapperUrl = {
+  30: 'https://graph-wrapper.sovryn.app',
+  31: 'https://graph-wrapper.test.sovryn.app',
+};
+
 export const graphRskUrl = process.env.REACT_APP_GRAPH_RSK;
 
 export const ethGenesisAddress = '0x0000000000000000000000000000000000000000';

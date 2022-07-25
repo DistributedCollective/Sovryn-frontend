@@ -9243,6 +9243,34 @@ export type BorrowFieldsFragment = {
   transaction: { __typename?: 'Transaction'; id: string };
 };
 
+export type GetLendHistoryQueryVariables = Exact<{
+  user: Scalars['ID'];
+}>;
+
+export type GetLendHistoryQuery = {
+  __typename?: 'Query';
+  user?: {
+    __typename?: 'User';
+    lendingHistory?: Array<{
+      __typename?: 'UserLendingHistory';
+      lendingHistory?: Array<{
+        __typename?: 'LendingHistoryItem';
+        type: LendingHistoryType;
+        timestamp: number;
+        amount: string;
+        loanTokenAmount: string;
+        emittedBy: string;
+        asset?: { __typename?: 'Token'; id: string } | null;
+        transaction: {
+          __typename?: 'Transaction';
+          id: string;
+          timestamp: number;
+        };
+      }> | null;
+    }> | null;
+  } | null;
+};
+
 export type GetTradingRewardsQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -9354,6 +9382,79 @@ export type GetBorrowHistoryLazyQueryHookResult = ReturnType<
 export type GetBorrowHistoryQueryResult = Apollo.QueryResult<
   GetBorrowHistoryQuery,
   GetBorrowHistoryQueryVariables
+>;
+export const GetLendHistoryDocument = gql`
+  query getLendHistory($user: ID!) {
+    user(id: $user) {
+      lendingHistory {
+        lendingHistory(orderBy: timestamp) {
+          type
+          timestamp
+          asset {
+            id
+          }
+          amount
+          loanTokenAmount
+          emittedBy
+          transaction {
+            id
+            timestamp
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetLendHistoryQuery__
+ *
+ * To run a query within a React component, call `useGetLendHistoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetLendHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetLendHistoryQuery({
+ *   variables: {
+ *      user: // value for 'user'
+ *   },
+ * });
+ */
+export function useGetLendHistoryQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetLendHistoryQuery,
+    GetLendHistoryQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetLendHistoryQuery, GetLendHistoryQueryVariables>(
+    GetLendHistoryDocument,
+    options,
+  );
+}
+export function useGetLendHistoryLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetLendHistoryQuery,
+    GetLendHistoryQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetLendHistoryQuery, GetLendHistoryQueryVariables>(
+    GetLendHistoryDocument,
+    options,
+  );
+}
+export type GetLendHistoryQueryHookResult = ReturnType<
+  typeof useGetLendHistoryQuery
+>;
+export type GetLendHistoryLazyQueryHookResult = ReturnType<
+  typeof useGetLendHistoryLazyQuery
+>;
+export type GetLendHistoryQueryResult = Apollo.QueryResult<
+  GetLendHistoryQuery,
+  GetLendHistoryQueryVariables
 >;
 export const GetTradingRewardsDocument = gql`
   query getTradingRewards($id: ID!) {
