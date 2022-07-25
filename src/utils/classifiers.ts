@@ -181,4 +181,9 @@ export const ammServiceUrl = {
 };
 export const APOLLO_POLL_INTERVAL = 60e3;
 
+export const graphWrapperUrl = {
+  30: 'https://graph-wrapper.sovryn.app/',
+  31: 'https://graph-wrapper.test.sovryn.app/',
+};
+
 export const PAGE_SIZE = 5;
