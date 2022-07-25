@@ -1,0 +1,44 @@
+query getLiquidityHistory($user: String) {
+  liquidityHistoryItems(
+    where: { user: $user }
+    orderBy: timestamp
+    orderDirection: desc
+  ) {
+    amount
+    type
+    emittedBy
+    timestamp
+    reserveToken {
+      id
+      name
+    }
+    transaction {
+      id
+    }
+    liquidityPool {
+      id
+    }
+  }
+}
+
+query getUserLiquidityHistory($id: ID!) {
+  userLiquidityHistory(id: $id) {
+    id
+    totalAsset0LiquidityAdded
+    totalAsset0LiquidityRemoved
+    totalAsset1LiquidityAdded
+    totalAsset1LiquidityRemoved
+    poolToken {
+      liquidityPool {
+        token0 {
+          id
+          decimals
+        }
+        token1 {
+          id
+          decimals
+        }
+      }
+    }
+  }
+}
