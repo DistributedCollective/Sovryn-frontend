@@ -1193,6 +1193,7 @@ export type LendingHistoryItem = {
   lender: User;
   lendingPool: LendingPool;
   loanTokenAmount: Scalars['BigDecimal'];
+  timestamp: Scalars['Int'];
   transaction: Transaction;
   type: LendingHistoryType;
   userLendingHistory: UserLendingHistory;
@@ -1279,6 +1280,14 @@ export type LendingHistoryItem_Filter = {
   loanTokenAmount_lte?: InputMaybe<Scalars['BigDecimal']>;
   loanTokenAmount_not?: InputMaybe<Scalars['BigDecimal']>;
   loanTokenAmount_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  timestamp?: InputMaybe<Scalars['Int']>;
+  timestamp_gt?: InputMaybe<Scalars['Int']>;
+  timestamp_gte?: InputMaybe<Scalars['Int']>;
+  timestamp_in?: InputMaybe<Array<Scalars['Int']>>;
+  timestamp_lt?: InputMaybe<Scalars['Int']>;
+  timestamp_lte?: InputMaybe<Scalars['Int']>;
+  timestamp_not?: InputMaybe<Scalars['Int']>;
+  timestamp_not_in?: InputMaybe<Array<Scalars['Int']>>;
   transaction?: InputMaybe<Scalars['String']>;
   transaction_contains?: InputMaybe<Scalars['String']>;
   transaction_ends_with?: InputMaybe<Scalars['String']>;
@@ -1321,6 +1330,7 @@ export enum LendingHistoryItem_OrderBy {
   Lender = 'lender',
   LendingPool = 'lendingPool',
   LoanTokenAmount = 'loanTokenAmount',
+  Timestamp = 'timestamp',
   Transaction = 'transaction',
   Type = 'type',
   UserLendingHistory = 'userLendingHistory',
@@ -2266,8 +2276,8 @@ export type Loan = {
   borrow?: Maybe<Array<Borrow>>;
   /** The amount borrowed in loan tokens */
   borrowedAmount: Scalars['BigDecimal'];
+  closeWithDeposits?: Maybe<Array<CloseWithDeposit>>;
   closeWithSwaps?: Maybe<Array<CloseWithSwap>>;
-  closewithDeposits?: Maybe<Array<CloseWithDeposit>>;
   collateralToken: Token;
   depositCollateral?: Maybe<Array<DepositCollateral>>;
   endTimestamp?: Maybe<Scalars['Int']>;
@@ -2313,21 +2323,21 @@ export type LoanBorrowArgs = {
 };
 
 /** A Loan can be initialized by either a Margin Trade event or a Borrow event */
+export type LoanCloseWithDepositsArgs = {
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<CloseWithDeposit_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<CloseWithDeposit_Filter>;
+};
+
+/** A Loan can be initialized by either a Margin Trade event or a Borrow event */
 export type LoanCloseWithSwapsArgs = {
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<CloseWithSwap_OrderBy>;
   orderDirection?: InputMaybe<OrderDirection>;
   skip?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<CloseWithSwap_Filter>;
-};
-
-/** A Loan can be initialized by either a Margin Trade event or a Borrow event */
-export type LoanClosewithDepositsArgs = {
-  first?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<CloseWithDeposit_OrderBy>;
-  orderDirection?: InputMaybe<OrderDirection>;
-  skip?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<CloseWithDeposit_Filter>;
 };
 
 /** A Loan can be initialized by either a Margin Trade event or a Borrow event */
@@ -2565,8 +2575,8 @@ export enum Loan_OrderBy {
   AverageSellPrice = 'averageSellPrice',
   Borrow = 'borrow',
   BorrowedAmount = 'borrowedAmount',
+  CloseWithDeposits = 'closeWithDeposits',
   CloseWithSwaps = 'closeWithSwaps',
-  ClosewithDeposits = 'closewithDeposits',
   CollateralToken = 'collateralToken',
   DepositCollateral = 'depositCollateral',
   EndTimestamp = 'endTimestamp',
@@ -8713,6 +8723,34 @@ export type BorrowFieldsFragment = {
   transaction: { __typename?: 'Transaction'; id: string };
 };
 
+export type GetLendHistoryQueryVariables = Exact<{
+  user: Scalars['ID'];
+}>;
+
+export type GetLendHistoryQuery = {
+  __typename?: 'Query';
+  user?: {
+    __typename?: 'User';
+    lendingHistory?: Array<{
+      __typename?: 'UserLendingHistory';
+      lendingHistory?: Array<{
+        __typename?: 'LendingHistoryItem';
+        type: LendingHistoryType;
+        timestamp: number;
+        amount: string;
+        loanTokenAmount: string;
+        emittedBy: string;
+        asset?: { __typename?: 'Token'; id: string } | null;
+        transaction: {
+          __typename?: 'Transaction';
+          id: string;
+          timestamp: number;
+        };
+      }> | null;
+    }> | null;
+  } | null;
+};
+
 export type UsersQueryVariables = Exact<{
   where?: InputMaybe<User_Filter>;
 }>;
@@ -8811,6 +8849,79 @@ export type GetBorrowHistoryLazyQueryHookResult = ReturnType<
 export type GetBorrowHistoryQueryResult = Apollo.QueryResult<
   GetBorrowHistoryQuery,
   GetBorrowHistoryQueryVariables
+>;
+export const GetLendHistoryDocument = gql`
+  query getLendHistory($user: ID!) {
+    user(id: $user) {
+      lendingHistory {
+        lendingHistory(orderBy: timestamp) {
+          type
+          timestamp
+          asset {
+            id
+          }
+          amount
+          loanTokenAmount
+          emittedBy
+          transaction {
+            id
+            timestamp
+          }
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetLendHistoryQuery__
+ *
+ * To run a query within a React component, call `useGetLendHistoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetLendHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetLendHistoryQuery({
+ *   variables: {
+ *      user: // value for 'user'
+ *   },
+ * });
+ */
+export function useGetLendHistoryQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetLendHistoryQuery,
+    GetLendHistoryQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetLendHistoryQuery, GetLendHistoryQueryVariables>(
+    GetLendHistoryDocument,
+    options,
+  );
+}
+export function useGetLendHistoryLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetLendHistoryQuery,
+    GetLendHistoryQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetLendHistoryQuery, GetLendHistoryQueryVariables>(
+    GetLendHistoryDocument,
+    options,
+  );
+}
+export type GetLendHistoryQueryHookResult = ReturnType<
+  typeof useGetLendHistoryQuery
+>;
+export type GetLendHistoryLazyQueryHookResult = ReturnType<
+  typeof useGetLendHistoryLazyQuery
+>;
+export type GetLendHistoryQueryResult = Apollo.QueryResult<
+  GetLendHistoryQuery,
+  GetLendHistoryQueryVariables
 >;
 export const UsersDocument = gql`
   query users($where: User_filter) {

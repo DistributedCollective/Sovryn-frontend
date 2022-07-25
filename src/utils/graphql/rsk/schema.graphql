@@ -1161,6 +1161,7 @@ type LendingHistoryItem {
   lender: User!
   lendingPool: LendingPool!
   loanTokenAmount: BigDecimal!
+  timestamp: Int!
   transaction: Transaction!
   type: LendingHistoryType!
   userLendingHistory: UserLendingHistory!
@@ -1247,6 +1248,14 @@ input LendingHistoryItem_filter {
   loanTokenAmount_lte: BigDecimal
   loanTokenAmount_not: BigDecimal
   loanTokenAmount_not_in: [BigDecimal!]
+  timestamp: Int
+  timestamp_gt: Int
+  timestamp_gte: Int
+  timestamp_in: [Int!]
+  timestamp_lt: Int
+  timestamp_lte: Int
+  timestamp_not: Int
+  timestamp_not_in: [Int!]
   transaction: String
   transaction_contains: String
   transaction_ends_with: String
@@ -1289,6 +1298,7 @@ enum LendingHistoryItem_orderBy {
   lender
   lendingPool
   loanTokenAmount
+  timestamp
   transaction
   type
   userLendingHistory
@@ -2279,6 +2289,13 @@ type Loan {
   The amount borrowed in loan tokens
   """
   borrowedAmount: BigDecimal!
+  closeWithDeposits(
+    first: Int = 100
+    orderBy: CloseWithDeposit_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: CloseWithDeposit_filter
+  ): [CloseWithDeposit!]
   closeWithSwaps(
     first: Int = 100
     orderBy: CloseWithSwap_orderBy
@@ -2286,13 +2303,6 @@ type Loan {
     skip: Int = 0
     where: CloseWithSwap_filter
   ): [CloseWithSwap!]
-  closewithDeposits(
-    first: Int = 100
-    orderBy: CloseWithDeposit_orderBy
-    orderDirection: OrderDirection
-    skip: Int = 0
-    where: CloseWithDeposit_filter
-  ): [CloseWithDeposit!]
   collateralToken: Token!
   depositCollateral(
     first: Int = 100
@@ -2581,8 +2591,8 @@ enum Loan_orderBy {
   averageSellPrice
   borrow
   borrowedAmount
+  closeWithDeposits
   closeWithSwaps
-  closewithDeposits
   collateralToken
   depositCollateral
   endTimestamp
