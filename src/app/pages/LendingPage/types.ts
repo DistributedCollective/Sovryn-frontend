@@ -1,6 +1,7 @@
 /* --- STATE --- */
 import { Asset } from 'types/asset';
 import { Nullable } from 'types';
+import { LendingHistoryType } from 'utils/graphql/rsk/generated';
 
 export interface LendingPageState {
   asset: Asset;
@@ -16,17 +17,13 @@ export enum ButtonType {
 }
 
 export interface LendingEvent {
-  asset_amount: string;
-  contract_address: string;
-  event: LendingEventType;
-  time: string;
-  token_amount: string;
+  amount: string;
+  asset: string;
+  emittedBy: string;
+  loanTokenAmount: string;
   txHash: string;
-}
-
-export enum LendingEventType {
-  MINT = 'Mint',
-  BURN = 'Burn',
+  timestamp: number;
+  type: LendingHistoryType;
 }
 
 export type ContainerState = LendingPageState;
