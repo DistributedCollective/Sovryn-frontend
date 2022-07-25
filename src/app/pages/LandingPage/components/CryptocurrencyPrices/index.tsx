@@ -36,7 +36,10 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
   const list = usePairList(pairs);
 
   const rows = useMemo(() => {
-    if (!isLoading && !list.length) return [];
+    if (!isLoading && !list.length) {
+      return [];
+    }
+
     return list
       .map(pair => {
         const assetDetails = AssetsDictionary.getByTokenContractAddress(
@@ -46,7 +49,7 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
           return [];
         }
 
-        const output = [
+        const result = [
           {
             assetDetails: assetDetails,
             price24h: Number(pair.price_change_percent_24h_usd),
@@ -60,7 +63,7 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
           const rbtcDetails = AssetsDictionary.getByTokenContractAddress(
             pair.quote_id,
           );
-          output.push({
+          result.push({
             assetDetails: rbtcDetails,
             price24h: -Number(pair.price_change_percent_24h),
             priceWeek: -Number(pair.price_change_week),
@@ -69,7 +72,7 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
           });
         }
 
-        return output;
+        return result;
       })
       .flat()
       .map(pair => {
@@ -86,7 +89,10 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
       );
   }, [assetData, isLoading, list]);
 
-  if (!isLoading && !list.length) return null;
+  if (!isLoading && !list.length) {
+    return null;
+  }
+
   return (
     <>
       <div className="tw-font-semibold tw-mb-8">
