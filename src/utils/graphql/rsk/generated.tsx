@@ -9271,6 +9271,217 @@ export type GetLendHistoryQuery = {
   } | null;
 };
 
+export type GetMarginLoansDataQueryVariables = Exact<{
+  user?: InputMaybe<Scalars['String']>;
+  skip: Scalars['Int'];
+  isOpen: Scalars['Boolean'];
+  pageSize: Scalars['Int'];
+}>;
+
+export type GetMarginLoansDataQuery = {
+  __typename?: 'Query';
+  loans: Array<{
+    __typename?: 'Loan';
+    id: string;
+    type: LoanType;
+    positionSize: string;
+    isOpen: boolean;
+    realizedPnL: string;
+    nextRollover?: number | null;
+    startTimestamp: number;
+    realizedPnLPercent: string;
+    trade?: Array<{
+      __typename?: 'Trade';
+      id: string;
+      timestamp: number;
+      entryPrice: string;
+      positionSize: string;
+      interestRate: string;
+      entryLeverage: string;
+      borrowedAmount: string;
+      currentLeverage: string;
+      loanToken: { __typename?: 'Token'; id: string };
+      transaction: { __typename?: 'Transaction'; id: string };
+      collateralToken: { __typename?: 'Token'; id: string };
+    }> | null;
+    loanToken: { __typename?: 'Token'; id: string };
+    collateralToken: { __typename?: 'Token'; id: string };
+    depositCollateral?: Array<{
+      __typename?: 'DepositCollateral';
+      id: string;
+      rate?: string | null;
+      timestamp: number;
+      depositAmount: string;
+      loanId: { __typename?: 'Loan'; id: string };
+      transaction: { __typename?: 'Transaction'; id: string };
+    }> | null;
+    liquidates?: Array<{
+      __typename?: 'Liquidate';
+      id: string;
+      timestamp: number;
+      loanToken: string;
+      currentMargin: string;
+      collateralToken: string;
+      collateralToLoanRate: string;
+      collateralWithdrawAmount: string;
+      transaction: { __typename?: 'Transaction'; id: string };
+    }> | null;
+    closeWithSwaps?: Array<{
+      __typename?: 'CloseWithSwap';
+      id: string;
+      timestamp: number;
+      loanToken: string;
+      exitPrice: string;
+      loanCloseAmount: string;
+      currentLeverage: string;
+      collateralToken: string;
+      positionCloseSize: string;
+      transaction: { __typename?: 'Transaction'; id: string };
+    }> | null;
+    closeWithDeposits?: Array<{
+      __typename?: 'CloseWithDeposit';
+      id: string;
+      loanToken: string;
+      timestamp: number;
+      collateralToken: string;
+      collateralToLoanRate: string;
+      collateralWithdrawAmount: string;
+      transaction: { __typename?: 'Transaction'; id: string };
+    }> | null;
+  }>;
+};
+
+export type MarginLoansTradeFragment = {
+  __typename?: 'Trade';
+  id: string;
+  timestamp: number;
+  entryPrice: string;
+  positionSize: string;
+  interestRate: string;
+  entryLeverage: string;
+  borrowedAmount: string;
+  currentLeverage: string;
+  loanToken: { __typename?: 'Token'; id: string };
+  transaction: { __typename?: 'Transaction'; id: string };
+  collateralToken: { __typename?: 'Token'; id: string };
+};
+
+export type MarginLoansDepositCollateralFragment = {
+  __typename?: 'DepositCollateral';
+  id: string;
+  rate?: string | null;
+  timestamp: number;
+  depositAmount: string;
+  loanId: { __typename?: 'Loan'; id: string };
+  transaction: { __typename?: 'Transaction'; id: string };
+};
+
+export type MarginLoansLiquidateFragment = {
+  __typename?: 'Liquidate';
+  id: string;
+  timestamp: number;
+  loanToken: string;
+  currentMargin: string;
+  collateralToken: string;
+  collateralToLoanRate: string;
+  collateralWithdrawAmount: string;
+  transaction: { __typename?: 'Transaction'; id: string };
+};
+
+export type MarginLoansCloseWithSwapFragment = {
+  __typename?: 'CloseWithSwap';
+  id: string;
+  timestamp: number;
+  loanToken: string;
+  exitPrice: string;
+  loanCloseAmount: string;
+  currentLeverage: string;
+  collateralToken: string;
+  positionCloseSize: string;
+  transaction: { __typename?: 'Transaction'; id: string };
+};
+
+export type MarginLoansCloseWithDepositFragment = {
+  __typename?: 'CloseWithDeposit';
+  id: string;
+  loanToken: string;
+  timestamp: number;
+  collateralToken: string;
+  collateralToLoanRate: string;
+  collateralWithdrawAmount: string;
+  transaction: { __typename?: 'Transaction'; id: string };
+};
+
+export type MarginLoansFieldsFragment = {
+  __typename?: 'Loan';
+  id: string;
+  type: LoanType;
+  positionSize: string;
+  isOpen: boolean;
+  realizedPnL: string;
+  nextRollover?: number | null;
+  startTimestamp: number;
+  realizedPnLPercent: string;
+  trade?: Array<{
+    __typename?: 'Trade';
+    id: string;
+    timestamp: number;
+    entryPrice: string;
+    positionSize: string;
+    interestRate: string;
+    entryLeverage: string;
+    borrowedAmount: string;
+    currentLeverage: string;
+    loanToken: { __typename?: 'Token'; id: string };
+    transaction: { __typename?: 'Transaction'; id: string };
+    collateralToken: { __typename?: 'Token'; id: string };
+  }> | null;
+  loanToken: { __typename?: 'Token'; id: string };
+  collateralToken: { __typename?: 'Token'; id: string };
+  depositCollateral?: Array<{
+    __typename?: 'DepositCollateral';
+    id: string;
+    rate?: string | null;
+    timestamp: number;
+    depositAmount: string;
+    loanId: { __typename?: 'Loan'; id: string };
+    transaction: { __typename?: 'Transaction'; id: string };
+  }> | null;
+  liquidates?: Array<{
+    __typename?: 'Liquidate';
+    id: string;
+    timestamp: number;
+    loanToken: string;
+    currentMargin: string;
+    collateralToken: string;
+    collateralToLoanRate: string;
+    collateralWithdrawAmount: string;
+    transaction: { __typename?: 'Transaction'; id: string };
+  }> | null;
+  closeWithSwaps?: Array<{
+    __typename?: 'CloseWithSwap';
+    id: string;
+    timestamp: number;
+    loanToken: string;
+    exitPrice: string;
+    loanCloseAmount: string;
+    currentLeverage: string;
+    collateralToken: string;
+    positionCloseSize: string;
+    transaction: { __typename?: 'Transaction'; id: string };
+  }> | null;
+  closeWithDeposits?: Array<{
+    __typename?: 'CloseWithDeposit';
+    id: string;
+    loanToken: string;
+    timestamp: number;
+    collateralToken: string;
+    collateralToLoanRate: string;
+    collateralWithdrawAmount: string;
+    transaction: { __typename?: 'Transaction'; id: string };
+  }> | null;
+};
+
 export type GetTradingRewardsQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -9373,6 +9584,122 @@ export const BorrowFieldsFragmentDoc = gql`
       id
     }
   }
+`;
+export const MarginLoansTradeFragmentDoc = gql`
+  fragment MarginLoansTrade on Trade {
+    id
+    timestamp
+    loanToken {
+      id
+    }
+    entryPrice
+    transaction {
+      id
+    }
+    positionSize
+    interestRate
+    entryLeverage
+    collateralToken {
+      id
+    }
+    borrowedAmount
+    currentLeverage
+  }
+`;
+export const MarginLoansDepositCollateralFragmentDoc = gql`
+  fragment MarginLoansDepositCollateral on DepositCollateral {
+    id
+    rate
+    loanId {
+      id
+    }
+    timestamp
+    transaction {
+      id
+    }
+    depositAmount
+  }
+`;
+export const MarginLoansLiquidateFragmentDoc = gql`
+  fragment MarginLoansLiquidate on Liquidate {
+    id
+    timestamp
+    loanToken
+    transaction {
+      id
+    }
+    currentMargin
+    collateralToken
+    collateralToLoanRate
+    collateralWithdrawAmount
+  }
+`;
+export const MarginLoansCloseWithSwapFragmentDoc = gql`
+  fragment MarginLoansCloseWithSwap on CloseWithSwap {
+    id
+    timestamp
+    loanToken
+    exitPrice
+    transaction {
+      id
+    }
+    loanCloseAmount
+    currentLeverage
+    collateralToken
+    positionCloseSize
+  }
+`;
+export const MarginLoansCloseWithDepositFragmentDoc = gql`
+  fragment MarginLoansCloseWithDeposit on CloseWithDeposit {
+    id
+    loanToken
+    timestamp
+    transaction {
+      id
+    }
+    collateralToken
+    collateralToLoanRate
+    collateralWithdrawAmount
+  }
+`;
+export const MarginLoansFieldsFragmentDoc = gql`
+  fragment MarginLoansFields on Loan {
+    id
+    type
+    positionSize
+    trade {
+      ...MarginLoansTrade
+    }
+    isOpen
+    loanToken {
+      id
+    }
+    realizedPnL
+    nextRollover
+    positionSize
+    collateralToken {
+      id
+    }
+    startTimestamp
+    realizedPnLPercent
+    depositCollateral {
+      ...MarginLoansDepositCollateral
+    }
+    liquidates {
+      ...MarginLoansLiquidate
+    }
+    closeWithSwaps {
+      ...MarginLoansCloseWithSwap
+    }
+    closeWithDeposits {
+      ...MarginLoansCloseWithDeposit
+    }
+  }
+  ${MarginLoansTradeFragmentDoc}
+  ${MarginLoansDepositCollateralFragmentDoc}
+  ${MarginLoansLiquidateFragmentDoc}
+  ${MarginLoansCloseWithSwapFragmentDoc}
+  ${MarginLoansCloseWithDepositFragmentDoc}
 `;
 export const GetBorrowHistoryDocument = gql`
   query getBorrowHistory($user: String) {
@@ -9505,6 +9832,79 @@ export type GetLendHistoryLazyQueryHookResult = ReturnType<
 export type GetLendHistoryQueryResult = Apollo.QueryResult<
   GetLendHistoryQuery,
   GetLendHistoryQueryVariables
+>;
+export const GetMarginLoansDataDocument = gql`
+  query getMarginLoansData(
+    $user: String
+    $skip: Int!
+    $isOpen: Boolean!
+    $pageSize: Int!
+  ) {
+    loans(
+      first: $pageSize
+      skip: $skip
+      where: { user: $user, isOpen: $isOpen, type: Trade }
+      orderBy: startTimestamp
+      orderDirection: desc
+    ) {
+      ...MarginLoansFields
+    }
+  }
+  ${MarginLoansFieldsFragmentDoc}
+`;
+
+/**
+ * __useGetMarginLoansDataQuery__
+ *
+ * To run a query within a React component, call `useGetMarginLoansDataQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMarginLoansDataQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMarginLoansDataQuery({
+ *   variables: {
+ *      user: // value for 'user'
+ *      skip: // value for 'skip'
+ *      isOpen: // value for 'isOpen'
+ *      pageSize: // value for 'pageSize'
+ *   },
+ * });
+ */
+export function useGetMarginLoansDataQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetMarginLoansDataQuery,
+    GetMarginLoansDataQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetMarginLoansDataQuery,
+    GetMarginLoansDataQueryVariables
+  >(GetMarginLoansDataDocument, options);
+}
+export function useGetMarginLoansDataLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetMarginLoansDataQuery,
+    GetMarginLoansDataQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetMarginLoansDataQuery,
+    GetMarginLoansDataQueryVariables
+  >(GetMarginLoansDataDocument, options);
+}
+export type GetMarginLoansDataQueryHookResult = ReturnType<
+  typeof useGetMarginLoansDataQuery
+>;
+export type GetMarginLoansDataLazyQueryHookResult = ReturnType<
+  typeof useGetMarginLoansDataLazyQuery
+>;
+export type GetMarginLoansDataQueryResult = Apollo.QueryResult<
+  GetMarginLoansDataQuery,
+  GetMarginLoansDataQueryVariables
 >;
 export const GetTradingRewardsDocument = gql`
   query getTradingRewards($id: ID!) {

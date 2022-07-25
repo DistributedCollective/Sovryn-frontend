@@ -16,7 +16,8 @@ type AssetValueProps = {
   className?: string;
   assetClassName?: string;
   isApproximation?: boolean;
-  showPositiveSign?: boolean;
+  showPositiveSign?: boolean; //mutually exclusive with showNegativeSign
+  showNegativeSign?: boolean; //mutually exclusive with showPositiveSign
 };
 
 export const AssetValue: React.FC<AssetValueProps> = ({
@@ -31,6 +32,7 @@ export const AssetValue: React.FC<AssetValueProps> = ({
   assetClassName,
   isApproximation = false,
   showPositiveSign = false,
+  showNegativeSign = false,
 }) => {
   const [formattedValue, fullFormattedValue] = useMemo(() => {
     if (!value && value !== 0) {
@@ -56,6 +58,7 @@ export const AssetValue: React.FC<AssetValueProps> = ({
         },
         isApproximation,
         showPositiveSign,
+        showNegativeSign,
       ),
       formatNumber(
         numberValue,
@@ -65,6 +68,7 @@ export const AssetValue: React.FC<AssetValueProps> = ({
         },
         isApproximation,
         showPositiveSign,
+        showNegativeSign,
       ),
     ];
   }, [
@@ -75,6 +79,7 @@ export const AssetValue: React.FC<AssetValueProps> = ({
     asset,
     isApproximation,
     showPositiveSign,
+    showNegativeSign,
   ]);
 
   if (!formattedValue) {
@@ -132,11 +137,17 @@ const formatNumber = (
   options: Intl.NumberFormatOptions,
   isApproximation: boolean,
   showPositiveSign: boolean,
+  showNegativeSign: boolean,
 ) => {
   let numberString = value.toLocaleString(navigator.language, options);
-  if (showPositiveSign && value > 0) {
-    numberString = `+${numberString}`;
+  if (value > 0) {
+    if (showPositiveSign) {
+      numberString = `+${numberString}`;
+    } else if (showNegativeSign) {
+      numberString = `-${numberString}`;
+    }
   }
+
   if (isApproximation) {
     numberString = `≈ ${numberString}`;
   }
