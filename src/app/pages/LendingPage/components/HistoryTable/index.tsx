@@ -1,58 +1,50 @@
-import React, { useEffect, useState, useCallback, useRef } from 'react';
-import axios, { CancelTokenSource } from 'axios';
+import React, { useEffect, useState, useCallback } from 'react';
 
-import { backendUrl, currentChainId, PAGE_SIZE } from 'utils/classifiers';
-import { useAccount, useBlockSync } from 'app/hooks/useAccount';
+import { useAccount } from 'app/hooks/useAccount';
 import { TableBody } from './TableBody';
 import { TableHeader } from './TableHeader';
 import { Pagination } from 'app/components/Pagination';
 import { LendingEvent } from '../../types';
+import { useGetLendingHistoryData } from '../../hooks/useGetLendingHistoryData';
+
+const PAGE_SIZE = 6;
 
 export const HistoryTable: React.FC = () => {
   const account = useAccount();
-  const url = backendUrl[currentChainId];
+  const [rawTxs, setRawTxs] = useState<LendingEvent[]>([]);
   const [history, setHistory] = useState<LendingEvent[]>([]);
-  const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
-  const blockSync = useBlockSync();
 
-  let cancelTokenSource = useRef<CancelTokenSource>();
-  const getData = useCallback(() => {
-    if (cancelTokenSource.current) {
-      cancelTokenSource.current.cancel();
-    }
-
-    cancelTokenSource.current = axios.CancelToken.source();
-    axios
-      .get(`${url}/events/lend/${account}?page=${page}&pageSize=${PAGE_SIZE}`, {
-        cancelToken: cancelTokenSource.current.token,
-      })
-      .then(res => {
-        const { events, pagination } = res.data;
-        setHistory(events || []);
-        setTotal(pagination.totalPages * PAGE_SIZE);
-        setLoading(false);
-      })
-      .catch(e => {
-        console.log(e);
-        setHistory([]);
-        setLoading(false);
-      });
-  }, [url, account, page]);
-
-  const getHistory = useCallback(() => {
-    setLoading(true);
-    setHistory([]);
-
-    getData();
-  }, [getData]);
+  const { data, loading: dataLoading } = useGetLendingHistoryData();
 
   useEffect(() => {
-    if (account) {
-      getHistory();
+    if (dataLoading === false && data?.user?.lendingHistory) {
+      const flattenedTxs: LendingEvent[] = data.user.lendingHistory
+        .map(
+          val =>
+            val?.lendingHistory?.map(item => ({
+              amount: item.amount,
+              asset: item.asset?.id || '',
+              emittedBy: item.emittedBy,
+              loanTokenAmount: item.loanTokenAmount,
+              txHash: item.transaction?.id,
+              timestamp: item.timestamp,
+              type: item.type,
+            })) || [],
+        )
+        .flat()
+        .sort((a, b) => b.timestamp - a.timestamp);
+      setRawTxs(flattenedTxs);
+      setTotal(flattenedTxs.length);
     }
-  }, [getHistory, account, blockSync]);
+  }, [account, dataLoading, data]);
+
+  useEffect(() => {
+    if (!rawTxs) return;
+    const offset = (page - 1) * PAGE_SIZE;
+    setHistory(rawTxs.slice(offset, offset + PAGE_SIZE));
+  }, [page, rawTxs, total]);
 
   const onPageChanged = useCallback(data => {
     const { currentPage } = data;
@@ -64,7 +56,7 @@ export const HistoryTable: React.FC = () => {
       <div className="sovryn-table tw-p-4 tw-mb-12">
         <table className="tw-w-full">
           <TableHeader />
-          <TableBody items={history} loading={loading} />
+          <TableBody items={history} loading={dataLoading} />
         </table>
         {total > 0 && (
           <Pagination
