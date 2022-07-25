@@ -9482,6 +9482,22 @@ export type MarginLoansFieldsFragment = {
   }> | null;
 };
 
+export type GetSwapHistoryQueryVariables = Exact<{
+  user?: InputMaybe<Scalars['String']>;
+}>;
+
+export type GetSwapHistoryQuery = {
+  __typename?: 'Query';
+  swaps: Array<{
+    __typename?: 'Swap';
+    fromAmount: string;
+    toAmount: string;
+    fromToken: { __typename?: 'Token'; id: string };
+    toToken: { __typename?: 'Token'; id: string };
+    transaction: { __typename?: 'Transaction'; id: string; timestamp: number };
+  }>;
+};
+
 export type GetTradingRewardsQueryVariables = Exact<{
   id: Scalars['ID'];
 }>;
@@ -9920,6 +9936,75 @@ export type GetMarginLoansDataLazyQueryHookResult = ReturnType<
 export type GetMarginLoansDataQueryResult = Apollo.QueryResult<
   GetMarginLoansDataQuery,
   GetMarginLoansDataQueryVariables
+>;
+export const GetSwapHistoryDocument = gql`
+  query getSwapHistory($user: String) {
+    swaps(where: { user: $user }, orderBy: timestamp, orderDirection: desc) {
+      fromToken {
+        id
+      }
+      toToken {
+        id
+      }
+      transaction {
+        id
+        timestamp
+      }
+      fromAmount
+      toAmount
+    }
+  }
+`;
+
+/**
+ * __useGetSwapHistoryQuery__
+ *
+ * To run a query within a React component, call `useGetSwapHistoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSwapHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSwapHistoryQuery({
+ *   variables: {
+ *      user: // value for 'user'
+ *   },
+ * });
+ */
+export function useGetSwapHistoryQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetSwapHistoryQuery,
+    GetSwapHistoryQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetSwapHistoryQuery, GetSwapHistoryQueryVariables>(
+    GetSwapHistoryDocument,
+    options,
+  );
+}
+export function useGetSwapHistoryLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetSwapHistoryQuery,
+    GetSwapHistoryQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetSwapHistoryQuery, GetSwapHistoryQueryVariables>(
+    GetSwapHistoryDocument,
+    options,
+  );
+}
+export type GetSwapHistoryQueryHookResult = ReturnType<
+  typeof useGetSwapHistoryQuery
+>;
+export type GetSwapHistoryLazyQueryHookResult = ReturnType<
+  typeof useGetSwapHistoryLazyQuery
+>;
+export type GetSwapHistoryQueryResult = Apollo.QueryResult<
+  GetSwapHistoryQuery,
+  GetSwapHistoryQueryVariables
 >;
 export const GetTradingRewardsDocument = gql`
   query getTradingRewards($id: ID!) {
