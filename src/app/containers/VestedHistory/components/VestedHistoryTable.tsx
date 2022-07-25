@@ -21,18 +21,16 @@ export const VestedHistoryTable: React.FC<IVestedHistoryTableProps> = ({
   return (
     <tr>
       <td
-        colSpan={10}
+        colSpan={6}
         className="tw-p-2 tw-border tw-border-gray tw-rounded-2xl"
       >
-        <table className="tw-table tw-table-auto">
+        <table className="tw-table tw-w-full lg:tw-table-fixed">
           <thead>
             <tr className="tw-bg-transparent">
               <th className="tw-text-left assets">
                 {t(translations.vestedHistory.tableHeaders.time)}
               </th>
-              <th className="tw-text-left">
-                {t(translations.vestedHistory.tableHeaders.vestingSchedule)}
-              </th>
+              <th></th>
               <th className="tw-text-left">
                 {t(translations.vestedHistory.tableHeaders.amount)}
               </th>
@@ -42,6 +40,7 @@ export const VestedHistoryTable: React.FC<IVestedHistoryTableProps> = ({
               <th className="tw-text-left tw-hidden lg:tw-table-cell">
                 {t(translations.vestedHistory.tableHeaders.status)}
               </th>
+              <th></th>
             </tr>
           </thead>
           <tbody>

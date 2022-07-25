@@ -21,6 +21,7 @@ fragment VestedContractType on VestingContract {
   startingBalance
   currentBalance
   type
+  createdAtTimestamp
   emittedBy
   createdAtTransaction {
     id

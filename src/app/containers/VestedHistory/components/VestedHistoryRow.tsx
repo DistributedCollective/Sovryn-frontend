@@ -35,20 +35,7 @@ export const VestedHistoryRow: React.FC<IVestedHistoryRowProps> = ({
       <td>
         <DisplayDate timestamp={stakeTime} />
       </td>
-      <td className="tw-text-left tw-font-normal tw-tracking-normal">
-        <div className="assetname tw-flex tw-items-center">
-          <div>
-            <img
-              src={getAsset(type).logoSvg}
-              className="tw-mr-3"
-              alt={getAsset(type).name}
-            />
-          </div>
-          <div className="tw-text-sm tw-font-normal tw-hidden xl:tw-block tw-pl-3">
-            {type}
-          </div>
-        </div>
-      </td>
+      <td></td>
       <td className="tw-text-left tw-font-normal tw-tracking-normal">
         <AssetValue
           asset={getAsset(type).asset}
@@ -74,7 +61,7 @@ export const VestedHistoryRow: React.FC<IVestedHistoryRowProps> = ({
         />
       </td>
       <td>
-        <div className="tw-flex tw-items-center tw-justify-between lg:tw-w-5/6 tw-p-0">
+        <div className="tw-flex tw-items-center tw-justify-between tw-min-w-24 lg:tw-w-5/6 tw-p-0">
           <div>
             <p className="tw-m-0">{t(translations.common.confirmed)}</p>
             <LinkToExplorer
@@ -84,9 +71,14 @@ export const VestedHistoryRow: React.FC<IVestedHistoryRowProps> = ({
               endLength={5}
             />
           </div>
-          <Icon icon="success-tx" className="tw-text-success" size={28} />
+          <Icon
+            icon="success-tx"
+            className="tw-text-success tw-min-w-12"
+            size={28}
+          />
         </div>
       </td>
+      <td></td>
     </tr>
   );
 };

@@ -11,6 +11,7 @@ import { AssetValueMode } from 'app/components/AssetValue/types';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { VestedHistoryTable } from './VestedHistoryTable';
 import { getAsset } from '../utils';
+import { DisplayDate } from 'app/components/ActiveUserLoanContainer/components/DisplayDate';
 
 interface IVestedHistoryContractsProps {
   events: VestedContractFieldsFragment;
@@ -20,7 +21,13 @@ export const VestedHistoryContracts: React.FC<IVestedHistoryContractsProps> = ({
   events,
 }) => {
   const { t } = useTranslation();
-  const { stakeHistory, type, currentBalance, createdAtTransaction } = events;
+  const {
+    stakeHistory,
+    type,
+    currentBalance,
+    createdAtTimestamp,
+    createdAtTransaction,
+  } = events;
   const [showDetails, setShowDetails] = useState(false);
   const dollarValue = useDollarValue(
     getAsset(type).asset,
@@ -30,6 +37,9 @@ export const VestedHistoryContracts: React.FC<IVestedHistoryContractsProps> = ({
   return (
     <>
       <tr>
+        <td>
+          <DisplayDate timestamp={createdAtTimestamp.toString()} />
+        </td>
         <td className="tw-text-left tw-font-normal tw-tracking-normal">
           <div className="assetname tw-flex tw-items-center">
             <div>
@@ -79,11 +89,15 @@ export const VestedHistoryContracts: React.FC<IVestedHistoryContractsProps> = ({
                 endLength={5}
               />
             </div>
-            <Icon icon="success-tx" className="tw-text-success" size={28} />
+            <Icon
+              icon="success-tx"
+              className="tw-text-success tw-min-w-12"
+              size={28}
+            />
           </div>
         </td>
         <td>
-          <div className="tw-flex tw-items-center tw-justify-end xl:tw-justify-around 2xl:tw-justify-start">
+          <div className="tw-flex tw-items-center tw-justify-end xl:tw-justify-around 2xl:tw-justify-center">
             <ActionButton
               text={t(translations.tradingHistoryPage.table.cta.details)}
               onClick={() => setShowDetails(!showDetails)}

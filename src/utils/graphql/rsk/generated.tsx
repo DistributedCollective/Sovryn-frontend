@@ -8726,6 +8726,7 @@ export type GetVestedHistoryQuery = {
     startingBalance: string;
     currentBalance: string;
     type: VestingContractType;
+    createdAtTimestamp: number;
     emittedBy: string;
     stakeHistory?: Array<{
       __typename?: 'VestingHistoryItem';
@@ -8747,6 +8748,7 @@ export type VestedContractFieldsFragment = {
   startingBalance: string;
   currentBalance: string;
   type: VestingContractType;
+  createdAtTimestamp: number;
   emittedBy: string;
   stakeHistory?: Array<{
     __typename?: 'VestingHistoryItem';
@@ -8767,6 +8769,7 @@ export type VestedContractTypeFragment = {
   startingBalance: string;
   currentBalance: string;
   type: VestingContractType;
+  createdAtTimestamp: number;
   emittedBy: string;
   createdAtTransaction: { __typename?: 'Transaction'; id: string };
 };
@@ -8828,6 +8831,7 @@ export const VestedContractTypeFragmentDoc = gql`
     startingBalance
     currentBalance
     type
+    createdAtTimestamp
     emittedBy
     createdAtTransaction {
       id

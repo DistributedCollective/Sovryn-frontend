@@ -16,9 +16,12 @@ export function VestedHistory() {
 
   return (
     <div className="sovryn-table tw-p-4 tw-mb-12">
-      <table className="tw-w-full">
+      <table className="tw-w-full lg:tw-table-fixed">
         <thead>
           <tr>
+            <th className="tw-text-left assets">
+              {t(translations.vestedHistory.tableHeaders.time)}
+            </th>
             <th className="tw-text-left">
               {t(translations.vestedHistory.tableHeaders.vestingSchedule)}
             </th>
