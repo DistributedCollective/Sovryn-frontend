@@ -3,13 +3,11 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { Pagination } from 'app/components/Pagination';
 import { useAccount, useBlockSync } from 'app/hooks/useAccount';
-import { backendUrl, currentChainId } from 'utils/classifiers';
+import { backendUrl, currentChainId, PAGE_SIZE } from 'utils/classifiers';
 
 import { RewardEvent, TableBody } from './TableBody';
 import { TableHeader } from './TableHeader';
 import { RewardTabType } from '../../types';
-
-const pageSize = 6;
 
 const getHistoryEndpoint = (activeTab: RewardTabType) => {
   switch (activeTab) {
@@ -45,12 +43,12 @@ export const HistoryTable: React.FC<IHistoryTableProps> = ({ activeTab }) => {
 
     axios
       .get(
-        `${url}/v1/event-history/${historyEndpoint}/${account}?page=${page}&pageSize=${pageSize}`,
+        `${url}/v1/event-history/${historyEndpoint}/${account}?page=${page}&pageSize=${PAGE_SIZE}`,
       )
       .then(res => {
         const { events, pagination } = res.data;
         setHistory(events || []);
-        setTotal(pagination.totalPages * pageSize);
+        setTotal(pagination.totalPages * PAGE_SIZE);
         setLoading(false);
       })
       .catch(e => {
@@ -77,7 +75,7 @@ export const HistoryTable: React.FC<IHistoryTableProps> = ({ activeTab }) => {
         {total > 0 && (
           <Pagination
             totalRecords={total}
-            pageLimit={pageSize}
+            pageLimit={PAGE_SIZE}
             pageNeighbours={1}
             onChange={onPageChanged}
           />
