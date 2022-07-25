@@ -22,6 +22,271 @@ export type Scalars = {
   Bytes: string;
 };
 
+export type BitcoinTransfer = {
+  __typename?: 'BitcoinTransfer';
+  amountBTC: Scalars['BigDecimal'];
+  bitcoinTxHash: Scalars['Bytes'];
+  btcAddress: Scalars['String'];
+  createdAtBlockNumber: Scalars['Int'];
+  createdAtTimestamp: Scalars['Int'];
+  createdAtTx: Transaction;
+  feeBTC: Scalars['BigDecimal'];
+  id: Scalars['ID'];
+  nonce: Scalars['Int'];
+  status: BitcoinTransferStatus;
+  totalAmountBTC: Scalars['BigDecimal'];
+  updatedAtBlockNumber: Scalars['Int'];
+  updatedAtTimestamp: Scalars['Int'];
+  updatedAtTx: Transaction;
+  user: User;
+};
+
+export type BitcoinTransferBatchSending = {
+  __typename?: 'BitcoinTransferBatchSending';
+  bitcoinTxHash: Scalars['Bytes'];
+  emittedBy: Scalars['Bytes'];
+  id: Scalars['ID'];
+  timestamp: Scalars['Int'];
+  transaction: Transaction;
+  transferBatchSize: Scalars['Int'];
+};
+
+export type BitcoinTransferBatchSending_Filter = {
+  bitcoinTxHash?: InputMaybe<Scalars['Bytes']>;
+  bitcoinTxHash_contains?: InputMaybe<Scalars['Bytes']>;
+  bitcoinTxHash_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  bitcoinTxHash_not?: InputMaybe<Scalars['Bytes']>;
+  bitcoinTxHash_not_contains?: InputMaybe<Scalars['Bytes']>;
+  bitcoinTxHash_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  emittedBy?: InputMaybe<Scalars['Bytes']>;
+  emittedBy_contains?: InputMaybe<Scalars['Bytes']>;
+  emittedBy_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  emittedBy_not?: InputMaybe<Scalars['Bytes']>;
+  emittedBy_not_contains?: InputMaybe<Scalars['Bytes']>;
+  emittedBy_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  id?: InputMaybe<Scalars['ID']>;
+  id_gt?: InputMaybe<Scalars['ID']>;
+  id_gte?: InputMaybe<Scalars['ID']>;
+  id_in?: InputMaybe<Array<Scalars['ID']>>;
+  id_lt?: InputMaybe<Scalars['ID']>;
+  id_lte?: InputMaybe<Scalars['ID']>;
+  id_not?: InputMaybe<Scalars['ID']>;
+  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
+  timestamp?: InputMaybe<Scalars['Int']>;
+  timestamp_gt?: InputMaybe<Scalars['Int']>;
+  timestamp_gte?: InputMaybe<Scalars['Int']>;
+  timestamp_in?: InputMaybe<Array<Scalars['Int']>>;
+  timestamp_lt?: InputMaybe<Scalars['Int']>;
+  timestamp_lte?: InputMaybe<Scalars['Int']>;
+  timestamp_not?: InputMaybe<Scalars['Int']>;
+  timestamp_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  transaction?: InputMaybe<Scalars['String']>;
+  transaction_contains?: InputMaybe<Scalars['String']>;
+  transaction_ends_with?: InputMaybe<Scalars['String']>;
+  transaction_gt?: InputMaybe<Scalars['String']>;
+  transaction_gte?: InputMaybe<Scalars['String']>;
+  transaction_in?: InputMaybe<Array<Scalars['String']>>;
+  transaction_lt?: InputMaybe<Scalars['String']>;
+  transaction_lte?: InputMaybe<Scalars['String']>;
+  transaction_not?: InputMaybe<Scalars['String']>;
+  transaction_not_contains?: InputMaybe<Scalars['String']>;
+  transaction_not_ends_with?: InputMaybe<Scalars['String']>;
+  transaction_not_in?: InputMaybe<Array<Scalars['String']>>;
+  transaction_not_starts_with?: InputMaybe<Scalars['String']>;
+  transaction_starts_with?: InputMaybe<Scalars['String']>;
+  transferBatchSize?: InputMaybe<Scalars['Int']>;
+  transferBatchSize_gt?: InputMaybe<Scalars['Int']>;
+  transferBatchSize_gte?: InputMaybe<Scalars['Int']>;
+  transferBatchSize_in?: InputMaybe<Array<Scalars['Int']>>;
+  transferBatchSize_lt?: InputMaybe<Scalars['Int']>;
+  transferBatchSize_lte?: InputMaybe<Scalars['Int']>;
+  transferBatchSize_not?: InputMaybe<Scalars['Int']>;
+  transferBatchSize_not_in?: InputMaybe<Array<Scalars['Int']>>;
+};
+
+export enum BitcoinTransferBatchSending_OrderBy {
+  BitcoinTxHash = 'bitcoinTxHash',
+  EmittedBy = 'emittedBy',
+  Id = 'id',
+  Timestamp = 'timestamp',
+  Transaction = 'transaction',
+  TransferBatchSize = 'transferBatchSize',
+}
+
+export enum BitcoinTransferStatus {
+  /** the transfer was confirmedly mined in Bitcoin blockchain */
+  Mined = 'MINED',
+  /** the transfer was initiated */
+  New = 'NEW',
+  /** the transfer slot has not been initialized */
+  NotApplicable = 'NOT_APPLICABLE',
+  /** the transfer was reclaimed by the user */
+  Reclaimed = 'RECLAIMED',
+  /** the transfer was refunded */
+  Refunded = 'REFUNDED',
+  /** the federators have approved this transfer as part of a transfer batch */
+  Sending = 'SENDING',
+}
+
+export type BitcoinTransfer_Filter = {
+  amountBTC?: InputMaybe<Scalars['BigDecimal']>;
+  amountBTC_gt?: InputMaybe<Scalars['BigDecimal']>;
+  amountBTC_gte?: InputMaybe<Scalars['BigDecimal']>;
+  amountBTC_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  amountBTC_lt?: InputMaybe<Scalars['BigDecimal']>;
+  amountBTC_lte?: InputMaybe<Scalars['BigDecimal']>;
+  amountBTC_not?: InputMaybe<Scalars['BigDecimal']>;
+  amountBTC_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  bitcoinTxHash?: InputMaybe<Scalars['Bytes']>;
+  bitcoinTxHash_contains?: InputMaybe<Scalars['Bytes']>;
+  bitcoinTxHash_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  bitcoinTxHash_not?: InputMaybe<Scalars['Bytes']>;
+  bitcoinTxHash_not_contains?: InputMaybe<Scalars['Bytes']>;
+  bitcoinTxHash_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  btcAddress?: InputMaybe<Scalars['String']>;
+  btcAddress_contains?: InputMaybe<Scalars['String']>;
+  btcAddress_ends_with?: InputMaybe<Scalars['String']>;
+  btcAddress_gt?: InputMaybe<Scalars['String']>;
+  btcAddress_gte?: InputMaybe<Scalars['String']>;
+  btcAddress_in?: InputMaybe<Array<Scalars['String']>>;
+  btcAddress_lt?: InputMaybe<Scalars['String']>;
+  btcAddress_lte?: InputMaybe<Scalars['String']>;
+  btcAddress_not?: InputMaybe<Scalars['String']>;
+  btcAddress_not_contains?: InputMaybe<Scalars['String']>;
+  btcAddress_not_ends_with?: InputMaybe<Scalars['String']>;
+  btcAddress_not_in?: InputMaybe<Array<Scalars['String']>>;
+  btcAddress_not_starts_with?: InputMaybe<Scalars['String']>;
+  btcAddress_starts_with?: InputMaybe<Scalars['String']>;
+  createdAtBlockNumber?: InputMaybe<Scalars['Int']>;
+  createdAtBlockNumber_gt?: InputMaybe<Scalars['Int']>;
+  createdAtBlockNumber_gte?: InputMaybe<Scalars['Int']>;
+  createdAtBlockNumber_in?: InputMaybe<Array<Scalars['Int']>>;
+  createdAtBlockNumber_lt?: InputMaybe<Scalars['Int']>;
+  createdAtBlockNumber_lte?: InputMaybe<Scalars['Int']>;
+  createdAtBlockNumber_not?: InputMaybe<Scalars['Int']>;
+  createdAtBlockNumber_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  createdAtTimestamp?: InputMaybe<Scalars['Int']>;
+  createdAtTimestamp_gt?: InputMaybe<Scalars['Int']>;
+  createdAtTimestamp_gte?: InputMaybe<Scalars['Int']>;
+  createdAtTimestamp_in?: InputMaybe<Array<Scalars['Int']>>;
+  createdAtTimestamp_lt?: InputMaybe<Scalars['Int']>;
+  createdAtTimestamp_lte?: InputMaybe<Scalars['Int']>;
+  createdAtTimestamp_not?: InputMaybe<Scalars['Int']>;
+  createdAtTimestamp_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  createdAtTx?: InputMaybe<Scalars['String']>;
+  createdAtTx_contains?: InputMaybe<Scalars['String']>;
+  createdAtTx_ends_with?: InputMaybe<Scalars['String']>;
+  createdAtTx_gt?: InputMaybe<Scalars['String']>;
+  createdAtTx_gte?: InputMaybe<Scalars['String']>;
+  createdAtTx_in?: InputMaybe<Array<Scalars['String']>>;
+  createdAtTx_lt?: InputMaybe<Scalars['String']>;
+  createdAtTx_lte?: InputMaybe<Scalars['String']>;
+  createdAtTx_not?: InputMaybe<Scalars['String']>;
+  createdAtTx_not_contains?: InputMaybe<Scalars['String']>;
+  createdAtTx_not_ends_with?: InputMaybe<Scalars['String']>;
+  createdAtTx_not_in?: InputMaybe<Array<Scalars['String']>>;
+  createdAtTx_not_starts_with?: InputMaybe<Scalars['String']>;
+  createdAtTx_starts_with?: InputMaybe<Scalars['String']>;
+  feeBTC?: InputMaybe<Scalars['BigDecimal']>;
+  feeBTC_gt?: InputMaybe<Scalars['BigDecimal']>;
+  feeBTC_gte?: InputMaybe<Scalars['BigDecimal']>;
+  feeBTC_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  feeBTC_lt?: InputMaybe<Scalars['BigDecimal']>;
+  feeBTC_lte?: InputMaybe<Scalars['BigDecimal']>;
+  feeBTC_not?: InputMaybe<Scalars['BigDecimal']>;
+  feeBTC_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  id?: InputMaybe<Scalars['ID']>;
+  id_gt?: InputMaybe<Scalars['ID']>;
+  id_gte?: InputMaybe<Scalars['ID']>;
+  id_in?: InputMaybe<Array<Scalars['ID']>>;
+  id_lt?: InputMaybe<Scalars['ID']>;
+  id_lte?: InputMaybe<Scalars['ID']>;
+  id_not?: InputMaybe<Scalars['ID']>;
+  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
+  nonce?: InputMaybe<Scalars['Int']>;
+  nonce_gt?: InputMaybe<Scalars['Int']>;
+  nonce_gte?: InputMaybe<Scalars['Int']>;
+  nonce_in?: InputMaybe<Array<Scalars['Int']>>;
+  nonce_lt?: InputMaybe<Scalars['Int']>;
+  nonce_lte?: InputMaybe<Scalars['Int']>;
+  nonce_not?: InputMaybe<Scalars['Int']>;
+  nonce_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  status?: InputMaybe<BitcoinTransferStatus>;
+  status_in?: InputMaybe<Array<BitcoinTransferStatus>>;
+  status_not?: InputMaybe<BitcoinTransferStatus>;
+  status_not_in?: InputMaybe<Array<BitcoinTransferStatus>>;
+  totalAmountBTC?: InputMaybe<Scalars['BigDecimal']>;
+  totalAmountBTC_gt?: InputMaybe<Scalars['BigDecimal']>;
+  totalAmountBTC_gte?: InputMaybe<Scalars['BigDecimal']>;
+  totalAmountBTC_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  totalAmountBTC_lt?: InputMaybe<Scalars['BigDecimal']>;
+  totalAmountBTC_lte?: InputMaybe<Scalars['BigDecimal']>;
+  totalAmountBTC_not?: InputMaybe<Scalars['BigDecimal']>;
+  totalAmountBTC_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  updatedAtBlockNumber?: InputMaybe<Scalars['Int']>;
+  updatedAtBlockNumber_gt?: InputMaybe<Scalars['Int']>;
+  updatedAtBlockNumber_gte?: InputMaybe<Scalars['Int']>;
+  updatedAtBlockNumber_in?: InputMaybe<Array<Scalars['Int']>>;
+  updatedAtBlockNumber_lt?: InputMaybe<Scalars['Int']>;
+  updatedAtBlockNumber_lte?: InputMaybe<Scalars['Int']>;
+  updatedAtBlockNumber_not?: InputMaybe<Scalars['Int']>;
+  updatedAtBlockNumber_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  updatedAtTimestamp?: InputMaybe<Scalars['Int']>;
+  updatedAtTimestamp_gt?: InputMaybe<Scalars['Int']>;
+  updatedAtTimestamp_gte?: InputMaybe<Scalars['Int']>;
+  updatedAtTimestamp_in?: InputMaybe<Array<Scalars['Int']>>;
+  updatedAtTimestamp_lt?: InputMaybe<Scalars['Int']>;
+  updatedAtTimestamp_lte?: InputMaybe<Scalars['Int']>;
+  updatedAtTimestamp_not?: InputMaybe<Scalars['Int']>;
+  updatedAtTimestamp_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  updatedAtTx?: InputMaybe<Scalars['String']>;
+  updatedAtTx_contains?: InputMaybe<Scalars['String']>;
+  updatedAtTx_ends_with?: InputMaybe<Scalars['String']>;
+  updatedAtTx_gt?: InputMaybe<Scalars['String']>;
+  updatedAtTx_gte?: InputMaybe<Scalars['String']>;
+  updatedAtTx_in?: InputMaybe<Array<Scalars['String']>>;
+  updatedAtTx_lt?: InputMaybe<Scalars['String']>;
+  updatedAtTx_lte?: InputMaybe<Scalars['String']>;
+  updatedAtTx_not?: InputMaybe<Scalars['String']>;
+  updatedAtTx_not_contains?: InputMaybe<Scalars['String']>;
+  updatedAtTx_not_ends_with?: InputMaybe<Scalars['String']>;
+  updatedAtTx_not_in?: InputMaybe<Array<Scalars['String']>>;
+  updatedAtTx_not_starts_with?: InputMaybe<Scalars['String']>;
+  updatedAtTx_starts_with?: InputMaybe<Scalars['String']>;
+  user?: InputMaybe<Scalars['String']>;
+  user_contains?: InputMaybe<Scalars['String']>;
+  user_ends_with?: InputMaybe<Scalars['String']>;
+  user_gt?: InputMaybe<Scalars['String']>;
+  user_gte?: InputMaybe<Scalars['String']>;
+  user_in?: InputMaybe<Array<Scalars['String']>>;
+  user_lt?: InputMaybe<Scalars['String']>;
+  user_lte?: InputMaybe<Scalars['String']>;
+  user_not?: InputMaybe<Scalars['String']>;
+  user_not_contains?: InputMaybe<Scalars['String']>;
+  user_not_ends_with?: InputMaybe<Scalars['String']>;
+  user_not_in?: InputMaybe<Array<Scalars['String']>>;
+  user_not_starts_with?: InputMaybe<Scalars['String']>;
+  user_starts_with?: InputMaybe<Scalars['String']>;
+};
+
+export enum BitcoinTransfer_OrderBy {
+  AmountBtc = 'amountBTC',
+  BitcoinTxHash = 'bitcoinTxHash',
+  BtcAddress = 'btcAddress',
+  CreatedAtBlockNumber = 'createdAtBlockNumber',
+  CreatedAtTimestamp = 'createdAtTimestamp',
+  CreatedAtTx = 'createdAtTx',
+  FeeBtc = 'feeBTC',
+  Id = 'id',
+  Nonce = 'nonce',
+  Status = 'status',
+  TotalAmountBtc = 'totalAmountBTC',
+  UpdatedAtBlockNumber = 'updatedAtBlockNumber',
+  UpdatedAtTimestamp = 'updatedAtTimestamp',
+  UpdatedAtTx = 'updatedAtTx',
+  User = 'user',
+}
+
 export type Block_Height = {
   hash?: InputMaybe<Scalars['Bytes']>;
   number?: InputMaybe<Scalars['Int']>;
@@ -329,7 +594,7 @@ export enum CandleStick_OrderBy {
 
 export enum CandleSticksInterval {
   DayInterval = 'DayInterval',
-  FifteenMintuesInterval = 'FifteenMintuesInterval',
+  FifteenMinutesInterval = 'FifteenMinutesInterval',
   FourHourInterval = 'FourHourInterval',
   HourInterval = 'HourInterval',
   MinuteInterval = 'MinuteInterval',
@@ -1135,6 +1400,124 @@ export enum Deposit_OrderBy {
   Timestamp = 'timestamp',
   To = 'to',
   Transaction = 'transaction',
+}
+
+export type FastBtcBridgeStat = {
+  __typename?: 'FastBTCBridgeStat';
+  createdAtTx: Transaction;
+  id: Scalars['ID'];
+  totalAmountBTCInitialized: Scalars['BigDecimal'];
+  totalAmountBTCMined: Scalars['BigDecimal'];
+  totalAmountBTCRefunded: Scalars['BigDecimal'];
+  totalAmountBTCSending: Scalars['BigDecimal'];
+  totalFeesBTC: Scalars['BigDecimal'];
+  updatedAtTx: Transaction;
+  user?: Maybe<User>;
+};
+
+export type FastBtcBridgeStat_Filter = {
+  createdAtTx?: InputMaybe<Scalars['String']>;
+  createdAtTx_contains?: InputMaybe<Scalars['String']>;
+  createdAtTx_ends_with?: InputMaybe<Scalars['String']>;
+  createdAtTx_gt?: InputMaybe<Scalars['String']>;
+  createdAtTx_gte?: InputMaybe<Scalars['String']>;
+  createdAtTx_in?: InputMaybe<Array<Scalars['String']>>;
+  createdAtTx_lt?: InputMaybe<Scalars['String']>;
+  createdAtTx_lte?: InputMaybe<Scalars['String']>;
+  createdAtTx_not?: InputMaybe<Scalars['String']>;
+  createdAtTx_not_contains?: InputMaybe<Scalars['String']>;
+  createdAtTx_not_ends_with?: InputMaybe<Scalars['String']>;
+  createdAtTx_not_in?: InputMaybe<Array<Scalars['String']>>;
+  createdAtTx_not_starts_with?: InputMaybe<Scalars['String']>;
+  createdAtTx_starts_with?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+  id_gt?: InputMaybe<Scalars['ID']>;
+  id_gte?: InputMaybe<Scalars['ID']>;
+  id_in?: InputMaybe<Array<Scalars['ID']>>;
+  id_lt?: InputMaybe<Scalars['ID']>;
+  id_lte?: InputMaybe<Scalars['ID']>;
+  id_not?: InputMaybe<Scalars['ID']>;
+  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
+  totalAmountBTCInitialized?: InputMaybe<Scalars['BigDecimal']>;
+  totalAmountBTCInitialized_gt?: InputMaybe<Scalars['BigDecimal']>;
+  totalAmountBTCInitialized_gte?: InputMaybe<Scalars['BigDecimal']>;
+  totalAmountBTCInitialized_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  totalAmountBTCInitialized_lt?: InputMaybe<Scalars['BigDecimal']>;
+  totalAmountBTCInitialized_lte?: InputMaybe<Scalars['BigDecimal']>;
+  totalAmountBTCInitialized_not?: InputMaybe<Scalars['BigDecimal']>;
+  totalAmountBTCInitialized_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  totalAmountBTCMined?: InputMaybe<Scalars['BigDecimal']>;
+  totalAmountBTCMined_gt?: InputMaybe<Scalars['BigDecimal']>;
+  totalAmountBTCMined_gte?: InputMaybe<Scalars['BigDecimal']>;
+  totalAmountBTCMined_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  totalAmountBTCMined_lt?: InputMaybe<Scalars['BigDecimal']>;
+  totalAmountBTCMined_lte?: InputMaybe<Scalars['BigDecimal']>;
+  totalAmountBTCMined_not?: InputMaybe<Scalars['BigDecimal']>;
+  totalAmountBTCMined_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  totalAmountBTCRefunded?: InputMaybe<Scalars['BigDecimal']>;
+  totalAmountBTCRefunded_gt?: InputMaybe<Scalars['BigDecimal']>;
+  totalAmountBTCRefunded_gte?: InputMaybe<Scalars['BigDecimal']>;
+  totalAmountBTCRefunded_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  totalAmountBTCRefunded_lt?: InputMaybe<Scalars['BigDecimal']>;
+  totalAmountBTCRefunded_lte?: InputMaybe<Scalars['BigDecimal']>;
+  totalAmountBTCRefunded_not?: InputMaybe<Scalars['BigDecimal']>;
+  totalAmountBTCRefunded_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  totalAmountBTCSending?: InputMaybe<Scalars['BigDecimal']>;
+  totalAmountBTCSending_gt?: InputMaybe<Scalars['BigDecimal']>;
+  totalAmountBTCSending_gte?: InputMaybe<Scalars['BigDecimal']>;
+  totalAmountBTCSending_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  totalAmountBTCSending_lt?: InputMaybe<Scalars['BigDecimal']>;
+  totalAmountBTCSending_lte?: InputMaybe<Scalars['BigDecimal']>;
+  totalAmountBTCSending_not?: InputMaybe<Scalars['BigDecimal']>;
+  totalAmountBTCSending_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  totalFeesBTC?: InputMaybe<Scalars['BigDecimal']>;
+  totalFeesBTC_gt?: InputMaybe<Scalars['BigDecimal']>;
+  totalFeesBTC_gte?: InputMaybe<Scalars['BigDecimal']>;
+  totalFeesBTC_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  totalFeesBTC_lt?: InputMaybe<Scalars['BigDecimal']>;
+  totalFeesBTC_lte?: InputMaybe<Scalars['BigDecimal']>;
+  totalFeesBTC_not?: InputMaybe<Scalars['BigDecimal']>;
+  totalFeesBTC_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  updatedAtTx?: InputMaybe<Scalars['String']>;
+  updatedAtTx_contains?: InputMaybe<Scalars['String']>;
+  updatedAtTx_ends_with?: InputMaybe<Scalars['String']>;
+  updatedAtTx_gt?: InputMaybe<Scalars['String']>;
+  updatedAtTx_gte?: InputMaybe<Scalars['String']>;
+  updatedAtTx_in?: InputMaybe<Array<Scalars['String']>>;
+  updatedAtTx_lt?: InputMaybe<Scalars['String']>;
+  updatedAtTx_lte?: InputMaybe<Scalars['String']>;
+  updatedAtTx_not?: InputMaybe<Scalars['String']>;
+  updatedAtTx_not_contains?: InputMaybe<Scalars['String']>;
+  updatedAtTx_not_ends_with?: InputMaybe<Scalars['String']>;
+  updatedAtTx_not_in?: InputMaybe<Array<Scalars['String']>>;
+  updatedAtTx_not_starts_with?: InputMaybe<Scalars['String']>;
+  updatedAtTx_starts_with?: InputMaybe<Scalars['String']>;
+  user?: InputMaybe<Scalars['String']>;
+  user_contains?: InputMaybe<Scalars['String']>;
+  user_ends_with?: InputMaybe<Scalars['String']>;
+  user_gt?: InputMaybe<Scalars['String']>;
+  user_gte?: InputMaybe<Scalars['String']>;
+  user_in?: InputMaybe<Array<Scalars['String']>>;
+  user_lt?: InputMaybe<Scalars['String']>;
+  user_lte?: InputMaybe<Scalars['String']>;
+  user_not?: InputMaybe<Scalars['String']>;
+  user_not_contains?: InputMaybe<Scalars['String']>;
+  user_not_ends_with?: InputMaybe<Scalars['String']>;
+  user_not_in?: InputMaybe<Array<Scalars['String']>>;
+  user_not_starts_with?: InputMaybe<Scalars['String']>;
+  user_starts_with?: InputMaybe<Scalars['String']>;
+};
+
+export enum FastBtcBridgeStat_OrderBy {
+  CreatedAtTx = 'createdAtTx',
+  Id = 'id',
+  TotalAmountBtcInitialized = 'totalAmountBTCInitialized',
+  TotalAmountBtcMined = 'totalAmountBTCMined',
+  TotalAmountBtcRefunded = 'totalAmountBTCRefunded',
+  TotalAmountBtcSending = 'totalAmountBTCSending',
+  TotalFeesBtc = 'totalFeesBTC',
+  UpdatedAtTx = 'updatedAtTx',
+  User = 'user',
 }
 
 export type FeeSharingTokensTransferred = {
@@ -4202,6 +4585,10 @@ export type Query = {
   __typename?: 'Query';
   /** Access to subgraph metadata */
   _meta?: Maybe<_Meta_>;
+  bitcoinTransfer?: Maybe<BitcoinTransfer>;
+  bitcoinTransferBatchSending?: Maybe<BitcoinTransferBatchSending>;
+  bitcoinTransferBatchSendings: Array<BitcoinTransferBatchSending>;
+  bitcoinTransfers: Array<BitcoinTransfer>;
   borrow?: Maybe<Borrow>;
   borrows: Array<Borrow>;
   candleStick?: Maybe<CandleStick>;
@@ -4218,6 +4605,8 @@ export type Query = {
   depositCollateral?: Maybe<DepositCollateral>;
   depositCollaterals: Array<DepositCollateral>;
   deposits: Array<Deposit>;
+  fastBTCBridgeStat?: Maybe<FastBtcBridgeStat>;
+  fastBTCBridgeStats: Array<FastBtcBridgeStat>;
   feeSharingTokensTransferred?: Maybe<FeeSharingTokensTransferred>;
   feeSharingTokensTransferreds: Array<FeeSharingTokensTransferred>;
   lendingHistoryItem?: Maybe<LendingHistoryItem>;
@@ -4309,6 +4698,38 @@ export type Query = {
 
 export type Query_MetaArgs = {
   block?: InputMaybe<Block_Height>;
+};
+
+export type QueryBitcoinTransferArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+export type QueryBitcoinTransferBatchSendingArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+export type QueryBitcoinTransferBatchSendingsArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<BitcoinTransferBatchSending_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<BitcoinTransferBatchSending_Filter>;
+};
+
+export type QueryBitcoinTransfersArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<BitcoinTransfer_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<BitcoinTransfer_Filter>;
 };
 
 export type QueryBorrowArgs = {
@@ -4437,6 +4858,22 @@ export type QueryDepositsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   subgraphError?: _SubgraphErrorPolicy_;
   where?: InputMaybe<Deposit_Filter>;
+};
+
+export type QueryFastBtcBridgeStatArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+export type QueryFastBtcBridgeStatsArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<FastBtcBridgeStat_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<FastBtcBridgeStat_Filter>;
 };
 
 export type QueryFeeSharingTokensTransferredArgs = {
@@ -5721,6 +6158,10 @@ export type Subscription = {
   __typename?: 'Subscription';
   /** Access to subgraph metadata */
   _meta?: Maybe<_Meta_>;
+  bitcoinTransfer?: Maybe<BitcoinTransfer>;
+  bitcoinTransferBatchSending?: Maybe<BitcoinTransferBatchSending>;
+  bitcoinTransferBatchSendings: Array<BitcoinTransferBatchSending>;
+  bitcoinTransfers: Array<BitcoinTransfer>;
   borrow?: Maybe<Borrow>;
   borrows: Array<Borrow>;
   candleStick?: Maybe<CandleStick>;
@@ -5737,6 +6178,8 @@ export type Subscription = {
   depositCollateral?: Maybe<DepositCollateral>;
   depositCollaterals: Array<DepositCollateral>;
   deposits: Array<Deposit>;
+  fastBTCBridgeStat?: Maybe<FastBtcBridgeStat>;
+  fastBTCBridgeStats: Array<FastBtcBridgeStat>;
   feeSharingTokensTransferred?: Maybe<FeeSharingTokensTransferred>;
   feeSharingTokensTransferreds: Array<FeeSharingTokensTransferred>;
   lendingHistoryItem?: Maybe<LendingHistoryItem>;
@@ -5828,6 +6271,38 @@ export type Subscription = {
 
 export type Subscription_MetaArgs = {
   block?: InputMaybe<Block_Height>;
+};
+
+export type SubscriptionBitcoinTransferArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+export type SubscriptionBitcoinTransferBatchSendingArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+export type SubscriptionBitcoinTransferBatchSendingsArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<BitcoinTransferBatchSending_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<BitcoinTransferBatchSending_Filter>;
+};
+
+export type SubscriptionBitcoinTransfersArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<BitcoinTransfer_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<BitcoinTransfer_Filter>;
 };
 
 export type SubscriptionBorrowArgs = {
@@ -5956,6 +6431,22 @@ export type SubscriptionDepositsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   subgraphError?: _SubgraphErrorPolicy_;
   where?: InputMaybe<Deposit_Filter>;
+};
+
+export type SubscriptionFastBtcBridgeStatArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+export type SubscriptionFastBtcBridgeStatsArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<FastBtcBridgeStat_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<FastBtcBridgeStat_Filter>;
 };
 
 export type SubscriptionFeeSharingTokensTransferredArgs = {
@@ -7513,10 +8004,13 @@ export enum Transaction_OrderBy {
 /** This entity contains all user-specific data displayed on the dapp, including all user actions */
 export type User = {
   __typename?: 'User';
+  /** FastBTCBridge transfers from BTC to RSK */
+  bitcoinTransfers?: Maybe<Array<BitcoinTransfer>>;
   /** An array of Borrow events */
   borrows?: Maybe<Array<Borrow>>;
   /** Timestamp of User's first interaction with the protocol (first transaction) */
   createdAtTimestamp: Scalars['Int'];
+  fastBTCBridgeStats?: Maybe<Array<FastBtcBridgeStat>>;
   /** ID is user wallet address */
   id: Scalars['ID'];
   /** The lending history of a User, separated into lending pools. Explore the UserLendingHistory entity for more granular events. */
@@ -7552,12 +8046,30 @@ export type User = {
 };
 
 /** This entity contains all user-specific data displayed on the dapp, including all user actions */
+export type UserBitcoinTransfersArgs = {
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<BitcoinTransfer_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<BitcoinTransfer_Filter>;
+};
+
+/** This entity contains all user-specific data displayed on the dapp, including all user actions */
 export type UserBorrowsArgs = {
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<Borrow_OrderBy>;
   orderDirection?: InputMaybe<OrderDirection>;
   skip?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<Borrow_Filter>;
+};
+
+/** This entity contains all user-specific data displayed on the dapp, including all user actions */
+export type UserFastBtcBridgeStatsArgs = {
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<FastBtcBridgeStat_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<FastBtcBridgeStat_Filter>;
 };
 
 /** This entity contains all user-specific data displayed on the dapp, including all user actions */
@@ -7854,14 +8366,20 @@ export enum UserLiquidityHistory_OrderBy {
 /** This entity contains the history, fees and totals regarding one users' SOV rewards */
 export type UserRewardsEarnedHistory = {
   __typename?: 'UserRewardsEarnedHistory';
-  /** This is incremented by EarnReward and RewardClaimed events, and set to 0 by RewardWithdrawn events */
-  availableRewardSov: Scalars['BigDecimal'];
-  /** This is incremented by EarnReward events, and set to 0 by TokensStaked events on the LockedSOV contract */
+  /**
+   * SOV rewards earned from margin trading, but not yet claimed and vested
+   * Incremented by EarnReward events, and set to 0 by TokensStaked events on the LockedSOV contract
+   */
   availableTradingRewards: Scalars['BigDecimal'];
   id: Scalars['ID'];
   rewardsEarnedHistory?: Maybe<Array<RewardsEarnedHistoryItem>>;
   /** This is the total of all EarnReward and RewardClaimed events */
   totalFeesAndRewardsEarned: Scalars['BigDecimal'];
+  /**
+   * Sum of all SOV rewards earned from margin trading.
+   * Incremented by EarnReward events
+   */
+  totalTradingRewards: Scalars['BigDecimal'];
   user: User;
 };
 
@@ -7875,14 +8393,6 @@ export type UserRewardsEarnedHistoryRewardsEarnedHistoryArgs = {
 };
 
 export type UserRewardsEarnedHistory_Filter = {
-  availableRewardSov?: InputMaybe<Scalars['BigDecimal']>;
-  availableRewardSov_gt?: InputMaybe<Scalars['BigDecimal']>;
-  availableRewardSov_gte?: InputMaybe<Scalars['BigDecimal']>;
-  availableRewardSov_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  availableRewardSov_lt?: InputMaybe<Scalars['BigDecimal']>;
-  availableRewardSov_lte?: InputMaybe<Scalars['BigDecimal']>;
-  availableRewardSov_not?: InputMaybe<Scalars['BigDecimal']>;
-  availableRewardSov_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
   availableTradingRewards?: InputMaybe<Scalars['BigDecimal']>;
   availableTradingRewards_gt?: InputMaybe<Scalars['BigDecimal']>;
   availableTradingRewards_gte?: InputMaybe<Scalars['BigDecimal']>;
@@ -7907,6 +8417,14 @@ export type UserRewardsEarnedHistory_Filter = {
   totalFeesAndRewardsEarned_lte?: InputMaybe<Scalars['BigDecimal']>;
   totalFeesAndRewardsEarned_not?: InputMaybe<Scalars['BigDecimal']>;
   totalFeesAndRewardsEarned_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  totalTradingRewards?: InputMaybe<Scalars['BigDecimal']>;
+  totalTradingRewards_gt?: InputMaybe<Scalars['BigDecimal']>;
+  totalTradingRewards_gte?: InputMaybe<Scalars['BigDecimal']>;
+  totalTradingRewards_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  totalTradingRewards_lt?: InputMaybe<Scalars['BigDecimal']>;
+  totalTradingRewards_lte?: InputMaybe<Scalars['BigDecimal']>;
+  totalTradingRewards_not?: InputMaybe<Scalars['BigDecimal']>;
+  totalTradingRewards_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
   user?: InputMaybe<Scalars['String']>;
   user_contains?: InputMaybe<Scalars['String']>;
   user_ends_with?: InputMaybe<Scalars['String']>;
@@ -7924,11 +8442,11 @@ export type UserRewardsEarnedHistory_Filter = {
 };
 
 export enum UserRewardsEarnedHistory_OrderBy {
-  AvailableRewardSov = 'availableRewardSov',
   AvailableTradingRewards = 'availableTradingRewards',
   Id = 'id',
   RewardsEarnedHistory = 'rewardsEarnedHistory',
   TotalFeesAndRewardsEarned = 'totalFeesAndRewardsEarned',
+  TotalTradingRewards = 'totalTradingRewards',
   User = 'user',
 }
 
@@ -8209,8 +8727,10 @@ export type User_Filter = {
 };
 
 export enum User_OrderBy {
+  BitcoinTransfers = 'bitcoinTransfers',
   Borrows = 'borrows',
   CreatedAtTimestamp = 'createdAtTimestamp',
+  FastBtcBridgeStats = 'fastBTCBridgeStats',
   Id = 'id',
   LendingHistory = 'lendingHistory',
   Liquidations = 'liquidations',
@@ -8751,6 +9271,19 @@ export type GetLendHistoryQuery = {
   } | null;
 };
 
+export type GetTradingRewardsQueryVariables = Exact<{
+  id: Scalars['ID'];
+}>;
+
+export type GetTradingRewardsQuery = {
+  __typename?: 'Query';
+  userRewardsEarnedHistory?: {
+    __typename?: 'UserRewardsEarnedHistory';
+    availableTradingRewards: string;
+    totalTradingRewards: string;
+  } | null;
+};
+
 export type UsersQueryVariables = Exact<{
   where?: InputMaybe<User_Filter>;
 }>;
@@ -8922,6 +9455,65 @@ export type GetLendHistoryLazyQueryHookResult = ReturnType<
 export type GetLendHistoryQueryResult = Apollo.QueryResult<
   GetLendHistoryQuery,
   GetLendHistoryQueryVariables
+>;
+export const GetTradingRewardsDocument = gql`
+  query getTradingRewards($id: ID!) {
+    userRewardsEarnedHistory(id: $id) {
+      availableTradingRewards
+      totalTradingRewards
+    }
+  }
+`;
+
+/**
+ * __useGetTradingRewardsQuery__
+ *
+ * To run a query within a React component, call `useGetTradingRewardsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTradingRewardsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTradingRewardsQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useGetTradingRewardsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetTradingRewardsQuery,
+    GetTradingRewardsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetTradingRewardsQuery,
+    GetTradingRewardsQueryVariables
+  >(GetTradingRewardsDocument, options);
+}
+export function useGetTradingRewardsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetTradingRewardsQuery,
+    GetTradingRewardsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetTradingRewardsQuery,
+    GetTradingRewardsQueryVariables
+  >(GetTradingRewardsDocument, options);
+}
+export type GetTradingRewardsQueryHookResult = ReturnType<
+  typeof useGetTradingRewardsQuery
+>;
+export type GetTradingRewardsLazyQueryHookResult = ReturnType<
+  typeof useGetTradingRewardsLazyQuery
+>;
+export type GetTradingRewardsQueryResult = Apollo.QueryResult<
+  GetTradingRewardsQuery,
+  GetTradingRewardsQueryVariables
 >;
 export const UsersDocument = gql`
   query users($where: User_filter) {
