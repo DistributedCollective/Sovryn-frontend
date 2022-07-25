@@ -1,10 +1,12 @@
-import { weiTo18 } from 'utils/blockchain/math-helpers';
 import { bignumber } from 'mathjs';
 import { TradingPosition } from 'types/trading-position';
 import imgArrowUp from 'assets/images/trend-arrow-up.svg';
 import imgArrowDown from 'assets/images/trend-arrow-down.svg';
 import { TradePriceChange } from 'types/trading-pairs';
-import { LoanEvent } from '../components/OpenPositionsTable/hooks/useMargin_getLoanEvents';
+import {
+  MarginLoansLiquidateFragment,
+  MarginLoansCloseWithSwapFragment,
+} from 'utils/graphql/rsk/generated';
 
 export const isLongTrade = (position: TradingPosition) => {
   return position === TradingPosition.LONG;
@@ -32,14 +34,51 @@ export const getPriceChange = (priceDirection: number) => {
   }
 };
 
-export const getTradingPositionPrice = (
-  item: LoanEvent,
+export const getOpenPositionPrice = (
+  price: string,
   position: TradingPosition,
 ) => {
-  if (position === TradingPosition.LONG) {
-    return Number(weiTo18(item.collateralToLoanRate));
+  if (!isLongTrade(position)) {
+    return price;
   }
-  return 1 / Number(weiTo18(item.collateralToLoanRate));
+  return (1 / Number(price)).toString();
+};
+
+export const getClosePositionPrice = (
+  liquidates: MarginLoansLiquidateFragment[],
+  closeWithSwaps: MarginLoansCloseWithSwapFragment[],
+  position: TradingPosition,
+) => {
+  const sortedList = liquidates.slice().sort((a, b) => {
+    return b.timestamp - a.timestamp;
+  });
+
+  if (sortedList.length > 0) {
+    if (isLongTrade(position)) {
+      return sortedList[0].collateralToLoanRate;
+    }
+    return (1 / Number(sortedList[0].collateralToLoanRate)).toString();
+  } else {
+    if (!isLongTrade(position)) {
+      return closeWithSwaps[0].exitPrice;
+    }
+    return (1 / Number(closeWithSwaps[0].exitPrice)).toString();
+  }
+};
+
+export const getExitTransactionHash = (
+  liquidates: MarginLoansLiquidateFragment[],
+  closeWithSwaps: MarginLoansCloseWithSwapFragment[],
+) => {
+  const sortedList = liquidates.slice().sort((a, b) => {
+    return b.timestamp - a.timestamp;
+  });
+
+  if (sortedList.length > 0) {
+    return sortedList[0].transaction.id;
+  } else {
+    return closeWithSwaps[0].transaction.id;
+  }
 };
 
 export const calculateMinimumReturn = (
