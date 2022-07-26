@@ -21,6 +21,7 @@
     "maintenance": "Under Maintenance",
     "comingSoon": "Coming Soon",
     "next": "Next",
+    "previous": "Previous",
     "loading": "Loading...",
     "noData": "No data",
     "retry": "Retry",
@@ -2788,15 +2789,16 @@
   },
   "competitionPage": {
     "meta": {
-      "title": "Trading Competition",
+      "title": "Trade Ranking",
       "description": ""
     },
     "nav": {
       "perpetualSwap": "Perpetuals",
+      "leaderboard": "Leaderboard",
       "competition": "Competition"
     },
     "rules": {
-      "title": "Trading Competition",
+      "title": "Trade Ranking",
       "reportBugs": "Please report bugs and issues here!",
       "prizeDistribution": "The total prize money is 0.5 BTC plus a share of the profit/loss that the AMM incurs during the competition. Prize money is paid to top 3 traders and distributed in relation to their P&L.",
       "welcomeMessage": "To start trading, navigate to <0>the Perpetuals page</0>, connect your wallet, fund it and trade."
@@ -2804,8 +2806,8 @@
     "registered": "You are registered! If you require some help, please click on the help button in the top right or post a message on our <0>discord</0>.",
     "cta": {
       "connect": "Connect Wallet",
-      "enter": "Enter Contest",
-      "compete": "Compete"
+      "enter": "Enter Leaderboard",
+      "compete": "Trade"
     },
     "table": {
       "rank": "Rank",

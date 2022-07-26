@@ -11,6 +11,7 @@ import { IEarnedFee } from '../../hooks/useGetFeesEarnedClaimAmount';
 import { FeesEarnedClaimRow } from '../ClaimForms/FeesEarnedClaimRow';
 import { useGetFeesEarnedEvents } from '../../hooks/useGetFeesEarnedEvents';
 import { AssetRenderer } from 'app/components/AssetRenderer';
+import { weiTo18 } from 'utils/blockchain/math-helpers';
 
 interface IFeesEarnedTabProps {
   amountToClaim: string;
@@ -89,8 +90,8 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
         <RewardsDetail
           color={RewardsDetailColor.Yellow}
           title={t(translations.rewardPage.fee.stakingFee)}
-          availableAmount={amountToClaim}
-          totalEarnedAmount={totalRewardsEarned}
+          availableAmount={weiTo18(amountToClaim)}
+          totalEarnedAmount={weiTo18(totalRewardsEarned)}
           asset={Asset.RBTC}
           loading={totalAmountLoading}
           showApproximateSign

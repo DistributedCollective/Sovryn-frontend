@@ -31,7 +31,6 @@ import {
 } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
 import { PerpetualPair } from 'utils/models/perpetual-pair';
 import { Nullable } from 'types';
-import { usePerpetual_getAmmCompetitionProfit } from 'app/pages/PerpetualPage/hooks/usePerpetual_getAmmCompetitionProfit';
 
 interface ILeaderboardProps {
   data: RegisteredTraderData[];
@@ -51,7 +50,7 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
   const [items, setItems] = useState<LeaderboardData[]>([]);
   const [userData, setUserData] = useState<Nullable<LeaderboardData>>(null);
   const [loaded, setLoaded] = useState(false);
-  const [potentialPrizes, setPotentialPrizes] = useState([0, 0, 0]);
+  // const [potentialPrizes, setPotentialPrizes] = useState([0, 0, 0]);
 
   const { perpetuals } = useContext(PerpetualQueriesContext);
   const { ammState, perpetualParameters } = perpetuals[pair.id];
@@ -61,10 +60,10 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
     data.map(val => val.walletAddress),
   );
 
-  const {
-    result: ammProfit,
-    refetch: ammProfitRefetch,
-  } = usePerpetual_getAmmCompetitionProfit();
+  // const {
+  //   result: ammProfit,
+  //   refetch: ammProfitRefetch,
+  // } = usePerpetual_getAmmCompetitionProfit();
 
   // throttle function prevents the exhaustive deps check
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -215,13 +214,13 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
 
   useEffect(() => updateItems(), [updateItems]);
 
-  useEffect(() => {
-    setPotentialPrizes(calculatePotentialPrizes(items, ammProfit));
-  }, [ammProfit, items]);
+  // useEffect(() => {
+  //   setPotentialPrizes(calculatePotentialPrizes(items, ammProfit));
+  // }, [ammProfit, items]);
 
-  useEffect(() => {
-    ammProfitRefetch();
-  }, [account, data, leaderboardData, ammProfitRefetch]);
+  // useEffect(() => {
+  //   ammProfitRefetch();
+  // }, [account, data, leaderboardData, ammProfitRefetch]);
 
   return (
     <>
@@ -230,7 +229,7 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
           <div className="tw-px-1 tw-w-1/12">
             {t(translations.competitionPage.table.rank)}
           </div>
-          <div className="tw-px-1 tw-w-3/12">
+          <div className="tw-px-1 tw-w-4/12">
             {t(translations.competitionPage.table.name)}
           </div>
           <div className="tw-px-1 tw-w-1/12">
@@ -242,9 +241,9 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
           <div className="tw-px-1 tw-w-2/12">
             {t(translations.competitionPage.table.total)}
           </div>
-          <div className="tw-px-1 tw-w-2/12">
+          {/* <div className="tw-px-1 tw-w-2/12">
             {t(translations.competitionPage.table.potentialPrize)}
-          </div>
+          </div> */}
         </div>
         <div
           className={classNames(
@@ -260,11 +259,11 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
                 data={val}
                 key={val.walletAddress}
                 isUser={isUser}
-                potentialPrize={
-                  ['1', '2', '3'].includes(val.rank)
-                    ? potentialPrizes[Number(val.rank) - 1]
-                    : 0
-                }
+                // potentialPrize={
+                //   ['1', '2', '3'].includes(val.rank)
+                //     ? potentialPrizes[Number(val.rank) - 1]
+                //     : 0
+                // }
               />
             );
           })}
@@ -287,11 +286,11 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
                 <TraderRow
                   data={userData}
                   isUser
-                  potentialPrize={
-                    ['1', '2', '3'].includes(userData.rank)
-                      ? potentialPrizes[Number(userData.rank) - 1]
-                      : 0
-                  }
+                  // potentialPrize={
+                  //   ['1', '2', '3'].includes(userData.rank)
+                  //     ? potentialPrizes[Number(userData.rank) - 1]
+                  //     : 0
+                  // }
                 />
               )}
             </div>
@@ -302,21 +301,21 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
   );
 };
 
-const calculatePotentialPrizes = (
-  traders: LeaderboardData[],
-  ammProfit: number,
-): number[] => {
-  const firstTraderPnl =
-    traders.find(trader => trader.rank === '1')?.totalPnL || 0;
-  const secondTraderPnl =
-    traders.find(trader => trader.rank === '2')?.totalPnL || 0;
-  const thirdTraderPnl =
-    traders.find(trader => trader.rank === '3')?.totalPnL || 0;
-  const totalTradersPnl = firstTraderPnl + secondTraderPnl + thirdTraderPnl;
+// const calculatePotentialPrizes = (
+//   traders: LeaderboardData[],
+//   ammProfit: number,
+// ): number[] => {
+//   const firstTraderPnl =
+//     traders.find(trader => trader.rank === '1')?.totalPnL || 0;
+//   const secondTraderPnl =
+//     traders.find(trader => trader.rank === '2')?.totalPnL || 0;
+//   const thirdTraderPnl =
+//     traders.find(trader => trader.rank === '3')?.totalPnL || 0;
+//   const totalTradersPnl = firstTraderPnl + secondTraderPnl + thirdTraderPnl;
 
-  return [
-    (firstTraderPnl / totalTradersPnl) * ammProfit,
-    (secondTraderPnl / totalTradersPnl) * ammProfit,
-    (thirdTraderPnl / totalTradersPnl) * ammProfit,
-  ];
-};
+//   return [
+//     (firstTraderPnl / totalTradersPnl) * ammProfit,
+//     (secondTraderPnl / totalTradersPnl) * ammProfit,
+//     (thirdTraderPnl / totalTradersPnl) * ammProfit,
+//   ];
+// };
