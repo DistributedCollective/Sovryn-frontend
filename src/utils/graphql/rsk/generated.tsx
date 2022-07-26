@@ -9511,6 +9511,77 @@ export type GetTradingRewardsQuery = {
   } | null;
 };
 
+export type GetVestedHistoryQueryVariables = Exact<{
+  user?: InputMaybe<Scalars['String']>;
+}>;
+
+export type GetVestedHistoryQuery = {
+  __typename?: 'Query';
+  vestingContracts: Array<{
+    __typename?: 'VestingContract';
+    cliff?: number | null;
+    duration?: number | null;
+    startingBalance: string;
+    currentBalance: string;
+    type: VestingContractType;
+    createdAtTimestamp: number;
+    emittedBy: string;
+    stakeHistory?: Array<{
+      __typename?: 'VestingHistoryItem';
+      id: string;
+      action: VestingHistoryItemAction;
+      amount: string;
+      lockedUntil: number;
+      timestamp: number;
+      transaction: { __typename?: 'Transaction'; id: string };
+    }> | null;
+    createdAtTransaction: { __typename?: 'Transaction'; id: string };
+  }>;
+};
+
+export type VestedContractFieldsFragment = {
+  __typename?: 'VestingContract';
+  cliff?: number | null;
+  duration?: number | null;
+  startingBalance: string;
+  currentBalance: string;
+  type: VestingContractType;
+  createdAtTimestamp: number;
+  emittedBy: string;
+  stakeHistory?: Array<{
+    __typename?: 'VestingHistoryItem';
+    id: string;
+    action: VestingHistoryItemAction;
+    amount: string;
+    lockedUntil: number;
+    timestamp: number;
+    transaction: { __typename?: 'Transaction'; id: string };
+  }> | null;
+  createdAtTransaction: { __typename?: 'Transaction'; id: string };
+};
+
+export type VestedContractTypeFragment = {
+  __typename?: 'VestingContract';
+  cliff?: number | null;
+  duration?: number | null;
+  startingBalance: string;
+  currentBalance: string;
+  type: VestingContractType;
+  createdAtTimestamp: number;
+  emittedBy: string;
+  createdAtTransaction: { __typename?: 'Transaction'; id: string };
+};
+
+export type VestedHistoryFieldsFragment = {
+  __typename?: 'VestingHistoryItem';
+  id: string;
+  action: VestingHistoryItemAction;
+  amount: string;
+  lockedUntil: number;
+  timestamp: number;
+  transaction: { __typename?: 'Transaction'; id: string };
+};
+
 export type GetLiquidityHistoryQueryVariables = Exact<{
   user?: InputMaybe<Scalars['String']>;
 }>;
@@ -9731,6 +9802,46 @@ export const MarginLoansFieldsFragmentDoc = gql`
   ${MarginLoansLiquidateFragmentDoc}
   ${MarginLoansCloseWithSwapFragmentDoc}
   ${MarginLoansCloseWithDepositFragmentDoc}
+`;
+export const VestedContractTypeFragmentDoc = gql`
+  fragment VestedContractType on VestingContract {
+    cliff
+    duration
+    startingBalance
+    currentBalance
+    type
+    createdAtTimestamp
+    emittedBy
+    createdAtTransaction {
+      id
+    }
+  }
+`;
+export const VestedHistoryFieldsFragmentDoc = gql`
+  fragment VestedHistoryFields on VestingHistoryItem {
+    id
+    action
+    amount
+    lockedUntil
+    timestamp
+    transaction {
+      id
+    }
+  }
+`;
+export const VestedContractFieldsFragmentDoc = gql`
+  fragment VestedContractFields on VestingContract {
+    ...VestedContractType
+    stakeHistory(
+      where: { action: TokensStaked }
+      orderBy: timestamp
+      orderDirection: desc
+    ) {
+      ...VestedHistoryFields
+    }
+  }
+  ${VestedContractTypeFragmentDoc}
+  ${VestedHistoryFieldsFragmentDoc}
 `;
 export const GetBorrowHistoryDocument = gql`
   query getBorrowHistory($user: String) {
@@ -10064,6 +10175,65 @@ export type GetTradingRewardsLazyQueryHookResult = ReturnType<
 export type GetTradingRewardsQueryResult = Apollo.QueryResult<
   GetTradingRewardsQuery,
   GetTradingRewardsQueryVariables
+>;
+export const GetVestedHistoryDocument = gql`
+  query getVestedHistory($user: String) {
+    vestingContracts(where: { user: $user }) {
+      ...VestedContractFields
+    }
+  }
+  ${VestedContractFieldsFragmentDoc}
+`;
+
+/**
+ * __useGetVestedHistoryQuery__
+ *
+ * To run a query within a React component, call `useGetVestedHistoryQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetVestedHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetVestedHistoryQuery({
+ *   variables: {
+ *      user: // value for 'user'
+ *   },
+ * });
+ */
+export function useGetVestedHistoryQuery(
+  baseOptions?: Apollo.QueryHookOptions<
+    GetVestedHistoryQuery,
+    GetVestedHistoryQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetVestedHistoryQuery, GetVestedHistoryQueryVariables>(
+    GetVestedHistoryDocument,
+    options,
+  );
+}
+export function useGetVestedHistoryLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetVestedHistoryQuery,
+    GetVestedHistoryQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetVestedHistoryQuery,
+    GetVestedHistoryQueryVariables
+  >(GetVestedHistoryDocument, options);
+}
+export type GetVestedHistoryQueryHookResult = ReturnType<
+  typeof useGetVestedHistoryQuery
+>;
+export type GetVestedHistoryLazyQueryHookResult = ReturnType<
+  typeof useGetVestedHistoryLazyQuery
+>;
+export type GetVestedHistoryQueryResult = Apollo.QueryResult<
+  GetVestedHistoryQuery,
+  GetVestedHistoryQueryVariables
 >;
 export const GetLiquidityHistoryDocument = gql`
   query getLiquidityHistory($user: String) {

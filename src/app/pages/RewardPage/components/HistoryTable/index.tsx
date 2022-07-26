@@ -3,7 +3,11 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { Pagination } from 'app/components/Pagination';
 import { useAccount, useBlockSync } from 'app/hooks/useAccount';
-import { backendUrl, currentChainId, PAGE_SIZE } from 'utils/classifiers';
+import {
+  backendUrl,
+  currentChainId,
+  DEFAULT_PAGE_SIZE,
+} from 'utils/classifiers';
 
 import { RewardEvent, TableBody } from './TableBody';
 import { TableHeader } from './TableHeader';
@@ -43,12 +47,12 @@ export const HistoryTable: React.FC<IHistoryTableProps> = ({ activeTab }) => {
 
     axios
       .get(
-        `${url}/v1/event-history/${historyEndpoint}/${account}?page=${page}&pageSize=${PAGE_SIZE}`,
+        `${url}/v1/event-history/${historyEndpoint}/${account}?page=${page}&pageSize=${DEFAULT_PAGE_SIZE}`,
       )
       .then(res => {
         const { events, pagination } = res.data;
         setHistory(events || []);
-        setTotal(pagination.totalPages * PAGE_SIZE);
+        setTotal(pagination.totalPages * DEFAULT_PAGE_SIZE);
         setLoading(false);
       })
       .catch(e => {
@@ -75,7 +79,7 @@ export const HistoryTable: React.FC<IHistoryTableProps> = ({ activeTab }) => {
         {total > 0 && (
           <Pagination
             totalRecords={total}
-            pageLimit={PAGE_SIZE}
+            pageLimit={DEFAULT_PAGE_SIZE}
             pageNeighbours={1}
             onChange={onPageChanged}
           />
