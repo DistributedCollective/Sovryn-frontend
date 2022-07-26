@@ -6,7 +6,7 @@ import { TableHeader } from './TableHeader';
 import { Pagination } from 'app/components/Pagination';
 import { useGetLiquidityHistoryQuery } from 'utils/graphql/rsk/generated';
 import { LiquidityPoolDictionary } from 'utils/dictionaries/liquidity-pool-dictionary';
-import { APOLLO_POLL_INTERVAL, PAGE_SIZE } from 'utils/classifiers';
+import { APOLLO_POLL_INTERVAL, DEFAULT_PAGE_SIZE } from 'utils/classifiers';
 
 export const HistoryTable: React.FC = () => {
   const account = useAccount();
@@ -39,8 +39,8 @@ export const HistoryTable: React.FC = () => {
   }, [data, loading]);
 
   const rows = useMemo(() => {
-    const startIndex = (page - 1) * PAGE_SIZE;
-    return items.slice(startIndex, startIndex + PAGE_SIZE);
+    const startIndex = (page - 1) * DEFAULT_PAGE_SIZE;
+    return items.slice(startIndex, startIndex + DEFAULT_PAGE_SIZE);
   }, [items, page]);
 
   return (
@@ -52,7 +52,7 @@ export const HistoryTable: React.FC = () => {
         </table>
         <Pagination
           totalRecords={items?.length || 0}
-          pageLimit={PAGE_SIZE}
+          pageLimit={DEFAULT_PAGE_SIZE}
           pageNeighbours={1}
           onChange={onPageChanged}
         />

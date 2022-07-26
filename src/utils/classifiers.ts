@@ -186,4 +186,4 @@ export const graphWrapperUrl = {
   31: 'https://graph-wrapper.test.sovryn.app/',
 };
 
-export const PAGE_SIZE = 5;
+export const DEFAULT_PAGE_SIZE = 5;
