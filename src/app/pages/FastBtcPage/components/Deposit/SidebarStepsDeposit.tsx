@@ -128,14 +128,14 @@ export const SidebarStepsDeposit: React.FC<NetworkAwareComponentProps> = () => {
 
   const canOpen = useCallback(
     (testStep: DepositStep) => {
-      const indexOfTest = stepOrder.indexOf(testStep);
-      const indexOfStep = stepOrder.indexOf(step);
+      const nextStepIndex = stepOrder.indexOf(testStep);
+      const activeStepIndex = stepOrder.indexOf(step);
 
-      if (indexOfTest === -1 || indexOfStep === -1) {
+      if (nextStepIndex === -1 || activeStepIndex === -1) {
         return false;
       }
       return (
-        indexOfTest < indexOfStep &&
+        nextStepIndex < activeStepIndex &&
         // Can't go back if in processing or complete state.
         ![DepositStep.PROCESSING, DepositStep.COMPLETED].includes(step)
       );

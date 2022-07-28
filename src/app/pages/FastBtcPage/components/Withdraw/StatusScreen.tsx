@@ -83,60 +83,73 @@ export const StatusScreen: React.FC<StatusScreenProps> = ({ tx, network }) => {
   const chainId = getBridgeChainId(network);
   const asset = getBTCAssetForNetwork(network);
 
-  const items = [
-    {
-      label: t(translations.fastBtcPage.withdraw.reviewScreen.dateTime),
-      value: new Date().toLocaleDateString(),
-    },
-    {
-      label: t(translations.fastBtcPage.withdraw.reviewScreen.amount),
-      value: (
-        <AssetValue value={Number(amount)} minDecimals={8} asset={asset} />
-      ),
-    },
-    {
-      label: t(translations.fastBtcPage.withdraw.reviewScreen.address),
-      value: (
-        <AddressBadge realBtc txHash={address} className="tw-text-primary" />
-      ),
-    },
-    {
-      label: t(translations.fastBtcPage.withdraw.reviewScreen.fees),
-      value: (
-        <LoadableValue
-          value={
-            <AssetValue value={feesPaid} minDecimals={8} assetString="BTC" />
-          }
-          loading={loading}
-        />
-      ),
-    },
-    {
-      label: t(translations.fastBtcPage.withdraw.reviewScreen.received),
-      value: (
-        <LoadableValue
-          value={
-            <AssetValue
-              value={receiveAmount}
-              minDecimals={8}
-              assetString="BTC"
-            />
-          }
-          loading={loading}
-        />
-      ),
-    },
-    {
-      label: t(translations.fastBtcPage.withdraw.reviewScreen.tx),
-      value: (
-        <LinkToExplorer
-          chainId={chainId || undefined}
-          txHash={tx.txHash}
-          className="tw-text-primary tw-underline"
-        />
-      ),
-    },
-  ];
+  const items = useMemo(
+    () => [
+      {
+        label: t(translations.fastBtcPage.withdraw.reviewScreen.dateTime),
+        value: new Date().toLocaleDateString(),
+      },
+      {
+        label: t(translations.fastBtcPage.withdraw.reviewScreen.amount),
+        value: (
+          <AssetValue value={Number(amount)} minDecimals={8} asset={asset} />
+        ),
+      },
+      {
+        label: t(translations.fastBtcPage.withdraw.reviewScreen.address),
+        value: (
+          <AddressBadge realBtc txHash={address} className="tw-text-primary" />
+        ),
+      },
+      {
+        label: t(translations.fastBtcPage.withdraw.reviewScreen.fees),
+        value: (
+          <LoadableValue
+            value={
+              <AssetValue value={feesPaid} minDecimals={8} assetString="BTC" />
+            }
+            loading={loading}
+          />
+        ),
+      },
+      {
+        label: t(translations.fastBtcPage.withdraw.reviewScreen.received),
+        value: (
+          <LoadableValue
+            value={
+              <AssetValue
+                value={receiveAmount}
+                minDecimals={8}
+                assetString="BTC"
+              />
+            }
+            loading={loading}
+          />
+        ),
+      },
+      {
+        label: t(translations.fastBtcPage.withdraw.reviewScreen.tx),
+        value: (
+          <LinkToExplorer
+            chainId={chainId || undefined}
+            txHash={tx.txHash}
+            className="tw-text-primary tw-underline"
+          />
+        ),
+      },
+    ],
+    [
+      address,
+      amount,
+      asset,
+      chainId,
+      feesPaid,
+      loading,
+      receiveAmount,
+      t,
+      tx.txHash,
+    ],
+  );
 
   return (
     <>

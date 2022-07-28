@@ -95,47 +95,64 @@ export const ReviewStep: React.FC = () => {
 
   const bridgeDepositLocked = useIsBridgeDepositLocked(targetAsset, chain);
 
-  const items = [
-    {
-      label: t(trans.dateTime),
-      value: new Date().toLocaleDateString(),
-    },
-    {
-      label: t(trans.from),
-      value: network?.name,
-    },
-    {
-      label: t(trans.to),
-      value: targetNetwork?.name,
-    },
-    {
-      label: t(trans.token),
-      value: (
-        <>
-          {sourceAsset} -&gt; {asset?.symbol}
-        </>
-      ),
-    },
-    {
-      label: t(trans.amount),
-      value: (
-        <AssetValue
-          value={Number(asset.fromWei(amount))}
-          minDecimals={asset.minDecimals}
-        />
-      ),
-    },
-    {
-      label: t(trans.bridgeFee),
-      value: (
-        <AssetValue
-          value={Number(asset.fromWei(limits.returnData.getFeePerToken))}
-          minDecimals={asset.minDecimals}
-          assetString={asset.symbol}
-        />
-      ),
-    },
-  ];
+  const items = useMemo(
+    () => [
+      {
+        label: t(trans.dateTime),
+        value: new Date().toLocaleDateString(),
+      },
+      {
+        label: t(trans.from),
+        value: network?.name,
+      },
+      {
+        label: t(trans.to),
+        value: targetNetwork?.name,
+      },
+      {
+        label: t(trans.token),
+        value: (
+          <>
+            {sourceAsset} -&gt; {asset?.symbol}
+          </>
+        ),
+      },
+      {
+        label: t(trans.amount),
+        value: (
+          <AssetValue
+            value={Number(asset.fromWei(amount))}
+            minDecimals={asset.minDecimals}
+          />
+        ),
+      },
+      {
+        label: t(trans.bridgeFee),
+        value: (
+          <AssetValue
+            value={Number(asset.fromWei(limits.returnData.getFeePerToken))}
+            minDecimals={asset.minDecimals}
+            assetString={asset.symbol}
+          />
+        ),
+      },
+    ],
+    [
+      amount,
+      asset,
+      limits.returnData.getFeePerToken,
+      network?.name,
+      sourceAsset,
+      t,
+      targetNetwork?.name,
+      trans.amount,
+      trans.bridgeFee,
+      trans.dateTime,
+      trans.from,
+      trans.to,
+      trans.token,
+    ],
+  );
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-max-w-80 tw-mb-10">
       <div className="tw-mb-5 tw-text-base tw-text-center tw-font-semibold">

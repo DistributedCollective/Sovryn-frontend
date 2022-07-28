@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Chain } from 'types';
+import { Chain, Nullable } from 'types';
 import erc20Token from 'utils/blockchain/abi/erc20.json';
 
 import { AssetModel } from '../types/asset-model';
@@ -12,7 +12,7 @@ export function useBridgeTokenBalance(
   asset: AssetModel,
   targetAsset: CrossBridgeAsset,
 ) {
-  const [state, setState] = useState<LoadingValueState<string | null>>({
+  const [state, setState] = useState<LoadingValueState<Nullable<string>>>({
     value: null,
     loading: false,
     error: null,

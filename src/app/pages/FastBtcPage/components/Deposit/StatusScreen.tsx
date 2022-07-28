@@ -67,36 +67,43 @@ export const StatusScreen: React.FC<NetworkAwareComponentProps> = ({
 
   const asset = getBTCAssetForNetwork(network);
 
-  const items = [
-    {
-      label: t(translations.fastBtcPage.withdraw.reviewScreen.dateTime),
-      value: new Date().toLocaleDateString(),
-    },
-    {
-      label: t(translations.fastBtcPage.deposit.statusScreen.amount),
-      value: (
-        <AssetValue value={Number(amount)} minDecimals={8} assetString="BTC" />
-      ),
-    },
+  const items = useMemo(
+    () => [
+      {
+        label: t(translations.fastBtcPage.withdraw.reviewScreen.dateTime),
+        value: new Date().toLocaleDateString(),
+      },
+      {
+        label: t(translations.fastBtcPage.deposit.statusScreen.amount),
+        value: (
+          <AssetValue
+            value={Number(amount)}
+            minDecimals={8}
+            assetString="BTC"
+          />
+        ),
+      },
 
-    {
-      label: t(translations.fastBtcPage.withdraw.reviewScreen.fees),
-      value: (
-        <AssetValue value={Number(feeAmount)} minDecimals={8} asset={asset} />
-      ),
-    },
+      {
+        label: t(translations.fastBtcPage.withdraw.reviewScreen.fees),
+        value: (
+          <AssetValue value={Number(feeAmount)} minDecimals={8} asset={asset} />
+        ),
+      },
 
-    {
-      label: t(translations.fastBtcPage.deposit.statusScreen.received),
-      value: (
-        <AssetValue
-          value={Number(receiveAmount)}
-          minDecimals={8}
-          asset={asset}
-        />
-      ),
-    },
-  ];
+      {
+        label: t(translations.fastBtcPage.deposit.statusScreen.received),
+        value: (
+          <AssetValue
+            value={Number(receiveAmount)}
+            minDecimals={8}
+            asset={asset}
+          />
+        ),
+      },
+    ],
+    [amount, asset, feeAmount, receiveAmount, t],
+  );
 
   return (
     <>

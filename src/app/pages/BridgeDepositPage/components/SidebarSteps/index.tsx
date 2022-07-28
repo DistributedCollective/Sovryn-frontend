@@ -100,14 +100,14 @@ export const SidebarSteps: React.FC = () => {
 
   const canOpen = useCallback(
     (nextStep: DepositStep) => {
-      const indexOfTest = stepOrder.indexOf(nextStep);
-      const indexOfStep = stepOrder.indexOf(activeStep);
+      const nextStepIndex = stepOrder.indexOf(nextStep);
+      const activeStepIndex = stepOrder.indexOf(activeStep);
 
-      if (indexOfTest === -1 || indexOfStep === -1) {
+      if (nextStepIndex === -1 || activeStepIndex === -1) {
         return false;
       }
       return (
-        indexOfTest < indexOfStep &&
+        nextStepIndex < activeStepIndex &&
         // Can't go back if in processing or complete state.
         ![DepositStep.PROCESSING, DepositStep.COMPLETE].includes(activeStep)
       );
