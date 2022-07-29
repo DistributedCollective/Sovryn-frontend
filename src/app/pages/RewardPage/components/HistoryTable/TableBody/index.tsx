@@ -25,6 +25,8 @@ export enum RewardEventType {
   PAY_TRADING_FEE_TO_AFFILIATE = 'PayTradingFeeToAffiliate',
   USER_FEE_WITHDRAWN = 'UserFeeWithdrawn',
   WITHDRAW_AFFILIATES_REFERRER_TOKEN_FEES = 'WithdrawAffiliatesReferrerTokenFees',
+  REWARD_SOV_STAKED = 'RewardSovStaked',
+  STAKING_REWARD_WITHDRAWN = 'StakingRewardWithdrawn',
 }
 
 interface ITableBodyProps {
@@ -42,9 +44,12 @@ export const TableBody: React.FC<ITableBodyProps> = ({ items, loading }) => {
           return lendingPools.includes(item.poolToken?.toLowerCase())
             ? t(translations.rewardPage.historyTable.event.lendingReward)
             : t(translations.rewardPage.historyTable.event.liquidityReward);
+        case RewardEventType.REWARD_SOV_STAKED:
+          return t(translations.rewardPage.historyTable.event.lendingReward);
         case RewardEventType.EARN_REWARD:
           return t(translations.rewardPage.historyTable.event.tradingReward);
         case RewardEventType.REWARD_WITHDRAWN:
+        case RewardEventType.STAKING_REWARD_WITHDRAWN:
           return t(translations.rewardPage.historyTable.event.stakingReward);
         case RewardEventType.PAY_TRADING_FEE_TO_AFFILIATE:
         case RewardEventType.WITHDRAW_AFFILIATES_REFERRER_TOKEN_FEES:
