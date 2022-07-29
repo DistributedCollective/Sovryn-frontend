@@ -133,6 +133,7 @@ export const TransactionDialog: React.FC<ITransactionDialogProps> = ({
                   </div>
                   <div className="tw-font-medium tw-w-1/2 tw-pl-2 tw-text-right">
                     <LinkToExplorer
+                      chainId={tx.txData?.chainId}
                       txHash={tx.txHash}
                       text={prettyTx(tx.txHash)}
                       className="tw-text-blue tw-underline"

@@ -1,6 +1,6 @@
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { bignumber } from 'mathjs';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -19,6 +19,7 @@ import { Tooltip } from '@blueprintjs/core';
 import { getCollateralName } from '../../utils/renderUtils';
 import { selectPerpetualPage } from '../../selectors';
 import { isMainnet, isStaging } from '../../../../../utils/classifiers';
+import { BTCBConversionDialog } from './BTCBConversionDialog';
 
 type AccountBalanceFormProps = {
   onOpenTransactionHistory: () => void;
@@ -41,6 +42,9 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
 }) => {
   const { t } = useTranslation();
   const history = useHistory();
+  const [showBTCBConversionDialog, setShowBTCBConversionDialog] = useState(
+    false,
+  );
 
   const { collateral, pairType } = useSelector(selectPerpetualPage);
 
@@ -209,6 +213,19 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
       </div>
       <div className="tw-flex tw-flex-col md:tw-flex-row tw-justify-center tw-mx-auto tw-mt-16 tw-space-y-4 md:tw-space-y-0 md:tw-space-x-10">
         <ActionButton
+          onClick={() => setShowBTCBConversionDialog(true)}
+          disabled={fundLocked}
+          tooltip={
+            fundLocked
+              ? t(translations.maintenance.perpetualsAccountFund)
+              : undefined
+          }
+          dataActionId="perps-accountBalance-btc-deposit"
+        >
+          {t(translations.perpetualPage.accountBalance.btcbConversion)}
+        </ActionButton>
+
+        <ActionButton
           onClick={onOpenDeposit}
           disabled={fundLocked}
           tooltip={
@@ -247,6 +264,11 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
           {t(translations.perpetualPage.accountBalance.transfer)}
         </ActionButton>
       </div>
+
+      <BTCBConversionDialog
+        isOpen={showBTCBConversionDialog}
+        onClose={() => setShowBTCBConversionDialog(false)}
+      />
     </div>
   );
 };

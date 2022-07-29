@@ -2238,6 +2238,7 @@
       "approvalFailed": "Approval failed"
     },
     "accountBalance": {
+      "btcbConversion": "Convert BTCB",
       "titleBalance": "Perpetuals Account",
       "titleHistory": "Funding History",
       "total": "Total Balance:",

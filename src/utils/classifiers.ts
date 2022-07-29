@@ -118,6 +118,7 @@ export const gasLimit = {
   [TxType.PERPETUAL_CREATE_LIMIT_ORDER]: 3000000,
   [TxType.LIMIT_ORDER]: 3000000,
   [TxType.SETTLEMENT_WITDHRAW]: 70000,
+  [TxType.CONVERT_BTCB]: 120000,
 };
 
 export const discordInvite = 'https://discord.gg/kBTNx4zjRf'; //unlimited use, no-expiry invite
