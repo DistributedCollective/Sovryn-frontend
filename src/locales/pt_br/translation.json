@@ -1666,7 +1666,7 @@
     }
   },
   "marginTradePage": {
-    "openPositions": "Open positions",
+    "openPositions": "Posições abertas",
     "meta": {
       "title": "Operar margem",
       "description": "Operar margem"
@@ -1728,7 +1728,7 @@
       "buy": "compra",
       "sell": "venda"
     },
-    "tradingHistory": "Margin order history",
+    "tradingHistory": "Histórico ordens a mercado",
     "limitOrderHistory": {
       "limitPriceHelper": "Final execution price of Limit Orders is impacted by cost of relayer fees and slippage at the time of execution. For further details see the <0>wiki</0>.",
       "filledPriceHelper": "Final execution price of Limit Orders is impacted by cost of relayer fees and slippage at the time of execution, therefore this will not match the defined limit price exactly. For further details see the <0>wiki</0>."
@@ -1908,9 +1908,9 @@
       "lastTradedPrice": "Último preço"
     },
     "history": {
-      "marketOrder": "Ordens a mercado executadas",
+      "marketOrder": "Histórico ordens a mercado",
       "openLimitOrders": "Ordens a limite abertas",
-      "limitOrderHistory": "Ordens a limite executadas"
+      "limitOrderHistory": "Histórico ordens a limite"
     },
     "tradeDialog": {
       "marketTitle": "Revisar ordem",
