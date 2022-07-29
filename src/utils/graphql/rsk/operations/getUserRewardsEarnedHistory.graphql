@@ -2,7 +2,7 @@ query getUserRewardsEarnedHistory($user: String, $skip: Int!, $pageSize: Int!) {
   rewardsEarnedHistoryItems(
     first: $pageSize
     skip: $skip
-    where: { user: $user }
+    where: { user: $user, amount_gt: 0 }
     orderBy: timestamp
     orderDirection: desc
   ) {

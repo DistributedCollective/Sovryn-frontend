@@ -9121,7 +9121,7 @@ export const GetUserRewardsEarnedHistoryDocument = gql`
     rewardsEarnedHistoryItems(
       first: $pageSize
       skip: $skip
-      where: { user: $user }
+      where: { user: $user, amount_gt: 0 }
       orderBy: timestamp
       orderDirection: desc
     ) {
