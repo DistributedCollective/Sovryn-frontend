@@ -40,7 +40,7 @@ export const AggregatorWithdrawContainer: React.FC<NetworkAwareComponentProps> =
       <div
         className="tw-flex tw-flex-col tw-justify-between tw-items-center tw-w-full"
         style={{
-          minHeight: step === WithdrawStep.MAIN ? 'auto' : 576,
+          minHeight: step === WithdrawStep.MAIN ? 'auto' : 510,
         }}
       >
         <SidebarStepsWithdraw network={network} />

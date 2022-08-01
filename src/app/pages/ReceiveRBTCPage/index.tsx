@@ -34,7 +34,7 @@ export const ReceiveRBTCPage: React.FC = () => {
       >
         <div
           style={{
-            minHeight: 610,
+            minHeight: 510,
             width: 780,
             maxWidth: 'calc(100vw - 22rem)',
           }}

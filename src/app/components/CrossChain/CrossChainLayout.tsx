@@ -63,7 +63,7 @@ export const CrossChainLayout: React.FC<CrossChainLayoutProps> = ({
         className="tw-rounded tw-w-full tw-bg-gray-3 tw-flex tw-justify-center tw-items-center tw-relative"
         style={{ minHeight: 'calc(100vh - 5.5rem)' }}
       >
-        <header className="tw-absolute tw-whitespace-nowrap tw-top-6 tw-right-0 tw-w-full tw-px-8 tw-z-50 tw-flex tw-flex-row tw-items-start tw-justify-between">
+        <header className="tw-absolute tw-whitespace-nowrap tw-top-4 tw-right-0 tw-w-full tw-px-8 tw-z-50 tw-flex tw-flex-row tw-items-start tw-justify-between">
           <Link
             to={backToUrl}
             className="tw-flex tw-items-center tw-font-semibold tw-cursor-pointer tw-select-none tw-text-white tw-whitespace-nowrap tw-no-underline"
@@ -76,7 +76,7 @@ export const CrossChainLayout: React.FC<CrossChainLayoutProps> = ({
               <div className="tw-font-semibold tw-text-2xl">{title}</div>
             )}
             {subtitle && (
-              <div className="tw-font-medium tw-text-base tw-mt-2">
+              <div className="tw-font-medium tw-text-base tw-mt-0">
                 {subtitle}
               </div>
             )}

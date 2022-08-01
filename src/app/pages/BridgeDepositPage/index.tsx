@@ -89,12 +89,14 @@ export const BridgeDepositPage: React.FC = () => {
   useEffect(() => {
     setOptions({
       viewType: 'gray',
-      hideTitle: true,
+      hideTitle: false,
+      size: 'sm',
     });
     return () => {
       setOptions({
         viewType: 'default',
         hideTitle: false,
+        size: 'md',
       });
     };
   }, [setOptions]);
@@ -107,7 +109,7 @@ export const BridgeDepositPage: React.FC = () => {
       })}
     >
       <div
-        style={{ minHeight: 610, width: 780, maxWidth: 'calc(100vw - 22rem)' }}
+        style={{ minHeight: 510, width: 780, maxWidth: 'calc(100vw - 22rem)' }}
         className="tw-pb-4 tw-flex tw-flex-col tw-h-full tw-relative"
       >
         <div

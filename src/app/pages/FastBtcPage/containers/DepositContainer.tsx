@@ -185,7 +185,7 @@ export const DepositContainer: React.FC<NetworkAwareComponentProps> = ({
     <DepositContext.Provider value={value}>
       <div
         style={{
-          minHeight: step === DepositStep.MAIN ? 'auto' : 576,
+          minHeight: step === DepositStep.MAIN ? 'auto' : 510,
         }}
         className="tw-flex tw-flex-col tw-items-center tw-w-full"
       >
