@@ -2136,6 +2136,13 @@
       "title": "Perpetuals",
       "description": "Trade with Sovryn's perpetual future contracts"
     },
+    "btcbConversionDialog": {
+      "sourceTitle": "From {{source}}",
+      "destinationTitle": "To {{destination}}",
+      "balance": "Balance:",
+      "tradingAccount": "Trading Account",
+      "transfer": "Transfer"
+    },
     "openPositionsTable": {
       "pair": "Symbol",
       "positionSize": "Position Size",

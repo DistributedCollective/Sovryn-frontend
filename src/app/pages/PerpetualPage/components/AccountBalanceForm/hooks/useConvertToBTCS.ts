@@ -6,7 +6,7 @@ import { TxType } from 'store/global/transactions-store/types';
 import { Asset } from 'types';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { gasLimit } from 'utils/classifiers';
-import { PERPETUAL_CHAIN, PERPETUAL_PAYMASTER } from '../../types';
+import { PERPETUAL_CHAIN, PERPETUAL_PAYMASTER } from '../../../types';
 
 export const useConvertToBTCS = () => {
   const account = useAccount();

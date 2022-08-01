@@ -19,7 +19,7 @@ import { Tooltip } from '@blueprintjs/core';
 import { getCollateralName } from '../../utils/renderUtils';
 import { selectPerpetualPage } from '../../selectors';
 import { isMainnet, isStaging } from '../../../../../utils/classifiers';
-import { BTCBConversionDialog } from './BTCBConversionDialog';
+import { BTCBConversionDialog } from './components/BTCBConversionDialog';
 
 type AccountBalanceFormProps = {
   onOpenTransactionHistory: () => void;
@@ -268,6 +268,7 @@ export const AccountBalanceForm: React.FC<AccountBalanceFormProps> = ({
       <BTCBConversionDialog
         isOpen={showBTCBConversionDialog}
         onClose={() => setShowBTCBConversionDialog(false)}
+        BTCSBalance={available}
       />
     </div>
   );
