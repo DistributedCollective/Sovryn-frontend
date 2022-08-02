@@ -2142,7 +2142,7 @@
       "balance": "Balance:",
       "tradingAccount": "Trading Account",
       "transfer": "Transfer",
-      "lowFundsWarning": "Your transaction will most likely fail as the aggregator has low balance. Currently, you can only convert up to {{aggregatorBalance}} BTCS."
+      "lowFundsWarning": "Currently the maximal amount to be converted is {{aggregatorBalance}} BTCs. Please contact support to increase the bridge balance."
     },
     "openPositionsTable": {
       "pair": "Symbol",
