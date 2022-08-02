@@ -82,7 +82,7 @@ export class BridgeNetworkDictionary {
       'Binance Smart Testnet',
       CrossBridgeAsset.BNB,
       bscIcon,
-      'https://bsctestnet.sovryn.app/testnet',
+      'https://bsc.sovryn.app/testnet',
       'https://testnet.bscscan.com',
       AppMode.TESTNET,
       '0xae11C5B5f29A6a25e955F0CB8ddCc416f522AF5C',
