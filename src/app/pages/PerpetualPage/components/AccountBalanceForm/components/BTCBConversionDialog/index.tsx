@@ -21,6 +21,7 @@ import { AssetValue } from 'app/components/AssetValue';
 import { AssetValueMode } from 'app/components/AssetValue/types';
 import { TxType } from 'store/global/transactions-store/types';
 import { gasLimit } from 'utils/classifiers';
+import { bignumber } from 'mathjs';
 
 type BTCBConversionDialogProps = {
   isOpen: boolean;
@@ -33,13 +34,29 @@ export const BTCBConversionDialog: React.FC<BTCBConversionDialogProps> = ({
   onClose,
   BTCSBalance,
 }) => {
+  const account = useAccount();
   const { t } = useTranslation();
+
   const [weiBTCBBalance, setWeiBTCBBalance] = useState('0');
   const [BTCBBalance, setBTCBBalance] = useState('0');
   const [convertAmount, setConvertAmount] = useState('0');
   const weiConvertAmount = useWeiAmount(convertAmount);
+  const [aggregatorWeiBalance, setAggregatorWeiBalance] = useState('0');
+  const [aggregatorBalance, setAggregatorBalance] = useState('0');
+
   const [isConvertingFromBTCB, setIsConvertingFromBTCB] = useState(true);
-  const account = useAccount();
+  const willConversionFail = useMemo(
+    () =>
+      !isConvertingFromBTCB &&
+      convertAmount !== '0' &&
+      bignumber(weiConvertAmount).greaterThan(aggregatorWeiBalance),
+    [
+      aggregatorWeiBalance,
+      convertAmount,
+      isConvertingFromBTCB,
+      weiConvertAmount,
+    ],
+  );
 
   const { send: convertToBTCS, ...transactionBTCS } = useConvertToBTCS();
 
@@ -63,6 +80,23 @@ export const BTCBConversionDialog: React.FC<BTCBConversionDialogProps> = ({
       .then(result => setWeiBTCBBalance(toWei(result.toString())))
       .catch(e => console.error(e));
   }, [account, BTCSBalance]);
+
+  useEffect(() => {
+    bridgeNetwork
+      .call(
+        PERPETUAL_CHAIN,
+        getContract('BTCB_token').address,
+        getContract('BTCB_token').abi,
+        'balanceOf',
+        [getContract('Masset_proxy').address],
+      )
+      .then(result => setAggregatorWeiBalance(result.toString()))
+      .catch(e => console.error(e));
+  }, [account, BTCSBalance]);
+
+  useEffect(() => {
+    setAggregatorBalance(Number(fromWei(aggregatorWeiBalance)).toFixed(6));
+  }, [aggregatorWeiBalance]);
 
   useEffect(() => {
     setBTCBBalance(fromWei(weiBTCBBalance));
@@ -158,7 +192,7 @@ export const BTCBConversionDialog: React.FC<BTCBConversionDialogProps> = ({
             <img src={changeDirectionIcon} alt="Change transfer direction" />
           </div>
 
-          <div className="tw-px-5 tw-py-4 tw-bg-gray-3 tw-rounded-lg tw-mb-20 tw-w-full">
+          <div className="tw-px-5 tw-py-4 tw-bg-gray-3 tw-rounded-lg tw-mb-4 tw-w-full">
             <div className="tw-mb-2 tw-font-semibold">{destinationTitle}</div>
             <div className="tw-text-sm tw-font-medium">
               {t(translations.perpetualPage.btcbConversionDialog.balance)}{' '}
@@ -169,6 +203,20 @@ export const BTCBConversionDialog: React.FC<BTCBConversionDialogProps> = ({
                 asset={destinationAsset}
               />
             </div>
+          </div>
+
+          <div className="tw-h-16 tw-w-full">
+            {willConversionFail ? (
+              <span className="tw-text-xs tw-text-warning">
+                {t(
+                  translations.perpetualPage.btcbConversionDialog
+                    .lowFundsWarning,
+                  { aggregatorBalance: aggregatorBalance },
+                )}
+              </span>
+            ) : (
+              <></>
+            )}
           </div>
 
           <div className="tw-text-center">

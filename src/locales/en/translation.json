@@ -2141,7 +2141,8 @@
       "destinationTitle": "To {{destination}}",
       "balance": "Balance:",
       "tradingAccount": "Trading Account",
-      "transfer": "Transfer"
+      "transfer": "Transfer",
+      "lowFundsWarning": "Your transaction will most likely fail as the aggregator has low balance. Currently, you can only convert up to {{aggregatorBalance}} BTCS."
     },
     "openPositionsTable": {
       "pair": "Symbol",
