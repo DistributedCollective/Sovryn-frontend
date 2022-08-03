@@ -132,7 +132,9 @@ module.exports = {
       DEFAULT: theme('colors.gray-3'),
     }),
     extend: {
-      width: {},
+      width: {
+        '42': '10.5rem',
+      },
       minWidth: theme => theme('width'),
       maxWidth: theme => theme('width'),
       height: {},

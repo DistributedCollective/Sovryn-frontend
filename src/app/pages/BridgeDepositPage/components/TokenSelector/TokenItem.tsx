@@ -10,9 +10,9 @@ import { bignumber } from 'mathjs';
 import { SelectBox } from '../SelectBox';
 import classNames from 'classnames';
 import { LoadableValue } from '../../../../components/LoadableValue';
-import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
+import { AssetValue } from 'app/components/AssetValue';
 
 interface ITokenItemProps {
   sourceAsset: CrossBridgeAsset;
@@ -59,10 +59,13 @@ export const TokenItem: React.FC<ITokenItemProps> = ({
           {t(translations.common.availableBalance)}
         </span>
         <LoadableValue
-          value={`${toNumberFormat(
-            asset.fromWei(balance.value),
-            asset.minDecimals,
-          )} ${asset.symbol}`}
+          value={
+            <AssetValue
+              value={Number(asset.fromWei(balance.value))}
+              minDecimals={asset.minDecimals}
+              assetString={asset.symbol}
+            />
+          }
           loading={balance.loading}
         />
       </div>
