@@ -3,23 +3,27 @@ import { TableBody } from './TableBody';
 import { TableHeader } from './TableHeader';
 import { useGetUserRewardsEarnedHistory } from '../../hooks/useGetUserRewardsEarnedHistory';
 import { RewardPagination } from '../RewardPaginaton';
-
-const PAGE_SIZE = 5;
+import { DEFAULT_PAGE_SIZE } from 'utils/classifiers';
 
 export const HistoryTable: React.FC = () => {
   const [page, setPage] = useState(1);
-  const { data, loading } = useGetUserRewardsEarnedHistory(page, PAGE_SIZE);
+  const { data, loading } = useGetUserRewardsEarnedHistory(
+    page,
+    DEFAULT_PAGE_SIZE,
+  );
   const isHiddenPagination = useMemo(
     () =>
       data &&
-      data.rewardsEarnedHistoryItems.length < PAGE_SIZE &&
+      data.rewardsEarnedHistoryItems.length < DEFAULT_PAGE_SIZE &&
       page === 1 &&
       !loading,
     [data, page, loading],
   );
 
   const isDisabled = useMemo(
-    () => !data || (data && data.rewardsEarnedHistoryItems.length < PAGE_SIZE),
+    () =>
+      !data ||
+      (data && data.rewardsEarnedHistoryItems.length < DEFAULT_PAGE_SIZE),
     [data],
   );
 
