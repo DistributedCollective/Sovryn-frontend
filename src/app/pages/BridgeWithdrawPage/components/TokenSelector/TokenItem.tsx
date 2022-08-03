@@ -9,9 +9,9 @@ import { bignumber } from 'mathjs';
 import { SelectBox } from '../../../BridgeDepositPage/components/SelectBox';
 import classNames from 'classnames';
 import { LoadableValue } from '../../../../components/LoadableValue';
-import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
+import { AssetValue } from 'app/components/AssetValue';
 
 export function TokenItem({
   sourceAsset,
@@ -51,9 +51,13 @@ export function TokenItem({
           {t(translations.BridgeWithdrawPage.tokenSelector.maxWithdrawal)}
         </span>
         <LoadableValue
-          value={`${toNumberFormat(balance, asset.minDecimals)} ${
-            asset.symbol
-          }`}
+          value={
+            <AssetValue
+              value={Number(balance)}
+              minDecimals={asset.minDecimals}
+              assetString={asset.symbol}
+            />
+          }
           loading={loading}
         />
       </div>

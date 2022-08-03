@@ -33,8 +33,8 @@ export const rpcNodes = {
     'https://public-node.rsk.co/',
   ],
   31: ['https://testnet.sovryn.app/rpc', 'https://public-node.testnet.rsk.co/'],
-  56: 'wss://bsctestnet.sovryn.app/mainnet/websocket',
-  97: 'wss://bsctestnet.sovryn.app/testnet/websocket',
+  56: 'wss://bsc.sovryn.app/mainnet/websocket',
+  97: 'wss://bsc.sovryn.app/testnet/websocket',
 };
 
 export const bitocracyUrl =
@@ -133,8 +133,7 @@ export const MAINTENANCE_MARGIN = 15000000000000000000;
 
 export const MIN_GAS = 40000;
 
-export const CREATE_TICKET_LINK =
-  'https://sovryn.freshdesk.com/support/tickets/new';
+export const CREATE_TICKET_LINK = 'https://help.sovryn.app/';
 
 export const WIKI_LIMIT_ORDER_LIMITS_LINK =
   'https://wiki.sovryn.app/en/sovryn-dapp/limit-order-limitations';
