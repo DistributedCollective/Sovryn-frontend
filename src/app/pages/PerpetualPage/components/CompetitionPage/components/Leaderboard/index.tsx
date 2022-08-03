@@ -71,11 +71,9 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
     START_TIMESTAMP,
   );
 
-  console.log(`realizedPnlData: ${JSON.stringify(realizedPnlData)}`);
-
-  const bestVolumeResult = readTraderVolume(leaderboardData);
-  const mostTradesResult = mostTrades(leaderboardData);
-  const bestPnlResult = readBestPnL(realizedPnlData);
+  const bestVolumeResult = readTraderVolume(leaderboardData?.traders || []);
+  const mostTradesResult = mostTrades(leaderboardData?.traders || []);
+  const bestPnlResult = readBestPnL(realizedPnlData?.realizedPnLs || []);
 
   // console.log(`bestVolumeResult: ${JSON.stringify(bestVolumeResult)}`);
   // console.log(`mostTradesResult: ${JSON.stringify(mostTradesResult)}`);
