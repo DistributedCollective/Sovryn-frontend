@@ -32,6 +32,7 @@ import {
 import { PerpetualPair } from 'utils/models/perpetual-pair';
 import { Nullable } from 'types';
 import { useGetRealizedPnlData } from 'app/pages/PerpetualPage/hooks/graphql/useGetRealizedPnlData';
+import { mostTrades, readBestPnL, readTraderVolume } from './utils';
 
 const START_TIMESTAMP = '1654061182'; // 01/06/2022
 
@@ -69,6 +70,16 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
     data.map(val => val.walletAddress),
     START_TIMESTAMP,
   );
+
+  console.log(`realizedPnlData: ${JSON.stringify(realizedPnlData)}`);
+
+  const bestVolumeResult = readTraderVolume(leaderboardData);
+  const mostTradesResult = mostTrades(leaderboardData);
+  const bestPnlResult = readBestPnL(realizedPnlData);
+
+  // console.log(`bestVolumeResult: ${JSON.stringify(bestVolumeResult)}`);
+  // console.log(`mostTradesResult: ${JSON.stringify(mostTradesResult)}`);
+  // console.log(`bestPnlResult: ${JSON.stringify(bestPnlResult)}`);
 
   // const {
   //   result: ammProfit,
