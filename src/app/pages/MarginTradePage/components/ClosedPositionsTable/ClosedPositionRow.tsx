@@ -1,52 +1,68 @@
 import React, { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
 import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
 import { TradingPosition } from 'types/trading-position';
-import {
-  toAssetNumberFormat,
-  toNumberFormat,
-  weiToAssetNumberFormat,
-} from 'utils/display-text/format';
-import { Tooltip } from '@blueprintjs/core';
 import { PositionBlock } from '../PositionBlock';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
-import { AssetRenderer } from 'app/components/AssetRenderer';
 import { TradeProfit } from 'app/components/TradeProfit';
-import { getTradingPositionPrice } from '../../utils/marginUtils';
+import {
+  getClosePositionPrice,
+  getExitTransactionHash,
+  getOpenPositionPrice,
+} from '../../utils/marginUtils';
 import { ActionButton } from 'app/components/Form/ActionButton';
-import { useTranslation } from 'react-i18next';
 import { PositionEventsTable } from '../PositionEventsTable';
-import { translations } from 'locales/i18n';
-import { LoanEvent } from '../OpenPositionsTable/hooks/useMargin_getLoanEvents';
+import { AssetValue } from 'app/components/AssetValue';
+import { toWei } from 'utils/blockchain/math-helpers';
+import { MarginLoansFieldsFragment } from 'utils/graphql/rsk/generated';
+import { DEFAULT_TRADE } from '../../types';
 
 type ClosedPositionRowProps = {
-  items: LoanEvent[];
+  event: MarginLoansFieldsFragment;
 };
 
 export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
-  items,
+  event,
 }) => {
   const { t } = useTranslation();
   const [showDetails, setShowDetails] = useState(false);
-  const closedItem = useMemo(() => items[items.length - 1], [items]);
-  const openedItem = useMemo(() => items[0], [items]);
-  const loanAsset = assetByTokenAddress(closedItem.loanToken);
-  const collateralAsset = assetByTokenAddress(closedItem.collateralToken);
+  const {
+    trade,
+    loanToken: { id: loanTokenId },
+    collateralToken: { id: collateralTokenId },
+    liquidates,
+    closeWithSwaps,
+  } = event;
+  const entryLeverage = trade?.[0].entryLeverage || DEFAULT_TRADE.entryLeverage;
+  const positionSize = trade?.[0].positionSize || DEFAULT_TRADE.positionSize;
+  const entryPrice = trade?.[0].entryPrice || DEFAULT_TRADE.entryPrice;
+  const transaction = trade?.[0].transaction.id || DEFAULT_TRADE.transactionId;
+  const loanAsset = assetByTokenAddress(loanTokenId);
+  const collateralAsset = assetByTokenAddress(collateralTokenId);
   const pair = TradingPairDictionary.findPair(loanAsset, collateralAsset);
+
   const position =
     pair?.longAsset === loanAsset
       ? TradingPosition.LONG
       : TradingPosition.SHORT;
-  const leverage = useMemo(() => openedItem.leverage + 1, [
-    openedItem.leverage,
+
+  const leverage = useMemo(() => Number(entryLeverage) + 1, [entryLeverage]);
+  const openPrice = useMemo(() => getOpenPositionPrice(entryPrice, position), [
+    entryPrice,
+    position,
   ]);
-  const openPrice = useMemo(
-    () => getTradingPositionPrice(openedItem, position),
-    [openedItem, position],
-  );
+
   const closePrice = useMemo(
-    () => getTradingPositionPrice(closedItem, position),
-    [closedItem, position],
+    () =>
+      getClosePositionPrice(liquidates || [], closeWithSwaps || [], position),
+    [liquidates, closeWithSwaps, position],
+  );
+
+  const exitTransactionHash = useMemo(
+    () => getExitTransactionHash(liquidates || [], closeWithSwaps || []),
+    [liquidates, closeWithSwaps],
   );
 
   return (
@@ -57,11 +73,11 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
         </td>
         <td className="tw-hidden xl:tw-table-cell">
           <div className="tw-whitespace-nowrap">
-            {weiToAssetNumberFormat(
-              closedItem.positionSizeChange,
-              collateralAsset,
-            )}{' '}
-            <AssetRenderer asset={collateralAsset} />
+            <AssetValue
+              asset={collateralAsset}
+              value={toWei(positionSize)}
+              useTooltip
+            />
           </div>
         </td>
         <td className="tw-hidden xl:tw-table-cell">
@@ -69,45 +85,35 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
         </td>
         <td className="tw-hidden md:tw-table-cell">
           <div className="tw-whitespace-nowrap">
-            <Tooltip
-              content={
-                <>
-                  {toNumberFormat(openPrice, 18)}{' '}
-                  <AssetRenderer asset={pair.longDetails.asset} />
-                </>
-              }
-            >
-              <>
-                {toAssetNumberFormat(openPrice, pair.longDetails.asset)}{' '}
-                <AssetRenderer asset={pair.longDetails.asset} />
-              </>
-            </Tooltip>
+            <AssetValue
+              asset={pair.longDetails.asset}
+              value={toWei(openPrice)}
+              useTooltip
+            />
           </div>
         </td>
         <td className="tw-hidden md:tw-table-cell">
           <div className="tw-whitespace-nowrap">
-            <Tooltip
-              content={
-                <>
-                  {toNumberFormat(closePrice, 18)}{' '}
-                  <AssetRenderer asset={pair.longDetails.asset} />
-                </>
-              }
-            >
-              <>
-                {toAssetNumberFormat(closePrice, pair.longDetails.asset)}{' '}
-                <AssetRenderer asset={pair.longDetails.asset} />
-              </>
-            </Tooltip>
+            <AssetValue
+              asset={pair.longDetails.asset}
+              value={toWei(closePrice)}
+              useTooltip
+            />
           </div>
         </td>
         <td>
-          <TradeProfit closedItem={closedItem} openedItem={openedItem} />
+          <TradeProfit
+            positionSize={positionSize}
+            collateralAsset={collateralAsset}
+            position={position}
+            openPrice={openPrice}
+            closePrice={closePrice}
+          />
         </td>
         <td className="tw-hidden xl:tw-table-cell">
           <LinkToExplorer
             className="tw-text-primary tw-truncate tw-m-0"
-            txHash={openedItem.txHash}
+            txHash={transaction}
             startLength={5}
             endLength={5}
           />
@@ -115,7 +121,7 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
         <td className="tw-hidden xl:tw-table-cell">
           <LinkToExplorer
             className="tw-text-primary tw-truncate tw-m-0"
-            txHash={closedItem.txHash}
+            txHash={exitTransactionHash}
             startLength={5}
             endLength={5}
           />
@@ -127,7 +133,6 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
               onClick={() => setShowDetails(!showDetails)}
               className="tw-border-none tw-ml-0 tw-pl-4 xl:tw-pl-2 tw-pr-0"
               textClassName="tw-text-xs tw-overflow-visible tw-font-bold"
-              disabled={items.length === 0}
               data-action-id="margin-openPositions-DetailsButton"
             />
           </div>
@@ -136,8 +141,9 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
       {showDetails && (
         <PositionEventsTable
           isOpenPosition={false}
-          events={items}
+          event={event}
           isLong={position === TradingPosition.LONG}
+          position={position}
         />
       )}
     </>

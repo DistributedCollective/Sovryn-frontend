@@ -7,8 +7,12 @@ import { useFetch } from 'app/hooks/useFetch';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { translations } from 'locales/i18n';
 import { Asset } from 'types';
-import { discordInvite, learnMoreYieldFarming } from 'utils/classifiers';
-import { backendUrl, currentChainId } from 'utils/classifiers';
+import {
+  ammServiceUrl,
+  discordInvite,
+  learnMoreYieldFarming,
+} from 'utils/classifiers';
+import { currentChainId } from 'utils/classifiers';
 import { LiquidityPoolDictionary } from '../../../utils/dictionaries/liquidity-pool-dictionary';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { useAccount } from '../../hooks/useAccount';
@@ -47,7 +51,7 @@ export function LiquidityMining() {
   ]);
 
   const { value: ammData, loading } = useFetch(
-    `${backendUrl[currentChainId]}/amm/apy/all`,
+    `${ammServiceUrl[currentChainId]}/amm`,
   );
 
   useEffect(() => linkAsset && history.replace(location.pathname), [
