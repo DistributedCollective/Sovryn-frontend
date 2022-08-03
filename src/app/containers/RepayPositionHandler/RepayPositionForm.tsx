@@ -19,10 +19,8 @@ import { useTranslation } from 'react-i18next';
 import { translations } from '../../../locales/i18n';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { TxStatus } from 'store/global/transactions-store/types';
-import { TINY_POSITION_RBTC_VALUE } from 'utils/classifiers';
-import { useDenominateAssetAmount } from 'app/hooks/trading/useDenominateAssetAmount';
-import { Asset } from 'types';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
+import { useCloseWithDepositIsTinyPosition } from 'app/hooks/trading/useCloseWithDepositIsTinyPosition';
 
 type RepayPositionFormProps = {
   loan: ActiveLoan;
@@ -80,23 +78,14 @@ export const RepayPositionForm: React.FC<RepayPositionFormProps> = ({
     }
   }, [weiAmount, loan.collateral, loan.principal]);
 
-  const remainingPrincipal = useMemo(
-    () => bignumber(loan.principal).minus(weiAmount).toFixed(0),
-    [loan.principal, weiAmount],
-  );
-  const { value: remainingPrincipalRBTCValue } = useDenominateAssetAmount(
-    asset,
-    Asset.RBTC,
-    remainingPrincipal,
-  );
+  const {
+    value: { isTinyPosition },
+  } = useCloseWithDepositIsTinyPosition(loan.loanId, weiAmount);
 
-  const isLeavingTinyPosition = useMemo(() => {
-    return (
-      weiAmount !== '0' &&
-      bignumber(loan.principal).gt(weiAmount) &&
-      bignumber(TINY_POSITION_RBTC_VALUE).gte(remainingPrincipalRBTCValue)
-    );
-  }, [loan.principal, weiAmount, remainingPrincipalRBTCValue]);
+  const isLeavingTinyPosition = useMemo(
+    () => weiAmount !== '0' && isTinyPosition,
+    [isTinyPosition, weiAmount],
+  );
 
   return (
     <div className="tw-container tw-mx-auto tw-px-4 tw-relative">

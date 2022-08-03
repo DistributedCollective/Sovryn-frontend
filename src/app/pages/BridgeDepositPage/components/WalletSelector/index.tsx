@@ -8,7 +8,6 @@ import { getBridgeChainId } from '../../utils/helpers';
 import { selectWalletProvider } from '../../../../containers/WalletProvider/selectors';
 import { selectBridgeDepositPage } from '../../selectors';
 import { BridgeNetworkDictionary } from '../../dictionaries/bridge-network-dictionary';
-import error_alert from 'assets/images/error_outline-24px.svg';
 import { detectWeb3Wallet } from 'utils/helpers';
 import { SelectBox } from '../SelectBox';
 import { actions } from '../../slice';
@@ -27,7 +26,6 @@ import styles from './index.module.scss';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { noop } from 'app/constants';
-import { getNetworkByChainId } from '../../../../../utils/blockchain/networks';
 
 export const WalletSelector: React.FC = () => {
   const { t } = useTranslation();
@@ -36,13 +34,12 @@ export const WalletSelector: React.FC = () => {
 
   const dispatch = useDispatch();
 
-  const { bridgeChainId, chainId } = useSelector(selectWalletProvider);
+  const { bridgeChainId } = useSelector(selectWalletProvider);
   const { chain } = useSelector(selectBridgeDepositPage);
 
   const walletName = detectWeb3Wallet();
 
   const walletContext = useContext(WalletContext);
-  const currentNetwork = (chainId && getNetworkByChainId(chainId)?.chain) || 0;
 
   useEffect(() => {
     // Keep injected web3 wallet connected, disconnect all other wallet providers.
@@ -102,19 +99,7 @@ export const WalletSelector: React.FC = () => {
     <div className={styles.host}>
       {state === 'wrong-network' && (
         <>
-          <div className={styles.wrongNetwork}>
-            <img className="tw-mr-2" src={error_alert} alt="err" />
-            <div>
-              {t(translations.BridgeDepositPage.walletSelector.wrongNetwork)}{' '}
-              <span className="tw-capitalize">{currentNetwork}</span>{' '}
-              {t(translations.BridgeDepositPage.walletSelector.switch, {
-                network: network?.name,
-              })}{' '}
-              <span className="tw-capitalize">{walletName}</span>{' '}
-              {t(translations.BridgeDepositPage.walletSelector.wallet)}
-            </div>
-          </div>
-          <div className="tw-mb-20 tw-mt-10 tw-text-2xl tw-text-center tw-font-semibold">
+          <div className="tw-mb-7 tw-mt-10 tw-text-base tw-text-center tw-font-semibold">
             {t(
               translations.BridgeDepositPage.chainSelector.wrongNetwork.title,
               { network: network?.name },
@@ -141,15 +126,7 @@ export const WalletSelector: React.FC = () => {
           )}
           <div className="tw-flex tw-flex-col tw-gap-2 tw-px-2 tw-items-center">
             <SelectBox onClick={() => {}}>
-              <img
-                className="tw-mb-5 tw-mt-2"
-                src={network?.logo}
-                alt={network?.chain}
-              />
-              <div>
-                <span className="tw-uppercase">{network?.chain} </span>{' '}
-                {t(translations.BridgeDepositPage.network)}
-              </div>
+              <img src={network?.logo} alt={network?.chain} />
             </SelectBox>
 
             <a
