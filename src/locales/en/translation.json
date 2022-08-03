@@ -254,7 +254,7 @@
       },
       "mainScreen": {
         "title": "Deposit BTC to Sovryn as <0/>",
-        "description": "Always generate a new deposit address and only use it once",
+        "description": "Your deposit address may change as part of routine FastBTC maintenance.",
         "cta": "Generate Address"
       },
       "depositDetails": {
