@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import { useGetAvailableLendingRewards } from '../components/RewardTab/hooks/useGetAvailableLendingRewards';
 import { useGetAvailableLiquidityRewards } from '../components/RewardTab/hooks/useGetAvailableLiquidityRewards';
 import { useGetTradingRewards } from '../components/RewardTab/hooks/useGetTradingRewards';
+import { toWei } from 'utils/blockchain/math-helpers';
 
 type RewardSovClaimData = {
   availableLendingRewards: string;
@@ -18,8 +19,11 @@ export const useGetRewardSovClaimAmount = (): RewardSovClaimData => {
 
   const availableTradingRewards = useMemo(
     () =>
-      availableTradingRewardsData?.userRewardsEarnedHistory
-        ?.availableTradingRewards || '0',
+      toWei(
+        availableTradingRewardsData?.userRewardsEarnedHistory
+          ?.availableTradingRewards || '0',
+      ),
+
     [availableTradingRewardsData],
   );
 
