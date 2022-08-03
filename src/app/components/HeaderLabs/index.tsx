@@ -1,8 +1,6 @@
 import React, { useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
-import { usePageViews } from 'app/hooks/useAnalytics';
-
 import WalletConnector from '../../containers/WalletConnector';
 import styles from './index.module.scss';
 import { ReactComponent as SovLogo } from 'assets/images/sovryn-logo-labs.svg';
@@ -18,7 +16,6 @@ export type HeaderLabsProps = {
 export const HeaderLabs: React.FC<HeaderLabsProps> = ({ menus, helpLink }) => {
   const { t } = useTranslation();
   const location = useLocation();
-  usePageViews();
 
   const linkBackUrl = useMemo(
     () =>

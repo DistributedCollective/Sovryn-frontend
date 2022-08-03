@@ -80,6 +80,7 @@ export const VestedItem: React.FC<VestedItemProps> = ({
             onClick={handleOnWithdraw}
             disabled={loading || frozen}
             loading={loading}
+            dataActionId={`portfolio-action-withdraw-${vesting.type}`}
           />
         )}
       </td>

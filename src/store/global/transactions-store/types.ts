@@ -71,6 +71,11 @@ export enum TxStatus {
   FAILED = 'failed',
 }
 
+export enum TxFailReason {
+  INSUFFICIENT_USER_FUNDS = 'insufficient_user_funds',
+  UNKNOWN = 'unknown',
+}
+
 export interface Transactions {
   [transactionHash: string]: Transaction;
 }

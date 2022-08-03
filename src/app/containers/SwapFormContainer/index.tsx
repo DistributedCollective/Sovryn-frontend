@@ -25,7 +25,11 @@ import swapIcon from '../../../assets/images/swap/swap_horizontal.svg';
 import settingIcon from 'assets/images/settings-blue.svg';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { useMaintenance } from 'app/hooks/useMaintenance';
-import { backendUrl, currentChainId, discordInvite } from 'utils/classifiers';
+import {
+  currentChainId,
+  discordInvite,
+  graphWrapperUrl,
+} from 'utils/classifiers';
 import { useSwapsExternal_getSwapExpectedReturn } from 'app/hooks/swap-network/useSwapsExternal_getSwapExpectedReturn';
 import { IPromotionLinkState } from '../../components/Promotions/components/PromotionCard/types';
 import styles from './index.module.scss';
@@ -40,7 +44,6 @@ import { getFavoriteList } from 'utils/helpers';
 import { TransactionDialog } from 'app/components/TransactionDialog';
 
 const refreshInterval = 300000;
-const url = backendUrl[currentChainId];
 
 export const SwapFormContainer: React.FC = () => {
   const { t } = useTranslation();
@@ -72,7 +75,7 @@ export const SwapFormContainer: React.FC = () => {
       cancelDataRequest.current = c;
     });
     axios
-      .get(url + '/api/v1/trading-pairs/summary', {
+      .get(graphWrapperUrl[currentChainId] + 'cmc/summary?extra=true', {
         cancelToken,
       })
       .then(res => {
@@ -91,7 +94,7 @@ export const SwapFormContainer: React.FC = () => {
       cancelDataRequest.current = c;
     });
     axios
-      .get(url + '/api/v1/trading-pairs/assets', {
+      .get(graphWrapperUrl[currentChainId] + 'cmc/asset', {
         cancelToken,
       })
       .then(res => {

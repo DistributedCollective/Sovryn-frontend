@@ -1,16 +1,11 @@
 import React, { useContext, useMemo, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { Asset, Chain } from 'types';
-import {
-  StepItem,
-  Stepper,
-} from 'app/pages/BridgeDepositPage/components/Stepper';
+import { Asset } from 'types';
+import { Stepper, StepItem } from 'app/components/Stepper';
 import { WithdrawContext, WithdrawStep } from '../../contexts/withdraw-context';
 import { toNumberFormat } from 'utils/display-text/format';
 import { AssetSymbolRenderer } from 'app/components/AssetSymbolRenderer';
-import ArrowBack from 'assets/images/genesis/arrow_back.svg';
 import { prettyTx } from 'utils/helpers';
 
 import walletIcon from 'assets/images/fast-btc/wallet-icon.svg';
@@ -30,40 +25,54 @@ const stepOrder = [
 const isBehindStep = (current: WithdrawStep, needed: WithdrawStep) =>
   stepOrder.indexOf(current) > stepOrder.indexOf(needed);
 
-export const SidebarStepsWithdraw: React.FC<NetworkAwareComponentProps> = ({
-  network,
-}) => {
+export const SidebarStepsWithdraw: React.FC<NetworkAwareComponentProps> = () => {
   const { t } = useTranslation();
   const { step, set, amount, address } = useContext(WithdrawContext);
 
   const initialSteps: StepItem[] = useMemo(
     () => [
       {
-        stepTitle: t(translations.fastBtcPage.withdraw.sidebarSteps.amount),
+        stepTitle: (
+          <Trans
+            i18nKey={translations.fastBtcPage.withdraw.sidebarSteps.amount}
+          />
+        ),
         value: WithdrawStep.AMOUNT,
       },
       {
-        stepTitle: t(translations.fastBtcPage.withdraw.sidebarSteps.address),
+        stepTitle: (
+          <Trans
+            i18nKey={translations.fastBtcPage.withdraw.sidebarSteps.address}
+          />
+        ),
         value: WithdrawStep.ADDRESS,
       },
       {
-        stepTitle: t(translations.fastBtcPage.withdraw.sidebarSteps.review),
+        stepTitle: (
+          <Trans
+            i18nKey={translations.fastBtcPage.withdraw.sidebarSteps.review}
+          />
+        ),
         value: WithdrawStep.REVIEW,
       },
       {
-        stepTitle: t(translations.fastBtcPage.withdraw.sidebarSteps.confirm),
-        value: WithdrawStep.CONFIRM,
-      },
-      {
-        stepTitle: t(translations.fastBtcPage.withdraw.sidebarSteps.processing),
+        stepTitle: (
+          <Trans
+            i18nKey={translations.fastBtcPage.withdraw.sidebarSteps.processing}
+          />
+        ),
         value: WithdrawStep.PROCESSING,
       },
       {
-        stepTitle: t(translations.fastBtcPage.withdraw.sidebarSteps.completed),
+        stepTitle: (
+          <Trans
+            i18nKey={translations.fastBtcPage.withdraw.sidebarSteps.completed}
+          />
+        ),
         value: WithdrawStep.COMPLETED,
       },
     ],
-    [t],
+    [],
   );
 
   const steps = useMemo<StepItem[]>(() => {
@@ -136,20 +145,16 @@ export const SidebarStepsWithdraw: React.FC<NetworkAwareComponentProps> = ({
 
   const canOpen = useCallback(
     (testStep: WithdrawStep) => {
-      const indexOfTest = stepOrder.indexOf(testStep);
-      const indexOfStep = stepOrder.indexOf(step);
+      const nextStepIndex = stepOrder.indexOf(testStep);
+      const activeStepIndex = stepOrder.indexOf(step);
 
-      if (indexOfTest === -1 || indexOfStep === -1) {
+      if (nextStepIndex === -1 || activeStepIndex === -1) {
         return false;
       }
       return (
-        indexOfTest < indexOfStep &&
-        // Can't go back if in confirm, processing or complete state.
-        ![
-          WithdrawStep.CONFIRM,
-          WithdrawStep.PROCESSING,
-          WithdrawStep.COMPLETED,
-        ].includes(step)
+        nextStepIndex < activeStepIndex &&
+        // Can't go back if in processing or complete state.
+        ![WithdrawStep.PROCESSING, WithdrawStep.COMPLETED].includes(step)
       );
     },
     [step],
@@ -164,35 +169,22 @@ export const SidebarStepsWithdraw: React.FC<NetworkAwareComponentProps> = ({
     [canOpen, set],
   );
 
-  const backToUrl = useMemo(
-    () => (network === Chain.BSC ? '/perpetuals' : '/portfolio'),
-    [network],
-  );
-
-  const backToTitle = useMemo(
-    () =>
-      network === Chain.BSC
-        ? t(translations.fastBtcPage.backToPerpetuals)
-        : t(translations.fastBtcPage.backToPortfolio),
-    [network, t],
-  );
+  const activeStep = useMemo(() => {
+    if (step === WithdrawStep.CONFIRM) return WithdrawStep.REVIEW;
+    return step;
+  }, [step]);
 
   return (
     <>
-      <Link
-        to={backToUrl}
-        className="tw-absolute tw--top-2 tw-left-0 tw-flex tw-items-center tw-font-semibold tw-text-2xl tw-cursor-pointer tw-select-none tw-text-white tw-whitespace-nowrap tw-no-underline"
-      >
-        <img
-          alt="arrowback"
-          src={ArrowBack}
-          className="tw-w-4 tw-h-4 tw-mr-2"
-        />
-        {backToTitle}
-      </Link>
       {step !== WithdrawStep.MAIN && (
-        <div className="tw-mt-24">
-          <Stepper steps={steps} step={step} onClick={changeStep} />
+        <div
+          className="tw-my-10 tw-px-6"
+          style={{
+            width: 680,
+            maxWidth: 'calc(100vw - 22rem)',
+          }}
+        >
+          <Stepper steps={steps} step={activeStep} onClick={changeStep} />
         </div>
       )}
     </>

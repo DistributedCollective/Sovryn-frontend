@@ -227,47 +227,57 @@
       }
     }
   },
+  "receiveRBTCPage": {
+    "title": "Receive RBTC",
+    "description": "Receive RBTC via bitcoin or bank/card transfer",
+    "selectSource": "Select Source",
+    "bitcoinNetwork": "Bitcoin Network",
+    "bankCard": "Bank/Card"
+  },
   "fastBtcPage": {
     "meta": {
       "title": "Fast-BTC",
-      "titleDeposit": "Deposit BTC",
-      "titleWithdraw": "Withdraw BTC",
+      "titleDeposit": "Receive Bitcoin with FastBTC",
+      "descriptionDeposit": "Transfer Bitcoin to a deposit address in the Bitcoin network, and it will be received as RBTC",
+      "titleWithdraw": "Send Bitcoin with FastBTC",
+      "descriptionWithdraw": "Send Bitcoin by transferring RBTC to the Bitcoin network",
       "description": "Move your Bitcoin to RSK network."
     },
     "backToPortfolio": "Back to portfolio",
     "backToPerpetuals": "Back to perpetuals",
     "deposit": {
       "sidebarSteps": {
-        "validation": "Validation",
-        "address": "Deposit Address",
-        "processing": "Processing",
+        "validation": "FastBTC<br/>Validation",
+        "address": "Enter<br/>Address",
+        "processing": "Processing<br/>Transaction",
         "processingSteps": "Processing... ({{step}}/{{steps}})",
-        "completed": "Completed"
+        "completed": "Transaction<br/>Completed"
       },
       "mainScreen": {
         "title": "Deposit BTC to Sovryn as <0/>",
-        "description": "Always generate a new deposit address and only use it once",
-        "cta": "Generate Deposit Address"
+        "description": "Your deposit address may change as part of routine FastBTC maintenance.",
+        "cta": "Generate Address"
       },
       "depositDetails": {
-        "title": "Deposit details",
+        "title": "Transfer details",
         "min": "MIN:",
         "max": "MAX:",
         "fee": "Fee:"
       },
       "depositInstructions": {
         "title": "Instructions:",
-        "line1": "Do not deposit any asset other than BTC.",
-        "line2": "Do not send less than the MIN limit.",
-        "line3": "Do not send more than the MAX limit.",
-        "line4": "Only send BTC to the deposit address generated for you.",
+        "line1": "Do not transfer any asset other than BTC to be received as RBTC.",
+        "line2": "Do not transfer less than the MIN limit.",
+        "line3": "Do not transfer more than the MAX limit.",
+        "line4": "Only transfer BTC to the deposit address generated for you.",
         "line5": "Allow up to {{hours}} hrs to proccess.",
-        "line6": "If your transaction takes longer than {{hours}} hrs please <0>create a support ticket</0>."
+        "line6": "If your transaction takes longer than {{hours}} hrs please <0>contact us</0>."
       },
       "validationScreen": {
         "title": "Verifying FastBTC Federators",
         "description": "As an additional layer of security, we are verifying the signatures from the FastBTC federator node. Please wait until this is completed",
         "cta": "Click to continue",
+        "download": "Click to download verification details",
         "validationTextLoading": "Verifying Signatures...",
         "validationTextSuccess": "Verifying Complete",
         "validationTextError": "Verifying Failed"
@@ -277,14 +287,14 @@
         "description": "Send BTC to this address"
       },
       "statusScreen": {
-        "title": "BTC Deposit processing",
-        "titleCompleted": "BTC Deposit Complete",
+        "title": "Order Processing...",
+        "titleCompleted": "Order Complete",
         "amount": "Deposit",
-        "fees": "Fees Paid:",
-        "received": "Receive Amount:",
-        "txHash": "Tx Hash:",
-        "txId": "Tx ID:",
-        "description": "Your deposit is being processed. If your transaction takes longer than {{hours}} hrs please <0>create a support ticket</0>.",
+        "fees": "Fees Paid",
+        "received": "Receive Amount",
+        "txHash": "Tx Hash",
+        "txId": "Tx ID",
+        "description": "If your transaction takes longer than {{hours}} hrs please <0>contact us</0>.",
         "cta": "Return to Portfolio"
       },
       "qr": {
@@ -294,20 +304,20 @@
     },
     "withdraw": {
       "sidebarSteps": {
-        "amount": "Withdraw Amount",
-        "address": "Withdraw Address",
-        "review": "Review",
-        "confirm": "Confirm",
-        "processing": "Processing",
+        "amount": "Enter<br/>Amount",
+        "address": "BTC <br/>Address",
+        "review": "Review <br/>Transaction",
+        "confirm": "Confirm <br/>Transaction",
+        "processing": "Processing <br/>Transaction",
         "processingProgress": "Processing...",
-        "completed": "Completed"
+        "completed": "Transaction <br/>Completed"
       },
       "mainScreen": {
         "title": "Withdraw <0/> to BTC Network",
-        "description": "Double check that you are entering the correct withdrawal address."
+        "description": "Double check that you are entering the correct BTC address to send to"
       },
       "withdrawDetails": {
-        "title": "Withdraw Details",
+        "title": "Transfer details",
         "min": "MIN:",
         "max": "MAX:",
         "fee": "FEE:"
@@ -318,27 +328,28 @@
         "line2": "Do not send less than the MIN limit.",
         "line3": "Do not send more than the MAX limit.",
         "line4": "Allow up to {{hours}} hrs to process.",
-        "line5": "If your transaction takes longer than {{hours}} hrs please <0>create a support ticket</0>."
+        "line5": "If your transaction takes longer than {{hours}} hrs please <0>contact us</0>."
       },
       "amountForm": {
         "title": "<0/> Withdraw Amount",
-        "withdrawAmount": "Withdraw Amount",
-        "availableBalance": "Available Balance: <0/> <1/>"
+        "withdrawAmount": "Amount to send",
+        "availableBalance": "Balance: <0/> <1/>"
       },
       "addressForm": {
-        "title": "BTC Network Withdraw Address",
-        "address": "Withdraw BTC to this address",
+        "title": "Enter receiving BTC wallet address",
+        "address": "Receiving BTC Address",
         "errorBECH32": "Please enter a supported BTC address. All BTC addresses except Taproot addresses are supported.",
-        "cta": "Review Withdraw"
+        "cta": "Next"
       },
       "reviewScreen": {
-        "title": "Review <0/> Withdrawal",
-        "amount": "Withdraw",
-        "address": "BTC Network Receive Address",
-        "fees": "Fees Paid:",
-        "received": "Receive Amount:",
-        "tx": "Tx ID:",
-        "description": "Your withdrawal is being processed. If your transaction takes longer than {{hours}} hrs please <0>create a support ticket</0>"
+        "dateTime": "Date/Time",
+        "title": "Send details",
+        "amount": "Send",
+        "address": "Receiver",
+        "fees": "Bridge Fee",
+        "received": "Total Amount",
+        "tx": "Tx ID",
+        "description": "If your transaction takes longer than {{hours}} hrs please <0>contact us</0>"
       },
       "walletTxHelper": {
         "confirm": "Please confirm the transaction in your {{wallet}} wallet",
@@ -350,9 +361,9 @@
       "statusScreen": {
         "titles": {
           "pending_for_user": "Confirm <0/> Withdrawal",
-          "pending": "<0/> Withdrawal processing...",
-          "confirmed": "Confirmed",
-          "failed": "Withdrawal failed"
+          "pending": "Order Processing…",
+          "confirmed": "Order Complete",
+          "failed": "Order failed"
         },
         "cta": "Return to Portfolio"
       }
@@ -490,7 +501,7 @@
       "originsLaunchpad": "Previous sales on Origins",
       "originsClaim": "Claim Fish rewards",
       "myntToken": "Sovryn's BTC backed stablecoin protocol",
-      "perpetuals": "Coming soon",
+      "perpetuals": "Trade perpetual futures contracts",
       "zero": "0% interest loans on your bitcoin",
       "voting": "Affect Sovryn's governance",
       "forum": "Join the community"
@@ -2010,24 +2021,37 @@
   "BridgeDepositPage": {
     "poweredBy": "Powered by babelFish",
     "network": "Network",
+    "title": "Receive {{asset}}",
+    "subtitle": "Receive {{asset}} on the RSK network",
     "changeWallet": "Want to use a different wallet?",
     "chainSelector": {
       "wrongNetwork": {
         "title": "Change to {{network}}"
       },
       "chooseNetwork": {
-        "title": "Select Network to deposit from"
+        "title": "Select the network you'd like to receive {{asset}} from"
       }
     },
+    "sidebarSteps": {
+      "chooseSource": "Choose<br />Source",
+      "selectWallet": "Select<br /> Wallet",
+      "selectToken": "Select<br /> Token",
+      "enterAmount": "Enter<br /> Amount",
+      "reviewTransaction": "Review<br /> Transaction",
+      "processingTransaction": "Processing<br /> Transaction",
+      "transactionCompleted": "Transaction<br /> Completed"
+    },
     "reviewStep": {
-      "title": "Review Deposit",
+      "title": "Transaction details",
       "dateTime": "Date/Time",
       "from": "From",
+      "to": "To",
       "token": "Token",
       "amount": "Amount",
       "bridgeFee": "Bridge Fee",
       "tx": "Tx",
-      "confirmDeposit": "Confirm Deposit"
+      "confirmDeposit": "Confirm",
+      "next": "Next"
     },
     "walletSelector": {
       "wrongNetwork": "We detected that you are on",
@@ -2045,7 +2069,7 @@
       "dailyLimitSpent": "Daily Limit Spent",
       "fee": "Fee",
       "aggregatorBalance": "Aggregator Balance",
-      "depositAmount": "Deposit Amount"
+      "depositAmount": "Amount to send"
     },
     "confirmStep": {
       "pleaseWait": "Please wait",
@@ -2058,7 +2082,8 @@
       "depositComplete": "Deposit Complete",
       "depositFailed": "Deposit Failed",
       "transactionDenied": "Transaction denied",
-      "rejectedByUser": "Rejected by user"
+      "rejectedByUser": "Rejected by user",
+      "to": "To"
     },
     "returnToPortfolio": {
       "title": "Connect to RSK",
@@ -2070,15 +2095,27 @@
       "return": "Return to Portfolio"
     },
     "tokenSelector": {
-      "title": "Select coin to deposit",
+      "title": "Select the source token on the {{network}} network",
       "notSupported": "Sorry, no supported deposit tokens for {{targetAsset}} on{{network}} network. Try choosing another network or token."
     }
   },
   "BridgeWithdrawPage": {
+    "title": "Send {{asset}}",
+    "subtitle": "Send {{asset}} from the RSK network",
+    "transactionDetails": "Transaction Details",
     "chainSelector": {
       "chooseNetwork": {
-        "title": "Select Network to withdraw {{asset}} to"
+        "title": "Select the network you want to bridge to and send {{asset}} to"
       }
+    },
+    "sidebarSteps": {
+      "chooseDestination": "Choose<br />Destination",
+      "selectToken": "Select<br /> Token",
+      "enterAmount": "Enter<br /> Amount",
+      "enterAddress": "Enter<br /> Address",
+      "reviewTransaction": "Review<br /> Transaction",
+      "processingTransaction": "Processing<br /> Transaction",
+      "transactionCompleted": "Transaction<br /> Completed"
     },
     "reviewStep": {
       "title": "Review {{symbol}} Withdraw",
@@ -2091,7 +2128,7 @@
       "bridgeFee": "Bridge Fee",
       "bridgeFeeWarning": "WARNING: HIGH FEE. The cost of gas on Ethereum is significantly higher than it is on BSC or RSK.",
       "tx": "Tx",
-      "confirm": "Confirm Withdraw"
+      "confirm": "Confirm"
     },
     "amountSelector": {
       "title": "Enter amount to withdraw",
@@ -2103,7 +2140,7 @@
       "dailyLimitSpent": "Daily Limit Spent",
       "fee": "Fee",
       "aggregatorBalance": "Aggregator Balance",
-      "withdrawAmount": "Withdraw Amount",
+      "withdrawAmount": "Amount to Send",
       "insufficientAggregator": "Insufficient aggregator balance to withdraw.",
       "insufficientDaily": "Daily limit exceeded."
     },
@@ -2114,20 +2151,21 @@
       "approve": "Please approve {{from}} {{symbol}} to be spent by Sovryn smart contracts in your {{providerType}} wallet.",
       "confirmTransaction": "Confirm Transaction",
       "confirm": "Please confirm the trade transaction in your {{providerType}} wallet.",
-      "withdrawInProgress": "Withdraw in Progress",
-      "withdrawComplete": "Withdraw Complete",
+      "withdrawInProgress": "Order Processing",
+      "withdrawComplete": "Order Complete",
       "withdrawFailed": "Withdraw Failed",
       "transactionDenied": "Transaction denied",
       "rejectedByUser": "Rejected by user"
     },
     "receiverSelector": {
       "title": "Enter receiving {{currentNetwork}} wallet address",
+      "desc": "Receiving {{targetAsset}} Address",
       "confirm": "Please check and confirm",
       "withdrawWarning": "Do not send to exchange addresses!",
       "withdrawDisclaimer": "Withdrawals directly to exchange addresses are not advised due to lack of support by exchanges (e.g. Binance), we are not responsible for any loss of funds in these cases. Please only send funds to wallet addresses that you control exclusively (EOA)."
     },
     "tokenSelector": {
-      "title": "Select coin to withdraw to",
+      "title": "Select the token you'd like to receive on the {{network}} network",
       "notSupported": "Sorry, no supported deposit tokens for {{sourceAsset}} on{{network}} network. Try choosing another network or token.",
       "maxWithdrawal": "Max Withdrawal:"
     }
@@ -2424,7 +2462,11 @@
         "confirmMulit": "Please confirm transaction {{current}} of {{count}} in your {{wallet}} wallet",
         "error": "Your transaction has failed due to <0>{{error}}</0> Your position has not been opened",
         "rejected": "The transaction request was rejected",
-        "cancelOrRetry": "Please cancel or retry your transaction"
+        "cancelOrRetry": "Please cancel or retry your transaction",
+        "failReasons": {
+          "insufficientUserFunds": "You do not have enough balance to pay the gas for this transaction",
+          "unknown": "An unknown error has occurred"
+        }
       },
       "labels": {
         "approvalTx": "Approval Tx ID:",
@@ -2653,9 +2695,9 @@
       "text": "Provide a 1:1 ratio of MYNT and rBTC to the MYNT/BTC AMM liquidity pool and instantly start accruing your share of 5,000 SOV rewards."
     },
     "card2": {
-      "title": "15K SOV rewards",
+      "title": "2.5K SOV rewards",
       "duration": "Ongoing weekly rewards",
-      "text": "Provide any amount of XUSD to the XUSD lending pool and instantly start accruing your share of 15,000 SOV rewards."
+      "text": "Provide any amount of XUSD to the XUSD lending pool and instantly start accruing your share of 2,500 SOV rewards."
     },
     "card3": {
       "title": "25K SOV rewards",
@@ -2785,21 +2827,25 @@
   },
   "competitionPage": {
     "meta": {
-      "title": "Trading Competition",
+      "title": "Trade Ranking",
       "description": ""
     },
     "nav": {
       "perpetualSwap": "Perpetuals",
+      "leaderboard": "Leaderboard",
       "competition": "Competition"
     },
     "rules": {
-      "title": "Trading Competition",
-      "reportBugs": "Please report bugs and issues here!"
+      "title": "Trade Ranking",
+      "reportBugs": "Please report bugs and issues here!",
+      "prizeDistribution": "The total prize money is 0.5 BTC plus a share of the profit/loss that the AMM incurs during the competition. Prize money is paid to top 3 traders and distributed in relation to their P&L.",
+      "welcomeMessage": "To start trading, navigate to <0>the Perpetuals page</0>, connect your wallet, fund it and trade."
     },
     "registered": "You are registered! If you require some help, please click on the help button in the top right or post a message on our <0>discord</0>.",
     "cta": {
       "connect": "Connect Wallet",
-      "compete": "Compete"
+      "enter": "Enter Leaderboard",
+      "compete": "Trade"
     },
     "table": {
       "rank": "Rank",
@@ -2807,7 +2853,23 @@
       "positions": "Positions opened",
       "trade": "Current trade",
       "total": "Total P/L",
+      "potentialPrize": "Potential Prize",
       "empty": "No one registered yet. You could be the first!"
+    },
+    "join": {
+      "title": "Enter Competition",
+      "pseudonym": "Pseudonym (Optional):",
+      "pseudonymPlaceholder": "Enter Pseudonym",
+      "wallet": "Wallet Address:",
+      "conditions": "I agree to the Perp Swaps trading competition's terms and condition",
+      "cta": "Confirm"
+    },
+    "countdown": {
+      "days": "days",
+      "hours": "hours",
+      "minutes": "minutes",
+      "seconds": "seconds",
+      "label": "Time until end:"
     }
   }
 }

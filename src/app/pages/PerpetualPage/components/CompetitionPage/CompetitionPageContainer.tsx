@@ -28,10 +28,12 @@ import {
   PerpetualPairDictionary,
   PerpetualPairType,
 } from 'utils/dictionaries/perpetual-pair-dictionary';
+import { RegisterDialog } from './components/RegisterDialog';
 
 const baseUrl = notificationServiceUrl[currentChainId];
 
 export const CompetitionPageContainer: React.FC = () => {
+  const [registerDialogOpen, setRegisterDialogOpen] = useState(false);
   const [isRegistered, setIsRegistered] = useState(false);
   const [registeredTraders, setRegisteredTraders] = useState<
     RegisteredTraderData[]
@@ -54,6 +56,15 @@ export const CompetitionPageContainer: React.FC = () => {
       })
       .catch(console.error);
   }, []);
+
+  const onClose = useCallback(
+    (success: boolean) => {
+      setIsRegistered(success);
+      setRegisterDialogOpen(false);
+      getRegisteredWallets();
+    },
+    [getRegisteredWallets],
+  );
 
   useEffect(() => {
     getRegisteredWallets();
@@ -132,47 +143,109 @@ export const CompetitionPageContainer: React.FC = () => {
               />
             </div>
             <div className="tw-flex tw-flex-col tw-w-5/12">
-              <div className="tw-text-2xl tw-font-bold tw-mb-6">
+              <div className="tw-text-2xl tw-font-bold tw-mb-4">
                 {t(translations.competitionPage.rules.title)}
               </div>
 
               <div className="tw-mt-2 tw-mb-8">
-                <a
-                  href="https://forms.monday.com/forms/c3227cbc08a9075d3e326dc2dc07d24e"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {t(translations.competitionPage.rules.reportBugs)}
-                </a>
-              </div>
-
-              <div className="tw-w-6/12">
-                {!connected && (
-                  <Button
-                    text={t(translations.competitionPage.cta.connect)}
-                    disabled={connected}
-                    onClick={() => walletContext.connect()}
-                  />
-                )}
-                {connected && isRegistered && (
-                  <>
-                    <p className="tw-mb-8">
-                      <Trans
-                        i18nKey={translations.competitionPage.registered}
-                        components={[<a href={discordInvite}>discord</a>]}
+                {/* <div>
+                  <Countdown
+                    date={competitionEndTime}
+                    renderer={({ days, hours, minutes, seconds }) => (
+                      <CompetitionEndCountdown
+                        days={days}
+                        hours={hours}
+                        minutes={minutes}
+                        seconds={seconds}
                       />
-                    </p>
-                    <Button
-                      text={t(translations.competitionPage.cta.compete)}
-                      onClick={() => history.push('/perpetuals')}
+                    )}
+                  />
+                </div> */}
+
+                <div className="tw-mt-8">
+                  <p>
+                    <Trans
+                      i18nKey={
+                        translations.competitionPage.rules.welcomeMessage
+                      }
+                      components={[
+                        <a
+                          className="tw-text-secondary tw-underline"
+                          href="/perpetuals"
+                        >
+                          Perpetuals page
+                        </a>,
+                      ]}
                     />
-                  </>
-                )}
+                  </p>
+                  <p className="tw-mb-11">
+                    <Trans
+                      i18nKey={
+                        translations.perpetualPage.tradeForm.text.welcome4
+                      }
+                      components={[
+                        <a
+                          className="tw-text-secondary tw-underline"
+                          href="https://wiki.sovryn.app/en/sovryn-dapp/perpetual-futures#how-to-trade-perpetual-futures"
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          Quickstart Guide
+                        </a>,
+                      ]}
+                    />
+                  </p>
+                </div>
+
+                {/* <div>
+                  {t(translations.competitionPage.rules.prizeDistribution)}
+                </div> */}
+
+                <div className="tw-mt-6 tw-mb-8">
+                  <a
+                    href="https://forms.monday.com/forms/5631b4b3608ad121f7e19af030f3b433"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    {t(translations.competitionPage.rules.reportBugs)}
+                  </a>
+                </div>
+
+                <div className="tw-w-6/12">
+                  {!connected && (
+                    <Button
+                      text={t(translations.competitionPage.cta.connect)}
+                      disabled={connected}
+                      onClick={() => walletContext.connect()}
+                    />
+                  )}
+                  {connected && !isRegistered && (
+                    <Button
+                      text={t(translations.competitionPage.cta.enter)}
+                      onClick={() => setRegisterDialogOpen(true)}
+                    />
+                  )}
+                  {connected && isRegistered && (
+                    <>
+                      <p className="tw-mb-8">
+                        <Trans
+                          i18nKey={translations.competitionPage.registered}
+                          components={[<a href={discordInvite}>discord</a>]}
+                        />
+                      </p>
+                      <Button
+                        text={t(translations.competitionPage.cta.compete)}
+                        onClick={() => history.push('/perpetuals')}
+                      />
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           </div>
         </div>
       </PerpetualQueriesContextProvider>
+      <RegisterDialog isOpen={registerDialogOpen} onClose={onClose} />
     </>
   );
 };
