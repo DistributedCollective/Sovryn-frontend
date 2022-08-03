@@ -5,45 +5,48 @@ import { LoadableValue } from 'app/components/LoadableValue';
 import { useGetProfitDollarValue } from 'app/hooks/trading/useGetProfitDollarValue';
 import { getOrder, TradingTypes } from 'app/pages/SpotTradingPage/types';
 import { translations } from 'locales/i18n';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TxStatus } from 'store/global/transactions-store/types';
-import { numberFromWei } from 'utils/blockchain/math-helpers';
-import { weiToUSD } from 'utils/display-text/format';
+import { toNumberFormat } from 'utils/display-text/format';
 import { AssetDetails } from 'utils/models/asset-details';
 import iconSuccess from 'assets/images/icon-success.svg';
 import iconRejected from 'assets/images/icon-rejected.svg';
 import iconPending from 'assets/images/icon-pending.svg';
-
-interface Data {
-  status: TxStatus;
-  timestamp: number;
-  transaction_hash: string;
-  returnVal: {
-    _fromAmount: string;
-    _toAmount: string;
-  };
-}
+import { AssetValue } from 'app/components/AssetValue';
+import { Nullable } from 'types';
+import { AssetValueMode } from 'app/components/AssetValue/types';
 
 interface IAssetRowProps {
-  data: Data;
-  itemFrom: AssetDetails;
-  itemTo: AssetDetails;
+  status?: TxStatus;
+  timestamp: number;
+  transactionHash: string;
+  fromAmount: string;
+  toAmount: Nullable<string>;
+  assetFrom: AssetDetails;
+  assetTo: AssetDetails;
 }
 
 export const AssetRow: React.FC<IAssetRowProps> = ({
-  data,
-  itemFrom,
-  itemTo,
+  status,
+  timestamp,
+  transactionHash,
+  fromAmount,
+  toAmount,
+  assetFrom,
+  assetTo,
 }) => {
   const { t } = useTranslation();
 
   const [dollarValue, dollarsLoading] = useGetProfitDollarValue(
-    itemTo.asset,
-    data.returnVal._toAmount,
+    assetTo.asset,
+    toAmount || '0',
   );
 
-  const order = getOrder(itemFrom.asset, itemTo.asset);
+  const order = useMemo(() => getOrder(assetFrom.asset, assetTo.asset), [
+    assetFrom,
+    assetTo,
+  ]);
 
   if (!order) {
     return null;
@@ -52,9 +55,7 @@ export const AssetRow: React.FC<IAssetRowProps> = ({
   return (
     <tr>
       <td className="tw-hidden lg:tw-table-cell">
-        <DisplayDate
-          timestamp={new Date(data.timestamp).getTime().toString()}
-        />
+        <DisplayDate timestamp={new Date(timestamp).getTime().toString()} />
       </td>
       <td className="tw-hidden lg:tw-table-cell">
         <AssetRenderer asset={order.pairAsset[0]} />-
@@ -74,48 +75,62 @@ export const AssetRow: React.FC<IAssetRowProps> = ({
         </span>
       </td>
       <td>
-        {numberFromWei(data.returnVal._fromAmount)}{' '}
-        <AssetRenderer asset={itemFrom.asset} />
+        <AssetValue
+          value={Number(fromAmount)}
+          maxDecimals={8}
+          mode={AssetValueMode.auto}
+          asset={assetFrom.asset}
+        />
       </td>
       <td className="tw-hidden lg:tw-table-cell">
-        <div>{numberFromWei(data.returnVal._toAmount)}</div>≈{' '}
-        <LoadableValue value={weiToUSD(dollarValue)} loading={dollarsLoading} />
+        <AssetValue
+          value={Number(toAmount || 0)}
+          asset={assetTo.asset}
+          maxDecimals={8}
+          mode={AssetValueMode.auto}
+        />
+        <br />≈{' '}
+        <LoadableValue
+          value={`USD ${toNumberFormat(dollarValue, 2)}`}
+          loading={dollarsLoading}
+        />
       </td>
+
       <td>
         <div className="tw-flex tw-items-center tw-p-0">
           <div className="tw-w-32">
-            {!data.status && (
+            {!status && (
               <p className="tw-m-0">{t(translations.common.confirmed)}</p>
             )}
-            {data.status === TxStatus.FAILED && (
+            {status === TxStatus.FAILED && (
               <p className="tw-m-0">{t(translations.common.failed)}</p>
             )}
-            {data.status === TxStatus.PENDING && (
+            {status === TxStatus.PENDING && (
               <p className="tw-m-0">{t(translations.common.pending)}</p>
             )}
             <LinkToExplorer
               className="tw-text-primary tw-font-normal tw-whitespace-nowrap"
-              txHash={data.transaction_hash}
+              txHash={transactionHash}
               startLength={5}
               endLength={5}
             />
           </div>
           <div className="tw-hidden 2xl:tw-block">
-            {!data.status && (
+            {!status && (
               <img
                 src={iconSuccess}
                 title={t(translations.common.confirmed)}
                 alt={t(translations.common.confirmed)}
               />
             )}
-            {data.status === TxStatus.FAILED && (
+            {status === TxStatus.FAILED && (
               <img
                 src={iconRejected}
                 title={t(translations.common.failed)}
                 alt={t(translations.common.failed)}
               />
             )}
-            {data.status === TxStatus.PENDING && (
+            {status === TxStatus.PENDING && (
               <img
                 src={iconPending}
                 title={t(translations.common.pending)}

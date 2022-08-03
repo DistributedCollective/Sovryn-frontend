@@ -6,7 +6,7 @@ import styles from '../../index.module.scss';
 import { RewardClaimForm } from '../ClaimForms/RewardClaimForm';
 import { RewardsDetail, RewardsDetailColor } from '../RewardsDetail/index';
 import { calculatePercentageDistribution } from './utils';
-import { useGetTotalTradingRewards } from './hooks/useGetTotalTradingRewards';
+import { useGetTradingRewards } from './hooks/useGetTradingRewards';
 import { useGetTotalLiquidityRewards } from './hooks/useGetTotalLiquidityRewards';
 import { useGetTotalLendingRewards } from './hooks/useGetTotalLendingRewards';
 import { bignumber } from 'mathjs';
@@ -14,6 +14,7 @@ import { NoRewardInfo } from '../../components/NoRewardInfo/index';
 import imgNoClaim from 'assets/images/reward/ARMANDO__LENDING.svg';
 import classNames from 'classnames';
 import { sumRewards } from '../../helpers';
+import { weiTo18 } from 'utils/blockchain/math-helpers';
 
 interface IRewardTabProps {
   availableTradingRewards: string;
@@ -29,13 +30,20 @@ export const RewardTab: React.FC<IRewardTabProps> = ({
   amountToClaim,
 }) => {
   const { t } = useTranslation();
-  const totalTradingRewards = useGetTotalTradingRewards();
+  const { data: totalTradingRewardsData } = useGetTradingRewards();
   const totalLiquidityRewards = useGetTotalLiquidityRewards();
   const { data } = useGetTotalLendingRewards();
 
   const totalLendingRewards = useMemo(
     () => sumRewards(data?.rewardsEarnedHistoryItems || []),
     [data],
+  );
+
+  const totalTradingRewards = useMemo(
+    () =>
+      totalTradingRewardsData?.userRewardsEarnedHistory?.totalTradingRewards ||
+      '0',
+    [totalTradingRewardsData],
   );
 
   const {
@@ -107,19 +115,23 @@ export const RewardTab: React.FC<IRewardTabProps> = ({
         <RewardsDetail
           color={RewardsDetailColor.Green}
           title={t(translations.rewardPage.lendingRewards)}
-          availableAmount={availableLendingRewards}
-          totalEarnedAmount={bignumber(totalLendingRewards)
-            .add(availableLendingRewards)
-            .toString()}
+          availableAmount={weiTo18(availableLendingRewards)}
+          totalEarnedAmount={weiTo18(
+            bignumber(totalLendingRewards)
+              .add(availableLendingRewards)
+              .toString(),
+          )}
         />
 
         <RewardsDetail
           color={RewardsDetailColor.Yellow}
           title={t(translations.rewardPage.liquidityRewards)}
-          availableAmount={availableLiquidityRewards}
-          totalEarnedAmount={bignumber(totalLiquidityRewards)
-            .add(availableLiquidityRewards)
-            .toString()}
+          availableAmount={weiTo18(availableLiquidityRewards)}
+          totalEarnedAmount={weiTo18(
+            bignumber(totalLiquidityRewards)
+              .add(availableLiquidityRewards)
+              .toString(),
+          )}
         />
       </div>
     </div>

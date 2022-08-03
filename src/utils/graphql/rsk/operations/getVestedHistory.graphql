@@ -1,0 +1,40 @@
+query getVestedHistory($user: String) {
+  vestingContracts(where: { user: $user }) {
+    ...VestedContractFields
+  }
+}
+
+fragment VestedContractFields on VestingContract {
+  ...VestedContractType
+  stakeHistory(
+    where: { action: TokensStaked }
+    orderBy: timestamp
+    orderDirection: desc
+  ) {
+    ...VestedHistoryFields
+  }
+}
+
+fragment VestedContractType on VestingContract {
+  cliff
+  duration
+  startingBalance
+  currentBalance
+  type
+  createdAtTimestamp
+  emittedBy
+  createdAtTransaction {
+    id
+  }
+}
+
+fragment VestedHistoryFields on VestingHistoryItem {
+  id
+  action
+  amount
+  lockedUntil
+  timestamp
+  transaction {
+    id
+  }
+}

@@ -1,0 +1,6 @@
+query getTradingRewards($id: ID!) {
+  userRewardsEarnedHistory(id: $id) {
+    availableTradingRewards
+    totalTradingRewards
+  }
+}
