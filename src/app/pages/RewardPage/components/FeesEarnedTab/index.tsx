@@ -34,7 +34,7 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
   ]);
 
   const totalRewardsEarned = useMemo(
-    () => totalAmount.add(amountToClaim).toString(),
+    () => totalAmount.add(weiTo18(amountToClaim)).toString(),
     [totalAmount, amountToClaim],
   );
 
@@ -96,7 +96,7 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
           color={RewardsDetailColor.Yellow}
           title={t(translations.rewardPage.fee.stakingFee)}
           availableAmount={weiTo18(amountToClaim)}
-          totalEarnedAmount={weiTo18(totalRewardsEarned)}
+          totalEarnedAmount={totalRewardsEarned}
           asset={Asset.RBTC}
           loading={totalAmountLoading}
           showApproximateSign
