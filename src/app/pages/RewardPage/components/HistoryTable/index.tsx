@@ -4,13 +4,35 @@ import { TableHeader } from './TableHeader';
 import { useGetUserRewardsEarnedHistory } from '../../hooks/useGetUserRewardsEarnedHistory';
 import { RewardPagination } from '../RewardPaginaton';
 import { DEFAULT_PAGE_SIZE } from 'utils/classifiers';
+import { RewardTabType } from '../../types';
+import { RewardsEarnedAction } from 'utils/graphql/rsk/generated';
 
-export const HistoryTable: React.FC = () => {
+interface IHistoryTableProps {
+  activeTab: RewardTabType;
+}
+
+export const HistoryTable: React.FC<IHistoryTableProps> = ({ activeTab }) => {
   const [page, setPage] = useState(1);
+
+  const getActiveTabType = useCallback(item => {
+    switch (item) {
+      case RewardTabType.FEES_EARNED:
+        return RewardsEarnedAction.UserFeeWithdrawn;
+      case RewardTabType.LIQUID_SOV:
+        return RewardsEarnedAction.StakingRewardWithdrawn;
+      case RewardTabType.REWARD_SOV:
+        return RewardsEarnedAction.EarnReward;
+      default:
+        return RewardsEarnedAction.EarnReward;
+    }
+  }, []);
+
   const { data, loading } = useGetUserRewardsEarnedHistory(
     page,
+    getActiveTabType(activeTab),
     DEFAULT_PAGE_SIZE,
   );
+
   const isHiddenPagination = useMemo(
     () =>
       data &&

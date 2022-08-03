@@ -1,10 +1,14 @@
 import { useAccount } from 'app/hooks/useAccount';
 import { useMemo } from 'react';
 import { APOLLO_POLL_INTERVAL } from 'utils/classifiers';
-import { useGetUserRewardsEarnedHistoryQuery } from 'utils/graphql/rsk/generated';
+import {
+  RewardsEarnedAction,
+  useGetUserRewardsEarnedHistoryQuery,
+} from 'utils/graphql/rsk/generated';
 
 export const useGetUserRewardsEarnedHistory = (
   page: number,
+  action: RewardsEarnedAction,
   pageSize: number,
 ) => {
   const account = useAccount();
@@ -21,6 +25,7 @@ export const useGetUserRewardsEarnedHistory = (
       user: account.toLowerCase(),
       skip: skip,
       pageSize: pageSize,
+      action: action,
     },
     pollInterval: APOLLO_POLL_INTERVAL,
   });
