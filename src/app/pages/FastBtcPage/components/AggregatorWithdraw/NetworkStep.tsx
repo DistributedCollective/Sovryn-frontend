@@ -65,8 +65,11 @@ export const NetworkStep: React.FC<NetworkAwareComponentProps> = ({
 
   return (
     <div>
-      <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
-        {t(translations.BridgeDepositPage.chainSelector.chooseNetwork.title)}
+      <div className="tw-mb-7 tw-text-base tw-text-center tw-font-semibold">
+        {t(
+          translations.BridgeDepositPage.chainSelector.chooseNetwork.title,
+          'rBTC',
+        )}
       </div>
       <div className="tw-flex tw-px-2 tw-justify-center">
         {chainId !== chainIdRequired && (
@@ -83,7 +86,7 @@ export const NetworkStep: React.FC<NetworkAwareComponentProps> = ({
                 {t(translations.BridgeDepositPage.walletSelector.wallet)}
               </div>
             </div>
-            <div className="tw-mb-20 tw-mt-10 tw-text-2xl tw-text-center tw-font-semibold">
+            <div className="tw-mb-7 tw-mt-10 tw-text-base tw-text-center tw-font-semibold">
               {t(
                 translations.BridgeDepositPage.chainSelector.wrongNetwork.title,
                 { network: chain?.name },

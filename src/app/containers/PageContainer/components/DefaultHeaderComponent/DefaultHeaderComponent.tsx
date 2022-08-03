@@ -554,7 +554,7 @@ export const DefaultHeaderComponent: React.FC = () => {
                 text={t(
                   translations.mainMenu[hasFunds ? 'fundWallet' : 'getStarted'],
                 )}
-                onClick={() => history.push('/fast-btc/deposit')}
+                onClick={() => history.push('/rbtc')}
                 type={ButtonType.button}
                 color={ButtonColor.primary}
                 style={ButtonStyle.normal}
