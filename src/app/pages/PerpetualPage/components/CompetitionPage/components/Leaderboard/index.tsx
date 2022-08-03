@@ -31,6 +31,9 @@ import {
 } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
 import { PerpetualPair } from 'utils/models/perpetual-pair';
 import { Nullable } from 'types';
+import { useGetRealizedPnlData } from 'app/pages/PerpetualPage/hooks/graphql/useGetRealizedPnlData';
+
+const START_TIMESTAMP = '1654061182'; // 01/06/2022
 
 interface ILeaderboardProps {
   data: RegisteredTraderData[];
@@ -58,6 +61,13 @@ export const Leaderboard: React.FC<ILeaderboardProps> = ({
   const { data: leaderboardData } = useGetLeaderboardData(
     PerpetualPairType.BTCUSD,
     data.map(val => val.walletAddress),
+    START_TIMESTAMP,
+  );
+
+  const { data: realizedPnlData } = useGetRealizedPnlData(
+    PerpetualPairType.BTCUSD,
+    data.map(val => val.walletAddress),
+    START_TIMESTAMP,
   );
 
   // const {

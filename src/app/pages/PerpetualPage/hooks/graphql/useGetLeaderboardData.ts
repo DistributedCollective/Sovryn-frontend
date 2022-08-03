@@ -12,6 +12,7 @@ import {
 export function useGetLeaderboardData(
   pairType: PerpetualPairType,
   traderIDs: string[],
+  tradesTimestamp: string,
 ) {
   const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
   const TRADER_DATA_QUERY = gql`
@@ -21,6 +22,15 @@ export function useGetLeaderboardData(
       first: ${traderIDs.length}
     ){
       id
+      trades(where: {blockTimestamp_gt: ${tradesTimestamp}, perpetual: ${JSON.stringify(
+    pair.id,
+  )}}) {
+        perpetual {
+          id
+        }
+        blockTimestamp
+        tradeAmountBC
+      }
       totalFundingPaymentCC
       positionsTotalCount
       traderStates (where: {perpetual: ${JSON.stringify(pair.id)}}) {
