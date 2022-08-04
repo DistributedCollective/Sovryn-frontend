@@ -237,7 +237,7 @@
     "meta": {
       "title": "Fast-BTC",
       "titleDeposit": "Receber RBTC",
-      "descriptionDeposit": "Transfer Bitcoin to a deposit address in the Bitcoin network, and it will be received as RBTC",
+      "descriptionDeposit": "Transfira Bitcoin para recebe-los como RBTC",
       "titleWithdraw": "Enviar BTC",
       "descriptionWithdraw": "Envie Bitcoin transferindo RBTC para a rede Bitcoin",
       "description": "Transfira seu Bitcoin para a rede RSK."
@@ -254,8 +254,8 @@
       },
       "mainScreen": {
         "title": "Depositar BTC e receber <0/>",
-        "description": "Sempre gere um novo endereço de depósito e use-o apenas uma vez",
-        "cta": "Gerar endereço de depósito"
+        "description": "Atenção: O endereço de depósito pode mudar de tempos em tempos",
+        "cta": "Gerar endereço"
       },
       "depositDetails": {
         "title": "Limites e taxas",
@@ -268,14 +268,15 @@
         "line1": "Não deposite nenhum ativo que não seja BTC.",
         "line2": "Não envie menos BTC do que o limite mínimo.",
         "line3": "Não envie mais BTC do que o limite máximo.",
-        "line4": "Only transfer BTC to the deposit address generated for you.",
+        "line4": "Somente transfira BTC para o endereço gerado abaixo.",
         "line5": "Aguarde até {{hours}} horas para processar.",
         "line6": "Se a transação não for concluída em {{hours}} horas <0>contate-nos</0>."
       },
       "validationScreen": {
         "title": "Verificando federação FastBTC",
         "description": "Para uma maior segurança, estamos verificando as assinaturas do servidor da federação FastBTC. Aguarde a verificação ser concluída.",
-        "cta": "Clique para continuar",
+        "cta": "Continuar",
+        "download": "Fazer download dos dados de verificação",
         "validationTextLoading": "Verificando assinaturas...",
         "validationTextSuccess": "Verificação concluída",
         "validationTextError": "Verificação falhou"
@@ -292,7 +293,7 @@
         "received": "Quantidade recebida:",
         "txHash": "Hash da transação:",
         "txId": "ID transação:",
-        "description": "O depósito está sendo processado. Se a transação não for concluída em {{hours}} horas <0>abra um ticket de suporte</0>.",
+        "description": "O depósito está sendo processado. Se a transação não for concluída em {{hours}} horas <0>contate-nos</0>.",
         "cta": "Voltar ao portfólio"
       },
       "qr": {
@@ -342,11 +343,11 @@
       "reviewScreen": {
         "dateTime": "Date e hora",
         "title": "Revisar transação",
-        "amount": "Total a enviar:",
-        "address": "Endereço BTC de destino:",
-        "fees": "Taxa de serviço:",
-        "received": "Total a receber:",
-        "tx": "ID transação:",
+        "amount": "Total a enviar",
+        "address": "Endereço BTC",
+        "fees": "Taxa de serviço",
+        "received": "Total a receber",
+        "tx": "ID transação",
         "description": "A transação está sendo processada. Se a transação não for concluída em {{hours}} horas <0>contate-nos</0>."
       },
       "walletTxHelper": {
@@ -359,7 +360,7 @@
       "statusScreen": {
         "titles": {
           "pending_for_user": "Confirmar transação <0/>",
-          "pending": "Processando transação <0/>.",
+          "pending": "Processando transação <0/>",
           "confirmed": "Confirmado",
           "failed": "Transação falhou"
         },
@@ -1011,7 +1012,7 @@
       "symbol": "Symbol:",
       "explorer": "Block Explorer URL:"
     },
-    "tutorialGuide": "Veja como conectar a carteira {{wallet}} na rede principal da RSK",
+    "tutorialGuide": "Aprenda a conectar a carteira {{wallet}} na rede principal da RSK",
     "stepTitle": {
       "step1": "Passo 01:",
       "step2": "Passo 02:",
