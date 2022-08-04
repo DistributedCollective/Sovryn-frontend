@@ -2054,7 +2054,7 @@
       "wrongNetwork": "Nós detectamos que você está na rede",
       "switch": "Por favor mude para a rede {{network}} na sua",
       "wallet": "carteira",
-      "howToConnect": "Veja como conectar na {{network}} com a {{walletName}}"
+      "howToConnect": "Veja como conectar na {{network}} usando a {{walletName}}"
     },
     "amountSelector": {
       "title": "Insira a quantidade a ser depositada",
