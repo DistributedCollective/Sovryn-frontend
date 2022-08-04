@@ -4,8 +4,8 @@ import { LeaderboardData } from 'app/pages/PerpetualPage/components/CompetitionP
 import { prettyTx } from 'utils/helpers';
 import { toNumberFormat } from 'utils/display-text/format';
 import classNames from 'classnames';
-import { LinkToExplorer } from '../../../../../../components/LinkToExplorer';
-import { PERPETUAL_CHAIN_ID } from '../../../../types';
+import { LinkToExplorer } from '../../../../../../../../components/LinkToExplorer';
+import { PERPETUAL_CHAIN_ID } from '../../../../../../types';
 
 interface ITraderRowProps {
   data: LeaderboardData;

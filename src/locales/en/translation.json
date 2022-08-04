@@ -2830,6 +2830,14 @@
       "title": "Trade Ranking",
       "description": ""
     },
+    "leaderboard": {
+      "tabs": {
+        "bestReturn": "Best Return",
+        "highestVolume": "Highest Volume",
+        "mostTrades": "Most Trades",
+        "highestProfit": "HighestProfit"
+      }
+    },
     "nav": {
       "perpetualSwap": "Perpetuals",
       "leaderboard": "Leaderboard",
