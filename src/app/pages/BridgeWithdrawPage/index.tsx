@@ -91,7 +91,7 @@ export const BridgeWithdrawPage: React.FC = () => {
           <SidebarSteps />
         </div>
 
-        <div className="tw-flex-1 tw-px-4 tw-w-full tw-flex tw-flex-col tw-items-end md:tw-items-center tw-justify-around">
+        <div className="tw-flex-1 tw-px-4 tw-w-full tw-flex tw-flex-col tw-items-end md:tw-items-center tw-justify-around tw-mt-4 tw-mb-12">
           <SwitchTransition>
             <CSSTransition
               key={step}
