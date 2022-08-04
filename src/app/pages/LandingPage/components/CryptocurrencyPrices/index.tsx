@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 import { translations } from 'locales/i18n';
@@ -35,63 +35,7 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
 
   const list = usePairList(pairs);
 
-  const rows = useMemo(() => {
-    if (!isLoading && !list.length) {
-      return [];
-    }
-
-    return list
-      .map(pair => {
-        const assetDetails = AssetsDictionary.getByTokenContractAddress(
-          pair.base_id,
-        );
-        if (!assetDetails) {
-          return [];
-        }
-
-        const result = [
-          {
-            assetDetails: assetDetails,
-            price24h: Number(pair.price_change_percent_24h_usd),
-            priceWeek: Number(pair.price_change_week_usd),
-            lastPrice: Number(pair.last_price_usd),
-            assetData: assetData && assetData[pair?.base_id],
-          },
-        ];
-
-        if (assetDetails.asset === Asset.USDT) {
-          const rbtcDetails = AssetsDictionary.getByTokenContractAddress(
-            pair.quote_id,
-          );
-          result.push({
-            assetDetails: rbtcDetails,
-            price24h: -Number(pair.price_change_percent_24h),
-            priceWeek: -Number(pair.price_change_week),
-            lastPrice: Number(1 / pair.last_price),
-            assetData: assetData && assetData[pair?.quote_id],
-          });
-        }
-
-        return result;
-      })
-      .flat()
-      .map(pair => {
-        const marketCap = bignumber(
-          pair.assetData?.circulating_supply || '0',
-        ).mul(pair.lastPrice || '0');
-        return {
-          ...pair,
-          marketCap,
-        };
-      })
-      .sort((pairA, pairB) =>
-        pairA.marketCap.greaterThan(pairB.marketCap) ? -1 : 1,
-      );
-  }, [assetData, isLoading, list]);
-
-  if (!isLoading && !list.length) {
-    return null;
-  }
+  if (!isLoading && !list.length) return null;
 
   return (
     <>
@@ -174,26 +118,46 @@ export const CryptocurrencyPrices: React.FC<ICryptocurrencyPricesProps> = ({
             </tr>
           )}
 
-          {rows.map(
-            ({
-              assetDetails,
-              price24h,
-              priceWeek,
-              lastPrice,
-              assetData,
-              marketCap,
-            }) => (
-              <Row
-                assetDetails={assetDetails}
-                price24h={price24h}
-                priceWeek={priceWeek}
-                lastPrice={lastPrice}
-                assetData={assetData}
-                assetLoading={assetLoading}
-                marketCap={marketCap.toNumber()}
-              />
-            ),
-          )}
+          {!isLoading &&
+            list.map(pair => {
+              const assetDetails = AssetsDictionary.getByTokenContractAddress(
+                pair.base_id,
+              );
+              if (!assetDetails) {
+                return <></>;
+              }
+              let rbtcRow;
+
+              if (assetDetails.asset === Asset.USDT) {
+                const rbtcDetails = AssetsDictionary.getByTokenContractAddress(
+                  pair.quote_id,
+                );
+                rbtcRow = (
+                  <Row
+                    assetDetails={rbtcDetails}
+                    price24h={-pair.price_change_percent_24h}
+                    priceWeek={-pair.price_change_week}
+                    lastPrice={1 / pair.last_price}
+                    assetData={assetData && assetData[pair?.quote_id]}
+                    assetLoading={assetLoading}
+                  />
+                );
+              }
+
+              return (
+                <React.Fragment key={pair.base_id}>
+                  {rbtcRow}
+                  <Row
+                    assetDetails={assetDetails}
+                    price24h={pair.price_change_percent_24h_usd}
+                    priceWeek={pair.price_change_week_usd}
+                    lastPrice={pair.last_price_usd}
+                    assetData={assetData && assetData[pair?.base_id]}
+                    assetLoading={assetLoading}
+                  />
+                </React.Fragment>
+              );
+            })}
         </tbody>
       </table>
     </>
@@ -206,7 +170,6 @@ interface IRowProps {
   price24h: number;
   priceWeek: number;
   lastPrice: number;
-  marketCap: number;
   assetLoading: boolean;
 }
 
@@ -217,7 +180,6 @@ export const Row: React.FC<IRowProps> = ({
   priceWeek,
   lastPrice,
   assetLoading,
-  marketCap,
 }) => {
   if (!assetDetails) return <></>;
 
@@ -253,7 +215,12 @@ export const Row: React.FC<IRowProps> = ({
             loading={assetLoading}
             value={
               assetData?.circulating_supply
-                ? `${numberToUSD(marketCap, 0)}`
+                ? `${numberToUSD(
+                    bignumber(assetData?.circulating_supply || '0')
+                      .mul(lastPrice || '0')
+                      .toNumber(),
+                    0,
+                  )}`
                 : ''
             }
           />

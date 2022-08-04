@@ -10,7 +10,7 @@ import { GetStartedBanner } from './components/Banner/GetStartedBanner';
 import { TotalValueLocked } from './components/TotalValueLocked';
 import { Promotions } from '../../components/Promotions';
 import { AmmBalance } from './components/AmmBalance';
-import { currentChainId, graphWrapperUrl } from 'utils/classifiers';
+import { backendUrl, currentChainId } from 'utils/classifiers';
 import { TvlData } from 'app/containers/StatsPage/types';
 import axios, { Canceler } from 'axios';
 import { useInterval } from 'app/hooks/useInterval';
@@ -26,6 +26,8 @@ import { getContract } from 'utils/blockchain/contract-helpers';
 import { useDenominateAssetAmount } from 'app/hooks/trading/useDenominateAssetAmount';
 import { useDollarValue } from 'app/hooks/useDollarValue';
 import { bignumber } from 'mathjs';
+
+const url = backendUrl[currentChainId];
 
 interface ILandingPageProps {
   refreshInterval?: number;
@@ -61,7 +63,7 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
       cancelDataRequest.current = c;
     });
     axios
-      .get(graphWrapperUrl[currentChainId] + '/cmc/tvl', {
+      .get(url + '/tvl', {
         cancelToken,
       })
       .then(res => {
@@ -111,7 +113,7 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
       cancelDataRequest.current = c;
     });
     axios
-      .get(graphWrapperUrl[currentChainId] + 'cmc/summary?extra=true', {
+      .get(url + '/api/v1/trading-pairs/summary', {
         cancelToken,
       })
       .then(res => {
@@ -131,7 +133,7 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
       cancelDataRequest.current = c;
     });
     axios
-      .get(graphWrapperUrl[currentChainId] + 'cmc/asset', {
+      .get(url + '/api/v1/trading-pairs/assets', {
         cancelToken,
       })
       .then(res => {
