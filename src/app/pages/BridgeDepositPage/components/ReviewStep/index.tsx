@@ -18,6 +18,7 @@ import { useIsBridgeDepositLocked } from 'app/pages/BridgeDepositPage/hooks/useI
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
 import { AssetValue } from 'app/components/AssetValue';
+import { AssetValueMode } from 'app/components/AssetValue/types';
 
 export const ReviewStep: React.FC = () => {
   const {
@@ -122,7 +123,9 @@ export const ReviewStep: React.FC = () => {
         value: (
           <AssetValue
             value={Number(asset.fromWei(amount))}
-            minDecimals={asset.minDecimals}
+            minDecimals={2}
+            maxDecimals={8}
+            mode={AssetValueMode.auto}
           />
         ),
       },

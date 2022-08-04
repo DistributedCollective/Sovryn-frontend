@@ -16,6 +16,7 @@ import { discordInvite } from 'utils/classifiers';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { getBTCAssetForNetwork } from '../../helpers';
 import { AssetValue } from 'app/components/AssetValue';
+import { AssetValueMode } from 'app/components/AssetValue/types';
 
 type ReviewScreenProps = {
   onConfirm: () => void;
@@ -62,7 +63,13 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
         label: t(translations.fastBtcPage.withdraw.reviewScreen.amount),
         value: (
           <>
-            <AssetValue value={Number(amount)} minDecimals={8} asset={asset} />
+            <AssetValue
+              value={Number(amount)}
+              minDecimals={2}
+              maxDecimals={8}
+              mode={AssetValueMode.auto}
+              asset={asset}
+            />
           </>
         ),
       },
@@ -77,7 +84,13 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
         value: (
           <LoadableValue
             value={
-              <AssetValue value={feesPaid} minDecimals={8} assetString="BTC" />
+              <AssetValue
+                value={feesPaid}
+                minDecimals={2}
+                maxDecimals={8}
+                mode={AssetValueMode.auto}
+                assetString="BTC"
+              />
             }
             loading={loading}
           />
@@ -90,7 +103,9 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
             value={
               <AssetValue
                 value={receiveAmount}
-                minDecimals={8}
+                minDecimals={2}
+                maxDecimals={8}
+                mode={AssetValueMode.auto}
                 assetString="BTC"
               />
             }
