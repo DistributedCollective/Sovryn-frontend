@@ -485,10 +485,10 @@
     "zero": "Zero",
     "perpetuals": "Operar perpétuo",
     "getStarted": "Começar",
-    "fundWallet": "Depositar",
+    "fundWallet": "Carregar",
     "tooltips": {
       "readMore": "Saiba mais",
-      "fundWalletButton": "Clique aqui para depositar e começar a usar."
+      "fundWalletButton": "Clique aqui para carregar saldo RBTC e começar a usar."
     },
     "labels": {
       "swap": "A forma mais simples de trocar um ativo por outro",
@@ -2056,7 +2056,7 @@
       "wrongNetwork": "Nós detectamos que você está na rede",
       "switch": "Por favor mude para a rede {{network}} na sua",
       "wallet": "carteira",
-      "howToConnect": "Veja como conectar na {{network}} usando a {{walletName}}"
+      "howToConnect": "Aprenda a conectar na {{network}} usando a {{walletName}}"
     },
     "amountSelector": {
       "title": "Insira a quantidade a ser depositada",
@@ -2066,7 +2066,7 @@
       "maxAmount": "Quantidade máxima",
       "dailyLimit": "Limite diário",
       "dailyLimitSpent": "Limite diário usado",
-      "fee": "Taxa",
+      "fee": "Taxa de serviço",
       "aggregatorBalance": "Disponível",
       "depositAmount": "Quantidade:"
     },
