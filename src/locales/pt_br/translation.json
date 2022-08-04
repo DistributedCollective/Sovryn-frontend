@@ -304,7 +304,7 @@
     "withdraw": {
       "sidebarSteps": {
         "amount": "Inserir quantidade",
-        "address": "Endereço de recebimento",
+        "address": "Inserir endereço",
         "review": "Revisar",
         "confirm": "Confirmar",
         "processing": "Processando",
@@ -336,7 +336,7 @@
       },
       "addressForm": {
         "title": "Endereço BTC",
-        "address": "Receber BTC no endereço:",
+        "address": "Inserir endereço BTC:",
         "errorBECH32": "Insira um endereço BTC BECH32 válido!",
         "cta": "Revisar transação"
       },
