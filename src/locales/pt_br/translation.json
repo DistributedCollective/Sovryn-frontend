@@ -1012,7 +1012,7 @@
       "symbol": "Symbol:",
       "explorer": "Block Explorer URL:"
     },
-    "tutorialGuide": "Veja como conectar a carteira {{wallet}} na rede principal da RSK",
+    "tutorialGuide": "Aprenda a conectar a carteira {{wallet}} na rede principal da RSK",
     "stepTitle": {
       "step1": "Passo 01:",
       "step2": "Passo 02:",
