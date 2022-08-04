@@ -21,6 +21,7 @@
     "maintenance": "Em manutenção",
     "comingSoon": "Em breve",
     "next": "Próximo",
+    "previous": "Anterior",
     "loading": "Carregando...",
     "noData": "Sem dados",
     "retry": "Tentar novamente",
@@ -225,11 +226,20 @@
       }
     }
   },
+   "receiveRBTCPage": {
+    "title": "Receber RBTC",
+    "description": "Receba RBTC via bitcoin ou cartão/transferência bancária",
+    "selectSource": "Escolha a forma de pagamento",
+    "bitcoinNetwork": "Bitcoin",
+    "bankCard": "Banco/Cartão"
+  },
   "fastBtcPage": {
     "meta": {
-      "title": "FastBTC",
+      "title": "Fast-BTC",
       "titleDeposit": "Receber RBTC",
+      "descriptionDeposit": "Transfer Bitcoin to a deposit address in the Bitcoin network, and it will be received as RBTC",
       "titleWithdraw": "Enviar BTC",
+      "descriptionWithdraw": "Envie Bitcoin transferindo RBTC para a rede Bitcoin",
       "description": "Transfira seu Bitcoin para a rede RSK."
     },
     "backToPortfolio": "Voltar ao portfólio",
@@ -258,9 +268,9 @@
         "line1": "Não deposite nenhum ativo que não seja BTC.",
         "line2": "Não envie menos BTC do que o limite mínimo.",
         "line3": "Não envie mais BTC do que o limite máximo.",
-        "line4": "Aguarde até {{hours}} horas para processar.",
-        "line5": "Se a transação não for concluída em {{hours}} horas <0>abra um ticket de suporte</0>.",
-        "line6": "If your transaction takes longer than {{hours}} hrs please <0>contact us</0>."
+        "line4": "Only transfer BTC to the deposit address generated for you.",
+        "line5": "Aguarde até {{hours}} horas para processar.",
+        "line6": "Se a transação não for concluída em {{hours}} horas <0>contate-nos</0>."
       },
       "validationScreen": {
         "title": "Verificando federação FastBTC",
@@ -316,7 +326,7 @@
         "line2": "Não envie menos BTC do que o limite mínimo.",
         "line3": "Não envie mais BTC do que o limite máximo.",
         "line4": "Aguarde até {{hours}} horas para processar.",
-        "line5": "Se a transação não for concluída em {{hours}} horas <0>abra um ticket de suporte</0>."
+        "line5": "Se a transação não for concluída em {{hours}} horas <0>contate-nos</0>."
       },
       "amountForm": {
         "title": "Enviar <0/>",
@@ -330,13 +340,14 @@
         "cta": "Revisar transação"
       },
       "reviewScreen": {
-        "title": "Revisar transação <0/>",
-        "amount": "Quantidade",
-        "address": "Endereço BTC de recebimento",
-        "fees": "Taxas:",
-        "received": "Receber:",
+        "dateTime": "Date e hora",
+        "title": "Revisar transação",
+        "amount": "Total a enviar:",
+        "address": "Endereço BTC de destino:",
+        "fees": "Taxa de serviço:",
+        "received": "Total a receber:",
         "tx": "ID transação:",
-        "description": "A transação está sendo processada. Se a transação não for concluída em {{hours}} horas <0>abra um ticket de suporte</0>."
+        "description": "A transação está sendo processada. Se a transação não for concluída em {{hours}} horas <0>contate-nos</0>."
       },
       "walletTxHelper": {
         "confirm": "Confirme a transação na sua carteira {{wallet}}",
@@ -2008,30 +2019,43 @@
   "BridgeDepositPage": {
     "poweredBy": "Disponibilizado por babelFish",
     "network": "Rede",
+    "title": "Receber {{asset}}",
+    "subtitle": "Receber {{asset}} na rede RSK",
     "changeWallet": "Deseja usar outra carteira?",
     "chainSelector": {
       "wrongNetwork": {
-        "title": "Mude para a rede {{network}}"
+        "title": "Alterar para a rede {{network}}"
       },
       "chooseNetwork": {
         "title": "Em qual rede está a cripto que você deseja depositar?"
       }
     },
+    "sidebarSteps": {
+      "chooseSource": "Escolher<br /> rede",
+      "selectWallet": "Selecionar<br /> carteira",
+      "selectToken": "Selecionar<br /> token",
+      "enterAmount": "Inserir<br /> quantidade",
+      "reviewTransaction": "Revisar<br /> transação",
+      "processingTransaction": "Processando<br /> transação",
+      "transactionCompleted": "Transação<br /> concluída"
+    },
     "reviewStep": {
-      "title": "Revisar depósito",
+      "title": "Revisar",
       "dateTime": "Data e hora",
-      "from": "De",
+      "from": "Da rede",
+      "to": "Para rede",
       "token": "Token",
       "amount": "Quantidade",
       "bridgeFee": "Taxa de serviço",
       "tx": "ID transação",
-      "confirmDeposit": "Confirmar depósito"
+      "confirmDeposit": "Confirmar depósito",
+      "next": "Próximo"
     },
     "walletSelector": {
       "wrongNetwork": "Nós detectamos que você está na rede",
       "switch": "Por favor mude para a rede {{network}} na sua",
       "wallet": "carteira",
-      "howToConnect": "Como conectar na"
+      "howToConnect": "Veja como conectar na {{network}} usando a {{walletName}}"
     },
     "amountSelector": {
       "title": "Insira a quantidade a ser depositada",
@@ -2073,10 +2097,22 @@
     }
   },
   "BridgeWithdrawPage": {
+    "title": "Enviar {{asset}}",
+    "subtitle": "Enviar {{asset}} da rede RSK para outra rede",
+    "transactionDetails": "Detalhes",
     "chainSelector": {
       "chooseNetwork": {
         "title": "Para qual rede você deseja sacar seus {{asset}}?"
       }
+    },
+     "sidebarSteps": {
+      "chooseDestination": "Rede<br />destino",
+      "selectToken": "Selecionar<br /> token",
+      "enterAmount": "Inserir<br /> quantidade",
+      "enterAddress": "Inserir<br /> endereço",
+      "reviewTransaction": "Revisar<br /> transação",
+      "processingTransaction": "Processando<br /> transação",
+      "transactionCompleted": "Transação<br /> concluída"
     },
     "reviewStep": {
       "title": "Revisar saque {{symbol}}",
