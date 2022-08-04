@@ -21,6 +21,7 @@ import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
 import { Icon, Popover } from '@blueprintjs/core';
 import { AssetValue } from 'app/components/AssetValue';
+import { AssetValueMode } from 'app/components/AssetValue/types';
 
 export const ReviewStep: React.FC = () => {
   const {
@@ -142,7 +143,9 @@ export const ReviewStep: React.FC = () => {
               <td className="tw-text-right">
                 <AssetValue
                   value={Number(currentAsset.fromWei(amount))}
-                  minDecimals={currentAsset.minDecimals}
+                  minDecimals={2}
+                  maxDecimals={8}
+                  mode={AssetValueMode.auto}
                 />
               </td>
             </tr>
