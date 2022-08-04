@@ -2836,6 +2836,11 @@
         "highestVolume": "Highest Volume",
         "mostTrades": "Most Trades",
         "highestProfit": "HighestProfit"
+      },
+      "tables": {
+        "highestVolumeTable": {
+          "volume": "Volume"
+        }
       }
     },
     "nav": {

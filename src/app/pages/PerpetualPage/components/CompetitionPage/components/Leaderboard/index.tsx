@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { PerpetualPair } from 'utils/models/perpetual-pair';
 import { RegisteredTraderData } from '../../types';
 import { BestReturnTable } from './components/BestReturnTable';
+import { HighestVolumeTable } from './components/HighestVolumeTable';
 
 type LeaderboardProps = {
   data: RegisteredTraderData[];
@@ -31,7 +32,11 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({
         id: 'highestVolume',
         label: t(translations.competitionPage.leaderboard.tabs.highestVolume),
         content: (
-          <BestReturnTable data={data} showUserRow={showUserRow} pair={pair} />
+          <HighestVolumeTable
+            data={data}
+            showUserRow={showUserRow}
+            pair={pair}
+          />
         ),
       },
       {

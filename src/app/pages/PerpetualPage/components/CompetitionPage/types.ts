@@ -1,3 +1,5 @@
+import { Nullable } from 'types';
+
 export type LeaderboardData = {
   rank: string;
   userName: string | null;
@@ -9,6 +11,13 @@ export type LeaderboardData = {
   totalFundingPaymentCC?: number;
   realizedProfitCC?: number;
   unrealizedPnLCC?: number;
+};
+
+export type HighestVolumeData = {
+  rank: string;
+  userName: Nullable<string>;
+  walletAddress: string;
+  volume: number;
 };
 
 export type RegisteredTraderData = {

@@ -11,7 +11,13 @@ export const readTraderVolume = data => {
 
     return [item.id, traderVolume];
   });
-  return result.sort((a, b) => b[1] - a[1]);
+  return result
+    .sort((a, b) => b[1] - a[1])
+    .map((item, index) => ({
+      trader: item[0],
+      volume: item[1],
+      rank: index + 1,
+    }));
 };
 
 export const mostTrades = data =>
