@@ -227,7 +227,7 @@
   },
    "receiveRBTCPage": {
     "title": "Receber RBTC",
-    "description": "Receba RBTC via Bitcoin ou cartão/transferência bancária",
+    "description": "Receba RBTC via bitcoin ou cartão/transferência bancária",
     "selectSource": "Escolha a forma de pagamento",
     "bitcoinNetwork": "Bitcoin",
     "bankCard": "Banco/Cartão"
