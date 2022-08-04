@@ -485,10 +485,10 @@
     "zero": "Zero",
     "perpetuals": "Operar perpétuo",
     "getStarted": "Começar",
-    "fundWallet": "Depositar",
+    "fundWallet": "Carregar",
     "tooltips": {
       "readMore": "Saiba mais",
-      "fundWalletButton": "Clique aqui para depositar e começar a usar."
+      "fundWalletButton": "Clique aqui para carregar saldo RBTC e começar a usar."
     },
     "labels": {
       "swap": "A forma mais simples de trocar um ativo por outro",
