@@ -237,9 +237,9 @@
     "meta": {
       "title": "Fast-BTC",
       "titleDeposit": "Receber RBTC",
-      "descriptionDeposit": "Transfira Bitcoin para recebe-los como RBTC",
+      "descriptionDeposit": "Transfira BTC para recebe-los como RBTC",
       "titleWithdraw": "Enviar BTC",
-      "descriptionWithdraw": "Envie Bitcoin transferindo RBTC para a rede Bitcoin",
+      "descriptionWithdraw": "Envie BTC transferindo RBTC para a rede Bitcoin",
       "description": "Transfira seu Bitcoin para a rede RSK."
     },
     "backToPortfolio": "Voltar ao portfólio",
