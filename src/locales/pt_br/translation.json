@@ -303,7 +303,7 @@
     },
     "withdraw": {
       "sidebarSteps": {
-        "amount": "Quantidade",
+        "amount": "Inserir quantidade",
         "address": "Endereço de recebimento",
         "review": "Revisar",
         "confirm": "Confirmar",
