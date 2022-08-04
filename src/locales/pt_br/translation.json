@@ -2018,10 +2018,12 @@
   "BridgeDepositPage": {
     "poweredBy": "Disponibilizado por babelFish",
     "network": "Rede",
+    "title": "Receber {{asset}}",
+    "subtitle": "Receber {{asset}} na rede RSK",
     "changeWallet": "Deseja usar outra carteira?",
     "chainSelector": {
       "wrongNetwork": {
-        "title": "Mude para a rede {{network}}"
+        "title": "Alterar para a rede {{network}}"
       },
       "chooseNetwork": {
         "title": "Em qual rede está a cripto que você deseja depositar?"
