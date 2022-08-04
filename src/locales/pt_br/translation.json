@@ -2029,7 +2029,7 @@
     },
     "sidebarSteps": {
       "chooseSource": "Escolher<br /> rede",
-      "selectWallet": "Selecionar a<br /> carteira",
+      "selectWallet": "Selecionar<br /> carteira",
       "selectToken": "Selecionar<br /> token",
       "enterAmount": "Inserir<br /> quantidade",
       "reviewTransaction": "Revisar<br /> transação",
