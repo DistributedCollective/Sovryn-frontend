@@ -303,8 +303,8 @@
     },
     "withdraw": {
       "sidebarSteps": {
-        "amount": "Inserir quantidade",
-        "address": "Endereço de recebimento",
+        "amount": "Quantidade",
+        "address": "Endereço",
         "review": "Revisar",
         "confirm": "Confirmar",
         "processing": "Processando",
