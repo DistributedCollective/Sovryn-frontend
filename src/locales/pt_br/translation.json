@@ -2030,7 +2030,7 @@
     "sidebarSteps": {
       "chooseSource": "Escolher<br /> rede",
       "selectWallet": "Selecionar a<br /> carteira",
-      "selectToken": "Selecionar o<br /> token",
+      "selectToken": "Selecionar<br /> token",
       "enterAmount": "Inserir<br /> quantidade",
       "reviewTransaction": "Revisar<br /> transação",
       "processingTransaction": "Processando<br /> transação",
