@@ -1028,7 +1028,7 @@
       "step4": "Input {{network}} settings",
       "step5": "Click Save",
       "step6": "Click Add Network",
-      "connectButton": "Configure {{network}} in MetaMask"
+      "connectButton": "Configurar {{network}} na MetaMask"
     },
     "liquality": {
       "step1": "Open up Liquality in your browser",
