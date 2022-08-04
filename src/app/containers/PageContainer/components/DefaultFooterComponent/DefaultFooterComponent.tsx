@@ -61,16 +61,6 @@ export const Footer: React.FC = () => {
               </p>
             </div>
           </div>
-          <div className="tw-mt-3">
-            <a
-              href="https://tools.google.com/dlpage/gaoptout"
-              target="_blank"
-              rel="noopener noreferrer"
-              data-action-id="footer-analytics-optout"
-            >
-              {t(translations.footer.optOut)}
-            </a>
-          </div>
         </div>
         <div className="tw-flex tw-flex-col tw-justify-end tw-relative">
           <img
