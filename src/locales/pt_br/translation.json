@@ -360,7 +360,7 @@
       "statusScreen": {
         "titles": {
           "pending_for_user": "Confirmar transação <0/>",
-          "pending": "Processando transação <0/>.",
+          "pending": "Processando transação <0/>",
           "confirmed": "Confirmado",
           "failed": "Transação falhou"
         },
