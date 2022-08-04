@@ -2096,10 +2096,22 @@
     }
   },
   "BridgeWithdrawPage": {
+    "title": "Enviar {{asset}}",
+    "subtitle": "Enviar {{asset}} da rede RSK para outra rede",
+    "transactionDetails": "Detalhes",
     "chainSelector": {
       "chooseNetwork": {
         "title": "Para qual rede você deseja sacar seus {{asset}}?"
       }
+    },
+     "sidebarSteps": {
+      "chooseDestination": "Rede<br />destino",
+      "selectToken": "Selecionar<br /> token",
+      "enterAmount": "Inserir<br /> quantidade",
+      "enterAddress": "Inserir<br /> endereço",
+      "reviewTransaction": "Revisar<br /> transação",
+      "processingTransaction": "Processando<br /> transação",
+      "transactionCompleted": "Transação<br /> concluída"
     },
     "reviewStep": {
       "title": "Revisar saque {{symbol}}",
