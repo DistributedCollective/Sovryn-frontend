@@ -1,20 +1,15 @@
 import React, { useContext, useMemo, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Trans, useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import {
-  StepItem,
-  Stepper,
-} from 'app/pages/BridgeDepositPage/components/Stepper';
-import ArrowBack from 'assets/images/genesis/arrow_back.svg';
+
 import { prettyTx } from 'utils/helpers';
 
 import addressIcon from 'assets/images/fast-btc/address-icon.svg';
 import successIcon from 'assets/images/fast-btc/success-icon.svg';
 import { DepositContext, DepositStep } from '../../contexts/deposit-context';
 import { NetworkAwareComponentProps } from '../../types';
-import { Chain } from 'types';
 import { TxStatus } from 'store/global/transactions-store/types';
+import { Stepper, StepItem } from 'app/components/Stepper';
 
 const stepOrder = [
   DepositStep.VALIDATION,
@@ -26,32 +21,46 @@ const stepOrder = [
 const isBehindStep = (current: DepositStep, needed: DepositStep) =>
   stepOrder.indexOf(current) > stepOrder.indexOf(needed);
 
-export const SidebarStepsDeposit: React.FC<NetworkAwareComponentProps> = ({
-  network,
-}) => {
+export const SidebarStepsDeposit: React.FC<NetworkAwareComponentProps> = () => {
   const { t } = useTranslation();
   const { step, set, address, depositTx } = useContext(DepositContext);
 
   const initialSteps: StepItem[] = useMemo(
     () => [
       {
-        stepTitle: t(translations.fastBtcPage.deposit.sidebarSteps.validation),
+        stepTitle: (
+          <Trans
+            i18nKey={translations.fastBtcPage.deposit.sidebarSteps.validation}
+          />
+        ),
         value: DepositStep.VALIDATION,
       },
       {
-        stepTitle: t(translations.fastBtcPage.deposit.sidebarSteps.address),
+        stepTitle: (
+          <Trans
+            i18nKey={translations.fastBtcPage.deposit.sidebarSteps.address}
+          />
+        ),
         value: DepositStep.ADDRESS,
       },
       {
-        stepTitle: t(translations.fastBtcPage.deposit.sidebarSteps.processing),
+        stepTitle: (
+          <Trans
+            i18nKey={translations.fastBtcPage.deposit.sidebarSteps.processing}
+          />
+        ),
         value: DepositStep.PROCESSING,
       },
       {
-        stepTitle: t(translations.fastBtcPage.deposit.sidebarSteps.completed),
+        stepTitle: (
+          <Trans
+            i18nKey={translations.fastBtcPage.deposit.sidebarSteps.completed}
+          />
+        ),
         value: DepositStep.COMPLETED,
       },
     ],
-    [t],
+    [],
   );
 
   const steps = useMemo<StepItem[]>(() => {
@@ -119,16 +128,16 @@ export const SidebarStepsDeposit: React.FC<NetworkAwareComponentProps> = ({
 
   const canOpen = useCallback(
     (testStep: DepositStep) => {
-      const indexOfTest = stepOrder.indexOf(testStep);
-      const indexOfStep = stepOrder.indexOf(step);
+      const nextStepIndex = stepOrder.indexOf(testStep);
+      const activeStepIndex = stepOrder.indexOf(step);
 
-      if (indexOfTest === -1 || indexOfStep === -1) {
+      if (nextStepIndex === -1 || activeStepIndex === -1) {
         return false;
       }
       return (
-        indexOfTest < indexOfStep &&
-        // Can't go back if in confirm, processing or complete state.
-        ![DepositStep.CONFIRM, DepositStep.COMPLETED].includes(step)
+        nextStepIndex < activeStepIndex &&
+        // Can't go back if in processing or complete state.
+        ![DepositStep.PROCESSING, DepositStep.COMPLETED].includes(step)
       );
     },
     [step],
@@ -143,34 +152,13 @@ export const SidebarStepsDeposit: React.FC<NetworkAwareComponentProps> = ({
     [canOpen, set],
   );
 
-  const backToUrl = useMemo(
-    () => (network === Chain.BSC ? '/perpetuals' : '/portfolio'),
-    [network],
-  );
-
-  const backToTitle = useMemo(
-    () =>
-      network === Chain.BSC
-        ? t(translations.fastBtcPage.backToPerpetuals)
-        : t(translations.fastBtcPage.backToPortfolio),
-    [network, t],
-  );
-
   return (
     <>
-      <Link
-        to={backToUrl}
-        className="tw-absolute tw--top-2 tw-left-0 tw-flex tw-items-center tw-font-semibold tw-text-2xl tw-cursor-pointer tw-select-none tw-text-white tw-whitespace-nowrap tw-no-underline"
-      >
-        <img
-          alt="arrowback"
-          src={ArrowBack}
-          className="tw-w-4 tw-h-4 tw-mr-2"
-        />
-        {backToTitle}
-      </Link>
       {step !== DepositStep.MAIN && (
-        <div className="tw-mt-24">
+        <div
+          className="tw-w-full tw-my-10 tw-px-6"
+          style={{ minWidth: '40rem' }}
+        >
           <Stepper steps={steps} step={step} onClick={changeStep} />
         </div>
       )}

@@ -16,6 +16,7 @@ export enum ButtonColor {
   tradeShort = 'tradeShort',
   success = 'success',
   warning = 'warning',
+  gray = 'gray',
 }
 
 export enum ButtonSize {

@@ -183,15 +183,13 @@ export const DepositContainer: React.FC<NetworkAwareComponentProps> = ({
 
   return (
     <DepositContext.Provider value={value}>
-      <div className="tw-flex tw-flex-row tw-justify-between tw-items-center tw-w-full">
-        <div
-          className={classNames(
-            'tw-hidden tw-relative tw-z-50 tw-h-full md:tw-flex tw-flex-col tw-items-start tw-justify-center tw-pl-8',
-            styles.wrapper,
-          )}
-        >
-          <SidebarStepsDeposit network={network} />
-        </div>
+      <div
+        style={{
+          minHeight: step === DepositStep.MAIN ? 'auto' : 510,
+        }}
+        className="tw-flex tw-flex-col tw-items-center tw-w-full"
+      >
+        <SidebarStepsDeposit network={network} />
         <div
           className={classNames(
             'tw-flex tw-flex-col tw-flex-1 tw-justify-center tw-items-center',

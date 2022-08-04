@@ -5,10 +5,7 @@ import { translations } from 'locales/i18n';
 import { FastBtcButton } from '../FastBtcButton';
 import { AssetSymbolRenderer } from '../../../../components/AssetSymbolRenderer';
 import { WithdrawContext } from '../../contexts/withdraw-context';
-import {
-  toNumberFormat,
-  weiToNumberFormat,
-} from '../../../../../utils/display-text/format';
+
 import { AddressBadge } from '../../../../components/AddressBadge';
 import { useCacheCallWithValue } from '../../../../hooks/useCacheCallWithValue';
 import { useWeiAmount } from '../../../../hooks/useWeiAmount';
@@ -18,6 +15,7 @@ import { useMaintenance } from 'app/hooks/useMaintenance';
 import { discordInvite } from 'utils/classifiers';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { getBTCAssetForNetwork } from '../../helpers';
+import { AssetValue } from 'app/components/AssetValue';
 
 type ReviewScreenProps = {
   onConfirm: () => void;
@@ -54,61 +52,80 @@ export const ReviewScreen: React.FC<ReviewScreenProps> = ({
 
   const asset = getBTCAssetForNetwork(network);
 
+  const items = useMemo(
+    () => [
+      {
+        label: t(translations.fastBtcPage.withdraw.reviewScreen.dateTime),
+        value: new Date().toLocaleDateString(),
+      },
+      {
+        label: t(translations.fastBtcPage.withdraw.reviewScreen.amount),
+        value: (
+          <>
+            <AssetValue value={Number(amount)} minDecimals={8} asset={asset} />
+          </>
+        ),
+      },
+      {
+        label: t(translations.fastBtcPage.withdraw.reviewScreen.address),
+        value: (
+          <AddressBadge realBtc txHash={address} className="tw-text-primary" />
+        ),
+      },
+      {
+        label: t(translations.fastBtcPage.withdraw.reviewScreen.fees),
+        value: (
+          <LoadableValue
+            value={
+              <AssetValue value={feesPaid} minDecimals={8} assetString="BTC" />
+            }
+            loading={loading}
+          />
+        ),
+      },
+      {
+        label: t(translations.fastBtcPage.withdraw.reviewScreen.received),
+        value: (
+          <LoadableValue
+            value={
+              <AssetValue
+                value={receiveAmount}
+                minDecimals={8}
+                assetString="BTC"
+              />
+            }
+            loading={loading}
+          />
+        ),
+      },
+    ],
+    [address, amount, asset, feesPaid, loading, receiveAmount, t],
+  );
+
   return (
     <>
-      <div className="tw-mb-6 tw-text-2xl tw-text-center tw-font-semibold">
+      <div className="tw-mb-6 tw-text-base tw-text-center tw-font-semibold">
         <Trans
           i18nKey={translations.fastBtcPage.withdraw.reviewScreen.title}
           components={[<AssetSymbolRenderer asset={asset} />]}
         />
       </div>
 
-      <div className="tw-w-full">
-        <div className="tw-w-full tw-px-8 tw-py-4 tw-bg-gray-5 tw-text-center tw-mb-8 tw-rounded">
-          <div className="tw-mb-2 tw-text-lg">
-            {t(translations.fastBtcPage.withdraw.reviewScreen.amount)}
-          </div>
-          <div>
-            {toNumberFormat(amount, 8)} <AssetSymbolRenderer asset={asset} />
-          </div>
-        </div>
+      <div className="tw-w-full tw-mb-20">
+        <table className="tw-mx-auto tw-text-left tw-text-sm tw-font-medium tw-w-full">
+          <tbody>
+            {items.map(({ label, value }) => (
+              <tr>
+                <td className="tw-py-0.5">{label}:</td>
+                <td className="tw-py-0.5 tw-text-right">{value}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
 
-        <div className="tw-w-full tw-px-8 tw-py-4 tw-bg-gray-6 tw-text-center tw-mb-8 tw-rounded">
-          <div className="tw-mb-2">
-            {t(translations.fastBtcPage.withdraw.reviewScreen.address)}
-          </div>
-          <div>
-            <AddressBadge realBtc txHash={address} />
-          </div>
-        </div>
-
-        <div className="tw-w-full tw-px-8 tw-py-4 tw-bg-gray-5 tw-mb-8 tw-rounded">
-          <div className="tw-flex tw-flex-row tw-mb-2 tw-justify-start tw-items-center">
-            <div className="tw-w-1/2">
-              {t(translations.fastBtcPage.withdraw.reviewScreen.fees)}
-            </div>
-            <div className="tw-font-semibold">
-              <LoadableValue
-                value={<>{weiToNumberFormat(feesPaid, 8)} BTC</>}
-                loading={loading}
-              />
-            </div>
-          </div>
-          <div className="tw-flex tw-flex-row tw-mb-2 tw-justify-start tw-items-center">
-            <div className="tw-w-1/2">
-              {t(translations.fastBtcPage.withdraw.reviewScreen.received)}
-            </div>
-            <div className="tw-font-semibold">
-              <LoadableValue
-                value={<>{weiToNumberFormat(receiveAmount, 8)} BTC</>}
-                loading={loading}
-              />
-            </div>
-          </div>
-        </div>
-
-        <div className="tw-px-8 tw-mt-8">
+        <div className="tw-px-8 tw-mt-8 tw-text-center">
           <FastBtcButton
+            className="tw-absolute tw-right-0 tw-left-0 tw-bottom-8 tw-mx-auto"
             text={t(translations.common.confirm)}
             onClick={onConfirm}
             disabled={fastBtcLocked || loading}
