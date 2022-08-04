@@ -343,11 +343,11 @@
       "reviewScreen": {
         "dateTime": "Date e hora",
         "title": "Revisar transação",
-        "amount": "Total a enviar:",
-        "address": "Endereço BTC de destino:",
-        "fees": "Taxa de serviço:",
-        "received": "Total a receber:",
-        "tx": "ID transação:",
+        "amount": "Total a enviar",
+        "address": "Endereço BTC",
+        "fees": "Taxa de serviço",
+        "received": "Total a receber",
+        "tx": "ID transação",
         "description": "A transação está sendo processada. Se a transação não for concluída em {{hours}} horas <0>contate-nos</0>."
       },
       "walletTxHelper": {
