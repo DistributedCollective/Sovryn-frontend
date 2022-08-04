@@ -237,9 +237,9 @@
     "meta": {
       "title": "Fast-BTC",
       "titleDeposit": "Receber RBTC",
-      "descriptionDeposit": "Transfira Bitcoin para recebe-los como RBTC",
+      "descriptionDeposit": "Transfira BTC para recebe-los como RBTC",
       "titleWithdraw": "Enviar BTC",
-      "descriptionWithdraw": "Envie Bitcoin transferindo RBTC para a rede Bitcoin",
+      "descriptionWithdraw": "Envie BTC transferindo RBTC para a rede Bitcoin",
       "description": "Transfira seu Bitcoin para a rede RSK."
     },
     "backToPortfolio": "Voltar ao portfólio",
@@ -304,7 +304,7 @@
     "withdraw": {
       "sidebarSteps": {
         "amount": "Inserir quantidade",
-        "address": "Endereço de recebimento",
+        "address": "Inserir endereço",
         "review": "Revisar",
         "confirm": "Confirmar",
         "processing": "Processando",
@@ -336,7 +336,7 @@
       },
       "addressForm": {
         "title": "Endereço BTC",
-        "address": "Receber BTC no endereço:",
+        "address": "Inserir endereço BTC:",
         "errorBECH32": "Insira um endereço BTC BECH32 válido!",
         "cta": "Revisar transação"
       },
@@ -1028,7 +1028,7 @@
       "step4": "Input {{network}} settings",
       "step5": "Click Save",
       "step6": "Click Add Network",
-      "connectButton": "Configure {{network}} in MetaMask"
+      "connectButton": "Configurar {{network}} na MetaMask"
     },
     "liquality": {
       "step1": "Open up Liquality in your browser",
