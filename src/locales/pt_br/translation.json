@@ -266,8 +266,8 @@
       "depositInstructions": {
         "title": "Instruções:",
         "line1": "Não deposite nenhum ativo que não seja BTC.",
-        "line2": "Não envie menos BTC do que o limite mínimo.",
-        "line3": "Não envie mais BTC do que o limite máximo.",
+        "line2": "Não envie menos do que o limite mínimo.",
+        "line3": "Não envie mais do que o limite máximo.",
         "line4": "Somente transfira BTC para o endereço gerado abaixo.",
         "line5": "Aguarde até {{hours}} horas para processar.",
         "line6": "Se a transação não for concluída em {{hours}} horas <0>contate-nos</0>."
@@ -324,8 +324,8 @@
       "withdrawInstructions": {
         "title": "Instruções:",
         "line1": "Verifique e confirme se o endereço que você está enviando é um endereço BTC.",
-        "line2": "Não envie menos BTC do que o limite mínimo.",
-        "line3": "Não envie mais BTC do que o limite máximo.",
+        "line2": "Não envie menos do que o limite mínimo.",
+        "line3": "Não envie mais do que o limite máximo.",
         "line4": "Aguarde até {{hours}} horas para processar.",
         "line5": "Se a transação não for concluída em {{hours}} horas <0>contate-nos</0>."
       },
