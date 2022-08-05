@@ -80,6 +80,8 @@ export function DialogContent(props: IDialogContentProps) {
     [props.item.loanId, receiver, weiAmount, isCollateral],
   );
 
+  console.log('args', args);
+
   const { value, loading, error } = useCacheCallWithValue<{
     withdrawAmount: string;
     withdrawToken: string;
@@ -89,6 +91,8 @@ export function DialogContent(props: IDialogContentProps) {
     { withdrawAmount: '0', withdrawToken: '' },
     ...args,
   );
+
+  console.log('value, loading, error', value, loading, error);
 
   const token = useMemo(
     () => assetByTokenAddress(value.withdrawToken) || collateral,

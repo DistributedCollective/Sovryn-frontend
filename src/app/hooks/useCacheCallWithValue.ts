@@ -15,6 +15,14 @@ export function useCacheCallWithValue<T = string>(
   defaultValue: T | string | any = '0',
   ...args: any
 ): CacheCallWithValueResponse<T> {
+  console.log(
+    'useCacheCallWithValue',
+    contractName,
+    methodName,
+    defaultValue,
+    args,
+  );
+
   const { value, loading, error } = useCacheCall<T>(
     contractName,
     methodName,
