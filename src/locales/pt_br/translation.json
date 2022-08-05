@@ -269,8 +269,8 @@
         "line2": "Não envie menos do que o limite mínimo.",
         "line3": "Não envie mais do que o limite máximo.",
         "line4": "Somente transfira BTC para o endereço gerado abaixo.",
-        "line5": "Aguarde até {{hours}} horas para processar.",
-        "line6": "Se a transação não for concluída em {{hours}} horas <0>contate-nos</0>."
+        "line5": "Aguarde até 90 minutos para processar.",
+        "line6": "Se a transação não for concluída em 90 minutos <0>contate-nos</0>."
       },
       "validationScreen": {
         "title": "Verificando federação FastBTC",
