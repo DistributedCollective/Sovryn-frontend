@@ -12,6 +12,7 @@ import { actions as marginActions } from 'app/pages/MarginTradePage/slice';
 import { usePairList } from 'app/hooks/trading/usePairList';
 import { ITradingPairs, TradingType } from 'types/trading-pairs';
 import { Asset } from 'types/asset';
+import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
 
 interface IPairNavbarProps {
   type: TradingType;
@@ -122,32 +123,44 @@ export const PairNavbar: React.FC<IPairNavbarProps> = ({ type }) => {
       setPair(pair);
       if (pair[1] !== pair[0]) {
         reactLocalStorage.setObject(localStoreObject, [
-          pair[0].base_symbol,
-          pair[1].base_symbol,
+          assetByTokenAddress(pair[0].base_id),
+          assetByTokenAddress(pair[1].base_id),
         ]);
         dispatchAction(
-          tradingType[`${pair[0].base_symbol}_${pair[1].base_symbol}`],
+          tradingType[
+            `${assetByTokenAddress(pair[0].base_id)}_${assetByTokenAddress(
+              pair[1].base_id,
+            )}`
+          ],
         );
       }
       //filtering pairs for RBTC as target
       if (pair[0].base_symbol === pair[1].base_symbol && !pair[2]) {
         reactLocalStorage.setObject(localStoreObject, [
-          pair[0].base_symbol,
-          pair[1].quote_symbol,
+          assetByTokenAddress(pair[0].base_id),
+          assetByTokenAddress(pair[1].quote_id),
         ]);
         dispatchAction(
-          tradingType[`${pair[0].base_symbol}_${pair[0].quote_symbol}`],
+          tradingType[
+            `${assetByTokenAddress(pair[0].base_id)}_${assetByTokenAddress(
+              pair[0].quote_id,
+            )}`
+          ],
         );
       }
       //filtering pairs for RBTC as source
       if (pair[0].base_symbol === pair[1].base_symbol && pair[2]) {
         reactLocalStorage.setObject(localStoreObject, [
-          pair[0].quote_symbol,
-          pair[1].base_symbol,
+          assetByTokenAddress(pair[0].quote_id),
+          assetByTokenAddress(pair[1].base_id),
           pair[2],
         ]);
         dispatchAction(
-          tradingType[`${pair[0].quote_symbol}_${pair[0].base_symbol}`],
+          tradingType[
+            `${assetByTokenAddress(pair[0].quote_id)}_${assetByTokenAddress(
+              pair[0].base_id,
+            )}`
+          ],
         );
       }
       setIsOpen(false);
