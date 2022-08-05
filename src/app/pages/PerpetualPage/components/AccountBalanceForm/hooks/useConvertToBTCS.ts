@@ -27,6 +27,8 @@ export const useConvertToBTCS = () => {
 
   return {
     send: async (weiAmount: string) => {
+      let nonce = await bridgeNetwork.nonce(PERPETUAL_CHAIN);
+
       const result = await checkAndApprove(
         getContract('Masset_proxy').address,
         weiAmount,
@@ -36,7 +38,7 @@ export const useConvertToBTCS = () => {
         return;
       }
 
-      const nonce = await bridgeNetwork.nonce(PERPETUAL_CHAIN);
+      nonce += 1;
 
       await send([getContract('BTCB_token').address, weiAmount], {
         nonce,
