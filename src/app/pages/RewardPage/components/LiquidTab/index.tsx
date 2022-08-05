@@ -77,7 +77,7 @@ export const LiquidTab: React.FC<ILiquidTabProps> = ({
         <RewardsDetail
           color={RewardsDetailColor.Yellow}
           title={t(translations.rewardPage.stakingReward)}
-          availableAmount={amountToClaim}
+          availableAmount={weiTo18(amountToClaim)}
           totalEarnedAmount={weiTo18(totalRewardsEarned)}
         />
         <RewardsDetail
