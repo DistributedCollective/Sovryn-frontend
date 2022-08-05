@@ -1,9 +1,12 @@
 import { Nullable } from 'types';
 
-export type LeaderboardData = {
+export type CommonRankingData = {
   rank: string;
-  userName: string | null;
+  userName: Nullable<string>;
   walletAddress: string;
+};
+
+export type LeaderboardData = CommonRankingData & {
   openedPositions: number;
   lastTrade: number;
   totalPnL: number;
@@ -13,10 +16,7 @@ export type LeaderboardData = {
   unrealizedPnLCC?: number;
 };
 
-export type HighestVolumeData = {
-  rank: string;
-  userName: Nullable<string>;
-  walletAddress: string;
+export type HighestVolumeData = CommonRankingData & {
   volume: number;
 };
 

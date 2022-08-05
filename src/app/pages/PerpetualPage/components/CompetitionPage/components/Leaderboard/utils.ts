@@ -42,3 +42,12 @@ export const readBestPnL = data => {
   });
   return resultArray.sort((a, b) => b[1] - a[1]);
 };
+
+export const getProfitClassName = (value: number) => {
+  if (value > 0) {
+    return 'tw-text-trade-long';
+  } else if (value < 0) {
+    return 'tw-text-trade-short';
+  }
+  return 'tw-sov-white';
+};
