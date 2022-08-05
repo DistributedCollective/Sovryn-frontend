@@ -70,12 +70,14 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
   const [slippage, setSlippage] = useState(MARGIN_SLIPPAGE_DEFAULT);
   const { checkMaintenance, States } = useMaintenance();
   const closeTradesLocked = checkMaintenance(States.CLOSE_MARGIN_TRADES);
+
   const {
     trade,
     id,
     loanToken: { id: loanTokenId },
     collateralToken: { id: collateralTokenId },
   } = item;
+
   const entryLeverage = trade?.[0].entryLeverage || DEFAULT_TRADE.entryLeverage;
   const positionSize = trade?.[0].positionSize || DEFAULT_TRADE.positionSize;
   const [collateral, setCollateral] = useState(
