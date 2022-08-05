@@ -6,6 +6,7 @@ import { DepositContext } from '../../contexts/deposit-context';
 import { btcInSatoshis } from 'app/constants';
 import { DYNAMIC_FEE_DIVISOR } from '../../constants';
 import { AssetValue } from 'app/components/AssetValue';
+import { AssetValueMode } from 'app/components/AssetValue/types';
 
 export const DepositDetails: React.FC = () => {
   const { t } = useTranslation();
@@ -24,6 +25,7 @@ export const DepositDetails: React.FC = () => {
               <AssetValue
                 value={limits.min}
                 minDecimals={5}
+                mode={AssetValueMode.auto}
                 assetString="BTC"
               />
             }
@@ -37,6 +39,7 @@ export const DepositDetails: React.FC = () => {
               <AssetValue
                 value={limits.max}
                 minDecimals={3}
+                mode={AssetValueMode.auto}
                 assetString="BTC"
               />
             }
@@ -51,12 +54,15 @@ export const DepositDetails: React.FC = () => {
                 <AssetValue
                   value={limits.baseFee / btcInSatoshis}
                   minDecimals={8}
+                  maxDecimals={8}
+                  mode={AssetValueMode.auto}
                   assetString="BTC"
                 />
                 +{' '}
                 <AssetValue
                   value={(limits.dynamicFee / DYNAMIC_FEE_DIVISOR) * 100}
                   minDecimals={2}
+                  mode={AssetValueMode.auto}
                 />{' '}
                 %
               </>
