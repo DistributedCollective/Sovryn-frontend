@@ -2093,7 +2093,7 @@
       "return": "Voltar ao portfólio"
     },
     "tokenSelector": {
-      "title": "Escolha a cripto a ser transferida?",
+      "title": "Qual cripto você deseja usar?",
       "notSupported": "Desculpe, não suportamos depósitos para {{targetAsset}} na rede {{network}}. Tente outra rede ou cripto."
     }
   },
