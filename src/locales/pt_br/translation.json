@@ -313,7 +313,7 @@
       },
       "mainScreen": {
         "title": "Enviar <0/> para endereço BTC",
-        "description": "Sempre verifique se o endereço de recebimento está correto."
+        "description": "Sempre verifique se o endereço BTC está correto."
       },
       "withdrawDetails": {
         "title": "Limites e taxas",
@@ -335,18 +335,18 @@
         "availableBalance": "Saldo disponível: <0/> <1/>"
       },
       "addressForm": {
-        "title": "Endereço BTC",
-        "address": "Inserir endereço BTC:",
+        "title": "Inserir endereço BTC",
+        "address": "Endereço BTC:",
         "errorBECH32": "Insira um endereço BTC BECH32 válido!",
         "cta": "Revisar transação"
       },
       "reviewScreen": {
         "dateTime": "Data e hora",
         "title": "Revisar transação",
-        "amount": "Total a enviar",
+        "amount": "Total enviado",
         "address": "Endereço BTC",
         "fees": "Taxa de serviço",
-        "received": "Total a receber",
+        "received": "Total recebido",
         "tx": "ID transação",
         "description": "Em processamento. Se a transação não for concluída em {{hours}} horas <0>contate-nos</0>."
       },
