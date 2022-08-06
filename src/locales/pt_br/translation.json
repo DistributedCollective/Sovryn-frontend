@@ -259,7 +259,7 @@
       },
       "depositDetails": {
         "title": "Limites e taxas",
-        "min": "Mínimo:",
+        "min": "MÍNIMO:",
         "max": "Máximo:",
         "fee": "Taxa:"
       },
