@@ -317,7 +317,7 @@
       },
       "withdrawDetails": {
         "title": "Limites e taxas",
-        "min": "Mínimo:",
+        "min": "MÍNIMO:",
         "max": "Máximo:",
         "fee": "TAXA:"
       },
