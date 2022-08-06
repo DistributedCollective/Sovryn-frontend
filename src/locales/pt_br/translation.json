@@ -2021,14 +2021,14 @@
     "poweredBy": "Disponibilizado por babelFish",
     "network": "Rede",
     "title": "Receber {{asset}}",
-    "subtitle": "Receba {{asset}} na rede RSK",
+    "subtitle": "Transfira {{asset}} para a rede RSK",
     "changeWallet": "Deseja usar outra carteira?",
     "chainSelector": {
       "wrongNetwork": {
         "title": "Alterar para a rede {{network}}"
       },
       "chooseNetwork": {
-        "title": "Em qual rede está a cripto que você deseja depositar?"
+        "title": "Em qual rede estão suas criptos?"
       }
     },
     "sidebarSteps": {
