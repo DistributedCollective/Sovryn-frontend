@@ -2151,7 +2151,7 @@
       "confirm": "Por favor confirme a transação na sua carteira {{providerType}}.",
       "withdrawInProgress": "Processando envio",
       "withdrawComplete": "Envio concluído",
-      "withdrawFailed": "Falha no envio",
+      "withdrawFailed": "Falha na transferência",
       "transactionDenied": "Transação negada",
       "rejectedByUser": "Rejeitada pelo usuário"
     },
