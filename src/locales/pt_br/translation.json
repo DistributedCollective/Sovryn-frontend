@@ -2160,7 +2160,7 @@
       "desc": "Endereço de recebimento {{targetAsset}}",
       "confirm": "Por favor verifique e confirme",
       "withdrawWarning": "Não envie para endereços de exchanges!",
-      "withdrawDisclaimer": "Envios para endereços de exchanges (ex. Binance) não são aconselhados devido à falta de suporte por parte delas, nós não nos responsabilizamos por qualquer perda de fundos nestes casos. Envie fundos apenas para endereços de carteira que você tenha controle total."
+      "withdrawDisclaimer": "Transferências para endereços de exchanges (ex. Binance) não são aconselhados devido à falta de suporte por parte delas, nós não nos responsabilizamos por qualquer perda de fundos nestes casos. Envie fundos apenas para endereços de carteira que você tenha controle total."
     },
     "tokenSelector": {
       "title": "Qual cripto você deseja enviar?",
