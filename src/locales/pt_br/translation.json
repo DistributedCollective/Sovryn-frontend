@@ -2163,7 +2163,7 @@
       "withdrawDisclaimer": "Transferências para endereços de exchanges (ex. Binance) não são aconselhados devido à falta de suporte por parte delas, nós não nos responsabilizamos por qualquer perda de fundos nestes casos. Envie fundos apenas para endereços de carteira que você tenha controle total."
     },
     "tokenSelector": {
-      "title": "Qual cripto você deseja transferir?",
+      "title": "Selecione a  cripto que você deseja transferir",
       "notSupported": "Desculpe, não suportamos transferências para {{sourceAsset}} na rede {{network}}. Tente outra rede ou cripto.",
       "maxWithdrawal": "Máximo permitido:"
     }
