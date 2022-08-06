@@ -1262,7 +1262,7 @@
       "redeemRBTC": "Sacar rBTC",
       "withdraw": "Sacar"
     },
-    "sendMessage": "Transferir {{asset}}",
+    "sendMessage": "Enviar",
     "receiveMessage": "Receber",
     "convertDialog": {
       "title": "Converter",
