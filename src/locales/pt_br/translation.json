@@ -287,7 +287,7 @@
       },
       "statusScreen": {
         "title": "Processando transação",
-        "titleCompleted": "Recebimento BTC concluído",
+        "titleCompleted": "Recebimento concluído",
         "amount": "Quantidade transferida",
         "fees": "Taxas:",
         "received": "Quantidade recebida",
