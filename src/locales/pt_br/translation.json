@@ -265,7 +265,7 @@
       },
       "depositInstructions": {
         "title": "Instruções:",
-        "line1": "Não transfira nenhum ativo que não seja BTC.",
+        "line1": "Não deposite nenhum ativo que não seja BTC.",
         "line2": "Não envie menos do que o limite mínimo.",
         "line3": "Não envie mais do que o limite máximo.",
         "line4": "Somente transfira para o endereço gerado abaixo.",
