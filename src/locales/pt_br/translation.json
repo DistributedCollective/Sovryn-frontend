@@ -2103,7 +2103,7 @@
     "transactionDetails": "Detalhes",
     "chainSelector": {
       "chooseNetwork": {
-        "title": "Para qual rede você deseja enviar seus {{asset}}?"
+        "title": "Para qual rede você deseja transferir seus {{asset}}?"
       }
     },
      "sidebarSteps": {
