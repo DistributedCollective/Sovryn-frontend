@@ -1456,7 +1456,7 @@
       "interestAPR": "Juros anual",
       "endTimestamp": "Devolver até"
     },
-    "repayButton": "Devolver",
+    "repayButton": "Devolver empréstimo",
     "addCollateralButton": "Adicionar colateral"
   },
   "repayPositionForm": {
