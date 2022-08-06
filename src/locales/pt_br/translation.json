@@ -343,7 +343,7 @@
       "reviewScreen": {
         "dateTime": "Data e hora",
         "title": "Revisar transação",
-        "amount": "Total enviado",
+        "amount": "Total transferido",
         "address": "Endereço BTC",
         "fees": "Taxa de serviço",
         "received": "Total recebido",
