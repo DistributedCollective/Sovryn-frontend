@@ -254,7 +254,7 @@
       },
       "mainScreen": {
         "title": "Depositar BTC e receber <0/>",
-        "description": "Atenção: O endereço de recebimento pode mudar de tempos em tempos",
+        "description": "Atenção: o endereço de recebimento pode mudar de tempos em tempos",
         "cta": "Gerar endereço"
       },
       "depositDetails": {
