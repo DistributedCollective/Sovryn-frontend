@@ -2139,7 +2139,7 @@
       "fee": "Taxa",
       "aggregatorBalance": "Disponível",
       "withdrawAmount": "Quantidade:",
-      "insufficientAggregator": "Quantidade disponível para envio insuficiente.",
+      "insufficientAggregator": "Quantidade disponibilizada para transferências insuficiente.",
       "insufficientDaily": "Limite diário excedido."
     },
     "confirmStep": {
