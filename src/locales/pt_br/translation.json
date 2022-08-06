@@ -2099,7 +2099,7 @@
   },
   "BridgeWithdrawPage": {
     "title": "Enviar {{asset}}",
-    "subtitle": "Envie {{asset}} da rede RSK para outra rede",
+    "subtitle": "Transfira {{asset}} da rede RSK para outra rede",
     "transactionDetails": "Detalhes",
     "chainSelector": {
       "chooseNetwork": {
