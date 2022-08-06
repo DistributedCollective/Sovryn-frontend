@@ -247,14 +247,14 @@
     "deposit": {
       "sidebarSteps": {
         "validation": "Validação",
-        "address": "Endereço de depósito",
+        "address": "Endereço de recebimento",
         "processing": "Processando",
         "processingSteps": "Processando... ({{step}}/{{steps}})",
         "completed": "Concluído"
       },
       "mainScreen": {
         "title": "Depositar BTC e receber <0/>",
-        "description": "Atenção: O endereço de depósito pode mudar de tempos em tempos",
+        "description": "Atenção: O endereço de recebimento pode mudar de tempos em tempos",
         "cta": "Gerar endereço"
       },
       "depositDetails": {
@@ -282,18 +282,18 @@
         "validationTextError": "Verificação falhou"
       },
       "addressForm": {
-        "title": "Endereço de depósito BTC",
+        "title": "Endereço de recebimento BTC",
         "description": "Envie BTC para este endereço"
       },
       "statusScreen": {
-        "title": "Processando depósito BTC",
-        "titleCompleted": "Depósito BTC concluído",
-        "amount": "Depósito",
+        "title": "Processando transação",
+        "titleCompleted": "Recebimento BTC concluído",
+        "amount": "Quantidade transferida",
         "fees": "Taxas:",
-        "received": "Quantidade recebida:",
+        "received": "Quantidade recebida",
         "txHash": "Hash da transação:",
         "txId": "ID transação:",
-        "description": "O depósito está sendo processado. Se a transação não for concluída em {{hours}} horas <0>contate-nos</0>.",
+        "description": "Em processamento. Se a transação não for concluída em {{hours}} horas <0>contate-nos</0>.",
         "cta": "Voltar ao portfólio"
       },
       "qr": {
