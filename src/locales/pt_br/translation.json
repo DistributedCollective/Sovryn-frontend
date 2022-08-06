@@ -2164,7 +2164,7 @@
     },
     "tokenSelector": {
       "title": "Qual cripto você deseja enviar?",
-      "notSupported": "Desculpe, não suportamos envios para {{sourceAsset}} na rede {{network}}. Tente outra rede ou cripto.",
+      "notSupported": "Desculpe, não suportamos transferências para {{sourceAsset}} na rede {{network}}. Tente outra rede ou cripto.",
       "maxWithdrawal": "Máximo permitido:"
     }
   },
