@@ -2129,7 +2129,7 @@
       "confirm": "Confirmar"
     },
     "amountSelector": {
-      "title": "Insira a quantidade a ser enviada",
+      "title": "Insira a quantidade a ser transferida",
       "balance": "Saldo disponível",
       "dailyBridgeLimits": "Limites diários do serviço",
       "minAmount": "Quantidade mínima",
