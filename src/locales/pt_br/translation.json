@@ -2118,8 +2118,8 @@
     "reviewStep": {
       "title": "Revisar transferência {{symbol}}",
       "dateTime": "Data e hora",
-      "from": "De",
-      "to": "Para",
+      "from": "Da rede",
+      "to": "Para rede",
       "token": "Token",
       "amount": "Quantidade",
       "receiver": "Destinatário",
