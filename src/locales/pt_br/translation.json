@@ -1262,8 +1262,8 @@
       "redeemRBTC": "Sacar rBTC",
       "withdraw": "Sacar"
     },
-    "sendMessage": "Envie {{asset}}",
-    "receiveMessage": "Receba {{asset}}",
+    "sendMessage": "Transferir {{asset}}",
+    "receiveMessage": "Receber {{asset}}",
     "convertDialog": {
       "title": "Converter",
       "from": "De",
@@ -2099,11 +2099,11 @@
   },
   "BridgeWithdrawPage": {
     "title": "Enviar {{asset}}",
-    "subtitle": "Enviar {{asset}} da rede RSK para outra rede",
+    "subtitle": "Envie {{asset}} da rede RSK para outra rede",
     "transactionDetails": "Detalhes",
     "chainSelector": {
       "chooseNetwork": {
-        "title": "Para qual rede você deseja sacar seus {{asset}}?"
+        "title": "Para qual rede você deseja enviar seus {{asset}}?"
       }
     },
      "sidebarSteps": {
@@ -2116,7 +2116,7 @@
       "transactionCompleted": "Transação<br /> concluída"
     },
     "reviewStep": {
-      "title": "Revisar saque {{symbol}}",
+      "title": "Revisar transferência {{symbol}}",
       "dateTime": "Data e hora",
       "from": "De",
       "to": "Para",
@@ -2126,10 +2126,10 @@
       "bridgeFee": "Taxa de serviço",
       "bridgeFeeWarning": "WARNING: HIGH FEE. The cost of gas on Ethereum is significantly higher than it is on BSC or RSK.",
       "tx": "ID transação",
-      "confirm": "Confirmar saque"
+      "confirm": "Confirmar"
     },
     "amountSelector": {
-      "title": "Insira a quantidade a ser sacada",
+      "title": "Insira a quantidade a ser enviada",
       "balance": "Saldo disponível",
       "dailyBridgeLimits": "Limites diários do serviço",
       "minAmount": "Quantidade mínima",
@@ -2139,7 +2139,7 @@
       "fee": "Taxa",
       "aggregatorBalance": "Disponível",
       "withdrawAmount": "Quantidade:",
-      "insufficientAggregator": "Quantidade disponível para saque insuficiente.",
+      "insufficientAggregator": "Quantidade disponível para envio insuficiente.",
       "insufficientDaily": "Limite diário excedido."
     },
     "confirmStep": {
@@ -2149,9 +2149,9 @@
       "approve": "Por favor aprove {{from}} {{symbol}} para ser gasto pelo contrato inteligente da Sovryn na sua carteira {{providerType}}.",
       "confirmTransaction": "Confirmar transação",
       "confirm": "Por favor confirme a transação na sua carteira {{providerType}}.",
-      "withdrawInProgress": "Processando saque",
-      "withdrawComplete": "Saque concluído",
-      "withdrawFailed": "Saque falhou",
+      "withdrawInProgress": "Processando envio",
+      "withdrawComplete": "Envio concluído",
+      "withdrawFailed": "Falha no envio",
       "transactionDenied": "Transação negada",
       "rejectedByUser": "Rejeitada pelo usuário"
     },
@@ -2159,11 +2159,11 @@
       "title": "Insira o endereço da carteira da rede {{currentNetwork}}",
       "confirm": "Por favor verifique e confirme",
       "withdrawWarning": "Não envie para endereços de exchanges!",
-      "withdrawDisclaimer": "Saques para endereços de exchanges (ex. Binance) não são aconselhados devido à falta de suporte por parte delas, nós não nos responsabilizamos por qualquer perda de fundos nestes casos. Envie fundos apenas para endereços de carteira que você tenha controle total."
+      "withdrawDisclaimer": "Envios para endereços de exchanges (ex. Binance) não são aconselhados devido à falta de suporte por parte delas, nós não nos responsabilizamos por qualquer perda de fundos nestes casos. Envie fundos apenas para endereços de carteira que você tenha controle total."
     },
     "tokenSelector": {
-      "title": "Qual cripto você deseja sacar?",
-      "notSupported": "Desculpe, não suportamos saques para {{sourceAsset}} na rede {{network}}. Tente outra rede ou cripto.",
+      "title": "Qual cripto você deseja enviar?",
+      "notSupported": "Desculpe, não suportamos envios para {{sourceAsset}} na rede {{network}}. Tente outra rede ou cripto.",
       "maxWithdrawal": "Máximo permitido:"
     }
   },
