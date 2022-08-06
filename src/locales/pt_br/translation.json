@@ -261,7 +261,7 @@
         "title": "Limites e taxas",
         "min": "MÍNIMO:",
         "max": "MÁXIMO:",
-        "fee": "Taxa:"
+        "fee": "TAXA:"
       },
       "depositInstructions": {
         "title": "Instruções:",
