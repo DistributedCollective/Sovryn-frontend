@@ -239,7 +239,7 @@
       "titleDeposit": "Receber RBTC",
       "descriptionDeposit": "Transfira BTC para recebe-los como RBTC",
       "titleWithdraw": "Enviar Bitcoin",
-      "descriptionWithdraw": "Envie Bitcoin transferindo RBTC para a rede Bitcoin",
+      "descriptionWithdraw": "Envie BTC transferindo RBTC para a rede Bitcoin",
       "description": "Transfira seu Bitcoin para a rede RSK."
     },
     "backToPortfolio": "Voltar ao portfólio",
@@ -313,7 +313,7 @@
       },
       "mainScreen": {
         "title": "Enviar <0/> para endereço BTC",
-        "description": "Sempre verifique se o endereço de recebimento está correto."
+        "description": "Sempre verifique se o endereço BTC está correto."
       },
       "withdrawDetails": {
         "title": "Limites e taxas",
