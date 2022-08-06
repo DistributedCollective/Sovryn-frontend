@@ -2028,7 +2028,7 @@
         "title": "Alterar para a rede {{network}}"
       },
       "chooseNetwork": {
-        "title": "Em qual rede estão suas criptos?"
+        "title": "Selecione a rede onde estão suas criptos"
       }
     },
     "sidebarSteps": {
