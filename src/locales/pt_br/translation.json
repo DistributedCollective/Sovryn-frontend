@@ -313,7 +313,7 @@
       },
       "mainScreen": {
         "title": "Enviar <0/> para endereço BTC",
-        "description": "Sempre verifique se o endereço BTC está correto."
+        "description": "Sempre verifique se o endereço Bitcoin está correto."
       },
       "withdrawDetails": {
         "title": "Limites e taxas",
