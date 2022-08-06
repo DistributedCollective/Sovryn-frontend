@@ -1,8 +1,8 @@
 {
   "common": {
     "back": "Voltar",
-    "min": "mín",
-    "max": "máx",
+    "min": "mínimo",
+    "max": "máximo",
     "close": "Fechar",
     "for": "por",
     "confirm": "Confirmar",
@@ -259,8 +259,8 @@
       },
       "depositDetails": {
         "title": "Limites e taxas",
-        "min": "MÍN:",
-        "max": "MÁX:",
+        "min": "Mínimo:",
+        "max": "Máximo:",
         "fee": "Taxa:"
       },
       "depositInstructions": {
@@ -317,8 +317,8 @@
       },
       "withdrawDetails": {
         "title": "Limites e taxas",
-        "min": "MÍN:",
-        "max": "MÁX:",
+        "min": "Mínimo:",
+        "max": "Máximo:",
         "fee": "TAXA:"
       },
       "withdrawInstructions": {
