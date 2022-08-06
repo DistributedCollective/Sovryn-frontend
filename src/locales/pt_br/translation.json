@@ -2124,7 +2124,7 @@
       "amount": "Quantidade",
       "receiver": "Destinatário",
       "bridgeFee": "Taxa de serviço",
-      "bridgeFeeWarning": "WARNING: HIGH FEE. The cost of gas on Ethereum is significantly higher than it is on BSC or RSK.",
+      "bridgeFeeWarning": "ATENÇÃO: TAXA ALTA. O custo de transação na rede Ethereum é muito mais alto do que nas redes BSC or RSK.",
       "tx": "ID transação",
       "confirm": "Confirmar"
     },
