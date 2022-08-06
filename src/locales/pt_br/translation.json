@@ -1263,7 +1263,7 @@
       "withdraw": "Sacar"
     },
     "sendMessage": "Transferir {{asset}}",
-    "receiveMessage": "Receber {{asset}}",
+    "receiveMessage": "Receber",
     "convertDialog": {
       "title": "Converter",
       "from": "De",
