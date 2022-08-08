@@ -46,7 +46,7 @@ export const PageContainer: React.FC<Partial<HeaderContainerProps>> = ({
         initialOptions.footer = FooterTypes.NONE;
       } else if (pathname.startsWith('/perpetuals')) {
         initialOptions.header = HeaderTypes.LABS;
-        initialOptions.footer = FooterTypes.DEFAULT;
+        initialOptions.footer = FooterTypes.PERPETUALS;
       } else {
         initialOptions.header = HeaderTypes.DEFAULT;
         initialOptions.footer = FooterTypes.DEFAULT;
@@ -81,6 +81,8 @@ export const PageContainer: React.FC<Partial<HeaderContainerProps>> = ({
     switch (options.footer) {
       case FooterTypes.DEFAULT:
         return <Footer {...options.footerProps} />;
+      case FooterTypes.PERPETUALS:
+        return <Footer isPerpetuals />;
       default:
         return null;
     }
