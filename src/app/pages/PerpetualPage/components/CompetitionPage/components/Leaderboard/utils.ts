@@ -1,6 +1,8 @@
 import { ABK64x64ToFloat } from '@sovryn/perpetual-swap/dist/scripts/utils/perpMath';
 import { BigNumber } from 'ethers';
 
+export const RANKING_START_TIMESTAMP = '1654061182'; // 01/06/2022
+
 export const readTraderVolume = data => {
   const result = data.map(item => {
     const traderVolume = item.trades.reduce(

@@ -1,26 +1,15 @@
 import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { useAccount } from 'app/hooks/useAccount';
 import { useIntersection } from 'app/hooks/useIntersection';
-import { useGetLeaderboardData } from 'app/pages/PerpetualPage/hooks/graphql/useGetLeaderboardData';
 import classNames from 'classnames';
 import { translations } from 'locales/i18n';
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Nullable } from 'types';
-import { PerpetualPairType } from 'utils/dictionaries/perpetual-pair-dictionary';
 import { PerpetualPair } from 'utils/models/perpetual-pair';
-import { HighestVolumeData, RegisteredTraderData } from '../../../../types';
-import { readTraderVolume } from '../../utils';
+import { RegisteredTraderData } from '../../../../types';
 import { TraderRow } from './TraderRow';
 import styles from '../BestReturnTable/index.module.scss';
-
-const START_TIMESTAMP = '1654061182'; // 01/06/2022
+import { useGetData } from './hooks/useGetData';
 
 type HighestVolumeTableProps = {
   data: RegisteredTraderData[];
@@ -38,67 +27,7 @@ export const HighestVolumeTable: React.FC<HighestVolumeTableProps> = ({
   const userRowVisible = useIntersection(userRowRef.current);
   const account = useAccount();
 
-  const [items, setItems] = useState<HighestVolumeData[]>([]);
-  const [userData, setUserData] = useState<Nullable<HighestVolumeData>>(null);
-  const [loaded, setLoaded] = useState(false);
-
-  const { data: leaderboardData } = useGetLeaderboardData(
-    PerpetualPairType.BTCUSD,
-    data.map(val => val.walletAddress),
-    START_TIMESTAMP,
-  );
-
-  const volumeData = useMemo(
-    () => readTraderVolume(leaderboardData?.traders || []),
-    [leaderboardData?.traders],
-  );
-
-  const updateItems = useCallback(() => {
-    // const items: HighestVolumeData[] = [];
-    setLoaded(false);
-
-    const result: HighestVolumeData[] = data.map(item => {
-      const trader = volumeData.find(
-        trader => trader.trader === item.walletAddress,
-      );
-
-      return {
-        rank: trader?.rank || '-',
-        userName: item.userName,
-        walletAddress: item.walletAddress,
-        volume: trader?.volume || 0,
-      };
-    });
-
-    const sortedResult = result
-      .sort((a, b) => {
-        if (a.volume === 0 || b.volume === 0) {
-          if (a.volume === 0 && b.volume === 0) {
-            return a.walletAddress.localeCompare(b.walletAddress);
-          }
-          return a.volume === 0 ? 1 : -1;
-        }
-        return Math.sign(b.volume - a.volume);
-      })
-      .map((value, index) => ({
-        ...value,
-        rank: (index + 1).toString(),
-      }));
-
-    setItems(sortedResult);
-    setLoaded(true);
-
-    if (account) {
-      const userRow = result.find(
-        row => row.walletAddress.toLowerCase() === account.toLowerCase(),
-      );
-      if (userRow) {
-        setUserData(userRow);
-      }
-    }
-  }, [account, data, volumeData]);
-
-  useEffect(() => updateItems(), [updateItems]);
+  const { items, userData, loaded } = useGetData(data);
 
   return (
     <>
