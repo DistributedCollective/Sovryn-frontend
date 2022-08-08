@@ -238,8 +238,8 @@
       "title": "Fast-BTC",
       "titleDeposit": "Receber RBTC",
       "descriptionDeposit": "Transfira BTC para recebe-los como RBTC",
-      "titleWithdraw": "Enviar BTC",
-      "descriptionWithdraw": "Envie BTC transferindo RBTC para a rede Bitcoin",
+      "titleWithdraw": "Enviar Bitcoin",
+      "descriptionWithdraw": "Envie Bitcoin transferindo RBTC para a rede Bitcoin",
       "description": "Transfira seu Bitcoin para a rede RSK."
     },
     "backToPortfolio": "Voltar ao portfólio",
@@ -2021,7 +2021,7 @@
     "poweredBy": "Disponibilizado por babelFish",
     "network": "Rede",
     "title": "Receber {{asset}}",
-    "subtitle": "Receber {{asset}} na rede RSK",
+    "subtitle": "Receba {{asset}} na rede RSK",
     "changeWallet": "Deseja usar outra carteira?",
     "chainSelector": {
       "wrongNetwork": {
