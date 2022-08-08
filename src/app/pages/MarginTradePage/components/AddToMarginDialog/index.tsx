@@ -62,7 +62,7 @@ export const AddToMarginDialog: React.FC<IAddToMarginDialogProps> = ({
 
   const { send, ...tx } = useApproveAndAddMargin(
     tokenDetails.asset,
-    loanTokenId,
+    id,
     weiAmount,
   );
   const { checkMaintenance, States } = useMaintenance();
@@ -167,7 +167,7 @@ export const AddToMarginDialog: React.FC<IAddToMarginDialogProps> = ({
 
           <div className="tw-text-sm tw-mb-3">
             <TxFeeCalculator
-              args={[loanTokenId, weiAmount]}
+              args={[id, weiAmount]}
               methodName="depositCollateral"
               contractName="sovrynProtocol"
             />
@@ -202,7 +202,7 @@ export const AddToMarginDialog: React.FC<IAddToMarginDialogProps> = ({
       <TransactionDialog
         fee={
           <TxFeeCalculator
-            args={[loanTokenId, weiAmount]}
+            args={[id, weiAmount]}
             methodName="depositCollateral"
             contractName="sovrynProtocol"
           />
