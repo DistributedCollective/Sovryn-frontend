@@ -3,8 +3,8 @@ import React, { useMemo, forwardRef } from 'react';
 import { HighestVolumeData } from 'app/pages/PerpetualPage/components/CompetitionPage/types';
 import { toNumberFormat } from 'utils/display-text/format';
 import classNames from 'classnames';
-import { Row } from '../Row';
-import { getProfitClassName } from '../../utils';
+import { Row } from '../../Row';
+import { getProfitClassName } from '../../../utils';
 
 interface ITraderRowProps {
   data: HighestVolumeData;

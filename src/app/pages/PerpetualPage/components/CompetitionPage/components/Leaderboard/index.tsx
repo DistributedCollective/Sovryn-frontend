@@ -31,13 +31,7 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({
       {
         id: 'highestVolume',
         label: t(translations.competitionPage.leaderboard.tabs.highestVolume),
-        content: (
-          <HighestVolumeTable
-            data={data}
-            showUserRow={showUserRow}
-            pair={pair}
-          />
-        ),
+        content: <HighestVolumeTable data={data} showUserRow={showUserRow} />,
       },
       {
         id: 'mostTrades',

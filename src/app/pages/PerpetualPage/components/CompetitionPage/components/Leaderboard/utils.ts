@@ -1,5 +1,6 @@
 import { ABK64x64ToFloat } from '@sovryn/perpetual-swap/dist/scripts/utils/perpMath';
 import { BigNumber } from 'ethers';
+import { LeaderboardData } from '../../types';
 
 export const RANKING_START_TIMESTAMP = '1654061182'; // 01/06/2022
 
@@ -52,4 +53,23 @@ export const getProfitClassName = (value: number) => {
     return 'tw-text-trade-short';
   }
   return 'tw-sov-white';
+};
+
+export const calculatePotentialPrizes = (
+  traders: LeaderboardData[],
+  ammProfit: number,
+): number[] => {
+  const firstTraderPnl =
+    traders.find(trader => trader.rank === '1')?.totalPnL || 0;
+  const secondTraderPnl =
+    traders.find(trader => trader.rank === '2')?.totalPnL || 0;
+  const thirdTraderPnl =
+    traders.find(trader => trader.rank === '3')?.totalPnL || 0;
+  const totalTradersPnl = firstTraderPnl + secondTraderPnl + thirdTraderPnl;
+
+  return [
+    (firstTraderPnl / totalTradersPnl) * ammProfit,
+    (secondTraderPnl / totalTradersPnl) * ammProfit,
+    (thirdTraderPnl / totalTradersPnl) * ammProfit,
+  ];
 };
