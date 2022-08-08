@@ -43,6 +43,7 @@ import fastBtcMultisigAbi from './abi/fastBtcMultisig.json';
 import TroveManager from './abi/TroveManager.json';
 import StabilityPool from './abi/StabilityPool.json';
 import lpShareToken from './abi/lpShareToken.json';
+import Masset from './abi/Masset.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -367,5 +368,13 @@ export const contracts = {
   zero_stabilityPool: {
     address: '0xd6eD2f49D0A3bF20126cB78119c7CB24D02d605F',
     abi: StabilityPool,
+  },
+  BTCB_token: {
+    address: '0x6ce8dA28E2f864420840cF74474eFf5fD80E65B8',
+    abi: erc20TokenAbi,
+  },
+  Masset_proxy: {
+    address: '0x63f9a9145147330dFAdc991CC3821DF23879ae16',
+    abi: Masset,
   },
 };
