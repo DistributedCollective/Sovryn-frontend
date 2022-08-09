@@ -897,37 +897,6 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "sender",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "sourceTokenAddress",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "destTokenAddress",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "contract IERC20[]",
-        "name": "defaultPath",
-        "type": "address[]"
-      }
-    ],
-    "name": "RemoveDefaultPathConversion",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
         "name": "user",
         "type": "address"
       },
@@ -1100,37 +1069,6 @@
       }
     ],
     "name": "SetBorrowingFeePercent",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "sender",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "sourceTokenAddress",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "destTokenAddress",
-        "type": "address"
-      },
-      {
-        "indexed": false,
-        "internalType": "contract IERC20[]",
-        "name": "defaultPath",
-        "type": "address[]"
-      }
-    ],
-    "name": "SetDefaultPathConversion",
     "type": "event"
   },
   {
@@ -2153,83 +2091,14 @@
         "type": "uint256"
       },
       {
-        "components": [
-          {
-            "internalType": "address",
-            "name": "lender",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "borrower",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "receiver",
-            "type": "address"
-          },
-          {
-            "internalType": "address",
-            "name": "manager",
-            "type": "address"
-          }
-        ],
-        "internalType": "struct MarginTradeStructHelpers.SentAddresses",
+        "internalType": "address[4]",
         "name": "sentAddresses",
-        "type": "tuple"
+        "type": "address[4]"
       },
       {
-        "components": [
-          {
-            "internalType": "uint256",
-            "name": "interestRate",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "newPrincipal",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "interestInitialAmount",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "loanTokenSent",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "collateralTokenSent",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "minEntryPrice",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "loanToCollateralSwapRate",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "interestDuration",
-            "type": "uint256"
-          },
-          {
-            "internalType": "uint256",
-            "name": "entryLeverage",
-            "type": "uint256"
-          }
-        ],
-        "internalType": "struct MarginTradeStructHelpers.SentAmounts",
+        "internalType": "uint256[5]",
         "name": "sentValues",
-        "type": "tuple"
+        "type": "uint256[5]"
       },
       {
         "internalType": "bytes",
@@ -3105,32 +2974,6 @@
         "internalType": "uint256",
         "name": "",
         "type": "uint256"
-      }
-    ],
-    "payable": false,
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "constant": true,
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "sourceTokenAddress",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "destTokenAddress",
-        "type": "address"
-      }
-    ],
-    "name": "getDefaultPathConversion",
-    "outputs": [
-      {
-        "internalType": "contract IERC20[]",
-        "name": "",
-        "type": "address[]"
       }
     ],
     "payable": false,
@@ -4888,26 +4731,6 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "sourceTokenAddress",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "destTokenAddress",
-        "type": "address"
-      }
-    ],
-    "name": "removeDefaultPathConversion",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "internalType": "address",
         "name": "target",
         "type": "address"
       }
@@ -5028,21 +4851,6 @@
       }
     ],
     "name": "setBorrowingFeePercent",
-    "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "constant": false,
-    "inputs": [
-      {
-        "internalType": "contract IERC20[]",
-        "name": "defaultPath",
-        "type": "address[]"
-      }
-    ],
-    "name": "setDefaultPathConversion",
     "outputs": [],
     "payable": false,
     "stateMutability": "nonpayable",
