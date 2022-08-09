@@ -1466,7 +1466,7 @@
       "amountToRepay": "{{currency}} a ser devolvido",
       "amountToReceive": "Você irá receber"
     },
-    "tinyPositionError": "You are leaving tiny position behind. Please close your entire loan instead.",
+    "tinyPositionError": "É preciso devolver o valor máximo do empréstimo.",
     "button": "Devolver"
   },
   "closeTradingPositionHandler": {
