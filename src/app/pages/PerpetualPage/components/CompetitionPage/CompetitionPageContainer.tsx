@@ -29,6 +29,7 @@ import {
   PerpetualPairType,
 } from 'utils/dictionaries/perpetual-pair-dictionary';
 import { RegisterDialog } from './components/RegisterDialog';
+import BugBountyLogo from '../../../../../assets/images/perpetuals_bug_bounty.svg';
 
 const baseUrl = notificationServiceUrl[currentChainId];
 
@@ -127,9 +128,19 @@ export const CompetitionPageContainer: React.FC = () => {
       <HeaderLabs
         helpLink={WIKI_PERPETUAL_FUTURES_LINK}
         menus={
-          <Link to="/perpetuals" className="tw-mr-4 tw-text-black">
-            {t(translations.competitionPage.nav.perpetualSwap)}
-          </Link>
+          <>
+            <Link to="/perpetuals" className="tw-mr-4 tw-text-black">
+              {t(translations.competitionPage.nav.perpetualSwap)}
+            </Link>
+
+            <a
+              href="https://immunefi.com/bounty/sovrynperpetualfutures/"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <img src={BugBountyLogo} alt="Bug Bounty" />
+            </a>
+          </>
         }
       />
       <PerpetualQueriesContextProvider pair={pair}>
