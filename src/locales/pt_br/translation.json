@@ -293,7 +293,7 @@
         "received": "Quantidade recebida",
         "txHash": "Hash da transação",
         "txId": "ID transação",
-        "description": "Em processamento. Se a transação não for concluída em {{hours}} horas <0>contate-nos</0>.",
+        "description": "Em processamento. Se a transação não for concluída em 90 minutos <0>contate-nos</0>.",
         "cta": "Voltar ao portfólio"
       },
       "qr": {
@@ -326,8 +326,8 @@
         "line1": "Verifique e confirme se o endereço que você está enviando é um endereço BTC.",
         "line2": "Não envie menos do que o limite mínimo.",
         "line3": "Não envie mais do que o limite máximo.",
-        "line4": "Aguarde até {{hours}} horas para processar.",
-        "line5": "Se a transação não for concluída em {{hours}} horas <0>contate-nos</0>."
+        "line4": "Aguarde até 90 minutos para processar.",
+        "line5": "Se a transação não for concluída em 90 minutos <0>contate-nos</0>."
       },
       "amountForm": {
         "title": "Enviar <0/>",
@@ -343,12 +343,12 @@
       "reviewScreen": {
         "dateTime": "Data e hora",
         "title": "Revisar transação",
-        "amount": "Total transferido",
+        "amount": "Total a transferir",
         "address": "Endereço BTC",
         "fees": "Taxa de serviço",
-        "received": "Total recebido",
+        "received": "Total a receber",
         "tx": "ID transação",
-        "description": "Em processamento. Se a transação não for concluída em {{hours}} horas <0>contate-nos</0>."
+        "description": "Em processamento. Se a transação não for concluída em 90 minutos <0>contate-nos</0>."
       },
       "walletTxHelper": {
         "confirm": "Confirme a transação na sua carteira {{wallet}}",
@@ -1466,7 +1466,7 @@
       "amountToRepay": "{{currency}} a ser devolvido",
       "amountToReceive": "Você irá receber"
     },
-    "tinyPositionError": "You are leaving tiny position behind. Please close your entire loan instead.",
+    "tinyPositionError": "É preciso devolver o valor máximo do empréstimo.",
     "button": "Devolver"
   },
   "closeTradingPositionHandler": {
