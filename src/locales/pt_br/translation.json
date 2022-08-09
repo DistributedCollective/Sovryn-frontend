@@ -293,7 +293,7 @@
         "received": "Quantidade recebida",
         "txHash": "Hash da transação",
         "txId": "ID transação",
-        "description": "Em processamento. Se a transação não for concluída em {{hours}} horas <0>contate-nos</0>.",
+        "description": "Em processamento. Se a transação não for concluída em 90 minutos <0>contate-nos</0>.",
         "cta": "Voltar ao portfólio"
       },
       "qr": {
@@ -348,7 +348,7 @@
         "fees": "Taxa de serviço",
         "received": "Total a receber",
         "tx": "ID transação",
-        "description": "Em processamento. Se a transação não for concluída em {{hours}} horas <0>contate-nos</0>."
+        "description": "Em processamento. Se a transação não for concluída em 90 minutos <0>contate-nos</0>."
       },
       "walletTxHelper": {
         "confirm": "Confirme a transação na sua carteira {{wallet}}",
