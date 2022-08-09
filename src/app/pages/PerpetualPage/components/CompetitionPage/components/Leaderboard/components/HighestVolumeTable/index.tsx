@@ -6,15 +6,18 @@ import { TraderRow } from './components/TraderRow';
 import { useGetData } from './hooks/useGetData';
 import { Table } from '../Table';
 import { Header } from './components/Header';
+import { PerpetualPair } from 'utils/models/perpetual-pair';
 
 type HighestVolumeTableProps = {
   data: RegisteredTraderData[];
   showUserRow: boolean;
+  pair: PerpetualPair;
 };
 
 export const HighestVolumeTable: React.FC<HighestVolumeTableProps> = ({
   data,
   showUserRow,
+  pair,
 }) => {
   const userRowRef = useRef<HTMLDivElement>(null);
   const userRowVisible = useIntersection(userRowRef.current);
@@ -38,7 +41,7 @@ export const HighestVolumeTable: React.FC<HighestVolumeTableProps> = ({
 
   return (
     <Table
-      header={<Header />}
+      header={<Header pair={pair} />}
       isLoading={isLoading}
       isEmpty={isEmpty}
       isHidden={isHidden}

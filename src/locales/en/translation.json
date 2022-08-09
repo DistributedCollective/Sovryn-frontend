@@ -2839,13 +2839,13 @@
       },
       "tables": {
         "highestVolumeTable": {
-          "volume": "Volume"
+          "volume": "Volume ({{pair}})"
         },
         "mostTradesTable": {
           "trades": "Trades"
         },
         "highestProfitTable": {
-          "profit": "Profit"
+          "profit": "Profit ({{pair}})"
         }
       }
     },

@@ -6,15 +6,18 @@ import { TraderRow } from './components/TraderRow';
 import { useGetData } from './hooks/useGetData';
 import { Table } from '../Table';
 import { Header } from './components/Header';
+import { PerpetualPair } from 'utils/models/perpetual-pair';
 
 type HighestProfitTableProps = {
   data: RegisteredTraderData[];
   showUserRow: boolean;
+  pair: PerpetualPair;
 };
 
 export const HighestProfitTable: React.FC<HighestProfitTableProps> = ({
   data,
   showUserRow,
+  pair,
 }) => {
   const userRowRef = useRef<HTMLDivElement>(null);
   const userRowVisible = useIntersection(userRowRef.current);
@@ -38,7 +41,7 @@ export const HighestProfitTable: React.FC<HighestProfitTableProps> = ({
 
   return (
     <Table
-      header={<Header />}
+      header={<Header pair={pair} />}
       isLoading={isLoading}
       isEmpty={isEmpty}
       isHidden={isHidden}

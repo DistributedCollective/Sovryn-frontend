@@ -1,8 +1,13 @@
 import { translations } from 'locales/i18n';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { PerpetualPair } from 'utils/models/perpetual-pair';
 
-export const Header: React.FC = () => {
+type HeaderProps = {
+  pair: PerpetualPair;
+};
+
+export const Header: React.FC<HeaderProps> = ({ pair }) => {
   const { t } = useTranslation();
 
   return (
@@ -17,6 +22,7 @@ export const Header: React.FC = () => {
         {t(
           translations.competitionPage.leaderboard.tables.highestVolumeTable
             .volume,
+          { pair: pair.collateralAsset },
         )}
       </div>
     </>

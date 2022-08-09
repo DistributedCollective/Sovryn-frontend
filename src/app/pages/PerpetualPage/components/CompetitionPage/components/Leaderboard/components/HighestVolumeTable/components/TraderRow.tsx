@@ -1,10 +1,11 @@
 import React, { useMemo, forwardRef } from 'react';
 
 import { HighestVolumeData } from 'app/pages/PerpetualPage/components/CompetitionPage/types';
-import { toNumberFormat } from 'utils/display-text/format';
 import classNames from 'classnames';
 import { Row } from '../../Row';
 import { getProfitClassName } from '../../../utils';
+import { AssetValue } from 'app/components/AssetValue';
+import { AssetValueMode } from 'app/components/AssetValue/types';
 
 interface ITraderRowProps {
   data: HighestVolumeData;
@@ -40,7 +41,11 @@ export const TraderRow = forwardRef<HTMLDivElement, ITraderRowProps>(
               getProfitClassName(data.volume),
             )}
           >
-            {toNumberFormat(data.volume, 4)}
+            <AssetValue
+              value={data.volume}
+              maxDecimals={3}
+              mode={AssetValueMode.auto}
+            />
           </div>
         </>
       </Row>
