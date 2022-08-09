@@ -326,8 +326,8 @@
         "line1": "Verifique e confirme se o endereço que você está enviando é um endereço BTC.",
         "line2": "Não envie menos do que o limite mínimo.",
         "line3": "Não envie mais do que o limite máximo.",
-        "line4": "Aguarde até {{hours}} horas para processar.",
-        "line5": "Se a transação não for concluída em {{hours}} horas <0>contate-nos</0>."
+        "line4": "Aguarde até 90 minutos para processar.",
+        "line5": "Se a transação não for concluída em 90 minutos <0>contate-nos</0>."
       },
       "amountForm": {
         "title": "Enviar <0/>",
@@ -343,10 +343,10 @@
       "reviewScreen": {
         "dateTime": "Data e hora",
         "title": "Revisar transação",
-        "amount": "Total transferido",
+        "amount": "Total a transferir",
         "address": "Endereço BTC",
         "fees": "Taxa de serviço",
-        "received": "Total recebido",
+        "received": "Total a receber",
         "tx": "ID transação",
         "description": "Em processamento. Se a transação não for concluída em {{hours}} horas <0>contate-nos</0>."
       },
