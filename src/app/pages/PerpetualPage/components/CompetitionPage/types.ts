@@ -20,6 +20,14 @@ export type HighestVolumeData = CommonRankingData & {
   volume: number;
 };
 
+export type MostTradesData = CommonRankingData & {
+  trades: number;
+};
+
+export type HighestProfitData = CommonRankingData & {
+  profit: number;
+};
+
 export type RegisteredTraderData = {
   createdAt: string; //timestamp
   id: string; //uuid

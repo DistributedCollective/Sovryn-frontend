@@ -24,7 +24,14 @@ export const readTraderVolume = data => {
 };
 
 export const mostTrades = data =>
-  data.map(item => [item.id, item.trades.length]).sort((a, b) => b[1] - a[1]);
+  data
+    .map(item => [item.id, item.trades.length])
+    .sort((a, b) => b[1] - a[1])
+    .map((item, index) => ({
+      trader: item[0],
+      trades: item[1],
+      rank: index + 1,
+    }));
 
 export const readBestPnL = data => {
   const pnlMap = new Map<string, number>();
@@ -43,7 +50,13 @@ export const readBestPnL = data => {
   addresses.forEach(item => {
     resultArray.push([item, pnlMap.get(item) || 0]);
   });
-  return resultArray.sort((a, b) => b[1] - a[1]);
+  return resultArray
+    .sort((a, b) => b[1] - a[1])
+    .map((item, index) => ({
+      trader: item[0],
+      profit: item[1],
+      rank: index + 1,
+    }));
 };
 
 export const getProfitClassName = (value: number) => {

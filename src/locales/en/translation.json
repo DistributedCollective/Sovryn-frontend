@@ -2840,6 +2840,12 @@
       "tables": {
         "highestVolumeTable": {
           "volume": "Volume"
+        },
+        "mostTradesTable": {
+          "trades": "Trades"
+        },
+        "highestProfitTable": {
+          "profit": "Profit"
         }
       }
     },
