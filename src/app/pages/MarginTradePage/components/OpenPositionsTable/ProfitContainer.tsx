@@ -15,6 +15,7 @@ import { isLongTrade } from '../../utils/marginUtils';
 import { AssetValue } from 'app/components/AssetValue';
 import { MarginLoansFieldsFragment } from 'utils/graphql/rsk/generated';
 import { DEFAULT_TRADE } from '../../types';
+import { AssetValueMode } from 'app/components/AssetValue/types';
 
 type ProfitContainerProps = {
   item: MarginLoansFieldsFragment;
@@ -134,12 +135,16 @@ export const ProfitContainer: React.FC<ProfitContainerProps> = ({
               <div className="tw-mt-1 tw-pl-3">
                 <AssetValue
                   asset={loanToken}
+                  maxDecimals={8}
+                  mode={AssetValueMode.auto}
                   value={exitAmountLoan.value.withdrawAmount}
                 />
               </div>
               <div className="tw-pl-3">
                 <AssetValue
                   asset={collateralToken}
+                  maxDecimals={8}
+                  mode={AssetValueMode.auto}
                   value={exitAmountCollateral.value.withdrawAmount}
                 />
               </div>
