@@ -21,6 +21,7 @@ import { Chain } from 'types';
 import { AddressBadge } from 'app/components/AddressBadge';
 import { ButtonColor, ButtonSize, Button } from 'app/components/Button';
 import { AssetValue } from 'app/components/AssetValue';
+import { AssetValueMode } from 'app/components/AssetValue/types';
 
 type StatusScreenProps = {
   tx: SendTxResponse;
@@ -92,7 +93,13 @@ export const StatusScreen: React.FC<StatusScreenProps> = ({ tx, network }) => {
       {
         label: t(translations.fastBtcPage.withdraw.reviewScreen.amount),
         value: (
-          <AssetValue value={Number(amount)} minDecimals={8} asset={asset} />
+          <AssetValue
+            value={Number(amount)}
+            minDecimals={2}
+            maxDecimals={8}
+            mode={AssetValueMode.auto}
+            asset={asset}
+          />
         ),
       },
       {
@@ -106,7 +113,13 @@ export const StatusScreen: React.FC<StatusScreenProps> = ({ tx, network }) => {
         value: (
           <LoadableValue
             value={
-              <AssetValue value={feesPaid} minDecimals={8} assetString="BTC" />
+              <AssetValue
+                value={feesPaid}
+                minDecimals={2}
+                maxDecimals={8}
+                mode={AssetValueMode.auto}
+                assetString="BTC"
+              />
             }
             loading={loading}
           />
@@ -119,7 +132,9 @@ export const StatusScreen: React.FC<StatusScreenProps> = ({ tx, network }) => {
             value={
               <AssetValue
                 value={receiveAmount}
-                minDecimals={8}
+                minDecimals={2}
+                maxDecimals={8}
+                mode={AssetValueMode.auto}
                 assetString="BTC"
               />
             }
