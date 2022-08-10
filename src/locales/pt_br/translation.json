@@ -361,7 +361,7 @@
         "titles": {
           "pending_for_user": "Confirmar transação",
           "pending": "Processando transação",
-          "confirmed": "Confirmado",
+          "confirmed": "Transação confirmada",
           "failed": "Transação falhou"
         },
         "cta": "Voltar ao portfólio"
@@ -2093,7 +2093,7 @@
       "return": "Voltar ao portfólio"
     },
     "tokenSelector": {
-      "title": "Selecione a cripto você deseja usar",
+      "title": "Selecione a cripto que você deseja converter",
       "notSupported": "Desculpe, não suportamos depósitos para {{targetAsset}} na rede {{network}}. Tente outra rede ou cripto."
     }
   },
