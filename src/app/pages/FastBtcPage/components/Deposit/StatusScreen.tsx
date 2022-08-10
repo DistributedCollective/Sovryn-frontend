@@ -17,6 +17,7 @@ import { Chain } from 'types';
 import { Button, ButtonColor, ButtonSize } from 'app/components/Button';
 import { AssetValue } from 'app/components/AssetValue';
 import i18next from 'i18next';
+import { AssetValueMode } from 'app/components/AssetValue/types';
 
 export const StatusScreen: React.FC<NetworkAwareComponentProps> = ({
   network,
@@ -78,7 +79,9 @@ export const StatusScreen: React.FC<NetworkAwareComponentProps> = ({
         value: (
           <AssetValue
             value={Number(amount)}
-            minDecimals={8}
+            minDecimals={2}
+            maxDecimals={8}
+            mode={AssetValueMode.auto}
             assetString="BTC"
           />
         ),
@@ -87,7 +90,13 @@ export const StatusScreen: React.FC<NetworkAwareComponentProps> = ({
       {
         label: t(translations.fastBtcPage.withdraw.reviewScreen.fees),
         value: (
-          <AssetValue value={Number(feeAmount)} minDecimals={8} asset={asset} />
+          <AssetValue
+            value={Number(feeAmount)}
+            minDecimals={2}
+            maxDecimals={8}
+            mode={AssetValueMode.auto}
+            asset={asset}
+          />
         ),
       },
 
@@ -96,7 +105,9 @@ export const StatusScreen: React.FC<NetworkAwareComponentProps> = ({
         value: (
           <AssetValue
             value={Number(receiveAmount)}
-            minDecimals={8}
+            minDecimals={2}
+            maxDecimals={8}
+            mode={AssetValueMode.auto}
             asset={asset}
           />
         ),
