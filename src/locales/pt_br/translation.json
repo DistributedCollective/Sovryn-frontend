@@ -362,7 +362,7 @@
           "pending_for_user": "Confirmar transação",
           "pending": "Processando transação",
           "confirmed": "Transação confirmada",
-          "failed": "Transação falhou"
+          "failed": "Falha na transação"
         },
         "cta": "Voltar ao portfólio"
       }
