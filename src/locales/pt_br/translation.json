@@ -354,7 +354,7 @@
         "confirm": "Confirme a transação na sua carteira {{wallet}}",
         "pending": "Confirme a transação na sua carteira {{wallet}}",
         "confirmed": "Confirme a transação na sua carteira {{wallet}}",
-        "failed": "Transação falhou.",
+        "failed": "Falha na transação.",
         "aborted": "Você recusou esta transação."
       },
       "statusScreen": {
@@ -1190,7 +1190,7 @@
       "text": "Sua transação foi confirmada na blockchain."
     },
     "failed": {
-      "title": "Transação falhou!",
+      "title": "Falha na transação!",
       "text": "Transação revertida pelo contrato."
     },
     "denied": {
@@ -1273,7 +1273,7 @@
       "txDialog": {
         "titleInProgress": "Transação em andamento",
         "titleCompleted": "Transação concluída",
-        "titleFailed": "Transação falhou",
+        "titleFailed": "Falha na transação",
         "statusInProgress": "O processo de conversão pode demorar alguns minutos",
         "dateTime": "Data e hora",
         "amountSent": "Quantidade enviada",
@@ -2009,7 +2009,7 @@
     },
     "txStatus": {
       "title": "Status da transação",
-      "aborted": "Transação falhou. <br/>Cancele ou refaça a transação",
+      "aborted": "Falha na transação. <br/>Cancele ou refaça a transação",
       "abortedLedger": "Make sure \"Contract data\" is set to \"Allowed\" in your Ledger app settings",
       "cta": "Abrir transação",
       "processing": "{{action}} em processamento...",
