@@ -1,11 +1,13 @@
+import classNames from 'classnames';
 import React from 'react';
-import { Button, ButtonStyle, ButtonSize } from '../../../components/Button';
+import { Button, ButtonSize, ButtonColor } from '../../../components/Button';
 
 type FastBtcButtonProps = {
   text: React.ReactNode;
   onClick?: () => void;
   disabled?: boolean;
   loading?: boolean;
+  className?: string;
 };
 
 export const FastBtcButton: React.FC<FastBtcButtonProps> = ({
@@ -13,16 +15,17 @@ export const FastBtcButton: React.FC<FastBtcButtonProps> = ({
   onClick,
   disabled,
   loading,
+  className,
 }) => {
   return (
     <Button
-      className="tw-w-full"
-      style={ButtonStyle.frosted}
-      size={ButtonSize.lg}
+      className={classNames('tw-w-42 tw-font-semibold', className)}
+      size={ButtonSize.sm}
       text={text}
       disabled={disabled}
       loading={loading}
       onClick={onClick}
+      color={ButtonColor.gray}
     />
   );
 };

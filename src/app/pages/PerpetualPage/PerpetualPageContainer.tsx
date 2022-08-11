@@ -46,6 +46,7 @@ import { PairSelector } from './components/PairSelector';
 import { ToastsWatcher } from './components/ToastsWatcher';
 import { OpenOrdersTable } from './components/OpenOrdersTable';
 import { Tabs } from 'app/components/Tabs';
+import BugBountyLogo from '../../../assets/images/perpetuals_bug_bounty.svg';
 
 export const PerpetualPageContainer: React.FC = () => {
   useInjectReducer({ key: sliceKey, reducer });
@@ -159,12 +160,21 @@ export const PerpetualPageContainer: React.FC = () => {
         <HeaderLabs
           helpLink={WIKI_PERPETUAL_FUTURES_LINK}
           menus={
-            <Link
-              to="/perpetuals/competition"
-              className="tw-mr-4 tw-text-black"
-            >
-              {t(translations.competitionPage.nav.competition)}
-            </Link>
+            <>
+              <Link
+                to="/perpetuals/competition"
+                className="tw-mr-4 tw-text-black"
+              >
+                {t(translations.competitionPage.nav.leaderboard)}
+              </Link>
+              <a
+                href="https://immunefi.com/bounty/sovrynperpetualfutures/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img src={BugBountyLogo} alt="Bug Bounty" />
+              </a>
+            </>
           }
         />
         <div className="tw-relative tw--top-2.5 tw-w-full">

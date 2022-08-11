@@ -1,0 +1,22 @@
+query getStakeHistory($user: String, $skip: Int!, $pageSize: Int!) {
+  stakeHistoryItems(
+    first: $pageSize
+    skip: $skip
+    where: { user: $user }
+    orderBy: timestamp
+    orderDirection: desc
+  ) {
+    ...StakeHistoryFields
+  }
+}
+
+fragment StakeHistoryFields on StakeHistoryItem {
+  id
+  action
+  transaction {
+    id
+  }
+  amount
+  lockedUntil
+  timestamp
+}

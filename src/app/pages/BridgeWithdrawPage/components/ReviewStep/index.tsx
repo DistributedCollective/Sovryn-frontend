@@ -3,11 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { bignumber } from 'mathjs';
 
 import { Chain } from 'types';
-import { Button, ButtonSize } from 'app/components/Button';
+import { Button, ButtonColor, ButtonSize } from 'app/components/Button';
 
 import { actions } from '../../slice';
 import { selectBridgeWithdrawPage } from '../../selectors';
-import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { BridgeDictionary } from '../../../BridgeDepositPage/dictionaries/bridge-dictionary';
 import { NetworkModel } from '../../../BridgeDepositPage/types/network-model';
 import { CrossBridgeAsset } from '../../../BridgeDepositPage/types/cross-bridge-asset';
@@ -17,11 +16,12 @@ import { useBridgeLimits } from '../../../BridgeDepositPage/hooks/useBridgeLimit
 import { prettyTx } from '../../../../../utils/helpers';
 import { useTranslation, Trans } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { Table } from '../styled';
 import { useIsBridgeWithdrawLocked } from 'app/pages/BridgeWithdrawPage/hooks/useIsBridgeWithdrawLocked';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
 import { Icon, Popover } from '@blueprintjs/core';
+import { AssetValue } from 'app/components/AssetValue';
+import { AssetValueMode } from 'app/components/AssetValue/types';
 
 export const ReviewStep: React.FC = () => {
   const {
@@ -112,44 +112,46 @@ export const ReviewStep: React.FC = () => {
 
   return (
     <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
-      <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
-        {t(translations.BridgeWithdrawPage.reviewStep.title, {
-          symbol: currentAsset.symbol,
-        })}
+      <div className="tw-mb-4 tw-text-base tw-text-center tw-font-semibold">
+        {t(translations.BridgeWithdrawPage.transactionDetails)}
       </div>
-      <div className="tw-w-80">
-        <Table className="tw-mx-auto">
+      <div className="tw-w-60 tw-text-right tw-mb-10">
+        <table className="tw-mx-auto tw-text-left tw-text-sm tw-font-medium tw-w-full">
           <tbody>
             <tr>
               <td>{t(translations.BridgeWithdrawPage.reviewStep.dateTime)}:</td>
-              <td>{new Date().toLocaleDateString()}</td>
+              <td className="tw-text-right">
+                {new Date().toLocaleDateString()}
+              </td>
             </tr>
             <tr>
               <td>{t(translations.BridgeWithdrawPage.reviewStep.from)}:</td>
-              <td>{currentNetwork?.name}</td>
+              <td className="tw-text-right">{currentNetwork?.name}</td>
             </tr>
             <tr>
               <td>{t(translations.BridgeWithdrawPage.reviewStep.to)}:</td>
-              <td>{network?.name}</td>
+              <td className="tw-text-right">{network?.name}</td>
             </tr>
             <tr>
               <td>{t(translations.BridgeWithdrawPage.reviewStep.token)}:</td>
-              <td>
+              <td className="tw-text-right">
                 {currentAsset?.symbol} -&gt; {asset?.symbol}
               </td>
             </tr>
             <tr>
               <td>{t(translations.BridgeWithdrawPage.reviewStep.amount)}:</td>
-              <td>
-                {toNumberFormat(
-                  currentAsset.fromWei(amount),
-                  currentAsset.minDecimals,
-                )}
+              <td className="tw-text-right">
+                <AssetValue
+                  value={Number(currentAsset.fromWei(amount))}
+                  minDecimals={2}
+                  maxDecimals={8}
+                  mode={AssetValueMode.auto}
+                />
               </td>
             </tr>
             <tr>
               <td>{t(translations.BridgeWithdrawPage.reviewStep.receiver)}:</td>
-              <td>
+              <td className="tw-text-right">
                 <a
                   href={network.explorer + '/address/' + receiver}
                   rel="noreferrer noopener"
@@ -163,13 +165,16 @@ export const ReviewStep: React.FC = () => {
               <td>
                 {t(translations.BridgeWithdrawPage.reviewStep.bridgeFee)}:
               </td>
-              <td>
-                <div className="tw-flex tw-items-center">
-                  {toNumberFormat(
-                    currentAsset.fromWei(limits.returnData.getFeePerToken),
-                    currentAsset.minDecimals,
-                  )}{' '}
-                  {currentAsset.symbol}
+              <td className="tw-text-right">
+                <div className="tw-flex tw-items-center tw-justify-end">
+                  <AssetValue
+                    value={Number(
+                      currentAsset.fromWei(limits.returnData.getFeePerToken),
+                    )}
+                    minDecimals={currentAsset.minDecimals}
+                    assetString={currentAsset.symbol}
+                  />
+
                   {targetChain === Chain.ETH && (
                     <Popover
                       content={
@@ -194,15 +199,16 @@ export const ReviewStep: React.FC = () => {
               </td>
             </tr>
           </tbody>
-        </Table>
+        </table>
 
         <Button
-          className="tw-mt-20 tw-w-80"
+          className="tw-w-42 tw-font-semibold tw-absolute tw-bottom-8 tw-left-0 tw-right-0 tw-mx-auto"
           text={t(translations.BridgeWithdrawPage.reviewStep.confirm)}
-          size={ButtonSize.lg}
           disabled={bridgeWithdrawLocked || !isValid || tx.loading}
           loading={tx.loading}
           onClick={handleSubmit}
+          color={ButtonColor.primary}
+          size={ButtonSize.sm}
         />
         {bridgeWithdrawLocked && (
           <ErrorBadge
