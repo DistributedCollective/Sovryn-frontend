@@ -2131,7 +2131,7 @@
     "amountSelector": {
       "title": "Insira a quantidade a ser transferida",
       "balance": "Saldo disponível",
-      "dailyBridgeLimits": "Limites diários do serviço",
+      "dailyBridgeLimits": "Limites e taxa",
       "minAmount": "Quantidade mínima",
       "maxAmount": "Quantidade máxima",
       "dailyLimit": "Limite diário",
@@ -2149,9 +2149,9 @@
       "approve": "Por favor aprove {{from}} {{symbol}} para ser gasto pelo contrato inteligente da Sovryn na sua carteira {{providerType}}.",
       "confirmTransaction": "Confirmar transação",
       "confirm": "Por favor confirme a transação na sua carteira {{providerType}}.",
-      "withdrawInProgress": "Processando transferência",
-      "withdrawComplete": "Transferência concluída",
-      "withdrawFailed": "Falha na transferência",
+      "withdrawInProgress": "Processando transação",
+      "withdrawComplete": "Transação concluída",
+      "withdrawFailed": "Falha na transação",
       "transactionDenied": "Transação negada",
       "rejectedByUser": "Rejeitada pelo usuário"
     },
