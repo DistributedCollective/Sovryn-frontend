@@ -2,7 +2,8 @@ import { ABK64x64ToFloat } from '@sovryn/perpetual-swap/dist/scripts/utils/perpM
 import { BigNumber } from 'ethers';
 import { LeaderboardData } from '../../types';
 
-export const RANKING_START_TIMESTAMP = '1654061182'; // 01/06/2022
+export const RANKING_START_TIMESTAMP = '1654034400'; // 01/06/2022 00:00:00
+export const HIGHEST_PROFIT_START_TIMESTAMP = '1654034400'; // 01/06/2022 00:00:00 , TODO: Delete this once we have total volume and total trades count on traderState
 
 export const readTraderVolume = data => {
   const result = data.map(item => {
@@ -33,30 +34,31 @@ export const mostTrades = data =>
       rank: index + 1,
     }));
 
-export const readBestPnL = data => {
-  const pnlMap = new Map<string, number>();
+export const getBestPnl = (historicData, currentData) => {
+  const historicPnLs = historicData.map(item => ({
+    trader: item.id,
+    profit: ABK64x64ToFloat(BigNumber.from(item.traderStates[0].totalPnLCC)),
+  }));
 
-  data.forEach(item => {
-    const address = item.trader.id;
-    const pnl = ABK64x64ToFloat(BigNumber.from(item.pnlCC));
-    const currentPnl = pnlMap.get(address);
-    const pnlResult = currentPnl === undefined ? pnl : pnl + currentPnl;
-    pnlMap.set(address, pnlResult);
+  const currentPnLs = currentData.map(item => ({
+    trader: item.id,
+    profit: ABK64x64ToFloat(BigNumber.from(item.traderStates[0].totalPnLCC)),
+  }));
+
+  if (!historicData) {
+    return currentPnLs;
+  }
+
+  return currentPnLs.map(item => {
+    const historicPnL = historicPnLs.find(
+      historicItem => historicItem.trader === item.trader,
+    );
+
+    return {
+      trader: item.trader,
+      profit: item.profit - (historicPnL?.profit || 0),
+    };
   });
-
-  const addresses = Array.from(pnlMap.keys());
-  const resultArray: Array<[string, number]> = [];
-
-  addresses.forEach(item => {
-    resultArray.push([item, pnlMap.get(item) || 0]);
-  });
-  return resultArray
-    .sort((a, b) => b[1] - a[1])
-    .map((item, index) => ({
-      trader: item[0],
-      profit: item[1],
-      rank: index + 1,
-    }));
 };
 
 export const getProfitClassName = (value: number) => {

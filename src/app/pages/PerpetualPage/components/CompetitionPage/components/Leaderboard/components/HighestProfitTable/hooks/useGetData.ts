@@ -1,14 +1,21 @@
 import { useAccount } from 'app/hooks/useAccount';
+import { useFetch } from 'app/hooks/useFetch';
 import {
   HighestProfitData,
   RegisteredTraderData,
 } from 'app/pages/PerpetualPage/components/CompetitionPage/types';
-import { useGetRealizedPnlData } from 'app/pages/PerpetualPage/hooks/graphql/useGetRealizedPnlData';
+import { useGetLeaderboardData } from 'app/pages/PerpetualPage/hooks/graphql/useGetLeaderboardData';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Nullable } from 'types';
 import { PerpetualPairType } from 'utils/dictionaries/perpetual-pair-dictionary';
 import { TableData } from '../../../types';
-import { RANKING_START_TIMESTAMP, readBestPnL } from '../../../utils';
+import {
+  getBestPnl,
+  HIGHEST_PROFIT_START_TIMESTAMP,
+  RANKING_START_TIMESTAMP,
+} from '../../../utils';
+
+const timestampConvertUrl = `https://api-testnet.bscscan.com/api?module=block&action=getblocknobytime&timestamp=${HIGHEST_PROFIT_START_TIMESTAMP}&closest=before`;
 
 export const useGetData = (
   data: RegisteredTraderData[],
@@ -19,15 +26,28 @@ export const useGetData = (
   const [userData, setUserData] = useState<Nullable<HighestProfitData>>(null);
   const [loaded, setLoaded] = useState(false);
 
-  const { data: leaderboardData } = useGetRealizedPnlData(
+  const { value: blockNumber } = useFetch(timestampConvertUrl);
+
+  const { data: historicLeaderboardData } = useGetLeaderboardData(
+    PerpetualPairType.BTCUSD,
+    data.map(val => val.walletAddress),
+    HIGHEST_PROFIT_START_TIMESTAMP,
+    blockNumber?.result,
+  );
+
+  const { data: currentLeaderboardData } = useGetLeaderboardData(
     PerpetualPairType.BTCUSD,
     data.map(val => val.walletAddress),
     RANKING_START_TIMESTAMP,
   );
 
   const profitData = useMemo(
-    () => readBestPnL(leaderboardData?.realizedPnLs || []),
-    [leaderboardData?.realizedPnLs],
+    () =>
+      getBestPnl(
+        historicLeaderboardData?.traders || [],
+        currentLeaderboardData?.traders || [],
+      ),
+    [currentLeaderboardData?.traders, historicLeaderboardData?.traders],
   );
 
   const updateItems = useCallback(() => {
@@ -39,7 +59,7 @@ export const useGetData = (
       );
 
       return {
-        rank: String(trader?.rank) || '-',
+        rank: '-',
         userName: item.userName,
         walletAddress: item.walletAddress,
         profit: trader?.profit || 0,
@@ -65,7 +85,7 @@ export const useGetData = (
     setLoaded(true);
 
     if (account) {
-      const userRow = result.find(
+      const userRow = sortedResult.find(
         row => row.walletAddress.toLowerCase() === account.toLowerCase(),
       );
       if (userRow) {
