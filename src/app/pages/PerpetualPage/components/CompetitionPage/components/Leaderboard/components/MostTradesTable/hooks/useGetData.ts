@@ -30,49 +30,60 @@ export const useGetData = (
   ]);
 
   const updateItems = useCallback(() => {
-    // const items: HighestVolumeData[] = [];
-    setLoaded(false);
-
-    const result: MostTradesData[] = data.map(item => {
-      const trader = tradesData.find(
-        trader => trader.trader === item.walletAddress,
-      );
-
-      return {
-        rank: trader?.rank || '-',
-        userName: item.userName,
-        walletAddress: item.walletAddress,
-        trades: trader?.trades || 0,
-      };
-    });
-
-    const sortedResult = result
-      .sort((a, b) => {
-        if (a.trades === 0 || b.trades === 0) {
-          if (a.trades === 0 && b.trades === 0) {
-            return a.walletAddress.localeCompare(b.walletAddress);
-          }
-          return a.trades === 0 ? 1 : -1;
-        }
-        return Math.sign(b.trades - a.trades);
-      })
-      .map((value, index) => ({
-        ...value,
-        rank: (index + 1).toString(),
-      }));
-
-    setItems(sortedResult);
-    setLoaded(true);
-
-    if (account) {
-      const userRow = result.find(
-        row => row.walletAddress.toLowerCase() === account.toLowerCase(),
-      );
-      if (userRow) {
-        setUserData(userRow);
-      }
+    if (!leaderboardData || !tradesData) {
+      return;
     }
-  }, [account, data, tradesData]);
+
+    const run = async () => {
+      const result: MostTradesData[] = data.map(item => {
+        const trader = tradesData.find(
+          trader => trader.trader === item.walletAddress,
+        );
+
+        return {
+          rank: trader?.rank || '-',
+          userName: item.userName,
+          walletAddress: item.walletAddress,
+          trades: trader?.trades || 0,
+        };
+      });
+
+      return result
+        .sort((a, b) => {
+          if (a.trades === 0 || b.trades === 0) {
+            if (a.trades === 0 && b.trades === 0) {
+              return a.walletAddress.localeCompare(b.walletAddress);
+            }
+            return a.trades === 0 ? 1 : -1;
+          }
+          return Math.sign(b.trades - a.trades);
+        })
+        .map((value, index) => ({
+          ...value,
+          rank: (index + 1).toString(),
+        }));
+    };
+
+    setLoaded(false);
+    run()
+      .then(rows => {
+        setItems(rows);
+        setLoaded(true);
+
+        if (account) {
+          const userRow = rows.find(
+            row => row.walletAddress.toLowerCase() === account.toLowerCase(),
+          );
+          if (userRow) {
+            setUserData(userRow);
+          }
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        setLoaded(true);
+      });
+  }, [account, data, leaderboardData, tradesData]);
 
   useEffect(() => updateItems(), [updateItems]);
 

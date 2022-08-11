@@ -26,7 +26,9 @@ export const useGetData = (
   const [userData, setUserData] = useState<Nullable<HighestProfitData>>(null);
   const [loaded, setLoaded] = useState(false);
 
-  const { value: blockNumber } = useFetch(timestampConvertUrl);
+  const { value: blockNumber, loading: blockNumberLoading } = useFetch(
+    timestampConvertUrl,
+  );
 
   const { data: historicLeaderboardData } = useGetLeaderboardData(
     PerpetualPairType.BTCUSD,
@@ -51,48 +53,72 @@ export const useGetData = (
   );
 
   const updateItems = useCallback(() => {
+    if (
+      !historicLeaderboardData ||
+      !currentLeaderboardData ||
+      blockNumberLoading
+    ) {
+      return;
+    }
+
+    const run = async () => {
+      const result: HighestProfitData[] = data.map(item => {
+        const trader = profitData.find(
+          trader => trader.trader === item.walletAddress,
+        );
+
+        return {
+          rank: '-',
+          userName: item.userName,
+          walletAddress: item.walletAddress,
+          profit: trader?.profit || 0,
+        };
+      });
+
+      return result
+        .sort((a, b) => {
+          if (a.profit === 0 || b.profit === 0) {
+            if (a.profit === 0 && b.profit === 0) {
+              return a.walletAddress.localeCompare(b.walletAddress);
+            }
+            return a.profit === 0 ? 1 : -1;
+          }
+          return Math.sign(b.profit - a.profit);
+        })
+        .map((value, index) => ({
+          ...value,
+          rank: (index + 1).toString(),
+        }));
+    };
+
     setLoaded(false);
 
-    const result: HighestProfitData[] = data.map(item => {
-      const trader = profitData.find(
-        trader => trader.trader === item.walletAddress,
-      );
+    run()
+      .then(rows => {
+        setItems(rows);
+        setLoaded(true);
 
-      return {
-        rank: '-',
-        userName: item.userName,
-        walletAddress: item.walletAddress,
-        profit: trader?.profit || 0,
-      };
-    });
-
-    const sortedResult = result
-      .sort((a, b) => {
-        if (a.profit === 0 || b.profit === 0) {
-          if (a.profit === 0 && b.profit === 0) {
-            return a.walletAddress.localeCompare(b.walletAddress);
+        if (account) {
+          const userRow = rows.find(
+            row => row.walletAddress.toLowerCase() === account.toLowerCase(),
+          );
+          if (userRow) {
+            setUserData(userRow);
           }
-          return a.profit === 0 ? 1 : -1;
         }
-        return Math.sign(b.profit - a.profit);
       })
-      .map((value, index) => ({
-        ...value,
-        rank: (index + 1).toString(),
-      }));
-
-    setItems(sortedResult);
-    setLoaded(true);
-
-    if (account) {
-      const userRow = sortedResult.find(
-        row => row.walletAddress.toLowerCase() === account.toLowerCase(),
-      );
-      if (userRow) {
-        setUserData(userRow);
-      }
-    }
-  }, [account, data, profitData]);
+      .catch(error => {
+        console.error(error);
+        setLoaded(true);
+      });
+  }, [
+    account,
+    blockNumberLoading,
+    currentLeaderboardData,
+    data,
+    historicLeaderboardData,
+    profitData,
+  ]);
 
   useEffect(() => updateItems(), [updateItems]);
 

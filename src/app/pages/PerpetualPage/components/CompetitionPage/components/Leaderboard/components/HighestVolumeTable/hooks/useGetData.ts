@@ -31,48 +31,60 @@ export const useGetData = (
   );
 
   const updateItems = useCallback(() => {
-    setLoaded(false);
-
-    const result: HighestVolumeData[] = data.map(item => {
-      const trader = volumeData.find(
-        trader => trader.trader === item.walletAddress,
-      );
-
-      return {
-        rank: trader?.rank || '-',
-        userName: item.userName,
-        walletAddress: item.walletAddress,
-        volume: trader?.volume || 0,
-      };
-    });
-
-    const sortedResult = result
-      .sort((a, b) => {
-        if (a.volume === 0 || b.volume === 0) {
-          if (a.volume === 0 && b.volume === 0) {
-            return a.walletAddress.localeCompare(b.walletAddress);
-          }
-          return a.volume === 0 ? 1 : -1;
-        }
-        return Math.sign(b.volume - a.volume);
-      })
-      .map((value, index) => ({
-        ...value,
-        rank: (index + 1).toString(),
-      }));
-
-    setItems(sortedResult);
-    setLoaded(true);
-
-    if (account) {
-      const userRow = result.find(
-        row => row.walletAddress.toLowerCase() === account.toLowerCase(),
-      );
-      if (userRow) {
-        setUserData(userRow);
-      }
+    if (!leaderboardData || !volumeData) {
+      return;
     }
-  }, [account, data, volumeData]);
+
+    const run = async () => {
+      const result: HighestVolumeData[] = data.map(item => {
+        const trader = volumeData.find(
+          trader => trader.trader === item.walletAddress,
+        );
+
+        return {
+          rank: trader?.rank || '-',
+          userName: item.userName,
+          walletAddress: item.walletAddress,
+          volume: trader?.volume || 0,
+        };
+      });
+
+      return result
+        .sort((a, b) => {
+          if (a.volume === 0 || b.volume === 0) {
+            if (a.volume === 0 && b.volume === 0) {
+              return a.walletAddress.localeCompare(b.walletAddress);
+            }
+            return a.volume === 0 ? 1 : -1;
+          }
+          return Math.sign(b.volume - a.volume);
+        })
+        .map((value, index) => ({
+          ...value,
+          rank: (index + 1).toString(),
+        }));
+    };
+
+    setLoaded(false);
+    run()
+      .then(rows => {
+        setItems(rows);
+        setLoaded(true);
+
+        if (account) {
+          const userRow = rows.find(
+            row => row.walletAddress.toLowerCase() === account.toLowerCase(),
+          );
+          if (userRow) {
+            setUserData(userRow);
+          }
+        }
+      })
+      .catch(error => {
+        console.error(error);
+        setLoaded(true);
+      });
+  }, [account, data, leaderboardData, volumeData]);
 
   useEffect(() => updateItems(), [updateItems]);
 
