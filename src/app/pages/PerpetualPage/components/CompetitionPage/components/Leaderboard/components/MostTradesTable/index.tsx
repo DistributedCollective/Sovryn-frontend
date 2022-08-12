@@ -1,7 +1,10 @@
 import { useAccount } from 'app/hooks/useAccount';
 import { useIntersection } from 'app/hooks/useIntersection';
+import { translations } from 'locales/i18n';
 import React, { useMemo, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { RegisteredTraderData } from '../../../../types';
+import { LAST_RESET_OF_RANKING } from '../../utils';
 import { Table } from '../Table';
 import { Header } from './components/Header';
 import { TraderRow } from './components/TraderRow';
@@ -19,6 +22,7 @@ export const MostTradesTable: React.FC<MostTradesTableProps> = ({
   const userRowRef = useRef<HTMLDivElement>(null);
   const userRowVisible = useIntersection(userRowRef.current);
   const account = useAccount();
+  const { t } = useTranslation();
 
   const { items, userData, loaded } = useGetData(data);
 
@@ -37,25 +41,32 @@ export const MostTradesTable: React.FC<MostTradesTableProps> = ({
   ]);
 
   return (
-    <Table
-      header={<Header />}
-      isLoading={isLoading}
-      isEmpty={isEmpty}
-      isHidden={isHidden}
-      userRowVisible={userRowVisible}
-      scrollRow={userData && <TraderRow data={userData} isUser />}
-    >
-      {items.map(val => {
-        const isUser = val.walletAddress === account?.toLowerCase();
-        return (
-          <TraderRow
-            ref={isUser ? userRowRef : null}
-            data={val}
-            key={val.walletAddress}
-            isUser={isUser}
-          />
-        );
-      })}
-    </Table>
+    <>
+      <div className="tw-text-xs tw-font-medium tw-mb-6">
+        {t(translations.competitionPage.lastResetOfRanking, {
+          date: LAST_RESET_OF_RANKING,
+        })}
+      </div>
+      <Table
+        header={<Header />}
+        isLoading={isLoading}
+        isEmpty={isEmpty}
+        isHidden={isHidden}
+        userRowVisible={userRowVisible}
+        scrollRow={userData && <TraderRow data={userData} isUser />}
+      >
+        {items.map(val => {
+          const isUser = val.walletAddress === account?.toLowerCase();
+          return (
+            <TraderRow
+              ref={isUser ? userRowRef : null}
+              data={val}
+              key={val.walletAddress}
+              isUser={isUser}
+            />
+          );
+        })}
+      </Table>
+    </>
   );
 };

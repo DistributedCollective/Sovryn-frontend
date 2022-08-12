@@ -2826,6 +2826,8 @@
     "profitTooltip": "Closing position would withdraw one of these:"
   },
   "competitionPage": {
+    "allTimeRanking": "All time ranking",
+    "lastResetOfRanking": "Last Reset of Ranking {{date}}",
     "meta": {
       "title": "Trade Ranking",
       "description": ""

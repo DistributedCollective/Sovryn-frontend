@@ -67,7 +67,7 @@ export const Leaderboard: React.FC<LeaderboardProps> = ({
         items={tabs}
         initial={tabs[0].id}
         dataActionId="perpetuals-ranking"
-        contentClassName="tw-mt-6 tw-ml-2"
+        contentClassName="tw-mt-3 tw-ml-2"
       />
     </div>
   );

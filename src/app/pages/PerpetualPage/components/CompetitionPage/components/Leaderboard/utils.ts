@@ -2,8 +2,9 @@ import { ABK64x64ToFloat } from '@sovryn/perpetual-swap/dist/scripts/utils/perpM
 import { BigNumber } from 'ethers';
 import { LeaderboardData } from '../../types';
 
-export const RANKING_START_TIMESTAMP = '1654034400'; // 01/06/2022 00:00:00
-export const HIGHEST_PROFIT_START_TIMESTAMP = '1654034400'; // 01/06/2022 00:00:00 , TODO: Delete this once we have total volume and total trades count on traderState
+export const RANKING_START_TIMESTAMP = '1657605315'; // 12/07/2022 00:00:00
+export const HIGHEST_PROFIT_START_TIMESTAMP = '1657605315'; // 12/07/2022 00:00:00 , TODO: Delete this once we have total volume and total trades count on traderState
+export const LAST_RESET_OF_RANKING = '12/07/2022, 12am UTC';
 
 export const readTraderVolume = data => {
   const result = data.map(item => {

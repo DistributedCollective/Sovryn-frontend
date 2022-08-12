@@ -7,6 +7,8 @@ import { PerpetualPair } from 'utils/models/perpetual-pair';
 import { useGetData } from './hooks/useGetData';
 import { Table } from '../Table';
 import { Header } from './components/Header';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
 
 interface IBestReturnTableProps {
   data: RegisteredTraderData[];
@@ -23,6 +25,7 @@ export const BestReturnTable: React.FC<IBestReturnTableProps> = ({
   const userRowVisible = useIntersection(userRowRef.current);
   const account = useAccount();
   const { items, userData, loaded } = useGetData(pair, data);
+  const { t } = useTranslation();
   // const [potentialPrizes, setPotentialPrizes] = useState([0, 0, 0]);
 
   // const {
@@ -53,42 +56,47 @@ export const BestReturnTable: React.FC<IBestReturnTableProps> = ({
   ]);
 
   return (
-    <Table
-      header={<Header />}
-      isLoading={isLoading}
-      isEmpty={isEmpty}
-      isHidden={isHidden}
-      userRowVisible={userRowVisible}
-      scrollRow={
-        userData && (
-          <TraderRow
-            data={userData}
-            isUser
-            // potentialPrize={
-            //   ['1', '2', '3'].includes(userData.rank)
-            //     ? potentialPrizes[Number(userData.rank) - 1]
-            //     : 0
-            // }
-          />
-        )
-      }
-    >
-      {items.map(val => {
-        const isUser = val.walletAddress === account?.toLowerCase();
-        return (
-          <TraderRow
-            ref={isUser ? userRowRef : null}
-            data={val}
-            key={val.walletAddress}
-            isUser={isUser}
-            // potentialPrize={
-            //   ['1', '2', '3'].includes(val.rank)
-            //     ? potentialPrizes[Number(val.rank) - 1]
-            //     : 0
-            // }
-          />
-        );
-      })}
-    </Table>
+    <>
+      <div className="tw-text-xs tw-font-medium tw-mb-6">
+        {t(translations.competitionPage.allTimeRanking)}
+      </div>
+      <Table
+        header={<Header />}
+        isLoading={isLoading}
+        isEmpty={isEmpty}
+        isHidden={isHidden}
+        userRowVisible={userRowVisible}
+        scrollRow={
+          userData && (
+            <TraderRow
+              data={userData}
+              isUser
+              // potentialPrize={
+              //   ['1', '2', '3'].includes(userData.rank)
+              //     ? potentialPrizes[Number(userData.rank) - 1]
+              //     : 0
+              // }
+            />
+          )
+        }
+      >
+        {items.map(val => {
+          const isUser = val.walletAddress === account?.toLowerCase();
+          return (
+            <TraderRow
+              ref={isUser ? userRowRef : null}
+              data={val}
+              key={val.walletAddress}
+              isUser={isUser}
+              // potentialPrize={
+              //   ['1', '2', '3'].includes(val.rank)
+              //     ? potentialPrizes[Number(val.rank) - 1]
+              //     : 0
+              // }
+            />
+          );
+        })}
+      </Table>
+    </>
   );
 };

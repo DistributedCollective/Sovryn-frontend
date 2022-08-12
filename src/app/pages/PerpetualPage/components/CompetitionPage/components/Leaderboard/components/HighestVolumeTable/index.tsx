@@ -7,6 +7,9 @@ import { useGetData } from './hooks/useGetData';
 import { Table } from '../Table';
 import { Header } from './components/Header';
 import { PerpetualPair } from 'utils/models/perpetual-pair';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
+import { LAST_RESET_OF_RANKING } from '../../utils';
 
 type HighestVolumeTableProps = {
   data: RegisteredTraderData[];
@@ -22,6 +25,7 @@ export const HighestVolumeTable: React.FC<HighestVolumeTableProps> = ({
   const userRowRef = useRef<HTMLDivElement>(null);
   const userRowVisible = useIntersection(userRowRef.current);
   const account = useAccount();
+  const { t } = useTranslation();
 
   const { items, userData, loaded } = useGetData(data);
 
@@ -40,25 +44,32 @@ export const HighestVolumeTable: React.FC<HighestVolumeTableProps> = ({
   ]);
 
   return (
-    <Table
-      header={<Header pair={pair} />}
-      isLoading={isLoading}
-      isEmpty={isEmpty}
-      isHidden={isHidden}
-      userRowVisible={userRowVisible}
-      scrollRow={userData && <TraderRow data={userData} isUser />}
-    >
-      {items.map(val => {
-        const isUser = val.walletAddress === account?.toLowerCase();
-        return (
-          <TraderRow
-            ref={isUser ? userRowRef : null}
-            data={val}
-            key={val.walletAddress}
-            isUser={isUser}
-          />
-        );
-      })}
-    </Table>
+    <>
+      <div className="tw-text-xs tw-font-medium tw-mb-6">
+        {t(translations.competitionPage.lastResetOfRanking, {
+          date: LAST_RESET_OF_RANKING,
+        })}
+      </div>
+      <Table
+        header={<Header pair={pair} />}
+        isLoading={isLoading}
+        isEmpty={isEmpty}
+        isHidden={isHidden}
+        userRowVisible={userRowVisible}
+        scrollRow={userData && <TraderRow data={userData} isUser />}
+      >
+        {items.map(val => {
+          const isUser = val.walletAddress === account?.toLowerCase();
+          return (
+            <TraderRow
+              ref={isUser ? userRowRef : null}
+              data={val}
+              key={val.walletAddress}
+              isUser={isUser}
+            />
+          );
+        })}
+      </Table>
+    </>
   );
 };
