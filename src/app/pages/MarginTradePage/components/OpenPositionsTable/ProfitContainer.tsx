@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import classNames from 'classnames';
 import { bignumber } from 'mathjs';
 import { useTranslation } from 'react-i18next';
