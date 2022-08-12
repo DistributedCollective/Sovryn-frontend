@@ -45,7 +45,7 @@ export const HighestProfitTable: React.FC<HighestProfitTableProps> = ({
 
   return (
     <>
-      <div className="tw-text-xs tw-font-medium tw-mb-6">
+      <div className="tw-text-xs tw-font-medium tw-mb-6 tw-ml-1">
         {t(translations.competitionPage.lastResetOfRanking, {
           date: LAST_RESET_OF_RANKING,
         })}
