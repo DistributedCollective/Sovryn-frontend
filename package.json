@@ -17,7 +17,7 @@
     "@reduxjs/toolkit": "1.5.1",
     "@rsksmart/rsk3": "0.3.4",
     "@sovryn/charting-library": "1.0.0",
-    "@sovryn/react-wallet": "2.2.11",
+    "@sovryn/react-wallet": "2.2.12",
     "@sovryn/perpetual-swap": "3.0.11",
     "@svgr/webpack": "4.3.3",
     "@testing-library/jest-dom": "5.1.1",
