@@ -247,7 +247,7 @@
     "deposit": {
       "sidebarSteps": {
         "validation": "Validação",
-        "address": "Endereço de recebimento",
+        "address": "Endereço BTC",
         "processing": "Processando",
         "processingSteps": "Processando... ({{step}}/{{steps}})",
         "completed": "Concluído"
