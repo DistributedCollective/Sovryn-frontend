@@ -110,11 +110,10 @@ const queryDirectPair = async (
 ): Promise<Bar[]> => {
   const query = gql`
       {
-        candleSticks (
+        ${candleDetails.entityName} (
           where: {
             baseToken: "${baseToken}"
             quoteToken: "${quoteToken}"
-            interval: "${candleDetails.entityName}"
             periodStartUnix_gte: ${startTime}
             periodStartUnix_lte: ${endTime}
           }

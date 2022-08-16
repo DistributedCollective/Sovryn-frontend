@@ -8,19 +8,25 @@ export class TradingCandleDictionary {
     CandleDuration,
     CandleDetails
   >([
-    [CandleDuration.M_1, new CandleDetails('MinuteInterval', 'D', 1, 5, 60)],
+    [
+      CandleDuration.M_1,
+      new CandleDetails('candleStickMinutes', 'D', 1, 5, 60),
+    ],
     [
       CandleDuration.M_15,
-      new CandleDetails('FifteenMinutesInterval', 'D', 3, 5, 60 * 15),
+      new CandleDetails('candleStickFifteenMinutes', 'D', 3, 5, 60 * 15),
     ],
-    [CandleDuration.H_1, new CandleDetails('HourInterval', 'D', 5, 5, 60 * 60)],
+    [
+      CandleDuration.H_1,
+      new CandleDetails('candleStickHours', 'D', 5, 5, 60 * 60),
+    ],
     [
       CandleDuration.H_4,
-      new CandleDetails('FourHourInterval', 'D', 10, 10, 60 * 60 * 4),
+      new CandleDetails('candleStickFourHours', 'D', 10, 10, 60 * 60 * 4),
     ],
     [
       CandleDuration.D_1,
-      new CandleDetails('DayInterval', 'D', 90, 90, 60 * 60 * 24),
+      new CandleDetails('candleStickDays', 'D', 90, 90, 60 * 60 * 24),
     ],
   ]);
 

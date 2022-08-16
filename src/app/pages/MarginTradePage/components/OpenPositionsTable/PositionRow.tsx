@@ -92,7 +92,7 @@ export const PositionRow: React.FC<PositionRowProps> = ({ data: item }) => {
   }, [entryPrice, item.collateral, leverage, isLong]);
 
   const positionMarginAsset = useMemo(
-    () => (isLong ? pair.longAsset : pair.shortAsset),
+    () => (isLong ? pair?.longAsset : pair?.shortAsset),
     [isLong, pair],
   );
 
@@ -105,6 +105,10 @@ export const PositionRow: React.FC<PositionRowProps> = ({ data: item }) => {
     () => new Date(events.nextRollover).getTime().toString(),
     [events],
   );
+
+  if (!pair) {
+    return null;
+  }
 
   return (
     <>
