@@ -20,8 +20,14 @@ export const useGetProfitDollarValue = (
   );
 
   const dollarValue = useMemo(() => {
-    if (amount === '0' || amount === '-Infinity') return '0';
-    if (destinationAsset === Asset.USDT) return bignumber(amount).toFixed(0);
+    if (amount === '0' || amount === '-Infinity') {
+      return '0';
+    }
+
+    if (destinationAsset === Asset.USDT) {
+      return bignumber(amount).toFixed(0);
+    }
+
     return bignumber(amount)
       .mul(dollarConversionRate.value)
       .div(10 ** assetDetails.decimals)
