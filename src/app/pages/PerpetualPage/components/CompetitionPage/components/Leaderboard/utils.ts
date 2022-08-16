@@ -71,6 +71,7 @@ export const getProfitClassName = (value: number) => {
   return 'tw-sov-white';
 };
 
+// This is here for later use
 export const calculatePotentialPrizes = (
   traders: LeaderboardData[],
   ammProfit: number,

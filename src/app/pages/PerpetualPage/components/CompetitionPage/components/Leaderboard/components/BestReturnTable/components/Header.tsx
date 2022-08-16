@@ -22,7 +22,8 @@ export const Header: React.FC = () => {
       <div className="tw-px-1 tw-w-2/12">
         {t(translations.competitionPage.table.total)}
       </div>
-      {/* <div className="tw-px-1 tw-w-2/12">
+      {/* This is here for later use 
+      <div className="tw-px-1 tw-w-2/12">
     {t(translations.competitionPage.table.potentialPrize)}
   </div> */}
     </>

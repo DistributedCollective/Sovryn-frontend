@@ -26,6 +26,8 @@ export const BestReturnTable: React.FC<IBestReturnTableProps> = ({
   const account = useAccount();
   const { items, userData, loaded } = useGetData(pair, data);
   const { t } = useTranslation();
+
+  // This is here for later use
   // const [potentialPrizes, setPotentialPrizes] = useState([0, 0, 0]);
 
   // const {

@@ -9,6 +9,7 @@ import { getProfitClassName } from '../../../utils';
 interface ITraderRowProps {
   data: LeaderboardData;
   isUser: boolean;
+  // This is here for later use
   //potentialPrize: number;
 }
 
