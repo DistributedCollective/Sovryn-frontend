@@ -247,14 +247,14 @@
     "deposit": {
       "sidebarSteps": {
         "validation": "Validação",
-        "address": "Endereço de recebimento",
+        "address": "Endereço BTC",
         "processing": "Processando",
         "processingSteps": "Processando... ({{step}}/{{steps}})",
         "completed": "Concluído"
       },
       "mainScreen": {
         "title": "Depositar BTC e receber <0/>",
-        "description": "Atenção: o endereço de recebimento pode mudar de tempos em tempos",
+        "description": "Atenção: o endereço BTC gerado abaixo pode mudar de tempos em tempos",
         "cta": "Gerar endereço"
       },
       "depositDetails": {
@@ -2021,14 +2021,14 @@
     "poweredBy": "Disponibilizado por babelFish",
     "network": "Rede",
     "title": "Receber {{asset}}",
-    "subtitle": "Receba {{asset}} na rede RSK",
+    "subtitle": "Converta criptos de outras redes para {{asset}}",
     "changeWallet": "Deseja usar outra carteira?",
     "chainSelector": {
       "wrongNetwork": {
         "title": "Alterar para a rede {{network}}"
       },
       "chooseNetwork": {
-        "title": "Selecione a rede onde estão suas criptos"
+        "title": "Selecione a rede onde está a cripto que você deseja converter"
       }
     },
     "sidebarSteps": {
@@ -2061,7 +2061,7 @@
     "amountSelector": {
       "title": "Insira a quantidade a ser depositada",
       "balance": "Saldo disponível",
-      "dailyDepositLimits": "Limites diários de depósito",
+      "dailyDepositLimits": "Limites e taxa",
       "minAmount": "Quantidade mínima",
       "maxAmount": "Quantidade máxima",
       "dailyLimit": "Limite diário",
@@ -2077,9 +2077,9 @@
       "approve": "Por favor aprove {{from}} {{symbol}} para ser gasto pelo contrato inteligente da Sovryn na sua carteira {{providerType}}.",
       "confirmTransaction": "Confirmar transação",
       "confirm": "Por favor confirme a transação na sua carteira {{providerType}}.",
-      "depositInProgress": "Processando depósito",
-      "depositComplete": "Depósito concluído",
-      "depositFailed": "Depósito falhou",
+      "depositInProgress": "Processando transação",
+      "depositComplete": "Transação concluída",
+      "depositFailed": "Falha na transação",
       "transactionDenied": "Transação negada",
       "rejectedByUser": "Rejeitada pelo usuário"
     },
@@ -2131,7 +2131,7 @@
     "amountSelector": {
       "title": "Insira a quantidade a ser transferida",
       "balance": "Saldo disponível",
-      "dailyBridgeLimits": "Limites diários do serviço",
+      "dailyBridgeLimits": "Limites e taxa",
       "minAmount": "Quantidade mínima",
       "maxAmount": "Quantidade máxima",
       "dailyLimit": "Limite diário",
@@ -2149,9 +2149,9 @@
       "approve": "Por favor aprove {{from}} {{symbol}} para ser gasto pelo contrato inteligente da Sovryn na sua carteira {{providerType}}.",
       "confirmTransaction": "Confirmar transação",
       "confirm": "Por favor confirme a transação na sua carteira {{providerType}}.",
-      "withdrawInProgress": "Processando transferência",
-      "withdrawComplete": "Transferência concluída",
-      "withdrawFailed": "Falha na transferência",
+      "withdrawInProgress": "Processando transação",
+      "withdrawComplete": "Transação concluída",
+      "withdrawFailed": "Falha na transação",
       "transactionDenied": "Transação negada",
       "rejectedByUser": "Rejeitada pelo usuário"
     },
