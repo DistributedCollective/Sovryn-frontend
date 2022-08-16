@@ -131,7 +131,7 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
   );
 
   const position =
-    pair?.longAsset === loanTokenId
+    pair?.longAsset === assetByTokenAddress(loanTokenId)
       ? TradingPosition.LONG
       : TradingPosition.SHORT;
 
