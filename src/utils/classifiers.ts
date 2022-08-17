@@ -71,6 +71,11 @@ export const subgraphWrapperUrl = {
   31: 'https://graph-wrapper.test.sovryn.app',
 };
 
+export const bscScanApi =
+  isMainnet || isStaging
+    ? 'https://api.bscscan.com'
+    : 'https://api-testnet.bscscan.com';
+
 export const graphRskUrl = process.env.REACT_APP_GRAPH_RSK;
 
 export const ethGenesisAddress = '0x0000000000000000000000000000000000000000';

@@ -7,6 +7,7 @@ import {
 import { useGetLeaderboardData } from 'app/pages/PerpetualPage/hooks/graphql/useGetLeaderboardData';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Nullable } from 'types';
+import { bscScanApi } from 'utils/classifiers';
 import { PerpetualPairType } from 'utils/dictionaries/perpetual-pair-dictionary';
 import { TableData } from '../../../types';
 import {
@@ -15,7 +16,7 @@ import {
   RANKING_START_TIMESTAMP,
 } from '../../../utils';
 
-const timestampConvertUrl = `https://api-testnet.bscscan.com/api?module=block&action=getblocknobytime&timestamp=${HIGHEST_PROFIT_START_TIMESTAMP}&closest=before`;
+const timestampConvertUrl = `${bscScanApi}/api?module=block&action=getblocknobytime&timestamp=${HIGHEST_PROFIT_START_TIMESTAMP}&closest=before`;
 
 export const useGetData = (
   data: RegisteredTraderData[],
