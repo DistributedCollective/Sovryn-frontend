@@ -3,12 +3,11 @@ import {
   MostTradesData,
   RegisteredTraderData,
 } from 'app/pages/PerpetualPage/components/CompetitionPage/types';
-import { useGetLeaderboardData } from 'app/pages/PerpetualPage/hooks/graphql/useGetLeaderboardData';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Nullable } from 'types';
-import { PerpetualPairType } from 'utils/dictionaries/perpetual-pair-dictionary';
+import { useGetTimeRestrictedData } from '../../../hooks/useGetTimeRestrictedData';
 import { TableData } from '../../../types';
-import { mostTrades, RANKING_START_TIMESTAMP } from '../../../utils';
+import { getMostTrades } from '../../../utils';
 
 export const useGetData = (
   data: RegisteredTraderData[],
@@ -19,18 +18,22 @@ export const useGetData = (
   const [userData, setUserData] = useState<Nullable<MostTradesData>>(null);
   const [loaded, setLoaded] = useState(false);
 
-  const { data: leaderboardData } = useGetLeaderboardData(
-    PerpetualPairType.BTCUSD,
-    data.map(val => val.walletAddress),
-    RANKING_START_TIMESTAMP,
+  const {
+    historicLeaderboardData,
+    currentLeaderboardData,
+  } = useGetTimeRestrictedData(data);
+
+  const tradesData = useMemo(
+    () =>
+      getMostTrades(
+        historicLeaderboardData?.traders || [],
+        currentLeaderboardData?.traders || [],
+      ),
+    [currentLeaderboardData?.traders, historicLeaderboardData?.traders],
   );
 
-  const tradesData = useMemo(() => mostTrades(leaderboardData?.traders || []), [
-    leaderboardData?.traders,
-  ]);
-
   const updateItems = useCallback(() => {
-    if (!leaderboardData || !tradesData) {
+    if (!historicLeaderboardData || !currentLeaderboardData || !tradesData) {
       return;
     }
 
@@ -83,7 +86,13 @@ export const useGetData = (
         console.error(error);
         setLoaded(true);
       });
-  }, [account, data, leaderboardData, tradesData]);
+  }, [
+    account,
+    currentLeaderboardData,
+    data,
+    historicLeaderboardData,
+    tradesData,
+  ]);
 
   useEffect(() => updateItems(), [updateItems]);
 

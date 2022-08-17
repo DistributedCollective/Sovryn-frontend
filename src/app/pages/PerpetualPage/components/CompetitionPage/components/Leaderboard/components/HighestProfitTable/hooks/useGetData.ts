@@ -1,22 +1,13 @@
 import { useAccount } from 'app/hooks/useAccount';
-import { useFetch } from 'app/hooks/useFetch';
 import {
   HighestProfitData,
   RegisteredTraderData,
 } from 'app/pages/PerpetualPage/components/CompetitionPage/types';
-import { useGetLeaderboardData } from 'app/pages/PerpetualPage/hooks/graphql/useGetLeaderboardData';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Nullable } from 'types';
-import { bscScanApi } from 'utils/classifiers';
-import { PerpetualPairType } from 'utils/dictionaries/perpetual-pair-dictionary';
+import { useGetTimeRestrictedData } from '../../../hooks/useGetTimeRestrictedData';
 import { TableData } from '../../../types';
-import {
-  getBestPnl,
-  HIGHEST_PROFIT_START_TIMESTAMP,
-  RANKING_START_TIMESTAMP,
-} from '../../../utils';
-
-const timestampConvertUrl = `${bscScanApi}/api?module=block&action=getblocknobytime&timestamp=${HIGHEST_PROFIT_START_TIMESTAMP}&closest=before`;
+import { getBestPnl } from '../../../utils';
 
 export const useGetData = (
   data: RegisteredTraderData[],
@@ -27,22 +18,10 @@ export const useGetData = (
   const [userData, setUserData] = useState<Nullable<HighestProfitData>>(null);
   const [loaded, setLoaded] = useState(false);
 
-  const { value: blockNumber, loading: blockNumberLoading } = useFetch(
-    timestampConvertUrl,
-  );
-
-  const { data: historicLeaderboardData } = useGetLeaderboardData(
-    PerpetualPairType.BTCUSD,
-    data.map(val => val.walletAddress),
-    HIGHEST_PROFIT_START_TIMESTAMP,
-    blockNumber?.result,
-  );
-
-  const { data: currentLeaderboardData } = useGetLeaderboardData(
-    PerpetualPairType.BTCUSD,
-    data.map(val => val.walletAddress),
-    RANKING_START_TIMESTAMP,
-  );
+  const {
+    historicLeaderboardData,
+    currentLeaderboardData,
+  } = useGetTimeRestrictedData(data);
 
   const profitData = useMemo(
     () =>
@@ -54,11 +33,7 @@ export const useGetData = (
   );
 
   const updateItems = useCallback(() => {
-    if (
-      !historicLeaderboardData ||
-      !currentLeaderboardData ||
-      blockNumberLoading
-    ) {
+    if (!historicLeaderboardData || !currentLeaderboardData) {
       return;
     }
 
@@ -114,7 +89,6 @@ export const useGetData = (
       });
   }, [
     account,
-    blockNumberLoading,
     currentLeaderboardData,
     data,
     historicLeaderboardData,

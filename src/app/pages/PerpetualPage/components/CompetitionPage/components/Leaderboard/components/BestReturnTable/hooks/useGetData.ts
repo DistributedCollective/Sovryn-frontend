@@ -18,7 +18,6 @@ import {
 } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
 import { ABK64x64ToFloat } from '@sovryn/perpetual-swap/dist/scripts/utils/perpMath';
 import { TableData } from '../../../types';
-import { RANKING_START_TIMESTAMP } from '../../../utils';
 
 export const useGetData = (
   pair: PerpetualPair,
@@ -31,7 +30,6 @@ export const useGetData = (
   const { data: leaderboardData } = useGetLeaderboardData(
     PerpetualPairType.BTCUSD,
     data.map(val => val.walletAddress),
-    RANKING_START_TIMESTAMP,
   );
 
   const [items, setItems] = useState<LeaderboardData[]>([]);

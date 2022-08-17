@@ -12,7 +12,6 @@ import {
 export function useGetLeaderboardData(
   pairType: PerpetualPairType,
   traderIDs: string[],
-  tradesTimestamp: string,
   blockNumber?: string,
 ) {
   const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
@@ -30,15 +29,6 @@ export function useGetLeaderboardData(
       ${blockNumberCondition}
     ){
       id
-      trades(where: {blockTimestamp_gt: ${tradesTimestamp}, perpetual: ${JSON.stringify(
-    pair.id,
-  )}}) {
-        perpetual {
-          id
-        }
-        blockTimestamp
-        tradeAmountBC
-      }
       totalFundingPaymentCC
       positionsTotalCount
       traderStates (where: {perpetual: ${JSON.stringify(pair.id)}}) {
@@ -52,6 +42,8 @@ export function useGetLeaderboardData(
         totalPnLCC
         balance
         capitalUsed
+        totalAmountTraded
+        tradesTotalCount
       }
       positions(where: {perpetual: ${JSON.stringify(
         pair.id,

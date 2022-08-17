@@ -1,39 +1,70 @@
 import { ABK64x64ToFloat } from '@sovryn/perpetual-swap/dist/scripts/utils/perpMath';
 import { BigNumber } from 'ethers';
+import { bscScanApi } from 'utils/classifiers';
 import { LeaderboardData } from '../../types';
 
-export const RANKING_START_TIMESTAMP = '1659312000'; // 12/07/2022 00:00:00
-export const HIGHEST_PROFIT_START_TIMESTAMP = '1659312000'; // 12/07/2022 00:00:00 , TODO: Delete this once we have total volume and total trades count on traderState
+export const RANKING_START_TIMESTAMP = '1659312000'; // 01/08/2022 00:00:00
+export const RANKING_START_BLOCK_NUMBER = '20045095'; // 01/08/2022 00:00:00 , IMPORTANT: This needs to be changed every time that RANKING_START_TIMESTAMP changes, go to useGetTimeRestrictedData.ts and fetch it there.
 export const LAST_RESET_OF_RANKING = '01/08/2022, 12am UTC';
+export const timestampConvertUrl = `${bscScanApi}/api?module=block&action=getblocknobytime&timestamp=${RANKING_START_TIMESTAMP}&closest=before&apikey=${process.env.REACT_APP_BSC_API_KEY}`;
 
-export const readTraderVolume = data => {
-  const result = data.map(item => {
-    const traderVolume = item.trades.reduce(
-      (result, item) =>
-        result + Math.abs(ABK64x64ToFloat(BigNumber.from(item.tradeAmountBC))),
-      0,
+export const getMostTrades = (historicData, currentData) => {
+  const historicTrades = historicData.map(item => ({
+    trader: item.id,
+    trades: item.traderStates[0].tradesTotalCount,
+  }));
+
+  const currentTrades = currentData.map(item => ({
+    trader: item.id,
+    trades: item.traderStates[0].tradesTotalCount,
+  }));
+
+  if (!historicData) {
+    return currentTrades;
+  }
+
+  return currentTrades.map(item => {
+    const historicTrade = historicTrades.find(
+      historicItem => historicItem.trader === item.trader,
     );
 
-    return [item.id, traderVolume];
+    return {
+      trader: item.trader,
+      trades: item.trades - (historicTrade?.trades || 0),
+    };
   });
-  return result
-    .sort((a, b) => b[1] - a[1])
-    .map((item, index) => ({
-      trader: item[0],
-      volume: item[1],
-      rank: index + 1,
-    }));
 };
 
-export const mostTrades = data =>
-  data
-    .map(item => [item.id, item.trades.length])
-    .sort((a, b) => b[1] - a[1])
-    .map((item, index) => ({
-      trader: item[0],
-      trades: item[1],
-      rank: index + 1,
-    }));
+export const getTraderVolume = (historicData, currentData) => {
+  const historicVolumes = historicData.map(item => ({
+    trader: item.id,
+    volume: ABK64x64ToFloat(
+      BigNumber.from(item.traderStates[0].totalAmountTraded),
+    ),
+  }));
+
+  const currentVolumes = currentData.map(item => ({
+    trader: item.id,
+    volume: ABK64x64ToFloat(
+      BigNumber.from(item.traderStates[0].totalAmountTraded),
+    ),
+  }));
+
+  if (!historicData) {
+    return currentVolumes;
+  }
+
+  return currentVolumes.map(item => {
+    const historicVolume = historicVolumes.find(
+      historicItem => historicItem.trader === item.trader,
+    );
+
+    return {
+      trader: item.trader,
+      volume: item.volume - (historicVolume?.volume || 0),
+    };
+  });
+};
 
 export const getBestPnl = (historicData, currentData) => {
   const historicPnLs = historicData.map(item => ({
