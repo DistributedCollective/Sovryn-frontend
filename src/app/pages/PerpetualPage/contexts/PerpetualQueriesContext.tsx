@@ -289,7 +289,7 @@ const getAdditionalInfo = (
     perpetualParameters &&
     ammState &&
     liquidityPoolState &&
-    getDepthMatrixV2(perpetualParameters, ammState, liquidityPoolState);
+    getDepthMatrixV2(perpetualParameters, ammState);
 
   const lotSize = Number(perpetualParameters.fLotSizeBC.toPrecision(8));
   const lotPrecision = lotSize.toString().split(/[,.]/)[1]?.length || 1;

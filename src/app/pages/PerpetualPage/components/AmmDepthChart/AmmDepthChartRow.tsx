@@ -24,7 +24,7 @@ export const AmmDepthChartRow: React.FC<AmmDepthChartRowProps> = ({
       {toNumberFormat(row.price, 1)}
     </td>
     <td className="tw-px-2 tw-py-1 tw-text-right">
-      {toNumberFormat(Math.abs(row.deviation), 2, 0)}%
+      {toNumberFormat(Math.abs(row.deviation), 2, 2)}%
     </td>
     <td className="tw-relative tw-px-2 tw-py-1 tw-text-right tw-rounded-r">
       <span
