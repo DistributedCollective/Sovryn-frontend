@@ -2837,7 +2837,7 @@
         "bestReturn": "Best Return",
         "highestVolume": "Highest Volume",
         "mostTrades": "Most Trades",
-        "highestProfit": "HighestProfit"
+        "highestProfit": "Highest Profit"
       },
       "tables": {
         "highestVolumeTable": {
