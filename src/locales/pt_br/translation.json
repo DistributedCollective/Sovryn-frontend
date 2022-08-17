@@ -226,7 +226,7 @@
       }
     }
   },
-   "receiveRBTCPage": {
+  "receiveRBTCPage": {
     "title": "Receber RBTC",
     "description": "Receba RBTC via bitcoin ou cartão/transferência bancária",
     "selectSource": "Escolha a forma de pagamento",
@@ -2106,7 +2106,7 @@
         "title": "Selecione a rede que você deseja transferir seus {{asset}}"
       }
     },
-     "sidebarSteps": {
+    "sidebarSteps": {
       "chooseDestination": "Rede<br />destino",
       "selectToken": "Selecionar<br /> token",
       "enterAmount": "Inserir<br /> quantidade",

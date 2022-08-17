@@ -2,11 +2,11 @@ import axios from 'axios';
 import { call, put, takeLatest } from 'redux-saga/effects';
 import delay from '@redux-saga/delay-p';
 import { actions } from './slice';
-import { backendUrl, currentChainId } from 'utils/classifiers';
+import { maintenanceUrl, currentChainId } from 'utils/classifiers';
 
 function fetchState() {
   return axios
-    .get(backendUrl[currentChainId] + '/maintenance')
+    .get(maintenanceUrl[currentChainId])
     .then(response => ({ response }))
     .catch(error => ({ error }));
 }
