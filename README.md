@@ -113,11 +113,11 @@ We use Storybook to provide API style docs and examples for our UI components. A
 
 To test components via Storybook on your local machine:
 
-- run `yarn install` on your working branch
-- run `yarn storybook` to load the development server
-- access Storybook dev server on `localhost:6006`
-- if the docs fail to load and you see an error `cannot read properties of undefined (reading 'storyStore')`, the package installation is likely broken and you will need to clear `node_modules` folder and follow first two steps again
-- changes can now be made to `index.stories.tsx` files and the development server will hot-reload automatically
+- run `yarn install` on your working branch.
+- run `yarn storybook` to load the development server.
+- access Storybook dev server on `localhost:6006`.
+- if the docs fail to load and you see an error `cannot read properties of undefined (reading 'storyStore')`, the package installation is likely broken and you will need to clear `node_modules` folder and follow first two steps again.
+- changes can now be made to `index.stories.tsx` files and the development server will hot-reload automatically.
 
 To test components on a deployed PR link, simply append `/storybook` to the end of the deployed URL.
 

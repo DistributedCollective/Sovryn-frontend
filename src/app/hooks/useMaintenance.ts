@@ -78,14 +78,14 @@ export function useMaintenance() {
   );
 
   const checkMaintenances = useCallback((): MaintenanceResult => {
-    return Object.keys(States).reduce(
+    return Object.keys(maintenanceStates).reduce(
       (res, curr) =>
         Object.assign(res, {
           [curr]: checkMaintenance(curr as States),
         }),
       {} as MaintenanceResult,
     );
-  }, [checkMaintenance]);
+  }, [checkMaintenance, maintenanceStates]);
 
   return useMemo(() => ({ checkMaintenance, checkMaintenances, States }), [
     checkMaintenance,

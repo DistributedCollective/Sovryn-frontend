@@ -9,6 +9,7 @@ import { bignumber } from 'mathjs';
 import { PieChart } from '../../styled';
 import imgNoClaim from 'assets/images/reward/ARMANDO__LENDING.svg';
 import { NoRewardInfo } from '../NoRewardInfo';
+import { weiTo18 } from 'utils/blockchain/math-helpers';
 
 interface ILiquidTabProps {
   amountToClaim: string;
@@ -76,8 +77,8 @@ export const LiquidTab: React.FC<ILiquidTabProps> = ({
         <RewardsDetail
           color={RewardsDetailColor.Yellow}
           title={t(translations.rewardPage.stakingReward)}
-          availableAmount={amountToClaim}
-          totalEarnedAmount={totalRewardsEarned}
+          availableAmount={weiTo18(amountToClaim)}
+          totalEarnedAmount={weiTo18(totalRewardsEarned)}
         />
         <RewardsDetail
           color={RewardsDetailColor.Grey}

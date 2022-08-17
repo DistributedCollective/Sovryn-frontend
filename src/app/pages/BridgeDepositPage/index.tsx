@@ -19,14 +19,15 @@ import { ConfirmStep } from './components/ConfirmStep';
 import { ReturnToPortfolio } from './components/ReturnToPortfolio';
 import { Asset } from '../../../types';
 import { CrossBridgeAsset } from './types/cross-bridge-asset';
-import babelfishIcon from 'assets/images/tokens/babelfish.svg';
 
 import './styles.scss';
 import { SidebarSteps } from './components/SidebarSteps';
-import { translations } from 'locales/i18n';
-import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 import { usePageActions } from 'app/containers/PageContainer';
+import { CrossChainLayout } from 'app/components/CrossChain/CrossChainLayout';
+import { useTranslation } from 'react-i18next';
+import { translations } from 'locales/i18n';
+import { useWalletContext } from '@sovryn/react-wallet';
 
 const dirtyDepositAsset = {
   [Asset.ETH]: CrossBridgeAsset.ETHS,
@@ -34,15 +35,17 @@ const dirtyDepositAsset = {
 
 export const BridgeDepositPage: React.FC = () => {
   const page = usePageActions();
+  const { t } = useTranslation();
 
   useInjectReducer({ key: sliceKey, reducer: reducer });
   useInjectSaga({ key: sliceKey, saga: bridgeDepositPageSaga });
+  const { setOptions } = useWalletContext();
 
   const {
     step,
     requestedReturnToPortfolio,
-    targetAsset,
     receiver,
+    targetAsset,
   } = useSelector(selectBridgeDepositPage);
 
   useLayoutEffect(() => {
@@ -51,7 +54,6 @@ export const BridgeDepositPage: React.FC = () => {
     });
   }, [receiver, page]);
 
-  const { t } = useTranslation();
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -75,6 +77,7 @@ export const BridgeDepositPage: React.FC = () => {
 
   useEffect(() => {
     dispatch(actions.init());
+
     return () => {
       // Unset bridge settings
       dispatch(walletProviderActions.setBridgeChainId(null));
@@ -83,28 +86,41 @@ export const BridgeDepositPage: React.FC = () => {
     };
   }, [dispatch]);
 
+  useEffect(() => {
+    setOptions({
+      viewType: 'gray',
+      hideTitle: false,
+      size: 'sm',
+    });
+    return () => {
+      setOptions({
+        viewType: 'default',
+        hideTitle: false,
+        size: 'md',
+      });
+    };
+  }, [setOptions]);
+
   return (
-    <>
+    <CrossChainLayout
+      title={t(translations.BridgeDepositPage.title, { asset: targetAsset })}
+      subtitle={t(translations.BridgeDepositPage.subtitle, {
+        asset: targetAsset,
+      })}
+    >
       <div
-        className="tw-flex tw-flex-row tw-justify-between tw-items-start tw-w-full tw-p-5 tw-bg-gray-4 tw-relative"
-        style={{ marginTop: '-4.4rem' }}
+        style={{ minHeight: 510, width: 780, maxWidth: 'calc(100vw - 22rem)' }}
+        className="tw-pb-4 tw-flex tw-flex-col tw-h-full tw-relative"
       >
         <div
           className={classNames(
-            'tw-relative tw-z-50 tw-h-full tw-flex tw-flex-col tw-items-start tw-justify-center tw-pl-8',
+            'tw-px-6 tw-mt-10 tw-relative tw-z-50 tw-w-full tw-flex tw-items-start tw-justify-center',
             { invisible: requestedReturnToPortfolio },
           )}
-          style={{ minWidth: 200, minHeight: 'calc(100vh - 2.5rem)' }}
         >
           <SidebarSteps />
         </div>
-        <div
-          style={{
-            minHeight: 'calc(100% - 2.5rem)',
-            minWidth: 'calc(100% - 2.5rem)',
-          }}
-          className="tw-flex-1 tw-flex tw-flex-col tw-items-end md:tw-items-center tw-justify-around tw-absolute tw-pb-20"
-        >
+        <div className="tw-flex-1 tw-px-4 tw-w-full tw-flex tw-flex-col tw-items-end md:tw-items-center tw-justify-around tw-mt-4 tw-mb-12">
           <SwitchTransition>
             <CSSTransition
               key={step + (requestedReturnToPortfolio ? 1 : 0)}
@@ -133,13 +149,7 @@ export const BridgeDepositPage: React.FC = () => {
             </CSSTransition>
           </SwitchTransition>
         </div>
-        {!requestedReturnToPortfolio && targetAsset === 'XUSD' && (
-          <div className="tw-absolute tw-bottom-8 tw-left-0 tw-right-0 tw-mx-auto tw-flex tw-flex-col tw-items-center">
-            <img className="tw-mb-1" src={babelfishIcon} alt="babelFish" />
-            {t(translations.BridgeDepositPage.poweredBy)}
-          </div>
-        )}
       </div>
-    </>
+    </CrossChainLayout>
   );
 };

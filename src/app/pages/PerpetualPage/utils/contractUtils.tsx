@@ -434,26 +434,20 @@ export const initialLiquidityPoolState: LiqPoolState = {
   fPnLparticipantsCashCC: 0,
   fAMMFundCashCC: 0,
   fDefaultFundCashCC: 0,
-  iPriceUpdateTimeSec: 0,
   fTargetAMMFundSize: 0,
   fTargetDFSize: 0,
-  iLastTargetPoolSizeTime: 0,
-  iLastFundingTime: 0,
   isRunning: false,
 };
 
 const parseLiquidityPoolState = (response: any): LiqPoolState =>
   response?.[0]
     ? {
-        fPnLparticipantsCashCC: ABK64x64ToFloat(response[0][6]),
-        fAMMFundCashCC: ABK64x64ToFloat(response[0][7]),
-        fDefaultFundCashCC: ABK64x64ToFloat(response[0][8]),
-        iPriceUpdateTimeSec: ABK64x64ToFloat(response[0][9]),
-        fTargetAMMFundSize: ABK64x64ToFloat(response[0][10]),
-        fTargetDFSize: ABK64x64ToFloat(response[0][11]),
-        iLastTargetPoolSizeTime: ABK64x64ToFloat(response[0][12]),
-        iLastFundingTime: ABK64x64ToFloat(response[0][13]),
-        isRunning: response[0][1],
+        fPnLparticipantsCashCC: ABK64x64ToFloat(response[0][5]),
+        fAMMFundCashCC: ABK64x64ToFloat(response[0][6]),
+        fDefaultFundCashCC: ABK64x64ToFloat(response[0][7]),
+        fTargetAMMFundSize: ABK64x64ToFloat(response[0][8]),
+        fTargetDFSize: ABK64x64ToFloat(response[0][9]),
+        isRunning: response[0][16],
       }
     : initialLiquidityPoolState;
 
@@ -515,36 +509,36 @@ const parsePerpetualParameters = (response: any): PerpParameters =>
         oracleS3Addr: response[0][3],
         fCurrentFundingRate: ABK64x64ToFloat(response[0][10]),
         fUnitAccumulatedFunding: ABK64x64ToFloat(response[0][11]),
-        fOpenInterest: ABK64x64ToFloat(response[0][13]),
-        fInitialMarginRateAlpha: ABK64x64ToFloat(response[0][17]),
-        fMarginRateBeta: ABK64x64ToFloat(response[0][18]),
-        fInitialMarginRateCap: ABK64x64ToFloat(response[0][19]),
-        fMaintenanceMarginRateAlpha: ABK64x64ToFloat(response[0][20]),
-        fTreasuryFeeRate: ABK64x64ToFloat(response[0][21]),
-        fPnLPartRate: ABK64x64ToFloat(response[0][22]),
-        fReferralRebateCC: ABK64x64ToFloat(response[0][23]),
-        fLiquidationPenaltyRate: ABK64x64ToFloat(response[0][24]),
-        fMinimalSpread: ABK64x64ToFloat(response[0][25]),
-        fMinimalSpreadInStress: ABK64x64ToFloat(response[0][26]),
-        fLotSizeBC: ABK64x64ToFloat(response[0][27]),
-        fFundingRateClamp: ABK64x64ToFloat(response[0][28]),
-        fMarkPriceEMALambda: ABK64x64ToFloat(response[0][29]),
-        fSigma2: ABK64x64ToFloat(response[0][30]),
-        fSigma3: ABK64x64ToFloat(response[0][31]),
-        fRho23: ABK64x64ToFloat(response[0][32]),
-        fStressReturnS2_0: ABK64x64ToFloat(response[0][34][0]),
-        fStressReturnS2_1: ABK64x64ToFloat(response[0][34][1]),
-        fStressReturnS3_0: ABK64x64ToFloat(response[0][35][0]),
-        fStressReturnS3_1: ABK64x64ToFloat(response[0][35][1]),
-        fDFCoverNRate: ABK64x64ToFloat(response[0][36]),
-        fDFLambda_0: ABK64x64ToFloat(response[0][37][0]),
-        fDFLambda_1: ABK64x64ToFloat(response[0][37][1]),
-        fAMMTargetDD_0: ABK64x64ToFloat(response[0][38][0]),
-        fAMMTargetDD_1: ABK64x64ToFloat(response[0][38][1]),
-        fAMMMinSizeCC: ABK64x64ToFloat(response[0][39]),
-        fMinimalTraderExposureEMA: ABK64x64ToFloat(response[0][40]),
-        fMaximalTradeSizeBumpUp: ABK64x64ToFloat(response[0][42]),
-        fMaxPositionBC: ABK64x64ToFloat(response[0][49]),
+        fOpenInterest: ABK64x64ToFloat(response[0][12]),
+        fInitialMarginRateAlpha: ABK64x64ToFloat(response[0][16]),
+        fMarginRateBeta: ABK64x64ToFloat(response[0][17]),
+        fInitialMarginRateCap: ABK64x64ToFloat(response[0][18]),
+        fMaintenanceMarginRateAlpha: ABK64x64ToFloat(response[0][19]),
+        fTreasuryFeeRate: ABK64x64ToFloat(response[0][20]),
+        fPnLPartRate: ABK64x64ToFloat(response[0][21]),
+        fReferralRebateCC: ABK64x64ToFloat(response[0][22]),
+        fLiquidationPenaltyRate: ABK64x64ToFloat(response[0][23]),
+        fMinimalSpread: ABK64x64ToFloat(response[0][24]),
+        fMinimalSpreadInStress: ABK64x64ToFloat(response[0][25]),
+        fLotSizeBC: ABK64x64ToFloat(response[0][26]),
+        fFundingRateClamp: ABK64x64ToFloat(response[0][27]),
+        fMarkPriceEMALambda: ABK64x64ToFloat(response[0][28]),
+        fSigma2: ABK64x64ToFloat(response[0][29]),
+        fSigma3: ABK64x64ToFloat(response[0][30]),
+        fRho23: ABK64x64ToFloat(response[0][31]),
+        fStressReturnS2_0: ABK64x64ToFloat(response[0][33][0]),
+        fStressReturnS2_1: ABK64x64ToFloat(response[0][33][1]),
+        fStressReturnS3_0: ABK64x64ToFloat(response[0][34][0]),
+        fStressReturnS3_1: ABK64x64ToFloat(response[0][34][1]),
+        fDFCoverNRate: ABK64x64ToFloat(response[0][35]),
+        fDFLambda_0: ABK64x64ToFloat(response[0][36][0]),
+        fDFLambda_1: ABK64x64ToFloat(response[0][36][1]),
+        fAMMTargetDD_0: ABK64x64ToFloat(response[0][37][0]),
+        fAMMTargetDD_1: ABK64x64ToFloat(response[0][37][1]),
+        fAMMMinSizeCC: ABK64x64ToFloat(response[0][38]),
+        fMinimalTraderExposureEMA: ABK64x64ToFloat(response[0][39]),
+        fMaximalTradeSizeBumpUp: ABK64x64ToFloat(response[0][41]),
+        fMaxPositionBC: ABK64x64ToFloat(response[0][43]),
       }
     : initialPerpetualParameters;
 
@@ -621,7 +615,12 @@ const perpetualTradeArgs = (
   const deadline = Math.round(Date.now() / 1000) + 86400; // 1 day
   const timeNow = Math.round(Date.now() / 1000);
 
-  let flags = isClosePosition ? MASK_CLOSE_ONLY : MASK_MARKET_ORDER;
+  let flags = MASK_MARKET_ORDER;
+
+  if (isClosePosition) {
+    flags = flags.or(MASK_CLOSE_ONLY);
+  }
+
   if (transaction.keepPositionLeverage) {
     flags = flags.or(MASK_KEEP_POS_LEVERAGE);
   }
@@ -655,6 +654,7 @@ const perpetualCreateLimitTradeArgs = async (
     created,
     leverage = 1,
     pair: pairType,
+    reduceOnly,
   } = transaction;
   const pair = PerpetualPairDictionary.get(pairType);
 
@@ -662,6 +662,12 @@ const perpetualCreateLimitTradeArgs = async (
 
   const createdSeconds = Math.floor(created / 1000);
   const deadlineSeconds = createdSeconds + expiry * 24 * 60 * 60;
+
+  let flags = MASK_LIMIT_ORDER;
+
+  if (reduceOnly) {
+    flags = flags.or(MASK_CLOSE_ONLY);
+  }
 
   const order = {
     iPerpetualId: pair.id,
@@ -671,7 +677,7 @@ const perpetualCreateLimitTradeArgs = async (
     fTriggerPrice: weiToABK64x64(trigger).toString(),
     iDeadline: deadlineSeconds,
     referrerAddr: ethGenesisAddress,
-    flags: MASK_LIMIT_ORDER,
+    flags,
     fLeverage: floatToABK64x64(leverage).toString(),
     createdTimestamp: createdSeconds,
   };

@@ -11,6 +11,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000000" />
     <meta name="description" content="Crypto Margin Trading with Sovryn" />
+    <!-- Google Tag Manager -->
+    <script>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(
+        window,
+        document,
+        'script',
+        'dataLayer',
+        '%REACT_APP_GOOGLE_ANALYTICS%',
+      );
+    </script>
+    <!-- End Google Tag Manager -->
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <link rel="preconnect" href="https://fonts.gstatic.com" />
@@ -72,29 +92,7 @@
         font-family: Courier, monospace;
       }
     </style>
-
-    <% if (process.env.REACT_APP_NETWORK=='mainnet') { %>
-    <!-- Matomo -->
-    <script type="text/javascript">
-      var _paq = (window._paq = window._paq || []);
-      /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-      _paq.push(['trackPageView']);
-      _paq.push(['enableLinkTracking']);
-      (function () {
-        var u = 'https://sovrynapp.matomo.cloud/';
-        _paq.push(['setTrackerUrl', u + 'matomo.php']);
-        _paq.push(['setSiteId', '2']);
-        var d = document,
-          g = d.createElement('script'),
-          s = d.getElementsByTagName('script')[0];
-        g.type = 'text/javascript';
-        g.async = true;
-        g.src = '//cdn.matomo.cloud/sovrynapp.matomo.cloud/matomo.js';
-        s.parentNode.insertBefore(g, s);
-      })();
-    </script>
-    <!-- End Matomo Code -->
-    <% } %> <% if (process.env.REACT_APP_INTERCOM_ID) { %>
+    <% if (process.env.REACT_APP_INTERCOM_ID) { %>
     <!-- Intercom Code -->
     <script type="text/javascript">
       window.intercomSettings = {
@@ -140,24 +138,18 @@
     </script>
     <!-- End Intercom Code -->
     <% } %>
-    <!-- Perpetuals Competition Info Popup -->
-    <script type="text/javascript">
-      (function (d, t) {
-        if (
-          window.location.hash != '#gleam' &&
-          ('' + document.cookie).match(/(^|;)\s*GleamVBcR5=X($|;)/)
-        ) {
-          return;
-        }
-        var g = d.createElement(t),
-          s = d.getElementsByTagName(t)[0];
-        g.src = 'https://widget.gleamjs.io/VBcR5/ol.js';
-        s.parentNode.insertBefore(g, s);
-      })(document, 'script');
-    </script>
-    <!-- End Perpetuals Competition Info Popup -->
   </head>
   <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript
+      ><iframe
+        src="https://www.googletagmanager.com/ns.html?id=%REACT_APP_GOOGLE_ANALYTICS%"
+        height="0"
+        width="0"
+        style="display: none; visibility: hidden;"
+      ></iframe
+    ></noscript>
+    <!-- End Google Tag Manager (noscript) -->
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root">
       <div class="sv-container">

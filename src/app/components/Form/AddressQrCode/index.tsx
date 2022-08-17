@@ -47,7 +47,7 @@ export const AddressQrCode: React.FC<AddressQrCodeProps> = ({
   const [copied, setCopied] = useState(false);
   return (
     <>
-      <div className="tw-text-lg tw-text-sov-white tw-ml-8 tw-mb-2.5">
+      <div className="tw-font-semibold tw-text-sov-white tw-text-center tw-mb-4">
         {t(translations.fastBtcPage.deposit.qr.title)}
       </div>
       <div className="tw-qrcode-container">

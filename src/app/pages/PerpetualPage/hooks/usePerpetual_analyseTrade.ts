@@ -71,6 +71,8 @@ export const usePerpetual_analyseTrade = (
     availableBalance,
   } = perpetuals[pair.id];
 
+  const relayerFee = perpParameters.fReferralRebateCC;
+
   const {
     leverage: leverageTarget,
     size: amountTarget,
@@ -115,16 +117,17 @@ export const usePerpetual_analyseTrade = (
     let orderCost = Math.max(0, marginChange);
 
     if (isLimitOrder) {
-      orderCost = getEstimatedMarginCollateralForLimitOrder(
-        perpParameters,
-        ammState,
-        trade.leverage,
-        amountChange,
-        numberFromWei(trade.limit),
-        trade.trigger && trade.trigger !== '0'
-          ? numberFromWei(trade.trigger)
-          : undefined,
-      );
+      orderCost =
+        getEstimatedMarginCollateralForLimitOrder(
+          perpParameters,
+          ammState,
+          trade.leverage,
+          amountChange,
+          numberFromWei(trade.limit),
+          trade.trigger && trade.trigger !== '0'
+            ? numberFromWei(trade.trigger)
+            : undefined,
+        ) + relayerFee;
     } else if (amountChange !== 0) {
       orderCost = getRequiredMarginCollateralWithGasFees(
         leverageTarget,
@@ -186,6 +189,7 @@ export const usePerpetual_analyseTrade = (
     requiredAllowance,
     availableBalance,
     limitOrdersCount,
+    relayerFee,
     useMetaTransactions,
   ]);
 

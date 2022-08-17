@@ -10,9 +10,15 @@ import { NetworkAwareComponentProps } from '../../types';
 import { getBTCAssetForNetwork } from '../../helpers';
 import { weiToFixed } from 'utils/blockchain/math-helpers';
 import { DYNAMIC_FEE_DIVISOR } from '../../constants';
+import classNames from 'classnames';
 
-export const WithdrawDetails: React.FC<NetworkAwareComponentProps> = ({
+interface WithdrawDetailsProps extends NetworkAwareComponentProps {
+  className?: string;
+}
+
+export const WithdrawDetails: React.FC<WithdrawDetailsProps> = ({
   network,
+  className = 'tw-bg-gray-3 tw-px-8',
 }) => {
   const { t } = useTranslation();
   const { limits, aggregatorLimits } = useContext(WithdrawContext);
@@ -62,11 +68,16 @@ export const WithdrawDetails: React.FC<NetworkAwareComponentProps> = ({
   }, [limits.min, aggregatorLimits.min]);
 
   return (
-    <section className="tw-py-4 tw-px-8 tw-bg-gray-6 tw-text-white tw-rounded tw-mb-4">
-      <h4 className="tw-text-base tw-text-white tw-mb-4 tw-normal-case tw-font-semibold">
+    <section
+      className={classNames(
+        'tw-py-4 tw-text-white tw-rounded tw-mb-4',
+        className,
+      )}
+    >
+      <h4 className="tw-text-base tw-text-white tw-mb-3 tw-normal-case tw-font-semibold">
         {t(translations.fastBtcPage.withdraw.withdrawDetails.title)}
       </h4>
-      <ul className="tw-pl-4 tw-list-disc">
+      <ul className="tw-pl-4 tw-text-sm tw-list-disc">
         <li>
           {t(translations.fastBtcPage.withdraw.withdrawDetails.min)}{' '}
           <LoadableValue

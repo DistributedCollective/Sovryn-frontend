@@ -43,6 +43,10 @@ import fastBtcMultisigAbi from './abi/fastBtcMultisig.json';
 import perpetualManagerAbi from './abi/PerpetualManager.json';
 import perpetualLimitOrderBookAbi from './abi/PerpetualLimitOrderBook.json';
 import marginTokenAbi from './abi/MarginToken.json';
+import TroveManager from './abi/TroveManager.json';
+import StabilityPool from './abi/StabilityPool.json';
+import lpShareToken from './abi/lpShareToken.json';
+import Masset from './abi/Masset.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -51,7 +55,7 @@ export const contracts = {
     blockNumber: 2742418,
   },
   BTCWrapperProxy: {
-    address: '0xa917BF723433d020a15629eba71f6C2a6B38e52d',
+    address: '0x2BEe6167f91D10db23252e03de039Da6b9047D49',
     abi: RBTCWrapperProxy,
     blockNumber: 2838500,
   },
@@ -328,19 +332,18 @@ export const contracts = {
     address: '0x0f279e810B95E0d425622b9b40D7bCD0B5C4B19d',
     abi: fastBtcMultisigAbi,
   },
-  // TODO: add perpetual mainnet contracts
   perpetualManager: {
-    address: '0x15D155e8aDE68ED7f273770b47E2B2eA263861cF',
+    address: '0x86f586dc122d31E7654f89eb566B779C3D843e22',
     abi: perpetualManagerAbi,
     chainId: ChainId.BSC_MAINNET,
   },
   PERPETUALS_token: {
-    address: '0x1431Aa8f066795d3aB94F8516B74FdCC5fD7897F',
+    address: '0x6a7F2d2e5D5756729e875c8F8fC254448E763Fdf',
     abi: marginTokenAbi,
     chainId: ChainId.BSC_MAINNET,
   },
   perpetualLimitOrderBookBTCUSD: {
-    address: '0xF683eED9590E2f90fe991E9e5A736f8BEDEa84Cd',
+    address: '0x3ee8dAe27Feb809BD51eEdda749c3C2f1851e492',
     abi: perpetualLimitOrderBookAbi,
     chainId: ChainId.BSC_MAINNET,
   },
@@ -349,8 +352,29 @@ export const contracts = {
     abi: perpetualLimitOrderBookAbi,
     chainId: ChainId.BSC_MAINNET,
   },
+  perpetuals_lpShareToken: {
+    address: '0xb8Ec4d3307B9FB1397af34541D9fEc433F05B614',
+    abi: lpShareToken,
+    chainId: ChainId.BSC_MAINNET,
+  },
   ZUSD_token: {
     address: '0xdB107FA69E33f05180a4C2cE9c2E7CB481645C2d',
     abi: erc20TokenAbi,
+  },
+  zero_troveManager: {
+    address: '0x82B09695ee4F214f3A0803683C4AaEc332E4E0a3',
+    abi: TroveManager,
+  },
+  zero_stabilityPool: {
+    address: '0xd46C0225D1331B46700d64fF8c906709D15C9202',
+    abi: StabilityPool,
+  },
+  BTCB_token: {
+    address: '0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c',
+    abi: erc20TokenAbi,
+  },
+  Masset_proxy: {
+    address: '0x1dA3D286a3aBeaDb2b7677c99730D725aF58e39D',
+    abi: Masset,
   },
 };

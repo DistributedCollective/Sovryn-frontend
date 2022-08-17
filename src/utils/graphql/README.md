@@ -52,4 +52,4 @@ const { data, loading, error } = useGetBorrowHistoryQuery({
 
 # Examples
 
-For more info see live example here: https://www.graphql-code-generator.com/ (Choose "React-Apollo Hooks" from Live Example list)
+For more info see live example here: https://www.graphql-code-generator.com/ (Choose "React-Apollo Hooks" from Live Example list).

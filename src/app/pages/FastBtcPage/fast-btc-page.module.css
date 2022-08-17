@@ -1,12 +1,8 @@
 .container {
-    max-width: 25rem;
-    @apply tw-flex tw-flex-1 tw-flex-col tw-justify-center tw-items-center tw-py-12 tw-w-full;
-}
-
-.wrapper {
-    min-height: calc(100vh - 2.5rem);
+  max-width: 25rem;
+  @apply tw-flex tw-flex-1 tw-flex-col tw-justify-center tw-items-center tw-w-full;
 }
 
 .page {
-    margin-top: -4.4rem;
+  margin-top: -4.4rem;
 }

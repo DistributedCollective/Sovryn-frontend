@@ -1,23 +1,15 @@
-import React, { useEffect, useState, useMemo } from 'react';
-
+import React, { useMemo } from 'react';
 import ComparisonChart from 'app/components/FinanceV2Components/ComparisonChart';
 import { getAssetColor } from 'app/components/FinanceV2Components/utils/getAssetColor';
 import { Spinner } from 'app/components/Spinner';
 import { LendingPool } from 'utils/models/lending-pool';
 import { abbreviateNumber } from 'utils/helpers';
-import { databaseRpcNodes, currentChainId } from 'utils/classifiers';
-import { getLendingContract } from 'utils/blockchain/contract-helpers';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
+import { useGetLendingHistory } from 'app/hooks/lending/useGetLendingHistory';
 
-interface Props {
+interface IPoolChartProps {
   pool: LendingPool;
-}
-
-interface DataItem {
-  timestamp: string;
-  supply_apr: number;
-  supply: number;
 }
 
 const getUTCDateString = (date: Date): string => {
@@ -32,7 +24,7 @@ const getUTCDateString = (date: Date): string => {
 const tooltipFormatter = function (this: any) {
   return this.points?.reduce(function (s, point) {
     const tooltipSuffix = point.series.userOptions?.tooltip?.valueSuffix;
-    return `${s}<br/>${point.series.name}: 
+    return `${s}<br/>${point.series.name}:
       <span class='tw-font-bold'>
         ${
           point.y < 1000
@@ -43,40 +35,18 @@ const tooltipFormatter = function (this: any) {
   }, getUTCDateString(new Date(this.x)));
 };
 
-export function PoolChart(props: Props) {
+export const PoolChart: React.FC<IPoolChartProps> = ({ pool }) => {
   const { t } = useTranslation();
-  const [data, setData] = useState<DataItem[]>([]);
-  const asset = props.pool.getAsset();
-
-  useEffect(() => {
-    fetch(databaseRpcNodes[currentChainId], {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        method: 'custom_getLoanTokenHistory',
-        params: [
-          {
-            address: getLendingContract(asset).address,
-          },
-        ],
-      }),
-    })
-      .then(e => e.json().then())
-      .then(e => {
-        setData(e.slice(-28)); //last 7 days of data in 6hr chunks
-      })
-      .catch(console.error);
-  }, [asset, props.pool]);
+  const asset = pool.getAsset();
+  const data = useGetLendingHistory(pool);
 
   const supplyApr: [number, number][] = useMemo(
-    () => data.map(i => [Date.parse(i.timestamp), i.supply_apr / 1e8]),
+    () => data.map(i => [Date.parse(i.timestamp), Number(i.supply_apr)]),
     [data],
   );
 
   const totalLiq: [number, number][] = useMemo(
-    () => data.map(i => [Date.parse(i.timestamp), i.supply / 1e8]),
+    () => data.map(i => [Date.parse(i.timestamp), Number(i.supply)]),
     [data],
   );
 
@@ -107,4 +77,4 @@ export function PoolChart(props: Props) {
       )}
     </>
   );
-}
+};

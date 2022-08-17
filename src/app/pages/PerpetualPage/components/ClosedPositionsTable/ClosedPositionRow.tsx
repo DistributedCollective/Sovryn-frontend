@@ -65,7 +65,11 @@ export const ClosedPositionRow: React.FC<ClosedPositionRowProps> = ({
   return (
     <tr>
       <td>
-        <DisplayDate timestamp={item.datetime} separator={SeparatorType.Dash} />
+        <DisplayDate
+          timestamp={item.datetime}
+          separator={SeparatorType.Dash}
+          useUTC
+        />
       </td>
       <td>{item?.pair?.name}</td>
       <td>{collateralName}</td>

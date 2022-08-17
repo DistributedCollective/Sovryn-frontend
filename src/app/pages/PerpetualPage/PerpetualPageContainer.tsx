@@ -16,14 +16,17 @@ import {
 } from '../../../utils/dictionaries/perpetual-pair-dictionary';
 import { TradingChart } from './components/TradingChart';
 import { OpenPositionsTable } from './components/OpenPositionsTable';
-import { useHistory, useLocation } from 'react-router-dom';
+import { Link, useHistory, useLocation } from 'react-router-dom';
 import { IPromotionLinkState } from '../../components/Promotions/components/PromotionCard/types';
 import { selectPerpetualPage } from './selectors';
 import { DataCard } from './components/DataCard';
 import { AmmDepthChart } from './components/AmmDepthChart';
 import { RecentTradesTable } from './components/RecentTradesTable';
 import { ContractDetails } from './components/ContractDetails';
-import { isMainnet } from '../../../utils/classifiers';
+import {
+  isMainnet,
+  WIKI_PERPETUAL_FUTURES_LINK,
+} from '../../../utils/classifiers';
 import { ChainId } from '../../../types';
 import { useWalletContext } from '@sovryn/react-wallet';
 import { ProviderType } from '@sovryn/wallet';
@@ -43,7 +46,7 @@ import { PairSelector } from './components/PairSelector';
 import { ToastsWatcher } from './components/ToastsWatcher';
 import { OpenOrdersTable } from './components/OpenOrdersTable';
 import { Tabs } from 'app/components/Tabs';
-import { usePerpetual_isAddressWhitelisted } from './hooks/usePerpetual_isAddressWhitelisted';
+import BugBountyLogo from '../../../assets/images/perpetuals_bug_bounty.svg';
 
 export const PerpetualPageContainer: React.FC = () => {
   useInjectReducer({ key: sliceKey, reducer });
@@ -66,7 +69,9 @@ export const PerpetualPageContainer: React.FC = () => {
   const location = useLocation<IPromotionLinkState>();
   const history = useHistory<IPromotionLinkState>();
 
-  const isAddressWhitelisted = usePerpetual_isAddressWhitelisted();
+  // Temporary change, once we're on mainnet, the hook and this condition can be safely removed
+  // const isAddressWhitelisted = usePerpetual_isAddressWhitelisted();
+  const isAddressWhitelisted = true;
 
   useEffect(() => {
     dispatch(actions.setIsAddressWhitelisted(isAddressWhitelisted));
@@ -152,7 +157,26 @@ export const PerpetualPageContainer: React.FC = () => {
             content={t(translations.perpetualPage.meta.description)}
           />
         </Helmet>
-        <HeaderLabs helpLink="https://wiki.sovryn.app/en/sovryn-dapp/perpetual-futures" />
+        <HeaderLabs
+          helpLink={WIKI_PERPETUAL_FUTURES_LINK}
+          menus={
+            <>
+              <Link
+                to="/perpetuals/competition"
+                className="tw-mr-4 tw-text-black"
+              >
+                {t(translations.competitionPage.nav.leaderboard)}
+              </Link>
+              <a
+                href="https://immunefi.com/bounty/sovrynperpetualfutures/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img src={BugBountyLogo} alt="Bug Bounty" />
+              </a>
+            </>
+          }
+        />
         <div className="tw-relative tw--top-2.5 tw-w-full">
           <PairSelector
             pair={pair}
@@ -223,7 +247,7 @@ export const PerpetualPageContainer: React.FC = () => {
               <Tabs
                 items={tables}
                 initial={tables[0].id}
-                dataActionId="perpetual-tables"
+                dataActionId="perps-tables"
               />
             </div>
           )}

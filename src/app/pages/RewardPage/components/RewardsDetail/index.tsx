@@ -1,14 +1,14 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { weiTo18 } from 'utils/blockchain/math-helpers';
 import { Tooltip } from '@blueprintjs/core';
-import { weiToNumberFormat } from 'utils/display-text/format';
 import styles from './index.module.scss';
 import classNames from 'classnames';
 import { Asset } from 'types';
 import { bignumber } from 'mathjs';
 import { LoadableValue } from 'app/components/LoadableValue';
+import { AssetValue } from 'app/components/AssetValue';
+import { AssetValueMode } from 'app/components/AssetValue/types';
 
 export enum RewardsDetailColor {
   Grey = 'grey',
@@ -84,11 +84,16 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
           <LoadableValue
             value={
               bignumber(availableAmount).greaterThan(0) ? (
-                <Tooltip content={`${weiTo18(availableAmount)} ${asset}`}>
+                <Tooltip content={`${availableAmount} ${asset}`}>
                   <>
-                    {showApproximateSign && '≈ '}
-                    {weiToNumberFormat(availableAmount, 6)}
-                    <span className="tw-mr-1">...</span> {asset}
+                    <AssetValue
+                      value={Number(availableAmount)}
+                      minDecimals={6}
+                      maxDecimals={6}
+                      assetString={asset}
+                      mode={AssetValueMode.auto}
+                      isApproximation={showApproximateSign}
+                    />
                   </>
                 </Tooltip>
               ) : (
@@ -106,11 +111,16 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
         <LoadableValue
           value={
             bignumber(totalEarnedAmount).greaterThan(0) ? (
-              <Tooltip content={`${weiTo18(totalEarnedAmount)} ${asset}`}>
+              <Tooltip content={`${totalEarnedAmount} ${asset}`}>
                 <>
-                  {showApproximateSign && '≈ '}
-                  {weiToNumberFormat(totalEarnedAmount, 6)}
-                  <span className="tw-mr-1">...</span> {asset}
+                  <AssetValue
+                    value={Number(totalEarnedAmount)}
+                    minDecimals={6}
+                    maxDecimals={6}
+                    assetString={asset}
+                    mode={AssetValueMode.auto}
+                    isApproximation={showApproximateSign}
+                  />
                 </>
               </Tooltip>
             ) : (
