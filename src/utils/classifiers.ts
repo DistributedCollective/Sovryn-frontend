@@ -71,6 +71,11 @@ export const subgraphWrapperUrl = {
   31: 'https://graph-wrapper.test.sovryn.app',
 };
 
+export const maintenanceUrl = {
+  30: 'https://maintenance-mode.sovryn.app/maintenance',
+  31: 'https://maintenance-mode.test.sovryn.app/maintenance',
+};
+
 export const bscScanApi =
   isMainnet || isStaging
     ? 'https://api.bscscan.com'
@@ -89,7 +94,7 @@ export const gasLimit = {
   [TxType.TRADE]: 3750000,
   [TxType.CLOSE_WITH_SWAP]: 2300000,
   [TxType.CLOSE_WITH_DEPOSIT]: 950000,
-  [TxType.ADD_LIQUIDITY]: 500000,
+  [TxType.ADD_LIQUIDITY]: 525000,
   [TxType.REMOVE_LIQUIDITY]: 650000,
   [TxType.BORROW]: 1500000,
   [TxType.CONVERT_BY_PATH]: 750000,
@@ -128,6 +133,7 @@ export const gasLimit = {
   [TxType.PERPETUAL_CREATE_LIMIT_ORDER]: 3000000,
   [TxType.LIMIT_ORDER]: 3000000,
   [TxType.SETTLEMENT_WITDHRAW]: 70000,
+  [TxType.CONVERT_BTCB]: 120000,
 };
 
 export const discordInvite = 'https://discord.gg/kBTNx4zjRf'; //unlimited use, no-expiry invite

@@ -2175,6 +2175,14 @@
       "title": "Perpetuals",
       "description": "Trade with Sovryn's perpetual future contracts"
     },
+    "btcbConversionDialog": {
+      "sourceTitle": "From {{source}}",
+      "destinationTitle": "To {{destination}}",
+      "balance": "Balance:",
+      "tradingAccount": "Trading Account",
+      "transfer": "Transfer",
+      "lowFundsWarning": "Currently the maximal amount to be converted is {{aggregatorBalance}} BTCs. Please contact support to increase the bridge balance."
+    },
     "openPositionsTable": {
       "pair": "Symbol",
       "positionSize": "Position Size",
@@ -2277,6 +2285,7 @@
       "approvalFailed": "Approval failed"
     },
     "accountBalance": {
+      "btcbConversion": "Convert BTCB",
       "titleBalance": "Perpetuals Account",
       "titleHistory": "Funding History",
       "total": "Total Balance:",

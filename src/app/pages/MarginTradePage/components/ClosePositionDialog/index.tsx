@@ -41,7 +41,7 @@ import { AssetValue } from 'app/components/AssetValue';
 import { MarginLoansFieldsFragment } from 'utils/graphql/rsk/generated';
 import { DEFAULT_TRADE } from '../../types';
 
-const minimumAmount = '1';
+const MINIMUM_AMOUNT_WEIS = '1';
 
 interface IClosePositionDialogProps {
   item: MarginLoansFieldsFragment;
@@ -70,11 +70,14 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
   const [slippage, setSlippage] = useState(MARGIN_SLIPPAGE_DEFAULT);
   const { checkMaintenance, States } = useMaintenance();
   const closeTradesLocked = checkMaintenance(States.CLOSE_MARGIN_TRADES);
+
   const {
     trade,
+    id,
     loanToken: { id: loanTokenId },
     collateralToken: { id: collateralTokenId },
   } = item;
+
   const entryLeverage = trade?.[0].entryLeverage || DEFAULT_TRADE.entryLeverage;
   const positionSize = trade?.[0].positionSize || DEFAULT_TRADE.positionSize;
   const [collateral, setCollateral] = useState(
@@ -106,13 +109,15 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
     targetToken.asset,
   );
 
-  const args = useMemo(
-    () => [loanTokenId, receiver, weiAmount, isCollateral, '0x'],
-    [loanTokenId, receiver, weiAmount, isCollateral],
-  );
+  const args = useMemo(() => [id, receiver, weiAmount, isCollateral, '0x'], [
+    id,
+    receiver,
+    weiAmount,
+    isCollateral,
+  ]);
 
   const { send, ...rest } = useCloseWithSwap(
-    loanTokenId,
+    id,
     receiver,
     maxAmount === weiAmount
       ? positionSize
@@ -126,11 +131,15 @@ export const ClosePositionDialog: React.FC<IClosePositionDialogProps> = ({
   );
 
   const position =
-    pair?.longAsset === loanTokenId
+    pair?.longAsset === assetByTokenAddress(loanTokenId)
       ? TradingPosition.LONG
       : TradingPosition.SHORT;
 
-  const valid = useIsAmountWithinLimits(weiAmount, minimumAmount, positionSize);
+  const valid = useIsAmountWithinLimits(
+    weiAmount,
+    MINIMUM_AMOUNT_WEIS,
+    toWei(positionSize),
+  );
 
   const { value, loading: loadingValue, error } = useCacheCallWithValue<{
     withdrawAmount: string;

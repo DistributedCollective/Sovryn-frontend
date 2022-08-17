@@ -46,6 +46,7 @@ import marginTokenAbi from './abi/MarginToken.json';
 import TroveManager from './abi/TroveManager.json';
 import StabilityPool from './abi/StabilityPool.json';
 import lpShareToken from './abi/lpShareToken.json';
+import Masset from './abi/Masset.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -54,7 +55,7 @@ export const contracts = {
     blockNumber: 2742418,
   },
   BTCWrapperProxy: {
-    address: '0xa917BF723433d020a15629eba71f6C2a6B38e52d',
+    address: '0x2BEe6167f91D10db23252e03de039Da6b9047D49',
     abi: RBTCWrapperProxy,
     blockNumber: 2838500,
   },
@@ -367,5 +368,13 @@ export const contracts = {
   zero_stabilityPool: {
     address: '0xd46C0225D1331B46700d64fF8c906709D15C9202',
     abi: StabilityPool,
+  },
+  BTCB_token: {
+    address: '0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c',
+    abi: erc20TokenAbi,
+  },
+  Masset_proxy: {
+    address: '0x1dA3D286a3aBeaDb2b7677c99730D725aF58e39D',
+    abi: Masset,
   },
 };

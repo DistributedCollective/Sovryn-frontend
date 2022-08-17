@@ -1,8 +1,8 @@
 {
   "common": {
     "back": "Voltar",
-    "min": "mín",
-    "max": "máx",
+    "min": "mínimo",
+    "max": "máximo",
     "close": "Fechar",
     "for": "por",
     "confirm": "Confirmar",
@@ -226,7 +226,7 @@
       }
     }
   },
-   "receiveRBTCPage": {
+  "receiveRBTCPage": {
     "title": "Receber RBTC",
     "description": "Receba RBTC via bitcoin ou cartão/transferência bancária",
     "selectSource": "Escolha a forma de pagamento",
@@ -238,7 +238,7 @@
       "title": "Fast-BTC",
       "titleDeposit": "Receber RBTC",
       "descriptionDeposit": "Transfira BTC para recebe-los como RBTC",
-      "titleWithdraw": "Enviar BTC",
+      "titleWithdraw": "Enviar Bitcoin",
       "descriptionWithdraw": "Envie BTC transferindo RBTC para a rede Bitcoin",
       "description": "Transfira seu Bitcoin para a rede RSK."
     },
@@ -247,30 +247,30 @@
     "deposit": {
       "sidebarSteps": {
         "validation": "Validação",
-        "address": "Endereço de depósito",
+        "address": "Endereço BTC",
         "processing": "Processando",
         "processingSteps": "Processando... ({{step}}/{{steps}})",
         "completed": "Concluído"
       },
       "mainScreen": {
         "title": "Depositar BTC e receber <0/>",
-        "description": "Atenção: O endereço de depósito pode mudar de tempos em tempos",
+        "description": "Atenção: o endereço BTC gerado abaixo pode mudar de tempos em tempos",
         "cta": "Gerar endereço"
       },
       "depositDetails": {
         "title": "Limites e taxas",
-        "min": "MÍN:",
-        "max": "MÁX:",
-        "fee": "Taxa:"
+        "min": "MÍNIMO:",
+        "max": "MÁXIMO:",
+        "fee": "TAXA:"
       },
       "depositInstructions": {
         "title": "Instruções:",
         "line1": "Não deposite nenhum ativo que não seja BTC.",
-        "line2": "Não envie menos BTC do que o limite mínimo.",
-        "line3": "Não envie mais BTC do que o limite máximo.",
-        "line4": "Somente transfira BTC para o endereço gerado abaixo.",
-        "line5": "Aguarde até {{hours}} horas para processar.",
-        "line6": "Se a transação não for concluída em {{hours}} horas <0>contate-nos</0>."
+        "line2": "Não envie menos do que o limite mínimo.",
+        "line3": "Não envie mais do que o limite máximo.",
+        "line4": "Somente transfira para o endereço gerado abaixo.",
+        "line5": "Aguarde até 90 minutos para processar.",
+        "line6": "Se a transação não for concluída em 90 minutos <0>contate-nos</0>."
       },
       "validationScreen": {
         "title": "Verificando federação FastBTC",
@@ -282,18 +282,18 @@
         "validationTextError": "Verificação falhou"
       },
       "addressForm": {
-        "title": "Endereço de depósito BTC",
+        "title": "Endereço de recebimento BTC",
         "description": "Envie BTC para este endereço"
       },
       "statusScreen": {
-        "title": "Processando depósito BTC",
-        "titleCompleted": "Depósito BTC concluído",
-        "amount": "Depósito",
+        "title": "Processando transação",
+        "titleCompleted": "Recebimento concluído",
+        "amount": "Quantidade transferida",
         "fees": "Taxas:",
-        "received": "Quantidade recebida:",
-        "txHash": "Hash da transação:",
-        "txId": "ID transação:",
-        "description": "O depósito está sendo processado. Se a transação não for concluída em {{hours}} horas <0>contate-nos</0>.",
+        "received": "Quantidade recebida",
+        "txHash": "Hash da transação",
+        "txId": "ID transação",
+        "description": "Em processamento. Se a transação não for concluída em 90 minutos <0>contate-nos</0>.",
         "cta": "Voltar ao portfólio"
       },
       "qr": {
@@ -313,21 +313,21 @@
       },
       "mainScreen": {
         "title": "Enviar <0/> para endereço BTC",
-        "description": "Sempre verifique se o endereço de recebimento está correto."
+        "description": "Atenção: sempre verifique se o endereço BTC está correto."
       },
       "withdrawDetails": {
         "title": "Limites e taxas",
-        "min": "MÍN:",
-        "max": "MÁX:",
+        "min": "MÍNIMO:",
+        "max": "MÁXIMO:",
         "fee": "TAXA:"
       },
       "withdrawInstructions": {
         "title": "Instruções:",
         "line1": "Verifique e confirme se o endereço que você está enviando é um endereço BTC.",
-        "line2": "Não envie menos BTC do que o limite mínimo.",
-        "line3": "Não envie mais BTC do que o limite máximo.",
-        "line4": "Aguarde até {{hours}} horas para processar.",
-        "line5": "Se a transação não for concluída em {{hours}} horas <0>contate-nos</0>."
+        "line2": "Não envie menos do que o limite mínimo.",
+        "line3": "Não envie mais do que o limite máximo.",
+        "line4": "Aguarde até 90 minutos para processar.",
+        "line5": "Se a transação não for concluída em 90 minutos <0>contate-nos</0>."
       },
       "amountForm": {
         "title": "Enviar <0/>",
@@ -335,34 +335,34 @@
         "availableBalance": "Saldo disponível: <0/> <1/>"
       },
       "addressForm": {
-        "title": "Endereço BTC",
-        "address": "Inserir endereço BTC:",
+        "title": "Inserir endereço BTC",
+        "address": "Endereço BTC:",
         "errorBECH32": "Insira um endereço BTC BECH32 válido!",
         "cta": "Revisar transação"
       },
       "reviewScreen": {
-        "dateTime": "Date e hora",
+        "dateTime": "Data e hora",
         "title": "Revisar transação",
-        "amount": "Total a enviar",
+        "amount": "Total a transferir",
         "address": "Endereço BTC",
         "fees": "Taxa de serviço",
         "received": "Total a receber",
         "tx": "ID transação",
-        "description": "A transação está sendo processada. Se a transação não for concluída em {{hours}} horas <0>contate-nos</0>."
+        "description": "Em processamento. Se a transação não for concluída em 90 minutos <0>contate-nos</0>."
       },
       "walletTxHelper": {
         "confirm": "Confirme a transação na sua carteira {{wallet}}",
         "pending": "Confirme a transação na sua carteira {{wallet}}",
         "confirmed": "Confirme a transação na sua carteira {{wallet}}",
-        "failed": "Transação falhou.",
+        "failed": "Falha na transação.",
         "aborted": "Você recusou esta transação."
       },
       "statusScreen": {
         "titles": {
-          "pending_for_user": "Confirmar transação <0/>",
-          "pending": "Processando transação <0/>",
-          "confirmed": "Confirmado",
-          "failed": "Transação falhou"
+          "pending_for_user": "Confirmar transação",
+          "pending": "Processando transação",
+          "confirmed": "Transação confirmada",
+          "failed": "Falha na transação"
         },
         "cta": "Voltar ao portfólio"
       }
@@ -485,7 +485,7 @@
     "zero": "Zero",
     "perpetuals": "Operar perpétuo",
     "getStarted": "Começar",
-    "fundWallet": "Carregar",
+    "fundWallet": "Carregar saldo",
     "tooltips": {
       "readMore": "Saiba mais",
       "fundWalletButton": "Clique aqui para carregar saldo RBTC e começar a usar."
@@ -754,7 +754,7 @@
     "convertedToRBTC": "{{asset}} será convertido em RBTC e enviado diretamente para sua carteira.",
     "noUnlockedSov": "Você não possui SOVs disponíveis para investimento",
     "txFee": "Taxa de transação",
-    "txId": "ID transação:",
+    "txId": "ID transação",
     "sov": "SOV",
     "days": "dias",
     "vestingFees": "Vested SOV",
@@ -1190,7 +1190,7 @@
       "text": "Sua transação foi confirmada na blockchain."
     },
     "failed": {
-      "title": "Transação falhou!",
+      "title": "Falha na transação!",
       "text": "Transação revertida pelo contrato."
     },
     "denied": {
@@ -1262,8 +1262,8 @@
       "redeemRBTC": "Sacar rBTC",
       "withdraw": "Sacar"
     },
-    "sendMessage": "Envie {{asset}}",
-    "receiveMessage": "Receba {{asset}}",
+    "sendMessage": "Enviar",
+    "receiveMessage": "Receber",
     "convertDialog": {
       "title": "Converter",
       "from": "De",
@@ -1273,7 +1273,7 @@
       "txDialog": {
         "titleInProgress": "Transação em andamento",
         "titleCompleted": "Transação concluída",
-        "titleFailed": "Transação falhou",
+        "titleFailed": "Falha na transação",
         "statusInProgress": "O processo de conversão pode demorar alguns minutos",
         "dateTime": "Data e hora",
         "amountSent": "Quantidade enviada",
@@ -1456,7 +1456,7 @@
       "interestAPR": "Juros anual",
       "endTimestamp": "Devolver até"
     },
-    "repayButton": "Devolver",
+    "repayButton": "Devolver empréstimo",
     "addCollateralButton": "Adicionar colateral"
   },
   "repayPositionForm": {
@@ -1466,7 +1466,7 @@
       "amountToRepay": "{{currency}} a ser devolvido",
       "amountToReceive": "Você irá receber"
     },
-    "tinyPositionError": "You are leaving tiny position behind. Please close your entire loan instead.",
+    "tinyPositionError": "É preciso devolver o valor máximo do empréstimo.",
     "button": "Devolver"
   },
   "closeTradingPositionHandler": {
@@ -2009,7 +2009,7 @@
     },
     "txStatus": {
       "title": "Status da transação",
-      "aborted": "Transação falhou. <br/>Cancele ou refaça a transação",
+      "aborted": "Falha na transação. <br/>Cancele ou refaça a transação",
       "abortedLedger": "Make sure \"Contract data\" is set to \"Allowed\" in your Ledger app settings",
       "cta": "Abrir transação",
       "processing": "{{action}} em processamento...",
@@ -2021,14 +2021,14 @@
     "poweredBy": "Disponibilizado por babelFish",
     "network": "Rede",
     "title": "Receber {{asset}}",
-    "subtitle": "Receber {{asset}} na rede RSK",
+    "subtitle": "Converta criptos de outras redes para {{asset}}",
     "changeWallet": "Deseja usar outra carteira?",
     "chainSelector": {
       "wrongNetwork": {
         "title": "Alterar para a rede {{network}}"
       },
       "chooseNetwork": {
-        "title": "Em qual rede está a cripto que você deseja depositar?"
+        "title": "Selecione a rede onde está a cripto que você deseja converter"
       }
     },
     "sidebarSteps": {
@@ -2061,7 +2061,7 @@
     "amountSelector": {
       "title": "Insira a quantidade a ser depositada",
       "balance": "Saldo disponível",
-      "dailyDepositLimits": "Limites diários de depósito",
+      "dailyDepositLimits": "Limites e taxa",
       "minAmount": "Quantidade mínima",
       "maxAmount": "Quantidade máxima",
       "dailyLimit": "Limite diário",
@@ -2077,9 +2077,9 @@
       "approve": "Por favor aprove {{from}} {{symbol}} para ser gasto pelo contrato inteligente da Sovryn na sua carteira {{providerType}}.",
       "confirmTransaction": "Confirmar transação",
       "confirm": "Por favor confirme a transação na sua carteira {{providerType}}.",
-      "depositInProgress": "Processando depósito",
-      "depositComplete": "Depósito concluído",
-      "depositFailed": "Depósito falhou",
+      "depositInProgress": "Processando transação",
+      "depositComplete": "Transação concluída",
+      "depositFailed": "Falha na transação",
       "transactionDenied": "Transação negada",
       "rejectedByUser": "Rejeitada pelo usuário"
     },
@@ -2093,20 +2093,20 @@
       "return": "Voltar ao portfólio"
     },
     "tokenSelector": {
-      "title": "Qual cripto você deseja depositar?",
+      "title": "Selecione a cripto que você deseja converter",
       "notSupported": "Desculpe, não suportamos depósitos para {{targetAsset}} na rede {{network}}. Tente outra rede ou cripto."
     }
   },
   "BridgeWithdrawPage": {
     "title": "Enviar {{asset}}",
-    "subtitle": "Enviar {{asset}} da rede RSK para outra rede",
+    "subtitle": "Transfira {{asset}} da rede RSK para outra rede",
     "transactionDetails": "Detalhes",
     "chainSelector": {
       "chooseNetwork": {
-        "title": "Para qual rede você deseja sacar seus {{asset}}?"
+        "title": "Selecione a rede que você deseja transferir seus {{asset}}"
       }
     },
-     "sidebarSteps": {
+    "sidebarSteps": {
       "chooseDestination": "Rede<br />destino",
       "selectToken": "Selecionar<br /> token",
       "enterAmount": "Inserir<br /> quantidade",
@@ -2116,22 +2116,22 @@
       "transactionCompleted": "Transação<br /> concluída"
     },
     "reviewStep": {
-      "title": "Revisar saque {{symbol}}",
+      "title": "Revisar transferência {{symbol}}",
       "dateTime": "Data e hora",
-      "from": "De",
-      "to": "Para",
+      "from": "Da rede",
+      "to": "Para rede",
       "token": "Token",
       "amount": "Quantidade",
       "receiver": "Destinatário",
       "bridgeFee": "Taxa de serviço",
-      "bridgeFeeWarning": "WARNING: HIGH FEE. The cost of gas on Ethereum is significantly higher than it is on BSC or RSK.",
+      "bridgeFeeWarning": "ATENÇÃO: TAXA ALTA. O custo de transação na rede Ethereum é muito mais alto do que nas redes BSC e RSK.",
       "tx": "ID transação",
-      "confirm": "Confirmar saque"
+      "confirm": "Confirmar"
     },
     "amountSelector": {
-      "title": "Insira a quantidade a ser sacada",
+      "title": "Insira a quantidade a ser transferida",
       "balance": "Saldo disponível",
-      "dailyBridgeLimits": "Limites diários do serviço",
+      "dailyBridgeLimits": "Limites e taxa",
       "minAmount": "Quantidade mínima",
       "maxAmount": "Quantidade máxima",
       "dailyLimit": "Limite diário",
@@ -2139,7 +2139,7 @@
       "fee": "Taxa",
       "aggregatorBalance": "Disponível",
       "withdrawAmount": "Quantidade:",
-      "insufficientAggregator": "Quantidade disponível para saque insuficiente.",
+      "insufficientAggregator": "Quantidade disponibilizada para transferências insuficiente.",
       "insufficientDaily": "Limite diário excedido."
     },
     "confirmStep": {
@@ -2149,21 +2149,22 @@
       "approve": "Por favor aprove {{from}} {{symbol}} para ser gasto pelo contrato inteligente da Sovryn na sua carteira {{providerType}}.",
       "confirmTransaction": "Confirmar transação",
       "confirm": "Por favor confirme a transação na sua carteira {{providerType}}.",
-      "withdrawInProgress": "Processando saque",
-      "withdrawComplete": "Saque concluído",
-      "withdrawFailed": "Saque falhou",
+      "withdrawInProgress": "Processando transação",
+      "withdrawComplete": "Transação concluída",
+      "withdrawFailed": "Falha na transação",
       "transactionDenied": "Transação negada",
       "rejectedByUser": "Rejeitada pelo usuário"
     },
     "receiverSelector": {
       "title": "Insira o endereço da carteira da rede {{currentNetwork}}",
+      "desc": "Endereço de recebimento {{targetAsset}}",
       "confirm": "Por favor verifique e confirme",
       "withdrawWarning": "Não envie para endereços de exchanges!",
-      "withdrawDisclaimer": "Saques para endereços de exchanges (ex. Binance) não são aconselhados devido à falta de suporte por parte delas, nós não nos responsabilizamos por qualquer perda de fundos nestes casos. Envie fundos apenas para endereços de carteira que você tenha controle total."
+      "withdrawDisclaimer": "Transferências para endereços de exchanges (ex. Binance) não são aconselhados devido à falta de suporte por parte delas, nós não nos responsabilizamos por qualquer perda de fundos nestes casos. Envie fundos apenas para endereços de carteira que você tenha controle total."
     },
     "tokenSelector": {
-      "title": "Qual cripto você deseja sacar?",
-      "notSupported": "Desculpe, não suportamos saques para {{sourceAsset}} na rede {{network}}. Tente outra rede ou cripto.",
+      "title": "Selecione a cripto que você deseja transferir para a rede {{network}}",
+      "notSupported": "Desculpe, não suportamos transferências para {{sourceAsset}} na rede {{network}}. Tente outra rede ou cripto.",
       "maxWithdrawal": "Máximo permitido:"
     }
   },
