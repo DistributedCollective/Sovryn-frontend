@@ -55,7 +55,7 @@ export const useGetData = (
         const baseToCollateral = getBase2CollateralFX(ammState, false);
 
         for (const item of data) {
-          const trader = leaderboardData?.traders.find(
+          const trader = leaderboardData?.traders?.find(
             row => row.id.toLowerCase() === item.walletAddress.toLowerCase(),
           );
 
@@ -165,20 +165,18 @@ export const useGetData = (
           // Log full results, to debug PnL values. Uncomment it only for debugging reasons.
           //console.log(rows);
           setItems(rows);
-          setLoaded(true);
+
           if (account) {
             const userRow = rows.find(
-              val => val.walletAddress.toLowerCase() === account.toLowerCase(),
+              val => val.walletAddress.toLowerCase() === account?.toLowerCase(),
             );
             if (userRow) {
               setUserData(userRow);
             }
           }
         })
-        .catch(error => {
-          console.error(error);
-          setLoaded(true);
-        });
+        .catch(console.error)
+        .finally(() => setLoaded(true));
     }),
     [account, data, leaderboardData, ammState, perpetualParameters],
   );

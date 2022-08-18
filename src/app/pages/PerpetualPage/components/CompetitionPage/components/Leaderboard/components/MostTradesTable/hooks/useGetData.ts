@@ -71,21 +71,18 @@ export const useGetData = (
     run()
       .then(rows => {
         setItems(rows);
-        setLoaded(true);
 
         if (account) {
           const userRow = rows.find(
-            row => row.walletAddress.toLowerCase() === account.toLowerCase(),
+            row => row.walletAddress.toLowerCase() === account?.toLowerCase(),
           );
           if (userRow) {
             setUserData(userRow);
           }
         }
       })
-      .catch(error => {
-        console.error(error);
-        setLoaded(true);
-      });
+      .catch(console.error)
+      .finally(() => setLoaded(true));
   }, [
     account,
     currentLeaderboardData,

@@ -15,6 +15,7 @@ export const useGetTimeRestrictedData = (
   // const { value: blockNumber, loading: blockNumberLoading } = useFetch(
   //   timestampConvertUrl,
   // );
+  // console.log(`blockNumber: ${JSON.stringify(blockNumber)}`);
 
   const { data: historicLeaderboardData } = useGetLeaderboardData(
     PerpetualPairType.BTCUSD,

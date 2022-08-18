@@ -37,6 +37,5 @@ export function useGetRealizedPnlData(
     }
   `;
   const realizedPnlDataQuery = useQuery(QUERY);
-  //console.log(traderDataQuery?.data);
   return realizedPnlDataQuery;
 }

@@ -1,11 +1,21 @@
 import { ABK64x64ToFloat } from '@sovryn/perpetual-swap/dist/scripts/utils/perpMath';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import { BigNumber } from 'ethers';
-import { bscScanApi } from 'utils/classifiers';
+import { bscScanApi, isMainnet, isStaging } from 'utils/classifiers';
 import { LeaderboardData } from '../../types';
 
-export const RANKING_START_TIMESTAMP = '1659312000'; // 01/08/2022 00:00:00
-export const RANKING_START_BLOCK_NUMBER = '20045095'; // 01/08/2022 00:00:00 , IMPORTANT: This needs to be changed every time that RANKING_START_TIMESTAMP changes, go to useGetTimeRestrictedData.ts and fetch it there.
-export const LAST_RESET_OF_RANKING = '01/08/2022, 12am UTC';
+dayjs.extend(utc);
+
+export const RANKING_START_TIMESTAMP = '1659312000'; // 01/08/2022 12am UTC
+export const RANKING_START_BLOCK_NUMBER =
+  isMainnet || isStaging ? '20045095' : '21555752'; // 01/08/2022 12am UTC , IMPORTANT: This needs to be changed every time that RANKING_START_TIMESTAMP changes, go to useGetTimeRestrictedData.ts and fetch it there for both mainnet and testnet.
+
+export const LAST_RESET_OF_RANKING = dayjs
+  .unix(Number(RANKING_START_TIMESTAMP))
+  .utc()
+  .format('DD/MM/YYYY[, ]ha [UTC]');
+
 export const timestampConvertUrl = `${bscScanApi}/api?module=block&action=getblocknobytime&timestamp=${RANKING_START_TIMESTAMP}&closest=before&apikey=${process.env.REACT_APP_BSC_API_KEY}`;
 
 export const getMostTrades = (historicData, currentData) => {
