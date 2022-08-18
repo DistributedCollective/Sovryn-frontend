@@ -2835,9 +2835,30 @@
     "profitTooltip": "Closing position would withdraw one of these:"
   },
   "competitionPage": {
+    "allTimeRanking": "All time ranking",
+    "lastResetOfRanking": "Last Reset of Ranking {{date}}",
     "meta": {
       "title": "Trade Ranking",
       "description": ""
+    },
+    "leaderboard": {
+      "tabs": {
+        "bestReturn": "Best Return",
+        "highestVolume": "Highest Volume",
+        "mostTrades": "Most Trades",
+        "highestProfit": "Highest Profit"
+      },
+      "tables": {
+        "highestVolumeTable": {
+          "volume": "Volume ({{pair}})"
+        },
+        "mostTradesTable": {
+          "trades": "Trades"
+        },
+        "highestProfitTable": {
+          "profit": "Profit ({{pair}})"
+        }
+      }
     },
     "nav": {
       "perpetualSwap": "Perpetuals",
