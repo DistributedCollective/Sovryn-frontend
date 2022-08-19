@@ -135,7 +135,7 @@ const queryDirectPair = async (
     .query({
       query,
     })
-    .then(response => response.data?.candleSticks || [])
+    .then(response => response.data?.[candleDetails.entityName] || [])
     .then(items =>
       items.map(item => ({
         open: Number(item.open),
