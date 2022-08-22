@@ -59,9 +59,7 @@ export const testnetAmm = [
     AppMode.TESTNET,
     '0x9f570ffe6c421e2c7611aaea14770b807e9fb424',
     '0xBb5B900EDa0F1459F582aB2436EA825a927f5bA2',
-  )
-    .setPromotionColor(PromotionColor.Blue)
-    .setPreviousConverters(['0x4c493276E14791472633B55aaD82E49D28540bC6']),
+  ).setPreviousConverters(['0x4c493276E14791472633B55aaD82E49D28540bC6']),
   new AmmLiquidityPool(
     Asset.MOC,
     Asset.RBTC,
@@ -105,5 +103,5 @@ export const testnetAmm = [
     AppMode.TESTNET,
     '0x84953dAF0E7a9fFb8B4fDf7F948185e1cF85852e',
     '0xB12FA09a50c56e9a0C826b98e76DA7645017AB4D',
-  ).setPromotionColor(PromotionColor.Orange),
+  ),
 ];
