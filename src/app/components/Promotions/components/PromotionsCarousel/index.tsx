@@ -51,6 +51,7 @@ export const PromotionsCarousel: React.FC<PromotionsCarouselProps> = ({
         customDot={<CustomDot />}
         showDots
         swipeable
+        className="xl:tw-block"
       >
         {children}
       </Carousel>
