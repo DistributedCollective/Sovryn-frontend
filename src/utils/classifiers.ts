@@ -71,6 +71,16 @@ export const subgraphWrapperUrl = {
   31: 'https://graph-wrapper.test.sovryn.app',
 };
 
+export const maintenanceUrl = {
+  30: 'https://maintenance-mode.sovryn.app/maintenance',
+  31: 'https://maintenance-mode.test.sovryn.app/maintenance',
+};
+
+export const bscScanApi =
+  isMainnet || isStaging
+    ? 'https://api.bscscan.com'
+    : 'https://api-testnet.bscscan.com';
+
 export const graphRskUrl = process.env.REACT_APP_GRAPH_RSK;
 
 export const ethGenesisAddress = '0x0000000000000000000000000000000000000000';
@@ -84,7 +94,7 @@ export const gasLimit = {
   [TxType.TRADE]: 3750000,
   [TxType.CLOSE_WITH_SWAP]: 2300000,
   [TxType.CLOSE_WITH_DEPOSIT]: 950000,
-  [TxType.ADD_LIQUIDITY]: 500000,
+  [TxType.ADD_LIQUIDITY]: 525000,
   [TxType.REMOVE_LIQUIDITY]: 650000,
   [TxType.BORROW]: 1500000,
   [TxType.CONVERT_BY_PATH]: 750000,

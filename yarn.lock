@@ -5427,10 +5427,10 @@
   dependencies:
     debug "^4.3.1"
 
-"@sovryn/perpetual-swap@3.0.11":
-  version "3.0.11"
-  resolved "https://registry.yarnpkg.com/@sovryn/perpetual-swap/-/perpetual-swap-3.0.11.tgz#486af5591fdcadc1bee7178010b8d0b1f947c4eb"
-  integrity sha512-6p+2weKcAJtJP9DbDGO6hAaxpQpbecxADQSvJwyfBuKadXIcypDZa3ImokjrLATxyG3elxpfcMjQDcAMdH/VAA==
+"@sovryn/perpetual-swap@3.0.14":
+  version "3.0.14"
+  resolved "https://registry.yarnpkg.com/@sovryn/perpetual-swap/-/perpetual-swap-3.0.14.tgz#6877f9387c29ad2603d5812300a1cf6b83f7c60b"
+  integrity sha512-gH/BnMbnlx+dDXAfsv1ijTbxKSIRJa7jikxbOPqnBJ8CRblD+aY2ZEa52iYEzYaZhSEK2c3uL5b+sSDRJY8eNQ==
   dependencies:
     "@opengsn/provider" "^2.2.4"
     "@openzeppelin/contracts" "4.5.0"
@@ -5449,10 +5449,10 @@
     node-fetch "^2.6.6"
     web3 "^1.6.0"
 
-"@sovryn/react-wallet@2.2.8":
-  version "2.2.8"
-  resolved "https://registry.yarnpkg.com/@sovryn/react-wallet/-/react-wallet-2.2.8.tgz#169d52ecf8f15bf37876130f27ceb866582f7fc5"
-  integrity sha512-OS/iNWTIfMdUtBE1HG13fXRHL20D0Ic/GCWHzrWNUqfJw8pQE+mezKRi3QlxFtIA5VPXQMqtf74segaTKfvdbQ==
+"@sovryn/react-wallet@2.2.14":
+  version "2.2.14"
+  resolved "https://registry.npmjs.org/@sovryn/react-wallet/-/react-wallet-2.2.14.tgz#913005a686bc934862690ccfa302320547ecfe44"
+  integrity sha512-thtK21Cb3WHsKTr/EH88ktRSaR/K6zYKW9BriHSIoSdU99cS9tYeDpUJH3YxuC0hbOhUE0UxUqtUdE3zuFPBjg==
   dependencies:
     "@blueprintjs/core" "^3.44.2"
     "@hookstate/core" "^3.0.6"

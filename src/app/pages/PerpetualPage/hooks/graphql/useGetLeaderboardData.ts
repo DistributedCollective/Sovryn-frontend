@@ -12,13 +12,21 @@ import {
 export function useGetLeaderboardData(
   pairType: PerpetualPairType,
   traderIDs: string[],
+  blockNumber?: string,
 ) {
   const pair = useMemo(() => PerpetualPairDictionary.get(pairType), [pairType]);
+
+  const blockNumberCondition = useMemo(
+    () => (blockNumber ? `block:{number: ${blockNumber}}` : ''),
+    [blockNumber],
+  );
+
   const TRADER_DATA_QUERY = gql`
   {
     traders(
       where: {id_in: ${JSON.stringify(traderIDs)}}
       first: ${traderIDs.length}
+      ${blockNumberCondition}
     ){
       id
       totalFundingPaymentCC
@@ -34,6 +42,8 @@ export function useGetLeaderboardData(
         totalPnLCC
         balance
         capitalUsed
+        totalAmountTraded
+        tradesTotalCount
       }
       positions(where: {perpetual: ${JSON.stringify(
         pair.id,
@@ -46,7 +56,9 @@ export function useGetLeaderboardData(
     }
   }
   `;
-  const traderDataQuery = useQuery(TRADER_DATA_QUERY);
+  const traderDataQuery = useQuery(TRADER_DATA_QUERY, {
+    fetchPolicy: 'no-cache',
+  });
   //console.log(traderDataQuery?.data);
   return traderDataQuery;
 }

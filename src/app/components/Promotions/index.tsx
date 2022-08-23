@@ -35,8 +35,8 @@ export const Promotions: React.FC<PromotionsProps> = ({
       </div>
 
       <div className="tw-relative tw-mb-8 tw-mt-3">
-        <PromotionsCarousel>
-          <PromotionCard
+        <PromotionsCarousel className="tw-w-full">
+          {/* <PromotionCard
             appSection={AppSection.YieldFarm}
             backgroundColor={PromotionColor.Orange}
             title={t(translations.promotions.card1.title)}
@@ -49,7 +49,7 @@ export const Promotions: React.FC<PromotionsProps> = ({
             linkDataActionId={`landing-promo-learnmore-${Asset.MYNT}`}
             className={cardClassName}
             imageClassName={cardImageClassName}
-          />
+          /> */}
           <PromotionCard
             appSection={AppSection.Lend}
             backgroundColor={PromotionColor.Yellow}
@@ -91,7 +91,7 @@ export const Promotions: React.FC<PromotionsProps> = ({
             className={cardClassName}
             imageClassName={cardImageClassName}
           />
-          <PromotionCard
+          {/* <PromotionCard
             appSection={AppSection.YieldFarm}
             backgroundColor={PromotionColor.Green}
             title={t(translations.promotions.card5.title)}
@@ -104,7 +104,7 @@ export const Promotions: React.FC<PromotionsProps> = ({
             linkDataActionId={`landing-promo-learnmore-${Asset.ETH}`}
             className={cardClassName}
             imageClassName={cardImageClassName}
-          />
+          /> */}
         </PromotionsCarousel>
       </div>
     </div>
