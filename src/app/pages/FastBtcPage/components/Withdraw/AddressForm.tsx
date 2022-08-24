@@ -95,13 +95,14 @@ export const AddressForm: React.FC = () => {
 
   return (
     <>
-      <div className="tw-mb-6 tw-text-2xl tw-text-center tw-font-semibold">
+      <div className="tw-mb-10 tw-text-base tw-text-center tw-font-semibold">
         {t(translations.fastBtcPage.withdraw.addressForm.title)}
       </div>
 
-      <div className="tw-w-full">
+      <div className="tw-w-full tw-max-w-80 tw-mx-auto tw-mb-36">
         <FormGroup
           label={t(translations.fastBtcPage.withdraw.addressForm.address)}
+          labelClassName="tw-text-sm tw-font-semibold"
         >
           <Input onChange={setValue} value={value} className="tw-max-w-none" />
           {invalid && (
@@ -113,8 +114,9 @@ export const AddressForm: React.FC = () => {
           )}
         </FormGroup>
 
-        <div className="tw-px-8 tw-mt-8">
+        <div className="tw-px-8 tw-mt-8 tw-text-center">
           <FastBtcButton
+            className="tw-absolute tw-right-0 tw-left-0 tw-bottom-8 tw-mx-auto"
             text={t(translations.fastBtcPage.withdraw.addressForm.cta)}
             onClick={onContinueClick}
             disabled={

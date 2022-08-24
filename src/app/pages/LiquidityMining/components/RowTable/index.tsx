@@ -18,10 +18,6 @@ interface ILiquidityMiningRowTableProps {
   loading2: boolean;
   asset1: Asset;
   asset2: Asset;
-  pln1: string;
-  pln2: string;
-  plnLoading: boolean;
-  totalEarned: string;
 }
 
 export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = ({
@@ -32,10 +28,6 @@ export const LiquidityMiningRowTable: React.FC<ILiquidityMiningRowTableProps> = 
   loading2,
   asset1,
   asset2,
-  pln1,
-  pln2,
-  totalEarned,
-  plnLoading,
 }) => {
   const { t } = useTranslation();
 

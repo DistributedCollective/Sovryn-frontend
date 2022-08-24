@@ -119,7 +119,6 @@ const StyledInfoBar = styled.div.attrs(() => ({
   margin-right: auto;
   margin-top: 22px;
   margin-bottom: 50px;
-
   div {
     display: flex;
     flex-direction: row;
@@ -127,18 +126,15 @@ const StyledInfoBar = styled.div.attrs(() => ({
     vertical-align: baseline;
     padding: 0 7px;
     margin-bottom: 10px;
-
     p {
       font-size: 0.75rem;
       font-weight: 400;
       margin-bottom: 0;
-
       &:first-child {
         line-height: 18px;
         margin-top: 1px;
         margin-right: 0.5em;
       }
-
       &:last-child {
         font-size: 16px;
         line-height: 19px;
@@ -146,7 +142,6 @@ const StyledInfoBar = styled.div.attrs(() => ({
         font-weight: 400;
       }
     }
-
     &.last {
       color: #fec004;
       & .title {
@@ -158,13 +153,11 @@ const StyledInfoBar = styled.div.attrs(() => ({
       }
     }
   }
-
   @media (max-width: 1280px) {
     div {
       flex-basis: 33%;
       flex-direction: column;
       align-items: flex-start;
-
       p:last-child {
         margin-top: 2px;
       }

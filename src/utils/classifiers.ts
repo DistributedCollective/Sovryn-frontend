@@ -70,6 +70,21 @@ export const backendUrl = {
   31: 'https://api.test.sovryn.app',
 };
 
+export const subgraphWrapperUrl = {
+  30: 'https://graph-wrapper.sovryn.app',
+  31: 'https://graph-wrapper.test.sovryn.app',
+};
+
+export const maintenanceUrl = {
+  30: 'https://maintenance-mode.sovryn.app/maintenance',
+  31: 'https://maintenance-mode.test.sovryn.app/maintenance',
+};
+
+export const bscScanApi =
+  isMainnet || isStaging
+    ? 'https://api.bscscan.com'
+    : 'https://api-testnet.bscscan.com';
+
 export const graphRskUrl = process.env.REACT_APP_GRAPH_RSK;
 
 export const ethGenesisAddress = '0x0000000000000000000000000000000000000000';
@@ -83,7 +98,7 @@ export const gasLimit = {
   [TxType.TRADE]: 3750000,
   [TxType.CLOSE_WITH_SWAP]: 2300000,
   [TxType.CLOSE_WITH_DEPOSIT]: 950000,
-  [TxType.ADD_LIQUIDITY]: 500000,
+  [TxType.ADD_LIQUIDITY]: 525000,
   [TxType.REMOVE_LIQUIDITY]: 650000,
   [TxType.BORROW]: 1500000,
   [TxType.CONVERT_BY_PATH]: 750000,
@@ -122,6 +137,7 @@ export const gasLimit = {
   [TxType.PERPETUAL_CREATE_LIMIT_ORDER]: 3000000,
   [TxType.LIMIT_ORDER]: 3000000,
   [TxType.SETTLEMENT_WITDHRAW]: 70000,
+  [TxType.CONVERT_BTCB]: 120000,
 };
 
 export const discordInvite = 'https://discord.gg/kBTNx4zjRf'; //unlimited use, no-expiry invite
@@ -137,8 +153,7 @@ export const MAINTENANCE_MARGIN = 15000000000000000000;
 
 export const MIN_GAS = 40000;
 
-export const CREATE_TICKET_LINK =
-  'https://sovryn.freshdesk.com/support/tickets/new';
+export const CREATE_TICKET_LINK = 'https://help.sovryn.app/';
 
 export const WIKI_LIMIT_ORDER_LIMITS_LINK =
   'https://wiki.sovryn.app/en/sovryn-dapp/limit-order-limitations';
@@ -152,10 +167,6 @@ export const MILLION = 1000000;
 // most wallets considers 546 sats as minimum amount user needs to have in wallet to use network.
 // i'm putting it as 10 sats for now.
 export const DUST_AMOUNT = toWei(0.0000001);
-
-// amount less than 25e13 is considered tiny position in our smart contracts
-// if position is considered tiny - FE must force user to close it entirelly without giving option to do it partially.
-export const TINY_POSITION_RBTC_VALUE = 250000000000000;
 
 export const notificationServiceUrl = {
   30: 'https://notify.sovryn.app/',
@@ -174,4 +185,15 @@ export const learnMoreYieldFarming =
 export const learnMoreLending =
   'https://wiki.sovryn.app/en/sovryn-dapp/market-making';
 
+export const ammServiceUrl = {
+  30: 'https://amm-apy.sovryn.app/',
+  31: 'https://amm-apy.test.sovryn.app/',
+};
 export const APOLLO_POLL_INTERVAL = 60e3;
+
+export const graphWrapperUrl = {
+  30: 'https://graph-wrapper.sovryn.app/',
+  31: 'https://graph-wrapper.test.sovryn.app/',
+};
+
+export const DEFAULT_PAGE_SIZE = 5;

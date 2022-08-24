@@ -228,7 +228,7 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
             />
           </div>
 
-          <div className="tw-mx-auto xl:tw-mx-0 xl:tw-w-5/12">
+          <div className="tw-w-8/12 xl:tw-mx-0 xl:tw-w-5/12 tw-mx-auto tw-mt-auto">
             {/*
               Should un comment this and remove Banner once the sale is over.
               <ArbitrageOpportunity />

@@ -13,8 +13,6 @@ import {
 } from './types';
 import { DefaultHeaderComponent } from './components/DefaultHeaderComponent/DefaultHeaderComponent';
 import { Footer } from './components/DefaultFooterComponent/DefaultFooterComponent';
-import { FastBtcHeader } from 'app/pages/FastBtcPage/components/FastBtcHeader';
-import UserWallet from 'app/pages/BridgeDepositPage/components/UserWallet';
 
 type HeaderContainerProps = {
   pageOptions: PageOptions;
@@ -40,7 +38,7 @@ export const PageContainer: React.FC<Partial<HeaderContainerProps>> = ({
         cloneDeep(initialState.options),
         pageOptions,
       );
-      if (pathname.startsWith('/fast-btc')) {
+      if (pathname.startsWith('/fast-btc') || pathname.startsWith('/rbtc')) {
         initialOptions.header = HeaderTypes.FAST_BTC;
         initialOptions.footer = FooterTypes.NONE;
       } else if (pathname.startsWith('/cross-chain')) {
@@ -48,7 +46,7 @@ export const PageContainer: React.FC<Partial<HeaderContainerProps>> = ({
         initialOptions.footer = FooterTypes.NONE;
       } else if (pathname.startsWith('/perpetuals')) {
         initialOptions.header = HeaderTypes.LABS;
-        initialOptions.footer = FooterTypes.DEFAULT;
+        initialOptions.footer = FooterTypes.PERPETUALS;
       } else {
         initialOptions.header = HeaderTypes.DEFAULT;
         initialOptions.footer = FooterTypes.DEFAULT;
@@ -69,9 +67,9 @@ export const PageContainer: React.FC<Partial<HeaderContainerProps>> = ({
       case HeaderTypes.DEFAULT:
         return <DefaultHeaderComponent {...options.headerProps} />;
       case HeaderTypes.FAST_BTC:
-        return <FastBtcHeader address={options.headerProps?.address} />;
+        return <></>;
       case HeaderTypes.CROSS_CHAIN:
-        return <UserWallet address={options.headerProps?.address} />;
+        return <></>;
       case HeaderTypes.LABS:
         return <></>; // todo
       default:
@@ -83,6 +81,8 @@ export const PageContainer: React.FC<Partial<HeaderContainerProps>> = ({
     switch (options.footer) {
       case FooterTypes.DEFAULT:
         return <Footer {...options.footerProps} />;
+      case FooterTypes.PERPETUALS:
+        return <Footer isPerpetuals />;
       default:
         return null;
     }

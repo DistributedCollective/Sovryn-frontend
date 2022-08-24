@@ -5,6 +5,18 @@ import { TradingPosition } from '../../../types/trading-position';
 import { BigNumber } from 'ethers';
 
 export const MARGIN_SLIPPAGE_DEFAULT = 0.5;
+export const PAGE_SIZE = 5;
+
+export const DEFAULT_TRADE = {
+  entryPrice: '0',
+  entryLeverage: 1,
+  positionSize: '0',
+  loanPrincipal: '0',
+  loanCurrentMargin: '0',
+  loanCollateral: '0',
+  transactionId: '',
+  interestRate: '0',
+};
 
 export interface IMarginTradePageState {
   pairType: TradingPairType;

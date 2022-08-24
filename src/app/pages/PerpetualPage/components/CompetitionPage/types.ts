@@ -1,7 +1,12 @@
-export type LeaderboardData = {
+import { Nullable } from 'types';
+
+export type CommonRankingData = {
   rank: string;
-  userName: string | null;
+  userName: Nullable<string>;
   walletAddress: string;
+};
+
+export type LeaderboardData = CommonRankingData & {
   openedPositions: number;
   lastTrade: number;
   totalPnL: number;
@@ -9,6 +14,18 @@ export type LeaderboardData = {
   totalFundingPaymentCC?: number;
   realizedProfitCC?: number;
   unrealizedPnLCC?: number;
+};
+
+export type HighestVolumeData = CommonRankingData & {
+  volume: number;
+};
+
+export type MostTradesData = CommonRankingData & {
+  trades: number;
+};
+
+export type HighestProfitData = CommonRankingData & {
+  profit: number;
 };
 
 export type RegisteredTraderData = {

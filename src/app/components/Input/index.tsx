@@ -12,10 +12,14 @@ export type InputProps = Omit<InputBaseProps, 'ref'> & {
   classNameInput?: string;
   invalid?: boolean;
   unit?: React.ReactNode;
+  dataActionId?: string;
 };
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, classNameInput, type, invalid, unit, ...rest }, ref) => {
+  (
+    { className, classNameInput, type, invalid, unit, dataActionId, ...rest },
+    ref,
+  ) => {
     const inputRef = useRef<HTMLInputElement>(null) as React.MutableRefObject<
       HTMLInputElement
     >;
@@ -62,6 +66,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
             )}
             type={type}
             {...rest}
+            dataActionId={dataActionId}
           />
           {type === 'number' && rest.step ? (
             <>

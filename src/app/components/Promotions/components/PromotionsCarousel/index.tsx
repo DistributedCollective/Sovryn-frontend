@@ -8,7 +8,7 @@ import { CustomDot } from './CustomDot';
 const responsive = {
   large: {
     breakpoint: { max: 4800, min: 1536 },
-    items: 4,
+    items: 3,
     slidesToSlide: 2,
   },
   desktop: {
@@ -44,7 +44,6 @@ export const PromotionsCarousel: React.FC<PromotionsCarouselProps> = ({
         responsive={responsive}
         draggable
         focusOnSelect={false}
-        infinite
         minimumTouchDrag={80}
         renderDotsOutside
         customLeftArrow={<CustomLeftArrow />}
@@ -52,6 +51,7 @@ export const PromotionsCarousel: React.FC<PromotionsCarouselProps> = ({
         customDot={<CustomDot />}
         showDots
         swipeable
+        className="xl:tw-block"
       >
         {children}
       </Carousel>

@@ -26,9 +26,12 @@ export function PoolChart({ pool, history }: IPoolChartProps) {
 
       const primaryAssetData: ChartData = history.data[poolTokenA]?.map(i => [
         Date.parse(i.activity_date),
-        i.APY_pc,
+        Number(i.APY_pc),
       ]);
-      setPrimaryAssetHistory(primaryAssetData);
+
+      setPrimaryAssetHistory(
+        primaryAssetData.sort((a, b) => (a[0] - b[0] > 0 ? 1 : -1)),
+      );
 
       //only use secondary asset data for v2 pools, as v1 pools are 50/50 and have same APY for both sides
       if (
@@ -38,14 +41,17 @@ export function PoolChart({ pool, history }: IPoolChartProps) {
       ) {
         const secondaryAssetData: ChartData = history.data[
           poolTokenB
-        ]?.map(i => [Date.parse(i.activity_date), i.APY_pc]);
-        setSecondaryAssetHistory(secondaryAssetData);
+        ]?.map(i => [Date.parse(i.activity_date), Number(i.APY_pc)]);
+
+        setSecondaryAssetHistory(
+          secondaryAssetData.sort((a, b) => (a[0] - b[0] > 0 ? 1 : -1)),
+        );
       }
       const total: ChartData = history.balanceHistory?.map(i => [
         Date.parse(i.activity_date),
-        i.balance_btc / 1e8,
+        Number(i.balance_btc),
       ]);
-      setTotalHistory(total);
+      setTotalHistory(total.sort((a, b) => (a[0] - b[0] > 0 ? 1 : -1)));
     }
   }, [history, pool]);
 
@@ -54,11 +60,9 @@ export function PoolChart({ pool, history }: IPoolChartProps) {
       {primaryAssetHistory?.length > 0 && totalHistory?.length > 0 && (
         <ComparisonChart
           primaryData={{
-            name: `${
-              secondaryAssetHistory && secondaryAssetHistory.length > 0
-                ? pool.assetA
-                : t(translations.liquidity.pool)
-            } ${t(translations.liquidity.apy)}`,
+            name: `${pool.assetA || t(translations.liquidity.pool)} ${t(
+              translations.liquidity.apy,
+            )}`,
             color: getAssetColor(pool.assetA),
             data: primaryAssetHistory,
             numDecimals: 2,

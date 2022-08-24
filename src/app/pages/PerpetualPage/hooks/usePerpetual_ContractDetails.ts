@@ -40,14 +40,14 @@ export const usePerpetual_ContractDetails = (pairType: PerpetualPairType) => {
         pair.id,
         Math.ceil(timestampYesterday / 1000),
         24,
-        true,
+        false,
       );
 
       if (data) {
         let total = 0;
         for (let i = 0; i < data.length; i++) {
           // make sure to only use candles that are within the last
-          if (data[i] && data[i].time > timestampYesterday) {
+          if (data[i] && data[i].time >= timestampYesterday) {
             total += data[i].volume || 0;
           }
         }

@@ -4,19 +4,32 @@ import { translations } from 'locales/i18n';
 import { useTranslation } from 'react-i18next';
 import { discordInvite } from 'utils/classifiers';
 import footerLogo from 'assets/images/footer-logo.svg';
+import hackenLogo from 'assets/images/Hacken.svg';
 
-export const Footer: React.FC = () => {
+type FooterProps = {
+  isPerpetuals?: boolean;
+};
+
+export const Footer: React.FC<FooterProps> = ({ isPerpetuals = false }) => {
   const { t } = useTranslation();
   const commitHash = process.env.REACT_APP_GIT_COMMIT_ID || '';
 
   return (
     <footer className="tw-mt-4 tw-bg-gray-2 tw-text-sov-white tw-pt-5">
-      <h6 className="tw-font-normal tw-text-base tw-text-center tw-w-full">
-        <Trans
-          i18nKey={translations.footer.title}
-          components={[<strong></strong>]}
-        />
-      </h6>
+      <div className="tw-flex tw-items-center tw-justify-center">
+        <h6 className="tw-font-normal tw-text-base tw-text-center tw-mt-1">
+          <Trans
+            i18nKey={translations.footer.title}
+            components={[<strong></strong>]}
+          />
+        </h6>
+        {isPerpetuals ? (
+          <img className="tw-ml-6" src={hackenLogo} alt="Hacken" />
+        ) : (
+          <></>
+        )}
+      </div>
+
       <div className="tw-flex tw-flex-col md:tw-flex-row tw-container tw-pb-10 tw-mx-auto tw-mt-5">
         <div className="tw-flex-1">
           <div className="tw-flex tw-flex-col tw-justify-center tw-items-start tw-text-sov-white">
@@ -60,16 +73,6 @@ export const Footer: React.FC = () => {
                 />
               </p>
             </div>
-          </div>
-          <div className="tw-mt-3">
-            <a
-              href="https://tools.google.com/dlpage/gaoptout"
-              target="_blank"
-              rel="noopener noreferrer"
-              data-action-id="footer-analytics-optout"
-            >
-              {t(translations.footer.optOut)}
-            </a>
           </div>
         </div>
         <div className="tw-flex tw-flex-col tw-justify-end tw-relative">

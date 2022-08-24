@@ -57,12 +57,10 @@ export const mainnetAmm = [
     AppMode.MAINNET,
     '0x1684b871ec5f93de142e79a670b541d75be07ead',
     '0x8f3d24ab3510294f1466aa105f78901b90d79d4d',
-  )
-    .setPromotionColor(PromotionColor.Blue)
-    .setPreviousConverters([
-      '0x3a36919f1d6729ea8bd2a04f72bd9d5396f7e549',
-      '0x150bc1f9f1020255d44385865928aadc6b7ad9f3',
-    ]),
+  ).setPreviousConverters([
+    '0x3a36919f1d6729ea8bd2a04f72bd9d5396f7e549',
+    '0x150bc1f9f1020255d44385865928aadc6b7ad9f3',
+  ]),
   new AmmLiquidityPool(
     Asset.ETH,
     Asset.RBTC,
@@ -70,12 +68,10 @@ export const mainnetAmm = [
     AppMode.MAINNET,
     '0xa57ec11497f45fe86eca50f4f1c9e75c8016a1af',
     '0xF41Ed702df2B84AcE02772C6a0D8AE46465aA5F4',
-  )
-    .setPromotionColor(PromotionColor.Green)
-    .setPreviousConverters([
-      '0xcef26b429e272960d8fa2ea190b06df5dd8f68e2',
-      '0xd8397c1944862b6a9674c85a5496c208dc9417bb',
-    ]),
+  ).setPreviousConverters([
+    '0xcef26b429e272960d8fa2ea190b06df5dd8f68e2',
+    '0xd8397c1944862b6a9674c85a5496c208dc9417bb',
+  ]),
   new AmmLiquidityPool(
     Asset.MOC,
     Asset.RBTC,
@@ -125,7 +121,5 @@ export const mainnetAmm = [
     AppMode.MAINNET,
     '0x3a18e61d9c9f1546dea013478dd653c793098f17',
     '0x36263AC99ecDcf1aB20513D580B7d8D32D3C439d',
-  )
-    .setPromotionColor(PromotionColor.Orange)
-    .setPreviousConverters(['0x25B8D024B39174824424f032423E03dd7dcCF044']),
+  ).setPreviousConverters(['0x25B8D024B39174824424f032423E03dd7dcCF044']),
 ];

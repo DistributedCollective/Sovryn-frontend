@@ -51,6 +51,8 @@ export const ConnectFormStep: TransitionStep<NewPositionCardStep> = ({
             <a
               className="tw-text-secondary tw-underline"
               href="https://wiki.sovryn.app/en/sovryn-dapp/perpetual-futures#how-to-trade-perpetual-futures"
+              target="_blank"
+              rel="noreferrer"
             >
               Quickstart Guide
             </a>,
@@ -60,6 +62,7 @@ export const ConnectFormStep: TransitionStep<NewPositionCardStep> = ({
       <button
         className="tw-w-full tw-min-h-10 tw-p-2 tw-text-base tw-text-primary tw-border tw-border-primary tw-bg-transparent tw-rounded-lg tw-transition-colors tw-duration-300 hover:tw-bg-primary-10"
         onClick={connect}
+        data-action-id="perps-connect-wallet-button"
       >
         {t(translations.perpetualPage.tradeForm.buttons.connect)}
       </button>
