@@ -38,7 +38,7 @@ export const Dialog: React.FC<DialogProps> = ({
     onClose={onClose}
     canEscapeKeyClose={canEscapeKeyClose}
     canOutsideClickClose={canOutsideClickClose}
-    className={classNames(className, styles[size])}
+    className={classNames(styles.dialog, styles[size], className)}
   >
     {isCloseButtonShown && (
       <button data-close="" className="dialog-close" onClick={onClose}>

@@ -1,0 +1,141 @@
+query getMarginLoansData(
+  $user: String
+  $skip: Int!
+  $isOpen: Boolean!
+  $pageSize: Int!
+) {
+  loans(
+    first: $pageSize
+    skip: $skip
+    where: { user: $user, isOpen: $isOpen, type: Trade }
+    orderBy: startTimestamp
+    orderDirection: desc
+  ) {
+    ...MarginLoansFields
+  }
+}
+
+fragment MarginLoansTrade on Trade {
+  id
+  timestamp
+  loanToken {
+    id
+  }
+  entryPrice
+  transaction {
+    id
+  }
+  positionSize
+  interestRate
+  entryLeverage
+  collateralToken {
+    id
+  }
+  borrowedAmount
+  currentLeverage
+}
+
+fragment MarginLoansDepositCollateral on DepositCollateral {
+  id
+  rate
+  loanId {
+    id
+  }
+  timestamp
+  transaction {
+    id
+  }
+  depositAmount
+}
+
+fragment MarginLoansLiquidate on Liquidate {
+  id
+  timestamp
+  loanToken
+  transaction {
+    id
+  }
+  currentMargin
+  collateralToken
+  collateralToLoanRate
+  collateralWithdrawAmount
+}
+
+fragment MarginLoansTrade on Trade {
+  id
+  timestamp
+  loanToken {
+    id
+  }
+  entryPrice
+  transaction {
+    id
+  }
+  positionSize
+  interestRate
+  entryLeverage
+  collateralToken {
+    id
+  }
+  borrowedAmount
+  currentLeverage
+}
+
+fragment MarginLoansCloseWithSwap on CloseWithSwap {
+  id
+  timestamp
+  loanToken
+  exitPrice
+  transaction {
+    id
+  }
+  loanCloseAmount
+  currentLeverage
+  collateralToken
+  positionCloseSize
+}
+
+fragment MarginLoansCloseWithDeposit on CloseWithDeposit {
+  id
+  loanToken
+  timestamp
+  transaction {
+    id
+  }
+  collateralToken
+  collateralToLoanRate
+  collateralWithdrawAmount
+}
+
+fragment MarginLoansFields on Loan {
+  id
+  type
+  positionSize
+  trade {
+    ...MarginLoansTrade
+  }
+  isOpen
+  loanToken {
+    id
+  }
+  realizedPnL
+  nextRollover
+  positionSize
+  collateralToken {
+    id
+  }
+  startTimestamp
+  realizedPnLPercent
+  depositCollateral {
+    ...MarginLoansDepositCollateral
+  }
+  liquidates {
+    ...MarginLoansLiquidate
+  }
+  closeWithSwaps {
+    ...MarginLoansCloseWithSwap
+  }
+  closeWithDeposits {
+    ...MarginLoansCloseWithDeposit
+  }
+}

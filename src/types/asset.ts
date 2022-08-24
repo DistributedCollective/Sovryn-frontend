@@ -4,6 +4,8 @@ export enum Asset {
   WRBTC = 'WRBTC',
   /** Sovryn BSC Network BTC wrapper for Perpetuals */
   BTCS = 'BTCS',
+  /** BSC Network BTC, used in Perpetuals */
+  BTCB = 'BTCB',
   ETH = 'ETH',
   DOC = 'DOC',
   RDOC = 'RDOC',

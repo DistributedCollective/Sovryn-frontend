@@ -70,7 +70,7 @@ export const generateFirstCandleQuery = (
         }
         orderBy: periodStartUnix
         orderDirection: asc
-        first: ${Math.max(candleNumber, MAX_CANDLE_COUNT)}
+        first: ${Math.min(candleNumber, MAX_CANDLE_COUNT)}
       ) {
         perpetualId
         open

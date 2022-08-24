@@ -1,0 +1,22 @@
+query getBorrowHistory($user: String) {
+  borrows(where: { user: $user }) {
+    ...BorrowFields
+  }
+}
+
+fragment BorrowFields on Borrow {
+  loanId {
+    id
+  }
+  loanToken
+  collateralToken
+  newPrincipal
+  newCollateral
+  interestRate
+  interestDuration
+  collateralToLoanRate
+  timestamp
+  transaction {
+    id
+  }
+}

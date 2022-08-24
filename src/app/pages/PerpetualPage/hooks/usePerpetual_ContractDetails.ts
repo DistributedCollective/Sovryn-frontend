@@ -10,13 +10,14 @@ import {
 } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { useApolloClient } from '@apollo/client';
 import { usePerpetual_getCurrentPairId } from './usePerpetual_getCurrentPairId';
+import { getMinimalPositionSize } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
 
 export type PerpetualContractDetailsData = {
   volume24h: number;
   openInterest: number;
   fundingRate: number;
   lotSize: number;
-  minTradeAmount: number;
+  minPositionSize: number;
 };
 
 export const usePerpetual_ContractDetails = (pairType: PerpetualPairType) => {
@@ -40,14 +41,14 @@ export const usePerpetual_ContractDetails = (pairType: PerpetualPairType) => {
         pair.id,
         Math.ceil(timestampYesterday / 1000),
         24,
-        true,
+        false,
       );
 
       if (data) {
         let total = 0;
         for (let i = 0; i < data.length; i++) {
           // make sure to only use candles that are within the last
-          if (data[i] && data[i].time > timestampYesterday) {
+          if (data[i] && data[i].time >= timestampYesterday) {
             total += data[i].volume || 0;
           }
         }
@@ -71,11 +72,12 @@ export const usePerpetual_ContractDetails = (pairType: PerpetualPairType) => {
         openInterest: perpetualParameters.fOpenInterest,
         fundingRate: perpetualParameters.fCurrentFundingRate,
         lotSize,
-        minTradeAmount: perpetualParameters.fLotSizeBC,
+        minPositionSize: getMinimalPositionSize(perpetualParameters),
       }),
     [
       ammState,
       lotSize,
+      perpetualParameters,
       perpetualParameters.fCurrentFundingRate,
       perpetualParameters.fLotSizeBC,
       perpetualParameters.fOpenInterest,

@@ -70,7 +70,7 @@ const addSocketEventListeners = (
         BigNumber.from(decoded.price || decoded.liquidationPrice),
       );
       const tradeAmount = ABK64x64ToFloat(
-        BigNumber.from(decoded.tradeAmountBC || decoded.amountLiquidatedBC),
+        BigNumber.from(decoded[3][2] || decoded.amountLiquidatedBC),
       );
       const parsedTrade: RecentTradesDataEntry = {
         id: data.transactionHash,

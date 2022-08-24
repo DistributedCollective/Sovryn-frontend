@@ -50,7 +50,9 @@ type PagesProps = {
   hrefExternal?: boolean;
 };
 
-const showPerps = !isMainnet || isStaging;
+// TODO: Delete this once we go live, we may need it after the competition
+const showPerps = true; // !isMainnet || isStaging;
+
 const showZero = isMainnet || isStaging;
 
 export const DefaultHeaderComponent: React.FC = () => {
@@ -552,7 +554,7 @@ export const DefaultHeaderComponent: React.FC = () => {
                 text={t(
                   translations.mainMenu[hasFunds ? 'fundWallet' : 'getStarted'],
                 )}
-                onClick={() => history.push('/fast-btc/deposit')}
+                onClick={() => history.push('/rbtc')}
                 type={ButtonType.button}
                 color={ButtonColor.primary}
                 style={ButtonStyle.normal}

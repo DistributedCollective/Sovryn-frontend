@@ -12,6 +12,7 @@ export enum HeaderTypes {
 export enum FooterTypes {
   NONE,
   DEFAULT,
+  PERPETUALS,
 }
 
 export type PageContextState = {

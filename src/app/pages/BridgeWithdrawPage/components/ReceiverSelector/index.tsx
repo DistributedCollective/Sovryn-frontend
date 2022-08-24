@@ -7,7 +7,6 @@ import { selectBridgeWithdrawPage } from '../../selectors';
 import { FormGroup } from '../../../../components/Form/FormGroup';
 import { BridgeNetworkDictionary } from '../../../BridgeDepositPage/dictionaries/bridge-network-dictionary';
 import { Input } from '../../../../components/Form/Input';
-import { ActionButton } from 'app/components/Form/ActionButton';
 import { discordInvite } from 'utils/classifiers';
 
 import { useTranslation, Trans } from 'react-i18next';
@@ -19,6 +18,7 @@ import classNames from 'classnames';
 import { useIsBridgeWithdrawLocked } from 'app/pages/BridgeWithdrawPage/hooks/useIsBridgeWithdrawLocked';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { getNetworkByChainId } from '../../../../../utils/blockchain/networks';
+import { Button, ButtonColor, ButtonSize } from 'app/components/Button';
 
 interface IReceiverSelectorProps {
   address: string;
@@ -62,11 +62,14 @@ export const ReceiverSelector: React.FC<IReceiverSelectorProps> = ({
   return (
     <div className="tw-flex tw-flex-col tw-items-center">
       <div className="tw-flex tw-flex-col tw-items-center">
-        <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold tw-w-96">
+        <div className="tw-mb-7 tw-text-base tw-text-center tw-font-semibold tw-w-96">
           {t(trans.title, { currentNetwork })}
         </div>
         <div className="tw-w-80">
-          <FormGroup label={`Receiving ${targetAsset} Address`}>
+          <FormGroup
+            label={t(trans.desc, { targetAsset })}
+            labelClassName="tw-text-sm tw-font-semibold"
+          >
             <Input
               value={value}
               onChange={val => setValue(val)}
@@ -96,16 +99,16 @@ export const ReceiverSelector: React.FC<IReceiverSelectorProps> = ({
                 {t(trans.withdrawDisclaimer)}
               </div>
             </div>
-          ) : (
-            <div className="tw-mb-12">{t(trans.confirm)}</div>
-          )}
+          ) : null}
         </div>
 
-        <ActionButton
-          className="tw-mt-10 tw-w-80 tw-font-semibold tw-rounded-xl"
+        <Button
+          className="tw-w-42 tw-font-semibold tw-absolute tw-bottom-8"
           text={t(translations.common.next)}
           disabled={bridgeWithdrawLocked || !valid}
           onClick={selectReceiver}
+          color={ButtonColor.gray}
+          size={ButtonSize.sm}
         />
         {bridgeWithdrawLocked && (
           <ErrorBadge
