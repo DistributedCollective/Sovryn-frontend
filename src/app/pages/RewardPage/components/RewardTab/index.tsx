@@ -13,6 +13,7 @@ import { bignumber } from 'mathjs';
 import { NoRewardInfo } from '../../components/NoRewardInfo/index';
 import imgNoClaim from 'assets/images/reward/ARMANDO__LENDING.svg';
 import classNames from 'classnames';
+import { sumRewards } from '../../helpers';
 import { weiTo18 } from 'utils/blockchain/math-helpers';
 
 interface IRewardTabProps {
@@ -29,10 +30,14 @@ export const RewardTab: React.FC<IRewardTabProps> = ({
   amountToClaim,
 }) => {
   const { t } = useTranslation();
-
   const { data: totalTradingRewardsData } = useGetTradingRewards();
   const totalLiquidityRewards = useGetTotalLiquidityRewards();
-  const totalLendingRewards = useGetTotalLendingRewards();
+  const { data } = useGetTotalLendingRewards();
+
+  const totalLendingRewards = useMemo(
+    () => sumRewards(data?.rewardsEarnedHistoryItems || []),
+    [data],
+  );
 
   const totalTradingRewards = useMemo(
     () =>
@@ -111,11 +116,7 @@ export const RewardTab: React.FC<IRewardTabProps> = ({
           color={RewardsDetailColor.Green}
           title={t(translations.rewardPage.lendingRewards)}
           availableAmount={weiTo18(availableLendingRewards)}
-          totalEarnedAmount={weiTo18(
-            bignumber(totalLendingRewards)
-              .add(availableLendingRewards)
-              .toString(),
-          )}
+          totalEarnedAmount={totalLendingRewards.toString()}
         />
 
         <RewardsDetail
