@@ -45,8 +45,7 @@ import {
 import { isMainnet, isStaging } from 'utils/classifiers';
 import { useFetchBTCUSD } from './hooks/useFetchBTCUSD';
 import { useFetchAllPairs } from './hooks/useFetchAllPairs';
-
-const { getDepthMatrix } = perpUtils;
+import { getDepthMatrixV2 } from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
 
 const THROTTLE_DELAY = 1000; // 1s
 const UPDATE_INTERVAL = 10000; // 10s
@@ -184,6 +183,7 @@ export const PerpetualQueriesContextProvider: React.FC<PerpetualQueriesContextPr
         const { depthMatrixEntries, lotSize, lotPrecision } = getAdditionalInfo(
           perpetualParameters,
           ammState,
+          liquidityPoolState,
         );
 
         return {
@@ -283,11 +283,13 @@ export const PerpetualQueriesContextProvider: React.FC<PerpetualQueriesContextPr
 const getAdditionalInfo = (
   perpetualParameters: perpUtils.PerpParameters,
   ammState: perpUtils.AMMState,
+  liquidityPoolState: perpUtils.LiqPoolState,
 ): { depthMatrixEntries: any[][]; lotSize: number; lotPrecision: number } => {
   const depthMatrixEntries =
     perpetualParameters &&
     ammState &&
-    getDepthMatrix(perpetualParameters, ammState);
+    liquidityPoolState &&
+    getDepthMatrixV2(perpetualParameters, ammState);
 
   const lotSize = Number(perpetualParameters.fLotSizeBC.toPrecision(8));
   const lotPrecision = lotSize.toString().split(/[,.]/)[1]?.length || 1;

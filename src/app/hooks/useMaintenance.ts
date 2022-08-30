@@ -72,7 +72,7 @@ export function useMaintenance() {
       if (!!process.env.REACT_APP_BYPASS_MAINTENANCE) {
         return false;
       }
-      return names.every(name => maintenanceStates[name]?.maintenance_active);
+      return names.every(name => maintenanceStates[name]?.isInMaintenance);
     },
     [maintenanceStates],
   );
