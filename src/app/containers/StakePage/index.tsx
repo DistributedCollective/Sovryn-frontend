@@ -486,14 +486,15 @@ const InnerStakePage: React.FC = () => {
                 {vestingLoading === false &&
                   vestingItems.length > 0 &&
                   vestingItems.map(item => {
-                    if (item.type === 'origin') return '';
+                    if (item.type === 'origin') {
+                      return '';
+                    }
                     return (
                       <LegacySovFeeBlock
                         updateUsdTotal={updateUsdTotal}
                         contractToken={AssetsDictionary.get(Asset.SOV)}
                         title={item.type}
                         frozen={frozen}
-                        vestedFees={true}
                         vestingContract={item.vestingContract}
                       />
                     );
