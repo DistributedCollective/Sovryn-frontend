@@ -2,7 +2,6 @@ import {
   generateCandleQuery,
   generateFirstCandleQuery,
   CandleDuration,
-  CandleDictionary,
 } from '../../hooks/graphql/useGetCandles';
 import { ABK64x64ToFloat } from '../../utils/contractUtils';
 import { BigNumber } from 'ethers';
@@ -34,54 +33,6 @@ export const config = {
   supports_time: false,
 };
 
-const addMissingBars = (bars: Bar[], candleDuration: CandleDuration): Bar[] => {
-  const candleDetails = CandleDictionary.get(candleDuration);
-  const seconds = candleDetails.candleSeconds * 1e3;
-  let newBars: Bar[] = [];
-  const now = new Date().getTime();
-  const latestBar = Math.floor(now / seconds) * seconds;
-  let previousBar = bars[bars.length - 1];
-  if (previousBar && previousBar.time !== latestBar) {
-    bars.push({
-      time: latestBar,
-      open: previousBar.close,
-      high: previousBar.close,
-      low: previousBar.close,
-      close: previousBar.close,
-      volume: 0,
-    });
-  }
-  for (let i = 0; i < bars.length; i++) {
-    previousBar = newBars[newBars.length - 1];
-    if (i === 0) {
-      newBars.push(bars[i]);
-    } else if (bars[i].time === previousBar.time + seconds) {
-      /* Is next bar in sequence */
-      newBars.push(bars[i]);
-    } else {
-      const extraBar = {
-        high: previousBar.close,
-        low: previousBar.close,
-        open: previousBar.close,
-        close: previousBar.close,
-        volume: 0,
-      };
-      let startTime = previousBar.time + seconds;
-      while (startTime < bars[i].time) {
-        const newBar = {
-          ...extraBar,
-          time: startTime,
-          time2: new Date(startTime).toLocaleString(),
-        };
-        newBars.push(newBar);
-        startTime += seconds;
-      }
-      newBars.push(bars[i]);
-    }
-  }
-  return newBars;
-};
-
 export const makeApiRequest = async (
   client: ApolloClient<any>,
   candleDuration: CandleDuration,
@@ -99,17 +50,27 @@ export const makeApiRequest = async (
     });
     const keys = Object.keys(response.data);
     const bars: Bar[] = response.data[keys[0]].map(item => {
+      if (item.txCount !== 0) {
+        return {
+          time: item.periodStartUnix * 1e3,
+          high: ABK64x64ToFloat(BigNumber.from(item.high)),
+          low: ABK64x64ToFloat(BigNumber.from(item.low)),
+          open: ABK64x64ToFloat(BigNumber.from(item.open)),
+          close: ABK64x64ToFloat(BigNumber.from(item.close)),
+          volume: ABK64x64ToFloat(BigNumber.from(item.totalVolume || 0)) || 0,
+        };
+      }
+
       return {
         time: item.periodStartUnix * 1e3,
-        high: ABK64x64ToFloat(BigNumber.from(item.high)),
-        low: ABK64x64ToFloat(BigNumber.from(item.low)),
-        open: ABK64x64ToFloat(BigNumber.from(item.open)),
-        close: ABK64x64ToFloat(BigNumber.from(item.close)),
-        volume: ABK64x64ToFloat(BigNumber.from(item.totalVolume)),
+        high: item.oraclePriceHigh,
+        low: item.oraclePriceLow,
+        open: item.oraclePriceOpen,
+        close: item.oraclePriceClose,
+        volume: 0,
       };
     });
-    const newBars = addMissingBars(bars, candleDuration);
-    return newBars;
+    return bars;
   } catch (error) {
     console.error(error);
     throw new Error(`Request error: ${error}`);
