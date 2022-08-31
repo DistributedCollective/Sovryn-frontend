@@ -5,6 +5,8 @@ import { SkeletonRow } from 'app/components/Skeleton/SkeletonRow';
 import { useGetVestedHistory } from 'app/hooks/staking/useGetVestedHistory';
 import { VestedHistoryContracts } from './components/VestedHistoryContracts';
 
+const DEFAULT_TABLE_COLUMNS_SIZE = 6;
+
 export function VestedHistory() {
   const { t } = useTranslation();
   const { data, loading } = useGetVestedHistory();
@@ -40,7 +42,7 @@ export function VestedHistory() {
         <tbody className="tw-mt-5 tw-font-body">
           {loading && (
             <tr key="loading">
-              <td colSpan={99}>
+              <td colSpan={DEFAULT_TABLE_COLUMNS_SIZE}>
                 <SkeletonRow
                   loadingText={t(translations.topUpHistory.loading)}
                 />
@@ -50,7 +52,10 @@ export function VestedHistory() {
 
           {isEmpty && (
             <tr key="empty">
-              <td className="tw-text-center" colSpan={99}>
+              <td
+                className="tw-text-center"
+                colSpan={DEFAULT_TABLE_COLUMNS_SIZE}
+              >
                 {t(translations.stake.history.emptyHistory)}
               </td>
             </tr>
