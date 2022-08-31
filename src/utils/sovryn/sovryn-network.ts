@@ -243,18 +243,26 @@ export class SovrynNetwork {
     }
   }
 
-  private refreshGasPrice() {
-    setTimeout(async () => {
-      try {
-        const gasPrice = await this._readWeb3[currentChainId].eth.getGasPrice();
-        gas.set(gasPrice);
+  private async refreshGasPrice() {
+    try {
+      const gasPrice = Number(
+        await this._readWeb3[currentChainId].eth.getGasPrice(),
+      );
+      const lastBlock = Number(
+        ((await this._readWeb3[currentChainId].eth.getBlock('latest')) as any)
+          .minimumGasPrice,
+      );
+      gas.set(
+        ((gasPrice > lastBlock ? gasPrice : lastBlock) * 1.01).toFixed(0),
+      );
+      setTimeout(() => {
         this.refreshGasPrice();
-      } catch (e) {
-        console.error('gas price update failed.', e);
-        this._store.dispatch(actions.sovrynNetworkError());
-        await this.init(); // Connection aborted, try to reconnect
-      }
-    }, [35e3]); // updates price in 35s intervals (roughly for each block)
+      }, [35e3]); // updates price in 35s intervals (roughly for each block)
+    } catch (e) {
+      console.error('gas price update failed.', e);
+      this._store.dispatch(actions.sovrynNetworkError());
+      await this.init(); // Connection aborted, try to reconnect
+    }
   }
 
   private getNodeUrl(chainId: number) {
