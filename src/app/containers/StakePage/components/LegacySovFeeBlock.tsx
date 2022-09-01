@@ -15,6 +15,7 @@ import { AbiItem } from 'web3-utils';
 import { useDollarValue } from 'app/hooks/useDollarValue';
 import { AssetValue } from 'app/components/AssetValue';
 import { AssetValueMode } from 'app/components/AssetValue/types';
+import { capitalize } from 'utils/helpers';
 
 const MAX_CHECKPOINTS = 100;
 
@@ -71,13 +72,7 @@ export const LegacySovFeeBlock: React.FC<ILegacySovFeeBlock> = ({
       <div className="tw-flex tw-justify-between tw-items-center tw-mb-1 tw-mt-1 tw-leading-6">
         <div className="tw-w-2/5">
           <Tooltip content={t(translations.stake.vestingFeesTooltip)}>
-            {
-              <>
-                {(title && title.charAt(0).toUpperCase() + title.slice(1)) ||
-                  asset}{' '}
-                (?)
-              </>
-            }
+            {<>{capitalize(title || '') || asset} (?)</>}
           </Tooltip>
         </div>
         <div className="tw-w-1/2 tw-mx-4 tw-flex tw-flex-row tw-space-x-2">
