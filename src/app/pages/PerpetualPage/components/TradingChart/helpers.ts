@@ -63,13 +63,14 @@ export const makeApiRequest = async (
 
       return {
         time: item.periodStartUnix * 1e3,
-        high: item.oraclePriceHigh,
-        low: item.oraclePriceLow,
-        open: item.oraclePriceOpen,
-        close: item.oraclePriceClose,
+        high: Number(item.oraclePriceHigh),
+        low: Number(item.oraclePriceLow),
+        open: Number(item.oraclePriceOpen),
+        close: Number(item.oraclePriceClose),
         volume: 0,
       };
     });
+
     return bars;
   } catch (error) {
     console.error(error);
