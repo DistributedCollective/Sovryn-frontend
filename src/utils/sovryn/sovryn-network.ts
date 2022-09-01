@@ -202,18 +202,6 @@ export class SovrynNetwork {
       if (!this._readWeb3[chainId]) {
         this._readWeb3[chainId] = new Web3(web3Provider);
         this._readWeb3[chainId].eth.handleRevert = true;
-        // if (isWebsocket) {
-        //   const provider: WebsocketProvider = (this._readWeb3
-        //     .currentProvider as unknown) as WebsocketProvider;
-
-        //   provider.on('end', () => {
-        //     provider.removeAllListeners('end');
-        //     this.contracts = {};
-        //     this.contractList = [];
-        //     this._readWeb3 = undefined as any;
-        //     this.initReadWeb3(chainId);
-        //   });
-        // }
       } else {
         this._readWeb3[chainId].setProvider(web3Provider);
 
