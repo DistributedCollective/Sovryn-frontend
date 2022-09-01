@@ -61,12 +61,14 @@ export const makeApiRequest = async (
         };
       }
 
+      const oracleOpenPrice = Number(item.oraclePriceOpen);
+
       return {
         time: item.periodStartUnix * 1e3,
-        high: Number(item.oraclePriceHigh),
-        low: Number(item.oraclePriceLow),
-        open: Number(item.oraclePriceOpen),
-        close: Number(item.oraclePriceClose),
+        high: oracleOpenPrice,
+        low: oracleOpenPrice,
+        open: oracleOpenPrice,
+        close: oracleOpenPrice,
         volume: 0,
       };
     });
