@@ -24,7 +24,6 @@ import {
   supportedResolutions,
 } from 'app/pages/PerpetualPage/components/TradingChart/helpers';
 import {
-  addMissingBars,
   getTokensFromSymbol,
   hasDirectFeed,
   queryPairByChunks,
