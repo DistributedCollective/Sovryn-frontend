@@ -294,7 +294,7 @@ export const addMissingBars = (
   const seconds = candleDetails.candleSeconds;
   const barCount = Math.floor((endTimestamp - startTimestamp) / seconds);
 
-  if (bars.length === 0 && barCount <= 1) {
+  if (bars.length === 0 && barCount <= 2) {
     return [];
   }
 
@@ -339,7 +339,7 @@ export const addMissingBars = (
         break;
       }
 
-      time = time < startTimestamp * 1000 ? startTimestamp * 1000 : time;
+      // time = time < startTimestamp * 1000 ? startTimestamp * 1000 : time;
 
       items.push({
         open: firstBar.close,
@@ -367,7 +367,7 @@ export const addMissingBars = (
     while (i > 0) {
       let time = lastBar.time + (i + 1) * seconds * 1000;
 
-      time = time > endTimestamp * 1000 ? endTimestamp * 1000 : time;
+      // time = time > endTimestamp * 1000 ? endTimestamp * 1000 : time;
 
       items.push({
         open: lastBar.close,
@@ -383,6 +383,57 @@ export const addMissingBars = (
   }
 
   items = uniqBy(items, 'time').sort((a, b) => a.time - b.time);
+
+  if (barCount - items.length > 0) {
+    let index = 0;
+    const firstItem = items[0];
+    const newBars: Bar[] = [];
+    while (index < barCount) {
+      const nextTime = firstItem.time + (index + 1) * seconds * 1000;
+      const search = items.find(item => item.time === nextTime);
+
+      if (search) {
+        newBars.push(search);
+      } else {
+        const next = items[index + 1];
+        const previous = newBars[index - 1] || firstItem;
+
+        if (next) {
+          newBars.push({
+            open: previous.close,
+            high: next.open,
+            low: next.open,
+            close: next.open,
+            volume: 0,
+            time: nextTime,
+          });
+        } else {
+          const previous = newBars[index - 1] || firstItem;
+          newBars.push({
+            open: previous.close,
+            high: previous.close,
+            low: previous.close,
+            close: previous.close,
+            volume: 0,
+            time: nextTime,
+          });
+        }
+      }
+
+      index++;
+    }
+    items = newBars;
+  }
+
+  items = items.map((item, index) => {
+    const previous = items[index - 1] || item;
+    const next = items[index + 1] || item;
+    return {
+      ...item,
+      open: previous.close,
+      close: !next.volume ? item.close : next.open,
+    };
+  });
 
   return items;
 };
