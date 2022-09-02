@@ -5,7 +5,7 @@ import { Asset } from 'types';
 import { getTokenContract } from 'utils/blockchain/contract-helpers';
 
 // maximum number of candles that should be loaded in one request
-const CHUNK_SIZE = 75;
+const CHUNK_SIZE = 1000;
 
 export type Bar = {
   time: number;
@@ -267,7 +267,7 @@ export const queryCandles = async (
           endTime,
           candleLimit,
         ));
-    return addMissingBars(bars, candleDetails);
+    return addMissingBars(bars, candleDetails, startTime, endTime);
   } catch (error) {
     console.error(error);
     throw new Error(`Request error: ${error}`);
@@ -288,39 +288,151 @@ export const getTokensFromSymbol = (symbol: string) => {
 export const addMissingBars = (
   bars: Bar[],
   candleDetails: CandleDetails,
+  startTimestamp: number,
+  endTimestamp: number,
 ): Bar[] => {
-  const seconds = candleDetails.candleSeconds * 1e3;
-  let newBars: Bar[] = [];
-  let previousBar = bars[bars.length - 1];
-  for (let i = 0; i < bars.length; i++) {
-    previousBar = newBars[newBars.length - 1];
-    if (i === 0) {
-      newBars.push(bars[i]);
-    } else if (bars[i].time === previousBar.time + seconds) {
-      /* Is next bar in sequence */
-      newBars.push(bars[i]);
-    } else {
-      const extraBar = {
-        high: previousBar.close,
-        low: previousBar.close,
-        open: previousBar.close,
-        close: previousBar.close,
+  const seconds = candleDetails.candleSeconds;
+  const barCount = Math.floor((endTimestamp - startTimestamp) / seconds);
+
+  if (bars.length === 0 && barCount <= 1) {
+    return [];
+  }
+
+  let items = uniqBy(bars, 'time').sort((a, b) => a.time - b.time);
+
+  if (items.length === 0) {
+    items = [
+      {
+        time: startTimestamp * 1000,
+        open: 0,
+        close: 0,
+        high: 0,
+        low: 0,
         volume: 0,
-      };
-      let startTime = previousBar.time + seconds;
-      while (startTime < bars[i].time) {
-        const newBar = {
-          ...extraBar,
-          time: startTime,
-        };
-        newBars.push(newBar);
-        startTime += seconds;
+      },
+      {
+        time: endTimestamp * 1000,
+        open: 0,
+        close: 0,
+        high: 0,
+        low: 0,
+        volume: 0,
+      },
+    ];
+  }
+
+  // fill previous bars
+
+  const firstBar = items[0];
+
+  // missing bar count between first bar and start timestamp
+  const missingBarCountStart = Math.floor(
+    (firstBar.time / 1000 - startTimestamp) / seconds,
+  );
+
+  if (missingBarCountStart > 0) {
+    let i = missingBarCountStart;
+    while (i > 0) {
+      let time = firstBar.time - (i + 1) * seconds * 1000;
+
+      if (time >= Date.now()) {
+        break;
       }
-      newBars.push(bars[i]);
+
+      time = time < startTimestamp * 1000 ? startTimestamp * 1000 : time;
+
+      items.push({
+        open: firstBar.close,
+        high: firstBar.close,
+        low: firstBar.close,
+        close: firstBar.close,
+        volume: 0,
+        time,
+      });
+
+      i--;
     }
   }
 
-  const items = uniqBy(newBars, 'time').sort((a, b) => a.time - b.time);
+  items = uniqBy(items, 'time').sort((a, b) => a.time - b.time);
+
+  const lastBar = items[items.length - 1];
+
+  const missingBarCountEnd = Math.floor(
+    (endTimestamp - lastBar.time / 1000) / seconds,
+  );
+
+  if (missingBarCountEnd >= 2) {
+    let i = missingBarCountEnd - 2;
+    while (i > 0) {
+      let time = lastBar.time + (i + 1) * seconds * 1000;
+
+      time = time > endTimestamp * 1000 ? endTimestamp * 1000 : time;
+
+      items.push({
+        open: lastBar.close,
+        high: lastBar.close,
+        low: lastBar.close,
+        close: lastBar.close,
+        volume: 0,
+        time,
+      });
+
+      i--;
+    }
+  }
+
+  items = uniqBy(items, 'time').sort((a, b) => a.time - b.time);
 
   return items;
 };
+
+// export const addMissingBars = (
+//   bars: Bar[],
+//   candleDetails: CandleDetails,
+//   startTimestamp: number,
+//   endTimestamp: number,
+// ): Bar[] => {
+//   const seconds = candleDetails.candleSeconds * 1e3;
+//   let newBars: Bar[] = [];
+//   let previousBar = bars[bars.length - 1];
+//   for (let i = 0; i < bars.length; i++) {
+//     previousBar = newBars[newBars.length - 1];
+//     if (i === 0) {
+//       newBars.push(bars[i]);
+//     } else if (bars[i].time === previousBar.time + seconds) {
+//       /* Is next bar in sequence */
+//       newBars.push(bars[i]);
+//     } else {
+//       const extraBar = {
+//         high: previousBar.close,
+//         low: previousBar.close,
+//         open: previousBar.close,
+//         close: previousBar.close,
+//         volume: 0,
+//       };
+//       let startTime = previousBar.time + seconds;
+//       while (startTime < bars[i].time) {
+//         const newBar = {
+//           ...extraBar,
+//           time: startTime,
+//         };
+//         newBars.push(newBar);
+//         startTime += seconds;
+//       }
+//       newBars.push(bars[i]);
+//     }
+//   }
+
+//   let items = uniqBy(newBars, 'time').sort((a, b) => a.time - b.time);
+
+//   items = items.map((item, index) => {
+//     return {
+//       ...item,
+//       open: index !== 0 ? items[index - 1].close : item.open,
+//       close: index !== items.length - 1 ? items[index + 1].open : item.close,
+//     };
+//   });
+
+//   return items;
+// };

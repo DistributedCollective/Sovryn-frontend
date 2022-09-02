@@ -24,6 +24,7 @@ import {
   supportedResolutions,
 } from 'app/pages/PerpetualPage/components/TradingChart/helpers';
 import {
+  addMissingBars,
   getTokensFromSymbol,
   hasDirectFeed,
   queryPairByChunks,
@@ -118,7 +119,7 @@ const tradingChartDataFeeds = (
     try {
       const { baseToken, quoteToken } = getTokensFromSymbol(symbolInfo.name);
 
-      const items = await queryPairByChunks(
+      let items = await queryPairByChunks(
         graphqlClient,
         candleDetails,
         baseToken,
