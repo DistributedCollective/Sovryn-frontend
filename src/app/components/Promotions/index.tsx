@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { LiquidityPoolDictionary } from 'utils/dictionaries/liquidity-pool-dictionary';
 import styles from './index.module.scss';
-import { learnMoreLending, learnMoreYieldFarming } from 'utils/classifiers';
+import { learnMoreYieldFarming } from 'utils/classifiers';
 
 type PromotionsProps = {
   className?: string;
@@ -50,7 +50,7 @@ export const Promotions: React.FC<PromotionsProps> = ({
             className={cardClassName}
             imageClassName={cardImageClassName}
           /> */}
-          <PromotionCard
+          {/* <PromotionCard
             appSection={AppSection.Lend}
             backgroundColor={PromotionColor.Yellow}
             title={t(translations.promotions.card2.title)}
@@ -62,7 +62,7 @@ export const Promotions: React.FC<PromotionsProps> = ({
             linkDataActionId={`landing-lend-promo-learnmore-${Asset.XUSD}`}
             className={cardClassName}
             imageClassName={cardImageClassName}
-          />
+          /> */}
           <PromotionCard
             appSection={AppSection.YieldFarm}
             backgroundColor={PromotionColor.Yellow}
