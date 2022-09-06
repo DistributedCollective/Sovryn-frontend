@@ -6,6 +6,7 @@ import { getTokenContract } from 'utils/blockchain/contract-helpers';
 
 // maximum number of candles that should be loaded in one request
 const CHUNK_SIZE = 1000;
+const endTimeChache = new Map<string, number>();
 
 export type Bar = {
   time: number;
@@ -167,6 +168,49 @@ const fillItem = (base: Bar, quote?: Bar, lastQuote?: Bar): Bar | null => {
   };
 };
 
+export const getEndTime = (baseToken: string, quoteToken: string) => {
+  const key = `${baseToken}-${quoteToken}`;
+  return endTimeChache.get(key);
+};
+
+export const setEndTime = (
+  baseToken: string,
+  quoteToken: string,
+  timestamp: number,
+) => {
+  const key = `${baseToken}-${quoteToken}`;
+  endTimeChache.set(key, timestamp);
+};
+
+const getFirstCandleTimestamp = async (
+  client: ApolloClient<any>,
+  candleDetails: CandleDetails,
+  baseToken: string,
+  quoteToken: string,
+): Promise<number> => {
+  const query = gql`
+      {
+        ${candleDetails.entityName} (
+          where: {
+            baseToken: "${baseToken}"
+            quoteToken: "${quoteToken}"
+          }
+          orderBy: periodStartUnix
+          orderDirection: asc
+          first: 1
+        ) {
+          periodStartUnix
+        }
+      }
+    `;
+  return client
+    .query({
+      query,
+    })
+    .then(response => response.data?.[candleDetails.entityName] || [])
+    .then(items => items[0]?.periodStartUnix || Date.now() / 1000);
+};
+
 export const queryCustomPairs = async (
   client: ApolloClient<any>,
   candleDetails: CandleDetails,
@@ -248,6 +292,33 @@ export const queryCandles = async (
   candleLimit: number = CHUNK_SIZE,
 ) => {
   try {
+    const graphStartTime = getEndTime(baseToken, quoteToken);
+    if (graphStartTime === undefined) {
+      if (directFeed) {
+        const firstCandleTimestamp = await getFirstCandleTimestamp(
+          client,
+          candleDetails,
+          baseToken,
+          quoteToken,
+        );
+        setEndTime(baseToken, quoteToken, firstCandleTimestamp);
+      } else {
+        const base = await getFirstCandleTimestamp(
+          client,
+          candleDetails,
+          baseToken,
+          getTokenAddress(Asset.XUSD),
+        );
+        const quote = await getFirstCandleTimestamp(
+          client,
+          candleDetails,
+          quoteToken,
+          getTokenAddress(Asset.XUSD),
+        );
+        setEndTime(baseToken, quoteToken, Math.min(base, quote));
+      }
+    }
+
     const bars: Bar[] = await (directFeed
       ? queryDirectPair(
           client,
@@ -267,7 +338,15 @@ export const queryCandles = async (
           endTime,
           candleLimit,
         ));
-    return addMissingBars(bars, candleDetails, startTime, endTime);
+
+    return addMissingBars(
+      bars,
+      candleDetails,
+      graphStartTime !== undefined && graphStartTime > startTime
+        ? graphStartTime
+        : startTime,
+      endTime,
+    );
   } catch (error) {
     console.error(error);
     throw new Error(`Request error: ${error}`);
