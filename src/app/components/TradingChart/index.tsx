@@ -6,7 +6,7 @@
  * and make any relevant changes before updating the library version:
  * https://github.com/tradingview/charting_library/wiki/Breaking-Changes
  */
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import classNames from 'classnames';
 import {
   widget,
@@ -41,6 +41,13 @@ export function TradingChart(props: ChartContainerProps) {
   const [chart, setChart] = useState<IChartingLibraryWidget | null>(null);
   const client = useApolloClient();
 
+  const disabledFeatures = useMemo(() => {
+    if (!hasDirectFeed(props.symbol)) {
+      return ['header_chart_type'];
+    }
+    return [];
+  }, [props.symbol]);
+
   useEffect(() => {
     try {
       // full list of widget config options here: https://github.com/tradingview/charting_library/wiki/Widget-Constructor/cf26598509d8bba6dc95c5fe8208caa5e8474827
@@ -64,6 +71,7 @@ export function TradingChart(props: ChartContainerProps) {
           'header_symbol_search',
           //'header_saveload', //uncomment to disable storing of drawings
           'header_compare',
+          ...disabledFeatures,
         ],
         autosize: true,
         // toolbar_bg: '#a3a3a3',
@@ -99,7 +107,7 @@ export function TradingChart(props: ChartContainerProps) {
 
     // run only once after mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [client]);
+  }, [client, JSON.stringify(disabledFeatures)]);
 
   useLayoutEffect(() => {
     if (chart && hasCharts) {
