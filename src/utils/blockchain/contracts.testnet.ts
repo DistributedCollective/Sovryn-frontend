@@ -333,7 +333,7 @@ export const contracts = {
     abi: fastBtcMultisigAbi,
   },
   perpetualManager: {
-    address: '0xE952cCc755758A127623163e96B032619Bb42143',
+    address: '0xc44B7c208DaD00E647F48d00093e510A29579C09',
     abi: perpetualManagerAbi,
     chainId: ChainId.BSC_TESTNET,
   },
@@ -343,12 +343,12 @@ export const contracts = {
     chainId: ChainId.BSC_TESTNET,
   },
   perpetualLimitOrderBookBTCUSD: {
-    address: '0x1A4128d3ECa24F881b54527E16aaFd1d64A733cC',
+    address: '0x1987D24dc913Df4A0187a45417957cc42634e1eE',
     abi: perpetualLimitOrderBookAbi,
     chainId: ChainId.BSC_TESTNET,
   },
   perpetualLimitOrderBookBNBUSD: {
-    address: '0x959402A2bc8A2984100a623121712dA165b4A74c',
+    address: '0x730a91D1AC9B37f75C4Fe52DbbF51Dd2177e517C',
     abi: perpetualLimitOrderBookAbi,
     chainId: ChainId.BSC_TESTNET,
   },

@@ -66,6 +66,8 @@ const {
   isTraderInitialMarginSafe,
 } = perpUtils;
 
+export const traderMgnTokenAddr = '0x0'; // TODO: This is only temporary, delete it once we have full support for BTCB as collateral
+
 export const ONE_64x64 = BigNumber.from('0x10000000000000000');
 export const DEC_18 = BigNumber.from(10).pow(BigNumber.from(18));
 
@@ -362,7 +364,6 @@ export const initialAmmState: AMMState = {
   indexS2PriceDataOracle: 0,
   indexS3PriceDataOracle: 0,
   currentMarkPremiumRate: 0,
-  currentPremiumRate: 0,
   defFundToTargetRatio: 0,
 };
 
@@ -377,12 +378,11 @@ const parseAmmState = (response: any): AMMState =>
         fCurrentTraderExposureEMA: ABK64x64ToFloat(response[0][5]),
         indexS2PriceData: ABK64x64ToFloat(response[0][6]),
         indexS3PriceData: ABK64x64ToFloat(response[0][7]),
+        indexS2PriceDataOracle: ABK64x64ToFloat(response[0][9]),
+        indexS3PriceDataOracle: ABK64x64ToFloat(response[0][10]),
         currentMarkPremiumRate: ABK64x64ToFloat(response[0][8]),
-        currentPremiumRate: ABK64x64ToFloat(response[0][9]),
-        indexS2PriceDataOracle: ABK64x64ToFloat(response[0][10]),
-        indexS3PriceDataOracle: ABK64x64ToFloat(response[0][11]),
         defFundToTargetRatio:
-          response[0][12] && ABK64x64ToFloat(response[0][12]),
+          response[0][11] && ABK64x64ToFloat(response[0][11]),
       }
     : initialAmmState;
 
@@ -442,12 +442,12 @@ export const initialLiquidityPoolState: LiqPoolState = {
 const parseLiquidityPoolState = (response: any): LiqPoolState =>
   response?.[0]
     ? {
-        fPnLparticipantsCashCC: ABK64x64ToFloat(response[0][5]),
-        fAMMFundCashCC: ABK64x64ToFloat(response[0][6]),
-        fDefaultFundCashCC: ABK64x64ToFloat(response[0][7]),
-        fTargetAMMFundSize: ABK64x64ToFloat(response[0][8]),
-        fTargetDFSize: ABK64x64ToFloat(response[0][9]),
-        isRunning: response[0][16],
+        fPnLparticipantsCashCC: ABK64x64ToFloat(response[0][8]),
+        fAMMFundCashCC: ABK64x64ToFloat(response[0][9]),
+        fDefaultFundCashCC: ABK64x64ToFloat(response[0][10]),
+        fTargetAMMFundSize: ABK64x64ToFloat(response[0][11]),
+        fTargetDFSize: ABK64x64ToFloat(response[0][12]),
+        isRunning: response[0][0],
       }
     : initialLiquidityPoolState;
 
@@ -464,12 +464,10 @@ export const initialPerpetualParameters: PerpParameters = {
   poolId: 0,
   oracleS2Addr: '',
   oracleS3Addr: '',
-
-  fInitialMarginRateAlpha: 0,
-  fMarginRateBeta: 0,
-  fInitialMarginRateCap: 0,
   fOpenInterest: 0,
-  fMaintenanceMarginRateAlpha: 0,
+  fInitialMarginRate: 0,
+  fMaintenanceMarginRate: 0,
+  fIncentiveSpread: 0,
   fTreasuryFeeRate: 0,
   fPnLPartRate: 0,
   fReferralRebateCC: 0,
@@ -504,41 +502,40 @@ export const initialPerpetualParameters: PerpParameters = {
 const parsePerpetualParameters = (response: any): PerpParameters =>
   response?.[0]
     ? {
-        poolId: BigNumber.from(response[0][1]).toNumber(),
-        oracleS2Addr: response[0][2],
-        oracleS3Addr: response[0][3],
-        fCurrentFundingRate: ABK64x64ToFloat(response[0][10]),
-        fUnitAccumulatedFunding: ABK64x64ToFloat(response[0][11]),
-        fOpenInterest: ABK64x64ToFloat(response[0][12]),
-        fInitialMarginRateAlpha: ABK64x64ToFloat(response[0][16]),
-        fMarginRateBeta: ABK64x64ToFloat(response[0][17]),
-        fInitialMarginRateCap: ABK64x64ToFloat(response[0][18]),
-        fMaintenanceMarginRateAlpha: ABK64x64ToFloat(response[0][19]),
-        fTreasuryFeeRate: ABK64x64ToFloat(response[0][20]),
-        fPnLPartRate: ABK64x64ToFloat(response[0][21]),
-        fReferralRebateCC: ABK64x64ToFloat(response[0][22]),
-        fLiquidationPenaltyRate: ABK64x64ToFloat(response[0][23]),
-        fMinimalSpread: ABK64x64ToFloat(response[0][24]),
-        fMinimalSpreadInStress: ABK64x64ToFloat(response[0][25]),
-        fLotSizeBC: ABK64x64ToFloat(response[0][26]),
-        fFundingRateClamp: ABK64x64ToFloat(response[0][27]),
+        poolId: BigNumber.from(response[0][2]).toNumber(),
+        oracleS2Addr: response[0][3],
+        oracleS3Addr: response[0][4],
+        fCurrentFundingRate: ABK64x64ToFloat(response[0][18]),
+        fUnitAccumulatedFunding: ABK64x64ToFloat(response[0][19]),
+        fOpenInterest: ABK64x64ToFloat(response[0][23]),
+        fInitialMarginRate: ABK64x64ToFloat(response[0][31]),
+        fMaintenanceMarginRate: ABK64x64ToFloat(response[0][32]),
+        fIncentiveSpread: ABK64x64ToFloat(response[0][38]),
+        fTreasuryFeeRate: ABK64x64ToFloat(response[0][33]),
+        fPnLPartRate: ABK64x64ToFloat(response[0][34]),
+        fReferralRebateCC: ABK64x64ToFloat(response[0][26]),
+        fLiquidationPenaltyRate: ABK64x64ToFloat(response[0][35]),
+        fMinimalSpread: ABK64x64ToFloat(response[0][36]),
+        fMinimalSpreadInStress: ABK64x64ToFloat(response[0][37]),
+        fLotSizeBC: ABK64x64ToFloat(response[0][27]),
+        fFundingRateClamp: ABK64x64ToFloat(response[0][39]),
         fMarkPriceEMALambda: ABK64x64ToFloat(response[0][28]),
-        fSigma2: ABK64x64ToFloat(response[0][29]),
-        fSigma3: ABK64x64ToFloat(response[0][30]),
-        fRho23: ABK64x64ToFloat(response[0][31]),
-        fStressReturnS2_0: ABK64x64ToFloat(response[0][33][0]),
-        fStressReturnS2_1: ABK64x64ToFloat(response[0][33][1]),
-        fStressReturnS3_0: ABK64x64ToFloat(response[0][34][0]),
-        fStressReturnS3_1: ABK64x64ToFloat(response[0][34][1]),
-        fDFCoverNRate: ABK64x64ToFloat(response[0][35]),
-        fDFLambda_0: ABK64x64ToFloat(response[0][36][0]),
-        fDFLambda_1: ABK64x64ToFloat(response[0][36][1]),
-        fAMMTargetDD_0: ABK64x64ToFloat(response[0][37][0]),
-        fAMMTargetDD_1: ABK64x64ToFloat(response[0][37][1]),
-        fAMMMinSizeCC: ABK64x64ToFloat(response[0][38]),
-        fMinimalTraderExposureEMA: ABK64x64ToFloat(response[0][39]),
-        fMaximalTradeSizeBumpUp: ABK64x64ToFloat(response[0][41]),
-        fMaxPositionBC: ABK64x64ToFloat(response[0][43]),
+        fSigma2: ABK64x64ToFloat(response[0][40]),
+        fSigma3: ABK64x64ToFloat(response[0][41]),
+        fRho23: ABK64x64ToFloat(response[0][30]),
+        fStressReturnS2_0: ABK64x64ToFloat(response[0][43][0]),
+        fStressReturnS2_1: ABK64x64ToFloat(response[0][43][1]),
+        fStressReturnS3_0: ABK64x64ToFloat(response[0][44][0]),
+        fStressReturnS3_1: ABK64x64ToFloat(response[0][44][1]),
+        fDFCoverNRate: ABK64x64ToFloat(response[0][9]),
+        fDFLambda_0: ABK64x64ToFloat(response[0][46][0]),
+        fDFLambda_1: ABK64x64ToFloat(response[0][46][1]),
+        fAMMTargetDD_0: ABK64x64ToFloat(response[0][45][0]),
+        fAMMTargetDD_1: ABK64x64ToFloat(response[0][45][1]),
+        fAMMMinSizeCC: ABK64x64ToFloat(response[0][20]),
+        fMinimalTraderExposureEMA: ABK64x64ToFloat(response[0][21]),
+        fMaximalTradeSizeBumpUp: ABK64x64ToFloat(response[0][29]),
+        fMaxPositionBC: ABK64x64ToFloat(response[0][14]),
       }
     : initialPerpetualParameters;
 
@@ -633,6 +630,7 @@ const perpetualTradeArgs = (
     0,
     deadline,
     ethGenesisAddress,
+    traderMgnTokenAddr, // TODO: This is only temporary, delete it once we have full support for BTCB as collateral
     flags,
     floatToABK64x64(leverage),
     timeNow,
@@ -677,6 +675,7 @@ const perpetualCreateLimitTradeArgs = async (
     fTriggerPrice: weiToABK64x64(trigger).toString(),
     iDeadline: deadlineSeconds,
     referrerAddr: ethGenesisAddress,
+    traderMgnTokenAddr, // TODO: This is only temporary, delete it once we have full support for BTCB as collateral
     flags,
     fLeverage: floatToABK64x64(leverage).toString(),
     createdTimestamp: createdSeconds,
