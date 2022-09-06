@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
 import { IPairsData } from 'types/trading-pairs';
-import { backendUrl, currentChainId } from 'utils/classifiers';
+import { backendUrl, currentChainId, graphWrapperUrl } from 'utils/classifiers';
 
 const defaultPairsData = {
   pairs: [],
@@ -16,7 +16,7 @@ export const useGetCryptoPairs = (): IPairsData => {
 
   useEffect(() => {
     axios
-      .get(url + '/api/v1/trading-pairs/summary/', {
+      .get(graphWrapperUrl[currentChainId] + 'cmc/summary?extra=true', {
         params: {
           extra: true,
         },

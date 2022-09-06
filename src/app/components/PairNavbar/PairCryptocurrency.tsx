@@ -15,6 +15,7 @@ import { usePairList } from 'app/hooks/trading/usePairList';
 import { Asset } from 'types';
 import { getLastPrice } from './utils';
 import { RenderPercentageColumn } from './RenderPercentageColumn';
+import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
 
 const FAVORITE = 'FAVORITE';
 
@@ -88,10 +89,18 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
       } else {
         if (
           tradingPairs.includes(
-            TradingPairType[`${pair[0].base_symbol}_${pair[1].quote_symbol}`],
+            TradingPairType[
+              `${assetByTokenAddress(pair[0].base_id)}_${assetByTokenAddress(
+                pair[1].quote_id,
+              )}`
+            ],
           ) ||
           tradingPairs.includes(
-            TradingPairType[`${pair[0].quote_symbol}_${pair[1].base_symbol}`],
+            TradingPairType[
+              `${assetByTokenAddress(pair[0].quote_id)}_${assetByTokenAddress(
+                pair[1].base_id,
+              )}`
+            ],
           )
         ) {
           return pair;
@@ -110,58 +119,64 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
             searchAsset = Asset.BNB;
           }
 
+          const baseSymbol0 = assetByTokenAddress(item[0].base_id);
+          const baseSymbol1 = assetByTokenAddress(item[1].base_id);
+          const quoteSymbol0 = assetByTokenAddress(item[0].quote_id);
+          const quoteSymbol1 = assetByTokenAddress(item[1].quote_id);
+
+          if (!baseSymbol0 || !baseSymbol1 || !quoteSymbol0 || !quoteSymbol1) {
+            return false;
+          }
+
           if (search.length && category && category !== Asset.RBTC) {
             return (
-              (item[0].base_symbol.includes(searchAsset.toUpperCase()) &&
-                item[0].base_symbol.includes(category)) ||
-              (item[1].base_symbol.includes(searchAsset.toUpperCase()) &&
-                item[1].base_symbol.includes(category)) ||
-              (item[0].quote_symbol.includes(searchAsset.toUpperCase()) &&
-                item[0].quote_symbol.includes(category)) ||
-              (item[1].quote_symbol.includes(searchAsset.toUpperCase()) &&
-                item[1].quote_symbol.includes(category)) ||
-              (item[0].base_symbol.includes(searchAsset.toUpperCase()) &&
-                item[1].base_symbol.includes(category)) ||
-              (item[1].base_symbol.includes(searchAsset.toUpperCase()) &&
-                item[0].base_symbol.includes(category)) ||
-              (item[0].quote_symbol.includes(searchAsset.toUpperCase()) &&
-                item[1].quote_symbol.includes(category)) ||
-              (item[1].quote_symbol.includes(searchAsset.toUpperCase()) &&
-                item[0].quote_symbol.includes(category)) ||
-              (item[0].quote_symbol.includes(searchAsset.toUpperCase()) &&
-                item[0].base_symbol.includes(category) &&
-                item[0].base_symbol === item[1].base_symbol)
+              (baseSymbol0.includes(searchAsset.toUpperCase()) &&
+                baseSymbol0.includes(category)) ||
+              (baseSymbol1.includes(searchAsset.toUpperCase()) &&
+                baseSymbol1.includes(category)) ||
+              (quoteSymbol0.includes(searchAsset.toUpperCase()) &&
+                quoteSymbol0.includes(category)) ||
+              (quoteSymbol1.includes(searchAsset.toUpperCase()) &&
+                quoteSymbol1.includes(category)) ||
+              (baseSymbol0.includes(searchAsset.toUpperCase()) &&
+                baseSymbol1.includes(category)) ||
+              (baseSymbol1.includes(searchAsset.toUpperCase()) &&
+                baseSymbol0.includes(category)) ||
+              (quoteSymbol0.includes(searchAsset.toUpperCase()) &&
+                quoteSymbol1.includes(category)) ||
+              (quoteSymbol1.includes(searchAsset.toUpperCase()) &&
+                quoteSymbol0.includes(category)) ||
+              (quoteSymbol0.includes(searchAsset.toUpperCase()) &&
+                baseSymbol0.includes(category) &&
+                baseSymbol0 === baseSymbol1)
             );
           }
-          if (
-            category === Asset.RBTC &&
-            item[0].base_symbol === item[1].base_symbol
-          ) {
+          if (category === Asset.RBTC && baseSymbol0 === baseSymbol1) {
             return (
-              (item[0].base_symbol.includes(searchAsset.toUpperCase()) &&
-                item[0].quote_symbol.includes(category)) ||
-              (item[0].quote_symbol.includes(searchAsset.toUpperCase()) &&
-                item[0].base_symbol.includes(category)) ||
-              (item[0].quote_symbol.includes(searchAsset.toUpperCase()) &&
-                item[0].quote_symbol.includes(category))
+              (baseSymbol0.includes(searchAsset.toUpperCase()) &&
+                quoteSymbol0.includes(category)) ||
+              (quoteSymbol0.includes(searchAsset.toUpperCase()) &&
+                baseSymbol0.includes(category)) ||
+              (quoteSymbol0.includes(searchAsset.toUpperCase()) &&
+                quoteSymbol0.includes(category))
             );
           }
-          if (item[0].base_symbol !== item[1].base_symbol) {
+          if (baseSymbol0 !== baseSymbol1) {
             //filtering pairs without RBTC as a source pair
             return (
-              (item[0].base_symbol.includes(searchAsset.toUpperCase()) &&
-                item[0].base_symbol.includes(category)) ||
-              (item[1].base_symbol.includes(searchAsset.toUpperCase()) &&
-                item[1].base_symbol.includes(category))
+              (baseSymbol0.includes(searchAsset.toUpperCase()) &&
+                baseSymbol0.includes(category)) ||
+              (baseSymbol1.includes(searchAsset.toUpperCase()) &&
+                baseSymbol1.includes(category))
             );
           }
-          if (item[0].base_symbol === item[1].base_symbol) {
+          if (baseSymbol0 === baseSymbol1) {
             //filtering pairs only for RBTC as target
             return (
-              (item[0].base_symbol.includes(searchAsset.toUpperCase()) &&
-                item[0].base_symbol.includes(category)) ||
-              (item[0].quote_symbol.includes(searchAsset.toUpperCase()) &&
-                item[0].quote_symbol.includes(category))
+              (baseSymbol0.includes(searchAsset.toUpperCase()) &&
+                baseSymbol0.includes(category)) ||
+              (quoteSymbol0.includes(searchAsset.toUpperCase()) &&
+                quoteSymbol0.includes(category))
             );
           }
           return false;
@@ -195,21 +210,33 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
   ) => {
     let isValidPair = false; // checking tradingPair, if the pair exists
     if (
-      pair0.base_symbol === pair1.base_symbol &&
+      pair0.base_id === pair1.base_id &&
       !RBTC_source &&
-      tradingType[`${pair0.base_symbol}_${pair0.quote_symbol}`]
+      tradingType[
+        `${assetByTokenAddress(pair0.base_id)}_${assetByTokenAddress(
+          pair0.quote_id,
+        )}`
+      ]
     ) {
       isValidPair = true;
     }
     if (
-      pair0.base_symbol === pair1.base_symbol &&
+      pair0.base_id === pair1.base_id &&
       RBTC_source &&
-      tradingType[`${pair0.quote_symbol}_${pair0.base_symbol}`]
+      tradingType[
+        `${assetByTokenAddress(pair0.quote_id)}_${assetByTokenAddress(
+          pair0.base_id,
+        )}`
+      ]
     ) {
       isValidPair = true;
     }
     if (
-      tradingType[`${pair0.base_symbol}_${pair1.base_symbol}`] &&
+      tradingType[
+        `${assetByTokenAddress(pair0.base_id)}_${assetByTokenAddress(
+          pair1.base_id,
+        )}`
+      ] &&
       !RBTC_source
     ) {
       isValidPair = true;
@@ -223,24 +250,48 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
       if (
         pair[0].base_symbol === pair[1].base_symbol &&
         !pair[2] &&
-        tradingType[`${pair[0].base_symbol}_${pair[0].quote_symbol}`]
+        tradingType[
+          `${assetByTokenAddress(pair[0].base_id)}_${assetByTokenAddress(
+            pair[0].quote_id,
+          )}`
+        ]
       ) {
-        return tradingType[`${pair[0].base_symbol}_${pair[0].quote_symbol}`];
+        return tradingType[
+          `${assetByTokenAddress(pair[0].base_id)}_${assetByTokenAddress(
+            pair[0].quote_id,
+          )}`
+        ];
       }
-      /* pairs with RBTC as source*/
+      /* pairs with RBTC as source */
       if (
         pair[0].base_symbol === pair[1].base_symbol &&
         pair[2] &&
-        tradingType[`${pair[0].quote_symbol}_${pair[0].base_symbol}`]
+        tradingType[
+          `${assetByTokenAddress(pair[0].quote_id)}_${assetByTokenAddress(
+            pair[0].base_id,
+          )}`
+        ]
       ) {
-        return tradingType[`${pair[0].quote_symbol}_${pair[0].base_symbol}`];
+        return tradingType[
+          `${assetByTokenAddress(pair[0].quote_id)}_${assetByTokenAddress(
+            pair[0].base_id,
+          )}`
+        ];
       }
       /* pairs without RBTC*/
       if (
-        tradingType[`${pair[0].base_symbol}_${pair[1].base_symbol}`] &&
+        tradingType[
+          `${assetByTokenAddress(pair[0].base_id)}_${assetByTokenAddress(
+            pair[1].base_id,
+          )}`
+        ] &&
         !pair[2]
       ) {
-        return tradingType[`${pair[0].base_symbol}_${pair[1].base_symbol}`];
+        return tradingType[
+          `${assetByTokenAddress(pair[0].base_id)}_${assetByTokenAddress(
+            pair[1].base_id,
+          )}`
+        ];
       }
     },
     [tradingType],
