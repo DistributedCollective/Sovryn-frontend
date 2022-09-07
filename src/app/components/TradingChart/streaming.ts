@@ -45,10 +45,6 @@ export class Streaming {
       return;
     }
 
-    // if (typeof document?.hasFocus === 'function' && !document.hasFocus()) {
-    //   return;
-    // }
-
     const candleDuration: CandleDuration =
       resolutionMap[subscriptionItem.resolution];
 

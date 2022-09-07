@@ -43,7 +43,7 @@ export function TradingChart(props: ChartContainerProps) {
 
   const disabledFeatures = useMemo(() => {
     if (!hasDirectFeed(props.symbol)) {
-      return ['header_chart_type'];
+      return ['header_chart_type']; //don't allow user to switch candle type if using a line chart
     }
     return [];
   }, [props.symbol]);
@@ -105,7 +105,6 @@ export function TradingChart(props: ChartContainerProps) {
       setHasCharts(false);
     }
 
-    // run only once after mount
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [client, JSON.stringify(disabledFeatures)]);
 
