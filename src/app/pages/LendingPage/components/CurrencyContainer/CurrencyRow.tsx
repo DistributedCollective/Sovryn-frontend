@@ -12,10 +12,7 @@ import LeftSection from './LeftSection';
 import { ActionButton } from 'app/components/Form/ActionButton';
 import { Asset } from 'types';
 import { Tooltip } from '@blueprintjs/core';
-import {
-  IPromotionLinkState,
-  PromotionColor,
-} from 'app/components/Promotions/components/PromotionCard/types';
+import { IPromotionLinkState } from 'app/components/Promotions/components/PromotionCard/types';
 import { useHistory, useLocation } from 'react-router-dom';
 import { DialogType } from '../../types';
 
@@ -140,7 +137,7 @@ const CurrencyRow: React.FC<ICurrencyRowProps> = ({
             onNonEmptyBalance={onNonEmptyBalance}
           />
         }
-        leftColor={asset === Asset.XUSD ? PromotionColor.Yellow : undefined}
+        leftColor={undefined}
         chartReady={true}
       />
 
