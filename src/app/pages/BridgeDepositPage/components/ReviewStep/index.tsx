@@ -1,9 +1,8 @@
 import React, { useCallback, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { bignumber } from 'mathjs';
-import { Table } from '../../../BridgeWithdrawPage/components/styled';
 
-import { Button, ButtonSize } from 'app/components/Button';
+import { Button, ButtonColor, ButtonSize } from 'app/components/Button';
 
 import { actions } from '../../slice';
 import { selectBridgeDepositPage } from '../../selectors';
@@ -12,13 +11,14 @@ import { CrossBridgeAsset } from '../../types/cross-bridge-asset';
 import { useTokenBalance } from '../../hooks/useTokenBalance';
 import { AssetModel } from '../../types/asset-model';
 import { useBridgeLimits } from '../../hooks/useBridgeLimits';
-import { toNumberFormat } from '../../../../../utils/display-text/format';
 import { NetworkModel } from '../../types/network-model';
 import { translations } from 'locales/i18n';
 import { useTranslation, Trans } from 'react-i18next';
 import { useIsBridgeDepositLocked } from 'app/pages/BridgeDepositPage/hooks/useIsBridgeDepositLocked';
 import { ErrorBadge } from 'app/components/Form/ErrorBadge';
 import { discordInvite } from 'utils/classifiers';
+import { AssetValue } from 'app/components/AssetValue';
+import { AssetValueMode } from 'app/components/AssetValue/types';
 
 export const ReviewStep: React.FC = () => {
   const {
@@ -43,6 +43,14 @@ export const ReviewStep: React.FC = () => {
         item => item.chain === chain,
       ) as NetworkModel,
     [chain],
+  );
+
+  const targetNetwork = useMemo(
+    () =>
+      BridgeDictionary.listNetworks().find(
+        item => item.chain === targetChain,
+      ) as NetworkModel,
+    [targetChain],
   );
 
   const asset = useMemo(
@@ -88,52 +96,90 @@ export const ReviewStep: React.FC = () => {
 
   const bridgeDepositLocked = useIsBridgeDepositLocked(targetAsset, chain);
 
+  const items = useMemo(
+    () => [
+      {
+        label: t(trans.dateTime),
+        value: new Date().toLocaleDateString(),
+      },
+      {
+        label: t(trans.from),
+        value: network?.name,
+      },
+      {
+        label: t(trans.to),
+        value: targetNetwork?.name,
+      },
+      {
+        label: t(trans.token),
+        value: (
+          <>
+            {sourceAsset} -&gt; {asset?.symbol}
+          </>
+        ),
+      },
+      {
+        label: t(trans.amount),
+        value: (
+          <AssetValue
+            value={Number(asset.fromWei(amount))}
+            minDecimals={2}
+            maxDecimals={8}
+            mode={AssetValueMode.auto}
+          />
+        ),
+      },
+      {
+        label: t(trans.bridgeFee),
+        value: (
+          <AssetValue
+            value={Number(asset.fromWei(limits.returnData.getFeePerToken))}
+            minDecimals={asset.minDecimals}
+            assetString={asset.symbol}
+          />
+        ),
+      },
+    ],
+    [
+      amount,
+      asset,
+      limits.returnData.getFeePerToken,
+      network?.name,
+      sourceAsset,
+      t,
+      targetNetwork?.name,
+      trans.amount,
+      trans.bridgeFee,
+      trans.dateTime,
+      trans.from,
+      trans.to,
+      trans.token,
+    ],
+  );
   return (
-    <div className="tw-flex tw-flex-col tw-items-center tw-w-80">
-      <div className="tw-mb-20 tw-text-2xl tw-text-center tw-font-semibold">
+    <div className="tw-flex tw-flex-col tw-items-center tw-max-w-80 tw-mb-10">
+      <div className="tw-mb-5 tw-text-base tw-text-center tw-font-semibold">
         {t(trans.title)}
       </div>
-      <div className="tw-w-80">
-        <Table className="tw-mx-auto">
+      <div className="tw-w-60 tw-text-center">
+        <table className="tw-mx-auto tw-text-left tw-text-sm tw-font-medium tw-w-full">
           <tbody>
-            <tr>
-              <td>{t(trans.dateTime)}:</td>
-              <td>{new Date().toLocaleDateString()}</td>
-            </tr>
-            <tr>
-              <td>{t(trans.from)}:</td>
-              <td>{network?.name}</td>
-            </tr>
-            <tr>
-              <td>{t(trans.token)}:</td>
-              <td>{asset?.symbol}</td>
-            </tr>
-            <tr>
-              <td>{t(trans.amount)}:</td>
-              <td>
-                {toNumberFormat(asset.fromWei(amount), asset.minDecimals)}
-              </td>
-            </tr>
-            <tr>
-              <td>{t(trans.bridgeFee)}:</td>
-              <td>
-                {toNumberFormat(
-                  asset.fromWei(limits.returnData.getFeePerToken),
-                  asset.minDecimals,
-                )}{' '}
-                {asset.symbol}
-              </td>
-            </tr>
+            {items.map(({ label, value }, i) => (
+              <tr key={i}>
+                <td className="tw-py-0.5">{label}:</td>
+                <td className="tw-py-0.5 tw-text-right">{value}</td>
+              </tr>
+            ))}
           </tbody>
-        </Table>
-
+        </table>
         <Button
-          className="tw-mt-20 tw-w-80"
-          text={t(trans.confirmDeposit)}
-          size={ButtonSize.lg}
+          className="tw-w-42 tw-font-semibold tw-absolute tw-right-0 tw-left-0 tw-bottom-8 tw-mx-auto"
+          text={t(trans.next)}
+          size={ButtonSize.sm}
           disabled={bridgeDepositLocked || !isValid || tx.loading}
           loading={tx.loading}
           onClick={handleSubmit}
+          color={ButtonColor.gray}
         />
         {bridgeDepositLocked && (
           <ErrorBadge

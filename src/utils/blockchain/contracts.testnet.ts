@@ -42,6 +42,8 @@ import fastBtcBridgeAbi from './abi/fastBtcBridge.json';
 import fastBtcMultisigAbi from './abi/fastBtcMultisig.json';
 import TroveManager from './abi/TroveManager.json';
 import StabilityPool from './abi/StabilityPool.json';
+import lpShareToken from './abi/lpShareToken.json';
+import Masset from './abi/Masset.json';
 
 export const contracts = {
   sovrynProtocol: {
@@ -50,7 +52,7 @@ export const contracts = {
     blockNumber: 1218686,
   },
   BTCWrapperProxy: {
-    address: '0x6b1a4735b1E25ccE9406B2d5D7417cE53d1cf90e',
+    address: '0x7481aCBeb11C1D2866B0F11DE359E52dbe63EC5B',
     abi: RBTCWrapperProxy,
     blockNumber: 1319117,
   },
@@ -350,6 +352,11 @@ export const contracts = {
     abi: perpetualLimitOrderBookAbi,
     chainId: ChainId.BSC_TESTNET,
   },
+  perpetuals_lpShareToken: {
+    address: '0xb8Ec4d3307B9FB1397af34541D9fEc433F05B614', // This is the mainnet address, needs to be changed in the future
+    abi: lpShareToken,
+    chainId: ChainId.BSC_TESTNET,
+  },
   ZUSD_token: {
     address: '0x6b41566353d6C7B8C2a7931d498F11489DacAc29',
     abi: erc20TokenAbi,
@@ -361,5 +368,13 @@ export const contracts = {
   zero_stabilityPool: {
     address: '0xd6eD2f49D0A3bF20126cB78119c7CB24D02d605F',
     abi: StabilityPool,
+  },
+  BTCB_token: {
+    address: '0x6ce8dA28E2f864420840cF74474eFf5fD80E65B8',
+    abi: erc20TokenAbi,
+  },
+  Masset_proxy: {
+    address: '0x63f9a9145147330dFAdc991CC3821DF23879ae16',
+    abi: Masset,
   },
 };

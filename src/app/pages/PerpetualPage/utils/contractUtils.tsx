@@ -615,7 +615,12 @@ const perpetualTradeArgs = (
   const deadline = Math.round(Date.now() / 1000) + 86400; // 1 day
   const timeNow = Math.round(Date.now() / 1000);
 
-  let flags = isClosePosition ? MASK_CLOSE_ONLY : MASK_MARKET_ORDER;
+  let flags = MASK_MARKET_ORDER;
+
+  if (isClosePosition) {
+    flags = flags.or(MASK_CLOSE_ONLY);
+  }
+
   if (transaction.keepPositionLeverage) {
     flags = flags.or(MASK_KEEP_POS_LEVERAGE);
   }

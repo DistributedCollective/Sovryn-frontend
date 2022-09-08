@@ -7,8 +7,12 @@ import { useFetch } from 'app/hooks/useFetch';
 import { useMaintenance } from 'app/hooks/useMaintenance';
 import { translations } from 'locales/i18n';
 import { Asset } from 'types';
-import { discordInvite, learnMoreYieldFarming } from 'utils/classifiers';
-import { backendUrl, currentChainId } from 'utils/classifiers';
+import {
+  ammServiceUrl,
+  discordInvite,
+  learnMoreYieldFarming,
+} from 'utils/classifiers';
+import { currentChainId } from 'utils/classifiers';
 import { LiquidityPoolDictionary } from '../../../utils/dictionaries/liquidity-pool-dictionary';
 import { SkeletonRow } from '../../components/Skeleton/SkeletonRow';
 import { useAccount } from '../../hooks/useAccount';
@@ -47,7 +51,7 @@ export function LiquidityMining() {
   ]);
 
   const { value: ammData, loading } = useFetch(
-    `${backendUrl[currentChainId]}/amm/apy/all`,
+    `${ammServiceUrl[currentChainId]}/amm`,
   );
 
   useEffect(() => linkAsset && history.replace(location.pathname), [
@@ -65,7 +69,7 @@ export function LiquidityMining() {
       </Helmet>
       <div className="tw-max-w-screen-2xl tw-mx-auto tw-container 2xl:tw-px-0 tw-w-full">
         <PromotionsCarousel className="tw-mt-3 tw-mb-7">
-          <PromotionCard
+          {/* <PromotionCard
             appSection={AppSection.YieldFarm}
             backgroundColor={PromotionColor.Orange}
             title={t(translations.promotions.card1.title)}
@@ -79,7 +83,7 @@ export function LiquidityMining() {
             linkAsset={LiquidityPoolDictionary.get(Asset.MYNT, Asset.RBTC)?.key}
             linkDataActionId={`yieldfarm-promo-learnmore-${Asset.MYNT}`}
             imageClassName="tw-transform tw-scale-85"
-          />
+          /> */}
           <PromotionCard
             appSection={AppSection.YieldFarm}
             backgroundColor={PromotionColor.Yellow}
@@ -110,7 +114,7 @@ export function LiquidityMining() {
             linkDataActionId={`yieldfarm-promo-learnmore-${Asset.SOV}`}
             imageClassName="tw-transform tw-scale-85"
           />
-          <PromotionCard
+          {/* <PromotionCard
             appSection={AppSection.YieldFarm}
             backgroundColor={PromotionColor.Green}
             title={t(translations.promotions.card5.title)}
@@ -124,7 +128,7 @@ export function LiquidityMining() {
             linkAsset={LiquidityPoolDictionary.get(Asset.ETH, Asset.RBTC)?.key}
             linkDataActionId={`yieldfarm-promo-learnmore-${Asset.ETH}`}
             imageClassName="tw-transform tw-scale-85"
-          />
+          /> */}
         </PromotionsCarousel>
 
         <AmmPoolsBanner onDataNotPresent={onOldPoolsNotPresent} />

@@ -115,7 +115,11 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
         <div className="tw-flex tw-flex-row tw-items-start tw-justify-between tw-h-12">
           {manual || sliderValue < 0 ? (
             <div className="tw-flex tw-items-center tw-justify-center tw-w-full">
-              <button className="tw-w-1/6 tw-p-1" onClick={onDisableManual}>
+              <button
+                className="tw-w-1/6 tw-p-1"
+                onClick={onDisableManual}
+                data-action-id="perps-leverageSelector-closeButton"
+              >
                 <Icon icon={faXmark} size="lg" />
               </button>
               <Input
@@ -127,6 +131,7 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
                 step={0.01}
                 onBlur={onInputBlur}
                 onChangeText={onInputChange}
+                dataActionId="perps-leverageSelector-manualInput"
               />
               <span className="tw-w-1/6" />
             </div>
@@ -151,7 +156,11 @@ export const LeverageSelector: React.FC<LeverageSelectorProps> = ({
                 type={SliderType.gradient}
               />
               {!disabled && (
-                <button className="tw-text-secondary" onClick={onEnableManual}>
+                <button
+                  className="tw-text-secondary"
+                  onClick={onEnableManual}
+                  data-action-id="perps-leverageSelector-manualButton"
+                >
                   <EditIcon className="tw-h-5" />
                 </button>
               )}

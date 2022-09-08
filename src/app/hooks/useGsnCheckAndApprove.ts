@@ -26,7 +26,7 @@ export const useGsnCheckAndApprove = (
   asset?: Asset,
 ) => {
   const address = useAccount();
-  const { send, txHash, status, loading } = useGsnSendTx(
+  const { send, status, loading, ...rest } = useGsnSendTx(
     chain,
     contractName,
     'approve',
@@ -126,11 +126,11 @@ export const useGsnCheckAndApprove = (
 
   return {
     nonce: result.nonce,
-    approveTxHash: txHash,
     error: result.error,
     rejected: result.rejected,
     status: status,
     loading: loading,
     checkAndApprove,
+    ...rest,
   };
 };

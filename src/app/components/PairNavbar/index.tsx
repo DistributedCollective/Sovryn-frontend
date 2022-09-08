@@ -12,6 +12,7 @@ import { actions as marginActions } from 'app/pages/MarginTradePage/slice';
 import { usePairList } from 'app/hooks/trading/usePairList';
 import { ITradingPairs, TradingType } from 'types/trading-pairs';
 import { Asset } from 'types/asset';
+import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
 
 interface IPairNavbarProps {
   type: TradingType;
@@ -72,24 +73,39 @@ export const PairNavbar: React.FC<IPairNavbarProps> = ({ type }) => {
       for (let item of filteredList) {
         if (selectedPair[2]) {
           if (
-            tradingType[`${item[0].quote_symbol}_${item[0].base_symbol}`] ===
-              tradingType[`${selectedPair[0]}_${selectedPair[1]}`] &&
-            tradingType[`${item[1].quote_symbol}_${item[1].base_symbol}`] ===
-              tradingType[`${selectedPair[0]}_${selectedPair[1]}`]
+            tradingType[
+              `${assetByTokenAddress(item[0].quote_id)}_${assetByTokenAddress(
+                item[0].base_id,
+              )}`
+            ] === tradingType[`${selectedPair[0]}_${selectedPair[1]}`] &&
+            tradingType[
+              `${assetByTokenAddress(item[1].quote_id)}_${assetByTokenAddress(
+                item[1].base_id,
+              )}`
+            ] === tradingType[`${selectedPair[0]}_${selectedPair[1]}`]
           ) {
             setPair(item);
           }
         } else {
           if (
-            tradingType[`${item[0].base_symbol}_${item[1].base_symbol}`] ===
-            tradingType[`${selectedPair[0]}_${selectedPair[1]}`]
+            tradingType[
+              `${assetByTokenAddress(item[0].base_id)}_${assetByTokenAddress(
+                item[1].base_id,
+              )}`
+            ] === tradingType[`${selectedPair[0]}_${selectedPair[1]}`]
           ) {
             setPair(item);
           } else if (
-            tradingType[`${item[0].trading_pairs}`] ===
-              tradingType[`${selectedPair[0]}_${selectedPair[1]}`] &&
-            tradingType[`${item[1].trading_pairs}`] ===
-              tradingType[`${selectedPair[0]}_${selectedPair[1]}`] &&
+            tradingType[
+              `${assetByTokenAddress(item[0].base_id)}_${assetByTokenAddress(
+                item[0].quote_id,
+              )}`
+            ] === tradingType[`${selectedPair[0]}_${selectedPair[1]}`] &&
+            tradingType[
+              `${assetByTokenAddress(item[1].base_id)}_${assetByTokenAddress(
+                item[1].quote_id,
+              )}`
+            ] === tradingType[`${selectedPair[0]}_${selectedPair[1]}`] &&
             !item[2]
           ) {
             setPair(item);
@@ -99,7 +115,11 @@ export const PairNavbar: React.FC<IPairNavbarProps> = ({ type }) => {
     } else if (!Object.keys(selectedPair).length && !pair) {
       // set SOV_RBTC by default
       for (let item of pairsArray) {
-        if (item.trading_pairs === tradingType.SOV_RBTC) {
+        if (
+          `${assetByTokenAddress(item.base_id)}_${assetByTokenAddress(
+            item.quote_id,
+          )}` === tradingType.SOV_RBTC
+        ) {
           setPair([item, item]);
         }
       }
@@ -122,32 +142,44 @@ export const PairNavbar: React.FC<IPairNavbarProps> = ({ type }) => {
       setPair(pair);
       if (pair[1] !== pair[0]) {
         reactLocalStorage.setObject(localStoreObject, [
-          pair[0].base_symbol,
-          pair[1].base_symbol,
+          assetByTokenAddress(pair[0].base_id),
+          assetByTokenAddress(pair[1].base_id),
         ]);
         dispatchAction(
-          tradingType[`${pair[0].base_symbol}_${pair[1].base_symbol}`],
+          tradingType[
+            `${assetByTokenAddress(pair[0].base_id)}_${assetByTokenAddress(
+              pair[1].base_id,
+            )}`
+          ],
         );
       }
       //filtering pairs for RBTC as target
       if (pair[0].base_symbol === pair[1].base_symbol && !pair[2]) {
         reactLocalStorage.setObject(localStoreObject, [
-          pair[0].base_symbol,
-          pair[1].quote_symbol,
+          assetByTokenAddress(pair[0].base_id),
+          assetByTokenAddress(pair[1].quote_id),
         ]);
         dispatchAction(
-          tradingType[`${pair[0].base_symbol}_${pair[0].quote_symbol}`],
+          tradingType[
+            `${assetByTokenAddress(pair[0].base_id)}_${assetByTokenAddress(
+              pair[0].quote_id,
+            )}`
+          ],
         );
       }
       //filtering pairs for RBTC as source
       if (pair[0].base_symbol === pair[1].base_symbol && pair[2]) {
         reactLocalStorage.setObject(localStoreObject, [
-          pair[0].quote_symbol,
-          pair[1].base_symbol,
+          assetByTokenAddress(pair[0].quote_id),
+          assetByTokenAddress(pair[1].base_id),
           pair[2],
         ]);
         dispatchAction(
-          tradingType[`${pair[0].quote_symbol}_${pair[0].base_symbol}`],
+          tradingType[
+            `${assetByTokenAddress(pair[0].quote_id)}_${assetByTokenAddress(
+              pair[0].base_id,
+            )}`
+          ],
         );
       }
       setIsOpen(false);

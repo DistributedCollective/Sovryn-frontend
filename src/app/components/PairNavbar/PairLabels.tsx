@@ -8,6 +8,7 @@ import { Asset } from 'types';
 import { Button, ButtonSize, ButtonStyle } from 'app/components/Button';
 import { pairList, pairs } from 'app/pages/SpotTradingPage/types';
 import { AssetSymbolRenderer } from '../AssetSymbolRenderer';
+import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
 
 interface IPairLabelsProps {
   onChangeCategory: (value: string) => void;
@@ -30,7 +31,7 @@ export const PairLabels: React.FC<IPairLabelsProps> = ({
       return [];
     }
     return Object.keys(spotPairs)
-      .map(key => spotPairs[key].base_symbol)
+      .map(key => assetByTokenAddress(spotPairs[key].base_id))
       .filter(pair => pair);
   }, [spotPairs]);
 
@@ -50,9 +51,9 @@ export const PairLabels: React.FC<IPairLabelsProps> = ({
       if (spotPairsList.includes(item)) {
         return item;
       }
-      return null;
+      return undefined;
     })
-    .filter(item => item !== null);
+    .filter(item => item !== undefined);
 
   const categories =
     type === TradingType.SPOT ? [Asset.RBTC, ...labelsList] : null;
@@ -81,7 +82,7 @@ export const PairLabels: React.FC<IPairLabelsProps> = ({
               size={ButtonSize.sm}
               style={ButtonStyle.link}
               key={currency}
-              onClick={() => onChangeCategory(currency)}
+              onClick={() => onChangeCategory(currency || '')}
             />
           );
         })}

@@ -5,10 +5,7 @@ import { translations } from 'locales/i18n';
 
 import { SelectBox } from '../../../BridgeDepositPage/components/SelectBox';
 import { noop } from '../../../../constants';
-import {
-  getWalletImage,
-  getWalletName,
-} from '../../../../components/UserAssets/TxDialog/WalletLogo';
+import { getWalletImage } from '../../../../components/UserAssets/TxDialog/WalletLogo';
 import { detectWeb3Wallet } from '../../../../../utils/helpers';
 import { SendTxResponse } from '../../../../hooks/useSendContractTx';
 import { TxStatus } from '../../../../../store/global/transactions-store/types';
@@ -80,11 +77,10 @@ export const WalletTxHelper: React.FC<WalletTxHelperProps> = ({
     <>
       <SelectBox onClick={onClick}>
         <img
-          className="tw-h-20 tw-mb-5 tw-mt-2"
+          className="tw-h-20"
           src={getWalletImage(walletName)}
           alt={walletName}
         />
-        <div>{getWalletName(walletName)}</div>
       </SelectBox>
       {renderDescription && (
         <p className="tw-w-80 tw-mt-12 tw-text-center">{renderDescription}</p>

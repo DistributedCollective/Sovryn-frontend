@@ -7,12 +7,11 @@ import { translations } from 'locales/i18n';
 import { useAccount } from '../../hooks/useAccount';
 import { WithdrawContainer } from './containers/WithdrawContainer';
 import { DepositContainer } from './containers/DepositContainer';
-import classNames from 'classnames';
-import styles from './fast-btc-page.module.css';
 import { FastBtcDirectionType } from './types';
 import { Chain } from 'types';
 import { AggregatorWithdrawContainer } from './containers/AggregatorWithdrawContainer';
 import { usePageActions } from 'app/containers/PageContainer';
+import { CrossChainLayout } from 'app/components/CrossChain/CrossChainLayout';
 
 export const FastBtcPage: React.FC = () => {
   const account = useAccount();
@@ -53,31 +52,41 @@ export const FastBtcPage: React.FC = () => {
     }
   }, [type, t]);
 
+  const renderDescription = useMemo(() => {
+    switch (type) {
+      case FastBtcDirectionType.DEPOSIT:
+        return t(translations.fastBtcPage.meta.descriptionDeposit);
+      case FastBtcDirectionType.WITHDRAW:
+        return t(translations.fastBtcPage.meta.descriptionWithdraw);
+      default:
+        return t(translations.fastBtcPage.meta.description);
+    }
+  }, [type, t]);
+
   return (
     <>
       <Helmet>
         <title>{renderTitle}</title>
-        <meta
-          name="description"
-          content={t(translations.fastBtcPage.meta.description)}
-        />
+        <meta name="description" content={renderDescription} />
       </Helmet>
-      <div
-        className={classNames(
-          'tw-flex tw-flex-row tw-justify-between tw-items-center md:tw-items-start tw-w-full tw-p-5 tw-bg-gray-4 tw-relative tw-text-sm',
-          styles.page,
-        )}
+
+      <CrossChainLayout
+        title={renderTitle}
+        subtitle={renderDescription}
+        network={network}
       >
-        {type === FastBtcDirectionType.DEPOSIT && (
-          <DepositContainer network={network} />
-        )}
-        {type === FastBtcDirectionType.WITHDRAW && network === Chain.RSK && (
-          <WithdrawContainer />
-        )}
-        {type === FastBtcDirectionType.WITHDRAW && network !== Chain.RSK && (
-          <AggregatorWithdrawContainer network={network} />
-        )}
-      </div>
+        <div className="tw-flex tw-flex-col tw-h-full tw-relative">
+          {type === FastBtcDirectionType.DEPOSIT && (
+            <DepositContainer network={network} />
+          )}
+          {type === FastBtcDirectionType.WITHDRAW && network === Chain.RSK && (
+            <WithdrawContainer />
+          )}
+          {type === FastBtcDirectionType.WITHDRAW && network !== Chain.RSK && (
+            <AggregatorWithdrawContainer network={network} />
+          )}
+        </div>
+      </CrossChainLayout>
     </>
   );
 };

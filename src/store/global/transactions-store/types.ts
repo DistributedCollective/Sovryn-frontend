@@ -60,6 +60,7 @@ export enum TxType {
   PERPETUAL_CANCEL_LIMIT_ORDER = 'perpetual_cancel_limit_order',
   LIMIT_ORDER = 'limit_order',
   SETTLEMENT_WITDHRAW = 'settlement_withdraw',
+  CONVERT_BTCB = 'convert_btcb',
 }
 
 export enum TxStatus {
@@ -69,6 +70,11 @@ export enum TxStatus {
   PENDING = 'pending',
   CONFIRMED = 'confirmed',
   FAILED = 'failed',
+}
+
+export enum TxFailReason {
+  INSUFFICIENT_USER_FUNDS = 'insufficient_user_funds',
+  UNKNOWN = 'unknown',
 }
 
 export interface Transactions {

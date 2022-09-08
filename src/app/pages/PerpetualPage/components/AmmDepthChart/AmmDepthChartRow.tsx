@@ -24,12 +24,12 @@ export const AmmDepthChartRow: React.FC<AmmDepthChartRowProps> = ({
       {toNumberFormat(row.price, 1)}
     </td>
     <td className="tw-px-2 tw-py-1 tw-text-right">
-      {toNumberFormat(Math.abs(row.deviation), 2, 0)}%
+      {toNumberFormat(Math.abs(row.deviation), 2, 2)}%
     </td>
     <td className="tw-relative tw-px-2 tw-py-1 tw-text-right tw-rounded-r">
       <span
         className={classNames(
-          'tw-absolute tw-h-full tw-top-0 tw-left-0 tw-opacity-25 tw-rounded tw-transition-all tw-duration-300',
+          'tw-absolute tw-h-5 tw-top-1 tw-left-0 tw-opacity-25 tw-rounded tw-transition-all tw-duration-300',
           type === 'short' ? 'tw-bg-trade-short' : 'tw-bg-trade-long',
         )}
         style={{ width: (row.amount / maxTotal) * 100 + '%' }}

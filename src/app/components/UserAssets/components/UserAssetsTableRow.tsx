@@ -140,12 +140,6 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
         <div className="tw-w-full tw-flex tw-flex-row tw-space-x-4 tw-justify-end">
           {asset === Asset.RBTC && (
             <>
-              <Button
-                text={t(translations.userAssets.actions.buy)}
-                onClick={onTransack}
-                style={ButtonStyle.link}
-                size={ButtonSize.sm}
-              />
               <Tooltip
                 position="top"
                 hoverOpenDelay={0}
@@ -169,6 +163,7 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
                     href="/fast-btc/withdraw"
                     style={ButtonStyle.link}
                     size={ButtonSize.sm}
+                    dataActionId={`portfolio-action-send-${asset}`}
                   />
                 )}
               </Tooltip>
@@ -193,9 +188,10 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
                 ) : (
                   <Button
                     text={t(translations.common.receive)}
-                    href="/fast-btc/deposit"
+                    href="/rbtc"
                     style={ButtonStyle.link}
                     size={ButtonSize.sm}
+                    dataActionId={`portfolio-action-receive-${asset}`}
                   />
                 )}
               </Tooltip>
@@ -208,6 +204,7 @@ export const UserAssetsTableRow: React.FC<IUserAssetsTableRow> = ({
               style={ButtonStyle.link}
               size={ButtonSize.sm}
               disabled={!hasAnyTokens}
+              dataActionId={`portfolio-action-convert-${asset}`}
             />
           )}
           {[Asset.SOV, Asset.ETH, Asset.XUSD, Asset.BNB].includes(asset) && (
