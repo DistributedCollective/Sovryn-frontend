@@ -9,9 +9,9 @@ import imgNoClaim from 'assets/images/reward/ARMANDO__LENDING.svg';
 import { NoRewardInfo } from '../NoRewardInfo';
 import { IEarnedFee } from '../../hooks/useGetFeesEarnedClaimAmount';
 import { FeesEarnedClaimRow } from '../ClaimForms/FeesEarnedClaimRow';
-import { useGetFeesEarnedEvents } from '../../hooks/useGetFeesEarnedEvents';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { weiTo18 } from 'utils/blockchain/math-helpers';
+import { useGetTradingRewards } from '../RewardTab/hooks/useGetTradingRewards';
 
 interface IFeesEarnedTabProps {
   amountToClaim: string;
@@ -26,11 +26,13 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const { totalAmount, loading: totalAmountLoading } = useGetFeesEarnedEvents();
+  const { data: totalTradingRewardsData } = useGetTradingRewards();
 
-  const totalRewardsEarned = useMemo(
-    () => totalAmount.add(amountToClaim).toString(),
-    [totalAmount, amountToClaim],
+  const totalTradingRewards = useMemo(
+    () =>
+      totalTradingRewardsData?.userRewardsEarnedHistory?.totalFeeWithdrawn ||
+      '0',
+    [totalTradingRewardsData],
   );
 
   return (
@@ -91,9 +93,10 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
           color={RewardsDetailColor.Yellow}
           title={t(translations.rewardPage.fee.stakingFee)}
           availableAmount={weiTo18(amountToClaim)}
-          totalEarnedAmount={weiTo18(totalRewardsEarned)}
+          totalEarnedAmount={weiTo18(
+            bignumber(totalTradingRewards).add(amountToClaim).toString(),
+          )}
           asset={Asset.RBTC}
-          loading={totalAmountLoading}
           showApproximateSign
         />
         <RewardsDetail

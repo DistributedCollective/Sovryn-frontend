@@ -7,8 +7,6 @@ import { RewardClaimForm } from '../ClaimForms/RewardClaimForm';
 import { RewardsDetail, RewardsDetailColor } from '../RewardsDetail/index';
 import { calculatePercentageDistribution } from './utils';
 import { useGetTradingRewards } from './hooks/useGetTradingRewards';
-import { useGetTotalLiquidityRewards } from './hooks/useGetTotalLiquidityRewards';
-import { useGetTotalLendingRewards } from './hooks/useGetTotalLendingRewards';
 import { bignumber } from 'mathjs';
 import { NoRewardInfo } from '../../components/NoRewardInfo/index';
 import imgNoClaim from 'assets/images/reward/ARMANDO__LENDING.svg';
@@ -31,13 +29,25 @@ export const RewardTab: React.FC<IRewardTabProps> = ({
   const { t } = useTranslation();
 
   const { data: totalTradingRewardsData } = useGetTradingRewards();
-  const totalLiquidityRewards = useGetTotalLiquidityRewards();
-  const totalLendingRewards = useGetTotalLendingRewards();
 
   const totalTradingRewards = useMemo(
     () =>
       totalTradingRewardsData?.userRewardsEarnedHistory?.totalTradingRewards ||
       '0',
+    [totalTradingRewardsData],
+  );
+
+  const totalLendingRewards = useMemo(
+    () =>
+      totalTradingRewardsData?.userRewardsEarnedHistory?.totalLendingRewards ||
+      '0',
+    [totalTradingRewardsData],
+  );
+
+  const totalLiquidityRewards = useMemo(
+    () =>
+      totalTradingRewardsData?.userRewardsEarnedHistory
+        ?.totalLiquidityRewards || '0',
     [totalTradingRewardsData],
   );
 
@@ -104,7 +114,11 @@ export const RewardTab: React.FC<IRewardTabProps> = ({
           color={RewardsDetailColor.Grey}
           title={t(translations.rewardPage.tradingRewards)}
           availableAmount={weiTo18(availableTradingRewards)}
-          totalEarnedAmount={totalTradingRewards}
+          totalEarnedAmount={weiTo18(
+            bignumber(totalTradingRewards)
+              .add(availableTradingRewards)
+              .toString(),
+          )}
         />
 
         <RewardsDetail
