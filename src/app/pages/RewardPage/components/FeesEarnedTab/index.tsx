@@ -28,7 +28,7 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
 
   const { data: totalTradingRewardsData } = useGetTradingRewards();
 
-  const totalTradingRewards = useMemo(
+  const totalStakingFees = useMemo(
     () =>
       totalTradingRewardsData?.userRewardsEarnedHistory?.totalFeeWithdrawn ||
       '0',
@@ -93,9 +93,9 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
           color={RewardsDetailColor.Yellow}
           title={t(translations.rewardPage.fee.stakingFee)}
           availableAmount={weiTo18(amountToClaim)}
-          totalEarnedAmount={weiTo18(
-            bignumber(totalTradingRewards).add(amountToClaim).toString(),
-          )}
+          totalEarnedAmount={bignumber(totalStakingFees)
+            .add(weiTo18(amountToClaim))
+            .toString()}
           asset={Asset.RBTC}
           showApproximateSign
         />
