@@ -28,27 +28,21 @@ export const RewardTab: React.FC<IRewardTabProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const { data: totalTradingRewardsData } = useGetTradingRewards();
+  const { data: rewardsData } = useGetTradingRewards();
 
   const totalTradingRewards = useMemo(
-    () =>
-      totalTradingRewardsData?.userRewardsEarnedHistory?.totalTradingRewards ||
-      '0',
-    [totalTradingRewardsData],
+    () => rewardsData?.userRewardsEarnedHistory?.totalTradingRewards || '0',
+    [rewardsData],
   );
 
   const totalLendingRewards = useMemo(
-    () =>
-      totalTradingRewardsData?.userRewardsEarnedHistory?.totalLendingRewards ||
-      '0',
-    [totalTradingRewardsData],
+    () => rewardsData?.userRewardsEarnedHistory?.totalLendingRewards || '0',
+    [rewardsData],
   );
 
   const totalLiquidityRewards = useMemo(
-    () =>
-      totalTradingRewardsData?.userRewardsEarnedHistory
-        ?.totalLiquidityRewards || '0',
-    [totalTradingRewardsData],
+    () => rewardsData?.userRewardsEarnedHistory?.totalLiquidityRewards || '0',
+    [rewardsData],
   );
 
   const {

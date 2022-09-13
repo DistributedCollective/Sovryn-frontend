@@ -84,7 +84,16 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
           <LoadableValue
             value={
               bignumber(availableAmount).greaterThan(0) ? (
-                <Tooltip content={`${availableAmount} ${asset}`}>
+                <Tooltip
+                  content={
+                    <AssetValue
+                      value={Number(availableAmount)}
+                      maxDecimals={18}
+                      assetString={asset}
+                      mode={AssetValueMode.auto}
+                    />
+                  }
+                >
                   <>
                     <AssetValue
                       value={Number(availableAmount)}
@@ -111,7 +120,16 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
         <LoadableValue
           value={
             bignumber(totalEarnedAmount).greaterThan(0) ? (
-              <Tooltip content={`${totalEarnedAmount} ${asset}`}>
+              <Tooltip
+                content={
+                  <AssetValue
+                    value={Number(totalEarnedAmount)}
+                    maxDecimals={18}
+                    assetString={asset}
+                    mode={AssetValueMode.auto}
+                  />
+                }
+              >
                 <>
                   <AssetValue
                     value={Number(totalEarnedAmount)}

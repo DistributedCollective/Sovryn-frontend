@@ -26,13 +26,11 @@ export const FeesEarnedTab: React.FC<IFeesEarnedTabProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const { data: totalTradingRewardsData } = useGetTradingRewards();
+  const { data: rewardsData } = useGetTradingRewards();
 
   const totalStakingFees = useMemo(
-    () =>
-      totalTradingRewardsData?.userRewardsEarnedHistory?.totalFeeWithdrawn ||
-      '0',
-    [totalTradingRewardsData],
+    () => rewardsData?.userRewardsEarnedHistory?.totalFeeWithdrawn || '0',
+    [rewardsData],
   );
 
   return (

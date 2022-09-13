@@ -22,13 +22,11 @@ export const LiquidTab: React.FC<ILiquidTabProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const { data: totalTradingRewardsData } = useGetTradingRewards();
+  const { data: rewardsData } = useGetTradingRewards();
 
   const totalStakingRewards = useMemo(
-    () =>
-      totalTradingRewardsData?.userRewardsEarnedHistory?.totalStakingRewards ||
-      '0',
-    [totalTradingRewardsData],
+    () => rewardsData?.userRewardsEarnedHistory?.totalStakingRewards || '0',
+    [rewardsData],
   );
 
   return (
