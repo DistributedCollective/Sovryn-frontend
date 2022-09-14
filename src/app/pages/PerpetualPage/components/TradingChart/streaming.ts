@@ -19,7 +19,7 @@ import {
 import { symbolMap } from './helpers';
 import { getContract } from 'utils/blockchain/contract-helpers';
 import { BigNumber } from 'ethers';
-import { ABK64x64ToFloat } from '../../utils/contractUtils';
+import { ABK64x64ToFloat } from '@sovryn/perpetual-swap/dist/scripts/utils/perpMath';
 
 // const WebSocket = require('ws');
 // const url = 'ws://localhost:8080';

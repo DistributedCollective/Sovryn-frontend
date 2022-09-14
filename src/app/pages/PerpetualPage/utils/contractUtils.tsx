@@ -57,6 +57,7 @@ import { ethGenesisAddress } from '../../../../utils/classifiers';
 import { SendTxResponseInterface } from '../../../hooks/useSendContractTx';
 import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
 import { PerpetualPairDictionary } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
+import { ABK64x64ToFloat } from '@sovryn/perpetual-swap/dist/scripts/utils/perpMath';
 
 const {
   calculateSlippagePrice,
@@ -116,21 +117,6 @@ export const ABK64x64ToWei = (value: BigNumber) => {
   const weiString = integerPart.toString() + sPad + decimalPart.toString();
 
   return weiString;
-};
-
-export const ABK64x64ToFloat = (value: BigNumber) => {
-  const sign = value.lt(0) ? -1 : 1;
-  value = value.mul(sign);
-  const integerPart = value.div(ONE_64x64);
-  let decimalPart = value.sub(integerPart.mul(ONE_64x64));
-  decimalPart = decimalPart.mul(DEC_18).div(ONE_64x64);
-  const k = 18 - decimalPart.toString().length;
-
-  const sPad = '0'.repeat(k);
-  const numberString =
-    integerPart.toString() + '.' + sPad + decimalPart.toString();
-
-  return parseFloat(numberString) * sign;
 };
 
 export const checkAndApprove = async (

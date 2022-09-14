@@ -3,10 +3,10 @@ import {
   generateFirstCandleQuery,
   CandleDuration,
 } from '../../hooks/graphql/useGetCandles';
-import { ABK64x64ToFloat } from '../../utils/contractUtils';
 import { BigNumber } from 'ethers';
 import { PerpetualPairDictionary } from '../../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { ApolloClient } from '@apollo/client';
+import { ABK64x64ToFloat } from '@sovryn/perpetual-swap/dist/scripts/utils/perpMath';
 
 // Supported configuration options can be found here:
 // https://github.com/tradingview/charting_library/wiki/JS-Api/f62fddae9ad1923b9f4c97dbbde1e62ff437b924#onreadycallback

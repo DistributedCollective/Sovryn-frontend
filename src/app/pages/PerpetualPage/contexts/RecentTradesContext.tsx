@@ -15,12 +15,12 @@ import { getContract } from 'utils/blockchain/contract-helpers';
 import { useGetRecentTrades } from '../hooks/graphql/useGetRecentTrades';
 import { Subscription } from 'web3-core-subscriptions';
 import { BigNumber } from 'ethers';
-import { ABK64x64ToFloat } from '../utils/contractUtils';
 import {
   getPriceChange,
   getTradeType,
 } from '../components/RecentTradesTable/utils';
 import { useAccount } from '../../../hooks/useAccount';
+import { ABK64x64ToFloat } from '@sovryn/perpetual-swap/dist/scripts/utils/perpMath';
 
 export const RecentTradesContext = createContext<RecentTradesContextType>({
   trades: [],
