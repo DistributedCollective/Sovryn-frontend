@@ -474,25 +474,24 @@ export const addMissingBars = (
       if (search) {
         newBars.push(search);
       } else {
-        const next = items[index + 1];
-        const previous = newBars[index - 1] || firstItem;
+        const searchNext = items.find(item => item.time > nextTime);
 
-        if (next) {
+        if (searchNext) {
+          const previous = newBars
+            .filter(item => item.time < nextTime)
+            .sort((a, b) => b.time - a.time)[0];
+
+          const open = previous ? previous.close : searchNext.open;
+          const close = searchNext.close;
+
+          const high = Math.max(open, close);
+          const low = Math.min(open, close);
+
           newBars.push({
-            open: previous.close,
-            high: next.open,
-            low: next.open,
-            close: next.open,
-            volume: 0,
-            time: nextTime,
-          });
-        } else {
-          const previous = newBars[index - 1] || firstItem;
-          newBars.push({
-            open: previous.close,
-            high: previous.close,
-            low: previous.close,
-            close: previous.close,
+            open,
+            high,
+            low,
+            close,
             volume: 0,
             time: nextTime,
           });
@@ -516,53 +515,3 @@ export const addMissingBars = (
 
   return items;
 };
-
-// export const addMissingBars = (
-//   bars: Bar[],
-//   candleDetails: CandleDetails,
-//   startTimestamp: number,
-//   endTimestamp: number,
-// ): Bar[] => {
-//   const seconds = candleDetails.candleSeconds * 1e3;
-//   let newBars: Bar[] = [];
-//   let previousBar = bars[bars.length - 1];
-//   for (let i = 0; i < bars.length; i++) {
-//     previousBar = newBars[newBars.length - 1];
-//     if (i === 0) {
-//       newBars.push(bars[i]);
-//     } else if (bars[i].time === previousBar.time + seconds) {
-//       /* Is next bar in sequence */
-//       newBars.push(bars[i]);
-//     } else {
-//       const extraBar = {
-//         high: previousBar.close,
-//         low: previousBar.close,
-//         open: previousBar.close,
-//         close: previousBar.close,
-//         volume: 0,
-//       };
-//       let startTime = previousBar.time + seconds;
-//       while (startTime < bars[i].time) {
-//         const newBar = {
-//           ...extraBar,
-//           time: startTime,
-//         };
-//         newBars.push(newBar);
-//         startTime += seconds;
-//       }
-//       newBars.push(bars[i]);
-//     }
-//   }
-
-//   let items = uniqBy(newBars, 'time').sort((a, b) => a.time - b.time);
-
-//   items = items.map((item, index) => {
-//     return {
-//       ...item,
-//       open: index !== 0 ? items[index - 1].close : item.open,
-//       close: index !== items.length - 1 ? items[index + 1].open : item.close,
-//     };
-//   });
-
-//   return items;
-// };
