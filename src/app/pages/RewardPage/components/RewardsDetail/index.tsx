@@ -89,7 +89,7 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
                     <AssetValue
                       value={Number(availableAmount)}
                       maxDecimals={18}
-                      assetString={asset}
+                      asset={asset}
                       mode={AssetValueMode.auto}
                     />
                   }
@@ -125,7 +125,7 @@ export const RewardsDetail: React.FC<IRewardsDetailProps> = ({
                   <AssetValue
                     value={Number(totalEarnedAmount)}
                     maxDecimals={18}
-                    assetString={asset}
+                    asset={asset}
                     mode={AssetValueMode.auto}
                   />
                 }
