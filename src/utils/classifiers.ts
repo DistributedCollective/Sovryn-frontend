@@ -28,7 +28,7 @@ export const blockExplorers = {
 
 export const rpcNodes = {
   30: [
-    'https://mainnet.sovryn.app/rpc',
+    'https://mainnet3-new.sovryn.app/rpc',
     'https://mainnet2.sovryn.app/rpc',
     'https://public-node.rsk.co/',
   ],
