@@ -57,7 +57,10 @@ import { ethGenesisAddress } from '../../../../utils/classifiers';
 import { SendTxResponseInterface } from '../../../hooks/useSendContractTx';
 import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
 import { PerpetualPairDictionary } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
-import { ABK64x64ToFloat } from '@sovryn/perpetual-swap/dist/scripts/utils/perpMath';
+import {
+  ABK64x64ToFloat,
+  floatToABK64x64,
+} from '@sovryn/perpetual-swap/dist/scripts/utils/perpMath';
 import {
   getLiquidityPoolFieldToIndexMap,
   getPerpStorageFieldToIndexMap,
@@ -71,7 +74,7 @@ const {
   isTraderInitialMarginSafe,
 } = perpUtils;
 
-export const traderMgnTokenAddr = '0x0'; // TODO: This is only temporary, delete it once we have full support for BTCB as collateral
+export const traderMgnTokenAddr = '0x0000000000000000000000000000000000000000'; // TODO: This is only temporary, delete it once we have full support for BTCB as collateral
 
 export const ONE_64x64 = BigNumber.from('0x10000000000000000');
 export const DEC_18 = BigNumber.from(10).pow(BigNumber.from(18));
@@ -89,25 +92,6 @@ export const getSignedAmount = (
 // Converts wei string to ABK64x64 bigint-format, creates string from number with 18 decimals
 export const weiToABK64x64 = (value: string) =>
   BigNumber.from(value).mul(ONE_64x64).div(DEC_18);
-
-// Converts float to ABK64x64 bigint-format, creates string from number with 18 decimals
-export const floatToABK64x64 = (value: number) => {
-  if (value === 0) {
-    return BigNumber.from(0);
-  }
-
-  const sign = Math.sign(value);
-  const absoluteValue = Math.abs(value);
-
-  const stringValueArray = absoluteValue.toFixed(18).split('.');
-  const integerPart = BigNumber.from(stringValueArray[0]);
-  const decimalPart = BigNumber.from(stringValueArray[1]);
-
-  const integerPartBigNumber = integerPart.mul(ONE_64x64);
-  const decimalPartBigNumber = decimalPart.mul(ONE_64x64).div(DEC_18);
-
-  return integerPartBigNumber.add(decimalPartBigNumber).mul(sign);
-};
 
 export const ABK64x64ToWei = (value: BigNumber) => {
   const sign = value.lt(0) ? -1 : 1;
@@ -687,6 +671,7 @@ const perpetualTradeArgs = (
   }
 
   const order = [
+    flags,
     pair.id,
     account,
     floatToABK64x64(signedAmount),
@@ -695,7 +680,6 @@ const perpetualTradeArgs = (
     deadline,
     ethGenesisAddress,
     traderMgnTokenAddr, // TODO: This is only temporary, delete it once we have full support for BTCB as collateral
-    flags,
     floatToABK64x64(leverage),
     timeNow,
   ];
@@ -732,16 +716,16 @@ const perpetualCreateLimitTradeArgs = async (
   }
 
   const order = {
+    flags,
     iPerpetualId: pair.id,
     traderAddr: account,
-    fAmount: floatToABK64x64(signedAmount).toString(),
-    fLimitPrice: weiToABK64x64(limit).toString(),
-    fTriggerPrice: weiToABK64x64(trigger).toString(),
+    fAmount: floatToABK64x64(signedAmount),
+    fLimitPrice: weiToABK64x64(limit),
+    fTriggerPrice: weiToABK64x64(trigger),
     iDeadline: deadlineSeconds,
     referrerAddr: ethGenesisAddress,
     traderMgnTokenAddr, // TODO: This is only temporary, delete it once we have full support for BTCB as collateral
-    flags,
-    fLeverage: floatToABK64x64(leverage).toString(),
+    fLeverage: floatToABK64x64(leverage),
     createdTimestamp: createdSeconds,
   };
 
@@ -807,11 +791,11 @@ export const perpetualTransactionArgs = async (
       return await perpetualCancelLimitTradeArgs(account, cancelLimitTx);
     case PerpetualTxMethod.deposit:
       const depositTx: PerpetualTxDepositMargin = transaction;
-      return [pair.id, weiToABK64x64(depositTx.amount)];
+      return [pair.id, weiToABK64x64(depositTx.amount), traderMgnTokenAddr];
     case PerpetualTxMethod.withdraw:
       const withdrawTx: PerpetualTxWithdrawMargin = transaction;
-      return [pair.id, weiToABK64x64(withdrawTx.amount)];
+      return [pair.id, weiToABK64x64(withdrawTx.amount), traderMgnTokenAddr];
     case PerpetualTxMethod.withdrawAll:
-      return [pair.id];
+      return [pair.id, traderMgnTokenAddr];
   }
 };
