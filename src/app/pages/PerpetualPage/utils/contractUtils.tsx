@@ -58,6 +58,10 @@ import { SendTxResponseInterface } from '../../../hooks/useSendContractTx';
 import { PerpetualPair } from '../../../../utils/models/perpetual-pair';
 import { PerpetualPairDictionary } from '../../../../utils/dictionaries/perpetual-pair-dictionary';
 import { ABK64x64ToFloat } from '@sovryn/perpetual-swap/dist/scripts/utils/perpMath';
+import {
+  getLiquidityPoolFieldToIndexMap,
+  getPerpStorageFieldToIndexMap,
+} from '@sovryn/perpetual-swap/dist/scripts/utils/perpUtils';
 
 const {
   calculateSlippagePrice,
@@ -425,17 +429,30 @@ export const initialLiquidityPoolState: LiqPoolState = {
   isRunning: false,
 };
 
-const parseLiquidityPoolState = (response: any): LiqPoolState =>
-  response?.[0]
+const parseLiquidityPoolState = (response: any): LiqPoolState => {
+  const fieldsToIndicesMap = getLiquidityPoolFieldToIndexMap();
+
+  return response?.[0]
     ? {
-        fPnLparticipantsCashCC: ABK64x64ToFloat(response[0][8]),
-        fAMMFundCashCC: ABK64x64ToFloat(response[0][9]),
-        fDefaultFundCashCC: ABK64x64ToFloat(response[0][10]),
-        fTargetAMMFundSize: ABK64x64ToFloat(response[0][11]),
-        fTargetDFSize: ABK64x64ToFloat(response[0][12]),
-        isRunning: response[0][0],
+        fPnLparticipantsCashCC: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fPnLparticipantsCashCC']],
+        ),
+        fAMMFundCashCC: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fAMMFundCashCC']],
+        ),
+        fDefaultFundCashCC: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fDefaultFundCashCC']],
+        ),
+        fTargetAMMFundSize: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fTargetAMMFundSize']],
+        ),
+        fTargetDFSize: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fTargetDFSize']],
+        ),
+        isRunning: response[0][fieldsToIndicesMap['isRunning']],
       }
     : initialLiquidityPoolState;
+};
 
 export const liquidityPoolStateCallData = (poolId: string): MultiCallData => ({
   abi: perpetualManagerAbi,
@@ -485,45 +502,106 @@ export const initialPerpetualParameters: PerpParameters = {
   fMaxPositionBC: 0,
 };
 
-const parsePerpetualParameters = (response: any): PerpParameters =>
-  response?.[0]
+const parsePerpetualParameters = (response: any): PerpParameters => {
+  const fieldsToIndicesMap = getPerpStorageFieldToIndexMap();
+
+  return response?.[0]
     ? {
-        poolId: BigNumber.from(response[0][2]).toNumber(),
-        oracleS2Addr: response[0][3],
-        oracleS3Addr: response[0][4],
-        fCurrentFundingRate: ABK64x64ToFloat(response[0][18]),
-        fUnitAccumulatedFunding: ABK64x64ToFloat(response[0][19]),
-        fOpenInterest: ABK64x64ToFloat(response[0][23]),
-        fInitialMarginRate: ABK64x64ToFloat(response[0][31]),
-        fMaintenanceMarginRate: ABK64x64ToFloat(response[0][32]),
-        fIncentiveSpread: ABK64x64ToFloat(response[0][38]),
-        fTreasuryFeeRate: ABK64x64ToFloat(response[0][33]),
-        fPnLPartRate: ABK64x64ToFloat(response[0][34]),
-        fReferralRebateCC: ABK64x64ToFloat(response[0][26]),
-        fLiquidationPenaltyRate: ABK64x64ToFloat(response[0][35]),
-        fMinimalSpread: ABK64x64ToFloat(response[0][36]),
-        fMinimalSpreadInStress: ABK64x64ToFloat(response[0][37]),
-        fLotSizeBC: ABK64x64ToFloat(response[0][27]),
-        fFundingRateClamp: ABK64x64ToFloat(response[0][39]),
-        fMarkPriceEMALambda: ABK64x64ToFloat(response[0][28]),
-        fSigma2: ABK64x64ToFloat(response[0][40]),
-        fSigma3: ABK64x64ToFloat(response[0][41]),
-        fRho23: ABK64x64ToFloat(response[0][30]),
-        fStressReturnS2_0: ABK64x64ToFloat(response[0][43][0]),
-        fStressReturnS2_1: ABK64x64ToFloat(response[0][43][1]),
-        fStressReturnS3_0: ABK64x64ToFloat(response[0][44][0]),
-        fStressReturnS3_1: ABK64x64ToFloat(response[0][44][1]),
-        fDFCoverNRate: ABK64x64ToFloat(response[0][9]),
-        fDFLambda_0: ABK64x64ToFloat(response[0][46][0]),
-        fDFLambda_1: ABK64x64ToFloat(response[0][46][1]),
-        fAMMTargetDD_0: ABK64x64ToFloat(response[0][45][0]),
-        fAMMTargetDD_1: ABK64x64ToFloat(response[0][45][1]),
-        fAMMMinSizeCC: ABK64x64ToFloat(response[0][20]),
-        fMinimalTraderExposureEMA: ABK64x64ToFloat(response[0][21]),
-        fMaximalTradeSizeBumpUp: ABK64x64ToFloat(response[0][29]),
-        fMaxPositionBC: ABK64x64ToFloat(response[0][14]),
+        poolId: BigNumber.from(
+          response[0][fieldsToIndicesMap['poolId']],
+        ).toNumber(),
+        oracleS2Addr: response[0][fieldsToIndicesMap['oracleS2Addr']],
+        oracleS3Addr: response[0][fieldsToIndicesMap['oracleS3Addr']],
+        fCurrentFundingRate: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fCurrentFundingRate']],
+        ),
+        fUnitAccumulatedFunding: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fUnitAccumulatedFunding']],
+        ),
+        fOpenInterest: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fOpenInterest']],
+        ),
+        fInitialMarginRate: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fInitialMarginRate']],
+        ),
+        fMaintenanceMarginRate: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fMaintenanceMarginRate']],
+        ),
+        fIncentiveSpread: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fIncentiveSpread']],
+        ),
+        fTreasuryFeeRate: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fTreasuryFeeRate']],
+        ),
+        fPnLPartRate: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fPnLPartRate']],
+        ),
+        fReferralRebateCC: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fReferralRebateCC']],
+        ),
+        fLiquidationPenaltyRate: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fLiquidationPenaltyRate']],
+        ),
+        fMinimalSpread: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fMinimalSpread']],
+        ),
+        fMinimalSpreadInStress: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fMinimalSpreadInStress']],
+        ),
+        fLotSizeBC: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fLotSizeBC']],
+        ),
+        fFundingRateClamp: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fFundingRateClamp']],
+        ),
+        fMarkPriceEMALambda: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fMarkPriceEMALambda']],
+        ),
+        fSigma2: ABK64x64ToFloat(response[0][fieldsToIndicesMap['fSigma2']]),
+        fSigma3: ABK64x64ToFloat(response[0][fieldsToIndicesMap['fSigma3']]),
+        fRho23: ABK64x64ToFloat(response[0][fieldsToIndicesMap['fRho23']]),
+        fStressReturnS2_0: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fStressReturnS2']][0],
+        ),
+        fStressReturnS2_1: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fStressReturnS2']][1],
+        ),
+        fStressReturnS3_0: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fStressReturnS3']][0],
+        ),
+        fStressReturnS3_1: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fStressReturnS3']][1],
+        ),
+        fDFCoverNRate: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fDFCoverNRate']],
+        ),
+        fDFLambda_0: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fDFLambda']][0],
+        ),
+        fDFLambda_1: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fDFLambda']][1],
+        ),
+        fAMMTargetDD_0: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fAMMTargetDD']][0],
+        ),
+        fAMMTargetDD_1: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fAMMTargetDD']][1],
+        ),
+        fAMMMinSizeCC: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fAMMMinSizeCC']],
+        ),
+        fMinimalTraderExposureEMA: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fMinimalTraderExposureEMA']],
+        ),
+        fMaximalTradeSizeBumpUp: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fMaximalTradeSizeBumpUp']],
+        ),
+        fMaxPositionBC: ABK64x64ToFloat(
+          response[0][fieldsToIndicesMap['fMaxPositionBC']],
+        ),
       }
     : initialPerpetualParameters;
+};
 
 export const perpetualParametersCallData = (
   perpetualId: string,

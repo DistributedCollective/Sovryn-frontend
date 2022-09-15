@@ -1247,14 +1247,14 @@
         "type": "int128"
       },
       {
-        "internalType": "int72[2]",
+        "internalType": "int128[2]",
         "name": "fStressRet2",
-        "type": "int72[2]"
+        "type": "int128[2]"
       },
       {
-        "internalType": "int72[2]",
+        "internalType": "int128[2]",
         "name": "fStressRet3",
-        "type": "int72[2]"
+        "type": "int128[2]"
       },
       {
         "internalType": "int128[2]",
@@ -2369,6 +2369,21 @@
       {
         "components": [
           {
+            "internalType": "uint8",
+            "name": "poolId",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint64",
+            "name": "iLastFundingTime",
+            "type": "uint64"
+          },
+          {
+            "internalType": "address",
+            "name": "oracleS2Addr",
+            "type": "address"
+          },
+          {
             "internalType": "enum PerpStorage.PerpetualState",
             "name": "state",
             "type": "uint8"
@@ -2379,14 +2394,34 @@
             "type": "uint8"
           },
           {
-            "internalType": "uint8",
-            "name": "poolId",
-            "type": "uint8"
+            "internalType": "int128[2]",
+            "name": "fCurrentAMMExposureEMA",
+            "type": "int128[2]"
           },
           {
-            "internalType": "address",
-            "name": "oracleS2Addr",
-            "type": "address"
+            "internalType": "int128[2]",
+            "name": "fAMMTargetDD",
+            "type": "int128[2]"
+          },
+          {
+            "internalType": "int128[2]",
+            "name": "fStressReturnS2",
+            "type": "int128[2]"
+          },
+          {
+            "internalType": "int128[2]",
+            "name": "fStressReturnS3",
+            "type": "int128[2]"
+          },
+          {
+            "internalType": "int128[2]",
+            "name": "fDFLambda",
+            "type": "int128[2]"
+          },
+          {
+            "internalType": "bytes32",
+            "name": "id",
+            "type": "bytes32"
           },
           {
             "internalType": "address",
@@ -2394,65 +2429,18 @@
             "type": "address"
           },
           {
-            "components": [
-              {
-                "internalType": "int128",
-                "name": "fPrice",
-                "type": "int128"
-              },
-              {
-                "internalType": "uint64",
-                "name": "time",
-                "type": "uint64"
-              }
-            ],
-            "internalType": "struct PerpStorage.OraclePriceData",
-            "name": "currentMarkPremiumRate",
-            "type": "tuple"
-          },
-          {
-            "internalType": "uint64",
-            "name": "iLastFundingTime",
-            "type": "uint64"
-          },
-          {
             "internalType": "uint64",
             "name": "iPriceUpdateTimeSec",
             "type": "uint64"
           },
           {
-            "internalType": "uint64",
-            "name": "iLastTargetPoolSizeTime",
-            "type": "uint64"
-          },
-          {
-            "internalType": "int64",
-            "name": "fDFCoverNRate",
-            "type": "int64"
-          },
-          {
-            "internalType": "int128",
-            "name": "fSettlementS2PriceData",
-            "type": "int128"
-          },
-          {
-            "internalType": "int128",
-            "name": "fSettlementS3PriceData",
-            "type": "int128"
+            "internalType": "int32",
+            "name": "fSigma3",
+            "type": "int32"
           },
           {
             "internalType": "int128",
             "name": "premiumRatesEMA",
-            "type": "int128"
-          },
-          {
-            "internalType": "int128",
-            "name": "fTotalMarginBalance",
-            "type": "int128"
-          },
-          {
-            "internalType": "int128",
-            "name": "fMaxPositionBC",
             "type": "int128"
           },
           {
@@ -2492,12 +2480,12 @@
           },
           {
             "internalType": "int128",
-            "name": "fMinimalAMMExposureEMA",
+            "name": "fLotSizeBC",
             "type": "int128"
           },
           {
             "internalType": "int128",
-            "name": "fOpenInterest",
+            "name": "fMinimalAMMExposureEMA",
             "type": "int128"
           },
           {
@@ -2517,108 +2505,120 @@
           },
           {
             "internalType": "int128",
-            "name": "fLotSizeBC",
+            "name": "fOpenInterest",
             "type": "int128"
           },
           {
-            "internalType": "int72",
-            "name": "fMarkPriceEMALambda",
-            "type": "int72"
+            "internalType": "int128",
+            "name": "fMaxPositionBC",
+            "type": "int128"
           },
           {
-            "internalType": "int72",
-            "name": "fMaximalTradeSizeBumpUp",
-            "type": "int72"
+            "internalType": "int128",
+            "name": "fTotalMarginBalance",
+            "type": "int128"
           },
           {
-            "internalType": "int72",
-            "name": "fRho23",
-            "type": "int72"
+            "internalType": "int128",
+            "name": "fSettlementS2PriceData",
+            "type": "int128"
           },
           {
-            "internalType": "int64",
-            "name": "fInitialMarginRate",
-            "type": "int64"
+            "internalType": "int128",
+            "name": "fSettlementS3PriceData",
+            "type": "int128"
           },
           {
-            "internalType": "int64",
-            "name": "fMaintenanceMarginRate",
-            "type": "int64"
+            "internalType": "uint64",
+            "name": "iLastTargetPoolSizeTime",
+            "type": "uint64"
           },
           {
-            "internalType": "int64",
-            "name": "fTreasuryFeeRate",
-            "type": "int64"
-          },
-          {
-            "internalType": "int64",
-            "name": "fPnLPartRate",
-            "type": "int64"
-          },
-          {
-            "internalType": "int64",
-            "name": "fLiquidationPenaltyRate",
-            "type": "int64"
-          },
-          {
-            "internalType": "int64",
-            "name": "fMinimalSpread",
-            "type": "int64"
-          },
-          {
-            "internalType": "int64",
-            "name": "fMinimalSpreadInStress",
-            "type": "int64"
-          },
-          {
-            "internalType": "int64",
-            "name": "fIncentiveSpread",
-            "type": "int64"
-          },
-          {
-            "internalType": "int64",
-            "name": "fFundingRateClamp",
-            "type": "int64"
-          },
-          {
-            "internalType": "int64",
+            "internalType": "int32",
             "name": "fSigma2",
-            "type": "int64"
+            "type": "int32"
           },
           {
-            "internalType": "int64",
-            "name": "fSigma3",
-            "type": "int64"
+            "internalType": "int32",
+            "name": "fTreasuryFeeRate",
+            "type": "int32"
           },
           {
-            "internalType": "int128[2]",
-            "name": "fCurrentAMMExposureEMA",
-            "type": "int128[2]"
+            "internalType": "int32",
+            "name": "fPnLPartRate",
+            "type": "int32"
           },
           {
-            "internalType": "int72[2]",
-            "name": "fStressReturnS2",
-            "type": "int72[2]"
+            "internalType": "int32",
+            "name": "fLiquidationPenaltyRate",
+            "type": "int32"
           },
           {
-            "internalType": "int72[2]",
-            "name": "fStressReturnS3",
-            "type": "int72[2]"
+            "internalType": "int32",
+            "name": "fFundingRateClamp",
+            "type": "int32"
           },
           {
-            "internalType": "int72[2]",
-            "name": "fAMMTargetDD",
-            "type": "int72[2]"
+            "internalType": "int32",
+            "name": "fDFCoverNRate",
+            "type": "int32"
           },
           {
-            "internalType": "int72[2]",
-            "name": "fDFLambda",
-            "type": "int72[2]"
+            "internalType": "int32",
+            "name": "fMaximalTradeSizeBumpUp",
+            "type": "int32"
           },
           {
-            "internalType": "bytes32",
-            "name": "id",
-            "type": "bytes32"
+            "internalType": "int32",
+            "name": "fMarkPriceEMALambda",
+            "type": "int32"
+          },
+          {
+            "internalType": "int32",
+            "name": "fRho23",
+            "type": "int32"
+          },
+          {
+            "internalType": "int32",
+            "name": "fMinimalSpreadInStress",
+            "type": "int32"
+          },
+          {
+            "internalType": "int32",
+            "name": "fIncentiveSpread",
+            "type": "int32"
+          },
+          {
+            "internalType": "int32",
+            "name": "fInitialMarginRate",
+            "type": "int32"
+          },
+          {
+            "internalType": "int32",
+            "name": "fMaintenanceMarginRate",
+            "type": "int32"
+          },
+          {
+            "internalType": "int32",
+            "name": "fMinimalSpread",
+            "type": "int32"
+          },
+          {
+            "components": [
+              {
+                "internalType": "int128",
+                "name": "fPrice",
+                "type": "int128"
+              },
+              {
+                "internalType": "uint64",
+                "name": "time",
+                "type": "uint64"
+              }
+            ],
+            "internalType": "struct PerpStorage.OraclePriceData",
+            "name": "currentMarkPremiumRate",
+            "type": "tuple"
           }
         ],
         "internalType": "struct PerpStorage.PerpetualData",
