@@ -5427,10 +5427,10 @@
   dependencies:
     debug "^4.3.1"
 
-"@sovryn/perpetual-swap@5.0.2":
-  version "5.0.2"
-  resolved "https://registry.yarnpkg.com/@sovryn/perpetual-swap/-/perpetual-swap-5.0.2.tgz#84e6bae9d9ba938b005f11bf1436aff2c63a51e8"
-  integrity sha512-CGcYyxROUp64Z5O3zZANn2uTAOVAwLtIM9Gwy1aZCKS9z4sa0p8WnJo+ncoPRldRTt2rD8uyHdqQ2oIlMspo1Q==
+"@sovryn/perpetual-swap@5.0.3":
+  version "5.0.3"
+  resolved "https://registry.yarnpkg.com/@sovryn/perpetual-swap/-/perpetual-swap-5.0.3.tgz#62ee3b2eace03ae20ba1d7082852a7464cfd14f9"
+  integrity sha512-wIFefSbQNGTfKCjNwHqGGM5Y5bXIsiGQamkD+TSZc8TIY6jOLlEJ0CDj5IqsU21B4M2awkU91V+SmQXOr+jkIw==
   dependencies:
     "@opengsn/provider" "^2.2.4"
     "@openzeppelin/contracts" "4.5.0"

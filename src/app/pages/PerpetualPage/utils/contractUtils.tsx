@@ -716,16 +716,16 @@ const perpetualCreateLimitTradeArgs = async (
   }
 
   const order = {
-    flags,
     iPerpetualId: pair.id,
     traderAddr: account,
-    fAmount: floatToABK64x64(signedAmount),
-    fLimitPrice: weiToABK64x64(limit),
-    fTriggerPrice: weiToABK64x64(trigger),
+    fAmount: floatToABK64x64(signedAmount).toString(),
+    fLimitPrice: weiToABK64x64(limit).toString(),
+    fTriggerPrice: weiToABK64x64(trigger).toString(),
     iDeadline: deadlineSeconds,
     referrerAddr: ethGenesisAddress,
     traderMgnTokenAddr, // TODO: This is only temporary, delete it once we have full support for BTCB as collateral
-    fLeverage: floatToABK64x64(leverage),
+    flags,
+    fLeverage: floatToABK64x64(leverage).toString(),
     createdTimestamp: createdSeconds,
   };
 
