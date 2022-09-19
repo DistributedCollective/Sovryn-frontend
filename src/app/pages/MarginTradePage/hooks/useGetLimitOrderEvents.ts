@@ -30,7 +30,7 @@ export const useGetLimitOrderEvents = () => {
 
   const { data } = useGetMarginLimitOrderFilled();
 
-  const events = useMemo(() => data?.marginOrderFilleds, [data]);
+  const events = useMemo(() => data?.marginOrderFilleds || [], [data]);
 
   return {
     events,
