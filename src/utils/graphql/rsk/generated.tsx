@@ -464,13 +464,149 @@ export enum Borrow_OrderBy {
   User = 'user',
 }
 
-export type CandleStick = {
-  __typename?: 'CandleStick';
+/** Cross Chain Bridge */
+export type Bridge = {
+  __typename?: 'Bridge';
+  /** CreatedAtTx - The bridge creation transaction */
+  createdAtTx: Transaction;
+  /** Federation - the Federation entity associated with this bridge */
+  federation: Federation;
+  /** Bridge ID - Bridge Contract Address */
+  id: Scalars['ID'];
+  /** isPaused - Indicates if the bridge is currently paused */
+  isPaused: Scalars['Boolean'];
+  /** isSuffix - is suffix or prefix */
+  isSuffix?: Maybe<Scalars['Boolean']>;
+  /** isUpgrading - Indicates if the bridge is currently upgrading */
+  isUpgrading: Scalars['Boolean'];
+  /** Pausers - an array of addresses authorized to pause the bridge */
+  pausers: Array<Scalars['Bytes']>;
+  /** Prefix - prefix added to sideTokens symbol when created */
+  prefix?: Maybe<Scalars['String']>;
+  /** BridgeType - there are currently only two bridges - RSK_BSC and RSK_ETH */
+  type: BridgeType;
+  /** UpdatedAtTx - The bridge last updated at this transaction */
+  updatedAtTx: Transaction;
+};
+
+export enum BridgeChain {
+  Bsc = 'BSC',
+  Eth = 'ETH',
+  Rsk = 'RSK',
+}
+
+/** BridgeType - only 2 bridges at the moment - RSK <-> BSC and RSK <-> ETH */
+export enum BridgeType {
+  RskBsc = 'RSK_BSC',
+  RskEth = 'RSK_ETH',
+}
+
+export type Bridge_Filter = {
+  createdAtTx?: InputMaybe<Scalars['String']>;
+  createdAtTx_contains?: InputMaybe<Scalars['String']>;
+  createdAtTx_ends_with?: InputMaybe<Scalars['String']>;
+  createdAtTx_gt?: InputMaybe<Scalars['String']>;
+  createdAtTx_gte?: InputMaybe<Scalars['String']>;
+  createdAtTx_in?: InputMaybe<Array<Scalars['String']>>;
+  createdAtTx_lt?: InputMaybe<Scalars['String']>;
+  createdAtTx_lte?: InputMaybe<Scalars['String']>;
+  createdAtTx_not?: InputMaybe<Scalars['String']>;
+  createdAtTx_not_contains?: InputMaybe<Scalars['String']>;
+  createdAtTx_not_ends_with?: InputMaybe<Scalars['String']>;
+  createdAtTx_not_in?: InputMaybe<Array<Scalars['String']>>;
+  createdAtTx_not_starts_with?: InputMaybe<Scalars['String']>;
+  createdAtTx_starts_with?: InputMaybe<Scalars['String']>;
+  federation?: InputMaybe<Scalars['String']>;
+  federation_contains?: InputMaybe<Scalars['String']>;
+  federation_ends_with?: InputMaybe<Scalars['String']>;
+  federation_gt?: InputMaybe<Scalars['String']>;
+  federation_gte?: InputMaybe<Scalars['String']>;
+  federation_in?: InputMaybe<Array<Scalars['String']>>;
+  federation_lt?: InputMaybe<Scalars['String']>;
+  federation_lte?: InputMaybe<Scalars['String']>;
+  federation_not?: InputMaybe<Scalars['String']>;
+  federation_not_contains?: InputMaybe<Scalars['String']>;
+  federation_not_ends_with?: InputMaybe<Scalars['String']>;
+  federation_not_in?: InputMaybe<Array<Scalars['String']>>;
+  federation_not_starts_with?: InputMaybe<Scalars['String']>;
+  federation_starts_with?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+  id_gt?: InputMaybe<Scalars['ID']>;
+  id_gte?: InputMaybe<Scalars['ID']>;
+  id_in?: InputMaybe<Array<Scalars['ID']>>;
+  id_lt?: InputMaybe<Scalars['ID']>;
+  id_lte?: InputMaybe<Scalars['ID']>;
+  id_not?: InputMaybe<Scalars['ID']>;
+  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
+  isPaused?: InputMaybe<Scalars['Boolean']>;
+  isPaused_in?: InputMaybe<Array<Scalars['Boolean']>>;
+  isPaused_not?: InputMaybe<Scalars['Boolean']>;
+  isPaused_not_in?: InputMaybe<Array<Scalars['Boolean']>>;
+  isSuffix?: InputMaybe<Scalars['Boolean']>;
+  isSuffix_in?: InputMaybe<Array<Scalars['Boolean']>>;
+  isSuffix_not?: InputMaybe<Scalars['Boolean']>;
+  isSuffix_not_in?: InputMaybe<Array<Scalars['Boolean']>>;
+  isUpgrading?: InputMaybe<Scalars['Boolean']>;
+  isUpgrading_in?: InputMaybe<Array<Scalars['Boolean']>>;
+  isUpgrading_not?: InputMaybe<Scalars['Boolean']>;
+  isUpgrading_not_in?: InputMaybe<Array<Scalars['Boolean']>>;
+  pausers?: InputMaybe<Array<Scalars['Bytes']>>;
+  pausers_contains?: InputMaybe<Array<Scalars['Bytes']>>;
+  pausers_not?: InputMaybe<Array<Scalars['Bytes']>>;
+  pausers_not_contains?: InputMaybe<Array<Scalars['Bytes']>>;
+  prefix?: InputMaybe<Scalars['String']>;
+  prefix_contains?: InputMaybe<Scalars['String']>;
+  prefix_ends_with?: InputMaybe<Scalars['String']>;
+  prefix_gt?: InputMaybe<Scalars['String']>;
+  prefix_gte?: InputMaybe<Scalars['String']>;
+  prefix_in?: InputMaybe<Array<Scalars['String']>>;
+  prefix_lt?: InputMaybe<Scalars['String']>;
+  prefix_lte?: InputMaybe<Scalars['String']>;
+  prefix_not?: InputMaybe<Scalars['String']>;
+  prefix_not_contains?: InputMaybe<Scalars['String']>;
+  prefix_not_ends_with?: InputMaybe<Scalars['String']>;
+  prefix_not_in?: InputMaybe<Array<Scalars['String']>>;
+  prefix_not_starts_with?: InputMaybe<Scalars['String']>;
+  prefix_starts_with?: InputMaybe<Scalars['String']>;
+  type?: InputMaybe<BridgeType>;
+  type_in?: InputMaybe<Array<BridgeType>>;
+  type_not?: InputMaybe<BridgeType>;
+  type_not_in?: InputMaybe<Array<BridgeType>>;
+  updatedAtTx?: InputMaybe<Scalars['String']>;
+  updatedAtTx_contains?: InputMaybe<Scalars['String']>;
+  updatedAtTx_ends_with?: InputMaybe<Scalars['String']>;
+  updatedAtTx_gt?: InputMaybe<Scalars['String']>;
+  updatedAtTx_gte?: InputMaybe<Scalars['String']>;
+  updatedAtTx_in?: InputMaybe<Array<Scalars['String']>>;
+  updatedAtTx_lt?: InputMaybe<Scalars['String']>;
+  updatedAtTx_lte?: InputMaybe<Scalars['String']>;
+  updatedAtTx_not?: InputMaybe<Scalars['String']>;
+  updatedAtTx_not_contains?: InputMaybe<Scalars['String']>;
+  updatedAtTx_not_ends_with?: InputMaybe<Scalars['String']>;
+  updatedAtTx_not_in?: InputMaybe<Array<Scalars['String']>>;
+  updatedAtTx_not_starts_with?: InputMaybe<Scalars['String']>;
+  updatedAtTx_starts_with?: InputMaybe<Scalars['String']>;
+};
+
+export enum Bridge_OrderBy {
+  CreatedAtTx = 'createdAtTx',
+  Federation = 'federation',
+  Id = 'id',
+  IsPaused = 'isPaused',
+  IsSuffix = 'isSuffix',
+  IsUpgrading = 'isUpgrading',
+  Pausers = 'pausers',
+  Prefix = 'prefix',
+  Type = 'type',
+  UpdatedAtTx = 'updatedAtTx',
+}
+
+export type CandleStickDay = ICandleStick & {
+  __typename?: 'CandleStickDay';
   baseToken?: Maybe<Token>;
   close: Scalars['BigDecimal'];
   high: Scalars['BigDecimal'];
   id: Scalars['ID'];
-  interval?: Maybe<CandleSticksInterval>;
   low: Scalars['BigDecimal'];
   open?: Maybe<Scalars['BigDecimal']>;
   periodStartUnix: Scalars['Int'];
@@ -479,7 +615,7 @@ export type CandleStick = {
   txCount: Scalars['Int'];
 };
 
-export type CandleStick_Filter = {
+export type CandleStickDay_Filter = {
   baseToken?: InputMaybe<Scalars['String']>;
   baseToken_contains?: InputMaybe<Scalars['String']>;
   baseToken_ends_with?: InputMaybe<Scalars['String']>;
@@ -518,10 +654,6 @@ export type CandleStick_Filter = {
   id_lte?: InputMaybe<Scalars['ID']>;
   id_not?: InputMaybe<Scalars['ID']>;
   id_not_in?: InputMaybe<Array<Scalars['ID']>>;
-  interval?: InputMaybe<CandleSticksInterval>;
-  interval_in?: InputMaybe<Array<CandleSticksInterval>>;
-  interval_not?: InputMaybe<CandleSticksInterval>;
-  interval_not_in?: InputMaybe<Array<CandleSticksInterval>>;
   low?: InputMaybe<Scalars['BigDecimal']>;
   low_gt?: InputMaybe<Scalars['BigDecimal']>;
   low_gte?: InputMaybe<Scalars['BigDecimal']>;
@@ -578,12 +710,499 @@ export type CandleStick_Filter = {
   txCount_not_in?: InputMaybe<Array<Scalars['Int']>>;
 };
 
-export enum CandleStick_OrderBy {
+export enum CandleStickDay_OrderBy {
   BaseToken = 'baseToken',
   Close = 'close',
   High = 'high',
   Id = 'id',
-  Interval = 'interval',
+  Low = 'low',
+  Open = 'open',
+  PeriodStartUnix = 'periodStartUnix',
+  QuoteToken = 'quoteToken',
+  TotalVolume = 'totalVolume',
+  TxCount = 'txCount',
+}
+
+export type CandleStickFifteenMinute = ICandleStick & {
+  __typename?: 'CandleStickFifteenMinute';
+  baseToken?: Maybe<Token>;
+  close: Scalars['BigDecimal'];
+  high: Scalars['BigDecimal'];
+  id: Scalars['ID'];
+  low: Scalars['BigDecimal'];
+  open?: Maybe<Scalars['BigDecimal']>;
+  periodStartUnix: Scalars['Int'];
+  quoteToken?: Maybe<Token>;
+  totalVolume: Scalars['BigDecimal'];
+  txCount: Scalars['Int'];
+};
+
+export type CandleStickFifteenMinute_Filter = {
+  baseToken?: InputMaybe<Scalars['String']>;
+  baseToken_contains?: InputMaybe<Scalars['String']>;
+  baseToken_ends_with?: InputMaybe<Scalars['String']>;
+  baseToken_gt?: InputMaybe<Scalars['String']>;
+  baseToken_gte?: InputMaybe<Scalars['String']>;
+  baseToken_in?: InputMaybe<Array<Scalars['String']>>;
+  baseToken_lt?: InputMaybe<Scalars['String']>;
+  baseToken_lte?: InputMaybe<Scalars['String']>;
+  baseToken_not?: InputMaybe<Scalars['String']>;
+  baseToken_not_contains?: InputMaybe<Scalars['String']>;
+  baseToken_not_ends_with?: InputMaybe<Scalars['String']>;
+  baseToken_not_in?: InputMaybe<Array<Scalars['String']>>;
+  baseToken_not_starts_with?: InputMaybe<Scalars['String']>;
+  baseToken_starts_with?: InputMaybe<Scalars['String']>;
+  close?: InputMaybe<Scalars['BigDecimal']>;
+  close_gt?: InputMaybe<Scalars['BigDecimal']>;
+  close_gte?: InputMaybe<Scalars['BigDecimal']>;
+  close_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  close_lt?: InputMaybe<Scalars['BigDecimal']>;
+  close_lte?: InputMaybe<Scalars['BigDecimal']>;
+  close_not?: InputMaybe<Scalars['BigDecimal']>;
+  close_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  high?: InputMaybe<Scalars['BigDecimal']>;
+  high_gt?: InputMaybe<Scalars['BigDecimal']>;
+  high_gte?: InputMaybe<Scalars['BigDecimal']>;
+  high_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  high_lt?: InputMaybe<Scalars['BigDecimal']>;
+  high_lte?: InputMaybe<Scalars['BigDecimal']>;
+  high_not?: InputMaybe<Scalars['BigDecimal']>;
+  high_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  id?: InputMaybe<Scalars['ID']>;
+  id_gt?: InputMaybe<Scalars['ID']>;
+  id_gte?: InputMaybe<Scalars['ID']>;
+  id_in?: InputMaybe<Array<Scalars['ID']>>;
+  id_lt?: InputMaybe<Scalars['ID']>;
+  id_lte?: InputMaybe<Scalars['ID']>;
+  id_not?: InputMaybe<Scalars['ID']>;
+  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
+  low?: InputMaybe<Scalars['BigDecimal']>;
+  low_gt?: InputMaybe<Scalars['BigDecimal']>;
+  low_gte?: InputMaybe<Scalars['BigDecimal']>;
+  low_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  low_lt?: InputMaybe<Scalars['BigDecimal']>;
+  low_lte?: InputMaybe<Scalars['BigDecimal']>;
+  low_not?: InputMaybe<Scalars['BigDecimal']>;
+  low_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  open?: InputMaybe<Scalars['BigDecimal']>;
+  open_gt?: InputMaybe<Scalars['BigDecimal']>;
+  open_gte?: InputMaybe<Scalars['BigDecimal']>;
+  open_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  open_lt?: InputMaybe<Scalars['BigDecimal']>;
+  open_lte?: InputMaybe<Scalars['BigDecimal']>;
+  open_not?: InputMaybe<Scalars['BigDecimal']>;
+  open_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  periodStartUnix?: InputMaybe<Scalars['Int']>;
+  periodStartUnix_gt?: InputMaybe<Scalars['Int']>;
+  periodStartUnix_gte?: InputMaybe<Scalars['Int']>;
+  periodStartUnix_in?: InputMaybe<Array<Scalars['Int']>>;
+  periodStartUnix_lt?: InputMaybe<Scalars['Int']>;
+  periodStartUnix_lte?: InputMaybe<Scalars['Int']>;
+  periodStartUnix_not?: InputMaybe<Scalars['Int']>;
+  periodStartUnix_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  quoteToken?: InputMaybe<Scalars['String']>;
+  quoteToken_contains?: InputMaybe<Scalars['String']>;
+  quoteToken_ends_with?: InputMaybe<Scalars['String']>;
+  quoteToken_gt?: InputMaybe<Scalars['String']>;
+  quoteToken_gte?: InputMaybe<Scalars['String']>;
+  quoteToken_in?: InputMaybe<Array<Scalars['String']>>;
+  quoteToken_lt?: InputMaybe<Scalars['String']>;
+  quoteToken_lte?: InputMaybe<Scalars['String']>;
+  quoteToken_not?: InputMaybe<Scalars['String']>;
+  quoteToken_not_contains?: InputMaybe<Scalars['String']>;
+  quoteToken_not_ends_with?: InputMaybe<Scalars['String']>;
+  quoteToken_not_in?: InputMaybe<Array<Scalars['String']>>;
+  quoteToken_not_starts_with?: InputMaybe<Scalars['String']>;
+  quoteToken_starts_with?: InputMaybe<Scalars['String']>;
+  totalVolume?: InputMaybe<Scalars['BigDecimal']>;
+  totalVolume_gt?: InputMaybe<Scalars['BigDecimal']>;
+  totalVolume_gte?: InputMaybe<Scalars['BigDecimal']>;
+  totalVolume_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  totalVolume_lt?: InputMaybe<Scalars['BigDecimal']>;
+  totalVolume_lte?: InputMaybe<Scalars['BigDecimal']>;
+  totalVolume_not?: InputMaybe<Scalars['BigDecimal']>;
+  totalVolume_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  txCount?: InputMaybe<Scalars['Int']>;
+  txCount_gt?: InputMaybe<Scalars['Int']>;
+  txCount_gte?: InputMaybe<Scalars['Int']>;
+  txCount_in?: InputMaybe<Array<Scalars['Int']>>;
+  txCount_lt?: InputMaybe<Scalars['Int']>;
+  txCount_lte?: InputMaybe<Scalars['Int']>;
+  txCount_not?: InputMaybe<Scalars['Int']>;
+  txCount_not_in?: InputMaybe<Array<Scalars['Int']>>;
+};
+
+export enum CandleStickFifteenMinute_OrderBy {
+  BaseToken = 'baseToken',
+  Close = 'close',
+  High = 'high',
+  Id = 'id',
+  Low = 'low',
+  Open = 'open',
+  PeriodStartUnix = 'periodStartUnix',
+  QuoteToken = 'quoteToken',
+  TotalVolume = 'totalVolume',
+  TxCount = 'txCount',
+}
+
+export type CandleStickFourHour = ICandleStick & {
+  __typename?: 'CandleStickFourHour';
+  baseToken?: Maybe<Token>;
+  close: Scalars['BigDecimal'];
+  high: Scalars['BigDecimal'];
+  id: Scalars['ID'];
+  low: Scalars['BigDecimal'];
+  open?: Maybe<Scalars['BigDecimal']>;
+  periodStartUnix: Scalars['Int'];
+  quoteToken?: Maybe<Token>;
+  totalVolume: Scalars['BigDecimal'];
+  txCount: Scalars['Int'];
+};
+
+export type CandleStickFourHour_Filter = {
+  baseToken?: InputMaybe<Scalars['String']>;
+  baseToken_contains?: InputMaybe<Scalars['String']>;
+  baseToken_ends_with?: InputMaybe<Scalars['String']>;
+  baseToken_gt?: InputMaybe<Scalars['String']>;
+  baseToken_gte?: InputMaybe<Scalars['String']>;
+  baseToken_in?: InputMaybe<Array<Scalars['String']>>;
+  baseToken_lt?: InputMaybe<Scalars['String']>;
+  baseToken_lte?: InputMaybe<Scalars['String']>;
+  baseToken_not?: InputMaybe<Scalars['String']>;
+  baseToken_not_contains?: InputMaybe<Scalars['String']>;
+  baseToken_not_ends_with?: InputMaybe<Scalars['String']>;
+  baseToken_not_in?: InputMaybe<Array<Scalars['String']>>;
+  baseToken_not_starts_with?: InputMaybe<Scalars['String']>;
+  baseToken_starts_with?: InputMaybe<Scalars['String']>;
+  close?: InputMaybe<Scalars['BigDecimal']>;
+  close_gt?: InputMaybe<Scalars['BigDecimal']>;
+  close_gte?: InputMaybe<Scalars['BigDecimal']>;
+  close_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  close_lt?: InputMaybe<Scalars['BigDecimal']>;
+  close_lte?: InputMaybe<Scalars['BigDecimal']>;
+  close_not?: InputMaybe<Scalars['BigDecimal']>;
+  close_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  high?: InputMaybe<Scalars['BigDecimal']>;
+  high_gt?: InputMaybe<Scalars['BigDecimal']>;
+  high_gte?: InputMaybe<Scalars['BigDecimal']>;
+  high_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  high_lt?: InputMaybe<Scalars['BigDecimal']>;
+  high_lte?: InputMaybe<Scalars['BigDecimal']>;
+  high_not?: InputMaybe<Scalars['BigDecimal']>;
+  high_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  id?: InputMaybe<Scalars['ID']>;
+  id_gt?: InputMaybe<Scalars['ID']>;
+  id_gte?: InputMaybe<Scalars['ID']>;
+  id_in?: InputMaybe<Array<Scalars['ID']>>;
+  id_lt?: InputMaybe<Scalars['ID']>;
+  id_lte?: InputMaybe<Scalars['ID']>;
+  id_not?: InputMaybe<Scalars['ID']>;
+  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
+  low?: InputMaybe<Scalars['BigDecimal']>;
+  low_gt?: InputMaybe<Scalars['BigDecimal']>;
+  low_gte?: InputMaybe<Scalars['BigDecimal']>;
+  low_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  low_lt?: InputMaybe<Scalars['BigDecimal']>;
+  low_lte?: InputMaybe<Scalars['BigDecimal']>;
+  low_not?: InputMaybe<Scalars['BigDecimal']>;
+  low_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  open?: InputMaybe<Scalars['BigDecimal']>;
+  open_gt?: InputMaybe<Scalars['BigDecimal']>;
+  open_gte?: InputMaybe<Scalars['BigDecimal']>;
+  open_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  open_lt?: InputMaybe<Scalars['BigDecimal']>;
+  open_lte?: InputMaybe<Scalars['BigDecimal']>;
+  open_not?: InputMaybe<Scalars['BigDecimal']>;
+  open_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  periodStartUnix?: InputMaybe<Scalars['Int']>;
+  periodStartUnix_gt?: InputMaybe<Scalars['Int']>;
+  periodStartUnix_gte?: InputMaybe<Scalars['Int']>;
+  periodStartUnix_in?: InputMaybe<Array<Scalars['Int']>>;
+  periodStartUnix_lt?: InputMaybe<Scalars['Int']>;
+  periodStartUnix_lte?: InputMaybe<Scalars['Int']>;
+  periodStartUnix_not?: InputMaybe<Scalars['Int']>;
+  periodStartUnix_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  quoteToken?: InputMaybe<Scalars['String']>;
+  quoteToken_contains?: InputMaybe<Scalars['String']>;
+  quoteToken_ends_with?: InputMaybe<Scalars['String']>;
+  quoteToken_gt?: InputMaybe<Scalars['String']>;
+  quoteToken_gte?: InputMaybe<Scalars['String']>;
+  quoteToken_in?: InputMaybe<Array<Scalars['String']>>;
+  quoteToken_lt?: InputMaybe<Scalars['String']>;
+  quoteToken_lte?: InputMaybe<Scalars['String']>;
+  quoteToken_not?: InputMaybe<Scalars['String']>;
+  quoteToken_not_contains?: InputMaybe<Scalars['String']>;
+  quoteToken_not_ends_with?: InputMaybe<Scalars['String']>;
+  quoteToken_not_in?: InputMaybe<Array<Scalars['String']>>;
+  quoteToken_not_starts_with?: InputMaybe<Scalars['String']>;
+  quoteToken_starts_with?: InputMaybe<Scalars['String']>;
+  totalVolume?: InputMaybe<Scalars['BigDecimal']>;
+  totalVolume_gt?: InputMaybe<Scalars['BigDecimal']>;
+  totalVolume_gte?: InputMaybe<Scalars['BigDecimal']>;
+  totalVolume_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  totalVolume_lt?: InputMaybe<Scalars['BigDecimal']>;
+  totalVolume_lte?: InputMaybe<Scalars['BigDecimal']>;
+  totalVolume_not?: InputMaybe<Scalars['BigDecimal']>;
+  totalVolume_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  txCount?: InputMaybe<Scalars['Int']>;
+  txCount_gt?: InputMaybe<Scalars['Int']>;
+  txCount_gte?: InputMaybe<Scalars['Int']>;
+  txCount_in?: InputMaybe<Array<Scalars['Int']>>;
+  txCount_lt?: InputMaybe<Scalars['Int']>;
+  txCount_lte?: InputMaybe<Scalars['Int']>;
+  txCount_not?: InputMaybe<Scalars['Int']>;
+  txCount_not_in?: InputMaybe<Array<Scalars['Int']>>;
+};
+
+export enum CandleStickFourHour_OrderBy {
+  BaseToken = 'baseToken',
+  Close = 'close',
+  High = 'high',
+  Id = 'id',
+  Low = 'low',
+  Open = 'open',
+  PeriodStartUnix = 'periodStartUnix',
+  QuoteToken = 'quoteToken',
+  TotalVolume = 'totalVolume',
+  TxCount = 'txCount',
+}
+
+export type CandleStickHour = ICandleStick & {
+  __typename?: 'CandleStickHour';
+  baseToken?: Maybe<Token>;
+  close: Scalars['BigDecimal'];
+  high: Scalars['BigDecimal'];
+  id: Scalars['ID'];
+  low: Scalars['BigDecimal'];
+  open?: Maybe<Scalars['BigDecimal']>;
+  periodStartUnix: Scalars['Int'];
+  quoteToken?: Maybe<Token>;
+  totalVolume: Scalars['BigDecimal'];
+  txCount: Scalars['Int'];
+};
+
+export type CandleStickHour_Filter = {
+  baseToken?: InputMaybe<Scalars['String']>;
+  baseToken_contains?: InputMaybe<Scalars['String']>;
+  baseToken_ends_with?: InputMaybe<Scalars['String']>;
+  baseToken_gt?: InputMaybe<Scalars['String']>;
+  baseToken_gte?: InputMaybe<Scalars['String']>;
+  baseToken_in?: InputMaybe<Array<Scalars['String']>>;
+  baseToken_lt?: InputMaybe<Scalars['String']>;
+  baseToken_lte?: InputMaybe<Scalars['String']>;
+  baseToken_not?: InputMaybe<Scalars['String']>;
+  baseToken_not_contains?: InputMaybe<Scalars['String']>;
+  baseToken_not_ends_with?: InputMaybe<Scalars['String']>;
+  baseToken_not_in?: InputMaybe<Array<Scalars['String']>>;
+  baseToken_not_starts_with?: InputMaybe<Scalars['String']>;
+  baseToken_starts_with?: InputMaybe<Scalars['String']>;
+  close?: InputMaybe<Scalars['BigDecimal']>;
+  close_gt?: InputMaybe<Scalars['BigDecimal']>;
+  close_gte?: InputMaybe<Scalars['BigDecimal']>;
+  close_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  close_lt?: InputMaybe<Scalars['BigDecimal']>;
+  close_lte?: InputMaybe<Scalars['BigDecimal']>;
+  close_not?: InputMaybe<Scalars['BigDecimal']>;
+  close_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  high?: InputMaybe<Scalars['BigDecimal']>;
+  high_gt?: InputMaybe<Scalars['BigDecimal']>;
+  high_gte?: InputMaybe<Scalars['BigDecimal']>;
+  high_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  high_lt?: InputMaybe<Scalars['BigDecimal']>;
+  high_lte?: InputMaybe<Scalars['BigDecimal']>;
+  high_not?: InputMaybe<Scalars['BigDecimal']>;
+  high_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  id?: InputMaybe<Scalars['ID']>;
+  id_gt?: InputMaybe<Scalars['ID']>;
+  id_gte?: InputMaybe<Scalars['ID']>;
+  id_in?: InputMaybe<Array<Scalars['ID']>>;
+  id_lt?: InputMaybe<Scalars['ID']>;
+  id_lte?: InputMaybe<Scalars['ID']>;
+  id_not?: InputMaybe<Scalars['ID']>;
+  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
+  low?: InputMaybe<Scalars['BigDecimal']>;
+  low_gt?: InputMaybe<Scalars['BigDecimal']>;
+  low_gte?: InputMaybe<Scalars['BigDecimal']>;
+  low_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  low_lt?: InputMaybe<Scalars['BigDecimal']>;
+  low_lte?: InputMaybe<Scalars['BigDecimal']>;
+  low_not?: InputMaybe<Scalars['BigDecimal']>;
+  low_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  open?: InputMaybe<Scalars['BigDecimal']>;
+  open_gt?: InputMaybe<Scalars['BigDecimal']>;
+  open_gte?: InputMaybe<Scalars['BigDecimal']>;
+  open_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  open_lt?: InputMaybe<Scalars['BigDecimal']>;
+  open_lte?: InputMaybe<Scalars['BigDecimal']>;
+  open_not?: InputMaybe<Scalars['BigDecimal']>;
+  open_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  periodStartUnix?: InputMaybe<Scalars['Int']>;
+  periodStartUnix_gt?: InputMaybe<Scalars['Int']>;
+  periodStartUnix_gte?: InputMaybe<Scalars['Int']>;
+  periodStartUnix_in?: InputMaybe<Array<Scalars['Int']>>;
+  periodStartUnix_lt?: InputMaybe<Scalars['Int']>;
+  periodStartUnix_lte?: InputMaybe<Scalars['Int']>;
+  periodStartUnix_not?: InputMaybe<Scalars['Int']>;
+  periodStartUnix_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  quoteToken?: InputMaybe<Scalars['String']>;
+  quoteToken_contains?: InputMaybe<Scalars['String']>;
+  quoteToken_ends_with?: InputMaybe<Scalars['String']>;
+  quoteToken_gt?: InputMaybe<Scalars['String']>;
+  quoteToken_gte?: InputMaybe<Scalars['String']>;
+  quoteToken_in?: InputMaybe<Array<Scalars['String']>>;
+  quoteToken_lt?: InputMaybe<Scalars['String']>;
+  quoteToken_lte?: InputMaybe<Scalars['String']>;
+  quoteToken_not?: InputMaybe<Scalars['String']>;
+  quoteToken_not_contains?: InputMaybe<Scalars['String']>;
+  quoteToken_not_ends_with?: InputMaybe<Scalars['String']>;
+  quoteToken_not_in?: InputMaybe<Array<Scalars['String']>>;
+  quoteToken_not_starts_with?: InputMaybe<Scalars['String']>;
+  quoteToken_starts_with?: InputMaybe<Scalars['String']>;
+  totalVolume?: InputMaybe<Scalars['BigDecimal']>;
+  totalVolume_gt?: InputMaybe<Scalars['BigDecimal']>;
+  totalVolume_gte?: InputMaybe<Scalars['BigDecimal']>;
+  totalVolume_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  totalVolume_lt?: InputMaybe<Scalars['BigDecimal']>;
+  totalVolume_lte?: InputMaybe<Scalars['BigDecimal']>;
+  totalVolume_not?: InputMaybe<Scalars['BigDecimal']>;
+  totalVolume_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  txCount?: InputMaybe<Scalars['Int']>;
+  txCount_gt?: InputMaybe<Scalars['Int']>;
+  txCount_gte?: InputMaybe<Scalars['Int']>;
+  txCount_in?: InputMaybe<Array<Scalars['Int']>>;
+  txCount_lt?: InputMaybe<Scalars['Int']>;
+  txCount_lte?: InputMaybe<Scalars['Int']>;
+  txCount_not?: InputMaybe<Scalars['Int']>;
+  txCount_not_in?: InputMaybe<Array<Scalars['Int']>>;
+};
+
+export enum CandleStickHour_OrderBy {
+  BaseToken = 'baseToken',
+  Close = 'close',
+  High = 'high',
+  Id = 'id',
+  Low = 'low',
+  Open = 'open',
+  PeriodStartUnix = 'periodStartUnix',
+  QuoteToken = 'quoteToken',
+  TotalVolume = 'totalVolume',
+  TxCount = 'txCount',
+}
+
+export type CandleStickMinute = ICandleStick & {
+  __typename?: 'CandleStickMinute';
+  baseToken?: Maybe<Token>;
+  close: Scalars['BigDecimal'];
+  high: Scalars['BigDecimal'];
+  id: Scalars['ID'];
+  low: Scalars['BigDecimal'];
+  open?: Maybe<Scalars['BigDecimal']>;
+  periodStartUnix: Scalars['Int'];
+  quoteToken?: Maybe<Token>;
+  totalVolume: Scalars['BigDecimal'];
+  txCount: Scalars['Int'];
+};
+
+export type CandleStickMinute_Filter = {
+  baseToken?: InputMaybe<Scalars['String']>;
+  baseToken_contains?: InputMaybe<Scalars['String']>;
+  baseToken_ends_with?: InputMaybe<Scalars['String']>;
+  baseToken_gt?: InputMaybe<Scalars['String']>;
+  baseToken_gte?: InputMaybe<Scalars['String']>;
+  baseToken_in?: InputMaybe<Array<Scalars['String']>>;
+  baseToken_lt?: InputMaybe<Scalars['String']>;
+  baseToken_lte?: InputMaybe<Scalars['String']>;
+  baseToken_not?: InputMaybe<Scalars['String']>;
+  baseToken_not_contains?: InputMaybe<Scalars['String']>;
+  baseToken_not_ends_with?: InputMaybe<Scalars['String']>;
+  baseToken_not_in?: InputMaybe<Array<Scalars['String']>>;
+  baseToken_not_starts_with?: InputMaybe<Scalars['String']>;
+  baseToken_starts_with?: InputMaybe<Scalars['String']>;
+  close?: InputMaybe<Scalars['BigDecimal']>;
+  close_gt?: InputMaybe<Scalars['BigDecimal']>;
+  close_gte?: InputMaybe<Scalars['BigDecimal']>;
+  close_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  close_lt?: InputMaybe<Scalars['BigDecimal']>;
+  close_lte?: InputMaybe<Scalars['BigDecimal']>;
+  close_not?: InputMaybe<Scalars['BigDecimal']>;
+  close_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  high?: InputMaybe<Scalars['BigDecimal']>;
+  high_gt?: InputMaybe<Scalars['BigDecimal']>;
+  high_gte?: InputMaybe<Scalars['BigDecimal']>;
+  high_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  high_lt?: InputMaybe<Scalars['BigDecimal']>;
+  high_lte?: InputMaybe<Scalars['BigDecimal']>;
+  high_not?: InputMaybe<Scalars['BigDecimal']>;
+  high_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  id?: InputMaybe<Scalars['ID']>;
+  id_gt?: InputMaybe<Scalars['ID']>;
+  id_gte?: InputMaybe<Scalars['ID']>;
+  id_in?: InputMaybe<Array<Scalars['ID']>>;
+  id_lt?: InputMaybe<Scalars['ID']>;
+  id_lte?: InputMaybe<Scalars['ID']>;
+  id_not?: InputMaybe<Scalars['ID']>;
+  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
+  low?: InputMaybe<Scalars['BigDecimal']>;
+  low_gt?: InputMaybe<Scalars['BigDecimal']>;
+  low_gte?: InputMaybe<Scalars['BigDecimal']>;
+  low_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  low_lt?: InputMaybe<Scalars['BigDecimal']>;
+  low_lte?: InputMaybe<Scalars['BigDecimal']>;
+  low_not?: InputMaybe<Scalars['BigDecimal']>;
+  low_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  open?: InputMaybe<Scalars['BigDecimal']>;
+  open_gt?: InputMaybe<Scalars['BigDecimal']>;
+  open_gte?: InputMaybe<Scalars['BigDecimal']>;
+  open_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  open_lt?: InputMaybe<Scalars['BigDecimal']>;
+  open_lte?: InputMaybe<Scalars['BigDecimal']>;
+  open_not?: InputMaybe<Scalars['BigDecimal']>;
+  open_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  periodStartUnix?: InputMaybe<Scalars['Int']>;
+  periodStartUnix_gt?: InputMaybe<Scalars['Int']>;
+  periodStartUnix_gte?: InputMaybe<Scalars['Int']>;
+  periodStartUnix_in?: InputMaybe<Array<Scalars['Int']>>;
+  periodStartUnix_lt?: InputMaybe<Scalars['Int']>;
+  periodStartUnix_lte?: InputMaybe<Scalars['Int']>;
+  periodStartUnix_not?: InputMaybe<Scalars['Int']>;
+  periodStartUnix_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  quoteToken?: InputMaybe<Scalars['String']>;
+  quoteToken_contains?: InputMaybe<Scalars['String']>;
+  quoteToken_ends_with?: InputMaybe<Scalars['String']>;
+  quoteToken_gt?: InputMaybe<Scalars['String']>;
+  quoteToken_gte?: InputMaybe<Scalars['String']>;
+  quoteToken_in?: InputMaybe<Array<Scalars['String']>>;
+  quoteToken_lt?: InputMaybe<Scalars['String']>;
+  quoteToken_lte?: InputMaybe<Scalars['String']>;
+  quoteToken_not?: InputMaybe<Scalars['String']>;
+  quoteToken_not_contains?: InputMaybe<Scalars['String']>;
+  quoteToken_not_ends_with?: InputMaybe<Scalars['String']>;
+  quoteToken_not_in?: InputMaybe<Array<Scalars['String']>>;
+  quoteToken_not_starts_with?: InputMaybe<Scalars['String']>;
+  quoteToken_starts_with?: InputMaybe<Scalars['String']>;
+  totalVolume?: InputMaybe<Scalars['BigDecimal']>;
+  totalVolume_gt?: InputMaybe<Scalars['BigDecimal']>;
+  totalVolume_gte?: InputMaybe<Scalars['BigDecimal']>;
+  totalVolume_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  totalVolume_lt?: InputMaybe<Scalars['BigDecimal']>;
+  totalVolume_lte?: InputMaybe<Scalars['BigDecimal']>;
+  totalVolume_not?: InputMaybe<Scalars['BigDecimal']>;
+  totalVolume_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  txCount?: InputMaybe<Scalars['Int']>;
+  txCount_gt?: InputMaybe<Scalars['Int']>;
+  txCount_gte?: InputMaybe<Scalars['Int']>;
+  txCount_in?: InputMaybe<Array<Scalars['Int']>>;
+  txCount_lt?: InputMaybe<Scalars['Int']>;
+  txCount_lte?: InputMaybe<Scalars['Int']>;
+  txCount_not?: InputMaybe<Scalars['Int']>;
+  txCount_not_in?: InputMaybe<Array<Scalars['Int']>>;
+};
+
+export enum CandleStickMinute_OrderBy {
+  BaseToken = 'baseToken',
+  Close = 'close',
+  High = 'high',
+  Id = 'id',
   Low = 'low',
   Open = 'open',
   PeriodStartUnix = 'periodStartUnix',
@@ -756,6 +1375,10 @@ export type CloseWithSwap = {
   __typename?: 'CloseWithSwap';
   closer: Scalars['Bytes'];
   collateralToken: Scalars['Bytes'];
+  /**
+   * Leverage on the smart contract does not count user-provided collateral.
+   * So, what would on the dapp be a 2x leverage trade would be a 1 here
+   */
   currentLeverage: Scalars['BigDecimal'];
   emittedBy: Scalars['Bytes'];
   exitPrice: Scalars['BigDecimal'];
@@ -902,7 +1525,10 @@ export enum CloseWithSwap_OrderBy {
   User = 'user',
 }
 
-/** Autogenerated for debugging - to be eventually deleted. Although this is pretty useful, maybe keep */
+/**
+ * Granular Conversion events, exactly as they appear on the contracts.
+ * These events are the raw data that the Swap entity and candlestick entities are built from.
+ */
 export type Conversion = {
   __typename?: 'Conversion';
   _amount: Scalars['BigDecimal'];
@@ -915,7 +1541,6 @@ export type Conversion = {
   blockNumber: Scalars['Int'];
   emittedBy: LiquidityPool;
   id: Scalars['ID'];
-  swapTransaction: Swap;
   timestamp: Scalars['Int'];
   transaction: Transaction;
 };
@@ -1017,20 +1642,6 @@ export type Conversion_Filter = {
   id_lte?: InputMaybe<Scalars['ID']>;
   id_not?: InputMaybe<Scalars['ID']>;
   id_not_in?: InputMaybe<Array<Scalars['ID']>>;
-  swapTransaction?: InputMaybe<Scalars['String']>;
-  swapTransaction_contains?: InputMaybe<Scalars['String']>;
-  swapTransaction_ends_with?: InputMaybe<Scalars['String']>;
-  swapTransaction_gt?: InputMaybe<Scalars['String']>;
-  swapTransaction_gte?: InputMaybe<Scalars['String']>;
-  swapTransaction_in?: InputMaybe<Array<Scalars['String']>>;
-  swapTransaction_lt?: InputMaybe<Scalars['String']>;
-  swapTransaction_lte?: InputMaybe<Scalars['String']>;
-  swapTransaction_not?: InputMaybe<Scalars['String']>;
-  swapTransaction_not_contains?: InputMaybe<Scalars['String']>;
-  swapTransaction_not_ends_with?: InputMaybe<Scalars['String']>;
-  swapTransaction_not_in?: InputMaybe<Array<Scalars['String']>>;
-  swapTransaction_not_starts_with?: InputMaybe<Scalars['String']>;
-  swapTransaction_starts_with?: InputMaybe<Scalars['String']>;
   timestamp?: InputMaybe<Scalars['Int']>;
   timestamp_gt?: InputMaybe<Scalars['Int']>;
   timestamp_gte?: InputMaybe<Scalars['Int']>;
@@ -1066,7 +1677,6 @@ export enum Conversion_OrderBy {
   BlockNumber = 'blockNumber',
   EmittedBy = 'emittedBy',
   Id = 'id',
-  SwapTransaction = 'swapTransaction',
   Timestamp = 'timestamp',
   Transaction = 'transaction',
 }
@@ -1074,19 +1684,15 @@ export enum Conversion_OrderBy {
 /** The ConverterRegistry registers each new AMM pool added to the Sovryn Protocol */
 export type ConverterRegistry = {
   __typename?: 'ConverterRegistry';
-  addedToContractRegistryAtBlockNumber?: Maybe<Scalars['Int']>;
-  addedToContractRegistryAtBlockTimestamp?: Maybe<Scalars['Int']>;
-  addedToContractRegistryAtTransactionHash?: Maybe<Scalars['String']>;
+  /** All ERC20 tokens in this registry */
   connectorTokens?: Maybe<Array<Token>>;
   /** All the converters (AMM pools) associated with this registry */
   converters?: Maybe<Array<LiquidityPool>>;
   /** ID is the address of the converter registry contract */
   id: Scalars['ID'];
-  lastUsedAtBlockNumber?: Maybe<Scalars['Int']>;
-  lastUsedAtBlockTimestamp?: Maybe<Scalars['Int']>;
-  lastUsedAtTransactionHash?: Maybe<Scalars['String']>;
+  /** The number of active converters (AMM pools) in this registry */
   numConverters: Scalars['Int'];
-  owner: Scalars['Bytes'];
+  /** All smart tokens in this registry */
   smartTokens?: Maybe<Array<SmartToken>>;
 };
 
@@ -1118,58 +1724,6 @@ export type ConverterRegistrySmartTokensArgs = {
 };
 
 export type ConverterRegistry_Filter = {
-  addedToContractRegistryAtBlockNumber?: InputMaybe<Scalars['Int']>;
-  addedToContractRegistryAtBlockNumber_gt?: InputMaybe<Scalars['Int']>;
-  addedToContractRegistryAtBlockNumber_gte?: InputMaybe<Scalars['Int']>;
-  addedToContractRegistryAtBlockNumber_in?: InputMaybe<Array<Scalars['Int']>>;
-  addedToContractRegistryAtBlockNumber_lt?: InputMaybe<Scalars['Int']>;
-  addedToContractRegistryAtBlockNumber_lte?: InputMaybe<Scalars['Int']>;
-  addedToContractRegistryAtBlockNumber_not?: InputMaybe<Scalars['Int']>;
-  addedToContractRegistryAtBlockNumber_not_in?: InputMaybe<
-    Array<Scalars['Int']>
-  >;
-  addedToContractRegistryAtBlockTimestamp?: InputMaybe<Scalars['Int']>;
-  addedToContractRegistryAtBlockTimestamp_gt?: InputMaybe<Scalars['Int']>;
-  addedToContractRegistryAtBlockTimestamp_gte?: InputMaybe<Scalars['Int']>;
-  addedToContractRegistryAtBlockTimestamp_in?: InputMaybe<
-    Array<Scalars['Int']>
-  >;
-  addedToContractRegistryAtBlockTimestamp_lt?: InputMaybe<Scalars['Int']>;
-  addedToContractRegistryAtBlockTimestamp_lte?: InputMaybe<Scalars['Int']>;
-  addedToContractRegistryAtBlockTimestamp_not?: InputMaybe<Scalars['Int']>;
-  addedToContractRegistryAtBlockTimestamp_not_in?: InputMaybe<
-    Array<Scalars['Int']>
-  >;
-  addedToContractRegistryAtTransactionHash?: InputMaybe<Scalars['String']>;
-  addedToContractRegistryAtTransactionHash_contains?: InputMaybe<
-    Scalars['String']
-  >;
-  addedToContractRegistryAtTransactionHash_ends_with?: InputMaybe<
-    Scalars['String']
-  >;
-  addedToContractRegistryAtTransactionHash_gt?: InputMaybe<Scalars['String']>;
-  addedToContractRegistryAtTransactionHash_gte?: InputMaybe<Scalars['String']>;
-  addedToContractRegistryAtTransactionHash_in?: InputMaybe<
-    Array<Scalars['String']>
-  >;
-  addedToContractRegistryAtTransactionHash_lt?: InputMaybe<Scalars['String']>;
-  addedToContractRegistryAtTransactionHash_lte?: InputMaybe<Scalars['String']>;
-  addedToContractRegistryAtTransactionHash_not?: InputMaybe<Scalars['String']>;
-  addedToContractRegistryAtTransactionHash_not_contains?: InputMaybe<
-    Scalars['String']
-  >;
-  addedToContractRegistryAtTransactionHash_not_ends_with?: InputMaybe<
-    Scalars['String']
-  >;
-  addedToContractRegistryAtTransactionHash_not_in?: InputMaybe<
-    Array<Scalars['String']>
-  >;
-  addedToContractRegistryAtTransactionHash_not_starts_with?: InputMaybe<
-    Scalars['String']
-  >;
-  addedToContractRegistryAtTransactionHash_starts_with?: InputMaybe<
-    Scalars['String']
-  >;
   id?: InputMaybe<Scalars['ID']>;
   id_gt?: InputMaybe<Scalars['ID']>;
   id_gte?: InputMaybe<Scalars['ID']>;
@@ -1178,36 +1732,6 @@ export type ConverterRegistry_Filter = {
   id_lte?: InputMaybe<Scalars['ID']>;
   id_not?: InputMaybe<Scalars['ID']>;
   id_not_in?: InputMaybe<Array<Scalars['ID']>>;
-  lastUsedAtBlockNumber?: InputMaybe<Scalars['Int']>;
-  lastUsedAtBlockNumber_gt?: InputMaybe<Scalars['Int']>;
-  lastUsedAtBlockNumber_gte?: InputMaybe<Scalars['Int']>;
-  lastUsedAtBlockNumber_in?: InputMaybe<Array<Scalars['Int']>>;
-  lastUsedAtBlockNumber_lt?: InputMaybe<Scalars['Int']>;
-  lastUsedAtBlockNumber_lte?: InputMaybe<Scalars['Int']>;
-  lastUsedAtBlockNumber_not?: InputMaybe<Scalars['Int']>;
-  lastUsedAtBlockNumber_not_in?: InputMaybe<Array<Scalars['Int']>>;
-  lastUsedAtBlockTimestamp?: InputMaybe<Scalars['Int']>;
-  lastUsedAtBlockTimestamp_gt?: InputMaybe<Scalars['Int']>;
-  lastUsedAtBlockTimestamp_gte?: InputMaybe<Scalars['Int']>;
-  lastUsedAtBlockTimestamp_in?: InputMaybe<Array<Scalars['Int']>>;
-  lastUsedAtBlockTimestamp_lt?: InputMaybe<Scalars['Int']>;
-  lastUsedAtBlockTimestamp_lte?: InputMaybe<Scalars['Int']>;
-  lastUsedAtBlockTimestamp_not?: InputMaybe<Scalars['Int']>;
-  lastUsedAtBlockTimestamp_not_in?: InputMaybe<Array<Scalars['Int']>>;
-  lastUsedAtTransactionHash?: InputMaybe<Scalars['String']>;
-  lastUsedAtTransactionHash_contains?: InputMaybe<Scalars['String']>;
-  lastUsedAtTransactionHash_ends_with?: InputMaybe<Scalars['String']>;
-  lastUsedAtTransactionHash_gt?: InputMaybe<Scalars['String']>;
-  lastUsedAtTransactionHash_gte?: InputMaybe<Scalars['String']>;
-  lastUsedAtTransactionHash_in?: InputMaybe<Array<Scalars['String']>>;
-  lastUsedAtTransactionHash_lt?: InputMaybe<Scalars['String']>;
-  lastUsedAtTransactionHash_lte?: InputMaybe<Scalars['String']>;
-  lastUsedAtTransactionHash_not?: InputMaybe<Scalars['String']>;
-  lastUsedAtTransactionHash_not_contains?: InputMaybe<Scalars['String']>;
-  lastUsedAtTransactionHash_not_ends_with?: InputMaybe<Scalars['String']>;
-  lastUsedAtTransactionHash_not_in?: InputMaybe<Array<Scalars['String']>>;
-  lastUsedAtTransactionHash_not_starts_with?: InputMaybe<Scalars['String']>;
-  lastUsedAtTransactionHash_starts_with?: InputMaybe<Scalars['String']>;
   numConverters?: InputMaybe<Scalars['Int']>;
   numConverters_gt?: InputMaybe<Scalars['Int']>;
   numConverters_gte?: InputMaybe<Scalars['Int']>;
@@ -1216,27 +1740,274 @@ export type ConverterRegistry_Filter = {
   numConverters_lte?: InputMaybe<Scalars['Int']>;
   numConverters_not?: InputMaybe<Scalars['Int']>;
   numConverters_not_in?: InputMaybe<Array<Scalars['Int']>>;
-  owner?: InputMaybe<Scalars['Bytes']>;
-  owner_contains?: InputMaybe<Scalars['Bytes']>;
-  owner_in?: InputMaybe<Array<Scalars['Bytes']>>;
-  owner_not?: InputMaybe<Scalars['Bytes']>;
-  owner_not_contains?: InputMaybe<Scalars['Bytes']>;
-  owner_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
 };
 
 export enum ConverterRegistry_OrderBy {
-  AddedToContractRegistryAtBlockNumber = 'addedToContractRegistryAtBlockNumber',
-  AddedToContractRegistryAtBlockTimestamp = 'addedToContractRegistryAtBlockTimestamp',
-  AddedToContractRegistryAtTransactionHash = 'addedToContractRegistryAtTransactionHash',
   ConnectorTokens = 'connectorTokens',
   Converters = 'converters',
   Id = 'id',
-  LastUsedAtBlockNumber = 'lastUsedAtBlockNumber',
-  LastUsedAtBlockTimestamp = 'lastUsedAtBlockTimestamp',
-  LastUsedAtTransactionHash = 'lastUsedAtTransactionHash',
   NumConverters = 'numConverters',
-  Owner = 'owner',
   SmartTokens = 'smartTokens',
+}
+
+export enum CrossDirection {
+  Incoming = 'Incoming',
+  Outgoing = 'Outgoing',
+}
+
+export enum CrossStatus {
+  Executed = 'Executed',
+  Revoked = 'Revoked',
+  Voting = 'Voting',
+}
+
+export type CrossTransfer = {
+  __typename?: 'CrossTransfer';
+  /** Amount - the amount of originalToken transferred across the bridge */
+  amount: Scalars['BigDecimal'];
+  /** CreatedAtTimestamp - the timestamp at which this transfer was created */
+  createdAtTimestamp: Scalars['Int'];
+  /** CreatedAtTx - the transaction at which this transfer was created */
+  createdAtTx: Transaction;
+  /** DestinationChain - the destination chain - for outgoing it is BSC/ETH and for incoming it is RSK */
+  destinationChain: BridgeChain;
+  /** Direction - the direction of the cross transfer (Incoming or Outgoing) */
+  direction: CrossDirection;
+  /** Id - the cross transfer Id - for outgoing it is generated from the cross event params for incoming it is coming from the federation events */
+  id: Scalars['ID'];
+  /** originalTokenAddress - the original token address for the transfer (for outgoing it is just the RSK token address) */
+  originalTokenAddress: Scalars['Bytes'];
+  /** Receiver - The receiver of funds (can be a wallet or contract) */
+  receiver?: Maybe<Scalars['Bytes']>;
+  /** Address of the user on RSK chain */
+  rskUser: User;
+  /** Sender - The sender of funds (can be a wallet or contracts) */
+  sender?: Maybe<Scalars['Bytes']>;
+  /** sideToken - the SideToken entity if exist of original token address */
+  sideToken?: Maybe<SideToken>;
+  /** sourceChain - the source chain - for outgoing it is RSK and for incoming it is BSC/ETH */
+  sourceChain: BridgeChain;
+  /** SourceChainBlockHash - the source chain block hash of the transfer, for outgoing transfers this is just the RSK block hash */
+  sourceChainBlockHash?: Maybe<Scalars['Bytes']>;
+  /** SourceChainTransactionHash - the source chain transaction hash of the transfer, for outgoing transfers this is just the RSK transaction hash */
+  sourceChainTransactionHash?: Maybe<Scalars['Bytes']>;
+  /** Status - transfer status - Voting, Executed, Revoked */
+  status: CrossStatus;
+  /** Symbol - the token symbol */
+  symbol?: Maybe<Scalars['String']>;
+  /** Token - the token entity if exist of original token address */
+  token?: Maybe<Token>;
+  /** TokenAddress - the token address for the transfer (only relevant for incoming transfers) */
+  tokenAddress?: Maybe<Scalars['Bytes']>;
+  /** updatedAtTimestamp - the timestamp at which this transfer was last updated */
+  updatedAtTimestamp: Scalars['Int'];
+  /** updatedAtTx - the transaction at which this transfer was last updated */
+  updatedAtTx: Transaction;
+  /** Votes - Number of votes cast for this transfer */
+  votes?: Maybe<Scalars['Int']>;
+};
+
+export type CrossTransfer_Filter = {
+  amount?: InputMaybe<Scalars['BigDecimal']>;
+  amount_gt?: InputMaybe<Scalars['BigDecimal']>;
+  amount_gte?: InputMaybe<Scalars['BigDecimal']>;
+  amount_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  amount_lt?: InputMaybe<Scalars['BigDecimal']>;
+  amount_lte?: InputMaybe<Scalars['BigDecimal']>;
+  amount_not?: InputMaybe<Scalars['BigDecimal']>;
+  amount_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  createdAtTimestamp?: InputMaybe<Scalars['Int']>;
+  createdAtTimestamp_gt?: InputMaybe<Scalars['Int']>;
+  createdAtTimestamp_gte?: InputMaybe<Scalars['Int']>;
+  createdAtTimestamp_in?: InputMaybe<Array<Scalars['Int']>>;
+  createdAtTimestamp_lt?: InputMaybe<Scalars['Int']>;
+  createdAtTimestamp_lte?: InputMaybe<Scalars['Int']>;
+  createdAtTimestamp_not?: InputMaybe<Scalars['Int']>;
+  createdAtTimestamp_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  createdAtTx?: InputMaybe<Scalars['String']>;
+  createdAtTx_contains?: InputMaybe<Scalars['String']>;
+  createdAtTx_ends_with?: InputMaybe<Scalars['String']>;
+  createdAtTx_gt?: InputMaybe<Scalars['String']>;
+  createdAtTx_gte?: InputMaybe<Scalars['String']>;
+  createdAtTx_in?: InputMaybe<Array<Scalars['String']>>;
+  createdAtTx_lt?: InputMaybe<Scalars['String']>;
+  createdAtTx_lte?: InputMaybe<Scalars['String']>;
+  createdAtTx_not?: InputMaybe<Scalars['String']>;
+  createdAtTx_not_contains?: InputMaybe<Scalars['String']>;
+  createdAtTx_not_ends_with?: InputMaybe<Scalars['String']>;
+  createdAtTx_not_in?: InputMaybe<Array<Scalars['String']>>;
+  createdAtTx_not_starts_with?: InputMaybe<Scalars['String']>;
+  createdAtTx_starts_with?: InputMaybe<Scalars['String']>;
+  destinationChain?: InputMaybe<BridgeChain>;
+  destinationChain_in?: InputMaybe<Array<BridgeChain>>;
+  destinationChain_not?: InputMaybe<BridgeChain>;
+  destinationChain_not_in?: InputMaybe<Array<BridgeChain>>;
+  direction?: InputMaybe<CrossDirection>;
+  direction_in?: InputMaybe<Array<CrossDirection>>;
+  direction_not?: InputMaybe<CrossDirection>;
+  direction_not_in?: InputMaybe<Array<CrossDirection>>;
+  id?: InputMaybe<Scalars['ID']>;
+  id_gt?: InputMaybe<Scalars['ID']>;
+  id_gte?: InputMaybe<Scalars['ID']>;
+  id_in?: InputMaybe<Array<Scalars['ID']>>;
+  id_lt?: InputMaybe<Scalars['ID']>;
+  id_lte?: InputMaybe<Scalars['ID']>;
+  id_not?: InputMaybe<Scalars['ID']>;
+  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
+  originalTokenAddress?: InputMaybe<Scalars['Bytes']>;
+  originalTokenAddress_contains?: InputMaybe<Scalars['Bytes']>;
+  originalTokenAddress_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  originalTokenAddress_not?: InputMaybe<Scalars['Bytes']>;
+  originalTokenAddress_not_contains?: InputMaybe<Scalars['Bytes']>;
+  originalTokenAddress_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  receiver?: InputMaybe<Scalars['Bytes']>;
+  receiver_contains?: InputMaybe<Scalars['Bytes']>;
+  receiver_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  receiver_not?: InputMaybe<Scalars['Bytes']>;
+  receiver_not_contains?: InputMaybe<Scalars['Bytes']>;
+  receiver_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  rskUser?: InputMaybe<Scalars['String']>;
+  rskUser_contains?: InputMaybe<Scalars['String']>;
+  rskUser_ends_with?: InputMaybe<Scalars['String']>;
+  rskUser_gt?: InputMaybe<Scalars['String']>;
+  rskUser_gte?: InputMaybe<Scalars['String']>;
+  rskUser_in?: InputMaybe<Array<Scalars['String']>>;
+  rskUser_lt?: InputMaybe<Scalars['String']>;
+  rskUser_lte?: InputMaybe<Scalars['String']>;
+  rskUser_not?: InputMaybe<Scalars['String']>;
+  rskUser_not_contains?: InputMaybe<Scalars['String']>;
+  rskUser_not_ends_with?: InputMaybe<Scalars['String']>;
+  rskUser_not_in?: InputMaybe<Array<Scalars['String']>>;
+  rskUser_not_starts_with?: InputMaybe<Scalars['String']>;
+  rskUser_starts_with?: InputMaybe<Scalars['String']>;
+  sender?: InputMaybe<Scalars['Bytes']>;
+  sender_contains?: InputMaybe<Scalars['Bytes']>;
+  sender_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  sender_not?: InputMaybe<Scalars['Bytes']>;
+  sender_not_contains?: InputMaybe<Scalars['Bytes']>;
+  sender_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  sideToken?: InputMaybe<Scalars['String']>;
+  sideToken_contains?: InputMaybe<Scalars['String']>;
+  sideToken_ends_with?: InputMaybe<Scalars['String']>;
+  sideToken_gt?: InputMaybe<Scalars['String']>;
+  sideToken_gte?: InputMaybe<Scalars['String']>;
+  sideToken_in?: InputMaybe<Array<Scalars['String']>>;
+  sideToken_lt?: InputMaybe<Scalars['String']>;
+  sideToken_lte?: InputMaybe<Scalars['String']>;
+  sideToken_not?: InputMaybe<Scalars['String']>;
+  sideToken_not_contains?: InputMaybe<Scalars['String']>;
+  sideToken_not_ends_with?: InputMaybe<Scalars['String']>;
+  sideToken_not_in?: InputMaybe<Array<Scalars['String']>>;
+  sideToken_not_starts_with?: InputMaybe<Scalars['String']>;
+  sideToken_starts_with?: InputMaybe<Scalars['String']>;
+  sourceChain?: InputMaybe<BridgeChain>;
+  sourceChainBlockHash?: InputMaybe<Scalars['Bytes']>;
+  sourceChainBlockHash_contains?: InputMaybe<Scalars['Bytes']>;
+  sourceChainBlockHash_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  sourceChainBlockHash_not?: InputMaybe<Scalars['Bytes']>;
+  sourceChainBlockHash_not_contains?: InputMaybe<Scalars['Bytes']>;
+  sourceChainBlockHash_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  sourceChainTransactionHash?: InputMaybe<Scalars['Bytes']>;
+  sourceChainTransactionHash_contains?: InputMaybe<Scalars['Bytes']>;
+  sourceChainTransactionHash_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  sourceChainTransactionHash_not?: InputMaybe<Scalars['Bytes']>;
+  sourceChainTransactionHash_not_contains?: InputMaybe<Scalars['Bytes']>;
+  sourceChainTransactionHash_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  sourceChain_in?: InputMaybe<Array<BridgeChain>>;
+  sourceChain_not?: InputMaybe<BridgeChain>;
+  sourceChain_not_in?: InputMaybe<Array<BridgeChain>>;
+  status?: InputMaybe<CrossStatus>;
+  status_in?: InputMaybe<Array<CrossStatus>>;
+  status_not?: InputMaybe<CrossStatus>;
+  status_not_in?: InputMaybe<Array<CrossStatus>>;
+  symbol?: InputMaybe<Scalars['String']>;
+  symbol_contains?: InputMaybe<Scalars['String']>;
+  symbol_ends_with?: InputMaybe<Scalars['String']>;
+  symbol_gt?: InputMaybe<Scalars['String']>;
+  symbol_gte?: InputMaybe<Scalars['String']>;
+  symbol_in?: InputMaybe<Array<Scalars['String']>>;
+  symbol_lt?: InputMaybe<Scalars['String']>;
+  symbol_lte?: InputMaybe<Scalars['String']>;
+  symbol_not?: InputMaybe<Scalars['String']>;
+  symbol_not_contains?: InputMaybe<Scalars['String']>;
+  symbol_not_ends_with?: InputMaybe<Scalars['String']>;
+  symbol_not_in?: InputMaybe<Array<Scalars['String']>>;
+  symbol_not_starts_with?: InputMaybe<Scalars['String']>;
+  symbol_starts_with?: InputMaybe<Scalars['String']>;
+  token?: InputMaybe<Scalars['String']>;
+  tokenAddress?: InputMaybe<Scalars['Bytes']>;
+  tokenAddress_contains?: InputMaybe<Scalars['Bytes']>;
+  tokenAddress_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  tokenAddress_not?: InputMaybe<Scalars['Bytes']>;
+  tokenAddress_not_contains?: InputMaybe<Scalars['Bytes']>;
+  tokenAddress_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  token_contains?: InputMaybe<Scalars['String']>;
+  token_ends_with?: InputMaybe<Scalars['String']>;
+  token_gt?: InputMaybe<Scalars['String']>;
+  token_gte?: InputMaybe<Scalars['String']>;
+  token_in?: InputMaybe<Array<Scalars['String']>>;
+  token_lt?: InputMaybe<Scalars['String']>;
+  token_lte?: InputMaybe<Scalars['String']>;
+  token_not?: InputMaybe<Scalars['String']>;
+  token_not_contains?: InputMaybe<Scalars['String']>;
+  token_not_ends_with?: InputMaybe<Scalars['String']>;
+  token_not_in?: InputMaybe<Array<Scalars['String']>>;
+  token_not_starts_with?: InputMaybe<Scalars['String']>;
+  token_starts_with?: InputMaybe<Scalars['String']>;
+  updatedAtTimestamp?: InputMaybe<Scalars['Int']>;
+  updatedAtTimestamp_gt?: InputMaybe<Scalars['Int']>;
+  updatedAtTimestamp_gte?: InputMaybe<Scalars['Int']>;
+  updatedAtTimestamp_in?: InputMaybe<Array<Scalars['Int']>>;
+  updatedAtTimestamp_lt?: InputMaybe<Scalars['Int']>;
+  updatedAtTimestamp_lte?: InputMaybe<Scalars['Int']>;
+  updatedAtTimestamp_not?: InputMaybe<Scalars['Int']>;
+  updatedAtTimestamp_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  updatedAtTx?: InputMaybe<Scalars['String']>;
+  updatedAtTx_contains?: InputMaybe<Scalars['String']>;
+  updatedAtTx_ends_with?: InputMaybe<Scalars['String']>;
+  updatedAtTx_gt?: InputMaybe<Scalars['String']>;
+  updatedAtTx_gte?: InputMaybe<Scalars['String']>;
+  updatedAtTx_in?: InputMaybe<Array<Scalars['String']>>;
+  updatedAtTx_lt?: InputMaybe<Scalars['String']>;
+  updatedAtTx_lte?: InputMaybe<Scalars['String']>;
+  updatedAtTx_not?: InputMaybe<Scalars['String']>;
+  updatedAtTx_not_contains?: InputMaybe<Scalars['String']>;
+  updatedAtTx_not_ends_with?: InputMaybe<Scalars['String']>;
+  updatedAtTx_not_in?: InputMaybe<Array<Scalars['String']>>;
+  updatedAtTx_not_starts_with?: InputMaybe<Scalars['String']>;
+  updatedAtTx_starts_with?: InputMaybe<Scalars['String']>;
+  votes?: InputMaybe<Scalars['Int']>;
+  votes_gt?: InputMaybe<Scalars['Int']>;
+  votes_gte?: InputMaybe<Scalars['Int']>;
+  votes_in?: InputMaybe<Array<Scalars['Int']>>;
+  votes_lt?: InputMaybe<Scalars['Int']>;
+  votes_lte?: InputMaybe<Scalars['Int']>;
+  votes_not?: InputMaybe<Scalars['Int']>;
+  votes_not_in?: InputMaybe<Array<Scalars['Int']>>;
+};
+
+export enum CrossTransfer_OrderBy {
+  Amount = 'amount',
+  CreatedAtTimestamp = 'createdAtTimestamp',
+  CreatedAtTx = 'createdAtTx',
+  DestinationChain = 'destinationChain',
+  Direction = 'direction',
+  Id = 'id',
+  OriginalTokenAddress = 'originalTokenAddress',
+  Receiver = 'receiver',
+  RskUser = 'rskUser',
+  Sender = 'sender',
+  SideToken = 'sideToken',
+  SourceChain = 'sourceChain',
+  SourceChainBlockHash = 'sourceChainBlockHash',
+  SourceChainTransactionHash = 'sourceChainTransactionHash',
+  Status = 'status',
+  Symbol = 'symbol',
+  Token = 'token',
+  TokenAddress = 'tokenAddress',
+  UpdatedAtTimestamp = 'updatedAtTimestamp',
+  UpdatedAtTx = 'updatedAtTx',
+  Votes = 'votes',
 }
 
 export type Deposit = {
@@ -1256,6 +2027,7 @@ export type DepositCollateral = {
   emittedBy: Scalars['Bytes'];
   id: Scalars['ID'];
   loanId: Loan;
+  /** Rate is sometimes null because this property was not included in older versions of the contract */
   rate?: Maybe<Scalars['BigDecimal']>;
   timestamp: Scalars['Int'];
   transaction: Transaction;
@@ -1520,6 +2292,115 @@ export enum FastBtcBridgeStat_OrderBy {
   User = 'user',
 }
 
+/** Federation - the federation entity */
+export type Federation = {
+  __typename?: 'Federation';
+  /** Bridge - the bridge that is associated with this federation contract */
+  bridge: Bridge;
+  /** CreatedAtTx - the creation transaction of this federation */
+  createdAtTx: Transaction;
+  /** Id - the id of the federation entity is the federation contract address */
+  id: Scalars['ID'];
+  /** IsActive - is this federation contract active */
+  isActive: Scalars['Boolean'];
+  /** Members - federators that are members of this federation */
+  members: Array<Scalars['Bytes']>;
+  /** TotalExecuted - total transfers executed by this federation */
+  totalExecuted: Scalars['Int'];
+  /** TotalVotes - total votes cast on this federation */
+  totalVotes: Scalars['Int'];
+  /** UpdatedAtTx - the transaction at which this entity was last updated */
+  updatedAtTx: Transaction;
+};
+
+export type Federation_Filter = {
+  bridge?: InputMaybe<Scalars['String']>;
+  bridge_contains?: InputMaybe<Scalars['String']>;
+  bridge_ends_with?: InputMaybe<Scalars['String']>;
+  bridge_gt?: InputMaybe<Scalars['String']>;
+  bridge_gte?: InputMaybe<Scalars['String']>;
+  bridge_in?: InputMaybe<Array<Scalars['String']>>;
+  bridge_lt?: InputMaybe<Scalars['String']>;
+  bridge_lte?: InputMaybe<Scalars['String']>;
+  bridge_not?: InputMaybe<Scalars['String']>;
+  bridge_not_contains?: InputMaybe<Scalars['String']>;
+  bridge_not_ends_with?: InputMaybe<Scalars['String']>;
+  bridge_not_in?: InputMaybe<Array<Scalars['String']>>;
+  bridge_not_starts_with?: InputMaybe<Scalars['String']>;
+  bridge_starts_with?: InputMaybe<Scalars['String']>;
+  createdAtTx?: InputMaybe<Scalars['String']>;
+  createdAtTx_contains?: InputMaybe<Scalars['String']>;
+  createdAtTx_ends_with?: InputMaybe<Scalars['String']>;
+  createdAtTx_gt?: InputMaybe<Scalars['String']>;
+  createdAtTx_gte?: InputMaybe<Scalars['String']>;
+  createdAtTx_in?: InputMaybe<Array<Scalars['String']>>;
+  createdAtTx_lt?: InputMaybe<Scalars['String']>;
+  createdAtTx_lte?: InputMaybe<Scalars['String']>;
+  createdAtTx_not?: InputMaybe<Scalars['String']>;
+  createdAtTx_not_contains?: InputMaybe<Scalars['String']>;
+  createdAtTx_not_ends_with?: InputMaybe<Scalars['String']>;
+  createdAtTx_not_in?: InputMaybe<Array<Scalars['String']>>;
+  createdAtTx_not_starts_with?: InputMaybe<Scalars['String']>;
+  createdAtTx_starts_with?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+  id_gt?: InputMaybe<Scalars['ID']>;
+  id_gte?: InputMaybe<Scalars['ID']>;
+  id_in?: InputMaybe<Array<Scalars['ID']>>;
+  id_lt?: InputMaybe<Scalars['ID']>;
+  id_lte?: InputMaybe<Scalars['ID']>;
+  id_not?: InputMaybe<Scalars['ID']>;
+  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
+  isActive?: InputMaybe<Scalars['Boolean']>;
+  isActive_in?: InputMaybe<Array<Scalars['Boolean']>>;
+  isActive_not?: InputMaybe<Scalars['Boolean']>;
+  isActive_not_in?: InputMaybe<Array<Scalars['Boolean']>>;
+  members?: InputMaybe<Array<Scalars['Bytes']>>;
+  members_contains?: InputMaybe<Array<Scalars['Bytes']>>;
+  members_not?: InputMaybe<Array<Scalars['Bytes']>>;
+  members_not_contains?: InputMaybe<Array<Scalars['Bytes']>>;
+  totalExecuted?: InputMaybe<Scalars['Int']>;
+  totalExecuted_gt?: InputMaybe<Scalars['Int']>;
+  totalExecuted_gte?: InputMaybe<Scalars['Int']>;
+  totalExecuted_in?: InputMaybe<Array<Scalars['Int']>>;
+  totalExecuted_lt?: InputMaybe<Scalars['Int']>;
+  totalExecuted_lte?: InputMaybe<Scalars['Int']>;
+  totalExecuted_not?: InputMaybe<Scalars['Int']>;
+  totalExecuted_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  totalVotes?: InputMaybe<Scalars['Int']>;
+  totalVotes_gt?: InputMaybe<Scalars['Int']>;
+  totalVotes_gte?: InputMaybe<Scalars['Int']>;
+  totalVotes_in?: InputMaybe<Array<Scalars['Int']>>;
+  totalVotes_lt?: InputMaybe<Scalars['Int']>;
+  totalVotes_lte?: InputMaybe<Scalars['Int']>;
+  totalVotes_not?: InputMaybe<Scalars['Int']>;
+  totalVotes_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  updatedAtTx?: InputMaybe<Scalars['String']>;
+  updatedAtTx_contains?: InputMaybe<Scalars['String']>;
+  updatedAtTx_ends_with?: InputMaybe<Scalars['String']>;
+  updatedAtTx_gt?: InputMaybe<Scalars['String']>;
+  updatedAtTx_gte?: InputMaybe<Scalars['String']>;
+  updatedAtTx_in?: InputMaybe<Array<Scalars['String']>>;
+  updatedAtTx_lt?: InputMaybe<Scalars['String']>;
+  updatedAtTx_lte?: InputMaybe<Scalars['String']>;
+  updatedAtTx_not?: InputMaybe<Scalars['String']>;
+  updatedAtTx_not_contains?: InputMaybe<Scalars['String']>;
+  updatedAtTx_not_ends_with?: InputMaybe<Scalars['String']>;
+  updatedAtTx_not_in?: InputMaybe<Array<Scalars['String']>>;
+  updatedAtTx_not_starts_with?: InputMaybe<Scalars['String']>;
+  updatedAtTx_starts_with?: InputMaybe<Scalars['String']>;
+};
+
+export enum Federation_OrderBy {
+  Bridge = 'bridge',
+  CreatedAtTx = 'createdAtTx',
+  Id = 'id',
+  IsActive = 'isActive',
+  Members = 'members',
+  TotalExecuted = 'totalExecuted',
+  TotalVotes = 'totalVotes',
+  UpdatedAtTx = 'updatedAtTx',
+}
+
 export type FeeSharingTokensTransferred = {
   __typename?: 'FeeSharingTokensTransferred';
   amount: Scalars['BigDecimal'];
@@ -1566,19 +2447,163 @@ export enum FeeSharingTokensTransferred_OrderBy {
   Token = 'token',
 }
 
+/**
+ * Candlesticks are for presentational purposes on the dapp. This entity supports the candlestick trading data on the trading view charts.
+ * Trading data is available for the following pairs:
+ * 1. All tokens to RBTC
+ * 2. All tokens to current usdStablecoin (see ProtocolStats entity for more information)
+ * There is not candlestick data for other trading pairs as this would cause the amount of data stored to increase exponentially
+ */
+export type ICandleStick = {
+  /**
+   * Eg in the pair SOV-XUSD, the base token is SOV and the quote token is XUSD
+   * Prices shown are the price of the base token in the quote token (eg price of SOV in XUSD)
+   */
+  baseToken?: Maybe<Token>;
+  close: Scalars['BigDecimal'];
+  high: Scalars['BigDecimal'];
+  /**
+   * The ID is fromToken + toToken + timestamp
+   * toToken will be either RBTC or XUSD
+   */
+  id: Scalars['ID'];
+  low: Scalars['BigDecimal'];
+  open?: Maybe<Scalars['BigDecimal']>;
+  /** Unix timestamp for the candlestick start time */
+  periodStartUnix: Scalars['Int'];
+  quoteToken?: Maybe<Token>;
+  /** The volume of the base token that has been bought and sold in this time period */
+  totalVolume: Scalars['BigDecimal'];
+  txCount: Scalars['Int'];
+};
+
+export type ICandleStick_Filter = {
+  baseToken?: InputMaybe<Scalars['String']>;
+  baseToken_contains?: InputMaybe<Scalars['String']>;
+  baseToken_ends_with?: InputMaybe<Scalars['String']>;
+  baseToken_gt?: InputMaybe<Scalars['String']>;
+  baseToken_gte?: InputMaybe<Scalars['String']>;
+  baseToken_in?: InputMaybe<Array<Scalars['String']>>;
+  baseToken_lt?: InputMaybe<Scalars['String']>;
+  baseToken_lte?: InputMaybe<Scalars['String']>;
+  baseToken_not?: InputMaybe<Scalars['String']>;
+  baseToken_not_contains?: InputMaybe<Scalars['String']>;
+  baseToken_not_ends_with?: InputMaybe<Scalars['String']>;
+  baseToken_not_in?: InputMaybe<Array<Scalars['String']>>;
+  baseToken_not_starts_with?: InputMaybe<Scalars['String']>;
+  baseToken_starts_with?: InputMaybe<Scalars['String']>;
+  close?: InputMaybe<Scalars['BigDecimal']>;
+  close_gt?: InputMaybe<Scalars['BigDecimal']>;
+  close_gte?: InputMaybe<Scalars['BigDecimal']>;
+  close_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  close_lt?: InputMaybe<Scalars['BigDecimal']>;
+  close_lte?: InputMaybe<Scalars['BigDecimal']>;
+  close_not?: InputMaybe<Scalars['BigDecimal']>;
+  close_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  high?: InputMaybe<Scalars['BigDecimal']>;
+  high_gt?: InputMaybe<Scalars['BigDecimal']>;
+  high_gte?: InputMaybe<Scalars['BigDecimal']>;
+  high_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  high_lt?: InputMaybe<Scalars['BigDecimal']>;
+  high_lte?: InputMaybe<Scalars['BigDecimal']>;
+  high_not?: InputMaybe<Scalars['BigDecimal']>;
+  high_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  id?: InputMaybe<Scalars['ID']>;
+  id_gt?: InputMaybe<Scalars['ID']>;
+  id_gte?: InputMaybe<Scalars['ID']>;
+  id_in?: InputMaybe<Array<Scalars['ID']>>;
+  id_lt?: InputMaybe<Scalars['ID']>;
+  id_lte?: InputMaybe<Scalars['ID']>;
+  id_not?: InputMaybe<Scalars['ID']>;
+  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
+  low?: InputMaybe<Scalars['BigDecimal']>;
+  low_gt?: InputMaybe<Scalars['BigDecimal']>;
+  low_gte?: InputMaybe<Scalars['BigDecimal']>;
+  low_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  low_lt?: InputMaybe<Scalars['BigDecimal']>;
+  low_lte?: InputMaybe<Scalars['BigDecimal']>;
+  low_not?: InputMaybe<Scalars['BigDecimal']>;
+  low_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  open?: InputMaybe<Scalars['BigDecimal']>;
+  open_gt?: InputMaybe<Scalars['BigDecimal']>;
+  open_gte?: InputMaybe<Scalars['BigDecimal']>;
+  open_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  open_lt?: InputMaybe<Scalars['BigDecimal']>;
+  open_lte?: InputMaybe<Scalars['BigDecimal']>;
+  open_not?: InputMaybe<Scalars['BigDecimal']>;
+  open_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  periodStartUnix?: InputMaybe<Scalars['Int']>;
+  periodStartUnix_gt?: InputMaybe<Scalars['Int']>;
+  periodStartUnix_gte?: InputMaybe<Scalars['Int']>;
+  periodStartUnix_in?: InputMaybe<Array<Scalars['Int']>>;
+  periodStartUnix_lt?: InputMaybe<Scalars['Int']>;
+  periodStartUnix_lte?: InputMaybe<Scalars['Int']>;
+  periodStartUnix_not?: InputMaybe<Scalars['Int']>;
+  periodStartUnix_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  quoteToken?: InputMaybe<Scalars['String']>;
+  quoteToken_contains?: InputMaybe<Scalars['String']>;
+  quoteToken_ends_with?: InputMaybe<Scalars['String']>;
+  quoteToken_gt?: InputMaybe<Scalars['String']>;
+  quoteToken_gte?: InputMaybe<Scalars['String']>;
+  quoteToken_in?: InputMaybe<Array<Scalars['String']>>;
+  quoteToken_lt?: InputMaybe<Scalars['String']>;
+  quoteToken_lte?: InputMaybe<Scalars['String']>;
+  quoteToken_not?: InputMaybe<Scalars['String']>;
+  quoteToken_not_contains?: InputMaybe<Scalars['String']>;
+  quoteToken_not_ends_with?: InputMaybe<Scalars['String']>;
+  quoteToken_not_in?: InputMaybe<Array<Scalars['String']>>;
+  quoteToken_not_starts_with?: InputMaybe<Scalars['String']>;
+  quoteToken_starts_with?: InputMaybe<Scalars['String']>;
+  totalVolume?: InputMaybe<Scalars['BigDecimal']>;
+  totalVolume_gt?: InputMaybe<Scalars['BigDecimal']>;
+  totalVolume_gte?: InputMaybe<Scalars['BigDecimal']>;
+  totalVolume_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  totalVolume_lt?: InputMaybe<Scalars['BigDecimal']>;
+  totalVolume_lte?: InputMaybe<Scalars['BigDecimal']>;
+  totalVolume_not?: InputMaybe<Scalars['BigDecimal']>;
+  totalVolume_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  txCount?: InputMaybe<Scalars['Int']>;
+  txCount_gt?: InputMaybe<Scalars['Int']>;
+  txCount_gte?: InputMaybe<Scalars['Int']>;
+  txCount_in?: InputMaybe<Array<Scalars['Int']>>;
+  txCount_lt?: InputMaybe<Scalars['Int']>;
+  txCount_lte?: InputMaybe<Scalars['Int']>;
+  txCount_not?: InputMaybe<Scalars['Int']>;
+  txCount_not_in?: InputMaybe<Array<Scalars['Int']>>;
+};
+
+export enum ICandleStick_OrderBy {
+  BaseToken = 'baseToken',
+  Close = 'close',
+  High = 'high',
+  Id = 'id',
+  Low = 'low',
+  Open = 'open',
+  PeriodStartUnix = 'periodStartUnix',
+  QuoteToken = 'quoteToken',
+  TotalVolume = 'totalVolume',
+  TxCount = 'txCount',
+}
+
+/** LendingHistoryItem is one user's history of Lend/UnLend events across all the lending pools */
 export type LendingHistoryItem = {
   __typename?: 'LendingHistoryItem';
+  /** The amount of ERC20 token that was lent/unlent */
   amount: Scalars['BigDecimal'];
   /** The underlying asset for this pool (eg USDT for the iUSDT pool) */
   asset?: Maybe<Token>;
   emittedBy: Scalars['String'];
   id: Scalars['ID'];
   lender: User;
+  /** The lending pool the user interacted with */
   lendingPool: LendingPool;
+  /** The amount of pool token that was minted or burned */
   loanTokenAmount: Scalars['BigDecimal'];
   timestamp: Scalars['Int'];
   transaction: Transaction;
+  /** Type is Lend/UnLend */
   type: LendingHistoryType;
+  /** Foreign key to the UserLendingHistory entity (see the docs on this entity for more information) */
   userLendingHistory: UserLendingHistory;
 };
 
@@ -1720,16 +2745,27 @@ export enum LendingHistoryItem_OrderBy {
 }
 
 export enum LendingHistoryType {
+  /** Lend is equivalent to a Mint event */
   Lend = 'Lend',
+  /** UnLend is equivalent to a Burn event */
   UnLend = 'UnLend',
 }
 
 /** A Lending Pool (iToken), where Users can lend assets to earn interest, and Users can borrow assets to Margin Trade or just as a regular loan. */
 export type LendingPool = {
   __typename?: 'LendingPool';
+  /**
+   * Balance of the underlying asset (ERC20 token) represented by the total supply of pool tokens
+   * It is incremented on Mint events and decremented on Burn events.
+   * WORK-IN-PROGRESS: This is a work-in-progress as it does not properly account for interest payments currently
+   */
   assetBalance: Scalars['BigDecimal'];
   /** ID is the contract address of the iToken */
   id: Scalars['ID'];
+  /**
+   * The total supply of this pool token (not the underlying asset).
+   * It is incremented on Mint events and decremented on Burn events
+   */
   poolTokenBalance: Scalars['BigDecimal'];
   /** Total asset volume lent over all time */
   totalAssetLent: Scalars['BigDecimal'];
@@ -1955,19 +2991,28 @@ export enum Liquidate_OrderBy {
 
 export type LiquidityHistoryItem = {
   __typename?: 'LiquidityHistoryItem';
+  /** The amount that was added/removed */
   amount: Scalars['BigDecimal'];
+  /** The contract that emitted this event (primarily used for debugging) */
   emittedBy: Scalars['String'];
   /** ID is transaction hash + log index */
   id: Scalars['ID'];
+  /** AMM pool that liquidity was provided to */
   liquidityPool: LiquidityPool;
+  /** New balance of the reserveToken (ERC20 token) on the AMM pool */
   newBalance: Scalars['BigDecimal'];
+  /** New total supply of pool tokens */
   newSupply: Scalars['BigDecimal'];
+  /** Provider is either the user, or a contract if the user interacted with a proxy contract */
   provider: Scalars['String'];
+  /** The underlying asset (ERC20 token) that was added/removed */
   reserveToken: Token;
   timestamp: Scalars['Int'];
   transaction: Transaction;
+  /** Type is either Added or Removed (if a user added or removed liquidity from the pool) */
   type: LiquidityHistoryType;
   user: User;
+  /** Foreign key to join this transaction to the parent UserLiquidityHistory entity */
   userLiquidityHistory: UserLiquidityHistory;
 };
 
@@ -2140,14 +3185,27 @@ export enum LiquidityHistoryType {
 export type LiquidityMiningAllocationPoint = {
   __typename?: 'LiquidityMiningAllocationPoint';
   allocationPoint: Scalars['BigInt'];
+  /**
+   * If this pool token is for an AMM liquidity pool, this is a foreign key to the SmartToken.
+   * If not, this property is null
+   */
   ammPoolToken?: Maybe<SmartToken>;
   id: Scalars['ID'];
+  /**
+   * If this pool token is for a lending pool, this is a foreign key to the LendingPool.
+   * If not, this property is null
+   */
   lendingPoolToken?: Maybe<LendingPool>;
   poolTokenAddedBlock: Scalars['Int'];
+  /** Unix timestamp for when this pool token was added to the liquidity mining program */
   poolTokenAddedTimestamp: Scalars['Int'];
   poolTokenUpdatedBlock: Scalars['Int'];
-  poolTokenUpdatedTImestamp: Scalars['Int'];
-  /** Calculated as (totalRewardPerBlock * allocationPoint) / totalAllocationPoint */
+  /** Unix timestamp for when the allocation point for this pool token last changed */
+  poolTokenUpdatedTimestamp: Scalars['Int'];
+  /**
+   * The amount of SOV earned per block by all LPs in one pool
+   * Calculated as (totalRewardPerBlock * allocationPoint) / totalAllocationPoint
+   */
   rewardPerBlock: Scalars['BigDecimal'];
 };
 
@@ -2220,14 +3278,14 @@ export type LiquidityMiningAllocationPoint_Filter = {
   poolTokenUpdatedBlock_lte?: InputMaybe<Scalars['Int']>;
   poolTokenUpdatedBlock_not?: InputMaybe<Scalars['Int']>;
   poolTokenUpdatedBlock_not_in?: InputMaybe<Array<Scalars['Int']>>;
-  poolTokenUpdatedTImestamp?: InputMaybe<Scalars['Int']>;
-  poolTokenUpdatedTImestamp_gt?: InputMaybe<Scalars['Int']>;
-  poolTokenUpdatedTImestamp_gte?: InputMaybe<Scalars['Int']>;
-  poolTokenUpdatedTImestamp_in?: InputMaybe<Array<Scalars['Int']>>;
-  poolTokenUpdatedTImestamp_lt?: InputMaybe<Scalars['Int']>;
-  poolTokenUpdatedTImestamp_lte?: InputMaybe<Scalars['Int']>;
-  poolTokenUpdatedTImestamp_not?: InputMaybe<Scalars['Int']>;
-  poolTokenUpdatedTImestamp_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  poolTokenUpdatedTimestamp?: InputMaybe<Scalars['Int']>;
+  poolTokenUpdatedTimestamp_gt?: InputMaybe<Scalars['Int']>;
+  poolTokenUpdatedTimestamp_gte?: InputMaybe<Scalars['Int']>;
+  poolTokenUpdatedTimestamp_in?: InputMaybe<Array<Scalars['Int']>>;
+  poolTokenUpdatedTimestamp_lt?: InputMaybe<Scalars['Int']>;
+  poolTokenUpdatedTimestamp_lte?: InputMaybe<Scalars['Int']>;
+  poolTokenUpdatedTimestamp_not?: InputMaybe<Scalars['Int']>;
+  poolTokenUpdatedTimestamp_not_in?: InputMaybe<Array<Scalars['Int']>>;
   rewardPerBlock?: InputMaybe<Scalars['BigDecimal']>;
   rewardPerBlock_gt?: InputMaybe<Scalars['BigDecimal']>;
   rewardPerBlock_gte?: InputMaybe<Scalars['BigDecimal']>;
@@ -2246,15 +3304,24 @@ export enum LiquidityMiningAllocationPoint_OrderBy {
   PoolTokenAddedBlock = 'poolTokenAddedBlock',
   PoolTokenAddedTimestamp = 'poolTokenAddedTimestamp',
   PoolTokenUpdatedBlock = 'poolTokenUpdatedBlock',
-  PoolTokenUpdatedTImestamp = 'poolTokenUpdatedTImestamp',
+  PoolTokenUpdatedTimestamp = 'poolTokenUpdatedTimestamp',
   RewardPerBlock = 'rewardPerBlock',
 }
 
-/** This entity will have only one instance (id: 0), and will hold global variables required for liquidity mining rewards calculations */
+/** This entity has only one instance (id: 0), and holds global variables required for liquidity mining rewards calculations */
 export type LiquidityMiningGlobal = {
   __typename?: 'LiquidityMiningGlobal';
   id: Scalars['ID'];
+  /**
+   * Total available allocation points. This is used to calculated the reward per block for each pool token.
+   * See the LiquidityMiningAllocationPoint entity for more details.
+   */
   totalAllocationPoint: Scalars['BigInt'];
+  /**
+   * Total possible SOV per block in the liquidity mining program. Not all of this has to be allocation (eg if totalRewardPerBlock = 1000, that does not mean 1000 SOV are being given to LPs per block)
+   * This is used to calculated the reward per block for each pool token.
+   * See the LiquidityMiningAllocationPoint entity for more details.
+   */
   totalRewardPerBlock: Scalars['BigInt'];
 };
 
@@ -2305,8 +3372,6 @@ export type LiquidityPool = {
   currentConverterRegistry?: Maybe<ConverterRegistry>;
   /** ID is the contract address of the Converter */
   id: Scalars['ID'];
-  lastResetBlockNumber?: Maybe<Scalars['Int']>;
-  lastResetTimestamp?: Maybe<Scalars['Int']>;
   maxConversionFee?: Maybe<Scalars['BigInt']>;
   owner?: Maybe<Scalars['String']>;
   poolTokens?: Maybe<Array<PoolToken>>;
@@ -2355,8 +3420,11 @@ export type LiquidityPoolToken = {
   /** The pool token that represents this token-liquidityPool relationship */
   poolToken: PoolToken;
   token: Token;
+  /** Total volume of this token that has been bought or sold through this liquidity pool */
   totalVolume: Scalars['BigDecimal'];
+  /** Total volume of this token bought through this liquidity pool */
   volumeBought: Scalars['BigDecimal'];
+  /** Total volume of this token sold through this liquidity pool */
   volumeSold: Scalars['BigDecimal'];
 };
 
@@ -2512,22 +3580,6 @@ export type LiquidityPool_Filter = {
   id_lte?: InputMaybe<Scalars['ID']>;
   id_not?: InputMaybe<Scalars['ID']>;
   id_not_in?: InputMaybe<Array<Scalars['ID']>>;
-  lastResetBlockNumber?: InputMaybe<Scalars['Int']>;
-  lastResetBlockNumber_gt?: InputMaybe<Scalars['Int']>;
-  lastResetBlockNumber_gte?: InputMaybe<Scalars['Int']>;
-  lastResetBlockNumber_in?: InputMaybe<Array<Scalars['Int']>>;
-  lastResetBlockNumber_lt?: InputMaybe<Scalars['Int']>;
-  lastResetBlockNumber_lte?: InputMaybe<Scalars['Int']>;
-  lastResetBlockNumber_not?: InputMaybe<Scalars['Int']>;
-  lastResetBlockNumber_not_in?: InputMaybe<Array<Scalars['Int']>>;
-  lastResetTimestamp?: InputMaybe<Scalars['Int']>;
-  lastResetTimestamp_gt?: InputMaybe<Scalars['Int']>;
-  lastResetTimestamp_gte?: InputMaybe<Scalars['Int']>;
-  lastResetTimestamp_in?: InputMaybe<Array<Scalars['Int']>>;
-  lastResetTimestamp_lt?: InputMaybe<Scalars['Int']>;
-  lastResetTimestamp_lte?: InputMaybe<Scalars['Int']>;
-  lastResetTimestamp_not?: InputMaybe<Scalars['Int']>;
-  lastResetTimestamp_not_in?: InputMaybe<Array<Scalars['Int']>>;
   maxConversionFee?: InputMaybe<Scalars['BigInt']>;
   maxConversionFee_gt?: InputMaybe<Scalars['BigInt']>;
   maxConversionFee_gte?: InputMaybe<Scalars['BigInt']>;
@@ -2635,8 +3687,6 @@ export enum LiquidityPool_OrderBy {
   CreatedAtTransaction = 'createdAtTransaction',
   CurrentConverterRegistry = 'currentConverterRegistry',
   Id = 'id',
-  LastResetBlockNumber = 'lastResetBlockNumber',
-  LastResetTimestamp = 'lastResetTimestamp',
   MaxConversionFee = 'maxConversionFee',
   Owner = 'owner',
   PoolTokens = 'poolTokens',
@@ -2652,47 +3702,80 @@ export enum LiquidityPool_OrderBy {
 /** A Loan can be initialized by either a Margin Trade event or a Borrow event */
 export type Loan = {
   __typename?: 'Loan';
-  /** Average price per token from all loan open events */
+  /**
+   * Average price per token from all loan open events
+   * Updated on Trade and Borrow events
+   * This is mainly used as internal storage to calculate PnL
+   */
   averageBuyPrice: Scalars['BigDecimal'];
-  /** Average price per token from all loan close events */
+  /**
+   * Average price per token from all loan close events
+   * Updated on CloseWithSwap, CloseWithDeposit and Liquidate events
+   * This is mainly used as internal storage to calculate PnL
+   */
   averageSellPrice: Scalars['BigDecimal'];
+  /** Borrow transactions associated with this loan */
   borrow?: Maybe<Array<Borrow>>;
   /** The amount borrowed in loan tokens */
   borrowedAmount: Scalars['BigDecimal'];
+  /** CloseWithDeposit events associated with this loan. Emitted when a user partially or fully closes a borrow loan. */
   closeWithDeposits?: Maybe<Array<CloseWithDeposit>>;
+  /** CloseWithSwap events associated with this loan. Emitted when a user partially or fully closes a margin trade. */
   closeWithSwaps?: Maybe<Array<CloseWithSwap>>;
+  /** The token provided as collateral */
   collateralToken: Token;
+  /** DepositCollateral events associated with this loan, where a user has topped up collateral */
   depositCollateral?: Maybe<Array<DepositCollateral>>;
+  /** Unix timestamp at end of loan (null if loan is still open) */
   endTimestamp?: Maybe<Scalars['Int']>;
   id: Scalars['ID'];
-  /** If a Liquidate, CloseWithSwap or CloseWithDeposit event occurs with 0 margin or 0 leverage, this property changes to false */
+  /** If a Liquidate, CloseWithSwap, Rollover or CloseWithDeposit event occurs with 0 margin or 0 leverage, this property changes to false */
   isOpen: Scalars['Boolean'];
+  /** Any liquidations that have happened on this loan */
   liquidates?: Maybe<Array<Liquidate>>;
+  /** The token the loan was taken out in */
   loanToken: Token;
+  /** The largest amount borrowed in the lifetime of this loan */
   maxBorrowedAmount: Scalars['BigDecimal'];
   /** The maximum this position size was - mainly for debugging purposes */
   maximumPositionSize: Scalars['BigDecimal'];
-  /** Next date that the loan will be rolled over, interest paid, and rollover reward paid */
+  /**
+   * Next date that the loan will be rolled over, interest and trading fee paid, and rollover reward paid
+   * It is possible for the next rollover to be in the past if the loan has not yet been rolled over by the Sovryn node
+   */
   nextRollover?: Maybe<Scalars['Int']>;
   /** Total of collateral (user collateral in a Borrow, and user collateral + borrowed amount in a Trade) in collateral tokens */
   positionSize: Scalars['BigDecimal'];
-  /** The realized PnL is quoted in the collateral currency */
+  /**
+   * Realized profit and loss. This is updated on every loan closing event - partially or fully closing a loan, or a liquidation.
+   * Currently, this does not take into account fees paid
+   * The realized PnL is quoted in the collateral currency
+   */
   realizedPnL: Scalars['BigDecimal'];
+  /** Percentage profit or loss relative to collateral */
   realizedPnLPercent: Scalars['BigDecimal'];
+  /**
+   * Rollover events associated with this loan.
+   * Rollovers are loan maintenance transactions where the next interest payment and fee is paid
+   */
   rollovers?: Maybe<Array<Rollover>>;
+  /** The amount borrowed when the loan was opened */
   startBorrowedAmount: Scalars['BigDecimal'];
   /** Initial size of the position */
   startPositionSize: Scalars['BigDecimal'];
   /** The start rate of the loan in loan tokens (eg if it is a long USD/BTC margin trade, this is the BTC price in USD) */
   startRate: Scalars['BigDecimal'];
+  /** Unix timestamp at start of loan */
   startTimestamp: Scalars['Int'];
   /** Sum of position volume from Trade, Borrow and DepositCollateral events in this loan, in collateral token */
   totalBought: Scalars['BigDecimal'];
   /** Sum of position change volume from CloseWithSwap, CloseWithDeposit and Liquidate events in this loan, in collateral token */
   totalSold: Scalars['BigDecimal'];
+  /** Trade (margin trade) transactions associated with this loan */
   trade?: Maybe<Array<Trade>>;
   /** LoanType is either Trade (for Margin Trades) or Borrow (for Borrows) */
   type: LoanType;
+  /** The user who took out the loan */
   user: User;
 };
 
@@ -2760,7 +3843,9 @@ export type LoanTradeArgs = {
 };
 
 export enum LoanType {
+  /** Borrow is a loan originating from a user simply borrowing funds */
   Borrow = 'Borrow',
+  /** Trade is a loan originating from a margin trade */
   Trade = 'Trade',
 }
 
@@ -3214,78 +4299,6 @@ export enum Network {
   Testnet = 'Testnet',
 }
 
-export type NewConverter = {
-  __typename?: 'NewConverter';
-  _converter: Scalars['Bytes'];
-  _owner: Scalars['Bytes'];
-  _type: Scalars['Int'];
-  id: Scalars['ID'];
-  timestamp: Scalars['Int'];
-  transaction: Transaction;
-};
-
-export type NewConverter_Filter = {
-  _converter?: InputMaybe<Scalars['Bytes']>;
-  _converter_contains?: InputMaybe<Scalars['Bytes']>;
-  _converter_in?: InputMaybe<Array<Scalars['Bytes']>>;
-  _converter_not?: InputMaybe<Scalars['Bytes']>;
-  _converter_not_contains?: InputMaybe<Scalars['Bytes']>;
-  _converter_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
-  _owner?: InputMaybe<Scalars['Bytes']>;
-  _owner_contains?: InputMaybe<Scalars['Bytes']>;
-  _owner_in?: InputMaybe<Array<Scalars['Bytes']>>;
-  _owner_not?: InputMaybe<Scalars['Bytes']>;
-  _owner_not_contains?: InputMaybe<Scalars['Bytes']>;
-  _owner_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
-  _type?: InputMaybe<Scalars['Int']>;
-  _type_gt?: InputMaybe<Scalars['Int']>;
-  _type_gte?: InputMaybe<Scalars['Int']>;
-  _type_in?: InputMaybe<Array<Scalars['Int']>>;
-  _type_lt?: InputMaybe<Scalars['Int']>;
-  _type_lte?: InputMaybe<Scalars['Int']>;
-  _type_not?: InputMaybe<Scalars['Int']>;
-  _type_not_in?: InputMaybe<Array<Scalars['Int']>>;
-  id?: InputMaybe<Scalars['ID']>;
-  id_gt?: InputMaybe<Scalars['ID']>;
-  id_gte?: InputMaybe<Scalars['ID']>;
-  id_in?: InputMaybe<Array<Scalars['ID']>>;
-  id_lt?: InputMaybe<Scalars['ID']>;
-  id_lte?: InputMaybe<Scalars['ID']>;
-  id_not?: InputMaybe<Scalars['ID']>;
-  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
-  timestamp?: InputMaybe<Scalars['Int']>;
-  timestamp_gt?: InputMaybe<Scalars['Int']>;
-  timestamp_gte?: InputMaybe<Scalars['Int']>;
-  timestamp_in?: InputMaybe<Array<Scalars['Int']>>;
-  timestamp_lt?: InputMaybe<Scalars['Int']>;
-  timestamp_lte?: InputMaybe<Scalars['Int']>;
-  timestamp_not?: InputMaybe<Scalars['Int']>;
-  timestamp_not_in?: InputMaybe<Array<Scalars['Int']>>;
-  transaction?: InputMaybe<Scalars['String']>;
-  transaction_contains?: InputMaybe<Scalars['String']>;
-  transaction_ends_with?: InputMaybe<Scalars['String']>;
-  transaction_gt?: InputMaybe<Scalars['String']>;
-  transaction_gte?: InputMaybe<Scalars['String']>;
-  transaction_in?: InputMaybe<Array<Scalars['String']>>;
-  transaction_lt?: InputMaybe<Scalars['String']>;
-  transaction_lte?: InputMaybe<Scalars['String']>;
-  transaction_not?: InputMaybe<Scalars['String']>;
-  transaction_not_contains?: InputMaybe<Scalars['String']>;
-  transaction_not_ends_with?: InputMaybe<Scalars['String']>;
-  transaction_not_in?: InputMaybe<Array<Scalars['String']>>;
-  transaction_not_starts_with?: InputMaybe<Scalars['String']>;
-  transaction_starts_with?: InputMaybe<Scalars['String']>;
-};
-
-export enum NewConverter_OrderBy {
-  Converter = '_converter',
-  Owner = '_owner',
-  Type = '_type',
-  Id = 'id',
-  Timestamp = 'timestamp',
-  Transaction = 'transaction',
-}
-
 export type OrderCanceled = {
   __typename?: 'OrderCanceled';
   emittedBy: Scalars['Bytes'];
@@ -3361,14 +4374,26 @@ export type OrderCreated = {
   emittedBy: Scalars['Bytes'];
   hash: Scalars['Bytes'];
   id: Scalars['ID'];
+  /**
+   * The price at which the order should be executed.
+   * This is a BigInt (usually 1e18), not a human-readable decimal. (See above for explanation)
+   */
   limitPrice: Scalars['BigInt'];
   network: Network;
+  /**
+   * The amountIn is a BigInt (usually 1e18), not a human-readable decimal.
+   * This is because both orderbooks are on testnet, and so this subgraph cannot access the correct number of token decimals for mainnet tokens
+   */
   order_amountIn: Scalars['BigInt'];
+  /** The amountIn is a BigInt (usually 1e18), not a human-readable decimal. (See above for explanation) */
   order_amountOutMin: Scalars['BigInt'];
+  /** Timestamp when the order was created */
   order_created: Scalars['BigInt'];
+  /** Timestamp when the order must be filled by */
   order_deadline: Scalars['BigInt'];
   order_fromToken: Scalars['Bytes'];
-  order_maker: User;
+  /** This is the User address. This is not a User entity because of the testnet/mainnet issue (see above comment) */
+  order_maker: Scalars['Bytes'];
   order_recipient: Scalars['Bytes'];
   order_toToken: Scalars['Bytes'];
   timestamp: Scalars['Int'];
@@ -3446,20 +4471,12 @@ export type OrderCreated_Filter = {
   order_fromToken_not?: InputMaybe<Scalars['Bytes']>;
   order_fromToken_not_contains?: InputMaybe<Scalars['Bytes']>;
   order_fromToken_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
-  order_maker?: InputMaybe<Scalars['String']>;
-  order_maker_contains?: InputMaybe<Scalars['String']>;
-  order_maker_ends_with?: InputMaybe<Scalars['String']>;
-  order_maker_gt?: InputMaybe<Scalars['String']>;
-  order_maker_gte?: InputMaybe<Scalars['String']>;
-  order_maker_in?: InputMaybe<Array<Scalars['String']>>;
-  order_maker_lt?: InputMaybe<Scalars['String']>;
-  order_maker_lte?: InputMaybe<Scalars['String']>;
-  order_maker_not?: InputMaybe<Scalars['String']>;
-  order_maker_not_contains?: InputMaybe<Scalars['String']>;
-  order_maker_not_ends_with?: InputMaybe<Scalars['String']>;
-  order_maker_not_in?: InputMaybe<Array<Scalars['String']>>;
-  order_maker_not_starts_with?: InputMaybe<Scalars['String']>;
-  order_maker_starts_with?: InputMaybe<Scalars['String']>;
+  order_maker?: InputMaybe<Scalars['Bytes']>;
+  order_maker_contains?: InputMaybe<Scalars['Bytes']>;
+  order_maker_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  order_maker_not?: InputMaybe<Scalars['Bytes']>;
+  order_maker_not_contains?: InputMaybe<Scalars['Bytes']>;
+  order_maker_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   order_recipient?: InputMaybe<Scalars['Bytes']>;
   order_recipient_contains?: InputMaybe<Scalars['Bytes']>;
   order_recipient_in?: InputMaybe<Array<Scalars['Bytes']>>;
@@ -3994,6 +5011,7 @@ export type PoolToken = {
   liquidityPool: LiquidityPool;
   name?: Maybe<Scalars['String']>;
   symbol?: Maybe<Scalars['String']>;
+  /** For V1 pools, there will be 2 underlying assets, however for V2 pools there will be just one */
   underlyingAssets: Array<Token>;
 };
 
@@ -4080,32 +5098,58 @@ export enum PoolToken_OrderBy {
   UnderlyingAssets = 'underlyingAssets',
 }
 
+/**
+ * A Proposal is created each time a SIP (Sovryn Improvement Proposal) is proposed
+ * The Proposal is created, voted on, and then executed if it passes
+ * To see if a Proposal has been executed, see if the executed property is null or if it has a transaction
+ */
 export type Proposal = {
   __typename?: 'Proposal';
+  /** If the proposal was canceled, the transaction that canceled it (otherwise null) */
   canceled?: Maybe<Transaction>;
   /** Number of unique wallets that voted against this proposal */
   countVotersAgainst: Scalars['Int'];
   /** Number of unique wallets that voted for this proposal */
   countVotersFor: Scalars['Int'];
+  /** Transaction that created the proposal */
   created: Transaction;
+  /** Brief description of what this SIP is for, sometimes with a link to the github repo and README for this proposal */
   description: Scalars['String'];
+  /** The contract that emitted this event */
   emittedBy: Scalars['Bytes'];
+  /** Block when voting ends */
   endBlock: Scalars['Int'];
+  /** If the proposal was executed, the transaction that executed it (otherwise null) */
   executed?: Maybe<Transaction>;
+  /** ID is the address of the governor contract that was used to create the proposal, + the id of the proposal */
   id: Scalars['ID'];
   proposalId: Scalars['Int'];
+  /** Address of the user who created this proposal */
   proposer: Scalars['Bytes'];
+  /** If the proposal was queued, the transaction that queued it (otherwise null) */
   queued?: Maybe<Transaction>;
+  /** Function signatures in the targeted contract that would be affected by this proposal passing */
   signatures: Array<Scalars['String']>;
+  /** Block when voting starts */
   startBlock: Scalars['Int'];
+  /** Contract or contracts that this proposal targets */
   targets: Array<Scalars['String']>;
+  /** Timestamp when this proposal was created. This is also available in the created transaction, but is included here so it is possible to order by timestamp */
   timestamp: Scalars['Int'];
   values: Array<Scalars['BigInt']>;
+  /** Individual vote transactions */
   votes?: Maybe<Array<VoteCast>>;
+  /** Number of votes against the proposal (weighted vote, not number of voters) */
   votesAgainst: Scalars['BigInt'];
+  /** Number of votes for the proposal (weighted vote, not number of voters) */
   votesFor: Scalars['BigInt'];
 };
 
+/**
+ * A Proposal is created each time a SIP (Sovryn Improvement Proposal) is proposed
+ * The Proposal is created, voted on, and then executed if it passes
+ * To see if a Proposal has been executed, see if the executed property is null or if it has a transaction
+ */
 export type ProposalVotesArgs = {
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<VoteCast_OrderBy>;
@@ -4312,6 +5356,7 @@ export enum Proposal_OrderBy {
  */
 export type ProtocolStats = {
   __typename?: 'ProtocolStats';
+  /** Current price of BTC in usdStablecoin */
   btcUsdPrice: Scalars['BigDecimal'];
   /** This is SOV staked by vesting contracts. It in incremented when the contracts stake the tokens, and decremented when users claim their unlocked tokens */
   currentStakedByVestingSov: Scalars['BigDecimal'];
@@ -4347,15 +5392,15 @@ export type ProtocolStats = {
   totalMarginTradeVolumeUsd: Scalars['BigDecimal'];
   /** Total fees from Margin Trading earned by SOV stakers (in usd) */
   totalTradingFeesUsd: Scalars['BigDecimal'];
-  /** NOT YET IMPLEMENTED: This will be a total of volumes of all transaction types (AMM Swaps, Margin Trades, CloseWithSwap etc etc) */
-  totalTransactedVolumeUsd: Scalars['Int'];
   /** Total volume withdrawn from Lending Pool over all time (in usd) */
   totalUnlendVolumeUsd: Scalars['BigDecimal'];
   /**
    * Total number of users of the protocol. This number is incremented each time a user initiates a transaction with the Protocol.
-   * Currently this is incremented by specific user actions, but could be incremented on a per Transaction basis.
+   * Incremented when a user interacts with any contracts tracked by this subgraph.
+   * Does not include the Zero, Mynt and Perperpetual Swaps users (unless they have also used the core protocol)
    */
   totalUsers: Scalars['Int'];
+  /** The token currently used as a proxy for USD/BTC prices */
   usdStablecoin: Token;
 };
 
@@ -4516,14 +5561,6 @@ export type ProtocolStats_Filter = {
   totalTradingFeesUsd_lte?: InputMaybe<Scalars['BigDecimal']>;
   totalTradingFeesUsd_not?: InputMaybe<Scalars['BigDecimal']>;
   totalTradingFeesUsd_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
-  totalTransactedVolumeUsd?: InputMaybe<Scalars['Int']>;
-  totalTransactedVolumeUsd_gt?: InputMaybe<Scalars['Int']>;
-  totalTransactedVolumeUsd_gte?: InputMaybe<Scalars['Int']>;
-  totalTransactedVolumeUsd_in?: InputMaybe<Array<Scalars['Int']>>;
-  totalTransactedVolumeUsd_lt?: InputMaybe<Scalars['Int']>;
-  totalTransactedVolumeUsd_lte?: InputMaybe<Scalars['Int']>;
-  totalTransactedVolumeUsd_not?: InputMaybe<Scalars['Int']>;
-  totalTransactedVolumeUsd_not_in?: InputMaybe<Array<Scalars['Int']>>;
   totalUnlendVolumeUsd?: InputMaybe<Scalars['BigDecimal']>;
   totalUnlendVolumeUsd_gt?: InputMaybe<Scalars['BigDecimal']>;
   totalUnlendVolumeUsd_gte?: InputMaybe<Scalars['BigDecimal']>;
@@ -4575,7 +5612,6 @@ export enum ProtocolStats_OrderBy {
   TotalLiquidateVolumeUsd = 'totalLiquidateVolumeUsd',
   TotalMarginTradeVolumeUsd = 'totalMarginTradeVolumeUsd',
   TotalTradingFeesUsd = 'totalTradingFeesUsd',
-  TotalTransactedVolumeUsd = 'totalTransactedVolumeUsd',
   TotalUnlendVolumeUsd = 'totalUnlendVolumeUsd',
   TotalUsers = 'totalUsers',
   UsdStablecoin = 'usdStablecoin',
@@ -4591,8 +5627,18 @@ export type Query = {
   bitcoinTransfers: Array<BitcoinTransfer>;
   borrow?: Maybe<Borrow>;
   borrows: Array<Borrow>;
-  candleStick?: Maybe<CandleStick>;
-  candleSticks: Array<CandleStick>;
+  bridge?: Maybe<Bridge>;
+  bridges: Array<Bridge>;
+  candleStickDay?: Maybe<CandleStickDay>;
+  candleStickDays: Array<CandleStickDay>;
+  candleStickFifteenMinute?: Maybe<CandleStickFifteenMinute>;
+  candleStickFifteenMinutes: Array<CandleStickFifteenMinute>;
+  candleStickFourHour?: Maybe<CandleStickFourHour>;
+  candleStickFourHours: Array<CandleStickFourHour>;
+  candleStickHour?: Maybe<CandleStickHour>;
+  candleStickHours: Array<CandleStickHour>;
+  candleStickMinute?: Maybe<CandleStickMinute>;
+  candleStickMinutes: Array<CandleStickMinute>;
   closeWithDeposit?: Maybe<CloseWithDeposit>;
   closeWithDeposits: Array<CloseWithDeposit>;
   closeWithSwap?: Maybe<CloseWithSwap>;
@@ -4601,14 +5647,20 @@ export type Query = {
   conversions: Array<Conversion>;
   converterRegistries: Array<ConverterRegistry>;
   converterRegistry?: Maybe<ConverterRegistry>;
+  crossTransfer?: Maybe<CrossTransfer>;
+  crossTransfers: Array<CrossTransfer>;
   deposit?: Maybe<Deposit>;
   depositCollateral?: Maybe<DepositCollateral>;
   depositCollaterals: Array<DepositCollateral>;
   deposits: Array<Deposit>;
   fastBTCBridgeStat?: Maybe<FastBtcBridgeStat>;
   fastBTCBridgeStats: Array<FastBtcBridgeStat>;
+  federation?: Maybe<Federation>;
+  federations: Array<Federation>;
   feeSharingTokensTransferred?: Maybe<FeeSharingTokensTransferred>;
   feeSharingTokensTransferreds: Array<FeeSharingTokensTransferred>;
+  icandleStick?: Maybe<ICandleStick>;
+  icandleSticks: Array<ICandleStick>;
   lendingHistoryItem?: Maybe<LendingHistoryItem>;
   lendingHistoryItems: Array<LendingHistoryItem>;
   lendingPool?: Maybe<LendingPool>;
@@ -4631,8 +5683,6 @@ export type Query = {
   marginOrderCanceleds: Array<MarginOrderCanceled>;
   marginOrderFilled?: Maybe<MarginOrderFilled>;
   marginOrderFilleds: Array<MarginOrderFilled>;
-  newConverter?: Maybe<NewConverter>;
-  newConverters: Array<NewConverter>;
   orderCanceled?: Maybe<OrderCanceled>;
   orderCanceleds: Array<OrderCanceled>;
   orderCreated?: Maybe<OrderCreated>;
@@ -4656,9 +5706,9 @@ export type Query = {
   rewardsEarnedHistoryItems: Array<RewardsEarnedHistoryItem>;
   rollover?: Maybe<Rollover>;
   rollovers: Array<Rollover>;
+  sideToken?: Maybe<SideToken>;
+  sideTokens: Array<SideToken>;
   smartToken?: Maybe<SmartToken>;
-  smartTokenAdded?: Maybe<SmartTokenAdded>;
-  smartTokenAddeds: Array<SmartTokenAdded>;
   smartTokens: Array<SmartToken>;
   stakeHistoryItem?: Maybe<StakeHistoryItem>;
   stakeHistoryItems: Array<StakeHistoryItem>;
@@ -4748,20 +5798,100 @@ export type QueryBorrowsArgs = {
   where?: InputMaybe<Borrow_Filter>;
 };
 
-export type QueryCandleStickArgs = {
+export type QueryBridgeArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
-export type QueryCandleSticksArgs = {
+export type QueryBridgesArgs = {
   block?: InputMaybe<Block_Height>;
   first?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<CandleStick_OrderBy>;
+  orderBy?: InputMaybe<Bridge_OrderBy>;
   orderDirection?: InputMaybe<OrderDirection>;
   skip?: InputMaybe<Scalars['Int']>;
   subgraphError?: _SubgraphErrorPolicy_;
-  where?: InputMaybe<CandleStick_Filter>;
+  where?: InputMaybe<Bridge_Filter>;
+};
+
+export type QueryCandleStickDayArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+export type QueryCandleStickDaysArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<CandleStickDay_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<CandleStickDay_Filter>;
+};
+
+export type QueryCandleStickFifteenMinuteArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+export type QueryCandleStickFifteenMinutesArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<CandleStickFifteenMinute_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<CandleStickFifteenMinute_Filter>;
+};
+
+export type QueryCandleStickFourHourArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+export type QueryCandleStickFourHoursArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<CandleStickFourHour_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<CandleStickFourHour_Filter>;
+};
+
+export type QueryCandleStickHourArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+export type QueryCandleStickHoursArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<CandleStickHour_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<CandleStickHour_Filter>;
+};
+
+export type QueryCandleStickMinuteArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+export type QueryCandleStickMinutesArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<CandleStickMinute_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<CandleStickMinute_Filter>;
 };
 
 export type QueryCloseWithDepositArgs = {
@@ -4828,6 +5958,22 @@ export type QueryConverterRegistryArgs = {
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
+export type QueryCrossTransferArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+export type QueryCrossTransfersArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<CrossTransfer_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<CrossTransfer_Filter>;
+};
+
 export type QueryDepositArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID'];
@@ -4876,6 +6022,22 @@ export type QueryFastBtcBridgeStatsArgs = {
   where?: InputMaybe<FastBtcBridgeStat_Filter>;
 };
 
+export type QueryFederationArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+export type QueryFederationsArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Federation_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<Federation_Filter>;
+};
+
 export type QueryFeeSharingTokensTransferredArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID'];
@@ -4890,6 +6052,22 @@ export type QueryFeeSharingTokensTransferredsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   subgraphError?: _SubgraphErrorPolicy_;
   where?: InputMaybe<FeeSharingTokensTransferred_Filter>;
+};
+
+export type QueryIcandleStickArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+export type QueryIcandleSticksArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<ICandleStick_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<ICandleStick_Filter>;
 };
 
 export type QueryLendingHistoryItemArgs = {
@@ -5066,22 +6244,6 @@ export type QueryMarginOrderFilledsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   subgraphError?: _SubgraphErrorPolicy_;
   where?: InputMaybe<MarginOrderFilled_Filter>;
-};
-
-export type QueryNewConverterArgs = {
-  block?: InputMaybe<Block_Height>;
-  id: Scalars['ID'];
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-export type QueryNewConvertersArgs = {
-  block?: InputMaybe<Block_Height>;
-  first?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<NewConverter_OrderBy>;
-  orderDirection?: InputMaybe<OrderDirection>;
-  skip?: InputMaybe<Scalars['Int']>;
-  subgraphError?: _SubgraphErrorPolicy_;
-  where?: InputMaybe<NewConverter_Filter>;
 };
 
 export type QueryOrderCanceledArgs = {
@@ -5270,26 +6432,26 @@ export type QueryRolloversArgs = {
   where?: InputMaybe<Rollover_Filter>;
 };
 
+export type QuerySideTokenArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+export type QuerySideTokensArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<SideToken_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<SideToken_Filter>;
+};
+
 export type QuerySmartTokenArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID'];
   subgraphError?: _SubgraphErrorPolicy_;
-};
-
-export type QuerySmartTokenAddedArgs = {
-  block?: InputMaybe<Block_Height>;
-  id: Scalars['ID'];
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-export type QuerySmartTokenAddedsArgs = {
-  block?: InputMaybe<Block_Height>;
-  first?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<SmartTokenAdded_OrderBy>;
-  orderDirection?: InputMaybe<OrderDirection>;
-  skip?: InputMaybe<Scalars['Int']>;
-  subgraphError?: _SubgraphErrorPolicy_;
-  where?: InputMaybe<SmartTokenAdded_Filter>;
 };
 
 export type QuerySmartTokensArgs = {
@@ -5575,10 +6737,19 @@ export type QueryWithdrawalsArgs = {
 };
 
 export enum RewardsEarnedAction {
+  /**
+   * SOV reward earned when a user margin trades or one of their trades is rolled over.
+   * The reward is a percentage of the trading fee, paid in SOV.
+   */
   EarnReward = 'EarnReward',
+  /** When a user claims a liquidity mining reward */
   RewardClaimed = 'RewardClaimed',
+  /** When SOV is staked by a Rewards vesting contract (eg after it has been claimed by the user) */
   RewardSovStaked = 'RewardSovStaked',
+  /** When a SOV Staker withdraws their liquid SOV reward for staking */
   StakingRewardWithdrawn = 'StakingRewardWithdrawn',
+  /** When an SOV Staker withdraws their share of the fees earned by the Protocol */
+  UserFeeWithdrawn = 'UserFeeWithdrawn',
 }
 
 export type RewardsEarnedHistoryItem = {
@@ -5587,7 +6758,7 @@ export type RewardsEarnedHistoryItem = {
   amount: Scalars['BigDecimal'];
   id: Scalars['ID'];
   timestamp: Scalars['Int'];
-  token?: Maybe<Token>;
+  token?: Maybe<Scalars['String']>;
   transaction: Transaction;
   user: UserRewardsEarnedHistory;
 };
@@ -5675,6 +6846,11 @@ export enum RewardsEarnedHistoryItem_OrderBy {
   User = 'user',
 }
 
+/**
+ * Granular event data for the Loan entity. Emitted when a Loan is rolled over.
+ * This is when the next installment of interest is paid from the collateral, and the trading fee is paid
+ * This transaction is initiated by the Sovryn node, which earns a reward for doing this
+ */
 export type Rollover = {
   __typename?: 'Rollover';
   collateral: Scalars['BigDecimal'];
@@ -5684,7 +6860,9 @@ export type Rollover = {
   lender: Scalars['Bytes'];
   loanId: Loan;
   principal: Scalars['BigDecimal'];
+  /** The reward received by the User for performing this function */
   reward: Scalars['BigDecimal'];
+  /** The User running the Sovryn node that made this transaction */
   rewardReceiver: User;
   timestamp: Scalars['Int'];
   transaction: Transaction;
@@ -5825,6 +7003,108 @@ export enum Rollover_OrderBy {
   User = 'user',
 }
 
+/** SideToken entity - for every token that is passed across the bridge and does not exist on sovryn a side token is created */
+export type SideToken = {
+  __typename?: 'SideToken';
+  /** CreatedAtTx - the creation transaction of the side token */
+  createdAtTx: Transaction;
+  /** Granularity - this is the ERC777 granularity value for the side token */
+  granularity: Scalars['BigInt'];
+  /** Id - the side token is stored twice, once with the original token address as id and another with the side token address */
+  id: Scalars['ID'];
+  /** newSymbol - the new symbol given to the side token */
+  newSymbol: Scalars['String'];
+  /** OriginalTokenAddress - the original token address of the side token */
+  originalTokenAddress: Scalars['Bytes'];
+  /** SideTokenAddress - the token address on RSK of the side token */
+  sideTokenAddress: Scalars['Bytes'];
+  /** UpdatedAtTx - The side token was last updated at this transaction */
+  updatedAtTx: Transaction;
+};
+
+export type SideToken_Filter = {
+  createdAtTx?: InputMaybe<Scalars['String']>;
+  createdAtTx_contains?: InputMaybe<Scalars['String']>;
+  createdAtTx_ends_with?: InputMaybe<Scalars['String']>;
+  createdAtTx_gt?: InputMaybe<Scalars['String']>;
+  createdAtTx_gte?: InputMaybe<Scalars['String']>;
+  createdAtTx_in?: InputMaybe<Array<Scalars['String']>>;
+  createdAtTx_lt?: InputMaybe<Scalars['String']>;
+  createdAtTx_lte?: InputMaybe<Scalars['String']>;
+  createdAtTx_not?: InputMaybe<Scalars['String']>;
+  createdAtTx_not_contains?: InputMaybe<Scalars['String']>;
+  createdAtTx_not_ends_with?: InputMaybe<Scalars['String']>;
+  createdAtTx_not_in?: InputMaybe<Array<Scalars['String']>>;
+  createdAtTx_not_starts_with?: InputMaybe<Scalars['String']>;
+  createdAtTx_starts_with?: InputMaybe<Scalars['String']>;
+  granularity?: InputMaybe<Scalars['BigInt']>;
+  granularity_gt?: InputMaybe<Scalars['BigInt']>;
+  granularity_gte?: InputMaybe<Scalars['BigInt']>;
+  granularity_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  granularity_lt?: InputMaybe<Scalars['BigInt']>;
+  granularity_lte?: InputMaybe<Scalars['BigInt']>;
+  granularity_not?: InputMaybe<Scalars['BigInt']>;
+  granularity_not_in?: InputMaybe<Array<Scalars['BigInt']>>;
+  id?: InputMaybe<Scalars['ID']>;
+  id_gt?: InputMaybe<Scalars['ID']>;
+  id_gte?: InputMaybe<Scalars['ID']>;
+  id_in?: InputMaybe<Array<Scalars['ID']>>;
+  id_lt?: InputMaybe<Scalars['ID']>;
+  id_lte?: InputMaybe<Scalars['ID']>;
+  id_not?: InputMaybe<Scalars['ID']>;
+  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
+  newSymbol?: InputMaybe<Scalars['String']>;
+  newSymbol_contains?: InputMaybe<Scalars['String']>;
+  newSymbol_ends_with?: InputMaybe<Scalars['String']>;
+  newSymbol_gt?: InputMaybe<Scalars['String']>;
+  newSymbol_gte?: InputMaybe<Scalars['String']>;
+  newSymbol_in?: InputMaybe<Array<Scalars['String']>>;
+  newSymbol_lt?: InputMaybe<Scalars['String']>;
+  newSymbol_lte?: InputMaybe<Scalars['String']>;
+  newSymbol_not?: InputMaybe<Scalars['String']>;
+  newSymbol_not_contains?: InputMaybe<Scalars['String']>;
+  newSymbol_not_ends_with?: InputMaybe<Scalars['String']>;
+  newSymbol_not_in?: InputMaybe<Array<Scalars['String']>>;
+  newSymbol_not_starts_with?: InputMaybe<Scalars['String']>;
+  newSymbol_starts_with?: InputMaybe<Scalars['String']>;
+  originalTokenAddress?: InputMaybe<Scalars['Bytes']>;
+  originalTokenAddress_contains?: InputMaybe<Scalars['Bytes']>;
+  originalTokenAddress_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  originalTokenAddress_not?: InputMaybe<Scalars['Bytes']>;
+  originalTokenAddress_not_contains?: InputMaybe<Scalars['Bytes']>;
+  originalTokenAddress_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  sideTokenAddress?: InputMaybe<Scalars['Bytes']>;
+  sideTokenAddress_contains?: InputMaybe<Scalars['Bytes']>;
+  sideTokenAddress_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  sideTokenAddress_not?: InputMaybe<Scalars['Bytes']>;
+  sideTokenAddress_not_contains?: InputMaybe<Scalars['Bytes']>;
+  sideTokenAddress_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  updatedAtTx?: InputMaybe<Scalars['String']>;
+  updatedAtTx_contains?: InputMaybe<Scalars['String']>;
+  updatedAtTx_ends_with?: InputMaybe<Scalars['String']>;
+  updatedAtTx_gt?: InputMaybe<Scalars['String']>;
+  updatedAtTx_gte?: InputMaybe<Scalars['String']>;
+  updatedAtTx_in?: InputMaybe<Array<Scalars['String']>>;
+  updatedAtTx_lt?: InputMaybe<Scalars['String']>;
+  updatedAtTx_lte?: InputMaybe<Scalars['String']>;
+  updatedAtTx_not?: InputMaybe<Scalars['String']>;
+  updatedAtTx_not_contains?: InputMaybe<Scalars['String']>;
+  updatedAtTx_not_ends_with?: InputMaybe<Scalars['String']>;
+  updatedAtTx_not_in?: InputMaybe<Array<Scalars['String']>>;
+  updatedAtTx_not_starts_with?: InputMaybe<Scalars['String']>;
+  updatedAtTx_starts_with?: InputMaybe<Scalars['String']>;
+};
+
+export enum SideToken_OrderBy {
+  CreatedAtTx = 'createdAtTx',
+  Granularity = 'granularity',
+  Id = 'id',
+  NewSymbol = 'newSymbol',
+  OriginalTokenAddress = 'originalTokenAddress',
+  SideTokenAddress = 'sideTokenAddress',
+  UpdatedAtTx = 'updatedAtTx',
+}
+
 /**
  * The smart token represents a single reserve asset on a single pool.
  * For V1 pools, there is 1 smart token representing both reserve assets. For V2 pools, there are 2 smart tokens, one for each reserve asset.
@@ -5835,19 +7115,22 @@ export type SmartToken = {
   addedToRegistryTransactionHash?: Maybe<Scalars['Bytes']>;
   /** connectorTokens are the entity that holds the many-to-many relationship between the underlying token asset and the smart token */
   connectorTokens?: Maybe<Array<TokenSmartToken>>;
+  /** The converter registry this smart token belongs to. Can be null if token is removed from th registry */
   currentConverterRegistry?: Maybe<ConverterRegistry>;
+  /** Number of decimal places for this token */
   decimals?: Maybe<Scalars['Int']>;
-  /** ID is smart token address */
+  /** ID is smart token contract address */
   id: Scalars['ID'];
   /** The AMM pool this smart token "belongs" to */
   liquidityPool: LiquidityPool;
+  /** Name of the smart token (set on the contract) */
   name?: Maybe<Scalars['String']>;
+  /** The contract/account that owns the SmartToken contract. This will typically be the converter registry */
   owner: Scalars['String'];
   /** smartTokenType can be Relay or Liquid */
   smartTokenType?: Maybe<Scalars['String']>;
+  /** Symbol for the smart token asset (set on the contract) */
   symbol?: Maybe<Scalars['String']>;
-  transfersEnabled?: Maybe<Scalars['Boolean']>;
-  version?: Maybe<Scalars['Int']>;
 };
 
 /**
@@ -5861,69 +7144,6 @@ export type SmartTokenConnectorTokensArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<TokenSmartToken_Filter>;
 };
-
-/** Autogenerated for debugging - to be eventually deleted */
-export type SmartTokenAdded = {
-  __typename?: 'SmartTokenAdded';
-  _smartToken: Scalars['Bytes'];
-  emittedBy: Scalars['Bytes'];
-  id: Scalars['ID'];
-  timestamp: Scalars['Int'];
-  transaction: Transaction;
-};
-
-export type SmartTokenAdded_Filter = {
-  _smartToken?: InputMaybe<Scalars['Bytes']>;
-  _smartToken_contains?: InputMaybe<Scalars['Bytes']>;
-  _smartToken_in?: InputMaybe<Array<Scalars['Bytes']>>;
-  _smartToken_not?: InputMaybe<Scalars['Bytes']>;
-  _smartToken_not_contains?: InputMaybe<Scalars['Bytes']>;
-  _smartToken_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
-  emittedBy?: InputMaybe<Scalars['Bytes']>;
-  emittedBy_contains?: InputMaybe<Scalars['Bytes']>;
-  emittedBy_in?: InputMaybe<Array<Scalars['Bytes']>>;
-  emittedBy_not?: InputMaybe<Scalars['Bytes']>;
-  emittedBy_not_contains?: InputMaybe<Scalars['Bytes']>;
-  emittedBy_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
-  id?: InputMaybe<Scalars['ID']>;
-  id_gt?: InputMaybe<Scalars['ID']>;
-  id_gte?: InputMaybe<Scalars['ID']>;
-  id_in?: InputMaybe<Array<Scalars['ID']>>;
-  id_lt?: InputMaybe<Scalars['ID']>;
-  id_lte?: InputMaybe<Scalars['ID']>;
-  id_not?: InputMaybe<Scalars['ID']>;
-  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
-  timestamp?: InputMaybe<Scalars['Int']>;
-  timestamp_gt?: InputMaybe<Scalars['Int']>;
-  timestamp_gte?: InputMaybe<Scalars['Int']>;
-  timestamp_in?: InputMaybe<Array<Scalars['Int']>>;
-  timestamp_lt?: InputMaybe<Scalars['Int']>;
-  timestamp_lte?: InputMaybe<Scalars['Int']>;
-  timestamp_not?: InputMaybe<Scalars['Int']>;
-  timestamp_not_in?: InputMaybe<Array<Scalars['Int']>>;
-  transaction?: InputMaybe<Scalars['String']>;
-  transaction_contains?: InputMaybe<Scalars['String']>;
-  transaction_ends_with?: InputMaybe<Scalars['String']>;
-  transaction_gt?: InputMaybe<Scalars['String']>;
-  transaction_gte?: InputMaybe<Scalars['String']>;
-  transaction_in?: InputMaybe<Array<Scalars['String']>>;
-  transaction_lt?: InputMaybe<Scalars['String']>;
-  transaction_lte?: InputMaybe<Scalars['String']>;
-  transaction_not?: InputMaybe<Scalars['String']>;
-  transaction_not_contains?: InputMaybe<Scalars['String']>;
-  transaction_not_ends_with?: InputMaybe<Scalars['String']>;
-  transaction_not_in?: InputMaybe<Array<Scalars['String']>>;
-  transaction_not_starts_with?: InputMaybe<Scalars['String']>;
-  transaction_starts_with?: InputMaybe<Scalars['String']>;
-};
-
-export enum SmartTokenAdded_OrderBy {
-  SmartToken = '_smartToken',
-  EmittedBy = 'emittedBy',
-  Id = 'id',
-  Timestamp = 'timestamp',
-  Transaction = 'transaction',
-}
 
 export type SmartToken_Filter = {
   addedToRegistryBlockNumber?: InputMaybe<Scalars['Int']>;
@@ -6026,18 +7246,6 @@ export type SmartToken_Filter = {
   symbol_not_in?: InputMaybe<Array<Scalars['String']>>;
   symbol_not_starts_with?: InputMaybe<Scalars['String']>;
   symbol_starts_with?: InputMaybe<Scalars['String']>;
-  transfersEnabled?: InputMaybe<Scalars['Boolean']>;
-  transfersEnabled_in?: InputMaybe<Array<Scalars['Boolean']>>;
-  transfersEnabled_not?: InputMaybe<Scalars['Boolean']>;
-  transfersEnabled_not_in?: InputMaybe<Array<Scalars['Boolean']>>;
-  version?: InputMaybe<Scalars['Int']>;
-  version_gt?: InputMaybe<Scalars['Int']>;
-  version_gte?: InputMaybe<Scalars['Int']>;
-  version_in?: InputMaybe<Array<Scalars['Int']>>;
-  version_lt?: InputMaybe<Scalars['Int']>;
-  version_lte?: InputMaybe<Scalars['Int']>;
-  version_not?: InputMaybe<Scalars['Int']>;
-  version_not_in?: InputMaybe<Array<Scalars['Int']>>;
 };
 
 export enum SmartToken_OrderBy {
@@ -6052,20 +7260,26 @@ export enum SmartToken_OrderBy {
   Owner = 'owner',
   SmartTokenType = 'smartTokenType',
   Symbol = 'symbol',
-  TransfersEnabled = 'transfersEnabled',
-  Version = 'version',
 }
 
 export enum StakeHistoryAction {
+  /** When a user delegates voting power to another user. This can also be for voting power that the user has through a vesting contract. */
   Delegate = 'Delegate',
+  /** Extending an existing stake. The amount of the stake remains the same, but the lockedUntil date increases. */
   ExtendStake = 'ExtendStake',
+  /** When a user withdraws their share of the Protocol fees that is shared amongst stakers */
   FeeWithdrawn = 'FeeWithdrawn',
+  /** Increasing the amount of an existing stake. The lockedUntil date of this stake remains the same, but amount increases. */
   IncreaseStake = 'IncreaseStake',
+  /** Voluntarily staking SOV (ie not staked through a vesting contract) */
   Stake = 'Stake',
+  /** Unstake is early unstaking, when a user withdraws staked SOV before the lockedUntil date and incurs a slashing penalty. */
   Unstake = 'Unstake',
+  /** WithdrawStaked is when a user withdraws SOV from the staking contract after the unlock date, when the funds are no longer staked or locked */
   WithdrawStaked = 'WithdrawStaked',
 }
 
+/** This entity is the granular history of user actions related to voluntary staking */
 export type StakeHistoryItem = {
   __typename?: 'StakeHistoryItem';
   action: StakeHistoryAction;
@@ -6073,6 +7287,7 @@ export type StakeHistoryItem = {
   id: Scalars['ID'];
   lockedUntil?: Maybe<Scalars['Int']>;
   timestamp: Scalars['Int'];
+  token?: Maybe<Token>;
   transaction: Transaction;
   user: UserStakeHistory;
 };
@@ -6114,6 +7329,20 @@ export type StakeHistoryItem_Filter = {
   timestamp_lte?: InputMaybe<Scalars['Int']>;
   timestamp_not?: InputMaybe<Scalars['Int']>;
   timestamp_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  token?: InputMaybe<Scalars['String']>;
+  token_contains?: InputMaybe<Scalars['String']>;
+  token_ends_with?: InputMaybe<Scalars['String']>;
+  token_gt?: InputMaybe<Scalars['String']>;
+  token_gte?: InputMaybe<Scalars['String']>;
+  token_in?: InputMaybe<Array<Scalars['String']>>;
+  token_lt?: InputMaybe<Scalars['String']>;
+  token_lte?: InputMaybe<Scalars['String']>;
+  token_not?: InputMaybe<Scalars['String']>;
+  token_not_contains?: InputMaybe<Scalars['String']>;
+  token_not_ends_with?: InputMaybe<Scalars['String']>;
+  token_not_in?: InputMaybe<Array<Scalars['String']>>;
+  token_not_starts_with?: InputMaybe<Scalars['String']>;
+  token_starts_with?: InputMaybe<Scalars['String']>;
   transaction?: InputMaybe<Scalars['String']>;
   transaction_contains?: InputMaybe<Scalars['String']>;
   transaction_ends_with?: InputMaybe<Scalars['String']>;
@@ -6150,6 +7379,7 @@ export enum StakeHistoryItem_OrderBy {
   Id = 'id',
   LockedUntil = 'lockedUntil',
   Timestamp = 'timestamp',
+  Token = 'token',
   Transaction = 'transaction',
   User = 'user',
 }
@@ -6164,8 +7394,18 @@ export type Subscription = {
   bitcoinTransfers: Array<BitcoinTransfer>;
   borrow?: Maybe<Borrow>;
   borrows: Array<Borrow>;
-  candleStick?: Maybe<CandleStick>;
-  candleSticks: Array<CandleStick>;
+  bridge?: Maybe<Bridge>;
+  bridges: Array<Bridge>;
+  candleStickDay?: Maybe<CandleStickDay>;
+  candleStickDays: Array<CandleStickDay>;
+  candleStickFifteenMinute?: Maybe<CandleStickFifteenMinute>;
+  candleStickFifteenMinutes: Array<CandleStickFifteenMinute>;
+  candleStickFourHour?: Maybe<CandleStickFourHour>;
+  candleStickFourHours: Array<CandleStickFourHour>;
+  candleStickHour?: Maybe<CandleStickHour>;
+  candleStickHours: Array<CandleStickHour>;
+  candleStickMinute?: Maybe<CandleStickMinute>;
+  candleStickMinutes: Array<CandleStickMinute>;
   closeWithDeposit?: Maybe<CloseWithDeposit>;
   closeWithDeposits: Array<CloseWithDeposit>;
   closeWithSwap?: Maybe<CloseWithSwap>;
@@ -6174,14 +7414,20 @@ export type Subscription = {
   conversions: Array<Conversion>;
   converterRegistries: Array<ConverterRegistry>;
   converterRegistry?: Maybe<ConverterRegistry>;
+  crossTransfer?: Maybe<CrossTransfer>;
+  crossTransfers: Array<CrossTransfer>;
   deposit?: Maybe<Deposit>;
   depositCollateral?: Maybe<DepositCollateral>;
   depositCollaterals: Array<DepositCollateral>;
   deposits: Array<Deposit>;
   fastBTCBridgeStat?: Maybe<FastBtcBridgeStat>;
   fastBTCBridgeStats: Array<FastBtcBridgeStat>;
+  federation?: Maybe<Federation>;
+  federations: Array<Federation>;
   feeSharingTokensTransferred?: Maybe<FeeSharingTokensTransferred>;
   feeSharingTokensTransferreds: Array<FeeSharingTokensTransferred>;
+  icandleStick?: Maybe<ICandleStick>;
+  icandleSticks: Array<ICandleStick>;
   lendingHistoryItem?: Maybe<LendingHistoryItem>;
   lendingHistoryItems: Array<LendingHistoryItem>;
   lendingPool?: Maybe<LendingPool>;
@@ -6204,8 +7450,6 @@ export type Subscription = {
   marginOrderCanceleds: Array<MarginOrderCanceled>;
   marginOrderFilled?: Maybe<MarginOrderFilled>;
   marginOrderFilleds: Array<MarginOrderFilled>;
-  newConverter?: Maybe<NewConverter>;
-  newConverters: Array<NewConverter>;
   orderCanceled?: Maybe<OrderCanceled>;
   orderCanceleds: Array<OrderCanceled>;
   orderCreated?: Maybe<OrderCreated>;
@@ -6229,9 +7473,9 @@ export type Subscription = {
   rewardsEarnedHistoryItems: Array<RewardsEarnedHistoryItem>;
   rollover?: Maybe<Rollover>;
   rollovers: Array<Rollover>;
+  sideToken?: Maybe<SideToken>;
+  sideTokens: Array<SideToken>;
   smartToken?: Maybe<SmartToken>;
-  smartTokenAdded?: Maybe<SmartTokenAdded>;
-  smartTokenAddeds: Array<SmartTokenAdded>;
   smartTokens: Array<SmartToken>;
   stakeHistoryItem?: Maybe<StakeHistoryItem>;
   stakeHistoryItems: Array<StakeHistoryItem>;
@@ -6321,20 +7565,100 @@ export type SubscriptionBorrowsArgs = {
   where?: InputMaybe<Borrow_Filter>;
 };
 
-export type SubscriptionCandleStickArgs = {
+export type SubscriptionBridgeArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID'];
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
-export type SubscriptionCandleSticksArgs = {
+export type SubscriptionBridgesArgs = {
   block?: InputMaybe<Block_Height>;
   first?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<CandleStick_OrderBy>;
+  orderBy?: InputMaybe<Bridge_OrderBy>;
   orderDirection?: InputMaybe<OrderDirection>;
   skip?: InputMaybe<Scalars['Int']>;
   subgraphError?: _SubgraphErrorPolicy_;
-  where?: InputMaybe<CandleStick_Filter>;
+  where?: InputMaybe<Bridge_Filter>;
+};
+
+export type SubscriptionCandleStickDayArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+export type SubscriptionCandleStickDaysArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<CandleStickDay_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<CandleStickDay_Filter>;
+};
+
+export type SubscriptionCandleStickFifteenMinuteArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+export type SubscriptionCandleStickFifteenMinutesArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<CandleStickFifteenMinute_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<CandleStickFifteenMinute_Filter>;
+};
+
+export type SubscriptionCandleStickFourHourArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+export type SubscriptionCandleStickFourHoursArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<CandleStickFourHour_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<CandleStickFourHour_Filter>;
+};
+
+export type SubscriptionCandleStickHourArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+export type SubscriptionCandleStickHoursArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<CandleStickHour_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<CandleStickHour_Filter>;
+};
+
+export type SubscriptionCandleStickMinuteArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+export type SubscriptionCandleStickMinutesArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<CandleStickMinute_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<CandleStickMinute_Filter>;
 };
 
 export type SubscriptionCloseWithDepositArgs = {
@@ -6401,6 +7725,22 @@ export type SubscriptionConverterRegistryArgs = {
   subgraphError?: _SubgraphErrorPolicy_;
 };
 
+export type SubscriptionCrossTransferArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+export type SubscriptionCrossTransfersArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<CrossTransfer_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<CrossTransfer_Filter>;
+};
+
 export type SubscriptionDepositArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID'];
@@ -6449,6 +7789,22 @@ export type SubscriptionFastBtcBridgeStatsArgs = {
   where?: InputMaybe<FastBtcBridgeStat_Filter>;
 };
 
+export type SubscriptionFederationArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+export type SubscriptionFederationsArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Federation_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<Federation_Filter>;
+};
+
 export type SubscriptionFeeSharingTokensTransferredArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID'];
@@ -6463,6 +7819,22 @@ export type SubscriptionFeeSharingTokensTransferredsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   subgraphError?: _SubgraphErrorPolicy_;
   where?: InputMaybe<FeeSharingTokensTransferred_Filter>;
+};
+
+export type SubscriptionIcandleStickArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+export type SubscriptionIcandleSticksArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<ICandleStick_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<ICandleStick_Filter>;
 };
 
 export type SubscriptionLendingHistoryItemArgs = {
@@ -6639,22 +8011,6 @@ export type SubscriptionMarginOrderFilledsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   subgraphError?: _SubgraphErrorPolicy_;
   where?: InputMaybe<MarginOrderFilled_Filter>;
-};
-
-export type SubscriptionNewConverterArgs = {
-  block?: InputMaybe<Block_Height>;
-  id: Scalars['ID'];
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-export type SubscriptionNewConvertersArgs = {
-  block?: InputMaybe<Block_Height>;
-  first?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<NewConverter_OrderBy>;
-  orderDirection?: InputMaybe<OrderDirection>;
-  skip?: InputMaybe<Scalars['Int']>;
-  subgraphError?: _SubgraphErrorPolicy_;
-  where?: InputMaybe<NewConverter_Filter>;
 };
 
 export type SubscriptionOrderCanceledArgs = {
@@ -6843,26 +8199,26 @@ export type SubscriptionRolloversArgs = {
   where?: InputMaybe<Rollover_Filter>;
 };
 
+export type SubscriptionSideTokenArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
+export type SubscriptionSideTokensArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<SideToken_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<SideToken_Filter>;
+};
+
 export type SubscriptionSmartTokenArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID'];
   subgraphError?: _SubgraphErrorPolicy_;
-};
-
-export type SubscriptionSmartTokenAddedArgs = {
-  block?: InputMaybe<Block_Height>;
-  id: Scalars['ID'];
-  subgraphError?: _SubgraphErrorPolicy_;
-};
-
-export type SubscriptionSmartTokenAddedsArgs = {
-  block?: InputMaybe<Block_Height>;
-  first?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<SmartTokenAdded_OrderBy>;
-  orderDirection?: InputMaybe<OrderDirection>;
-  skip?: InputMaybe<Scalars['Int']>;
-  subgraphError?: _SubgraphErrorPolicy_;
-  where?: InputMaybe<SmartTokenAdded_Filter>;
 };
 
 export type SubscriptionSmartTokensArgs = {
@@ -7153,9 +8509,8 @@ export type SubscriptionWithdrawalsArgs = {
  */
 export type Swap = {
   __typename?: 'Swap';
-  /** The AMM Conversion events involved in this swap */
-  conversions?: Maybe<Array<Conversion>>;
   fromAmount: Scalars['BigDecimal'];
+  /** Token the user converted */
   fromToken: Token;
   /** Transaction hash of this swap */
   id: Scalars['ID'];
@@ -7170,22 +8525,14 @@ export type Swap = {
   rate: Scalars['BigDecimal'];
   timestamp: Scalars['Int'];
   toAmount: Scalars['BigDecimal'];
+  /** Token the user received */
   toToken: Token;
   transaction: Transaction;
-  /** If this swap was initiated by a contract (for example as part of a Margin Trade), User will be null */
+  /**
+   * If this swap was initiated by a contract (for example as part of a Margin Trade), User will be null.
+   * Otherwise, this is the user that initiated the transaction.
+   */
   user?: Maybe<User>;
-};
-
-/**
- * The Swap entity is an aggregated entity of the individual Conversion events in a transaction.
- * For example, if a User swaps XUSD to SOV, there will be 2 Conversion events through 2 AMMs (XUSD-BTC and BTC-SOV) in one transaction. These two Conversions are aggregated here.
- */
-export type SwapConversionsArgs = {
-  first?: InputMaybe<Scalars['Int']>;
-  orderBy?: InputMaybe<Conversion_OrderBy>;
-  orderDirection?: InputMaybe<OrderDirection>;
-  skip?: InputMaybe<Scalars['Int']>;
-  where?: InputMaybe<Conversion_Filter>;
 };
 
 export type Swap_Filter = {
@@ -7308,7 +8655,6 @@ export type Swap_Filter = {
 };
 
 export enum Swap_OrderBy {
-  Conversions = 'conversions',
   FromAmount = 'fromAmount',
   FromToken = 'fromToken',
   Id = 'id',
@@ -7329,7 +8675,10 @@ export type Token = {
   __typename?: 'Token';
   /** The total volume of this token that has been traded through the protocol quoted in BTC */
   btcVolume: Scalars['BigDecimal'];
+  /** CrossTransfers: cross transfers list (currently only relevant to SOV) */
+  crossTransfers?: Maybe<Array<CrossTransfer>>;
   currentConverterRegistry?: Maybe<ConverterRegistry>;
+  /** Number of decimal places used in the smart contract for this token */
   decimals?: Maybe<Scalars['Int']>;
   /** Does this token have an AMM pool with rBTC as the other reserve asset? */
   hasBtcPool?: Maybe<Scalars['Boolean']>;
@@ -7337,14 +8686,16 @@ export type Token = {
   hasStablecoinPool?: Maybe<Scalars['Boolean']>;
   /** The ID is the contract address of the token on RSK */
   id: Scalars['ID'];
+  /** lastPriceBtc is the last traded price of this token in BTC */
   lastPriceBtc: Scalars['BigDecimal'];
+  /** lastPriceUsd is the last traded price of this token in USD */
   lastPriceUsd: Scalars['BigDecimal'];
   /** The addresses of the LiquidityPools where this token is a reserve asset */
   liquidityPools?: Maybe<Array<LiquidityPoolToken>>;
   name?: Maybe<Scalars['String']>;
-  /** previous BTC price used for candleSticks */
+  /** Internal use only - previous BTC price used for candleSticks */
   prevPriceBtc: Scalars['BigDecimal'];
-  /** previous BTC price used for candleSticks */
+  /** Internal use only - previous BTC price used for candleSticks */
   prevPriceUsd: Scalars['BigDecimal'];
   /** The smart tokens that have this token as an underlying asset */
   smartTokens?: Maybe<Array<TokenSmartToken>>;
@@ -7354,6 +8705,15 @@ export type Token = {
   /** The total volume of this token that has been traded through the protocol quoted in USD */
   usdVolume: Scalars['BigDecimal'];
   version?: Maybe<Scalars['Int']>;
+};
+
+/** This entity represents an ERC20 token traded on the Sovryn Protocol */
+export type TokenCrossTransfersArgs = {
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<CrossTransfer_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<CrossTransfer_Filter>;
 };
 
 /** This entity represents an ERC20 token traded on the Sovryn Protocol */
@@ -7564,6 +8924,7 @@ export type Token_Filter = {
 
 export enum Token_OrderBy {
   BtcVolume = 'btcVolume',
+  CrossTransfers = 'crossTransfers',
   CurrentConverterRegistry = 'currentConverterRegistry',
   Decimals = 'decimals',
   HasBtcPool = 'hasBtcPool',
@@ -7582,17 +8943,32 @@ export enum Token_OrderBy {
   Version = 'version',
 }
 
+/**
+ * This is an event emitted from the staking contract when tokens are staked, either by a user or by a vesting contract
+ * If tokens are staked by a vesting contract, there may be multiple tokens staked event per transaction (eg if tokensa are vested over 10 months, there would be 10 TokensStaked events each with a different lockedUntil date)
+ * We have improvements planned to better represent staking on our subgraph.
+ */
 export type TokensStaked = {
   __typename?: 'TokensStaked';
+  /** The amount of SOV staked in this event (as mentioned above, there can be multiple TokensStaked events per transaction) */
   amount: Scalars['BigDecimal'];
   emittedBy: Scalars['Bytes'];
+  /** ID is transaction hash + log index */
   id: Scalars['ID'];
+  /** If this is false, the tokens were staked by a vesting contract, and not voluntarily by a user */
   isUserStaked: Scalars['Boolean'];
+  /**
+   * The date when these tokens will unlock
+   * A user/vesting contract can have multiple stakes with different lockedUntil dates
+   */
   lockedUntil: Scalars['Int'];
+  /** The staker is either a user address or a vesting contract address */
   staker: Scalars['Bytes'];
   timestamp: Scalars['Int'];
+  /** The total amount staked for this specific user until this specific lockedUntil date */
   totalStaked: Scalars['BigDecimal'];
   transaction: Transaction;
+  /** If tokens were staked by a vesting contract, user property will be null */
   user?: Maybe<User>;
 };
 
@@ -7696,6 +9072,7 @@ export enum TokensStaked_OrderBy {
   User = 'user',
 }
 
+/** Granular event data for the Loan entity. Emitted when a user opens a Margin Trade */
 export type Trade = {
   __typename?: 'Trade';
   borrowedAmount: Scalars['BigDecimal'];
@@ -7906,6 +9283,7 @@ export type Transaction = {
   index: Scalars['Int'];
   /** The timestamp the transaction was confirmed */
   timestamp: Scalars['Int'];
+  /** The contract the user interacted with */
   to?: Maybe<Scalars['Bytes']>;
   value: Scalars['BigInt'];
 };
@@ -8010,6 +9388,8 @@ export type User = {
   borrows?: Maybe<Array<Borrow>>;
   /** Timestamp of User's first interaction with the protocol (first transaction) */
   createdAtTimestamp: Scalars['Int'];
+  /** EVM Bridge transfers */
+  crossChainTransfer?: Maybe<Array<CrossTransfer>>;
   fastBTCBridgeStats?: Maybe<Array<FastBtcBridgeStat>>;
   /** ID is user wallet address */
   id: Scalars['ID'];
@@ -8061,6 +9441,15 @@ export type UserBorrowsArgs = {
   orderDirection?: InputMaybe<OrderDirection>;
   skip?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<Borrow_Filter>;
+};
+
+/** This entity contains all user-specific data displayed on the dapp, including all user actions */
+export type UserCrossChainTransferArgs = {
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<CrossTransfer_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<CrossTransfer_Filter>;
 };
 
 /** This entity contains all user-specific data displayed on the dapp, including all user actions */
@@ -8259,20 +9648,34 @@ export enum UserLendingHistory_OrderBy {
   User = 'user',
 }
 
-/** This entity stores one Users history of adding and removing liquidity from one AMM pool */
+/** This entity stores one User's history of adding and removing liquidity from one AMM pool */
 export type UserLiquidityHistory = {
   __typename?: 'UserLiquidityHistory';
+  /**
+   * The ID is userAddress + '-' + smartToken
+   * Liquidity Pool address is not used here because when a liquidity pool is updated the address changes, but the smart token address remains the same.
+   */
   id: Scalars['ID'];
+  /** Granular transaction history for transactions adding or removing liquidity from an AMM pool */
   liquidityHistory?: Maybe<Array<LiquidityHistoryItem>>;
+  /** This is the pool token (sometimes called smart token), not the liquidity pool address */
   poolToken: PoolToken;
+  /**
+   * Asset0 is defined on the LiquidityPool.
+   * These totals are amounts added and removed over all time. These values are used to calculate a user's PnL from liquidity provision.
+   */
   totalAsset0LiquidityAdded: Scalars['BigDecimal'];
   totalAsset0LiquidityRemoved: Scalars['BigDecimal'];
+  /**
+   * Asset1 is defined on the LiquidityPool
+   * These totals are amounts added and removed over all time. These values are used to calculate a user's PnL from liquidity provision.
+   */
   totalAsset1LiquidityAdded: Scalars['BigDecimal'];
   totalAsset1LiquidityRemoved: Scalars['BigDecimal'];
   user: User;
 };
 
-/** This entity stores one Users history of adding and removing liquidity from one AMM pool */
+/** This entity stores one User's history of adding and removing liquidity from one AMM pool */
 export type UserLiquidityHistoryLiquidityHistoryArgs = {
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<LiquidityHistoryItem_OrderBy>;
@@ -8372,9 +9775,32 @@ export type UserRewardsEarnedHistory = {
    */
   availableTradingRewards: Scalars['BigDecimal'];
   id: Scalars['ID'];
+  /** Granular events for transaction where a reward is earned */
   rewardsEarnedHistory?: Maybe<Array<RewardsEarnedHistoryItem>>;
+  /**
+   * The total protocol fees this user has earned and withdrawn, quoted in RBTC.
+   * Fees can be paid out in different tokens (usually RBTC and SOV).
+   * This is the total amount, converted to RBTC using the rate at the time of transaction.
+   * Incremented by UserFeeWithdrawn
+   */
+  totalFeeWithdrawn: Scalars['BigDecimal'];
   /** This is the total of all EarnReward and RewardClaimed events */
   totalFeesAndRewardsEarned: Scalars['BigDecimal'];
+  /**
+   * The total liquidity mining rewards the user has claimed, earned from the lending pools.
+   * Incremented by RewardClaimed, where poolToken is a lending pool token
+   */
+  totalLendingRewards: Scalars['BigDecimal'];
+  /**
+   * The total liquidity mining rewards the user has claimed, earned from the amm pools.
+   * Incremented by RewardClaimed, where poolToken is an amm pool token
+   */
+  totalLiquidityRewards: Scalars['BigDecimal'];
+  /**
+   * Total liquid SOV rewards the user has earned through staking.
+   * Incremented by RewardWithdrawn
+   */
+  totalStakingRewards: Scalars['BigDecimal'];
   /**
    * Sum of all SOV rewards earned from margin trading.
    * Incremented by EarnReward events
@@ -8409,6 +9835,14 @@ export type UserRewardsEarnedHistory_Filter = {
   id_lte?: InputMaybe<Scalars['ID']>;
   id_not?: InputMaybe<Scalars['ID']>;
   id_not_in?: InputMaybe<Array<Scalars['ID']>>;
+  totalFeeWithdrawn?: InputMaybe<Scalars['BigDecimal']>;
+  totalFeeWithdrawn_gt?: InputMaybe<Scalars['BigDecimal']>;
+  totalFeeWithdrawn_gte?: InputMaybe<Scalars['BigDecimal']>;
+  totalFeeWithdrawn_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  totalFeeWithdrawn_lt?: InputMaybe<Scalars['BigDecimal']>;
+  totalFeeWithdrawn_lte?: InputMaybe<Scalars['BigDecimal']>;
+  totalFeeWithdrawn_not?: InputMaybe<Scalars['BigDecimal']>;
+  totalFeeWithdrawn_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
   totalFeesAndRewardsEarned?: InputMaybe<Scalars['BigDecimal']>;
   totalFeesAndRewardsEarned_gt?: InputMaybe<Scalars['BigDecimal']>;
   totalFeesAndRewardsEarned_gte?: InputMaybe<Scalars['BigDecimal']>;
@@ -8417,6 +9851,30 @@ export type UserRewardsEarnedHistory_Filter = {
   totalFeesAndRewardsEarned_lte?: InputMaybe<Scalars['BigDecimal']>;
   totalFeesAndRewardsEarned_not?: InputMaybe<Scalars['BigDecimal']>;
   totalFeesAndRewardsEarned_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  totalLendingRewards?: InputMaybe<Scalars['BigDecimal']>;
+  totalLendingRewards_gt?: InputMaybe<Scalars['BigDecimal']>;
+  totalLendingRewards_gte?: InputMaybe<Scalars['BigDecimal']>;
+  totalLendingRewards_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  totalLendingRewards_lt?: InputMaybe<Scalars['BigDecimal']>;
+  totalLendingRewards_lte?: InputMaybe<Scalars['BigDecimal']>;
+  totalLendingRewards_not?: InputMaybe<Scalars['BigDecimal']>;
+  totalLendingRewards_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  totalLiquidityRewards?: InputMaybe<Scalars['BigDecimal']>;
+  totalLiquidityRewards_gt?: InputMaybe<Scalars['BigDecimal']>;
+  totalLiquidityRewards_gte?: InputMaybe<Scalars['BigDecimal']>;
+  totalLiquidityRewards_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  totalLiquidityRewards_lt?: InputMaybe<Scalars['BigDecimal']>;
+  totalLiquidityRewards_lte?: InputMaybe<Scalars['BigDecimal']>;
+  totalLiquidityRewards_not?: InputMaybe<Scalars['BigDecimal']>;
+  totalLiquidityRewards_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  totalStakingRewards?: InputMaybe<Scalars['BigDecimal']>;
+  totalStakingRewards_gt?: InputMaybe<Scalars['BigDecimal']>;
+  totalStakingRewards_gte?: InputMaybe<Scalars['BigDecimal']>;
+  totalStakingRewards_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  totalStakingRewards_lt?: InputMaybe<Scalars['BigDecimal']>;
+  totalStakingRewards_lte?: InputMaybe<Scalars['BigDecimal']>;
+  totalStakingRewards_not?: InputMaybe<Scalars['BigDecimal']>;
+  totalStakingRewards_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
   totalTradingRewards?: InputMaybe<Scalars['BigDecimal']>;
   totalTradingRewards_gt?: InputMaybe<Scalars['BigDecimal']>;
   totalTradingRewards_gte?: InputMaybe<Scalars['BigDecimal']>;
@@ -8445,21 +9903,38 @@ export enum UserRewardsEarnedHistory_OrderBy {
   AvailableTradingRewards = 'availableTradingRewards',
   Id = 'id',
   RewardsEarnedHistory = 'rewardsEarnedHistory',
+  TotalFeeWithdrawn = 'totalFeeWithdrawn',
   TotalFeesAndRewardsEarned = 'totalFeesAndRewardsEarned',
+  TotalLendingRewards = 'totalLendingRewards',
+  TotalLiquidityRewards = 'totalLiquidityRewards',
+  TotalStakingRewards = 'totalStakingRewards',
   TotalTradingRewards = 'totalTradingRewards',
   User = 'user',
 }
 
+/** This entity holds the voluntary staking history (ie not staking by a vesting contract) of one user */
 export type UserStakeHistory = {
   __typename?: 'UserStakeHistory';
+  /** ID is the user address */
   id: Scalars['ID'];
+  /** Granular history of the user's voluntary staking activity */
   stakeHistory?: Maybe<Array<StakeHistoryItem>>;
+  /**
+   * totalRemaining is the amount the user currently has staked.
+   * It should be the same as the result of calling the balanceOf(USER_ADDRESS) method on the staking contract.
+   */
   totalRemaining: Scalars['BigDecimal'];
+  /**
+   * totalStaked is the total amount the user has EVER staked (over all time).
+   * Eg if they stake 10 SOV and then withdraw it and stake it again, totalStaked is 20 SOV
+   */
   totalStaked: Scalars['BigDecimal'];
+  /** totalWithdrawn is the total amount the user has ever withdrawn from voluntary staking (over all time) */
   totalWithdrawn: Scalars['BigDecimal'];
   user: User;
 };
 
+/** This entity holds the voluntary staking history (ie not staking by a vesting contract) of one user */
 export type UserStakeHistoryStakeHistoryArgs = {
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<StakeHistoryItem_OrderBy>;
@@ -8730,6 +10205,7 @@ export enum User_OrderBy {
   BitcoinTransfers = 'bitcoinTransfers',
   Borrows = 'borrows',
   CreatedAtTimestamp = 'createdAtTimestamp',
+  CrossChainTransfer = 'crossChainTransfer',
   FastBtcBridgeStats = 'fastBTCBridgeStats',
   Id = 'id',
   LendingHistory = 'lendingHistory',
@@ -8746,21 +10222,44 @@ export enum User_OrderBy {
   Votes = 'votes',
 }
 
+/**
+ * This entity represents one vesting contract
+ * A User can have multiple vesting contracts
+ */
 export type VestingContract = {
   __typename?: 'VestingContract';
+  /** The cliff is the period (in seconds) until the first tokens become liquid on this contract */
   cliff?: Maybe<Scalars['Int']>;
+  /** Date that the vesting contract was created */
   createdAtTimestamp: Scalars['Int'];
   createdAtTransaction: Transaction;
+  /**
+   * Current balance of tokens on the contract, including locked and liquid tokens that have not been withdrawn.
+   * Incremented on TokensStaked actions, decremented on TokensWithdrawn actions
+   */
   currentBalance: Scalars['BigDecimal'];
+  /**
+   * The total duration of the vesting contract, including the cliff, in seconds.
+   * For example, a 9 month vesting contract with a 1 month cliff would have a duration of 26280000 (10 months in seconds)
+   */
   duration?: Maybe<Scalars['Int']>;
   emittedBy: Scalars['Bytes'];
+  /** ID is the vesting contract address */
   id: Scalars['ID'];
+  /** A granular history of every action involving this vesting contract */
   stakeHistory?: Maybe<Array<VestingHistoryItem>>;
+  /** The initial balance when this contract was created. This is often 0, as tokens can be added to the contract after contract creation */
   startingBalance: Scalars['BigDecimal'];
+  /** Type of contract (see VestingContractType docs for more details) */
   type: VestingContractType;
+  /** The owner of the vesting contract */
   user: User;
 };
 
+/**
+ * This entity represents one vesting contract
+ * A User can have multiple vesting contracts
+ */
 export type VestingContractStakeHistoryArgs = {
   first?: InputMaybe<Scalars['Int']>;
   orderBy?: InputMaybe<VestingHistoryItem_OrderBy>;
@@ -8770,11 +10269,21 @@ export type VestingContractStakeHistoryArgs = {
 };
 
 export enum VestingContractType {
+  /** FISH (Babelfish governance token) vesting contracts */
   Fish = 'Fish',
+  /** Babelfish team vesting contracts */
   FishTeam = 'FishTeam',
+  /** Vesting contracts for strategic investors with a four-year lockup */
+  FourYearVesting = 'FourYearVesting',
+  /** Vesting contracts for investors who participated in the Sovryn Genesis sale */
   Genesis = 'Genesis',
+  /** Vesting contracts for investors who participated in the Sovryn Origin sale */
   Origins = 'Origins',
+  /** Vesting contracts for vested rewards */
   Rewards = 'Rewards',
+  /** Vesting contracts for early strategic investors */
+  Strategic = 'Strategic',
+  /** Sovryn team vesting contracts */
   Team = 'Team',
 }
 
@@ -8881,22 +10390,38 @@ export enum VestingContract_OrderBy {
   User = 'user',
 }
 
+/** Granular data for each vesting contract, and any actions involving that contract */
 export type VestingHistoryItem = {
   __typename?: 'VestingHistoryItem';
   action: VestingHistoryItemAction;
+  /** Amount being staked */
   amount: Scalars['BigDecimal'];
   emittedBy: Scalars['Bytes'];
+  /**
+   * ID is transaction hash + "-" + log index
+   * For TokensStaked actions, there can be multiple actions per transactions, and each will create a new entity
+   */
   id: Scalars['ID'];
+  /** The date when the tokens become unlocked */
   lockedUntil: Scalars['Int'];
+  /** The staker here will always be the vesting contract */
   staker: VestingContract;
   timestamp: Scalars['Int'];
+  /** Total number of tokens staked until this lockedUntil date */
   totalStaked: Scalars['BigDecimal'];
   transaction: Transaction;
 };
 
 export enum VestingHistoryItemAction {
+  /**
+   * This is only relevant to Team tokens. For Team contracts, a vesting contract can be revoked by governance if a team member leaves the project.
+   * If this happens, all tokens still locked are returned to the exchequer.
+   * This is ONLY possible with Team or FishTeam vesting contracts.
+   */
   TeamTokensRevoked = 'TeamTokensRevoked',
+  /** Tokens are staked by the Vesting contract. This happens when the Vesting contract receives funds. */
   TokensStaked = 'TokensStaked',
+  /** When a user withdraws unlocked tokens from the vesting contract */
   TokensWithdrawn = 'TokensWithdrawn',
 }
 
@@ -8993,16 +10518,22 @@ export enum VestingHistoryItem_OrderBy {
   Transaction = 'transaction',
 }
 
+/** This is the event emitted when a user votes for or against a proposed SIP */
 export type VoteCast = {
   __typename?: 'VoteCast';
   emittedBy: Scalars['Bytes'];
+  /** ID is transaction hash + log index */
   id: Scalars['ID'];
+  /** The ID of the Proposal entity that this vote is for/against */
   proposal: Proposal;
+  /** The ID of the proposal */
   proposalId: Scalars['Int'];
+  /** True if the vote is for the proposal, False if it is against */
   support: Scalars['Boolean'];
   timestamp: Scalars['Int'];
   transaction: Transaction;
   voter: User;
+  /** The number of votes the user cast (the voting power of that user) */
   votes: Scalars['BigInt'];
 };
 
@@ -9273,7 +10804,7 @@ export type GetLendHistoryQuery = {
 
 export type GetLimitOrderCreatedQueryVariables = Exact<{
   network?: InputMaybe<Network>;
-  maker?: InputMaybe<Scalars['String']>;
+  maker?: InputMaybe<Scalars['Bytes']>;
 }>;
 
 export type GetLimitOrderCreatedQuery = {
@@ -9281,6 +10812,7 @@ export type GetLimitOrderCreatedQuery = {
   orderCreateds: Array<{
     __typename?: 'OrderCreated';
     hash: string;
+    order_maker: string;
     order_fromToken: string;
     order_toToken: string;
     order_amountIn: string;
@@ -9291,7 +10823,6 @@ export type GetLimitOrderCreatedQuery = {
     limitPrice: string;
     timestamp: number;
     emittedBy: string;
-    order_maker: { __typename?: 'User'; id: string };
     transaction: { __typename?: 'Transaction'; id: string };
   }>;
 };
@@ -9299,6 +10830,7 @@ export type GetLimitOrderCreatedQuery = {
 export type LimitOrderCreatedFragment = {
   __typename?: 'OrderCreated';
   hash: string;
+  order_maker: string;
   order_fromToken: string;
   order_toToken: string;
   order_amountIn: string;
@@ -9309,7 +10841,6 @@ export type LimitOrderCreatedFragment = {
   limitPrice: string;
   timestamp: number;
   emittedBy: string;
-  order_maker: { __typename?: 'User'; id: string };
   transaction: { __typename?: 'Transaction'; id: string };
 };
 
@@ -9829,9 +11360,7 @@ export const BorrowFieldsFragmentDoc = gql`
 export const LimitOrderCreatedFragmentDoc = gql`
   fragment LimitOrderCreated on OrderCreated {
     hash
-    order_maker {
-      id
-    }
+    order_maker
     order_fromToken
     order_toToken
     order_amountIn
@@ -10181,7 +11710,7 @@ export type GetLendHistoryQueryResult = Apollo.QueryResult<
   GetLendHistoryQueryVariables
 >;
 export const GetLimitOrderCreatedDocument = gql`
-  query getLimitOrderCreated($network: Network, $maker: String) {
+  query getLimitOrderCreated($network: Network, $maker: Bytes) {
     orderCreateds(
       where: { network: $network, order_maker: $maker }
       orderBy: timestamp
@@ -10369,784 +11898,6 @@ export type GetMarginLimitOrderFilledLazyQueryHookResult = ReturnType<
 export type GetMarginLimitOrderFilledQueryResult = Apollo.QueryResult<
   GetMarginLimitOrderFilledQuery,
   GetMarginLimitOrderFilledQueryVariables
->;
-export const GetMarginLoansDataDocument = gql`
-  query getMarginLoansData(
-    $user: String
-    $skip: Int!
-    $isOpen: Boolean!
-    $pageSize: Int!
-  ) {
-    loans(
-      first: $pageSize
-      skip: $skip
-      where: { user: $user, isOpen: $isOpen, type: Trade }
-      orderBy: startTimestamp
-      orderDirection: desc
-    ) {
-      ...MarginLoansFields
-    }
-  }
-  ${MarginLoansFieldsFragmentDoc}
-`;
-
-/**
- * __useGetMarginLoansDataQuery__
- *
- * To run a query within a React component, call `useGetMarginLoansDataQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetMarginLoansDataQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetMarginLoansDataQuery({
- *   variables: {
- *      user: // value for 'user'
- *      skip: // value for 'skip'
- *      isOpen: // value for 'isOpen'
- *      pageSize: // value for 'pageSize'
- *   },
- * });
- */
-export function useGetMarginLoansDataQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetMarginLoansDataQuery,
-    GetMarginLoansDataQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetMarginLoansDataQuery,
-    GetMarginLoansDataQueryVariables
-  >(GetMarginLoansDataDocument, options);
-}
-export function useGetMarginLoansDataLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetMarginLoansDataQuery,
-    GetMarginLoansDataQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetMarginLoansDataQuery,
-    GetMarginLoansDataQueryVariables
-  >(GetMarginLoansDataDocument, options);
-}
-export type GetMarginLoansDataQueryHookResult = ReturnType<
-  typeof useGetMarginLoansDataQuery
->;
-export type GetMarginLoansDataLazyQueryHookResult = ReturnType<
-  typeof useGetMarginLoansDataLazyQuery
->;
-export type GetMarginLoansDataQueryResult = Apollo.QueryResult<
-  GetMarginLoansDataQuery,
-  GetMarginLoansDataQueryVariables
->;
-export const GetStakeHistoryDocument = gql`
-  query getStakeHistory($user: String, $skip: Int!, $pageSize: Int!) {
-    stakeHistoryItems(
-      first: $pageSize
-      skip: $skip
-      where: { user: $user }
-      orderBy: timestamp
-      orderDirection: desc
-    ) {
-      ...StakeHistoryFields
-    }
-  }
-  ${StakeHistoryFieldsFragmentDoc}
-`;
-
-/**
- * __useGetStakeHistoryQuery__
- *
- * To run a query within a React component, call `useGetStakeHistoryQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetStakeHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetStakeHistoryQuery({
- *   variables: {
- *      user: // value for 'user'
- *      skip: // value for 'skip'
- *      pageSize: // value for 'pageSize'
- *   },
- * });
- */
-export function useGetStakeHistoryQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetStakeHistoryQuery,
-    GetStakeHistoryQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetStakeHistoryQuery, GetStakeHistoryQueryVariables>(
-    GetStakeHistoryDocument,
-    options,
-  );
-}
-export function useGetStakeHistoryLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetStakeHistoryQuery,
-    GetStakeHistoryQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetStakeHistoryQuery,
-    GetStakeHistoryQueryVariables
-  >(GetStakeHistoryDocument, options);
-}
-export type GetStakeHistoryQueryHookResult = ReturnType<
-  typeof useGetStakeHistoryQuery
->;
-export type GetStakeHistoryLazyQueryHookResult = ReturnType<
-  typeof useGetStakeHistoryLazyQuery
->;
-export type GetStakeHistoryQueryResult = Apollo.QueryResult<
-  GetStakeHistoryQuery,
-  GetStakeHistoryQueryVariables
->;
-export const GetSwapHistoryDocument = gql`
-  query getSwapHistory($user: String) {
-    swaps(where: { user: $user }, orderBy: timestamp, orderDirection: desc) {
-      fromToken {
-        id
-      }
-      toToken {
-        id
-      }
-      transaction {
-        id
-        timestamp
-      }
-      fromAmount
-      toAmount
-    }
-  }
-`;
-
-/**
- * __useGetSwapHistoryQuery__
- *
- * To run a query within a React component, call `useGetSwapHistoryQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetSwapHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetSwapHistoryQuery({
- *   variables: {
- *      user: // value for 'user'
- *   },
- * });
- */
-export function useGetSwapHistoryQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetSwapHistoryQuery,
-    GetSwapHistoryQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetSwapHistoryQuery, GetSwapHistoryQueryVariables>(
-    GetSwapHistoryDocument,
-    options,
-  );
-}
-export function useGetSwapHistoryLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetSwapHistoryQuery,
-    GetSwapHistoryQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetSwapHistoryQuery, GetSwapHistoryQueryVariables>(
-    GetSwapHistoryDocument,
-    options,
-  );
-}
-export type GetSwapHistoryQueryHookResult = ReturnType<
-  typeof useGetSwapHistoryQuery
->;
-export type GetSwapHistoryLazyQueryHookResult = ReturnType<
-  typeof useGetSwapHistoryLazyQuery
->;
-export type GetSwapHistoryQueryResult = Apollo.QueryResult<
-  GetSwapHistoryQuery,
-  GetSwapHistoryQueryVariables
->;
-export const GetTradingRewardsDocument = gql`
-  query getTradingRewards($id: ID!) {
-    userRewardsEarnedHistory(id: $id) {
-      availableTradingRewards
-      totalTradingRewards
-
-export const MarginLoansTradeFragmentDoc = gql`
-  fragment MarginLoansTrade on Trade {
-    id
-    timestamp
-    loanToken {
-      id
-    }
-    entryPrice
-    transaction {
-      id
-    }
-    positionSize
-    interestRate
-    entryLeverage
-    collateralToken {
-      id
-    }
-    borrowedAmount
-    currentLeverage
-  }
-`;
-export const MarginLoansDepositCollateralFragmentDoc = gql`
-  fragment MarginLoansDepositCollateral on DepositCollateral {
-    id
-    rate
-    loanId {
-      id
-    }
-    timestamp
-    transaction {
-      id
-    }
-    depositAmount
-  }
-`;
-export const MarginLoansLiquidateFragmentDoc = gql`
-  fragment MarginLoansLiquidate on Liquidate {
-    id
-    timestamp
-    loanToken
-    transaction {
-      id
-    }
-    currentMargin
-    collateralToken
-    collateralToLoanRate
-    collateralWithdrawAmount
-  }
-`;
-export const MarginLoansCloseWithSwapFragmentDoc = gql`
-  fragment MarginLoansCloseWithSwap on CloseWithSwap {
-    id
-    timestamp
-    loanToken
-    exitPrice
-    transaction {
-      id
-    }
-    loanCloseAmount
-    currentLeverage
-    collateralToken
-    positionCloseSize
-  }
-`;
-export const MarginLoansCloseWithDepositFragmentDoc = gql`
-  fragment MarginLoansCloseWithDeposit on CloseWithDeposit {
-    id
-    loanToken
-    timestamp
-    transaction {
-      id
-    }
-    collateralToken
-    collateralToLoanRate
-    collateralWithdrawAmount
-  }
-`;
-export const MarginLoansFieldsFragmentDoc = gql`
-  fragment MarginLoansFields on Loan {
-    id
-    type
-    positionSize
-    trade {
-      ...MarginLoansTrade
-    }
-    isOpen
-    loanToken {
-      id
-    }
-    realizedPnL
-    nextRollover
-    positionSize
-    collateralToken {
-      id
-    }
-    startTimestamp
-    realizedPnLPercent
-    depositCollateral {
-      ...MarginLoansDepositCollateral
-    }
-    liquidates {
-      ...MarginLoansLiquidate
-    }
-    closeWithSwaps {
-      ...MarginLoansCloseWithSwap
-    }
-    closeWithDeposits {
-      ...MarginLoansCloseWithDeposit
-    }
-  }
-  ${MarginLoansTradeFragmentDoc}
-  ${MarginLoansDepositCollateralFragmentDoc}
-  ${MarginLoansLiquidateFragmentDoc}
-  ${MarginLoansCloseWithSwapFragmentDoc}
-  ${MarginLoansCloseWithDepositFragmentDoc}
-`;
-export const StakeHistoryFieldsFragmentDoc = gql`
-  fragment StakeHistoryFields on StakeHistoryItem {
-    id
-    action
-    transaction {
-      id
-    }
-    amount
-    lockedUntil
-    timestamp
-  }
-`;
-export const VestedContractTypeFragmentDoc = gql`
-  fragment VestedContractType on VestingContract {
-    cliff
-    duration
-    startingBalance
-    currentBalance
-    type
-    createdAtTimestamp
-    emittedBy
-    createdAtTransaction {
-      id
-    }
-  }
-`;
-export const VestedHistoryFieldsFragmentDoc = gql`
-  fragment VestedHistoryFields on VestingHistoryItem {
-    id
-    action
-    amount
-    lockedUntil
-    timestamp
-    transaction {
-      id
-    }
-  }
-`;
-export const VestedContractFieldsFragmentDoc = gql`
-  fragment VestedContractFields on VestingContract {
-    ...VestedContractType
-    stakeHistory(
-      where: { action: TokensStaked }
-      orderBy: timestamp
-      orderDirection: desc
-    ) {
-      ...VestedHistoryFields
-    }
-  }
-  ${VestedContractTypeFragmentDoc}
-  ${VestedHistoryFieldsFragmentDoc}
-`;
-export const GetBorrowHistoryDocument = gql`
-  query getBorrowHistory($user: String) {
-    borrows(where: { user: $user }) {
-      ...BorrowFields
-    }
-  }
-`;
-
-/**
- * __useGetTradingRewardsQuery__
- *
- * To run a query within a React component, call `useGetTradingRewardsQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetTradingRewardsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetTradingRewardsQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useGetTradingRewardsQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetTradingRewardsQuery,
-    GetTradingRewardsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetTradingRewardsQuery,
-    GetTradingRewardsQueryVariables
-  >(GetTradingRewardsDocument, options);
-}
-export function useGetTradingRewardsLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetTradingRewardsQuery,
-    GetTradingRewardsQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetTradingRewardsQuery,
-    GetTradingRewardsQueryVariables
-  >(GetTradingRewardsDocument, options);
-}
-export type GetTradingRewardsQueryHookResult = ReturnType<
-  typeof useGetTradingRewardsQuery
->;
-export type GetTradingRewardsLazyQueryHookResult = ReturnType<
-  typeof useGetTradingRewardsLazyQuery
->;
-export type GetTradingRewardsQueryResult = Apollo.QueryResult<
-  GetTradingRewardsQuery,
-  GetTradingRewardsQueryVariables
->;
-export const GetVestedHistoryDocument = gql`
-  query getVestedHistory($user: String) {
-    vestingContracts(where: { user: $user }) {
-      ...VestedContractFields
-    }
-  }
-  ${VestedContractFieldsFragmentDoc}
-`;
-
-/**
- * __useGetVestedHistoryQuery__
- *
- * To run a query within a React component, call `useGetVestedHistoryQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetVestedHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetVestedHistoryQuery({
- *   variables: {
- *      user: // value for 'user'
- *   },
- * });
- */
-export function useGetVestedHistoryQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetVestedHistoryQuery,
-    GetVestedHistoryQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetVestedHistoryQuery, GetVestedHistoryQueryVariables>(
-    GetVestedHistoryDocument,
-    options,
-  );
-}
-export function useGetVestedHistoryLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetVestedHistoryQuery,
-    GetVestedHistoryQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetVestedHistoryQuery,
-    GetVestedHistoryQueryVariables
-  >(GetVestedHistoryDocument, options);
-}
-export type GetVestedHistoryQueryHookResult = ReturnType<
-  typeof useGetVestedHistoryQuery
->;
-export type GetVestedHistoryLazyQueryHookResult = ReturnType<
-  typeof useGetVestedHistoryLazyQuery
->;
-export type GetVestedHistoryQueryResult = Apollo.QueryResult<
-  GetVestedHistoryQuery,
-  GetVestedHistoryQueryVariables
->;
-export const GetLiquidityHistoryDocument = gql`
-  query getLiquidityHistory($user: String) {
-    liquidityHistoryItems(
-      where: { user: $user }
-      orderBy: timestamp
-      orderDirection: desc
-    ) {
-      amount
-      type
-      emittedBy
-      timestamp
-      reserveToken {
-        id
-        name
-      }
-      transaction {
-        id
-      }
-      liquidityPool {
-        id
-      }
-    }
-  }
-`;
-
-/**
- * __useGetLiquidityHistoryQuery__
- *
- * To run a query within a React component, call `useGetLiquidityHistoryQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetLiquidityHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetLiquidityHistoryQuery({
- *   variables: {
- *      user: // value for 'user'
- *   },
- * });
- */
-export function useGetLiquidityHistoryQuery(
-  baseOptions?: Apollo.QueryHookOptions<
-    GetLiquidityHistoryQuery,
-    GetLiquidityHistoryQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetLiquidityHistoryQuery,
-    GetLiquidityHistoryQueryVariables
-  >(GetLiquidityHistoryDocument, options);
-}
-export function useGetLiquidityHistoryLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetLiquidityHistoryQuery,
-    GetLiquidityHistoryQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetLiquidityHistoryQuery,
-    GetLiquidityHistoryQueryVariables
-  >(GetLiquidityHistoryDocument, options);
-}
-export type GetLiquidityHistoryQueryHookResult = ReturnType<
-  typeof useGetLiquidityHistoryQuery
->;
-export type GetLiquidityHistoryLazyQueryHookResult = ReturnType<
-  typeof useGetLiquidityHistoryLazyQuery
->;
-export type GetLiquidityHistoryQueryResult = Apollo.QueryResult<
-  GetLiquidityHistoryQuery,
-  GetLiquidityHistoryQueryVariables
->;
-export const GetUserLiquidityHistoryDocument = gql`
-  query getUserLiquidityHistory($id: ID!) {
-    userLiquidityHistory(id: $id) {
-      id
-      totalAsset0LiquidityAdded
-      totalAsset0LiquidityRemoved
-      totalAsset1LiquidityAdded
-      totalAsset1LiquidityRemoved
-      poolToken {
-        liquidityPool {
-          token0 {
-            id
-            decimals
-          }
-          token1 {
-            id
-            decimals
-          }
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetUserLiquidityHistoryQuery__
- *
- * To run a query within a React component, call `useGetUserLiquidityHistoryQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetUserLiquidityHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetUserLiquidityHistoryQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useGetUserLiquidityHistoryQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetUserLiquidityHistoryQuery,
-    GetUserLiquidityHistoryQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<
-    GetUserLiquidityHistoryQuery,
-    GetUserLiquidityHistoryQueryVariables
-  >(GetUserLiquidityHistoryDocument, options);
-}
-export function useGetUserLiquidityHistoryLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetUserLiquidityHistoryQuery,
-    GetUserLiquidityHistoryQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<
-    GetUserLiquidityHistoryQuery,
-    GetUserLiquidityHistoryQueryVariables
-  >(GetUserLiquidityHistoryDocument, options);
-}
-export type GetUserLiquidityHistoryQueryHookResult = ReturnType<
-  typeof useGetUserLiquidityHistoryQuery
->;
-export type GetUserLiquidityHistoryLazyQueryHookResult = ReturnType<
-  typeof useGetUserLiquidityHistoryLazyQuery
->;
-export type GetUserLiquidityHistoryQueryResult = Apollo.QueryResult<
-  GetUserLiquidityHistoryQuery,
-  GetUserLiquidityHistoryQueryVariables
->;
-export const GetTokenDocument = gql`
-  query getToken($id: ID!) {
-    token(id: $id) {
-      id
-      symbol
-      lastPriceUsd
-      lastPriceBtc
-    }
-  }
-`;
-
-/**
- * __useGetTokenQuery__
- *
- * To run a query within a React component, call `useGetTokenQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetTokenQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetTokenQuery({
- *   variables: {
- *      id: // value for 'id'
- *   },
- * });
- */
-export function useGetTokenQuery(
-  baseOptions: Apollo.QueryHookOptions<GetTokenQuery, GetTokenQueryVariables>,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetTokenQuery, GetTokenQueryVariables>(
-    GetTokenDocument,
-    options,
-  );
-}
-export function useGetTokenLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetTokenQuery,
-    GetTokenQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetTokenQuery, GetTokenQueryVariables>(
-    GetTokenDocument,
-    options,
-  );
-}
-export type GetTokenQueryHookResult = ReturnType<typeof useGetTokenQuery>;
-export type GetTokenLazyQueryHookResult = ReturnType<
-  typeof useGetTokenLazyQuery
->;
-export type GetTokenQueryResult = Apollo.QueryResult<
-  GetTokenQuery,
-  GetTokenQueryVariables
->;
-export const GetLendHistoryDocument = gql`
-  query getLendHistory($user: ID!) {
-    user(id: $user) {
-      lendingHistory {
-        lendingHistory(orderBy: timestamp) {
-          type
-          timestamp
-          asset {
-            id
-          }
-          amount
-          loanTokenAmount
-          emittedBy
-          transaction {
-            id
-            timestamp
-          }
-        }
-      }
-    }
-  }
-`;
-
-/**
- * __useGetLendHistoryQuery__
- *
- * To run a query within a React component, call `useGetLendHistoryQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetLendHistoryQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetLendHistoryQuery({
- *   variables: {
- *      user: // value for 'user'
- *   },
- * });
- */
-export function useGetLendHistoryQuery(
-  baseOptions: Apollo.QueryHookOptions<
-    GetLendHistoryQuery,
-    GetLendHistoryQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetLendHistoryQuery, GetLendHistoryQueryVariables>(
-    GetLendHistoryDocument,
-    options,
-  );
-}
-export function useGetLendHistoryLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<
-    GetLendHistoryQuery,
-    GetLendHistoryQueryVariables
-  >,
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetLendHistoryQuery, GetLendHistoryQueryVariables>(
-    GetLendHistoryDocument,
-    options,
-  );
-}
-export type GetLendHistoryQueryHookResult = ReturnType<
-  typeof useGetLendHistoryQuery
->;
-export type GetLendHistoryLazyQueryHookResult = ReturnType<
-  typeof useGetLendHistoryLazyQuery
->;
-export type GetLendHistoryQueryResult = Apollo.QueryResult<
-  GetLendHistoryQuery,
-  GetLendHistoryQueryVariables
 >;
 export const GetMarginLoansDataDocument = gql`
   query getMarginLoansData(

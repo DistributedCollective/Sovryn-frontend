@@ -1,6 +1,5 @@
 import { useAccount } from 'app/hooks/useAccount';
-import { useMemo } from 'react';
-import { APOLLO_POLL_INTERVAL, isMainnet } from 'utils/classifiers';
+import { APOLLO_POLL_INTERVAL } from 'utils/classifiers';
 import {
   Network,
   useGetLimitOrderCreatedQuery,
@@ -10,12 +9,10 @@ import {
 
 export const useGetLimitOrderCreated = () => {
   const account = useAccount();
-  const network = useMemo(() => {
-    return isMainnet ? Network.Mainnet : Network.Testnet;
-  }, []);
 
+  // need to use testnet subgraph for both testnet and mainnet, because mainnet orderbook is on testnet.
   return useGetLimitOrderCreatedQuery({
-    variables: { network: network, maker: account.toLowerCase() },
+    variables: { network: Network.Testnet, maker: account.toLowerCase() },
     pollInterval: APOLLO_POLL_INTERVAL,
   });
 };

@@ -1,4 +1,4 @@
-query getLimitOrderCreated($network: Network, $maker: String) {
+query getLimitOrderCreated($network: Network, $maker: Bytes) {
   orderCreateds(
     where: { network: $network, order_maker: $maker }
     orderBy: timestamp
@@ -10,9 +10,7 @@ query getLimitOrderCreated($network: Network, $maker: String) {
 
 fragment LimitOrderCreated on OrderCreated {
   hash
-  order_maker {
-    id
-  }
+  order_maker
   order_fromToken
   order_toToken
   order_amountIn
