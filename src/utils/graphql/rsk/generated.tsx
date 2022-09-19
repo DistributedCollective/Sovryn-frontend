@@ -10858,6 +10858,7 @@ export type GetLimitOrderFilledQuery = {
     filledPrice: string;
     timestamp: number;
     emittedBy: string;
+    hash: string;
     maker: { __typename?: 'User'; id: string };
     transaction: { __typename?: 'Transaction'; id: string };
   }>;
@@ -10871,6 +10872,7 @@ export type LimitOrderFilledFragment = {
   filledPrice: string;
   timestamp: number;
   emittedBy: string;
+  hash: string;
   maker: { __typename?: 'User'; id: string };
   transaction: { __typename?: 'Transaction'; id: string };
 };
@@ -11390,6 +11392,7 @@ export const LimitOrderFilledFragmentDoc = gql`
     transaction {
       id
     }
+    hash
   }
 `;
 export const MarginLimitOrderFilledFragmentDoc = gql`

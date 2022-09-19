@@ -21,4 +21,5 @@ fragment LimitOrderFilled on OrderFilled {
   transaction {
     id
   }
+  hash
 }

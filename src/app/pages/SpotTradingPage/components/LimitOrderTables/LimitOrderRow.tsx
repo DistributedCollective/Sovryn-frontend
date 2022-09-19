@@ -92,9 +92,7 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
   ]);
 
   const filledToken = useMemo(() => {
-    const event = orderFilledEvents?.find(
-      e => e.transaction.id === item.transactionHash,
-    );
+    const event = orderFilledEvents?.find(e => e.hash === item.hash);
     if (!event) {
       return undefined;
     }
@@ -104,13 +102,12 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
     }
 
     return assetByTokenAddress(fromToken.asset);
-  }, [item.transactionHash, orderFilledEvents, tradeType, fromToken, toToken]);
+  }, [item.hash, orderFilledEvents, tradeType, fromToken, toToken]);
 
   const filledPrice = useMemo(
     () => {
-      const price = orderFilledEvents?.find(
-        e => e.transaction.id === item.transactionHash,
-      )?.filledPrice;
+      const price = orderFilledEvents?.find(e => e.hash === item.hash)
+        ?.filledPrice;
 
       if (!price) {
         return undefined;
@@ -126,7 +123,7 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
       return price;
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [item.transactionHash, JSON.stringify(orderFilledEvents)],
+    [item.hash, JSON.stringify(orderFilledEvents)],
   );
 
   return (
