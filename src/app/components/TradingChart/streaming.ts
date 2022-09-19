@@ -63,13 +63,14 @@ export class Streaming {
       Math.ceil(Date.now() / 1000),
       hasDirectFeed(subscriptionItem?.symbolInfo?.name),
       1,
+      true,
     )
       .then(bars => {
         bars.reverse().forEach((item, index) => {
           let bar;
           if (
             !subscriptionItem.lastBar ||
-            item.time * 1e3 > subscriptionItem?.lastBar?.time
+            item.time > subscriptionItem?.lastBar?.time
           ) {
             // generate new bar
             bar = {
@@ -78,7 +79,7 @@ export class Streaming {
             };
           } else if (
             subscriptionItem.lastBar &&
-            item.time * 1e3 === subscriptionItem?.lastBar?.time
+            item.time === subscriptionItem?.lastBar?.time
           ) {
             // update last bar
             bar = {

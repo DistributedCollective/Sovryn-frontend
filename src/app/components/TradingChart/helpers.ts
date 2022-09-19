@@ -77,6 +77,7 @@ export const queryPairByChunks = async (
   endTime: number,
   hasDirectPair: boolean,
   candleLimit: number = CHUNK_SIZE,
+  preventFill: boolean = false,
 ): Promise<Bar[]> => {
   const queries = splitPeriodToChunks(
     startTime,
@@ -92,6 +93,7 @@ export const queryPairByChunks = async (
       item.from,
       item.to,
       candleLimit,
+      preventFill,
     ),
   );
 
@@ -290,6 +292,7 @@ export const queryCandles = async (
   startTime: number,
   endTime: number,
   candleLimit: number = CHUNK_SIZE,
+  preventFill: boolean = false,
 ) => {
   try {
     const graphStartTime = getEndTime(baseToken, quoteToken);
@@ -338,6 +341,10 @@ export const queryCandles = async (
           endTime,
           candleLimit,
         ));
+
+    if (preventFill) {
+      return bars;
+    }
 
     return addMissingBars(
       bars,
