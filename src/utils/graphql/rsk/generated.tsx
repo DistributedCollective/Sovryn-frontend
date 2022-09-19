@@ -10811,36 +10811,36 @@ export type GetLimitOrderCreatedQuery = {
   __typename?: 'Query';
   orderCreateds: Array<{
     __typename?: 'OrderCreated';
-    hash: string;
-    order_maker: string;
-    order_fromToken: string;
-    order_toToken: string;
-    order_amountIn: string;
     order_amountOutMin: string;
+    order_fromToken: string;
     order_recipient: string;
+    order_amountIn: string;
     order_deadline: string;
     order_created: string;
+    order_toToken: string;
+    order_maker: string;
     limitPrice: string;
     timestamp: number;
     emittedBy: string;
+    hash: string;
     transaction: { __typename?: 'Transaction'; id: string };
   }>;
 };
 
 export type LimitOrderCreatedFragment = {
   __typename?: 'OrderCreated';
-  hash: string;
-  order_maker: string;
-  order_fromToken: string;
-  order_toToken: string;
-  order_amountIn: string;
   order_amountOutMin: string;
+  order_fromToken: string;
   order_recipient: string;
+  order_amountIn: string;
   order_deadline: string;
   order_created: string;
+  order_toToken: string;
+  order_maker: string;
   limitPrice: string;
   timestamp: number;
   emittedBy: string;
+  hash: string;
   transaction: { __typename?: 'Transaction'; id: string };
 };
 
@@ -11359,21 +11359,21 @@ export const BorrowFieldsFragmentDoc = gql`
 `;
 export const LimitOrderCreatedFragmentDoc = gql`
   fragment LimitOrderCreated on OrderCreated {
-    hash
-    order_maker
-    order_fromToken
-    order_toToken
-    order_amountIn
     order_amountOutMin
+    order_fromToken
     order_recipient
+    order_amountIn
     order_deadline
     order_created
-    limitPrice
-    timestamp
-    emittedBy
+    order_toToken
+    order_maker
     transaction {
       id
     }
+    limitPrice
+    timestamp
+    emittedBy
+    hash
   }
 `;
 export const LimitOrderFilledFragmentDoc = gql`

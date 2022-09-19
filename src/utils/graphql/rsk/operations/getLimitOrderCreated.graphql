@@ -9,19 +9,19 @@ query getLimitOrderCreated($network: Network, $maker: Bytes) {
 }
 
 fragment LimitOrderCreated on OrderCreated {
-  hash
-  order_maker
-  order_fromToken
-  order_toToken
-  order_amountIn
   order_amountOutMin
+  order_fromToken
   order_recipient
+  order_amountIn
   order_deadline
   order_created
-  limitPrice
-  timestamp
-  emittedBy
+  order_toToken
+  order_maker
   transaction {
     id
   }
+  limitPrice
+  timestamp
+  emittedBy
+  hash
 }
