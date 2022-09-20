@@ -1,0 +1,14 @@
+query getRewardWithdrawn($user: String) {
+  rewardsEarnedHistoryItems(
+    where: { user: $user, action: StakingRewardWithdrawn, amount_gt: 0 }
+    orderBy: timestamp
+    orderDirection: desc
+  ) {
+    action
+    amount
+    timestamp
+    transaction {
+      id
+    }
+  }
+}

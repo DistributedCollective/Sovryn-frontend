@@ -25,3 +25,4 @@ export const CHEVRON_DOWN = 'chevron-down';
 export const ARROW_DOWN_WIDE = 'arrow-down-wide';
 export const ARROWS_SWAP = 'arrows-swap';
 export const ARROW_RIGHT_LONG = 'arrow-right-long';
+export const CHEVRON_DOUBLE_LEFT = 'chevron-double-left';
