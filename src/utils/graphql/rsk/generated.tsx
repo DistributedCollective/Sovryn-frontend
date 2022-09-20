@@ -1773,16 +1773,12 @@ export type CrossTransfer = {
   destinationChain: BridgeChain;
   /** Direction - the direction of the cross transfer (Incoming or Outgoing) */
   direction: CrossDirection;
+  /** Address of the user on the external chain (eg Ethereum, BSC etc.) */
+  externalUser?: Maybe<Scalars['Bytes']>;
   /** Id - the cross transfer Id - for outgoing it is generated from the cross event params for incoming it is coming from the federation events */
   id: Scalars['ID'];
   /** originalTokenAddress - the original token address for the transfer (for outgoing it is just the RSK token address) */
   originalTokenAddress: Scalars['Bytes'];
-  /** Receiver - The receiver of funds (can be a wallet or contract) */
-  receiver?: Maybe<Scalars['Bytes']>;
-  /** Address of the user on RSK chain */
-  rskUser: User;
-  /** Sender - The sender of funds (can be a wallet or contracts) */
-  sender?: Maybe<Scalars['Bytes']>;
   /** sideToken - the SideToken entity if exist of original token address */
   sideToken?: Maybe<SideToken>;
   /** sourceChain - the source chain - for outgoing it is RSK and for incoming it is BSC/ETH */
@@ -1803,6 +1799,8 @@ export type CrossTransfer = {
   updatedAtTimestamp: Scalars['Int'];
   /** updatedAtTx - the transaction at which this transfer was last updated */
   updatedAtTx: Transaction;
+  /** Address of the user on RSK chain */
+  user: User;
   /** Votes - Number of votes cast for this transfer */
   votes?: Maybe<Scalars['Int']>;
 };
@@ -1846,6 +1844,12 @@ export type CrossTransfer_Filter = {
   direction_in?: InputMaybe<Array<CrossDirection>>;
   direction_not?: InputMaybe<CrossDirection>;
   direction_not_in?: InputMaybe<Array<CrossDirection>>;
+  externalUser?: InputMaybe<Scalars['Bytes']>;
+  externalUser_contains?: InputMaybe<Scalars['Bytes']>;
+  externalUser_in?: InputMaybe<Array<Scalars['Bytes']>>;
+  externalUser_not?: InputMaybe<Scalars['Bytes']>;
+  externalUser_not_contains?: InputMaybe<Scalars['Bytes']>;
+  externalUser_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   id?: InputMaybe<Scalars['ID']>;
   id_gt?: InputMaybe<Scalars['ID']>;
   id_gte?: InputMaybe<Scalars['ID']>;
@@ -1860,32 +1864,6 @@ export type CrossTransfer_Filter = {
   originalTokenAddress_not?: InputMaybe<Scalars['Bytes']>;
   originalTokenAddress_not_contains?: InputMaybe<Scalars['Bytes']>;
   originalTokenAddress_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
-  receiver?: InputMaybe<Scalars['Bytes']>;
-  receiver_contains?: InputMaybe<Scalars['Bytes']>;
-  receiver_in?: InputMaybe<Array<Scalars['Bytes']>>;
-  receiver_not?: InputMaybe<Scalars['Bytes']>;
-  receiver_not_contains?: InputMaybe<Scalars['Bytes']>;
-  receiver_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
-  rskUser?: InputMaybe<Scalars['String']>;
-  rskUser_contains?: InputMaybe<Scalars['String']>;
-  rskUser_ends_with?: InputMaybe<Scalars['String']>;
-  rskUser_gt?: InputMaybe<Scalars['String']>;
-  rskUser_gte?: InputMaybe<Scalars['String']>;
-  rskUser_in?: InputMaybe<Array<Scalars['String']>>;
-  rskUser_lt?: InputMaybe<Scalars['String']>;
-  rskUser_lte?: InputMaybe<Scalars['String']>;
-  rskUser_not?: InputMaybe<Scalars['String']>;
-  rskUser_not_contains?: InputMaybe<Scalars['String']>;
-  rskUser_not_ends_with?: InputMaybe<Scalars['String']>;
-  rskUser_not_in?: InputMaybe<Array<Scalars['String']>>;
-  rskUser_not_starts_with?: InputMaybe<Scalars['String']>;
-  rskUser_starts_with?: InputMaybe<Scalars['String']>;
-  sender?: InputMaybe<Scalars['Bytes']>;
-  sender_contains?: InputMaybe<Scalars['Bytes']>;
-  sender_in?: InputMaybe<Array<Scalars['Bytes']>>;
-  sender_not?: InputMaybe<Scalars['Bytes']>;
-  sender_not_contains?: InputMaybe<Scalars['Bytes']>;
-  sender_not_in?: InputMaybe<Array<Scalars['Bytes']>>;
   sideToken?: InputMaybe<Scalars['String']>;
   sideToken_contains?: InputMaybe<Scalars['String']>;
   sideToken_ends_with?: InputMaybe<Scalars['String']>;
@@ -1976,6 +1954,20 @@ export type CrossTransfer_Filter = {
   updatedAtTx_not_in?: InputMaybe<Array<Scalars['String']>>;
   updatedAtTx_not_starts_with?: InputMaybe<Scalars['String']>;
   updatedAtTx_starts_with?: InputMaybe<Scalars['String']>;
+  user?: InputMaybe<Scalars['String']>;
+  user_contains?: InputMaybe<Scalars['String']>;
+  user_ends_with?: InputMaybe<Scalars['String']>;
+  user_gt?: InputMaybe<Scalars['String']>;
+  user_gte?: InputMaybe<Scalars['String']>;
+  user_in?: InputMaybe<Array<Scalars['String']>>;
+  user_lt?: InputMaybe<Scalars['String']>;
+  user_lte?: InputMaybe<Scalars['String']>;
+  user_not?: InputMaybe<Scalars['String']>;
+  user_not_contains?: InputMaybe<Scalars['String']>;
+  user_not_ends_with?: InputMaybe<Scalars['String']>;
+  user_not_in?: InputMaybe<Array<Scalars['String']>>;
+  user_not_starts_with?: InputMaybe<Scalars['String']>;
+  user_starts_with?: InputMaybe<Scalars['String']>;
   votes?: InputMaybe<Scalars['Int']>;
   votes_gt?: InputMaybe<Scalars['Int']>;
   votes_gte?: InputMaybe<Scalars['Int']>;
@@ -1992,11 +1984,9 @@ export enum CrossTransfer_OrderBy {
   CreatedAtTx = 'createdAtTx',
   DestinationChain = 'destinationChain',
   Direction = 'direction',
+  ExternalUser = 'externalUser',
   Id = 'id',
   OriginalTokenAddress = 'originalTokenAddress',
-  Receiver = 'receiver',
-  RskUser = 'rskUser',
-  Sender = 'sender',
   SideToken = 'sideToken',
   SourceChain = 'sourceChain',
   SourceChainBlockHash = 'sourceChainBlockHash',
@@ -2007,6 +1997,7 @@ export enum CrossTransfer_OrderBy {
   TokenAddress = 'tokenAddress',
   UpdatedAtTimestamp = 'updatedAtTimestamp',
   UpdatedAtTx = 'updatedAtTx',
+  User = 'user',
   Votes = 'votes',
 }
 
@@ -5710,8 +5701,10 @@ export type Query = {
   sideTokens: Array<SideToken>;
   smartToken?: Maybe<SmartToken>;
   smartTokens: Array<SmartToken>;
+  stake?: Maybe<Stake>;
   stakeHistoryItem?: Maybe<StakeHistoryItem>;
   stakeHistoryItems: Array<StakeHistoryItem>;
+  stakes: Array<Stake>;
   swap?: Maybe<Swap>;
   swaps: Array<Swap>;
   token?: Maybe<Token>;
@@ -6464,6 +6457,12 @@ export type QuerySmartTokensArgs = {
   where?: InputMaybe<SmartToken_Filter>;
 };
 
+export type QueryStakeArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
 export type QueryStakeHistoryItemArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID'];
@@ -6478,6 +6477,16 @@ export type QueryStakeHistoryItemsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   subgraphError?: _SubgraphErrorPolicy_;
   where?: InputMaybe<StakeHistoryItem_Filter>;
+};
+
+export type QueryStakesArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Stake_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<Stake_Filter>;
 };
 
 export type QuerySwapArgs = {
@@ -7262,6 +7271,16 @@ export enum SmartToken_OrderBy {
   Symbol = 'symbol',
 }
 
+export type Stake = {
+  __typename?: 'Stake';
+  amount?: Maybe<Scalars['BigDecimal']>;
+  delegatedAmount: Scalars['BigDecimal'];
+  id: Scalars['ID'];
+  lockedUntil?: Maybe<Scalars['Int']>;
+  user?: Maybe<User>;
+  vestingAmount: Scalars['BigDecimal'];
+};
+
 export enum StakeHistoryAction {
   /** When a user delegates voting power to another user. This can also be for voting power that the user has through a vesting contract. */
   Delegate = 'Delegate',
@@ -7287,7 +7306,7 @@ export type StakeHistoryItem = {
   id: Scalars['ID'];
   lockedUntil?: Maybe<Scalars['Int']>;
   timestamp: Scalars['Int'];
-  token?: Maybe<Token>;
+  token?: Maybe<Scalars['String']>;
   transaction: Transaction;
   user: UserStakeHistory;
 };
@@ -7384,6 +7403,72 @@ export enum StakeHistoryItem_OrderBy {
   User = 'user',
 }
 
+export type Stake_Filter = {
+  amount?: InputMaybe<Scalars['BigDecimal']>;
+  amount_gt?: InputMaybe<Scalars['BigDecimal']>;
+  amount_gte?: InputMaybe<Scalars['BigDecimal']>;
+  amount_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  amount_lt?: InputMaybe<Scalars['BigDecimal']>;
+  amount_lte?: InputMaybe<Scalars['BigDecimal']>;
+  amount_not?: InputMaybe<Scalars['BigDecimal']>;
+  amount_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  delegatedAmount?: InputMaybe<Scalars['BigDecimal']>;
+  delegatedAmount_gt?: InputMaybe<Scalars['BigDecimal']>;
+  delegatedAmount_gte?: InputMaybe<Scalars['BigDecimal']>;
+  delegatedAmount_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  delegatedAmount_lt?: InputMaybe<Scalars['BigDecimal']>;
+  delegatedAmount_lte?: InputMaybe<Scalars['BigDecimal']>;
+  delegatedAmount_not?: InputMaybe<Scalars['BigDecimal']>;
+  delegatedAmount_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  id?: InputMaybe<Scalars['ID']>;
+  id_gt?: InputMaybe<Scalars['ID']>;
+  id_gte?: InputMaybe<Scalars['ID']>;
+  id_in?: InputMaybe<Array<Scalars['ID']>>;
+  id_lt?: InputMaybe<Scalars['ID']>;
+  id_lte?: InputMaybe<Scalars['ID']>;
+  id_not?: InputMaybe<Scalars['ID']>;
+  id_not_in?: InputMaybe<Array<Scalars['ID']>>;
+  lockedUntil?: InputMaybe<Scalars['Int']>;
+  lockedUntil_gt?: InputMaybe<Scalars['Int']>;
+  lockedUntil_gte?: InputMaybe<Scalars['Int']>;
+  lockedUntil_in?: InputMaybe<Array<Scalars['Int']>>;
+  lockedUntil_lt?: InputMaybe<Scalars['Int']>;
+  lockedUntil_lte?: InputMaybe<Scalars['Int']>;
+  lockedUntil_not?: InputMaybe<Scalars['Int']>;
+  lockedUntil_not_in?: InputMaybe<Array<Scalars['Int']>>;
+  user?: InputMaybe<Scalars['String']>;
+  user_contains?: InputMaybe<Scalars['String']>;
+  user_ends_with?: InputMaybe<Scalars['String']>;
+  user_gt?: InputMaybe<Scalars['String']>;
+  user_gte?: InputMaybe<Scalars['String']>;
+  user_in?: InputMaybe<Array<Scalars['String']>>;
+  user_lt?: InputMaybe<Scalars['String']>;
+  user_lte?: InputMaybe<Scalars['String']>;
+  user_not?: InputMaybe<Scalars['String']>;
+  user_not_contains?: InputMaybe<Scalars['String']>;
+  user_not_ends_with?: InputMaybe<Scalars['String']>;
+  user_not_in?: InputMaybe<Array<Scalars['String']>>;
+  user_not_starts_with?: InputMaybe<Scalars['String']>;
+  user_starts_with?: InputMaybe<Scalars['String']>;
+  vestingAmount?: InputMaybe<Scalars['BigDecimal']>;
+  vestingAmount_gt?: InputMaybe<Scalars['BigDecimal']>;
+  vestingAmount_gte?: InputMaybe<Scalars['BigDecimal']>;
+  vestingAmount_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+  vestingAmount_lt?: InputMaybe<Scalars['BigDecimal']>;
+  vestingAmount_lte?: InputMaybe<Scalars['BigDecimal']>;
+  vestingAmount_not?: InputMaybe<Scalars['BigDecimal']>;
+  vestingAmount_not_in?: InputMaybe<Array<Scalars['BigDecimal']>>;
+};
+
+export enum Stake_OrderBy {
+  Amount = 'amount',
+  DelegatedAmount = 'delegatedAmount',
+  Id = 'id',
+  LockedUntil = 'lockedUntil',
+  User = 'user',
+  VestingAmount = 'vestingAmount',
+}
+
 export type Subscription = {
   __typename?: 'Subscription';
   /** Access to subgraph metadata */
@@ -7477,8 +7562,10 @@ export type Subscription = {
   sideTokens: Array<SideToken>;
   smartToken?: Maybe<SmartToken>;
   smartTokens: Array<SmartToken>;
+  stake?: Maybe<Stake>;
   stakeHistoryItem?: Maybe<StakeHistoryItem>;
   stakeHistoryItems: Array<StakeHistoryItem>;
+  stakes: Array<Stake>;
   swap?: Maybe<Swap>;
   swaps: Array<Swap>;
   token?: Maybe<Token>;
@@ -8231,6 +8318,12 @@ export type SubscriptionSmartTokensArgs = {
   where?: InputMaybe<SmartToken_Filter>;
 };
 
+export type SubscriptionStakeArgs = {
+  block?: InputMaybe<Block_Height>;
+  id: Scalars['ID'];
+  subgraphError?: _SubgraphErrorPolicy_;
+};
+
 export type SubscriptionStakeHistoryItemArgs = {
   block?: InputMaybe<Block_Height>;
   id: Scalars['ID'];
@@ -8245,6 +8338,16 @@ export type SubscriptionStakeHistoryItemsArgs = {
   skip?: InputMaybe<Scalars['Int']>;
   subgraphError?: _SubgraphErrorPolicy_;
   where?: InputMaybe<StakeHistoryItem_Filter>;
+};
+
+export type SubscriptionStakesArgs = {
+  block?: InputMaybe<Block_Height>;
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Stake_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  subgraphError?: _SubgraphErrorPolicy_;
+  where?: InputMaybe<Stake_Filter>;
 };
 
 export type SubscriptionSwapArgs = {
@@ -9390,6 +9493,8 @@ export type User = {
   createdAtTimestamp: Scalars['Int'];
   /** EVM Bridge transfers */
   crossChainTransfer?: Maybe<Array<CrossTransfer>>;
+  /** Stakes the user owns, including stakes from Vesting Contracts */
+  currentStakes?: Maybe<Array<Stake>>;
   fastBTCBridgeStats?: Maybe<Array<FastBtcBridgeStat>>;
   /** ID is user wallet address */
   id: Scalars['ID'];
@@ -9450,6 +9555,15 @@ export type UserCrossChainTransferArgs = {
   orderDirection?: InputMaybe<OrderDirection>;
   skip?: InputMaybe<Scalars['Int']>;
   where?: InputMaybe<CrossTransfer_Filter>;
+};
+
+/** This entity contains all user-specific data displayed on the dapp, including all user actions */
+export type UserCurrentStakesArgs = {
+  first?: InputMaybe<Scalars['Int']>;
+  orderBy?: InputMaybe<Stake_OrderBy>;
+  orderDirection?: InputMaybe<OrderDirection>;
+  skip?: InputMaybe<Scalars['Int']>;
+  where?: InputMaybe<Stake_Filter>;
 };
 
 /** This entity contains all user-specific data displayed on the dapp, including all user actions */
@@ -10206,6 +10320,7 @@ export enum User_OrderBy {
   Borrows = 'borrows',
   CreatedAtTimestamp = 'createdAtTimestamp',
   CrossChainTransfer = 'crossChainTransfer',
+  CurrentStakes = 'currentStakes',
   FastBtcBridgeStats = 'fastBTCBridgeStats',
   Id = 'id',
   LendingHistory = 'lendingHistory',

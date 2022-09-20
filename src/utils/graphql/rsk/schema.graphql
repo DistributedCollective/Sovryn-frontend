@@ -1827,6 +1827,11 @@ type CrossTransfer {
   direction: CrossDirection!
 
   """
+  Address of the user on the external chain (eg Ethereum, BSC etc.)
+  """
+  externalUser: Bytes
+
+  """
   Id - the cross transfer Id - for outgoing it is generated from the cross event params for incoming it is coming from the federation events
   """
   id: ID!
@@ -1835,21 +1840,6 @@ type CrossTransfer {
   originalTokenAddress - the original token address for the transfer (for outgoing it is just the RSK token address)
   """
   originalTokenAddress: Bytes!
-
-  """
-  Receiver - The receiver of funds (can be a wallet or contract)
-  """
-  receiver: Bytes
-
-  """
-  Address of the user on RSK chain
-  """
-  rskUser: User!
-
-  """
-  Sender - The sender of funds (can be a wallet or contracts)
-  """
-  sender: Bytes
 
   """
   sideToken - the SideToken entity if exist of original token address
@@ -1902,6 +1892,11 @@ type CrossTransfer {
   updatedAtTx: Transaction!
 
   """
+  Address of the user on RSK chain
+  """
+  user: User!
+
+  """
   Votes - Number of votes cast for this transfer
   """
   votes: Int
@@ -1946,6 +1941,12 @@ input CrossTransfer_filter {
   direction_in: [CrossDirection!]
   direction_not: CrossDirection
   direction_not_in: [CrossDirection!]
+  externalUser: Bytes
+  externalUser_contains: Bytes
+  externalUser_in: [Bytes!]
+  externalUser_not: Bytes
+  externalUser_not_contains: Bytes
+  externalUser_not_in: [Bytes!]
   id: ID
   id_gt: ID
   id_gte: ID
@@ -1960,32 +1961,6 @@ input CrossTransfer_filter {
   originalTokenAddress_not: Bytes
   originalTokenAddress_not_contains: Bytes
   originalTokenAddress_not_in: [Bytes!]
-  receiver: Bytes
-  receiver_contains: Bytes
-  receiver_in: [Bytes!]
-  receiver_not: Bytes
-  receiver_not_contains: Bytes
-  receiver_not_in: [Bytes!]
-  rskUser: String
-  rskUser_contains: String
-  rskUser_ends_with: String
-  rskUser_gt: String
-  rskUser_gte: String
-  rskUser_in: [String!]
-  rskUser_lt: String
-  rskUser_lte: String
-  rskUser_not: String
-  rskUser_not_contains: String
-  rskUser_not_ends_with: String
-  rskUser_not_in: [String!]
-  rskUser_not_starts_with: String
-  rskUser_starts_with: String
-  sender: Bytes
-  sender_contains: Bytes
-  sender_in: [Bytes!]
-  sender_not: Bytes
-  sender_not_contains: Bytes
-  sender_not_in: [Bytes!]
   sideToken: String
   sideToken_contains: String
   sideToken_ends_with: String
@@ -2076,6 +2051,20 @@ input CrossTransfer_filter {
   updatedAtTx_not_in: [String!]
   updatedAtTx_not_starts_with: String
   updatedAtTx_starts_with: String
+  user: String
+  user_contains: String
+  user_ends_with: String
+  user_gt: String
+  user_gte: String
+  user_in: [String!]
+  user_lt: String
+  user_lte: String
+  user_not: String
+  user_not_contains: String
+  user_not_ends_with: String
+  user_not_in: [String!]
+  user_not_starts_with: String
+  user_starts_with: String
   votes: Int
   votes_gt: Int
   votes_gte: Int
@@ -2092,11 +2081,9 @@ enum CrossTransfer_orderBy {
   createdAtTx
   destinationChain
   direction
+  externalUser
   id
   originalTokenAddress
-  receiver
-  rskUser
-  sender
   sideToken
   sourceChain
   sourceChainBlockHash
@@ -2107,6 +2094,7 @@ enum CrossTransfer_orderBy {
   tokenAddress
   updatedAtTimestamp
   updatedAtTx
+  user
   votes
 }
 
@@ -7263,6 +7251,18 @@ type Query {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: SmartToken_filter
   ): [SmartToken!]!
+  stake(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Stake
   stakeHistoryItem(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -7291,6 +7291,22 @@ type Query {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: StakeHistoryItem_filter
   ): [StakeHistoryItem!]!
+  stakes(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: Stake_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: Stake_filter
+  ): [Stake!]!
   swap(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -8324,6 +8340,15 @@ enum SmartToken_orderBy {
   symbol
 }
 
+type Stake {
+  amount: BigDecimal
+  delegatedAmount: BigDecimal!
+  id: ID!
+  lockedUntil: Int
+  user: User
+  vestingAmount: BigDecimal!
+}
+
 enum StakeHistoryAction {
   """
   When a user delegates voting power to another user. This can also be for voting power that the user has through a vesting contract.
@@ -8370,7 +8395,7 @@ type StakeHistoryItem {
   id: ID!
   lockedUntil: Int
   timestamp: Int!
-  token: Token
+  token: String
   transaction: Transaction!
   user: UserStakeHistory!
 }
@@ -8465,6 +8490,72 @@ enum StakeHistoryItem_orderBy {
   token
   transaction
   user
+}
+
+input Stake_filter {
+  amount: BigDecimal
+  amount_gt: BigDecimal
+  amount_gte: BigDecimal
+  amount_in: [BigDecimal!]
+  amount_lt: BigDecimal
+  amount_lte: BigDecimal
+  amount_not: BigDecimal
+  amount_not_in: [BigDecimal!]
+  delegatedAmount: BigDecimal
+  delegatedAmount_gt: BigDecimal
+  delegatedAmount_gte: BigDecimal
+  delegatedAmount_in: [BigDecimal!]
+  delegatedAmount_lt: BigDecimal
+  delegatedAmount_lte: BigDecimal
+  delegatedAmount_not: BigDecimal
+  delegatedAmount_not_in: [BigDecimal!]
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  lockedUntil: Int
+  lockedUntil_gt: Int
+  lockedUntil_gte: Int
+  lockedUntil_in: [Int!]
+  lockedUntil_lt: Int
+  lockedUntil_lte: Int
+  lockedUntil_not: Int
+  lockedUntil_not_in: [Int!]
+  user: String
+  user_contains: String
+  user_ends_with: String
+  user_gt: String
+  user_gte: String
+  user_in: [String!]
+  user_lt: String
+  user_lte: String
+  user_not: String
+  user_not_contains: String
+  user_not_ends_with: String
+  user_not_in: [String!]
+  user_not_starts_with: String
+  user_starts_with: String
+  vestingAmount: BigDecimal
+  vestingAmount_gt: BigDecimal
+  vestingAmount_gte: BigDecimal
+  vestingAmount_in: [BigDecimal!]
+  vestingAmount_lt: BigDecimal
+  vestingAmount_lte: BigDecimal
+  vestingAmount_not: BigDecimal
+  vestingAmount_not_in: [BigDecimal!]
+}
+
+enum Stake_orderBy {
+  amount
+  delegatedAmount
+  id
+  lockedUntil
+  user
+  vestingAmount
 }
 
 type Subscription {
@@ -9720,6 +9811,18 @@ type Subscription {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: SmartToken_filter
   ): [SmartToken!]!
+  stake(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Stake
   stakeHistoryItem(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -9748,6 +9851,22 @@ type Subscription {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: StakeHistoryItem_filter
   ): [StakeHistoryItem!]!
+  stakes(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: Stake_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: Stake_filter
+  ): [Stake!]!
   swap(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -11209,6 +11328,17 @@ type User {
     skip: Int = 0
     where: CrossTransfer_filter
   ): [CrossTransfer!]
+
+  """
+  Stakes the user owns, including stakes from Vesting Contracts
+  """
+  currentStakes(
+    first: Int = 100
+    orderBy: Stake_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: Stake_filter
+  ): [Stake!]
   fastBTCBridgeStats(
     first: Int = 100
     orderBy: FastBTCBridgeStat_orderBy
@@ -12026,6 +12156,7 @@ enum User_orderBy {
   borrows
   createdAtTimestamp
   crossChainTransfer
+  currentStakes
   fastBTCBridgeStats
   id
   lendingHistory
