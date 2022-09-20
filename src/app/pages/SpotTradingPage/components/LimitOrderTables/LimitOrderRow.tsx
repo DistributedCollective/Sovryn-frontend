@@ -18,11 +18,12 @@ import classNames from 'classnames';
 import { TableTransactionStatus } from 'app/components/FinanceV2Components/TableTransactionStatus';
 import { TxStatus } from 'store/global/transactions-store/types';
 import { LinkToExplorer } from 'app/components/LinkToExplorer';
-import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
 import {
   LimitOrderCreatedFragment,
   LimitOrderFilledFragment,
 } from 'utils/graphql/rsk/generated';
+import { AssetValue } from 'app/components/AssetValue';
+import { AssetValueMode } from 'app/components/AssetValue/types';
 
 interface ILimitOrderRowProps {
   item: ILimitOrder;
@@ -93,38 +94,35 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
 
   const filledToken = useMemo(() => {
     const event = orderFilledEvents?.find(e => e.hash === item.hash);
+
     if (!event) {
       return undefined;
     }
 
     if (tradeType === TradingTypes.SELL) {
-      return assetByTokenAddress(toToken.asset);
+      return toToken.asset;
     }
 
-    return assetByTokenAddress(fromToken.asset);
+    return fromToken.asset;
   }, [item.hash, orderFilledEvents, tradeType, fromToken, toToken]);
 
-  const filledPrice = useMemo(
-    () => {
-      const price = orderFilledEvents?.find(e => e.hash === item.hash)
-        ?.filledPrice;
+  const filledPrice = useMemo(() => {
+    const price = orderFilledEvents?.find(e => e.hash === item.hash)
+      ?.filledPrice;
 
-      if (!price) {
-        return undefined;
-      }
+    if (!price) {
+      return undefined;
+    }
 
-      if (tradeType === TradingTypes.BUY) {
-        return bignumber(1)
-          .div(price)
-          .mul(10 ** 36)
-          .toFixed(0);
-      }
+    if (tradeType === TradingTypes.BUY) {
+      return bignumber(1)
+        .div(price)
+        .mul(10 ** 36)
+        .toFixed(0);
+    }
 
-      return price;
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [item.hash, JSON.stringify(orderFilledEvents)],
-  );
+    return price;
+  }, [item.hash, orderFilledEvents, tradeType]);
 
   return (
     <tr>
@@ -204,8 +202,11 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
           <td className="tw-hidden sm:tw-table-cell">
             {filledToken && filledPrice ? (
               <>
-                {weiToAssetNumberFormat(filledPrice, filledToken)}{' '}
-                <AssetRenderer asset={filledToken} />
+                <AssetValue
+                  value={Number(filledPrice)}
+                  asset={filledToken}
+                  mode={AssetValueMode.auto}
+                />
               </>
             ) : (
               '-'
