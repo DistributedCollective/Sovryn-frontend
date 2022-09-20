@@ -511,12 +511,12 @@ export const addMissingBars = (
   }
 
   items = items.map((item, index) => {
-    const previous = items[index - 1] || item;
     const next = items[index + 1] || item;
+    const close = !next.volume ? item.close : next.open;
+
     return {
       ...item,
-      open: previous.close,
-      close: !next.volume ? item.close : next.open,
+      close,
     };
   });
 
