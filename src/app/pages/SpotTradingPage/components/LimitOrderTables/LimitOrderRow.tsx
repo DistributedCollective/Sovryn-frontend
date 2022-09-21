@@ -206,6 +206,8 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
                   value={Number(filledPrice)}
                   asset={filledToken}
                   mode={AssetValueMode.auto}
+                  minDecimals={3}
+                  maxDecimals={8}
                 />
               </>
             ) : (
