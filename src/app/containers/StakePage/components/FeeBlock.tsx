@@ -100,7 +100,7 @@ export const FeeBlock: React.FC<IFeeBlockProps> = ({
     <>
       {(Number(currency.value) > 0 || isSovToken) && (
         <div className="tw-flex tw-justify-between tw-items-center tw-mb-1 tw-mt-1 tw-leading-6">
-          <div className="tw-w-2/5">
+          <div className="tw-w-1/5">
             <Tooltip
               content={
                 <>

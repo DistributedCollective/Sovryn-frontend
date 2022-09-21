@@ -70,7 +70,7 @@ export const LegacySovFeeBlock: React.FC<ILegacySovFeeBlock> = ({
   return (
     <>
       <div className="tw-flex tw-justify-between tw-items-center tw-mb-1 tw-mt-1 tw-leading-6">
-        <div className="tw-w-2/5">
+        <div className="tw-w-1/5">
           <Tooltip content={t(translations.stake.vestingFeesTooltip)}>
             {<>{capitalize(title || '') || asset} (?)</>}
           </Tooltip>
