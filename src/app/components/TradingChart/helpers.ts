@@ -448,13 +448,10 @@ export const addMissingBars = (
     (endTimestamp - lastBar.time / 1000) / seconds,
   );
 
-  if (missingBarCountEnd >= 2) {
-    let i = missingBarCountEnd - 2;
+  if (missingBarCountEnd >= 1) {
+    let i = missingBarCountEnd;
     while (i > 0) {
-      let time = lastBar.time + (i + 1) * seconds * 1000;
-
-      // time = time > endTimestamp * 1000 ? endTimestamp * 1000 : time;
-
+      let time = lastBar.time + i * seconds * 1000;
       items.push({
         open: lastBar.close,
         high: lastBar.close,
