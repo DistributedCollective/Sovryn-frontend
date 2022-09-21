@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
-import { useGetContractPastEvents } from '../../../../hooks/useGetContractPastEvents';
 import { LiquidClaimForm } from '../ClaimForms/LiquidClaimForm';
 import styles from '../../index.module.scss';
 import { RewardsDetail, RewardsDetailColor } from '../RewardsDetail';
@@ -10,6 +9,7 @@ import { PieChart } from '../../styled';
 import imgNoClaim from 'assets/images/reward/ARMANDO__LENDING.svg';
 import { NoRewardInfo } from '../NoRewardInfo';
 import { weiTo18 } from 'utils/blockchain/math-helpers';
+import { useGetTradingRewards } from '../RewardTab/hooks/useGetTradingRewards';
 
 interface ILiquidTabProps {
   amountToClaim: string;
@@ -22,17 +22,11 @@ export const LiquidTab: React.FC<ILiquidTabProps> = ({
 }) => {
   const { t } = useTranslation();
 
-  const { events: stakingRewardEvents } = useGetContractPastEvents(
-    'stakingRewards',
-    'RewardWithdrawn',
-  );
+  const { data: rewardsData } = useGetTradingRewards();
 
-  const totalRewardsEarned = useMemo(
-    () =>
-      stakingRewardEvents
-        .map(item => item.returnValues.amount)
-        .reduce((prevValue, curValue) => prevValue.add(curValue), bignumber(0)),
-    [stakingRewardEvents],
+  const totalStakingRewards = useMemo(
+    () => rewardsData?.userRewardsEarnedHistory?.totalStakingRewards || '0',
+    [rewardsData],
   );
 
   return (
@@ -78,7 +72,9 @@ export const LiquidTab: React.FC<ILiquidTabProps> = ({
           color={RewardsDetailColor.Yellow}
           title={t(translations.rewardPage.stakingReward)}
           availableAmount={weiTo18(amountToClaim)}
-          totalEarnedAmount={weiTo18(totalRewardsEarned)}
+          totalEarnedAmount={bignumber(totalStakingRewards)
+            .add(weiTo18(amountToClaim))
+            .toString()}
         />
         <RewardsDetail
           color={RewardsDetailColor.Grey}
