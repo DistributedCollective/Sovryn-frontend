@@ -5,8 +5,6 @@ import {
   useGetLimitOrderCreatedQuery,
 } from 'utils/graphql/rsk/generated';
 
-/** Hook to return Order Created data for Spot page */
-
 export const useGetLimitOrderCreated = () => {
   const account = useAccount();
 
