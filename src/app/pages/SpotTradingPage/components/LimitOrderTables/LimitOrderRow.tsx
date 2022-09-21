@@ -114,13 +114,6 @@ export const LimitOrderRow: React.FC<ILimitOrderRowProps> = ({
       return undefined;
     }
 
-    if (tradeType === TradingTypes.BUY) {
-      return bignumber(1)
-        .div(price)
-        .mul(10 ** 36)
-        .toFixed(0);
-    }
-
     return price;
   }, [item.hash, orderFilledEvents, tradeType]);
 
