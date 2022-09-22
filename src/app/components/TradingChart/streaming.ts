@@ -94,7 +94,7 @@ export class Streaming {
           }
 
           if (index === bars.length) {
-            pushPrice(subscriptionItem?.symbolInfo?.name, bar.close);
+            pushPrice(`${baseToken}/${quoteToken}`, bar.close);
           }
 
           // update last bar cache and execute chart callback

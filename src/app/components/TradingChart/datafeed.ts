@@ -139,7 +139,7 @@ const tradingChartDataFeeds = (
         newestBarsCache.set(symbolInfo.name, { ...items[items.length - 1] });
         oldestBarsCache.set(symbolInfo.name, { ...items[0] });
 
-        pushPrice(symbolInfo.name, items[items.length - 1].close);
+        pushPrice(`${baseToken}/${quoteToken}`, items[items.length - 1].close);
       }
 
       const lastBar = newestBarsCache.get(symbolInfo.name);
@@ -148,11 +148,11 @@ const tradingChartDataFeeds = (
         if (lastBar) {
           if (newestBar && newestBar?.time < lastBar.time) {
             newestBarsCache.set(symbolInfo.name, newestBar);
-            pushPrice(symbolInfo.name, newestBar.close);
+            pushPrice(`${baseToken}/${quoteToken}`, newestBar.close);
           }
         } else {
           newestBarsCache.set(symbolInfo.name, newestBar);
-          pushPrice(symbolInfo.name, newestBar.close);
+          pushPrice(`${baseToken}/${quoteToken}`, newestBar.close);
         }
       } catch (error) {
         console.error('Errors caching newest bar as last bar', error);
