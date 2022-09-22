@@ -31,6 +31,7 @@ export const MarginTradePage: React.FC = () => {
 
   const location = useLocation<IPromotionLinkState>();
   const history = useHistory<IPromotionLinkState>();
+  const connected = useIsConnected();
 
   const [linkPairType, setLinkPairType] = useState(
     location.state?.marginTradingPair,
@@ -45,8 +46,6 @@ export const MarginTradePage: React.FC = () => {
     () => TradingPairDictionary.get(linkPairType || pairType),
     [linkPairType, pairType],
   );
-
-  const connected = useIsConnected();
 
   const tabs = useMemo(
     () => [
