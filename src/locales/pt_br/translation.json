@@ -2158,8 +2158,11 @@
       "title": "Insira o endereço da carteira da rede {{currentNetwork}}",
       "desc": "Endereço de recebimento {{targetAsset}}",
       "confirm": "Por favor verifique e confirme",
-      "withdrawWarning": "Não envie para endereços de exchanges!",
-      "withdrawDisclaimer": "Transferências para endereços de exchanges (ex. Binance) não são aconselhados devido à falta de suporte por parte delas, nós não nos responsabilizamos por qualquer perda de fundos nestes casos. Envie fundos apenas para endereços de carteira que você tenha controle total."
+      "withdrawWarning": "Cuidado ao enviar para endereços de exchanges!",
+      "withdrawDisclaimer": "Nem todas as exchanges suportam o recebimento de ativos diretamente dos contratos inteligentes. Antes de enviar diretamente para um endereço de uma exchange, certifique-se de confirmar se sua exchange suporta o recebimento direto de transações de contratos inteligentes. <0>Saiba mais aqui.</0>"
+    },
+    "tokenSelector": {
+      "title": "Selecione a cripto que você deseja receber na rede {{network}}"
     },
     "tokenSelector": {
       "title": "Selecione a cripto que você deseja transferir para a rede {{network}}",

@@ -1,0 +1,14 @@
+query getRewardClaimed($user: String) {
+  rewardsEarnedHistoryItems(
+    where: { user: $user, action: RewardClaimed, amount_gt: 0 }
+    orderBy: timestamp
+    orderDirection: desc
+  ) {
+    action
+    amount
+    transaction {
+      id
+    }
+    timestamp
+  }
+}
