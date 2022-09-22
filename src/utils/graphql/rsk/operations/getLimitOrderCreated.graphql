@@ -1,0 +1,27 @@
+query getLimitOrderCreated($network: Network, $maker: Bytes) {
+  orderCreateds(
+    where: { network: $network, order_maker: $maker }
+    orderBy: timestamp
+    orderDirection: desc
+  ) {
+    ...LimitOrderCreated
+  }
+}
+
+fragment LimitOrderCreated on OrderCreated {
+  order_amountOutMin
+  order_fromToken
+  order_recipient
+  order_amountIn
+  order_deadline
+  order_created
+  order_toToken
+  order_maker
+  transaction {
+    id
+  }
+  limitPrice
+  timestamp
+  emittedBy
+  hash
+}
