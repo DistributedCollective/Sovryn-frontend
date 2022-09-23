@@ -88,13 +88,10 @@ export class Streaming {
               low: Math.min(subscriptionItem.lastBar.low, item.low),
               close: item.close,
             };
+            pushPrice(`${baseToken}/${quoteToken}`, bar.close);
           } else {
             // do not update
             return;
-          }
-
-          if (index === bars.length) {
-            pushPrice(`${baseToken}/${quoteToken}`, bar.close);
           }
 
           // update last bar cache and execute chart callback
