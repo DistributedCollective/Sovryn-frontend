@@ -6,6 +6,7 @@ import { ITradingPairs } from 'types/trading-pairs';
 import classNames from 'classnames';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { useGetCandlesData } from 'app/hooks/trading/useGetCandlesData';
+import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
 
 interface IPairNavbarInfoProps {
   pair: ITradingPairs;
@@ -23,8 +24,8 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
   const { candles, loading } = useGetCandlesData(symbolA, symbolB);
 
   useEffect(() => {
-    setSymbolA(pair[0].base_symbol);
-    setSymbolB(pair[1].base_symbol);
+    setSymbolA(assetByTokenAddress(pair[0].base_id));
+    setSymbolB(assetByTokenAddress(pair[1].base_id));
   }, [pair]);
 
   useEffect(() => {

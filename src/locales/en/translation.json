@@ -1626,11 +1626,10 @@
       "claimDisabled": "There is not enough SOV in the StakingRewardsProxy contract to facilitate a claim of rewards at this time. Therefore, to avoid a loss of gas fee by initiating a transaction that will inevitably fail, the CLAIM button has been disabled. Be assured that the team is aware and funds should be replenished shortly."
     },
     "liquidClaimForm": {
-      "note": "Claiming your rewards automatically adds them your SOV portfolio balance.",
+      "note": "Claiming your rewards automatically adds them to your SOV portfolio balance.",
       "learn": "Learn more"
     },
     "feesEarnedClaimForm": {
-      "note": "Claiming your rewards automatically adds them your <0/> portfolio balance.",
       "learn": "Learn more",
       "asset": "Asset",
       "amount": "Amount",
@@ -2161,8 +2160,8 @@
       "title": "Enter receiving {{currentNetwork}} wallet address",
       "desc": "Receiving {{targetAsset}} Address",
       "confirm": "Please check and confirm",
-      "withdrawWarning": "Do not send to exchange addresses!",
-      "withdrawDisclaimer": "Withdrawals directly to exchange addresses are not advised due to lack of support by exchanges (e.g. Binance), we are not responsible for any loss of funds in these cases. Please only send funds to wallet addresses that you control exclusively (EOA)."
+      "withdrawWarning": "Beware when sending to exchange addresses!",
+      "withdrawDisclaimer": "Not all exchanges support receiving assets directly from the bridge smart contracts. Before sending directly to an exchange address, be sure to confirm that your exchange supports directly receiving transactions from smart contracts. <0>Learn more here.</0>"
     },
     "tokenSelector": {
       "title": "Select the token you'd like to receive on the {{network}} network",

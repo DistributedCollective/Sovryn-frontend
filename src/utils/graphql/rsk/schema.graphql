@@ -466,14 +466,182 @@ enum Borrow_orderBy {
   user
 }
 
+"""
+Cross Chain Bridge
+"""
+type Bridge {
+  """
+  CreatedAtTx - The bridge creation transaction
+  """
+  createdAtTx: Transaction!
+
+  """
+  Federation - the Federation entity associated with this bridge
+  """
+  federation: Federation!
+
+  """
+  Bridge ID - Bridge Contract Address
+  """
+  id: ID!
+
+  """
+  isPaused - Indicates if the bridge is currently paused
+  """
+  isPaused: Boolean!
+
+  """
+  isSuffix - is suffix or prefix
+  """
+  isSuffix: Boolean
+
+  """
+  isUpgrading - Indicates if the bridge is currently upgrading
+  """
+  isUpgrading: Boolean!
+
+  """
+  Pausers - an array of addresses authorized to pause the bridge
+  """
+  pausers: [Bytes!]!
+
+  """
+  Prefix - prefix added to sideTokens symbol when created
+  """
+  prefix: String
+
+  """
+  BridgeType - there are currently only two bridges - RSK_BSC and RSK_ETH
+  """
+  type: BridgeType!
+
+  """
+  UpdatedAtTx - The bridge last updated at this transaction
+  """
+  updatedAtTx: Transaction!
+}
+
+enum BridgeChain {
+  BSC
+  ETH
+  RSK
+}
+
+"""
+BridgeType - only 2 bridges at the moment - RSK <-> BSC and RSK <-> ETH
+"""
+enum BridgeType {
+  RSK_BSC
+  RSK_ETH
+}
+
+input Bridge_filter {
+  createdAtTx: String
+  createdAtTx_contains: String
+  createdAtTx_ends_with: String
+  createdAtTx_gt: String
+  createdAtTx_gte: String
+  createdAtTx_in: [String!]
+  createdAtTx_lt: String
+  createdAtTx_lte: String
+  createdAtTx_not: String
+  createdAtTx_not_contains: String
+  createdAtTx_not_ends_with: String
+  createdAtTx_not_in: [String!]
+  createdAtTx_not_starts_with: String
+  createdAtTx_starts_with: String
+  federation: String
+  federation_contains: String
+  federation_ends_with: String
+  federation_gt: String
+  federation_gte: String
+  federation_in: [String!]
+  federation_lt: String
+  federation_lte: String
+  federation_not: String
+  federation_not_contains: String
+  federation_not_ends_with: String
+  federation_not_in: [String!]
+  federation_not_starts_with: String
+  federation_starts_with: String
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  isPaused: Boolean
+  isPaused_in: [Boolean!]
+  isPaused_not: Boolean
+  isPaused_not_in: [Boolean!]
+  isSuffix: Boolean
+  isSuffix_in: [Boolean!]
+  isSuffix_not: Boolean
+  isSuffix_not_in: [Boolean!]
+  isUpgrading: Boolean
+  isUpgrading_in: [Boolean!]
+  isUpgrading_not: Boolean
+  isUpgrading_not_in: [Boolean!]
+  pausers: [Bytes!]
+  pausers_contains: [Bytes!]
+  pausers_not: [Bytes!]
+  pausers_not_contains: [Bytes!]
+  prefix: String
+  prefix_contains: String
+  prefix_ends_with: String
+  prefix_gt: String
+  prefix_gte: String
+  prefix_in: [String!]
+  prefix_lt: String
+  prefix_lte: String
+  prefix_not: String
+  prefix_not_contains: String
+  prefix_not_ends_with: String
+  prefix_not_in: [String!]
+  prefix_not_starts_with: String
+  prefix_starts_with: String
+  type: BridgeType
+  type_in: [BridgeType!]
+  type_not: BridgeType
+  type_not_in: [BridgeType!]
+  updatedAtTx: String
+  updatedAtTx_contains: String
+  updatedAtTx_ends_with: String
+  updatedAtTx_gt: String
+  updatedAtTx_gte: String
+  updatedAtTx_in: [String!]
+  updatedAtTx_lt: String
+  updatedAtTx_lte: String
+  updatedAtTx_not: String
+  updatedAtTx_not_contains: String
+  updatedAtTx_not_ends_with: String
+  updatedAtTx_not_in: [String!]
+  updatedAtTx_not_starts_with: String
+  updatedAtTx_starts_with: String
+}
+
+enum Bridge_orderBy {
+  createdAtTx
+  federation
+  id
+  isPaused
+  isSuffix
+  isUpgrading
+  pausers
+  prefix
+  type
+  updatedAtTx
+}
+
 scalar Bytes
 
-type CandleStick {
+type CandleStickDay implements ICandleStick {
   baseToken: Token
   close: BigDecimal!
   high: BigDecimal!
   id: ID!
-  interval: CandleSticksInterval
   low: BigDecimal!
   open: BigDecimal
   periodStartUnix: Int!
@@ -482,7 +650,7 @@ type CandleStick {
   txCount: Int!
 }
 
-input CandleStick_filter {
+input CandleStickDay_filter {
   baseToken: String
   baseToken_contains: String
   baseToken_ends_with: String
@@ -521,10 +689,6 @@ input CandleStick_filter {
   id_lte: ID
   id_not: ID
   id_not_in: [ID!]
-  interval: CandleSticksInterval
-  interval_in: [CandleSticksInterval!]
-  interval_not: CandleSticksInterval
-  interval_not_in: [CandleSticksInterval!]
   low: BigDecimal
   low_gt: BigDecimal
   low_gte: BigDecimal
@@ -581,12 +745,495 @@ input CandleStick_filter {
   txCount_not_in: [Int!]
 }
 
-enum CandleStick_orderBy {
+enum CandleStickDay_orderBy {
   baseToken
   close
   high
   id
-  interval
+  low
+  open
+  periodStartUnix
+  quoteToken
+  totalVolume
+  txCount
+}
+
+type CandleStickFifteenMinute implements ICandleStick {
+  baseToken: Token
+  close: BigDecimal!
+  high: BigDecimal!
+  id: ID!
+  low: BigDecimal!
+  open: BigDecimal
+  periodStartUnix: Int!
+  quoteToken: Token
+  totalVolume: BigDecimal!
+  txCount: Int!
+}
+
+input CandleStickFifteenMinute_filter {
+  baseToken: String
+  baseToken_contains: String
+  baseToken_ends_with: String
+  baseToken_gt: String
+  baseToken_gte: String
+  baseToken_in: [String!]
+  baseToken_lt: String
+  baseToken_lte: String
+  baseToken_not: String
+  baseToken_not_contains: String
+  baseToken_not_ends_with: String
+  baseToken_not_in: [String!]
+  baseToken_not_starts_with: String
+  baseToken_starts_with: String
+  close: BigDecimal
+  close_gt: BigDecimal
+  close_gte: BigDecimal
+  close_in: [BigDecimal!]
+  close_lt: BigDecimal
+  close_lte: BigDecimal
+  close_not: BigDecimal
+  close_not_in: [BigDecimal!]
+  high: BigDecimal
+  high_gt: BigDecimal
+  high_gte: BigDecimal
+  high_in: [BigDecimal!]
+  high_lt: BigDecimal
+  high_lte: BigDecimal
+  high_not: BigDecimal
+  high_not_in: [BigDecimal!]
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  low: BigDecimal
+  low_gt: BigDecimal
+  low_gte: BigDecimal
+  low_in: [BigDecimal!]
+  low_lt: BigDecimal
+  low_lte: BigDecimal
+  low_not: BigDecimal
+  low_not_in: [BigDecimal!]
+  open: BigDecimal
+  open_gt: BigDecimal
+  open_gte: BigDecimal
+  open_in: [BigDecimal!]
+  open_lt: BigDecimal
+  open_lte: BigDecimal
+  open_not: BigDecimal
+  open_not_in: [BigDecimal!]
+  periodStartUnix: Int
+  periodStartUnix_gt: Int
+  periodStartUnix_gte: Int
+  periodStartUnix_in: [Int!]
+  periodStartUnix_lt: Int
+  periodStartUnix_lte: Int
+  periodStartUnix_not: Int
+  periodStartUnix_not_in: [Int!]
+  quoteToken: String
+  quoteToken_contains: String
+  quoteToken_ends_with: String
+  quoteToken_gt: String
+  quoteToken_gte: String
+  quoteToken_in: [String!]
+  quoteToken_lt: String
+  quoteToken_lte: String
+  quoteToken_not: String
+  quoteToken_not_contains: String
+  quoteToken_not_ends_with: String
+  quoteToken_not_in: [String!]
+  quoteToken_not_starts_with: String
+  quoteToken_starts_with: String
+  totalVolume: BigDecimal
+  totalVolume_gt: BigDecimal
+  totalVolume_gte: BigDecimal
+  totalVolume_in: [BigDecimal!]
+  totalVolume_lt: BigDecimal
+  totalVolume_lte: BigDecimal
+  totalVolume_not: BigDecimal
+  totalVolume_not_in: [BigDecimal!]
+  txCount: Int
+  txCount_gt: Int
+  txCount_gte: Int
+  txCount_in: [Int!]
+  txCount_lt: Int
+  txCount_lte: Int
+  txCount_not: Int
+  txCount_not_in: [Int!]
+}
+
+enum CandleStickFifteenMinute_orderBy {
+  baseToken
+  close
+  high
+  id
+  low
+  open
+  periodStartUnix
+  quoteToken
+  totalVolume
+  txCount
+}
+
+type CandleStickFourHour implements ICandleStick {
+  baseToken: Token
+  close: BigDecimal!
+  high: BigDecimal!
+  id: ID!
+  low: BigDecimal!
+  open: BigDecimal
+  periodStartUnix: Int!
+  quoteToken: Token
+  totalVolume: BigDecimal!
+  txCount: Int!
+}
+
+input CandleStickFourHour_filter {
+  baseToken: String
+  baseToken_contains: String
+  baseToken_ends_with: String
+  baseToken_gt: String
+  baseToken_gte: String
+  baseToken_in: [String!]
+  baseToken_lt: String
+  baseToken_lte: String
+  baseToken_not: String
+  baseToken_not_contains: String
+  baseToken_not_ends_with: String
+  baseToken_not_in: [String!]
+  baseToken_not_starts_with: String
+  baseToken_starts_with: String
+  close: BigDecimal
+  close_gt: BigDecimal
+  close_gte: BigDecimal
+  close_in: [BigDecimal!]
+  close_lt: BigDecimal
+  close_lte: BigDecimal
+  close_not: BigDecimal
+  close_not_in: [BigDecimal!]
+  high: BigDecimal
+  high_gt: BigDecimal
+  high_gte: BigDecimal
+  high_in: [BigDecimal!]
+  high_lt: BigDecimal
+  high_lte: BigDecimal
+  high_not: BigDecimal
+  high_not_in: [BigDecimal!]
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  low: BigDecimal
+  low_gt: BigDecimal
+  low_gte: BigDecimal
+  low_in: [BigDecimal!]
+  low_lt: BigDecimal
+  low_lte: BigDecimal
+  low_not: BigDecimal
+  low_not_in: [BigDecimal!]
+  open: BigDecimal
+  open_gt: BigDecimal
+  open_gte: BigDecimal
+  open_in: [BigDecimal!]
+  open_lt: BigDecimal
+  open_lte: BigDecimal
+  open_not: BigDecimal
+  open_not_in: [BigDecimal!]
+  periodStartUnix: Int
+  periodStartUnix_gt: Int
+  periodStartUnix_gte: Int
+  periodStartUnix_in: [Int!]
+  periodStartUnix_lt: Int
+  periodStartUnix_lte: Int
+  periodStartUnix_not: Int
+  periodStartUnix_not_in: [Int!]
+  quoteToken: String
+  quoteToken_contains: String
+  quoteToken_ends_with: String
+  quoteToken_gt: String
+  quoteToken_gte: String
+  quoteToken_in: [String!]
+  quoteToken_lt: String
+  quoteToken_lte: String
+  quoteToken_not: String
+  quoteToken_not_contains: String
+  quoteToken_not_ends_with: String
+  quoteToken_not_in: [String!]
+  quoteToken_not_starts_with: String
+  quoteToken_starts_with: String
+  totalVolume: BigDecimal
+  totalVolume_gt: BigDecimal
+  totalVolume_gte: BigDecimal
+  totalVolume_in: [BigDecimal!]
+  totalVolume_lt: BigDecimal
+  totalVolume_lte: BigDecimal
+  totalVolume_not: BigDecimal
+  totalVolume_not_in: [BigDecimal!]
+  txCount: Int
+  txCount_gt: Int
+  txCount_gte: Int
+  txCount_in: [Int!]
+  txCount_lt: Int
+  txCount_lte: Int
+  txCount_not: Int
+  txCount_not_in: [Int!]
+}
+
+enum CandleStickFourHour_orderBy {
+  baseToken
+  close
+  high
+  id
+  low
+  open
+  periodStartUnix
+  quoteToken
+  totalVolume
+  txCount
+}
+
+type CandleStickHour implements ICandleStick {
+  baseToken: Token
+  close: BigDecimal!
+  high: BigDecimal!
+  id: ID!
+  low: BigDecimal!
+  open: BigDecimal
+  periodStartUnix: Int!
+  quoteToken: Token
+  totalVolume: BigDecimal!
+  txCount: Int!
+}
+
+input CandleStickHour_filter {
+  baseToken: String
+  baseToken_contains: String
+  baseToken_ends_with: String
+  baseToken_gt: String
+  baseToken_gte: String
+  baseToken_in: [String!]
+  baseToken_lt: String
+  baseToken_lte: String
+  baseToken_not: String
+  baseToken_not_contains: String
+  baseToken_not_ends_with: String
+  baseToken_not_in: [String!]
+  baseToken_not_starts_with: String
+  baseToken_starts_with: String
+  close: BigDecimal
+  close_gt: BigDecimal
+  close_gte: BigDecimal
+  close_in: [BigDecimal!]
+  close_lt: BigDecimal
+  close_lte: BigDecimal
+  close_not: BigDecimal
+  close_not_in: [BigDecimal!]
+  high: BigDecimal
+  high_gt: BigDecimal
+  high_gte: BigDecimal
+  high_in: [BigDecimal!]
+  high_lt: BigDecimal
+  high_lte: BigDecimal
+  high_not: BigDecimal
+  high_not_in: [BigDecimal!]
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  low: BigDecimal
+  low_gt: BigDecimal
+  low_gte: BigDecimal
+  low_in: [BigDecimal!]
+  low_lt: BigDecimal
+  low_lte: BigDecimal
+  low_not: BigDecimal
+  low_not_in: [BigDecimal!]
+  open: BigDecimal
+  open_gt: BigDecimal
+  open_gte: BigDecimal
+  open_in: [BigDecimal!]
+  open_lt: BigDecimal
+  open_lte: BigDecimal
+  open_not: BigDecimal
+  open_not_in: [BigDecimal!]
+  periodStartUnix: Int
+  periodStartUnix_gt: Int
+  periodStartUnix_gte: Int
+  periodStartUnix_in: [Int!]
+  periodStartUnix_lt: Int
+  periodStartUnix_lte: Int
+  periodStartUnix_not: Int
+  periodStartUnix_not_in: [Int!]
+  quoteToken: String
+  quoteToken_contains: String
+  quoteToken_ends_with: String
+  quoteToken_gt: String
+  quoteToken_gte: String
+  quoteToken_in: [String!]
+  quoteToken_lt: String
+  quoteToken_lte: String
+  quoteToken_not: String
+  quoteToken_not_contains: String
+  quoteToken_not_ends_with: String
+  quoteToken_not_in: [String!]
+  quoteToken_not_starts_with: String
+  quoteToken_starts_with: String
+  totalVolume: BigDecimal
+  totalVolume_gt: BigDecimal
+  totalVolume_gte: BigDecimal
+  totalVolume_in: [BigDecimal!]
+  totalVolume_lt: BigDecimal
+  totalVolume_lte: BigDecimal
+  totalVolume_not: BigDecimal
+  totalVolume_not_in: [BigDecimal!]
+  txCount: Int
+  txCount_gt: Int
+  txCount_gte: Int
+  txCount_in: [Int!]
+  txCount_lt: Int
+  txCount_lte: Int
+  txCount_not: Int
+  txCount_not_in: [Int!]
+}
+
+enum CandleStickHour_orderBy {
+  baseToken
+  close
+  high
+  id
+  low
+  open
+  periodStartUnix
+  quoteToken
+  totalVolume
+  txCount
+}
+
+type CandleStickMinute implements ICandleStick {
+  baseToken: Token
+  close: BigDecimal!
+  high: BigDecimal!
+  id: ID!
+  low: BigDecimal!
+  open: BigDecimal
+  periodStartUnix: Int!
+  quoteToken: Token
+  totalVolume: BigDecimal!
+  txCount: Int!
+}
+
+input CandleStickMinute_filter {
+  baseToken: String
+  baseToken_contains: String
+  baseToken_ends_with: String
+  baseToken_gt: String
+  baseToken_gte: String
+  baseToken_in: [String!]
+  baseToken_lt: String
+  baseToken_lte: String
+  baseToken_not: String
+  baseToken_not_contains: String
+  baseToken_not_ends_with: String
+  baseToken_not_in: [String!]
+  baseToken_not_starts_with: String
+  baseToken_starts_with: String
+  close: BigDecimal
+  close_gt: BigDecimal
+  close_gte: BigDecimal
+  close_in: [BigDecimal!]
+  close_lt: BigDecimal
+  close_lte: BigDecimal
+  close_not: BigDecimal
+  close_not_in: [BigDecimal!]
+  high: BigDecimal
+  high_gt: BigDecimal
+  high_gte: BigDecimal
+  high_in: [BigDecimal!]
+  high_lt: BigDecimal
+  high_lte: BigDecimal
+  high_not: BigDecimal
+  high_not_in: [BigDecimal!]
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  low: BigDecimal
+  low_gt: BigDecimal
+  low_gte: BigDecimal
+  low_in: [BigDecimal!]
+  low_lt: BigDecimal
+  low_lte: BigDecimal
+  low_not: BigDecimal
+  low_not_in: [BigDecimal!]
+  open: BigDecimal
+  open_gt: BigDecimal
+  open_gte: BigDecimal
+  open_in: [BigDecimal!]
+  open_lt: BigDecimal
+  open_lte: BigDecimal
+  open_not: BigDecimal
+  open_not_in: [BigDecimal!]
+  periodStartUnix: Int
+  periodStartUnix_gt: Int
+  periodStartUnix_gte: Int
+  periodStartUnix_in: [Int!]
+  periodStartUnix_lt: Int
+  periodStartUnix_lte: Int
+  periodStartUnix_not: Int
+  periodStartUnix_not_in: [Int!]
+  quoteToken: String
+  quoteToken_contains: String
+  quoteToken_ends_with: String
+  quoteToken_gt: String
+  quoteToken_gte: String
+  quoteToken_in: [String!]
+  quoteToken_lt: String
+  quoteToken_lte: String
+  quoteToken_not: String
+  quoteToken_not_contains: String
+  quoteToken_not_ends_with: String
+  quoteToken_not_in: [String!]
+  quoteToken_not_starts_with: String
+  quoteToken_starts_with: String
+  totalVolume: BigDecimal
+  totalVolume_gt: BigDecimal
+  totalVolume_gte: BigDecimal
+  totalVolume_in: [BigDecimal!]
+  totalVolume_lt: BigDecimal
+  totalVolume_lte: BigDecimal
+  totalVolume_not: BigDecimal
+  totalVolume_not_in: [BigDecimal!]
+  txCount: Int
+  txCount_gt: Int
+  txCount_gte: Int
+  txCount_in: [Int!]
+  txCount_lt: Int
+  txCount_lte: Int
+  txCount_not: Int
+  txCount_not_in: [Int!]
+}
+
+enum CandleStickMinute_orderBy {
+  baseToken
+  close
+  high
+  id
   low
   open
   periodStartUnix
@@ -761,6 +1408,11 @@ Granular event data for the Loan entity. Emitted when a user closes a loan initi
 type CloseWithSwap {
   closer: Bytes!
   collateralToken: Bytes!
+
+  """
+  Leverage on the smart contract does not count user-provided collateral.
+  So, what would on the dapp be a 2x leverage trade would be a 1 here
+  """
   currentLeverage: BigDecimal!
   emittedBy: Bytes!
   exitPrice: BigDecimal!
@@ -908,7 +1560,8 @@ enum CloseWithSwap_orderBy {
 }
 
 """
-Autogenerated for debugging - to be eventually deleted. Although this is pretty useful, maybe keep
+Granular Conversion events, exactly as they appear on the contracts.
+These events are the raw data that the Swap entity and candlestick entities are built from.
 """
 type Conversion {
   _amount: BigDecimal!
@@ -921,7 +1574,6 @@ type Conversion {
   blockNumber: Int!
   emittedBy: LiquidityPool!
   id: ID!
-  swapTransaction: Swap!
   timestamp: Int!
   transaction: Transaction!
 }
@@ -1023,20 +1675,6 @@ input Conversion_filter {
   id_lte: ID
   id_not: ID
   id_not_in: [ID!]
-  swapTransaction: String
-  swapTransaction_contains: String
-  swapTransaction_ends_with: String
-  swapTransaction_gt: String
-  swapTransaction_gte: String
-  swapTransaction_in: [String!]
-  swapTransaction_lt: String
-  swapTransaction_lte: String
-  swapTransaction_not: String
-  swapTransaction_not_contains: String
-  swapTransaction_not_ends_with: String
-  swapTransaction_not_in: [String!]
-  swapTransaction_not_starts_with: String
-  swapTransaction_starts_with: String
   timestamp: Int
   timestamp_gt: Int
   timestamp_gte: Int
@@ -1072,7 +1710,6 @@ enum Conversion_orderBy {
   blockNumber
   emittedBy
   id
-  swapTransaction
   timestamp
   transaction
 }
@@ -1081,9 +1718,9 @@ enum Conversion_orderBy {
 The ConverterRegistry registers each new AMM pool added to the Sovryn Protocol
 """
 type ConverterRegistry {
-  addedToContractRegistryAtBlockNumber: Int
-  addedToContractRegistryAtBlockTimestamp: Int
-  addedToContractRegistryAtTransactionHash: String
+  """
+  All ERC20 tokens in this registry
+  """
   connectorTokens(
     first: Int = 100
     orderBy: Token_orderBy
@@ -1107,11 +1744,15 @@ type ConverterRegistry {
   ID is the address of the converter registry contract
   """
   id: ID!
-  lastUsedAtBlockNumber: Int
-  lastUsedAtBlockTimestamp: Int
-  lastUsedAtTransactionHash: String
+
+  """
+  The number of active converters (AMM pools) in this registry
+  """
   numConverters: Int!
-  owner: Bytes!
+
+  """
+  All smart tokens in this registry
+  """
   smartTokens(
     first: Int = 100
     orderBy: SmartToken_orderBy
@@ -1122,36 +1763,6 @@ type ConverterRegistry {
 }
 
 input ConverterRegistry_filter {
-  addedToContractRegistryAtBlockNumber: Int
-  addedToContractRegistryAtBlockNumber_gt: Int
-  addedToContractRegistryAtBlockNumber_gte: Int
-  addedToContractRegistryAtBlockNumber_in: [Int!]
-  addedToContractRegistryAtBlockNumber_lt: Int
-  addedToContractRegistryAtBlockNumber_lte: Int
-  addedToContractRegistryAtBlockNumber_not: Int
-  addedToContractRegistryAtBlockNumber_not_in: [Int!]
-  addedToContractRegistryAtBlockTimestamp: Int
-  addedToContractRegistryAtBlockTimestamp_gt: Int
-  addedToContractRegistryAtBlockTimestamp_gte: Int
-  addedToContractRegistryAtBlockTimestamp_in: [Int!]
-  addedToContractRegistryAtBlockTimestamp_lt: Int
-  addedToContractRegistryAtBlockTimestamp_lte: Int
-  addedToContractRegistryAtBlockTimestamp_not: Int
-  addedToContractRegistryAtBlockTimestamp_not_in: [Int!]
-  addedToContractRegistryAtTransactionHash: String
-  addedToContractRegistryAtTransactionHash_contains: String
-  addedToContractRegistryAtTransactionHash_ends_with: String
-  addedToContractRegistryAtTransactionHash_gt: String
-  addedToContractRegistryAtTransactionHash_gte: String
-  addedToContractRegistryAtTransactionHash_in: [String!]
-  addedToContractRegistryAtTransactionHash_lt: String
-  addedToContractRegistryAtTransactionHash_lte: String
-  addedToContractRegistryAtTransactionHash_not: String
-  addedToContractRegistryAtTransactionHash_not_contains: String
-  addedToContractRegistryAtTransactionHash_not_ends_with: String
-  addedToContractRegistryAtTransactionHash_not_in: [String!]
-  addedToContractRegistryAtTransactionHash_not_starts_with: String
-  addedToContractRegistryAtTransactionHash_starts_with: String
   id: ID
   id_gt: ID
   id_gte: ID
@@ -1160,36 +1771,6 @@ input ConverterRegistry_filter {
   id_lte: ID
   id_not: ID
   id_not_in: [ID!]
-  lastUsedAtBlockNumber: Int
-  lastUsedAtBlockNumber_gt: Int
-  lastUsedAtBlockNumber_gte: Int
-  lastUsedAtBlockNumber_in: [Int!]
-  lastUsedAtBlockNumber_lt: Int
-  lastUsedAtBlockNumber_lte: Int
-  lastUsedAtBlockNumber_not: Int
-  lastUsedAtBlockNumber_not_in: [Int!]
-  lastUsedAtBlockTimestamp: Int
-  lastUsedAtBlockTimestamp_gt: Int
-  lastUsedAtBlockTimestamp_gte: Int
-  lastUsedAtBlockTimestamp_in: [Int!]
-  lastUsedAtBlockTimestamp_lt: Int
-  lastUsedAtBlockTimestamp_lte: Int
-  lastUsedAtBlockTimestamp_not: Int
-  lastUsedAtBlockTimestamp_not_in: [Int!]
-  lastUsedAtTransactionHash: String
-  lastUsedAtTransactionHash_contains: String
-  lastUsedAtTransactionHash_ends_with: String
-  lastUsedAtTransactionHash_gt: String
-  lastUsedAtTransactionHash_gte: String
-  lastUsedAtTransactionHash_in: [String!]
-  lastUsedAtTransactionHash_lt: String
-  lastUsedAtTransactionHash_lte: String
-  lastUsedAtTransactionHash_not: String
-  lastUsedAtTransactionHash_not_contains: String
-  lastUsedAtTransactionHash_not_ends_with: String
-  lastUsedAtTransactionHash_not_in: [String!]
-  lastUsedAtTransactionHash_not_starts_with: String
-  lastUsedAtTransactionHash_starts_with: String
   numConverters: Int
   numConverters_gt: Int
   numConverters_gte: Int
@@ -1198,27 +1779,323 @@ input ConverterRegistry_filter {
   numConverters_lte: Int
   numConverters_not: Int
   numConverters_not_in: [Int!]
-  owner: Bytes
-  owner_contains: Bytes
-  owner_in: [Bytes!]
-  owner_not: Bytes
-  owner_not_contains: Bytes
-  owner_not_in: [Bytes!]
 }
 
 enum ConverterRegistry_orderBy {
-  addedToContractRegistryAtBlockNumber
-  addedToContractRegistryAtBlockTimestamp
-  addedToContractRegistryAtTransactionHash
   connectorTokens
   converters
   id
-  lastUsedAtBlockNumber
-  lastUsedAtBlockTimestamp
-  lastUsedAtTransactionHash
   numConverters
-  owner
   smartTokens
+}
+
+enum CrossDirection {
+  Incoming
+  Outgoing
+}
+
+enum CrossStatus {
+  Executed
+  Revoked
+  Voting
+}
+
+type CrossTransfer {
+  """
+  Amount - the amount of originalToken transferred across the bridge
+  """
+  amount: BigDecimal!
+
+  """
+  CreatedAtTimestamp - the timestamp at which this transfer was created
+  """
+  createdAtTimestamp: Int!
+
+  """
+  CreatedAtTx - the transaction at which this transfer was created
+  """
+  createdAtTx: Transaction!
+
+  """
+  DestinationChain - the destination chain - for outgoing it is BSC/ETH and for incoming it is RSK
+  """
+  destinationChain: BridgeChain!
+
+  """
+  Direction - the direction of the cross transfer (Incoming or Outgoing)
+  """
+  direction: CrossDirection!
+
+  """
+  Address of the user on the external chain (eg Ethereum, BSC etc.)
+  """
+  externalUser: Bytes
+
+  """
+  Id - the cross transfer Id - for outgoing it is generated from the cross event params for incoming it is coming from the federation events
+  """
+  id: ID!
+
+  """
+  originalTokenAddress - the original token address for the transfer (for outgoing it is just the RSK token address)
+  """
+  originalTokenAddress: Bytes!
+
+  """
+  sideToken - the SideToken entity if exist of original token address
+  """
+  sideToken: SideToken
+
+  """
+  sourceChain - the source chain - for outgoing it is RSK and for incoming it is BSC/ETH
+  """
+  sourceChain: BridgeChain!
+
+  """
+  SourceChainBlockHash - the source chain block hash of the transfer, for outgoing transfers this is just the RSK block hash
+  """
+  sourceChainBlockHash: Bytes
+
+  """
+  SourceChainTransactionHash - the source chain transaction hash of the transfer, for outgoing transfers this is just the RSK transaction hash
+  """
+  sourceChainTransactionHash: Bytes
+
+  """
+  Status - transfer status - Voting, Executed, Revoked
+  """
+  status: CrossStatus!
+
+  """
+  Symbol - the token symbol
+  """
+  symbol: String
+
+  """
+  Token - the token entity if exist of original token address
+  """
+  token: Token
+
+  """
+  TokenAddress - the token address for the transfer (only relevant for incoming transfers)
+  """
+  tokenAddress: Bytes
+
+  """
+  updatedAtTimestamp - the timestamp at which this transfer was last updated
+  """
+  updatedAtTimestamp: Int!
+
+  """
+  updatedAtTx - the transaction at which this transfer was last updated
+  """
+  updatedAtTx: Transaction!
+
+  """
+  Address of the user on RSK chain
+  """
+  user: User!
+
+  """
+  Votes - Number of votes cast for this transfer
+  """
+  votes: Int
+}
+
+input CrossTransfer_filter {
+  amount: BigDecimal
+  amount_gt: BigDecimal
+  amount_gte: BigDecimal
+  amount_in: [BigDecimal!]
+  amount_lt: BigDecimal
+  amount_lte: BigDecimal
+  amount_not: BigDecimal
+  amount_not_in: [BigDecimal!]
+  createdAtTimestamp: Int
+  createdAtTimestamp_gt: Int
+  createdAtTimestamp_gte: Int
+  createdAtTimestamp_in: [Int!]
+  createdAtTimestamp_lt: Int
+  createdAtTimestamp_lte: Int
+  createdAtTimestamp_not: Int
+  createdAtTimestamp_not_in: [Int!]
+  createdAtTx: String
+  createdAtTx_contains: String
+  createdAtTx_ends_with: String
+  createdAtTx_gt: String
+  createdAtTx_gte: String
+  createdAtTx_in: [String!]
+  createdAtTx_lt: String
+  createdAtTx_lte: String
+  createdAtTx_not: String
+  createdAtTx_not_contains: String
+  createdAtTx_not_ends_with: String
+  createdAtTx_not_in: [String!]
+  createdAtTx_not_starts_with: String
+  createdAtTx_starts_with: String
+  destinationChain: BridgeChain
+  destinationChain_in: [BridgeChain!]
+  destinationChain_not: BridgeChain
+  destinationChain_not_in: [BridgeChain!]
+  direction: CrossDirection
+  direction_in: [CrossDirection!]
+  direction_not: CrossDirection
+  direction_not_in: [CrossDirection!]
+  externalUser: Bytes
+  externalUser_contains: Bytes
+  externalUser_in: [Bytes!]
+  externalUser_not: Bytes
+  externalUser_not_contains: Bytes
+  externalUser_not_in: [Bytes!]
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  originalTokenAddress: Bytes
+  originalTokenAddress_contains: Bytes
+  originalTokenAddress_in: [Bytes!]
+  originalTokenAddress_not: Bytes
+  originalTokenAddress_not_contains: Bytes
+  originalTokenAddress_not_in: [Bytes!]
+  sideToken: String
+  sideToken_contains: String
+  sideToken_ends_with: String
+  sideToken_gt: String
+  sideToken_gte: String
+  sideToken_in: [String!]
+  sideToken_lt: String
+  sideToken_lte: String
+  sideToken_not: String
+  sideToken_not_contains: String
+  sideToken_not_ends_with: String
+  sideToken_not_in: [String!]
+  sideToken_not_starts_with: String
+  sideToken_starts_with: String
+  sourceChain: BridgeChain
+  sourceChainBlockHash: Bytes
+  sourceChainBlockHash_contains: Bytes
+  sourceChainBlockHash_in: [Bytes!]
+  sourceChainBlockHash_not: Bytes
+  sourceChainBlockHash_not_contains: Bytes
+  sourceChainBlockHash_not_in: [Bytes!]
+  sourceChainTransactionHash: Bytes
+  sourceChainTransactionHash_contains: Bytes
+  sourceChainTransactionHash_in: [Bytes!]
+  sourceChainTransactionHash_not: Bytes
+  sourceChainTransactionHash_not_contains: Bytes
+  sourceChainTransactionHash_not_in: [Bytes!]
+  sourceChain_in: [BridgeChain!]
+  sourceChain_not: BridgeChain
+  sourceChain_not_in: [BridgeChain!]
+  status: CrossStatus
+  status_in: [CrossStatus!]
+  status_not: CrossStatus
+  status_not_in: [CrossStatus!]
+  symbol: String
+  symbol_contains: String
+  symbol_ends_with: String
+  symbol_gt: String
+  symbol_gte: String
+  symbol_in: [String!]
+  symbol_lt: String
+  symbol_lte: String
+  symbol_not: String
+  symbol_not_contains: String
+  symbol_not_ends_with: String
+  symbol_not_in: [String!]
+  symbol_not_starts_with: String
+  symbol_starts_with: String
+  token: String
+  tokenAddress: Bytes
+  tokenAddress_contains: Bytes
+  tokenAddress_in: [Bytes!]
+  tokenAddress_not: Bytes
+  tokenAddress_not_contains: Bytes
+  tokenAddress_not_in: [Bytes!]
+  token_contains: String
+  token_ends_with: String
+  token_gt: String
+  token_gte: String
+  token_in: [String!]
+  token_lt: String
+  token_lte: String
+  token_not: String
+  token_not_contains: String
+  token_not_ends_with: String
+  token_not_in: [String!]
+  token_not_starts_with: String
+  token_starts_with: String
+  updatedAtTimestamp: Int
+  updatedAtTimestamp_gt: Int
+  updatedAtTimestamp_gte: Int
+  updatedAtTimestamp_in: [Int!]
+  updatedAtTimestamp_lt: Int
+  updatedAtTimestamp_lte: Int
+  updatedAtTimestamp_not: Int
+  updatedAtTimestamp_not_in: [Int!]
+  updatedAtTx: String
+  updatedAtTx_contains: String
+  updatedAtTx_ends_with: String
+  updatedAtTx_gt: String
+  updatedAtTx_gte: String
+  updatedAtTx_in: [String!]
+  updatedAtTx_lt: String
+  updatedAtTx_lte: String
+  updatedAtTx_not: String
+  updatedAtTx_not_contains: String
+  updatedAtTx_not_ends_with: String
+  updatedAtTx_not_in: [String!]
+  updatedAtTx_not_starts_with: String
+  updatedAtTx_starts_with: String
+  user: String
+  user_contains: String
+  user_ends_with: String
+  user_gt: String
+  user_gte: String
+  user_in: [String!]
+  user_lt: String
+  user_lte: String
+  user_not: String
+  user_not_contains: String
+  user_not_ends_with: String
+  user_not_in: [String!]
+  user_not_starts_with: String
+  user_starts_with: String
+  votes: Int
+  votes_gt: Int
+  votes_gte: Int
+  votes_in: [Int!]
+  votes_lt: Int
+  votes_lte: Int
+  votes_not: Int
+  votes_not_in: [Int!]
+}
+
+enum CrossTransfer_orderBy {
+  amount
+  createdAtTimestamp
+  createdAtTx
+  destinationChain
+  direction
+  externalUser
+  id
+  originalTokenAddress
+  sideToken
+  sourceChain
+  sourceChainBlockHash
+  sourceChainTransactionHash
+  status
+  symbol
+  token
+  tokenAddress
+  updatedAtTimestamp
+  updatedAtTx
+  user
+  votes
 }
 
 type Deposit {
@@ -1238,6 +2115,10 @@ type DepositCollateral {
   emittedBy: Bytes!
   id: ID!
   loanId: Loan!
+
+  """
+  Rate is sometimes null because this property was not included in older versions of the contract
+  """
   rate: BigDecimal
   timestamp: Int!
   transaction: Transaction!
@@ -1501,6 +2382,139 @@ enum FastBTCBridgeStat_orderBy {
   user
 }
 
+"""
+Federation - the federation entity
+"""
+type Federation {
+  """
+  Bridge - the bridge that is associated with this federation contract
+  """
+  bridge: Bridge!
+
+  """
+  CreatedAtTx - the creation transaction of this federation
+  """
+  createdAtTx: Transaction!
+
+  """
+  Id - the id of the federation entity is the federation contract address
+  """
+  id: ID!
+
+  """
+  IsActive - is this federation contract active
+  """
+  isActive: Boolean!
+
+  """
+  Members - federators that are members of this federation
+  """
+  members: [Bytes!]!
+
+  """
+  TotalExecuted - total transfers executed by this federation
+  """
+  totalExecuted: Int!
+
+  """
+  TotalVotes - total votes cast on this federation
+  """
+  totalVotes: Int!
+
+  """
+  UpdatedAtTx - the transaction at which this entity was last updated
+  """
+  updatedAtTx: Transaction!
+}
+
+input Federation_filter {
+  bridge: String
+  bridge_contains: String
+  bridge_ends_with: String
+  bridge_gt: String
+  bridge_gte: String
+  bridge_in: [String!]
+  bridge_lt: String
+  bridge_lte: String
+  bridge_not: String
+  bridge_not_contains: String
+  bridge_not_ends_with: String
+  bridge_not_in: [String!]
+  bridge_not_starts_with: String
+  bridge_starts_with: String
+  createdAtTx: String
+  createdAtTx_contains: String
+  createdAtTx_ends_with: String
+  createdAtTx_gt: String
+  createdAtTx_gte: String
+  createdAtTx_in: [String!]
+  createdAtTx_lt: String
+  createdAtTx_lte: String
+  createdAtTx_not: String
+  createdAtTx_not_contains: String
+  createdAtTx_not_ends_with: String
+  createdAtTx_not_in: [String!]
+  createdAtTx_not_starts_with: String
+  createdAtTx_starts_with: String
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  isActive: Boolean
+  isActive_in: [Boolean!]
+  isActive_not: Boolean
+  isActive_not_in: [Boolean!]
+  members: [Bytes!]
+  members_contains: [Bytes!]
+  members_not: [Bytes!]
+  members_not_contains: [Bytes!]
+  totalExecuted: Int
+  totalExecuted_gt: Int
+  totalExecuted_gte: Int
+  totalExecuted_in: [Int!]
+  totalExecuted_lt: Int
+  totalExecuted_lte: Int
+  totalExecuted_not: Int
+  totalExecuted_not_in: [Int!]
+  totalVotes: Int
+  totalVotes_gt: Int
+  totalVotes_gte: Int
+  totalVotes_in: [Int!]
+  totalVotes_lt: Int
+  totalVotes_lte: Int
+  totalVotes_not: Int
+  totalVotes_not_in: [Int!]
+  updatedAtTx: String
+  updatedAtTx_contains: String
+  updatedAtTx_ends_with: String
+  updatedAtTx_gt: String
+  updatedAtTx_gte: String
+  updatedAtTx_in: [String!]
+  updatedAtTx_lt: String
+  updatedAtTx_lte: String
+  updatedAtTx_not: String
+  updatedAtTx_not_contains: String
+  updatedAtTx_not_ends_with: String
+  updatedAtTx_not_in: [String!]
+  updatedAtTx_not_starts_with: String
+  updatedAtTx_starts_with: String
+}
+
+enum Federation_orderBy {
+  bridge
+  createdAtTx
+  id
+  isActive
+  members
+  totalExecuted
+  totalVotes
+  updatedAtTx
+}
+
 type FeeSharingTokensTransferred {
   amount: BigDecimal!
   id: ID!
@@ -1546,7 +2560,158 @@ enum FeeSharingTokensTransferred_orderBy {
   token
 }
 
+"""
+Candlesticks are for presentational purposes on the dapp. This entity supports the candlestick trading data on the trading view charts.
+Trading data is available for the following pairs:
+1. All tokens to RBTC
+2. All tokens to current usdStablecoin (see ProtocolStats entity for more information)
+There is not candlestick data for other trading pairs as this would cause the amount of data stored to increase exponentially
+"""
+interface ICandleStick {
+  """
+  Eg in the pair SOV-XUSD, the base token is SOV and the quote token is XUSD
+  Prices shown are the price of the base token in the quote token (eg price of SOV in XUSD)
+  """
+  baseToken: Token
+  close: BigDecimal!
+  high: BigDecimal!
+
+  """
+  The ID is fromToken + toToken + timestamp
+  toToken will be either RBTC or XUSD
+  """
+  id: ID!
+  low: BigDecimal!
+  open: BigDecimal
+
+  """
+  Unix timestamp for the candlestick start time
+  """
+  periodStartUnix: Int!
+  quoteToken: Token
+
+  """
+  The volume of the base token that has been bought and sold in this time period
+  """
+  totalVolume: BigDecimal!
+  txCount: Int!
+}
+
+input ICandleStick_filter {
+  baseToken: String
+  baseToken_contains: String
+  baseToken_ends_with: String
+  baseToken_gt: String
+  baseToken_gte: String
+  baseToken_in: [String!]
+  baseToken_lt: String
+  baseToken_lte: String
+  baseToken_not: String
+  baseToken_not_contains: String
+  baseToken_not_ends_with: String
+  baseToken_not_in: [String!]
+  baseToken_not_starts_with: String
+  baseToken_starts_with: String
+  close: BigDecimal
+  close_gt: BigDecimal
+  close_gte: BigDecimal
+  close_in: [BigDecimal!]
+  close_lt: BigDecimal
+  close_lte: BigDecimal
+  close_not: BigDecimal
+  close_not_in: [BigDecimal!]
+  high: BigDecimal
+  high_gt: BigDecimal
+  high_gte: BigDecimal
+  high_in: [BigDecimal!]
+  high_lt: BigDecimal
+  high_lte: BigDecimal
+  high_not: BigDecimal
+  high_not_in: [BigDecimal!]
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  low: BigDecimal
+  low_gt: BigDecimal
+  low_gte: BigDecimal
+  low_in: [BigDecimal!]
+  low_lt: BigDecimal
+  low_lte: BigDecimal
+  low_not: BigDecimal
+  low_not_in: [BigDecimal!]
+  open: BigDecimal
+  open_gt: BigDecimal
+  open_gte: BigDecimal
+  open_in: [BigDecimal!]
+  open_lt: BigDecimal
+  open_lte: BigDecimal
+  open_not: BigDecimal
+  open_not_in: [BigDecimal!]
+  periodStartUnix: Int
+  periodStartUnix_gt: Int
+  periodStartUnix_gte: Int
+  periodStartUnix_in: [Int!]
+  periodStartUnix_lt: Int
+  periodStartUnix_lte: Int
+  periodStartUnix_not: Int
+  periodStartUnix_not_in: [Int!]
+  quoteToken: String
+  quoteToken_contains: String
+  quoteToken_ends_with: String
+  quoteToken_gt: String
+  quoteToken_gte: String
+  quoteToken_in: [String!]
+  quoteToken_lt: String
+  quoteToken_lte: String
+  quoteToken_not: String
+  quoteToken_not_contains: String
+  quoteToken_not_ends_with: String
+  quoteToken_not_in: [String!]
+  quoteToken_not_starts_with: String
+  quoteToken_starts_with: String
+  totalVolume: BigDecimal
+  totalVolume_gt: BigDecimal
+  totalVolume_gte: BigDecimal
+  totalVolume_in: [BigDecimal!]
+  totalVolume_lt: BigDecimal
+  totalVolume_lte: BigDecimal
+  totalVolume_not: BigDecimal
+  totalVolume_not_in: [BigDecimal!]
+  txCount: Int
+  txCount_gt: Int
+  txCount_gte: Int
+  txCount_in: [Int!]
+  txCount_lt: Int
+  txCount_lte: Int
+  txCount_not: Int
+  txCount_not_in: [Int!]
+}
+
+enum ICandleStick_orderBy {
+  baseToken
+  close
+  high
+  id
+  low
+  open
+  periodStartUnix
+  quoteToken
+  totalVolume
+  txCount
+}
+
+"""
+LendingHistoryItem is one user's history of Lend/UnLend events across all the lending pools
+"""
 type LendingHistoryItem {
+  """
+  The amount of ERC20 token that was lent/unlent
+  """
   amount: BigDecimal!
 
   """
@@ -1556,11 +2721,27 @@ type LendingHistoryItem {
   emittedBy: String!
   id: ID!
   lender: User!
+
+  """
+  The lending pool the user interacted with
+  """
   lendingPool: LendingPool!
+
+  """
+  The amount of pool token that was minted or burned
+  """
   loanTokenAmount: BigDecimal!
   timestamp: Int!
   transaction: Transaction!
+
+  """
+  Type is Lend/UnLend
+  """
   type: LendingHistoryType!
+
+  """
+  Foreign key to the UserLendingHistory entity (see the docs on this entity for more information)
+  """
   userLendingHistory: UserLendingHistory!
 }
 
@@ -1702,7 +2883,14 @@ enum LendingHistoryItem_orderBy {
 }
 
 enum LendingHistoryType {
+  """
+  Lend is equivalent to a Mint event
+  """
   Lend
+
+  """
+  UnLend is equivalent to a Burn event
+  """
   UnLend
 }
 
@@ -1710,12 +2898,22 @@ enum LendingHistoryType {
 A Lending Pool (iToken), where Users can lend assets to earn interest, and Users can borrow assets to Margin Trade or just as a regular loan.
 """
 type LendingPool {
+  """
+  Balance of the underlying asset (ERC20 token) represented by the total supply of pool tokens
+  It is incremented on Mint events and decremented on Burn events.
+  WORK-IN-PROGRESS: This is a work-in-progress as it does not properly account for interest payments currently
+  """
   assetBalance: BigDecimal!
 
   """
   ID is the contract address of the iToken
   """
   id: ID!
+
+  """
+  The total supply of this pool token (not the underlying asset).
+  It is incremented on Mint events and decremented on Burn events
+  """
   poolTokenBalance: BigDecimal!
 
   """
@@ -1947,22 +3145,57 @@ enum Liquidate_orderBy {
 }
 
 type LiquidityHistoryItem {
+  """
+  The amount that was added/removed
+  """
   amount: BigDecimal!
+
+  """
+  The contract that emitted this event (primarily used for debugging)
+  """
   emittedBy: String!
 
   """
   ID is transaction hash + log index
   """
   id: ID!
+
+  """
+  AMM pool that liquidity was provided to
+  """
   liquidityPool: LiquidityPool!
+
+  """
+  New balance of the reserveToken (ERC20 token) on the AMM pool
+  """
   newBalance: BigDecimal!
+
+  """
+  New total supply of pool tokens
+  """
   newSupply: BigDecimal!
+
+  """
+  Provider is either the user, or a contract if the user interacted with a proxy contract
+  """
   provider: String!
+
+  """
+  The underlying asset (ERC20 token) that was added/removed
+  """
   reserveToken: Token!
   timestamp: Int!
   transaction: Transaction!
+
+  """
+  Type is either Added or Removed (if a user added or removed liquidity from the pool)
+  """
   type: LiquidityHistoryType!
   user: User!
+
+  """
+  Foreign key to join this transaction to the parent UserLiquidityHistory entity
+  """
   userLiquidityHistory: UserLiquidityHistory!
 }
 
@@ -2134,15 +3367,34 @@ enum LiquidityHistoryType {
 
 type LiquidityMiningAllocationPoint {
   allocationPoint: BigInt!
-  ammPoolToken: SmartToken
-  id: ID!
-  lendingPoolToken: LendingPool
-  poolTokenAddedBlock: Int!
-  poolTokenAddedTimestamp: Int!
-  poolTokenUpdatedBlock: Int!
-  poolTokenUpdatedTImestamp: Int!
 
   """
+  If this pool token is for an AMM liquidity pool, this is a foreign key to the SmartToken.
+  If not, this property is null
+  """
+  ammPoolToken: SmartToken
+  id: ID!
+
+  """
+  If this pool token is for a lending pool, this is a foreign key to the LendingPool.
+  If not, this property is null
+  """
+  lendingPoolToken: LendingPool
+  poolTokenAddedBlock: Int!
+
+  """
+  Unix timestamp for when this pool token was added to the liquidity mining program
+  """
+  poolTokenAddedTimestamp: Int!
+  poolTokenUpdatedBlock: Int!
+
+  """
+  Unix timestamp for when the allocation point for this pool token last changed
+  """
+  poolTokenUpdatedTimestamp: Int!
+
+  """
+  The amount of SOV earned per block by all LPs in one pool
   Calculated as (totalRewardPerBlock * allocationPoint) / totalAllocationPoint
   """
   rewardPerBlock: BigDecimal!
@@ -2217,14 +3469,14 @@ input LiquidityMiningAllocationPoint_filter {
   poolTokenUpdatedBlock_lte: Int
   poolTokenUpdatedBlock_not: Int
   poolTokenUpdatedBlock_not_in: [Int!]
-  poolTokenUpdatedTImestamp: Int
-  poolTokenUpdatedTImestamp_gt: Int
-  poolTokenUpdatedTImestamp_gte: Int
-  poolTokenUpdatedTImestamp_in: [Int!]
-  poolTokenUpdatedTImestamp_lt: Int
-  poolTokenUpdatedTImestamp_lte: Int
-  poolTokenUpdatedTImestamp_not: Int
-  poolTokenUpdatedTImestamp_not_in: [Int!]
+  poolTokenUpdatedTimestamp: Int
+  poolTokenUpdatedTimestamp_gt: Int
+  poolTokenUpdatedTimestamp_gte: Int
+  poolTokenUpdatedTimestamp_in: [Int!]
+  poolTokenUpdatedTimestamp_lt: Int
+  poolTokenUpdatedTimestamp_lte: Int
+  poolTokenUpdatedTimestamp_not: Int
+  poolTokenUpdatedTimestamp_not_in: [Int!]
   rewardPerBlock: BigDecimal
   rewardPerBlock_gt: BigDecimal
   rewardPerBlock_gte: BigDecimal
@@ -2243,16 +3495,27 @@ enum LiquidityMiningAllocationPoint_orderBy {
   poolTokenAddedBlock
   poolTokenAddedTimestamp
   poolTokenUpdatedBlock
-  poolTokenUpdatedTImestamp
+  poolTokenUpdatedTimestamp
   rewardPerBlock
 }
 
 """
-This entity will have only one instance (id: 0), and will hold global variables required for liquidity mining rewards calculations
+This entity has only one instance (id: 0), and holds global variables required for liquidity mining rewards calculations
 """
 type LiquidityMiningGlobal {
   id: ID!
+
+  """
+  Total available allocation points. This is used to calculated the reward per block for each pool token.
+  See the LiquidityMiningAllocationPoint entity for more details.
+  """
   totalAllocationPoint: BigInt!
+
+  """
+  Total possible SOV per block in the liquidity mining program. Not all of this has to be allocation (eg if totalRewardPerBlock = 1000, that does not mean 1000 SOV are being given to LPs per block)
+  This is used to calculated the reward per block for each pool token.
+  See the LiquidityMiningAllocationPoint entity for more details.
+  """
   totalRewardPerBlock: BigInt!
 }
 
@@ -2318,8 +3581,6 @@ type LiquidityPool {
   ID is the contract address of the Converter
   """
   id: ID!
-  lastResetBlockNumber: Int
-  lastResetTimestamp: Int
   maxConversionFee: BigInt
   owner: String
   poolTokens(
@@ -2367,8 +3628,20 @@ type LiquidityPoolToken {
   """
   poolToken: PoolToken!
   token: Token!
+
+  """
+  Total volume of this token that has been bought or sold through this liquidity pool
+  """
   totalVolume: BigDecimal!
+
+  """
+  Total volume of this token bought through this liquidity pool
+  """
   volumeBought: BigDecimal!
+
+  """
+  Total volume of this token sold through this liquidity pool
+  """
   volumeSold: BigDecimal!
 }
 
@@ -2524,22 +3797,6 @@ input LiquidityPool_filter {
   id_lte: ID
   id_not: ID
   id_not_in: [ID!]
-  lastResetBlockNumber: Int
-  lastResetBlockNumber_gt: Int
-  lastResetBlockNumber_gte: Int
-  lastResetBlockNumber_in: [Int!]
-  lastResetBlockNumber_lt: Int
-  lastResetBlockNumber_lte: Int
-  lastResetBlockNumber_not: Int
-  lastResetBlockNumber_not_in: [Int!]
-  lastResetTimestamp: Int
-  lastResetTimestamp_gt: Int
-  lastResetTimestamp_gte: Int
-  lastResetTimestamp_in: [Int!]
-  lastResetTimestamp_lt: Int
-  lastResetTimestamp_lte: Int
-  lastResetTimestamp_not: Int
-  lastResetTimestamp_not_in: [Int!]
   maxConversionFee: BigInt
   maxConversionFee_gt: BigInt
   maxConversionFee_gte: BigInt
@@ -2647,8 +3904,6 @@ enum LiquidityPool_orderBy {
   createdAtTransaction
   currentConverterRegistry
   id
-  lastResetBlockNumber
-  lastResetTimestamp
   maxConversionFee
   owner
   poolTokens
@@ -2667,13 +3922,21 @@ A Loan can be initialized by either a Margin Trade event or a Borrow event
 type Loan {
   """
   Average price per token from all loan open events
+  Updated on Trade and Borrow events
+  This is mainly used as internal storage to calculate PnL
   """
   averageBuyPrice: BigDecimal!
 
   """
   Average price per token from all loan close events
+  Updated on CloseWithSwap, CloseWithDeposit and Liquidate events
+  This is mainly used as internal storage to calculate PnL
   """
   averageSellPrice: BigDecimal!
+
+  """
+  Borrow transactions associated with this loan
+  """
   borrow(
     first: Int = 100
     orderBy: Borrow_orderBy
@@ -2686,6 +3949,10 @@ type Loan {
   The amount borrowed in loan tokens
   """
   borrowedAmount: BigDecimal!
+
+  """
+  CloseWithDeposit events associated with this loan. Emitted when a user partially or fully closes a borrow loan.
+  """
   closeWithDeposits(
     first: Int = 100
     orderBy: CloseWithDeposit_orderBy
@@ -2693,6 +3960,10 @@ type Loan {
     skip: Int = 0
     where: CloseWithDeposit_filter
   ): [CloseWithDeposit!]
+
+  """
+  CloseWithSwap events associated with this loan. Emitted when a user partially or fully closes a margin trade.
+  """
   closeWithSwaps(
     first: Int = 100
     orderBy: CloseWithSwap_orderBy
@@ -2700,7 +3971,15 @@ type Loan {
     skip: Int = 0
     where: CloseWithSwap_filter
   ): [CloseWithSwap!]
+
+  """
+  The token provided as collateral
+  """
   collateralToken: Token!
+
+  """
+  DepositCollateral events associated with this loan, where a user has topped up collateral
+  """
   depositCollateral(
     first: Int = 100
     orderBy: DepositCollateral_orderBy
@@ -2708,13 +3987,21 @@ type Loan {
     skip: Int = 0
     where: DepositCollateral_filter
   ): [DepositCollateral!]
+
+  """
+  Unix timestamp at end of loan (null if loan is still open)
+  """
   endTimestamp: Int
   id: ID!
 
   """
-  If a Liquidate, CloseWithSwap or CloseWithDeposit event occurs with 0 margin or 0 leverage, this property changes to false
+  If a Liquidate, CloseWithSwap, Rollover or CloseWithDeposit event occurs with 0 margin or 0 leverage, this property changes to false
   """
   isOpen: Boolean!
+
+  """
+  Any liquidations that have happened on this loan
+  """
   liquidates(
     first: Int = 100
     orderBy: Liquidate_orderBy
@@ -2722,7 +4009,15 @@ type Loan {
     skip: Int = 0
     where: Liquidate_filter
   ): [Liquidate!]
+
+  """
+  The token the loan was taken out in
+  """
   loanToken: Token!
+
+  """
+  The largest amount borrowed in the lifetime of this loan
+  """
   maxBorrowedAmount: BigDecimal!
 
   """
@@ -2731,7 +4026,8 @@ type Loan {
   maximumPositionSize: BigDecimal!
 
   """
-  Next date that the loan will be rolled over, interest paid, and rollover reward paid
+  Next date that the loan will be rolled over, interest and trading fee paid, and rollover reward paid
+  It is possible for the next rollover to be in the past if the loan has not yet been rolled over by the Sovryn node
   """
   nextRollover: Int
 
@@ -2741,10 +4037,21 @@ type Loan {
   positionSize: BigDecimal!
 
   """
+  Realized profit and loss. This is updated on every loan closing event - partially or fully closing a loan, or a liquidation.
+  Currently, this does not take into account fees paid
   The realized PnL is quoted in the collateral currency
   """
   realizedPnL: BigDecimal!
+
+  """
+  Percentage profit or loss relative to collateral
+  """
   realizedPnLPercent: BigDecimal!
+
+  """
+  Rollover events associated with this loan.
+  Rollovers are loan maintenance transactions where the next interest payment and fee is paid
+  """
   rollovers(
     first: Int = 100
     orderBy: Rollover_orderBy
@@ -2752,6 +4059,10 @@ type Loan {
     skip: Int = 0
     where: Rollover_filter
   ): [Rollover!]
+
+  """
+  The amount borrowed when the loan was opened
+  """
   startBorrowedAmount: BigDecimal!
 
   """
@@ -2763,6 +4074,10 @@ type Loan {
   The start rate of the loan in loan tokens (eg if it is a long USD/BTC margin trade, this is the BTC price in USD)
   """
   startRate: BigDecimal!
+
+  """
+  Unix timestamp at start of loan
+  """
   startTimestamp: Int!
 
   """
@@ -2774,6 +4089,10 @@ type Loan {
   Sum of position change volume from CloseWithSwap, CloseWithDeposit and Liquidate events in this loan, in collateral token
   """
   totalSold: BigDecimal!
+
+  """
+  Trade (margin trade) transactions associated with this loan
+  """
   trade(
     first: Int = 100
     orderBy: Trade_orderBy
@@ -2786,11 +4105,22 @@ type Loan {
   LoanType is either Trade (for Margin Trades) or Borrow (for Borrows)
   """
   type: LoanType!
+
+  """
+  The user who took out the loan
+  """
   user: User!
 }
 
 enum LoanType {
+  """
+  Borrow is a loan originating from a user simply borrowing funds
+  """
   Borrow
+
+  """
+  Trade is a loan originating from a margin trade
+  """
   Trade
 }
 
@@ -3242,77 +4572,6 @@ enum Network {
   Testnet
 }
 
-type NewConverter {
-  _converter: Bytes!
-  _owner: Bytes!
-  _type: Int!
-  id: ID!
-  timestamp: Int!
-  transaction: Transaction!
-}
-
-input NewConverter_filter {
-  _converter: Bytes
-  _converter_contains: Bytes
-  _converter_in: [Bytes!]
-  _converter_not: Bytes
-  _converter_not_contains: Bytes
-  _converter_not_in: [Bytes!]
-  _owner: Bytes
-  _owner_contains: Bytes
-  _owner_in: [Bytes!]
-  _owner_not: Bytes
-  _owner_not_contains: Bytes
-  _owner_not_in: [Bytes!]
-  _type: Int
-  _type_gt: Int
-  _type_gte: Int
-  _type_in: [Int!]
-  _type_lt: Int
-  _type_lte: Int
-  _type_not: Int
-  _type_not_in: [Int!]
-  id: ID
-  id_gt: ID
-  id_gte: ID
-  id_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_not: ID
-  id_not_in: [ID!]
-  timestamp: Int
-  timestamp_gt: Int
-  timestamp_gte: Int
-  timestamp_in: [Int!]
-  timestamp_lt: Int
-  timestamp_lte: Int
-  timestamp_not: Int
-  timestamp_not_in: [Int!]
-  transaction: String
-  transaction_contains: String
-  transaction_ends_with: String
-  transaction_gt: String
-  transaction_gte: String
-  transaction_in: [String!]
-  transaction_lt: String
-  transaction_lte: String
-  transaction_not: String
-  transaction_not_contains: String
-  transaction_not_ends_with: String
-  transaction_not_in: [String!]
-  transaction_not_starts_with: String
-  transaction_starts_with: String
-}
-
-enum NewConverter_orderBy {
-  _converter
-  _owner
-  _type
-  id
-  timestamp
-  transaction
-}
-
 type OrderCanceled {
   emittedBy: Bytes!
   hash: Bytes!
@@ -3386,14 +4645,40 @@ type OrderCreated {
   emittedBy: Bytes!
   hash: Bytes!
   id: ID!
+
+  """
+  The price at which the order should be executed.
+  This is a BigInt (usually 1e18), not a human-readable decimal. (See above for explanation)
+  """
   limitPrice: BigInt!
   network: Network!
+
+  """
+  The amountIn is a BigInt (usually 1e18), not a human-readable decimal.
+  This is because both orderbooks are on testnet, and so this subgraph cannot access the correct number of token decimals for mainnet tokens
+  """
   order_amountIn: BigInt!
+
+  """
+  The amountIn is a BigInt (usually 1e18), not a human-readable decimal. (See above for explanation)
+  """
   order_amountOutMin: BigInt!
+
+  """
+  Timestamp when the order was created
+  """
   order_created: BigInt!
+
+  """
+  Timestamp when the order must be filled by
+  """
   order_deadline: BigInt!
   order_fromToken: Bytes!
-  order_maker: User!
+
+  """
+  This is the User address. This is not a User entity because of the testnet/mainnet issue (see above comment)
+  """
+  order_maker: Bytes!
   order_recipient: Bytes!
   order_toToken: Bytes!
   timestamp: Int!
@@ -3471,20 +4756,12 @@ input OrderCreated_filter {
   order_fromToken_not: Bytes
   order_fromToken_not_contains: Bytes
   order_fromToken_not_in: [Bytes!]
-  order_maker: String
-  order_maker_contains: String
-  order_maker_ends_with: String
-  order_maker_gt: String
-  order_maker_gte: String
-  order_maker_in: [String!]
-  order_maker_lt: String
-  order_maker_lte: String
-  order_maker_not: String
-  order_maker_not_contains: String
-  order_maker_not_ends_with: String
-  order_maker_not_in: [String!]
-  order_maker_not_starts_with: String
-  order_maker_starts_with: String
+  order_maker: Bytes
+  order_maker_contains: Bytes
+  order_maker_in: [Bytes!]
+  order_maker_not: Bytes
+  order_maker_not_contains: Bytes
+  order_maker_not_in: [Bytes!]
   order_recipient: Bytes
   order_recipient_contains: Bytes
   order_recipient_in: [Bytes!]
@@ -4021,6 +5298,10 @@ type PoolToken {
   liquidityPool: LiquidityPool!
   name: String
   symbol: String
+
+  """
+  For V1 pools, there will be 2 underlying assets, however for V2 pools there will be just one
+  """
   underlyingAssets(
     first: Int = 100
     orderBy: Token_orderBy
@@ -4104,7 +5385,15 @@ enum PoolToken_orderBy {
   underlyingAssets
 }
 
+"""
+A Proposal is created each time a SIP (Sovryn Improvement Proposal) is proposed
+The Proposal is created, voted on, and then executed if it passes
+To see if a Proposal has been executed, see if the executed property is null or if it has a transaction
+"""
 type Proposal {
+  """
+  If the proposal was canceled, the transaction that canceled it (otherwise null)
+  """
   canceled: Transaction
 
   """
@@ -4116,20 +5405,72 @@ type Proposal {
   Number of unique wallets that voted for this proposal
   """
   countVotersFor: Int!
+
+  """
+  Transaction that created the proposal
+  """
   created: Transaction!
+
+  """
+  Brief description of what this SIP is for, sometimes with a link to the github repo and README for this proposal
+  """
   description: String!
+
+  """
+  The contract that emitted this event
+  """
   emittedBy: Bytes!
+
+  """
+  Block when voting ends
+  """
   endBlock: Int!
+
+  """
+  If the proposal was executed, the transaction that executed it (otherwise null)
+  """
   executed: Transaction
+
+  """
+  ID is the address of the governor contract that was used to create the proposal, + the id of the proposal
+  """
   id: ID!
   proposalId: Int!
+
+  """
+  Address of the user who created this proposal
+  """
   proposer: Bytes!
+
+  """
+  If the proposal was queued, the transaction that queued it (otherwise null)
+  """
   queued: Transaction
+
+  """
+  Function signatures in the targeted contract that would be affected by this proposal passing
+  """
   signatures: [String!]!
+
+  """
+  Block when voting starts
+  """
   startBlock: Int!
+
+  """
+  Contract or contracts that this proposal targets
+  """
   targets: [String!]!
+
+  """
+  Timestamp when this proposal was created. This is also available in the created transaction, but is included here so it is possible to order by timestamp
+  """
   timestamp: Int!
   values: [BigInt!]!
+
+  """
+  Individual vote transactions
+  """
   votes(
     first: Int = 100
     orderBy: VoteCast_orderBy
@@ -4137,7 +5478,15 @@ type Proposal {
     skip: Int = 0
     where: VoteCast_filter
   ): [VoteCast!]
+
+  """
+  Number of votes against the proposal (weighted vote, not number of voters)
+  """
   votesAgainst: BigInt!
+
+  """
+  Number of votes for the proposal (weighted vote, not number of voters)
+  """
   votesFor: BigInt!
 }
 
@@ -4338,6 +5687,9 @@ This entity will have only one instance and will be used to store protocol-wide 
 The ID of this one entity is "0"
 """
 type ProtocolStats {
+  """
+  Current price of BTC in usdStablecoin
+  """
   btcUsdPrice: BigDecimal!
 
   """
@@ -4432,20 +5784,20 @@ type ProtocolStats {
   totalTradingFeesUsd: BigDecimal!
 
   """
-  NOT YET IMPLEMENTED: This will be a total of volumes of all transaction types (AMM Swaps, Margin Trades, CloseWithSwap etc etc)
-  """
-  totalTransactedVolumeUsd: Int!
-
-  """
   Total volume withdrawn from Lending Pool over all time (in usd)
   """
   totalUnlendVolumeUsd: BigDecimal!
 
   """
   Total number of users of the protocol. This number is incremented each time a user initiates a transaction with the Protocol.
-  Currently this is incremented by specific user actions, but could be incremented on a per Transaction basis.
+  Incremented when a user interacts with any contracts tracked by this subgraph.
+  Does not include the Zero, Mynt and Perperpetual Swaps users (unless they have also used the core protocol)
   """
   totalUsers: Int!
+
+  """
+  The token currently used as a proxy for USD/BTC prices
+  """
   usdStablecoin: Token!
 }
 
@@ -4590,14 +5942,6 @@ input ProtocolStats_filter {
   totalTradingFeesUsd_lte: BigDecimal
   totalTradingFeesUsd_not: BigDecimal
   totalTradingFeesUsd_not_in: [BigDecimal!]
-  totalTransactedVolumeUsd: Int
-  totalTransactedVolumeUsd_gt: Int
-  totalTransactedVolumeUsd_gte: Int
-  totalTransactedVolumeUsd_in: [Int!]
-  totalTransactedVolumeUsd_lt: Int
-  totalTransactedVolumeUsd_lte: Int
-  totalTransactedVolumeUsd_not: Int
-  totalTransactedVolumeUsd_not_in: [Int!]
   totalUnlendVolumeUsd: BigDecimal
   totalUnlendVolumeUsd_gt: BigDecimal
   totalUnlendVolumeUsd_gte: BigDecimal
@@ -4649,7 +5993,6 @@ enum ProtocolStats_orderBy {
   totalLiquidateVolumeUsd
   totalMarginTradeVolumeUsd
   totalTradingFeesUsd
-  totalTransactedVolumeUsd
   totalUnlendVolumeUsd
   totalUsers
   usdStablecoin
@@ -4744,7 +6087,7 @@ type Query {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: Borrow_filter
   ): [Borrow!]!
-  candleStick(
+  bridge(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
     """
@@ -4755,14 +6098,14 @@ type Query {
     Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
-  ): CandleStick
-  candleSticks(
+  ): Bridge
+  bridges(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
     """
     block: Block_height
     first: Int = 100
-    orderBy: CandleStick_orderBy
+    orderBy: Bridge_orderBy
     orderDirection: OrderDirection
     skip: Int = 0
 
@@ -4770,8 +6113,148 @@ type Query {
     Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
-    where: CandleStick_filter
-  ): [CandleStick!]!
+    where: Bridge_filter
+  ): [Bridge!]!
+  candleStickDay(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): CandleStickDay
+  candleStickDays(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: CandleStickDay_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: CandleStickDay_filter
+  ): [CandleStickDay!]!
+  candleStickFifteenMinute(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): CandleStickFifteenMinute
+  candleStickFifteenMinutes(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: CandleStickFifteenMinute_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: CandleStickFifteenMinute_filter
+  ): [CandleStickFifteenMinute!]!
+  candleStickFourHour(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): CandleStickFourHour
+  candleStickFourHours(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: CandleStickFourHour_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: CandleStickFourHour_filter
+  ): [CandleStickFourHour!]!
+  candleStickHour(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): CandleStickHour
+  candleStickHours(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: CandleStickHour_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: CandleStickHour_filter
+  ): [CandleStickHour!]!
+  candleStickMinute(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): CandleStickMinute
+  candleStickMinutes(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: CandleStickMinute_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: CandleStickMinute_filter
+  ): [CandleStickMinute!]!
   closeWithDeposit(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -4884,6 +6367,34 @@ type Query {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): ConverterRegistry
+  crossTransfer(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): CrossTransfer
+  crossTransfers(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: CrossTransfer_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: CrossTransfer_filter
+  ): [CrossTransfer!]!
   deposit(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -4968,6 +6479,34 @@ type Query {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: FastBTCBridgeStat_filter
   ): [FastBTCBridgeStat!]!
+  federation(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Federation
+  federations(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: Federation_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: Federation_filter
+  ): [Federation!]!
   feeSharingTokensTransferred(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -4996,6 +6535,34 @@ type Query {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: FeeSharingTokensTransferred_filter
   ): [FeeSharingTokensTransferred!]!
+  icandleStick(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): ICandleStick
+  icandleSticks(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: ICandleStick_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: ICandleStick_filter
+  ): [ICandleStick!]!
   lendingHistoryItem(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -5304,34 +6871,6 @@ type Query {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: MarginOrderFilled_filter
   ): [MarginOrderFilled!]!
-  newConverter(
-    """
-    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
-    """
-    block: Block_height
-    id: ID!
-
-    """
-    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
-    """
-    subgraphError: _SubgraphErrorPolicy_! = deny
-  ): NewConverter
-  newConverters(
-    """
-    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
-    """
-    block: Block_height
-    first: Int = 100
-    orderBy: NewConverter_orderBy
-    orderDirection: OrderDirection
-    skip: Int = 0
-
-    """
-    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
-    """
-    subgraphError: _SubgraphErrorPolicy_! = deny
-    where: NewConverter_filter
-  ): [NewConverter!]!
   orderCanceled(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -5656,6 +7195,34 @@ type Query {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: Rollover_filter
   ): [Rollover!]!
+  sideToken(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): SideToken
+  sideTokens(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: SideToken_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: SideToken_filter
+  ): [SideToken!]!
   smartToken(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -5668,34 +7235,6 @@ type Query {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): SmartToken
-  smartTokenAdded(
-    """
-    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
-    """
-    block: Block_height
-    id: ID!
-
-    """
-    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
-    """
-    subgraphError: _SubgraphErrorPolicy_! = deny
-  ): SmartTokenAdded
-  smartTokenAddeds(
-    """
-    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
-    """
-    block: Block_height
-    first: Int = 100
-    orderBy: SmartTokenAdded_orderBy
-    orderDirection: OrderDirection
-    skip: Int = 0
-
-    """
-    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
-    """
-    subgraphError: _SubgraphErrorPolicy_! = deny
-    where: SmartTokenAdded_filter
-  ): [SmartTokenAdded!]!
   smartTokens(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -5712,6 +7251,18 @@ type Query {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: SmartToken_filter
   ): [SmartToken!]!
+  stake(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Stake
   stakeHistoryItem(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -5740,6 +7291,22 @@ type Query {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: StakeHistoryItem_filter
   ): [StakeHistoryItem!]!
+  stakes(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: Stake_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: Stake_filter
+  ): [Stake!]!
   swap(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -6191,10 +7758,31 @@ type Query {
 }
 
 enum RewardsEarnedAction {
+  """
+  SOV reward earned when a user margin trades or one of their trades is rolled over.
+  The reward is a percentage of the trading fee, paid in SOV.
+  """
   EarnReward
+
+  """
+  When a user claims a liquidity mining reward
+  """
   RewardClaimed
+
+  """
+  When SOV is staked by a Rewards vesting contract (eg after it has been claimed by the user)
+  """
   RewardSovStaked
+
+  """
+  When a SOV Staker withdraws their liquid SOV reward for staking
+  """
   StakingRewardWithdrawn
+
+  """
+  When an SOV Staker withdraws their share of the fees earned by the Protocol
+  """
+  UserFeeWithdrawn
 }
 
 type RewardsEarnedHistoryItem {
@@ -6202,7 +7790,7 @@ type RewardsEarnedHistoryItem {
   amount: BigDecimal!
   id: ID!
   timestamp: Int!
-  token: Token
+  token: String
   transaction: Transaction!
   user: UserRewardsEarnedHistory!
 }
@@ -6290,6 +7878,11 @@ enum RewardsEarnedHistoryItem_orderBy {
   user
 }
 
+"""
+Granular event data for the Loan entity. Emitted when a Loan is rolled over.
+This is when the next installment of interest is paid from the collateral, and the trading fee is paid
+This transaction is initiated by the Sovryn node, which earns a reward for doing this
+"""
 type Rollover {
   collateral: BigDecimal!
   emittedBy: Bytes!
@@ -6298,7 +7891,15 @@ type Rollover {
   lender: Bytes!
   loanId: Loan!
   principal: BigDecimal!
+
+  """
+  The reward received by the User for performing this function
+  """
   reward: BigDecimal!
+
+  """
+  The User running the Sovryn node that made this transaction
+  """
   rewardReceiver: User!
   timestamp: Int!
   transaction: Transaction!
@@ -6440,6 +8041,129 @@ enum Rollover_orderBy {
 }
 
 """
+SideToken entity - for every token that is passed across the bridge and does not exist on sovryn a side token is created
+"""
+type SideToken {
+  """
+  CreatedAtTx - the creation transaction of the side token
+  """
+  createdAtTx: Transaction!
+
+  """
+  Granularity - this is the ERC777 granularity value for the side token
+  """
+  granularity: BigInt!
+
+  """
+  Id - the side token is stored twice, once with the original token address as id and another with the side token address
+  """
+  id: ID!
+
+  """
+  newSymbol - the new symbol given to the side token
+  """
+  newSymbol: String!
+
+  """
+  OriginalTokenAddress - the original token address of the side token
+  """
+  originalTokenAddress: Bytes!
+
+  """
+  SideTokenAddress - the token address on RSK of the side token
+  """
+  sideTokenAddress: Bytes!
+
+  """
+  UpdatedAtTx - The side token was last updated at this transaction
+  """
+  updatedAtTx: Transaction!
+}
+
+input SideToken_filter {
+  createdAtTx: String
+  createdAtTx_contains: String
+  createdAtTx_ends_with: String
+  createdAtTx_gt: String
+  createdAtTx_gte: String
+  createdAtTx_in: [String!]
+  createdAtTx_lt: String
+  createdAtTx_lte: String
+  createdAtTx_not: String
+  createdAtTx_not_contains: String
+  createdAtTx_not_ends_with: String
+  createdAtTx_not_in: [String!]
+  createdAtTx_not_starts_with: String
+  createdAtTx_starts_with: String
+  granularity: BigInt
+  granularity_gt: BigInt
+  granularity_gte: BigInt
+  granularity_in: [BigInt!]
+  granularity_lt: BigInt
+  granularity_lte: BigInt
+  granularity_not: BigInt
+  granularity_not_in: [BigInt!]
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  newSymbol: String
+  newSymbol_contains: String
+  newSymbol_ends_with: String
+  newSymbol_gt: String
+  newSymbol_gte: String
+  newSymbol_in: [String!]
+  newSymbol_lt: String
+  newSymbol_lte: String
+  newSymbol_not: String
+  newSymbol_not_contains: String
+  newSymbol_not_ends_with: String
+  newSymbol_not_in: [String!]
+  newSymbol_not_starts_with: String
+  newSymbol_starts_with: String
+  originalTokenAddress: Bytes
+  originalTokenAddress_contains: Bytes
+  originalTokenAddress_in: [Bytes!]
+  originalTokenAddress_not: Bytes
+  originalTokenAddress_not_contains: Bytes
+  originalTokenAddress_not_in: [Bytes!]
+  sideTokenAddress: Bytes
+  sideTokenAddress_contains: Bytes
+  sideTokenAddress_in: [Bytes!]
+  sideTokenAddress_not: Bytes
+  sideTokenAddress_not_contains: Bytes
+  sideTokenAddress_not_in: [Bytes!]
+  updatedAtTx: String
+  updatedAtTx_contains: String
+  updatedAtTx_ends_with: String
+  updatedAtTx_gt: String
+  updatedAtTx_gte: String
+  updatedAtTx_in: [String!]
+  updatedAtTx_lt: String
+  updatedAtTx_lte: String
+  updatedAtTx_not: String
+  updatedAtTx_not_contains: String
+  updatedAtTx_not_ends_with: String
+  updatedAtTx_not_in: [String!]
+  updatedAtTx_not_starts_with: String
+  updatedAtTx_starts_with: String
+}
+
+enum SideToken_orderBy {
+  createdAtTx
+  granularity
+  id
+  newSymbol
+  originalTokenAddress
+  sideTokenAddress
+  updatedAtTx
+}
+
+"""
 The smart token represents a single reserve asset on a single pool.
 For V1 pools, there is 1 smart token representing both reserve assets. For V2 pools, there are 2 smart tokens, one for each reserve asset.
 """
@@ -6457,11 +8181,19 @@ type SmartToken {
     skip: Int = 0
     where: TokenSmartToken_filter
   ): [TokenSmartToken!]
+
+  """
+  The converter registry this smart token belongs to. Can be null if token is removed from th registry
+  """
   currentConverterRegistry: ConverterRegistry
+
+  """
+  Number of decimal places for this token
+  """
   decimals: Int
 
   """
-  ID is smart token address
+  ID is smart token contract address
   """
   id: ID!
 
@@ -6469,80 +8201,26 @@ type SmartToken {
   The AMM pool this smart token "belongs" to
   """
   liquidityPool: LiquidityPool!
+
+  """
+  Name of the smart token (set on the contract)
+  """
   name: String
+
+  """
+  The contract/account that owns the SmartToken contract. This will typically be the converter registry
+  """
   owner: String!
 
   """
   smartTokenType can be Relay or Liquid
   """
   smartTokenType: String
+
+  """
+  Symbol for the smart token asset (set on the contract)
+  """
   symbol: String
-  transfersEnabled: Boolean
-  version: Int
-}
-
-"""
-Autogenerated for debugging - to be eventually deleted
-"""
-type SmartTokenAdded {
-  _smartToken: Bytes!
-  emittedBy: Bytes!
-  id: ID!
-  timestamp: Int!
-  transaction: Transaction!
-}
-
-input SmartTokenAdded_filter {
-  _smartToken: Bytes
-  _smartToken_contains: Bytes
-  _smartToken_in: [Bytes!]
-  _smartToken_not: Bytes
-  _smartToken_not_contains: Bytes
-  _smartToken_not_in: [Bytes!]
-  emittedBy: Bytes
-  emittedBy_contains: Bytes
-  emittedBy_in: [Bytes!]
-  emittedBy_not: Bytes
-  emittedBy_not_contains: Bytes
-  emittedBy_not_in: [Bytes!]
-  id: ID
-  id_gt: ID
-  id_gte: ID
-  id_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_not: ID
-  id_not_in: [ID!]
-  timestamp: Int
-  timestamp_gt: Int
-  timestamp_gte: Int
-  timestamp_in: [Int!]
-  timestamp_lt: Int
-  timestamp_lte: Int
-  timestamp_not: Int
-  timestamp_not_in: [Int!]
-  transaction: String
-  transaction_contains: String
-  transaction_ends_with: String
-  transaction_gt: String
-  transaction_gte: String
-  transaction_in: [String!]
-  transaction_lt: String
-  transaction_lte: String
-  transaction_not: String
-  transaction_not_contains: String
-  transaction_not_ends_with: String
-  transaction_not_in: [String!]
-  transaction_not_starts_with: String
-  transaction_starts_with: String
-}
-
-enum SmartTokenAdded_orderBy {
-  _smartToken
-  emittedBy
-  id
-  timestamp
-  transaction
 }
 
 input SmartToken_filter {
@@ -6646,18 +8324,6 @@ input SmartToken_filter {
   symbol_not_in: [String!]
   symbol_not_starts_with: String
   symbol_starts_with: String
-  transfersEnabled: Boolean
-  transfersEnabled_in: [Boolean!]
-  transfersEnabled_not: Boolean
-  transfersEnabled_not_in: [Boolean!]
-  version: Int
-  version_gt: Int
-  version_gte: Int
-  version_in: [Int!]
-  version_lt: Int
-  version_lte: Int
-  version_not: Int
-  version_not_in: [Int!]
 }
 
 enum SmartToken_orderBy {
@@ -6672,26 +8338,64 @@ enum SmartToken_orderBy {
   owner
   smartTokenType
   symbol
-  transfersEnabled
-  version
+}
+
+type Stake {
+  amount: BigDecimal
+  delegatedAmount: BigDecimal!
+  id: ID!
+  lockedUntil: Int
+  user: User
+  vestingAmount: BigDecimal!
 }
 
 enum StakeHistoryAction {
+  """
+  When a user delegates voting power to another user. This can also be for voting power that the user has through a vesting contract.
+  """
   Delegate
+
+  """
+  Extending an existing stake. The amount of the stake remains the same, but the lockedUntil date increases.
+  """
   ExtendStake
+
+  """
+  When a user withdraws their share of the Protocol fees that is shared amongst stakers
+  """
   FeeWithdrawn
+
+  """
+  Increasing the amount of an existing stake. The lockedUntil date of this stake remains the same, but amount increases.
+  """
   IncreaseStake
+
+  """
+  Voluntarily staking SOV (ie not staked through a vesting contract)
+  """
   Stake
+
+  """
+  Unstake is early unstaking, when a user withdraws staked SOV before the lockedUntil date and incurs a slashing penalty.
+  """
   Unstake
+
+  """
+  WithdrawStaked is when a user withdraws SOV from the staking contract after the unlock date, when the funds are no longer staked or locked
+  """
   WithdrawStaked
 }
 
+"""
+This entity is the granular history of user actions related to voluntary staking
+"""
 type StakeHistoryItem {
   action: StakeHistoryAction!
   amount: BigDecimal
   id: ID!
   lockedUntil: Int
   timestamp: Int!
+  token: String
   transaction: Transaction!
   user: UserStakeHistory!
 }
@@ -6733,6 +8437,20 @@ input StakeHistoryItem_filter {
   timestamp_lte: Int
   timestamp_not: Int
   timestamp_not_in: [Int!]
+  token: String
+  token_contains: String
+  token_ends_with: String
+  token_gt: String
+  token_gte: String
+  token_in: [String!]
+  token_lt: String
+  token_lte: String
+  token_not: String
+  token_not_contains: String
+  token_not_ends_with: String
+  token_not_in: [String!]
+  token_not_starts_with: String
+  token_starts_with: String
   transaction: String
   transaction_contains: String
   transaction_ends_with: String
@@ -6769,8 +8487,75 @@ enum StakeHistoryItem_orderBy {
   id
   lockedUntil
   timestamp
+  token
   transaction
   user
+}
+
+input Stake_filter {
+  amount: BigDecimal
+  amount_gt: BigDecimal
+  amount_gte: BigDecimal
+  amount_in: [BigDecimal!]
+  amount_lt: BigDecimal
+  amount_lte: BigDecimal
+  amount_not: BigDecimal
+  amount_not_in: [BigDecimal!]
+  delegatedAmount: BigDecimal
+  delegatedAmount_gt: BigDecimal
+  delegatedAmount_gte: BigDecimal
+  delegatedAmount_in: [BigDecimal!]
+  delegatedAmount_lt: BigDecimal
+  delegatedAmount_lte: BigDecimal
+  delegatedAmount_not: BigDecimal
+  delegatedAmount_not_in: [BigDecimal!]
+  id: ID
+  id_gt: ID
+  id_gte: ID
+  id_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_not: ID
+  id_not_in: [ID!]
+  lockedUntil: Int
+  lockedUntil_gt: Int
+  lockedUntil_gte: Int
+  lockedUntil_in: [Int!]
+  lockedUntil_lt: Int
+  lockedUntil_lte: Int
+  lockedUntil_not: Int
+  lockedUntil_not_in: [Int!]
+  user: String
+  user_contains: String
+  user_ends_with: String
+  user_gt: String
+  user_gte: String
+  user_in: [String!]
+  user_lt: String
+  user_lte: String
+  user_not: String
+  user_not_contains: String
+  user_not_ends_with: String
+  user_not_in: [String!]
+  user_not_starts_with: String
+  user_starts_with: String
+  vestingAmount: BigDecimal
+  vestingAmount_gt: BigDecimal
+  vestingAmount_gte: BigDecimal
+  vestingAmount_in: [BigDecimal!]
+  vestingAmount_lt: BigDecimal
+  vestingAmount_lte: BigDecimal
+  vestingAmount_not: BigDecimal
+  vestingAmount_not_in: [BigDecimal!]
+}
+
+enum Stake_orderBy {
+  amount
+  delegatedAmount
+  id
+  lockedUntil
+  user
+  vestingAmount
 }
 
 type Subscription {
@@ -6862,7 +8647,7 @@ type Subscription {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: Borrow_filter
   ): [Borrow!]!
-  candleStick(
+  bridge(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
     """
@@ -6873,14 +8658,14 @@ type Subscription {
     Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
-  ): CandleStick
-  candleSticks(
+  ): Bridge
+  bridges(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
     """
     block: Block_height
     first: Int = 100
-    orderBy: CandleStick_orderBy
+    orderBy: Bridge_orderBy
     orderDirection: OrderDirection
     skip: Int = 0
 
@@ -6888,8 +8673,148 @@ type Subscription {
     Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
-    where: CandleStick_filter
-  ): [CandleStick!]!
+    where: Bridge_filter
+  ): [Bridge!]!
+  candleStickDay(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): CandleStickDay
+  candleStickDays(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: CandleStickDay_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: CandleStickDay_filter
+  ): [CandleStickDay!]!
+  candleStickFifteenMinute(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): CandleStickFifteenMinute
+  candleStickFifteenMinutes(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: CandleStickFifteenMinute_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: CandleStickFifteenMinute_filter
+  ): [CandleStickFifteenMinute!]!
+  candleStickFourHour(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): CandleStickFourHour
+  candleStickFourHours(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: CandleStickFourHour_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: CandleStickFourHour_filter
+  ): [CandleStickFourHour!]!
+  candleStickHour(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): CandleStickHour
+  candleStickHours(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: CandleStickHour_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: CandleStickHour_filter
+  ): [CandleStickHour!]!
+  candleStickMinute(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): CandleStickMinute
+  candleStickMinutes(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: CandleStickMinute_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: CandleStickMinute_filter
+  ): [CandleStickMinute!]!
   closeWithDeposit(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -7002,6 +8927,34 @@ type Subscription {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): ConverterRegistry
+  crossTransfer(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): CrossTransfer
+  crossTransfers(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: CrossTransfer_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: CrossTransfer_filter
+  ): [CrossTransfer!]!
   deposit(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -7086,6 +9039,34 @@ type Subscription {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: FastBTCBridgeStat_filter
   ): [FastBTCBridgeStat!]!
+  federation(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Federation
+  federations(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: Federation_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: Federation_filter
+  ): [Federation!]!
   feeSharingTokensTransferred(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -7114,6 +9095,34 @@ type Subscription {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: FeeSharingTokensTransferred_filter
   ): [FeeSharingTokensTransferred!]!
+  icandleStick(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): ICandleStick
+  icandleSticks(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: ICandleStick_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: ICandleStick_filter
+  ): [ICandleStick!]!
   lendingHistoryItem(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -7422,34 +9431,6 @@ type Subscription {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: MarginOrderFilled_filter
   ): [MarginOrderFilled!]!
-  newConverter(
-    """
-    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
-    """
-    block: Block_height
-    id: ID!
-
-    """
-    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
-    """
-    subgraphError: _SubgraphErrorPolicy_! = deny
-  ): NewConverter
-  newConverters(
-    """
-    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
-    """
-    block: Block_height
-    first: Int = 100
-    orderBy: NewConverter_orderBy
-    orderDirection: OrderDirection
-    skip: Int = 0
-
-    """
-    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
-    """
-    subgraphError: _SubgraphErrorPolicy_! = deny
-    where: NewConverter_filter
-  ): [NewConverter!]!
   orderCanceled(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -7774,6 +9755,34 @@ type Subscription {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: Rollover_filter
   ): [Rollover!]!
+  sideToken(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): SideToken
+  sideTokens(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: SideToken_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: SideToken_filter
+  ): [SideToken!]!
   smartToken(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -7786,34 +9795,6 @@ type Subscription {
     """
     subgraphError: _SubgraphErrorPolicy_! = deny
   ): SmartToken
-  smartTokenAdded(
-    """
-    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
-    """
-    block: Block_height
-    id: ID!
-
-    """
-    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
-    """
-    subgraphError: _SubgraphErrorPolicy_! = deny
-  ): SmartTokenAdded
-  smartTokenAddeds(
-    """
-    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
-    """
-    block: Block_height
-    first: Int = 100
-    orderBy: SmartTokenAdded_orderBy
-    orderDirection: OrderDirection
-    skip: Int = 0
-
-    """
-    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
-    """
-    subgraphError: _SubgraphErrorPolicy_! = deny
-    where: SmartTokenAdded_filter
-  ): [SmartTokenAdded!]!
   smartTokens(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -7830,6 +9811,18 @@ type Subscription {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: SmartToken_filter
   ): [SmartToken!]!
+  stake(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    id: ID!
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+  ): Stake
   stakeHistoryItem(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -7858,6 +9851,22 @@ type Subscription {
     subgraphError: _SubgraphErrorPolicy_! = deny
     where: StakeHistoryItem_filter
   ): [StakeHistoryItem!]!
+  stakes(
+    """
+    The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
+    """
+    block: Block_height
+    first: Int = 100
+    orderBy: Stake_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+
+    """
+    Set to `allow` to receive data even if the subgraph has skipped over errors while syncing.
+    """
+    subgraphError: _SubgraphErrorPolicy_! = deny
+    where: Stake_filter
+  ): [Stake!]!
   swap(
     """
     The block at which the query should be executed. Can either be a `{ hash: Bytes }` value containing a block hash, a `{ number: Int }` containing the block number, or a `{ number_gte: Int }` containing the minimum block number. In the case of `number_gte`, the query will be executed on the latest block only if the subgraph has progressed to or past the minimum block number. Defaults to the latest block when omitted.
@@ -8313,17 +10322,11 @@ The Swap entity is an aggregated entity of the individual Conversion events in a
 For example, if a User swaps XUSD to SOV, there will be 2 Conversion events through 2 AMMs (XUSD-BTC and BTC-SOV) in one transaction. These two Conversions are aggregated here.
 """
 type Swap {
-  """
-  The AMM Conversion events involved in this swap
-  """
-  conversions(
-    first: Int = 100
-    orderBy: Conversion_orderBy
-    orderDirection: OrderDirection
-    skip: Int = 0
-    where: Conversion_filter
-  ): [Conversion!]
   fromAmount: BigDecimal!
+
+  """
+  Token the user converted
+  """
   fromToken: Token!
 
   """
@@ -8353,11 +10356,16 @@ type Swap {
   rate: BigDecimal!
   timestamp: Int!
   toAmount: BigDecimal!
+
+  """
+  Token the user received
+  """
   toToken: Token!
   transaction: Transaction!
 
   """
-  If this swap was initiated by a contract (for example as part of a Margin Trade), User will be null
+  If this swap was initiated by a contract (for example as part of a Margin Trade), User will be null.
+  Otherwise, this is the user that initiated the transaction.
   """
   user: User
 }
@@ -8482,7 +10490,6 @@ input Swap_filter {
 }
 
 enum Swap_orderBy {
-  conversions
   fromAmount
   fromToken
   id
@@ -8506,7 +10513,22 @@ type Token {
   The total volume of this token that has been traded through the protocol quoted in BTC
   """
   btcVolume: BigDecimal!
+
+  """
+  CrossTransfers: cross transfers list (currently only relevant to SOV)
+  """
+  crossTransfers(
+    first: Int = 100
+    orderBy: CrossTransfer_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: CrossTransfer_filter
+  ): [CrossTransfer!]
   currentConverterRegistry: ConverterRegistry
+
+  """
+  Number of decimal places used in the smart contract for this token
+  """
   decimals: Int
 
   """
@@ -8523,7 +10545,15 @@ type Token {
   The ID is the contract address of the token on RSK
   """
   id: ID!
+
+  """
+  lastPriceBtc is the last traded price of this token in BTC
+  """
   lastPriceBtc: BigDecimal!
+
+  """
+  lastPriceUsd is the last traded price of this token in USD
+  """
   lastPriceUsd: BigDecimal!
 
   """
@@ -8539,12 +10569,12 @@ type Token {
   name: String
 
   """
-  previous BTC price used for candleSticks
+  Internal use only - previous BTC price used for candleSticks
   """
   prevPriceBtc: BigDecimal!
 
   """
-  previous BTC price used for candleSticks
+  Internal use only - previous BTC price used for candleSticks
   """
   prevPriceUsd: BigDecimal!
 
@@ -8768,6 +10798,7 @@ input Token_filter {
 
 enum Token_orderBy {
   btcVolume
+  crossTransfers
   currentConverterRegistry
   decimals
   hasBtcPool
@@ -8786,16 +10817,49 @@ enum Token_orderBy {
   version
 }
 
+"""
+This is an event emitted from the staking contract when tokens are staked, either by a user or by a vesting contract
+If tokens are staked by a vesting contract, there may be multiple tokens staked event per transaction (eg if tokensa are vested over 10 months, there would be 10 TokensStaked events each with a different lockedUntil date)
+We have improvements planned to better represent staking on our subgraph.
+"""
 type TokensStaked {
+  """
+  The amount of SOV staked in this event (as mentioned above, there can be multiple TokensStaked events per transaction)
+  """
   amount: BigDecimal!
   emittedBy: Bytes!
+
+  """
+  ID is transaction hash + log index
+  """
   id: ID!
+
+  """
+  If this is false, the tokens were staked by a vesting contract, and not voluntarily by a user
+  """
   isUserStaked: Boolean!
+
+  """
+  The date when these tokens will unlock
+  A user/vesting contract can have multiple stakes with different lockedUntil dates
+  """
   lockedUntil: Int!
+
+  """
+  The staker is either a user address or a vesting contract address
+  """
   staker: Bytes!
   timestamp: Int!
+
+  """
+  The total amount staked for this specific user until this specific lockedUntil date
+  """
   totalStaked: BigDecimal!
   transaction: Transaction!
+
+  """
+  If tokens were staked by a vesting contract, user property will be null
+  """
   user: User
 }
 
@@ -8899,6 +10963,9 @@ enum TokensStaked_orderBy {
   user
 }
 
+"""
+Granular event data for the Loan entity. Emitted when a user opens a Margin Trade
+"""
 type Trade {
   borrowedAmount: BigDecimal!
   collateralToken: Token!
@@ -9121,6 +11188,10 @@ type Transaction {
   The timestamp the transaction was confirmed
   """
   timestamp: Int!
+
+  """
+  The contract the user interacted with
+  """
   to: Bytes
   value: BigInt!
 }
@@ -9246,6 +11317,28 @@ type User {
   Timestamp of User's first interaction with the protocol (first transaction)
   """
   createdAtTimestamp: Int!
+
+  """
+  EVM Bridge transfers
+  """
+  crossChainTransfer(
+    first: Int = 100
+    orderBy: CrossTransfer_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: CrossTransfer_filter
+  ): [CrossTransfer!]
+
+  """
+  Stakes the user owns, including stakes from Vesting Contracts
+  """
+  currentStakes(
+    first: Int = 100
+    orderBy: Stake_orderBy
+    orderDirection: OrderDirection
+    skip: Int = 0
+    where: Stake_filter
+  ): [Stake!]
   fastBTCBridgeStats(
     first: Int = 100
     orderBy: FastBTCBridgeStat_orderBy
@@ -9486,10 +11579,18 @@ enum UserLendingHistory_orderBy {
 }
 
 """
-This entity stores one Users history of adding and removing liquidity from one AMM pool
+This entity stores one User's history of adding and removing liquidity from one AMM pool
 """
 type UserLiquidityHistory {
+  """
+  The ID is userAddress + '-' + smartToken
+  Liquidity Pool address is not used here because when a liquidity pool is updated the address changes, but the smart token address remains the same.
+  """
   id: ID!
+
+  """
+  Granular transaction history for transactions adding or removing liquidity from an AMM pool
+  """
   liquidityHistory(
     first: Int = 100
     orderBy: LiquidityHistoryItem_orderBy
@@ -9497,9 +11598,23 @@ type UserLiquidityHistory {
     skip: Int = 0
     where: LiquidityHistoryItem_filter
   ): [LiquidityHistoryItem!]
+
+  """
+  This is the pool token (sometimes called smart token), not the liquidity pool address
+  """
   poolToken: PoolToken!
+
+  """
+  Asset0 is defined on the LiquidityPool.
+  These totals are amounts added and removed over all time. These values are used to calculate a user's PnL from liquidity provision.
+  """
   totalAsset0LiquidityAdded: BigDecimal!
   totalAsset0LiquidityRemoved: BigDecimal!
+
+  """
+  Asset1 is defined on the LiquidityPool
+  These totals are amounts added and removed over all time. These values are used to calculate a user's PnL from liquidity provision.
+  """
   totalAsset1LiquidityAdded: BigDecimal!
   totalAsset1LiquidityRemoved: BigDecimal!
   user: User!
@@ -9597,6 +11712,10 @@ type UserRewardsEarnedHistory {
   """
   availableTradingRewards: BigDecimal!
   id: ID!
+
+  """
+  Granular events for transaction where a reward is earned
+  """
   rewardsEarnedHistory(
     first: Int = 100
     orderBy: RewardsEarnedHistoryItem_orderBy
@@ -9606,9 +11725,35 @@ type UserRewardsEarnedHistory {
   ): [RewardsEarnedHistoryItem!]
 
   """
+  The total protocol fees this user has earned and withdrawn, quoted in RBTC.
+  Fees can be paid out in different tokens (usually RBTC and SOV).
+  This is the total amount, converted to RBTC using the rate at the time of transaction.
+  Incremented by UserFeeWithdrawn
+  """
+  totalFeeWithdrawn: BigDecimal!
+
+  """
   This is the total of all EarnReward and RewardClaimed events
   """
   totalFeesAndRewardsEarned: BigDecimal!
+
+  """
+  The total liquidity mining rewards the user has claimed, earned from the lending pools.
+  Incremented by RewardClaimed, where poolToken is a lending pool token
+  """
+  totalLendingRewards: BigDecimal!
+
+  """
+  The total liquidity mining rewards the user has claimed, earned from the amm pools.
+  Incremented by RewardClaimed, where poolToken is an amm pool token
+  """
+  totalLiquidityRewards: BigDecimal!
+
+  """
+  Total liquid SOV rewards the user has earned through staking.
+  Incremented by RewardWithdrawn
+  """
+  totalStakingRewards: BigDecimal!
 
   """
   Sum of all SOV rewards earned from margin trading.
@@ -9635,6 +11780,14 @@ input UserRewardsEarnedHistory_filter {
   id_lte: ID
   id_not: ID
   id_not_in: [ID!]
+  totalFeeWithdrawn: BigDecimal
+  totalFeeWithdrawn_gt: BigDecimal
+  totalFeeWithdrawn_gte: BigDecimal
+  totalFeeWithdrawn_in: [BigDecimal!]
+  totalFeeWithdrawn_lt: BigDecimal
+  totalFeeWithdrawn_lte: BigDecimal
+  totalFeeWithdrawn_not: BigDecimal
+  totalFeeWithdrawn_not_in: [BigDecimal!]
   totalFeesAndRewardsEarned: BigDecimal
   totalFeesAndRewardsEarned_gt: BigDecimal
   totalFeesAndRewardsEarned_gte: BigDecimal
@@ -9643,6 +11796,30 @@ input UserRewardsEarnedHistory_filter {
   totalFeesAndRewardsEarned_lte: BigDecimal
   totalFeesAndRewardsEarned_not: BigDecimal
   totalFeesAndRewardsEarned_not_in: [BigDecimal!]
+  totalLendingRewards: BigDecimal
+  totalLendingRewards_gt: BigDecimal
+  totalLendingRewards_gte: BigDecimal
+  totalLendingRewards_in: [BigDecimal!]
+  totalLendingRewards_lt: BigDecimal
+  totalLendingRewards_lte: BigDecimal
+  totalLendingRewards_not: BigDecimal
+  totalLendingRewards_not_in: [BigDecimal!]
+  totalLiquidityRewards: BigDecimal
+  totalLiquidityRewards_gt: BigDecimal
+  totalLiquidityRewards_gte: BigDecimal
+  totalLiquidityRewards_in: [BigDecimal!]
+  totalLiquidityRewards_lt: BigDecimal
+  totalLiquidityRewards_lte: BigDecimal
+  totalLiquidityRewards_not: BigDecimal
+  totalLiquidityRewards_not_in: [BigDecimal!]
+  totalStakingRewards: BigDecimal
+  totalStakingRewards_gt: BigDecimal
+  totalStakingRewards_gte: BigDecimal
+  totalStakingRewards_in: [BigDecimal!]
+  totalStakingRewards_lt: BigDecimal
+  totalStakingRewards_lte: BigDecimal
+  totalStakingRewards_not: BigDecimal
+  totalStakingRewards_not_in: [BigDecimal!]
   totalTradingRewards: BigDecimal
   totalTradingRewards_gt: BigDecimal
   totalTradingRewards_gte: BigDecimal
@@ -9671,13 +11848,27 @@ enum UserRewardsEarnedHistory_orderBy {
   availableTradingRewards
   id
   rewardsEarnedHistory
+  totalFeeWithdrawn
   totalFeesAndRewardsEarned
+  totalLendingRewards
+  totalLiquidityRewards
+  totalStakingRewards
   totalTradingRewards
   user
 }
 
+"""
+This entity holds the voluntary staking history (ie not staking by a vesting contract) of one user
+"""
 type UserStakeHistory {
+  """
+  ID is the user address
+  """
   id: ID!
+
+  """
+  Granular history of the user's voluntary staking activity
+  """
   stakeHistory(
     first: Int = 100
     orderBy: StakeHistoryItem_orderBy
@@ -9685,8 +11876,22 @@ type UserStakeHistory {
     skip: Int = 0
     where: StakeHistoryItem_filter
   ): [StakeHistoryItem!]
+
+  """
+  totalRemaining is the amount the user currently has staked.
+  It should be the same as the result of calling the balanceOf(USER_ADDRESS) method on the staking contract.
+  """
   totalRemaining: BigDecimal!
+
+  """
+  totalStaked is the total amount the user has EVER staked (over all time).
+  Eg if they stake 10 SOV and then withdraw it and stake it again, totalStaked is 20 SOV
+  """
   totalStaked: BigDecimal!
+
+  """
+  totalWithdrawn is the total amount the user has ever withdrawn from voluntary staking (over all time)
+  """
   totalWithdrawn: BigDecimal!
   user: User!
 }
@@ -9950,6 +12155,8 @@ enum User_orderBy {
   bitcoinTransfers
   borrows
   createdAtTimestamp
+  crossChainTransfer
+  currentStakes
   fastBTCBridgeStats
   id
   lendingHistory
@@ -9966,14 +12173,43 @@ enum User_orderBy {
   votes
 }
 
+"""
+This entity represents one vesting contract
+A User can have multiple vesting contracts
+"""
 type VestingContract {
+  """
+  The cliff is the period (in seconds) until the first tokens become liquid on this contract
+  """
   cliff: Int
+
+  """
+  Date that the vesting contract was created
+  """
   createdAtTimestamp: Int!
   createdAtTransaction: Transaction!
+
+  """
+  Current balance of tokens on the contract, including locked and liquid tokens that have not been withdrawn.
+  Incremented on TokensStaked actions, decremented on TokensWithdrawn actions
+  """
   currentBalance: BigDecimal!
+
+  """
+  The total duration of the vesting contract, including the cliff, in seconds.
+  For example, a 9 month vesting contract with a 1 month cliff would have a duration of 26280000 (10 months in seconds)
+  """
   duration: Int
   emittedBy: Bytes!
+
+  """
+  ID is the vesting contract address
+  """
   id: ID!
+
+  """
+  A granular history of every action involving this vesting contract
+  """
   stakeHistory(
     first: Int = 100
     orderBy: VestingHistoryItem_orderBy
@@ -9981,17 +12217,62 @@ type VestingContract {
     skip: Int = 0
     where: VestingHistoryItem_filter
   ): [VestingHistoryItem!]
+
+  """
+  The initial balance when this contract was created. This is often 0, as tokens can be added to the contract after contract creation
+  """
   startingBalance: BigDecimal!
+
+  """
+  Type of contract (see VestingContractType docs for more details)
+  """
   type: VestingContractType!
+
+  """
+  The owner of the vesting contract
+  """
   user: User!
 }
 
 enum VestingContractType {
+  """
+  FISH (Babelfish governance token) vesting contracts
+  """
   Fish
+
+  """
+  Babelfish team vesting contracts
+  """
   FishTeam
+
+  """
+  Vesting contracts for strategic investors with a four-year lockup
+  """
+  FourYearVesting
+
+  """
+  Vesting contracts for investors who participated in the Sovryn Genesis sale
+  """
   Genesis
+
+  """
+  Vesting contracts for investors who participated in the Sovryn Origin sale
+  """
   Origins
+
+  """
+  Vesting contracts for vested rewards
+  """
   Rewards
+
+  """
+  Vesting contracts for early strategic investors
+  """
+  Strategic
+
+  """
+  Sovryn team vesting contracts
+  """
   Team
 }
 
@@ -10098,21 +12379,58 @@ enum VestingContract_orderBy {
   user
 }
 
+"""
+Granular data for each vesting contract, and any actions involving that contract
+"""
 type VestingHistoryItem {
   action: VestingHistoryItemAction!
+
+  """
+  Amount being staked
+  """
   amount: BigDecimal!
   emittedBy: Bytes!
+
+  """
+  ID is transaction hash + "-" + log index
+  For TokensStaked actions, there can be multiple actions per transactions, and each will create a new entity
+  """
   id: ID!
+
+  """
+  The date when the tokens become unlocked
+  """
   lockedUntil: Int!
+
+  """
+  The staker here will always be the vesting contract
+  """
   staker: VestingContract!
   timestamp: Int!
+
+  """
+  Total number of tokens staked until this lockedUntil date
+  """
   totalStaked: BigDecimal!
   transaction: Transaction!
 }
 
 enum VestingHistoryItemAction {
+  """
+  This is only relevant to Team tokens. For Team contracts, a vesting contract can be revoked by governance if a team member leaves the project.
+  If this happens, all tokens still locked are returned to the exchequer.
+  This is ONLY possible with Team or FishTeam vesting contracts.
+  """
   TeamTokensRevoked
+
+  """
+  Tokens are staked by the Vesting contract. This happens when the Vesting contract receives funds.
+  """
   TokensStaked
+
+  """
+  When a user withdraws unlocked tokens from the vesting contract
+  """
   TokensWithdrawn
 }
 
@@ -10209,15 +12527,38 @@ enum VestingHistoryItem_orderBy {
   transaction
 }
 
+"""
+This is the event emitted when a user votes for or against a proposed SIP
+"""
 type VoteCast {
   emittedBy: Bytes!
+
+  """
+  ID is transaction hash + log index
+  """
   id: ID!
+
+  """
+  The ID of the Proposal entity that this vote is for/against
+  """
   proposal: Proposal!
+
+  """
+  The ID of the proposal
+  """
   proposalId: Int!
+
+  """
+  True if the vote is for the proposal, False if it is against
+  """
   support: Boolean!
   timestamp: Int!
   transaction: Transaction!
   voter: User!
+
+  """
+  The number of votes the user cast (the voting power of that user)
+  """
   votes: BigInt!
 }
 
