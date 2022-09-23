@@ -12,7 +12,9 @@ export const watchPrice = (
   symbol: string,
   onPrice: (price: number) => void,
 ) => {
-  const listener = (price: number) => onPrice(price);
+  const listener = (price: number) => {
+    onPrice(price);
+  };
 
   if (pushes[symbol]) {
     onPrice(pushes[symbol]);

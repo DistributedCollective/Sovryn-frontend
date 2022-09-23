@@ -124,7 +124,8 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
     const symbol =
       pair[0].trading_pairs === pair[1].trading_pairs
         ? `${pair[0].quote_id}/${pair[0].base_id}`
-        : `${pair[0].base_id}/${pair[1].quote_id}`;
+        : `${pair[0].base_id}/${pair[1].base_id}`;
+    setLastPriceEvent(0);
     const unsubscribe = watchPrice(symbol, val => {
       setLastPriceEvent(val);
     });

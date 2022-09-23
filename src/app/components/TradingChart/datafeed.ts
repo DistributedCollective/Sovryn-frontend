@@ -138,34 +138,28 @@ const tradingChartDataFeeds = (
       if (firstDataRequest) {
         newestBarsCache.set(symbolInfo.name, { ...items[items.length - 1] });
         oldestBarsCache.set(symbolInfo.name, { ...items[0] });
-
-        pushPrice(`${baseToken}/${quoteToken}`, items[items.length - 1].close);
       }
 
       const lastBar = newestBarsCache.get(symbolInfo.name);
       const newestBar = items[items.length - 1];
-      try {
-        if (lastBar) {
-          if (newestBar && newestBar?.time < lastBar.time) {
-            newestBarsCache.set(symbolInfo.name, newestBar);
-            pushPrice(`${baseToken}/${quoteToken}`, newestBar.close);
-          }
-        } else {
-          newestBarsCache.set(symbolInfo.name, newestBar);
-          pushPrice(`${baseToken}/${quoteToken}`, newestBar.close);
-        }
-      } catch (error) {
-        console.error('Errors caching newest bar as last bar', error);
+
+      if (!lastBar) {
+        newestBarsCache.set(symbolInfo.name, newestBar);
+      }
+
+      if (lastBar && newestBar && newestBar?.time >= lastBar.time) {
+        newestBarsCache.set(symbolInfo.name, newestBar);
+        pushPrice(`${baseToken}/${quoteToken}`, newestBar.close);
       }
 
       const oldestBar = oldestBarsCache.get(symbolInfo.name);
       const currentOldest = items[0];
 
-      if (oldestBar) {
-        if (oldestBar.time > currentOldest.time) {
-          oldestBarsCache.set(symbolInfo.name, currentOldest);
-        }
-      } else {
+      if (!oldestBar) {
+        oldestBarsCache.set(symbolInfo.name, currentOldest);
+      }
+
+      if (oldestBar && currentOldest && currentOldest?.time <= oldestBar.time) {
         oldestBarsCache.set(symbolInfo.name, currentOldest);
       }
 
