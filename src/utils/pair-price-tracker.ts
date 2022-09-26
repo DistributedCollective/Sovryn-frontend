@@ -6,6 +6,7 @@ const hub = new EventEmitter({ captureRejections: true });
 export const pushPrice = (symbol: string, price: number) => {
   pushes[symbol] = price;
   hub.emit(symbol, price);
+  console.log('push price:', symbol, price);
 };
 
 export const watchPrice = (
