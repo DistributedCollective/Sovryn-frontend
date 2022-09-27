@@ -92,7 +92,7 @@ export enum CandleDuration {
   D_1 = 'D_1',
 }
 
-class CandleDetails {
+export class CandleDetails {
   /** TODO: Add default number of candles or default startTime */
   constructor(
     public entityName: string,

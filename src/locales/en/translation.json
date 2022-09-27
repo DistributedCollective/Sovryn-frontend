@@ -2833,6 +2833,9 @@
     },
     "profitTooltip": "Closing position would withdraw one of these:"
   },
+  "tradingChart": {
+    "lineChartOnly": "Non <0/> or <1/> assets are displayed as line charts"
+  },
   "competitionPage": {
     "allTimeRanking": "All time ranking",
     "lastResetOfRanking": "Last Reset of Ranking {{date}}",

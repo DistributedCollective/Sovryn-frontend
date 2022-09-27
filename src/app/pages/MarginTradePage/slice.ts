@@ -11,7 +11,7 @@ import { Asset } from 'types';
 import { TradingPosition } from 'types/trading-position';
 
 export const initialState: IMarginTradePageState = {
-  pairType: TradingPairType.SOV_RBTC,
+  pairType: TradingPairType.RBTC_XUSD,
   collateral: Asset.RBTC,
   amount: '0',
   leverage: 2,
