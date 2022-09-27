@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
 import { toNumberFormat } from 'utils/display-text/format';
@@ -6,7 +6,9 @@ import { ITradingPairs } from 'types/trading-pairs';
 import classNames from 'classnames';
 import { LoadableValue } from 'app/components/LoadableValue';
 import { useGetCandlesData } from 'app/hooks/trading/useGetCandlesData';
+import { watchPrice } from 'utils/pair-price-tracker';
 import { assetByTokenAddress } from 'utils/blockchain/contract-helpers';
+import { isEqual } from 'lodash';
 
 interface IPairNavbarInfoProps {
   pair: ITradingPairs;
@@ -17,6 +19,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
   const [lowPrice, setLowPrice] = useState(0);
   const [hightPrice, setHightPrice] = useState(0);
   const [lastPrice, setLastPrice] = useState(0);
+  const [lastPriceEvent, setLastPriceEvent] = useState(0);
   const [dayPrice, setDayPrice] = useState(0);
   const [percent, setPercent] = useState(0);
   const [symbolA, setSymbolA] = useState('');
@@ -32,7 +35,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
     if (!loading && candles) {
       //generating lastPrice for all pairs
       // for pairs without RBTC
-      if (pair[1] !== pair[0]) {
+      if (!isEqual(pair[1], pair[0])) {
         setLastPrice(pair[0].last_price / pair[1].last_price);
       }
       //for pairs with RBTC as source
@@ -40,13 +43,13 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
         setLastPrice(pair[0].inverse_price);
       }
       //for pairs with RBTC as target
-      if (pair[0] === pair[1] && !pair[2]) {
+      if (isEqual(pair[0], pair[1]) && !pair[2]) {
         setLastPrice(pair[0].last_price);
       }
 
       //generating dayPrice for all pairs
       //for pairs without RBTC
-      if (pair[1] !== pair[0]) {
+      if (!isEqual(pair[0], pair[1])) {
         setDayPrice(pair[0].day_price / pair[1].day_price);
       }
       //for pairs with RBTC as source
@@ -54,14 +57,14 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
         setDayPrice(1 / pair[0].day_price);
       }
       //for pairs with RBTC as target
-      if (pair[0] === pair[1] && !pair[2]) {
+      if (isEqual(pair[0], pair[1]) && !pair[2]) {
         setDayPrice(pair[0].day_price);
       }
 
       //generating percent for all pairs
       //for pairs without RBTC
       setPercent(0);
-      if (pair[1] !== pair[0]) {
+      if (!isEqual(pair[0], pair[1])) {
         if (lastPrice > dayPrice) {
           setPercent(((lastPrice - dayPrice) / dayPrice) * 100);
         } else if (lastPrice < dayPrice) {
@@ -78,7 +81,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
       }
 
       //for pairs with RBTC as target
-      if (pair[0] === pair[1] && !pair[2]) {
+      if (isEqual(pair[0], pair[1]) && !pair[2]) {
         setPercent(pair[0].price_change_percent_24h);
       }
 
@@ -98,7 +101,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
           setLowPrice(1 / pair[0].high_price_24h);
         }
         // for pairs with RBTC as target
-        if (pair[0] === pair[1] && !pair[2]) {
+        if (isEqual(pair[0], pair[1]) && !pair[2]) {
           setLowPrice(pair[0].lowest_price_24h);
         }
       }
@@ -111,12 +114,29 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
           setHightPrice(1 / pair[0].lowest_price_24h);
         }
         // for pairs with RBTC as target
-        if (pair[0] === pair[1] && !pair[2]) {
+        if (isEqual(pair[0], pair[1]) && !pair[2]) {
           setHightPrice(pair[0].high_price_24h);
         }
       }
     }
   }, [lastPrice, pair, candles, loading, dayPrice]);
+
+  useEffect(() => {
+    const symbol =
+      pair[0].trading_pairs === pair[1].trading_pairs
+        ? `${pair[0].quote_id}/${pair[0].base_id}`
+        : `${pair[0].base_id}/${pair[1].base_id}`;
+    setLastPriceEvent(0);
+    const unsubscribe = watchPrice(symbol, val => {
+      setLastPriceEvent(val);
+    });
+    return () => unsubscribe();
+  }, [pair]);
+
+  const _lastPrice = useMemo(() => lastPriceEvent || lastPrice, [
+    lastPrice,
+    lastPriceEvent,
+  ]);
 
   return (
     <div className="tw-flex tw-items-center tw-justify-around tw-flex-1 tw-text-xs">
@@ -124,7 +144,7 @@ export const PairNavbarInfo: React.FC<IPairNavbarInfoProps> = ({ pair }) => {
         {t(translations.pairNavbar.lastTradedPrice)}
         <span className="tw-ml-2 tw-font-semibold tw-text-sm tw-text-primary">
           <LoadableValue
-            value={toNumberFormat(lastPrice, 8)}
+            value={toNumberFormat(_lastPrice, 8)}
             loading={loading}
           />
         </span>

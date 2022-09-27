@@ -105,9 +105,13 @@ export const PositionRow: React.FC<PositionRowProps> = ({ event }) => {
   }, [entryPrice, positionSize, leverage]);
 
   const positionMarginAsset = useMemo(
-    () => (isLong ? pair.longAsset : pair.shortAsset),
+    () => (isLong ? pair?.longAsset : pair?.shortAsset),
     [isLong, pair],
   );
+
+  if (!pair) {
+    return null;
+  }
 
   return (
     <>

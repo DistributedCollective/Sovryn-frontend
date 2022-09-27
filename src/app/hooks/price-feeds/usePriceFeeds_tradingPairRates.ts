@@ -9,6 +9,9 @@ import { CachedAssetRate } from '../../containers/WalletProvider/types';
 import { actions } from 'app/containers/WalletProvider/slice';
 import { toWei } from '../../../utils/blockchain/math-helpers';
 import { bignumber } from 'mathjs';
+import { debug } from '@sovryn/common';
+
+const console = debug('usePriceFeeds_tradingPairRates');
 
 const assetsWithoutOracle: Asset[] = [
   Asset.SOV,

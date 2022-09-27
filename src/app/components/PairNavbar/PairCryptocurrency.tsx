@@ -340,7 +340,7 @@ export const PairCryptocurrency: React.FC<IPairCryptocurrencyProps> = ({
                   className="tw-text-right"
                   onClick={() => onPairChange(pair)}
                 >
-                  {toNumberFormat(getLastPrice(pair[0], pair[1], pair[2]), 6)}
+                  {toNumberFormat(getLastPrice(pair[0], pair[1], pair[2]), 8)}
                 </td>
                 <RenderPercentageColumn
                   pair={pair}
