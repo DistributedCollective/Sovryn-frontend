@@ -1,7 +1,6 @@
-import { Bar } from 'app/components/TradingChart/datafeed';
 import { useContext, useEffect, useState, useMemo } from 'react';
 import { Nullable } from 'types';
-import { makeApiRequest } from '../components/TradingChart/helpers';
+import { Bar, makeApiRequest } from '../components/TradingChart/helpers';
 import { PerpetualQueriesContext } from '../contexts/PerpetualQueriesContext';
 import { CandleDuration } from './graphql/useGetCandles';
 import {
