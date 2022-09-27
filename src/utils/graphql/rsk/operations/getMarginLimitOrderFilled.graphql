@@ -1,0 +1,25 @@
+query getMarginLimitOrderFilled($trader: String) {
+  marginOrderFilleds(
+    where: { trader: $trader }
+    orderBy: timestamp
+    orderDirection: desc
+  ) {
+    ...MarginLimitOrderFilled
+  }
+}
+
+fragment MarginLimitOrderFilled on MarginOrderFilled {
+  principal
+  collateral
+  leverageAmount
+  loanTokenAddress
+  loanTokenSent
+  collateralTokenSent
+  collateralTokenAddress
+  filledPrice
+  timestamp
+  emittedBy
+  transaction {
+    id
+  }
+}

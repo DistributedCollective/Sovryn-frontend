@@ -8,14 +8,14 @@ import { translations } from 'locales/i18n';
 import { useSelector } from 'react-redux';
 import { selectSpotTradingPage } from '../../../selectors';
 import { Pagination } from 'app/components/Pagination';
-import { EventData } from 'web3-eth-contract';
 import { HelpBadge } from 'app/components/HelpBadge/HelpBadge';
+import { LimitOrderCreatedFragment } from 'utils/graphql/rsk/generated';
 
 interface IOpenPositionsTableProps {
   perPage?: number;
   orders: ILimitOrder[];
   loading: boolean;
-  orderCreatedEvents?: EventData[];
+  orderCreatedEvents?: LimitOrderCreatedFragment[];
 }
 
 export const OpenPositionsTable: React.FC<IOpenPositionsTableProps> = ({
