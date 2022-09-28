@@ -1,38 +1,33 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { backendUrl, currentChainId } from 'utils/classifiers';
+import { useEffect } from 'react';
 import { RecentTradesDataEntry } from 'types/trading-pairs';
 import { Asset } from 'types';
 import { getTokenContract } from 'utils/blockchain/contract-helpers';
-
-const url = `${backendUrl[currentChainId]}/recentEvents/trade`;
+import { useGetRecentMarginEventsLazyQuery } from 'utils/graphql/rsk/generated';
+import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
 
 export const useMargin_RecentTrades = (baseToken: Asset, quoteToken: Asset) => {
-  const [data, setData] = useState<RecentTradesDataEntry[] | undefined>(
-    undefined,
-  );
-  const baseTokenAddress = getTokenContract(baseToken).address;
-  const quoteTokenAddress = getTokenContract(quoteToken).address;
-  const [loading, setLoading] = useState(false);
+  const baseTokenAddress = getTokenContract(baseToken).address?.toLowerCase();
+  const quoteTokenAddress = getTokenContract(quoteToken).address?.toLowerCase();
+
+  const pool = TradingPairDictionary.findPair(baseToken, quoteToken);
+
+  const [load, { called, data, loading }] = useGetRecentMarginEventsLazyQuery({
+    variables: {
+      tokens: [pool.longDetails, pool.shortDetails].map(item =>
+        item.getTokenContractAddress().toLowerCase(),
+      ),
+      limit: 100,
+    },
+  });
 
   useEffect(() => {
-    setLoading(true);
-    axios
-      .get(url, {
-        params: {
-          baseToken: baseTokenAddress,
-          quoteToken: quoteTokenAddress,
-          length: 100,
-        },
-      })
-      .then(res => {
-        setData(res.data);
-      })
-      .catch(e => {
-        console.log(e);
-      })
-      .finally(() => setLoading(false));
-  }, [baseTokenAddress, quoteTokenAddress]);
+    if (baseTokenAddress && quoteTokenAddress) {
+      load();
+    }
+  }, [load, baseTokenAddress, quoteTokenAddress]);
 
-  return { data, loading };
+  return {
+    data: (data?.trades || []) as RecentTradesDataEntry[],
+    loading: loading && called,
+  };
 };

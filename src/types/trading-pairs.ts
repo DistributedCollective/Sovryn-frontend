@@ -1,3 +1,10 @@
+import type {
+  Conversion,
+  Token,
+  Trade,
+  Transaction,
+} from 'utils/graphql/rsk/generated';
+
 export type IPairsData = {
   pairs: IPairData[];
   total_volume_btc: number;
@@ -42,16 +49,24 @@ export enum TradePriceChange {
   'NO_CHANGE' = 'noChange',
 }
 
-export type RecentTradesDataEntry = {
-  collateralToken: string;
-  entryPrice: string;
-  loanToken: string;
-  positionSize: string;
-  timestamp: string;
-  priceChange: TradePriceChange;
+export type RecentTradesDataEntry = Pick<
+  Trade,
+  | '__typename'
+  | 'id'
+  | 'positionSize'
+  | 'entryLeverage'
+  | 'entryPrice'
+  | 'timestamp'
+> & {
+  collateralToken: Pick<Token, '__typename' | 'id'>;
+  loanToken: Pick<Token, '__typename' | 'id'>;
 };
 
-export enum SwapsType {
-  BUY = 'BUY',
-  SELL = 'SELL',
-}
+export type RecentSwapsDataEntry = Pick<
+  Conversion,
+  '__typename' | 'id' | 'timestamp' | '_amount' | '_return'
+> & {
+  transaction: Pick<Transaction, '__typename' | 'id'>;
+  _fromToken: Pick<Token, '__typename' | 'id'>;
+  _toToken: Pick<Token, '__typename' | 'id'>;
+};

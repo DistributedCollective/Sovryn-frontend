@@ -3,10 +3,10 @@ import React, { useMemo } from 'react';
 import dayjs from 'dayjs';
 import { Tooltip } from '@blueprintjs/core/lib/esm/components';
 import { AssetDetails } from 'utils/models/asset-details';
-import { Conversion } from 'utils/graphql/rsk/generated';
+import { RecentSwapsDataEntry } from 'types/trading-pairs';
 
 type RecentSwapRowProps = {
-  row: Conversion;
+  row: RecentSwapsDataEntry;
   isOddRow: boolean;
   baseAssetDetails: AssetDetails;
   quoteAssetDetails: AssetDetails;

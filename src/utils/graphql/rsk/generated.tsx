@@ -11263,8 +11263,26 @@ export type MarginLoansFieldsFragment = {
   }> | null;
 };
 
+export type GetRecentMarginEventsQueryVariables = Exact<{
+  tokens?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
+  limit: Scalars['Int'];
+}>;
+
+export type GetRecentMarginEventsQuery = {
+  __typename?: 'Query';
+  trades: Array<{
+    __typename?: 'Trade';
+    positionSize: string;
+    entryLeverage: string;
+    entryPrice: string;
+    timestamp: number;
+    collateralToken: { __typename?: 'Token'; id: string };
+    loanToken: { __typename?: 'Token'; id: string };
+  }>;
+};
+
 export type GetRecentSwapEventsQueryVariables = Exact<{
-  converterAddress: Scalars['String'];
+  converterAddress?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
   limit: Scalars['Int'];
 }>;
 
@@ -12280,13 +12298,86 @@ export type GetMarginLoansDataQueryResult = Apollo.QueryResult<
   GetMarginLoansDataQuery,
   GetMarginLoansDataQueryVariables
 >;
+export const GetRecentMarginEventsDocument = gql`
+  query getRecentMarginEvents($tokens: [String!], $limit: Int!) {
+    trades(
+      orderBy: timestamp
+      orderDirection: desc
+      first: $limit
+      where: { collateralToken_in: $tokens, loanToken_in: $tokens }
+    ) {
+      positionSize
+      entryLeverage
+      entryPrice
+      timestamp
+      collateralToken {
+        id
+      }
+      loanToken {
+        id
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetRecentMarginEventsQuery__
+ *
+ * To run a query within a React component, call `useGetRecentMarginEventsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRecentMarginEventsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRecentMarginEventsQuery({
+ *   variables: {
+ *      tokens: // value for 'tokens'
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function useGetRecentMarginEventsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetRecentMarginEventsQuery,
+    GetRecentMarginEventsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetRecentMarginEventsQuery,
+    GetRecentMarginEventsQueryVariables
+  >(GetRecentMarginEventsDocument, options);
+}
+export function useGetRecentMarginEventsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetRecentMarginEventsQuery,
+    GetRecentMarginEventsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetRecentMarginEventsQuery,
+    GetRecentMarginEventsQueryVariables
+  >(GetRecentMarginEventsDocument, options);
+}
+export type GetRecentMarginEventsQueryHookResult = ReturnType<
+  typeof useGetRecentMarginEventsQuery
+>;
+export type GetRecentMarginEventsLazyQueryHookResult = ReturnType<
+  typeof useGetRecentMarginEventsLazyQuery
+>;
+export type GetRecentMarginEventsQueryResult = Apollo.QueryResult<
+  GetRecentMarginEventsQuery,
+  GetRecentMarginEventsQueryVariables
+>;
 export const GetRecentSwapEventsDocument = gql`
-  query getRecentSwapEvents($converterAddress: String!, $limit: Int!) {
+  query getRecentSwapEvents($converterAddress: [String!], $limit: Int!) {
     conversions(
       orderBy: timestamp
       orderDirection: desc
       first: $limit
-      where: { emittedBy: $converterAddress }
+      where: { emittedBy_in: $converterAddress }
     ) {
       timestamp
       transaction {
