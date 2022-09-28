@@ -24,12 +24,12 @@ export const RecentSwapRow: React.FC<RecentSwapRowProps> = ({
   );
   const isBuy = useMemo(
     () =>
-      row._fromToken.id.toLowerCase() ===
+      row._fromToken.id.toLowerCase() !==
       baseAssetDetails.getTokenContractAddress().toLowerCase(),
     [baseAssetDetails, row._fromToken.id],
   );
 
-  const size = useMemo(() => (isBuy ? row._amount : row._return), [
+  const size = useMemo(() => (isBuy ? row._return : row._amount), [
     isBuy,
     row._amount,
     row._return,
@@ -38,8 +38,8 @@ export const RecentSwapRow: React.FC<RecentSwapRowProps> = ({
   const price = useMemo(
     () =>
       isBuy
-        ? Number(row._return) / Number(row._amount)
-        : Number(row._amount) / Number(row._return),
+        ? Number(row._amount) / Number(row._return)
+        : Number(row._return) / Number(row._amount),
     [isBuy, row._amount, row._return],
   );
 
