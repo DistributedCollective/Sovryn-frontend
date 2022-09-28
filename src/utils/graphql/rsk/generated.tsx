@@ -12465,7 +12465,11 @@ export type GetStakeHistoryQueryResult = Apollo.QueryResult<
 >;
 export const GetSwapHistoryDocument = gql`
   query getSwapHistory($user: String) {
-    swaps(where: { user: $user }, orderBy: timestamp, orderDirection: desc) {
+    swaps(
+      where: { user: $user, isLimit: false }
+      orderBy: timestamp
+      orderDirection: desc
+    ) {
       fromToken {
         id
       }
