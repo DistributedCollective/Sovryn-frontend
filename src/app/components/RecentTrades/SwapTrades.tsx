@@ -8,6 +8,7 @@ import { Asset } from 'types';
 import { AssetRenderer } from 'app/components/AssetRenderer';
 import { AssetsDictionary } from 'utils/dictionaries/assets-dictionary';
 import styles from './index.module.scss';
+import { Conversion } from 'utils/graphql/rsk/generated';
 
 interface ISwapTradesProps {
   baseToken: Asset;
@@ -102,7 +103,7 @@ export const SwapTrades: React.FC<ISwapTradesProps> = ({
             return (
               <RecentSwapRow
                 key={index}
-                row={item}
+                row={item as Conversion}
                 isOddRow={index % 2 === 0}
                 baseAssetDetails={assetDetails.base}
                 quoteAssetDetails={assetDetails.quote}

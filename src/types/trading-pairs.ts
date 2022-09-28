@@ -55,13 +55,3 @@ export enum SwapsType {
   BUY = 'BUY',
   SELL = 'SELL',
 }
-
-export type RecentSwapsDataEntry = {
-  type: SwapsType;
-  fromToken: string;
-  toToken: string;
-  price: string;
-  timestamp: string;
-  quoteVolume: string;
-  transactionHash: string;
-};

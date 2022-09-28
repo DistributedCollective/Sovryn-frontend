@@ -1,12 +1,12 @@
 import classNames from 'classnames';
 import React, { useMemo } from 'react';
-import { RecentSwapsDataEntry, SwapsType } from 'types/trading-pairs';
 import dayjs from 'dayjs';
 import { Tooltip } from '@blueprintjs/core/lib/esm/components';
 import { AssetDetails } from 'utils/models/asset-details';
+import { Conversion } from 'utils/graphql/rsk/generated';
 
 type RecentSwapRowProps = {
-  row: RecentSwapsDataEntry;
+  row: Conversion;
   isOddRow: boolean;
   baseAssetDetails: AssetDetails;
   quoteAssetDetails: AssetDetails;
@@ -22,11 +22,30 @@ export const RecentSwapRow: React.FC<RecentSwapRowProps> = ({
     () => (isOddRow ? 'tw-bg-gray-3' : 'tw-bg-gray-1'),
     [isOddRow],
   );
-  const isBuy = useMemo(() => row.type === SwapsType.BUY, [row.type]);
+  const isBuy = useMemo(
+    () =>
+      row._fromToken.id.toLowerCase() ===
+      baseAssetDetails.getTokenContractAddress().toLowerCase(),
+    [baseAssetDetails, row._fromToken.id],
+  );
+
+  const size = useMemo(() => (isBuy ? row._amount : row._return), [
+    isBuy,
+    row._amount,
+    row._return,
+  ]);
+
+  const price = useMemo(
+    () =>
+      isBuy
+        ? Number(row._return) / Number(row._amount)
+        : Number(row._amount) / Number(row._return),
+    [isBuy, row._amount, row._return],
+  );
 
   return (
     <tr
-      key={row.transactionHash}
+      key={row.transaction.id}
       className={classNames(
         'tw-h-6',
         isBuy ? 'tw-text-trade-long' : 'tw-text-trade-short',
@@ -38,12 +57,8 @@ export const RecentSwapRow: React.FC<RecentSwapRowProps> = ({
           backgroundClassName,
         )}
       >
-        <Tooltip
-          position="top"
-          interactionKind="hover"
-          content={<>{row.price}</>}
-        >
-          {Number(row.price).toFixed(quoteAssetDetails.displayDecimals)}
+        <Tooltip position="top" interactionKind="hover" content={<>{price}</>}>
+          {Number(price).toFixed(quoteAssetDetails.displayDecimals)}
         </Tooltip>
       </td>
       <td
@@ -52,12 +67,8 @@ export const RecentSwapRow: React.FC<RecentSwapRowProps> = ({
           backgroundClassName,
         )}
       >
-        <Tooltip
-          position="top"
-          interactionKind="hover"
-          content={<>{row.quoteVolume}</>}
-        >
-          {Number(row.quoteVolume).toFixed(baseAssetDetails.displayDecimals)}
+        <Tooltip position="top" interactionKind="hover" content={<>{size}</>}>
+          {Number(size).toFixed(baseAssetDetails.displayDecimals)}
         </Tooltip>
       </td>
       <td

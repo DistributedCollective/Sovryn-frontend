@@ -1,0 +1,21 @@
+query getRecentSwapEvents($converterAddress: String!, $limit: Int!) {
+  conversions(
+    orderBy: timestamp
+    orderDirection: desc
+    first: $limit
+    where: { emittedBy: $converterAddress }
+  ) {
+    timestamp
+    transaction {
+      id
+    }
+    _amount
+    _return
+    _fromToken {
+      id
+    }
+    _toToken {
+      id
+    }
+  }
+}

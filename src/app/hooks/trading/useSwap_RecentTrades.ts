@@ -1,36 +1,26 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { backendUrl, currentChainId } from 'utils/classifiers';
-import { RecentSwapsDataEntry } from 'types/trading-pairs';
+import { useEffect, useMemo } from 'react';
 import { Asset } from 'types';
-import { getTokenContract } from 'utils/blockchain/contract-helpers';
-
-const url = `${backendUrl[currentChainId]}/recentEvents/swap`;
+import { LiquidityPoolDictionary } from 'utils/dictionaries/liquidity-pool-dictionary';
+import { useGetRecentSwapEventsLazyQuery } from 'utils/graphql/rsk/generated';
 
 export const useSwap_RecentTrades = (baseToken: Asset, quoteToken: Asset) => {
-  const [data, setData] = useState<RecentSwapsDataEntry[] | undefined>(
-    undefined,
+  const pool = useMemo(
+    () => LiquidityPoolDictionary.get(baseToken, quoteToken),
+    [baseToken, quoteToken],
   );
-  const baseTokenAddress = getTokenContract(baseToken).address;
-  const quoteTokenAddress = getTokenContract(quoteToken).address;
-  const [loading, setLoading] = useState(false);
+
+  const [load, { called, data, loading }] = useGetRecentSwapEventsLazyQuery({
+    variables: {
+      converterAddress: pool.converter.toLowerCase(),
+      limit: 100,
+    },
+  });
 
   useEffect(() => {
-    setLoading(true);
-    axios
-      .get(url, {
-        params: {
-          baseToken: baseTokenAddress,
-          quoteToken: quoteTokenAddress,
-          length: 100,
-        },
-      })
-      .then(res => {
-        setData(res.data);
-      })
-      .catch(console.error)
-      .finally(() => setLoading(false));
-  }, [baseTokenAddress, quoteTokenAddress]);
+    if (pool) {
+      load();
+    }
+  }, [load, pool]);
 
-  return { data, loading };
+  return { data: data?.conversions || [], loading: called && loading };
 };

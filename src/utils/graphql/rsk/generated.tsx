@@ -11263,6 +11263,24 @@ export type MarginLoansFieldsFragment = {
   }> | null;
 };
 
+export type GetRecentSwapEventsQueryVariables = Exact<{
+  converterAddress: Scalars['String'];
+  limit: Scalars['Int'];
+}>;
+
+export type GetRecentSwapEventsQuery = {
+  __typename?: 'Query';
+  conversions: Array<{
+    __typename?: 'Conversion';
+    timestamp: number;
+    _amount: string;
+    _return: string;
+    transaction: { __typename?: 'Transaction'; id: string };
+    _fromToken: { __typename?: 'Token'; id: string };
+    _toToken: { __typename?: 'Token'; id: string };
+  }>;
+};
+
 export type GetRewardClaimedQueryVariables = Exact<{
   user?: InputMaybe<Scalars['String']>;
 }>;
@@ -12261,6 +12279,81 @@ export type GetMarginLoansDataLazyQueryHookResult = ReturnType<
 export type GetMarginLoansDataQueryResult = Apollo.QueryResult<
   GetMarginLoansDataQuery,
   GetMarginLoansDataQueryVariables
+>;
+export const GetRecentSwapEventsDocument = gql`
+  query getRecentSwapEvents($converterAddress: String!, $limit: Int!) {
+    conversions(
+      orderBy: timestamp
+      orderDirection: desc
+      first: $limit
+      where: { emittedBy: $converterAddress }
+    ) {
+      timestamp
+      transaction {
+        id
+      }
+      _amount
+      _return
+      _fromToken {
+        id
+      }
+      _toToken {
+        id
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetRecentSwapEventsQuery__
+ *
+ * To run a query within a React component, call `useGetRecentSwapEventsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetRecentSwapEventsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetRecentSwapEventsQuery({
+ *   variables: {
+ *      converterAddress: // value for 'converterAddress'
+ *      limit: // value for 'limit'
+ *   },
+ * });
+ */
+export function useGetRecentSwapEventsQuery(
+  baseOptions: Apollo.QueryHookOptions<
+    GetRecentSwapEventsQuery,
+    GetRecentSwapEventsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<
+    GetRecentSwapEventsQuery,
+    GetRecentSwapEventsQueryVariables
+  >(GetRecentSwapEventsDocument, options);
+}
+export function useGetRecentSwapEventsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<
+    GetRecentSwapEventsQuery,
+    GetRecentSwapEventsQueryVariables
+  >,
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<
+    GetRecentSwapEventsQuery,
+    GetRecentSwapEventsQueryVariables
+  >(GetRecentSwapEventsDocument, options);
+}
+export type GetRecentSwapEventsQueryHookResult = ReturnType<
+  typeof useGetRecentSwapEventsQuery
+>;
+export type GetRecentSwapEventsLazyQueryHookResult = ReturnType<
+  typeof useGetRecentSwapEventsLazyQuery
+>;
+export type GetRecentSwapEventsQueryResult = Apollo.QueryResult<
+  GetRecentSwapEventsQuery,
+  GetRecentSwapEventsQueryVariables
 >;
 export const GetRewardClaimedDocument = gql`
   query getRewardClaimed($user: String) {
