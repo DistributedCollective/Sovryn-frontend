@@ -4,6 +4,7 @@ import { Asset } from 'types';
 import { getTokenContract } from 'utils/blockchain/contract-helpers';
 import { useGetRecentMarginEventsLazyQuery } from 'utils/graphql/rsk/generated';
 import { TradingPairDictionary } from 'utils/dictionaries/trading-pair-dictionary';
+import { APOLLO_POLL_INTERVAL } from 'utils/classifiers';
 
 export const useMargin_RecentTrades = (baseToken: Asset, quoteToken: Asset) => {
   const baseTokenAddress = getTokenContract(baseToken).address?.toLowerCase();
@@ -18,6 +19,7 @@ export const useMargin_RecentTrades = (baseToken: Asset, quoteToken: Asset) => {
       ),
       limit: 100,
     },
+    pollInterval: APOLLO_POLL_INTERVAL,
   });
 
   useEffect(() => {
