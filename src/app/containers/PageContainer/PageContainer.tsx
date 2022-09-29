@@ -13,10 +13,13 @@ import {
 } from './types';
 import { DefaultHeaderComponent } from './components/DefaultHeaderComponent/DefaultHeaderComponent';
 import { Footer } from './components/DefaultFooterComponent/DefaultFooterComponent';
+import { isMainnet } from 'utils/classifiers';
 
 type HeaderContainerProps = {
   pageOptions: PageOptions;
 };
+
+const showPerps = !isMainnet;
 
 export const PageContainer: React.FC<Partial<HeaderContainerProps>> = ({
   children,
@@ -46,7 +49,9 @@ export const PageContainer: React.FC<Partial<HeaderContainerProps>> = ({
         initialOptions.footer = FooterTypes.NONE;
       } else if (pathname.startsWith('/perpetuals')) {
         initialOptions.header = HeaderTypes.LABS;
-        initialOptions.footer = FooterTypes.PERPETUALS;
+        initialOptions.footer = showPerps
+          ? FooterTypes.PERPETUALS
+          : FooterTypes.NONE;
       } else {
         initialOptions.header = HeaderTypes.DEFAULT;
         initialOptions.footer = FooterTypes.DEFAULT;
