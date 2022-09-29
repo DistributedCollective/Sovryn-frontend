@@ -32,7 +32,11 @@ export const rpcNodes = {
     'https://mainnet2.sovryn.app/rpc',
     'https://public-node.rsk.co/',
   ],
-  31: ['https://testnet.sovryn.app/rpc', 'https://public-node.testnet.rsk.co/'],
+  31: [
+    'https://testnet.sovryn.app/rpc',
+    'https://testnet2.sovryn.app/rpc',
+    'https://public-node.testnet.rsk.co/',
+  ],
   56: 'wss://bsc.sovryn.app/mainnet/websocket',
   97: 'wss://bsc.sovryn.app/testnet/websocket',
 };
@@ -138,6 +142,7 @@ export const gasLimit = {
 
 export const discordInvite = 'https://discord.gg/kBTNx4zjRf'; //unlimited use, no-expiry invite
 
+export const sovrynTwitter = 'https://twitter.com/SovrynBTC';
 export const sovrynTelegram = 'https://t.me/SovrynBitcoin';
 
 export const useTenderlySimulator = !!process.env.REACT_APP_ESTIMATOR_URI;

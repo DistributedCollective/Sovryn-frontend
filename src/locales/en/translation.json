@@ -2174,6 +2174,9 @@
       "title": "Perpetuals",
       "description": "Trade with Sovryn's perpetual future contracts"
     },
+    "shutdown": {
+      "message": "We are working on a new version of Sovryn Perpetuals! Please stay informed via social media!"
+    },
     "btcbConversionDialog": {
       "sourceTitle": "From {{source}}",
       "destinationTitle": "To {{destination}}",
@@ -2832,6 +2835,9 @@
       "closingPrice": "The exit price is 95% of the value of the closing price shown. This difference is due to the discount applied as an incentive for liquidators."
     },
     "profitTooltip": "Closing position would withdraw one of these:"
+  },
+  "tradingChart": {
+    "lineChartOnly": "Non <0/> or <1/> assets are displayed as line charts"
   },
   "competitionPage": {
     "allTimeRanking": "All time ranking",
