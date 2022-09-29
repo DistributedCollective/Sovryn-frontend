@@ -2174,6 +2174,9 @@
       "title": "Perpetuals",
       "description": "Trade with Sovryn's perpetual future contracts"
     },
+    "shutdown": {
+      "message": "We are working on a new version of Sovryn Perpetuals! Please stay informed via social media!"
+    },
     "btcbConversionDialog": {
       "sourceTitle": "From {{source}}",
       "destinationTitle": "To {{destination}}",
