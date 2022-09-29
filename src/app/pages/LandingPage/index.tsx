@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useTranslation } from 'react-i18next';
 import { translations } from 'locales/i18n';
@@ -19,13 +19,6 @@ import { CryptocurrencyPrices } from './components/CryptocurrencyPrices';
 import { IAssets } from './components/CryptocurrencyPrices/types';
 import styles from './index.module.scss';
 import { IPairsData } from 'types/trading-pairs';
-import { numberFromWei } from 'utils/blockchain/math-helpers';
-import { bridgeNetwork } from '../BridgeDepositPage/utils/bridge-network';
-import { Asset, Chain } from 'types';
-import { getContract } from 'utils/blockchain/contract-helpers';
-import { useDenominateAssetAmount } from 'app/hooks/trading/useDenominateAssetAmount';
-import { useDollarValue } from 'app/hooks/useDollarValue';
-import { bignumber } from 'mathjs';
 
 interface ILandingPageProps {
   refreshInterval?: number;
@@ -42,12 +35,6 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
   const [pairsData, setPairsData] = useState<IPairsData>();
   const [assetLoading, setAssetLoading] = useState(false);
   const [assetData, setAssetData] = useState<IAssets>();
-  const [zusdDepositsWeiAmount, setZusdDepositsWeiAmount] = useState('0');
-  const [
-    rbtcCollateralValueWeiAmount,
-    setRbtcCollateralValueWeiAmount,
-  ] = useState('0');
-  const [zeroLoading, setZeroLoading] = useState(false);
 
   const cancelDataRequest = useRef<Canceler>();
   const cancelPairsDataRequest = useRef<Canceler>();
@@ -71,36 +58,6 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
       .finally(() => {
         setTvlLoading(false);
       });
-  }, []);
-
-  const getZeroTvlData = useCallback(() => {
-    setZeroLoading(true);
-
-    bridgeNetwork
-      .multiCall(Chain.RSK, [
-        {
-          address: getContract('zero_troveManager').address,
-          abi: getContract('zero_troveManager').abi,
-          fnName: 'getEntireSystemColl',
-          args: [],
-          key: 'rbtcCollateral',
-          parser: value => value[0].toString(),
-        },
-        {
-          address: getContract('zero_stabilityPool').address,
-          abi: getContract('zero_stabilityPool').abi,
-          fnName: 'getTotalZUSDDeposits',
-          args: [],
-          key: 'zusdDeposits',
-          parser: value => value[0].toString(),
-        },
-      ])
-      .then(result => {
-        setZusdDepositsWeiAmount(result.returnData.zusdDeposits);
-        setRbtcCollateralValueWeiAmount(result.returnData.rbtcCollateral);
-      })
-      .catch(e => console.error(e))
-      .finally(() => setZeroLoading(false));
   }, []);
 
   const getPairsData = useCallback(() => {
@@ -146,55 +103,12 @@ export const LandingPage: React.FC<ILandingPageProps> = ({
   useInterval(
     () => {
       getTvlData();
-      getZeroTvlData();
       getPairsData();
       getAssetData();
     },
     refreshInterval,
     { immediate: true },
   );
-
-  const zusdDepositRbtcValue = useDenominateAssetAmount(
-    Asset.XUSD, // we cannot use Asset.ZUSD but 1 ZUSD === 1 XUSD
-    Asset.RBTC,
-    zusdDepositsWeiAmount,
-  );
-
-  const rbtcCollateralUsdValue = useDollarValue(
-    Asset.RBTC,
-    rbtcCollateralValueWeiAmount,
-  );
-
-  useEffect(() => {
-    if (
-      !zeroLoading &&
-      rbtcCollateralValueWeiAmount !== '0' &&
-      zusdDepositsWeiAmount !== '0'
-    ) {
-      const zeroTotalRbtc = numberFromWei(
-        bignumber(zusdDepositRbtcValue.value)
-          .add(rbtcCollateralValueWeiAmount)
-          .toString(),
-      );
-      const zeroTotalUsd = numberFromWei(
-        bignumber(zusdDepositsWeiAmount)
-          .add(rbtcCollateralUsdValue.value)
-          .toString(),
-      );
-      setTvlData(tvlData => ({
-        ...tvlData!,
-        tvlZero: { totalBtc: zeroTotalRbtc, totalUsd: zeroTotalUsd },
-        total_btc: (tvlData?.total_btc || 0) + zeroTotalRbtc,
-        total_usd: (tvlData?.total_usd || 0) + zeroTotalUsd,
-      }));
-    }
-  }, [
-    rbtcCollateralUsdValue.value,
-    rbtcCollateralValueWeiAmount,
-    zeroLoading,
-    zusdDepositRbtcValue.value,
-    zusdDepositsWeiAmount,
-  ]);
 
   return (
     <>
