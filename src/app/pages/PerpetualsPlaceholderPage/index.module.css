@@ -1,6 +1,6 @@
 .wrapper {
-  @apply tw-flex tw-justify-center tw-items-center tw-relative;
-  height: calc(100vh - 71px);
+  @apply tw-flex tw-justify-center tw-items-center tw-relative tw--mt-3;
+  height: calc(100vh - 59px);
 }
 
 .overlay {
