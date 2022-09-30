@@ -45,7 +45,6 @@ export type PerpetualTradeEvent = {
   perpetual: {
     id: string;
   };
-  orderFlags: string;
   orderDigest?: string;
   tradeAmountBC: string;
   newPositionSizeBC: string;

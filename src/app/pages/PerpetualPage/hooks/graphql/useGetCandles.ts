@@ -38,19 +38,23 @@ export const generateCandleQuery = (
       ${candleDetails.entityName}(
         where: {
           periodStartUnix_gte: ${startTime}
-          perpetualId: "${perpetualId}"
+          perpetual: "${perpetualId}"
         }
         orderBy: periodStartUnix
         orderDirection: asc
         first: ${MAX_CANDLE_COUNT}
       ) {
-        perpetualId
         open
         high
         low
         close
         totalVolume
         periodStartUnix
+        oraclePriceOpen
+        oraclePriceHigh
+        oraclePriceLow
+        oraclePriceClose
+        txCount
       }
     }
   `;
@@ -66,19 +70,23 @@ export const generateFirstCandleQuery = (
     {
       ${candleDetails.entityName}(
         where: {
-          perpetualId: "${perpetualId}"
+          perpetual: "${perpetualId}"
         }
         orderBy: periodStartUnix
         orderDirection: asc
         first: ${Math.min(candleNumber, MAX_CANDLE_COUNT)}
       ) {
-        perpetualId
         open
         high
         low
         close
         totalVolume
         periodStartUnix
+        oraclePriceOpen
+        oraclePriceHigh
+        oraclePriceLow
+        oraclePriceClose
+        txCount
       }
     }
   `;
