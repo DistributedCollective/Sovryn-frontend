@@ -15,12 +15,12 @@ import { getContract } from 'utils/blockchain/contract-helpers';
 import { useGetRecentTrades } from '../hooks/graphql/useGetRecentTrades';
 import { Subscription } from 'web3-core-subscriptions';
 import { BigNumber } from 'ethers';
-import { ABK64x64ToFloat } from '../utils/contractUtils';
 import {
   getPriceChange,
   getTradeType,
 } from '../components/RecentTradesTable/utils';
 import { useAccount } from '../../../hooks/useAccount';
+import { ABK64x64ToFloat } from '@sovryn/perpetual-swap/dist/scripts/utils/perpMath';
 
 export const RecentTradesContext = createContext<RecentTradesContextType>({
   trades: [],
@@ -70,7 +70,7 @@ const addSocketEventListeners = (
         BigNumber.from(decoded.price || decoded.liquidationPrice),
       );
       const tradeAmount = ABK64x64ToFloat(
-        BigNumber.from(decoded[3][2] || decoded.amountLiquidatedBC),
+        BigNumber.from(decoded[3][3] || decoded.amountLiquidatedBC),
       );
       const parsedTrade: RecentTradesDataEntry = {
         id: data.transactionHash,
